@@ -11531,7 +11531,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
             zLONG  lLinkSrcHld = lLinkSrc;
 
             lpTgtViewEntity = zGETPTR( lpTgtInstance->hViewEntity );
-            while ( lLinkSrc > 0 )
+            while ( lLinkSrc >= 0 )
             {
                lpViewEntity = zGETPTR( lpSrcInstance->hViewEntity );
 #if 1 // debugging
@@ -11543,7 +11543,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                   break;
 
                lLinkSrc--;
-               if ( lLinkSrc == 0 )  // we couldn't fix the error
+               if ( lLinkSrc < 0 )  // we couldn't fix the error
                {
                   lpSrcInstance = lpSrcInstanceHld;
                   lLinkSrc = lLinkSrcHld;

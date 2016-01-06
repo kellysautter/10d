@@ -137,14 +137,14 @@ qff *.err /q /12
 qff *.err /q /91
 dir *.err
 @echo Expected error sizes:
-                                       2,033 kzrpsrco.err
-                                         795 kzxmlpg2.err
-                                         133 tzcmlpldv.err
-                                         236 tzcmlpmo.err
-                                         363 tzcmrevd.err
-                                         125 tzpncwdd.err
-                                       1,465 tzrpsrco.err
-                                         170 tzvmplaa.err
-                                         129 tzwdlg6o.err
-                                         238 tzwebgl1.err
-                    10 File(s)          5,687 bytes
+@echo                                  2,033 kzrpsrco.err
+@echo                                    795 kzxmlpg2.err
+@echo                                    133 tzcmlpldv.err
+@echo                                    236 tzcmlpmo.err
+@echo                                    363 tzcmrevd.err
+@echo                                    125 tzpncwdd.err
+@echo                                  1,465 tzrpsrco.err
+@echo                                    170 tzvmplaa.err
+@echo                                    129 tzwdlg6o.err
+@echo                                    238 tzwebgl1.err
+@echo               10 File(s)          5,687 bytes
