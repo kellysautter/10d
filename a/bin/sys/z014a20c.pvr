@@ -1,0 +1,19 @@
+rZeidon    Z014A20C TZWDVORO 11/02/95   20:53:09 1.0a     
+eViewObjRef 1,192
+aZKey      1352204
+aName      TZBRERDO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1330494
+aName      TZBRERDO
+aDesc      Browse List of ER_Entities/RelLinks for an ERD
+
+eZ_MetaDef 2,192
+aName      TZBRERDO
+aZKey      1352204
+aType      9
+aLastUpdateDate 19950824213910000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

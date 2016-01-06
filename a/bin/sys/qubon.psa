@@ -1,0 +1,2557 @@
+z10000Zeidon    QUBON    TZERSASO 05/01/01   23:23:52 1.0b0    
+eSubjectArea 1
+aName      Qubon
+aZKey      89357122
+aDesc      XML schema for DWH - all work entities
+
+eSA_Entity 2
+aZKey      89357123
+aER_DiagramPosX 12
+aER_DiagramPosY 80
+
+eER_Entity 3
+aName      zQBN_Column
+aZKey      89356930
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 47
+aER_DiagramPosY 20
+
+eER_RelLink 4
+aName      for
+aZKey      89357055
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357053
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357054
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+aName      zQBN_facts
+aZKey      89356950
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 9
+aER_DiagramPosY 5
+
+eER_RelLink 4
+aName      has
+aZKey      89357072
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357071
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357073
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      zQBN_label
+aZKey      89356964
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 35
+aER_DiagramPosY 70
+
+eER_RelLink 4
+aName      for
+aZKey      89357088
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357086
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357087
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+aName      zQBN_columns
+aZKey      89356934
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 18
+aER_DiagramPosY 30
+
+eER_RelLink 4
+aName      for
+aZKey      89357100
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357098
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357099
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+aName      zQBN_key
+aZKey      89357002
+aPurpose   W
+aDesc      qubon
+aER_DiagramPosX 18
+aER_DiagramPosY 37
+
+eER_RelLink 4
+aName      for
+aZKey      89357109
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357107
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357108
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+aName      zQBN_sort
+aZKey      89357003
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 65
+aER_DiagramPosY 15
+
+eER_RelLink 4
+aName      has
+aZKey      89357114
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357113
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357115
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      zQBN_description
+aZKey      89356936
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 33
+aER_DiagramPosY 62
+
+eSA_Entity 2
+aZKey      89357124
+aER_DiagramPosX 32
+aER_DiagramPosY 80
+
+eER_Entity 3
+
+eER_RelLink 4
+aName      for
+aZKey      89357085
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357083
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357084
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+aName      zQBN_Level
+aZKey      89356974
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 47
+aER_DiagramPosY 5
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      89357120
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357119
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357121
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      zQBN_Link
+aZKey      89356977
+aPurpose   W
+aER_DiagramPosX 50
+aER_DiagramPosY 105
+
+eSA_Entity 2
+aZKey      89357125
+aER_DiagramPosX 34
+aER_DiagramPosY 10
+
+eER_Entity 3
+aName      zQBN_dbinfo
+aZKey      89356935
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 29
+aER_DiagramPosY 50
+
+eER_RelLink 4
+aName      for
+aZKey      89357013
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357011
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 12
+aER_DiagramBendPosY 52
+aER_DiagramE1PosX 12
+aER_DiagramE1PosY 58
+aER_DiagramE2PosX 28
+aER_DiagramE2PosY 52
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357012
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+aName      zQBN_DWH
+aZKey      89356948
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 8
+aER_DiagramPosY 59
+
+eER_RelLink 4
+aName      has
+aZKey      89357015
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357014
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 54
+aER_DiagramBendPosY 52
+aER_DiagramE1PosX 38
+aER_DiagramE1PosY 52
+aER_DiagramE2PosX 54
+aER_DiagramE2PosY 57
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357016
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      zQBN_SqlInfo
+aZKey      89356989
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 50
+aER_DiagramPosY 58
+
+eSA_Entity 2
+aZKey      89357126
+aER_DiagramPosX 17
+aER_DiagramPosY 26
+
+eER_Entity 3
+
+eER_RelLink 4
+aName      for
+aZKey      89357010
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357008
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 35
+aER_DiagramBendPosY 59
+aER_DiagramE1PosX 17
+aER_DiagramE1PosY 59
+aER_DiagramE2PosX 35
+aER_DiagramE2PosY 61
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357009
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      for
+aZKey      89357031
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357029
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 37
+aER_DiagramBendPosY 60
+aER_DiagramE1PosX 49
+aER_DiagramE1PosY 60
+aER_DiagramE2PosX 37
+aER_DiagramE2PosY 61
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357030
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      for
+aZKey      89357034
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357032
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 26
+aER_DiagramBendPosY 64
+aER_DiagramE1PosX 26
+aER_DiagramE1PosY 79
+aER_DiagramE2PosX 32
+aER_DiagramE2PosY 64
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357033
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+aName      zQBN_Table_
+aZKey      89356996
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 24
+aER_DiagramPosY 80
+
+eER_RelLink 4
+aName      for
+aZKey      89357070
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357068
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357069
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+aName      zQBN_TableDim
+aZKey      89356999
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 36
+aER_DiagramPosY 5
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      for
+aZKey      89357118
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357116
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357117
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357127
+aER_DiagramPosX 52
+aER_DiagramPosY 45
+
+eER_Entity 3
+aName      zQBN_dimensions
+aZKey      89356946
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 9
+aER_DiagramPosY 21
+
+eER_RelLink 4
+aName      for
+aZKey      89357061
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357059
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357060
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      89357063
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357062
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357064
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357128
+aER_DiagramPosX 56
+aER_DiagramPosY 70
+
+eER_Entity 3
+aName      zQBN_drillDown
+aZKey      89356947
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 54
+aER_DiagramPosY 12
+
+eER_RelLink 4
+aName      for
+aZKey      89357091
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357089
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357090
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      89357093
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357092
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357094
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357129
+aER_DiagramPosX 35
+aER_DiagramPosY 1
+
+eER_Entity 3
+
+eER_RelLink 4
+aName      has
+aZKey      89357006
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357005
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 14
+aER_DiagramBendPosY 70
+aER_DiagramE1PosX 14
+aER_DiagramE1PosY 64
+aER_DiagramE2PosX 34
+aER_DiagramE2PosY 70
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357007
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      89357018
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357017
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 12
+aER_DiagramE1PosY 64
+aER_DiagramE2PosX 12
+aER_DiagramE2PosY 80
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357019
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      zQBN_tables
+aZKey      89357001
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 9
+aER_DiagramPosY 81
+
+eSA_Entity 2
+aZKey      89357130
+aER_DiagramPosX 27
+aER_DiagramPosY 40
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      for
+aZKey      89357058
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357056
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357057
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357131
+aER_DiagramPosX 77
+aER_DiagramPosY 36
+
+eER_Entity 3
+aName      zQBN_foreign
+aZKey      89356951
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 40
+aER_DiagramPosY 80
+
+eER_RelLink 4
+aName      for
+aZKey      89357040
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357038
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 33
+aER_DiagramE1PosY 82
+aER_DiagramE2PosX 39
+aER_DiagramE2PosY 82
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357039
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      89357042
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357041
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 44
+aER_DiagramE1PosY 85
+aER_DiagramE2PosX 44
+aER_DiagramE2PosY 89
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357043
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      zQBN_Foreign_
+aZKey      89356952
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 40
+aER_DiagramPosY 90
+
+eSA_Entity 2
+aZKey      89357132
+aER_DiagramPosX 77
+aER_DiagramPosY 44
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      89357048
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357047
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 54
+aER_DiagramBendPosY 92
+aER_DiagramE1PosX 49
+aER_DiagramE1PosY 92
+aER_DiagramE2PosX 54
+aER_DiagramE2PosY 96
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357049
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      zQBN_table
+aZKey      89356995
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 50
+aER_DiagramPosY 97
+
+eER_RelLink 4
+aName      has
+aZKey      89357051
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357050
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 44
+aER_DiagramBendPosY 101
+aER_DiagramE1PosX 44
+aER_DiagramE1PosY 95
+aER_DiagramE2PosX 41
+aER_DiagramE2PosY 101
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357052
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      zQBN_keys
+aZKey      89356954
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 32
+aER_DiagramPosY 99
+
+eSA_Entity 2
+aZKey      89357133
+aER_DiagramPosX 82
+aER_DiagramPosY 53
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357134
+aER_DiagramPosX 6
+aER_DiagramPosY 33
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      for
+aZKey      89357025
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357023
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 54
+aER_DiagramBendPosY 72
+aER_DiagramE1PosX 54
+aER_DiagramE1PosY 63
+aER_DiagramE2PosX 44
+aER_DiagramE2PosY 72
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357024
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      for
+aZKey      89357028
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357026
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 28
+aER_DiagramBendPosY 72
+aER_DiagramE1PosX 28
+aER_DiagramE1PosY 79
+aER_DiagramE2PosX 34
+aER_DiagramE2PosY 72
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357027
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      for
+aZKey      89357067
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357065
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357066
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      for
+aZKey      89357082
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357080
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357081
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357135
+aER_DiagramPosX 41
+aER_DiagramPosY 72
+
+eER_Entity 3
+
+eER_RelLink 4
+aName      for
+aZKey      89357079
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357077
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357078
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+aName      zQBN_levels
+aZKey      89356976
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 36
+aER_DiagramPosY 20
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      89357096
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357095
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357097
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      89357102
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357101
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357103
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      89357105
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      89357104
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      for
+aZKey      89357106
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      zQBN_defaultColumn
+aZKey      89357004
+aPurpose   S
+aDesc      Qubon
+aER_DiagramPosX 63
+aER_DiagramPosY 5
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357136
+aER_DiagramPosX 42
+aER_DiagramPosY 62
+
+eER_Entity 3
+
+eER_RelLink 4
+aName      for
+aZKey      89357076
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357074
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357075
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357137
+aER_DiagramPosX 72
+aER_DiagramPosY 70
+
+eER_Entity 3
+
+eER_RelLink 4
+aName      for
+aZKey      89357046
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357044
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 54
+aER_DiagramE1PosY 102
+aER_DiagramE2PosX 54
+aER_DiagramE2PosY 104
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357045
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      for
+aZKey      89357112
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357110
+aFact      Added thru ER Dialog
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357111
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357138
+aER_DiagramPosX 78
+aER_DiagramPosY 28
+
+eER_Entity 3
+aName      zQBN_primary
+aZKey      89356979
+aPurpose   W
+aDesc      Qubon
+aER_DiagramPosX 25
+aER_DiagramPosY 92
+
+eER_RelLink 4
+aName      for
+aZKey      89357037
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357035
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 28
+aER_DiagramE1PosY 85
+aER_DiagramE2PosX 28
+aER_DiagramE2PosY 91
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357036
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357139
+aER_DiagramPosX 34
+aER_DiagramPosY 18
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357140
+aER_DiagramPosX 71
+aER_DiagramPosY 53
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357141
+aER_DiagramPosX 57
+aER_DiagramPosY 31
+
+eER_Entity 3
+
+eER_RelLink 4
+aName      for
+aZKey      89357022
+aCardMin   1
+aCardMax   1
+
+eER_RelType_1 5
+aZKey      89357020
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 18
+aER_DiagramE1PosY 83
+aER_DiagramE2PosX 23
+aER_DiagramE2PosY 83
+
+eER_RelLink_Other 6
+aName      has
+aZKey      89357021
+aCardMin   0
+aCardMax   m
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357142
+aER_DiagramPosX 50
+aER_DiagramPosY 53
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357143
+aER_DiagramPosX 55
+aER_DiagramPosY 10
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357144
+aER_DiagramPosX 29
+aER_DiagramPosY 87
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357145
+aER_DiagramPosX 26
+aER_DiagramPosY 94
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      89357146
+aER_DiagramPosX 56
+aER_DiagramPosY 77
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_RelType 2
+aZKey      89357147
+aER_DiagramBendPosX 10
+aER_DiagramBendPosY 3
+aER_DiagramE1PosX 34
+aER_DiagramE1PosY 3
+aER_DiagramE2PosX 10
+aER_DiagramE2PosY 32
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357148
+aER_DiagramBendPosX 21
+aER_DiagramBendPosY 5
+aER_DiagramE1PosX 34
+aER_DiagramE1PosY 5
+aER_DiagramE2PosX 21
+aER_DiagramE2PosY 25
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357149
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 39
+aER_DiagramE1PosY 6
+aER_DiagramE2PosX 39
+aER_DiagramE2PosY 9
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357150
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 38
+aER_DiagramE1PosY 15
+aER_DiagramE2PosX 38
+aER_DiagramE2PosY 17
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357151
+aER_DiagramBendPosX 59
+aER_DiagramBendPosY 3
+aER_DiagramE1PosX 44
+aER_DiagramE1PosY 3
+aER_DiagramE2PosX 59
+aER_DiagramE2PosY 9
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357152
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 59
+aER_DiagramE1PosY 15
+aER_DiagramE2PosX 59
+aER_DiagramE2PosY 30
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357153
+aER_DiagramBendPosX 12
+aER_DiagramBendPosY 20
+aER_DiagramE1PosX 33
+aER_DiagramE1PosY 20
+aER_DiagramE2PosX 12
+aER_DiagramE2PosY 32
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357154
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 56
+aER_DiagramE1PosY 35
+aER_DiagramE2PosX 15
+aER_DiagramE2PosY 35
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357155
+aER_DiagramBendPosX 38
+aER_DiagramBendPosY 28
+aER_DiagramE1PosX 38
+aER_DiagramE1PosY 23
+aER_DiagramE2PosX 26
+aER_DiagramE2PosY 28
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357156
+aER_DiagramBendPosX 21
+aER_DiagramBendPosY 32
+aER_DiagramE1PosX 56
+aER_DiagramE1PosY 32
+aER_DiagramE2PosX 21
+aER_DiagramE2PosY 31
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357157
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 66
+aER_DiagramE1PosY 32
+aER_DiagramE2PosX 77
+aER_DiagramE2PosY 32
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357158
+aER_DiagramBendPosX 61
+aER_DiagramBendPosY 38
+aER_DiagramE1PosX 61
+aER_DiagramE1PosY 36
+aER_DiagramE2PosX 76
+aER_DiagramE2PosY 38
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357159
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 81
+aER_DiagramE1PosY 41
+aER_DiagramE2PosX 81
+aER_DiagramE2PosY 43
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357160
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 75
+aER_DiagramE1PosY 58
+aER_DiagramE2PosX 75
+aER_DiagramE2PosY 69
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357161
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 79
+aER_DiagramE1PosY 49
+aER_DiagramE2PosX 79
+aER_DiagramE2PosY 52
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357162
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 84
+aER_DiagramE1PosY 49
+aER_DiagramE2PosX 84
+aER_DiagramE2PosY 52
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357163
+aER_DiagramBendPosX 29
+aER_DiagramBendPosY 80
+aER_DiagramE1PosX 29
+aER_DiagramE1PosY 45
+aER_DiagramE2PosX 21
+aER_DiagramE2PosY 80
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357164
+aER_DiagramBendPosX 57
+aER_DiagramBendPosY 42
+aER_DiagramE1PosX 57
+aER_DiagramE1PosY 36
+aER_DiagramE2PosX 36
+aER_DiagramE2PosY 42
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357165
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 60
+aER_DiagramE1PosY 36
+aER_DiagramE2PosX 60
+aER_DiagramE2PosY 44
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357166
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 56
+aER_DiagramE1PosY 50
+aER_DiagramE2PosX 56
+aER_DiagramE2PosY 52
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357167
+aER_DiagramBendPosX 13
+aER_DiagramBendPosY 55
+aER_DiagramE1PosX 49
+aER_DiagramE1PosY 55
+aER_DiagramE2PosX 13
+aER_DiagramE2PosY 38
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357168
+aER_DiagramBendPosX 20
+aER_DiagramBendPosY 53
+aER_DiagramE1PosX 49
+aER_DiagramE1PosY 53
+aER_DiagramE2PosX 20
+aER_DiagramE2PosY 31
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357169
+aER_DiagramBendPosX 10
+aER_DiagramBendPosY 82
+aER_DiagramE1PosX 11
+aER_DiagramE1PosY 82
+aER_DiagramE2PosX 10
+aER_DiagramE2PosY 38
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357170
+aER_DiagramBendPosX 54
+aER_DiagramBendPosY 64
+aER_DiagramE1PosX 54
+aER_DiagramE1PosY 58
+aER_DiagramE2PosX 51
+aER_DiagramE2PosY 64
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357171
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 46
+aER_DiagramE1PosY 67
+aER_DiagramE2PosX 46
+aER_DiagramE2PosY 71
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357172
+aER_DiagramBendPosX 6
+aER_DiagramBendPosY 74
+aER_DiagramE1PosX 40
+aER_DiagramE1PosY 74
+aER_DiagramE2PosX 6
+aER_DiagramE2PosY 38
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357173
+aER_DiagramBendPosX 44
+aER_DiagramBendPosY 82
+aER_DiagramE1PosX 44
+aER_DiagramE1PosY 77
+aER_DiagramE2PosX 41
+aER_DiagramE2PosY 82
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357174
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 31
+aER_DiagramE1PosY 82
+aER_DiagramE2PosX 21
+aER_DiagramE2PosY 82
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357175
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 50
+aER_DiagramE1PosY 74
+aER_DiagramE2PosX 55
+aER_DiagramE2PosY 74
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357176
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 65
+aER_DiagramE1PosY 72
+aER_DiagramE2PosX 71
+aER_DiagramE2PosY 72
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357177
+aER_DiagramBendPosX 46
+aER_DiagramBendPosY 89
+aER_DiagramE1PosX 46
+aER_DiagramE1PosY 77
+aER_DiagramE2PosX 38
+aER_DiagramE2PosY 89
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357178
+aER_DiagramBendPosX 16
+aER_DiagramBendPosY 89
+aER_DiagramE1PosX 28
+aER_DiagramE1PosY 89
+aER_DiagramE2PosX 16
+aER_DiagramE2PosY 85
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357179
+aER_DiagramBendPosX 48
+aER_DiagramBendPosY 96
+aER_DiagramE1PosX 48
+aER_DiagramE1PosY 77
+aER_DiagramE2PosX 35
+aER_DiagramE2PosY 96
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357180
+aER_DiagramBendPosX 49
+aER_DiagramBendPosY 79
+aER_DiagramE1PosX 49
+aER_DiagramE1PosY 77
+aER_DiagramE2PosX 55
+aER_DiagramE2PosY 79
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357181
+aER_DiagramBendPosX 14
+aER_DiagramBendPosY 96
+aER_DiagramE1PosX 25
+aER_DiagramE1PosY 96
+aER_DiagramE2PosX 14
+aER_DiagramE2PosY 85
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357182
+aER_DiagramBendPosX 76
+aER_DiagramBendPosY 79
+aER_DiagramE1PosX 65
+aER_DiagramE1PosY 79
+aER_DiagramE2PosX 76
+aER_DiagramE2PosY 75
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357183
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 17
+aER_DiagramE1PosY 79
+aER_DiagramE2PosX 17
+aER_DiagramE2PosY 31
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357184
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      89357185
+aER_DiagramBendPosX 78
+aER_DiagramBendPosY 84
+aER_DiagramE1PosX 41
+aER_DiagramE1PosY 84
+aER_DiagramE2PosX 78
+aER_DiagramE2PosY 75
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eEntpER_Model 2
+aName      Zeidon9A
+aZKey      1320651
+aDesc      Enterprise Model
+
+i28        14
+i33        13
+i34        12
+i35        11
+i36        2
+i52        26
+i56        46
+i60        50
+i69        25
+i70        24
+i71        23
+i72        2
+i76        32
+i82        64
+i86        68
+i92        32
+i96        40
+i98        46
+i102       10
+i103       55
+i104       54
+i105       53
+i106       26
+i107       45
+i108       44
+i109       43
+i110       42
+i116       6
+i117       5
+i118       4
+i119       3
+i120       2
+i124       64
+i130       64
+i136       134
+i137       133
+i138       132
+i139       131
+i140       126
+i150       148
+i151       147
+i152       146
+i153       145
+i154       134
+i156       10
+i157       101
+i158       100
+i159       99
+i160       46
+i164       50
+i168       64
+i172       68
+i173       9
+i174       8
+i175       7
+i176       2
+i180       32
+i182       32
+i187       179
+i188       178
+i189       177
+i190       10
+i191       31
+i192       30
+i193       29
+i194       14
+i195       91
+i196       90
+i197       89
+i198       88
+i202       18
+i206       22
+i211       75
+i212       74
+i213       73
+i214       26
+i216       186
+i220       68
+i221       185
+i222       184
+i223       183
+i224       32
+i226       40
+i230       144
+i231       95
+i232       94
+i233       93
+i234       88
+i238       210
+i239       39
+i240       38
+i241       37
+i242       14
+i248       64
+i250       50
+i251       49
+i252       48
+i253       47
+i254       42
+i255       163
+i256       162
+i257       161
+i258       10
+i259       59
+i260       58
+i261       57
+i262       26
+i264       144
+i265       229
+i266       228
+i267       227
+i268       40
+i269       143
+i270       142
+i271       141
+i272       134
+i274       64
+i278       114
+i279       167
+i280       166
+i281       165
+i282       10
+i283       63
+i284       62
+i285       61
+i286       26
+i287       247
+i288       246
+i289       245
+i290       244
+i291       129
+i292       128
+i293       127
+i294       126
+i295       123
+i296       122
+i297       121
+i298       6
+i299       81
+i300       80
+i301       79
+i302       78
+i304       68
+i305       85
+i306       84
+i307       83
+i308       78
+i309       171
+i310       170
+i311       169
+i312       10
+i313       67
+i314       66
+i315       65
+i316       26
+i317       219
+i318       218
+i319       217
+i320       186
+i322       114
+i323       113
+i324       112
+i325       111
+i326       46
+i327       277
+i328       276
+i329       275
+i330       64
+i332       18
+i333       201
+i334       200
+i335       199
+i336       32
+i337       17
+i338       16
+i339       15
+i340       2
+i342       22
+i343       205
+i344       204
+i345       203
+i346       32
+i347       21
+i348       20
+i349       19
+i350       2
+i352       210
+i353       209
+i354       208
+i355       207
+i356       32
+i357       237
+i358       236
+i359       235
+i360       40
+i362       100
+i363       99
+i364       46
+i365       101
+i366       10
+i368       54
+i369       55
+i370       46
+i371       53
+i372       26
+i374       44
+i375       45
+i376       46
+i377       43
+i378       42
+i380       48
+i381       47
+i382       42
+i383       49
+i384       50
+i386       112
+i387       111
+i388       46
+i389       113
+i390       114
+i392       276
+i393       277
+i394       114
+i395       275
+i396       64
+i398       162
+i399       163
+i400       50
+i401       161
+i402       10
+i404       166
+i405       167
+i406       64
+i407       165
+i408       10
+i410       58
+i411       59
+i412       50
+i413       57
+i414       26
+i416       62
+i417       63
+i418       64
+i419       61
+i420       26
+i422       246
+i423       247
+i424       64
+i425       245
+i426       244
+i428       128
+i429       129
+i430       64
+i431       127
+i432       126
+i434       132
+i435       131
+i436       126
+i437       133
+i438       134
+i440       228
+i441       229
+i442       144
+i443       227
+i444       40
+i446       142
+i447       141
+i448       134
+i449       143
+i450       144
+i452       146
+i453       145
+i454       134
+i455       147
+i456       148
+i458       4
+i459       5
+i460       6
+i461       3
+i462       2
+i464       122
+i465       123
+i466       64
+i467       121
+i468       6
+i470       80
+i471       81
+i472       64
+i473       79
+i474       78
+i476       84
+i477       83
+i478       78
+i479       85
+i480       68
+i482       170
+i483       171
+i484       68
+i485       169
+i486       10
+i488       66
+i489       67
+i490       68
+i491       65
+i492       26
+i494       8
+i495       7
+i496       2
+i497       9
+i498       10
+i500       218
+i501       219
+i502       68
+i503       217
+i504       186
+i506       184
+i507       185
+i508       186
+i509       183
+i510       32
+i512       178
+i513       179
+i514       32
+i515       177
+i516       10
+i518       30
+i519       31
+i520       32
+i521       29
+i522       14
+i524       12
+i525       13
+i526       14
+i527       11
+i528       2
+i530       90
+i531       91
+i532       32
+i533       89
+i534       88
+i536       94
+i537       93
+i538       88
+i539       95
+i540       40
+i542       200
+i543       199
+i544       32
+i545       201
+i546       18
+i548       16
+i549       17
+i550       18
+i551       15
+i552       2
+i554       204
+i555       203
+i556       32
+i557       205
+i558       22
+i560       208
+i561       207
+i562       32
+i563       209
+i564       210
+i566       20
+i567       21
+i568       22
+i569       19
+i570       2
+i572       236
+i573       237
+i574       210
+i575       235
+i576       40
+i578       24
+i579       23
+i580       2
+i581       25
+i582       26
+i584       74
+i585       75
+i586       32
+i587       73
+i588       26
+i590       38
+i591       37
+i592       14
+i593       39
+i594       40

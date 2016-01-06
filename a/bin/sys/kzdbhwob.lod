@@ -1,0 +1,723 @@
+z10000Zeidon    KZDBHWOB TZZOLODO 06/29/01   15:33:22 1.0a1    
+eLOD       1
+aZKey      1331075
+aName      KZDBHWOB
+aDesc      Work object for Zeidon database handlers
+aDLL_Name  KZDBHWOB
+
+eLOD_EntityParent 2
+aName      ROOT
+aIndentName ROOT
+aIndentLvl 0
+aZKey      1331077
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   N
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Root entity
+
+eLOD_EntityChild 3
+aName      Type
+aIndentName    Type
+aIndentLvl 3
+aZKey      1331078
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aSeqType   -
+aWork      Y
+aParentDeleteBehave D
+aDesc      Type - dbhandler type (RaimaDM, SQLBase, SQLServer, etc. )
+aSeqNo     1
+
+eLOD_EntityChild 4
+aName      Connection
+aIndentName       Connection
+aIndentLvl 6
+aZKey      1331079
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      Connection entity holds database information
+aSeqNo     1
+
+eLOD_AttributeRec 5
+aZKey      1331080
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      ConnectionBlob
+aZKey      1331081
+aNotNull   N
+aDesc      DB data area
+
+eDomainRec 7
+aZKey      90000007
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1331082
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+aName      LogicalUserName
+aZKey      1331083
+aLth       50
+aNotNull   Y
+aDesc      Concat of DB info (UID, Task ID, Server, etc) to create unique name
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1331084
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6
+aName      ServerName
+aZKey      1331085
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1331086
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 6
+aName      DatabaseName
+aZKey      1331087
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1331088
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 6
+aName      UserName
+aZKey      1331089
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1331090
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 6
+aName      TaskID
+aZKey      1331091
+aDesc      TaskID
+
+eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1331092
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 6
+aName      Status
+aZKey      1331093
+aLth       10
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1331094
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 6
+aName      UniqueDatabaseID
+aZKey      1331095
+aLth       40
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      1331096
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Type
+aZKey      1331097
+aLth       5
+aNotNull   Y
+aDesc      DB handler type
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90094080
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      TypeEnvBlob
+aZKey      90094081
+aDesc      Used for storing ODBC environment handle, if only one is suitable for server lifetime.
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      Messages
+aIndentName    Messages
+aIndentLvl 3
+aZKey      1331098
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     2
+
+eLOD_AttributeRec 4
+aZKey      1331099
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      ErrNumber
+aZKey      1331100
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331101
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      ErrorMsg
+aZKey      1331102
+aLth       256
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331103
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      OS_ErrNumber
+aZKey      1331104
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331105
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      OS_ErrorMsg
+aZKey      1331106
+aLth       256
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331107
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      Severity
+aZKey      1331108
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331109
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 5
+aName      MsgNumber
+aZKey      1331110
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331111
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 5
+aName      MsgState
+aZKey      1331112
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      Group
+aIndentName    Group
+aIndentLvl 3
+aZKey      88046384
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      A multipurpose entity to store generic data.
+
+eLOD_EntityChild 4
+aName      Key
+aIndentName       Key
+aIndentLvl 6
+aZKey      88046385
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      88046388
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Value
+aZKey      88046389
+aCaseSens  Y
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      88046394
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Name
+aZKey      88046395
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      88046392
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Desc
+aZKey      88046393
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      88046386
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Name
+aZKey      88046387
+aCaseSens  Y
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      88046390
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      88046391
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      1331113
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      SQL_ServerFuncs
+aZKey      1331114
+aDesc      Err and Msg handler proc instances for SQL Server
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      1331076
+aName      KZDBHWOB
+aDesc      C for Object Operations
+aExtension C
+aLanguageType C
+
+eZ_MetaDef 2
+aName      KZDBHWOB
+aZKey      1331075
+aType      7
+aLastUpdateDate 19951102195938000
+aLastCheckInDate 19951102203051110
+aDesc      Work object for Zeidon database handlers
+
+i12        9
+i15        9
+i18        9
+i24        9
+i27        9
+i30        9
+i33        6
+i37        21
+i40        9
+i43        21
+i46        9
+i49        21
+i52        21
+i55        21
+i60        9
+i63        9
+i66        9
+i69        9
+i72        9
+i75        6
+i76        1
+i77        73
+i78        74
+i79        6
+i80        2
+i81        28
+i82        29
+i83        9
+i84        31
+i85        32
+i86        6
+i87        3
+i88        4
+i89        5
+i90        6
+i91        7
+i92        8
+i93        9
+i94        10
+i95        11
+i96        9
+i97        13
+i98        14
+i99        9
+i100       16
+i101       17
+i102       9
+i103       19
+i104       20
+i105       21
+i106       22
+i107       23
+i108       9
+i109       25
+i110       26
+i111       9
+i112       34
+i113       35
+i114       36
+i115       21
+i116       38
+i117       39
+i118       9
+i119       41
+i120       42
+i121       21
+i122       44
+i123       45
+i124       9
+i125       47
+i126       48
+i127       21
+i128       50
+i129       51
+i130       21
+i131       53
+i132       54
+i133       21
+i134       56
+i135       67
+i136       68
+i137       9
+i138       70
+i139       71
+i140       9
+i141       57
+i142       61
+i143       62
+i144       9
+i145       58
+i146       59
+i147       9
+i148       64
+i149       65
+i150       9

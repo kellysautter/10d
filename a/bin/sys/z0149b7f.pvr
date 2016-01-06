@@ -1,0 +1,17 @@
+rZeidon    Z0149B7F TZWDVORO 11/02/95   20:53:39 1.0a     
+eViewObjRef 1,192
+aZKey      1350527
+aName      EditorProfile
+
+eLOD       2,192
+aZKey      1326804
+aName      TZ__PRFO
+aDesc      Tools XFER & Profile Info.
+
+eZ_MetaDef 2,192
+aName      EditorProfile
+aZKey      1350527
+aType      9
+aLastUpdateDate 19950824213854000
+aLastCheckInDate 19951102203051110
+

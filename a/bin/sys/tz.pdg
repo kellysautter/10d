@@ -1,0 +1,638 @@
+z1000-Zeidon    TZ       TZDGSRCO 09/07/11   17:06:37 1.0a2    
+eDomainGroup 1
+aZKey      1320355
+aName      TZ
+aExtension C
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320356
+aName      TZ_StartupLPLR_Option
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320357
+aName      TZ_StartupLPLR_Option
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484554
+
+eTableEntry 4
+aZKey      1320358
+aExternalValue Current Default
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320359
+aExternalValue Last Used by Tool
+aInternalValue L
+
+eTableEntry 4
+aZKey      1320360
+aExternalValue Specific Name
+aInternalValue S
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320361
+aName      VirtualKeys
+aDesc      Virtual key table for hotkeys
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320362
+aName      VirtualKeys
+aIsDefault Y
+aDIL_Text  Valid keys for the hotkey being defined
+
+eTableEntry 4
+aZKey      92484486
+
+eTableEntry 4
+aZKey      1320363
+aExternalValue <F1>
+aInternalValue 112
+
+eTableEntry 4
+aZKey      1320364
+aExternalValue <F2>
+aInternalValue 113
+
+eTableEntry 4
+aZKey      1320365
+aExternalValue <F3>
+aInternalValue 114
+
+eTableEntry 4
+aZKey      1320366
+aExternalValue <F4>
+aInternalValue 115
+
+eTableEntry 4
+aZKey      1320367
+aExternalValue <F5>
+aInternalValue 116
+
+eTableEntry 4
+aZKey      1320368
+aExternalValue <F6>
+aInternalValue 117
+
+eTableEntry 4
+aZKey      1320369
+aExternalValue <F7>
+aInternalValue 118
+
+eTableEntry 4
+aZKey      1320370
+aExternalValue <F8>
+aInternalValue 119
+
+eTableEntry 4
+aZKey      1320371
+aExternalValue <F9>
+aInternalValue 120
+
+eTableEntry 4
+aZKey      1320372
+aExternalValue <F10>
+aInternalValue 121
+
+eTableEntry 4
+aZKey      1320373
+aExternalValue <F11>
+aInternalValue 122
+
+eTableEntry 4
+aZKey      1320374
+aExternalValue <F12>
+aInternalValue 123
+
+eTableEntry 4
+aZKey      1320375
+aExternalValue <F13>
+aInternalValue 124
+
+eTableEntry 4
+aZKey      1320376
+aExternalValue <F14>
+aInternalValue 125
+
+eTableEntry 4
+aZKey      1320377
+aExternalValue <F15>
+aInternalValue 126
+
+eTableEntry 4
+aZKey      1320378
+aExternalValue <F16>
+aInternalValue 127
+
+eTableEntry 4
+aZKey      1320379
+aExternalValue <F17>
+aInternalValue 128
+
+eTableEntry 4
+aZKey      1320380
+aExternalValue <F18>
+aInternalValue 129
+
+eTableEntry 4
+aZKey      1320381
+aExternalValue <F19>
+aInternalValue 130
+
+eTableEntry 4
+aZKey      1320382
+aExternalValue <F20>
+aInternalValue 131
+
+eTableEntry 4
+aZKey      1320383
+aExternalValue <F21>
+aInternalValue 132
+
+eTableEntry 4
+aZKey      1320384
+aExternalValue <F22>
+aInternalValue 133
+
+eTableEntry 4
+aZKey      1320385
+aExternalValue <F23>
+aInternalValue 134
+
+eTableEntry 4
+aZKey      1320386
+aExternalValue <F24>
+aInternalValue 135
+
+eTableEntry 4
+aZKey      1320387
+aExternalValue <Back>
+aInternalValue 8
+
+eTableEntry 4
+aZKey      1320388
+aExternalValue <Tab>
+aInternalValue 9
+
+eTableEntry 4
+aZKey      1320389
+aExternalValue <Clear>
+aInternalValue 12
+
+eTableEntry 4
+aZKey      1320390
+aExternalValue <Return>
+aInternalValue 13
+
+eTableEntry 4
+aZKey      1320391
+aExternalValue <Shift>
+aInternalValue 16
+
+eTableEntry 4
+aZKey      1320392
+aExternalValue <Control>
+aInternalValue 17
+
+eTableEntry 4
+aZKey      1320393
+aExternalValue <Menu>
+aInternalValue 18
+
+eTableEntry 4
+aZKey      1320394
+aExternalValue <Pause>
+aInternalValue 19
+
+eTableEntry 4
+aZKey      1320395
+aExternalValue <Capital>
+aInternalValue 20
+
+eTableEntry 4
+aZKey      1320396
+aExternalValue <Escape>
+aInternalValue 27
+
+eTableEntry 4
+aZKey      1320397
+aExternalValue <Space>
+aInternalValue 32
+
+eTableEntry 4
+aZKey      1320398
+aExternalValue <PageUp>
+aInternalValue 33
+
+eTableEntry 4
+aZKey      1320399
+aExternalValue <PageDown>
+aInternalValue 34
+
+eTableEntry 4
+aZKey      1320400
+aExternalValue <End>
+aInternalValue 35
+
+eTableEntry 4
+aZKey      1320401
+aExternalValue <Home>
+aInternalValue 36
+
+eTableEntry 4
+aZKey      1320402
+aExternalValue <Left>
+aInternalValue 37
+
+eTableEntry 4
+aZKey      1320403
+aExternalValue <Up>
+aInternalValue 38
+
+eTableEntry 4
+aZKey      1320404
+aExternalValue <Right>
+aInternalValue 39
+
+eTableEntry 4
+aZKey      1320405
+aExternalValue <Down>
+aInternalValue 40
+
+eTableEntry 4
+aZKey      1320406
+aExternalValue <Select>
+aInternalValue 41
+
+eTableEntry 4
+aZKey      1320407
+aExternalValue <Print>
+aInternalValue 42
+
+eTableEntry 4
+aZKey      1320408
+aExternalValue <Execute>
+aInternalValue 43
+
+eTableEntry 4
+aZKey      1320409
+aExternalValue <Snapshot>
+aInternalValue 44
+
+eTableEntry 4
+aZKey      1320410
+aExternalValue <Insert>
+aInternalValue 45
+
+eTableEntry 4
+aZKey      1320411
+aExternalValue <Delete>
+aInternalValue 46
+
+eTableEntry 4
+aZKey      1320412
+aExternalValue <Help>
+aInternalValue 47
+
+eTableEntry 4
+aZKey      1320413
+aExternalValue <Numpad0>
+aInternalValue 96
+
+eTableEntry 4
+aZKey      1320414
+aExternalValue <Numpad1>
+aInternalValue 97
+
+eTableEntry 4
+aZKey      1320415
+aExternalValue <Numpad2>
+aInternalValue 98
+
+eTableEntry 4
+aZKey      1320416
+aExternalValue <Numpad3>
+aInternalValue 99
+
+eTableEntry 4
+aZKey      1320417
+aExternalValue <Numpad4>
+aInternalValue 100
+
+eTableEntry 4
+aZKey      1320418
+aExternalValue <Numpad5>
+aInternalValue 101
+
+eTableEntry 4
+aZKey      1320419
+aExternalValue <Numpad6>
+aInternalValue 102
+
+eTableEntry 4
+aZKey      1320420
+aExternalValue <Numpad7>
+aInternalValue 103
+
+eTableEntry 4
+aZKey      1320421
+aExternalValue <Numpad8>
+aInternalValue 104
+
+eTableEntry 4
+aZKey      1320422
+aExternalValue <Numpad9>
+aInternalValue 105
+
+eTableEntry 4
+aZKey      1320423
+aExternalValue <Multiply>
+aInternalValue 106
+
+eTableEntry 4
+aZKey      1320424
+aExternalValue <Add>
+aInternalValue 107
+
+eTableEntry 4
+aZKey      1320425
+aExternalValue <Separator>
+aInternalValue 108
+
+eTableEntry 4
+aZKey      1320426
+aExternalValue <Subtract>
+aInternalValue 109
+
+eTableEntry 4
+aZKey      1320427
+aExternalValue <Decimal>
+aInternalValue 110
+
+eTableEntry 4
+aZKey      1320428
+aExternalValue <Divide>
+aInternalValue 111
+
+eTableEntry 4
+aZKey      1320429
+aExternalValue <Numlock>
+aInternalValue 144
+
+eTableEntry 4
+aZKey      1320430
+aExternalValue <Scroll>
+aInternalValue 145
+
+eTableEntry 4
+aZKey      1320431
+aExternalValue 1
+aInternalValue 49
+
+eTableEntry 4
+aZKey      1320432
+aExternalValue 2
+aInternalValue 50
+
+eTableEntry 4
+aZKey      1320433
+aExternalValue 3
+aInternalValue 51
+
+eTableEntry 4
+aZKey      1320434
+aExternalValue 4
+aInternalValue 52
+
+eTableEntry 4
+aZKey      1320435
+aExternalValue 5
+aInternalValue 53
+
+eTableEntry 4
+aZKey      1320436
+aExternalValue 6
+aInternalValue 54
+
+eTableEntry 4
+aZKey      1320437
+aExternalValue 7
+aInternalValue 55
+
+eTableEntry 4
+aZKey      1320438
+aExternalValue 8
+aInternalValue 56
+
+eTableEntry 4
+aZKey      1320439
+aExternalValue 9
+aInternalValue 57
+
+eTableEntry 4
+aZKey      1320440
+aExternalValue 0
+aInternalValue 48
+
+eTableEntry 4
+aZKey      1320441
+aExternalValue A
+aInternalValue 65
+
+eTableEntry 4
+aZKey      1320442
+aExternalValue B
+aInternalValue 66
+
+eTableEntry 4
+aZKey      1320443
+aExternalValue C
+aInternalValue 67
+
+eTableEntry 4
+aZKey      1320444
+aExternalValue D
+aInternalValue 68
+
+eTableEntry 4
+aZKey      1320445
+aExternalValue E
+aInternalValue 69
+
+eTableEntry 4
+aZKey      1320446
+aExternalValue F
+aInternalValue 70
+
+eTableEntry 4
+aZKey      1320447
+aExternalValue G
+aInternalValue 71
+
+eTableEntry 4
+aZKey      1320448
+aExternalValue H
+aInternalValue 72
+
+eTableEntry 4
+aZKey      1320449
+aExternalValue I
+aInternalValue 73
+
+eTableEntry 4
+aZKey      1320450
+aExternalValue J
+aInternalValue 74
+
+eTableEntry 4
+aZKey      1320451
+aExternalValue K
+aInternalValue 75
+
+eTableEntry 4
+aZKey      1320452
+aExternalValue L
+aInternalValue 76
+
+eTableEntry 4
+aZKey      1320453
+aExternalValue M
+aInternalValue 77
+
+eTableEntry 4
+aZKey      1320454
+aExternalValue N
+aInternalValue 78
+
+eTableEntry 4
+aZKey      1320455
+aExternalValue O
+aInternalValue 79
+
+eTableEntry 4
+aZKey      1320456
+aExternalValue P
+aInternalValue 80
+
+eTableEntry 4
+aZKey      1320457
+aExternalValue Q
+aInternalValue 81
+
+eTableEntry 4
+aZKey      1320458
+aExternalValue R
+aInternalValue 82
+
+eTableEntry 4
+aZKey      1320459
+aExternalValue S
+aInternalValue 83
+
+eTableEntry 4
+aZKey      1320460
+aExternalValue T
+aInternalValue 84
+
+eTableEntry 4
+aZKey      1320461
+aExternalValue U
+aInternalValue 85
+
+eTableEntry 4
+aZKey      1320462
+aExternalValue V
+aInternalValue 86
+
+eTableEntry 4
+aZKey      1320463
+aExternalValue W
+aInternalValue 87
+
+eTableEntry 4
+aZKey      1320464
+aExternalValue X
+aInternalValue 88
+
+eTableEntry 4
+aZKey      1320465
+aExternalValue Y
+aInternalValue 89
+
+eTableEntry 4
+aZKey      1320466
+aExternalValue Z
+aInternalValue 90
+
+eTableEntry 4
+aZKey      1131248
+aExternalValue :
+aInternalValue 186
+
+eTableEntry 4
+aZKey      70057942
+aExternalValue +
+aInternalValue 187
+
+eTableEntry 4
+aZKey      1131239
+aExternalValue <
+aInternalValue 188
+
+eTableEntry 4
+aZKey      1131240
+aExternalValue -
+aInternalValue 189
+
+eTableEntry 4
+aZKey      1131241
+aExternalValue >
+aInternalValue 190
+
+eTableEntry 4
+aZKey      1131242
+aExternalValue ?
+aInternalValue 191
+
+eTableEntry 4
+aZKey      1131243
+aExternalValue ~
+aInternalValue 192
+
+eTableEntry 4
+aZKey      1131244
+aExternalValue {
+aInternalValue 219
+
+eTableEntry 4
+aZKey      1131247
+aExternalValue |
+aInternalValue 220
+
+eTableEntry 4
+aZKey      1131245
+aExternalValue }
+aInternalValue 221
+
+eTableEntry 4
+aZKey      1131246
+aExternalValue "
+aInternalValue 222
+
+eZ_MetaDef 2
+aName      TZ
+aZKey      1320355
+aType      13
+aLastUpdateDate 19950824212108000
+aLastCheckInDate 19951102203051110
+

@@ -1,0 +1,369 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "kzoeswrc.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "kzoengwa.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+ZEIDON                  ICON    DISCARDABLE     "KZZEIDON.ICO"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+TRACE_ACCEL ACCELERATORS MOVEABLE PURE
+BEGIN
+    VK_F3,          IDM_FINDNEXT,           VIRTKEY
+    VK_F3,          IDM_FINDPREV,           VIRTKEY, SHIFT
+    "F",            IDM_FINDSTRING,         VIRTKEY, CONTROL
+    VK_F5,          IDM_FINDSTRING,         VIRTKEY, SHIFT
+    VK_F5,          IDM_FINDNEXT,           VIRTKEY
+    VK_F7,          IDM_TRACEDATASPACE,     VIRTKEY, SHIFT
+    VK_DELETE,      IDM_DELETESELECTED,     VIRTKEY
+    VK_INSERT,      IDM_INSERTMARKER,       VIRTKEY
+    "C",            IDM_COPYSTRING,         VIRTKEY, CONTROL
+    "V",            IDM_PASTESTRING,        VIRTKEY, CONTROL
+    "X",            IDM_CUTSTRING,          VIRTKEY, CONTROL
+    "E",            IDM_SHOWDLL,            VIRTKEY, CONTROL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+KZOENGWA MENU DISCARDABLE
+BEGIN
+    POPUP "&Options"
+    BEGIN
+       MENUITEM "Lo&gon...",                   IDM_LOGON
+       MENUITEM "List &Tasks",                 IDM_LISTTASKS
+       MENUITEM "List &View Objects",          IDM_LISTVOBJS
+       MENUITEM "List &Mutex Status",          IDM_LISTMUTEXSTATUS
+       MENUITEM SEPARATOR
+       POPUP "&Print Preview"
+       BEGIN
+          MENUITEM "&Off",                        IDM_PRINTPREVIEW
+          MENUITEM "Zoom &Out",                   IDM_PREVIEW_ZOOMOUT
+          MENUITEM "&Zoom",                       IDM_PREVIEW_ZOOM
+          MENUITEM "Zoom &In",                    IDM_PREVIEW_ZOOMIN
+       END
+       MENUITEM "Print &Dialog",               IDM_PRINTDIALOG
+       MENUITEM SEPARATOR
+       MENUITEM "E&xit\tAlt+F4",               IDM_EXITPROGRAM
+       MENUITEM "Kill &Zeidon",                IDM_KILLZEIDON
+    END
+    POPUP "&Trace"
+    BEGIN
+       MENUITEM "&Log Trace...",               IDM_LOGTRACE
+       MENUITEM "&Clear Trace",                IDM_CLEARTRACE
+       MENUITEM "Line Li&mit...",              IDM_LINELIMIT
+       MENUITEM SEPARATOR
+       MENUITEM "&Show Task ID",               IDM_SHOWTASKID
+       MENUITEM "Set &DBH Trace...",           IDM_SETDBHTRACE
+       MENUITEM "Trace &OE Warnings",          IDM_SETOETRACE
+       MENUITEM "Trace &ZDr Actions",          IDM_SETZDRTRACE
+       MENUITEM "Trace &Web Actions",          IDM_SETWEBTRACE
+       POPUP "Track Memory &Allocations"
+       BEGIN
+          MENUITEM "Track &Memory",            IDM_SETMEMORYTRACE
+          MENUITEM "&Trace Memory",            IDM_TRACEMEMORYALLOCATIONS
+          MENUITEM "&Trace Memory+Data",       IDM_TRACEMEMORYDATA
+          MENUITEM "&Clear Trace Memory",      IDM_CLEARMEMORYALLOCATIONS
+       END
+       POPUP "Track &Load Library"
+       BEGIN
+          MENUITEM "Track &LoadLibrary",       IDM_SETLOADLIBRARYTRACE
+          MENUITEM "&Trace LoadLibrary",       IDM_TRACELOADLIBRARY
+          MENUITEM "&Trace LoadLibrary+Name",  IDM_TRACELOADLIBRARYNAME
+          MENUITEM "&Clear Trace LoadLibrary", IDM_CLEARLOADLIBRARY
+       END
+       MENUITEM "Scro&ll Trace",               IDM_SCROLLTRACE
+       MENUITEM SEPARATOR
+       MENUITEM "Find String\tCtrl+F",         IDM_FINDSTRING
+       MENUITEM "Find Next\tF3",               IDM_FINDNEXT
+       MENUITEM "Find Prev\tShift+F3",         IDM_FINDPREV
+       MENUITEM SEPARATOR
+       MENUITEM "Delete Selected Line\tDel",   IDM_DELETESELECTED
+       MENUITEM "Insert Marker Line\tIns",     IDM_INSERTMARKER
+       MENUITEM SEPARATOR
+       MENUITEM "Trace Window 1 (newest)",     IDM_TRACEWINDOW01
+       MENUITEM "Trace Window 2         ",     IDM_TRACEWINDOW02
+       MENUITEM "Trace Window 3         ",     IDM_TRACEWINDOW03
+       MENUITEM "Trace Window 4         ",     IDM_TRACEWINDOW04
+       MENUITEM "Trace Window 5         ",     IDM_TRACEWINDOW05
+       MENUITEM "Trace Window 6         ",     IDM_TRACEWINDOW06
+       MENUITEM "Trace Window 7         ",     IDM_TRACEWINDOW07
+       MENUITEM "Trace Window 8         ",     IDM_TRACEWINDOW08
+       MENUITEM "Trace Window 9         ",     IDM_TRACEWINDOW09
+       MENUITEM "Trace Window 10        ",     IDM_TRACEWINDOW10
+       MENUITEM "Trace Window 11        ",     IDM_TRACEWINDOW11
+       MENUITEM "Trace Window 12        ",     IDM_TRACEWINDOW12
+       MENUITEM "Trace Window 13        ",     IDM_TRACEWINDOW13
+       MENUITEM "Trace Window 14        ",     IDM_TRACEWINDOW14
+       MENUITEM "Trace Window 15        ",     IDM_TRACEWINDOW15
+       MENUITEM "Trace Window 16        ",     IDM_TRACEWINDOW16
+       MENUITEM "Trace Window 17        ",     IDM_TRACEWINDOW17
+       MENUITEM "Trace Window 18        ",     IDM_TRACEWINDOW18
+       MENUITEM "Trace Window 19        ",     IDM_TRACEWINDOW19
+       MENUITEM "Trace Window 20        ",     IDM_TRACEWINDOW20
+    END
+    POPUP "&Help"
+    BEGIN
+       MENUITEM "A&bout...",                   IDM_ABOUT
+    END
+END
+
+ID_SYSTRAY_MNU MENU DISCARDABLE
+BEGIN
+    POPUP "Object Service"
+    BEGIN
+       MENUITEM "Show &Trace",                 IDM_SHOWTRACE
+       MENUITEM "&Hide Trace",                 IDM_HIDEWINDOW
+       MENUITEM SEPARATOR
+       MENUITEM "Lo&gon...",                   IDM_LOGON
+       MENUITEM "&Log Trace...",               IDM_LOGTRACE
+       MENUITEM "&Show Task ID",               IDM_SHOWTASKID
+       MENUITEM "Set &DBH Trace...",           IDM_SETDBHTRACE
+       MENUITEM "Trace &ZDr Actions",          IDM_SETZDRTRACE
+       MENUITEM "Trace &Web Actions",          IDM_SETWEBTRACE
+       MENUITEM SEPARATOR
+       MENUITEM "A&bout...",                   IDM_ABOUT
+       MENUITEM SEPARATOR
+       MENUITEM "Shut &Down",                  IDM_EXITPROGRAM
+       MENUITEM "Kill &Zeidon",                IDM_KILLZEIDON
+    END
+END
+
+ID_KZOENGWA_MNU MENU DISCARDABLE
+BEGIN
+    POPUP "&Options"
+    BEGIN
+       MENUITEM "Lo&gon...",                   IDM_LOGON
+       MENUITEM "List &Tasks",                 IDM_LISTTASKS
+       MENUITEM "List &View Objects",          IDM_LISTVOBJS
+       MENUITEM "List &Mutex Status",          IDM_LISTMUTEXSTATUS
+       MENUITEM SEPARATOR
+       POPUP "&Print Preview"
+       BEGIN
+          MENUITEM "&Off",                        IDM_PRINTPREVIEW
+          MENUITEM "Zoom &Out",                   IDM_PREVIEW_ZOOMOUT
+          MENUITEM "&Zoom",                       IDM_PREVIEW_ZOOM
+          MENUITEM "Zoom &In",                    IDM_PREVIEW_ZOOMIN
+       END
+       MENUITEM "Print &Dialog",               IDM_PRINTDIALOG
+       MENUITEM SEPARATOR
+       MENUITEM "Hide &Window",                IDM_HIDEWINDOW
+    END
+    POPUP "&Trace"
+    BEGIN
+       MENUITEM "&Log Trace...",               IDM_LOGTRACE
+       MENUITEM "&Clear Trace",                IDM_CLEARTRACE
+       MENUITEM "Line Li&mit...",              IDM_LINELIMIT
+       MENUITEM SEPARATOR
+       MENUITEM "&Show Task ID",               IDM_SHOWTASKID
+       MENUITEM "Set &DBH Trace...",           IDM_SETDBHTRACE
+       MENUITEM "Trace &ZDr Actions",          IDM_SETZDRTRACE
+       MENUITEM "Trace &Web Actions",          IDM_SETWEBTRACE
+       MENUITEM "Scro&ll Trace",               IDM_SCROLLTRACE
+       MENUITEM SEPARATOR
+       MENUITEM "Find String\tCtrl+F",         IDM_FINDSTRING
+       MENUITEM "Find Next\tF3",               IDM_FINDNEXT
+       MENUITEM "Find Prev\tShift+F3",         IDM_FINDPREV
+       MENUITEM SEPARATOR
+       MENUITEM "Delete Selected Line\tDel",   IDM_DELETESELECTED
+       MENUITEM "Insert Marker Line\tIns",     IDM_INSERTMARKER
+       MENUITEM SEPARATOR
+       MENUITEM "Trace Window 1 (newest)",     IDM_TRACEWINDOW01
+       MENUITEM "Trace Window 2         ",     IDM_TRACEWINDOW02
+       MENUITEM "Trace Window 3         ",     IDM_TRACEWINDOW03
+       MENUITEM "Trace Window 4         ",     IDM_TRACEWINDOW04
+       MENUITEM "Trace Window 5         ",     IDM_TRACEWINDOW05
+       MENUITEM "Trace Window 6         ",     IDM_TRACEWINDOW06
+       MENUITEM "Trace Window 7         ",     IDM_TRACEWINDOW07
+       MENUITEM "Trace Window 8         ",     IDM_TRACEWINDOW08
+       MENUITEM "Trace Window 9         ",     IDM_TRACEWINDOW09
+       MENUITEM "Trace Window 10        ",     IDM_TRACEWINDOW10
+       MENUITEM "Trace Window 11        ",     IDM_TRACEWINDOW11
+       MENUITEM "Trace Window 12        ",     IDM_TRACEWINDOW12
+       MENUITEM "Trace Window 13        ",     IDM_TRACEWINDOW13
+       MENUITEM "Trace Window 14        ",     IDM_TRACEWINDOW14
+       MENUITEM "Trace Window 15        ",     IDM_TRACEWINDOW15
+       MENUITEM "Trace Window 16        ",     IDM_TRACEWINDOW16
+       MENUITEM "Trace Window 17        ",     IDM_TRACEWINDOW17
+       MENUITEM "Trace Window 18        ",     IDM_TRACEWINDOW18
+       MENUITEM "Trace Window 19        ",     IDM_TRACEWINDOW19
+       MENUITEM "Trace Window 20        ",     IDM_TRACEWINDOW20
+    END
+    POPUP "&Help"
+    BEGIN
+       MENUITEM "A&bout...",                   IDM_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_LOGTRACE DIALOG DISCARDABLE  6, 18, 160, 69
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Object Services Trace Log"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IDC_LOGFILE,34,17,115,12,ES_AUTOHSCROLL
+    LTEXT           "Log File",102,2,17,31,12
+    PUSHBUTTON      "&Open",IDC_OPEN,6,45,40,14
+    DEFPUSHBUTTON   "C&lose",IDC_CLOSE,62,45,40,14
+    PUSHBUTTON      "&Cancel",IDC_CANCEL,116,45,40,14
+END
+
+IDD_LINELIMIT DIALOG DISCARDABLE  84, 38, 118, 65
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Trace Window Line Limit"
+BEGIN
+    LTEXT           "Limit",100,12,9,30,8,NOT WS_GROUP
+    LTEXT           "Currently",101,14,25,34,8,NOT WS_GROUP
+    EDITTEXT        IDC_LINELIMIT,52,8,47,12
+    EDITTEXT        IDC_LINEUSAGE,52,23,47,12
+    DEFPUSHBUTTON   "&OK",IDC_OK,17,42,30,14
+    PUSHBUTTON      "&Cancel",IDC_CANCEL,70,42,30,14
+END
+
+IDD_FINDSTRING DIALOG DISCARDABLE  84, 38, 118, 65
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Trace Window Find String"
+BEGIN
+    LTEXT           "Find String",100,12,9,30,8,NOT WS_GROUP
+    EDITTEXT        IDC_FINDSTRING,52,8,47,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&OK",IDC_OK,17,42,30,14
+    PUSHBUTTON      "&Cancel",IDC_CANCEL,70,42,30,14
+END
+
+IDD_SHOWDLL DIALOG DISCARDABLE  6, 18, 241, 123
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Loaded DLL's"
+FONT 9, "Fixedsys"
+BEGIN
+    LISTBOX         IDC_DLLLB,1,2,235,101,LBS_SORT | LBS_USETABSTOPS |
+                    LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "OK",IDC_OK,0,106,40,14
+    PUSHBUTTON      "Cancel",IDC_CANCEL,54,106,40,14
+    CONTROL         "Free DLL",IDC_FREEDLL,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,106,107,91,10
+END
+
+IDD_LOGON DIALOG DISCARDABLE  61, 38, 130, 82
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Zeidon Object Services Logon"
+BEGIN
+    LTEXT           "User ID",100,20,9,30,8,NOT WS_GROUP
+    LTEXT           "Password",101,20,25,34,8,NOT WS_GROUP
+    EDITTEXT        IDC_USERID,60,8,47,12
+    EDITTEXT        IDC_PASSWORD,60,23,47,12,ES_PASSWORD
+    CONTROL         "&Save in zeidon.ini",IDC_SAVEUSERID,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,26,40,80,14
+    DEFPUSHBUTTON   "&OK",IDC_OK,20,60,30,14
+    PUSHBUTTON      "&Cancel",IDC_CANCEL,78,60,30,14
+END
+
+IDD_ABOUT DIALOG DISCARDABLE  61, 42, 170, 93
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION |
+    WS_SYSMENU
+CAPTION "About Zeidon Object Services"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDC_OK,70,68,24,14
+    ICON            "ZEIDON",101,12,13,20,20
+    CTEXT           "Version 1.0",102,30,16,100,8,NOT WS_GROUP
+    CTEXT           "Copyright (c) 1996-2001",103,30,28,100,8,NOT WS_GROUP
+    CTEXT           "QuinSoft Corporation",104,30,40,100,8,NOT WS_GROUP
+    CTEXT           "All Rights Reserved",105,30,52,100,8,NOT WS_GROUP
+END
+
+IDD_SETTRACE DIALOG DISCARDABLE  0, 0, 126, 74
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set DB-Handler Trace Level"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDC_OK,59,20,50,14
+    PUSHBUTTON      "Cancel",IDC_CANCEL,59,37,50,14
+    CONTROL         "0",IDC_TRACE0,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,
+                    6,28,14
+    CONTROL         "1",IDC_TRACE1,"Button",BS_AUTORADIOBUTTON,13,22,28,14
+    CONTROL         "2",IDC_TRACE2,"Button",BS_AUTORADIOBUTTON,13,38,28,14
+    CONTROL         "3",IDC_TRACE3,"Button",BS_AUTORADIOBUTTON,13,54,28,14
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "kzoeswrc.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""kzoengwa.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

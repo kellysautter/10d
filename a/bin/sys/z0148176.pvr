@@ -1,0 +1,17 @@
+rZeidon    Z0148176 TZWDVORO 11/02/95   20:52:06 1.0a     
+eViewObjRef 1,192
+aZKey      1343862
+aName      TZPESRCV
+
+eLOD       2,192
+aZKey      1328675
+aName      TZPESRCO
+aDesc      Presentation Environment
+
+eZ_MetaDef 2,192
+aName      TZPESRCV
+aZKey      1343862
+aType      9
+aLastUpdateDate 19950824213806000
+aLastCheckInDate 19951102203051110
+

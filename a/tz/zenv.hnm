@@ -1,0 +1,29 @@
+#
+#  zEnv.HNM
+#  Make Include File (MSVC 5.0).
+#  Generated at 2010.02.26 08:19:17
+#
+APPNAME    = Zeidon
+MODULE_DIR = 
+TARGET_DIR = c:\10d\w\bin\sys
+SRC_DIR    = c:\10d\a\tz$(MODULE_DIR)
+OBJ_DIR    = c:\10d\a\tz
+ENV_DIR    = c:\10d\a\tz
+ 
+# Windows and Zeidon Core libraries
+BASELINKDLLS = kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib \
+               advapi32.lib shell32.lib ole32.lib kzoengaa.lib msvcrt.lib \
+               zdrapp.lib zdctl.lib tzctl.lib kzrpsrco.lib tzvmlip.lib \
+               truegrid.lib zsemail.lib z2mp.lib
+
+CL_OPT =  /Gz /W3 /GX3f /Zp /c /nologo /TP \
+          /D ZEIDON /D __WIN32__ /D _WINDOWS \
+          /Fd$(TARGET_DIR)\$(MODULE).pdb $(CL_OPT)
+LINK_OPT = /subsystem:windows /dll /machine:I386 /NOD
+
+!IF "$(DEBUG)" == "1"
+CL_OPT = -DDEBUG -D_DEBUG -Od /Gm /Zi /MDd $(CL_OPT)
+LINK_OPT = /debug:full $(LINK_OPT)
+!ELSE
+CL_OPT = /MD $(CL_OPT)
+!ENDIF

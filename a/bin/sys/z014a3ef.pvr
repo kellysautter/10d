@@ -1,0 +1,18 @@
+rZeidon    Z014A3EF TZWDVORO 11/02/95   20:53:29 1.0a     
+eViewObjRef 1,192
+aZKey      1352687
+aName      LOD_Object
+
+eLOD       2,192
+aZKey      1324578
+aName      TZZOLODO
+aDesc      LOD Object Def
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      LOD_Object
+aZKey      1352687
+aType      9
+aLastUpdateDate 19950824213920000
+aLastCheckInDate 19951102203051110
+

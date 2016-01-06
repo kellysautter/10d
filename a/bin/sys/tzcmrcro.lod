@@ -1,0 +1,1207 @@
+z10000Zeidon    TZCMRCRO TZZOLODO 06/19/01   14:39:10 1.0b0    
+eLOD       1
+aZKey      1329909
+aName      TZCMRCRO
+aDesc      Reusable CPLR Object
+aDLL_Name  TZLODOPR
+
+eLOD_EntityParent 2
+aName      Installation
+aIndentName Installation
+aIndentLvl 0
+aZKey      1329911
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      CPL
+aIndentName    CPL
+aIndentLvl 3
+aZKey      1329912
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     1
+
+eLOD_EntityChild 4
+aName      CPLR
+aIndentName       CPLR
+aIndentLvl 6
+aZKey      1329913
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     1
+
+eLOD_EntityChild 5
+aName      ReusableCPLR
+aIndentName          ReusableCPLR
+aIndentLvl 9
+aZKey      1329914
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive Y
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     1
+
+eLOD_AttributeRec 6
+aZKey      1329915
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 7
+aName      Name
+aZKey      1320770
+aLth       32
+aNotNull   Y
+aDesc      CPLR Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 8
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      1329916
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 7
+aName      LastCheckInDate
+aZKey      1320771
+aDesc      DateTime Stamp of the last Check In
+
+eDomainRec 8
+aZKey      90000089
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      1329917
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 7
+aName      ZKey
+aZKey      1320772
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 8
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      1329918
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 7
+aName      Desc
+aZKey      1320773
+aDesc      Descriptive text
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eDomainRec 8
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      1329919
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 7
+aName      MetaSrcDir
+aZKey      1320774
+aLth       254
+aDesc      Directory of Zeidon Source Metas
+aPromptPaintLit Meta Directory:
+aPromptPaintLth 60
+aListPaintLit Meta Directory:
+aListPaintLth 60
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329920
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 7
+aName      PgmSrcDir
+aZKey      1320775
+aLth       254
+aDesc      CPLR Directory for Source files (VML, C)
+aPromptPaintLit Source Directory:
+aPromptPaintLth 60
+aListPaintLit Source Directory:
+aListPaintLth 60
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329921
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 7
+aName      ExecDir
+aZKey      1320776
+aLth       254
+aDesc      CPLR Directory for Executable files
+aPromptPaintLit Executables Directory:
+aPromptPaintLth 60
+aListPaintLit Executables Directory:
+aListPaintLth 60
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329922
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 7
+aName      DB_Mode
+aZKey      1320777
+aDesc      Mode for CheckIn, CheckOut, and Refresh file/DB handling
+
+eDomainRec 8
+aZKey      1319735
+aName      CM_DataBaseMode
+aDomainType T
+aDataType  L
+aMaxStringLth 11
+aDesc      Indicator for how CPLRs are to be maintained
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      127045079
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      CPLR_CPL_Name
+aZKey      127045080
+aLth       75
+aDesc      CPLR Name + "   CPL: " + CPL Name
+
+eDomainRec 8
+
+eLOD_AttrDerivationOperRec 7
+aName      oTZCMRCRO_DeriveCPLR_CPL_Name
+aZKey      127045438
+aType      A
+aReturnDataType N
+
+eSourceFileForDARec 8
+aZKey      92000627
+aName      TZCMCPRO
+aLanguageType C
+aExtension C
+
+eER_EntityRec 6
+aName      CPLR
+aZKey      1320769
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 304
+aER_DiagramPosY 114
+
+eER_RelLinkRec 6
+aName      reuses
+aZKey      1322415
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 7
+aZKey      1322414
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 300
+aER_DiagramBendPosY 122
+aER_DiagramE1PosX 303
+aER_DiagramE1PosY 118
+aER_DiagramE2PosX 306
+aER_DiagramE2PosY 119
+
+eLOD_EntityChild 5
+aName      Z_MetaType
+aIndentName          Z_MetaType
+aIndentLvl 9
+aZKey      127045099
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 6
+aName      Z_MetaDef
+aIndentName             Z_MetaDef
+aIndentLvl 12
+aZKey      127045100
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 7
+aZKey      127045103
+aWork      Y
+aUpdate    Y
+aSeqPriority 2
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 8
+aName      Name
+aZKey      127045104
+aLth       32
+aNotNull   Y
+aDesc      OI Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eDomainRec 9
+
+eLOD_AttributeRec 7
+aZKey      127045105
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 8
+aName      ZKey
+aZKey      127045106
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 9
+
+eLOD_AttributeRec 6
+aZKey      127045101
+aWork      Y
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 7
+aName      Type
+aZKey      127045102
+aNotNull   Y
+aDesc      OI Type
+aPromptPaintLit Meta Type:
+aListPaintLit Meta Type:
+
+eDomainRec 8
+aZKey      1319755
+aName      CM_Type
+aDomainType T
+aDataType  L
+aDesc      Meta types for Configuration Management
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1329923
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329924
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329925
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329926
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329927
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329928
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329929
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329930
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      127045077
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      CPLR_CPL_Name
+aZKey      127045078
+aLth       75
+aDesc      CPLR Name +  "   CPL: " + CPL Name
+
+eDomainRec 7
+
+eLOD_AttrDerivationOperRec 6
+
+eSourceFileForDARec 7
+
+eER_EntityRec 5
+
+eER_RelLinkRec 5
+aName      has
+aZKey      1322388
+aCardMin   1
+aCardMax   M
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      1322387
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 340
+aER_DiagramBendPosY 114
+aER_DiagramE1PosX 340
+aER_DiagramE1PosY 11
+aER_DiagramE2PosX 313
+aER_DiagramE2PosY 114
+
+eLOD_AttributeRec 4
+aZKey      1329931
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1320764
+aLth       32
+aNotNull   Y
+aDesc      CPL Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329932
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1320765
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329933
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      1320766
+aDesc      Descriptive text
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      CPL
+aZKey      1320763
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 336
+aER_DiagramPosY 6
+
+eER_RelLinkRec 4
+aName      contains
+aZKey      1322385
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 5
+aZKey      1322384
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 384
+aER_DiagramBendPosY 10
+aER_DiagramE1PosX 384
+aER_DiagramE1PosY 27
+aER_DiagramE2PosX 345
+aER_DiagramE2PosY 10
+
+eLOD_AttributeRec 3
+aZKey      1329934
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1320969
+aLth       32
+aNotNull   Y
+aDesc      Installation Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329935
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1320970
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329936
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      Sysadm
+aZKey      1320971
+aLth       32
+aNotNull   Y
+aDesc      System Administrator
+aPromptPaintLit System Administrator:
+aListPaintLit System Administrator:
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329937
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 4
+aName      Password
+aZKey      1320972
+aLth       8
+aDesc      108
+Secret stuff
+physical name = z_PASSWORD, because "password" is a reserverd
+word in SQLBASE and not in DB20
+aPromptPaintLit Password:
+aListPaintLit Password:
+aTE_ColumnName z_PASSWORD
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329938
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 4
+aName      NextWKS_Id
+aZKey      1320973
+aLth       4
+aNotNull   N
+aDesc      The next available id to be assigned to Workstation
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329939
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 4
+aName      NextInstallZKey
+aZKey      1320974
+aDesc      The Installation's  ZKey for creating itself.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329940
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 4
+aName      Desc
+aZKey      1320975
+aDesc      Descriptive text
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      Installation
+aZKey      1320968
+aPurpose   F
+aDesc      Zeidon Configuration Management Installation Table
+aOwningArea CM
+aER_DiagramPosX 380
+aER_DiagramPosY 28
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 9
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_AttrDerivationOper 4
+
+eSourceFileForDA 5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 9
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_AttrDerivationOper 4
+
+eSourceFileForDA 5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      127045439
+
+eParameter 4
+aShortDesc Internal Entity Structure
+aDataType  S
+aZKey      127045440
+
+eParameter 4
+aShortDesc Internal Attrib Structure
+aDataType  S
+aZKey      127045441
+
+eParameter 4
+aShortDesc Get Or Set Flag
+aDataType  N
+aZKey      127045442
+
+ePOD       2
+aNAME      TZCMRCRO
+aZKey      127045437
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SqlServer ODBC TB
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      DB2 MVS Ger
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      ACC_REP
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      Access ODBC TB
+aGenerateExecutable KZSIACC
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      DB2_Rep
+aZKey      90014023
+aDesc      Repository DB2 NT
+aParadigm  R
+aDBMS      DB2 NT TB
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDisplayOwner Y
+
+eZ_MetaDef 2
+aName      TZCMRCRO
+aZKey      1329909
+aType      7
+aLastUpdateDate 19951102200030000
+aLastCheckInDate 19951102203051110
+aDesc      Reusable CPLR Object
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i19        7
+i22        7
+i25        7
+i31        7
+i41        7
+i44        13
+i49        6
+i50        7
+i52        9
+i53        10
+i55        12
+i56        13
+i58        15
+i59        16
+i61        18
+i62        7
+i64        21
+i65        7
+i67        24
+i68        7
+i70        27
+i71        28
+i74        7
+i75        32
+i76        33
+i77        34
+i82        7
+i85        13
+i88        16
+i94        7
+i97        13
+i100       7
+i103       7
+i106       13
+i109       13
+i112       16
+i114       1
+i115       92
+i116       93
+i117       7
+i118       95
+i119       96
+i120       13
+i121       98
+i122       99
+i123       7
+i124       101
+i125       102
+i126       7
+i127       104
+i128       105
+i129       13
+i130       107
+i131       108
+i132       13
+i133       110
+i134       111
+i135       16
+i136       113
+i137       2
+i138       80
+i139       81
+i140       7
+i141       83
+i142       84
+i143       13
+i144       86
+i145       87
+i146       16
+i147       89
+i148       90
+i149       91
+i150       3
+i151       48
+i152       6
+i153       7
+i154       51
+i155       9
+i156       10
+i157       54
+i158       12
+i159       13
+i160       57
+i161       15
+i162       16
+i163       60
+i164       18
+i165       7
+i166       63
+i167       21
+i168       7
+i169       66
+i170       24
+i171       7
+i172       69
+i173       27
+i174       28
+i175       72
+i176       73
+i177       7
+i178       32
+i179       33
+i180       34
+i181       78
+i182       79
+i183       4
+i184       5
+i185       6
+i186       7
+i187       8
+i188       9
+i189       10
+i190       11
+i191       12
+i192       13
+i193       14
+i194       15
+i195       16
+i196       17
+i197       18
+i198       7
+i199       20
+i200       21
+i201       7
+i202       23
+i203       24
+i204       7
+i205       26
+i206       27
+i207       28
+i208       29
+i209       30
+i210       7
+i211       32
+i212       33
+i213       34
+i214       35
+i215       36
+i216       37
+i217       45
+i218       46
+i219       47
+i220       38
+i221       39
+i222       40
+i223       7
+i224       42
+i225       43
+i226       13
+i227       33
+i228       32
+i240       32
+i241       33

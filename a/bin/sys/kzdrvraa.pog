@@ -1,0 +1,56 @@
+z1000-Zeidon    KZDRVRAA TZOGSRCO 04/03/06   19:23:30 1.0b0    
+eGlobalOperationGroup 1
+aZKey      1319667
+aName      KZDRVRAA
+aExtension C
+aDomainAndGlobalOpGroupName KZDRVRAA
+
+eOperation 2
+aName      fnPainterCall
+aZKey      1319668
+aDesc      TZPNTRAD common Painter Call
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc Message Type
+aDataType  N
+aZKey      1319669
+
+eParameter 3
+aShortDesc Subtask View
+aDataType  V
+aZKey      1319670
+
+eParameter 3
+aShortDesc Dialog View
+aDataType  V
+aZKey      1319671
+
+eParameter 3
+aShortDesc Window Name
+aDataType  S
+aZKey      1319672
+
+eOperation 2
+aName      PrintActiveWindow
+aZKey      1319686
+aDesc      Print the active window
+aType      G
+aReturnDesc nReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      13303694
+
+eZ_MetaDef 2
+aName      KZDRVRAA
+aZKey      1319667
+aType      14
+aLastUpdateDate 19950824211842000
+aLastCheckInDate 19951102203051110
+

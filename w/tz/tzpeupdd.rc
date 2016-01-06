@@ -1,0 +1,2 @@
+// tzpeupdd.rc : Defines the resources for the Presentation Environment Dialog
+TZPEUPDD                ICON    DISCARDABLE     "TZPEUPDD.ICO"

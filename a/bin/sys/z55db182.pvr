@@ -1,0 +1,17 @@
+rZeidon    Z55DB182 TZWDVORO 11/02/95   20:53:49 1.0a     
+eViewObjRef 1,192
+aZKey      90026370
+aName      ACCOUNTLST
+
+eLOD       2,192
+aZKey      1331198
+aName      ACCOUNT
+aDesc      Test old ACDIAL1
+
+eZ_MetaDef 2,192
+aName      ACCOUNTLST
+aZKey      90026370
+aType      9
+aLastUpdateDate 19950907192400000
+aLastCheckInDate 19951102203051110
+

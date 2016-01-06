@@ -1,0 +1,11 @@
+z10000Zeidon    Z53F73A8 TZWDVORO 03/23/01   12:01:11 1.0a     
+eViewObjRef 1
+aZKey      88044456
+aName      ODBC_EntityInfo
+aDesc      Used to map entity information for ODBC data
+
+eLOD       2
+aZKey      90040820
+aName      TZDBHODO
+aDesc      This is a db-handler object.  It is used to specify information that is specific to ODBC databases.
+

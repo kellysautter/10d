@@ -1,0 +1,25 @@
+#if defined( __WIN32__ )
+   NAME         KZOENGWA
+;; CODE      PRELOAD MOVEABLE DISCARDABLE
+;; DATA      PRELOAD SINGLE
+#else
+   NAME         KZOENGWA
+   EXETYPE      WINDOWS
+   STUB         'WINSTUB.EXE'
+   CODE  MOVEABLE
+   DATA  FIXED SINGLE
+   HEAPSIZE     2048
+   STACKSIZE    16384
+#endif
+
+
+; All functions that will be called by any Windows routine
+; MUST be exported.
+
+EXPORTS
+        MainWndProc   @1   ; name of window processing function
+        LogonDlgProc  @2
+        AboutDlgProc  @3
+        LogTraceDlgProc  @4
+        TraceListWndProc @5
+        SetTraceDlgProc  @8

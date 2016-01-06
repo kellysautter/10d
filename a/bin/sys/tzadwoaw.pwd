@@ -1,0 +1,665 @@
+z10000Zeidon    TZADWOAW TZWDLGSO 05/01/01   23:36:46 1.0b0    
+eDialog    1
+aTag       TZADWOAW
+aZKey      90026031
+aDesc      Auto Design Dialog
+aDLL_Name  TZADWDOD
+
+eDfltWnd   2
+aTag       TZADWOAW
+aCaption   Auto Design Dialog
+aPSDLG_X   27
+aPSDLG_Y   66
+aSZDLG_X   19267887
+aSZDLG_Y   8192143
+aZKey      90026039
+aDIL_Active Y
+aGeneralFlag 0
+
+eWindow    2
+
+eControl   3
+aTag       Dialog Styles
+aText      &Primary Window Styles
+aZKey      90026045
+aSubtype   537395200
+aIdNbr     10
+aPSDLG_X   7
+aPSDLG_Y   49
+aSZDLG_X   179
+aSZDLG_Y   50
+aCtrlBOI   U12
+,3&ES="!$:6%L;V<`
+`
+aSyncKey   1
+
+eCtrlCtrl  4
+aTag       List All
+aText      &List All - (List all instances)
+aZKey      90026046
+aSubtype   536870913
+aIdNbr     13
+aPSDLG_X   14
+aPSDLG_Y   14
+aSZDLG_X   151
+aSZDLG_Y   14
+aCtrlBOI   U3
+#64P`
+`
+aSyncKey   2
+
+eCtrlMap   5
+aZKey      90026047
+
+eControlDef 5
+aTag       RadioBtn
+aZKey      1031
+aKey       1031
+aRT_DLL_Name ZDCTL
+aRT_OperationName RadioBtn
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZRadioMsg
+aPainterConvertOperationName ConvertRadioBtn
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_RADIO
+aRequiresParent Y
+aId        12
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       General
+aText      &General - (No Primary Window)
+aZKey      90026050
+aSubtype   536870912
+aIdNbr     11
+aPSDLG_X   14
+aPSDLG_Y   31
+aSZDLG_X   151
+aSZDLG_Y   14
+aCtrlBOI   U3
+#`$<`
+`
+aSyncKey   4
+
+eCtrlMap   5
+aZKey      90026051
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      90026054
+
+eCtrlMapLOD_Attribute 5
+aZKey      1330784
+aSeqNo_LOD_Entity 10
+aWork      Y
+
+eCtrlMapRelatedEntity 6
+aName      AutoDesignWork
+aIndentName AutoDesignWork
+aIndentLvl 0
+aZKey      1330760
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eCtrlMapER_Attribute 6
+aName      WDOD_Style
+aZKey      1330785
+aLth       1
+
+eCtrlMapER_Domain 7
+aZKey      90000028
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+aDecimalFormat 1234
+
+eCtrlMapView 5
+aZKey      1352545
+aName      TZADWWKO
+
+eControlDef 4
+aTag       RadioGrp
+aZKey      1030
+aKey       1030
+aRT_DLL_Name ZDCTL
+aRT_OperationName RadioBtnGroup
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZRadioMsg
+aPainterConvertOperationName ConvertRadioBtnGroup
+aPainterBitmap RADIO
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_RADIOGRP
+aAcceptsAllParents Y
+aId        11
+aInvisible -1
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      90026055
+aSubtype   536870912
+aIdNbr     16
+aPSDLG_X   234
+aPSDLG_Y   21
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   5
+
+eCtrlMap   4
+aZKey      90026056
+
+eEvent     4
+aType      1
+aZKey      90026057
+
+eEventAct  5
+aTag       ESC
+aType      72
+aZKey      90026041
+
+eControlDef 4
+aTag       PushBtn
+aZKey      1020
+aKey       1020
+aRT_DLL_Name ZDCTL
+aRT_OperationName PushButton
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZPushMsg
+aPainterConvertOperationName ConvertButton
+aPainterBitmap PUSH
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_PUSH
+aAcceptsAllParents Y
+aId        8
+aInvisible -1
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      90026058
+aSubtype   536870912
+aIdNbr     15
+aPSDLG_X   234
+aPSDLG_Y   6
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   6
+
+eCtrlMap   4
+aZKey      90026059
+
+eEvent     4
+aType      1
+aZKey      90026060
+
+eEventAct  5
+aTag       Auto Design Dialog
+aType      72
+aTypeData  Y
+aZKey      90026040
+
+eControlDef 4
+
+eControl   3
+aTag       Dialog Spec Name:
+aText      Dialog Spec Name:
+aZKey      90026061
+aSubtype   537395200
+aIdNbr     6
+aPSDLG_X   7
+aPSDLG_Y   25
+aSZDLG_X   79
+aSZDLG_Y   12
+aSyncKey   14
+
+eCtrlMap   4
+aZKey      90026062
+
+eControlDef 4
+aTag       Text
+aZKey      1000
+aKey       1000
+aRT_DLL_Name ZDCTL
+aRT_OperationName Text
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTextMsg
+aPainterConvertOperationName ConvertText
+aPainterBitmap TEXT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_TEXT
+aAcceptsAllParents Y
+aId        1
+aInvisible -1
+
+eControl   3
+aTag       Dialog Name:
+aText      Dialog Name:
+aZKey      90026063
+aSubtype   537395200
+aIdNbr     1
+aPSDLG_X   7
+aPSDLG_Y   8
+aSZDLG_X   79
+aSZDLG_Y   12
+aSyncKey   16
+
+eCtrlMap   4
+aZKey      90026064
+
+eControlDef 4
+
+eControl   3
+aTag       Text1
+aZKey      90026065
+aSubtype   524288
+aIdNbr     2
+aPSDLG_X   88
+aPSDLG_Y   7
+aSZDLG_X   133
+aSZDLG_Y   14
+aSyncKey   17
+
+eCtrlMap   4
+aZKey      90026066
+
+eCtrlMapLOD_Attribute 5
+aZKey      1325877
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 6
+aName      Dialog
+aIndentName Dialog
+aIndentLvl 0
+aZKey      1325232
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eCtrlMapER_Attribute 6
+aName      Tag
+aZKey      1320814
+aDesc      Unique name for dialog
+aPromptPaintLit Tag
+aListPaintLit Tag
+
+eCtrlMapER_Domain 7
+aZKey      90145848
+aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aName      MetaName
+aDomainType E
+aDataType  S
+aMaxStringLth 8
+aContextRestriction N
+
+eCtrlMapView 5
+aZKey      1332012
+aName      TZWINDOWL
+aDesc      Work view of Dialog object for Actions and ViewObjRef
+
+eControlDef 4
+
+eControl   3
+aTag       ComboBox1
+aZKey      90026067
+aSubtype   36864
+aPSDLG_X   88
+aPSDLG_Y   24
+aSZDLG_X   133
+aSZDLG_Y   142
+aCtrlBOI   U22
+6]Q`]``41/0!,`````%X3/0!,`)``````
+`
+aSyncKey   18
+
+eCtrlMap   4
+aZKey      90026068
+
+eCtrlMapLOD_Attribute 5
+aZKey      1328463
+aSeqNo_LOD_Entity 5
+aWork      Y
+
+eCtrlMapRelatedEntity 6
+aName      Palette
+aIndentName Palette
+aIndentLvl 0
+aZKey      1328449
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eCtrlMapER_Attribute 6
+aName      UIS_Name
+aZKey      1328464
+aLth       32
+
+eCtrlMapER_Domain 7
+aZKey      90000032
+aDesc      Any Character String
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eCtrlMapView 5
+aZKey      1332040
+aName      TZPNTROO
+
+eCtrlMap   4
+aZKey      90026069
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326025
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 6
+aName      W_MetaDef
+aIndentName       W_MetaDef
+aIndentLvl 6
+aZKey      1326021
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+
+eCtrlMapER_Attribute 6
+aName      Name
+aZKey      1321565
+aLth       32
+aDesc      Name of the meta object instance
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+aZKey      1352565
+aName      UI_SpecList
+
+eCtrlMap   4
+aZKey      90026070
+
+eCtrlMapLOD_Entity 5
+aName      W_MetaDef
+aIndentName       W_MetaDef
+aIndentLvl 6
+aZKey      1326021
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+
+eCtrlMap   4
+aZKey      90026071
+
+eCtrlMap   4
+aZKey      90026072
+
+eControlDef 4
+aTag       ComboBox
+aZKey      1050
+aKey       1050
+aRT_DLL_Name ZDCTL
+aRT_OperationName ComboBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZComboBoxMsg
+aPainterConvertOperationName ConvertComboBox
+aPainterBitmap COMBO
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_COMBO
+aAcceptsAllParents Y
+aId        14
+aInvisible -1
+
+eControl   3
+aTag       MsgBar1
+aZKey      97098165
+aSubtype   1
+aPSDLG_X   75
+aPSDLG_Y   110
+aSZDLG_X   127
+aSZDLG_Y   19
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97098166
+
+eControlDef 4
+aTag       MsgBar
+aZKey      2020
+aKey       2020
+aRT_DLL_Name ZDCTL
+aRT_OperationName DIL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZDilMsg
+aPainterConvertOperationName ConvertDIL
+aPainterBitmap DIL
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_DIL
+aId        20
+aInvisible -1
+
+eWndEvent  3
+aType      1
+aZKey      90026073
+
+eWndAct    4
+aTag       InitializeAutoDesign
+aNoMap     Y
+aType      1
+aZKey      90026042
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      oTZWDLGSO_AutoDesignDialog
+aZKey      90026033
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      90026032
+aCM_Managed Y
+aOwnerType D
+aLanguageType C
+aName      TZADWDOD
+aExtension C
+
+eAction    3
+
+eActMap    4
+aZKey      92000396
+
+eActMap    4
+aZKey      92000397
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      oTZWDLGSO_TerminateAutoDesign
+aZKey      90026035
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      90026043
+
+eActMap    4
+aZKey      90026044
+
+eActWndEvent 4
+
+eActOper   4
+aName      oTZWDLGSO_InitializeAutoDesign
+aZKey      90026037
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eWndStyle  3
+aTag       Primary Window
+aZKey      7008558
+aStyle     13565952
+aDesc      Overlapped window with caption, system menu, sizing border, min/
+
+eViewObjRef 2
+aZKey      1352545
+aName      TZADWWKO
+
+eLOD       3
+aZKey      1330759
+aName      TZADWWKO
+
+eViewObjRef 2
+aZKey      1332012
+aName      TZWINDOWL
+aDesc      Work view of Dialog object for Actions and ViewObjRef
+
+eLOD       3
+aZKey      1325104
+aName      TZWDLGSO
+aDesc      Source Dialog Definition
+aDLL_Name  TZLODOPR
+
+eViewObjRef 2
+aZKey      1332040
+aName      TZPNTROO
+
+eLOD       3
+aZKey      1328448
+aName      TZPNTROO
+aDesc      Work Object for Painter Dialog
+
+eViewObjRef 2
+aZKey      1332007
+aName      TZWINDOW
+aDesc      View for looking at whole Window subobject
+
+eLOD       3
+
+eViewObjRef 2
+aZKey      1352565
+aName      UI_SpecList
+
+eLOD       3
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      90026034
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      90026036
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      90026038
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i2         1
+i9         6
+i26        21
+i32        29
+i40        29
+i52        46
+i64        25
+i65        24
+i66        22
+i69        20
+i72        19
+i73        17
+i75        68
+i76        63
+i79        62
+i81        68
+i90        86
+i93        68
+i94        67
+i96        74
+i98        80
+i100       67
+i101       68
+i102       74
+i103       68
+i104       80
+i105       68

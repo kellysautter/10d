@@ -1,0 +1,21 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Project TzAxCtl
+;;
+;; This is a part of the Zeidon ActiveX controls package.
+;; Copyright © 1995 - 1999 QuinSoft, Inc.
+;; All Rights Reserved.
+;;
+;; SUBSYSTEM:    TzAxCtl.dll - ActiveX Control implementations
+;; FILE:         TzAxCtl.def
+;; AUTHOR:
+;;
+;; OVERVIEW
+;; ========
+;; TzAxCtl.def : Declares exports for TzAxCtl.dll
+;;
+
+;;
+;; CHANGE LOG - generated using MERGEDEF.EXE
+;;
+
+EXPORTS

@@ -1,0 +1,18 @@
+rZeidon    Z0145F9B TZWDVORO 11/02/95   20:51:36 1.0a     
+eViewObjRef 1,192
+aZKey      1335195
+aName      TZWND_List
+
+eLOD       2,192
+aZKey      1325104
+aName      TZWDLGSO
+aDesc      Source Dialog Definition
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZWND_List
+aZKey      1335195
+aType      9
+aLastUpdateDate 19950824213636000
+aLastCheckInDate 19951102203051110
+

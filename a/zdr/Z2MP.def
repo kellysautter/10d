@@ -1,0 +1,23 @@
+; Z2MP.def : Declares the module parameters for the DLL.
+
+LIBRARY      "Z2MP"
+
+;;
+;; Maximum Ordinal value in this "OPERATION" section is > @1014 <
+;;
+
+EXPORTS
+   ApproxDistance                                                      @1001
+   EllipsoidDistance                                                   @1002
+   GCAzimuth                                                           @1003
+   GCDistance                                                          @1004
+   GetDistance                                                         @1005
+   GetDistanceRectangle                                                @1006 
+   MapPointIsActive                                                    @1007
+   MapPointSetPushPin                                                  @1008
+   MapPointShowApplication                                             @1009
+   MapPointStart                                                       @1010
+   MapPointStartFromHold                                               @1011
+   MapPointStop                                                        @1012
+   MapPointStopAndHold                                                 @1013
+   MapPointValidateAddress                                             @1014

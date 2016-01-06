@@ -1,0 +1,15 @@
+   NAME         KZOENGWA
+;; CODE      PRELOAD MOVEABLE DISCARDABLE
+;; DATA      PRELOAD SINGLE
+
+
+; All functions that will be called by any Windows routine
+; MUST be exported.
+
+EXPORTS
+        MainWndProc   @1   ; name of window processing function
+        LogonDlgProc  @2
+        AboutDlgProc  @3
+        LogTraceDlgProc  @4
+        TraceListWndProc @5
+        SetTraceDlgProc  @8

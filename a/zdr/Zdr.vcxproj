@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>ZDr</ProjectName>
+    <SccProjectName />
+    <SccLocalPath />
+    <Keyword>MFCProj</Keyword>
+    <ProjectGuid>{E5CCF6EE-33FA-405C-9FC5-F68F22C4905C}</ProjectGuid>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(KZD):\$(KZV)\w\bin\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\src\mfc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;__WIN32__;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\Zdr.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+      <AdditionalOptions>/FS</AdditionalOptions>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\Zdr.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\Zdr.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>..\..\w\bin\ZDr.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ZDrApp.lib;kzoengaa.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_DEBUG;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Debug\Zdr.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+      <AdditionalOptions>/FS</AdditionalOptions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\Zdr.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\Zdr.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(KZD):\$(KZV)\w\bin\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kzoengaa.lib;kzrpsrco.lib;ZDrApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/FS</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ZDr.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZDr.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ZdCtl.h" />
+    <ClInclude Include="ZDCTLSS.H" />
+    <ClInclude Include="ZDlgUnits.h" />
+    <ClInclude Include="ZDr.h" />
+    <ClInclude Include="ZDrApp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="abhorzup.bmp" />
+    <Image Include="abvertup.bmp" />
+    <Image Include="ACTBARUP.bmp" />
+    <Image Include="ALGNBTUP.bmp" />
+    <Image Include="ALGNLFUP.bmp" />
+    <Image Include="ALGNRTUP.bmp" />
+    <Image Include="ALGNTPUP.bmp" />
+    <Image Include="cbc.bmp" />
+    <Image Include="CBLED.bmp" />
+    <Image Include="cbx.bmp" />
+    <Image Include="CHANGEUP.bmp" />
+    <Image Include="CMAIN.bmp" />
+    <Image Include="DLETUP.bmp" />
+    <Image Include="EQHORZUP.bmp" />
+    <Image Include="EQVERTUP.bmp" />
+    <Image Include="prevend.bmp" />
+    <Image Include="prevhome.bmp" />
+    <Image Include="prevnext.bmp" />
+    <Image Include="prevone.bmp" />
+    <Image Include="prevprev.bmp" />
+    <Image Include="prevprin.bmp" />
+    <Image Include="prevtwo.bmp" />
+    <Image Include="prevzin.bmp" />
+    <Image Include="prevzout.bmp" />
+    <Image Include="printer.bmp" />
+    <Image Include="RES\ACCTBAR.BMP" />
+    <Image Include="RES\ActiveX.bmp" />
+    <Image Include="RES\Alarm.bmp" />
+    <Image Include="RES\Appoint.bmp" />
+    <Image Include="RES\CalBack.bmp" />
+    <Image Include="RES\CalBkGnd.bmp" />
+    <Image Include="RES\CalBtns.bmp" />
+    <Image Include="RES\Calendar.bmp" />
+    <Image Include="RES\color_ma.bmp" />
+    <Image Include="RES\DateBtns.bmp" />
+    <Image Include="RES\DateTime.bmp" />
+    <Image Include="RES\GRID.bmp" />
+    <Image Include="RES\images.bmp" />
+    <Image Include="RES\painter.bmp" />
+    <Image Include="RES\palette.bmp" />
+    <Image Include="RES\Pinned.ico" />
+    <Image Include="res\toolbar.bmp" />
+    <Image Include="RES\ToolbarX.bmp" />
+    <Image Include="RES\Unpinned.ico" />
+    <Image Include="RES\Workday.bmp" />
+    <Image Include="res\ZDr.ico" />
+    <Image Include="RES\ZDrDoc.ico" />
+    <Image Include="RES\ZDX.ICO" />
+    <Image Include="SIZEHTDN.bmp" />
+    <Image Include="SIZEHTUP.bmp" />
+    <Image Include="SIZEHWUP.bmp" />
+    <Image Include="SIZEWDUP.bmp" />
+    <Image Include="TreeClosed.bmp" />
+    <Image Include="TreeOpened.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="BCOPY1.cur" />
+    <CustomBuild Include="BCOPYM.cur" />
+    <CustomBuild Include="BDROPNOT.cur" />
+    <CustomBuild Include="BMOVE.cur" />
+    <CustomBuild Include="BMOVE1.cur" />
+    <CustomBuild Include="BMOVEM.cur" />
+    <CustomBuild Include="BPROMOTE.cur" />
+    <CustomBuild Include="DROPNOT.cur" />
+    <CustomBuild Include="DROPOKC1.cur" />
+    <CustomBuild Include="DROPOKCM.cur" />
+    <CustomBuild Include="DROPOKM.CUR" />
+    <CustomBuild Include="DROPOKM1.cur" />
+    <CustomBuild Include="DROPOKMM.cur" />
+    <CustomBuild Include="Hand1.cur" />
+    <CustomBuild Include="hand2.cur" />
+    <CustomBuild Include="HandX.cur" />
+    <CustomBuild Include="HSPLIT.cur" />
+    <CustomBuild Include="RES\cursor1.cur" />
+    <CustomBuild Include="VSPLIT.cur" />
+    <CustomBuild Include="XSPLIT.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\w\tz\tzedvmld.vcxproj">
+      <Project>{62004c7d-8b52-4e80-b367-1d2b0215a8d9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\tz\ax\truegrid\truegrid.vcxproj">
+      <Project>{2b68362b-0336-4e95-959f-62a143748f45}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\tz\ax\tzaxctl\TzAxCtl.vcxproj">
+      <Project>{056f321b-4498-4b42-bb50-9c1b7d062f3c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\tz\ax\tzvmledt\tzvmledt.vcxproj">
+      <Project>{559592b4-3b66-4206-870b-06dfc4c72611}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\tz\ax\_edit\tbedit.vcxproj">
+      <Project>{0b62d126-4046-47e9-b3e0-05bee677cd5e}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="jpeglib\JPegLib.vcxproj">
+      <Project>{87f9cc3f-44b0-4eef-9c90-a7901ce420d9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Tzctl.vcxproj">
+      <Project>{dbd15b43-74c3-4280-a5e2-e518844410fb}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Z2MP.vcxproj">
+      <Project>{dd6fbc7b-ae10-4b9e-832c-f8585315ff1b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="ZdCtl.vcxproj">
+      <Project>{126fc027-c562-4dbe-9a83-a502513e9f02}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="ZdrApp.vcxproj">
+      <Project>{9fb0ccae-7409-40ab-bd2a-fe501c681094}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="ZSEMail.vcxproj">
+      <Project>{04a79da6-b17e-4b0b-ad96-b2e7a8afa3fd}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

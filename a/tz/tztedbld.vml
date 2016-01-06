@@ -1,0 +1,891 @@
+/*
+CHANGE LOG
+2001.05.09  BL  JOINS
+   Update GUI
+   Bugfix for Derived Entities and correct DataSource
+   If LOD not checked out, disable all functions for update.
+2001.04.26  HH
+   SQL_DBH functions for standard SQL DBHandler.
+1999.09.22  DGC
+   Added ability to set DBH-specific info in the TE.
+1999.07.21  DGC
+   Added some code for QuinSoft dbh stuff.
+*/
+
+DIALOG OPERATION
+List_Prebuild( VIEW vSubtask )
+
+   VIEW TZTEDBLO BASED ON LOD TZTEDBLO
+
+   ActivateOI_FromFile( TZTEDBLO, "TZTEDBLO", vSubtask, "tztedblo.xdl",
+                        zMULTIPLE )
+   IF TZTEDBLO = 0
+      ACTIVATE TZTEDBLO EMPTY
+   END
+
+   NAME VIEW TZTEDBLO "TZTEDBLO"
+
+END
+
+
+DIALOG OPERATION
+SaveList( VIEW vSubtask )
+
+   VIEW TZTEDBLO REGISTERED AS TZTEDBLO
+
+   CommitOI_ToFile( TZTEDBLO, "tztedblo.xdl", zASCII )
+
+END
+
+DIALOG OPERATION
+GoToSubDialog( VIEW vSubtask )
+   STRING ( 32 )  szDialog
+   STRING ( 32 )  szWindow
+
+   VIEW TZTEDBLO REGISTERED AS TZTEDBLO
+
+   SET CURSOR FIRST TZTEDBLO.DBS_SubDialog
+      WHERE TZTEDBLO.DBS_SubDialog.Type = "MAIN"
+
+   IF RESULT >= zCURSOR_SET
+      szDialog = TZTEDBLO.DBS_SubDialog.Dialog
+      szWindow = TZTEDBLO.DBS_SubDialog.Window
+
+      SetWindowActionBehavior( vSubtask,
+                                                    zWAB_StartModalWindow,
+                                                    szDialog, szWindow )
+   END
+END
+
+DIALOG OPERATION
+ODBC_PostBuild( VIEW vSubtask )
+
+   VIEW TZTEDBLO REGISTERED AS TZTEDBLO
+   VIEW TZDBHODO BASED ON LOD TZDBHODO
+   STRING ( 32 )  szOD_Name
+   SHORT nRC
+
+   nRC = SetOI_FromBlob( TZDBHODO, szOD_Name, vSubtask,
+                         TZTEDBLO, "TE_DBMS_Source", "DBH_Data", zNOI_OKAY )
+   IF  nRC = -1
+      ACTIVATE  TZDBHODO EMPTY
+      CREATE ENTITY TZDBHODO.ODBC
+   END
+
+   NAME VIEW TZDBHODO "TZDBHODO"
+
+END
+
+DIALOG OPERATION
+ODBC_StoreOI_InBlob( VIEW vSubtask )
+
+   VIEW TZTEDBLO REGISTERED AS TZTEDBLO
+   VIEW TZDBHODO REGISTERED AS TZDBHODO
+
+   SetBlobFromOI( TZTEDBLO, "TE_DBMS_Source", "DBH_Data", TZDBHODO, 0 )
+
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: DB2_ApplA_Main_Prebuild
+//
+DIALOG OPERATION
+DB2_ApplA_Main_Prebuild( VIEW vSubtask )
+
+   VIEW  vApSvDisO    // ApplA object.
+   VIEW  TZDBHDBO BASED ON LOD TZDBHDBO
+   STRING ( 32 )  szOD_Name
+   SHORT nRC
+
+   GET VIEW vApSvDisO NAMED "ApSvDisO"
+
+   nRC = SetOI_FromBlob( TZDBHDBO, szOD_Name, vSubtask,
+                         vApSvDisO, "DS_TE_SourceAssignment", "DBH_Data",
+                         zNOI_OKAY )
+   IF  nRC = -1
+      ACTIVATE TZDBHDBO EMPTY
+      CREATE ENTITY TZDBHDBO.Root
+      CREATE ENTITY TZDBHDBO.ApplA
+   END
+
+   NAME VIEW TZDBHDBO "TZDBHDBO"
+
+END
+
+DIALOG OPERATION
+DB2_ApplA_Main_Close( VIEW vSubtask )
+
+   VIEW vApSvDisO    // ApplA object.
+   VIEW TZDBHDBO REGISTERED AS TZDBHDBO
+
+   GET VIEW vApSvDisO NAMED "ApSvDisO"
+
+   SetBlobFromOI( vApSvDisO, "DS_TE_SourceAssignment", "DBH_Data", TZDBHDBO, 0 )
+
+  DropView( TZDBHDBO )
+
+END
+
+//************************************************************************************************//
+//
+//  This operation is called from prebuild for the SqlServerViaODBC_TE_Main
+//  window.  This oper pulls the TZDBHODO OI from the DBH_Data attribute in
+//  the TE OI.
+//
+DIALOG OPERATION
+SqlSO_TE_Main_Prebuild( VIEW vSubtask )
+
+   VIEW  vTZTENVRO    // TE object.
+   VIEW  vTZTEDBLO     BASED ON LOD TZTEDBLO
+   VIEW  TZDBHODO      BASED ON LOD TZDBHODO
+   VIEW  BaseTZDBHODO  BASED ON LOD TZDBHODO
+   STRING ( 32 )  szOD_Name
+   SHORT nRC
+
+   // Get the TE view.
+   GET VIEW vTZTENVRO NAMED "TE_DB_Environ"
+
+   // Try to pull out the DBH OI from the TE.
+   nRC = SetOI_FromBlob( TZDBHODO, szOD_Name, vSubtask,
+                         vTZTENVRO, "TE_DBMS_Source", "DBH_Data",
+                         zNOI_OKAY )
+   IF  nRC = -1
+      // Didn't exist so create an empty one.
+      ACTIVATE TZDBHODO EMPTY
+      CREATE ENTITY TZDBHODO.ODBC
+
+      // Copy values from TZTEDBLO object
+      GET VIEW vTZTEDBLO NAMED "TZTEDBLO"
+      nRC = SetOI_FromBlob( BaseTZDBHODO, szOD_Name, vSubtask,
+                            vTZTEDBLO, "TE_DBMS_Source", "DBH_Data",
+                            zNOI_OKAY )
+
+      IF nRC != -1
+         SetMatchingAttributesByName( TZDBHODO, "ODBC",
+                                      BaseTZDBHODO, "ODBC", zSET_ALL )
+         DropView( BaseTZDBHODO )
+      END
+
+      TZDBHODO.ODBC.AddTableNameToFK_Override = vTZTEDBLO.TE_DBMS_Source.DBS_FullFK_Name
+   END
+
+   IF TZDBHODO.ODBC.DropTables = ""
+      TZDBHODO.ODBC.DropTables = "Y"
+   END
+
+   IF TZDBHODO.ODBC.GenDropIdxs = ""
+      TZDBHODO.ODBC.GenDropIdxs = "N"
+   END
+
+   IF TZDBHODO.ODBC.GenCreateTables = ""
+      TZDBHODO.ODBC.GenCreateTables = "Y"
+   END
+
+   IF TZDBHODO.ODBC.GenCreateIdxs = ""
+      TZDBHODO.ODBC.GenCreateIdxs = "Y"
+   END
+
+   NAME VIEW TZDBHODO "TZDBHODO"
+
+END
+
+DIALOG OPERATION
+SqlSO_TE_Main_Close( VIEW vSubtask )
+
+   VIEW vTZTENVRO    // TE object.
+   VIEW TZDBHODO REGISTERED AS TZDBHODO
+
+   GET VIEW vTZTENVRO NAMED "TE_DB_Environ"
+
+   SetBlobFromOI( vTZTENVRO, "TE_DBMS_Source", "DBH_Data", TZDBHODO, 0 )
+
+   DropView( TZDBHODO )
+
+END
+
+DIALOG OPERATION
+SqlSO_TE_Main_Cancel( VIEW vSubtask )
+
+   VIEW TZDBHODO REGISTERED AS TZDBHODO
+   DropView( TZDBHODO )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ODBC_LOD_EntityChanged
+**
+**    Called when user selects a different entity in the tree control.    It "unpacks" the ODBC OI from
+**    the POD_Entity entity.
+**    .
+**
+*************************************************************************************************/
+DIALOG OPERATION
+ODBC_LOD_EntityChanged( VIEW vSubtask )
+
+   VIEW  TZDBHODO  REGISTERED AS ODBC_EntityInfo
+   VIEW  TZZOLODO  REGISTERED AS TZZOLODO
+   VIEW  TZTENVRO  REGISTERED AS TZTENVRO
+   STRING ( 32 )  szOD_Name
+   SHORT nIsCheckedOut
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, TZZOLODO, zSOURCE_LOD_META )
+   SetCtrlState( vSubtask, "JoinCheck", zCONTROL_STATUS_ENABLED, FALSE )
+
+   IF nIsCheckedOut = 1
+
+      // do not allow any input to the Join checkbox, if we are on the root
+      //  or if the currrent LOD entity is work or if the currrent LOD entity is derived
+      IF TZZOLODO.ER_RelLinkRec EXISTS AND TZZOLODO.LOD_EntityParent.Work != "Y"
+         AND TZZOLODO.LOD_EntityParent.Derived != "Y"
+
+         // Set the cursor to the POD_Entity for the current TE Source.
+         SET CURSOR FIRST TZZOLODO.POD_Entity
+             WHERE  TZZOLODO.TE_DBMS_SourceForEntity.ZKey = TZTENVRO.TE_DBMS_Source.ZKey
+
+         IF RESULT < zCURSOR_SET
+            // POD_Entity doesn't exist so create one.
+            CREATE ENTITY TZZOLODO.POD_Entity
+            INCLUDE TZZOLODO.TE_DBMS_SourceForEntity FROM TZTENVRO.TE_DBMS_Source
+
+            ACTIVATE TZDBHODO EMPTY
+            CREATE ENTITY TZDBHODO.ODBC
+
+            // Now set the string being displayed.
+            TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name + "JOIN = "
+         ELSE
+            // POD_Entity exists so activate the ODBC object from the blob.
+            SetOI_FromBlob( TZDBHODO, szOD_Name, vSubtask,
+                            TZZOLODO, "POD_Entity", "DBH_Info", zMULTIPLE )
+
+            // Make sure the ODBC OI exists and has a root entity.
+            IF TZDBHODO = 0
+               ACTIVATE TZDBHODO EMPTY
+            END
+
+            IF TZDBHODO.ODBC DOES NOT EXIST
+               CREATE ENTITY TZDBHODO.ODBC
+            END
+
+            // Now set the string being displayed.
+            TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name + "JOIN = " +
+                               TZDBHODO.ODBC.JoinWithParent
+         END
+
+         // not the root and not work and not derived
+         SetCtrlState( vSubtask,      "JoinCheck", zCONTROL_STATUS_ENABLED, TRUE )
+         NAME VIEW TZDBHODO "ODBC_EntityInfo"
+      END
+   END // ENDIF nIsCheckedOut = 1
+
+   // Refresh the controls in the SqlDisplay area.
+   RefreshCtrl( vSubtask, "JoinCheck" )
+   RefreshCtrl( vSubtask, "edDescription" )
+   RefreshCtrl( vSubtask, "cbDerived" )
+   RefreshCtrl( vSubtask, "cbWork" )
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ODBC_LOD_EntityAboutToBeChanged
+**
+**    User has selected a new entity.  Before we change it, we may have to store the ODBC object into the
+**    blob.
+**
+*************************************************************************************************/
+DIALOG OPERATION
+ODBC_LOD_EntityAboutToBeChanged( VIEW vSubtask )
+
+   VIEW  TZDBHODO  REGISTERED AS ODBC_EntityInfo
+   VIEW  TZZOLODO  REGISTERED AS TZZOLODO
+   SHORT nIsCheckedOut
+
+   // Check to see if there is already an ODBC object loaded.  If it is then store it
+   // in the blob.
+   IF TZDBHODO != 0
+      nIsCheckedOut = ComponentIsCheckedOut( vSubtask, TZZOLODO, zSOURCE_LOD_META )
+
+      IF nIsCheckedOut = 1
+         SetBlobFromOI( TZZOLODO, "POD_Entity", "DBH_Info", TZDBHODO, 0 )
+      END
+      DropView( TZDBHODO )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SQL_DBH_LOD_EntityChanged
+**
+**    Called when user selects a different entity in the tree control.    It "unpacks" the ODBC OI from
+**    the POD_Entity entity.
+**
+*************************************************************************************************/
+DIALOG OPERATION
+SQL_DBH_LOD_EntityChanged( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+   VIEW TZTENVRO  REGISTERED AS TZTENVRO
+   SHORT nIsCheckedOut
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, TZZOLODO, zSOURCE_LOD_META )
+
+   IF nIsCheckedOut = 1
+      // do not allow any input to the Join checkbox, if we are on the root
+      //  or if the currrent LOD entity is work or if the currrent LOD entity is derived
+      IF TZZOLODO.ER_RelLinkRec EXISTS AND TZZOLODO.LOD_EntityParent.Work != "Y"
+         AND TZZOLODO.LOD_EntityParent.Derived != "Y"
+
+         // Set the cursor to the POD_Entity for the current TE Source.
+         SET CURSOR FIRST TZZOLODO.POD_Entity
+                    WHERE  TZZOLODO.TE_DBMS_SourceForEntity.ZKey = TZTENVRO.TE_DBMS_Source.ZKey
+
+         IF RESULT < zCURSOR_SET
+            // POD_Entity doesn't exist so create one.
+            CREATE ENTITY TZZOLODO.POD_Entity
+
+            TZZOLODO.POD_Entity.SQL_JoinWithParent = "N"
+            TZZOLODO.POD_Entity.SQL_ActivateInOne = "N"
+            INCLUDE TZZOLODO.TE_DBMS_SourceForEntity FROM TZTENVRO.TE_DBMS_Source
+         END
+
+         // not the root and not work and not derived
+         SetCtrlState( vSubtask,      "SQL_DBH_JoinCheck", zCONTROL_STATUS_ENABLED, TRUE )
+         SetCtrlState( vSubtask,      "SQL_DBH_OneSelCheck", zCONTROL_STATUS_ENABLED, TRUE )
+      ELSE
+         SetCtrlState( vSubtask,      "SQL_DBH_JoinCheck", zCONTROL_STATUS_ENABLED, FALSE )
+         SetCtrlState( vSubtask,      "SQL_DBH_OneSelCheck", zCONTROL_STATUS_ENABLED, FALSE )
+      END
+
+      // Refresh checkbox and set the string being displayed.
+      IF  TZZOLODO.POD_Entity EXISTS
+          TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name +
+                                                 " JOIN = " + TZZOLODO.POD_Entity.SQL_JoinWithParent
+      ELSE
+          TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name + " JOIN = N"
+      END
+   END
+
+   RefreshCtrl( vSubtask, "SQL_DBH_JoinCheck" )
+   RefreshCtrl( vSubtask, "SQL_DBH_OneSelCheck" )
+   RefreshCtrl( vSubtask, "edDescription" )
+   RefreshCtrl( vSubtask, "cbDerived" )
+   RefreshCtrl( vSubtask, "cbWork" )
+END
+
+
+
+/*************************************************************************************************
+**
+**    OPERATION: SQL_DBH_LOD_BeforeEntityChange
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+SQL_DBH_LOD_BeforeEntityChange( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+
+   // Map the control, neccesary as be have "Bypass Input Data Mapping"
+   // TZZOLODO pointing to the "old" Entity
+   IF  TZZOLODO.POD_Entity EXISTS
+       MapCtrl( vSubtask, "SQL_DBH_JoinCheck" )
+       MapCtrl( vSubtask, "SQL_DBH_OneSelCheck" )
+   END
+END
+
+
+
+/*************************************************************************************************
+**
+**    OPERATION: SQL_DBH_LOD_Prebuild
+**
+**    Called for the SQL_DBH_LOD window prebuild.
+**    Makes sure that TZZOLODO has no subobjects set.
+**
+*************************************************************************************************/
+DIALOG OPERATION
+SQL_DBH_LOD_Prebuild( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+
+   ResetView( TZZOLODO )
+   CreateTemporalSubobjectVersion( TZZOLODO, "LOD_EntityParent" )
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: ODBC_LOD_Prebuild
+**
+**    Called for the ODBC_LOD window prebuild.    Makes sure that TZZOLODO has no subobjects set.
+**
+*************************************************************************************************/
+DIALOG OPERATION
+ODBC_LOD_Prebuild( VIEW vSubtask )
+
+   VIEW   TZZOLODO  REGISTERED AS TZZOLODO
+   SHORT  nIsCheckedOut
+
+   ResetView( TZZOLODO )
+   CreateTemporalSubobjectVersion( TZZOLODO, "LOD_EntityParent" )
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, TZZOLODO, zSOURCE_LOD_META )
+
+   IF nIsCheckedOut = 1
+      // Turn on the JOIN flag for all NEW entities that have a x-to-one relationship
+      // with it's parent.  "NEW" entities are entities that do not have a POD_Entity.
+      ODBC_LOD_SetX_ToOne( vSubtask )
+   END
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: ODBC_LOD_OK
+**
+**    Performs "Accept" on TZZOLODO
+**
+*************************************************************************************************/
+DIALOG OPERATION
+ODBC_LOD_OK( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+
+   ODBC_LOD_EntityAboutToBeChanged( vSubtask )
+
+   ResetView( TZZOLODO )
+   AcceptSubobject( TZZOLODO, "LOD_EntityParent" )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ODBC_LOD_Cancel
+**
+**    Performs "Cancel" on TZZOLODO
+**
+*************************************************************************************************/
+DIALOG OPERATION
+ODBC_LOD_Cancel( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+
+   ResetView( TZZOLODO )
+   CancelSubobject( TZZOLODO, "LOD_EntityParent" )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: fnCountAttributes
+**
+**    Counts non-work attributes.
+**
+*************************************************************************************************/
+LOCAL OPERATION
+fnCountAttributes( VIEW  TZZOLODO,
+                   SHORT AttribCount )
+
+    FOR EACH TZZOLODO.LOD_AttributeRec
+        IF TZZOLODO.LOD_AttributeRec.Work != "Y" AND
+           TZZOLODO.LOD_AttributeRec.Hidden != "Y"
+
+            AttribCount = AttribCount + 1
+        END
+    END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: fnCountJoinedAttributes
+**
+**    This counts the number of attributes for all entities joined with the current entity and it's
+**    children.
+**    .
+**
+*************************************************************************************************/
+LOCAL OPERATION
+fnCountJoinedAttributes( VIEW TZZOLODO BASED ON LOD TZZOLODO,
+                         SHORT usAttribCount,
+                         SHORT bIncludeRoot )
+
+   VIEW TZDBHODO BASED ON LOD TZDBHODO
+   STRING ( 32 )  szOD_Name
+   SHORT nRC
+
+   // If bIncludeRoot is 0, then we only want entities that have the
+   // Join flag set.
+   IF  bIncludeRoot = 0
+       IF TZZOLODO.POD_Entity DOES NOT EXIST
+           RETURN 0
+       END
+
+       nRC = SetOI_FromBlob( TZDBHODO, szOD_Name, TZZOLODO,
+                             TZZOLODO, "POD_Entity", "DBH_Info", zNOI_OKAY )
+       IF  nRC = -1
+           RETURN 0
+       END
+
+       IF  TZDBHODO.ODBC.JoinWithParent != "Y"
+           DropView( TZDBHODO )
+           RETURN 0
+       END
+
+       DropView( TZDBHODO )
+
+   END
+
+   fnCountAttributes( TZZOLODO, usAttribCount )
+
+   FOR EACH TZZOLODO.LOD_EntityChild
+       SetViewToSubobject( TZZOLODO, "LOD_EntityChild" )
+       fnCountJoinedAttributes( TZZOLODO, usAttribCount, 0 )
+       ResetViewFromSubobject( TZZOLODO )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: fnCheckIfJoinIsOK
+**
+**    Verifies that a join is OK for an entity
+**
+**    Returns 0 if entity can not be joined.
+**
+*************************************************************************************************/
+LOCAL OPERATION
+fnCheckIfJoinIsOK( VIEW TZZOLODO_Orig, SHORT bDisplayMessage )
+
+   VIEW TZZOLODO BASED ON LOD TZZOLODO
+   VIEW TZDBHODO BASED ON LOD TZDBHODO
+   STRING ( 200 ) szMessage
+   STRING ( 32 )  szOD_Name
+   SHORT bCountAttribs
+   SHORT AttribCount
+   SHORT bDone
+   SHORT nRC
+
+   // Create a copy so we can muck with the cursors.
+   CreateViewFromViewForTask( TZZOLODO, TZZOLODO_Orig, TZZOLODO_Orig )
+
+   AttribCount = 0
+   bCountAttribs = 1   // Assume we need to count the attributes.
+   IF TZZOLODO.POD_Entity EXISTS
+       nRC = SetOI_FromBlob( TZDBHODO, szOD_Name, TZZOLODO_Orig,
+                             TZZOLODO, "POD_Entity", "DBH_Info", zNOI_OKAY )
+       IF nRC >= 0
+           IF TZDBHODO.ODBC.JoinWithParent = "Y"
+              // The current LOD_EntityParent has the join flag turned on.  This
+              // means that when we call fnCountJoinedAttributes() later that
+              // these attributes will be counted, so we don't need to count
+              // them now.
+              bCountAttribs = 0
+           END
+
+           DropView( TZDBHODO )
+       END
+   END
+
+   IF bCountAttribs = 1
+       // Current LOD_EntityParent doesn't have the Join flag set.  This
+       // will throw off our attrib count later unless we count the
+       // attribs that are part of this entity and it's children, so
+       // let's do it now.
+       fnCountJoinedAttributes( TZZOLODO, AttribCount, 1 )
+   END
+
+   // If we can not reset the view from the subobject then we must be dealing
+   // with the root entity.  Join is invalid for the root entity.
+   IF  ResetViewFromSubobject( TZZOLODO ) = 1
+       IF  bDisplayMessage != 0
+          MessageSend( TZZOLODO, "DBH10001", "DBH Error",
+                       "Join=Y is not allowed for the root entity.",
+                       zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+       END
+
+       DropView( TZZOLODO )
+       RETURN 0
+   END
+
+   // Find the top-most parent with the Join flag set.
+   LOOP
+       bDone = 1  // Assume that current entity doesn't have flag set.
+
+       IF TZZOLODO.POD_Entity EXISTS
+           nRC = SetOI_FromBlob( TZDBHODO, szOD_Name, TZZOLODO_Orig,
+                                 TZZOLODO, "POD_Entity", "DBH_Info", zNOI_OKAY )
+           IF  nRC >= 0
+               IF TZDBHODO.ODBC.JoinWithParent = "Y"
+                   bDone = 0
+
+                   // Check parent for join flag.
+                   ResetViewFromSubobject( TZZOLODO )
+               END
+
+               DropView( TZDBHODO )
+           END
+       END
+   UNTIL bDone = 1
+
+   // Check to see if there are too many attributes.
+   fnCountJoinedAttributes( TZZOLODO, AttribCount, 1 )
+   IF AttribCount > 220
+       IF  bDisplayMessage != 0
+           szMessage = "Setting Join=Y for entity " +
+                       TZZOLODO_Orig.LOD_EntityParent.Name +
+                       " will create a join with too many attributes."
+           MessageSend( TZZOLODO, "DBH10002", "DBH Error", szMessage,
+                        zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+       END
+
+       DropView( TZZOLODO )
+       RETURN 0
+   END
+
+   // Clean up and return.
+   DropView( TZZOLODO )
+
+   RETURN 1
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ODBC_LOD_JoinSelected
+**
+**    This function is called when the "Join with parent" checkbox is clicked.    It will verify that the
+**    entity can be joined with it's parent.
+**    .
+**
+*************************************************************************************************/
+DIALOG OPERATION
+ODBC_LOD_JoinSelected( VIEW vSubtask )
+
+   VIEW TZDBHODO REGISTERED AS ODBC_EntityInfo
+   VIEW TZZOLODO REGISTERED AS TZZOLODO
+
+   IF  TZDBHODO.ODBC.JoinWithParent = "Y"
+       IF fnCheckIfJoinIsOK( TZZOLODO, 1 ) = 0
+           // We got an error.  Turn off the check.
+           SetCtrlState( vSubtask, "JoinCheck", zCONTROL_STATUS_CHECKED, 0 )
+           TZDBHODO.ODBC.JoinWithParent = "N"
+           RETURN 0
+       END
+   END
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: ODBC_LOD_SetX_ToOne
+**
+**    Turns on the Join flag for all entities that have a max card of one,
+**    but only for entities that do not have a POD_Entity.
+**
+*************************************************************************************************/
+DIALOG OPERATION
+ODBC_LOD_SetX_ToOne( VIEW vSubtask )
+
+   VIEW TZTENVRO      REGISTERED AS TZTENVRO
+   VIEW TZZOLODO      REGISTERED AS TZZOLODO
+   VIEW TZZOLODO_Hier BASED ON LOD TZZOLODO
+   VIEW TZDBHODO      BASED ON LOD TZDBHODO
+   STRING ( 100 ) szEntityName
+   SHORT sReturnLevel
+   SHORT nRC
+   INTEGER lAbsPos
+
+   CreateViewFromViewForTask( TZZOLODO_Hier, TZZOLODO, vSubtask )
+   CreateViewFromViewForTask( TZZOLODO, TZZOLODO, vSubtask )
+   szEntityName = "LOD_EntityParent"
+
+   // Set up an OI that will be stored in each of the LOD_EntityParents
+   // that do not have a POD_Entity.
+   ACTIVATE  TZDBHODO EMPTY
+   CREATE ENTITY TZDBHODO.ODBC
+   TZDBHODO.ODBC.JoinWithParent = "Y"
+
+   nRC = DefineHierarchicalCursor( TZZOLODO_Hier, "LOD_EntityParent" )
+   LOOP WHILE nRC >= zCURSOR_SET
+
+       IF nRC = zCURSOR_SET_RECURSIVECHILD
+           SetViewToSubobject( TZZOLODO_Hier, "LOD_EntityChild" )
+       END
+
+       // Set up our temp view from the hier view.
+       GetAbsolutePositionForEntity( lAbsPos, TZZOLODO_Hier, "LOD_EntityParent" )
+       SetCursorAbsolutePosition( szEntityName, TZZOLODO, lAbsPos )
+
+       IF szEntityName = "LOD_EntityParent" AND
+                           TZZOLODO.ER_RelLinkRec EXISTS AND
+                           TZZOLODO.ER_RelLinkRec.CardMax = 1 AND
+                           TZZOLODO.LOD_EntityParent.Work != "Y" AND
+                           TZZOLODO.LOD_EntityParent.Derived != "Y" AND
+                           TZZOLODO.POD_Entity DOES NOT EXIST
+
+           CREATE ENTITY TZZOLODO.POD_Entity
+
+           INCLUDE TZZOLODO.TE_DBMS_SourceForEntity
+               FROM TZTENVRO.TE_DBMS_Source
+
+           SetBlobFromOI( TZZOLODO, "POD_Entity", "DBH_Info", TZDBHODO, 0 )
+       END
+
+       nRC = SetCursorNextEntityHierarchical( sReturnLevel, szEntityName, TZZOLODO_Hier )
+   END
+
+   DropView( TZDBHODO )
+   DropView( TZZOLODO_Hier )
+   DropView( TZZOLODO )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SQL_DBH_SetX_ToOne
+**
+**    Turns on the Join flag for all entities that have a max card of one,
+**    but only for entities that do not have a POD_Entity.
+**
+*************************************************************************************************/
+DIALOG OPERATION
+SQL_DBH_SetX_ToOne( VIEW vSubtask )
+
+   VIEW TZTENVRO      REGISTERED AS TZTENVRO
+   VIEW TZZOLODO      REGISTERED AS TZZOLODO
+   VIEW TZZOLODO_Hier BASED ON LOD TZZOLODO
+   STRING ( 100 ) szEntityName
+   SHORT          sReturnLevel
+   SHORT          nRC
+   INTEGER        lAbsPos
+   INTEGER        lDataSourceZKey
+
+   CreateViewFromViewForTask( TZZOLODO, TZZOLODO, vSubtask )
+   ResetView( TZZOLODO )
+
+   CreateViewFromViewForTask( TZZOLODO_Hier, TZZOLODO, vSubtask )
+
+   szEntityName    = "LOD_EntityParent"
+   lDataSourceZKey = TZTENVRO.TE_DBMS_Source.ZKey
+
+   nRC = DefineHierarchicalCursor( TZZOLODO_Hier, "LOD_EntityParent" )
+   LOOP WHILE nRC >= zCURSOR_SET
+
+       IF nRC = zCURSOR_SET_RECURSIVECHILD
+          SetViewToSubobject( TZZOLODO_Hier, "LOD_EntityChild" )
+       END
+
+       // Set up our temp view from the hier view.
+       GetAbsolutePositionForEntity( lAbsPos, TZZOLODO_Hier, "LOD_EntityParent" )
+       SetCursorAbsolutePosition( szEntityName, TZZOLODO, lAbsPos )
+
+       IF szEntityName = "LOD_EntityParent" AND
+                           TZZOLODO.ER_RelLinkRec EXISTS AND
+                           TZZOLODO.ER_RelLinkRec.CardMax = 1 AND
+                           TZZOLODO.LOD_EntityParent.Work != "Y" AND
+                           TZZOLODO.LOD_EntityParent.Derived != "Y"
+
+           SET CURSOR FIRST TZZOLODO.POD_Entity
+                      WHERE TZZOLODO.TE_DBMS_SourceForEntity.ZKey = lDataSourceZKey
+
+           IF RESULT < zCURSOR_SET
+              CREATE ENTITY TZZOLODO.POD_Entity
+
+              INCLUDE TZZOLODO.TE_DBMS_SourceForEntity
+                      FROM TZTENVRO.TE_DBMS_Source
+           END
+
+           TZZOLODO.POD_Entity.SQL_JoinWithParent = "Y"
+       END
+
+       nRC = SetCursorNextEntityHierarchical( sReturnLevel, szEntityName, TZZOLODO_Hier )
+   END
+
+   DropView( TZZOLODO_Hier )
+   DropView( TZZOLODO )
+
+   RefreshCtrl( vSubtask, "SQL_DBH_JoinCheck" )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SQL_DBH_LOD_PostBuild
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+SQL_DBH_LOD_PostBuild( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+   SHORT nIsCheckedOut
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, TZZOLODO, zSOURCE_LOD_META )
+
+   SetCtrlState( vSubtask, "pbSetXtoOne", zCONTROL_STATUS_ENABLED, nIsCheckedOut )
+   SetCtrlState( vSubtask, "pbRemoveAll", zCONTROL_STATUS_ENABLED, nIsCheckedOut )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SQL_DBH_RemoveAll
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+SQL_DBH_RemoveAll( VIEW vSubtask )
+   VIEW TZTENVRO      REGISTERED AS TZTENVRO
+   VIEW TZZOLODO      REGISTERED AS TZZOLODO
+   VIEW TZZOLODO_Hier BASED ON LOD TZZOLODO
+   STRING ( 100 ) szEntityName
+   SHORT          sReturnLevel
+   SHORT          nRC
+   INTEGER        lAbsPos
+   INTEGER        lDataSourceZKey
+
+   CreateViewFromViewForTask( TZZOLODO, TZZOLODO, vSubtask )
+   ResetView( TZZOLODO )
+
+   CreateViewFromViewForTask( TZZOLODO_Hier, TZZOLODO, vSubtask )
+
+   szEntityName    = "LOD_EntityParent"
+   lDataSourceZKey = TZTENVRO.TE_DBMS_Source.ZKey
+
+   nRC = DefineHierarchicalCursor( TZZOLODO_Hier, "LOD_EntityParent" )
+   LOOP WHILE nRC >= zCURSOR_SET
+
+       IF nRC = zCURSOR_SET_RECURSIVECHILD
+          SetViewToSubobject( TZZOLODO_Hier, "LOD_EntityChild" )
+       END
+
+       // Set up our temp view from the hier view.
+       GetAbsolutePositionForEntity( lAbsPos, TZZOLODO_Hier, "LOD_EntityParent" )
+       SetCursorAbsolutePosition( szEntityName, TZZOLODO, lAbsPos )
+
+       IF szEntityName = "LOD_EntityParent"
+
+           SET CURSOR FIRST TZZOLODO.POD_Entity
+                      WHERE TZZOLODO.TE_DBMS_SourceForEntity.ZKey = lDataSourceZKey
+
+           IF RESULT >= zCURSOR_SET
+              TZZOLODO.POD_Entity.SQL_JoinWithParent = "N"
+              TZZOLODO.POD_Entity.SQL_ActivateInOne = "N"
+           END
+       END
+
+       nRC = SetCursorNextEntityHierarchical( sReturnLevel, szEntityName, TZZOLODO_Hier )
+   END
+
+   DropView( TZZOLODO_Hier )
+   DropView( TZZOLODO )
+
+   RefreshCtrl( vSubtask, "SQL_DBH_JoinCheck" )
+
+END

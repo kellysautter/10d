@@ -1,0 +1,19 @@
+rZeidon    Z014596A TZWDVORO 11/02/95   20:52:15 1.0a     
+eViewObjRef 1,192
+aZKey      1333610
+aName      TZOPLSWO
+aDesc      Operation Work object to list from
+
+eLOD       2,192
+aZKey      1328897
+aName      TZOPLSWO
+aDesc      Operation List work object
+
+eZ_MetaDef 2,192
+aName      TZOPLSWO
+aZKey      1333610
+aType      9
+aLastUpdateDate 19950824213622000
+aLastCheckInDate 19951102203051110
+aDesc      Operation Work object to list from
+

@@ -1,0 +1,19 @@
+rZeidon    Z0149B1C TZWDVORO 11/02/95   20:52:36 1.0a     
+eViewObjRef 1,192
+aZKey      1350428
+aName      TZEDWRKO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1329464
+aName      TZEDWRKO
+aDesc      Editor work object ( 1 per session )
+
+eZ_MetaDef 2,192
+aName      TZEDWRKO
+aZKey      1350428
+aType      9
+aLastUpdateDate 19950824213854000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

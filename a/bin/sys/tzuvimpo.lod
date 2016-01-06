@@ -1,0 +1,302 @@
+z10000Zeidon    TZUVIMPO TZZOLODO 05/01/01   23:19:30 1.0b0    
+eLOD       1
+aZKey      1327727
+aName      TZUVIMPO
+aDesc      Userview import work object
+
+eLOD_EntityParent 2
+aName      Userview
+aIndentName Userview
+aIndentLvl 0
+aZKey      1327728
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Siron Userview
+
+eLOD_EntityChild 3
+aName      UV_RecordField
+aIndentName    UV_RecordField
+aIndentLvl 3
+aZKey      1327729
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Siron Userview Record/Segment or Field
+aSeqNo     1
+
+eLOD_EntityChild 4
+aName      UV_SubRecordField
+aIndentName       UV_SubRecordField
+aIndentLvl 6
+aZKey      1327730
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive Y
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Siron Userview Record/Segment or Field
+aSeqNo     1
+
+eLOD_AttributeRec 5
+aZKey      1327731
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1321442
+aLth       32
+aDesc      Name of record, segment or field
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1327732
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+aName      FieldType
+aZKey      1321443
+aLth       2
+aDesc      Type of Field when this entity defines a field
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      UV_RecordField
+aZKey      1321441
+aPurpose   W
+aDesc      Siron Userview Record/Segment or Field
+aER_DiagramPosX 124
+aER_DiagramPosY 28
+
+eER_RelLinkRec 5
+aName      has sub
+aZKey      1321902
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      1321901
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 136
+aER_DiagramBendPosY 36
+aER_DiagramE1PosX 133
+aER_DiagramE1PosY 32
+aER_DiagramE2PosX 130
+aER_DiagramE2PosY 33
+
+eLOD_AttributeRec 4
+aZKey      1327733
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1327734
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eER_EntityRec 4
+
+eER_RelLinkRec 4
+aName      has
+aZKey      1321899
+aCardMin   1
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 5
+aZKey      1321898
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 128
+aER_DiagramE1PosY 11
+aER_DiagramE2PosX 128
+aER_DiagramE2PosY 27
+
+eLOD_AttributeRec 3
+aZKey      1327735
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1321439
+aLth       32
+aDesc      Name of Userview
+
+eDomainRec 5
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      1327736
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      Type
+aZKey      1321440
+aLth       1
+aDesc      Type of data supported by this userview
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      Userview
+aZKey      1321438
+aPurpose   W
+aDesc      Siron Userview
+aER_DiagramPosX 124
+aER_DiagramPosY 6
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eSourceFile 2
+aZKey      92000577
+aName      TZUVIMPO
+aExtension VML
+aLanguageType V
+
+eZ_MetaDef 2
+aName      TZUVIMPO
+aZKey      1327727
+aType      7
+aLastUpdateDate 19951102200154000
+aLastCheckInDate 19951102203051110
+aDesc      Userview import work object
+
+i9         6
+i14        5
+i15        6
+i17        8
+i18        6
+i19        10
+i27        6
+i29        1
+i30        22
+i31        23
+i32        24
+i33        25
+i34        26
+i35        6
+i36        28
+i37        2
+i38        13
+i39        5
+i40        6
+i41        16
+i42        8
+i43        6
+i44        10
+i45        20
+i46        21
+i47        3
+i48        4
+i49        5
+i50        6
+i51        7
+i52        8
+i53        6
+i54        10
+i55        11
+i56        12

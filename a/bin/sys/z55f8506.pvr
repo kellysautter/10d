@@ -1,0 +1,12 @@
+z1000-Zeidon    Z55F8506 TZWDVORO 01/03/13   14:07:50 1.0a2    
+eViewObjRef 1
+aZKey      90146054
+aName      TZRPTLODENT
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      90145850
+aName      TZRPSRCO
+aDesc      Report Definition
+aDLL_Name  tzrpsrco
+

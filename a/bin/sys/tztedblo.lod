@@ -1,0 +1,945 @@
+z10000Zeidon    TZTEDBLO TZZOLODO 05/01/01   23:19:28 1.0b0    
+eLOD       1
+aZKey      90020429
+aName      TZTEDBLO
+aDesc      List of supported databases/db-handlers.
+
+eLOD_EntityParent 2
+aName      TE_DBMS_Source
+aIndentName TE_DBMS_Source
+aIndentLvl 0
+aZKey      90020430
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Database in the DBMS
+
+eLOD_EntityChild 3
+aName      DB_DataTypes
+aIndentName    DB_DataTypes
+aIndentLvl 3
+aZKey      90026587
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      List of all data types supported by a database/db-handler
+
+eLOD_AttributeRec 4
+aZKey      90026588
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      InternalName
+aZKey      90026589
+aLth       1
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90026590
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      ExternalName
+aZKey      90026591
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90040816
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DBH_Data
+aZKey      90040817
+aDesc      Usually an OI stored as a blob.  Contains data that is specific to a db-handler.
+
+eDomainRec 6
+aZKey      90000007
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_EntityChild 3
+aName      DBS_SubDialog
+aIndentName    DBS_SubDialog
+aIndentLvl 3
+aZKey      90040751
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      This entity points to a dialog/window used to specify DBH specific information.
+
+eLOD_AttributeRec 4
+aZKey      90040752
+aWork      Y
+aUpdate    Y
+aInit      New
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Type
+aZKey      90040753
+aLth       32
+aDesc      Type of dialog window.
+
+eDomainRec 6
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90040754
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Dialog
+aZKey      90040755
+aDesc      Name of dialog
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90040756
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Window
+aZKey      90040757
+aDesc      Name of window
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90050319
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      MenuText
+aZKey      90050320
+aDesc      When current sub-dialog is called from a menu item this is the menu text
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90040818
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DBH_Data
+aZKey      90040819
+aDesc      Usually an OI stored as a blob.  Contains data that is specific to a db-handler.
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      90020431
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1321316
+aLth       32
+aNotNull   Y
+aDesc      Database Name
+aPromptPaintLit Name
+aListPaintLit Name
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90020432
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1321317
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90020434
+
+eER_AttributeRec 4
+aName      MaxFixedAttrLth
+aZKey      1321319
+aDesc      Maximum record lth for a fixed lth string/blob
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90020435
+
+eER_AttributeRec 4
+aName      OverflowAttrLth
+aZKey      1321320
+aDesc      Length of overflow attribute in overflow record
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90020436
+
+eER_AttributeRec 4
+aName      Desc
+aZKey      1321321
+aDesc      Converted from 6B
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eDomainRec 5
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90020437
+
+eER_AttributeRec 4
+aName      Paradigm
+aZKey      1321322
+aDesc      Relational, Network, Hier, etc.
+
+eDomainRec 5
+aZKey      1320321
+aName      TE_DBMS_Paradigm
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Relational or Network DB Model
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90020438
+
+eER_AttributeRec 4
+aName      DBMS
+aZKey      1321323
+aLth       30
+aDesc      SQLBASE, SQLSERVER, IMS, etc.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90020439
+
+eER_AttributeRec 4
+aName      GenerateExecutable
+aZKey      90020318
+aLth       8
+aDesc      Name of executable (eg. a .DLL) that contains the DDL generate operation as well as others.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90020440
+
+eER_AttributeRec 4
+aName      ConectionType
+aZKey      1321324
+aLth       1
+aDesc      Native, ODBC, Gateway, etc.
+
+eDomainRec 5
+aZKey      1320330
+aName      TE_DB_ConnectType
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Connection type to use for data source
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90020441
+
+eER_AttributeRec 4
+aName      SironDB_Type
+aZKey      90000206
+aDesc      For Siron DB Handler, the physical database type
+
+eDomainRec 5
+aZKey      90000208
+aName      SironDB_Type
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      For Siron DB Handler, the physical database type
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90021871
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      Executable
+aZKey      90020617
+aLth       8
+aDesc      Name of executable (eg. DLL) that contains activate/commit code.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90021872
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      DefaultOwner
+aZKey      90020618
+aDesc      Default owner for tables.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90021873
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      DisplayOwner
+aZKey      90020619
+aDesc      'Y' if owner attribute is available.
+
+eDomainRec 5
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90026508
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      DisplayDBMS_ID
+aZKey      90026422
+aDesc      'Y' if DMBS_ID is enabled.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90026763
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      Network
+aZKey      90026677
+aLth       8
+aDesc      Name of network, NULL, or '*default*'
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90026860
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      GenKeyExecutable
+aZKey      90026775
+aDesc      Name of Genkey handler.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90030008
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      SironDB_Subtype
+aZKey      90029894
+
+eDomainRec 5
+aZKey      91143965
+aName      SironDB_SubType
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Datenbank-Subtypen
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90040707
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DBS_Dialog
+aZKey      90040708
+aLth       32
+aDesc      DB specific dialog.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90040709
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DBS_Window
+aZKey      90040710
+aLth       32
+aDesc      DB specific window.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90040711
+aWork      Y
+aUpdate    Y
+aInit      N
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DBS_PostXOD_BuildHook
+aZKey      90040712
+aLth       1
+aDesc      If 'Y' then the current DBH uses the PostXOD build hook.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90016344
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DBS_FullFK_Name
+aZKey      90016345
+aDesc      97
+If 'Y' then generate foreign keys as:
+   FK_attr-name_record-name
+instead of:
+   FK_attr-name0
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90040814
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DBH_Data
+aZKey      90040815
+aDesc      Usually an OI stored as a blob.  Contains data that is specific to a db-handler.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90056705
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      ApplA_InitDistributeDS_Hook
+aZKey      90056706
+aLth       1
+aDesc      128
+If 'Y' then call a hook.
+
+The hook is called during ApplA processing right before ApplA starts sending server configurations.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90056707
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      ApplA_MidDistributeDS_Hook
+aZKey      90056708
+aLth       1
+aDesc      153
+If 'Y' then call a hook.
+
+The hook is called during ApplA processing after all XOD's have been pushed to the server but before files have been pushed.
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      TE_DBMS_Source
+aZKey      1321315
+aPurpose   W
+aDesc      Database in the DBMS
+aOwningArea TE
+aER_DiagramPosX 308
+aER_DiagramPosY 332
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000588
+aName      TZTEDBLO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      TZTEDBLO
+aZKey      1149599
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+i8         5
+i18        15
+i21        15
+i24        5
+i27        11
+i30        5
+i36        33
+i39        33
+i48        5
+i51        15
+i60        15
+i63        15
+i69        66
+i72        15
+i75        15
+i81        5
+i84        5
+i87        66
+i90        66
+i93        11
+i96        5
+i99        5
+i101       1
+i102       28
+i103       29
+i104       5
+i105       31
+i106       32
+i107       33
+i108       34
+i109       35
+i110       33
+i111       37
+i112       38
+i113       33
+i114       40
+i115       41
+i116       42
+i117       43
+i118       44
+i119       45
+i120       46
+i121       47
+i122       5
+i123       49
+i124       50
+i125       15
+i126       52
+i127       53
+i128       54
+i129       55
+i130       56
+i131       57
+i132       58
+i133       59
+i134       15
+i135       61
+i136       62
+i137       15
+i138       64
+i139       65
+i140       66
+i141       67
+i142       68
+i143       66
+i144       70
+i145       71
+i146       15
+i147       73
+i148       74
+i149       15
+i150       76
+i151       77
+i152       78
+i153       79
+i154       80
+i155       5
+i156       82
+i157       83
+i158       5
+i159       85
+i160       86
+i161       66
+i162       88
+i163       89
+i164       66
+i165       91
+i166       92
+i167       11
+i168       94
+i169       95
+i170       5
+i171       97
+i172       98
+i173       5
+i174       100
+i175       2
+i176       3
+i177       4
+i178       5
+i179       6
+i180       7
+i181       5
+i182       9
+i183       10
+i184       11
+i185       12
+i186       13
+i187       14
+i188       15
+i189       16
+i190       17
+i191       15
+i192       19
+i193       20
+i194       15
+i195       22
+i196       23
+i197       5
+i198       25
+i199       26
+i200       11

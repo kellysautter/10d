@@ -1,0 +1,20 @@
+// KZUSERAA.HG - Internal global values for user interfaces, such as Domains.
+//
+
+zEXTERN zPCHAR lpNullP = 0;
+zEXTERN zPCHAR szNullS = 0;
+zEXTERN zLONG lNullInteger = -2147483647 - 1;
+
+// Internal DateTime structure
+struct DateTimeInternalStruct
+{
+   zULONG   ulDateMinutes;    // Minutes since year zero
+   zUSHORT  usTSeconds;       // Thousandths of seconds
+};
+
+typedef struct DateTimeInternalStruct DateTimeInternalRecord;
+
+zEXTERN DateTimeInternalRecord  stNullDateTime
+       = { (zULONG) -2147483647 - 1, 0 }
+         ;
+

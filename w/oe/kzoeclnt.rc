@@ -1,0 +1,19 @@
+#include "windows.h"
+#include "kzoengwa.h"
+
+KZOECLNT ICON KZOECLNT.ICO
+
+KZOECLNT MENU
+
+BEGIN
+  POPUP   "&Options"
+  BEGIN
+    MENUITEM "&Where...",                         110
+    MENUITEM "&RegisterZeidonApplication",        111
+    MENUITEM "&UnregisterZeidonApplication",      112
+    MENUITEM "&Disappear without unregister",     113
+    MENUITEM "&Test",                             115
+    MENUITEM SEPARATOR
+    MENUITEM "E&xit \tF3",                        114
+  END
+END

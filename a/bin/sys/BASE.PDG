@@ -1,0 +1,114 @@
+z1000-Zeidon    BASE     TZDGSRCO 09/07/11   17:11:02 1.0a2    
+eDomainGroup 1
+aZKey      90000006
+aName      BASE
+aExtension C
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.BlobDomain
+aZKey      90000007
+aName      Blob
+aDesc      A do nothing domain for blobs
+aDomainType E
+aDataType  B
+aContextRestriction N
+
+eContext   3
+aZKey      90000008
+aName      BLOB
+aIsDefault Y
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      90165355
+aName      TimeStampEx
+aDomainType A
+aDataType  S
+aMaxStringLth 22
+aContextRestriction N
+
+eContext   3
+aZKey      90165356
+aName      TimeStampEx
+aIsDefault Y
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      90000009
+aName      J/N
+aDesc      Ja / Nein
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      90000010
+aDesc      Ja / Nein
+aName      J/N
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484524
+
+eTableEntry 4
+aZKey      90000012
+aExternalValue Ja
+aInternalValue J
+
+eTableEntry 4
+aZKey      90000013
+aExternalValue Nein
+aInternalValue N
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      90000014
+aName      Y/N
+aDesc      Yes or No
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      90000019
+aName      Default
+
+eTableEntry 4
+aZKey      92484582
+
+eTableEntry 4
+aZKey      90000021
+aExternalValue Default
+aInternalValue Y
+
+eTableEntry 4
+aZKey      90000022
+aInternalValue N
+
+eContext   3
+aZKey      90000015
+aName      Y/N
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484583
+
+eTableEntry 4
+aZKey      90000017
+aExternalValue Y
+aInternalValue Y
+
+eTableEntry 4
+aZKey      90000018
+aExternalValue N
+aInternalValue N
+
+eZ_MetaDef 2
+aName      Base
+aZKey      90000006
+aType      13
+aLastUpdateDate 19960428093526430
+aLastCheckInDate 19960428093637730
+

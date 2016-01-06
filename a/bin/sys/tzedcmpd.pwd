@@ -1,0 +1,5214 @@
+z1000-Zeidon    TZEDCMPD TZWDLGSO 06/10/15   16:41:03 1.0b0    
+eDialog    1
+aTag       TZEDCMPD
+aDLL_Name  TZEDCMPD
+aZKey      90025935
+aDesc      Set compiler specification
+
+eDfltWnd   2
+aTag       Init
+aCaption   Zeidon Target/Compiler Specification
+aPSDLG_X   124
+aPSDLG_Y   113
+aSZDLG_X   11403446
+aSZDLG_Y   8061074
+aZKey      127092567
+aGeneralFlag 0
+
+eWindow    2
+aTag       CompilerSpecification
+aCaption   Compiler Specification
+aPSDLG_X   48
+aPSDLG_Y   140
+aSZDLG_X   19464497
+aSZDLG_Y   8847515
+aDfltButton Alt-F4
+aZKey      90025938
+aGeneralFlag 0
+aBarID     59451
+
+eControl   3
+aTag       ListBox1
+aText      ListBox1
+aZKey      90026653
+aSubtype   -1607327680
+aPSDLG_X   1
+aPSDLG_Y   39
+aSZDLG_X   296
+aSZDLG_Y   98
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   1
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       ListCtl1
+aText      Name
+aZKey      90026656
+aSubtype   67108864
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   93
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      90026657
+
+eCtrlMapLOD_Attribute 6
+aZKey      90026103
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+aName      Compiler
+aIndentName    Compiler
+aIndentLvl 3
+aZKey      90026102
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Compiler Specification -- has information for compiling source.
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      90026104
+aLth       32
+aNotNull   Y
+aDesc      Name of compiler specification
+
+eCtrlMapER_Domain 8
+aZKey      90000032
+aDesc      Any Character String
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eCtrlMapView 6
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 5
+aTag       ListBoxCtl
+aZKey      1081
+aKey       1081
+aRT_DLL_Name ZDCTL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LISTCTL
+aRequiresParent Y
+aId        27
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       ListCtl2
+aText      Description
+aZKey      90026668
+aSubtype   67108864
+aPSDLG_X   96
+aPSDLG_Y   0
+aSZDLG_X   172
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      90026669
+
+eCtrlMapLOD_Attribute 6
+aZKey      90026105
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      Description
+aZKey      90026106
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      90026654
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      90026655
+
+eCtrlMap   4
+aZKey      90026658
+
+eEvent     4
+aType      2
+aZKey      90026747
+
+eEventAct  5
+aTag       EditSpecification
+aType      34
+aZKey      90026748
+aDialogName TZEDCMPD
+aWindowName EditCompilerSpec
+aSB_ActionDisabling 8
+
+eEvent     4
+aType      12
+aZKey      97333109
+
+eEventAct  5
+aTag       LoadPopup
+aType      40
+aZKey      97333110
+aPopupMenuName CompilerPopup
+
+eControlDef 4
+aTag       ListBox
+aZKey      1080
+aKey       1080
+aRT_DLL_Name ZDCTL
+aRT_OperationName ListBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aPainterConvertOperationName ConvertListBox
+aPainterBitmap LIST
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LIST
+aAcceptsAllParents Y
+aId        15
+aInvisible -1
+
+eControl   3
+aTag       GroupBox1
+aZKey      127086968
+aSubtype   539492352
+aPSDLG_X   1
+aPSDLG_Y   0
+aSZDLG_X   296
+aSZDLG_Y   23
+aSyncKey   2
+aExtendedStyle 0
+
+eCtrlCtrl  4
+aTag       cbCurrentCompSpec
+aZKey      127086970
+aSubtype   2109456
+aPSDLG_X   103
+aPSDLG_Y   7
+aSZDLG_X   190
+aSZDLG_Y   162
+aCtrlBOI   U29
+=]Q`]``,1/0!360`%$3T`3`````!>$ST`3``P````
+`
+aSyncKey   2
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      127086971
+
+eCtrlMapLOD_Attribute 6
+aZKey      90026135
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+aName      LPLR
+aIndentName LPLR
+aIndentLvl 0
+aZKey      1326019
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+
+eCtrlMapER_Attribute 7
+aName      CurrentCompilerSpec
+aZKey      90026136
+aLth       32
+aDesc      Indicates the currently selected compiler specifiecation
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      127086978
+aName      CompilerSpec
+
+eCtrlMap   5
+aZKey      127086972
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eCtrlMap   5
+aZKey      127086973
+
+eCtrlMap   5
+aZKey      127086974
+
+eCtrlMap   5
+aZKey      127086975
+
+eEvent     5
+aType      256
+aZKey      127086989
+
+eEventAct  6
+aTag       SetCurrentSpecification
+aType      2
+aZKey      90026824
+aSB_ActionDisabling 8
+
+eControlDef 5
+aTag       ComboBox
+aZKey      1050
+aKey       1050
+aRT_DLL_Name ZDCTL
+aRT_OperationName ComboBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZComboBoxMsg
+aPainterConvertOperationName ConvertComboBox
+aPainterBitmap COMBO
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_COMBO
+aAcceptsAllParents Y
+aId        14
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       Text1
+aText      Current Compiler Specification:
+aZKey      90025948
+aSubtype   537395200
+aPSDLG_X   3
+aPSDLG_Y   8
+aSZDLG_X   99
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90025949
+
+eControlDef 5
+aTag       Text
+aZKey      1000
+aKey       1000
+aRT_DLL_Name ZDCTL
+aRT_OperationName Text
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTextMsg
+aPainterConvertOperationName ConvertText
+aPainterBitmap TEXT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_TEXT
+aAcceptsAllParents Y
+aId        1
+aInvisible -1
+
+eCtrlMap   4
+aZKey      127086969
+
+eControlDef 4
+aTag       GroupBox
+aZKey      1090
+aKey       1090
+aRT_DLL_Name ZDCTL
+aRT_OperationName GroupBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZGroupBoxMsg
+aPainterConvertOperationName ConvertGroupBox
+aPainterBitmap GRPBOX
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_GROUP
+aAcceptsAllParents Y
+aAcceptsAllChildren Y
+aId        16
+aInvisible -1
+
+eControl   3
+aTag       txtLPLR
+aText      LPLR Name
+aZKey      127086976
+aSubtype   2621440
+aPSDLG_X   1
+aPSDLG_Y   24
+aSZDLG_X   296
+aSZDLG_Y   15
+aCtrlBOI   U64
+M`0````X```"`@(````$```````````````````````!!<FEA;```````````
+3````````````````````````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      127086977
+
+eControlDef 4
+
+eWndEvent  3
+aType      2
+aZKey      127086981
+
+eWndAct    4
+aTag       Postbuild
+aNoMap     Y
+aType      1
+aZKey      90026018
+
+eWndEvent  3
+aType      256
+aZKey      127086999
+
+eWndAct    4
+aTag       CloseCompileSpec
+aType      72
+aZKey      127086996
+
+eAction    3
+aTag       Alt-F4
+aNoMap     Y
+aType      71
+aZKey      90025939
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      CloseCompilerSpecification
+aZKey      90003973
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      90027170
+aLanguageType C
+aName      TZEDCM2D
+aDesc      .C file -- Dialog operations for Compiler Specification Dialog
+aExtension C
+
+eAction    3
+aTag       CopySpecification
+aNoMap     Y
+aType      2
+aZKey      90026026
+aSB_ActionDisabling 8
+
+eActMap    4
+aZKey      90026028
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActOpt    4
+aTag       Copy
+aText      &Copy Specification
+aSeparator Y
+aZKey      97332395
+
+eActOper   4
+aName      CopyCompilerSpec
+aZKey      90003904
+aDesc      Creates a new compiler specification from the currently selected CS
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      90025936
+aLanguageType V
+aName      TZEDCMPD
+aDesc      Dialog operations for Compiler Specification Dialog
+aExtension VML
+
+eAction    3
+aTag       DeleteSpecification
+aType      2
+aZKey      90003909
+aSB_ActionDisabling 8
+
+eActMap    4
+aZKey      90003910
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActOpt    4
+aTag       Delete
+aText      &Delete
+aZKey      97332393
+
+eActOper   4
+aName      DeleteCompilerSpec
+aZKey      97333125
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       Del
+aZKey      90045953
+aKeyCombo  U4
+$.!<N````
+`
+aVKey      46
+
+eAction    3
+
+eActMap    4
+aZKey      90026749
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOpt    4
+aTag       Detail
+aText      &Specification Detail...
+aZKey      97332389
+
+eActOper   4
+aName      EditCompilerSpecification
+aZKey      127086993
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       ESC
+aNoMap     Y
+aType      71
+aZKey      90025942
+
+eActMap    4
+aZKey      90025943
+
+eActMap    4
+aZKey      90025944
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+aTag       NewSpecification
+aType      34
+aZKey      90025945
+aDialogName TZEDCMPD
+aWindowName EditCompilerSpec
+aSB_SubAction 32
+
+eActMap    4
+aZKey      90025946
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActOpt    4
+aTag       New
+aText      &New...
+aSeparator Y
+aZKey      97332391
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      RetrieveCurrentCompileSpec
+aZKey      90026021
+aDesc      Set 'Compile' cursor in ProfileXFER to point to compile spec specified in vProfileXFER.TZ.CurrentCompileSpec
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      90026825
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      SetCurrentCompilerSpec
+aZKey      90003950
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eMenu      3
+aTag       CompilerPopup
+aZKey      97332388
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eWndStyle  3
+aTag       Sizeable Dialog Box
+aZKey      10024379
+aStyle     -2134114304
+
+eHotkey    3
+
+eHotAct    4
+
+eWindow    2
+aBarID     59451
+
+eControl   3
+aTag       Text1
+aText      Current LPLR:
+aZKey      127092596
+aSubtype   554172416
+aPSDLG_X   22
+aPSDLG_Y   6
+aSZDLG_X   64
+aSZDLG_Y   13
+aCtrlBOI   U12
+,``````P```#_````
+`
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      127092597
+
+eControlDef 4
+
+eControl   3
+aTag       Text2
+aText      Text2
+aZKey      127092598
+aSubtype   537395200
+aPSDLG_X   90
+aPSDLG_Y   6
+aSZDLG_X   74
+aSZDLG_Y   13
+aCtrlBOI   U12
+,`0````P```#_````
+`
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      127092599
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326047
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      Name
+aZKey      1321035
+aNotNull   Y
+aDesc      LPL Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eCtrlMapER_Domain 7
+aZKey      90000038
+aDesc      QuinSoft Name
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eCtrlMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 4
+
+eControl   3
+aTag       Push1
+aText      &Compiler Specification
+aZKey      127092600
+aSubtype   536870912
+aPSDLG_X   50
+aPSDLG_Y   24
+aSZDLG_X   80
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      127092601
+
+eEvent     4
+aType      1
+aZKey      127092602
+
+eEventAct  5
+aTag       XFerComplerSpec
+aType      34
+aZKey      127092590
+aDialogName TZEDCMPD
+aWindowName CompilerSpecification
+
+eControlDef 4
+aTag       PushBtn
+aZKey      1020
+aKey       1020
+aRT_DLL_Name ZDCTL
+aRT_OperationName PushButton
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZPushMsg
+aPainterConvertOperationName ConvertButton
+aPainterBitmap PUSH
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_PUSH
+aAcceptsAllParents Y
+aId        8
+aInvisible -1
+
+eControl   3
+aTag       Push2
+aText      &Target Specification
+aZKey      127092603
+aSubtype   536870912
+aPSDLG_X   50
+aPSDLG_Y   40
+aSZDLG_X   80
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      127092604
+
+eEvent     4
+aType      1
+aZKey      127092605
+
+eEventAct  5
+aTag       XFerTargetSpecification
+aType      34
+aZKey      127092593
+aDialogName TZEDCMPD
+aWindowName TargetSpecification
+
+eControlDef 4
+
+eControl   3
+aTag       Push3
+aText      &Close
+aZKey      127092606
+aSubtype   536870912
+aPSDLG_X   50
+aPSDLG_Y   58
+aSZDLG_X   80
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      127092607
+
+eEvent     4
+aType      1
+aZKey      127092608
+
+eEventAct  5
+aTag       Alt-F4
+aType      99
+aZKey      127092568
+
+eControlDef 4
+
+eControl   3
+aTag       PushBtn1
+aText      Domains
+aZKey      130069288
+aSubtype   537001984
+aPSDLG_X   50
+aPSDLG_Y   79
+aSZDLG_X   79
+aSZDLG_Y   13
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      130069289
+
+eEvent     4
+aType      1
+aZKey      130069292
+
+eEventAct  5
+aTag       GOTO_Domain
+aType      34
+aZKey      130069293
+aDialogName TZDMUPDD
+aWindowName DOMLIST
+aSB_ActionDisabling 0
+
+eControlDef 4
+
+eWndEvent  3
+aType      1
+aZKey      127092609
+
+eWndAct    4
+aTag       Prebuild
+aNoMap     Y
+aType      1
+aZKey      127092579
+
+eWndEvent  3
+aType      256
+aZKey      127092610
+
+eWndAct    4
+
+eAction    3
+
+eActMap    4
+aZKey      127092569
+
+eActMap    4
+aZKey      127092570
+
+eActWndEvent 4
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      SystemClose_Init
+aZKey      127092571
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+aTag       ESC
+aType      99
+aZKey      127092573
+
+eActMap    4
+aZKey      127092574
+
+eActMap    4
+aZKey      127092575
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       OpenLPLR
+aType      34
+aZKey      127092576
+aDialogName TZCMSLPD
+aWindowName SwitchLPLR
+
+eActMap    4
+aZKey      127092577
+
+eActMap    4
+aZKey      127092578
+
+eActOpt    4
+aTag       OpenLPLR
+aText      Open &LPLR...
+aZKey      127092613
+
+eAction    3
+
+eActMap    4
+aZKey      127092580
+
+eActMap    4
+aZKey      127092581
+
+eActWndEvent 4
+
+eActOper   4
+aName      Prebuild_Init
+aZKey      127092582
+aDesc      prebuild code for Init window
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       TransferToAccount
+aType      34
+aZKey      127092584
+aDialogName ACCOUNT
+aWindowName account
+
+eActMap    4
+aZKey      127092585
+
+eActMap    4
+aZKey      127092586
+
+eAction    3
+aTag       TransferToEditor
+aType      34
+aZKey      127092587
+aDialogName TZEDFRMD
+aWindowName TZEDFRMD
+
+eActMap    4
+aZKey      127092588
+
+eActMap    4
+aZKey      127092589
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eMenu      3
+aTag       Main
+aZKey      127092611
+
+eOption    4
+aTag       File
+aText      &File
+aZKey      127092612
+
+eOptOpt    5
+
+eOptAct    6
+
+eDfltMenu  3
+
+eWndStyle  3
+aTag       Primary Window
+aZKey      7008558
+aStyle     13565952
+aDesc      Overlapped window with caption, system menu, sizing border, min/
+
+eWindow    2
+aTag       EditCompilerSpec
+aCaption   Edit Compiler Specification
+aPSDLG_X   28
+aPSDLG_Y   86
+aSZDLG_X   23069032
+aSZDLG_Y   16449806
+aZKey      90026674
+aDIL_Active Y
+aGeneralFlag 0
+aBarID     59451
+
+eControl   3
+aTag       Tab
+aZKey      127086834
+aSubtype   0
+aPSDLG_X   5
+aPSDLG_Y   5
+aSZDLG_X   285
+aSZDLG_Y   233
+aCtrlBOI   U20
+4````````````````````````````
+`
+aSyncKey   1
+
+eCtrlCtrl  4
+aTag       General
+aText           General     
+aZKey      127086836
+aType      2
+aPSDLG_X   3
+aPSDLG_Y   2
+aSZDLG_X   281
+aSZDLG_Y   230
+aSyncKey   1
+
+eCtrlCtrl  5
+aTag       edName
+aZKey      90026745
+aType      0
+aSubtype   0
+aPSDLG_X   79
+aPSDLG_Y   9
+aSZDLG_X   193
+aSZDLG_Y   14
+aSyncKey   1
+aExtendedStyle 16777216
+
+eCtrlMap   6
+aZKey      90026746
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 6
+aTag       EditBox
+aZKey      1010
+aKey       1010
+aRT_DLL_Name ZDCTL
+aRT_OperationName Edit
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZEditMsg
+aPainterConvertOperationName ConvertEditBox
+aPainterBitmap EDIT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_EDIT
+aAcceptsAllParents Y
+aId        7
+aInvisible -1
+
+eCtrlCtrl  5
+aTag       MLEdit1
+aZKey      97332442
+aType      0
+aSubtype   0
+aPSDLG_X   79
+aPSDLG_Y   25
+aSZDLG_X   193
+aSZDLG_Y   34
+aSyncKey   2
+
+eCtrlMap   6
+aZKey      97332443
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 6
+aTag       MLEdit
+aZKey      1015
+aKey       1015
+aRT_DLL_Name ZDCTL
+aRT_OperationName MLE
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZMLEditMsg
+aPainterConvertOperationName ConvertMLE
+aPainterBitmap MLE
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_EDIT
+aAcceptsAllParents Y
+aId        18
+aInvisible -1
+
+eCtrlCtrl  5
+aTag       CheckBox1
+aText      Close DOS Window &After Compile
+aZKey      127086842
+aType      0
+aSubtype   536870912
+aPSDLG_X   79
+aPSDLG_Y   60
+aSZDLG_X   181
+aSZDLG_Y   13
+aCtrlBOI   U4
+$60!.````
+`
+aSyncKey   3
+
+eCtrlMap   6
+aZKey      127086843
+
+eCtrlMapLOD_Attribute 7
+aZKey      90003952
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      CloseWindowAfterCompile
+aZKey      90003953
+aLth       1
+aDesc      After compiling, if this attr is 'Y', then the DOS window will automatically closed
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 6
+aTag       CheckBox
+aZKey      1040
+aKey       1040
+aRT_DLL_Name ZDCTL
+aRT_OperationName CheckBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZCheckMsg
+aPainterConvertOperationName ConvertCheckBox
+aPainterBitmap CHECK
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_CHECK
+aAcceptsAllParents Y
+aId        13
+aInvisible -1
+
+eCtrlCtrl  5
+aTag       Target Executable Directory
+aZKey      90026834
+aType      0
+aPSDLG_X   79
+aPSDLG_Y   74
+aSZDLG_X   193
+aSZDLG_Y   14
+aSyncKey   4
+aExtendedStyle 16777216
+
+eCtrlMap   6
+aZKey      90026835
+
+eCtrlMapLOD_Attribute 7
+aZKey      90026107
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      TargetExecutableDir
+aZKey      90026108
+aDesc      Dir to store binary executables (eg. DLLs )
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       OBJ Directory
+aZKey      90026836
+aType      0
+aPSDLG_X   79
+aPSDLG_Y   90
+aSZDLG_X   193
+aSZDLG_Y   14
+aSyncKey   5
+aExtendedStyle 16777216
+
+eCtrlMap   6
+aZKey      90026837
+
+eCtrlMapLOD_Attribute 7
+aZKey      90026109
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      TargetObjectDir
+aZKey      90026110
+aDesc      Dir containing OBJs
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Makefile Directory
+aZKey      90026842
+aType      0
+aPSDLG_X   79
+aPSDLG_Y   106
+aSZDLG_X   193
+aSZDLG_Y   14
+aSyncKey   6
+aExtendedStyle 16777216
+
+eCtrlMap   6
+aZKey      90026843
+
+eCtrlMapLOD_Attribute 7
+aZKey      90026830
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      MakefileDir
+aZKey      90026831
+aDesc      Directory to store makefiles
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Resource Directory
+aZKey      90027218
+aType      0
+aPSDLG_X   79
+aPSDLG_Y   122
+aSZDLG_X   193
+aSZDLG_Y   14
+aSyncKey   7
+aExtendedStyle 16777216
+
+eCtrlMap   6
+aZKey      90027219
+
+eCtrlMapLOD_Attribute 7
+aZKey      90026845
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      EnvironmentDir
+aZKey      90026846
+aDesc      The dir that contains environment files (.DEF, .RC, etc)
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Compiler Directory
+aZKey      90026721
+aType      0
+aPSDLG_X   79
+aPSDLG_Y   138
+aSZDLG_X   193
+aSZDLG_Y   14
+aSyncKey   8
+aExtendedStyle 16777216
+
+eCtrlMap   6
+aZKey      90026722
+
+eCtrlMapLOD_Attribute 7
+aZKey      90026131
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      CompilerDir
+aZKey      90026132
+aNotNull   Y
+aDesc      Specifies the directory containing the compiler
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       edPath
+aZKey      90038692
+aType      0
+aSubtype   0
+aPSDLG_X   79
+aPSDLG_Y   154
+aSZDLG_X   167
+aSZDLG_Y   14
+aSyncKey   9
+aExtendedStyle 16777216
+
+eCtrlMap   6
+aZKey      90038693
+
+eCtrlMapLOD_Attribute 7
+aZKey      90038688
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      Path
+aZKey      90038689
+aLth       1000
+aDesc      Path when making executables
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Push1
+aText      &Get
+aZKey      90038694
+aType      0
+aSubtype   536870912
+aPSDLG_X   247
+aPSDLG_Y   154
+aSZDLG_X   25
+aSZDLG_Y   14
+aSyncKey   10
+
+eCtrlMap   6
+aZKey      90038695
+
+eEvent     6
+aType      1
+aZKey      90038696
+
+eEventAct  7
+aTag       GetCurrentPath
+aType      2
+aZKey      90038697
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       RadioGrp2
+aText      Debug Compile &Options
+aZKey      90027145
+aType      0
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   177
+aSZDLG_X   268
+aSZDLG_Y   32
+aCtrlBOI   U2
+"#0H`
+`
+aSyncKey   11
+
+eCtrlCtrl  6
+aTag       Radio3
+aText      Debug O&ff
+aZKey      90027147
+aSubtype   536870912
+aPSDLG_X   12
+aPSDLG_Y   14
+aSZDLG_X   55
+aSZDLG_Y   12
+aCtrlBOI   U3
+#`$X`
+`
+aSyncKey   11
+
+eCtrlMap   7
+aZKey      90027148
+
+eControlDef 7
+aTag       RadioBtn
+aZKey      1031
+aKey       1031
+aRT_DLL_Name ZDCTL
+aRT_OperationName RadioBtn
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZRadioMsg
+aPainterConvertOperationName ConvertRadioBtn
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_RADIO
+aRequiresParent Y
+aId        12
+aInvisible -1
+
+eCtrlCtrl  6
+aTag       Radio4
+aText      Debug O&n
+aZKey      90027149
+aSubtype   536870912
+aPSDLG_X   76
+aPSDLG_Y   14
+aSZDLG_X   55
+aSZDLG_Y   12
+aCtrlBOI   U3
+#`$$`
+`
+aSyncKey   12
+
+eCtrlMap   7
+aZKey      90027150
+
+eControlDef 7
+
+eCtrlCtrl  6
+aTag       Radio5
+aText      Debug determined by env &var
+aZKey      90027151
+aSubtype   536870912
+aPSDLG_X   143
+aPSDLG_Y   14
+aSZDLG_X   117
+aSZDLG_Y   12
+aCtrlBOI   U3
+#64T`
+`
+aSyncKey   13
+
+eCtrlMap   7
+aZKey      90027152
+
+eControlDef 7
+
+eCtrlMap   6
+aZKey      90027146
+
+eCtrlMapLOD_Attribute 7
+aZKey      90026113
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      CompileWithDebug
+aZKey      90026114
+aLth       1
+aDesc      Options: 'A' - force debug Always on; 'N' - force debug Never on;'M' - Maybe have debug -- determined by DOS environment variable (DEBUG)
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 6
+aTag       RadioGrp
+aZKey      1030
+aKey       1030
+aRT_DLL_Name ZDCTL
+aRT_OperationName RadioBtnGroup
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZRadioMsg
+aPainterConvertOperationName ConvertRadioBtnGroup
+aPainterBitmap RADIO
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_RADIOGRP
+aAcceptsAllParents Y
+aAcceptsAllChildren Y
+aId        11
+aInvisible -1
+
+eCtrlCtrl  5
+aTag       Text4
+aText      Specification Name:
+aZKey      90026699
+aType      0
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   10
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   6
+aZKey      90026700
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Text5
+aText      Description:
+aZKey      90026717
+aType      0
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   26
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   6
+aZKey      90026718
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Text1
+aText      Target Executable Directory:
+aZKey      90026832
+aType      0
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   70
+aSZDLG_X   70
+aSZDLG_Y   18
+aSyncKey   9999
+
+eCtrlMap   6
+aZKey      90026833
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Text2
+aText      OBJ/LIB Directory:
+aZKey      90026838
+aType      0
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   92
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   6
+aZKey      90026839
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Text7
+aText      Makefile Directory:
+aZKey      90026840
+aType      0
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   108
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   6
+aZKey      90026841
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Text6
+aText      Resource Directory:
+aZKey      90027216
+aType      0
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   124
+aSZDLG_X   69
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   6
+aZKey      90027217
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Text3
+aText      Compiler Directory:
+aZKey      90026723
+aType      0
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   140
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   6
+aZKey      90026724
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       Text8
+aText      Path:
+aZKey      90038690
+aType      0
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   156
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   6
+aZKey      90038691
+
+eControlDef 6
+
+eCtrlMap   5
+aZKey      127086837
+
+eControlDef 5
+aTag       TabCtl
+aZKey      2091
+aKey       2091
+aRT_DLL_Name ZDCTL
+aRT_OperationName TabDlg
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTabMsg
+aPainterConvertOperationName ConvertTabCtl
+aMaintenanceDialog TZPNCTLD
+aMaintenanceWindow UPD_TAB
+aAcceptsAllChildren Y
+aRequiresParent Y
+aForceUpdateOnCreate Y
+aId        29
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       Include/Lib
+aText           Include/Lib     
+aZKey      127086838
+aType      3
+aPSDLG_X   3
+aPSDLG_Y   14
+aSZDLG_X   281
+aSZDLG_Y   207
+aSyncKey   14
+
+eCtrlCtrl  5
+aTag       pbNewIncl
+aText      &New
+aZKey      127086862
+aSubtype   536870912
+aPSDLG_X   7
+aPSDLG_Y   92
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   15
+
+eCtrlMap   6
+aZKey      127086863
+
+eEvent     6
+aType      1
+aZKey      127087073
+
+eEventAct  7
+aTag       NewInclude
+aType      1
+aZKey      127087074
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       pbDeleteIncl
+aText      &Delete
+aZKey      127086866
+aSubtype   536870912
+aPSDLG_X   57
+aPSDLG_Y   92
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   16
+
+eCtrlMap   6
+aZKey      127086867
+
+eEvent     6
+aType      1
+aZKey      127087099
+
+eEventAct  7
+aTag       DeleteInclude
+aNoMap     Y
+aType      2
+aZKey      127087100
+aSB_ActionDisabling 8
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       pbNewLib
+aText      &New
+aZKey      127086872
+aSubtype   536870912
+aPSDLG_X   7
+aPSDLG_Y   199
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   18
+
+eCtrlMap   6
+aZKey      127086873
+
+eEvent     6
+aType      1
+aZKey      127087080
+
+eEventAct  7
+aTag       NewLib
+aType      1
+aZKey      127087081
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       pbDeleteLib
+aText      &Delete
+aZKey      127086870
+aSubtype   536870912
+aPSDLG_X   57
+aPSDLG_Y   199
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   19
+
+eCtrlMap   6
+aZKey      127086871
+
+eEvent     6
+aType      1
+aZKey      127087106
+
+eEventAct  7
+aTag       DeleteLib
+aNoMap     Y
+aType      2
+aZKey      127087107
+aSB_ActionDisabling 8
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       tgInclude
+aZKey      1027467
+aSubtype   65536
+aPSDLG_X   8
+aPSDLG_Y   10
+aSZDLG_X   259
+aSZDLG_Y   75
+aSyncKey   9999
+aExtendedStyle 524288
+
+eCtrlCtrl  6
+aTag       IncludeDirectories
+aText      Include Directories
+aZKey      1027484
+aPSDLG_X   7
+aPSDLG_Y   0
+aSZDLG_X   209
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   7
+aZKey      1027485
+
+eCtrlMapLOD_Attribute 8
+aZKey      90026116
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 9
+aName      Include
+aIndentName       Include
+aIndentLvl 6
+aZKey      90026115
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Specifies include directories
+
+eCtrlMapER_Attribute 9
+aName      IncludeDir
+aZKey      90026117
+aDesc      Specifies an include directory
+
+eCtrlMapER_Domain 10
+
+eCtrlMapView 8
+aZKey      1340809
+aName      TaskLPLR
+
+eCtrlMap   7
+aZKey      1027486
+
+eControlDef 7
+aTag       GridEditCtl
+aZKey      2011
+aKey       2011
+aRT_DLL_Name ZDCTL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZGridMsg
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_SSEDIT_CTL
+aRequiresParent Y
+aId        4
+aInvisible -1
+
+eCtrlMap   6
+aZKey      1027468
+
+eCtrlMapLOD_Entity 7
+
+eCtrlMapView 7
+
+eCtrlMap   6
+aZKey      1027469
+
+eControlDef 6
+aTag       Grid
+aZKey      2010
+aKey       2010
+aRT_DLL_Name ZDCTL
+aRT_OperationName SS
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZGridMsg
+aPainterConvertOperationName ConvertGrid
+aPainterBitmap Grid
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_SS
+aAcceptsAllParents Y
+aAcceptsAllChildren Y
+aId        19
+aInvisible -1
+
+eCtrlCtrl  5
+aTag       tgLib
+aZKey      1027470
+aSubtype   65536
+aPSDLG_X   8
+aPSDLG_Y   113
+aSZDLG_X   259
+aSZDLG_Y   75
+aSyncKey   9999
+aExtendedStyle 524288
+
+eCtrlCtrl  6
+aTag       LibDirectories
+aText      Lib Directories
+aZKey      1027493
+aPSDLG_X   11
+aPSDLG_Y   0
+aSZDLG_X   215
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   7
+aZKey      1027494
+
+eCtrlMapLOD_Attribute 8
+aZKey      90026119
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 9
+aName      Lib
+aIndentName       Lib
+aIndentLvl 6
+aZKey      90026118
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Specifies lib directories for compile/link
+
+eCtrlMapER_Attribute 9
+aName      LibDir
+aZKey      90026120
+aDesc      A directory containing libs
+
+eCtrlMapER_Domain 10
+
+eCtrlMapView 8
+
+eCtrlMap   7
+aZKey      1027495
+
+eControlDef 7
+
+eCtrlMap   6
+aZKey      1027471
+
+eCtrlMapLOD_Entity 7
+
+eCtrlMapView 7
+
+eCtrlMap   6
+aZKey      1027472
+
+eControlDef 6
+
+eCtrlMap   5
+aZKey      127086839
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Externals
+aText           Externals     
+aZKey      127086840
+aType      4
+aPSDLG_X   3
+aPSDLG_Y   14
+aSZDLG_X   281
+aSZDLG_Y   207
+aSyncKey   20
+
+eCtrlCtrl  5
+aTag       pbRebuildList
+aText      &Rebuild List
+aZKey      127088500
+aSubtype   536870912
+aPSDLG_X   18
+aPSDLG_Y   198
+aSZDLG_X   55
+aSZDLG_Y   14
+aSyncKey   21
+
+eCtrlMap   6
+aZKey      127088501
+
+eEvent     6
+aType      1
+aZKey      127088525
+
+eEventAct  7
+aTag       RebuildList
+aType      2
+aZKey      127086914
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       pbNewObj
+aText      &New
+aZKey      127087196
+aSubtype   536870912
+aPSDLG_X   93
+aPSDLG_Y   87
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   23
+
+eCtrlMap   6
+aZKey      127087197
+
+eEvent     6
+aType      1
+aZKey      127088268
+
+eEventAct  7
+aTag       NewObjectFile
+aType      1
+aZKey      127088269
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       pbDeleteObj
+aText      &Delete
+aZKey      127087198
+aSubtype   536870912
+aPSDLG_X   143
+aPSDLG_Y   87
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   24
+
+eCtrlMap   6
+aZKey      127087199
+
+eEvent     6
+aType      1
+aZKey      127088549
+
+eEventAct  7
+aTag       DeleteExternalObj
+aNoMap     Y
+aType      2
+aZKey      127088550
+aSB_ActionDisabling 8
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       pbBrowseObj
+aText      &Browse...
+aZKey      127087194
+aSubtype   536870912
+aPSDLG_X   225
+aPSDLG_Y   87
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   25
+
+eCtrlMap   6
+aZKey      127087195
+
+eEvent     6
+aType      1
+aZKey      127088557
+
+eEventAct  7
+aTag       BrowseExternalObj
+aType      1
+aZKey      127088558
+aSB_ActionDisabling 8
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       pbNewExternalLib
+aText      &New
+aZKey      127087207
+aSubtype   536870912
+aPSDLG_X   93
+aPSDLG_Y   198
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   27
+
+eCtrlMap   6
+aZKey      127087208
+
+eEvent     6
+aType      1
+aZKey      127088274
+
+eEventAct  7
+aTag       NewLibFile
+aType      1
+aZKey      127088275
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       pbDeleteExternalLib
+aText      &Delete
+aZKey      127087209
+aSubtype   536870912
+aPSDLG_X   143
+aPSDLG_Y   198
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   28
+
+eCtrlMap   6
+aZKey      127087210
+
+eEvent     6
+aType      1
+aZKey      127088553
+
+eEventAct  7
+aTag       DeleteExternalLib
+aNoMap     Y
+aType      2
+aZKey      127088554
+aSB_ActionDisabling 8
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       pbBrowseExternalLib
+aText      &Browse...
+aZKey      127087205
+aSubtype   536870912
+aPSDLG_X   225
+aPSDLG_Y   198
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   29
+
+eCtrlMap   6
+aZKey      127087206
+
+eEvent     6
+aType      1
+aZKey      127088561
+
+eEventAct  7
+aTag       BrowseExternalLib
+aType      1
+aZKey      127088562
+aSB_ActionDisabling 8
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       tgTargetList
+aZKey      1027458
+aSubtype   65536
+aOptionFlags 0
+aPSDLG_X   5
+aPSDLG_Y   8
+aSZDLG_X   77
+aSZDLG_Y   179
+aSyncKey   9999
+aExtendedStyle 524288
+
+eCtrlCtrl  6
+aTag       ExternalExists
+aText      External Exists
+aZKey      1027476
+aSubtype   536870912
+aPSDLG_X   1
+aPSDLG_Y   0
+aSZDLG_X   24
+aSZDLG_Y   15
+aCtrlBOI   U3
+#60``
+`
+aSyncKey   9999
+
+eCtrlMap   7
+aZKey      1027477
+
+eCtrlMapLOD_Attribute 8
+aZKey      127088498
+aWork      Y
+aUpdate    Y
+aInit      N
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 9
+aName      ExternalTarget
+aIndentName       ExternalTarget
+aIndentLvl 6
+aZKey      90026167
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      For each target executable in an LPLR, this entity contains information for external (ie. 3rd party) resolve files (eg. OBJs and LIBs)
+
+eCtrlMapER_Attribute 9
+aName      ExternalExists
+aZKey      127088499
+
+eCtrlMapER_Domain 10
+aZKey      90000014
+aDesc      Yes or No
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eCtrlMapContext 8
+aZKey      90000015
+aName      Y/N
+aIsDefault Y
+
+eCtrlMapView 8
+
+eControlDef 7
+aTag       GridCheckCtl
+aZKey      2013
+aKey       2013
+aRT_DLL_Name ZDCTL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZGridMsg
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_SSCHECK_CTL
+aId        6
+aInvisible -1
+
+eCtrlCtrl  6
+aTag       TargetName
+aText      Target Name
+aZKey      1027473
+aPSDLG_X   27
+aPSDLG_Y   0
+aSZDLG_X   38
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   7
+aZKey      1027474
+
+eCtrlMapLOD_Attribute 8
+aZKey      90026170
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 9
+
+eCtrlMapER_Attribute 9
+aName      Name
+aZKey      90026171
+aNotNull   Y
+aDesc      Name of target executable name (eg. ABC -- for MSWindows .DLL is implied).
+
+eCtrlMapER_Domain 10
+
+eCtrlMapView 8
+
+eCtrlMap   7
+aZKey      1027475
+
+eControlDef 7
+
+eCtrlMap   6
+aZKey      1027459
+
+eCtrlMapLOD_Entity 7
+
+eCtrlMapView 7
+
+eCtrlMap   6
+aZKey      1027460
+
+eEvent     6
+aType      1
+aZKey      92742810
+
+eEventAct  7
+aTag       Refresh
+aType      1
+aZKey      127086876
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       tgObjectFiles
+aZKey      1027461
+aSubtype   65536
+aPSDLG_X   93
+aPSDLG_Y   8
+aSZDLG_X   176
+aSZDLG_Y   74
+aSyncKey   9999
+aExtendedStyle 524288
+
+eCtrlCtrl  6
+aTag       ObjectFiles
+aText      Object Files
+aZKey      1027478
+aPSDLG_X   5
+aPSDLG_Y   0
+aSZDLG_X   151
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   7
+aZKey      1027479
+
+eCtrlMapLOD_Attribute 8
+aZKey      90026172
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 9
+aName      ExternalObjFile
+aIndentName          ExternalObjFile
+aIndentLvl 9
+aZKey      90026168
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Specifies external (ie. 3rd party) obj files.
+
+eCtrlMapER_Attribute 9
+aName      Name
+aZKey      90026173
+aDesc      Name of object file for target executable
+
+eCtrlMapER_Domain 10
+
+eCtrlMapView 8
+
+eCtrlMap   7
+aZKey      1027480
+
+eControlDef 7
+
+eCtrlMap   6
+aZKey      1027462
+
+eCtrlMapLOD_Entity 7
+
+eCtrlMapView 7
+
+eCtrlMap   6
+aZKey      1027463
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       tgLibFiles
+aZKey      1027464
+aSubtype   65536
+aPSDLG_X   93
+aPSDLG_Y   113
+aSZDLG_X   176
+aSZDLG_Y   74
+aSyncKey   9999
+aExtendedStyle 524288
+
+eCtrlCtrl  6
+aTag       LibFiles
+aText      Lib Files
+aZKey      1027481
+aPSDLG_X   2
+aPSDLG_Y   0
+aSZDLG_X   159
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   7
+aZKey      1027482
+
+eCtrlMapLOD_Attribute 8
+aZKey      90026174
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 9
+aName      ExternalLibFile
+aIndentName          ExternalLibFile
+aIndentLvl 9
+aZKey      90026169
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Specifies external (ie. 3rd party) LIB files
+
+eCtrlMapER_Attribute 9
+aName      Name
+aZKey      90026175
+aDesc      Name of lib file for the target
+
+eCtrlMapER_Domain 10
+
+eCtrlMapView 8
+
+eCtrlMap   7
+aZKey      1027483
+
+eControlDef 7
+
+eCtrlMap   6
+aZKey      1027465
+
+eCtrlMapLOD_Entity 7
+
+eCtrlMapView 7
+
+eCtrlMap   6
+aZKey      1027466
+
+eControlDef 6
+
+eCtrlMap   5
+aZKey      127086841
+
+eEvent     5
+aType      3
+aZKey      127086929
+
+eEventAct  6
+aTag       LoadTargetList
+aType      1
+aZKey      127086930
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      127086835
+
+eControlDef 4
+aTag       Tab
+aZKey      2090
+aKey       2090
+aRT_DLL_Name ZDCTL
+aRT_OperationName Tab
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTabMsg
+aPainterConvertOperationName ConvertTab
+aPainterBitmap TAB
+aMaintenanceDialog TZPNCTLD
+aMaintenanceWindow UPD_TAB
+aAcceptsAllChildren Y
+aId        17
+aInvisible -1
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      90026738
+aSubtype   536870912
+aPSDLG_X   298
+aPSDLG_Y   5
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   30
+
+eCtrlMap   4
+aZKey      90026739
+
+eEvent     4
+aType      1
+aZKey      127086824
+
+eEventAct  5
+aTag       OKCompilerSpec
+aNoMap     Y
+aType      72
+aZKey      127086825
+
+eControlDef 4
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      90026741
+aSubtype   536870912
+aPSDLG_X   298
+aPSDLG_Y   20
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   31
+
+eCtrlMap   4
+aZKey      90026742
+
+eEvent     4
+aType      1
+aZKey      90026743
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      71
+aZKey      90026684
+aSB_SubAction 2
+
+eControlDef 4
+
+eControl   3
+aTag       pbNext
+aText      Ne&xt
+aZKey      127086962
+aSubtype   536870912
+aPSDLG_X   298
+aPSDLG_Y   42
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   32
+
+eCtrlMap   4
+aZKey      127086963
+
+eEvent     4
+aType      1
+aZKey      127087016
+
+eEventAct  5
+aTag       NextCompilerSpec
+aNoMap     Y
+aType      2
+aZKey      127087017
+aSB_ActionDisabling 2
+
+eControlDef 4
+
+eControl   3
+aTag       pbPrev
+aText      &Prev
+aZKey      127086965
+aSubtype   536870912
+aPSDLG_X   298
+aPSDLG_Y   57
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   33
+
+eCtrlMap   4
+aZKey      127086966
+
+eEvent     4
+aType      1
+aZKey      127087020
+
+eEventAct  5
+aTag       PrevCompilerSpec
+aNoMap     Y
+aType      2
+aZKey      127087021
+aSB_ActionDisabling 1
+
+eControlDef 4
+
+eControl   3
+aTag       pbNew
+aText      &New
+aZKey      127086947
+aSubtype   536870912
+aPSDLG_X   298
+aPSDLG_Y   77
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   34
+
+eCtrlMap   4
+aZKey      127086948
+
+eEvent     4
+aType      1
+aZKey      127087040
+
+eEventAct  5
+aTag       NewCompilerSpec
+aNoMap     Y
+aType      2
+aZKey      127087041
+
+eControlDef 4
+
+eControl   3
+aTag       pbDelete
+aText      &Delete
+aZKey      127086950
+aSubtype   536870912
+aPSDLG_X   298
+aPSDLG_Y   92
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   35
+
+eCtrlMap   4
+aZKey      127086951
+
+eEvent     4
+aType      1
+aZKey      127087049
+
+eEventAct  5
+aTag       DeleteCompilerSpec
+aNoMap     Y
+aType      2
+aZKey      127087050
+
+eControlDef 4
+
+eControl   3
+aTag       pbCopy
+aText      &Copy
+aZKey      127086953
+aSubtype   536870912
+aPSDLG_X   298
+aPSDLG_Y   111
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   36
+
+eCtrlMap   4
+aZKey      127086954
+
+eEvent     4
+aType      1
+aZKey      127087058
+
+eEventAct  5
+aTag       CopyCompilerSpec
+aNoMap     Y
+aType      2
+aZKey      127087059
+
+eControlDef 4
+
+eControl   3
+aTag       MsgBar1
+aZKey      127088666
+aSubtype   1
+aPSDLG_X   95
+aPSDLG_Y   247
+aSZDLG_X   139
+aSZDLG_Y   20
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      127088667
+
+eControlDef 4
+aTag       MsgBar
+aZKey      2020
+aKey       2020
+aRT_DLL_Name ZDCTL
+aRT_OperationName DIL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZDilMsg
+aPainterConvertOperationName ConvertDIL
+aPainterBitmap DIL
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_DIL
+aId        20
+aInvisible -1
+
+eWndEvent  3
+aType      256
+aZKey      95040738
+
+eWndAct    4
+aTag       Alt-F4
+aNoMap     Y
+aType      71
+aZKey      90026675
+aSB_SubAction 2
+
+eWndEvent  3
+aType      2
+aZKey      91054509
+
+eWndAct    4
+aTag       GetCurrentPathPostBuild
+aNoMap     Y
+aType      1
+aZKey      91054510
+
+eAction    3
+aTag       AddNewInclude
+aType      1
+aZKey      127088204
+
+eActOper   4
+aName      IncludeFile_AddNew
+aZKey      127088207
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      tgInclude
+aZKey      127089069
+aEventOptionType Control Event
+
+eAction    3
+aTag       AddNewLib
+aType      1
+aZKey      127088213
+
+eActOper   4
+aName      LibFile_AddNew
+aZKey      127088216
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       AddNewLibFiles
+aType      1
+aZKey      127088582
+
+eActOper   4
+aName      ExternalTargetLibFile_AddNew
+aZKey      127088585
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       AddNewObjectFiles
+aType      1
+aZKey      127088568
+
+eActOper   4
+aName      ExternalTargetObjFile_AddNew
+aZKey      127088573
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      90026676
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActWndEvent 4
+
+eAction    3
+
+eActMap    4
+aZKey      127088563
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ExternalTargetLibFile_Browse
+aZKey      127089038
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      127088559
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ExternalTargetObjFile_Browse
+aZKey      91037007
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      CopyCompilerSpecification
+aZKey      127087062
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      pbCopy
+aZKey      127089070
+aEventOptionType Control Event
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      DeleteCompilerSpecification
+aZKey      127087053
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      127088555
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ExternalTargetLibFile_Delete
+aZKey      127088664
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      127088551
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ExternalTargetObjFile_Delete
+aZKey      127088660
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      127087101
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      IncludeFile_Delete
+aZKey      127087103
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      127087108
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      LibFile_Delete
+aZKey      127087112
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      90026685
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+aTag       GetCurrentPath
+aNoMap     Y
+aType      1
+aZKey      90038697
+
+eActEvent  4
+aType      1
+aZKey      90038696
+
+eActCtrl   5
+aTag       Push1
+aText      &Set
+aZKey      90038694
+aSubtype   536870912
+aPSDLG_X   285
+aPSDLG_Y   153
+aSZDLG_X   25
+aSZDLG_Y   14
+aSyncKey   9999
+
+eActOper   4
+aName      GetCurrentPath
+aZKey      90038700
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      GetCurrentPathPostBuild
+aZKey      91054513
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ExternalTargetPrebuild
+aZKey      95040730
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      Externals
+aZKey      127089071
+aEventOptionType Control Event
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      NewCompilerSpecification
+aZKey      127087045
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      pbNew
+aZKey      127089072
+aEventOptionType Control Event
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      IncludeFile_New
+aZKey      127087077
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      LibFile_New
+aZKey      127087084
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ExternalTargetLibFile_New
+aZKey      127088641
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ExternalTargetObjFile_New
+aZKey      127088636
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      127087018
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      NextCompilerSpecification
+aZKey      127087031
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      pbNext
+aZKey      127089073
+aEventOptionType Control Event
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      VerifyCompilerSpecOptions
+aZKey      70023582
+aDesc      Verifies that dirs/options for compiler spec are OK.
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      127087022
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      PrevCompilerSpecification
+aZKey      127087036
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ExternalTargetRebuildTargetList
+aZKey      95040736
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ExternalTargetRefresh
+aZKey      127088249
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      tgTargetList
+aZKey      127089074
+aEventOptionType Control Event
+
+eEventList 4
+aName      tgTargetList
+aZKey      127089075
+aEventOptionType Control Event
+
+eAction    3
+aTag       UpdateObj
+aType      1
+aZKey      127086887
+aSB_ActionDisabling 8
+
+eActMap    4
+aZKey      127086888
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eWndStyle  3
+aTag       Dialog Box
+aZKey      7008569
+aStyle     -2134376448
+aDesc      Dialog box with caption, non-sizable border
+aStyleEx   1
+
+eWindow    2
+aTag       TargetSpecification
+aCaption   Target Specification
+aPSDLG_X   68
+aPSDLG_Y   140
+aSZDLG_X   22151514
+aSZDLG_Y   16253199
+aSZMIN_X   346
+aSZMIN_Y   282
+aSZMAX_X   346
+aDfltButton CloseButton
+aZKey      90026865
+aDIL_Active Y
+aGeneralFlag 0
+aBarID     59451
+
+eControl   3
+aTag       TargetCompList
+aText      TargetCompList
+aZKey      90026866
+aSubtype   -2146303997
+aPSDLG_X   5
+aPSDLG_Y   5
+aSZDLG_X   86
+aSZDLG_Y   238
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P#````*P!-`%,Q````
+`
+aSyncKey   1
+aExtendedStyle 17301504
+aVisibleBorder Y
+aDisabled  N
+
+eCtrlCtrl  4
+aTag       ListCtl1
+aText      Target Name
+aZKey      90026872
+aSubtype   67108864
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   71
+aSZDLG_Y   15
+aSyncKey   1
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90026873
+
+eCtrlMapLOD_Attribute 6
+aZKey      90026179
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+aName      TargetExecutable
+aIndentName    TargetExecutable
+aIndentLvl 3
+aZKey      90026176
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Contains link information for target executables.
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      90026180
+aNotNull   Y
+aDesc      Name of target executable
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      90026867
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      90026868
+
+eCtrlMap   4
+aZKey      90026878
+
+eEvent     4
+aType      1
+aZKey      97333124
+
+eEventAct  5
+aTag       RefreshTargetList
+aType      1
+aZKey      90026895
+aSB_ActionDisabling 0
+
+eControlDef 4
+
+eControl   3
+aTag       TargetList
+aText      TargetList
+aZKey      90026869
+aSubtype   -2146304000
+aPSDLG_X   95
+aPSDLG_Y   7
+aSZDLG_X   164
+aSZDLG_Y   119
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`````*P!-`%,Q````
+`
+aSyncKey   2
+aExtendedStyle 17301504
+aVisibleBorder Y
+aDisabled  N
+
+eCtrlCtrl  4
+aTag       ListCtl2
+aText      Target Components
+aZKey      90026874
+aSubtype   67108864
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   74
+aSZDLG_Y   15
+aSyncKey   2
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90026875
+
+eCtrlMapLOD_Attribute 6
+aZKey      90026855
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+aName      Meta
+aIndentName       Meta
+aIndentLvl 6
+aZKey      90026854
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      List of all meta entities that make up the TargetExecutable
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      90026856
+aDesc      name of meta
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListCtl3
+aText      Type
+aZKey      90027166
+aSubtype   67108864
+aPSDLG_X   76
+aPSDLG_Y   0
+aSZDLG_X   74
+aSZDLG_Y   15
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90027167
+
+eCtrlMapLOD_Attribute 6
+aZKey      90026859
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      MetaType
+aZKey      90026860
+aDesc      CM Type of meta
+
+eCtrlMapER_Domain 8
+aZKey      1319755
+aDesc      Meta types for Configuration Management
+aName      CM_Type
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eCtrlMapView 6
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      90026870
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      90026871
+
+eCtrlMap   4
+aZKey      90026879
+
+eControlDef 4
+
+eControl   3
+aTag       MakeOptions
+aText      Make &Options
+aZKey      90012774
+aSubtype   541589504
+aPSDLG_X   95
+aPSDLG_Y   129
+aSZDLG_X   233
+aSZDLG_Y   113
+aCtrlBOI   U2
+"````
+`
+aSyncKey   3
+aExtendedStyle 0
+aDisabled  N
+
+eCtrlCtrl  4
+aTag       rbParseAsNeeded
+aText      Parse Only Selected &VML As Needed
+aZKey      90012776
+aSubtype   536870912
+aPSDLG_X   10
+aPSDLG_Y   12
+aSZDLG_X   217
+aSZDLG_Y   12
+aCtrlBOI   U3
+#63$`
+`
+aSyncKey   3
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90012777
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       rbParse
+aText      Parse Only Selected VM&L
+aZKey      90012778
+aSubtype   536870912
+aPSDLG_X   10
+aPSDLG_Y   26
+aSZDLG_X   217
+aSZDLG_Y   12
+aCtrlBOI   U3
+#`#(`
+`
+aSyncKey   4
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90012779
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       rbParseGenerateAsNeeded
+aText      Parse, Generate Selected VML As &Needed
+aZKey      1157964
+aSubtype   536870912
+aPSDLG_X   10
+aPSDLG_Y   40
+aSZDLG_X   217
+aSZDLG_Y   12
+aCtrlBOI   U3
+#`#<`
+`
+aSyncKey   5
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      1157965
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       rbParseGenerateCompileAsNeeded
+aText      Parse, Generate, Compile Selected VML As &Needed
+aZKey      90012780
+aSubtype   536870912
+aPSDLG_X   10
+aPSDLG_Y   55
+aSZDLG_X   217
+aSZDLG_Y   12
+aCtrlBOI   U3
+#`#,`
+`
+aSyncKey   6
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90012781
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       rbParseGenerateCompile
+aText      &Parse, Generate, Compile Selected VML
+aZKey      90012782
+aSubtype   536870912
+aPSDLG_X   10
+aPSDLG_Y   69
+aSZDLG_X   217
+aSZDLG_Y   12
+aCtrlBOI   U3
+#`#0`
+`
+aSyncKey   7
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90012783
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       rbGenerateCompile
+aText      &Generate, Compile Selected C/Java
+aZKey      90012784
+aSubtype   536870912
+aPSDLG_X   10
+aPSDLG_Y   84
+aSZDLG_X   217
+aSZDLG_Y   12
+aCtrlBOI   U3
+#`#4`
+`
+aSyncKey   8
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90012785
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       rbCompile
+aText      Compile &Selected C/Java
+aZKey      90012786
+aSubtype   536870912
+aPSDLG_X   10
+aPSDLG_Y   98
+aSZDLG_X   217
+aSZDLG_Y   12
+aCtrlBOI   U3
+#`#8`
+`
+aSyncKey   9
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      90012787
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      90012775
+
+eCtrlMapLOD_Attribute 5
+aZKey      90012788
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      MakeOption
+aZKey      90012789
+aLth       1
+aDesc      Holds Make Radio button selection - 1, 2, 3, 4, 5, 6
+
+eCtrlMapER_Domain 7
+aZKey      90000028
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+aDecimalFormat 1234
+
+eCtrlMapView 5
+aZKey      1340809
+aName      TaskLPLR
+
+eControlDef 4
+
+eControl   3
+aTag       CloseButton
+aText      &Close
+aZKey      90026884
+aSubtype   536870912
+aPSDLG_X   267
+aPSDLG_Y   4
+aSZDLG_X   64
+aSZDLG_Y   14
+aSyncKey   10
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      90026885
+
+eEvent     4
+aType      1
+aZKey      90026886
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aZKey      90026887
+
+eControlDef 4
+
+eControl   3
+aTag       MakeC_Target
+aText      Make C &Target
+aZKey      90026882
+aSubtype   537001984
+aPSDLG_X   267
+aPSDLG_Y   20
+aSZDLG_X   64
+aSZDLG_Y   14
+aSyncKey   11
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      90026883
+
+eEvent     4
+aType      1
+aZKey      90027173
+
+eEventAct  5
+aTag       MakeC_Target
+aType      1
+aZKey      90027174
+aSB_ActionDisabling 0
+
+eControlDef 4
+
+eControl   3
+aTag       RebuildList
+aText      &Rebuild List
+aZKey      90026880
+aSubtype   536870912
+aPSDLG_X   267
+aPSDLG_Y   52
+aSZDLG_X   64
+aSZDLG_Y   14
+aSyncKey   12
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      90026881
+
+eEvent     4
+aType      1
+aZKey      90026890
+
+eEventAct  5
+aTag       RebuildList
+aType      2
+aZKey      90026891
+aSB_ActionDisabling 0
+
+eControlDef 4
+
+eControl   3
+aTag       CompilerSpec
+aText      Compiler &Spec...
+aZKey      127082460
+aSubtype   536870912
+aPSDLG_X   267
+aPSDLG_Y   68
+aSZDLG_X   64
+aSZDLG_Y   14
+aSyncKey   13
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      127082461
+
+eEvent     4
+aType      1
+aZKey      127082463
+
+eEventAct  5
+aTag       CompilerSpecification
+aType      34
+aZKey      127082464
+aDialogName TZEDCMPD
+aWindowName CompilerSpecification
+aSB_ActionDisabling 0
+
+eControlDef 4
+
+eControl   3
+aTag       MakeJava
+aText      Make &Java Target
+aZKey      4106156
+aSubtype   537001984
+aPSDLG_X   267
+aPSDLG_Y   36
+aSZDLG_X   64
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      4106157
+
+eEvent     4
+aType      1
+aZKey      4095761
+
+eEventAct  5
+aTag       MakeJavaTarget
+aType      1
+aZKey      4095762
+aSB_ActionDisabling 0
+
+eControlDef 4
+
+eControl   3
+aTag       GroupBox
+aZKey      4138831
+aSubtype   537395200
+aPSDLG_X   264
+aPSDLG_Y   84
+aSZDLG_X   69
+aSZDLG_Y   41
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       FindComponent
+aText      &Find Component
+aZKey      4138812
+aSubtype   537001984
+aPSDLG_X   3
+aPSDLG_Y   8
+aSZDLG_X   64
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      4138813
+
+eEvent     5
+aType      1
+aZKey      4138819
+
+eEventAct  6
+aTag       FindComponent
+aNoMap     Y
+aType      1
+aZKey      4138820
+aSB_ActionDisabling 0
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       FindComponentName
+aZKey      4138825
+aSubtype   0
+aPSDLG_X   3
+aPSDLG_Y   26
+aSZDLG_X   64
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      4138826
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      4138832
+
+eCtrlMap   4
+aZKey      4138833
+
+eCtrlMap   4
+aZKey      4138834
+
+eControlDef 4
+
+eControl   3
+aTag       DIL1
+aZKey      90003914
+aSubtype   1
+aPSDLG_X   3
+aPSDLG_Y   247
+aSZDLG_X   346
+aSZDLG_Y   20
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      90003915
+
+eControlDef 4
+
+eWndEvent  3
+aType      2
+aZKey      97333154
+
+eWndAct    4
+aTag       Postbuild
+aNoMap     Y
+aType      1
+aZKey      97333155
+aSB_ActionDisabling 0
+
+eWndEvent  3
+aType      8
+aZKey      127082469
+
+eWndAct    4
+
+eWndEvent  3
+aType      1
+aZKey      98095122
+
+eWndAct    4
+aTag       Prebuild
+aNoMap     Y
+aType      1
+aZKey      90004889
+aSB_ActionDisabling 0
+
+eAction    3
+
+eActMap    4
+aZKey      90026888
+
+eActMap    4
+aZKey      90026889
+
+eActEvent  4
+
+eActCtrl   5
+
+eActHot    4
+aTag       ESC
+aZKey      90016906
+aKeyCombo  U4
+$B"`;````
+`
+aVKey      27
+
+eEventList 4
+aName      CloseButton
+aZKey      127089078
+aEventOptionType Control Event
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      FindComponent
+aZKey      4138823
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      MakeJavaTarget
+aZKey      4106169
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      4095775
+
+eActMap    4
+aZKey      4095776
+
+eActEvent  4
+
+eActCtrl   5
+
+eEventList 4
+aName      CompilerSpec
+aZKey      127089079
+aEventOptionType Control Event
+
+eAction    3
+aTag       MakeAllTargets
+aType      2
+aZKey      90027184
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      90027185
+
+eActMap    4
+aZKey      90027186
+
+eActOper   4
+aName      MakeAllTargets
+aZKey      90027179
+aDesc      Make all targets listed for the LPLR
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      4095765
+
+eActMap    4
+aZKey      4095766
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      MakeC_Target
+aZKey      90027171
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       F3 = MakeTarget
+aZKey      90045957
+aKeyCombo  U4
+$.!=R````
+`
+aVKey      114
+
+eAction    3
+
+eActMap    4
+aZKey      4095767
+
+eActMap    4
+aZKey      4095768
+
+eActWndEvent 4
+
+eActWndEvent 4
+
+eActOper   4
+aName      PostbuildTargetList
+aZKey      98175161
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      TargetSpecification
+aZKey      127089080
+aEventOptionType Window Event
+
+eEventList 4
+aName      TargetSpecification
+aZKey      127089081
+aEventOptionType Window Event
+
+eAction    3
+
+eActMap    4
+aZKey      4095769
+
+eActMap    4
+aZKey      4095770
+
+eActWndEvent 4
+
+eActOper   4
+aName      BuildCompilerEntity
+aZKey      90004860
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      TargetSpecification
+aZKey      127089082
+aEventOptionType Window Event
+
+eAction    3
+
+eActMap    4
+aZKey      90026892
+
+eActMap    4
+aZKey      90026893
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      RebuildTargetList
+aZKey      90026624
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      RebuildList
+aZKey      127089083
+aEventOptionType Control Event
+
+eAction    3
+aTag       RefreshCheckBoxes
+aType      2
+aZKey      90004857
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      4095771
+
+eActMap    4
+aZKey      4095772
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      4095773
+
+eActMap    4
+aZKey      4095774
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      RefreshTargetList
+aZKey      90016901
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eEventList 4
+aName      TargetCompList
+aZKey      127089084
+aEventOptionType Control Event
+
+eWndStyle  3
+aTag       Sizeable Dialog Box
+aZKey      10024379
+aStyle     -2134114304
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eViewObjRef 2
+aZKey      1340809
+aName      TaskLPLR
+
+eLOD       3
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eViewObjRef 2
+aZKey      127086978
+aName      CompilerSpec
+
+eLOD       3
+
+eSourceFile 2
+
+eOperation 3
+aName      CreatePIF_File
+aZKey      90003945
+aDesc      Creates a PIF file for MS Windows to run ZCOMPILE.BAT
+aType      L
+aReturnDesc TRUE - OK, FALSE - error
+aReturnDataType N
+
+eParameter 4
+aShortDesc view to task lplr
+aDataType  V
+aZKey      90003946
+
+eParameter 4
+aShortDesc Overwite current PIF file? Y,N, A
+aDataType  Y
+aZKey      90003947
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127092583
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127092572
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127088665
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127088642
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90038701
+
+eOperation 3
+aName      GetCurrentPathPostBuild
+aZKey      91054515
+aType      D
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc ViewToWindow
+aDataType  V
+aZKey      91054516
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90004861
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      95040731
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127088574
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127088586
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127088637
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127088661
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      95040737
+
+eOperation 3
+aName      ExternalTargetCreateList
+aZKey      95040755
+aDesc      Create external target list from executable list
+aType      D
+aReturnDesc 0 - OK
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      4480502
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90003905
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90026022
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90026625
+
+eOperation 3
+aName      MoveEntity
+aZKey      90026777
+aDesc      Move an entity "up" or "down"
+aType      L
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc View to object
+aDataType  V
+aZKey      90026778
+
+eParameter 4
+aShortDesc Entity name
+aDataType  S
+aZKey      90026779
+
+eParameter 4
+aShortDesc 0 to move up, 1 to move down
+aDataType  N
+aZKey      90026780
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127088250
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90027172
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      4106170
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127087046
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90016902
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70023583
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90003974
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127086994
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127087032
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90003951
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90027180
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91037008
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97333126
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98175162
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127087037
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127087054
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127087063
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127087078
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127088208
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127087104
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127087085
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127088217
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127087113
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127089039
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91054514
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      4138824
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eWebControlPropertyOption 2
+aName      Button (Not Submit)
+aZKey      130069296
+
+eWebControlPropertyOption 2
+aName      Hidden
+aZKey      130069297
+
+eComboBoxEntry 2
+aName      Displayed Text
+aZKey      4138846
+
+eComboBoxEntry 2
+aName      Hyperlink URL
+aZKey      4138847
+
+i15        7
+i17        9
+i19        11
+i21        7
+i22        10
+i36        9
+i39        6
+i40        7
+i41        8
+i42        9
+i43        37
+i57        52
+i63        61
+i64        60
+i69        7
+i76        7
+i80        66
+i82        26
+i84        7
+i86        25
+i87        3
+i90        66
+i94        28
+i95        27
+i96        3
+i99        7
+i100       70
+i102       59
+i103       58
+i105       73
+i106       48
+i108       7
+i110       47
+i111       31
+i113       66
+i115       88
+i116       26
+i117       101
+i118       97
+i119       78
+i120       74
+i121       71
+i122       67
+i124       81
+i125       74
+i126       1
+i129       52
+i133       34
+i137       52
+i147       142
+i152       142
+i157       142
+i161       151
+i162       151
+i165       160
+i166       150
+i167       148
+i169       73
+i170       156
+i171       155
+i172       153
+i176       168
+i177       73
+i182       159
+i185       158
+i187       73
+i194       141
+i195       140
+i196       138
+i197       146
+i198       145
+i199       143
+i202       181
+i203       178
+i204       200
+i211       6
+i212       7
+i213       8
+i214       9
+i219       14
+i220       7
+i221       16
+i222       9
+i228       7
+i230       9
+i236       7
+i238       9
+i240       216
+i244       7
+i246       9
+i247       239
+i248       216
+i252       7
+i254       9
+i255       239
+i256       216
+i260       7
+i262       9
+i263       239
+i264       216
+i268       7
+i270       9
+i271       239
+i272       216
+i276       7
+i278       9
+i280       216
+i285       142
+i292       289
+i295       289
+i298       7
+i300       9
+i305       52
+i308       52
+i311       52
+i314       52
+i317       52
+i320       52
+i323       52
+i326       52
+i334       142
+i339       142
+i344       142
+i349       142
+i356       9
+i361       354
+i362       357
+i371       9
+i372       357
+i374       359
+i376       369
+i377       357
+i379       364
+i381       328
+i387       142
+i392       142
+i397       142
+i402       142
+i407       142
+i412       142
+i417       142
+i426       357
+i431       422
+i433       9
+i434       357
+i436       359
+i438       422
+i439       357
+i443       364
+i450       9
+i451       357
+i453       359
+i455       448
+i456       357
+i458       364
+i465       9
+i466       357
+i468       359
+i470       463
+i471       357
+i473       364
+i477       328
+i484       142
+i489       142
+i494       142
+i499       142
+i504       142
+i509       142
+i514       142
+i524       66
+i528       66
+i531       73
+i534       73
+i535       519
+i537       7
+i539       518
+i540       416
+i542       463
+i544       415
+i545       413
+i547       66
+i548       401
+i550       448
+i551       543
+i552       400
+i553       398
+i555       66
+i556       513
+i557       512
+i558       510
+i560       66
+i562       508
+i563       507
+i564       505
+i566       66
+i567       411
+i569       463
+i570       543
+i571       410
+i572       408
+i574       73
+i575       396
+i577       448
+i578       543
+i579       395
+i580       393
+i582       73
+i583       338
+i585       354
+i587       337
+i588       335
+i590       66
+i591       348
+i593       369
+i595       347
+i596       345
+i598       66
+i599       488
+i601       7
+i603       487
+i604       485
+i609       73
+i610       521
+i611       520
+i613       66
+i614       476
+i615       475
+i616       382
+i618       73
+i620       503
+i621       502
+i622       500
+i624       66
+i626       333
+i627       332
+i628       330
+i630       66
+i631       343
+i632       342
+i633       340
+i635       66
+i636       406
+i637       405
+i638       403
+i640       73
+i641       391
+i642       390
+i643       388
+i645       73
+i646       493
+i648       7
+i650       492
+i651       490
+i653       66
+i655       483
+i656       482
+i657       480
+i659       66
+i660       498
+i662       7
+i663       649
+i664       497
+i665       495
+i667       66
+i668       386
+i669       385
+i670       383
+i672       73
+i673       442
+i674       441
+i675       418
+i677       73
+i682       448
+i684       554
+i685       66
+i694       135
+i696       11
+i698       692
+i699       695
+i704       29
+i711       135
+i712       695
+i713       11
+i717       709
+i721       11
+i723       709
+i724       695
+i727       29
+i731       289
+i734       289
+i737       289
+i740       289
+i743       289
+i746       289
+i749       289
+i752       7
+i756       302
+i761       142
+i766       142
+i771       142
+i776       142
+i781       142
+i787       142
+i790       216
+i794       54
+i797       517
+i801       799
+i804       760
+i807       759
+i808       757
+i811       786
+i812       785
+i813       783
+i815       66
+i816       780
+i817       779
+i818       777
+i820       66
+i821       775
+i824       774
+i825       772
+i831       66
+i832       765
+i835       764
+i836       762
+i838       66
+i840       799
+i843       798
+i844       800
+i846       66
+i849       803
+i852       802
+i854       73
+i856       770
+i859       769
+i860       767
+i862       73
+i867       853
+i868       73
+i869       703
+i872       702
+i873       688
+i875       66
+i878       839
+i879       765
+i880       809
+i881       760
+i885       883
+i886       73
+i890       186
+i892       168
+i894       573
+i896       639
+i898       608
+i902       853
+i904       617
+i906       533
+i908       530
+i910       644
+i912       581
+i914       671
+i918       72
+i920       104
+i922       861
+i928       676
+i930       66
+i931       837
+i933       819
+i935       623
+i937       874
+i939       658
+i941       65
+i943       89
+i945       652
+i947       112
+i949       830
+i951       554
+i953       79
+i955       845
+i957       666
+i959       565
+i961       559
+i963       629
+i965       523
+i967       589
+i969       634
+i971       527
+i973       597
+i975       546
+i977       612
+i979       814
+i981       853
+i982       73
+i983       65
+i984       66
+i985       72
+i986       73
+i987       559
+i988       66
+i989       887
+i990       73
+i991       79
+i992       66
+i993       565
+i994       66
+i995       89
+i996       66
+i997       916
+i998       73
+i999       530
+i1000      73
+i1001      546
+i1002      66
+i1003      573
+i1004      73
+i1005      639
+i1006      73
+i1007      533
+i1008      73
+i1009      554
+i1010      66
+i1011      581
+i1012      73
+i1013      644
+i1014      73
+i1015      617
+i1016      73
+i1017      671
+i1018      73
+i1019      676
+i1020      73
+i1021      814
+i1022      66
+i1023      608
+i1024      73
+i1025      900
+i1026      73
+i1027      612
+i1028      66
+i1029      523
+i1030      66
+i1031      589
+i1032      66
+i1033      629
+i1034      66
+i1035      527
+i1036      66
+i1037      597
+i1038      66
+i1039      634
+i1040      66
+i1041      830
+i1042      66
+i1043      837
+i1044      66
+i1045      819
+i1046      66
+i1047      924
+i1048      73
+i1049      623
+i1050      66
+i1051      652
+i1052      66
+i1053      845
+i1054      66
+i1055      186
+i1056      73
+i1057      666
+i1058      66
+i1059      861
+i1060      73
+i1061      874
+i1062      66
+i1063      104
+i1064      73
+i1065      112
+i1066      66
+i1067      168
+i1068      73
+i1069      658
+i1070      66

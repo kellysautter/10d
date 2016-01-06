@@ -1,0 +1,262 @@
+z10000Zeidon    DOMAINS  TZERSASO 05/01/01   23:23:04 1.0b0    
+eSubjectArea 1
+aName      DOMAINS
+aZKey      1323360
+
+eSA_Entity 2
+aZKey      1323361
+aER_DiagramPosX 10
+aER_DiagramPosY 14
+
+eER_Entity 3
+aName      Domain
+aZKey      1320820
+aPurpose   W
+aDesc      Domain for validation and formatting
+aOwningArea DM
+aER_DiagramPosX 50
+aER_DiagramPosY 364
+
+eER_RelLink 4
+aName      has
+aZKey      1322250
+aCardMin   0
+aCardMax   m
+aAutoSeq   Y
+
+eER_RelType_1 5
+aZKey      1322249
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 58
+aER_DiagramBendPosY 418
+aER_DiagramE1PosX 58
+aER_DiagramE1PosY 369
+aER_DiagramE2PosX 105
+aER_DiagramE2PosY 418
+
+eER_RelLink_Other 6
+aName      for
+aZKey      1322251
+aCardMin   1
+aCardMax   1
+aAutoSeq   N
+
+eER_Entity_Other 7
+aName      Context
+aZKey      1320705
+aPurpose   W
+aDesc      Domain Context
+aOwningArea DM
+aER_DiagramPosX 106
+aER_DiagramPosY 416
+
+eSA_Entity 2
+aZKey      1323362
+aER_DiagramPosX 48
+aER_DiagramPosY 15
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has defining
+aZKey      1322616
+aCardMin   0
+aCardMax   m
+aAutoSeq   Y
+
+eER_RelType_1 5
+aZKey      1322615
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 110
+aER_DiagramE1PosY 421
+aER_DiagramE2PosX 110
+aER_DiagramE2PosY 441
+
+eER_RelLink_Other 6
+aName      defines
+aZKey      1322617
+aCardMin   1
+aCardMax   1
+aAutoSeq   N
+
+eER_Entity_Other 7
+aName      TableEntry
+aZKey      1321303
+aPurpose   W
+aDesc      Entry of values for the table for a Domain
+aOwningArea DM
+aER_DiagramPosX 106
+aER_DiagramPosY 442
+
+eER_RelLink 4
+aName      has defining
+aZKey      1322619
+aCardMin   0
+aCardMax   m
+aAutoSeq   Y
+
+eER_RelType_1 5
+aZKey      1322618
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 110
+aER_DiagramBendPosY 386
+aER_DiagramE1PosX 110
+aER_DiagramE1PosY 415
+aER_DiagramE2PosX 149
+aER_DiagramE2PosY 386
+
+eER_RelLink_Other 6
+aName      defines
+aZKey      1322620
+aCardMin   1
+aCardMax   1
+aAutoSeq   N
+
+eER_Entity_Other 7
+aName      RegularExpression
+aZKey      1321241
+aPurpose   W
+aDesc      A regular expression entry for a Domain
+aOwningArea DM
+aER_DiagramPosX 150
+aER_DiagramPosY 384
+
+eSA_Entity 2
+aZKey      1323363
+aER_DiagramPosX 48
+aER_DiagramPosY 42
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_Entity 2
+aZKey      1323364
+aER_DiagramPosX 88
+aER_DiagramPosY 15
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_RelType 2
+aZKey      1323365
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 19
+aER_DiagramE1PosY 16
+aER_DiagramE2PosX 47
+aER_DiagramE2PosY 16
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      1323366
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 52
+aER_DiagramE1PosY 20
+aER_DiagramE2PosX 52
+aER_DiagramE2PosY 41
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      1323367
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 57
+aER_DiagramE1PosY 17
+aER_DiagramE2PosX 87
+aER_DiagramE2PosY 17
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eEntpER_Model 2
+aName      Zeidon9A
+aZKey      1320651
+aDesc      Enterprise Model
+
+eZ_MetaDef 2
+aName      DOMAINS
+aZKey      1323360
+aType      5
+aLastUpdateDate 19950824212234000
+aLastCheckInDate 19951102203051110
+
+i8         6
+i9         5
+i10        4
+i11        3
+i12        2
+i22        16
+i23        15
+i24        14
+i25        13
+i26        6
+i28        20
+i29        19
+i30        18
+i31        17
+i32        6
+i34        4
+i35        3
+i36        2
+i37        5
+i38        6
+i40        14
+i41        13
+i42        6
+i43        15
+i44        16
+i46        18
+i47        17
+i48        6
+i49        19
+i50        20

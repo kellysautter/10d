@@ -1,0 +1,947 @@
+/*
+CHANGE LOG
+2000.10.20  SR  Z2000  Size of path variables
+   Modified size of SourceFileName, SourceFileName1, SourceFileName2 and SourceName
+   in function DialogMigrate because size of attributes ExecDir, MetaSrcDir and
+   PgmSrcDir has been changed to 254 in datamodel.
+2000.09.04  BL Z10  TB RAD 53256
+   Modified DialogMigrate: before include DefaultWindow, check exits it
+2000.04.27  DC Z10
+   Added more information to error message for relink Action Mapping error and
+   corrected some relink cases where there is a match on Name but not ZKey.
+2000.02.03  BL Z10  new PPE handling
+   Modified ControlRelinkDelete for relink ControlDef: 1. search ControlDef.Tag, if
+   not found search ControlDef.Key (not ControlDef.ZKey, because merge PPE)
+2000.01.12  BL Z10
+   Modified ControlRelinkDelete for new PPE handling
+2000.01.09  BL Z10
+   Modified ControlRelinkDelete: search ZKey, if not found search Tag
+1999.11.17  DC Z10
+   Modifed ControlRelinkDelete again to get the TZPESRCO view dynamically so it
+   would run under the Animator.
+1999.11.10  DC Z10
+   Modified ControlRelinkDelete to relink ControlDef and to NOT delete CtrlMap
+   when a mapping error occurs, but instead just exclude the mapping information.
+1999.08.14  DC 10a
+   Modified ControlRelinkDelete so that it would handle link errors for Reports
+   as well as Dialogs.
+1999.08.02    DGC
+   Fixed a message length to prevent truncation.
+1997.11.13    DGC
+   Changed CopyFile() to SysCopyFile().
+1997.08.05  DonC
+   Changed ControlRelinkDelete operation from LOCAL operation to TRANSFORMATION
+   operations, including modifying the order of the parameters and changing
+   message titles so they would be appropriate for Reports as well as Dialogs..
+*/
+
+// LAST MESSAGE ID: WD00514
+
+
+/************************************************************************
+   ENTRY:    DialogRelinkDelete
+   PURPOSE:  This function checks all mapping for entities, attributes and
+             ViewObjRefs to make sure the associated entity, attribute or
+             LOD exists.  If it doesn't, it deletes the MapRef or the
+             ViewObjRef.
+             It also relinks entities to the corresponding entities in the
+             LOD (and in the Domain for entity Context).  It does not at
+             this time relink fonts, colors, ControlDef and other entities
+             in the PE, as those characteristics can't change in the PE
+             at this point.  This should continue to be re-evaluated.
+***********************************************************************/
+TRANSFORMATION OPERATION
+DialogRelinkDelete( VIEW vDialog BASED ON LOD TZWDLGSO, VIEW vSubtask )
+
+   VIEW         vLastLOD     BASED ON LOD TZZOLODO
+   VIEW         vVOR         BASED ON LOD TZWDVORO
+   VIEW         vLOD_LPLR    BASED ON LOD TZCMLPLO
+   VIEW         vRecursive   BASED ON LOD TZWDLGSO
+   INTEGER      LastViewZKey
+   STRING (255) szMsg
+   STRING ( 1 ) szContinueParseGen
+   SHORT  nRC
+
+   RetrieveViewForMetaList( vSubtask, vLOD_LPLR, zREFER_LOD_META )
+   LastViewZKey = 0
+   NAME VIEW vDialog "vDialog"
+
+   FOR EACH vDialog.ViewObjRef
+      IF LastViewZKey != 0
+         DropMetaOI( vSubtask, vLastLOD )
+         LastViewZKey = 0
+      END
+
+      nRC = ActivateMetaOI_ByZKey( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                   zSINGLE, vDialog.ViewObjRef.ZKey, 0 )
+      IF nRC >= 0
+         nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                      zSINGLE, vVOR.LOD.Name, 0 )
+         IF nRC >= 0
+            LastViewZKey = vDialog.ViewObjRef.ZKey
+            NAME VIEW vLastLOD "vLastLOD"
+            // Relink ViewObjRef & LOD
+            //RelinkInstanceToInstance( vDialog, "ViewObjRef", vVOR, "ViewObjRef" )
+            //RelinkInstanceToInstance( vDialog, "LOD", vLastLOD, "LOD" )
+
+            // Since RelinkInstanceToInstance does not reset the include flags,
+            // use RelinkAllSubobjectsForOI for relinking entities that need those include
+            // flags reset.  When a version of RelinkInstanceToInstance is created
+            // that resets those flags, the following code can be removed.
+            RelinkAllSubobjectsForOI( vDialog, "ViewObjRef", vVOR, "ViewObjRef" )
+            RelinkAllSubobjectsForOI( vDialog, "CtrlMapLOD_Attribute", vLastLOD, "LOD_Attribute" )
+            RelinkAllSubobjectsForOI( vDialog, "OptMapLOD_Attribute", vLastLOD, "LOD_Attribute" )
+            RelinkAllSubobjectsForOI( vDialog, "ActMapLOD_Entity", vLastLOD, "LOD_Entity" )
+         ELSE
+            szMsg = "Deleting Dialog View: " + vDialog.ViewObjRef.Name +
+                    "| Missing LOD: " + vDialog.LOD.Name
+            SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
+            IF szContinueParseGen = "N"
+               TraceLineS( szMsg, "" )
+            ELSE
+               MessageSend( vSubtask, "WD00501", "Dialog Relink",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            END
+            EXCLUDE vDialog.ViewObjRef NONE
+         END
+         DropMetaOI( vSubtask, vVOR )
+      ELSE
+         nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                      zSINGLE, vDialog.ViewObjRef.Name , 0 )
+         IF nRC >= 0
+            EXCLUDE vDialog.ViewObjRef NONE
+            INCLUDE vDialog.ViewObjRef FROM vVOR.ViewObjRef
+            DropMetaOI( vSubtask, vVOR )
+         ELSE
+            szMsg = "Deleting Dialog View: " + vDialog.ViewObjRef.Name +
+                    "| Missing Registered View."
+            SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
+            IF szContinueParseGen = "N"
+               TraceLineS( szMsg, "" )
+            ELSE
+               MessageSend( vSubtask, "WD00502", "Dialog Relink",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            END
+            EXCLUDE vDialog.ViewObjRef NONE
+         END
+      END
+   END
+
+   FOR EACH vDialog.Window
+      CreateViewFromViewForTask( vRecursive, vDialog, 0 )
+      NAME VIEW vRecursive "vRecursive"
+      FOR EACH vRecursive.Control
+         ControlRelinkDelete( vDialog, vRecursive, vLastLOD,
+                              LastViewZKey, vLOD_LPLR, vSubtask )
+      END
+
+      FOR EACH vDialog.Action
+         FOR EACH vDialog.ActMap
+            IF vDialog.ActMapView  EXISTS
+               IF LastViewZKey != vDialog.ActMapView.ZKey
+                  SET CURSOR FIRST vDialog.ViewObjRef WHERE
+                      vDialog.ViewObjRef.ZKey = vDialog.ActMapView.ZKey
+                  IF RESULT < zCURSOR_SET
+                     SET CURSOR FIRST vDialog.ViewObjRef WHERE
+                         vDialog.ViewObjRef.Name = vDialog.ActMapView.Name
+                     IF RESULT >= zCURSOR_SET
+
+                        // If there was a match on Name but not on Zkey,
+                        // reinclude the ActMapView.
+                        EXCLUDE vDialog.ActMapView
+                        INCLUDE vDialog.ActMapView FROM vDialog.ViewObjRef
+
+                        // Activate the correct LOD for later processing.
+                        IF LastViewZKey != 0
+                           DropMetaOI( vSubtask, vLastLOD )
+                           LastViewZKey = 0
+                        END
+
+                        nRC = ActivateMetaOI_ByZKey( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                                     zSINGLE, vDialog.LOD.ZKey, 0 )
+                        IF nRC < 0
+                           nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                                        zSINGLE, vDialog.LOD.Name, 0 )
+                        END
+
+                        IF nRC < 0
+                           // If we get here, we have a Zeidon error.
+                           szMsg = "Deleting ActMap due to LOD load error.| Registered View Name: " +
+                                   vDialog.ViewObjRef.Name
+                           MessageSend( vSubtask, "WD00504", "Dialog Relink",
+                                        szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                           DELETE ENTITY vDialog.ActMap NONE
+                        ELSE
+                           LastViewZKey = vDialog.ViewObjRef.ZKey
+                           NAME VIEW vLastLOD "vLastLOD"
+                        END
+
+                     ELSE
+                        // There was no match on either ZKey or Name.
+                        szMsg = "Deleting Action Mapping due to missing View. | Registered View Name: " +
+                                vDialog.ActMapView.Name
+                        MessageSend( vSubtask, "WD00503", "Dialog Relink",
+                                     szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                        DELETE ENTITY vDialog.ActMap NONE
+                     END
+                  ELSE
+                     // There was a match on ActMapView Zkey.  Make sure the corresponding
+                     // LOD is activated.
+                     IF LastViewZKey != 0
+                        DropMetaOI( vSubtask, vLastLOD )
+                        LastViewZKey = 0
+                     END
+
+                     nRC = ActivateMetaOI_ByZKey( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                                  zSINGLE, vDialog.LOD.ZKey, 0 )
+                     IF nRC < 0
+                        nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                                     zSINGLE, vDialog.LOD.Name, 0 )
+                     END
+
+                     IF nRC < 0
+                        // If we get here, we have a Zeidon error.
+                        szMsg = "Deleting ActMap due to LOD load error.| Registered View Name: " +
+                                vDialog.ViewObjRef.Name
+                        MessageSend( vSubtask, "WD00504", "Dialog Relink",
+                                     szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                        DELETE ENTITY vDialog.ActMap NONE
+                     ELSE
+                        LastViewZKey = vDialog.ViewObjRef.ZKey
+                        NAME VIEW vLastLOD "vLastLOD"
+                     END
+                  END
+               END
+
+               IF vDialog.ActMapLOD_Entity EXISTS
+                  SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
+                      vLastLOD.LOD_Entity.ZKey = vDialog.ActMapLOD_Entity.ZKey
+                  IF RESULT < zCURSOR_SET
+                     SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
+                         vLastLOD.LOD_Entity.Name = vDialog.ActMapLOD_Entity.Name
+                     IF RESULT >= zCURSOR_SET
+                        // If there was a match on Name but not on Zkey,
+                        // reinclude the LOD_Entity.
+                        EXCLUDE vDialog.ActMapLOD_Entity
+                        INCLUDE vDialog.ActMapLOD_Entity FROM vLastLOD.LOD_Entity
+                     ELSE
+                        // There was no match on either ZKey or Name.
+                        szMsg = "Deleting Action Mapping due to missing LOD Entity.|   Registered View Name: " +
+                                vDialog.ViewObjRef.Name + "|   LOD Entity Name: " +
+                                vDialog.ActMapLOD_Entity.Name
+                        MessageSend( vSubtask, "WD00505", "Dialog Relink",
+                                     szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                        DELETE ENTITY vDialog.ActMap NONE
+                     END
+                  END
+               END
+            END
+         END
+      END
+
+      FOR EACH vRecursive.Menu
+         FOR EACH vDialog.Option
+            OptionRelinkDelete( vSubtask, vLOD_LPLR, vDialog, vRecursive,
+                                vLastLOD, LastViewZKey )
+         END
+      END
+
+      DropView( vRecursive )
+
+   END
+END
+
+/************************************************************************
+   ENTRY:    ControlRelinkDelete
+   PURPOSE:  This function evalutes each attribute and entity within the
+             CtrlMap subobject and deletes any that are no longer in the
+             corresponding LOD.
+***********************************************************************/
+TRANSFORMATION OPERATION
+ControlRelinkDelete( VIEW    vDialog     BASED ON LOD TZWDLGSO,
+                     VIEW    vControl    BASED ON LOD TZWDLGSO,
+                     VIEW    vLastLOD    BASED ON LOD TZZOLODO,
+                     INTEGER LastViewZKey,
+                     VIEW    vLOD_LPLR   BASED ON LOD TZCMLPLO,
+                     VIEW    vSubtask )
+
+   VIEW vDomain BASED ON LOD  TZDGSRCO
+   VIEW vReport BASED ON LOD  TZRPSRCO
+   VIEW vPE     BASED ON LOD  TZPESRCO
+   VIEW PE_List BASED ON LOD  TZCMLPLO
+   STRING ( 255 ) szMsg
+   STRING ( 64 )  szWindowReportName
+   STRING ( 1 )   szContinueParseGen
+   INTEGER        nRemapFlag
+   SHORT          nRC
+
+   //  Get View to Presentation Environment.
+   IF GetViewByName( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK ) < 0
+      RetrieveViewForMetaList( vSubtask, PE_List, zREFER_PENV_META )
+      nRC = LoadZeidonPPE( vSubtask, vPE, zREFER_PENV_META, PE_List,
+                           "Configuration Management", "" )
+      DropView( PE_List )
+      IF nRC < 0
+         RETURN nRC
+      END
+
+      SetNameForView( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK )
+   END
+
+   // Process each subcontrol.
+   FOR EACH vControl.CtrlCtrl
+      SetViewToSubobject( vControl, "CtrlCtrl" )
+      ControlRelinkDelete( vDialog, vControl, vLastLOD,
+                           LastViewZKey, vLOD_LPLR, vSubtask )
+      ResetViewFromSubobject( vControl )
+   END
+
+   // Set szWindowReportName depending on whether or not view "Report" exists.
+// GET VIEW vReport NAMED "vReport"
+   GetViewByName( vReport, "vReport", vSubtask, zLEVEL_TASK )
+   IF vReport != 0
+      szWindowReportName = "Group: " + vReport.Group.Tag
+   ELSE
+      szWindowReportName = "Window: " + vDialog.Window.Tag
+   END
+
+   //BL, 2000.02.03 new search pfad
+   SET CURSOR FIRST vPE.ControlDef WHERE
+              vPE.ControlDef.Key = vControl.ControlDef.Key
+   IF RESULT < zCURSOR_SET
+      SET CURSOR FIRST vPE.ControlDef WHERE
+                 vPE.ControlDef.Tag = vControl.ControlDef.Tag
+      IF RESULT < zCURSOR_SET
+         SET CURSOR FIRST vPE.ControlDef WHERE
+                          vPE.ControlDef.ZKey = vControl.ControlDef.ZKey
+      END
+   END
+
+   IF RESULT >= zCURSOR_SET
+      EXCLUDE vControl.ControlDef
+      INCLUDE vControl.ControlDef FROM vPE.ControlDef
+   ELSE
+      szMsg ="ControlDef doesn't exist: " + vControl.ControlDef.Tag
+      MessageSend( vSubtask, "WD00204", "ControlRelinkDelete",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+   END
+
+   /*  For each CtrlMap, check each attribute or entity against the corresponding
+       LOD to make sure that attribute or entity exists in the LOD.  If it doesn't,
+       delete the CtrlMap.  */
+   FOR EACH vControl.CtrlMap
+      IF vControl.CtrlMapView EXISTS
+         IF LastViewZKey != vControl.CtrlMapView.ZKey
+            SET CURSOR FIRST vDialog.ViewObjRef WHERE
+                vDialog.ViewObjRef.ZKey = vControl.CtrlMapView.ZKey
+            IF RESULT >= zCURSOR_SET
+               nRemapFlag = 0
+            ELSE
+               SET CURSOR FIRST vDialog.ViewObjRef WHERE
+                   vDialog.ViewObjRef.Name = vControl.CtrlMapView.Name
+               IF RESULT >= zCURSOR_SET
+                  // If there was a match on Name but not on Zkey,
+                  // reinclude the CtrlMapView.
+                  EXCLUDE vControl.CtrlMapView
+                  INCLUDE vControl.CtrlMapView FROM vDialog.ViewObjRef
+                  nRemapFlag = 0
+               ELSE
+                  nRemapFlag = -1
+                  szMsg = "Deleting Control Mapping for:|   " + szWindowReportName +
+                          "|   Control: " + vControl.Control.Tag +
+                          "| because of missing View: " + vControl.CtrlMapView.Name
+                  SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
+                  IF szContinueParseGen = "N"
+                     TraceLineS( szMsg, "" )
+                  ELSE
+                     MessageSend( vSubtask, "WD00506", "Control Relink",
+                                  szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  END
+                  DELETE ENTITY vControl.CtrlMap NONE
+               END
+            END
+            IF nRemapFlag = 0
+               // There was a match on CtrlMapView ZKey or Name.
+               // Make sure the corresponding LOD is activated.
+               IF LastViewZKey != 0
+                  DropMetaOI( vSubtask, vLastLOD )
+                  LastViewZKey = 0
+               END
+
+               nRC = ActivateMetaOI_ByZKey( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                            zSINGLE, vDialog.LOD.ZKey, 0 )
+               IF nRC < 0
+                  nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                               zSINGLE, vDialog.LOD.Name, 0 )
+               END
+
+               IF nRC < 0
+                  // If we get here, we have a Zeidon error.
+                  szMsg = "Deleting CtrlMap due to LOD load error.| Registered View Name: " +
+                          vDialog.ViewObjRef.Name
+                  MessageSend( vSubtask, "WD00507", "Control Relink",
+                               szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  DELETE ENTITY vControl.CtrlMap NONE
+               ELSE
+                  LastViewZKey = vDialog.ViewObjRef.ZKey
+                  NAME VIEW vLastLOD "vLastLOD"
+               END
+            END
+         END
+
+ //         IF vControl.CtrlMapView EXISTS
+ //            RelinkInstanceToInstance( vControl, "CtrlMapView",
+ //                                      vDialog, "ViewObjRef" )
+
+         IF vControl.CtrlMapLOD_Attribute EXISTS
+            SET CURSOR FIRST vLastLOD.LOD_Attribute WITHIN vLastLOD.LOD WHERE
+                vLastLOD.LOD_Attribute.ZKey = vControl.CtrlMapLOD_Attribute.ZKey
+            IF RESULT < 0
+               // Since there was no match on ZKey, try to find a match on LOD Entity
+               // name and ER Attribute name, in case the Attribute had been deleted
+               // and recreated.  In this case, re-include the Attribute.
+               SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
+                                vLastLOD.LOD_Entity.Name = vControl.CtrlMapRelatedEntity.Name
+               IF RESULT >= zCURSOR_SET
+                  SET CURSOR FIRST vLastLOD.ER_Attribute WITHIN vLastLOD.LOD_Entity WHERE
+                                   vLastLOD.ER_Attribute.Name = vControl.CtrlMapER_Attribute.Name
+                  IF RESULT >= zCURSOR_SET     //
+                     nRemapFlag = 0
+                  ELSE
+                     nRemapFlag = -1
+                  END
+               ELSE
+                  nRemapFlag = -1
+               END
+               IF nRemapFlag = 0  // We were able to remap to an attribute by same name.
+                  EXCLUDE vControl.CtrlMapLOD_Attribute
+                  INCLUDE vControl.CtrlMapLOD_Attribute FROM vLastLOD.LOD_Attribute
+               ELSE
+                  szMsg = "Deleting Control Mapping for:|   " + szWindowReportName +
+                          "|   Control: " + vControl.Control.Tag +
+                          "| because of missing Attribute: " + vControl.CtrlMapER_Attribute.Name
+                  SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
+                  IF szContinueParseGen = "N"
+                     TraceLineS( szMsg, "" )
+                  ELSE
+                     MessageSend( vSubtask, "WD00508", "Control Relink",
+                                  szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  END
+                  IF vControl.CtrlMapLOD_Attribute EXISTS
+                     EXCLUDE vControl.CtrlMapLOD_Attribute
+                  END
+                  IF vControl.CtrlMapLOD_Entity EXISTS
+                     EXCLUDE vControl.CtrlMapLOD_Entity
+                  END
+                  IF vControl.CtrlMapContext EXISTS
+                     EXCLUDE vControl.CtrlMapContext
+                  END
+                  IF vControl.CtrlMapView EXISTS
+                     EXCLUDE vControl.CtrlMapView
+                  END
+               END
+            ELSE
+               // Relink or Re-Include CtrlMapLOD_Attribute, & subordinates & Context
+               //RelinkInstanceToInstance( vControl, "CtrlMapLOD_Attribute",
+               //                          vLastLOD, "LOD_Attribute" )
+               //RelinkInstanceToInstance( vControl, "CtrlMapRelatedEntity",
+               //                          vLastLOD, "LOD_Entity" )
+               //RelinkInstanceToInstance( vControl, "CtrlMapER_Attribute",
+               //                          vLastLOD, "ER_Attribute" )
+               //RelinkInstanceToInstance( vControl, "CtrlMapER_Domain",
+               //                          vLastLOD, "Domain" )
+
+               // If ER_Attribute or ER_Domain don't match on ZKey,
+               // reinclude the LOD_Attribute entity.
+               IF vControl.CtrlMapER_Attribute.ZKey  != vLastLOD.ER_Attribute.ZKey OR
+                  vControl.CtrlMapER_Domain.ZKey     != vLastLOD.Domain.ZKey
+
+                  EXCLUDE vControl.CtrlMapLOD_Attribute
+                  INCLUDE vControl.CtrlMapLOD_Attribute FROM vLastLOD.LOD_Attribute
+               END
+
+               IF vControl.CtrlMapContext EXISTS
+                  // Try to find the Domain first by ZKey and then by name.
+                  // If found, also find the Context by ZKey and then by name.
+                  // If no match was finally found, exclude the Context.
+                  nRC = ActivateMetaOI_ByZKey( vSubtask, vDomain, 0, zREFER_DOMAIN_META,
+                                               zSINGLE, vControl.CtrlMapER_Domain.ZKey , 0 )
+                  IF nRC >= 0
+                     SET CURSOR FIRST vDomain.Context WHERE
+                         vDomain.Context.ZKey = vControl.CtrlMapContext.ZKey
+                     IF RESULT >= zCURSOR_SET
+                        nRemapFlag = 0
+                     ELSE
+                        SET CURSOR FIRST vDomain.Context WHERE
+                            vDomain.Context.Name = vControl.CtrlMapContext.Name
+                        IF RESULT >= zCURSOR_SET
+                           nRemapFlag = 1
+                           EXCLUDE vControl.CtrlMapContext
+                           INCLUDE vControl.CtrlMapContext FROM vDomain.Context
+                        ELSE
+                           nRemapFlag = -1
+                        END
+                     END
+                  ELSE
+                     nRC = ActivateMetaOI_ByName( vSubtask, vDomain, 0, zREFER_DOMAIN_META,
+                                                  zSINGLE, vControl.CtrlMapER_Domain.Name , 0 )
+                     IF nRC >= 0
+                        SET CURSOR FIRST vDomain.Context WHERE
+                            vDomain.Context.Name = vControl.CtrlMapContext.Name
+                        IF RESULT >= zCURSOR_SET
+                           nRemapFlag = 1
+                           EXCLUDE vControl.CtrlMapContext
+                           INCLUDE vControl.CtrlMapContext FROM vDomain.Context
+                        ELSE
+                           nRemapFlag = -1
+                        END
+                     ELSE
+                        nRemapFlag = -1
+                     END
+                  END
+                  IF nRemapFlag = -1
+                     szMsg = "Excluding Context for:|   " + szWindowReportName +
+                             "|   Control: " + vControl.Control.Tag +
+                             "| because of missing Context: " + vControl.CtrlMapContext.Name
+                     MessageSend( vSubtask, "WD00509", "Control Relink",
+                                  szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                     EXCLUDE vControl.CtrlMapContext NONE
+                  ELSE
+                     IF nRemapFlag = 0
+                        RelinkInstanceToInstance( vControl, "CtrlMapContext",
+                                                  vDomain, "Context" )
+                     END
+                     DropMetaOI( vSubtask, vDomain )
+                  END
+               END
+            END
+         END
+
+         IF vControl.CtrlMapLOD_Entity EXISTS
+            SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
+                vLastLOD.LOD_Entity.ZKey = vControl.CtrlMapLOD_Entity.ZKey
+            IF RESULT < 0
+               // Since there was no match on ZKey, try again on name in case the
+               // LOD_Entity had been deleted and readded.
+               SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
+                   vLastLOD.LOD_Entity.Name = vControl.CtrlMapLOD_Entity.Name
+               IF RESULT >= zCURSOR_SET
+                  EXCLUDE vControl.CtrlMapLOD_Entity
+                  INCLUDE vControl.CtrlMapLOD_Entity FROM vLastLOD.LOD_Entity
+               ELSE
+                  szMsg = "Deleting Control Mapping for:|   " + szWindowReportName +
+                          "|   Control: " + vControl.Control.Tag +
+                          "| because of missing Entity: " + vControl.CtrlMapLOD_Entity.Name
+                  SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
+                  IF szContinueParseGen = "N"
+                     TraceLineS( szMsg, "" )
+                  ELSE
+                     MessageSend( vSubtask, "WD00510", "Control Relink",
+                                  szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  END
+                  DELETE ENTITY vControl.CtrlMap NONE
+               END
+            ELSE
+               // Relink CtrlMapLOD_Entity
+               RelinkInstanceToInstance( vControl, "CtrlMapLOD_Entity",
+                                         vLastLOD, "LOD_Entity" )
+            END
+         END
+
+      END
+   END
+
+END
+
+/************************************************************************
+   ENTRY:    OptionRelinkDelete
+   PURPOSE:  This function evalutes each entity within the ActMap
+             subobject and deletes any that are no longer in the
+             corresponding LOD.
+***********************************************************************/
+LOCAL OPERATION
+OptionRelinkDelete( VIEW vSubtask,
+                    VIEW vLOD_LPLR   BASED ON LOD TZCMLPLO,
+                    VIEW vDialog     BASED ON LOD TZWDLGSO,
+                    VIEW vOption     BASED ON LOD TZWDLGSO,
+                    VIEW vLastLOD    BASED ON LOD TZZOLODO,
+                    INTEGER LastViewZKey )
+
+   VIEW         vDomain BASED ON LOD TZDGSRCO
+   STRING (255) szMsg
+   INTEGER      nRemapFlag
+   SHORT  nRC
+
+   // Process each subcontrol.
+   FOR EACH vOption.OptOpt
+      SetViewToSubobject( vOption, "OptOpt" )
+      OptionRelinkDelete( vSubtask, vLOD_LPLR, vDialog, vOption, vLastLOD, LastViewZKey )
+      ResetViewFromSubobject( vOption )
+   END
+
+   /*  For each OptMap, check each entity against the corresponding
+       LOD to make sure that entity exists in the LOD.  If it doesn't,
+       delete the OptMap.  */
+   FOR EACH vOption.OptMap
+      IF vOption.OptMapView EXISTS
+         // Get the correct LOD, if the last one used isn't the one in this OptMap.
+         IF LastViewZKey != vOption.OptMapView.ZKey
+            SET CURSOR FIRST vDialog.ViewObjRef WHERE
+                vDialog.ViewObjRef.ZKey = vOption.OptMapView.ZKey
+            IF RESULT >= zCURSOR_SET
+               nRemapFlag = 0
+            ELSE
+               SET CURSOR FIRST vDialog.ViewObjRef WHERE
+                   vDialog.ViewObjRef.Name = vOption.OptMapView.Name
+               IF RESULT >= zCURSOR_SET
+                  // If there was a match on Name but not on Zkey,
+                  // reinclude the OptMapView.
+                  EXCLUDE vOption.OptMapView
+                  INCLUDE vOption.OptMapView FROM vDialog.ViewObjRef
+                  nRemapFlag = 0
+               ELSE
+                  szMsg = "Deleting Option Mapping for:|   Window: " + vDialog.Window.Tag +
+                          "|   Option: " + vOption.Option.Tag +
+                          "| because of missing View: " + vOption.OptMapView.Name
+                  MessageSend( vSubtask, "WD00511", "Dialog Relink",
+                               szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  DELETE ENTITY vOption.OptMap NONE
+                  nRemapFlag = -1
+               END
+            END
+            IF nRemapFlag = 0
+               // There was a match on OptMapView Zkey or Name.
+               // Make sure the corresponding LOD is activated.
+               IF LastViewZKey != 0
+                  DropMetaOI( vSubtask, vLastLOD )
+                  LastViewZKey = 0
+               END
+
+               nRC = ActivateMetaOI_ByZKey( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                            zSINGLE, vDialog.LOD.ZKey, 0 )
+               IF nRC < 0
+                  // If we get here, we have a Zeidon error.
+                  szMsg = "Deleting OptMap due to LOD load error.| Registered View Name: " +
+                          vDialog.ViewObjRef.Name
+                  MessageSend( vSubtask, "WD00512", "Dialog Relink",
+                               szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  DELETE ENTITY vOption.OptMap NONE
+               ELSE
+                  LastViewZKey = vDialog.ViewObjRef.ZKey
+                  NAME VIEW vLastLOD "vLastLOD"
+                  // Relink OptMapView?? Is it necessary?
+               END
+            END
+         END
+
+ //         IF vOption.OptMapView EXISTS
+ //            RelinkInstanceToInstance( vOption, "OptMapView",
+ //                                      vDialog, "ViewObjRef" )
+
+
+         IF vOption.OptMapLOD_Attribute EXISTS
+            SET CURSOR FIRST vLastLOD.LOD_Attribute WITHIN vLastLOD.LOD WHERE
+                vLastLOD.LOD_Attribute.ZKey  = vOption.OptMapLOD_Attribute.ZKey
+            IF RESULT < 0
+               // Since there was no match on ZKey, try to find a match on LOD Entity
+               // name and ER Attribute name, in case the Attribute had been deleted
+               // and recreated.  In this case, re-include the Attribute.
+               SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
+                                vLastLOD.LOD_Entity.Name = vOption.OptMapRelatedEntity.Name
+               IF RESULT >= zCURSOR_SET
+                  SET CURSOR FIRST vLastLOD.ER_Attribute WITHIN vLastLOD.LOD_Entity WHERE
+                                   vLastLOD.ER_Attribute.Name = vOption.OptMapER_Attribute.Name
+                  IF RESULT >= zCURSOR_SET     //
+                     nRemapFlag = 0
+                  ELSE
+                     nRemapFlag = -1
+                  END
+               ELSE
+                  nRemapFlag = -1
+               END
+               IF nRemapFlag = 0  // We were able to remap to an attribute by same name.
+                  EXCLUDE vOption.OptMapLOD_Attribute
+                  INCLUDE  vOption.OptMapLOD_Attribute FROM vLastLOD.LOD_Attribute
+               ELSE
+                  szMsg = "Deleting Option Mapping for:|   Window: " + vDialog.Window.Tag +
+                          "|   Option: " + vOption.Option.Tag +
+                          "| because of missing Attribute: " + vOption.OptMapER_Attribute.Name
+                  MessageSend( vSubtask, "WD00513", "Dialog Activate",
+                               szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  DELETE ENTITY vOption.OptMap NONE
+               END
+            ELSE
+               // Relink OptMapLOD_Attribute, & subordinates & OptMapContext
+               //RelinkInstanceToInstance( vOption,  "OptMapLOD_Attribute",
+               //                          vLastLOD, "LOD_Attribute" )
+               //RelinkInstanceToInstance( vOption,  "OptMapRelatedEntity",
+               //                          vLastLOD, "LOD_Entity" )
+               //RelinkInstanceToInstance( vOption,  "OptMapER_Attribute",
+               //                          vLastLOD, "ER_Attribute" )
+               //RelinkInstanceToInstance( vOption,  "OptMapER_Domain",
+               //                          vLastLOD, "Domain" )
+               IF vOption.OptMapContext EXISTS
+                  // Try to find the Domain first by ZKey and then by name.
+                  // If found, also find the Context by ZKey and then by name.
+                  // If no match was finally found, exclude the Context.
+                  nRC = ActivateMetaOI_ByZKey( vSubtask, vDomain, 0, zREFER_DOMAIN_META,
+                                               zSINGLE, vOption.OptMapER_Domain.ZKey , 0 )
+                  IF nRC >= 0
+                     SET CURSOR FIRST vDomain.Context WHERE
+                         vDomain.Context.ZKey = vOption.OptMapContext.ZKey
+                     IF RESULT >= 0
+                        nRemapFlag = 0
+                     ELSE
+                        SET CURSOR FIRST vDomain.Context WHERE
+                            vDomain.Context.Name = vOption.OptMapContext.Name
+                        IF RESULT >= zCURSOR_SET
+                           nRemapFlag = 1
+                           EXCLUDE vOption.OptMapContext
+                           INCLUDE vOption.OptMapContext FROM vDomain.Context
+                        ELSE
+                           nRemapFlag = -1
+                        END
+                     END
+                  ELSE
+                     nRC = ActivateMetaOI_ByName( vSubtask, vDomain, 0, zREFER_DOMAIN_META,
+                                                  zSINGLE, vOption.OptMapER_Domain.Name , 0 )
+                     IF nRC >= 0
+                        SET CURSOR FIRST vDomain.Context WHERE
+                            vDomain.Context.Name = vOption.OptMapContext.Name
+                        IF RESULT >= zCURSOR_SET
+                           nRemapFlag = 1
+                           EXCLUDE vOption.OptMapContext
+                           INCLUDE vOption.OptMapContext FROM vDomain.Context
+                        ELSE
+                           nRemapFlag = -1
+                        END
+                     ELSE
+                        nRemapFlag = -1
+                     END
+                  END
+                  IF nRemapFlag = -1
+                     szMsg = "Excluding Context for:|   Window: " + vDialog.Window.Tag +
+                             "|   Option: " + vOption.Option.Tag +
+                             "| because of missing Context: " + vOption.OptMapContext.Name
+                     MessageSend( vSubtask, "WD00514", "Dialog Activate",
+                                  szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                     EXCLUDE vOption.OptMapContext NONE
+                  ELSE
+                     IF nRemapFlag = 0
+                        RelinkInstanceToInstance( vOption, "OptMapContext",
+                                               vDomain, "Context" )
+                     END
+                     DropMetaOI( vSubtask, vDomain )
+                  END
+               END
+            END
+         END
+      END
+   END
+
+END
+
+DERIVED ATTRIBUTE OPERATION
+NLS_CaptionText( VIEW        vDialog BASED ON LOD TZWDLGSO,
+                 STRING (32) lpEntity,
+                 STRING (32) lpAttribute,
+                 SHORT       GetOrSetFlag )
+
+   SHORT        nLanguageCode
+   STRING (255) szCaption
+
+   SysGetLanguageCode ( nLanguageCode )
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+
+      // Determine Caption text to use by checking the NLS Language Code for a match on
+      // a CaptionNLS_Text entity.  If there is a match, use it.  Otherwise, use the Window.Caption
+      // attribute.
+
+      SET CURSOR FIRST vDialog.CaptionNLS_Text WHERE
+                       vDialog.CaptionNLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         szCaption = vDialog.CaptionNLS_Text.Text
+      ELSE
+         szCaption = vDialog.Window.Caption
+      END
+
+      StoreStringInRecord ( vDialog, lpEntity, lpAttribute, szCaption )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+      // As for zDERIVED_GET above, use the Language Code to store the data entered into
+      // the derived attribute into the correct attribute.
+      // If there is CaptionNLS_Text entity that matches the Language Code, then set the data there.
+      // If not, set it into the Window.Caption attribute.
+
+      GetStringFromRecord ( vDialog, lpEntity, lpAttribute, szCaption, 254 )
+
+      SET CURSOR FIRST vDialog.CaptionNLS_Text WHERE
+                       vDialog.CaptionNLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         vDialog.CaptionNLS_Text.Text = szCaption
+      ELSE
+         vDialog.Window.Caption = szCaption
+      END
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+
+DERIVED ATTRIBUTE OPERATION
+NLS_ControlText( VIEW        vDialog BASED ON LOD TZWDLGSO,
+                 STRING (32) lpEntity,
+                 STRING (32) lpAttribute,
+                 SHORT       GetOrSetFlag )
+
+   /*SHORT        nLanguageCode
+   STRING (254) szControl
+
+   SysGetLanguageCode ( nLanguageCode )
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+
+      // Determine Control text to use by checking the NLS Language Code for a match on
+      // a ControlNLS_Text entity.  If there is a match, use it.  Otherwise, use the Control.Text
+      // attribute.
+
+      SET CURSOR FIRST vDialog.ControlNLS_Text WHERE
+                       vDialog.ControlNLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         szControl = vDialog.ControlNLS_Text.Text
+      ELSE
+         szControl = vDialog.Control.Text
+      END
+
+      StoreStringInRecord ( vDialog, lpEntity, lpAttribute, szControl )
+
+        // end zDERIVED_GET
+   OF   zDERIVED_SET:
+
+      // As for zDERIVED_GET above, use the Language Code to store the data entered into
+      // the derived attribute into the correct attribute.
+      // If there is ControlNLS_Text entity that matches the Language Code, then set the data there.
+      // If not, set it into the Window.Control attribute.
+
+      GetStringFromRecord ( vDialog, lpEntity, lpAttribute, szControl, 254 )
+
+      SET CURSOR FIRST vDialog.ControlNLS_Text WHERE
+                       vDialog.ControlNLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         vDialog.ControlNLS_Text.Text = szControl
+      ELSE
+         vDialog.Control.Text = szControl
+      END
+
+        // end zDERIVED_SET
+   END  // case */
+
+END
+
+DERIVED ATTRIBUTE OPERATION
+NLS_OptionText( VIEW        vDialog BASED ON LOD TZWDLGSO,
+                STRING (32) lpEntity,
+                STRING (32) lpAttribute,
+                SHORT       GetOrSetFlag )
+
+   SHORT        nLanguageCode
+   STRING (254) szOption
+
+   SysGetLanguageCode ( nLanguageCode )
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+
+      // Determine Option text to use by checking the NLS Language Code for a match on
+      // a OptionNLS_Text entity.  If there is a match, use it.  Otherwise, use the Option.Text
+      // attribute.
+
+      SET CURSOR FIRST vDialog.OptionNLS_Text WHERE
+                       vDialog.OptionNLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         szOption = vDialog.OptionNLS_Text.Text
+      ELSE
+         szOption = vDialog.Option.Text
+      END
+
+      StoreStringInRecord ( vDialog, lpEntity, lpAttribute, szOption )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+      // As for zDERIVED_GET above, use the Language Code to store the data entered into
+      // the derived attribute into the correct attribute.
+      // If there is OptionNLS_Text entity that matches the Language Code, then set the data there.
+      // If not, set it into the Window.Option attribute.
+
+      GetStringFromRecord ( vDialog, lpEntity, lpAttribute, szOption, 254 )
+
+      SET CURSOR FIRST vDialog.OptionNLS_Text WHERE
+                       vDialog.OptionNLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         vDialog.OptionNLS_Text.Text = szOption
+      ELSE
+         vDialog.Option.Text = szOption
+      END
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+
+DERIVED ATTRIBUTE OPERATION
+NLS_ControlDIL_Text( VIEW        vDialog BASED ON LOD TZWDLGSO,
+                     STRING (32) lpEntity,
+                     STRING (32) lpAttribute,
+                     SHORT       GetOrSetFlag )
+
+   SHORT        nLanguageCode
+   STRING (254) szDIL
+
+   SysGetLanguageCode ( nLanguageCode )
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+      // Determine Control.NLS_DIL_Text to use by checking the NLS Language Code for a match on
+      // a ControlNLS_DIL_Text entity.  If there is a match, use it.  Otherwise, use the
+      // Control.DIL_Text attribute.
+
+      SET CURSOR FIRST vDialog.ControlNLS_DIL_Text WHERE
+                       vDialog.ControlNLS_DIL_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         szDIL = vDialog.ControlNLS_DIL_Text.Text
+      ELSE
+         szDIL = vDialog.Control.DIL_Text
+      END
+
+      StoreStringInRecord ( vDialog, lpEntity, lpAttribute, szDIL )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+      // As for zDERIVED_GET above, use the Language Code to store the data entered into
+      // the derived attribute into the correct attribute.
+      // If there is ControlNLS_DIL_Text entity that matches the Language Code, then set the
+      // data there.  If not, set it into the Window.Control attribute.
+
+      GetStringFromRecord ( vDialog, lpEntity, lpAttribute, szDIL, 254 )
+
+      SET CURSOR FIRST vDialog.ControlNLS_DIL_Text WHERE
+                       vDialog.ControlNLS_DIL_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         vDialog.ControlNLS_DIL_Text.Text = szDIL
+      ELSE
+         vDialog.Control.DIL_Text = szDIL
+      END
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END

@@ -1,0 +1,2088 @@
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXSLT
+**    Build a Report XRP from a Dialog Window
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenerateXSLT( VIEW SourceReport BASED ON LOD TZRPSRCO )
+
+   VIEW vReportDef    BASED ON LOD TZRPSRCO
+   VIEW vReportRecurs BASED ON LOD TZRPSRCO
+   VIEW vLOD          BASED ON LOD TZZOLODO
+   VIEW vTaskLPLR     BASED ON LOD TZCMLPLO
+   STRING ( 32 )   szTopEntityName
+   STRING ( 50 )   szGroupSetName
+   STRING ( 200 )  szMsg
+   STRING ( 200 )  szFileName
+   STRING ( 5000 ) szOutputLine
+   STRING ( 1000 ) szStructure
+   STRING ( 50 )   szIndentationChars
+   STRING ( 200 )  szPathName
+   INTEGER         lFileHandle
+   SHORT           nRC
+
+   // Build an XSLT object from the Dialog Window passed.
+   vReportDef = SourceReport
+
+   // Open XSLT output file.
+   SysReadZeidonIni( -1, "[Workstation]", "XSLTDirectory", szPathName )
+
+   //szFileName = "c:\temp\XSLT_OutputTest.xsl"
+   szFileName = szPathName + vReportDef.Report.Tag + ".xsl"
+   lFileHandle = SysOpenFile( SourceReport, szFileName, COREFILE_WRITE )
+   IF lFileHandle < 0
+      szMsg = "Cannot open XSLT Output File, " + szFileName
+      MessageSend( SourceReport, "", "Generate XSLT",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   // Activate LOD that goes with PRP file. The registered view that is also the entity DrivingViewObjRef.
+   IF vReportDef.DrivingViewObjRef EXISTS
+      //szFileName = "c:\temp\mSAProfE.lod"
+      GET VIEW vTaskLPLR NAMED "TaskLPLR"
+      szFileName = vTaskLPLR.LPLR.MetaSrcDir + "\"
+      szFileName = szFileName + vReportDef.DrivingLOD.Name + ".lod"
+      ActivateOI_FromFile( vLOD, "TZZOLODO", SourceReport, szFileName, zSINGLE )
+      NAME VIEW vLOD "LOD_XSLT"
+   ELSE
+      szMsg = "One of the registered views needs to be set as the 'Driving View'. "
+      MessageSend( SourceReport, "", "Generate XSLT",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      SysCloseFile( SourceReport, lFileHandle, 0 )
+      RETURN -1
+   END
+
+   // Go to build XSLT Header lines and PageHeader and PageFooter.
+   XSLT_MainHeader( vReportDef, lFileHandle, szOutputLine )
+
+   // Process the LOD entities recursively, processing each entity that has a corresponding GroupSet in the Report.
+   // Because the Top Entity (Entity which drives the report) is processed somewhat differently, we need to identify
+   // that entity name and pass it to the subroutine.
+   // There is a problem, however, in that the Painter seems to be generating an initial GroupSet named, "Rpt_GroupSet1". So
+   // we need to skip over that GroupSet, if it exists.
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Tag != "Rpt_GroupSet1"
+   IF vReportDef.PartialReportEntity EXISTS 
+      szTopEntityName = vReportDef.PartialReportEntity.Name 
+   ELSE
+      MessageSend( SourceReport, "You can't generate to xslt without any GroupSets.", "Generate XSLT",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN 2                   
+   END
+   //szTopEntityName = vReportDef.GroupSet.Tag
+   // KJS 12/11/12 - Going to set the TopENtityName to CurrentEntityName (don't see this being used anywhere) so I can use it
+   // elsewhere in the code.
+   vReportDef.Report.CurrentEntityName = szTopEntityName
+   
+   IF vReportDef.XSLT_WorkGroup EXISTS
+      DELETE ENTITY vReportDef.XSLT_WorkGroup
+   END
+
+   // Open template statement
+   szGroupSetName = "GR_" + szTopEntityName
+   szOutputLine = "<xsl:template match=" + QUOTES + szGroupSetName + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   
+   szOutputLine = "  <fo:block font-size=" + QUOTES + "9pt" + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   GenerateLine( vReportDef, lFileHandle, " " )   
+   
+   CREATE ENTITY vReportDef.XSLT_WorkGroup
+   vReportDef.XSLT_WorkGroup.RecursiveNumber = 1
+   NAME VIEW vReportDef "vReportDefRoot"
+   CreateViewFromView( vReportRecurs, vReportDef )
+
+   szStructure = "/zOI/" + szGroupSetName
+  
+   szIndentationChars = "    "    // Base indentation will be 10 characters.
+   XSLT_EntityRecur( vReportDef, vReportRecurs, vLOD, lFileHandle, szOutputLine, szIndentationChars, szStructure )
+   DELETE ENTITY vReportDef.XSLT_WorkGroup
+
+   szOutputLine = "  </fo:block>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Close template statement
+   szOutputLine = "</xsl:template>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+
+   // Close StyleSheet.
+   szOutputLine = "</xsl:stylesheet>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   SysCloseFile( SourceReport, lFileHandle, 0 )
+   
+   IF vReportDef.XSLT_WorkGroup EXISTS
+      DELETE ENTITY vReportDef.XSLT_WorkGroup
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_MainHeader
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_MainHeader( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                 INTEGER lFileHandle,
+                 STRING ( 5000 ) szOutputLine )
+                 
+   VIEW vLOD BASED ON LOD TZZOLODO
+   STRING ( 20 ) szHeaderHeight
+   STRING ( 20 ) szFooterHeight
+   INTEGER       HeaderHeight
+   INTEGER       FooterHeight
+   
+   GET VIEW  vLOD  NAMED "LOD_XSLT"
+
+   // Generate the XSLT Header statements.
+
+   // Build the XML file header.
+   szOutputLine = "<?xml version=" + QUOTES + "1.0" + QUOTES + " encoding=" + QUOTES + "iso-8859-1" + QUOTES + "?>"
+   SysWriteLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "<xsl:stylesheet version=" + QUOTES + "1.0" + QUOTES
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  xmlns:xsl=" + QUOTES + "http://www.w3.org/1999/XSL/Transform" + QUOTES
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  xmlns:fo=" + QUOTES + "http://www.w3.org/1999/XSL/Format" + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  <xsl:output method=" + QUOTES + "xml" + QUOTES + " indent=" + QUOTES + "yes" + QUOTES + "/>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Build Default Padding <xsl:attribute-set.
+   szOutputLine = "<xsl:attribute-set name=" + QUOTES + "DefaultCellPadding" + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  <xsl:attribute name=" + QUOTES + "padding-left" + QUOTES + ">5px</xsl:attribute>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  <xsl:attribute name=" + QUOTES + "padding-top" + QUOTES + ">2px</xsl:attribute>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  <xsl:attribute name=" + QUOTES + "padding-bottom" + QUOTES + ">2px</xsl:attribute>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "</xsl:attribute-set>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Build base template and root statements.
+   szOutputLine = "<xsl:template match=" + QUOTES + "/" + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "<fo:root>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = " <fo:layout-master-set>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  <fo:simple-page-master master-name=" + QUOTES + vReportDef.Report.Tag + "-page" + QUOTES + " page-height=" + QUOTES + "11in" + QUOTES
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "   page-width=" + QUOTES + "8.5in" + QUOTES + " margin-top=" + QUOTES + ".5in" + QUOTES + " margin-bottom=" + QUOTES + ".5in" + QUOTES
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   //szOutputLine = "   margin-left=" + QUOTES + ".5in" + QUOTES + " margin-right=" + QUOTES + ".5in" + QUOTES + ">"
+   szOutputLine = "   margin-left=" + QUOTES + "0in" + QUOTES + " margin-right=" + QUOTES + "0in" + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Type = "PH"    
+   IF RESULT >= zCURSOR_SET 
+   
+      HeaderHeight = vReportDef.Group.SZDLG_Y 
+      ConvertPxToInchesCH( vReportDef, szHeaderHeight, HeaderHeight )
+   END
+
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Type = "PF"    
+   IF RESULT >= zCURSOR_SET 
+   
+      FooterHeight = vReportDef.Group.SZDLG_Y 
+      ConvertPxToInchesCH( vReportDef, szFooterHeight, FooterHeight )
+   END
+   
+   szOutputLine = "   <fo:region-body margin-top=" + QUOTES + szHeaderHeight + "in" + QUOTES
+   szOutputLine = szOutputLine + " margin-bottom=" + QUOTES + szFooterHeight + "in" + QUOTES + "/>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "   <fo:region-before extent=" + QUOTES + szHeaderHeight + "in" + QUOTES + " />"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "   <fo:region-after extent=" + QUOTES + szFooterHeight + "in" + QUOTES + " />"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  </fo:simple-page-master>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = " </fo:layout-master-set>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Build Page Sequence.
+   szOutputLine = " <fo:page-sequence master-reference=" + QUOTES + vReportDef.Report.Tag + "-page" + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "   <fo:static-content flow-name=" + QUOTES + "xsl-region-before" + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   //szOutputLine = "     <fo:block text-align=" + QUOTES + "center" + QUOTES + ">"
+   szOutputLine = "     <fo:block>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   
+   
+   // Process Page Header    
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Type = "PH"    
+   IF RESULT >= zCURSOR_SET 
+   
+      IF vReportDef.Control EXISTS 
+   
+         FOR EACH vReportDef.XSLT_WorkGroup
+            DELETE ENTITY vReportDef.XSLT_WorkGroup NONE  
+         END
+         CREATE ENTITY vReportDef.XSLT_WorkGroup 
+         
+         // Using this to show that it is the PageHeader or PageFooter
+         vReportDef.XSLT_WorkGroup.RecursiveNumber = -1
+         vReportDef.Report.wOriginalViewName = "zOI/PageHeader/"
+         
+         szOutputLine = "  <!-- Page Header  -->"
+         GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   
+         XSLT_HeaderFooter( vReportDef, vLOD, lFileHandle, szOutputLine, "      ", "PageHeader" )
+      END
+   END
+
+   szOutputLine = "     </fo:block>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "   </fo:static-content>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "   <fo:static-content flow-name=" + QUOTES + "xsl-region-after" + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "     <fo:block font-size=" + QUOTES + "8pt" + QUOTES + " >"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   
+   // Process Page Footer
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Type = "PF"
+   IF RESULT >= zCURSOR_SET
+
+      IF vReportDef.Control EXISTS 
+      
+         FOR EACH vReportDef.XSLT_WorkGroup
+            DELETE ENTITY vReportDef.XSLT_WorkGroup NONE  
+         END
+            
+         CREATE ENTITY vReportDef.XSLT_WorkGroup 
+          
+         vReportDef.XSLT_WorkGroup.RecursiveNumber = -1
+         
+         vReportDef.Report.wOriginalViewName = "zOI/PageFooter/"
+         szOutputLine = "  <!-- Page Footer  -->"
+         GenerateLine( vReportDef, lFileHandle, szOutputLine )
+      
+         XSLT_HeaderFooter( vReportDef, vLOD, lFileHandle, szOutputLine, "      ", "PageFooter" )
+      END
+   END
+   
+   // Set this back to nothing because we don't need an attribute prefix.
+   vReportDef.Report.wOriginalViewName = ""
+
+   szOutputLine = "     </fo:block>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "   </fo:static-content>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Build Flow.
+   szOutputLine = "   <fo:flow flow-name=" + QUOTES + "xsl-region-body" + QUOTES + ">"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "     <xsl:apply-templates/>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   // We need this declaration of "last-page" so that the ref-id in page-number-citation works.
+   szOutputLine = "     <fo:block id=" + QUOTES + "last-page" + QUOTES + "></fo:block>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "   </fo:flow>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Close Page, Root and Template.
+   szOutputLine = " </fo:page-sequence>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "</fo:root> "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "</xsl:template>"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "  "
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_EntityRecur
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_EntityRecur( VIEW vReportDefRoot    BASED ON LOD TZRPSRCO,
+                  VIEW vReportDefRecurs  BASED ON LOD TZRPSRCO,
+                  VIEW vLOD              BASED ON LOD TZZOLODO,
+                  INTEGER lFileHandle,
+                  STRING ( 5000 ) szOutputLine,
+                  STRING ( 50 )   szIndentationChars,
+                  STRING ( 1000 ) szStructurePath )
+
+   VIEW vReportDef BASED ON LOD TZRPSRCO
+   INTEGER PosY
+   INTEGER CurrentWidth
+   INTEGER ColumnCount
+   INTEGER CellPadding
+   INTEGER GroupHierarchicalLevel
+   INTEGER i
+   STRING ( 50 )  szGroupSetName
+   STRING ( 10 )  szPageWidth
+   STRING ( 10 )  szCurrentWidth
+   STRING ( 1 )   szSingleRowFlag
+   STRING ( 1 )   szForEach
+   STRING ( 32 )  szEntityName
+   STRING ( 32 )  szAttributeName
+   STRING ( 20 )  szCellPadding
+   STRING ( 20 )  szCellPaddingName
+   STRING ( 50 )  szIndentationSubValue
+   STRING ( 1000 ) szStructure
+
+   szPageWidth = "7.5in"
+   szCellPaddingName = "DefaultCellPadding"
+
+   //IssueError( vReportDefRoot,0,0, "In EntityR" )
+
+   // Process each PartialReportEntity within the recursive LOD structure.
+   FOR EACH vReportDefRecurs.PartialReportEntity 
+   
+      szEntityName = vReportDefRecurs.PartialReportEntity.Name 
+      //szStructure = szStructurePath + "/" + szEntityName
+            
+      IF vReportDefRecurs.PartialReportEntity.ReportDisplayFlag = "D"
+      
+         szStructure = szStructurePath + "/" + szEntityName
+
+         // We don't want to show any of this GroupSet, if there are no xml values for this entity (node).
+         GenerateLine( vReportDefRoot, lFileHandle, " " )    // Blank line
+         szOutputLine = "<!-- Only execute this GroupSet section if  " + szEntityName + " exists in xml. -->"
+         GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+         //szOutputLine = "<xsl:if test=" + QUOTES + szStructure + QUOTES + ">"
+         szOutputLine = "<xsl:if test=" + QUOTES + szEntityName + QUOTES + ">"
+         GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+              
+         SET CURSOR FIRST vReportDefRoot.GroupSet WHERE vReportDefRoot.GroupSet.Tag = szEntityName 
+         IF RESULT < zCURSOR_SET
+            // There is an error because the report should have a GroupSet for this.          
+         END
+         
+         // Only continue building this xsl section if the user painted a control is this section.
+         IF vReportDefRoot.Control EXISTS 
+
+         szOutputLine = "  <!-- XSLT_EntityRecur " + szEntityName + " -->"
+         GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   
+         //szIndentationChars = "    "    // Base indentation will be 10 characters.
+         GenerateLine( vReportDefRoot, lFileHandle, " " )    // Blank line
+         
+         // KJS 12/05/12 - I was going to position recurs on report entity we are looking at but I don't see
+         // at the moment where we even use vLOD except that we pass it to different operations.
+         i = 1
+         LOOP WHILE i <= 3
+         
+            IF i = 1 
+               SET CURSOR FIRST vReportDefRoot.Group WHERE vReportDefRoot.Group.Type = "gh"
+            ELSE
+            IF i = 2
+               SET CURSOR FIRST vReportDefRoot.Group WHERE vReportDefRoot.Group.Type = "ga"
+            ELSE             
+               SET CURSOR FIRST vReportDefRoot.Group WHERE vReportDefRoot.Group.Type = "gf"
+            END 
+            END
+   
+            IF RESULT >= zCURSOR_SET
+            
+               // Initialize Work Group.
+               // Note that GroupHierarchicalLevel is the Control level with the vReportDef object, not the entity level within the LOD.
+               GroupHierarchicalLevel = 1
+               
+               FOR EACH vReportDefRoot.XSLT_WorkGroup
+                  DELETE ENTITY vReportDefRoot.XSLT_WorkGroup NONE  
+               END
+               
+               CREATE ENTITY vReportDefRoot.XSLT_WorkGroup 
+               
+               vReportDefRoot.XSLT_WorkGroup.RecursiveNumber = GroupHierarchicalLevel
+               vReportDefRoot.XSLT_WorkGroup.EntityName = szEntityName
+                              
+               szForEach = "N"
+      
+               IF vReportDefRoot.Group.Type = "gh"
+      
+                  // Group is Header.
+      
+                  // Generate Entity Header Comment.
+                  GenerateLine( vReportDefRoot, lFileHandle, " " )
+                  szOutputLine = "  <!-- ENTITY HEADER -->"
+                  GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+                  GenerateLine( vReportDefRoot, lFileHandle, " " )
+                  szEntityName = szEntityName + "Header"      
+               ELSE
+               IF vReportDefRoot.Group.Type = "ga" 
+                  // Generate Entity Detail Comment.
+                  GenerateLine( vReportDefRoot, lFileHandle, " " )
+                  szOutputLine = "  <!-- ENTITY DETAIL -->"
+                  GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+                  GenerateLine( vReportDefRoot, lFileHandle, " " )
+                  szEntityName = vReportDefRoot.GroupSet.Tag
+                  IF vReportDefRecurs.PartialReportEntityChild EXISTS
+                     szForEach = "Y"
+                  END
+               ELSE
+               IF vReportDefRoot.Group.Type = "gf" 
+                  // Generate Entity Footer Comment.
+                  GenerateLine( vReportDefRoot, lFileHandle, " " )
+                  szOutputLine = "  <!-- ENTITY FOOTER -->"
+                  GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+                  GenerateLine( vReportDefRoot, lFileHandle, " " )
+                  szEntityName = szEntityName + "Footer"
+               END
+               END
+               END
+   
+               // Make sure Controls are in row/column order.
+               OrderEntityForView( vReportDefRoot, "Control", "PSDLG_Y A PSDLG_X A" )
+   
+               // Check if all controls are on a single line, without a subcontrol.
+               //    If so, we will create a table entry with a column for each control.
+               //    If not, we will create a table entry with a single cell.
+               szSingleRowFlag = "Y"
+               IF vReportDefRoot.Control EXISTS
+                  PosY = vReportDefRoot.Control.PSDLG_Y
+                  FOR EACH vReportDefRoot.Control
+                     IF vReportDefRoot.CtrlCtrl EXISTS OR vReportDefRoot.Control.PSDLG_Y != PosY
+                        szSingleRowFlag = "N"
+                     END
+                  END
+               END
+               IF szSingleRowFlag = "N"
+                  // Go to process more complex Group.
+                  
+                  // Loop through all the entities... (we do this in XSLT_GroupTable if all the controls are on
+                  // one line but if not, then we still want to build this for each entity).
+                  szOutputLine = "    <xsl:for-each select=" + QUOTES + szEntityName + QUOTES + ">"
+                  GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+                           
+                  CreateViewFromView( vReportDef, vReportDefRoot )
+                  NAME VIEW vReportDef "vReportDefTop"
+                  XSLT_GroupRecur( vReportDefRoot, vReportDef, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel )
+                  DropView( vReportDef )
+                  
+                  IF szForEach = "N" 
+                     szOutputLine = "    </xsl:for-each>"
+                     GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )    
+                  END
+               ELSE
+                  CreateViewFromView( vReportDef, vReportDefRoot )
+                  // Detail entity has single row.
+                  // Build work subobject, with a single row and columns.
+                  CREATE ENTITY vReportDefRoot.XSLT_WorkRow
+                  IF vReportDefRoot.Control EXISTS 
+                     vReportDefRoot.XSLT_WorkRow.PSDLG_Y = vReportDefRoot.Control.PSDLG_Y
+                     FOR EACH vReportDefRoot.Control
+                        CREATE ENTITY vReportDefRoot.XSLT_WorkColumn
+                        vReportDefRoot.XSLT_WorkColumn.ControlZKey = vReportDefRoot.Control.ZKey
+                        vReportDefRoot.XSLT_WorkColumn.ControlType = vReportDefRoot.ControlDef.Tag
+                        SetMatchingAttributesByName( vReportDefRoot, "XSLT_WorkColumn",  vReportDefRoot, "Control", zSET_NULL )
+                     END
+                  END
+                  IF szForEach = "Y" 
+                     szOutputLine = "    <xsl:for-each select=" + QUOTES + szEntityName + QUOTES + ">"
+                     GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+                     XSLT_GroupTable( vReportDefRoot, vReportDef, lFileHandle, szOutputLine, szIndentationChars, 1, "" )
+                  ELSE
+                     // Go to build the table.
+                     XSLT_GroupTable( vReportDefRoot, vReportDef, lFileHandle, szOutputLine, szIndentationChars, 1, szEntityName )
+                  END
+                  DropView( vReportDef )
+               END               
+            END // IF SET CURSOR To header/detail/footer
+            i = i + 1
+         END  // FOR EACH vReportDefRoot.Group
+         
+         // KJS 01/22/13 *****
+         // Process any LOD subentities.
+         IF vReportDefRecurs.PartialReportEntityChild EXISTS
+            
+            SetViewToSubobject( vReportDefRecurs, "PartialReportEntityChild" )
+            szIndentationSubValue = szIndentationChars + "      "
+            XSLT_EntityRecur( vReportDefRoot, vReportDefRecurs, vLOD, lFileHandle, szOutputLine, szIndentationSubValue, szStructure )
+
+            ResetViewFromSubobject( vReportDefRecurs )
+            
+            IF szForEach = "Y" 
+               szOutputLine = "    </xsl:for-each>"
+               GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            END
+               
+            // I think when we get here, we need to reset on the report GroupSet/Group because it has been changed when we go down levels.
+            SET CURSOR FIRST vReportDefRoot.GroupSet WHERE vReportDefRoot.GroupSet.Tag = szEntityName
+            SET CURSOR FIRST vReportDefRoot.Group WHERE vReportDefRoot.Group.Type = "ga"
+         END
+         END // IF vReportDefRoot.Control EXISTS
+         
+         szOutputLine = "</xsl:if>"
+         GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+      ELSE
+         szStructure = szStructurePath + ""
+         // This entity might not be on the report but a sub entity might be so check.
+         SetViewToSubobject( vReportDefRecurs, "PartialReportEntityChild" )
+         szIndentationSubValue = szIndentationChars + "      "
+         XSLT_EntityRecur( vReportDefRoot, vReportDefRecurs, vLOD, lFileHandle, szOutputLine, szIndentationSubValue, szStructure )
+
+         ResetViewFromSubobject( vReportDefRecurs )
+      END // IF vReportDefRecurs.PartialReportEntity.ReportDisplayFlag = "D"
+
+   END  // FOR EACH vReportDefRoot.GroupSet WHERE vReportDefRoot.GroupSet.Type = "E"
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_HeaderFooter
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_HeaderFooter( VIEW vReportDefRoot BASED ON LOD TZRPSRCO,
+                   VIEW vLOD           BASED ON LOD TZZOLODO,
+                   INTEGER lFileHandle,
+                   STRING ( 5000 ) szOutputLine,
+                   STRING ( 50 )   szIndentationChars,
+                   STRING ( 32 )   szForEachName )
+
+   VIEW vReportDef BASED ON LOD TZRPSRCO
+   INTEGER PosY
+   INTEGER CurrentWidth
+   INTEGER ColumnCount
+   INTEGER CellPadding
+   INTEGER GroupHierarchicalLevel
+   STRING ( 50 )  szGroupSetName
+   STRING ( 10 )  szPageWidth
+   STRING ( 10 )  szCurrentWidth
+   STRING ( 1 )   szSingleRowFlag
+   STRING ( 32 )  szEntityName
+   STRING ( 32 )  szAttributeName
+   STRING ( 20 )  szCellPadding
+   STRING ( 20 )  szCellPaddingName
+   STRING ( 50 )  szSubIndentationChars
+
+   szPageWidth = "7.5"
+
+   // The Header/Footer starts block, table, ... table-cell.
+
+   // Block
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + "<fo:block font-size=" + QUOTES + "9pt" + QUOTES + "> <!-- XSLT_HeaderFooter -->"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   
+   IF vReportDefRoot.Control EXISTS 
+   
+         // Make sure Controls are in row/column order.
+         OrderEntityForView( vReportDefRoot, "Control", "PSDLG_Y A PSDLG_X A" )
+
+         // Check if all controls are on a single line, without a subcontrol.
+         //    If so, we will create a table entry with a column for each control.
+         //    If not, we will create a table entry with a single cell.
+         szSingleRowFlag = "Y"
+         IF vReportDefRoot.Control EXISTS
+            PosY = vReportDefRoot.Control.PSDLG_Y
+            FOR EACH vReportDefRoot.Control
+               IF vReportDefRoot.CtrlCtrl EXISTS OR vReportDefRoot.Control.PSDLG_Y != PosY
+                  szSingleRowFlag = "N"
+               END
+            END
+         END
+         IF szSingleRowFlag = "N"
+            // Go to process more complex Group.
+                                    
+            CreateViewFromView( vReportDef, vReportDefRoot )
+            NAME VIEW vReportDef "vReportDefTop"
+            XSLT_GroupRecur( vReportDefRoot, vReportDef, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel )
+            DropView( vReportDef )
+            
+         ELSE
+            CreateViewFromView( vReportDef, vReportDefRoot )
+            // Detail entity has single row.
+            // Build work subobject, with a single row and columns.
+            CREATE ENTITY vReportDefRoot.XSLT_WorkRow
+            IF vReportDefRoot.Control EXISTS 
+               vReportDefRoot.XSLT_WorkRow.PSDLG_Y = vReportDefRoot.Control.PSDLG_Y
+               FOR EACH vReportDefRoot.Control
+                  CREATE ENTITY vReportDefRoot.XSLT_WorkColumn
+                  vReportDefRoot.XSLT_WorkColumn.ControlZKey = vReportDefRoot.Control.ZKey
+                  vReportDefRoot.XSLT_WorkColumn.ControlType = vReportDefRoot.ControlDef.Tag
+                  SetMatchingAttributesByName( vReportDefRoot, "XSLT_WorkColumn",  vReportDefRoot, "Control", zSET_NULL )
+               END
+            END
+            // Go to build the table.
+            XSLT_GroupTable( vReportDefRoot, vReportDef, lFileHandle, szOutputLine, szIndentationChars, 1, "" )
+            DropView( vReportDef )
+         END
+   END
+
+   szOutputLine = szIndentationChars + "</fo:block>"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_BuildCtrlsInRows
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_BuildCtrlsInRows( VIEW vReportDefRoot BASED ON LOD TZRPSRCO,
+                   VIEW vReportDef     BASED ON LOD TZRPSRCO,
+                   VIEW vLOD           BASED ON LOD TZZOLODO,
+                   INTEGER lFileHandle,
+                   STRING ( 5000 ) szOutputLine,
+                   STRING ( 50 )   szIndentationChars )
+
+   VIEW vReportDef3 BASED ON LOD TZRPSRCO
+   STRING ( 20 )  szCurrentWidth
+   STRING ( 20 )  szPageWidth
+   STRING ( 30 )  szCellPaddingName
+   STRING ( 50 )  szAttributeMappingName
+   STRING ( 256 ) szConstantArea
+   STRING ( 50 )  szCellPadding
+   STRING ( 20 )  szTableMarginTop
+   STRING ( 20 )  szTablePaddingLeft
+   STRING ( 20 )  szTableWidth
+   INTEGER       CurrentWidth
+   INTEGER       CurrentPositionY
+   INTEGER       LastPositionY
+   INTEGER       FirstColumnPosition
+   INTEGER       TopGroupPosition
+   INTEGER       ColumnCount
+   INTEGER       TextColumnCount
+   INTEGER       RowCount
+   INTEGER       TablePaddingLeft
+   INTEGER       TableMarginTop
+   INTEGER       TableWidth
+   INTEGER       LastRowPosition
+   INTEGER       LastRowHeight
+   
+   szOutputLine = szIndentationChars + "<!-- In XSLT_BuildCtrlsInRows -->"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Process a Group that is only made up of text Controls at the first level, as opposed to text controls that are subcontrols
+   // under a parent Group or Shape.
+   // All Rpt_Text controls are analyzed and organized by rows, with each row being handled as a single row table.
+
+   // We assume the controls are text.
+
+   szCellPaddingName = "DefaultCellPadding"
+   NAME VIEW vReportDef "vReportDefAllText"
+
+   // Process Row/Column Structure to generate Tables and Columns.
+
+   TopGroupPosition = vReportDefRoot.XSLT_WorkColumn.PSDLG_Y
+   RowCount = 0
+
+   FOR EACH vReportDefRoot.XSLT_WorkRow
+
+      // Build Row & Cell statements. Each work row becomes a single table with a single row.
+
+      RowCount = RowCount + 1
+
+      // Go to build the table.
+      XSLT_GroupTable( vReportDefRoot, vReportDef, lFileHandle, szOutputLine, szIndentationChars, RowCount, "" )
+
+   END
+
+   // Remove the Work Rows.
+   FOR EACH vReportDefRoot.XSLT_WorkRow
+      DELETE ENTITY vReportDefRoot.XSLT_WorkRow NONE
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_BuildCtrlsAsTable
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_BuildCtrlsAsTable( VIEW vReportDefRoot BASED ON LOD TZRPSRCO,
+                   VIEW vReportDef  BASED ON LOD TZRPSRCO,
+                   VIEW vLOD           BASED ON LOD TZZOLODO,
+                   INTEGER lFileHandle,
+                   STRING ( 5000 ) szOutputLine,
+                   STRING ( 50 )  szIndentationChars,
+                   INTEGER GroupHierarchicalLevel )
+
+   VIEW vReportDef3 BASED ON LOD TZRPSRCO
+   STRING ( 20 )  szCurrentWidth
+   STRING ( 20 )  szPageWidth
+   STRING ( 30 )  szCellPaddingName
+   STRING ( 50 )  szAttributeMappingName
+   STRING ( 256 ) szConstantArea
+   STRING ( 50 )  szReportDefName
+   STRING ( 50 )  szSubIndentationChars
+   STRING ( 50 )  szCellPadding
+   STRING ( 20 )  szTableMarginTop
+   STRING ( 20 )  szTablePaddingLeft
+   STRING ( 20 )  szTableWidth
+   STRING ( 20 )  szPaddingTop
+   STRING ( 5 )   szColumnCount
+   STRING ( 200 ) szMsg
+   INTEGER       CurrentWidth
+   INTEGER       CurrentRowPositionX
+   INTEGER       CurrentPositionY
+   INTEGER       LastPositionY
+   INTEGER       LastPositionRowY
+   INTEGER       LastPositionX
+   INTEGER       LastWidthX
+   INTEGER       FirstColumnPosition
+   INTEGER       TopGroupPosition
+   INTEGER       ColumnCount
+   INTEGER       FirstColumnCount
+   INTEGER       TextColumnCount
+   INTEGER       CellPadding
+   INTEGER       RowCount
+   INTEGER       TablePaddingLeft
+   INTEGER       TableMarginTop
+   INTEGER       TableWidth
+   INTEGER       MaximumWidth
+   INTEGER       PaddingTop
+   INTEGER       ControlCount
+   
+   TraceLineS("*** XSLT_BuildCtrlsAsTable *** ", "")
+   szOutputLine = szIndentationChars + "<!-- In XSLT_BuildCtrlsAsTable -->"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   
+
+   // Build a Table for all the Control entities, which are here considered to be all Text Controls, with the same number
+   // of Text entries in EVERY row. This differs from the tables built in XSLT_GroupTable as follows:
+   // In XSLT_GroupTable, every row of Control entries is built as a "single row table".
+   // In this routine, because every row has the same number of Controls, all the Control entries are built as one table
+   // with multiple rows.
+
+   // Process each Rpt_Text Control by generating a table-row statement for each unique row (Y position) and a table-cell
+   // statement for each control.
+   // Note that all the rows must have the same number of columns, or an error message will be returned to the use, as each
+   // row must have the same number of cells.
+
+   NAME VIEW vReportDefRoot "vReportDefRootSubText"
+
+   szCellPaddingName = "DefaultCellPadding"
+
+   // Increment hierarchical level for creating XSLT_WorkGroup entry.
+   GroupHierarchicalLevel = GroupHierarchicalLevel + 1
+
+   vReportDefRoot.XSLT_WorkGroup.RecursiveNumber = GroupHierarchicalLevel
+
+      // Build table, since there are multiple Controls.
+      // We will build a single table statement, with a table-column statement for each column (remember, each row has
+      // the same number of columns) and a table-row and table-cell statement for each row.
+
+      // Check that all rows have the same number of columns.
+      /*
+      SET CURSOR FIRST vReportDefRoot.XSLT_WorkRow
+      ColumnCount = 0
+      FOR EACH vReportDefRoot.XSLT_WorkColumn
+         ColumnCount = ColumnCount + 1
+      END
+      FirstColumnCount = ColumnCount
+      FOR EACH vReportDefRoot.XSLT_WorkRow
+         ColumnCount = 0
+         FOR EACH vReportDefRoot.XSLT_WorkColumn
+            ColumnCount = ColumnCount + 1
+         END
+         IF ColumnCount != FirstColumnCount
+            szColumnCount = ColumnCount
+            szMsg = "Unequal number of columns containing control, " + vReportDef.Control.Tag + NEW_LINE +
+                    "Number of Columns generating error: " + szColumnCount
+            MessageSend( vReportDef, "", "Generate XSLT", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         END
+      END
+      */
+
+      // Build open block & table statements.
+
+      // We'll get width from parent.
+      CreateViewFromView( vReportDef3, vReportDef )
+      ResetViewFromSubobject( vReportDef3 )
+      TableWidth = vReportDef3.Control.SZDLG_X
+      DropView( vReportDef3 )
+      // MarginTop will come from Y position of first Control.
+      SET CURSOR FIRST vReportDefRoot.XSLT_WorkRow
+      // KJS 11/28/12
+      IF RESULT >= zCURSOR_SET 
+      TableMarginTop = vReportDefRoot.XSLT_WorkRow.PSDLG_Y
+      XSLT_BuildTable( vReportDefRoot, vReportDef, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel, TableMarginTop, TableWidth )
+      END
+
+      // Build the table-column statments from columns in the first row.
+      // As noted above, we only need to process columns from the first row as all rows should have the same number of columns.
+      // However, we want the maximum width of the corresponding controls, so we will compute that first.
+      FOR EACH vReportDefRoot.XSLT_WorkRow
+         ColumnCount = 0
+         FOR EACH vReportDefRoot.XSLT_WorkColumn
+            ColumnCount = ColumnCount + 1
+            SET CURSOR FIRST vReportDefRoot.XSLT_ColumnWidth WHERE vReportDefRoot.XSLT_ColumnWidth.Index = ColumnCount
+            IF RESULT < zCURSOR_SET
+               CREATE ENTITY vReportDefRoot.XSLT_ColumnWidth
+               vReportDefRoot.XSLT_ColumnWidth.Index = ColumnCount
+            END
+            IF ColumnCount = 1
+               MaximumWidth = vReportDefRoot.XSLT_WorkColumn.SZDLG_X + vReportDefRoot.XSLT_WorkColumn.PSDLG_X
+            ELSE
+               MaximumWidth = vReportDefRoot.XSLT_WorkColumn.SZDLG_X
+            END
+            IF MaximumWidth > vReportDefRoot.XSLT_ColumnWidth.MaximumWidth
+               vReportDefRoot.XSLT_ColumnWidth.MaximumWidth = MaximumWidth
+            END
+         END
+      END
+      SET CURSOR FIRST vReportDefRoot.XSLT_WorkRow
+      ColumnCount = 0
+      FOR EACH vReportDefRoot.XSLT_WorkColumn
+
+         ColumnCount = ColumnCount + 1
+         SET CURSOR FIRST vReportDefRoot.XSLT_ColumnWidth WHERE vReportDefRoot.XSLT_ColumnWidth.Index = ColumnCount
+
+         CreateViewFromView( vReportDef3, vReportDefRoot )
+         NAME VIEW vReportDef3 "vReportDef3SubText"
+         IF ColumnCount = 1
+            // The width of the first column is the starting position of the next column, if there is one.
+            // Otherwise it's the width of the single control plus its X position.
+            // In either case, it needs to be big enough to handle any padding characters.
+            SET CURSOR NEXT vReportDef3.XSLT_WorkColumn
+            IF RESULT >= zCURSOR_SET
+               // There is a next column, so use its X position as the first column width.
+               CurrentWidth = vReportDef3.XSLT_WorkColumn.PSDLG_X
+            ELSE
+               // There is no next column, so use computed width from above.
+               CurrentWidth = vReportDefRoot.XSLT_ColumnWidth.MaximumWidth
+            END
+         ELSE
+            // The width is the difference between the starting position of this control and the starting position of the next control.
+            // If there is no next control, the width will be the actual width of the control computed above.
+            SET CURSOR NEXT vReportDef3.XSLT_WorkColumn
+            IF RESULT >= zCURSOR_SET
+               CurrentWidth  = vReportDef3.XSLT_WorkColumn.PSDLG_X - vReportDefRoot.XSLT_WorkColumn.PSDLG_X
+            ELSE
+               CurrentWidth  = vReportDefRoot.XSLT_ColumnWidth.MaximumWidth
+            END
+         END
+         ConvertPxToInchesCH( vReportDef, szCurrentWidth, CurrentWidth )
+         DropView( vReportDef3 )
+
+         szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szCurrentWidth + "in" + QUOTES + "/>"
+         GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+      END
+
+      // We also have to build the table-body statement.
+      szOutputLine = szIndentationChars + "<fo:table-body>"
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+      // Build table-row and table-cell statements.
+      RowCount = 0
+      FOR EACH vReportDefRoot.XSLT_WorkRow
+
+         // Build open table-row statement.
+         szOutputLine = szIndentationChars + "  <fo:table-row>"
+         GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+         // Build the table-cell statements.
+         TextColumnCount = 0
+         FOR EACH vReportDefRoot.XSLT_WorkColumn
+
+            // Cell padding is only used for first column in row.
+            TextColumnCount = TextColumnCount + 1
+            IF TextColumnCount = 1
+               // Determine padding for 1st column.
+               CellPadding = vReportDefRoot.XSLT_WorkColumn.PSDLG_X
+               ConvertPxToInchesCH( vReportDef, szCellPadding, CellPadding )
+            ELSE
+               szCellPadding = "0"
+            END
+
+            szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES +
+                           " padding-left=" + QUOTES + szCellPadding + "in" + QUOTES + ">"
+            GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+            // Build block and data statements.
+            XSLT_BuildBlockData( vReportDefRoot, vReportDef, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel )
+
+            // Close table-cell
+            szOutputLine = szIndentationChars + "    </fo:table-cell>"
+            GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+         END
+
+         // Build close table-row statement.
+         szOutputLine = szIndentationChars + "  </fo:table-row>"
+         GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+      END
+
+      // Build close table-body, table and block statements.
+      szOutputLine = szIndentationChars + "</fo:table-body>"
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "</fo:table>"
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "</fo:block>"
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Remove the Work Group for this hierarchical level.
+   DropNameForView( vReportDefRoot, "vReportDefRootSubText", vReportDef, zLEVEL_TASK )
+   DELETE ENTITY vReportDefRoot.XSLT_WorkGroup
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_GroupTable
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_GroupTable( VIEW vReportDefRoot BASED ON LOD TZRPSRCO,
+                 VIEW vReportDef     BASED ON LOD TZRPSRCO,
+                 INTEGER lFileHandle,
+                 STRING ( 5000 ) szOutputLine,
+                 STRING ( 50 )   szIndentationChars,
+                 INTEGER         RowCount,
+                 STRING ( 32 )   szForEachName )
+
+   VIEW vReportDef3 BASED ON LOD TZRPSRCO
+   STRING ( 20 )  szCurrentWidth
+   STRING ( 20 )  szPageWidth
+   STRING ( 30 )  szCellPaddingName
+   STRING ( 256 ) szAttributeMappingName
+   STRING ( 256 ) szConstantArea
+   STRING ( 256 ) szAttribPrefix
+   STRING ( 256 ) szStyle
+   STRING ( 10 )  szLineWidth
+   STRING ( 50 )  szCellPadding
+   STRING ( 20 )  szTableMarginTop
+   STRING ( 20 )  szTablePaddingLeft
+   STRING ( 20 )  szTableWidth
+   INTEGER       CurrentWidth
+   INTEGER       CurrentPositionY
+   INTEGER       LastPositionY
+   INTEGER       FirstColumnPosition
+   INTEGER       TopGroupPosition
+   INTEGER       TextColumnCount
+   INTEGER       TablePaddingLeft
+   INTEGER       TableMarginTop
+   INTEGER       TableWidth
+   INTEGER       LastRowPosition
+   INTEGER       LastRowHeight
+
+   // Build Table
+
+   // Build open table and column statements.
+   // Open a new table.
+   szOutputLine = szIndentationChars + "<!-- In XSLT_GroupTable -->"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+
+   szCellPaddingName = "DefaultCellPadding"
+
+   // Compute the following values:
+
+   // The value of Margin Top depends on whether this is the first row or any other row.
+   // 1. The first row is simply the Y Position.
+   // 2. Any later row is the Y Position minus the previous Row position and Row height (which is Y size of first control).
+   IF RowCount = 1
+      TableMarginTop  = vReportDefRoot.XSLT_WorkRow.PSDLG_Y
+   ELSE
+      CreateViewFromView( vReportDef3, vReportDefRoot )
+      SET CURSOR PREVIOUS vReportDef3.XSLT_WorkRow
+      LastRowPosition = vReportDef3.XSLT_WorkRow.PSDLG_Y
+      LastRowHeight   = vReportDef3.XSLT_WorkColumn.SZDLG_Y
+      TableMarginTop  = vReportDefRoot.XSLT_WorkRow.PSDLG_Y - LastRowPosition - LastRowHeight
+      IF TableMarginTop < 0
+         TableMarginTop = 0
+      END
+      DropView( vReportDef3 )
+   END
+   ConvertPxToInchesCH( vReportDef, szTableMarginTop, TableMarginTop )
+
+   // Compute Padding Left for first column of the row.
+   // We'll assume 100 is normal indentation and anything after that must shift the columns right.
+   SET CURSOR FIRST vReportDefRoot.XSLT_WorkColumn
+   FirstColumnPosition = vReportDefRoot.XSLT_WorkColumn.PSDLG_X
+   //TablePaddingLeft = FirstColumnPosition - 100
+   TablePaddingLeft = FirstColumnPosition
+   TraceLineI("*** XSLT_GroupTable TablePaddingLeft *** ", TablePaddingLeft )
+   IF TablePaddingLeft < 0
+      TablePaddingLeft = 0
+   END
+   ConvertPxToInchesCH( vReportDef, szTablePaddingLeft, TablePaddingLeft )
+
+   // Table Width
+   SET CURSOR LAST vReportDefRoot.XSLT_WorkColumn
+   TableWidth = vReportDefRoot.XSLT_WorkColumn.PSDLG_X + vReportDefRoot.XSLT_WorkColumn.SZDLG_X
+   ConvertPxToInchesCH( vReportDef, szTableWidth, TableWidth )
+
+   // Table Block - Initially, we'll make the table block visible.
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   //szOutputLine = szIndentationChars + "<fo:block border=" + QUOTES + "normal solid black" + QUOTES + " > <!-- XSLT_GroupTable -->"
+   szOutputLine = szIndentationChars + "<fo:block > <!-- XSLT_GroupTable -->"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+   // Table statement
+   szOutputLine = szIndentationChars + "<fo:table table-layout=" + QUOTES + "fixed" +
+                  QUOTES + " width=" + QUOTES + "100%" +
+                  QUOTES + " margin-top=" + QUOTES + szTableMarginTop +  "in" + QUOTES + ">"
+                  //QUOTES + " width=" + QUOTES + szTableWidth + "in" +
+                  //QUOTES + " margin-top=" + QUOTES + szTableMarginTop +  "in" + QUOTES + ">"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+   // Column Statements
+   // Generate Padding Column, if TablePaddingLeft is > 0.
+   IF TablePaddingLeft > 0
+      szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szTablePaddingLeft + "in" + QUOTES + "/> <!-- This is just for padding -->"
+      GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   END
+
+   // Generate Column Statement for each work Column entry.
+   FOR EACH vReportDefRoot.XSLT_WorkColumn
+      // The width is the difference between the starting position of this control and the starting position of the next control.
+      // If there is no next control, the width will be the actual width of the control.
+      CreateViewFromView( vReportDef3, vReportDefRoot )
+      SET CURSOR NEXT vReportDef3.XSLT_WorkColumn
+      IF RESULT >= zCURSOR_SET
+         CurrentWidth  = vReportDef3.XSLT_WorkColumn.PSDLG_X - vReportDefRoot.XSLT_WorkColumn.PSDLG_X
+      ELSE
+         CurrentWidth  = vReportDefRoot.XSLT_WorkColumn.SZDLG_X
+      END
+      DropView( vReportDef3 )
+      ConvertPxToInchesCH( vReportDef, szCurrentWidth, CurrentWidth )
+      szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szCurrentWidth + "in" + QUOTES + "/>"
+      GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   END
+
+   // Generate table-body statement, table-row and block.
+   szOutputLine = szIndentationChars + "<fo:table-body>"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+   // If this is for a repeating Entity (based on For-Each flag, create for-each statement.
+   IF szForEachName != ""
+      szOutputLine = szIndentationChars + "<xsl:for-each select=" + QUOTES + szForEachName + QUOTES + ">"
+      GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   END
+
+   szOutputLine = szIndentationChars + "  <fo:table-row>"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+   // Generate the table-cell statements, which will contain either the text from the control or the attribute mapping data.
+
+   // Generate Padding Cell, if TablePaddingLeft is > 0.
+   IF TablePaddingLeft > 0
+      szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES + ">"
+      GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+      szOutputLine = szIndentationChars + "      <fo:block></fo:block>  <!-- Just for padding -->"
+      GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+      szOutputLine = szIndentationChars + "    </fo:table-cell>"
+      GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   END
+
+/*   
+   // This is for page heading/footing
+   //IF vReportDefRoot.XSLT_WorkGroup.RecursiveNumber = -1
+   IF vReportDefRoot.XSLT_WorkGroup.EntityName = "PageHeader" OR vReportDefRoot.XSLT_WorkGroup.EntityName = "PageFooter" 
+      szAttribPrefix = "zOI/" + vLOD.LOD_EntityParent.Name + "/"
+   ELSE
+      szAttribPrefix = ""
+   END
+*/
+
+   TextColumnCount = 0
+   FOR EACH vReportDefRoot.XSLT_WorkColumn
+
+      szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES + ">"
+      GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+      // Block statement is different depending on whether or not there is mapping for the Control.
+      // Also, any Control 1) without mapping, 2) with null Text value and 3) with SZDLG_Y <= 21.
+      SET CURSOR FIRST vReportDef.Control WHERE vReportDef.Control.ZKey = vReportDefRoot.XSLT_WorkColumn.ControlZKey
+      // KJS 11/28/12
+      IF RESULT >= zCURSOR_SET 
+      
+         XSLT_BuildControl( vReportDefRoot, vReportDef, lFileHandle, szOutputLine, szIndentationChars )
+      
+      END
+
+      // Close table-cell
+      szOutputLine = szIndentationChars + "    </fo:table-cell>"
+      GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+   END
+
+   // Build close table statements
+   szOutputLine = szIndentationChars + "  </fo:table-row>"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+   IF szForEachName != ""
+      szOutputLine = szIndentationChars + "  </xsl:for-each>"
+      GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   END
+
+   szOutputLine = szIndentationChars + "</fo:table-body>"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + "</fo:table>"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + "</fo:block>"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+END
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_BuildBlockData
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_BuildBlockData( VIEW vReportDefRoot BASED ON LOD TZRPSRCO,
+                     VIEW vReportDef     BASED ON LOD TZRPSRCO,
+                     VIEW vLOD           BASED ON LOD TZZOLODO,
+                     INTEGER lFileHandle,
+                     STRING ( 5000 ) szOutputLine,
+                     STRING ( 50 )  szIndentationChars,
+                     INTEGER GroupHierarchicalLevel )
+
+   STRING ( 20 )  szPaddingTop
+   STRING ( 256 ) szAttributeMappingName
+   STRING ( 256 ) szConstantArea
+   STRING ( 256 ) szStyle
+   STRING ( 10 )  szLineWidth
+   INTEGER        PaddingTop
+   
+   szOutputLine = szIndentationChars + "<!-- In XSLT_BuildBlockData -->"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // KJS 12/13/12 - Don't think I need to set cursor because we do that before we get here...
+   // Block and data statement is different depending on whether the ControlDef is Text or Graphic and whether or not there is mapping for the Control.
+   SET CURSOR FIRST vReportDef.Control WHERE vReportDef.Control.ZKey = vReportDefRoot.XSLT_WorkColumn.ControlZKey
+   // KJS 11/28/12
+   IF RESULT >= zCURSOR_SET 
+   
+      XSLT_BuildControl( vReportDefRoot, vReportDef, lFileHandle, szOutputLine, szIndentationChars )
+
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_BuildTable
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_BuildTable( VIEW vReportDefRoot BASED ON LOD TZRPSRCO,
+                 VIEW vReportDef     BASED ON LOD TZRPSRCO,
+                 VIEW vLOD           BASED ON LOD TZZOLODO,
+                 INTEGER lFileHandle,
+                 STRING ( 5000 ) szOutputLine,
+                 STRING ( 50 )  szIndentationChars,
+                 INTEGER GroupHierarchicalLevel,
+                 INTEGER TableMarginTop,
+                 INTEGER TableWidth )
+
+   STRING ( 20 )  szTableWidth
+   STRING ( 20 )  szTableMarginTop
+
+   szOutputLine = szIndentationChars + "<!-- In XSLT_BuildTable -->"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+
+   // Build block and table statement.
+   SET CURSOR FIRST vReportDef.Control WHERE vReportDef.Control.ZKey = vReportDefRoot.XSLT_WorkColumn.ControlZKey
+
+   szOutputLine = szIndentationChars + "<!-- XSLT_BuildTable Control " + vReportDef.Control.Tag + " -->"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   
+   // KJS 11/28/12
+   IF RESULT >= zCURSOR_SET 
+
+   szOutputLine = szIndentationChars + "<!-- XSLT_BuildTable Control " + vReportDef.Control.Tag + " -->"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+
+   ConvertPxToInchesCH( vReportDefRoot, szTableMarginTop, TableMarginTop )
+   ConvertPxToInchesCH( vReportDefRoot, szTableWidth, TableWidth )
+
+   // Table Block - Initially, we'll make the table block visible.
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   //szOutputLine = szIndentationChars + "<fo:block border=" + QUOTES + "normal solid black" + QUOTES + " > <!-- XSLT_BuildTable -->"
+   szOutputLine = szIndentationChars + "<fo:block > <!-- XSLT_BuildTable -->"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+   // Table statement
+   szOutputLine = szIndentationChars + "<fo:table table-layout=" + QUOTES + "fixed" +
+                  QUOTES + " width=" + QUOTES + "100%" +
+                  //QUOTES + " width=" + QUOTES + szTableWidth + "in" +
+                  QUOTES + " margin-top=" + QUOTES + szTableMarginTop +  "in" + QUOTES + ">"
+   GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+   END
+
+   szOutputLine = szIndentationChars + "<!-- END OF  XSLT_BuildTable -->"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_GroupRecur
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_GroupRecur( VIEW vReportDefRoot BASED ON LOD TZRPSRCO,
+                 VIEW vReportDef     BASED ON LOD TZRPSRCO,
+                 VIEW vLOD           BASED ON LOD TZZOLODO,
+                 INTEGER lFileHandle,
+                 STRING ( 5000 ) szOutputLine,
+                 STRING ( 50 )   szIndentationChars,
+                 INTEGER GroupHierarchicalLevel )
+
+   VIEW vReportDefRoot2 BASED ON LOD TZRPSRCO
+   VIEW vReportDef3     BASED ON LOD TZRPSRCO
+   STRING ( 20 )  szCurrentWidth
+   STRING ( 20 )  szPageWidth
+   STRING ( 30 )  szCellPaddingName
+   STRING ( 50 )  szAttributeMappingName
+   STRING ( 50 )  szReportDefName
+   STRING ( 50 )  szSubIndentationChars
+   STRING ( 50 )  szCellPadding
+   STRING ( 20 )  szTableMarginTop
+   STRING ( 20 )  szTablePaddingLeft
+   STRING ( 20 )  szTableWidth
+   STRING ( 5 )   szColumnCount
+   STRING ( 1 )   szSubControlType
+   STRING ( 1 )   szShapeGrpExists
+   STRING ( 1 )   szColumnCountEqual
+   STRING ( 2 )   szHierarchicalLevel
+   STRING ( 20 )  szSubObjectName
+   STRING ( 200 ) szMsg
+   STRING ( 256 ) szStyle
+   STRING ( 10 )  szLineWidth
+   INTEGER       CurrentWidth
+   INTEGER       CurrentRowPositionX
+   INTEGER       CurrentPositionY
+   INTEGER       LastPositionY
+   INTEGER       LastPositionRowY
+   INTEGER       LastPositionX
+   INTEGER       LastWidthX
+   INTEGER       TopGroupPosition
+   INTEGER       ColumnCount
+   INTEGER       ControlCount
+   INTEGER       FirstColumnCount
+   INTEGER       TextColumnCount
+   INTEGER       CellPadding
+   INTEGER       RowCount
+   INTEGER       TablePaddingLeft
+   INTEGER       TableMarginTop
+   INTEGER       TableWidth
+
+
+   szOutputLine = szIndentationChars + "<!-- In XSLT_GroupRecur -->"
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Process Controls that are all Shapes or Groups.
+   // This is a recursive routine as a Shape/Group can contain another Shape/Group.
+   // NOTE THAT WE ASSUME ALL CONTROLS AT THIS LEVEL ARE ALL SHAPE/GROUP CONTROLS OR ALL TEXT/ICON CONTROLS.
+
+   // Increment hierarchical level for creating XSLT_WorkGroup entry.
+   GroupHierarchicalLevel = GroupHierarchicalLevel + 1
+
+   // Make sure Controls are in row/column order.
+   OrderEntityForView( vReportDef, "Control", "PSDLG_Y A PSDLG_X A" )
+
+   szPageWidth = "7.5in"
+   szCellPaddingName = "DefaultCellPadding"
+
+   // Also, if any control is a Shape/Group, we assume all are.
+   // First determine if there are any Shape/Group.
+   szShapeGrpExists = ""
+   FOR EACH vReportDef.Control
+      IF vReportDef.CtrlCtrl EXISTS AND vReportDef.ControlDef.Tag = "Rpt_Shape"
+         szShapeGrpExists = "Y"
+      END
+   END
+   
+   // Build the WorkGroup for organizing the Controls in tables.
+   // Build work subobject, which organizes controls in rows and columns.
+   // Note that we will only process Shape/Group controls with subcontrols.
+   ControlCount = 0
+   LastPositionY = -1
+   CREATE ENTITY vReportDefRoot.XSLT_WorkGroup
+   vReportDefRoot.XSLT_WorkGroup.RecursiveNumber = GroupHierarchicalLevel
+   FOR EACH vReportDef.Control
+      ControlCount = ControlCount + 1
+      CurrentPositionY = vReportDef.Control.PSDLG_Y
+      IF CurrentPositionY != LastPositionY
+         CREATE ENTITY vReportDefRoot.XSLT_WorkRow
+         vReportDefRoot.XSLT_WorkRow.PSDLG_Y = vReportDef.Control.PSDLG_Y
+         vReportDefRoot.XSLT_WorkRow.Tag     = vReportDef.Control.Tag + "Parent"
+      END
+      LastPositionY = CurrentPositionY
+      CREATE ENTITY vReportDefRoot.XSLT_WorkColumn
+      vReportDefRoot.XSLT_WorkColumn.ControlZKey = vReportDef.Control.ZKey
+      vReportDefRoot.XSLT_WorkColumn.ControlType = vReportDef.ControlDef.Tag
+      SetMatchingAttributesByName( vReportDefRoot, "XSLT_WorkColumn",  vReportDef, "Control", zSET_NULL )
+   END
+
+   // Now see if every row has equal counts, if so then build as a table.
+   // KJS 02/07/13 - I am just realizing that every row could have the same columns but
+   // perhaps they are not in the same x position, which then we wouldn't want to build as a table.
+   // But for now I am going to keep this...
+   SET CURSOR FIRST vReportDefRoot.XSLT_WorkRow
+   ColumnCount = 0
+   szColumnCountEqual = "Y"
+   FOR EACH vReportDefRoot.XSLT_WorkColumn
+      ColumnCount = ColumnCount + 1
+   END
+   FirstColumnCount = ColumnCount
+   FOR EACH vReportDefRoot.XSLT_WorkRow
+      ColumnCount = 0
+      FOR EACH vReportDefRoot.XSLT_WorkColumn
+         ColumnCount = ColumnCount + 1
+      END
+      IF ColumnCount != FirstColumnCount
+         szColumnCountEqual = "N"
+      END
+   END
+  
+   // If there is no Shape control, and there is only one control, then build just that one.
+   // I'm also now wondering if we should build the table even if there is one control because we would need the spacing.
+   IF szShapeGrpExists = "" AND ControlCount = 1
+
+      // There is only a single Control, so skip table.
+      XSLT_BuildBlockData( vReportDefRoot, vReportDef, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel )
+
+   ELSE
+   // No shape controls but the column nbrs in each row are equal so build as one table.
+   IF szShapeGrpExists = "" AND szColumnCountEqual = "Y"
+
+         szOutputLine = szIndentationChars + "<!-- NO Rpt_Shape Equal column nbr -->"
+         GenerateLine( vReportDef, lFileHandle, szOutputLine )
+         szOutputLine = szIndentationChars + ""
+         GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+         szSubIndentationChars = szIndentationChars + "      "
+         XSLT_BuildCtrlsAsTable( vReportDefRoot, vReportDef, vLOD, lFileHandle, szOutputLine, szSubIndentationChars, GroupHierarchicalLevel )
+   ELSE
+   IF  szShapeGrpExists = "" AND szColumnCountEqual = "N" 
+
+         szOutputLine = szIndentationChars + "<!-- No Rpt_Shape calling XSLT_BuildCtrlsInRows each line new Table -->"
+         GenerateLine( vReportDef, lFileHandle, szOutputLine )
+         szOutputLine = szIndentationChars + ""
+         GenerateLine( vReportDef, lFileHandle, szOutputLine )
+         
+         // Build each row as a separate table.
+         XSLT_BuildCtrlsInRows( vReportDefRoot, vReportDef, vLOD, lFileHandle, szOutputLine, szIndentationChars )
+   ELSE    
+  
+      // At least some of the Controls are Shapes/Groups, so continue processing as Group.
+
+      // Name Views for Debugging.
+      szHierarchicalLevel = GroupHierarchicalLevel
+      szSubObjectName = "vReportDefWorkGroup" + szHierarchicalLevel
+      NAME VIEW vReportDefRoot szSubObjectName
+      szSubObjectName = "vReportDefControl" + szHierarchicalLevel
+      NAME VIEW vReportDef szSubObjectName
+
+      // Process Row/Column Work Structure to generate Tables and Columns.
+
+      TopGroupPosition = vReportDefRoot.XSLT_WorkColumn.PSDLG_Y
+      RowCount = 0
+
+      FOR EACH vReportDefRoot.XSLT_WorkRow
+
+         RowCount = RowCount + 1
+
+         // Build open table and column statements.
+            // Open a new table.
+
+            // If this is the topmost Group within the parent, we'll use it's Y position as the margin top. Otherwise,
+            // the margin top will be zero.
+            IF RowCount = 1
+               TableMarginTop  = vReportDefRoot.XSLT_WorkRow.PSDLG_Y
+            ELSE
+               TableMarginTop  = 0
+            END
+            ConvertPxToInchesCH( vReportDefRoot, szTableMarginTop, TableMarginTop )
+
+            // Compute the following values:
+            //     Table Padding Left (used to create a dummy column to shift first table column right as necessary.
+            //     Table Width (total of Padding Left and all sub Controls, which is determined from last column)
+            SET CURSOR FIRST vReportDefRoot.XSLT_WorkColumn
+            // KJS 11/28/12
+            IF RESULT >= zCURSOR_SET 
+               TablePaddingLeft = vReportDefRoot.XSLT_WorkColumn.PSDLG_X
+               ConvertPxToInchesCH( vReportDefRoot, szTablePaddingLeft, TablePaddingLeft )
+            END
+
+            // Table Width
+            SET CURSOR LAST vReportDefRoot.XSLT_WorkColumn
+            TableWidth = vReportDefRoot.XSLT_WorkColumn.PSDLG_X + vReportDefRoot.XSLT_WorkColumn.SZDLG_X
+            ConvertPxToInchesCH( vReportDefRoot, szTableWidth, TableWidth )
+
+            // Table Block - Initially, we'll make the table block visible.
+            szOutputLine = szIndentationChars + ""
+            GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            
+            // KJS 12/12/12 - Taking this out for the moment and putting it right after we see that the control we are
+            // on is a Rpt_Shape.  see what happens...
+            //szOutputLine = szIndentationChars + "<fo:block border=" + QUOTES + "normal solid black" + QUOTES + " > <!-- XSLT_GroupRecur For Row -->"
+            //GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            //szOutputLine = szIndentationChars + ""
+            //GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+            // Table statement
+            szOutputLine = szIndentationChars + "<fo:table table-layout=" + QUOTES + "fixed" +
+                           QUOTES + " width=" + QUOTES + "100%" +
+                           QUOTES + " margin-top=" + QUOTES + szTableMarginTop +  "in" + QUOTES + "> <!-- In XSLT_GroupRecur -->"
+                           //QUOTES + " width=" + QUOTES + szTableWidth + "in" +
+                           //QUOTES + " margin-top=" + QUOTES + szTableMarginTop +  "in" + QUOTES + ">"
+            GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+            // Column Statements
+
+            // Generate Padding Column, if TablePaddingLeft is > 0.
+            IF TablePaddingLeft > 0
+               szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szTablePaddingLeft + "in" + QUOTES + "/> <!-- This is just for padding -->"
+               GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            END
+
+            // Get Width of table?.
+            FOR EACH vReportDefRoot.XSLT_WorkColumn
+
+               // The width is the difference between the starting position of this control and the starting position of the next control.
+               // If there is no next control, the width will be the actual width of the control.
+               CreateViewFromView( vReportDef3, vReportDefRoot )
+               SET CURSOR NEXT vReportDef3.XSLT_WorkColumn
+               IF RESULT >= zCURSOR_SET
+                  CurrentWidth  = vReportDef3.XSLT_WorkColumn.PSDLG_X - vReportDefRoot.XSLT_WorkColumn.PSDLG_X
+               ELSE
+                  CurrentWidth  = vReportDefRoot.XSLT_WorkColumn.SZDLG_X
+               END
+               DropView( vReportDef3 )
+               ConvertPxToInchesCH( vReportDefRoot, szCurrentWidth, CurrentWidth )
+
+               szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szCurrentWidth + "in" + QUOTES + "/>"
+               GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            END
+
+            // Generate table-body statement, table-row and block.
+            szOutputLine = szIndentationChars + "<fo:table-body>"
+            GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+            szOutputLine = szIndentationChars + "  <fo:table-row>"
+            GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+            // Generate the table-cell statements, which will actually end up calling this recursive routine, XSLT_GroupRecur, to
+            // process sub-controls.
+
+            // Generate Padding Cell, if TablePaddingLeft is > 0.
+            IF TablePaddingLeft > 0
+               szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES + ">"
+               GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+               szOutputLine = szIndentationChars + "      <fo:block></fo:block> <!-- Just for padding -->"
+               GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+               szOutputLine = szIndentationChars + "    </fo:table-cell>"
+               GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            END
+
+            FOR EACH vReportDefRoot.XSLT_WorkColumn
+               szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES + ">"
+               GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+               // Process Sub Control Entities.
+               SET CURSOR FIRST vReportDef.Control WHERE vReportDef.Control.ZKey = vReportDefRoot.XSLT_WorkColumn.ControlZKey
+               
+               IF vReportDef.ControlDef.Tag = "Rpt_Shape" AND vReportDef.CtrlCtrl EXISTS 
+               
+                  szOutputLine = szIndentationChars + "    <!-- ** Rpt_Shape " + vReportDef.Control.Tag + " ** -->"
+                  GenerateLine( vReportDef, lFileHandle, szOutputLine )
+                  
+                  // KJS 12/12/12 - Moved this here from above...
+                  XSLT_GetStyleShape( vReportDef, szStyle )
+
+                  // KJS 12/12/12 - Moved this here from above so we could check the control for a border.
+                  //szOutputLine = szIndentationChars + "    <fo:block border=" + QUOTES + "normal solid black" + QUOTES + " > <!-- XSLT_GroupRecur For Row -->"
+                  szOutputLine = szIndentationChars + "    <fo:block " + szStyle + " > <!-- XSLT_GroupRecur For Row -->"
+                  GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+                  szOutputLine = szIndentationChars + ""
+                  GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+                  // Position on subcontrols
+                  CreateViewFromView( vReportDefRoot2, vReportDefRoot )
+                  SetViewToSubobject( vReportDef, "CtrlCtrl" )
+                  szSubIndentationChars = szIndentationChars + "      "
+                 
+                  // Feel like here I should just look at see if this has sub controls. If so, then 
+                  // Create new view so that we can save our current position.
+                  
+            
+                  // Call XSLT_GroupRecur recursively.
+                  XSLT_GroupRecur( vReportDefRoot2, vReportDef, vLOD, lFileHandle, szOutputLine, szSubIndentationChars, GroupHierarchicalLevel )
+
+                  ResetViewFromSubobject( vReportDef )
+                  DropView( vReportDefRoot2 )
+                  
+                  // Should we be getting rid of the workgroup that was used in recursive?
+                  
+                  szOutputLine = szIndentationChars + "    </fo:block>"
+                  GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+                  szOutputLine = szIndentationChars + ""
+                  GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+               ELSE
+                  // I don't think there is anything else is there besides Text or Graphic? Maybe an empty Rpt_Shape?
+                  // Call XSLT_BuildCtrlsAsTable to format data.
+                  //XSLT_BuildCtrlsAsTable( vReportDefRoot2, vReportDef, vLOD, lFileHandle, szOutputLine, szSubIndentationChars, GroupHierarchicalLevel )
+                  XSLT_BuildBlockData( vReportDefRoot, vReportDef, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel )
+               END
+
+               // Close table-cell
+               szOutputLine = szIndentationChars + "    </fo:table-cell>"
+               GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            END
+
+
+            // Build close table statements
+            szOutputLine = szIndentationChars + "  </fo:table-row>"
+            GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + "</fo:table-body>"
+            GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + "</fo:table>"
+            GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + ""
+            GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            // KJS 12/12/12 - taking out...
+            //szOutputLine = szIndentationChars + "</fo:block>"
+            //GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+            //szOutputLine = szIndentationChars + ""
+            //GenerateLine( vReportDefRoot, lFileHandle, szOutputLine )
+
+      END // FOR EACH vReportDefRoot.XSLT_WorkRow
+
+      // Remove the Work Group for this hierarchical level.
+      DELETE ENTITY vReportDefRoot.XSLT_WorkGroup
+   END  // Rpt_Shapes exist
+   END
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ConvertPxToInchesCH
+**
+*************************************************************************************************/
+LOCAL OPERATION
+ConvertPxToInchesCH( VIEW vReportDefRoot BASED ON LOD TZRPSRCO,
+                     STRING ( 20 ) ReturnedString,
+                     INTEGER lValueInPixles )
+
+   DECIMAL dValueInInches
+   DECIMAL dDecimal0
+   INTEGER lValueInInches
+
+   // Convert pixles integer value to decimal 2 as a returned string.
+   lValueInInches = ( lValueInPixles * 100 ) / 256
+   //lValueInInches = ( lValueInPixles * 100 ) / 256
+   //lValueInInches = ( lValueInPixles * 100 ) / 280
+   dDecimal0 = lValueInInches
+   dValueInInches = dDecimal0 / 100
+   ReturnedString = dValueInInches
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateLine
+**
+*************************************************************************************************/
+LOCAL OPERATION
+GenerateLine( VIEW ReportObject BASED ON LOD TZRPSRCO,
+              INTEGER lFileHandle,
+              STRING ( 5000 ) szOutputLine )
+
+   // This is just a SysWriteLine with an options TraceLineS statement.
+   //TraceLineS( "*** Line: ", szOutputLine )
+   SysWriteLine( ReportObject, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXSLT_PDF
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenerateXSLT_PDF( VIEW vReportDef,
+                  VIEW vSourceOI,
+                  STRING ( 32 ) szTopEntityName,
+                  INTEGER lFlag )
+
+   // The first step is to build the XML object for the passed in application object and Report Definition.
+   //GenerateXSLT_XML( vReportDef, vSourceOI, szTopEntityName )
+
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: XSLT_GetStyleText
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_GetStyleText( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                   STRING ( 256 ) szStyle )
+
+   SHORT          nMultiLineFlag
+   SHORT          nBoldFlag
+   SHORT          nItalicFlag
+   SHORT          nStrikeoutFlag
+   SHORT          nUnderlineFlag
+   INTEGER        lJustify
+   INTEGER        lFontSize
+   INTEGER        lTextColor
+   INTEGER        lTextBkColor
+   INTEGER        lBorderStyle
+   INTEGER        lBorderColor
+   INTEGER        lEscapement
+   INTEGER        lType
+   INTEGER        nRC
+   STRING ( 32 )  szFaceName
+   STRING ( 2 )  szBorderWidth
+   STRING ( 50 ) szAlign
+   STRING ( 50 ) szBorderStyle
+   STRING ( 25 ) szFontSize
+   STRING ( 2 )  szWidth
+   STRING ( 500 ) szMsg
+   
+   szStyle = ""
+   
+   nRC = TX_GetTextRptCtrlBOI( vReportDef, nMultiLineFlag, nBoldFlag,
+                               nItalicFlag, nStrikeoutFlag,
+                               nUnderlineFlag, lJustify,
+                               lFontSize, lTextColor, lTextBkColor,
+                               lBorderStyle, lBorderColor,
+                               lEscapement, lType, szFaceName )
+                               
+
+   //TraceLineI("**** lBorderStyle *** ", lBorderStyle )
+
+   // Text Alignment
+   /*
+   szAlign = vReportDef.Control.TextAlignHorizontal
+   // Should I give an error message if TextAlignHorizontal is not "Right", "Left" or "Center" (I have had problems since
+   // putting in mapping for this).
+   IF szAlign != "" AND szAlign != "right" AND szAlign != "center" AND szAlign != "left"
+      szMsg = "Alignment for control " + vReportDef.Control.Tag + " is wrong. Please set this again."  
+      MessageSend( vReportDef, "Text Alignment", "Autodesigner",
+                   szMsg,
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+   END
+   IF szAlign != ""
+      szStyle = szStyle + "text-align=" + QUOTES + szAlign + QUOTES + " "
+   END
+   */
+   
+   // If we have a new line char. we need to have the following...
+   IF nMultiLineFlag > 0
+      szStyle = szStyle + "linefeed-treatment=" + QUOTES + "preserve" + QUOTES + " "    
+   END
+   
+   IF lBorderStyle != 0 
+   
+      nRC = GetBorderLineWidth( lBorderStyle, szBorderWidth )
+      //TraceLineS("*** Line Width *** ", szBorderWidth )
+      IF szBorderWidth = "" OR szBorderWidth = "0"
+         szBorderWidth = "1"
+      END
+      
+      szStyle = szStyle + "border-width=" + QUOTES + szBorderWidth + QUOTES + " "
+
+      
+      szBorderStyle = ""
+      nRC = IsFlagSequenceSet( lBorderStyle, 1 )
+      IF nRC > 0 
+         //TraceLineI("**** lBorderStyle DASH is SET *** ", nRC)
+         szBorderStyle = "dashed" 
+      END
+      nRC = IsFlagSequenceSet( lBorderStyle, 2 )
+      IF nRC > 0 
+         //TraceLineI("**** lBorderStyle DOTTED is SET *** ", nRC)
+         szBorderStyle = "dotted" 
+      END
+      IF szBorderStyle = ""
+         szBorderStyle = "solid" 
+      END
+
+   
+      nRC = IsFlagSequenceSet( lBorderStyle, 256 )
+      IF nRC > 0 
+         //TraceLineI("**** lBorderStyle Top is SET *** ", nRC)
+         szStyle = szStyle + "border-top-style=" + QUOTES + szBorderStyle + QUOTES + " "
+      END
+      nRC = IsFlagSequenceSet( lBorderStyle, 512 )
+      IF nRC > 0 
+         //TraceLineI("**** lBorderStyle Left is SET *** ", nRC)
+         szStyle = szStyle + "border-left-style=" + QUOTES + szBorderStyle + QUOTES + " "
+      END
+      nRC = IsFlagSequenceSet( lBorderStyle, 1024 )
+      IF nRC > 0 
+         //TraceLineI("**** lBorderStyle Bottom is SET *** ", nRC)
+         szStyle = szStyle + "border-bottom-style=" + QUOTES + szBorderStyle + QUOTES + " "
+      END
+      nRC = IsFlagSequenceSet( lBorderStyle, 2048 )
+      IF nRC > 0 
+         //TraceLineI("**** lBorderStyle Right is SET *** ", nRC)
+         szStyle = szStyle + "border-right-style=" + QUOTES + szBorderStyle + QUOTES + " "
+      END
+   END
+   
+   IF lJustify != 0
+      nRC = IsFlagSequenceSet( lJustify, 2 )
+      IF nRC != 0
+         szStyle = szStyle + "text-align=" + QUOTES + "center" + QUOTES + " "
+      ELSE
+         nRC = IsFlagSequenceSet( lJustify, 4 )
+         IF nRC != 0
+            szStyle = szStyle + "text-align=" + QUOTES + "right" + QUOTES + " "
+         END
+      END
+   END
+
+  /*
+   // Do we only show border if line width is greater than zero? 
+   IF vReportDef.Control.BorderWidth > 0
+   
+      szBorderWidth = vReportDef.Control.BorderWidth 
+      szStyle = szStyle + "border-width=" + QUOTES + szBorderWidth + QUOTES + " "
+      
+      IF vReportDef.Control.BorderStyle = 0
+         szBorderStyle = "solid" 
+      ELSE
+      IF vReportDef.Control.BorderStyle = 1
+         szBorderStyle = "dashed" 
+      ELSE
+      IF vReportDef.Control.BorderStyle = 2
+         szBorderStyle = "dotted" 
+      ELSE
+         szBorderStyle = "solid" 
+      END 
+      END 
+      END
+      
+      //IF vReportDef.Control.Tag = "Rpt_Text8" OR  vReportDef.Control.Tag = "Rpt_Text13"
+      
+      // Maybe put in color later...
+      szStyle = szStyle + "border-color=" + QUOTES + "black" + QUOTES + " "
+      
+      IF vReportDef.Control.BorderTop = 0 AND vReportDef.Control.BorderBottom = 0
+         szStyle = szStyle + "border-style=" + QUOTES + szBorderStyle + QUOTES + " "
+      ELSE
+      IF vReportDef.Control.BorderTop = 1 
+         szStyle = szStyle + "border-top-style=" + QUOTES + szBorderStyle + QUOTES + " "
+      END
+      IF vReportDef.Control.BorderBottom = 1
+         szStyle = szStyle + "border-bottom-style=" + QUOTES + szBorderStyle + QUOTES + " "
+      END   
+      END
+      
+      //END
+   END 
+   */ 
+   
+   IF lTextColor > 0
+      TraceLineI("**** lTextColor  *** ", lTextColor ) 
+   END
+   IF lTextBkColor > 0
+      TraceLineI("**** lTextBkColor  *** ", lTextBkColor ) 
+   END
+   
+   //IF vReportDef.Control.FontSize > 0
+   IF lFontSize > 0
+      lFontSize = lFontSize / 10
+      IF lFontSize != 9 
+      zIntegerToString( szFontSize, 25, lFontSize )
+      szStyle = szStyle + "font-size=" + QUOTES + szFontSize + "pt" + QUOTES + " "
+      END
+   END   
+   
+   //IF vReportDef.Control.TextBold = "Y"
+   IF nBoldFlag != 0
+      szStyle = szStyle + "font-weight=" + QUOTES + "bold" + QUOTES + " "
+   END   
+   
+   //IF vReportDef.Control.TextItalic = "Y"
+   IF nItalicFlag != 0 
+      szStyle = szStyle + "font-style=" + QUOTES + "italic" + QUOTES + " "
+   END   
+   
+   //IF vReportDef.Control.TextUnderline = "Y"
+   IF nUnderlineFlag != 0
+      szStyle = szStyle + "text-decoration=" + QUOTES + "underline" + QUOTES + " "
+   END   
+   
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: XSLT_GetStyleShape
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_GetStyleShape( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                    STRING ( 256 ) szStyle )
+
+   SHORT          nMultiLineFlag
+   SHORT          nBoldFlag
+   SHORT          nItalicFlag
+   SHORT          nStrikeoutFlag
+   SHORT          nUnderlineFlag
+   INTEGER        lJustify
+   INTEGER        lFontSize
+   INTEGER        lTextColor
+   INTEGER        lTextBkColor
+   INTEGER        lBorderStyle
+   INTEGER        lBorderColor
+   INTEGER        lEscapement
+   INTEGER        lType
+   INTEGER        nRC
+   DECIMAL        lBorder
+   STRING ( 32 )  szFaceName
+   STRING ( 10 )  szBorderWidth
+   STRING ( 50 ) szAlign
+   STRING ( 50 ) szBorderStyle
+   STRING ( 25 ) szFontSize
+   STRING ( 2 )  szWidth
+   STRING ( 500 ) szMsg
+   
+   TraceLineS("**** XSLT_GetStyleShape *** ", vReportDef.Control.Tag )
+   
+   szStyle = ""
+
+   SetRptShapeFromBlob( vReportDef )
+   
+   // Do we only show border if line width is greater than zero? 
+   IF vReportDef.Control.BorderWidth > 0
+   
+      // Seems like the border is a little too thick. Going to try halving what is specified.
+      lBorder = vReportDef.Control.BorderWidth
+      lBorder = lBorder / 2
+      SysConvertDecimalToString( lBorder, szBorderWidth, 1 )
+      //SysConvertDecimalToString( DOUBLE /* pDecimal */,
+      //                           STRING /* ReturnString */,
+      //                           INTEGER /* nPrecision */ )
+      //zIntegerToString( szBorderWidth, 25, lFontSize )
+      //szBorderWidth = vReportDef.Control.BorderWidth 
+      
+     
+      //TraceLineS("**** BorderWidth *** ", szBorderWidth)
+      szStyle = szStyle + "border-width=" + QUOTES + szBorderWidth + QUOTES + " "
+      
+      IF vReportDef.Control.BorderStyle = 0
+         //TraceLineS("**** Border SOLID *** ", szBorderWidth)
+         szBorderStyle = "solid" 
+      ELSE
+      IF vReportDef.Control.BorderStyle = 1
+         //TraceLineS("**** Border dashed *** ", szBorderWidth)
+         szBorderStyle = "dashed" 
+      ELSE
+      IF vReportDef.Control.BorderStyle = 2
+         //TraceLineS("**** Border dotted *** ", szBorderWidth)
+         szBorderStyle = "dotted" 
+      ELSE
+         //TraceLineS("**** Border SOLID *** ", szBorderWidth)
+         szBorderStyle = "solid" 
+      END 
+      END 
+      END
+      
+      // Maybe put in color later...
+      // KJS 01/31/13 - This is cheesy but I'm going for it for now...
+      // The only other report color I know being used is red... which seems to be 255
+      // SetRptShapeFromBlob sets wLineColorText and wLineColorInt.
+      IF vReportDef.Control.wLineColorInt = 255 
+         szStyle = szStyle + "border-color=" + QUOTES + "red" + QUOTES + " "
+      ELSE
+         szStyle = szStyle + "border-color=" + QUOTES + "black" + QUOTES + " "
+      END
+      
+      // If the "Horizontal" checkbox is checked, then we have set BorderBottom to 1 in SetRptShapeFromBlob.
+      IF vReportDef.Control.BorderBottom = 1
+         szStyle = szStyle + "border-bottom-style=" + QUOTES + szBorderStyle + QUOTES + " "         
+      ELSE
+         szStyle = szStyle + "border-style=" + QUOTES + szBorderStyle + QUOTES + " "
+      END
+      
+      
+   END  
+   
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: XSLT_BuildControl
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_BuildControl( VIEW vReportDefRoot BASED ON LOD TZRPSRCO,
+                   VIEW vReportDef BASED ON LOD TZRPSRCO,
+                   INTEGER lFileHandle,
+                   STRING ( 5000 ) szOutputLine,
+                   STRING ( 50 )  szIndentationChars )
+
+   STRING ( 20 )  szPaddingTop
+   STRING ( 256 ) szAttributeMappingName
+   STRING ( 256 ) szConstantArea
+   STRING ( 256 ) szStyle
+   STRING ( 256 ) szStyleLeader
+   STRING ( 256 ) szAttribPrefix  // szAttribPrefix is only for the Page Header and Page Footer
+   STRING ( 10 )  szLineWidth
+   INTEGER        PaddingTop
+   
+   // This is for page heading/footing
+   //IF vReportDefRoot.XSLT_WorkGroup.RecursiveNumber = -1
+   // WHEN WE ARE DOWN RECURSIVELY, WE CAN"T SEE Report. NOT SURE WHAT TO DO
+   
+   IF vReportDefRoot.Report.wOriginalViewName != ""   
+      szAttribPrefix = vReportDefRoot.Report.wOriginalViewName 
+   ELSE
+      szAttribPrefix = ""
+   END
+   
+                   
+   IF vReportDef.ControlDef.Tag = "Rpt_PicGraphic"
+      // Control is graphic.
+      szConstantArea = vReportDef.Control.WebFileName 
+      PaddingTop = vReportDef.Control.PSDLG_Y
+      ConvertPxToInchesCH( vReportDef, szPaddingTop, PaddingTop )
+      //szOutputLine = szIndentationChars + "<fo:block border=" + QUOTES + "normal solid black" + QUOTES + " > <!-- XSLT_BuildBlockData-->"
+      szOutputLine = szIndentationChars + "<fo:block " + szStyle + " > <!-- XSLT_BuildControl-->"
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "  <fo:external-graphic src=" + QUOTES + szConstantArea + QUOTES +
+                                          " padding-top=" + QUOTES + szPaddingTop + "in" + QUOTES 
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+                                          
+      szOutputLine = szIndentationChars + "     content-width=" + QUOTES + "scale-to-fit" + QUOTES
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "     content-height=" + QUOTES + "scale-to-fit" + QUOTES
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "     width=" + QUOTES + "100%" + QUOTES + " scaling=" + QUOTES + "uniform" + QUOTES + "/>"
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "</fo:block>"
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+   ELSE
+   IF vReportDef.ControlDef.Tag = "Rpt_Shape" 
+      // If we get here, this is a shape without anything inside. Don't see why this would happen but check for it anyway.         
+      //TraceLineS("**** XSLT_GetStyleShape *** ", "" )
+      XSLT_GetStyleShape( vReportDef, szStyle )
+      IF vReportDef.Control.BorderBottom = 1
+         szStyleLeader = "<fo:leader />"
+      ELSE
+         szStyleLeader = ""
+      END
+      szOutputLine = szIndentationChars + "      <fo:block " + szStyle + ">" + szStyleLeader + "</fo:block> <!-- XSLT_BuildControl Empty Shape -->"
+      GenerateLine( vReportDef, lFileHandle, szOutputLine )
+   ELSE 
+      // Control is considered Text.
+      XSLT_GetStyleText( vReportDef, szStyle )
+
+      // Text control has mapping
+      IF vReportDef.CtrlMapER_Attribute EXISTS
+         szAttributeMappingName = szAttribPrefix + vReportDef.CtrlMapRelatedEntity.Name + "." + vReportDef.CtrlMapER_Attribute.Name
+         szOutputLine = szIndentationChars + "      <fo:block " + szStyle + "><xsl:value-of select=" + QUOTES +
+                        szAttributeMappingName + QUOTES + "/></fo:block> <!-- XSLT_BuildControl-->"
+         GenerateLine( vReportDef, lFileHandle, szOutputLine )
+      ELSE
+
+         IF vReportDef.Control.Tag = "PageNumber"
+            // This is the PageNumber 
+            //szOutputLine = szIndentationChars + "      <fo:block " + szStyle + " text-align=" + QUOTES + "right" + QUOTES + "> <!-- XSLT_BuildControl -->"
+            szOutputLine = szIndentationChars + "      <fo:block " + szStyle + "> <!-- XSLT_BuildControl -->"
+            GenerateLine( vReportDef, lFileHandle, szOutputLine )
+            IF vReportDef.Report.CountPages = "Y"
+               szOutputLine = szIndentationChars + "      Page <fo:page-number/> of <fo:page-number-citation ref-id=" + QUOTES + "last-page" + QUOTES + "/>"
+            ELSE 
+               szOutputLine = szIndentationChars + "      Page <fo:page-number/> "
+            END
+            GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+            szOutputLine = szIndentationChars + "      </fo:block>"
+            GenerateLine( vReportDef, lFileHandle, szOutputLine )
+      
+         ELSE
+         // We are assuming that if this is a very thin text control, we must want there to be a line (should I not look at border?)
+         IF vReportDef.Control.Text = "" AND vReportDef.Control.SZDLG_Y <= 21
+            // Build a Leader line.
+            szOutputLine = szIndentationChars + "      <fo:block>  <!-- XSLT_BuildControl -->"
+            GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+            szOutputLine = szIndentationChars + "      <fo:leader leader-pattern=" + QUOTES + "rule" + QUOTES +
+                           " leader-length.optimum=" + QUOTES + "100%" + QUOTES + " rule-style=" + QUOTES +
+                           "solid" + QUOTES + " rule-thickness=" + QUOTES + "1pt" + QUOTES + "/>"
+            GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+            szOutputLine = szIndentationChars + "      </fo:block>"
+            GenerateLine( vReportDef, lFileHandle, szOutputLine )
+
+         ELSE
+            szConstantArea = vReportDef.Control.Text
+            szOutputLine = szIndentationChars + "      <fo:block " + szStyle + ">" + szConstantArea + "</fo:block> <!-- XSLT_BuildControl -->"
+            GenerateLine( vReportDef, lFileHandle, szOutputLine )
+         END
+         END
+      END
+   END
+   END
+   
+END

@@ -1,0 +1,19 @@
+rZeidon    Z01475B2 TZWDVORO 11/02/95   20:51:43 1.0a     
+eViewObjRef 1,192
+aZKey      1340850
+aName      TZVSXCOO
+aDesc      The Application Launch Manager Breakpoint thingy
+
+eLOD       2,192
+aZKey      1327468
+aName      TZVSXCOO
+aDesc      This is the X-Checker Object
+
+eZ_MetaDef 2,192
+aName      TZVSXCOO
+aZKey      1340850
+aType      9
+aLastUpdateDate 19950824213734000
+aLastCheckInDate 19951102203051110
+aDesc      The Application Launch Manager Breakpoint thingy
+

@@ -1,0 +1,57 @@
+z10000Zeidon    KZRPQUER TZOGSRCO 06/24/02   08:33:14 1.0a1
+eGlobalOperationGroup 1
+aZKey      91075122
+aName      KZRPQUER
+aExtension VML
+aLanguageType V
+aDomainAndGlobalOpGroupName KZRPSRCO
+
+eOperation 2
+aName      ComputeQueryOperationValue
+aZKey      91075123
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReportDef
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91075124
+
+eParameter 3
+aShortDesc QueryOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91075137
+
+eParameter 3
+aShortDesc ReturnedString
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      91075125
+
+eParameter 3
+aShortDesc OperationName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91075126
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91075127
+
+eParameter 3
+aShortDesc AttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91075128
+

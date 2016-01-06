@@ -1,0 +1,12 @@
+z10000Zeidon    Z5539C2D TZWDVORO 05/16/01   12:21:01 1.0a1    
+eViewObjRef 1
+aZKey      89365549
+aName      TZEREMDO_sub
+aDesc      Is subobject view for dimension hierarchy processing
+
+eLOD       2
+aZKey      1326595
+aName      TZEREMDO
+aDesc      Enterprise Model ER Information
+aDLL_Name  TZLODOPR
+

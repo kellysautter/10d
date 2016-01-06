@@ -1,0 +1,19 @@
+rZeidon    Z0148E3E TZWDVORO 11/02/95   20:52:14 1.0a     
+eViewObjRef 1,192
+aZKey      1347134
+aName      TZOPLSWO2
+aDesc      Second work view for work object
+
+eLOD       2,192
+aZKey      1328897
+aName      TZOPLSWO
+aDesc      Operation List work object
+
+eZ_MetaDef 2,192
+aName      TZOPLSWO2
+aZKey      1347134
+aType      9
+aLastUpdateDate 19950824213828000
+aLastCheckInDate 19951102203051110
+aDesc      Second work view for work object
+

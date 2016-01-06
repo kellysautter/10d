@@ -1,0 +1,18 @@
+rZeidon    Z014A3A2 TZWDVORO 11/02/95   20:51:17 1.0a     
+eViewObjRef 1,192
+aZKey      1352610
+aName      User_Spec
+
+eLOD       2,192
+aZKey      1326102
+aName      TZADCSDO
+aDesc      User information specification
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      User_Spec
+aZKey      1352610
+aType      9
+aLastUpdateDate 19950824213920000
+aLastCheckInDate 19951102203051110
+

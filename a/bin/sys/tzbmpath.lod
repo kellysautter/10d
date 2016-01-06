@@ -1,0 +1,336 @@
+z10000Zeidon    TZBMPATH TZZOLODO 06/09/01   21:27:38 1.0b0    
+eLOD       1
+aZKey      127042456
+aName      TZBMPATH
+aDesc      Work object for show all Bitmaps in a LPLR
+aDLL_Name  TZBMPATH
+
+eLOD_EntityParent 2
+aName      PathList
+aIndentName PathList
+aIndentLvl 0
+aZKey      127042457
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      BitmapPath
+aIndentName    BitmapPath
+aIndentLvl 3
+aZKey      127042458
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      127042459
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      BitmapPath
+aZKey      127042460
+aLth       254
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      127042461
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Dialog
+aZKey      127042462
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      127042475
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Window
+aZKey      127042476
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      127042477
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Control
+aZKey      127042478
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      127042463
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Error
+aZKey      127042464
+aDesc      23
+0 = Warning
+1 = Error0
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      127042465
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DateTimeAndDialogs
+aZKey      127042466
+aLth       100
+aDesc      DateTime + for all Dialogs or DateTime + for selected Dialogs
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127042467
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      LPLR_Name
+aZKey      127042468
+aNotNull   Y
+aDesc      LPL Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eDomainRec 5
+aZKey      90145848
+aName      MetaName
+aDomainType E
+aDataType  S
+aMaxStringLth 8
+aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      127042471
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      MetaType
+aZKey      127042472
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+ePOD       2
+aNAME      TZBMPATH
+aZKey      127042479
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SqlServer ODBC TB
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      DB2 MVS Ger
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      ACC_REP
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      Access ODBC TB
+aGenerateExecutable KZSIACC
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      DB2_Rep
+aZKey      90014023
+aDesc      Repository DB2 NT
+aParadigm  R
+aDBMS      DB2 NT TB
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDisplayOwner Y
+
+i8         5
+i11        5
+i14        5
+i20        5
+i26        17
+i27        1
+i28        18
+i29        19
+i30        5
+i31        21
+i32        22
+i33        23
+i34        24
+i35        25
+i36        17
+i37        2
+i38        3
+i39        4
+i40        5
+i41        6
+i42        7
+i43        5
+i44        9
+i45        10
+i46        5
+i47        12
+i48        13
+i49        5
+i50        15
+i51        16
+i52        17

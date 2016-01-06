@@ -1,0 +1,157 @@
+z1000-Zeidon    LOD      TZDGSRCO 01/08/13   12:28:53 1.0a2    
+eDomainGroup 1
+aZKey      1320146
+aName      LOD
+aExtension C
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320147
+aName      LOD_EntitySequence
+aDesc      Attribute or Relative Position
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320148
+aName      LOD_EntitySequence
+aIsDefault Y
+aDIL_Text  Attribute or Relative Position
+
+eTableEntry 4
+aZKey      92484529
+
+eTableEntry 4
+aZKey      1320149
+aExternalValue Attribute
+aInternalValue A
+
+eTableEntry 4
+aZKey      1320150
+aExternalValue Relative Pos.
+aInternalValue R
+
+eTableEntry 4
+aZKey      1320151
+aExternalValue - none -
+aInternalValue -
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      4330375
+aName      LOD_AttributeHashkeyType
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      4330376
+aName      LOD_AttributeHashkeyType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92716707
+
+eTableEntry 4
+aZKey      4330377
+aExternalValue Global
+aInternalValue G
+
+eTableEntry 4
+aZKey      4330378
+aExternalValue Under Parent
+aInternalValue P
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      90201051
+aName      LOD_DB_DerivedValue
+aDesc      X - MAX, N - MIN, A - AVG, S - SUM, C - COUNT
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      90201052
+aName      LOD_DB_DerivedValue
+aIsDefault Y
+aDIL_Text  Database Derived Value
+
+eTableEntry 4
+aZKey      92484528
+
+eTableEntry 4
+aZKey      90201053
+aExternalValue MAX
+aInternalValue X
+
+eTableEntry 4
+aZKey      90201054
+aExternalValue MIN
+aInternalValue N
+
+eTableEntry 4
+aZKey      90201055
+aExternalValue AVG
+aInternalValue A
+
+eTableEntry 4
+aZKey      90201056
+aExternalValue SUM
+aInternalValue S
+
+eTableEntry 4
+aZKey      90206081
+aExternalValue COUNT
+aInternalValue C
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320152
+aName      LOD_ParentDeleteBehavior
+aDesc      Delete, Restrict, Exclude
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320153
+aName      LOD_ParentDeleteBehavior
+aIsDefault Y
+aDIL_Text  Delete, Restrict, Exclude
+
+eTableEntry 4
+aZKey      92716004
+
+eTableEntry 4
+aZKey      1320154
+aExternalValue Delete
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320155
+aExternalValue Exclude
+aInternalValue E
+
+eTableEntry 4
+aZKey      1320156
+aExternalValue Restrict
+aInternalValue R
+
+eTableEntry 4
+aZKey      1320157
+aExternalValue - none -
+aInternalValue -
+
+eZ_MetaDef 2
+aName      LOD
+aZKey      1320146
+aType      13
+aLastUpdateDate 19950824212034000
+aLastCheckInDate 19951102203051110
+

@@ -1,0 +1,1496 @@
+// LAST MESSAGE ID: CM01024
+
+/*
+CHANGE LOG
+2002.06.10  BL  R55527
+   Modified MergeSAsToER: if DataModel does not exists, set Target LPLR-Name
+   for DataModel-Name
+2002.04.10  BL
+   DropMetaOI if it exists
+2000.10.20  SR  Z2000  Size of path variables
+   Modified size of
+   - SourceFileName in function SelectLPLR,
+   - szFileName in function ActivateTZWDLCVO,
+   - szFileName in function CommitTZWDLCVO,
+   - SourceFileName in function SelectLPLR_ForSAMerge,
+   - FileName in function DialogCompareDataModels,
+   - SourceFileName and SubjectAreaName in function MergeSAToER and
+   - FileName in function DialogCompareDataModels
+   because size of attributes ExecDir, MetaSrcDir and PgmSrcDir has been changed to 254
+   in datamodel.
+2000.07.10  BL   Repository
+   Modified MigrateMeta for Merge PPE
+   Added SetCheckoutState: if ERD not checked out, disable Merge Button
+   for Subject Areas and set check out state in title
+2000.04.05  BL   Repository
+   Added DropPPE_View: drop PPE View, this is important when you migrate
+   a PPE and a Dialog and then check in this components
+   (without this Operation, Zeidon bring following message by check in
+   "PPE is in use by another tool ...")
+2000.02.29  BL
+   Modified MigrateMeta for added Parameter in ComponentIsCheckedOut
+2000.01.29  BL   new PPE handling
+   Modified BuildTargetLPLR_List and SelectLPLR for show PPE in Migrate List
+   Modified MigrateMeta for migrate or merge PPE
+2000.01.13  BL
+   remove unreferenced local variable
+   Modified MigrateMeta for new PPE handling
+from here old version
+20.02.1997  DonC
+   Improved functionality of ER/SA Merge.
+07.05.1997  DonC
+   Added migration logic for ReportDef.
+14.06.1997  DonC
+   Modified BuildTargetLPLR_List so that Reports would be sorted
+   correctly at the end of the list.
+21.08.1998  DonC
+   No logic changes--just changed spacing.
+1998/12/08  DC
+   Modified MigrateMeta so that the meta name of the TE on a validation would be the same as the LPLR
+   name. That did not used to be the case. (TB 357)
+*/
+
+DIALOG OPERATION
+MigrateMeta( VIEW vSubtask )
+
+   VIEW SourceLPLR         BASED ON LOD TZCMLPLO
+   VIEW SourceVOR_LPLR     BASED ON LOD TZCMLPLO
+   VIEW TargetVOR_LPLR     BASED ON LOD TZCMLPLO
+   VIEW OrigLPLR           BASED ON LOD TZCMLPLO
+   VIEW CurrentLPLR        BASED ON LOD TZCMLPLO
+   VIEW NewERD             BASED ON LOD TZEREMDO
+   VIEW ReturnedSA         BASED ON LOD TZERSASO
+   VIEW ReturnedTE         BASED ON LOD TZTENVRO
+   VIEW NewLOD             BASED ON LOD TZZOLODO
+   VIEW ReturnedPPE        BASED ON LOD TZPESRCO
+   VIEW NewDialog          BASED ON LOD TZWDLGSO
+   VIEW ReturnedDialogSpec BASED ON LOD TZADCSDO
+   VIEW ReturnedReport     BASED ON LOD TZRPSRCO
+   VIEW ReturnedXSLT       BASED ON LOD TZXSLTSO
+   VIEW NewDomainGroup     BASED ON LOD TZDGSRCO
+   VIEW NewOperationGroup  BASED ON LOD TZOGSRCO
+   VIEW ReturnedHeader     BASED ON LOD TZOPHDRO
+   VIEW vPE                BASED ON LOD TZPESRCO
+   VIEW vVOR               BASED ON LOD TZWDVORO
+
+   STRING (32)  MetaName
+   STRING (32)  NewTE_Name
+   STRING (250) MG_ErrorMessage
+   STRING (513) SourceDirectoryName       // zMAX_FILESPEC_LTH+1
+   STRING (513) SourceFileName            // zMAX_FILESPEC_LTH+1
+   STRING ( 1 ) szDoNotMergeOperationsFlag
+   //INTEGER      nConvertFlag
+   INTEGER      lZKey
+   SHORT        nRC
+   SHORT        nRC1
+
+   GET VIEW SourceLPLR NAMED "SourceLPLR"
+   GET VIEW SourceVOR_LPLR NAMED "SourceVOR_LPLR"
+
+   // Process the Domain Groups and the Operation Groups first, since they must exist before
+   // other metas can be processed, and their numbers put them at the end of the list.
+
+   // For creating/updating VOR's, put the ObjectName for each VOR in the W_MetaDef entry.
+   SourceDirectoryName = SourceLPLR.LPLR.MetaSrcDir
+   FOR EACH SourceVOR_LPLR.W_MetaDef
+      // Activate existing source meta VOR
+      lZKey = SourceVOR_LPLR.W_MetaDef.CPLR_ZKey
+      zltoxa( lZKey, MetaName )
+      SourceFileName = SourceDirectoryName + "\" + MetaName + ".PVR"
+      ActivateOI_FromFile ( vVOR, "TZWDVORO", vSubtask, SourceFileName, 8192 )
+      // 8192 is zIGNORE_ATTRIB_ERRORS
+      NAME VIEW vVOR "vVOR"
+      // Set the work name as the LOD name.
+      SourceVOR_LPLR.W_MetaDef.MigrateWorkName = vVOR.LOD.Name
+      DropObjectInstance( vVOR )
+   END
+
+   //nConvertFlag = 0        // Indicate that we are not converting.
+   nRC = SetCursorFirstSelectedEntity( SourceLPLR, "W_MetaDef", "LPLR" )
+   LOOP WHILE nRC >= zCURSOR_SET
+
+      MetaName = SourceLPLR.W_MetaDef.Name
+
+      // Domain Group: W_MetaType.Type = 2013 for domain group meta
+      IF SourceLPLR.W_MetaType.Type = 2013
+         // If the Domain Group doesn't already exist, create it.
+         // Otherwise pass the activated DomainGroup to the migrate routine so
+         // that Domains can be merged.
+         nRC = ActivateMetaOI_ByName( vSubtask, NewDomainGroup, 0, zSOURCE_DOMAINGRP_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            ActivateEmptyMetaOI( vSubtask, NewDomainGroup, zSOURCE_DOMAINGRP_META, zSINGLE )
+         END
+
+         MG_ErrorMessage = "Migrating Domain Group: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         nRC = DomainGrpMigrate( NewDomainGroup, MetaName, SourceLPLR, vSubtask )
+         IF nRC < 0
+            MG_ErrorMessage = "Domain Group(" + MetaName + ") aborted."
+            MessageSend( vSubtask, "CM01001", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         END
+
+         IF NewDomainGroup != 0
+            DropMetaOI( vSubtask, NewDomainGroup )
+         END
+
+         // Turn off the selected state flag
+         SetSelectStateOfEntity( SourceLPLR, "W_MetaDef", 0 )
+
+      END
+
+      // Global Operation Group: W_MetaType.Type = 2014 for global operation group meta
+      IF SourceLPLR.W_MetaType.Type = 2014
+         // If the Global Operation Group doesn't already exist, create it.
+         // Otherwise pass the activated GlobalOperationGroup to the migrate routine so
+         // that Global Operations can be merged.
+         nRC = ActivateMetaOI_ByName( vSubtask, NewOperationGroup, 0, zSOURCE_GOPGRP_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            ActivateEmptyMetaOI( vSubtask, NewOperationGroup, zSOURCE_GOPGRP_META, zSINGLE )
+         END
+
+         MG_ErrorMessage = "Migrating Global Operation Group: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         nRC = GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, vSubtask )
+         IF nRC < 0
+            MG_ErrorMessage = "Global Operation Group(" + MetaName + ") aborted."
+            MessageSend( vSubtask, "CM01001", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         END
+
+         IF NewOperationGroup != 0
+            DropMetaOI( vSubtask, NewOperationGroup )
+         END
+         // Turn off the selected state flag
+         SetSelectStateOfEntity( SourceLPLR, "W_MetaDef", 0 )
+
+      END
+
+      nRC = SetCursorNextSelectedEntity( SourceLPLR, "W_MetaDef", "LPLR" )
+
+   END
+
+   // Because some migration operations need an LPLR view with Domains in it??, we will
+   // pass the OrigLPLR view instead of the SourceLPLR view.
+   GET VIEW OrigLPLR NAMED "OrigLPLR"
+
+   // Now loop and process the regular metas (those for the current release).
+   nRC = SetCursorFirstSelectedEntity( SourceLPLR, "W_MetaDef", "LPLR" )
+   LOOP WHILE nRC >= zCURSOR_SET
+
+      // Position on the corresponding meta in the OrigLPLR view.
+      SET CURSOR FIRST OrigLPLR.W_MetaDef WITHIN OrigLPLR.LPLR WHERE
+                       OrigLPLR.W_MetaDef.CPLR_ZKey = SourceLPLR.W_MetaDef.CPLR_ZKey
+
+      // Turn off the selected state flag
+      SetSelectStateOfEntity( SourceLPLR, "W_MetaDef", 0 )
+      MetaName = SourceLPLR.W_MetaDef.Name
+
+      // Header: W_MetaType.Type = 2000 for Header meta
+      IF SourceLPLR.W_MetaType.Type = 2000
+
+         // If the Header doesn't already exist, create it.
+         // Otherwise return error message.
+         nRC = ActivateMetaOI_ByName( vSubtask, ReturnedHeader, 0, zREFER_HDR_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating Header: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+            nRC = HeaderMigrate( OrigLPLR, MetaName, ReturnedHeader, vSubtask )
+            IF nRC < 0
+               MG_ErrorMessage = "Header (" + MetaName + ") aborted."
+               MessageSend( vSubtask, "CM01005", "Configuration Management",
+                            MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            END
+            IF ReturnedHeader != 0
+               DropMetaOI( vSubtask, ReturnedHeader )
+            END
+         ELSE
+            MG_ErrorMessage = "Header (" + MetaName + ") already exists."
+            MessageSend( vSubtask, "CM01006", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            DropMetaOI( vSubtask, ReturnedHeader )
+         END
+      END
+
+      // ERD: W_MetaType.Type = 2004 for ERD meta
+      IF SourceLPLR.W_MetaType.Type = 2004
+
+         // If the ERD doesn't already exist, create it.
+         // Otherwise pass the activated ERD to the migrate routine so that entities, attributes and
+         // relationships can be merged.
+         GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+         MetaName = CurrentLPLR.LPLR.Name
+         nRC = ActivateMetaOI_ByName( vSubtask, NewERD, 0, zSOURCE_ERD_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            ActivateEmptyMetaOI( vSubtask, NewERD, zSOURCE_ERD_META, zSINGLE )
+         END
+         NAME VIEW NewERD "NewERD"
+
+         MG_ErrorMessage = "Migrating ERD: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         ERD_Migrate( NewERD, OrigLPLR, vSubtask )
+         DropMetaOI( vSubtask, NewERD )
+
+      END
+
+      // Subject Area: W_MetaType.Type = 2005 for Subject Area meta
+      IF SourceLPLR.W_MetaType.Type = 2005
+
+         // If the Subject Area doesn't already exist, create it.
+         // Otherwise return error message, as we're not going to merge subject areas at this time.
+         nRC = ActivateMetaOI_ByName( vSubtask, ReturnedSA, 0, zREFER_SA_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating Subject Area: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+            SA_Migrate( ReturnedSA, MetaName, OrigLPLR, vSubtask )
+            IF ReturnedSA != 0
+               DropMetaOI( vSubtask, ReturnedSA )
+            END
+         ELSE
+            MG_ErrorMessage = "Subject Area (" + MetaName + ") already exists."
+            MessageSend( vSubtask, "CM01011", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         END
+      END
+
+      // Technical Environment: W_MetaType.Type = 2006 for TE meta
+      IF SourceLPLR.W_MetaType.Type = 2006
+
+         // If the TE doesn't already exist, create it.
+         // Otherwise return error message, as we're not going to merge TEs at this time.
+         // Note that the name of the Meta is the name of the LPLR.
+         GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+         NewTE_Name = CurrentLPLR.LPLR.Name
+         nRC = ActivateMetaOI_ByName( vSubtask, ReturnedTE, 0, zREFER_DTE_META, zSINGLE, NewTE_Name, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating TE: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+            TE_Migrate( ReturnedTE, MetaName, OrigLPLR, vSubtask )
+            IF ReturnedTE != 0
+               DropMetaOI( vSubtask, ReturnedTE )
+            END
+         ELSE
+            MG_ErrorMessage = "Technical Environment (" + NewTE_Name + ") already exists."
+            MessageSend( vSubtask, "CM01012", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            DropMetaOI( vSubtask, ReturnedTE )
+         END
+      END
+
+      // LOD: W_MetaType.Type = 2007 for LOD meta
+      IF SourceLPLR.W_MetaType.Type = 2007
+
+         // Copy over or merge LOD based on value of DoNotMergeFlag for the LOD.
+         // If the DoNotMergeFlag is set but the DoNotMergeOperationsFlag is not, we will only merge in Operations.
+         // If both are set, we will not do anything to this LOD.
+         // If the DoNotMergeFlag is not set, we will delete the old LOD structure and recreate it in totality, including Operations.
+         GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+         nRC = ActivateMetaOI_ByName( vSubtask, NewLOD, 0, zSOURCE_LOD_META, zSINGLE, MetaName, 0 )
+         IF nRC >= 0
+            SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 7
+            SET CURSOR FIRST CurrentLPLR.W_MetaDef WHERE CurrentLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+            IF NewLOD.LOD.DoNotMergeFlag = "" AND NewLOD.LOD.DoNotMergeOperationsFlag = ""
+               DELETE ENTITY NewLOD.LOD_EntityParent
+               FOR EACH NewLOD.SourceFile
+                  DELETE ENTITY NewLOD.SourceFile NONE
+               END
+               IF NewLOD.POD EXISTS
+                  DELETE ENTITY NewLOD.POD
+               END
+               IF NewLOD.LOD_ConstraintOper EXISTS
+                  EXCLUDE NewLOD.LOD_ConstraintOper
+               END
+            END
+            NAME VIEW NewLOD "NewLOD"
+         ELSE
+            ActivateEmptyMetaOI( vSubtask, NewLOD, zSOURCE_LOD_META, zSINGLE )
+         END
+         NAME VIEW NewLOD "NewLOD"
+
+         // Migrate LOD, unless the request is for both the Structure and Operations to not be merged.
+         // If LOD_EntityParent doesn't exist, then this is either a new LOD or the DoNotMergeFlag was not set for an existing LOD.
+         IF NewLOD.LOD_EntityParent DOES NOT EXIST OR szDoNotMergeOperationsFlag = ""
+            MG_ErrorMessage = "Migrating LOD: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+            nRC = LOD_Migrate( NewLOD, MetaName, OrigLPLR, vSubtask )
+            IF nRC < 0
+               MG_ErrorMessage = "LOD (" + MetaName + ") aborted."
+               MessageSend( vSubtask, "CM01013", "Configuration Management",
+                            MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            END
+         END
+         DropMetaOI( vSubtask, NewLOD )
+      END
+
+      // PPE: W_MetaType.Type = 2010 for PPE meta
+      IF SourceLPLR.W_MetaType.Type = 2010
+
+         // If the PPE doesn't already exist, create it.
+         // Otherwise ask for merge.
+         nRC = ActivateMetaOI_ByName( vSubtask, ReturnedPPE, 0, zSOURCE_PENV_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating PPE: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+            nRC = MigratePPE( ReturnedPPE, SourceLPLR, vSubtask )
+            IF nRC < 0
+               IF nRC = -16  //SourceLPLR has a old PPE
+                  MG_ErrorMessage = "Invalid PPE in Source Project!" + NEW_LINE +
+                                    "New PPE required. Migrating aborted."
+               ELSE
+                  MG_ErrorMessage = "Migrating of PPE will be aborted."
+               END
+               MessageSend( vSubtask, "CM01013", "Configuration Management",
+                            MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+               RETURN nRC
+            END
+         ELSE //PPE exists
+            MG_ErrorMessage = "PPE already exists. Do you want to merge it?"
+            nRC = MessagePrompt( vSubtask, "CM01014", "Configuration Management",
+                                 MG_ErrorMessage, 1,         zBUTTONS_YESNO,
+                                 zRESPONSE_YES  ,  0 )
+            IF nRC = zRESPONSE_YES
+               MB_SetMessage( vSubtask, 1, "Merging Zeidon.PPE" )
+               //if Repository Project, check check out status
+               nRC1 = ComponentIsCheckedOut( vSubtask, ReturnedPPE, 2010 )
+               IF nRC1 = 0
+                  MG_ErrorMessage = "PPE is not checked out. Merging aborted."
+                  MessageSend( vSubtask, "CM01013", "Configuration Management",
+                               MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+                  RETURN -1
+               END
+               nRC = MergePPE( ReturnedPPE, SourceLPLR, vSubtask )
+               IF nRC < 0
+                  IF nRC = -16  //SourceLPLR has a old PPE
+                     MG_ErrorMessage = "Invalid PPE in Source Project! " + NEW_LINE +
+                                       "New PPE required. Merging aborted."
+                     MessageSend( vSubtask, "CM01013", "Configuration Management",
+                                  MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+                  END
+                  IF ReturnedPPE != 0
+                     DropMetaOI( vSubtask, ReturnedPPE )
+                  END
+                  RETURN nRC
+               END
+            END
+         END //END IF nRC < 0
+         DropMetaOI( vSubtask, ReturnedPPE )
+      END
+
+      // Dialog: W_MetaType.Type = 2011 for Dialog meta
+      IF SourceLPLR.W_MetaType.Type = 2011
+
+         // Make sure a valid Presentation Environment exists.
+         // If not, exit the operation.
+         RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_PENV_META )
+         MG_ErrorMessage = "Dialog (" + MetaName + ") aborted."
+         nRC = LoadZeidonPPE( vSubtask, vPE, zREFER_PENV_META, CurrentLPLR,
+                              "Configuration Management", MG_ErrorMessage )
+         DropView( CurrentLPLR )
+         IF nRC < 0
+           RETURN -16
+         END
+
+         // If the Dialog doesn't already exist, create it.
+         // Otherwise return error message.
+         nRC = ActivateMetaOI_ByName( vSubtask, NewDialog, 0, zSOURCE_DIALOG_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating Dialog: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+            ActivateEmptyMetaOI( vSubtask, NewDialog, zSOURCE_DIALOG_META, zSINGLE )
+            NAME VIEW NewDialog "NewDialog"
+            nRC = DialogMigrate( NewDialog, MetaName, OrigLPLR, vSubtask )
+            IF nRC < 0
+               MG_ErrorMessage = "Dialog (" + MetaName + ") aborted."
+               MessageSend( vSubtask, "CM01016",
+                            "Configuration Management",
+                            MG_ErrorMessage,
+                            zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            END
+         ELSE
+            MG_ErrorMessage = "Migrating Dialog: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+            nRC = DialogMigrate( NewDialog, MetaName, OrigLPLR, vSubtask )
+            IF nRC < 0
+               MG_ErrorMessage = "Dialog (" + MetaName + ") aborted."
+               MessageSend( vSubtask, "CM01016",
+                            "Configuration Management",
+                            MG_ErrorMessage,
+                            zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            END
+         END
+         DropMetaOI( vSubtask, NewDialog )
+      END
+
+      // UIS: W_MetaType.Type = 2012 for User Interface Spec meta
+      IF SourceLPLR.W_MetaType.Type = 2012
+
+         // If the User Spec doesn't already exist, create it.
+         // Otherwise return error message.
+         nRC = ActivateMetaOI_ByName( vSubtask, ReturnedDialogSpec, 0, zREFER_UIS_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating User Interface Spec: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+            nRC = DialogSpecMigrate( ReturnedDialogSpec,
+                                     MetaName, OrigLPLR, vSubtask )
+            IF ReturnedDialogSpec != 0
+               DropMetaOI( vSubtask, ReturnedDialogSpec )
+            END
+            IF nRC < 0
+               IF  nRC = -16  //PPE does not exists
+                  RETURN nRC
+               ELSE
+                  MG_ErrorMessage = "User Interface Spec (" + MetaName + ") aborted."
+                  MessageSend( vSubtask, "CM01018",
+                               "Configuration Management",
+                               MG_ErrorMessage,
+                               zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+               END
+            END
+         ELSE
+            MG_ErrorMessage = "User Interface Spec (" + MetaName + ") already exists."
+            MessageSend( vSubtask, "CM01019", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            DropMetaOI( vSubtask, ReturnedDialogSpec )
+         END
+      END
+
+      // Report: W_MetaType.Type = 2015 for Report Definition meta
+      IF SourceLPLR.W_MetaType.Type = 2015
+
+         // If the ReportDef doesn't already exist, create it.
+         // Otherwise return error message.
+         nRC = ActivateMetaOI_ByName( vSubtask, ReturnedReport, 0, zREFER_REPORT_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating Report Definition: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+            nRC = ReportMigrate( ReturnedReport, MetaName, OrigLPLR, vSubtask )
+            IF ReturnedReport != 0
+               DropMetaOI( vSubtask, ReturnedReport )
+            END
+            IF nRC < 0
+               IF  nRC = -16  //PPE does not exists
+                  RETURN nRC
+               ELSE
+                  MG_ErrorMessage = "Report Definition (" + MetaName + ") aborted."
+                  MessageSend( vSubtask, "CM01023",
+                               "Configuration Management",
+                               MG_ErrorMessage,
+                               zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+               END
+            END
+         ELSE
+            MG_ErrorMessage = "Report Definition (" + MetaName + ") already exists."
+            MessageSend( vSubtask, "CM01024", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            DropMetaOI( vSubtask, ReturnedReport )
+         END
+      END
+
+      // XSLT: W_MetaType.Type = 2016 for XSLT Definition meta
+      IF SourceLPLR.W_MetaType.Type = 2016
+
+         // If the XSLTDef doesn't already exist, create it.
+         // Otherwise return error message.
+         nRC = ActivateMetaOI_ByName( vSubtask, ReturnedXSLT, 0, zREFER_XSLT_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating XSLT Definition: " + MetaName
+            MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         //xnRC = XSLT_Migrate( ReturnedXSLT, MetaName, OrigLPLR, vSubtask )
+            IF ReturnedXSLT != 0
+               DropMetaOI( vSubtask, ReturnedXSLT )
+            END
+            IF nRC < 0
+               IF  nRC = -16  //PPE does not exists
+                  RETURN nRC
+               ELSE
+                  MG_ErrorMessage = "XSLT Definition (" + MetaName + ") aborted."
+                  MessageSend( vSubtask, "CM01023",
+                               "Configuration Management",
+                               MG_ErrorMessage,
+                               zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+               END
+            END
+         ELSE
+            MG_ErrorMessage = "XSLT Definition (" + MetaName + ") already exists."
+            MessageSend( vSubtask, "CM01024", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            DropMetaOI( vSubtask, ReturnedXSLT )
+         END
+      END
+
+      nRC = SetCursorNextSelectedEntity( SourceLPLR, "W_MetaDef", "LPLR" )
+
+   END
+
+   MB_SetMessage( vSubtask, 1, "Migration Complete" )
+
+END
+
+
+DIALOG OPERATION
+SelectLPLR( VIEW vSubtask )
+
+   VIEW vCM         BASED ON LOD TZCMWKSO
+   VIEW SourceLPLR  BASED ON LOD TZCMLPLO
+   VIEW OrigLPLR    BASED ON LOD TZCMLPLO
+   VIEW VOR_LPLR    BASED ON LOD TZCMLPLO
+   VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+
+   STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
+   STRING ( 32 )  TruncatedName
+   INTEGER        TempType
+
+   GET VIEW vCM NAMED "TZCMWKSO"
+
+   // Activate OI and View to the source LPLR
+   SourceFileName = vCM.LPLR.Name
+   TruncatedName = SourceFileName [1:32]
+   SourceFileName = vCM.LPLR.ExecDir + "\" +
+                    TruncatedName + ".XLP"
+   ActivateOI_FromFile( OrigLPLR, "TZCMLPLO", vSubtask,
+                        SourceFileName, zSINGLE )
+   NAME VIEW OrigLPLR "OrigLPLR"
+
+   // Create the views that will be positioned on the list of VOR's for VOR migration.
+   CreateViewFromView( VOR_LPLR, OrigLPLR )
+   NAME VIEW VOR_LPLR "SourceVOR_LPLR"
+   SET CURSOR FIRST VOR_LPLR.W_MetaType WHERE VOR_LPLR.W_MetaType.Type = 2009  // 2009 is the VOR.
+   GET VIEW CurrentLPLR NAMED "TaskLPLR"
+   CreateViewFromView( VOR_LPLR, CurrentLPLR )
+   NAME VIEW VOR_LPLR "TargetVOR_LPLR"
+   SET CURSOR FIRST VOR_LPLR.W_MetaType WHERE VOR_LPLR.W_MetaType.Type = 2009  // 2009 is the VOR.
+   
+   // Reposition work station view on original LPLR so that any ZKeys generated during migration will
+   // be created using the correct next ZKey.
+   SET CURSOR FIRST vCM.LPLR WHERE vCM.LPLR.Name = CurrentLPLR.LPLR.Name 
+
+   // Copy the Orig members with Type >= 2000 to Source
+   ACTIVATE SourceLPLR EMPTY
+   NAME VIEW SourceLPLR "SourceLPLR"
+
+   CREATE ENTITY SourceLPLR.LPLR
+   SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL )
+   FOR EACH OrigLPLR.W_MetaType WHERE
+            OrigLPLR.W_MetaType.Type >= 2000
+
+      // Do not include Domains (2003), Global Operations (2002) or
+      // Registered Views (2009) in the list.
+      IF OrigLPLR.W_MetaType.Type != 2002 AND
+         OrigLPLR.W_MetaType.Type != 2003 AND
+         OrigLPLR.W_MetaType.Type != 2009
+
+         CREATE ENTITY SourceLPLR.W_MetaType
+         // This code has to use a work integer in setting SourceLPLR.W_MetaType.Type to
+         // OrigLPLR.W_MetaType.Type, because the domain on Type, CM_Type, seems to always
+         // convert a REFER value to a SOURCE value.  This is an error in the table domain
+         // and should eventually get corrected.
+         TempType = OrigLPLR.W_MetaType.Type
+         SourceLPLR.W_MetaType.Type = TempType
+         FOR EACH OrigLPLR.W_MetaDef
+            CREATE ENTITY SourceLPLR.W_MetaDef
+            SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL )
+         END
+      END
+   END
+
+END
+
+
+DIALOG OPERATION
+BuildTargetLPLR_List( VIEW vSubtask )
+
+   // Build the Target LPLR list from the TZCMLPLO list by eliminating the REFER members.
+
+   VIEW TargetLPLR BASED ON LOD TZCMLPLO
+   VIEW SourceLPLR BASED ON LOD TZCMLPLO
+   VIEW TZCMLPLO BASED ON LOD TZCMLPLO
+
+   GET VIEW TZCMLPLO NAMED "TZCMLPLO"
+   GET VIEW SourceLPLR NAMED "SourceLPLR"
+   GET VIEW TargetLPLR NAMED "TargetLPLR"
+
+   IF RESULT > 0
+      DELETE ENTITY TargetLPLR.LPLR
+   ELSE
+      ACTIVATE TargetLPLR EMPTY
+      NAME VIEW TargetLPLR "TargetLPLR"
+   END
+
+   CREATE ENTITY TargetLPLR.LPLR
+   FOR EACH TZCMLPLO.W_MetaType WHERE
+            TZCMLPLO.W_MetaType.Type >= 2000
+
+      // Do not include Domains (2003), Global Operations (2002) or
+      // Registered Views (2009) in the list.
+      IF TZCMLPLO.W_MetaType.Type != 2002 AND
+         TZCMLPLO.W_MetaType.Type != 2003 AND
+         TZCMLPLO.W_MetaType.Type != 2009
+
+         CREATE ENTITY TargetLPLR.W_MetaType
+         TargetLPLR.W_MetaType.Type = TZCMLPLO.W_MetaType.Type
+         FOR EACH TZCMLPLO.W_MetaDef
+            CREATE ENTITY TargetLPLR.W_MetaDef
+            TargetLPLR.W_MetaDef.Name = TZCMLPLO.W_MetaDef.Name
+         END
+      END
+   END
+
+   // Now order both the Source and Target objects.  Do this by creating a sort
+   // order attribute that puts domain groups and global operation groups at the
+   // beginning.
+   // Following this by sorting MetaDefs within each MetaType.
+   FOR EACH TargetLPLR.W_MetaType
+      IF TargetLPLR.W_MetaType.Type = 2013 OR
+         TargetLPLR.W_MetaType.Type = 2014
+         TargetLPLR.W_MetaType.SortOrder = TargetLPLR.W_MetaType.Type
+      else
+         TargetLPLR.W_MetaType.SortOrder = TargetLPLR.W_MetaType.Type + 20
+      END
+   END
+   OrderEntityForView( TargetLPLR, "W_MetaType", "SortOrder A" )
+   FOR EACH TargetLPLR.W_MetaType
+      OrderEntityForView( TargetLPLR, "W_MetaDef", "Name A" )
+   END
+
+   // Alter sort order for Domain Groups (2013) and Global Operation Groups (2014)
+   // as above
+   FOR EACH SourceLPLR.W_MetaType
+      IF SourceLPLR.W_MetaType.Type = 2013 OR
+         SourceLPLR.W_MetaType.Type = 2014
+         SourceLPLR.W_MetaType.SortOrder = SourceLPLR.W_MetaType.Type
+      else
+         SourceLPLR.W_MetaType.SortOrder = SourceLPLR.W_MetaType.Type + 20
+      END
+   END
+   OrderEntityForView( SourceLPLR, "W_MetaType", "SortOrder A" )
+   FOR EACH SourceLPLR.W_MetaType
+      OrderEntityForView( SourceLPLR, "W_MetaDef", "Name A" )
+   END
+
+   // Now be sure to position at the beginning of both lists.
+   SET CURSOR FIRST TargetLPLR.W_MetaType
+   SET CURSOR FIRST SourceLPLR.W_MetaType
+
+END
+
+
+DIALOG OPERATION
+MigrateCompilerSubobjects( VIEW vSubtask )
+
+   VIEW SourceLPLR    BASED ON LOD TZCMLPLO
+   VIEW CurrentLPLR   BASED ON LOD TZCMLPLO
+
+   GET VIEW SourceLPLR  NAMED "OrigLPLR"
+   GET VIEW CurrentLPLR NAMED "TaskLPLR"
+
+   CompilerMigrate( CurrentLPLR, SourceLPLR, vSubtask )
+
+END
+
+
+DIALOG OPERATION
+ActivateTZWDLCVO( VIEW vSubtask )
+
+   // Activate the Language object using directory information from the LPLR
+   // or create it new.  The file name is ZEIDON.LNG.
+
+   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
+   VIEW vLPLR   BASED ON LOD TZCMLPLO
+
+   STRING ( 513 ) szFileName                // zMAX_FILESPEC_LTH+1
+   INTEGER        nFileNo
+
+   GET VIEW vLPLR NAMED "TaskLPLR"
+
+   szFileName = vLPLR.LPLR.ExecDir + "\ZEIDON.LNG"
+   nFileNo = SysOpenFile( vSubtask, szFileName, COREFILE_READ )
+   IF nFileNo > 0
+        ActivateOI_FromFile( vTZWDLCVO, "TZWDLCVO", vSubtask, szFileName, zSINGLE )
+   ELSE
+      ACTIVATE vTZWDLCVO EMPTY
+      CREATE ENTITY vTZWDLCVO.OriginalLanguage
+   END
+
+   NAME VIEW vTZWDLCVO "TZWDLCVO"
+
+   // If there is CurrentSelectedLanguageCode value, use it to initialize
+   // SelectedNLS_Text entries.
+   IF vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode != 0
+      SelectNewLanguageCode( vSubtask )
+   END
+
+END
+
+
+DIALOG OPERATION
+CommitTZWDLCVO( VIEW vSubtask )
+
+   // Commit the Language object using directory information from the LPLR.
+   // The file name is ZEIDON.LNG.
+
+   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
+   VIEW vLPLR   BASED ON LOD TZCMLPLO
+
+   STRING ( 513 ) szFileName                // zMAX_FILESPEC_LTH+1
+
+   GET VIEW vLPLR NAMED "TaskLPLR"
+   GET VIEW vTZWDLCVO NAMED "TZWDLCVO"
+
+   // Before committing the object, remove all the SelectedNLS_Text entity
+   // entries so that they won't take up room on the file.
+   FOR EACH vTZWDLCVO.SelectedNLS_Text WITHIN vTZWDLCVO.OriginalLanguage
+      EXCLUDE vTZWDLCVO.SelectedNLS_Text NONE
+   END
+
+   szFileName = vLPLR.LPLR.ExecDir + "\ZEIDON.LNG"
+   CommitOI_ToFile( vTZWDLCVO, szFileName, zASCII )
+
+END
+
+
+DIALOG OPERATION
+SelectNewLanguageCode( VIEW vSubtask )
+
+   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
+
+   GET VIEW vTZWDLCVO NAMED "TZWDLCVO"
+
+   // First remove all the current selected SelectedNLS_Text entries.
+   FOR EACH vTZWDLCVO.SelectedNLS_Text WITHIN vTZWDLCVO.OriginalLanguage
+      EXCLUDE vTZWDLCVO.SelectedNLS_Text NONE
+   END
+
+   // Simply return if the new Language Code is 0 (meaning it is null).
+   IF vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode = 0
+      RETURN
+   END
+
+   // Now loop through all the original text entries and include the correct
+   // NLS_Text entries for the selected language code.
+   // Also create new NLS_Text entries for OriginalText entries without them.
+   FOR EACH vTZWDLCVO.OriginalText
+      SET CURSOR FIRST vTZWDLCVO.NLS_Text WHERE
+           vTZWDLCVO.NLS_Text.LanguageIndex  =
+                       vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+     IF RESULT < zCURSOR_SET
+         CREATE ENTITY vTZWDLCVO.NLS_Text
+         vTZWDLCVO.NLS_Text.LanguageIndex =
+                       vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+     END
+      INCLUDE vTZWDLCVO.SelectedNLS_Text FROM vTZWDLCVO.NLS_Text
+   END
+
+END
+
+
+DIALOG OPERATION
+InitializeTZWDLCVO( VIEW vSubtask )
+
+   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
+   VIEW vDialog   BASED ON LOD TZWDLGSO
+   VIEW vLPLR     BASED ON LOD TZCMLPLO
+
+   STRING (64) szMsg
+
+   GET VIEW vTZWDLCVO NAMED "TZWDLCVO"
+   RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_DIALOG_META )
+
+   // Now loop through all the dialogs, creating new OriginalText entries if
+   // they don't already exist.
+
+   FOR EACH vLPLR.W_MetaDef
+        ActivateMetaOI( vSubtask, vDialog, vLPLR, zREFER_DIALOG_META, zSINGLE )
+
+      szMsg = "Initializing Dialog: " + vDialog.Dialog.Tag
+      MB_SetMessage( vSubtask, 1, szMsg )
+
+      FOR EACH vDialog.Window
+         // First process Caption entries for each Window.
+         SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+             vTZWDLCVO.OriginalText.Value = vDialog.Window.Caption
+         IF RESULT < zCURSOR_SET AND vDialog.Window.Caption != ""
+            CREATE ENTITY vTZWDLCVO.OriginalText
+            vTZWDLCVO.OriginalText.Value = vDialog.Window.Caption
+         END
+
+         // Next process Option Text entries for each Option.  This requires
+         // a recursive call.
+         FOR EACH vDialog.Option
+            SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+                 vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+            IF RESULT < zCURSOR_SET AND vDialog.Option.Text != ""
+               CREATE ENTITY vTZWDLCVO.OriginalText
+               vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+               // Call recursive subobject
+               InitializeOptionSubobject( vTZWDLCVO, vDialog )
+            END
+         END
+
+         // Next process Control Text entries for each Control.  This requires
+         // a recursive call.
+         FOR EACH vDialog.Control
+            // First process Text
+            SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+                 vTZWDLCVO.OriginalText.Value =vDialog.Control.Text
+            IF RESULT < zCURSOR_SET AND vDialog.Control.Text != ""
+               CREATE ENTITY vTZWDLCVO.OriginalText
+               vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
+            END
+            // Next process DIL_Text
+            SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+                 vTZWDLCVO.OriginalText.Value =vDialog.Control.DIL_Text
+            IF RESULT < zCURSOR_SET AND vDialog.Control.DIL_Text != ""
+               CREATE ENTITY vTZWDLCVO.OriginalText
+               vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
+            END
+
+            // Call recursive subobject
+            InitializeControlSubobject( vTZWDLCVO, vDialog )
+         END
+      END
+      DropObjectInstance( vDialog )
+   END
+
+   // Now sort them in alphabetical order.
+   OrderEntityForView( vTZWDLCVO, "OriginalText", "Value A" )
+
+END
+
+
+LOCAL OPERATION
+InitializeControlSubobject( VIEW vTZWDLCVO BASED ON LOD TZWDLCVO,
+                            VIEW vDialog BASED ON LOD TZWDLGSO )
+
+   // Initialize the OriginalText values for subcontrols.
+   SetViewToSubobject( vDialog, "CtrlCtrl" )
+   FOR EACH vDialog.Control
+      // First process Text
+      SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+            vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
+      IF RESULT < zCURSOR_SET AND vDialog.Control.Text != ""
+         CREATE ENTITY vTZWDLCVO.OriginalText
+         vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
+         // Call recursive subobject
+         InitializeControlSubobject( vTZWDLCVO, vDialog )
+      END
+      // Next process DIL_Text
+      SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+            vTZWDLCVO.OriginalText.Value =vDialog.Control.DIL_Text
+      IF RESULT < zCURSOR_SET AND vDialog.Control.DIL_Text != ""
+         CREATE ENTITY vTZWDLCVO.OriginalText
+         vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
+      END
+
+   END
+   ResetViewFromSubobject( vDialog )
+
+END
+
+
+LOCAL OPERATION
+InitializeOptionSubobject( VIEW vTZWDLCVO BASED ON LOD TZWDLCVO,
+                     VIEW vDialog BASED ON LOD TZWDLGSO )
+
+   // Initialize the OriginalText values for subcontrols.
+   SetViewToSubobject( vDialog, "OptOpt" )
+   FOR EACH vDialog.Option
+      SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+            vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+      IF RESULT < zCURSOR_SET AND vDialog.Option.Text != ""
+         CREATE ENTITY vTZWDLCVO.OriginalText
+         vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+         // Call recursive subobject
+         InitializeOptionSubobject( vTZWDLCVO, vDialog )
+      END
+   END
+   ResetViewFromSubobject( vDialog )
+
+END
+
+
+DIALOG OPERATION
+ConvertTextInDialogs( VIEW vSubtask )
+
+   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
+   VIEW vDialog   BASED ON LOD TZWDLGSO
+   VIEW vLPLR     BASED ON LOD TZCMLPLO
+
+   STRING (64) szMsg
+
+   // First make sure that now Dialog meta is currently open.  We will
+   // check this by seeing if there is a view named "TZWINDOWL".
+   GET VIEW vDialog NAMED "TZWINDOWL"
+   IF RESULT >= 0
+      MessageSend( vSubtask, "CM01020", "Dialog",
+                   "You cannot convert text when a dialog is open.",
+                   zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   GET VIEW vTZWDLCVO NAMED "TZWDLCVO"
+   RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_DIALOG_META )
+
+   // Now loop through all the dialogs, converting Caption, Control Text,
+   // Control DIL_Text and Option Text for each text string that matches
+   // text in an OriginalText entity.
+
+   FOR EACH vLPLR.W_MetaDef
+        ActivateMetaOI( vSubtask, vDialog, vLPLR, zSOURCE_DIALOG_META, zSINGLE )
+
+      szMsg = "Converting Dialog: " + vDialog.Dialog.Tag
+      MB_SetMessage( vSubtask, 1, szMsg )
+
+      FOR EACH vDialog.Window
+         // First process Caption entries for each Window, if there is a match on
+         // an original text entry.
+         SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+             vTZWDLCVO.OriginalText.Value = vDialog.Window.Caption
+         IF RESULT >= zCURSOR_SET
+            // Then position on the correct NLS_Text entry used for conversion.
+            SET CURSOR FIRST vTZWDLCVO.NLS_Text WHERE
+                      vTZWDLCVO.NLS_Text.LanguageIndex =
+                             vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+            IF vTZWDLCVO.NLS_Text.Text != ""
+               // Then create the Dialog NLS entry if it doesn't exist.
+               SET CURSOR FIRST vDialog.CaptionNLS_Text WHERE
+               vDialog.CaptionNLS_Text.LanguageIndex =
+                         vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+               IF RESULT < zCURSOR_SET
+                  CreateMetaEntity( vSubtask, vDialog, "CaptionNLS_Text", zPOS_AFTER )
+               END
+               // Finally, set the text values.
+               vDialog.CaptionNLS_Text.LanguageIndex = vTZWDLCVO.NLS_Text.LanguageIndex
+               vDialog.CaptionNLS_Text.Text = vTZWDLCVO.NLS_Text.Text
+            END
+         END
+
+         // Next process Option Text entries for each Option, if there is a match on
+         // an original text entry.
+         FOR EACH vDialog.Option
+            SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+                 vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+            IF RESULT >= zCURSOR_SET
+               // Then position on the correct NLS_Text entry used for conversion.
+               SET CURSOR FIRST vTZWDLCVO.NLS_Text WHERE
+                         vTZWDLCVO.NLS_Text.LanguageIndex =
+                                vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+            IF vTZWDLCVO.NLS_Text.Text != ""
+                  // Then create the Dialog NLS entry if it doesn't exist.
+                  SET CURSOR FIRST vDialog.OptionNLS_Text WHERE
+                       vDialog.OptionNLS_Text.LanguageIndex =
+                               vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+                  IF RESULT < zCURSOR_SET
+                     CreateMetaEntity( vSubtask, vDialog, "OptionNLS_Text", zPOS_AFTER )
+                  END
+                  // Finally, set the text values.
+                  vDialog.OptionNLS_Text.LanguageIndex = vTZWDLCVO.NLS_Text.LanguageIndex
+                  vDialog.OptionNLS_Text.Text = vTZWDLCVO.NLS_Text.Text
+               END
+            END
+
+            // Call recursive subobject
+            ConvertOptionSubobject( vSubtask, vTZWDLCVO, vDialog )
+         END
+
+         // Next process Control Text and DIL_Text entries for each Control,
+         // if there is a match on an original text entry.
+         FOR EACH vDialog.Control
+
+            // Control Text
+            SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+                 vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
+            IF RESULT >= zCURSOR_SET
+               // Then position on the correct NLS_Text entry used for conversion.
+               SET CURSOR FIRST vTZWDLCVO.NLS_Text WHERE
+                         vTZWDLCVO.NLS_Text.LanguageIndex =
+                                vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+            IF vTZWDLCVO.NLS_Text.Text != ""
+                  // Then create the Dialog NLS entry if it doesn't exist.
+                  SET CURSOR FIRST vDialog.ControlNLS_Text WHERE
+                       vDialog.ControlNLS_Text.LanguageIndex =
+                               vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+                  IF RESULT < zCURSOR_SET
+                     CreateMetaEntity( vSubtask, vDialog, "ControlNLS_Text", zPOS_AFTER )
+                  END
+                  // Finally, set the text values.
+                  vDialog.ControlNLS_Text.LanguageIndex = vTZWDLCVO.NLS_Text.LanguageIndex
+                  vDialog.ControlNLS_Text.Text = vTZWDLCVO.NLS_Text.Text
+               END
+            END
+
+            // Control DIL_Text
+            SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+                 vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
+            IF RESULT >= zCURSOR_SET
+               // Then position on the correct NLS_Text entry used for conversion.
+               SET CURSOR FIRST vTZWDLCVO.NLS_Text WHERE
+                         vTZWDLCVO.NLS_Text.LanguageIndex =
+                                vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+            IF vTZWDLCVO.NLS_Text.Text != ""
+                  // Then create the Dialog NLS entry if it doesn't exist.
+                  SET CURSOR FIRST vDialog.ControlNLS_DIL_Text WHERE
+                       vDialog.ControlNLS_DIL_Text.LanguageIndex =
+                               vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+                  IF RESULT < zCURSOR_SET
+                     CreateMetaEntity( vSubtask, vDialog, "ControlNLS_DIL_Text", zPOS_AFTER )
+                  END
+                  // Finally, set the text values.
+                  vDialog.ControlNLS_DIL_Text.LanguageIndex = vTZWDLCVO.NLS_Text.LanguageIndex
+                  vDialog.ControlNLS_DIL_Text.Text = vTZWDLCVO.NLS_Text.Text
+               END
+            END
+
+            // Call recursive subobject
+            ConvertControlSubobject( vSubtask, vTZWDLCVO, vDialog )
+         END
+      END
+
+      // Finally, commit the Dialog and drop it.
+      CommitMetaOI( vSubtask, vDialog, zSOURCE_DIALOG_META )
+      DropObjectInstance( vDialog )
+
+   END
+END
+
+
+LOCAL OPERATION
+ConvertOptionSubobject( VIEW vSubtask, VIEW vTZWDLCVO BASED ON LOD TZWDLCVO,
+                        VIEW vDialog BASED ON LOD TZWDLGSO )
+
+   // Initialize the OriginalText values for subcontrols.
+   SetViewToSubobject( vDialog, "OptOpt" )
+
+   // Process Option Text entries for each Option, if there is a match on
+   // an original text entry.
+   FOR EACH vDialog.Option
+      SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+           vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+      IF RESULT >= zCURSOR_SET
+         // Then position on the correct NLS_Text entry used for conversion.
+         SET CURSOR FIRST vTZWDLCVO.NLS_Text WHERE
+                   vTZWDLCVO.NLS_Text.LanguageIndex =
+                          vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+         IF vTZWDLCVO.NLS_Text.Text != ""
+            // Then create the Dialog NLS entry if it doesn't exist.
+            SET CURSOR FIRST vDialog.OptionNLS_Text WHERE
+                 vDialog.OptionNLS_Text.LanguageIndex =
+                         vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+            IF RESULT < zCURSOR_SET
+               CreateMetaEntity( vSubtask, vDialog, "OptionNLS_Text", zPOS_AFTER )
+            END
+            // Finally, set the text values.
+            vDialog.OptionNLS_Text.LanguageIndex = vTZWDLCVO.NLS_Text.LanguageIndex
+            vDialog.OptionNLS_Text.Text = vTZWDLCVO.NLS_Text.Text
+         END
+      END
+
+      // Call recursive subobject
+      ConvertOptionSubobject( vSubtask, vTZWDLCVO, vDialog )
+   END
+
+   ResetViewFromSubobject( vDialog )
+
+END
+
+
+LOCAL OPERATION
+ConvertControlSubobject( VIEW vSubtask,
+                         VIEW vTZWDLCVO BASED ON LOD TZWDLCVO,
+                         VIEW vDialog BASED ON LOD TZWDLGSO )
+
+   // Initialize the OriginalText values for subcontrols.
+   SetViewToSubobject( vDialog, "CtrlCtrl" )
+
+   // Process Control Text and DIL_Text entries for each Control,
+   // if there is a match on an original text entry.
+   FOR EACH vDialog.Control
+
+      // Control Text
+      SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+           vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
+      IF RESULT >= zCURSOR_SET
+         // Then position on the correct NLS_Text entry used for conversion.
+         SET CURSOR FIRST vTZWDLCVO.NLS_Text WHERE
+                   vTZWDLCVO.NLS_Text.LanguageIndex =
+                          vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+       IF vTZWDLCVO.NLS_Text.Text != ""
+            // Then create the Dialog NLS entry if it doesn't exist.
+            SET CURSOR FIRST vDialog.ControlNLS_Text WHERE
+                 vDialog.ControlNLS_Text.LanguageIndex =
+                         vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+            IF RESULT < zCURSOR_SET
+               CreateMetaEntity( vSubtask, vDialog, "ControlNLS_Text", zPOS_AFTER )
+            END
+            // Finally, set the text values.
+            vDialog.ControlNLS_Text.LanguageIndex = vTZWDLCVO.NLS_Text.LanguageIndex
+            vDialog.ControlNLS_Text.Text = vTZWDLCVO.NLS_Text.Text
+         END
+      END
+
+      // Control DIL_Text
+      SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+           vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
+      IF RESULT >= zCURSOR_SET
+         // Then position on the correct NLS_Text entry used for conversion.
+         SET CURSOR FIRST vTZWDLCVO.NLS_Text WHERE
+                   vTZWDLCVO.NLS_Text.LanguageIndex =
+                          vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+         IF vTZWDLCVO.NLS_Text.Text != ""
+            // Then create the Dialog NLS entry if it doesn't exist.
+            SET CURSOR FIRST vDialog.ControlNLS_DIL_Text WHERE
+                 vDialog.ControlNLS_DIL_Text.LanguageIndex =
+                         vTZWDLCVO.OriginalLanguage.CurrentSelectedLanguageCode
+            IF RESULT < zCURSOR_SET
+               CreateMetaEntity( vSubtask, vDialog, "ControlNLS_DIL_Text", zPOS_AFTER )
+            END
+            // Finally, set the text values.
+            vDialog.ControlNLS_DIL_Text.LanguageIndex = vTZWDLCVO.NLS_Text.LanguageIndex
+            vDialog.ControlNLS_DIL_Text.Text = vTZWDLCVO.NLS_Text.Text
+         END
+      END
+
+      // Call recursive subobject
+      ConvertControlSubobject( vSubtask, vTZWDLCVO, vDialog )
+   END
+   ResetViewFromSubobject( vDialog )
+
+END
+
+
+DIALOG OPERATION
+UpdateLanguageText( VIEW vSubtask )
+
+   // This routine simply checks to see if the SelectNLS_Text entries have been
+   // created and creates them if necessary.
+
+   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
+
+   GET VIEW vTZWDLCVO NAMED "TZWDLCVO"
+
+   IF vTZWDLCVO.SelectedNLS_Text DOES NOT EXIST
+      SelectNewLanguageCode( vSubtask )
+   END
+
+END
+
+
+DIALOG OPERATION
+SelectLPLR_ForSAMerge( VIEW vSubtask )
+
+   // The purpose of this routine is to select a particular LPLR which will be
+   // used as the source of an SA to ER merge.  It is very much the same as the
+   // SelectLPLR operation above for merging components.  It is simpler, however,
+   // since the only metas we care about are SAs.
+
+   VIEW vCM BASED ON LOD TZCMWKSO
+   VIEW SourceLPLR BASED ON LOD TZCMLPLO
+   VIEW OrigLPLR BASED ON LOD TZCMLPLO
+
+   STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
+   STRING ( 32 )  TruncatedName
+
+   GET VIEW vCM NAMED "TZCMWKSO"
+
+   // Activate OI and View to the source LPLR
+   SourceFileName = vCM.LPLR.Name
+   TruncatedName = SourceFileName [1:32]
+   SourceFileName = vCM.LPLR.ExecDir + "\" +
+                    TruncatedName + ".XLP"
+   ActivateOI_FromFile( OrigLPLR, "TZCMLPLO", vSubtask,
+                        SourceFileName, zSINGLE )
+   NAME VIEW OrigLPLR "OrigLPLR"
+
+   // Copy the Orig members with Type = 2005 to Source (SA members)
+   ACTIVATE SourceLPLR EMPTY
+   NAME VIEW SourceLPLR "SourceLPLR"
+
+   CREATE ENTITY SourceLPLR.LPLR
+   SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL )
+
+   SET CURSOR FIRST OrigLPLR.W_MetaType WHERE OrigLPLR.W_MetaType.Type = 2005
+
+   CREATE ENTITY SourceLPLR.W_MetaType
+
+   SourceLPLR.W_MetaType.Type = 5
+   FOR EACH OrigLPLR.W_MetaDef
+      CREATE ENTITY SourceLPLR.W_MetaDef
+      SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL )
+   END
+
+END
+
+
+DIALOG OPERATION
+MergeSAsToER( VIEW vSubtask )
+
+   // This routine sets up the target ERD as necessary and then calls the routine
+   // that will actually do the merge of the entities from the SA into the ERD.
+   // If an ERD already exists, it activates it.  If it doesn't exist, it creates
+   // an new empty one.
+   // The SAs to be used in the merge are selected in the LPLR object named "SourceLPLR".
+
+   VIEW vSourceLPLR  REGISTERED AS SourceLPLR
+   VIEW TZCMLPLO     REGISTERED AS TZCMLPLO
+   VIEW vSourceLPLR2 BASED ON LOD  TZCMLPLO
+   VIEW vCurrentLPLR BASED ON LOD  TZCMLPLO
+   VIEW vTargetERD   BASED ON LOD  TZEREMDO
+   VIEW vSourceERD   BASED ON LOD  TZEREMDO
+   VIEW vSourceSA    BASED ON LOD  TZERSASO
+   VIEW vTargetSA    BASED ON LOD  TZERSASO
+
+   STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
+   STRING ( 33 ) SubjectAreaName
+   INTEGER nRC
+
+   // First activate the original ERD.
+   GET VIEW vSourceLPLR2 NAMED "OrigLPLR"
+   // Position on zREFER_ERD
+   SET CURSOR FIRST vSourceLPLR2.W_MetaType WHERE vSourceLPLR2.W_MetaType.Type = 2004
+
+   SourceFileName = vSourceLPLR.LPLR.MetaSrcDir + "\" + vSourceLPLR2.W_MetaDef.Name + ".PMD"
+   ActivateOI_FromFile( vSourceERD, "TZEREMDO", vSourceLPLR, SourceFileName, 8192 )
+   // 8192 IS zIGNORE_ATTRIB_ERRORS
+   DropView( vSourceLPLR2 )
+   NAME VIEW vSourceERD "***SourceERD"
+
+   // Then activate the Target ERD as either empty or existing.
+   RetrieveViewForMetaList( vSubtask, vCurrentLPLR, zREFER_ERD_META )
+   IF vCurrentLPLR.W_MetaDef EXISTS
+      ActivateMetaOI( vSubtask, vTargetERD, vCurrentLPLR, zSOURCE_ERD_META, zSINGLE )
+   ELSE
+      ActivateEmptyMetaOI( vSubtask, vTargetERD, zSOURCE_ERD_META, zSINGLE )
+      CreateMetaEntity( vSubtask, vTargetERD, "EntpER_Model", zPOS_AFTER )
+      vTargetERD.EntpER_Model.Name = TZCMLPLO.LPLR.Name
+   END
+
+   // Name it for debug purposes.
+   NAME VIEW vTargetERD "***TargetERD"
+
+   nRC = SetCursorFirstSelectedEntity( vSourceLPLR, "W_MetaDef", "LPLR" )
+   LOOP WHILE nRC >= zCURSOR_SET
+      SubjectAreaName = vSourceLPLR.W_MetaDef.Name
+      SourceFileName  = vSourceLPLR.LPLR.MetaSrcDir + "\" + SubjectAreaName + ".PSA"
+      ActivateOI_FromFile( vSourceSA, "TZERSASO", vSubtask, SourceFileName, 8192 )
+      // 8192 is zIGNORE_ATTRIB_ERRORS
+      NAME VIEW vSourceSA "SourceSA"
+
+      // Now actually do the merge of entities from the source SA into the target ERD.
+      // We will pass the merge option selected to the merge operation.
+      nRC = MergeSA_ToER( vTargetERD, vSourceERD, vSourceSA,
+                          vSourceLPLR.LPLR.MergeType, vSubtask )
+      IF nRC < 0
+         // If an error occurred during merge, abort the process.  An error
+         // message was already send by the merge routine.
+         RETURN -1
+      END
+
+      nRC = SetCursorNextSelectedEntity( vSourceLPLR, "W_MetaDef", "LPLR" )
+   END
+
+   DropView( vCurrentLPLR )
+
+   // Commit the ER itself, which will then be used for SA migration.
+   CommitMetaOI( vSubtask, vTargetERD, zSOURCE_ERD_META )
+
+   // Lastly loop through all the selected SA's again to migrate each
+   // subject area.
+   nRC = SetCursorFirstSelectedEntity( vSourceLPLR, "W_MetaDef", "LPLR" )
+   LOOP WHILE nRC >= zCURSOR_SET
+      SubjectAreaName = vSourceLPLR.W_MetaDef.Name
+      SourceFileName  = vSourceLPLR.LPLR.MetaSrcDir + "\" + SubjectAreaName + ".PSA"
+      ActivateOI_FromFile( vSourceSA, "TZERSASO", vSubtask, SourceFileName, 8192 )
+      // 8192 is zIGNORE_ATTRIB_ERRORS
+      NAME VIEW vSourceSA "SourceSA"
+
+      // Now actually do the merge of entities from the source SA into the target ERD,
+      // if the SA is not already in the Current LPLR.
+      nRC = ActivateMetaOI_ByName( vSubtask, vTargetSA, 0, zREFER_SA_META, 0,
+                                   SubjectAreaName, 0 )
+      IF nRC < 0
+         SA_MigrateWithERDs( vTargetSA, vSourceSA,
+                             vTargetERD, vSourceERD, vSubtask )
+
+         CommitMetaOI( vSubtask, vTargetSA, zSOURCE_SA_META )
+      END
+
+      nRC = SetCursorNextSelectedEntity( vSourceLPLR, "W_MetaDef", "LPLR" )
+   END
+
+END
+
+
+DIALOG OPERATION
+RefreshListBoxes( VIEW vSubtask )
+
+   RefreshCtrl( vSubtask, "AttributeList" )
+   RefreshCtrl( vSubtask, "RelLinkList" )
+
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: CompareDataModels
+//
+DIALOG OPERATION
+DialogCompareDataModels( VIEW vSubtask )
+
+   // Activate the "other" LPLR and Data Model for the selected LPLR and call the
+   // Compare Data Model operation.
+
+   VIEW vCM         BASED ON LOD TZCMWKSO
+   VIEW OtherLPLR   BASED ON LOD TZCMLPLO
+   VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+   VIEW OtherERD    BASED ON LOD TZEREMDO
+   VIEW CurrentERD  BASED ON LOD TZEREMDO
+   VIEW TZERRPTO    BASED ON LOD TZERRPTO
+
+
+   STRING (512) FileName
+   STRING (32)  TruncatedName
+   SHORT        nRC
+
+   GET VIEW vCM NAMED "TZCMWKSO"
+
+   // Activate Other LPLR.
+   FileName = vCM.LPLR.Name
+   TruncatedName = FileName [1:32]
+   FileName = vCM.LPLR.ExecDir + "\" + TruncatedName + ".XLP"
+   nRC = ActivateOI_FromFile( OtherLPLR, "TZCMLPLO", vSubtask, FileName, zSINGLE )
+   IF nRC < 0
+      MessageSend( vSubtask, "", "Compare Data Models",
+                   "Error activating Other LPLR", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   NAME VIEW OtherLPLR "OtherLPLR"
+
+   // Activate Other data model (2004 is zREFER_ERD_META)
+   SET CURSOR FIRST OtherLPLR.W_MetaType WHERE OtherLPLR.W_MetaType.Type = 2004
+   IF RESULT < zCURSOR_SET
+      MessageSend( vSubtask, "", "Compare Data Models",
+                   "Selected LPLR does not have a Data Model", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   FileName = OtherLPLR.LPLR.MetaSrcDir + "\" + OtherLPLR.W_MetaDef.Name + ".PMD"
+   nRC = ActivateOI_FromFile( OtherERD, "TZEREMDO", OtherLPLR, FileName, zSINGLE )
+   IF nRC < 0
+      MessageSend( vSubtask, "", "Compare Data Models",
+                   "Error activating Other ERD", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+
+   // Retrieve Current LPLR.
+   GET VIEW CurrentLPLR NAMED "TaskLPLR"
+
+   // Activate Current data model.
+   SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 2004
+   nRC = ActivateMetaOI( vSubtask, CurrentERD, CurrentLPLR, zSOURCE_ERD_META, zSINGLE )
+   IF nRC < 0
+      MessageSend( vSubtask, "", "Compare Data Models",
+                   "Error activating Current ERD", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+
+   // Call operation to Compare the two data models.
+   CompareDataModels( CurrentERD, OtherERD, CurrentLPLR, OtherLPLR, vSubtask )
+
+   // Print the report.
+   GET VIEW TZERRPTO NAMED "TZERRPTO"
+   FormatSubobjectOnDoc( TZERRPTO, "Root", vSubtask , "ERDCOMP", 0 )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: DropPPE_View
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+DropPPE_View( VIEW vSubtask )
+   SHORT   nRC
+   VIEW    vPE BASED ON LOD TZPESRCO
+
+   nRC = GetViewByName( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK )
+
+   IF nRC >= 0
+      DropView( vPE )
+   END
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SetCheckoutState
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+SetCheckoutState( VIEW vSubtask )
+   SHORT           nEnable
+   STRING ( 100 )  szTitle
+
+   VIEW vCurrentLPLR BASED ON LOD  TZCMLPLO
+   VIEW SourceLPLR   REGISTERED AS SourceLPLR
+
+   nEnable = 1
+
+   // if ERD not checked out, disable Merge Button for Subject Areas
+   // and set check out state in title
+
+   IF SourceLPLR.W_MetaDef EXISTS
+      // Then activate the Target ERD as either empty or existing.
+      RetrieveViewForMetaList( vSubtask, vCurrentLPLR, zREFER_ERD_META )
+
+      IF vCurrentLPLR.W_MetaDef EXISTS
+         IF vCurrentLPLR.W_MetaDef.Status != 1
+            nEnable = 0
+            szTitle = "Merge Subject Area To Data Model    < Data Model not checked out >"
+            SetWindowCaptionTitle( vSubtask, szTitle, "" )
+         END
+      END
+   ELSE
+      nEnable = 0
+   END
+
+   SetCtrlState( vSubtask, "Merge", zOPTION_STATUS_ENABLED, nEnable )
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CleanUpVORs
+**
+*************************************************************************************************/
+DIALOG OPERATION
+CleanUpVORs( VIEW ViewToWindow )
+
+   VIEW vCurrentLPLR  BASED ON LOD  TZCMLPLO
+   VIEW vCurrentLPLRn BASED ON LOD  TZCMLPLO
+   VIEW vVOR          BASED ON LOD  TZWDVORO
+   STRING ( 200 ) SourceFileName
+   STRING ( 200 ) SourceDirectoryName
+   STRING ( 32 ) MetaName
+   INTEGER       lZKey
+
+   // Remove duplicate VORs.
+   GET VIEW vCurrentLPLR NAMED "TaskLPLR"
+   SourceDirectoryName = vCurrentLPLR.LPLR.MetaSrcDir
+   SET CURSOR FIRST vCurrentLPLR.W_MetaType WHERE vCurrentLPLR.W_MetaType.Type = 2009   // 2009 is VOR
+   FOR EACH vCurrentLPLR.W_MetaDef
+      CreateViewFromView( vCurrentLPLRn, vCurrentLPLR )
+      SET CURSOR NEXT vCurrentLPLRn.W_MetaDef
+      IF vCurrentLPLRn.W_MetaDef.CPLR_ZKey = vCurrentLPLR.W_MetaDef.CPLR_ZKey
+         IssueError( ViewToWindow,0,0, "Delete Entity" )
+         DeleteEntity( vCurrentLPLRn, "W_MetaDef", zREPOS_NONE )
+      ELSE
+         IF vCurrentLPLRn.W_MetaDef.Name = vCurrentLPLR.W_MetaDef.Name
+            // Activate existing source meta VOR
+            lZKey = vCurrentLPLRn.W_MetaDef.CPLR_ZKey
+            zltoxa( lZKey, MetaName )
+            SourceFileName = SourceDirectoryName + "\" + MetaName + ".PVR"
+            //IssueError( ViewToWindow,0,0, "Delete VOR" )
+            DeleteMetaOI( ViewToWindow, vCurrentLPLRn, zSOURCE_VOR_META )
+         END
+      END
+      DropView( vCurrentLPLRn )
+   END
+
+END

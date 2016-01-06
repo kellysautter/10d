@@ -1,0 +1,19 @@
+rZeidon    Z0149E0A TZWDVORO 11/02/95   20:52:52 1.0a     
+eViewObjRef 1,192
+aZKey      1351178
+aName      TZCMRPTO
+aDesc      Refresh Report Object view for CM
+
+eLOD       2,192
+aZKey      1329858
+aName      TZCMRPTO
+aDesc      Work Object for Refresh Report
+
+eZ_MetaDef 2,192
+aName      TZCMRPTO
+aZKey      1351178
+aType      9
+aLastUpdateDate 19950824213900000
+aLastCheckInDate 19951102203051110
+aDesc      Refresh Report Object view for CM
+

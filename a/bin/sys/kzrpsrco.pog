@@ -1,0 +1,42 @@
+z1000-Zeidon    KZRPSRCO TZOGSRCO 06/21/12   12:41:38 1.0a2    
+eGlobalOperationGroup 1
+aZKey      4897614
+aName      KZRPSRCO
+aExtension C
+aLanguageType C
+aDomainAndGlobalOpGroupName KZRPSRCO
+
+eOperation 2
+aName      ConvertXML_SpecialCharacters
+aZKey      4897615
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4897616
+
+eParameter 3
+aShortDesc ReturnString
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      4897617
+
+eParameter 3
+aShortDesc SourceString
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4897618
+
+eParameter 3
+aShortDesc MaxReturnLth
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4897619
+

@@ -1,0 +1,262 @@
+z10000Zeidon    TZSAPRS  TZZOLODO 05/01/01   23:19:26 1.0b0    
+eLOD       1
+aZKey      98230194
+aName      TZSAPRS
+aDesc      Work object for SAP Import to save the Relationships
+
+eLOD_EntityParent 2
+aName      SAP_Enitiy
+aIndentName SAP_Enitiy
+aIndentLvl 0
+aZKey      98230195
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      SAP_Rel
+aIndentName    SAP_Rel
+aIndentLvl 3
+aZKey      98230196
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      98230202
+aWork      Y
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      FieldName
+aZKey      98230203
+aLth       32
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      98230827
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      98230828
+aLth       4
+aKey       Y
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      98230209
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      FK_Art
+aZKey      98230210
+aLth       3
+aDesc      Blank, REL or KEY
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      98230211
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      CheckTable
+aZKey      98230212
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      98230198
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      TE_TableName
+aZKey      98230199
+aLth       32
+aDesc      78
+An override name to be used for generation of the TE Table for this entity.
+0
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+ePOD       2
+aNAME      TZSAPRS
+aZKey      98230204
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+i11        5
+i14        5
+i17        5
+i18        1
+i19        15
+i20        16
+i21        5
+i22        2
+i23        3
+i24        4
+i25        5
+i26        6
+i27        7
+i28        8
+i29        9
+i30        10
+i31        5
+i32        12
+i33        13
+i34        5

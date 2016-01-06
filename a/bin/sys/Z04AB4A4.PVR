@@ -1,0 +1,11 @@
+z1000-Zeidon    Z04AB4A4 TZWDVORO 06/13/12   14:02:15 1.0a2    
+eViewObjRef 1
+aZKey      4895908
+aName      TZXSLTSO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      4895888
+aName      TZXSLTSO
+aDesc      Painter object for defining XSLT.  XSL stands for EXtensible Stylesheet Language, and is a style sheet language for XML documents. XSLT stands for XSL Transformations.
+

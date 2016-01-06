@@ -1,0 +1,20 @@
+rZeidon    Z0149B6D TZWDVORO 11/02/95   20:52:09 1.0a     
+eViewObjRef 1,192
+aZKey      1350509
+aName      TZOPSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1326517
+aName      TZOPSRCO
+aDesc      Source File Meta Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZOPSRCO
+aZKey      1350509
+aType      9
+aLastUpdateDate 19950824213854000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

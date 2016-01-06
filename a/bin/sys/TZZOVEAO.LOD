@@ -1,0 +1,520 @@
+z1000-Zeidon    TZZOVEAO TZZOLODO 11/15/13   20:51:43 1.0a2    
+eLOD       1
+aZKey      1091957
+aName      TZZOVEAO
+aDesc      Object/View object ref/Entity/Attribute work object for use in painting
+
+eLOD_EntityParent 2
+aName      ViewObjRef
+aIndentName ViewObjRef
+aIndentLvl 0
+aZKey      1091958
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Exists for each different View used in a Dialog
+
+eLOD_EntityChild 3
+aName      LOD
+aIndentName    LOD
+aIndentLvl 3
+aZKey      1091963
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aDesc      Converted from 6B
+
+eLOD_EntityChild 4
+aName      LOD_Entity
+aIndentName       LOD_Entity
+aIndentLvl 6
+aZKey      1091976
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      LOD Entity in the Zeidon Logical
+
+eLOD_EntityChild 5
+aName      LOD_Attribute
+aIndentName          LOD_Attribute
+aIndentLvl 9
+aZKey      1092008
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      LOD Attribute in the Zeidon View Object.
+
+eLOD_EntityChild 6
+aName      ER_Attribute
+aIndentName             ER_Attribute
+aIndentLvl 12
+aZKey      1092021
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aDesc      Attributes of an ER Entity
+
+eLOD_AttributeRec 7
+aZKey      1092022
+aWork      Y
+
+eER_AttributeRec 8
+aName      Name
+aZKey      1092100
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Attribute Name
+aListPaintLit Attribute Name
+
+eDomainRec 9
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 7
+aZKey      1117565
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 8
+aName      ZKey
+aZKey      1117566
+
+eDomainRec 9
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eER_EntityRec 7
+aName      ER_Attribute
+aZKey      1320837
+aPurpose   W
+aDesc      Attributes of an ER Entity
+aOwningArea ER
+aER_DiagramPosX 220
+aER_DiagramPosY 262
+
+eER_RelLinkRec 7
+aName      is based on
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      1322239
+aCardMin   0
+aCardMax   1
+
+eER_RelTypeRec 8
+aZKey      1322237
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 226
+aER_DiagramBendPosY 200
+aER_DiagramE1PosX 226
+aER_DiagramE1PosY 261
+aER_DiagramE2PosX 543
+aER_DiagramE2PosY 200
+
+eLOD_AttributeRec 6
+aZKey      1117567
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      ZKey
+aZKey      1117568
+
+eDomainRec 8
+
+eER_EntityRec 6
+aName      LOD_Attribute
+aZKey      1320989
+aPurpose   W
+aDesc      LOD Attribute in the Zeidon View Object.
+aOwningArea ZO
+aER_DiagramPosX 544
+aER_DiagramPosY 200
+aER_PortFactor 2
+
+eER_RelLinkRec 6
+aName      has fact
+aAutoSeq   Y
+aHangingForeignKeyEntity N
+aZKey      1322283
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 7
+aZKey      1322282
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 552
+aER_DiagramBendPosY 144
+aER_DiagramE1PosX 489
+aER_DiagramE1PosY 144
+aER_DiagramE2PosX 552
+aER_DiagramE2PosY 199
+
+eLOD_AttributeRec 5
+aZKey      1091977
+aWork      Y
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1092057
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Entity Name
+aListPaintLit Entity Name
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1117563
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ZKey
+aZKey      1117564
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      LOD_Entity
+aZKey      1321003
+aPurpose   W
+aDesc      LOD Entity in the Zeidon Logical
+aOwningArea ZO
+aER_DiagramPosX 480
+aER_DiagramPosY 142
+
+eER_RelLinkRec 5
+aName      has root
+aAutoSeq   N
+aZKey      1322280
+aCardMin   1
+aCardMax   1
+
+eER_RelTypeRec 6
+aZKey      1322279
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 484
+aER_DiagramBendPosY 98
+aER_DiagramE1PosX 445
+aER_DiagramE1PosY 98
+aER_DiagramE2PosX 484
+aER_DiagramE2PosY 141
+
+eLOD_AttributeRec 4
+aZKey      1091966
+aWork      Y
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1092047
+aNotNull   Y
+aDesc      Name of Logical Object Definition
+aPromptPaintLit LOD Name
+aListPaintLit LOD Name
+
+eDomainRec 6
+aZKey      90145848
+aName      MetaName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1117561
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1117562
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      LOD
+aZKey      1320978
+aPurpose   W
+aDesc      Converted from 6B
+aOwningArea ZO
+aER_DiagramPosX 428
+aER_DiagramPosY 94
+aER_PortFactor 2
+
+eER_RelLinkRec 4
+aName      is for
+aAutoSeq   N
+aHangingForeignKeyEntity N
+aZKey      1322314
+aCardMin   1
+aCardMax   1
+
+eER_RelTypeRec 5
+aZKey      1322312
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 632
+aER_DiagramBendPosY 96
+aER_DiagramE1PosX 445
+aER_DiagramE1PosY 96
+aER_DiagramE2PosX 632
+aER_DiagramE2PosY 139
+
+eLOD_AttributeRec 3
+aZKey      1091960
+aWork      Y
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1092042
+aLth       32
+aDesc      External Name of View
+
+eDomainRec 5
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      1117559
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1117560
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      ViewObjRef
+aZKey      1321444
+aPurpose   W
+aDesc      Exists for each different View used in a Dialog
+aOwningArea WD
+aER_DiagramPosX 628
+aER_DiagramPosY 140
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 12
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+i17        11
+i23        8
+i26        11
+i35        11
+i44        11
+i46        1
+i47        39
+i48        40
+i49        41
+i50        42
+i51        43
+i52        11
+i53        45
+i54        2
+i55        30
+i56        31
+i57        32
+i58        33
+i59        34
+i60        11
+i61        36
+i62        37
+i63        38
+i64        3
+i65        21
+i66        22
+i67        8
+i68        24
+i69        25
+i70        11
+i71        27
+i72        28
+i73        29
+i74        4
+i75        15
+i76        16
+i77        11
+i78        18
+i79        19
+i80        20
+i81        5
+i82        6
+i83        7
+i84        8
+i85        9
+i86        10
+i87        11
+i88        12
+i89        13
+i90        14

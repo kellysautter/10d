@@ -1,0 +1,394 @@
+z10000Zeidon    TZVSRTOO TZZOLODO 02/18/02   17:09:57 1.0a1    
+eLOD       1
+aZKey      1327446
+aName      TZVSRTOO
+aDesc      VML Runtime Stack
+aDLL_Name  TZLODOPR
+
+eLOD_EntityParent 2
+aName      StackObject
+aIndentName StackObject
+aIndentLvl 0
+aZKey      1327447
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      The Root of the Stack object
+
+eLOD_EntityChild 3
+aName      OperationCall
+aIndentName    OperationCall
+aIndentLvl 3
+aZKey      1327448
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      a call to an operation
+aSeqNo     1
+
+eLOD_EntityChild 4
+aName      Variable
+aIndentName       Variable
+aIndentLvl 6
+aZKey      1327449
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      A variable Stack
+aSeqNo     1
+
+eLOD_AttributeRec 5
+aZKey      1327450
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      ID
+aZKey      1327451
+
+eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      123094820
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      StringValue
+aZKey      123094821
+aLth       256
+aDesc      Value as string
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttrDerivationOperRec 6
+aName      GetSetStringValue
+aZKey      123094822
+aType      A
+aReturnDataType N
+
+eSourceFileForDARec 7
+aZKey      92000583
+aName      TZVSRTOO
+aLanguageType C
+aExtension C
+
+eLOD_AttributeRec 5
+aZKey      1327452
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1327453
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1327454
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6
+aName      Value
+aZKey      1327455
+aLth       1
+
+eDomainRec 7
+aZKey      90000007
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1327456
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 6
+aName      ParameterFlag
+aZKey      1327457
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      1327458
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1327459
+aLth       32
+aDesc      Operation Called Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1327460
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      XPGView
+aZKey      1327461
+aDesc      View to the XPG Object
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1327462
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      StatementView
+aZKey      1327463
+aDesc      View to the Statement
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1327464
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      StatementOffset
+aZKey      1327465
+aDesc      Index into a statemet expression
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1327466
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      StackOffset
+aZKey      1327467
+
+eDomainRec 6
+
+eLOD_Entity 2
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 4
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_AttrDerivationOper 4
+
+eSourceFileForDA 5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      123094823
+
+eParameter 4
+aShortDesc Internal Entity Structure
+aDataType  S
+aZKey      123094824
+
+eParameter 4
+aShortDesc Internal Attrib Structure
+aDataType  S
+aZKey      123094825
+
+eParameter 4
+aShortDesc Get Or Set Flag
+aDataType  N
+aZKey      123094826
+
+eZ_MetaDef 2
+aName      TZVSRTOO
+aZKey      1327446
+aType      7
+aLastUpdateDate 19951102200158000
+aLastCheckInDate 19951102203051110
+aDesc      VML Runtime Stack
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i14        9
+i20        6
+i23        9
+i26        6
+i29        6
+i32        6
+i35        6
+i36        1
+i37        2
+i38        21
+i39        22
+i40        9
+i41        24
+i42        25
+i43        6
+i44        27
+i45        28
+i46        6
+i47        30
+i48        31
+i49        6
+i50        33
+i51        34
+i52        6
+i53        3
+i54        4
+i55        5
+i56        6
+i57        12
+i58        13
+i59        9
+i60        15
+i61        16
+i62        17
+i63        7
+i64        8
+i65        9
+i66        10
+i67        11
+i68        18
+i69        19
+i70        6
+i71        11
+i72        10
+i78        10
+i79        11

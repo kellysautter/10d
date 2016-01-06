@@ -1,0 +1,19 @@
+rZeidon    Z0147748 TZWDVORO 11/02/95   20:53:20 1.0a     
+eViewObjRef 1,192
+aZKey      1341256
+aName      StackObject
+aDesc      Non-presistent data  store for use during VML interpretation
+
+eLOD       2,192
+aZKey      1327446
+aName      TZVSRTOO
+aDesc      VML Runtime Stack
+
+eZ_MetaDef 2,192
+aName      StackObject
+aZKey      1341256
+aType      9
+aLastUpdateDate 19950824213738000
+aLastCheckInDate 19951102203051110
+aDesc      Non-presistent data  store for use during VML interpretation
+

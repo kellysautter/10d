@@ -1,0 +1,636 @@
+z1000-Zeidon    KZZDR    TZZOLODO 05/12/06   18:09:08 1.0b0    
+eLOD       1
+aZKey      1151049
+aName      KZZDR
+aDesc      Zeidon Dialog Rendering object
+
+eLOD_EntityParent 2
+aName      System
+aIndentName System
+aIndentLvl 0
+aZKey      1151050
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Runtime cross system information
+
+eLOD_EntityChild 3
+aName      Task
+aIndentName    Task
+aIndentLvl 3
+aZKey      1151051
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Runtime task level information
+
+eLOD_EntityChild 4
+aName      Subtask
+aIndentName       Subtask
+aIndentLvl 6
+aZKey      1151052
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Runtime subtask level information
+
+eLOD_AttributeRec 5
+aZKey      1165796
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      DlgTag
+aZKey      1165797
+aLth       32
+aDesc      Dialog Tag for Subtask
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1165798
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      WndTag
+aZKey      1165799
+aLth       32
+aDesc      Window Tag for Subtask
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1165802
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Handle
+aZKey      1165803
+aDesc      Handle to the Subtask view
+
+eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1165804
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      StartParameter
+aZKey      1165805
+aDesc      ~~LPLR~Dialog startup parameter
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1169900
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Handle
+aZKey      1169901
+aDesc      Task identifier
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      AX
+aIndentName    AX
+aIndentLvl 3
+aZKey      91002401
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Caches informations about all instanciated ActiveX objects
+
+eLOD_EntityChild 4
+aName      Event
+aIndentName       Event
+aIndentLvl 6
+aZKey      91002402
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      caches informatins about the events of an ActiveX object
+
+eLOD_EntityChild 5
+aName      Parm
+aIndentName          Parm
+aIndentLvl 9
+aZKey      91002403
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Caches information about the parameters of an event that are fired by an ActiveX control.
+
+eLOD_AttributeRec 6
+aZKey      91002410
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      ID
+aZKey      91002411
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      91002412
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      NAME
+aZKey      91002413
+
+eDomainRec 8
+
+eLOD_AttributeRec 5
+aZKey      91002406
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ID
+aZKey      91002407
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91002408
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      NAME
+aZKey      91002409
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      91002404
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      GUID
+aZKey      91002405
+aLth       40
+aDesc      {05589FA1-C356-11CE-BF01-00AA0055595A}
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      Session
+aIndentName    Session
+aIndentLvl 3
+aZKey      1141966
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Tomcat Session
+
+eLOD_EntityChild 4
+aName      OI
+aIndentName       OI
+aIndentLvl 6
+aZKey      1141967
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      1141970
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1141971
+aLth       64
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1141972
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Instance
+aZKey      1141973
+
+eDomainRec 7
+aZKey      90000007
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1141976
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Create
+aZKey      1141977
+
+eDomainRec 7
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1141974
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Delete
+aZKey      1141975
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      1141968
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Id
+aZKey      1141969
+aLth       64
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      1151053
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Subtasks
+aZKey      1151054
+aDesc      System wide list of subtasks
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      381
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Sockets
+aZKey      382
+aDesc      System wide list of sockets
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1178283
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      hWndRemote
+aZKey      1178284
+aDesc      Main Window handle for Remote Server
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+i9         6
+i15        6
+i18        12
+i24        12
+i27        6
+i30        12
+i33        6
+i36        6
+i41        6
+i50        47
+i53        6
+i56        44
+i59        44
+i62        12
+i63        1
+i64        54
+i65        55
+i66        44
+i67        57
+i68        58
+i69        44
+i70        60
+i71        61
+i72        12
+i73        2
+i74        13
+i75        14
+i76        6
+i77        16
+i78        17
+i79        12
+i80        3
+i81        4
+i82        5
+i83        6
+i84        7
+i85        8
+i86        6
+i87        10
+i88        11
+i89        12
+i90        19
+i91        34
+i92        35
+i93        6
+i94        20
+i95        28
+i96        29
+i97        12
+i98        31
+i99        32
+i100       6
+i101       21
+i102       22
+i103       23
+i104       12
+i105       25
+i106       26
+i107       6
+i108       37
+i109       51
+i110       52
+i111       6
+i112       38
+i113       39
+i114       40
+i115       6
+i116       42
+i117       43
+i118       44
+i119       45
+i120       46
+i121       47
+i122       48
+i123       49
+i124       47

@@ -1,0 +1,19 @@
+rZeidon    Z55DAD96 TZWDVORO 11/02/95   20:51:46 1.0a     
+eViewObjRef 1,192
+aZKey      90025366
+aName      TZTEWRKO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      90025332
+aName      TZTEWRKO
+aDesc      Work object for TE functions
+
+eZ_MetaDef 2,192
+aName      TZTEWRKO
+aZKey      90025366
+aType      9
+aLastUpdateDate 19951005090610000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

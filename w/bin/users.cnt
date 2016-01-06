@@ -1,0 +1,398 @@
+:Base Users.hlp
+:Index Index=ADW_Export.hlp
+:Index Index=Autodesign.hlp
+:Index Index=Basics.hlp
+:Index Index=Glossary.hlp
+:Index Index=Operations_Reference.hlp
+:Index Index=Progref.hlp
+:Link ADW_Export.hlp
+:Link Autodesign.hlp
+:Link Basics.hlp
+:Link Glossary.hlp
+:Link Operations_Reference.hlp
+:Link Progref.hlp
+1 User's Guide
+2 Introduction
+3 Overview=Introduction___Overview
+3 The Windows Environment=The_Windows_Environment
+3 User Input
+4 User Input=User_Input
+4 Using the Mouse=Using_the_Mouse
+4 Using the Keyboard=Using_the_Keyboard
+3 Window Components
+4 Window Components=Window_Components
+3 Window Actions
+4 Introduction=Introduction___Window_Actions
+4 Opening a Window=Opening_a_Window
+4 Activating a Window=Activating_a_Window
+4 Scrolling=Scrolling
+4 Moving a Window=Moving_a_Window
+4 Closing a Window=Closing_a_Window
+4 Interacting with the Dialogs
+5 Interacting with the Dialogs=Interacting_with_the_Dialogs
+5 Menus=Interacting_with_the_Dialogs_Menus
+5 Dialog Boxes=Dialog_Boxes
+2 Workstation Administration
+3 Overview=Workstation_Administration___Overview
+3 Starting the Workstation Administration Tool
+4 Starting the Workstation Administration Tool=Starting_the_Workstation_Administration_Tool
+4 First Time Entering the Tool=First_Time_Entering_the_Tool
+4 Subsequent Entries into the Tool=Subsequent_Entries_into_the_Tool
+3 Creating an LPLR
+4 Creating an LPLR=Creating_an_LPLR
+3 Opening an LPLR for Update
+4 Opening an LPLR for Update=Opening_an_LPLR_for_Update
+3 Updating an LPLR
+4 Updating an LPLR=Updating_an_LPLR
+4 Refreshing an LPLR=Refreshing_an_LPLR
+4 Checking Out Components=Checking_Out_Components
+4 Checking In Components=Checking_In_Components
+4 Removing a Check Out=Removing_a_Check_Out
+4 Listing Components=Listing_Components
+4 Compiler and Target Specifications
+5 Compiler and Target Specifications=Compiler_and_Target_Specifications
+5 Creating and Updating Compiler Specifications=Creating_and_Updating_Compiler_Specifications
+5 Selecting a Current Compiler Specification=Selecting_a_Current_Compiler_Specification
+5 Target Specification=Target_Specification
+5 Make Options=Make_Options
+5 Making Targets=Making_Targets
+3 Workstation User Administration
+4 Workstation User Administration=Workstation_User_Administration
+3 Adding  Users to the Workstation
+4 Adding  Users to the Workstation=Adding__Users_to_the_Workstation
+4 Removing  Users from the Workstation=Removing__Users_from_the_Workstation
+2 Data Model
+3 Overview=Data_Model___Overview
+3 Starting the Data Model Tool=Starting_the_Data_Model_Tool
+3 Viewing a Data Model=Viewing_a_Data_Model
+3 Creating a Data Model=Creating_a_Data_Model
+3 Opening a Data Model for Update=Opening_a_Data_Model_for_Update
+3 Entities
+4 Entities=Data_Model___Entities
+4 Viewing Entities=Data_Model___Entities___Viewing_Entities
+4 Creating an Entity=Creating_an_Entity
+4 Updating an Entity=DM___Entities___Updating_an_Entity
+4 Deleting an Entity=Deleting_an_Entity
+3 Relationships
+4 Relationships=Relationships
+4 Viewing Relationships=Viewing_Relationships
+4 Viewing Relationships in a Diagram=Viewing_Relationships_in_a_Diagram
+4 Viewing Relationships in a List=Viewing_Relationships_in_a_List
+4 Creating a Relationship=Creating_a_Relationship
+4 Updating a Relationship=Updating_a_Relationship
+4 Deleting a Relationship=Deleting_a_Relationship
+3 Attributes
+4 Attributes=Data_Model___Attributes
+4 Viewing Attributes=DM___Attributes___Viewing_Attributes
+4 Creating an Attribute=DM___Attributes___Creating_an_Attribute
+4 Updating an Attribute=DM___Attributes___Updating_an_Attribute
+4 Deleting an Attribute=DM___Attributes___Deleting_an_Attribute
+3 Identifiers
+4 Identifiers=Identifiers
+4 Viewing Identifiers=Viewing_Identifiers
+4 Creating an Identifier=Creating_an_Identifier
+4 Updating an Identifier=Updating_an_Identifier
+4 Deleting an Identifier=Deleting_an_Identifier
+3 Subject Areas
+4 Subject Areas=Subject_Areas
+4 Viewing Subject Areas=Viewing_Subject_Areas
+4 Creating a Subject Area=Creating_a_Subject_Area
+4 Opening a Subject Area for Update=Opening_a_Subject_Area_for_Update
+4 Updating a Subject Area
+5 Updating a Subject Area=Updating_a_Subject_Area
+5 Adding an Entity to a Subject Area=Adding_an_Entity_to_a_Subject_Area
+5 Removing an Entity from a Subject Area=Removing_an_Entity_from_a_Subject_Area
+5 Creating, Updating and Deleting from a Subject Area=Creating__Updating_and_Deleting_from_a_Subject_Area
+5 Deleting a Subject Area=Deleting_a_Subject_Area
+3 Importing External Data Models
+4 Importing External Data Models=Importing_External_Data_Models
+4 Importing ADW Data Models=Importing_ADW_Data_Models
+4 Importing Siron Catalogs=Importing_Siron_Catalogs
+3 Printing the Data Model
+4 Printing the Data Model=Printing_the_Data_Model
+3 Genkeys and Dynamic Table Domains
+4 Genkeys and Dynamic Table Domains=Genkeys_and_Dynamic_Table_Domains
+2 Zeidon Objects
+3 Overview=Zeidon_Objects___Overview
+3 Starting the Zeidon Object Tool=Starting_the_Zeidon_Object_Tool
+3 Creating a LOD
+4 Creating a LOD=Creating_a_LOD
+4 Creating a Database LOD=Creating_a_Database_LOD
+4 Creating a Work LOD=Creating_a_Work_LOD
+4 Creating a LOD By Copying Another LOD=Creating_a_LOD_By_Copying_Another_LOD
+3 Opening a LOD for Update
+4 Opening a LOD for Update=Opening_a_LOD_for_Update
+3 LOD Details
+4 LOD Details=LOD_Details
+3 Entities
+4 Entities=Zeidon_Objects___Entities
+4 Viewing Entities=ZO___Entities___Viewing_Entities
+4 Adding an Entity to a LOD
+5 Adding an Entity to a LOD=Adding_an_Entity_to_a_LOD
+5 Addition Basics=Addition_Basics
+5 Adding a Related Entity=Adding_a_Related_Entity
+5 Adding a Derived Entity=Adding_a_Derived_Entity
+5 Adding a Work Entity=Adding_a_Work_Entity
+5 Updating an Entity
+6 Updating an Entity=ZO___Entities___Updating_an_Entity
+3 Attributes
+4 Attributes=Zeidon_Objects___Attributes
+4 Viewing Attributes=ZO___Attributes___Viewing_Attributes
+4 Updating an Attribute=ZO___Attributes___Updating_an_Attribute
+4 Creating an Attribute=ZO___Attributes___Creating_an_Attribute
+4 Deleting an Attribute=ZO___Attributes___Deleting_an_Attribute
+4 Re-including Entity Attributes=Re_including_Entity_Attributes
+3 LOD Operations
+4 LOD Operations=LOD_Operations
+4 Creating a New LOD Source File=Creating_a_New_LOD_Source_File
+4 Updating a LOD Source File=Updating_a_LOD_Source_File
+4 Deleting a LOD Source File=Deleting_a_LOD_Source_File
+4 Creating a New Operation=ZO___LOD_Operations___Creating_a_New_Operation
+4 Updating an Operation=ZO___LOD_Operations___Updating_an_Operation
+4 Editing an Operation Source=ZO___LOD_Operations___Editing_an_Operation_Source
+4 Deleting an Operation=ZO___LOD_Operations___Deleting_an_Operation
+4 Writing a Derived Attribute Operation=Writing_a_Derived_Attribute_Operation
+4 Writing an Entity Constraint Operation=Writing_an_Entity_Constraint_Operation
+4 Writing an Object Constraint Operation=Writing_an_Object_Constraint_Operation
+4 Writing a Transformation Operation=Writing_a_Transformation_Operation
+3 Specifying the Technical Environment of a Zeidon Object
+4 Specifying the Technical Environment of a Zeidon Object=Specifying_the_TE_of_a_Zeidon_Object
+3 Zeidon Data Locking
+4 Zeidon Data Locking=Zeidon_Data_Locking
+4 Optimistic Locking=Optimistic_Locking
+4 Pessimistic Locking Options=Pessimistic_Locking_Options
+3 Overriding Generated SQL
+4 Overriding Generated SQL=Overriding_Generated_SQL
+3 Committing Multiple Object Instances
+4 Committing Multiple Object Instances=Committing_Multiple_Object_Instances
+2 Domains
+3 Overview=Domains___Overview
+3 Starting the Domain Tool=Starting_the_Domain_Tool
+3 Domain Groups
+4 Domain Groups=Domain_Groups
+4 Creating a Domain Group=Creating_a_Domain_Group
+4 Updating a Domain Group=Updating_a_Domain_Group
+4 Deleting a Domain Group=Deleting_a_Domain_Group
+3 Domains
+4 Domains=Domains
+4 Creating a Domain=Creating_a_Domain
+4 Updating a Domain=Updating_a_Domain
+4 Domain Basics=Domain_Basics
+4 Deleting a Domain=Deleting_a_Domain
+3 Contexts
+4 Contexts=Contexts
+4 Creating and Updating Contexts=Creating_and_Updating_Contexts
+4 Deleting a Context=Deleting_a_Context
+4 Setting a Default Context=Setting_a_Default_Context
+3 Table Domains
+4 Table Domains=Table_Domains
+4 Domain Specification=Domains___Table_Domains___Domain_Specification
+4 Context Specification=Domains___Table_Domains___Context_Specification
+4 Creating Context Table Entries=Creating_Context_Table_Entries
+4 Updating Context Table Entries=Updating_Context_Table_Entries
+4 Deleting Context Table Entries=Deleting_Context_Table_Entries
+4 Defining Dynamic Table Domains=Defining_Dynamic_Table_Domains
+3 Algorithm Domains
+4 Algorithm Domains=Algorithm_Domains
+4 Maintaining Operations=Maintaining_Operations
+4 Creating a New Operation=Domains_Creating_a_New_Operation
+4 Editing an Operation=Editing_an_Operation
+4 Domain Specification=Domains___Algorithm_Domains___Domain_Specification
+4 Context Specification=Domains___Algorithm_Domains___Context_Specification
+3 Format Domains
+4 Format Domains=Format_Domains
+4 Domain Specification=Domains___Format_Domains___Domain_Specification
+4 Context Specification=Domains___Format_Domains___Context_Specification
+3 Expression Domains
+4 Expression Domains=Expression_Domains
+2 Global Operations
+3 Overview=Global_Operations___Overview
+3 Starting the Operations Tool=Starting_the_Operations_Tool
+3 Operation Groups
+4 Operation Groups=Operation_Groups
+4 Creating an Operation Group=Creating_an_Operation_Group
+4 Updating an Operation Group=Updating_an_Operation_Group
+4 Deleting an Operation Group=Deleting_an_Operation_Group
+3 Creating an Operation
+4 Creating an Operation=Creating_an_Operation
+3 Updating an Operation
+4 Updating an Operation=Global_Operations___Updating_an_Operation
+3 Deleting an Operation
+4 Deleting an Operation=Global_Operations___Deleting_an_Operation
+2 Dialogs
+3 Overview=Dialogs___Overview
+3 Starting Zeidon's Dialog Tool=Starting_Zeidon_s_Dialog_Tool
+3 Creating a Zeidon Dialog=Creating_a_Zeidon_Dialog
+3 Opening a Zeidon Dialog for Update=Opening_a_Zeidon_Dialog_for_Update
+3 Dialog Details=Dialog_Details
+3 Registered Views
+4 Registered Views=Registered_Views
+4 Updating a View Registered to an Application=Updating_a_View_Registered_to_an_Application
+4 Adding a Registered View to an Application=Adding_a_Registered_View_to_an_Application
+4 Deleting a View Registered to an Application=Deleting_a_View_Registered_to_an_Application
+4 Registering a View to a Dialog=Registering_a_View_to_a_Dialog
+4 Removing a Registered View from a Dialog=Removing_a_Registered_View_from_a_Dialog
+3 Dialog Operations
+4 Dialog Operations=Dialog_Operations
+4 Creating a New Dialog Source File=Creating_a_New_Dialog_Source_File
+4 Updating a Dialog Source File=Updating_a_Dialog_Source_File
+4 Deleting a Dialog Source File=Deleting_a_Dialog_Source_File
+4 Creating a New Operation=Dialogs___Dialog_Op___Creating_a_New_Operation
+4 Updating Operation Details=Updating_Operation_Details
+4 Editing an Operation Source=Dialogs___Dialog_Op___Editing_an_Operation_Source
+4 Deleting an Operation=Dialogs___Dialog_Op___Deleting_an_Operation
+3 Windows
+4 Windows=Windows
+4 Creating a Window=Creating_a_Window
+4 Updating Window Detail Information=Updating_Window_Detail_Information
+4 Copying Windows=Copying_Windows
+4 Copying Within a Dialog=Copying_Within_a_Dialog
+4 Copying From Another Dialog=Copying_From_Another_Dialog
+4 Merging Windows=Merging_Windows
+4 Deleting Windows=Deleting_Windows
+3 Window Actions
+4 Window Actions=Dialogs___Window_Actions
+4 Assigning an Action to a Window Event=Assigning_an_Action_to_a_Window_Event
+4 Removing an Assigned Action from a Window Event=Removing_an_Assigned_Action_from_a_Window_Event
+4 Creating Window Actions
+5 Creating Window Actions=Creating_Window_Actions
+5 Action Details=Action_Details
+4 Updating Window Actions
+5 Updating Window Actions=Updating_Window_Actions
+4 Deleting Window Actions
+5 Deleting Window Actions=Deleting_Window_Actions
+4 Disabling Window Actions
+5 Disabling Window Actions=Disabling_Window_Actions
+3 Menus
+4 Menus=Dialogs___Menus
+4 Creating Menus for a Window=Creating_Menus_for_a_Window
+4 Updating Window Menus=Updating_Window_Menus
+4 Updating Menu Items=Updating_Menu_Items
+4 Item Details=Item_Details
+3 Shortcut Keys
+4 Shortcut Keys=Shortcut_Keys
+4 Creating Window Shortcut Keys=Creating_Window_Shortcut_Keys
+4 Updating Window Shortcut Keys=Updating_Window_Shortcut_Keys
+4 Deleting Window Shortcut Keys=Deleting_Window_Shortcut_Keys
+3 Window Controls
+4 Window Controls=Window_Controls
+4 The Toolbar and Control Palette=The_Toolbar_and_Control_Palette
+4 Setting up the Control Palette=Setting_up_the_Control_Palette
+4 Painting Window Controls=Painting_Window_Controls
+4 Selecting Controls=Selecting_Controls
+4 Moving Controls=Moving_Controls
+4 Copying Controls=Copying_Controls
+4 Updating Controls=Updating_Controls
+4 Deleting Controls=Deleting_Controls
+4 Data Mapping for Controls=Data_Mapping_for_Controls
+4 Aligning Controls=Aligning_Controls
+4 Spacing Controls=Spacing_Controls
+4 Sizing Controls=Sizing_Controls
+4 Assigning Tabbing Order=Assigning_Tabbing_Order
+4 Disabling and Graying Controls=Disabling_and_Graying_Controls
+4 Common Details for Controls=Common_Details_for_Controls
+4 Drag and Drop Between Controls=Drag_and_Drop_Between_Controls
+4 Controls within Group Boxes=Controls_within_Group_Boxes
+4 Text Boxes=Text_Boxes
+4 Edit Boxes=Edit_Boxes
+4 Multi-line Edit Boxes=Multi_line_Edit_Boxes
+4 Radio Buttons
+5 Radio Buttons=Radio_Buttons
+5 Updating Radio Button Groups=Updating_Radio_Button_Groups
+5 Updating Radio Buttons=Updating_Radio_Buttons
+4 Check Boxes
+5 Check Boxes=Check_Boxes
+4 Push Buttons
+5 Push Buttons=Push_Buttons
+4 Combo Boxes
+5 Combo Boxes=Combo_Boxes
+5 Domain Type Combo Boxes=Domain_Type_Combo_Boxes
+5 Other Combo Boxes=Other_Combo_Boxes
+4 List Boxes
+5 List Boxes=List_Boxes
+5 Updating List Box Groups=Updating_List_Box_Groups
+5 Updating List Box Line Items=Updating_List_Box_Line_Items
+5 Drag and Drop on the Same Listbox=Drag_and_Drop_on_the_Same_Listbox
+4 Group Boxes
+5 Group Boxes=Group_Boxes
+4 Dynamic Information Lines
+5 Dynamic Information Lines=Dynamic_Information_Lines
+4 Spread Sheets
+5 Spread Sheets=Spread_Sheets
+5 Spread Sheet Area Details=Spread_Sheet_Area_Details
+4 Outliner Controls
+5 Outliner Controls=Outliner_Controls
+5 Design Time of the Outliner Control=Design_Time_of_the_Outliner_Control
+5 Mapping Entities=Mapping_Entities
+5 Outliner Control Properties=Outliner_Control_Properties
+5 Colors and Fonts=Colors_and_Fonts
+5 Bitmap Property=Bitmap_Property
+5 Default Values for New Outliner Controls=Default_Values_for_New_Outliner_Controls
+5 Outliner Functions=Outliner_Functions
+4 Bitmap Push Buttons
+5 Bitmap Push Buttons=Bitmap_Push_Buttons
+4 Bitmaps
+5 Bitmaps=Bitmaps
+4 Tabs
+5 Tabs=Tabs
+3 Autodesign
+4 Autodesign=Autodesign
+2 Accessing SAP R/3 with Zeidon
+3 Preface
+4 Preface=Preface
+4 Symbols=Symbols
+4 Usage of Terms=Usage_of_Terms
+3 Requirements
+4 Requirements=Requirements
+4 SAP System Requirements=SAP_System_Requirements
+4 Siron Requirements=Siron_Requirements
+4 Zeidon Requirements=Zeidon_Requirements
+3 Prompting the SAP  Import
+4 Prompting the SAP  Import=Prompting_the_SAP_Import
+3 Importing SAP  Tables
+4 Importing SAP  Tables=Importing_SAP_Tables
+4 Logon Parameters for the SAP Access=Logon_Parameters_for_the_SAP_Access
+4 Definition of Import Range and Language
+5 Definition of Import Range and Language=Definition_of_Import_Range_and_Language
+5 Option <Overwrite existing Entities without Prompt>=Option_Overwrite_existing_Entities_without_Prompt_
+5 Language Definition=Language_Definition
+5 Option <Import Tables only>=Option_Import_Tables_only_
+5 Option <Build Rels and TE Only>=Option_Build_Rels_and_TE_Only_
+5 Option <Import, Build Rels and TE>=Option_Import_Build_Rels_and_TE_
+5 Behaviour at Import Errors=Behaviour_at_Import_Errors
+5 Option <Show Error List>=Option_Show_Error_List_
+5 Behaviour at SAP Import Errors=Behaviour_at_SAP_Import_Errors
+4 Searching SAP Tables
+5 Searching SAP Tables=Searching_SAP_Tables
+5 Server Settings=Server_Settings
+5 SAP Logon=SAP_Logon
+5 Stating the Search Parameters=Stating_the_Search_Parameters
+5 Locating SAP Tables=Locating_SAP_Tables
+4 Searching Related SAP Tables
+5 Searching Related SAP Tables=Searching_Related_SAP_Tables
+5 Option <Show Related Tables> and <Show Related for all Tables>=Option_Show_Related_Tables
+5 Option <Remove Related Tables> <Remove Related for all Tables>=Option_Remove_Related_Tables
+5 Option <Remove Tables from List>=Option_Remove_Tables_from_List_
+4 Importing SAP Tables into a Zeidon Data Model
+5 Importing SAP Tables into a Zeidon Data Model=Importing_SAP_Tables_into_a_Zeidon_Data_Model
+5 Creating Entities=Creating_Entities
+5 Creating Attributes=Creating_Attributes
+5 Creating Identifiers=Creating_Identifiers
+3 Building Relationships and TE
+4 Building Relationships and TE=Building_Relationships_and_TE
+4 Call via SAP-Import-Window=Call_via_SAP_Import_Window
+4 Call via the Option <Build Relationships and TE>=Call_via_the_Option_Build_Relationships_and_TE_
+4 Creating Relationships=Creating_Relationships
+4 Creating the Technical Environment (TE)=Creating_the_Technical_Environment_TE_
+3 Error List Window
+4 Error List Window=Error_List_Window
+4 Creating the Error-List-Window=Creating_the_Error_List_Window
+4 Contents of the Error List=Contents_of_the_Error_List
+4 Context Menu of the Error List=Context_Menu_of_the_Error_List
+3 Restrictions in SAP Data Models
+4 Restrictions in SAP Data Models=Restrictions_in_SAP_Data_Models
+3 Restrictions in SAP Data Sources
+4 Restrictions in SAP Data Sources=Restrictions_in_SAP_Data_Sources
+3 Appendix: Siron Help Draft
+4 Appendix: Siron Help Draft=Appendix_Siron_Help_Draft
+4 Preparing the SAP R/3-Interface=Preparing_the_SAP_R_3_Interface

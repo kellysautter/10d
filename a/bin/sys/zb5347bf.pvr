@@ -1,0 +1,12 @@
+z10000Zeidon    TEMP     TZWDVORO 02/07/01   12:05:09 1.0a
+eViewObjRef 1
+aZKey      190007231
+aName      TZTRUEGRID_SCOPE
+aDesc      when a treugrid is active its mapping is positioned on the mapping that holds information about scope
+
+eLOD       2
+aZKey      1325104
+aName      TZWDLGSO
+aDesc      Source Dialog Definition
+aDLL_Name  TZLODOPR
+

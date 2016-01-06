@@ -1,0 +1,62 @@
+To add a new operation to kzoejava.c, the following steps need to occur:
+
+1.  Add the operation to kzoejava.c
+
+/*
+ * Class:     zeidon_zView
+ * Method:    =SetCursorFirst( szEntityName, szAttribName, iVal, szScopingEntity )
+ * Signature: (Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;)S
+ */
+JNIEXPORT jshort JNICALL
+Java_zeidon_zView_niSetCursorFirst__Ljava_lang_String_2Ljava_lang_String_2ILjava_lang_String_2
+               ( JNIEnv   *jEnv,
+                 jobject  this,
+                 jstring  jszEntityName,      // Ljava_lang_String_2
+                 jstring  jszAttribName,      // Ljava_lang_String_2
+                 jint     jiValue,            // I
+                 jstring  jszScopingEntity )  // Ljava_lang_String_2
+
+   Note that this operation returns a short and is equivalent to the
+   OE operation SetCursorFirstEntityByInteger.  It is a view operation
+   (Java_zeidon_zView) called niSetCursorFirst with parameters (not
+   counting JNIEnv and jobject):
+      jstring  jszEntityName    (Ljava_lang_String_2)
+      jstring  jszAttribName    (Ljava_lang_String_2)
+      jint     jiValue          (I)
+      jstring  jszScopingEntity (Ljava_lang_String_2)
+
+   If a parameter was a view, it would be passed as:
+      jobject  jvSubtask        (Lzeidon_zView_2)
+
+   For example, SetName looks like:
+JNIEXPORT jshort JNICALL
+Java_zeidon_zView_niSetName__Ljava_lang_String_2Lzeidon_zView_2S
+            ( JNIEnv   *jEnv,
+              jobject  this,
+              jstring  jszViewName,   // Ljava_lang_String_2
+              jobject  jvSubtask,     // Lzeidon_zView_2
+              jshort   jsControl )    // S
+
+
+
+2.  Add the operation to zView.java in the view class definition:
+
+   private native short niSetCursorFirst( String szEntityName,
+                                          String szAttribName,
+                                          int    iValue,
+                                          String szScopingEntity );
+
+3.  Add the operation to zView.java:
+
+   public short SetCursorFirst( String szEntityName,
+                                String szAttribName,
+                                int    iValue,
+                                String szScopingEntity )
+   {
+      return niSetCursorFirst( szEntityName, szAttribName, iValue,
+                               szScopingEntity );
+   }
+
+
+Make sure javac.exe is in the path and run M.BAT to compile kzoejava.c as
+well a zView.java.  Note that kzoejava.h is a generated file.

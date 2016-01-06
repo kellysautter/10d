@@ -1,0 +1,159 @@
+//Microsoft Developer Studio generated resource script.
+//
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "resource.h"
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+CB_UP                   BITMAP  DISCARDABLE     "cbrsv1.bmp"
+CB_DOWN                 BITMAP  DISCARDABLE     "cbrsv2.bmp"
+CB_FOCUSUP              BITMAP  DISCARDABLE     "cbrsv3.bmp"
+CB_FOCUSDOWN            BITMAP  DISCARDABLE     "cbrsv4.bmp"
+CB_DISABLEDUP           BITMAP  DISCARDABLE     "cbrsv5.bmp"
+CB_DISABLEDDOWN         BITMAP  DISCARDABLE     "cbrsv6.bmp"
+IDB_STATEICONS          BITMAP  DISCARDABLE     "stateico.bmp"
+IDB_TREECLOSE           BITMAP  DISCARDABLE     "TreeClse.bmp"
+IDB_TREEOPEN            BITMAP  DISCARDABLE     "TreeOpen.bmp"
+IDB_TREESELECT          BITMAP  DISCARDABLE     "TreeSel.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_FOLDEROPEN          ICON    DISCARDABLE     "treeopen.ico"
+IDI_FOLDERCLOSE         ICON    DISCARDABLE     "treedflt.ico"
+IDI_FOLDERSELECT        ICON    DISCARDABLE     "treesel.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "ZdCtlRes.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "#include ""resource.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOGBAR1 DIALOG DISCARDABLE  0, 0, 103, 17
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Clear",ID_EDIT_CLEAR,2,2,30,14
+    PUSHBUTTON      "Cut",ID_EDIT_CUT,36,2,30,14
+    PUSHBUTTON      "Copy",ID_EDIT_COPY,70,2,30,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_LISTOUTPUT MENU DISCARDABLE
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                57600
+        MENUITEM "&Open...\tCtrl+O",            57601
+        MENUITEM SEPARATOR
+        MENUITEM "P&rint Setup...",             57606
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 57616, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+F4",               57665
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    59392
+        MENUITEM "&Status Bar",                 59393
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    57650
+        MENUITEM "&Tile",                       57651
+        MENUITEM "&Arrange Icons",              57649
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About...",                   57664
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE
+BEGIN
+    IDD_DIALOGBAR1, DIALOG
+    BEGIN
+        RIGHTMARGIN, 101
+        BOTTOMMARGIN, 12
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+

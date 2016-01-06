@@ -1,0 +1,592 @@
+z10000Zeidon    TZPNEVWO TZZOLODO 05/01/01   23:19:23 1.0b0    
+eLOD       1
+aZKey      1328660
+aName      TZPNEVWO
+aDesc      Work Object for listing events and actions
+
+eLOD_EntityParent 2
+aName      Event
+aIndentName Event
+aIndentLvl 0
+aZKey      1328661
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      EventAct
+aIndentName    EventAct
+aIndentLvl 3
+aZKey      1328662
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   Y
+aParentDeleteBehave E
+aSeqNo     1
+
+eLOD_AttributeRec 4
+aZKey      1328663
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Tag
+aZKey      1320658
+aLth       32
+aDesc      Name of Action
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1328664
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      SB_SubAction
+aZKey      1320659
+aLth       4
+aDesc      Subobject behavior: Sub Action type
+
+eDomainRec 6
+aZKey      1320578
+aName      WD_SB_SubAction
+aDomainType T
+aDataType  L
+aDesc      Subobject Behavior: SubAction
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1328665
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      NoMap
+aZKey      1320663
+aLth       1
+aDesc      Indicator that no mapping is to take place for this Action
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1157477
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Type
+aZKey      1157478
+aLth       4
+aDesc      Subtype of Action (work attribute)
+
+eDomainRec 6
+aZKey      1320472
+aName      WD_ActionType
+aDomainType T
+aDataType  L
+aDesc      Behavior Type for a Window Action
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1328667
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      TypeData
+aZKey      1320665
+aLth       32
+aDesc      Data associated with the Type attribute
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1328668
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1320666
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1328669
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 5
+aName      DialogName
+aZKey      1320667
+aLth       32
+aDesc      Name of WDOD to be automatically activated from this Action
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1328670
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 5
+aName      WindowName
+aZKey      1320668
+aLth       32
+aDesc      Name of Window to be automatically activated from this Action
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1328671
+aSeqNo_LOD_Entity 9
+
+eER_AttributeRec 5
+aName      OperCtrl
+aZKey      1320669
+aLth       4
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1157454
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      SB_NextPrev
+aZKey      1320660
+aDesc      Subobject behavior: Next/Prev behavior
+
+eDomainRec 6
+aZKey      1320573
+aName      WD_SB_NextPrev
+aDomainType T
+aDataType  L
+aDesc      Subobject Behavior: Next Prev behavior within a SubAction
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1157455
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      SB_DeleteNull
+aZKey      1320661
+aDesc      Subobject behavior: Return/Stay on null for Delete
+
+eDomainRec 6
+aZKey      1320568
+aName      WD_SB_DeleteNull
+aDomainType T
+aDataType  L
+aDesc      Subobject Behavior: Return/Stay behavior for Delete SubAct
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1157456
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      SB_ActionDisabling
+aZKey      1320662
+aDesc      Subobject behavior: Auto Action disabling
+
+eDomainRec 6
+aZKey      1320560
+aName      WD_SB_ActionDisabling
+aDomainType T
+aDataType  L
+aDesc      Subobject Behavior: Auto Action disabling
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1157457
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      ActionTypeAssociatedText
+aZKey      90288795
+aDesc      Text that goes with some Action Types (ex., Control Tag value for Refresh Control action)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1157458
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      PopupMenuName
+aZKey      89141782
+aLth       32
+aDesc      Name of Popup Menu to be automatically triggered by this Action.
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1157459
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Operation
+aZKey      1157460
+
+eDomainRec 6
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eER_EntityRec 4
+aName      Action
+aZKey      1320657
+aPurpose   W
+aDesc      Converted from 6B
+aOwningArea WD
+aER_DiagramPosX 756
+aER_DiagramPosY 324
+
+eLOD_AttributeRec 3
+aZKey      1328672
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1320899
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1328673
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      Tag
+aZKey      1320900
+aLth       32
+aDesc      Logical Name for the Event [ e.g. ButtonPress ]
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1328674
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      Type
+aZKey      1320901
+aDesc      User assigned numeric ID
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      EventDef
+aZKey      1320898
+aPurpose   W
+aDesc      Event Definition for a ControlDef
+aOwningArea WD
+aER_DiagramPosX 386
+aER_DiagramPosY 260
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eSourceFile 2
+aZKey      92000594
+aName      TZPNEVWO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      TZPNEVWO
+aZKey      1149591
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eZ_MetaDef 2
+aName      TZPNEVWO
+aZKey      1328660
+aType      7
+aLastUpdateDate 19951102200128000
+aLastCheckInDate 19951102203051110
+aDesc      Work Object for listing events and actions
+
+i11        5
+i17        5
+i23        5
+i26        5
+i29        20
+i41        5
+i44        5
+i51        20
+i54        5
+i57        20
+i59        1
+i60        49
+i61        50
+i62        20
+i63        52
+i64        53
+i65        5
+i66        55
+i67        56
+i68        20
+i69        58
+i70        2
+i71        3
+i72        4
+i73        5
+i74        6
+i75        7
+i76        8
+i77        9
+i78        10
+i79        5
+i80        12
+i81        13
+i82        14
+i83        15
+i84        16
+i85        5
+i86        18
+i87        19
+i88        20
+i89        21
+i90        22
+i91        5
+i92        24
+i93        25
+i94        5
+i95        27
+i96        28
+i97        20
+i98        30
+i99        31
+i100       32
+i101       33
+i102       34
+i103       35
+i104       36
+i105       37
+i106       38
+i107       39
+i108       40
+i109       5
+i110       42
+i111       43
+i112       5
+i113       45
+i114       46
+i115       47
+i116       48

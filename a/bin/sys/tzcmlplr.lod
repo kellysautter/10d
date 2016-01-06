@@ -1,0 +1,459 @@
+z10000Zeidon    TZCMLPLR TZZOLODO 07/14/01   11:28:36 1.0b0    
+eLOD       1
+aZKey      127091350
+aName      TZCMLPLR
+aDesc      CPLR Object for Create New Repository Project
+
+eLOD_EntityParent 2
+aName      CPLR
+aIndentName CPLR
+aIndentLvl 0
+aZKey      127091351
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      CPL
+aIndentName    CPL
+aIndentLvl 3
+aZKey      127091373
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   N
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     4
+
+eLOD_AttributeRec 4
+aZKey      127091374
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1320764
+aLth       32
+aNotNull   Y
+aDesc      CPL Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      127091401
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      1320766
+aDesc      Descriptive text
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eDomainRec 6
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      127091375
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1320765
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eER_EntityRec 4
+aName      CPL
+aZKey      1320763
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 336
+aER_DiagramPosY 6
+
+eER_RelLinkRec 4
+aName      is a release of
+aZKey      1322389
+aCardMin   0
+aCardMax   1
+aAutoSeq   N
+
+eER_RelTypeRec 5
+aZKey      1322387
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 340
+aER_DiagramBendPosY 114
+aER_DiagramE1PosX 340
+aER_DiagramE1PosY 11
+aER_DiagramE2PosX 313
+aER_DiagramE2PosY 114
+
+eLOD_EntityChild 3
+aName      LPLR
+aIndentName    LPLR
+aIndentLvl 3
+aZKey      127091391
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Converted from 6B
+
+eLOD_AttributeRec 4
+aZKey      127091392
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1321035
+aNotNull   Y
+aDesc      LPL Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eDomainRec 6
+aZKey      90145848
+aName      MetaName
+aDomainType E
+aDataType  S
+aMaxStringLth 8
+aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      127091394
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1321037
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      LPLR
+aZKey      1321034
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 324
+aER_DiagramPosY 128
+
+eER_RelLinkRec 4
+aName      has corresponding
+aZKey      1322403
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 5
+aZKey      1322402
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 310
+aER_DiagramBendPosY 130
+aER_DiagramE1PosX 310
+aER_DiagramE1PosY 119
+aER_DiagramE2PosX 323
+aER_DiagramE2PosY 130
+
+eLOD_AttributeRec 3
+aZKey      127091377
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1320770
+aLth       32
+aNotNull   Y
+aDesc      CPLR Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127091723
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      Desc
+aZKey      1320773
+aDesc      Descriptive text
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127091381
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1320772
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      CPLR
+aZKey      1320769
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 304
+aER_DiagramPosY 114
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+ePOD       2
+aNAME      TZCMLPLR
+aZKey      127091724
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      ZEIDON_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SqlServer ODBC TB
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      DB2 MVS Ger
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      ACC_REP
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      Access ODBC TB
+aGenerateExecutable KZSIACC
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      DB2_Rep
+aZKey      90014023
+aDesc      Repository DB2 NT
+aParadigm  R
+aDBMS      DB2 NT TB
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDisplayOwner Y
+
+i21        11
+i27        5
+i30        8
+i33        11
+i35        1
+i36        25
+i37        26
+i38        5
+i39        28
+i40        29
+i41        8
+i42        31
+i43        32
+i44        11
+i45        34
+i46        2
+i47        3
+i48        4
+i49        5
+i50        6
+i51        7
+i52        8
+i53        9
+i54        10
+i55        11
+i56        12
+i57        13
+i58        14
+i59        15
+i60        16
+i61        17
+i62        18
+i63        19
+i64        20
+i65        11
+i66        22
+i67        23
+i68        24

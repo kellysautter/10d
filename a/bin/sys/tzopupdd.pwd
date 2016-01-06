@@ -1,0 +1,7850 @@
+z1000-Zeidon    TZOPUPDD TZWDLGSO 10/09/14   15:28:05 1.0b0    
+eDialog    1
+aTag       TZOPUPDD
+aDLL_Name  TZOPUPDD
+aZKey      1345166
+aDesc      Global Operations
+
+eDfltWnd   2
+aTag       TZOPUPDD
+aCaption   Operation Maintenance
+aPSDLG_X   21
+aPSDLG_Y   12
+aSZDLG_X   24052087
+aSZDLG_Y   17957173
+aZKey      1345204
+aDIL_Active Y
+aGeneralFlag 0
+
+eWindow    2
+
+eControl   3
+aTag       Text2
+aText      Operation Group:
+aZKey      1345293
+aSubtype   537395200
+aPSDLG_X   13
+aPSDLG_Y   6
+aSZDLG_X   83
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345294
+
+eControlDef 4
+aTag       Text
+aZKey      1000
+aKey       1000
+aRT_DLL_Name ZDCTL
+aRT_OperationName Text
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTextMsg
+aPainterConvertOperationName ConvertText
+aPainterBitmap TEXT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_TEXT
+aAcceptsAllParents Y
+aId        1
+aInvisible -1
+
+eControl   3
+aTag       Text3
+aText      'Group Name'
+aZKey      1345295
+aSubtype   524288
+aPSDLG_X   98
+aPSDLG_Y   6
+aSZDLG_X   62
+aSZDLG_Y   12
+aCtrlBOI   U64
+M`````````````/\```$`````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345296
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326796
+aSeqNo_LOD_Entity 2
+
+eCtrlMapRelatedEntity 6
+aName      GlobalOperationGroup
+aIndentName GlobalOperationGroup
+aIndentLvl 0
+aZKey      1326771
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Converted from 6B
+
+eCtrlMapER_Attribute 6
+aName      Name
+aZKey      1321278
+aNotNull   Y
+aDesc      OS File name
+
+eCtrlMapER_Domain 7
+aZKey      90000038
+aDesc      QuinSoft Name
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eCtrlMapView 5
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 4
+
+eControl   3
+aTag       NameLit
+aText      Name:
+aZKey      1345297
+aSubtype   537395200
+aIdNbr     2
+aPSDLG_X   13
+aPSDLG_Y   22
+aSZDLG_X   83
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345298
+
+eControlDef 4
+
+eControl   3
+aTag       OperName
+aZKey      1345266
+aSubtype   0
+aIdNbr     1
+aPSDLG_X   98
+aPSDLG_Y   22
+aSZDLG_X   261
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      1345267
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326780
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 6
+aName      Operation
+aIndentName    Operation
+aIndentLvl 3
+aZKey      1326772
+aSeqNo     1
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+aDesc      Global or LOD operation
+
+eCtrlMapER_Attribute 6
+aName      Name
+aZKey      1321069
+aNotNull   Y
+aDesc      Name of the operation
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eControlDef 4
+aTag       EditBox
+aZKey      1010
+aKey       1010
+aRT_DLL_Name ZDCTL
+aRT_OperationName Edit
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZEditMsg
+aPainterConvertOperationName ConvertEditBox
+aPainterBitmap EDIT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_EDIT
+aAcceptsAllParents Y
+aId        7
+aInvisible -1
+
+eControl   3
+aTag       DescLit
+aText      Description:
+aZKey      1345299
+aSubtype   537395200
+aIdNbr     3
+aPSDLG_X   13
+aPSDLG_Y   38
+aSZDLG_X   83
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345300
+
+eControlDef 4
+
+eControl   3
+aTag       Desc
+aZKey      97099497
+aSubtype   0
+aPSDLG_X   98
+aPSDLG_Y   38
+aSZDLG_X   261
+aSZDLG_Y   39
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      97099498
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326782
+aSeqNo_LOD_Entity 3
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      Desc
+aZKey      1321071
+aDesc      Operation description
+
+eCtrlMapER_Domain 7
+aZKey      90000030
+aDesc      Standard Zeidon Description
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aContextRestriction N
+
+eCtrlMapView 5
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 4
+aTag       MLEdit
+aZKey      1015
+aKey       1015
+aRT_DLL_Name ZDCTL
+aRT_OperationName MLE
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZMLEditMsg
+aPainterConvertOperationName ConvertMLE
+aPainterBitmap MLE
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_EDIT
+aAcceptsAllParents Y
+aId        18
+aInvisible -1
+
+eControl   3
+aTag       ReturnDescLit
+aText      Return Desc:
+aZKey      1345301
+aSubtype   537395200
+aIdNbr     11
+aPSDLG_X   13
+aPSDLG_Y   80
+aSZDLG_X   83
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345302
+
+eControlDef 4
+
+eControl   3
+aTag       ReturnDesc
+aZKey      1345270
+aSubtype   0
+aIdNbr     8
+aPSDLG_X   98
+aPSDLG_Y   80
+aSZDLG_X   121
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      1345271
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326784
+aSeqNo_LOD_Entity 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      ReturnDesc
+aZKey      1321073
+aLth       64
+aDesc      Desription of operation return code
+
+eCtrlMapER_Domain 7
+aZKey      90000032
+aDesc      Any Character String
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       OperTypeLit
+aText      Operation Type:
+aZKey      1345303
+aSubtype   537395200
+aIdNbr     6
+aPSDLG_X   13
+aPSDLG_Y   96
+aSZDLG_X   83
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345304
+
+eControlDef 4
+
+eControl   3
+aTag       GLOBALCONTEXT
+aZKey      1345272
+aSubtype   512
+aIdNbr     5
+aPSDLG_X   98
+aPSDLG_Y   96
+aSZDLG_X   121
+aSZDLG_Y   125
+aCtrlBOI   U22
+6]Q`]``41/0!,`````%X3/0!,````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345273
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326783
+aSeqNo_LOD_Entity 4
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      Type
+aZKey      1321072
+aLth       1
+aNotNull   Y
+aDesc      Object or Global
+
+eCtrlMapER_Domain 7
+aZKey      1320608
+aDesc      types of operations that can be defined for Zeidon (VML)
+aName      ZeidonOperationTypes
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eCtrlMapContext 5
+aZKey      1320643
+aDerivedName Global Operation Types
+aName      Global Operation Types
+
+eCtrlMapView 5
+
+eEvent     4
+aType      1
+aZKey      1345274
+
+eEventAct  5
+aTag       VerifyParms
+aType      2
+aZKey      1345242
+
+eControlDef 4
+aTag       ComboBox
+aZKey      1050
+aKey       1050
+aRT_DLL_Name ZDCTL
+aRT_OperationName ComboBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZComboBoxMsg
+aPainterConvertOperationName ConvertComboBox
+aPainterBitmap COMBO
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_COMBO
+aAcceptsAllParents Y
+aId        14
+aInvisible -1
+
+eControl   3
+aTag       RtnTypeLit
+aText      Return Data Type:
+aZKey      1345305
+aSubtype   537395200
+aIdNbr     9
+aPSDLG_X   13
+aPSDLG_Y   112
+aSZDLG_X   83
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345306
+
+eControlDef 4
+
+eControl   3
+aTag       ComboBox1
+aZKey      1345275
+aSubtype   0
+aPSDLG_X   98
+aPSDLG_Y   112
+aSZDLG_X   121
+aSZDLG_Y   125
+aCtrlBOI   U22
+6]Q`]``41/0!,`````%X3/0!,````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345276
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326785
+aSeqNo_LOD_Entity 6
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      ReturnDataType
+aZKey      1321074
+aLth       1
+aDesc      Variable type of Return Code
+
+eCtrlMapER_Domain 7
+aZKey      1319844
+aDesc      VML Supported Types...
+aName      DataType3GL
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eCtrlMapContext 5
+aZKey      89095607
+aName      ReturnCode
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       ThrowsException
+aText      Throws Exception
+aZKey      4127221
+aSubtype   536870912
+aPSDLG_X   13
+aPSDLG_Y   128
+aSZDLG_X   83
+aSZDLG_Y   12
+aCtrlBOI   U3
+#60``
+`
+aSyncKey   9999
+aExtendedStyle 16777216
+aRadioOrCheckboxValue Y
+
+eCtrlMap   4
+aZKey      4127222
+
+eCtrlMapLOD_Attribute 5
+aZKey      4127219
+aUpdate    Y
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      ThrowsException
+aZKey      4127201
+aDesc      Operation throws an exception, so needs to be enclosed in a try/catch block
+
+eCtrlMapER_Domain 7
+aZKey      90000014
+aDesc      Yes or No
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eCtrlMapView 5
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 4
+aTag       CheckBox
+aZKey      1040
+aKey       1040
+aRT_DLL_Name ZDCTL
+aRT_OperationName CheckBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZCheckMsg
+aPainterConvertOperationName ConvertCheckBox
+aPainterBitmap CHECK
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_CHECK
+aAcceptsAllParents Y
+aId        13
+aInvisible -1
+
+eControl   3
+aTag       ExceptionCatchCode
+aZKey      4127223
+aSubtype   0
+aPSDLG_X   98
+aPSDLG_Y   128
+aSZDLG_X   183
+aSZDLG_Y   39
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      4127224
+
+eCtrlMapLOD_Attribute 5
+aZKey      4127220
+aUpdate    Y
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      ThrowsExceptionCatchCode
+aZKey      4127202
+aDesc      Code to be called in the catch block of a try/catch exception handler
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       ExceptionCatchCode:
+aText      Override Catch Code ==>
+aZKey      4127225
+aSubtype   537395200
+aIdNbr     9
+aPSDLG_X   13
+aPSDLG_Y   144
+aSZDLG_X   83
+aSZDLG_Y   12
+aCtrlBOI   U346
+M``````````````#_``,```````````````````(`````````````````````
+M````````````````````````````````````````_P```/\```#_``````#_
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+?````````````````````````````````````````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+
+eControlDef 4
+
+eControl   3
+aTag       GroupBox1
+aText      Parameters
+aZKey      1345277
+aSubtype   537395200
+aIdNbr     19
+aPSDLG_X   13
+aPSDLG_Y   172
+aSZDLG_X   347
+aSZDLG_Y   90
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlCtrl  4
+aTag       Parameter
+aText      Parameter
+aZKey      1345278
+aSubtype   -2147147712
+aIdNbr     22
+aPSDLG_X   6
+aPSDLG_Y   14
+aSZDLG_X   335
+aSZDLG_Y   69
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlCtrl  5
+aTag       ListCtl1
+aText      Data Type
+aZKey      1345279
+aSubtype   67108864
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   99
+aSZDLG_Y   15
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   6
+aZKey      1345280
+
+eCtrlMapLOD_Attribute 7
+aZKey      1326775
+aSeqNo_LOD_Entity 2
+
+eCtrlMapRelatedEntity 8
+aName      Parameter
+aIndentName       Parameter
+aIndentLvl 6
+aZKey      1326773
+aAcceptConstraint Y
+aSeqNo     1
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Parameter for an operation
+
+eCtrlMapER_Attribute 8
+aName      DataType
+aZKey      1321120
+aLth       1
+aNotNull   Y
+aDesc      Variable type of this parameter (string, long, short, decimal, view)
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControlDef 6
+aTag       ListBoxCtl
+aZKey      1081
+aKey       1081
+aRT_DLL_Name ZDCTL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LISTCTL
+aRequiresParent Y
+aId        27
+aInvisible -1
+
+eCtrlCtrl  5
+aTag       ListCtl2
+aText      Short Description
+aZKey      1345281
+aSubtype   67108864
+aPSDLG_X   99
+aPSDLG_Y   0
+aSZDLG_X   198
+aSZDLG_Y   15
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   6
+aZKey      1345282
+
+eCtrlMapLOD_Attribute 7
+aZKey      1326774
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      ShortDesc
+aZKey      1321119
+aLth       64
+aNotNull   Y
+aDesc      Short description presented to someone using this parameter
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControlDef 6
+
+eCtrlCtrl  5
+aTag       ListCtl3
+aText      Return
+aZKey      4138810
+aSubtype   537395200
+aPSDLG_X   297
+aPSDLG_Y   0
+aSZDLG_X   34
+aSZDLG_Y   15
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   6
+aZKey      4138811
+
+eCtrlMapLOD_Attribute 7
+aZKey      1326776
+aSeqNo_LOD_Entity 3
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      PFlag
+aZKey      1321121
+aLth       1
+aDesc      Flag to indicate that this parameter is a pointer (1 - yes, null - no)
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 6
+
+eCtrlMap   5
+aZKey      1345283
+
+eCtrlMapLOD_Entity 6
+
+eCtrlMapView 6
+
+eCtrlMap   5
+aZKey      1345284
+
+eCtrlMap   5
+aZKey      1345285
+
+eEvent     5
+aType      2
+aZKey      1345286
+
+eEventAct  6
+aTag       ParmUpdate
+aType      34
+aZKey      1345235
+aDialogName TZOPUPDD
+aWindowName PARAMETEREDIT
+aSB_SubAction 64
+aSB_ActionDisabling 8
+
+eEvent     5
+aType      12
+aZKey      97146235
+
+eEventAct  6
+aTag       ParameterPopup
+aNoMap     Y
+aType      1
+aZKey      1345205
+
+eControlDef 5
+aTag       ListBox
+aZKey      1080
+aKey       1080
+aRT_DLL_Name ZDCTL
+aRT_OperationName ListBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aPainterConvertOperationName ConvertListBox
+aPainterBitmap LIST
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LIST
+aAcceptsAllParents Y
+aId        15
+aInvisible -1
+
+eCtrlMap   4
+aZKey      1345292
+
+eControlDef 4
+aTag       GroupBox
+aZKey      1090
+aKey       1090
+aRT_DLL_Name ZDCTL
+aRT_OperationName GroupBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZGroupBoxMsg
+aPainterConvertOperationName ConvertGroupBox
+aPainterBitmap GRPBOX
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_GROUP
+aAcceptsAllParents Y
+aAcceptsAllChildren Y
+aId        16
+aInvisible -1
+
+eControl   3
+aTag       DIL1
+aZKey      1345307
+aSubtype   1
+aPSDLG_X   3
+aPSDLG_Y   262
+aSZDLG_X   343
+aSZDLG_Y   20
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      1345308
+
+eControlDef 4
+aTag       MsgBar
+aZKey      2020
+aKey       2020
+aRT_DLL_Name ZDCTL
+aRT_OperationName DIL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZDilMsg
+aPainterConvertOperationName ConvertDIL
+aPainterBitmap DIL
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_DIL
+aId        20
+aInvisible -1
+
+eWndEvent  3
+aType      2
+aZKey      1345309
+
+eWndAct    4
+aTag       PostBuild
+aNoMap     Y
+aType      34
+aZKey      1345263
+aDialogName TZOPUPDD
+aWindowName OPENOPER
+
+eWndEvent  3
+aType      8
+aZKey      1345310
+
+eWndAct    4
+aTag       ReturnFromSubWnd
+aNoMap     Y
+aType      2
+aZKey      1345248
+
+eWndEvent  3
+aType      268435456
+aZKey      97367678
+
+eWndAct    4
+aTag       InitMenu
+aNoMap     Y
+aType      1
+aZKey      97367399
+
+eWndEvent  3
+aType      256
+aZKey      98069472
+
+eWndAct    4
+aTag       Alt-F4
+aNoMap     Y
+aType      71
+aZKey      1345232
+
+eAction    3
+
+eActWndEvent 4
+
+eActOpt    4
+aTag       Exit
+aText      E&xit
+aSeparator Y
+aZKey      1345322
+
+eActOper   4
+aName      zwTZOPUPDD_ExitDialog
+aZKey      1345180
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      1345167
+aCM_Managed Y
+aOwnerType D
+aLanguageType C
+aName      TZOPUPDD
+aExtension C
+
+eAction    3
+aTag       ReportExitInitialize
+aType      2
+aZKey      89389749
+
+eActOpt    4
+aTag       ReportExitInitialize
+aText      &Report Exit Initialize
+aSeparator Y
+aZKey      89389748
+
+eActOper   4
+aName      zwTZOPUPDD_ReportExitInitialize
+aZKey      89389752
+aDesc      Temporary until ReportExit is supported as an Operation type. 
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       ESC
+aNoMap     Y
+aType      1
+aZKey      98069505
+
+eAction    3
+aTag       GoToGroupDetail
+aType      34
+aZKey      90024032
+aDialogName TZOPUPDD
+aWindowName GRPUPD
+aSB_ActionDisabling 8
+
+eActMap    4
+aZKey      90024033
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eActOpt    4
+aTag       Properties
+aText      Operation Group P&roperties...
+aSeparator Y
+aZKey      97096156
+
+eActOper   4
+aName      zwTZOPUPDD_InitGroupDetail
+aZKey      70069796
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       GoToNew
+aNoMap     Y
+aType      34
+aZKey      1345254
+aDialogName TZOPUPDD
+aWindowName NEWOPER
+
+eActOpt    4
+aTag       New
+aText      &New Operation...
+aZKey      1345317
+
+eActOper   4
+aName      zwTZOPUPDD_NewOperation
+aZKey      97367581
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       GoToNewOperationGroup
+aType      34
+aZKey      1345208
+aDialogName TZOPUPDD
+aWindowName NEWOPERGRP
+
+eActMap    4
+aZKey      1345209
+
+eActMap    4
+aZKey      1345210
+
+eAction    3
+aTag       GoToOpen
+aNoMap     Y
+aType      34
+aZKey      1345251
+aDialogName TZOPUPDD
+aWindowName OPENOPER
+
+eActOpt    4
+aTag       Open
+aText      &Open Operation...
+aZKey      1345318
+
+eActOper   4
+aName      zwTZOPUPDD_MenuOpenOperation
+aZKey      97367583
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       GoToOperationGroupList
+aType      39
+aZKey      1345211
+aDialogName TZOPUPDD
+aWindowName OPERGRPLIST
+
+eActOpt    4
+aTag       OperationGroupList
+aText      Operation Group &List...
+aZKey      90024048
+
+eActOper   4
+aName      zwTZOPUPDD_LoadOperGroupList
+aZKey      98070698
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       GoToOperListForGroup
+aType      39
+aZKey      1345214
+aDialogName TZOPUPDD
+aWindowName OPERLISTunderGRP
+aSB_ActionDisabling 8
+
+eActMap    4
+aZKey      1345215
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActOpt    4
+aTag       OperationsInGroup
+aText      &Operations in Group...
+aSeparator Y
+aZKey      90024049
+
+eActOper   4
+aName      zwTZOPUPDD_LoadOperationList
+aZKey      98070701
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       HelpAbout
+aNoMap     Y
+aType      34
+aZKey      1345226
+aDialogName TZZMAIND
+aWindowName ToolAbout
+
+eActOpt    4
+aTag       About
+aText      &About...
+aSeparator Y
+aZKey      1345333
+
+eActOper   4
+aName      zwTZOPUPDD_HelpAbout
+aZKey      1345182
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       HelpBasics
+aNoMap     Y
+aType      1
+aZKey      1345223
+
+eActOpt    4
+aTag       Zeidon
+aText      &Zeidon Basics...
+aZKey      1345332
+
+eActOper   4
+aName      zwTZOPUPDD_HelpBasics
+aZKey      1345184
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       HelpContents
+aNoMap     Y
+aType      1
+aZKey      1345217
+
+eActOpt    4
+aTag       New1
+aText      &Contents
+aZKey      1345330
+
+eActOper   4
+aName      zwTZOPUPDD_HelpContents
+aZKey      1345186
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       HelpOnHelp
+aNoMap     Y
+aType      1
+aZKey      1345220
+
+eActOpt    4
+aTag       New2
+aText      &How to Use Help
+aZKey      1345331
+
+eActOper   4
+aName      zwTZOPUPDD_HelpOnHelp
+aZKey      1345188
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_InitMenu
+aZKey      97367402
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       MoveOperation
+aType      34
+aZKey      97146247
+aDialogName TZOPUPDD
+aWindowName MoveOperation
+
+eActOpt    4
+aTag       MoveOperation
+aText      &Move Operation...
+aSeparator Y
+aZKey      97146217
+
+eActOper   4
+aName      zwTZOPUPDD_Set_CM_List
+aZKey      97146475
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       OpenLPLR
+aNoMap     Y
+aType      34
+aZKey      1345245
+aDialogName TZCMSLPD
+aWindowName SwitchLPLR
+
+eActOpt    4
+aTag       LPLR
+aText      Switch &Project (LPLR)...
+aSeparator Y
+aZKey      1345321
+
+eActOper   4
+aName      zwTZOPUPDD_SwitchLPLR
+aZKey      97367676
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_ParameterPopup
+aZKey      1345196
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       ParmAdd
+aType      34
+aZKey      1345239
+aDialogName TZOPUPDD
+aWindowName PARAMETEREDIT
+
+eActOpt    4
+aTag       ParmAdd
+aText      &New...
+aSeparator Y
+aZKey      1345313
+
+eActOpt    4
+aTag       AddParamenter
+aText      &Add Parameter...
+aZKey      1345324
+
+eActOper   4
+aName      zwTZOPUPDD_CreateParameter
+aZKey      90023927
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       ParmDelete
+aNoMap     Y
+aType      2
+aZKey      1345260
+
+eActOpt    4
+aTag       ParmDelete
+aText      &Delete
+aZKey      1345314
+
+eActOpt    4
+aTag       DeleteParamenter
+aText      &Delete Parameter
+aSeparator Y
+aZKey      97099480
+
+eActOper   4
+aName      zwTZOPUPDD_DeleteParameter
+aZKey      98067740
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1345236
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOpt    4
+aTag       ParmDetail
+aText      &Parameter Detail...
+aZKey      1345312
+
+eActOpt    4
+aTag       UpdateParameter
+aText      &Update Parameter...
+aZKey      97099478
+
+eAction    3
+
+eActMap    4
+aZKey      1345264
+
+eActMap    4
+aZKey      1345265
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_MainPostBuild
+aZKey      1345190
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1345249
+
+eActMap    4
+aZKey      1345250
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_MainRtnFromSubWnd
+aZKey      1345192
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       SaveAS
+aType      34
+aZKey      97146251
+aDialogName TZOPUPDD
+aWindowName SaveAs
+aSB_ActionDisabling 8
+
+eActMap    4
+aZKey      97146252
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eActOpt    4
+aTag       SaveAs
+aText      Save Operation &as...
+aZKey      97146215
+
+eAction    3
+aTag       SaveOperation
+aType      1
+aZKey      1345257
+
+eActOpt    4
+aTag       Save
+aText      &Save Operation/Group
+aSeparator Y
+aZKey      1345319
+
+eActOper   4
+aName      zwTZOPUPDD_SaveOperation
+aZKey      1345200
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       TransferToEditor
+aType      1
+aZKey      1345229
+aSB_ActionDisabling 8
+
+eActMap    4
+aZKey      1345230
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActOpt    4
+aTag       EditOperationcode
+aText      &Edit Operationcode...
+aZKey      97099476
+
+eActOper   4
+aName      zwTZOPUPDD_TransferToEditor
+aZKey      1345202
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1345243
+
+eActMap    4
+aZKey      1345244
+
+eActEvent  4
+
+eActCtrl   5
+
+eMenu      3
+aTag       ParameterPopup
+aZKey      1345311
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eMenu      3
+aTag       Main
+aZKey      1345315
+
+eOption    4
+aTag       File
+aText      &File
+aZKey      1345316
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOption    4
+aTag       Edit
+aText      &Edit
+aZKey      1345323
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOption    4
+aTag       View
+aText      &View
+aZKey      90024045
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOption    4
+aTag       Help
+aText      &Help
+aZKey      1345329
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eDfltMenu  3
+
+eWndStyle  3
+aTag       Primary Window
+aZKey      7008558
+aStyle     13565952
+aDesc      Overlapped window with caption, system menu, sizing border, min/
+
+eWindow    2
+aTag       SaveAs
+aCaption   Save Operation as
+aPSDLG_X   7
+aPSDLG_Y   60
+aSZDLG_X   29819342
+aSZDLG_Y   13762790
+aZKey      97148185
+aDIL_Active Y
+aGeneralFlag 0
+
+eControl   3
+aTag       edOperationName
+aZKey      97148217
+aSubtype   0
+aPSDLG_X   196
+aPSDLG_Y   38
+aSZDLG_X   193
+aSZDLG_Y   14
+aSyncKey   1
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      97148218
+
+eCtrlMapLOD_Attribute 5
+aZKey      1327031
+aSeqNo_LOD_Entity 1
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 6
+aName      OP
+aIndentName    OP
+aIndentLvl 3
+aZKey      1327030
+aSeqNo     7
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      Operation Dialog
+
+eCtrlMapER_Attribute 6
+aName      Name
+aZKey      1327032
+aLth       32
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+aZKey      1332424
+aName      ProfileXFER
+
+eControlDef 4
+
+eControl   3
+aTag       edOperationDesc
+aZKey      97148220
+aSubtype   0
+aPSDLG_X   196
+aPSDLG_Y   79
+aSZDLG_X   193
+aSZDLG_Y   38
+aSyncKey   2
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+
+eCtrlMap   4
+aZKey      97148221
+
+eCtrlMapLOD_Attribute 5
+aZKey      1327053
+aSeqNo_LOD_Entity 12
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      Desc
+aZKey      1327054
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      97148222
+aSubtype   536870912
+aIdNbr     6
+aPSDLG_X   399
+aPSDLG_Y   8
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   3
+aExtendedStyle 0
+
+eEvent     4
+aType      1
+aZKey      97148223
+
+eEventAct  5
+aTag       SaveAs
+aType      72
+aTypeData  Y
+aZKey      97148206
+aSB_ActionDisabling 8
+
+eControlDef 4
+aTag       PushBtn
+aZKey      1020
+aKey       1020
+aRT_DLL_Name ZDCTL
+aRT_OperationName PushButton
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZPushMsg
+aPainterConvertOperationName ConvertButton
+aPainterBitmap PUSH
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_PUSH
+aAcceptsAllParents Y
+aId        8
+aInvisible -1
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      97148224
+aSubtype   536870912
+aIdNbr     9
+aPSDLG_X   399
+aPSDLG_Y   24
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   4
+
+eEvent     4
+aType      1
+aZKey      97148225
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      72
+aTypeData  Y
+aZKey      97148186
+
+eControlDef 4
+
+eControl   3
+aTag       lbOperationList
+aText      lbOperationList
+aZKey      97148226
+aSubtype   131072
+aIdNbr     1
+aPSDLG_X   6
+aPSDLG_Y   6
+aSZDLG_X   112
+aSZDLG_Y   189
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`````*P!-`%,Q````
+`
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       Name
+aText      Operation List
+aZKey      97148227
+aSubtype   67108864
+aIdNbr     2
+aPSDLG_X   6
+aPSDLG_Y   0
+aSZDLG_X   191
+aSZDLG_Y   14
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+
+eCtrlMap   5
+aZKey      97148228
+
+eCtrlMapLOD_Attribute 6
+aZKey      1326025
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+aName      W_MetaDef
+aIndentName       W_MetaDef
+aIndentLvl 6
+aZKey      1326021
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      1321565
+aLth       32
+aDesc      Name of the meta object instance
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      1345141
+aName      CMLIST
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      97148229
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      97148230
+
+eCtrlMap   4
+aZKey      97148231
+
+eEvent     4
+aType      2
+aZKey      97148232
+
+eEventAct  5
+aTag       SetSaveAsName
+aNoMap     Y
+aType      1
+aZKey      97148213
+aSB_ActionDisabling 8
+
+eEvent     4
+aType      1
+aZKey      97148233
+
+eEventAct  5
+aTag       RefreshOperationGroup
+aType      1
+aZKey      97148203
+
+eControlDef 4
+
+eControl   3
+aTag       Text5
+aText      Source Group:
+aZKey      98096780
+aSubtype   537395200
+aPSDLG_X   123
+aPSDLG_Y   8
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      98096781
+
+eControlDef 4
+
+eControl   3
+aTag       Text6
+aText      SourceGroup
+aZKey      98096782
+aSubtype   524288
+aPSDLG_X   196
+aPSDLG_Y   8
+aSZDLG_X   68
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      98096783
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 4
+
+eControl   3
+aTag       Text7
+aText      Language Type:
+aZKey      98096784
+aSubtype   537395200
+aPSDLG_X   298
+aPSDLG_Y   8
+aSZDLG_X   64
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      98096785
+
+eControlDef 4
+
+eControl   3
+aTag       Text8
+aText      Type
+aZKey      98096786
+aSubtype   34078720
+aPSDLG_X   365
+aPSDLG_Y   8
+aSZDLG_X   22
+aSZDLG_Y   12
+aCtrlBOI   U64
+M```````````````````!````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      98096787
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326801
+aSeqNo_LOD_Entity 7
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      LanguageType
+aZKey      1321283
+aDesc      VML or C
+
+eCtrlMapER_Domain 7
+aZKey      90026793
+aDesc      Source language type  - VML or C
+aName      LanguageType
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eCtrlMapContext 5
+aZKey      90026794
+aName      LanguageType
+aIsDefault Y
+aDIL_Text  LanguageType and Extension for SourceFiles
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       Text1
+aText      Target Group:
+aZKey      97148236
+aSubtype   537395200
+aPSDLG_X   123
+aPSDLG_Y   22
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97148237
+
+eControlDef 4
+
+eControl   3
+aTag       txtOperationGroup
+aText      TargetGroup
+aZKey      97148234
+aSubtype   524288
+aPSDLG_X   196
+aPSDLG_Y   22
+aSZDLG_X   68
+aSZDLG_Y   12
+aCtrlBOI   U64
+M`````````````/\```$`````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+
+eCtrlMap   4
+aZKey      97148235
+
+eControlDef 4
+
+eControl   3
+aTag       Text4
+aText      Language Type:
+aZKey      98096733
+aSubtype   537395200
+aPSDLG_X   298
+aPSDLG_Y   22
+aSZDLG_X   64
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      98096734
+
+eControlDef 4
+
+eControl   3
+aTag       txtType
+aText      Type
+aZKey      98096735
+aSubtype   34078720
+aPSDLG_X   365
+aPSDLG_Y   22
+aSZDLG_X   22
+aSZDLG_Y   12
+aCtrlBOI   U64
+M`````````````/\````!````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      98096736
+
+eControlDef 4
+
+eControl   3
+aTag       Text2
+aText      Operation Name:
+aZKey      97148238
+aSubtype   537395200
+aPSDLG_X   123
+aPSDLG_Y   39
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97148239
+
+eControlDef 4
+
+eControl   3
+aTag       cbCopyCode
+aText      Copy Operation Code to new Operation Group
+aZKey      98088465
+aSubtype   536870912
+aPSDLG_X   197
+aPSDLG_Y   54
+aSZDLG_X   193
+aSZDLG_Y   12
+aCtrlBOI   U3
+#,0``
+`
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      98088466
+
+eControlDef 4
+
+eControl   3
+aTag       cbKeepCurrentDesc
+aText      Keep Current Operation Description
+aZKey      98067520
+aSubtype   536870912
+aPSDLG_X   197
+aPSDLG_Y   67
+aSZDLG_X   154
+aSZDLG_Y   12
+aCtrlBOI   U3
+#,0``
+`
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      98067521
+
+eEvent     4
+aType      1
+aZKey      98067722
+
+eEventAct  5
+aTag       KeepCurrentDesc
+aType      1
+aZKey      98067723
+
+eControlDef 4
+
+eControl   3
+aTag       Text3
+aText      Description:
+aZKey      97148240
+aSubtype   537395200
+aPSDLG_X   123
+aPSDLG_Y   80
+aSZDLG_X   70
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97148241
+
+eControlDef 4
+
+eControl   3
+aTag       lbGroupList
+aText      lbGroupList
+aZKey      97148242
+aSubtype   131072
+aPSDLG_X   123
+aPSDLG_Y   123
+aSZDLG_X   325
+aSZDLG_Y   72
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`````*P!-`%,Q````
+`
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       ListBoxCtl3
+aText      checked out
+aZKey      96001048
+aSubtype   604504064
+aPSDLG_X   3
+aPSDLG_Y   0
+aSZDLG_X   54
+aSZDLG_Y   14
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+
+eCtrlMap   5
+aZKey      96001049
+
+eCtrlMapLOD_Attribute 6
+aZKey      98078836
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+aName      SourceFile
+aIndentName SourceFile
+aIndentLvl 0
+aZKey      98071270
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eCtrlMapER_Attribute 7
+aName      Status
+aZKey      98078837
+aDesc      Checked Out Ind
+
+eCtrlMapER_Domain 8
+aZKey      1319742
+aDesc      Status for W_MetaDef in LPLR
+aName      CM_MetaDefStatus
+aDomainType T
+aDataType  L
+aMaxStringLth 10
+aContextRestriction N
+
+eCtrlMapContext 6
+aZKey      96000567
+aName      CM_MetaCheckOutState
+
+eCtrlMapView 6
+aZKey      98078823
+aName      MoveOperation
+aDesc      move Operation in new Operation Group
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListBoxCtl1
+aText      Group Name
+aZKey      97148243
+aSubtype   604504064
+aPSDLG_X   60
+aPSDLG_Y   0
+aSZDLG_X   51
+aSZDLG_Y   14
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+
+eCtrlMap   5
+aZKey      97148244
+
+eCtrlMapLOD_Attribute 6
+aZKey      98071272
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      98071273
+aLth       8
+aDesc      source file name
+
+eCtrlMapER_Domain 8
+aZKey      90145848
+aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aName      MetaName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListBoxCtl4
+aText      Type
+aZKey      98096731
+aSubtype   537395200
+aPSDLG_X   117
+aPSDLG_Y   0
+aSZDLG_X   31
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      98096732
+
+eCtrlMapLOD_Attribute 6
+aZKey      98071276
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      LanguageType
+aZKey      98071277
+aDesc      C or VML
+
+eCtrlMapER_Domain 8
+
+eCtrlMapContext 6
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListBoxCtl2
+aText      Description
+aZKey      97148245
+aSubtype   604504064
+aPSDLG_X   152
+aPSDLG_Y   0
+aSZDLG_X   172
+aSZDLG_Y   14
+aSyncKey   9999
+aDIL_Text  Double Click on Operation List to reuse Operation Data.
+
+eCtrlMap   5
+aZKey      97148246
+
+eCtrlMapLOD_Attribute 6
+aZKey      98078811
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      Desc
+aZKey      98078812
+aDesc      Description of meta object instance duplicated from the meta object instance itself
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      97148247
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+aZKey      98078823
+aName      MoveOperation
+aDesc      move Operation in new Operation Group
+
+eCtrlMap   4
+aZKey      97148248
+
+eCtrlMap   4
+aZKey      97148249
+
+eEvent     4
+aType      12
+aZKey      97148250
+
+eEventAct  5
+aTag       LoadPopup
+aType      40
+aZKey      97148198
+aPopupMenuName OperationGroupPopup
+
+eEvent     4
+aType      2
+aZKey      98096767
+
+eEventAct  5
+aTag       LoadOperationGroup
+aType      34
+aZKey      97148195
+aDialogName TZOPUPDD
+aWindowName GRPUPD
+aSB_ActionDisabling 8
+
+eEvent     4
+aType      1
+aZKey      97148252
+
+eEventAct  5
+aTag       SetGroupName
+aType      1
+aZKey      97148210
+aSB_ActionDisabling 8
+
+eControlDef 4
+
+eControl   3
+aTag       MsgBar1
+aZKey      97148253
+aSubtype   1
+aPSDLG_X   149
+aPSDLG_Y   204
+aSZDLG_X   106
+aSZDLG_Y   19
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97148254
+
+eControlDef 4
+
+eControl   3
+aTag       _tbe
+aZKey      98088467
+aSubtype   4194304
+aPSDLG_X   18
+aPSDLG_Y   244
+aSZDLG_X   16
+aSZDLG_Y   21
+aCtrlBOI   U2560
+MT,\1X*&Q&N$`````````````````````/@`#`/[_"0`&```````````````!
+M`````0``````````$````@````$```#^____``````````#_____________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M_______________________]_____O____[____^____________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M_____________________________________________U(`;P!O`'0`(`!%
+M`&X`=`!R`'D`````````````````````````````````````````````````
+M```````````6``4`__________\!````U4.HWJ+:T1&5L@!@ESL[50``````
+M`````````*`?#BX:!<`!`P```$``````````0P!O`&X`=`!E`&X`=`!S````
+M````````````````````````````````````````````````````````````
+M`!(``@'_______________\`````````````````````````````````````
+M````````````````$```````````````````````````````````````````
+M`````````````````````````````````````````````````````````/__
+M_____________P``````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````____________
+M____````````````````````````````````````````````````````````
+M````````_O__________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M______________________________\```$`Y0(``+D#````````N``3`!@2
+M%```````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+H````````````````````````````````````````````````````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+aGUID      {DEA843D5-DAA2-11D1-95B2-0060973B3B55}
+
+eControlDef 4
+aTag       TBEdit
+aZKey      4001
+aKey       4001
+aRT_DLL_Name ZDCTL
+aRT_OperationName ActiveX
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZActiveXMsg
+aPainterBitmap Active
+aMaintenanceDialog TZPNCTLD
+aMaintenanceWindow UPD_ActiveX
+aActiveX_Script TBEditScript
+aInvisible -1
+aGUID      {DEA843D5-DAA2-11D1-95B2-0060973B3B55}
+aActiveX_ScriptDLL TZCTL
+
+eWndEvent  3
+aType      2
+aZKey      97148255
+
+eWndAct    4
+aTag       Postbuild
+aNoMap     Y
+aType      1
+aZKey      97148199
+
+eWndEvent  3
+aType      256
+aZKey      97367577
+
+eWndAct    4
+
+eWndEvent  3
+aType      1
+aZKey      98096739
+
+eWndAct    4
+aTag       PreBuild
+aNoMap     Y
+aType      1
+aZKey      98096740
+
+eWndEvent  3
+aType      8
+aZKey      98067835
+
+eWndAct    4
+aTag       SaveAsRtnFromSubwnd
+aNoMap     Y
+aType      1
+aZKey      98067836
+
+eAction    3
+
+eActWndEvent 4
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_SaveAsCancel
+aZKey      97367573
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_SaveAsKeepCurrentDesc
+aZKey      98067726
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      98067483
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      98078823
+aName      MoveOperation
+aDesc      move Operation in new Operation Group
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOpt    4
+aTag       GroupDetail
+aText      &Group Detail...
+aZKey      97148257
+
+eActOper   4
+aName      zwTZOPUPDD_ShowDetail
+aZKey      98067807
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_SaveAsPostBuild
+aZKey      97148263
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_SaveAsPreBuild
+aZKey      98096743
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_RefreshGroupList
+aZKey      97148204
+aDesc      if Single Click on Operation List, then set selection in Group List
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      97148207
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1345141
+aName      CMLIST
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_SaveAsOperation
+aZKey      97148208
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       SaveAsInNewGroup
+aType      34
+aZKey      97148189
+aDialogName TZOPUPDD
+aWindowName GRPUPD
+
+eActOpt    4
+aTag       NewGroup
+aText      &New Group...
+aSeparator Y
+aZKey      97148258
+
+eActOper   4
+aName      zwTZOPUPDD_SaveAsInNewGroup
+aZKey      97148190
+aDesc      Save Operation as in new Operation Group
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_SaveAsRtnFromSubwnd
+aZKey      98067839
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      98096748
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      98078823
+aName      MoveOperation
+aDesc      move Operation in new Operation Group
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_SetGroupName
+aZKey      97148211
+aDesc      if single or double click on Group List, then set Group Name
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      97148214
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1345141
+aName      CMLIST
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_SetSaveAsName
+aZKey      97148215
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eMenu      3
+aTag       OperationGroupPopup
+aZKey      97148256
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eWndStyle  3
+aTag       Dialog Box
+aZKey      7008569
+aStyle     -2134376448
+aDesc      Dialog box with caption, non-sizable border
+aStyleEx   1
+
+eWindow    2
+aTag       MoveOperation
+aCaption   Move Operation from Group to Group
+aPSDLG_X   38
+aPSDLG_Y   43
+aSZDLG_X   22479197
+aSZDLG_Y   10682549
+aDfltButton OK
+aZKey      97146415
+aDIL_Active Y
+aGeneralFlag 0
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      97146444
+aSubtype   536870912
+aIdNbr     3
+aPSDLG_X   285
+aPSDLG_Y   8
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   1
+aDIL_Text  OK
+
+eEvent     4
+aType      1
+aZKey      97146445
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aTypeData  Y
+aZKey      97146416
+
+eControlDef 4
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      97146446
+aSubtype   536870912
+aIdNbr     4
+aPSDLG_X   285
+aPSDLG_Y   24
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   2
+aDIL_Text  Cancel
+
+eEvent     4
+aType      1
+aZKey      97146447
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      72
+aTypeData  Y
+aZKey      97146424
+
+eControlDef 4
+
+eControl   3
+aTag       1
+aText      Source Group:
+aZKey      97146454
+aSubtype   537395200
+aIdNbr     1
+aPSDLG_X   6
+aPSDLG_Y   8
+aSZDLG_X   69
+aSZDLG_Y   12
+aSyncKey   9999
+aDIL_Text  1
+
+eControlDef 4
+
+eControl   3
+aTag       txtOperationGroup
+aText      Group Name
+aZKey      97146452
+aSubtype   524288
+aPSDLG_X   79
+aPSDLG_Y   8
+aSZDLG_X   68
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97146453
+
+eControlDef 4
+
+eControl   3
+aTag       Text2
+aText      Language Type:
+aZKey      98078803
+aSubtype   537395200
+aPSDLG_X   184
+aPSDLG_Y   8
+aSZDLG_X   64
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      98078804
+
+eControlDef 4
+
+eControl   3
+aTag       txtType
+aText      Type
+aZKey      98078805
+aSubtype   34078720
+aPSDLG_X   252
+aPSDLG_Y   8
+aSZDLG_X   22
+aSZDLG_Y   12
+aCtrlBOI   U64
+M```````````````````!````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      98078806
+
+eControlDef 4
+
+eControl   3
+aTag       Text1
+aText      Operation Name:
+aZKey      97146450
+aSubtype   537395200
+aPSDLG_X   6
+aPSDLG_Y   24
+aSZDLG_X   69
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97146451
+
+eControlDef 4
+
+eControl   3
+aTag       txtOperationName
+aText      Operation Name
+aZKey      97146448
+aSubtype   524288
+aPSDLG_X   79
+aPSDLG_Y   24
+aSZDLG_X   195
+aSZDLG_Y   12
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      97146449
+
+eControlDef 4
+
+eControl   3
+aTag       cbCopyCode
+aText      Move Operation Code to new Operation Group
+aZKey      98078807
+aSubtype   536870912
+aPSDLG_X   79
+aPSDLG_Y   40
+aSZDLG_X   195
+aSZDLG_Y   12
+aCtrlBOI   U3
+#,0``
+`
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      98078808
+
+eControlDef 4
+
+eControl   3
+aTag       ListBox1
+aText      ListBox1
+aZKey      97146456
+aSubtype   139264
+aPSDLG_X   6
+aPSDLG_Y   57
+aSZDLG_X   329
+aSZDLG_Y   84
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       ListBoxCtl2
+aText      checked out
+aZKey      98078838
+aSubtype   537395200
+aPSDLG_X   2
+aPSDLG_Y   0
+aSZDLG_X   34
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      98078839
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapContext 6
+
+eCtrlMapView 6
+aZKey      98078823
+aName      MoveOperation
+aDesc      move Operation in new Operation Group
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListCtl1
+aText      Target Group
+aZKey      97146457
+aSubtype   67108864
+aPSDLG_X   42
+aPSDLG_Y   0
+aSZDLG_X   60
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      98078825
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      98078823
+aName      MoveOperation
+aDesc      move Operation in new Operation Group
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListBoxCtl1
+aText      Type
+aZKey      98078809
+aSubtype   604504064
+aPSDLG_X   105
+aPSDLG_Y   0
+aSZDLG_X   21
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      98078826
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapContext 6
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListCtl2
+aText      Description
+aZKey      97146459
+aSubtype   67108864
+aPSDLG_X   129
+aPSDLG_Y   0
+aSZDLG_X   238
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      98078827
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      97146462
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      97146463
+
+eCtrlMap   4
+aZKey      98078824
+
+eEvent     4
+aType      12
+aZKey      97146465
+
+eEventAct  5
+aTag       OperationGroupPopup
+aType      40
+aZKey      97146419
+aPopupMenuName OperationGroupPopup
+
+eEvent     4
+aType      2
+aZKey      98078840
+
+eEventAct  5
+aTag       GroupDetail
+aType      34
+aZKey      97146432
+aDialogName TZOPUPDD
+aWindowName GRPUPD
+aSB_ActionDisabling 8
+
+eEvent     4
+aType      1
+aZKey      97367525
+
+eEventAct  5
+aTag       SetCheckOutState
+aType      1
+aZKey      97367526
+
+eControlDef 4
+
+eControl   3
+aTag       DIL1
+aZKey      97146467
+aSubtype   1
+aPSDLG_X   86
+aPSDLG_Y   148
+aSZDLG_X   130
+aSZDLG_Y   19
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97146468
+
+eControlDef 4
+
+eControl   3
+aTag       _tbe
+aZKey      98086545
+aSubtype   0
+aPSDLG_X   12
+aPSDLG_Y   182
+aSZDLG_X   30
+aSZDLG_Y   38
+aSyncKey   9999
+aGUID      {DEA843D5-DAA2-11D1-95B2-0060973B3B55}
+aProperties U2560
+MT,\1X*&Q&N$`````````````````````/@`#`/[_"0`&```````````````!
+M`````0``````````$````@````$```#^____``````````#_____________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M_______________________]_____O____[____^____________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M_____________________________________________U(`;P!O`'0`(`!%
+M`&X`=`!R`'D`````````````````````````````````````````````````
+M```````````6``4`__________\!````````````````````````````````
+M`````````""IFU)()<`!`P```$``````````0P!O`&X`=`!E`&X`=`!S````
+M````````````````````````````````````````````````````````````
+M`!(``@'_______________\`````````````````````````````````````
+M````````````````$```````````````````````````````````````````
+M`````````````````````````````````````````````````````````/__
+M_____________P``````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````____________
+M____````````````````````````````````````````````````````````
+M````````_O__________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M______________________________\```$`*P4``)T&````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+H````````````````````````````````````````````````````````
+`
+
+eControlDef 4
+
+eWndEvent  3
+aType      256
+aZKey      97146469
+
+eWndAct    4
+
+eWndEvent  3
+aType      1
+aZKey      97146470
+
+eWndAct    4
+aTag       MoveOperationPreBuild
+aNoMap     Y
+aType      1
+aZKey      97146437
+
+eWndEvent  3
+aType      2
+aZKey      97147784
+
+eWndAct    4
+aTag       MoveOperationPostBuild
+aNoMap     Y
+aType      1
+aZKey      97147785
+
+eWndEvent  3
+aType      8
+aZKey      98067829
+
+eWndAct    4
+aTag       MoveRtnFromSubwindow
+aNoMap     Y
+aType      1
+aZKey      98067830
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_MoveOperToNewGroup
+aZKey      97146417
+aDesc      move Operation to new Operation Group
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_MoveOperationCancel
+aZKey      98078834
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      98067491
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      98078823
+aName      MoveOperation
+aDesc      move Operation in new Operation Group
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOpt    4
+aTag       GroupDetail
+aText      &Group Detail...
+aZKey      97146472
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_MoveOperationPostBuil
+aZKey      97147788
+aDesc      set Operation Name and Operation Group Name
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_MoveOperationPreBuild
+aZKey      97148045
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       NewOperationGroup
+aType      34
+aZKey      97146441
+aDialogName TZOPUPDD
+aWindowName GRPUPD
+
+eActOpt    4
+aTag       NewOperationGroup
+aText      &New Group...
+aSeparator Y
+aZKey      97146473
+
+eActOper   4
+aName      zwTZOPUPDD_NewOperationGroup
+aZKey      1345170
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_EnableAndSetCheckOut
+aZKey      97367529
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_MoveRtnFromSubwindow
+aZKey      98067833
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eMenu      3
+aTag       OperationGroupPopup
+aZKey      97146471
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eWndStyle  3
+
+eWindow    2
+aTag       PARAMETEREDIT
+aCaption   Parameter Maintenance
+aPSDLG_X   24
+aPSDLG_Y   38
+aSZDLG_X   20119867
+aSZDLG_Y   8716439
+aZKey      1345334
+aDIL_Active Y
+aGeneralFlag 0
+
+eControl   3
+aTag       edDescription
+aZKey      1345353
+aPSDLG_X   67
+aPSDLG_Y   12
+aSZDLG_X   154
+aSZDLG_Y   14
+aSyncKey   1
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      1345354
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       EditDataType
+aZKey      1345355
+aSubtype   0
+aPSDLG_X   67
+aPSDLG_Y   31
+aSZDLG_X   111
+aSZDLG_Y   118
+aCtrlBOI   U22
+6]Q`]``41/0!,`````%X3/0!,````````
+`
+aSyncKey   2
+
+eCtrlMap   4
+aZKey      1345356
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapContext 5
+aZKey      1319855
+aName      Display
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       Check1
+aText      &Return Value
+aZKey      91002004
+aSubtype   536870912
+aPSDLG_X   67
+aPSDLG_Y   57
+aSZDLG_X   81
+aSZDLG_Y   14
+aCtrlBOI   U4
+$60!.````
+`
+aSyncKey   3
+
+eCtrlMap   4
+aZKey      91002005
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapContext 5
+aZKey      90000015
+aName      Y/N
+aIsDefault Y
+
+eCtrlMapView 5
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 4
+
+eControl   3
+aTag       Check2
+aText      &Unsigned
+aZKey      91002006
+aSubtype   536870912
+aPSDLG_X   67
+aPSDLG_Y   79
+aSZDLG_X   81
+aSZDLG_Y   14
+aCtrlBOI   U4
+$60!.````
+`
+aSyncKey   4
+
+eCtrlMap   4
+aZKey      91002007
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326777
+aSeqNo_LOD_Entity 4
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      UFlag
+aZKey      1321122
+aLth       1
+aDesc      Flag to indicate that the numberic value of this parameter is unsigned (1 - yes, null - no)
+
+eCtrlMapER_Domain 7
+
+eCtrlMapContext 5
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       UpdateParameter
+aText      OK
+aZKey      1345361
+aSubtype   536870912
+aIdNbr     26
+aPSDLG_X   232
+aPSDLG_Y   10
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   5
+
+eCtrlMap   4
+aZKey      1345362
+
+eEvent     4
+aType      1
+aZKey      1345363
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aZKey      1345338
+aSB_ActionDisabling 8
+
+eControlDef 4
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      1345365
+aSubtype   536870912
+aIdNbr     27
+aPSDLG_X   232
+aPSDLG_Y   26
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   6
+
+eCtrlMap   4
+aZKey      1345366
+
+eEvent     4
+aType      1
+aZKey      1345367
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      72
+aZKey      1345341
+aSB_SubAction 2
+
+eControlDef 4
+
+eControl   3
+aTag       Next
+aText      Ne&xt
+aZKey      1345369
+aSubtype   536870912
+aIdNbr     28
+aPSDLG_X   232
+aPSDLG_Y   46
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   7
+
+eCtrlMap   4
+aZKey      1345370
+
+eEvent     4
+aType      1
+aZKey      1345371
+
+eEventAct  5
+aTag       Next
+aType      2
+aZKey      1345344
+aSB_ActionDisabling 2
+
+eControlDef 4
+
+eControl   3
+aTag       Prev
+aText      &Prev
+aZKey      1345373
+aSubtype   536870912
+aIdNbr     29
+aPSDLG_X   232
+aPSDLG_Y   62
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   8
+
+eCtrlMap   4
+aZKey      1345374
+
+eEvent     4
+aType      1
+aZKey      1345375
+
+eEventAct  5
+aTag       Previous
+aType      2
+aZKey      1345347
+aSB_ActionDisabling 1
+
+eControlDef 4
+
+eControl   3
+aTag       AddParameter
+aText      &New
+aZKey      1345377
+aSubtype   536870912
+aIdNbr     30
+aPSDLG_X   232
+aPSDLG_Y   82
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9
+
+eCtrlMap   4
+aZKey      1345378
+
+eEvent     4
+aType      1
+aZKey      1345379
+
+eEventAct  5
+aTag       ParmAdd
+aType      2
+aZKey      1345335
+aSB_ActionDisabling 16
+
+eControlDef 4
+
+eControl   3
+aTag       DeleteParameter
+aText      &Delete
+aZKey      1345380
+aSubtype   536870912
+aIdNbr     31
+aPSDLG_X   232
+aPSDLG_Y   98
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   10
+
+eCtrlMap   4
+aZKey      1345381
+
+eEvent     4
+aType      1
+aZKey      1345382
+
+eEventAct  5
+aTag       ParmDelete
+aNoMap     Y
+aType      2
+aZKey      1345350
+aSB_ActionDisabling 16
+
+eControlDef 4
+
+eControl   3
+aTag       ShortDesclit
+aText      Description:
+aZKey      1345364
+aSubtype   537395200
+aPSDLG_X   12
+aPSDLG_Y   14
+aSZDLG_X   52
+aSZDLG_Y   12
+aSyncKey   9999
+
+eControlDef 4
+
+eControl   3
+aTag       Text2
+aText      DataType:
+aZKey      1345368
+aSubtype   537395200
+aPSDLG_X   12
+aPSDLG_Y   33
+aSZDLG_X   50
+aSZDLG_Y   12
+aSyncKey   9999
+
+eControlDef 4
+
+eControl   3
+aTag       DIL1
+aZKey      1345383
+aSubtype   1
+aPSDLG_X   0
+aPSDLG_Y   127
+aSZDLG_X   343
+aSZDLG_Y   19
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1345384
+
+eControlDef 4
+
+eAction    3
+
+eActMap    4
+aZKey      1345336
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1345339
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_ParameterAccept
+aZKey      98067745
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1345342
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActMap    4
+aZKey      1345345
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_ParameterNext
+aZKey      98067748
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1345348
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_ParameterPrev
+aZKey      98067752
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1345351
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eWndStyle  3
+
+eWindow    2
+aTag       GRPUPD
+aCaption   Operation Group Properties
+aPSDLG_X   24
+aPSDLG_Y   43
+aSZDLG_X   23200105
+aSZDLG_Y   9306272
+aDfltButton OK
+aZKey      90023996
+aDIL_Active Y
+aGeneralFlag 0
+
+eControl   3
+aTag       OperGroupName
+aZKey      90024003
+aSubtype   0
+aPSDLG_X   64
+aPSDLG_Y   13
+aSZDLG_X   78
+aSZDLG_Y   14
+aSyncKey   1
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      90024004
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+aZKey      70007425
+aName      TZOGSRCO_DETAIL
+aDesc      Used for the group detail within the TZOPUPDD dialog
+
+eControlDef 4
+
+eControl   3
+aTag       edDescription
+aZKey      97099493
+aSubtype   0
+aPSDLG_X   64
+aPSDLG_Y   32
+aSZDLG_X   227
+aSZDLG_Y   39
+aSyncKey   2
+
+eCtrlMap   4
+aZKey      97099494
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326797
+aSeqNo_LOD_Entity 3
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      Desc
+aZKey      1321279
+aDesc      A description is standard
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+aZKey      70007425
+aName      TZOGSRCO_DETAIL
+aDesc      Used for the group detail within the TZOPUPDD dialog
+
+eControlDef 4
+
+eControl   3
+aTag       edExecName
+aZKey      90024024
+aSubtype   0
+aPSDLG_X   64
+aPSDLG_Y   75
+aSZDLG_X   78
+aSZDLG_Y   14
+aSyncKey   3
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      90024025
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326803
+aSeqNo_LOD_Entity 9
+aUpdate    Y
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      DomainAndGlobalOpGroupName
+aZKey      1321285
+aLth       8
+aDesc      Name of DLL for executable
+
+eCtrlMapER_Domain 7
+aZKey      90000040
+aDesc      QuinSoft File Name - 32 chars
+aName      QSFileName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      90024013
+aSubtype   537001984
+aPSDLG_X   299
+aPSDLG_Y   7
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   6
+
+eCtrlMap   4
+aZKey      90024014
+
+eEvent     4
+aType      1
+aZKey      70007448
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aZKey      90023997
+
+eControlDef 4
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      90024017
+aSubtype   536870912
+aPSDLG_X   299
+aPSDLG_Y   22
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   7
+
+eCtrlMap   4
+aZKey      90024018
+
+eEvent     4
+aType      1
+aZKey      90024019
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      71
+aZKey      90024000
+
+eControlDef 4
+
+eControl   3
+aTag       NameLit
+aText      Group Name:
+aZKey      90024016
+aSubtype   536870912
+aPSDLG_X   7
+aPSDLG_Y   14
+aSZDLG_X   54
+aSZDLG_Y   12
+aSyncKey   9999
+
+eControlDef 4
+
+eControl   3
+aTag       DescLit
+aText      Description:
+aZKey      90024020
+aSubtype   536870912
+aPSDLG_X   7
+aPSDLG_Y   33
+aSZDLG_X   54
+aSZDLG_Y   12
+aSyncKey   9999
+
+eControlDef 4
+
+eControl   3
+aTag       Text1
+aText      DLL Name:
+aZKey      90024026
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   76
+aSZDLG_X   54
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      90024027
+
+eControlDef 4
+
+eControl   3
+aTag       LanguageTypeLit
+aText      &Language Type
+aZKey      98079171
+aSubtype   537395200
+aPSDLG_X   64
+aPSDLG_Y   96
+aSZDLG_X   145
+aSZDLG_Y   31
+aCtrlBOI   U2
+"````
+`
+aSyncKey   9999
+
+eCtrlCtrl  4
+aTag       rbVML
+aText      &VML
+aZKey      98079173
+aSubtype   536870912
+aPSDLG_X   7
+aPSDLG_Y   14
+aSZDLG_X   35
+aSZDLG_Y   10
+aCtrlBOI   U3
+#658`
+`
+aSyncKey   9999
+aRadioOrCheckboxValue V
+
+eCtrlMap   5
+aZKey      98079174
+
+eControlDef 5
+aTag       RadioBtn
+aZKey      1031
+aKey       1031
+aRT_DLL_Name ZDCTL
+aRT_OperationName RadioBtn
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZRadioMsg
+aPainterConvertOperationName ConvertRadioBtn
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_RADIO
+aRequiresParent Y
+aId        12
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       rbJava
+aText      &Java
+aZKey      130000480
+aSubtype   536870912
+aPSDLG_X   44
+aPSDLG_Y   14
+aSZDLG_X   35
+aSZDLG_Y   10
+aCtrlBOI   U3
+#`$H`
+`
+aSyncKey   9999
+aRadioOrCheckboxValue J
+
+eCtrlMap   5
+aZKey      130000481
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       rbScala
+aText      &Scala
+aZKey      130000482
+aSubtype   536870912
+aPSDLG_X   79
+aPSDLG_Y   14
+aSZDLG_X   35
+aSZDLG_Y   10
+aCtrlBOI   U3
+#`%,`
+`
+aSyncKey   9999
+aRadioOrCheckboxValue S
+
+eCtrlMap   5
+aZKey      130000483
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       rbC
+aText      &C
+aZKey      98079175
+aSubtype   536870912
+aPSDLG_X   115
+aPSDLG_Y   14
+aSZDLG_X   22
+aSZDLG_Y   10
+aCtrlBOI   U3
+#`$,`
+`
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      98079176
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      98079172
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+aZKey      70007425
+aName      TZOGSRCO_DETAIL
+aDesc      Used for the group detail within the TZOPUPDD dialog
+
+eControlDef 4
+aTag       RadioGrp
+aZKey      1030
+aKey       1030
+aRT_DLL_Name ZDCTL
+aRT_OperationName RadioBtnGroup
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZRadioMsg
+aPainterConvertOperationName ConvertRadioBtnGroup
+aPainterBitmap RADIO
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_RADIOGRP
+aAcceptsAllParents Y
+aAcceptsAllChildren Y
+aId        11
+aInvisible -1
+
+eControl   3
+aTag       DIL1
+aZKey      90024028
+aSubtype   1
+aPSDLG_X   13
+aPSDLG_Y   133
+aSZDLG_X   353
+aSZDLG_Y   20
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      90024029
+
+eControlDef 4
+
+eWndEvent  3
+aType      2
+aZKey      98079185
+
+eWndAct    4
+aTag       GrayGroupControls
+aNoMap     Y
+aType      1
+aZKey      70007534
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_SaveOperationGroup
+aZKey      70007443
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      90024001
+
+eActMap    4
+aZKey      90024002
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActMap    4
+aZKey      70007535
+
+eActMap    4
+aZKey      70007536
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_GrayGroupControls
+aZKey      70007537
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eWndStyle  3
+
+eWindow    2
+aTag       NEWOPER
+aCaption   New Operation
+aPSDLG_X   21
+aPSDLG_Y   26
+aSZDLG_X   21496143
+aSZDLG_Y   12058827
+aZKey      1345385
+aDIL_Active Y
+aGeneralFlag 0
+
+eControl   3
+aTag       Operation
+aZKey      1345395
+aPSDLG_X   61
+aPSDLG_Y   7
+aSZDLG_X   203
+aSZDLG_Y   14
+aSyncKey   1
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      1345396
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+aZKey      1332424
+aName      ProfileXFER
+
+eControlDef 4
+
+eControl   3
+aTag       MLEdit1
+aZKey      97099495
+aSubtype   0
+aPSDLG_X   61
+aPSDLG_Y   24
+aSZDLG_X   203
+aSZDLG_Y   39
+aSyncKey   2
+
+eCtrlMap   4
+aZKey      97099496
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+aZKey      1332424
+aName      ProfileXFER
+
+eControlDef 4
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      1345408
+aSubtype   536870912
+aPSDLG_X   273
+aPSDLG_Y   7
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   3
+
+eCtrlMap   4
+aZKey      1345409
+
+eEvent     4
+aType      1
+aZKey      1345410
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aZKey      1345386
+
+eControlDef 4
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      1345413
+aSubtype   536870912
+aPSDLG_X   273
+aPSDLG_Y   22
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   4
+
+eCtrlMap   4
+aZKey      1345414
+
+eEvent     4
+aType      1
+aZKey      1345415
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      72
+aZKey      1345389
+
+eControlDef 4
+
+eControl   3
+aTag       Text1
+aText      Name:
+aZKey      1345411
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   8
+aSZDLG_X   52
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1345412
+
+eControlDef 4
+
+eControl   3
+aTag       Text2
+aText      Description:
+aZKey      1345416
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   25
+aSZDLG_X   52
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1345417
+
+eControlDef 4
+
+eControl   3
+aTag       ListBox1
+aText      ListBox1
+aZKey      1345399
+aSubtype   139264
+aPSDLG_X   6
+aPSDLG_Y   68
+aSZDLG_X   316
+aSZDLG_Y   99
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       ListBoxCtl1
+aText      checked out
+aZKey      98086800
+aSubtype   537395200
+aPSDLG_X   3
+aPSDLG_Y   0
+aSZDLG_X   37
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      98086801
+
+eCtrlMapLOD_Attribute 6
+aZKey      1326023
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      Status
+aZKey      1321563
+aDesc      Checked Out Ind
+
+eCtrlMapER_Domain 8
+
+eCtrlMapContext 6
+
+eCtrlMapView 6
+aZKey      1337405
+aName      CM_ListGroup
+aDesc      Extra CM_List view for listing Domain and GOP groups
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListCtl1
+aText      Target Group
+aZKey      1345400
+aSubtype   67108864
+aPSDLG_X   46
+aPSDLG_Y   0
+aSZDLG_X   67
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1345401
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      1337405
+aName      CM_ListGroup
+aDesc      Extra CM_List view for listing Domain and GOP groups
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListCtl2
+aText      Description
+aZKey      1345402
+aSubtype   67108864
+aPSDLG_X   118
+aPSDLG_Y   0
+aSZDLG_X   230
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1345403
+
+eCtrlMapLOD_Attribute 6
+aZKey      1326026
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      Desc
+aZKey      1321566
+aDesc      Description of meta object instance duplicated from the meta object instance itself
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      1345404
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      1345405
+
+eCtrlMap   4
+aZKey      1345406
+
+eEvent     4
+aType      12
+aZKey      70007430
+
+eEventAct  5
+aTag       OperGroupPopup
+aType      1
+aZKey      70007431
+
+eEvent     4
+aType      2
+aZKey      98086794
+
+eEventAct  5
+aTag       GroupDetail
+aType      34
+aZKey      70007419
+aDialogName TZOPUPDD
+aWindowName GRPUPD
+aSB_ActionDisabling 8
+
+eEvent     4
+aType      1
+aZKey      97367524
+
+eEventAct  5
+aTag       SetCheckOutState
+aNoMap     Y
+aType      1
+aZKey      97367519
+
+eControlDef 4
+
+eControl   3
+aTag       DIL1
+aZKey      1345422
+aSubtype   1
+aPSDLG_X   2
+aPSDLG_Y   176
+aSZDLG_X   334
+aSZDLG_Y   19
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1345423
+
+eControlDef 4
+
+eWndEvent  3
+aType      1
+aZKey      91055856
+
+eWndAct    4
+aTag       NewOperPrebuild
+aNoMap     Y
+aType      1
+aZKey      91055857
+
+eWndEvent  3
+aType      2
+aZKey      97367518
+
+eWndAct    4
+
+eWndEvent  3
+aType      8
+aZKey      98067815
+
+eWndAct    4
+aTag       SetFlagForNewOperation
+aNoMap     Y
+aType      1
+aZKey      98067816
+
+eAction    3
+
+eActMap    4
+aZKey      1345387
+
+eActMap    4
+aZKey      1345388
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_CreateOperation
+aZKey      1345172
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1345390
+
+eActMap    4
+aZKey      1345391
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+aTag       GoToNewGroup
+aType      34
+aZKey      70007422
+aDialogName TZOPUPDD
+aWindowName GRPUPD
+
+eActOpt    4
+aTag       New1
+aText      &New Group...
+aSeparator Y
+aZKey      70007418
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      70007420
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1337405
+aName      CM_ListGroup
+aDesc      Extra CM_List view for listing Domain and GOP groups
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOpt    4
+aTag       GroupDetail
+aText      &Group Detail...
+aZKey      70007416
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_NewOperPrebuild
+aZKey      91055860
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      70007432
+
+eActMap    4
+aZKey      70007433
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_OperGroupPopup
+aZKey      70007428
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_SetFlagForNewOper
+aZKey      98067819
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eMenu      3
+aTag       OperGroupPopup
+aZKey      70007415
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eWndStyle  3
+
+eWindow    2
+aTag       OPERGRPLIST
+aCaption   Operation Group List
+aPSDLG_X   7
+aPSDLG_Y   60
+aSZDLG_X   17629460
+aSZDLG_Y   8388754
+aZKey      1345460
+aGeneralFlag 0
+
+eControl   3
+aTag       DomList
+aText      DomList
+aZKey      1345477
+aSubtype   271720448
+aIdNbr     1
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   269
+aSZDLG_Y   128
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   4
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       Name
+aText      Operation Group
+aZKey      1345478
+aSubtype   67108864
+aIdNbr     2
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   69
+aSZDLG_Y   14
+aSyncKey   5
+
+eCtrlMap   5
+aZKey      1345479
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListCtl1
+aText      Last Updated
+aZKey      1345480
+aSubtype   67108864
+aPSDLG_X   70
+aPSDLG_Y   0
+aSZDLG_X   69
+aSZDLG_Y   14
+aSyncKey   6
+
+eCtrlMap   5
+aZKey      1345481
+
+eCtrlMapLOD_Attribute 6
+aZKey      1326028
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      LastUpdateDate
+aZKey      1321568
+aDesc      Time stamp of when the meta object was last updated
+
+eCtrlMapER_Domain 8
+aZKey      90000089
+aDesc      Basic Timestamp Domain
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aContextRestriction N
+
+eCtrlMapContext 6
+aZKey      90000093
+aDesc      Date display YYYY/MM/DD HH:mm
+aName      ListDisplayNumeric
+aEditString YYYY/MM/DD - HH:MI
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Desc
+aText      Description
+aZKey      1345482
+aSubtype   67108864
+aIdNbr     3
+aPSDLG_X   142
+aPSDLG_Y   0
+aSZDLG_X   177
+aSZDLG_Y   14
+aSyncKey   7
+
+eCtrlMap   5
+aZKey      1345483
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      1345484
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      1345485
+
+eCtrlMap   4
+aZKey      1345486
+
+eEvent     4
+aType      2
+aZKey      70007439
+
+eEventAct  5
+aTag       GroupDetail
+aType      34
+aZKey      70007436
+aDialogName TZOPUPDD
+aWindowName GRPUPD
+aSB_ActionDisabling 8
+
+eEvent     4
+aType      12
+aZKey      97146226
+
+eEventAct  5
+aTag       LoadPopup
+aType      1
+aZKey      97146227
+
+eEvent     4
+aType      1
+aZKey      97367486
+
+eEventAct  5
+aTag       SetCheckOutState
+aType      1
+aZKey      97367487
+
+eControlDef 4
+
+eWndEvent  3
+aType      2
+aZKey      1345493
+
+eWndAct    4
+aTag       SortByName
+aNoMap     Y
+aType      1
+aZKey      1345470
+
+eWndEvent  3
+aType      256
+aZKey      97146219
+
+eWndAct    4
+aTag       ESC
+aNoMap     Y
+aType      72
+aTypeData  Y
+aZKey      1345461
+
+eAction    3
+aTag       DeleteOperationGroup
+aType      2
+aZKey      1345464
+
+eActOpt    4
+aTag       Delete
+aText      &Delete
+aSeparator Y
+aZKey      97146225
+
+eActOper   4
+aName      zwTZOPUPDD_DeleteOperGroup
+aZKey      1345176
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_OperationGroupPopup
+aZKey      97367504
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1345462
+
+eActMap    4
+aZKey      1345463
+
+eActWndEvent 4
+
+eAction    3
+
+eActMap    4
+aZKey      70007437
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1337405
+aName      CM_ListGroup
+aDesc      Extra CM_List view for listing Domain and GOP groups
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOpt    4
+aTag       Detail
+aText      &Group Detail...
+aZKey      97146223
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_SortByName
+aZKey      70074427
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_GroupCheckedOut
+aZKey      97367484
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eMenu      3
+aTag       GroupPupup
+aZKey      97146222
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eWndStyle  3
+aTag       Sizeable Dialog Box
+aZKey      10024379
+aStyle     -2134114304
+
+eWindow    2
+aTag       OPERLISTunderGRP
+aCaption   Operations Within Current Group
+aPSDLG_X   7
+aPSDLG_Y   60
+aSZDLG_X   15663350
+aSZDLG_Y   8126606
+aZKey      1345494
+aGeneralFlag 0
+
+eControl   3
+aTag       DomList
+aText      DomList
+aZKey      1345501
+aSubtype   271720448
+aIdNbr     1
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   238
+aSZDLG_Y   123
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   4
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       Name
+aText      Operation
+aZKey      1345502
+aSubtype   67108864
+aIdNbr     2
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   137
+aSZDLG_Y   14
+aSyncKey   5
+
+eCtrlMap   5
+aZKey      1345503
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       ListCtl1
+aText      Description
+aZKey      70007531
+aSubtype   67108864
+aPSDLG_X   142
+aPSDLG_Y   0
+aSZDLG_X   393
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      70007532
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      1345504
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      1345505
+
+eCtrlMap   4
+aZKey      1345506
+
+eEvent     4
+aType      1
+aZKey      97146320
+
+eEventAct  5
+aTag       LoadOperation
+aType      1
+aZKey      97146321
+aSB_ActionDisabling 8
+
+eControlDef 4
+
+eWndEvent  3
+aType      256
+aZKey      97146218
+
+eWndAct    4
+aTag       Alt-F4
+aType      72
+aTypeData  Y
+aZKey      1345495
+
+eWndEvent  3
+aType      4
+aZKey      97146312
+
+eWndAct    4
+aTag       RefreshDomainList
+aNoMap     Y
+aType      1
+aZKey      97146313
+
+eAction    3
+
+eActMap    4
+aZKey      1345496
+
+eActMap    4
+aZKey      1345497
+
+eActWndEvent 4
+
+eAction    3
+
+eActMap    4
+aZKey      97146324
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_LoadOperation
+aZKey      97146326
+aDesc      by click load Operation in main window
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_RefreshOperationList
+aZKey      97146316
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       ESC
+aNoMap     Y
+aType      72
+aTypeData  Y
+aZKey      1345498
+
+eActMap    4
+aZKey      1345499
+
+eActMap    4
+aZKey      1345500
+
+eWndStyle  3
+
+eWindow    2
+aTag       OPENOPER
+aCaption   Open Operation
+aPSDLG_X   0
+aPSDLG_Y   26
+aSZDLG_X   20840773
+aSZDLG_Y   12714198
+aDfltButton OK
+aZKey      70007491
+aDIL_Active Y
+aGeneralFlag 0
+
+eControl   3
+aTag       ListBox1
+aText      ListBox1
+aZKey      70007504
+aSubtype   -2146230272
+aPSDLG_X   6
+aPSDLG_Y   6
+aSZDLG_X   250
+aSZDLG_Y   181
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   1
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       Name
+aText      Operation
+aZKey      70007505
+aSubtype   67108864
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   86
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      70007506
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      1345141
+aName      CMLIST
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       LastUpdated
+aText      Last Updated
+aZKey      70074437
+aSubtype   67108864
+aPSDLG_X   91
+aPSDLG_Y   0
+aSZDLG_X   72
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      70074438
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapContext 6
+
+eCtrlMapView 6
+aZKey      1345141
+aName      CMLIST
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       GroupName
+aText      Operation Group
+aZKey      70007507
+aSubtype   67108864
+aPSDLG_X   167
+aPSDLG_Y   0
+aSZDLG_X   72
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      70007508
+
+eCtrlMapLOD_Attribute 6
+aZKey      1326033
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      GroupName
+aZKey      1326034
+aDesc      Corresponding Group Name for this meta
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      70007509
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      70007510
+
+eCtrlMap   4
+aZKey      70007511
+
+eEvent     4
+aType      2
+aZKey      70007512
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aZKey      70007492
+aSB_ActionDisabling 8
+
+eEvent     4
+aType      1
+aZKey      97367466
+
+eEventAct  5
+aTag       Check_CheckoutStatus
+aType      1
+aZKey      97367415
+
+eControlDef 4
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      70007513
+aSubtype   536870912
+aPSDLG_X   263
+aPSDLG_Y   7
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   2
+
+eCtrlMap   4
+aZKey      70007514
+
+eEvent     4
+aType      1
+aZKey      70007515
+
+eEventAct  5
+
+eControlDef 4
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      70007520
+aSubtype   536870912
+aPSDLG_X   263
+aPSDLG_Y   22
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   3
+
+eCtrlMap   4
+aZKey      70007521
+
+eEvent     4
+aType      1
+aZKey      70007522
+
+eEventAct  5
+aTag       ESC
+aType      72
+aZKey      70007498
+
+eControlDef 4
+
+eControl   3
+aTag       New
+aText      &New...
+aZKey      70007523
+aSubtype   536870912
+aPSDLG_X   263
+aPSDLG_Y   44
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   4
+
+eCtrlMap   4
+aZKey      70007524
+
+eEvent     4
+aType      1
+aZKey      70007525
+
+eEventAct  5
+aTag       GoToNEWOPER
+aType      53
+aZKey      70007501
+aDialogName TZOPUPDD
+aWindowName NEWOPER
+
+eControlDef 4
+
+eControl   3
+aTag       Delete
+aText      &Delete
+aZKey      70007526
+aSubtype   536870912
+aPSDLG_X   263
+aPSDLG_Y   60
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   5
+
+eCtrlMap   4
+aZKey      70007527
+
+eEvent     4
+aType      1
+aZKey      70007528
+
+eEventAct  5
+aTag       DeleteOperation
+aType      2
+aZKey      70007495
+
+eControlDef 4
+
+eControl   3
+aTag       MoveOperation
+aText      &Move...
+aZKey      97147980
+aSubtype   536870912
+aPSDLG_X   263
+aPSDLG_Y   84
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   6
+
+eCtrlMap   4
+aZKey      97147981
+
+eEvent     4
+aType      1
+aZKey      97367455
+
+eEventAct  5
+aTag       MoveOperation
+aType      34
+aZKey      97147983
+aDialogName TZOPUPDD
+aWindowName MoveOperation
+
+eControlDef 4
+
+eControl   3
+aTag       _tbe
+aZKey      98086825
+aSubtype   8388608
+aPSDLG_X   607
+aPSDLG_Y   8
+aSZDLG_X   32
+aSZDLG_Y   20
+aCtrlBOI   U2560
+MT,\1X*&Q&N$`````````````````````/@`#`/[_"0`&```````````````!
+M`````0``````````$````@````$```#^____``````````#_____________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M_______________________]_____O____[____^____________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M_____________________________________________U(`;P!O`'0`(`!%
+M`&X`=`!R`'D`````````````````````````````````````````````````
+M```````````6``4`__________\!````U4.HWJ+:T1&5L@!@ESL[50``````
+M`````````*#TO\@1!<`!`P```$``````````0P!O`&X`=`!E`&X`=`!S````
+M````````````````````````````````````````````````````````````
+M`!(``@'_______________\`````````````````````````````````````
+M````````````````$```````````````````````````````````````````
+M`````````````````````````````````````````````````````````/__
+M_____________P``````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````____________
+M____````````````````````````````````````````````````````````
+M````````_O__________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M____________________________________________________________
+M______________________________\```$`E04``(0#````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+M````````````````````````````````````````````````````````````
+H````````````````````````````````````````````````````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+aGUID      {DEA843D5-DAA2-11D1-95B2-0060973B3B55}
+
+eControlDef 4
+
+eControl   3
+aTag       DIL1
+aZKey      70007529
+aSubtype   1
+aPSDLG_X   4
+aPSDLG_Y   190
+aSZDLG_X   382
+aSZDLG_Y   19
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      70007530
+
+eControlDef 4
+
+eWndEvent  3
+aType      1
+aZKey      70074411
+
+eWndAct    4
+aTag       PreBuild
+aNoMap     Y
+aType      1
+aZKey      70074412
+
+eWndEvent  3
+aType      8
+aZKey      97148173
+
+eWndAct    4
+
+eWndEvent  3
+aType      2
+aZKey      97367462
+
+eWndAct    4
+aTag       PostBuild
+aNoMap     Y
+aType      1
+aZKey      97367463
+
+eAction    3
+
+eActMap    4
+aZKey      70007493
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1345141
+aName      CMLIST
+
+eActEvent  4
+
+eActCtrl   5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_OpenOperation
+aZKey      1345194
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_Check_CheckoutStatus
+aZKey      97367418
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      70007496
+
+eActMap    4
+aZKey      70007497
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZOPUPDD_DeleteOperation
+aZKey      1345178
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       Del
+aZKey      92010082
+aKeyCombo  U4
+$X!8N````
+`
+aVKey      46
+
+eAction    3
+
+eActMap    4
+aZKey      70007499
+
+eActMap    4
+aZKey      70007500
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActMap    4
+aZKey      70007502
+
+eActMap    4
+aZKey      70007503
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      70074413
+
+eActMap    4
+aZKey      70074414
+
+eActWndEvent 4
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZOPUPDD_OpenOperPreBuild
+aZKey      70074415
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       SortByDate
+aType      2
+aZKey      70074432
+
+eActMap    4
+aZKey      70074433
+
+eActMap    4
+aZKey      70074434
+
+eActOper   4
+aName      zwTZOPUPDD_SortByDate
+aZKey      70074429
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       SortByGroup
+aType      2
+aZKey      70074471
+
+eActMap    4
+aZKey      70074472
+
+eActMap    4
+aZKey      70074473
+
+eActOper   4
+aName      zwTZOPUPDD_SortByGroup
+aZKey      70074474
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       SortByName
+aType      2
+aZKey      70074424
+
+eActMap    4
+aZKey      70074425
+
+eActMap    4
+aZKey      70074426
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eWndStyle  3
+
+eHotkey    3
+
+eHotAct    4
+
+eViewObjRef 2
+aZKey      1337500
+aName      CM_List
+
+eLOD       3
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eViewObjRef 2
+aZKey      98078823
+aName      MoveOperation
+aDesc      move Operation in new Operation Group
+
+eLOD       3
+aZKey      98071269
+aName      TZEDWDEL
+aDesc      Work Object for Delete Operations from Source File
+
+eViewObjRef 2
+aZKey      1337405
+aName      CM_ListGroup
+aDesc      Extra CM_List view for listing Domain and GOP groups
+
+eLOD       3
+
+eViewObjRef 2
+aZKey      1345141
+aName      CMLIST
+
+eLOD       3
+
+eViewObjRef 2
+aZKey      1345824
+aName      TZOPSIGK
+aDesc      List of Zeidon operations
+
+eLOD       3
+aZKey      1328962
+aName      TZOPGRPO
+aDesc      Group of Opers for Execution
+
+eViewObjRef 2
+aZKey      1332424
+aName      ProfileXFER
+
+eLOD       3
+aZKey      1326804
+aName      TZ__PRFO
+aDesc      Tools XFER & Profile Info.
+
+eViewObjRef 2
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       3
+aZKey      1326765
+aName      TZOGSRCO
+aDesc      Global Operation Group source object
+aDLL_Name  TZLODOPR
+
+eViewObjRef 2
+aZKey      70007425
+aName      TZOGSRCO_DETAIL
+aDesc      Used for the group detail within the TZOPUPDD dialog
+
+eLOD       3
+
+eViewObjRef 2
+aZKey      97367386
+aName      TZSAVEAS
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       3
+aZKey      97367384
+aName      TZSAVEAS
+aDesc      Work Object for save as for not checked out component
+
+eSourceFile 2
+
+eOperation 3
+aName      zwTZOPUPDD_CreateCancel
+aZKey      1345168
+aType      D
+aReturnDataType N
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345169
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97148216
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97148212
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97148209
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97148205
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97148191
+
+eOperation 3
+aName      zwTZOPUPDD_ResetProfileXFER
+aZKey      97148187
+aDesc      Reset View ProfileXFER
+aType      D
+aReturnDataType N
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97148188
+
+eOperation 3
+aName      zwTZOPUPDD_CreateAllParameter
+aZKey      97147804
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc vSubtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97147805
+
+eParameter 4
+aShortDesc vSource
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97147806
+
+eParameter 4
+aShortDesc vTarget
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97147807
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97147789
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97146476
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97146418
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70007429
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      1345171
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345173
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90023928
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70007538
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70069797
+
+eOperation 3
+aName      zwTZOPUPDD_CreateRtnFromSubWnd
+aZKey      1345174
+aType      D
+aReturnDataType N
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345175
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      1345177
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345179
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345181
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345183
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345185
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      1345187
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      1345189
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345191
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345193
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345195
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70074416
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345197
+
+eOperation 3
+aName      zwTZOPUPDD_PromptForSave
+aZKey      1345198
+aType      D
+aReturnDataType N
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345199
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345201
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70007444
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1345203
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70074428
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70074475
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70074430
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91055861
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97146317
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97146327
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97148046
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97148264
+
+eOperation 3
+aName      zwTZOPUPDD_SaveAsNewOperation
+aZKey      97148310
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97148311
+
+eParameter 4
+aShortDesc GroupName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      97148312
+
+eParameter 4
+aShortDesc OperationName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      97148313
+
+eParameter 4
+aShortDesc CopyCode
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      98097223
+
+eOperation 3
+aName      fnzwTZOPUPDD_DeleteOperation
+aZKey      97148314
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97148315
+
+eParameter 4
+aShortDesc PromptForDelete
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      97148316
+
+eParameter 4
+aShortDesc DeleteOperationCode
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      98097099
+
+eOperation 3
+aName      fnzwTZOPUPDD_DropOperFromFile
+aZKey      98086830
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98086831
+
+eParameter 4
+aShortDesc OperGrp
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98086832
+
+eOperation 3
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97367403
+
+eOperation 3
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97367419
+
+eOperation 3
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97367485
+
+eOperation 3
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97367505
+
+eOperation 3
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97367530
+
+eOperation 3
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97367574
+
+eOperation 3
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97367582
+
+eOperation 3
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97367584
+
+eOperation 3
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      97367677
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98067727
+
+eOperation 3
+aName      zwTZOPUPDD_AcceptSubobject
+aZKey      98067733
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98067734
+
+eParameter 4
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      98067735
+
+eParameter 4
+aShortDesc AttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      98067736
+
+eParameter 4
+aShortDesc MessageText
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      98067737
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98067741
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98067746
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98067749
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98067753
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98067808
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98067820
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98067834
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98067840
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98070699
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98070702
+
+eOperation 3
+aName      zwTZOPUPDD_CheckGroupName
+aZKey      98071044
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98071045
+
+eParameter 4
+aShortDesc OperGrpName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      98071046
+
+eParameter 4
+aShortDesc OperGrp
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98071048
+
+eParameter 4
+aShortDesc CM_ListGroup
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98071047
+
+eOperation 3
+aName      zwTZOPUPDD_CreateWorkLOD
+aZKey      98078821
+aType      D
+aReturnDataType N
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98078822
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98078835
+
+eOperation 3
+aName      zwTZOPUPDD_SetExtension
+aZKey      98079165
+aType      D
+aReturnDataType N
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98079166
+
+eOperation 3
+aName      zwTZOPUPDD_MoveCheckGroupType
+aZKey      98079898
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98079899
+
+eParameter 4
+aShortDesc nCheckIdenticalGroup
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      98173555
+
+eParameter 4
+aShortDesc nCreateNewGroup
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      98173556
+
+eOperation 3
+aName      zwTZOPUPDD_MoveOperationToFile
+aZKey      98086536
+aType      D
+aReturnDataType N
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98086537
+
+eOperation 3
+aName      zwTZOPUPDD_DeleteOperFromFile
+aZKey      98086540
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98086541
+
+eParameter 4
+aShortDesc TZOGSRCO
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98086833
+
+eParameter 4
+aShortDesc MoveOrDeleteFlag
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      98086542
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98096744
+
+eOperation 3
+aName      zwTZOPUPDD_SaveAsCheckValues
+aZKey      98096788
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98096789
+
+eParameter 4
+aShortDesc GroupName
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      98096790
+
+eParameter 4
+aShortDesc OutName
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      98096791
+
+eOperation 3
+aName      fnzwTZOPUPDD_PromptForDelete
+aZKey      98097100
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98097101
+
+eParameter 4
+aShortDesc OperGrp
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98097102
+
+eParameter 4
+aShortDesc PromptForDelete
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      98097103
+
+eParameter 4
+aShortDesc DeleteOperationCode
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      98097104
+
+eOperation 3
+aName      zwTZOPUPDD_CopyOperationWorkLOD
+aZKey      98097217
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98097227
+
+eParameter 4
+aShortDesc TZOGSRCO
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98097228
+
+eParameter 4
+aShortDesc CreateLOD
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      98097226
+
+eOperation 3
+aName      fnzwTZOPUPDD_DeleteFromXLP
+aZKey      98098747
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc CM_List
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98098748
+
+eParameter 4
+aShortDesc ZKey
+aDataType  L
+aPFlag     N
+aUFlag     Y
+aZKey      98098749
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      89389753
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eWebControlPropertyOption 2
+aName      Button (Not Submit)
+aZKey      130000486
+
+eWebControlPropertyOption 2
+aName      Hidden
+aZKey      130000487
+
+i2         1
+i13        5
+i16        5
+i22        11
+i23        12
+i27        5
+i31        20
+i38        5
+i42        20
+i45        12
+i46        24
+i49        5
+i53        20
+i57        12
+i63        5
+i67        20
+i71        12
+i72        60
+i76        20
+i84        20
+i86        44
+i87        79
+i88        35
+i90        5
+i98        69
+i99        12
+i104       96
+i106       44
+i107       12
+i108       100
+i112       96
+i114       78
+i116       100
+i118       96
+i119       12
+i140       139
+i141       138
+i148       144
+i152       20
+i156       144
+i160       144
+i167       144
+i171       144
+i174       20
+i175       153
+i178       144
+i182       144
+i186       144
+i190       144
+i194       144
+i195       137
+i196       136
+i198       144
+i202       144
+i206       144
+i207       125
+i208       124
+i209       92
+i211       144
+i216       144
+i221       144
+i222       123
+i224       96
+i225       12
+i226       122
+i227       92
+i230       133
+i233       132
+i235       144
+i236       135
+i239       134
+i241       144
+i244       20
+i250       144
+i253       20
+i254       153
+i257       144
+i258       59
+i261       58
+i262       50
+i264       228
+i265       123
+i266       213
+i267       212
+i268       218
+i269       217
+i270       146
+i271       145
+i274       158
+i275       157
+i276       165
+i277       164
+i278       248
+i279       247
+i280       246
+i281       242
+i282       154
+i283       150
+i284       204
+i285       203
+i286       142
+i287       139
+i289       214
+i290       212
+i291       229
+i292       123
+i293       219
+i294       217
+i295       200
+i296       199
+i297       255
+i298       251
+i300       169
+i301       168
+i302       176
+i303       172
+i305       188
+i306       187
+i307       192
+i308       191
+i309       184
+i310       183
+i311       180
+i312       179
+i313       272
+i321       11
+i323       24
+i327       319
+i329       44
+i330       322
+i331       35
+i339       335
+i346       44
+i348       100
+i350       344
+i351       347
+i358       126
+i361       5
+i364       8
+i365       9
+i366       10
+i367       11
+i369       5
+i372       5
+i376       9
+i380       368
+i381       5
+i384       5
+i387       5
+i390       5
+i393       5
+i396       5
+i399       80
+i404       80
+i407       5
+i417       100
+i421       412
+i424       416
+i425       100
+i429       412
+i431       378
+i432       379
+i433       416
+i434       100
+i438       412
+i440       33
+i441       416
+i442       100
+i444       412
+i454       126
+i457       131
+i463       338
+i468       338
+i469       462
+i470       337
+i471       336
+i473       144
+i474       403
+i475       402
+i476       400
+i478       144
+i479       451
+i481       412
+i483       450
+i484       408
+i487       144
+i488       449
+i489       448
+i490       408
+i491       461
+i492       460
+i494       144
+i495       465
+i496       464
+i498       144
+i499       357
+i500       356
+i501       340
+i503       144
+i504       334
+i506       344
+i508       333
+i509       332
+i511       144
+i515       144
+i516       467
+i517       466
+i519       144
+i520       453
+i522       412
+i524       452
+i525       408
+i527       144
+i528       355
+i530       344
+i532       354
+i533       340
+i535       144
+i537       485
+i538       451
+i539       513
+i540       512
+i546       335
+i550       335
+i552       5
+i555       5
+i558       5
+i561       5
+i564       5
+i567       5
+i570       80
+i574       411
+i575       412
+i576       413
+i577       414
+i578       415
+i580       100
+i583       420
+i584       412
+i585       422
+i586       423
+i588       100
+i591       428
+i592       412
+i593       430
+i594       378
+i595       379
+i596       587
+i597       100
+i600       437
+i601       412
+i602       439
+i603       33
+i604       587
+i605       100
+i607       412
+i608       587
+i617       126
+i620       131
+i622       459
+i624       549
+i631       545
+i632       544
+i633       543
+i635       144
+i636       549
+i637       623
+i638       548
+i639       547
+i641       144
+i642       614
+i644       412
+i646       613
+i647       571
+i649       486
+i650       144
+i651       628
+i652       627
+i654       144
+i655       626
+i656       625
+i658       144
+i662       144
+i663       612
+i664       611
+i665       571
+i666       616
+i667       615
+i668       571
+i670       144
+i671       630
+i672       629
+i674       144
+i676       648
+i677       614
+i678       660
+i679       659
+i680       541
+i684       103
+i685       96
+i686       105
+i687       44
+i688       12
+i689       24
+i692       95
+i693       96
+i694       97
+i695       69
+i697       12
+i698       60
+i701       111
+i702       96
+i703       113
+i704       78
+i707       80
+i711       96
+i713       78
+i714       705
+i715       706
+i716       80
+i721       335
+i726       335
+i731       335
+i736       335
+i741       335
+i746       335
+i748       5
+i750       5
+i753       131
+i754       740
+i756       96
+i758       739
+i759       737
+i760       215
+i761       144
+i762       720
+i764       96
+i765       12
+i766       719
+i767       717
+i769       144
+i770       725
+i772       96
+i773       12
+i774       724
+i775       722
+i776       730
+i778       96
+i779       12
+i780       729
+i781       727
+i783       144
+i784       735
+i786       96
+i787       12
+i788       734
+i789       732
+i791       144
+i792       745
+i794       96
+i795       12
+i796       744
+i797       742
+i798       220
+i799       144
+i800       541
+i804       8
+i805       9
+i806       10
+i807       11
+i809       24
+i813       9
+i815       33
+i817       35
+i821       9
+i824       808
+i825       24
+i830       335
+i835       335
+i837       5
+i839       5
+i842       5
+i849       846
+i852       846
+i855       846
+i857       375
+i858       9
+i859       377
+i860       378
+i865       131
+i868       829
+i869       828
+i870       826
+i872       144
+i873       834
+i876       833
+i877       831
+i878       867
+i881       866
+i883       144
+i884       541
+i888       318
+i889       319
+i890       320
+i891       11
+i893       24
+i896       326
+i897       319
+i898       328
+i899       44
+i901       35
+i906       335
+i911       335
+i914       5
+i917       5
+i922       344
+i924       414
+i925       415
+i927       100
+i930       343
+i931       344
+i932       345
+i933       44
+i935       100
+i939       344
+i941       33
+i942       934
+i943       100
+i945       344
+i946       934
+i955       126
+i958       131
+i962       954
+i965       905
+i968       904
+i969       902
+i971       144
+i972       910
+i975       909
+i976       907
+i979       661
+i980       144
+i981       952
+i983       344
+i985       951
+i986       918
+i988       486
+i989       144
+i990       960
+i991       959
+i993       144
+i994       950
+i997       949
+i998       918
+i1000      144
+i1001      954
+i1002      961
+i1003      953
+i1004      918
+i1005      669
+i1006      144
+i1007      964
+i1008      963
+i1010      144
+i1012      987
+i1013      952
+i1014      978
+i1015      977
+i1016      541
+i1021      343
+i1022      344
+i1023      345
+i1024      44
+i1025      934
+i1026      100
+i1030      344
+i1034      934
+i1035      100
+i1038      938
+i1039      344
+i1040      940
+i1041      33
+i1042      934
+i1043      100
+i1045      344
+i1046      934
+i1055      126
+i1063      144
+i1064      1052
+i1065      1051
+i1066      1018
+i1068      144
+i1069      1059
+i1072      1058
+i1073      1050
+i1075      344
+i1077      1049
+i1078      1018
+i1080      486
+i1081      144
+i1082      1057
+i1083      1056
+i1085      144
+i1086      1054
+i1087      1053
+i1088      1018
+i1090      144
+i1092      1079
+i1093      1050
+i1094      1061
+i1095      1060
+i1101      19
+i1102      20
+i1103      21
+i1104      11
+i1105      12
+i1106      100
+i1109      30
+i1110      20
+i1111      32
+i1112      33
+i1114      100
+i1116      20
+i1117      12
+i1122      126
+i1127      1124
+i1130      1123
+i1131      1121
+i1133      20
+i1135      1120
+i1136      1098
+i1138      144
+i1139      1126
+i1140      1125
+i1142      144
+i1146      1096
+i1151      343
+i1152      344
+i1153      345
+i1154      44
+i1156      100
+i1159      1029
+i1160      344
+i1161      1031
+i1162      1032
+i1163      1033
+i1165      100
+i1169      344
+i1171      44
+i1172      1155
+i1173      100
+i1175      344
+i1176      1155
+i1183      126
+i1187      1180
+i1188      335
+i1193      335
+i1198      335
+i1203      335
+i1208      335
+i1210      459
+i1213      131
+i1217      1215
+i1220      1180
+i1222      344
+i1224      1179
+i1225      1148
+i1226      1186
+i1227      1184
+i1229      144
+i1230      1182
+i1231      1181
+i1232      1148
+i1234      144
+i1235      1202
+i1238      1201
+i1239      1199
+i1241      144
+i1243      1192
+i1246      1191
+i1247      1189
+i1248      1197
+i1251      1196
+i1252      1194
+i1253      1207
+i1254      1206
+i1255      1204
+i1256      1219
+i1257      1218
+i1258      1233
+i1259      144
+i1260      1215
+i1263      1214
+i1264      1216
+i1266      144
+i1271      144
+i1276      144
+i1280      1084
+i1281      144
+i1282      1096
+i1283      1242
+i1284      1202
+i1290      1286
+i1292      1286
+i1300      1298
+i1303      144
+i1306      534
+i1308      526
+i1310      510
+i1312      502
+i1314      514
+i1322      653
+i1324      201
+i1326      634
+i1328      999
+i1330      661
+i1332      970
+i1334      215
+i1336      882
+i1338      155
+i1342      1062
+i1344      1240
+i1346      143
+i1348      181
+i1350      185
+i1352      189
+i1354      193
+i1356      234
+i1358      240
+i1360      1228
+i1362      1265
+i1364      210
+i1368      249
+i1370      871
+i1372      256
+i1374      1084
+i1376      1275
+i1378      1270
+i1380      992
+i1382      1141
+i1384      1137
+i1386      657
+i1388      493
+i1402      197
+i1404      1233
+i1406      1089
+i1408      1067
+i1410      669
+i1412      472
+i1414      159
+i1416      166
+i1418      205
+i1420      477
+i1427      220
+i1429      768
+i1431      782
+i1433      790
+i1435      486
+i1437      1009
+i1439      673
+i1441      518
+i1443      170
+i1445      177
+i1454      640
+i1468      497
+i1486      147
+i1488      1483
+i1489      144
+i1490      1395
+i1491      144
+i1492      1399
+i1493      144
+i1494      1474
+i1495      144
+i1496      1422
+i1497      144
+i1498      1233
+i1499      144
+i1500      1447
+i1501      144
+i1502      1479
+i1503      144
+i1504      1318
+i1505      144
+i1506      1304
+i1507      144
+i1508      970
+i1509      144
+i1510      215
+i1511      144
+i1512      1340
+i1513      144
+i1514      1452
+i1515      144
+i1516      1240
+i1517      144
+i1518      1464
+i1519      144
+i1520      1062
+i1521      144
+i1522      220
+i1523      144
+i1524      669
+i1525      144
+i1526      143
+i1527      144
+i1528      882
+i1529      144
+i1530      1089
+i1531      144
+i1532      181
+i1533      144
+i1534      185
+i1535      144
+i1536      189
+i1537      144
+i1538      193
+i1539      144
+i1540      155
+i1541      144
+i1542      197
+i1543      144
+i1544      1137
+i1545      144
+i1546      177
+i1547      144
+i1548      170
+i1549      144
+i1550      234
+i1551      144
+i1552      240
+i1553      144
+i1554      166
+i1555      144
+i1556      1458
+i1557      144
+i1558      640
+i1559      144
+i1560      653
+i1561      144
+i1562      657
+i1563      144
+i1564      1462
+i1565      144
+i1566      634
+i1567      144
+i1568      673
+i1569      144
+i1570      159
+i1571      144
+i1572      661
+i1573      144
+i1574      992
+i1575      144
+i1576      1228
+i1577      144
+i1578      1265
+i1579      144
+i1580      1067
+i1581      144
+i1582      999
+i1583      144
+i1584      768
+i1585      144
+i1586      782
+i1587      144
+i1588      210
+i1589      144
+i1590      790
+i1591      144
+i1592      1366
+i1593      144
+i1594      502
+i1595      144
+i1596      1141
+i1597      144
+i1598      147
+i1599      144
+i1600      1316
+i1601      144
+i1602      472
+i1603      144
+i1604      1470
+i1605      144
+i1606      514
+i1607      144
+i1608      477
+i1609      144
+i1610      1390
+i1611      144
+i1612      510
+i1613      144
+i1614      493
+i1615      144
+i1616      497
+i1617      144
+i1618      518
+i1619      144
+i1620      249
+i1621      144
+i1622      871
+i1623      144
+i1624      201
+i1625      144
+i1626      1456
+i1627      144
+i1628      1009
+i1629      144
+i1630      526
+i1631      144
+i1632      534
+i1633      144
+i1634      486
+i1635      144
+i1636      1270
+i1637      144
+i1638      1275
+i1639      144
+i1640      1084
+i1641      144
+i1642      205
+i1643      144
+i1644      256
+i1645      144

@@ -1,0 +1,12 @@
+z10000Zeidon    Z79283AA TZWDVORO 03/06/01   10:03:36 1.0a     
+eViewObjRef 1
+aZKey      127042474
+aName      TZBMPATH
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      127042456
+aName      TZBMPATH
+aDesc      Work object forshow all Bitmap Path
+aDLL_Name  TZBMPATH
+

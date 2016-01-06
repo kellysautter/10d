@@ -1,0 +1,575 @@
+z10000Zeidon    TZCMFILO TZZOLODO 05/01/01   23:17:39 1.0b0    
+eLOD       1
+aZKey      90443326
+aName      TZCMFILO
+aDesc      File object for storing LPLR files as objects
+
+eLOD_EntityParent 2
+aName      File
+aIndentName File
+aIndentLvl 0
+aZKey      90443327
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDesc      Root of object that stores a file as a Zeidon object
+
+eLOD_EntityChild 3
+aName      Buffer
+aIndentName    Buffer
+aIndentLvl 3
+aZKey      90443331
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+aDesc      Contains 32K byte buffer area of a file
+
+eLOD_AttributeRec 4
+aZKey      90443333
+
+eER_AttributeRec 5
+aName      Value
+aZKey      90442025
+aLth       32000
+aDesc      32K buffer value
+
+eDomainRec 6
+aZKey      90000007
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90009630
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      Seqno
+aZKey      90007294
+aNotNull   Y
+aDesc      Sequence Number, part of the key
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eER_EntityRec 4
+aName      Buffer
+aZKey      90442014
+aPurpose   A
+aDesc      Contains 32K byte buffer area of a file
+aER_DiagramPosX 271
+aER_DiagramPosY 102
+
+eER_RelLinkRec 4
+aName      has
+aZKey      90442016
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+aHangingForeignKeyEntity N
+
+eER_RelTypeRec 5
+aZKey      90442015
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 287
+aER_DiagramE1PosY 104
+aER_DiagramE2PosX 280
+aER_DiagramE2PosY 104
+
+eLOD_EntityChild 3
+aName      CPLR
+aIndentName    CPLR
+aIndentLvl 3
+aZKey      90443334
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator H
+aDesc      Converted from 6B
+
+eLOD_AttributeRec 4
+aZKey      90443335
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1320770
+aLth       32
+aNotNull   Y
+aDesc      CPLR Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90443336
+
+eER_AttributeRec 5
+aName      LastCheckInDate
+aZKey      1320771
+aDesc      DateTime Stamp of the last Check In
+
+eDomainRec 6
+aZKey      90000089
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90443337
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1320772
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90443338
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      1320773
+aDesc      Descriptive text
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eDomainRec 6
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90443339
+
+eER_AttributeRec 5
+aName      MetaSrcDir
+aZKey      1320774
+aLth       254
+aDesc      Directory of Zeidon Source Metas
+aPromptPaintLit Meta Directory:
+aPromptPaintLth 60
+aListPaintLit Meta Directory:
+aListPaintLth 60
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90443340
+
+eER_AttributeRec 5
+aName      PgmSrcDir
+aZKey      1320775
+aLth       254
+aDesc      CPLR Directory for Source files (VML, C)
+aPromptPaintLit Source Directory:
+aPromptPaintLth 60
+aListPaintLit Source Directory:
+aListPaintLth 60
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90443341
+
+eER_AttributeRec 5
+aName      ExecDir
+aZKey      1320776
+aLth       254
+aDesc      CPLR Directory for Executable files
+aPromptPaintLit Executables Directory:
+aPromptPaintLth 60
+aListPaintLit Executables Directory:
+aListPaintLth 60
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90443342
+
+eER_AttributeRec 5
+aName      DB_Mode
+aZKey      1320777
+aDesc      Mode for CheckIn, CheckOut, and Refresh file/DB handling
+
+eDomainRec 6
+aZKey      1319735
+aName      CM_DataBaseMode
+aDomainType T
+aDataType  L
+aMaxStringLth 11
+aDesc      Indicator for how CPLRs are to be maintained
+aContextRestriction N
+
+eER_EntityRec 4
+aName      CPLR
+aZKey      1320769
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 304
+aER_DiagramPosY 114
+
+eER_RelLinkRec 4
+aName      for
+aZKey      90442020
+aCardMin   1
+aCardMax   1
+
+eER_RelTypeRec 5
+aZKey      90442018
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 305
+aER_DiagramBendPosY 104
+aER_DiagramE1PosX 305
+aER_DiagramE1PosY 113
+aER_DiagramE2PosX 297
+aER_DiagramE2PosY 104
+
+eLOD_AttributeRec 3
+aZKey      90443328
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      90442021
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90443329
+
+eER_AttributeRec 4
+aName      Name
+aZKey      90442022
+aDesc      Name of the file in the LPLR
+
+eDomainRec 5
+aZKey      90000040
+aName      QSFileName
+aDomainType E
+aDataType  S
+aMaxStringLth 8
+aDesc      QuinSoft File Name - 32 chars
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90443330
+
+eER_AttributeRec 4
+aName      Extension
+aZKey      90442023
+aLth       3
+aDesc      File extension (XOD, PWD, etc.)
+
+eDomainRec 5
+aZKey      90000028
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eER_EntityRec 3
+aName      File
+aZKey      90442013
+aPurpose   F
+aDesc      Root of object that stores a file as a Zeidon object
+aER_DiagramPosX 288
+aER_DiagramPosY 102
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 7
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+ePOD       2
+aNAME      TZCMFILO
+aZKey      90443343
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+i21        8
+i27        15
+i30        15
+i33        15
+i42        8
+i50        1
+i51        40
+i52        41
+i53        8
+i54        43
+i55        44
+i56        45
+i57        46
+i58        47
+i59        48
+i60        49
+i61        2
+i62        3
+i63        4
+i64        5
+i65        6
+i66        7
+i67        8
+i68        9
+i69        10
+i70        11
+i71        12
+i72        13
+i73        14
+i74        15
+i75        16
+i76        17
+i77        18
+i78        19
+i79        20
+i80        8
+i81        22
+i82        23
+i83        24
+i84        25
+i85        26
+i86        15
+i87        28
+i88        29
+i89        15
+i90        31
+i91        32
+i92        15
+i93        34
+i94        35
+i95        36
+i96        37
+i97        38
+i98        39

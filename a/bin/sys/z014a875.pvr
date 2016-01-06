@@ -1,0 +1,19 @@
+rZeidon    Z014A875 TZWDVORO 11/02/95   20:51:13 1.0a     
+eViewObjRef 1,192
+aZKey      1353845
+aName      ACCOUNT
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1331198
+aName      ACCOUNT
+aDesc      Test old ACDIAL1
+
+eZ_MetaDef 2,192
+aName      ACCOUNT
+aZKey      1353845
+aType      9
+aLastUpdateDate 19950824213932000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

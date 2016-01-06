@@ -1,0 +1,172 @@
+z10000Zeidon    TZCTRWKO TZZOLODO 05/01/01   23:17:45 1.0b0    
+eLOD       1
+aZKey      1329707
+aName      TZCTRWKO
+aDesc      Work object for the control's CtrlColor info
+
+eLOD_EntityParent 2
+aName      ROOT
+aIndentName ROOT
+aIndentLvl 0
+aZKey      1329708
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      Color
+aIndentName    Color
+aIndentLvl 3
+aZKey      1329709
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     1
+
+eLOD_AttributeRec 4
+aZKey      1329710
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      PE_Color
+aZKey      1329711
+aLth       32
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329712
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      CtrlColor
+aZKey      1329713
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329714
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      PE_ZKey
+aZKey      1329715
+aLth       4
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329716
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      CtrlZKey
+aZKey      1329717
+aLth       4
+
+eDomainRec 6
+
+eLOD_Entity 2
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000634
+aName      TZCTRWKO
+aExtension VML
+aLanguageType V
+
+eZ_MetaDef 2
+aName      TZCTRWKO
+aZKey      1329707
+aType      7
+aLastUpdateDate 19951102200042000
+aLastCheckInDate 19951102203051110
+aDesc      Work object for the control's CtrlColor info
+
+i8         5
+i14        11
+i15        1
+i16        2
+i17        3
+i18        4
+i19        5
+i20        6
+i21        7
+i22        5
+i23        9
+i24        10
+i25        11
+i26        12
+i27        13
+i28        11

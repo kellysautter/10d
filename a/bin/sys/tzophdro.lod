@@ -1,0 +1,648 @@
+z1000-Zeidon    TZOPHDRO TZZOLODO 10/27/15   15:19:11 1.0b0    
+eLOD       1
+aZKey      1329019
+aName      TZOPHDRO
+aDesc      Header file 3GL
+aReLinked  Y
+
+eLOD_EntityParent 2
+aName      HeaderFile
+aIndentName HeaderFile
+aIndentLvl 0
+aZKey      1329021
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      DefinedItem
+aIndentName    DefinedItem
+aIndentLvl 3
+aZKey      1329022
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     1
+
+eLOD_AttributeRec 4
+aZKey      1329023
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      ExternalValue
+aZKey      1320802
+aLth       64
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329024
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1320803
+aKey       Y
+aNotNull   Y
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329025
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      InternalValue
+aZKey      1320804
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329026
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      DataType
+aZKey      1320805
+aDesc      Standard data types
+
+eDomainRec 6
+aZKey      1319844
+aName      DataType3GL
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      VML Supported Types...
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329027
+aWork      N
+aUpdate    Y
+aSeqPriority 16
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      SeqNo
+aZKey      1320806
+aDesc      Temporary visible sequencing attribute
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      DefinedItem
+aZKey      1320801
+aPurpose   W
+aDesc      initially C #define info
+aOwningArea VML
+aER_DiagramPosX 668
+aER_DiagramPosY 294
+
+eER_RelLinkRec 4
+aName      has
+aAutoSeq   Y
+aZKey      1322182
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 5
+aZKey      1322180
+aFact      Added thru 8C ER Dialog
+aER_DiagramBendPosX 672
+aER_DiagramBendPosY 280
+aER_DiagramE1PosX 672
+aER_DiagramE1PosY 293
+aER_DiagramE2PosX 659
+aER_DiagramE2PosY 280
+
+eLOD_EntityChild 3
+aName      Z_MetaDef
+aIndentName    Z_MetaDef
+aIndentLvl 3
+aZKey      1329028
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     2
+
+eLOD_AttributeRec 4
+aZKey      1329029
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1321860
+aLth       32
+aNotNull   Y
+aDesc      OI Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329030
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1321861
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329031
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Type
+aZKey      1321862
+aNotNull   Y
+aDesc      OI Type
+aPromptPaintLit Meta Type:
+aListPaintLit Meta Type:
+
+eDomainRec 6
+aZKey      1319755
+aName      CM_Type
+aDomainType T
+aDataType  L
+aDesc      Meta types for Configuration Management
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329032
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      LastUpdateDate
+aZKey      1321863
+aDesc      Time Stamp of corresponding Meta OI when last checked in
+aPromptPaintLit Meta OI's last update
+aListPaintLit Meta OI's last update
+
+eDomainRec 6
+aZKey      90000089
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329033
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      LastCheckInDate
+aZKey      1321864
+aDesc      Date the Meta was last checked In
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329034
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      1321865
+aDesc      Description of the Linked Zeidon Meta Definition
+aPromptPaintLit Description:
+aListPaintLit Description:
+
+eDomainRec 6
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eER_EntityRec 4
+aName      Z_MetaDef
+aZKey      1321859
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 390
+aER_DiagramPosY 158
+aER_PortFactor 2
+
+eER_RelLinkRec 4
+aName      is a
+aAutoSeq   N
+aZKey      1322080
+aCardMin   0
+aCardMax   1
+
+eER_RelTypeRec 5
+aZKey      1322078
+aFact      Added thru 8C ER Dialog
+aER_DiagramBendPosX 652
+aER_DiagramBendPosY 162
+aER_DiagramE1PosX 407
+aER_DiagramE1PosY 162
+aER_DiagramE2PosX 652
+aER_DiagramE2PosY 277
+
+eLOD_AttributeRec 3
+aZKey      1329035
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1320953
+aNotNull   Y
+aDesc      File Name ( 8 chars )
+
+eDomainRec 5
+aZKey      90000040
+aName      QSFileName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft File Name - 32 chars
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      1329036
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1320954
+aKey       Y
+aNotNull   Y
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      110003538
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      NextZKeyToAssign
+aZKey      110003539
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329037
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      LastSyncDate
+aZKey      1329038
+aDesc      Config Mgmt sync date
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329039
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 4
+aName      Desc
+aZKey      1320955
+aDesc      Description
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329040
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 4
+aName      Extension
+aZKey      1320956
+aLth       3
+aDesc      good ole 3 char ext. ( defaults to h )
+
+eDomainRec 5
+aZKey      90000028
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      1329041
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 4
+aName      FileSpec
+aZKey      1329042
+aLth       128
+aDesc      File spec for location of Header File
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      HeaderFile
+aZKey      1320952
+aPurpose   W
+aDesc      Keep track of stuff for
+aOwningArea VML
+aER_DiagramPosX 650
+aER_DiagramPosY 278
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eSourceFile 2
+aZKey      92000603
+aName      TZOPHDRO
+aExtension VML
+aLanguageType V
+
+eZ_MetaDef 2
+aName      TZOPHDRO
+aZKey      1329019
+aType      7
+aLastUpdateDate 19951102200112000
+aLastCheckInDate 19951102203051110
+aDesc      Header file 3GL
+
+i11        5
+i17        8
+i24        5
+i27        8
+i36        33
+i48        8
+i51        8
+i54        33
+i57        39
+i63        5
+i65        1
+i66        43
+i67        44
+i68        45
+i69        46
+i70        47
+i71        8
+i72        49
+i73        50
+i74        8
+i75        52
+i76        53
+i77        33
+i78        55
+i79        56
+i80        39
+i81        58
+i82        59
+i83        60
+i84        61
+i85        62
+i86        5
+i87        64
+i88        2
+i89        3
+i90        4
+i91        5
+i92        6
+i93        7
+i94        8
+i95        9
+i96        10
+i97        5
+i98        12
+i99        13
+i100       14
+i101       15
+i102       16
+i103       8
+i104       18
+i105       19
+i106       20
+i107       21
+i108       22
+i109       23
+i110       5
+i111       25
+i112       26
+i113       8
+i114       28
+i115       29
+i116       30
+i117       31
+i118       32
+i119       33
+i120       34
+i121       35
+i122       33
+i123       37
+i124       38
+i125       39
+i126       40
+i127       41
+i128       42

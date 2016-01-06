@@ -1,0 +1,13 @@
+z11001Zeidon    TEMP     TZWDVORO 09/07/99   08:04:32 1.0a     
+
+mOIFLAGS    0
+eViewObjRef 1,6
+aZKey,2    1169947
+aName,2    ZAXEVNTO
+aDesc,2    VOR automatically built from LOD Dialog
+
+eLOD       2,38
+aZKey,2    91002362
+aName,2    ZAXEVNTO
+aDesc,2    object for storing event information of an Activex
+

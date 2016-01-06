@@ -1,0 +1,49 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "truegrid"=.\truegrid.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    truegrid
+    .
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "tzaxcfgd"=..\..\..\..\w\tz\tzaxcfgd.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    tzaxcfgd
+    ..\..\..\..\w\tz
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

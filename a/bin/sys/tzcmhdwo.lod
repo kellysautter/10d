@@ -1,0 +1,556 @@
+z10000Zeidon    TZCMHDWO TZZOLODO 05/01/01   23:17:40 1.0b0    
+eLOD       1
+aZKey      1329957
+aName      TZCMHDWO
+aDesc      Generated Header work object
+
+eLOD_EntityParent 2
+aName      Root
+aIndentName Root
+aIndentLvl 0
+aZKey      1329958
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      ObjectConstraint
+aIndentName    ObjectConstraint
+aIndentLvl 3
+aZKey      1329959
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     1
+
+eLOD_AttributeRec 4
+aZKey      1329960
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      SeqNumber
+aZKey      1329961
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329962
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      OperName
+aZKey      1329963
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329964
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1329965
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      EntityConstraint
+aIndentName    EntityConstraint
+aIndentLvl 3
+aZKey      1329966
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     2
+
+eLOD_AttributeRec 4
+aZKey      1329967
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      SeqNumber
+aZKey      1329968
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329969
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      OperName
+aZKey      1329970
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329971
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1329972
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      Derived
+aIndentName    Derived
+aIndentLvl 3
+aZKey      1329973
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     3
+
+eLOD_AttributeRec 4
+aZKey      1329974
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      SeqNumber
+aZKey      1329975
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329976
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      OperName
+aZKey      1329977
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329978
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1329979
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      Executable
+aIndentName    Executable
+aIndentLvl 3
+aZKey      90006819
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Name of executable module.  Children are all Zeidon objects that make up the executable
+
+eLOD_EntityChild 4
+aName      Object
+aIndentName       Object
+aIndentLvl 6
+aZKey      90006822
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Object piece that makes up parent executable
+
+eLOD_AttributeRec 5
+aZKey      90006823
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      Name
+aZKey      90006824
+aDesc      Name of object--Object, Object.Entity, or Object.Entity.Attr
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      90006825
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      OperName
+aZKey      90006826
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      90006827
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      Type
+aZKey      90006828
+aDesc      Type of object--Object constraint, entity constraint, or derived attribute.
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      90006820
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      Name
+aZKey      90006821
+aDesc      Name of executable
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      1329980
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1329981
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000626
+aName      TZCMHDWO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      TZCMHDWO
+aZKey      1149555
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eZ_MetaDef 2
+aName      TZCMHDWO
+aZKey      1329957
+aType      7
+aLastUpdateDate 19951102200028000
+aLastCheckInDate 19951102203051110
+aDesc      Generated Header work object
+
+i11        8
+i15        5
+i18        8
+i21        8
+i25        5
+i28        8
+i31        8
+i36        8
+i39        8
+i42        8
+i45        8
+i48        8
+i49        1
+i50        46
+i51        47
+i52        8
+i53        2
+i54        3
+i55        4
+i56        5
+i57        6
+i58        7
+i59        8
+i60        9
+i61        10
+i62        8
+i63        12
+i64        13
+i65        14
+i66        5
+i67        16
+i68        17
+i69        8
+i70        19
+i71        20
+i72        8
+i73        22
+i74        23
+i75        24
+i76        5
+i77        26
+i78        27
+i79        8
+i80        29
+i81        30
+i82        8
+i83        32
+i84        43
+i85        44
+i86        8
+i87        33
+i88        34
+i89        35
+i90        8
+i91        37
+i92        38
+i93        8
+i94        40
+i95        41
+i96        8

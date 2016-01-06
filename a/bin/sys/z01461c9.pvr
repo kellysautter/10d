@@ -1,0 +1,18 @@
+rZeidon    Z01461C9 TZWDVORO 11/02/95   20:51:58 1.0a     
+eViewObjRef 1,192
+aZKey      1335753
+aName      TZPULL_Attribute
+
+eLOD       2,192
+aZKey      1325104
+aName      TZWDLGSO
+aDesc      Source Dialog Definition
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZPULL_Attribute
+aZKey      1335753
+aType      9
+aLastUpdateDate 19950824213638000
+aLastCheckInDate 19951102203051110
+

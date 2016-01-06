@@ -1,0 +1,102 @@
+;  resource file for domain processor
+
+#define IDS_ONES_0              100
+#define IDS_ONES_1              101
+#define IDS_ONES_2              102
+#define IDS_ONES_3              103
+#define IDS_ONES_4              104
+#define IDS_ONES_5              105
+#define IDS_ONES_6              106
+#define IDS_ONES_7              107
+#define IDS_ONES_8              108
+#define IDS_ONES_9              109
+#define IDS_TEENS_10            110
+#define IDS_TEENS_11            111
+#define IDS_TEENS_12            112
+#define IDS_TEENS_13            113
+#define IDS_TEENS_14            114
+#define IDS_TEENS_15            115
+#define IDS_TEENS_16            116
+#define IDS_TEENS_17            117
+#define IDS_TEENS_18            118
+#define IDS_TEENS_19            119
+#define IDS_TENS_0              120
+#define IDS_TENS_10             121
+#define IDS_TENS_20             122
+#define IDS_TENS_30             123
+#define IDS_TENS_40             124
+#define IDS_TENS_50             125
+#define IDS_TENS_60             126
+#define IDS_TENS_70             127
+#define IDS_TENS_80             128
+#define IDS_TENS_90             129
+
+#define IDS_DECIMAL             150
+#define IDS_COMMA               151
+
+#define IDS_THOUSAND            190
+#define IDS_MILLION             191
+#define IDS_BILLION             192
+#define IDS_TRILLION            193
+
+#define IDS_CURRENCY_PREFIX     195
+#define IDS_AND                 196
+#define IDS_HUNDRETHS_DOLLARS   197
+#define IDS_HUNDRED             198
+
+#define IDS_UNKNOWN             199
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_TEENS_10            "Ten"
+    IDS_TEENS_11            "Eleven"
+    IDS_TEENS_12            "Twelve"
+    IDS_TEENS_13            "Thirteen"
+    IDS_TEENS_14            "Fourteen"
+    IDS_TEENS_15            "Fifteen"
+    IDS_TEENS_16            "Sixteen"
+    IDS_TEENS_17            "Seventeen"
+    IDS_TEENS_18            "Eighteen"
+    IDS_TEENS_19            "Nineteen"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_TENS_0              "?"
+    IDS_TENS_10             "Ten"
+    IDS_TENS_20             "Twenty"
+    IDS_TENS_30             "Thirty"
+    IDS_TENS_40             "Forty"
+    IDS_TENS_50             "Fifty"
+    IDS_TENS_60             "Sixty"
+    IDS_TENS_70             "Seventy"
+    IDS_TENS_80             "Eighty"
+    IDS_TENS_90             "Ninety"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_ONES_0              "Zero"
+    IDS_ONES_1              "One"
+    IDS_ONES_2              "Two"
+    IDS_ONES_3              "Three"
+    IDS_ONES_4              "Four"
+    IDS_ONES_5              "Five"
+    IDS_ONES_6              "Six"
+    IDS_ONES_7              "Seven"
+    IDS_ONES_8              "Eight"
+    IDS_ONES_9              "Nine"
+    IDS_UNKNOWN             "???"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_HUNDRED             "Hundred"
+    IDS_THOUSAND            "Thousand"
+    IDS_MILLION             "Million"
+    IDS_BILLION             "Billion"
+    IDS_TRILLION            "Trillion"
+    IDS_CURRENCY_PREFIX     ""
+    IDS_AND                 "and"
+    IDS_HUNDRETHS_DOLLARS   "/ 100ths"    // Dollars"
+END

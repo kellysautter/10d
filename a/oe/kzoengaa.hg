@@ -1,0 +1,45 @@
+// KZOENGAA.HG - Global variables used by both the object services EXE
+//               KZOENGWA and the object services DLL KZOENGAA
+/*
+CHANGE LOG
+
+2001.08.22  DGC
+   Started adding stuff for local memory version of Core.
+
+2001.04.04  PAS
+   Changing the release level for OI files as part of the removal of
+   binary information in the meta source files.  Eliminating szlRelease
+   (to make sure all code is looked at) and replacing with szlReleaseCompat
+   and szlReleaseCurrent.  Files created with szlReleaseCompatible can still be
+   read by the previous version.  If the CommitOI_ToFile is invoked with
+   new control flags (e.g. remove binary data) that cause the OI to be
+   potentially incompatable, then the szlReleaseCurrent is used.  This is
+   also cordinated with INI settings as detailed in TZCMOPRS.C
+
+1999.04.19  RS
+   Commentlines required for Rose.
+
+*/
+
+// Don't remove the following commentlines. They are required for Rose.
+//#include <kzoetdaa.h> // required for Rose
+
+// Object Engine Anchor Block
+mGLOBAL_DECLARE( zLONG, g_hAnchorBlock, 0 );
+mGLOBAL_DECLARE( LPANCHOR, AnchorBlock, 0 );
+
+// If g_bServerMode is TRUE, then we are running only as a server.  This means,
+// among other things, that we can use local instead of shared memory.
+mGLOBAL_DECLARE( zBOOL, g_bServerMode, FALSE );
+
+//*** NOTE: Always keep these strings 8 chars   12345678
+#define zRELEASE_COMPAT_LEVEL                  "1.0a2   "
+#define zRELEASE_CURRENT_LEVEL                 "1.0b0   "
+mGLOBAL_DECLARE( zPCHAR, szlReleaseCompatible, zRELEASE_COMPAT_LEVEL );
+mGLOBAL_DECLARE( zPCHAR, szlReleaseCurrent,    zRELEASE_CURRENT_LEVEL );
+
+#ifdef __OS2__
+mGLOBAL_DECLARE( zPCHAR, szlShareSeg, "\\SHAREMEM\\KZOENGAA.SEG" );
+#else
+mGLOBAL_DECLARE( zPCHAR, szlShareSeg, "/SHAREMEM/KZOENGAA.SEG" );
+#endif

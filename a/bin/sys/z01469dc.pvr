@@ -1,0 +1,20 @@
+rZeidon    Z01469DC TZWDVORO 11/02/95   20:53:23 1.0a     
+eViewObjRef 1,192
+aZKey      1337820
+aName      SourceLPLR
+aDesc      Source LPLR for Meta Migration
+
+eLOD       2,192
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      SourceLPLR
+aZKey      1337820
+aType      9
+aLastUpdateDate 19950824213658000
+aLastCheckInDate 19951102203051110
+aDesc      Source LPLR for Meta Migration
+

@@ -1,0 +1,14 @@
+z0100-Zeidon    Z5640E3B TZWDVORO 05/22/97   13:12:30 1.0a     
+eViewObjRef 1,198
+aZKey      90443323
+aName      TZVSEXPO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1327746
+aName      TZVSEXPO
+aDesc      Work Expression Object
+aFK_ZKEY   8388608
+aFK_ZKEY02 8388608
+aFK_ZKEY03 234815488
+

@@ -1,0 +1,399 @@
+z1000-Zeidon    ERD      TZDGSRCO 09/07/11   16:58:49 1.0a2    
+eDomainGroup 1
+aZKey      1320108
+aName      ERD
+aExtension C
+aLanguageType C
+aDomainAndGlobalOpGroupName TZLODOPR
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320109
+aName      ERD_PrintAlgorithm
+aDesc      ER Diagram Print Algorithm
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320110
+aName      ERD_PrintAlgorithm
+aIsDefault Y
+aDIL_Text  ER Diagram Print Algorithm
+
+eTableEntry 4
+aZKey      92484520
+
+eTableEntry 4
+aZKey      1320111
+aExternalValue Fit to page
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320112
+aExternalValue Fill page
+aInternalValue 4
+
+eTableEntry 4
+aZKey      1320113
+aExternalValue Percent
+aInternalValue 2
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      92002297
+aName      Marks
+aDesc      this is for ADW Export 
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      92002298
+aName      Marks
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484533
+
+eTableEntry 4
+aZKey      92002299
+aExternalValue "
+aInternalValue 1
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aZKey      90121803
+aName      ERD_MinCardinality
+aDesc      Minimum Cardinality for a relationship - Integer
+aDomainType A
+aDataType  S
+aMaxStringLth 8
+aContextRestriction N
+
+eContext   3
+aZKey      90121804
+aName      ERD_MinCardinality
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmCardinalityMinimum
+aZKey      90019921
+aDesc      Minimum Cardinality operation in TZLOOPRS.C
+aType      M
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aZKey      90055891
+aName      ERD_MaxCardinality
+aDesc      Maximum Cardinality for a relationship - m, M or integer
+aDomainType A
+aDataType  S
+aMaxStringLth 8
+aContextRestriction N
+
+eContext   3
+aZKey      90055892
+aName      ERD_MaxCardinality
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmCardinalityMaximum
+aZKey      90055893
+aDesc      Maximum Cardinality operation in TZLOOPRS.C
+aType      M
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320129
+aName      ER_EntityPurpose
+aDesc      Purpose of Entity in ER
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320136
+aName      Display
+
+eTableEntry 4
+aZKey      92484515
+
+eTableEntry 4
+aZKey      1320138
+aExternalValue Fundamental
+aInternalValue F
+
+eTableEntry 4
+aZKey      1320139
+aExternalValue Attributive
+aInternalValue A
+
+eTableEntry 4
+aZKey      1320140
+aExternalValue Associative
+aInternalValue S
+
+eTableEntry 4
+aZKey      1320141
+aExternalValue Work
+aInternalValue W
+
+eContext   3
+aZKey      89369437
+aName      DisplayQBN
+
+eTableEntry 4
+aZKey      92484516
+
+eTableEntry 4
+aZKey      89369446
+aExternalValue Fundamental
+aInternalValue F
+
+eTableEntry 4
+aZKey      89369447
+aExternalValue Attributive
+aInternalValue A
+
+eTableEntry 4
+aZKey      89369448
+aExternalValue Associative
+aInternalValue S
+
+eTableEntry 4
+aZKey      89369449
+aExternalValue Work
+aInternalValue W
+
+eTableEntry 4
+aZKey      89369450
+aExternalValue Fact (DWH)
+aInternalValue 1
+
+eTableEntry 4
+aZKey      89369451
+aExternalValue Dimension (DWH)
+aInternalValue 2
+
+eContext   3
+aZKey      1320130
+aName      ER_EntityPurpose
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484517
+
+eTableEntry 4
+aZKey      1320131
+aExternalValue F
+aInternalValue F
+
+eTableEntry 4
+aZKey      1320132
+aExternalValue A
+aInternalValue A
+
+eTableEntry 4
+aZKey      1320133
+aExternalValue S
+aInternalValue S
+
+eTableEntry 4
+aZKey      1320134
+aExternalValue D
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320135
+aExternalValue W
+aInternalValue W
+
+eTableEntry 4
+aZKey      89357204
+aExternalValue 1
+aInternalValue 1
+
+eTableEntry 4
+aZKey      89357205
+aExternalValue 2
+aInternalValue 2
+
+eContext   3
+aZKey      90126598
+aName      ShortPurpose
+
+eTableEntry 4
+aZKey      92484518
+
+eTableEntry 4
+aZKey      90126599
+aExternalValue Fund
+aInternalValue F
+
+eTableEntry 4
+aZKey      90126600
+aExternalValue Attrib
+aInternalValue A
+
+eTableEntry 4
+aZKey      90126601
+aExternalValue Assoc
+aInternalValue S
+
+eTableEntry 4
+aZKey      90126602
+aExternalValue Work
+aInternalValue W
+
+eContext   3
+aZKey      89369439
+aName      ShortPurposeQBN
+
+eTableEntry 4
+aZKey      92484519
+
+eTableEntry 4
+aZKey      89369440
+aExternalValue Fund
+aInternalValue F
+
+eTableEntry 4
+aZKey      89369442
+aExternalValue Attrib
+aInternalValue A
+
+eTableEntry 4
+aZKey      89369441
+aExternalValue Assoc
+aInternalValue S
+
+eTableEntry 4
+aZKey      89369443
+aExternalValue Work
+aInternalValue W
+
+eTableEntry 4
+aZKey      89369444
+aExternalValue Fact
+aInternalValue 1
+
+eTableEntry 4
+aZKey      89369445
+aExternalValue Dim
+aInternalValue 2
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320124
+aName      ERD_ZoomAlgorithm
+aDesc      ER Diagram Zoom Algorithm
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320125
+aName      ERD_ZoomAlgorithm
+aIsDefault Y
+aDIL_Text  ER Diagram Zoom Algorithm
+
+eTableEntry 4
+aZKey      92484523
+
+eTableEntry 4
+aZKey      1320126
+aExternalValue Absolute
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320127
+aExternalValue Relative
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1320128
+aExternalValue Fit
+aInternalValue 4
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320119
+aName      ERD_ShowRelOption
+aDesc      ER Diagram drawing mode for Rels
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320120
+aName      ERD_ShowRelOption
+aIsDefault Y
+aDIL_Text  ER Diagram drawing mode for Rels
+
+eTableEntry 4
+aZKey      92484522
+
+eTableEntry 4
+aZKey      1320121
+aExternalValue Line and Text
+aInternalValue 3
+
+eTableEntry 4
+aZKey      1320122
+aExternalValue Line Only
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320123
+aExternalValue No Line or Text
+aInternalValue 0
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320114
+aName      ERD_PrintOrientation
+aDesc      ER Diagram Print Orientation
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320115
+aName      ERD_PrintOrientation
+aIsDefault Y
+aDIL_Text  ER Diagram Print Orientation
+
+eTableEntry 4
+aZKey      92484521
+
+eTableEntry 4
+aZKey      1320116
+aExternalValue Best fit
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1320117
+aExternalValue Landscape
+aInternalValue 1024
+
+eTableEntry 4
+aZKey      1320118
+aExternalValue Portrait
+aInternalValue 2048
+
+eOperation 2
+
+eOperation 2
+
+eZ_MetaDef 2
+aName      ERD
+aZKey      1320108
+aType      13
+aLastUpdateDate 19950824212030000
+aLastCheckInDate 19951102203051110
+
+i73        16
+i74        13

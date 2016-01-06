@@ -1,0 +1,376 @@
+*************************************************
+*  Method description of the interface _DTBEdit *
+*************************************************
+
+
+[id(1)] boolean OpenObject(BSTR* FileName);
+
+Opens a file for editing. FileName is the pointer to the complete path
+name of the file. Returns FALSE in case of an error.
+
+
+[id(2)] boolean CloseObject();
+
+Deletes all the contents of the Edit Control. Changes will be lost.
+Performs an initialization of the control.
+Returns FALSE, if the action is not successful.
+
+
+[id(3)] long DeleteText();
+
+Deletes the selected text in the Edit Control. Returns the number of
+deleted characters.
+
+
+[id(4)] long CutText();
+
+Deletes the selected text in the Edit Control and copies it to the
+Clipboard. Returns the number of deleted/copied characters.
+
+
+[id(5)] long CopyText();
+
+Copies the selected text to the Clipboard. Returns the number of copied
+characters.
+
+
+[id(6)] long PasteText();
+
+Copies text from the Clipboard to the actual position in the Edit
+Control. Returns the number of inserted characters.
+
+
+[id(7)] void SyntaxOff();
+
+Switch Syntax Coloring off. Only the standard functionality of the Edit
+Control will be available.
+
+
+[id(8)] void SironSyntaxOn();
+
+Switch Siron Syntax Coloring on.
+
+
+[id(9)] void ZeidonSyntaxOn();
+
+Switch Zeidon Syntax Coloring on. The Keystroke event will be fired.
+
+
+[id(10)] boolean PropertyDialog();
+
+Starts a dialog box to change the editor properties ( the different
+colors, the font and tabstops ).
+Returns TRUE, if the user has changed a property.
+
+
+[id(11)] void GetCursorPosition(long* lLinie, long* lSpalte,
+                                long* lIndex);
+
+Retrieves the current position in the Edit Control.
+    lLinie  -> zero-based line index from the beginning of the text
+    lSpalte -> zero-based column index from the beginning of the line
+    lIndex  -> zero-based character index from the beginning of the text
+
+
+[id(12)] void GetLineCount(long* lZeilen);
+
+Retrieves the number of lines in the Edit Control ( from 1 on ).
+
+
+[id(13)] long InsertItem(BSTR* pDaten);
+
+Inserts text at the current position into the Edit Control. pDaten is a
+pointer to that text.
+Returns -1 in case of an error, else the zero-based character index of
+the insert position.
+
+
+[id(14)] void IsObjectChanged(boolean* bChanged);
+
+Retrieves the status of the text. If the text is changed ( i.d. has to
+be saved ) bChanged is set to TRUE.
+
+
+[id(15)] void PrintObject();
+
+Prints the Edit Controls contents.
+
+
+[id(16)] void ReadOnlyModus(boolean bReadOnly);
+
+Toggles the Edit Controls ReadOnly state. If bReadOnly is TRUE the state
+is set to ReadOnly, else it is set to Read/Write.
+
+
+[id(17)] boolean SaveObject();
+
+Saves the content of the Edit Control to disk. The MODIFY-Flag of the
+control is cleared.
+Returns FALSE if the writing operation failed.
+
+
+[id(18)] boolean SaveObjectAs(BSTR* pFileName);
+
+Saves the content of the Edit Control under the specified name
+( pFileName ). The MODIFY-Flag of the control is cleared.
+Returns FALSE if the writing operation failed.
+
+
+[id(19)] void SelectItem(long lZeile, BSTR* pDaten);
+
+Selects the specified text in the Edit Control.
+lZeile -> the line number ( first line is 1 )
+pDaten -> Pointer to a string to search and select in the specified
+          line. If NULL, the hole line is selected.
+
+
+[id(20)] void SetCursorPositionByIndex(long lIndex);
+
+Sets the current position. lIndex gives the zero-based character index
+of the new position. If the specified position is beyond the end of
+the text, the cursor is set to the end of the text.
+
+
+[id(21)] void SetCursorPositionByLine(long lZeile, long lSpalte);
+
+Sets the current position by using line and column.
+lZeile sets the zero-based line index from the beginning of the text.
+lSpalte sets the zero-based column index from the beginning of the line.
+
+
+[id(22)] boolean Undo();
+
+Undoes the last action. Returns TRUE, if there was an action to execute.
+
+
+[id(23)] boolean Redo();
+
+Repeats the last action. Returns TRUE, if there was an action to execute.
+
+
+[id(24)] boolean TempSaveObject(BSTR* pTempName);
+
+Writes the contents of the Edit Control to the specified disk file.
+The internal used file name is not changed. The MODIFY-Flag is not
+changed.
+Returns FALSE if an error occurs.
+
+
+[id(25)] long FindTextPosition(BSTR* pSearchString, long* lTextPosition,
+                               long lOptions);
+
+Does a Regular expression search beginning from the actual cursor position .
+Finds the specified text ( pSearchString ). lTextPosition is either set
+to the zero-based character index of the found text or to -1 if the text
+cannot be found.
+Returns -1 if an error occurs.
+Returns 0 if the search text is not found. Else the number of characters,
+that match the regular expression.
+
+You can specify the kind of searching by setting some binary flags in the
+lOptions argument:
+    0x01    -> search from the current position to the end of the text
+    0x02    -> match case
+    0x04    -> use regular expression search
+Allowed combinations are 0x01 and 0x02
+                         0x01 and 0x04
+Example: lOptions = 5 -> Search to the end of text, use Reg Exp
+         lOptions = 4 -> Search to the beginning of text, use Reg Exp
+
+
+[id(26)] long GetActualTextLine(BSTR* pBuffer, long lLength);
+
+Retrieves the current text line from the Edit Control. The text is copied
+to pBuffer. lLength specifies the size of the buffer. There will be no copy
+operation if the buffer is to small to hold the text ( including '\0' ).
+Returns the length of the text line.
+
+[id(27)] boolean IsReadOnly();
+
+Retrieves the ReadOnly state of the Edit Control.
+Returns TRUE, if ReadOnly mode is used.
+
+
+[id(28)] boolean IsSubWindowActiv();
+
+Returns TRUE, if a modeless dialog has the input focus.
+
+
+[id(29)] void WantKeystrokes(boolean bWantKeys);
+
+Toggles the firing of the Keystroke event. If bWantKeys is TRUE, this event
+will be fired in the future. This method allows the container to get the event
+without using Zeidon Syntax.
+
+
+[id(30)] boolean DeleteTextRange(long lStartIndex, long lEndIndex);
+
+Deletes a range of characters at an user defined position. Returns FALSE, if
+arguments are wrong. The arguments are zero-based character indexes.
+To delete one character at position 179, lStartIndex is 179 and lEndIndex is
+180.
+
+
+[id(31)] boolean CloseSubWindow();
+
+Closes the Find-/Replace- Dialogs.
+Returns FALSE, if no dialog is open.
+
+
+[id(32)] void SearchForward();
+
+Searches forward to text end ( no reg.Exp. Search ! )
+
+
+[id(33)] void SearchBackward();
+
+Searches backward to the beginning of the text ( no reg.Exp. Search ! )
+
+
+[id(34)] void Deselect();
+
+Deselects an existing selection.
+
+
+[id(35)] long GetTextFromLineOfIndex( BSTR* pBuffer, long lLength,
+                                      long lIndex );
+
+Copies text of line lIndex to buffer pBuffer. lLength gives the size
+of the buffer. If there is not enough place in the buffer, the method
+does nothing but returning the real size of the line.
+
+
+[id(36)] long SetSironLanguage( long lLanguage )
+
+Tells the control what language for keywords to use, if SIRON_SYNTAX is
+used.
+lLanguage = 1 -> german keywords
+lLanguage = 2 -> english keywords
+
+
+[id(37)] void GetPositionByIndex( long lIndex, long *lLine, long *lCol );
+
+Returns the line and column of the zero-based lIndex position. Both line
+and column are zero-based.
+
+
+[id(38)] boolean IsCommentAtIndex( long lIndex );
+
+Returns TRUE, if the given position ( lIndex ) is in a comment.
+lIndex is the zero-based character index.
+
+
+[id(39)] void SearchWindow();
+
+Opens the modeless Search dialog.
+
+
+[id(40)] void ReplaceWindow();
+
+Opens the modeless Replace dialog.
+
+
+[id(41)] void SelectAll();
+
+Selects the whole text.
+
+
+[id(42)] boolean GotoWindow();
+
+Opens the modal GoTo dialog.
+
+
+[id(43)] boolean CanCopy();
+
+Returns TRUE, if something can be copied, cut or deleted.
+
+
+[id(44)] boolean CanPaste();
+
+Returns TRUE, if something can be pasted.
+
+
+[id(45)] boolean CanUndo();
+
+Returns TRUE, if there is a Undo action.
+
+
+[id(46)] boolean CanRedo();
+
+Returns TRUE, if there is a Redo action.
+
+
+
+
+
+******************************************************
+*  Event description of the interface _DTBEditEvents *
+******************************************************
+
+
+[id(1)] void SetInsertMode();
+
+This event is fired, if the Edit Control is toggled to insert mode.
+
+
+[id(2)] void RightMouseClick(BSTR* pName);
+
+Fired, if the user clicks with the right mouse button on the Edit
+Controls text. pName points to the clicked word.
+
+
+[id(3)] void SetLine(long lZeile, long lSpalte);
+
+Fired, if the current Position in the Edit Control changes. lZeile is set
+to the line number ( 1 is the first line ) and lSpalte is set to the
+current column number ( 1 is the first column ).
+
+
+[id(4)] void SetOverwriteMode();
+
+This event is fired, if the Edit Control is toggled to overwrite mode.
+
+
+[id(5)] void Keystroke(short sKey, boolean* pbForgetIt);
+
+Fired, if a keystroke occurs. sKey holds this key. If pbForgetIt is set
+to TRUE by the container, the keystoke will have no effect on the Edit
+Control.
+
+
+
+
+
+
+******************************************************
+*          Registry entries of the control           *
+******************************************************
+
+
+The TBEdit control uses Registry entries in:
+
+         HKEY_CURRENT_USER\Software\Ton Beller\TBEditor
+
+
+
+There are value that can be changed with the property dialog:
+
+	ColorBack		window background			white
+	ColorComment	color of comments			blue
+	ColorFore		color of normal text		black
+	ColorKey		color of keywords			red
+	Font			name of the font			Courier
+	Size			size of the font			9
+	Tabstop			tabstop width				4
+
+
+
+Some values can only be changed in the Registry:
+
+	BufferSize		number of lines to search for comment begin/end		100
+	UndoLevel		number of remembered editor actions					30
+
+	Changing one of this two values has impact on the performance of the
+	control ( greater values is equivalent to less performance ! )
+
+

@@ -1,0 +1,271 @@
+z10000Zeidon    TZHLPCXO TZZOLODO 01/02/02   14:45:51 1.0a1    
+eLOD       1
+aZKey      91000221
+aName      TZHLPCXO
+aDesc      Mapping info between zeidon context tags and .hpj context IDs
+
+eLOD_EntityParent 2
+aName      Root
+aIndentName Root
+aIndentLvl 0
+aZKey      91000222
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      OperSystem
+aIndentName    OperSystem
+aIndentLvl 3
+aZKey      91000223
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      Context
+aIndentName       Context
+aIndentLvl 6
+aZKey      91000224
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Context info for each context-sensitive help topic
+
+eLOD_AttributeRec 5
+aZKey      91000226
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      Tag
+aZKey      91000227
+aNotNull   Y
+aDesc      Unique Zeidon tag for help topic
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      91000230
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      Number
+aZKey      91000231
+aNotNull   Y
+aDesc      The context number in the .hpj file
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91000232
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      FileName
+aZKey      91000233
+aNotNull   Y
+aDesc      Name of assoc'd Help file. No extension. No path.
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      91000228
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      OSName
+aZKey      91000229
+aNotNull   Y
+aDesc      The name of the current OS
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      158003536
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      ImportFile
+aZKey      158003537
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+ePOD       2
+aNAME      TZHLPCXO
+aZKey      1149576
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      ZEIDON_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SqlServer ODBC TB
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      DB2 MVS Ger
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      ACC_REP
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      Access ODBC TB
+aGenerateExecutable KZSIACC
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      DB2_Rep
+aZKey      90014023
+aDesc      Repository DB2 NT
+aParadigm  R
+aDBMS      DB2 NT TB
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDisplayOwner Y
+
+i9         6
+i12        6
+i15        6
+i18        6
+i19        1
+i20        16
+i21        17
+i22        6
+i23        2
+i24        13
+i25        14
+i26        6
+i27        3
+i28        4
+i29        5
+i30        6
+i31        7
+i32        8
+i33        6
+i34        10
+i35        11
+i36        6

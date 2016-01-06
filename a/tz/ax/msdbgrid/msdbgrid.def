@@ -1,0 +1,145 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Project msdbgrid
+;;
+;; This is a part of the Zeidon ActiveX controls package.
+;; Copyright © 1995 - 2000 QuinSoft, Inc.
+;; All Rights Reserved.
+;;
+;; SUBSYSTEM:    msdbgrid.dll - ActiveX Control implementations
+;; FILE:         msdbgrid.def
+;; AUTHOR:
+;;
+;; OVERVIEW
+;; ========
+;; msdbgrid.def : Declares exports for msdbgrid.dll
+;;
+
+;;
+;; CHANGE LOG - generated using MERGEDEF.EXE
+;;
+
+EXPORTS
+
+   IMsDgridCtrl_AboutBox=_IMsDgridCtrl_AboutBox@8                      @150  ;; added by mergedef
+   ;;IMsDgridCtrl_CaptureImage=_IMsDgridCtrl_CaptureImage@12             @151  ;; added by mergedef
+   IMsDgridCtrl_ClearFields=_IMsDgridCtrl_ClearFields@8                @152  ;; added by mergedef
+   IMsDgridCtrl_ClearSelCols=_IMsDgridCtrl_ClearSelCols@8              @153  ;; added by mergedef
+   IMsDgridCtrl_ColContaining=_IMsDgridCtrl_ColContaining@12           @154  ;; added by mergedef
+   IMsDgridCtrl_GetActiveCell=_IMsDgridCtrl_GetActiveCell@16           @155  ;; added by mergedef
+   IMsDgridCtrl_GetAddNewMode=_IMsDgridCtrl_GetAddNewMode@8            @156  ;; added by mergedef
+   IMsDgridCtrl_GetAllowAddNew=_IMsDgridCtrl_GetAllowAddNew@8          @157  ;; added by mergedef
+   IMsDgridCtrl_GetAllowArrows=_IMsDgridCtrl_GetAllowArrows@8          @158  ;; added by mergedef
+   IMsDgridCtrl_GetAllowDelete=_IMsDgridCtrl_GetAllowDelete@8          @159  ;; added by mergedef
+   IMsDgridCtrl_GetAllowRowSizing=_IMsDgridCtrl_GetAllowRowSizing@8    @160  ;; added by mergedef
+   IMsDgridCtrl_GetAllowUpdate=_IMsDgridCtrl_GetAllowUpdate@8          @161  ;; added by mergedef
+   IMsDgridCtrl_GetAppearance=_IMsDgridCtrl_GetAppearance@8            @162  ;; added by mergedef
+   IMsDgridCtrl_GetApproxCount=_IMsDgridCtrl_GetApproxCount@8          @163  ;; added by mergedef
+   IMsDgridCtrl_GetBackColor=_IMsDgridCtrl_GetBackColor@8              @164  ;; added by mergedef
+   IMsDgridCtrl_GetBookmark0=_IMsDgridCtrl_GetBookmark0@12             @165  ;; added by mergedef
+   IMsDgridCtrl_GetBookmark=_IMsDgridCtrl_GetBookmark@8                @166  ;; added by mergedef
+   IMsDgridCtrl_GetBorderStyle=_IMsDgridCtrl_GetBorderStyle@8          @167  ;; added by mergedef
+   IMsDgridCtrl_GetCaption=_IMsDgridCtrl_GetCaption@8                  @168  ;; added by mergedef
+   IMsDgridCtrl_GetCellData=_IMsDgridCtrl_GetCellData@20               @169  ;; added by mergedef
+   IMsDgridCtrl_GetCol=_IMsDgridCtrl_GetCol@8                          @170  ;; added by mergedef
+   IMsDgridCtrl_GetColumnHeaders=_IMsDgridCtrl_GetColumnHeaders@8      @171  ;; added by mergedef
+   IMsDgridCtrl_GetColumns=_IMsDgridCtrl_GetColumns@12                 @172  ;; added by mergedef
+   IMsDgridCtrl_GetCurrentCellModified=_IMsDgridCtrl_GetCurrentCellModified@8    @173  ;; added by mergedef
+   IMsDgridCtrl_GetCurrentCellVisible=_IMsDgridCtrl_GetCurrentCellVisible@8    @174  ;; added by mergedef
+   IMsDgridCtrl_GetDataChanged=_IMsDgridCtrl_GetDataChanged@8          @175  ;; added by mergedef
+   IMsDgridCtrl_GetDataMode=_IMsDgridCtrl_GetDataMode@8                @176  ;; added by mergedef
+   IMsDgridCtrl_GetDataSource=_IMsDgridCtrl_GetDataSource@8            @177  ;; added by mergedef
+   IMsDgridCtrl_GetDefColWidth=_IMsDgridCtrl_GetDefColWidth@8          @178  ;; added by mergedef
+   IMsDgridCtrl_GetEditActive=_IMsDgridCtrl_GetEditActive@8            @179  ;; added by mergedef
+   IMsDgridCtrl_GetEnabled=_IMsDgridCtrl_GetEnabled@8                  @180  ;; added by mergedef
+   IMsDgridCtrl_GetErrorText=_IMsDgridCtrl_GetErrorText@8              @181  ;; added by mergedef
+   IMsDgridCtrl_GetFirstRow=_IMsDgridCtrl_GetFirstRow@8                @182  ;; added by mergedef
+   IMsDgridCtrl_GetFont=_IMsDgridCtrl_GetFont@8                        @183  ;; added by mergedef
+   IMsDgridCtrl_GetForeColor=_IMsDgridCtrl_GetForeColor@8              @184  ;; added by mergedef
+   IMsDgridCtrl_GetHeadFont=_IMsDgridCtrl_GetHeadFont@8                @185  ;; added by mergedef
+   IMsDgridCtrl_GetHeadLines=_IMsDgridCtrl_GetHeadLines@8              @186  ;; added by mergedef
+   IMsDgridCtrl_GetLeftCol=_IMsDgridCtrl_GetLeftCol@8                  @187  ;; added by mergedef
+   IMsDgridCtrl_GetMarqueeStyle=_IMsDgridCtrl_GetMarqueeStyle@8        @188  ;; added by mergedef
+   IMsDgridCtrl_GetMarqueeUnique=_IMsDgridCtrl_GetMarqueeUnique@8      @189  ;; added by mergedef
+   IMsDgridCtrl_GetRecordSelectors=_IMsDgridCtrl_GetRecordSelectors@8    @190  ;; added by mergedef
+   IMsDgridCtrl_GetRow=_IMsDgridCtrl_GetRow@8                          @191  ;; added by mergedef
+   IMsDgridCtrl_GetRowDividerStyle=_IMsDgridCtrl_GetRowDividerStyle@8    @192  ;; added by mergedef
+   IMsDgridCtrl_GetRowHeight=_IMsDgridCtrl_GetRowHeight@8              @193  ;; added by mergedef
+   IMsDgridCtrl_GetScrollBars=_IMsDgridCtrl_GetScrollBars@8            @194  ;; added by mergedef
+   IMsDgridCtrl_GetSelBookmarks=_IMsDgridCtrl_GetSelBookmarks@12       @195  ;; added by mergedef
+   IMsDgridCtrl_GetSelEndCol=_IMsDgridCtrl_GetSelEndCol@8              @196  ;; added by mergedef
+   IMsDgridCtrl_GetSelLength=_IMsDgridCtrl_GetSelLength@8              @197  ;; added by mergedef
+   IMsDgridCtrl_GetSelStart=_IMsDgridCtrl_GetSelStart@8                @198  ;; added by mergedef
+   IMsDgridCtrl_GetSelStartCol=_IMsDgridCtrl_GetSelStartCol@8          @199  ;; added by mergedef
+   IMsDgridCtrl_GetSelText=_IMsDgridCtrl_GetSelText@8                  @200  ;; added by mergedef
+   IMsDgridCtrl_GetSplit=_IMsDgridCtrl_GetSplit@8                      @201  ;; added by mergedef
+   IMsDgridCtrl_GetSplits=_IMsDgridCtrl_GetSplits@12                   @202  ;; added by mergedef
+   IMsDgridCtrl_GetTabAcrossSplits=_IMsDgridCtrl_GetTabAcrossSplits@8    @203  ;; added by mergedef
+   IMsDgridCtrl_GetTabAction=_IMsDgridCtrl_GetTabAction@8              @204  ;; added by mergedef
+   IMsDgridCtrl_GetText=_IMsDgridCtrl_GetText@8                        @205  ;; added by mergedef
+   IMsDgridCtrl_GetVisibleCols=_IMsDgridCtrl_GetVisibleCols@8          @206  ;; added by mergedef
+   IMsDgridCtrl_GetVisibleRows=_IMsDgridCtrl_GetVisibleRows@8          @207  ;; added by mergedef
+   IMsDgridCtrl_GetWrapCellPointer=_IMsDgridCtrl_GetWrapCellPointer@8    @208  ;; added by mergedef
+   IMsDgridCtrl_GethWnd=_IMsDgridCtrl_GethWnd@8                        @209  ;; added by mergedef
+   IMsDgridCtrl_GethWndEditor=_IMsDgridCtrl_GethWndEditor@8            @210  ;; added by mergedef
+   IMsDgridCtrl_HoldFields=_IMsDgridCtrl_HoldFields@8                  @211  ;; added by mergedef
+   IMsDgridCtrl_LockColumn=_IMsDgridCtrl_LockColumn@16                 @212  ;; added by mergedef
+   IMsDgridCtrl_ReBind=_IMsDgridCtrl_ReBind@8                          @213  ;; added by mergedef
+   IMsDgridCtrl_Refresh=_IMsDgridCtrl_Refresh@8                        @214  ;; added by mergedef
+   IMsDgridCtrl_RowBookmark=_IMsDgridCtrl_RowBookmark@12               @215  ;; added by mergedef
+   IMsDgridCtrl_RowContaining=_IMsDgridCtrl_RowContaining@12           @216  ;; added by mergedef
+   IMsDgridCtrl_RowTop=_IMsDgridCtrl_RowTop@12                         @217  ;; added by mergedef
+   IMsDgridCtrl_Scroll=_IMsDgridCtrl_Scroll@16                         @218  ;; added by mergedef
+   IMsDgridCtrl_SetActiveCell=_IMsDgridCtrl_SetActiveCell@16           @219  ;; added by mergedef
+   IMsDgridCtrl_SetAddNewMode=_IMsDgridCtrl_SetAddNewMode@12           @220  ;; added by mergedef
+   IMsDgridCtrl_SetAllowAddNew=_IMsDgridCtrl_SetAllowAddNew@12         @221  ;; added by mergedef
+   IMsDgridCtrl_SetAllowArrows=_IMsDgridCtrl_SetAllowArrows@12         @222  ;; added by mergedef
+   IMsDgridCtrl_SetAllowDelete=_IMsDgridCtrl_SetAllowDelete@12         @223  ;; added by mergedef
+   IMsDgridCtrl_SetAllowRowSizing=_IMsDgridCtrl_SetAllowRowSizing@12    @224  ;; added by mergedef
+   IMsDgridCtrl_SetAllowUpdate=_IMsDgridCtrl_SetAllowUpdate@12         @225  ;; added by mergedef
+   IMsDgridCtrl_SetAppearance=_IMsDgridCtrl_SetAppearance@12           @226  ;; added by mergedef
+   IMsDgridCtrl_SetApproxCount=_IMsDgridCtrl_SetApproxCount@12         @227  ;; added by mergedef
+   IMsDgridCtrl_SetBackColor=_IMsDgridCtrl_SetBackColor@12             @228  ;; added by mergedef
+   IMsDgridCtrl_SetBookmark=_IMsDgridCtrl_SetBookmark@24               @229  ;; added by mergedef
+   IMsDgridCtrl_SetBorderStyle=_IMsDgridCtrl_SetBorderStyle@12         @230  ;; added by mergedef
+   IMsDgridCtrl_SetCaption=_IMsDgridCtrl_SetCaption@12                 @231  ;; added by mergedef
+   IMsDgridCtrl_SetCellData=_IMsDgridCtrl_SetCellData@20               @232  ;; added by mergedef
+   IMsDgridCtrl_SetCol=_IMsDgridCtrl_SetCol@12                         @233  ;; added by mergedef
+   IMsDgridCtrl_SetColumnHeaders=_IMsDgridCtrl_SetColumnHeaders@12     @234  ;; added by mergedef
+   IMsDgridCtrl_SetCurrentCellModified=_IMsDgridCtrl_SetCurrentCellModified@12    @235  ;; added by mergedef
+   IMsDgridCtrl_SetCurrentCellVisible=_IMsDgridCtrl_SetCurrentCellVisible@12    @236  ;; added by mergedef
+   IMsDgridCtrl_SetDataChanged=_IMsDgridCtrl_SetDataChanged@12         @237  ;; added by mergedef
+   IMsDgridCtrl_SetDataMode=_IMsDgridCtrl_SetDataMode@12               @238  ;; added by mergedef
+   IMsDgridCtrl_SetDataSource=_IMsDgridCtrl_SetDataSource@12           @239  ;; added by mergedef
+   IMsDgridCtrl_SetDefColWidth=_IMsDgridCtrl_SetDefColWidth@12         @240  ;; added by mergedef
+   IMsDgridCtrl_SetEditActive=_IMsDgridCtrl_SetEditActive@12           @241  ;; added by mergedef
+   IMsDgridCtrl_SetEnabled=_IMsDgridCtrl_SetEnabled@12                 @242  ;; added by mergedef
+   IMsDgridCtrl_SetErrorText=_IMsDgridCtrl_SetErrorText@12             @243  ;; added by mergedef
+   IMsDgridCtrl_SetFirstRow=_IMsDgridCtrl_SetFirstRow@24               @244  ;; added by mergedef
+   IMsDgridCtrl_SetFont=_IMsDgridCtrl_SetFont@12                       @245  ;; added by mergedef
+   IMsDgridCtrl_SetForeColor=_IMsDgridCtrl_SetForeColor@12             @246  ;; added by mergedef
+   IMsDgridCtrl_SetHeadFont=_IMsDgridCtrl_SetHeadFont@12               @247  ;; added by mergedef
+   IMsDgridCtrl_SetHeadLines=_IMsDgridCtrl_SetHeadLines@12             @248  ;; added by mergedef
+   IMsDgridCtrl_SetLeftCol=_IMsDgridCtrl_SetLeftCol@12                 @249  ;; added by mergedef
+   IMsDgridCtrl_SetMarqueeStyle=_IMsDgridCtrl_SetMarqueeStyle@12       @250  ;; added by mergedef
+   IMsDgridCtrl_SetMarqueeUnique=_IMsDgridCtrl_SetMarqueeUnique@12     @251  ;; added by mergedef
+   IMsDgridCtrl_SetRecordSelectors=_IMsDgridCtrl_SetRecordSelectors@12    @252  ;; added by mergedef
+   IMsDgridCtrl_SetRow=_IMsDgridCtrl_SetRow@12                         @253  ;; added by mergedef
+   IMsDgridCtrl_SetRowDividerStyle=_IMsDgridCtrl_SetRowDividerStyle@12    @254  ;; added by mergedef
+   IMsDgridCtrl_SetRowHeight=_IMsDgridCtrl_SetRowHeight@12             @255  ;; added by mergedef
+   IMsDgridCtrl_SetScrollBars=_IMsDgridCtrl_SetScrollBars@12           @256  ;; added by mergedef
+   IMsDgridCtrl_SetSelEndCol=_IMsDgridCtrl_SetSelEndCol@12             @257  ;; added by mergedef
+   IMsDgridCtrl_SetSelLength=_IMsDgridCtrl_SetSelLength@12             @258  ;; added by mergedef
+   IMsDgridCtrl_SetSelStart=_IMsDgridCtrl_SetSelStart@12               @259  ;; added by mergedef
+   IMsDgridCtrl_SetSelStartCol=_IMsDgridCtrl_SetSelStartCol@12         @260  ;; added by mergedef
+   IMsDgridCtrl_SetSelText=_IMsDgridCtrl_SetSelText@12                 @261  ;; added by mergedef
+   IMsDgridCtrl_SetSplit=_IMsDgridCtrl_SetSplit@12                     @262  ;; added by mergedef
+   IMsDgridCtrl_SetTabAcrossSplits=_IMsDgridCtrl_SetTabAcrossSplits@12    @263  ;; added by mergedef
+   IMsDgridCtrl_SetTabAction=_IMsDgridCtrl_SetTabAction@12             @264  ;; added by mergedef
+   IMsDgridCtrl_SetText=_IMsDgridCtrl_SetText@12                       @265  ;; added by mergedef
+   IMsDgridCtrl_SetVisibleCols=_IMsDgridCtrl_SetVisibleCols@12         @266  ;; added by mergedef
+   IMsDgridCtrl_SetVisibleRows=_IMsDgridCtrl_SetVisibleRows@12         @267  ;; added by mergedef
+   IMsDgridCtrl_SetWrapCellPointer=_IMsDgridCtrl_SetWrapCellPointer@12    @268  ;; added by mergedef
+   IMsDgridCtrl_SethWnd=_IMsDgridCtrl_SethWnd@12                       @269  ;; added by mergedef
+   IMsDgridCtrl_SethWndEditor=_IMsDgridCtrl_SethWndEditor@12           @270  ;; added by mergedef
+   IMsDgridCtrl_SplitContaining=_IMsDgridCtrl_SplitContaining@16       @271  ;; added by mergedef
+   MsDBGridScript=_MsDBGridScript@16                                   @272  ;; added by mergedef

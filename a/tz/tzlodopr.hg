@@ -1,0 +1,44 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// MODULE NAME:   tzlodopr.hg -  Zeidon application operation prototypes
+// DESCRIPTION:   This C file contains global and LOD operation prototypes
+//                for the Zeidon application.
+//
+// **************************************************************************
+// * Copyright (c) 1995 QuinSoft, Corporation.  All rights reserved.        *
+// * Confidential and Proprietary material subject to license - do not      *
+// * reproduce or disclose.  This material is an unpublished work and       *
+// * is considered a trade secret belonging to the copyright holder.        *
+// **************************************************************************
+//
+// AUTHOR:        Doug Sorensen
+// DATE:          1995/08/05
+// API:           MicroSoft foundation classes and Windows 3.1 SDK
+// ENVIRONMENT:   Windows 3.1
+// REVISION:      0.8E   1995/08/05
+//
+// HISTORY:
+//
+//    1995/08/05: Beginning of 0.8E branch
+//
+/////////////////////////////////////////////////////////////////////////////
+//
+#ifndef TZLODOPR_HG
+#define TZLODOPR_HG
+
+#include "kzoegdef.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// mGLOBAL_DECLARE is a macro defined to produce extern variable declarations
+// unless zGLOBAL_DATA is defined as:  #define zGLOBAL_DATA
+// in which case the variables are declared as global.
+//
+/////////////////////////////////////////////////////////////////////////////
+//
+mGLOBAL_DECLARE( zSHORT, g_lDlgUnitCharX, 0 );
+mGLOBAL_DECLARE( zSHORT, g_lDlgUnitCharY, 0 );
+
+#endif
+///////////////////////////// end of file  //////////////////////////////////
+

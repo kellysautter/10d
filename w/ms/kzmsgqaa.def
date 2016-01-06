@@ -1,0 +1,17 @@
+;; ChangeLog
+;;
+;; 2000.08.04  RG  Z2000
+;;     - no Library name because we use the def-file
+;;       for hzkzoe.dll and hzkzoes.dll
+;;     - remove compiler warnings; CODE, DATA statement
+;;
+LIBRARY
+
+;;   CODE      PRELOAD MOVEABLE DISCARDABLE
+;;   DATA      PRELOAD SINGLE
+
+EXPORTS
+      MQ_MessageSend                @1
+      MQ_MessagePrompt              @2
+      MQ_MessagePromptForInput      @3
+      MQ_MessagePresent             @4

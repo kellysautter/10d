@@ -1,0 +1,130 @@
+#-------------------------------------------------------------------
+# DESCRIPTION: This nmake include file compiles Zeidon tools (see ENV.HNM)
+#-------------------------------------------------------------------
+#
+# CHANGE LOG
+#
+# 2001.12.20  DGC Z2000
+#      Removed MORE_CL_OPTS--use CPP_OBJS instead.
+#
+# 2000.08.30  DGC Z2000
+#      Added more Z_LIB_SUFFIX references.  Removed Win 3.x references.
+#      Added SKIP_MERGEDEF.  Removed /NOD references.
+#
+# 2000.07.18  DGC Z2000
+#      Removed LIB_DEPENDENTS code
+#
+# 1999.11.11  RG  Z2000  MFC-Dll's
+#     Changed MFCS42D.Lib to MFCS42.Lib because we may not use
+#     Debug DLL's for Releases to give to clients
+#
+# From here old version
+#
+# 1998.07.21  DGC
+#     Added a display line.
+#
+# 1998.10.15  DGC
+#     Removed references to win95.
+#
+
+# If DRIVER_APP is specfied then we need to add driver libs.
+!if "$(DRIVER_APP)" == "YES"
+BASELINKDLLS = $(BASELINKDLLS) zdrapp.lib zdctl.lib
+
+!if EXIST( $(Z_LIB)r\TZCTL.lib )
+BASELINKDLLS = $(BASELINKDLLS) tzctl.lib
+!endif
+
+#OBJS_ALL = $(OBJS_ALL) zdllinst.obj
+!endif
+
+!if EXIST( $(Z_BASE_ENV)\$(MODULE).rc )
+RESFILE = $(Z_OBJ)\$(MODULE).res
+!endif
+
+# =============================================================
+# Dependencies
+# =============================================================
+ALL: $(TARGETS)
+
+# =============================================================
+# Compile all the OBJs
+# =============================================================
+!if "$(OBJS)" != ""
+OBJS_ALL = $(OBJS_ALL) $(OBJS)
+
+$(OBJS): $(Z_SRC)\$(@B).c $(C_DEPENDENTS) $(Z_INC)z\tzlodopr.h
+   qspawn $(Z_SRC)\$(@B).err cl @<<
+$(CL_OPT)
+$(Z_SRC)\$(@B).c
+-Fo$(Z_OBJ)\$(@B).obj
+<<
+
+!endif
+
+# =============================================================
+# Compile all the OBJs
+# =============================================================
+!if "$(CPP_OBJS)" != ""
+OBJS_ALL = $(OBJS_ALL) $(CPP_OBJS)
+
+TP = -TP
+#LINKDLLS = $(LINKDLLS) mfcs140.lib
+
+$(CPP_OBJS): $(Z_SRC)\$(@B).c $(C_DEPENDENTS)
+   qspawn $(Z_SRC)\$(@B).err cl @<<
+$(CL_OPT) $(TP)
+$(Z_SRC)\$(@B).c
+-Fo$(Z_OBJ)\$(@B).obj
+<<
+
+!endif
+
+# =============================================================
+# Create .res file  (only if RC exists)
+# =============================================================
+!if EXIST( $(Z_BASE_ENV)\$(MODULE).rc )
+
+$(Z_OBJ)\$(MODULE).res:  $(Z_BASE_ENV)\$(MODULE).rc
+   rc -d__WIN32__ /fo$(RESFILE) $(Z_BASE_ENV)\$(MODULE).rc
+
+!endif
+
+# =============================================================
+# Link the .dll
+# =============================================================
+$(TARGETS) : $(OBJS) $(CPP_OBJS) $(RESFILE)
+   qpreproc __WIN32__=1 $(Z_BASE_ENV)\$(@B).dfb > $(Z_BASE_ENV)\$(@B).def
+   qspawn $(Z_SRC)\$(@B).ler link @<<
+$(LINKDLLS) $(BASELINKDLLS) $(LINK_OPT) $(LINK_OPT2)
+/OUT:$(Z_BIN)\$(@B).dll /DEF:$(Z_BASE_ENV)\$(@B).def /IMPLIB:$(Z_LIB)$(Z_LIB_SUFFIX)\$(@B).lib $(RESFILE) $(OBJS_ALL)
+<<
+!if "$(SKIP_MERGEDEF)" != "Y"
+   dumpbin /exports $(Z_BIN)\$(@B).dll > $(Z_BASE_ENV)\$(@B).DXX
+   mergedef $(Z_BASE_ENV)\$(@B).def $(Z_BASE_ENV)\$(@B).DXX
+   qspawn +$(Z_SRC)\$(@B).ler link @<<
+$(LINKDLLS) $(BASELINKDLLS) $(LINK_OPT) $(LINK_OPT2)
+/OUT:$(Z_BIN)\$(@B).dll /MAP:$(@B).map /DEF:$(Z_BASE_ENV)\$(@B).TMP /IMPLIB:$(Z_LIB)$(Z_LIB_SUFFIX)\$(@B).lib $(RESFILE) $(OBJS_ALL)
+<<
+
+!endif   # "$(SKIP_MERGEDEF)" != "Y"
+
+#  del $(Z_BASE_ENV)\$(@B).DXX
+#  del $(Z_BASE_ENV)\$(@B).TMP
+
+CLEAN:
+   qdelete @<<
+$(OBJS_ALL: =
+)
+$(OBJS_ALL:OBJ=ERR)
+$(Z_OBJ)\$(MODULE).res
+$(Z_BIN)\$(MODULE).dll
+$(Z_BIN)\$(MODULE).ilk
+$(Z_BIN)\$(MODULE).pdb
+$(Z_BIN)\$(MODULE).idb
+$(Z_LIB)$(Z_LIB_SUFFIX)\$(MODULE).lib
+$(Z_LIB)$(Z_LIB_SUFFIX)\$(MODULE).exp
+$(Z_SRC)\$(MODULE).ler
+$(Z_BASE_ENV)\$(MODULE).map
+<<
+

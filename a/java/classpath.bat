@@ -1,0 +1,1 @@
+set CLASSPATH=%kzd%:\Program Files\Apache Group\Tomcat 6.0\common\lib\servlet-api.jar;%kzd%:\Program Files\Apache Group\Tomcat 6.0\common\lib\jsp-api.jar;.;%kzd%:\10d\a\java\class;%kzd%:\Program Files\Java\jdk1.6.0_16\tools.jar

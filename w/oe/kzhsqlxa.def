@@ -1,0 +1,31 @@
+#if defined( DB2 )
+   LIBRARY       KZHSQLDA
+#elif defined( DUMMY )
+   LIBRARY       KZHSQLXX
+#elif defined( ODBC )
+   LIBRARY       KZHSQLOA
+#elif defined( SQLBASE )
+   LIBRARY       KZHSQLBA
+#elif defined( SQLSERVER )
+   LIBRARY       KZHSQLSA
+#endif
+
+#if defined( __WIN32__ )
+;; CODE      PRELOAD MOVEABLE DISCARDABLE
+;; DATA      PRELOAD SINGLE
+#else
+   STUB         'WINSTUB.EXE'
+   CODE  MOVEABLE
+   DATA  FIXED SINGLE
+   HEAPSIZE     1024
+   EXETYPE       WINDOWS
+#endif
+
+EXPORTS
+
+              DBH_MsgProc          @1
+#if defined( DB2 )
+              RetrieveSchema       @2
+#elif defined( ODBC )
+              RetrieveSchema       @2
+#endif

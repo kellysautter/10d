@@ -1,0 +1,483 @@
+z10000Zeidon    TZERRLLO TZZOLODO 05/01/01   23:18:31 1.0b0    
+eLOD       1
+aZKey      70000045
+aName      TZERRLLO
+aDesc      Work object for Identifiers
+
+eLOD_EntityParent 2
+aName      TZERRLLO
+aIndentName TZERRLLO
+aIndentLvl 0
+aZKey      70000046
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      ER_RelLink_Other
+aIndentName    ER_RelLink_Other
+aIndentLvl 3
+aZKey      70000047
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Contains info for the Relationship-link in the ER Model.
+
+eLOD_EntityChild 4
+aName      ER_Entity_Other
+aIndentName       ER_Entity_Other
+aIndentLvl 6
+aZKey      70000062
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aDesc      ER Entities
+
+eLOD_AttributeRec 5
+aZKey      70000063
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1320861
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Entity Name
+aListPaintLit Entity Name
+
+eDomainRec 7
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      70000064
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      ZKey
+aZKey      1320862
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      70000065
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      Purpose
+aZKey      1320863
+aLth       12
+aNotNull   N
+aDesc      Converted from 6B
+aPromptPaintLit Purpose
+aListPaintLit Purpose
+
+eDomainRec 7
+aZKey      1320129
+aName      ER_EntityPurpose
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Purpose of Entity in ER
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      70000066
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      Desc
+aZKey      1320864
+aDesc      Converted from 6B
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eDomainRec 7
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      70000067
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      OwningArea
+aZKey      1320865
+aLth       32
+aDesc      Area or subsystem that has responsibility
+aPromptPaintLit Owning Area
+aListPaintLit Owning Area
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      70000068
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      ER_DiagramPosX
+aZKey      1320866
+aNotNull   N
+aDesc      Graphical position for entity in Whole Entity Model
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      70000069
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      ER_DiagramPosY
+aZKey      1320867
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      70000070
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      ER_PortFactor
+aZKey      90005041
+aDesc      Identifies the size of the entity, which controls the number of relationship ports.
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      70000071
+
+eER_AttributeRec 6
+aName      TE_TableName
+aZKey      94002943
+aLth       32
+aDesc      78
+An override name to be used for generation of the TE Table for this entity.
+0
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      ER_Entity
+aZKey      1320860
+aPurpose   W
+aDesc      ER Entities
+aOwningArea ER
+aER_DiagramPosX 156
+aER_DiagramPosY 194
+
+eER_RelLinkRec 5
+aName      is fact for
+aZKey      1322230
+aCardMin   1
+aCardMax   1
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      1322228
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 161
+aER_DiagramBendPosY 222
+aER_DiagramE1PosX 161
+aER_DiagramE1PosY 199
+aER_DiagramE2PosX 177
+aER_DiagramE2PosY 222
+
+eLOD_AttributeRec 4
+aZKey      70000048
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1320875
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Relationship Name
+aListPaintLit Relationship Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      70000049
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1320876
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      70000050
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      CardMin
+aZKey      1320877
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Min Cardinality
+aListPaintLit Min Cardinality
+
+eDomainRec 6
+aZKey      90121803
+aName      ERD_MinCardinality
+aDomainType A
+aDataType  S
+aMaxStringLth 8
+aDesc      Minimum Cardinality for a relationship - Integer
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      70000051
+
+eER_AttributeRec 5
+aName      CardMax
+aZKey      1320878
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Max Cardinality
+aListPaintLit Max Cardinality
+
+eDomainRec 6
+aZKey      90055891
+aName      ERD_MaxCardinality
+aDomainType A
+aDataType  S
+aMaxStringLth 8
+aDesc      Maximum Cardinality for a relationship - m, M or integer
+aContextRestriction N
+
+eER_EntityRec 4
+aName      ER_RelLink
+aZKey      1320874
+aPurpose   W
+aDesc      Contains info for the Relationship-link in the ER Model.
+aOwningArea ER
+aER_DiagramPosX 178
+aER_DiagramPosY 220
+
+eLOD_Entity 2
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eSourceFile 2
+aZKey      92000598
+aName      TZERRLLO
+aExtension VML
+aLanguageType V
+
+i21        9
+i24        9
+i27        9
+i30        18
+i36        18
+i39        9
+i47        1
+i48        2
+i49        34
+i50        35
+i51        18
+i52        37
+i53        38
+i54        9
+i55        40
+i56        41
+i57        42
+i58        43
+i59        44
+i60        45
+i61        46
+i62        3
+i63        4
+i64        5
+i65        6
+i66        7
+i67        8
+i68        9
+i69        10
+i70        11
+i71        12
+i72        13
+i73        14
+i74        15
+i75        16
+i76        17
+i77        18
+i78        19
+i79        20
+i80        9
+i81        22
+i82        23
+i83        9
+i84        25
+i85        26
+i86        9
+i87        28
+i88        29
+i89        18
+i90        31
+i91        32
+i92        33

@@ -1,0 +1,19 @@
+rZeidon    Z0145FCA TZWDVORO 11/02/95   20:51:54 1.0a     
+eViewObjRef 1,192
+aZKey      1335242
+aName      TZSCOPEL
+aDesc      Work object for creating scope entity list.
+
+eLOD       2,192
+aZKey      1328561
+aName      TZPNCTWO
+aDesc      Work object for standard Windows Controls
+
+eZ_MetaDef 2,192
+aName      TZSCOPEL
+aZKey      1335242
+aType      9
+aLastUpdateDate 19950824213636000
+aLastCheckInDate 19951102203051110
+aDesc      Work object for creating scope entity list.
+

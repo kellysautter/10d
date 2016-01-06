@@ -1,0 +1,3369 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: CreateTabIndexString
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+CreateTabIndexString( VIEW vDialog BASED ON LOD TZWDLGSO,
+                      STRING ( 16 ) szTabIndex )
+
+   VIEW vDialogRoot BASED ON LOD TZWDLGSO
+   STRING ( 8 ) szWork
+   SHORT        nTabIndex
+
+   GET VIEW vDialogRoot NAMED "vDialogRoot"
+   nTabIndex = vDialog.Control.SyncKey
+   IF nTabIndex > 0 AND nTabIndex < 9999
+      zIntegerToString( szWork, 8, nTabIndex )
+      szTabIndex = " tabindex=" + szWork + " "
+   ELSE
+      GET VIEW vDialogRoot NAMED "DialogRoot"
+      IF vDialogRoot.Window.wWindowHasTabsFlag = "Y"
+         szTabIndex = " tabindex=-1 "    // Since tabs are used on the Window, this Control will be marked "no tab".
+      ELSE
+         szTabIndex = ""
+      END
+   END
+
+   RETURN( nTabIndex )
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: BuildMainNavSection
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+BuildMainNavSection( VIEW vDialog,
+                     VIEW vDialogRoot BASED ON LOD TZWDLGSO,
+                     INTEGER lFile )
+
+   STRING ( 10000 ) szWriteBuffer
+   STRING ( 50 )    szNavigationTitle
+   STRING ( 256 )   szHTML_Address
+   STRING ( 256 )   szClass
+   STRING ( 50 )    szDialogName
+   STRING ( 50 )    szMenuName
+   STRING ( 34 )    szActionName
+   INTEGER          ActionType
+   SHORT            nRC
+
+   // MAIN NAVIGATION BAR
+
+   szWriteBuffer = "<!-- Main Navigation *********************** -->"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   IF vDialogRoot.Menu EXISTS
+      szMenuName = vDialogRoot.Menu.Tag
+      IF vDialogRoot.Menu.CSS_Class != ""
+         szClass = " class=^" + vDialogRoot.Menu.CSS_Class + "^ "
+      END
+   END
+   szWriteBuffer = "<div id=^mainnavigation^" + szClass + ">"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + ">"
+   szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^ >"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+   FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
+      szNavigationTitle = vDialogRoot.Option.Text
+      szDialogName = vDialogRoot.OptAct.DialogName
+      IF szDialogName = ""
+         szDialogName = "NoDialogName"
+      END
+
+      IF vDialogRoot.Option.CSS_Class != ""
+         szClass = " class=^" + vDialogRoot.Option.CSS_Class + "^ "
+      ELSE
+         szClass = ""
+      END
+
+      IF vDialogRoot.OptAct EXISTS
+         //Because the menu actions can be created on separate windows from the control
+         //actions, we need to make sure these actions are unique.  We will prefix a
+         //"m" to the main menu actions and prefix a "sm" to the side menu actions.
+         szActionName = "m" + vDialogRoot.OptAct.Tag
+         ActionType = vDialogRoot.OptAct.Type
+      ELSE
+         szActionName = ""
+         ActionType = 0
+      END
+
+      IF ActionType = zWAB_LinkToHTML_Address
+         szHTML_Address = ""
+         IF vDialogRoot.OptAct EXISTS
+            SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
+            szHTML_Address = vDialogRoot.Action.WebHTML_TransferAddress
+         END
+         szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ " + szClass + "><a href=^" + szHTML_Address + "^ target=^_blank^>" + szNavigationTitle + "</a></li>"
+      ELSE
+         // Regular Action
+
+         szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ " + szClass + "><a href=^#^ onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+      END
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   END
+
+   // Division ending for Navigation Bar
+   szWriteBuffer = "   </ul>"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "</div>  <!-- end Navigation Bar -->"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = ""
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+   // Include the banner at the bottom of the menu options.
+   //szWriteBuffer = "<div class=^noprint^>"
+   //WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "<%@include file=^./include/topmenuend.inc^ %>"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   // KJS 07/31/08 - I am taking out the following inc file.  I am
+   // currently thinking that anything in this inc file could simply
+   // be put in topmenuend.inc and that might seem a little simpler.
+   // Not sure...
+   //szWriteBuffer = "<%@include file=^Left_Nav_Background.inc^ %>"
+   //WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "</div>"
+   //WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: BuildSideNavSection
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+BuildSideNavSection( VIEW vDialog,
+                     VIEW vDialogRoot BASED ON LOD TZWDLGSO,
+                     INTEGER lFile,
+                     STRING (1) szReusableMenu,
+                     VIEW vDialogMenu BASED ON LOD TZWDLGSO )
+
+   STRING ( 10000 ) szWriteBuffer
+   STRING ( 50 )    szNavigationTitle
+   STRING ( 50 )    szHTML_Name
+   STRING ( 50 )    szDialogName
+   STRING ( 50 )    szOptionTag
+   STRING ( 50 )    szMenuName
+   STRING ( 34 )    szActionName
+   STRING ( 256 )   szClass
+   STRING ( 256 )   szClass2
+   INTEGER          ActionType
+   INTEGER          lLth
+   SHORT            nRC
+
+   // SIDE NAVIGATION BAR
+   TraceLineS( "*** BuildSideNavSection Window! *** ", vDialog.Window.Tag )
+
+   szWriteBuffer = ""
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "<div id=^leftcontent^>"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+   szWriteBuffer = "<!-- Side Navigation *********************** -->"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   IF vDialogRoot.Menu EXISTS
+      szMenuName = vDialogRoot.Menu.Tag
+      IF vDialogRoot.Menu.CSS_Class != ""
+         szClass = " class=^" + vDialogRoot.Menu.CSS_Class + "^ "
+      END
+   END
+   szWriteBuffer = "<div id=^sidenavigation^" + szClass + ">"
+   //szWriteBuffer = "<div id=^sidenavigation^>"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + ">"
+   szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^>"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+   FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
+      szNavigationTitle = vDialogRoot.Option.Text
+      szDialogName = vDialogRoot.OptAct.DialogName
+      IF szDialogName = ""
+         szDialogName = "NoDialogName"
+      END
+
+      IF szReusableMenu = "Y"
+         szMenuName = "sm" + vDialogRoot.Option.Tag
+      ELSE
+         szMenuName = vDialogRoot.Option.Tag
+      END
+
+   // szHTML_Name = szDialogName + vDialogRoot.OptAct.WindowName + ".jsp"
+      IF vDialogRoot.OptAct EXISTS
+
+         // Because the menu actions can be created on separate windows from the control
+         // actions, we need to make sure these actions are unique.  We will prefix a
+         // "m" to the main menu actions and prefix a "sm" to the side menu actions.
+         IF szReusableMenu = "Y"
+            szActionName = "sm" + vDialogRoot.OptAct.Tag
+            lLth = zstrlen( szActionName )
+            IF lLth > 32
+               MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
+                            szActionName,
+                            zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            END
+         ELSE
+            szActionName = vDialogRoot.OptAct.Tag
+         END
+         ActionType = vDialogRoot.OptAct.Type
+      ELSE
+         szActionName = ""
+         ActionType = 0
+      END
+
+      // If the window we are currently generating is the same window that this
+      // side menu points to, then we want to set a class on this option.  The
+      // reason is so that we can tell which side menu option the user has selected.
+      IF vDialogRoot.OptAct.WindowName = vDialog.Window.Tag
+         szClass2 = " class=^sideselected^ "
+      ELSE
+         szClass2 = ""
+      END
+
+      IF vDialogRoot.Option.CSS_Class != ""
+         szClass = " class=^" + vDialogRoot.Option.CSS_Class + "^"
+      ELSE
+         szClass = ""
+      END
+
+      szWriteBuffer = "<%"
+      szOptionTag = vDialogRoot.Option.Tag
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   nRC = vKZXMLPGO.SetCursorFirst( strSessionId, ^DisableMenuOption^, ^MenuOptionName^, ^" + szOptionTag + "^, ^^ );"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( nRC < 0 )"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   {"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+      szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+      szWriteBuffer = "<%"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   }"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+   END  // FOR EACH
+
+   // This is for building a default menu?
+   // Trying to get this file to compile.
+   IF vDialogMenu != 0
+      CreateViewFromViewForTask( vDialogMenu, vDialogMenu, 0 )
+      SET CURSOR FIRST vDialogMenu.Menu WHERE vDialogMenu.Menu.ZKey = vDialogMenu.DfltMenu.ZKey
+      FOR EACH vDialogMenu.OptAct WITHIN vDialogMenu.Menu
+         szNavigationTitle = vDialogMenu.Option.Text
+         szDialogName = vDialogMenu.OptAct.DialogName
+         IF szDialogName = ""
+            szDialogName = "NoDialogName"
+         END
+
+      // szHTML_Name = szDialogName + vDialogMenu.OptAct.WindowName + ".jsp"
+         IF vDialogMenu.OptAct EXISTS
+            szActionName = vDialogMenu.OptAct.Tag
+            ActionType = vDialogMenu.OptAct.Type
+         ELSE
+            szActionName = ""
+            ActionType = 0
+         END
+
+         szMenuName = vDialogRoot.Option.Tag
+
+         // If the window we are currently generating is the same window that this
+         // side menu points to, then we want to set a class on this option.  The
+         // reason is so that we can tell which side menu option the user has selected.
+         IF vDialogMenu.OptAct.WindowName = vDialog.Window.Tag
+            szClass2 = "class=^sideselected^ "
+         ELSE
+            szClass2 = ""
+         END
+
+         IF vDialogMenu.Option.CSS_Class != ""
+            szClass = "class=^" + vDialogMenu.Option.CSS_Class + "^"
+         ELSE
+            szClass = ""
+         END
+
+         szWriteBuffer = "<%"
+         WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 0 )
+         szOptionTag = vDialogMenu.Option.Tag
+         szOptionTag = vDialogMenu.Option.Tag
+         szWriteBuffer = "   nRC = vKZXMLPGO.SetCursorFirst( strSessionId, ^DisableMenuOption^, ^MenuOptionName^, ^" + szOptionTag + "^, ^^ );"
+         WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   if ( nRC < 0 )"
+         WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   {"
+         WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "%>"
+         WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 0 )
+
+         szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+         WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 0 )
+
+         szWriteBuffer = "<%"
+         WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   }"
+         WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "%>"
+         WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 1 )
+      END  // FOR EACH
+
+      DropView( vDialogMenu )
+   END  // vDialogMenu != 0
+
+   // Division ending for Navigation Bar.
+   szWriteBuffer = "   </ul>"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "</div> <!-- sidenavigation -->"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+   IF vDialogRoot.Dialog.WEB_LeftSideInclude != ""
+      //szWriteBuffer = "<%@ include file=^./include/leftcontent.inc^ %>"
+      szWriteBuffer = "<!-- left content include file -->"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "<%@ include file=^" + vDialogRoot.Dialog.WEB_LeftSideInclude + "^ %>"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+   END
+   szWriteBuffer = "</div>  <!-- leftcontent -->"
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = ""
+   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+   /*
+   szCSS_Class = vDialog.Window.CSS_Class
+   IF szCSS_Class = ""
+      // Begin the division for the main body content.
+      szWriteBuffer = "<div id=^content^>"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+   END
+   */
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: GenJSP_MenuFunctions
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+GenJSP_MenuFunctions( VIEW vDialog BASED ON LOD TZWDLGSO,
+                      VIEW vDialogRoot BASED ON LOD TZWDLGSO,
+                      INTEGER          lFile,
+                      STRING ( 10000 ) szWriteBuffer,
+                      STRING ( 255 )   szFormName,
+                      STRING ( 2 )     szActionPrefix )
+
+   VIEW vDialog2 BASED ON LOD TZWDLGSO
+   STRING ( 34 )    szActionName
+   STRING ( 32 )    szCtrlTag
+   STRING ( 10000 ) szJavaScript
+   INTEGER          lControl
+   SHORT            bListButton
+   SHORT            nRC
+
+   FOR EACH vDialog.Option
+      IF vDialog.OptAct EXISTS
+         SET CURSOR FIRST vDialog.Action WHERE vDialog.Action.Tag = vDialog.OptAct.Tag
+         IF RESULT >= zCURSOR_SET
+            //Because the menu actions can be created on separate windows from the control
+            //actions, we need to make sure these actions are unique.  We will prefix a
+            //"m" to the main menu actions and prefix a "sm" to the side menu actions.
+            szActionName = szActionPrefix + vDialog.Action.Tag
+            nRC = zstrcmpi( szActionName, "alt-f4" )
+            IF nRC = 0
+               szActionName = "AltF4"
+            END
+
+            bListButton = 0
+            IF vDialog.ActEvent EXISTS AND vDialog.ActCtrl EXISTS
+
+               szCtrlTag = vDialog.ActCtrl.Tag
+               CreateViewFromViewForTask( vDialog2, vDialogRoot, 0 )
+
+               lControl = zQUAL_STRING + zPOS_FIRST + zRECURS
+               IF SetEntityCursor( vDialog2, "Control", "Tag", lControl,
+                                   szCtrlTag, "", "", 0,
+                                   "Window", "" ) >= zCURSOR_SET AND
+                  vDialog2.ControlDef.Key = 1020
+
+                  IF ResetViewFromSubobject( vDialog2 ) = 0 AND
+                     vDialog2.ControlDef.Key = 2010
+
+                     bListButton = 1
+
+                  END
+               END
+
+               DropView( vDialog2 )
+
+            END
+
+            IF bListButton = 1
+               szWriteBuffer = "function " + szActionName + "( strEntityKey )"
+            ELSE
+               szWriteBuffer = "function " + szActionName + "( )"
+            END
+
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "{"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            szWriteBuffer = "   // This is for indicating whether the user hit the window close box."
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   isWindowClosing = false;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            szWriteBuffer = "   if ( _IsDocDisabled( ) == false )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+            //KJS 11/16/2007 - We want to insert any javascript code that the
+            //user has entered for this action.  This will be put before the action
+            //generated code for submitting.
+            szJavaScript = vDialog.Action.WebJavaScript
+            IF szJavaScript != ""
+               szWriteBuffer = ""
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      // Javascript code entered by user."
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+               szWriteBuffer = szJavaScript
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+               szWriteBuffer = "      // END of Javascript code entered by user."
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            END
+
+               // KJS 10/28/10 - Testing this to see how using an hourglass would work while
+               // the user is waiting for something to happen.
+               //szWriteBuffer = "      document.body.style.cursor = ^wait^;"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            szWriteBuffer = "      _DisableFormElements( true );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            IF bListButton = 1
+               szWriteBuffer = "      document." + szFormName + ".zTableRowSelect.value = strEntityKey;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            END
+
+            IF vDialog.Action.Type = zWAB_ExitDialogTask
+               // For exiting the Dialog (ie., Session), the Action is OnUnload.
+               szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnUnload^;"
+            ELSE
+               szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
+            END
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      document." + szFormName + ".submit( );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "}"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         END
+      END
+   END
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: GenJSP_CrteCalendar
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+GenJSP_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
+                     INTEGER          lFile,
+                     STRING ( 10000 ) szWriteBuffer,
+                     STRING ( 50 )    szIndent,
+                     STRING ( 32 )    szCtrlTag,
+                     STRING ( 1 )     szTableRowFlag,
+                     STRING ( 20 )    szJustify,
+                     STRING ( 1 )     szNoPositioning,
+                     INTEGER          lOffsetX,
+                     INTEGER          lOffsetY )
+
+   // Format a CALENDAR control.
+
+   STRING ( 256 ) szStyle
+   STRING ( 256 ) szClass
+   STRING ( 10 )  szDisabled
+   STRING ( 10 )  szWidth
+   STRING ( 10 )  szHeight
+   STRING ( 10 )  szX_Pos
+   STRING ( 10 )  szY_Pos
+   STRING ( 16 )  szTabIndex
+   DECIMAL        dDLUnits
+
+   szWriteBuffer = "<% strErrorMapValue = ^^;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   SET CURSOR FIRST vDialog.CtrlMapLOD_Attribute WITHIN vDialog.Control
+   IF RESULT >= zCURSOR_SET
+      szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
+                      ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( nRC <= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      " + vDialog.CtrlMapView.Name +
+               ".TraceLine( ^Invalid View: ^, ^" + szCtrlTag + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   else"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   {"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name +
+                      ".CheckExistenceOfEntity( strSessionId, ^" +
+                      vDialog.CtrlMapRelatedEntity.Name + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      if ( nRC >= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         strErrorMapValue = " +
+                      vDialog.CtrlMapView.Name +
+                      ".GetStringFromAttributeByContext( strSessionId, ^" +
+               vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+               vDialog.CtrlMapER_Attribute.Name + "^, strDateFormat, 10 );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+      // We will set the height to the constant 32 px.
+      PIX_PER_DU( vDialog, dDLUnits )
+      zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
+      szHeight = "32"
+      szStyle = "style=^width:" + szWidth + "px;height:" + szHeight + "px;"
+
+      // If szNoPositioning is null then we are using absolute positioning when creating controls.
+      IF  szNoPositioning = ""
+
+         zIntegerToString( szX_Pos, 10, vDialog.Control.PSDLG_X * dDLUnits )
+         zIntegerToString( szY_Pos, 10, vDialog.Control.PSDLG_Y * dDLUnits )
+         szStyle = szStyle + "position:absolute;left:" + szX_Pos + "px;" + "top:" + szY_Pos + "px;^ "
+      ELSE
+         szStyle = szStyle + "^ "
+      END
+
+      CreateTabIndexString( vDialog, szTabIndex )
+
+      CreateDisabledString( vDialog, szDisabled )
+
+      // Multiple class names must be separated by white space characters.
+      szClass = vDialog.Control.CSS_Class
+
+      szWriteBuffer = "<span " + szStyle + ">"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      IF szClass = ""
+         szWriteBuffer = "   <input name=^" + szCtrlTag + "^ id='" + szCtrlTag + "' " + szDisabled +
+                             "style=^width:80px^ type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + " />"
+      ELSE
+         szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + "^ id='" + szCtrlTag + "' " + szDisabled +
+                             "style=^width:80px^ type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + " />"
+      END
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   <img src=^images/scw.gif^  name=^" + szCtrlTag + "Img^ id=^" + szCtrlTag + "Img^ title=^Select Date^ alt=^Select Date^"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "        onclick=^scwShow( document.getElementById( '" + szCtrlTag + "' ), this );^ " + szTabIndex + " />"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "</span>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   END
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenJSP_EmailEntries
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GenJSP_EmailEntries( VIEW vDialog     BASED ON LOD TZWDLGSO,
+                     VIEW vDialogRoot BASED ON LOD TZWDLGSO,
+                     INTEGER          lFile,
+                     STRING ( 10000 ) szWriteBuffer,
+                     STRING ( 255 )   szFormName )
+
+   VIEW vDialogTemp BASED ON LOD TZWDLGSO
+   STRING ( 32 ) szCtrlWebCtrlType
+   STRING ( 32 ) szActionName
+   INTEGER       lControl
+   INTEGER       lActionType
+   SHORT         nRC
+
+   // Generate statements for formatting an email to be sent to all email addresses in a list.
+
+   szWriteBuffer = "   // This is for indicating whether the user hit the window close box."
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   isWindowClosing = false;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "   if ( _IsDocDisabled( ) == false )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      var szEmailList = ^^;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      var tds;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      var thisTd;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      var k;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "      // Generates list of email addresses from td entries with class ^Email^."
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      tds = document.getElementsByTagName( ^td^ );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      for ( k = 0; k < tds.length; k++ )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         thisTd = tds[ k ];"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         if ( thisTd.className == ^Email^ )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            if ( szEmailList != ^^ )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "               szEmailList += ^,^;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   szWriteBuffer = "            szEmailList += thisTd.innerHTML;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "      if ( szEmailList != ^^ )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         // Put together the email components and send them."
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         // Note that problems may occur if the client computer has no default email program specified."
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var thisMLE;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var mle;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var eml;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var subject;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var bcc;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var sub;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var bod;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var mle1;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   // Email Recipient
+   // Email Recipient is one of three options.
+   // 1. If event is Start Email Client, the list of email addresses.
+   // 2. If event is Start Email BCC or Start Email CC AND an Email Recipient control exists on the page, the
+   //    Email Recipient control value.
+   // 3. If event is Start Email BCC or Start Email CC AND an Email Recipient control DOES NOT EXIST on the page,
+   //    a null value.
+   // Generate JSP statements if an email recipient was requested. (A control with WebCtrlType = "EmailRecipient")
+   szWriteBuffer = "         // Email Recipient."
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   lActionType = vDialog.Action.Type
+   IF lActionType = zWAB_StartEmailClient
+      // Case 1 above
+      szWriteBuffer = "         eml = szEmailList;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   ELSE
+
+      szCtrlWebCtrlType = "EmailRecipient"
+      CreateViewFromViewForTask( vDialogTemp, vDialogRoot, 0 )
+      lControl = zQUAL_STRING + zPOS_FIRST + zRECURS
+      nRC = SetEntityCursor( vDialogTemp, "Control", "WebCtrlType", lControl, szCtrlWebCtrlType, "", "", 0, "Window", "" )
+      IF nRC >= zCURSOR_SET
+         // Case 2 above
+         szWriteBuffer = "         eml = document." + vDialogRoot.Dialog.Tag + vDialogRoot.Window.Tag +
+                         "." + vDialogTemp.Control.Tag + ".value;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      ELSE
+         // Case 3 above
+         szWriteBuffer = "         eml = ^^;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      END
+      DropView( vDialogTemp )
+   END
+
+
+   // Email Subject
+   // Generate JSP statements if an email subject was requested. (A control with WebCtrlType = "EmailSubject")
+   szWriteBuffer = "         // Email Subject."
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szCtrlWebCtrlType = "EmailSubject"
+   CreateViewFromViewForTask( vDialogTemp, vDialogRoot, 0 )
+   lControl = zQUAL_STRING + zPOS_FIRST + zRECURS
+   nRC = SetEntityCursor( vDialogTemp, "Control", "WebCtrlType", lControl, szCtrlWebCtrlType, "", "", 0, "Window", "" )
+   IF nRC >= zCURSOR_SET
+      szWriteBuffer = "         subject = document." + vDialogRoot.Dialog.Tag + vDialogRoot.Window.Tag +
+                      "." + vDialogTemp.Control.Tag + ".value;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
+   DropView( vDialogTemp )
+   szWriteBuffer = "         if ( subject == ^^ )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            sub = ^?subject=&nbsp^;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         else"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            sub = ^?subject=^ + subject;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   // Email Body
+   // Generate JSP statements if an email body was requested. (A control with WebCtrlType = "EmailMessage")
+   szWriteBuffer = "         // Email Body."
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szCtrlWebCtrlType = "EmailMessage"
+   CreateViewFromViewForTask( vDialogTemp, vDialogRoot, 0 )
+   lControl = zQUAL_STRING + zPOS_FIRST + zRECURS
+   nRC = SetEntityCursor( vDialogTemp, "Control", "WebCtrlType", lControl, szCtrlWebCtrlType, "", "", 0, "Window", "" )
+   IF nRC >= zCURSOR_SET
+      szWriteBuffer = "         mle = document.getElementById( ^" + vDialogTemp.Control.Tag + "^ ).value;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
+   DropView( vDialogTemp )
+   szWriteBuffer = "         while ( mle.search( ^\n^ ) >= 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            mle1=mle.replace( ^\n^, ^%0a^ );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            mle=mle1;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         if ( mle == ^^ )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            bod = ^&body=&nbsp^;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         else"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            bod = ^&body=^ + mle;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   // Email BCC or CC.
+   szWriteBuffer = "         // Email BCC/CC."
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   IF lActionType = zWAB_StartEmailClientBCC
+      szWriteBuffer = "         bcc = ^&bcc=^ + szEmailList;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      szWriteBuffer = "         location.href=^mailto:^ + eml + sub + bcc + bod;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   ELSE
+      IF lActionType = zWAB_StartEmailClientCC
+         szWriteBuffer = "         bcc = ^&cc=^ + szEmailList;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         szWriteBuffer = "         location.href=^mailto:^ + eml + sub + bcc + bod;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      ELSE
+         szWriteBuffer = "         bcc = ^^;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         location.href=^mailto:^ + eml + sub + bcc + bod;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      END
+   END
+
+   // If the Action has an operation, we must also set up the code to trigger the Action and Operation at the
+   // Application Server.
+   IF vDialog.ActOper EXISTS
+      szActionName = vDialog.Action.Tag
+      szWriteBuffer = "         document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         document." + szFormName + ".submit( );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
+
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+   szWriteBuffer = ""
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: GenJSP_CrteListBox
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GenJSP_CrteListBox( VIEW vDialog,
+                    INTEGER lFile,
+                    STRING ( 10000 ) szWriteBuffer,
+                    STRING ( 50 )    szIndent,
+                    STRING ( 32 )    szCtrlTag,
+                    STRING ( 1 )     szNoPositioning,
+                    INTEGER lOffsetX,
+                    INTEGER lOffsetY )
+
+   VIEW vScope  BASED ON LOD TZWDLGSO  // identifies scoping entity for list entries
+   STRING ( 32 )  szContextName
+   STRING ( 32 )  szScopingEntityName
+   STRING ( 32 )  szListEntityName
+   STRING ( 32 )  szAttributeName
+   STRING ( 32 )  szEntityName
+   STRING ( 256 ) szStyle
+   STRING ( 256 ) szClass
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 256 ) ListBoxDoubleClickAction
+   STRING ( 16 )  szTabIndex
+   STRING ( 10 )  szMaxStringLength
+   STRING ( 10 )  szWidth
+   STRING ( 10 )  szSelectAction
+   STRING ( 10 )  szSelectFunction
+   STRING ( 10 )  szHeight
+   STRING ( 10 )  szX_Pos
+   STRING ( 10 )  szY_Pos
+   STRING ( 10 )  szDisabled
+   DECIMAL        dDLUnits
+   INTEGER        lSubtype
+   INTEGER        lMaxStringLength
+
+   szStyle = "width:" + szWidth + "px; height:" + szHeight + "px;"
+   szClass = vDialog.Control.CSS_Class
+
+   //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+   szTitleHTML = ""
+   szTitle = vDialog.Control.DIL_Text
+   IF szTitle != ""
+      szTitleHTML = " title=^" + szTitle + "^ "
+   END
+
+   CreateTabIndexString( vDialog, szTabIndex )
+   // We will set the height to the constant 20 px.
+   PIX_PER_DU( vDialog, dDLUnits )
+   zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
+   zIntegerToString( szHeight, 10, vDialog.Control.SZDLG_Y * dDLUnits )
+   szStyle = "style=^width:" + szWidth + "px;height:" + szHeight + "px;"
+
+   // If szNoPositioning is null then we are using absolute positioning on controls.
+   IF  szNoPositioning = ""
+
+      zIntegerToString( szX_Pos, 10, vDialog.Control.PSDLG_X * dDLUnits )
+      zIntegerToString( szY_Pos, 10, vDialog.Control.PSDLG_Y * dDLUnits )
+      szStyle = szStyle + "position:absolute;" + "left:" + szX_Pos + "px;" + "top:" + szY_Pos + "px;"
+      //CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
+   END
+
+   szStyle = szStyle + "^ " + szTabIndex
+
+   szWriteBuffer = "<% strErrorMapValue = ^^;  %>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   szSelectFunction = "OnClick"
+
+
+      // Check if DoubleClick Event and Action exist and handle accordingly.
+      ListBoxDoubleClickAction = ""
+      SET CURSOR FIRST vDialog.Event WHERE vDialog.Event.Type = 2
+      IF RESULT >= zCURSOR_SET AND vDialog.EventAct EXISTS
+         ListBoxDoubleClickAction = " ondblclick=^" + vDialog.EventAct.Tag + "( )^ "
+      END
+
+
+      // Set cursor to the scoping entity if one exists
+      CreateViewFromViewForTask( vScope, vDialog, 0 )
+      SET CURSOR NEXT vScope.CtrlMap
+
+      IF szClass = ""
+         szWriteBuffer = "<select name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^4^ " + szTitleHTML + szStyle + szDisabled + " onclick=^" +
+                         szCtrlTag + szSelectFunction + "( )^" + ListBoxDoubleClickAction + ">"
+      ELSE
+         szWriteBuffer = "<select class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^4^ " + szTitleHTML + szStyle + szDisabled + " onclick=^" +
+                         szCtrlTag + szSelectFunction + "( )^" + ListBoxDoubleClickAction + ">"
+      END
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+      szWriteBuffer = "<%"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      IF vDialog.CtrlMapView EXISTS
+
+
+         // See if a list entity has been specified, and if so, use it.
+         // Since this is a listbox I believe this should always be specified.
+         IF vDialog.CtrlMapLOD_Entity EXISTS
+            szListEntityName = vDialog.CtrlMapLOD_Entity.Name
+         END
+
+         szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
+                         ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   if ( nRC > 0 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      strComboCurrentValue = ^^;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      zeidon.zView v" + szCtrlTag + " = new zeidon.zView( strSessionId );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+         szAttributeName = ""
+         szEntityName = ""
+         szContextName = ""
+
+         // Set position on the text field inside the listbox.
+         SetViewToSubobject( vDialog, "CtrlCtrl" )
+         IF vDialog.CtrlMapLOD_Attribute EXISTS
+
+            szAttributeName = vDialog.CtrlMapER_Attribute.Name
+            szEntityName = vDialog.CtrlMapRelatedEntity.Name
+
+            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name + ".CheckExistenceOfEntity( strSessionId, ^" +
+                            szEntityName + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      if ( nRC >= 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            IF vDialog.CtrlMapContext EXISTS
+               szContextName = vDialog.CtrlMapContext.Name
+            END
+
+            IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
+               lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
+               szMaxStringLength = lMaxStringLength
+            ELSE
+               szMaxStringLength = "254"
+            END
+
+
+            szWriteBuffer = "         strComboCurrentValue = " + vDialog.CtrlMapView.Name +
+                     ".GetStringFromAttributeByContext( strSessionId, ^" +
+                     szEntityName + "^, ^" +
+                     szAttributeName + "^, ^" + szContextName + "^, " + szMaxStringLength + " );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         ELSE
+            szWriteBuffer = "      strComboCurrentValue = ^^;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         END
+         ResetViewFromSubobject( vDialog )
+
+         // See if a scoping entity has been specified, and if so, use it.
+         szScopingEntityName = ""
+         lSubtype = vDialog.Control.Subtype
+         lSubtype = IsFlagSequenceSet( lSubtype, zLISTBOX_SCOPE_OI )
+         IF lSubtype = 0
+            IF vScope.CtrlMapLOD_Entity EXISTS
+               szScopingEntityName = vScope.CtrlMapLOD_Entity.Name
+            END
+         END
+
+         szWriteBuffer = "      v" + szCtrlTag + ".CreateViewFromView( strSessionId, " + vDialog.CtrlMapView.Name + " );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         szWriteBuffer = "      ComboCount = 0;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      strComboSelectedValue = ^0^;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+         IF lSubtype = 0
+            szWriteBuffer = "      nRC = v" + szCtrlTag + ".SetCursorFirst( strSessionId, ^" +
+                                         szListEntityName + "^, ^" + szScopingEntityName + "^ );"
+         ELSE
+            szWriteBuffer = "      nRC = v" + szCtrlTag + ".SetCursorScopeOI( strSessionId, ^" +
+                                         szListEntityName + "^, 1 ); // first" // zPOS_FIRST
+         END
+
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      while ( nRC >= 0 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+         IF szAttributeName != ""
+
+            szWriteBuffer = "         strErrorMapValue = v" + szCtrlTag +
+                            ".GetStringFromAttributeByContext( strSessionId, ^" +
+                            szEntityName + "^, ^" +
+                            szAttributeName + "^, ^" +
+                            szContextName + "^, " + szMaxStringLength + " );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+
+         szWriteBuffer = "         if ( strComboCurrentValue.equals( strErrorMapValue ) )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "%>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            <option selected=^selected^ value=^<%=strErrorMapValue%>^><%=strErrorMapValue%></option>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<%"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            strComboSelectedValue = Integer.toString( ComboCount );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         }"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         else"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "%>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            <option value=^<%=strErrorMapValue%>^><%=strErrorMapValue%></option>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<%"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         }"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         szWriteBuffer = "         ComboCount++;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         IF lSubtype = 0
+            szWriteBuffer = "         nRC =  v" + szCtrlTag +
+                            ".SetCursorNext( strSessionId, ^" + szListEntityName +
+                            "^, ^" + szScopingEntityName + "^ );"
+         ELSE
+            szWriteBuffer = "         nRC =  v" + szCtrlTag +
+                            ".SetCursorScopeOI( strSessionId, ^" + szListEntityName + "^, 3 ); // next" // zPOS_NEXT
+         END
+
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         DropView( vScope )
+      END
+
+      szWriteBuffer = "      }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      szWriteBuffer = "      v" + szCtrlTag + ".DropView( strSessionId );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+      szWriteBuffer = "   }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "<input name=^h" + szCtrlTag + "^ id=^h" + szCtrlTag + "^ type=^hidden^ value=^<%=strComboSelectedValue%>^ >"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+   szWriteBuffer = "</select>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: GenJSP_CrteText
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+GenJSP_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
+                 VIEW vGroupParent BASED ON LOD TZWDLGSO,
+                 VIEW vDialogRoot  BASED ON LOD TZWDLGSO,
+                 INTEGER          lFile,
+                 STRING ( 10000 ) szWriteBuffer,
+                 STRING ( 50 )    szIndent,
+                 STRING ( 32 )    szCtrlTag,
+                 STRING ( 20 )    szJustify,
+                 STRING ( 1 )     szNoPositioning,
+                 INTEGER          lOffsetX,
+                 INTEGER          lOffsetY )
+
+   // Format a TEXT control.
+
+   STRING ( 32 )  szContextName
+   STRING ( 256 ) szStyle
+   STRING ( 256 ) szClassHTML
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 1000 ) szText
+   STRING ( 16 )  szTabIndex
+   STRING ( 10 )  szMaxStringLength
+   STRING ( 20 )  szGroupParentType
+   STRING ( 85 )  szHTMLCtrlID
+   INTEGER        lMaxStringLength
+   INTEGER        lSubtypeX
+   INTEGER        lSubtype
+   INTEGER        lTemp
+   SHORT          nMultiLineFlag
+   SHORT          nBoldFlag
+   SHORT          nItalicFlag
+   SHORT          nStrikeoutFlag
+   SHORT          nUnderlineFlag
+   INTEGER        lJustify
+   INTEGER        lFontSize
+   INTEGER        lTextColor
+   INTEGER        lTextBkColor
+   INTEGER        lBorderStyle
+   INTEGER        lBorderColor
+   INTEGER        lEscapement
+   INTEGER        lType
+   STRING ( 32 )  szFaceName
+   STRING ( 256 ) szDecoration
+   STRING ( 1 )   szIsLabel
+   STRING ( 256 ) szLabelFor
+   SHORT          nRC
+
+   szText = vDialog.Control.Text
+   CreateTabIndexString( vDialog, szTabIndex )
+
+   szHTMLCtrlID = " id=^" + szCtrlTag + "^ name=^" + szCtrlTag + "^ "
+
+   IF  szNoPositioning = "Y"
+      CreateNoPosStyleString( vDialog, szStyle, "" )
+   ELSE
+      CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
+   END
+
+   nRC = TX_GetTextRptCtrlBOI( vDialog, nMultiLineFlag, nBoldFlag,
+                               nItalicFlag, nStrikeoutFlag,
+                               nUnderlineFlag, lJustify,
+                               lFontSize, lTextColor, lTextBkColor,
+                               lBorderStyle, lBorderColor,
+                               lEscapement, lType, szFaceName )
+
+   // If the return code is <= 0, the CtrlBOI is null.
+   szDecoration = ""
+   IF nRC > 0
+
+      IF nItalicFlag != 0
+         szDecoration = szDecoration + "font-style:italic;"
+      END
+
+      IF nBoldFlag != 0
+         szDecoration = szDecoration + "font-weight:bold;"
+      END
+
+      IF lJustify != 0
+         nRC = IsFlagSequenceSet( lJustify, 2 )
+         IF nRC != 0
+            szDecoration = szDecoration + "text-align:center;"
+         ELSE
+            nRC = IsFlagSequenceSet( lJustify, 4 )
+            IF nRC != 0
+               szDecoration = szDecoration + "text-align:right;"
+            END
+         END
+      END
+
+      IF nUnderlineFlag != 0 AND nStrikeoutFlag != 0
+         szDecoration = szDecoration + "text-decoration:underline line-through;"
+      ELSE
+         IF nUnderlineFlag != 0
+            szDecoration = szDecoration + "text-decoration:underline;"
+         END
+
+         IF nStrikeoutFlag != 0
+            szDecoration = szDecoration + "text-decoration:line-through;"
+         END
+      END
+   END
+
+   //KJS 10/19/07 - Added title.
+   //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+   szTitleHTML = ""
+   szTitle = vDialog.Control.DIL_Text
+   IF szTitle != ""
+      szTitleHTML = " title=^" + szTitle + "^ "
+   END
+
+   zAppendQuotedString( szStyle, szDecoration, "style=", "^" )
+   szStyle = szStyle + szTabIndex
+   IF vDialog.Control.CSS_Class != ""
+      szClassHTML = "class=^" + vDialog.Control.CSS_Class + "^ "
+   END
+
+   // Check if a Group control as parent of this control requests relative postioning either through the
+   // older "Span" setting or the newer "RelativePos" request.
+   szGroupParentType = ""
+   IF vGroupParent != 0
+      // Override Style if parent group requests relative positioning
+      // KJS 01/30/14 - I'm thinking "Relative Positioning" is old. I only use this in one pwd and when I take it
+      // out and use "Div/No Height", the results look exactly the same so I am going to take this off grid controls.
+      /*
+      SET CURSOR FIRST vGroupParent.WebControlProperty WHERE vGroupParent.WebControlProperty.Name = "Relative Positioning"
+      IF RESULT >= zCURSOR_SET
+         szGroupParentType = "RelativePos"
+      ELSE
+         szGroupParentType = vGroupParent.Control.WebCtrlType
+      END
+      */
+      szGroupParentType = vGroupParent.Control.WebCtrlType
+      IF szGroupParentType = "RelativePos" OR szGroupParentType = "Span"
+         szStyle = "style=^position:relative;^"
+      END
+   END
+
+   // Process variable Text mapping.
+   SET CURSOR FIRST vDialog.CtrlMap WHERE vDialog.CtrlMap.Tag = "Displayed Text"
+   IF RESULT < zCURSOR_SET
+      SET CURSOR FIRST vDialog.CtrlMapLOD_Attribute WITHIN vDialog.Control
+                 WHERE vDialog.CtrlMap.Tag = ""
+   END
+   IF RESULT >= zCURSOR_SET
+      // There is mapping of the Display Text value.
+      szWriteBuffer = "<% strTextDisplayValue = ^^;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
+                      ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( nRC <= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      " + vDialog.CtrlMapView.Name +
+               ".TraceLine( ^Invalid View: ^, ^" + szCtrlTag + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   else"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   {"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name + ".CheckExistenceOfEntity( strSessionId, ^" +
+                      vDialog.CtrlMapRelatedEntity.Name + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      if ( nRC >= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      IF vDialog.CtrlMapContext EXISTS
+         szContextName = vDialog.CtrlMapContext.Name
+      ELSE
+         szContextName = ""
+      END
+
+      IF vDialog.CtrlMapER_Domain.DataType = "T" OR vDialog.CtrlMapER_Domain.DataType = "D"
+         szWriteBuffer = "         strTextDisplayValue = " +
+                         vDialog.CtrlMapView.Name +
+                         ".GetStringFromAttributeByContext( strSessionId, ^" +
+                         vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                         vDialog.CtrlMapER_Attribute.Name + "^, ^" +
+                         szContextName + "^, 20 );"
+      ELSE
+         IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
+            lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
+            szMaxStringLength = lMaxStringLength
+         ELSE
+            szMaxStringLength = "254"
+         END
+
+         szWriteBuffer = "         strTextDisplayValue = " +
+                         vDialog.CtrlMapView.Name +
+                         ".GetStringFromAttributeByContext( strSessionId, ^" +
+                         vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                         vDialog.CtrlMapER_Attribute.Name + "^, ^" +
+                         szContextName + "^, " + szMaxStringLength + " );"
+      END
+
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      szText = "<%=strTextDisplayValue%>"
+
+   END
+
+   IF vDialog.EventAct EXISTS    // There is only one EventAct, which is HotText.
+      IF vDialog.EventAct.Type = 45    // Type 45 is Hyperlink Action.
+         // The Text triggers a Hyperlink to a constant or variable URL address
+         SET CURSOR FIRST vDialog.CtrlMap WHERE vDialog.CtrlMap.Tag = "Hyperlink URL"
+         IF RESULT >= zCURSOR_SET
+            // There is mapping of the Hyperlink URL value.
+            szWriteBuffer = "<% strTextURL_Value = ^^;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
+                            ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   if ( nRC <= 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      " + vDialog.CtrlMapView.Name +
+                     ".TraceLine( ^Invalid View: ^, ^" + szCtrlTag + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   else"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name + ".CheckExistenceOfEntity( strSessionId, ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      if ( nRC >= 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            IF vDialog.CtrlMapContext EXISTS
+               szContextName = vDialog.CtrlMapContext.Name
+            ELSE
+               szContextName = ""
+            END
+
+            IF vDialog.CtrlMapER_Domain.DataType = "T" OR vDialog.CtrlMapER_Domain.DataType = "D"
+               szWriteBuffer = "         strTextURL_Value = " +
+                               vDialog.CtrlMapView.Name +
+                               ".GetStringFromAttributeByContext( strSessionId, ^" +
+                               vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                               vDialog.CtrlMapER_Attribute.Name + "^, ^" +
+                               szContextName + "^, 20 );"
+            ELSE
+               IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
+                  lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
+                  szMaxStringLength = lMaxStringLength
+               ELSE
+                  szMaxStringLength = "254"
+               END
+
+               szWriteBuffer = "         strTextURL_Value = " +
+                               vDialog.CtrlMapView.Name +
+                               ".GetStringFromAttributeByContext( strSessionId, ^" +
+                               vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                               vDialog.CtrlMapER_Attribute.Name + "^, ^" +
+                               szContextName + "^, " + szMaxStringLength + " );"
+            END
+
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "%>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = ""
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+            //KJS 10/19/07 - Added title.
+
+            // The Hyperlink URL value is a variable.
+               szWriteBuffer = "<a href=^<%=strTextURL_Value%>^  " + szClassHTML + szTitleHTML + szStyle + " target=^_blank^>" + szText + "</a>"
+         ELSE
+
+            // The Hyperlink URL value is a constant in the Action.
+            SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialog.EventAct.ZKey
+            IF vDialogRoot.Action.WebHTML_TransferAddress = ""
+               MessageSend( vDialog, "", "XSL Generation",
+                            "A Hyperlink Action without URL mapping requires a 'Link to HTML Address' value.",
+                            zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            END
+
+            szWriteBuffer = ""
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            //KJS 10/19/07 - Added title.
+            szWriteBuffer = "<a href=^" + vDialogRoot.Action.WebHTML_TransferAddress + "^  " + szClassHTML + szTitleHTML + szStyle + " target=^_blank^>" + szText + "</a>"
+         END
+      ELSE
+         // This is HotText with regular Action, rather than HyperLink.
+         szWriteBuffer = ""
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         //KJS 10/17/2007 Jeff says we need "javascript:" before the action name for href actions.  I think this
+         //is the place to put it but I confess I'm not exactly sure...
+         //KJS 10/19/07 - Added title.
+         //KJS 09/24/10 - Now realizing that Jeff was incorrect about the javascript: and it shouldn't be used (http://jibbering.com/faq/#FAQ4_24).
+         //Changing them to use the # and onclick.
+         // szWriteBuffer = "<a href=^javascript:" + vDialog.EventAct.Tag + "( );^ class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + szText + "</a>"
+         szWriteBuffer = "<a href=^#^ onclick=^" + vDialog.EventAct.Tag + "( );^ " + szClassHTML + szTitleHTML + szStyle + ">" + szText + "</a>"
+      END
+   ELSE
+      // Regular Text Control (No HotText)
+
+
+      // Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
+      // as a table and try and position what is in this group box as a table.
+      szIsLabel = ""
+      szLabelFor = ""
+      SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Label"
+      IF RESULT >= zCURSOR_SET
+         szIsLabel = "Y"
+         IF vDialog.Control.WebCtrlLabelLink != ""
+            // Tie the label to an input control.
+            szLabelFor = " for=^" + vDialog.Control.WebCtrlLabelLink + "^ "
+      END
+      END
+
+      szWriteBuffer = ""
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      // If there is a "Label" web control property than make this a label, otherwise, just use <span>.
+      IF szIsLabel = "Y"
+            szWriteBuffer = "<label " + szClassHTML + szHTMLCtrlID + szLabelFor + szTitleHTML + szStyle + ">" + szText + "</label>"
+      ELSE
+         szWriteBuffer = "<span " + szClassHTML + szHTMLCtrlID + szTitleHTML + szStyle + ">" + szText + "</span>"
+      END
+   END
+
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: GenJSP_CrteCtrlsRadio
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+GenJSP_CrteCtrlsRadio( VIEW vDialog BASED ON LOD TZWDLGSO,
+                       INTEGER          lFile,
+                       STRING ( 10000 ) szWriteBuffer,
+                       STRING ( 50 )    szIndent,
+                       STRING ( 32 )    szRadioGroupName,
+                       STRING ( 1 )     szNoPositioning,
+                       INTEGER          lOffsetX,
+                       INTEGER          lOffsetY )
+
+   STRING ( 256 ) szStyle
+   STRING ( 256 ) szClass
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szCtrlTag
+   STRING ( 256 ) szTitleHTML
+   STRING ( 10 )  szDisabled
+   STRING ( 16 )  szPosition
+   STRING ( 16 )  szTabIndex
+   STRING ( 32 )  szActionName
+   STRING ( 1 )   szFirstTimeThru
+   INTEGER        nRC
+   INTEGER        LastY_Pos
+
+   LastY_Pos = 0
+   szFirstTimeThru = "Y"
+   IF vDialog.Control EXISTS
+      LastY_Pos = vDialog.Control.PSDLG_Y
+   END
+   szWriteBuffer = "   <table style=^margin:0px;padding:0px;^  name=^tbl" + szRadioGroupName + "^ id=tbl^" + szRadioGroupName + "^>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   <tr style=^border:0px^>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+   // Process the individual Radio Buttons for a Radio Button Group.
+   FOR EACH vDialog.Control
+      szActionName = ""
+      IF vDialog.EventAct EXISTS
+         szActionName = vDialog.EventAct.Tag
+         nRC = zstrcmpi( szActionName, "alt-f4" )
+         IF nRC = 0
+            szActionName = "AltF4"
+         END
+      END
+
+      szCtrlTag = vDialog.Control.Tag
+
+      szWriteBuffer = "<% strErrorMapValue = ^^;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( strRadioGroupValue.equals( ^" +
+                               vDialog.Control.RadioOrCheckboxValue + "^ ) )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      strErrorMapValue = ^checked=\^checked\^^;  %>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      CreateTabIndexString( vDialog, szTabIndex )
+
+      // If this window is being generated with no positioning then
+      // do not create the position in the style.
+      IF  szNoPositioning = ""
+         CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY )
+      END
+      //CreateAbsolPosString( vDialog, szPosition, 0, 0 )
+      CreateDisabledString( vDialog, szDisabled )
+      FixStyleString( szStyle, szPosition, "", "" )
+
+      // If LastY_Pos = -100 then this is the first time thru...
+      IF ( ( LastY_Pos < vDialog.Control.PSDLG_Y ) )
+         szWriteBuffer = "   </tr>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   <tr style=^border:0px^>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      ELSE
+      // KJS 07/22/10 - Currently for relative positioning, the radio buttons are being created one right after the other
+      // (on the same line), no matter how I paint them on the screen).  Really to look at that but since we hardly ever
+      // use them, I am for a fast fix going to append "&nbsp&nbsp&nbsp" after each button, to give some spacing.
+         IF szNoPositioning = "Y" AND szFirstTimeThru = "N"
+            szWriteBuffer = "      <td nowrap style=^border:0px;^>&nbsp&nbsp&nbsp</td>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+      END
+
+      szStyle = szStyle + szTabIndex
+   // szStyle = " style=^position:absolute;LEFT:" + szX + ";TOP:" + szY + ";^ "
+      IF  szActionName != ""
+         szWriteBuffer = "      <td style=^width:15px;border:0px;^><input type=^radio^ name=^" + szRadioGroupName + "^ id=^" + szCtrlTag +
+                         "^ value=^" + vDialog.Control.RadioOrCheckboxValue +
+                         "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " onclick=^" + szActionName + "( )^  ></td>"
+      ELSE
+         szWriteBuffer = "      <td style=^width:15px;border:0px;^><input type=^radio^ name=^" + szRadioGroupName + "^ id=^" + szCtrlTag +
+                         "^ value=^" + vDialog.Control.RadioOrCheckboxValue +
+                         "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " ></td>"
+      END
+
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      IF szNoPositioning = "Y"
+         CreateNoPosStyleString( vDialog, szStyle, "")
+      ELSE
+         CreateAbsolStyleString( vDialog, szStyle, 30 + lOffsetX, lOffsetY, "" )
+      END
+
+      //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+      szTitleHTML = ""
+      szTitle = vDialog.Control.DIL_Text
+      IF szTitle != ""
+         szTitleHTML = " title=^" + szTitle + "^ "
+      END
+
+      szClass = vDialog.Control.CSS_Class
+      IF szClass = ""
+         szWriteBuffer = "      <td nowrap style=^border:0px;^><span " + szTitleHTML + ">" + vDialog.Control.Text + "</span></td>"
+      ELSE
+         szWriteBuffer = "      <td nowrap style=^border:0px;^><span class=^" + szClass + "^ " + szTitleHTML + ">" + vDialog.Control.Text + "</span></td>"
+      END
+
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      LastY_Pos = vDialog.Control.PSDLG_Y
+      szFirstTimeThru = "N"
+   END
+   szWriteBuffer = "   </tr>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   </table>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: GenJSP_ChildFunctions
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+GenJSP_ChildFunctions( VIEW vDialog BASED ON LOD TZWDLGSO,
+                       INTEGER          lFile,
+                       STRING ( 10000 ) szWriteBuffer,
+                       STRING ( 255 )   szFormName )
+
+   STRING ( 50 ) szCtrlTag
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: GenJSP_CrteCheckBox
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+GenJSP_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
+                     INTEGER          lFile,
+                     STRING ( 10000 ) szWriteBuffer,
+                     STRING ( 50 )    szIndent,
+                     STRING ( 32 )    szCtrlTag,
+                     STRING ( 1 )     szTableRowFlag,
+                     STRING ( 20 )    szJustify,
+                     STRING ( 1 )     szNoPositioning,
+                     INTEGER          lOffsetX,
+                     INTEGER          lOffsetY )
+
+   // Format an CHECKBOX control.
+   STRING ( 256 ) szStyle
+   STRING ( 256 ) szClass
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szPosition
+   STRING ( 16 )  szTabIndex
+   STRING ( 20 )  szSpaces
+
+   szWriteBuffer = "<%   strErrorMapValue = ^^;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+   IF vDialog.CtrlMapView EXISTS
+      szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
+                      ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( nRC <= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      " + vDialog.CtrlMapView.Name +
+                      ".TraceLine( ^Invalid View: ^, ^" + szCtrlTag + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   else"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   {"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name +
+                      ".CheckExistenceOfEntity( strSessionId, ^" +
+                      vDialog.CtrlMapRelatedEntity.Name + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      if ( nRC >= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         strRadioGroupValue = " +
+                      vDialog.CtrlMapView.Name + ".GetString( strSessionId, ^" +
+                      vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                      vDialog.CtrlMapER_Attribute.Name + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   END
+
+   szWriteBuffer = "   if ( strRadioGroupValue.equals( ^" +
+                   vDialog.Control.RadioOrCheckboxValue + "^ ) )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      strErrorMapValue = ^checked=\^checked\^^;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "%>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   CreateTabIndexString( vDialog, szTabIndex )
+
+   // If this window is being generated with no positioning then
+   // do not create the position in the style.
+   IF  szNoPositioning = ""
+      CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY )
+   END
+
+   IF vDialog.Control.VisibleBorder = "Y"
+      szPosition = szPosition + "border:'2px solid';border-style:'groove';"
+   END
+
+   szStyle = "style=^" + szPosition + "^" + szTabIndex
+
+   CreateDisabledString( vDialog, szDisabled )
+
+   //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+   szTitleHTML = ""
+   szTitle = vDialog.Control.DIL_Text
+   IF szTitle = ""
+      szTitleHTML = ""
+   ELSE
+      szTitleHTML = " title=^" + szTitle + "^ "
+   END
+
+   IF vDialog.EventAct EXISTS
+      szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szDisabled +
+                      " value=^" + vDialog.Control.RadioOrCheckboxValue +
+                      "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( )^>"
+   ELSE
+      szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szDisabled +
+                      " value=^" + vDialog.Control.RadioOrCheckboxValue +
+                      "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + ">"
+   END
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+   // If this window is being generated with no positioning then
+   // do not create the position in the style.
+   IF  szNoPositioning = "Y"
+      CreateNoPosStyleString( vDialog, szStyle, "" )
+      // If we aren't putting in absolute positioning, make sure that there is a little space between
+      // the checkbox and the text.
+      szSpaces = "&nbsp "
+   ELSE
+      CreateAbsolStyleString( vDialog, szStyle, 30 + lOffsetX, lOffsetY, "" )
+      szSpaces = ""
+   END
+   szClass = vDialog.Control.CSS_Class
+
+   IF szClass = ""
+      szWriteBuffer = "<span " + szTitleHTML + szStyle + ">" + szSpaces + vDialog.Control.Text + "</span>"
+   ELSE
+      szWriteBuffer = "<span class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + szSpaces + vDialog.Control.Text + "</span>"
+   END
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: GenJSP_CrteEditBox
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+GenJSP_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
+                    INTEGER          lFile,
+                    STRING ( 10000 ) szWriteBuffer,
+                    STRING ( 50 )    szIndent,
+                    STRING ( 32 )    szCtrlTag,
+                    STRING ( 1 )     szTableRowFlag,
+                    STRING ( 20 )    szJustify,
+                    STRING ( 1 )     szNoPositioning,
+                    INTEGER          lOffsetX,
+                    INTEGER          lOffsetY )
+
+   // Format an EDITBOX control.
+
+   VIEW vDialogRoot BASED ON LOD TZWDLGSO
+   STRING ( 32 )  szContextName
+   STRING ( 300 ) szValue
+   STRING ( 256 ) szStyle
+   STRING ( 256 ) szClass
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 64 )  szType
+   STRING ( 64 )  szWidget
+   STRING ( 16 )  szTabIndex
+   STRING ( 50 )  szEditActionCode
+   STRING ( 32 )  szActionName
+   STRING ( 10 )  szMaxStringLength
+   STRING ( 10 )  szDisabled
+   STRING ( 1 )   szWCP_Hidden
+   STRING ( 1 )   szCreateSessionVariable
+   STRING ( 1 )   szNoOutputMapping
+   INTEGER        lMaxStringLength
+   INTEGER        lStyleX
+   INTEGER        lTemp
+   SHORT          bMapping
+   SHORT          nRC
+
+   // For testing no height on input boxes
+   STRING ( 10 )  szWidth
+   DECIMAL        dDLUnits
+   STRING ( 100 )  szSize
+   STRING ( 100 )  szPosition
+
+   CreateTabIndexString( vDialog, szTabIndex )
+   //CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "<%=strErrorColor%>" )
+   // KJS 07/08 - We placed DOCTYPE at the top of our html pages now.  For some reason, because of this
+   // even though the pixel height is exactly the same as before, it shows up higher in the browser.
+   // Because of this we have taken out the height for now and the input height will be determined in the
+   // CSS.
+   PIX_PER_DU( vDialog, dDLUnits )
+   zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
+   szSize = "width:" + szWidth + "px;"
+   // If zNoPositioning is null then we are using absolute positioning for controls
+   IF  szNoPositioning = ""
+      CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY )
+   END
+
+   FixStyleString( szStyle, szSize, szPosition,  "<%=strErrorColor%>"  )
+
+   szStyle = szStyle + szTabIndex
+
+   // If there is a WebControlProperty for "Create Session Variable", then create a session variable
+   // with the value of this edit box with the Control Tag as the name.
+   szCreateSessionVariable = ""
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Create Session Variable"
+   IF RESULT >= zCURSOR_SET
+      szCreateSessionVariable = "Y"
+   END
+
+   // There may be times when we do not want to show the mapping of a field.  Like for instance a password field.  If the user types
+   // in the wrong password, then we don't want to leave what was already typed we want the edit box to be blank.  This is
+   // for xss problems (cross-scripting attacks).
+   szNoOutputMapping = ""
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Output Mapping"
+   IF RESULT >= zCURSOR_SET
+      szNoOutputMapping = "Y"
+   END
+
+// szWriteBuffer = "<% strErrorMapValue = ^^; %>"  extraneous???
+// WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )           dks 2005.01.11
+
+   SET CURSOR FIRST vDialog.CtrlMapLOD_Attribute WITHIN vDialog.Control
+   IF RESULT >= zCURSOR_SET AND szNoOutputMapping = ""
+      bMapping = 1
+      szWriteBuffer = "<%"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   strErrorMapValue = vAppSubtask.CheckError( strSessionId, ^" + szCtrlTag + "^, strErrorTitle );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( strErrorMapValue.length( ) > 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   {"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      strErrorColor = ^color:red;^;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   else"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   {"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      strErrorColor = ^^;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name + ".GetView( strSessionId, ^" +
+                      vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      if ( nRC <= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         " + vDialog.CtrlMapView.Name +
+                      ".TraceLine( ^Invalid View: ^, ^" + szCtrlTag + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      else"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      {"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name +
+                      ".CheckExistenceOfEntity( strSessionId, ^" +
+                      vDialog.CtrlMapRelatedEntity.Name + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         if ( nRC >= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         {"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      IF vDialog.CtrlMapContext EXISTS
+         szContextName = vDialog.CtrlMapContext.Name
+      ELSE
+         szContextName = ""
+      END
+
+      IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
+         lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
+         szMaxStringLength = lMaxStringLength
+      ELSE
+         szMaxStringLength = "254"
+      END
+      szWriteBuffer = "            strErrorMapValue = " +
+                      vDialog.CtrlMapView.Name + ".GetStringFromAttributeByContext( strSessionId, ^" +
+                      vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                      vDialog.CtrlMapER_Attribute.Name + "^, ^" +
+                      szContextName + "^, " + szMaxStringLength + " );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            " + vDialog.CtrlMapView.Name +
+                      ".TraceLine( ^" + vDialog.CtrlMapRelatedEntity.Name + "." +
+                      vDialog.CtrlMapER_Attribute.Name + ": ^, strErrorMapValue );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      // If there is a WebControlProperty for "Create Session Variable", then create a session variable
+      // with the value of this edit box with the Control Tag as the name.
+      IF szCreateSessionVariable = "Y"
+         szWriteBuffer = "            session.setAttribute(^" + szCtrlTag + "^, strErrorMapValue); "
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      END
+      szWriteBuffer = "         }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         else"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            " + vDialog.CtrlMapView.Name +
+                      ".TraceLine( ^Entity does not exist: ^, ^" +
+                      vDialog.CtrlMapView.Name +
+                      "." + vDialog.CtrlMapRelatedEntity.Name + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   }"
+
+      lStyleX = vDialog.Control.ExtendedStyle
+      lTemp = IsFlagSequenceSet( lStyleX, zCONTROLX_PREFILL )
+      IF lTemp != 0
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         szWriteBuffer = "      if ( strErrorMapValue.length( ) == 0 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         strErrorMapValue = ^" + vDialog.Control.Text + "^;"
+      END
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   ELSE
+      bMapping = 0
+   END
+
+   //KJS 07/25/07
+   //See if there is a WebControlProperty for "Hidden"
+   //I don't think "hidden" is a webcontrolproperty for the editbox yet
+   //but since I don't think this hurts I'm going to keep it in.
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Hidden"
+   IF RESULT >= zCURSOR_SET
+      szWCP_Hidden = "Y"
+   ELSE
+      szWCP_Hidden = "N"
+   END
+
+   IF vDialog.Control.WebCtrlType = "Hidden" OR szWCP_Hidden = "Y"
+      szType = " type=^hidden^ "
+   ELSE
+   //IF vDialog.CtrlMapER_Domain EXISTS AND vDialog.CtrlMapER_Domain.Name = "Password"
+   IF vDialog.CtrlMapER_Domain EXISTS AND vDialog.Control.Subtype = 4
+      szType = " type=^password^ "
+   ELSE
+      szType = " type=^text^ "
+   END
+   END
+
+   // If there is an Event for the EditBox, build code to insert in <input statement.
+   szEditActionCode = ""
+   IF vDialog.EventAct EXISTS
+      szActionName = vDialog.EventAct.Tag
+      IF vDialog.Event.Type = 16
+         szEditActionCode = " onfocus=^" + szActionName + "()^ "
+      ELSE
+      IF vDialog.Event.Type = 17
+         szEditActionCode = " onblur=^" + szActionName + "()^ "
+      ELSE
+      IF vDialog.Event.Type = 18
+         szEditActionCode = " onchange=^" + szActionName + "()^ "
+      ELSE
+      IF vDialog.Event.Type = 21
+         szEditActionCode = " onkeydown=^" + szActionName + "()^ "
+      ELSE
+      IF vDialog.Event.Type = 22
+         szEditActionCode = " onkeyup=^" + szActionName + "()^ "
+      ELSE
+      IF vDialog.Event.Type = 24
+         szEditActionCode = " onclick=^" + szActionName + "()^ "
+      END
+      END
+      END
+      END
+      END
+      END
+   ELSE
+      // If there is a Default button for the window, we must add some characters
+      // to the end of the input statement.
+      CreateViewFromView( vDialogRoot, vDialog )
+      nRC = ResetViewFromSubobject( vDialogRoot )
+      LOOP WHILE nRC = 0
+         nRC = ResetViewFromSubobject( vDialogRoot )
+      END
+      IF vDialogRoot.Window.DfltButton != ""
+         szEditActionCode = " onKeyPress=^return _OnEnter( event )^"
+      ELSE
+         szEditActionCode = ""
+      END
+      DropView( vDialogRoot )
+   END
+
+   IF szNoOutputMapping = "Y"
+         szValue = "value=^^"
+   ELSE
+      lStyleX = vDialog.Control.ExtendedStyle
+      lTemp = IsFlagSequenceSet( lStyleX, zCONTROLX_PREFILL )
+      IF lTemp != 0 AND bMapping = 0
+         szValue = "value=^" + vDialog.Control.Text + "^"
+      ELSE
+         szValue = "value=^<%=strErrorMapValue%>^"
+      END
+   END
+
+   //KJS 10/19/07 - Added title.
+   //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+   szTitleHTML = ""
+   szTitle = vDialog.Control.DIL_Text
+   IF szTitle != ""
+      szTitleHTML = " title=^" + szTitle + "^ "
+   END
+
+   CreateDisabledString( vDialog, szDisabled )
+   szClass = vDialog.Control.CSS_Class
+   IF szClass = ""
+      szWriteBuffer = "<input name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szDisabled + szTitleHTML + szStyle + szType +
+                      szValue + szEditActionCode + " >"
+   ELSE
+      szWriteBuffer = "<input class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szDisabled +
+                      szTitleHTML + szStyle + szType + szValue + szEditActionCode + " >"
+   END
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: GenJSP_CrteJPG
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+GenJSP_CrteJPG( VIEW vDialog BASED ON LOD TZWDLGSO,
+                INTEGER          lFile,
+                STRING ( 10000 ) szWriteBuffer,
+                STRING ( 50 )    szIndent,
+                STRING ( 32 )    szCtrlTag,
+                STRING ( 1 )     szNoPositioning,
+                INTEGER          lOffsetX,
+                INTEGER          lOffsetY )
+
+   // Format a BITMAP or JPG control.
+
+   STRING ( 32 )  szContextName
+   STRING ( 256 ) szClass
+   STRING ( 256 ) szStyle
+   STRING ( 16 )  szTabIndex
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 256 ) szText
+   STRING ( 32 )  szActionName
+   INTEGER        nRC
+
+   CreateTabIndexString( vDialog, szTabIndex )
+
+   // If this window is being generated with no positioning then
+   // do not create the position in the style.
+   IF  szNoPositioning = "Y"
+      CreateNoPosStyleString( vDialog, szStyle, "" )
+   ELSE
+      CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
+   END
+
+   //CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
+   szStyle = szStyle + szTabIndex
+
+   szActionName = ""
+   IF vDialog.EventAct EXISTS
+      szActionName = vDialog.EventAct.Tag
+      nRC = zstrcmpi( szActionName, "alt-f4" )
+      IF nRC = 0
+         szActionName = "AltF4"
+      END
+   END
+
+   szClass = ""
+   IF vDialog.Control.CSS_Class != ""
+      szClass = " class=^" + vDialog.Control.CSS_Class + "^ "
+   END
+
+   //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+   szTitleHTML = ""
+   szTitle = vDialog.Control.DIL_Text
+   IF szTitle != ""
+      szTitleHTML = " title=^" + szTitle + "^ "
+   END
+   szText = ""
+   IF  vDialog.Control.Text != ""
+      szText = " alt=^" + vDialog.Control.Text + "^ "
+   END
+
+   //There might be mapping for this control which means we should get the
+   //image from the mapping, or there might be an image file name, so we wouldn't
+   //use the mapping.
+   SET CURSOR FIRST vDialog.CtrlMapLOD_Attribute WITHIN vDialog.Control
+   IF RESULT >= zCURSOR_SET
+
+      szWriteBuffer = "<% strErrorMapValue = ^^;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
+                      ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( nRC <= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      " + vDialog.CtrlMapView.Name +
+               ".TraceLine( ^Invalid View: ^, ^" + szCtrlTag + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   else"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   {"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name + ".CheckExistenceOfEntity( strSessionId, ^" +
+                      vDialog.CtrlMapRelatedEntity.Name + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      if ( nRC >= 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         strErrorMapValue = " +
+                      vDialog.CtrlMapView.Name +
+                      ".GetStringFromAttributeByContext( strSessionId, ^" +
+                      vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                      vDialog.CtrlMapER_Attribute.Name + "^, ^" +
+                      szContextName + "^, 2000 );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      IF  szActionName = ""
+         szWriteBuffer = "<img src=^<%=strErrorMapValue%>^ " + szStyle + szTitleHTML + szClass + szText + ">"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      ELSE
+         szWriteBuffer = "<img src=^<%=strErrorMapValue%>^ onclick=^" + szActionName + "()^ " + szStyle + szTitleHTML + szClass + szText + ">"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      END
+   ELSE
+      //Not getting image from mapping, a file name has been specified.
+      IF vDialog.Control.WebFileName != ""
+         IF szActionName = ""
+            //szWriteBuffer = "<a href=^#^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ ><img src=^" +
+            //   vDialog.Control.WebFileName + "^ " + szStyle + szTitleHTML + "></a>"
+            szWriteBuffer = "<img src=^" + vDialog.Control.WebFileName + "^  name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " +
+                              szStyle + szTitleHTML + szClass + szText + ">"
+         ELSE
+            szWriteBuffer = "<img src=^" + vDialog.Control.WebFileName + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ onclick=^" +
+                            szActionName + "( )^ " + szStyle + szTitleHTML + szClass + szText + ">"
+            //szWriteBuffer = "<a href=^#^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ ^onclick=^" +
+            //                szActionName + "( )^><img src=^" + vDialog.Control.WebFileName + "^ " + szStyle + szTitleHTML + "></a>"
+         END
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      ELSE
+         //Neither mapping nor filename was specified.
+         szWriteBuffer = "//There was no information on where to get the image.  Nothing created."
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      END
+  END
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: GenJSP_CrteComboBox
+//
+/////////////////////////////////////////////////////////////////////////////
+GLOBAL OPERATION
+GenJSP_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
+                     INTEGER          lFile,
+                     STRING ( 10000 ) szWriteBuffer,
+                     STRING ( 50 )    szIndent,
+                     STRING ( 32 )    szCtrlTag,
+                     STRING ( 1 )     szTableRowFlag,
+                     STRING ( 1 )     szNoPositioning,
+                     INTEGER          lOffsetX,
+                     INTEGER          lOffsetY )
+
+   // Combo boxes on OUTPUT
+
+   // There are two kinds of combo boxes on output.
+   // 1. Domain combo boxes, which need to get the individual table values
+   //    from core calls.
+   // 2. Select combo boxes (e.g.  Automatic Include, Set Foreign Key, etc.)
+   //    which read the data values from an object, the same as a list box.
+   // These two conditions are handled quite separately below, even though
+   // the resulting HTML is basically the same.
+
+   VIEW vList   BASED ON LOD TZWDLGSO  // identifies attribute mapping for list entries
+   VIEW vEntity BASED ON LOD TZWDLGSO  // identifies entity mapping for list entries
+   VIEW vScope  BASED ON LOD TZWDLGSO  // identifies scoping entity for list entries
+   STRING ( 32 )  szContextName
+   STRING ( 32 )  szScopingEntityName
+   STRING ( 32 )  szListEntityName
+   STRING ( 256 ) szStyle
+   STRING ( 256 ) szClass
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 16 )  szTabIndex
+   STRING ( 10 )  szWidth
+   STRING ( 10 )  szSelectAction
+   STRING ( 10 )  szSelectFunction
+   STRING ( 10 )  szHeight
+   STRING ( 10 )  szX_Pos
+   STRING ( 10 )  szY_Pos
+   STRING ( 10 )  szDisabled
+   DECIMAL        dDLUnits
+   INTEGER        lSubtype
+   SHORT          nRC
+
+   szStyle = "width:" + szWidth + "px; height:" + szHeight + "px;"
+   szClass = vDialog.Control.CSS_Class
+
+   //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+   szTitleHTML = ""
+   szTitle = vDialog.Control.DIL_Text
+   IF szTitle != ""
+      szTitleHTML = " title=^" + szTitle + "^ "
+   END
+
+   CreateTabIndexString( vDialog, szTabIndex )
+   // We will set the height to the constant 20 px.
+   PIX_PER_DU( vDialog, dDLUnits )
+   zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
+   szHeight = "20"
+   // The height used to be hard coded but we took that out!!!
+   //szStyle = "style=^width:" + szWidth + "px;height:" + szHeight + "px;"
+   szStyle = "style=^width:" + szWidth + "px;"
+
+   // If szNoPositioning is null then we are using absolute positioning.
+   IF  szNoPositioning = ""
+
+      zIntegerToString( szX_Pos, 10, vDialog.Control.PSDLG_X * dDLUnits )
+      zIntegerToString( szY_Pos, 10, vDialog.Control.PSDLG_Y * dDLUnits )
+
+      szStyle = szStyle + "position:absolute;" + "left:" + szX_Pos + "px;" + "top:" + szY_Pos + "px;^ "
+      // CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
+   ELSE
+      szStyle = szStyle + "^ "
+   END
+
+   szStyle = szStyle + szTabIndex
+
+   szWriteBuffer = "<% strErrorMapValue = ^^;  %>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   lSubtype = vDialog.Control.Subtype
+   nRC = AreBitsSetInFlag( lSubtype, 61440 ) // 0x0000F000
+   IF nRC = 0   // IF vDialog.Control.Subtype < 12000  ==> Domain Combobox
+
+      // Domain type combo box
+
+      szWriteBuffer = "<input name=^h" + szCtrlTag + "^ id=^h" + szCtrlTag + "^ type=^hidden^ value=^0^ >"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      // The Select Action is either onfocusout or onchange depending on the following.
+      // 1. If no Action, use onchange because this allows using keystrokes in the control.
+      // 2. If Action is SelectChange, use onchange.
+      // 3. If Action is SelectEnd, use onblur
+      IF vDialog.Event EXISTS
+         IF vDialog.Event.Type = 1
+            szSelectAction   = "onchange"
+            szSelectFunction = "OnChange"
+         ELSE
+            szSelectAction   = "onblur"
+            szSelectFunction = "OnBlur"
+         END
+      ELSE
+         szSelectAction   = "onchange"
+         szSelectFunction = "OnChange"
+      END
+
+      CreateDisabledString( vDialog, szDisabled )
+
+      IF szClass = ""
+         szWriteBuffer = "<select name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^1^ " + szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" +
+                         szCtrlTag + szSelectFunction + "( )^" + ">"
+      ELSE
+         szWriteBuffer = "<select class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^1^ " + szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" +
+                         szCtrlTag + szSelectFunction + "( )^" + ">"
+      END
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+      szWriteBuffer = "<%"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      IF vDialog.CtrlMapView EXISTS
+         szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
+                      ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   if ( nRC > 0 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+         // We get each table value from a core call.
+         IF vDialog.CtrlMapLOD_Attribute EXISTS
+            szWriteBuffer = "      int    nRowCnt= 0;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      Vector ComboVector;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            IF vDialog.CtrlMapContext EXISTS
+               szContextName = vDialog.CtrlMapContext.Name
+            ELSE
+               szContextName = ""
+            END
+/***** 04/26/11 */
+            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name +
+                     ".CheckExistenceOfEntity( strSessionId, ^" +
+                     vDialog.CtrlMapRelatedEntity.Name + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      if ( nRC >= 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         strComboCurrentValue = " + vDialog.CtrlMapView.Name +
+                     ".GetStringFromAttributeByContext( strSessionId, ^" +
+                     vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                     vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^, 254 );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+/*****/
+            //szWriteBuffer = "      strComboCurrentValue = " + vDialog.CtrlMapView.Name +
+            //         ".GetStringFromAttributeByContext( strSessionId, ^" +
+            //         vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+            //         vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^, 200 );"
+            //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+            szWriteBuffer = "      ComboVector = " + vDialog.CtrlMapView.Name +
+                     ".GetTableListForAttribute( strSessionId, ^" + vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                     vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      nRowCnt = (int) ComboVector.size( );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      int k;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      int nFirst;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            szWriteBuffer = "      if ( nRowCnt > 0 ) "
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            IF vDialog.CtrlMapER_Attribute.NotNull = "Y"
+               // Generate code when attribute IS required.
+               szWriteBuffer = "      // Code for required attribute, which doesn't allow a blank entry."
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         nFirst = (ComboVector.elementAt( 0 ) == ^^) ? 1 : 0;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+            ELSE
+               // Generate code when attribute is NOT required.
+               szWriteBuffer = "      // Code for NOT required attribute, which makes sure a blank entry exists."
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      if ( ComboVector.elementAt( 0 ) != ^^ )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            if ( strComboCurrentValue == ^^ )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "%>"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            <option selected=^selected^ value=^^></option>"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "<%"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            else"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "%>"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            <option value=^^></option>"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "<%"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+               szWriteBuffer = "         nFirst = 0;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            END
+
+            szWriteBuffer = "         for ( k = nFirst; k < nRowCnt; k++ )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            strErrorMapValue = (String) ComboVector.elementAt( k );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+            // The following if statement eliminates a null value, which would be the second null in the combo box.
+            szWriteBuffer = "            if ( strErrorMapValue.length( ) != 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "               if ( strComboCurrentValue.equals( strErrorMapValue ) )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "               {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "%>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "                  <option selected=^selected^ value=^<%=strErrorMapValue%>^><%=strErrorMapValue%></option>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "<%"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "               }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "               else"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "               {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "%>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "                  <option value=^<%=strErrorMapValue%>^><%=strErrorMapValue%></option>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "<%"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "               }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+      END
+
+      szWriteBuffer = "         }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      } //if ( nRowCnt > 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "</select>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   ELSE  //kelly1
+      // Select type combo box
+      CreateViewFromViewForTask( vList, vDialog, 0 )
+      SET CURSOR NEXT vList.CtrlMap
+      CreateViewFromViewForTask( vEntity, vList, 0 )
+      SET CURSOR NEXT vEntity.CtrlMap
+      CreateViewFromViewForTask( vScope, vEntity, 0 )
+      SET CURSOR NEXT vScope.CtrlMap
+
+      // The Select Action is either onblur or onchange depending on the following.
+      // 1. If no Action, use onchange because this allows using keystrokes in the control.
+      // 2. If Action is SelectChange, use onchange.
+      // 3. If Action is SelectEnd, use onfocusout.
+      IF vDialog.Event EXISTS
+         IF vDialog.Event.Type = 1
+            szSelectAction   = "onchange"
+            szSelectFunction = "OnChange"
+         ELSE
+            szSelectAction   = "onblur"
+            szSelectFunction = "OnBlur"
+         END
+      ELSE
+         szSelectAction = "onchange"
+         szSelectFunction = "OnChange"
+      END
+      IF szClass = ""
+         szWriteBuffer = "<select name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^1^" + szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" +
+                         szCtrlTag + szSelectFunction + "( )^" + ">"
+      ELSE
+         szWriteBuffer = "<select class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^1^" + szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" +
+                         szCtrlTag + szSelectFunction + "( )^" + ">"
+      END
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+      szWriteBuffer = "<%"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      IF vDialog.CtrlMapView EXISTS
+         szWriteBuffer = "   nRC = " + vList.CtrlMapView.Name +
+                         ".GetView( strSessionId, ^" + vList.CtrlMapView.Name + "^, vAppSubtask );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   if ( nRC > 0 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         strComboCurrentValue = ^^;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      zeidon.zView v" + szCtrlTag + " = new zeidon.zView( strSessionId );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+         // If mapping is specified, set up the value to be used in selecting
+         // the correct entry.
+         IF vDialog.CtrlMapLOD_Attribute EXISTS
+            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name +
+                            ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name +
+                            "^, vAppSubtask );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      if ( nRC > 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name + ".CheckExistenceOfEntity( strSessionId, ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         if ( nRC >= 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            IF vDialog.CtrlMapContext EXISTS
+               szContextName = vDialog.CtrlMapContext.Name
+            ELSE
+               szContextName = ""
+            END
+            szWriteBuffer = "            strComboCurrentValue = " + vDialog.CtrlMapView.Name +
+                     ".GetStringFromAttributeByContext( strSessionId, ^" +
+                     vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                     vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^, 254 );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      }"
+         ELSE
+            szWriteBuffer = "      strComboCurrentValue = ^^;"
+         END
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+         // See if a list entity has been specified, and if so, use it.
+         IF vEntity.CtrlMapLOD_Entity EXISTS
+            szListEntityName = vEntity.CtrlMapLOD_Entity.Name
+         ELSE
+            szListEntityName = vList.CtrlMapRelatedEntity.Name
+         END
+
+         // See if a scoping entity has been specified, and if so, use it.
+         lSubtype = vDialog.Control.Subtype
+         lSubtype = IsFlagSequenceSet( lSubtype, zCOMBOBOX_SCOPE_OI )
+         IF lSubtype = 0
+            IF vScope.CtrlMapLOD_Entity EXISTS
+               szScopingEntityName = vScope.CtrlMapLOD_Entity.Name
+            ELSE
+               szScopingEntityName = ""
+            END
+         END
+
+         szWriteBuffer = "      v" + szCtrlTag + ".CreateViewFromView( strSessionId, " + vList.CtrlMapView.Name + " );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      ComboCount = 0;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      strComboSelectedValue = ^0^;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+         // Auto Include
+         IF vDialog.Control.Subtype >= 20480 AND vDialog.Control.Subtype <= 21252   // IF Auto Include
+            szWriteBuffer = ""
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            // For Auto Include, we are automatically putting a blank entry as the first entry in the
+            // combobox.  With this in mind, there is code in DoInputMapping that assumes the first
+            // entry in a combobox is null (or blank).  What if the user doesn't want a blank entry?
+            // and wants to use the "No null in list" checkbox in the painter.  I would need to
+            // change this code but I'm not sure how because I can't tell from DoInputMapping what
+            // the value of combobox.selectedindex[0] is, I only know they selected the index 0.
+            szWriteBuffer = "      // For Auto Include, always add a null entry to the combo box.s"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      ComboCount++;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      if ( strComboCurrentValue == null )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "%>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         <option selected=^selected^ value=^^></option>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "<%"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      else"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "%>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         <option value=^^></option>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "<%"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         END
+
+         IF lSubtype = 0
+            szWriteBuffer = "      nRC = v" + szCtrlTag + ".SetCursorFirst( strSessionId, ^" +
+                                         szListEntityName + "^, ^" + szScopingEntityName + "^ );"
+         ELSE
+            szWriteBuffer = "      nRC = v" + szCtrlTag + ".SetCursorScopeOI( strSessionId, ^" +
+                                         szListEntityName + "^, 1 ); // first" // zPOS_FIRST
+         END
+
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      while ( nRC >= 0 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         IF vList.CtrlMapLOD_Attribute EXISTS
+            IF vList.CtrlMapContext EXISTS
+               szContextName = vList.CtrlMapContext.Name
+            ELSE
+               szContextName = ""
+            END
+
+            szWriteBuffer = "         strErrorMapValue = v" + szCtrlTag +
+                            ".GetStringFromAttributeByContext( strSessionId, ^" +
+                            vList.CtrlMapRelatedEntity.Name + "^, ^" +
+                            vList.CtrlMapER_Attribute.Name + "^, ^" +
+                            szContextName + "^, 254 );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+
+
+         // KJS 05/20/14 - There were some issues for auto include when the "list view" already had a blank entry, then
+         // two blank entries were in the list and this caused errors. For auto include check if one of these entries is
+         // blank, don't add it if it is.
+         IF vDialog.Control.Subtype >= 20480 AND vDialog.Control.Subtype <= 21252   // IF Auto Include
+            szWriteBuffer = "         // For Auto Include, we have already created a blank entry for the combobox, check to make "
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         // we don't add another blank entry. That will cause errors. "
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         if ( !StringUtils.isBlank( strErrorMapValue ) )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+
+         szWriteBuffer = "         if ( strComboCurrentValue.equals( strErrorMapValue ) )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "%>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            <option selected=^selected^ value=^<%=strErrorMapValue%>^><%=strErrorMapValue%></option>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<%"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            strComboSelectedValue = Integer.toString( ComboCount );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         }"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         else"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "%>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            <option value=^<%=strErrorMapValue%>^><%=strErrorMapValue%></option>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<%"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         }"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+         IF vDialog.Control.Subtype >= 20480 AND vDialog.Control.Subtype <= 21252   // IF Auto Include
+            szWriteBuffer = "         } // if ( !StringUtils.isBlank( strErrorMapValue ) )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         END
+
+         szWriteBuffer = "         ComboCount++;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         IF lSubtype = 0
+            szWriteBuffer = "         nRC =  v" + szCtrlTag +
+                            ".SetCursorNext( strSessionId, ^" + szListEntityName +
+                            "^, ^" + szScopingEntityName + "^ );"
+         ELSE
+            szWriteBuffer = "         nRC =  v" + szCtrlTag +
+                            ".SetCursorScopeOI( strSessionId, ^" + szListEntityName + "^, 3 ); // next" // zPOS_NEXT
+         END
+
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         DropView( vList )
+         DropView( vEntity )
+         DropView( vScope )
+      END
+
+      szWriteBuffer = "      }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      szWriteBuffer = "      v" + szCtrlTag + ".DropView( strSessionId );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+      szWriteBuffer = "   }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "</select>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "<input name=^h" + szCtrlTag + "^ id=^h" + szCtrlTag + "^ type=^hidden^ value=^<%=strComboSelectedValue%>^ >"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenJSP_CrteGroupTable
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+GenJSP_CrteGroupTable(  VIEW vDialog BASED ON LOD TZWDLGSO,
+                        VIEW vGroupParent BASED ON LOD TZWDLGSO,
+                        VIEW vDialogRoot BASED ON LOD TZWDLGSO,
+                        INTEGER          lFile,
+                        STRING ( 10000 ) szWriteBuffer,
+                        STRING ( 100 )   szIndent,
+                        INTEGER          lTableRowCnt,
+                        STRING ( 1 )     szNoPositioning )
+
+   INTEGER        X_Size
+   INTEGER        Y_Size
+   INTEGER        X_Pos
+   INTEGER        Y_Pos
+   INTEGER        LastY_Pos
+   INTEGER        iHighestColCnt
+   INTEGER        iColCnt
+   INTEGER        nRC
+   INTEGER        iColWidth
+   INTEGER        lMaxStringLength
+   INTEGER        lTemp
+   INTEGER        lStyleX
+   INTEGER        Size
+   INTEGER        lOffsetX
+   INTEGER        lOffsetY
+   DECIMAL        dDLUnits
+   STRING ( 10 )  szColCnt
+   STRING ( 10 )  szWidth
+   STRING ( 10 )  szHeight
+   STRING ( 50 )  szCtrlTag
+   STRING ( 50 )  szParentCtrlTag
+   STRING ( 85 )  szHTMLCtrlID
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 100 ) szStyle
+   STRING ( 256 ) szClass
+   STRING ( 32 )  szActionName
+   STRING ( 50 )  szControlType
+   STRING ( 16 )  szTabIndex
+   STRING ( 256 ) szText
+   STRING ( 32 )  szContextName
+   STRING ( 10 )  szMaxStringLength
+   STRING ( 32 )  szSize
+   STRING ( 256 ) szAbsoluteStyle
+
+   STRING ( 1 )   szNoHeightFlag
+   STRING ( 1 )   szNoWidthFlag
+   STRING ( 1 )   szSpanFlag
+   STRING ( 1 )   szDivFlag
+   STRING ( 1 )   szScrollableFlag
+   STRING ( 1 )   szScrollingTable
+   STRING ( 1 )   szGroupIsTable
+   STRING ( 1 )   szTinyMCEFlag
+   STRING ( 100 ) szIndentGroup
+   STRING ( 50 )  szWebCtrlType
+
+   LastY_Pos = 0
+   iColCnt = 0
+   iHighestColCnt = 0
+   szIndent = szIndent + "   "
+
+   X_Size  = vGroupParent.Control.SZDLG_X
+   Y_Size  = vGroupParent.Control.SZDLG_Y
+   szParentCtrlTag = vGroupParent.Control.Tag
+
+   IF vGroupParent.Control.CSS_Class != ""
+      szClass = " class=^" + vGroupParent.Control.CSS_Class + "^"
+   ELSE
+      szClass = ""
+   END
+
+   IF  vDialog.Control EXISTS
+      SET CURSOR  FIRST vDialog.Control
+      LastY_Pos = vDialog.Control.PSDLG_Y
+   END
+
+   // Loop through each Control within this group.  Determine what row has the largest
+   // number of controls.  This will determine how many columns our table will have.
+   FOR EACH vDialog.Control
+
+      IF  LastY_Pos < vDialog.Control.PSDLG_Y
+
+         IF  iColCnt > iHighestColCnt
+            iHighestColCnt = iColCnt
+         END
+         iColCnt = 0
+      END
+
+      iColCnt = iColCnt + 1
+
+      LastY_Pos = vDialog.Control.PSDLG_Y
+   END
+
+   //TraceLineI("**** Highest Col Count *** ", iHighestColCnt )
+   zIntegerToString( szColCnt, 10, iHighestColCnt )
+   PIX_PER_DU( vDialog, dDLUnits )
+   zIntegerToString( szWidth, 10, X_Size * dDLUnits )
+   zIntegerToString( szHeight, 10, Y_Size * dDLUnits )
+
+   // 05/27/09 - Currently, we never put in a height.  Would we want to do this?????!!!.
+   IF  szNoPositioning = "Y"
+
+      szNoWidthFlag = ""
+      SET CURSOR FIRST vGroupParent.WebControlProperty WHERE vGroupParent.WebControlProperty.Name = "No Width"
+      IF RESULT >= zCURSOR_SET
+         szNoWidthFlag = "Y"
+      END
+   END
+
+   // Create a div around the whole table.  This should probably be float.
+   //szWriteBuffer = "<div style=^float:left;width:" + szWidth + "px;height:" + szHeight + "px;^" + szClass + ">"
+   // KJS 09/11/09 - Neither the table or the div had an id or name.  I am not sure whether I should put the
+   // id on the <table we create or on the <div> but I will put it on the div.
+   szWriteBuffer = "<div id=^" + szParentCtrlTag + "^ name=^" + szParentCtrlTag + "^ style=^float:left;"
+   IF szNoWidthFlag = ""
+      szWriteBuffer = szWriteBuffer + "width:" + szWidth + "px;"
+   END
+   szWriteBuffer = szWriteBuffer + "^ " + szClass + ">"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+   // Now create the table with the proper number of columns.
+   //szWriteBuffer = "<table cols=" szColCount + " name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^>"
+   szWriteBuffer = "<table cols=" + szColCnt
+   IF szNoWidthFlag = ""
+      szWriteBuffer = szWriteBuffer + " style=^width:" + szWidth + "px;^ "
+   END
+   szWriteBuffer = szWriteBuffer + " class=^grouptable^>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+         szWriteBuffer = "<tr>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+   LastY_Pos = 0
+   IF  vDialog.Control EXISTS
+      SET CURSOR  FIRST vDialog.Control
+      LastY_Pos = vDialog.Control.PSDLG_Y
+   END
+
+
+   // Loop through the controls, placing each control in a different column.
+   // When the Y_Pos has changed, we need to create a new row in the table.
+   FOR EACH vDialog.Control
+
+      // We are onto a new row
+      IF  LastY_Pos < vDialog.Control.PSDLG_Y
+
+         // If LastY_Pos is 0 then we are on the first control.
+         // If this wasn't the very first row, then
+         // create the end tag for the last row.
+         //IF  LastY_Pos != 0
+            // If the previous row didn't have as many controls as there are
+            // table columns, then we need to create a blank column
+            LOOP  WHILE iColCnt < iHighestColCnt
+               szWriteBuffer = "<td>&nbsp</td>"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               iColCnt = iColCnt + 1
+            END
+            szWriteBuffer = "</tr>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         //END
+
+         szWriteBuffer = "<tr>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         // Since we are on a new row, reset the column count.
+         iColCnt = 0
+      END
+
+      szCtrlTag = vDialog.Control.Tag
+      szHTMLCtrlID = " id=^" + szCtrlTag + "^ name=^" + szCtrlTag + "^ "
+      szControlType = vDialog.ControlDef.Tag
+      CreateNoPosStyleString( vDialog, szStyle, "" )
+
+      X_Pos = vDialog.Control.PSDLG_X
+      //TraceLineI("*** Control Start position *** ", vDialog.Control.PSDLG_X )
+      LastY_Pos = vDialog.Control.PSDLG_Y
+
+      // We want to find out how wide this column should bed
+      nRC = SetCursorNextEntity( vDialog, "Control", "" )
+      iColWidth = 0
+      IF  nRC >= zCURSOR_SET AND LastY_Pos = vDialog.Control.PSDLG_Y
+         //TraceLineI("*** Next Control Start position *** ", vDialog.Control.PSDLG_X )
+         iColWidth = vDialog.Control.PSDLG_X - X_Pos
+      END
+
+      IF  nRC >= zCURSOR_SET
+         nRC = SetCursorPrevEntity( vDialog, "Control", "" )
+      END
+
+      IF  iColWidth = 0
+         //TraceLineI("*** Width is width of control *** ", vDialog.Control.SZDLG_X )
+         iColWidth = vDialog.Control.SZDLG_X
+      END
+
+      szClass = vDialog.Control.CSS_Class
+      IF vDialog.Control.CSS_Class != ""
+         szClass = " class=^" + vDialog.Control.CSS_Class + "^ "
+      ELSE
+         szClass = ""
+      END
+
+      //KELLY0210
+      zIntegerToString( szWidth, 10, iColWidth * dDLUnits )
+      szWriteBuffer = "<td valign=^top^ " + szClass + "style=^width:" + szWidth + "px;^>"
+      //szWriteBuffer = "<td>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      //****************************************************************************
+
+      /*
+      IF szControlType = "GroupBox"  // Grid or Table
+         OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_Y A PSDLG_X A" )
+         // Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
+         CreateViewFromView( vGroupParent, vDialog )
+         SetViewToSubobject( vDialog, "CtrlCtrl" )
+         TraceLineS("**** GroupBox in Table ", " Before Recurs ")
+         GenJSP_CrteCtrlsRecurs( vDialog, vGroupParent, lFile, szWriteBuffer, szIndent,
+                                 lTableRowCnt, szNoPositioning, 0, 0 )
+         TraceLineS("**** GroupBox in Table ", " After Recurs ")
+         ResetViewFromSubobject( vDialog )
+         DropView( vGroupParent )
+         vGroupParent = 0
+      END
+      */
+
+      IF szControlType = "GroupBox"
+
+         // Do I need to check if this is a groupbox and we are not using absolute positioning, then I want to
+         // check if there are other groupboxes at this same PSDLG_Y.  If so, then these groups would need to
+         // have a float:left applied to them.
+         // Would I only want to do this once for the row?
+         // Or, do I want to put a float on every div created and then create a <div style="clear:both;"</div> after
+         // every row?
+         //IF  szNoPositioning = "Y" AND szCheckedRowForGroups         //END
+
+
+         // InitializeRepeatingGroup for GroupBox
+
+         // Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
+         // as a table and try and position what is in this group box as a table.
+         szGroupIsTable = ""
+         SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Table"
+         IF RESULT >= zCURSOR_SET
+            szGroupIsTable = "Y"
+         END
+
+         szNoHeightFlag = ""
+         SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Height"
+         IF RESULT >= zCURSOR_SET
+            szNoHeightFlag = "Y"
+         END
+
+         szNoWidthFlag = ""
+         SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Width"
+         IF RESULT >= zCURSOR_SET
+            szNoWidthFlag = "Y"
+         END
+
+      END
+
+      // Initialize the szAbsoluteStyle variable with X and Y values.
+      IF  szNoPositioning = "Y"
+         IF szControlType = "GroupBox" AND szNoHeightFlag = "Y" AND szNoWidthFlag = "Y"
+            szAbsoluteStyle = ""
+         ELSE
+         IF szControlType = "GroupBox" AND szNoHeightFlag = "Y"
+            // We might not want the groupbox to have a height (so it grows)
+            zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
+            szAbsoluteStyle = "style=^width:" + szWidth + ";^"
+         ELSE
+         IF szControlType = "GroupBox" AND szNoWidthFlag = "Y"
+            // We might not want the groupbox to have a width (so it grows)
+            zIntegerToString( szHeight, 10, vDialog.Control.SZDLG_Y * dDLUnits )
+            szAbsoluteStyle = "style=^height:" + szHeight + ";^"
+         ELSE
+            CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" )
+         END
+         END
+         END
+      ELSE
+         CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
+      END
+
+      szWriteBuffer = "<% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      // Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
+      // as a table and try and position what is in this group box as a table.
+      IF szControlType = "GroupBox" AND szGroupIsTable = "Y"
+
+            X_Size = vDialog.Control.SZDLG_X
+            Y_Size = vDialog.Control.SZDLG_Y
+
+            OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_Y A PSDLG_X A" )
+            CreateViewFromView( vGroupParent, vDialog )
+            // Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
+            SetViewToSubobject( vDialog, "CtrlCtrl" )
+            szIndentGroup = szIndent
+            GenJSP_CrteGroupTable( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndent, lTableRowCnt, szNoPositioning )
+            ResetViewFromSubobject( vDialog )
+            DropView( vGroupParent )
+            vGroupParent = 0
+      END
+
+      IF szControlType = "GroupBox" AND szGroupIsTable = ""
+
+         // Set Group flags either from old szWebCtrlType or new WebControlProperty.
+         IF szWebCtrlType = "Scrollable"
+            szScrollableFlag = "Y"
+         ELSE
+            szScrollableFlag = ""
+            SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Scrollable"
+            IF RESULT >= zCURSOR_SET
+               szScrollableFlag = "Y"
+            END
+         END
+         IF szWebCtrlType = "Span"
+            szSpanFlag = "Y"
+         ELSE
+            szSpanFlag = ""
+            SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Span"
+            IF RESULT >= zCURSOR_SET
+               szSpanFlag = "Y"
+            END
+         END
+         IF szWebCtrlType = "Div"
+            szDivFlag = "Y"
+         ELSE
+            szDivFlag = ""
+            SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Div"
+            IF RESULT >= zCURSOR_SET
+               szDivFlag = "Y"
+            END
+         END
+
+
+         // Is this clear even working???!!!
+         IF szWebCtrlType = "Clear"
+            szWriteBuffer = "<div id='clear'></div>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            X_Size = vDialog.Control.PSDLG_X * dDLUnits + lOffsetX  // borrow these for a second
+            Y_Size = vDialog.Control.PSDLG_Y * dDLUnits + lOffsetY
+            OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_Y A PSDLG_X A" )
+            // Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
+            CreateViewFromView( vGroupParent, vDialog )
+            SetViewToSubobject( vDialog, "CtrlCtrl" )
+            szIndentGroup = szIndent
+            GenJSP_CrteCtrlsRecurs( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndentGroup,
+                                    lTableRowCnt, szNoPositioning, X_Size, Y_Size )
+            ResetViewFromSubobject( vDialog )
+            DropView( vGroupParent )
+            vGroupParent = 0
+            szWriteBuffer = ""
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         ELSE
+         IF szSpanFlag = "Y"
+
+            // Div on a Group Control requests that all the controls inside the group line up one under the other.
+            szClass = vDialog.Control.CSS_Class
+            IF szClass = ""
+               szWriteBuffer = "<span" + szHTMLCtrlID + szAbsoluteStyle + ">"
+            ELSE
+               szWriteBuffer = "<span" + szHTMLCtrlID + "class=^" + szClass + "^ " + szAbsoluteStyle + ">"
+            END
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_Y A PSDLG_X A" )
+            // Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
+            CreateViewFromView( vGroupParent, vDialog )
+            SetViewToSubobject( vDialog, "CtrlCtrl" )
+            szIndentGroup = szIndent
+            GenJSP_CrteCtrlsRecurs( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndentGroup,
+                                    lTableRowCnt, szNoPositioning, lOffsetX, lOffsetY )
+            ResetViewFromSubobject( vDialog )
+            DropView( vGroupParent )
+            vGroupParent = 0
+            szWriteBuffer = "</span>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         ELSE
+         IF szDivFlag = "Y"
+
+            // Add Scrollable if requested.
+            IF szScrollableFlag = "Y"
+               zAppendQuotedString( szAbsoluteStyle, "overflow:auto;", "style=", "^" )
+            END
+
+            // If we are not using absolute positioning, then make all the divs
+            // float left.
+            IF  szNoPositioning = "Y"
+               zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
+            END
+
+            // Div on a Group Control requests that all the controls inside the group line up one under the other.
+            szClass = vDialog.Control.CSS_Class
+            IF szClass = ""
+               szWriteBuffer = "<div" + szHTMLCtrlID + szAbsoluteStyle + ">"
+            ELSE
+               szWriteBuffer = "<div" + szHTMLCtrlID + "class=^" + szClass + "^ " + szAbsoluteStyle + ">"
+            END
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_Y A PSDLG_X A" )
+            // Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
+            CreateViewFromView( vGroupParent, vDialog )
+            SetViewToSubobject( vDialog, "CtrlCtrl" )
+            szIndentGroup = szIndent
+            GenJSP_CrteCtrlsRecurs( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndentGroup,
+                                    lTableRowCnt, szNoPositioning, lOffsetX, lOffsetY )
+            ResetViewFromSubobject( vDialog )
+            DropView( vGroupParent )
+            vGroupParent = 0
+            szWriteBuffer = "</div>  <!-- " + szCtrlTag + " --> "
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         ELSE
+         IF szWebCtrlType = "DivScroll"
+            // Div on a Group Control requests that all the controls inside the group line up one under the other.
+            zAppendQuotedString( szAbsoluteStyle, "overflow:auto;", "style=", "^" )
+
+            // If we are not using absolute positioning, then make all the divs
+            // float left.
+            IF  szNoPositioning = "Y"
+               zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
+            END
+            szClass = vDialog.Control.CSS_Class
+            IF szClass = ""
+               szWriteBuffer = "<div" + szHTMLCtrlID + szAbsoluteStyle + ">"
+            ELSE
+               szWriteBuffer = "<div" + szHTMLCtrlID + "class=^" + szClass + "^ " + szAbsoluteStyle + ">"
+            END
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+            OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_Y A PSDLG_X A" )
+            // Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
+            CreateViewFromView( vGroupParent, vDialog )
+            SetViewToSubobject( vDialog, "CtrlCtrl" )
+            szIndentGroup = szIndent
+            GenJSP_CrteCtrlsRecurs( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndentGroup,
+                                    lTableRowCnt, szNoPositioning, lOffsetX, lOffsetY )
+            ResetViewFromSubobject( vDialog )
+            DropView( vGroupParent )
+            vGroupParent = 0
+            szWriteBuffer = "</div>  <!-- " + szCtrlTag + " --> "
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         ELSE
+            // Default Group is div for now
+
+            // If we are not using absolute positioning, then make all the divs float left.
+            IF  szNoPositioning = "Y"
+               zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
+            END
+
+            szClass = vDialog.Control.CSS_Class
+            IF szClass = ""
+               szWriteBuffer = "<div" + szHTMLCtrlID + szAbsoluteStyle + ">"
+            ELSE
+               szWriteBuffer = "<div" + szHTMLCtrlID + "class=^" + szClass + "^ " + szAbsoluteStyle + ">"
+            END
+            /*IF szClass = ""
+               szWriteBuffer = "<fieldset " + szAbsoluteStyle + ">"
+            ELSE
+               szWriteBuffer = "<fieldset class=^" + szClass + "^ " + szAbsoluteStyle + ">"
+            END*/
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            IF vDialog.Control.Text != ""
+               szWriteBuffer = "<div>" + vDialog.Control.Text + "</div>"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            END
+
+            OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_Y A PSDLG_X A" )
+            // Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
+            CreateViewFromView( vGroupParent, vDialog )
+            SetViewToSubobject( vDialog, "CtrlCtrl" )
+            szIndentGroup = szIndent + "   "
+            GenJSP_CrteCtrlsRecurs( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndentGroup,
+                                    lTableRowCnt, szNoPositioning, lOffsetX, lOffsetY )
+            ResetViewFromSubobject( vDialog )
+            DropView( vGroupParent )
+            vGroupParent = 0
+
+            szWriteBuffer = "</div>  <!-- " + szCtrlTag + " --> "
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+         END
+         END
+         END
+
+      END  // Control is groupbox
+
+      IF szControlType = "Text"  // TEXT
+         GenJSP_CrteText( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndent, szCtrlTag,
+                          "", szNoPositioning, 0, 0 )
+      END
+
+      IF szControlType = "EditBox"  // EDITBOX
+         GenJSP_CrteEditBox( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag,
+                             "", "", szNoPositioning, 0, 0 )
+      END
+
+      IF szControlType = "Calendar"  // CALENDAR
+         GenJSP_CrteCalendar( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag,
+                              "", "", szNoPositioning, 0, 0 )
+      END
+
+      IF szControlType = "RadioGrp" // RADIO BUTTON GROUP
+         szWriteBuffer = "<% strErrorMapValue = ^^;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+         IF vDialog.CtrlMapView EXISTS
+            szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
+                            ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   if ( nRC <= 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      " + vDialog.CtrlMapView.Name +
+                            ".TraceLine( ^Invalid View: ^, ^" + szCtrlTag + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   else"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name +
+                            ".CheckExistenceOfEntity( strSessionId, ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      if ( nRC >= 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         strRadioGroupValue = " +
+                            vDialog.CtrlMapView.Name + ".GetString( strSessionId, ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                            vDialog.CtrlMapER_Attribute.Name + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+
+         szWriteBuffer = "%>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+         //KJS 11/14/07 - I don't think there should always be a box around radio buttons.
+         //I'm going to do this like the way group box is (or was).  If there is text
+         //to go on the box then we will create <fieldset.  If there is no text then
+         //we will create a div.
+         //KJS 10/07/09 - I added the id to this <div but then realized that the radio buttons also have this
+         //id, so I am adding "gb" in front of the control tag.  Not sure how much we care that this div has
+         //an id and name but think it should.
+         IF vDialog.Control.Text = ""
+            //szWriteBuffer = "<div " + szStyle + ">"
+            szWriteBuffer = "<div id=^gb" + szCtrlTag + "^ name=^gb" + szCtrlTag + "^ " + szStyle + ">"
+         ELSE
+            szWriteBuffer = "<fieldset " + szStyle + ">"
+         END
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         IF vDialog.Control.Text != ""
+            szWriteBuffer = "<div>" + vDialog.Control.Text + "</div>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+
+         OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_Y A PSDLG_X A" )
+         SetViewToSubobject( vDialog, "CtrlCtrl" )
+         szIndent = szIndent + "   "
+         GenJSP_CrteCtrlsRadio( vDialog, lFile, szWriteBuffer, szIndent,
+                                szCtrlTag, szNoPositioning, 0, 0 )
+         ResetViewFromSubobject( vDialog )
+         IF vDialog.Control.Text = ""
+            szWriteBuffer = "</div>"
+         ELSE
+            szWriteBuffer = "</fieldset>"
+         END
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      END
+
+      IF szControlType = "CheckBox"  // CHECKBOX
+         GenJSP_CrteCheckBox( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag,
+                              "", "", szNoPositioning, 0, 0 )
+      END
+
+      IF szControlType = "PushBtn"  // PUSH BUTTON
+         szActionName = ""
+         IF vDialog.EventAct EXISTS
+            szActionName = vDialog.EventAct.Tag
+            nRC = zstrcmpi( szActionName, "alt-f4" )
+            IF nRC = 0
+               szActionName = "AltF4"
+            END
+         END
+
+         CreateTabIndexString( vDialog, szTabIndex )
+         szStyle = szStyle + szTabIndex
+
+         szText = ""
+         szText = vDialog.Control.Text
+         // Set Class as either null or with Class value.
+         IF vDialog.Control.CSS_Class = ""
+            szClass = ""
+         ELSE
+            szClass = "class=^" + vDialog.Control.CSS_Class + "^ "
+         END
+
+         //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+         szTitleHTML = ""
+         szTitle = vDialog.Control.DIL_Text
+         IF szTitle != ""
+            szTitleHTML = " title=^" + szTitle + "^ "
+         END
+
+         szWriteBuffer = "<button type=^button^ " + szClass + szTitleHTML + szHTMLCtrlID
+
+         szWriteBuffer = szWriteBuffer + "value=^" + szText + "^ onclick=^" +
+                         szActionName + "( )^ " + " " + szStyle + ">" + szText + "</button>"
+
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      END  //End of PushBtn
+
+      IF szControlType = "ComboBox"  // COMBOBOX
+         GenJSP_CrteComboBox( vDialog, lFile, szWriteBuffer, szIndent,
+                              szCtrlTag, "", szNoPositioning, 0, 0 )
+      END
+
+      IF szControlType = "Bitmap" OR szControlType = "BitmapBtn"  // BITMAP or JPG
+         GenJSP_CrteJPG( vDialog, lFile, szWriteBuffer, szIndent,
+                         szCtrlTag, szNoPositioning, 0, 0 )
+      END
+
+      IF szControlType = "ListBox"  // LISTBOX
+         GenJSP_CrteListBox( vDialog, lFile, szWriteBuffer, szIndent,
+                             szCtrlTag, szNoPositioning, 0, 0 )
+      END  // IF szControlType = "ListBox"
+
+      IF szControlType = "MLEdit"  // MLEDIT
+         SET CURSOR FIRST vDialog.CtrlMapLOD_Attribute WITHIN vDialog.Control
+         IF RESULT >= zCURSOR_SET
+            szWriteBuffer = "<%"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   // " + szControlType + ": " + szCtrlTag
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   strErrorMapValue = ^^;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name + ".GetView( strSessionId, ^" +
+                            vDialog.CtrlMapView.Name + "^, vAppSubtask );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   if ( nRC <= 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      " + vDialog.CtrlMapView.Name +
+                            ".TraceLine( ^Invalid View: ^, ^" + szCtrlTag + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   else"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name +
+                            ".CheckExistenceOfEntity( strSessionId, ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      if ( nRC >= 0 )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+            szContextName = ""
+            IF vDialog.CtrlMapContext EXISTS
+               szContextName = vDialog.CtrlMapContext.Name
+            END
+
+            IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
+               lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
+               szMaxStringLength = lMaxStringLength
+            ELSE
+               szMaxStringLength = "254"
+            END
+
+            szWriteBuffer = "         strErrorMapValue = " +
+                            vDialog.CtrlMapView.Name +
+                            ".GetStringFromAttributeByContext( strSessionId, ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
+                            vDialog.CtrlMapER_Attribute.Name + "^, ^" +
+                            szContextName + "^, " + szMaxStringLength + " );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   }"
+
+            lStyleX = vDialog.Control.ExtendedStyle
+            lTemp = IsFlagSequenceSet( lStyleX, zCONTROLX_PREFILL )
+            IF lTemp != 0
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+               szWriteBuffer = "      if ( strErrorMapValue.length( ) == 0 )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         strErrorMapValue = ^" + vDialog.Control.Text + "^;"
+            END
+
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+            szWriteBuffer = "%>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            X_Size = vDialog.Control.SZDLG_X
+            Size = X_Size / 4
+            zIntegerToString( szSize, 10, Size )
+            Y_Size = vDialog.Control.SZDLG_Y
+            Size = Y_Size / 12
+            zIntegerToString( szHeight, 10, Size )
+
+            IF vDialog.Control.VisibleBorder = "Y"
+               zAppendQuotedString( szStyle, "border:'4px solid';border-style:'groove';", "style=", "^" )
+            ELSE
+               zAppendQuotedString( szStyle, "border:'2px solid';border-style:'groove';", "style=", "^" )
+            END
+            zAppendQuotedString( szStyle, szAbsoluteStyle, "style=", "^" )
+
+
+            szTinyMCEFlag = ""
+            SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "wysiwyg TinyMCE"
+            IF RESULT >= zCURSOR_SET
+               szTinyMCEFlag = "Y"
+            END
+
+            IF vDialog.Control.WebCtrlType = "wysiwygEditor" OR szTinyMCEFlag = "Y"
+
+               szClass = vDialog.Control.CSS_Class
+               IF szClass = ""
+                  szClass = "mceSimple" // "mceSimple" is TinyMCE default
+               END
+
+               szWriteBuffer = "<textarea" + szHTMLCtrlID +
+                               "class=^" + szClass + "^ " + szTitleHTML +
+                               szStyle + ">" +
+                               "<%=strErrorMapValue%></textarea>"
+
+            ELSE
+               szClass = ""
+               szClass = vDialog.Control.CSS_Class
+               CreateTabIndexString( vDialog, szTabIndex )
+               szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML +
+                               "class=^" + szClass + "^ " +
+                               szStyle + szTabIndex + " wrap=^wrap^>" +
+                               "<%=strErrorMapValue%></textarea>"
+
+            END
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         END
+      END   //IF szControlType = "MLEdit"
+
+      //****************************************************************************
+
+      szWriteBuffer = "</td>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      iColCnt = iColCnt + 1
+   END
+
+   // If the previous row didn't have as many controls as there are
+   // table columns, then we need to create a blank column
+   LOOP  WHILE iColCnt < iHighestColCnt
+      szWriteBuffer = "<td>&nbsp</td>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      iColCnt = iColCnt + 1
+   END
+
+   szWriteBuffer = "</tr>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+   szWriteBuffer = "</table>"
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   szWriteBuffer = "</div>  <!-- " + szParentCtrlTag + " --> "
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+END

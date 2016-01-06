@@ -1,0 +1,447 @@
+z10000Zeidon    TZCMREVO TZZOLODO 05/01/01   23:17:42 1.0b0    
+eLOD       1
+aZKey      90086253
+aName      TZCMREVO
+aDesc      LOD for Maintenance of the review-types (for AuditTrail)
+
+eLOD_EntityParent 2
+aName      RevEvent
+aIndentName RevEvent
+aIndentLvl 0
+aZKey      90086254
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      63
+the role of an AuditTrail entry
+e.g.: Programmer, Tester, ...
+
+eLOD_EntityChild 3
+aName      AuditTrail
+aIndentName    AuditTrail
+aIndentLvl 3
+aZKey      90086352
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave R
+aRelLinkIndicator L
+aDesc      keep track of the history of the repository access (CHECK-IN...)
+
+eLOD_AttributeRec 4
+aZKey      90086355
+
+eER_AttributeRec 5
+aName      WKS_Id
+aZKey      94001526
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eER_EntityRec 4
+aName      AuditTrail
+aZKey      92022362
+aPurpose   A
+aDesc      keep track of the history of the repository access (CHECK-IN...)
+aER_DiagramPosX 450
+aER_DiagramPosY 55
+aER_PortFactor 1
+
+eER_RelLinkRec 4
+aName      for
+aZKey      94001531
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 5
+aZKey      94001530
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 479
+aER_DiagramBendPosY 57
+aER_DiagramE1PosX 479
+aER_DiagramE1PosY 44
+aER_DiagramE2PosX 459
+aER_DiagramE2PosY 57
+
+eLOD_EntityChild 3
+aName      RevSubEvent
+aIndentName    RevSubEvent
+aIndentLvl 3
+aZKey      91003903
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eLOD_EntityChild 4
+aName      SubAuditTrail
+aIndentName       SubAuditTrail
+aIndentLvl 6
+aZKey      91008139
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave R
+aRelLinkIndicator L
+aDesc      keep track of the history of the repository access (CHECK-IN...)
+
+eLOD_AttributeRec 5
+aZKey      91008142
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eER_EntityRec 5
+
+eER_RelLinkRec 5
+aName      for
+aZKey      91002639
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      91002638
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 458
+aER_DiagramBendPosY 70
+aER_DiagramE1PosX 476
+aER_DiagramE1PosY 70
+aER_DiagramE2PosX 458
+aER_DiagramE2PosY 60
+
+eLOD_AttributeRec 4
+aZKey      91003904
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      91002646
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      91003905
+
+eER_AttributeRec 5
+aName      Subtype
+aZKey      91002648
+aNotNull   Y
+aDesc      Subtype for the ReviewEvent of an AuditTrail entry
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91003906
+
+eER_AttributeRec 5
+aName      necessary
+aZKey      91002647
+aDesc      is an entry in the audit trail with this subevent necessary for PRODUCTION ?
+
+eDomainRec 6
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eER_EntityRec 4
+aName      RevSubEvent
+aZKey      91002632
+aPurpose   A
+aDesc      Subtype for the ReviewEvent of an AuditTrail entry
+aER_DiagramPosX 477
+aER_DiagramPosY 68
+
+eER_RelLinkRec 4
+aName      has
+aZKey      91002635
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 5
+aZKey      91002634
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 481
+aER_DiagramE1PosY 44
+aER_DiagramE2PosX 481
+aER_DiagramE2PosY 67
+
+eLOD_AttributeRec 3
+aZKey      90086255
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      Type
+aZKey      94001533
+aLth       3
+aNotNull   Y
+aDesc      112
+when is an AuditTrail entry created ?
+0 - CheckIn 
+1 - Refresh to QS 
+2 - Review 
+5 - bring into Production0
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90086256
+aUpdate    Y
+aSeqPriority 2
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      Desc
+aZKey      94001534
+aLth       32
+aNotNull   Y
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      RevEvent
+aZKey      94001529
+aPurpose   F
+aDesc      154
+Type/ReviewEvent of an AuditTrail entry;
+when is an AuditTrail entry created ?
+0 - CheckIn 
+1 - Refresh to QS 
+2 - Review 
+5 - bring into Production0
+aER_DiagramPosX 475
+aER_DiagramPosY 39
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+ePOD       2
+aNAME      TZCMREVO
+aZKey      90086258
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+i12        4
+i13        5
+i14        6
+i22        5
+i31        5
+i34        19
+i36        1
+i37        29
+i38        30
+i39        5
+i40        32
+i41        33
+i42        19
+i43        35
+i44        2
+i45        3
+i46        4
+i47        5
+i48        6
+i49        7
+i50        8
+i51        9
+i52        17
+i53        18
+i54        19
+i55        20
+i56        21
+i57        5
+i58        23
+i59        24
+i60        25
+i61        26
+i62        27
+i63        28
+i64        10
+i65        11
+i66        4
+i67        5
+i68        6
+i69        15
+i70        16

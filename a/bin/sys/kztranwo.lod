@@ -1,0 +1,570 @@
+z10000Zeidon    KZTRANWO TZZOLODO 05/01/01   23:17:25 1.0b0    
+eLOD       1
+aZKey      90007406
+aName      KZTRANWO
+aDesc      Work object that will store operation information when calling transformations or global operations across the network.
+
+eLOD_EntityParent 2
+aName      Operation
+aIndentName Operation
+aIndentLvl 0
+aZKey      90007407
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Contains information about a transformation or global operation
+
+eLOD_EntityChild 3
+aName      Argument
+aIndentName    Argument
+aIndentLvl 3
+aZKey      90007408
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Argument list for a transformation operation.
+
+eLOD_AttributeRec 4
+aZKey      90007413
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      ObjectName
+aZKey      90007414
+aDesc      Name of object for view arguments.
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90030475
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      SubtaskView
+aZKey      90030476
+aLth       1
+aDesc      'Y' if view is a subtask view.
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90007446
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      ApplicationName
+aZKey      90007447
+aDesc      If a view is a subtask, this is the name of the application defining the subtask.
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90007419
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      ReturnArgument
+aZKey      90007420
+aDesc      245
+'Y' if the value of the argument is to be passed back.  This indicates that the argument is a POINTER to the Type.
+
+Unless SendArgument is 'Y', the value pointed to by the argument pointer is NOT copied to Value (it is assumed uninitialized).
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90007421
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      SendArgument
+aZKey      90007422
+aDesc      90
+Only valid if ReturnArgument = 'Y'.
+
+If 'Y', then the value of *ptr is copied to Value.
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90007415
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      DataType
+aZKey      90007416
+aDesc      Type of argument.
+aCaseSens  Y
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90007417
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      Value
+aZKey      90007418
+aDesc      Value of non-view argument.
+aCaseSens  Y
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90007428
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      PointerValue
+aZKey      90007429
+
+eDomainRec 6
+aZKey      90000007
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90007442
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      ViewReturned
+aZKey      90007443
+aDesc      'Y' if the view is being returned from the server.
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      90007409
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      OperationType
+aZKey      90007410
+aLth       1
+aDesc      'G' for global operation, 'T' for transformation.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90005252
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      ObjectName
+aZKey      90005253
+aLth       8
+aDesc      Name of object for transformation
+
+eDomainRec 5
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90005250
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DLL_Name
+aZKey      90005251
+aLth       255
+aDesc      If operation is a global operation this specifies an optional DLL_Name.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90007424
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ApplicationName
+aZKey      90007425
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90029276
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      UserName
+aZKey      90029277
+aDesc      Name of user initiating the transaction
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90029278
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      Password
+aZKey      90029279
+aDesc      Password of client intitiating transformation.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90007411
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      OperName
+aZKey      90007412
+aDesc      Operation name of transformation
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90007440
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ReturnValue
+aZKey      90007441
+aLth       1000
+aDesc      Return value of the operation.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90013329
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      ReturnType
+aZKey      90013330
+aLth       1
+aDesc      The data type of the return value.
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000611
+aName      KZTRANWO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      KZTRANWO
+aZKey      1149543
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+i8         5
+i11        5
+i14        5
+i17        5
+i20        5
+i23        5
+i29        5
+i32        5
+i38        5
+i41        5
+i44        5
+i47        5
+i50        5
+i53        5
+i56        5
+i57        1
+i58        30
+i59        31
+i60        5
+i61        33
+i62        34
+i63        35
+i64        36
+i65        37
+i66        5
+i67        39
+i68        40
+i69        5
+i70        42
+i71        43
+i72        5
+i73        45
+i74        46
+i75        5
+i76        48
+i77        49
+i78        5
+i79        51
+i80        52
+i81        5
+i82        54
+i83        55
+i84        5
+i85        2
+i86        3
+i87        4
+i88        5
+i89        6
+i90        7
+i91        5
+i92        9
+i93        10
+i94        5
+i95        12
+i96        13
+i97        5
+i98        15
+i99        16
+i100       5
+i101       18
+i102       19
+i103       5
+i104       21
+i105       22
+i106       5
+i107       24
+i108       25
+i109       26
+i110       27
+i111       28
+i112       5

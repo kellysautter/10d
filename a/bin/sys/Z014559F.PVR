@@ -1,0 +1,20 @@
+z1000-Zeidon    Z014559F TZWDVORO 03/19/13   16:23:15 1.0a2    
+eViewObjRef 1
+aZKey      1332639
+aName      TZCONTROL
+aDesc      View for looking at Control subobject
+
+eLOD       2
+aZKey      1325104
+aName      TZWDLGSO
+aDesc      Source Dialog Definition
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2
+aName      TZCONTROL
+aZKey      1332639
+aType      9
+aLastUpdateDate 19950824213614000
+aLastCheckInDate 19951102203051110
+aDesc      View for looking at Control subobject
+

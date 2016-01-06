@@ -1,0 +1,294 @@
+
+/*************************************************************************************************
+**
+**    OPERATION: OK
+**
+**    Performs "Accept" on TZZOLODO
+**
+*************************************************************************************************/
+DIALOG OPERATION
+OK ( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+
+   //EntityAboutToBeChanged( vSubtask )
+
+   ResetView( TZZOLODO )
+   AcceptSubobject( TZZOLODO, "LOD_EntityParent" )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: BeforeEntityChange
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+BeforeEntityChange ( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+
+   // Map the control, neccesary as be have "Bypass Input Data Mapping"
+   // TZZOLODO pointing to the "old" Entity
+   IF TZZOLODO.POD_Entity EXISTS
+      MapCtrl( vSubtask, "JoinCheck" )
+   END
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: EntityAboutToBeChanged
+**
+**    User has selected a new entity.  Before we change it, we may have to store the ODBC object into the
+**    blob.
+**    .
+**
+*************************************************************************************************/
+DIALOG OPERATION
+EntityAboutToBeChanged( VIEW vSubtask )
+
+   /*VIEW  TZDBHODO  REGISTERED AS ODBC_EntityInfo
+   VIEW  TZZOLODO  REGISTERED AS TZZOLODO
+   SHORT nIsCheckedOut
+   // Check to see if there is already an ODBC object loaded.  If it is then store it
+   // in the blob.
+   IF TZDBHODO != 0
+      nIsCheckedOut = ComponentIsCheckedOut( vSubtask, TZZOLODO, zSOURCE_LOD_META )
+      IF nIsCheckedOut = 1
+         SetBlobFromOI( TZZOLODO, "POD_Entity", "DBH_Info", TZDBHODO, 0 )
+      END
+      DropView( TZDBHODO )
+   END*/
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: Prebuild
+**
+**    Called for the TZZOLOQ2 window prebuild.
+**    Makes sure that TZZOLODO has no subobjects set.
+**
+*************************************************************************************************/
+DIALOG OPERATION
+Prebuild ( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+
+   ResetView( TZZOLODO )
+   CreateTemporalSubobjectVersion( TZZOLODO, "LOD_EntityParent" )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: Cancel
+**
+**    Performs "Cancel" on TZZOLODO
+**
+*************************************************************************************************/
+DIALOG OPERATION
+Cancel ( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+
+   ResetView( TZZOLODO )
+   CancelSubobject( TZZOLODO, "LOD_EntityParent" )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: EntityChanged
+**
+**    Called when user selects a different entity in the tree control.    It "unpacks" the ODBC OI from
+**    the POD_Entity entity.
+**    .
+**
+*************************************************************************************************/
+DIALOG OPERATION
+EntityChanged ( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+   VIEW TZTENVRO  REGISTERED AS TZTENVRO
+   SHORT nIsCheckedOut
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, TZZOLODO, zSOURCE_LOD_META )
+
+   IF nIsCheckedOut = 1
+      // do not allow any input to the Join checkbox, if we are on the root
+      //  or if the currrent LOD entity is work or if the currrent LOD entity is derived
+      IF TZZOLODO.ER_RelLinkRec EXISTS AND TZZOLODO.LOD_EntityParent.Work != "Y"
+         AND TZZOLODO.LOD_EntityParent.Derived != "Y"
+
+         // Set the cursor to the POD_Entity for the current TE Source.
+         SET CURSOR FIRST TZZOLODO.POD_Entity
+                    WHERE  TZZOLODO.TE_DBMS_SourceForEntity.ZKey = TZTENVRO.TE_DBMS_Source.ZKey
+
+         IF RESULT < zCURSOR_SET
+            // POD_Entity doesn't exist so create one.
+            CREATE ENTITY TZZOLODO.POD_Entity
+
+            TZZOLODO.POD_Entity.SQL_JoinWithParent = "N"
+            INCLUDE TZZOLODO.TE_DBMS_SourceForEntity FROM TZTENVRO.TE_DBMS_Source
+         END
+
+         // not the root and not work and not derived
+         SetCtrlState( vSubtask,      "JoinCheck", zCONTROL_STATUS_ENABLED, TRUE )
+      ELSE
+         SetCtrlState( vSubtask,      "JoinCheck", zCONTROL_STATUS_ENABLED, FALSE )
+      END
+
+      // Refresh checkbox and set the string being displayed.
+      IF  TZZOLODO.POD_Entity EXISTS
+          TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name +
+                                                 " JOIN = " + TZZOLODO.POD_Entity.SQL_JoinWithParent
+      ELSE
+          TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name + " JOIN = N"
+      END
+   END
+
+   RefreshCtrl( vSubtask, "JoinCheck" )
+   RefreshCtrl( vSubtask, "edDescription" )
+   RefreshCtrl( vSubtask, "cbDerived" )
+   RefreshCtrl( vSubtask, "cbWork" )
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: PostBuild
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+PostBuild ( VIEW vSubtask )
+
+   VIEW TZZOLODO  REGISTERED AS TZZOLODO
+   SHORT nIsCheckedOut
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, TZZOLODO, zSOURCE_LOD_META )
+
+   SetCtrlState( vSubtask, "pbSetXtoOne", zCONTROL_STATUS_ENABLED, nIsCheckedOut )
+   SetCtrlState( vSubtask, "pbRemoveAll", zCONTROL_STATUS_ENABLED, nIsCheckedOut )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: RemoveAll
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+RemoveAll ( VIEW vSubtask )
+   VIEW TZTENVRO      REGISTERED AS TZTENVRO
+   VIEW TZZOLODO      REGISTERED AS TZZOLODO
+   VIEW TZZOLODO_Hier BASED ON LOD  TZZOLODO
+   STRING ( 100 ) szEntityName
+   SHORT          sReturnLevel
+   SHORT          nRC
+   INTEGER        lAbsPos
+   INTEGER        lDataSourceZKey
+
+   CreateViewFromViewForTask( TZZOLODO, TZZOLODO, vSubtask )
+   ResetView( TZZOLODO )
+
+   CreateViewFromViewForTask( TZZOLODO_Hier, TZZOLODO, vSubtask )
+
+   szEntityName    = "LOD_EntityParent"
+   lDataSourceZKey = TZTENVRO.TE_DBMS_Source.ZKey
+
+   nRC = DefineHierarchicalCursor( TZZOLODO_Hier, "LOD_EntityParent" )
+   LOOP WHILE nRC >= zCURSOR_SET
+
+       IF nRC = zCURSOR_SET_RECURSIVECHILD
+          SetViewToSubobject( TZZOLODO_Hier, "LOD_EntityChild" )
+       END
+
+       // Set up our temp view from the hier view.
+       GetAbsolutePositionForEntity( lAbsPos, TZZOLODO_Hier, "LOD_EntityParent" )
+       SetCursorAbsolutePosition( szEntityName, TZZOLODO, lAbsPos )
+
+       IF szEntityName = "LOD_EntityParent"
+
+           SET CURSOR FIRST TZZOLODO.POD_Entity
+                      WHERE TZZOLODO.TE_DBMS_SourceForEntity.ZKey = lDataSourceZKey
+
+           IF RESULT >= zCURSOR_SET
+              TZZOLODO.POD_Entity.SQL_JoinWithParent = "N"
+           END
+       END
+
+       nRC = SetCursorNextEntityHierarchical( sReturnLevel, szEntityName, TZZOLODO_Hier )
+   END
+
+   DropView( TZZOLODO_Hier )
+   DropView( TZZOLODO )
+
+   RefreshCtrl( vSubtask, "JoinCheck" )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CopyMappingNameToClipBoard
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+CopyMappingNameToClipBoard( VIEW vSubtask )
+
+   VIEW TZZOLODO REGISTERED AS TZZOLODO
+   STRING ( 100 ) MappingName
+
+   // Copy the mapping name of the attribute to the clip board.
+   IF TZZOLODO.ER_Attribute EXISTS
+      MappingName = "[Z:" +
+                    TZZOLODO.LOD_Entity.Name + "." +
+                    TZZOLODO.ER_Attribute.Name + "]"
+      SetClipboardBlob( MappingName, 0, 0 )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CopyEntityGroupMappingStart
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+CopyEntityGroupMappingStart( VIEW vSubtask )
+
+   VIEW TZZOLODO REGISTERED AS TZZOLODO
+   STRING ( 100 ) MappingName
+
+   // Copy the mapping name of the attribute to the clip board.
+   IF TZZOLODO.LOD_Entity EXISTS
+      MappingName = "[Z:#S:" +
+                    TZZOLODO.LOD_Entity.Name + "]"
+      SetClipboardBlob( MappingName, 0, 0 )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CopyEntityGroupEnd
+**
+**
+*************************************************************************************************/
+DIALOG OPERATION
+CopyEntityGroupEnd( VIEW vSubtask )
+
+   VIEW TZZOLODO REGISTERED AS TZZOLODO
+   STRING ( 100 ) MappingName
+
+   // Copy the mapping name of the attribute to the clip board.
+   IF TZZOLODO.LOD_Entity EXISTS
+      MappingName = "[Z:#E]"
+      SetClipboardBlob( MappingName, 0, 0 )
+   END
+
+END

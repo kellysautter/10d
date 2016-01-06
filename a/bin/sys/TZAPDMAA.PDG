@@ -1,0 +1,469 @@
+z1000-Zeidon    TZAPDMAA TZDGSRCO 10/23/15   15:16:43 1.0a2    
+eDomainGroup 1
+aZKey      90000023
+aName      TZAPDMAA
+aExtension C
+aLanguageType C
+aDomainAndGlobalOpGroupName TZAPDMAA
+
+eDomain    2
+aZKey      90000028
+aName      AlphaNumeric
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+aDecimalFormat 1234
+
+eContext   3
+aZKey      90000029
+aName      ALPHANUMERIC
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmAlphaNumeric
+aZKey      91023610
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aType      M
+
+eDomain    2
+aZKey      110003499
+aName      ZKey
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      110003500
+aName      ZKey
+aIsDefault Y
+
+eDomain    2
+aZKey      1158059
+aName      Note
+aDesc      10000 byte string
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 10000
+aContextRestriction N
+
+eContext   3
+aZKey      1158060
+aName      Note
+aIsDefault Y
+
+eDomain    2
+aZKey      1084699
+aName      PasswordUL
+aDesc      Password in Upper and Lower case
+aDomainType A
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      1084734
+aName      PasswordUL
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmPasswordUL
+aZKey      1084733
+aType      M
+
+eDomain    2
+aZKey      1005026
+aName      XRA_YNA
+aDesc      Yes/No/All
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1005028
+aName      XRA_YNA
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484581
+
+eTableEntry 4
+aZKey      1005053
+aExternalValue A
+aInternalValue A
+
+eTableEntry 4
+aZKey      1005054
+aExternalValue N
+aInternalValue N
+
+eTableEntry 4
+aZKey      1005055
+aExternalValue Y
+aInternalValue Y
+
+eDomain    2
+aZKey      1178141
+aName      XRA_Text
+aDesc      Double ^ to ^^ and modify & to ^
+aDomainType A
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 65534
+aContextRestriction N
+
+eContext   3
+aZKey      1178142
+aName      XRA_Text
+aIsDefault Y
+
+eDomain    2
+aZKey      1178138
+aName      XRA_Tag
+aDesc      Double ^ to ^^and modify & to ^
+aDomainType A
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      1178139
+aName      XRA_Tag
+aIsDefault Y
+
+eDomain    2
+aZKey      1165598
+aName      QSFullPathName
+aDesc      Construct full path expanding embedded environment variables to their value.
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 260
+aContextRestriction N
+
+eContext   3
+aZKey      1165599
+aName      QSFullPathName
+aIsDefault Y
+
+eContext   3
+aZKey      1165601
+aDesc      Any Character String
+aName      TEXT
+
+eSelectedOperation 3
+aName      zdmExpandEnvVar
+aZKey      1165600
+aDesc      Construct full path name expanding embedded environment strings
+aType      M
+
+eDomain    2
+aZKey      90145848
+aName      MetaName
+aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      90203297
+aName      MetaName
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmQSName
+aZKey      90000026
+aDesc      QuinSoft Name - Alphanumeric and underscore
+aType      M
+aReturnDataType N
+
+eDomain    2
+aZKey      90000030
+aName      Description
+aDesc      Standard Zeidon Description
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32000
+aContextRestriction N
+
+eContext   3
+aZKey      90000031
+aName      Description
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmText
+aZKey      90000027
+aDesc      Text Algorithm
+aType      M
+aReturnDataType N
+
+eDomain    2
+aZKey      90000032
+aName      Text
+aDesc      Any Character String
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eContext   3
+aZKey      90000033
+aName      TEXT
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmText
+aZKey      90000027
+aDesc      Text Algorithm
+aType      M
+aReturnDataType N
+
+eDomain    2
+aZKey      90000034
+aName      QSNameUpper
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+aDecimalFormat 1234
+
+eContext   3
+aZKey      90000035
+aName      QSNAMEUPPER
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmText
+aZKey      90000027
+aDesc      Text Algorithm
+aType      M
+aReturnDataType N
+
+eDomain    2
+aZKey      90000036
+aName      QSNameLJNS
+aDesc      QuinSoft Name - left justified, no spaces
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      90000037
+aName      QSNameLJNS
+aIsDefault Y
+
+eSelectedOperation 3
+
+eDomain    2
+aZKey      90000038
+aName      QSName
+aDesc      QuinSoft Name
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      90000039
+aName      QSName
+aIsDefault Y
+
+eSelectedOperation 3
+
+eDomain    2
+aZKey      90000040
+aName      QSFileName
+aDesc      QuinSoft File Name - 32 chars
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      90000041
+aName      QSFILENAME
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmText
+aZKey      90000027
+aDesc      Text Algorithm
+aType      M
+aReturnDataType N
+
+eDomain    2
+aZKey      90000042
+aName      Password
+aDesc      Encrypted password
+aDomainType A
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 9
+aContextRestriction N
+
+eContext   3
+aZKey      90000043
+aName      Password
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmPassword
+aZKey      90000025
+aDesc      Password Algorithm
+aType      M
+aReturnDataType N
+
+eDomain    2
+aZKey      90000044
+aName      Integer
+aDesc      Integer numbers from -lots to +lots.
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.IntegerDomain
+aDataType  L
+aMaxStringLth 4
+aContextRestriction N
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000046
+aDesc      0-F ( only Hex digits)
+aName      Hex
+
+eContext   3
+aZKey      92010217
+aName      hexAddress
+
+eContext   3
+aZKey      90000045
+aName      INTEGER
+aIsDefault Y
+aDIL_Text  Integer > 32K
+
+eSelectedOperation 3
+aName      zdmInteger
+aZKey      90000024
+aDesc      Integer Algorithm
+aType      M
+aReturnDataType N
+
+eOperation 2
+aName      zdmInteger
+aZKey      90000024
+aDesc      Integer Algorithm
+aType      M
+aReturnDataType N
+
+eParameter 3
+aShortDesc EntryType
+aDataType  L
+aZKey      92010218
+
+eParameter 3
+aShortDesc DataType
+aDataType  Y
+aZKey      92010219
+
+eParameter 3
+aShortDesc Data
+aDataType  S
+aZKey      92010220
+
+eParameter 3
+aShortDesc ContextName
+aDataType  S
+aZKey      92010221
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aZKey      92010222
+
+eParameter 3
+aShortDesc ViewEntity
+aDataType  S
+aZKey      92010223
+
+eParameter 3
+aShortDesc ViewAttrib
+aDataType  S
+aZKey      92010224
+
+eParameter 3
+aShortDesc MaxStrLth
+aDataType  N
+aZKey      92010225
+
+eOperation 2
+
+eOperation 2
+aName      xdmXRA_Text
+aZKey      1178143
+aDesc      Double ^ to ^^ and modify & to ^
+aType      M
+
+eParameter 3
+aShortDesc EntryType
+aDataType  L
+aZKey      1005029
+
+eParameter 3
+aShortDesc DomainDataStruct
+aDataType  I
+aZKey      1005030
+
+eOperation 2
+aName      xdmXRA_Tag
+aZKey      1178140
+aDesc      Double ^ to ^^ and modify & to ^
+aType      M
+
+eOperation 2
+aName      zdmPassword
+aZKey      90000025
+aDesc      Password Algorithm
+aType      M
+aReturnDataType N
+
+eOperation 2
+
+eOperation 2
+aName      zdmText
+aZKey      90000027
+aDesc      Text Algorithm
+aType      M
+aReturnDataType N
+
+eOperation 2
+
+eOperation 2
+
+eZ_MetaDef 2
+aName      TZAPDMAA
+aZKey      90000023
+aType      13
+
+i39        27
+i42        27
+i63        10
+i69        27
+i71        24
+i72        3

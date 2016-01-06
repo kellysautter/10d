@@ -1,0 +1,116 @@
+#-------------------------------------------------------------------
+# DESCRIPTION: QuinSoft Zeidon Standard Domains
+#              NMAKE makefile
+#-------------------------------------------------------------------
+#
+# CHANGE LOG
+#
+# 2000.08.09  RG  Z2000
+#     Inserted MFC-Libs to remove Linker Warnings from tzedfrmd
+# 2000.05.12  RG  Z2000
+#     Changed option -Oselg --> -Od
+# 1999.11.16  RG  Z2000
+#     New Compiler Option: /D_AFXDLL
+#
+# 1999.11.15  RG  Z2000
+#     Set Debug Options for Linker again
+#
+# 1999.11.09  RG  Z2000  MFC-DebugDLL's
+#     Changed options and libs that no MFC-Debug DLL's
+#     are linked
+#
+# 1998.07.21  DGC
+#     Made change so we can set what zeidon dir the LIB file goes.
+#
+# 1998.10.15  DGC
+#     Removed references to win95.
+#
+# 1999.01.13  DGC
+#     Added PDB options.
+#
+#
+!IFNDEF Z_ENV
+!IFDEF  KZT
+Z_ENV = $(KZT)
+!ELSE
+Z_ENV = w
+!ENDIF
+!ENDIF
+
+!if "$(BUILDOS)"=="win95"
+BUILDOS = win32
+!endif
+
+!IFNDEF Z_TOOLDIR
+Z_TOOLDIR = tz
+!ENDIF
+
+!IFNDEF Z_BASE
+Z_BASE   = ..\..
+Z_BASE_A = $(Z_BASE)\a\$(Z_TOOLDIR)
+Z_BASE_ENV = $(Z_BASE)\$(Z_ENV)\$(Z_TOOLDIR)
+!ENDIF
+
+Z_LIB        = $(Z_BASE)\$(Z_ENV)\lib
+Z_LIB_SUFFIX = z
+Z_BIN        = $(Z_BASE)\$(Z_ENV)\bin
+Z_SRC        = $(Z_BASE_A)
+Z_INC        = $(Z_BASE)\a\inc
+Z_INC_ENV    = $(Z_BASE)\$(Z_ENV)\inc
+
+!if "$(DEBUG)" == "1"
+Z_OBJ = $(Z_BASE_ENV)\debug
+!else
+Z_OBJ = $(Z_BASE_ENV)\nodbg
+!ENDIF
+
+# =============================================================
+# Set compile options
+# =============================================================
+
+!if "$(BUILDOS)"=="win32"
+
+# === WIN32 compile options ===
+CL_OPT = /Gz /W3 /Gm /GX /Zi /Od /Zp /G5 /c \
+/D_AFXDLL /D "ZEIDON" /D__WIN32__ /D_WINDOWS /Fd$(Z_BIN)\$(MODULE).pdb
+LINK_OPT = /subsystem:windows /dll /machine:I386 /PDB:$(Z_BIN)\$(MODULE).pdb \
+/NODEFAULTLIB
+BASELINKDLLS = kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
+ advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
+ odbccp32.lib kzoengaa.lib
+
+!if "$(BUILDOS)"=="win95"
+CL_OPT = $(CL_OPT) -D__WIN95__
+!endif
+
+!ifdef DEBUG
+CL_OPT = /MDd -DDEBUG -D_DEBUG -Od $(CL_OPT)
+LINK_OPT = /debug:full $(LINK_OPT)
+#BASELINKDLLS = $(BASELINKDLLS) MSVCRTD.lib mfc42d.lib mfcs42d.lib mfco42d.lib \
+BASELINKDLLS = $(BASELINKDLLS) mfc42d.lib mfcs42d.lib mfco42d.lib \
+mfcd42d.lib
+!else
+CL_OPT = /MD $(CL_OPT)
+#BASELINKDLLS = $(BASELINKDLLS) MSVCRT.lib mfc42.lib mfcs42.lib
+BASELINKDLLS = $(BASELINKDLLS) mfc42.lib mfcs42.lib
+!endif
+
+!else
+
+# === Win 3.x compile options ===
+CL_OPT = -c -Alfw -D_WINDOWS -D_WINDLL /D "ZEIDON" -DWINVER=0x030A -W3 -Zp -FPi
+CL_OPT = $(CL_OPT) -G2 -Gw -I$(Z_BASE_ENV) -I$(Z_BASE_A) -NT$(@B)
+BASELINKDLLS = ldllcew libw kzoengaa OLDNAMES
+
+LINK_OPT = /NOD /NOE /ONERROR:NOEXE /M /A:16
+
+!if "$(DEBUG)" == "1"
+CL_OPT = -Zi -DDEBUG -D_DEBUG -Od $(CL_OPT)
+LINK_OPT = /CO $(LINK_OPT)
+!else
+CL_OPT = -Od $(CL_OPT)
+!endif
+
+!endif
+
+CL_OPT = $(CL_OPT) $(USER_OPT)

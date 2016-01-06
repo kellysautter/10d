@@ -1,0 +1,81 @@
+;; Change Log
+;;
+;; 2002.05.17  ASE
+;;     Added functions:
+;;       zReplicate, zTrim, zLTrim, zRight, zLeft, zMax, zMin, zAbs, zCeil,
+;;       zFloor, zSqrt, IsNumeric, zLike, zSoundex, zRemoveAllBlanks
+;;
+;; 2001.12.20  DGC
+;;       Removed GetDLL_Instance.
+;;
+;; 2001.11.19  RG
+;;     Added functions: GenFullQualPathFromRelPath,
+;;                  GetDLL_Instance
+;;                      zReplaceSubString
+;;                      zSearchSubString
+;; 2001.10.08  HH
+;;     Added FindFile functions.
+;; 2000.12.08  RG  Z2000
+;;     Added Operation zCharToOem
+;;
+LIBRARY
+
+EXPORTS
+   zstrlen  = VMLIP_zstrlen         @1
+   zstrcmp  = VMLIP_zstrcmp         @2
+   zstrcmpi = VMLIP_zstrcmpi        @3
+   zltoa    = VMLIP_zltoa           @4
+   zSysTranslateString              @5
+   zSysReadLine                     @6
+   zSysReadLineLth                  @7
+   zSearchAndReplace                @8
+   zGetStringLen                    @9
+   zStartSystemCommand              @10
+   zReadLine                        @11
+   zDialogIsActive                  @12
+   zToUpper                         @13
+   zGetDayOfYearFromDate            @14
+   zGetDateFromDayOfYear            @15
+   zStringIsDate                    @16
+   zYearIsLeapYear                  @17
+   zDateIsLeapYear                  @18
+   zGetDecrementDate                @19
+   zGetIncrementDate                @20
+   zGetGermanNameOfMonth            @21
+   zIntegerToString                 @22
+   zModulo                          @23
+   zGetStringWithoutBlank           @24
+   zGetStringLenWithoutBlank        @25
+   zViewIsUpdateable                @26
+   zFindTextValueInAttribute        @27
+   zGetFirstEntityNameForView       @28
+   zGetNextEntityNameForView        @29
+   zGetFirstAttributeNameForEntity  @30
+   zGetNextAttributeNameForEntity   @31
+   zLodContainsEntity               @32
+   zLodContainsAttribute            @33
+   zRound                           @34
+   zExponent                        @35
+   zStringToInteger                 @36
+   zCharToOem                       @37
+   FindFileStart                    @38
+   FindFileNext                     @39
+   FindFileClose                    @40
+   GenFullQualPathFromRelPath       @41
+   zReplaceSubString                @43
+   zSearchSubString                 @44
+   zReplicate                       @45
+   zRTrim                           @46
+   zLTrim                           @47
+   zRight                           @48
+   zLeft                            @49
+   zMax                             @50
+   zMin                             @51
+   zAbs                             @52
+   zCeil                            @53
+   zFloor                           @54
+   zSqrt                            @55
+   IsNumeric                        @56
+   zLike                            @57
+   zSoundex                         @58
+   zRemoveAllBlanks                 @59

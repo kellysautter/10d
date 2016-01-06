@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{714D51BD-1BCD-4C78-984A-8B765CB1F7E7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>tzlodopr</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(KZD):\$(KZV)\w\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_USRDLL;_DEBUG;QUINSOFT;_AFXEXT;_AFXDLL;TZLODOPR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\src\mfc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>KZOENGAA.LIB;tzvmlip.lib;tzweb.lib;ZDrApp.lib;ZdCtl.lib;TzCtl.lib;%(AdditionalDependencies);mfcs140d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(KZD):\$(KZV)\w\bin\$(TargetName)$(TargetExt)</OutputFile>
+      <ImportLibrary>$(KZD):\$(KZV)\w\libz\$(TargetName).lib</ImportLibrary>
+      <ModuleDefinitionFile>$(KZD):\$(KZV)\w\tz\$(TargetName).def</ModuleDefinitionFile>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;TZLODOPR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\tzadcs2o.c" />
+    <ClCompile Include="..\tzadcsdo.c" />
+    <ClCompile Include="..\tzadw1aw.c" />
+    <ClCompile Include="..\tzadw2aw.c" />
+    <ClCompile Include="..\tzadw3aw.c" />
+    <ClCompile Include="..\tzadw4aw.c" />
+    <ClCompile Include="..\tzadw5aw.c" />
+    <ClCompile Include="..\tzadw6aw.c" />
+    <ClCompile Include="..\tzadw7aw.c" />
+    <ClCompile Include="..\tzadw8aw.c" />
+    <ClCompile Include="..\tzadwexp.c" />
+    <ClCompile Include="..\tzadwoaw.c" />
+    <ClCompile Include="..\tzcmcpro.c" />
+    <ClCompile Include="..\tzcmcvto.c" />
+    <ClCompile Include="..\tzcmlops.c" />
+    <ClCompile Include="..\tzcmlp2o.c" />
+    <ClCompile Include="..\tzcmlplo.c" />
+    <ClCompile Include="..\tzcmlpmo.c" />
+    <ClCompile Include="..\tzcmoprs.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\tzcmqsyo.c" />
+    <ClCompile Include="..\tzcmrepo.c" />
+    <ClCompile Include="..\tzcmutil.c" />
+    <ClCompile Include="..\tzcmwkso.c" />
+    <ClCompile Include="..\tzcm_opr.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\tzdgsrco.c" />
+    <ClCompile Include="..\tzdmsrco.c" />
+    <ClCompile Include="..\tzdmxgpo.c" />
+    <ClCompile Include="..\tzerem2o.c" />
+    <ClCompile Include="..\tzeremdo.c" />
+    <ClCompile Include="..\tzeremxo.c" />
+    <ClCompile Include="..\tzersa2o.c" />
+    <ClCompile Include="..\tzersaso.c" />
+    <ClCompile Include="..\tzlodopr.c" />
+    <ClCompile Include="..\tzlooprs.c" />
+    <ClCompile Include="..\tzogsrco.c" />
+    <ClCompile Include="..\tzopgrpo.c" />
+    <ClCompile Include="..\tzophdro.c" />
+    <ClCompile Include="..\tzopsigo.c" />
+    <ClCompile Include="..\tzpnoldc.c" />
+    <ClCompile Include="..\tzrpsrco.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\tzrpsxm2.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\tzsixsko.c" />
+    <ClCompile Include="..\tztempmo.c" />
+    <ClCompile Include="..\tztenv2o.c" />
+    <ClCompile Include="..\tztenvro.c" />
+    <ClCompile Include="..\tzvsrtoo.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\tzwdgrwo.c" />
+    <ClCompile Include="..\tzwdlg2o.c" />
+    <ClCompile Include="..\tzwdlg3o.c" />
+    <ClCompile Include="..\tzwdlg4o.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\tzwdlg6o.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\tzwdlgso.c" />
+    <ClCompile Include="..\tzzolo2o.c" />
+    <ClCompile Include="..\tzzolodo.c" />
+    <ClCompile Include="..\tzzolodr.c" />
+    <ClCompile Include="..\tzzorpts.c" />
+    <ClCompile Include="..\tzzoxodo.c" />
+    <ClCompile Include="..\tz__prfo.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\tzcm_opr.hg" />
+    <None Include="..\tzlodopr.hg" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,1038 @@
+rZeidon    ZDRVROPR TZOPHDRO 11/02/95   20:31:03 1.0a
+eHeaderFile 1,192
+aName      ZDRVROPR
+aZKey      164096
+aDesc      Dialog Header File
+aExtension H
+
+eDefinedItem 2,192
+aExternalValue zWAB_DeterminedInDialogOperation
+aZKey      4010925
+aInternalValue 0
+aDataType  N
+aSeqNo     1
+
+eDefinedItem 2,192
+aExternalValue zWAB_StartNewApp
+aZKey      8023753
+aInternalValue 35
+aDataType  N
+aSeqNo     2
+
+eDefinedItem 2,192
+aExternalValue zWAB_SwitchToAction
+aZKey      8023752
+aInternalValue -1
+aDataType  N
+aSeqNo     3
+
+eDefinedItem 2,192
+aExternalValue zWAB_StayOnWindow
+aZKey      4010926
+aInternalValue 1
+aDataType  N
+aSeqNo     4
+
+eDefinedItem 2,192
+aExternalValue zWAB_StayOnWindowWithRefresh
+aZKey      4010927
+aInternalValue 2
+aDataType  N
+aSeqNo     5
+
+eDefinedItem 2,192
+aExternalValue zWAB_StartDialogTask
+aZKey      4010928
+aInternalValue 31
+aDataType  N
+aSeqNo     6
+
+eDefinedItem 2,192
+aExternalValue zWAB_StartModelessWindow
+aZKey      4010929
+aInternalValue 32
+aDataType  N
+aSeqNo     7
+
+eDefinedItem 2,192
+aExternalValue zWAB_StartModelessSubwindow
+aZKey      4010930
+aInternalValue 33
+aDataType  N
+aSeqNo     8
+
+eDefinedItem 2,192
+aExternalValue zWAB_StartModalSubwindow
+aZKey      4010931
+aInternalValue 34
+aDataType  N
+aSeqNo     9
+
+eDefinedItem 2,192
+aExternalValue zWAB_ReplaceDialogWithDialog
+aZKey      4010932
+aInternalValue 51
+aDataType  N
+aSeqNo     10
+
+eDefinedItem 2,192
+aExternalValue zWAB_ReplaceWindowWithModelessWi
+aZKey      4010933
+aInternalValue 52
+aDataType  N
+aSeqNo     11
+
+eDefinedItem 2,192
+aExternalValue zWAB_ReplaceWindowWithModalWindo
+aZKey      4010934
+aInternalValue 53
+aDataType  N
+aSeqNo     12
+
+eDefinedItem 2,192
+aExternalValue zWAB_ReturnToParent
+aZKey      4010935
+aInternalValue 71
+aDataType  N
+aSeqNo     13
+
+eDefinedItem 2,192
+aExternalValue zWAB_ReturnToParentWithRefresh
+aZKey      4010936
+aInternalValue 72
+aDataType  N
+aSeqNo     14
+
+eDefinedItem 2,192
+aExternalValue zWAB_ReturnToTopWindow
+aZKey      4010937
+aInternalValue 73
+aDataType  N
+aSeqNo     15
+
+eDefinedItem 2,192
+aExternalValue zWAB_ReturnToTopWindowWithRefres
+aZKey      4010938
+aInternalValue 74
+aDataType  N
+aSeqNo     16
+
+eDefinedItem 2,192
+aExternalValue zWAB_ExitDialogTask
+aZKey      4010939
+aInternalValue 99
+aDataType  N
+aSeqNo     17
+
+eDefinedItem 2,192
+aExternalValue zWAB_OperatorError
+aZKey      4010941
+aInternalValue 102
+aDataType  N
+aSeqNo     18
+
+eDefinedItem 2,192
+aExternalValue zWAB_SuspendToDebugger
+aZKey      4010942
+aInternalValue 201
+aDataType  N
+aSeqNo     19
+
+eDefinedItem 2,192
+aExternalValue zWAB_ResumeFromDebugger
+aZKey      4010943
+aInternalValue 202
+aDataType  N
+aSeqNo     20
+
+eDefinedItem 2,192
+aExternalValue zWAB_StartAppFromInterp
+aZKey      4010944
+aInternalValue 220
+aDataType  N
+aSeqNo     21
+
+eDefinedItem 2,192
+aExternalValue zWAB_ProcessImmediateAction
+aZKey      8023754
+aInternalValue 268435456
+aDataType  L
+aSeqNo     22
+
+eDefinedItem 2,192
+aExternalValue zMSG_SetWindowActionBehavior
+aZKey      4010945
+aInternalValue 100
+aDataType  L
+aSeqNo     23
+
+eDefinedItem 2,192
+aExternalValue zMSG_StartTask
+aZKey      8023755
+aInternalValue 110
+aDataType  L
+aSeqNo     24
+
+eDefinedItem 2,192
+aExternalValue zMSG_SetNewApplicationSubtask
+aZKey      8023756
+aInternalValue 111
+aDataType  L
+aSeqNo     25
+
+eDefinedItem 2,192
+aExternalValue zMSG_SetWindowCaptionTitle
+aZKey      4010946
+aInternalValue 200
+aDataType  L
+aSeqNo     26
+
+eDefinedItem 2,192
+aExternalValue zMSG_ActivateWindow
+aZKey      4010947
+aInternalValue 201
+aDataType  L
+aSeqNo     27
+
+eDefinedItem 2,192
+aExternalValue zMSG_RefreshWindow
+aZKey      8023757
+aInternalValue 203
+aDataType  L
+aSeqNo     28
+
+eDefinedItem 2,192
+aExternalValue zMSG_GetControlText
+aZKey      4010948
+aInternalValue 301
+aDataType  L
+aSeqNo     29
+
+eDefinedItem 2,192
+aExternalValue zMSG_SetControlText
+aZKey      4010949
+aInternalValue 302
+aDataType  L
+aSeqNo     30
+
+eDefinedItem 2,192
+aExternalValue zMSG_HiliteControlItem
+aZKey      4010950
+aInternalValue 303
+aDataType  L
+aSeqNo     31
+
+eDefinedItem 2,192
+aExternalValue zMSG_RefreshControl
+aZKey      4010951
+aInternalValue 304
+aDataType  L
+aSeqNo     32
+
+eDefinedItem 2,192
+aExternalValue zMSG_GetControlState
+aZKey      4010952
+aInternalValue 305
+aDataType  L
+aSeqNo     33
+
+eDefinedItem 2,192
+aExternalValue zMSG_SetControlState
+aZKey      4010953
+aInternalValue 306
+aDataType  L
+aSeqNo     34
+
+eDefinedItem 2,192
+aExternalValue zMSG_SetOptionState
+aZKey      8023759
+aInternalValue 308
+aDataType  L
+aSeqNo     35
+
+eDefinedItem 2,192
+aExternalValue zMSG_EnableAction
+aZKey      8023760
+aInternalValue 309
+aDataType  L
+aSeqNo     36
+
+eDefinedItem 2,192
+aExternalValue zMSG_SetDIL_Message
+aZKey      4010954
+aInternalValue 900
+aDataType  L
+aSeqNo     37
+
+eDefinedItem 2,192
+aExternalValue zMSG_GetOptionState
+aZKey      8023758
+aInternalValue 307
+aDataType  L
+aSeqNo     38
+
+eDefinedItem 2,192
+aExternalValue zMSG_InitInterpretor
+aZKey      4010955
+aInternalValue 990
+aDataType  L
+aSeqNo     39
+
+eDefinedItem 2,192
+aExternalValue zMSG_ResumeFromDebugger
+aZKey      8023761
+aInternalValue 995
+aDataType  L
+aSeqNo     40
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_STATUS_ENABLED
+aZKey      4010956
+aInternalValue 1
+aDataType  N
+aSeqNo     41
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_STATUS_CHECKED
+aZKey      4010957
+aInternalValue 2
+aDataType  N
+aSeqNo     42
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_STATUS_VISIBLE
+aZKey      4010958
+aInternalValue 3
+aDataType  N
+aSeqNo     43
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_STATUS_BACKGROUND_COLOR
+aZKey      8023762
+aInternalValue 4
+aDataType  N
+aSeqNo     44
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_STATUS_TEXT_COLOR
+aZKey      8023763
+aInternalValue 5
+aDataType  N
+aSeqNo     45
+
+eDefinedItem 2,192
+aExternalValue zTEXT_CONTROL
+aZKey      4010959
+aInternalValue 1000
+aDataType  N
+aSeqNo     46
+
+eDefinedItem 2,192
+aExternalValue zEDIT_CONTROL
+aZKey      4010960
+aInternalValue 1010
+aDataType  N
+aSeqNo     47
+
+eDefinedItem 2,192
+aExternalValue zMLE_CONTROL
+aZKey      4010961
+aInternalValue 1015
+aDataType  N
+aSeqNo     48
+
+eDefinedItem 2,192
+aExternalValue zPUSHBUTTON_CONTROL
+aZKey      4010962
+aInternalValue 1020
+aDataType  N
+aSeqNo     49
+
+eDefinedItem 2,192
+aExternalValue zRADIOBUTTONGROUP_CONTROL
+aZKey      4010963
+aInternalValue 1030
+aDataType  N
+aSeqNo     50
+
+eDefinedItem 2,192
+aExternalValue zRADIOBUTTON_CONTROL
+aZKey      4010964
+aInternalValue 1031
+aDataType  N
+aSeqNo     51
+
+eDefinedItem 2,192
+aExternalValue zCHECKBUTTON_CONTROL
+aZKey      4010965
+aInternalValue 1040
+aDataType  N
+aSeqNo     52
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_CONTROL
+aZKey      4010966
+aInternalValue 1050
+aDataType  N
+aSeqNo     53
+
+eDefinedItem 2,192
+aExternalValue zLISTBOX_CONTROL
+aZKey      4010967
+aInternalValue 1080
+aDataType  N
+aSeqNo     54
+
+eDefinedItem 2,192
+aExternalValue zLISTCTL_CONTROL
+aZKey      4010968
+aInternalValue 1081
+aDataType  N
+aSeqNo     55
+
+eDefinedItem 2,192
+aExternalValue zGROUPBOX_CONTROL
+aZKey      4010969
+aInternalValue 1090
+aDataType  N
+aSeqNo     56
+
+eDefinedItem 2,192
+aExternalValue zTABBINGGROUP_CONTROL
+aZKey      4010970
+aInternalValue 1210
+aDataType  N
+aSeqNo     57
+
+eDefinedItem 2,192
+aExternalValue zPAINTER_CONTROL
+aZKey      8023764
+aInternalValue 1999
+aDataType  L
+aSeqNo     58
+
+eDefinedItem 2,192
+aExternalValue zPAINTERTOOLBAR_CONTROL
+aZKey      4010971
+aInternalValue 2000
+aDataType  N
+aSeqNo     59
+
+eDefinedItem 2,192
+aExternalValue zER_DIAGRAM_CONTROL
+aZKey      8023765
+aInternalValue 2005
+aDataType  L
+aSeqNo     60
+
+eDefinedItem 2,192
+aExternalValue zTOOLBOX_CONTROL
+aZKey      8023766
+aInternalValue 2015
+aDataType  L
+aSeqNo     61
+
+eDefinedItem 2,192
+aExternalValue zDIL_CONTROL
+aZKey      4010972
+aInternalValue 2020
+aDataType  L
+aSeqNo     62
+
+eDefinedItem 2,192
+aExternalValue zDILITEM_CONTROL
+aZKey      4010973
+aInternalValue 2021
+aDataType  L
+aSeqNo     63
+
+eDefinedItem 2,192
+aExternalValue zOPTION_STATUS_ENABLED
+aZKey      8023776
+aInternalValue 1
+aDataType  N
+aSeqNo     64
+
+eDefinedItem 2,192
+aExternalValue zOPTION_STATUS_CHECKED
+aZKey      8023777
+aInternalValue 2
+aDataType  N
+aSeqNo     65
+
+eDefinedItem 2,192
+aExternalValue zWINDOW_STATUS
+aZKey      8023778
+aInternalValue 0
+aDataType  N
+aSeqNo     66
+
+eDefinedItem 2,192
+aExternalValue zWINDOW_STATUS_ENABLED
+aZKey      8023779
+aInternalValue 1
+aDataType  N
+aSeqNo     67
+
+eDefinedItem 2,192
+aExternalValue zWINDOW_STATUS_VISIBLE
+aZKey      8023780
+aInternalValue 2
+aDataType  N
+aSeqNo     68
+
+eDefinedItem 2,192
+aExternalValue zWINDOW_STATUS_MINIMIZE
+aZKey      8023781
+aInternalValue 3
+aDataType  N
+aSeqNo     69
+
+eDefinedItem 2,192
+aExternalValue zWINDOW_STATUS_MAXIMIZE
+aZKey      8023782
+aInternalValue 4
+aDataType  N
+aSeqNo     70
+
+eDefinedItem 2,192
+aExternalValue zWINDOW_STATUS_RESTORE
+aZKey      8023783
+aInternalValue 5
+aDataType  N
+aSeqNo     71
+
+eDefinedItem 2,192
+aExternalValue zWND_STATE_DELETE
+aZKey      8023784
+aInternalValue -1
+aDataType  N
+aSeqNo     72
+
+eDefinedItem 2,192
+aExternalValue zWND_STATE_INIT
+aZKey      8023785
+aInternalValue 0
+aDataType  N
+aSeqNo     73
+
+eDefinedItem 2,192
+aExternalValue zWND_STATE_PREBUILD_PRECODE
+aZKey      8023786
+aInternalValue 1
+aDataType  N
+aSeqNo     74
+
+eDefinedItem 2,192
+aExternalValue zWND_STATE_PREBUILD_POSTCODE
+aZKey      8023787
+aInternalValue 2
+aDataType  N
+aSeqNo     75
+
+eDefinedItem 2,192
+aExternalValue zWND_STATE_POSTBUILD_PRECODE
+aZKey      8023788
+aInternalValue 3
+aDataType  N
+aSeqNo     76
+
+eDefinedItem 2,192
+aExternalValue zWND_STATE_POSTBUILD_POSTCODE
+aZKey      8023789
+aInternalValue 4
+aDataType  N
+aSeqNo     77
+
+eDefinedItem 2,192
+aExternalValue zWND_STATE_WELL_FORMED
+aZKey      8023790
+aInternalValue 5
+aDataType  N
+aSeqNo     78
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_NOTABSTOP
+aZKey      8023791
+aInternalValue -2147483648
+aDataType  L
+aSeqNo     79
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_SIZEABLEBORDER
+aZKey      8023792
+aInternalValue 1073741824
+aDataType  L
+aSeqNo     80
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_BORDERON
+aZKey      8023793
+aInternalValue 0
+aDataType  L
+aSeqNo     81
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_BORDEROFF
+aZKey      8023794
+aInternalValue 536870912
+aDataType  L
+aSeqNo     82
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_GRAYBACKGROUND
+aZKey      8023795
+aInternalValue 268435456
+aDataType  L
+aSeqNo     83
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_INVISIBLE
+aZKey      8023796
+aInternalValue 134217728
+aDataType  L
+aSeqNo     84
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_DISABLED
+aZKey      8023797
+aInternalValue 67108864
+aDataType  L
+aSeqNo     85
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_RESERVED_1
+aZKey      8023798
+aInternalValue 33554432
+aDataType  L
+aSeqNo     86
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_RESERVED_2
+aZKey      8023799
+aInternalValue 16777216
+aDataType  L
+aSeqNo     87
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_RELATIVE
+aZKey      8023800
+aInternalValue 15728640
+aDataType  L
+aSeqNo     88
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_RELATIVE_POSITION
+aZKey      8023801
+aInternalValue 12582912
+aDataType  L
+aSeqNo     89
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_RELATIVE_POS_X
+aZKey      8023802
+aInternalValue 8388608
+aDataType  L
+aSeqNo     90
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_RELATIVE_POS_Y
+aZKey      8023803
+aInternalValue 4194304
+aDataType  L
+aSeqNo     91
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_RELATIVE_SIZE
+aZKey      8023804
+aInternalValue 3145728
+aDataType  L
+aSeqNo     92
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_RELATIVE_SIZE_X
+aZKey      8023805
+aInternalValue 2097152
+aDataType  L
+aSeqNo     93
+
+eDefinedItem 2,192
+aExternalValue zCONTROL_RELATIVE_SIZE_Y
+aZKey      8023806
+aInternalValue 1048576
+aDataType  L
+aSeqNo     94
+
+eDefinedItem 2,192
+aExternalValue zEDITBOX_LOWERCASE
+aZKey      4010974
+aInternalValue 1
+aDataType  L
+aSeqNo     95
+
+eDefinedItem 2,192
+aExternalValue zEDITBOX_UPPERCASE
+aZKey      4010975
+aInternalValue 2
+aDataType  L
+aSeqNo     96
+
+eDefinedItem 2,192
+aExternalValue zEDITBOX_PASSWORD
+aZKey      4010976
+aInternalValue 4
+aDataType  L
+aSeqNo     97
+
+eDefinedItem 2,192
+aExternalValue zEDITBOX_PIC
+aZKey      8023767
+aInternalValue 8
+aDataType  L
+aSeqNo     98
+
+eDefinedItem 2,192
+aExternalValue zEDITBOX_MONEY
+aZKey      8023768
+aInternalValue 16
+aDataType  L
+aSeqNo     99
+
+eDefinedItem 2,192
+aExternalValue zLISTBOX_SINGLESEL
+aZKey      8023769
+aInternalValue 0
+aDataType  L
+aSeqNo     100
+
+eDefinedItem 2,192
+aExternalValue zLISTBOX_MULTIPLESEL
+aZKey      4010977
+aInternalValue 1
+aDataType  L
+aSeqNo     101
+
+eDefinedItem 2,192
+aExternalValue zLISTBOX_EXTENDMULTIPLESEL
+aZKey      4010978
+aInternalValue 3
+aDataType  L
+aSeqNo     102
+
+eDefinedItem 2,192
+aExternalValue zLISTBOX_FIXEDFONT
+aZKey      8023770
+aInternalValue 32
+aDataType  L
+aSeqNo     103
+
+eDefinedItem 2,192
+aExternalValue zLISTBOX_NOINTEGRALHEIGHT
+aZKey      8023771
+aInternalValue 64
+aDataType  L
+aSeqNo     104
+
+eDefinedItem 2,192
+aExternalValue zLISTBOX_LISTWHENPARENTSEL
+aZKey      8023772
+aInternalValue 4096
+aDataType  L
+aSeqNo     105
+
+eDefinedItem 2,192
+aExternalValue zLISTBOX_HILITEATPOSITION
+aZKey      8023773
+aInternalValue 8192
+aDataType  L
+aSeqNo     106
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_DROPDOWN_LIST
+aZKey      4010979
+aInternalValue 0
+aDataType  L
+aSeqNo     107
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_DROPDOWN
+aZKey      4010980
+aInternalValue 1
+aDataType  L
+aSeqNo     108
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_SIMPLE
+aZKey      4010981
+aInternalValue 2
+aDataType  L
+aSeqNo     109
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_SORT
+aZKey      4010982
+aInternalValue 16
+aDataType  L
+aSeqNo     110
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_DOMAIN_LIST
+aZKey      4010983
+aInternalValue 0
+aDataType  L
+aSeqNo     111
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_POSITION_ONLY
+aZKey      8023774
+aInternalValue 4096
+aDataType  L
+aSeqNo     112
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_INCLUDE
+aZKey      4010984
+aInternalValue 16384
+aDataType  L
+aSeqNo     113
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_SELECT
+aZKey      4010985
+aInternalValue 8192
+aDataType  L
+aSeqNo     114
+
+eDefinedItem 2,192
+aExternalValue zCOMBOBOX_FOREIGN_KEY
+aZKey      8023775
+aInternalValue 32768
+aDataType  L
+aSeqNo     115
+
+eDefinedItem 2,192
+aExternalValue zRADIOBUTTON_DEFAULT
+aZKey      4010986
+aInternalValue 1
+aDataType  L
+aSeqNo     116
+
+eDefinedItem 2,192
+aExternalValue zTOOLBOX_MULTIPLESEL
+aZKey      8023807
+aInternalValue 1
+aDataType  L
+aSeqNo     117
+
+eDefinedItem 2,192
+aExternalValue zTOOLBOX_NOSTATE
+aZKey      8023808
+aInternalValue 2
+aDataType  L
+aSeqNo     118
+
+eDefinedItem 2,192
+aExternalValue zTOOLBOX_TOOLBAR
+aZKey      8023809
+aInternalValue 4
+aDataType  L
+aSeqNo     119
+
+eDefinedItem 2,192
+aExternalValue zSPREADSHEET_EDITBOX
+aZKey      8023810
+aInternalValue 0
+aDataType  L
+aSeqNo     120
+
+eDefinedItem 2,192
+aExternalValue zSPREADSHEET_COMBOBOX
+aZKey      8023811
+aInternalValue 65536
+aDataType  L
+aSeqNo     121
+
+eDefinedItem 2,192
+aExternalValue zSPREADSHEET_DATE
+aZKey      8023812
+aInternalValue 131072
+aDataType  L
+aSeqNo     122
+
+eDefinedItem 2,192
+aExternalValue zSPREADSHEET_FLOAT
+aZKey      8023813
+aInternalValue 262144
+aDataType  L
+aSeqNo     123
+
+eDefinedItem 2,192
+aExternalValue zSPREADSHEET_INTEGER
+aZKey      8023814
+aInternalValue 524288
+aDataType  L
+aSeqNo     124
+
+eDefinedItem 2,192
+aExternalValue zSPREADSHEET_PIC
+aZKey      8023815
+aInternalValue 1048576
+aDataType  L
+aSeqNo     125
+
+eDefinedItem 2,192
+aExternalValue zSPREADSHEET_PICTURE
+aZKey      8023816
+aInternalValue 2097152
+aDataType  L
+aSeqNo     126
+
+eDefinedItem 2,192
+aExternalValue zSPREADSHEET_TEXT
+aZKey      8023817
+aInternalValue 4194304
+aDataType  L
+aSeqNo     127
+
+eDefinedItem 2,192
+aExternalValue zSPREADSHEET_TIME
+aZKey      8023818
+aInternalValue 8388608
+aDataType  L
+aSeqNo     128
+
+eDefinedItem 2,192
+aExternalValue zLBN_NEWENTITY
+aZKey      8023819
+aInternalValue 256
+aDataType  L
+aSeqNo     129
+
+eDefinedItem 2,192
+aExternalValue zBUTTONS_YESNO
+aZKey      4010988
+aInternalValue 1
+aDataType  N
+aSeqNo     130
+
+eDefinedItem 2,192
+aExternalValue zBUTTONS_YESNOCANCEL
+aZKey      4010989
+aInternalValue 2
+aDataType  N
+aSeqNo     131
+
+eDefinedItem 2,192
+aExternalValue zBUTTONS_OK
+aZKey      4010990
+aInternalValue 3
+aDataType  N
+aSeqNo     132
+
+eDefinedItem 2,192
+aExternalValue zBUTTONS_OKCANCEL
+aZKey      4010991
+aInternalValue 4
+aDataType  N
+aSeqNo     133
+
+eDefinedItem 2,192
+aExternalValue zBUTTONS_RETRYCANCEL
+aZKey      4010992
+aInternalValue 5
+aDataType  N
+aSeqNo     134
+
+eDefinedItem 2,192
+aExternalValue zBUTTONS_ABORTRETRYIGNORE
+aZKey      4010993
+aInternalValue 6
+aDataType  N
+aSeqNo     135
+
+eDefinedItem 2,192
+aExternalValue zRESPONSE_YES
+aZKey      4010994
+aInternalValue 1
+aDataType  N
+aSeqNo     136
+
+eDefinedItem 2,192
+aExternalValue zRESPONSE_NO
+aZKey      4010995
+aInternalValue 2
+aDataType  N
+aSeqNo     137
+
+eDefinedItem 2,192
+aExternalValue zRESPONSE_CANCEL
+aZKey      4010996
+aInternalValue 3
+aDataType  N
+aSeqNo     138
+
+eDefinedItem 2,192
+aExternalValue zRESPONSE_OK
+aZKey      4010997
+aInternalValue 4
+aDataType  N
+aSeqNo     139
+
+eDefinedItem 2,192
+aExternalValue zRESPONSE_ABORT
+aZKey      4010998
+aInternalValue 5
+aDataType  N
+aSeqNo     140
+
+eDefinedItem 2,192
+aExternalValue zRESPONSE_RETRY
+aZKey      4010999
+aInternalValue 6
+aDataType  N
+aSeqNo     141
+
+eDefinedItem 2,192
+aExternalValue zRESPONSE_IGNORE
+aZKey      4011000
+aInternalValue 7
+aDataType  N
+aSeqNo     142
+
+eDefinedItem 2,192
+aExternalValue zICON_INFORMATION
+aZKey      4011001
+aInternalValue 1
+aDataType  N
+aSeqNo     143
+
+eDefinedItem 2,192
+aExternalValue zICON_QUESTION
+aZKey      4011002
+aInternalValue 2
+aDataType  N
+aSeqNo     144
+
+eDefinedItem 2,192
+aExternalValue zICON_EXCLAMATION
+aZKey      4011003
+aInternalValue 3
+aDataType  N
+aSeqNo     145
+
+eDefinedItem 2,192
+aExternalValue zICON_ERROR
+aZKey      4011004
+aInternalValue 4
+aDataType  N
+aSeqNo     146
+
+eZ_MetaDef 2,192
+aName      ZDRVROPR
+aZKey      164096
+aType      0
+aLastUpdateDate 19930709081522000
+aLastCheckInDate 19951102203051110
+aDesc      Dialog Header File
+
+

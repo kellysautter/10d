@@ -1,0 +1,44 @@
+rZeidon    VIDEOGBL TZOGSRCO 11/02/95   20:31:14 1.0a     
+eGlobalOperationGroup 1,192
+aZKey      88002173
+aName      VIDEOGBL
+aDomainAndGlobalOpGroupName videogbl
+
+eOperation 2,192
+aName      AddDaysToDate
+aZKey      88002174
+aDesc      Global Operation for Date Arithmetic
+aType      G
+aReturnDataType N
+
+eParameter 3,192
+aShortDesc ViewToInstance
+aDataType  V
+aZKey      88002175
+aSeqNo     1
+
+eParameter 3,192
+aShortDesc ViewEntityName
+aDataType  E
+aZKey      88002176
+aSeqNo     2
+
+eParameter 3,192
+aShortDesc ViewAttributeName
+aDataType  A
+aZKey      88002177
+aSeqNo     3
+
+eParameter 3,192
+aShortDesc NumberOfDays
+aDataType  N
+aZKey      88002178
+aSeqNo     4
+
+eZ_MetaDef 2,192
+aName      VIDEOGBL
+aZKey      88002173
+aType      14
+aLastUpdateDate 19951023100014000
+aLastCheckInDate 19951102203051110
+

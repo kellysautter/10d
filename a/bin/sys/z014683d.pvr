@@ -1,0 +1,20 @@
+rZeidon    Z014683D TZWDVORO 11/02/95   20:53:43 1.0a     
+eViewObjRef 1,192
+aZKey      1337405
+aName      CM_ListGroup
+aDesc      Extra CM_List view for listing Domain and GOP groups
+
+eLOD       2,192
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      CM_ListGroup
+aZKey      1337405
+aType      9
+aLastUpdateDate 19950824213654000
+aLastCheckInDate 19951102203051110
+aDesc      Extra CM_List view for listing Domain and GOP groups
+

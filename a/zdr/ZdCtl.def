@@ -1,0 +1,203 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Project ZdCtl
+;;
+;; This is a part of the Zeidon Dynamic Rendering of GUI applications package.
+;; Copyright © 1995 - 2001 QuinSoft, Inc.
+;; All Rights Reserved.
+;;
+;; SUBSYSTEM:    ZdCtl.dll - ZDr Application
+;; FILE:         ZdCtl.def
+;; AUTHOR:
+;;
+;; OVERVIEW
+;; ========
+;; ZdCtl.def : Declares exports for ZdCtl.dll
+;;
+
+;;
+;; CHANGE LOG - generated using MERGEDEF.EXE
+;;
+
+EXPORTS
+
+;;
+;; Maximum Ordinal value in this "OPERATION" section is > @532 <
+;;
+
+   ActiveX                                                @19
+   BMP_SetBitmapFileName                                  @50
+   BMP_SetBitmapResource                                  @51
+   BitmapButton                                           @17
+   BmpCtl                                                 @18
+   BTN_SetColor                                           @499
+   CB_GetSelectedString                                   @467
+   CB_SelectString                                        @532
+   CB_SetData                                             @468
+   CB_SetDisplaySelectSet                                 @413
+   CB_SetSelectSelectSet                                  @53
+   CBarLoadSaveState                                      @470
+   Calendar                                               @412
+   CheckBox                                               @2
+   CheckBox                                               @2
+   ComboBox                                               @3
+   ControlBar                                             @469
+   DayTimer                                               @473
+   DIL                                                    @4
+   DT_SetStartDateRowsCols                                @481
+   DT_DisplayCurrentAppointment                           @480
+   DT_DeleteCurrentAppointment                            @474
+   DT_NewAppointment                                      @475
+   DT_SetColorAssociation                                 @476
+   DT_SetTimeEntityAttributes                             @477
+   DT_SetWorkday                                          @479
+   DT_UpdateCurrentAppointment                            @478
+   ED_FloatSetRange                                       @54
+   ED_GetLastKey                                          @461
+   ED_GetSelText                                          @462
+   ED_HiliteText                                          @55
+   ED_LimitTextLength                                     @56
+   ED_SetCtrlMapping                                      @422
+   ED_SetPlaceHolder                                      @507
+   ED_SetSelText                                          @463
+   Edit                                                   @5
+   GetActiveX_ParameterCount                              @409
+   GetActiveX_ParameterValue                              @410
+   GetActiveX_WrapperInstance                             @84
+   GetOleDateTimeFromZeidonDateAttribute                  @515
+   Grid                                                   @472
+   GRID_GetActiveCell                                     @502
+   GRID_GetCellData                                       @503
+   GRID_GetPasteCellAndText                               @527
+   GRID_GetSortOrder                                      @482
+   GRID_LockColumn                                        @504
+   GRID_RemoveColorAssociations                           @500
+   GRID_ReplaceEntityKey                                  @509
+   GRID_SetActiveCell                                     @528
+   GetCtrlMapping                                         @529
+   GRID_SetCellData                                       @505
+   GRID_SetCheckAttribute                                 @483
+   GRID_SetColorAssociation                               @484
+   GRID_SetColorAttributeName                             @485
+   GRID_SetColumnCtrl                                     @497
+   GRID_SetDisplaySelectSet                               @510
+   GRID_SetGridLines                                      @506
+   GRID_SetRowColumnColors                                @489
+   GRID_SetSelectedPosition                               @486
+   GRID_SetSelectSelectSet                                @511
+   GRID_SetSortOrder                                      @487
+   GRID_SortByColumn                                      @488
+   GroupBox                                               @6
+   HD_CenterNode                                          @70
+   HD_GetPointerCoordinates                               @71
+   HD_IsNodeVisible                                       @72
+   HD_PrintDiagram                                        @73
+   HD_SelectNode                                          @74
+   HD_SetColors                                           @75
+   HD_SetProperties                                       @417
+   HD_ZoomDiagram                                         @76
+   HierDiagram                                            @57
+   IconCtl                                                @14
+   LB_AutoSizeColumns                                     @523
+   LB_GetSortOrder                                        @456
+   LB_RemoveColorAssociations                             @501
+   LB_ReplaceEntityKey                                    @512
+   LB_SetColorAssociation                                 @415
+   LB_SetColorAttributeName                               @416
+   LB_SetDisplaySelectSet                                 @58
+   LB_SetSelectSelectSet                                  @59
+   LB_SetSelectedPosition                                 @411
+   LB_SetSortOrder                                        @457
+   LB_SortByColumn                                        @408
+   ListBox                                                @7
+   ListCtrl                                               @450
+   MB_SetMessage                                          @60
+   MLE                                                    @8
+   OL_EditLabel                                           @423
+   OL_ExpandEntity                                        @424
+   OL_FindItemByAttribute                                 @530
+   OL_GetBackgroundColor                                  @425
+   OL_GetCollapsingEntityName                             @426
+   OL_GetCtrlState                                        @427
+   OL_GetCurrentEntityName                                @61
+   OL_GetDefaultBitmap                                    @428
+   OL_GetExpandState                                      @429
+   OL_GetExpandingEntityName                              @430
+   OL_GetLastCollapsedEntityName                          @431
+   OL_GetLastExpandedEntityName                           @432
+   OL_GetSelectedBitmap                                   @433
+   OL_GetTextColorForEntity                               @434
+   OL_GetTextFontForEntity                                @435
+   OL_ResetAllTextColorsForItemText                       @452
+   OL_SelectItemAtPosForEntity                            @513
+   OL_SelectItem                                          @436
+   OL_SetBackgroundColor                                  @418
+   OL_SetCtrlState                                        @437
+   OL_SetDefaultBitmap                                    @438
+   OL_SetSelectedBitmap                                   @439
+   OL_SetTextColorForEntity                               @440
+   OL_SetTextColorForItemText                             @453
+   OL_SetTextFontForEntity                                @441
+   OL_SetTextForCurrentItem                               @508
+   OL_SetTxtFontForEntity                                 @442
+   OLB_AddFolder                                          @491
+   OLB_AddFolderBar                                       @492
+   OLB_AddFolderItem                                      @493
+   OLB_AddImages                                          @494
+   OLB_SetEventCallback                                   @495
+   OLB_SetSelFolder                                       @496
+   Outliner                                               @21
+   OutlookBar                                             @490
+   PushButton                                             @9
+   PL_AddProperty                                         @471
+   RTE                                                    @12
+   RT_GetFirstVisibleLine                                 @77
+   RT_GetLine                                             @78
+   RT_GetLineCount                                        @79
+   RT_LineFromChar                                        @80
+   RT_LineLength                                          @81
+   RT_LineNumber                                          @82
+   RT_LineScroll                                          @83
+   RadioBtn                                               @10
+   RadioBtnGroup                                          @11
+   SetCtrlTranslationList                                 @458
+   SetOleDateTimeFromZeidonDate                           @516
+   SetSysTimeFromZeidon                                   @517
+   SetZeidonDateAttributeFromOleDateTime                  @518
+   SetZeidonDateFromOleDateTime                           @519
+   SetZeidonDateFromSysTime                               @520
+   SP_GetShapeCtrlBOI                                     @85
+   SP_SetShapeCtrlBOI                                     @86
+   SplitCtrlBOI_BMP                                       @460
+   SS                                                     @20
+   SetCtrlMapping                                         @454
+   TAB_GetActiveSubTab                                    @524
+   TAB_GetActiveTab                                       @87
+   TAB_HideTab                                            @66
+   TAB_HideSubTab                                         @514
+   TAB_SetActiveSubTab                                    @525
+   TAB_SetActiveTab                                       @67
+   TAB_SetSubTabColors                                    @526
+   TB_GetLastSelection                                    @459
+   TB_GetItemText                                         @521
+   TB_GetTextMode                                         @464
+   TX_SetColors                                           @531
+   TB_SetItemText                                         @522
+   TB_SetTextMode                                         @465
+   TX_GetTextRptCtrlBOI                                   @68
+   TX_SetBackgroundImage                                  @498
+   TX_SetTextProperties                                   @466
+   TX_SetTextRptCtrlBOI                                   @69
+   TX_SetTextRptCtrlBOI                                   @69
+   Tab                                                    @15
+   TabDlg                                                 @16
+   Text                                                   @13
+   Timer                                                  @414
+   ToolBar                                                @455
+   ZWEBGRID_EnableAutosort                                @443
+   ZWEBGRID_GetActiveCell                                 @444
+   ZWEBGRID_GetCellData                                   @445
+   ZWEBGRID_LockColumn                                    @446
+   ZWEBGRID_SetActiveCell                                 @447
+   ZWEBGRID_SetCellData                                   @448
+   ZWEBGRID_SetCheckBoxTranslation                        @449
+   ZeidonInitZDCTL                                        @1

@@ -1,0 +1,20 @@
+rZeidon    Z55D4E1C TZWDVORO 11/02/95   20:51:41 1.0a     
+eViewObjRef 1,192
+aZKey      90000924
+aName      TZWDGRWO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1327514
+aName      TZWDGRWO
+aDesc      Dialog Graph Work Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZWDGRWO
+aZKey      90000924
+aType      9
+aLastUpdateDate 19950902111716000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

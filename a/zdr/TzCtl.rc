@@ -1,0 +1,134 @@
+//Microsoft Developer Studio generated resource script.
+//
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "resource.h"
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOGBAR1 DIALOG DISCARDABLE  0, 0, 103, 17
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Clear",ID_EDIT_CLEAR,2,2,30,14
+    PUSHBUTTON      "Cut",ID_EDIT_CUT,36,2,30,14
+    PUSHBUTTON      "Copy",ID_EDIT_COPY,70,2,30,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_LISTOUTPUT MENU DISCARDABLE
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                57600
+        MENUITEM "&Open...\tCtrl+O",            57601
+        MENUITEM SEPARATOR
+        MENUITEM "P&rint Setup...",             57606
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 57616, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+F4",               57665
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    59392
+        MENUITEM "&Status Bar",                 59393
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    57650
+        MENUITEM "&Tile",                       57651
+        MENUITEM "&Arrange Icons",              57649
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About...",                   57664
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP              BITMAP  DISCARDABLE     "bmpctl.bmp"
+IDB_BITMAPBTN           BITMAP  DISCARDABLE     "bitmap.bmp"
+IDB_BLOCK               BITMAP  DISCARDABLE     "block.bmp"
+IDB_CALENDAR            BITMAP  DISCARDABLE     "calendar.bmp"
+IDB_CHECKBOX            BITMAP  DISCARDABLE     "check.bmp"
+IDB_COMBOBOX            BITMAP  DISCARDABLE     "combo.bmp"
+IDB_DAYTIMER            BITMAP  DISCARDABLE     "daytimer.bmp"
+IDB_DIL                 BITMAP  DISCARDABLE     "dil.bmp"
+IDB_EDITGRP             BITMAP  DISCARDABLE     "editgrp.bmp"
+IDB_EDIT                BITMAP  DISCARDABLE     "edit.bmp"
+IDB_GRAPH               BITMAP  DISCARDABLE     "graph.bmp"
+IDB_GROUP               BITMAP  DISCARDABLE     "grp.bmp"
+IDB_GROUPBOX            BITMAP  DISCARDABLE     "group.bmp"
+IDB_GROUPSET            BITMAP  DISCARDABLE     "grpset.bmp"
+IDB_HIERDIAGRAM         BITMAP  DISCARDABLE     "hierdgrm.bmp"
+IDB_ICON                BITMAP  DISCARDABLE     "icon.bmp"
+IDB_LISTBOX             BITMAP  DISCARDABLE     "list.bmp"
+IDB_MLE                 BITMAP  DISCARDABLE     "mle.bmp"
+IDB_OUTLINER            BITMAP  DISCARDABLE     "outliner.bmp"
+IDB_PALETTE             BITMAP  DISCARDABLE     "palette.bmp"
+IDB_PUSHBTN             BITMAP  DISCARDABLE     "push.bmp"
+IDB_RADIOBTN            BITMAP  DISCARDABLE     "radio.bmp"
+IDB_SHAPE               BITMAP  DISCARDABLE     "shape.bmp"
+IDB_SSSUB               BITMAP  DISCARDABLE     "sssub.bmp"
+IDB_SS                  BITMAP  DISCARDABLE     "ss.bmp"
+IDB_TAB                 BITMAP  DISCARDABLE     "tab.bmp"
+IDB_TEXT                BITMAP  DISCARDABLE     "text.bmp"
+IDB_TIMER               BITMAP  DISCARDABLE     "timer.bmp"
+IDB_TOOLBAR             BITMAP  DISCARDABLE     "toolbar.bmp"
+IDB_CONTROLBAR          BITMAP  DISCARDABLE     "ctrlbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE
+BEGIN
+   IDS_APROPNAME_USERMODE  "UserMode"
+   IDS_APROPNAME_UIDEAD    "UIDead"
+   IDS_APROPNAME_SHOWHATCHING "ShowHatching"
+   IDS_APROPNAME_SHOWGRABHANDLES "ShowGrabHandles"
+   IDS_APROPNAME_TEXTALIGN "TextAlign"
+   IDS_APROPNAME_BACKCOLOR "BackColor"
+   IDS_APROPNAME_FORECOLOR "ForeColor"
+   IDS_APROPNAME_FONT      "Font"
+   IDS_APROPNAME_DISPLAYNAME "DisplayName"
+   IDS_APROPNAME_SCALEUNITS "ScaleUnits"
+   IDS_APROPNAME_MESSAGEREFLECT "MessageReflect"
+   IDS_APROPNAME_LOCALEID  "LocaleID"
+   IDS_APROPNAME_SUPPORTSMNEMONICS "SupportsMnemonics"
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////

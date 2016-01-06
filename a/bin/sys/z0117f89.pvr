@@ -1,0 +1,12 @@
+z010--Zeidon    Z0117F89 TZWDVORO 03/15/97   11:56:49 1.0a     
+eViewObjRef 1,198
+aZKey      1146761
+aName      TZCONTROLL
+aDesc      For use with hierarchical list of controls
+
+eLOD       2,224
+aZKey      1325104
+aName      TZWDLGSO
+aDesc      Source Dialog Definition
+aDLL_Name  TZLODOPR
+

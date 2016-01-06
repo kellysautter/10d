@@ -1,0 +1,14 @@
+z11001Zeidon    TEMP     TZWDVORO 02/27/00   11:19:59 1.0a     
+20000223150242621
+eViewObjRef 1,6
+aZKey,2    97367386
+aName,2    TZSAVEAS
+aDesc,2    VOR automatically built from LOD Dialog
+
+eLOD       2,38
+aZKey,2    97367384
+aName,2    TZSAVEAS
+aDesc,2    Work Object for save as for not checked out component
+aFK_ZKEY,272a00 1244100096
+aFK_ZKEY02,6c000000 9109518
+

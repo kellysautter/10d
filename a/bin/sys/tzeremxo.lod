@@ -1,0 +1,498 @@
+z10000Zeidon    TZEREMXO TZZOLODO 05/01/01   23:18:01 1.0b0    
+eLOD       1
+aZKey      1329358
+aName      TZEREMXO
+aDesc      ER Model Executable
+
+eLOD_EntityParent 2
+aName      MODEL
+aIndentName MODEL
+aIndentLvl 0
+aZKey      1329359
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Model Work Entity
+
+eLOD_EntityChild 3
+aName      ENTITY
+aIndentName    ENTITY
+aIndentLvl 3
+aZKey      1329360
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Entity in the Model
+aSeqNo     1
+
+eLOD_EntityChild 4
+aName      ATTRIB
+aIndentName       ATTRIB
+aIndentLvl 6
+aZKey      1329361
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Attribute in Model
+aSeqNo     1
+
+eLOD_AttributeRec 5
+aZKey      1329362
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      ZKEY
+aZKey      1329363
+
+eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1329364
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+aName      NAME
+aZKey      1329365
+aLth       32
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1329366
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6
+aName      FLDID
+aZKey      1329367
+aDesc      Field ID from TE
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329368
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 6
+aName      FLDNAME
+aZKey      1329369
+aLth       32
+aDesc      Field Name from TE
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329370
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 6
+aName      APDM_TOK
+aZKey      1329371
+aDesc      Domain Token
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329372
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 6
+aName      LTH
+aZKey      1329373
+aDesc      Length
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      1329374
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      ZKEY
+aZKey      1329375
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329376
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      NumAtts
+aZKey      1329377
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329378
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      RecID
+aZKey      1329379
+aDesc      RecordID for Entity
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329380
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      RecName
+aZKey      1329381
+aLth       32
+aDesc      Record Name For Model
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      REL
+aIndentName    REL
+aIndentLvl 3
+aZKey      1329382
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     2
+
+eLOD_AttributeRec 4
+aZKey      1329383
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      ZKEY
+aZKey      1329384
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      1329385
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      NumEnts
+aZKey      1329386
+aDesc      Number of Entities in Model
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329387
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      NumRels
+aZKey      1329388
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000641
+aName      TZEREMXO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      TZEREMXO
+aZKey      1149569
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eZ_MetaDef 2
+aName      TZEREMXO
+aZKey      1329358
+aType      7
+aLastUpdateDate 19951102200056000
+aLastCheckInDate 19951102203051110
+aDesc      ER Model Executable
+
+i12        6
+i15        9
+i18        6
+i21        6
+i24        6
+i27        6
+i30        6
+i33        9
+i37        6
+i40        6
+i43        6
+i44        1
+i45        38
+i46        39
+i47        6
+i48        41
+i49        42
+i50        6
+i51        2
+i52        22
+i53        23
+i54        6
+i55        25
+i56        26
+i57        6
+i58        28
+i59        29
+i60        6
+i61        31
+i62        32
+i63        9
+i64        3
+i65        4
+i66        5
+i67        6
+i68        7
+i69        8
+i70        9
+i71        10
+i72        11
+i73        6
+i74        13
+i75        14
+i76        9
+i77        16
+i78        17
+i79        6
+i80        19
+i81        20
+i82        6
+i83        34
+i84        35
+i85        36
+i86        6

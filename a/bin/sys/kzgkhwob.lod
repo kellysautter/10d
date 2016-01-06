@@ -1,0 +1,307 @@
+z10000Zeidon    KZGKHWOB TZZOLODO 05/01/01   23:17:23 1.0b0    
+eLOD       1
+aZKey      1331115
+aName      KZGKHWOB
+aDesc      Work object for Genkey Handlers
+
+eLOD_EntityParent 2
+aName      KZGKHWOB
+aIndentName KZGKHWOB
+aIndentLvl 0
+aZKey      1331116
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   N
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      Root entity for Genkey handler work object
+
+eLOD_EntityChild 3
+aName      Genkey
+aIndentName    Genkey
+aIndentLvl 3
+aZKey      1331117
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   N
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      Holds genkey information for an entity
+aSeqNo     1
+
+eLOD_AttributeRec 4
+aZKey      1331118
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      EntityName
+aZKey      1331119
+aLth       32
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1331120
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      EntityID
+aZKey      1331121
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1331122
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      EntityCount
+aZKey      1331123
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331124
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      CurrentGenkey
+aZKey      1331125
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331126
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      TableName
+aZKey      1331127
+aLth       64
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      1331128
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      WorkArea
+aZKey      1331129
+
+eDomainRec 5
+aZKey      90000007
+aName      Blob
+aDomainType E
+aDataType  B
+aDesc      A do nothing domain for blobs
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      1331130
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      ReturnKey
+aZKey      1331131
+aLth       32
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000608
+aName      KZGKHWOB
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      KZGKHWOB
+aZKey      1149534
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eZ_MetaDef 2
+aName      KZGKHWOB
+aZKey      1331115
+aType      7
+aLastUpdateDate 19951102195940000
+aLastCheckInDate 19951102203051110
+aDesc      Work object for Genkey Handlers
+
+i11        8
+i14        8
+i17        5
+i23        5
+i24        1
+i25        18
+i26        19
+i27        20
+i28        21
+i29        22
+i30        5
+i31        2
+i32        3
+i33        4
+i34        5
+i35        6
+i36        7
+i37        8
+i38        9
+i39        10
+i40        8
+i41        12
+i42        13
+i43        8
+i44        15
+i45        16
+i46        5

@@ -1,0 +1,20 @@
+rZeidon    Z01474B1 TZWDVORO 11/02/95   20:53:41 1.0a     
+eViewObjRef 1,192
+aZKey      1340593
+aName      DlgGraph
+aDesc      Work for Dialog Graph
+
+eLOD       2,192
+aZKey      1327514
+aName      TZWDGRWO
+aDesc      Dialog Graph Work Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      DlgGraph
+aZKey      1340593
+aType      9
+aLastUpdateDate 19950824213732000
+aLastCheckInDate 19951102203051110
+aDesc      Work for Dialog Graph
+

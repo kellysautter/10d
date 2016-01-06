@@ -1,0 +1,511 @@
+// qstruct  build  v4.54 
+
+#ifndef __kzwdlgxo_hst__   // sentry, use file only if it's not already included
+#define __kzwdlgxo_hst__
+
+typedef struct tagzKZWDLGXO_Dlg_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR DLL[ 255 ];
+   zCHAR DfltWnd[ 33 ];
+   zLONG PE;
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_Dlg_DEF;
+
+typedef struct tagzKZWDLGXO_DfltWnd_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zLONG REL_X;
+   zLONG REL_Y;
+   zLONG PSDLG_X;
+   zLONG PSDLG_Y;
+   zLONG SZDLG_X;
+   zLONG SZDLG_Y;
+   zLONG SZMIN_X;
+   zLONG SZMIN_Y;
+   zLONG SZMAX_X;
+   zLONG SZMAX_Y;
+   zLONG StyleEx;
+   zLONG Style;
+   zCHAR DfltBtn[ 33 ];
+   zLONG ResID;
+   zCHAR DfltMenu[ 33 ];
+   zLONG ActCnt;
+   zLONG CtrlCnt;
+   zLONG OperCtrl;
+   zLONG Hotkey;
+   zLONG Subtype;
+   zCHAR Caption[ 255 ];
+   zCHAR ProfileView[ 33 ];
+   zLONG GeneralFlag;
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_DfltWnd_DEF;
+
+typedef struct tagzKZWDLGXO_Wnd_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zLONG REL_X;
+   zLONG REL_Y;
+   zLONG PSDLG_X;
+   zLONG PSDLG_Y;
+   zLONG SZDLG_X;
+   zLONG SZDLG_Y;
+   zLONG SZMIN_X;
+   zLONG SZMIN_Y;
+   zLONG SZMAX_X;
+   zLONG SZMAX_Y;
+   zLONG StyleEx;
+   zLONG Style;
+   zCHAR DfltBtn[ 33 ];
+   zLONG ResID;
+   zCHAR DfltMenu[ 33 ];
+   zLONG ActCnt;
+   zLONG CtrlCnt;
+   zLONG OperCtrl;
+   zLONG Hotkey;
+   zLONG Subtype;
+   zCHAR D_Caption[ 255 ];
+   zLONG NLS;
+   zCHAR Caption[ 255 ];
+   zCHAR ProfileView[ 33 ];
+   zLONG GeneralFlag;
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_Wnd_DEF;
+
+typedef struct tagzKZWDLGXO_Ctrl_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR Text[ 255 ];
+   zLONG Type;
+   zLONG Subtype;
+   zLONG StyleX;
+   zLONG OptionFlags;
+   zLONG IdNbr;
+   zLONG PSDLG_X;
+   zLONG PSDLG_Y;
+   zLONG SZDLG_X;
+   zLONG SZDLG_Y;
+   zLONG RELCNT_X;
+   zLONG RELCNT_Y;
+   zLONG CtrlBOI;
+   zLONG ColorFg;
+   zLONG ColorBk;
+   zLONG DIL;
+   zLONG EventAct;
+   zLONG DD_BOI;
+   zCHAR D_Text[ 255 ];
+   zLONG NLS;
+   zCHAR TagPE[ 33 ];
+   zCHAR GUID[ 65 ];
+   zLONG Properties;
+   zLONG LKey;
+   zCHAR Script[ 33 ];
+   zCHAR ScriptDLL[ 33 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_Ctrl_DEF;
+
+typedef struct tagzKZWDLGXO_CtrlCtrl_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR Text[ 255 ];
+   zLONG Type;
+   zLONG Subtype;
+   zLONG StyleX;
+   zLONG OptionFlags;
+   zLONG IdNbr;
+   zLONG PSDLG_X;
+   zLONG PSDLG_Y;
+   zLONG SZDLG_X;
+   zLONG SZDLG_Y;
+   zLONG RELCNT_X;
+   zLONG RELCNT_Y;
+   zLONG CtrlBOI;
+   zLONG ColorFg;
+   zLONG ColorBk;
+   zLONG DIL;
+   zLONG EventAct;
+   zLONG DD_BOI;
+   zCHAR D_Text[ 255 ];
+   zLONG NLS;
+   zCHAR TagPE[ 33 ];
+   zCHAR GUID[ 65 ];
+   zLONG Properties;
+   zLONG LKey;
+   zCHAR Script[ 33 ];
+   zCHAR ScriptDLL[ 33 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_CtrlCtrl_DEF;
+
+typedef struct tagzKZWDLGXO_CtrlMap_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR VN[ 33 ];
+   zCHAR EN[ 33 ];
+   zCHAR AN[ 33 ];
+   zCHAR Context[ 33 ];
+   zCHAR Type[ 33 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_CtrlMap_DEF;
+
+typedef struct tagzKZWDLGXO_Event_DEF
+{
+zLONG  lStructSize;
+
+   zLONG Type;
+   zCHAR Register[ 2 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_Event_DEF;
+
+typedef struct tagzKZWDLGXO_EventAct_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR DO[ 33 ];
+   zCHAR DLL[ 9 ];
+   zLONG SB;
+   zCHAR VN[ 33 ];
+   zCHAR EN[ 33 ];
+   zCHAR Scope[ 33 ];
+   zLONG AutoGray;
+   zCHAR NoMap[ 2 ];
+   zLONG Type;
+   zCHAR DlgN[ 33 ];
+   zCHAR WndN[ 33 ];
+   zLONG SyncIdx;
+   zLONG OperCtrl;
+   zCHAR Popup[ 33 ];
+   zCHAR Prompt[ 255 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_EventAct_DEF;
+
+typedef struct tagzKZWDLGXO_WndEvent_DEF
+{
+zLONG  lStructSize;
+
+   zLONG Type;
+   zCHAR Accel[ 33 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_WndEvent_DEF;
+
+typedef struct tagzKZWDLGXO_WndAct_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR DO[ 33 ];
+   zCHAR DLL[ 9 ];
+   zLONG SB;
+   zCHAR VN[ 33 ];
+   zCHAR EN[ 33 ];
+   zCHAR Scope[ 33 ];
+   zLONG AutoGray;
+   zCHAR NoMap[ 2 ];
+   zLONG Type;
+   zCHAR DlgN[ 33 ];
+   zCHAR WndN[ 33 ];
+   zLONG SyncIdx;
+   zLONG OperCtrl;
+   zCHAR Popup[ 33 ];
+   zCHAR Prompt[ 255 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_WndAct_DEF;
+
+typedef struct tagzKZWDLGXO_Act_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR DO[ 33 ];
+   zCHAR DLL[ 9 ];
+   zLONG SB;
+   zCHAR VN[ 33 ];
+   zCHAR EN[ 33 ];
+   zCHAR Scope[ 33 ];
+   zLONG AutoGray;
+   zCHAR NoMap[ 2 ];
+   zLONG Type;
+   zCHAR DlgN[ 33 ];
+   zCHAR WndN[ 33 ];
+   zLONG SyncIdx;
+   zLONG OperCtrl;
+   zCHAR Popup[ 33 ];
+   zCHAR Prompt[ 255 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_Act_DEF;
+
+typedef struct tagzKZWDLGXO_ActOpt_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR Text[ 33 ];
+   zCHAR AccelTitle[ 33 ];
+   zCHAR ChkOn[ 65 ];
+   zCHAR ChkOff[ 65 ];
+   zCHAR Separator[ 2 ];
+   zLONG DIL;
+   zLONG NLS;
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_ActOpt_DEF;
+
+typedef struct tagzKZWDLGXO_ActEvent_DEF
+{
+zLONG  lStructSize;
+
+   zLONG Type;
+   zCHAR Register[ 2 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_ActEvent_DEF;
+
+typedef struct tagzKZWDLGXO_ActCtrl_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR Text[ 255 ];
+   zLONG Type;
+   zLONG Subtype;
+   zLONG IdNbr;
+   zLONG PSDLG_X;
+   zLONG PSDLG_Y;
+   zLONG SZDLG_X;
+   zLONG SZDLG_Y;
+   zLONG CtrlBOI;
+   zLONG DD_BOI;
+   zLONG EventAct;
+   zCHAR GUID[ 65 ];
+   zLONG NLS;
+   zLONG Properties;
+   zCHAR Script[ 33 ];
+   zCHAR ScriptDLL[ 33 ];
+   zLONG StyleX;
+   zCHAR TagPE[ 33 ];
+   zLONG ColorFg;
+   zLONG ColorBk;
+   zLONG DIL;
+   zLONG OptionFlags;
+   zLONG RELCNT_X;
+   zLONG RELCNT_Y;
+   zLONG LKey;
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_ActCtrl_DEF;
+
+typedef struct tagzKZWDLGXO_ActHot_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR Title[ 33 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_ActHot_DEF;
+
+typedef struct tagzKZWDLGXO_Menu_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zLONG OptCnt;
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_Menu_DEF;
+
+typedef struct tagzKZWDLGXO_Opt_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR Text[ 33 ];
+   zCHAR AccelTitle[ 33 ];
+   zCHAR ChkOn[ 65 ];
+   zCHAR ChkOff[ 65 ];
+   zCHAR Separator[ 2 ];
+   zLONG DIL;
+   zCHAR D_Text[ 33 ];
+   zLONG NLS;
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_Opt_DEF;
+
+typedef struct tagzKZWDLGXO_OptOpt_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR Text[ 33 ];
+   zCHAR AccelTitle[ 33 ];
+   zCHAR ChkOn[ 65 ];
+   zCHAR ChkOff[ 65 ];
+   zCHAR Separator[ 2 ];
+   zLONG DIL;
+   zLONG NLS;
+   zCHAR D_Text[ 33 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_OptOpt_DEF;
+
+typedef struct tagzKZWDLGXO_OptAct_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR DO[ 33 ];
+   zCHAR DLL[ 9 ];
+   zLONG SB;
+   zCHAR VN[ 33 ];
+   zCHAR EN[ 33 ];
+   zCHAR Scope[ 33 ];
+   zLONG AutoGray;
+   zCHAR NoMap[ 2 ];
+   zLONG Type;
+   zCHAR DlgN[ 33 ];
+   zCHAR WndN[ 33 ];
+   zLONG SyncIdx;
+   zLONG OperCtrl;
+   zCHAR Popup[ 33 ];
+   zCHAR Prompt[ 255 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_OptAct_DEF;
+
+typedef struct tagzKZWDLGXO_OptMap_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR VN[ 33 ];
+   zCHAR EN[ 33 ];
+   zCHAR AN[ 33 ];
+   zCHAR Context[ 33 ];
+   zCHAR Type[ 33 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_OptMap_DEF;
+
+typedef struct tagzKZWDLGXO_Subtask_DEF
+{
+zLONG  lStructSize;
+
+   zLONG CPP;
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_Subtask_DEF;
+
+typedef struct tagzKZWDLGXO_Hotkey_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR Title[ 33 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_Hotkey_DEF;
+
+typedef struct tagzKZWDLGXO_HotAct_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zCHAR DO[ 33 ];
+   zCHAR DLL[ 9 ];
+   zLONG SB;
+   zCHAR VN[ 33 ];
+   zCHAR EN[ 33 ];
+   zCHAR Scope[ 33 ];
+   zLONG AutoGray;
+   zCHAR NoMap[ 2 ];
+   zLONG Type;
+   zCHAR DlgN[ 33 ];
+   zCHAR WndN[ 33 ];
+   zLONG SyncIdx;
+   zLONG OperCtrl;
+   zCHAR Popup[ 33 ];
+   zCHAR Prompt[ 255 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_HotAct_DEF;
+
+typedef struct tagzKZWDLGXO_DIL_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Msg[ 255 ];
+   zCHAR D_Msg[ 255 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_DIL_DEF;
+
+typedef struct tagzKZWDLGXO_NLS_DIL_Text_DEF
+{
+zLONG  lStructSize;
+
+   zLONG LI;
+   zCHAR Text[ 255 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_NLS_DIL_Text_DEF;
+
+typedef struct tagzKZWDLGXO_NLS_Text_DEF
+{
+zLONG  lStructSize;
+
+   zLONG LI;
+   zCHAR Text[ 255 ];
+
+unsigned char CheckByte;
+
+} zKZWDLGXO_NLS_Text_DEF;
+
+#endif   // #define __kzwdlgxo_hst__

@@ -1,0 +1,734 @@
+z1000-Zeidon    TZ__OPRS TZOGSRCO 05/08/07   17:23:23 1.0a2    
+eGlobalOperationGroup 1
+aZKey      1319679
+aName      TZ__OPRS
+aExtension C
+aDomainAndGlobalOpGroupName TZ__OPRS
+
+eOperation 2
+aName      ParseLine4
+aZKey      1319680
+aDesc      Parse a character string to max of 4 parms.
+aType      G
+aReturnDesc 0 or ptr to end of last parm.
+aReturnDataType S
+
+eParameter 3
+aShortDesc LineToParse
+aDataType  S
+aZKey      1319681
+
+eParameter 3
+aShortDesc Parm1
+aDataType  S
+aZKey      1319682
+
+eParameter 3
+aShortDesc Parm2
+aDataType  S
+aZKey      1319683
+
+eParameter 3
+aShortDesc Parm3
+aDataType  S
+aZKey      1319684
+
+eParameter 3
+aShortDesc Parm4
+aDataType  S
+aZKey      1319685
+
+eOperation 2
+aName      CopyOperationCode
+aZKey      1159684
+aType      G
+aReturnDesc -1 could not open src or tgt file
+aReturnDataType N
+
+eParameter 3
+aShortDesc Application View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1159685
+
+eParameter 3
+aShortDesc TargetFileName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1159686
+
+eParameter 3
+aShortDesc SourceFileName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1159687
+
+eParameter 3
+aShortDesc OperationName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1159688
+
+eOperation 2
+aName      GetStringFromControlBlob
+aZKey      91302628
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc lpReturnedStringLength
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91302629
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91302630
+
+eParameter 3
+aShortDesc lMaxLength
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      91302631
+
+eParameter 3
+aShortDesc C_VariableName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91302634
+
+eOperation 2
+aName      WL_QC
+aZKey      91301783
+aDesc      Write line converting character passed to double quote.
+aType      G
+aReturnDesc ReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1105255
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      91301784
+
+eParameter 3
+aShortDesc Buffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301785
+
+eParameter 3
+aShortDesc CharacterToConvert
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301786
+
+eParameter 3
+aShortDesc AddBlankLineCount
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      1033768
+
+eOperation 2
+aName      GetStrFromAttrByContext
+aZKey      91105390
+aDesc      Get a string from attribute by Context or default Context
+aType      G
+aReturnDesc Return Code
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedValue
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      91105391
+
+eParameter 3
+aShortDesc Length
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      91105392
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91105393
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91105394
+
+eParameter 3
+aShortDesc AttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91105395
+
+eParameter 3
+aShortDesc Context
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91105396
+
+eOperation 2
+aName      DBH_ActivateOI_FromXML
+aZKey      90044298
+aDesc      Function used by DBH Test facility.  Note that the code is contained in TZDBHT2D.C.  This entry is here to fake VML into parsing correctly.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc View to read
+aDataType  V
+aPFlag     Y
+aUFlag     N
+aZKey      90044299
+
+eParameter 3
+aShortDesc LOD name
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      90044300
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      90044301
+
+eParameter 3
+aShortDesc Filename
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      90044302
+
+eParameter 3
+aShortDesc Flags
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      90044303
+
+eOperation 2
+aName      DBH_WriteOI_ToXML
+aZKey      90044294
+aDesc      Function used by DBH Test facility.  Note that the code is contained in TZDBHT2D.C.  This entry is here to fake VML into parsing correctly.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc View to write
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      90044295
+
+eParameter 3
+aShortDesc Filename
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      90044296
+
+eParameter 3
+aShortDesc Flags
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      90044297
+
+eOperation 2
+aName      ConvertStringToQSName
+aZKey      90233641
+aDesc      Convert invalid chars in a string to valid QSName chars
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc InputString
+aDataType  S
+aZKey      90233642
+
+eOperation 2
+aName      zGetTickCount
+aZKey      90019043
+aDesc      A dummy wrapper for SysGetTickCount
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc dummy int
+aDataType  L
+aZKey      90019044
+
+eOperation 2
+aName      StartZeidonHelp
+aZKey      90005054
+aDesc      Starts up one of the Zeidon help files.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vWindow
+aDataType  V
+aZKey      90005055
+
+eParameter 3
+aShortDesc Tag name
+aDataType  S
+aZKey      91000370
+
+eOperation 2
+aName      MergeGlobalPrototypes
+aZKey      70063945
+aDesc      Merge the global operation prototypes into the zeidon.h file.
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vMeta
+aDataType  V
+aZKey      70063946
+
+eParameter 3
+aShortDesc szMetaName
+aDataType  S
+aZKey      70063947
+
+eParameter 3
+aShortDesc szRootEntityName
+aDataType  S
+aZKey      70063948
+
+eParameter 3
+aShortDesc vTaskLPLR
+aDataType  V
+aZKey      70063949
+
+eOperation 2
+aName      ConvertIntegerToString
+aZKey      70061811
+aDesc      Convert an integer to a string (for VML).
+aType      G
+aReturnDesc ReturnCode: 0 if ok, -1 if err
+aReturnDataType N
+
+eParameter 3
+aShortDesc nIntegerValue
+aDataType  L
+aZKey      70061812
+
+eParameter 3
+aShortDesc szStringValue
+aDataType  S
+aZKey      70061813
+
+eParameter 3
+aShortDesc nLength
+aDataType  L
+aZKey      70061814
+
+eOperation 2
+aName      GetStringLength
+aZKey      70061796
+aDesc      Get the length of a string variable.
+aType      G
+aReturnDesc StringLength
+aReturnDataType L
+
+eParameter 3
+aShortDesc szStringValue
+aDataType  S
+aZKey      70061797
+
+eOperation 2
+aName      CheckDuplicateEntityByString
+aZKey      70061434
+aDesc      Check for more than one entity with the same string value.
+aType      G
+aReturnDesc RC: -1 is dupl, 1 is no match, 2 is single match
+aReturnDataType N
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aZKey      70061435
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aZKey      70061436
+
+eParameter 3
+aShortDesc AttributeName
+aDataType  S
+aZKey      70061437
+
+eParameter 3
+aShortDesc StringValue
+aDataType  S
+aZKey      70061438
+
+eParameter 3
+aShortDesc ScopingEntityName
+aDataType  S
+aZKey      70061439
+
+eOperation 2
+aName      TranslateStringToUpperCase
+aZKey      90025440
+aDesc      Translate a string to upper case characters
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc StringToTranslate
+aDataType  S
+aZKey      90025441
+
+eOperation 2
+aName      zDeleteFile
+aZKey      90019524
+aDesc      Delete a file by a fully qualified directory path and file name
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Fully qualified file name
+aDataType  S
+aZKey      90019525
+
+eOperation 2
+aName      RefreshDiagram
+aZKey      90019266
+aDesc      Send a refresh  diagram message to ERD control
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ERD Window view
+aDataType  V
+aZKey      90019267
+
+eParameter 3
+aShortDesc Control Name "ERD"
+aDataType  S
+aZKey      90019268
+
+eParameter 3
+aShortDesc Flag  0 - permit refresh; 1 - block refresh
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1118327
+
+eOperation 2
+aName      TransferToEditor
+aZKey      90024051
+aDesc      Common code to transfer to CW Editor
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aZKey      90024052
+
+eParameter 3
+aShortDesc Meta
+aDataType  V
+aZKey      90024053
+
+eParameter 3
+aShortDesc Invoking Type
+aDataType  S
+aZKey      90024054
+
+eParameter 3
+aShortDesc Invoking Command
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      539
+
+eOperation 2
+aName      zgSortEntityWithinParent4
+aZKey      1319711
+aDesc      Sort on 4 Attrs within Parent
+aType      G
+aReturnDesc nReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aZKey      70061452
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aZKey      70061453
+
+eParameter 3
+aShortDesc AttributeName
+aDataType  S
+aZKey      70061454
+
+eParameter 3
+aShortDesc zASCENDING or zDESCENDING
+aDataType  N
+aZKey      70061455
+
+eParameter 3
+aShortDesc AttributeName2
+aDataType  S
+aZKey      70061456
+
+eParameter 3
+aShortDesc zASCENDING or zDESCENDING 2
+aDataType  N
+aZKey      70061457
+
+eParameter 3
+aShortDesc AttributeName3
+aDataType  S
+aZKey      70061458
+
+eParameter 3
+aShortDesc zASCENDING or zDESCENDING 3
+aDataType  N
+aZKey      70061459
+
+eParameter 3
+aShortDesc AttributeName4
+aDataType  S
+aZKey      70061460
+
+eParameter 3
+aShortDesc zASCENDING or zDESCENDING 4
+aDataType  N
+aZKey      70061461
+
+eOperation 2
+aName      zgSortEntityWithinParent
+aZKey      1319710
+aDesc      Sort on 2 Attrs within Parent
+aType      G
+aReturnDesc nReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc zASCENDING or zDESCENDING
+aDataType  N
+aZKey      70061470
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aZKey      70061471
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aZKey      70061472
+
+eParameter 3
+aShortDesc AttributeName1
+aDataType  S
+aZKey      70061473
+
+eParameter 3
+aShortDesc AttributeName2
+aDataType  S
+aZKey      70061474
+
+eOperation 2
+aName      zgSortEntityWithinGParent4
+aZKey      1319709
+aDesc      Sort on 4 Attrs within 'GrandParent'
+aType      G
+aReturnDesc nReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aZKey      70061441
+
+eParameter 3
+aShortDesc ParentEntityName
+aDataType  S
+aZKey      70061442
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aZKey      70061443
+
+eParameter 3
+aShortDesc AttributeName
+aDataType  S
+aZKey      70061444
+
+eParameter 3
+aShortDesc zASCENDING or zDESCENDING
+aDataType  N
+aZKey      70061445
+
+eParameter 3
+aShortDesc AttributeName2
+aDataType  S
+aZKey      70061446
+
+eParameter 3
+aShortDesc zASCENDING or zDESCENDING 2
+aDataType  N
+aZKey      70061447
+
+eParameter 3
+aShortDesc AttributeName3
+aDataType  S
+aZKey      70061448
+
+eParameter 3
+aShortDesc zASCENDING or zDESCENDING 3
+aDataType  N
+aZKey      70061449
+
+eParameter 3
+aShortDesc AttributeName4
+aDataType  S
+aZKey      70061450
+
+eParameter 3
+aShortDesc zASCENDING or zDESCENDING 4
+aDataType  N
+aZKey      70061451
+
+eOperation 2
+aName      zgCompressName
+aZKey      1319708
+aDesc      To compress a 'name' and keep it readable
+aType      G
+aReturnDesc length of returned string
+aReturnDataType N
+aOrdinalValue 0
+
+eParameter 3
+aShortDesc LongName
+aDataType  S
+aZKey      70061462
+
+eParameter 3
+aShortDesc ShortName
+aDataType  S
+aZKey      70061463
+
+eParameter 3
+aShortDesc ShortNameLth
+aDataType  N
+aZKey      70061464
+
+eParameter 3
+aShortDesc SpaceReplace
+aDataType  S
+aZKey      70061465
+
+eParameter 3
+aShortDesc UnderscoreMode
+aDataType  S
+aZKey      70061466
+
+eParameter 3
+aShortDesc LowerVowels
+aDataType  S
+aZKey      70061467
+
+eParameter 3
+aShortDesc OtherChars
+aDataType  S
+aZKey      70061468
+
+eParameter 3
+aShortDesc PhasesToForce
+aDataType  N
+aZKey      70061469
+
+eOperation 2
+aName      zAnsiUpper
+aZKey      1319707
+aDesc      Convert string to upper case
+aType      G
+aReturnDesc Allways 0
+aReturnDataType N
+aOrdinalValue 0
+
+eParameter 3
+aShortDesc StringToConvert
+aDataType  S
+aZKey      70061440
+
+eOperation 2
+aName      SourceFileReadLine
+aZKey      1319699
+aDesc      Read a line from a character, source file.
+aType      G
+aReturnDesc 1-line read, 0-EOF
+aReturnDataType N
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aZKey      70061482
+
+eParameter 3
+aShortDesc File Number
+aDataType  L
+aZKey      1319700
+
+eParameter 3
+aShortDesc String to hold returned Line
+aDataType  S
+aZKey      1319701
+
+eZ_MetaDef 2
+aName      TZ__OPRS
+aZKey      1319679
+aType      14
+aLastUpdateDate 19951101184906000
+aLastCheckInDate 19951102203051110
+

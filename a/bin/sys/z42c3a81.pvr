@@ -1,0 +1,12 @@
+rZeidon    Z42C3A81 TZWDVORO 12/22/95   01:06:08 1.0a     
+eViewObjRef 1,198
+aZKey      70007425
+aName      TZOGSRCO_DETAIL
+aDesc      Used for the group detail within the TZOPUPDD dialog
+
+eLOD       2,224
+aZKey      1326765
+aName      TZOGSRCO
+aDesc      Global Operation Group source object
+aDLL_Name  TZLODOPR
+

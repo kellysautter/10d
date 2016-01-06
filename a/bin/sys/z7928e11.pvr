@@ -1,0 +1,11 @@
+z10000Zeidon    Z7928E11 TZWDVORO 06/19/01   00:32:07 1.0b0    
+eViewObjRef 1
+aZKey      127045137
+aName      TZCMCOMP
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      127045119
+aName      TZCMCOMP
+aDesc      Object for listing CPLRs all Components
+

@@ -1,0 +1,357 @@
+z1000-Zeidon    TZADOLAW TZWDLGSO 03/01/12   15:05:28 1.0b0    
+eDialog    1
+aTag       TZADOLAW
+aDLL_Name  TZADWDOD
+aZKey      90026320
+
+eDfltWnd   2
+aTag       TZADOLAW
+aCaption   Select AutoDesign Object
+aPSDLG_X   62
+aPSDLG_Y   28
+aSZDLG_X   19595569
+aSZDLG_Y   8978586
+aZKey      90026326
+
+eWindow    2
+
+eControl   3
+aTag       List1
+aText      List1
+aZKey      90026330
+aIdNbr     1
+aPSDLG_X   19
+aPSDLG_Y   14
+aSZDLG_X   213
+aSZDLG_Y   111
+aSyncKey   9999
+
+eCtrlCtrl  4
+aTag       FileName
+aZKey      90026331
+aIdNbr     2
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   109
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      90026332
+
+eCtrlMapLOD_Attribute 6
+aZKey      1326025
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+aName      W_MetaDef
+aIndentName       W_MetaDef
+aIndentLvl 6
+aZKey      1326021
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      1321565
+aLth       32
+aDesc      Name of the meta object instance
+
+eCtrlMapER_Domain 8
+aZKey      90000032
+aDesc      Any Character String
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eCtrlMapView 6
+aZKey      1352565
+aName      UI_SpecList
+
+eControlDef 5
+aTag       ListBoxCtl
+aZKey      1081
+aKey       1081
+aRT_DLL_Name ZDCTL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LISTCTL
+aRequiresParent Y
+aId        27
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       Date
+aZKey      90026333
+aIdNbr     3
+aPSDLG_X   121
+aPSDLG_Y   0
+aSZDLG_X   79
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      90026334
+
+eCtrlMapLOD_Attribute 6
+aZKey      1326028
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      LastUpdateDate
+aZKey      1321568
+aDesc      Time stamp of when the meta object was last updated
+
+eCtrlMapER_Domain 8
+aZKey      90000089
+aDesc      Basic Timestamp Domain
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aContextRestriction N
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      90026335
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      90026336
+
+eEvent     4
+aType      2
+aZKey      90026337
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aTypeData  Y
+aZKey      90026329
+
+eControlDef 4
+aTag       ListBox
+aZKey      1080
+aKey       1080
+aRT_DLL_Name ZDCTL
+aRT_OperationName ListBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aPainterConvertOperationName ConvertListBox
+aPainterBitmap LIST
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LIST
+aAcceptsAllParents Y
+aId        15
+aInvisible -1
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      90026338
+aSubtype   536870912
+aIdNbr     5
+aPSDLG_X   239
+aPSDLG_Y   16
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+
+eEvent     4
+aType      1
+aZKey      90026339
+
+eEventAct  5
+
+eControlDef 4
+aTag       PushBtn
+aZKey      1020
+aKey       1020
+aRT_DLL_Name ZDCTL
+aRT_OperationName PushButton
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZPushMsg
+aPainterConvertOperationName ConvertButton
+aPainterBitmap PUSH
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_PUSH
+aAcceptsAllParents Y
+aId        8
+aInvisible -1
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      90026340
+aSubtype   536870912
+aIdNbr     6
+aPSDLG_X   239
+aPSDLG_Y   36
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+
+eEvent     4
+aType      1
+aZKey      90026341
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      72
+aTypeData  Y
+aZKey      90026328
+
+eControlDef 4
+
+eWndEvent  3
+aType      1
+aZKey      90026342
+
+eWndAct    4
+aTag       LoadStyleList
+aType      1
+aZKey      90026327
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      oTZWDLGSO_LoadObjLstForAutoDsgn
+aZKey      90026322
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      90026321
+aCM_Managed Y
+aOwnerType D
+aLanguageType C
+aName      TZADOLAW
+aExtension C
+
+eAction    3
+
+eActMap    4
+aZKey      92000567
+
+eActMap    4
+aZKey      92000568
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActMap    4
+aZKey      92000571
+
+eActMap    4
+aZKey      92000572
+
+eActEvent  4
+
+eActCtrl   5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      oTZWDLGSO_SelectObjForAutoDsgn
+aZKey      90026324
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eWndStyle  3
+aTag       Primary Window
+aZKey      7008558
+aStyle     13565952
+aDesc      Overlapped window with caption, system menu, sizing border, min/
+
+eViewObjRef 2
+aZKey      1352565
+aName      UI_SpecList
+
+eLOD       3
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      90026323
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      90026325
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i2         1
+i15        7
+i18        10
+i19        11
+i21        7
+i22        10
+i29        25
+i34        30
+i37        36
+i38        35
+i41        33
+i44        32
+i45        31
+i46        25
+i49        24
+i50        3
+i51        28
+i52        27
+i54        40
+i58        40
+i59        39
+i61        53
+i63        39
+i64        40
+i65        53
+i66        40

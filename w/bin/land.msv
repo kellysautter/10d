@@ -1,0 +1,119 @@
+pZeidon    LAND  KZMSGQOO 02/01/96   21:34:20 1.0a     
+eTask      1
+aDesc      German Override Messages
+aTemporaryWorkText d:\9b\w\bin\deutsch.msg
+
+eOverrideMsg 2
+aId        TZDME001
+aTitle     Eingabefehler
+aText      Unzulässiger Datentyp!
+
+eOverrideMsg 2
+aId        TZDME002
+aTitle     Eingabefehler
+aText      Text überschreitet zulässige Länge.
+
+eOverrideMsg 2
+aId        TZDME003
+aTitle     Eingabefehler
+aText      Der Attributtyp ist für diese Domäne unzulässig!
+
+eOverrideMsg 2
+aId        TZDME004
+aTitle     Eingabefehler
+aText      Unzulässiger Eintrag in Domäne.
+
+eOverrideMsg 2
+aId        TZDME005
+aTitle     Systemfehler
+aText      Table-Handler für diese Domäne ungültig!
+
+eOverrideMsg 2
+aId        TZDME006
+aTitle     Systemfehler
+aText      Integer-Überlauf
+
+eOverrideMsg 2
+aId        TZDME007
+aTitle     Systemfehler
+aText      Integerwert wurde zu klein
+
+eOverrideMsg 2
+aId        TZDME008
+aTitle     Eingabefehler
+aText      Ein Kontext ist für diese Domäne nicht vorhanden!
+
+eOverrideMsg 2
+aId        TZDME009
+aTitle     Eingabefehler
+aText      Eine Kontexteingabe ist für diese Domäne nicht zulässig!
+
+eOverrideMsg 2
+aId        TZDME010
+aTitle     Eingabefehler
+aText      Datum/Zeit-Eingabe ist für diese Domäne nicht zulässig.
+
+eOverrideMsg 2
+aId        TZDME011
+aTitle     Speicherfehler
+aText      Fehler beim Speichern des Wertes!
+
+eOverrideMsg 2
+aId        TZDME012
+aTitle     Eingabefehler
+aText      Kontext ist bei zTYPE_INTEGER erforderlich.
+
+eOverrideMsg 2
+aId        TZDME013
+aTitle     Eingabefehler
+aText      Unzulässige Kontext/cType-Kombination.
+
+eOverrideMsg 2
+aId        TZDME014
+aTitle     Eingabefehler
+aText      Kontext ist nur für Retrieval zulässig.
+
+eOverrideMsg 2
+aId        TZDME015
+aTitle     Eingabefehler
+aText      Kontext ist nur für arithmetische Operationen zulässig!
+
+eOverrideMsg 2
+aId        TZDME016
+aTitle     Eingabefehler
+aText      Unzulässige Eingabe für Kontext.
+
+eOverrideMsg 2
+aId        TZDME017
+aTitle     Eingabefehler
+aText      Kontext ist bei zTYPE_DECIMAL erforderlich.
+
+eOverrideMsg 2
+aId        TZDME018
+aTitle     Eingabefehler
+aText      Kontext-Eingabestring ist leer.
+
+eOverrideMsg 2
+aId        TZDME019
+aTitle     Formatfehler
+aText      Internationales Zahlenformat ist nicht verfügbar.
+
+eOverrideMsg 2
+aId        TZDME020
+aTitle     Eingabefehler
+aText      Unzulässiger Dezimalwert!
+
+eOverrideMsg 2
+aId        TZDME021
+aTitle     Ausgabefehler
+aText      Ausgabebereich ist für formatierten String zu klein!
+
+eOverrideMsg 2
+aId        TZDME022
+aTitle     Eingabefehler
+aText      Keine Leerzeichen erlaubt!
+
+eOverrideMsg 2
+aId        TZDME023
+aTitle     Eingabefehler
+aText      Wert ist außerhalb des zulässigen Bereichs!

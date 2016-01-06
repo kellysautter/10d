@@ -1,0 +1,227 @@
+z10000Zeidon    TZSIOPRS TZOGSRCO 06/09/01   21:24:51 1.0b0    
+eGlobalOperationGroup 1
+aZKey      90004773
+aName      TZSIOPRS
+aDesc      Siron reusable operations
+aExtension C
+aLanguageType C
+aDomainAndGlobalOpGroupName TZSIOPRS
+
+eOperation 2
+aName      GetSironWorkObjPathName
+aZKey      90004774
+aDesc      Get directory of Siron import work objects
+aType      G
+aReturnDesc Return Code - 0 OK, -1 ERR
+aReturnDataType N
+
+eParameter 3
+aShortDesc Directory Path Name Returned
+aDataType  S
+aZKey      90004775
+
+eParameter 3
+aShortDesc Length of Directory Path Name String
+aDataType  L
+aZKey      90004776
+
+eOperation 2
+aName      SironCreateDataModel
+aZKey      91022474
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91022475
+
+eParameter 3
+aShortDesc vERD
+aDataType  V
+aPFlag     Y
+aUFlag     N
+aZKey      91022476
+
+eOperation 2
+aName      SearchSpecialCharacter
+aZKey      91002326
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc FieldName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91002327
+
+eParameter 3
+aShortDesc SpecChar
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      91002716
+
+eOperation 2
+aName      SetWSKInLod
+aZKey      91056525
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91056526
+
+eParameter 3
+aShortDesc AktView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91056527
+
+eParameter 3
+aShortDesc Filename
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91056528
+
+eOperation 2
+aName      LoadSironDLLs
+aZKey      91021055
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91021076
+
+eOperation 2
+aName      FreeHZVAFFZ
+aZKey      91020983
+aType      G
+aReturnDataType N
+
+eOperation 2
+aName      BuildWSK
+aZKey      91020918
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91020919
+
+eParameter 3
+aShortDesc AktView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91052142
+
+eParameter 3
+aShortDesc ServerName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91051446
+
+eParameter 3
+aShortDesc CatFile
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91021005
+
+eParameter 3
+aShortDesc CatalogName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91020921
+
+eParameter 3
+aShortDesc Filename
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      91021188
+
+eOperation 2
+aName      GetAllCatalogNames
+aZKey      91020853
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91020854
+
+eParameter 3
+aShortDesc vAktView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91020855
+
+eOperation 2
+aName      GetAllServerNames
+aZKey      91020433
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91020434
+
+eParameter 3
+aShortDesc vAktView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91020435
+
+eOperation 2
+aName      CreateSironWorkObjectList
+aZKey      90004777
+aDesc      Get directory of Siron import work objects
+aType      G
+aReturnDesc Return Code - 0 OK, -1 ERR
+aReturnDataType N
+
+eParameter 3
+aShortDesc Direcory Path for Siron work objects
+aDataType  S
+aZKey      90004778
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aZKey      90017721
+
+eZ_MetaDef 2
+aName      TZSIOPRS
+aZKey      90004773
+aType      14
+aLastUpdateDate 19950922140934000
+aLastCheckInDate 19951102203051110
+aDesc      Siron reusable operations
+

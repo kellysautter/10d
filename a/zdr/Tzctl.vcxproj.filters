@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{11c14160-f800-42b4-981a-39bb97a8feb2}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{b0c76cd2-6134-4a63-aea2-0c8ddb174dac}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;inl;fi;fd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{ee67c1cc-3a73-4de6-9070-9cee4d1632d7}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;cnt;rtf;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TzCtl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlATX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlCVT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlERD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlERE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlERL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlERV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlOPR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlPTB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlPTC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlPTE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlPTM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlPTR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlPTS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlPTU.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlPTX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlTAB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TzCtlTBE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TzCtl.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TzCtl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bmpctl.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="calendar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="check.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="combo.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ctrlbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DayTimer.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="dil.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="edit.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="editgrp.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="graph.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="group.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="grp.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="grpset.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="hierdgrm.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="icon.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="list.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="mle.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="outliner.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="palette.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="push.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="radio.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="shape.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ss.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="tab.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="text.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="timer.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="TzCtl.def">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

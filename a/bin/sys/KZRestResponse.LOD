@@ -1,0 +1,88 @@
+z1000-Zeidon    KZRESTRESTZZOLODO 03/30/14   16:29:55 1.0a2    
+eLOD       1
+aZKey      110001928
+aName      KZRestResponse
+aDesc      Object used to return activate/commit response by the JOE REST server.
+
+eLOD_EntityParent 2
+aName      RestResponse
+aIndentName RestResponse
+aIndentLvl 0
+aZKey      110001929
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 3
+aZKey      110001930
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      ReturnCode
+aZKey      110001931
+aNotNull   Y
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      110001932
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      ErrorMessage
+aZKey      110001933
+aLth       100000
+
+eDomainRec 5
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+i8         1
+i9         2
+i10        3
+i11        4
+i12        5
+i13        6
+i14        7

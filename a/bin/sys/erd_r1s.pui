@@ -1,0 +1,1183 @@
+rZeidon    ERD_R1S  TZADCSDO 10/14/96   09:23:25 1.0a     
+eUI_Spec   1,198
+aZKey      90181893
+aName      ERD_R1S
+aHeaderTitle New Page Header
+aHeaderFontSize 20
+aHeaderBoldFlag Y
+aHeaderItalicFlag Y
+aHeaderPageNoFlag Y
+aLevelIndentation 3
+
+eUIS_Entity 2,198
+aZKey      90181894
+aListTypeFlag L
+aReportOrientationFlag V
+aAutodesignCaseType R
+aRootIndicator Y
+aHeaderText E/R MODEL
+aFontSize  18
+aBoldFlag  Y
+aHeaderFontSize 20
+aHeaderBoldFlag Y
+
+eLOD_Entity 3,224
+aName      EntpER_Model
+aIndentName EntpER_Model
+aIndentLvl 0
+aZKey      1326618
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eER_Entity 4,198
+aName      EntpER_Model
+aZKey      1320831
+aPurpose   F
+aDesc      THE Complete Model for the Organization
+aOwningArea ER
+aER_DiagramPosX 68
+aER_DiagramPosY 168
+
+eUIS_ChildEntity 3,198
+aZKey      90181896
+aListTypeFlag L
+aReportOrientationFlag V
+aAutodesignCaseType R
+aHeaderText ENTITY
+aForceHeaderPerEntity Y
+aFontSize  16
+aHeaderFontSize 18
+aHeaderBoldFlag Y
+
+eLOD_Entity 4,224
+aName      ER_Entity
+aIndentName    ER_Entity
+aIndentLvl 3
+aZKey      1326619
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     1
+
+eER_Entity 5,198
+aName      ER_Entity
+aZKey      1320860
+aPurpose   F
+aDesc      ER Entities
+aOwningArea ER
+aER_DiagramPosX 156
+aER_DiagramPosY 194
+
+eUIS_ChildEntity 4,198
+aZKey      90181898
+aListTypeFlag L
+aReportOrientationFlag H
+aAutodesignCaseType R
+aHeaderText ATTRIBUTES
+aFontSize  16
+aHeaderFontSize 18
+aHeaderBoldFlag Y
+
+eLOD_Entity 5,224
+aName      ER_Attribute
+aIndentName       ER_Attribute
+aIndentLvl 6
+aZKey      1326620
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     1
+
+eER_Entity 6,198
+aName      ER_Attribute
+aZKey      1320837
+aPurpose   A
+aDesc      Attributes of an ER Entity
+aOwningArea ER
+aER_DiagramPosX 220
+aER_DiagramPosY 262
+
+eUIS_ChildEntity 5,198
+aZKey      90181900
+aAutodesignCaseType N
+
+eLOD_Entity 6,224
+aName      Domain
+aIndentName          Domain
+aIndentLvl 9
+aZKey      1326621
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance Y
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     1
+
+eER_Entity 7,198
+aName      Domain
+aZKey      1320820
+aPurpose   F
+aDesc      Domain for validation and formatting
+aOwningArea DM
+aER_DiagramPosX 14
+aER_DiagramPosY 364
+
+eWndDesign 6,198
+aZKey      90181901
+
+eUIS_ChildEntity 5,198
+aZKey      90181902
+aAutodesignCaseType N
+
+eLOD_Entity 6,224
+aName      ER_FactTypeForDelete
+aIndentName          ER_FactTypeForDelete
+aIndentLvl 9
+aZKey      90001503
+aCreate    N
+aDelete    Y
+aUpdate    N
+aInclude   N
+aInclSrc   N
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Exists for auto delete when attribute is deleted
+aSeqNo     2
+
+eER_Entity 7,198
+aName      ER_FactType
+aZKey      1320870
+aPurpose   F
+aDesc      SuperType of ER_Attribute and ER_RelLink
+aOwningArea ER
+aER_DiagramPosX 190
+aER_DiagramPosY 244
+
+eWndDesign 6,198
+aZKey      90181903
+
+eWndDesign 5,198
+aZKey      90181899
+
+eM_LOD_Attribute 5,224
+aZKey      1326633
+aWork      N
+aUpdate    Y
+aSeqPriority 1
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      Name
+aZKey      1320838
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Name
+aListPaintLit Name
+aCaseSens  Y
+
+eM_Domain  7,224
+aZKey      90000036
+aName      QSNameLJNS
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name - left justified, no spaces
+aContextRestriction N
+
+eM_LOD_Attribute 5,224
+aZKey      1326635
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      Lth
+aZKey      1320840
+aLth       4
+aNotNull   N
+aDesc      Converted from 6B
+aPromptPaintLit Length
+aListPaintLit Length
+
+eM_Domain  7,224
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots
+aContextRestriction N
+
+eM_LOD_Attribute 5,224
+aZKey      90025258
+aUpdate    Y
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      Name
+aZKey      1320822
+aLth       32
+aNotNull   Y
+aDesc      The name used to reference this domain
+
+eM_Domain  7,224
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eM_LOD_Attribute 5,224
+aZKey      90025261
+aUpdate    Y
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      DataType
+aZKey      1320825
+aLth       1
+aNotNull   Y
+aDesc      Internal data type stored (ie., string, date, decimal, integer)
+
+eM_Domain  7,224
+aZKey      1319867
+aName      DataTypeDomain
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Zeidon domain datatypes ( logical )  supported by Core
+aContextRestriction N
+
+eM_LOD_Attribute 5,224
+aZKey      90025262
+aUpdate    Y
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      MaxStringLth
+aZKey      1320826
+aLth       4
+aDesc      Maximum length of any attribute for this string domain
+
+eM_Domain  7,160
+
+eUIS_ChildEntity 4,198
+aZKey      90181904
+aListTypeFlag L
+aReportOrientationFlag H
+aAutodesignCaseType R
+aHeaderText RELATIONSHIPS
+aFontSize  16
+aHeaderFontSize 18
+aHeaderBoldFlag Y
+
+eLOD_Entity 5,228
+aName      ER_RelLink
+aIndentName       ER_RelLink
+aIndentLvl 6
+aZKey      1326649
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance Y
+aRelLinkIndicator L
+aSeqNo     2
+
+eER_Entity 6,198
+aName      ER_RelLink
+aZKey      1320874
+aPurpose   A
+aDesc      Contains info for the Relationship-link in the ER Model.
+aOwningArea ER
+aER_DiagramPosX 178
+aER_DiagramPosY 220
+
+eUIS_ChildEntity 5,198
+aZKey      90181906
+aAutodesignCaseType N
+
+eLOD_Entity 6,224
+aName      ER_RelType_1
+aIndentName          ER_RelType_1
+aIndentLvl 9
+aZKey      1326650
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     1
+
+eER_Entity 7,198
+aName      ER_RelType
+aZKey      1320882
+aPurpose   S
+aDesc      Relationship-types in the ER Model.
+aOwningArea ER
+aER_DiagramPosX 106
+aER_DiagramPosY 224
+
+eUIS_ChildEntity 6,198
+aZKey      90181908
+aAutodesignCaseType N
+
+eLOD_Entity 7,224
+aName      ER_RelLink_Other
+aIndentName             ER_RelLink_Other
+aIndentLvl 12
+aZKey      1326651
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   Y
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     1
+
+eER_Entity 8,134
+
+eUIS_ChildEntity 7,198
+aZKey      90181910
+aAutodesignCaseType N
+
+eLOD_Entity 8,224
+aName      ER_Entity_Other
+aIndentName                ER_Entity_Other
+aIndentLvl 15
+aZKey      1326652
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     1
+
+eER_Entity 9,134
+
+eWndDesign 8,198
+aZKey      90181911
+
+eWndDesign 7,198
+aZKey      90181909
+aUsageStyle U
+
+eM_LOD_Attribute 7,224
+aZKey      1326660
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 8,128
+
+eM_ER_Attribute 8,198
+aName      Name
+aZKey      1320875
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Name
+aListPaintLit Name
+
+eM_Domain  9,224
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eM_LOD_Attribute 7,224
+aZKey      1326661
+aWork      N
+aUpdate    Y
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 8,128
+
+eM_ER_Attribute 8,198
+aName      ZKey
+aZKey      1320876
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  9,160
+
+eM_LOD_Attribute 7,224
+aZKey      1326662
+aWork      N
+aUpdate    Y
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 8,128
+
+eM_ER_Attribute 8,198
+aName      CardMin
+aZKey      1320877
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Min Cardinality
+aListPaintLit Min Cardinality
+
+eM_Domain  9,230
+aZKey      90121803
+aName      ERD_MinCardinality
+aDomainType F
+aDataType  S
+aMaxStringLth 8
+aDesc      Minimum Cardinality for a relationship - Integer
+
+eM_LOD_Attribute 7,224
+aZKey      1326663
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 8,128
+
+eM_ER_Attribute 8,198
+aName      CardMax
+aZKey      1320878
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Max Cardinality
+aListPaintLit Max Cardinality
+
+eM_Domain  9,230
+aZKey      90055891
+aName      ERD_MaxCardinality
+aDomainType A
+aDataType  S
+aMaxStringLth 8
+aDesc      Maximum Cardinality for a relationship - m, M or integer
+
+eM_LOD_Attribute 7,224
+aZKey      1326664
+aUpdate    Y
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 8,128
+
+eM_ER_Attribute 8,198
+aName      SystemMaintainedSeq
+aZKey      1320879
+
+eM_Domain  9,160
+
+eWndDesign 6,198
+aZKey      90181907
+
+eWndDesign 5,198
+aZKey      90181905
+
+eM_LOD_Attribute 5,224
+aZKey      1326673
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6,132
+
+eM_ER_Attribute 6,134
+
+eM_Domain  7,160
+
+eM_LOD_Attribute 5,224
+aZKey      1326675
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6,132
+
+eM_ER_Attribute 6,134
+
+eM_Domain  7,166
+
+eM_LOD_Attribute 5,224
+aZKey      1326676
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 6,132
+
+eM_ER_Attribute 6,134
+
+eM_Domain  7,166
+
+eM_LOD_Attribute 5,224
+aZKey      1326653
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      Name
+aZKey      1320861
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Name
+aListPaintLit Name
+
+eM_Domain  7,160
+
+eUIS_ChildEntity 4,198
+aZKey      90181912
+aAutodesignCaseType N
+
+eLOD_Entity 5,224
+aName      ER_EntIdentifier
+aIndentName       ER_EntIdentifier
+aIndentLvl 6
+aZKey      1326678
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     3
+
+eER_Entity 6,198
+aName      ER_EntIdentifier
+aZKey      1320852
+aPurpose   A
+aDesc      Defines the facts that uniquely identifies an ER Entity
+aOwningArea ER
+aER_DiagramPosX 246
+aER_DiagramPosY 244
+
+eUIS_ChildEntity 5,198
+aZKey      90181914
+aAutodesignCaseType N
+
+eLOD_Entity 6,224
+aName      ER_FactType
+aIndentName          ER_FactType
+aIndentLvl 9
+aZKey      1326679
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     1
+
+eER_Entity 7,134
+
+eUIS_ChildEntity 6,198
+aZKey      90181916
+aAutodesignCaseType N
+
+eLOD_Entity 7,224
+aName      ER_AttributeIdentifier
+aIndentName             ER_AttributeIdentifier
+aIndentLvl 12
+aZKey      1326680
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance Y
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     1
+
+eER_Entity 8,134
+
+eWndDesign 7,198
+aZKey      90181917
+
+eUIS_ChildEntity 6,198
+aZKey      90181918
+aAutodesignCaseType N
+
+eLOD_Entity 7,224
+aName      ER_RelLinkIdentifier
+aIndentName             ER_RelLinkIdentifier
+aIndentLvl 12
+aZKey      1326693
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance Y
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     2
+
+eER_Entity 8,134
+
+eUIS_ChildEntity 7,198
+aZKey      90181920
+aAutodesignCaseType N
+
+eLOD_Entity 8,224
+aName      ER_Entity_Other_Identifier
+aIndentName                ER_Entity_Other_Identifier
+aIndentLvl 15
+aZKey      1326694
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance Y
+aRelLinkIndicator H
+aSeqNo     1
+
+eER_Entity 9,134
+
+eWndDesign 8,198
+aZKey      90181921
+
+eWndDesign 7,198
+aZKey      90181919
+
+eWndDesign 6,198
+aZKey      90181915
+
+eWndDesign 5,198
+aZKey      90181913
+
+eUIS_ChildEntity 4,198
+aZKey      90181922
+aAutodesignCaseType N
+
+eLOD_Entity 5,224
+aName      EntOwningSA
+aIndentName       EntOwningSA
+aIndentLvl 6
+aZKey      1326713
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   N
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     4
+
+eER_Entity 6,198
+aName      SubjectArea
+aZKey      1321296
+aPurpose   F
+aDesc      Grouping of Entities and Relationships
+aOwningArea ER
+aER_DiagramPosX 106
+aER_DiagramPosY 146
+
+eWndDesign 5,198
+aZKey      90181923
+
+eWndDesign 4,198
+aZKey      90181897
+
+eM_LOD_Attribute 4,224
+aZKey      1326718
+aWork      N
+aUpdate    Y
+aSeqPriority 1
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 5,128
+
+eM_ER_Attribute 5,134
+
+eM_Domain  6,160
+
+eM_LOD_Attribute 4,224
+aZKey      1326720
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 5,128
+
+eM_ER_Attribute 5,198
+aName      Purpose
+aZKey      1320863
+aLth       12
+aNotNull   N
+aDesc      Converted from 6B
+aPromptPaintLit Purpose
+aListPaintLit Purpose
+
+eM_Domain  6,224
+aZKey      1320129
+aName      ER_EntityPurpose
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Purpose of Entity in ER
+
+eUIS_ChildEntity 3,198
+aZKey      90181924
+aAutodesignCaseType N
+
+eLOD_Entity 4,224
+aName      ER_RelType
+aIndentName    ER_RelType
+aIndentLvl 3
+aZKey      1326725
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     2
+
+eER_Entity 5,134
+
+eUIS_ChildEntity 4,198
+aZKey      90181926
+aListTypeFlag L
+aReportOrientationFlag H
+aAutodesignCaseType N
+
+eLOD_Entity 5,224
+aName      ER_RelLink_2
+aIndentName       ER_RelLink_2
+aIndentLvl 6
+aZKey      1326726
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     1
+
+eER_Entity 6,134
+
+eUIS_ChildEntity 5,198
+aZKey      90181928
+aAutodesignCaseType N
+
+eLOD_Entity 6,224
+aName      ER_Entity_2
+aIndentName          ER_Entity_2
+aIndentLvl 9
+aZKey      1326727
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance Y
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     1
+
+eER_Entity 7,134
+
+eWndDesign 6,198
+aZKey      90181929
+
+eWndDesign 5,198
+aZKey      90181927
+aUsageStyle U
+aUpdateDeleteAction Y
+aListDeleteAction Y
+aListCreateAction Y
+
+eUIS_ChildEntity 4,198
+aZKey      90181930
+aAutodesignCaseType N
+
+eLOD_Entity 5,224
+aName      RelOwningSA
+aIndentName       RelOwningSA
+aIndentLvl 6
+aZKey      1326740
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   N
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     2
+
+eER_Entity 6,134
+
+eWndDesign 5,198
+aZKey      90181931
+aUsageStyle D
+
+eM_LOD_Attribute 5,224
+aZKey      1326741
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      Name
+aZKey      1321297
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Project Model Name
+aListPaintLit Project Model Name
+
+eM_Domain  7,160
+
+eM_LOD_Attribute 5,224
+aZKey      1326742
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      ZKey
+aZKey      1321298
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  7,160
+
+eM_LOD_Attribute 5,224
+aZKey      1326743
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      Desc
+aZKey      1321299
+aDesc      Converted from 6B
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eM_Domain  7,224
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+
+eM_LOD_Attribute 5,224
+aZKey      1326744
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 6,128
+
+eM_ER_Attribute 6,198
+aName      UpdateAuth
+aZKey      1321300
+aDesc      Subject area can create Entities and Rels in the Model
+
+eM_Domain  7,224
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eWndDesign 4,198
+aZKey      90181925
+
+eUIS_ChildEntity 3,198
+aZKey      90181932
+aAutodesignCaseType N
+
+eLOD_Entity 4,224
+aName      Z_MetaDef
+aIndentName    Z_MetaDef
+aIndentLvl 3
+aZKey      1326753
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     3
+
+eER_Entity 5,198
+aName      Z_MetaDef
+aZKey      1321859
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 390
+aER_DiagramPosY 158
+
+eWndDesign 4,198
+aZKey      90181933
+
+eWndDesign 3,198
+aZKey      90181895
+aUsageStyle U
+aUpdateDeleteAction Y
+aListDeleteAction Y
+aListCreateAction Y
+
+eM_LOD_Attribute 3,224
+aZKey      1326760
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 4,128
+
+eM_ER_Attribute 4,198
+aName      Name
+aZKey      1320832
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Enterprise Model Name
+aListPaintLit Enterprise Model Name
+
+eM_Domain  5,160
+
+eUIS_ViewObjRef 2,224
+aZKey      1334121
+aName      TZEREMDO
+
+eUIS_LOD   3,192
+aZKey      1326595
+aName      TZEREMDO
+aDesc      Enterprise Model ER Information
+aDLL_Name  TZLODOPR
+
+i20        8
+i24        8
+i28        11
+i32        11
+i36        11
+i38        26
+i47        41
+i50        6
+i54        46
+i58        46
+i60        26
+i62        46
+i66        46
+i70        46
+i72        26
+i76        40
+i77        55
+i78        56
+i80        40
+i81        63
+i82        64
+i84        40
+i85        67
+i86        68
+i88        49
+i90        56
+i96        16
+i99        9
+i103       41
+i106       6
+i117       5
+i118       89
+i119       56
+i121       5
+i126       44
+i129       41
+i132       6
+i137       113
+i140       136
+i142       56
+i144       136
+i146       26
+i148       136
+i152       136
+i162       2
+i164       56

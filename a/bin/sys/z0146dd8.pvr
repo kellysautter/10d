@@ -1,0 +1,20 @@
+z010--Zeidon    Z0146DD8 TZWDVORO 11/06/96   11:46:53 1.0a     
+eViewObjRef 1,192
+aZKey      1338840
+aName      TZOLOBWO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1329043
+aName      TZOLOBWO
+aDesc      Outliner object - work
+aDLL_Name  TZOLOBWO
+
+eZ_MetaDef 2,192
+aName      TZOLOBWO
+aZKey      1338840
+aType      9
+aLastUpdateDate 19950824213718000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

@@ -1,0 +1,10 @@
+1. Alter the date in the zeidon.lyt file.
+2. Run disklay.bat (zeidon.lyt is processed to produce zeidon.inf) to
+   create c:\test and c:\comp directories.  Note that zeidon.lyt points
+   to the zeidon directories.  If the zeidon directories are changed,
+   zeidon.lyt must be changed to reflect the directory change.
+3. Copy the [Source Media Descriptions] entries from copy.inf to
+   zeidon.inf (the ones in copy.inf are complete ... the ones in
+   zeidon.inf are incomplete and incorrect.
+4. Run chginf.bat to create the zeidon?.bat files which are used to
+   copy the compressed zeidon files to their respective diskettes.

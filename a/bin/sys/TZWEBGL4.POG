@@ -1,0 +1,803 @@
+z1000-Zeidon    TZWEBGL4 TZOGSRCO 04/16/14   15:04:41 1.0a2    
+eGlobalOperationGroup 1
+aZKey      4896724
+aName      TZWEBGL4
+aDesc      JSP Generation operations for zeidon JAVA
+aExtension VML
+aLanguageType V
+aDomainAndGlobalOpGroupName TZWEB
+
+eOperation 2
+aName      BuildSideNavSectionJ
+aZKey      4896725
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896726
+
+eParameter 3
+aShortDesc vDialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896727
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896728
+
+eParameter 3
+aShortDesc ReusableMenu
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896729
+
+eParameter 3
+aShortDesc vDialogMenu
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896730
+
+eOperation 2
+aName      GenJSPJ_CrteMLEdit
+aZKey      130000067
+aDesc      JSP Java generation for MLE control
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      130000068
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130000069
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000070
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000071
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000072
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000073
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000074
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000075
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130000076
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130000077
+
+eParameter 3
+aShortDesc strRepeatGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000078
+
+eOperation 2
+aName      GenJSPJ_CrteListBox
+aZKey      4896913
+aType      G
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896914
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896915
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896916
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896917
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896918
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896919
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896920
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896921
+
+eOperation 2
+aName      GenJSPJ_CrteJPG
+aZKey      4896904
+aDesc      Not parsing correctly ... 2012.06.20  dks
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896905
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896906
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896907
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896908
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896909
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896910
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896911
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896912
+
+eOperation 2
+aName      GenJSPJ_CrteText
+aZKey      4896892
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896893
+
+eParameter 3
+aShortDesc vGroupParent
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896894
+
+eParameter 3
+aShortDesc vDialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896895
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896896
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896897
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896898
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896899
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896900
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896901
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896902
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896903
+
+eParameter 3
+aShortDesc szRepeatGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92714946
+
+eOperation 2
+aName      GenJSPJ_CrteEditBox
+aZKey      4896881
+aType      G
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896882
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896883
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896884
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896885
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896886
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896887
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896888
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896889
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896890
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896891
+
+eParameter 3
+aShortDesc strRepeatGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92711020
+
+eOperation 2
+aName      GenJSPJ_CrteGroupTable
+aZKey      4896872
+aType      G
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896873
+
+eParameter 3
+aShortDesc vGroupParent
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896874
+
+eParameter 3
+aShortDesc vDialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896875
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896876
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896877
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896878
+
+eParameter 3
+aShortDesc TableRowCnt
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896879
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896880
+
+eParameter 3
+aShortDesc szRepeatingGroupKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92711259
+
+eOperation 2
+aName      GenJSPJ_CrteCtrlsRadio
+aZKey      4896863
+aType      G
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896864
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896865
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896866
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896867
+
+eParameter 3
+aShortDesc RadioGroupName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896868
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896869
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896870
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896871
+
+eParameter 3
+aShortDesc strRepeatingGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92712349
+
+eOperation 2
+aName      GenJSPJ_CrteComboBox
+aZKey      4896853
+aType      G
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896854
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896855
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896856
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896857
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896858
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896859
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896860
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896861
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896862
+
+eParameter 3
+aShortDesc strRepeatingGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92711712
+
+eOperation 2
+aName      GenJSPJ_CrteCheckBox
+aZKey      4896842
+aType      G
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896843
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896844
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896845
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896846
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896847
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896848
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896849
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896850
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896851
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896852
+
+eParameter 3
+aShortDesc strRepeatingGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92712350
+
+eOperation 2
+aName      GenJSPJ_CrteCalendar
+aZKey      4896831
+aType      G
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896832
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896833
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896834
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896835
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896836
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896837
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896838
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896839
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896840
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896841
+
+eParameter 3
+aShortDesc szRepeatGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92712516
+

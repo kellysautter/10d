@@ -1,0 +1,113 @@
+z1000-Zeidon    TZADWEXP TZOGSRCO 01/30/13   09:53:24 1.0b0    
+eGlobalOperationGroup 1
+aZKey      92003072
+aName      TZADWEXP
+aExtension C
+aLanguageType C
+aDomainAndGlobalOpGroupName TZADWEXP
+
+eOperation 2
+aName      ADW_Exp_ReplaceHex
+aZKey      92003073
+aDesc      for ADW Exoprts only
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Target
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      92003074
+
+eParameter 3
+aShortDesc TargetLen
+aDataType  L
+aPFlag     N
+aUFlag     Y
+aZKey      92003075
+
+eParameter 3
+aShortDesc Search
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92003076
+
+eParameter 3
+aShortDesc Replace
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92003077
+
+eOperation 2
+aName      SetRptShapeFromBlob
+aZKey      92717751
+aDesc      This operation gets the Line Width and Border Style from the report Shape control CtrlBOI and puts them in attributes on Control that can be used in vml. Currently using this to help generate xslt for a report.
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc vReportDef
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      92717752
+
+eOperation 2
+aName      GetBorderLineWidth
+aZKey      92717672
+aDesc      This operation passes in lBorderStyle (which is received from CtrlBOI on the report text control) and passes back Line Width from within this. Currently using this to help generate xslt for a report.
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc lBorderStyle
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      92717673
+
+eParameter 3
+aShortDesc szWidth
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      92717674
+
+eOperation 2
+aName      ReplaceSpecialCharacter
+aZKey      92003125
+aDesc      for ADW Export only
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Target
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      92003126
+
+eParameter 3
+aShortDesc TargetLen
+aDataType  L
+aPFlag     N
+aUFlag     Y
+aZKey      92003127
+
+eParameter 3
+aShortDesc Search
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92003128
+
+eParameter 3
+aShortDesc Replace
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92003129
+

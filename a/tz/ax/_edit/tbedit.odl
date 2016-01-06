@@ -1,0 +1,145 @@
+// TBEdit.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (TBEdit.tlb) that will become a resource in
+// TBEdit.ocx.
+
+/*
+**----------------------------------------------------------------------
+**
+** .Version:       01B
+**
+** .Aenderung:     15.03.2000
+**
+** .Beschreibung:  Beschreibung des TBEdit interface
+**
+**----------------------------------------------------------------------
+** .Aenderungsvermerke:
+**
+** 01A  =  Neuerstellung
+**         (18.05.1998)  SL
+** 01B  =  Neue Funktion eingefügt
+**         SelectRange
+**         (2000.03.15)  TMV
+** 01C  =  Neue Funktion eingefügt
+**         GetTextFromRange
+**         (2000.07.20)  TMV
+**----------------------------------------------------------------------
+*/
+
+
+[ uuid(DEA843D2-DAA2-11D1-95B2-0060973B3B55), version(1.0),
+  helpfile("TBEdit.hlp"),
+  helpstring("TBEdit ActiveX Control module"),
+  control ]
+library TBEDITLib
+{
+#include <olectl.h>
+#include <idispids.h>
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for CTBEditor
+
+	[ uuid(DEA843D3-DAA2-11D1-95B2-0060973B3B55),
+	  helpstring("Dispatch interface for TBEdit Control"), hidden ]
+	dispinterface _DTBEdit
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CTBEditor)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CTBEditor)
+			[id(1)] boolean OpenObject(BSTR* FileName);
+			[id(2)] boolean CloseObject();
+			[id(3)] long DeleteText();
+			[id(4)] long CutText();
+			[id(5)] long CopyText();
+			[id(6)] long PasteText();
+			[id(7)] void SyntaxOff();
+			[id(8)] void SironSyntaxOn();
+			[id(9)] void ZeidonSyntaxOn();
+			[id(10)] boolean PropertyDialog();
+			[id(11)] void GetCursorPosition(long* lLinie, long* lSpalte, long* lIndex);
+			[id(12)] void GetLineCount(long* lZeilen);
+			[id(13)] long InsertItem(BSTR* pDaten);
+			[id(14)] void IsObjectChanged(boolean* bChanged);
+			[id(15)] void PrintObject();
+			[id(16)] void ReadOnlyModus(boolean bReadOnly);
+			[id(17)] boolean SaveObject();
+			[id(18)] boolean SaveObjectAs(BSTR* pFileName);
+			[id(19)] boolean SelectItem(long lZeile, BSTR* pDaten);
+			[id(20)] void SetCursorPositionByIndex(long lIndex);
+			[id(21)] void SetCursorPositionByLine(long lZeile, long lSpalte);
+			[id(22)] boolean Undo();
+			[id(23)] boolean Redo();
+			[id(24)] boolean TempSaveObject(BSTR* pTempName);
+			[id(25)] long FindTextPosition(BSTR* pSearchString, long* lTextPosition, long lOptions);
+			[id(26)] long GetActualTextLine(BSTR* pBuffer, long lLength);
+			[id(27)] boolean IsReadOnly();
+			[id(28)] boolean IsSubWindowActive();
+			[id(29)] void WantKeystrokes(boolean bWantKeys);
+			[id(30)] boolean DeleteTextRange(long lStartIndex, long lEndIndex);
+			[id(31)] boolean CloseSubWindow();
+			[id(32)] void SearchForward();
+			[id(33)] void SearchBackward();
+			[id(34)] void Deselect();
+			[id(35)] long GetTextFromLineOfIndex(BSTR* pBuffer, long lLength, long lIndex);
+			[id(36)] long SetSironLanguage(long lLanguage);
+			[id(37)] void GetPositionByIndex(long lIndexParam, long* lLine, long* lCol);
+   		[id(38)] boolean IsCommentAtIndex(long lIndex);
+   		[id(39)] void SearchWindow();
+   		[id(40)] void ReplaceWindow();
+   		[id(41)] void SelectAll();
+   		[id(42)] boolean GotoWindow();
+   		[id(43)] boolean CanCopy();
+   		[id(44)] boolean CanPaste();
+   		[id(45)] boolean CanUndo();
+   		[id(46)] boolean CanRedo();
+   		[id(47)] boolean SelectRange(long lIndex, long lLength );
+			[id(48)] long GetTextFromRange(BSTR* pBuffer, long lStart, long lEnd);
+			[id(49)] long GetObjectName( BSTR* pBuffer );
+			[id(50)] long GetSelectedText( BSTR* pBuffer, long lLength );
+			//}}AFX_ODL_METHOD
+	};
+
+	//  Event dispatch interface for CTBEditor
+
+	[ uuid(DEA843D4-DAA2-11D1-95B2-0060973B3B55),
+	  helpstring("Event interface for TBEdit Control") ]
+	dispinterface _DTBEditEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CTBEditor)
+			[id(1)] void SetInsertMode();
+			[id(2)] void RightMouseClick(BSTR* pName);
+			[id(3)] void SetLine(long lZeile, long lSpalte);
+			[id(4)] void SetOverwriteMode();
+			[id(5)] void Keystroke(short sKey, boolean*);
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CTBEditor
+
+	[ uuid(DEA843D5-DAA2-11D1-95B2-0060973B3B55),
+	  helpstring("TBEdit Control"), control ]
+	coclass TBEdit
+	{
+		[default] dispinterface _DTBEdit;
+		[default, source] dispinterface _DTBEditEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

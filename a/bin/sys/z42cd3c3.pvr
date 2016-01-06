@@ -1,0 +1,12 @@
+z1000-Zeidon    Z42CD3C3 TZWDVORO 01/02/13   13:44:37 1.0a2    
+eViewObjRef 1
+aZKey      70046659
+aName      TZOPENRPT
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      90145850
+aName      TZRPSRCO
+aDesc      Report Definition
+aDLL_Name  tzrpsrco
+

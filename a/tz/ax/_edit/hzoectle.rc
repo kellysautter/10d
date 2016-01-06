@@ -1,0 +1,196 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "hzoectlr.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "hzoectlr.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "1 TYPELIB ""tbedit.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "Ton Beller AG\0"
+            VALUE "FileDescription", "TBEditor ActiveX Control\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "TBEDIT\0"
+            VALUE "LegalCopyright", "Copyright (C) 1998\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "TBEDIT.OCX\0"
+            VALUE "ProductName", "TBEditor ActiveX Control\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "OLESelfRegister", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_TBEDIT              BITMAP  DISCARDABLE     "hzoectl.bmp"
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PROPERTY DIALOG DISCARDABLE  0, 0, 206, 123
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Editor Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Save",IDOK,34,102,50,14
+    PUSHBUTTON      "",IDC_BACKGROUND,62,19,50,14
+    PUSHBUTTON      "",IDC_FOREGROUND,62,38,50,14
+    PUSHBUTTON      "",IDC_KEYWORDS,62,58,50,14
+    PUSHBUTTON      "",IDC_COMMENT,62,78,50,14
+    GROUPBOX        "Colors",IDC_STATIC,7,3,108,90
+    LTEXT           "Comments:",IDC_STATIC,14,81,42,8
+    LTEXT           "Keywords:",IDC_STATIC,15,61,41,8
+    LTEXT           "Foreground:",IDC_STATIC,14,41,41,8
+    LTEXT           "Background:",IDC_STATIC,14,22,40,8
+    PUSHBUTTON      "Cancel",IDCANCEL,150,102,50,14
+    PUSHBUTTON      "Apply",IDC_APPLY,92,102,50,14
+    PUSHBUTTON      "Font ...",IDC_FONT,124,53,50,14
+    LTEXT           "Tabstops:",IDC_STATIC,127,22,33,8
+    EDITTEXT        IDC_TABSTOP,166,18,24,14,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "",IDC_STATIC,122,3,77,34
+END
+
+IDD_GOTO DIALOG DISCARDABLE  0, 0, 178, 57
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Go to ..."
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,121,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,121,24,50,14
+    EDITTEXT        IDC_GOTO,59,24,40,14,ES_NUMBER
+    LTEXT           "Line:",IDC_STATIC,16,27,37,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_TBEDIT              "TBEdit Control"
+    IDS_TBEDIT_PPG          "TBEdit Property Page"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_TBEDIT_PPG_CAPTION  "General"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_MEMORY              "No more memory available."
+    IDS_SAVE                "Save file?"
+    IDS_CLOSE               "Cannot save file."
+    IDS_OPEN                "File open failed."
+    IDS_PRINT_FAIL          "An error occured while printing"
+    IDS_SEARCH              "The search text cannot be found."
+    IDS_REPLACE             "occurences replaced"
+    IDS_AUTOMATIC           "Automatic"
+    IDS_MORECOLOR           "More Colours..."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB ".\Debug\\tbedit.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

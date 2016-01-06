@@ -1,0 +1,11 @@
+rZeidon    Z55D677F TZWDVORO 08/26/96   11:10:56 1.0a     
+eViewObjRef 1,198
+aZKey      90007423
+aName      KZTRANWO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,230
+aZKey      90007406
+aName      KZTRANWO
+aDesc      Work object that will store transformation information when calling transformations across the network.
+

@@ -1,0 +1,18 @@
+rZeidon    Z0146F60 TZWDVORO 11/02/95   20:52:56 1.0a     
+eViewObjRef 1,192
+aZKey      1339232
+aName      TZCMLPLW
+
+eLOD       2,192
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZCMLPLW
+aZKey      1339232
+aType      9
+aLastUpdateDate 19950824213722000
+aLastCheckInDate 19951102203051110
+

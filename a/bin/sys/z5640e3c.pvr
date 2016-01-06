@@ -1,0 +1,14 @@
+z0100-Zeidon    Z5640E3C TZWDVORO 05/22/97   13:12:44 1.0a     
+eViewObjRef 1,198
+aZKey      90443324
+aName      TZVSRTOO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1327446
+aName      TZVSRTOO
+aDesc      VML Runtime Stack
+aFK_ZKEY   8388608
+aFK_ZKEY02 226492416
+aFK_ZKEY03 234815488
+

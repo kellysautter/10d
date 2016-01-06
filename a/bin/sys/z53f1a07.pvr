@@ -1,0 +1,12 @@
+rZeidon    Z53F1A07 TZWDVORO 11/03/95   11:45:30 1.0a     
+eViewObjRef 1,198
+aZKey      88021511
+aName      TZDGSRCO_NLS
+aDesc      View for NLS windows
+
+eLOD       2,230
+aZKey      1325025
+aName      TZDGSRCO
+aDesc      Domain Group source object
+aDLL_Name  TZLODOPR
+

@@ -1,0 +1,14 @@
+1. To Get Attach Report:
+
+   kzar z nz    // z is for zeidon, nz is for nozip.
+
+2. To Attach:
+   kza z
+
+3. To Attach Force (forces my changes up)
+   kzaf z
+
+4. To Detach, etc.
+   kzdr z nz
+   kzd  z nz
+   kzdf z nz

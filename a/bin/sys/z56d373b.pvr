@@ -1,0 +1,10 @@
+z0100-Zeidon    TEMP     TZWDVORO 10/14/97   11:13:34 1.0a     
+eViewObjRef 1,198
+aZKey      91043643
+aName      KZTRACEO
+
+eLOD       2,230
+aZKey      91043632
+aName      KZTRACEO
+aDesc      Object to transfer a trace from server to client
+

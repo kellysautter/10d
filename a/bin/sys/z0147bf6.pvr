@@ -1,0 +1,19 @@
+rZeidon    Z0147BF6 TZWDVORO 11/02/95   20:51:52 1.0a     
+eViewObjRef 1,192
+aZKey      1342454
+aName      TZSIWK1O
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1328469
+aName      TZSIWK1O
+aDesc      Intermediate work object for Siron Katalog to Zeidon import
+
+eZ_MetaDef 2,192
+aName      TZSIWK1O
+aZKey      1342454
+aType      9
+aLastUpdateDate 19950824213750000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

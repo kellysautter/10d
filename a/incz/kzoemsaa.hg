@@ -1,0 +1,523 @@
+/*
+CHANGE LOG
+
+2002.11.20  DGC
+   Added GenerateQualFromEntityList.
+
+2002.10.04  DGC
+   Added iStoreString/ValueInDerivedAttribute().
+
+2002.06.20  DGC
+   Added error messages.
+
+2001.12.06  DGC
+   Added ActivateOI_FromXML_File.
+
+2001.10.11  DGC  10b
+   Added code for GetViewFlags().
+
+2001.08.02  DGC
+   Changed text in error 129.
+
+2001.08.02  HH
+   added SubobjectVersionUpdated.
+
+2001.06.23  DGC  10b
+   Added SetBlobFromFile and WriteBlobToFile.
+   Added an error message.
+
+2001.04.18  DGC  10b
+   Added code for DropViewObject() logic.
+
+2001.04.06  DGC  10b
+   Added GetEntityKey().
+
+2001.01.23  DGC  10b
+   Fixed bug R53910 - During activate check to make sure the LOD has physical
+   information.  Changed the error message.
+
+2000.07.27  DGC 10b
+   Added IncludeSubobjectFromSubobjectEx.
+
+2000.07.10  DGC  10b
+   Added SfCheckOI_Integrity
+
+2000.06.30  DGC  10b
+   Removed error message (89).
+
+2000.04.05  DGC  10b
+   Added/changed a couple of error messages.
+
+2000.03.14  DGC  10b
+   Added iAddToViewCluster.
+
+1999.10.08  DGC  10a
+   Added SetViewFlags.
+
+1999.07.21  DGC  10a
+   Made changes for view cluster interface changes.
+
+1999.06.01  DGC  10a
+   Added GetAttributeFlags().
+   Added error message (89).
+
+1999.05.25  DGC  10a
+   Added stuff GetEntityNameForHierarchicalCsr().
+
+1999.05.07  DGC  10a
+   Added an error message.
+
+*/
+
+struct MsgTableStruct
+{
+   zSHORT nID;
+   zPCHAR szMsg;
+};
+
+// Base Object Engine Error Messages
+
+static const struct MsgTableStruct //HH 15.10.96
+ BaseMsgTable [] =
+ {
+   {1,"KZOEE001 - Error communicating with client window"},
+   {2,"KZOEE002 - ZEIDON environment variable not set"},
+   {3,"KZOEE003 - Error starting Object Services"},
+   {4,"KZOEE004 - Error communicating with Object Services"},
+   {5,"KZOEE005 - Error communicating with Object Services"},
+   {6,"KZOEE006 - Internal error freeing Anchor Block"},
+   {7,"KZOEE007 - Internal Anchor block error, system restart recommended"},
+   {8,"KZOEE008 - Application definition file missing ZEIDON_BIN or ZEIDON_SYS"},
+   {9,"KZOEE009 - Error opening application definition file"},
+  {10,"KZOEE010 - Requested application not found"},
+  {11,"KZOEE011 - Error opening application domains file"},
+  {12,"KZOEE012 - Error allocating memory"},
+  {13,"KZOEE013 - Internal operation call error"},
+  {14,"KZOEE014 - Invalid suballoc memory free - ID="},
+  {15,"KZOEE015 - Invalid suballoc memory free"},
+  {16,"KZOEE016 - Invalid Task"},
+  {17,"KZOEE017 - Task is Disabled"},
+  {18,"KZOEE018 - Error in Domain file, line: "},
+  {19,"KZOEE019 - Invalid GetTaskInfo request: "},
+  {20,"KZOEE020 - Invalid Operation call "},
+  {21,"KZOEE021 - Internal error, TaskOperation block has no Object/Entity/Attr"},
+  {22,"KZOEE022 - Error writing file"},
+  {23,"KZOEE023 - Invalid parameter, "},
+  {24,"KZOEE024 - Error opening file"},
+  {25,"KZOEE025 - Error in directory specification"},
+  {26,"KZOEE026 - Error creating directory"},
+
+// Errors in system services
+  {30,"KZOEE030 - Error loading library rc="},
+  {31,"KZOEE031 - Error locating Operation rc="},
+  {32,"KZOEE032 - Mutex name is invalid"},
+
+// beginning of application logic errors
+// Activate object errors
+  {50,"KZOEE050 - Error opening View Object file "},
+  {51,"KZOEE051 - Invalid View Object file header"},
+  {52,"KZOEE052 - Invalid Object file, Attrib w/o lth in defin prev to line "},
+  {53,"KZOEE053 - Invalid Entity level found on line "},
+  {54,"KZOEE054 - Invalid record found on line "},
+  {55,"KZOEE055 - Invalid file, LTH or TYPE before DOMAIN on line "},
+  {56,"KZOEE056 - Domain not found on line "},
+  {57,"KZOEE057 - Invalid file, LTH before type and DOMAIN on line "},
+  {58,"KZOEE058 - Invalid file, PERSIST after DOMAIN, TYPE or LTH on line "},
+  {59,"KZOEE059 - Invalid file, Invalid Attribute Token located on line "},
+  {60,"KZOEE060 - Invalid maximum root qualifier "},
+  {61,"KZOEE061 - Persistent Attribute mismatch on Token "},
+  {62,"KZOEE062 - Conflict between E/R Attribute Type and TE Field Type for: "},
+  {63,"KZOEE063 - Entity attrib RECURSIVE Y, but not structurally recursive "},
+  {64,"KZOEE064 - TYPE obsolete, use APDM_TOK "},
+  {65,"KZOEE065 - LTH only valid for Attribute w/type string line "},
+  {66,"KZOEE066 - Attribute length zero "},
+  {67,"KZOEE067 - Could not initialize the Core-MQ interface "},
+
+// Activate/Commit instance errors
+  {70,"KZOEE070 - Object instance is empty"},
+  {71,"KZOEE071 - Error opening instance file "},
+  {72,"KZOEE072 - Error reading instance file "},
+  {73,"KZOEE073 - Invalid instance file header"},
+  {74,"KZOEE074 - Invalid Entity name on line "},
+  {75,"KZOEE075 - Invalid Entity level on line "},
+  {76,"KZOEE076 - Object instance contains versioned entity instances"},
+  {77,"KZOEE077 - Invalid record size in binary object instance"},
+  {78,"KZOEE078 - Internal error, linked instance has no visible owner"},
+  {79,"KZOEE079 - Trying to commit a read-only view"},
+  {80,"KZOEE080 - Object Definition does not have a Database handler specified"},
+  {81,"KZOEE081 - Object Definition does not have a Genkey handler specified"},
+  {82,"KZOEE082 - Error starting Genkey handler"},
+  {83,"KZOEE083 - LOD does not have physical information.  Possibly the LOD was saved without DB information or the entities are work entities."},
+  {84,"KZOEE084 - Entity in Object Definition does not have Data Fields"},
+  {85,"KZOEE085 - Entity in Object Definition does not have Relationship Records"},
+  {86,"KZOEE086 - Trying to commit 0 views"},
+  {87,"KZOEE087 - Too many views in View array"},
+  {88,"KZOEE088 - Compressed OI is out of sync with LOD/XOD"},
+//{89,"KZOEE089 - This error number may be re-used"},
+  {90,"KZOEE090 - Maximum number of entities in portable file exceeded: "},
+  {91,"KZOEE091 - Maximum number of entities in binary file exceeded"},
+  {92,"KZOEE092 - Couldn't re-activate OI for optimistic lock check"},
+  {93,"KZOEE093 - Optimistic locking error -- OI has changed since it was activated"},
+  {94,"KZOEE094 - Locking violation"},
+  {95,"KZOEE095 - A recursive child was found that matches a parent.  This will cause an infinite loop in the recursive subobject.  See Trace for more."},
+  {96,"KZOEE096 - Error retrieving OI from blob."},
+
+// View, entity, and attribute validation errors
+ {100,"KZOEE100 - Invalid View, view is a Subtask View"},
+ {101,"KZOEE101 - Invalid View"},
+ {102,"KZOEE102 - Invalid View, view is hidden"},
+ {103,"KZOEE103 - Invalid Entity name for View"},
+ {104,"KZOEE104 - Invalid Attribute name for LOD/Entity/Attribute"},
+ {105,"KZOEE105 - Invalid scoping Entity name for View"},
+ {106,"KZOEE106 - Rules violation "},
+ {107,"KZOEE107 - Invalid Subtask View"},
+ {108,"KZOEE108 - Attempt to drop Subtask View"},
+ {109,"KZOEE109 - Invalid View, view contains no instance"},
+ {110,"KZOEE110 - Invalid level for View name"},
+ {111,"KZOEE111 - Attempt to set subtask view with a view from another task"},
+ {112,"KZOEE112 - Attempt to set subtask view attached to an application"},
+ {113,"KZOEE113 - Invalid View, view contains an instance"},
+ {114,"KZOEE114 - Source and Target entities do not match"},
+ {115,"KZOEE115 - Attempt to move an instance under one of its children"},
+ {116,"KZOEE116 - Attempt to include an instance created under a versioned parent"},
+ {117,"KZOEE117 - Entity Instance Keys do not match"},
+ {118,"KZOEE118 - Internal Key error relinking versioned Subobject"},
+ {119,"KZOEE119 - Invalid View, View is Read Only"},
+ // More at 450
+
+// Entity creation errors
+ {120,"KZOEE120 - Invalid position parameter"},
+ {121,"KZOEE121 - Attempt to insert twin to root of Instance"},
+ {122,"KZOEE122 - Attempt to create an Entity without a parent"},
+ {124,"KZOEE124 - Entity parent is included in another path containing same entity type"},
+ {125,"KZOEE125 - Target and Source Entities are not the same E/R Entity"},
+ {126,"KZOEE126 - Target or Source Entity is not Includeable"},
+ {127,"KZOEE127 - Source & target do not match on both Entity & Relationship."},
+ {128,"KZOEE128 - Target Entity cardinality max not 1 for inverted Subobject"},
+ {129,"KZOEE129 - Trying to create a relationship (via Include, possibly as part of a spawn) that already exists.  See trace for more."},
+ {131,"KZOEE131 - Attempt to include Subobject from another Application Task"},
+ {132,"KZOEE132 - Error establishing cursor for Subobject include"},
+ {134,"KZOEE134 - Attempt to version an Entity Instance versioned via a differen, path"},
+ {135,"KZOEE135 - Entity Instance not versioned"},
+ {136,"KZOEE136 - Entity Instance already versioned"},
+ {137,"KZOEE137 - Entity Instance descendent versioned"},
+ {138,"KZOEE138 - Attempt to include target entity with recursive behavior"},
+ {139,"KZOEE139 - Error establishing cursor for CreateEntity spawn"},
+ {140,"KZOEE140 - Target and source Object instance are the same instance"},
+ {141,"KZOEE141 - Attempt to include a subobject whose root is a Temporal Entity"},
+
+// *More* view, entity, and attribute validation errors
+ {190,"KZOEE190 - Error opening temporary file"},
+ {191,"KZOEE191 - Attribute must be a Blob or String for this operation."},
+
+// Attribute processing errors
+ {231,"KZOEE231 - Decimal attribute overflow (garbage)"},
+ {232,"KZOEE232 - Operation indicates use default context, none found"},
+ {233,"KZOEE233 - Could not locate derived library/operation"},
+ {234,"KZOEE234 - Attempt to add integer or decimal to invalid attribute type"},
+ {235,"KZOEE235 - Integer overflow"},
+ {236,"KZOEE236 - Integer underflow"},
+ {237,"KZOEE237 - Attempt to update a non-updateable attribute"},
+ {238,"KZOEE238 - Attempt to update a non-updateable persistent attribute"},
+ {239,"KZOEE239 - Invalid Operation for attribute type"},
+ {240,"KZOEE240 - Binary large object (Blob) exceeds passed length"},
+ {241,"KZOEE241 - Invalid Variable Type "},
+ {242,"KZOEE242 - Invalid Domain Entry Type"},
+ {243,"KZOEE243 - Context invalid for Domain"},
+ {244,"KZOEE244 - Attribute has no Domain"},
+ {245,"KZOEE245 - Null string not allowed for a required attribute"},
+ {246,"KZOEE246 - Invalid Attribute type "},
+ {247,"KZOEE247 - Blob Attribute does not match Target Entity Type"},
+ {248,"KZOEE248 - Required attribute is null"},
+
+// Cursor errors
+ {250,"KZOEE250 - Object instance is empty"},
+
+ {252,"KZOEE252 - Root of view has been deleted"},
+ {253,"KZOEE253 - Entity cursor is NULL"},
+ {254,"KZOEE254 - Entity cursor is undefined"},
+ {255,"KZOEE255 - Attempt to update a previous entity version"},
+ {256,"KZOEE256 - Entity is root of view"},
+ {257,"KZOEE257 - Version mismatch between scoping and target Entities"},
+ {258,"KZOEE258 - Scoping Entity cursor is undefined"},
+ {259,"KZOEE259 - Scoping Entity cursor is NULL"},
+ {263,"KZOEE263 - Input Qualifier cannot be converted to internal attribute data type"},
+ {264,"KZOEE264 - Invalid Operation for Hierarchical processing"},
+ {265,"KZOEE265 - Invalid Operation for non-Hierarchical processing"},
+ {266,"KZOEE266 - Invalid Operation for Hierarchical cursor position"},
+ {267,"KZOEE267 - Hierarchical cursor is undefined"},
+ {268,"KZOEE268 - Source and target entity types do not match"},
+ {269,"KZOEE269 - Invalid Select Set ID, ID="},
+
+// View creation errors
+ {270,"KZOEE270 - View name is already in use"},
+ {271,"KZOEE271 - Subobject Entity is root of View Object Definition"},
+ {272,"KZOEE272 - Subobject Parent Cursor is NULL"},
+ {273,"KZOEE273 - Parent Entity instance for View deleted"},
+ {274,"KZOEE274 - Target and Source views are different View Object types"},
+
+// Meta Inquiry errors
+
+ {300,"KZOEE300 - Problems finding a parent "},
+ {301,"KZOEE301 - Return buffer not large enough to contain concatenated keys"},
+ {302,"KZOEE302 - Invalid option"},
+
+// Message Object errors
+
+ {330,"KZOEE330 - Message Object Definition not loaded for Application"},
+
+// Domain processing errors (Table Handler)
+ {350,"KZOEE350 - Context Not Valid for Domain"},
+ {351,"KZOEE351 - Invalid Input Data Type"},
+ {352,"KZOEE352 - Text String exceeds attribute length "},
+ {353,"KZOEE353 - Attribute Type invalid for this Domain"},
+ {354,"KZOEE354 - Invalid Domain Entry Type "},
+ {355,"KZOEE355 - Table_Handler invalid for this Domain Type "},
+ {356,"KZOEE356 - Domain has an unnamed Context "},
+ {357,"KZOEE357 - Invalid Input Data"},
+ {358,"KZOEE358 - Value not in Context for Domain "},
+ {359,"KZOEE359 - Invalid Input Data Type for Domain Entry Type"},
+ {360,"KZOEE360 - Missing ending delimiter "},
+ {361,"KZOEE361 - Invalid data Format "},
+ {362,"KZOEE362 - Variable Type not allowed for this Domain Type "},
+ {363,"KZOEE363 - Context Edit string is invalid "},
+ {364,"KZOEE364 - Picture length exceeds input length "},
+
+// Network Errors
+ {400,"KZOEE400 - Error transmitting OI -- some lines lost."},
+ {401,"KZOEE401 - Invalid User Name."},
+ {402,"KZOEE402 - Invalid Password."},
+ {403,"KZOEE403 - Application not supported by Security Object."},
+ {404,"KZOEE404 - Can't find UserGroup."},
+ {405,"KZOEE405 - UserGroup doesn't have authority for operation."},
+
+ {450,"KZOEE450 - Name for view is too long"},
+ {451,"KZOEE451 - Include source task does not match target task"},
+
+ {9999,""}
+ };
+
+// Operation Names By Number
+
+static const struct MsgTableStruct
+ OperationMsgTable [] =
+ {
+// Operation literals
+ {iSfCreateSubtask,"SfCreateSubtask"},
+ {iSfDropSubtask,"SfDropSubtask"},
+ {iDisableTask,"DisableTask"},
+ {iEnableTask,"EnableTask"},
+ {iGetApplDirectoryFromView,"GetApplDirectoryFromView"},
+ {iSfGetApplicationForSubtask,"SfGetApplicationForSubtask"},
+ {iSfGetTaskInfo,"SfGetTaskInfo"},
+ {iSfActivateSysOI_FromFile,"SfActivateSysOI_FromFile"},
+ {iSfActivateSysEmptyOI,"SfActivateSysEmptyOI"},
+ {iActivateEmptyObjectInstance,"ActivateEmptyObjectInstance"},
+ {iActivateObjectInstance,"ActivateObjectInstance"},
+ {iActivateOI_FromFile,"ActivateOI_FromFile"},
+ {iActivateOI_FromXML_File,"ActivateOI_FromXML_File"},
+ {iCommitOI_ToXML_File,"CommitOI_ToXML_File"},
+ {iActivateOI_FromOI,"ActivateOI_FromOI"},
+ {iCommitObjectInstance,"CommitObjectInstance"},
+ {iCommitMultipleOIs,"CommitMultipleOIs"},
+ {iDropViewCluster,"DropViewCluster"},
+ {iAddToViewCluster,"AddToViewCluster"},
+ {iCommitOI_ToFile,"CommitOI_ToFile"},
+ {iDropObjectInstance,"DropObjectInstance"},
+ {iCheckExistenceOfEntity,"CheckExistenceOfEntity"},
+ {iCompareEntityToEntity,"CompareEntityToEntity"},
+ {iCreateEntity,"CreateEntity"},
+ {iGetEntityKey,"GetEntityKey"},
+ {iCreateTemporalEntity,"CreateTemporalEntity"},
+ {iCreateTemporalSubobjectVersion,"CreateTemporalSubobjectVersion"},
+ {iAcceptSubobject,"AcceptSubobject"},
+ {iAcceptAllTemporalSubobjects,"AcceptAllTemporalSubobjects"},
+ {iCancelSubobject,"CancelSubobject"},
+ {iCancelAllTemporalSubobjects,"CancelAllTemporalSubobjects"},
+ {iIncludeSubobjectFromSubobject,"IncludeSubobjectFromSubobject"},
+ {iIncludeSubobjectFromSubobjectEx,"IncludeSubobjectFromSubobjectEx"},
+ {iSubobjectVersionUpdated,"SubobjectVersionUpdated"},
+ {iDeleteEntity,"DeleteEntity"},
+ {iExcludeEntity,"ExcludeEntity"},
+ {iDropEntity,"DropEntity"},
+ {iMoveSubobject,"MoveSubobject"},
+ {iSetCursorNextEntity,"SetCursorNextEntity"},
+ {iSetCursorPrevEntity,"SetCursorPrevEntity"},
+ {iSetCursorFirstEntity,"SetCursorFirstEntity"},
+ {iSetCursorLastEntity,"SetCursorLastEntity"},
+ {iSetCursorFirstEntityByString,"SetCursorFirstEntityByString"},
+ {iSetCursorNextEntityByString,"SetCursorNextEntityByString"},
+ {iSetCursorFirstEntityByInteger,"SetCursorFirstEntityByInteger"},
+ {iSetCursorNextEntityByInteger,"SetCursorNextEntityByInteger"},
+ {iSetCursorFirstEntityByDecimal,"SetCursorFirstEntityByDecimal"},
+ {iSetCursorNextEntityByDecimal,"SetCursorNextEntityByDecimal"},
+ {iSetCursorFirstEntityByAttr,"SetCursorFirstEntityByAttr"},
+ {iSetCursorNextEntityByAttr,"SetCursorNextEntityByAttr"},
+ {iSetCursorFirstEntityByEntityCs,"SetCursorFirstEntityByEntityCsr"},
+ {iSetCursorNextEntityByEntityCsr,"SetCursorNextEntityByEntityCsr"},
+ {iSetCursorFirstSelectedEntity,"SetCursorFirstSelectedEntity"},
+ {iSetCursorNextSelectedEntity,"SetCursorNextSelectedEntity"},
+ {iSetCursorRelativeEntity,"SetCursorRelativeEntity"},
+ {iGetRelativeEntityNumber,"GetRelativeEntityNumber"},
+ {iDefineHierarchicalCursor,"DefineHierarchicalCursor"},
+ {iDropHierarchicalCursor,"DropHierarchicalCursor"},
+ {iSetCursorNextEntityHierarchica,"SetCursorNextEntityHierarchical"},
+ {iCreateViewFromView,"CreateViewFromView"},
+ {iSetViewFromView,"SetViewFromView"},
+ {iSetViewToSubobject,"SetViewToSubobject"},
+ {iResetViewFromSubobject,"ResetViewFromSubobject"},
+ {iSetNameForView,"SetNameForView"},
+ {iDropNameForView,"DropNameForView"},
+ {iGetViewByName,"GetViewByName"},
+ {iSetSubtaskView,"SetSubtaskView"},
+ {iGetNameForView,"GetNameForView"},
+ {iSfGetFirstSubtaskView,"SfGetFirstSubtaskView"},
+ {iSfGetNextSubtaskView,"SfGetNextSubtaskView"},
+ {iSfTransferView,"SfTransferView"},
+ {iSfLockView,"SfLockView"},
+ {iResetView,"ResetView"},
+ {iDropView,"DropView"},
+ {iSetViewReadOnly,"SetViewReadOnly"},
+ {iSetViewFlags,"SetViewFlags"},
+ {iGetViewFlags,"GetViewFlags"},
+ {iDropViewObject,"DropViewObject"},
+ {iGetAttributeFlags,"GetAttributeFlags"},
+ {iAttributeUpdated,"AttributeUpdated"},
+ {iGetStringFromAttribute,"GetStringFromAttribute"},
+ {iGetIntegerFromAttribute,"GetIntegerFromAttribute"},
+ {iGetDecimalFromAttribute,"GetDecimalFromAttribute"},
+ {iGetBlobFromAttribute,"GetBlobFromAttribute"},
+ {iGetStructFromEntityAttrs,"GetStructFromEntityAttrs"},
+ {iGetAddrForAttribute,"GetAddrForAttribute"},
+ {iGetVariableFromAttribute,"GetVariableFromAttribute"},
+ {iSetAttributeFromString,"SetAttributeFromString"},
+ {iSetAttributeFromInteger,"SetAttributeFromInteger"},
+ {iSetAttributeFromDecimal,"SetAttributeFromDecimal"},
+ {iSetAttributeFromBlob,"SetAttributeFromBlob"},
+ {iSetAttributeFromAttribute,"SetAttributeFromAttribute"},
+ {iSetAttributeFromCurrentDate,"SetAttributeFromCurrentDate"},
+ {iSetAttributeFromVariable,"SetAttributeFromVariable"},
+ {iSetAttributeValueNext,"SetAttributeValueNext"},
+ {iSetAttributeValuePrev,"SetAttributeValuePrev"},
+ {iSetBlobAttributeFromAttribute,"SetBlobAttributeFromAttribute"},
+ {iSetEntityAttributesFromBlob,"SetEntityAttributesFromBlob"},
+ {iSetBlobFromEntityAttributes,"SetBlobFromEntityAttributes"},
+ {iAddToAttributeFromInteger,"AddToAttributeFromInteger"},
+ {iAddToAttributeFromDecimal,"AddToAttributeFromDecimal"},
+ {iAddToAttributeFromAttribute,"AddToAttributeFromAttribute"},
+ {iAddToAttributeFromVariable,"AddToAttributeFromVariable"},
+ {iCompareAttributeToString,"CompareAttributeToString"},
+ {iCompareAttributeToInteger,"CompareAttributeToInteger"},
+ {iCompareAttributeToDecimal,"CompareAttributeToDecimal"},
+ {iCompareAttributeToAttribute,"CompareAttributeToAttribute"},
+ {iCompareAttributeToVariable,"CompareAttributeToVariable"},
+ {iGetAttributeLength,"GetAttributeLength"},
+ {iSetMatchingAttributesByName,"SetMatchingAttributesByName"},
+ {iGetFirstTableEntryForAttribute,"GetFirstTableEntryForAttribute"},
+ {iGetNextTableEntryForAttribute,"GetNextTableEntryForAttribute"},
+ {iDisplayEntityInstance,"DisplayEntityInstance"},
+ {iDisplayObjectInstance,"DisplayObjectInstance"},
+ {iDisplayCursorInfo,"DisplayCursorInfo"},
+ {iStoreValueInRecord,"StoreValueInRecord"},
+ {iStoreValueInDerivedAttribute,"StoreValueInDerivedAttribute"},
+ {iStoreValueInDerivedAttribute,"StoreValueInDerivedAttribute"},
+ {iTableEntryExtToInt,"TableEntryExtToInt"},
+ {iTableEntryIntToExt,"TableEntryIntToExt"},
+ {iTableEntryForInternalValue,"TableEntryForInternalValue"},
+ {iSetSelectSetForView,"SetSelectSetForView"},
+ {iGetSelectStateOfEntity,"GetSelectStateOfEntity"},
+ {iSetAllSelectStatesForEntity,"SetAllSelectStatesForEntity"},
+ {iSetSelectStateOfEntity,"SetSelectStateOfEntity"},
+ {iRelinkInstanceToInstance,"RelinkInstanceToInstance"},
+ {iRelinkAllSubobjectsForOI,"RelinkAllSubobjectsForOI"},
+ {iLoadEntity,"LoadEntity"},
+ {iObjectInstanceUpdated,"ObjectInstanceUpdated"},
+ {iObjectInstanceUpdatedFromFile,"ObjectInstanceUpdatedFromFile"},
+ {iGetValueFromRecord,"GetValueFromRecord"},
+ {iStoreStringInRecord,"StoreStringInRecord"},
+ {iGetStringFromRecord,"GetStringFromRecord"},
+ {iSetEntityCursor,"SetEntityCursor"},
+ {iGetAddrFromRecord,"GetAddrFromRecord"},
+ {iMiGetParentEntityNameForView,"MiGetParentEntityNameForView"},
+ {iGetTaskDBHandlerTraceLevel,"GetTaskDBHandlerTraceLevel"},
+ {iSetTaskDBHandlerTraceLevel,"SetTaskDBHandlerTraceLevel"},
+ {iGetAbsolutePositionForEntity,"GetAbsolutePositionForEntity"},
+ {iGetEntityNameForHierarchicalCsr,"GetEntityNameForHierarchicalCsr"},
+ {iSetCursorAbsolutePosition,"SetCursorAbsolutePosition"},
+ {iOrderEntityForView,"OrderEntityForView"},
+ {iCountEntitiesForView,"CountEntitiesForView"},
+ {iOrderOI_ByDefaultAttribs,"OrderOI_ByDefaultAttribs"},
+ {iOrderEntitiesByDefaultAttribs,"OrderEntitiesByDefaultAttribs"},
+ {iMiGetUpdateForViewEntityAttr,"MiGetUpdateForViewEntityAttr"},
+ {iMessageSend,"MessageSend"},
+ {iMessagePrompt,"MessagePrompt"},
+ {iMessagePromptForInput,"MessagePromptForInput"},
+ {iMessagePresent,"MessagePresent"},
+ {iMiGetTemporalStateOfEntity,"MiGetTemporalStateOfEntity"},
+ {iMiGetUpdateForView,"MiGetUpdateForView"},
+ {iMiGetInstanceID_ForView,"MiGetInstanceID_ForView"},
+ {iMiGetDateTimeForOI,"MiGetDateTimeForOI"},
+ {iMiGetERTokenForEntity,"MiGetERTokenForEntity"},
+ {iMiGetViewEntityForView,"MiGetViewEntityForView"},
+ {iUfAddToDateTime,"UfAddToDateTime"},
+ {iGetAttributeDisplayLength,"GetAttributeDisplayLength"},
+ {iMiGetCardinalityForEntity,"MiGetCardinalityForEntity"},
+ {iNetActivateOI,"NetActivateOI"},
+ {iNetClose,"NetClose"},
+ {iNetCommitOI,"NetCommitOI"},
+ {iNetGetTraceLevel,"NetGetTraceLevel"},
+ {iNetListen,"NetListen"},
+ {iNetStopListen,"NetStopListen"},
+ {iNetSetTraceLevel,"NetSetTraceLevel"},
+ {iNetStartup,"NetStartup"},
+ {iNetStatus,"NetStatus"},
+ {iNetProcessMessage,"NetProcessMessage"},
+ {iNetCommitOI_ToFile,"NetCommitOI_ToFile"},
+ {iNetActivateOI_FromFile,"NetActivateOI_FromFile"},
+ {iNetSendBootstrapFile,"NetSendBootstrapFile"},
+ {iNetCallOperation,"NetCallOperation"},
+ {iNetGetLocalHostAddress,"NetGetLocalHostAddress"},
+ {iNetSendFile,"NetSendFile"},
+ {iSetIncrementalUpdateFlags,"SetIncrementalUpdateFlags"},
+ {iGetIncrementalUpdateFlags,"GetIncrementalUpdateFlags"},
+ {iSetBlobFromFile,"SetBlobFromFile"},
+ {iWriteBlobToFile,"WriteBlobToFile"},
+ {iSfCheckOI_Integrity,"SfCheckOI_Integrity"},
+ {iGenerateQualFromEntityList, "GenerateQualFromEntityList"},
+ {iWriteOI_ToXML, "WriteOI_ToXML"},
+ {iWriteSubobjectToXML, "WriteSubobjectToXML"},
+ {iCommitSubobjectToXML_File, "CommitSubobjectToXML_File"},
+ {9999,""}
+ };
+
+// General Domain errors
+#if 0
+struct MsgTableStruct
+ DomainMsgTable [] =
+ {
+   {1,"TZDME001 - Invalid Input Data Type"},
+   {2,"TZDME002 - Text String exceeds attribute length "},
+   {3,"TZDME003 - Attribute Type invalid for this Domain"},
+   {4,"TZDME004 - Invalid Domain Entry Type "},
+   {5,"TZDME005 - Table_Handler invalid for this Domain "},
+   {6,"TZDME006 - Integer overflow"},
+   {7,"TZDME007 - Integer underflow"},
+   {8,"TZDME008 - Could not find context for Domain "},
+   {9,"TZDME009 - Context edit string is invalid for Domain "},
+  {10,"TZDME010 - DateTime input string invalid "},
+  {11,"TZDME011 - Error storing value in record "},
+  {12,"TZDME012 - Context Required when cType is zTYPE_INTEGER "},
+  {13,"TZDME013 - Context/cType Combination is invalid "},
+  {14,"TZDME014 - Context is for retrieval only "},
+  {15,"TZDME015 - Context only used for arithmetic operations "},
+  {16,"TZDME016 - Input invalid for context "},
+  {17,"TZDME017 - Context Required when cType is zTYPE_DECIMAL "},
+  {18,"TZDME018 - Context edit string is null "},
+  {19,"TZDME019 - International number formatting is not available "},
+  {20,"TZDME020 - Invalid decimal string "},
+  {21,"TZDME021 - Return area not large enough for formatted string "},
+  {22,"TZDME022 - AlphaNumeric and '_' are the only chars allowed "},
+  {99,"TZDME099 - Forgot this one! "},
+  {9999,""}
+ };
+#endif

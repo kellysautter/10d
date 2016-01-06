@@ -1,0 +1,18 @@
+z0100-Zeidon    TEMP     TZWDVORO 04/23/98   20:29:13 1.0a     
+eViewObjRef 1,196
+aZKey      1350329
+aName      TZEDFRMD_TZCMLPLO_List
+
+eLOD       2,192
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZEDCWZD_TZCMLPLO_List
+aZKey      1350329
+aType      9
+aLastUpdateDate 19950824213854000
+aLastCheckInDate 19951102203051110
+

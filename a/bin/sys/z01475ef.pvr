@@ -1,0 +1,18 @@
+rZeidon    Z01475EF TZWDVORO 11/02/95   20:53:23 1.0a     
+eViewObjRef 1,192
+aZKey      1340911
+aName      SOURCEMETA
+
+eLOD       2,192
+aZKey      1326517
+aName      TZOPSRCO
+aDesc      Source File Meta Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      SOURCEMETA
+aZKey      1340911
+aType      9
+aLastUpdateDate 19950824213736000
+aLastCheckInDate 19951102203051110
+

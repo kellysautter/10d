@@ -1,0 +1,152 @@
+NEW steps to create a Zeidon repository after change to model:
+
+o  Copy changes from model to TE environment.  This involves:
+
+   - Synchronize Tables/Recs from ER.
+   - Synchronize Relationships from ER.
+
+   There should no longer be duplicate names in the TE!!!
+
+o  Create DDL from Technical Environment.  Copy it to the repository directory.
+
+o  Replace data file definitions in zmm.ddl with the data file definitions in
+   ddl_hdr.txt.  ddl_hdr.txt will need to be updated when any new entities are
+   created or if extensive changes have been made to one or more entities.
+
+o  Run Raima DDL processor:
+
+      ddlp ZMM.DDL -d [ -x ]
+
+   '-d' allows different records to have the same field name (necessary for
+        zkeys).
+
+   '-x' prints x-ref to the terminal.
+
+   Ignore the warning about record 'zof_rec0'.  This is normal.
+
+o  Initialize database.  This requires the following env vars:
+
+      DBDPATH=directory containing ZMM.DBD (the repository dir)
+      DBFPATH=directory containing ZMM.DBD (the repository dir)
+      DBTAF  =directory containing Transaction File (usually empty directory).
+
+   Then run:
+
+      initdb ZMM
+
+o  To test that the database OK, run WIDA.  You must have VISTA.DLL in your
+   path.
+
+o  Create the catalog file by running "PRDBD zmm > zmm.cat"
+
+o  Back in the TE, select option Utilities/Import DB Data.  This copies the
+   record/field id's from the database catalog (zmm.cat) into the TE.
+   Save the TE
+
+   ZEIDON.INI (ZMM=...) tells Zeidon where to look for zmm.cat.
+
+o  Save all project LODs.  This saves all the .XOD files with the new TE
+   information.
+
+
+==========================================================================
+   OLD way...
+==========================================================================
+
+Steps to create a Zeidon repository after change to model:
+
+o  Copy changes from model to TE environment.  This involves:
+
+   - Delete 'ZMM' data source in TE.
+   - Create new 'ZMM' (Server=ZRepos, Model=VistaDB, Max attr len=100,
+     overflow file len=1000).
+   - Synchronize Tables/Recs from ER.
+   - Synchronize Relationships from ER.
+
+   It is possible that some records created by m-to-m relationships have the
+   same name.  One of them needs to be renamed.  You'll know for sure if two
+   records have the same name if the DDLP command (see below) fails.  The
+   two names that currently repeat are:
+
+      MM_TE_TABLRECDATAR
+      MM_SOURCEFILE_WNDB
+
+   The following sets are duplicated:
+
+      SOURCEFILEOWNEDBYMMSOURCEFILEWN (look under MM_SOURCEFILE_WNDB)
+      TETABLRECDATAREISACCESSEDTHRUPO (look under POD_RELLINKMAPREC)
+
+   For each item listed above, one of the duplicates must be renamed.
+
+o  Create DDL from Technical Environment.  Copy it to the repository directory.
+
+o  Replace data file definitions in zmm.ddl with the data file definitions in
+   ddl_hdr.txt.  ddl_hdr.txt will need to be updated when any new entities are
+   created or if extensive changes have been made to one or more entities.
+
+o  Run Raima DDL processor:
+
+      ddlp ZMM.DDL -d [ -x ]
+
+   '-d' allows different records to have the same field name (necessary for
+        zkeys).
+
+   '-x' prints x-ref to the terminal.
+
+   Ignore the warning about record 'zof_rec0'.  This is normal.
+
+o  Initialize database.  This requires the following env vars:
+
+      DBDPATH=directory containing ZMM.DBD (the repository dir)
+      DBFPATH=directory containing ZMM.DBD (the repository dir)
+      DBTAF  =directory containing Transaction File (usually empty directory).
+
+   Then run:
+
+      initdb ZMM
+
+o  To test that the database OK, run WIDA.  You must have VISTA.DLL in your
+   path.
+
+o  Create the catalog file by running "PRDBD zmm > zmm.cat"
+
+o  Back in the TE, select option Synchronize/Physical From Catalog/Init DBRaima
+   ID's.  This copies the record/field id's from the database catalog (zmm.cat)
+   into the TE.  Save the TE
+
+   ZEIDON.INI (ZMM=...) tells Zeidon where to look for zmm.cat.
+
+o  Save all project LODs.  This saves all the .XOD files with the new TE
+   information.
+
+
+BUGS:
+
+o  Synchronizing with ER allows records to have the same name.  This shouldn't
+   happen.
+
+
+==============================================================================
+
+
+To set up a PC as a repository.
+
+o  Create a Raima database on the server.  To do this, execute the commands
+   listed above.
+
+o  All node PC's must have the environment variables DBDPATH, DBFPATH, and
+   DBTAF set to point to the directories on the server.  Note that all nodes
+   should have the server's repository mapped to the same drive letter (I
+   have been using the standard of Z:) as well as the server's TAF (transaction
+   file) directory (I use T:).  Each node as well as the server need the
+   following in the ZEIDON.INI file in the ZEIDON BIN directory:
+
+      TAF=t:\
+      ZMM=z:
+      ZMM_BackupPath=z:\back
+      ZMM_BackupMethod=Historical
+      BaseShadowMETA=z:\SHADOW
+      BaseShadowEXEC=z:\SHADOW
+      BaseShadowPGM=z:\SHADOW
+
+   T: and Z: point to the server.

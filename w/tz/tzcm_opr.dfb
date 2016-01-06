@@ -1,0 +1,42 @@
+LIBRARY
+
+#if defined( __WIN32__ )
+;; CODE      PRELOAD MOVEABLE DISCARDABLE
+;; DATA      PRELOAD SINGLE
+#else
+   EXETYPE       WINDOWS
+   HEAPSIZE      1024
+   CODE          LOADONCALL  DISCARDABLE  MOVEABLE
+   DATA          PRELOAD     MOVEABLE     SINGLE
+   SEGMENTS
+                 _TEXT      PRELOAD
+                 WEP_TEXT   PRELOAD  FIXED
+                 INIT_TEXT  PRELOAD  DISCARDABLE  MOVEABLE
+
+IMPORTS
+      TZLODOPR.ConvertIntegerToString
+      TZLODOPR.GetStringLength
+      TZLODOPR.MergeGlobalPrototypes
+      TZLODOPR.oTZADCS2O_DS_RelinkDelete
+      TZLODOPR.oTZADCSDO_DS_RelinkDelete
+      TZLODOPR.oTZ__PRFO_GetViewToProfile
+      TZLODOPR.oTZDGSRCO_DomainGrpMigrate
+      TZLODOPR.oTZDMSRCO_ReplaceOrAddDomToXDM
+      TZLODOPR.oTZERSA2O_SA_RelinkDelete
+      TZLODOPR.oTZERSASO_SA_RelinkDelete
+      TZLODOPR.oTZRPSRCO_ReportRelinkDelete
+      TZLODOPR.oTZTENV2O_TE_RelinkDelete
+      TZLODOPR.oTZTENVRO_GetRefViewForDTE_P
+      TZLODOPR.oTZTENVRO_TE_RelinkDelete
+      TZLODOPR.oTZWDLG2O_DialogRelinkDelete
+      TZLODOPR.oTZWDLGSO_DialogRelinkDelete
+      TZLODOPR.oTZZOLO2O_LOD_RelinkDelete
+      TZLODOPR.oTZZOLODO_LOD_RelinkDelete
+      TZLODOPR.oTZZOLODO_SaveAllLods
+      TZLODOPR.oTZZOXODO_SaveXOD
+      TZLODOPR.StartZeidonHelp
+      TZLODOPR.zgGetZeidonToolsDir
+
+#endif
+
+EXPORTS

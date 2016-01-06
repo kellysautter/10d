@@ -1,0 +1,566 @@
+;; CHANGE LOG
+;;
+;; 2003.02.24  DGC
+;;    Added SUM commands.
+;;
+;; 2002.11.20  DGC
+;;    Added GenerateQualFromEntityList().
+;;
+;; 2002.10.04  DGC
+;;    Added iStoreString/ValueInDerivedAttribute().
+;;
+;; 2002.03.29  DGC
+;;   Added SysCreateTempFileName().
+;;
+;; 2002.01.28  HH
+;;    Added SysRoundDecimal.
+;;
+;; 2002.01.15  HH
+;;    Added SetDatabaseUser.
+;;
+;; 2001.12.06  DGC
+;;    Added ActivateOI_FromXML_File.
+;;
+;; 2001.10.11  DGC
+;;    Added GetViewFlags()
+;;
+;; 2001.10.09  DGC
+;;    Added MiHasPersistentChanges( zVIEW lpView )
+;;
+;;2001.09.04  PAS
+;;   added 7 UfZProbeXXXXX functions.
+;;
+;; 2001.08.22  DGC
+;;    Started adding stuff for local memory version of Core.
+;;
+;;2001.08.02  HH
+;;   added SubobjectVersionUpdated.
+;;
+;; 2001.06.23  DGC  10b
+;;    Added SysSetFileTime, SetBlobFromFile and WriteBlobToFile.
+;;
+;; 2001.05.03  HH
+;;    added AppendViewCluster.
+;;
+;; 2001.04.25  HH
+;;    ordinals for SysMalloc & SysFree changed back to original value.
+;;
+;; 2001.04.18  DGC  10b
+;;    Added code for DropViewObject() logic.
+;;
+;; 2001.04.09  US
+;;   Added two new functions SysMalloc() and SysFree()
+;;
+;; 2000.12.15  DGC  all
+;;    Added a debugging operation.
+;;
+;; 2000.05.04  DGC  all
+;;    IncludeSubobjectFromSubobjectEx().
+;;
+;; 2000.05.04  DGC  all
+;;    Added StoreBytesInRecord().
+;;
+;; 2000.02.17  DGC  10b
+;;    Added MutexQueryStatus()
+;;
+;; 2000.02.17  DGC  10b
+;;    Added WriteMultipleOIs_ToXML().
+;;
+;; 1999.12.14  DGC  10b
+;;    Added XML functions.
+;;
+;; 1999.10.08  DGC  10a
+;;    Added SetViewFlags.
+;;
+;; 1999.09.07  DGC  10a
+;;    Removed '#if' stuff
+;;
+;; 1999.09.01  DGC  10a
+;;    Added DropViewCluster(), AddToViewCluster().
+;;
+;; 1999.06.01  DGC  10a
+;;    Added GetAttributeFlags(), GetTracingFlags().
+;;
+;; 1999.04.21  DGC  10a  ApplA
+;;    Removed NetCallTransformation()--replaced by NetCallOperation().
+;;    Removed NetSendBootstrapFile().
+;;
+;; 1999.03.02
+;;    Added SysConvertEnvironmentString() as an exported operation.
+
+
+   LIBRARY       KZOENGAA
+
+;  Maximum Ordinal value is currently > @470 <
+;      Unused 118
+EXPORTS
+              _zCall_GetDateTime                 @454
+              AcceptAllTemporalSubobjects        @216
+              AcceptSubobject                    @75
+              ActivateEmptyObjectInstance        @22
+              ActivateOI_FromFile                @43
+              ActivateOI_FromOI                  @215
+              ActivateOI_FromOI_ForTask          @419
+              ActivateOI_FromXML                 @342
+              ActivateOI_FromXML_File            @372
+              ActivateObjectInstance             @124
+              ActivateViewObject                 @19
+              AddToAttributeFromAttribute        @33
+              AddToAttributeFromDecimal          @32
+              AddToAttributeFromInteger          @31
+              AddToAttributeFromVariable         @153
+              AddToViewCluster                   @335
+              AppendViewCluster                  @357
+              AddViewToViewCluster               @290
+              AttributeUpdated                   @332
+              CancelAllTemporalSubobjects        @217
+              CancelSubobject                    @76
+              CheckEntityInView                  @320
+              CheckExistenceOfEntity             @42
+              CommitOI_ToFile                    @51
+              CommitOI_ToXML_File                @373
+              CommitSubobjectToXML_File          @383
+              CommitMultipleObjectInstances      @316
+              CommitMultipleOIs                  @292
+              CommitObjectInstance               @45
+              CompareAttributeToAttribute        @34
+              CompareAttributeToDecimal          @37
+              CompareAttributeToInteger          @36
+              CompareAttributeToString           @35
+              CompareAttributeToVariable         @103
+              CompareEntitiesIgnoringAttrs       @343
+              CompareEntityToEntity              @110
+              CompareOI_ToOI                     @201
+              ConvertDecimalToString             @117
+              CountEntitiesForView               @188
+              CountEntitiesForViewUnderParent    @162
+              CreateViewCluster                  @291
+              CreateEntity                       @24
+              CreateQualFromCommand              @327
+              CreateTemporalEntity               @146
+              CreateTemporalSubobjectVersion     @74
+              CreateViewTrace                    @426
+              CreateViewFromView                 @121
+              CreateViewFromViewForTask          @420
+              DefineHierarchicalCursor           @83
+              DeleteEntity                       @80
+              DeleteTask                         @7
+              DisableTask                        @94
+              DisplayCursorInfo                  @178
+              DisplayEntityInstance              @86
+              DisplayEntityInstancePath          @200
+              DisplayObjectDef                   @176
+              DisplayObjectInstance              @87
+              DisplayOpenFiles                   @421
+              DropEntity                         @214
+              DropHierarchicalCursor             @84
+              DropNameForView                    @72
+              DropObjectInstance                 @46
+              DropViewTrace                      @427
+              DropView                           @48
+              DropViewObject                     @356
+              DropViewCluster                    @334
+              EnableTask                         @95
+              ExcludeEntity                      @81
+              FindWebSubtask                     @453
+              fnCloseTaskNetworkModules          @451
+              fnCloseTaskOpenFiles               @449
+              fnDecimalOperation                 @393
+              fnDeclareView                      @417
+              fnDropView                         @418
+              fnDropTaskDomains                  @447
+              fnDropTaskHandlers                 @446
+              fnDropTaskMutexes                  @445
+              fnFreeTaskModules                  @444
+              fnDropTaskOperations               @448
+              fnGetMsgQ                          @430
+              fnGetTableEntryForDomain           @429
+              fnListDataspaceLeak                @113
+              fnReuseEntity                      @425
+              fnSysCloseFile                     @391
+              fnSysCloseFileWithControl          @394
+              fnSysCopyFile                      @395
+              fnSysFreeLibrary                   @403
+;;            fnSysLoadLibrary                   @402
+              fnSysMessageBox                    @387
+              fnSysOpenFile                      @388
+              fnSysReadFile                      @396
+              fnSysReadLine                      @397
+              fnSysReadLineLth                   @398
+;;            fnSysReadZeidonIni                 @389
+              fnSysRenameFile                    @390
+              fnSysTruncateFile                  @399
+;;            fnSysUpdateZeidonIni               @386
+              fnSysWriteFile                     @400
+              fnSysWriteLine                     @392
+              fnSysWriteLineLth                  @401
+              FreeAnchorBlock                    @2
+              GarbageCollectViews                @411
+              GenerateQualFromEntityList         @379
+              GetAbsolutePositionForEntity       @181
+              GetActualAttributeLength           @160
+              GetAddrForAttribute                @60
+              GetApplDirectoryFromView           @65
+              GetAttributeFlags                  @331
+              GetAttributeLength                 @90
+              GetAttributeDisplayLength          @235
+              GetBlobFromAttribute               @89
+              GetContext                         @145
+              GetDecimalFromAttribute            @30
+              GetDefaultContext                  @193
+              GetDefaultViewForActiveTask        @406
+              GetEntityKey                       @355
+              GetEntityNameForHierarchicalCsr    @330
+              GetEntityKeyForHierarchicalCsr     @428
+              GetFirstTableEntryForAttribute     @105
+              GetIncrementalUpdateFlags          @69
+              GetIntegerFromAttribute            @28
+              GetNameForView                     @66
+              GetNextTableEntryForAttribute      @106
+              GetRelativeEntityNumber            @143
+              GetSelectStateOfEntity             @127
+              GetSelectStateOfEntityForSet       @230
+              GetStringFromAttribute             @26
+              GetStringFromAttributeByContext    @274
+              GetStringFromRecord                @152
+              GetStructFromEntityAttrs           @57
+              GetViewFromAttribute               @439
+              GetTaskDBHandlerTraceLevel         @179
+              GetTracingFlags                    @333
+              GetValueFromRecord                 @150
+              GetVariableFromAttribute           @104
+              GetViewByName                      @56
+              GetViewFlags                       @371
+              IncludeSubobjectFromSubobject      @64
+              IncludeSubobjectFromSubobjectEx    @349
+              InitializeAnchorBlock              @1
+              IssueOE_Error                      @384
+              IssueError                         @21
+              LoadEntity                         @148
+              MessagePresent                     @197
+              MessagePrompt                      @198
+              MessagePromptForInput              @199
+              MessageSend                        @196
+              MiCompareOI_ToRelease              @252
+              MiEntityVersioned                  @467
+              MiGetActivateFlags                 @346
+              MiGetCardinalityForEntity          @238
+              MiGetDateTimeForOI                 @205
+              MiGetERTokenForEntity              @206
+              MiGetInstanceID_ForView            @168
+              MiGetKeyFromInstance               @207
+              MiGetParentEntityNameForView       @164
+              MiGetTemporalStateOfEntity         @177
+              MiGetTypeForViewEntityAttr         @412
+              MiGetUpdateForView                 @169
+              MiGetUpdateForViewEntityAttr       @170
+              MiGetOI_ReleaseForView             @250
+              MiGetObjectNameForView             @240
+              MiGetSetViewTaskAppFlags           @438
+              MiGetViewEntityForView             @208
+              MiHasPersistentChanges             @370
+              MiListOE_Memory                    @286
+              MiSetInstanceUpdateFlag            @432
+              MiSetOI_ReleaseForView             @251
+              MiValidView                        @73
+              MoveSubobject                      @99
+              NameForZKey                        @195
+              NetActivateOI                      @256
+              NetActivateOI_FromFile             @269
+              NetCallOperation                   @328
+              oKZWDLGXO_DerivedCaption           @293
+              oKZWDLGXO_DerivedControlText       @294
+              oKZWDLGXO_DerivedDIL_Msg           @295
+              oKZWDLGXO_DerivedOptionText        @296
+              NetClose                           @254
+              NetCommitOI                        @266
+              NetCommitOI_ToFile                 @270
+              NetGetLocalHostAddress             @268
+              NetGetTraceLevel                   @263
+              NetListen                          @255
+              NetProcessMessage                  @259
+              NetSetTraceLevel                   @262
+              NetSendFile                        @276
+              NetStartup                         @260
+              NetStatus                          @264
+              NetStopListen                      @265
+              ObjectInstanceUpdated              @149
+              ObjectInstanceUpdatedFromFile      @3
+              OperationCount                     @154
+              OrderEntitiesByDefaultAttribs      @187
+              OrderEntityForView                 @189
+              OrderOI_ByDefaultAttribs           @190
+              ProcessZeidonMessage               @6
+              RegisterZeidonApplication          @4
+;;            RegisterZeidonAppForThread         @284
+              RelinkAllSubobjectsForOI           @161
+              RelinkInstanceToInstance           @147
+              ResetView                          @82
+              ResetViewFromSubobject             @50
+              ResetViewFromSubobjectTop          @468
+              ResetViewFromSubobjectWithoutError @431
+              ResetViewPositions                 @283
+              SendDomainError                    @241
+              SetAllSelStatesForEntityForSet     @232
+              SetAllSelectStatesForEntity        @130
+              SetAttributeFromAttribute          @63
+              SetAttributeFromBlob               @88
+              SetAttributeFromDecimal            @29
+              SetAttributeFromInteger            @27
+              SetAttributeFromString             @25
+              SetAttributeFromVariable           @102
+              SetAttributeFromView               @440
+              SetAttributeValueNext              @107
+              SetAttributeValuePrev              @108
+              SetBlobAttributeFromAttribute      @109
+              SetBlobFromEntityAttributes        @174
+              SetBlobFromFile                    @360
+              SetBlobFromOI                      @321
+              SetCursorAbsolutePosition          @182
+              SetCursorFirstEntity               @40
+              SetCursorFirstEntityByAttr         @191
+              SetCursorFirstEntityByDecimal      @111
+              SetCursorFirstEntityByEntityCsr    @91
+              SetCursorFirstEntityByInteger      @77
+              SetCursorFirstEntityByString       @58
+              SetCursorFirstSelectedEntity       @128
+              SetCursorLastEntity                @41
+              SetCursorNextEntity                @38
+              SetCursorNextEntityByAttr          @192
+              SetCursorNextEntityByDecimal       @112
+              SetCursorNextEntityByEntityCsr     @92
+              SetCursorNextEntityByInteger       @79
+              SetCursorNextEntityByString        @78
+              SetCursorNextEntityHierarchical    @85
+              SetCursorNextSelectedEntity        @129
+              SetCursorPrevEntity                @39
+              SetCursorRelativeEntity            @142
+              SetCursorScopeOI                   @458
+              SetDefaultViewForActiveTask        @407
+              SetEntityAttributesFromBlob        @175
+              SetEntityCursor                    @157
+              SetIncrementalUpdateFlags          @159
+              SetMatchingAttributesByName        @93
+              SetNameForView                     @55
+              SetOI_FromBlob                     @322
+              SetSelectSetForView                @229
+              SetSelectStateOfEntity             @131
+              SetSelectStateOfEntityForSet       @231
+              SetTaskDBHandlerTraceLevel         @180
+              SetViewFlags                       @340
+              SetViewFromView                    @47
+              SetViewReadOnly                    @167
+              SetViewToSubobject                 @49
+              SetViewUpdate                      @329
+              SfActivateOI_FromStream            @258
+              SfActivateSysEmptyOI               @120
+              SfActivateSysOI_FromFile           @119
+              SfAllocTaskMemory                  @184
+              SfCheckOI_Integrity                @348
+              SfCloseTaskDatabases               @236
+              SfCreateSubtask                    @53
+              SfCreateSysViewFromView            @186
+              SfCreateSystemSubtask              @163
+              SfCurrentTaskIsServer              @44
+              SfDropSubtask                      @54
+              SfFreeTaskMemory                   @185
+              SfGetApplicationForSubtask         @98
+              SfGetCurrentTask                   @278
+              SfGetDefaultContextForDomain       @457
+              SfGetFirstNamedView                @171
+              SfGetFirstSubtaskView              @70
+              SfGetNextNamedView                 @172
+              SfGetNextSubtaskView               @71
+              SfGetNextTask                      @244
+              SfGetTaskInfo                      @132
+              SfGetTaskMemoryLength              @247
+              SfIsObjectServicesTask             @183
+              SfLockView                         @100
+              SfReAllocTaskMemory                @23
+              SfSetSubtaskView                   @67
+              SfSetApplicationForSubtask         @436
+              SfSetApplicationTask               @433
+              SfSetTaskFlag                      @202
+              SfStartNetworks                    @324
+              SfLockTaskMemory                   @288
+              SfGetUserIdForTask                 @466
+              SfSetUserIdForTask                 @465
+              SfTransferView                     @97
+              SfUnlockTaskMemory                 @287
+              SfWriteOI_ToStream                 @257
+              StoreStringInDerivedAttribute      @377
+              StoreStringInRecord                @151
+              StoreValueInDerivedAttribute       @378
+              StoreValueInRecord                 @116
+              StoreBytesInRecord                 @347
+              SubobjectVersionUpdated            @358
+              SysAddDecimalToDecimal             @300
+              SysAddressMemory                   @114
+              SysAllocMemory                     @158
+              SysAppendcDirSep                   @246
+              SysAssignDecimalFromDecimal        @306
+              SysAssignDecimalFromNull           @310
+              SysCallDecimalOperation            @315
+              SysCloseFile                       @14
+              SysCheckTaskMemory                 @122
+              SysCompareDecimalToDecimal         @305
+              SysCompareDecimalToDouble          @311
+              SysCompareDecimalToNull            @309
+              SysConvertANSI_String              @272
+              SysConvertDecimalToDouble          @302
+              SysConvertDecimalToLong            @303
+              SysConvertDecimalToString          @297
+              SysConvertDoubleToDecimal          @301
+              SysConvertEnvironmentString        @285
+              SysConvertLongToDecimal            @304
+              SysConvertStringToDecimal          @298
+              SysCopyFile                        @68
+              SysCreateInternational             @219
+              SysCreateTempFileName              @376
+              SysDescribeZeidonPageTable         @350
+              SysDiagnosticMessage               @319
+              SysDivideDecimalByDecimal          @307
+              SysElapsedTimer                    @337
+              SysEndBrowseOfTaskList             @422
+              SysFree                            @354
+              SysFreeInternational               @220
+              SysFreeLibrary                     @62
+              SysFreeMemory                      @115
+              SysGetAnchorBlock                  @52
+              SysGetAnchorBlockData              @435
+              SysGetClientMessage                @462
+              SysGetLanguageCode                 @242
+              SysGetDB_UserID                    @209
+              SysGetDateTime                     @141
+              SysGetDateTimeDifference           @450
+              SysGetEnvVar                       @134
+              SysGetFileDateTime                 @140
+              SysGetFilePosition                 @317
+              SysGetFileSize                     @318
+              SysGetLocalDirectory               @245
+              SysGetHandleFromPointer            @323
+              SysGetInstance                     @415
+              SysGetLocalSysDirectory            @277
+              SysGetLongDateFormat               @224
+              SysGetNumberFormat                 @237
+              SysGetPointerFromHandle            @326
+              SysGetProc                         @61
+              SysGetProcessID                    @405
+              SysGetServerDateTime               @452
+              SysGetShortDateFormat              @223
+              SysGetTaskFromView                 @443
+              SysGetTickCount                    @267
+              SysGetTimeFormat                   @234
+              SysGetOS_Info                      @275
+              SysGetUserID                       @204
+              SysGetWebBannerName                @461
+              SysInitApplicationWindow           @463
+              SysLoadLibrary                     @20
+              SysLoadLibraryWithErrFlag          @271
+              SysMalloc                          @353
+              SysMakeWebFileName                 @437
+              SysMemSize                         @369
+              SysMessageBeep                     @203
+              SysMessageBox                      @8
+              SysMessageList                     @9
+              SysMultiplyDecimalByDecimal        @308
+              SysMutexCreate                     @410
+              SysMutexLock                       @312
+              SysMutexUnlock                     @313
+              SysMutexQueryLock                  @314
+              SysMutexQueryStatus                @345
+              SysOpenFile                        @13
+              SysParseLine                       @135
+              SysPositionFile                    @136
+              SysRenameFile                      @59
+              SysReadFile                        @96
+              SysReadLine                        @15
+              SysReadLineLth                     @137
+              SysReadZeidonIni                   @17
+              SysRoundDecimal                    @375
+              SysSendOE_Message                  @325
+              SysSetWebBannerName                @460
+              SysSetDB_UserID                    @210
+           ;; SysSetDefaultTaskForProcess        @385
+              SysSetFileTime                     @359
+              SysSetFocusToWebCtrl               @459
+              SysSetLanguageCode                 @243
+              SysSetUserID                       @10
+           ;; SetTaskAsTransient                 @441
+              SetTransientTaskProcess            @442
+              SysStartBrowseOfTaskList           @423
+              SysStartHelp                       @253
+              SysStartTimer                      @336
+              SysSubtractDecimalFromDecimal      @299
+              SysTranslateString                 @101
+              SysTruncateFile                    @138
+              SysUpdateZeidonIni                 @18
+              SysValidAddress                    @213
+              SysValidDirOrFile                  @248
+              SysWait                            @239
+              SysWriteFile                       @133
+              SysWriteLine                       @16
+              SysWriteLineLth                    @139
+              TableEntryExtToInt                 @125
+              TableEntryForInternalValue         @166
+              TableEntryIntToExt                 @126
+              Table_Handler                      @144
+              TraceBlob                          @434
+              TraceBuffer                        @261
+              TraceDataHeader                    @424
+              TraceLine                          @404
+              TraceLineI                         @11
+              TraceLineS                         @12
+              TraceLineX                         @249
+              TrueName                           @194
+              UfAddToDateTime                    @218
+              UfCompareDateTimeToDateTime        @173
+              UfCompressName                     @123
+              UfDateTimeToString                 @155
+              UfDateTimeDiff                     @289
+              UfDecryptString                    @212
+              UfDecryptStringLong                @455
+              UfDecryptStringUL                  @413
+              UfEditFormatDateTime               @225
+              UfEditFormatString                 @221
+              UfEncryptString                    @211
+              UfEncryptStringLong                @456
+              UfEncryptStringUL                  @414
+              UfFormatDateTime                   @165
+              UfFormatString                     @222
+              UfGetDayOfWeek                     @226
+              UfGetDayOfYear                     @227
+              UfGetWeekOfYear                    @228
+              UfJulianToGregorian                @233
+              UfStringToDateTime                 @156
+              UfZProbeEnable                     @362
+              UfZProbeInit                       @363
+              UfZProbeOn                         @364
+              UfZProbeOff                        @365
+              UfZProbeTrace                      @366
+              UfZProbeOnByDesc                   @367
+              UfZProbeOffByDesc                  @368
+              UnregisterZeidonApplication        @5
+              WriteBlobToFile                    @361
+              WriteMultipleOIs_ToXML             @344
+              WriteOI_ToXML                      @341
+              WriteSubobjectToXML                @382
+              zdSUM                              @380
+              ziSUM                              @381
+              ZeidonCopyWithinString             @464
+              ZeidonStringCompare                @279
+              ZeidonStringConcat                 @280
+              ZeidonStringConvertFromNumber      @281
+              ZeidonStringCopy                   @282
+              ZeidonStringFind                   @416
+
+              ;; Cursor Listener maintenance
+              AddCursorListener                  @351
+              RemoveCursorListener               @352
+
+              ;; Internal functions
+              fnCreateEntity                     @338
+              fnValidViewEntity                  @339
+              SetDatabaseUser                    @374
+              zstrcatp                           @469
+              zstrcpyp                           @470

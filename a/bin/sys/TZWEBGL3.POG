@@ -1,0 +1,841 @@
+z1000-Zeidon    TZWEBGL3 TZOGSRCO 07/17/12   16:38:20 1.0a2    
+eGlobalOperationGroup 1
+aZKey      4896719
+aName      TZWEBGL3
+aDesc      JSP Generation operations for zeidon JAVA
+aExtension VML
+aLanguageType V
+aDomainAndGlobalOpGroupName TZWEB
+
+eOperation 2
+aName      BuildMainNavSection
+aZKey      1141825
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896721
+
+eParameter 3
+aShortDesc DialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896722
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896723
+
+eOperation 2
+aName      GenJSP_CrteJPG
+aZKey      4897605
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4897606
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4897607
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4897608
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4897609
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4897610
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4897611
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4897612
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4897613
+
+eOperation 2
+aName      GenJSP_ChildFunctions
+aZKey      1141828
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896922
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896923
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896924
+
+eParameter 3
+aShortDesc FormName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896925
+
+eOperation 2
+aName      GenJSP_CrteGroupTable
+aZKey      89583371
+aType      G
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896823
+
+eParameter 3
+aShortDesc GroupParent
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896824
+
+eParameter 3
+aShortDesc DialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896825
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896826
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896827
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896828
+
+eParameter 3
+aShortDesc TableRowCnt
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896829
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896830
+
+eOperation 2
+aName      GenJSP_CrteComboBox
+aZKey      1141860
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896814
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896815
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896816
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896817
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896818
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896819
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896820
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896821
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896822
+
+eOperation 2
+aName      GenJSP_CrteEditBox
+aZKey      1141887
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896796
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896797
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896798
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896799
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896800
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896801
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896802
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896803
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896804
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896805
+
+eOperation 2
+aName      GenJSP_CrteCheckBox
+aZKey      1141850
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896786
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896787
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896788
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896789
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896790
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896791
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896792
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896793
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896794
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896795
+
+eOperation 2
+aName      GenJSP_CrteCtrlsRadio
+aZKey      1141870
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896778
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896779
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896780
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896781
+
+eParameter 3
+aShortDesc RadioGroupName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896782
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896783
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896784
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896785
+
+eOperation 2
+aName      GenJSP_CrteText
+aZKey      1141898
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896767
+
+eParameter 3
+aShortDesc GroupParent
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896768
+
+eParameter 3
+aShortDesc DialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896769
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896770
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896771
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896772
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896773
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896774
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896775
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896776
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896777
+
+eOperation 2
+aName      GenJSP_CrteListBox
+aZKey      1448549
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896759
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896760
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896761
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896762
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896763
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896764
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896765
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896766
+
+eOperation 2
+aName      GenJSP_EmailEntries
+aZKey      93056446
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896754
+
+eParameter 3
+aShortDesc vDialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896755
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896756
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896757
+
+eParameter 3
+aShortDesc szFormName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896758
+
+eOperation 2
+aName      GenJSP_CrteCalendar
+aZKey      1141839
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896744
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896745
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896746
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896747
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896748
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896749
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896750
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896751
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896752
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896753
+
+eOperation 2
+aName      GenJSP_MenuFunctions
+aZKey      1141833
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896738
+
+eParameter 3
+aShortDesc DialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896739
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896740
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896741
+
+eParameter 3
+aShortDesc FormName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896742
+
+eParameter 3
+aShortDesc ActionPrefix
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896743
+
+eOperation 2
+aName      BuildSideNavSection
+aZKey      1141822
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896733
+
+eParameter 3
+aShortDesc DialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896734
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      4896735
+
+eParameter 3
+aShortDesc szReusableMenu
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896736
+
+eParameter 3
+aShortDesc DialogMenu
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896737
+
+eOperation 2
+aName      CreateTabIndexString
+aZKey      1141956
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      4896731
+
+eParameter 3
+aShortDesc TabIndex
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      4896732
+

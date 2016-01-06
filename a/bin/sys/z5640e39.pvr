@@ -1,0 +1,15 @@
+z0100-Zeidon    Z5640E39 TZWDVORO 05/22/97   13:11:46 1.0a     
+eViewObjRef 1,198
+aZKey      90443321
+aName      TZTEMPMO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1328311
+aName      TZTEMPMO
+aDesc      Model Physical Mapping
+aDLL_Name  TZLODOPR
+aFK_ZKEY   8388608
+aFK_ZKEY02 226492416
+aFK_ZKEY03 228563632
+

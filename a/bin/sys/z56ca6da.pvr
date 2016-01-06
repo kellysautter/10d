@@ -1,0 +1,19 @@
+rZeidon    Z56CA6DA TZWDVORO 11/02/95   20:51:39 1.0a     
+eViewObjRef 1,192
+aZKey      91006682
+aName      TZWDVORO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1326496
+aName      TZWDVORO
+aDesc      View Object Ref. for Dialogs
+
+eZ_MetaDef 2,192
+aName      TZWDVORO
+aZKey      91006682
+aType      9
+aLastUpdateDate 19950908172212000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

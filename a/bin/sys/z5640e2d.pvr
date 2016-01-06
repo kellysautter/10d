@@ -1,0 +1,18 @@
+z10000Zeidon    Z5640E2D TZWDVORO 06/09/01   21:45:59 1.0b0    
+eViewObjRef 1
+aZKey      90443309
+aName      TZCMQCPO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      90063285
+aName      TZCMQCPO
+aDesc      255
+EnqueueObject for locking a CPLR
+
+This Object is created when an user:
+- ChecksOut an item   (Workstation-Admin.)
+- ChecksIn an item     (Workstation-Admin.)
+- Refreshes his LPLR (Workstation-Admin.)
+- edits the CPLR        (System-Administration).0
+

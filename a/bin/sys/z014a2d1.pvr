@@ -1,0 +1,19 @@
+rZeidon    Z014A2D1 TZWDVORO 11/02/95   20:53:07 1.0a     
+eViewObjRef 1,192
+aZKey      1352401
+aName      TZBRLIAO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1330438
+aName      TZBRLIAO
+aDesc      Browse view for listing LOD Attributes
+
+eZ_MetaDef 2,192
+aName      TZBRLIAO
+aZKey      1352401
+aType      9
+aLastUpdateDate 19950824213912000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

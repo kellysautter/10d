@@ -1,0 +1,17 @@
+rZeidon    Z01473F9 TZWDVORO 11/02/95   20:53:46 1.0a     
+eViewObjRef 1,192
+aZKey      1340409
+aName      ApplVOR
+
+eLOD       2,192
+aZKey      1326496
+aName      TZWDVORO
+aDesc      View Object Ref. for Dialogs
+
+eZ_MetaDef 2,192
+aName      ApplVOR
+aZKey      1340409
+aType      9
+aLastUpdateDate 19950824213730000
+aLastCheckInDate 19951102203051110
+

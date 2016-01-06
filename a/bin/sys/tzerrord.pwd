@@ -1,0 +1,734 @@
+z10000Zeidon    TZERRORD TZWDLGSO 06/09/01   21:35:14 1.0b0    
+eDialog    1
+aTag       TZERRORD
+aZKey      127047041
+aDesc      Error List for all Tools
+aDLL_Name  TZERRORD
+
+eWindow    2
+aTag       TZERRORD
+aCaption   Error List
+aPSDLG_X   2
+aPSDLG_Y   2
+aSZDLG_X   14024924
+aSZDLG_Y   7602308
+aZKey      127047044
+aGeneralFlag 0
+
+eControl   3
+aTag       GroupBox1
+aZKey      127047060
+aSubtype   539492352
+aPSDLG_X   1
+aPSDLG_Y   0
+aSZDLG_X   212
+aSZDLG_Y   22
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlCtrl  4
+aTag       ComboBox1
+aZKey      127047061
+aSubtype   2109968
+aPSDLG_X   25
+aPSDLG_Y   7
+aSZDLG_X   184
+aSZDLG_Y   108
+aCtrlBOI   U29
+=]Q`]``,1/0!360`%$3T`3`````!>$ST`3``P````
+`
+aSyncKey   9999
+aDIL_Text  Select Error List
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      127047062
+
+eCtrlMapLOD_Attribute 6
+aZKey      127047096
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+aName      ErrorList
+aIndentName ErrorList
+aIndentLvl 0
+aZKey      127047088
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eCtrlMapER_Attribute 7
+aName      DateTime
+aZKey      127047097
+aLth       20
+
+eCtrlMapER_Domain 8
+aZKey      90000089
+aDesc      Basic Timestamp Domain
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aContextRestriction N
+
+eCtrlMapContext 6
+aZKey      90000126
+aName      DD.MM.YYYY HH:MM:SS
+aEditString dd.mm.YYYY HH:MI:SS
+
+eCtrlMapView 6
+aZKey      127047101
+aName      TZERROR
+aDesc      Error List Window
+
+eCtrlMap   5
+aZKey      127047063
+
+eCtrlMapLOD_Attribute 6
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+
+eCtrlMapER_Domain 8
+
+eCtrlMapContext 6
+
+eCtrlMapView 6
+
+eCtrlMap   5
+aZKey      127047064
+
+eCtrlMap   5
+aZKey      127047065
+
+eCtrlMap   5
+aZKey      127047066
+
+eEvent     5
+aType      1
+aZKey      127047067
+
+eEventAct  6
+aTag       RefreshErrorList
+aType      1
+aZKey      127047051
+
+eControlDef 5
+aTag       ComboBox
+aZKey      1050
+aKey       1050
+aRT_DLL_Name ZDCTL
+aRT_OperationName ComboBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZComboBoxMsg
+aPainterConvertOperationName ConvertComboBox
+aPainterBitmap COMBO
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_COMBO
+aAcceptsAllParents Y
+aId        14
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       Text1
+aText      Time:
+aZKey      127047068
+aSubtype   537395200
+aPSDLG_X   3
+aPSDLG_Y   8
+aSZDLG_X   20
+aSZDLG_Y   10
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      127047069
+
+eControlDef 5
+aTag       Text
+aZKey      1000
+aKey       1000
+aRT_DLL_Name ZDCTL
+aRT_OperationName Text
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTextMsg
+aPainterConvertOperationName ConvertText
+aPainterBitmap TEXT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_TEXT
+aAcceptsAllParents Y
+aId        1
+aInvisible -1
+
+eCtrlMap   4
+aZKey      127047070
+
+eControlDef 4
+aTag       GroupBox
+aZKey      1090
+aKey       1090
+aRT_DLL_Name ZDCTL
+aRT_OperationName GroupBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZGroupBoxMsg
+aPainterConvertOperationName ConvertGroupBox
+aPainterBitmap GRPBOX
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_GROUP
+aAcceptsAllParents Y
+aAcceptsAllChildren Y
+aId        16
+aInvisible -1
+
+eControl   3
+aTag       txtCountError
+aText        n  Error (s) found:
+aZKey      127047071
+aSubtype   2621440
+aPSDLG_X   1
+aPSDLG_Y   23
+aSZDLG_X   212
+aSZDLG_Y   12
+aCtrlBOI   U64
+M`0````X```"`@(````$```````````````````````!!<FEA;```````````
+3````````````````````````````
+`
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      127047072
+
+eControlDef 4
+
+eControl   3
+aTag       lbErrorList
+aText      lbErrorList
+aZKey      127047073
+aSubtype   540147776
+aPSDLG_X   1
+aPSDLG_Y   34
+aSZDLG_X   212
+aSZDLG_Y   81
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`````*P!-`%,Q````
+`
+aSyncKey   9999
+aDIL_Text  Current Error List
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       ListBoxCtl1
+aText      Name
+aZKey      127047074
+aSubtype   604504064
+aPSDLG_X   2
+aPSDLG_Y   0
+aSZDLG_X   39
+aSZDLG_Y   15
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      127047075
+
+eCtrlMapLOD_Attribute 6
+aZKey      127047092
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+aName      ErrorMsg
+aIndentName    ErrorMsg
+aIndentLvl 3
+aZKey      127047089
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      127047093
+aLth       32
+
+eCtrlMapER_Domain 8
+aZKey      90000032
+aDesc      Any Character String
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eCtrlMapView 6
+
+eControlDef 5
+aTag       ListBoxCtl
+aZKey      1081
+aKey       1081
+aRT_DLL_Name ZDCTL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LISTCTL
+aRequiresParent Y
+aId        27
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       ListBoxCtl2
+aText      Error Text
+aZKey      127047076
+aSubtype   604504064
+aPSDLG_X   42
+aPSDLG_Y   0
+aSZDLG_X   159
+aSZDLG_Y   15
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      127047077
+
+eCtrlMapLOD_Attribute 6
+aZKey      127047090
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      ErrorText
+aZKey      127047091
+aLth       254
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      127047078
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      127047079
+
+eCtrlMap   4
+aZKey      127047080
+
+eEvent     4
+aType      12
+aZKey      127047081
+
+eEventAct  5
+aTag       LoadPopup
+aType      1
+aZKey      127047049
+aSB_ActionDisabling 8
+
+eControlDef 4
+aTag       ListBox
+aZKey      1080
+aKey       1080
+aRT_DLL_Name ZDCTL
+aRT_OperationName ListBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aPainterConvertOperationName ConvertListBox
+aPainterBitmap LIST
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LIST
+aAcceptsAllParents Y
+aId        15
+aInvisible -1
+
+eWndEvent  3
+aType      256
+aZKey      127047082
+
+eWndAct    4
+aTag       ESC
+aNoMap     Y
+aType      71
+aZKey      127047045
+
+eWndEvent  3
+aType      2
+aZKey      127047083
+
+eWndAct    4
+aTag       LoadErrorList
+aNoMap     Y
+aType      1
+aZKey      127047046
+
+eAction    3
+
+eActWndEvent 4
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZERRORD_LoadErrorList
+aZKey      127047047
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      127047042
+aLanguageType C
+aName      TZERRORD
+aExtension C
+
+eAction    3
+
+eActMap    4
+aZKey      127047141
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      127047101
+aName      TZERROR
+aDesc      Error List Window
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZERRORD_LoadPopup
+aZKey      127047116
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZERRORD_RefreshErrorList
+aZKey      127047052
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       SaveErrorList
+aType      1
+aZKey      127047054
+
+eActOpt    4
+aTag       SaveErrorList
+aText      Save current &Error List...
+aSeparator Y
+aZKey      127047086
+
+eActOper   4
+aName      zwTZERRORD_ErrorListSaveToFile
+aZKey      127047055
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       SelectEntity
+aType      1
+aZKey      127047057
+
+eActOpt    4
+aTag       SelectEntity
+aText      &Select Entity
+aZKey      127047085
+
+eActOper   4
+aName      zwTZERRORD_ErrorListSelectEntity
+aZKey      127047058
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eMenu      3
+aTag       ErrorListPopup
+aZKey      127047084
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eWndStyle  3
+aTag       Sizeable Dialog Box
+aZKey      10024379
+aStyle     -2134114304
+
+eViewObjRef 2
+aZKey      127047101
+aName      TZERROR
+aDesc      Error List Window
+
+eLOD       3
+aZKey      127047087
+aName      TZERROR
+aDesc      Work object for Error List
+aDLL_Name  TZERROR
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127047048
+
+eOperation 3
+aName      zwTZERRORD_CreateNewErrorRoot
+aZKey      127047130
+aType      D
+aReturnDataType N
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127047132
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127047117
+
+eOperation 3
+aName      zwTZERRORD_SetCountError
+aZKey      127047107
+aType      D
+aReturnDataType N
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127047108
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127047059
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127047056
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      127047053
+
+eOperation 3
+aName      zwTZERRORD_WriteErrorMsg
+aZKey      127047124
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      127047125
+
+eParameter 4
+aShortDesc MetaView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      127047126
+
+eParameter 4
+aShortDesc MetaEntity
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      127047127
+
+eParameter 4
+aShortDesc MetaAttribute
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      127047162
+
+eParameter 4
+aShortDesc ErrorMsg
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      127047128
+
+eParameter 4
+aShortDesc Error
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      127047129
+
+eOperation 3
+aName      zwTZERRORD_SetTitle
+aZKey      127047144
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      127047145
+
+eParameter 4
+aShortDesc Type
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      127047146
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i12        5
+i13        6
+i14        7
+i15        8
+i16        9
+i17        10
+i31        26
+i39        10
+i44        36
+i46        38
+i47        10
+i48        40
+i50        36
+i51        10
+i61        58
+i62        57
+i63        60
+i64        59
+i67        55
+i69        36
+i71        54
+i72        32
+i74        66
+i75        22
+i76        21
+i77        3
+i79        66
+i83        66
+i87        66
+i89        85
+i90        84
+i91        81
+i92        80
+i96        66
+i97        65
+i101       73
+i105       86
+i107       82
+i109       78
+i121       99
+i122       66
+i123       82
+i124       66
+i125       86
+i126       66
+i127       65
+i128       66
+i129       73
+i130       66
+i131       78
+i132       66
+i133       103
+i134       66
+i135       118
+i136       66
+i137       111
+i138       66

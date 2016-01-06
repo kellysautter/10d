@@ -1,0 +1,14 @@
+z10000Zeidon    Z0A7ECE1 TZWDVORO 06/09/01   21:41:22 1.0b0    
+eViewObjRef 1
+aZKey      11005153
+aName      TZZOWK1O
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      11005135
+aName      TZZOWK1O
+aDesc      134
+Work object for following functions:
+
+1. Processing sequencing attributes for an Entity, particularly to support Activate Continue.0
+

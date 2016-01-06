@@ -1,0 +1,21 @@
+rZeidon    Z0146E9B TZWDVORO 11/02/95   20:52:54 1.0a     
+eViewObjRef 1,192
+aZKey      1339035
+aName      TZCMREPW
+aDesc      Temp work view of Repository Users
+
+eLOD       2,192
+aZKey      1325883
+aName      TZCMREPO
+aDesc      CM Repository Object
+aDLL_Name  TZLODOPR
+aCommitConstraint Y
+
+eZ_MetaDef 2,192
+aName      TZCMREPW
+aZKey      1339035
+aType      9
+aLastUpdateDate 19950824213722000
+aLastCheckInDate 19951102203051110
+aDesc      Temp work view of Repository Users
+

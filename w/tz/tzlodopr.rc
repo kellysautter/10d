@@ -1,0 +1,66 @@
+/* tzlodopr.rc : Defines the resources for the TZ Opers??? */
+/* ICON 100 TZLODOPR.ICO */
+#include <tzlodopr.h>
+#include <tz__oprs.h>
+
+STRINGTABLE LOADONCALL DISCARDABLE
+BEGIN
+ zTOOL_SYSADM,"System Administration"
+ zTOOL_WKSADM,"Workstation Administration"
+ zTOOL_DOMAIN,"Domain Maintenance"
+ zTOOL_ERD,"Data Model Maintenance"
+ zTOOL_DTE,"Physical Data Model Maintenance"
+ zTOOL_LOD,"Zeidon Object Maintenance"
+ zTOOL_DIALOG,"Dialog Maintenance"
+ zTOOL_PENV,"Presentation Environment Maintenance"
+ zTOOL_GO,"Global Operation Maintenance"
+ zTOOL_HDR,"Header File Definition Maintenance"
+ zTOOL_DEBUG,"Application Animation"
+ zTOOL_REPORT,"Report Maintenance"
+ zTOOL_BROWSER, "Object Browser"
+;
+
+ zTOOLMSG_SAVE,"%s '%s' has been modified, save it?"
+ zTOOLMSG_DELETE,"OK to delete %s '%s'?"
+ zTOOLMSG_REMOVE,"OK to remove %s '%s'?"
+ zTOOLMSG_INACTIVE,"%s '%s' is inactive"
+;
+ zREFER_DIALOG_META,"Dialog"
+ zREFER_LOD_META,"Logical Object Definition"
+ zREFER_POD_META,"POD?"
+ zREFER_ERD_META,"Data Model"
+ zREFER_GO_META,"Global Operation"
+ zREFER_SA_META,"Subject Area"
+ zREFER_UIS_META,"User Interface Specification"
+ zREFER_DOMAIN_META,"Domain"
+ zREFER_DTE_META,"Technical Environment"
+ zREFER_VOR_META,"Registered View"
+ zREFER_SRC_META,"Program Source"
+ zREFER_HDR_META,"Source Header"
+ zREFER_PENV_META,"Presentation Environment"
+ zREFER_DOMAINGRP_META,"Domain Group"
+ zREFER_GOPGRP_META,"Global Operations Group"
+;
+ zENAME_WINDOW,"Window"
+ zENAME_ER_ENTITY,"Entity"
+ zENAME_ER_ATTRIBUTE,"Attribute"
+ zENAME_ER_RELATIONSHIP,"Relationship"
+ zENAME_LOD_ENTITY,"Object Entity"
+ zENAME_LOD_ATTRIBUTE,"Object Attribute"
+ zENAME_LOD_RELATIONSHIP,"Object Relationship"
+ zENAME_DOMAIN_CONTEXT,"Context"
+ zENAME_ER_IDENTIFIER,"Identifier"
+ zENAME_DLG_MENU,"Menu"
+ zENAME_PPE_WINDOWSTYLE, "Window Style"
+ zENAME_PPE_COLOROPTION, "Window Color Option"
+ zENAME_PPE_FONTOPTION, "Window Font Option"
+ zENAME_PPE_STYLEEVENT, "Style Event"
+ zENAME_PPE_CTRLEVENT, "Control Event"
+ zENAME_PPE_CTRLMAPDEF, "Control Mapping"
+ zENAME_PPE_CTRLFONT, "Control Font Option"
+ zENAME_PPE_CTRLCOLOR, "Control Color Option"
+ zENAME_DTE_DATASOURCE, "Data Source"
+ zENAME_DTE_TABLE, "Table / Record"
+ zENAME_DTE_KEY, "Key"
+ zENAME_DOMAIN_TABLEITEM,"Table Item"
+END

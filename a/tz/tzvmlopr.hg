@@ -1,0 +1,101 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// MODULE NAME:   tzvmlopr.hg -  Zeidon application operation prototypes
+// DESCRIPTION:   This C file contains global and LOD operation prototypes
+//                for the Zeidon application.
+//
+// **************************************************************************
+// * Copyright (c) 1995 QuinSoft, Corporation.  All rights reserved.        *
+// * Confidential and Proprietary material subject to license - do not      *
+// * reproduce or disclose.  This material is an unpublished work and       *
+// * is considered a trade secret belonging to the copyright holder.        *
+// **************************************************************************
+//
+// AUTHOR:        Doug Sorensen
+// DATE:          1995/08/05
+// API:           MicroSoft foundation classes and Windows 3.1 SDK
+// ENVIRONMENT:   Windows 3.1
+// REVISION:      0.8E   1995/08/05
+//
+// HISTORY:
+//
+//    1995/08/05: Beginning of 0.8E branch
+//
+/////////////////////////////////////////////////////////////////////////////
+//
+
+/*
+CHANGE LOG
+
+2001.08.10 HH
+   R55612, Overwrite storage on large strings
+
+2000.11.22 HH
+   increment stack size.
+
+2000.07.18 HH
+   fix for multiple interpreter entry.
+
+OLD CHANGE LOG
+
+20.07.1997  DonC
+   Added defines for better handling of IF statements containing a large number
+   of expressions.
+18.08.1998  HH
+   incremented EXPRCODE_MAXSTRING.
+*
+*/
+
+#ifndef TZVMLOPR_HG
+#define TZVMLOPR_HG
+
+#include "kzoegdef.h"
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// mGLOBAL_DECLARE is a macro defined to produce extern variable declarations
+// unless zGLOBAL_DATA is defined as:  #define zGLOBAL_DATA
+// in which case the variables are declared as global.
+//
+/////////////////////////////////////////////////////////////////////////////
+#define VM_MAX_STRING_SIZE 16232
+#define EXPRCODE_MAXSTRING 12000
+#define EXPRTEXT_MAXSTRING 1200
+#define CALLSTACK_SIZE  64
+
+// tzvmi
+zEXTERN zVIEW  g_vXPGView;
+zEXTERN zVIEW  g_vStatementView;
+zEXTERN zSHORT g_nCallStack[ CALLSTACK_SIZE ];
+zEXTERN zCHAR  g_szExprCode[ EXPRCODE_MAXSTRING ];
+zEXTERN zCHAR  g_szOutputString[ zMAXLINELTH ];
+zEXTERN zSHORT g_nStackPtr;
+zEXTERN zVIEW  g_lpGOListView;          // global reusable operation list view
+
+// tzvmg
+zEXTERN zVIEW  g_lpLastLOD;
+zEXTERN zVIEW  g_lpZOListView;          // zeidon reusable operation list view
+zEXTERN zSHORT g_nLeftMargin;
+zEXTERN zVIEW  g_lpPIView;              // a view into the parsed instance
+zEXTERN zCHAR  g_szLocalString[ zMAXLINELTH ];
+zEXTERN zLONG  g_nInParmList;
+zEXTERN zVIEW  g_vSourceMeta;
+zEXTERN zSHORT g_nCheckParms;
+zEXTERN zCHAR  g_szGenLang[ 2 ];
+zEXTERN zPCHAR g_pchOutputExprStr;
+zEXTERN zLONG  g_hOutputExprStr;
+
+zEXTERN zVIEW  lpGlobalSubtask;       // zeidon reusable operation list view
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif   // #ifndef TZVMLOPR_HG
+
+///////////////////////////// end of file  //////////////////////////////////

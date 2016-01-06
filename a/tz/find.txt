@@ -1,0 +1,438 @@
+tzadw7aw.c:   GetViewByName( &vTempObj, "TZCMWKSO", vCM_Obj, zLEVEL_SUBTASK );
+tzadwdod.c:         GetViewByName( &vTempObj, "TZCMWKSO", vCM_Obj, zLEVEL_SUBTASK );
+tzcmcpld.c:   Made Modifications to DeleteWorkstation to delete from TZCMWKSO object
+tzcmcpld.c:   zVIEW    vTZCMWKSO;
+tzcmcpld.c:   nRC = ActivateObjectInstance( &vTZCMWKSO, "TZCMWKSO", vSubtask, vKZDBHQUA, zSINGLE );
+tzcmcpld.c:      zsprintf( szViewName, "TZCMFILO_%p", vTZCMWKSO );
+tzcmcpld.c:      SetNameForView( vTZCMWKSO, szViewName, vSubtask, zLEVEL_TASK );
+tzcmcpld.c:      AddToViewCluster( lRepo_ViewCluster, vTZCMWKSO, zCOMMIT_DROPOBJECTINSTANCE );
+tzcmcpld.c:      if ( DeleteEntity( vTZCMWKSO, "RepositoryClient", zREPOS_PREV ) != zCALL_ERROR )
+tzcmcpro.c:         zVIEW vTZCMWKSO;
+tzcmcpro.c:         nRC = GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmcpro.c:                                           vTZCMWKSO, "RepositoryClient", "WKS_Id" ) != 0 )
+tzcmcpro.c:   zVIEW    vTZCMWKSO;
+tzcmcpro.c:   nRC = GetViewByName( &vTZCMWKSO, "TZCMWKSO", vTZCMCPRO, zLEVEL_TASK );
+tzcmcpro.c:                                     vTZCMWKSO, "RepositoryClient", zPOS_AFTER );
+tzcmcpro.c:                                 vTZCMWKSO, "User", "Name" );
+tzcmcpro.c:                                 vTZCMWKSO, "User", "Desc" );
+tzcmlpld.c:   Modified zwTZCMLPLD_DeleteLPLR to use TZCMWKSO to check if LPLR is
+tzcmlpld.c:zwfnTZCMLPLD_CheckOutCommit( zVIEW vSubtask, zVIEW vTZCMWKSO, zVIEW vTZCMLPLO,
+tzcmlpld.c:zwfnTZCMLPLD_RemoveStatus( zVIEW vSubtask, zVIEW vTZCMCOML, zVIEW vTZCMWKSO,
+tzcmlpld.c:zwfnTZCMLPLD_CheckProjectName_Type( zVIEW vSubtask, zVIEW vTZCMWKSO,
+tzcmlpld.c:zwfnTZCMLPLD_CheckDuplicateDir( zVIEW vSubtask, zVIEW vTZCMWKSO, zVIEW vTZCMLPLO,
+tzcmlpld.c:zwfnTZCMLPLD_CheckProjectDir( zVIEW vSubtask, zVIEW vTZCMWKSO, zVIEW vTZCMLPLO,
+tzcmlpld.c:                             zVIEW vTZCMWKSO );
+tzcmlpld.c:zwfnTZCMLPLD_CheckXLP_ForRepo( zVIEW vSubtask, zVIEW vTZCMLPLO, zVIEW vTZCMWKSO );
+tzcmlpld.c:                                 zVIEW vTZCMWIPO, zVIEW vTZCMWKSO );
+tzcmlpld.c:                                  zVIEW vTZCMWKSO, zULONG ulZKey2 );
+tzcmlpld.c:                                zVIEW vTZCMWKSO, zVIEW vTZCMWIPO );
+tzcmlpld.c:zwfnTZCMLPLD_ExcludeUser( zVIEW vTZCMRUWK, zVIEW vTZCMWKSO, zVIEW vTZCMREPO );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   ActivateEmptyObjectInstance( &vTZCMWKSO, "TZCMWKSO", vSubtask,
+tzcmlpld.c:   CreateEntity( vTZCMWKSO, "RepositoryClient", zPOS_AFTER );
+tzcmlpld.c:   SetAttributeFromInteger( vTZCMWKSO, "RepositoryClient",
+tzcmlpld.c:   SetAttributeFromInteger( vTZCMWKSO, "RepositoryClient",
+tzcmlpld.c:   SetAttributeFromInteger( vTZCMWKSO, "RepositoryClient",
+tzcmlpld.c:   SetAttributeFromString( vTZCMWKSO, "RepositoryClient",
+tzcmlpld.c:   CreateEntity( vTZCMWKSO, "User", zPOS_AFTER );
+tzcmlpld.c:   SetAttributeFromString( vTZCMWKSO, "User", "Name", "User" );
+tzcmlpld.c:   SetAttributeFromString( vTZCMWKSO, "User", "Password", "user" );
+tzcmlpld.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmlpld.c:   SetNameForView( vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:      if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK ) >= 0 )
+tzcmlpld.c:         SetNameForView( vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) > 0 )
+tzcmlpld.c:      CreateViewFromViewForTask( &vTZCMWKSW, vTZCMWKSO, 0 );
+tzcmlpld.c:      if ( vTZCMWKSO > 0 )
+tzcmlpld.c:   if ( vTZCMWKSO > 0 )
+tzcmlpld.c:   zVIEW   vTZCMWKSO;
+tzcmlpld.c:   ActivateEmptyObjectInstance( &vTZCMWKSO, "TZCMWKSO", vSubtask,
+tzcmlpld.c:   CreateEntity( vTZCMWKSO, "RepositoryClient", zPOS_AFTER );
+tzcmlpld.c:   SetMatchingAttributesByName( vTZCMWKSO, "RepositoryClient",
+tzcmlpld.c:   if ( oTZCMWKSO_CommitWorkstation( vTZCMWKSO ) < 0 )
+tzcmlpld.c:   DropObjectInstance( vTZCMWKSO );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   if ( oTZCMWKSO_ActivateWorkStation( &vTZCMWKSO, vSubtask,
+tzcmlpld.c:   nRC = GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmlpld.c:   SetNameForView( vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   if ( SetCursorFirstEntityByAttr( vTZCMWKSO, "LPLR", "ZKey",
+tzcmlpld.c:                                    vTZCMWKSO, "RepositoryClient", "DefaultLPLR_ZKey",
+tzcmlpld.c:      SetCursorFirstEntity( vTZCMWKSO, "LPLR", 0 );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   if ( oTZCMWKSO_GetWKS_FileName( szZeidonWKS ) == 0 )
+tzcmlpld.c:      ActivateOI_FromFile( &vTZCMWKSO, "TZCMWKSO", vSubtask, szZeidonWKS, zSINGLE | zNOI_OKAY | zIGNORE_ATTRIB_ERRORS );
+tzcmlpld.c:   for ( nRC = SetCursorFirstEntity( vTZCMWKSO, "LPLR", "" );
+tzcmlpld.c:         nRC = SetCursorNextEntity( vTZCMWKSO, "LPLR", "" ) )
+tzcmlpld.c:      if ( CompareAttributeToString( vTZCMWKSO, "LPLR", "Name", "" ) == 0 )
+tzcmlpld.c:          DeleteEntity( vTZCMWKSO, "LPLR", zREPOS_NONE );
+tzcmlpld.c:   SetNameForView( vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   SetNameForView( vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:      if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) >= 0 )
+tzcmlpld.c:         SetCursorFirstEntity( vTZCMWKSO, "User","RepositoryClient" );
+tzcmlpld.c:         if ( SetCursorNextEntity( vTZCMWKSO, "User",
+tzcmlpld.c:                                       vTZCMWKSO, "User", "Name" );
+tzcmlpld.c:                                       vTZCMWKSO, "User", "Desc" );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   nRC = GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   SetCursorFirstEntityByString( vTZCMWKSO, "User", "Name", szUserName, "" );
+tzcmlpld.c:   GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMWKSO, "User", "ZKey" );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   nRC = GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   CreateViewFromViewForTask( &vTemp, vTZCMWKSO, 0 );
+tzcmlpld.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:                                 zVIEW vTZCMWIPO, zVIEW vTZCMWKSO )
+tzcmlpld.c:                                     vTZCMWKSO, "User", "Password" ) == 0 )
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   nRC = GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMWKSO, "User", "ZKey" );
+tzcmlpld.c:   GetStringFromAttribute( szName, vTZCMWKSO, "User", "Name" );
+tzcmlpld.c:   GetStringFromAttribute( szPassword, vTZCMWKSO, "User", "Password" );
+tzcmlpld.c:                              vTZCMWKSO, "User", "Name" );
+tzcmlpld.c:                                         vTZCMWIPO, vTZCMWKSO ) < 0 )
+tzcmlpld.c:   RelinkInstanceToInstance( vTZCMWKSO, "User", vTZCMREPO, "User" );
+tzcmlpld.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   nRC = GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   if ( CheckExistenceOfEntity( vTZCMWKSO, "User" ) != zCURSOR_SET )
+tzcmlpld.c:   if ( SetCursorFirstSelectedEntity( vTZCMWKSO, "User", "" ) != zCURSOR_SET )
+tzcmlpld.c:                                     vTZCMWKSO, "User", "Password" ) != 0 )
+tzcmlpld.c:   if ( CheckExistenceOfEntity( vTZCMWKSO, "LPLR" ) == zCURSOR_NULL )
+tzcmlpld.c:   // the Desc attribute of TZCMWKSO.
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   DeleteEntity( vTZCMWKSO, "LPLR", zREPOS_NONE );
+tzcmlpld.c:   ofnTZCMWKSO_AppendSlash( szFileName );
+tzcmlpld.c:                             zVIEW vTZCMWKSO )
+tzcmlpld.c:   ofnTZCMWKSO_AppendSlash( szFileName );
+tzcmlpld.c:         // DeleteEntity( vTZCMWKSO, "LPLR", zREPOS_PREV );
+tzcmlpld.c:         ofnTZCMWKSO_AppendSlash( szFileName );
+tzcmlpld.c:      DeleteEntity( vTZCMWKSO, "LPLR", zREPOS_PREV );
+tzcmlpld.c:zwfnTZCMLPLD_CheckXLP_ForRepo( zVIEW vSubtask, zVIEW vTZCMLPLO, zVIEW vTZCMWKSO )
+tzcmlpld.c:         DeleteEntity( vTZCMWKSO, "LPLR", zREPOS_PREV );
+tzcmlpld.c:   ofnTZCMWKSO_AppendSlash( szFileName1 );
+tzcmlpld.c:   ofnTZCMWKSO_AppendSlash( szReportPathName );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:                                     vTZCMWKSO ) < 0 )
+tzcmlpld.c:   if ( zwfnTZCMLPLD_CheckXLP_ForRepo( vSubtask, vTZCMLPLO, vTZCMWKSO ) < 0 )
+tzcmlpld.c:   if ( CheckExistenceOfEntity( vTZCMWKSO, "LPLR" ) == zCURSOR_SET &&
+tzcmlpld.c:        CompareAttributeToString( vTZCMWKSO, "LPLR", "Name", "" ) == 0 )
+tzcmlpld.c:      DeleteEntity( vTZCMWKSO, "LPLR", zREPOS_NONE );
+tzcmlpld.c:   CreateEntity( vTZCMWKSO, "LPLR", zPOS_AFTER );
+tzcmlpld.c:   SetMatchingAttributesByName( vTZCMWKSO, "LPLR",
+tzcmlpld.c:   OrderEntityForView( vTZCMWKSO, "LPLR", "Name A" );
+tzcmlpld.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:zwfnTZCMLPLD_CheckProjectName_Type( zVIEW vSubtask, zVIEW vTZCMWKSO,
+tzcmlpld.c:   zVIEW   vTZCMWKSO2;
+tzcmlpld.c:   CreateViewFromViewForTask( &vTZCMWKSO2, vTZCMWKSO, 0 );
+tzcmlpld.c:   nRC = SetCursorFirstEntityByString( vTZCMWKSO2, "LPLR", "Name", szLPLR_Name, 0 );
+tzcmlpld.c:   DropView( vTZCMWKSO2 );
+tzcmlpld.c:zwfnTZCMLPLD_CheckDuplicateDir( zVIEW vSubtask, zVIEW vTZCMWKSO, zVIEW vTZCMLPLO,
+tzcmlpld.c:   zVIEW    vTZCMWKSO2;
+tzcmlpld.c:   CreateViewFromViewForTask( &vTZCMWKSO2, vTZCMWKSO, 0 );
+tzcmlpld.c:   SetNameForView( vTZCMWKSO2, "***TZCMWKSO2", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   nRC = SetCursorFirstEntity( vTZCMWKSO2, "LPLR", 0 );
+tzcmlpld.c:      GetStringFromAttribute( szPgmSrcDir2,  vTZCMWKSO2, "LPLR", "PgmSrcDir" );
+tzcmlpld.c:      GetStringFromAttribute( szExecDir2,    vTZCMWKSO2, "LPLR", "ExecDir" );
+tzcmlpld.c:      GetStringFromAttribute( szMetaSrcDir2, vTZCMWKSO2, "LPLR", "MetaSrcDir" );
+tzcmlpld.c:         GetStringFromAttribute( szLPLR_Name, vTZCMWKSO2, "LPLR", "Name" );
+tzcmlpld.c:         DropView( vTZCMWKSO2 );
+tzcmlpld.c:      nRC = SetCursorNextEntity( vTZCMWKSO2, "LPLR", 0 );
+tzcmlpld.c:   DropView( vTZCMWKSO2 );
+tzcmlpld.c:zwfnTZCMLPLD_CheckProjectDir( zVIEW vSubtask, zVIEW vTZCMWKSO, zVIEW vTZCMLPLO,
+tzcmlpld.c:   if ( zwfnTZCMLPLD_CheckDuplicateDir( vSubtask, vTZCMWKSO, vTZCMLPLO,
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   if ( zwfnTZCMLPLD_CheckProjectName_Type( vSubtask, vTZCMWKSO, szLPLR_Name,
+tzcmlpld.c:   if ( zwfnTZCMLPLD_CheckProjectDir( vSubtask, vTZCMWKSO, vTZCMLPLO,
+tzcmlpld.c:      GetStringFromAttribute( szUserName, vTZCMWKSO, "User", "Name" );
+tzcmlpld.c:      GetStringFromAttribute( szUserName, vTZCMWKSO, "User", "Name" );
+tzcmlpld.c:   SetAttributeFromAttribute( vTZCMWKSO, "LPLR", "MaxZKey",
+tzcmlpld.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) > 0 )
+tzcmlpld.c:      nRC = SetCursorFirstEntity( vTZCMWKSO, "LPLR", "" );
+tzcmlpld.c:         GetIntegerFromAttribute( &lZKey, vTZCMWKSO, "LPLR", "ZKey" );
+tzcmlpld.c:         nRC = SetCursorNextEntity( vTZCMWKSO, "LPLR", "" );
+tzcmlpld.c:      CreateEntity( vTZCMWKSO, "LPLR", zPOS_AFTER );
+tzcmlpld.c:      SetAttributeFromInteger( vTZCMWKSO, "LPLR", "ZKey", lHighZKey );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   GetStringFromAttribute( szName, vTZCMWKSO, "LPLR", "Name" );
+tzcmlpld.c:   GetStringFromAttribute( szFileName, vTZCMWKSO, "LPLR", "ExecDir" );
+tzcmlpld.c:   ofnTZCMWKSO_AppendSlash( szFileName );
+tzcmlpld.c:      DeleteEntity( vTZCMWKSO, "LPLR", zREPOS_NONE );
+tzcmlpld.c:      if ( CheckExistenceOfEntity( vTZCMWKSO, "CorrespondingCPLR" ) >= zCURSOR_SET &&
+tzcmlpld.c:         GetIntegerFromAttribute( &lZKey, vTZCMWKSO, "CorrespondingCPLR", "ZKey" );
+tzcmlpld.c:            GetIntegerFromAttribute( &lLPLR_ZKey, vTZCMWKSO, "LPLR", "ZKey" );
+tzcmlpld.c:      ExcludeEntity( vTZCMWKSO, "LPLR", zREPOS_NONE );
+tzcmlpld.c:      if ( CheckExistenceOfEntity( vTZCMWKSO, "CorrespondingCPLR" ) >= zCURSOR_SET &&
+tzcmlpld.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:   if ( SetCursorFirstEntity( vTZCMWKSO, "LPLR", "" ) != zCURSOR_SET )
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   if ( vTZCMWKSO <= 0 )
+tzcmlpld.c:                   "TZCMWKSO View not found",
+tzcmlpld.c:   GetStringFromAttribute( szName, vTZCMWKSO, "LPLR", "Name" );
+tzcmlpld.c:   GetStringFromAttribute( szFileName, vTZCMWKSO, "LPLR", "ExecDir" );
+tzcmlpld.c:   ofnTZCMWKSO_AppendSlash( szFileName );
+tzcmlpld.c:      // Get the ZKey from the LPLR just read and store it in the TZCMWKSO
+tzcmlpld.c:      // always have the same ZKey as the TZCMWKSO.LPLR entity.
+tzcmlpld.c:      GetIntegerFromAttribute( &lZKey, vTZCMWKSO, "LPLR", "ZKey" );
+tzcmlpld.c:      SetAttributeFromInteger( vTZCMWKSO, "RepositoryClient",
+tzcmlpld.c:      oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:   // LPLR object and also in the TZCMWKSO object.
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   SetAttributeFromAttribute( vTZCMWKSO, "LPLR", "Desc",
+tzcmlpld.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   // If the LPLR entry in TZCMWKSO is empty, it excludes it. It knows this
+tzcmlpld.c:   // If includes the LPLR entry into TZCMWKSO and then commits both
+tzcmlpld.c:   // TZCMWKSO and TZCMLPLO.
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   // Make sure TZCMWKSO is positioned on same LPLR entry as TZCMLPLO.
+tzcmlpld.c:   SetCursorFirstEntityByAttr( vTZCMWKSO, "LPLR", "ZKey",
+tzcmlpld.c:   if ( ( vTZCMWKSO > 0 ) && ( vTZCMLPLO > 0 ) )
+tzcmlpld.c:      if ( CompareAttributeToInteger( vTZCMWKSO, "LPLR", "ZKey", 0 ) == 0 )
+tzcmlpld.c:         DeleteEntity( vTZCMWKSO, "LPLR", zREPOS_NONE );
+tzcmlpld.c:      nRC = IncludeSubobjectFromSubobject( vTZCMWKSO, "LPLR",
+tzcmlpld.c:      OrderEntityForView( vTZCMWKSO, "LPLR", "Name A" );
+tzcmlpld.c:      oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   GetIntegerFromAttribute( (zPLONG)&ulZKey, vTZCMWKSO, "User", "ZKey" );
+tzcmlpld.c:         GetStringFromAttribute( &szMsg[ zstrlen( szMsg ) ], vTZCMWKSO,
+tzcmlpld.c:   SetAttributeFromString( vTZCMWKSO, "LPLR", "LPLR_Type", "2" );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   GetStringFromAttribute( szLPLR_Type, vTZCMWKSO, "LPLR", "LPLR_Type" );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   if ( CheckExistenceOfEntity( vTZCMWKSO, "RepositoryClient" ) >= zCURSOR_SET )
+tzcmlpld.c:                                    vTZCMWKSO, "RepositoryClient", zPOS_AFTER );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   GetIntegerFromAttribute( (zPLONG)&ulZKey, vTZCMWKSO, "RepositoryClient",
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) < 0 )
+tzcmlpld.c:zwfnTZCMLPLD_CheckOutCommit( zVIEW vSubtask, zVIEW vTZCMWKSO, zVIEW vTZCMLPLO,
+tzcmlpld.c:   if ( oTZCMWKSO_CommitWorkstation( vTZCMWKSO ) >= 0 )
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) < 0 )
+tzcmlpld.c:   zwfnTZCMLPLD_CheckOutCommit( vSubtask, vTZCMWKSO, vTZCMLPLO, vTZCMCPRO );
+tzcmlpld.c:                                  zVIEW vTZCMWKSO, zULONG ulZKey2 )
+tzcmlpld.c:                                        vTZCMWKSO, "RepositoryClient", "WKS_Id" )
+tzcmlpld.c:                                      vTZCMWKSO, "RepositoryClient", zSET_ALL );
+tzcmlpld.c:                                zVIEW vTZCMWKSO, zVIEW vTZCMWIPO )
+tzcmlpld.c:                                  vTZCMWKSO, "User", zPOS_AFTER );
+tzcmlpld.c:                                  vTZCMWKSO, "RepositoryClient", zPOS_AFTER );
+tzcmlpld.c:   GetIntegerFromAttribute( (zPLONG)&ulZKey2, vTZCMWKSO, "LPLR", "ZKey" );
+tzcmlpld.c:                                     vTZCMWKSO, "LPLR", zPOS_AFTER );
+tzcmlpld.c:                                     vTZCMWKSO, "User", zPOS_AFTER );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   GetIntegerFromAttribute( (zPLONG) &ulZKey2, vTZCMWKSO,
+tzcmlpld.c:      if ( zwfnTZCMLPLD_SetRepositoryClient( vSubtask, vTZCMREPO, vTZCMWKSO,
+tzcmlpld.c:   zwfnTZCMLPLD_SetCheckOutValues( vSubtask, vTZCMCPRO, vTZCMWKSO, vTZCMWIPO );
+tzcmlpld.c:   ofnTZCMWKSO_AppendSlash( szLPLR_FileSpec );
+tzcmlpld.c:zwfnTZCMLPLD_RemoveStatus( zVIEW vSubtask, zVIEW vTZCMCOML, zVIEW vTZCMWKSO,
+tzcmlpld.c:      GetIntegerFromAttribute( &lLPLR_ZKey, vTZCMWKSO, "LPLR", "ZKey" );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) < 0 )
+tzcmlpld.c:         zwfnTZCMLPLD_RemoveStatus( vSubtask, vTZCMCOML, vTZCMWKSO,
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) < 0 )
+tzcmlpld.c:   GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMWKSO, "RepositoryClient",
+tzcmlpld.c:   ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzcmlpld.c:   zVIEW  vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmlpld.c:   if ( vTZCMWKSO == 0 )  // view isn't there
+tzcmlpld.c:   // always have the same ZKey as the TZCMWKSO.LPLR entity.
+tzcmlpld.c:   GetIntegerFromAttribute((zPLONG) &ulZKey, vTZCMWKSO, "LPLR", "ZKey" );
+tzcmlpld.c:   SetAttributeFromInteger( vTZCMWKSO, "RepositoryClient",
+tzcmlpld.c:   SetCursorFirstEntityByInteger( vTZCMWKSO, "LPLR", "ZKey", ulZKey, "" );
+tzcmlpld.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) < 0 )
+tzcmlpld.c:   GetIntegerFromAttribute( &lUserZKey, vTZCMWKSO, "User", "ZKey" );
+tzcmlpld.c:   GetIntegerFromAttribute( &lWksZKey, vTZCMWKSO, "RepositoryClient", "ZKey" );
+tzcmlpld.c:   GetIntegerFromAttribute( &lLPLR_ZKey, vTZCMWKSO, "LPLR", "ZKey" );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:      // Make sure TZCMWKSO is positioned on same LPLR entry as TZCMLPLO.
+tzcmlpld.c:      if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) >= 0 )
+tzcmlpld.c:         SetCursorFirstEntityByAttr( vTZCMWKSO, "LPLR", "ZKey",
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:      if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) >= 0 )
+tzcmlpld.c:                                    vTZCMWKSO, "User", "Desc" );
+tzcmlpld.c:            ofnTZCMWKSO_AppendSlash( szFileName );
+tzcmlpld.c:            ofnTZCMWKSO_AppendSlash( szFileName );
+tzcmlpld.c:   zVIEW   vTZCMWKSO;
+tzcmlpld.c:   if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK ) > 0 )
+tzcmlpld.c:      nRC = SetCursorFirstEntity( vTZCMWKSO, "User", "" );
+tzcmlpld.c:         GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMWKSO,
+tzcmlpld.c:         nRC = SetCursorNextEntity( vTZCMWKSO, "User", "" );
+tzcmlpld.c:zwfnTZCMLPLD_ExcludeUser( zVIEW vTZCMRUWK, zVIEW vTZCMWKSO, zVIEW vTZCMREPO )
+tzcmlpld.c:   GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMWKSO, "User", "ZKey" );
+tzcmlpld.c:   GetIntegerFromAttribute( (zPLONG) &ulWKS_ZKey, vTZCMWKSO,
+tzcmlpld.c:      ExcludeEntity( vTZCMWKSO, "User", zREPOS_PREV );
+tzcmlpld.c:   zVIEW    vTZCMWKSO;
+tzcmlpld.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpld.c:   nRC = SetCursorFirstEntity( vTZCMWKSO, "User", "" );
+tzcmlpld.c:      zwfnTZCMLPLD_ExcludeUser( vTZCMRUWK, vTZCMWKSO, vTZCMREPO );
+tzcmlpld.c:      nRC = SetCursorNextEntity( vTZCMWKSO, "User", "" );
+tzcmlpld.c:   CreateViewFromViewForTask( &vTempWKSO, vTZCMWKSO, 0 );
+tzcmlpld.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+TZCMLPLDV.c:   //:VIEW TZCMWKSO REGISTERED AS TZCMWKSO
+TZCMLPLDV.c:   zVIEW     TZCMWKSO = 0; 
+TZCMLPLDV.c:   RESULT = GetViewByName( &TZCMWKSO, "TZCMWKSO", ViewToWindow, zLEVEL_TASK );
+TZCMLPLDV.c:   //:IF TZCMWKSO.LPLR.MaxZKey != ""
+TZCMLPLDV.c:   if ( CompareAttributeToString( TZCMWKSO, "LPLR", "MaxZKey", "" ) != 0 )
+TZCMLPLDV.c:      //:szMsg = "The current User, " + TZCMWKSO.User.Name + ", already has it's starting ZKey initialized. You do not need to reset."
+TZCMLPLDV.c:      GetVariableFromAttribute( szTempString_0, 0, 'S', 33, TZCMWKSO, "User", "Name", "", 0 );
+TZCMLPLDV.c:   //:// TZCMWKSO for the current LPLR.
+TZCMLPLDV.c:   //:// KJS 02/04/14 - I think we mean to do TZCMULWO not TZCMWKSO which I believe is already set.
+TZCMLPLDV.c:   //://SET CURSOR FIRST TZCMWKSO.User WHERE TZCMWKSO.User.Name = TZCMWIPO.ROOT.UserName 
+TZCMLPLDV.c:   //:SET CURSOR FIRST TZCMULWO.User WHERE TZCMULWO.User.Name = TZCMWKSO.User.Name  
+TZCMLPLDV.c:   GetStringFromAttribute( szTempString_1, TZCMWKSO, "User", "Name" );
+TZCMLPLDV.c:      //:szMsg = "The current User, " + TZCMWKSO.User.Name + ", is not in the list of ZKey Users. Add a 'New User'."
+TZCMLPLDV.c:      GetVariableFromAttribute( szTempString_1, 0, 'S', 33, TZCMWKSO, "User", "Name", "", 0 );
+TZCMLPLDV.c:   //:TZCMWKSO.LPLR.MaxZKey = TZCMULWO.User.GenerationStartZKey 
+TZCMLPLDV.c:   SetAttributeFromAttribute( TZCMWKSO, "LPLR", "MaxZKey", TZCMULWO, "User", "GenerationStartZKey" );
+tzcmlplo.c:      ofnTZCMWKSO_AppendSlash( szL_ExecDir );
+tzcmlplo.c:      ofnTZCMWKSO_AppendSlash( szL_MetaSrcDir );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szL_MetaSrcDir );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szL_ExecDir );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szFileName );
+tzcmlplo.c:   zVIEW    vTZCMWKSO;
+tzcmlplo.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szL_MetaSrcDir );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szL_ExecDir );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szL_PgmSrcDir );
+tzcmlplo.c:   GetIntegerFromAttribute( (zPLONG) &ulUserZKey, vTZCMWKSO, "User", "ZKey" );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szL_FileName );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szL_FileName );
+tzcmlplo.c:         ofnTZCMWKSO_AppendSlash( szL_FileName );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szL_MetaSrcDir );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szC_MetaSrcDir );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szL_ExecDir );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szC_ExecDir );
+tzcmlplo.c:   zVIEW  vTZCMWKSO;
+tzcmlplo.c:   // Before we commit the File object, we will commit the TZCMWKSO object
+tzcmlplo.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlplo.c:   oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmlplo.c:   ofnTZCMWKSO_AppendSlash( szFileName );
+tzcmlpmd.c://:   VIEW vCM         BASED ON LOD TZCMWKSO
+tzcmlpmd.c:   //:GET VIEW vCM NAMED "TZCMWKSO"
+tzcmlpmd.c:   RESULT = GetViewByName( &vCM, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpmd.c://:   VIEW vCM         BASED ON LOD TZCMWKSO
+tzcmlpmd.c:   //:GET VIEW vCM NAMED "TZCMWKSO"
+tzcmlpmd.c:   RESULT = GetViewByName( &vCM, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmlpmd.c://:   VIEW vCM BASED ON LOD TZCMWKSO
+tzcmlpmd.c:   //:GET VIEW vCM NAMED "TZCMWKSO"
+tzcmlpmd.c:   RESULT = GetViewByName( &vCM, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzcmoprs.c:   ofnTZCMWKSO_AppendSlash( pchDirectorySpec );
+tzcmoprs.c:   GetViewByName( &WKS_View, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmoprs.c:      if ( oTZCMWKSO_ActivateWorkStation( &WKS_View, vZeidonCM,
+tzcmoprs.c:      SetNameForView( WKS_View, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmoprs.c:            oTZCMWKSO_CommitWorkstation( WKS_View );
+tzcmoprs.c:   ofnTZCMWKSO_AppendSlash( szLPLR_Spec );
+tzcmoprs.c:   zVIEW  vTZCMWKSO;
+tzcmoprs.c:      GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmoprs.c:      GetStringFromAttribute( szUserName, vTZCMWKSO, "User", "Name" );
+tzcmoprs.c:   if ( GetViewByName( &WKS_View, "TZCMWKSO",
+tzcmoprs.c:               ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzcmoprs.c:      ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzcmoprs.c:               ofnTZCMWKSO_AppendSlash( szRemotePath );
+tzcmoprs.c:         ofnTZCMWKSO_AppendSlash( szFileSpecExec );
+tzcmoprs.c:         ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzcmoprs.c:         ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzcmoprs.c:      if ( oTZCMWKSO_CommitWorkstation( WKS_View ) == 0 )
+tzcmoprs.c:   if ( GetViewByName( &WKS_View, "TZCMWKSO",
+tzcmoprs.c:      ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzcmoprs.c:      if ( oTZCMWKSO_CommitWorkstation( WKS_View ) == 0 )
+tzcmoprs.c:         ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzcmoprs.c:         ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzcmoprs.c:             ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzcmoprs.c:   ofnTZCMWKSO_AppendSlash( szWorkString );
+tzcmoprs.c:   GetViewByName( &WKS_View, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmoprs.c:   GetViewByName( &WKS_View, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmoprs.c:   GetViewByName( &WKS_View, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmoprs.c:   GetViewByName( &WKS_View, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmoprs.c:      oTZCMWKSO_CommitWorkstation( WKS_View );
+tzcmoprs.c:   if ( GetViewByName( &WKS_View, "TZCMWKSO",
+tzcmoprs.c:      oTZCMWKSO_CommitWorkstation( WKS_View );
+tzcmoprs.c:         ofnTZCMWKSO_AppendSlash( szDirectorySpec );
+tzcmslpd.c:   zVIEW    vTZCMWKSO;
+tzcmslpd.c:        GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM,
+tzcmslpd.c:      nRC = CreateViewFromViewForTask( &vTZCMSLPL, vTZCMWKSO, 0 );
+tzcmslpd.c:   zVIEW  vTZCMWKSO;
+tzcmslpd.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmslpd.c:   if ( vTZCMWKSO == 0 )  // View isn't there
+tzcmslpd.c:   GetIntegerFromAttribute( &lDfltZKey, vTZCMWKSO, "RepositoryClient",
+tzcmslpd.c:   SetAttributeFromInteger( vTZCMWKSO, "RepositoryClient",
+tzcmslpd.c:   SetCursorFirstEntityByInteger( vTZCMWKSO, "LPLR", "ZKey", lZKey, "" );
+tzcmslpd.c:      oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
+tzcmslpd.c:   zVIEW  vTZCMWKSO;
+tzcmslpd.c:   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzcmslpd.c:   if ( vTZCMWKSO == 0 )  // view isn't there
+tzcmslpd.c:   GetIntegerFromAttribute( &lCurrentZKey, vTZCMWKSO, "LPLR", "ZKey" );
+tzcmslpd.c:   nRC = SetCursorFirstEntityByInteger( vTZCMWKSO, "LPLR", "ZKey", lZKey, "" );
+tzcmslpd.c:   GetStringFromAttribute( szLPLR_Name, vTZCMWKSO, "LPLR", "Name" );
+tzcmslpd.c:   GetStringFromAttribute( szDirectorySpec, vTZCMWKSO, "LPLR", "ExecDir" );  // borrow szDirectorySpec for a second
+tzcmslpd.c:   ofnTZCMWKSO_AppendSlash( szLPLR_FileSpec );
+tzcmslpd.c:         SetAttributeFromAttribute( vTZCMWKSO, "LPLR", "ZKey",
+tzcmslpd.c:         SetMatchingAttributesByName( LPLR_View, "LPLR", vTZCMWKSO, "LPLR", zSET_NOTNULL );
+tzcmslpd.c:         if ( CheckExistenceOfEntity( vTZCMWKSO, "CorrespondingCPLR" ) >= zCURSOR_SET )
+tzcmslpd.c:                                             vTZCMWKSO, "CorrespondingCPLR", zPOS_AFTER );
+tzcmslpd.c:   // CommitOI_ToFile( vTZCMWKSO, szDirectorySpec, zSINGLE );
+tzcmslpd.c:      ofnTZCMWKSO_AppendSlash( szDetachSpec );
+tzcmslpd.c:   nRC = SetCursorFirstEntityByInteger( vTZCMWKSO,
+tzcmwkso.c:ofnTZCMWKSO_AppendSlash( zPCHAR pchDirectory )
+tzcmwkso.c://./ ADD NAME=oTZCMWKSO_GetWKS_FileName
+tzcmwkso.c:oTZCMWKSO_GetWKS_FileName( zPCHAR pchZeidonWKS )
+tzcmwkso.c:      ofnTZCMWKSO_AppendSlash( pchZeidonWKS );
+tzcmwkso.c:oTZCMWKSO_ActivateWorkStation( zPVIEW vTZCMWKSO, zVIEW vQual, zLONG lControl )
+tzcmwkso.c:   if ( oTZCMWKSO_GetWKS_FileName( szZeidonWKS ) == 0 )
+tzcmwkso.c:      return( ActivateOI_FromFile( vTZCMWKSO, "TZCMWKSO", vQual,
+tzcmwkso.c://./ ADD NAME=oTZCMWKSO_CommitWorkstation
+tzcmwkso.c://  CM OPERATION: oTZCMWKSO_CommitWorkstation
+tzcmwkso.c:oTZCMWKSO_CommitWorkstation( zVIEW WKS_View )
+tzcmwkso.c:   if ( oTZCMWKSO_GetWKS_FileName( szZeidonWKS ) == 0 )
+tzersapd.c:   ofnTZCMWKSO_AppendSlash( szFileName );
+tzersapd.c:   ofnTZCMWKSO_AppendSlash( szFileName );
+tzobrwad.c:ActivateWorkStation( zPVIEW vTZCMWKSO, zVIEW vQual, zLONG lControl )
+tzobrwad.c:      return( ActivateOI_FromFile( vTZCMWKSO, "TZCMWKSO", vQual,
+tzobrwad.c:   zVIEW vTZCMWKSO;
+tzobrwad.c:   if ( ActivateWorkStation( &vTZCMWKSO, vBrowser, zLEVEL_TASK ) < 0 )
+tzobrwad.c:      nRC = SetCursorFirstEntity( vTZCMWKSO, "LPLR", "");
+tzobrwad.c:         GetStringFromAttribute( szAppName2, vTZCMWKSO, "LPLR", "Name" );
+tzobrwad.c:           nRC = SetCursorNextEntity( vTZCMWKSO, "LPLR", "");
+tzobrwad.c:      nRC_cmp = SetCursorFirstEntityByString( vTZCMWKSO, "LPLR", "Name",
+tzobrwad.c:   GetStringFromAttribute( szFileName, vTZCMWKSO, "LPLR", "MetaSrcDir");
+tzobrwad.c:   DropView( vTZCMWKSO );
+tzopsigd.c:      nRC = GetViewByName( &WKS_View, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+tzopsigd.c:      oTZCMWKSO_CommitWorkstation( WKS_View );
+tzpeupdd.c:      ofnTZCMWKSO_AppendSlash( szFileSpec );
+tzpntrad.c:   ofnTZCMWKSO_AppendSlash( szRemotePath );
+tzpntrad.c:   ofnTZCMWKSO_AppendSlash( szSourceFileName );
+tzrpupsd.c:   ofnTZCMWKSO_AppendSlash( szSourceFileName );
+tzteupdd.c:         ofnTZCMWKSO_AppendSlash( szFileName );
+tzteupdd.c:         ofnTZCMWKSO_AppendSlash( szFileName );
+tzteupdd.c:         ofnTZCMWKSO_AppendSlash( szFileName );
+tzvmi3aa.c:   GetViewByName( &vLPLR, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+tzvminaa.c:      GetViewByName( &CM_List, "TZCMWKSO", lpInterpSubtask, zLEVEL_APPLICATION );
+tzvminaa.c:      nRC = GetViewByName( &CM_List, "TZCMWKSO",
+tzvsxcad.c:   GetViewByName( &CM_List, "TZCMWKSO", CM_List, zLEVEL_SUBTASK );
+tzvsxcad.c:   GetViewByName( &CM_List, "TZCMWKSO", CM_List, zLEVEL_SUBTASK );
+tzxsltdd.c:   ofnTZCMWKSO_AppendSlash( szRemotePath );
+tzxsltdd.c:   ofnTZCMWKSO_AppendSlash( szSourceFileName );
+tzzolodd.c:      ofnTZCMWKSO_AppendSlash( szFileName );
+tzzolodd.c:   ofnTZCMWKSO_AppendSlash( szSourceFileName );
+tzzolodq.c:         ofnTZCMWKSO_AppendSlash( szFileName );
+tzzolodq.c:      ofnTZCMWKSO_AppendSlash( szFileName );
+tzzolodq.c:   ofnTZCMWKSO_AppendSlash( szSourceFileName );

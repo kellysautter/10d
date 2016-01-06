@@ -1,0 +1,11 @@
+z1000-Zeidon    Z68E7F0E TZWDVORO 03/30/14   16:29:55 1.0a2    
+eViewObjRef 1
+aZKey      110001934
+aName      KZRestResponse
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      110001928
+aName      KZRestResponse
+aDesc      Object used to return activate/commit response by the JOE REST server.
+

@@ -1,0 +1,12 @@
+z1000-Zeidon    Z586BD93 TZWDVORO 01/04/13   11:31:27 1.0a2    
+eViewObjRef 1
+aZKey      92716435
+aName      TZRPTOUTLINER
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      90145850
+aName      TZRPSRCO
+aDesc      Report Definition
+aDLL_Name  tzrpsrco
+

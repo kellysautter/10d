@@ -1,0 +1,13 @@
+z11001Zeidon    TEMP     TZWDVORO 02/16/00   19:10:31 1.0a     
+20000208115525207
+eViewObjRef 1,6
+aZKey,2    1178459
+aName,2    KZXRA
+aDesc,2    VOR automatically built from LOD Dialog
+
+eLOD       2,38
+aZKey,2    90417949
+aName,2    KZXRA
+aDesc,2    Executable Remote Application
+aDLL_Name,2 KZXRW
+

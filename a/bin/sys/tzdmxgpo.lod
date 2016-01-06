@@ -1,0 +1,1037 @@
+z1000-Zeidon    TZDMXGPO TZZOLODO 10/27/15   15:13:51 1.0b0    
+eLOD       1
+aZKey      1329552
+aName      TZDMXGPO
+aDesc      Executable Group of Domains
+
+eLOD_EntityParent 2
+aName      DomainGroup
+aIndentName DomainGroup
+aIndentLvl 0
+aZKey      1329553
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      Domain
+aIndentName    Domain
+aIndentLvl 3
+aZKey      1329554
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aParentDeleteBehave D
+
+eLOD_EntityChild 4
+aName      Context
+aIndentName       Context
+aIndentLvl 6
+aZKey      1329555
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+
+eLOD_EntityChild 5
+aName      TableEntry
+aIndentName          TableEntry
+aIndentLvl 9
+aZKey      1329556
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+
+eLOD_EntityChild 6
+aName      NLS_TableEntry
+aIndentName             NLS_TableEntry
+aIndentLvl 12
+aZKey      88021504
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Holds NLS values for the External Value attribute of the parent (TableEntry)
+
+eLOD_AttributeRec 7
+aZKey      88021505
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 8
+aName      LanguageIndex
+aZKey      88021506
+aDesc      Country Code
+
+eDomainRec 9
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 7
+aZKey      88021507
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 8
+aName      Text
+aZKey      88021508
+aDesc      NLS Text value
+
+eDomainRec 9
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      1329557
+
+eER_AttributeRec 7
+aName      ZKey
+aZKey      1321304
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329558
+
+eER_AttributeRec 7
+aName      ExternalValue
+aZKey      1321305
+aLth       254
+aDesc      Value to be entered or displayed externally (ie., on terminal or report)
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329559
+
+eER_AttributeRec 7
+aName      InternalValue
+aZKey      1321306
+aLth       254
+aDesc      Value stored internally and on database
+
+eDomainRec 8
+
+eER_EntityRec 6
+aName      TableEntry
+aZKey      1321303
+aPurpose   W
+aDesc      Entry of values for the table for a Domain
+aOwningArea DM
+aER_DiagramPosX 106
+aER_DiagramPosY 442
+
+eER_RelLinkRec 6
+aName      has defining
+aAutoSeq   Y
+aZKey      1322616
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 7
+aZKey      1322615
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 110
+aER_DiagramE1PosY 421
+aER_DiagramE2PosX 110
+aER_DiagramE2PosY 441
+
+eLOD_EntityChild 5
+aName      RegularExpression
+aIndentName          RegularExpression
+aIndentLvl 9
+aZKey      1329560
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+
+eLOD_AttributeRec 6
+aZKey      1329561
+
+eER_AttributeRec 7
+aName      ZKey
+aZKey      1321242
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 8
+
+eER_EntityRec 6
+aName      RegularExpression
+aZKey      1321241
+aPurpose   W
+aDesc      A regular expression entry for a Domain
+aOwningArea DM
+aER_DiagramPosX 150
+aER_DiagramPosY 384
+
+eER_RelLinkRec 6
+aName      has defining
+aAutoSeq   Y
+aZKey      1322619
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 7
+aZKey      1322618
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 110
+aER_DiagramBendPosY 386
+aER_DiagramE1PosX 110
+aER_DiagramE1PosY 415
+aER_DiagramE2PosX 149
+aER_DiagramE2PosY 386
+
+eLOD_AttributeRec 5
+aZKey      1329562
+
+eER_AttributeRec 6
+aName      ZKey
+aZKey      1320706
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329563
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1320708
+aLth       32
+aDesc      The name for this Context
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329564
+
+eER_AttributeRec 6
+aName      DecimalFormat
+aZKey      1320709
+aLth       4
+aDesc      Format of data representing a floating point decimal value
+aPromptPaintLit Decimal Format
+aListPaintLit Decimal Format
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329565
+
+eER_AttributeRec 6
+aName      EditString
+aZKey      1320710
+aLth       254
+aDesc      Format Mask
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      41065906
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      JavaEditString
+aZKey      41065907
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329566
+
+eER_AttributeRec 6
+aName      IsDefault
+aZKey      1320711
+aDesc      Indicates that this context is the default context
+
+eDomainRec 7
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eER_EntityRec 5
+aName      Context
+aZKey      1320705
+aPurpose   W
+aDesc      Domain Context
+aOwningArea DM
+aER_DiagramPosX 106
+aER_DiagramPosY 416
+
+eER_RelLinkRec 5
+aName      has
+aAutoSeq   Y
+aZKey      1322250
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 6
+aZKey      1322249
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 58
+aER_DiagramBendPosY 418
+aER_DiagramE1PosX 58
+aER_DiagramE1PosY 369
+aER_DiagramE2PosX 105
+aER_DiagramE2PosY 418
+
+eLOD_AttributeRec 4
+aZKey      1329567
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1320821
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      41065899
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      JavaClass
+aZKey      41065900
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329568
+aWork      Y
+
+eER_AttributeRec 5
+aName      LastSyncDate
+aZKey      1329569
+aDesc      Config Mgmt sync date
+
+eDomainRec 6
+aZKey      90000089
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329570
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1320822
+aLth       32
+aNotNull   Y
+aDesc      The name used to reference this domain
+aPromptPaintLit Domain Name
+aListPaintLit Domain Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329571
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      1320823
+aDesc      Description of the Domain (its purpose and function)
+
+eDomainRec 6
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329572
+
+eER_AttributeRec 5
+aName      DomainType
+aZKey      1320824
+aLth       1
+aDesc      Type of Domain (Table, Expression, Algorithm)
+aPromptPaintLit Domain Type
+aListPaintLit Domain Type
+
+eDomainRec 6
+aZKey      1320095
+aName      DM_DomainType
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Type of Zeidon Domain
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329573
+
+eER_AttributeRec 5
+aName      DataType
+aZKey      1320825
+aLth       1
+aDesc      Internal data type stored (ie., string, date, decimal, integer)
+aPromptPaintLit Data Type
+aListPaintLit Data Type
+
+eDomainRec 6
+aZKey      1319867
+aName      DataTypeDomain
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Zeidon domain datatypes (logical) supported by Core
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329574
+
+eER_AttributeRec 5
+aName      MaxStringLth
+aZKey      1320826
+aLth       4
+aDesc      Maximum length of any attribute for this string domain
+aPromptPaintLit Max String Length
+aListPaintLit Max String Length
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329575
+
+eER_AttributeRec 5
+aName      ContextRestriction
+aZKey      1320827
+aLth       1
+aDesc      Flag to indicate if only Contexts defined for this domain can be passed to it.
+aPromptPaintLit Context Restriction
+aPromptPaintLth 1
+aListPaintLit Context Restriction
+aListPaintLth 1
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329576
+aWork      Y
+aUpdate    N
+
+eER_AttributeRec 5
+aName      DLL_Name
+aZKey      1329577
+aLth       32
+aDesc      Name of the DLL holding this domain (Is this necessary???)
+
+eDomainRec 6
+aZKey      90000040
+aName      QSFileName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft File Name - 32 chars
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329578
+aWork      Y
+
+eER_AttributeRec 5
+aName      OperName
+aZKey      1329579
+aLth       32
+aDesc      Name of Operation (function) to be executed for this domain
+
+eDomainRec 6
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329580
+
+eER_AttributeRec 5
+aName      DecimalFormat
+aZKey      1320828
+aLth       4
+aDesc      Format used to represent a floating point decimal value
+aPromptPaintLit Decimal Format
+aListPaintLit Decimal Format
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329581
+aWork      Y
+
+eER_AttributeRec 5
+aName      DefaultContextZKey
+aZKey      1329582
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329583
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      OperNumber
+aZKey      1329584
+aDesc      Seq no. of each domain with operation
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      110003003
+aWork      Y
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      ConstraintRule
+aZKey      110003004
+
+eDomainRec 6
+aZKey      1158059
+aName      Note
+aDomainType E
+aDataType  S
+aMaxStringLth 10000
+aDesc      10000 byte string
+aContextRestriction N
+
+eER_EntityRec 4
+aName      Domain
+aZKey      1320820
+aPurpose   W
+aDesc      Domain for validation and formatting
+aOwningArea DM
+aER_DiagramPosX 50
+aER_DiagramPosY 364
+
+eLOD_AttributeRec 3
+aZKey      1329585
+aWork      Y
+aUpdate    N
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1329586
+aLth       32
+aDesc      Should always be 'DOMAINS'
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329587
+aWork      Y
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1329588
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      110003534
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      NextZKeyToAssign
+aZKey      110003535
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 14
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 10
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 11
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 12
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 13
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 14
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 15
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 4
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eSourceFile 2
+aZKey      92000636
+aName      TZDMXGPO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      TZDMXGPO
+aZKey      1149565
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BH`*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+i14        8
+i17        11
+i20        11
+i27        8
+i33        8
+i36        11
+i39        8
+i42        11
+i45        11
+i54        8
+i57        11
+i63        11
+i75        8
+i78        48
+i87        8
+i90        8
+i93        8
+i100       11
+i103       8
+i106       8
+i107       1
+i108       98
+i109       99
+i110       11
+i111       101
+i112       102
+i113       8
+i114       104
+i115       105
+i116       8
+i117       2
+i118       55
+i119       56
+i120       11
+i121       52
+i122       53
+i123       8
+i124       58
+i125       59
+i126       60
+i127       61
+i128       62
+i129       11
+i130       64
+i131       65
+i132       66
+i133       67
+i134       68
+i135       69
+i136       70
+i137       71
+i138       72
+i139       73
+i140       74
+i141       8
+i142       76
+i143       77
+i144       48
+i145       79
+i146       80
+i147       81
+i148       82
+i149       83
+i150       84
+i151       85
+i152       86
+i153       8
+i154       88
+i155       89
+i156       8
+i157       91
+i158       92
+i159       8
+i160       94
+i161       95
+i162       96
+i163       97
+i164       3
+i165       31
+i166       32
+i167       8
+i168       34
+i169       35
+i170       11
+i171       37
+i172       38
+i173       8
+i174       40
+i175       41
+i176       11
+i177       43
+i178       44
+i179       11
+i180       46
+i181       47
+i182       48
+i183       49
+i184       50
+i185       51
+i186       4
+i187       12
+i188       13
+i189       8
+i190       15
+i191       16
+i192       11
+i193       18
+i194       19
+i195       11
+i196       21
+i197       22
+i198       23
+i199       5
+i200       6
+i201       7
+i202       8
+i203       9
+i204       10
+i205       11
+i206       24
+i207       25
+i208       26
+i209       8
+i210       28
+i211       29
+i212       30

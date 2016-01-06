@@ -1,0 +1,17 @@
+rZeidon    Z014738F TZWDVORO 11/02/95   20:53:15 1.0a     
+eViewObjRef 1,192
+aZKey      1340303
+aName      ToolAbout
+
+eLOD       2,192
+aZKey      1326804
+aName      TZ__PRFO
+aDesc      Tools XFER & Profile Info.
+
+eZ_MetaDef 2,192
+aName      ToolAbout
+aZKey      1340303
+aType      9
+aLastUpdateDate 19950824213730000
+aLastCheckInDate 19951102203051110
+

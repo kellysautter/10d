@@ -1,0 +1,152 @@
+Microsoft (R) COFF/PE Dumper Version 14.00.23026.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file tzobrwad.DLL
+
+File Type: DLL
+
+  Section contains the following exports for tzobrwad.dll
+
+    00000000 characteristics
+    5630E35D time date stamp Wed Oct 28 11:01:49 2015
+        0.00 version
+           1 ordinal base
+         123 number of functions
+         123 number of names
+
+    ordinal hint RVA      name
+
+          1    0 00011532 _ActivateWorkStation@12 = @ILT+1325(_ActivateWorkStation@12)
+          2    1 0001113B _BuildObjectInstanceForView@4 = @ILT+310(_BuildObjectInstanceForView@4)
+          3    2 0001163B _BuildOutlinerOI_ForView@4 = @ILT+1590(_BuildOutlinerOI_ForView@4)
+          4    3 00011898 _BuildTaskList@4 = @ILT+2195(_BuildTaskList@4)
+          5    4 0001158C _CommitOI@4 = @ILT+1415(_CommitOI@4)
+          6    5 00011311 _CompareExcludingAttributes@4 = @ILT+780(_CompareExcludingAttributes@4)
+          7    6 000116A9 _CompareFirstDifference@4 = @ILT+1700(_CompareFirstDifference@4)
+          8    7 0001110E _CompareLastDifference@4 = @ILT+265(_CompareLastDifference@4)
+          9    8 00011343 _CompareNextDifference@4 = @ILT+830(_CompareNextDifference@4)
+         10    9 00011546 _CompareObjects@4 = @ILT+1345(_CompareObjects@4)
+         11    A 000117A3 _ComparePreviousDifference@4 = @ILT+1950(_ComparePreviousDifference@4)
+         12    B 00011929 _CompareResetSubobject@4 = @ILT+2340(_CompareResetSubobject@4)
+         13    C 00011834 _CompareSetCursorCorresponding@4 = @ILT+2095(_CompareSetCursorCorresponding@4)
+         14    D 00011154 _CompareSubobject@4 = @ILT+335(_CompareSubobject@4)
+         15    E 00011361 _CreateEntityInstance@4 = @ILT+860(_CreateEntityInstance@4)
+         16    F 00011497 _DeleteEntityInstance@4 = @ILT+1170(_DeleteEntityInstance@4)
+         17   10 000111FE _DisplayObjDef@4 = @ILT+505(_DisplayObjDef@4)
+         18   11 000110C3 _DisplayTaskInstance@4 = @ILT+190(_DisplayTaskInstance@4)
+         19   12 00011276 _ExcludeEntityInstance@4 = @ILT+625(_ExcludeEntityInstance@4)
+         20   13 0001148D _ExitDialog@4 = @ILT+1160(_ExitDialog@4)
+         21   14 0001155F _GetTraceLevel@4 = @ILT+1370(_GetTraceLevel@4)
+         22   15 0001184D _GetWKS_FileName@4 = @ILT+2120(_GetWKS_FileName@4)
+         23   16 000116E0 _PrebuildCreateEntity@4 = @ILT+1755(_PrebuildCreateEntity@4)
+         24   17 000114F6 _RefreshListBox2@4 = @ILT+1265(_RefreshListBox2@4)
+         25   18 000114F1 _RefreshListBox3@4 = @ILT+1260(_RefreshListBox3@4)
+         26   19 0001167C _SelectAttribute@4 = @ILT+1655(_SelectAttribute@4)
+         27   1A 000118BB _SelectCreateEntity@4 = @ILT+2230(_SelectCreateEntity@4)
+         28   1B 0001171C _SetTraceLevel@4 = @ILT+1815(_SetTraceLevel@4)
+         29   1C 00011442 _SortViewList@4 = @ILT+1085(_SortViewList@4)
+         30   1D 00011136 _StageSingleTask@8 = @ILT+305(_StageSingleTask@8)
+         31   1E 0001131B _SwitchOrientation@4 = @ILT+790(_SwitchOrientation@4)
+         32   1F 00011023 _ToggleShowDesc@4 = @ILT+30(_ToggleShowDesc@4)
+         33   20 0001103C _ToggleShowDescFromOI@4 = @ILT+55(_ToggleShowDescFromOI@4)
+         34   21 00011460 _ToggleShowHidden@4 = @ILT+1115(_ToggleShowHidden@4)
+         35   22 0001190B _ToggleShowUnnamed@4 = @ILT+2310(_ToggleShowUnnamed@4)
+         36   23 00011677 _UpdateAttribute@4 = @ILT+1650(_UpdateAttribute@4)
+         37   24 000111B3 _UpdateIndicators@4 = @ILT+430(_UpdateIndicators@4)
+         38   25 000117D0 _ViewOI_Exit@4 = @ILT+1995(_ViewOI_Exit@4)
+         39   26 00011861 _ViewOI_Prebuild@4 = @ILT+2140(_ViewOI_Prebuild@4)
+         40   27 000117EE _fnDeleteExcludeEntityInstance@8 = @ILT+2025(_fnDeleteExcludeEntityInstance@8)
+         41   28 0001137F _zwCompareBuildAttrValueList@4 = @ILT+890(_zwCompareBuildAttrValueList@4)
+         42   29 000110B9 _zwTZOBRWAD_AcceptAllSubobjects@4 = @ILT+180(_zwTZOBRWAD_AcceptAllSubobjects@4)
+         43   2A 0001124E _zwTZOBRWAD_ActivateOIDisplay@4 = @ILT+585(_zwTZOBRWAD_ActivateOIDisplay@4)
+         44   2B 0001138E _zwTZOBRWAD_ActivateObject@4 = @ILT+905(_zwTZOBRWAD_ActivateObject@4)
+         45   2C 000112A3 _zwTZOBRWAD_BuildAttrsForGraph@4 = @ILT+670(_zwTZOBRWAD_BuildAttrsForGraph@4)
+         46   2D 00011541 _zwTZOBRWAD_BuildCompareViews@4 = @ILT+1340(_zwTZOBRWAD_BuildCompareViews@4)
+         47   2E 00011799 _zwTZOBRWAD_BuildGraphForView@4 = @ILT+1940(_zwTZOBRWAD_BuildGraphForView@4)
+         48   2F 00011767 _zwTZOBRWAD_BuildOutlinerAttrs@4 = @ILT+1890(_zwTZOBRWAD_BuildOutlinerAttrs@4)
+         49   30 0001191A _zwTZOBRWAD_BuildTextForGraph@8 = @ILT+2325(_zwTZOBRWAD_BuildTextForGraph@8)
+         50   31 00011569 _zwTZOBRWAD_CancelAllSubobjects@4 = @ILT+1380(_zwTZOBRWAD_CancelAllSubobjects@4)
+         51   32 0001123A _zwTZOBRWAD_CenterNode@4 = @ILT+565(_zwTZOBRWAD_CenterNode@4)
+         52   33 00011118 _zwTZOBRWAD_ChangeAttribute@4 = @ILT+275(_zwTZOBRWAD_ChangeAttribute@4)
+         53   34 00011398 _zwTZOBRWAD_CheckShowDesc@4 = @ILT+915(_zwTZOBRWAD_CheckShowDesc@4)
+         54   35 00011159 _zwTZOBRWAD_ClientMenu@4 = @ILT+340(_zwTZOBRWAD_ClientMenu@4)
+         55   36 00011771 _zwTZOBRWAD_CollapseNode@4 = @ILT+1900(_zwTZOBRWAD_CollapseNode@4)
+         56   37 00011672 _zwTZOBRWAD_CommitFilePostBuild@4 = @ILT+1645(_zwTZOBRWAD_CommitFilePostBuild@4)
+         57   38 000115EB _zwTZOBRWAD_CommitToFile@4 = @ILT+1510(_zwTZOBRWAD_CommitToFile@4)
+         58   39 000118D9 _zwTZOBRWAD_CompareNext@4 = @ILT+2260(_zwTZOBRWAD_CompareNext@4)
+         59   3A 00011735 _zwTZOBRWAD_ComparePostBuild@4 = @ILT+1840(_zwTZOBRWAD_ComparePostBuild@4)
+         60   3B 000118DE _zwTZOBRWAD_ComparePrev@4 = @ILT+2265(_zwTZOBRWAD_ComparePrev@4)
+         61   3C 000115D7 _zwTZOBRWAD_CompareZoomIn@4 = @ILT+1490(_zwTZOBRWAD_CompareZoomIn@4)
+         62   3D 00011901 _zwTZOBRWAD_CompareZoomOut@4 = @ILT+2300(_zwTZOBRWAD_CompareZoomOut@4)
+         63   3E 00011320 _zwTZOBRWAD_CreateNewView@4 = @ILT+795(_zwTZOBRWAD_CreateNewView@4)
+         64   3F 0001125D _zwTZOBRWAD_CursorChange@12 = @ILT+600(_zwTZOBRWAD_CursorChange@12)
+         65   40 00011401 _zwTZOBRWAD_CursorFirst@4 = @ILT+1020(_zwTZOBRWAD_CursorFirst@4)
+         66   41 000110FA _zwTZOBRWAD_CursorLast@4 = @ILT+245(_zwTZOBRWAD_CursorLast@4)
+         67   42 000111E5 _zwTZOBRWAD_CursorNext@4 = @ILT+480(_zwTZOBRWAD_CursorNext@4)
+         68   43 00011258 _zwTZOBRWAD_CursorNextOI@4 = @ILT+595(_zwTZOBRWAD_CursorNextOI@4)
+         69   44 000110EB _zwTZOBRWAD_CursorPrev@4 = @ILT+230(_zwTZOBRWAD_CursorPrev@4)
+         70   45 00011857 _zwTZOBRWAD_CursorPrevOI@4 = @ILT+2130(_zwTZOBRWAD_CursorPrevOI@4)
+         71   46 00011816 _zwTZOBRWAD_DisplayLB_Click@4 = @ILT+2065(_zwTZOBRWAD_DisplayLB_Click@4)
+         72   47 00011091 _zwTZOBRWAD_DropInstance@4 = @ILT+140(_zwTZOBRWAD_DropInstance@4)
+         73   48 0001189D _zwTZOBRWAD_DropView@4 = @ILT+2200(_zwTZOBRWAD_DropView@4)
+         74   49 00011271 _zwTZOBRWAD_EntityCreate@4 = @ILT+620(_zwTZOBRWAD_EntityCreate@4)
+         75   4A 000115CD _zwTZOBRWAD_EntityCreateTemporal@4 = @ILT+1480(_zwTZOBRWAD_EntityCreateTemporal@4)
+         76   4B 00011802 _zwTZOBRWAD_EntityDelete@4 = @ILT+2045(_zwTZOBRWAD_EntityDelete@4)
+         77   4C 00011046 _zwTZOBRWAD_EntityDeleteAll@4 = @ILT+65(_zwTZOBRWAD_EntityDeleteAll@4)
+         78   4D 0001141A _zwTZOBRWAD_EntityDeselect@4 = @ILT+1045(_zwTZOBRWAD_EntityDeselect@4)
+         79   4E 000115E1 _zwTZOBRWAD_EntityDeselectAll@4 = @ILT+1500(_zwTZOBRWAD_EntityDeselectAll@4)
+         80   4F 00011519 _zwTZOBRWAD_EntityDrop@4 = @ILT+1300(_zwTZOBRWAD_EntityDrop@4)
+         81   50 00011807 _zwTZOBRWAD_EntityExclude@4 = @ILT+2050(_zwTZOBRWAD_EntityExclude@4)
+         82   51 000114AB _zwTZOBRWAD_EntityExcludeAll@4 = @ILT+1190(_zwTZOBRWAD_EntityExcludeAll@4)
+         83   52 0001153C _zwTZOBRWAD_EntityMenu@4 = @ILT+1335(_zwTZOBRWAD_EntityMenu@4)
+         84   53 0001191F _zwTZOBRWAD_EntitySelect@4 = @ILT+2330(_zwTZOBRWAD_EntitySelect@4)
+         85   54 000111D6 _zwTZOBRWAD_EntitySelectAll@4 = @ILT+465(_zwTZOBRWAD_EntitySelectAll@4)
+         86   55 000116BD _zwTZOBRWAD_ExpandAllNodes@4 = @ILT+1720(_zwTZOBRWAD_ExpandAllNodes@4)
+         87   56 000118C5 _zwTZOBRWAD_ExpandNode@4 = @ILT+2240(_zwTZOBRWAD_ExpandNode@4)
+         88   57 0001150F _zwTZOBRWAD_FlagView@4 = @ILT+1290(_zwTZOBRWAD_FlagView@4)
+         89   58 0001152D _zwTZOBRWAD_GetNameForFile@4 = @ILT+1320(_zwTZOBRWAD_GetNameForFile@4)
+         90   59 000114D3 _zwTZOBRWAD_HelpAbout@4 = @ILT+1230(_zwTZOBRWAD_HelpAbout@4)
+         91   5A 00011208 _zwTZOBRWAD_HelpBasics@4 = @ILT+515(_zwTZOBRWAD_HelpBasics@4)
+         92   5B 00011384 _zwTZOBRWAD_HelpContents@4 = @ILT+895(_zwTZOBRWAD_HelpContents@4)
+         93   5C 0001115E _zwTZOBRWAD_HelpOnHelp@4 = @ILT+345(_zwTZOBRWAD_HelpOnHelp@4)
+         94   5D 000116C2 _zwTZOBRWAD_HideNode@4 = @ILT+1725(_zwTZOBRWAD_HideNode@4)
+         95   5E 00011686 _zwTZOBRWAD_NameOI_AtTask@4 = @ILT+1665(_zwTZOBRWAD_NameOI_AtTask@4)
+         96   5F 000118E3 _zwTZOBRWAD_NameView@4 = @ILT+2270(_zwTZOBRWAD_NameView@4)
+         97   60 000110C8 _zwTZOBRWAD_NameViewPostBuild@4 = @ILT+195(_zwTZOBRWAD_NameViewPostBuild@4)
+         98   61 000110AA _zwTZOBRWAD_NextSelectSet@4 = @ILT+165(_zwTZOBRWAD_NextSelectSet@4)
+         99   62 0001127B _zwTZOBRWAD_OIDisplayExit@4 = @ILT+630(_zwTZOBRWAD_OIDisplayExit@4)
+        100   63 0001146A _zwTZOBRWAD_OIDisplayExitCancel@4 = @ILT+1125(_zwTZOBRWAD_OIDisplayExitCancel@4)
+        101   64 0001151E _zwTZOBRWAD_OpenDescDisp@8 = @ILT+1305(_zwTZOBRWAD_OpenDescDisp@8)
+        102   65 00011690 _zwTZOBRWAD_PostBuildDescDisp@4 = @ILT+1675(_zwTZOBRWAD_PostBuildDescDisp@4)
+        103   66 00011942 _zwTZOBRWAD_PostBuildMainW@4 = @ILT+2365(_zwTZOBRWAD_PostBuildMainW@4)
+        104   67 0001111D _zwTZOBRWAD_PostBuildOIDisplay@4 = @ILT+280(_zwTZOBRWAD_PostBuildOIDisplay@4)
+        105   68 0001156E _zwTZOBRWAD_PreBuildOIDisplay@4 = @ILT+1385(_zwTZOBRWAD_PreBuildOIDisplay@4)
+        106   69 000116EA _zwTZOBRWAD_PrevSelectSet@4 = @ILT+1765(_zwTZOBRWAD_PrevSelectSet@4)
+        107   6A 0001180C _zwTZOBRWAD_RefreshDescDisp@4 = @ILT+2055(_zwTZOBRWAD_RefreshDescDisp@4)
+        108   6B 000118E8 _zwTZOBRWAD_SelectViewForCompare@4 = @ILT+2275(_zwTZOBRWAD_SelectViewForCompare@4)
+        109   6C 0001186B _zwTZOBRWAD_SetModeAttributes@4 = @ILT+2150(_zwTZOBRWAD_SetModeAttributes@4)
+        110   6D 00011226 _zwTZOBRWAD_SetModeEntities@4 = @ILT+545(_zwTZOBRWAD_SetModeEntities@4)
+        111   6E 0001157D _zwTZOBRWAD_SetModeMarkings@4 = @ILT+1400(_zwTZOBRWAD_SetModeMarkings@4)
+        112   6F 000117B2 _zwTZOBRWAD_SetModeTwins@4 = @ILT+1965(_zwTZOBRWAD_SetModeTwins@4)
+        113   70 000117FD _zwTZOBRWAD_ShowSelectSet@4 = @ILT+2040(_zwTZOBRWAD_ShowSelectSet@4)
+        114   71 00011050 _zwTZOBRWAD_SorryNotDone@4 = @ILT+75(_zwTZOBRWAD_SorryNotDone@4)
+        115   72 000118D4 _zwTZOBRWAD_SubobjectAccept@4 = @ILT+2255(_zwTZOBRWAD_SubobjectAccept@4)
+        116   73 000118CA _zwTZOBRWAD_SubobjectCancel@4 = @ILT+2245(_zwTZOBRWAD_SubobjectCancel@4)
+        117   74 00011375 _zwTZOBRWAD_SubobjectResetView@4 = @ILT+880(_zwTZOBRWAD_SubobjectResetView@4)
+        118   75 00011064 _zwTZOBRWAD_SubobjectSetView@4 = @ILT+95(_zwTZOBRWAD_SubobjectSetView@4)
+        119   76 00011172 _zwTZOBRWAD_SubobjectTemporal@4 = @ILT+365(_zwTZOBRWAD_SubobjectTemporal@4)
+        120   77 000116AE _zwTZOBRWAD_Zoom100@4 = @ILT+1705(_zwTZOBRWAD_Zoom100@4)
+        121   78 000116B3 _zwTZOBRWAD_ZoomFit@4 = @ILT+1710(_zwTZOBRWAD_ZoomFit@4)
+        122   79 0001106E _zwTZOBRWAD_ZoomIn@4 = @ILT+105(_zwTZOBRWAD_ZoomIn@4)
+        123   7A 0001150A _zwTZOBRWAD_ZoomOut@4 = @ILT+1285(_zwTZOBRWAD_ZoomOut@4)
+
+  Summary
+
+        1000 .00cfg
+        2000 .data
+        2000 .idata
+        5000 .rdata
+        2000 .reloc
+       20000 .text
+       10000 .textbss

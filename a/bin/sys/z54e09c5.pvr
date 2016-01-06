@@ -1,0 +1,19 @@
+rZeidon    Z54E09C5 TZWDVORO 11/02/95   20:52:35 1.0a     
+eViewObjRef 1,192
+aZKey      89000389
+aName      TZERADWO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      89000377
+aName      TZERADWO
+aDesc      ADW intermediate work object
+
+eZ_MetaDef 2,192
+aName      TZERADWO
+aZKey      89000389
+aType      9
+aLastUpdateDate 19951015110908000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

@@ -1,0 +1,181 @@
+//
+// FILENAME:     TZZAPPSD.VML
+//
+// DESCRIPTION:  This is the VML source file for dialog TZZAPPSD
+//
+// OPERATIONS:   OPERATIONS of a general nature.
+// *******************************************************************
+// * Copyright (c) 1997 Ton Beller GmbH                              *
+// * Copyright (c) 1997 QuinSoft Corporation. All rights reserved.   *
+// * Confidential and Proprietary material subject to license -      *
+// * do not reproduce or disclose. This material is an unpublished   *
+// * work and is considered a trade secret belonging to the          *
+// * copyright holder.                                               *
+// *******************************************************************
+//  AUTHOR:  Guenter Trageser
+//  DATE:    07.04.1997
+//  API:     Zeidon
+//  ENVIRONMENT: Win, OS/2
+//
+//  Last Message ID:  AM00004
+/*
+CHANGE LOG:
+
+07.04.1997  GT
+   new module
+*/
+
+
+/***********************************************************************
+
+   OPERATION:  TZZAPPSD_MainInit
+
+   PURPOSE:    Initializes the Dialog TZZAPPSD:
+      - The env variable ZEIDON is read
+      - ZEIDON.APP is activated
+
+***********************************************************************/
+DIALOG OPERATION
+TZZAPPSD_MainInit( VIEW vSubtask )
+
+   STRING(128) szZeidon
+   STRING(128) szZeidonApp
+   VIEW        vZApp  BASED ON LOD KZAPPLOO
+   INTEGER     nRC
+
+   // get the path for ZEIDON.APP
+   nRC = SysGetEnvVar( szZeidon /* sReturn Env */,
+                       "ZEIDON" /* szEnvVarName */,
+                       128 /* MaxLength */ )
+   IF nRC != 0
+      MessageSend( vSubtask,
+                   "AM00001", "Application Maintenance",
+                   "Environment Variable ZEIDON is not set!",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1)
+      SetWindowActionBehavior( vSubtask,
+                               zWAB_ExitDialogTask,
+                               0, 0)
+      RETURN -1
+   END
+
+   // add the filename to the path
+   SysAppendcDirSep( szZeidon )
+   szZeidonApp = szZeidon + "ZEIDON.APP"
+
+   // open it
+   nRC = ActivateOI_FromFile( vZApp,
+                              "KZAPPLOO",
+                              vSubtask,
+                              szZeidonApp,
+                              zMULTIPLE )
+   IF nRC < 0
+      MessageSend( vSubtask,
+                   "AM00002", "Application Maintenance",
+                   "Could not activate ZEIDON.APP !",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1)
+      SetWindowActionBehavior( vSubtask,
+                               zWAB_ExitDialogTask,
+                               0, 0)
+      RETURN -1
+   END
+
+   // name it
+   NAME VIEW vZApp "KZAPPLOO"
+
+   SetWindowCaptionTitle( vSubtask,
+                          "Zeidon Admin",
+                          szZeidonApp )
+END
+
+/***********************************************************************
+
+   OPERATION:  TZZAPPSD_MainExit
+
+   PURPOSE:    Exits the Dialog TZZAPPSD:
+      - Check for Changes in ZEIDON.APP view
+      - if changed - ask for save
+
+***********************************************************************/
+DIALOG OPERATION
+TZZAPPSD_MainExit( VIEW vSubtask )
+
+   VIEW        vZApp REGISTERED AS KZAPPLOO
+   STRING(80)  szMsg
+   INTEGER     nRC
+
+   nRC = ObjectInstanceUpdated( vZApp )
+   IF nRC = 1
+     szMsg = "ZEIDON.APP has changed" + NEW_LINE +
+             "Do you want to save it?"
+     nRC = MessagePrompt( vSubtask,
+                    "AM00004", "Appl Admin",
+                    szMsg,
+                    0,
+                    zBUTTONS_YESNOCANCEL,
+                    zRESPONSE_YES,
+                    0 )
+      IF nRC = zRESPONSE_YES
+         TZZAPPSD_SaveZeidonApp( vSubtask )
+      END
+      IF nRC = zRESPONSE_CANCEL
+         SetWindowActionBehavior( vSubtask,
+                                  zWAB_StayOnWindow,
+                                  0, 0)
+      END
+   END
+
+
+END
+
+/***********************************************************************
+
+   OPERATION:  TZZAPPSD_SelectApp
+
+   PURPOSE:    This operations selects an appl from the appl list:
+      - show description in Message Bar
+***********************************************************************/
+DIALOG OPERATION
+TZZAPPSD_SelectApp( VIEW vSubtask )
+
+   VIEW vZApp REGISTERED AS KZAPPLOO
+
+END
+
+
+/***********************************************************************
+
+   OPERATION:  TZZAPPSD_SaveZeidonApp
+
+   PURPOSE:    Save the changed ZEIDON.APP
+      - Check for Changes in ZEIDON.APP
+
+***********************************************************************/
+DIALOG OPERATION
+TZZAPPSD_SaveZeidonApp( VIEW vSubtask )
+
+   STRING(128) szZeidon
+   STRING(128) szZeidonApp
+   VIEW        vZApp REGISTERED AS KZAPPLOO
+   INTEGER     nRC
+
+   // get the path for ZEIDON.APP
+   nRC = SysGetEnvVar( szZeidon /* sReturn Env */,
+                       "ZEIDON" /* szEnvVarName */,
+                       128 /* MaxLength */ )
+
+   // add the filename to the path
+   SysAppendcDirSep( szZeidon )
+   szZeidonApp = szZeidon + "ZEIDON.APP"
+
+   // save it
+   nRC = CommitOI_ToFile( vZApp,
+                          szZeidonApp,
+                          zASCII )
+   IF nRC < 0
+      MessageSend( vSubtask,
+                   "AM00003", "Application Maintenance",
+                   "Could not save ZEIDON.APP !",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1)
+      RETURN -1
+   END
+END

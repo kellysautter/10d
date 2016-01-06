@@ -1,0 +1,488 @@
+z1000-Zeidon    TZOLOBWK TZZOLODO 11/30/09   09:29:59 1.0b0    
+eLOD       1
+aZKey      90005052
+aName      TZOLOBWK
+aDesc      New Outliner work object
+
+eLOD_EntityParent 2
+aName      Object
+aIndentName Object
+aIndentLvl 0
+aZKey      90005053
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Work entity - root
+
+eLOD_EntityChild 3
+aName      Entity
+aIndentName    Entity
+aIndentLvl 3
+aZKey      90005062
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Work object entity - recursive
+
+eLOD_EntityChild 4
+aName      Attribute
+aIndentName       Attribute
+aIndentLvl 6
+aZKey      90005080
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aDesc      Work object attributes
+
+eLOD_AttributeRec 5
+aZKey      90005081
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1321675
+aLth       32
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      90005082
+
+eER_AttributeRec 6
+aName      Context
+aZKey      1321676
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      90005085
+
+eER_AttributeRec 6
+aName      Tag
+aZKey      1321679
+aLth       1
+aDesc      Tag attribute (to locate outliner item)
+
+eDomainRec 7
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eER_EntityRec 5
+aName      X_AttribW
+aZKey      1321674
+aPurpose   W
+aDesc      Work object attributes
+aER_DiagramPosX 98
+aER_DiagramPosY 49
+
+eER_RelLinkRec 5
+aName      has
+aZKey      1321906
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      1321904
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 102
+aER_DiagramE1PosY 48
+aER_DiagramE2PosX 102
+aER_DiagramE2PosY 22
+
+eLOD_EntityChild 4
+aName      ChildEntity
+aIndentName       ChildEntity
+aIndentLvl 6
+aZKey      90005096
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive Y
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Work object entity - recursive
+
+eLOD_AttributeRec 5
+aZKey      90005098
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1321763
+aLth       254
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      90005259
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      SelectState
+aZKey      90005260
+
+eDomainRec 7
+aZKey      90000028
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eER_EntityRec 5
+aName      X_EntityW
+aZKey      1321761
+aPurpose   W
+aDesc      Work object entity - recursive
+aER_DiagramPosX 98
+aER_DiagramPosY 17
+
+eER_RelLinkRec 5
+aName      has
+aZKey      1321911
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      1321910
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 110
+aER_DiagramBendPosY 13
+aER_DiagramE1PosX 104
+aER_DiagramE1PosY 16
+aER_DiagramE2PosX 107
+aER_DiagramE2PosY 17
+
+eLOD_AttributeRec 4
+aZKey      90005064
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90005257
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      SelectState
+aZKey      90005258
+aDesc      93
+Y - entity has been selected for display in the outliner.
+N - entity has not been selected.
+
+eDomainRec 6
+
+eER_EntityRec 4
+
+eER_RelLinkRec 4
+aName      has
+aZKey      1321914
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 5
+aZKey      1321913
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 90
+aER_DiagramBendPosY 19
+aER_DiagramE1PosX 90
+aER_DiagramE1PosY 31
+aER_DiagramE2PosX 97
+aER_DiagramE2PosY 19
+
+eLOD_AttributeRec 3
+aZKey      90005054
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ID
+aZKey      1321803
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90005193
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      Text
+aZKey      90005194
+aDesc      The Outliner control text
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90005185
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      Tag
+aZKey      90005186
+aNotNull   Y
+aDesc      unique id for control
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90005056
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1321805
+aLth       254
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      X_ObjectW
+aZKey      1321802
+aPurpose   W
+aDesc      Work entity - root
+aER_DiagramPosX 86
+aER_DiagramPosY 32
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eSourceFile 2
+aZKey      92000575
+aName      TZOLOBWK
+aExtension VML
+aLanguageType V
+
+i9         6
+i19        6
+i27        18
+i28        6
+i31        22
+i32        23
+i40        22
+i43        22
+i46        6
+i48        1
+i49        35
+i50        36
+i51        37
+i52        38
+i53        39
+i54        22
+i55        41
+i56        42
+i57        22
+i58        44
+i59        45
+i60        6
+i61        47
+i62        2
+i63        26
+i64        18
+i65        6
+i66        29
+i67        30
+i68        22
+i69        23
+i70        33
+i71        34
+i72        3
+i73        4
+i74        5
+i75        6
+i76        7
+i77        8
+i78        6
+i79        10
+i80        11
+i81        12
+i82        13
+i83        14
+i84        15
+i85        16
+i86        17
+i87        18
+i88        6
+i89        20
+i90        21
+i91        22
+i92        23
+i93        24
+i94        25

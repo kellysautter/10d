@@ -1,0 +1,20 @@
+z11001Zeidon    Z014A8DB TZWDVORO 01/01/01   12:44:53 1.0a     
+20001201100544658
+eViewObjRef 1,1160
+aZKey,2    1353947
+aName,2    ACCOUNT_SEL
+aDesc,2    For work object type selection
+
+eLOD       2,1172
+aZKey,2    1331198
+aName,2    ACCOUNT
+aDesc,2    Test ZDR functionality
+
+eZ_MetaDef 2,1168
+aName,2    ACCOUNT_SEL
+aZKey,2    1353947
+aType,2    9
+aLastUpdateDate,2 19950824213932000
+aLastCheckInDate,2 19951102203051110
+aDesc,2    For work object type selection
+

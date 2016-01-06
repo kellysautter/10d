@@ -1,0 +1,12 @@
+rZeidon    Z53F46CB TZWDVORO 11/22/95   12:32:50 1.0a     
+eViewObjRef 1,198
+aZKey      88032971
+aName      TZDGSRCO_DETAIL
+aDesc      View for Domain Group Detail
+
+eLOD       2,224
+aZKey      1325025
+aName      TZDGSRCO
+aDesc      Domain Group source object
+aDLL_Name  TZLODOPR
+

@@ -1,0 +1,296 @@
+z1000-Zeidon    TE       TZDGSRCO 09/07/11   17:03:02 1.0a2    
+eDomainGroup 1
+aZKey      1320293
+aName      TE
+aExtension C
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320294
+aName      TE_DataOrRel
+aDesc      Table is Data or Relationship
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+aDecimalFormat 0
+
+eContext   3
+aZKey      1320298
+aName      Display
+
+eTableEntry 4
+aZKey      92484544
+
+eTableEntry 4
+aZKey      1320300
+aExternalValue Data
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320301
+aExternalValue Relationship
+aInternalValue R
+
+eContext   3
+aZKey      1320295
+aName      TE_DataOrRel
+aDecimalFormat 0
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484545
+
+eTableEntry 4
+aZKey      1320296
+aExternalValue D
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320297
+aExternalValue R
+aInternalValue R
+
+eContext   3
+aZKey      1320302
+aName      XAM_List
+
+eTableEntry 4
+aZKey      92484546
+
+eTableEntry 4
+aZKey      1320304
+aExternalValue Entity
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320305
+aExternalValue Rel...
+aInternalValue R
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320335
+aName      TE_KeyCategory
+aDesc      System Maintained, Attributes only, etc.
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320336
+aName      TE_KeyCategory
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484553
+
+eTableEntry 4
+aZKey      1320338
+aExternalValue System Maintained
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320339
+aExternalValue Attributes Only
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1320340
+aExternalValue Relationship / Attributes
+aInternalValue 3
+
+eTableEntry 4
+aZKey      1320341
+aExternalValue M-M Rel. Table
+aInternalValue 4
+
+eTableEntry 4
+aZKey      1320342
+aExternalValue Undefined
+aInternalValue 9
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320330
+aName      TE_DB_ConnectType
+aDesc      Connection type to use for data source
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320331
+aName      TE_DB_ConnectType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484549
+
+eTableEntry 4
+aZKey      1320333
+aExternalValue ODBC
+aInternalValue N
+
+eTableEntry 4
+aZKey      1320334
+aExternalValue Native
+aInternalValue O
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320321
+aName      TE_DBMS_Paradigm
+aDesc      Relational or Network DB Model
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320327
+aName      Display
+
+eTableEntry 4
+aZKey      92484551
+
+eTableEntry 4
+aZKey      1320328
+aExternalValue Relational
+aInternalValue R
+
+eTableEntry 4
+aZKey      1320329
+aExternalValue Network
+aInternalValue N
+
+eContext   3
+aZKey      1320322
+aName      TE_DBMS_Paradigm
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484552
+
+eTableEntry 4
+aZKey      1320324
+aExternalValue Relational
+aInternalValue R
+
+eTableEntry 4
+aZKey      1320325
+aExternalValue Network
+aInternalValue N
+
+eTableEntry 4
+aZKey      1320326
+aExternalValue Hierarchical
+aInternalValue H
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320315
+aName      TE_DBMS
+aDesc      DBMSs supported by Zeidon
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320316
+aName      TE_DBMS
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484550
+
+eTableEntry 4
+aZKey      1320318
+aExternalValue SqlBase
+aInternalValue B
+
+eTableEntry 4
+aZKey      1320319
+aExternalValue SqlServer
+aInternalValue M
+
+eTableEntry 4
+aZKey      1320320
+aExternalValue DB Raima
+aInternalValue V
+
+eTableEntry 4
+aZKey      90008948
+aExternalValue Siron
+aInternalValue S
+
+eTableEntry 4
+aZKey      90054850
+aExternalValue Network Server
+aInternalValue N
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320306
+aName      TE_DataOrRelfieldOrSet
+aDesc      Column is Data or Rel -- Field is Data or Set
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320311
+aName      Display
+
+eTableEntry 4
+aZKey      92484547
+
+eTableEntry 4
+aZKey      1320312
+aExternalValue Data
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320313
+aExternalValue Set
+aInternalValue S
+
+eTableEntry 4
+aZKey      1320314
+aExternalValue Foreign Key
+aInternalValue R
+
+eContext   3
+aZKey      1320307
+aName      TE_DataOrRelfieldOrSet
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484548
+
+eTableEntry 4
+aZKey      1320308
+aExternalValue D
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320309
+aExternalValue S
+aInternalValue S
+
+eTableEntry 4
+aZKey      1320310
+aExternalValue R
+aInternalValue R
+
+eZ_MetaDef 2
+aName      TE
+aZKey      1320293
+aType      13
+aLastUpdateDate 19950920091134000
+aLastCheckInDate 19951102203051110
+

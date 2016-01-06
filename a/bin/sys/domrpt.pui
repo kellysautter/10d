@@ -1,0 +1,301 @@
+z10000Zeidon    DOMRPT   TZADCSDO 06/09/01   21:31:44 1.0b0    
+eUI_Spec   1
+aZKey      90013292
+aName      DOMRPT
+aDesc      Domain Report - Where used
+aHeaderTitle Domain "Where Used" Report
+aHeaderBoldFlag Y
+aFooterPageNoFlag Y
+aLevelIndentation 2
+
+eUIS_Entity 2
+aZKey      90013293
+aListTypeFlag L
+aReportOrientationFlag V
+aAutodesignCaseType R
+aRootIndicator Y
+aHeaderText Domain
+aForceHeaderPerEntity Y
+aHeaderBoldFlag Y
+
+eLOD_Entity 3
+aName      Root
+aIndentName Root
+aIndentLvl 0
+aZKey      90055771
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Domain for validation and formatting
+
+eER_Entity 4
+aName      Domain
+aZKey      1320820
+aPurpose   W
+aDesc      Domain for validation and formatting
+aOwningArea DM
+aER_DiagramPosX 50
+aER_DiagramPosY 364
+
+eUIS_ChildEntity 3
+aZKey      90013295
+aListTypeFlag L
+aReportOrientationFlag H
+aAutodesignCaseType R
+
+eLOD_Entity 4
+aName      ER_Attribute
+aIndentName       ER_Attribute
+aIndentLvl 6
+aZKey      89160688
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Attributes of an ER Entity
+
+eER_Entity 5
+aName      ER_Attribute
+aZKey      1320837
+aPurpose   W
+aDesc      Attributes of an ER Entity
+aOwningArea ER
+aER_DiagramPosX 220
+aER_DiagramPosY 262
+
+eUIS_ChildEntity 4
+aZKey      90013297
+aAutodesignCaseType N
+
+eLOD_Entity 5
+aName      ER_Entity
+aIndentName          ER_Entity
+aIndentLvl 9
+aZKey      89160704
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave R
+aRelLinkIndicator H
+aDesc      ER Entities
+
+eER_Entity 6
+aName      ER_Entity
+aZKey      1320860
+aPurpose   W
+aDesc      ER Entities
+aOwningArea ER
+aER_DiagramPosX 156
+aER_DiagramPosY 194
+
+eWndDesign 5
+aZKey      90013298
+
+eWndDesign 4
+aZKey      90013296
+aUsageStyle D
+
+eM_LOD_Attribute 4
+aZKey      89160705
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+aName      Name
+aZKey      1320861
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Entity Name
+aListPaintLit Entity Name
+
+eM_Domain  6
+aZKey      90000038
+aDesc      QuinSoft Name
+aContextRestriction N
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+
+eM_LOD_Attribute 4
+aZKey      89160689
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+aName      Name
+aZKey      1320838
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Attribute Name
+aListPaintLit Attribute Name
+
+eM_Domain  6
+
+eUIS_ChildEntity 3
+aZKey      13302416
+
+eLOD_Entity 4
+aName      Domain
+aIndentName    Domain
+aIndentLvl 3
+aZKey      89159573
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Domain for validation and formatting
+
+eER_Entity 5
+
+eUIS_ChildEntity 4
+aZKey      13302418
+
+eLOD_Entity 5
+
+eER_Entity 6
+
+eUIS_ChildEntity 5
+aZKey      13302420
+
+eLOD_Entity 6
+
+eER_Entity 7
+
+eWndDesign 6
+aZKey      13302421
+
+eWndDesign 5
+aZKey      13302419
+
+eWndDesign 4
+aZKey      13302417
+
+eWndDesign 3
+aZKey      90013294
+aUsageStyle U
+aUpdateDeleteAction Y
+aListDeleteAction Y
+aListCreateAction Y
+aListQualFlag N
+
+eM_LOD_Attribute 3
+aZKey      89159575
+
+eM_LOD_Entity 4
+
+eM_ER_Attribute 4
+aName      Name
+aZKey      1320822
+aLth       32
+aNotNull   Y
+aDesc      The name used to reference this domain
+aPromptPaintLit Domain Name
+aListPaintLit Domain Name
+
+eM_Domain  5
+aZKey      90000032
+aDesc      Any Character String
+aContextRestriction N
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+
+eM_LOD_Attribute 3
+aZKey      89159577
+
+eM_LOD_Entity 4
+
+eM_ER_Attribute 4
+aName      DomainType
+aZKey      1320824
+aLth       1
+aNotNull   Y
+aDesc      Type of Domain (Table, Expression, Algorithm)
+aPromptPaintLit Domain Type
+aListPaintLit Domain Type
+
+eM_Domain  5
+aZKey      1320095
+aDesc      Type of Zeidon Domain
+aContextRestriction N
+aName      DM_DomainType
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eM_LOD_Attribute 3
+aZKey      89159578
+
+eM_LOD_Entity 4
+
+eM_ER_Attribute 4
+aName      DataType
+aZKey      1320825
+aLth       1
+aNotNull   Y
+aDesc      Internal data type stored (ie., string, date, decimal, integer)
+aPromptPaintLit Data Type
+aListPaintLit Data Type
+
+eM_Domain  5
+aZKey      1319867
+aDesc      Zeidon domain datatypes ( logical )  supported by Core
+aContextRestriction N
+aName      DataTypeDomain
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eUIS_ViewObjRef 2
+aZKey      90055794
+aName      TZBRDMAO
+aDesc      VOR automatically built from LOD Dialog
+
+eUIS_LOD   3
+aZKey      90055770
+aName      TZBRDMAO
+aDesc      Browse view for Attributes within Domain
+
+i13        8
+i17        5
+i19        15
+i22        3
+i24        5
+i25        6
+i27        8
+i28        9
+i34        21
+i38        21
+i42        21

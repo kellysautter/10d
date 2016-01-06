@@ -1,0 +1,425 @@
+z10000Zeidon    TZCMREUS TZZOLODO 06/19/01   00:21:16 1.0b0    
+eLOD       1
+aZKey      127065673
+aName      TZCMREUS
+aDesc      Work Object for Error List by add Reusable CPLR
+
+eLOD_EntityParent 2
+aName      CPLR
+aIndentName CPLR
+aIndentLvl 0
+aZKey      127065674
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      ErrorList
+aIndentName    ErrorList
+aIndentLvl 3
+aZKey      127065861
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      ErrorMsg
+aIndentName       ErrorMsg
+aIndentLvl 6
+aZKey      127065864
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      127065867
+aWork      Y
+aUpdate    Y
+aSeqPriority 2
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      MetaName
+aZKey      127065868
+aLth       32
+aDesc      Meta Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      127065869
+aWork      Y
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6
+aName      MetaType
+aZKey      127065870
+aDesc      Meta Type
+aPromptPaintLit Meta Type:
+aListPaintLit Meta Type:
+
+eDomainRec 7
+aZKey      1319755
+aName      CM_Type
+aDomainType T
+aDataType  L
+aDesc      Meta types for Configuration Management
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      127065871
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      CurrentCPLR
+aZKey      127065872
+aLth       32
+aDesc      CPLR Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      127065873
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      CPLR_ToBeReused
+aZKey      127065874
+aLth       32
+aDesc      CPLR Name to be reused
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      127065862
+aWork      Y
+aUpdate    Y
+aSeqPriority 2
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      ReusableCPLR_CPL_Name
+aZKey      127065863
+aLth       100
+aDesc      Reusable CPLR Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      127065941
+aWork      Y
+aUpdate    Y
+aInit      N
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      CheckReusedBy
+aZKey      127065942
+aDesc      142
+N = check duplicate Components for add Reusable CPLR
+Y = check duplicate Components for save Reusable CPLR ( = CPLR reusing the current one)0
+
+eDomainRec 6
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      127065926
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DateTime
+aZKey      127065927
+aLth       20
+
+eDomainRec 6
+aZKey      90000089
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      127065875
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      Name
+aZKey      127065876
+aLth       32
+aDesc      CPLR Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127065877
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      127065878
+aLth       4
+aKey       Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 3
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 4
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+ePOD       2
+aNAME      TZCMREUS
+aZKey      127065683
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SqlServer ODBC TB
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      DB2 MVS Ger
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      ACC_REP
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      Access ODBC TB
+aGenerateExecutable KZSIACC
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      DB2_Rep
+aZKey      90014023
+aDesc      Repository DB2 NT
+aParadigm  R
+aDBMS      DB2 NT TB
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDisplayOwner Y
+
+i12        6
+i15        6
+i18        6
+i27        6
+i31        1
+i32        25
+i33        26
+i34        6
+i35        28
+i36        29
+i37        30
+i38        2
+i39        16
+i40        17
+i41        6
+i42        19
+i43        20
+i44        21
+i45        22
+i46        23
+i47        24
+i48        3
+i49        4
+i50        5
+i51        6
+i52        7
+i53        8
+i54        9
+i55        10
+i56        11
+i57        6
+i58        13
+i59        14
+i60        6

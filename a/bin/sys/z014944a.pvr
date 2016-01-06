@@ -1,0 +1,19 @@
+z10000Zeidon    Z014944A TZWDVORO 05/15/01   10:24:27 1.0a1    
+eViewObjRef 1
+aZKey      1348682
+aName      TZEREMDO_RLL
+aDesc      Used in code for identifier in TZERIDND  and for DimHier outline control maping in TZEREMDD
+
+eLOD       2
+aZKey      1326595
+aName      TZEREMDO
+aDesc      Enterprise Model ER Information
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2
+aName      TZEREMDO_RLL
+aZKey      1348682
+aType      9
+aLastUpdateDate 19950824213840000
+aLastCheckInDate 19951102203051110
+

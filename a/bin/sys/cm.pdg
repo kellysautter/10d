@@ -1,0 +1,559 @@
+z1000-Zeidon    CM       TZDGSRCO 06/14/12   16:00:39 1.0a2    
+eDomainGroup 1
+aZKey      1319719
+aName      CM
+aExtension C
+aWorkNumeric 2016
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1319720
+aName      AccessAuthority
+aDesc      Configuration Management Authority levels to CPLRs
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1319721
+aName      AccessAuthority
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484487
+
+eTableEntry 4
+aZKey      1319722
+aExternalValue Read Only
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1319723
+aExternalValue Update
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1319724
+aExternalValue Administrator
+aInternalValue 2
+
+eContext   3
+aZKey      127082698
+aName      CPLR_AccessAuthority
+
+eTableEntry 4
+aZKey      92484488
+
+eTableEntry 4
+aZKey      127082699
+aExternalValue Read Only
+aInternalValue 0
+
+eTableEntry 4
+aZKey      127082700
+aExternalValue Update
+aInternalValue 1
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1319755
+aName      CM_Type
+aDesc      Meta types for Configuration Management
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1319756
+aName      CM_Type
+aIsDefault Y
+aDIL_Text  Zeidon Meta type
+
+eTableEntry 4
+aZKey      4896563
+
+eTableEntry 4
+aZKey      1319758
+aExternalValue Header
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1319759
+aExternalValue Source
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1319760
+aExternalValue Global Operation
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1319761
+aExternalValue Domain
+aInternalValue 3
+
+eTableEntry 4
+aZKey      1319762
+aExternalValue Data Model
+aInternalValue 4
+
+eTableEntry 4
+aZKey      1319763
+aExternalValue Subject Area
+aInternalValue 5
+
+eTableEntry 4
+aZKey      1319764
+aExternalValue Technical Environment
+aInternalValue 6
+
+eTableEntry 4
+aZKey      1319765
+aExternalValue Logical Object Definition
+aInternalValue 7
+
+eTableEntry 4
+aZKey      1319766
+aExternalValue Physical Object Definition
+aInternalValue 8
+
+eTableEntry 4
+aZKey      1319767
+aExternalValue Registered View
+aInternalValue 9
+
+eTableEntry 4
+aZKey      1319768
+aExternalValue Presentation Environment
+aInternalValue 10
+
+eTableEntry 4
+aZKey      1319769
+aExternalValue Dialog
+aInternalValue 11
+
+eTableEntry 4
+aZKey      1319770
+aExternalValue User Interface Specification
+aInternalValue 12
+
+eTableEntry 4
+aZKey      1319771
+aExternalValue Domain Group
+aInternalValue 13
+
+eTableEntry 4
+aZKey      1319772
+aExternalValue Global Operation Group
+aInternalValue 14
+
+eTableEntry 4
+aZKey      90152343
+aExternalValue Report
+aInternalValue 15
+
+eTableEntry 4
+aZKey      4896557
+aExternalValue XSLT
+aInternalValue 16
+
+eTableEntry 4
+aZKey      1319773
+aExternalValue Header
+aInternalValue 2000
+
+eTableEntry 4
+aZKey      1319774
+aExternalValue Source
+aInternalValue 2001
+
+eTableEntry 4
+aZKey      1319775
+aExternalValue Global Operation
+aInternalValue 2002
+
+eTableEntry 4
+aZKey      1319776
+aExternalValue Domain
+aInternalValue 2003
+
+eTableEntry 4
+aZKey      1319777
+aExternalValue Data Model
+aInternalValue 2004
+
+eTableEntry 4
+aZKey      1319778
+aExternalValue Subject Area
+aInternalValue 2005
+
+eTableEntry 4
+aZKey      1319779
+aExternalValue Technical Environment
+aInternalValue 2006
+
+eTableEntry 4
+aZKey      1319780
+aExternalValue Logical Object Definition
+aInternalValue 2007
+
+eTableEntry 4
+aZKey      1319781
+aExternalValue Physical Object Definition
+aInternalValue 2008
+
+eTableEntry 4
+aZKey      1319782
+aExternalValue Registered View
+aInternalValue 2009
+
+eTableEntry 4
+aZKey      1319783
+aExternalValue Presentation Environment
+aInternalValue 2010
+
+eTableEntry 4
+aZKey      1319784
+aExternalValue Dialog
+aInternalValue 2011
+
+eTableEntry 4
+aZKey      1319785
+aExternalValue User Interface Specification
+aInternalValue 2012
+
+eTableEntry 4
+aZKey      1319786
+aExternalValue Domain Group
+aInternalValue 2013
+
+eTableEntry 4
+aZKey      1319787
+aExternalValue Global Operation Group
+aInternalValue 2014
+
+eTableEntry 4
+aZKey      90152344
+aExternalValue Report
+aInternalValue 2015
+
+eTableEntry 4
+aZKey      4896558
+aExternalValue XSLT
+aInternalValue 2016
+
+eContext   3
+aZKey      1319788
+aDesc      Short Form of CM_Type
+aName      CM_Type_Short
+
+eTableEntry 4
+aZKey      4896564
+
+eTableEntry 4
+aZKey      1319790
+aExternalValue Header
+aInternalValue 0
+
+eTableEntry 4
+aZKey      11014000
+aExternalValue Source
+aInternalValue 1
+
+eTableEntry 4
+aZKey      11014001
+aExternalValue G Oper
+aInternalValue 2
+
+eTableEntry 4
+aZKey      11014002
+aExternalValue Domain
+aInternalValue 3
+
+eTableEntry 4
+aZKey      11014003
+aExternalValue ERD
+aInternalValue 4
+
+eTableEntry 4
+aZKey      11014004
+aExternalValue SA
+aInternalValue 5
+
+eTableEntry 4
+aZKey      11014005
+aExternalValue TE
+aInternalValue 6
+
+eTableEntry 4
+aZKey      11014006
+aExternalValue LOD
+aInternalValue 7
+
+eTableEntry 4
+aZKey      11014007
+aExternalValue POD
+aInternalValue 8
+
+eTableEntry 4
+aZKey      11014008
+aExternalValue R View
+aInternalValue 9
+
+eTableEntry 4
+aZKey      11014009
+aExternalValue PPE
+aInternalValue 10
+
+eTableEntry 4
+aZKey      11014010
+aExternalValue Dialog
+aInternalValue 11
+
+eTableEntry 4
+aZKey      11014011
+aExternalValue UIS
+aInternalValue 12
+
+eTableEntry 4
+aZKey      11014012
+aExternalValue DomGrp
+aInternalValue 13
+
+eTableEntry 4
+aZKey      11014013
+aExternalValue OperGrp
+aInternalValue 14
+
+eTableEntry 4
+aZKey      11014014
+aExternalValue Report
+aInternalValue 15
+
+eTableEntry 4
+aZKey      4896561
+aExternalValue XSLT
+aInternalValue 16
+
+eTableEntry 4
+aZKey      1319791
+aExternalValue Source
+aInternalValue 2001
+
+eTableEntry 4
+aZKey      1319792
+aExternalValue G Oper
+aInternalValue 2002
+
+eTableEntry 4
+aZKey      1319793
+aExternalValue Domain
+aInternalValue 2003
+
+eTableEntry 4
+aZKey      1319794
+aExternalValue ERD
+aInternalValue 2004
+
+eTableEntry 4
+aZKey      1319795
+aExternalValue SA
+aInternalValue 2005
+
+eTableEntry 4
+aZKey      1319796
+aExternalValue TE
+aInternalValue 2006
+
+eTableEntry 4
+aZKey      1319797
+aExternalValue LOD
+aInternalValue 2007
+
+eTableEntry 4
+aZKey      1319798
+aExternalValue POD
+aInternalValue 2008
+
+eTableEntry 4
+aZKey      1319799
+aExternalValue R View
+aInternalValue 2009
+
+eTableEntry 4
+aZKey      1319800
+aExternalValue PPE
+aInternalValue 2010
+
+eTableEntry 4
+aZKey      1319801
+aExternalValue Dialog
+aInternalValue 2011
+
+eTableEntry 4
+aZKey      1319802
+aExternalValue UIS
+aInternalValue 2012
+
+eTableEntry 4
+aZKey      1319803
+aExternalValue DomGrp
+aInternalValue 2013
+
+eTableEntry 4
+aZKey      1319804
+aExternalValue OperGrp
+aInternalValue 2014
+
+eTableEntry 4
+aZKey      90152346
+aExternalValue Report
+aInternalValue 2015
+
+eTableEntry 4
+aZKey      4896562
+aExternalValue XSLT
+aInternalValue 2016
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1319747
+aName      CM_MetaDefUpdated
+aDesc      Update Indicator on W_MetaDef in LPLR
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1319748
+aDesc      Table of Valid Update Indicators
+aName      CM_MetaDefUpdated
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1319749
+aExternalValue No
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1319750
+aExternalValue Yes (Implicit)
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1319751
+aExternalValue Yes (Explicit)
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1319752
+aExternalValue Yes (Deleted)
+aInternalValue 3
+
+eTableEntry 4
+aZKey      127083404
+aExternalValue Yes (Implicit, SourceFile)
+aInternalValue 4
+
+eTableEntry 4
+aZKey      1319753
+aExternalValue Yes (Implicit)
+aInternalValue 99
+
+eTableEntry 4
+aZKey      1319754
+aExternalValue No
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1319742
+aName      CM_MetaDefStatus
+aDesc      Status for W_MetaDef in LPLR
+aDomainType T
+aDataType  L
+aMaxStringLth 10
+aContextRestriction N
+
+eContext   3
+aZKey      96000567
+aName      CM_MetaCheckOutState
+
+eTableEntry 4
+aZKey      96000568
+aExternalValue No
+aInternalValue 0
+
+eTableEntry 4
+aZKey      96000569
+aExternalValue No
+
+eTableEntry 4
+aZKey      96000570
+aExternalValue .
+aInternalValue 1
+
+eContext   3
+aZKey      1319743
+aDesc      Table of valid status settings
+aName      CM_MetaDefStatus
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1319744
+aExternalValue Inactive
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1319745
+aExternalValue Inactive
+
+eTableEntry 4
+aZKey      1319746
+aExternalValue Active
+aInternalValue 1
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1319735
+aName      CM_DataBaseMode
+aDesc      Indicator for how CPLRs are to be maintained
+aDomainType T
+aDataType  L
+aMaxStringLth 11
+aContextRestriction N
+
+eContext   3
+aZKey      1319736
+aName      CM_DataBaseMode
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484490
+
+eTableEntry 4
+aZKey      1319738
+aExternalValue File Only
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1319739
+aExternalValue Test
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1319740
+aExternalValue Performance
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1319741
+aExternalValue Repository Only
+aInternalValue 3
+
+eZ_MetaDef 2
+aName      CM
+aZKey      1319719
+aType      13
+aLastUpdateDate 19950824211930000
+aLastCheckInDate 19951102203051110
+

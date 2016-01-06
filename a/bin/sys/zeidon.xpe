@@ -1,0 +1,226 @@
+z1000-Zeidon    ZEIDON   KZPEXVOO 06/05/12   15:48:23 1.0a2    
+ePE        1
+aRel       917288809
+
+eCtrl      2
+aKey       4003
+aCOP       ActiveX
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       4008
+aCOP       ActiveX
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2080
+aCOP       BmpCtl
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2085
+aCOP       BitmapButton
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1060
+aCOP       Calendar
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1040
+aCOP       CheckBox
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       4009
+aCOP       ActiveX
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1050
+aCOP       ComboBox
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1070
+aCOP       ControlBar
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1071
+aCOP       ControlBarDlg
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       4010
+aCOP       ActiveX
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1065
+aCOP       DayTimer
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1010
+aCOP       Edit
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1009
+aCOP       EditGroup
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2005
+aCOP       ER_Diagram
+aDLL       TZCTL
+
+eCtrl      2
+aKey       2050
+aCOP       GSW
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       4004
+aCOP       ActiveX
+aDLL       TZCTL
+
+eCtrl      2
+aKey       2010
+aCOP       SS
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1090
+aCOP       GroupBox
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2070
+aCOP       HierDiagram
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2060
+aCOP       IconCtl
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       4002
+aCOP       ActiveX
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       4005
+aCOP       ActiveX
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       4017
+aCOP       ActiveX
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1080
+aCOP       ListBox
+aDLL       ZDCTL
+
+eCtrlEvent 3
+aType      10
+
+eCtrl      2
+aKey       1015
+aCOP       MLE
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2020
+aCOP       DIL
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       4007
+aCOP       ActiveX
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2030
+aCOP       Outliner
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2000
+aCOP       PainterControlBar
+aDLL       TZCTL
+
+eCtrl      2
+aKey       2040
+aCOP       Palette
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1020
+aCOP       PushButton
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1031
+aCOP       RadioBtn
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1030
+aCOP       RadioBtnGroup
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2090
+aCOP       Tab
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2091
+aCOP       TabDlg
+aDLL       ZDCTL
+
+eCtrlEvent 3
+aType      2
+
+eCtrlEvent 3
+aType      3
+
+eCtrlEvent 3
+aType      1
+
+eCtrl      2
+aKey       4001
+aCOP       ActiveX
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1000
+aCOP       Text
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       1025
+aCOP       Timer
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2100
+aCOP       ToolBar
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       2101
+aCOP       ToolBarDlg
+aDLL       ZDCTL
+
+eCtrl      2
+aKey       4006
+aCOP       ActiveX
+aDLL       ZDCTL
+

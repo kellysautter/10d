@@ -1,0 +1,792 @@
+z10000Zeidon    TZERADWO TZZOLODO 05/01/01   23:17:50 1.0b0    
+eLOD       1
+aZKey      89000377
+aName      TZERADWO
+aDesc      ADW intermediate work object
+
+eLOD_EntityParent 2
+aName      ADW_Work
+aIndentName ADW_Work
+aIndentLvl 0
+aZKey      89000378
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Root for 4 ADW export file entities
+
+eLOD_EntityChild 3
+aName      OI
+aIndentName    OI
+aIndentLvl 3
+aZKey      89000379
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      OI export file entry
+aSeqNo     1
+
+eLOD_AttributeRec 4
+aZKey      89000383
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Key1
+aZKey      89000384
+aDesc      First parameter in file record
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      89000385
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      Type
+aZKey      89000386
+aDesc      Second parameter in file record
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89000387
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Text
+aZKey      89000388
+aDesc      Thirt parameter in file record
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_EntityChild 3
+aName      AI
+aIndentName    AI
+aIndentLvl 3
+aZKey      89000380
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      AI export file entry
+aSeqNo     2
+
+eLOD_AttributeRec 4
+aZKey      89000390
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Key1
+aZKey      89000391
+aDesc      First parameter in file record
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89000392
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      Type
+aZKey      89000393
+aDesc      Second parameter in file record
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89000394
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Key2
+aZKey      89000395
+aDesc      Thrid parameter in file record
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89000396
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      Key3
+aZKey      89000397
+aDesc      Fourth parameter in file record
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      PI
+aIndentName    PI
+aIndentLvl 3
+aZKey      89000381
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      PI export file entry
+aSeqNo     3
+
+eLOD_AttributeRec 4
+aZKey      89000400
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Key1
+aZKey      89000401
+aDesc      First parameter in file record
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89000402
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      Type
+aZKey      89000403
+aDesc      Second parameter in file record
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89000404
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Text
+aZKey      89000405
+aDesc      Fourth parameter in file record
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      TI
+aIndentName    TI
+aIndentLvl 3
+aZKey      89000382
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      TI export file entry
+aSeqNo     4
+
+eLOD_AttributeRec 4
+aZKey      89000406
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Key1
+aZKey      89000407
+aDesc      First parameter in file record
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89000408
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      Type
+aZKey      89000409
+aDesc      Second parameter in file record
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89000410
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      TextEntrySeqNo
+aZKey      89000411
+aDesc      Third parameter in file record
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89000412
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      Text
+aZKey      89000413
+aDesc      Fourth parameter in file record
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      InfoTypeDef
+aIndentName    InfoTypeDef
+aIndentLvl 3
+aZKey      88022533
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Defines an InfoType definition and its corresponding Domain
+
+eLOD_AttributeRec 4
+aZKey      88022534
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      Mask
+aZKey      88022535
+aDesc      The character string mask from the InfoType
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      88022536
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      DomainName
+aZKey      88022537
+
+eDomainRec 6
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      88022538
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      DomainLength
+aZKey      88022539
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      89000414
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      OI_FileName
+aZKey      89000415
+aDesc      Fully qualified OI file name
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      89002045
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      AI_FileName
+aZKey      89002046
+aDesc      Fully qualified AI file name
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      89002047
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      PI_FileName
+aZKey      89002048
+aDesc      Fully qualified PI file name
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      89002049
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 4
+aName      TI_FileName
+aZKey      89002050
+aDesc      Fully qualified TI file name
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      88022529
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      Directory
+aZKey      88022530
+aDesc      Directory for ADW files
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      88022531
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ExportPrefix
+aZKey      88022532
+aLth       6
+aDesc      Prefix of exported ADW files
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000638
+aName      TZERADWO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      TZERADWO
+aZKey      1149567
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eZ_MetaDef 2
+aName      TZERADWO
+aZKey      89000377
+aType      7
+aLastUpdateDate 19951102200050000
+aLastCheckInDate 19951102203051110
+aDesc      ADW intermediate work object
+
+i8         5
+i15        5
+i18        5
+i21        5
+i24        5
+i28        5
+i31        5
+i34        11
+i38        5
+i41        5
+i44        5
+i47        11
+i51        11
+i57        5
+i60        11
+i63        11
+i66        11
+i69        11
+i72        11
+i75        11
+i76        1
+i77        58
+i78        59
+i79        11
+i80        61
+i81        62
+i82        11
+i83        64
+i84        65
+i85        11
+i86        67
+i87        68
+i88        11
+i89        70
+i90        71
+i91        11
+i92        73
+i93        74
+i94        11
+i95        2
+i96        3
+i97        4
+i98        5
+i99        6
+i100       7
+i101       5
+i102       9
+i103       10
+i104       11
+i105       12
+i106       13
+i107       14
+i108       5
+i109       16
+i110       17
+i111       5
+i112       19
+i113       20
+i114       5
+i115       22
+i116       23
+i117       5
+i118       25
+i119       26
+i120       27
+i121       5
+i122       29
+i123       30
+i124       5
+i125       32
+i126       33
+i127       11
+i128       35
+i129       36
+i130       37
+i131       5
+i132       39
+i133       40
+i134       5
+i135       42
+i136       43
+i137       5
+i138       45
+i139       46
+i140       11
+i141       48
+i142       49
+i143       50
+i144       11
+i145       52
+i146       53
+i147       54
+i148       55
+i149       56
+i150       5

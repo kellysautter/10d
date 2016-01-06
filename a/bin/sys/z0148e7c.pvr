@@ -1,0 +1,20 @@
+rZeidon    Z0148E7C TZWDVORO 11/02/95   20:52:24 1.0a     
+eViewObjRef 1,192
+aZKey      1347196
+aName      TZHKEYOO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1331132
+aName      KZHKEYSO
+aDesc      Hot key object definition
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZHKEYOO
+aZKey      1347196
+aType      9
+aLastUpdateDate 19950824213830000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

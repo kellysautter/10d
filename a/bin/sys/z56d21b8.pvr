@@ -1,0 +1,12 @@
+z0100-Zeidon    Z56D21B8 TZWDVORO 06/20/97   16:27:23 1.0a     
+eViewObjRef 1,198
+aZKey      91038136
+aName      TZZOLODO_Desc
+
+eLOD       2,228
+aZKey      1324578
+aName      TZZOLODO
+aDesc      LOD Object Def
+aDLL_Name  TZLODOPR
+aCommitConstraint Y
+

@@ -1,0 +1,162 @@
+z10000Zeidon    TZCMZKEY TZZOLODO 06/27/01   16:42:53 1.0b0    
+eLOD       1
+aZKey      127086757
+aName      TZCMZKEY
+aDesc      CM saved the last ZKey for a Repository Entity
+
+eLOD_EntityParent 2
+aName      Installation
+aIndentName Installation
+aIndentLvl 0
+aZKey      127086758
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   N
+aInclSrc   N
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Zeidon Configuration Management Installation Table
+
+eLOD_AttributeRec 3
+aZKey      127086760
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1320970
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      127086764
+
+eER_AttributeRec 4
+aName      NextInstallZKey
+aZKey      1320974
+aDesc      The Installation's  ZKey for creating itself.
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      Installation
+aZKey      1320968
+aPurpose   F
+aDesc      Zeidon Configuration Management Installation Table
+aOwningArea CM
+aER_DiagramPosX 380
+aER_DiagramPosY 28
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+ePOD       2
+aNAME      TZCMZKEY
+aZKey      127086767
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      ZEIDON_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SqlServer ODBC TB
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      DB2 MVS Ger
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      ACC_REP
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      Access ODBC TB
+aGenerateExecutable KZSIACC
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      DB2_Rep
+aZKey      90014023
+aDesc      Repository DB2 NT
+aParadigm  R
+aDBMS      DB2 NT TB
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDisplayOwner Y
+
+i7         4
+i9         1
+i10        2
+i11        3
+i12        4
+i13        5
+i14        6
+i15        4
+i16        8

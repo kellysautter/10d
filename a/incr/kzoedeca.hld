@@ -1,0 +1,975 @@
+// CHANGE LOG
+
+// 1999.08.25  TMV    Z10
+//   fix function CommitMultipleOIs to make Z10 compileable
+//   therefore we have to define a 2nd friend CommitMultipleOIs
+//   with LPVIEWCLUSTER as first parameter (see KZOENGAA.H)
+//
+// 1999.08.24  BL    Z10
+//   Remove function in if 0
+//   function CommitMultipleOIs: insert zOPER_EXPORT and OPERATION
+//
+// 1999.08.20  BL    ALL
+//    Move function code from h- into cpp-file
+//
+// from here old version
+//
+// 1998.05.29 - 1998.07.19   RG!!
+//    Several changes from Quinsoft without change log
+//
+// 1998.07.23  TMV
+//    Make changes so that a 16-Bit Runtime can be build from MFC 5.0 Sources
+//
+// 1998.07.29  RG
+//    changed: WIN32 --> __WIN32__, because WIN32 is not set in the makefiles
+//    for the object engine and the zeidon tools
+//
+// 08.09.1998  HH
+//    move function bodies to kzoedeca.cpp.
+//
+// 1198.12.22  DGC
+//    Added overload of CommitMultipleOIs so we can use it from VML.
+//
+
+#ifdef ZDECIMAL_CLASS
+#else
+   #define ZDECIMAL_CLASS
+#endif
+
+//#ifdef __WIN32__
+class ZDECIMAL_CLASS zDecimal : public DecimalStruct
+{
+public:
+   char     szValue[ 100 ];   // Used when converting zDecimal -> string.
+
+   // ====================================================================
+   // Constructors
+   // ====================================================================
+
+   zDecimal( zVIEW lpView );
+   zDecimal( zVIEW lpView, zDECIMAL DEC  );
+   zDecimal( zVIEW lpView, zPDECIMAL pDEC );
+   zDecimal( zVIEW lpView, zPCHAR  pszStr );
+   zDecimal( zVIEW lpView, zLONG   l );
+   zDecimal( zVIEW lpView, zULONG  l );
+   zDecimal( zVIEW lpView, zSHORT  n );
+   zDecimal( zVIEW lpView, zUSHORT n );
+   zDecimal( zVIEW lpView, double  d );
+   zDecimal( zVIEW lpView, int i );
+   zDecimal( zVIEW lpView, unsigned int i );
+   zDecimal( zVIEW lpView, zCPCHAR cpcStr );
+
+   ~zDecimal( );
+
+   // ====================================================================
+   // Assignment to zDecimal from variable.
+   // ====================================================================
+
+   zDecimal operator = ( zDecimal Dec );
+   zDecimal operator = ( zLONG l );
+   zDecimal operator = ( zULONG l );
+   zDecimal operator = ( zSHORT n);
+   zDecimal operator = ( zUSHORT n );
+   zDecimal operator = ( double d );
+   zDecimal operator = ( const double d ) const;
+   zDecimal operator = ( zPCHAR pszStr );
+   zDecimal operator = ( zCPCHAR cpcStr );
+   zDecimal operator = ( zPVOID pv );
+   zDecimal operator = ( zDECIMAL DEC );
+   zDecimal operator = ( zPDECIMAL pDEC );
+   zDecimal operator = ( int i );
+   zDecimal operator = ( unsigned int i );
+
+   // ====================================================================
+   // Assignment to variable from zDecimal
+   // ====================================================================
+
+   operator double( );
+   operator zLONG( );
+   operator zULONG( );
+   operator zSHORT( );
+   operator zUSHORT( );
+   operator zPCHAR( );
+
+   zBOOL IsNull( );
+
+   // ====================================================================
+   // Decimal only comparators
+   // ====================================================================
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT char OPERATION
+   operator ! ( zDecimal zDec );
+
+   // ====================================================================
+   // Addition operators involving mixed types
+   // ====================================================================
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, zDecimal zDec2 );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, double d );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( double d, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( zDecimal zDec, float d );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator + ( float d, zDecimal zDec );
+
+   // ====================================================================
+   // Subtraction operators
+   // ====================================================================
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, zDecimal zDec2 );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, double d );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( double d, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( zDecimal zDec, float d );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator - ( float d, zDecimal zDec );
+
+   // ====================================================================
+   // Multiplication operators
+   // ====================================================================
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, zDecimal zDec2 );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, double d );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( double d, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( zDecimal zDec, float d );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator * ( float d, zDecimal zDec );
+
+   // ====================================================================
+   // Division operators
+   // ====================================================================
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, zDecimal zDec2 );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, double d );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( double d, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( zDecimal zDec, float d );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator / ( float d, zDecimal zDec );
+
+   // ====================================================================
+   // ">=" operators involving mixed types
+   // ====================================================================
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( double n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, double n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( float n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator >= ( zDecimal zDec, float n );
+
+   // ====================================================================
+   // ">" operators involving mixed types
+   // ====================================================================
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( double n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, double n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( float n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator > ( zDecimal zDec, float n );
+
+   // ====================================================================
+   // "<=" operators involving mixed types
+   // ====================================================================
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( double n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, double n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( float n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator <= ( zDecimal zDec, float n );
+
+   // ====================================================================
+   // "<" operators involving mixed types
+   // ====================================================================
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( double n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, double n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( float n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator < ( zDecimal zDec, float n );
+
+   // ====================================================================
+   // "==" operators involving mixed types
+   // ====================================================================
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( double n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, double n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( float n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator == ( zDecimal zDec, float n );
+
+   // ====================================================================
+   // "!=" operators involving mixed types
+   // ====================================================================
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zLONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( unsigned int n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zUCHAR n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( double n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, double n );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( float n, zDecimal zDec );
+
+   friend zOPER_EXPORT char OPERATION
+   operator != ( zDecimal zDec, float n );
+
+   // ====================================================================
+   // "+=" operators
+   // ====================================================================
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal& zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT zLONG    OPERATION
+   operator += ( zLONG & l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT zULONG   OPERATION
+   operator += ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT zSHORT   OPERATION
+   operator += ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT zUSHORT  OPERATION
+   operator += ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator += ( zDecimal zDec, double d );
+
+   // ====================================================================
+   // "-=" operators
+   // ====================================================================
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal& zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT zLONG    OPERATION
+   operator -= ( zLONG & l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT zULONG   OPERATION
+   operator -= ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT zSHORT   OPERATION
+   operator -= ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT zUSHORT  OPERATION
+   operator -= ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator -= ( zDecimal zDec, double d );
+
+   // ====================================================================
+   // "*=" operators
+   // ====================================================================
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal& zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT zLONG    OPERATION
+   operator *= ( zLONG & l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT zULONG   OPERATION
+   operator *= ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT zSHORT   OPERATION
+   operator *= ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT zUSHORT  OPERATION
+   operator *= ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator *= ( zDecimal zDec, double d );
+
+   // ====================================================================
+   // "/=" operators
+   // ====================================================================
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal& zDec1, zDecimal zDec2 );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal zDec, zLONG l );
+
+   friend zOPER_EXPORT zLONG    OPERATION
+   operator /= ( zLONG & l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal zDec, zULONG l );
+
+   friend zOPER_EXPORT zULONG   OPERATION
+   operator /= ( zULONG l, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal zDec, zSHORT n );
+
+   friend zOPER_EXPORT zSHORT   OPERATION
+   operator /= ( zSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal zDec, zUSHORT n );
+
+   friend zOPER_EXPORT zUSHORT  OPERATION
+   operator /= ( zUSHORT n, zDecimal zDec );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal zDec, int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal zDec, unsigned int n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal zDec, zCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal zDec, zUCHAR n );
+
+   friend zOPER_EXPORT zDecimal OPERATION
+   operator /= ( zDecimal zDec, double d );
+
+   // declared here implemented in kzoedeca.cpp
+   friend zOPER_EXPORT zSHORT OPERATION
+   CommitMultipleOIs( zLONG   lViewCluster,
+                      zSHORT  nViewCount,
+                      zPSHORT pnViewErrorIdx,
+                      zLONG   lControl );
+
+   // as it is declared in KZOENGAA.H
+   friend zOPER_EXPORT zSHORT OPERATION
+   CommitMultipleOIs( LPVIEWCLUSTER lViewCluster,
+                      zSHORT  nViewCount,
+                      zPSHORT pnViewErrorIdx,
+                      zLONG   lControl );
+
+   zVIEW m_lpView;
+
+};  // zDecimal class
+
+//#endif // #ifdef __WIN32__

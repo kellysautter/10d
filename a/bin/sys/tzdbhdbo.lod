@@ -1,0 +1,127 @@
+z10000Zeidon    TZDBHDBO TZZOLODO 05/01/01   23:17:45 1.0b0    
+eLOD       1
+aZKey      90053008
+aName      TZDBHDBO
+aDesc      DB2 object for storing DB2-specific information in DBHandlers
+
+eLOD_EntityParent 2
+aName      Root
+aIndentName Root
+aIndentLvl 0
+aZKey      90053009
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Dummy Root
+
+eLOD_EntityChild 3
+aName      ApplA
+aIndentName    ApplA
+aIndentLvl 3
+aZKey      90053010
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Entity containing information that is specified in ApplA.
+
+eLOD_AttributeRec 4
+aZKey      90053011
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      UseStaticSQL
+aZKey      90053012
+aLth       1
+aDesc      If 'Y' then use static SQL whenever possible.  Also means that static SQL should be generated.
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90053013
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      StaticSQL_DLL_Name
+aZKey      90053014
+aDesc      Name of DLL containing static SQL operations.
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90057159
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      StaticSQL_C_FileDir
+aZKey      90057160
+aLth       256
+aDesc      The name of the intermidiate directory that contains the .c files generated from the .SQC files.
+
+eDomainRec 6
+
+eLOD_Entity 2
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i8         5
+i11        5
+i12        1
+i13        2
+i14        3
+i15        4
+i16        5
+i17        6
+i18        7
+i19        5
+i20        9
+i21        10
+i22        5

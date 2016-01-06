@@ -1,0 +1,86 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Project TzAxCtl
+;;
+;; This is a part of the Zeidon ActiveX controls package.
+;; Copyright © 1995 - 1999 QuinSoft, Inc.
+;; All Rights Reserved.
+;;
+;; SUBSYSTEM:    TzAxCtl.dll - ActiveX Control implementations
+;; FILE:         TzAxCtl.def
+;; AUTHOR:
+;;
+;; OVERVIEW
+;; ========
+;; TzAxCtl.def : Declares exports for TzAxCtl.dll
+;;
+
+;;
+;; CHANGE LOG - generated using MERGEDEF.EXE
+;;
+;; 2001.8.6   TMV   Grid
+;;   add TG_SetDateCtrlForColumn
+;;
+;; 2001.8.6   TMV   Grid
+;;   changed Operationname TG_SetAllignment to TG_SetAlignment because it was misspelled
+;;   Added new operations for BL
+;;      TG_GetCaption
+;;      TG_ShowColumn
+;;      TG_LimitTextLen
+;;
+;; 2001.07.09   TMV
+;;    add various TG_ functions requested by HPF for web grid
+;;
+;; 2001.06.17   BL
+;;    add function ITrueDBGridCtrl_GetMouseDownParam, TG_GetMouseClick
+;;    and TG_GetMouseClickWithKey
+;;
+;; 2001.03.13   BL
+;;     added functions for call from VML
+;;
+;; 2001.13.03   TMV
+;;    add function ITrueDBGridCtrl_EnableAutosort
+;;
+
+EXPORTS
+
+;; new exports added by mergedef
+;;
+;; Maximum Ordinal value in this "OPERATION" section is > @33 <
+;;
+
+;; leave TBDropDownScript commented out until its full implemented
+;; TBDropDownScript           = _TBDropDownScript@16            @1
+
+   TrueGridScript             = _TrueGridScript@16              @2
+   ITrueDBGridCtrl_SetDataMode= _ITrueDBGridCtrl_SetDataMode@12 @3
+   TG_LockColumn              = _TG_LockColumn@16               @4
+   TG_SetCellData             = _TG_SetCellData@20              @5
+   TG_GetCellData             = _TG_GetCellData@24              @6
+   TG_GetActiveCell           = _TG_GetActiveCell@16            @7
+   TG_SetActiveCell           = _TG_SetActiveCell@16            @8
+   TG_SetCheckBoxTranslation  = _TG_SetCheckBoxTranslation@20   @9
+   TG_EnableAutosort          = _TG_EnableAutosort@12           @10
+   TG_GetMouseClick           = _TG_GetMouseClick@8             @11
+   TG_GetMouseClickWithKey    = _TG_GetMouseClickWithKey@12     @12
+   TG_AllowAddNew             = _TG_AllowAddNew@12              @13
+   TG_AllowDelete             = _TG_AllowDelete@12              @14
+   TG_LockGrid                = _TG_LockGrid@16                 @15
+   TG_SetAlignment            = _TG_SetAlignment@16             @16
+   TG_SetAllowColSelect       = _TG_SetAllowColSelect@12        @17
+   TG_SetAllowFocus           = _TG_SetAllowFocus@16            @18
+   TG_SetAllowRowSelect       = _TG_SetAllowRowSelect@12        @19
+   TG_SetAllowRowSizing       = _TG_SetAllowRowSizing@12        @20
+   TG_SetBackgroundColor      = _TG_SetBackgroundColor@16       @21
+   TG_SetButtonAlways         = _TG_SetButtonAlways@16          @22
+   TG_SetCaption              = _TG_SetCaption@16               @23
+   TG_SetColumnWidth          = _TG_SetColumnWidth@16           @24
+   TG_SetFont                 = _TG_SetFont@36                  @25
+   TG_SetForegroundColor      = _TG_SetForegroundColor@16       @26
+   TG_SetInactiveBackColor    = _TG_SetInactiveBackColor@16     @27
+   TG_SetInactiveForeColor    = _TG_SetInactiveForeColor@16     @28
+   TG_SetMultiSelect          = _TG_SetMultiSelect@12           @29
+   TG_SetTextColor            = _TG_SetTextColor@16             @30
+   TG_GetCaption              = _TG_GetCaption@20               @31
+   TG_ShowColumn              = _TG_ShowColumn@16               @32
+   TG_LimitTextLen            = _TG_LimitTextLen@16             @33
+   TG_SetDateCtrlForColumn    = _TG_SetDateCtrlForColumn@16     @34

@@ -1,0 +1,746 @@
+z10000Zeidon    TZOBOIOO TZZOLODO 05/01/01   23:18:48 1.0b0    
+eLOD       1
+aZKey      1329122
+aName      TZOBOIOO
+aDesc      Object Browser work object
+
+eLOD_EntityParent 2
+aName      Name
+aIndentName Name
+aIndentLvl 0
+aZKey      1329123
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      Entity
+aIndentName    Entity
+aIndentLvl 3
+aZKey      1329124
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aSeqNo     1
+
+eLOD_EntityChild 4
+aName      Attrib
+aIndentName       Attrib
+aIndentLvl 6
+aZKey      1329125
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aSeqNo     1
+
+eLOD_AttributeRec 5
+aZKey      1329126
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      Value
+aZKey      1329127
+aLth       254
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1329128
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1329129
+aLth       254
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      1329130
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Pointer
+aZKey      1329131
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329132
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      Level
+aZKey      1329133
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329134
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1329135
+aLth       254
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329136
+aWork      Y
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      FirstAttr
+aZKey      1329137
+aLth       254
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329138
+aWork      Y
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      UpdateAttr
+aZKey      1329139
+aLth       254
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329140
+aWork      Y
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 5
+aName      Ind
+aZKey      1329141
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329142
+aWork      Y
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 5
+aName      CreatedFlag
+aZKey      1329143
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329144
+aWork      Y
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 5
+aName      UpdatedFlag
+aZKey      1329145
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329146
+aWork      Y
+aSeqNo_LOD_Entity 9
+
+eER_AttributeRec 5
+aName      DeletedFlag
+aZKey      1329147
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329148
+aWork      Y
+aSeqNo_LOD_Entity 10
+
+eER_AttributeRec 5
+aName      ExcludedFlag
+aZKey      1329149
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329150
+aWork      Y
+aSeqNo_LOD_Entity 11
+
+eER_AttributeRec 5
+aName      IncludedFlag
+aZKey      1329151
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329152
+aWork      Y
+aSeqNo_LOD_Entity 12
+
+eER_AttributeRec 5
+aName      RecordOwnerFlag
+aZKey      1329153
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329154
+aWork      Y
+aSeqNo_LOD_Entity 13
+
+eER_AttributeRec 5
+aName      RelOwnerFlag
+aZKey      1329155
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329156
+aWork      Y
+aSeqNo_LOD_Entity 14
+
+eER_AttributeRec 5
+aName      HiddenFlag
+aZKey      1329157
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90206083
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      InstancePointer
+aZKey      90206084
+aDesc      Pointer value of entity instance
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      WkEntity
+aIndentName    WkEntity
+aIndentLvl 3
+aZKey      1329158
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aSeqNo     2
+
+eLOD_AttributeRec 4
+aZKey      1329159
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1329160
+aLth       254
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      1329161
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      ID
+aZKey      1329162
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329163
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      ObjectInstanceID
+aZKey      1329164
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329165
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1329166
+aLth       254
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329167
+aWork      Y
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 4
+aName      InstanceOwner
+aZKey      1329168
+aLth       254
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329169
+aWork      Y
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 4
+aName      ObjectType
+aZKey      1329170
+aLth       32
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329171
+aWork      Y
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 4
+aName      Level
+aZKey      1329172
+aLth       32
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329173
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 4
+aName      SubtaskInd
+aZKey      1329174
+aLth       1
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329175
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 4
+aName      Mode
+aZKey      1329176
+aLth       1
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000601
+aName      TZOBOIOO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      TZOBOIOO
+aZKey      1149579
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eZ_MetaDef 2
+aName      TZOBOIOO
+aZKey      1329122
+aType      7
+aLastUpdateDate 19951102200104000
+aLastCheckInDate 19951102203051110
+aDesc      Object Browser work object
+
+i9         6
+i15        12
+i18        6
+i21        6
+i24        6
+i27        6
+i30        12
+i33        12
+i36        12
+i39        12
+i42        12
+i45        12
+i48        12
+i51        12
+i54        6
+i58        6
+i61        12
+i64        12
+i67        6
+i70        6
+i73        6
+i76        6
+i79        6
+i82        6
+i83        1
+i84        59
+i85        60
+i86        12
+i87        62
+i88        63
+i89        12
+i90        65
+i91        66
+i92        6
+i93        68
+i94        69
+i95        6
+i96        71
+i97        72
+i98        6
+i99        74
+i100       75
+i101       6
+i102       77
+i103       78
+i104       6
+i105       80
+i106       81
+i107       6
+i108       2
+i109       10
+i110       11
+i111       12
+i112       13
+i113       14
+i114       12
+i115       16
+i116       17
+i117       6
+i118       19
+i119       20
+i120       6
+i121       22
+i122       23
+i123       6
+i124       25
+i125       26
+i126       6
+i127       28
+i128       29
+i129       12
+i130       31
+i131       32
+i132       12
+i133       34
+i134       35
+i135       12
+i136       37
+i137       38
+i138       12
+i139       40
+i140       41
+i141       12
+i142       43
+i143       44
+i144       12
+i145       46
+i146       47
+i147       12
+i148       49
+i149       50
+i150       12
+i151       52
+i152       53
+i153       6
+i154       3
+i155       4
+i156       5
+i157       6
+i158       7
+i159       8
+i160       6
+i161       55
+i162       56
+i163       57
+i164       6

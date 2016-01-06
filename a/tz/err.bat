@@ -1,0 +1,1 @@
+call e %1.c %1.err

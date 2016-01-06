@@ -1,0 +1,11 @@
+[edit-]
+screen=80 50
+toggles=1 0 0 1 0 0
+srch=TZEDCM2D
+src=TZEDCM2D
+rpl=TZEDCM2D
+file=c:\10d\w\tz\tzedcmpd.mak 1 1 27 21
+[brief]
+file=c:\10d\w\tz\tzedcmpd.mak 1 1 27 21 1 47 78 1 c=7
+[shared-]
+pmark=c:\10d\w\tz\tzedcmpd.mak 27 21

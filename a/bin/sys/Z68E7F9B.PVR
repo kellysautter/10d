@@ -1,0 +1,11 @@
+z1000-Zeidon    Z68E7F9B TZWDVORO 11/26/14   15:21:34 1.0a2    
+eViewObjRef 1
+aZKey      110002075
+aName      TZZOXOGO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      110002054
+aName      TZZOXOGO
+aDesc      Global Operations Executable Object - Defines parameters of every global operation (similar to XDM)
+

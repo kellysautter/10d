@@ -1,0 +1,19 @@
+rZeidon    Z55D5D39 TZWDVORO 11/02/95   20:51:53 1.0a     
+eViewObjRef 1,192
+aZKey      90004793
+aName      TZSIIMLO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      90004786
+aName      TZSIIMLO
+aDesc      List of Siron work objects
+
+eZ_MetaDef 2,192
+aName      TZSIIMLO
+aZKey      90004793
+aType      9
+aLastUpdateDate 19950919134626000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{72c7f671-ee19-4cb1-8600-d9c8fbf778e5}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{eae26f52-ad68-433f-919d-93e1a39cc39d}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="others">
+      <UniqueIdentifier>{34050c6a-5411-427f-83be-829fccc5c83a}</UniqueIdentifier>
+      <Extensions>mak; ini; pwd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{e3425aea-7a2f-4b97-a4e9-934148cb1c64}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tzcswrpr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmledt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zcmddef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zviewdef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="zstring.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tzcswrpr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tzvmlcst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tzvmledt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zcmddef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zviewdef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="tzvmledit.def">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="VMLLANG.INI">
+      <Filter>others</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

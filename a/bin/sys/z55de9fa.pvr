@@ -1,0 +1,11 @@
+z0100-Zeidon    TEMP     TZWDVORO 08/06/98   16:22:33 1.0a     
+eViewObjRef 1,198
+aZKey      90040826
+aName      TZDBHODO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,230
+aZKey      90040820
+aName      TZDBHODO
+aDesc      This is a db-handler object.  It is used to specify information that is specific to ODBC databases.
+

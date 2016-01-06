@@ -1,0 +1,21 @@
+// qstruct  build  v4.54 
+
+#ifndef __tzvsexpo_hst__   // sentry, use file only if it's not already included
+#define __tzvsexpo_hst__
+
+typedef struct tagzTZVSEXPO_ExprNode_DEF
+{
+   zLONG ElementClass;
+   zLONG DataClass;
+   zLONG DataType;
+   zLONG Offset;
+   zLONG Level;
+   zLONG Count;
+   zLONG Flags;
+   zCHAR Text[ 1025 ];
+
+unsigned char CheckByte;
+
+} zTZVSEXPO_ExprNode_DEF;
+
+#endif   // #define __tzvsexpo_hst__

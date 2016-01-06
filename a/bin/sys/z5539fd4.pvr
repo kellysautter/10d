@@ -1,0 +1,12 @@
+z10000Zeidon    Z5539FD4 TZWDVORO 05/22/01   12:37:29 1.0a1    
+eViewObjRef 1
+aZKey      89366484
+aName      TZEREMDO_tgt
+aDesc      used as a recursive target in DimHier processing
+
+eLOD       2
+aZKey      1326595
+aName      TZEREMDO
+aDesc      Enterprise Model ER Information
+aDLL_Name  TZLODOPR
+

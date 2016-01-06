@@ -1,0 +1,11 @@
+z1000-Zeidon    Z0106291 TZWDVORO 06/16/05   21:47:13 1.0a2    
+eViewObjRef 1
+aZKey      1073809
+aName      TZMULTICHANGE
+
+eLOD       2
+aZKey      127047087
+aName      TZERROR
+aDesc      Work object for Error List
+aDLL_Name  TZERROR
+

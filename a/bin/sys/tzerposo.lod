@@ -1,0 +1,915 @@
+z10000Zeidon    TZERPOSO TZZOLODO 05/01/01   23:18:03 1.0b0    
+eLOD       1
+aZKey      1329398
+aName      TZERPOSO
+aDesc      Work for ERD Positioning algoritm
+
+eLOD_EntityParent 2
+aName      RootStats
+aIndentName RootStats
+aIndentLvl 0
+aZKey      1329399
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      Used to hold evaluation of current placement
+
+eLOD_EntityChild 3
+aName      W_ERD_PosCell
+aIndentName    W_ERD_PosCell
+aIndentLvl 3
+aZKey      1329400
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   Y
+aParentDeleteBehave D
+aSeqNo     1
+
+eLOD_AttributeRec 4
+aZKey      1329401
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      CellXY
+aZKey      1321555
+aKey       N
+aNotNull   N
+aDesc      X * 1000 + Y
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1329402
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      EntityZKey
+aZKey      1321556
+aDesc      set if entity is "covering" cell
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329403
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      NbrRelsHoriz
+aZKey      1321557
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329404
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      NbrRelsVert
+aZKey      1321558
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      W_ERD_PosCell
+aZKey      1321554
+aPurpose   W
+aDesc      Work - used in ERD Pos. Algorithm
+aOwningArea ER
+aER_DiagramPosX 160
+aER_DiagramPosY 514
+
+eLOD_EntityChild 3
+aName      Cluster
+aIndentName    Cluster
+aIndentLvl 3
+aZKey      1329405
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      Group of entities to be initially placed in square cluster
+aSeqNo     2
+
+eLOD_EntityChild 4
+aName      W_ERD_Entity
+aIndentName       W_ERD_Entity
+aIndentLvl 6
+aZKey      1329406
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   Y
+aParentDeleteBehave D
+aSeqNo     1
+
+eLOD_EntityChild 5
+aName      W_ERD_RelatedEntity
+aIndentName          W_ERD_RelatedEntity
+aIndentLvl 9
+aZKey      1329407
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator L
+aSeqNo     1
+
+eLOD_AttributeRec 6
+aZKey      1329408
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 7
+aName      ZKey
+aZKey      1321545
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329409
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 7
+aName      Name
+aZKey      1321546
+aLth       32
+
+eDomainRec 8
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      1329410
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 7
+aName      NbrRelatedEnts
+aZKey      1321547
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329411
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 7
+aName      NbrRelEntsInSameOA
+aZKey      1321548
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329412
+aWork      Y
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 7
+aName      NbrRelEntsInSameOA
+aZKey      1329413
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329414
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 7
+aName      ER_DgmPosX
+aZKey      1321549
+aNotNull   N
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329415
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 7
+aName      ER_DgmPosY
+aZKey      1321550
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329416
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 7
+aName      OwningArea
+aZKey      1321551
+aLth       32
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329417
+aWork      Y
+aSeqNo_LOD_Entity 9
+
+eER_AttributeRec 7
+aName      OA_MatchesParentsOA
+aZKey      1329418
+aLth       1
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      1329419
+aWork      Y
+aSeqNo_LOD_Entity 10
+
+eER_AttributeRec 7
+aName      NbrRelEntsInMyParentsOA
+aZKey      1329420
+
+eDomainRec 8
+
+eER_EntityRec 6
+aName      W_ERD_Entity
+aZKey      1321544
+aPurpose   W
+aDesc      Work - used in ERD Pos. Algorithm
+aOwningArea ER
+aER_DiagramPosX 68
+aER_DiagramPosY 256
+
+eER_RelLinkRec 6
+aName      has related
+aZKey      1322130
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 7
+aZKey      1322129
+aFact      Added thru 8C ER Dialog
+aER_DiagramBendPosX 80
+aER_DiagramBendPosY 252
+aER_DiagramE1PosX 74
+aER_DiagramE1PosY 255
+aER_DiagramE2PosX 77
+aER_DiagramE2PosY 256
+
+eLOD_AttributeRec 5
+aZKey      1329421
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329422
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329423
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329424
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329425
+aWork      Y
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 6
+aName      NbrRelEntsInSameOA
+aZKey      1329426
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329427
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329428
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1329429
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 6
+
+eDomainRec 7
+
+eER_EntityRec 5
+
+eLOD_AttributeRec 4
+aZKey      1329430
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1329431
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329432
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      NbrEnts
+aZKey      1329433
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329434
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      NbrCells
+aZKey      1329435
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329436
+aWork      Y
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      NbrRelEntsInMyCluster
+aZKey      1329437
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329438
+aWork      Y
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      NbrRelEntsInOtherClusters
+aZKey      1329439
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329440
+aWork      Y
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 5
+aName      CellX
+aZKey      1329441
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1329442
+aWork      Y
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 5
+aName      CellY
+aZKey      1329443
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      1329444
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      NbrEnts
+aZKey      1329445
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329446
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      NbrCells
+aZKey      1329447
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329448
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      NbrClusters
+aZKey      1329449
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eSourceFile 2
+aZKey      92000597
+aName      TZERPOSO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      TZERPOSO
+aZKey      1149573
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eZ_MetaDef 2
+aName      TZERPOSO
+aZKey      1329398
+aType      7
+aLastUpdateDate 19951102200058000
+aLastCheckInDate 19951102203051110
+aDesc      Work for ERD Positioning algoritm
+
+i8         5
+i11        5
+i14        5
+i21        5
+i27        5
+i30        5
+i33        5
+i36        5
+i39        5
+i42        24
+i45        24
+i48        5
+i53        20
+i54        5
+i56        23
+i57        24
+i59        26
+i60        5
+i62        29
+i63        5
+i66        5
+i68        35
+i69        5
+i71        38
+i72        5
+i74        41
+i75        24
+i76        49
+i79        24
+i82        5
+i85        5
+i88        5
+i91        5
+i94        5
+i97        5
+i100       5
+i103       5
+i106       5
+i107       1
+i108       98
+i109       99
+i110       5
+i111       101
+i112       102
+i113       5
+i114       104
+i115       105
+i116       5
+i117       2
+i118       3
+i119       4
+i120       5
+i121       6
+i122       7
+i123       5
+i124       9
+i125       10
+i126       5
+i127       12
+i128       13
+i129       5
+i130       15
+i131       16
+i132       77
+i133       78
+i134       24
+i135       80
+i136       81
+i137       5
+i138       83
+i139       84
+i140       5
+i141       86
+i142       87
+i143       5
+i144       89
+i145       90
+i146       5
+i147       92
+i148       93
+i149       5
+i150       95
+i151       96
+i152       5
+i153       17
+i154       52
+i155       20
+i156       5
+i157       55
+i158       23
+i159       24
+i160       58
+i161       26
+i162       5
+i163       61
+i164       29
+i165       5
+i166       64
+i167       65
+i168       5
+i169       67
+i170       35
+i171       5
+i172       70
+i173       38
+i174       5
+i175       73
+i176       41
+i177       24
+i178       49
+i179       18
+i180       19
+i181       20
+i182       5
+i183       22
+i184       23
+i185       24
+i186       25
+i187       26
+i188       5
+i189       28
+i190       29
+i191       5
+i192       31
+i193       32
+i194       5
+i195       34
+i196       35
+i197       5
+i198       37
+i199       38
+i200       5
+i201       40
+i202       41
+i203       24
+i204       43
+i205       44
+i206       24
+i207       46
+i208       47
+i209       5
+i210       49
+i211       50
+i212       51

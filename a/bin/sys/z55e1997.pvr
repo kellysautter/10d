@@ -1,0 +1,12 @@
+z0100-Zeidon    TEMP     TZWDVORO 12/09/98   18:09:49 1.0a     
+eViewObjRef 1,198
+aZKey      90053015
+aName      TZDBHDBO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,230
+aZKey      90053008
+aName      TZDBHDBO
+aDesc      DB2 object for storing DB2-specific information in DBHandlers
+aFK_ZKEY02 0
+

@@ -1,0 +1,19 @@
+rZeidon    Z0146AE6 TZWDVORO 11/02/95   20:52:20 1.0a     
+eViewObjRef 1,192
+aZKey      1338086
+aName      TZOBRWOO
+aDesc      Work object for Object Browser
+
+eLOD       2,192
+aZKey      1329177
+aName      TZOBRWOO
+aDesc      Object Browser work view
+
+eZ_MetaDef 2,192
+aName      TZOBRWOO
+aZKey      1338086
+aType      9
+aLastUpdateDate 19950824213700000
+aLastCheckInDate 19951102203051110
+aDesc      Work object for Object Browser
+

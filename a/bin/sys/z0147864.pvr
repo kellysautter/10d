@@ -1,0 +1,18 @@
+rZeidon    Z0147864 TZWDVORO 11/02/95   20:53:18 1.0a     
+eViewObjRef 1,192
+aZKey      1341540
+aName      TE_DB_Environ
+
+eLOD       2,192
+aZKey      1327972
+aName      TZTENVRO
+aDesc      Technical Environment for any type
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TE_DB_Environ
+aZKey      1341540
+aType      9
+aLastUpdateDate 19950824213744000
+aLastCheckInDate 19951102203051110
+

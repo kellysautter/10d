@@ -1,0 +1,10 @@
+;; CHANGE LOG
+;;
+   LIBRARY       zSimpDir
+;;   CODE      PRELOAD MOVEABLE DISCARDABLE
+;;   DATA      PRELOAD SINGLE
+
+EXPORTS
+               zServerDirInit       @1
+               zServerDirClose      @2
+               zServerDirGetAddr    @3

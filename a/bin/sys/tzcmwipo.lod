@@ -1,0 +1,657 @@
+z10000Zeidon    TZCMWIPO TZZOLODO 07/15/01   12:42:03 1.0b0    
+eLOD       1
+aZKey      1329718
+aName      TZCMWIPO
+aDesc      Work Object for Configuration Management
+aReLinked  Y
+
+eLOD_EntityParent 2
+aName      ROOT
+aIndentName ROOT
+aIndentLvl 0
+aZKey      1329719
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eLOD_AttributeRec 3
+aZKey      1329720
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      UserName
+aZKey      1329721
+aLth       32
+
+eDomainRec 5
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      1329722
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      Password
+aZKey      1329723
+aLth       8
+
+eDomainRec 5
+aZKey      90000042
+aName      Password
+aDomainType A
+aDataType  S
+aMaxStringLth 9
+aDesc      Encrypted password
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      89148662
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      PasswordValidation
+aZKey      89148663
+aLth       8
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      92022442
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      UserDesc
+aZKey      92022443
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329724
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      ComponentListType
+aZKey      1329725
+aDesc      Active, Checked Out, Refer ...
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      1329726
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 4
+aName      ListDomain
+aZKey      1329727
+aDesc      Switch for Listing Domains
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329728
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 4
+aName      ListERD
+aZKey      1329729
+aDesc      Switch for listing ER Models
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329730
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 4
+aName      ListSA
+aZKey      1329731
+aDesc      Switch for Listing Subject Areas
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329732
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 4
+aName      ListTE
+aZKey      1329733
+aDesc      Switch for listing Technical Envs
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329734
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 4
+aName      ListLOD
+aZKey      1329735
+aDesc      Switch for listing LOD's
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329736
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 9
+
+eER_AttributeRec 4
+aName      ListVOR
+aZKey      1329737
+aDesc      Switch for listing Registered Views
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329738
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 10
+
+eER_AttributeRec 4
+aName      ListPE
+aZKey      1329739
+aDesc      Switch for Listing Pres. Envs
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329740
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 11
+
+eER_AttributeRec 4
+aName      ListDialogs
+aZKey      1329741
+aDesc      Switch for listing Dialogs
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127045326
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 11
+
+eER_AttributeRec 4
+aName      ListReports
+aZKey      127045327
+aDesc      Switch for listing Reports
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329742
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 12
+
+eER_AttributeRec 4
+aName      ListGlobalOper
+aZKey      1329743
+aDesc      Switch for Lsiting Global Opers
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329744
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 13
+
+eER_AttributeRec 4
+aName      ListHeaders
+aZKey      1329745
+aDesc      Switch for Listing Headers
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329746
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 14
+
+eER_AttributeRec 4
+aName      ListUIS
+aZKey      1329747
+aDesc      Switch for Listing UI Spec's
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127045335
+aWork      Y
+aUpdate    Y
+aInit      0
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      ComponentStatus
+aZKey      127045336
+aDesc      71
+3 = Checked Out By User
+2 = Not Checked Out
+1 = Checked Out
+0 = All0
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329748
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 15
+
+eER_AttributeRec 4
+aName      Sysadm
+aZKey      1329749
+aDesc      Sysadm Ind
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1329750
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 16
+
+eER_AttributeRec 4
+aName      CPLR_Administrator
+aZKey      1329751
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127092429
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      CheckOutComments
+aZKey      127092430
+aLth       254
+aDesc      Comments on Check Out or Copy
+aPromptPaintLit COMMENTS
+aListPaintLit COMMENTS
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 21
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 10
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 11
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 12
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 13
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 14
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 15
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 16
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 17
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 18
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 19
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 20
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 21
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000631
+aName      TZCMWIPO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      TZCMWIPO
+aZKey      127045328
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      ZEIDON_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SqlServer ODBC TB
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      DB2 MVS Ger
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      ACC_REP
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      Access ODBC TB
+aGenerateExecutable KZSIACC
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      DB2_Rep
+aZKey      90014023
+aDesc      Repository DB2 NT
+aParadigm  R
+aDBMS      DB2 NT TB
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDisplayOwner Y
+
+eZ_MetaDef 2
+aName      TZCMWIPO
+aZKey      1329718
+aType      7
+aLastUpdateDate 19951102200038000
+aLastCheckInDate 19951102203051110
+aDesc      Work Object for Configuration Management
+
+i10        4
+i13        4
+i19        16
+i22        16
+i25        16
+i28        16
+i31        16
+i34        16
+i37        16
+i40        16
+i43        16
+i46        16
+i49        16
+i52        16
+i55        16
+i58        16
+i61        16
+i64        4
+i65        1
+i66        2
+i67        3
+i68        4
+i69        5
+i70        6
+i71        7
+i72        8
+i73        9
+i74        4
+i75        11
+i76        12
+i77        4
+i78        14
+i79        15
+i80        16
+i81        17
+i82        18
+i83        16
+i84        20
+i85        21
+i86        16
+i87        23
+i88        24
+i89        16
+i90        26
+i91        27
+i92        16
+i93        29
+i94        30
+i95        16
+i96        32
+i97        33
+i98        16
+i99        35
+i100       36
+i101       16
+i102       38
+i103       39
+i104       16
+i105       41
+i106       42
+i107       16
+i108       44
+i109       45
+i110       16
+i111       47
+i112       48
+i113       16
+i114       50
+i115       51
+i116       16
+i117       53
+i118       54
+i119       16
+i120       56
+i121       57
+i122       16
+i123       59
+i124       60
+i125       16
+i126       62
+i127       63
+i128       4

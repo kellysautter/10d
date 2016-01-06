@@ -1,0 +1,19 @@
+rZeidon    Z0145C71 TZWDVORO 11/02/95   20:51:31 1.0a     
+eViewObjRef 1,192
+aZKey      1334385
+aName      TZZOHDGO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1327408
+aName      TZZOHDGO
+aDesc      Hier Diagram Object
+
+eZ_MetaDef 2,192
+aName      TZZOHDGO
+aZKey      1334385
+aType      9
+aLastUpdateDate 19950824213628000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

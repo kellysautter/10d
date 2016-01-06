@@ -1,0 +1,54 @@
+# buildos is os232, os2, win or win32
+# This should be an environment variable or specified when invoking NMAKE
+# buildos = win
+
+!ifndef BUILDOS
+!error Environment variable 'BUILDOS' not defined!
+!endif
+
+# model is small, medium or large -- case sensitive!
+!if "$(model)"==""
+
+!if "$(BUILDOS)"=="os232"
+model = large
+!endif
+
+!if "$(BUILDOS)"=="os2"
+model = large
+!endif
+
+!if "$(BUILDOS)"=="win"
+model = large
+!endif
+
+!if "$(BUILDOS)"=="win32"
+model = large
+!endif
+
+!if "$(BUILDOS)"=="win95"
+model = large
+!endif
+
+# If model is still null then there was an error.
+!if "$(model)"==""
+!error Environment variable 'BUILDOS' is invalid - $(BUILDOS)
+!endif
+
+!endif
+kz_base   = $(KZD):\$(KZV)
+kz_basea  = $(KZD):\$(KZV)\A
+kz_base2  = $(KZD):\$(KZV)\2
+kz_base32 = $(KZD):\$(KZV)\32
+kz_basew  = $(KZD):\$(KZV)\$(KZT)
+kz_baseu  = $(KZD):\$(KZV)\X
+
+# debug is 1 to set options for codeview
+
+!if "$(debug)"==""
+!if "$(DEBUG)"==""
+debug = 0
+!else
+debug = 1
+!endif
+!endif
+

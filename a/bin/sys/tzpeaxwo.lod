@@ -1,0 +1,243 @@
+z10000Zeidon    TZPEAXWO TZZOLODO 05/01/01   23:19:11 1.0b0    
+eLOD       1
+aZKey      1159719
+aName      TZPEAXWO
+aDesc      Presentation Environment work object to load ActiveX control informatino from the Registry.
+
+eLOD_EntityParent 2
+aName      TZPEAXWO
+aIndentName TZPEAXWO
+aIndentLvl 0
+aZKey      1159720
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Root entity as parent for ActiveX control entities.
+
+eLOD_EntityChild 3
+aName      ActiveX
+aIndentName    ActiveX
+aIndentLvl 3
+aZKey      1159721
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      ActiveX control information from the Registry.
+
+eLOD_EntityChild 4
+aName      Event
+aIndentName       Event
+aIndentLvl 6
+aZKey      1159731
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Events which may be propagated by the ActiveX control.
+
+eLOD_AttributeRec 5
+aZKey      1159732
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      DispatchId
+aZKey      1159733
+aDesc      Event Identifier
+
+eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1159734
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1159735
+aDesc      Event name
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1159722
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ProgId
+aZKey      1159723
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1159724
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ClassId
+aZKey      1159725
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1159726
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      TypeLib
+aZKey      1159727
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1165593
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Description
+aZKey      1165594
+aDesc      Descriptive name of control ... not the same as ProgId
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1159728
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Bitmap
+aZKey      1159729
+aDesc      Bitmap name associated with the ActiveX control.
+
+eDomainRec 6
+
+eLOD_Entity 2
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i12        9
+i15        9
+i18        9
+i21        9
+i24        9
+i25        1
+i26        2
+i27        10
+i28        11
+i29        9
+i30        13
+i31        14
+i32        9
+i33        16
+i34        17
+i35        9
+i36        19
+i37        20
+i38        9
+i39        22
+i40        23
+i41        9
+i42        3
+i43        4
+i44        5
+i45        6
+i46        7
+i47        8
+i48        9

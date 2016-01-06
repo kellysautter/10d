@@ -1,0 +1,1357 @@
+z1000-Zeidon    KZXMLPGO TZZOLODO 04/21/14   14:03:24 1.0a2    
+eLOD       1
+aZKey      91301926
+aName      KZXMLPGO
+aDesc      XML for window controls
+aDLL_Name  KZRPSRCO
+
+eLOD_EntityParent 2
+aName      Session
+aIndentName Session
+aIndentLvl 0
+aZKey      91301927
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      Page
+aIndentName    Page
+aIndentLvl 3
+aZKey      91301928
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      TableRow
+aIndentName       TableRow
+aIndentLvl 6
+aZKey      91302442
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 5
+aName      TableGroup
+aIndentName          TableGroup
+aIndentLvl 9
+aZKey      91302443
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 6
+aName      Row
+aIndentName             Row
+aIndentLvl 12
+aZKey      91302444
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 7
+aName      Control
+aIndentName                Control
+aIndentLvl 15
+aZKey      91302445
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 8
+aName      ListEntry
+aIndentName                   ListEntry
+aIndentLvl 18
+aZKey      91302446
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 9
+aName      ListEntryValue
+aIndentName                      ListEntryValue
+aIndentLvl 21
+aZKey      91302447
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 10
+aZKey      91302457
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 11
+aName      Name
+aZKey      91302458
+
+eDomainRec 12
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 10
+aZKey      91302459
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 11
+aName      CurrentValue
+aZKey      91302460
+
+eDomainRec 12
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eLOD_EntityChild 8
+aName      ComboValue
+aIndentName                   ComboValue
+aIndentLvl 18
+aZKey      91302448
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 9
+aZKey      91302461
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 10
+aName      ExternalValue
+aZKey      91302462
+
+eDomainRec 11
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 8
+aZKey      91302451
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 9
+aName      Name
+aZKey      91302452
+
+eDomainRec 10
+
+eLOD_AttributeRec 8
+aZKey      91302453
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 9
+aName      Type
+aZKey      91302454
+
+eDomainRec 10
+
+eLOD_AttributeRec 8
+aZKey      91302455
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 9
+aName      CurrentValue
+aZKey      91302456
+
+eDomainRec 10
+
+eLOD_AttributeRec 6
+aZKey      91302449
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      Name
+aZKey      91302450
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      91302635
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      CenterJustifyFlag
+aZKey      91302636
+
+eDomainRec 8
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      91302637
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      BorderValue
+aZKey      91302638
+
+eDomainRec 8
+aZKey      90000028
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      91301951
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DialogName
+aZKey      91301952
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91301953
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      WindowName
+aZKey      91301954
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      PagePath
+aIndentName    PagePath
+aIndentLvl 3
+aZKey      91301955
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      91301956
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      LastPageName
+aZKey      91301957
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      NextDialogWindow
+aIndentName    NextDialogWindow
+aIndentLvl 3
+aZKey      93077873
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      93077874
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DialogName
+aZKey      93077875
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      93077876
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      WindowName
+aZKey      93077877
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      93078023
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      FunctionCall
+aZKey      93078024
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      DynamicBannerName
+aIndentName    DynamicBannerName
+aIndentLvl 3
+aZKey      1156564
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      1156567
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DialogName
+aZKey      1156568
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1156569
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      BannerName
+aZKey      1156570
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      Dialog
+aIndentName    Dialog
+aIndentLvl 3
+aZKey      1156577
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      Window
+aIndentName       Window
+aIndentLvl 6
+aZKey      1156580
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      1156581
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      WindowName
+aZKey      1156582
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1156583
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      FocusCtrl
+aZKey      1156584
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      1156578
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DialogName
+aZKey      1156579
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      DisableMenuOption
+aIndentName    DisableMenuOption
+aIndentLvl 3
+aZKey      90900819
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      90900820
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      MenuName
+aZKey      90900821
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90900822
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      MenuOptionName
+aZKey      90900823
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      DialogWindowList
+aIndentName    DialogWindowList
+aIndentLvl 3
+aZKey      4120666
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      4120667
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DialogName
+aZKey      4120668
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      4120669
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      WindowName
+aZKey      4120670
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      4120671
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      FunctionCall
+aZKey      4120672
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      TopDialogWindow
+aIndentName    TopDialogWindow
+aIndentLvl 3
+aZKey      4120673
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      4120674
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DialogName
+aZKey      4120675
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      4120676
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      WindowName
+aZKey      4120677
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      4120678
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      FunctionCall
+aZKey      4120679
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      91301958
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      UserID
+aZKey      91301959
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      4897620
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      TaskID
+aZKey      4897621
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90122434
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DashboardFrameCount
+aZKey      90122435
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90134210
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DashboardFrameFinished
+aZKey      90134211
+aDesc      In IE, when the iframes are called, it seems to be calling asynchronised but we need to build them one by one.  Use this flag to indicate that a frame has finished.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90519640
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      SolicitSaveFlag
+aZKey      90519641
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      4120680
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      PrintFileName
+aZKey      4120681
+
+eDomainRec 5
+aZKey      1165598
+aName      QSFullPathName
+aDomainType E
+aDataType  S
+aMaxStringLth 260
+aDesc      Construct full path expanding embedded environment variables to their value.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      4120682
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      PrintFileType
+aZKey      4120683
+aPromptPaintLth 8
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 3
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      91301960
+aName      KZXMLPGO
+aExtension VML
+aLanguageType V
+
+eOperation 3
+aName      InitWebSessionObject
+aZKey      91301961
+aType      T
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc View To Instance
+aDataType  V
+aPFlag     Y
+aUFlag     N
+aZKey      91301962
+
+eParameter 4
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91301963
+
+eParameter 4
+aShortDesc UserID
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301964
+
+eOperation 3
+aName      InitWebPage
+aZKey      91301965
+aType      T
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc vKZXMLWDO
+aDataType  V
+aZKey      91301966
+
+eParameter 4
+aShortDesc DialogName
+aDataType  S
+aZKey      91301967
+
+eParameter 4
+aShortDesc WindowName
+aDataType  S
+aZKey      91301968
+
+eOperation 3
+aName      AddWebControlSubobject
+aZKey      91301969
+aType      T
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc View To Instance
+aDataType  V
+aZKey      91301970
+
+eParameter 4
+aShortDesc ControlName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301971
+
+eParameter 4
+aShortDesc ControlType
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301972
+
+eParameter 4
+aShortDesc ControlContext
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301973
+
+eParameter 4
+aShortDesc SourceViewName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301974
+
+eParameter 4
+aShortDesc SourceEntity
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301975
+
+eParameter 4
+aShortDesc SourceAttribute
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301976
+
+eParameter 4
+aShortDesc AutoComboBoxExternalValue
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301977
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i21        11
+i24        18
+i27        14
+i30        11
+i39        11
+i42        11
+i46        18
+i50        18
+i53        18
+i56        18
+i60        18
+i63        18
+i68        11
+i71        18
+i74        11
+i78        18
+i81        18
+i85        18
+i88        18
+i91        18
+i95        18
+i98        18
+i101       18
+i104       18
+i107       18
+i113       110
+i116       33
+i122       18
+i123       1
+i124       102
+i125       103
+i126       18
+i127       105
+i128       106
+i129       18
+i130       108
+i131       109
+i132       110
+i133       111
+i134       112
+i135       110
+i136       114
+i137       115
+i138       33
+i139       117
+i140       118
+i141       119
+i142       120
+i143       121
+i144       18
+i145       2
+i146       37
+i147       38
+i148       11
+i149       40
+i150       41
+i151       11
+i152       3
+i153       4
+i154       28
+i155       29
+i156       11
+i157       31
+i158       32
+i159       33
+i160       34
+i161       35
+i162       36
+i163       5
+i164       6
+i165       19
+i166       20
+i167       11
+i168       22
+i169       23
+i170       18
+i171       25
+i172       26
+i173       14
+i174       7
+i175       8
+i176       9
+i177       10
+i178       11
+i179       12
+i180       13
+i181       14
+i182       15
+i183       16
+i184       17
+i185       18
+i186       43
+i187       44
+i188       45
+i189       18
+i190       47
+i191       48
+i192       49
+i193       18
+i194       51
+i195       52
+i196       18
+i197       54
+i198       55
+i199       18
+i200       57
+i201       58
+i202       59
+i203       18
+i204       61
+i205       62
+i206       18
+i207       64
+i208       72
+i209       73
+i210       11
+i211       65
+i212       66
+i213       67
+i214       11
+i215       69
+i216       70
+i217       18
+i218       75
+i219       76
+i220       77
+i221       18
+i222       79
+i223       80
+i224       18
+i225       82
+i226       89
+i227       90
+i228       18
+i229       83
+i230       84
+i231       18
+i232       86
+i233       87
+i234       18
+i235       92
+i236       99
+i237       100
+i238       18
+i239       93
+i240       94
+i241       18
+i242       96
+i243       97
+i244       18
+i263       254
+i264       245
+i265       250
+i266       245
+i267       246
+i268       245

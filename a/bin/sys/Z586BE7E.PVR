@@ -1,0 +1,12 @@
+z1000-Zeidon    Z586BE7E TZWDVORO 01/04/13   16:08:42 1.0a2    
+eViewObjRef 1
+aZKey      92716670
+aName      TZRPSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2
+aZKey      90145850
+aName      TZRPSRCO
+aDesc      Report Definition
+aDLL_Name  tzrpsrco
+

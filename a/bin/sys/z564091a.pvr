@@ -1,0 +1,15 @@
+z0100-Zeidon    Z564091A TZWDVORO 05/17/97   10:32:11 1.0a     
+eViewObjRef 1,198
+aZKey      90442010
+aName      TZBRAUDO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,230
+aZKey      91008192
+aName      TZBRAUDO
+aDesc      Browse V. AuditTrail (Root = Z_MetaDef)
+aDLL_Name  TZLODOPR
+aFK_ZKEY   8388608
+aFK_ZKEY02 662700032
+aFK_ZKEY03 711393280
+

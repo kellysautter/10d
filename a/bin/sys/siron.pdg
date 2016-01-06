@@ -1,0 +1,129 @@
+z1000-Zeidon    SIRON    TZDGSRCO 09/07/11   17:01:50 1.0a2    
+eDomainGroup 1
+aZKey      90000207
+aName      SIRON
+aDesc      Domains for Siron functions
+aExtension C
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      90000208
+aName      SironDB_Type
+aDesc      For Siron DB Handler, the physical database type
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      90000209
+aName      SironDB_Type
+aIsDefault Y
+aDIL_Text  Siron Database Type
+
+eTableEntry 4
+aZKey      92484541
+
+eTableEntry 4
+aZKey      90000210
+aExternalValue Oracle
+aInternalValue O
+
+eTableEntry 4
+aZKey      90000211
+aExternalValue Informix
+aInternalValue I
+
+eTableEntry 4
+aZKey      90000212
+aExternalValue DB2
+aInternalValue 2
+
+eTableEntry 4
+aZKey      90000213
+aExternalValue Ingres
+aInternalValue G
+
+eTableEntry 4
+aZKey      90000214
+aExternalValue RDB
+aInternalValue R
+
+eTableEntry 4
+aZKey      90000215
+aExternalValue ODBC
+aInternalValue D
+
+eTableEntry 4
+aZKey      90000216
+aExternalValue Flat File
+aInternalValue F
+
+eTableEntry 4
+aZKey      98197965
+aExternalValue SAP R3
+aInternalValue S
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      91143965
+aName      SironDB_SubType
+aDesc      Datenbank-Subtypen
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      91143966
+aDesc      Datenbank-Subtypen
+aName      SironDB_SubType
+aIsDefault Y
+aDIL_Text  Siron Datenbank Subtypen
+
+eTableEntry 4
+aZKey      92484540
+
+eTableEntry 4
+aZKey      91143967
+aExternalValue AIX: DB2 deutsch
+aInternalValue 0
+
+eTableEntry 4
+aZKey      91143968
+aExternalValue AIX: DB2 englisch
+aInternalValue 1
+
+eTableEntry 4
+aZKey      91143970
+aExternalValue OS/2: DB2/2 deutsch
+aInternalValue 2
+
+eTableEntry 4
+aZKey      91143971
+aExternalValue OS/2: DB2/2 englisch
+aInternalValue 3
+
+eTableEntry 4
+aZKey      91143972
+aExternalValue Host: DB2 deutsch
+aInternalValue 4
+
+eTableEntry 4
+aZKey      91143973
+aExternalValue Host: DB2 englisch
+aInternalValue 5
+
+eTableEntry 4
+aZKey      91143974
+aExternalValue Native ODBC: Access
+aInternalValue 6
+
+eZ_MetaDef 2
+aName      SIRON
+aZKey      90000207
+aType      13
+aLastUpdateDate 19950913132712000
+aLastCheckInDate 19951102203051110
+aDesc      Domains for Siron functions
+

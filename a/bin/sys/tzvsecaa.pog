@@ -1,0 +1,110 @@
+z1000-Zeidon    TZVSECAA TZOGSRCO 01/14/05   13:48:18 1.0a2    
+eGlobalOperationGroup 1
+aZKey      1319654
+aName      TZVSECAA
+aExtension C
+aDomainAndGlobalOpGroupName TZVSECAA
+
+eOperation 2
+aName      Exec_Go
+aZKey      1319655
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1319656
+
+eOperation 2
+aName      StageBrowser
+aZKey      1319702
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc Subtask view
+aDataType  V
+aZKey      1319703
+
+eParameter 3
+aShortDesc View to display
+aDataType  V
+aZKey      1319704
+
+eOperation 2
+aName      Exec_StepOnce
+aZKey      1319665
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1319666
+
+eOperation 2
+aName      Exec_StepForward
+aZKey      1319663
+aDesc      Single step forward into suboperation and back to parent operation.
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1319664
+
+eOperation 2
+aName      Exec_Skip
+aZKey      1319661
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1319662
+
+eOperation 2
+aName      Exec_ResumeFromDebugger
+aZKey      1319657
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1319658
+
+eParameter 3
+aShortDesc String
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1319659
+
+eParameter 3
+aShortDesc AppView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1319660
+
+eZ_MetaDef 2
+aName      TZVSECAA
+aZKey      1319654
+aType      14
+aLastUpdateDate 19950824211842000
+aLastCheckInDate 19951102203051110
+

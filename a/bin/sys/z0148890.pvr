@@ -1,0 +1,18 @@
+rZeidon    Z0148890 TZWDVORO 11/02/95   20:53:22 1.0a     
+eViewObjRef 1,192
+aZKey      1345680
+aName      SRC
+
+eLOD       2,192
+aZKey      1326517
+aName      TZOPSRCO
+aDesc      Source File Meta Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      SRC
+aZKey      1345680
+aType      9
+aLastUpdateDate 19950824213818000
+aLastCheckInDate 19951102203051110
+

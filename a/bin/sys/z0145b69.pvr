@@ -1,0 +1,18 @@
+rZeidon    Z0145B69 TZWDVORO 11/02/95   20:52:33 1.0a     
+eViewObjRef 1,192
+aZKey      1334121
+aName      TZEREMDO
+
+eLOD       2,192
+aZKey      1326595
+aName      TZEREMDO
+aDesc      Enterprise Model ER Information
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZEREMDO
+aZKey      1334121
+aType      9
+aLastUpdateDate 19950824213626000
+aLastCheckInDate 19951102203051110
+

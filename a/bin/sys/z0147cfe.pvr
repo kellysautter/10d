@@ -1,0 +1,19 @@
+z0100-Zeidon    TEMP     TZWDVORO 11/18/98   09:46:46 1.0a     
+eViewObjRef 1,196
+aZKey      1342718
+aName      TZCTLMAP2
+aDesc      Ctrl Mapping View
+
+eLOD       2,192
+aZKey      1325104
+aName      TZWDLGSO
+aDesc      Source Dialog Definition
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZCTLMAP2
+aZKey      1342718
+aType      9
+aLastUpdateDate 19950824213752000
+aLastCheckInDate 19951102203051110
+

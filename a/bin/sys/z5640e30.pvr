@@ -1,0 +1,14 @@
+z0100-Zeidon    Z5640E30 TZWDVORO 05/22/97   13:08:07 1.0a     
+eViewObjRef 1,198
+aZKey      90443312
+aName      TZCMRE2O
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,230
+aZKey      91008261
+aName      TZCMRE2O
+aDesc      LOD for Maintenance of the review-SUB types (for AuditTrail)
+aFK_ZKEY   8388608
+aFK_ZKEY02 -2139095040
+aFK_ZKEY03 228524032
+

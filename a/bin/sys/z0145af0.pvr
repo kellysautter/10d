@@ -1,0 +1,19 @@
+rZeidon    Z0145AF0 TZWDVORO 11/02/95   20:52:13 1.0a     
+eViewObjRef 1,192
+aZKey      1334000
+aName      TZOPOCWO
+aDesc      list of selected object constraints
+
+eLOD       2,192
+aZKey      1328897
+aName      TZOPLSWO
+aDesc      Operation List work object
+
+eZ_MetaDef 2,192
+aName      TZOPOCWO
+aZKey      1334000
+aType      9
+aLastUpdateDate 19950824213624000
+aLastCheckInDate 19951102203051110
+aDesc      list of selected object constraints
+

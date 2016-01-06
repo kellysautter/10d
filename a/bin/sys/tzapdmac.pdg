@@ -1,0 +1,1002 @@
+z1000-Zeidon    TZAPDMAC TZDGSRCO 09/07/11   16:54:01 1.0a2    
+eDomainGroup 1
+aZKey      90000127
+aName      TZAPDMAC
+aExtension C
+aDomainAndGlobalOpGroupName TZAPDMAA
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90000129
+aName      Decimal
+aDesc      Characters '0-9' precision ( 0.00 )
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 2
+
+eContext   3
+aZKey      1165568
+aDesc      Display decimal value as textual currency
+aName      CurrencyText
+
+eContext   3
+aZKey      90000130
+aName      DECIMAL
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000131
+aName      DECIMAL0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000132
+aName      DECIMAL1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000133
+aName      DECIMAL2
+aDecimalFormat 2
+aIsDefault Y
+
+eContext   3
+aZKey      90000134
+aName      DECIMAL3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000135
+aName      DECIMAL4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000142
+aDesc      Characters '0-9' variable precision 1.000,0000
+aName      DecimalComma
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000143
+aDesc      Characters '0-9' precision ( 0 ) 1.000
+aName      DecimalComma0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000144
+aDesc      Characters '0-9' precision ( 0,0 ) 1.000,0
+aName      DecimalComma1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000145
+aDesc      Characters '0-9' precision ( 0,00 ) 1.000,00
+aName      DecimalComma2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000146
+aDesc      Characters '0-9' precision ( 0,000 ) 1.000,000
+aName      DecimalComma3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000147
+aDesc      Characters '0-9' precision ( 0,0000 ) 1.000,0000
+aName      DecimalComma4
+
+eContext   3
+aZKey      90000151
+aName      DecimalFraction
+
+eContext   3
+aZKey      90000149
+aName      DecimalInteger
+
+eContext   3
+aZKey      90000150
+aName      DecimalIntegerRounded
+
+eContext   3
+aZKey      90430511
+aName      DecimalKey2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000136
+aDesc      Characters '0-9' precision variable 1,000.000
+aName      DecimalPoint
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000137
+aDesc      Characters '0-9' precision ( 0 )  1,000
+aName      DecimalPoint0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000138
+aDesc      Characters '0-9' precision ( 0.0 ) 1,000.0
+aName      DecimalPoint1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000139
+aDesc      Characters '0-9' precisioin ( 0.00 )  1,000.00
+aName      DecimalPoint2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000140
+aDesc      Characters '0-9' precision ( 0.000 ) 1,000.000
+aName      DecimalPoint3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000141
+aDesc      Characters '0-9' precision ( 0.0000 ) 1,000.0000
+aName      DecimalPoint4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000148
+aDesc      Characters '0-9' as per Windows International Settings
+aName      MSWindowsSetting
+aDecimalFormat 2
+
+eSelectedOperation 3
+aName      zdmDecimal
+aZKey      90000128
+aDesc      Decimal Domain Algorithm
+aType      M
+aReturnDataType N
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      91004756
+aName      DecimalKey0
+aDesc      Decimal used as integer
+aDomainType A
+aDataType  M
+aContextRestriction N
+aDecimalFormat 0
+
+eContext   3
+aZKey      91004757
+aName      DecimalKey0
+aIsDefault Y
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90359337
+aName      Decimal9
+aDesc      Characters '0-9' precision ( 0.000000000 )  Max 15 digits
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 9
+
+eContext   3
+aZKey      90359338
+aName      Decimal9
+aDecimalFormat 9
+aIsDefault Y
+
+eContext   3
+aZKey      90430521
+aName      DecimalKey9
+aDecimalFormat 9
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90359335
+aName      Decimal8
+aDesc      Characters '0-9' precision ( 0.00000000 )  Max 15 digits
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 8
+
+eContext   3
+aZKey      90359336
+aName      Decimal8
+aDecimalFormat 8
+aIsDefault Y
+
+eContext   3
+aZKey      90430520
+aName      DecimalKey8
+aDecimalFormat 8
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90359333
+aName      Decimal7
+aDesc      Characters '0-9' precision ( 0.0000000 )  Max 15 digits
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 7
+
+eContext   3
+aZKey      90359334
+aName      Decimal7
+aDecimalFormat 7
+aIsDefault Y
+
+eContext   3
+aZKey      90430519
+aName      DecimalKey7
+aDecimalFormat 7
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90359331
+aName      Decimal6
+aDesc      Characters '0-9' precision ( 0.000000 )  Max 15 digits
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 6
+
+eContext   3
+aZKey      90359332
+aName      Decimal6
+aDecimalFormat 6
+aIsDefault Y
+
+eContext   3
+aZKey      90430518
+aName      DecimalKey6
+aDecimalFormat 6
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90359329
+aName      Decimal5
+aDesc      Characters '0-9' precision ( 0.00000 )  Max 15 digits
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 5
+
+eContext   3
+aZKey      90359330
+aName      Decimal5
+aDecimalFormat 5
+aIsDefault Y
+
+eContext   3
+aZKey      90430517
+aName      DecimalKey5
+aDecimalFormat 5
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90000152
+aName      Decimal4
+aDesc      Characters '0-9' precision ( 0.0000 )
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000153
+aName      DECIMAL
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000154
+aName      DECIMAL0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000155
+aName      DECIMAL1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000156
+aName      DECIMAL2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000157
+aName      DECIMAL3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000158
+aName      DECIMAL4
+aDecimalFormat 4
+aIsDefault Y
+
+eContext   3
+aZKey      90000165
+aDesc      Characters '0-9' variable precision 1.000,0000
+aName      DecimalComma
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000166
+aDesc      Characters '0-9' precision ( 0 ) 1.000
+aName      DecimalComma0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000167
+aDesc      Characters '0-9' precision ( 0,0 ) 1.000,0
+aName      DecimalComma1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000168
+aDesc      Characters '0-9' precision ( 0,00 ) 1.000,00
+aName      DecimalComma2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000169
+aDesc      Characters '0-9' precision ( 0,000 ) 1.000,000
+aName      DecimalComma3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000170
+aDesc      Characters '0-9' precision ( 0,0000 ) 1.000,0000
+aName      DecimalComma4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000174
+aName      DecimalFraction
+
+eContext   3
+aZKey      90000172
+aName      DecimalInteger
+
+eContext   3
+aZKey      90000173
+aName      DecimalIntegerRounded
+
+eContext   3
+aZKey      90430516
+aName      DecimalKey4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000159
+aDesc      Characters '0-9' variable precision 1,000.0000
+aName      DecimalPoint
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000160
+aDesc      Characters '0-9' precision ( 0 ) 1,000
+aName      DecimalPoint0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000161
+aDesc      Characters '0-9' precision ( 0.0 ) 1,000.0
+aName      DecimalPoint1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000162
+aDesc      Characters '0-9' precision ( 0.00 ) 1,000.00
+aName      DecimalPoint2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000163
+aDesc      Characters '0-9' precision ( 0.000 ) 1,000.000
+aName      DecimalPoint3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000164
+aDesc      Characters '0-9' precision ( 0.0000 ) 1,000.0000
+aName      DecimalPoint4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000171
+aDesc      Characters '0-9' as per Windows International Settings
+aName      MSWindowsSetting
+aDecimalFormat 2
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90000175
+aName      Decimal3
+aDesc      Characters '0-9' precision ( 0.000 )
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000176
+aName      DECIMAL
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000177
+aName      DECIMAL0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000178
+aName      DECIMAL1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000179
+aName      DECIMAL2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000180
+aName      DECIMAL3
+aDecimalFormat 3
+aIsDefault Y
+
+eContext   3
+aZKey      90000181
+aName      DECIMAL4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000188
+aDesc      Characters '0-9' variable precision 1.000,0000
+aName      DecimalComma
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000189
+aDesc      Characters '0-9' precision ( 0 ) 1.000
+aName      DecimalComma0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000190
+aDesc      Characters '0-9' precision ( 0,0 ) 1.000,0
+aName      DecimalComma1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000191
+aDesc      Characters '0-9' precision ( 0,00 ) 1.000,00
+aName      DecimalComma2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000192
+aDesc      Characters '0-9' precision ( 0,000 ) 1.000,000
+aName      DecimalComma3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000193
+aDesc      Characters '0-9' precision ( 0,0000 ) 1.000,0000
+aName      DecimalComma4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000197
+aName      DecimalFraction
+
+eContext   3
+aZKey      90000195
+aName      DecimalInteger
+
+eContext   3
+aZKey      90000196
+aName      DecimalIntegerRounded
+
+eContext   3
+aZKey      90430515
+aName      DecimalKey3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000182
+aDesc      Characters '0-9' variable precision 1,000.0000
+aName      DecimalPoint
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000183
+aDesc      Characters '0-9' precision ( 0 ) 1,000
+aName      DecimalPoint0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000184
+aDesc      Characters '0-9' precision ( 0.0 ) 1,000.0
+aName      DecimalPoint1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000185
+aDesc      Characters '0-9' precision ( 0.00 ) 1,000.00
+aName      DecimalPoint2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000186
+aDesc      Characters '0-9' precision ( 0.000 ) 1,000.000
+aName      DecimalPoint3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000187
+aDesc      Characters '0-9' precision ( 0.0000 ) 1,000.0000
+aName      DecimalPoint4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000194
+aDesc      Characters '0-9' as per Windows International Settings
+aName      MSWindowsSetting
+aDecimalFormat 2
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90000198
+aName      Decimal2
+aDesc      Characters '0-9' precision ( 0.00 )
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 2
+
+eContext   3
+aZKey      1165569
+aDesc      Display decimal value as textual currency
+aName      CurrencyText
+
+eContext   3
+aZKey      90000199
+aName      DECIMAL
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000200
+aName      DECIMAL0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000201
+aName      DECIMAL1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000202
+aName      DECIMAL2
+aDecimalFormat 2
+aIsDefault Y
+
+eContext   3
+aZKey      90000203
+aName      DECIMAL3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000220
+aName      DECIMAL4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000210
+aDesc      Characters '0-9' variable precision 1.000,0000
+aName      DecimalComma
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000211
+aDesc      Characters '0-9' precision ( 0 ) 1.000
+aName      DecimalComma0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000212
+aDesc      Characters '0-9' precision ( 0,0 ) 1.000,0
+aName      DecimalComma1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000213
+aDesc      Characters '0-9' precision ( 0,00 ) 1.000,00
+aName      DecimalComma2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000214
+aDesc      Characters '0-9' precision ( 0,000 ) 1.000,000
+aName      DecimalComma3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000215
+aDesc      Characters '0-9' precision ( 0,0000 ) 1.000,0000
+aName      DecimalComma4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000219
+aName      DecimalFraction
+
+eContext   3
+aZKey      90000217
+aName      DecimalInteger
+
+eContext   3
+aZKey      90000218
+aName      DecimalIntegerRounded
+
+eContext   3
+aZKey      90430514
+aName      DecimalKey2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000204
+aDesc      Characters '0-9' variable precision 1,000.0000
+aName      DecimalPoint
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000205
+aDesc      Characters '0-9' precision ( 0 ) 1,000
+aName      DecimalPoint0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000206
+aDesc      Characters '0-9' precision ( 0.0 ) 1,000.0
+aName      DecimalPoint1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000207
+aDesc      Characters '0-9' precision ( 0.00 ) 1,000.00
+aName      DecimalPoint2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000208
+aDesc      Characters '0-9' precision ( 0.000 ) 1,000.000
+aName      DecimalPoint3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000209
+aDesc      Characters '0-9' precision ( 0.0000 ) 1,000.0000
+aName      DecimalPoint4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000216
+aDesc      Characters '0-9' as per Windows International Settings
+aName      MSWindowsSetting
+aDecimalFormat 2
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90000221
+aName      Decimal1
+aDesc      Characters '0-9' precision ( 0.0 )
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000222
+aName      DECIMAL
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000223
+aName      DECIMAL0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000224
+aName      DECIMAL1
+aDecimalFormat 1
+aIsDefault Y
+
+eContext   3
+aZKey      90000225
+aName      DECIMAL2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000226
+aName      DECIMAL3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000227
+aName      DECIMAL4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000234
+aDesc      Characters '0-9' variable precision 1,000.0000
+aName      DecimalComma
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000235
+aDesc      Characters '0-9' precision ( 0 ) 1.000
+aName      DecimalComma0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000236
+aDesc      Characters '0-9' precision ( 0,0 ) 1.000,0
+aName      DecimalComma1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000237
+aDesc      Characters '0-9' precision ( 0,00 ) 1.000,00
+aName      DecimalComma2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000238
+aDesc      Characters '0-9' precision ( 0,000 ) 1.000,000
+aName      DecimalComma3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000239
+aDesc      Characters '0-9' precision ( 0,0000 ) 1.000,0000
+aName      DecimalComma4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000243
+aName      DecimalFraction
+
+eContext   3
+aZKey      90000241
+aName      DecimalInteger
+
+eContext   3
+aZKey      90000242
+aName      DecimalIntegerRounded
+
+eContext   3
+aZKey      90430513
+aName      DecimalKey1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000228
+aDesc      Characters '0-9' variable precision 1,000.0000
+aName      DecimalPoint
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000229
+aDesc      Characters '0-9' precision ( 0 ) 1,000
+aName      DecimalPoint0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000230
+aDesc      Characters '0-9' precision ( 0.0 ) 1,000.0
+aName      DecimalPoint1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000231
+aDesc      Characters '0-9' precision ( 0.00 ) 1,000.00
+aName      DecimalPoint2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000232
+aDesc      Characters '0-9' precision ( 0.000 ) 1,000.000
+aName      DecimalPoint3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000233
+aDesc      Characters '0-9' precision ( 0.0000 ) 1,000.0000
+aName      DecimalPoint4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000240
+aDesc      Characters '0-9' as per Windows International Settings
+aName      MSWindowsSetting
+aDecimalFormat 2
+
+eSelectedOperation 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.DoubleDomain
+aZKey      90000244
+aName      Decimal0
+aDesc      Characters '0-9' precision ( 0 )
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000245
+aName      DECIMAL
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000246
+aName      DECIMAL0
+aDecimalFormat 0
+aIsDefault Y
+
+eContext   3
+aZKey      90000247
+aName      DECIMAL1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000248
+aName      DECIMAL2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000249
+aName      DECIMAL3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000250
+aName      DECIMAL4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000257
+aDesc      Characters '0-9' variable precision 1.000,0000
+aName      DecimalComma
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000258
+aDesc      Characters '0-9' precision ( 0 ) 1.000
+aName      DecimalComma0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000259
+aDesc      Characters '0-9' precision ( 0,0 ) 1.000,0
+aName      DecimalComma1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000260
+aDesc      Characters '0-9' precision ( 0,00 ) 1.000,00
+aName      DecimalComma2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000261
+aDesc      Characters '0-9' precision ( 0,000 ) 1.000,000
+aName      DecimalComma3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000262
+aDesc      Characters '0-9' precision ( 0,0000 ) 1.000,0000
+aName      DecimalComma4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000266
+aName      DecimalFraction
+
+eContext   3
+aZKey      90000264
+aName      DecimalInteger
+
+eContext   3
+aZKey      90000265
+aName      DecimalIntegerRounded
+
+eContext   3
+aZKey      90430512
+aName      DecimalKey0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000251
+aDesc      Characters '0-9' variable precision  1,000.0000
+aName      DecimalPoint
+aDecimalFormat -1
+
+eContext   3
+aZKey      90000252
+aDesc      Characters '0-9' precision ( 0 ) 1,000
+aName      DecimalPoint0
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000253
+aDesc      Characters '0-9' precision ( 0.0 ) 1,000.0
+aName      DecimalPoint1
+aDecimalFormat 1
+
+eContext   3
+aZKey      90000254
+aDesc      Characters '0-9' precision ( 0.00 ) 1,000.00
+aName      DecimalPoint2
+aDecimalFormat 2
+
+eContext   3
+aZKey      90000255
+aDesc      Characters '0-9' precision ( 0.000 ) 1,000.000
+aName      DecimalPoint3
+aDecimalFormat 3
+
+eContext   3
+aZKey      90000256
+aDesc      Characters '0-9' precision ( 0.0000 ) 1,000.0000
+aName      DecimalPoint4
+aDecimalFormat 4
+
+eContext   3
+aZKey      90000263
+aDesc      Characters '0-9' as per Windows International Settings
+aName      MSWindowsSetting
+aDecimalFormat 2
+
+eSelectedOperation 3
+
+eOperation 2
+
+eZ_MetaDef 2
+aName      TZAPDMAC
+aZKey      90000127
+aType      13
+aLastUpdateDate 19960428093533250
+aLastCheckInDate 19960428093637730
+
+i29        26
+i33        26
+i37        26
+i41        26
+i45        26
+i49        26
+i74        26
+i99        26
+i125       26
+i150       26
+i175       26
+i176       26

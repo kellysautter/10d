@@ -1,0 +1,32 @@
+;; ChangeLog
+;;
+;; 2000.08.04  RG  Z2000
+;;     - no Library name because we use the def-file
+;;       for hzkzoe.dll and hzkzoes.dll
+;;     - remove compiler warnings; CODE, DATA statement
+;;
+LIBRARY
+
+#if defined( __WIN32__ )
+;;   CODE      PRELOAD MOVEABLE DISCARDABLE
+;;   DATA      PRELOAD SINGLE
+#else
+   EXETYPE       WINDOWS
+   HEAPSIZE      1024
+   CODE          LOADONCALL  DISCARDABLE  MOVEABLE
+   DATA          PRELOAD     MOVEABLE     SINGLE
+   SEGMENTS
+               _TEXT      PRELOAD
+               WEP_TEXT   PRELOAD  FIXED
+               INIT_TEXT  PRELOAD  DISCARDABLE  MOVEABLE
+
+   IMPORTS
+#endif
+
+EXPORTS
+#if defined( __WIN32__ )
+      MQ_MessageSend                @1
+      MQ_MessagePrompt              @2
+      MQ_MessagePromptForInput      @3
+      MQ_MessagePresent             @4
+#endif

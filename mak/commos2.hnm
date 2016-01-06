@@ -1,0 +1,112 @@
+!ifndef  linker
+linker = link
+!endif
+
+!ifndef  cl
+cl = ztc
+rsp_flag = -r
+!endif
+
+!if "$(usecompiler)"=="msc"
+!IF "$(model)"=="small"
+exe_model  = -AS
+dll_model  = -Asnw
+!ELSE
+!IF "$(model)"=="medium"
+exe_model  = -AM
+dll_model  = -Alnw
+!ELSE
+!IF "$(model)"=="large"
+exe_model  = -AL
+dll_model  = -Alfw
+!ELSE
+!ERROR Invalid model specified.  Must be small, medium or large
+!ENDIF
+!ENDIF
+!ENDIF
+!else
+!IF "$(model)"=="small"
+exe_model  = -msuw
+dll_model  = -msuw
+!ELSE
+!IF "$(model)"=="medium"
+exe_model  = -mmuw
+dll_model  = -mluw
+!ELSE
+!IF "$(model)"=="large"
+exe_model  = -mluw
+dll_model  = -mluw
+!ELSE
+!ERROR Invalid model specified.  Must be small, medium or large
+!ENDIF
+!ENDIF
+!ENDIF
+!ENDIF
+
+# INCL_WIN is defined in windows.h
+!if "$(usecompiler)"=="msc"
+win30exe =
+win30dll = -D_DLL -D_MT
+linkdlls = LLIBCDLL OS2
+linkexes = OS2 LLIBCEP
+!else
+win30exe =
+win30dll = -D_MT=1
+linkdlls = OS2 ZLL
+linkexes = OS2 ZLL
+!endif
+DBLIBSRV = PDBLIB
+DBLIB    =
+
+!if defined(fmid)
+kz_src = $(kz_base2)\$(fmid)
+kz_src_concat = $(kz_base2)\$(fmid);$(kz_basea)\$(fmid)
+kz_inc_concat = $(kz_base2)\$(fmid);$(kz_basea)\$(fmid);$(kz_base2)\incz;$(kz_base2)\incr;$(kz_basea)\incz;$(kz_basea)\incr;$(INCLUDE)
+!ifdef rsp_flag
+io = -I$(kz_base2)\$(fmid) -I$(kz_basea)\$(fmid)
+!endif
+kz_incr = $(kz_base2)\incr
+kz_incz = $(kz_base2)\incz
+!else
+kz_src = $(kz_base2)\src
+kz_src_concat = $(kz_base2)\src;$(kz_basea)\src
+kz_inc_concat = $(kz_base2)\incz;$(kz_base2)\incr;$(kz_basea)\incz;$(kz_basea)\incr;$(INCLUDE)
+io =
+!endif
+
+kz_baseenv = $(kz_base2)
+kz_obj_gbl = $(kz_base2)\debug
+kz_obj = $(kz_base2)\$(fmid)\debug
+kz_lib = $(kz_base2)\lib
+kz_libr= $(kz_base2)\libr
+kz_libz= $(kz_base2)\libz
+kz_bin = $(kz_base2)\bin
+HELPER=-DHELPER
+LIBENTRY =
+NMAKE = NMAKE
+
+lrf = echo > NUL
+
+!if $(debug)
+!if "$(usecompiler)"=="msc"
+opt = -c -Od -Zepi -W3 -G2sw
+!else
+CXXFLAGS= -c -C -2 -x -D__OS2__ -DDEBUG -a1 -NV -R -g =30000
+!endif
+linkopt = /CO /M /LI /NOE /NOD /A:16
+!else
+!if "$(usecompiler)"=="msc"
+opt = -c -Ot -Zep -W3 -G2sw
+!else
+CXXFLAGS= -c -C -2 -x -D__OS2__ -a1 -NV -R =30000
+!endif
+linkopt = /M /NOE /NOD /A:16
+!endif
+
+!if "$(usecompiler)"=="msc"
+EXEFLAG = $(exe_model) $(win30exe) $(opt) -Fo$@ $(io) $(exespec)
+DLLFLAG = $(dll_model) $(win30dll) $(opt) -NT $(@B) -Fo$(@R) $(io) $(dllspec)
+!else
+EXEFLAG = $(exe_model) $(win30exe) $(CXXFLAGS) $(opt) -o$@ $(io) $(exespec)
+DLLFLAG = $(dll_model) $(win30dll) $(CXXFLAGS) $(opt) -NT$(@B) -o$(@R) $(io) $(dllspec)
+!endif

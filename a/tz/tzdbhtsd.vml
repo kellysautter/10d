@@ -1,0 +1,992 @@
+/*
+   CHANGE LOG
+2002.06.21 FH
+   get rid of compiler warnings
+2000.05.07  PAS
+   added support for zENCODE_BLOBS and zNO_NULL_STRING_TERM in
+   CommitOI_ToFile code
+2000.01.13  BL
+   remove unreferenced local variable
+*/
+
+DIALOG OPERATION
+TZDBHTSD_RefreshViewList( VIEW vSubtask )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+   VIEW vTemp
+   STRING ( 100 ) szTemp
+
+   // If TZDBHTSO wasn't found, then it hasn't been created yet so just exit.
+   IF TZDBHTSO = 0
+      RETURN 0
+   END
+
+   /*
+      Check to see if any of the views listed in the View list are active.
+      If they are, then retrieve the LOD name for the view.
+   */
+   CreateViewFromViewForTask( TZDBHTSO, TZDBHTSO, vSubtask )
+
+   FOR EACH TZDBHTSO.View
+      szTemp = TZDBHTSO.View.Name
+      GET VIEW vTemp NAMED szTemp
+      IF RESULT > 0
+         MiGetObjectNameForView( szTemp, vTemp )
+         TZDBHTSO.View.CurrentLOD = szTemp
+
+         IF ObjectInstanceUpdated( vTemp ) = 1
+            TZDBHTSO.View.Updated = "Y"
+         ELSE
+            TZDBHTSO.View.Updated = "N"
+         END
+
+         // If the object name is KZDBHQUA, try adding it to the list of
+         // qualification views.
+         // IF zstrcmpi( szTemp, "KZDBHQUA" ) = 0
+         IF szTemp = "KZDBHQUA"
+            lAddViewNameToQualList( TZDBHTSO.View.Name )
+         END
+      ELSE
+         TZDBHTSO.View.CurrentLOD = "?"
+         TZDBHTSO.View.Updated = ""
+      END
+   END
+
+   DropView( TZDBHTSO )
+
+END
+
+DIALOG OPERATION
+TZDBHTSD_Prebuild( VIEW vSubtask )
+   VIEW    TZDBHTSO BASED ON LOD TZDBHTSO
+   VIEW    vTemp
+   VIEW    vDialog
+   Integer nRC
+   Integer nPos
+   INTEGER nFlags
+   STRING ( 300 ) szTempDir
+   STRING ( 300 ) szFileName
+   STRING (  30 ) szTemp
+
+   NAME VIEW vSubtask "MainWindow"
+
+   SysGetEnvVar( szTempDir, "TEMP", 300 )
+   szFileName = szTempDir + "\TZDBHTSD.POR"
+   nFlags = zSINGLE + zNOI_OKAY
+   nRC = ActivateOI_FromFile( TZDBHTSO, "TZDBHTSO", vSubtask, szFileName,
+                              nFlags )
+   IF nRC < 0
+      ActivateEmptyObjectInstance( TZDBHTSO, "TZDBHTSO", vSubtask, zSINGLE )
+      CREATE ENTITY TZDBHTSO.Root
+   ELSE
+      SetSelectStateOfEntity( TZDBHTSO, "View", 1 )
+   END
+
+   IF TZDBHTSO.Qual DOES NOT EXIST
+      CREATE ENTITY TZDBHTSO.Qual FIRST
+      TZDBHTSO.Qual.Name = "NONE"
+   END
+
+   IF TZDBHTSO.Application DOES NOT EXIST
+      CREATE ENTITY TZDBHTSO.Application FIRST
+      TZDBHTSO.Application.Name = "Zeidon_Tools"
+   END
+
+   NAME VIEW TZDBHTSO "TZDBHTSO"
+
+   // Loop through each of the views and retrieve any that were saved.
+   CreateViewFromViewForTask( TZDBHTSO, TZDBHTSO, vSubtask  )
+   FOR EACH TZDBHTSO.View WHERE TZDBHTSO.View.SaveOI = "*" AND
+                                TZDBHTSO.View.OI_WasSaved = "Y"
+      nPos = GetRelativeEntityNumber( TZDBHTSO, "View", "", 0 )
+      ConvertIntegerToString( nPos, szTemp, 10 )
+      szFileName = szTempDir + "\TZDBH" + szTemp + ".POR"
+
+      szTemp = TZDBHTSO.View.AppName
+      SfCreateSubtask( vDialog, 0, szTemp )
+
+      szTemp = TZDBHTSO.View.CurrentLOD
+
+      nFlags = zMULTIPLE + zNOI_OKAY
+      nRC = ActivateOI_FromFile( vTemp, szTemp, vDialog, szFileName,
+                                 nFlags )
+
+      szTemp = TZDBHTSO.View.Name
+      NAME VIEW vTemp szTemp
+      SfDropSubtask( vDialog, 0  )
+   END
+
+   DropView( TZDBHTSO )
+   TZDBHTSO = 0
+
+   /* Set DB UserID and password */
+   EditID_OK( vSubtask )
+
+   /*
+      Check to see if any of the views listed in the View list are active.
+      If they are, then retrieve the LOD name for the view.
+   */
+   TZDBHTSD_RefreshViewList( vSubtask )
+
+   zSetDBH_TraceLevel( vSubtask )
+
+END
+
+DIALOG OPERATION
+TZDBHTSD_SaveConfiguration( VIEW vSubtask )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+   VIEW TZDBHTSOx
+   VIEW vTemp
+   STRING ( 300 ) szTempDir
+   STRING ( 300 ) szFileName
+   STRING (  30 ) szTemp
+   Integer nPos
+   INTEGER nFlags
+
+   /* Delete the operation results list. */
+   FOR EACH TZDBHTSO.ExecutionResult
+      DELETE ENTITY TZDBHTSO.ExecutionResult NONE
+   END
+
+   SysGetEnvVar( szTempDir, "TEMP", 300 )
+
+   CreateViewFromViewForTask( TZDBHTSOx, TZDBHTSO, vSubtask  )
+
+   // Loop through each of the views and save some.
+   FOR EACH TZDBHTSOx.View WHERE TZDBHTSOx.View.SaveOI = "*"
+      szTemp = TZDBHTSOx.View.Name
+      GET VIEW vTemp NAMED szTemp
+
+      IF vTemp != 0
+         nPos = GetRelativeEntityNumber( TZDBHTSOx, "View", "", 0 )
+         ConvertIntegerToString( nPos, szTemp, 10 )
+         szFileName = szTempDir + "\TZDBH" + szTemp + ".POR"
+
+         nFlags = zINCREMENTAL + 262144
+         CommitOI_ToFile( vTemp, szFileName, nFlags ) // zSAVE_CURSORS
+
+         TZDBHTSOx.View.OI_WasSaved = "Y"
+      ELSE
+         TZDBHTSOx.View.OI_WasSaved = "N"
+      END
+   END
+
+   DropView( TZDBHTSOx )
+
+   szFileName = szTempDir + "\TZDBHTSD.POR"
+   nFlags = zASCII + 262144
+   CommitOI_ToFile( TZDBHTSO, szFileName, nFlags ) // zSAVE_CURSORS
+
+END
+
+DIALOG OPERATION
+EditViewName_Prebuild( VIEW vSubtask )
+
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+
+   IF TZDBHTSO.View.Name = ""
+      TZDBHTSO.View.Name = "New"
+   END
+END
+
+DIALOG OPERATION
+EditLOD_Prebuild( VIEW vSubtask )
+
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+
+   IF TZDBHTSO.LOD.Name = ""
+      TZDBHTSO.LOD.Name = "New"
+   END
+END
+
+DIALOG OPERATION
+EditQual_Prebuild( VIEW vSubtask )
+
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+
+   IF TZDBHTSO.Qual.Name = ""
+      TZDBHTSO.Qual.Name = "New"
+   END
+END
+
+DIALOG OPERATION
+EditFile_Prebuild( VIEW vSubtask )
+
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+
+   IF TZDBHTSO.File.Name = ""
+      TZDBHTSO.File.Name = "New"
+   END
+END
+
+DIALOG OPERATION
+zSetDBH_TraceLevel( VIEW vSubtask )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+   Integer TraceLevel
+
+   TraceLevel = TZDBHTSO.Root.TraceLevel
+   SetTaskDBHandlerTraceLevel( vSubtask, TraceLevel )
+
+END
+
+DIALOG OPERATION
+zExecuteOperation( VIEW vSubtask )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+   VIEW KZDBHQUA BASED ON LOD KZDBHQUA
+   VIEW vTemp
+   VIEW vDialog
+   SHORT   nErrIdx
+   Integer nRC
+   Integer nFlags
+   Integer lViewArray
+   Integer lStartTick
+   Integer lEndTick
+   DECIMAL dTotalTime
+
+   STRING ( 100 ) szTemp
+   STRING (  32 ) szSubtaskName
+
+   CREATE ENTITY TZDBHTSO.ExecutionResult LAST
+   TZDBHTSO.ExecutionResult.Operation = TZDBHTSO.Root.CurrentOperation
+
+   IF TZDBHTSO.Application.Name != "LOCAL"
+      szSubtaskName = TZDBHTSO.Application.Name
+      SfCreateSubtask( vDialog, 0, szSubtaskName )
+   ELSE
+      vDialog = vSubtask
+      szSubtaskName = "Zeidon_Tools"
+   END
+
+   lStartTick = zGetTickCount( 0 )
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateFromFile"
+      // If AutoDrop is specified, check to see if the current view name
+      // already exists and if it does then drop it.
+      IF TZDBHTSO.Root.AutoDrop = "Y"
+         szTemp = TZDBHTSO.View.Name
+         GET VIEW vTemp NAMED szTemp
+         // GET VIEW vTemp NAMED TZDBHTSO.View.Name
+         IF vTemp != 0
+            DropView( vTemp )
+            TZDBHTSO.View.CurrentLOD = "?"
+         END
+      END
+
+      nFlags = 0
+
+      IF TZDBHTSO.Root.Single = "Y"
+         nFlags = nFlags + zSINGLE
+      ELSE
+         nFlags = nFlags + zMULTIPLE
+      END
+
+      IF TZDBHTSO.Root.RootOnly = "Y"
+         nFlags = nFlags + zACTIVATE_ROOTONLY
+      END
+
+      nRC = ActivateOI_FromFile( vTemp,
+                                 TZDBHTSO.LOD.Name,   /* Object Def Name */
+                                 vDialog,            /* Subtask qual */
+                                 TZDBHTSO.File.Name,  /* File Name */
+                                 nFlags )             /* Control Value */
+
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.ViewName = TZDBHTSO.View.Name
+      TZDBHTSO.ExecutionResult.LOD      = TZDBHTSO.LOD.Name
+      TZDBHTSO.ExecutionResult.QualView = TZDBHTSO.Qual.Name
+      TZDBHTSO.ExecutionResult.FileName = TZDBHTSO.File.Name
+
+      IF nRC >= 0
+         TZDBHTSO.View.CurrentLOD = TZDBHTSO.LOD.Name
+         TZDBHTSO.View.AppName = szSubtaskName
+
+         // NAME VIEW vTemp TZDBHTSO.View.Name
+         szTemp = TZDBHTSO.View.Name
+         NAME VIEW vTemp szTemp
+      END
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateFromDB"
+      // If AutoDrop is specified, check to see if the current view name
+      // already exists and if it does then drop it.
+      szTemp = TZDBHTSO.View.Name
+      GET VIEW vTemp NAMED szTemp
+      IF TZDBHTSO.Root.AutoDrop = "Y"
+         IF vTemp != 0
+            DropView( vTemp )
+            TZDBHTSO.View.CurrentLOD = "?"
+         END
+      END
+
+      szTemp = TZDBHTSO.Qual.Name
+      IF szTemp = "NONE"
+         KZDBHQUA = 0
+      ELSE
+         GET VIEW KZDBHQUA NAMED szTemp
+      END
+
+      nFlags = 0
+
+      IF TZDBHTSO.Root.Single = "Y"
+         nFlags = nFlags + zSINGLE
+      ELSE
+         nFlags = nFlags + zMULTIPLE
+      END
+
+      IF TZDBHTSO.Root.SingleForUpdate= "Y"
+         nFlags = nFlags + zSINGLE_FOR_UPDATE
+      END
+
+      IF TZDBHTSO.Root.RootOnly = "Y"
+         nFlags = nFlags + zACTIVATE_ROOTONLY
+      END
+
+      IF TZDBHTSO.Root.ActivateContinue = "Y"
+         nFlags = nFlags + 8388608 // zACTIVATE_CONTINUE
+      END
+
+      nRC = ActivateObjectInstance( vTemp,
+                                    TZDBHTSO.LOD.Name,   /* Object Def Name */
+                                    vDialog,
+                                    KZDBHQUA,
+                                    nFlags )            /* Control Value */
+
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.ViewName = TZDBHTSO.View.Name
+      TZDBHTSO.ExecutionResult.LOD      = TZDBHTSO.LOD.Name
+      TZDBHTSO.ExecutionResult.QualView = TZDBHTSO.Qual.Name
+
+      IF vTemp != 0
+         TZDBHTSO.View.CurrentLOD = TZDBHTSO.LOD.Name
+         TZDBHTSO.View.AppName    = szSubtaskName
+
+         // NAME VIEW vTemp TZDBHTSO.View.Name
+         szTemp = TZDBHTSO.View.Name
+         NAME VIEW vTemp szTemp
+      END
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateEmpty"
+      // If AutoDrop is specified, check to see if the current view name
+      // already exists and if it does then drop it.
+      IF TZDBHTSO.Root.AutoDrop = "Y"
+         szTemp = TZDBHTSO.View.Name
+         GET VIEW vTemp NAMED szTemp
+         IF vTemp != 0
+            DropView( vTemp )
+            TZDBHTSO.View.CurrentLOD = "?"
+         END
+      END
+
+      nRC = ActivateEmptyObjectInstance( vTemp,
+                                         TZDBHTSO.LOD.Name,/* Object Def Name */
+                                         vDialog,
+                                         zMULTIPLE )
+
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.ViewName = TZDBHTSO.View.Name
+      TZDBHTSO.ExecutionResult.LOD      = TZDBHTSO.LOD.Name
+
+      IF nRC >= 0
+         TZDBHTSO.View.CurrentLOD = TZDBHTSO.LOD.Name
+         TZDBHTSO.View.AppName    = szSubtaskName
+
+         // NAME VIEW vTemp TZDBHTSO.View.Name
+         szTemp = TZDBHTSO.View.Name
+         NAME VIEW vTemp szTemp
+      END
+
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateFromXML"
+      // If AutoDrop is specified, check to see if the current view name
+      // already exists and if it does then drop it.
+      IF TZDBHTSO.Root.AutoDrop = "Y"
+         szTemp = TZDBHTSO.View.Name
+         GET VIEW vTemp NAMED szTemp
+         // GET VIEW vTemp NAMED TZDBHTSO.View.Name
+         IF vTemp != 0
+            DropView( vTemp )
+            TZDBHTSO.View.CurrentLOD = "?"
+         END
+      END
+
+      nFlags = 0
+
+      nRC = DBH_ActivateOI_FromXML( vTemp,
+                                    TZDBHTSO.LOD.Name,   /* Object Def Name */
+                                    vDialog,            /* Subtask qual */
+                                    TZDBHTSO.File.Name,  /* File Name */
+                                    nFlags )             /* Control Value */
+
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.ViewName = TZDBHTSO.View.Name
+      TZDBHTSO.ExecutionResult.LOD      = TZDBHTSO.LOD.Name
+      TZDBHTSO.ExecutionResult.QualView = TZDBHTSO.Qual.Name
+      TZDBHTSO.ExecutionResult.FileName = TZDBHTSO.File.Name
+
+      IF nRC >= 0
+         TZDBHTSO.View.CurrentLOD = TZDBHTSO.LOD.Name
+         TZDBHTSO.View.AppName = szSubtaskName
+
+         // NAME VIEW vTemp TZDBHTSO.View.Name
+         szTemp = TZDBHTSO.View.Name
+         NAME VIEW vTemp szTemp
+      END
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "DisplayObjDef"
+      nRC = ActivateEmptyObjectInstance( vTemp,
+                                         TZDBHTSO.LOD.Name,/* Object Def Name */
+                                         vDialog,
+                                         zSINGLE )
+
+      nRC = DisplayObjectDef( vTemp, 0 )
+
+                DropView( vTemp )
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.LOD        = TZDBHTSO.LOD.Name
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "DropView"
+      szTemp = TZDBHTSO.View.Name
+      GET VIEW vTemp NAMED szTemp
+
+      IF vTemp != 0
+         DropView( vTemp )
+         nRC = 0
+      ELSE
+         nRC = -16
+      END
+
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.ViewName = TZDBHTSO.View.Name
+
+      TZDBHTSO.View.CurrentLOD = ""
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "CommitToFile"
+      szTemp = TZDBHTSO.View.Name
+      GET VIEW vTemp NAMED szTemp
+
+      nFlags = zASCII
+
+      IF TZDBHTSO.Root.CommitIncremental = "Y"
+         nFlags = nFlags + zINCREMENTAL
+      END
+
+      IF TZDBHTSO.Root.CommitCompressed = "Y"
+         nFlags = nFlags + 131072         // zCOMPRESSED
+      END
+
+      IF TZDBHTSO.Root.CommitCursors = "Y"
+         nFlags = nFlags + 262144         // zSAVE_CURSORS
+      END
+
+      IF TZDBHTSO.Root.CommitETags = "Y"
+         nFlags = nFlags + zENTITY_TAGS
+      END
+
+      IF TZDBHTSO.Root.CommitEKeys = "Y"
+         nFlags = nFlags + 2097152       // zENTITY_KEYS
+      END
+
+      IF TZDBHTSO.Root.CommitEncodeBLOBs = "Y"
+         nFlags = nFlags + 4194304       // zENCODE_BLOBS           0x00400000L
+      END
+
+      IF TZDBHTSO.Root.CommitNoNullTerminator = "Y"
+         nFlags = nFlags + 8388608       // zNO_NULL_STRING_TERM    0x00800000L
+      END
+
+      nRC = CommitOI_ToFile( vTemp,
+                             TZDBHTSO.File.Name,  /* File Name */
+                             nFlags )
+
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.ViewName = TZDBHTSO.View.Name
+      TZDBHTSO.ExecutionResult.FileName = TZDBHTSO.File.Name
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "WriteAsXML"
+      szTemp = TZDBHTSO.View.Name
+      GET VIEW vTemp NAMED szTemp
+
+      nFlags = 0
+
+      IF TZDBHTSO.Root.XML_WriteZeidonInfo = "Y"
+         nFlags = nFlags + 1  // zXML_ZEIDONINFO
+      END
+
+      IF TZDBHTSO.Root.XML_WriteIncrFlags = "Y"
+         nFlags = nFlags + 2  // zXML_INCREFLAGS
+      END
+
+      IF TZDBHTSO.Root.XML_UpdatedOnly = "Y"
+         nFlags = nFlags + 4  // zXML_UPDATEDONLY
+      END
+
+      IF TZDBHTSO.Root.XML_EntityKeys = "Y"
+         nFlags = nFlags + 8  // zXML_ENTITYKEYS
+      END
+
+      nRC = DBH_WriteOI_ToXML( vTemp,
+                               TZDBHTSO.File.Name,  /* File Name */
+                               nFlags )
+
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.ViewName = TZDBHTSO.View.Name
+      TZDBHTSO.ExecutionResult.FileName = TZDBHTSO.File.Name
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "CommitToDB"
+      CreateViewCluster( vSubtask, lViewArray )
+      nFlags = 0
+
+      IF TZDBHTSO.Root.CommitKeepLocks = "Y"
+         nFlags = nFlags + zCOMMIT_KEEPLOCKS
+      END
+
+      IF TZDBHTSO.Root.CommitLocksOnly = "Y"
+         nFlags = nFlags + zCOMMIT_DROPLOCKSONLY
+      END
+
+      // Add all the selected views to the array.
+      nRC = SetCursorFirstSelectedEntity( TZDBHTSO, "View", 0 )
+      LOOP WHILE ( nRC = zCURSOR_SET )
+         szTemp = TZDBHTSO.View.Name
+         GET VIEW vTemp NAMED szTemp
+         nRC = AddViewToViewCluster( lViewArray, vTemp )
+
+         nRC = SetCursorNextSelectedEntity( TZDBHTSO, "View", 0 )
+      END
+
+      nRC = CommitMultipleOIs( lViewArray, 0, nErrIdx, nFlags )
+
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.ViewName = TZDBHTSO.View.Name
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "DisplayOI"
+      szTemp = TZDBHTSO.View.Name
+      GET VIEW vTemp NAMED szTemp
+
+      IF vTemp != 0
+         szTemp = ""
+         DisplayObjectInstance( vTemp, szTemp, szTemp )
+         nRC = 0
+      ELSE
+         nRC = -16
+      END
+
+      TZDBHTSO.ExecutionResult.ReturnCode = nRC
+      TZDBHTSO.ExecutionResult.ViewName = TZDBHTSO.View.Name
+   END
+
+   lEndTick   = zGetTickCount( 0 )
+   dTotalTime = lEndTick - lStartTick
+   dTotalTime = dTotalTime / 1000
+   SetAttributeFromDecimal( TZDBHTSO, "ExecutionResult", "Time", dTotalTime )
+
+   TZDBHTSO.ExecutionResult.ReturnCode = nRC
+   SET CURSOR LAST TZDBHTSO.ExecutionResult
+   RefreshCtrl( vSubtask, "ResultsList" )
+
+   IF TZDBHTSO.Application.Name != "LOCAL"
+      SfDropSubtask( vDialog, 0  )
+   END
+
+END
+
+
+DIALOG OPERATION
+zStartBrowser( VIEW vSubtask )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+   VIEW vTemp
+   STRING ( 100 ) szTemp
+
+   szTemp = TZDBHTSO.View.Name
+   GET VIEW vTemp NAMED szTemp
+   IF RESULT >= 0
+      StageBrowser( vSubtask, vTemp )
+   END
+
+END
+
+
+DIALOG OPERATION
+EditEntitySpec_Prebuild( VIEW vSubtask )
+   VIEW KZDBHQUA REGISTERED AS KZDBHQUA
+
+   IF KZDBHQUA.EntitySpec.EntityName = ""
+      KZDBHQUA.EntitySpec.EntityName = "New"
+   END
+END
+
+
+DIALOG OPERATION
+EditQualAttrib_Prebuild( VIEW vSubtask )
+   VIEW KZDBHQUA REGISTERED AS KZDBHQUA
+
+   IF KZDBHQUA.QualAttrib.EntityName = "" AND KZDBHQUA.QualAttrib.Value = ""
+      KZDBHQUA.QualAttrib.EntityName = "New"
+   END
+
+END
+
+
+DIALOG OPERATION
+TZDBHTSD_EditQualOI( VIEW vSubtask )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+   VIEW KZDBHQUA BASED ON LOD KZDBHQUA
+   STRING ( 100 ) szTemp
+
+   IF TZDBHTSO.Qual.Name = "NONE" OR TZDBHTSO.Qual.Name = ""
+      SetWindowActionBehavior( vSubtask,
+                               zWAB_TerminateActionForError, 0, 0 )
+      RETURN 0
+   END
+
+   szTemp = TZDBHTSO.Qual.Name
+   GET VIEW KZDBHQUA NAMED szTemp
+
+   IF RESULT < 0
+      ActivateEmptyObjectInstance( KZDBHQUA, "KZDBHQUA",
+                                   vSubtask, zMULTIPLE )
+      NAME VIEW KZDBHQUA szTemp
+
+      CREATE ENTITY KZDBHQUA.EntitySpec
+      KZDBHQUA.EntitySpec.EntityName = "New"
+
+      lAddViewNameToViewList( szTemp )
+   END
+
+   NAME VIEW KZDBHQUA "KZDBHQUA"
+
+END
+
+LOCAL OPERATION
+lAddViewNameToViewList( STRING ( 32 ) szViewName )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+
+   CreateViewFromViewForTask( TZDBHTSO, TZDBHTSO, 0 )
+
+   SET CURSOR FIRST TZDBHTSO.View
+      WHERE TZDBHTSO.View.Name = szViewName
+
+   IF RESULT != zCURSOR_SET
+      CREATE ENTITY TZDBHTSO.View LAST
+      TZDBHTSO.View.Name = szViewName
+   END
+
+   DropView( TZDBHTSO )
+
+END
+
+LOCAL OPERATION
+lAddViewNameToQualList( STRING ( 32 ) szViewName )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+
+   CreateViewFromViewForTask( TZDBHTSO, TZDBHTSO, 0 )
+
+   SET CURSOR FIRST TZDBHTSO.Qual
+      WHERE TZDBHTSO.Qual.Name = szViewName
+
+   IF RESULT != zCURSOR_SET
+      CREATE ENTITY TZDBHTSO.Qual LAST
+      TZDBHTSO.Qual.Name = szViewName
+   END
+
+   DropView( TZDBHTSO )
+
+END
+
+
+DIALOG OPERATION
+TZDBHTSD_EnableControls( VIEW vSubtask )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateFromFile"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 0 )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateFromDB"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 1 )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateEmpty"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 0 )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateFromXML"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 0 )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "DisplayObjDef"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 0 )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "DropView"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 0 )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "CommitToFile"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 0 )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "WriteAsXML"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 0 )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "CommitToDB"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 0 )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "DisplayOI"
+      SetCtrlState( vSubtask, "ViewList",   zCONTROL_STATUS_ENABLED, 1 )
+      SetCtrlState( vSubtask, "ObjectList", zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "FileList",   zCONTROL_STATUS_ENABLED, 0 )
+      SetCtrlState( vSubtask, "QualList",   zCONTROL_STATUS_ENABLED, 0 )
+   END
+
+   RefreshWindow( vSubtask )
+END
+
+
+DIALOG OPERATION
+TZDBHTSD_SetOptionsFromResultLst( VIEW vSubtask )
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+
+   TZDBHTSO.Root.CurrentOperation = TZDBHTSO.ExecutionResult.Operation
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateFromFile"
+      fnAddListValue( TZDBHTSO, "View",
+                      TZDBHTSO.ExecutionResult.ViewName )
+      fnAddListValue( TZDBHTSO, "LOD",
+                      TZDBHTSO.ExecutionResult.LOD  )
+      fnAddListValue( TZDBHTSO, "File",
+                      TZDBHTSO.ExecutionResult.FileName  )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateFromDB"
+      fnAddListValue( TZDBHTSO, "View",
+                      TZDBHTSO.ExecutionResult.ViewName  )
+      fnAddListValue( TZDBHTSO, "LOD",
+                      TZDBHTSO.ExecutionResult.LOD  )
+      fnAddListValue( TZDBHTSO, "Qual",
+                      TZDBHTSO.ExecutionResult.QualView )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "ActivateEmpty"
+      fnAddListValue( TZDBHTSO, "View",
+                      TZDBHTSO.ExecutionResult.ViewName  )
+      fnAddListValue( TZDBHTSO, "LOD",
+                      TZDBHTSO.ExecutionResult.LOD  )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "DisplayObjDef"
+      fnAddListValue( TZDBHTSO, "LOD",
+                      TZDBHTSO.ExecutionResult.LOD  )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "DropView"
+      fnAddListValue( TZDBHTSO, "View",
+                      TZDBHTSO.ExecutionResult.ViewName  )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "CommitToFile"
+      fnAddListValue( TZDBHTSO, "View",
+                      TZDBHTSO.ExecutionResult.ViewName  )
+      fnAddListValue( TZDBHTSO, "File",
+                      TZDBHTSO.ExecutionResult.FileName )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "CommitToDB"
+      fnAddListValue( TZDBHTSO, "View",
+                      TZDBHTSO.ExecutionResult.ViewName  )
+   END
+
+   IF TZDBHTSO.Root.CurrentOperation = "DisplayOI"
+      fnAddListValue( TZDBHTSO, "View",
+                      TZDBHTSO.ExecutionResult.ViewName  )
+   END
+
+   TZDBHTSD_EnableControls( vSubtask )
+
+END
+
+DIALOG OPERATION
+TZDBHTSD_RefreshTrans( VIEW vSubtask )
+   VIEW vTranWindow
+
+   GET VIEW vTranWindow NAMED "ShowTransformation"
+   IF vTranWindow != 0
+      RefreshWindow( vTranWindow )
+   END
+
+END
+
+
+LOCAL OPERATION
+fnAddListValue( VIEW TZDBHTSO,
+                STRING ( 32 ) szEntityName,
+                STRING ( 32 ) szValue )
+   Integer nRC
+
+   nRC = SetCursorFirstEntityByString( TZDBHTSO, szEntityName, "Name",
+                                       szValue, 0 )
+
+   IF nRC < zCURSOR_SET
+      CreateEntity( TZDBHTSO, szEntityName, zPOS_LAST )
+      TZDBHTSO.szEntityName.Name = szValue
+   END
+
+END
+
+DIALOG OPERATION
+EditApp_Prebuild( VIEW vSubtask )
+
+   VIEW TZDBHTSO REGISTERED AS TZDBHTSO
+
+   IF TZDBHTSO.Application.Name = ""
+      TZDBHTSO.Application.Name = "New"
+   END
+
+END
+
+DIALOG OPERATION
+ShowTrans_Postbuild( VIEW vSubtask )
+
+   NAME VIEW vSubtask "ShowTransformation"
+
+END
+
+DIALOG OPERATION
+ShowTrans_RefreshArgs( VIEW vSubtask )
+
+   RefreshCtrl( vSubtask, "ArgumentList" )
+END
+
+DIALOG OPERATION
+Include_Prebuild( VIEW vSubtask )
+   VIEW TZDBHTSO2 REGISTERED AS TZDBHTSO2
+   VIEW TZDBHTSO  REGISTERED AS TZDBHTSO
+
+   FOR EACH TZDBHTSO.Entity
+      DELETE ENTITY TZDBHTSO.Entity NONE
+   END
+
+   IF TZDBHTSO2 != 0
+      DropView( TZDBHTSO2 )
+   END
+
+   ActivateOI_FromOI_ForTask( TZDBHTSO2, TZDBHTSO, 0, zMULTIPLE )
+   NAME VIEW TZDBHTSO2 "TZDBHTSO2"
+END
+
+DIALOG OPERATION
+Include_IncludeSubobject( VIEW vSubtask )
+   VIEW TZDBHTSO2 REGISTERED AS TZDBHTSO2
+   VIEW TZDBHTSO  REGISTERED AS TZDBHTSO
+   VIEW vTarget
+   VIEW vSource
+
+   IF TZDBHTSO.View.CurrentLOD = "?"
+      RETURN 0
+   END
+
+   IF TZDBHTSO2.View.CurrentLOD = "?"
+      RETURN 0
+   END
+
+   GET VIEW vTarget NAMED "_Include1"
+   GET VIEW vSource NAMED "_Include2"
+
+   IncludeSubobjectFromSubobject( vTarget, TZDBHTSO.Entity.Name,
+                                  vSource, TZDBHTSO2.Entity.Name, zPOS_AFTER )
+
+END
+
+DIALOG OPERATION
+EditID_Prebuild( VIEW vSubtask )
+
+   VIEW TZDBHTSO  REGISTERED AS TZDBHTSO
+   STRING( 30 ) szUserID
+   STRING( 30 ) szPassword
+
+   SysGetDB_UserID( vSubtask, szUserID, szPassword )
+   TZDBHTSO.Root.DB_UserID   = szUserID
+   TZDBHTSO.Root.DB_Password = szPassword
+
+END
+
+DIALOG OPERATION
+EditID_OK( VIEW vSubtask )
+
+   VIEW TZDBHTSO  REGISTERED AS TZDBHTSO
+   STRING( 30 ) szUserID
+   STRING( 30 ) szPassword
+
+   szUserID   = TZDBHTSO.Root.DB_UserID
+   szPassword = TZDBHTSO.Root.DB_Password
+   SysSetDB_UserID( vSubtask, szUserID, szPassword )
+
+END
+
+DIALOG OPERATION
+EditID_Clear( VIEW vSubtask )
+   VIEW TZDBHTSO  REGISTERED AS TZDBHTSO
+
+   TZDBHTSO.Root.DB_UserID   = ""
+   TZDBHTSO.Root.DB_Password = ""
+END
+
+DIALOG OPERATION
+Include_LinkSubobject( VIEW vSubtask )
+
+   VIEW TZDBHTSO2 REGISTERED AS TZDBHTSO2
+   VIEW TZDBHTSO  REGISTERED AS TZDBHTSO
+   VIEW vTarget
+   VIEW vSource
+
+   IF TZDBHTSO.View.CurrentLOD = "?"
+      RETURN 0
+   END
+
+   IF TZDBHTSO2.View.CurrentLOD = "?"
+      RETURN 0
+   END
+
+   GET VIEW vTarget NAMED "_Include1"
+   GET VIEW vSource NAMED "_Include2"
+
+   RelinkInstanceToInstance( vTarget, TZDBHTSO.Entity.Name,
+                             vSource, TZDBHTSO2.Entity.Name )
+
+END

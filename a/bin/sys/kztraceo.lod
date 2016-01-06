@@ -1,0 +1,163 @@
+z10000Zeidon    KZTRACEO TZZOLODO 05/01/01   23:17:25 1.0b0    
+eLOD       1
+aZKey      91043632
+aName      KZTRACEO
+aDesc      Object to transfer a trace from server to client
+
+eLOD_EntityParent 2
+aName      Trace
+aIndentName Trace
+aIndentLvl 0
+aZKey      91043633
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Root Entity for Trace Object
+
+eLOD_EntityChild 3
+aName      Line
+aIndentName    Line
+aIndentLvl 3
+aZKey      91043634
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Tracl Line
+
+eLOD_AttributeRec 4
+aZKey      91043635
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      Line
+aZKey      91043636
+aLth       254
+aDesc      Single Trace Line
+
+eDomainRec 6
+aZKey      90000028
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      91043637
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      nLine
+aZKey      91043638
+aDesc      Number of trace lines below
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      91043639
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      TraceStart
+aZKey      91043640
+aDesc      Timestamp when server trace started
+
+eDomainRec 5
+aZKey      90000089
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      91043641
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      TraceEnd
+aZKey      91043642
+aDesc      Timestamp when server trace ended
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i14        11
+i15        1
+i16        6
+i17        7
+i18        8
+i19        9
+i20        10
+i21        11
+i22        12
+i23        13
+i24        11
+i25        2
+i26        3
+i27        4
+i28        5

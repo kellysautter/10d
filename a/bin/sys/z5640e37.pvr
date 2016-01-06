@@ -1,0 +1,14 @@
+z0100-Zeidon    Z5640E37 TZWDVORO 05/22/97   13:10:33 1.0a     
+eViewObjRef 1,198
+aZKey      90443319
+aName      TZOPSIGO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1328919
+aName      TZOPSIGO
+aDLL_Name  TZLODOPR
+aFK_ZKEY   8388608
+aFK_ZKEY02 1350565888
+aFK_ZKEY03 228524032
+

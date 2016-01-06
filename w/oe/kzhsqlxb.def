@@ -1,0 +1,65 @@
+; CHANGE LOG
+;
+; 1998.11.10  DGC
+;    Added functions for DB2
+;
+; 1998/11/23  DC
+;    Added "PostXOD_BuildHook under define for ACCESS.
+;
+; 1999/01/08  DGC
+;    Added more hook functions.
+;
+#if defined( ACCESS )
+   LIBRARY       KZHSQLAB
+#elif defined( DB2 )
+   LIBRARY       KZHSQLDB
+#elif defined( ODBC )
+   LIBRARY       KZHSQLOB
+#elif defined( POSTGRESQL )
+   LIBRARY       KZHSQLPB
+#elif defined( SQLBASE )
+   LIBRARY       KZHSQLBB
+#elif defined( SQLSERVER )
+   LIBRARY       KZHSQLSB
+#elif defined( MYSQL )
+   LIBRARY       KZHSQLMB
+#elif defined( SQLITE )
+   LIBRARY       KZHSQLLB
+#endif
+
+#if defined( __WIN32__ )
+;; CODE      PRELOAD MOVEABLE DISCARDABLE
+;; DATA      PRELOAD SINGLE
+#else
+   STUB         'WINSTUB.EXE'
+   CODE  MOVEABLE
+   DATA  FIXED SINGLE
+   HEAPSIZE     1024
+   EXETYPE       WINDOWS
+#endif
+
+EXPORTS
+               BuildDDL
+               BuildSyncDDL
+               LoadDataTypes
+               SetDataType
+               GenerateName
+
+#if defined( ACCESS )
+               PostXOD_BuildHook
+#elif defined( DB2 )
+               PostXOD_BuildHook
+               InitDataServerConfigurationHook
+               MidDataServerConfigurationHook
+#elif defined( MYSQL )
+               PostXOD_BuildHook
+#elif defined( ODBC )
+               PostXOD_BuildHook
+#elif defined( POSTGRESQL )
+               PostXOD_BuildHook
+#elif defined( SQLBASE )
+#elif defined( SQLITE )
+               PostXOD_BuildHook
+#elif defined( SQLSERVER )
+               PostXOD_BuildHook
+#endif

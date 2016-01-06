@@ -1,0 +1,642 @@
+z1000-Zeidon    TZCMSLPD TZWDLGSO 03/26/13   15:10:05 1.0b0    
+eDialog    1
+aTag       TZCMSLPD
+aDLL_Name  TZCMSLPD
+aZKey      1337740
+aDesc      Switch LPLR Subdialog
+
+eDfltWnd   2
+aTag       SwitchLPLR
+aCaption   Switch Project
+aPSDLG_X   9
+aPSDLG_Y   67
+aSZDLG_X   25624975
+aSZDLG_Y   10289327
+aZKey      1337750
+aDIL_Active Y
+aGeneralFlag 0
+
+eWindow    2
+
+eControl   3
+aTag       ListBox1
+aText      ListBox1
+aZKey      1337770
+aSubtype   1253376
+aIdNbr     5
+aPSDLG_X   6
+aPSDLG_Y   6
+aSZDLG_X   324
+aSZDLG_Y   145
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   3
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       LPLR
+aText      Project Name
+aZKey      1337771
+aSubtype   67108864
+aIdNbr     6
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   72
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1337772
+
+eCtrlMapLOD_Attribute 6
+aZKey      1329764
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 7
+aName      LPLR
+aIndentName    LPLR
+aIndentLvl 3
+aZKey      1329754
+aSeqNo     1
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      1321035
+aNotNull   Y
+aDesc      LPL Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eCtrlMapER_Domain 8
+aZKey      90000038
+aDesc      QuinSoft Name
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eCtrlMapView 6
+aZKey      1337759
+aName      TZCMSLPL
+
+eControlDef 5
+aTag       ListBoxCtl
+aZKey      1081
+aKey       1081
+aRT_DLL_Name ZDCTL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LISTCTL
+aRequiresParent Y
+aId        27
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       Desc
+aText      Description
+aZKey      1337773
+aSubtype   67108864
+aIdNbr     7
+aPSDLG_X   75
+aPSDLG_Y   0
+aSZDLG_X   375
+aSZDLG_Y   15
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1337774
+
+eCtrlMapLOD_Attribute 6
+aZKey      1329765
+aSeqNo_LOD_Entity 2
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      Desc
+aZKey      1321036
+aDesc      Descriptive text
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eCtrlMapER_Domain 8
+aZKey      90000030
+aDesc      Standard Zeidon Description
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aContextRestriction N
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      1337775
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      1337776
+
+eCtrlMap   4
+aZKey      1337777
+
+eEvent     4
+aType      2
+aZKey      1337778
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aTypeData  1
+aZKey      1337763
+aSB_ActionDisabling 8
+
+eControlDef 4
+aTag       ListBox
+aZKey      1080
+aKey       1080
+aRT_DLL_Name ZDCTL
+aRT_OperationName ListBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aPainterConvertOperationName ConvertListBox
+aPainterBitmap LIST
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LIST
+aAcceptsAllParents Y
+aId        15
+aInvisible -1
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      1337779
+aSubtype   536870912
+aIdNbr     8
+aPSDLG_X   337
+aPSDLG_Y   7
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 0
+
+eEvent     4
+aType      1
+aZKey      1337780
+
+eEventAct  5
+
+eControlDef 4
+aTag       PushBtn
+aZKey      1020
+aKey       1020
+aRT_DLL_Name ZDCTL
+aRT_OperationName PushButton
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZPushMsg
+aPainterConvertOperationName ConvertButton
+aPainterBitmap PUSH
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_PUSH
+aAcceptsAllParents Y
+aId        8
+aInvisible -1
+
+eControl   3
+aTag       Push2
+aText      Cancel
+aZKey      1337781
+aSubtype   536870912
+aIdNbr     10
+aPSDLG_X   337
+aPSDLG_Y   22
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 0
+
+eEvent     4
+aType      1
+aZKey      1337782
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      72
+aTypeData  1
+aZKey      1337751
+
+eControlDef 4
+
+eControl   3
+aTag       Push1
+aText      Swap &Lang
+aZKey      70046208
+aSubtype   536870912
+aPSDLG_X   337
+aPSDLG_Y   45
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      70046209
+
+eEvent     4
+aType      1
+aZKey      70046210
+
+eEventAct  5
+aTag       SwapLanguage
+aType      2
+aZKey      70046211
+
+eControlDef 4
+
+eControl   3
+aTag       RebuildMeta
+aText      Rebuild Meta
+aZKey      92726807
+aSubtype   537001984
+aPSDLG_X   337
+aPSDLG_Y   64
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      92726808
+
+eEvent     4
+aType      1
+aZKey      92726828
+
+eEventAct  5
+aTag       RebuildMetaLists
+aType      2
+aZKey      1337762
+
+eControlDef 4
+
+eControl   3
+aTag       MsgBar1
+aZKey      98095111
+aSubtype   1
+aPSDLG_X   87
+aPSDLG_Y   158
+aSZDLG_X   129
+aSZDLG_Y   20
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      98095112
+
+eControlDef 4
+aTag       MsgBar
+aZKey      2020
+aKey       2020
+aRT_DLL_Name ZDCTL
+aRT_OperationName DIL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZDilMsg
+aPainterConvertOperationName ConvertDIL
+aPainterBitmap DIL
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_DIL
+aId        20
+aInvisible -1
+
+eWndEvent  3
+aType      1
+aZKey      1337785
+
+eWndAct    4
+aTag       InitDialog
+aType      1
+aZKey      1337761
+
+eAction    3
+
+eActMap    4
+aZKey      1337764
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1337759
+aName      TZCMSLPL
+
+eActEvent  4
+
+eActCtrl   5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZCMSLPD_SwitchLPLR
+aZKey      1337746
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      1337741
+aCM_Managed Y
+aOwnerType D
+aLanguageType C
+aName      TZCMSLPD
+aExtension C
+
+eActHot    4
+aTag       Enter
+aZKey      90016212
+aKeyCombo  U4
+$X!8-````
+`
+aVKey      13
+
+eAction    3
+
+eActMap    4
+aZKey      1337752
+
+eActMap    4
+aZKey      1337753
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZCMSLPD_TerminateDialog
+aZKey      1337748
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZCMSLPD_InitDialog
+aZKey      1337742
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZCMSLPD_RebuildMetaLists
+aZKey      1337744
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       Rebuild
+aZKey      89063104
+aKeyCombo  U4
+$L2%2````
+`
+aTitle     Rebuild
+aVKey      82
+
+eAction    3
+aTag       RemoveLPLR
+aType      2
+aZKey      1337757
+aSB_SubAction 268435460
+aSB_DeleteNull 512
+
+eActMap    4
+aZKey      1337758
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActMap    4
+aZKey      1337760
+
+eAction    3
+
+eActMap    4
+aZKey      70046212
+
+eActMap    4
+aZKey      70046213
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZCMSLPD_SwapLanguage
+aZKey      70046214
+aDesc      Swap Language between German and English
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       Terminate
+aType      72
+aZKey      1337754
+
+eActMap    4
+aZKey      1337755
+
+eActMap    4
+aZKey      1337756
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eWndStyle  3
+aTag       Sizeable Dialog Box
+aZKey      10024379
+aStyle     -2134114304
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eViewObjRef 2
+aZKey      1337759
+aName      TZCMSLPL
+
+eLOD       3
+aZKey      1329752
+aName      TZCMWKSO
+aDesc      334
+Work Station Object
+
+This object is used for the following purposes:
+1.  It is primarily used to define the work station object, TZCMWKS8.POR,
+     which holds the list of all LPLRs on a work station.
+2.  It is also used for processing a delete of the RepositoryClient entity
+     (a work station) from the Repository database.0
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1337743
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      70046215
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1337745
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1337747
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      1337749
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eWebControlPropertyOption 2
+aName      Button (Not Submit)
+aZKey      92726826
+
+eWebControlPropertyOption 2
+aName      Hidden
+aZKey      92726827
+
+i2         1
+i15        7
+i18        10
+i19        11
+i21        7
+i22        10
+i30        26
+i35        31
+i40        31
+i45        31
+i51        26
+i53        7
+i55        25
+i56        3
+i57        29
+i58        28
+i62        34
+i65        33
+i66        32
+i68        60
+i69        50
+i70        49
+i72        60
+i73        44
+i74        43
+i75        41
+i77        60
+i81        7
+i82        10
+i84        39
+i87        38
+i88        36
+i90        60
+i94        67
+i95        60
+i97        61
+i98        26
+i99        78
+i100       44
+i103       60
+i104       71
+i106       89
+i108       76
+i110       59
+i112       67
+i114       71
+i115       60
+i116       76
+i117       60
+i118       89
+i119       60
+i120       59
+i121       60
+i122       67
+i123       60

@@ -1,0 +1,562 @@
+z1000-Zeidon    KZAPPLOO TZZOLODO 12/28/05   16:30:46 1.0b0    
+eLOD       1
+aZKey      1331251
+aName      KZAPPLOO
+aDesc      Zeidon Application Object
+
+eLOD_EntityParent 2
+aName      ZEIDON
+aIndentName ZEIDON
+aIndentLvl 0
+aZKey      1331252
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      APPLICATION
+aIndentName    APPLICATION
+aIndentLvl 3
+aZKey      1331253
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     1
+
+eLOD_EntityChild 4
+aName      LNAME
+aIndentName       LNAME
+aIndentLvl 6
+aZKey      1331254
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Logical to phisical name translation Entity for Server and DB Names
+aSeqNo     1
+
+eLOD_AttributeRec 5
+aZKey      1331255
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      TYPE
+aZKey      1331256
+
+eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1331257
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+aName      LNAME
+aZKey      1331258
+aLth       32
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1331259
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6
+aName      PNAME
+aZKey      1331260
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      1331261
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      APP_NAME
+aZKey      1331262
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331263
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      APP_DFLT_WDOD
+aZKey      1331264
+aLth       8
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331265
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      APP_DLL
+aZKey      1331266
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331267
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      APP_ADOBIN
+aZKey      1331268
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331269
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      APP_LOCAL
+aZKey      1331270
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1331271
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 5
+aName      APP_SHARED
+aZKey      1331272
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91165876
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      APP_QLPLR
+aZKey      91165877
+aDesc      Application LPLR for storing Query LODs at customer site.
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91165878
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      APP_QXODS
+aZKey      91165879
+aDesc      Server XOD directory for storing Server XODs from Query.
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1113706
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      APP_SOURCE
+aZKey      1113707
+aDesc      Source directory for application.
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      1331273
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      ZEIDON_BIN
+aZKey      1331274
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1331275
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      ZEIDON_SYS
+aZKey      1331276
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1331277
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      ZEIDON_LOC
+aZKey      1331278
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1331279
+aWork      Y
+aUpdate    N
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 4
+aName      ZEIDON_SHR
+aZKey      1331280
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 9
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000607
+aName      KZAPPLOO
+aExtension VML
+aLanguageType V
+
+ePOD       2
+aNAME      KZAPPLOO
+aZKey      1149530
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eZ_MetaDef 2
+aName      KZAPPLOO
+aZKey      1331251
+aType      7
+aLastUpdateDate 19951102195936000
+aLastCheckInDate 19951102203051110
+aDesc      Zeidon Application Object
+
+i12        9
+i15        9
+i18        9
+i21        9
+i24        9
+i27        9
+i30        9
+i33        9
+i36        9
+i39        9
+i42        9
+i45        9
+i48        9
+i51        9
+i52        1
+i53        40
+i54        41
+i55        9
+i56        43
+i57        44
+i58        9
+i59        46
+i60        47
+i61        9
+i62        49
+i63        50
+i64        9
+i65        2
+i66        13
+i67        14
+i68        9
+i69        16
+i70        17
+i71        9
+i72        19
+i73        20
+i74        9
+i75        22
+i76        23
+i77        9
+i78        25
+i79        26
+i80        9
+i81        28
+i82        29
+i83        9
+i84        31
+i85        32
+i86        9
+i87        34
+i88        35
+i89        9
+i90        37
+i91        38
+i92        9
+i93        3
+i94        4
+i95        5
+i96        6
+i97        7
+i98        8
+i99        9
+i100       10
+i101       11
+i102       9

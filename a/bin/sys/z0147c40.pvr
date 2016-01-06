@@ -1,0 +1,17 @@
+rZeidon    Z0147C40 TZWDVORO 11/02/95   20:51:56 1.0a     
+eViewObjRef 1,192
+aZKey      1342528
+aName      TZREPOWK
+
+eLOD       2,192
+aZKey      1328465
+aName      TZREPOWK
+aDesc      Repository testing work object
+
+eZ_MetaDef 2,192
+aName      TZREPOWK
+aZKey      1342528
+aType      9
+aLastUpdateDate 19950824213752000
+aLastCheckInDate 19951102203051110
+

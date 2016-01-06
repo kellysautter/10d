@@ -1,0 +1,341 @@
+
+/*************************************************************************************************
+**
+**    OPERATION: JSP_StaticSection1
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+JSP_StaticSection1( INTEGER lFile,
+                    STRING ( 10000 ) szWriteBuffer,
+                    VIEW vDialog BASED ON LOD TZWDLGSO )
+
+   STRING ( 64 )    szFormName
+
+      // STATIC SECTION
+
+   szWriteBuffer = "zeidon.zView vAppSubtask; // View to this subtask"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "zeidon.zView vKZXMLPGO = new zeidon.zView( );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "String strActionToProcess;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "String strURL;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+
+   szWriteBuffer = "String strErrorMapValue;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "String strErrorColor;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "String strErrorMsg = '';"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "String strErrorFlag;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "String strErrorValue;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+
+   szWriteBuffer = "public String FindErrorFields( )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   zeidon.zView vMsgQ = new zeidon.zView( ); // View to Message Queue"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   zeidon.zView v = new zeidon.zView( );     // View to Message Queue"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "   String strErr;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   int    iView;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   int    nRC = 0;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   short  nRepos = 0;  // zREPOS_NONE    0"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "                       // zREPOS_FIRST   1"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "                       // zREPOS_LAST    2"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "                       // zREPOS_NEXT    3"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "                       // zREPOS_PREV    4"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "   strErr = '';"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   strErrorValue = '';"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   strErrorMsg = '';"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+// szWriteBuffer = "   vAppSubtask.TraceLine( 'FindErrorFields for jsp =======>> ', '" + szFormName + "' );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   iView = vAppSubtask.GetIntegerFromView( );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   nRC = vMsgQ.GetView( '__MSGQ', vAppSubtask );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   if ( nRC > 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+// szWriteBuffer = "      vAppSubtask.TraceLine( 'FindErrorFields found __MSGQ', '' );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      v.CreateViewFromView( vMsgQ );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+// szWriteBuffer = "      vAppSubtask.TraceLine( 'FindErrorFields __MSGQ View: ', iView );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      nRC = v.SetCursorFirst( 'Task', 'Id', iView, '' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+// szWriteBuffer = "      vAppSubtask.TraceLine( 'FindErrorFields SetCursorFirst Task RC: ', nRC );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      if ( nRC == 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         nRC = v.SetCursorFirst( 'QMsg' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+// szWriteBuffer = "         vAppSubtask.TraceLine( 'FindErrorFields SetCursorFirst RC: ', nRC );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         if ( nRC == 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "            strErrorValue = vMsgQ.GetString( 'QMsg', 'ErrorMapValue' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "            strErrorMsg = vMsgQ.GetString( 'QMsg', 'Text' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "            strErr = 'Y';"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "         while ( nRC == 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         // v.DisplayEntityInstance( 'QMsg' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "            v.DeleteEntity( 'QMsg', nRepos );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "            nRC = v.SetCursorFirst( 'QMsg' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         // nRC = v.SetCursorNext( 'QMsg' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         // vAppSubtask.TraceLine( 'FindErrorFields SetCursorNext RC: ', nRC );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+// szWriteBuffer = "         vAppSubtask.TraceLine( 'FindErrorFields ERROR ===> ', strErrorValue );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "      v.DropView( );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   // alert( strErrorValue );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+// szWriteBuffer = "   vAppSubtask.TraceLine( 'FindErrorFields for jsp =======>> ', strErrorValue );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "   return( strErr );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "public String CheckError( String strWidgetCurr, String strErrorList )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   String strWidget;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   String strMapValue;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   String str;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   String strError;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "   int nPos;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   int nLth;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "   nPos = strErrorList.indexOf( strWidgetCurr );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   if ( nPos < 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      return( '' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "   vAppSubtask.TraceLine( 'CheckError looking for Widget ====================>> ', strWidgetCurr );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   vAppSubtask.TraceLine( '                          in ErrorList ===========>> ', strErrorList );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   strError = strErrorList;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   nPos = strError.indexOf( '\t' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   while ( nPos >= 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      strWidget = strError.substring( 0, nPos );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      nLth = strError.length( );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      str = strError.substring( nPos + 1, nLth );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   // vAppSubtask.TraceLine( 'CheckError TempStr ====>> ', str );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      nPos = str.indexOf( '\t' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      strMapValue = str.substring( 0, nPos );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      nLth = str.length( );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      strError = str.substring( nPos + 1, nLth );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   // vAppSubtask.TraceLine( 'CheckError Remaining ====>> ', strErrorList );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      nPos = strError.indexOf( '\t' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+// szWriteBuffer = "      vAppSubtask.TraceLine( 'CheckError Current ======>> ', strWidgetCurr );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+// szWriteBuffer = "      vAppSubtask.TraceLine( 'CheckError Widget =======>> ', strWidget );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+// szWriteBuffer = "      vAppSubtask.TraceLine( 'CheckError Value ========>> ', strMapValue );"
+// WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   // if ( strWidgetCurr.indexOf( strWidget ) >= 0 &&"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   //      strWidget.indexOf( strWidgetCurr ) >= 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      if ( strWidgetCurr.equals( strWidget ) )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         vAppSubtask.TraceLine( 'CheckError Found Widget ********>> ', strWidget );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "         vAppSubtask.TraceLine( 'CheckError Found Value  ********>> ', strMapValue );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "         return( strMapValue );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "// strMapValue = '';"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   return( '' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: JSP_StaticMainSection
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+JSP_StaticMainSection( INTEGER lFile,
+                       STRING ( 10000 ) szWriteBuffer,
+                       VIEW vDialog BASED ON LOD TZWDLGSO )
+
+   VIEW vLPLR        BASED ON LOD TZCMLPLO
+
+   // MAIN SECTION HEADER
+
+   GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+
+   szWriteBuffer = "<%"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "zeidon.zView vMsgQ = new zeidon.zView( ); // View to Message Queue"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "String strLastPage;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "int nOptRC;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "int nRC = 0;"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   // vAppSubtask
+   szWriteBuffer = "// Check to see if the Zeidon subtask view already exists.  If not, create"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "// it and copy it into the application object."
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "vAppSubtask = (zeidon.zView) session.getAttribute( 'ZeidonSubtask' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "if ( vAppSubtask == null )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   vAppSubtask = new zeidon.zView( );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   vAppSubtask.RegisterZeidonApplication( '//" + vLPLR.LPLR.Name + "' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   session.setAttribute( 'ZeidonSubtask', vAppSubtask );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   // vKZXMLPGO
+   szWriteBuffer = "nRC = vKZXMLPGO.GetView( 'KZXMLPGO', vAppSubtask );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "if ( nRC <= 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   vKZXMLPGO.InitWebSessionObject( vAppSubtask, 'TestUserID' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   vKZXMLPGO.SetName( 'KZXMLPGO' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   // Temporary traces to understand how Error Object is used.
+   szWriteBuffer = "nRC = vMsgQ.GetView( '__MSGQ', vAppSubtask );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "if ( nRC > 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   vAppSubtask.TraceLine( '***Message Object Check: FOUND __MSGQ', '' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "else"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   vAppSubtask.TraceLine( '***Message Object Check: NOT found __MSGQ', '' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "vAppSubtask.SetDefaultViewForActiveTask( 2 );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   // MAIN SECTION ACTION PROCESSING
+
+   szWriteBuffer = "strActionToProcess = (String) request.getParameter( 'zAction' );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "if ( strActionToProcess != null )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+
+   szWriteBuffer = "   vAppSubtask.TraceLine( 'Process Action: ', strActionToProcess );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+   // Process Error Object.
+   szWriteBuffer = "   // Delete the message object if error on last interation."
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   nRC = vMsgQ.GetView( '__MSGQ', vAppSubtask );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "   if ( nRC > 0 )"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "      vMsgQ.DropObjectInstance( );"
+   WL_QC( vDialog, lFile, szWriteBuffer, "'", 1 )
+
+END

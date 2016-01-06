@@ -1,0 +1,19 @@
+rZeidon    Z014596D TZWDVORO 11/02/95   20:52:16 1.0a     
+eViewObjRef 1,192
+aZKey      1333613
+aName      TZOPDAWO
+aDesc      List of "Selected" entities ( opers of type DA )
+
+eLOD       2,192
+aZKey      1328897
+aName      TZOPLSWO
+aDesc      Operation List work object
+
+eZ_MetaDef 2,192
+aName      TZOPDAWO
+aZKey      1333613
+aType      9
+aLastUpdateDate 19950824213622000
+aLastCheckInDate 19951102203051110
+aDesc      List of "Selected" entities ( opers of type DA )
+

@@ -1,0 +1,11 @@
+z0100-Zeidon    Z5640E50 TZWDVORO 05/22/97   13:35:28 1.0a     
+eViewObjRef 1,198
+aZKey      90443344
+aName      TZCMFILO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,230
+aZKey      90443326
+aName      TZCMFILO
+aDesc      File object for storing LPLR files as objects
+

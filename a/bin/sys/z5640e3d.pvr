@@ -1,0 +1,14 @@
+z0100-Zeidon    Z5640E3D TZWDVORO 05/22/97   13:15:05 1.0a     
+eViewObjRef 1,198
+aZKey      90443325
+aName      TZZOTYPO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1327386
+aName      TZZOTYPO
+aDesc      keep track of Oper by Type
+aFK_ZKEY   8388608
+aFK_ZKEY02 -2139095040
+aFK_ZKEY03 778502144
+

@@ -1,0 +1,43 @@
+[OPTIONS]
+TITLE=Zeidon Autodesign Customization
+CONTENTS=Entry_Autodesign
+COPYRIGHT=© TONBELLER AG
+LCID=0x407 0x0 0x0
+CNT=Autodesign.cnt
+COMPRESS=0
+
+[WINDOWS]
+main=,(307,0,716,675),29188,,
+second=,(583,102,409,870),20736,(255,255,224),(255,255,224),f2
+
+[CONFIG]
+RR(`RoboEx32.dll',`RoboHelpExInitialize',`')
+RR(`RoboEx32.dll',`RoboHelpExAbout',`')
+RR(`RoboEx32.dll',`RoboHelpExWatermark',`SSS')
+RR(`RoboEx32.dll',`RoboHelpExWatermarkNonScroll',`SSS')
+RR(`RoboEx32.dll',`RoboHelpExShowNavPane',`S')
+RR(`RoboEx32.dll',`RoboHelpExShowSeeAlso',`S')
+RR(`RoboEx32.dll',`JumpHtml',`s')
+RoboHelpExInitialize()
+CBB(`btn_topics',"RoboHelpExShowNavPane(`toggle')")
+RoboHelpExShowNavPane(`show')
+
+[CONFIG:1]
+RR(`RoboEx32.dll',`RoboHelpExInitialize',`'):RR(`RoboEx32.dll',`RoboHelpExAbout',`'):RR(`RoboEx32.dll',`RoboHelpExWatermark',`SSS'):RR(`RoboEx32.dll',`RoboHelpExWatermarkNonScroll',`SSS'):RR(`RoboEx32.dll',`RoboHelpExShowNavPane',`S'):RR(`RoboEx32.dll',`RoboHelpExShowSeeAlso',`S'):RR(`RoboEx32.dll',`JumpHtml',`s'):RoboHelpExInitialize():CBB(`btn_topics',"RoboHelpExShowNavPane(`toggle')")
+
+[FILES]
+AUTODESIGN.RTF
+
+[MAP]
+TZADCSDO_Object 2010
+1WH2UT 2007
+PKLQHG 2003
+TZZOLODO_Object 2011
+9DRZ70 2002
+02Z0XF 2006
+Entry_Autodesign 2009
+TZWDLGSO_Object 2012
+13S.JGI 2001
+H4GT5V 2004
+1.V.V1Z 2005
+

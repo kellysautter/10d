@@ -1,0 +1,166 @@
+z10000Zeidon    TZSIIMWK TZZOLODO 05/01/01   23:19:27 1.0b0    
+eLOD       1
+aZKey      91020362
+aName      TZSIIMWK
+
+eLOD_EntityParent 2
+aName      TZSIIMWK
+aIndentName TZSIIMWK
+aIndentLvl 0
+aZKey      91020363
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      CatFiles
+aIndentName    CatFiles
+aIndentLvl 3
+aZKey      91020366
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      Catalogs
+aIndentName       Catalogs
+aIndentLvl 6
+aZKey      91020369
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      91020370
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      wkCatalogName
+aZKey      91020371
+aLth       9
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      91020367
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      wkCatFiles
+aZKey      91020368
+aLth       9
+aDesc      Adresstafeldateien
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91052766
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      wkEinschraenkung
+aZKey      91052767
+aLth       9
+aDesc      Katalognamen mit Wildcards zur eingeschraenkten Suche
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      91020364
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wkServerName
+aZKey      91020365
+aLth       9
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i9         6
+i12        6
+i15        6
+i16        1
+i17        13
+i18        14
+i19        6
+i20        2
+i21        7
+i22        8
+i23        6
+i24        10
+i25        11
+i26        6
+i27        3
+i28        4
+i29        5
+i30        6

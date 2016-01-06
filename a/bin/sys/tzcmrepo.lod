@@ -1,0 +1,966 @@
+z10000Zeidon    TZCMREPO TZZOLODO 06/28/01   22:10:44 1.0b0    
+eLOD       1
+aZKey      1325883
+aName      TZCMREPO
+aDesc      CM Repository Object
+aReLinked  Y
+aCommitConstraint Y
+aDLL_Name  TZLODOPR
+
+eLOD_EntityParent 2
+aName      Installation
+aIndentName Installation
+aIndentLvl 0
+aZKey      1325890
+aCreate    Y
+aDelete    N
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aMultipleChildLimit 0
+
+eLOD_EntityChild 3
+aName      User
+aIndentName    User
+aIndentLvl 3
+aZKey      1325922
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     2
+
+eLOD_EntityChild 4
+aName      UserRepositoryClient
+aIndentName       UserRepositoryClient
+aIndentLvl 6
+aZKey      1325923
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   N
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance Y
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aSeqNo     1
+
+eLOD_AttributeRec 5
+aZKey      1325924
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      ZKey
+aZKey      1321246
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1325925
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+aName      WKS_Id
+aZKey      1321247
+aLth       4
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1325926
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6
+aName      MaxZKey
+aZKey      1321248
+aLth       4
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1325927
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 6
+aName      LastSyncZKey
+aZKey      1321249
+aLth       4
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      1325928
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 6
+aName      Desc
+aZKey      1321250
+aDesc      Description of WorkStation
+aPromptPaintLit Description
+aListPaintLit Description
+
+eDomainRec 7
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1325929
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 6
+aName      DefaultLPLR_ZKey
+aZKey      1321251
+aLth       4
+aDesc      Pointer to the LPLR to be initialized at startup
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      RepositoryClient
+aZKey      1321245
+aPurpose   F
+aDesc      the workstation for an LPLR
+aOwningArea CM
+aER_DiagramPosX 303
+aER_DiagramPosY 48
+
+eER_RelLinkRec 5
+aName      works on
+aZKey      1322382
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      1322381
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 398
+aER_DiagramBendPosY 48
+aER_DiagramE1PosX 398
+aER_DiagramE1PosY 65
+aER_DiagramE2PosX 312
+aER_DiagramE2PosY 48
+
+eLOD_AttributeRec 4
+aZKey      1325930
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1321426
+aLth       32
+aNotNull   Y
+aDesc      User Name or Identifier (Personalnr. in Landesbank)
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1325931
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1321427
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1325932
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      Password
+aZKey      1321428
+aLth       8
+aDesc      108
+Secret stuff
+physical name = z_PASSWORD, because "password" is a reserverd
+word in SQLBASE and not in DB20
+aPromptPaintLit Password:
+aListPaintLit Password:
+aTE_ColumnName z_PASSWORD
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92022427
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      90009400
+aDesc      User description Identifier (Name in Landesbank)
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      User
+aZKey      1321425
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 398
+aER_DiagramPosY 66
+
+eER_RelLinkRec 4
+aName      has
+aZKey      1322364
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 5
+aZKey      1322363
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 399
+aER_DiagramBendPosY 30
+aER_DiagramE1PosX 389
+aER_DiagramE1PosY 30
+aER_DiagramE2PosX 399
+aER_DiagramE2PosY 65
+
+eLOD_EntityChild 3
+aName      RepositoryClient
+aIndentName    RepositoryClient
+aIndentLvl 3
+aZKey      1325933
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aSeqNo     3
+
+eLOD_AttributeRec 4
+aZKey      1325934
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1325935
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1325936
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1325937
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90008504
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      Authentic
+aZKey      90007297
+aLth       32
+aDesc      187
+Authentication GUUID for checking the RepositoryClient against
+the Repo database. This is for preventing duplicated workstation
+por files so that unique Zkey generation is made sure.
+0
+
+eDomainRec 6
+aZKey      90000028
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1325938
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1325939
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 5
+
+eDomainRec 6
+
+eER_EntityRec 4
+
+eER_RelLinkRec 4
+aName      has satelite
+aZKey      1322077
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 5
+aZKey      1322075
+aFact      Added thru 8C ER Dialog
+aER_DiagramBendPosX 384
+aER_DiagramBendPosY 50
+aER_DiagramE1PosX 312
+aER_DiagramE1PosY 50
+aER_DiagramE2PosX 384
+aER_DiagramE2PosY 33
+
+eLOD_AttributeRec 3
+aZKey      1325940
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1320969
+aLth       32
+aNotNull   Y
+aDesc      Installation Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1325941
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1320970
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1325942
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4
+aName      Sysadm
+aZKey      1320971
+aLth       32
+aNotNull   Y
+aDesc      System Administrator
+aPromptPaintLit System Administrator:
+aListPaintLit System Administrator:
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1325943
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 4
+aName      Password
+aZKey      1320972
+aLth       8
+aDesc      108
+Secret stuff
+physical name = z_PASSWORD, because "password" is a reserverd
+word in SQLBASE and not in DB20
+aPromptPaintLit Password:
+aListPaintLit Password:
+aTE_ColumnName z_PASSWORD
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1325944
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 4
+aName      NextWKS_Id
+aZKey      1320973
+aLth       4
+aNotNull   N
+aDesc      The next available id to be assigned to Workstation
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      1325945
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 4
+aName      Desc
+aZKey      1320975
+aDesc      Descriptive text
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127086783
+aWork      Y
+aUpdate    Y
+aInit      0
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Repo_ViewCluster
+aZKey      127086784
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127086796
+aWork      Y
+aUpdate    Y
+aInit      0
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      UpdateAuditTrail
+aZKey      127086797
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      Installation
+aZKey      1320968
+aPurpose   F
+aDesc      Zeidon Configuration Management Installation Table
+aOwningArea CM
+aER_DiagramPosX 380
+aER_DiagramPosY 28
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 8
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eSourceFile 2
+aZKey      1325884
+aName      TZCMREPO
+aExtension C
+aOwnerType O
+aLanguageType C
+
+eOperation 3
+aName      oTZCMREPO_ObjectConstraints
+aZKey      1325885
+aDesc      Constraints for the Repository Object
+aType      C
+aReturnDataType N
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      1325886
+
+eParameter 4
+aShortDesc Event
+aDataType  N
+aZKey      1325887
+
+eParameter 4
+aShortDesc State
+aDataType  N
+aZKey      1325888
+
+ePOD       2
+aNAME      TZCMREPO
+aZKey      1325889
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      ZEIDON_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SqlServer ODBC TB
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      DB2 MVS Ger
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      ACC_REP
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      Access ODBC TB
+aGenerateExecutable KZSIACC
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      DB2_Rep
+aZKey      90014023
+aDesc      Repository DB2 NT
+aParadigm  R
+aDBMS      DB2 NT TB
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDisplayOwner Y
+
+eZ_MetaDef 2
+aName      TZCMREPO
+aZKey      1325883
+aType      7
+aLastUpdateDate 19951102200032000
+aLastCheckInDate 19951102203051110
+aDesc      CM Repository Object
+
+eLOD_ConstraintOper 2
+
+eSourceFileForOCOper 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i9         6
+i12        6
+i15        6
+i21        6
+i30        6
+i33        27
+i36        18
+i42        5
+i43        6
+i45        8
+i46        6
+i48        11
+i49        6
+i51        14
+i52        6
+i57        17
+i58        18
+i60        20
+i61        6
+i62        22
+i67        27
+i70        6
+i73        27
+i76        27
+i79        6
+i82        18
+i85        6
+i88        6
+i90        1
+i91        65
+i92        66
+i93        27
+i94        68
+i95        69
+i96        6
+i97        71
+i98        72
+i99        27
+i100       74
+i101       75
+i102       27
+i103       77
+i104       78
+i105       6
+i106       80
+i107       81
+i108       18
+i109       83
+i110       84
+i111       6
+i112       86
+i113       87
+i114       6
+i115       89
+i116       2
+i117       25
+i118       26
+i119       27
+i120       28
+i121       29
+i122       6
+i123       31
+i124       32
+i125       27
+i126       34
+i127       35
+i128       18
+i129       37
+i130       38
+i131       39
+i132       3
+i133       4
+i134       5
+i135       6
+i136       7
+i137       8
+i138       6
+i139       10
+i140       11
+i141       6
+i142       13
+i143       14
+i144       6
+i145       16
+i146       17
+i147       18
+i148       19
+i149       20
+i150       6
+i151       22
+i152       23
+i153       24
+i154       40
+i155       41
+i156       5
+i157       6
+i158       44
+i159       8
+i160       6
+i161       47
+i162       11
+i163       6
+i164       50
+i165       14
+i166       6
+i167       53
+i168       54
+i169       55
+i170       56
+i171       17
+i172       18
+i173       59
+i174       20
+i175       6
+i176       22
+i177       63
+i178       64
+i191       180
+i192       179
+i193       180
+i194       179

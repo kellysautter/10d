@@ -1,0 +1,12 @@
+z10000Zeidon    Z79295BD TZWDVORO 03/03/01   20:56:53 1.0a     
+eViewObjRef 1
+aZKey      127047101
+aName      TZERROR
+aDesc      Error List Window
+
+eLOD       2
+aZKey      127047087
+aName      TZERROR
+aDesc      Work object for Error List
+aDLL_Name  TZERROR
+

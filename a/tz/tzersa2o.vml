@@ -1,0 +1,368 @@
+
+/*
+CHANGE LOG
+2002.04.10    BL   R50707
+   Improve migrate SA: 1. If a SA-Entity not in ERD, do not migrate this SA.
+   2. If a SA-Relationship not in ERD: continue migration process and commit
+   rather than commit and stop migrating the first time a relationship
+   was not found.
+2000.10.20    SR   Z2000  Length of path variables
+   Modified the size of SourceFileName in function SA_Migrate
+   because size of attributes ExecDir, MetaSrcDir and PgmSrcDir
+   has been changed to 254 in datamodel.
+97/20/02    DonC
+   Improved functionality of ER/SA Merge.
+97/10/22    DonC
+   Modified SA_RelinkDelete to leave cursor position NONE on deletes/excludes because
+   some entries were not being removed properly.
+*/
+
+TRANSFORMATION OPERATION
+SA_Migrate( VIEW          NewSA      BASED ON LOD TZERSASO,
+            STRING ( 32 ) SubjectAreaName,
+            VIEW          SourceLPLR BASED ON LOD TZCMLPLO,
+            VIEW          vSubtask )
+
+   VIEW NewERD      BASED ON LOD TZEREMDO
+   VIEW OldERD      BASED ON LOD TZEREMDO
+   VIEW OldSA       BASED ON LOD TZERSASO
+   VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+
+   STRING ( 513 ) SourceFileName  // size according to zMAX_FILESPEC_LTH+1
+   SHORT          nRC
+
+   RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_ERD_META )
+
+   GET VIEW NewERD NAMED "NewERD"
+   IF RESULT < 0
+      IF CurrentLPLR.W_MetaDef EXISTS
+         // Activate the current ERD.  If it doesn't exist, it is an error.
+         nRC = ActivateMetaOI( vSubtask, NewERD, CurrentLPLR, zREFER_ERD_META, 0 )
+      ELSE
+         nRC = -1
+      END
+
+      IF nRC < 1
+         MessageSend( vSubtask, "ER00401", "Configuration Management",
+                      "No current Data Model exists.", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         RETURN -1
+      END
+      NAME VIEW  NewERD "NewERD"
+   END
+
+   // Activate existing source meta OldSA
+   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + SubjectAreaName + ".PSA"
+
+   ActivateOI_FromFile ( OldSA, "TZERSASO", CurrentLPLR, SourceFileName, 8192 )
+   // 8192 is zIGNORE_ATTRIB_ERRORS
+   NAME VIEW OldSA "OldSA"
+
+   // Also activate original ERD that goes with the SA
+   GET VIEW OldERD NAMED "OldERD"
+   IF RESULT < 0
+      SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2004
+      SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + SourceLPLR.W_MetaDef.Name + ".PMD"
+      ActivateOI_FromFile ( OldERD, "TZEREMDO", SourceLPLR, SourceFileName, 8192 )
+      // 8192 is zIGNORE_ATTRIB_ERRORS
+      NAME VIEW OldERD "OldERD"
+   END
+
+   // Perform the code that actually builds the new SA.
+   nRC = SA_MigrateWithERDs( NewSA,
+                             OldSA,
+                             NewERD,
+                             OldERD,
+                             vSubtask )
+
+   // Then clean up and commit the SA.
+   DropObjectInstance( OldSA )
+   DropMetaOI( vSubtask, CurrentLPLR )
+
+   IF nRC = 0
+      CommitMetaOI( vSubtask, NewSA, 5 )
+   END
+
+END
+
+
+TRANSFORMATION OPERATION
+SA_MigrateWithERDs( VIEW NewSA  BASED ON LOD TZERSASO,
+                    VIEW OldSA  BASED ON LOD TZERSASO,
+                    VIEW NewERD BASED ON LOD TZEREMDO,
+                    VIEW OldERD BASED ON LOD TZEREMDO,
+                    VIEW vSubtask )
+
+   STRING (32)  szEntityName
+   STRING (32)  szSA_Name
+   STRING (254) MG_ErrorMessage
+   SHORT        nRC
+
+   ActivateEmptyMetaOI( vSubtask, NewSA, zSOURCE_SA_META, zSINGLE )
+   NAME VIEW NewSA "NewSA"
+
+   IF NewSA.SubjectArea DOES NOT EXIST
+      CreateMetaEntity( vSubtask, NewSA, "SubjectArea", zPOS_AFTER )
+      SetMatchingAttributesByName ( NewSA, "SubjectArea", OldSA,
+                                    "SubjectArea", zSET_NULL )
+   END
+
+   FOR EACH OldSA.SA_Entity
+
+      SET CURSOR FIRST OldERD.ER_Entity WHERE
+          OldERD.ER_Entity.ZKey = OldSA.ER_Entity.ZKey
+
+      IF RESULT >= zCURSOR_SET
+         SET CURSOR FIRST NewSA.ER_Entity WITHIN NewSA.SubjectArea WHERE
+                NewSA.ER_Entity.Name = OldERD.ER_Entity.Name
+         IF RESULT < zCURSOR_SET
+            CreateMetaEntity( vSubtask, NewSA, "SA_Entity", zPOS_AFTER )
+            SetMatchingAttributesByName ( NewSA, "SA_Entity", OldSA,
+                                          "SA_Entity", zSET_NULL )
+
+            SET CURSOR FIRST NewERD.ER_Entity WHERE
+                NewERD.ER_Entity.Name = OldERD.ER_Entity.Name
+            IF RESULT < zCURSOR_SET
+               szEntityName = OldERD.ER_Entity.Name
+               szSA_Name    = OldSA.SubjectArea.Name
+               MG_ErrorMessage = "Migration of Subject Area (" + szSA_Name + ") skipped, " +
+                                 "because Entity (" + szEntityName + ") was not found in " +
+                                 "Target ERD."
+               MessageSend( vSubtask, "ER00402", "Configuration Management",
+                            MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               RETURN -1
+            END
+            INCLUDE NewSA.ER_Entity FROM NewERD.ER_Entity
+            FOR EACH OldSA.ER_RelLink
+
+               SET CURSOR FIRST OldERD.ER_RelType WHERE
+                  OldERD.ER_RelType.ZKey = OldSA.ER_RelType_1.ZKey
+               IF RESULT >= zCURSOR_SET
+                  SET CURSOR FIRST OldERD.ER_RelLink_2 WHERE
+                      OldERD.ER_RelLink_2.ZKey = OldSA.ER_RelLink.ZKey
+
+                  IF RESULT >= zCURSOR_SET
+                     nRC = SetCursorNewRelType( OldERD, NewERD )
+
+                     IF nRC = 0
+                        INCLUDE NewSA.ER_RelLink FROM NewERD.ER_RelLink_2
+
+                        // Now position on other ER_RelLink_2
+                        SET CURSOR NEXT NewERD.ER_RelLink_2
+                        IF RESULT < zCURSOR_SET
+                           SET CURSOR PREVIOUS NewERD.ER_RelLink_2
+                        END
+
+                        INCLUDE NewSA.ER_RelLink_Other FROM NewERD.ER_RelLink_2
+                     END
+                  ELSE
+                     szEntityName = OldERD.ER_Entity.Name
+                     szSA_Name    = OldSA.SubjectArea.Name
+                     MG_ErrorMessage = "Migration of Subject Area (" + szSA_Name +
+                                       ") skipped, because Relationship for Entity (" +
+                                       szEntityName + ") was not found in Target ERD."
+                     MessageSend( vSubtask, "ER00402", "Configuration Management",
+                                  MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                     RETURN -1
+                  END
+
+               END
+            END
+         END
+
+      END
+
+   END
+
+   FOR EACH OldSA.SA_RelType
+
+      SET CURSOR FIRST OldERD.ER_RelType WHERE
+          OldERD.ER_RelType.ZKey = OldSA.ER_RelType.ZKey
+
+      IF RESULT >= zCURSOR_SET
+
+         SET CURSOR FIRST OldERD.ER_RelLink_2 WHERE
+             OldERD.ER_RelLink_2.ZKey = OldSA.ER_RelLink_2.ZKey
+
+         nRC = SetCursorNewRelType( OldERD, NewERD )
+         IF nRC >= 0
+            CreateMetaEntity( vSubtask, NewSA, "SA_RelType", zPOS_AFTER )
+            SetMatchingAttributesByName ( NewSA, "SA_RelType", OldSA,
+                                           "SA_RelType", zSET_NULL )
+            INCLUDE NewSA.ER_RelType FROM NewERD.ER_RelType
+         END
+      END
+
+   END
+
+   INCLUDE NewSA.EntpER_Model FROM NewERD.EntpER_Model
+
+   FOR EACH OldSA.OwnedER_Entity
+
+      SET CURSOR FIRST OldERD.ER_Entity WHERE
+          OldERD.ER_Entity.ZKey = OldSA.OwnedER_Entity.ZKey
+
+      IF RESULT >= zCURSOR_SET
+         SET CURSOR FIRST NewERD.ER_Entity WHERE
+             NewERD.ER_Entity.Name = OldERD.ER_Entity.Name
+         INCLUDE NewSA.OwnedER_Entity FROM NewERD.ER_Entity
+      END
+
+   END
+
+   FOR EACH OldSA.OwnedER_RelType
+
+      SET CURSOR FIRST OldERD.ER_RelType WHERE
+          OldERD.ER_RelType.ZKey = OldSA.OwnedER_RelType.ZKey
+
+      IF RESULT >= zCURSOR_SET
+
+         nRC = SetCursorNewRelType( OldERD, NewERD )
+         IF nRC = 0
+            INCLUDE NewSA.OwnedER_RelType FROM NewERD.ER_RelType
+         END
+
+      END
+
+   END
+   RETURN 0
+
+END
+
+// The SetCursorNewRelType operation is duplicated as a LOCAL operation in the TE object
+// for TE_Migrate.
+LOCAL OPERATION
+SetCursorNewRelType( VIEW OldERD BASED ON LOD TZEREMDO,
+                     VIEW NewERD BASED ON LOD TZEREMDO )
+
+   VIEW NewERD2 BASED ON LOD TZEREMDO
+   VIEW OldERD2 BASED ON LOD TZEREMDO
+
+   INTEGER FoundFlag
+
+   // Locate the ER_RelType in the NewERD, based on the corresponding ER_RelType
+   // in the OldERD.  This is kind of convoluted, since the match has to
+   // consider both sides of the RelLink under the RelType.
+   // A return code of -1 is returned if the ER_RelType was not located.
+   // This is a valid condition when doing an SA_merge.
+
+   FoundFlag = 0
+   SET CURSOR FIRST NewERD.ER_Entity_2 WITHIN NewERD.EntpER_Model WHERE
+       NewERD.ER_Entity_2.Name  = OldERD.ER_Entity_2.Name AND
+       NewERD.ER_RelLink_2.Name = OldERD.ER_RelLink_2.Name
+   LOOP WHILE FoundFlag = 0
+      IF RESULT >= zCURSOR_SET
+         // Now make sure the entity on the other side of the RelLink is correct.
+         // If not, continue searching.
+         CreateViewFromViewForTask( OldERD2, OldERD, 0 )
+         CreateViewFromViewForTask( NewERD2, NewERD, 0 )
+         SET CURSOR NEXT OldERD2.ER_RelLink_2
+         SET CURSOR NEXT NewERD2.ER_RelLink_2
+         IF RESULT < zCURSOR_SET
+            SET CURSOR PREVIOUS OldERD2.ER_RelLink_2
+            SET CURSOR PREVIOUS NewERD2.ER_RelLink_2
+         END
+         IF NewERD2.ER_Entity_2.Name  = OldERD2.ER_Entity_2.Name AND
+            NewERD2.ER_RelLink_2.Name = OldERD2.ER_RelLink_2.Name
+            FoundFlag = 1
+         ELSE
+            SET CURSOR NEXT NewERD.ER_Entity_2 WITHIN NewERD.EntpER_Model WHERE
+                NewERD.ER_Entity_2.Name  = OldERD.ER_Entity_2.Name AND
+                NewERD.ER_RelLink_2.Name = OldERD.ER_RelLink_2.Name
+         END
+         DropView( OldERD2 )
+         DropView( NewERD2 )
+      ELSE
+         RETURN -1
+      END
+   END
+
+   RETURN 0
+
+END
+
+
+
+TRANSFORMATION OPERATION
+SA_RelinkDelete( VIEW vSA BASED ON LOD TZERSASO, VIEW vSubtask )
+
+   VIEW    vERD   BASED ON LOD TZEREMDO
+   VIEW    vLPLR  BASED ON LOD TZCMLPLO
+
+   INTEGER DeleteFlag
+//   STRING (64) MG_ErrorMessage
+
+   DeleteFlag = 0
+   RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_ERD_META )
+   ActivateMetaOI( vSubtask, vERD, vLPLR, zREFER_ERD_META, 0 )
+   DropMetaOI( vSubtask, vLPLR )
+
+   FOR EACH vSA.SA_Entity
+      SET CURSOR FIRST vERD.ER_Entity WHERE
+          vERD.ER_Entity.ZKey = vSA.ER_Entity.ZKey
+      IF RESULT >= zCURSOR_SET
+         // Relink ER_Entity.  Will this create a problem for ER_RelLink entries?
+         // Do we need to relink ER_RelLink entries & ER_RelLink_Other entries?
+         // Or will this be taken care of under SA_RelType processing below?
+         FOR EACH vSA.ER_RelLink
+            SET CURSOR FIRST vERD.ER_RelType WHERE
+                vERD.ER_RelType.ZKey = vSA.ER_RelType_1.ZKey
+            IF RESULT >= zCURSOR_SET
+               // ??
+            ELSE
+//               MG_ErrorMessage = "Excluding SA RelLink: " + vSA.ER_RelLink.Name
+//               MessageSend( vSubtask, "ER00405", "E/R Model Maintainance",
+//                            MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               EXCLUDE vSA.ER_RelLink NONE
+
+            END
+         END
+      ELSE
+//         MG_ErrorMessage = "Deleting SA Entity: " + vSA.ER_Entity.Name
+//         MessageSend( vSubtask, "ER00406", "E/R Model Maintainance",
+//                      MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         DELETE ENTITY vSA.SA_Entity NONE
+      END
+   END
+
+   FOR EACH vSA.SA_RelType
+      SET CURSOR FIRST vERD.ER_RelType WHERE
+          vERD.ER_RelType.ZKey = vSA.ER_RelType.ZKey
+      IF RESULT >= zCURSOR_SET
+         // Relink ER_RelType
+      ELSE
+//         MG_ErrorMessage = "Deleting SA RelType for: " + vSA.ER_RelLink_2.Name
+//         MessageSend( vSubtask, "ER00407", "E/R Model Maintainance",
+//                      MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         DELETE ENTITY vSA.SA_RelType NONE
+      END
+   END
+
+   FOR EACH vSA.OwnedER_Entity
+      SET CURSOR FIRST vERD.ER_Entity WHERE
+          vERD.ER_Entity.ZKey = vSA.OwnedER_Entity.ZKey
+      IF RESULT >= zCURSOR_SET
+         // Relink OwnedER_Entity
+      ELSE
+//         MG_ErrorMessage = "Excluding SA Owned Entity: " + vSA.OwnedER_Entity.Name
+//         MessageSend( vSubtask, "ER00408", "E/R Model Maintainance",
+//                      MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         EXCLUDE vSA.OwnedER_Entity NONE
+      END
+   END
+
+   FOR EACH vSA.OwnedER_RelType
+      SET CURSOR FIRST vERD.ER_RelType WHERE
+          vERD.ER_RelType.ZKey = vSA.OwnedER_RelType.ZKey
+      IF RESULT >= zCURSOR_SET
+         // Relink OwnedER_RelType
+      ELSE
+//         MG_ErrorMessage = "Excluding SA Owned RelType"
+//         MessageSend( vSubtask, "ER00409", "E/R Model Maintainance",
+//                      MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         EXCLUDE vSA.OwnedER_RelType NONE
+      END
+   END
+
+   DropMetaOI( vSubtask, vERD )
+
+END

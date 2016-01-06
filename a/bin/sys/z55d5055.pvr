@@ -1,0 +1,20 @@
+rZeidon    Z55D5055 TZWDVORO 11/02/95   20:53:13 1.0a     
+eViewObjRef 1,192
+aZKey      90001493
+aName      TZADCSDO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1326102
+aName      TZADCSDO
+aDesc      User information specification
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZADCSDO
+aZKey      90001493
+aType      9
+aLastUpdateDate 19950916085126000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

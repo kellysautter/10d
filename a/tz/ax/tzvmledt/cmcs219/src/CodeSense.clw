@@ -1,0 +1,201 @@
+; CLW file contains information for the MFC ClassWizard
+
+[General Info]
+Version=1
+LastClass=
+LastTemplate=CDialog
+NewFileInclude1=#include "stdafx.h"
+NewFileInclude2=#include "codesense.h"
+LastPage=0
+
+ClassCount=0
+
+ResourceCount=12
+Resource1=IDD_RECORD_MACRO (English (U.S.))
+Resource2=IDD_REPLACE (English (U.S.))
+Resource3=IDD_FIND (English (U.S.))
+Resource4=IDD_SAVE_MACRO (English (U.S.))
+Resource5=IDD_PROPPAGE_MISC (English (U.S.))
+Resource6=IDD_PROPPAGE_TABS (English (U.S.))
+Resource7=IDD_REPEAT_COUNT (English (U.S.))
+Resource8=IDD_PROPPAGE_COLORFONT (English (U.S.))
+Resource9=IDD_PROPPAGE_KEYBOARD (English (U.S.))
+Resource10=IDD_ABOUT (English (U.S.))
+Resource11=IDD_GOTO_LINE (English (U.S.))
+Resource12=IDD_ABORTPRINT (English (U.S.))
+
+[DLG:IDD_GOTO_LINE (English (U.S.))]
+Type=1
+Class=?
+ControlCount=4
+Control1=65535,static,1342308352
+Control2=IDC_LINENO,edit,1350631552
+Control3=IDOK,button,1342251009
+Control4=IDCANCEL,button,1342242816
+
+[DLG:IDD_RECORD_MACRO (English (U.S.))]
+Type=1
+Class=?
+ControlCount=2
+Control1=IDOK,button,1342185601
+Control2=IDOK2,button,1342242817
+
+[DLG:IDD_SAVE_MACRO (English (U.S.))]
+Type=1
+Class=?
+ControlCount=7
+Control1=65535,button,1342177287
+Control2=IDC_HOTKEY,CMHotKey,1342242816
+Control3=IDC_HOTKEY_ASSIGNMENT,static,1342308352
+Control4=65535,static,1342308352
+Control5=IDC_MACROS,combobox,1344339971
+Control6=IDOK,button,1342242817
+Control7=IDCANCEL,button,1342242816
+
+[DLG:IDD_FIND (English (U.S.))]
+Type=1
+Class=?
+ControlCount=11
+Control1=65535,static,1342308352
+Control2=IDC_FIND_TEXT,combobox,1344471106
+Control3=IDC_WHOLE_WORD,button,1342373891
+Control4=IDC_MATCH_CASE,button,1342242819
+Control5=IDC_REG_EXP,button,1342242819
+Control6=65535,button,1342308359
+Control7=IDC_UP,button,1342373897
+Control8=IDC_DOWN,button,1342177289
+Control9=IDOK,button,1342373889
+Control10=IDC_MARK_ALL,button,1342242816
+Control11=IDCANCEL,button,1342242816
+
+[DLG:IDD_REPLACE (English (U.S.))]
+Type=1
+Class=?
+ControlCount=15
+Control1=65535,static,1342308352
+Control2=IDC_FIND_TEXT,combobox,1344471106
+Control3=65535,static,1342308352
+Control4=IDC_REPLACE_TEXT,combobox,1344471106
+Control5=IDC_WHOLE_WORD,button,1342373891
+Control6=IDC_MATCH_CASE,button,1342242819
+Control7=IDC_REG_EXP,button,1342242819
+Control8=IDC_PRESERVE_CASE,button,1342242819
+Control9=65535,button,1342308359
+Control10=IDC_SELECTION,button,1342373897
+Control11=IDC_BUFFER,button,1342177289
+Control12=IDOK,button,1342373889
+Control13=IDC_REPLACE,button,1342242816
+Control14=IDC_REPLACE_ALL,button,1342242816
+Control15=IDCANCEL,button,1342242816
+
+[DLG:IDD_REPEAT_COUNT (English (U.S.))]
+Type=1
+Class=?
+ControlCount=5
+Control1=65535,button,1342177287
+Control2=IDC_REPEAT_COUNT,edit,1350639744
+Control3=65535,static,1342308352
+Control4=IDOK,button,1342242817
+Control5=IDCANCEL,button,1342242816
+
+[DLG:IDD_PROPPAGE_TABS (English (U.S.))]
+Type=1
+Class=?
+ControlCount=11
+Control1=65535,button,1342308359
+Control2=IDC_OFF,button,1342373897
+Control3=IDC_SCOPE,button,1342177289
+Control4=IDC_COPY_PREV,button,1342177289
+Control5=65535,button,1342308359
+Control6=65535,static,1342308352
+Control7=IDC_TAB_SIZE,edit,1350639744
+Control8=IDC_EXPAND_TABS,button,1342242819
+Control9=65535,static,1342308352
+Control10=IDC_LANGUAGE,combobox,1344339971
+Control11=IDC_NORM_CASE,button,1342242819
+
+[DLG:IDD_PROPPAGE_KEYBOARD (English (U.S.))]
+Type=1
+Class=?
+ControlCount=12
+Control1=65535,static,1342308352
+Control2=IDC_COMMANDS,listbox,1352728835
+Control3=65535,static,1342308352
+Control4=IDC_HOTKEYS,listbox,1352728835
+Control5=IDC_ASSIGN,button,1342373888
+Control6=IDC_REMOVE,button,1342242816
+Control7=IDC_RESET,button,1342242816
+Control8=65535,static,1342308352
+Control9=IDC_HOTKEY,CMHotKey,1342246912
+Control10=IDC_ASSIGNED_TO,static,1342312576
+Control11=65535,static,1342308352
+Control12=IDC_DESCRIPTION,static,1342312576
+
+[DLG:IDD_PROPPAGE_COLORFONT (English (U.S.))]
+Type=1
+Class=?
+ControlCount=12
+Control1=65535,button,1342177287
+Control2=65535,static,1342308352
+Control3=IDC_COLOR_ITEM,listbox,1352728833
+Control4=65535,static,1342308352
+Control5=IDC_FORE_COMBO,combobox,1344339987
+Control6=IDC_BACK_LABEL,static,1342308352
+Control7=IDC_BACK_COMBO,combobox,1344339987
+Control8=IDC_FONT_STYLE_LABEL,static,1342308352
+Control9=IDC_FONT_STYLE,combobox,1344339971
+Control10=65535,button,1342177287
+Control11=IDC_PREVIEW,static,1342308865
+Control12=IDC_FONT,button,1342242816
+
+[DLG:IDD_PROPPAGE_MISC (English (U.S.))]
+Type=1
+Class=?
+ControlCount=22
+Control1=IDC_SMOOTH_SCROLL,button,1342373891
+Control2=IDC_LEFT_MARGIN,button,1342242819
+Control3=IDC_LINE_TOOLTIP,button,1342242819
+Control4=IDC_DRAG_DROP,button,1342242819
+Control5=IDC_COLUMN_SEL,button,1342242819
+Control6=IDC_SEL_BOUNDS,button,1342242819
+Control7=IDC_COLOR_SYNTAX,button,1342242819
+Control8=IDC_H_SCROLL,button,1342242819
+Control9=IDC_V_SCROLL,button,1342242819
+Control10=IDC_H_SPLIT,button,1342242819
+Control11=IDC_V_SPLIT,button,1342242819
+Control12=IDC_STATIC,static,1342308359
+Control13=IDC_STATIC,button,1342308359
+Control14=IDC_STATIC,static,1342308352
+Control15=IDC_NUMSTYLE,combobox,1344339971
+Control16=IDC_STATIC,static,1342308352
+Control17=IDC_NUMSTART,edit,1350639744
+Control18=IDC_STATIC,button,1342308359
+Control19=IDC_UNLIMITED,button,1342373897
+Control20=IDC_LIMITED,button,1342177289
+Control21=IDC_MAX_UNDO,edit,1350770816
+Control22=IDC_STATIC,static,1342177287
+
+[DLG:IDD_ABOUT (English (U.S.))]
+Type=1
+Class=?
+ControlCount=12
+Control1=IDOK,button,1342242817
+Control2=IDC_STATIC,static,1342177283
+Control3=IDC_ABOUT_TITLE,static,1342308352
+Control4=IDC_STATIC,static,1342308352
+Control5=IDC_ABOUT_URL,static,1342308608
+Control6=IDC_STATIC,static,1342308352
+Control7=IDC_STATIC,static,1342308352
+Control8=IDC_STATIC,button,1342177287
+Control9=IDC_STATIC,static,1342308352
+Control10=IDC_ABOUT_URL2,static,1342308608
+Control11=IDC_STATIC,static,1342308352
+Control12=IDC_STATIC,button,1342177287
+
+[DLG:IDD_ABORTPRINT (English (U.S.))]
+Type=1
+Class=?
+ControlCount=2
+Control1=IDCANCEL,button,1342242816
+Control2=IDC_STATIC,static,1342308352
+

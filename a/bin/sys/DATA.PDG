@@ -1,0 +1,1005 @@
+z1000-Zeidon    DATA     TZDGSRCO 01/22/14   16:16:45 1.0a2    
+eDomainGroup 1
+aZKey      1319805
+aName      DATA
+aExtension C
+aWorkNumeric 3
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1319806
+aName      DataType
+aDesc      Zeidon defined datatypes ( logical & physical )
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1319828
+aName      C-3GL
+
+eTableEntry 4
+aZKey      92484493
+
+eTableEntry 4
+aZKey      1319829
+aExternalValue zPCHAR / char * - Any length
+aInternalValue S
+
+eTableEntry 4
+aZKey      1319830
+aExternalValue zCHAR / char  - Single Char
+aInternalValue Y
+
+eTableEntry 4
+aZKey      1319831
+aExternalValue zLONG / long (-2,147,483,648 to +2,147,483,647)
+aInternalValue L
+
+eTableEntry 4
+aZKey      1319832
+aExternalValue zDECIMAL / Decimal (15 digits)
+aInternalValue M
+
+eTableEntry 4
+aZKey      1319833
+aExternalValue zSHORT / short int (-32,768 to +32,767)
+aInternalValue N
+
+eContext   3
+aZKey      1319807
+aName      DataType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484494
+
+eTableEntry 4
+aZKey      1319808
+aExternalValue String - Any length
+aInternalValue S
+
+eTableEntry 4
+aZKey      1319809
+aExternalValue Byte - Single Char
+aInternalValue Y
+
+eTableEntry 4
+aZKey      1319810
+aExternalValue Number (±2 billion)
+aInternalValue L
+
+eTableEntry 4
+aZKey      1319811
+aExternalValue Decimal ( 15 digits )
+aInternalValue M
+
+eTableEntry 4
+aZKey      1319812
+aExternalValue Short Number (-32,768 to +32,767)
+aInternalValue N
+
+eTableEntry 4
+aZKey      1319813
+aExternalValue Short Scientific (3.4x10^±38) (7 digit prec.)
+aInternalValue F
+
+eTableEntry 4
+aZKey      1319814
+aExternalValue Std. Scientific (1.7x10^±308) (15 digit prec.)
+aInternalValue R
+
+eTableEntry 4
+aZKey      1319815
+aExternalValue Timestamp
+aInternalValue T
+
+eTableEntry 4
+aZKey      1319816
+aExternalValue Date
+aInternalValue D
+
+eTableEntry 4
+aZKey      1319817
+aExternalValue Time
+aInternalValue I
+
+eTableEntry 4
+aZKey      1319818
+aExternalValue BLOb - Binary Large Object
+aInternalValue B
+
+eTableEntry 4
+aZKey      1319819
+aExternalValue View
+aInternalValue V
+
+eTableEntry 4
+aZKey      1319820
+aExternalValue Entity Name
+aInternalValue E
+
+eTableEntry 4
+aZKey      1319821
+aExternalValue Attribute Name
+aInternalValue A
+
+eContext   3
+aZKey      1319822
+aName      Domain
+
+eTableEntry 4
+aZKey      92484495
+
+eTableEntry 4
+aZKey      1319823
+aExternalValue String - Any length
+aInternalValue S
+
+eTableEntry 4
+aZKey      1319824
+aExternalValue Number (±2 billion)
+aInternalValue L
+
+eTableEntry 4
+aZKey      1319825
+aExternalValue Decimal (15 digits)
+aInternalValue M
+
+eTableEntry 4
+aZKey      1319826
+aExternalValue Date & Time
+aInternalValue T
+
+eTableEntry 4
+aZKey      90024739
+aExternalValue Date
+aInternalValue D
+
+eTableEntry 4
+aZKey      90025042
+aExternalValue Time
+aInternalValue I
+
+eTableEntry 4
+aZKey      1319827
+aExternalValue BLOb - Binary Large Object
+aInternalValue B
+
+eContext   3
+aZKey      1319834
+aDesc      VML supported types
+aName      VML
+
+eTableEntry 4
+aZKey      92484496
+
+eTableEntry 4
+aZKey      1319836
+aExternalValue String - Any length
+aInternalValue S
+
+eTableEntry 4
+aZKey      1319837
+aExternalValue Number (±2 billion)
+aInternalValue L
+
+eTableEntry 4
+aZKey      1319838
+aExternalValue Short Number (±32,000)
+aInternalValue N
+
+eTableEntry 4
+aZKey      1319839
+aExternalValue Decimal (15 digits)
+aInternalValue M
+
+eTableEntry 4
+aZKey      1319840
+aExternalValue View
+aInternalValue V
+
+eTableEntry 4
+aZKey      1319841
+aExternalValue Entity Name
+aInternalValue E
+
+eTableEntry 4
+aZKey      1319842
+aExternalValue Attribute Name
+aInternalValue A
+
+eTableEntry 4
+aZKey      1319843
+aExternalValue Byte - Single Char
+aInternalValue Y
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      92726977
+aName      OperationGenerationType
+aDesc      If the operation is to be generated in C only or Java only.
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      92726978
+aName      OperationGenerationType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92726979
+aExternalValue C Generation Only
+aInternalValue C
+
+eTableEntry 4
+aZKey      92726980
+aExternalValue Java Generation Only
+aInternalValue J
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      90441895
+aName      LockingOptions
+aDesc      LOD and Entity Locks
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      90441896
+aName      LockingOptions
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484526
+
+eTableEntry 4
+aZKey      90441897
+aExternalValue Optimistic Partial Compare
+aInternalValue 1
+
+eTableEntry 4
+aZKey      90441898
+aExternalValue Optimistic Full Compare
+aInternalValue 2
+
+eTableEntry 4
+aZKey      90441899
+aExternalValue Pessimistic Non-Exclusive
+aInternalValue 4
+
+eTableEntry 4
+aZKey      90441900
+aExternalValue Pessimistic Exclusive
+aInternalValue 5
+
+eContext   3
+aZKey      90441902
+aName      LockingOptionsOnEntity
+
+eTableEntry 4
+aZKey      92484527
+
+eTableEntry 4
+aZKey      90441941
+aExternalValue Pessimistic Read-Only
+aInternalValue 3
+
+eTableEntry 4
+aZKey      90441903
+aExternalValue Pessimistic Non-Exclusive
+aInternalValue 4
+
+eTableEntry 4
+aZKey      90441904
+aExternalValue Pessimistic Exclusive
+aInternalValue 5
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      70061913
+aName      ReportPositioningType
+aDesc      Type of positioning (vertical or horizontal) for an entity on a report
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      70061914
+aName      ReportPositioningType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      70061915
+aExternalValue Horizontal
+aInternalValue H
+
+eTableEntry 4
+aZKey      70061916
+aExternalValue Vertical
+aInternalValue V
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      90026793
+aName      LanguageType
+aDesc      Source language type  - VML or C
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      90026794
+aName      LanguageType
+aIsDefault Y
+aDIL_Text  LanguageType and Extension for SourceFiles
+
+eTableEntry 4
+aZKey      110001393
+
+eTableEntry 4
+aZKey      90026795
+aExternalValue C
+aInternalValue C
+
+eTableEntry 4
+aZKey      90026796
+aExternalValue VML
+aInternalValue V
+
+eTableEntry 4
+aZKey      110001385
+aExternalValue Java
+aInternalValue J
+
+eTableEntry 4
+aZKey      110001392
+aExternalValue Scala
+aInternalValue S
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320608
+aName      ZeidonOperationTypes
+aDesc      types of operations that can be defined for Zeidon (VML)
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320632
+aName      Dialog Operation Types
+
+eTableEntry 4
+aZKey      92484584
+
+eTableEntry 4
+aZKey      1320633
+aExternalValue Dialog Operation
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320634
+aExternalValue Local Operation
+aInternalValue L
+
+eTableEntry 4
+aZKey      1320635
+aExternalValue ShortcutKey Operation
+aInternalValue K
+
+eContext   3
+aZKey      1320648
+aName      Domain Operation Types
+
+eTableEntry 4
+aZKey      92484585
+
+eTableEntry 4
+aZKey      1320649
+aExternalValue Domain Operation
+aInternalValue M
+
+eTableEntry 4
+aZKey      1320650
+aExternalValue Local Operation
+aInternalValue L
+
+eContext   3
+aZKey      1320643
+aName      Global Operation Types
+
+eTableEntry 4
+aZKey      92484586
+
+eTableEntry 4
+aZKey      1320645
+aExternalValue Global Operation
+aInternalValue G
+
+eTableEntry 4
+aZKey      1320646
+aExternalValue ShortcutKey Operation
+aInternalValue K
+
+eTableEntry 4
+aZKey      1320647
+aExternalValue Local Operation
+aInternalValue L
+
+eContext   3
+aZKey      1320636
+aName      Object Operation Types
+
+eTableEntry 4
+aZKey      92484587
+
+eTableEntry 4
+aZKey      1320638
+aExternalValue Object Constraint Operation
+aInternalValue C
+
+eTableEntry 4
+aZKey      1320639
+aExternalValue Entity Constraint Operation
+aInternalValue E
+
+eTableEntry 4
+aZKey      1320640
+aExternalValue Transformation Operation
+aInternalValue T
+
+eTableEntry 4
+aZKey      1320641
+aExternalValue Derived Attribute Operation
+aInternalValue A
+
+eTableEntry 4
+aZKey      1320642
+aExternalValue Local Operation
+aInternalValue L
+
+eContext   3
+aZKey      1320621
+aDesc      Short form of Zeidon Operations
+aName      OperationTypesShort
+
+eTableEntry 4
+aZKey      92484588
+
+eTableEntry 4
+aZKey      1320623
+aExternalValue Dialog
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320624
+aExternalValue Trans
+aInternalValue T
+
+eTableEntry 4
+aZKey      1320625
+aExternalValue Global
+aInternalValue G
+
+eTableEntry 4
+aZKey      1320626
+aExternalValue Local
+aInternalValue L
+
+eTableEntry 4
+aZKey      1320627
+aExternalValue Object
+aInternalValue O
+
+eTableEntry 4
+aZKey      1320628
+aExternalValue ObjConstr
+aInternalValue C
+
+eTableEntry 4
+aZKey      1320629
+aExternalValue EntConstr
+aInternalValue E
+
+eTableEntry 4
+aZKey      1320630
+aExternalValue Derived
+aInternalValue A
+
+eTableEntry 4
+aZKey      1320631
+aExternalValue Domain
+aInternalValue M
+
+eContext   3
+aZKey      1320609
+aName      ZeidonOperationTypes
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484589
+
+eTableEntry 4
+aZKey      1320610
+aExternalValue Global Operation
+aInternalValue G
+
+eTableEntry 4
+aZKey      1320611
+aExternalValue Zeidon Operation
+aInternalValue Z
+
+eTableEntry 4
+aZKey      1320612
+aExternalValue Dialog Operation
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320613
+aExternalValue Local Operation
+aInternalValue L
+
+eTableEntry 4
+aZKey      1320614
+aExternalValue Object Operation
+aInternalValue O
+
+eTableEntry 4
+aZKey      1320615
+aExternalValue Transformation Operation
+aInternalValue T
+
+eTableEntry 4
+aZKey      1320616
+aExternalValue Object Constraint Operation
+aInternalValue C
+
+eTableEntry 4
+aZKey      1320617
+aExternalValue Entity Constraint Operation
+aInternalValue E
+
+eTableEntry 4
+aZKey      1320618
+aExternalValue Derived Attribute Operation
+aInternalValue A
+
+eTableEntry 4
+aZKey      1320619
+aExternalValue Domain Operation
+aInternalValue M
+
+eTableEntry 4
+aZKey      1320620
+aExternalValue ShortcutKey Operation
+aInternalValue K
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320158
+aName      Operators
+aDesc      List of operators (<, >, =, <=, >=)
+aDomainType T
+aDataType  S
+aMaxStringLth 2
+aContextRestriction N
+
+eContext   3
+aZKey      1320159
+aName      Operators
+aIsDefault Y
+aDIL_Text  List of operators (<, >, =, <=, >=)
+
+eTableEntry 4
+aZKey      1320160
+aExternalValue <
+aInternalValue <
+
+eTableEntry 4
+aZKey      1320161
+aExternalValue >
+aInternalValue >
+
+eTableEntry 4
+aZKey      1320162
+aExternalValue =
+aInternalValue =
+
+eTableEntry 4
+aZKey      1320163
+aExternalValue <=
+aInternalValue <=
+
+eTableEntry 4
+aZKey      1320164
+aExternalValue >=
+aInternalValue >=
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1320095
+aName      DM_DomainType
+aDesc      Type of Zeidon Domain
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320102
+aName      Display
+
+eTableEntry 4
+aZKey      92484512
+
+eTableEntry 4
+aZKey      1320104
+aExternalValue Table
+aInternalValue T
+
+eTableEntry 4
+aZKey      1320105
+aExternalValue Expression
+aInternalValue E
+
+eTableEntry 4
+aZKey      1320106
+aExternalValue Algorithm
+aInternalValue A
+
+eTableEntry 4
+aZKey      1320107
+aExternalValue Format
+aInternalValue F
+
+eContext   3
+aZKey      1320096
+aName      DM_DomainType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484513
+
+eTableEntry 4
+aZKey      1320098
+aExternalValue A
+aInternalValue A
+
+eTableEntry 4
+aZKey      1320099
+aExternalValue T
+aInternalValue T
+
+eTableEntry 4
+aZKey      1320100
+aExternalValue E
+aInternalValue E
+
+eTableEntry 4
+aZKey      1320101
+aExternalValue F
+aInternalValue F
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1319867
+aName      DataTypeDomain
+aDesc      Zeidon domain datatypes (logical) supported by Core
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1319868
+aName      DataTypeDomain
+aIsDefault Y
+aDIL_Text  Zeidon domain datatypes (logical)
+
+eTableEntry 4
+aZKey      92484501
+
+eTableEntry 4
+aZKey      1319870
+aExternalValue String - Any length
+aInternalValue S
+
+eTableEntry 4
+aZKey      1319871
+aExternalValue Number (±2 billion)
+aInternalValue L
+
+eTableEntry 4
+aZKey      1319872
+aExternalValue Decimal (15 digits)
+aInternalValue M
+
+eTableEntry 4
+aZKey      90024741
+aExternalValue Date
+aInternalValue D
+
+eTableEntry 4
+aZKey      1319873
+aExternalValue Date & Time
+aInternalValue T
+
+eTableEntry 4
+aZKey      90025043
+aExternalValue Time
+aInternalValue I
+
+eTableEntry 4
+aZKey      1319874
+aExternalValue BLOb - Binary Large Object
+aInternalValue B
+
+eContext   3
+aZKey      1319875
+aName      Display
+aDIL_Text  Zeidon domain datatypes (logical)
+
+eTableEntry 4
+aZKey      92484502
+
+eTableEntry 4
+aZKey      1319876
+aExternalValue String - Any length
+aInternalValue S
+
+eTableEntry 4
+aZKey      1319877
+aExternalValue Number (±2,147,483,647)
+aInternalValue L
+
+eTableEntry 4
+aZKey      1319878
+aExternalValue Decimal (15 digits)
+aInternalValue M
+
+eTableEntry 4
+aZKey      90024742
+aExternalValue Date
+aInternalValue D
+
+eTableEntry 4
+aZKey      1319879
+aExternalValue Date & Time
+aInternalValue T
+
+eTableEntry 4
+aZKey      90025044
+aExternalValue Time
+aInternalValue I
+
+eTableEntry 4
+aZKey      1319880
+aExternalValue BLOb - Binary Large Object
+aInternalValue B
+
+eContext   3
+aZKey      90182731
+aDesc      Short version of descriptions for display.
+aName      DisplayShort
+
+eTableEntry 4
+aZKey      92484503
+
+eTableEntry 4
+aZKey      90182732
+aExternalValue String
+aInternalValue S
+
+eTableEntry 4
+aZKey      90182734
+aExternalValue Number
+aInternalValue L
+
+eTableEntry 4
+aZKey      90182737
+aExternalValue Decimal
+aInternalValue M
+
+eTableEntry 4
+aZKey      90024743
+aExternalValue Date
+aInternalValue D
+
+eTableEntry 4
+aZKey      90182738
+aExternalValue Date/Time
+aInternalValue T
+
+eTableEntry 4
+aZKey      90025045
+aExternalValue Time
+aInternalValue I
+
+eTableEntry 4
+aZKey      90182739
+aExternalValue Blob
+aInternalValue B
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      1319844
+aName      DataType3GL
+aDesc      VML Supported Types...
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1319845
+aName      DataType3GL
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92484497
+
+eTableEntry 4
+aZKey      1319846
+aExternalValue String - Any length
+aInternalValue S
+
+eTableEntry 4
+aZKey      1319848
+aExternalValue Number (±2 billion)
+aInternalValue L
+
+eTableEntry 4
+aZKey      1319849
+aExternalValue Decimal (18 digits)
+aInternalValue M
+
+eTableEntry 4
+aZKey      1319850
+aExternalValue Short Number (±32,000)
+aInternalValue N
+
+eTableEntry 4
+aZKey      1319851
+aExternalValue View
+aInternalValue V
+
+eTableEntry 4
+aZKey      1319852
+aExternalValue Entity Name
+aInternalValue E
+
+eTableEntry 4
+aZKey      1319853
+aExternalValue Attribute Name
+aInternalValue A
+
+eTableEntry 4
+aZKey      1319854
+aExternalValue Void
+aInternalValue O
+
+eTableEntry 4
+aZKey      90019974
+aExternalValue Domain Info Struct
+aInternalValue I
+
+eContext   3
+aZKey      1319855
+aName      Display
+
+eTableEntry 4
+aZKey      92484498
+
+eTableEntry 4
+aZKey      1319857
+aExternalValue String - Any length
+aInternalValue S
+
+eTableEntry 4
+aZKey      1319858
+aExternalValue Number (±2 billion)
+aInternalValue L
+
+eTableEntry 4
+aZKey      1319859
+aExternalValue Short Number (±32,000)
+aInternalValue N
+
+eTableEntry 4
+aZKey      1319860
+aExternalValue Decimal (18 digits)
+aInternalValue M
+
+eTableEntry 4
+aZKey      1319861
+aExternalValue View
+aInternalValue V
+
+eTableEntry 4
+aZKey      1319862
+aExternalValue Entity Name
+aInternalValue E
+
+eTableEntry 4
+aZKey      1319863
+aExternalValue Attribute Name
+aInternalValue A
+
+eTableEntry 4
+aZKey      1319865
+aExternalValue Void
+aInternalValue O
+
+eContext   3
+aZKey      89095614
+aName      NonGlobalParameter
+
+eTableEntry 4
+aZKey      92484499
+
+eTableEntry 4
+aZKey      89095615
+aExternalValue String - Any length
+aInternalValue S
+
+eTableEntry 4
+aZKey      89095616
+aExternalValue Number (±2 billion)
+aInternalValue L
+
+eTableEntry 4
+aZKey      89101021
+aExternalValue Short Number (±32,000)
+aInternalValue N
+
+eTableEntry 4
+aZKey      89095617
+aExternalValue Decimal (18 digits)
+aInternalValue M
+
+eTableEntry 4
+aZKey      89095618
+aExternalValue View
+aInternalValue V
+
+eContext   3
+aZKey      1319866
+aName      OtherLangFuture
+
+eContext   3
+aZKey      89095607
+aName      ReturnCode
+
+eTableEntry 4
+aZKey      92484500
+
+eTableEntry 4
+aZKey      89095608
+aExternalValue Short Number (±32,000)
+aInternalValue N
+
+eTableEntry 4
+aZKey      89095609
+aExternalValue Number (±2 billion)
+aInternalValue L
+
+eTableEntry 4
+aZKey      89095610
+aExternalValue Decimal (18 digits)
+aInternalValue M
+
+eZ_MetaDef 2
+aName      DATA
+aZKey      1319805
+aType      13
+aLastUpdateDate 19950908085208000
+aLastCheckInDate 19951102203051110
+

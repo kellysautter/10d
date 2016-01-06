@@ -1,0 +1,15 @@
+#include "windows.h"
+#include "kzoengwa.h"
+
+#define ID_SYSTRAY_MNU                  323
+
+ZEIDON_MONITOR ICON KZSCHEDT.ICO
+
+ID_SYSTRAY_MNU  MENU
+
+BEGIN
+  POPUP   "&File"
+  BEGIN
+    MENUITEM "E&xit \tF3",                        114
+  END
+END

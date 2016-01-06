@@ -1,0 +1,552 @@
+z10000Zeidon    DOMRPT   TZRPSRCO 05/01/01   23:37:54 1.0b0    
+eReport    1
+aZKey      90013299
+aTag       DOMRPT
+aDesc      Domain Report
+aReportTextSize 100
+aSuppressEmptyTextFields Y
+aUnit      1
+
+ePage      2
+aZKey      90019705
+aTag       DOMRPT
+aSizeX     2176
+aSizeY     2816
+
+eGroupSet  3
+aZKey      90019706
+aTag       PageHeader
+aType      PH
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   2176
+aSZDLG_Y   336
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      90019707
+aTag       PageHeader
+aType      ga
+aSubType   0
+aPSDLG_X   0
+aPSDLG_Y   64
+aSZDLG_X   2176
+aSZDLG_Y   160
+aSyncKey   9999
+aPPE_Type  3010
+
+eControl   5
+aTag       PageHeaderText
+aText      Domain "Where Used" Report
+aZKey      90019708
+aPSDLG_X   80
+aPSDLG_Y   80
+aSZDLG_X   832
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`0```%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+aZKey      3020
+aKey       3020
+aTag       Rpt_Text
+aId        1
+aRT_DLL_Name n/a
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTextMsg
+aPainterBitmap TEXT
+aMaintenanceDialog TZRPUPZD
+aMaintenanceWindow UPD_TEXT
+aRequiresParent Y
+aInvisible -2
+
+eGroupSet  3
+aZKey      90019709
+aTag       PageFooter
+aType      PF
+aPSDLG_X   0
+aPSDLG_Y   1194
+aSZDLG_X   2176
+aSZDLG_Y   336
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      90019710
+aTag       PageFooter
+aType      ga
+aSubType   0
+aPSDLG_X   0
+aPSDLG_Y   64
+aSZDLG_X   2176
+aSZDLG_Y   160
+aSyncKey   9999
+aPPE_Type  3010
+
+eControl   5
+aTag       PageNumber
+aZKey      90019711
+aPSDLG_X   1920
+aPSDLG_Y   80
+aSZDLG_X   160
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eGroupSet  3
+aZKey      90019712
+aTag       Domain
+aType      E
+aPSDLG_X   0
+aPSDLG_Y   362
+aSZDLG_X   2176
+aSZDLG_Y   438
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      90019713
+aTag       GroupHeader
+aType      gh
+aPSDLG_X   0
+aPSDLG_Y   64
+aSZDLG_X   2176
+aSZDLG_Y   64
+aSyncKey   9999
+aPPE_Type  3010
+aForceHeaderPerEntity Y
+
+eControl   5
+aTag       TextRpt1
+aText      Domain
+aZKey      90019714
+aType      10
+aPSDLG_X   80
+aPSDLG_Y   16
+aSZDLG_X   192
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`0```%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eGroup     4
+aZKey      90019715
+aTag       Detail
+aType      ga
+aPSDLG_X   0
+aPSDLG_Y   144
+aSZDLG_X   2176
+aSZDLG_Y   192
+aSyncKey   9999
+aPPE_Type  3010
+
+eControl   5
+aTag       T_1_Name
+aText      Domain Name
+aZKey      90019716
+aType      10
+aPSDLG_X   80
+aPSDLG_Y   16
+aSZDLG_X   352
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_1_Name
+aZKey      90019717
+aType      20
+aPSDLG_X   432
+aPSDLG_Y   16
+aSZDLG_X   640
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      90019718
+
+eCtrlMapLOD_Attribute 7
+aZKey      89159575
+
+eCtrlMapRelatedEntity 8
+aName      Domain
+aIndentName    Domain
+aIndentLvl 3
+aZKey      89159573
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Domain for validation and formatting
+
+eCtrlMapER_Attribute 8
+aName      Name
+aZKey      1320822
+aLth       32
+aNotNull   Y
+aDesc      The name used to reference this domain
+aPromptPaintLit Domain Name
+aListPaintLit Domain Name
+
+eCtrlMapER_Domain 9
+aZKey      90000032
+aName      Text
+aDesc      Any Character String
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eCtrlMapView 7
+aZKey      90055794
+aName      TZBRDMAO
+aDesc      VOR automatically built from LOD Dialog
+
+eControl   5
+aTag       T_2_DomainType
+aText      Domain Type
+aZKey      90019719
+aType      10
+aPSDLG_X   80
+aPSDLG_Y   64
+aSZDLG_X   352
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_2_DomainType
+aZKey      90019720
+aType      20
+aPSDLG_X   432
+aPSDLG_Y   64
+aSZDLG_X   32
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      90019721
+
+eCtrlMapLOD_Attribute 7
+aZKey      89159577
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      DomainType
+aZKey      1320824
+aLth       1
+aNotNull   Y
+aDesc      Type of Domain (Table, Expression, Algorithm)
+aPromptPaintLit Domain Type
+aListPaintLit Domain Type
+
+eCtrlMapER_Domain 9
+aZKey      1320095
+aName      DM_DomainType
+aDesc      Type of Zeidon Domain
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_3_DataType
+aText      Data Type
+aZKey      90019722
+aType      10
+aPSDLG_X   80
+aPSDLG_Y   112
+aSZDLG_X   352
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_3_DataType
+aZKey      90019723
+aType      20
+aPSDLG_X   432
+aPSDLG_Y   112
+aSZDLG_X   32
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      90019724
+
+eCtrlMapLOD_Attribute 7
+aZKey      89159578
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      DataType
+aZKey      1320825
+aLth       1
+aNotNull   Y
+aDesc      Internal data type stored (ie., string, date, decimal, integer)
+aPromptPaintLit Data Type
+aListPaintLit Data Type
+
+eCtrlMapER_Domain 9
+aZKey      1319867
+aName      DataTypeDomain
+aDesc      Zeidon domain datatypes ( logical )  supported by Core
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eCtrlMapView 7
+
+eGroupSet  3
+aZKey      90019725
+aTag       ER_Attribute
+aType      E
+aPSDLG_X   0
+aPSDLG_Y   826
+aSZDLG_X   2176
+aSZDLG_Y   342
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      90019726
+aTag       GroupHeader
+aType      gh
+aPSDLG_X   0
+aPSDLG_Y   64
+aSZDLG_X   2176
+aSZDLG_Y   96
+aSyncKey   9999
+aPPE_Type  3010
+
+eControl   5
+aTag       T_1_Name
+aText      Entity Name
+aZKey      90019727
+aType      10
+aPSDLG_X   128
+aPSDLG_Y   16
+aSZDLG_X   640
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       T_2_Name
+aText      Attribute Name
+aZKey      90019728
+aType      10
+aPSDLG_X   768
+aPSDLG_Y   16
+aSZDLG_X   640
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eGroup     4
+aZKey      90019729
+aTag       Detail
+aType      ga
+aPSDLG_X   0
+aPSDLG_Y   176
+aSZDLG_X   2176
+aSZDLG_Y   64
+aSyncKey   9999
+aPPE_Type  3010
+
+eControl   5
+aTag       A_1_Name
+aZKey      90019730
+aType      20
+aPSDLG_X   128
+aPSDLG_Y   16
+aSZDLG_X   640
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      90019731
+
+eCtrlMapLOD_Attribute 7
+aZKey      89160705
+
+eCtrlMapRelatedEntity 8
+aName      ER_Entity
+aIndentName          ER_Entity
+aIndentLvl 9
+aZKey      89160704
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave R
+aRelLinkIndicator H
+aDesc      ER Entities
+
+eCtrlMapER_Attribute 8
+aName      Name
+aZKey      1320861
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Entity Name
+aListPaintLit Entity Name
+
+eCtrlMapER_Domain 9
+aZKey      90000038
+aName      QSName
+aDesc      QuinSoft Name
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eCtrlMapView 7
+
+eControl   5
+aTag       A_2_Name
+aZKey      90019732
+aType      20
+aPSDLG_X   768
+aPSDLG_Y   16
+aSZDLG_X   640
+aSZDLG_Y   48
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      90019733
+
+eCtrlMapLOD_Attribute 7
+aZKey      89160689
+
+eCtrlMapRelatedEntity 8
+aName      ER_Attribute
+aIndentName       ER_Attribute
+aIndentLvl 6
+aZKey      89160688
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Attributes of an ER Entity
+
+eCtrlMapER_Attribute 8
+aName      Name
+aZKey      1320838
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Attribute Name
+aListPaintLit Attribute Name
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eViewObjRef 2
+aZKey      90055794
+aName      TZBRDMAO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       3
+aZKey      90055770
+aName      TZBRDMAO
+aDesc      Browse view for Attributes within Domain
+
+i9         5
+i13        5
+i16        5
+i18        5
+i26        5
+i28        5
+i31        21
+i34        24
+i36        5
+i38        5
+i41        21
+i44        24
+i48        5
+i50        5
+i53        5
+i59        24
+i61        5
+i66        58
+i67        24

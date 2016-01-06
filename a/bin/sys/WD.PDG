@@ -1,0 +1,1968 @@
+z1000-Zeidon    WD       TZDGSRCO 12/08/15   12:31:54 1.0a2    
+eDomainGroup 1
+aZKey      1320467
+aNextZKeyToAssign 130069816
+aName      WD
+aDesc      Web jsp generation control types 
+aExtension C
+aLanguageType C
+aDomainAndGlobalOpGroupName TZAPDMAA
+aWorkNumeric 48
+
+eDomain    2
+aZKey      1320468
+aName      WD_ActionNoMap
+aDesc      No Map (prevent mapping) options for an Action
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  T
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320469
+aName      WD_ActionNoMap
+aIsDefault Y
+aDIL_Text  No Map (prevent mapping) options for an Action
+
+eTableEntry 4
+aZKey      1320470
+aExternalValue No
+
+eTableEntry 4
+aZKey      1320471
+aExternalValue Yes
+aInternalValue Y
+
+eDomain    2
+aZKey      110002502
+aName      AD_WebWindowStyle
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 50
+aContextRestriction N
+
+eContext   3
+aZKey      110002503
+aName      AD_WebWindowStyle
+aIsDefault Y
+
+eTableEntry 4
+aZKey      110002504
+aExternalValue Accept/Cancel
+aInternalValue AcceptCancel
+
+eDomain    2
+aZKey      130001474
+aName      WD_WebJSPGenerationPositioning
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      130001475
+aName      WD_WebJSPGenerationPositioning
+aIsDefault Y
+
+eTableEntry 4
+aZKey      130001476
+aExternalValue Absolute Positioning
+aInternalValue A
+
+eTableEntry 4
+aZKey      130001477
+aExternalValue Relative Positioning
+aInternalValue R
+
+eTableEntry 4
+aZKey      130001478
+aExternalValue No Positioning
+aInternalValue N
+
+eDomain    2
+aZKey      92715091
+aName      WD_TextAlignHorizontal
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 25
+aContextRestriction N
+
+eContext   3
+aZKey      92715092
+aName      WD_TextAlignHorizontal
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92715989
+
+eTableEntry 4
+aZKey      92715093
+aExternalValue Left
+aInternalValue left
+
+eTableEntry 4
+aZKey      92715094
+aExternalValue Center
+aInternalValue center
+
+eTableEntry 4
+aZKey      92715095
+aExternalValue Right
+aInternalValue right
+
+eTableEntry 4
+aZKey      92715096
+aExternalValue Left Offset
+aInternalValue Left Offset
+
+eTableEntry 4
+aZKey      92715097
+aExternalValue Right Offset
+aInternalValue Right Offset
+
+eDomain    2
+aZKey      92709478
+aName      WD_WebTextControlProperties
+aDesc      Web control types for Text control
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      92709479
+aName      WD_WebTextControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92709482
+aExternalValue Label
+aInternalValue Label
+
+eDomain    2
+aZKey      4899546
+aName      WD_WebScriptLocation
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 16
+aContextRestriction N
+
+eContext   3
+aZKey      4899547
+aName      WD_WebScriptLocation
+aIsDefault Y
+
+eTableEntry 4
+aZKey      4903923
+aExternalValue Pre-Mapping
+aInternalValue Pre-Mapping
+
+eTableEntry 4
+aZKey      4899548
+aExternalValue Pre-Operation
+aInternalValue Pre-Operation
+
+eTableEntry 4
+aZKey      4899549
+aExternalValue Post Operation
+aInternalValue Post Operation
+
+eDomain    2
+aZKey      4591424
+aName      XSL_PageProperties
+aDesc      Table of XSL Page Properties
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      4591425
+aName      XSL_PageProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92656441
+
+eTableEntry 4
+aZKey      4591426
+aExternalValue page-width
+aInternalValue page-width
+
+eTableEntry 4
+aZKey      4591427
+aExternalValue page-height
+aInternalValue page-height
+
+eTableEntry 4
+aZKey      4591431
+aExternalValue margin
+aInternalValue margin
+
+eTableEntry 4
+aZKey      4591428
+aExternalValue margin-top
+aInternalValue margin-top
+
+eTableEntry 4
+aZKey      4591429
+aExternalValue margin-bottom
+aInternalValue margin-bottom
+
+eTableEntry 4
+aZKey      4591430
+aExternalValue margin-left
+aInternalValue margin-left
+
+eTableEntry 4
+aZKey      4591432
+aExternalValue margin-right
+aInternalValue margin-right
+
+eTableEntry 4
+aZKey      4591433
+aExternalValue region-body
+aInternalValue region-body
+
+eTableEntry 4
+aZKey      4591434
+aExternalValue region-before
+aInternalValue region-before
+
+eTableEntry 4
+aZKey      4591435
+aExternalValue region-after
+aInternalValue region-after
+
+eTableEntry 4
+aZKey      4591436
+aExternalValue region-start
+aInternalValue region-start
+
+eTableEntry 4
+aZKey      4591437
+aExternalValue region-end
+aInternalValue region-end
+
+eDomain    2
+aZKey      68567203
+aName      MapTypeTextControl
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      68567204
+aName      MapTypeTextControl
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92657016
+
+eTableEntry 4
+aZKey      68567205
+aExternalValue Displayed Text
+aInternalValue Displayed Text
+
+eTableEntry 4
+aZKey      68567206
+aExternalValue Hyperlink URL
+aInternalValue Hyperlink URL
+
+eDomain    2
+aZKey      68567201
+aName      MapTypeGridColumnControl
+aDesc      Holds any of the MapType values
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      68567202
+aName      MapTypeGridColumnControl
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92656410
+
+eTableEntry 4
+aZKey      68567247
+aExternalValue Variable Header
+aInternalValue Variable Header
+
+eTableEntry 4
+aZKey      68567248
+aExternalValue Hyperlink URL
+aInternalValue Hyperlink URL
+
+eTableEntry 4
+aZKey      68579465
+aExternalValue Displayed Text
+aInternalValue Displayed Text
+
+eDomain    2
+aZKey      1158762
+aName      MapTypeGeneral
+aDesc      Specify the type of mapping
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      68567192
+aName      MapTypeGeneral
+aIsDefault Y
+
+eDomain    2
+aZKey      68544962
+aName      WD_WebPushControlProperties
+aDesc      Web control type for Push Button controls
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      68544963
+aName      WD_WebPushControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      68544964
+aExternalValue Button (Not Submit)
+aInternalValue Button (Not Submit)
+
+eTableEntry 4
+aZKey      89581087
+aExternalValue Hidden
+aInternalValue Hidden
+
+eDomain    2
+aZKey      68442297
+aName      WD_WebGridControlProperties
+aDesc      Web control type for Grid subcontrols
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      68442298
+aName      WD_WebGridControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      68442299
+aExternalValue Absolute Width
+aInternalValue Absolute Width
+
+eTableEntry 4
+aZKey      130069695
+aExternalValue Select Set
+aInternalValue Select Set
+
+eTableEntry 4
+aZKey      92656442
+aExternalValue Table Export Option
+aInternalValue Table Export Option
+
+eTableEntry 4
+aZKey      1454567
+aExternalValue Scrolling Table
+aInternalValue Scrolling Table
+
+eTableEntry 4
+aZKey      89581085
+aExternalValue Filter Rows (wHideTableRow='Y')
+aInternalValue Filter Rows
+
+eDomain    2
+aZKey      68304446
+aName      WD_WebEditControlProperties
+aDesc      Web control type for Edit controls
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      68304447
+aName      WD_WebEditControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      130000004
+
+eTableEntry 4
+aZKey      68304448
+aExternalValue No Current Values
+aInternalValue No Current Values
+
+eTableEntry 4
+aZKey      92656445
+aExternalValue Create Session Variable
+aInternalValue Create Session Variable
+
+eTableEntry 4
+aZKey      92656446
+aExternalValue XSS Encode
+aInternalValue XSS
+
+eTableEntry 4
+aZKey      92656447
+aExternalValue No Output Mapping
+aInternalValue No Output Mapping
+
+eTableEntry 4
+aZKey      92741377
+aExternalValue wysiwyg TinyMCE
+aInternalValue wysiwyg TinyMCE
+
+eTableEntry 4
+aZKey      130000003
+aExternalValue Browse File
+aInternalValue Browse File
+
+eDomain    2
+aZKey      68304365
+aName      WD_WebGroupControlProperties
+aDesc      Web control type for Group controls
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      68304366
+aName      WD_WebGroupControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      68304367
+aExternalValue Div
+aInternalValue Div
+
+eTableEntry 4
+aZKey      68304368
+aExternalValue Span
+aInternalValue Span
+
+eTableEntry 4
+aZKey      89582614
+aExternalValue Table
+aInternalValue Table
+
+eTableEntry 4
+aZKey      4634994
+aExternalValue Fieldset
+aInternalValue Container
+
+eTableEntry 4
+aZKey      4634995
+aExternalValue Fieldset Absolute Pos
+aInternalValue Container Absolute Size
+
+eTableEntry 4
+aZKey      89853394
+aExternalValue No Height
+aInternalValue No Height
+
+eTableEntry 4
+aZKey      89853395
+aExternalValue No Width
+aInternalValue No Width
+
+eTableEntry 4
+aZKey      89990860
+aExternalValue Include File
+aInternalValue Include File
+
+eTableEntry 4
+aZKey      130000001
+aExternalValue Absolute Pos
+aInternalValue Absolute Pos
+
+eTableEntry 4
+aZKey      90754211
+aExternalValue Grid Grouping
+aInternalValue Grid Grouping
+
+eTableEntry 4
+aZKey      92656449
+aExternalValue Show/Hide Toggle
+aInternalValue Show/Hide Toggle
+
+eTableEntry 4
+aZKey      130069816
+aExternalValue Show/Hide Toggle2
+aInternalValue Show/Hide Toggle2
+
+eTableEntry 4
+aZKey      68304372
+aExternalValue Repeating Group
+aInternalValue Repeating Group
+
+eTableEntry 4
+aZKey      130069814
+aExternalValue Select Set (Repeat Grp)
+aInternalValue Select Set (Repeat Grp)
+
+eTableEntry 4
+aZKey      68544987
+aExternalValue File Transfer to Server
+aInternalValue File Transfer to Server
+
+eTableEntry 4
+aZKey      92741379
+aExternalValue Survey Group
+aInternalValue Survey Group
+
+eTableEntry 4
+aZKey      90127802
+aExternalValue iFrame
+aInternalValue iFrame
+
+eTableEntry 4
+aZKey      90790799
+aExternalValue reCAPTCHA
+aInternalValue reCAPTCHA
+
+eTableEntry 4
+aZKey      90044246
+aExternalValue Dashboard Group
+aInternalValue Dashboard Group
+
+eTableEntry 4
+aZKey      68304369
+aExternalValue Scrollable
+aInternalValue Scrollable
+
+eDomain    2
+aZKey      68304279
+aName      WD_WebGridSubControlProperties
+aDesc      Web subcontrol type for Grid subcontrols
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      68304280
+aName      WD_WebGridSubControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      68304281
+aExternalValue Hidden
+aInternalValue Hidden
+
+eTableEntry 4
+aZKey      68304442
+aExternalValue Edit
+aInternalValue Edit
+
+eTableEntry 4
+aZKey      68304443
+aExternalValue Multiline
+aInternalValue Multiline
+
+eTableEntry 4
+aZKey      68304444
+aExternalValue EmailAddress
+aInternalValue EmailAddress
+
+eTableEntry 4
+aZKey      68442680
+aExternalValue Absolute Width
+aInternalValue Absolute Width
+
+eTableEntry 4
+aZKey      90249868
+aExternalValue Wrap
+aInternalValue WRAP
+
+eTableEntry 4
+aZKey      90768599
+aExternalValue First Occurrence Only
+aInternalValue First Occurrence Only
+
+eDomain    2
+aZKey      1141800
+aName      WD_WebCtrlType
+aDesc      Used for JSP Generation
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      1141801
+aDesc      Used for JSP Generation
+aName      WD_WebCtrlType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1141805
+aExternalValue Button (rather than Submit)
+aInternalValue Button
+
+eTableEntry 4
+aZKey      1141803
+aExternalValue Clear - Force to appear after floated columns
+aInternalValue Clear
+
+eTableEntry 4
+aZKey      1141806
+aExternalValue Edit - updatable table column
+aInternalValue Edit
+
+eTableEntry 4
+aZKey      1141812
+aExternalValue Email Address - table column
+aInternalValue EmailAddress
+
+eTableEntry 4
+aZKey      1141808
+aExternalValue Email Message (Body)
+aInternalValue EmailMessage
+
+eTableEntry 4
+aZKey      1141810
+aExternalValue Email Recipient
+aInternalValue EmailRecipient
+
+eTableEntry 4
+aZKey      1141809
+aExternalValue Email Subject Line
+aInternalValue EmailSubject
+
+eTableEntry 4
+aZKey      130003879
+aExternalValue Escape special HTML characters
+aInternalValue escapeHTML
+
+eTableEntry 4
+aZKey      1141816
+aExternalValue Hidden - not displayed
+aInternalValue Hidden
+
+eTableEntry 4
+aZKey      1141807
+aExternalValue Multiline - preformatted (line, paragraph, etc.)
+aInternalValue Multiline
+
+eTableEntry 4
+aZKey      1141802
+aExternalValue Repeating Group
+aInternalValue RepeatingGroup
+
+eTableEntry 4
+aZKey      1141804
+aExternalValue Div - Group sub-controls
+aInternalValue Div
+
+eTableEntry 4
+aZKey      1158821
+aExternalValue Div with AutoScroll
+aInternalValue DivScroll
+
+eTableEntry 4
+aZKey      1156571
+aExternalValue Span (deprecated)
+aInternalValue Span
+
+eTableEntry 4
+aZKey      1168494
+aExternalValue wysiwygEditor
+aInternalValue wysiwygEditor
+
+eDomain    2
+aZKey      1160237
+aName      WD_MapDefType
+aDesc      Mapping definition type for PE defined MapDef
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      1160238
+aDesc      Specify the type of MapDef.  Multiple Attributes is a specification for when the number of Attribute MapDef entries is unknown until design time (e.g.  a ListBox or SpreadSheet or DataTable).
+aName      WD_MapDefType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1160239
+aExternalValue Entity
+aInternalValue E
+
+eTableEntry 4
+aZKey      1160242
+aExternalValue Scoping Entity
+aInternalValue S
+
+eTableEntry 4
+aZKey      1160240
+aExternalValue Attribute
+aInternalValue A
+
+eTableEntry 4
+aZKey      1160241
+aExternalValue Multiple Attributes
+aInternalValue M
+
+eDomain    2
+aZKey      90258866
+aName      ReportGroupSubType
+aDesc      Subtype of Group for Report
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      89354581
+aName      ReportGroupSubType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92656413
+
+eTableEntry 4
+aZKey      89354582
+aExternalValue All Pages
+aInternalValue 0
+
+eTableEntry 4
+aZKey      89354583
+aExternalValue First Page Only
+aInternalValue 1
+
+eTableEntry 4
+aZKey      89354584
+aExternalValue Starting on Page 2
+aInternalValue 2
+
+eTableEntry 4
+aZKey      89354585
+aExternalValue Last Page Only
+aInternalValue 3
+
+eDomain    2
+aZKey      90258642
+aName      ReportGroupSetType
+aDesc      Type of GroupSet for Report
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 2
+aContextRestriction N
+
+eContext   3
+aZKey      90258643
+aName      ReportGroupSetType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92656412
+
+eTableEntry 4
+aZKey      90258644
+aExternalValue Page Header
+aInternalValue PH
+
+eTableEntry 4
+aZKey      90258645
+aExternalValue Page Footer
+aInternalValue PF
+
+eTableEntry 4
+aZKey      90258647
+aExternalValue Entity
+aInternalValue E
+
+eTableEntry 4
+aZKey      4592674
+aExternalValue Page Start
+aInternalValue PS
+
+eTableEntry 4
+aZKey      4592675
+aExternalValue Page End
+aInternalValue PE
+
+eDomain    2
+aZKey      1137350
+aName      UserSpecType
+aDesc      Type of user spec - report dialog
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1137351
+aName      UserSpecType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92656415
+
+eTableEntry 4
+aZKey      1137352
+aExternalValue Dialog
+aInternalValue D
+
+eTableEntry 4
+aZKey      1137353
+aExternalValue Report
+aInternalValue R
+
+eDomain    2
+aZKey      1137330
+aName      WD_CtrlDefVisible
+aDesc      Determines the visibility of  a CtrlDef to the painter or report builder or XSLT builder
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1137331
+aName      WD_CtrlDefVisible
+aIsDefault Y
+
+eTableEntry 4
+aZKey      4904272
+
+eTableEntry 4
+aZKey      4904271
+aExternalValue XSLT & Report
+aInternalValue -6
+
+eTableEntry 4
+aZKey      4904270
+aExternalValue XSLT & Dialog
+aInternalValue -5
+
+eTableEntry 4
+aZKey      4894015
+aExternalValue XSLT
+aInternalValue -4
+
+eTableEntry 4
+aZKey      4904266
+aExternalValue Dialog & Report
+aInternalValue -3
+
+eTableEntry 4
+aZKey      1137333
+aExternalValue Report
+aInternalValue -2
+
+eTableEntry 4
+aZKey      1137332
+aExternalValue Dialog
+aInternalValue -1
+
+eTableEntry 4
+aZKey      1137334
+aExternalValue Dialog & Report & XSLT
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1137335
+aExternalValue Deleted
+aInternalValue 1
+
+eContext   3
+aZKey      1137337
+aDesc      Visibility of a CtrlDef (does not include the "Deleted" value ... cannot be user selected
+aName      WD_PPE_Visibility
+
+eTableEntry 4
+aZKey      4904273
+
+eTableEntry 4
+aZKey      4904269
+aExternalValue XSLT & Report
+aInternalValue -6
+
+eTableEntry 4
+aZKey      4904268
+aExternalValue XSLT & Dialog
+aInternalValue -5
+
+eTableEntry 4
+aZKey      4894018
+aExternalValue XSLT
+aInternalValue -4
+
+eTableEntry 4
+aZKey      4904267
+aExternalValue Dialog & Report
+aInternalValue -3
+
+eTableEntry 4
+aZKey      1137339
+aExternalValue Report
+aInternalValue -2
+
+eTableEntry 4
+aZKey      1137338
+aExternalValue Dialog
+aInternalValue -1
+
+eTableEntry 4
+aZKey      1137340
+aExternalValue Dialog & Report & XSLT
+aInternalValue 0
+
+eDomain    2
+aZKey      90145806
+aName      ReportGroupType
+aDesc      Type of Control group for report, Page Header, Group Header, Attribute, etc.
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 2
+aContextRestriction N
+
+eContext   3
+aZKey      90145807
+aName      ReportGroupType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92656414
+
+eTableEntry 4
+aZKey      90145808
+aExternalValue Group Detail
+aInternalValue ga
+
+eTableEntry 4
+aZKey      90145809
+aExternalValue Group Header
+aInternalValue gh
+
+eTableEntry 4
+aZKey      90145810
+aExternalValue Group Footer
+aInternalValue gf
+
+eTableEntry 4
+aZKey      90258863
+aExternalValue Page Header
+aInternalValue ph
+
+eTableEntry 4
+aZKey      90258864
+aExternalValue Page Footer
+aInternalValue pf
+
+eDomain    2
+aZKey      90067466
+aName      AutodesignDefaultText
+aDesc      Default text for Autodesign
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.StringDomain
+aDataType  S
+aMaxStringLth 20
+aContextRestriction N
+
+eContext   3
+aZKey      90067467
+aName      AutodesignDefaultText
+aIsDefault Y
+
+eDomain    2
+aZKey      90059367
+aName      AutodesignCaseType
+aDesc      Autodesign Case 1A, 1B, 1C, 2, 3, 4, etc.
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 2
+aContextRestriction N
+
+eContext   3
+aZKey      90059368
+aName      AutodesignCaseType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92656408
+
+eTableEntry 4
+aZKey      90059369
+aExternalValue Case 1A - Root of LOD
+aInternalValue 1A
+
+eTableEntry 4
+aZKey      90059370
+aExternalValue Case 1B - Attrib. under Root
+aInternalValue 1B
+
+eTableEntry 4
+aZKey      90059371
+aExternalValue Case 1C - Attrib. under Attrib.
+aInternalValue 1C
+
+eTableEntry 4
+aZKey      90080894
+aExternalValue Case 1D - Attrib. under Assoc.
+aInternalValue 1D
+
+eTableEntry 4
+aZKey      90197173
+aExternalValue Case 1F - Root/Attrib as Tab, Style 1
+aInternalValue 1F
+
+eTableEntry 4
+aZKey      90197174
+aExternalValue Case 1G - Root/Attrib as Tab, Style 2
+aInternalValue 1G
+
+eTableEntry 4
+aZKey      90059372
+aExternalValue Case 2    - Include single
+aInternalValue 2
+
+eTableEntry 4
+aZKey      90059373
+aExternalValue Case 3    - Include mult, many-to-many
+aInternalValue 3
+
+eTableEntry 4
+aZKey      90059374
+aExternalValue Case 4    - Primary Fund. under Assoc.
+aInternalValue 4
+
+eTableEntry 4
+aZKey      90157295
+aExternalValue Case 5    - Secondary Fund. under Assoc.
+aInternalValue 5
+
+eTableEntry 4
+aZKey      90237245
+aExternalValue Case 6    - Fund. as Combobox
+aInternalValue 6
+
+eTableEntry 4
+aZKey      90141787
+aExternalValue Case R   - Report Group
+aInternalValue R
+
+eTableEntry 4
+aZKey      90084880
+aExternalValue None      - No window / report group
+aInternalValue N
+
+eDomain    2
+aZKey      70000607
+aName      VerticalSpacingIncrement
+aDesc      Autodesign - Vertical spacing between autopainted controls, range
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.IntegerDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      70000608
+aName      VerticalSpacingIncrement
+aEditString >= 0; < 10
+aIsDefault Y
+
+eSelectedOperation 3
+aName      zdmInteger
+aZKey      70000616
+aDesc      Used in range edits
+aType      M
+
+eDomain    2
+aZKey      70000605
+aName      HorizontalControlSize
+aDesc      Autodesign - Horizontal size of autopainted control - range
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.IntegerDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      70000606
+aName      HorizontalControlSize
+aEditString >= 2; < 10
+aIsDefault Y
+
+eSelectedOperation 3
+
+eDomain    2
+aZKey      70000603
+aName      VerticalControlSize
+aDesc      Autodesign - Vertical size of autopainted control, range
+aDomainType E
+aJavaClass com.quinsoft.zeidon.domains.IntegerDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      70000604
+aName      VerticalControlSize
+aEditString >= 4; <= 30
+aIsDefault Y
+
+eSelectedOperation 3
+
+eDomain    2
+aZKey      90026801
+aName      DragDropType
+aDesc      Defines the Drag/Drop type (source/target?)  of a control
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      90026802
+aName      DragDropType
+aIsDefault Y
+aDIL_Text  Drag & Drop Type
+
+eTableEntry 4
+aZKey      92656409
+
+eTableEntry 4
+aZKey      90026803
+aExternalValue Drag & Drop Source
+aInternalValue S
+
+eTableEntry 4
+aZKey      90026807
+aExternalValue Drag & Drop Target AND Source
+aInternalValue B
+
+eTableEntry 4
+aZKey      90026804
+aExternalValue Drag & Drop Target
+aInternalValue T
+
+eDomain    2
+aZKey      1320595
+aName      WD__OutlinerFormatType
+aDesc      Table for format values for an outliner
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320596
+aName      WD__OutlinerFormatType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92656416
+
+eTableEntry 4
+aZKey      1320597
+aExternalValue Display Text
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1320598
+aExternalValue Single Root
+aInternalValue 1
+
+eDomain    2
+aZKey      1320593
+aName      WD_WindowStyle
+aDesc      Window Style
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  T
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      1320594
+aName      WD_WindowStyle
+aIsDefault Y
+
+eDomain    2
+aZKey      1320578
+aName      WD_SB_SubAction
+aDesc      Subobject Behavior: SubAction
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320579
+aName      WD_SB_SubAction
+aIsDefault Y
+aDIL_Text  Subobject behavior for a Window Action
+
+eTableEntry 4
+aZKey      1320581
+aExternalValue Accept
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320582
+aExternalValue Cancel
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1320583
+aExternalValue Delete
+aInternalValue 4
+
+eTableEntry 4
+aZKey      1320584
+aExternalValue Delete after Confirmation
+aInternalValue 268435460
+
+eTableEntry 4
+aZKey      1320585
+aExternalValue Exclude
+aInternalValue 8
+
+eTableEntry 4
+aZKey      1320586
+aExternalValue Exclude after Confirmation
+aInternalValue 268435464
+
+eTableEntry 4
+aZKey      1320587
+aExternalValue Create Entity
+aInternalValue 16
+
+eTableEntry 4
+aZKey      1320588
+aExternalValue Create Entity after Accept
+aInternalValue 17
+
+eTableEntry 4
+aZKey      1320589
+aExternalValue Create Temporal Entity
+aInternalValue 32
+
+eTableEntry 4
+aZKey      1320590
+aExternalValue Create Temporal Entity after Accept
+aInternalValue 33
+
+eTableEntry 4
+aZKey      1320591
+aExternalValue Create Temporal Subobject Version
+aInternalValue 64
+
+eDomain    2
+aZKey      1320573
+aName      WD_SB_NextPrev
+aDesc      Subobject Behavior: Next Prev behavior within a SubAction
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320574
+aName      WD_SB_NextPrev
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1320576
+aExternalValue Next
+aInternalValue 128
+
+eTableEntry 4
+aZKey      1320577
+aExternalValue Previous
+aInternalValue 256
+
+eDomain    2
+aZKey      1320568
+aName      WD_SB_DeleteNull
+aDesc      Subobject Behavior: Return/Stay behavior for Delete SubAct
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320569
+aName      WD_SB_DeleteNull
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1320571
+aExternalValue Stay When Null
+aInternalValue 512
+
+eTableEntry 4
+aZKey      1320572
+aExternalValue Return When Null
+aInternalValue 1024
+
+eDomain    2
+aZKey      1320560
+aName      WD_SB_ActionDisabling
+aDesc      Subobject Behavior: Auto Action disabling
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320561
+aName      WD_SB_ActionDisabling
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1320563
+aExternalValue Cursor On First Entity
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320564
+aExternalValue Cursor On Last Entity
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1320565
+aExternalValue Entity Not Selected
+aInternalValue 4
+
+eTableEntry 4
+aZKey      1320566
+aExternalValue Entity Null
+aInternalValue 8
+
+eTableEntry 4
+aZKey      1320567
+aExternalValue Browse Only View
+aInternalValue 16
+
+eTableEntry 4
+aZKey      1007320
+aExternalValue Entity Not Null
+aInternalValue 32
+
+eDomain    2
+aZKey      1320509
+aName      WD_ControlSubtype
+aDesc      Table of valid subtypes for Window Controls
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320526
+aName      ControlComboSubtype
+aDIL_Text  Table of valid subtypes for Window Controls
+
+eTableEntry 4
+aZKey      1320528
+aExternalValue Domain
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1320529
+aExternalValue Automatic Include
+aInternalValue 20480
+
+eTableEntry 4
+aZKey      1320530
+aExternalValue Set Foreign Key
+aInternalValue 36864
+
+eTableEntry 4
+aZKey      1320531
+aExternalValue Select Source Entity Only
+aInternalValue 12288
+
+eTableEntry 4
+aZKey      1320532
+aExternalValue Set Foreign Key and Select Source Entity
+aInternalValue 45056
+
+eContext   3
+aZKey      1320552
+aName      ControlDIL_ItemStyle
+aDIL_Text  Table of valid subtypes for Window Controls
+
+eTableEntry 4
+aZKey      1320553
+aExternalValue Text Left
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320554
+aExternalValue Text Center
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1320555
+aExternalValue Text Right
+aInternalValue 4
+
+eTableEntry 4
+aZKey      1320556
+aExternalValue Auto Size
+aInternalValue 2048
+
+eContext   3
+aZKey      1320543
+aName      ControlEditSubtype
+aDIL_Text  Table of valid subtypes for Window Controls
+
+eTableEntry 4
+aZKey      1320544
+aExternalValue Upper/Lower Case
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1320545
+aExternalValue Lower Case
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320546
+aExternalValue Upper Case
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1320547
+aExternalValue Password
+aInternalValue 4
+
+eContext   3
+aZKey      1320533
+aDesc      List of graphic types
+aName      ControlGraphSubtype
+
+eTableEntry 4
+aZKey      1320535
+aExternalValue Pie Chart
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320536
+aExternalValue Bar Graph
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1320537
+aExternalValue Line Graph
+aInternalValue 3
+
+eContext   3
+aZKey      1320538
+aName      ControlListSubtype
+aDIL_Text  Table of valid subtypes for Window Controls
+
+eTableEntry 4
+aZKey      1320539
+aExternalValue Single
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1320540
+aExternalValue Multiple
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320541
+aExternalValue Extended
+aInternalValue 3
+
+eTableEntry 4
+aZKey      1320542
+aExternalValue Single / Hilite Cursor Pos
+aInternalValue 8192
+
+eContext   3
+aZKey      1320557
+aName      ControlSpreadSheetSubtype
+aDIL_Text  Table of valid subtypes for Window Controls
+
+eTableEntry 4
+aZKey      1320558
+aExternalValue Nonsizable Border
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1320559
+aExternalValue Sizable Border
+aInternalValue 16
+
+eContext   3
+aZKey      1320510
+aName      WD_ControlSubtype
+aIsDefault Y
+aDIL_Text  Table of valid subtypes for Window Controls
+
+eTableEntry 4
+aZKey      1320512
+aExternalValue 0
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1320513
+aExternalValue 1
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320514
+aExternalValue 2
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1320515
+aExternalValue 3
+aInternalValue 3
+
+eTableEntry 4
+aZKey      1320516
+aExternalValue 4
+aInternalValue 4
+
+eTableEntry 4
+aZKey      1320517
+aExternalValue 9
+aInternalValue 9
+
+eTableEntry 4
+aZKey      1320518
+aExternalValue 10
+aInternalValue 10
+
+eTableEntry 4
+aZKey      1320519
+aExternalValue 12
+aInternalValue 12
+
+eTableEntry 4
+aZKey      1320520
+aExternalValue 16
+aInternalValue 16
+
+eTableEntry 4
+aZKey      1320521
+aExternalValue 2048
+aInternalValue 2048
+
+eTableEntry 4
+aZKey      1320522
+aExternalValue 8192
+aInternalValue 8192
+
+eTableEntry 4
+aZKey      1320523
+aExternalValue 12288
+aInternalValue 12288
+
+eTableEntry 4
+aZKey      1320524
+aExternalValue 20480
+aInternalValue 20480
+
+eTableEntry 4
+aZKey      1320525
+aExternalValue 36864
+aInternalValue 36864
+
+eDomain    2
+aZKey      1320504
+aName      WD_ComboBoxFormatType
+aDesc      Table for format values for a Combo Box Control
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1320505
+aName      WD_ComboBoxFormatType
+aIsDefault Y
+aDIL_Text  Table for format values for a Combo Box Control
+
+eTableEntry 4
+aZKey      92656420
+
+eTableEntry 4
+aZKey      1320506
+aExternalValue Drop Down List
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1320507
+aExternalValue Drop Down
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320508
+aExternalValue Simple
+aInternalValue 2
+
+eTableEntry 4
+aZKey      1145051
+aExternalValue Extended List
+aInternalValue 4
+
+eDomain    2
+aZKey      1320472
+aName      WD_ActionType
+aDesc      Behavior Type for a Window Action
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      1320488
+aName      Control/Option Action Type
+aDIL_Text  Behavior Type for a Window Action
+
+eTableEntry 4
+aZKey      1320489
+aExternalValue Same Window / No Refresh
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320490
+aExternalValue Same Window / Refresh
+aInternalValue 2
+
+eTableEntry 4
+aZKey      4274541
+aExternalValue Same Window / Web Refresh
+aInternalValue 3
+
+eTableEntry 4
+aZKey      1320491
+aExternalValue Subwindow / Modal
+aInternalValue 34
+
+eTableEntry 4
+aZKey      1320492
+aExternalValue Subwindow / Modeless
+aInternalValue 33
+
+eTableEntry 4
+aZKey      1320493
+aExternalValue Replace Window / Modal
+aInternalValue 53
+
+eTableEntry 4
+aZKey      1320494
+aExternalValue Replace Window / Modeless
+aInternalValue 52
+
+eTableEntry 4
+aZKey      1320495
+aExternalValue Return / No Refresh
+aInternalValue 71
+
+eTableEntry 4
+aZKey      1320496
+aExternalValue Return / Refresh
+aInternalValue 72
+
+eTableEntry 4
+aZKey      1320497
+aExternalValue Return Top / No Refresh
+aInternalValue 73
+
+eTableEntry 4
+aZKey      1320498
+aExternalValue Return Top / Refresh
+aInternalValue 74
+
+eTableEntry 4
+aZKey      1320499
+aExternalValue Exit Dialog Task
+aInternalValue 99
+
+eContext   3
+aZKey      1320473
+aName      WD_ActionType
+aIsDefault Y
+aDIL_Text  Behavior Type for a Window Action
+
+eTableEntry 4
+aZKey      1320475
+aExternalValue Default or Same Window / No Refresh
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320476
+aExternalValue Same Window / Refresh
+aInternalValue 2
+
+eTableEntry 4
+aZKey      4274542
+aExternalValue Same Window / Web Refresh
+aInternalValue 3
+
+eTableEntry 4
+aZKey      4847899
+aExternalValue Start or Focus Modeless Dialog
+aInternalValue 30
+
+eTableEntry 4
+aZKey      4847900
+aExternalValue Start Dialog Task
+aInternalValue 31
+
+eTableEntry 4
+aZKey      4847901
+aExternalValue Start Modeless Subwindow
+aInternalValue 32
+
+eTableEntry 4
+aZKey      1320478
+aExternalValue Subwindow / Modeless
+aInternalValue 33
+
+eTableEntry 4
+aZKey      1320477
+aExternalValue Subwindow / Modal
+aInternalValue 34
+
+eTableEntry 4
+aZKey      90790802
+aExternalValue ReCAPTCHA Subwindow
+aInternalValue 35
+
+eTableEntry 4
+aZKey      4847903
+aExternalValue Start Modal Window
+aInternalValue 36
+
+eTableEntry 4
+aZKey      4847904
+aExternalValue Start or Focus Modeless Application
+aInternalValue 37
+
+eTableEntry 4
+aZKey      1320479
+aExternalValue Set Focus or Start Modeless Window
+aInternalValue 38
+
+eTableEntry 4
+aZKey      1320480
+aExternalValue Set Focus or Start Modeless Subwindow
+aInternalValue 39
+
+eTableEntry 4
+aZKey      89152166
+aExternalValue Start Popup Menu
+aInternalValue 40
+
+eTableEntry 4
+aZKey      1089781
+aExternalValue Start Browser HTML Page
+aInternalValue 41
+
+eTableEntry 4
+aZKey      1094790
+aExternalValue Start Email Client
+aInternalValue 42
+
+eTableEntry 4
+aZKey      93059782
+aExternalValue Start Email Client BCC
+aInternalValue 43
+
+eTableEntry 4
+aZKey      93059783
+aExternalValue Start Email Client CC
+aInternalValue 44
+
+eTableEntry 4
+aZKey      93165224
+aExternalValue Link to HTML Address
+aInternalValue 45
+
+eTableEntry 4
+aZKey      68561279
+aExternalValue Process File Download
+aInternalValue 46
+
+eTableEntry 4
+aZKey      90131333
+aExternalValue Start Browser PDF Page
+aInternalValue 47
+
+eTableEntry 4
+aZKey      130000444
+aExternalValue Start Jasper PDF Report
+aInternalValue 48
+
+eTableEntry 4
+aZKey      4847905
+aExternalValue Replace Dialog with Dialog
+aInternalValue 51
+
+eTableEntry 4
+aZKey      1320482
+aExternalValue Replace Window / Modeless
+aInternalValue 52
+
+eTableEntry 4
+aZKey      1320481
+aExternalValue ReplaceWindow / Modal
+aInternalValue 53
+
+eTableEntry 4
+aZKey      4847907
+aExternalValue ReplaceCurrentAppWithApp
+aInternalValue 54
+
+eTableEntry 4
+aZKey      90790801
+aExternalValue ReCAPTCHA Replace Window
+aInternalValue 55
+
+eTableEntry 4
+aZKey      89982621
+aExternalValue Print Window
+aInternalValue 60
+
+eTableEntry 4
+aZKey      4847908
+aExternalValue Start Split Window
+aInternalValue 61
+
+eTableEntry 4
+aZKey      4847909
+aExternalValue Replace Split Window
+aInternalValue 62
+
+eTableEntry 4
+aZKey      4847910
+aExternalValue Delete Split Window
+aInternalValue 63
+
+eTableEntry 4
+aZKey      1320483
+aExternalValue Return / No Refresh
+aInternalValue 71
+
+eTableEntry 4
+aZKey      1320484
+aExternalValue Return / Refresh
+aInternalValue 72
+
+eTableEntry 4
+aZKey      1320485
+aExternalValue Return Top / No Refresh
+aInternalValue 73
+
+eTableEntry 4
+aZKey      1320486
+aExternalValue Return Top / Refresh
+aInternalValue 74
+
+eTableEntry 4
+aZKey      4847911
+aExternalValue Start Top Window
+aInternalValue 75
+
+eTableEntry 4
+aZKey      4847912
+aExternalValue Replace Top Window
+aInternalValue 76
+
+eTableEntry 4
+aZKey      68545594
+aExternalValue Start Modal Web Popup
+aInternalValue 78
+
+eTableEntry 4
+aZKey      68545595
+aExternalValue Start Modeless Web Popup
+aInternalValue 79
+
+eTableEntry 4
+aZKey      68545589
+aExternalValue Return from Web Popup / No Refresh
+aInternalValue 84
+
+eTableEntry 4
+aZKey      68545590
+aExternalValue Return from Web Popup / Refresh
+aInternalValue 85
+
+eTableEntry 4
+aZKey      1320487
+aExternalValue Exit Dialog Task
+aInternalValue 99
+
+eContext   3
+aZKey      1320500
+aName      Window Event Action Type
+aDIL_Text  Behavior Type for a Window Action
+
+eTableEntry 4
+aZKey      1320501
+aExternalValue Default
+aInternalValue 1
+
+eTableEntry 4
+aZKey      1320502
+aExternalValue Subwindow / Modal
+aInternalValue 34
+
+eTableEntry 4
+aZKey      1320503
+aExternalValue Subwindow / Modeless
+aInternalValue 33
+
+eOperation 2
+
+eOperation 2
+aName      zdmDynamicTable
+aZKey      68567197
+aType      M
+
+eZ_MetaDef 2
+aName      WD
+aZKey      1320467
+aType      13
+aLastUpdateDate 19950908094926000
+aLastCheckInDate 19951102203051110
+
+i202       199
+i205       199
+i360       199

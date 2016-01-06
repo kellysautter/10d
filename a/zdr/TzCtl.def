@@ -1,0 +1,128 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Project TzCtl
+;;
+;; This is a part of the Zeidon Dynamic Rendering of GUI applications package.
+;; Copyright © 1995 - 2001 QuinSoft, Inc.
+;; All Rights Reserved.
+;;
+;; SUBSYSTEM:    TzCtl.dll - ZDr Application
+;; FILE:         TzCtl.def
+;; AUTHOR:
+;;
+;; OVERVIEW
+;; ========
+;; TzCtl.def : Declares exports for TzCtl.dll
+;;
+
+;;
+;; CHANGE LOG - generated using MERGEDEF.EXE
+;;
+;;   2001.04.25 TMV   RemoteServer
+;;      export new conversion operation to convert truegrid
+;;      ConvertTrueGrid          @104
+;;
+;;
+
+
+;;
+;; Maximum Ordinal value in this "OPERATION" section is > @123 <
+;;
+EXPORTS
+   AcceptEntity                                           @50
+   AcceptRelationship                                     @51
+   AdjustRelPortsForSelectedEnt                           @52
+   BuildCtrlBOI_BMP                                       @100
+   BuildTZEDWRKO                                          @96
+   BuildTZPEAXWO                                          @97
+   CallPainterForSelectedControls                         @114
+   CenterEntity                                           @53
+   CheckDuplicateTags                                     @112
+   CheckDuplicateReportTags                               @113
+   ConvertBitmap                                          @3
+   ConvertBitmapBtn                                       @20
+   ConvertButton                                          @17
+   ConvertCalendar                                        @110
+   ConvertCheckBox                                        @23
+   ConvertComboBox                                        @4
+   ConvertControlBar                                      @108
+   ConvertDayTimer                                        @111
+   ConvertDIL                                             @5
+   ConvertERD                                             @6
+   ConvertEditBox                                         @21
+   ConvertGraph                                           @7
+   ConvertGroupBox                                        @8
+   ConvertHD                                              @18
+   ConvertIcon                                            @24
+   ConvertListBox                                         @9
+   ConvertMLE                                             @22
+   ConvertOutliner                                        @10
+   ConvertRadioBtn                                        @11
+   ConvertRadioBtnGroup                                   @12
+   ConvertRTE                                             @19
+   ConvertGrid                                            @13
+   ConvertTab                                             @14
+   ConvertTabCtl                                          @15
+   ConvertText                                            @16
+   ConvertTimer                                           @103
+   ConvertToolBar                                         @106
+   ConvertTrueGrid                                        @104
+   CreateFlatCtrlList                                     @115
+   CtrlValidate                                           @68
+   ER_Diagram                                             @2
+   ERD_ContractDiagram                                    @98
+   ERD_ExpandDiagram                                      @99
+   ERD_IsEntityVisible                                    @54
+   ERD_SelectEntity                                       @55
+   GenerateActiveX_Code                                   @95
+   GetNextCtrlAtPoint                                     @116
+   GetNextWebCtrlOffset                                   @117
+   GetNextWebListCtrl                                     @118
+   PainterCall                                            @69
+   PainterControlBar                                      @91
+   PainterPaintControl                                    @120
+   PainterSnapRect                                        @70
+   PrintDiagram                                           @56
+   RecalculateAllRelationships                            @57
+   RefreshDiagram                                         @58
+   RefreshEntity                                          @59
+   RefreshRelationship                                    @60
+   RemoveEntity                                           @61
+   RemoveRelationship                                     @62
+   SelectEntityNeighbors                                  @63
+   SetColors                                              @64
+   SetDrawOptions                                         @65
+   SetResourceFileIDs                                     @102
+   ShowInplaceControlOverCtrl                             @119
+   TBEditScript                                           @92
+   TZActiveXMsg                                           @93
+   TZBitmapMsg                                            @71
+   TZBlockMsg                                             @121
+   TZCalendarMsg                                          @25
+   TZCheckMsg                                             @72
+   TZComboBoxMsg                                          @73
+   TZControlBarMsg                                        @107
+   TZDayTimerMsg                                          @109
+   TZDilMsg                                               @74
+   TZEditMsg                                              @76
+   TZERD_Msg                                              @75
+   TZGraphMsg                                             @77
+   TZGroupBoxMsg                                          @78
+   TZGroupRptMsg                                          @79
+   TZGroupSetRptMsg                                       @80
+   TZIconMsg                                              @81
+   TZListBoxMsg                                           @82
+   TZMLEditMsg                                            @83
+   TZOutlinerMsg                                          @85
+   TZPushMsg                                              @87
+   TZRadioMsg                                             @88
+   TZShapeMsg                                             @94
+   TZGridMsg                                              @89
+   TZReportListMsg                                        @122
+   TZReportListCtlMsg                                     @123
+   TZTabMsg                                               @84
+   TZTextMsg                                              @90
+   TZTimerMsg                                             @26
+   TZToolBarMsg                                           @105
+   ValidNewEntityPosition                                 @66
+   ZeidonInitTZCTL                                        @1
+   ZoomDiagram                                            @67

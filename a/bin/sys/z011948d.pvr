@@ -1,0 +1,12 @@
+z11001Zeidon    TEMP     TZWDVORO 03/24/00   20:49:58 1.0a     
+20000307104302328
+eViewObjRef 1,6
+aZKey,2    1152141
+aName,2    KZTRACEO
+aDesc,2    VOR automatically built from LOD Dialog
+
+eLOD       2,166
+aZKey,2    91043632
+aName,2    KZTRACEO
+aDesc,2    Object to transfer a trace from server to client
+

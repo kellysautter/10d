@@ -1,0 +1,23 @@
+rZeidon    Z0147E79 TZWDVORO 09/29/96   07:53:16 1.0a     
+eViewObjRef 1,192
+aZKey      1343097
+aName      TZOUTLINER
+
+eLOD       2,1232
+aZKey      1324578
+aName      TZZOLODO
+aDesc      LOD Object Def
+aDLL_Name  TZLODOPR
+
+eLOD       2,224
+aZKey      1328561
+aName      TZPNCTWO
+aDesc      Work object for standard Windows Controls
+
+eZ_MetaDef 2,192
+aName      TZOUTLINER
+aZKey      1343097
+aType      9
+aLastUpdateDate 19950824213800000
+aLastCheckInDate 19951102203051110
+

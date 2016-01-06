@@ -1,0 +1,225 @@
+z10000Zeidon    TZCMQSYO TZZOLODO 05/01/01   23:17:41 1.0b0    
+eLOD       1
+aZKey      90059225
+aName      TZCMQSYO
+aDesc      127
+EnqueueObject for locking of the SystemAdministration
+
+This Object is created when an user anters the System-Administration.
+aDLL_Name  TZCMQSYO
+
+eLOD_EntityParent 2
+aName      SysEnqueue
+aIndentName SysEnqueue
+aIndentLvl 0
+aZKey      90059226
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDesc      Enqueue of the SystemAdministration (by a SystemAdministrator)
+
+eLOD_AttributeRec 3
+aZKey      90059227
+
+eER_AttributeRec 4
+aName      TimeStamp
+aZKey      90051402
+aNotNull   Y
+
+eDomainRec 5
+aZKey      90000089
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90059228
+
+eER_AttributeRec 4
+aName      UserName
+aZKey      90051403
+aLth       32
+aNotNull   Y
+aDesc      244
+User Name or Identifier (Personalnr. in Landesbank)
+
+with Version 9.G this could only be the SYSADM
+(but perhaps in the future we could have multiple ProjectAdministrators which want to be able to enter the SystemAdministration at one time)0
+
+eDomainRec 5
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90061846
+aUpdate    Y
+
+eER_AttributeRec 4
+aName      UserDesc
+aZKey      90060604
+aDesc      User description Identifier (Name in Landesbank)
+
+eDomainRec 5
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eER_EntityRec 3
+aName      SysEnqueue
+aZKey      90051400
+aPurpose   F
+aDesc      Enqueue of the SystemAdministration (by a SystemAdministrator)
+aER_DiagramPosX 290
+aER_DiagramPosY 88
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eSourceFile 2
+aZKey      90061847
+aName      TZCMQSYO
+aExtension C
+aLanguageType C
+
+eOperation 3
+aName      oTZCMQSYO_ActivateREPO_Enqueue
+aZKey      90061853
+aType      L
+
+eParameter 4
+aShortDesc vTZCMENQO
+aDataType  V
+aPFlag     Y
+aZKey      90061854
+
+eParameter 4
+aShortDesc vSubtask
+aDataType  V
+aZKey      90061855
+
+ePOD       2
+aNAME      TZCMQSYO
+aZKey      90059229
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i12        1
+i13        2
+i14        3
+i15        4
+i16        5
+i17        6
+i18        7
+i19        8
+i20        9
+i21        10
+i22        11
+i32        24
+i33        23

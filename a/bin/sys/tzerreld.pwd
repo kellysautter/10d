@@ -1,0 +1,2674 @@
+z1000-Zeidon    TZERRELD TZWDLGSO 07/20/05   10:08:05 1.0b0    
+eDialog    1
+aTag       TZERRELD
+aDLL_Name  TZEREMDD
+aZKey      1347875
+aDesc      Data Model Relationship Maint
+
+eDfltWnd   2
+aTag       RLLMAINT
+aCaption   Relationship Detail
+aPSDLG_X   16
+aPSDLG_Y   56
+aSZDLG_X   20644161
+aSZDLG_Y   16711954
+aDfltButton OK
+aZKey      1348048
+aDIL_Active Y
+aGeneralFlag 0
+
+eWindow    2
+aTag       RLLVIEW
+aCaption   Relationship List
+aPSDLG_X   137
+aPSDLG_Y   182
+aSZDLG_X   15794425
+aSZDLG_Y   4259927
+aSZMIN_X   200
+aSZMIN_Y   85
+aZKey      1347994
+aGeneralFlag 0
+aBarID     59451
+
+eControl   3
+aTag       ER_RelLink
+aText      ER_RelLink
+aZKey      1348025
+aSubtype   271712259
+aIdNbr     3
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   242
+aSZDLG_Y   64
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P#````*P!-`%,Q````
+`
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       RelName
+aText      Relationship
+aZKey      1348026
+aSubtype   67108864
+aIdNbr     4
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   101
+aSZDLG_Y   15
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      1348027
+
+eCtrlMapLOD_Attribute 6
+aZKey      1326673
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 7
+aName      ER_RelLink
+aIndentName       ER_RelLink
+aIndentLvl 6
+aZKey      1326649
+aSeqNo     2
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      1320875
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Relationship Name
+aListPaintLit Relationship Name
+
+eCtrlMapER_Domain 8
+aZKey      90000032
+aDesc      Any Character String
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eCtrlMapView 6
+aZKey      1334121
+aName      TZEREMDO
+
+eControlDef 5
+aTag       ListBoxCtl
+aZKey      1081
+aKey       1081
+aRT_DLL_Name ZDCTL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LISTCTL
+aRequiresParent Y
+aId        27
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       RelTgtEntity
+aText      Target Entity
+aZKey      1348028
+aSubtype   67108864
+aIdNbr     5
+aPSDLG_X   101
+aPSDLG_Y   0
+aSZDLG_X   128
+aSZDLG_Y   15
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   5
+aZKey      1348029
+
+eCtrlMapLOD_Attribute 6
+aZKey      1326653
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 7
+aName      ER_Entity_Other
+aIndentName                ER_Entity_Other
+aIndentLvl 15
+aZKey      1326652
+aSeqNo     1
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      1320861
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Entity Name
+aListPaintLit Entity Name
+
+eCtrlMapER_Domain 8
+aZKey      90000038
+aDesc      QuinSoft Name
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      1348030
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      1348031
+
+eCtrlMap   4
+aZKey      1348032
+
+eEvent     4
+aType      2
+aZKey      1348033
+
+eEventAct  5
+aTag       XferToRLLMAINT
+aType      34
+aZKey      1348015
+aDialogName TZERRELD
+aWindowName RLLMAINT
+aSB_ActionDisabling 8
+
+eEvent     4
+aType      12
+aZKey      97126736
+
+eEventAct  5
+aTag       RLL_Popup
+aType      1
+aZKey      1347998
+
+eEvent     4
+aType      10
+aZKey      98096002
+
+eEventAct  5
+aTag       RefreshEntityListForSort
+aType      1
+aZKey      98096003
+
+eEvent     4
+aType      1
+aZKey      97126887
+
+eEventAct  5
+aTag       RefreshEntityList
+aType      1
+aZKey      97126888
+
+eControlDef 4
+aTag       ListBox
+aZKey      1080
+aKey       1080
+aRT_DLL_Name ZDCTL
+aRT_OperationName ListBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aPainterConvertOperationName ConvertListBox
+aPainterBitmap LIST
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LIST
+aAcceptsAllParents Y
+aId        15
+aInvisible -1
+
+eWndEvent  3
+aType      1
+aZKey      1348035
+
+eWndAct    4
+aTag       PreBuildRLLVIEW
+aNoMap     Y
+aType      1
+aZKey      1348010
+
+eWndEvent  3
+aType      2
+aZKey      1348036
+
+eWndAct    4
+aTag       PostBuildRLLVIEW
+aNoMap     Y
+aType      1
+aZKey      1348009
+
+eAction    3
+aTag       RelNew
+aType      34
+aZKey      1348018
+aDialogName TZERRELD
+aWindowName RLLMAINT
+
+eActOpt    4
+aTag       RelNew
+aText      &New...
+aSeparator Y
+aZKey      1348043
+
+eActOper   4
+aName      zwTZEREMDD_AddRelLink
+aZKey      1347877
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      1347876
+aCM_Managed Y
+aOwnerType D
+aLanguageType C
+aName      TZEREMDD
+aExtension C
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_RLLRefreshEntityList
+aZKey      97126893
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_RefEntityListForSort
+aZKey      98096006
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       Alt-F4
+aType      72
+aTypeData  Y
+aZKey      1348012
+
+eActMap    4
+aZKey      1348013
+
+eActMap    4
+aZKey      1348014
+
+eActOper   4
+aName      zwTZEREMDD_CloseRLLVIEW
+aZKey      1347881
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       DeleteAllRelLinks
+aType      2
+aZKey      1348002
+
+eActOpt    4
+aTag       DeleteAllRel
+aText      Delete &all
+aZKey      1348045
+
+eActOper   4
+aName      zwTZEREMDD_DeleteAllRelLinks
+aZKey      1347883
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       DeleteRelLink
+aType      2
+aZKey      1348001
+
+eActOpt    4
+aTag       RelDeleteLink
+aText      &Delete Selected
+aZKey      1348044
+
+eActOper   4
+aName      zwTZEREMDD_DeleteRelLink
+aZKey      1347885
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       Delete
+aZKey      90062034
+aKeyCombo  U4
+$.!<N````
+`
+aTitle     <Delete>
+aVKey      46
+
+eAction    3
+aTag       ERD_RelNeighbors
+aType      2
+aZKey      1348006
+aSB_ActionDisabling 4
+
+eActMap    4
+aZKey      1348007
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1334121
+aName      TZEREMDO
+
+eActOpt    4
+aTag       RelNeighborsP
+aText      Select &Related Entities
+aSeparator Y
+aZKey      1348046
+
+eActOper   4
+aName      zwTZEREMDD_ERD_RelNeighbors
+aZKey      1347887
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       ESC
+aType      72
+aTypeData  Y
+aZKey      1347995
+
+eActMap    4
+aZKey      1347996
+
+eActMap    4
+aZKey      1347997
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       PositonOnTgtEntity
+aType      1
+aZKey      1348005
+aSB_ActionDisabling 4
+
+eActMap    4
+aZKey      97127065
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActOpt    4
+aTag       New1
+aText      Select &Target Entity
+aZKey      1348047
+
+eActOper   4
+aName      zwTZEREMDD_PositionOnTgtEntity
+aZKey      1347889
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZEREMDD_PostBuildRLLVIEW
+aZKey      1347893
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZEREMDD_PreBuildRLLVIEW
+aZKey      1347895
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       Refresh
+aType      2
+aZKey      1348011
+
+eAction    3
+
+eActMap    4
+aZKey      1347999
+
+eActMap    4
+aZKey      1348000
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_RLL_Popup
+aZKey      1347897
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1348016
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOpt    4
+aTag       RelDetail
+aText      &Relationship Detail...
+aZKey      1348042
+
+eMenu      3
+aTag       RelPopup
+aZKey      1348041
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eWndStyle  3
+aTag       Sizeable Dialog Box
+aZKey      10024379
+aStyle     -2134114304
+
+eHotkey    3
+
+eHotAct    4
+
+eWindow    2
+aBarID     59451
+
+eControl   3
+aTag       GroupBox1
+aZKey      1348074
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   6
+aSZDLG_X   244
+aSZDLG_Y   84
+aSyncKey   1
+
+eCtrlCtrl  4
+aTag       RelName
+aZKey      1348075
+aIdNbr     4
+aPSDLG_X   7
+aPSDLG_Y   12
+aSZDLG_X   230
+aSZDLG_Y   14
+aSyncKey   1
+aDIL_Text  Directional name of the relationship
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      1348076
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149713
+aSeqNo_LOD_Entity 1
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+aName      TempRelLink
+aIndentName       TempRelLink
+aIndentLvl 6
+aZKey      89149712
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eCtrlMapER_Attribute 7
+aName      RelLink1Name
+aZKey      89149714
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Relationship Name
+aListPaintLit Relationship Name
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      1332424
+aName      ProfileXFER
+
+eControlDef 5
+aTag       EditBox
+aZKey      1010
+aKey       1010
+aRT_DLL_Name ZDCTL
+aRT_OperationName Edit
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZEditMsg
+aPainterConvertOperationName ConvertEditBox
+aPainterBitmap EDIT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_EDIT
+aAcceptsAllParents Y
+aId        7
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       MinCard
+aZKey      1348077
+aIdNbr     7
+aPSDLG_X   79
+aPSDLG_Y   28
+aSZDLG_X   24
+aSZDLG_Y   14
+aSyncKey   2
+aDIL_Text  Minimum entity instances for relationship: 0=optional, 1=required
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      1348078
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149715
+aSeqNo_LOD_Entity 3
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink1CardMin
+aZKey      89149716
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Min Cardinality
+aListPaintLit Min Cardinality
+
+eCtrlMapER_Domain 8
+aZKey      90121803
+aDesc      Minimum Cardinality for a relationship - Integer
+aName      ERD_MinCardinality
+aDomainType A
+aDataType  S
+aMaxStringLth 8
+aContextRestriction N
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       MaxCard
+aZKey      1348083
+aIdNbr     9
+aPSDLG_X   157
+aPSDLG_Y   28
+aSZDLG_X   24
+aSZDLG_Y   14
+aSyncKey   3
+aDIL_Text  Maximum number of entity instances for relationship
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      1348084
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149717
+aSeqNo_LOD_Entity 4
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink1CardMax
+aZKey      89149718
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Max Cardinality
+aListPaintLit Max Cardinality
+
+eCtrlMapER_Domain 8
+aZKey      90055891
+aDesc      Maximum Cardinality for a relationship - m, M or integer
+aName      ERD_MaxCardinality
+aDomainType A
+aDataType  S
+aMaxStringLth 8
+aContextRestriction N
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       AutoSeq
+aText      &AutoSeq
+aZKey      90028184
+aSubtype   536870912
+aPSDLG_X   7
+aPSDLG_Y   46
+aSZDLG_X   48
+aSZDLG_Y   12
+aCtrlBOI   U4
+$60!.````
+`
+aSyncKey   4
+aDIL_Text  Maintain the last order (positions) of children under parent.
+
+eCtrlMap   5
+aZKey      90028185
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149719
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink1AutoSeq
+aZKey      89149720
+aDesc      Core will maintain the current order of child entity instances under the parent entity instance through this relationship (if it's "Y").
+aPromptPaintLit Auto Sequence
+aListPaintLit AutoSequence
+
+eCtrlMapER_Domain 8
+aZKey      90000014
+aDesc      Yes or No
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eCtrlMapView 6
+
+eEvent     5
+aType      1
+aZKey      92000131
+
+eEventAct  6
+aTag       SetDIL_Message
+aNoMap     Y
+aType      1
+aZKey      90030867
+
+eControlDef 5
+aTag       CheckBox
+aZKey      1040
+aKey       1040
+aRT_DLL_Name ZDCTL
+aRT_OperationName CheckBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZCheckMsg
+aPainterConvertOperationName ConvertCheckBox
+aPainterBitmap CHECK
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_CHECK
+aAcceptsAllParents Y
+aId        13
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       HangingFKEntity
+aText      Hanging FK Entity
+aZKey      89149605
+aSubtype   536870912
+aPSDLG_X   60
+aPSDLG_Y   46
+aSZDLG_X   85
+aSZDLG_Y   12
+aCtrlBOI   U4
+$60!.````
+`
+aSyncKey   5
+
+eCtrlMap   5
+aZKey      89149606
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149723
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink1HangingForeignKeyEntity
+aZKey      89149724
+aDesc      359
+A value of Y means that if a foreign key value exists in an Entity instance for this relationship but the foreign key does not point to an existing table entry (ie., the foreign key is left hanging), then during Activate an empty entity will be created to represent the missing table entry, with only the attribute corresponding to the foreign key being set.0
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Prefix
+aZKey      91049133
+aSubtype   0
+aPSDLG_X   72
+aPSDLG_Y   62
+aSZDLG_X   165
+aSZDLG_Y   14
+aSyncKey   6
+aDIL_Text  Default TE FKey Prefix is 'FK_'.
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      91049134
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149721
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink1TE_ForeignKeyPrefix
+aZKey      89149722
+aDesc      163
+A prefix to be used along with the TE_ForeignKeySuffix attribute from ER_Attribute entity for the generation of the TE foreign key Column for this relationship.
+0
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Text1
+aText      Min:
+aZKey      1348079
+aSubtype   537395200
+aPSDLG_X   60
+aPSDLG_Y   30
+aSZDLG_X   18
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1348080
+
+eControlDef 5
+aTag       Text
+aZKey      1000
+aKey       1000
+aRT_DLL_Name ZDCTL
+aRT_OperationName Text
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTextMsg
+aPainterConvertOperationName ConvertText
+aPainterBitmap TEXT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_TEXT
+aAcceptsAllParents Y
+aId        1
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       Text2
+aText      To
+aZKey      1348081
+aSubtype   537395200
+aPSDLG_X   113
+aPSDLG_Y   30
+aSZDLG_X   13
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1348082
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Text3
+aText      Max:
+aZKey      1348085
+aSubtype   537395200
+aPSDLG_X   134
+aPSDLG_Y   30
+aSZDLG_X   21
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1348086
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       NoTEFKeyPrefix
+aText      No TE FKey Prefix
+aZKey      98169636
+aSubtype   536870912
+aPSDLG_X   151
+aPSDLG_Y   46
+aSZDLG_X   87
+aSZDLG_Y   12
+aCtrlBOI   U4
+$60!.````
+`
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      98169637
+
+eCtrlMapLOD_Attribute 6
+aZKey      90357277
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink1TE_NoForeignKeyPrefix
+aZKey      90357278
+aDesc      if TE_NoForeignKeyPrefix = Y, do not create a Prefix  for the generation of the TE foreign key Column for this relationship.
+
+eCtrlMapER_Domain 8
+
+eCtrlMapContext 6
+aZKey      90000015
+aName      Y/N
+aIsDefault Y
+
+eCtrlMapView 6
+aZKey      1332424
+aName      ProfileXFER
+
+eEvent     5
+aType      1
+aZKey      98169651
+
+eEventAct  6
+aTag       SetFKeyPrefixState
+aType      1
+aZKey      98169652
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Text10
+aText      TE FKey Prefix:
+aZKey      91049129
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   63
+aSZDLG_X   63
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      91049130
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      1348087
+
+eControlDef 4
+aTag       GroupBox
+aZKey      1090
+aKey       1090
+aRT_DLL_Name ZDCTL
+aRT_OperationName GroupBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZGroupBoxMsg
+aPainterConvertOperationName ConvertGroupBox
+aPainterBitmap GRPBOX
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_GROUP
+aAcceptsAllParents Y
+aAcceptsAllChildren Y
+aId        16
+aInvisible -1
+
+eControl   3
+aTag       EntOther
+aZKey      1348102
+aSubtype   12288
+aIdNbr     10
+aPSDLG_X   131
+aPSDLG_Y   94
+aSZDLG_X   121
+aSZDLG_Y   152
+aCtrlBOI   U22
+6]Q`]``41/0!,`````%X3/0!,`#``````
+`
+aSyncKey   8
+aDIL_Text  Name of the entity as used in Zeidon View Objects
+
+eCtrlMap   4
+aZKey      1348103
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      1348104
+
+eCtrlMapLOD_Attribute 5
+aZKey      1326718
+aSeqNo_LOD_Entity 1
+aWork      N
+aUpdate    Y
+aSeqPriority 1
+
+eCtrlMapRelatedEntity 6
+aName      ER_Entity
+aIndentName    ER_Entity
+aIndentLvl 3
+aZKey      1326619
+aSeqNo     1
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+aZKey      1347964
+aName      TZERENLO
+
+eCtrlMap   4
+aZKey      1348105
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      1348106
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      1348107
+
+eControlDef 4
+aTag       ComboBox
+aZKey      1050
+aKey       1050
+aRT_DLL_Name ZDCTL
+aRT_OperationName ComboBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZComboBoxMsg
+aPainterConvertOperationName ConvertComboBox
+aPainterBitmap COMBO
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_COMBO
+aAcceptsAllParents Y
+aId        14
+aInvisible -1
+
+eControl   3
+aTag       GroupBox2
+aZKey      1348088
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   113
+aSZDLG_X   244
+aSZDLG_Y   84
+aSyncKey   9
+
+eCtrlCtrl  4
+aTag       InvRelName
+aZKey      1348089
+aIdNbr     13
+aPSDLG_X   7
+aPSDLG_Y   12
+aSZDLG_X   230
+aSZDLG_Y   14
+aSyncKey   9
+aDIL_Text  Directional name of the relationship
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      1348090
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149725
+aSeqNo_LOD_Entity 1
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink2Name
+aZKey      89149726
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Relationship Name
+aListPaintLit Relationship Name
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       InvMinCard
+aZKey      1348091
+aIdNbr     16
+aPSDLG_X   79
+aPSDLG_Y   28
+aSZDLG_X   24
+aSZDLG_Y   14
+aSyncKey   10
+aDIL_Text  Minimum entity instances for relationship: 0=optional, 1=required
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      1348092
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149727
+aSeqNo_LOD_Entity 3
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink2CardMin
+aZKey      89149728
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Min Cardinality
+aListPaintLit Min Cardinality
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       InvCardMax
+aZKey      1348097
+aIdNbr     18
+aPSDLG_X   157
+aPSDLG_Y   28
+aSZDLG_X   24
+aSZDLG_Y   14
+aSyncKey   11
+aDIL_Text  Maximum number of entity instances for relationship
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      1348098
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149729
+aSeqNo_LOD_Entity 4
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink2CardMax
+aZKey      89149730
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Max Cardinality
+aListPaintLit Max Cardinality
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       AutoSeq_Other
+aText      Auto&Seq
+aZKey      90028182
+aSubtype   536870912
+aPSDLG_X   7
+aPSDLG_Y   46
+aSZDLG_X   46
+aSZDLG_Y   12
+aCtrlBOI   U4
+$60!.````
+`
+aSyncKey   12
+aDIL_Text  Maintain the last order (positions) of children under parent.
+
+eCtrlMap   5
+aZKey      90028183
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149731
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink2AutoSeq
+aZKey      89149732
+aDesc      Core will maintain the current order of child entity instances under the parent entity instance through this relationship (if it's "Y").
+aPromptPaintLit Auto Sequence
+aListPaintLit AutoSequence
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eEvent     5
+aType      1
+aZKey      92000130
+
+eEventAct  6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       HangingFKEntity_Other
+aText      Hanging FK Entity
+aZKey      89149607
+aSubtype   536870912
+aPSDLG_X   58
+aPSDLG_Y   46
+aSZDLG_X   85
+aSZDLG_Y   12
+aCtrlBOI   U4
+$60!.````
+`
+aSyncKey   13
+
+eCtrlMap   5
+aZKey      89149608
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149735
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink2HangingForeignKeyEntity
+aZKey      89149736
+aDesc      359
+A value of Y means that if a foreign key value exists in an Entity instance for this relationship but the foreign key does not point to an existing table entry (ie., the foreign key is left hanging), then during Activate an empty entity will be created to represent the missing table entry, with only the attribute corresponding to the foreign key being set.0
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Prefix_Other
+aZKey      90357273
+aSubtype   0
+aPSDLG_X   72
+aPSDLG_Y   62
+aSZDLG_X   165
+aSZDLG_Y   14
+aSyncKey   14
+aDIL_Text  Default TE FKey Prefix is 'FK_'.
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      90357274
+
+eCtrlMapLOD_Attribute 6
+aZKey      89149733
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink2TE_ForeignKeyPrefix
+aZKey      89149734
+aDesc      163
+A prefix to be used along with the TE_ForeignKeySuffix attribute from ER_Attribute entity for the generation of the TE foreign key Column for this relationship.
+0
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Text6
+aText      Min:
+aZKey      1348093
+aSubtype   537395200
+aPSDLG_X   60
+aPSDLG_Y   30
+aSZDLG_X   18
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1348094
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Text4
+aText      To
+aZKey      1348095
+aSubtype   537395200
+aPSDLG_X   113
+aPSDLG_Y   30
+aSZDLG_X   13
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1348096
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Text5
+aText      Max:
+aZKey      1348099
+aSubtype   537395200
+aPSDLG_X   134
+aPSDLG_Y   30
+aSZDLG_X   21
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      1348100
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       NoTEFKeyPrefix_Other
+aText      No TE FKey Prefix
+aZKey      98169638
+aSubtype   536870912
+aPSDLG_X   149
+aPSDLG_Y   46
+aSZDLG_X   87
+aSZDLG_Y   12
+aCtrlBOI   U4
+$60!.````
+`
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      98169639
+
+eCtrlMapLOD_Attribute 6
+aZKey      90357279
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      RelLink2TE_NoForeignKeyPrefix
+aZKey      90357280
+aDesc      if TE_NoForeignKeyPrefix = Y, do not create a Prefix  for the generation of the TE foreign key Column for this relationship.
+
+eCtrlMapER_Domain 8
+
+eCtrlMapContext 6
+
+eCtrlMapView 6
+
+eEvent     5
+aType      1
+aZKey      98169657
+
+eEventAct  6
+aTag       New
+aType      1
+aZKey      98169658
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Text9
+aText      TE FKey Prefix:
+aZKey      90357275
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   63
+aSZDLG_X   63
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      90357276
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      1348101
+
+eControlDef 4
+
+eControl   3
+aTag       GroupBox3
+aText      Many-to-Many Relationships
+aZKey      91049861
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   204
+aSZDLG_X   244
+aSZDLG_Y   36
+aSyncKey   16
+
+eCtrlCtrl  4
+aTag       edManyToMany
+aZKey      91049859
+aSubtype   0
+aPSDLG_X   58
+aPSDLG_Y   14
+aSZDLG_X   178
+aSZDLG_Y   14
+aSyncKey   16
+aExtendedStyle 16777216
+
+eCtrlMap   5
+aZKey      91049860
+
+eCtrlMapLOD_Attribute 6
+aZKey      91049856
+aUpdate    Y
+
+eCtrlMapRelatedEntity 7
+aName      ER_RelType_1
+aIndentName          ER_RelType_1
+aIndentLvl 9
+aZKey      1326650
+aSeqNo     1
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eCtrlMapER_Attribute 7
+aName      TE_TableName
+aZKey      91049854
+aLth       32
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      1334121
+aName      TZEREMDO
+
+eControlDef 5
+
+eCtrlCtrl  4
+aTag       Text7
+aText      Table Name:
+aZKey      91049857
+aSubtype   537395200
+aPSDLG_X   7
+aPSDLG_Y   15
+aSZDLG_X   50
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      91049858
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      91049862
+
+eControlDef 4
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      1348108
+aSubtype   536870912
+aIdNbr     21
+aPSDLG_X   258
+aPSDLG_Y   9
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   17
+aDIL_Text  OK
+
+eEvent     4
+aType      1
+aZKey      1348109
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aTypeData  Y
+aZKey      1348064
+
+eControlDef 4
+aTag       PushBtn
+aZKey      1020
+aKey       1020
+aRT_DLL_Name ZDCTL
+aRT_OperationName PushButton
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZPushMsg
+aPainterConvertOperationName ConvertButton
+aPainterBitmap PUSH
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_PUSH
+aAcceptsAllParents Y
+aId        8
+aInvisible -1
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      1348110
+aSubtype   536870912
+aIdNbr     22
+aPSDLG_X   258
+aPSDLG_Y   25
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   18
+aDIL_Text  Cancel
+
+eEvent     4
+aType      1
+aZKey      1348111
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      72
+aTypeData  Y
+aZKey      1348070
+
+eControlDef 4
+
+eControl   3
+aTag       Next
+aText      Ne&xt
+aZKey      1348112
+aSubtype   536870912
+aIdNbr     23
+aPSDLG_X   258
+aPSDLG_Y   50
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   19
+aDIL_Text  Next
+
+eEvent     4
+aType      1
+aZKey      1348113
+
+eEventAct  5
+aTag       RelLinkNext
+aType      2
+aZKey      1348061
+aSB_ActionDisabling 2
+
+eControlDef 4
+
+eControl   3
+aTag       Prev
+aText      &Prev
+aZKey      1348114
+aSubtype   536870912
+aIdNbr     24
+aPSDLG_X   258
+aPSDLG_Y   66
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   20
+aDIL_Text  Prev
+
+eEvent     4
+aType      1
+aZKey      1348115
+
+eEventAct  5
+aTag       RelLinkPrev
+aType      2
+aZKey      1348067
+aSB_ActionDisabling 1
+
+eControlDef 4
+
+eControl   3
+aTag       AddBtn
+aText      &New
+aZKey      1348116
+aSubtype   536870912
+aIdNbr     25
+aPSDLG_X   258
+aPSDLG_Y   92
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   21
+aDIL_Text  AddBtn
+
+eEvent     4
+aType      1
+aZKey      1348117
+
+eEventAct  5
+aTag       AddRelLink
+aType      2
+aZKey      1348049
+
+eControlDef 4
+
+eControl   3
+aTag       Delete
+aText      &Delete
+aZKey      1348118
+aSubtype   536870912
+aIdNbr     26
+aPSDLG_X   258
+aPSDLG_Y   109
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   22
+aDIL_Text  Delete
+
+eEvent     4
+aType      1
+aZKey      1348119
+
+eEventAct  5
+aTag       DeleteRelLink
+aNoMap     Y
+aType      2
+aTypeData  Y
+aZKey      1348054
+aSB_DeleteNull 512
+aSB_ActionDisabling 8
+
+eControlDef 4
+
+eControl   3
+aTag       FromEntity
+aText      Source Entity Name
+aZKey      1348124
+aSubtype   524288
+aIdNbr     2
+aPSDLG_X   7
+aPSDLG_Y   96
+aSZDLG_X   121
+aSZDLG_Y   12
+aSyncKey   9999
+aDIL_Text  Name of the entity as used in Zeidon View Objects
+
+eCtrlMap   4
+aZKey      1348125
+
+eCtrlMapLOD_Attribute 5
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       DIL1
+aZKey      1348128
+aIdNbr     27
+aPSDLG_X   4
+aPSDLG_Y   245
+aSZDLG_X   341
+aSZDLG_Y   19
+aSyncKey   9999
+aDIL_Text  DIL1
+
+eCtrlMap   4
+aZKey      1348129
+
+eControlDef 4
+aTag       MsgBar
+aZKey      2020
+aKey       2020
+aRT_DLL_Name ZDCTL
+aRT_OperationName DIL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZDilMsg
+aPainterConvertOperationName ConvertDIL
+aPainterBitmap DIL
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_DIL
+aId        20
+aInvisible -1
+
+eWndEvent  3
+aType      1
+aZKey      1348130
+
+eWndAct    4
+aTag       BuildEntityView
+aNoMap     Y
+aType      1
+aZKey      1348051
+
+eWndEvent  3
+aType      2
+aZKey      1348131
+
+eWndAct    4
+aTag       PostBuild
+aNoMap     Y
+aType      1
+aZKey      1348057
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_NewRelLink
+aZKey      98253854
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_SetFKeyPrefix2State
+aZKey      98169661
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_SetFKeyPrefix1State
+aZKey      98169655
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       Alt+F4
+aType      72
+aTypeData  Y
+aZKey      1348050
+
+eAction    3
+
+eActMap    4
+aZKey      1348065
+
+eActMap    4
+aZKey      1348066
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_RelLinkOK
+aZKey      1347903
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1348052
+
+eActMap    4
+aZKey      1348053
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZEREMDD_BuildEntityView
+aZKey      1347879
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1348055
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      1334121
+aName      TZEREMDO
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1348071
+
+eActMap    4
+aZKey      1348072
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_RelLinkCancel
+aZKey      1347899
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1348058
+
+eActMap    4
+aZKey      1348059
+
+eActWndEvent 4
+
+eActOper   4
+aName      zwTZEREMDD_PostBuildRLL
+aZKey      1347891
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       Refresh
+aNoMap     Y
+aType      2
+aZKey      1348060
+
+eAction    3
+
+eActMap    4
+aZKey      1348062
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_RelLinkNext
+aZKey      1347901
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      1348068
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActMap    4
+aZKey      92000117
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_RelLinkPrev
+aZKey      1347905
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZEREMDD_SetDIL_Message
+aZKey      90030870
+aDesc      sets a dynamic DIL message for the check boxes
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       XferToENTLIST
+aType      34
+aZKey      1348073
+aDialogName TZEREMDD
+aWindowName ENTLIST
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eWndStyle  3
+aTag       Dialog Box
+aZKey      7008569
+aStyle     -2134376448
+aDesc      Dialog box with caption, non-sizable border
+aStyleEx   1
+
+eViewObjRef 2
+aZKey      1334121
+aName      TZEREMDO
+
+eLOD       3
+aZKey      1326595
+aName      TZEREMDO
+aDesc      Enterprise Model ER Information
+aDLL_Name  TZLODOPR
+
+eViewObjRef 2
+aZKey      1332424
+aName      ProfileXFER
+
+eLOD       3
+aZKey      1326804
+aName      TZ__PRFO
+aDesc      Tools XFER & Profile Info.
+
+eViewObjRef 2
+aZKey      1347964
+aName      TZERENLO
+
+eLOD       3
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      1347878
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      97126894
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1347880
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      1347882
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      1347884
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1347886
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      1347888
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1347890
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1347892
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1347894
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1347896
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      1347898
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1347900
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1347902
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      1347904
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Window
+aDataType  V
+aZKey      1347906
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90030871
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98096007
+
+eOperation 3
+aName      zwTZEREMDD_SetUpTempRelLink
+aZKey      98169641
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc vSubtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98169642
+
+eParameter 4
+aShortDesc vERD
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98169643
+
+eOperation 3
+aName      zwTZEREMDD_RelLinkSetFKPrefix
+aZKey      98169644
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc vSubtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98169645
+
+eParameter 4
+aShortDesc vERD
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98169646
+
+eParameter 4
+aShortDesc vProfileXfer
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98169647
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98169656
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98169662
+
+eOperation 3
+aName      zwTZEREMDD_DisableCtrlForRLL
+aZKey      98196391
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc vSubtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98196392
+
+eParameter 4
+aShortDesc vTZEREMDO
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98196394
+
+eOperation 3
+aName      zwTZEREMDD_IsRelToSapEntity
+aZKey      98252663
+aType      L
+aReturnDataType N
+
+eParameter 4
+aShortDesc vSubtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98252664
+
+eParameter 4
+aShortDesc vTZEREMDO
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      98252665
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      98253855
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i18        10
+i19        11
+i21        7
+i22        10
+i42        32
+i43        31
+i44        3
+i46        41
+i47        30
+i48        29
+i49        3
+i51        41
+i56        41
+i60        41
+i64        41
+i68        7
+i72        41
+i76        55
+i77        41
+i80        7
+i81        69
+i84        41
+i85        37
+i86        36
+i88        41
+i89        35
+i90        34
+i92        41
+i94        28
+i97        27
+i98        3
+i100       41
+i101       26
+i103       7
+i104       69
+i105       25
+i106       3
+i109       107
+i110       26
+i111       39
+i112       38
+i113       62
+i114       61
+i115       58
+i116       57
+i117       70
+i118       66
+i119       82
+i120       78
+i122       65
+i123       61
+i124       1
+i131       9
+i137       129
+i140       132
+i141       133
+i145       129
+i148       132
+i149       133
+i153       129
+i156       132
+i163       129
+i165       155
+i166       132
+i167       159
+i171       129
+i173       9
+i174       132
+i175       133
+i181       178
+i184       178
+i188       129
+i190       155
+i195       159
+i198       178
+i203       14
+i204       15
+i205       16
+i206       17
+i207       10
+i211       16
+i212       17
+i215       213
+i217       213
+i224       129
+i226       9
+i227       132
+i228       133
+i232       129
+i234       139
+i235       132
+i236       133
+i240       129
+i242       147
+i243       132
+i244       133
+i248       129
+i250       155
+i251       132
+i253       158
+i254       159
+i258       129
+i260       155
+i261       132
+i262       159
+i266       129
+i268       9
+i269       132
+i270       133
+i273       178
+i276       178
+i279       178
+i283       129
+i285       155
+i286       191
+i287       192
+i290       159
+i293       178
+i295       200
+i302       9
+i304       133
+i307       178
+i309       200
+i317       313
+i321       313
+i325       313
+i329       313
+i333       313
+i336       209
+i337       210
+i338       16
+i339       17
+i340       10
+i341       178
+i349       328
+i350       327
+i351       326
+i353       41
+i354       289
+i355       288
+i356       280
+i358       41
+i359       194
+i360       193
+i361       185
+i363       41
+i365       312
+i368       311
+i369       310
+i371       41
+i372       346
+i375       345
+i377       41
+i378       332
+i380       7
+i382       331
+i383       330
+i384       63
+i385       41
+i386       316
+i389       315
+i390       314
+i392       41
+i393       348
+i396       347
+i398       41
+i400       320
+i402       7
+i403       10
+i404       319
+i405       318
+i407       41
+i408       324
+i410       7
+i411       10
+i413       323
+i414       322
+i416       41
+i417       158
+i418       252
+i419       245
+i420       157
+i421       150
+i423       41
+i425       376
+i426       41
+i433       429
+i434       41
+i435       40
+i437       45
+i439       376
+i441       55
+i443       59
+i445       63
+i447       71
+i449       83
+i451       397
+i453       87
+i455       91
+i457       99
+i459       391
+i461       406
+i463       370
+i465       415
+i467       422
+i469       50
+i478       362
+i480       357
+i488       352
+i490       40
+i491       41
+i492       376
+i493       41
+i494       55
+i495       41
+i496       59
+i497       41
+i498       63
+i499       41
+i500       482
+i501       41
+i502       71
+i503       41
+i504       485
+i505       41
+i506       352
+i507       41
+i508       83
+i509       41
+i510       397
+i511       41
+i512       87
+i513       41
+i514       91
+i515       41
+i516       50
+i517       41
+i518       391
+i519       41
+i520       406
+i521       41
+i522       370
+i523       41
+i524       415
+i525       41
+i526       474
+i527       41
+i528       99
+i529       41
+i530       45
+i531       41
+i532       422
+i533       41
+i534       362
+i535       41
+i536       357
+i537       41
+i538       471
+i539       41

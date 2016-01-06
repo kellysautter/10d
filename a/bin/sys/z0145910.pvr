@@ -1,0 +1,19 @@
+z1000-Zeidon    Z0145910 TZWDVORO 01/04/13   12:12:16 1.0a2    
+eViewObjRef 1
+aZKey      1333520
+aName      DrivingLOD
+
+eLOD       2
+aZKey      1324578
+aName      TZZOLODO
+aDesc      LOD Object Def
+aDLL_Name  TZLODOPR
+aCommitConstraint Y
+
+eZ_MetaDef 2
+aName      TZZOLODO
+aZKey      1333520
+aType      9
+aLastUpdateDate 19950824213622000
+aLastCheckInDate 19951102203051110
+

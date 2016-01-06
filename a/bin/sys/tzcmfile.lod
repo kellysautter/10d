@@ -1,0 +1,330 @@
+z10000Zeidon    TZCMFILE TZZOLODO 06/19/01   00:21:01 1.0b0    
+eLOD       1
+aZKey      127076173
+aName      TZCMFILE
+aDesc      Object for CPLR Component  / File List  in System Administration
+
+eLOD_EntityParent 2
+aName      CPLR
+aIndentName CPLR
+aIndentLvl 0
+aZKey      127076174
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDesc      Converted from 6B
+
+eLOD_EntityChild 3
+aName      File
+aIndentName    File
+aIndentLvl 3
+aZKey      127076184
+aCreate    N
+aDelete    Y
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Root of object that stores a file as a Zeidon object
+
+eLOD_AttributeRec 4
+aZKey      127076185
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      90442021
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      127076186
+
+eER_AttributeRec 5
+aName      Name
+aZKey      90442022
+aDesc      Name of the file in the LPLR
+
+eDomainRec 6
+aZKey      90000040
+aName      QSFileName
+aDomainType E
+aDataType  S
+aMaxStringLth 8
+aDesc      QuinSoft File Name - 32 chars
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      127076187
+
+eER_AttributeRec 5
+aName      Extension
+aZKey      90442023
+aLth       3
+aDesc      File extension (XOD, PWD, etc.)
+
+eDomainRec 6
+aZKey      90000028
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eER_EntityRec 4
+aName      File
+aZKey      90442013
+aPurpose   F
+aDesc      Root of object that stores a file as a Zeidon object
+aER_DiagramPosX 288
+aER_DiagramPosY 102
+
+eER_RelLinkRec 4
+aName      has
+aZKey      90442019
+aCardMin   0
+aCardMax   m
+
+eER_RelTypeRec 5
+aZKey      90442018
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 305
+aER_DiagramBendPosY 104
+aER_DiagramE1PosX 305
+aER_DiagramE1PosY 113
+aER_DiagramE2PosX 297
+aER_DiagramE2PosY 104
+
+eLOD_AttributeRec 3
+aZKey      127076175
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1320770
+aLth       32
+aNotNull   Y
+aDesc      CPLR Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 5
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      127076177
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1320772
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      127076562
+aWork      Y
+aUpdate    Y
+aInit      0
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      File_ViewCluster
+aZKey      127076563
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      CPLR
+aZKey      1320769
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 304
+aER_DiagramPosY 114
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 3
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+ePOD       2
+aNAME      TZCMFILE
+aZKey      127076188
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SqlServer ODBC TB
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      DB2 MVS Ger
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      ACC_REP
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      Access ODBC TB
+aGenerateExecutable KZSIACC
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType N
+aSironDB_Type D
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aSironDB_Subtype 6
+
+eTE_DBMS_Source 4
+aName      DB2_Rep
+aZKey      90014023
+aDesc      Repository DB2 NT
+aParadigm  R
+aDBMS      DB2 NT TB
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDisplayOwner Y
+
+i20        5
+i23        5
+i25        1
+i26        15
+i27        16
+i28        17
+i29        18
+i30        19
+i31        5
+i32        21
+i33        22
+i34        5
+i35        24
+i36        2
+i37        3
+i38        4
+i39        5
+i40        6
+i41        7
+i42        8
+i43        9
+i44        10
+i45        11
+i46        12
+i47        13
+i48        14

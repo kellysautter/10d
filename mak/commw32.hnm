@@ -1,0 +1,108 @@
+#
+# Change Log
+#
+# 2002.08.15  RR
+#     Add htmlhelp.lib for calling compiled online help manuals.
+# 2001.02.07  RG  Z2000
+#     We only need zdctl.lib for DDL-Handlers. Therefore
+#     see if we compile DDL-Handlers: variable dblddl == y
+# 2001.02.06  RG  Z2000
+#     Added zdctl.lib to use MB_SetMessage in DDL-Handlers
+# 2000.02.06  SR  Z2000
+#     Add link flags: /debug /pdbtype:con
+#     to get debug information for release mode. It is also necessary
+#     to define pdb files (Option /PDB...) in the makefiles which
+#     include commw32.hnm
+#
+# 2001.01.12  RG  Z2000
+#     Added option Zi to build *.pdb file
+# 2000.05.12  RG  Z2000
+#     Changed option -Oselg --> -Od
+# 2000.04.20  RG  Z2000  MFC-DebugDLL's
+#     Changed back to /MTd and MDd because we can build
+#     Debug and Release version now
+# 1999.11.09  RG  Z2000  MFC-DebugDLL's
+#     Changed the option /MTd,/MDd to /MT,/MD so that no MFC-Debug DLL's
+#     are linked
+#
+# 1999.09.07  DGC
+#    Added /PROFILE option.
+#
+# 1999.02.12  DGC
+#    Added -nologo options.
+#
+
+!if "$(BOUNDSCHECKER)" == "Y"
+cl     = nmcl.exe
+linker = nmlink.exe
+!endif
+
+!if !defined(linker)
+linker = link
+!endif
+
+!ifndef cl
+cl = cl
+rsp_flag = -r
+!endif
+
+dll_model =
+exe_model =
+
+kz_src = $(kz_basew)\oe
+kz_src_concat = $(kz_basew)\oe;$(kz_basea)\oe
+kz_inc_concat = $(kz_basew)\oe;$(kz_basea)\oe;$(kz_basew)\incz;$(kz_basew)\incr;$(kz_basea)\incz;$(kz_basea)\incr;$(INCLUDE)
+io = -I$(kz_basew)\oe -I$(kz_basea)\oe
+
+kz_baseenv = $(kz_basew)
+kz_obj = $(kz_basew)\oe\debug
+kz_obj_gbl = $(kz_basew)\debug
+kz_lib = $(kz_basew)\lib
+kz_bin = $(kz_basew)\bin
+LIBENTRY = $(kz_obj_gbl)\LIBENTRY.obj
+NMAKE = NMAKE
+
+opt=  /W3 /Zi -Zp -DWIN32 -D__WIN32__  /D "ZEIDON" -nologo
+#linkopt=/MAP /ALIGN:1000 /SUBSYSTEM:windows
+linkopt=/SUBSYSTEM:windows /nologo
+
+linkoptdll=/DLL
+linkoptexe=
+
+!if "$(blddbh)" == "y"
+linkdlls = user32.lib advapi32.lib kernel32.lib shell32.lib uuid.lib kzoengaa.lib zdctl.lib htmlhelp.lib
+!else
+linkdlls = user32.lib advapi32.lib kernel32.lib shell32.lib uuid.lib gdi32.lib kzoengaa.lib htmlhelp.lib
+!endif
+linkexes = user32.lib advapi32.lib kernel32.lib shell32.lib uuid.lib gdi32.lib kzoengaa.lib
+
+!if $(debug)
+opt = -DDEBUG -D_DEBUG -Od $(opt) -FAs
+linkopt = /DEBUG:FULL $(linkopt)
+EXEFLAG = /MTd
+DLLFLAG = /MDd
+CPPFLAG = -D _AFXDLL -FR
+!else
+opt = -Od $(opt)
+linkopt = $(linkopt) /debug /pdbtype:con
+EXEFLAG = /MT
+DLLFLAG = /MD
+CPPFLAG = -D _AFXDLL
+!endif
+
+!if "$(PROFILE)" != ""
+linkopt = /PROFILE $(linkopt)
+!endif
+
+EXEFLAG = $(EXEFLAG) -c $(exe_model) $(opt) -Fo$@ $(io) $(exespec)
+DLLFLAG = $(DLLFLAG) -c $(dll_model) $(opt) -Fo$(@R) $(io) $(dllspec)
+
+!if "$(MUTEX_DEBUG)" != ""
+DLLFLAG = $(DLLFLAG) -D__MUTEX_DEBUG__
+!endif
+
+!if "$(BOUNDSCHECKER)" == "Y"
+linkdlls = $(linkdlls) bcinterf.lib
+linkexes = $(linkexes) bcinterf.lib
+!endif
+

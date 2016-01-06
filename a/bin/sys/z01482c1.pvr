@@ -1,0 +1,17 @@
+rZeidon    Z01482C1 TZWDVORO 11/02/95   20:52:07 1.0a     
+eViewObjRef 1,192
+aZKey      1344193
+aName      TZPECTRL
+
+eLOD       2,192
+aZKey      1328675
+aName      TZPESRCO
+aDesc      Presentation Environment
+
+eZ_MetaDef 2,192
+aName      TZPECTRL
+aZKey      1344193
+aType      9
+aLastUpdateDate 19950824213808000
+aLastCheckInDate 19951102203051110
+

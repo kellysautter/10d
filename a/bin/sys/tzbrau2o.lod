@@ -1,0 +1,1483 @@
+z10000Zeidon    TZBRAU2O TZZOLODO 05/01/01   23:17:30 1.0b0    
+eLOD       1
+aZKey      91012509
+aName      TZBRAU2O
+aDesc      Browse V. AuditTrail (Root = CLPR)
+aDLL_Name  TZLODOPR
+
+eLOD_EntityParent 2
+aName      CPLR
+aIndentName CPLR
+aIndentLvl 0
+aZKey      91012510
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Converted from 6B
+
+eLOD_EntityChild 3
+aName      AuditTrail
+aIndentName    AuditTrail
+aIndentLvl 3
+aZKey      91012519
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave R
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aDesc      keep track of the history of the repository access (CHECK-IN...)
+
+eLOD_EntityChild 4
+aName      RepositoryClient
+aIndentName       RepositoryClient
+aIndentLvl 6
+aZKey      91012525
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave R
+aRelLinkIndicator H
+aDesc      the workstation for an LPLR
+
+eLOD_EntityChild 5
+aName      User
+aIndentName          User
+aIndentLvl 9
+aZKey      91012532
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave R
+aRelLinkIndicator H
+aDesc      Converted from 6B
+
+eLOD_AttributeRec 6
+aZKey      91012533
+
+eER_AttributeRec 7
+aName      Name
+aZKey      1321426
+aLth       32
+aNotNull   Y
+aDesc      User Name or Identifier (Personalnr. in Landesbank)
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eDomainRec 8
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      91012534
+
+eER_AttributeRec 7
+aName      ZKey
+aZKey      1321427
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 8
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      91012535
+
+eER_AttributeRec 7
+aName      Password
+aZKey      1321428
+aLth       8
+aDesc      108
+Secret stuff
+physical name = z_PASSWORD, because "password" is a reserverd
+word in SQLBASE and not in DB20
+aPromptPaintLit Password:
+aListPaintLit Password:
+aTE_ColumnName z_PASSWORD
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      91012536
+
+eER_AttributeRec 7
+aName      Desc
+aZKey      90009400
+aDesc      User description Identifier (Name in Landesbank)
+
+eDomainRec 8
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eER_EntityRec 6
+aName      User
+aZKey      1321425
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 398
+aER_DiagramPosY 66
+
+eER_RelLinkRec 6
+aName      has
+aZKey      1322383
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 7
+aZKey      1322381
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 398
+aER_DiagramBendPosY 48
+aER_DiagramE1PosX 398
+aER_DiagramE1PosY 65
+aER_DiagramE2PosX 312
+aER_DiagramE2PosY 48
+
+eLOD_AttributeRec 5
+aZKey      91012526
+
+eER_AttributeRec 6
+aName      ZKey
+aZKey      1321246
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91012527
+
+eER_AttributeRec 6
+aName      WKS_Id
+aZKey      1321247
+aLth       4
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91012528
+
+eER_AttributeRec 6
+aName      MaxZKey
+aZKey      1321248
+aLth       4
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91012529
+
+eER_AttributeRec 6
+aName      LastSyncZKey
+aZKey      1321249
+aLth       4
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91012530
+
+eER_AttributeRec 6
+aName      Desc
+aZKey      1321250
+aDesc      Description of WorkStation
+aPromptPaintLit Description
+aListPaintLit Description
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91012531
+
+eER_AttributeRec 6
+aName      DefaultLPLR_ZKey
+aZKey      1321251
+aLth       4
+aDesc      Pointer to the LPLR to be initialized at startup
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      RepositoryClient
+aZKey      1321245
+aPurpose   F
+aDesc      the workstation for an LPLR
+aOwningArea CM
+aER_DiagramPosX 303
+aER_DiagramPosY 48
+
+eER_RelLinkRec 5
+aName      for
+aZKey      91002630
+aCardMin   0
+aCardMax   1
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      91002628
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 454
+aER_DiagramBendPosY 49
+aER_DiagramE1PosX 312
+aER_DiagramE1PosY 49
+aER_DiagramE2PosX 454
+aER_DiagramE2PosY 54
+
+eLOD_EntityChild 4
+aName      RevEvent
+aIndentName       RevEvent
+aIndentLvl 6
+aZKey      91012547
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave R
+aRelLinkIndicator H
+aDesc      154
+Type/ReviewEvent of an AuditTrail entry;
+when is an AuditTrail entry created ?
+0 - CheckIn 
+1 - Refresh to QS 
+2 - Review 
+5 - bring into Production0
+
+eLOD_AttributeRec 5
+aZKey      91012548
+
+eER_AttributeRec 6
+aName      Type
+aZKey      94001533
+aLth       3
+aNotNull   Y
+aDesc      112
+when is an AuditTrail entry created ?
+0 - CheckIn 
+1 - Refresh to QS 
+2 - Review 
+5 - bring into Production0
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91012549
+
+eER_AttributeRec 6
+aName      Desc
+aZKey      94001534
+aLth       32
+aNotNull   Y
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      RevEvent
+aZKey      94001529
+aPurpose   F
+aDesc      154
+Type/ReviewEvent of an AuditTrail entry;
+when is an AuditTrail entry created ?
+0 - CheckIn 
+1 - Refresh to QS 
+2 - Review 
+5 - bring into Production0
+aER_DiagramPosX 475
+aER_DiagramPosY 39
+
+eER_RelLinkRec 5
+aName      may have
+aZKey      94001532
+aCardMin   0
+aCardMax   1
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      94001530
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 479
+aER_DiagramBendPosY 57
+aER_DiagramE1PosX 479
+aER_DiagramE1PosY 44
+aER_DiagramE2PosX 459
+aER_DiagramE2PosY 57
+
+eLOD_EntityChild 4
+aName      RevSubEvent
+aIndentName       RevSubEvent
+aIndentLvl 6
+aZKey      91012550
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave R
+aRelLinkIndicator H
+aDesc      Subtype for the ReviewEvent of an AuditTrail entry
+
+eLOD_AttributeRec 5
+aZKey      91012551
+
+eER_AttributeRec 6
+aName      Desc
+aZKey      91002646
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91012552
+
+eER_AttributeRec 6
+aName      Subtype
+aZKey      91002648
+aNotNull   Y
+aDesc      Subtype for the ReviewEvent of an AuditTrail entry
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91012553
+
+eER_AttributeRec 6
+aName      necessary
+aZKey      91002647
+aDesc      is an entry in the audit trail with this subevent necessary for PRODUCTION ?
+
+eDomainRec 7
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eER_EntityRec 5
+aName      RevSubEvent
+aZKey      91002632
+aPurpose   A
+aDesc      Subtype for the ReviewEvent of an AuditTrail entry
+aER_DiagramPosX 477
+aER_DiagramPosY 68
+
+eER_RelLinkRec 5
+aName      may have
+aZKey      91002640
+aCardMin   0
+aCardMax   1
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      91002638
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 458
+aER_DiagramBendPosY 70
+aER_DiagramE1PosX 476
+aER_DiagramE1PosY 70
+aER_DiagramE2PosX 458
+aER_DiagramE2PosY 60
+
+eLOD_EntityChild 4
+aName      AuditTrailMeta
+aIndentName       AuditTrailMeta
+aIndentLvl 6
+aZKey      91018919
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave R
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eLOD_EntityChild 5
+aName      Z_MetaDef
+aIndentName          Z_MetaDef
+aIndentLvl 9
+aZKey      91018921
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave R
+aRelLinkIndicator H
+aDesc      Converted from 6B
+
+eLOD_AttributeRec 6
+aZKey      91018922
+
+eER_AttributeRec 7
+aName      Name
+aZKey      1321860
+aLth       32
+aNotNull   Y
+aDesc      OI Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      91018923
+
+eER_AttributeRec 7
+aName      ZKey
+aZKey      1321861
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      91018924
+
+eER_AttributeRec 7
+aName      Type
+aZKey      1321862
+aNotNull   Y
+aDesc      OI Type
+aPromptPaintLit Meta Type:
+aListPaintLit Meta Type:
+
+eDomainRec 8
+aZKey      1319755
+aName      CM_Type
+aDomainType T
+aDataType  L
+aDesc      Meta types for Configuration Management
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      91018925
+
+eER_AttributeRec 7
+aName      LastUpdateDate
+aZKey      1321863
+aDesc      Time Stamp of corresponding Meta OI when last checked in
+aPromptPaintLit Meta OI's last update
+aListPaintLit Meta OI's last update
+
+eDomainRec 8
+aZKey      90000089
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      91018926
+
+eER_AttributeRec 7
+aName      LastCheckInDate
+aZKey      1321864
+aDesc      Date the Meta was last checked In
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      91018927
+
+eER_AttributeRec 7
+aName      Desc
+aZKey      1321865
+aDesc      Description of the Linked Zeidon Meta Definition
+aPromptPaintLit Description:
+aListPaintLit Description:
+
+eDomainRec 8
+
+eER_EntityRec 6
+aName      Z_MetaDef
+aZKey      1321859
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 390
+aER_DiagramPosY 158
+aER_PortFactor 2
+
+eER_RelLinkRec 6
+aName      for
+aZKey      91017646
+aCardMin   0
+aCardMax   1
+aAutoSeq   N
+
+eER_RelTypeRec 7
+aZKey      91017644
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 406
+aER_DiagramBendPosY 72
+aER_DiagramE1PosX 406
+aER_DiagramE1PosY 157
+aER_DiagramE2PosX 432
+aER_DiagramE2PosY 72
+
+eLOD_AttributeRec 5
+aZKey      91018920
+
+eER_AttributeRec 6
+aName      bDeleted
+aZKey      91017648
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91020337
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      bDeletedText
+aZKey      91020338
+
+eDomainRec 7
+
+eLOD_AttrDerivationOperRec 6
+aName      DeletedText
+aZKey      91024998
+aType      A
+aReturnDataType N
+
+eSourceFileForDARec 7
+aZKey      91020339
+aName      TZBRAU2O
+aLanguageType V
+aExtension VML
+
+eLOD_AttributeRec 5
+aZKey      91020215
+aUpdate    Y
+aSeqPriority 2
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      MetaDefName
+aZKey      91018949
+aLth       32
+aNotNull   Y
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91020216
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      MetaDefType
+aZKey      91018952
+aNotNull   Y
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      AuditTrailMeta
+aZKey      91017638
+aPurpose   S
+aER_DiagramPosX 433
+aER_DiagramPosY 70
+
+eER_RelLinkRec 5
+aName      has
+aZKey      91017641
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 6
+aZKey      91017640
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 454
+aER_DiagramBendPosY 72
+aER_DiagramE1PosX 454
+aER_DiagramE1PosY 60
+aER_DiagramE2PosX 442
+aER_DiagramE2PosY 72
+
+eLOD_AttributeRec 4
+aZKey      91012520
+
+eER_AttributeRec 5
+aName      UserName
+aZKey      92022421
+aLth       32
+aDesc      User Name or Identifier (Personalnr. in Landesbank)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91012521
+
+eER_AttributeRec 5
+aName      UserDesc
+aZKey      92022422
+aDesc      User description Identifier (Name in Landesbank)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91012522
+
+eER_AttributeRec 5
+aName      WKS_Id
+aZKey      94001526
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91012523
+aUpdate    Y
+aSeqPriority 1
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      TimeStamp
+aZKey      94001527
+aNotNull   Y
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91036795
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      ShortDesc
+aZKey      91035527
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      AuditTrail
+aZKey      92022362
+aPurpose   A
+aDesc      keep track of the history of the repository access (CHECK-IN...)
+aER_DiagramPosX 450
+aER_DiagramPosY 55
+aER_PortFactor 1
+
+eER_RelLinkRec 4
+aName      has
+aZKey      91002619
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelTypeRec 5
+aZKey      91002617
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 456
+aER_DiagramBendPosY 118
+aER_DiagramE1PosX 456
+aER_DiagramE1PosY 60
+aER_DiagramE2PosX 313
+aER_DiagramE2PosY 118
+
+eLOD_AttributeRec 3
+aZKey      91012511
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1320770
+aLth       32
+aNotNull   Y
+aDesc      CPLR Name
+aPromptPaintLit Name:
+aPromptPaintLth 60
+aListPaintLit Name:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      91012512
+
+eER_AttributeRec 4
+aName      LastCheckInDate
+aZKey      1320771
+aDesc      DateTime Stamp of the last Check In
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      91012513
+
+eER_AttributeRec 4
+aName      ZKey
+aZKey      1320772
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      91012514
+
+eER_AttributeRec 4
+aName      Desc
+aZKey      1320773
+aDesc      Descriptive text
+aPromptPaintLit Description:
+aPromptPaintLth 60
+aListPaintLit Description:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      91012515
+
+eER_AttributeRec 4
+aName      MetaSrcDir
+aZKey      1320774
+aLth       254
+aDesc      Directory of Zeidon Source Metas
+aPromptPaintLit Meta Directory:
+aPromptPaintLth 60
+aListPaintLit Meta Directory:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      91012516
+
+eER_AttributeRec 4
+aName      PgmSrcDir
+aZKey      1320775
+aLth       254
+aDesc      CPLR Directory for Source files (VML, C)
+aPromptPaintLit Source Directory:
+aPromptPaintLth 60
+aListPaintLit Source Directory:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      91012517
+
+eER_AttributeRec 4
+aName      ExecDir
+aZKey      1320776
+aLth       254
+aDesc      CPLR Directory for Executable files
+aPromptPaintLit Executables Directory:
+aPromptPaintLth 60
+aListPaintLit Executables Directory:
+aListPaintLth 60
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      91012518
+
+eER_AttributeRec 4
+aName      DB_Mode
+aZKey      1320777
+aDesc      Mode for CheckIn, CheckOut, and Refresh file/DB handling
+
+eDomainRec 5
+aZKey      1319735
+aName      CM_DataBaseMode
+aDomainType T
+aDataType  L
+aMaxStringLth 11
+aDesc      Indicator for how CPLRs are to be maintained
+aContextRestriction N
+
+eER_EntityRec 3
+aName      CPLR
+aZKey      1320769
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 304
+aER_DiagramPosY 114
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 7
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_AttrDerivationOper 4
+
+eSourceFileForDA 5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View to Instance
+aDataType  V
+aZKey      91024999
+
+eParameter 4
+aShortDesc Internal Entity Structure
+aDataType  S
+aZKey      91025000
+
+eParameter 4
+aShortDesc Internal Attrib Structure
+aDataType  S
+aZKey      91025001
+
+eParameter 4
+aShortDesc Get Or Set Flag
+aDataType  N
+aZKey      91025002
+
+ePOD       2
+aNAME      TZBRAU2O
+aZKey      91012557
+aTE_SourceZKey 1148367
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i13        7
+i22        10
+i25        10
+i28        10
+i31        10
+i34        16
+i37        10
+i44        10
+i47        7
+i54        7
+i57        10
+i68        7
+i71        10
+i80        77
+i83        16
+i89        60
+i92        7
+i97        7
+i100       74
+i106       7
+i109       16
+i112       10
+i115       77
+i118       7
+i124       7
+i127       77
+i130       10
+i133       16
+i136       7
+i139       7
+i142       7
+i147       1
+i148       122
+i149       123
+i150       7
+i151       125
+i152       126
+i153       77
+i154       128
+i155       129
+i156       10
+i157       131
+i158       132
+i159       16
+i160       134
+i161       135
+i162       7
+i163       137
+i164       138
+i165       7
+i166       140
+i167       141
+i168       7
+i169       143
+i170       144
+i171       145
+i172       146
+i173       2
+i174       104
+i175       105
+i176       7
+i177       107
+i178       108
+i179       16
+i180       110
+i181       111
+i182       10
+i183       113
+i184       114
+i185       77
+i186       116
+i187       117
+i188       7
+i189       119
+i190       120
+i191       121
+i192       3
+i193       20
+i194       21
+i195       10
+i196       23
+i197       24
+i198       10
+i199       26
+i200       27
+i201       10
+i202       29
+i203       30
+i204       10
+i205       32
+i206       33
+i207       16
+i208       35
+i209       36
+i210       10
+i211       38
+i212       39
+i213       40
+i214       4
+i215       5
+i216       6
+i217       7
+i218       8
+i219       9
+i220       10
+i221       11
+i222       12
+i223       7
+i224       14
+i225       15
+i226       16
+i227       17
+i228       18
+i229       19
+i230       41
+i231       42
+i232       43
+i233       10
+i234       45
+i235       46
+i236       7
+i237       48
+i238       49
+i239       50
+i240       51
+i241       52
+i242       53
+i243       7
+i244       55
+i245       56
+i246       10
+i247       58
+i248       59
+i249       60
+i250       61
+i251       62
+i252       63
+i253       64
+i254       87
+i255       88
+i256       60
+i257       90
+i258       91
+i259       7
+i260       93
+i261       94
+i262       95
+i263       96
+i264       7
+i265       98
+i266       99
+i267       74
+i268       101
+i269       102
+i270       103
+i271       65
+i272       66
+i273       67
+i274       7
+i275       69
+i276       70
+i277       10
+i278       72
+i279       73
+i280       74
+i281       75
+i282       76
+i283       77
+i284       78
+i285       79
+i286       77
+i287       81
+i288       82
+i289       16
+i290       84
+i291       85
+i292       86
+i293       94
+i294       93
+i304       93
+i305       94

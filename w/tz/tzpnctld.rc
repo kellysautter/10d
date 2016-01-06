@@ -1,0 +1,3 @@
+/* tzpntrad.rc : Defines the resources for the Painter dialog. */
+
+TZPNCTLD ICON TZPNCTLD.ICO

@@ -1,0 +1,15 @@
+z0100-Zeidon    Z5640E29 TZWDVORO 05/22/97   13:05:04 1.0a     
+eViewObjRef 1,198
+aZKey      90443305
+aName      KZDBHWOB
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1331075
+aName      KZDBHWOB
+aDesc      Work object for Zeidon database handlers
+aDLL_Name  KZDBHWOB
+aFK_ZKEY   8388608
+aFK_ZKEY02 310378496
+aFK_ZKEY03 228524032
+

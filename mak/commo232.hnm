@@ -1,0 +1,85 @@
+!ifndef  linker
+linker = link386
+#linker = tlink
+!endif
+
+!ifndef  cl
+cl = bcc
+rsp_flag = -r
+!endif
+
+!if "$(cl)"=="bcc"
+!if "$(linker)"=="tlink"
+exe_model = -Toe
+dll_model = -Tod
+c_start_code =
+!else
+exe_model =
+dll_model =
+c_start_code = d:\c\topaz\lib\c02d.obj
+!endif
+!else
+exe_model  = /C -Fo$@
+dll_model  = /c -Fo$(@R)
+!endif
+
+# INCL_WIN is defined in windows.h
+win30exe =
+win30dll = -D_DLL -D_MT
+DBLIBSRV = PDBLIB
+DBLIB    =
+linkdlls = DDE4MBS + os2
+linkexes = DDE4MBS + os2
+linkdlls = c2mt os2
+linkexes = c2mt os2
+
+kz_src = $(kz_base32)\$(fmid)
+kz_src_concat = $(kz_base32)\$(fmid);$(kz_basea)\$(fmid)
+kz_inc_concat = $(kz_base32)\$(fmid);$(kz_basea)\$(fmid);$(kz_base32)\incz;$(kz_basea)\incz;$(kz_base32)\incr;$(kz_basea)\incr;$(INCLUDE)
+io = -i$(kz_base32)\$(fmid);$(kz_basea)\$(fmid)
+kz_baseenv = $(kz_base32)
+kz_obj = $(kz_base32)\$(fmid)\debug
+kz_obj_gbl = $(kz_base32)\debug
+kz_lib  = $(kz_base32)\lib
+kz_libr = $(kz_base32)\libr
+kz_libz = $(kz_base32)\libz
+kz_bin = $(kz_base32)\bin
+HELPER=-DHELPER
+LIBENTRY =
+NMAKE = MAKE
+MAKE=MAKE
+
+lrf = echo > NUL
+
+
+!if $(debug)
+!if "$(cl)"=="bcc"
+opt = -2 -v -c -DDEBUG
+!if "$(linker)"=="tlink"
+linkopt = /v /A:16 /m /S:16384 /ap
+#linkopt = /CO /NOE /NOD /ALIGN:16 /EXEPACK /M /BASE:0x10000
+!else
+linkopt = /Debug /Align:4 /Base:0x12000000 /ExePack
+!endif
+!else
+opt = /O- /Ti+ /Kb /Gs+ /Ss+
+linkopt = /CO /NOE /NOD /ALIGN:16 /EXEPACK /M /BASE:0x10000
+!endif
+!else
+# no debugging
+!if "$(cl)"=="bcc"
+opt = -2 -c
+!if "$(linker)"=="tlink"
+linkopt = /A:16 /m /ap /S:16384
+!else
+linkopt = /Align:4 /Base:0x12000000 /ExePack
+!endif
+!else
+opt = /O+ /Kb /Gs- /Ss+
+linkopt = /NOE /NOD /ALIGN:16 /EXEPACK /M /BASE:0x10000
+!endif
+!endif
+
+EXEFLAG = $(exe_model) $(win30exe) $(opt)
+DLLFLAG = $(dll_model) $(win30dll) $(opt)
+

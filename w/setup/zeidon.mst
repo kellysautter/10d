@@ -1,0 +1,721 @@
+'**************************************************************************
+'*                       MSSetup Toolkit Zeidon Install
+'**************************************************************************
+
+'''$DEFINE DEBUG     1''Define for script development/debugging
+
+'$INCLUDE 'setupapi.inc'
+'$INCLUDE 'msdetect.inc'
+
+''Dialog ID's
+CONST ASKQUIT      = 200
+CONST DESTPATH     = 300
+CONST EXITFAILURE  = 400
+CONST EXITQUIT     = 600
+CONST EXITSUCCESS  = 700
+CONST OPTIONS      = 800
+CONST APPHELP      = 900
+CONST CUSTINST     = 6200
+CONST TOOBIG       = 6300
+CONST BADPATH      = 6400
+
+''Bitmap ID
+CONST LOGO         = 1
+
+''Check box types
+'CONST HELPFILES    = 1
+CONST REPOSITORY   = 1
+CONST CREATEICONS  = 2
+
+CONST Z_SYS        = 3
+CONST Z_INC        = 13
+CONST Z_BINK       = 12
+CONST Z_BINP       = 5
+CONST Z_BINT       = 6
+CONST C_BIN        = 7
+CONST R_BIN        = 8
+CONST L_BIN        = 9
+CONST Z_LIB        = 10
+CONST Z_HLP        = 1
+CONST Z_BIND       = 14
+CONST Z_SYSD       = 15
+CONST Z_SHAD       = 16
+CONST Z_SAMP       = 17
+CONST Z_SAMPDUP    = 18
+
+GLOBAL SRC$        ''Source directory.
+GLOBAL TGT$        ''Target directory.
+GLOBAL TGT_BIN$    ''Target executables directory.
+GLOBAL TGT_SYS$    ''Target Zeidon system directory.
+GLOBAL TGT_INC$    ''Target Zeidon development include directory.
+GLOBAL TGT_LIB$    ''Target Zeidon lib directory.
+GLOBAL TGT_HLP$    ''Target Zeidon help directory.
+GLOBAL TGT_LCL$    ''Target Zeidon local dir--for ZEIDON.APP, ZEIDON.INI, etc.
+
+GLOBAL WINDRIVE$       ''Windows drive letter.
+GLOBAL LAN_OPT$        ''LAN install
+GLOBAL DECOMPRESS_OPT$ ''Decompress option ... usually N for LAN install
+GLOBAL REPOSITORY_OPT$ ''Repository option
+
+''CustInst list symbol names
+GLOBAL APPNEEDS$       ''Option list costs per drive
+GLOBAL INSTOPT$
+GLOBAL EXTRACOSTS$     ''List of extra costs to add per drive
+GLOBAL BIGLIST$        ''List of option files cost calc results (boolean)
+
+''Dialog list symbol names
+GLOBAL CHECKSTATES$    ''Write Help Files, ...
+GLOBAL STATUSTEXT$
+GLOBAL DRIVETEXT$
+
+GLOBAL COST&
+GLOBAL COSTOPT&
+GLOBAL DRIVESIZE&
+
+DECLARE SUB AddOptFilesToCopyList (ftype%)
+DECLARE SUB RecalcOptFiles (ftype%)
+DECLARE SUB RecalcPath
+DECLARE SUB SetDriveStatus
+DECLARE FUNCTION MakePath (szDir$, szFile$) AS STRING
+
+
+
+INIT_LBL:
+   CUIDLL$ = "mscuistf.dll"            ''custom user interface dll
+   HELPPROC$ = "FHelpDlgProc"          ''Help dialog procedure
+
+   WINDRIVE$ = MID$(GetWindowsDir, 1, 1)
+   OpenLogFile WINDRIVE$ +":\zeidon.log", 0
+
+   REPOSITORY_OPT$ = "Y"
+   SRC$ = "A:\"                      ''Source directory.
+   TGT$ = WINDRIVE$ + ":\ZEIDON"     ''Target directory.
+   TGT_BIN$ = TGT$ + "\BIN"          ''Target executables directory.
+   TGT_SYS$ = TGT_BIN$ + "\SYS"      ''Target Zeidon system directory.
+   TGT_INC$ = TGT$ + "\INC"          ''Target Zeidon development include directory.
+   TGT_LIB$ = TGT$ + "\LIB"          ''Target Zeidon lib directory.
+   TGT_HLP$ = TGT$ + "\BIN"          ''Target Zeidon help directory.
+   TGT_LCL$ = WINDRIVE$ + ":\ZAPP"   ''Target local directory.
+
+   SetBitmap CUIDLL$, LOGO
+   SetTitle "Zeidon Development Platform Installation"
+'$IFDEF DEBUG
+   WriteToLogFile "Zeidon Development Platform Installation"
+'$ENDIF ''DEBUG
+
+   szInf$ = GetSymbolValue("STF_SRCINFPATH")
+
+'$IFDEF DEBUG
+   WriteToLogFile "szInf = " + szInf$
+'$ENDIF ''DEBUG
+
+   IF szInf$ = "" THEN
+      szInf$ = GetSymbolValue("STF_CWDDIR") + "ZEIDON.INF"
+'$IFDEF DEBUG
+      WriteToLogFile "szInf2 = " + szInf$
+'$ENDIF ''DEBUG
+   END IF
+   ReadInfFile szInf$
+
+   ''CustInst list symbols
+   CHECKSTATES$ = "CheckItemsState"
+   STATUSTEXT$  = "StatusItemsText"
+   DRIVETEXT$   = "DriveStatusText"
+
+'$IFDEF DEBUG
+   WriteToLogFile "list symbols"
+'$ENDIF ''DEBUG
+
+   FOR k% = 1 TO 14 STEP 1
+      AddListItem CHECKSTATES$, "ON"      '' 1 - help files ...
+   NEXT k%
+
+   FOR k% = 1 TO 3 STEP 1
+      AddListItem STATUSTEXT$, "x"
+   NEXT k%
+   AddListItem STATUSTEXT$, SRC$
+
+   FOR k% = 1 TO 7 STEP 1
+      AddListItem DRIVETEXT$, ""
+   NEXT k%
+
+'$IFDEF DEBUG
+   WriteToLogFile "replace list item"
+'$ENDIF ''DEBUG
+   ReplaceListItem DRIVETEXT$, 7, TGT$
+
+   ''Disk cost list symbols
+   APPNEEDS$   = "AppNeeds"
+   EXTRACOSTS$ = "ExtraCosts"
+   BIGLIST$    = "BigList"
+
+'$IFDEF DEBUG
+   WriteToLogFile "Add BIGLIST"
+'$ENDIF ''DEBUG
+   FOR k% = 1 TO 3 STEP 1
+      AddListItem BIGLIST$, ""
+   NEXT k%
+
+'$IFDEF DEBUG
+   WriteToLogFile "Add EXTRACOSTS"
+'$ENDIF ''DEBUG
+   FOR k% = 1 TO 26 STEP 1
+      AddListItem EXTRACOSTS$, "0"
+   NEXT k%
+
+   ''File Option Variables
+   INSTOPT$ = "4"   ''1 - "Copy Installation (Compressed) To Network"
+                    ''2 - "Server Install"
+                    ''3 - "Workstation Install (executables on server)"
+                    ''4 - "Local Install (stand-alone)"
+
+   RecalcPath
+   SetDriveStatus
+
+'$IFDEF DEBUG
+   k% = SetSizeCheckMode(scmOnIgnore)    '' could use scmOff; def = scmOnFatal
+'$ENDIF ''DEBUG
+
+
+
+CUSTINST_LBL:
+  sz$ = UIStartDlg(CUIDLL$, CUSTINST, "FCustInstDlgProc", APPHELP, HELPPROC$)
+'$IFDEF DEBUG
+   k% = DoMsgBox(sz$, "COMMAND Name", MB_OK+MB_TASKMODAL+MB_ICONHAND)
+'$ENDIF ''DEBUG
+
+   WriteToLogFile( "Return from FCust = " + sz$ )
+   IF sz$ = "CONTINUE" THEN
+      ''Install only if it will fit.
+      '' DGC 11/18/96  A hack to allow big drives -- if DRIVESIZE is < 0 then
+      '' then the free drive space is huge(!) so don't worry about it.
+      IF DRIVESIZE& >= 0 THEN
+        IF COSTOPT& + COST& > DRIVESIZE&  THEN
+           GOSUB TOOBIG_LBL
+           GOTO CUSTINST_LBL
+        END IF
+      END IF
+
+      UIPop 1
+      GOTO INSTALL_LBL
+   ELSEIF sz$ = "PATH" THEN
+      GOTO GETPATH_LBL
+   ELSEIF sz$ = "CHK" THEN
+      RecalcPath
+      SetDriveStatus
+      GOTO CUSTINST_LBL
+   ELSEIF sz$ = "BTN1" THEN
+      GOTO INSTOPT_LBL
+   ELSEIF sz$ = "REACTIVATE" THEN
+      RecalcPath
+      SetDriveStatus
+      GOTO CUSTINST_LBL
+   ELSE
+      GOSUB ASKQUIT_LBL
+      GOTO CUSTINST_LBL
+   END IF
+
+
+
+INSTALL_LBL:
+'$IFDEF DEBUG
+   k% = SetCopyMode( 0 )
+'$ENDIF ''DEBUG
+
+   ClearCopyList
+   RecalcPath
+   SetDriveStatus
+   CreateDir TGT$, cmoNone       ''Target directory.
+   IF (INSTOPT$ = "2") OR (INSTOPT$ = "4") THEN
+      CreateDir TGT_BIN$, cmoNone   ''Target executables directory.
+      CreateDir TGT_SYS$, cmoNone   ''Target Zeidon system directory.
+      CreateDir TGT_INC$, cmoNone   ''Target Zeidon development include directory.
+      CreateDir TGT_LIB$, cmoNone   ''Target Zeidon lib directory.
+      CreateDir TGT_HLP$, cmoNone   ''Target Zeidon help directory.
+      CreateDir TGT_LCL$, cmoNone   ''Target Zeidon local directory.
+   ELSEIF INSTOPT$ = "3" THEN
+      CreateDir TGT_SYS$, cmoNone       ''Target directory.
+   END IF
+
+   ''DumpCopyList(TGT$ +"\ZEIDON.LOG")
+   CopyFilesInCopyList
+
+   IF INSTOPT$ <> "3" THEN
+      IF REPOSITORY_OPT$ = "Y" THEN
+         ClearCopyList
+         AddOptFilesToCopyList Z_BIND
+         AddOptFilesToCopyList Z_SYSD
+         AddOptFilesToCopyList Z_SHAD
+         AddOptFilesToCopyList Z_SAMP
+         AddOptFilesToCopyList Z_SAMPDUP
+         CopyFilesInCopyList
+      END IF
+   END IF
+
+   IF (INSTOPT$ = "3") OR (INSTOPT$ = "4") THEN
+      ini$ = MakePath(TGT_LCL$, "ZEIDON.INI")
+      IF DoesFileExist( ini$, FemExists ) = 0 THEN
+         CreateIniKeyValue ini$, "Workstation", "UserID", "SYSADM" , cmoOverwrite
+         CreateIniKeyValue ini$, "Workstation", "DefaultApp", "", cmoOverwrite
+         CreateIniKeyValue ini$, "Workstation", "Password", "", cmoOverwrite
+      END IF
+
+      ini$ = ""
+
+      IF GetListItem(CHECKSTATES$, CREATEICONS) = "ON" THEN
+         CreateProgmanGroup "Zeidon R 9", "", cmoNone
+         ShowProgmanGroup  "Zeidon R 9", 1, cmoNone
+         CreateProgmanItem "Zeidon R 9", "System Administration", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzcmcpld", MakePath(TGT_BIN, "tzcmcpld.dll" ) +",0,1,1,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Workstation Administration", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzcmlpld", MakePath(TGT_BIN, "tzcmlpld.dll" ) +",0,1,2,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Domains", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzdmupdd", MakePath(TGT_BIN, "tzdmupdd.dll" ) +",0,2,1,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Data Model", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzeremdd", MakePath(TGT_BIN, "tzeremdd.dll" ) +",0,2,2,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Physical Data Models", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzteupdd", MakePath(TGT_BIN, "tzteupdd.dll" ) +",0,2,3,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Zeidon Objects", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzzolodd", MakePath(TGT_BIN, "tzzolodd.dll" ) +",0,3,1,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Dialogs", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzpntrad", MakePath(TGT_BIN, "tzpntrad.dll" ) +",0,3,2,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Application Animation", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzvsxcad", MakePath(TGT_BIN, "tzvsxcad.dll" ) +",0,3,3,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Global Operations", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzopupdd", MakePath(TGT_BIN, "tzopupdd.dll" ) +",0,4,1,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Siron Reports", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzrpupdd", MakePath(TGT_BIN, "tzrpupdd.dll" ) +",0,4,2,"+TGT_BIN$, cmoOverwrite
+         CreateProgmanItem "Zeidon R 9", "Object Browser", MakePath(TGT_BIN, "zdr.exe") + " \\Zeidon_Tools\tzobrwad", MakePath(TGT_BIN, "tzobrwad.dll" ) +",0,4,3,"+TGT_BIN$, cmoOverwrite
+      END IF
+
+      IF DoesFileExist( TGT_LCL$ + "\ZEIDON.APP", FemExists ) = 0 THEN
+         CloseLogFile
+         OpenLogFile TGT_LCL$ +"\zeidon.app", 0
+'*       WriteToLogFile "pZeidon    ZEIDON   KZAPPLOO 09/23/93   20:06:01 1.0a"
+         WriteToLogFile "eZEIDON    1"
+         WriteToLogFile "aZEIDON_BIN " +TGT_BIN$
+         WriteToLogFile "aZEIDON_SYS " +TGT_SYS$
+         WriteToLogFile "aZEIDON_SHR " +TGT_SYS$
+         WriteToLogFile ""
+         WriteToLogFile "eAPPLICATION 2"
+         WriteToLogFile "aAPP_NAME  Zeidon_Tools"
+         WriteToLogFile "aAPP_DLL   " +TGT_BIN$
+         WriteToLogFile "aAPP_ADOBIN " +TGT_SYS$
+         WriteToLogFile "aAPP_LOCAL " +TGT$
+         WriteToLogFile "aAPP_SHARED " +TGT$
+         CloseLogFile
+
+         OpenLogFile WINDRIVE$ +":\zeidon.log", 1
+      END IF
+   END IF
+
+
+QUIT:
+QUIT_LBL:
+   CloseLogFile
+   ON ERROR GOTO ERRQUIT_LBL
+
+   IF ERR = 0 THEN
+      dlg% = EXITSUCCESS
+   ELSEIF ERR = STFQUIT THEN
+      dlg% = EXITQUIT
+   ELSE
+      dlg% = EXITFAILURE
+   END IF
+QUITL1_LBL:
+   sz$ = UIStartDlg(CUIDLL$, dlg%, "FInfo0DlgProc", 0, "")
+   IF sz$ = "REACTIVATE" THEN
+      GOTO QUITL1_LBL
+   END IF
+   UIPop 1
+
+   END
+
+ERRQUIT_LBL:
+   k% = DoMsgBox("Setup sources were corrupted, call Quinsoft Support at (617) 773-7400!", "Setup Message", MB_OK+MB_TASKMODAL+MB_ICONHAND)
+   END
+
+
+
+GETPATH_LBL:
+    SetSymbolValue "EditTextIn",   TGT$
+    SetSymbolValue "EditTextIn3",  TGT_LCL$
+    SetSymbolValue "EditFocus", "END"
+
+'*  SetSymbolValue "EditTextIn",   TGT$
+'*  SetSymbolValue "EditTextIn2",  TGT_BIN$
+'*  SetSymbolValue "EditTextIn3",  TGT_SYS$
+'*  SetSymbolValue "EditTextIn4",  TGT_INC$
+'*  SetSymbolValue "EditTextIn5",  TGT_LIB$
+'*  SetSymbolValue "EditTextIn6",  TGT_HLP$
+'*  SetSymbolValue "EditFocus", "END"
+
+GETPATHL1_LBL:
+   sz$ = UIStartDlg(CUIDLL$, DESTPATH, "FEditDlgProc", APPHELP, HELPPROC$)
+
+   IF sz$ = "CONTINUE" THEN
+      olddest$ = TGT$
+      TGT$ = GetSymbolValue("EditTextOut")
+      TGT_LCL$ = GetSymbolValue("EditTextOut3")
+
+      TGT_BIN$ = TGT$ + "\BIN"
+      TGT_SYS$ = TGT$ + "\BIN\SYS"
+      TGT_INC$ = TGT$ + "\INC"
+      TGT_LIB$ = TGT$ + "\LIB"
+      TGT_HLP$ = TGT_BIN
+
+'$IFDEF DEBUG
+      WriteToLogFile SRC$ +     "Source directory."
+      WriteToLogFile TGT$ +     "Target directory."
+      WriteToLogFile TGT_BIN$ + "Target executables directory."
+      WriteToLogFile TGT_SYS$ + "Target Zeidon system directory."
+      WriteToLogFile TGT_INC$ + "Target Zeidon development include directory."
+      WriteToLogFile TGT_LIB$ + "Target Zeidon lib directory."
+      WriteToLogFile TGT_HLP$ + "Target Zeidon help directory."
+'$ENDIF ''DEBUG
+
+
+      ''Validate new path.
+      IF IsDirWritable(TGT$) = 0 THEN
+         GOSUB BADPATH_LBL
+         GOTO GETPATHL1_LBL
+      END IF
+      UIPop 1
+
+      ''Truncate display if too long.
+      IF LEN(TGT$) > 23 THEN
+         ReplaceListItem DRIVETEXT$, 7, MID$(TGT$, 1, 23)+"..."
+      ELSE
+         ReplaceListItem DRIVETEXT$, 7, TGT$
+      END IF
+
+      ''Recalc if path changed.
+      IF (olddest$ <> TGT$) AND (olddest$ <> TGT$+"\") AND (olddest$+"\" <> TGT$) THEN
+         RecalcPath
+         SetDriveStatus
+      END IF
+
+      olddest$ = ""
+      GOTO CUSTINST_LBL
+   ELSEIF sz$ = "REACTIVATE" THEN
+      RecalcPath
+      SetDriveStatus
+      GOTO GETPATHL1_LBL
+   ELSEIF sz$ = "EXIT" THEN
+      GOSUB ASKQUIT_LBL
+      GOTO GETPATHL1_LBL
+   ELSE
+      UIPop 1
+      GOTO CUSTINST_LBL
+   END IF
+
+
+
+INSTOPT_LBL:
+   SetSymbolValue "EditTextRI", SRC$
+   SetSymbolValue "RadioDefault", INSTOPT$
+INSTOPT_1_LBL:
+   sz$ = UIStartDlg(CUIDLL$, OPTIONS, "FRadioDlgProc", APPHELP, HELPPROC$)
+   newopt$ = GetSymbolValue("ButtonChecked")
+'$IFDEF DEBUG
+   WriteToLogFile "INSTOPT_LBL " + newopt$
+'$ENDIF ''DEBUG
+
+   IF sz$ = "CONTINUE" THEN
+      UIPop 1
+      SRC$ = GetSymbolValue("EditTextRO")
+      ReplaceListItem STATUSTEXT$, 4, SRC$
+
+''    IF newopt$ <> INSTOPT$ THEN
+''       INSTOPT$ = newopt$
+''    END IF
+
+      RecalcPath
+      SetDriveStatus
+      newopt$ = ""
+      GOTO CUSTINST_LBL
+   ELSEIF sz$ = "REACTIVATE" THEN
+      RecalcPath
+      SetDriveStatus
+      GOTO INSTOPT_1_LBL
+   ELSEIF sz$ = "EXIT" THEN
+      GOSUB ASKQUIT_LBL
+      GOTO INSTOPT_1_LBL
+   ELSE
+      UIPop 1
+      newopt$ = ""
+      GOTO CUSTINST_LBL
+   END IF
+
+
+
+TOOBIG_LBL:
+   sz$ = UIStartDlg(CUIDLL$, TOOBIG, "FInfo0DlgProc", 0, "")
+   IF sz$ = "REACTIVATE" THEN
+       RecalcPath
+       SetDriveStatus
+       GOTO TOOBIG_LBL
+   END IF
+   UIPop 1
+   RETURN
+
+
+
+BADPATH_LBL:
+   sz$ = UIStartDlg(CUIDLL$, BADPATH, "FInfo0DlgProc", 0, "")
+   IF sz$ = "REACTIVATE" THEN
+       RecalcPath
+       SetDriveStatus
+       GOTO BADPATH_LBL
+   END IF
+   UIPop 1
+   RETURN
+
+
+
+ASKQUIT_LBL:
+   sz$ = UIStartDlg(CUIDLL$, ASKQUIT, "FQuitDlgProc", 0, "")
+
+   IF sz$ = "EXIT" THEN
+       UIPopAll
+       ERROR STFQUIT
+   ELSEIF sz$ = "REACTIVATE" THEN
+       GOTO ASKQUIT_LBL
+   ELSE
+       UIPop 1
+   END IF
+   RETURN
+
+
+
+'**
+'** Purpose:
+'**     Adds the specified option files to the copy list.
+'** Arguments:
+'**     ftype%  - type of files to add, one of the following:
+'**             Z_SYS, Z_INC, Z_BIN
+'** Returns:
+'**     none.
+'*************************************************************************
+SUB AddOptFilesToCopyList (ftype%) STATIC
+
+   SrcDir$ = SRC$
+   IF ftype% = Z_SYS THEN
+      AddSectionFilesToCopyList "SYS", SrcDir$, TGT_SYS$
+      AddSectionFilesToCopyList "SYSDUP2", SrcDir$, TGT_SYS$
+      AddSectionFilesToCopyList "SYSSAMPLE", SrcDir$, TGT_SYS$
+   ELSEIF ftype% = Z_INC THEN
+      AddSectionFilesToCopyList "INC", SrcDir$, TGT_INC$
+   ELSEIF ftype% = Z_BINK THEN
+      AddSectionFilesToCopyList "Z_BINK", SrcDir$, TGT_BIN$
+   ELSEIF ftype% = Z_BINP THEN
+      AddSectionFilesToCopyList "Z_BINP", SrcDir$, TGT_BIN$
+      AddSectionFilesToCopyList "Z_BIND", SrcDir$, TGT_BIN$
+   ELSEIF ftype% = Z_BINT THEN
+      AddSectionFilesToCopyList "Z_BINT", SrcDir$, TGT_BIN$
+   ELSEIF ftype% = C_BIN THEN
+      AddSectionFilesToCopyList "C_BIN", SrcDir$, TGT_BIN$
+   ELSEIF ftype% = R_BIN THEN
+      AddSectionFilesToCopyList "REMAIN_BIN", SrcDir$, TGT_BIN$
+   ELSEIF ftype% = Z_LIB THEN
+      AddSectionFilesToCopyList "LIB", SrcDir$, TGT_LIB$
+   ELSEIF ftype% = Z_HLP THEN
+      AddSectionFilesToCopyList "HLP", SrcDir$, TGT_HLP$
+      WriteToLogFile( "AddOptFilesToCopyList - HLP" )
+   END IF
+   SrcDir$ = ""
+
+END SUB
+
+
+'**
+'** Purpose:
+'**     Recalculates disk space for the given option files and sets
+'**     the status info symbol "StatusItemsText".
+'** Arguments:
+'**     ftype% - type of files to add, one of the following:
+'**             Z_SYS        = 2
+'**             Z_INC        = 3
+'**             Z_BINK       = 4
+'**             Z_BINP       = 5
+'**             Z_BINT       = 6
+'**             C_BIN        = 7
+'**             R_BIN        = 8
+'**             L_BIN        = 9
+'**             Z_LIB        = 10
+'**             Z_HLP        = 11
+'** Returns:
+'**     none.
+'*************************************************************************
+SUB RecalcOptFiles (ftype%) STATIC
+'$IFDEF DEBUG
+   WriteToLogFile( "RecalcOptFiles" +STR$(ftype%) )
+'$ENDIF ''DEBUG
+   CursorSave% = ShowWaitCursor()
+   ClearCopyList
+
+   ListSym$ = APPNEEDS$
+   COSTOPT& = 0
+   IF ftype% = Z_HLP THEN
+      IF INSTOPT$ <> "3" THEN
+         AddOptFilesToCopyList Z_HLP
+      END IF
+
+      ''StillNeeded is 0 if there is enough disk space to copy files
+      StillNeeded& = GetCopyListCost(EXTRACOSTS$, ListSym$, "")
+      FOR k% = 3 TO 7 STEP 1
+         WriteToLogFile( "CostOpt" +STR$(k%) + " " + GetListItem(ListSym$, k%) )
+         COSTOPT&  = COSTOPT& + VAL(GetListItem(ListSym$, k%))
+      NEXT k%
+'$IFDEF DEBUG
+      WriteToLogFile( "CostOpt " +STR$(COSTOPT&) )
+'$ENDIF ''DEBUG
+   END IF
+
+   IF INSTOPT$ <> "3" THEN
+      AddOptFilesToCopyList Z_SYS
+      AddOptFilesToCopyList Z_INC
+      AddOptFilesToCopyList Z_BINK
+      AddOptFilesToCopyList Z_BINP
+      AddOptFilesToCopyList Z_BINT
+      AddOptFilesToCopyList C_BIN
+      AddOptFilesToCopyList R_BIN
+      AddOptFilesToCopyList L_BIN
+      AddOptFilesToCopyList Z_LIB
+      AddOptFilesToCopyList Z_SAMPDUP
+
+      WriteToLogFile( "WithOUT repository" )
+   END IF
+
+'$IFDEF DEBUG
+   WriteToLogFile( "End of AddOptFiles" )
+'$ENDIF ''DEBUG
+
+   ''StillNeeded is 0 if there is enough disk space to copy files
+   StillNeeded& = GetCopyListCost(EXTRACOSTS$, ListSym$, "")
+'$IFDEF DEBUG
+   WriteToLogFile( "StillNeeded =" +STR$(StillNeeded&) )
+'$ENDIF ''DEBUG
+
+   COST& = 0
+   FOR k% = 3 TO 7 STEP 1
+      WriteToLogFile( "Cost" +STR$(k%) + " " + GetListItem(ListSym$, k%) )
+      COST&  = COST& + VAL(GetListItem(ListSym$, k%))
+   NEXT k%
+'$IFDEF DEBUG
+   WriteToLogFile( "Cost " +STR$(COST&) )
+'$ENDIF ''DEBUG
+
+   COST& = COST& - COSTOPT&
+   ReplaceListItem STATUSTEXT$, 1, STR$(COST& / 1024) + " K"
+   ReplaceListItem STATUSTEXT$, 2, STR$(COSTOPT& / 1024) + " K"
+
+   RestoreCursor CursorSave%
+   ListSym$ = ""
+END SUB
+
+
+'**
+'** Purpose:
+'**     Recalculates disk space and sets option status info according
+'**     to the current destination path.
+'** Arguments:
+'**     none.
+'** Returns:
+'**     none.
+'*************************************************************************
+SUB RecalcPath STATIC
+
+   CursorSave% = ShowWaitCursor()
+
+'$IFDEF DEBUG
+    WriteToLogFile "RecalcPath"
+'$ENDIF ''DEBUG
+
+   WriteToLogFile( "Recalc path  CHECKSTATES = " + CHECKSTATES$ )
+   FOR k% = 1 TO GetListLength( CHECKSTATES$) STEP 1
+      WriteToLogFile( "  CheckStates " + STR$(k%) + " " + GetListItem(CHECKSTATES$, k%) )
+   NEXT k%
+   IF GetListItem(CHECKSTATES$, REPOSITORY) = "ON" THEN
+      ''k% = DoMsgBox("About to add Repos", "COMMAND Name", MB_OK)
+      REPOSITORY_OPT$ = "Y"
+   ELSE
+      REPOSITORY_OPT$ = "N"
+   END IF
+
+   ' Always do help files.
+   RecalcOptFiles Z_HLP
+
+   IF INSTOPT$ = "1" THEN
+      k% = SetDecompMode( 0 )
+      ReplaceListItem STATUSTEXT$, 3, "Copy Installation (Compressed) To Network"
+   ELSEIF INSTOPT$ = "2" THEN
+      k% = SetDecompMode( 1 )
+      ReplaceListItem STATUSTEXT$, 3, "Server Install"
+   ELSEIF INSTOPT$ = "3" THEN
+      k% = SetDecompMode( 1 )
+      ReplaceListItem STATUSTEXT$, 3, "Workstation Install (executables on server)"
+   ELSEIF INSTOPT$ = "4" THEN
+      k% = SetDecompMode( 1 )
+      ReplaceListItem STATUSTEXT$, 3, "Local Install (stand-alone)"
+   END IF
+
+   RestoreCursor CursorSave%
+END SUB
+
+
+'**
+'** Purpose:
+'**     Sets drive status info according to latest disk space calcs.
+'** Arguments:
+'**     none.
+'** Returns:
+'**     none.
+'*************************************************************************
+SUB SetDriveStatus STATIC
+
+'$IFDEF DEBUG
+   WriteToLogFile "SetDriveStatus"
+'$ENDIF ''DEBUG
+
+   drive$ = MID$(TGT$, 1, 1)
+   ndrive% = ASC(ucase$(drive$)) - ASC("A") + 1
+   costtemp& = VAL(GetListItem(APPNEEDS$, ndrive%))
+   DRIVESIZE& = GetFreeSpaceForDrive(drive$)
+   ReplaceListItem DRIVETEXT$, 1, drive$ + ":"
+   ReplaceListItem DRIVETEXT$, 2, STR$(costtemp& / 1024) + " K"
+   ReplaceListItem DRIVETEXT$, 3, STR$(DRIVESIZE& / 1024) + " K"
+
+   IF drive$ = WINDRIVE$ THEN
+      ReplaceListItem DRIVETEXT$, 4, ""
+      ReplaceListItem DRIVETEXT$, 5, ""
+      ReplaceListItem DRIVETEXT$, 6, ""
+   ELSE
+      ndrive% = ASC(ucase$(WINDRIVE$)) - ASC("A") + 1
+      costtemp& = VAL(GetListItem(APPNEEDS$, ndrive%))
+      IF costtemp& = 0 THEN
+         ReplaceListItem DRIVETEXT$, 4, ""
+         ReplaceListItem DRIVETEXT$, 5, ""
+         ReplaceListItem DRIVETEXT$, 6, ""
+      ELSE
+         free& = GetFreeSpaceForDrive(WINDRIVE$)
+         ReplaceListItem DRIVETEXT$, 4, WINDRIVE$ + ":"
+         ReplaceListItem DRIVETEXT$, 5, STR$(costtemp& / 1024) + " K"
+         ReplaceListItem DRIVETEXT$, 6, STR$(free& / 1024) + " K"
+      END IF
+   END IF
+END SUB
+
+
+'**
+'** Purpose:
+'**     Appends a file name to the end of a directory path,
+'**     inserting a backslash character as needed.
+'** Arguments:
+'**     szDir$  - full directory path (with optional ending "\")
+'**     szFile$ - filename to append to directory
+'** Returns:
+'**     Resulting fully qualified path name.
+'*************************************************************************
+FUNCTION MakePath (szDir$, szFile$) STATIC AS STRING
+   IF szDir$ = "" THEN
+      MakePath = szFile$
+   ELSEIF szFile$ = "" THEN
+      MakePath = szDir$
+   ELSEIF MID$(szDir$, LEN(szDir$), 1) = "\" THEN
+      MakePath = szDir$ + szFile$
+   ELSE
+      MakePath = szDir$ + "\" + szFile$
+   END IF
+END FUNCTION
+

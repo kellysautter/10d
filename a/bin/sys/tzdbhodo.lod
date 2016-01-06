@@ -1,0 +1,362 @@
+z10000Zeidon    TZDBHODO TZZOLODO 05/01/01   23:17:46 1.0b0    
+eLOD       1
+aZKey      90040820
+aName      TZDBHODO
+aDesc      This is a db-handler object.  It is used to specify information that is specific to ODBC databases.
+
+eLOD_EntityParent 2
+aName      ODBC
+aIndentName ODBC
+aIndentLvl 0
+aZKey      90040821
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      ReservedWord
+aIndentName    ReservedWord
+aIndentLvl 3
+aZKey      90039471
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      90039472
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Word
+aZKey      90039473
+aLth       100
+aNotNull   Y
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90040822
+aWork      Y
+aUpdate    Y
+aInit      3
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      TimestampPrecision
+aZKey      90040823
+aDesc      216
+Specifies the precession that the database supports for timestamps.  This number is the number of decimal points supported for seconds.
+
+For example, a value of 3 indicates that the database supports milliseconds.
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90015060
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      TimestampAsString
+aZKey      90015061
+aDesc      If 'Y' then timestamps are stored as strings.
+
+eDomainRec 5
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90040824
+aWork      Y
+aUpdate    Y
+aInit      N
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      BlobsLast
+aZKey      90040825
+aDesc      If 'Y' then all blobs/varchars must be last during SELECT/INSERT SQL statements.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90039474
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      MaxTableNameLength
+aZKey      90039475
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90039476
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      MaxColumnNameLength
+aZKey      90039477
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90039478
+aWork      Y
+aUpdate    Y
+aInit      Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      DropTables
+aZKey      90039479
+aDesc      If 'Y' then generate the 'drop table xxx' statements in the DDL
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90039480
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      AddTableNameToFK_Override
+aZKey      90039481
+aLth       1
+aDesc      If 'Y' then generate FKeys with the table name appended.  This overrides the value in the general SQL data object.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      88043916
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      GenCreateIdxs
+aZKey      88043917
+aDesc      If not 'N', then generate "CREATE INDEX" statements in the DDL
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      88043918
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      GenDropIdxs
+aZKey      88043919
+aDesc      If not 'N', then generate "DROP INDEX" statements in the DDL
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      88043920
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      GenCreateTables
+aZKey      88043921
+aDesc      If not 'N', then generate "CREATE TABLE" statements in the DDL
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      88044377
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      JoinWithParent
+aZKey      88044378
+aDesc      Used to set information for a LOD_Entity, this attribute indicates whether an entity should be joined with it's parent during activation.
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 11
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 10
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 11
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+i14        11
+i17        8
+i20        8
+i23        11
+i26        5
+i29        11
+i32        11
+i35        11
+i38        11
+i39        1
+i40        6
+i41        7
+i42        8
+i43        9
+i44        10
+i45        11
+i46        12
+i47        13
+i48        11
+i49        15
+i50        16
+i51        8
+i52        18
+i53        19
+i54        8
+i55        21
+i56        22
+i57        11
+i58        24
+i59        25
+i60        5
+i61        27
+i62        28
+i63        11
+i64        30
+i65        31
+i66        11
+i67        33
+i68        34
+i69        11
+i70        36
+i71        37
+i72        11
+i73        2
+i74        3
+i75        4
+i76        5

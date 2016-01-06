@@ -1,0 +1,17 @@
+rZeidon    Z0146EA2 TZWDVORO 11/02/95   20:52:49 1.0a     
+eViewObjRef 1,192
+aZKey      1339042
+aName      TZCMWIPO
+
+eLOD       2,192
+aZKey      1329718
+aName      TZCMWIPO
+aDesc      Work Object for Configuration Management
+
+eZ_MetaDef 2,192
+aName      TZCMWIPO
+aZKey      1339042
+aType      9
+aLastUpdateDate 19950824213722000
+aLastCheckInDate 19951102203051110
+

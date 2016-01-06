@@ -1,0 +1,2904 @@
+z10000Zeidon    TZHLPCXP TZHLPCXO 01/02/02   15:52:44 1.0a1
+eRoot      1
+aImportFile C:\ZeidonHilfe\map_progref.txt
+
+eOperSystem 2
+aOSName    MS-Windows
+
+eContext   3
+aTag       BasicsManual
+aNumber    0
+aFileName  Basics
+
+eContext   3
+aTag       OperationReference
+aNumber    5000
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ActBar_EnableTool
+aNumber    5003
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ActBar_OnToolbarClick
+aNumber    5004
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ActBar_SetToolVisible
+aNumber    5005
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ActivateWindow
+aNumber    5002
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AddOptionToMenu
+aNumber    5006
+aFileName  Operations_Reference
+
+eContext   3
+aTag       BMP_SetBitmapFileName
+aNumber    5007
+aFileName  Operations_Reference
+
+eContext   3
+aTag       BMP_SetBitmapResource
+aNumber    5008
+aFileName  Operations_Reference
+
+eContext   3
+aTag       BuildWindowImmediate
+aNumber    5009
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CreateTrackingPopupMenu
+aNumber    5010
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CreateWindowSubtask
+aNumber    5011
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ED_HiliteText
+aNumber    5012
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ED_LimitTextLength
+aNumber    5013
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ED_SetCtrlMapping
+aNumber    5014
+aFileName  Operations_Reference
+
+eContext   3
+aTag       EnableAction
+aNumber    5015
+aFileName  Operations_Reference
+
+eContext   3
+aTag       EnableAllSubwindows
+aNumber    5016
+aFileName  Operations_Reference
+
+eContext   3
+aTag       FindDialogWindow
+aNumber    5017
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetActionName
+aNumber    5018
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetActionParameters
+aNumber    5019
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetActiveX_ParameterCount
+aNumber    5020
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetActiveX_ParameterValue
+aNumber    5021
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetCtrlPosition
+aNumber    5022
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetCtrlSize
+aNumber    5023
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetCtrlState
+aNumber    5024
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetCtrlText
+aNumber    5025
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetCtrlWithFocus
+aNumber    5026
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetDlgWndCtrlNames
+aNumber    5027
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetLastCommandTag
+aNumber    5028
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetLastCtrlTag
+aNumber    5029
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetLastPopupMenu
+aNumber    5030
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetOperationDynamicCallAddress
+aNumber    5031
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetOptionState
+aNumber    5032
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetParentWindow
+aNumber    5033
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetParentWindowName
+aNumber    5034
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetPressedState
+aNumber    5035
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetSubtaskForWindowName
+aNumber    5036
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetTextHeight
+aNumber    5037
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetTextWidth
+aNumber    5038
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetWindowHandle
+aNumber    5039
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetWindowState
+aNumber    5040
+aFileName  Operations_Reference
+
+eContext   3
+aTag       HiliteListBoxItem
+aNumber    5041
+aFileName  Operations_Reference
+
+eContext   3
+aTag       IsDoubleClick
+aNumber    5042
+aFileName  Operations_Reference
+
+eContext   3
+aTag       IssueError
+aNumber    5043
+aFileName  Operations_Reference
+
+eContext   3
+aTag       LB_SetColorAssociation
+aNumber    5044
+aFileName  Operations_Reference
+
+eContext   3
+aTag       LB_SetColorAttributeName
+aNumber    5045
+aFileName  Operations_Reference
+
+eContext   3
+aTag       LB_SetDisplaySelectSet
+aNumber    5046
+aFileName  Operations_Reference
+
+eContext   3
+aTag       LB_SetSelectedPosition
+aNumber    5047
+aFileName  Operations_Reference
+
+eContext   3
+aTag       LB_SetSelectSelectSet
+aNumber    5048
+aFileName  Operations_Reference
+
+eContext   3
+aTag       LB_SortByColumn
+aNumber    5049
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MapCtrl
+aNumber    5050
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MapWindow
+aNumber    5051
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MB_SetMessage
+aNumber    5052
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MessagePresent
+aNumber    5053
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MessagePrompt
+aNumber    5054
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MessagePromptForInput
+aNumber    5055
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MessageSend
+aNumber    5056
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_EditLabel
+aNumber    5057
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_ExpandEntity
+aNumber    5058
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetBackgroundColor
+aNumber    5059
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetCollapsingEntityName
+aNumber    5060
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetCtrlState
+aNumber    5061
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetCurrentEntityName
+aNumber    5062
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetDefaultBitmap
+aNumber    5063
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetExpandingEntityName
+aNumber    5064
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetExpandState
+aNumber    5065
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetLastCollapsedEntityName
+aNumber    5066
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetLastExpandedEntityName
+aNumber    5067
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetSelectedBitmap
+aNumber    5068
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetTextColorForEntity
+aNumber    5069
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_GetTextFontForEntity
+aNumber    5070
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_ResetAllTextColorsForItemText
+aNumber    5071
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_SelectItem
+aNumber    5072
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_SetBackgroundColor
+aNumber    5073
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_SetCtrlState
+aNumber    5074
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_SetDefaultBitmap
+aNumber    5075
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_SetSelectedBitmap
+aNumber    5076
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_SetTextColorForEntity
+aNumber    5077
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_SetTextColorForItemText
+aNumber    5078
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OL_SetTextFontForEntity
+aNumber    5079
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OperationCount
+aNumber    5080
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OperatorConversationalDialog
+aNumber    5081
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OperatorPrompt
+aNumber    5082
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OperatorPromptForFile
+aNumber    5083
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OperatorPromptForInput
+aNumber    5084
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OperatorSend
+aNumber    5085
+aFileName  Operations_Reference
+
+eContext   3
+aTag       PrintActiveWindow
+aNumber    5086
+aFileName  Operations_Reference
+
+eContext   3
+aTag       RefreshAllSubwindows
+aNumber    5087
+aFileName  Operations_Reference
+
+eContext   3
+aTag       RefreshCtrl
+aNumber    5088
+aFileName  Operations_Reference
+
+eContext   3
+aTag       RefreshVisibleItems
+aNumber    5089
+aFileName  Operations_Reference
+
+eContext   3
+aTag       RefreshWindow
+aNumber    5090
+aFileName  Operations_Reference
+
+eContext   3
+aTag       RefreshWindowExceptForCtrl
+aNumber    5091
+aFileName  Operations_Reference
+
+eContext   3
+aTag       RemoveOptionFromMenu
+aNumber    5092
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ReplacePrimaryMenu
+aNumber    5093
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ResetWindowPlacement
+aNumber    5094
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCtrlPosition
+aNumber    5095
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCtrlProperty
+aNumber    5096
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCtrlRowColText
+aNumber    5097
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCtrlSize
+aNumber    5200
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCtrlState
+aNumber    5201
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCtrlText
+aNumber    5202
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCtrlTextLth
+aNumber    5203
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetFocusToCtrl
+aNumber    5204
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetFocusToNextCtrl
+aNumber    5205
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetOptionState
+aNumber    5206
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetWindowActionBehavior
+aNumber    5207
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetWindowCaptionTitle
+aNumber    5208
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetWindowState
+aNumber    5209
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfCreateSubtask
+aNumber    5210
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfCreateSystemSubtask
+aNumber    5211
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfDropSubtask
+aNumber    5212
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfGetApplicationForSubtask
+aNumber    5213
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SP_GetShapeCtrlBOI
+aNumber    5214
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SP_SetShapeCtrlBOI
+aNumber    5215
+aFileName  Operations_Reference
+
+eContext   3
+aTag       StartBrowserWindowWithURL
+aNumber    5216
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SwitchToAction
+aNumber    5217
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysMessageBox
+aNumber    5218
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysMessageList
+aNumber    5219
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysSendOE_Message
+aNumber    5220
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TAB_GetActiveTab
+aNumber    5221
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TAB_HideTab
+aNumber    5222
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TAB_SetActiveTab
+aNumber    5223
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_AllowAddNew
+aNumber    5224
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_AllowDelete
+aNumber    5225
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_EnableAutosort
+aNumber    5226
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_GetActiveCell
+aNumber    5227
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_GetCaption
+aNumber    5228
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_GetCellData
+aNumber    5229
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_GetMouseClick
+aNumber    5230
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_GetMouseClickWithKey
+aNumber    5231
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_LimitTextLen
+aNumber    5232
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_LockColumn
+aNumber    5233
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_LockGrid
+aNumber    5234
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetActiveCell
+aNumber    5235
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetAlignment
+aNumber    5236
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetAllowColSelect
+aNumber    5237
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetAllowFocus
+aNumber    5238
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetAllowRowSelect
+aNumber    5239
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetAllowRowSizing
+aNumber    5240
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetBackgroundColor
+aNumber    5241
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetButtonAlways
+aNumber    5242
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetCaption
+aNumber    5243
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetCellData
+aNumber    5244
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetCheckBoxTranslation
+aNumber    5245
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetColumnWidth
+aNumber    5246
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetFont
+aNumber    5247
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetForegroundColor
+aNumber    5248
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetInactiveBackColor
+aNumber    5249
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetInactiveForeColor
+aNumber    5250
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetMultiSelect
+aNumber    5251
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_SetTextColor
+aNumber    5252
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TG_ShowColumn
+aNumber    5253
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TX_GetTextRptCtrlBOI
+aNumber    5254
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TX_SetTextRptCtrlBOI
+aNumber    5255
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ValidateMapCtrl
+aNumber    5256
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zDialogIsActive
+aNumber    5257
+aFileName  Operations_Reference
+
+eContext   3
+aTag       Controls / Windows
+aNumber    5001
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ConvertDecimalToString
+aNumber    5663
+aFileName  Operations_Reference
+
+eContext   3
+aTag       Conversion / Data Types / Arithmetic Operations
+aNumber    5662
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GenFullQualPathFromRelPath
+aNumber    5664
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetDecimalFromAttribute
+aNumber    5665
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetIntegerFromAttribute
+aNumber    5666
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetStringFromAttribute
+aNumber    5667
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetStringFromAttributeByContext
+aNumber    5668
+aFileName  Operations_Reference
+
+eContext   3
+aTag       StrToDecimal
+aNumber    5669
+aFileName  Operations_Reference
+
+eContext   3
+aTag       StrToInt
+aNumber    5670
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetDateTime
+aNumber    5671
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysTranslateString
+aNumber    5672
+aFileName  Operations_Reference
+
+eContext   3
+aTag       UfFormatDateTime
+aNumber    5673
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zCharToOem
+aNumber    5674
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zDateIsLeapYear
+aNumber    5675
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ZeidonStringCompare
+aNumber    5676
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ZeidonStringConcat
+aNumber    5677
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ZeidonStringConvertFromNumber
+aNumber    5678
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ZeidonStringCopy
+aNumber    5679
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zExponent
+aNumber    5680
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetDateFromDayOfYear
+aNumber    5681
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetDayOfYearFromDate
+aNumber    5682
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetDecrementDate
+aNumber    5683
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetGermanNameOfMonth
+aNumber    5684
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetIncrementDate
+aNumber    5685
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetStringLen
+aNumber    5686
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetStringLenWithoutBlank
+aNumber    5687
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetStringWithoutBlank
+aNumber    5688
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zIntegerToString
+aNumber    5689
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zltoa
+aNumber    5690
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zModulo
+aNumber    5691
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zReplaceSubString
+aNumber    5692
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zRound
+aNumber    5693
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zSearchAndReplace
+aNumber    5694
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zSearchSubString
+aNumber    5695
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zstrcmpi
+aNumber    5696
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zStringIsDate
+aNumber    5697
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zStringToInteger
+aNumber    5698
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zstrlen
+aNumber    5699
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zstrncmpi
+aNumber    5700
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zSysTranslateString
+aNumber    5701
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zToUpper
+aNumber    5702
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zYearIsLeapYear
+aNumber    5703
+aFileName  Operations_Reference
+
+eContext   3
+aTag       File Operations
+aNumber    5833
+aFileName  Operations_Reference
+
+eContext   3
+aTag       FindFileClose
+aNumber    5834
+aFileName  Operations_Reference
+
+eContext   3
+aTag       FindFileNext
+aNumber    5835
+aFileName  Operations_Reference
+
+eContext   3
+aTag       FindFileStart
+aNumber    5836
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysCloseFile
+aNumber    5837
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysCopyFile
+aNumber    5838
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetFileDateTime
+aNumber    5839
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysOpenFile
+aNumber    5840
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysPositionFile
+aNumber    5841
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysReadFile
+aNumber    5842
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysReadLine
+aNumber    5843
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysReadLineLth
+aNumber    5844
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysRenameFile
+aNumber    5845
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysWriteFile
+aNumber    5846
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysWriteLine
+aNumber    5847
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysWriteLineLth
+aNumber    5848
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zDeleteFile
+aNumber    5849
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zReadLine
+aNumber    5850
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zSysReadLine
+aNumber    5851
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zSysReadLineLth
+aNumber    5852
+aFileName  Operations_Reference
+
+eContext   3
+aTag       Miscellaneous
+aNumber    5853
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DeleteTask
+aNumber    5854
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DisableTask
+aNumber    5855
+aFileName  Operations_Reference
+
+eContext   3
+aTag       EnableTask
+aNumber    5856
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetFlagBit
+aNumber    5857
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetPhantomMode
+aNumber    5858
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetTaskDBHandlerTraceLevel
+aNumber    5859
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetWorkstationApplicationValues
+aNumber    5860
+aFileName  Operations_Reference
+
+eContext   3
+aTag       IsFlagSequenceSet
+aNumber    5861
+aFileName  Operations_Reference
+
+eContext   3
+aTag       IsKeyQueued
+aNumber    5862
+aFileName  Operations_Reference
+
+eContext   3
+aTag       IsNt
+aNumber    5863
+aFileName  Operations_Reference
+
+eContext   3
+aTag       IsRemoteServer
+aNumber    5864
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MutexCreate
+aNumber    5865
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MutexLock
+aNumber    5866
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MutexUnlock
+aNumber    5867
+aFileName  Operations_Reference
+
+eContext   3
+aTag       NameForZKey
+aNumber    5868
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ProcessZeidonMessage
+aNumber    5869
+aFileName  Operations_Reference
+
+eContext   3
+aTag       RegisterZeidonApplication
+aNumber    5870
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetFlagBit
+aNumber    5871
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetFlagSequence
+aNumber    5872
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetNewApplicationSubtask
+aNumber    5873
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetPhantomMode
+aNumber    5874
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetTaskDBHandlerTraceLevel
+aNumber    5875
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfAllocTaskMemory
+aNumber    5876
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfCloseTaskDataBases
+aNumber    5877
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfCurrentTaskIsServer
+aNumber    5878
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfFreeTaskMemory
+aNumber    5879
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfGetTaskInfo
+aNumber    5880
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfIsObjectServicesTask
+aNumber    5881
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfSetSubtaskView
+aNumber    5882
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfSetTaskFlag
+aNumber    5883
+aFileName  Operations_Reference
+
+eContext   3
+aTag       StartTask
+aNumber    5884
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysAddressMemory
+aNumber    5885
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysAllocMemory
+aNumber    5886
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysAppendcDirSep
+aNumber    5887
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysFreeLibrary
+aNumber    5888
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysFreeMemory
+aNumber    5889
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetDB_UserID
+aNumber    5890
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetEnvVar
+aNumber    5891
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetLanguageCode
+aNumber    5892
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetLocalDirectory
+aNumber    5893
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetProc
+aNumber    5894
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetTaskID
+aNumber    5895
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetTickCount
+aNumber    5896
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysGetUserID
+aNumber    5897
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysLoadLibrary
+aNumber    5898
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysLoadLibraryWithErrFlag
+aNumber    5899
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysParseLine
+aNumber    5900
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysReadZeidonIni
+aNumber    5901
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysSetDB_UserID
+aNumber    5902
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysSetLanguageCode
+aNumber    5903
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysSetUserID
+aNumber    5904
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysStartHelp
+aNumber    5905
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysTruncateFile
+aNumber    5906
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysUpdateZeidonIni
+aNumber    5907
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SysWait
+aNumber    5908
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TraceLineI
+aNumber    5909
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TraceLineS
+aNumber    5910
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TrueName
+aNumber    5911
+aFileName  Operations_Reference
+
+eContext   3
+aTag       UnregisterZeidonApplication
+aNumber    5912
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zStartSystemCommand
+aNumber    5913
+aFileName  Operations_Reference
+
+eContext   3
+aTag       Code Example in C
+aNumber    5824
+aFileName  Operations_Reference
+
+eContext   3
+aTag       Code Example in VML
+aNumber    5825
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CreateFontForReport
+aNumber    5801
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CreateSironWorkObjectList
+aNumber    5802
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DrawBitmapToReport
+aNumber    5803
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DrawEllipseToReport
+aNumber    5804
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DrawLineToReport
+aNumber    5805
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DrawRectangleToReport
+aNumber    5806
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetSironWorkObjPathName
+aNumber    5807
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OpenRemoteReportFromClient
+aNumber    5808
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OpenReport
+aNumber    5809
+aFileName  Operations_Reference
+
+eContext   3
+aTag       PrintMultiLineTextToReport
+aNumber    5810
+aFileName  Operations_Reference
+
+eContext   3
+aTag       PrintTextToReport
+aNumber    5811
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SelectFontForReport
+aNumber    5812
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironAbortReport
+aNumber    5813
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironConnect
+aNumber    5814
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironDisconnect
+aNumber    5815
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironGetLastStatus
+aNumber    5816
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironRequestStatus
+aNumber    5817
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironRunReport
+aNumber    5818
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironSetMessageCallback
+aNumber    5819
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironSetUser
+aNumber    5820
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironShowPreview
+aNumber    5821
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironTerminate
+aNumber    5822
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SironWaitForStatus
+aNumber    5823
+aFileName  Operations_Reference
+
+eContext   3
+aTag       Siron Reports
+aNumber    5800
+aFileName  Operations_Reference
+
+eContext   3
+aTag       Views / Objects
+aNumber    5400
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AcceptAllTemporalSubobjects
+aNumber    5401
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AcceptSubobject
+aNumber    5402
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ActivateEmptyObjectInstance
+aNumber    5403
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ActivateObjectInstance
+aNumber    5404
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ActivateOI_FromFile
+aNumber    5405
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ActivateOI_FromOI
+aNumber    5406
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ActivateViewObject
+aNumber    5407
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AddToAttributeFromAttribute
+aNumber    5408
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AddToAttributeFromDecimal
+aNumber    5409
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AddToAttributeFromInteger
+aNumber    5410
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AddToAttributeFromVariable
+aNumber    5411
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AddToViewCluster
+aNumber    5412
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AddViewToViewCluster
+aNumber    5413
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AppendViewCluster
+aNumber    5414
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AttributeUpdated
+aNumber    5415
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CancelAllTemporalSubobjects
+aNumber    5416
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CancelSubobject
+aNumber    5417
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CheckExistenceOfEntity
+aNumber    5418
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CommitMultipleObjectInstances
+aNumber    5419
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CommitMultipleOIs
+aNumber    5420
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CommitObjectInstance
+aNumber    5421
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CommitOI_ToFile
+aNumber    5422
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CompareAttributeToAttribute
+aNumber    5423
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CompareAttributeToDecimal
+aNumber    5424
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CompareAttributeToInteger
+aNumber    5425
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CompareAttributeToString
+aNumber    5426
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CompareAttributeToVariable
+aNumber    5427
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CompareEntityToEntity
+aNumber    5428
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CompareOI_ToOI
+aNumber    5429
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CountEntitiesForView
+aNumber    5430
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CreateEntity
+aNumber    5431
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CreateTemporalEntity
+aNumber    5432
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CreateTemporalSubobjectVersion
+aNumber    5433
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CreateViewCluster
+aNumber    5434
+aFileName  Operations_Reference
+
+eContext   3
+aTag       CreateViewFromView
+aNumber    5435
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DefineHierarchicalCursor
+aNumber    5436
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DeleteEntity
+aNumber    5437
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DisplayCursorInfo
+aNumber    5438
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DisplayEntityInstance
+aNumber    5439
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DisplayEntityInstancePath
+aNumber    5440
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DisplayObjectDef
+aNumber    5441
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DisplayObjectInstance
+aNumber    5442
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DropEntity
+aNumber    5443
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DropHierarchicalCursor
+aNumber    5444
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DropNameForView
+aNumber    5445
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DropObjectInstance
+aNumber    5446
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DropView
+aNumber    5447
+aFileName  Operations_Reference
+
+eContext   3
+aTag       DropViewCluster
+aNumber    5448
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ExcludeEntity
+aNumber    5449
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetAbsolutePositionForEntity
+aNumber    5450
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetActualAttributeLength
+aNumber    5451
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetAddrForAttribute
+aNumber    5452
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetApplDirectoryFromView
+aNumber    5453
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetAttributeDisplayLength
+aNumber    5454
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetAttributeLength
+aNumber    5455
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetBlobFromAttribute
+aNumber    5456
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetContext
+aNumber    5457
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetDecimalFromAttribute
+aNumber    5458
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetDefaultContext
+aNumber    5459
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetEntityNameForHierarchicalCsr
+aNumber    5460
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetFirstTableEntryForAttribute
+aNumber    5461
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetIncrementalUpdateFlags
+aNumber    5462
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetIntegerFromAttribute
+aNumber    5463
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetNameForView
+aNumber    5464
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetNextTableEntryForAttribute
+aNumber    5465
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetRelativeEntityNumber
+aNumber    5466
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetSelectStateOfEntity
+aNumber    5467
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetStringFromAttribute
+aNumber    5468
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetStringFromAttributeByContext
+aNumber    5469
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetStringFromRecord
+aNumber    5470
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetStructFromEntityAttrs
+aNumber    5471
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetValueFromRecord
+aNumber    5472
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetVariableFromAttribute
+aNumber    5473
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetViewByName
+aNumber    5474
+aFileName  Operations_Reference
+
+eContext   3
+aTag       IncludeSubobjectFromSubobject
+aNumber    5475
+aFileName  Operations_Reference
+
+eContext   3
+aTag       LoadEntity
+aNumber    5476
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MiGetObjectNameForView
+aNumber    5477
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MiGetParentEntityNameForView
+aNumber    5478
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MiGetUpdateForView
+aNumber    5479
+aFileName  Operations_Reference
+
+eContext   3
+aTag       MoveSubObject
+aNumber    5480
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ObjectInstanceUpdated
+aNumber    5481
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OrderEntitiesByDefaultAttribs
+aNumber    5482
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OrderEntityForView
+aNumber    5483
+aFileName  Operations_Reference
+
+eContext   3
+aTag       OrderOI_ByDefaultAttribs
+aNumber    5484
+aFileName  Operations_Reference
+
+eContext   3
+aTag       RelinkAllSubobjectsForOI
+aNumber    5485
+aFileName  Operations_Reference
+
+eContext   3
+aTag       RelinkInstanceToInstance
+aNumber    5486
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ResetView
+aNumber    5487
+aFileName  Operations_Reference
+
+eContext   3
+aTag       ResetViewFromSubobject
+aNumber    5488
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAllSelectStatesForEntity
+aNumber    5489
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAllSelStatesForEntityForSet
+aNumber    5490
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAttributeFromAttribute
+aNumber    5491
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAttributeFromBlob
+aNumber    5492
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAttributeFromDecimal
+aNumber    5493
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAttributeFromInteger
+aNumber    5494
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAttributeFromString
+aNumber    5495
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAttributeFromVariable
+aNumber    5600
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAttributeValueNext
+aNumber    5601
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetAttributeValuePrev
+aNumber    5602
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetBlobAttributeFromAttribute
+aNumber    5603
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetBlobFromEntityAttributes
+aNumber    5604
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetBlobFromOI
+aNumber    5605
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorAbsolutePosition
+aNumber    5606
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorFirstEntity
+aNumber    5607
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorFirstEntityByAttr
+aNumber    5608
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorFirstEntityByDecimal
+aNumber    5609
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorFirstEntityByEntityCsr
+aNumber    5610
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorFirstEntityByInteger
+aNumber    5611
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorFirstEntityByString
+aNumber    5612
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorFirstSelectedEntity
+aNumber    5613
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorLastEntity
+aNumber    5614
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorNextEntity
+aNumber    5615
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorNextEntityByAttr
+aNumber    5616
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorNextEntityByDecimal
+aNumber    5617
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorNextEntityByEntityCsr
+aNumber    5618
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorNextEntityByInteger
+aNumber    5619
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorNextEntityByString
+aNumber    5620
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorNextEntityHierarchical
+aNumber    5621
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorNextSelectedEntity
+aNumber    5622
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorPrevEntity
+aNumber    5623
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetCursorRelativeEntity
+aNumber    5624
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetEntityAttributesFromBlob
+aNumber    5625
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetEntityCursor
+aNumber    5626
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetIncrementalUpdateFlags
+aNumber    5627
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetMatchingAttributesByName
+aNumber    5628
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetNameForView
+aNumber    5629
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetOI_FromBlob
+aNumber    5630
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetSelectSetForView
+aNumber    5631
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetSelectStateOfEntity
+aNumber    5632
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetSelectStateOfEntityForSet
+aNumber    5633
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetViewFlags
+aNumber    5634
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetViewFromView
+aNumber    5635
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetViewReadOnly
+aNumber    5636
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetViewToSubobject
+aNumber    5637
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SetViewUpdate
+aNumber    5638
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfActivateSysEmptyOI
+aNumber    5639
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfActivateSysOI_FromFile
+aNumber    5640
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfCreateSysViewFromView
+aNumber    5641
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfGetFirstNamedView
+aNumber    5642
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfGetFirstSubtaskView
+aNumber    5643
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfGetNextNamedView
+aNumber    5644
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfGetNextSubtaskView
+aNumber    5645
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfLockView
+aNumber    5646
+aFileName  Operations_Reference
+
+eContext   3
+aTag       SfTransferView
+aNumber    5647
+aFileName  Operations_Reference
+
+eContext   3
+aTag       StoreStringInRecord
+aNumber    5648
+aFileName  Operations_Reference
+
+eContext   3
+aTag       StoreValueInRecord
+aNumber    5649
+aFileName  Operations_Reference
+
+eContext   3
+aTag       Table_Handler
+aNumber    5650
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TableEntryExtToInt
+aNumber    5651
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TableEntryForInternalValue
+aNumber    5652
+aFileName  Operations_Reference
+
+eContext   3
+aTag       TableEntryIntToExt
+aNumber    5653
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zFindTextValueInAttribute
+aNumber    5654
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetFirstAttributeNameForEntity
+aNumber    5655
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetFirstEntityNameForView
+aNumber    5656
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetNextAttributeNameForEntity
+aNumber    5657
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zGetNextEntityNameForView
+aNumber    5658
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zLodContainsAttribute
+aNumber    5659
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zLodContainsEntity
+aNumber    5660
+aFileName  Operations_Reference
+
+eContext   3
+aTag       zViewIsUpdateable
+aNumber    5661
+aFileName  Operations_Reference
+
+eContext   3
+aTag       Zeidon Reports
+aNumber    5826
+aFileName  Operations_Reference
+
+eContext   3
+aTag       AddPagePosition
+aNumber    5827
+aFileName  Operations_Reference
+
+eContext   3
+aTag       FormatSubobjectOnDoc
+aNumber    5828
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetCtrlPrintPosition
+aNumber    5829
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetCtrlPrintStatus
+aNumber    5830
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetCtrlPrintText
+aNumber    5831
+aFileName  Operations_Reference
+
+eContext   3
+aTag       GetPagePosition
+aNumber    5832
+aFileName  Operations_Reference
+
+eContext   3
+aTag       About This Manual
+aNumber    7006
+aFileName  Progref
+
+eContext   3
+aTag       Action Statements
+aNumber    7073
+aFileName  Progref
+
+eContext   3
+aTag       AND
+aNumber    7098
+aFileName  Progref
+
+eContext   3
+aTag       Assignment
+aNumber    7071
+aFileName  Progref
+
+eContext   3
+aTag       Attribute Qualifiers
+aNumber    7057
+aFileName  Progref
+
+eContext   3
+aTag       ATTRIBUTENAME
+aNumber    7087
+aFileName  Progref
+
+eContext   3
+aTag       AttributeName Variables
+aNumber    7055
+aFileName  Progref
+
+eContext   3
+aTag       CASE
+aNumber    7099
+aFileName  Progref
+
+eContext   3
+aTag       CHARACTER
+aNumber    7088
+aFileName  Progref
+
+eContext   3
+aTag       Character by Character Domain Operations
+aNumber    7038
+aFileName  Progref
+
+eContext   3
+aTag       Comments
+aNumber    7084
+aFileName  Progref
+
+eContext   3
+aTag       Compiler Specification
+aNumber    7010
+aFileName  Progref
+
+eContext   3
+aTag       Compiling VML
+aNumber    7008
+aFileName  Progref
+
+eContext   3
+aTag       Compiling VML - Overview
+aNumber    7009
+aFileName  Progref
+
+eContext   3
+aTag       Conditional Statements
+aNumber    7063
+aFileName  Progref
+
+eContext   3
+aTag       Conditions
+aNumber    7064
+aFileName  Progref
+
+eContext   3
+aTag       CREATE
+aNumber    7101
+aFileName  Progref
+
+eContext   3
+aTag       Creating a new Compiler Specification
+aNumber    7012
+aFileName  Progref
+
+eContext   3
+aTag       DECIMAL
+aNumber    7089
+aFileName  Progref
+
+eContext   3
+aTag       Decimal Literals
+aNumber    7061
+aFileName  Progref
+
+eContext   3
+aTag       Decimal Variables
+aNumber    7051
+aFileName  Progref
+
+eContext   3
+aTag       Declarations
+aNumber    7044
+aFileName  Progref
+
+eContext   3
+aTag       Declaring Dialog Operations
+aNumber    7027
+aFileName  Progref
+
+eContext   3
+aTag       Declaring Existing Registered Views
+aNumber    7047
+aFileName  Progref
+
+eContext   3
+aTag       Declaring Global Operations
+aNumber    7040
+aFileName  Progref
+
+eContext   3
+aTag       Declaring Local Operations
+aNumber    7042
+aFileName  Progref
+
+eContext   3
+aTag       Declaring Views With LODs
+aNumber    7048
+aFileName  Progref
+
+eContext   3
+aTag       Declaring Views Without LODs
+aNumber    7049
+aFileName  Progref
+
+eContext   3
+aTag       Defines
+aNumber    7119
+aFileName  Progref
+
+eContext   3
+aTag       DELETE
+aNumber    7102
+aFileName  Progref
+
+eContext   3
+aTag       Deleting a Compiler Specification
+aNumber    7015
+aFileName  Progref
+
+eContext   3
+aTag       Derived Attribute Operations
+aNumber    7032
+aFileName  Progref
+
+eContext   3
+aTag       Dialog Operations
+aNumber    7026
+aFileName  Progref
+
+eContext   3
+aTag       Domain Operations
+aNumber    7034
+aFileName  Progref
+
+eContext   3
+aTag       END
+aNumber    7103
+aFileName  Progref
+
+eContext   3
+aTag       Entity Constraint Operations
+aNumber    7031
+aFileName  Progref
+
+eContext   3
+aTag       Entity Qualifiers
+aNumber    7056
+aFileName  Progref
+
+eContext   3
+aTag       ENTITYNAME
+aNumber    7090
+aFileName  Progref
+
+eContext   3
+aTag       EntityName Variables
+aNumber    7054
+aFileName  Progref
+
+eContext   3
+aTag       Exit Statements
+aNumber    7069
+aFileName  Progref
+
+eContext   3
+aTag       Expression Statements
+aNumber    7070
+aFileName  Progref
+
+eContext   3
+aTag       Global Operations
+aNumber    7039
+aFileName  Progref
+
+eContext   3
+aTag       INTEGER
+aNumber    7091
+aFileName  Progref
+
+eContext   3
+aTag       Integer Literals
+aNumber    7060
+aFileName  Progref
+
+eContext   3
+aTag       Integer Variables
+aNumber    7052
+aFileName  Progref
+
+eContext   3
+aTag       Introduction To VML
+aNumber    7002
+aFileName  Progref
+
+eContext   3
+aTag       Keywords
+aNumber    7118
+aFileName  Progref
+
+eContext   3
+aTag       Literals
+aNumber    7058
+aFileName  Progref
+
+eContext   3
+aTag       Local Operations
+aNumber    7041
+aFileName  Progref
+
+eContext   3
+aTag       Local Variable Declarations
+aNumber    7050
+aFileName  Progref
+
+eContext   3
+aTag       Looping Statements
+aNumber    7066
+aFileName  Progref
+
+eContext   3
+aTag       Making a Target Executable
+aNumber    7020
+aFileName  Progref
+
+eContext   3
+aTag       NOT
+aNumber    7111
+aFileName  Progref
+
+eContext   3
+aTag       Notational Conventions
+aNumber    7005
+aFileName  Progref
+
+eContext   3
+aTag       Object Constraint Operations
+aNumber    7030
+aFileName  Progref
+
+eContext   3
+aTag       Object Operations
+aNumber    7029
+aFileName  Progref
+
+eContext   3
+aTag       Opening the Compiler Specification Window
+aNumber    7011
+aFileName  Progref
+
+eContext   3
+aTag       Opening the Target Specification Window
+aNumber    7017
+aFileName  Progref
+
+eContext   3
+aTag       OPERATION
+aNumber    7092
+aFileName  Progref
+
+eContext   3
+aTag       Operation Call
+aNumber    7072
+aFileName  Progref
+
+eContext   3
+aTag       Operations
+aNumber    7022
+aFileName  Progref
+
+eContext   3
+aTag       OR
+aNumber    7112
+aFileName  Progref
+
+eContext   3
+aTag       Other Zeidon Publications
+aNumber    7007
+aFileName  Progref
+
+eContext   3
+aTag       RESULT
+aNumber    7114
+aFileName  Progref
+
+eContext   3
+aTag       Retrieval Domain Operations
+aNumber    7036
+aFileName  Progref
+
+eContext   3
+aTag       RETURN
+aNumber    7113
+aFileName  Progref
+
+eContext   3
+aTag       Return Values
+aNumber    7024
+aFileName  Progref
+
+eContext   3
+aTag       Selecting a Compiler Specification
+aNumber    7014
+aFileName  Progref
+
+eContext   3
+aTag       Selecting a Target Executable
+aNumber    7018
+aFileName  Progref
+
+eContext   3
+aTag       Selecting Make Options
+aNumber    7019
+aFileName  Progref
+
+eContext   3
+aTag       Selection Statements
+aNumber    7068
+aFileName  Progref
+
+eContext   3
+aTag       Statements
+aNumber    7062
+aFileName  Progref
+
+eContext   3
+aTag       Storing Dialog Operations
+aNumber    7028
+aFileName  Progref
+
+eContext   3
+aTag       STRING
+aNumber    7093
+aFileName  Progref
+
+eContext   3
+aTag       String Literals
+aNumber    7059
+aFileName  Progref
+
+eContext   3
+aTag       String Variables
+aNumber    7053
+aFileName  Progref
+
+eContext   3
+aTag       Target Specification
+aNumber    7016
+aFileName  Progref
+
+eContext   3
+aTag       Transformation Operations
+aNumber    7033
+aFileName  Progref
+
+eContext   3
+aTag       Types of Operations
+aNumber    7025
+aFileName  Progref
+
+eContext   3
+aTag       Update Domain Operations
+aNumber    7035
+aFileName  Progref
+
+eContext   3
+aTag       Updating a Compiler Specification
+aNumber    7013
+aFileName  Progref
+
+eContext   3
+aTag       User Text Domain Operations
+aNumber    7037
+aFileName  Progref
+
+eContext   3
+aTag       Using VML Declarations and Statements
+aNumber    7043
+aFileName  Progref
+
+eContext   3
+aTag       VIEW
+aNumber    7094
+aFileName  Progref
+
+eContext   3
+aTag       View Declarations
+aNumber    7046
+aFileName  Progref
+
+eContext   3
+aTag       View Manipulation Language
+aNumber    7003
+aFileName  Progref
+
+eContext   3
+aTag       VML Declarations Reference
+aNumber    7085
+aFileName  Progref
+
+eContext   3
+aTag       VML Declarations Reference - Overview
+aNumber    7086
+aFileName  Progref
+
+eContext   3
+aTag       VML Features
+aNumber    7004
+aFileName  Progref
+
+eContext   3
+aTag       VML Overview
+aNumber    7021
+aFileName  Progref
+
+eContext   3
+aTag       VML Overview - Operations - Operation Declarations
+aNumber    7023
+aFileName  Progref
+
+eContext   3
+aTag       VML Reserved Keywords and Defines
+aNumber    7117
+aFileName  Progref
+
+eContext   3
+aTag       VML Statements Reference
+aNumber    7095
+aFileName  Progref
+
+eContext   3
+aTag       ACTIVATE
+aNumber    7097
+aFileName  Progref
+
+eContext   3
+aTag       COMMIT
+aNumber    7100
+aFileName  Progref
+
+eContext   3
+aTag       EXCLUDE
+aNumber    7104
+aFileName  Progref
+
+eContext   3
+aTag       FOR
+aNumber    7105
+aFileName  Progref
+
+eContext   3
+aTag       GET
+aNumber    7106
+aFileName  Progref
+
+eContext   3
+aTag       IF
+aNumber    7107
+aFileName  Progref
+
+eContext   3
+aTag       INCLUDE
+aNumber    7108
+aFileName  Progref
+
+eContext   3
+aTag       LOOP
+aNumber    7109
+aFileName  Progref
+
+eContext   3
+aTag       NAME
+aNumber    7110
+aFileName  Progref
+
+eContext   3
+aTag       Overview
+aNumber    7096
+aFileName  Progref
+
+eContext   3
+aTag       SET
+aNumber    7115
+aFileName  Progref
+
+eContext   3
+aTag       WHERE
+aNumber    7116
+aFileName  Progref
+
+eContext   3
+aTag       VMLReference
+aNumber    7001
+aFileName  Progref
+
+eContext   3
+aTag       SystemHelp
+aNumber    0
+aFileName  SYSTEM HELP
+
+eContext   3
+aTag       UsersGuide
+aNumber    0
+aFileName  Users
+
+eOperSystem 2
+

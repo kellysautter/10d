@@ -1,0 +1,2434 @@
+z1000-Zeidon    TZBRLOVO TZZOLODO 07/19/05   16:10:55 1.0a2    
+eLOD       1
+aZKey      89069397
+aName      TZBRLOVO
+aDesc      Work Object for ERD CrossReferences
+
+eLOD_EntityParent 2
+aName      Root
+aIndentName Root
+aIndentLvl 0
+aZKey      89069398
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      LOD
+aIndentName    LOD
+aIndentLvl 3
+aZKey      89069399
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   Y
+aParentDeleteBehave D
+aDesc      Converted from 6B
+
+eLOD_EntityChild 4
+aName      ViewObjRef
+aIndentName       ViewObjRef
+aIndentLvl 6
+aZKey      89069412
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Exists for each different View used in a Dialog
+
+eLOD_EntityChild 5
+aName      Dialog
+aIndentName          Dialog
+aIndentLvl 9
+aZKey      89069417
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Converted from 6B
+
+eLOD_EntityChild 6
+aName      Control
+aIndentName             Control
+aIndentLvl 12
+aZKey      89069422
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Converted from 6B
+
+eLOD_AttributeRec 7
+aZKey      89069423
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 8
+aName      Tag
+aZKey      1320716
+aLth       32
+aNotNull   N
+aDesc      Name of Control, optional
+aPromptPaintLit Tag
+aListPaintLit Tag
+
+eDomainRec 9
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 7
+aZKey      89069425
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 8
+aName      ZKey
+aZKey      1320718
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 9
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 7
+aZKey      89069426
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 8
+aName      Type
+aZKey      1320719
+aLth       4
+aNotNull   N
+aDesc      The subtype of this control
+aPromptPaintLit EntityType
+aListPaintLit EntityType
+
+eDomainRec 9
+
+eLOD_AttributeRec 7
+aZKey      89069445
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 8
+aName      WindowName
+aZKey      89069446
+
+eDomainRec 9
+
+eLOD_AttributeRec 7
+aZKey      89069512
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 8
+aName      ER_AttributeZKey
+aZKey      89069513
+
+eDomainRec 9
+
+eLOD_AttributeRec 7
+aZKey      89808210
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 8
+aName      LOD_EntityZKey
+aZKey      89808211
+
+eDomainRec 9
+
+eLOD_AttributeRec 7
+aZKey      89808202
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 8
+aName      LOD_EntityName
+aZKey      89808203
+aLth       32
+
+eDomainRec 9
+
+eLOD_AttributeRec 7
+aZKey      89808204
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 8
+aName      LOD_AttributeName
+aZKey      89808205
+aLth       32
+
+eDomainRec 9
+
+eLOD_AttributeRec 7
+aZKey      89808214
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 8
+aName      Work
+aZKey      89808215
+aLth       1
+aDesc      Indicator to identify LOD Attribute as being work
+
+eDomainRec 9
+
+eER_EntityRec 7
+aName      Control
+aZKey      1320715
+aPurpose   W
+aDesc      Converted from 6B
+aOwningArea WD
+aER_DiagramPosX 708
+aER_DiagramPosY 314
+aER_PortFactor 2
+
+eLOD_AttributeRec 6
+aZKey      89069418
+
+eER_AttributeRec 7
+aName      Tag
+aZKey      1320814
+aDesc      Unique name for dialog
+aPromptPaintLit Tag
+aListPaintLit Tag
+
+eDomainRec 8
+aZKey      90145848
+aName      MetaName
+aDomainType E
+aDataType  S
+aMaxStringLth 8
+aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      89069420
+
+eER_AttributeRec 7
+aName      ZKey
+aZKey      1320816
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      89069443
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      RegisteredViewName
+aZKey      89069444
+
+eDomainRec 8
+
+eER_EntityRec 6
+aName      Dialog
+aZKey      1320813
+aPurpose   W
+aDesc      Converted from 6B
+aOwningArea WD
+aER_DiagramPosX 677
+aER_DiagramPosY 160
+aER_PortFactor 2
+
+eLOD_AttributeRec 5
+aZKey      89069413
+
+eER_AttributeRec 6
+aName      ZKey
+aZKey      1321445
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89069414
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1321446
+aLth       32
+aDesc      External Name of View
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      ViewObjRef
+aZKey      1321444
+aPurpose   W
+aDesc      Exists for each different View used in a Dialog
+aOwningArea WD
+aER_DiagramPosX 628
+aER_DiagramPosY 140
+
+eLOD_AttributeRec 4
+aZKey      89069400
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1320979
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      127045766
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      127045767
+aDesc      Converted from 6B
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eDomainRec 6
+aZKey      90000030
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDesc      Standard Zeidon Description
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      89069402
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1320981
+aNotNull   Y
+aDesc      Name of Logical Object Definition
+aPromptPaintLit LOD Name
+aListPaintLit LOD Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89069404
+
+eER_AttributeRec 5
+aName      ActivateConstraint
+aZKey      1320983
+aLth       1
+aPromptPaintLit Activate Constraint
+aListPaintLit Activate Constraint
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89069405
+
+eER_AttributeRec 5
+aName      ActivateServerConstraint
+aZKey      90359988
+aLth       1
+aPromptPaintLit Activate Server Constraint
+aListPaintLit Activate Server Constraint
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89069406
+
+eER_AttributeRec 5
+aName      ActivateEmptyConstraint
+aZKey      1320984
+aLth       1
+aPromptPaintLit Activate Empty Constraint
+aListPaintLit Activate Empty Constraint
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89069407
+
+eER_AttributeRec 5
+aName      CommitConstraint
+aZKey      1320985
+aLth       1
+aPromptPaintLit CommitConstraint
+aListPaintLit CommitConstraint
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89069408
+
+eER_AttributeRec 5
+aName      CommitServerConstraint
+aZKey      90359989
+aLth       1
+aPromptPaintLit Commit Server Constraint
+aListPaintLit Commit Server Constraint
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89069409
+
+eER_AttributeRec 5
+aName      DropOIConstraint
+aZKey      1320986
+aLth       1
+aPromptPaintLit Drop OI Constraint
+aListPaintLit Drop OI Constraint
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89069410
+
+eER_AttributeRec 5
+aName      CacheNumberPerEntity
+aZKey      90179091
+aDesc      The number of entity instances, for each entity type, that will be cached during Activate processing for SQL.
+aPromptPaintLit Cache Number Per Entity
+aListPaintLit Cache Number Per Entity
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89069411
+
+eER_AttributeRec 5
+aName      DataLocking
+aZKey      90441907
+
+eDomainRec 6
+aZKey      90441895
+aName      LockingOptions
+aDomainType T
+aDataType  L
+aDesc      LOD and Entity Locks
+aContextRestriction N
+
+eER_EntityRec 4
+aName      LOD
+aZKey      1320978
+aPurpose   W
+aDesc      Converted from 6B
+aOwningArea ZO
+aER_DiagramPosX 428
+aER_DiagramPosY 94
+aER_PortFactor 2
+
+eLOD_EntityChild 3
+aName      ER_Entity
+aIndentName    ER_Entity
+aIndentLvl 3
+aZKey      89069450
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   Y
+aParentDeleteBehave D
+aDesc      ER Entities
+
+eLOD_EntityChild 4
+aName      ER_Attribute
+aIndentName       ER_Attribute
+aIndentLvl 6
+aZKey      89069461
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+aDesc      Attributes of an ER Entity
+
+eLOD_EntityChild 5
+aName      AttrControl
+aIndentName          AttrControl
+aIndentLvl 9
+aZKey      89069477
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   Y
+aParentDeleteBehave D
+aDesc      Converted from 6B
+
+eLOD_AttributeRec 6
+aZKey      89069478
+
+eER_AttributeRec 7
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      89069480
+
+eER_AttributeRec 7
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      89069481
+
+eER_AttributeRec 7
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      89069518
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      DialogName
+aZKey      89069519
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      89069520
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      WindowName
+aZKey      89069521
+
+eDomainRec 8
+
+eER_EntityRec 6
+
+eLOD_AttributeRec 5
+aZKey      89069462
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1320838
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Attribute Name
+aListPaintLit Attribute Name
+
+eDomainRec 7
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      89069463
+
+eER_AttributeRec 6
+aName      ZKey
+aZKey      1320839
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      ER_Attribute
+aZKey      1320837
+aPurpose   W
+aDesc      Attributes of an ER Entity
+aOwningArea ER
+aER_DiagramPosX 220
+aER_DiagramPosY 262
+
+eER_RelLinkRec 5
+aName      has fact
+aZKey      1322235
+aCardMin   0
+aCardMax   M
+aAutoSeq   Y
+
+eER_RelTypeRec 6
+aZKey      1322234
+aFact      Created by conversion form 6b
+aER_DiagramBendPosX 159
+aER_DiagramBendPosY 264
+aER_DiagramE1PosX 159
+aER_DiagramE1PosY 199
+aER_DiagramE2PosX 219
+aER_DiagramE2PosY 264
+
+eLOD_EntityChild 4
+aName      LOD_Entity
+aIndentName       LOD_Entity
+aIndentLvl 6
+aZKey      89069568
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   Y
+aParentDeleteBehave D
+aDesc      LOD Entity in the Zeidon Logical
+
+eLOD_AttributeRec 5
+aZKey      89069569
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1321004
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Entity Name
+aListPaintLit Entity Name
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89069572
+
+eER_AttributeRec 6
+aName      ZKey
+aZKey      1321007
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89069601
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      WorkLOD_Flag
+aZKey      89069602
+
+eDomainRec 7
+aZKey      90000028
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      89069599
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      LOD_Name
+aZKey      89069600
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89069603
+aUpdate    Y
+
+eER_AttributeRec 6
+aName      ParentDeleteBehave
+aZKey      1321020
+aLth       1
+aDesc      Value of "R" - Restrict, "X" - Exclude, "D" - Delete
+aPromptPaintLit Parent Delete Behavior
+aListPaintLit Parent Delete Behavior
+
+eDomainRec 7
+aZKey      1320152
+aName      LOD_ParentDeleteBehavior
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Delete, Restrict, Exclude
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      89095681
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      RootFlag
+aZKey      89095682
+aLth       1
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89069608
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      CreateFlag
+aZKey      89069609
+aLth       1
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89069610
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      UpdateFlag
+aZKey      89069611
+aLth       1
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89069612
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      DeleteFlag
+aZKey      89069613
+aLth       1
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89069614
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      IncludeFlag
+aZKey      89069615
+aLth       1
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89069616
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ExcludeFlag
+aZKey      89069617
+aLth       1
+
+eDomainRec 7
+
+eER_EntityRec 5
+aName      LOD_Entity
+aZKey      1321003
+aPurpose   W
+aDesc      LOD Entity in the Zeidon Logical
+aOwningArea ZO
+aER_DiagramPosX 480
+aER_DiagramPosY 142
+
+eLOD_EntityChild 4
+aName      ER_RelType
+aIndentName       ER_RelType
+aIndentLvl 6
+aZKey      90288173
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 5
+aName      LOD_EntityRel
+aIndentName          LOD_EntityRel
+aIndentLvl 9
+aZKey      90288186
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 6
+aZKey      90288187
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      LOD_Name
+aZKey      90288188
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      127042645
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 7
+aName      LOD_Desc
+aZKey      127042646
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      90288189
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      LOD_SourceEntityName
+aZKey      90288190
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      90295863
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      LOD_TargetEntityName
+aZKey      90295864
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      90537459
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      LOD_RelationshipDirection
+aZKey      90537460
+
+eDomainRec 8
+
+eLOD_AttributeRec 5
+aZKey      90288180
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      ZKey
+aZKey      90288181
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      90288182
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      RelLinkName
+aZKey      90288183
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      90288184
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      OtherEntityName
+aZKey      90288185
+
+eDomainRec 7
+
+eLOD_EntityChild 4
+aName      DialogControl
+aIndentName       DialogControl
+aIndentLvl 6
+aZKey      89808216
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      89808217
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      DialogName
+aZKey      89808218
+aLth       32
+aDesc      Unique name for dialog
+aPromptPaintLit Tag
+aListPaintLit Tag
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89808221
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      ControlName
+aZKey      89808222
+aLth       32
+aDesc      Name of Control, optional
+aPromptPaintLit Tag
+aListPaintLit Tag
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89808223
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      RegisteredViewName
+aZKey      89808224
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89808308
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      LOD_Name
+aZKey      89808309
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89808225
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      LOD_EntityName
+aZKey      89808226
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89808227
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      LOD_AttributeName
+aZKey      89808228
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      89808219
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      WindowName
+aZKey      89808220
+aLth       32
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      89069451
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1320861
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Entity Name
+aListPaintLit Entity Name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89069452
+
+eER_AttributeRec 5
+aName      ZKey
+aZKey      1320862
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89085104
+aUpdate    Y
+
+eER_AttributeRec 5
+aName      Purpose
+aZKey      1320863
+aLth       12
+aNotNull   N
+aDesc      Converted from 6B
+aPromptPaintLit Purpose
+aListPaintLit Purpose
+
+eDomainRec 6
+aZKey      1320129
+aName      ER_EntityPurpose
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Purpose of Entity in ER
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      127045734
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      Desc
+aZKey      127045735
+aDesc      Converted from 6B
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eDomainRec 6
+
+eER_EntityRec 4
+aName      ER_Entity
+aZKey      1320860
+aPurpose   W
+aDesc      ER Entities
+aOwningArea ER
+aER_DiagramPosX 156
+aER_DiagramPosY 194
+
+eLOD_EntityChild 3
+aName      AttributeList
+aIndentName    AttributeList
+aIndentLvl 3
+aZKey      89085151
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      89085152
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      AttributeName
+aZKey      89085153
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89095136
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DomainName
+aZKey      89095137
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89085154
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      EntityName
+aZKey      89085155
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89096424
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      AttributeDesc
+aZKey      89096425
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      IdentifierEntity
+aIndentName    IdentifierEntity
+aIndentLvl 3
+aZKey      89085201
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      89085202
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      EntityName
+aZKey      89085203
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89085204
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      IdentifierName
+aZKey      89085205
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89085206
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Type
+aZKey      89085207
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89085208
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      FactTypeName
+aZKey      89085209
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      EntitySA
+aIndentName    EntitySA
+aIndentLvl 3
+aZKey      89095166
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      89095167
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      EntityName
+aZKey      89095168
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89095169
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      SA_Name
+aZKey      89095170
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      AttributeListCopy
+aIndentName    AttributeListCopy
+aIndentLvl 3
+aZKey      89096340
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Keeps a copy of AttributeList for resetting AttributeList.
+
+eLOD_AttributeRec 4
+aZKey      89096402
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      AttributeName
+aZKey      89096403
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89096404
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DomainName
+aZKey      89096405
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89096406
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      EntityName
+aZKey      89096407
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      89096426
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      AttributeDesc
+aZKey      89096427
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      89096310
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      OrderType
+aZKey      89096311
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      89096434
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      AttributeListFlag
+aZKey      89096435
+aDesc      This flag is set to Y when inside the AttributeList analysis window and can be queried by the Attribute Maint window for properly handling the Next and Prev buttons.
+
+eDomainRec 5
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 10
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 11
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 3
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 4
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eER_RelLink 3
+
+eER_RelType 4
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 10
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 11
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 6
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+ePOD       2
+aNAME      TZBRLOVO
+aZKey      90219305
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  322
+TZDBHODO ********************************************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 09/22/99   13:50:33 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString N
+aBlobsLast Y
+aDropTables Y
+aAddTableNameToFK_Override Y
+
+
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  322
+TZDBHODO ********************************************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
+
+
+
+i14        11
+i17        8
+i20        11
+i23        11
+i26        8
+i29        8
+i32        8
+i39        11
+i42        8
+i46        11
+i49        8
+i53        11
+i59        36
+i62        8
+i65        8
+i68        8
+i71        8
+i74        8
+i77        8
+i80        11
+i89        7
+i90        8
+i92        10
+i93        11
+i95        13
+i96        11
+i99        8
+i102       8
+i103       33
+i109       11
+i116       106
+i119       11
+i125       8
+i131       122
+i134       122
+i137       122
+i140       122
+i143       122
+i146       122
+i152       8
+i155       56
+i158       106
+i161       106
+i164       8
+i167       11
+i170       8
+i173       106
+i177       36
+i180       8
+i183       8
+i186       8
+i189       8
+i192       8
+i195       8
+i198       106
+i201       11
+i207       56
+i212       8
+i215       8
+i218       8
+i221       56
+i225       8
+i228       8
+i231       8
+i234       8
+i238       8
+i241       8
+i245       8
+i248       8
+i251       8
+i254       56
+i257       122
+i261       1
+i262       255
+i263       256
+i264       122
+i265       258
+i266       259
+i267       260
+i268       2
+i269       51
+i270       52
+i271       11
+i272       54
+i273       55
+i274       56
+i275       57
+i276       58
+i277       36
+i278       60
+i279       61
+i280       8
+i281       63
+i282       64
+i283       8
+i284       66
+i285       67
+i286       8
+i287       69
+i288       70
+i289       8
+i290       72
+i291       73
+i292       8
+i293       75
+i294       76
+i295       8
+i296       78
+i297       79
+i298       11
+i299       81
+i300       82
+i301       83
+i302       84
+i303       3
+i304       44
+i305       45
+i306       11
+i307       47
+i308       48
+i309       8
+i310       50
+i311       4
+i312       34
+i313       35
+i314       36
+i315       37
+i316       38
+i317       11
+i318       40
+i319       41
+i320       8
+i321       43
+i322       5
+i323       6
+i324       7
+i325       8
+i326       9
+i327       10
+i328       11
+i329       12
+i330       13
+i331       11
+i332       15
+i333       16
+i334       8
+i335       18
+i336       19
+i337       11
+i338       21
+i339       22
+i340       11
+i341       24
+i342       25
+i343       8
+i344       27
+i345       28
+i346       8
+i347       30
+i348       31
+i349       8
+i350       33
+i351       85
+i352       196
+i353       197
+i354       106
+i355       199
+i356       200
+i357       11
+i358       202
+i359       203
+i360       204
+i361       205
+i362       206
+i363       56
+i364       208
+i365       86
+i366       104
+i367       105
+i368       106
+i369       107
+i370       108
+i371       11
+i372       110
+i373       111
+i374       112
+i375       87
+i376       88
+i377       7
+i378       8
+i379       91
+i380       10
+i381       11
+i382       94
+i383       13
+i384       11
+i385       97
+i386       98
+i387       8
+i388       100
+i389       101
+i390       8
+i391       33
+i392       113
+i393       114
+i394       115
+i395       106
+i396       117
+i397       118
+i398       11
+i399       120
+i400       121
+i401       122
+i402       123
+i403       124
+i404       8
+i405       126
+i406       127
+i407       128
+i408       129
+i409       130
+i410       122
+i411       132
+i412       133
+i413       122
+i414       135
+i415       136
+i416       122
+i417       138
+i418       139
+i419       122
+i420       141
+i421       142
+i422       122
+i423       144
+i424       145
+i425       122
+i426       147
+i427       148
+i428       165
+i429       166
+i430       11
+i431       168
+i432       169
+i433       8
+i434       171
+i435       172
+i436       106
+i437       149
+i438       150
+i439       151
+i440       8
+i441       153
+i442       154
+i443       56
+i444       156
+i445       157
+i446       106
+i447       159
+i448       160
+i449       106
+i450       162
+i451       163
+i452       8
+i453       174
+i454       175
+i455       176
+i456       36
+i457       193
+i458       194
+i459       8
+i460       178
+i461       179
+i462       8
+i463       181
+i464       182
+i465       8
+i466       184
+i467       185
+i468       8
+i469       187
+i470       188
+i471       8
+i472       190
+i473       191
+i474       8
+i475       209
+i476       210
+i477       211
+i478       8
+i479       213
+i480       214
+i481       8
+i482       216
+i483       217
+i484       8
+i485       219
+i486       220
+i487       56
+i488       222
+i489       223
+i490       224
+i491       8
+i492       226
+i493       227
+i494       8
+i495       229
+i496       230
+i497       8
+i498       232
+i499       233
+i500       8
+i501       235
+i502       236
+i503       237
+i504       8
+i505       239
+i506       240
+i507       8
+i508       242
+i509       243
+i510       244
+i511       8
+i512       246
+i513       247
+i514       8
+i515       249
+i516       250
+i517       8
+i518       252
+i519       253
+i520       56

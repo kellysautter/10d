@@ -1,0 +1,18 @@
+rZeidon    Z0147589 TZWDVORO 11/02/95   20:53:19 1.0a     
+eViewObjRef 1,192
+aZKey      1340809
+aName      TaskLPLR
+
+eLOD       2,192
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TaskLPLR
+aZKey      1340809
+aType      9
+aLastUpdateDate 19950824213734000
+aLastCheckInDate 19951102203051110
+

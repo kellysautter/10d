@@ -1,0 +1,19 @@
+rZeidon    Z0113E7E TZWDVORO 11/02/95   20:53:32 1.0a     
+eViewObjRef 1,192
+aZKey      1130110
+aName      KZWDLGXO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1330836
+aName      KZWDLGXO
+aDesc      Executable Dialog Definition
+
+eZ_MetaDef 2,192
+aName      KZWDLGXO
+aZKey      1130110
+aType      9
+aLastUpdateDate 19950918115456000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

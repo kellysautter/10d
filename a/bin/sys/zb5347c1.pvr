@@ -1,0 +1,12 @@
+z10000Zeidon    TEMP     TZWDVORO 02/07/01   12:07:07 1.0a
+eViewObjRef 1
+aZKey      190007233
+aName      TZTRUEGRID_SUBCONTROL
+aDesc      when a treugrid is active its mapping is positioned to the subcontrols of the grid
+
+eLOD       2
+aZKey      1325104
+aName      TZWDLGSO
+aDesc      Source Dialog Definition
+aDLL_Name  TZLODOPR
+

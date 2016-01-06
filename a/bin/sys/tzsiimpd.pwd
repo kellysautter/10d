@@ -1,0 +1,1685 @@
+z10000Zeidon    TZSIIMPD TZWDLGSO 05/01/01   23:37:23 1.0b0    
+eDialog    1
+aTag       TZSIIMPD
+aZKey      1342379
+aDesc      Import Siron Catalogs
+aDLL_Name  TZSIIMPD
+
+eDfltWnd   2
+aTag       TZSIIMPD
+aCaption   Import Selection
+aPSDLG_X   2
+aPSDLG_Y   2
+aSZDLG_X   17301776
+aSZDLG_Y   13893862
+aZKey      1342430
+aDIL_Active Y
+aGeneralFlag 0
+
+eWindow    2
+
+eControl   3
+aTag       ListBox1
+aText      ListBox1
+aZKey      91018629
+aSubtype   -2146304000
+aPSDLG_X   8
+aPSDLG_Y   8
+aSZDLG_X   188
+aSZDLG_Y   188
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`````*P!-`%,Q````
+`
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       ListBoxCtl1
+aText      Catalogname
+aZKey      91018632
+aSubtype   604504064
+aPSDLG_X   1
+aPSDLG_Y   0
+aSZDLG_X   73
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      91018633
+
+eCtrlMapLOD_Attribute 6
+aZKey      90004808
+aSeqNo_LOD_Entity 1
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+aName      KatalogFile
+aIndentName    KatalogFile
+aIndentLvl 3
+aZKey      90004788
+aSeqNo     1
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eCtrlMapER_Attribute 7
+aName      Name
+aZKey      90004809
+aLth       8
+aDesc      Original Katalog name
+
+eCtrlMapER_Domain 8
+aZKey      90000032
+aDesc      Any Character String
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eCtrlMapView 6
+aZKey      90004793
+aName      TZSIIMLO
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 5
+aTag       ListBoxCtl
+aZKey      1081
+aKey       1081
+aRT_DLL_Name ZDCTL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LISTCTL
+aRequiresParent Y
+aId        27
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       ListBoxCtl2
+aText      CreationDate
+aZKey      91018634
+aSubtype   604504064
+aPSDLG_X   75
+aPSDLG_Y   0
+aSZDLG_X   125
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      91018635
+
+eCtrlMapLOD_Attribute 6
+aZKey      90004810
+aSeqNo_LOD_Entity 2
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eCtrlMapRelatedEntity 7
+
+eCtrlMapER_Attribute 7
+aName      CreationDate
+aZKey      90004811
+aDesc      Date the Katalog file was created
+
+eCtrlMapER_Domain 8
+aZKey      90000089
+aDesc      Basic Timestamp Domain
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aContextRestriction N
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      91018630
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      91018631
+
+eCtrlMap   4
+aZKey      91018636
+
+eEvent     4
+aType      2
+aZKey      91020377
+
+eEventAct  5
+aTag       ImportWorkObject
+aType      1
+aZKey      91018653
+aSB_ActionDisabling 8
+
+eControlDef 4
+aTag       ListBox
+aZKey      1080
+aKey       1080
+aRT_DLL_Name ZDCTL
+aRT_OperationName ListBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aPainterConvertOperationName ConvertListBox
+aPainterBitmap LIST
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LIST
+aAcceptsAllParents Y
+aId        15
+aInvisible -1
+
+eControl   3
+aTag       ImportWSK
+aText      OK
+aZKey      91018637
+aSubtype   536870912
+aPSDLG_X   207
+aPSDLG_Y   9
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      91018638
+
+eEvent     4
+aType      1
+aZKey      91018652
+
+eEventAct  5
+
+eControlDef 4
+aTag       PushBtn
+aZKey      1020
+aKey       1020
+aRT_DLL_Name ZDCTL
+aRT_OperationName PushButton
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZPushMsg
+aPainterConvertOperationName ConvertButton
+aPainterBitmap PUSH
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_PUSH
+aAcceptsAllParents Y
+aId        8
+aInvisible -1
+
+eControl   3
+aTag       Push1
+aText      Cancel
+aZKey      1342457
+aSubtype   536870912
+aPSDLG_X   207
+aPSDLG_Y   25
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1342458
+
+eEvent     4
+aType      1
+aZKey      1342459
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      71
+aZKey      1342431
+
+eControlDef 4
+
+eControl   3
+aTag       PushBtn3
+aText      &Server...
+aZKey      91018641
+aSubtype   536870912
+aPSDLG_X   207
+aPSDLG_Y   48
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 0
+
+eCtrlMap   4
+aZKey      91018642
+
+eCtrlMap   4
+aZKey      91018643
+
+eEvent     4
+aType      1
+aZKey      91018644
+
+eEventAct  5
+aTag       ServerSelection
+aType      34
+aZKey      91018645
+aDialogName TZSIIMPD
+aWindowName ServSel
+
+eControlDef 4
+
+eControl   3
+aTag       DeleteWSK
+aText      &Delete
+aZKey      91018639
+aSubtype   536870912
+aPSDLG_X   207
+aPSDLG_Y   72
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      91018640
+
+eEvent     4
+aType      1
+aZKey      91018648
+
+eEventAct  5
+aTag       DeleteWSK
+aType      2
+aZKey      91018649
+aSB_ActionDisabling 8
+
+eControlDef 4
+
+eControl   3
+aTag       MsgBar1
+aZKey      97123589
+aSubtype   1
+aPSDLG_X   128
+aPSDLG_Y   206
+aSZDLG_X   55
+aSZDLG_Y   19
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97123590
+
+eControlDef 4
+aTag       MsgBar
+aZKey      2020
+aKey       2020
+aRT_DLL_Name ZDCTL
+aRT_OperationName DIL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZDilMsg
+aPainterConvertOperationName ConvertDIL
+aPainterBitmap DIL
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_DIL
+aId        20
+aInvisible -1
+
+eWndEvent  3
+aType      2
+aZKey      90017717
+
+eWndAct    4
+aTag       TransferToKatalogList
+aNoMap     Y
+aType      1
+aZKey      90017718
+
+eAction    3
+
+eActMap    4
+aZKey      98102994
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      90004793
+aName      TZSIIMLO
+aDesc      VOR automatically built from LOD Dialog
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      DeleteWorkObject
+aZKey      90017685
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      1342380
+aOwnerType D
+aLanguageType V
+aName      TZSIIMPD
+aDesc      VML for Dialog Operations
+aExtension VML
+
+eAction    3
+aTag       EnableButtons
+aNoMap     Y
+aType      1
+aZKey      91056508
+
+eActOper   4
+aName      EnableButtons
+aZKey      91056511
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      DropAllWorkViews
+aZKey      91057563
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      98102992
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ActivateWorkObject
+aZKey      1342381
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+aTag       ReturnFromSubwindow
+aNoMap     Y
+aType      1
+aZKey      91056157
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActMap    4
+aZKey      90017719
+
+eActMap    4
+aZKey      90017720
+
+eActWndEvent 4
+
+eActOper   4
+aName      CreateKatalogList
+aZKey      90017687
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eWndStyle  3
+aTag       Sizeable Dialog Box
+aZKey      10024379
+aStyle     -2134114304
+
+eWindow    2
+aTag       ServSel
+aCaption   Server Selection
+aPSDLG_X   2
+aPSDLG_Y   2
+aSZDLG_X   12845259
+aSZDLG_Y   11665604
+aZKey      91020356
+aDIL_Active Y
+aGeneralFlag 0
+
+eControl   3
+aTag       ListBox1
+aText      ListBox1
+aZKey      91020357
+aSubtype   -2146295808
+aPSDLG_X   7
+aPSDLG_Y   7
+aSZDLG_X   122
+aSZDLG_Y   160
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       ListBoxCtl1
+aText      Servername
+aZKey      91020360
+aSubtype   604504064
+aPSDLG_X   2
+aPSDLG_Y   0
+aSZDLG_X   107
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      91011205
+
+eCtrlMapLOD_Attribute 6
+aZKey      91020364
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+aName      TZSIIMWK
+aIndentName TZSIIMWK
+aIndentLvl 0
+aZKey      91020363
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eCtrlMapER_Attribute 7
+aName      wkServerName
+aZKey      91020365
+aLth       9
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+aZKey      91020372
+aName      TZSIIMWK
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      91020359
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      91020373
+
+eCtrlMap   4
+aZKey      91011204
+
+eEvent     4
+aType      2
+aZKey      91020410
+
+eEventAct  5
+aTag       GetCatalogList
+aType      34
+aZKey      91020389
+aDialogName TZSIIMPD
+aWindowName CatalogList
+aSB_ActionDisabling 8
+
+eControlDef 4
+
+eControl   3
+aTag       PushBtn1
+aText      OK
+aZKey      91020378
+aSubtype   536870912
+aPSDLG_X   140
+aPSDLG_Y   9
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      91020379
+
+eEvent     4
+aType      1
+aZKey      91020388
+
+eEventAct  5
+
+eControlDef 4
+
+eControl   3
+aTag       PushBtn2
+aText      Cancel
+aZKey      91020380
+aSubtype   536870912
+aPSDLG_X   140
+aPSDLG_Y   25
+aSZDLG_X   48
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      91020381
+
+eEvent     4
+aType      1
+aZKey      91020382
+
+eEventAct  5
+aTag       ESC
+aType      72
+aZKey      91020383
+
+eControlDef 4
+
+eControl   3
+aTag       MsgBar1
+aZKey      97123587
+aSubtype   1
+aPSDLG_X   74
+aPSDLG_Y   175
+aSZDLG_X   39
+aSZDLG_Y   19
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97123588
+
+eControlDef 4
+
+eWndEvent  3
+aType      1
+aZKey      91020411
+
+eWndAct    4
+aTag       LoadServerList
+aNoMap     Y
+aType      1
+aZKey      91020404
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActMap    4
+aZKey      98102996
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+aZKey      91020372
+aName      TZSIIMWK
+aDesc      VOR automatically built from LOD Dialog
+
+eActEvent  4
+
+eActCtrl   5
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      LoadServerList
+aZKey      91020412
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eWndStyle  3
+aTag       Sizeable Dialog Box
+aZKey      10024379
+aStyle     -2134114304
+
+eWindow    2
+aTag       CatalogList
+aCaption   Cataloglist
+aPSDLG_X   2
+aPSDLG_Y   2
+aSZDLG_X   29884879
+aSZDLG_Y   12255439
+aZKey      91020392
+aDIL_Active Y
+aGeneralFlag 0
+
+eControl   3
+aTag       ListBox1
+aText      ListBox1
+aZKey      91020473
+aSubtype   -2147344384
+aPSDLG_X   8
+aPSDLG_Y   8
+aSZDLG_X   104
+aSZDLG_Y   161
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       ListBoxCtl1
+aText      Catalogfiles
+aZKey      91020476
+aSubtype   604504064
+aPSDLG_X   2
+aPSDLG_Y   0
+aSZDLG_X   86
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      91011207
+
+eCtrlMapLOD_Attribute 6
+aZKey      91020367
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+aName      CatFiles
+aIndentName    CatFiles
+aIndentLvl 3
+aZKey      91020366
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eCtrlMapER_Attribute 7
+aName      wkCatFiles
+aZKey      91020368
+aLth       9
+aDesc      Adresstafeldateien
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      91020475
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      91020478
+
+eCtrlMap   4
+aZKey      91011206
+
+eEvent     4
+aType      1
+aZKey      91020886
+
+eEventAct  5
+aTag       RefreshCatalogList
+aType      1
+aZKey      91020887
+
+eControlDef 4
+
+eControl   3
+aTag       CatalogList
+aText      CatalogList
+aZKey      91020479
+aSubtype   -2147344384
+aPSDLG_X   122
+aPSDLG_Y   8
+aSZDLG_X   155
+aSZDLG_Y   161
+aCtrlBOI   U34
+B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
+`
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlCtrl  4
+aTag       ListBoxCtl2
+aText      Catalogs of the actual Catalogfile
+aZKey      91020482
+aSubtype   604504064
+aPSDLG_X   4
+aPSDLG_Y   0
+aSZDLG_X   137
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      91011209
+
+eCtrlMapLOD_Attribute 6
+aZKey      91020370
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eCtrlMapRelatedEntity 7
+aName      Catalogs
+aIndentName       Catalogs
+aIndentLvl 6
+aZKey      91020369
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eCtrlMapER_Attribute 7
+aName      wkCatalogName
+aZKey      91020371
+aLth       9
+
+eCtrlMapER_Domain 8
+
+eCtrlMapView 6
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      91020481
+
+eCtrlMapLOD_Entity 5
+
+eCtrlMapView 5
+
+eCtrlMap   4
+aZKey      91020484
+
+eCtrlMap   4
+aZKey      91011208
+
+eEvent     4
+aType      2
+aZKey      91021344
+
+eEventAct  5
+aTag       ImportCatalog
+aType      1
+aZKey      91020486
+aSB_ActionDisabling 8
+
+eControlDef 4
+
+eControl   3
+aTag       RadioGrp1
+aText      Import Options
+aZKey      91020901
+aSubtype   537395200
+aPSDLG_X   287
+aPSDLG_Y   8
+aSZDLG_X   158
+aSZDLG_Y   50
+aCtrlBOI   U2
+"````
+`
+aSyncKey   9999
+
+eCtrlCtrl  4
+aTag       RadioImportAndWSK
+aText      WSK and Import into Data Model
+aZKey      91020903
+aSubtype   536870912
+aPSDLG_X   8
+aPSDLG_Y   14
+aSZDLG_X   143
+aSZDLG_Y   14
+aCtrlBOI   U2
+"60``
+`
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      91020904
+
+eControlDef 5
+aTag       RadioBtn
+aZKey      1031
+aKey       1031
+aRT_DLL_Name ZDCTL
+aRT_OperationName RadioBtn
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZRadioMsg
+aPainterConvertOperationName ConvertRadioBtn
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_RADIO
+aRequiresParent Y
+aId        12
+aInvisible -1
+
+eCtrlCtrl  4
+aTag       RadioOnlyWSK
+aText      write WSK only
+aZKey      91020905
+aSubtype   536870912
+aPSDLG_X   8
+aPSDLG_Y   31
+aSZDLG_X   143
+aSZDLG_Y   14
+aCtrlBOI   U2
+"````
+`
+aSyncKey   9999
+
+eCtrlMap   5
+aZKey      91020906
+
+eControlDef 5
+
+eCtrlMap   4
+aZKey      91020902
+
+eControlDef 4
+aTag       RadioGrp
+aZKey      1030
+aKey       1030
+aRT_DLL_Name ZDCTL
+aRT_OperationName RadioBtnGroup
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZRadioMsg
+aPainterConvertOperationName ConvertRadioBtnGroup
+aPainterBitmap RADIO
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_RADIOGRP
+aAcceptsAllParents Y
+aId        11
+aInvisible -1
+
+eControl   3
+aTag       PushBtn1
+aText      &Import
+aZKey      91020393
+aSubtype   536870912
+aPSDLG_X   328
+aPSDLG_Y   98
+aSZDLG_X   90
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      91020394
+
+eEvent     4
+aType      1
+aZKey      91020485
+
+eEventAct  5
+
+eControlDef 4
+
+eControl   3
+aTag       PushBtn2
+aText      Return to &Server
+aZKey      91020489
+aSubtype   536870912
+aPSDLG_X   328
+aPSDLG_Y   123
+aSZDLG_X   90
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      91020490
+
+eEvent     4
+aType      1
+aZKey      91020493
+
+eEventAct  5
+aTag       ReturnToServerSelect
+aType      71
+aZKey      91020494
+
+eControlDef 4
+
+eControl   3
+aTag       PushBtn3
+aText      Return to &Import
+aZKey      91020491
+aSubtype   536870912
+aPSDLG_X   328
+aPSDLG_Y   139
+aSZDLG_X   90
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      91020492
+
+eEvent     4
+aType      1
+aZKey      91020497
+
+eEventAct  5
+aTag       ReturnToImportSelect
+aType      72
+aZKey      91020498
+aDialogName TZSIIMPD
+aWindowName TZSIIMPD
+
+eControlDef 4
+
+eControl   3
+aTag       PushBtn4
+aText      Return to &Data Model
+aZKey      91021160
+aSubtype   536870912
+aPSDLG_X   328
+aPSDLG_Y   154
+aSZDLG_X   90
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      91021161
+
+eEvent     4
+aType      1
+aZKey      91021252
+
+eEventAct  5
+aTag       ReturnToDataModel
+aType      74
+aZKey      91021253
+
+eControlDef 4
+
+eControl   3
+aTag       MsgBar1
+aZKey      97123585
+aSubtype   1
+aPSDLG_X   172
+aPSDLG_Y   176
+aSZDLG_X   48
+aSZDLG_Y   19
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      97123586
+
+eControlDef 4
+
+eWndEvent  3
+aType      1
+aZKey      91020836
+
+eWndAct    4
+aTag       GetAllCatalogNames
+aNoMap     Y
+aType      1
+aZKey      91020837
+
+eWndEvent  3
+aType      256
+aZKey      91020882
+
+eWndAct    4
+aTag       ESC
+aType      71
+aZKey      91020883
+
+eAction    3
+
+eActWndEvent 4
+
+eAction    3
+
+eActWndEvent 4
+
+eActOper   4
+aName      LoadCatalogList
+aZKey      91020849
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      98102998
+
+eActMapLOD_Entity 5
+
+eActMapView 5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      ImportCatalogAndWSK
+aZKey      91020912
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      RefreshCatalogList
+aZKey      91020890
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      DropWorkViews
+aZKey      91020466
+aClass     0
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eWndStyle  3
+aTag       Dialog Box
+aZKey      7008569
+aStyle     -2134376448
+aDesc      Dialog box with caption, non-sizable border
+aStyleEx   1
+
+eViewObjRef 2
+aZKey      90004793
+aName      TZSIIMLO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       3
+aZKey      90004786
+aName      TZSIIMLO
+aDesc      List of Siron work objects
+
+eViewObjRef 2
+aZKey      91020372
+aName      TZSIIMWK
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       3
+aZKey      91020362
+aName      TZSIIMWK
+
+eViewObjRef 2
+aZKey      1342454
+aName      TZSIWK1O
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       3
+aZKey      1328469
+aName      TZSIWK1O
+aDesc      Intermediate work object for Siron Katalog to Zeidon import
+
+eViewObjRef 2
+aZKey      91006677
+aName      TZTENVRO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       3
+aZKey      1327972
+aName      TZTENVRO
+aDesc      Technical Environment for any type
+aDLL_Name  TZLODOPR
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      1342382
+
+eOperation 3
+aName      ActivateAndImport
+aZKey      91021189
+aType      L
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc ViewToWindow
+aDataType  V
+aZKey      91021190
+
+eParameter 4
+aShortDesc szFilename
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91021191
+
+eOperation 3
+aName      ImportCreateERD
+aZKey      1342390
+aDesc      Add the ER single Entity, single Table and their children
+aType      L
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc Recursive Work Object
+aDataType  V
+aZKey      1342391
+
+eParameter 4
+aShortDesc ERD View
+aDataType  V
+aZKey      1342392
+
+eParameter 4
+aShortDesc LPLR view for Domain include
+aDataType  V
+aZKey      1342393
+
+eParameter 4
+aShortDesc ViewToWindow for error msgs
+aDataType  V
+aZKey      1342394
+
+eParameter 4
+aShortDesc szCatalog
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91021429
+
+eParameter 4
+aShortDesc sFirst
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      91060143
+
+eOperation 3
+aName      ImportERD_Recursive
+aZKey      1342400
+aType      L
+aClass     0
+
+eParameter 4
+aShortDesc Recursive Work Object
+aDataType  V
+aZKey      1342401
+
+eParameter 4
+aShortDesc Copy of recursive Workobject
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91019651
+
+eParameter 4
+aShortDesc ERD View
+aDataType  V
+aZKey      1342402
+
+eParameter 4
+aShortDesc LPLR view for Domain include
+aDataType  V
+aZKey      1342403
+
+eParameter 4
+aShortDesc ViewToWindow for error msgs
+aDataType  V
+aZKey      1342404
+
+eOperation 3
+aName      ImportWorkOIToZeidon
+aZKey      1342418
+aType      L
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      1342419
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90017686
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      90017688
+
+eOperation 3
+aName      TransformSubFields
+aZKey      1342426
+aType      L
+aClass     0
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      1342427
+
+eParameter 4
+aShortDesc Work View for SironKatalog subobject
+aDataType  V
+aZKey      1342428
+
+eParameter 4
+aShortDesc Work view for HD Diagram subobject
+aDataType  V
+aZKey      1342429
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91020413
+
+eOperation 3
+aName      ShowMessage
+aZKey      91020419
+aType      L
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc ViewtoWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91020420
+
+eParameter 4
+aShortDesc MessageNumber
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      91020421
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91020467
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91020850
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91020891
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91020913
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91056512
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      91057564
+
+eOperation 3
+aName      ChangeEntityOrAttributeName
+aZKey      91021101
+aType      L
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc ViewToWindow
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91021102
+
+eParameter 4
+aShortDesc szName
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      91021103
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+i2         1
+i15        7
+i18        10
+i19        11
+i21        7
+i22        10
+i31        26
+i37        32
+i43        32
+i48        32
+i54        47
+i56        7
+i58        46
+i59        44
+i64        61
+i65        36
+i66        35
+i67        33
+i69        61
+i70        26
+i72        7
+i73        57
+i74        30
+i75        28
+i76        25
+i77        3
+i79        61
+i81        42
+i82        41
+i83        38
+i84        53
+i87        52
+i89        61
+i98        9
+i100       11
+i102       96
+i103       99
+i108       27
+i112       107
+i113       32
+i118       32
+i121       51
+i124       117
+i125       116
+i126       114
+i127       107
+i129       96
+i131       111
+i132       109
+i133       106
+i134       92
+i135       123
+i136       122
+i138       61
+i147       9
+i148       99
+i149       11
+i151       145
+i152       99
+i157       27
+i164       9
+i165       99
+i166       11
+i168       162
+i169       99
+i174       27
+i181       178
+i187       173
+i188       32
+i193       32
+i198       32
+i203       32
+i206       51
+i211       210
+i212       209
+i213       208
+i214       207
+i216       61
+i217       173
+i219       162
+i220       130
+i221       186
+i222       184
+i223       172
+i224       158
+i226       61
+i227       156
+i228       155
+i229       141
+i231       61
+i232       202
+i233       201
+i234       199
+i235       68
+i236       61
+i237       197
+i238       196
+i239       194
+i241       61
+i242       192
+i243       191
+i244       189
+i254       61
+i255       78
+i275       60
+i277       88
+i283       137
+i288       240
+i290       215
+i292       230
+i294       225
+i296       63
+i298       68
+i303       257
+i304       61
+i305       78
+i306       61
+i307       300
+i308       61
+i309       88
+i310       61
+i311       60
+i312       61
+i313       68
+i314       61
+i315       240
+i316       61
+i317       63
+i318       61
+i319       225
+i320       61
+i321       260
+i322       61
+i323       267
+i324       61
+i325       273
+i326       61
+i327       215
+i328       61
+i329       137
+i330       61
+i331       230
+i332       61
+i333       285
+i334       61
+i335       279
+i336       61

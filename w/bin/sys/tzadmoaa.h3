@@ -1,0 +1,63 @@
+/*
+***********************************************************************
+
+   OPERATION:  CreateNewInstance
+
+   PURPOSE:    This Entry creates a new Instance.
+
+***********************************************************************/
+DIALOG OPERATION
+CreateNewInstance( VIEW ViewToWindow )
+
+   VIEW _*Handle BASED ON LOD _*Object
+
+   ACTIVATE _*Handle EMPTY
+   NAME VIEW _*Handle "_*Handle"
+   CREATE ENTITY _*Handle._*Entity
+
+END
+
+
+/*
+***********************************************************************
+
+   OPERATION:  SaveInstance
+
+   PURPOSE:    This Entry Saves the Instance last processed by
+               the AutoDesigned Application.
+
+***********************************************************************/
+DIALOG OPERATION
+SaveInstance( VIEW ViewToWindow )
+
+   VIEW _*Handle REGISTERED AS _*Handle
+
+   AcceptSubobject ( _*Handle, "_*Entity" )
+   IF nZRetCode < 0
+      // Message should have been sent by object entity constraint.
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, "", "" )
+      RETURN -1
+   END
+
+   COMMIT _*Handle
+
+   IF RESULT < 0
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, "", "" )
+   END
+
+END
+
+/*
+***********************************************************************
+
+   OPERATION:  DeleteInstance
+
+***********************************************************************/
+DIALOG OPERATION
+DeleteInstance( VIEW ViewToWindow )
+
+   VIEW _*Handle REGISTERED AS _*Handle
+
+   DropView( _*Handle )
+
+END

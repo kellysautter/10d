@@ -1,0 +1,22 @@
+rZeidon    Z01493C4 TZWDVORO 04/26/96   16:18:19 1.0a     
+eViewObjRef 1,192
+aZKey      1348548
+aName      TZERATLO
+
+eLOD       2,1232
+aZKey      1329538
+aName      TZERATLO
+aDesc      List Object for ER_Attributes
+
+eLOD       2,230
+aZKey      70000029
+aName      TZERATLO
+aDesc      Work object for Identifiers
+
+eZ_MetaDef 2,192
+aName      TZERATLO
+aZKey      1348548
+aType      9
+aLastUpdateDate 19950824213840000
+aLastCheckInDate 19951102203051110
+

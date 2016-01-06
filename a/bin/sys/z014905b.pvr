@@ -1,0 +1,17 @@
+rZeidon    Z014905B TZWDVORO 11/02/95   20:52:29 1.0a     
+eViewObjRef 1,192
+aZKey      1347675
+aName      TZERENTO_List
+
+eLOD       2,192
+aZKey      1329389
+aName      TZERENTO
+aDesc      ER Entity Only - for lists
+
+eZ_MetaDef 2,192
+aName      TZERENTO_List
+aZKey      1347675
+aType      9
+aLastUpdateDate 19950824213834000
+aLastCheckInDate 19951102203051110
+

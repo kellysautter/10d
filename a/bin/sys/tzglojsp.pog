@@ -1,0 +1,63 @@
+z1000-Zeidon    TZGLOJSP TZOGSRCO 02/04/06   19:12:57 1.0a2    
+eGlobalOperationGroup 1
+aZKey      92813872
+aName      TZGLOJSP
+aDesc      JSP Generation operations
+aExtension VML
+aLanguageType V
+aDomainAndGlobalOpGroupName TZGLOJSP
+
+eOperation 2
+aName      JSP_StaticSection1
+aZKey      92813873
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      92813874
+
+eParameter 3
+aShortDesc szWriteBuffer
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      92813875
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      92813876
+
+eOperation 2
+aName      JSP_StaticMainSection
+aZKey      92813877
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      92813878
+
+eParameter 3
+aShortDesc szWriteBuffer
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      92813879
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      92813880
+

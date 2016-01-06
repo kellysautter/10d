@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{e2afdbe2-3644-4780-8631-bd62fd59deda}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4f6e8c71-3a2c-48b2-ace5-6f98f31ce7cb}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;inl;fi;fd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{d3cc9290-b553-4b90-9737-0cfe1b7897e5}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;cnt;rtf;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ZDr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZDr.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ZdCtl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZDCTLSS.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZDlgUnits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZDr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZDrApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="abhorzup.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="abvertup.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\ACCTBAR.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ACTBARUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\ActiveX.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Alarm.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ALGNBTUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ALGNLFUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ALGNRTUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ALGNTPUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Appoint.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\CalBack.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\CalBkGnd.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\CalBtns.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Calendar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="cbc.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="CBLED.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="cbx.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="CHANGEUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="CMAIN.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\color_ma.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\DateBtns.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\DateTime.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DLETUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="EQHORZUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="EQVERTUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\GRID.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\images.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\painter.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\palette.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Pinned.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="prevend.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="prevhome.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="prevnext.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="prevone.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="prevprev.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="prevprin.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="prevtwo.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="prevzin.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="prevzout.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="printer.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SIZEHTDN.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SIZEHTUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SIZEHWUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SIZEWDUP.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\ToolbarX.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TreeClosed.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TreeOpened.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Unpinned.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\Workday.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ZDr.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\ZDrDoc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RES\ZDX.ICO">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="BCOPY1.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BCOPYM.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BDROPNOT.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BMOVE.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BMOVE1.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BMOVEM.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BPROMOTE.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="RES\cursor1.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DROPNOT.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DROPOKC1.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DROPOKCM.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DROPOKM.CUR">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DROPOKM1.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DROPOKMM.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Hand1.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="hand2.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="HandX.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="HSPLIT.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="VSPLIT.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="XSPLIT.cur">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

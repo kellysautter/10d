@@ -1,0 +1,652 @@
+z1000-Zeidon    TZVSINIT TZWDLGSO 01/05/16   09:05:31 1.0b0   
+eDialog    1
+aTag       TZVSINIT
+aDLL_Name  KZAPPLOO
+aZKey      1341111
+aDesc      LPLR File Init
+
+eDfltWnd   2
+aTag       TZVSINIT
+aCaption   Initialize LPL
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   22610290
+aSZDLG_Y   10748105
+aZKey      1341113
+aDIL_Active Y
+
+eWindow    2
+
+eControl   3
+aTag       Text1
+aText      LPL Basic File Set Information
+aZKey      1341129
+aSubtype   537395200
+aPSDLG_X   111
+aPSDLG_Y   4
+aSZDLG_X   121
+aSZDLG_Y   12
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1341130
+
+eControlDef 4
+aTag       Text
+aZKey      1000
+aKey       1000
+aRT_DLL_Name ZDCTL
+aRT_OperationName Text
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTextMsg
+aPainterConvertOperationName ConvertText
+aPainterBitmap TEXT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_TEXT
+aAcceptsAllParents Y
+aId        1
+aInvisible -1
+
+eControl   3
+aTag       Text4
+aText      TZ Source Directory   ( copy from )
+aZKey      1341131
+aSubtype   537395200
+aPSDLG_X   16
+aPSDLG_Y   21
+aSZDLG_X   135
+aSZDLG_Y   9
+aSyncKey   9999
+
+eControlDef 4
+
+eControl   3
+aTag       Edit4
+aZKey      1341132
+aPSDLG_X   154
+aPSDLG_Y   21
+aSZDLG_X   197
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      1341133
+
+eCtrlMapLOD_Attribute 5
+aZKey      1327771
+aSeqNo_LOD_Entity 4
+aWork      Y
+
+eCtrlMapRelatedEntity 6
+aName      ROOT
+aIndentName ROOT
+aIndentLvl 0
+aZKey      1327764
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      The absolute most top level entity at the top of other entities
+
+eCtrlMapER_Attribute 6
+aName      SourceOfSourceCopy
+aZKey      1327772
+
+eCtrlMapER_Domain 7
+aZKey      90000040
+aDesc      QuinSoft File Name - 32 chars
+aName      QSFileName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eCtrlMapView 5
+aZKey      1341134
+aName      TZVSINIT
+
+eControlDef 4
+aTag       EditBox
+aZKey      1010
+aKey       1010
+aRT_DLL_Name ZDCTL
+aRT_OperationName Edit
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZEditMsg
+aPainterConvertOperationName ConvertEditBox
+aPainterBitmap EDIT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_EDIT
+aAcceptsAllParents Y
+aId        7
+aInvisible -1
+
+eControl   3
+aTag       Text5
+aText      Target Source Dir      ( copy to )
+aZKey      1341135
+aSubtype   537395200
+aPSDLG_X   26
+aPSDLG_Y   36
+aSZDLG_X   123
+aSZDLG_Y   9
+aSyncKey   9999
+
+eControlDef 4
+
+eControl   3
+aTag       Edit5
+aZKey      1341136
+aPSDLG_X   154
+aPSDLG_Y   36
+aSZDLG_X   197
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      1341137
+
+eCtrlMapLOD_Attribute 5
+aZKey      1327773
+aSeqNo_LOD_Entity 5
+aWork      Y
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      TargetOfSourceCopy
+aZKey      1327774
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       Text6
+aText      TZ Exec Directory      ( copy from )
+aZKey      1341138
+aSubtype   537395200
+aPSDLG_X   16
+aPSDLG_Y   50
+aSZDLG_X   135
+aSZDLG_Y   9
+aSyncKey   9999
+
+eControlDef 4
+
+eControl   3
+aTag       Edit6
+aZKey      1341139
+aPSDLG_X   154
+aPSDLG_Y   50
+aSZDLG_X   197
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      1341140
+
+eCtrlMapLOD_Attribute 5
+aZKey      1327775
+aSeqNo_LOD_Entity 6
+aWork      Y
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      SourceOfExeCopy
+aZKey      1327776
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       Text7
+aText      Target Exec Dir         ( copy to )
+aZKey      1341141
+aSubtype   537395200
+aPSDLG_X   26
+aPSDLG_Y   64
+aSZDLG_X   123
+aSZDLG_Y   9
+aSyncKey   9999
+
+eControlDef 4
+
+eControl   3
+aTag       Edit7
+aZKey      1341142
+aPSDLG_X   154
+aPSDLG_Y   64
+aSZDLG_X   197
+aSZDLG_Y   14
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      1341143
+
+eCtrlMapLOD_Attribute 5
+aZKey      1327777
+aSeqNo_LOD_Entity 7
+aWork      Y
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      TargetOfExeCopy
+aZKey      1327778
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       Switch
+aText      &Switch LPLR...
+aZKey      1341144
+aSubtype   536870912
+aPSDLG_X   48
+aPSDLG_Y   91
+aSZDLG_X   96
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1341145
+
+eEvent     4
+aType      1
+aZKey      1341146
+
+eEventAct  5
+aTag       GOTOREB
+aType      34
+aZKey      1341121
+aDialogName TZCMSLPD
+aWindowName SwitchLPLR
+
+eControlDef 4
+aTag       PushBtn
+aZKey      1020
+aKey       1020
+aRT_DLL_Name ZDCTL
+aRT_OperationName PushButton
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZPushMsg
+aPainterConvertOperationName ConvertButton
+aPainterBitmap PUSH
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_PUSH
+aAcceptsAllParents Y
+aId        8
+aInvisible -1
+
+eControl   3
+aTag       Copy
+aText      &Copy
+aZKey      1341147
+aSubtype   536870912
+aPSDLG_X   48
+aPSDLG_Y   111
+aSZDLG_X   96
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1341148
+
+eEvent     4
+aType      1
+aZKey      1341149
+
+eEventAct  5
+aTag       Copy
+aType      2
+aZKey      1341114
+
+eControlDef 4
+
+eControl   3
+aTag       IncludeDomains
+aText      Include &Domains
+aZKey      1341150
+aSubtype   536870912
+aPSDLG_X   152
+aPSDLG_Y   111
+aSZDLG_X   74
+aSZDLG_Y   12
+aCtrlBOI   U4
+$,0`P````
+`
+aSyncKey   9999
+aDIL_Text  Copy 13 .PDM domain files and DOMAINS.XDM file
+
+eCtrlMap   4
+aZKey      1341151
+
+eCtrlMapLOD_Attribute 5
+aZKey      1327765
+aSeqNo_LOD_Entity 1
+aWork      Y
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      IncludeDomains
+aZKey      1327766
+
+eCtrlMapER_Domain 7
+aZKey      90000044
+aDesc      Integer numbers from -lots to +lots.
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aContextRestriction N
+aDecimalFormat 0
+
+eCtrlMapView 5
+
+eControlDef 4
+aTag       CheckBox
+aZKey      1040
+aKey       1040
+aRT_DLL_Name ZDCTL
+aRT_OperationName CheckBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZCheckMsg
+aPainterConvertOperationName ConvertCheckBox
+aPainterBitmap CHECK
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_CHECK
+aAcceptsAllParents Y
+aId        13
+aInvisible -1
+
+eControl   3
+aTag       IncludePPE
+aText      Include &PPE
+aZKey      1341152
+aSubtype   536870912
+aPSDLG_X   234
+aPSDLG_Y   111
+aSZDLG_X   62
+aSZDLG_Y   14
+aCtrlBOI   U4
+$,0`P````
+`
+aSyncKey   9999
+aDIL_Text  Copy the latest ZEIDON.PPE file as the Presentation Environment
+
+eCtrlMap   4
+aZKey      1341153
+
+eCtrlMapLOD_Attribute 5
+aZKey      1327769
+aSeqNo_LOD_Entity 3
+aWork      Y
+
+eCtrlMapRelatedEntity 6
+
+eCtrlMapER_Attribute 6
+aName      IncludePPE
+aZKey      1327770
+
+eCtrlMapER_Domain 7
+
+eCtrlMapView 5
+
+eControlDef 4
+
+eControl   3
+aTag       gotor
+aText      Goto &Rebuild Meta...
+aZKey      1341154
+aSubtype   536870912
+aPSDLG_X   48
+aPSDLG_Y   128
+aSZDLG_X   96
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1341155
+
+eEvent     4
+aType      1
+aZKey      1341156
+
+eEventAct  5
+
+eControlDef 4
+
+eControl   3
+aTag       Exit
+aText      &Close
+aZKey      1341157
+aSubtype   536870912
+aPSDLG_X   48
+aPSDLG_Y   145
+aSZDLG_X   96
+aSZDLG_Y   14
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1341158
+
+eEvent     4
+aType      1
+aZKey      1341159
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aZKey      1341119
+
+eControlDef 4
+
+eControl   3
+aTag       DIL1
+aZKey      1341160
+aPSDLG_X   0
+aPSDLG_Y   169
+aSZDLG_X   382
+aSZDLG_Y   20
+aSyncKey   9999
+
+eCtrlMap   4
+aZKey      1341161
+
+eControlDef 4
+aTag       MsgBar
+aZKey      2020
+aKey       2020
+aRT_DLL_Name ZDCTL
+aRT_OperationName DIL
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZDilMsg
+aPainterConvertOperationName ConvertDIL
+aPainterBitmap DIL
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_DIL
+aId        20
+aInvisible -1
+
+eWndEvent  3
+aType      1
+aZKey      1341162
+
+eWndAct    4
+aTag       PreBuild
+aNoMap     Y
+aType      1
+aZKey      1341123
+
+eWndEvent  3
+aType      2
+aZKey      1341163
+
+eWndAct    4
+aTag       PostBuild
+aNoMap     Y
+aType      1
+aZKey      1341116
+
+eWndEvent  3
+aType      8
+aZKey      1341164
+
+eWndAct    4
+aTag       RtnFromSubWnd
+aNoMap     Y
+aType      2
+aZKey      1341126
+
+eAction    3
+
+eActMap    4
+aZKey      1341115
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActMap    4
+aZKey      1341117
+
+eActMap    4
+aZKey      1341118
+
+eActWndEvent 4
+
+eAction    3
+
+eActMap    4
+aZKey      1341120
+
+eActMap    4
+aZKey      92000548
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActMap    4
+aZKey      1341122
+
+eActEvent  4
+
+eActCtrl   5
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActMap    4
+aZKey      1341124
+
+eActMap    4
+aZKey      1341125
+
+eActWndEvent 4
+
+eAction    3
+
+eActMap    4
+aZKey      1341127
+
+eActMap    4
+aZKey      1341128
+
+eActWndEvent 4
+
+eWndStyle  3
+aTag       Primary Window
+aZKey      7008558
+aStyle     13565952
+aDesc      Overlapped window with caption, system menu, sizing border, min/
+
+eViewObjRef 2
+aZKey      1341134
+aName      TZVSINIT
+
+eLOD       3
+aZKey      1327762
+aName      TZVSINIT
+aDesc      LPL Init Work Object
+aDLL_Name  TZVSINIT
+
+eSourceFile 2
+aZKey      1341112
+aName      KZAPPLOO
+aExtension VML
+aOwnerType O
+aLanguageType V
+
+i2         1
+i7         5
+i17        5
+i21        11
+i23        13
+i24        14
+i25        15
+i27        5
+i31        11
+i33        13
+i34        14
+i35        15
+i37        5
+i41        11
+i43        13
+i44        14
+i45        15
+i55        50
+i59        11
+i62        14
+i67        11
+i69        61
+i70        14
+i71        63
+i75        49
+i76        50
+i81        50
+i91        54
+i93        53
+i94        51
+i95        88
+i98        87
+i99        80
+i102       79
+i103       77
+i104       49
+i106       48
+i107       46
+i108       74
+i109       72
+i110       86
+i113       85
+i114       90
+i117       89

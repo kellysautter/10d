@@ -1,0 +1,12 @@
+rZeidon    Z42C77F6 TZWDVORO 01/10/96   19:27:43 1.0a     
+eViewObjRef 1,198
+aZKey      70023158
+aName      KZMSGQOO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1331171
+aName      KZMSGQOO
+aDesc      Message Queue Handler
+aDLL_Name  KZMSGQAA
+

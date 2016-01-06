@@ -1,0 +1,676 @@
+// LAST MESSAGE ID: AD11017
+
+/*
+CHANGE LOG
+2000.10.20  SR  Z2000  Size of path variables
+   Modified the size of SourceFileName in function DialogSpecMigrate
+   because size of attributes ExecDir, MetaSrcDir and PgmSrcDir
+   has been changed to 254 in datamodel. Modified size of MG_ErrorMessage
+2000.01.13  BL  Z10  new PPE-Handling
+   Modified DialogSpecMigrate for search PPE in LPLR-Directory. Has LPLR
+   not PPE, then search in Zeidon Bin/Sys directory
+   from here old version
+20.02.1997  DonC
+   Eliminate error message in DS_EntityRelink when ER_Entity is null.
+05.12.1997  DonC
+   Modified DS_EntityRelink to eliminate RelinkInstanceToInstance because it was
+   sometimes causing errors.
+14.01.1998  DonC
+   Modified DS_EntityRelink to correctly relink LOD_Entity and ER_Entity.
+*/
+
+TRANSFORMATION OPERATION
+DialogSpecMigrate( VIEW          NewDS         BASED ON LOD TZADCSDO,
+                   STRING ( 32 ) DialogSpecName,
+                   VIEW          SourceLPLR    BASED ON LOD TZCMLPLO,
+                   VIEW          vSubtask )
+
+// LAST MESSAGE ID: AD11017
+
+   VIEW OldDS     BASED ON LOD TZADCSDO
+   VIEW OldDS_C   BASED ON LOD TZADCSDO
+   VIEW NewDS_C   BASED ON LOD TZADCSDO
+   VIEW MapVOR    BASED ON LOD TZWDVORO
+   VIEW MapLOD    BASED ON LOD TZZOLODO
+   VIEW vPE       BASED ON LOD TZPESRCO
+   VIEW vMetaList BASED ON LOD TZCMLPLO
+
+   STRING ( 513 ) SourceFileName         // size according to zMAX_FILESPEC_LTH+1
+   STRING ( 129 ) MG_ErrorMessage        // size is according to zSHORT_MESSAGE_LTH+1
+   INTEGER        nRC
+
+   // Activate existing source meta OldDS
+   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DialogSpecName + ".PUI"
+
+   ActivateOI_FromFile( OldDS, "TZADCSDO", SourceLPLR, SourceFileName, 8192 )
+   // 8192 is zIGNORE_ATTRIB_ERRORS
+   NAME VIEW OldDS "OldDS"
+
+   ActivateEmptyMetaOI( vSubtask, NewDS, zSOURCE_UIS_META, zSINGLE )
+   NAME VIEW NewDS "NewDS"
+
+   nRC = GetViewByName( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK )
+   IF nRC = -1
+      /* Activate the presentation environment */
+      /* RetrieveViewForMetaList( vSubtask, vMetaList, zREFER_PENV_META ) */
+      RetrieveViewForMetaList( vSubtask, vMetaList, zREFER_PENV_META )
+
+      MG_ErrorMessage = "User Interface Spec (" + DialogSpecName + ") aborted."
+      nRC = LoadZeidonPPE( vSubtask, vPE, zREFER_PENV_META, vMetaList,
+                           "Configuration Management", MG_ErrorMessage )
+      DropView( vMetaList )
+      IF nRC < 0
+         RETURN -16
+      END
+      SetNameForView( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK )
+   END
+
+   CreateMetaEntity( vSubtask, NewDS, "UI_Spec", zPOS_AFTER )
+   SetMatchingAttributesByName( NewDS, "UI_Spec", OldDS,
+                                "UI_Spec", zSET_NULL )
+
+   IF OldDS.DfltWndDesign EXISTS
+      CreateMetaEntity( vSubtask, NewDS, "DfltWndDesign", zPOS_AFTER )
+       SetMatchingAttributesByName( NewDS, "DfltWndDesign", OldDS,
+                                    "DfltWndDesign", zSET_NULL )
+       IF OldDS.DfltWndStyle EXISTS
+         SET CURSOR FIRST vPE.WindowStyle WHERE
+             vPE.WindowStyle.Tag = OldDS.DfltWndStyle.Tag
+         IF RESULT >= zCURSOR_SET
+            INCLUDE NewDS.DfltWndStyle FROM vPE.WindowStyle
+         ELSE
+            MG_ErrorMessage ="WindowStyle doesn't exist: " + OldDS.DfltWndStyle.Tag
+            MessageSend( vSubtask,  "AD11002", "Component Migration",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            RETURN -1
+         END
+       END
+   END
+
+   FOR EACH OldDS.UIS_QualList
+      CreateMetaEntity( vSubtask, NewDS, "UIS_QualList", zPOS_AFTER )
+      SetMatchingAttributesByName( NewDS, "UIS_QualList", OldDS,
+                                   "UIS_QualList", zSET_NULL )
+   END
+
+   FOR EACH OldDS.UIS_ViewObjRef
+      nRC = DialogSpecGetVOR_LOD( vSubtask, OldDS,
+                                  MapVOR,
+                                  MapLOD,
+                                  OldDS.UIS_LOD.Name,
+                                  OldDS.UIS_ViewObjRef.Name,
+                                  "UIS_ViewObjRef" )
+      IF nRC = 0
+         INCLUDE NewDS.UIS_ViewObjRef FROM MapVOR.ViewObjRef
+         DropMetaOI( vSubtask, MapVOR )
+         DropMetaOI( vSubtask, MapLOD )
+      ELSE
+         RETURN -1
+      END
+   END
+
+   // Reposition on first of ViewObjRef entities and get the LOD again,
+   // since we use the first LOD later on.
+   SET CURSOR FIRST NewDS.UIS_ViewObjRef
+   ActivateMetaOI_ByZKey( vSubtask, MapLOD, 0, zREFER_LOD_META,
+                          zSINGLE, NewDS.UIS_LOD.ZKey, 0 )
+
+   IF OldDS.ListVOR EXISTS
+      nRC = DialogSpecGetVOR_LOD( vSubtask, OldDS,
+                                  MapVOR,
+                                  MapLOD,
+                                  OldDS.ListLOD.Name,
+                                  OldDS.ListVOR.Name,
+                                  "UIS_ViewObjRef" )
+      IF nRC = 0
+         INCLUDE NewDS.ListVOR FROM MapVOR.ViewObjRef
+         DropMetaOI( vSubtask, MapVOR )
+      ELSE
+         RETURN -1
+      END
+   END
+
+   CreateViewFromViewForTask( NewDS_C, NewDS, 0 )
+   CreateViewFromViewForTask( OldDS_C, OldDS, 0 )
+   NAME VIEW NewDS_C "NewDS_C"
+   NAME VIEW OldDS_C "OldDS_C"
+
+   // Create recursive leg of object.
+   DialogSpecEntityCopy( vSubtask, SourceLPLR,
+                         OldDS, OldDS_C,
+                         NewDS, NewDS_C,
+                         vPE, MapLOD )
+
+   CommitMetaOI( vSubtask, NewDS, zSOURCE_UIS_META )
+   DropView( NewDS_C )
+   DropObjectInstance ( OldDS )
+   DropMetaOI( vSubtask, MapLOD )
+
+   RETURN 0
+
+END
+
+LOCAL OPERATION
+DialogSpecEntityCopy( VIEW vSubtask,
+                      VIEW SourceLPLR BASED ON LOD TZCMLPLO,
+                      VIEW OldDS      BASED ON LOD TZADCSDO,
+                      VIEW OldDS_C    BASED ON LOD TZADCSDO,
+                      VIEW NewDS      BASED ON LOD TZADCSDO,
+                      VIEW NewDS_C    BASED ON LOD TZADCSDO,
+                      VIEW vPE        BASED ON LOD TZPESRCO,
+                      VIEW MapLOD     BASED ON LOD TZZOLODO )
+
+   VIEW        VOR BASED ON LOD TZWDVORO
+   STRING (64) MG_ErrorMessage
+   SHORT       nRC
+
+   CreateMetaEntity( vSubtask, NewDS_C, "UIS_Entity", zPOS_AFTER )
+   SetMatchingAttributesByName( NewDS_C, "UIS_Entity", OldDS_C,
+                                "UIS_Entity", zSET_NULL )
+
+   // Process any UIS_ChildEntity entities recursively.
+   FOR EACH OldDS_C.UIS_ChildEntity
+      SetViewToSubobject( OldDS_C, "UIS_ChildEntity" )
+      SetViewToSubobject( NewDS_C, "UIS_ChildEntity" )
+
+      nRC = DialogSpecEntityCopy( vSubtask, SourceLPLR,
+                                  OldDS, OldDS_C,
+                                  NewDS, NewDS_C,
+                                  vPE, MapLOD )
+
+      IF nRC != 0
+         RETURN -1
+      END
+
+      ResetViewFromSubobject( OldDS_C )
+      ResetViewFromSubobject( NewDS_C )
+   END
+
+   IF OldDS_C.LOD_Entity EXISTS
+      SET CURSOR FIRST MapLOD.LOD_Entity WHERE
+          MapLOD.LOD_Entity.Name = OldDS_C.LOD_Entity.Name
+      IF RESULT < zCURSOR_SET
+         MG_ErrorMessage = "LOD Entity ( " + OldDS_C.LOD_Entity.Name + ") not found."
+         MessageSend( vSubtask, "AD11003", "Component Migration",
+                      MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      ELSE
+         INCLUDE NewDS_C.LOD_Entity FROM MapLOD.LOD_Entity
+      END
+   END
+
+   IF OldDS_C.WndDesign EXISTS
+      CreateMetaEntity( vSubtask, NewDS_C, "WndDesign", zPOS_AFTER )
+      SetMatchingAttributesByName ( NewDS_C, "WndDesign", OldDS_C,
+                                    "WndDesign", zSET_NULL )
+      IF OldDS_C.WndStyle EXISTS
+         SET CURSOR FIRST vPE.WindowStyle WHERE
+             vPE.WindowStyle.Tag = OldDS_C.WndStyle.Tag
+         IF RESULT >= zCURSOR_SET
+            INCLUDE NewDS_C.WndStyle FROM vPE.WindowStyle
+         ELSE
+            MG_ErrorMessage ="WindowStyle doesn't exist: " + OldDS.WndStyle.Tag
+            MessageSend( vSubtask, "AD11004", "Component Migration",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            RETURN -1
+         END
+      END
+   END
+
+   FOR EACH OldDS_C.M_LOD_Attribute
+      SET CURSOR FIRST MapLOD.LOD_Entity WHERE
+          MapLOD.LOD_Entity.Name = OldDS_C.M_LOD_Entity.Name
+      IF RESULT < zCURSOR_SET
+         MG_ErrorMessage = "LOD Entity ( " + OldDS_C.M_LOD_Entity.Name + ") not found."
+         MessageSend( vSubtask, "AD11005", "Component Migration",
+                      MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      ELSE
+         SET CURSOR FIRST MapLOD.ER_Attribute WITHIN MapLOD.LOD_Entity WHERE
+             MapLOD.ER_Attribute.Name = OldDS_C.M_ER_Attribute.Name
+         IF RESULT < zCURSOR_SET
+            MG_ErrorMessage = "LOD Attribute ( " + OldDS_C.M_ER_Attribute.Name + ") not found."
+            MessageSend( vSubtask, "AD11006", "Component Migration",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         ELSE
+            INCLUDE NewDS_C.M_LOD_Attribute FROM MapLOD.LOD_Attribute
+         END
+      END
+   END
+
+   FOR EACH OldDS_C.L_LOD_Attribute
+      SET CURSOR FIRST MapLOD.LOD_Entity WHERE
+          MapLOD.LOD_Entity.Name = OldDS_C.L_LOD_Entity.Name
+      IF RESULT < zCURSOR_SET
+         MG_ErrorMessage = "LOD Entity ( " + OldDS_C.L_LOD_Entity.Name + ") not found."
+         MessageSend( vSubtask, "AD11007", "Component Migration",
+                      MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      ELSE
+         SET CURSOR FIRST MapLOD.ER_Attribute WITHIN MapLOD.LOD_Entity WHERE
+             MapLOD.ER_Attribute.Name = OldDS_C.L_ER_Attribute.Name
+         IF RESULT < zCURSOR_SET
+            MG_ErrorMessage = "LOD Attribute ( " + OldDS_C.L_ER_Attribute.Name + ") not found."
+            MessageSend( vSubtask, "AD11008", "Component Migration",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         ELSE
+            INCLUDE NewDS_C.L_LOD_Attribute FROM MapLOD.LOD_Attribute
+         END
+      END
+   END
+
+   IF OldDS_C.UIS_Include EXISTS
+      CreateMetaEntity( vSubtask, NewDS_C, "UIS_Include", zPOS_AFTER )
+      SetMatchingAttributesByName( NewDS_C, "UIS_Include", OldDS_C,
+                                   "UIS_Include", zSET_NULL )
+
+      nRC = DialogSpecGetVOR_LOD( vSubtask, OldDS,
+                                  VOR,
+                                  MapLOD,
+                                  OldDS_C.ListSubObjLOD.Name,
+                                  OldDS_C.ListViewObjRef.Name,
+                                  "ListViewObjRef" )
+
+      IF nRC = 0
+         INCLUDE NewDS_C.ListViewObjRef FROM VOR.ViewObjRef
+         DropMetaOI( vSubtask, VOR )
+      ELSE
+         RETURN -1
+      END
+
+      nRC = DialogSpecGetVOR_LOD( vSubtask, OldDS,
+                                  VOR,
+                                  MapLOD,
+                                  OldDS_C.IncludeSubObjLOD.Name,
+                                  OldDS_C.IncludeViewObjRef.Name,
+                                  "IncludeViewObjRef" )
+      IF nRC = 0
+         INCLUDE NewDS_C.IncludeViewObjRef FROM VOR.ViewObjRef
+         DropMetaOI( vSubtask, VOR )
+      ELSE
+         RETURN -1
+      END
+
+   END
+
+   FOR EACH OldDS_C.I_LOD_Attribute
+      SET CURSOR FIRST MapLOD.LOD_Entity WHERE
+          MapLOD.LOD_Entity.Name = OldDS_C.I_LOD_Entity.Name
+      IF RESULT < zCURSOR_SET
+         MG_ErrorMessage = "LOD Entity ( " + OldDS_C.I_LOD_Entity.Name + ") not found."
+         MessageSend( vSubtask, "AD11007", "Component Migration",
+                      MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      ELSE
+         SET CURSOR FIRST MapLOD.ER_Attribute WITHIN MapLOD.LOD_Entity WHERE
+             MapLOD.ER_Attribute.Name = OldDS_C.I_ER_Attribute.Name
+         IF RESULT < zCURSOR_SET
+            MG_ErrorMessage = "LOD Attribute ( " + OldDS_C.I_ER_Attribute.Name + ") not found."
+            MessageSend( vSubtask, "AD11008", "Component Migration",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         ELSE
+            INCLUDE NewDS_C.I_LOD_Attribute FROM MapLOD.LOD_Attribute
+         END
+      END
+   END
+
+END
+
+LOCAL OPERATION
+DialogSpecGetVOR_LOD( VIEW          vSubtask,
+                      VIEW          OldDS      BASED ON LOD TZADCSDO,
+                      VIEW          VOR        BASED ON LOD TZWDVORO,
+                      VIEW          vLOD       BASED ON LOD TZZOLODO,
+                      STRING ( 32 ) sLOD_Name,
+                      STRING ( 32 ) sViewName,
+                      STRING ( 32 ) sOrigViewEntityName )
+
+   VIEW VOR_List   BASED ON LOD TZCMLPLO
+   VIEW LOD_List   BASED ON LOD TZCMLPLO
+
+   STRING (64) szMsg
+
+   /*  Try to use existing VOR  */
+   RetrieveViewForMetaList( vSubtask, VOR_List, zREFER_VOR_META )
+   SET CURSOR FIRST VOR_List.W_MetaDef
+      WHERE  VOR_List.W_MetaDef.Name = sViewName
+
+   IF RESULT >= 0
+
+      ActivateMetaOI( vSubtask, VOR, VOR_List, zREFER_VOR_META, zSINGLE )
+
+      RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+      SET CURSOR FIRST LOD_List.W_MetaDef WHERE
+                       LOD_List.W_MetaDef.Name = VOR.LOD.Name
+      ActivateMetaOI( vSubtask, vLOD, LOD_List, zREFER_LOD_META, zSINGLE )
+   ELSE
+      // Create new VOR since it doesn't already exist.  This is required for
+      // migrating from one LPLR to another, not for cloning within the same LPLR.
+      RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+
+      SET CURSOR FIRST LOD_List.W_MetaDef WHERE
+                       LOD_List.W_MetaDef.Name = sLOD_Name
+      IF RESULT >= 0
+         ActivateEmptyMetaOI( vSubtask, VOR, zSOURCE_VOR_META, zSINGLE )
+         CreateMetaEntity( vSubtask, VOR, "ViewObjRef", zPOS_AFTER )
+         // The original attribute values could be in one of 3 entities
+         SetMatchingAttributesByName( VOR, "ViewObjRef",
+                                      OldDS, sOrigViewEntityName, zSET_NULL )
+         ActivateMetaOI( vSubtask, vLOD, LOD_List, zREFER_LOD_META, zSINGLE )
+         IncludeSubobjectFromSubobject( VOR, "LOD",
+                                        vLOD, "LOD", zPOS_AFTER )
+         CommitMetaOI( vSubtask, VOR, zSOURCE_VOR_META )
+
+      ELSE
+         szMsg = "Non-existent LOD: " + sLOD_Name
+         MessageSend( vSubtask, "AD11009", "Component Migration",
+                      szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         DropView( VOR_List )
+         DropView( LOD_List )
+         RETURN -1
+      END
+
+   END
+   DropView( VOR_List )
+   DropView( LOD_List )
+
+   RETURN  0
+
+END
+
+/************************************************************************
+   ENTRY:    DialogSpecRelinkDelete
+   PURPOSE:  This function checks all entities and attributes to make sure
+             the associated entity or attribute exists in the LOD.  If the
+             associated entity doesn't exist, the UIS_Entity is deleted.  If
+             the associated attribute doesn't exist, the LOD_Attribute
+             entries are excluded.
+             It also relinks entities to the corresponding entities in the
+             LOD.
+***********************************************************************/
+
+TRANSFORMATION OPERATION
+DS_RelinkDelete( VIEW vDialogSpec BASED ON LOD TZADCSDO, VIEW vSubtask )
+
+   VIEW        vLOD         BASED ON LOD TZZOLODO
+   VIEW        vVOR         BASED ON LOD TZWDVORO
+   INTEGER     nRemapFlag
+   STRING(128) szMsg
+   SHORT       nRC
+
+   // Get VOR and LOD for this Dialog Spec and relink.
+   // Try to activate first by ZKey and then by Name.  The latter would
+   // occur if the VOR or LOD had been deleted and readded under a new ZKey.
+   nRC = ActivateMetaOI_ByZKey( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                zSINGLE, vDialogSpec.UIS_ViewObjRef.ZKey , 0 )
+   IF nRC < 0
+      nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                   zSINGLE, vDialogSpec.UIS_ViewObjRef.Name , 0 )
+      IF nRC < 0
+         szMsg = "Skipping Relink for missing View" + vDialogSpec.UIS_ViewObjRef.Name
+         MessageSend( vSubtask, "AD11016", "Dialog Spec Relink",
+                      szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         RETURN ( -1 )
+      ELSE
+         nRemapFlag = 1
+      END
+   ELSE
+      nRemapFlag = 0
+   END
+
+   nRC = ActivateMetaOI_ByZKey( vSubtask, vLOD, 0, zREFER_LOD_META,
+                                zSINGLE, vDialogSpec.UIS_LOD.ZKey  , 0 )
+   IF nRC < 0
+      nRC = ActivateMetaOI_ByName( vSubtask, vLOD, 0, zREFER_LOD_META,
+                                   zSINGLE, vDialogSpec.UIS_LOD.Name  , 0 )
+      IF nRC < 0
+         szMsg = "Skipping Relink for missing LOD" + vDialogSpec.UIS_LOD.Name
+         MessageSend( vSubtask, "AD11017", "Dialog Spec Relink",
+                      szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         RETURN ( -1 )
+      ELSE
+         nRemapFlag = 1
+      END
+   ELSE
+      nRemapFlag = 0
+   END
+
+   // Only Relink if both VOR and LOD were activated by ZKey.
+   IF nRemapFlag = 0
+      RelinkAllSubobjectsForOI ( vDialogSpec, "UIS_ViewObjRef",
+                                 vVOR, "ViewObjRef" )
+   END
+
+   // Relink ListVOR, if it exists.
+   IF vDialogSpec.ListVOR EXISTS
+      nRC = ActivateMetaOI_ByZKey( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                   zSINGLE, vDialogSpec.ListVOR.ZKey , 0 )
+      IF nRC < 0
+         nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                      zSINGLE, vDialogSpec.ListVOR.Name , 0 )
+         IF nRC < 0
+            EXCLUDE vDialogSpec.ListVOR NONE
+         ELSE
+            EXCLUDE vDialogSpec.ListVOR NONE
+            INCLUDE vDialogSpec.ListVOR FROM vVOR.ViewObjRef
+         END
+      ELSE
+         RelinkAllSubobjectsForOI( vDialogSpec, "ListVOR",
+                                   vVOR, "ViewObjRef" )
+      END
+   END
+
+   // Process each UIS_Entity recursively
+   DS_EntityRelink( vDialogSpec, vLOD, vSubtask )
+
+   // Relink the LOD_Attributes.  When RelinkInstanceToInstance has a version that
+   // allows resetting the include flags, this code would be replaced by
+   // RelinkInstanceToInstance calls in EntityRelinkDelete.
+   RelinkAllSubobjectsForOI( vDialogSpec, "M_LOD_Attribute", vLOD, "LOD_Attribute" )
+   RelinkAllSubobjectsForOI( vDialogSpec, "L_LOD_Attribute", vLOD, "LOD_Attribute" )
+
+END
+
+LOCAL OPERATION
+DS_EntityRelink( VIEW vSubtask,
+                 VIEW vDSR BASED ON LOD TZADCSDO,  // Recursive DS
+                 VIEW vLOD BASED ON LOD TZZOLODO )
+
+   VIEW         vVOR      BASED ON LOD TZWDVORO
+   VIEW         vLOD_List BASED ON LOD TZZOLODO
+   STRING (128) szMsg
+   INTEGER      nRemapFlag
+   SHORT  nRC
+
+   // This is the recursive routine to process each UIS_Entity for relink and
+   // delete of LOD_Entity, M_LOD_Attribute, L_LOD_Attribute, I_LOD_Attribute,
+   // ListViewObjRef and IncludeViewObjRef entities.
+
+   FOR EACH vDSR.UIS_ChildEntity
+      SetViewToSubobject( vDSR, "UIS_ChildEntity" )
+      DS_EntityRelink( vDSR, vLOD, vSubtask )
+      ResetViewFromSubobject( vDSR )
+   END
+
+   SET CURSOR FIRST vLOD.LOD_Entity WHERE
+       vLOD.LOD_Entity.ZKey = vDSR.LOD_Entity.ZKey
+   IF RESULT >= 0
+      RelinkAllSubobjectsForOI ( vDSR, "LOD_Entity", vLOD, "LOD_Entity" )
+      nRemapFlag = 0
+   ELSE
+      SET CURSOR FIRST vLOD.LOD_Entity WHERE
+          vLOD.LOD_Entity.Name = vDSR.LOD_Entity.Name
+      IF RESULT >= 0
+         nRemapFlag = 1
+         EXCLUDE vDSR.LOD_Entity NONE
+         INCLUDE vDSR.LOD_Entity FROM vLOD.LOD_Entity
+      ELSE
+         nRemapFlag = -1
+         szMsg = "Deleting UIS Entity: " + vDSR.LOD_Entity.Name +
+                 "|Not found in LOD: " + vLOD.LOD.Name
+         MessageSend( vSubtask, "AD11010", "Dialog Spec Relink",
+                      szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         DELETE ENTITY vDSR.UIS_Entity NONE
+      END
+   END
+
+   IF nRemapFlag >= 0   // There was a match on either ZKey or Name
+      FOR EACH vDSR.M_LOD_Attribute
+         SET CURSOR FIRST vLOD.LOD_Attribute WITHIN vLOD.LOD WHERE
+             vLOD.LOD_Attribute.ZKey = vDSR.M_LOD_Attribute.ZKey
+         IF RESULT < 0
+            // Since there was no match on ZKey, try to find a match on LOD Entity
+            // name and ER Attribute name, in case the Attribute had been deleted
+            // and recreated.  In this case, re-include the Attribute.
+            SET CURSOR FIRST vLOD.LOD_Entity WHERE
+                             vLOD.LOD_Entity.Name = vDSR.M_LOD_Entity.Name
+            IF RESULT >= zCURSOR_SET
+               SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity WHERE
+                                vLOD.ER_Attribute.Name = vDSR.M_ER_Attribute.Name
+               IF RESULT >= zCURSOR_SET
+                  nRemapFlag = 0
+               ELSE
+                  nRemapFlag = -1
+               END
+            ELSE
+               nRemapFlag = -1
+            END
+            IF nRemapFlag = 0  // We were able to remap to an attribute by same name.
+               EXCLUDE vDSR.M_LOD_Attribute NONE
+               INCLUDE vDSR.M_LOD_Attribute FROM vLOD.LOD_Attribute
+            ELSE
+               szMsg = "Deleting Main Attribute: " + vDSR.M_ER_Attribute.Name +
+                       "|Not found in LOD: " + vLOD.LOD.Name
+               MessageSend( vSubtask, "AD11011", "Dialog Spec Relink",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               EXCLUDE vDSR.M_LOD_Attribute NONE
+            END
+         END
+      END
+
+      FOR EACH vDSR.L_LOD_Attribute
+         nRemapFlag = 0
+         SET CURSOR FIRST vLOD.LOD_Attribute WITHIN vLOD.LOD WHERE
+             vLOD.LOD_Attribute.ZKey = vDSR.L_LOD_Attribute.ZKey
+         IF RESULT < 0
+            // Since there was no match on ZKey, try to find a match on LOD Entity
+            // name and ER Attribute name, in case the Attribute had been deleted
+            // and recreated.  In this case, re-include the Attribute.
+            SET CURSOR FIRST vLOD.LOD_Entity WHERE
+                             vLOD.LOD_Entity.Name = vDSR.L_LOD_Entity.Name
+            IF RESULT >= zCURSOR_SET
+               SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity WHERE
+                                vLOD.ER_Attribute.Name = vDSR.L_ER_Attribute.Name
+               IF RESULT >= zCURSOR_SET
+                  nRemapFlag = 0
+               ELSE
+                  nRemapFlag = -1
+               END
+            ELSE
+               nRemapFlag = -1
+            END
+         END
+         IF nRemapFlag = 0  // We were able to remap to an attribute by same name.
+            EXCLUDE vDSR.L_LOD_Attribute NONE
+            INCLUDE vDSR.L_LOD_Attribute FROM vLOD.LOD_Attribute
+         ELSE
+            szMsg = "Deleting List Attribute: " + vDSR.L_ER_Attribute.Name +
+                    "|Not found in LOD: " + vLOD.LOD.Name
+            MessageSend( vSubtask, "AD11012", "Dialog Spec Relink",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            EXCLUDE vDSR.L_LOD_Attribute NONE
+         END
+      END
+   END
+
+   IF vDSR.ListViewObjRef EXISTS
+      nRC = ActivateMetaOI_ByZKey( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                   zSINGLE, vDSR.ListViewObjRef.ZKey  , 0 )
+      IF nRC >= 0
+         RelinkAllSubobjectsForOI ( vDSR, "ListViewObjRef",
+                                    vVOR, "ViewObjRef" )
+         DropMetaOI( vSubtask, vVOR )
+      ELSE
+         nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                      zSINGLE, vDSR.ListViewObjRef.Name  , 0 )
+         IF nRC >= 0
+            EXCLUDE vDSR.ListViewObjRef NONE
+            INCLUDE vDSR.ListViewObjRef FROM vVOR.ViewObjRef
+            DropMetaOI( vSubtask, vVOR )
+         ELSE
+            szMsg = "Deleting UIS Include: " + vDSR.ListViewObjRef.Name +
+                    "|Not found in LPLR. "
+            MessageSend( vSubtask, "AD11013", "Dialog Spec Relink",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            DELETE ENTITY vDSR.UIS_Include
+         END
+      END
+   END
+
+
+   IF vDSR.IncludeViewObjRef EXISTS
+      nRC = ActivateMetaOI_ByZKey( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                   zSINGLE, vDSR.IncludeViewObjRef.ZKey  , 0 )
+      IF nRC >= 0
+         nRemapFlag = 0
+         RelinkAllSubobjectsForOI ( vDSR, "IncludeViewObjRef",
+                                    vVOR, "ViewObjRef" )
+         DropMetaOI( vSubtask, vVOR )
+      ELSE
+         nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                      zSINGLE, vDSR.IncludeViewObjRef.Name  , 0 )
+         IF nRC >= 0
+            EXCLUDE vDSR.IncludeViewObjRef NONE
+            INCLUDE vDSR.IncludeViewObjRef FROM vVOR.ViewObjRef
+            nRemapFlag = 1
+            DropMetaOI( vSubtask, vVOR )
+         ELSE
+            szMsg = "Deleting UIS Include View: " + vDSR.IncludeViewObjRef.Name +
+                    "|Not found in LPLR. "
+            MessageSend( vSubtask, "AD11014", "Dialog Spec Relink",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            DELETE ENTITY vDSR.UIS_Include
+            nRemapFlag = -1
+         END
+      END
+
+      IF nRemapFlag >= 0
+         // Now relink the related I_LOD_Attribute entities.
+         ActivateMetaOI_ByZKey( vSubtask, vLOD_List, 0, zREFER_LOD_META,
+                                zSINGLE, vDSR.ListSubObjLOD.ZKey  , 0 )
+         FOR EACH vDSR.I_LOD_Attribute
+            nRemapFlag = 0
+            SET CURSOR FIRST vLOD_List.LOD_Attribute
+                WITHIN vLOD_List.LOD WHERE
+                vLOD_List.LOD_Attribute.ZKey = vDSR.I_LOD_Attribute.ZKey
+            IF RESULT < 0
+               // Since there was no match on ZKey, try to find a match on LOD Entity
+               // name and ER Attribute name, in case the Attribute had been deleted
+               // and recreated.  In this case, re-include the Attribute.
+               SET CURSOR FIRST vLOD_List.LOD_Entity WHERE
+                                vLOD_List.LOD_Entity.Name = vDSR.I_LOD_Entity.Name
+               IF RESULT >= zCURSOR_SET
+                  SET CURSOR FIRST vLOD_List.ER_Attribute WITHIN vLOD_List.LOD_Entity WHERE
+                                   vLOD_List.ER_Attribute.Name = vDSR.I_ER_Attribute.Name
+                  IF RESULT >= zCURSOR_SET
+                     nRemapFlag = 0
+                  ELSE
+                     nRemapFlag = -1
+                  END
+               ELSE
+                  nRemapFlag = -1
+               END
+            END
+            IF nRemapFlag = 0  // We were able to remap to an attribute by same name.
+               EXCLUDE vDSR.I_LOD_Attribute NONE
+               INCLUDE vDSR.I_LOD_Attribute FROM vLOD_List.LOD_Attribute
+            ELSE
+               szMsg = "Deleting Include List Attribute: |  " + vDSR.I_ER_Attribute.Name +
+                       "|Not found in LOD: " + vLOD_List.LOD.Name
+               MessageSend( vSubtask, "AD11015", "Dialog Spec Relink",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               EXCLUDE vDSR.I_LOD_Attribute NONE
+            END
+         END
+         DropView ( vLOD_List )
+
+      END
+   END
+
+END

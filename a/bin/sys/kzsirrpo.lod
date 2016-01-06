@@ -1,0 +1,361 @@
+z10000Zeidon    KZSIRRPO TZZOLODO 05/01/01   23:17:24 1.0b0    
+eLOD       1
+aZKey      95057242
+aName      KZSIRRPO
+aDesc      This Work Object is used by Siron Reports
+
+eLOD_EntityParent 2
+aName      SirPara
+aIndentName SirPara
+aIndentLvl 0
+aZKey      95057243
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eLOD_AttributeRec 3
+aZKey      95057244
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ViewName
+aZKey      95057245
+aLth       32
+aDesc      If a view name exists, take this named view for report.
+
+eDomainRec 5
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      95057246
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      LPLR_Name
+aZKey      95057247
+aLth       32
+
+eDomainRec 5
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      95057268
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ReportType
+aZKey      95057269
+aDesc      104
+This allows you to set the report type to others than XOD.
+
+It is needed for reports on Zeidon metas.
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      95057248
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ViewToWindow
+aZKey      95057249
+aNotNull   Y
+aDesc      This is the task view of the calling dialog
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      95057250
+aWork      Y
+aUpdate    Y
+aInit      Anwender
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      Username
+aZKey      95057251
+aLth       32
+aDesc      Name of the Siron user
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      95057252
+aWork      Y
+aUpdate    Y
+aInit      Kennwort
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      Password
+aZKey      95057253
+aLth       32
+aDesc      Password for Siron User
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      95057254
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ExecState
+aZKey      95057255
+aDesc      114
+Execution State of the report:
+  1 - before start
+  2 - Siron has connected to OE
+ 99 - Siron has disconnected0
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      95057256
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ErrorCode
+aZKey      95057257
+aDesc      Error Code from Siron (see Siron description for Zeidon reports)
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      95057270
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      ErrorMsg
+aZKey      95057271
+aLth       128
+aDesc      Error Message from Siron
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      95057258
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      JobID
+aZKey      95057259
+aDesc      JobID for SirComp
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      95057260
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      TaskID
+aZKey      95057261
+aDesc      ID of the Task, which started the report
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      95057262
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      CurrentTime
+aZKey      95057263
+aLth       20
+aDesc      Work Attribute with Timestamp for the current time
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      95057264
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      TimeoutTime
+aZKey      95057265
+aLth       20
+aDesc      274
+Timestamp for Timeout:
+Normally, an existing entry in SirPara is blocked until it is used by Siron. But if problems occur, it makes sense to free this entry. Therefore we set a timeout to this entry, which means the time til the entry is valid, if it is not used by Siron.
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i13        10
+i16        7
+i19        7
+i22        10
+i25        10
+i28        7
+i31        10
+i34        10
+i37        7
+i40        7
+i41        1
+i42        2
+i43        3
+i44        4
+i45        5
+i46        6
+i47        7
+i48        8
+i49        9
+i50        10
+i51        11
+i52        12
+i53        10
+i54        14
+i55        15
+i56        7
+i57        17
+i58        18
+i59        7
+i60        20
+i61        21
+i62        10
+i63        23
+i64        24
+i65        10
+i66        26
+i67        27
+i68        7
+i69        29
+i70        30
+i71        10
+i72        32
+i73        33
+i74        10
+i75        35
+i76        36
+i77        7
+i78        38
+i79        39
+i80        7

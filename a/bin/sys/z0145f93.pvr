@@ -1,0 +1,18 @@
+rZeidon    Z0145F93 TZWDVORO 11/02/95   20:52:38 1.0a     
+eViewObjRef 1,192
+aZKey      1335187
+aName      TZDLG_List
+
+eLOD       2,192
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZDLG_List
+aZKey      1335187
+aType      9
+aLastUpdateDate 19950824213636000
+aLastCheckInDate 19951102203051110
+

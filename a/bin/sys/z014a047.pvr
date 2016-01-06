@@ -1,0 +1,19 @@
+rZeidon    Z014A047 TZWDVORO 11/02/95   20:52:44 1.0a     
+eViewObjRef 1,192
+aZKey      1351751
+aName      TZCM_CPLR_MetaList
+aDesc      VOR for building filtered Meta lists
+
+eLOD       2,192
+aZKey      1329986
+aName      TZCMCPRO
+aDesc      CPLR Object
+
+eZ_MetaDef 2,192
+aName      TZCM_CPLR_MetaList
+aZKey      1351751
+aType      9
+aLastUpdateDate 19950824213904000
+aLastCheckInDate 19951102203051110
+aDesc      VOR for building filtered Meta lists
+

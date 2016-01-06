@@ -1,0 +1,20 @@
+rZeidon    Z0148648 TZWDVORO 11/02/95   20:53:21 1.0a     
+eViewObjRef 1,192
+aZKey      1345096
+aName      SRC_CM_List
+aDesc      View used for list of Source File Meta's
+
+eLOD       2,192
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      SRC_CM_List
+aZKey      1345096
+aType      9
+aLastUpdateDate 19950824213814000
+aLastCheckInDate 19951102203051110
+aDesc      View used for list of Source File Meta's
+

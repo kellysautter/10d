@@ -1,0 +1,549 @@
+z1000-Zeidon    TZWEBGL1 TZOGSRCO 06/20/12   15:14:43 1.0a2    
+eGlobalOperationGroup 1
+aZKey      1141821
+aName      TZWEBGL1
+aDesc      JSP Generation operations for zeidon JAVA
+aExtension VML
+aLanguageType V
+aDomainAndGlobalOpGroupName TZWEB
+
+eOperation 2
+aName      GenJSP_TableExport
+aZKey      91933535
+aDesc      Loops through all tables on the page and creates a javascript function for each to permit the user to view the table export data (tab delimited data from the table created in a <textarea> so it can be exported into excel).
+aType      G
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91933536
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      91933537
+
+eParameter 3
+aShortDesc szWriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91933538
+
+eParameter 3
+aShortDesc szNoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91948197
+
+eOperation 2
+aName      CreateNoPosStyleString
+aZKey      89582408
+aDesc      Creates the style with the control size but no positioning.
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      89582409
+
+eParameter 3
+aShortDesc Style
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      89582410
+
+eParameter 3
+aShortDesc StyleExtraParm
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      89582411
+
+eOperation 2
+aName      CreateDisabledString
+aZKey      1158826
+aType      G
+
+eParameter 3
+aShortDesc vSubtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1158827
+
+eParameter 3
+aShortDesc DisabledString
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1158828
+
+eOperation 2
+aName      CreateAbsolPosStringTable
+aZKey      93089955
+aType      G
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93089956
+
+eParameter 3
+aShortDesc Style
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      93089957
+
+eParameter 3
+aShortDesc X_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      93089958
+
+eParameter 3
+aShortDesc Y_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      93089959
+
+eOperation 2
+aName      GenJSP_Action
+aZKey      1141959
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141960
+
+eParameter 3
+aShortDesc DialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141961
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141962
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141963
+
+eParameter 3
+aShortDesc FormName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141964
+
+eParameter 3
+aShortDesc ActionName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141965
+
+eParameter 3
+aShortDesc lTraceLevel
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      89360586
+
+eOperation 2
+aName      CreateRelPosString
+aZKey      1141949
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141950
+
+eParameter 3
+aShortDesc Style
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141952
+
+eParameter 3
+aShortDesc X_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141953
+
+eParameter 3
+aShortDesc Y_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141954
+
+eOperation 2
+aName      CreateAbsolPosString
+aZKey      1141943
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141944
+
+eParameter 3
+aShortDesc Style
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141945
+
+eParameter 3
+aShortDesc X_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141946
+
+eParameter 3
+aShortDesc Y_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141947
+
+eOperation 2
+aName      CreateSizeString
+aZKey      1141940
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141941
+
+eParameter 3
+aShortDesc Style
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141942
+
+eOperation 2
+aName      CreateRelStyleString
+aZKey      1141934
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141935
+
+eParameter 3
+aShortDesc Style
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141936
+
+eParameter 3
+aShortDesc X_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141937
+
+eParameter 3
+aShortDesc Y_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141938
+
+eParameter 3
+aShortDesc StyleExtraParm
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141939
+
+eOperation 2
+aName      CreateAbsolStyleString
+aZKey      1141928
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141929
+
+eParameter 3
+aShortDesc Style
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141930
+
+eParameter 3
+aShortDesc X_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141931
+
+eParameter 3
+aShortDesc Y_BASE
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141932
+
+eParameter 3
+aShortDesc StyleExtraParm
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141933
+
+eOperation 2
+aName      FixStyleString
+aZKey      1141923
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Style
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141924
+
+eParameter 3
+aShortDesc S1
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141925
+
+eParameter 3
+aShortDesc S2
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141926
+
+eParameter 3
+aShortDesc SE
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141927
+
+eOperation 2
+aName      PIX_PER_DU
+aZKey      1141920
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141921
+
+eParameter 3
+aShortDesc DLUnits
+aDataType  M
+aPFlag     Y
+aUFlag     N
+aZKey      1141922
+
+eOperation 2
+aName      GenJSP_OutputMapRecurs
+aZKey      1141914
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141915
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141916
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141917
+
+eParameter 3
+aShortDesc FormName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141918
+
+eOperation 2
+aName      GenJSP_InputMapRecurs
+aZKey      1141908
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141909
+
+eParameter 3
+aShortDesc ViewName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141910
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141911
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141912
+
+eParameter 3
+aShortDesc TableRowCnt
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141913
+
+eOperation 2
+aName      GenJSP_CrteCtrlsRecurs
+aZKey      1141878
+aDesc      Recursive
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141879
+
+eParameter 3
+aShortDesc GroupParent
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      68411547
+
+eParameter 3
+aShortDesc DialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      90204473
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141880
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141881
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      1141882
+
+eParameter 3
+aShortDesc TableRowCnt
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141884
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      89583144
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141885
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      1141886
+

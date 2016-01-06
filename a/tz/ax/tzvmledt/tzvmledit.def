@@ -1,0 +1,23 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Project tzvmledt
+;;
+;; This is a part of the Zeidon ActiveX controls package.
+;; Copyright © 1995 - 1999 QuinSoft, Inc.
+;; All Rights Reserved.
+;;
+;; SUBSYSTEM:    tzvmledt.dll - zeidon vml editor
+;; FILE:         tzvmledt.def
+;; AUTHOR:       tmv
+;;
+;; OVERVIEW
+;; ========
+;; tzvmledt.def : Declares exports for tzvmledt.dll
+;;
+;;
+;; Maximum Ordinal value in this "OPERATION" section is > @1 <
+;;
+
+EXPORTS
+
+
+   TZVMLEditScript = _TZVMLEditScript@16                  @1

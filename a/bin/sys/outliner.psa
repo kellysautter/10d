@@ -1,0 +1,245 @@
+z10000Zeidon    OUTLINER TZERSASO 05/01/01   23:23:42 1.0b0    
+eSubjectArea 1
+aName      OUTLINER
+aZKey      1323120
+aDesc      Outliner object - work
+
+eSA_Entity 2
+aZKey      1323121
+aER_DiagramPosX 4
+aER_DiagramPosY 1
+
+eER_Entity 3
+aName      X_ObjectW
+aZKey      1321802
+aPurpose   W
+aDesc      Work entity - root
+aER_DiagramPosX 86
+aER_DiagramPosY 32
+
+eER_RelLink 4
+aName      has
+aZKey      1321914
+aCardMin   0
+aCardMax   m
+
+eER_RelType_1 5
+aZKey      1321913
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 90
+aER_DiagramBendPosY 19
+aER_DiagramE1PosX 90
+aER_DiagramE1PosY 31
+aER_DiagramE2PosX 97
+aER_DiagramE2PosY 19
+
+eER_RelLink_Other 6
+aName      for
+aZKey      1321915
+aCardMin   1
+aCardMax   1
+
+eER_Entity_Other 7
+aName      X_EntityW
+aZKey      1321761
+aPurpose   W
+aDesc      Work object entity - recursive
+aER_DiagramPosX 98
+aER_DiagramPosY 17
+
+eSA_Entity 2
+aZKey      1323122
+aER_DiagramPosX 18
+aER_DiagramPosY 8
+
+eER_Entity 3
+
+eER_RelLink 4
+aName      has
+aZKey      1321911
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelType_1 5
+aZKey      1321910
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 110
+aER_DiagramBendPosY 13
+aER_DiagramE1PosX 104
+aER_DiagramE1PosY 16
+aER_DiagramE2PosX 107
+aER_DiagramE2PosY 17
+
+eER_RelLink_Other 6
+aName      for
+aZKey      1321912
+aCardMin   1
+aCardMax   1
+aAutoSeq   N
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eER_RelLink 4
+aName      has
+aZKey      1321906
+aCardMin   0
+aCardMax   m
+aAutoSeq   N
+
+eER_RelType_1 5
+aZKey      1321904
+aFact      Added thru ER Dialog
+aER_DiagramBendPosX 0
+aER_DiagramBendPosY 0
+aER_DiagramE1PosX 102
+aER_DiagramE1PosY 48
+aER_DiagramE2PosX 102
+aER_DiagramE2PosY 22
+
+eER_RelLink_Other 6
+aName      for
+aZKey      1321905
+aCardMin   1
+aCardMax   1
+aAutoSeq   N
+
+eER_Entity_Other 7
+aName      X_AttribW
+aZKey      1321674
+aPurpose   W
+aDesc      Work object attributes
+aER_DiagramPosX 98
+aER_DiagramPosY 49
+
+eSA_Entity 2
+aZKey      1323123
+aER_DiagramPosX 30
+aER_DiagramPosY 16
+
+eER_Entity 3
+
+eER_RelLink 4
+
+eER_RelType_1 5
+
+eER_RelLink_Other 6
+
+eER_Entity_Other 7
+
+eSA_RelType 2
+aZKey      1323124
+aER_DiagramBendPosX 14
+aER_DiagramBendPosY 16
+aER_DiagramE1PosX 17
+aER_DiagramE1PosY 12
+aER_DiagramE2PosX 20
+aER_DiagramE2PosY 13
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      1323125
+aER_DiagramBendPosX 8
+aER_DiagramBendPosY 10
+aER_DiagramE1PosX 8
+aER_DiagramE1PosY 6
+aER_DiagramE2PosX 17
+aER_DiagramE2PosY 10
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eSA_RelType 2
+aZKey      1323126
+aER_DiagramBendPosX 34
+aER_DiagramBendPosY 10
+aER_DiagramE1PosX 34
+aER_DiagramE1PosY 15
+aER_DiagramE2PosX 27
+aER_DiagramE2PosY 10
+
+eER_RelType 3
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eER_RelLink_2 4
+
+eER_Entity_2 5
+
+eEntpER_Model 2
+aName      Zeidon9A
+aZKey      1320651
+aDesc      Enterprise Model
+
+eZ_MetaDef 2
+aName      OUTLINER
+aZKey      1323120
+aType      5
+aLastUpdateDate 19950824212228000
+aLastCheckInDate 19951102203051110
+aDesc      Outliner object - work
+
+i8         6
+i12        6
+i13        11
+i14        10
+i15        9
+i16        6
+i17        5
+i18        4
+i19        3
+i20        2
+i26        24
+i27        23
+i28        22
+i29        21
+i30        6
+i32        10
+i33        9
+i34        6
+i35        11
+i36        6
+i38        4
+i39        3
+i40        2
+i41        5
+i42        6
+i44        22
+i45        23
+i46        24
+i47        21
+i48        6

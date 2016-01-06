@@ -1,0 +1,4 @@
+#!/bin/sh
+export KZV=/home/dchristensen/zeidon/10c
+export CLASSPATH=/home/dchristensen/zeidon/apache-tomcat-6.0.18/lib/jsp-api.jar:/home/dchristensen/zeidon/apache-tomcat-6.0.18/lib/servlet-api.jar
+make -f kzoejava-linux.mak $*

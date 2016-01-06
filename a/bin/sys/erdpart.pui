@@ -1,0 +1,3108 @@
+z10000Zeidon    ERDPART  TZADCSDO 06/09/01   21:32:06 1.0b0    
+eUI_Spec   1
+aZKey      90013544
+aName      ERDPART
+aDesc      Partial ERD Report - 1 line descriptions
+aHeaderTitle ERD Summary Report
+aHeaderBoldFlag Y
+aFooterPageNoFlag Y
+aLevelIndentation 2
+aType      R
+
+eUIS_Entity 2
+aZKey      90013545
+aListTypeFlag L
+aReportOrientationFlag V
+aAutodesignCaseType R
+aRootIndicator Y
+
+eLOD_Entity 3
+aName      EntpER_Model
+aIndentName EntpER_Model
+aIndentLvl 0
+aZKey      1326618
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eER_Entity 4
+aName      EntpER_Model
+aZKey      1320831
+aPurpose   W
+aDesc      THE Complete Model for the Organization
+aOwningArea ER
+aER_DiagramPosX 56
+aER_DiagramPosY 197
+
+eUIS_ChildEntity 3
+aZKey      90013547
+aListTypeFlag L
+aReportOrientationFlag V
+aAutodesignCaseType R
+aHeaderText Entity
+aForceHeaderPerEntity Y
+aHeaderBoldFlag Y
+
+eLOD_Entity 4
+aName      ER_Entity
+aIndentName    ER_Entity
+aIndentLvl 3
+aSeqNo     1
+aZKey      1326619
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eER_Entity 5
+aName      ER_Entity
+aZKey      1320860
+aPurpose   W
+aDesc      ER Entities
+aOwningArea ER
+aER_DiagramPosX 156
+aER_DiagramPosY 194
+
+eUIS_ChildEntity 4
+aZKey      90013549
+aListTypeFlag L
+aReportOrientationFlag V
+aAutodesignCaseType R
+aHeaderText Attributes
+aHeaderBoldFlag Y
+
+eLOD_Entity 5
+aName      ER_Attribute
+aIndentName       ER_Attribute
+aIndentLvl 6
+aDeleteConstraint Y
+aAcceptConstraint Y
+aSeqNo     1
+aZKey      1326620
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eER_Entity 6
+aName      ER_Attribute
+aZKey      1320837
+aPurpose   W
+aDesc      Attributes of an ER Entity
+aOwningArea ER
+aER_DiagramPosX 220
+aER_DiagramPosY 262
+
+eUIS_ChildEntity 5
+aZKey      90013551
+aAutodesignCaseType N
+
+eLOD_Entity 6
+aName      Domain
+aIndentName          Domain
+aIndentLvl 9
+aSeqNo     1
+aZKey      1326621
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eER_Entity 7
+aName      Domain
+aZKey      1320820
+aPurpose   W
+aDesc      Domain for validation and formatting
+aOwningArea DM
+aER_DiagramPosX 50
+aER_DiagramPosY 364
+
+eWndDesign 6
+aZKey      90013552
+
+eM_LOD_Attribute 6
+aZKey      1326622
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      ZKey
+aZKey      1320821
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  8
+aZKey      90000044
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+
+eM_LOD_Attribute 6
+aZKey      1326623
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      LastSyncDate
+aZKey      1326624
+aDesc      Config Mgmt sync date
+
+eM_Domain  8
+aZKey      90000089
+aDesc      Basic Timestamp Domain
+aContextRestriction N
+aName      DateTime
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+
+eM_LOD_Attribute 6
+aZKey      90025258
+aUpdate    Y
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      Name
+aZKey      1320822
+aLth       32
+aNotNull   Y
+aDesc      The name used to reference this domain
+aPromptPaintLit Domain Name
+aListPaintLit Domain Name
+
+eM_Domain  8
+aZKey      90000032
+aDesc      Any Character String
+aContextRestriction N
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+
+eM_LOD_Attribute 6
+aZKey      90025261
+aUpdate    Y
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      DataType
+aZKey      1320825
+aLth       1
+aNotNull   Y
+aDesc      Internal data type stored (ie., string, date, decimal, integer)
+aPromptPaintLit Data Type
+aListPaintLit Data Type
+
+eM_Domain  8
+aZKey      1319867
+aDesc      Zeidon domain datatypes ( logical )  supported by Core
+aContextRestriction N
+aName      DataTypeDomain
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eM_LOD_Attribute 6
+aZKey      90025262
+aUpdate    Y
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      MaxStringLth
+aZKey      1320826
+aLth       4
+aDesc      Maximum length of any attribute for this string domain
+aPromptPaintLit Max String Length
+aListPaintLit Max String Length
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      90025264
+aUpdate    Y
+aSeqNo_LOD_Entity 6
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      DecimalFormat
+aZKey      1320828
+aLth       4
+aDesc      Format used to represent a floating point decimal value
+aPromptPaintLit Decimal Format
+aListPaintLit Decimal Format
+
+eM_Domain  8
+
+eUIS_ChildEntity 5
+aZKey      90013553
+aAutodesignCaseType N
+
+eLOD_Entity 6
+aName      ER_FactTypeForDelete
+aIndentName          ER_FactTypeForDelete
+aIndentLvl 9
+aSeqNo     2
+aZKey      90001503
+aCreate    N
+aDelete    Y
+aUpdate    N
+aInclude   N
+aInclSrc   N
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Exists for auto delete when attribute is deleted
+
+eER_Entity 7
+aName      ER_FactType
+aZKey      1320870
+aPurpose   W
+aDesc      SuperType of ER_Attribute and ER_RelLink
+aOwningArea ER
+aER_DiagramPosX 190
+aER_DiagramPosY 244
+
+eUIS_ChildEntity 6
+aZKey      90013555
+aAutodesignCaseType N
+
+eLOD_Entity 7
+aName      ER_EntIdentifierForDelete
+aIndentName             ER_EntIdentifierForDelete
+aIndentLvl 12
+aZKey      90000934
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Defines the facts that uniquely identifies an ER Entity
+
+eER_Entity 8
+aName      ER_EntIdentifier
+aZKey      1320852
+aPurpose   W
+aDesc      Defines the facts that uniquely identifies an ER Entity
+aOwningArea ER
+aER_DiagramPosX 246
+aER_DiagramPosY 244
+
+eWndDesign 7
+aZKey      90013556
+
+eM_LOD_Attribute 7
+aZKey      90000935
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      Name
+aZKey      1320853
+aLth       32
+aNotNull   Y
+aDesc      Name of the identifier (can be same as single attribute)
+aPromptPaintLit Identifier
+aListPaintLit ID
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      90000936
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      ZKey
+aZKey      1320854
+aKey       Y
+aNotNull   Y
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      90000937
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      Type
+aZKey      1320855
+aLth       1
+aDesc      Unique; Search; EndUser; AtributiveGroup
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      90000938
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      SystemMaintained
+aZKey      1320856
+aLth       1
+aDesc      Indicates if the Identifier is User or System Maintained
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      90000939
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      Desc
+aZKey      1320857
+
+eM_Domain  9
+aZKey      90000030
+aDesc      Standard Zeidon Description
+aContextRestriction N
+aName      Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+
+eUIS_ChildEntity 6
+aZKey      90013557
+aAutodesignCaseType N
+
+eLOD_Entity 7
+aName      ER_RelLinkForDelete
+aIndentName             ER_RelLinkForDelete
+aIndentLvl 12
+aZKey      90000940
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+aDesc      Contains info for the Relationship-link in the ER Model.
+
+eER_Entity 8
+aName      ER_RelLink
+aZKey      1320874
+aPurpose   W
+aDesc      Contains info for the Relationship-link in the ER Model.
+aOwningArea ER
+aER_DiagramPosX 178
+aER_DiagramPosY 220
+
+eWndDesign 7
+aZKey      90013558
+
+eM_LOD_Attribute 7
+aZKey      90000941
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      Name
+aZKey      1320875
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Relationship Name
+aListPaintLit Relationship Name
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      90000942
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      ZKey
+aZKey      1320876
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      90000943
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      CardMin
+aZKey      1320877
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Min Cardinality
+aListPaintLit Min Cardinality
+
+eM_Domain  9
+aZKey      90121803
+aDesc      Minimum Cardinality for a relationship - Integer
+aContextRestriction N
+aName      ERD_MinCardinality
+aDomainType A
+aDataType  S
+aMaxStringLth 8
+
+eM_LOD_Attribute 7
+aZKey      90000944
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      CardMax
+aZKey      1320878
+aLth       8
+aDesc      Converted from 6B
+aPromptPaintLit Max Cardinality
+aListPaintLit Max Cardinality
+
+eM_Domain  9
+aZKey      90055891
+aDesc      Maximum Cardinality for a relationship - m, M or integer
+aContextRestriction N
+aName      ERD_MaxCardinality
+aDomainType A
+aDataType  S
+aMaxStringLth 8
+
+eM_LOD_Attribute 7
+aZKey      90028179
+aUpdate    Y
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      AutoSeq
+aZKey      90009399
+aDesc      Core will maintain the current order of child entity instances under the parent entity instance through this relationship (if it's "Y").
+aPromptPaintLit Auto Sequence
+aListPaintLit AutoSequence
+
+eM_Domain  9
+aZKey      90000014
+aDesc      Yes or No
+aContextRestriction N
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eWndDesign 6
+aZKey      90013554
+
+eM_LOD_Attribute 6
+aZKey      90001504
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      ZKey
+aZKey      1320871
+aKey       Y
+aNotNull   Y
+
+eM_Domain  8
+
+eWndDesign 5
+aZKey      90013550
+
+eM_LOD_Attribute 5
+aZKey      1326633
+aWork      N
+aUpdate    Y
+aSeqPriority 1
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      Name
+aZKey      1320838
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Attribute Name
+aListPaintLit Attribute Name
+
+eM_Domain  7
+aZKey      90000038
+aDesc      QuinSoft Name
+aContextRestriction N
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+
+eM_LOD_Attribute 5
+aZKey      1326635
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      Lth
+aZKey      1320840
+aLth       4
+aNotNull   N
+aDesc      Converted from 6B
+aPromptPaintLit Length
+aListPaintLit Length
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326637
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      NotNull
+aZKey      1320842
+aLth       1
+aDesc      Converted from 6B
+aPromptPaintLit Required
+aListPaintLit Required
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326638
+aSeqNo_LOD_Entity 6
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      Desc
+aZKey      1320843
+aDesc      Converted from 6B
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326639
+aSeqNo_LOD_Entity 7
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      PromptPaintLit
+aZKey      1320844
+aLth       60
+aDesc      Paint Literal for attribute used on edit boxes
+aPromptPaintLit Prompt Paint Literal
+aListPaintLit Prompt Paint Literal
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326641
+aSeqNo_LOD_Entity 9
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      ListPaintLit
+aZKey      1320846
+aLth       60
+aDesc      Paint Literal for attribute used on list boxes and report headings
+aPromptPaintLit List Paint Literal
+aListPaintLit List Paint Literal
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eUIS_ChildEntity 4
+aZKey      90013559
+aListTypeFlag L
+aReportOrientationFlag V
+aAutodesignCaseType R
+aHeaderText Relationships
+aForceHeaderPerEntity Y
+aHeaderBoldFlag Y
+
+eLOD_Entity 5
+aName      ER_RelLink
+aIndentName       ER_RelLink
+aIndentLvl 6
+aSeqNo     2
+aZKey      1326649
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eER_Entity 6
+
+eUIS_ChildEntity 5
+aZKey      90013561
+aAutodesignCaseType N
+
+eLOD_Entity 6
+aName      ER_RelType_1
+aIndentName          ER_RelType_1
+aIndentLvl 9
+aSeqNo     1
+aZKey      1326650
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eER_Entity 7
+aName      ER_RelType
+aZKey      1320882
+aPurpose   W
+aDesc      Relationship-types in the ER Model.
+aOwningArea ER
+aER_DiagramPosX 106
+aER_DiagramPosY 224
+
+eUIS_ChildEntity 6
+aZKey      90013563
+aAutodesignCaseType N
+
+eLOD_Entity 7
+aName      ER_RelLink_Other
+aIndentName             ER_RelLink_Other
+aIndentLvl 12
+aSeqNo     1
+aZKey      1326651
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   Y
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eER_Entity 8
+
+eUIS_ChildEntity 7
+aZKey      90013565
+aAutodesignCaseType N
+
+eLOD_Entity 8
+aName      ER_Entity_Other
+aIndentName                ER_Entity_Other
+aIndentLvl 15
+aSeqNo     1
+aZKey      1326652
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eER_Entity 9
+
+eWndDesign 8
+aZKey      90013566
+
+eM_LOD_Attribute 8
+aZKey      1326653
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+aName      Name
+aZKey      1320861
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Entity Name
+aListPaintLit Entity Name
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326654
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+aName      ZKey
+aZKey      1320862
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326655
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+aName      Purpose
+aZKey      1320863
+aLth       12
+aNotNull   N
+aDesc      Converted from 6B
+aPromptPaintLit Purpose
+aListPaintLit Purpose
+
+eM_Domain  10
+aZKey      1320129
+aDesc      Purpose of Entity in ER
+aContextRestriction N
+aName      ER_EntityPurpose
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eM_LOD_Attribute 8
+aZKey      1326656
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+aName      Desc
+aZKey      1320864
+aDesc      Converted from 6B
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326657
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+aName      OwningArea
+aZKey      1320865
+aLth       32
+aDesc      Area or subsystem that has responsibility
+aPromptPaintLit Owning Area
+aListPaintLit Owning Area
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326658
+aSeqNo_LOD_Entity 6
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+aName      ER_DiagramPosX
+aZKey      1320866
+aNotNull   N
+aDesc      Graphical position for entity in Whole Entity Model
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326659
+aSeqNo_LOD_Entity 7
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+aName      ER_DiagramPosY
+aZKey      1320867
+
+eM_Domain  10
+
+eWndDesign 7
+aZKey      90013564
+
+eM_LOD_Attribute 7
+aZKey      1326660
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326661
+aWork      N
+aUpdate    Y
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326662
+aWork      N
+aUpdate    Y
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326663
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      90028178
+aUpdate    Y
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eWndDesign 6
+aZKey      90013562
+
+eM_LOD_Attribute 6
+aZKey      1326665
+aWork      N
+aUpdate    Y
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      ZKey
+aZKey      1320883
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326666
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      Fact
+aZKey      1320884
+aLth       254
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326667
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      ER_DiagramBendPosX
+aZKey      1320885
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326668
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      ER_DiagramBendPosY
+aZKey      1320886
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326669
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      ER_DiagramE1PosX
+aZKey      1320887
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326670
+aSeqNo_LOD_Entity 6
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      ER_DiagramE1PosY
+aZKey      1320888
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326671
+aSeqNo_LOD_Entity 7
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      ER_DiagramE2PosX
+aZKey      1320889
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326672
+aSeqNo_LOD_Entity 8
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      ER_DiagramE2PosY
+aZKey      1320890
+
+eM_Domain  8
+
+eWndDesign 5
+aZKey      90013560
+
+eM_LOD_Attribute 5
+aZKey      1326673
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326675
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326676
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      90028180
+aUpdate    Y
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eUIS_ChildEntity 4
+aZKey      90013567
+aAutodesignCaseType N
+
+eLOD_Entity 5
+aName      ER_EntIdentifier
+aIndentName       ER_EntIdentifier
+aIndentLvl 6
+aAcceptConstraint Y
+aSeqNo     3
+aZKey      1326678
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eER_Entity 6
+
+eUIS_ChildEntity 5
+aZKey      90013569
+aAutodesignCaseType N
+
+eLOD_Entity 6
+aName      ER_FactType
+aIndentName          ER_FactType
+aIndentLvl 9
+aSeqNo     1
+aZKey      1326679
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eER_Entity 7
+
+eUIS_ChildEntity 6
+aZKey      90013571
+aAutodesignCaseType N
+
+eLOD_Entity 7
+aName      ER_AttributeIdentifier
+aIndentName             ER_AttributeIdentifier
+aIndentLvl 12
+aSeqNo     1
+aZKey      1326680
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eER_Entity 8
+
+eWndDesign 7
+aZKey      90013572
+
+eM_LOD_Attribute 7
+aZKey      1326681
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326682
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      ZKey
+aZKey      1320839
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326683
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326684
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      Key
+aZKey      1320841
+aLth       1
+aDesc      Converted from 6B
+aPromptPaintLit Key
+aListPaintLit Key
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326685
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326686
+aSeqNo_LOD_Entity 6
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326687
+aSeqNo_LOD_Entity 7
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326688
+aSeqNo_LOD_Entity 8
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      PromptPaintLth
+aZKey      1320845
+aLth       4
+aDesc      Length of Prompt Paint Lit
+aPromptPaintLit Pompt Paint Length
+aListPaintLit Pompt Paint Length
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326689
+aSeqNo_LOD_Entity 9
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326690
+aSeqNo_LOD_Entity 10
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      ListPaintLth
+aZKey      1320847
+aLth       4
+aDesc      Length of list paint literal
+aPromptPaintLit List Paint Length
+aListPaintLit List Paint Length
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326691
+aSeqNo_LOD_Entity 11
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      ADW_Position
+aZKey      1320849
+aLth       16
+aNotNull   N
+aDesc      Position of attribute within entity in whole ER Model
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326692
+aSeqNo_LOD_Entity 12
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+aName      CaseSens
+aZKey      1320848
+aLth       1
+aDesc      Case Sensitivity on attribute values
+aPromptPaintLit Case Sensitivity
+aListPaintLit Case Sensitivity
+
+eM_Domain  9
+
+eUIS_ChildEntity 6
+aZKey      90013573
+aAutodesignCaseType N
+
+eLOD_Entity 7
+aName      ER_RelLinkIdentifier
+aIndentName             ER_RelLinkIdentifier
+aIndentLvl 12
+aSeqNo     2
+aZKey      1326693
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance Y
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eER_Entity 8
+
+eUIS_ChildEntity 7
+aZKey      90013575
+aAutodesignCaseType N
+
+eLOD_Entity 8
+aName      ER_Entity_Other_Identifier
+aIndentName                ER_Entity_Other_Identifier
+aIndentLvl 15
+aSeqNo     1
+aZKey      1326694
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eER_Entity 9
+
+eWndDesign 8
+aZKey      90013576
+
+eM_LOD_Attribute 8
+aZKey      1326695
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326696
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326697
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326698
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326699
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326700
+aSeqNo_LOD_Entity 6
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1326701
+aSeqNo_LOD_Entity 7
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+
+eM_Domain  10
+
+eM_LOD_Attribute 8
+aZKey      1131219
+aUpdate    Y
+
+eM_LOD_Entity 9
+
+eM_ER_Attribute 9
+aName      ER_PortFactor
+aZKey      90005041
+aDesc      Identifies the size of the entity, which controls the number of relationship ports.
+
+eM_Domain  10
+
+eWndDesign 7
+aZKey      90013574
+
+eM_LOD_Attribute 7
+aZKey      1326702
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326703
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326704
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      1326705
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eM_LOD_Attribute 7
+aZKey      90028177
+aUpdate    Y
+
+eM_LOD_Entity 8
+
+eM_ER_Attribute 8
+
+eM_Domain  9
+
+eWndDesign 6
+aZKey      90013570
+
+eM_LOD_Attribute 6
+aZKey      1326707
+aWork      N
+aUpdate    Y
+aSeqPriority 1
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      90003863
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+aName      OrigZKeyForMerge
+aZKey      90003864
+aDesc      Used only for merging
+
+eM_Domain  8
+
+eWndDesign 5
+aZKey      90013568
+
+eM_LOD_Attribute 5
+aZKey      1326708
+aWork      N
+aUpdate    Y
+aSeqPriority 1
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326709
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326710
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326711
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326712
+aUpdate    Y
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eUIS_ChildEntity 4
+aZKey      90013577
+aAutodesignCaseType N
+
+eLOD_Entity 5
+aName      EntOwningSA
+aIndentName       EntOwningSA
+aIndentLvl 6
+aSeqNo     4
+aZKey      1326713
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   N
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eER_Entity 6
+aName      SubjectArea
+aZKey      1321296
+aPurpose   W
+aDesc      Grouping of Entities and Relationships
+aOwningArea ER
+aER_DiagramPosX 106
+aER_DiagramPosY 146
+
+eWndDesign 5
+aZKey      90013578
+
+eM_LOD_Attribute 5
+aZKey      1326714
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      Name
+aZKey      1321297
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Project Model Name
+aListPaintLit Project Model Name
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326715
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      ZKey
+aZKey      1321298
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326716
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      Desc
+aZKey      1321299
+aDesc      Converted from 6B
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326717
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+aName      UpdateAuth
+aZKey      1321300
+aDesc      Subject area can create Entities and Rels in the Model
+
+eM_Domain  7
+
+eUIS_ChildEntity 4
+aZKey      13302444
+
+eLOD_Entity 5
+aName      ER_DimensionHier
+aIndentName       ER_DimensionHier
+aIndentLvl 6
+aZKey      89357254
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      (Data Warehouse) An ER_Entity of Type 'Dimension' can have several named Dimension Hierarchies
+
+eER_Entity 6
+aName      ER_DimensionHier
+aZKey      89357212
+aPurpose   W
+aDesc      (Data Warehouse) An ER_Entity of Type 'Dimension' can have several named Dimension Hierarchies
+aER_DiagramPosX 63
+aER_DiagramPosY 25
+
+eUIS_ChildEntity 5
+aZKey      13302446
+
+eLOD_Entity 6
+aName      ER_DimHierLevel
+aIndentName          ER_DimHierLevel
+aIndentLvl 9
+aSeqNo     0
+aZKey      89357258
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      (Data Warehouse) Each ER Dimension Hierarchy starts with a top level which can drill down to lower levels
+
+eER_Entity 7
+aName      ER_DimensionLevel
+aZKey      89357221
+aPurpose   W
+aDesc      (Data Warehouse) Each ER Dimension Hierarchy starts with a top level which can drill down to lower levels
+aER_DiagramPosX 74
+aER_DiagramPosY 22
+
+eUIS_ChildEntity 6
+aZKey      13302448
+
+eLOD_Entity 7
+aName      ER_DimHierAttr
+aIndentName             ER_DimHierAttr
+aIndentLvl 12
+aZKey      89357262
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      (Data Warehouse) Each ER Dimension Level can have a one or more attributes that identify/describe the level.  The ER_DimensionAttr is actually a M-M relationship between ER_Attribute and ER_DimensionLevel. 
+
+eER_Entity 8
+aName      ER_DimensionAttr
+aZKey      89357238
+aPurpose   W
+aDesc      (Data Warehouse) Each ER Dimension Level can have a one or more attributes that identify/describe the level.  The ER_DimensionAttr is actually a M-M relationship between ER_Attribute and ER_DimensionLevel. 
+aER_DiagramPosX 74
+aER_DiagramPosY 5
+
+eUIS_ChildEntity 7
+aZKey      13302450
+
+eLOD_Entity 8
+aName      ER_AttributeForDimHier
+aIndentName                ER_AttributeForDimHier
+aIndentLvl 15
+aZKey      89357273
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Attributes of an ER Entity
+
+eER_Entity 9
+
+eWndDesign 8
+aZKey      13302451
+
+eWndDesign 7
+aZKey      13302449
+
+eUIS_ChildEntity 6
+aZKey      13302452
+
+eLOD_Entity 7
+aName      ER_DimHierLevelChild
+aIndentName             ER_DimHierLevelChild
+aIndentLvl 12
+aZKey      89357269
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive Y
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      (Data Warehouse) Each ER Dimension Hierarchy starts with a top level which can drill down to lower levels
+
+eER_Entity 8
+
+eWndDesign 7
+aZKey      13302453
+
+eWndDesign 6
+aZKey      13302447
+
+eUIS_ChildEntity 5
+aZKey      13302454
+
+eLOD_Entity 6
+aName      ER_DimensionLevel
+aIndentName          ER_DimensionLevel
+aIndentLvl 9
+aSeqNo     0
+aZKey      89357297
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      (Data Warehouse) Each ER Dimension Hierarchy starts with a top level which can drill down to lower levels
+
+eER_Entity 7
+
+eUIS_ChildEntity 6
+aZKey      13302456
+
+eLOD_Entity 7
+aName      ER_DimensionAttr
+aIndentName             ER_DimensionAttr
+aIndentLvl 12
+aZKey      89357536
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aParentDeleteBehave D
+aRelLinkIndicator L
+aDesc      (Data Warehouse) Each ER Dimension Level can have a one or more attributes that identify/describe the level.  The ER_DimensionAttr is actually a M-M relationship between ER_Attribute and ER_DimensionLevel. 
+
+eER_Entity 8
+
+eUIS_ChildEntity 7
+aZKey      13302458
+
+eLOD_Entity 8
+aName      ER_AttributeForDim
+aIndentName                ER_AttributeForDim
+aIndentLvl 15
+aZKey      89357543
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator L
+aDesc      Attributes of an ER Entity
+
+eER_Entity 9
+
+eWndDesign 8
+aZKey      13302459
+
+eWndDesign 7
+aZKey      13302457
+
+eUIS_ChildEntity 6
+aZKey      13302460
+
+eLOD_Entity 7
+aName      ER_DimensionLevelChild
+aIndentName             ER_DimensionLevelChild
+aIndentLvl 12
+aZKey      89357562
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   N
+aParentDeleteBehave E
+aRelLinkIndicator L
+aDesc      (Data Warehouse) Each ER Dimension Hierarchy starts with a top level which can drill down to lower levels
+
+eER_Entity 8
+
+eWndDesign 7
+aZKey      13302461
+
+eWndDesign 6
+aZKey      13302455
+
+eWndDesign 5
+aZKey      13302445
+
+eWndDesign 4
+aZKey      90013548
+
+eM_LOD_Attribute 4
+aZKey      1326718
+aWork      N
+aUpdate    Y
+aSeqPriority 1
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326719
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326720
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326721
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eUIS_ChildEntity 3
+aZKey      90013579
+aAutodesignCaseType N
+
+eLOD_Entity 4
+aName      ER_RelType
+aIndentName    ER_RelType
+aIndentLvl 3
+aSeqNo     2
+aZKey      1326725
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eER_Entity 5
+
+eUIS_ChildEntity 4
+aZKey      90013581
+aAutodesignCaseType N
+
+eLOD_Entity 5
+aName      ER_RelLink_2
+aIndentName       ER_RelLink_2
+aIndentLvl 6
+aSeqNo     1
+aZKey      1326726
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eER_Entity 6
+
+eUIS_ChildEntity 5
+aZKey      90013583
+aAutodesignCaseType N
+
+eLOD_Entity 6
+aName      ER_Entity_2
+aIndentName          ER_Entity_2
+aIndentLvl 9
+aSeqNo     1
+aZKey      1326727
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eER_Entity 7
+
+eWndDesign 6
+aZKey      90013584
+
+eM_LOD_Attribute 6
+aZKey      1326728
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326729
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326730
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326731
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326732
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326733
+aSeqNo_LOD_Entity 6
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1326734
+aSeqNo_LOD_Entity 7
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+
+eM_Domain  8
+
+eM_LOD_Attribute 6
+aZKey      1131218
+aUpdate    Y
+
+eM_LOD_Entity 7
+
+eM_ER_Attribute 7
+
+eM_Domain  8
+
+eWndDesign 5
+aZKey      90013582
+
+eM_LOD_Attribute 5
+aZKey      1326735
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326736
+aWork      N
+aUpdate    Y
+aSeqPriority 1
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326737
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326738
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      90028176
+aUpdate    Y
+aSeqOrder  A
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eUIS_ChildEntity 4
+aZKey      90013585
+aAutodesignCaseType N
+
+eLOD_Entity 5
+aName      RelOwningSA
+aIndentName       RelOwningSA
+aIndentLvl 6
+aSeqNo     2
+aZKey      1326740
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   N
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator H
+
+eER_Entity 6
+
+eWndDesign 5
+aZKey      90013586
+
+eM_LOD_Attribute 5
+aZKey      1326741
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326742
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326743
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eM_LOD_Attribute 5
+aZKey      1326744
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 6
+
+eM_ER_Attribute 6
+
+eM_Domain  7
+
+eWndDesign 4
+aZKey      90013580
+
+eM_LOD_Attribute 4
+aZKey      1326745
+aWork      N
+aUpdate    Y
+aSeqPriority 1
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326746
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326747
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326748
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326749
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326750
+aSeqNo_LOD_Entity 6
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326751
+aSeqNo_LOD_Entity 7
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326752
+aSeqNo_LOD_Entity 8
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+
+eM_Domain  6
+
+eUIS_ChildEntity 3
+aZKey      90013587
+aAutodesignCaseType N
+
+eLOD_Entity 4
+aName      Z_MetaDef
+aIndentName    Z_MetaDef
+aIndentLvl 3
+aSeqNo     3
+aZKey      1326753
+aCreate    N
+aDelete    N
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+
+eER_Entity 5
+aName      Z_MetaDef
+aZKey      1321859
+aPurpose   F
+aDesc      Converted from 6B
+aOwningArea CM
+aER_DiagramPosX 390
+aER_DiagramPosY 158
+aER_PortFactor 2
+
+eWndDesign 4
+aZKey      90013588
+
+eM_LOD_Attribute 4
+aZKey      1326754
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+aName      Name
+aZKey      1321860
+aLth       32
+aNotNull   Y
+aDesc      OI Name
+aPromptPaintLit Name:
+aListPaintLit Name:
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326755
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+aName      ZKey
+aZKey      1321861
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326756
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+aName      Type
+aZKey      1321862
+aNotNull   Y
+aDesc      OI Type
+aPromptPaintLit Meta Type:
+aListPaintLit Meta Type:
+
+eM_Domain  6
+aZKey      1319755
+aDesc      Meta types for Configuration Management
+aContextRestriction N
+aName      CM_Type
+aDomainType T
+aDataType  L
+
+eM_LOD_Attribute 4
+aZKey      1326757
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+aName      LastUpdateDate
+aZKey      1321863
+aDesc      Time Stamp of corresponding Meta OI when last checked in
+aPromptPaintLit Meta OI's last update
+aListPaintLit Meta OI's last update
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326758
+aSeqNo_LOD_Entity 5
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+aName      LastCheckInDate
+aZKey      1321864
+aDesc      Date the Meta was last checked In
+
+eM_Domain  6
+
+eM_LOD_Attribute 4
+aZKey      1326759
+aSeqNo_LOD_Entity 6
+
+eM_LOD_Entity 5
+
+eM_ER_Attribute 5
+aName      Desc
+aZKey      1321865
+aDesc      Description of the Linked Zeidon Meta Definition
+aPromptPaintLit Description:
+aListPaintLit Description:
+
+eM_Domain  6
+
+eUIS_ChildEntity 3
+aZKey      13302462
+
+eLOD_Entity 4
+aName      ER_AttributeCopy
+aIndentName    ER_AttributeCopy
+aIndentLvl 3
+aZKey      89095056
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aRecursive N
+aDerived   Y
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Attributes of an ER Entity
+
+eER_Entity 5
+
+eUIS_ChildEntity 4
+aZKey      13302464
+
+eLOD_Entity 5
+aName      DomainCopy
+aIndentName       DomainCopy
+aIndentLvl 6
+aZKey      89095072
+aCreate    N
+aDelete    N
+aUpdate    N
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave E
+aDupEntityInstance N
+aDupRelationshipInstance N
+aRelLinkIndicator L
+aDesc      Domain for validation and formatting
+
+eER_Entity 6
+
+eWndDesign 5
+aZKey      13302465
+
+eWndDesign 4
+aZKey      13302463
+
+eWndDesign 3
+aZKey      90013546
+aListQualFlag N
+
+eM_LOD_Attribute 3
+aZKey      1326760
+aSeqNo_LOD_Entity 1
+
+eM_LOD_Entity 4
+
+eM_ER_Attribute 4
+aName      Name
+aZKey      1320832
+aLth       32
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Enterprise Model Name
+aListPaintLit Enterprise Model Name
+
+eM_Domain  5
+
+eM_LOD_Attribute 3
+aZKey      1326761
+aSeqNo_LOD_Entity 2
+
+eM_LOD_Entity 4
+
+eM_ER_Attribute 4
+aName      ZKey
+aZKey      1320833
+aLth       4
+aKey       Y
+aNotNull   Y
+aDesc      Key (auto via meta)
+
+eM_Domain  5
+
+eM_LOD_Attribute 3
+aZKey      1326762
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eM_LOD_Entity 4
+
+eM_ER_Attribute 4
+aName      LastSyncDate
+aZKey      1326763
+aDesc      Config Mgmt sync date
+
+eM_Domain  5
+
+eM_LOD_Attribute 3
+aZKey      1326764
+aSeqNo_LOD_Entity 4
+
+eM_LOD_Entity 4
+
+eM_ER_Attribute 4
+aName      Desc
+aZKey      1320834
+aDesc      Converted from 6B
+aPromptPaintLit Description
+aPromptPaintLth 60
+aListPaintLit Description
+aListPaintLth 60
+
+eM_Domain  5
+
+eUIS_ViewObjRef 2
+aZKey      1334121
+aName      TZEREMDO
+
+eUIS_LOD   3
+aZKey      1326595
+aDLL_Name  TZLODOPR
+aName      TZEREMDO
+aDesc      Enterprise Model ER Information
+
+i15        11
+i19        11
+i23        11
+i27        11
+i31        11
+i33        17
+i35        11
+i37        17
+i46        42
+i48        25
+i50        42
+i52        17
+i54        42
+i56        25
+i58        42
+i60        25
+i62        42
+i70        66
+i72        25
+i74        66
+i76        17
+i78        66
+i82        66
+i86        66
+i91        39
+i93        17
+i96        8
+i100       8
+i102       17
+i104       8
+i106       25
+i108       8
+i110       64
+i112       8
+i114       25
+i116       8
+i118       25
+i119       22
+i120       11
+i121       24
+i122       25
+i123       26
+i124       11
+i125       28
+i126       29
+i127       30
+i128       11
+i129       32
+i130       17
+i131       34
+i132       11
+i133       36
+i134       17
+i137       67
+i143       67
+i146       6
+i149       145
+i151       98
+i153       145
+i155       17
+i157       145
+i161       145
+i163       64
+i165       145
+i167       25
+i169       145
+i171       17
+i173       145
+i175       17
+i178       142
+i179       71
+i180       25
+i182       142
+i183       75
+i184       17
+i186       142
+i187       79
+i188       80
+i190       142
+i191       83
+i192       84
+i194       142
+i195       87
+i196       88
+i199       139
+i201       17
+i203       139
+i205       25
+i207       139
+i209       17
+i211       139
+i213       17
+i215       139
+i217       17
+i219       139
+i221       17
+i223       139
+i225       17
+i227       139
+i229       17
+i232       136
+i233       71
+i234       25
+i236       136
+i237       79
+i238       80
+i240       136
+i241       83
+i242       84
+i244       136
+i245       87
+i246       88
+i247       148
+i248       145
+i249       150
+i250       98
+i253       43
+i256       40
+i259       9
+i262       258
+i263       97
+i264       98
+i266       258
+i268       17
+i270       258
+i271       101
+i272       17
+i274       258
+i276       25
+i278       258
+i279       105
+i280       25
+i282       258
+i283       109
+i284       64
+i286       258
+i287       113
+i288       25
+i290       258
+i292       17
+i294       258
+i295       117
+i296       25
+i298       258
+i300       17
+i302       258
+i304       25
+i306       258
+i308       25
+i311       67
+i314       6
+i317       313
+i318       150
+i319       98
+i321       313
+i322       154
+i323       17
+i325       313
+i326       158
+i327       159
+i329       313
+i330       162
+i331       64
+i333       313
+i334       166
+i335       25
+i337       313
+i338       170
+i339       17
+i341       313
+i342       174
+i343       17
+i345       313
+i347       17
+i350       310
+i351       71
+i352       25
+i354       310
+i355       75
+i356       17
+i358       310
+i359       79
+i360       80
+i362       310
+i363       83
+i364       84
+i366       310
+i367       87
+i368       88
+i371       255
+i372       92
+i373       17
+i375       255
+i377       17
+i380       252
+i381       47
+i382       25
+i384       252
+i385       51
+i386       17
+i388       252
+i389       59
+i390       25
+i392       252
+i393       63
+i394       64
+i396       252
+i397       55
+i398       25
+i404       400
+i406       25
+i408       400
+i410       17
+i412       400
+i414       64
+i416       400
+i418       88
+i430       9
+i435       424
+i440       424
+i443       427
+i446       9
+i451       424
+i457       5
+i458       150
+i459       98
+i461       5
+i462       154
+i463       17
+i465       5
+i466       158
+i467       159
+i469       5
+i470       162
+i471       64
+i474       140
+i477       67
+i480       6
+i483       479
+i484       150
+i485       98
+i487       479
+i488       154
+i489       17
+i491       479
+i492       158
+i493       159
+i495       479
+i496       162
+i497       64
+i499       479
+i500       166
+i501       25
+i503       479
+i504       170
+i505       17
+i507       479
+i508       174
+i509       17
+i511       479
+i512       346
+i513       17
+i516       476
+i517       71
+i518       25
+i520       476
+i521       75
+i522       17
+i524       476
+i525       79
+i526       80
+i528       476
+i529       83
+i530       84
+i532       476
+i533       87
+i534       88
+i537       401
+i540       536
+i541       405
+i542       25
+i544       536
+i545       409
+i546       17
+i548       536
+i549       413
+i550       64
+i552       536
+i553       417
+i554       88
+i557       473
+i558       200
+i559       17
+i561       473
+i562       204
+i563       25
+i565       473
+i566       208
+i567       17
+i569       473
+i570       212
+i571       17
+i573       473
+i574       216
+i575       17
+i577       473
+i578       220
+i579       17
+i581       473
+i582       224
+i583       17
+i585       473
+i586       228
+i587       17
+i593       589
+i595       25
+i597       589
+i599       17
+i601       589
+i605       589
+i607       21
+i609       589
+i611       21
+i613       589
+i615       64
+i618       9
+i621       12
+i626       2
+i628       25
+i630       2
+i632       17
+i634       2
+i636       21
+i638       2
+i640       64

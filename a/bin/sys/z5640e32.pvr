@@ -1,0 +1,14 @@
+z0100-Zeidon    Z5640E32 TZWDVORO 05/22/97   13:08:41 1.0a     
+eViewObjRef 1,198
+aZKey      90443314
+aName      TZCTRWKO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1329707
+aName      TZCTRWKO
+aDesc      Work object for the control's CtrlColor info
+aFK_ZKEY   8388608
+aFK_ZKEY02 1920991232
+aFK_ZKEY03 228524032
+

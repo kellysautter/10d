@@ -1,0 +1,18 @@
+rZeidon    Z01462F3 TZWDVORO 11/02/95   20:52:41 1.0a     
+eViewObjRef 1,192
+aZKey      1336051
+aName      TZDATA_Attrib
+
+eLOD       2,192
+aZKey      1325104
+aName      TZWDLGSO
+aDesc      Source Dialog Definition
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZDATA_Attrib
+aZKey      1336051
+aType      9
+aLastUpdateDate 19950824213640000
+aLastCheckInDate 19951102203051110
+

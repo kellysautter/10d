@@ -1,0 +1,19 @@
+NAME         TZSTARTO
+
+#if defined( __WIN32__ )
+;; CODE      PRELOAD MOVEABLE DISCARDABLE
+;; DATA      PRELOAD SINGLE
+#else
+   EXETYPE       WINDOWS
+   HEAPSIZE      1024
+   CODE          LOADONCALL  DISCARDABLE  MOVEABLE
+   DATA          PRELOAD     MOVEABLE     SINGLE
+   SEGMENTS
+                 _TEXT      PRELOAD
+                 WEP_TEXT   PRELOAD  FIXED
+                 INIT_TEXT  PRELOAD  DISCARDABLE  MOVEABLE
+
+   IMPORTS
+#endif
+
+EXPORTS

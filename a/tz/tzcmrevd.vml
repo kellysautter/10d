@@ -1,0 +1,392 @@
+/*
+CHANGE LOG
+2001.06.28  BL   Repository
+   maintained Repository, part 2
+2001.03.10  BL   Repository
+   maintained Repository + R51236, F51241, F51240, R54535
+2001.09.01  FH
+   define variable bLockColumn as type BYTE not as INTEGER to eliminate warning
+*/
+
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVD_PreBuild
+**
+*************************************************************************************************/
+DIALOG OPERATION
+zwTZCMREVD_PreBuild( VIEW vSubtask )
+
+   INTEGER  lRepo_ViewCluster
+
+   VIEW TZCMREPO BASED ON LOD TZCMREPO
+   VIEW TZCMREVO BASED ON LOD TZCMREVO
+
+   GET VIEW TZCMREPO NAMED "TZCMREPO"
+   GET VIEW TZCMREVO NAMED "TZCMREVO"
+
+   IF RESULT < 0
+      ACTIVATE TZCMREVO MULTIPLE
+      NAME VIEW TZCMREVO "TZCMREVO"
+
+      // Get Repo View Cluster and add TZCMREVO
+      lRepo_ViewCluster = TZCMREPO.Installation.Repo_ViewCluster
+      AddToViewCluster( lRepo_ViewCluster, TZCMREVO, 0 )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVD_CreateReviewType
+**
+*************************************************************************************************/
+DIALOG OPERATION
+zwTZCMREVD_CreateReviewType( VIEW vSubtask )
+
+   VIEW TZCMREVO REGISTERED AS TZCMREVO
+
+   CREATE ENTITY TZCMREVO.RevEvent LAST
+
+   RefreshWindow( vSubtask )
+   TG_SetActiveCell( vSubtask, "tgReviewType", -1, 0 )
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVO_DeleteReviewType
+**
+*************************************************************************************************/
+DIALOG OPERATION
+zwTZCMREVO_DeleteReviewType( VIEW vSubtask )
+
+   STRING (150) szMsg
+   STRING ( 32) szType
+   INTEGER      nRC
+
+   VIEW TZCMREVO REGISTERED AS TZCMREVO
+
+   SetSelectStateOfEntity( TZCMREVO, "RevEvent", TRUE )
+   RefreshCtrl( vSubtask, "tgReviewType" )
+
+   nRC = MessagePrompt( vSubtask, "CM0001", "Configuration Management",
+                        "OK to delete selected Review Events?",
+                        0, zBUTTONS_YESNO, zRESPONSE_NO, 0 )
+
+   IF nRC = zRESPONSE_YES
+      nRC = SetCursorFirstSelectedEntity( TZCMREVO, "RevEvent", "" )
+
+      LOOP WHILE nRC >= zCURSOR_SET
+           IF TZCMREVO.AuditTrail EXISTS
+              szType = TZCMREVO.RevEvent.Type
+              szMsg = "Review Event '" + szType  + "' cannot be deleted " + zNEW_LINE +
+                      "if it is used by an AuditTrail."
+              MessageSend( vSubtask, "CM0003", "Configuration Management",
+                           szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+              SetSelectStateOfEntity( TZCMREVO, "RevEvent", FALSE )
+           ELSE
+              DeleteEntity( TZCMREVO, "RevEvent", zREPOS_NONE )
+           END
+           nRC = SetCursorNextSelectedEntity( TZCMREVO, "RevEvent", "" )
+      END
+   END
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVO_DeleteEmptyInstances
+**
+*************************************************************************************************/
+LOCAL OPERATION
+zwTZCMREVO_DeleteEmptyInstances( VIEW vView, STRING ( 32 ) szEntityName, STRING ( 32 ) szAttributeName,
+                                 STRING ( 32 ) szErrorText, INTEGER nColumn )
+
+    STRING (254)  szValue
+    STRING (254)  szDesc
+    INTEGER       nRC
+
+    nRC = SetCursorFirstEntity( vView, szEntityName, "" )
+
+    LOOP WHILE nRC >= zCURSOR_SET
+         GetStringFromAttribute( szValue, vView, szEntityName, szAttributeName )
+         GetStringFromAttribute( szDesc, vView, szEntityName, "Desc" )
+
+         IF szValue = "" AND szDesc = ""
+            DeleteEntity( vView, szEntityName, zREPOS_NONE )
+         ELSE
+            IF szValue = "" AND szDesc != ""
+               szErrorText = "Type"
+               nColumn = 0
+               RETURN -1
+            ELSE
+               IF szValue != "" AND szDesc = ""
+                  szErrorText = "Desc"
+                  nColumn = 1
+                  RETURN -1
+               END
+            END
+         END
+
+        nRC = SetCursorNextEntity( vView, szEntityName, "" )
+    END
+
+    RETURN 0
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVD_CommitReviewType
+**
+*************************************************************************************************/
+DIALOG OPERATION
+zwTZCMREVD_CommitReviewType( VIEW vSubtask )
+
+   STRING ( 32 )  szErrorText
+   STRING ( 16 )  szIntegerValue
+   STRING ( 60 )  szMsg
+   INTEGER        nColumn
+
+   VIEW TZCMREPO BASED ON LOD TZCMREPO
+   VIEW TZCMREVO REGISTERED AS TZCMREVO
+
+   GET VIEW TZCMREPO NAMED "TZCMREPO"
+   nColumn = 0
+
+   IF zwTZCMREVD_IsSysadm( vSubtask ) = 0
+      RETURN 0
+   END
+
+   IF zwTZCMREVO_DeleteEmptyInstances( TZCMREVO, "RevEvent", "Type", szErrorText, nColumn ) < 0
+      szMsg = "Event " + szErrorText + " is required."
+      MessageSend( vSubtask, "CM0001", "Configuration Management", szMsg,
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RefreshCtrl( vSubtask, "tgReviewType" )
+      TG_SetActiveCell( vSubtask, "tgReviewType", -1, nColumn )
+      RETURN -1
+   END
+
+   szIntegerValue = ""
+   IF zwTZCMREVO_CheckUniqueInteger( TZCMREVO, "RevEvent", "Type", szIntegerValue ) < 0
+      szMsg = "Event Type '" + szIntegerValue + "' is not unique."
+      MessageSend( vSubtask, "CM0002", "Configuration Management", szMsg,
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RefreshCtrl( vSubtask, "tgReviewType" )
+      TG_SetActiveCell( vSubtask, "tgReviewType", -1, 0 )
+      RETURN -1
+   END
+
+   IF ObjectInstanceUpdated( TZCMREVO ) = 1
+      TZCMREPO.Installation.UpdateAuditTrail = 1
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVO_CheckUniqueInteger
+**
+*************************************************************************************************/
+LOCAL OPERATION
+zwTZCMREVO_CheckUniqueInteger( VIEW vView, STRING ( 32 ) szEntityName, STRING ( 32 ) szAttributeName,
+                               STRING ( 16 ) szIntegerValue )
+
+    INTEGER nValue
+    INTEGER nRC
+    VIEW    vReviewView
+    VIEW    vReviewView1
+
+    CreateViewFromViewForTask( vReviewView, vView, vView )
+    CreateViewFromViewForTask( vReviewView1, vView, vView )
+
+    SetAllSelectStatesForEntity( vView, szEntityName, FALSE, "" )
+
+    nRC = SetCursorFirstEntity( vReviewView, szEntityName, "" )
+
+    LOOP WHILE nRC >= zCURSOR_SET
+         GetIntegerFromAttribute( nValue, vReviewView, szEntityName, szAttributeName )
+
+         nRC = SetCursorFirstEntityByInteger( vReviewView1, szEntityName, szAttributeName, nValue, "" )
+         nRC = SetCursorNextEntityByInteger( vReviewView1, szEntityName, szAttributeName, nValue, "" )
+
+         IF nRC >= zCURSOR_SET
+            SetCursorFirstEntityByInteger( vView, szEntityName, szAttributeName, nValue, "" )
+            SetCursorNextEntityByInteger( vView, szEntityName, szAttributeName, nValue, "" )
+            szIntegerValue = nValue
+            DropView( vReviewView )
+            DropView( vReviewView1 )
+            RETURN -1
+         END
+
+         nRC = SetCursorNextEntity( vReviewView, szEntityName, "" )
+    END
+
+    DropView( vReviewView )
+    DropView( vReviewView1 )
+
+    RETURN 0
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVD_DisableAutoSort
+**
+*************************************************************************************************/
+DIALOG OPERATION
+zwTZCMREVD_DisableAutoSort( VIEW vSubtask )
+
+    INTEGER bSysadm
+    SHORT bLockColumn
+
+    TG_EnableAutosort( vSubtask, "tgReviewType", FALSE )
+
+    IF zwTZCMREVD_IsSysadm( vSubtask ) = 1
+       bSysadm     = TRUE
+       bLockColumn = FALSE
+    ELSE
+       bSysadm     = FALSE
+       bLockColumn = TRUE
+    END
+
+    SetCtrlState( vSubtask, "pbNew", zCONTROL_STATUS_ENABLED, bSysadm )
+    SetCtrlState( vSubtask, "pbDelete", zCONTROL_STATUS_ENABLED, bSysadm )
+
+    TG_LockColumn( vSubtask, "tgReviewType", 0, bLockColumn )
+    TG_LockColumn( vSubtask, "tgReviewType", 1, bLockColumn )
+    TG_LockColumn( vSubtask, "tgReviewType", 2, bLockColumn )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVD_CreateSubEvent
+**
+*************************************************************************************************/
+DIALOG OPERATION
+zwTZCMREVD_CreateSubEvent( VIEW vSubtask )
+
+   VIEW TZCMREVO REGISTERED AS TZCMREVO
+
+   CREATE ENTITY TZCMREVO.RevSubEvent LAST
+
+   RefreshWindow( vSubtask )
+   TG_SetActiveCell( vSubtask, "tgReviewType", -1, 0 )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVO_DeleteSubEvent
+**
+*************************************************************************************************/
+DIALOG OPERATION
+zwTZCMREVO_DeleteSubEvent( VIEW vSubtask )
+
+   STRING (150) szMsg
+   STRING ( 32) szSubType
+   INTEGER      nRC
+
+   VIEW TZCMREVO REGISTERED AS TZCMREVO
+
+   SetSelectStateOfEntity( TZCMREVO, "RevSubEvent", TRUE )
+   RefreshCtrl( vSubtask, "tgReviewType" )
+
+   nRC = MessagePrompt( vSubtask, "CM0001", "Configuration Management",
+                        "OK to delete selected SubEvents?",
+                        0, zBUTTONS_YESNO, zRESPONSE_NO, 0 )
+
+   IF nRC = zRESPONSE_YES
+      nRC = SetCursorFirstSelectedEntity( TZCMREVO, "RevSubEvent", "" )
+
+      LOOP WHILE nRC >= zCURSOR_SET
+           IF TZCMREVO.SubAuditTrail EXISTS
+              szSubType = TZCMREVO.RevSubEvent.Subtype
+              szMsg = "SubEvent '" + szSubType  + "' cannot be deleted " + zNEW_LINE +
+                      "if it is used by an SubAuditTrail."
+              MessageSend( vSubtask, "CM0003", "Configuration Management",
+                           szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+              SetSelectStateOfEntity( TZCMREVO, "RevSubEvent", FALSE )
+           ELSE
+              DeleteEntity( TZCMREVO, "RevSubEvent", zREPOS_NONE )
+           END
+           nRC = SetCursorNextSelectedEntity( TZCMREVO, "RevSubEvent", "" )
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVD_AcceptSubEvent
+**
+*************************************************************************************************/
+DIALOG OPERATION
+zwTZCMREVD_AcceptSubEvent( VIEW vSubtask )
+
+   STRING ( 32 )  szErrorText
+   STRING ( 16 )  szIntegerValue
+   STRING ( 60 )  szMsg
+   INTEGER        nColumn
+
+   VIEW TZCMREVO REGISTERED AS TZCMREVO
+   nColumn = 0
+
+   IF zwTZCMREVD_IsSysadm( vSubtask ) = 0
+      CancelSubobject( TZCMREVO, "RevEvent" )
+      RETURN 0
+   END
+
+   IF zwTZCMREVO_DeleteEmptyInstances( TZCMREVO, "RevSubEvent", "Subtype", szErrorText, nColumn ) < 0
+      szMsg = "SubEvent " + szErrorText + " is required."
+      MessageSend( vSubtask, "CM0001", "Configuration Management", szMsg,
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RefreshCtrl( vSubtask, "tgReviewType" )
+      TG_SetActiveCell( vSubtask, "tgReviewType", -1, nColumn )
+      RETURN -1
+   END
+
+   szIntegerValue = ""
+   IF zwTZCMREVO_CheckUniqueInteger( TZCMREVO, "RevSubEvent", "Subtype", szIntegerValue ) < 0
+      szMsg = "Subtype '" + szIntegerValue + "' is not unique."
+      MessageSend( vSubtask, "CM0002", "Configuration Management", szMsg,
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RefreshCtrl( vSubtask, "tgReviewType" )
+      TG_SetActiveCell( vSubtask, "tgReviewType", -1, 0 )
+      RETURN -1
+   END
+
+   IF AcceptSubobject( TZCMREVO, "RevEvent" ) < 0
+      RefreshCtrl( vSubtask, "tgReviewType" )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, "", "" )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: zwTZCMREVD_IsSysadm
+**
+*************************************************************************************************/
+LOCAL OPERATION
+zwTZCMREVD_IsSysadm( VIEW vSubtask )
+
+   VIEW vTZCMREPO BASED ON LOD TZCMREPO
+   VIEW vTZCMWIPO BASED ON LOD TZCMWIPO
+
+   SHORT nSysadm
+
+   nSysadm = 0
+
+   GetViewByName( vTZCMREPO, "TZCMREPO", vSubtask, zLEVEL_TASK )
+   GetViewByName( vTZCMWIPO, "TZCMWIPO", vSubtask, zLEVEL_TASK )
+
+   IF vTZCMWIPO.ROOT.UserName = vTZCMREPO.Installation.Sysadm
+      nSysadm = 1
+   END
+
+   RETURN nSysadm
+
+END

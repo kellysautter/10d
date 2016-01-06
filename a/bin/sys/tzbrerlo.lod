@@ -1,0 +1,576 @@
+z10000Zeidon    TZBRERLO TZZOLODO 05/01/01   23:17:35 1.0b0    
+eLOD       1
+aZKey      90126485
+aName      TZBRERLO
+aDesc      Work object for ER_Entity analysis for LPLR.
+
+eLOD_EntityParent 2
+aName      ER_Entity
+aIndentName ER_Entity
+aIndentLvl 0
+aZKey      90126486
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      N
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      ER Entities
+
+eLOD_EntityChild 3
+aName      LOD
+aIndentName    LOD
+aIndentLvl 3
+aZKey      90126614
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      LOD_Entity
+aIndentName       LOD_Entity
+aIndentLvl 6
+aZKey      90126615
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      90126620
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      Name
+aZKey      90126621
+aLth       32
+
+eDomainRec 7
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      91043492
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      CreateFlag
+aZKey      91043493
+aLth       1
+
+eDomainRec 7
+aZKey      90000028
+aName      AlphaNumeric
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDecimalFormat 1234
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      91043494
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      DeleteFlag
+aZKey      91043495
+aLth       1
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91043496
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      UpdateFlag
+aZKey      91043497
+aLth       1
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91043498
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      IncludeFlag
+aZKey      91043499
+aLth       1
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91043500
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      ExcludeFlag
+aZKey      91043501
+aLth       1
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      91043502
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 6
+aName      ParentDeleteBehavior
+aZKey      91043503
+
+eDomainRec 7
+aZKey      1320152
+aName      LOD_ParentDeleteBehavior
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Delete, Restrict, Exclude
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90126616
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      Name
+aZKey      90126617
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      91045509
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      WorkLOD_Flag
+aZKey      91045510
+aLth       1
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      Attribute
+aIndentName    Attribute
+aIndentLvl 3
+aZKey      90344213
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      90344214
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      Name
+aZKey      90344215
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90344216
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      MergeType
+aZKey      90344217
+aLth       6
+aDesc      67
+New    - Attribute was created new
+Update - Attribute was updated0
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      ER_RelLink
+aIndentName    ER_RelLink
+aIndentLvl 3
+aZKey      90344218
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      90344219
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      FromRelName
+aZKey      90344220
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90344221
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      ToRelName
+aZKey      90344222
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90350893
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      FromEntityName
+aZKey      90350894
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90344223
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      ToEntityName
+aZKey      90344224
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      90126487
+
+eER_AttributeRec 4
+aName      Name
+aZKey      1320861
+aNotNull   Y
+aDesc      Converted from 6B
+aPromptPaintLit Entity Name
+aListPaintLit Entity Name
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      90126489
+
+eER_AttributeRec 4
+aName      Purpose
+aZKey      1320863
+aLth       12
+aNotNull   N
+aDesc      Converted from 6B
+aPromptPaintLit Purpose
+aListPaintLit Purpose
+
+eDomainRec 5
+aZKey      1320129
+aName      ER_EntityPurpose
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Purpose of Entity in ER
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90344211
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 4
+aName      MergeType
+aZKey      90344212
+aLth       6
+aDesc      69
+New     - Entity was created new
+Update - Entity has new attributes0
+
+eDomainRec 5
+
+eER_EntityRec 3
+aName      ER_Entity
+aZKey      1320860
+aPurpose   W
+aDesc      ER Entities
+aOwningArea ER
+aER_DiagramPosX 156
+aER_DiagramPosY 194
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eER_Entity 3
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      90350892
+aName      TZBRERLO
+aExtension VML
+aLanguageType V
+
+i12        9
+i15        9
+i18        9
+i21        9
+i27        6
+i30        9
+i34        6
+i37        9
+i44        41
+i47        6
+i50        6
+i53        6
+i59        9
+i61        1
+i62        51
+i63        52
+i64        6
+i65        54
+i66        55
+i67        56
+i68        57
+i69        58
+i70        9
+i71        60
+i72        2
+i73        25
+i74        26
+i75        6
+i76        28
+i77        29
+i78        9
+i79        3
+i80        4
+i81        5
+i82        6
+i83        7
+i84        8
+i85        9
+i86        10
+i87        11
+i88        9
+i89        13
+i90        14
+i91        9
+i92        16
+i93        17
+i94        9
+i95        19
+i96        20
+i97        9
+i98        22
+i99        23
+i100       24
+i101       31
+i102       32
+i103       33
+i104       6
+i105       35
+i106       36
+i107       9
+i108       38
+i109       39
+i110       40
+i111       41
+i112       42
+i113       43
+i114       41
+i115       45
+i116       46
+i117       6
+i118       48
+i119       49
+i120       6

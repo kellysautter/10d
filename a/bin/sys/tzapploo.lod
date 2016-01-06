@@ -1,0 +1,507 @@
+z010--Zeidon    KZAPPLOO TZZOLODO 02/27/97   12:09:13 1.0a     
+eLOD       1,192
+aZKey      1331251
+aName      KZAPPLOO
+aDesc      Zeidon Application Object
+
+eLOD_EntityParent 2,192
+aName      ZEIDON
+aIndentName ZEIDON
+aIndentLvl 0
+aZKey      1331252
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3,192
+aName      APPLICATION
+aIndentName    APPLICATION
+aIndentLvl 3
+aZKey      1331253
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     1
+
+eLOD_EntityChild 4,192
+aName      LNAME
+aIndentName       LNAME
+aIndentLvl 6
+aZKey      1331254
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Logical to phisical name translation Entity for Server and DB Names
+aSeqNo     1
+
+eLOD_AttributeRec 5,192
+aZKey      1331255
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6,192
+aName      TYPE
+aZKey      1331256
+
+eDomainRec 7,1232
+aZKey      1320142
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots
+aContextRestriction N
+
+eDomainRec 7,224
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots
+aContextRestriction N
+
+eLOD_AttributeRec 5,192
+aZKey      1331257
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6,192
+aName      LNAME
+aZKey      1331258
+aLth       32
+
+eDomainRec 7,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 7,224
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 5,192
+aZKey      1331259
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6,192
+aName      PNAME
+aZKey      1331260
+aLth       32
+
+eDomainRec 7,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 7,160
+
+eLOD_AttributeRec 4,192
+aZKey      1331261
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5,192
+aName      APP_NAME
+aZKey      1331262
+aLth       32
+
+eDomainRec 6,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 6,160
+
+eLOD_AttributeRec 4,192
+aZKey      1331263
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5,192
+aName      APP_DFLT_WDOD
+aZKey      1331264
+aLth       8
+
+eDomainRec 6,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 6,160
+
+eLOD_AttributeRec 4,192
+aZKey      1331265
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5,192
+aName      APP_DLL
+aZKey      1331266
+
+eDomainRec 6,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 6,160
+
+eLOD_AttributeRec 4,192
+aZKey      1331267
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5,192
+aName      APP_ADOBIN
+aZKey      1331268
+
+eDomainRec 6,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 6,160
+
+eLOD_AttributeRec 4,192
+aZKey      1331269
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5,192
+aName      APP_LOCAL
+aZKey      1331270
+
+eDomainRec 6,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 6,160
+
+eLOD_AttributeRec 4,192
+aZKey      1331271
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 5,192
+aName      APP_SHARED
+aZKey      1331272
+
+eDomainRec 6,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 6,160
+
+eLOD_AttributeRec 3,192
+aZKey      1331273
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4,192
+aName      ZEIDON_BIN
+aZKey      1331274
+
+eDomainRec 5,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 5,160
+
+eLOD_AttributeRec 3,192
+aZKey      1331275
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4,192
+aName      ZEIDON_SYS
+aZKey      1331276
+
+eDomainRec 5,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 5,160
+
+eLOD_AttributeRec 3,192
+aZKey      1331277
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 4,192
+aName      ZEIDON_LOC
+aZKey      1331278
+
+eDomainRec 5,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 5,160
+
+eLOD_AttributeRec 3,192
+aZKey      1331279
+aWork      Y
+aUpdate    N
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 4,192
+aName      ZEIDON_SHR
+aZKey      1331280
+
+eDomainRec 5,1232
+aZKey      1320291
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eDomainRec 5,160
+
+eLOD_Entity 2,128
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Entity 2,128
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Entity 2,128
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eLOD_Attribute 3,128
+
+eER_Attribute 4,128
+
+eDomain    5,160
+
+eZ_MetaDef 2,192
+aName      KZAPPLOO
+aZKey      1331251
+aType      7
+aLastUpdateDate 19951102195936000
+aLastCheckInDate 19951102203051110
+aDesc      Zeidon Application Object
+
+i15        11
+i19        11
+i23        11
+i27        11
+i31        11
+i35        11
+i39        11
+i43        11
+i47        11
+i51        11
+i55        11
+i56        1
+i57        40
+i58        41
+i59        11
+i60        44
+i61        45
+i62        11
+i63        48
+i64        49
+i65        11
+i66        52
+i67        53
+i68        11
+i69        2
+i70        16
+i71        17
+i72        11
+i73        20
+i74        21
+i75        11
+i76        24
+i77        25
+i78        11
+i79        28
+i80        29
+i81        11
+i82        32
+i83        33
+i84        11
+i85        36
+i86        37
+i87        11
+i88        3
+i89        4
+i90        5
+i91        7
+i92        8
+i93        9
+i94        11
+i95        12
+i96        13
+i97        11

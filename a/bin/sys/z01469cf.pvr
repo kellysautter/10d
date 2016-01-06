@@ -1,0 +1,20 @@
+rZeidon    Z01469CF TZWDVORO 11/02/95   20:53:19 1.0a     
+eViewObjRef 1,192
+aZKey      1337807
+aName      TargetLPLR
+aDesc      Component Migration - Target List
+
+eLOD       2,192
+aZKey      1325977
+aName      TZCMLPLO
+aDesc      LPLR Object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TargetLPLR
+aZKey      1337807
+aType      9
+aLastUpdateDate 19950824213656000
+aLastCheckInDate 19951102203051110
+aDesc      Component Migration - Target List
+

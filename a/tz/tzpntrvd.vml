@@ -1,0 +1,680 @@
+
+/*************************************************************************************************
+**
+**    OPERATION: GOTO_SelectReusableSideMenu
+**
+*************************************************************************************************/
+DIALOG OPERATION
+GOTO_SelectReusableSideMenu( VIEW vSubtask )
+
+   VIEW TZWINDOWL  REGISTERED AS TZWINDOWL
+   VIEW TZDLG_List REGISTERED AS TZDLG_List
+   VIEW TZWND_List BASED ON LOD  TZWDLGSO
+
+   TZWINDOWL.Dialog.wReusableSelectEntityName = "ReusableSideWindow"
+   IF TZWINDOWL.ReusableWindowSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableWindowSelection
+   END
+   IF TZWINDOWL.ReusableDialogSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableDialogSelection
+   END
+   IF TZWINDOWL.ReusableSideWindow EXISTS
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+                 WHERE TZDLG_List.W_MetaDef.CPLR_ZKey = TZWINDOWL.ReusableSideDialog.ZKey
+      IF RESULT >= zCURSOR_SET
+         INCLUDE TZWINDOWL.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            IF TZWND_List.Dialog.ZKey != TZWINDOWL.ReusableSideDialog.ZKey
+               DropMetaOI( vSubtask, TZWND_List )
+               TZWND_List = 0
+            END
+         ELSE
+            TZWND_List = 0
+         END
+         IF TZWND_List != 0
+            SET CURSOR FIRST TZWND_List.Window
+                       WHERE TZWND_List.Window.ZKey = TZWINDOWL.ReusableSideWindow.ZKey
+            IF RESULT >= zCURSOR_SET
+               INCLUDE TZWINDOWL.ReusableWindowSelection FROM TZWND_List.Window
+            ELSE
+               SET CURSOR FIRST TZWND_List.Window
+            END
+         ELSE
+            IF TZDLG_List.W_MetaDef.CPLR_ZKey  = TZWINDOWL.Dialog.ZKey
+               CreateViewFromView( TZWND_List, TZWINDOWL )
+               NAME VIEW TZWND_List "TZWND_List"
+            ELSE
+               ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+               NAME VIEW TZWND_List "TZWND_List"
+            END
+         END
+      ELSE
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            IF TZWINDOWL.Dialog.ZKey = TZWND_List.Dialog.ZKey
+               DropView( TZWND_List )
+            ELSE
+               DropMetaOI( vSubtask, TZWND_List )
+            END
+         END
+         SET CURSOR FIRST TZDLG_List.W_MetaDef
+      END
+
+   ELSE
+
+      GET VIEW TZWND_List NAMED "TZWND_List"
+      IF RESULT >= 0
+         IF TZWINDOWL.Dialog.ZKey = TZWND_List.Dialog.ZKey
+            DropView( TZWND_List )
+         ELSE
+            DropMetaOI( vSubtask, TZWND_List )
+         END
+      END
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GOTO_SelectReusableMainMenu
+**
+*************************************************************************************************/
+DIALOG OPERATION
+GOTO_SelectReusableMainMenu( VIEW vSubtask )
+
+   VIEW TZWINDOWL  REGISTERED AS TZWINDOWL
+   VIEW TZDLG_List REGISTERED AS TZDLG_List
+   VIEW TZWND_List BASED ON LOD  TZWDLGSO
+
+   TZWINDOWL.Dialog.wReusableSelectEntityName = "ReusableMainWindow"
+   IF TZWINDOWL.ReusableWindowSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableWindowSelection
+   END
+   IF TZWINDOWL.ReusableDialogSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableDialogSelection
+   END
+   IF TZWINDOWL.ReusableMainWindow EXISTS
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+                 WHERE TZDLG_List.W_MetaDef.CPLR_ZKey = TZWINDOWL.ReusableMainDialog.ZKey
+      IF RESULT >= zCURSOR_SET
+         INCLUDE TZWINDOWL.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            IF TZWND_List.Dialog.ZKey != TZWINDOWL.ReusableMainDialog.ZKey
+               DropMetaOI( vSubtask, TZWND_List )
+               TZWND_List = 0
+            END
+         ELSE
+            TZWND_List = 0
+         END
+         IF TZWND_List != 0
+            SET CURSOR FIRST TZWND_List.Window
+                       WHERE TZWND_List.Window.ZKey = TZWINDOWL.ReusableMainWindow.ZKey
+            IF RESULT >= zCURSOR_SET
+               INCLUDE TZWINDOWL.ReusableWindowSelection FROM TZWND_List.Window
+            ELSE
+               SET CURSOR FIRST TZWND_List.Window
+            END
+         ELSE
+            ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+            NAME VIEW TZWND_List "TZWND_List"
+         END
+      ELSE
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            DropMetaOI( vSubtask, TZWND_List )
+         END
+         SET CURSOR FIRST TZDLG_List.W_MetaDef
+      END
+
+   ELSE
+
+      GET VIEW TZWND_List NAMED "TZWND_List"
+      IF RESULT >= 0
+         DropMetaOI( vSubtask, TZWND_List )
+      END
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: LOAD_SelectedDialog
+**
+*************************************************************************************************/
+DIALOG OPERATION
+LOAD_SelectedDialog( VIEW vSubtask )
+
+   VIEW TZWINDOWL  REGISTERED AS TZWINDOWL
+   VIEW TZDLG_List REGISTERED AS TZDLG_List
+   VIEW TZWND_List BASED ON LOD  TZWDLGSO
+
+   // Make sure that TZWND_List is set up for the Dialog.
+   GET VIEW TZWND_List NAMED "TZWND_List"
+   IF RESULT >= 0
+      IF TZWND_List.Dialog.ZKey != TZDLG_List.W_MetaDef.CPLR_ZKey
+         IF TZWINDOWL.Dialog.ZKey = TZWND_List.Dialog.ZKey
+            DropView( TZWND_List )
+         ELSE
+            DropMetaOI( vSubtask, TZWND_List )
+         END
+         TZWND_List = 0
+      END
+   ELSE
+      TZWND_List = 0
+   END
+   IF TZWND_List = 0
+      IF TZDLG_List.W_MetaDef.CPLR_ZKey = TZWINDOWL.Dialog.ZKey
+         CreateViewFromView( TZWND_List, TZWINDOWL )
+         NAME VIEW TZWND_List "TZWND_List"
+      ELSE
+         ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+         NAME VIEW TZWND_List "TZWND_List"
+      END
+   END
+   SET CURSOR FIRST TZWND_List.Window
+
+   // Make sure that the ReusableWindowSelection isn't included.
+   IF TZWINDOWL.ReusableWindowSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableWindowSelection NONE
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SELECT_ReusableMenuWindow
+**
+*************************************************************************************************/
+DIALOG OPERATION
+SELECT_ReusableMenuWindow( VIEW vSubtask )
+
+   VIEW TZWINDOWL  REGISTERED AS TZWINDOWL
+   VIEW TZDLG_List REGISTERED AS TZDLG_List
+   VIEW TZWND_List REGISTERED AS TZWND_List
+   STRING ( 32 ) IncludeEntityName
+   SHORT         nRC
+
+   IF TZWINDOWL.ReusableWindowSelection DOES NOT EXIST OR
+      TZWINDOWL.ReusableDialogSelection DOES NOT EXIST
+
+      MessageSend( vSubtask, "", "Select Reusable Menu",
+                   "A Dialog or Window has not been selected.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RETURN -1
+   END
+   IncludeEntityName = TZWINDOWL.Dialog.wReusableSelectEntityName
+   nRC = CheckExistenceOfEntity( TZWINDOWL, IncludeEntityName )
+   IF nRC >= 0
+      ExcludeEntity( TZWINDOWL, IncludeEntityName, zREPOS_NONE )
+   END
+   IncludeSubobjectFromSubobject( TZWINDOWL, IncludeEntityName, TZWND_List, "Window", zPOS_AFTER )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GOTO_SelectDefaultMainMenu
+**
+*************************************************************************************************/
+DIALOG OPERATION
+GOTO_SelectDefaultMainMenu( VIEW vSubtask )
+
+   VIEW TZWINDOWL  REGISTERED AS TZWINDOWL
+   VIEW TZDLG_List REGISTERED AS TZDLG_List
+   VIEW TZWND_List BASED ON LOD  TZWDLGSO
+
+   TZWINDOWL.Dialog.wReusableSelectEntityName = "DefaultReusableMainWindow"
+   IF TZWINDOWL.ReusableWindowSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableWindowSelection
+   END
+   IF TZWINDOWL.ReusableDialogSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableDialogSelection
+   END
+   IF TZWINDOWL.DefaultReusableMainWindow EXISTS
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+                 WHERE TZDLG_List.W_MetaDef.CPLR_ZKey = TZWINDOWL.ReusableMainDialog.ZKey
+      IF RESULT >= zCURSOR_SET
+         INCLUDE TZWINDOWL.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            IF TZWND_List.Dialog.ZKey != TZWINDOWL.ReusableMainDialog.ZKey
+               DropMetaOI( vSubtask, TZWND_List )
+               TZWND_List = 0
+            END
+         ELSE
+            TZWND_List = 0
+         END
+         IF TZWND_List != 0
+            SET CURSOR FIRST TZWND_List.Window
+                       WHERE TZWND_List.Window.ZKey = TZWINDOWL.DefaultReusableMainWindow.ZKey
+            IF RESULT >= zCURSOR_SET
+               INCLUDE TZWINDOWL.ReusableWindowSelection FROM TZWND_List.Window
+            ELSE
+               SET CURSOR FIRST TZWND_List.Window
+            END
+         ELSE
+            ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+            NAME VIEW TZWND_List "TZWND_List"
+         END
+      ELSE
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            DropMetaOI( vSubtask, TZWND_List )
+         END
+         SET CURSOR FIRST TZDLG_List.W_MetaDef
+      END
+
+   ELSE
+
+      GET VIEW TZWND_List NAMED "TZWND_List"
+      IF RESULT >= 0
+         DropMetaOI( vSubtask, TZWND_List )
+      END
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: REMOVE_DefaultMainMenu
+**
+*************************************************************************************************/
+DIALOG OPERATION
+REMOVE_DefaultMainMenu( VIEW vSubtask )
+
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+
+   IF TZWINDOWL.DefaultReusableMainWindow EXISTS
+      EXCLUDE TZWINDOWL.DefaultReusableMainWindow
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: REMOVE_ReusableSideMenu
+**
+*************************************************************************************************/
+DIALOG OPERATION
+REMOVE_ReusableSideMenu( VIEW vSubtask )
+
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+
+   IF TZWINDOWL.ReusableSideWindow EXISTS
+      EXCLUDE TZWINDOWL.ReusableSideWindow
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: REMOVE_ReusableMainMenu
+**
+*************************************************************************************************/
+DIALOG OPERATION
+REMOVE_ReusableMainMenu( VIEW vSubtask )
+
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+
+   IF TZWINDOWL.ReusableMainWindow EXISTS
+      EXCLUDE TZWINDOWL.ReusableMainWindow
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CONVERT_ControlClassForDialog
+**
+*************************************************************************************************/
+DIALOG OPERATION
+CONVERT_ControlClassForDialog( VIEW ViewToWindow )
+
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+
+   // Indicate that the Class Conversion is for all Windows in the Dialog.
+   TZWINDOWL.Dialog.wClassNameConvertType = "D"
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CONVERT_ControlClassForWindow
+**
+*************************************************************************************************/
+DIALOG OPERATION
+CONVERT_ControlClassForWindow( VIEW ViewToWindow )
+
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+
+   // Indicate that the Class Conversion is for all Windows in the Dialog.
+   TZWINDOWL.Dialog.wClassNameConvertType = "W"
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CONVERT_ClassNames
+**
+*************************************************************************************************/
+DIALOG OPERATION
+CONVERT_ClassNames( VIEW ViewToWindow )
+
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+   VIEW vDialog   BASED ON LOD  TZWDLGSO
+
+   // Based on the Convert Type, convert Class Names for either the Dialog of the Window.
+   CreateViewFromView( vDialog, TZWINDOWL )
+   IF TZWINDOWL.Dialog.wClassNameConvertType = "D"
+      FOR EACH vDialog.Window
+         CONVERT_ClassNamesRecursive( TZWINDOWL, vDialog )
+      END
+   ELSE
+      CONVERT_ClassNamesRecursive( TZWINDOWL, vDialog )
+   END
+   DropView( vDialog )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: CONVERT_ClassNamesRecursive
+**
+*************************************************************************************************/
+LOCAL OPERATION
+CONVERT_ClassNamesRecursive( VIEW vDialogRoot BASED ON LOD  TZWDLGSO,
+                             VIEW vControl    BASED ON LOD  TZWDLGSO )
+
+   STRING ( 32 ) OriginalClassName
+   STRING ( 32 ) NewClassName
+   STRING ( 256 ) CSS_Class
+   SHORT  nReplaceCnt
+
+   // Convert the Control Class Names.
+   OriginalClassName = vDialogRoot.Dialog.wOriginalClassName
+   NewClassName      = vDialogRoot.Dialog.wNewClassName
+   FOR EACH vControl.Control
+      CSS_Class = vControl.Control.CSS_Class
+      nReplaceCnt = zSearchAndReplaceWord( CSS_Class, 256,
+                                           OriginalClassName, NewClassName,
+                                           "" ) // " \t\r\n" alway in delimiter list
+      IF nReplaceCnt > 0
+         vControl.Control.CSS_Class = CSS_Class
+      END
+      IF vControl.CtrlCtrl EXISTS
+         SetViewToSubobject( vControl, "CtrlCtrl" )
+         CONVERT_ClassNamesRecursive( vDialogRoot, vControl )
+         ResetViewFromSubobject( vControl )
+      END
+   END
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: GOTO_SelectReusableMenuActions
+**
+*************************************************************************************************/
+DIALOG OPERATION
+GOTO_SelectReusableMenuActions( VIEW vSubtask )
+
+
+   VIEW TZWINDOWL  REGISTERED AS TZWINDOWL
+   VIEW TZDLG_List REGISTERED AS TZDLG_List
+   VIEW TZWND_List BASED ON LOD  TZWDLGSO
+
+   TZWINDOWL.Dialog.wReusableSelectEntityName = "ReusableActionWindow"
+   IF TZWINDOWL.ReusableWindowSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableWindowSelection
+   END
+   IF TZWINDOWL.ReusableDialogSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableDialogSelection
+   END
+   IF TZWINDOWL.ReusableActionWindow EXISTS
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+                 WHERE TZDLG_List.W_MetaDef.CPLR_ZKey = TZWINDOWL.ReusableActionDialog.ZKey
+      IF RESULT >= zCURSOR_SET
+         INCLUDE TZWINDOWL.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            IF TZWND_List.Dialog.ZKey != TZWINDOWL.ReusableActionDialog.ZKey
+               DropMetaOI( vSubtask, TZWND_List )
+               TZWND_List = 0
+            END
+         ELSE
+            TZWND_List = 0
+         END
+         IF TZWND_List != 0
+            SET CURSOR FIRST TZWND_List.Window
+                       WHERE TZWND_List.Window.ZKey = TZWINDOWL.ReusableActionWindow.ZKey
+            IF RESULT >= zCURSOR_SET
+               INCLUDE TZWINDOWL.ReusableWindowSelection FROM TZWND_List.Window
+            ELSE
+               SET CURSOR FIRST TZWND_List.Window
+            END
+         ELSE
+            ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+            NAME VIEW TZWND_List "TZWND_List"
+         END
+      ELSE
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            DropMetaOI( vSubtask, TZWND_List )
+         END
+         SET CURSOR FIRST TZDLG_List.W_MetaDef
+      END
+
+   ELSE
+
+      GET VIEW TZWND_List NAMED "TZWND_List"
+      IF RESULT >= 0
+         DropMetaOI( vSubtask, TZWND_List )
+      END
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GOTO_SelectDefaultMenuActions
+**
+*************************************************************************************************/
+DIALOG OPERATION
+GOTO_SelectDefaultMenuActions( VIEW vSubtask )
+
+   VIEW TZWINDOWL  REGISTERED AS TZWINDOWL
+   VIEW TZDLG_List REGISTERED AS TZDLG_List
+   VIEW TZWND_List BASED ON LOD  TZWDLGSO
+
+   TZWINDOWL.Dialog.wReusableSelectEntityName = "DefaultReusableActionWindow"
+   IF TZWINDOWL.ReusableWindowSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableWindowSelection
+   END
+   IF TZWINDOWL.ReusableDialogSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableDialogSelection
+   END
+   IF TZWINDOWL.DefaultReusableActionWindow EXISTS
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+                 WHERE TZDLG_List.W_MetaDef.CPLR_ZKey = TZWINDOWL.DefaultReusableActionDialog.ZKey
+      IF RESULT >= zCURSOR_SET
+         INCLUDE TZWINDOWL.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            IF TZWND_List.Dialog.ZKey != TZWINDOWL.DefaultReusableActionDialog.ZKey
+               DropMetaOI( vSubtask, TZWND_List )
+               TZWND_List = 0
+            END
+         ELSE
+            TZWND_List = 0
+         END
+         IF TZWND_List != 0
+            SET CURSOR FIRST TZWND_List.Window
+                       WHERE TZWND_List.Window.ZKey = TZWINDOWL.DefaultReusableActionWindow.ZKey
+            IF RESULT >= zCURSOR_SET
+               INCLUDE TZWINDOWL.ReusableWindowSelection FROM TZWND_List.Window
+            ELSE
+               SET CURSOR FIRST TZWND_List.Window
+            END
+         ELSE
+            ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+            NAME VIEW TZWND_List "TZWND_List"
+         END
+      ELSE
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            DropMetaOI( vSubtask, TZWND_List )
+         END
+         SET CURSOR FIRST TZDLG_List.W_MetaDef
+      END
+
+   ELSE
+
+      GET VIEW TZWND_List NAMED "TZWND_List"
+      IF RESULT >= 0
+         DropMetaOI( vSubtask, TZWND_List )
+      END
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: REMOVE_ReusableMenuActions
+**
+*************************************************************************************************/
+DIALOG OPERATION
+REMOVE_ReusableMenuActions( VIEW ViewToWindow )
+
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+
+   IF TZWINDOWL.ReusableActionWindow EXISTS
+      EXCLUDE TZWINDOWL.ReusableActionWindow
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: REMOVE_DefaultMenuActions
+**
+*************************************************************************************************/
+DIALOG OPERATION
+REMOVE_DefaultMenuActions( VIEW ViewToWindow )
+
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+
+   IF TZWINDOWL.DefaultReusableActionWindow EXISTS
+      EXCLUDE TZWINDOWL.DefaultReusableActionWindow
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: COPY_WindowToClipboard
+**
+*************************************************************************************************/
+DIALOG OPERATION
+COPY_WindowToClipboard( VIEW ViewToWindow )
+
+   VIEW TaskLPLR  REGISTERED AS TaskLPLR
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+
+   // Simply set up the Directory Path and Window Name in TaskLPLR.
+   // This only allowed for the time being for an external LPLR.
+   // We determine it is an external LPLR if TaskLPLR.LPLR.wFullyQualifiedFileName is not null.
+   IF TaskLPLR.LPLR.wFullyQualifiedFileName = ""
+      MessageSend( ViewToWindow, "", "Copy Window to Clipboard",
+                   "This function is only valid for an external Dialog.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
+      RETURN -1
+   END
+   TaskLPLR.LPLR.wCopyPasteDirectoryFileName = TaskLPLR.LPLR.wFullyQualifiedFileName
+   TaskLPLR.LPLR.wCopyPasteWindowName        = TZWINDOWL.Window.Tag
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: PASTE_WindowFromClipboard
+**
+*************************************************************************************************/
+DIALOG OPERATION
+PASTE_WindowFromClipboard( VIEW ViewToWindow )
+
+   VIEW TaskLPLR     REGISTERED AS TaskLPLR
+   VIEW TZWINDOWL    REGISTERED AS TZWINDOWL
+   VIEW SourceDialog BASED ON LOD  TZWDLGSO
+   VIEW TargetDialog BASED ON LOD  TZWDLGSO
+   STRING ( 200 ) szFileName
+   STRING ( 32 )  szTag
+   SHORT  nRC
+
+   // Copy the Window defined in LPLR work attributes wCopyPasteDirectoryName and wCopyPasteWindowName
+   // into this Dialog.
+
+   // Make sure directory and Window have been specified.
+   IF TaskLPLR.LPLR.wCopyPasteDirectoryFileName = "" OR TaskLPLR.LPLR.wCopyPasteWindowName = ""
+      MessageSend( ViewToWindow, "", "Paste Window from Clipboard",
+                   "A window and directory have not been copied to the clipboard.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
+      RETURN -1
+   END
+
+   // Create view for new window.
+   CreateViewFromView( TargetDialog, TZWINDOWL )
+   NAME VIEW TargetDialog "TargetDialog"
+
+   // Check for duplicate name of Source window for paste
+   SET CURSOR FIRST TargetDialog.Window WHERE TargetDialog.Window.Tag = TaskLPLR.LPLR.wCopyPasteWindowName
+   IF RESULT >= zCURSOR_SET
+      MessageSend( ViewToWindow, "", "Paste Window from Clipboard",
+                   "A window by the same name as the copied window already exists in the current Dialog.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
+      RETURN -1
+   END
+
+   // Activate original Dialog and position on window.
+   szFileName = TaskLPLR.LPLR.wCopyPasteDirectoryFileName
+   nRC = ActivateOI_FromFile( SourceDialog, "TZWDLGSO", ViewToWindow, szFileName, zSINGLE )
+   IF nRC < 0
+      MessageSend( ViewToWindow, "", "Paste Clipboard",
+                   "The requested Dialog could not be activated.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
+      RETURN -1
+   END
+   NAME VIEW SourceDialog "SourceDialog"
+   SET CURSOR FIRST SourceDialog.Window WHERE SourceDialog.Window.Tag = TaskLPLR.LPLR.wCopyPasteWindowName
+
+   // Go to copy window.
+   nRC = CloneWindow( TargetDialog, SourceDialog, TaskLPLR, ViewToWindow )
+   IF nRC >= 0
+      // Re-order window list and enable display of new window.
+      szTag = TargetDialog.Window.Tag
+      OrderEntityForView( TargetDialog, "Window", "Tag A" )
+      SET CURSOR FIRST TargetDialog.Window WHERE TargetDialog.Window.Tag = szTag
+      fnPainterCall( 11, ViewToWindow, 0, szTag )
+   ELSE
+      // An error occurred during copy. Give a message and delete the Window just created.
+      DELETE ENTITY TargetDialog.Window Previous
+      MessageSend( ViewToWindow, "", "Paste Clipboard",
+                   "An Error occurred during the CloneWindow function. The Paste function is aborted.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
+      RETURN -1
+   END
+
+END

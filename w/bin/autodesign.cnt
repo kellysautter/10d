@@ -1,0 +1,24 @@
+:Base Autodesign.hlp
+:Title Zeidon Autodesign Manual
+1 Autodesign Manual
+2 Entry Autodesign=Entry_Autodesign
+2 Overview
+3 Overview=ZEI_Aut_Overview
+2 Autodesign Initialization Entry
+3 Autodesign Initialization Entry=ZEI_Aut_InitEntry
+2 Operation Generation Entry
+3 Operation Generation Entry=ZEI_Aut_OpGenEntry
+2 Autodesign Termination Entry
+3 Autodesign Termination Entry=ZEI_Aut_TermEntry
+2 UserCust LPLR
+3 UserCust LPLR=ZEI_Aut_UserCust
+2 LOD Structures
+3 LOD Structures=ZEI_Aut_LodStruct
+3 TZADCSDO Object
+4 TZADCSDO Object=TZADCSDO_Object
+3 TZZOLODO Object
+4 TZZOLODO Object=TZZOLODO_Object
+3 TZWDLGSO Object
+4 TZWDLGSO Object=TZWDLGSO_Object
+2 Implementation
+3 Implementation=ZEI_Aut_Implement

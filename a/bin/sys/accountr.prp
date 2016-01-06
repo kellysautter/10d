@@ -1,0 +1,2320 @@
+z1000-Zeidon    ACCOUNTR TZRPSRCO 09/06/05   14:33:47 1.0b0    
+eReport    1
+aZKey      1157335
+aTag       AccountR
+awDLL_Name Account
+aPrintFlags 65536
+aReportTextSize 75
+aUnit      1
+aMarginTop 0
+aMarginLeft 0
+aMarginBottom 0
+aMarginRight 0
+
+ePage      2
+aZKey      1157341
+aTag       AccountR
+aSizeX     2816
+aSizeY     2176
+
+eGroupSet  3
+aZKey      1157342
+aTag       PageHeader
+aType      PH
+aPSDLG_X   0
+aPSDLG_Y   0
+aSZDLG_X   2816
+aSZDLG_Y   560
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      1157343
+aTag       PageHeader
+aType      ga
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   19
+aSZDLG_X   2816
+aSZDLG_Y   144
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptPageHeader
+
+eControl   5
+aTag       PageNumber
+aText      Page Number
+aZKey      1169138
+aSubtype   537395200
+aPSDLG_X   1555
+aPSDLG_Y   32
+aSZDLG_X   499
+aSZDLG_Y   61
+aSyncKey   9999
+
+eControlDef 6
+aZKey      3020
+aKey       3020
+aTag       Rpt_Text
+aId        1
+aRT_DLL_Name n/a
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZTextMsg
+aPainterBitmap TEXT
+aMaintenanceDialog TZRPUPZD
+aMaintenanceWindow UPD_TEXT
+aRequiresParent Y
+aInvisible -2
+
+eCtrlMap   6
+aZKey      1169139
+
+eGroup     4
+aZKey      1175719
+aTag       PageHeaderOverlay
+aType      ga
+aFlags     1
+aPSDLG_X   0
+aPSDLG_Y   181
+aSZDLG_X   2816
+aSZDLG_Y   205
+aSyncKey   9999
+aPPE_Type  3010
+aOverlayTag PageHeader
+awOperName rptPageHeaderOverlay
+
+eControl   5
+aTag       Rpt_Shape6
+aText      Rpt_Shape6
+aZKey      1154150
+aSubtype   0
+aPSDLG_X   261
+aPSDLG_Y   37
+aSZDLG_X   627
+aSZDLG_Y   123
+aSyncKey   9999
+
+eCtrlCtrl  6
+aTag       LeftOffset
+aText      FirstName
+aZKey      89389081
+aType      10
+aPSDLG_X   21
+aPSDLG_Y   27
+aSZDLG_X   589
+aSZDLG_Y   75
+aCtrlBOI   U64
+M`0$!`8P```#_`````?\````/``````````````````!";V]K;6%N($]L9"!3
+3='EL90``````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eControlDef 6
+aZKey      3050
+aKey       3050
+aTag       Rpt_Shape
+aId        32
+aRT_DLL_Name n/a
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZShapeMsg
+aPainterBitmap SHAPE
+aMaintenanceDialog TZRPUPZD
+aMaintenanceWindow UPD_SHAPE
+aAcceptsAllChildren Y
+aRequiresParent Y
+aInvisible -2
+
+eCtrlMap   6
+aZKey      1154151
+
+eControl   5
+aTag       Rpt_Text2
+aText      Rpt_Text2
+aZKey      1153148
+aSubtype   537395200
+aPSDLG_X   2125
+aPSDLG_Y   37
+aSZDLG_X   133
+aSZDLG_Y   451
+aCtrlBOI   U64
+M`0```*``````@``````````/````````?/S__P````!!;&1I;F4W,C$@0E0`
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1153149
+
+eGroupSet  3
+aZKey      1157344
+aTag       PageFooter
+aType      PF
+aPSDLG_X   0
+aPSDLG_Y   4595
+aSZDLG_X   2816
+aSZDLG_Y   224
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      1157345
+aTag       PageFooter
+aType      ga
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   -18
+aSZDLG_X   2816
+aSZDLG_Y   117
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptPageFooter
+
+eControl   5
+aTag       Rpt_Text3
+aText      Page:
+aZKey      89389069
+aSubtype   537395200
+aPSDLG_X   819
+aPSDLG_Y   16
+aSZDLG_X   115
+aSZDLG_Y   48
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      89389070
+
+eControl   5
+aTag       PageNumber
+aText      1
+aZKey      89389067
+aSubtype   537395200
+aPSDLG_X   933
+aPSDLG_Y   16
+aSZDLG_X   117
+aSZDLG_Y   48
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      89389068
+
+eGroupSet  3
+aZKey      1157346
+aTag       CUSTOMER
+aType      E
+aPSDLG_X   0
+aPSDLG_Y   621
+aSZDLG_X   2816
+aSZDLG_Y   1373
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      1157347
+aTag       Detail
+aType      ga
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   -2
+aSZDLG_X   2816
+aSZDLG_Y   693
+aSyncKey   9999
+aPPE_Type  3010
+aForcePageBreak Y
+awOperName rptEntitySet
+
+eControl   5
+aTag       Rpt_Shape2
+aText      Shape
+aZKey      1158532
+aSubtype   0
+aPSDLG_X   163
+aPSDLG_Y   29
+aSZDLG_X   1221
+aSZDLG_Y   131
+aCtrlBOI   U24
+8``$````````"`````````/\````@````
+`
+aSyncKey   9999
+
+eCtrlCtrl  6
+aTag       Centered
+aText      FirstName
+aZKey      1157351
+aType      10
+aPSDLG_X   53
+aPSDLG_Y   48
+aSZDLG_X   349
+aSZDLG_Y   37
+aCtrlBOI   U64
+M`````%H````````````!```/````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlCtrl  6
+aTag       Shape
+aZKey      1157349
+aType      20
+aPSDLG_X   419
+aPSDLG_Y   51
+aSZDLG_X   629
+aSZDLG_Y   37
+aCtrlBOI   U64
+M`````%H```````````$`````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlMap   7
+aZKey      1157350
+
+eCtrlMapLOD_Attribute 8
+aZKey      1331233
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 9
+aName      CUSTOMER
+aIndentName CUSTOMER
+aIndentLvl 0
+aZKey      1331199
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Account owner
+aMultipleChildLimit 5
+
+eCtrlMapER_Attribute 9
+aName      LastName
+aZKey      1331234
+aLth       32
+aNotNull   Y
+
+eCtrlMapER_Domain 10
+aZKey      90000032
+aName      Text
+aDesc      Any Character String
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+
+eCtrlMapView 8
+aZKey      1353845
+aName      ACCOUNT
+aDesc      VOR automatically built from LOD Dialog
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1158533
+
+eControl   5
+aTag       Rpt_ShapeCustData
+aText      Rpt_ShapeCustData
+aZKey      1158546
+aSubtype   0
+aPSDLG_X   85
+aPSDLG_Y   189
+aSZDLG_X   1824
+aSZDLG_Y   451
+aCtrlBOI   U24
+8```!```````!```````````````,````
+`
+aSyncKey   9999
+
+eCtrlCtrl  6
+aTag       T_3_Address
+aText      Address
+aZKey      1157354
+aType      10
+aPSDLG_X   459
+aPSDLG_Y   69
+aSZDLG_X   349
+aSZDLG_Y   37
+aCtrlBOI   U64
+M`````%H```````````$`````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlCtrl  6
+aTag       A_3_Address
+aZKey      1157355
+aType      20
+aPSDLG_X   800
+aPSDLG_Y   69
+aSZDLG_X   629
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlMap   7
+aZKey      1157356
+
+eCtrlMapLOD_Attribute 8
+aZKey      1331237
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eCtrlMapRelatedEntity 9
+
+eCtrlMapER_Attribute 9
+aName      Address
+aZKey      1331238
+aLth       32
+
+eCtrlMapER_Domain 10
+
+eCtrlMapView 8
+
+eCtrlCtrl  6
+aTag       T_4_City
+aText      City
+aZKey      1157357
+aType      10
+aPSDLG_X   459
+aPSDLG_Y   112
+aSZDLG_X   349
+aSZDLG_Y   37
+aCtrlBOI   U64
+M``````````#_````````````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlCtrl  6
+aTag       A_4_City
+aZKey      1157358
+aType      20
+aPSDLG_X   800
+aPSDLG_Y   112
+aSZDLG_X   629
+aSZDLG_Y   37
+aCtrlBOI   U64
+M`````%H```````````$`````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlMap   7
+aZKey      1157359
+
+eCtrlMapLOD_Attribute 8
+aZKey      1331239
+aWork      Y
+aSeqNo_LOD_Entity 4
+
+eCtrlMapRelatedEntity 9
+
+eCtrlMapER_Attribute 9
+aName      City
+aZKey      1331240
+aLth       32
+
+eCtrlMapER_Domain 10
+
+eCtrlMapView 8
+
+eCtrlCtrl  6
+aTag       T_5_State
+aText      State
+aZKey      1157360
+aType      10
+aPSDLG_X   459
+aPSDLG_Y   155
+aSZDLG_X   349
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlCtrl  6
+aTag       A_5_State
+aZKey      1157361
+aType      20
+aPSDLG_X   800
+aPSDLG_Y   155
+aSZDLG_X   629
+aSZDLG_Y   37
+aCtrlBOI   U64
+M`````%H```````````$`````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlMap   7
+aZKey      1157362
+
+eCtrlMapLOD_Attribute 8
+aZKey      1331241
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 5
+
+eCtrlMapRelatedEntity 9
+
+eCtrlMapER_Attribute 9
+aName      State
+aZKey      1331242
+aLth       32
+
+eCtrlMapER_Domain 10
+aZKey      1320180
+aName      State
+aDesc      USA State abbreviations
+aDomainType T
+aDataType  S
+aMaxStringLth 2
+aContextRestriction N
+aDecimalFormat 1234
+
+eCtrlMapView 8
+aZKey      90026370
+aName      ACCOUNTLST
+
+eCtrlCtrl  6
+aTag       T_6_ZipCode
+aText      ZipCode
+aZKey      1157363
+aType      10
+aPSDLG_X   459
+aPSDLG_Y   208
+aSZDLG_X   349
+aSZDLG_Y   37
+aCtrlBOI   U64
+M`````%H```````````$`````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlCtrl  6
+aTag       A_6_ZipCode
+aZKey      1157364
+aType      20
+aPSDLG_X   800
+aPSDLG_Y   208
+aSZDLG_X   133
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlMap   7
+aZKey      1157365
+
+eCtrlMapLOD_Attribute 8
+aZKey      1331243
+aWork      Y
+aSeqNo_LOD_Entity 6
+
+eCtrlMapRelatedEntity 9
+
+eCtrlMapER_Attribute 9
+aName      ZipCode
+aZKey      1331244
+aLth       5
+
+eCtrlMapER_Domain 10
+
+eCtrlMapView 8
+
+eCtrlCtrl  6
+aTag       T_7_SSN
+aText      SSN
+aZKey      1157366
+aType      10
+aPSDLG_X   459
+aPSDLG_Y   253
+aSZDLG_X   349
+aSZDLG_Y   37
+aCtrlBOI   U64
+M`````%H```````````$`````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlCtrl  6
+aTag       A_7_SSN
+aZKey      1157367
+aType      20
+aPSDLG_X   800
+aPSDLG_Y   253
+aSZDLG_X   349
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlMap   7
+aZKey      1157368
+
+eCtrlMapLOD_Attribute 8
+aZKey      1331245
+aWork      Y
+aUpdate    Y
+aSeqNo_LOD_Entity 7
+
+eCtrlMapRelatedEntity 9
+
+eCtrlMapER_Attribute 9
+aName      SSN
+aZKey      1331246
+aLth       11
+
+eCtrlMapER_Domain 10
+aZKey      1320176
+aName      SSN
+aDesc      Social Security Format
+aDomainType F
+aDataType  S
+aMaxStringLth 11
+aContextRestriction N
+
+eCtrlMapView 8
+
+eCtrlCtrl  6
+aTag       T_8_IdNbr
+aText      IdNbr
+aZKey      1157369
+aType      10
+aPSDLG_X   459
+aPSDLG_Y   293
+aSZDLG_X   349
+aSZDLG_Y   37
+aCtrlBOI   U64
+M`````%H```````````$`````````````````````````````````````````
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlCtrl  6
+aTag       A_8_IdNbr
+aZKey      1157370
+aType      20
+aSubtype   16777216
+aPSDLG_X   800
+aPSDLG_Y   293
+aSZDLG_X   176
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlMap   7
+aZKey      1157371
+
+eCtrlMapLOD_Attribute 8
+aZKey      1331247
+aWork      Y
+aSeqNo_LOD_Entity 8
+
+eCtrlMapRelatedEntity 9
+
+eCtrlMapER_Attribute 9
+aName      IdNbr
+aZKey      1331248
+
+eCtrlMapER_Domain 10
+aZKey      90000044
+aName      Integer
+aDesc      Integer numbers from -lots to +lots.
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aContextRestriction N
+aDecimalFormat 0
+
+eCtrlMapView 8
+
+eCtrlCtrl  6
+aTag       T_9_DateOfBirth
+aText      DateOfBirth
+aZKey      1157372
+aType      10
+aPSDLG_X   459
+aPSDLG_Y   352
+aSZDLG_X   349
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlCtrl  6
+aTag       A_9_DateOfBirth
+aZKey      1157373
+aType      20
+aPSDLG_X   800
+aPSDLG_Y   352
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 7
+
+eCtrlMap   7
+aZKey      1157374
+
+eCtrlMapLOD_Attribute 8
+aZKey      1331249
+aWork      Y
+aSeqNo_LOD_Entity 9
+
+eCtrlMapRelatedEntity 9
+
+eCtrlMapER_Attribute 9
+aName      DateOfBirth
+aZKey      1331250
+
+eCtrlMapER_Domain 10
+aZKey      90000089
+aName      DateTime
+aDesc      Basic Timestamp Domain
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aContextRestriction N
+
+eCtrlMapView 8
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1158547
+
+eGroup     4
+aZKey      1157375
+aTag       GroupFooter
+aType      gf
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   1003
+aSZDLG_X   2816
+aSZDLG_Y   208
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       CustomerFooter
+aText      Customer Footer
+aZKey      1169130
+aSubtype   537395200
+aPSDLG_X   1195
+aPSDLG_Y   13
+aSZDLG_X   917
+aSZDLG_Y   155
+aCtrlBOI   U64
+M`````&@!``````````````````````````````````!"96YG=6EA="!&<FES
+3:WD@0514````````````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1169131
+
+eControl   5
+aTag       A_10_DateOfBirth
+aZKey      1157376
+aType      20
+aPSDLG_X   149
+aPSDLG_Y   37
+aSZDLG_X   349
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157377
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       A_11_DateOfBirth
+aZKey      1157378
+aType      20
+aPSDLG_X   512
+aPSDLG_Y   37
+aSZDLG_X   349
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157379
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331235
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      FirstName
+aZKey      1331236
+aLth       32
+aNotNull   Y
+
+eCtrlMapER_Domain 9
+aZKey      90000028
+aName      AlphaNumeric
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+aDecimalFormat 1234
+
+eCtrlMapView 7
+
+eGroupSet  3
+aZKey      1157380
+aTag       ACCOUNT
+aType      E
+aPSDLG_X   0
+aPSDLG_Y   2032
+aSZDLG_X   2816
+aSZDLG_Y   909
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      1157381
+aTag       Detail
+aType      ga
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   197
+aSZDLG_X   2816
+aSZDLG_Y   275
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       Type
+aText      Type
+aZKey      1157382
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   0
+aSZDLG_X   469
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_1_Type
+aZKey      1157383
+aType      20
+aPSDLG_X   544
+aPSDLG_Y   0
+aSZDLG_X   629
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157384
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331223
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 8
+aName      ACCOUNT
+aIndentName    ACCOUNT
+aIndentLvl 3
+aZKey      1331200
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      Account detail
+aSeqNo     1
+
+eCtrlMapER_Attribute 8
+aName      Type
+aZKey      1331224
+aLth       32
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_2_Number
+aText      Number
+aZKey      1157385
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   59
+aSZDLG_X   469
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_2_Number
+aZKey      1157386
+aType      20
+aPSDLG_X   544
+aPSDLG_Y   59
+aSZDLG_X   307
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157387
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331225
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      Number
+aZKey      1331226
+aLth       10
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_3_Balance
+aText      Balance
+aZKey      1157388
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   99
+aSZDLG_X   469
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_3_Balance
+aZKey      1157389
+aType      20
+aSubtype   16777216
+aPSDLG_X   544
+aPSDLG_Y   99
+aSZDLG_X   307
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157390
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331227
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      Balance
+aZKey      1331228
+aDesc      Current account balance
+
+eCtrlMapER_Domain 9
+aZKey      90000198
+aName      Decimal2
+aDesc      Characters '0-9' precision ( 0.00 )
+aDomainType E
+aDataType  M
+aContextRestriction N
+aDecimalFormat 2
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_4_PreviousBalance
+aText      PreviousBalance
+aZKey      1157391
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   155
+aSZDLG_X   469
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_4_PreviousBalance
+aZKey      1157392
+aType      20
+aSubtype   16777216
+aPSDLG_X   544
+aPSDLG_Y   155
+aSZDLG_X   307
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157393
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331229
+aWork      Y
+aSeqNo_LOD_Entity 4
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      PreviousBalance
+aZKey      1331230
+aDesc      Account previous balance
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_5_CustomerIdNbr
+aText      CustomerIdNbr
+aZKey      1157394
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   195
+aSZDLG_X   469
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_5_CustomerIdNbr
+aZKey      1157395
+aType      20
+aSubtype   16777216
+aPSDLG_X   544
+aPSDLG_Y   195
+aSZDLG_X   176
+aSZDLG_Y   37
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157396
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331231
+aWork      Y
+aSeqNo_LOD_Entity 5
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      CustomerIdNbr
+aZKey      1331232
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eGroup     4
+aZKey      1157397
+aTag       GroupFooter
+aType      gf
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   496
+aSZDLG_X   2816
+aSZDLG_Y   235
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       AccountFooter
+aText      Account Footer
+aZKey      1169132
+aSubtype   537395200
+aPSDLG_X   1195
+aPSDLG_Y   13
+aSZDLG_X   917
+aSZDLG_Y   155
+aCtrlBOI   U64
+M`````&@!``````````````````````````````````!"96YG=6EA="!&<FES
+3:WD@0514````````````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1169133
+
+eControl   5
+aTag       A_6_CustomerIdNbr
+aZKey      1157398
+aType      20
+aPSDLG_X   77
+aPSDLG_Y   37
+aSZDLG_X   389
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157399
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       A_7_CustomerIdNbr
+aZKey      1157400
+aType      20
+aPSDLG_X   491
+aPSDLG_Y   37
+aSZDLG_X   389
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157401
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       A_8_CustomerIdNbr
+aZKey      1157402
+aType      20
+aSubtype   16777216
+aPSDLG_X   213
+aPSDLG_Y   117
+aSZDLG_X   389
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157403
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eGroup     4
+aZKey      89389071
+aTag       Header
+aType      gh
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   5
+aSZDLG_X   2816
+aSZDLG_Y   149
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       Rpt_Text5
+aText      GroupHeader
+aZKey      89389075
+aSubtype   537395200
+aPSDLG_X   75
+aPSDLG_Y   53
+aSZDLG_X   421
+aSZDLG_Y   51
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      89389076
+
+eGroupSet  3
+aZKey      1157404
+aTag       TRANSACTION
+aType      E
+aPSDLG_X   0
+aPSDLG_Y   2973
+aSZDLG_X   2816
+aSZDLG_Y   773
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      1157405
+aTag       Detail
+aType      ga
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   107
+aSZDLG_X   2816
+aSZDLG_Y   275
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       T_1_Amount
+aText      Amount
+aZKey      1157406
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   0
+aSZDLG_X   224
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_1_Amount
+aZKey      1157407
+aType      20
+aSubtype   16777216
+aPSDLG_X   328
+aPSDLG_Y   0
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157408
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331202
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 8
+aName      TRANSACTION
+aIndentName       TRANSACTION
+aIndentLvl 6
+aZKey      1331201
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDesc      Transaction log for this account
+aSeqNo     1
+
+eCtrlMapER_Attribute 8
+aName      Amount
+aZKey      1331203
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_2_Date
+aText      Date
+aZKey      1157409
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   59
+aSZDLG_X   224
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_2_Date
+aZKey      1157410
+aType      20
+aPSDLG_X   328
+aPSDLG_Y   59
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157411
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331204
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      Date
+aZKey      1331205
+aDesc      Date of transaction
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_3_Description
+aText      Description
+aZKey      1157412
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   99
+aSZDLG_X   224
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_3_Description
+aZKey      1157413
+aType      20
+aPSDLG_X   328
+aPSDLG_Y   99
+aSZDLG_X   699
+aSZDLG_Y   37
+aCtrlBOI   U64
+M`````$8``````````0$```(/``````````````````!/;&0@16YG;&ES:```
+3````````````````````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157414
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331206
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      Description
+aZKey      1331207
+aLth       32000
+aCaseSens  Y
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_4_RefNbr
+aText      RefNbr
+aZKey      1157415
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   155
+aSZDLG_X   224
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_4_RefNbr
+aZKey      1157416
+aType      20
+aSubtype   16777216
+aPSDLG_X   328
+aPSDLG_Y   155
+aSZDLG_X   176
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157417
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331208
+aWork      Y
+aSeqNo_LOD_Entity 4
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      RefNbr
+aZKey      1331209
+aDesc      Reference number of this transaction
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_5_AccountNbr
+aText      AccountNbr
+aZKey      1157418
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   195
+aSZDLG_X   224
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_5_AccountNbr
+aZKey      1157419
+aType      20
+aPSDLG_X   328
+aPSDLG_Y   195
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157420
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331210
+aWork      Y
+aSeqNo_LOD_Entity 5
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      AccountNbr
+aZKey      1331211
+aLth       10
+aNotNull   Y
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eGroup     4
+aZKey      1157421
+aTag       GroupFooter
+aType      gf
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   405
+aSZDLG_X   2816
+aSZDLG_Y   189
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       TransactionFooter
+aText      Transaction Footer
+aZKey      1169136
+aSubtype   537395200
+aPSDLG_X   1056
+aPSDLG_Y   13
+aSZDLG_X   1056
+aSZDLG_Y   155
+aCtrlBOI   U64
+M`````&@!``````````````````````````````````!"96YG=6EA="!&<FES
+3:WD@0514````````````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1169137
+
+eControl   5
+aTag       A_6_AccountNbr
+aZKey      1157422
+aType      20
+aSubtype   16777216
+aPSDLG_X   77
+aPSDLG_Y   37
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157423
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       A_7_AccountNbr
+aZKey      1157424
+aType      20
+aPSDLG_X   373
+aPSDLG_Y   37
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157425
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eGroup     4
+aZKey      89389072
+aTag       Header
+aType      gh
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   -12
+aSZDLG_X   2816
+aSZDLG_Y   85
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       Rpt_Text4
+aText      GroupHeader
+aZKey      89389073
+aSubtype   537395200
+aPSDLG_X   75
+aPSDLG_Y   21
+aSZDLG_X   421
+aSZDLG_Y   51
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      89389074
+
+eGroupSet  3
+aZKey      1157426
+aTag       DRAFTS
+aType      E
+aPSDLG_X   0
+aPSDLG_Y   3792
+aSZDLG_X   2816
+aSZDLG_Y   768
+aSyncKey   9999
+aPPE_Type  3000
+
+eGroup     4
+aZKey      1157427
+aTag       Detail
+aType      ga
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   125
+aSZDLG_X   2816
+aSZDLG_Y   275
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       T_1_CheckNbr
+aText      CheckNbr
+aZKey      1157428
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   0
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_1_CheckNbr
+aZKey      1157429
+aType      20
+aSubtype   16777216
+aPSDLG_X   373
+aPSDLG_Y   0
+aSZDLG_X   176
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157430
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331213
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eCtrlMapRelatedEntity 8
+aName      DRAFTS
+aIndentName       DRAFTS
+aIndentLvl 6
+aZKey      1331212
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   Y
+aInclSrc   Y
+aExclude   Y
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Check withdrawals from account
+aSeqNo     2
+
+eCtrlMapER_Attribute 8
+aName      CheckNbr
+aZKey      1331214
+aNotNull   Y
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_2_Date
+aText      Date
+aZKey      1157431
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   59
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_2_Date
+aZKey      1157432
+aType      20
+aPSDLG_X   373
+aPSDLG_Y   59
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157433
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331215
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      Date
+aZKey      1331216
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_3_Amount
+aText      Amount
+aZKey      1157434
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   99
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_3_Amount
+aZKey      1157435
+aType      20
+aSubtype   16777216
+aPSDLG_X   373
+aPSDLG_Y   99
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157436
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331217
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      Amount
+aZKey      1331218
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_4_RefNbr
+aText      RefNbr
+aZKey      1157437
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   155
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_4_RefNbr
+aZKey      1157438
+aType      20
+aSubtype   16777216
+aPSDLG_X   373
+aPSDLG_Y   155
+aSZDLG_X   176
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157439
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331219
+aWork      Y
+aSeqNo_LOD_Entity 4
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      RefNbr
+aZKey      1331220
+aDesc      Reference number
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       T_5_AccountNbr
+aText      AccountNbr
+aZKey      1157440
+aType      10
+aPSDLG_X   77
+aPSDLG_Y   195
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eControl   5
+aTag       A_5_AccountNbr
+aZKey      1157441
+aType      20
+aPSDLG_X   373
+aPSDLG_Y   195
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157442
+
+eCtrlMapLOD_Attribute 7
+aZKey      1331221
+aWork      Y
+aSeqNo_LOD_Entity 5
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+aName      AccountNbr
+aZKey      1331222
+aLth       10
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eGroup     4
+aZKey      1157443
+aTag       GroupFooter
+aType      gf
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   405
+aSZDLG_X   2816
+aSZDLG_Y   189
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       DraftsFooter
+aText      Drafts Footer
+aZKey      1169134
+aSubtype   537395200
+aPSDLG_X   1195
+aPSDLG_Y   13
+aSZDLG_X   917
+aSZDLG_Y   155
+aCtrlBOI   U64
+M`````&@!``````````````````````````````````!"96YG=6EA="!&<FES
+3:WD@0514````````````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1169135
+
+eControl   5
+aTag       A_6_AccountNbr
+aZKey      1157444
+aType      20
+aSubtype   16777216
+aPSDLG_X   77
+aPSDLG_Y   37
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157445
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       A_7_AccountNbr
+aZKey      1157446
+aType      20
+aPSDLG_X   373
+aPSDLG_Y   37
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157447
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eControl   5
+aTag       A_8_AccountNbr
+aZKey      1157448
+aType      20
+aSubtype   16777216
+aPSDLG_X   707
+aPSDLG_Y   37
+aSZDLG_X   307
+aSZDLG_Y   37
+aCtrlBOI   U13
+-`````%H`````````````
+`
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      1157449
+
+eCtrlMapLOD_Attribute 7
+
+eCtrlMapRelatedEntity 8
+
+eCtrlMapER_Attribute 8
+
+eCtrlMapER_Domain 9
+
+eCtrlMapView 7
+
+eGroup     4
+aZKey      89389077
+aTag       Header
+aType      gh
+aSubType   0
+aFlags     0
+aPSDLG_X   0
+aPSDLG_Y   21
+aSZDLG_X   2816
+aSZDLG_Y   96
+aSyncKey   9999
+aPPE_Type  3010
+awOperName rptEntitySet
+
+eControl   5
+aTag       Rpt_Text5
+aText      GroupHeader
+aZKey      89389078
+aSubtype   537395200
+aOptionFlags 0
+aPSDLG_X   75
+aPSDLG_Y   21
+aSZDLG_X   421
+aSZDLG_Y   51
+aSyncKey   9999
+
+eControlDef 6
+
+eCtrlMap   6
+aZKey      89389079
+
+eViewObjRef 2
+aZKey      1353845
+aName      ACCOUNT
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       3
+aZKey      1331198
+aName      ACCOUNT
+aDesc      Test ZDR functionality
+
+eViewObjRef 2
+aZKey      90026370
+aName      ACCOUNTLST
+
+eLOD       3
+
+i10        5
+i14        5
+i19        5
+i22        5
+i28        5
+i30        5
+i37        11
+i41        5
+i43        5
+i46        33
+i48        35
+i49        36
+i51        5
+i53        5
+i56        33
+i58        35
+i59        36
+i61        5
+i63        5
+i66        33
+i71        5
+i73        5
+i76        33
+i78        35
+i79        36
+i81        5
+i83        5
+i86        33
+i89        36
+i91        5
+i93        5
+i96        33
+i99        36
+i101       5
+i103       5
+i106       33
+i109       36
+i110       11
+i114       5
+i117       5
+i119       32
+i120       33
+i121       34
+i122       35
+i123       36
+i125       5
+i128       33
+i131       36
+i135       5
+i137       5
+i142       35
+i143       36
+i145       5
+i147       5
+i150       140
+i152       35
+i153       36
+i155       5
+i157       5
+i160       140
+i163       36
+i165       5
+i167       5
+i170       140
+i172       162
+i173       36
+i175       5
+i177       5
+i180       140
+i182       98
+i183       36
+i186       5
+i189       5
+i191       139
+i192       140
+i193       141
+i194       35
+i195       36
+i197       5
+i199       149
+i200       140
+i201       151
+i202       35
+i203       36
+i205       5
+i207       159
+i208       140
+i209       161
+i210       162
+i211       36
+i214       5
+i219       5
+i221       5
+i226       162
+i227       36
+i229       5
+i231       5
+i234       224
+i236       108
+i237       36
+i239       5
+i241       5
+i244       224
+i246       35
+i247       36
+i249       5
+i251       5
+i254       224
+i256       98
+i257       36
+i259       5
+i261       5
+i264       224
+i266       35
+i267       36
+i270       5
+i273       5
+i275       223
+i276       224
+i277       225
+i278       162
+i279       36
+i281       5
+i283       233
+i284       224
+i285       235
+i286       108
+i287       36
+i290       5
+i295       5
+i297       5
+i302       98
+i303       36
+i305       5
+i307       5
+i310       300
+i312       108
+i313       36
+i315       5
+i317       5
+i320       300
+i322       162
+i323       36
+i325       5
+i327       5
+i330       300
+i332       98
+i333       36
+i335       5
+i337       5
+i340       300
+i342       35
+i343       36
+i346       5
+i349       5
+i351       299
+i352       300
+i353       301
+i354       98
+i355       36
+i357       5
+i359       309
+i360       300
+i361       311
+i362       108
+i363       36
+i365       5
+i367       319
+i368       300
+i369       321
+i370       162
+i371       36
+i374       5
+i379       377

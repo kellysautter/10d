@@ -1,0 +1,20 @@
+rZeidon    Z01486D5 TZWDVORO 11/02/95   20:52:19 1.0a     
+eViewObjRef 1,192
+aZKey      1345237
+aName      TZOGSRCO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,192
+aZKey      1326765
+aName      TZOGSRCO
+aDesc      Global Operation Group source object
+aDLL_Name  TZLODOPR
+
+eZ_MetaDef 2,192
+aName      TZOGSRCO
+aZKey      1345237
+aType      9
+aLastUpdateDate 19950824213816000
+aLastCheckInDate 19951102203051110
+aDesc      VOR automatically built from LOD Dialog
+

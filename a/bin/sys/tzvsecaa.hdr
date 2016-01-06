@@ -1,0 +1,71 @@
+rZeidon    TZVSECAA TZOPHDRO 11/02/95   20:31:07 1.0a     
+eHeaderFile 1,192
+aName      TZVSECAA
+aZKey      90000928
+aDesc      VML Extternal Calls
+aExtension H
+
+eDefinedItem 2,192
+aExternalValue zXC_NOT_LOADED
+aZKey      90000929
+aInternalValue 65536
+aDataType  L
+aSeqNo     1
+
+eDefinedItem 2,192
+aExternalValue zXC_OPERATION_NOT_SELECTED
+aZKey      90000930
+aInternalValue 65536
+aDataType  L
+aSeqNo     2
+
+eDefinedItem 2,192
+aExternalValue zXC_MODULE_NOT_SELECTED
+aZKey      90000931
+aInternalValue 65536
+aDataType  L
+aSeqNo     3
+
+eDefinedItem 2,192
+aExternalValue zXC_OPERATION_EXECUTED
+aZKey      90000932
+aInternalValue 0
+aDataType  L
+aSeqNo     4
+
+eDefinedItem 2,192
+aExternalValue zXC_STEP_EXECUTED
+aZKey      90000933
+aInternalValue 65536
+aDataType  L
+aSeqNo     5
+
+eDefinedItem 2,192
+aExternalValue zXC_OPERATION_SELECTED
+aZKey      90000934
+aInternalValue 65536
+aDataType  L
+aSeqNo     6
+
+eDefinedItem 2,192
+aExternalValue zXC_SETUP_DEBUGGER
+aZKey      90000935
+aInternalValue 131072
+aDataType  L
+aSeqNo     7
+
+eDefinedItem 2,192
+aExternalValue zXC_OPERATION_STAGED
+aZKey      90000936
+aInternalValue 196608
+aDataType  L
+aSeqNo     8
+
+eZ_MetaDef 2,192
+aName      TZVSECAA
+aZKey      90000928
+aType      0
+aLastUpdateDate 19950902113552000
+aLastCheckInDate 19951102203051110
+aDesc      VML Extternal Calls
+

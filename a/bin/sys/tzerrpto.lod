@@ -1,0 +1,414 @@
+z10000Zeidon    TZERRPTO TZZOLODO 06/09/01   21:28:07 1.0b0    
+eLOD       1
+aZKey      90397460
+aName      TZERRPTO
+aDesc      Work object for ER Reports
+
+eLOD_EntityParent 2
+aName      Root
+aIndentName Root
+aIndentLvl 0
+aZKey      90397461
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      ChangeGroup
+aIndentName    ChangeGroup
+aIndentLvl 3
+aZKey      90397466
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Either the Deleted or Added/Changed Group
+
+eLOD_EntityChild 4
+aName      Entity
+aIndentName       Entity
+aIndentLvl 6
+aZKey      90397469
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 5
+aName      Attribute
+aIndentName          Attribute
+aIndentLvl 9
+aZKey      90397470
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 6
+aZKey      90397475
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      Name
+aZKey      90397476
+
+eDomainRec 8
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      90397477
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      Type
+aZKey      90397478
+aDesc      Added / Deleted / Changed
+
+eDomainRec 8
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      90397479
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      ChangeDescription
+aZKey      90397480
+
+eDomainRec 8
+
+eLOD_EntityChild 5
+aName      Relationship
+aIndentName          Relationship
+aIndentLvl 9
+aZKey      90397481
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 6
+aZKey      90397482
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      TargetEntityName
+aZKey      90397483
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      90397553
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      RelationsipName
+aZKey      90397554
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      90397488
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      Type
+aZKey      90397489
+aDesc      Added / Deleted / Changed
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      90397486
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      ChangeDescription
+aZKey      90397487
+
+eDomainRec 8
+
+eLOD_AttributeRec 5
+aZKey      90397471
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Name
+aZKey      90397472
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      90397473
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Type
+aZKey      90397474
+aDesc      Added / Deleted / Changed
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      90397467
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Type
+aZKey      90397468
+aDesc      79
+Either:
+   Exists in Other not in Current or
+   Added/Updated to Current
+  0
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      90397462
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      CurrentLPLR_Name
+aZKey      90397463
+
+eDomainRec 5
+aZKey      90145848
+aName      MetaName
+aDomainType E
+aDataType  S
+aMaxStringLth 8
+aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      90397464
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      OtherLPLR_Name
+aZKey      90397465
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+i13        10
+i17        7
+i20        10
+i23        10
+i26        10
+i29        7
+i32        10
+i35        10
+i41        38
+i42        1
+i43        36
+i44        37
+i45        38
+i46        39
+i47        40
+i48        38
+i49        2
+i50        33
+i51        34
+i52        10
+i53        3
+i54        27
+i55        28
+i56        7
+i57        30
+i58        31
+i59        10
+i60        4
+i61        5
+i62        6
+i63        7
+i64        8
+i65        9
+i66        10
+i67        11
+i68        12
+i69        10
+i70        14
+i71        15
+i72        16
+i73        7
+i74        18
+i75        19
+i76        10
+i77        21
+i78        22
+i79        10
+i80        24
+i81        25
+i82        10

@@ -1,0 +1,434 @@
+z10000Zeidon    TZADWKLO TZZOLODO 05/01/01   23:17:30 1.0b0    
+eLOD       1
+aZKey      1330739
+aName      TZADWKLO
+aDesc      User Spec Entity List
+
+eLOD_EntityParent 2
+aName      W_EntityList
+aIndentName W_EntityList
+aIndentLvl 0
+aZKey      1330740
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      W_Entity
+aIndentName    W_Entity
+aIndentLvl 3
+aZKey      1330741
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aSeqNo     1
+
+eLOD_EntityChild 4
+aName      W_Attribute
+aIndentName       W_Attribute
+aIndentLvl 6
+aZKey      1330742
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aHidden    N
+aRecursive N
+aAutoCreate N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aSeqNo     1
+
+eLOD_AttributeRec 5
+aZKey      1330743
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      LOD_AttributeZKey
+aZKey      1330744
+aLth       4
+
+eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      1330745
+aWork      Y
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+aName      Name
+aZKey      1330746
+aLth       32
+
+eDomainRec 7
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1330747
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 5
+aName      Name
+aZKey      1330748
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1330749
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      LOD_EntityZKey
+aZKey      1330750
+aLth       4
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1330751
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 5
+aName      WindowInd
+aZKey      1330752
+aLth       1
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      1330753
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 5
+aName      Includable
+aZKey      1330754
+aLth       1
+
+eDomainRec 6
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      1330755
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 5
+aName      InclVOR
+aZKey      1330756
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90059379
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      AutodesignCaseType
+aZKey      90059380
+aDesc      Case 1A, 2A, 3A, 2, 3, 4A, 4B, etc.
+
+eDomainRec 6
+aZKey      90059367
+aName      AutodesignCaseType
+aDomainType T
+aDataType  S
+aMaxStringLth 2
+aDesc      Autodesign Case 1A, 1B, 1C, 2, 3, 4, etc.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      90059381
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      LOD_EntityType
+aZKey      90059382
+aLth       10
+aDesc      Maintainable, Includable, Displayable
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      90059383
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+
+eER_AttributeRec 5
+aName      ER_EntityType
+aZKey      90059384
+aLth       10
+aDesc      Associative, Fundamental, Attributive
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      FlatAttribute
+aIndentName    FlatAttribute
+aIndentLvl 3
+aZKey      89219547
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      89219548
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      EntityName
+aZKey      89219549
+
+eDomainRec 6
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      89219550
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      AttributeName
+aZKey      89219551
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      1330757
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 4
+aName      Id
+aZKey      1330758
+aLth       4
+
+eDomainRec 5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eSourceFile 2
+aZKey      92000613
+aName      TZADWKLO
+aExtension VML
+aLanguageType V
+
+eZ_MetaDef 2
+aName      TZADWKLO
+aZKey      1330739
+aType      7
+aLastUpdateDate 19951102195958000
+aLastCheckInDate 19951102203051110
+
+i12        9
+i15        6
+i18        9
+i24        9
+i30        9
+i33        9
+i40        37
+i43        6
+i44        1
+i45        41
+i46        42
+i47        6
+i48        2
+i49        10
+i50        11
+i51        9
+i52        13
+i53        14
+i54        6
+i55        16
+i56        17
+i57        9
+i58        19
+i59        20
+i60        21
+i61        22
+i62        23
+i63        9
+i64        25
+i65        26
+i66        27
+i67        28
+i68        29
+i69        9
+i70        31
+i71        32
+i72        9
+i73        3
+i74        4
+i75        5
+i76        6
+i77        7
+i78        8
+i79        9
+i80        34
+i81        35
+i82        36
+i83        37
+i84        38
+i85        39
+i86        37

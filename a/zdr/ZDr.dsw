@@ -1,0 +1,239 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "JpegLib"=.\JPegLib\JPegLib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TzAxCtl"=..\TZ\ax\tzaxctl\TzAxCtl.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name TzCtl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZdCtl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZDrApp
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "TzCtl"=.\Tzctl.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ZdCtl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZdrApp
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Z2MP"=.\Z2MP.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ZDr"=.\Zdr.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name TzAxCtl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name TzCtl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZdCtl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZDrApp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tbedit
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Z2MP
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tzedvmld
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name truegrid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tzvmledt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZSEMail
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name JpegLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ZDrApp"=.\ZdrApp.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name JpegLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ZSEMail"=.\ZSEMail.DSP - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ZdCtl"=.\ZdCtl.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ZdrApp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name JpegLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "tbedit"=..\TZ\ax\_edit\tbedit.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name TzCtl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZdCtl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZdrApp
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "truegrid"=..\TZ\ax\TrueGrid\truegrid.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ZdCtl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZDrApp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name TzCtl
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "tzedvmld"=..\..\W\TZ\tzedvmld.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name tzvmledt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "tzvmledt"=..\TZ\ax\tzvmledt\tzvmledt.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

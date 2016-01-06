@@ -1,0 +1,14 @@
+z0100-Zeidon    Z5640E38 TZWDVORO 05/22/97   13:10:49 1.0a     
+eViewObjRef 1,198
+aZKey      90443320
+aName      TZPEWRKO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1328555
+aName      TZPEWRKO
+aDesc      Presentation Environment work object
+aFK_ZKEY   8388608
+aFK_ZKEY02 1853882368
+aFK_ZKEY03 228560024
+

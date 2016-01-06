@@ -1,0 +1,14 @@
+z0100-Zeidon    Z5640E36 TZWDVORO 05/22/97   13:09:53 1.0a     
+eViewObjRef 1,198
+aZKey      90443318
+aName      TZMSDGPO
+aDesc      VOR automatically built from LOD Dialog
+
+eLOD       2,224
+aZKey      1329118
+aName      TZMSDGPO
+aDesc      Group of DIL Msgs for Listing
+aFK_ZKEY   8388608
+aFK_ZKEY02 226492416
+aFK_ZKEY03 228524032
+

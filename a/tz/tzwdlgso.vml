@@ -1,0 +1,1543 @@
+/*
+CHANGE LOG
+2000.09.14   BL
+   Modified CloneAction, Bugfix for Dialogs with more than one Source Files
+2000.02.03   BL new PPE handling
+   Modified special handling for Control Bitmap
+2000.01.31   BL new PPE handling
+   Modified CloneControl for search ControlDef.Tag, if not found search ControlDef.Key
+   (not ControlDef.ZKey, because merge PPE)
+2000.01.13   BL new PPE handling
+   Modified CloneWindow and WndEventName for new PPE handling
+   Update Datatype for remove warnings
+from here old version
+08.05.1997  DonC
+   Changed CloneCtrlMap and PositionOnVOR operations from LOCAL
+   operations to TRANSFORMATION operations, including modifying the order
+   of the parameters and changing message titles so they would be appropriate
+   for Reports as well as Dialogs.
+14.05.1997  DonC
+   Modified CloneAction to not create an Action if one exists by the same name.
+   This protects against duplicate Actions after a Window merge.
+29.06.1998  DonC
+   Expanded error message WD00201 to make it more understandable.
+1998.12.29  DKS
+   Fixed clone control to act on ZKey (which is really an Id).
+*/
+
+// LAST MESSAGE ID: WD00218
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// OPERATION: WndEventName   DERIVED OPERATION
+//
+// PURPOSE:  This function sets the current window event name into
+//           TZWDLGSO, ActWndEvent, EventName.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+WndEventName( VIEW           vTZWDLGSO BASED ON LOD TZWDLGSO,
+              STRING ( 256 ) lpViewEntity,
+              STRING ( 256 ) lpViewAttrib,
+              SHORT          nMsg )
+
+   VIEW vPE BASED ON LOD TZPESRCO
+   VIEW vMetaList BASED ON LOD TZCMLPLO
+
+   STRING ( 256 ) szEventString
+   INTEGER       nRC
+
+   nRC = GetViewByName( vPE, "TZPESRCO", vTZWDLGSO, zLEVEL_TASK )
+
+   IF nRC = -1
+      // Activate the presentation environment.
+      // RetrieveViewForMetaList( vSubtask, vTZWDLGSO, vMetaList, zREFER_PENV_META )
+      RetrieveViewForMetaList( vTZWDLGSO, vMetaList, zREFER_PENV_META )
+      SET CURSOR FIRST vMetaList.W_MetaDef
+      IF RESULT >= zCURSOR_SET
+         szEventString = vTZWDLGSO.ActWndEvent.Type
+         StoreStringInRecord( vTZWDLGSO, lpViewEntity, lpViewAttrib,
+                              szEventString )
+         RETURN -16
+      ELSE
+         LoadZeidonPPE( vTZWDLGSO, vPE, zREFER_PENV_META, vMetaList,
+                        "Configuration Management", "" )
+         SetNameForView( vPE, "TZPESRCO", vTZWDLGSO, zLEVEL_TASK )
+         DropView( vMetaList )
+      END
+   END
+
+   SET CURSOR FIRST vPE.WindowStyle
+       WHERE  vPE.WindowStyle.Tag = vTZWDLGSO.WndStyle.Tag
+
+   SET CURSOR FIRST vPE.EventDef
+       WHERE  vPE.EventDef.Type = vTZWDLGSO.ActWndEvent.Type
+
+   IF RESULT >= zCURSOR_SET
+      szEventString = vPE.EventDef.Tag
+      StoreStringInRecord( vTZWDLGSO, lpViewEntity, lpViewAttrib,
+                           szEventString )
+   ELSE
+      szEventString = vTZWDLGSO.ActWndEvent.Type
+      StoreStringInRecord( vTZWDLGSO, lpViewEntity, lpViewAttrib,
+                           szEventString )
+   END
+
+   RETURN 0
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    CloneWindow
+//
+// PURPOSE:  This function uses the Window subobject specified by the
+//           vOrigW view and creates a clone of that Window
+//           subobject in the vNewW view.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+CloneWindow( VIEW vNewW BASED ON LOD TZWDLGSO,
+             VIEW vOrigW BASED ON LOD TZWDLGSO,
+             VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+             VIEW vSubtask )
+
+   VIEW vPE      BASED ON LOD TZPESRCO
+   VIEW LOD_List BASED ON LOD TZCMLPLO
+   STRING ( 254 ) szMsg
+   SHORT          nRC
+
+   // Get View to Presentation Environment.
+   RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_PENV_META )
+   IF GetViewByName( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK ) < 0
+      LoadZeidonPPE( vSubtask, vPE, zREFER_PENV_META, LOD_List,
+                     "Configuration Management", "" )
+      SetNameForView( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK )
+   END
+
+   CreateMetaEntity( vSubtask, vNewW, "Window", zPOS_AFTER )
+   SetMatchingAttributesByName( vNewW,  "Window",
+                                vOrigW, "Window", zSET_NULL )
+
+   // Clone Window Style.
+   SET CURSOR FIRST vPE.WindowStyle WHERE
+                    vPE.WindowStyle.Tag = vOrigW.WndStyle.Tag
+   IF RESULT >= 0
+      IncludeSubobjectFromSubobject( vNewW, "WndStyle",
+                                     vPE, "WindowStyle", zPOS_AFTER )
+   ELSE
+      szMsg = "The Style value, '"
+      szMsg = szMsg + vOrigW.WndStyle.Tag
+      szMsg = szMsg + "', specified for source window, '"
+      szMsg = szMsg + vOrigW.Window.Tag
+      szMsg = szMsg + "', is not valid for the PE in the target LPLR."
+      MessageSend( vSubtask, "WD00201", "Dialog Clone",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+   END
+
+   /* Clone WndPhysOverride for background and foreground colors
+   IF CheckExistenceOfEntity( vOrigW, "WndPhysOverride" ) = 0
+      CreateMetaEntity( vSubtask, vNewW, "WndPhysOverride", zPOS_AFTER )
+      IF CheckExistenceOfEntity( vOrigW, "WndColorBk" ) = 0
+         SET CURSOR FIRST vPE.Color WHERE
+                          vPE.Color.Tag = vOrigW.WndColorBk.Tag
+         IF RESULT >= 0
+            IncludeSubobjectFromSubobject( vNewW, "WndColorBk",
+                                           vPE, "Color", zPOS_AFTER )
+         ELSE
+            szMsg ="Background color doesn't exist: " + vOrigW.WndColorBk.Tag
+            MessageSend( vSubtask, "WD00202", "Dialog Clone",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         END
+      END
+      IF CheckExistenceOfEntity( vOrigW, "WndColorFg" ) = 0
+         SET CURSOR FIRST vPE.Color WHERE
+                          vPE.Color.Tag = vOrigW.WndColorFg.Tag
+         IF RESULT >= 0
+            IncludeSubobjectFromSubobject( vNewW, "WndColorFg",
+                                           vPE, "Color", zPOS_AFTER )
+         ELSE
+            szMsg ="Foreground color doesn't exist: " + vOrigW.WndColorFg.Tag
+            MessageSend( vSubtask, "WD00203", "Dialog Clone",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         END
+      END
+   END */
+
+   nRC = MergeWindowComponents( vNewW, vOrigW, vSourceLPLR, vPE, vSubtask )
+
+   DropView( LOD_List )
+   RETURN  nRC
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    MergeWindowComponents
+//
+// PURPOSE:  This function clones the Controls from the vOrigW window
+//           into the vNewW window.
+//
+/////////////////////////////////////////////////////////////////////////////
+TRANSFORMATION OPERATION
+MergeWindowComponents( VIEW vNewW  BASED ON LOD TZWDLGSO,
+                       VIEW vOrigW BASED ON LOD TZWDLGSO,
+                       VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+                       VIEW vPE   BASED ON LOD TZPESRCO,
+                       VIEW vSubtask )
+
+   VIEW TZDLG_List REGISTERED AS TZCMLPLO
+   VIEW TZWND_List BASED ON LOD  TZWDLGSO
+   VIEW vNewWC     BASED ON LOD  TZWDLGSO
+   VIEW vOrigWC    BASED ON LOD  TZWDLGSO
+   VIEW vTempNewW  BASED ON LOD  TZWDLGSO
+   VIEW vTempOrigW BASED ON LOD  TZWDLGSO
+   INTEGER nRC
+
+   // Create View for processing each Control.  Must be different than
+   // vNewW or vOrigW because of recursive Controls.
+   CreateViewFromViewForTask( vNewWC, vNewW, 0 )
+   CreateViewFromViewForTask( vOrigWC, vOrigW, 0 )
+   CreateViewFromViewForTask( vTempNewW, vNewW, 0 )
+   CreateViewFromViewForTask( vTempOrigW, vOrigW, 0 )
+   NAME VIEW vNewWC "NewDialogWC"
+   NAME VIEW vOrigWC "OldDialogWC"
+
+   // Clone each Action (Must be cloned before Controls)
+   FOR EACH vOrigW.Action
+      nRC = CloneAction( vSourceLPLR, vOrigW, vNewW, vSubtask )
+      IF nRC = -1
+         DropView( vNewWC )
+         DropView( vOrigWC )
+         RETURN -1
+      END
+   END
+
+   // Clone each Control
+   FOR EACH vOrigWC.Control
+      nRC = CloneControl( vSourceLPLR, vOrigW, vOrigWC, vNewW, vNewWC, vPE, vSubtask )
+      IF nRC = -1
+         DropView( vNewWC )
+         DropView( vOrigWC )
+         RETURN -1
+      END
+   END
+
+   // Clone WndEvent
+   // Don't clone a WndEvent if another one by the same type already
+   // exists or if the Action Tag is null.
+   FOR EACH vOrigW.WndEvent
+      SET CURSOR FIRST vTempNewW.WndEvent
+                        WHERE vTempNewW.WndEvent.Type = vOrigW.WndEvent.Type
+      IF RESULT < 0 AND vOrigW.WndAct.Tag != ""
+         CreateMetaEntity( vSubtask, vNewW, "WndEvent", zPOS_AFTER )
+         SetMatchingAttributesByName( vNewW,  "WndEvent",
+                                      vOrigW, "WndEvent", zSET_NULL )
+         SET CURSOR FIRST vNewW.Action
+            WHERE  vNewW.Action.Tag = vOrigW.WndAct.Tag
+         IF RESULT >= 0
+            IncludeSubobjectFromSubobject( vNewW, "WndAct",
+                                           vNewW, "Action", zPOS_AFTER )
+         END
+      END
+   END
+
+   // Clone Menu and each Option
+   nRC = CloneMenuAndOptions( vSourceLPLR, vOrigW, vNewW, vSubtask )
+   IF nRC = -1
+      DropView( vNewWC )
+      DropView( vOrigWC )
+      DropView( vTempNewW )
+      RETURN -1
+   END
+
+   // Clone Web stuff
+   //  ReusableSideMenu
+   //  ReusableMainMenu
+   MergeWebMenus( vTempNewW, vTempOrigW, vSubtask )
+
+   // Clone Hotkeys, if the original HotAct is valid.
+   FOR EACH vOrigW.Hotkey
+      IF CheckExistenceOfEntity( vOrigW, "HotAct" ) = zCURSOR_SET
+         IF vOrigW.HotAct.Tag != ""
+            SET CURSOR FIRST vNewW.Action
+                  WHERE  vNewW.Action.Tag = vOrigW.HotAct.Tag
+            IF RESULT >= 0
+               CreateMetaEntity( vSubtask, vNewW, "Hotkey", zPOS_AFTER )
+               SetMatchingAttributesByName( vNewW,  "Hotkey",
+                                            vOrigW, "Hotkey", zSET_NULL )
+               IncludeSubobjectFromSubobject( vNewW, "HotAct",
+                                              vNewW, "Action", zPOS_AFTER )
+            END
+         END
+      END
+   END
+
+   DropView( vNewWC )
+   DropView( vOrigWC )
+   DropView( vTempNewW )
+   DropView( vTempOrigW )
+   RETURN 0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    MergeWebMenus
+//
+// PURPOSE:  This function clones the Controls from the vOrigW window
+//           into the vNewW window.
+//
+/////////////////////////////////////////////////////////////////////////////
+TRANSFORMATION OPERATION
+MergeWebMenus( VIEW vNewW  BASED ON LOD TZWDLGSO,
+               VIEW vOrigW BASED ON LOD TZWDLGSO,
+               VIEW vSubtask )
+
+   VIEW TZDLG_List REGISTERED AS TZCMLPLO
+   VIEW TZWND_List BASED ON LOD  TZWDLGSO
+   INTEGER nRC
+
+   // Merge the following Web Menus only if they don't already exist.
+   //  ReusableSideMenu
+   //  ReusableMainMenu
+   IF vOrigW.ReusableSideWindow EXISTS AND vNewW.ReusableSideWindow DOES NOT EXIST
+      IF vOrigW.ReusableSideDialog.Tag = vNewW.Dialog.Tag
+         // The Reusable Menu IS in this Dialog, so find the correct Window and include it.
+         CreateViewFromView( TZWND_List, vNewW )
+         SET CURSOR FIRST TZWND_List.Window
+                    WHERE TZWND_List.Window.Tag = vOrigW.ReusableSideWindow.Tag
+         IF RESULT >= zCURSOR_SET
+            INCLUDE vNewW.ReusableSideWindow FROM TZWND_List.Window
+         END
+         DropView( TZWND_List )
+      ELSE
+         // The Reusable Menu is not in this Dialog, so look for an external Dialog.
+         SET CURSOR FIRST TZDLG_List.W_MetaDef
+                    WHERE TZDLG_List.W_MetaDef.Name = vOrigW.ReusableSideDialog.Tag
+         IF RESULT >= zCURSOR_SET
+            // Make sure that any left over ReusableDialogSelection entity is removed and then
+            // include new Dialog.
+            IF vNewW.ReusableDialogSelection EXISTS
+               EXCLUDE vNewW.ReusableDialogSelection
+            END
+            INCLUDE vNewW.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+
+            // Make sure the Dialog to be included is active in view TZWND_List.
+            // Then find the Window and include it.
+            GET VIEW TZWND_List NAMED "TZWND_List"
+            IF RESULT >= 0
+               IF TZWND_List.Dialog.Tag != vOrigW.ReusableSideDialog.Tag
+                  DropMetaOI( vSubtask, TZWND_List )
+                  TZWND_List = 0
+               END
+            ELSE
+               TZWND_List = 0
+            END
+
+            IF TZWND_List = 0
+               ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+               NAME VIEW TZWND_List "TZWND_List"
+            END
+
+            IF TZWND_List != 0
+               SET CURSOR FIRST TZWND_List.Window
+                          WHERE TZWND_List.Window.Tag = vOrigW.ReusableSideWindow.Tag
+               IF RESULT >= zCURSOR_SET
+                  INCLUDE vNewW.ReusableSideWindow FROM TZWND_List.Window
+               END
+               DropView( TZWND_List )
+            END
+         END
+      END
+   END
+
+   IF vOrigW.ReusableMainWindow EXISTS AND vNewW.ReusableMainWindow DOES NOT EXIST
+      IF vOrigW.ReusableMainDialog.Tag = vNewW.Dialog.Tag
+         // The Reusable Menu IS in this Dialog, so find the correct Window and include it.
+         CreateViewFromView( TZWND_List, vNewW )
+         SET CURSOR FIRST TZWND_List.Window
+                    WHERE TZWND_List.Window.Tag = vOrigW.ReusableMainWindow.Tag
+         IF RESULT >= zCURSOR_SET
+            INCLUDE vNewW.ReusableMainWindow FROM TZWND_List.Window
+         END
+         DropView( TZWND_List )
+      ELSE
+         SET CURSOR FIRST TZDLG_List.W_MetaDef
+                    WHERE TZDLG_List.W_MetaDef.Name = vOrigW.ReusableMainDialog.Tag
+         IF RESULT >= zCURSOR_SET
+            // Make sure that any left over ReusableDialogSelection entity is removed and then
+            // include new Dialog.
+            IF vNewW.ReusableDialogSelection EXISTS
+               EXCLUDE vNewW.ReusableDialogSelection
+            END
+            INCLUDE vNewW.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+
+            // Make sure the Dialog to be included is active in view TZWND_List.
+            // Then find the Window and include it.
+            GET VIEW TZWND_List NAMED "TZWND_List"
+            IF RESULT >= 0
+               IF TZWND_List.Dialog.Tag != vOrigW.ReusableMainDialog.Tag
+                  DropMetaOI( vSubtask, TZWND_List )
+                  TZWND_List = 0
+               END
+            ELSE
+               TZWND_List = 0
+            END
+
+            IF TZWND_List = 0
+               ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+               NAME VIEW TZWND_List "TZWND_List"
+            END
+
+            IF TZWND_List != 0
+               SET CURSOR FIRST TZWND_List.Window
+                          WHERE TZWND_List.Window.Tag = vOrigW.ReusableMainWindow.Tag
+               IF RESULT >= zCURSOR_SET
+                  INCLUDE vNewW.ReusableMainWindow FROM TZWND_List.Window
+               END
+               DropView( TZWND_List )
+            END
+         END
+      END
+   END
+
+   RETURN 0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    CloneControl
+//
+// PURPOSE:  This function uses the Control subobject specified by the
+//           vOrigW view and creates a clone of that Control
+//           subobject in the vNewW view.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+CloneControl( VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+              VIEW vOrigW  BASED ON LOD TZWDLGSO,
+              VIEW vOrigWC BASED ON LOD TZWDLGSO,
+              VIEW vNewW   BASED ON LOD TZWDLGSO,
+              VIEW vNewWC  BASED ON LOD TZWDLGSO,
+              VIEW vPE    BASED ON LOD TZPESRCO,
+              VIEW vSubtask )
+
+   STRING ( 64 ) szMsg
+   INTEGER nRC
+
+   CreateMetaEntity( vSubtask, vNewWC, "Control", zPOS_AFTER )
+   SetMatchingAttributesByName( vNewWC,  "Control",
+                                vOrigWC, "Control", zSET_NULL )
+   SET CURSOR FIRST vPE.ControlDef WHERE
+                    vPE.ControlDef.Key = vOrigWC.ControlDef.Key
+   IF RESULT < 0
+      SET CURSOR FIRST vPE.ControlDef WHERE
+                       vPE.ControlDef.Tag = vOrigWC.ControlDef.Tag
+      IF RESULT < 0
+         SET CURSOR FIRST vPE.ControlDef WHERE
+                          vPE.ControlDef.Key = vOrigWC.ControlDef.ZKey
+      END
+   END
+   IF RESULT >= 0
+      IncludeSubobjectFromSubobject( vNewWC, "ControlDef",
+                                     vPE,   "ControlDef", zPOS_AFTER )
+   ELSE
+      szMsg ="ControlDef doesn't exist: " + vOrigWC.ControlDef.Tag
+      MessageSend( vSubtask, "WD00204", "Dialog Clone",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+   END
+
+// // Clone the Color override, if it exists.
+// FOR EACH vOrigWC.CtrlClrOverride
+//    SET CURSOR FIRST vPE.CtrlColorDef WHERE
+//                     vPE.CtrlColorDef.Tag = vOrigWC.CtrlColorDef.Tag
+//    IF RESULT >= 0
+//       CreateMetaEntity( vSubtask, vNewWC, "CtrlClrOverride", zPOS_AFTER )
+//       IncludeSubobjectFromSubobject( vNewWC, "CtrlColorDef",
+//                                      vPE, "CtrlColorDef", zPOS_AFTER )
+//       SET CURSOR FIRST vPE.Color WHERE
+//                        vPE.Color.Tag = vOrigWC.CtrlColor.Tag
+//       IF RESULT >= 0
+//          IncludeSubobjectFromSubobject( vNewWC, "CtrlColor",
+//                                         vPE, "Color", zPOS_AFTER )
+//       ELSE
+//          IncludeSubobjectFromSubobject( vNewWC, "CtrlColor",
+//                                         vPE, "CtrlColor", zPOS_AFTER )
+//       END
+//
+//    ELSE
+//       szMsg ="Color Definition doesn't exist: " + vOrigWC.CtrlColorDef.Tag
+//       MessageSend( vSubtask, "WD00205", "Dialog Clone",
+//                    szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+//    END
+// END
+
+// // Clone the Font override, if it exists.
+// FOR EACH vOrigWC.CtrlFontOverride
+//    SET CURSOR FIRST vPE.CtrlFontDef WHERE
+//                     vPE.CtrlFontDef.Tag = vOrigWC.CtrlFontDef.Tag
+//    IF RESULT >= 0
+//       CreateMetaEntity( vSubtask, vNewWC, "CtrlFontOverride", zPOS_AFTER )
+//       IncludeSubobjectFromSubobject( vNewWC, "CtrlFontDef",
+//                                      vPE, "CtrlFontDef", zPOS_AFTER )
+//       SET CURSOR FIRST vPE.Font WHERE
+//                        vPE.Font.Tag = vOrigWC.CtrlFont.Tag
+//       IF RESULT >= 0
+//          IncludeSubobjectFromSubobject( vNewWC, "CtrlFont",
+//                                         vPE, "Font", zPOS_AFTER )
+//       ELSE
+//          IncludeSubobjectFromSubobject( vNewWC, "CtrlFont",
+//                                         vPE, "CtrlFont", zPOS_AFTER )
+//       END
+//
+//    ELSE
+//       szMsg ="Font Definition doesn't exist: " + vOrigWC.CtrlFontDef.Tag
+//       MessageSend( vSubtask, "WD00206", "Dialog Clone",
+//                    szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+//    END
+// END
+
+   // Clone each CtrlCtrl
+   FOR EACH vOrigWC.CtrlCtrl
+      SetViewToSubobject( vOrigWC, "CtrlCtrl" )
+      SetViewToSubobject( vNewWC, "CtrlCtrl" )
+      nRC = CloneControl( vSourceLPLR, vOrigW, vOrigWC, vNewW, vNewWC, vPE, vSubtask ) // vPE??
+      ResetViewFromSubobject( vOrigWC )
+      ResetViewFromSubobject( vNewWC )
+      IF nRC = -1
+         RETURN -1
+      END
+   END
+
+   // Clone each CtrlMap
+   // Save ViewName from first CtrlMap instance for use by instances
+   // that expect to inherit it.
+   FOR EACH vOrigWC.CtrlMap
+      nRC = CloneCtrlMap( vNewW, vNewWC, vOrigW, vOrigWC, vSourceLPLR, vSubtask )
+      IF nRC = -1
+         RETURN -1
+      END
+   END
+
+   // Clone each Event, as long as Tag is not blank
+   FOR EACH vOrigWC.Event
+      IF vOrigWC.EventAct.Tag != ""
+         CreateMetaEntity( vSubtask, vNewWC, "Event", zPOS_AFTER )
+         SetMatchingAttributesByName( vNewWC, "Event",
+                                      vOrigWC, "Event", zSET_NULL )
+         SET CURSOR FIRST vNewW.Action
+            WHERE  vNewW.Action.Tag = vOrigWC.EventAct.Tag
+         IF RESULT >= 0
+            IncludeSubobjectFromSubobject( vNewWC, "EventAct",
+                                           vNewW, "Action", zPOS_AFTER )
+         END
+      END
+   END
+
+   FOR EACH vOrigWC.WebControlProperty
+      CreateMetaEntity( vSubtask, vNewWC, "WebControlProperty", zPOS_AFTER )
+      SetMatchingAttributesByName( vNewWC, "WebControlProperty",
+                                   vOrigWC, "WebControlProperty", zSET_NULL )
+   END
+
+   RETURN  0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    PositionOnVOR
+//
+// PURPOSE:  This function positions on the correct ViewObjRef entity
+//           under the Dialog.  If necessary, it creates the ViewObjRef
+//           entity and LOD.
+//
+/////////////////////////////////////////////////////////////////////////////
+TRANSFORMATION OPERATION
+PositionOnVOR( VIEW vNewW  BASED ON LOD TZWDLGSO,
+               VIEW vOrigW BASED ON LOD TZWDLGSO,
+               VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+               STRING (32) szViewName,
+               VIEW vSubtask )
+
+   VIEW VOR        BASED ON LOD TZWDVORO
+   VIEW VOR_List   BASED ON LOD TZCMLPLO
+   VIEW vLOD       BASED ON LOD TZZOLODO
+   VIEW LOD_List   BASED ON LOD TZCMLPLO
+
+   STRING (64) szMsg
+
+   // Create necessary ViewObjRef entity and the relationship
+   // from ViewObjRef to LOD
+   SET CURSOR FIRST vNewW.ViewObjRef
+      WHERE  vNewW.ViewObjRef.Name = szViewName
+   IF RESULT < 0
+      // Try to use existing VOR
+      RetrieveViewForMetaList( vSubtask, VOR_List, zREFER_VOR_META )
+      SET CURSOR FIRST VOR_List.W_MetaDef
+         WHERE  VOR_List.W_MetaDef.Name = szViewName
+      IF RESULT >= 0
+         ActivateMetaOI( vSubtask, VOR, VOR_List, zREFER_VOR_META, zSINGLE )
+         IncludeSubobjectFromSubobject( vNewW, "ViewObjRef",
+                                        VOR, "ViewObjRef", zPOS_AFTER )
+      ELSE
+         // Create new VOR since it doesn't already exist.  This is required for
+         // migrating from one LPLR to another, not for cloning within the same LPLR.
+         RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+         SET CURSOR FIRST vOrigW.ViewObjRef WHERE
+                          vOrigW.ViewObjRef.Name = szViewName
+         IF RESULT < 0
+            szMsg = "Window has mapping with no VOR: " + szViewName
+            MessageSend( vSubtask, "WD00207", "Named View Clone",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            DropView( VOR_List )
+            DropView( LOD_List )
+            RETURN -1
+         END
+
+         SET CURSOR FIRST LOD_List.W_MetaDef WHERE
+                          LOD_List.W_MetaDef.Name = vOrigW.LOD.Name
+         IF RESULT >= 0
+            ActivateEmptyMetaOI( vSubtask, VOR, zSOURCE_VOR_META, zSINGLE )
+            CreateMetaEntity( vSubtask, VOR, "ViewObjRef", zPOS_AFTER )
+            SetMatchingAttributesByName( VOR, "ViewObjRef",
+                                         vOrigW, "ViewObjRef", zSET_NULL )
+            ActivateMetaOI( vSubtask, vLOD, LOD_List, zREFER_LOD_META, zSINGLE )
+            IncludeSubobjectFromSubobject( VOR, "LOD",
+                                           vLOD, "LOD", zPOS_AFTER )
+            CommitMetaOI( vSubtask, VOR, zSOURCE_VOR_META )
+            IncludeSubobjectFromSubobject( vNewW, "ViewObjRef",
+                                           VOR, "ViewObjRef", zPOS_AFTER )
+            DropMetaOI( vSubtask, vLOD )
+         ELSE
+            szMsg = "Non-existent LOD: " + vOrigW.LOD.Name
+            MessageSend( vSubtask, "WD00208", "Named View Clone",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            DropView( VOR_List )
+            DropView( LOD_List )
+            RETURN -1
+         END
+         DropView( LOD_List )
+
+      END
+      DropMetaOI( vSubtask, VOR )
+      DropView( VOR_List )
+   END
+
+   RETURN  0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    CloneCtrlMap
+//
+// PURPOSE:  This function uses the CtrlMap subobject specified by the
+//           vOrigW view and creates a clone of that CtrlMap
+//           subobject in the vNewW view.
+//
+/////////////////////////////////////////////////////////////////////////////
+TRANSFORMATION OPERATION
+CloneCtrlMap( VIEW vNewW    BASED ON LOD TZWDLGSO,
+              VIEW vNewWC   BASED ON LOD TZWDLGSO,
+              VIEW vOrigW   BASED ON LOD TZWDLGSO,
+              VIEW vOrigWC  BASED ON LOD TZWDLGSO,
+              VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+              VIEW vSubtask )
+
+   VIEW vLOD       BASED ON LOD TZZOLODO
+   VIEW LOD_List   BASED ON LOD TZCMLPLO
+   INTEGER       nRC
+   STRING ( 64 ) szMsg
+
+   CreateMetaEntity( vSubtask, vNewWC, "CtrlMap", zPOS_AFTER )
+   SetMatchingAttributesByName( vNewWC, "CtrlMap",
+                                vOrigWC, "CtrlMap", zSET_NULL )
+
+   // If there is a CtrlMapView entity, reinclude it afresh.  Also
+   // position on correct LOD for LOD_Entity or LOD_Attribute
+   // includes.
+   IF CheckExistenceOfEntity( vOrigWC, "CtrlMapView" ) >= 0
+      nRC = PositionOnVOR( vNewW, vOrigW, vSourceLPLR,
+                           vOrigWC.CtrlMapView.Name, vSubtask )
+      IF nRC >= 0
+
+         // We are now positioned on the correct ViewObjRef.  Create
+         // the relationship from CtrlMap to ViewObjRef.
+         IncludeSubobjectFromSubobject( vNewWC, "CtrlMapView",
+                                        vNewW, "ViewObjRef", zPOS_AFTER )
+      ELSE
+         RETURN -1
+      END
+      RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+      SET CURSOR FIRST LOD_List.W_MetaDef
+         WHERE  LOD_List.W_MetaDef.Name = vNewW.LOD.Name
+
+      IF GetViewByName( vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK ) > 0
+         DropMetaOI( vSubtask, vLOD )
+      END
+      ActivateMetaOI( vSubtask, vLOD, LOD_List, zREFER_LOD_META, zSINGLE )
+      SetNameForView( vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK )
+      DropView( LOD_List )
+   END
+
+   // If there is a CtrlMapLOD_Entity entity, reinclude it afresh.
+   IF CheckExistenceOfEntity( vOrigWC, "CtrlMapLOD_Entity" ) >= 0
+      // The View for the last MapView entity was named TZTMPLOD.
+      GetViewByName( vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK )
+      SET CURSOR FIRST vLOD.LOD_Entity
+          WHERE  vLOD.LOD_Entity.Name = vOrigWC.CtrlMapLOD_Entity.Name
+      IF RESULT >= 0
+         IncludeSubobjectFromSubobject( vNewWC, "CtrlMapLOD_Entity",
+                                        vLOD,  "LOD_Entity", zPOS_AFTER )
+      ELSE
+         szMsg ="LOD_Entity doesn't exist: " + vOrigWC.CtrlMapLOD_Entity.Name
+         MessageSend( vSubtask, "WD00209", "Control Clone",
+                      szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      END
+   END
+
+   // If there is a CtrlMapLOD_Attribute entity, reinclude it afresh.
+   IF CheckExistenceOfEntity( vOrigWC, "CtrlMapLOD_Attribute" ) >= 0
+      // We assume position on the correct LOD from the CtrlMapView.
+      SET CURSOR FIRST vLOD.LOD_Entity
+          WHERE  vLOD.LOD_Entity.Name = vOrigWC.CtrlMapRelatedEntity.Name
+      IF RESULT >= 0
+         // Include Attribute and Context, if necessary.
+         CtrlAttributeMapping( vSubtask, vSourceLPLR, vOrigWC, vNewWC, vLOD )
+      ELSE
+         szMsg ="LOD_Entity doesn't exist: " + vOrigWC.CtrlMapRelatedEntity.Name
+         MessageSend( vSubtask, "WD00210", "Control Clone",
+                      szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      END
+   END
+
+   RETURN  0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    CtrlAttributeMapping
+//
+// PURPOSE:  This function does the includes of LOD_Attribute and
+//           CtrlMapContext.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+CtrlAttributeMapping( VIEW vSubtask,
+                      VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+                      VIEW vOrigWC BASED ON LOD TZWDLGSO,
+                      VIEW vNewWC  BASED ON LOD TZWDLGSO,
+                      VIEW vLOD   BASED ON LOD TZZOLODO )
+
+   VIEW vDomain    BASED ON LOD TZDGSRCO
+   VIEW DomainList BASED ON LOD TZCMLPLO
+   STRING ( 64 ) szMsg
+
+   // We assume position is already on the correct LOD_Entity.
+   SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity
+       WHERE  vLOD.ER_Attribute.Name = vOrigWC.CtrlMapER_Attribute.Name
+   IF RESULT >= 0
+      IncludeSubobjectFromSubobject( vNewWC, "CtrlMapLOD_Attribute",
+                                      vLOD,  "LOD_Attribute", zPOS_AFTER )
+      // Now create relationship to Domain Context, if necessary.
+      IF CheckExistenceOfEntity( vOrigWC, "CtrlMapContext" ) >= 0
+         SET CURSOR FIRST vSourceLPLR.W_MetaType WHERE
+                          vSourceLPLR.W_MetaType.Type = 2003
+         SET CURSOR FIRST vSourceLPLR.W_MetaDef WHERE
+                          vSourceLPLR.W_MetaDef.CPLR_ZKey = vOrigWC.CtrlMapER_Domain.ZKey
+         RetrieveViewForMetaList( vSubtask, DomainList, zREFER_DOMAIN_META )
+         SET CURSOR FIRST DomainList.W_MetaDef
+            WHERE DomainList.W_MetaDef.Name = vSourceLPLR.W_MetaDef.Name
+         IF RESULT >= 0
+            ActivateMetaOI( vSubtask, vDomain, DomainList, zREFER_DOMAIN_META,
+                                                            zSINGLE )
+            SET CURSOR FIRST vDomain.Context
+               WHERE  vDomain.Context.Name =
+                      vOrigWC.CtrlMapContext.Name
+            IF RESULT >= 0
+               IncludeSubobjectFromSubobject( vNewWC, "CtrlMapContext",
+                                              vDomain, "Context", zPOS_AFTER )
+            ELSE
+               szMsg = "Context doesn't exist within Domain: " +
+                      vOrigWC.CtrlMapContext.Name + ", " +
+                      vSourceLPLR.W_MetaDef.Name
+               MessageSend( vSubtask, "WD00211", "Dialog Clone",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            END
+            DropMetaOI( vSubtask, vDomain )
+         ELSE
+            szMsg = "Domain doesn't exist: " + vSourceLPLR.W_MetaDef.Name
+            MessageSend( vSubtask, "WD00212", "Dialog Clone",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         END
+         DropView( DomainList )
+      END
+   ELSE
+      szMsg = "ER_Attribute doesn't exist: " +
+              vOrigWC.CtrlMapER_Attribute.Name
+      MessageSend( vSubtask, "WD00213", "Dialog Clone",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+   END
+
+   RETURN  0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    CloneAction
+//
+// PURPOSE:  This function uses the Action subobject specified by the
+//           vOrigW view and creates a clone of that Action
+//           subobject in the vNewW view.
+//           It does not clone Actions with null Tags, since they have
+//           no way of being associated to events.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+CloneAction( VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+             VIEW vOrigW BASED ON LOD TZWDLGSO,
+             VIEW vNewW  BASED ON LOD TZWDLGSO,
+             VIEW vSubtask )
+
+   INTEGER   nRC
+   INTEGER   nLength
+   STRING(1) szLanguageType
+   STRING(32) szSourceName
+
+   // Simply return if an Action by the same name already exists.
+   SET CURSOR FIRST vNewW.Action WHERE vNewW.Action.Tag = vOrigW.Action.Tag
+   IF RESULT >= zCURSOR_SET
+      RETURN 0
+   END
+
+   IF vOrigW.Action.Tag != ""
+      CreateMetaEntity( vSubtask, vNewW, "Action", zPOS_AFTER )
+      SetMatchingAttributesByName( vNewW,  "Action",
+                                   vOrigW, "Action", zSET_NULL )
+   END
+
+   // Clone each ActMap and dependents.
+   FOR EACH vOrigW.ActMap
+      nRC = CloneActMap( vSourceLPLR, vOrigW, vNewW, vSubtask )
+      IF nRC = -1
+         RETURN -1
+      END
+   END
+
+   // If Action.ActOper exists, create a relationship to the
+   // corresponding operation in the new dialog.
+   // If the operation doesn't exist in the new dialog, add it.
+   IF vOrigW.ActOper EXISTS
+      SET CURSOR FIRST vNewW.Operation WITHIN vNewW.Dialog WHERE
+                       vNewW.Operation.Name = vOrigW.ActOper.Name
+      IF RESULT < zCURSOR_SET
+         // Add the Operation under the SourceFile entity.  Look at the SourceFile of
+         // the original Dialog to determine if type is C or VML and add the operation
+         // to the correct SourceFile entry.  If one doesn't exist, create it.
+         SET CURSOR FIRST vOrigW.Operation WITHIN vOrigW.Dialog WHERE
+             vOrigW.Operation.Name = vOrigW.ActOper.Name
+         szLanguageType = vOrigW.SourceFile.LanguageType
+         SET CURSOR FIRST vNewW.SourceFile WHERE
+             vNewW.SourceFile.LanguageType = szLanguageType
+         IF RESULT < zCURSOR_SET
+             // There was no SourceFileEntry of correct language type.
+             // Add one, but make sure name is unique.
+             szSourceName = vNewW.Dialog.Tag
+             SET CURSOR FIRST vNewW.SourceFile WHERE
+                vNewW.SourceFile.Name = szSourceName
+             IF RESULT >= zCURSOR_SET
+                // A SourceFile entity by dialog name already exists. Modify name.
+                nLength = GetStringLength( szSourceName )
+                IF nLength >= 8
+                   szSourceName = szSourceName[1:7]
+                END
+                szSourceName = szSourceName + szLanguageType
+             END
+             CreateMetaEntity( vSubtask, vNewW, "SourceFile", zPOS_AFTER )
+              vNewW.SourceFile.Name         = szSourceName
+              vNewW.SourceFile.LanguageType = szLanguageType
+              IF szLanguageType = "V"
+                 vNewW.SourceFile.Extension = "VML"
+              ELSE
+                 vNewW.SourceFile.Extension = "C"
+              END
+         END
+
+         CreateMetaEntity( vSubtask, vNewW, "Operation", zPOS_AFTER )
+         SetMatchingAttributesByName( vNewW,  "Operation",
+                                      vOrigW, "Operation", zSET_NULL )
+         FOR EACH vOrigW.Parameter
+             CreateMetaEntity( vSubtask, vNewW, "Parameter", zPOS_AFTER )
+             SetMatchingAttributesByName( vNewW,  "Parameter",
+                                          vOrigW, "Parameter", zSET_NULL )
+         END
+      END
+      // Include the Operation in either case above.
+      INCLUDE vNewW.ActOper FROM vNewW.Operation
+
+   END
+
+   RETURN 0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    CloneActMap
+//
+// PURPOSE:  This function uses the ActMap subobject specified by the
+//           vOrigW view and creates a clone of that ActMap
+//           subobject in the vNewW view.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+CloneActMap( VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+             VIEW vOrigW  BASED ON LOD TZWDLGSO,
+             VIEW vNewW   BASED ON LOD TZWDLGSO,
+             VIEW vSubtask )
+
+   VIEW vLOD       BASED ON LOD TZZOLODO
+   VIEW LOD_List   BASED ON LOD TZCMLPLO
+   INTEGER       nRC
+   STRING ( 64 ) szMsg
+
+   CreateMetaEntity( vSubtask, vNewW, "ActMap", zPOS_AFTER )
+   SetMatchingAttributesByName( vNewW, "ActMap",
+                                vOrigW, "ActMap", zSET_NULL )
+
+   // If there is an ActMapView entity, reinclude it.
+   IF CheckExistenceOfEntity( vOrigW, "ActMapView" ) >= 0
+      nRC = PositionOnVOR( vNewW, vOrigW,
+                           vSourceLPLR, vOrigW.ActMapView.Name, vSubtask )
+      IF nRC >= 0
+
+         // We are now positioned on the correct ViewObjRef.  Create
+         // the relationship from ActMap to ViewObjRef.
+         IncludeSubobjectFromSubobject( vNewW, "ActMapView",
+                                        vNewW, "ViewObjRef", zPOS_AFTER )
+      ELSE
+         RETURN -1
+      END
+
+      // Now get a View to the associated LOD for inclusion of the
+      // ActMapLOD_Entity.
+      RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+      SET CURSOR FIRST LOD_List.W_MetaDef
+         WHERE  LOD_List.W_MetaDef.Name = vNewW.LOD.Name
+      IF GetViewByName( vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK ) > 0
+         DropMetaOI( vSubtask, vLOD )
+      END
+      ActivateMetaOI( vSubtask, vLOD, LOD_List, zREFER_LOD_META, zSINGLE )
+      SetNameForView( vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK )
+      DropView( LOD_List )
+
+      // If there is an ActMapLOD_Entity entity, reinclude it afresh.
+      IF CheckExistenceOfEntity( vOrigW, "ActMapLOD_Entity" ) >= 0
+         // We assume position on the correct LOD from the ActMapView.
+         SET CURSOR FIRST vLOD.LOD_Entity
+             WHERE  vLOD.LOD_Entity.Name = vOrigW.ActMapLOD_Entity.Name
+         IF RESULT >= 0
+            // Include Entity
+            IncludeSubobjectFromSubobject( vNewW, "ActMapLOD_Entity",
+                                           vLOD,  "LOD_Entity", zPOS_AFTER )
+
+         ELSE
+            szMsg ="LOD_Entity doesn't exist: " + vOrigW.ActMapLOD_Entity.Name
+            MessageSend( vSubtask, "WD00214", "Dialog Clone",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         END
+      END
+
+   ELSE
+      // Get the last vLOD  View, if not ActMapView.
+      GetViewByName( vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK )
+   END
+
+   RETURN  0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    CloneMenuAndOptions
+//
+// PURPOSE:  This function clones each Menu and Option subobject.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+CloneMenuAndOptions( VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+                     VIEW vOrigW BASED ON LOD TZWDLGSO,
+                     VIEW vNewW  BASED ON LOD TZWDLGSO,
+                     VIEW vSubtask )
+
+   VIEW vNewWO  BASED ON LOD TZWDLGSO
+   VIEW vOrigWO BASED ON LOD TZWDLGSO
+   INTEGER nRC
+
+   // Create Menu & Options if Menu exists.
+   FOR EACH vOrigW.Menu
+      CreateMetaEntity( vSubtask, vNewW, "Menu", zPOS_AFTER )
+      SetMatchingAttributesByName( vNewW,  "Menu",
+                                   vOrigW, "Menu", zSET_NULL )
+
+      // Create View for processing each Option.  Must be different
+      // than vNewW or vOrigW because of recursive Options.
+      CreateViewFromViewForTask( vNewWO, vNewW, 0 )
+      CreateViewFromViewForTask( vOrigWO, vOrigW, 0 )
+
+      // Name them for debugging.
+      SetNameForView( vNewWO, "vNewWO", vSourceLPLR, zLEVEL_TASK )
+      SetNameForView( vOrigWO, "vOrigWO", vSourceLPLR, zLEVEL_TASK )
+
+      FOR EACH vOrigWO.Option
+         nRC = CloneOption( vNewWO, vNewW, vOrigWO, vOrigW, vSourceLPLR, vSubtask )
+         IF nRC = -1
+            RETURN -1
+         END
+      END
+   END
+   // Set Default Menu, if it exists.
+   IF CheckExistenceOfEntity( vOrigW, "DfltMenu" ) = zCURSOR_SET
+      SET CURSOR FIRST vNewW.Menu
+                    WHERE vNewW.Menu.Tag = vOrigW.DfltMenu.Tag
+      IncludeSubobjectFromSubobject( vNewW, "DfltMenu",
+                                     vNewW, "Menu", zPOS_AFTER )
+   END
+
+   RETURN 0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    CloneOption
+//
+// PURPOSE:  This function uses the Option subobject specified by the
+//           vOrigW view and creates a clone of that Option
+//           subobject in the vNewW view.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+CloneOption( VIEW vNewWO BASED ON LOD TZWDLGSO,
+             VIEW vNewW   BASED ON LOD TZWDLGSO,
+             VIEW vOrigWO BASED ON LOD TZWDLGSO,
+             VIEW vOrigW  BASED ON LOD TZWDLGSO,
+             VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+             VIEW vSubtask )
+
+   INTEGER nRC
+
+   CreateMetaEntity( vSubtask, vNewWO, "Option", zPOS_AFTER )
+   SetMatchingAttributesByName( vNewWO,  "Option",
+                                 vOrigWO, "Option", zSET_NULL )
+
+   // Clone each OptOpt
+   FOR EACH vOrigWO.OptOpt
+      SetViewToSubobject( vOrigWO, "OptOpt" )
+      SetViewToSubobject( vNewWO, "OptOpt" )
+      nRC = CloneOption( vNewWO, vNewW, vOrigWO, vOrigW, vSourceLPLR, vSubtask )
+      ResetViewFromSubobject( vOrigWO )
+      ResetViewFromSubobject( vNewWO )
+      IF nRC = -1
+         RETURN -1
+      END
+   END
+
+   // Clone OptMap
+   IF CheckExistenceOfEntity( vOrigWO, "OptMap" ) = zCURSOR_SET
+      nRC = CloneOptMap( vSourceLPLR, vOrigW, vOrigWO, vNewW, vNewWO, vSubtask )
+      IF nRC = -1
+         RETURN -1
+      END
+   END
+
+   // Include the OptAct
+   IF CheckExistenceOfEntity( vOrigWO, "OptAct" ) = zCURSOR_SET
+      IF vOrigWO.OptAct.Tag != ""
+         SET CURSOR FIRST vNewW.Action
+            WHERE  vNewW.Action.Tag = vOrigWO.OptAct.Tag
+         IF RESULT >= 0
+            IncludeSubobjectFromSubobject( vNewWO, "OptAct",
+                                           vNewW, "Action", zPOS_AFTER )
+         END
+      END
+   END
+
+   RETURN 0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    CloneOptMap
+//
+// PURPOSE:  This function uses the OptMap subobject specified by the
+//           vOrigW view and creates a clone of that OptMap
+//           subobject in the vNewW view.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+CloneOptMap( VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+             VIEW vOrigW  BASED ON LOD TZWDLGSO,
+             VIEW vOrigWO BASED ON LOD TZWDLGSO,
+             VIEW vNewW   BASED ON LOD TZWDLGSO,
+             VIEW vNewWO  BASED ON LOD TZWDLGSO,
+             VIEW vSubtask )
+
+   VIEW vLOD       BASED ON LOD TZZOLODO
+   VIEW LOD_List   BASED ON LOD TZCMLPLO
+   INTEGER       nRC
+   STRING ( 64 ) szMsg
+
+   CreateMetaEntity( vSubtask, vNewWO, "OptMap", zPOS_AFTER )
+   SetMatchingAttributesByName( vNewWO, "OptMap",
+                                vOrigWO, "OptMap", zSET_NULL )
+
+   // Initialize vLOD for later DropMetaOI check.
+   vLOD = 0
+
+   // If there is an OptMapView entity, reinclude it afresh.  Also
+   // position on correct LOD for LOD_Attribute include.
+
+   IF CheckExistenceOfEntity( vOrigWO, "OptMapView" ) >= 0
+      nRC = PositionOnVOR( vNewW, vOrigW, vSourceLPLR,
+                           vOrigWO.OptMapView.Name, vSubtask )
+      IF nRC >= 0
+
+         // We are now positioned on the correct ViewObjRef.  Create
+         // the relationship from OptMap to ViewObjRef.
+         IncludeSubobjectFromSubobject( vNewWO, "OptMapView",
+                                        vNewW, "ViewObjRef", zPOS_AFTER )
+      ELSE
+         RETURN -1
+      END
+
+      RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+      SET CURSOR FIRST LOD_List.W_MetaDef
+         WHERE  LOD_List.W_MetaDef.Name = vNewW.LOD.Name
+      ActivateMetaOI( vSubtask, vLOD, LOD_List, zREFER_LOD_META, zSINGLE )
+      DropView( LOD_List )
+   END
+
+   // If there is an OptMapLOD_Attribute entity, reinclude it afresh.
+   IF CheckExistenceOfEntity( vOrigWO, "OptMapLOD_Attribute" ) >= 0
+      // We assume position on the correct LOD from the OptMapView
+      SET CURSOR FIRST vLOD.LOD_Entity
+          WHERE  vLOD.LOD_Entity.Name = vOrigWO.OptMapRelatedEntity.Name
+      IF RESULT >= 0
+      // Include Attribute and Context, if necessary.
+         OptAttributeMapping( vSubtask, vSourceLPLR, vOrigWO, vNewWO, vLOD )
+      ELSE
+         szMsg ="LOD_Entity doesn't exist: " + vOrigWO.OptMapRelatedEntity.Name
+         MessageSend( vSubtask, "WD00215", "Dialog Clone",
+                      szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         RETURN -1
+      END
+   END
+
+   IF vLOD != 0
+      DropMetaOI( vSubtask, vLOD )
+   END
+
+   RETURN  0
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    OptAttributeMapping
+//
+// PURPOSE:  This function does the includes of LOD_Attribute and
+//           OptMapContext.
+//
+/////////////////////////////////////////////////////////////////////////////
+LOCAL OPERATION
+OptAttributeMapping( VIEW vSubtask,
+                     VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+                     VIEW vOrigWO BASED ON LOD TZWDLGSO,
+                     VIEW vNewWO  BASED ON LOD TZWDLGSO,
+                     VIEW vLOD   BASED ON LOD TZZOLODO )
+
+   VIEW vDomain    BASED ON LOD TZDGSRCO
+   VIEW DomainList BASED ON LOD TZCMLPLO
+   STRING ( 64 ) szMsg
+
+   // We assume position is already on the correct LOD_Entity.
+   SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity
+       WHERE  vLOD.ER_Attribute.Name = vOrigWO.OptMapER_Attribute.Name
+   IF RESULT >= 0
+      IncludeSubobjectFromSubobject( vNewWO, "OptMapLOD_Attribute",
+                                     vLOD,  "LOD_Attribute", zPOS_AFTER )
+
+      // Now create relationship to Domain Context, if necessary.
+      IF CheckExistenceOfEntity( vOrigWO, "OptMapContext" ) >= 0
+         SET CURSOR FIRST vSourceLPLR.W_MetaType WHERE
+                          vSourceLPLR.W_MetaType.Type = 2003
+         SET CURSOR FIRST vSourceLPLR.W_MetaDef WHERE
+                          vSourceLPLR.W_MetaDef.CPLR_ZKey = vOrigWO.OptMapER_Domain.ZKey
+         RetrieveViewForMetaList( vSubtask, DomainList, zREFER_DOMAIN_META )
+         SET CURSOR FIRST DomainList.W_MetaDef
+            WHERE DomainList.W_MetaDef.Name = vSourceLPLR.W_MetaDef.Name
+         IF RESULT >= 0
+            ActivateMetaOI( vSubtask, vDomain, DomainList, zREFER_DOMAIN_META, zSINGLE )
+            SET CURSOR FIRST vDomain.Context
+               WHERE  vDomain.Context.Name =
+                      vOrigWO.OptMapContext.Name
+            IF RESULT >= 0
+               IncludeSubobjectFromSubobject( vNewWO, "OptMapContext",
+                                              vDomain, "Context", zPOS_AFTER )
+            ELSE
+               szMsg = "Context doesn't exist within Domain: " +
+                      vOrigWO.OptMapContext.Name + ", " +
+                      vSourceLPLR.W_MetaDef.Name
+               MessageSend( vSubtask, "WD00216", "Dialog Clone",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               RETURN -1
+            END
+            DropMetaOI( vSubtask, vDomain )
+         ELSE
+            szMsg = "Domain doesn't exist: " +
+                   vSourceLPLR.W_MetaDef.Name
+            MessageSend( vSubtask, "WD00217", "Dialog Clone",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            RETURN -1
+         END
+         DropView( DomainList )
+      END
+   ELSE
+      szMsg = "ER_Attribute doesn't exist: " +
+             vOrigWO.OptMapER_Attribute.Name
+      MessageSend( vSubtask, "WD00218", "Dialog Clone",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   RETURN  0
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: BuildWebCtrlPropOpts
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+BuildWebCtrlPropOpts( VIEW vDialog BASED ON LOD TZWDLGSO,
+                      VIEW vSourceView,
+                      STRING ( 32 ) SourceEntityName,
+                      STRING ( 32 ) SourceAttributeName )
+
+   STRING ( 32 ) szExternalValue
+   STRING ( 32 ) ControlContext
+   INTEGER       CursorPos
+   SHORT nRC
+
+   // Build the list of WebControlPropertyOptions from the Domain table entries.
+   // vDialog is a root view of the Dialog that will contain the list of WebControlPropertyOption entities.
+   // vSourceView.SourceEntityName.SourceAttributeName identifies an attribute for the table Domain that contains
+   // the Control Property options.
+   FOR EACH vDialog.WebControlPropertyOption
+      DELETE ENTITY vDialog.WebControlPropertyOption NONE
+   END
+   ControlContext = ""
+   nRC = GetFirstTableEntryForAttribute( szExternalValue,
+                                         vSourceView, SourceEntityName, SourceAttributeName,
+                                         ControlContext, CursorPos )
+   LOOP WHILE nRC >= 0
+      IF szExternalValue != ""
+         //CREATE ENTITY vDialog.WebControlPropertyOption
+         CreateMetaEntity( vDialog, vDialog, "WebControlPropertyOption", zPOS_AFTER )
+         vDialog.WebControlPropertyOption.Name = szExternalValue
+      END
+
+      nRC = GetNextTableEntryForAttribute( szExternalValue,
+                                           vSourceView, SourceEntityName, SourceAttributeName,
+                                           ControlContext, CursorPos )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: BuildMapTypeList
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+BuildMapTypeList( VIEW vDialog BASED ON LOD TZWDLGSO,
+                  VIEW vSourceView,
+                  STRING ( 32 ) SourceEntityName,
+                  STRING ( 32 ) SourceAttributeName )
+
+   STRING ( 32 ) szExternalValue
+   STRING ( 32 ) ControlContext
+   INTEGER       CursorPos
+   SHORT nRC
+
+   // Build the combobox list of MapType values from the Domain table entries.
+   // vDialog is a root view of the Dialog that will contain the list of values in vDialog.ComboBoxEntry.
+   // vSourceView.SourceEntityName.SourceAttributeName identifies an attribute for the table Domain that contains
+   // the Control Property options.
+   FOR EACH vDialog.ComboBoxEntry
+      DELETE ENTITY vDialog.ComboBoxEntry NONE
+   END
+   ControlContext = ""
+   nRC = GetFirstTableEntryForAttribute( szExternalValue,
+                                         vSourceView, SourceEntityName, SourceAttributeName,
+                                         ControlContext, CursorPos )
+   LOOP WHILE nRC >= 0
+      IF szExternalValue != ""
+         //CREATE ENTITY vDialog.WebControlPropertyOption
+         CREATE ENTITY vDialog.ComboBoxEntry
+         vDialog.ComboBoxEntry.Name = szExternalValue
+      END
+
+      nRC = GetNextTableEntryForAttribute( szExternalValue,
+                                           vSourceView, SourceEntityName, SourceAttributeName,
+                                           ControlContext, CursorPos )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: BuildCtrlMapByTagList
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+BuildCtrlMapByTagList( VIEW vDialogC BASED ON LOD TZWDLGSO )
+
+   VIEW vDialogT BASED ON LOD TZWDLGSO
+   STRING ( 32 ) ControlContext
+   INTEGER       CursorPos
+   SHORT nRC
+
+   // Build the CtrlMap select list for all entries with a Tag name.
+   CreateViewFromView( vDialogT, vDialogC )
+   FOR EACH vDialogT.CtrlMap
+      IF vDialogT.CtrlMap.Tag != ""
+         INCLUDE vDialogC.ListCtrlMap FROM vDialogT.CtrlMap
+      END
+   END
+   DropView( vDialogT )
+
+END
+
+/************************************************************************
+   ENTRY:    DialogMigrate
+   PURPOSE:  Migrate a Dialog from one LPLR to another.  Most of the code
+             for this routine is the code in TZWDLGSO, which is also used
+             for cloning windows.
+***********************************************************************/
+TRANSFORMATION OPERATION
+DialogMigrate( VIEW          NewDialog  BASED ON LOD TZWDLGSO,
+               STRING ( 32 ) DialogName,
+               VIEW          SourceLPLR BASED ON LOD TZCMLPLO,
+               VIEW          vSubtask )
+
+   VIEW SourceLPLR2 BASED ON LOD TZCMLPLO
+   VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+   VIEW TZDLG_List  BASED ON LOD TZCMLPLO
+   VIEW OldDialog   BASED ON LOD TZWDLGSO
+
+   STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
+   STRING ( 32 )  SourceName
+   INTEGER        nRC
+   STRING ( 9 )   ExtensionName
+   STRING ( 513 ) SourceFileName1           // zMAX_FILESPEC_LTH+1
+   STRING ( 513 ) SourceFileName2           // zMAX_FILESPEC_LTH+1
+   STRING ( 32 )  MetaName
+   STRING ( 1 )   NewDialogFlag
+
+   // Activate existing source meta OldDialog
+   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DialogName + ".PWD"
+
+   ActivateOI_FromFile( OldDialog, "TZWDLGSO", SourceLPLR, SourceFileName, 8192 )
+   // 8192 is zIGNORE_ATTRIB_ERRORS
+   NAME VIEW OldDialog "OldDialog"
+
+   // Make sure that TZDLG_List exists.
+   GET VIEW TZDLG_List NAMED "TZDLG_List"
+   IF RESULT < 0
+      RetrieveViewForMetaList( vSubtask, TZDLG_List, zREFER_DIALOG_META )
+      NAME VIEW TZDLG_List "TZDLG_List"
+   END
+
+   //ActivateEmptyMetaOI( vSubtask, NewDialog, zSOURCE_DIALOG_META, zSINGLE )
+   //NAME VIEW NewDialog "NewDialog"
+
+   IF NewDialog.Dialog DOES NOT EXIST
+      CreateMetaEntity( vSubtask, NewDialog, "Dialog", zPOS_AFTER )
+      NewDialog.Dialog.Tag          = OldDialog.Dialog.Tag
+      NewDialog.Dialog.LastSyncDate = OldDialog.Dialog.LastSyncDate
+      NewDialog.Dialog.Desc         = OldDialog.Dialog.Desc
+      NewDialog.Dialog.DLL_Name     = OldDialog.Dialog.DLL_Name
+      NewDialogFlag = "Y"
+   END
+
+   CreateViewFromViewForTask( SourceLPLR2, SourceLPLR, 0 )
+
+   // Copy each Registered View Name that is used by the Dialog.
+   FOR EACH OldDialog.ViewObjRef
+      // The following routine not only positions on the VOR but also
+      // includes it, if it doesn't already exist.
+      PositionOnVOR( NewDialog, OldDialog,
+                     SourceLPLR, OldDialog.ViewObjRef.Name, vSubtask )
+   END
+
+   // Execute the Clone Window code for each window that doesn't exist in the new dialog.
+   FOR EACH OldDialog.Window
+      SET CURSOR FIRST NewDialog.Window WHERE NewDialog.Window.Tag = OldDialog.Window.Tag
+      IF RESULT < zCURSOR_SET
+         nRC = CloneWindow( NewDialog, OldDialog, SourceLPLR, vSubtask )
+         IF nRC = -1
+            DropObjectInstance( OldDialog )
+            RETURN -1
+         END
+      END
+   END
+
+   // Execute the Merge Web Menus for each Window. This is necessary because it is very possible that the Window
+   // defining the Menus did not exist when a Window referencing the Menus was cloned.
+   FOR EACH OldDialog.Window
+      SET CURSOR FIRST NewDialog.Window WHERE NewDialog.Window.Tag = OldDialog.Window.Tag
+      IF RESULT >= zCURSOR_SET
+         MergeWebMenus( NewDialog, OldDialog, vSubtask )
+      END
+   END
+
+   // Now include the Primary Window.
+   IF OldDialog.DfltWnd EXISTS
+      IF NewDialog.DfltWnd DOES NOT EXIST
+         SET CURSOR FIRST NewDialog.Window WHERE NewDialog.Window.Tag = OldDialog.DfltWnd.Tag
+         INCLUDE NewDialog.DfltWnd FROM NewDialog.Window
+      END
+   END
+
+   // Copy Operations and Source File
+   // If the Dialog was created here, we'll simply copy over the SourceFile/Operation prototypes and files.
+   // If the Dialog is being merged, we'll copy over SourceFile/Operation prototypes and files not marked to be be saved.
+   /*IF NewDialogFlag = "Y"
+      // This is a new Dialog, copy over everything.
+      FOR EACH OldDialog.SourceFile
+         ExtensionName = OldDialog.SourceFile.Extension
+         MetaName = OldDialog.SourceFile.Name
+         CreateMetaEntity( vSubtask, NewDialog, "SourceFile", zPOS_AFTER )
+         SetMatchingAttributesByName( NewDialog, "SourceFile", OldDialog, "SourceFile", zSET_NULL )
+         FOR EACH OldDialog.Operation
+            CreateMetaEntity( vSubtask, NewDialog, "Operation", zPOS_AFTER )
+            SetMatchingAttributesByName( NewDialog, "Operation", OldDialog, "Operation", zSET_NULL )
+            FOR EACH OldDialog.Parameter
+               IF OldDialog.Parameter.ShortDesc = ""
+                  OldDialog.Parameter.ShortDesc = "Subtask"
+               END
+               CreateMetaEntity( vSubtask, NewDialog, "Parameter", zPOS_AFTER )
+               SetMatchingAttributesByName( NewDialog, "Parameter", OldDialog, "Parameter", zSET_NULL )
+            END
+         END
+         // Copy the .C file or the .VML file, if it exists, from the source directory to the
+         // target directory.
+         // Note that if it isn't there (it wasn't created in the source LPLR), we're going to
+         // just ignore it; we're not going to return an error message.
+         RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get a view for directory info.
+         ResetViewFromSubobject( CurrentLPLR ) // Get visibility to root.
+         IF ExtensionName = "C"
+            SourceName = MetaName + ".C"
+         ELSE
+            SourceName = MetaName + ".VML"
+         END
+         SourceFileName1 = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName
+         SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName
+         SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE )
+         DropView( CurrentLPLR )
+      END
+   ELSE
+      // This is an existing Dialog, copy over Operations not flagged to be saved.
+      FOR EACH OldDialog.SourceFile
+         //SET CURSOR FIRST ???
+      END
+   END*/
+
+   // Create the subtask name and set cursor at beginning of object, both for the
+   // correct building of the XWD in CommitMetaOI.
+   NAME VIEW SourceLPLR "TZCM_DialogSubtask"
+   SET CURSOR FIRST NewDialog.Dialog
+   CommitMetaOI( vSubtask, NewDialog, 11 )
+   DropObjectInstance( OldDialog )
+   RETURN 0
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ConvertListBoxToGrid
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+ConvertListBoxToGrid( VIEW vControl BASED ON LOD TZWDLGSO )
+
+   VIEW vPE       BASED ON LOD TZPESRCO
+   VIEW vControl2 BASED ON LOD TZWDLGSO
+   STRING ( 50 ) szGridName
+   INTEGER       CurrentPOSX
+   INTEGER       Count
+
+   // Convert the current control (if it is a ListBox) to a grid to ease conversion of Windows dialogs to web dialogs.
+
+   // Make sure this is a ListBox.
+   IF vControl.ControlDef.Tag != "ListBox"
+      MessageSend( vControl, "WD00204", "Dialog Clone",
+                   "The current control is not a List Box.", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   // Change the ControlDef for the main control.
+   GetViewByName( vPE, "TZPESRCO", vControl, zLEVEL_TASK )
+   SET CURSOR FIRST vPE.ControlDef WHERE vPE.ControlDef.Tag = "Grid"
+   EXCLUDE vControl.ControlDef
+   INCLUDE vControl.ControlDef FROM vPE.ControlDef
+   szGridName = vControl.Control.Tag + "Grid"
+   vControl.Control.Tag = szGridName
+
+   // Add a select subcontrol and modify the other subcontrols, if there is a subcontrol.
+   SET CURSOR FIRST vControl.CtrlCtrl
+   IF RESULT >= zCURSOR_SET
+      SetViewToSubobject( vControl, "CtrlCtrl" )    // Step down to CtrlCtrl
+
+      // Add a CheckBox control as first control in grid. Map it the same as the first field, so there isn't an error on update.
+      CreateViewFromView( vControl2, vControl )     // vControl2 is pointing to first regular Control.
+      CreateMetaEntity( vControl, vControl, "Control", zPOS_BEFORE )
+      vControl.Control.Tag = szGridName + "Select"
+      vControl.Control.Text = "Sel"
+      SET CURSOR FIRST vPE.ControlDef WHERE vPE.ControlDef.Tag = "CheckBox"
+      INCLUDE vControl.ControlDef FROM vPE.ControlDef
+      vControl.Control.PSDLG_X = 0
+      vControl.Control.PSDLG_Y = 0
+      vControl.Control.SZDLG_X = 15
+      vControl.Control.SZDLG_Y = 15
+      CurrentPOSX = 15
+      CreateMetaEntity( vControl, vControl, "CtrlMap", zPOS_BEFORE )
+      INCLUDE vControl.CtrlMapLOD_Attribute FROM vControl2.CtrlMapLOD_Attribute
+      INCLUDE vControl.CtrlMapView          FROM vControl2.CtrlMapView
+      DropView( vControl2 )
+
+      // Change the ControlDef for each subcontrol.
+      SET CURSOR FIRST vPE.ControlDef WHERE vPE.ControlDef.Tag = "GridEditCtl"
+      Count = 0
+      FOR EACH vControl.Control
+         Count = Count + 1
+         IF Count > 1    // We skip the first record we just created.
+            EXCLUDE vControl.ControlDef
+            INCLUDE vControl.ControlDef FROM vPE.ControlDef
+            vControl.Control.PSDLG_X = CurrentPOSX                  // Position is from determined from last iteration.
+            CurrentPOSX = CurrentPOSX + vControl.Control.SZDLG_X    // Increment position past length of Control.
+         END
+      END
+
+      ResetViewFromSubobject( vControl )       // Step back up to Grid Control
+   END
+
+END

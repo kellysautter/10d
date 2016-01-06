@@ -1,0 +1,820 @@
+z10000Zeidon    TZERADWE TZZOLODO 05/01/01   23:17:50 1.0b0    
+eLOD       1
+aZKey      92002305
+aName      TZERADWE
+aDesc      Work Object for ADW Export
+
+eLOD_EntityParent 2
+aName      ADW_Work_Export
+aIndentName ADW_Work_Export
+aIndentLvl 0
+aZKey      92002306
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 3
+aName      OI
+aIndentName    OI
+aIndentLvl 3
+aZKey      92002307
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      92002308
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Key1
+aZKey      92002309
+
+eDomainRec 6
+aZKey      90000129
+aName      Decimal
+aDomainType E
+aDataType  M
+aDecimalFormat 2
+aDesc      Characters '0-9' precision ( 0.00 )
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      92002310
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Type
+aZKey      92002311
+
+eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      92002312
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Text
+aZKey      92002313
+
+eDomainRec 6
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      92002314
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Ent_Name
+aZKey      92002315
+aLth       32
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002316
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      AI_Key1
+aZKey      92002317
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      AI
+aIndentName    AI
+aIndentLvl 3
+aZKey      92002318
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      92002319
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Key1
+aZKey      92002320
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002321
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Type
+aZKey      92002322
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002323
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Key2
+aZKey      92002324
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002325
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Key3
+aZKey      92002326
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002327
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Name
+aZKey      92002328
+aLth       32
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      PI
+aIndentName    PI
+aIndentLvl 3
+aZKey      92002329
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      92002330
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Key1
+aZKey      92002331
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002332
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Type
+aZKey      92002333
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002334
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Text
+aZKey      92002335
+
+eDomainRec 6
+
+eLOD_EntityChild 3
+aName      TI
+aIndentName    TI
+aIndentLvl 3
+aZKey      92002336
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      92002337
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Key1
+aZKey      92002338
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002339
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Type
+aZKey      92002340
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002341
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Text
+aZKey      92002342
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      92002343
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      TextEntrySeqNo
+aZKey      92002344
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      92002345
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Directory
+aZKey      92002346
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      92002362
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Prefix
+aZKey      92002363
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      92002442
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Extention
+aZKey      92002443
+aLth       3
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      92002347
+aWork      Y
+aUpdate    Y
+aInit      2
+
+0
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Hex1
+aZKey      92002348
+aLth       1
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      92002349
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wkInteger
+aZKey      92002350
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      92002351
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      wk_Decimal
+aZKey      92002352
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      92002353
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      AI_wk_Decimal
+aZKey      92002354
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      92002355
+aWork      Y
+aUpdate    Y
+aInit      "
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Marks
+aZKey      92002356
+
+eDomainRec 5
+aZKey      92002297
+aName      Marks
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      this is for ADW Export 
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      92002357
+aWork      Y
+aUpdate    Y
+aInit      #
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Raute
+aZKey      92002358
+aLth       1
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 5
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 3
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 4
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+ePOD       2
+aNAME      TZERADWE
+aZKey      92002361
+aTE_SourceZKey 91005292
+
+eTE_DB_Environ 3
+aName      Zeidon_T
+aZKey      1323476
+aDesc      Local Project Library Release 8C
+aType      P
+
+eTE_DBMS_Source 4
+aName      SQL_Rep
+aZKey      1148367
+aDesc      Last altered April 7, 1998
+aParadigm  R
+aDBMS      SQLServer via ODBC
+aGenerateExecutable kzhsqlsb
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
+M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
+M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!9#0H-"@``
+`
+
+eTE_DBMS_Source 4
+aName      Zeidon
+aZKey      90031867
+aDesc      Zeidon repository on DB2 mainframe
+aParadigm  R
+aDBMS      MVS: DB2 deutsch
+aGenerateExecutable KZSIDB2
+aExecutable KZHSIRON
+aGenKeyExecutable KZHGENKY
+aConectionType O
+aSironDB_Type 2
+aDefaultOwner ZEIDON
+aDisplayOwner Y
+aDisplayDBMS_ID Y
+aSironDB_Subtype 4
+
+eTE_DBMS_Source 4
+aName      Repos9JA
+aZKey      91005292
+aDesc      Repository MS-Access
+aParadigm  R
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
+aGenKeyExecutable KZHGENKY
+aDisplayOwner Y
+aDisplayDBMS_ID N
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
+
+i14        11
+i17        5
+i21        5
+i24        8
+i27        5
+i30        5
+i33        11
+i37        5
+i40        8
+i43        11
+i47        5
+i50        8
+i53        11
+i56        8
+i59        11
+i62        11
+i65        11
+i68        11
+i71        8
+i74        5
+i77        5
+i83        11
+i84        1
+i85        57
+i86        58
+i87        11
+i88        60
+i89        61
+i90        11
+i91        63
+i92        64
+i93        11
+i94        66
+i95        67
+i96        11
+i97        69
+i98        70
+i99        8
+i100       72
+i101       73
+i102       5
+i103       75
+i104       76
+i105       5
+i106       78
+i107       79
+i108       80
+i109       81
+i110       82
+i111       11
+i112       2
+i113       3
+i114       4
+i115       5
+i116       6
+i117       7
+i118       8
+i119       9
+i120       10
+i121       11
+i122       12
+i123       13
+i124       11
+i125       15
+i126       16
+i127       5
+i128       18
+i129       19
+i130       20
+i131       5
+i132       22
+i133       23
+i134       8
+i135       25
+i136       26
+i137       5
+i138       28
+i139       29
+i140       5
+i141       31
+i142       32
+i143       11
+i144       34
+i145       35
+i146       36
+i147       5
+i148       38
+i149       39
+i150       8
+i151       41
+i152       42
+i153       11
+i154       44
+i155       45
+i156       46
+i157       5
+i158       48
+i159       49
+i160       8
+i161       51
+i162       52
+i163       11
+i164       54
+i165       55
+i166       8

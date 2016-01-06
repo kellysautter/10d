@@ -1,0 +1,268 @@
+z1000-Zeidon    ZDRAPP   TZOGSRCO 02/25/10   08:52:13 1.0b0    
+eGlobalOperationGroup 1
+aZKey      1419667
+aName      ZDRAPP
+aExtension C
+aDomainAndGlobalOpGroupName ZDRAPP
+
+eOperation 2
+aName      zkCancel
+aZKey      1419712
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1419713
+
+eOperation 2
+aName      SaveActiveCtrlToCSV
+aZKey      1157959
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vSubtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1157960
+
+eOperation 2
+aName      zkCtrlInfo
+aZKey      1012098
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1012099
+
+eOperation 2
+aName      zkExitCloseOK
+aZKey      1419714
+aDesc      Determine if Close action specified on window
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aZKey      1419715
+
+eOperation 2
+aName      zkSelectAll
+aZKey      1054540
+aDesc      Call control with focus to SelectAll
+aType      G
+aReturnDesc <= 0 ==> error
+aReturnDataType L
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1054543
+
+eOperation 2
+aName      fnPainterCall
+aZKey      1419668
+aDesc      TZPNTRAD Painter call to TZCTL
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc Message Type
+aDataType  N
+aZKey      1419669
+
+eParameter 3
+aShortDesc Subtask View
+aDataType  V
+aZKey      1419670
+
+eParameter 3
+aShortDesc Dialog View
+aDataType  V
+aZKey      1419671
+
+eParameter 3
+aShortDesc Window Name
+aDataType  S
+aZKey      1419672
+
+eOperation 2
+aName      HotkeyToPainter
+aZKey      1419673
+aDesc      Hotkey to painter using Ctrl+E
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc View To Window
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      13303082
+
+eOperation 2
+aName      InvokeReportExitCode
+aZKey      89389057
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      89389058
+
+eParameter 3
+aShortDesc ReportDef
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      89389059
+
+eParameter 3
+aShortDesc OperationName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      89389060
+
+eParameter 3
+aShortDesc Event
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      89389061
+
+eParameter 3
+aShortDesc CurrentPage
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      89389326
+
+eParameter 3
+aShortDesc DrivingOI
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      89389062
+
+eOperation 2
+aName      IsValidView
+aZKey      89389242
+aDesc      This is used mostly for debugging
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vAny
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      89389243
+
+eOperation 2
+aName      ListSubtasks
+aZKey      1169920
+aDesc      List all current subtasks
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      1141988
+
+eOperation 2
+aName      MakeViewFromInteger
+aZKey      89389249
+aDesc      Simple casting operation to eliminate warnings
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc ReturnedView
+aDataType  V
+aPFlag     Y
+aUFlag     N
+aZKey      89389250
+
+eParameter 3
+aShortDesc ViewSavedAsInteger
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      89389251
+
+eOperation 2
+aName      MakeIntegerFromView
+aZKey      89389247
+aDesc      Simple casting operation to eliminate warnings
+aType      G
+aReturnDataType L
+
+eParameter 3
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      89389248
+
+eOperation 2
+aName      PrintActiveWindow
+aZKey      1419686
+aDesc      Print the active window
+aType      G
+aReturnDesc nReturnCode
+aReturnDataType N
+
+eParameter 3
+aShortDesc Subtask
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      13303083
+
+eOperation 2
+aName      TraceLineHex
+aZKey      89389244
+aDesc      for debuging
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Title
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      89389245
+
+eParameter 3
+aShortDesc Value
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      89389246
+
+eZ_MetaDef 2
+aName      ZDRAPP
+aZKey      1419667
+aType      14
+aLastUpdateDate 19950824211842000
+aLastCheckInDate 19951102203051110
+

@@ -1,0 +1,355 @@
+z1000-Zeidon    TZFLOW   TZZOLODO 05/09/12   20:58:54 1.0a2    
+eLOD       1
+aZKey      4840870
+aName      TZFLOW
+aDesc      Dialog Action Flow
+
+eLOD_EntityParent 2
+aName      TZFLOW
+aIndentName TZFLOW
+aIndentLvl 0
+aZKey      4840871
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      Window
+aIndentName    Window
+aIndentLvl 3
+aZKey      4840874
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      Action
+aIndentName       Action
+aIndentLvl 6
+aZKey      4840877
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 5
+aName      Widget
+aIndentName          Widget
+aIndentLvl 9
+aZKey      4840882
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+aDesc      Control, Menu Option, Hotkey that invokes the Action
+
+eLOD_AttributeRec 6
+aZKey      4840883
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      Tag
+aZKey      4840884
+
+eDomainRec 8
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      4840885
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      Type
+aZKey      4840886
+aDesc      Control/MenuOption/Hotkey
+
+eDomainRec 8
+
+eLOD_AttributeRec 6
+aZKey      4840894
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 7
+aName      TagType
+aZKey      4840895
+
+eDomainRec 8
+
+eLOD_AttributeRec 5
+aZKey      4840878
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Tag
+aZKey      4840879
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      4840880
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      Operation
+aZKey      4840881
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      4840936
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 6
+aName      TagOperWAB_DlgWnd
+aZKey      4840937
+aDesc      Action Tag-Operation ... WAB ... Dialog.Window (if specified)
+
+eDomainRec 7
+
+eLOD_AttributeRec 4
+aZKey      4840875
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Tag
+aZKey      4840876
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      4840940
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      Caption
+aZKey      4840941
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      4840942
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      TagCaption
+aZKey      4840943
+
+eDomainRec 6
+
+eLOD_AttributeRec 3
+aZKey      4840872
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Tag
+aZKey      4840873
+aDesc      Dialog Tag
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      4840938
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Name
+aZKey      4840939
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+i10        7
+i13        7
+i16        7
+i19        7
+i22        7
+i25        7
+i28        7
+i31        7
+i34        7
+i37        7
+i38        1
+i39        32
+i40        33
+i41        7
+i42        35
+i43        36
+i44        7
+i45        2
+i46        23
+i47        24
+i48        7
+i49        26
+i50        27
+i51        7
+i52        29
+i53        30
+i54        7
+i55        3
+i56        14
+i57        15
+i58        7
+i59        17
+i60        18
+i61        7
+i62        20
+i63        21
+i64        7
+i65        4
+i66        5
+i67        6
+i68        7
+i69        8
+i70        9
+i71        7
+i72        11
+i73        12
+i74        7

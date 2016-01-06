@@ -1,0 +1,297 @@
+z1000-Zeidon    TZZOXOGO TZZOLODO 11/26/14   16:29:35 1.0a2    
+eLOD       1
+aZKey      110002054
+aName      TZZOXOGO
+aDesc      Global Operations Executable Object - Defines parameters of every global operation (similar to XDM)
+
+eLOD_EntityParent 2
+aName      TZZOXOGO
+aIndentName TZZOXOGO
+aIndentLvl 0
+aZKey      110002055
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+
+eLOD_EntityChild 3
+aName      GLOBALOPERATIONSOURCEFILE
+aIndentName    GLOBALOPERATIONSOURCEFILE
+aIndentLvl 3
+aZKey      110002056
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 4
+aName      OPERATION
+aIndentName       OPERATION
+aIndentLvl 6
+aZKey      110002057
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_EntityChild 5
+aName      PARAMETER
+aIndentName          PARAMETER
+aIndentLvl 9
+aZKey      110002058
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 6
+aZKey      110002071
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 7
+aName      NAME
+aZKey      110002072
+aNotNull   Y
+aDesc      OS File name
+
+eDomainRec 8
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 6
+aZKey      110002073
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 7
+aName      DATATYPE
+aZKey      110002074
+aLth       1
+aNotNull   Y
+aDesc      Variable type of this parameter (string, long, short, decimal, view)
+
+eDomainRec 8
+aZKey      1319844
+aName      DataType3GL
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      VML Supported Types...
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      110002063
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 6
+aName      NAME
+aZKey      110002064
+aNotNull   Y
+aDesc      OS File name
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      110002065
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 6
+aName      TYPE
+aZKey      110002066
+aLth       1
+aNotNull   Y
+aDesc      Object or Global
+
+eDomainRec 7
+aZKey      1320608
+aName      ZeidonOperationTypes
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      types of operations that can be defined for Zeidon (VML)
+aContextRestriction N
+
+eLOD_AttributeRec 4
+aZKey      110002059
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 5
+aName      NAME
+aZKey      110002060
+aNotNull   Y
+aDesc      OS File name
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      110002061
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 5
+aName      LANGUAGETYPE
+aZKey      110002062
+aDesc      VML or C
+
+eDomainRec 6
+aZKey      90026793
+aName      LanguageType
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Source language type  - VML or C
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      110002078
+aWork      Y
+aUpdate    Y
+aSeqOrder  A
+aSeqNo_LOD_Entity 2
+
+eER_AttributeRec 4
+aName      NAME
+aZKey      110002079
+aNotNull   Y
+aDesc      OS File name
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+i13        7
+i19        7
+i25        7
+i26        1
+i27        23
+i28        24
+i29        7
+i30        2
+i31        17
+i32        18
+i33        7
+i34        20
+i35        21
+i36        22
+i37        3
+i38        11
+i39        12
+i40        7
+i41        14
+i42        15
+i43        16
+i44        4
+i45        5
+i46        6
+i47        7
+i48        8
+i49        9
+i50        10
