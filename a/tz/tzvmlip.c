@@ -566,7 +566,7 @@ zGetDayOfYearFromDate( zCPCHAR cpcDateOrDateTime )
    zLONG     lDayHelp;
    zLONG     lYearPart;
    zSHORT    bLeapYear;
-   
+
    ZeidonStringCopy( szYearPart, 1, 0, cpcDateOrDateTime, 1, 4, 5 );
    ZeidonStringCopy( szMonthPart, 1, 0, cpcDateOrDateTime, 5, 2, 3 );
    ZeidonStringCopy( szDayPart, 1, 0, cpcDateOrDateTime, 7, 2, 3 );
@@ -1031,7 +1031,7 @@ zIntegerToString( zPCHAR   pchTargetString,
 {
    zLONG  uI = abs( ulValue );
    zLONG  ulExpectedLength = 1;
-   zSHORT nRectValue;
+   zSHORT nRC;
 
    *pchTargetString = 0;
 
@@ -1048,17 +1048,15 @@ zIntegerToString( zPCHAR   pchTargetString,
 
    if ( ulExpectedLength > ulTargetStringLth )
    {
-      nRectValue = -1;
+      nRC = -1;
    }
    else
    {
-      zCHAR  szBuffer[ 80 ];
-
-      zltoa( ulValue, szBuffer, sizeof( szBuffer ) );
-      strcpy_s( pchTargetString, ulTargetStringLth, szBuffer );
+      zltoa( ulValue, pchTargetString, ulTargetStringLth );
+      nRC = 0;
    }
 
-   return( nRectValue );
+   return( nRC );
 } // zIntegerToString
 
 // Function: zModulo
@@ -2870,9 +2868,9 @@ zGetDelimitedString( zPCHAR pchSource,
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
-zAppendQuotedString( zPCHAR pchTarget,
-                     zPCHAR pchAppendString,
-                     zPCHAR pchSkipString,
+zAppendQuotedString( zPCHAR pchTarget,        // the only place in the Zeidon tools that this is called is with a target length of 256 + 1
+                     zPCHAR pchAppendString,  // so we are not passing the maximum length in - if this is called with a target that has a
+                     zPCHAR pchSkipString,    // shorter maximum length, an overlay will occur
                      zPCHAR pchDfltQuoteChar )
 {
    zCHAR  ch;
@@ -2886,8 +2884,8 @@ zAppendQuotedString( zPCHAR pchTarget,
          // Build the target using the SkipString + DfltQuoteChar.
          if ( pchSkipString && pchSkipString[ 0 ] )
          {
-            lLth = strlen( pchAppendString ) + strlen( pchSkipString );
-            strcpy_s( pchTarget, lLth, pchSkipString );
+         // lLth = strlen( pchAppendString ) + strlen( pchSkipString );
+            strcpy_s( pchTarget, 257, pchSkipString );
             lLth = (zSHORT) zstrlen( pchTarget );
          }
 
@@ -2900,7 +2898,7 @@ zAppendQuotedString( zPCHAR pchTarget,
       {
          // Build the target from the AppendString.
          lLth = strlen( pchAppendString );
-         strcpy_s( pchTarget, lLth, pchAppendString );
+         strcpy_s( pchTarget, 257, pchAppendString );
          lLth = zstrlen( pchTarget );
          return( (zSHORT) lLth );
       }
@@ -2916,8 +2914,7 @@ zAppendQuotedString( zPCHAR pchTarget,
 
          if ( zstrncmp( pchTarget, pchSkipString, nSkipLth ) == 0 )
          {
-            // The Target begins with the SkipString ... assume it also has
-            // the quote char as part of the string.
+            // The Target begins with the SkipString ... assume it also has the quote char as part of the string.
             ch = pchTarget[ nSkipLth ];
          }
          else
@@ -2931,7 +2928,7 @@ zAppendQuotedString( zPCHAR pchTarget,
                strcpy_s( szTemp, sizeof( szTemp ), pchSkipString );
                strcat_s( szTemp, sizeof( szTemp ),pchTarget );
                lLth = zstrlen( szTemp );
-               strcpy_s( pchTarget, lLth, szTemp );
+               strcpy_s( pchTarget, 257, szTemp );
             }
             else
             {
@@ -2940,7 +2937,7 @@ zAppendQuotedString( zPCHAR pchTarget,
                strcat_s( szTemp, sizeof( szTemp ), pchDfltQuoteChar );
                strcat_s( szTemp, sizeof( szTemp ), pchTarget );
                lLth = zstrlen( szTemp );
-               strcpy_s( pchTarget, lLth, szTemp );
+               strcpy_s( pchTarget, 257, szTemp );
                pchTarget[ lLth++ ] = ch;
                pchTarget[ lLth ] = 0;
             }
@@ -2952,15 +2949,14 @@ zAppendQuotedString( zPCHAR pchTarget,
             strcpy_s( szTemp, sizeof( szTemp ), pchSkipString );
             strcat_s( szTemp, sizeof( szTemp ), pchTarget );
             lLth = zstrlen( szTemp );
-            strcpy_s( pchTarget, lLth, szTemp );
+            strcpy_s( pchTarget, 257, szTemp );
          }
       }
       else
       {
          if ( pchDfltQuoteChar && pchDfltQuoteChar[ 0 ] )
          {
-            if ( pchTarget[ 0 ] == pchDfltQuoteChar[ 0 ] ||
-                 pchTarget[ 0 ] == pchTarget[ lLth - 1 ] )
+            if ( pchTarget[ 0 ] == pchDfltQuoteChar[ 0 ] || pchTarget[ 0 ] == pchTarget[ lLth - 1 ] )
             {
                ch = pchTarget[ 0 ];  // good to go!
             }
@@ -2970,7 +2966,7 @@ zAppendQuotedString( zPCHAR pchTarget,
                szTemp[ 0 ] = ch;
                strcpy_s( szTemp + 1, sizeof( szTemp ), pchTarget );
                lLth = zstrlen( szTemp );
-               strcpy_s( pchTarget, lLth, szTemp );
+               strcpy_s( pchTarget, 257, szTemp );
                pchTarget[ lLth++ ] = ch;
                pchTarget[ lLth ] = 0;
             }
@@ -2988,7 +2984,7 @@ zAppendQuotedString( zPCHAR pchTarget,
    else
       ch = 0;
 
-   strcpy_s( pchTarget + lLth, zstrlen( pchAppendString ), pchAppendString );
+   strcpy_s( pchTarget + lLth, 257 - lLth, pchAppendString );
    lLth = zstrlen( pchTarget );
    if ( ch )
    {
@@ -2999,9 +2995,9 @@ zAppendQuotedString( zPCHAR pchTarget,
    if ( pchDfltQuoteChar && pchDfltQuoteChar[ 0 ] )
    {
       lLth = zstrlen( pchSkipString ) + zstrlen( pchDfltQuoteChar ) + zstrlen( pchAppendString );
-      strcpy_s( pchTarget, lLth, pchSkipString );
-      strcat_s( pchTarget, lLth, pchDfltQuoteChar );
-      strcat_s( pchTarget, lLth, pchAppendString );
+      strcpy_s( pchTarget, 257, pchSkipString );
+      strcat_s( pchTarget, 257, pchDfltQuoteChar );
+      strcat_s( pchTarget, 257, pchAppendString );
       lLth = zstrlen( pchTarget );
       pchTarget[ lLth++ ] = pchDfltQuoteChar[ 0 ];
       pchTarget[ lLth ] = 0;

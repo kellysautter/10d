@@ -46,10 +46,9 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szTitleHTML
    STRING ( 50 )  ListBoxDoubleClickAction
    STRING ( 16 )  szTabIndex
-   STRING ( 32 )  szSize
-   STRING ( 16 )  szWidth
-   STRING ( 16 )  szHeight
-   STRING ( 1 )   szBorder
+   STRING ( 100 ) szSize
+   STRING ( 100 ) szWidth
+   STRING ( 100 ) szHeight
    STRING ( 32 )  szRadioGroupName
    STRING ( 256 ) szWidget
    STRING ( 256 ) szText
@@ -92,8 +91,8 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szFirstTimeThrough
    STRING ( 1 )   szGridInGroup
    STRING ( 1 )   szTableExport
-   STRING ( 10 )  szDisabled
-   STRING ( 100 ) szStyle
+   STRING ( 100 ) szDisabled
+   STRING ( 256 ) szStyle
    DECIMAL        dDLUnits
    INTEGER        LastY_Pos
    INTEGER        LastY_Height
@@ -5546,7 +5545,7 @@ PIX_PER_DU( VIEW vDialog BASED ON LOD TZWDLGSO, DECIMAL dDLUnits )
 END
 
 GLOBAL OPERATION
-FixStyleString( STRING ( 1024 ) szStyle,
+FixStyleString( STRING ( 100 ) szStyle,
                 STRING ( 100 ) szS1,   // position usually
                 STRING ( 100 ) szS2,   //
                 STRING ( 100 ) szSE )
@@ -5557,7 +5556,7 @@ END
 
 GLOBAL OPERATION
 CreateDisabledString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                      STRING ( 1024 ) szDisabled )
+                      STRING ( 100 ) szDisabled )
 
    INTEGER        lSubtype
    INTEGER        lTemp
@@ -5574,7 +5573,7 @@ END
 
 GLOBAL OPERATION
 CreateAbsolStyleString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                        STRING ( 1024 ) szStyle,
+                        STRING ( 100 ) szStyle,
                         INTEGER X_BASE,
                         INTEGER Y_BASE,
                         STRING ( 100 ) szStyleExtraParm )
@@ -5589,7 +5588,7 @@ END
 
 GLOBAL OPERATION
 CreateRelStyleString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                      STRING ( 1024 ) szStyle,
+                      STRING ( 100 ) szStyle,
                       INTEGER X_BASE,
                       INTEGER Y_BASE,
                       STRING ( 100 ) szStyleExtraParm )
@@ -5610,7 +5609,7 @@ END
 *************************************************************************************************/
 GLOBAL OPERATION
 CreateNoPosStyleString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                        STRING ( 1024 ) szStyle,
+                        STRING ( 100 ) szStyle,
                         STRING ( 100 ) szStyleExtraParm )
 
    STRING ( 100 )  szSize
@@ -5622,7 +5621,7 @@ END
 
 GLOBAL OPERATION
 CreateSizeString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                  STRING ( 1024 ) szStyle )
+                  STRING ( 100 ) szSize )
 
    STRING ( 10 )  szWidth
    STRING ( 10 )  szHeight
@@ -5632,12 +5631,12 @@ CreateSizeString( VIEW vDialog BASED ON LOD TZWDLGSO,
    zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
    zIntegerToString( szHeight, 10, vDialog.Control.SZDLG_Y * dDLUnits )
 
-   szStyle = "width:" + szWidth + "px;height:" + szHeight + "px;"
+   szSize = "width:" + szWidth + "px;height:" + szHeight + "px;"
 END
 
 GLOBAL OPERATION
 CreateAbsolPosString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                      STRING ( 1024 ) szStyle,
+                      STRING ( 100 ) szStyle,
                       INTEGER X_BASE,
                       INTEGER Y_BASE )
 
@@ -5656,7 +5655,7 @@ END
 
 GLOBAL OPERATION
 CreateAbsolPosStringTable( VIEW vDialog BASED ON LOD TZWDLGSO,
-                           STRING ( 1024 ) szStyle,
+                           STRING ( 100 ) szStyle,
                            INTEGER X_BASE,
                            INTEGER Y_BASE )
 
@@ -5676,7 +5675,7 @@ END
 
 GLOBAL OPERATION
 CreateRelPosString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                    STRING ( 1024 ) szStyle,
+                    STRING ( 100 ) szStyle,
                     INTEGER X_BASE,
                     INTEGER Y_BASE )
 

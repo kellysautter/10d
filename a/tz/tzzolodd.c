@@ -8557,8 +8557,7 @@ zwfnTZZOLODD_SaveAsLOD( zVIEW  vSubtask,
 
    // There must be no Dialog with same name.
    RetrieveViewForMetaList( vSubtask, &vDialogLPLR, zREFER_DIALOG_META );
-   if ( SetCursorFirstEntityByString( vDialogLPLR, "W_MetaDef", "Name",
-                                      szLOD_Name, 0 ) > zCURSOR_UNCHANGED )
+   if ( SetCursorFirstEntityByString( vDialogLPLR, "W_MetaDef", "Name", szLOD_Name, 0 ) > zCURSOR_UNCHANGED )
    {
       strcpy_s( szMsg, sizeof( szMsg ), "A Dialog with the same name exists." );
       MessageSend( vSubtask, "ZO00165", "Zeidon Object Maintenance",
@@ -8571,8 +8570,7 @@ zwfnTZZOLODD_SaveAsLOD( zVIEW  vSubtask,
    DropView( vDialogLPLR );
 
    // Activate an empty LOD Object
-   nRC = ActivateEmptyMetaOI( vSubtask, &vLOD_Target, zSOURCE_LOD_META,
-                              zSINGLE | zLEVEL_APPLICATION );
+   nRC = ActivateEmptyMetaOI( vSubtask, &vLOD_Target, zSOURCE_LOD_META, zSINGLE | zLEVEL_APPLICATION );
    if ( nRC < 0 )
    {
       strcpy_s( szMsg, sizeof( szMsg ), "(zwfnTZZOLODD_SaveAsLOD) Unable to Access LOD. LOD must be opened." );
@@ -8589,11 +8587,9 @@ zwfnTZZOLODD_SaveAsLOD( zVIEW  vSubtask,
    CreateMetaEntity( vSubtask, vLOD_Target, "LOD", zPOS_AFTER );
    SetMatchingAttributesByName( vLOD_Target, "LOD",
                                 vLOD_Source, "LOD", zSET_NULL );
-   SetAttributeFromAttribute( vLOD_Target, "LOD", "Name",
-                              vSaveAs, "ActionAfterSaveAS", "SaveAsName8");
+   SetAttributeFromAttribute( vLOD_Target, "LOD", "Name",vSaveAs, "ActionAfterSaveAS", "SaveAsName8");
 
-   // Reuse the copy routine from LPLR migrate.
-   // Create the necessary extra views.
+   // Reuse the copy routine from LPLR migrate.  Create the necessary extra views.
    CreateViewFromViewForTask( &vLOD_TargetRecur, vLOD_Target, 0 );
    CreateViewFromViewForTask( &vLOD_SourceRecur, vLOD_Source, 0 );
    CreateViewFromViewForTask( &vTZZOLFLO_Target, vTZZOLFLO, 0 );
@@ -8617,8 +8613,7 @@ zwfnTZZOLODD_SaveAsLOD( zVIEW  vSubtask,
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vLOD_Source, "LOD_EntityParent", 0 ) )
    {
-      oTZZOLODO_LOD_EntityCopy( vLOD_Target, vLOD_TargetRecur,
-                                vLOD_Source, vLOD_SourceRecur,
+      oTZZOLODO_LOD_EntityCopy( vLOD_Target, vLOD_TargetRecur, vLOD_Source, vLOD_SourceRecur,
                                 vTZZOLFLO_Source, vTZZOLFLO_Target, vERD_Source, vERD_Target,
                                 vDTE, vSubtask, "", "N" );
    }
@@ -8627,10 +8622,8 @@ zwfnTZZOLODD_SaveAsLOD( zVIEW  vSubtask,
    if ( CheckExistenceOfEntity( vLOD_Source, "POD" ) >= zCURSOR_SET )
    {
       CreateMetaEntity( vSubtask, vLOD_Target, "POD", zPOS_AFTER );
-      SetMatchingAttributesByName( vLOD_Target, "POD",
-                                   vLOD_Source, "POD", zSET_NULL );
-      IncludeSubobjectFromSubobject( vLOD_Target, "TE_DB_Environ",
-                                     vLOD_Source, "TE_DB_Environ", zPOS_AFTER );
+      SetMatchingAttributesByName( vLOD_Target, "POD", vLOD_Source, "POD", zSET_NULL );
+      IncludeSubobjectFromSubobject( vLOD_Target, "TE_DB_Environ", vLOD_Source, "TE_DB_Environ", zPOS_AFTER );
    }
 
    //BL, 1999.10.26 Copy LOD Operations
@@ -8701,8 +8694,7 @@ TraceLineS( "*** TraceA1,", "" );
 TraceLineS( "*** TraceA2,", "" );
    //set current Description
    SetCtrlState( vSubtask, "cbKeepCurrentDesc", zCONTROL_STATUS_CHECKED, 1 );
-   SetAttributeFromAttribute( vSaveAs, "ActionAfterSaveAS", "Desc",
-                              vTZZOLODO, "LOD", "Desc" );
+   SetAttributeFromAttribute( vSaveAs, "ActionAfterSaveAS", "Desc", vTZZOLODO, "LOD", "Desc" );
 
    // delete old Source Files
    for ( nRC = SetCursorFirstEntity( vSaveAs, "SourceFile", "" );
@@ -8720,10 +8712,8 @@ TraceLineS( "*** TraceA3,", "" );
          nRC = SetCursorNextEntity( vSourceFile, "SourceFile", "" ) )
    {
       CreateEntity( vSaveAs, "SourceFile", zPOS_AFTER );
-      SetAttributeFromAttribute( vSaveAs, "SourceFile", "SourceName",
-                                 vSourceFile, "SourceFile", "Name" );
-      SetAttributeFromAttribute( vSaveAs, "SourceFile", "LanguageType",
-                                 vSourceFile, "SourceFile", "LanguageType" );
+      SetAttributeFromAttribute( vSaveAs, "SourceFile", "SourceName", vSourceFile, "SourceFile", "Name" );
+      SetAttributeFromAttribute( vSaveAs, "SourceFile", "LanguageType", vSourceFile, "SourceFile", "LanguageType" );
    }
    DropView( vSourceFile );
 TraceLineS( "*** TraceA4,", "" );
@@ -8783,8 +8773,7 @@ zwTZZOLODD_AddParentEntity( zVIEW vSubtask )
    SetAttributeFromString( vLOD_Tgt, "LOD_EntityParent", "Recursive", "N" );
    SetAttributeFromString( vLOD_Tgt, "LOD_EntityParent", "Derived", "N" );
    SetAttributeFromString( vLOD_Tgt, "LOD_EntityParent", "Work", "Y" );
-   SetAttributeFromString( vLOD_Tgt, "LOD_EntityParent",
-                           "ParentDeleteBehave", "D" );
+   SetAttributeFromString( vLOD_Tgt, "LOD_EntityParent", "ParentDeleteBehave", "D" );
    SetAttributeFromString( vLOD_Tgt, "LOD_EntityParent", "DupEntityInstance", "N" );
    SetAttributeFromString( vLOD_Tgt, "LOD_EntityParent", "DupRelationshipInstance", "N" );
 
@@ -8978,8 +8967,7 @@ MigrateLODs( zVIEW vSubtask )
             strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, pch );
             strcat_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".xod" );
 
-            GetStringFromAttribute( szFileSpec1, sizeof( szFileSpec1 ), vTaskLPLR,
-                                    "LPLR", "MetaSrcDir" );
+            GetStringFromAttribute( szFileSpec1, sizeof( szFileSpec1 ), vTaskLPLR, "LPLR", "MetaSrcDir" );
             nLth = (zSHORT) zstrlen( szFileSpec1 );
             if ( nLth && szFileSpec1[ nLth - 1 ] != '\\' )
                szFileSpec1[ nLth++ ] = '\\';
@@ -9101,8 +9089,7 @@ zwTZZOLODD_CheckNameForCheckOut( zVIEW vSubtask )
    GetViewByName( &vTZZOLFLO, "TZZOLFLO", vSubtask, zLEVEL_TASK );
    CreateViewFromViewForTask( &vTZZOLFLO_Copy, vTZZOLFLO, 0 );
 
-   if ( SetCursorFirstEntityByString( vTZZOLFLO_Copy, "W_MetaDef", "Name",
-                                      szOutName, 0 ) > zCURSOR_UNCHANGED )
+   if ( SetCursorFirstEntityByString( vTZZOLFLO_Copy, "W_MetaDef", "Name", szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
       // set check out state in Title
       nEnable = CheckOutStateForCurrentWindow( vSubtask, vTZZOLFLO_Copy );
@@ -9153,11 +9140,9 @@ zwfnTZZOLODD_CheckActionAfterSaveAs( zVIEW  vSubtask )
    SetTitleWithCheckOutState( vParentWindow, "Logical Object Definition",
                                "TZZOLODO", vTZZOLODO, "LOD", zSOURCE_LOD_META );
 
-   // if LOD not checked out and user change this LOD, then zeidon
-   // call the window "Save LOD as"
-   // We save the action after Save as in the View TZSAVEAS (for example:
-   // Create new LOD or Open an other LOD or Switch Project or Exit
-   // LOD Tool)
+   // if LOD not checked out and user change this LOD, then zeidon call the window "Save LOD as"
+   // We save the action after Save as in the View TZSAVEAS (for example:  Create new LOD or Open an other LOD
+   // or Switch Project or Exit LOD Tool)
 
    GetIntegerFromAttribute( &lActionAfterSaveAs, vSaveAs, "ActionAfterSaveAS", "Typ" );
    SetAttributeFromInteger( vSaveAs, "ActionAfterSaveAS", "Typ", zNoActionAfterSaveAs );
@@ -9206,11 +9191,9 @@ zwTZZOLODD_NewLOD( zVIEW vSubtask )
       if ( GetViewByName( &vSaveAs, "TZSAVEAS", vSubtask, zLEVEL_TASK ) > 0 )
       {
          if ( nRC == 99 )
-            // if LOD not checked out and user change this LOD, then zeidon
-            // call the window "Save LOD as"
-            // We save the action after Save as in the View TZSAVEAS (e.g.
-            // Create new LOD or Open an other LOD or Switch Project or
-            // Exit LOD Tool)
+            // if LOD not checked out and user change this LOD, then zeidon call the window "Save LOD as"
+            // We save the action after Save as in the View TZSAVEAS (e.g. Create new LOD or Open an other LOD
+            // or Switch Project or Exit LOD Tool)
             SetAttributeFromInteger( vSaveAs, "ActionAfterSaveAS", "Typ", zNewComponentAfterSaveAs );
          else
             SetAttributeFromInteger( vSaveAs, "ActionAfterSaveAS", "Typ", zNoActionAfterSaveAs );
@@ -9241,11 +9224,9 @@ zwTZZOLODD_LodOpen( zVIEW vSubtask )
       {
          if ( nRC == 99 )
          {
-            // if LOD not checked out and user change this LOD, then zeidon
-            // call the window "Save LOD as"
-            // We save the action after Save as in the View TZSAVEAS (e.g.
-            // Create new LOD or Open an other LOD or Switch Project or
-            // Exit LOD Tool)
+            // if LOD not checked out and user change this LOD, then zeidon call the window "Save LOD as".
+            // We save the action after Save as in the View TZSAVEAS (e.g. Create new LOD or Open an other LOD
+            // or Switch Project or Exit LOD Tool)
             SetAttributeFromInteger( vSaveAs, "ActionAfterSaveAS", "Typ", zOpenComponentAfterSaveAs );
          }
          else
@@ -9357,13 +9338,11 @@ fnTZZOLODD_MoveEntity( zVIEW vSubtask, zCHAR cType )
    // is already the left-most or right-most entity.
 
    CreateViewFromViewForTask( &vTZZOLOD1, vTZZOLODO, 0 );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ),
-                           vTZZOLODO, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
    DefineHierarchicalCursor( vTZZOLOD1, "LOD" );
 
    // First loop to find the selected entity in the recursive side.
-   nRC = SetCursorNextEntityHierarchical( &uLevel,
-                                          szHierEntityName, vTZZOLOD1 );
+   nRC = SetCursorNextEntityHierarchical( &uLevel, szHierEntityName, vTZZOLOD1 );
    while ( nRC >= zCURSOR_SET )
    {
       if ( zstrcmp( szHierEntityName, "LOD_EntityChild" ) == 0 )
@@ -9375,8 +9354,7 @@ fnTZZOLODD_MoveEntity( zVIEW vSubtask, zCHAR cType )
             break;
       }
 
-      nRC = SetCursorNextEntityHierarchical( &uLevel,
-                                             szHierEntityName, vTZZOLOD1 );
+      nRC = SetCursorNextEntityHierarchical( &uLevel, szHierEntityName, vTZZOLOD1 );
    }
 
    CreateViewFromViewForTask( &vCurrent, vTZZOLOD1, 0 );
@@ -9390,21 +9368,14 @@ fnTZZOLODD_MoveEntity( zVIEW vSubtask, zCHAR cType )
    if ( nRC >= zCURSOR_SET )
    {
       // Swap SeqNo values and move entity.
-      GetIntegerFromAttribute( &lSeqNo,
-                               vCurrent, "LOD_EntityParent", "SeqNo" );
-      SetAttributeFromAttribute( vCurrent,  "LOD_EntityParent", "SeqNo",
-                                 vTarget,   "LOD_EntityParent", "SeqNo" );
-      SetAttributeFromInteger( vTarget, "LOD_EntityParent", "SeqNo",
-                               lSeqNo );
+      GetIntegerFromAttribute( &lSeqNo, vCurrent, "LOD_EntityParent", "SeqNo" );
+      SetAttributeFromAttribute( vCurrent, "LOD_EntityParent", "SeqNo", vTarget, "LOD_EntityParent", "SeqNo" );
+      SetAttributeFromInteger( vTarget, "LOD_EntityParent", "SeqNo", lSeqNo );
 
       if ( cType == 'L' )
-         MoveSubobject( vTarget,  "LOD_EntityParent",
-                        vCurrent, "LOD_EntityParent",
-                        zPOS_BEFORE, zREPOS_FIRST );
+         MoveSubobject( vTarget, "LOD_EntityParent", vCurrent, "LOD_EntityParent", zPOS_BEFORE, zREPOS_FIRST );
       else
-         MoveSubobject( vTarget,  "LOD_EntityParent",
-                        vCurrent, "LOD_EntityParent",
-                        zPOS_AFTER, zREPOS_FIRST );
+         MoveSubobject( vTarget, "LOD_EntityParent", vCurrent, "LOD_EntityParent", zPOS_AFTER, zREPOS_FIRST );
    }
 
    DropView( vTZZOLOD1 );
@@ -9483,8 +9454,7 @@ zwTZZOLODD_SaveAsSetDefaults( zVIEW vSubtask )
             nRC = SetCursorNextEntity( vSaveAs, "SourceFile", "" ) )
       {
          // if Lod in LodList, call zwTZPNTRAD_SetSaveAsName
-         if ( SetCursorFirstEntityByString( vTZLodList, "W_MetaDef", "Name",
-                                            szOutName, "" ) >= zCURSOR_SET )
+         if ( SetCursorFirstEntityByString( vTZLodList, "W_MetaDef", "Name", szOutName, "" ) >= zCURSOR_SET )
          {
             zwTZZOLODD_SetSaveAsName( vSubtask );
          }
@@ -9830,8 +9800,7 @@ zwTZZOLODD_SetAttributeType( zVIEW vSubtask, zVIEW vTZZOLODO )
       CreateViewFromViewForTask( &vTZZOLODO_Copy, vTZZOLODO, 0 );
       RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
 
-      // Check if there is an ERD, because we will skip certain relinking if
-      // there is not.
+      // Check if there is an ERD, because we will skip certain relinking if there is not.
       if ( CheckExistenceOfEntity( vLPLR, "W_MetaDef" ) >= zCURSOR_SET )
          lERD_Flag = ActivateMetaOI( vSubtask, &vERD, vLPLR, zREFER_ERD_META, 0 );
       else
@@ -9841,10 +9810,8 @@ zwTZZOLODD_SetAttributeType( zVIEW vSubtask, zVIEW vTZZOLODO )
 
       if ( lERD_Flag >= zCURSOR_SET )
       {
-         GetIntegerFromAttribute( (zPLONG) &ulZKey,
-                                  vTZZOLODO, "ER_Entity", "ZKey" );
-         if ( SetCursorFirstEntityByInteger( vERD, "ER_Entity", "ZKey", ulZKey,
-                                             "" ) < zCURSOR_SET )
+         GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZZOLODO, "ER_Entity", "ZKey" );
+         if ( SetCursorFirstEntityByInteger( vERD, "ER_Entity", "ZKey", ulZKey, "" ) < zCURSOR_SET )
          {
             lERD_Flag = -1;
          }
@@ -9857,17 +9824,13 @@ zwTZZOLODD_SetAttributeType( zVIEW vSubtask, zVIEW vTZZOLODO )
          SetAttributeFromString( vTZZOLODO_Copy, "LOD_Attribute", "Work", "Y" );
          if ( lERD_Flag >= zCURSOR_SET )
          {
-            GetIntegerFromAttribute( (zLONG*)&ulZKey,
-                                     vTZZOLODO_Copy, "ER_Attribute", "ZKey" );
-            if ( SetCursorFirstEntityByInteger( vERD, "ER_Attribute", "ZKey", ulZKey,
-                                                "" ) >= zCURSOR_SET )
+            GetIntegerFromAttribute( (zLONG *) &ulZKey, vTZZOLODO_Copy, "ER_Attribute", "ZKey" );
+            if ( SetCursorFirstEntityByInteger( vERD, "ER_Attribute", "ZKey", ulZKey, "" ) >= zCURSOR_SET )
             {
                ExcludeEntity( vTZZOLODO_Copy, "ER_Attribute", zREPOS_NONE );
                CreateMetaEntity( vSubtask, vTZZOLODO_Copy, "ER_Attribute", zPOS_AFTER );
-               SetMatchingAttributesByName( vTZZOLODO_Copy, "ER_Attribute",
-                                            vERD, "ER_Attribute", zSET_NULL );
-               IncludeSubobjectFromSubobject( vTZZOLODO_Copy, "Domain",
-                                              vERD, "Domain", zPOS_AFTER );
+               SetMatchingAttributesByName( vTZZOLODO_Copy, "ER_Attribute", vERD, "ER_Attribute", zSET_NULL );
+               IncludeSubobjectFromSubobject( vTZZOLODO_Copy, "Domain", vERD, "Domain", zPOS_AFTER );
             }
          }
       }
@@ -9898,13 +9861,10 @@ zwTZZOLODD_EnableDBH_Info( zVIEW vSubtask )
    if ( CheckExistenceOfEntity( vTZTENVRO, "TE_DBMS_Source" ) >= zCURSOR_SET )
    {
       if ( SetCursorFirstEntityByAttr( vTZTEDBLO, "TE_DBMS_Source", "DBMS",
-                                       vTZTENVRO, "TE_DBMS_Source", "DBMS",
-                                       0 ) >= zCURSOR_SET )
+                                       vTZTENVRO, "TE_DBMS_Source", "DBMS", 0 ) >= zCURSOR_SET )
       {
-         // Check to see if there is a sub-dialog called "LOD_Main".  If there is, then
-         // we need to enable the "Set DBH" button.
-         if ( SetCursorFirstEntityByString( vTZTEDBLO, "DBS_SubDialog",
-                                            "Type", "LOD_Main", 0 ) == zCURSOR_SET )
+         // Check to see if there is a sub-dialog called "LOD_Main".  If there is, then we need to enable the "Set DBH" button.
+         if ( SetCursorFirstEntityByString( vTZTEDBLO, "DBS_SubDialog", "Type", "LOD_Main", 0 ) == zCURSOR_SET )
          {
             bEnable = TRUE;
          }
@@ -9939,9 +9899,7 @@ zwTZZOLODD_TransferToSetDBH( zVIEW vSubtask )
    GetStringFromAttribute( szDialogName, sizeof( szDialogName ), vTZTEDBLO, "DBS_SubDialog", "Dialog" );
    GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vTZTEDBLO, "DBS_SubDialog", "Window" );
 
-   SetWindowActionBehavior( vSubtask,
-                            zWAB_StartModalSubwindow + zWAB_ProcessImmediateAction,
-                            szDialogName, szWindowName );
+   SetWindowActionBehavior( vSubtask, zWAB_StartModalSubwindow + zWAB_ProcessImmediateAction, szDialogName, szWindowName );
 
    return( 0 );
 } // zwTZZOLODD_TransferToSetDBH
@@ -10024,8 +9982,7 @@ zwfnTZZOLODD_FoundPOD_Entity( zVIEW vLOD, zULONG ulZKey )
 {
    zSHORT nRC;
 
-   if ( CompareAttributeToInteger( vLOD, "LOD_EntityParent", "ZKey",
-                                   ulZKey ) == 0 )
+   if ( CompareAttributeToInteger( vLOD, "LOD_EntityParent", "ZKey", ulZKey ) == 0 )
    {
       if ( CheckExistenceOfEntity( vLOD, "POD_Entity" ) >= zCURSOR_SET )
          return( 1 );
@@ -10063,8 +10020,7 @@ zwfnTZZOLODD_DeletePOD_Entity( zVIEW vSubtask, zVIEW vTZZOLODO )
    if ( CompareAttributeToString( vTZZOLODO, "LOD_Entity", "Work", "Y" ) == 0 ||
         CompareAttributeToString( vTZZOLODO, "LOD_Entity", "Derived", "Y" ) == 0 )
    {
-      GetIntegerFromAttribute( (zLONG *) &ulZKey,
-                               vTZZOLODO, "LOD_Entity", "ZKey" );
+      GetIntegerFromAttribute( (zLONG *) &ulZKey, vTZZOLODO, "LOD_Entity", "ZKey" );
       zwfnTZZOLODD_IfPOD_Entity( vTZZOLODO, ulZKey, TRUE );
    }
 
@@ -10532,9 +10488,8 @@ zwTZZOLODD_ConvertEntityToWork( zVIEW vSubtask )
    zVIEW  vTZZOLODO;
    zSHORT nRC;
 
-   // Convert the LOD, if it is an ER LOD, to a work LOD.
-   // This will be done by looping through every entity and attribute and making sure that they are
-   // flagged as work.
+   // Convert the LOD, if it is an ER LOD, to a work LOD.  This will be done by looping through every entity and attribute and
+   // making sure that they are flagged as work.
 
    if ( GetViewByName( &vTZZOLODO, "TZZOLODO", vSubtask, zLEVEL_TASK ) == zLEVEL_TASK )
    {

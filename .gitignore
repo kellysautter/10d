@@ -64,6 +64,8 @@ mtznlast.bat
 *_p.c
 *.asm
 *.bak
+*.cbk
+*.cb2
 *.dep
 *.dxx
 *.err

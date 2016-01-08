@@ -235,7 +235,7 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szStyle
    STRING ( 256 ) szStyleCalendar
    STRING ( 256 ) szClass
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    STRING ( 10 )  szWidth
    STRING ( 10 )  szHeight
    STRING ( 10 )  szX_Pos
@@ -415,7 +415,7 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szClass
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    STRING ( 100 ) szPosition
    STRING ( 16 )  szTabIndex
    STRING ( 20 )  szSpaces
@@ -589,7 +589,7 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 10 )  szHeight
    STRING ( 10 )  szX_Pos
    STRING ( 10 )  szY_Pos
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    DECIMAL        dDLUnits
    INTEGER        lSubtype
    SHORT          nRC
@@ -1325,7 +1325,6 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 85 )  szHTMLCtrlID
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
-   STRING ( 100 ) szStyle
    STRING ( 256 ) szClass
    STRING ( 32 )  szActionName
    STRING ( 50 )  szControlType
@@ -1334,6 +1333,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 32 )  szContextName
    STRING ( 10 )  szMaxStringLength
    STRING ( 32 )  szSize
+   STRING ( 256 ) szStyle
    STRING ( 256 ) szAbsoluteStyle
 
    STRING ( 1 )   szNoHeightFlag
@@ -2180,7 +2180,7 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 600 ) szEditActionCode
    STRING ( 32 )  szActionName
    STRING ( 10 )  szMaxStringLength
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    STRING ( 1 )   szWCP_Hidden
    STRING ( 1 )   szCreateSessionVariable
    STRING ( 1 )   szNoOutputMapping
@@ -3093,7 +3093,7 @@ GenJSPJ_CrteListBox( VIEW vDialog,
    STRING ( 10 )  szHeight
    STRING ( 10 )  szX_Pos
    STRING ( 10 )  szY_Pos
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    DECIMAL        dDLUnits
    INTEGER        lSubtype
    INTEGER        lMaxStringLength
@@ -3362,10 +3362,10 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szClass
    STRING ( 50 )  szControlType
    STRING ( 50 )  szSize
-   STRING ( 50 )  szHeight
+   STRING ( 10 )  szHeight
    STRING ( 256 ) szAbsoluteStyle
    STRING ( 50 )  szTitleHTML
-   STRING ( 50 )  szTabIndex
+   STRING ( 16 )  szTabIndex
    STRING ( 50 )  szActionName
    STRING ( 500 ) szActionCode
    STRING ( 256 ) szText
@@ -3583,16 +3583,16 @@ END
 GLOBAL OPERATION
 GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
                         VIEW vGroupParent BASED ON LOD TZWDLGSO,
-                     INTEGER          lFile,
-                     STRING ( 10000 ) szWriteBuffer,
-                     STRING ( 50 )    szIndent,
-                     STRING ( 32 )    szCtrlTag,
-                     STRING ( 1 )     szTableRowFlag,
-                     STRING ( 20 )    szJustify,
-                     STRING ( 1 )     szNoPositioning,
-                     INTEGER          lOffsetX,
-                     INTEGER          lOffsetY,
-                     STRING ( 100 )   szRepeatGrpKey )
+                        INTEGER          lFile,
+                        STRING ( 10000 ) szWriteBuffer,
+                        STRING ( 50 )    szIndent,
+                        STRING ( 32 )    szCtrlTag,
+                        STRING ( 1 )     szTableRowFlag,
+                        STRING ( 20 )    szJustify,
+                        STRING ( 1 )     szNoPositioning,
+                        INTEGER          lOffsetX,
+                        INTEGER          lOffsetY,
+                        STRING ( 100 )   szRepeatGrpKey )
 
    // Format an PushButton control.
 
@@ -3607,14 +3607,14 @@ GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 300 ) szType
    STRING ( 256 ) szText
    STRING ( 50 )  szParentWebType
-   STRING ( 256 )  szTerm
+   STRING ( 256 ) szTerm
    STRING ( 256 ) szAction
    STRING ( 64 )  szWidget
    STRING ( 16 )  szTabIndex
    STRING ( 600 ) szEditActionCode
    STRING ( 32 )  szActionName
    STRING ( 10 )  szMaxStringLength
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    STRING ( 1 )   szWCP_Hidden
    STRING ( 1 )   szCreateSessionVariable
    STRING ( 1 )   szBrowseFile

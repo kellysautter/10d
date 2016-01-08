@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO 01/06/16   10:44:24 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO 01/07/16   08:18:08 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -9730,7 +9730,7 @@ eW_MetaDef 3
 
 eCompiler  2
 aName      AutoGen
-aMakeOption 7
+aMakeOption 2
 aCurrentCompilerSpec N
 aCreateExternalList 0
 aBrowseInfo N

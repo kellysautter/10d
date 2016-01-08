@@ -498,16 +498,16 @@ BuildSideNavSectionJ( zVIEW     vDialog,
 //:GLOBAL OPERATION
 //:GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
 //:                        VIEW vGroupParent BASED ON LOD TZWDLGSO,
-//:                     INTEGER          lFile,
-//:                     STRING ( 10000 ) szWriteBuffer,
-//:                     STRING ( 50 )    szIndent,
-//:                     STRING ( 32 )    szCtrlTag,
-//:                     STRING ( 1 )     szTableRowFlag,
-//:                     STRING ( 20 )    szJustify,
-//:                     STRING ( 1 )     szNoPositioning,
-//:                     INTEGER          lOffsetX,
-//:                     INTEGER          lOffsetY,
-//:                     STRING ( 100 )   szRepeatGrpKey )
+//:                        INTEGER          lFile,
+//:                        STRING ( 10000 ) szWriteBuffer,
+//:                        STRING ( 50 )    szIndent,
+//:                        STRING ( 32 )    szCtrlTag,
+//:                        STRING ( 1 )     szTableRowFlag,
+//:                        STRING ( 20 )    szJustify,
+//:                        STRING ( 1 )     szNoPositioning,
+//:                        INTEGER          lOffsetX,
+//:                        INTEGER          lOffsetY,
+//:                        STRING ( 100 )   szRepeatGrpKey )
 
 //:   // Format an PushButton control.
 
@@ -547,7 +547,7 @@ GenJSPJ_CrtePushButton( zVIEW     vDialog,
    zCHAR     szText[ 257 ] = { 0 };
    //:STRING ( 50 )  szParentWebType
    zCHAR     szParentWebType[ 51 ] = { 0 };
-   //:STRING ( 256 )  szTerm
+   //:STRING ( 256 ) szTerm
    zCHAR     szTerm[ 257 ] = { 0 };
    //:STRING ( 256 ) szAction
    zCHAR     szAction[ 257 ] = { 0 };
@@ -561,8 +561,8 @@ GenJSPJ_CrtePushButton( zVIEW     vDialog,
    zCHAR     szActionName[ 33 ] = { 0 };
    //:STRING ( 10 )  szMaxStringLength
    zCHAR     szMaxStringLength[ 11 ] = { 0 };
-   //:STRING ( 10 )  szDisabled
-   zCHAR     szDisabled[ 11 ] = { 0 };
+   //:STRING ( 100 ) szDisabled
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:STRING ( 1 )   szWCP_Hidden
    zCHAR     szWCP_Hidden[ 2 ] = { 0 };
    //:STRING ( 1 )   szCreateSessionVariable
@@ -1117,14 +1117,14 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
    zCHAR     szControlType[ 51 ] = { 0 };
    //:STRING ( 50 )  szSize
    zCHAR     szSize[ 51 ] = { 0 };
-   //:STRING ( 50 )  szHeight
-   zCHAR     szHeight[ 51 ] = { 0 };
+   //:STRING ( 10 )  szHeight
+   zCHAR     szHeight[ 11 ] = { 0 };
    //:STRING ( 256 ) szAbsoluteStyle
    zCHAR     szAbsoluteStyle[ 257 ] = { 0 };
    //:STRING ( 50 )  szTitleHTML
    zCHAR     szTitleHTML[ 51 ] = { 0 };
-   //:STRING ( 50 )  szTabIndex
-   zCHAR     szTabIndex[ 51 ] = { 0 };
+   //:STRING ( 16 )  szTabIndex
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 50 )  szActionName
    zCHAR     szActionName[ 51 ] = { 0 };
    //:STRING ( 500 ) szActionCode
@@ -1711,8 +1711,8 @@ GenJSPJ_CrteListBox( zVIEW     vDialog,
    zCHAR     szX_Pos[ 11 ] = { 0 };
    //:STRING ( 10 )  szY_Pos
    zCHAR     szY_Pos[ 11 ] = { 0 };
-   //:STRING ( 10 )  szDisabled
-   zCHAR     szDisabled[ 11 ] = { 0 };
+   //:STRING ( 100 ) szDisabled
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:DECIMAL        dDLUnits
    ZDecimal  dDLUnits = 0.0;
    //:INTEGER        lSubtype
@@ -3716,8 +3716,8 @@ GenJSPJ_CrteEditBox( zVIEW     vDialog,
    zCHAR     szActionName[ 33 ] = { 0 };
    //:STRING ( 10 )  szMaxStringLength
    zCHAR     szMaxStringLength[ 11 ] = { 0 };
-   //:STRING ( 10 )  szDisabled
-   zCHAR     szDisabled[ 11 ] = { 0 };
+   //:STRING ( 100 ) szDisabled
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:STRING ( 1 )   szWCP_Hidden
    zCHAR     szWCP_Hidden[ 2 ] = { 0 };
    //:STRING ( 1 )   szCreateSessionVariable
@@ -4623,8 +4623,8 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
    zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
    zCHAR     szTitleHTML[ 257 ] = { 0 };
-   //:STRING ( 100 ) szStyle
-   zCHAR     szStyle[ 101 ] = { 0 };
+   //:STRING ( 256 ) szStyle
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 256 ) szClass
    zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 32 )  szActionName
@@ -6491,7 +6491,7 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
                ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
             }
 
-
+ 
             //:END
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
@@ -6584,10 +6584,10 @@ GenJSPJ_CrteCtrlsRadio( zVIEW     vDialog,
    zCHAR     szCtrlTag[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
    zCHAR     szTitleHTML[ 257 ] = { 0 };
-   //:STRING ( 10 )  szDisabled
-   zCHAR     szDisabled[ 11 ] = { 0 };
-   //:STRING ( 16 )  szPosition
-   zCHAR     szPosition[ 17 ] = { 0 };
+   //:STRING ( 100 ) szDisabled
+   zCHAR     szDisabled[ 101 ] = { 0 };
+   //:STRING ( 100 )  szPosition
+   zCHAR     szPosition[ 101 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
    zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 32 )  szActionName
@@ -6962,8 +6962,8 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
    zCHAR     szX_Pos[ 11 ] = { 0 };
    //:STRING ( 10 )  szY_Pos
    zCHAR     szY_Pos[ 11 ] = { 0 };
-   //:STRING ( 10 )  szDisabled
-   zCHAR     szDisabled[ 11 ] = { 0 };
+   //:STRING ( 100 ) szDisabled
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:DECIMAL        dDLUnits
    ZDecimal  dDLUnits = 0.0;
    //:INTEGER        lSubtype
@@ -8290,8 +8290,8 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
    zCHAR     szTitleHTML[ 257 ] = { 0 };
-   //:STRING ( 10 )  szDisabled
-   zCHAR     szDisabled[ 11 ] = { 0 };
+   //:STRING ( 100 ) szDisabled
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:STRING ( 100 ) szPosition
    zCHAR     szPosition[ 101 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
@@ -8665,8 +8665,8 @@ GenJSPJ_CrteCalendar( zVIEW     vDialog,
    zCHAR     szStyleCalendar[ 257 ] = { 0 };
    //:STRING ( 256 ) szClass
    zCHAR     szClass[ 257 ] = { 0 };
-   //:STRING ( 10 )  szDisabled
-   zCHAR     szDisabled[ 11 ] = { 0 };
+   //:STRING ( 100 ) szDisabled
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:STRING ( 10 )  szWidth
    zCHAR     szWidth[ 11 ] = { 0 };
    //:STRING ( 10 )  szHeight

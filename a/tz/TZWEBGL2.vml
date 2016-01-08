@@ -101,9 +101,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szWCP_FirstOccurrenceOnly
    STRING ( 1 )   szFirstTimeThrough
    STRING ( 1 )   szGridInGroup
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    STRING ( 1 )   szTableExport
-   STRING ( 100 ) szStyle
+   STRING ( 256 ) szStyle
    STRING ( 100 ) szRepeatingGroupKey
    DECIMAL        dDLUnits
    INTEGER        LastY_Pos

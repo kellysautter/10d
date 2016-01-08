@@ -9,12 +9,12 @@ CreateTabIndexString( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    VIEW vDialogRoot BASED ON LOD TZWDLGSO
    STRING ( 8 ) szWork
-   SHORT        nTabIndex
+   INTEGER      lTabIndex
 
    GET VIEW vDialogRoot NAMED "vDialogRoot"
-   nTabIndex = vDialog.Control.SyncKey
-   IF nTabIndex > 0 AND nTabIndex < 9999
-      zIntegerToString( szWork, 8, nTabIndex )
+   lTabIndex = vDialog.Control.SyncKey
+   IF lTabIndex > 0 AND lTabIndex < 9999
+      zIntegerToString( szWork, 8, lTabIndex )
       szTabIndex = " tabindex=" + szWork + " "
    ELSE
       GET VIEW vDialogRoot NAMED "DialogRoot"
@@ -25,7 +25,7 @@ CreateTabIndexString( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
    END
 
-   RETURN( nTabIndex )
+   RETURN( lTabIndex )
 END
 
 /////////////////////////////////////////////////////////////////////////////
@@ -487,7 +487,7 @@ GenJSP_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    STRING ( 256 ) szStyle
    STRING ( 256 ) szClass
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    STRING ( 10 )  szWidth
    STRING ( 10 )  szHeight
    STRING ( 10 )  szX_Pos
@@ -827,7 +827,7 @@ GenJSP_CrteListBox( VIEW vDialog,
    STRING ( 10 )  szHeight
    STRING ( 10 )  szX_Pos
    STRING ( 10 )  szY_Pos
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    DECIMAL        dDLUnits
    INTEGER        lSubtype
    INTEGER        lMaxStringLength
@@ -1401,8 +1401,8 @@ GenJSP_CrteCtrlsRadio( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szTitle
    STRING ( 256 ) szCtrlTag
    STRING ( 256 ) szTitleHTML
-   STRING ( 10 )  szDisabled
-   STRING ( 16 )  szPosition
+   STRING ( 100 ) szDisabled
+   STRING ( 100 ) szPosition
    STRING ( 16 )  szTabIndex
    STRING ( 32 )  szActionName
    STRING ( 1 )   szFirstTimeThru
@@ -1550,7 +1550,7 @@ GenJSP_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szClass
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    STRING ( 100 ) szPosition
    STRING ( 16 )  szTabIndex
    STRING ( 20 )  szSpaces
@@ -2639,7 +2639,7 @@ GenJSP_CrteGroupTable(  VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 85 )  szHTMLCtrlID
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
-   STRING ( 100 ) szStyle
+   STRING ( 256 ) szStyle
    STRING ( 256 ) szClass
    STRING ( 32 )  szActionName
    STRING ( 50 )  szControlType

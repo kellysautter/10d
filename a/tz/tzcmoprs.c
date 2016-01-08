@@ -1196,7 +1196,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
             SetNameForView( *pvMOI, "__MOI_Error", 0, zLEVEL_SUBTASK );
             TraceLine( "fnActivateMetaOI cannot find Domain (%d) in DomainGroup ... View: 0x%08x (%s or %s)",
                        ulOrigMetaOI_ZKey, *pvMOI, "__MOI_Error", szCM_ViewName );
-         // DisplayObjectInstance( vWkListView, "", "" );
+            DisplayObjectInstance( *pvMOI, "", "" );
             MessageSend( vSubtask, "CM00417", "Configuration Management",
                          "Couldn't find Domain in DomainGroup",
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1213,7 +1213,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
             SetNameForView( *pvMOI, "__MetaGroup_Error", vSubtask, zLEVEL_TASK );
             TraceLine( "Couldn't find \"Operation\" (__MetaGroup_Error view: %s) in Global Op Group by ZKey: %d",
                        szCM_ViewName, ulOrigMetaOI_ZKey );
-         // DisplayObjectInstance( vWkListView, "", "" );
+            DisplayObjectInstance( *pvMOI, "", "" );
             MessageSend( vSubtask, "CM00418", "Configuration Management",
                          "Couldn't find Global Op in Global Op Group",
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1392,7 +1392,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
    // I don't think the following command is necessary, so I'm going to take it out.
 // ResetView( *pvMOI );
 
-   // If we are activating a Domaim, we must position on the correct Domain within the Domain Group.
+   // If we are activating a Domain, we must position on the correct Domain within the Domain Group.
    if ( nOrigType == zSOURCE_DOMAIN_META || nOrigType == zREFER_DOMAIN_META )
    {
       if ( SetCursorFirstEntityByInteger( *pvMOI, "Domain", "ZKey", ulOrigMetaOI_ZKey, "" ) != zCURSOR_SET )
@@ -1400,6 +1400,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
          SetNameForView( *pvMOI, "__MOI_Error", vSubtask, zLEVEL_SUBTASK );
          TraceLine( "fnActivateMetaOI2 cannot find Domain (%d) in DomainGroup ... View: 0x%08x (%s)",
                     ulOrigMetaOI_ZKey, *pvMOI, "__MOI_Error" );
+         DisplayObjectInstance( *pvMOI, "", "" );
          MessageSend( vSubtask, "CM00417", "Configuration Management",
                       "Couldn't find Domain in DomainGroup",
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1414,6 +1415,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
       {
          SetNameForView( *pvMOI, "MetaGroup", vSubtask, zLEVEL_TASK );
          TraceLine( "Couldn't find \"Operation\" (MetaGroup view:%s) in Global Op Group by ZKey: %d", szCM_ViewName, ulOrigMetaOI_ZKey );
+         DisplayObjectInstance( *pvMOI, "", "" );
          MessageSend( vSubtask, "CM00418", "Configuration Management",
                       "Couldn't find Global Op in Global Op Group",
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
