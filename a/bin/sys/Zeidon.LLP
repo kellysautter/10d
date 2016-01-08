@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO 01/08/16   09:44:36 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO 01/08/16   12:05:51 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -6874,8 +6874,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZOBRWAD
 aDesc      System Object Browser
-aLastSyncDate 20160105090347801
-aLastUpdateDate 20160105090347801
+aLastSyncDate 20160108120304113
+aLastUpdateDate 20160108120304113
 
 eW_MetaDef 3
 aCPLR_ZKey 1346123

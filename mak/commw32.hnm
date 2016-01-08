@@ -77,7 +77,7 @@ linkdlls = user32.lib advapi32.lib kernel32.lib shell32.lib uuid.lib gdi32.lib k
 linkexes = user32.lib advapi32.lib kernel32.lib shell32.lib uuid.lib gdi32.lib kzoengaa.lib
 
 !if $(debug)
-opt = -DDEBUG -D_DEBUG -Od $(opt) -FAs
+opt = -DDEBUG -D_DEBUG -Od $(opt)
 linkopt = /DEBUG:FULL $(linkopt)
 EXEFLAG = /MTd
 DLLFLAG = /MDd
