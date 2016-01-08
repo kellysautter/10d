@@ -1,13 +1,13 @@
 #define KZSYSSVC_INCL
-#include "KZOENGAA.H" 
-#include "TZVMLIP.H" 
-#include "ZDRVROPR.H" 
- 
+#include "KZOENGAA.H"
+#include "TZVMLIP.H"
+#include "ZDRVROPR.H"
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
- 
+
 #include "ZEIDONOP.H"
 
 //:GLOBAL OPERATION
@@ -21,31 +21,31 @@ BuildMainNavSection( zVIEW     vDialog,
                      zVIEW     vDialogRoot,
                      zLONG     lFile )
 {
-   zCHAR     szWriteBuffer[ 10001 ] = { 0 }; 
+   zCHAR     szWriteBuffer[ 10001 ] = { 0 };
    //:STRING ( 50 )    szNavigationTitle
-   zCHAR     szNavigationTitle[ 51 ] = { 0 }; 
+   zCHAR     szNavigationTitle[ 51 ] = { 0 };
    //:STRING ( 256 )   szHTML_Address
-   zCHAR     szHTML_Address[ 257 ] = { 0 }; 
+   zCHAR     szHTML_Address[ 257 ] = { 0 };
    //:STRING ( 256 )   szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 50 )    szDialogName
-   zCHAR     szDialogName[ 51 ] = { 0 }; 
+   zCHAR     szDialogName[ 51 ] = { 0 };
    //:STRING ( 50 )    szMenuName
-   zCHAR     szMenuName[ 51 ] = { 0 }; 
+   zCHAR     szMenuName[ 51 ] = { 0 };
    //:STRING ( 34 )    szActionName
-   zCHAR     szActionName[ 35 ] = { 0 }; 
+   zCHAR     szActionName[ 35 ] = { 0 };
    //:INTEGER          ActionType
-   zLONG     ActionType = 0; 
+   zLONG     ActionType = 0;
    //:SHORT            nRC
-   zSHORT    nRC = 0; 
-   zSHORT    lTempInteger_0; 
-   zCHAR     szTempString_0[ 255 ]; 
-   zSHORT    RESULT; 
-   zCHAR     szTempString_1[ 255 ]; 
-   zSHORT    lTempInteger_1; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zSHORT    lTempInteger_2; 
-   zLONG     lTempInteger_3; 
+   zSHORT    nRC = 0;
+   zSHORT    lTempInteger_0;
+   zCHAR     szTempString_0[ 255 ];
+   zSHORT    RESULT;
+   zCHAR     szTempString_1[ 255 ];
+   zSHORT    lTempInteger_1;
+   zCHAR     szTempString_2[ 33 ];
+   zSHORT    lTempInteger_2;
+   zLONG     lTempInteger_3;
 
 
    //:// MAIN NAVIGATION BAR
@@ -57,21 +57,21 @@ BuildMainNavSection( zVIEW     vDialog,
    //:IF vDialogRoot.Menu EXISTS
    lTempInteger_0 = CheckExistenceOfEntity( vDialogRoot, "Menu" );
    if ( lTempInteger_0 == 0 )
-   { 
+   {
       //:szMenuName = vDialogRoot.Menu.Tag
       GetVariableFromAttribute( szMenuName, 0, 'S', 51, vDialogRoot, "Menu", "Tag", "", 0 );
       //:IF vDialogRoot.Menu.CSS_Class != ""
       if ( CompareAttributeToString( vDialogRoot, "Menu", "CSS_Class", "" ) != 0 )
-      { 
+      {
          //:szClass = " class=^" + vDialogRoot.Menu.CSS_Class + "^ "
          GetVariableFromAttribute( szTempString_0, 0, 'S', 255, vDialogRoot, "Menu", "CSS_Class", "", 0 );
          ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, szTempString_0, 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
    //:szWriteBuffer = "<div id=^mainnavigation^" + szClass + ">"
@@ -93,42 +93,42 @@ BuildMainNavSection( zVIEW     vDialog,
    //:FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
    RESULT = SetCursorFirstEntity( vDialogRoot, "OptAct", "Menu" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   { 
+   {
       //:szNavigationTitle = vDialogRoot.Option.Text
       GetVariableFromAttribute( szNavigationTitle, 0, 'S', 51, vDialogRoot, "Option", "Text", "", 0 );
       //:szDialogName = vDialogRoot.OptAct.DialogName
       GetVariableFromAttribute( szDialogName, 0, 'S', 51, vDialogRoot, "OptAct", "DialogName", "", 0 );
       //:IF szDialogName = ""
       if ( ZeidonStringCompare( szDialogName, 1, 0, "", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:szDialogName = "NoDialogName"
          ZeidonStringCopy( szDialogName, 1, 0, "NoDialogName", 1, 0, 51 );
-      } 
+      }
 
       //:END
 
       //:IF vDialogRoot.Option.CSS_Class != ""
       if ( CompareAttributeToString( vDialogRoot, "Option", "CSS_Class", "" ) != 0 )
-      { 
+      {
          //:szClass = " class=^" + vDialogRoot.Option.CSS_Class + "^ "
          GetVariableFromAttribute( szTempString_1, 0, 'S', 255, vDialogRoot, "Option", "CSS_Class", "", 0 );
          ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, szTempString_1, 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szClass = ""
          ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
-      } 
+      }
 
       //:END
 
       //:IF vDialogRoot.OptAct EXISTS
       lTempInteger_1 = CheckExistenceOfEntity( vDialogRoot, "OptAct" );
       if ( lTempInteger_1 == 0 )
-      { 
+      {
          //://Because the menu actions can be created on separate windows from the control
          //://actions, we need to make sure these actions are unique.  We will prefix a
          //://"m" to the main menu actions and prefix a "sm" to the side menu actions.
@@ -139,32 +139,32 @@ BuildMainNavSection( zVIEW     vDialog,
          //:ActionType = vDialogRoot.OptAct.Type
          GetIntegerFromAttribute( &ActionType, vDialogRoot, "OptAct", "Type" );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szActionName = ""
          ZeidonStringCopy( szActionName, 1, 0, "", 1, 0, 35 );
          //:ActionType = 0
          ActionType = 0;
-      } 
+      }
 
       //:END
 
       //:IF ActionType = zWAB_LinkToHTML_Address
       if ( ActionType == zWAB_LinkToHTML_Address )
-      { 
+      {
          //:szHTML_Address = ""
          ZeidonStringCopy( szHTML_Address, 1, 0, "", 1, 0, 257 );
          //:IF vDialogRoot.OptAct EXISTS
          lTempInteger_2 = CheckExistenceOfEntity( vDialogRoot, "OptAct" );
          if ( lTempInteger_2 == 0 )
-         { 
+         {
             //:SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
             GetIntegerFromAttribute( &lTempInteger_3, vDialogRoot, "OptAct", "ZKey" );
             RESULT = SetCursorFirstEntityByInteger( vDialogRoot, "Action", "ZKey", lTempInteger_3, "" );
             //:szHTML_Address = vDialogRoot.Action.WebHTML_TransferAddress
             GetVariableFromAttribute( szHTML_Address, 0, 'S', 257, vDialogRoot, "Action", "WebHTML_TransferAddress", "", 0 );
-         } 
+         }
 
          //:END
          //:szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ " + szClass + "><a href=^" + szHTML_Address + "^ target=^_blank^>" + szNavigationTitle + "</a></li>"
@@ -180,9 +180,9 @@ BuildMainNavSection( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szNavigationTitle, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "</a></li>", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:// Regular Action
 
          //:szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ " + szClass + "><a href=^#^ onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
@@ -197,13 +197,13 @@ BuildMainNavSection( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "()^>", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szNavigationTitle, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "</a></li>", 1, 0, 10001 );
-      } 
+      }
 
       //:END
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
       RESULT = SetCursorNextEntity( vDialogRoot, "OptAct", "Menu" );
-   } 
+   }
 
    //:END
 
@@ -238,7 +238,7 @@ BuildMainNavSection( zVIEW     vDialog,
 //    //szWriteBuffer = "</div>"
 //    //WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -264,37 +264,37 @@ GenJSP_CrteJPG( zVIEW     vDialog,
                 zLONG     lOffsetX,
                 zLONG     lOffsetY )
 {
-   zCHAR     szContextName[ 33 ] = { 0 }; 
+   zCHAR     szContextName[ 33 ] = { 0 };
    //:STRING ( 256 ) szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 256 ) szStyle
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
-   zCHAR     szTabIndex[ 17 ] = { 0 }; 
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 256 ) szTitle
-   zCHAR     szTitle[ 257 ] = { 0 }; 
+   zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
-   zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   zCHAR     szTitleHTML[ 257 ] = { 0 };
    //:STRING ( 256 ) szText
-   zCHAR     szText[ 257 ] = { 0 }; 
+   zCHAR     szText[ 257 ] = { 0 };
    //:STRING ( 32 )  szActionName
-   zCHAR     szActionName[ 33 ] = { 0 }; 
+   zCHAR     szActionName[ 33 ] = { 0 };
    //:INTEGER        nRC
-   zLONG     nRC = 0; 
-   zSHORT    lTempInteger_0; 
-   zCHAR     szTempString_0[ 255 ]; 
-   zCHAR     szTempString_1[ 255 ]; 
-   zSHORT    RESULT; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zCHAR     szTempString_4[ 33 ]; 
-   zCHAR     szTempString_5[ 33 ]; 
-   zCHAR     szTempString_6[ 33 ]; 
-   zCHAR     szTempString_7[ 33 ]; 
-   zCHAR     szTempString_8[ 33 ]; 
-   zCHAR     szTempString_9[ 33 ]; 
-   zCHAR     szTempString_10[ 261 ]; 
-   zCHAR     szTempString_11[ 261 ]; 
+   zLONG     nRC = 0;
+   zSHORT    lTempInteger_0;
+   zCHAR     szTempString_0[ 255 ];
+   zCHAR     szTempString_1[ 255 ];
+   zSHORT    RESULT;
+   zCHAR     szTempString_2[ 33 ];
+   zCHAR     szTempString_3[ 33 ];
+   zCHAR     szTempString_4[ 33 ];
+   zCHAR     szTempString_5[ 33 ];
+   zCHAR     szTempString_6[ 33 ];
+   zCHAR     szTempString_7[ 33 ];
+   zCHAR     szTempString_8[ 33 ];
+   zCHAR     szTempString_9[ 33 ];
+   zCHAR     szTempString_10[ 261 ];
+   zCHAR     szTempString_11[ 261 ];
 
 
    //:CreateTabIndexString( vDialog, szTabIndex )
@@ -304,16 +304,16 @@ GenJSP_CrteJPG( zVIEW     vDialog,
    //:// do not create the position in the style.
    //:IF  szNoPositioning = "Y"
    if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:CreateNoPosStyleString( vDialog, szStyle, "" )
       CreateNoPosStyleString( vDialog, szStyle, "" );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
       CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" );
-   } 
+   }
 
    //:END
 
@@ -326,20 +326,20 @@ GenJSP_CrteJPG( zVIEW     vDialog,
    //:IF vDialog.EventAct EXISTS
    lTempInteger_0 = CheckExistenceOfEntity( vDialog, "EventAct" );
    if ( lTempInteger_0 == 0 )
-   { 
+   {
       //:szActionName = vDialog.EventAct.Tag
       GetVariableFromAttribute( szActionName, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
       //:nRC = zstrcmpi( szActionName, "alt-f4" )
       nRC = zstrcmpi( szActionName, "alt-f4" );
       //:IF nRC = 0
       if ( nRC == 0 )
-      { 
+      {
          //:szActionName = "AltF4"
          ZeidonStringCopy( szActionName, 1, 0, "AltF4", 1, 0, 33 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
 
@@ -347,13 +347,13 @@ GenJSP_CrteJPG( zVIEW     vDialog,
    ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
    //:IF vDialog.Control.CSS_Class != ""
    if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 )
-   { 
+   {
       //:szClass = " class=^" + vDialog.Control.CSS_Class + "^ "
       GetVariableFromAttribute( szTempString_0, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
       ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
       ZeidonStringConcat( szClass, 1, 0, szTempString_0, 1, 0, 257 );
       ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
@@ -364,25 +364,25 @@ GenJSP_CrteJPG( zVIEW     vDialog,
    GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
    //:IF szTitle != ""
    if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
-   { 
+   {
       //:szTitleHTML = " title=^" + szTitle + "^ "
       ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
    //:szText = ""
    ZeidonStringCopy( szText, 1, 0, "", 1, 0, 257 );
    //:IF  vDialog.Control.Text != ""
    if ( CompareAttributeToString( vDialog, "Control", "Text", "" ) != 0 )
-   { 
+   {
       //:szText = " alt=^" + vDialog.Control.Text + "^ "
       GetVariableFromAttribute( szTempString_1, 0, 'S', 255, vDialog, "Control", "Text", "", 0 );
       ZeidonStringCopy( szText, 1, 0, " alt=^", 1, 0, 257 );
       ZeidonStringConcat( szText, 1, 0, szTempString_1, 1, 0, 257 );
       ZeidonStringConcat( szText, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
@@ -393,7 +393,7 @@ GenJSP_CrteJPG( zVIEW     vDialog,
    RESULT = SetCursorFirstEntity( vDialog, "CtrlMapLOD_Attribute", "Control" );
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
-   { 
+   {
 
       //:szWriteBuffer = "<% strErrorMapValue = ^^;"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<% strErrorMapValue = ^^;", 1, 0, 10001 );
@@ -478,7 +478,7 @@ GenJSP_CrteJPG( zVIEW     vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
       //:IF  szActionName = ""
       if ( ZeidonStringCompare( szActionName, 1, 0, "", 1, 0, 33 ) == 0 )
-      { 
+      {
          //:szWriteBuffer = "<img src=^<%=strErrorMapValue%>^ " + szStyle + szTitleHTML + szClass + szText + ">"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<img src=^<%=strErrorMapValue%>^ ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
@@ -489,9 +489,9 @@ GenJSP_CrteJPG( zVIEW     vDialog,
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szWriteBuffer = "<img src=^<%=strErrorMapValue%>^ onclick=^" + szActionName + "()^ " + szStyle + szTitleHTML + szClass + szText + ">"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<img src=^<%=strErrorMapValue%>^ onclick=^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
@@ -503,20 +503,20 @@ GenJSP_CrteJPG( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-      } 
+      }
 
       //:END
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //://Not getting image from mapping, a file name has been specified.
       //:IF vDialog.Control.WebFileName != ""
       if ( CompareAttributeToString( vDialog, "Control", "WebFileName", "" ) != 0 )
-      { 
+      {
          //:IF szActionName = ""
          if ( ZeidonStringCompare( szActionName, 1, 0, "", 1, 0, 33 ) == 0 )
-         { 
+         {
             //://szWriteBuffer = "<a href=^#^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ ><img src=^" +
             //://   vDialog.Control.WebFileName + "^ " + szStyle + szTitleHTML + "></a>"
             //:szWriteBuffer = "<img src=^" + vDialog.Control.WebFileName + "^  name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " +
@@ -535,9 +535,9 @@ GenJSP_CrteJPG( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szWriteBuffer = "<img src=^" + vDialog.Control.WebFileName + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ onclick=^" +
             //:                szActionName + "( )^ " + szStyle + szTitleHTML + szClass + szText + ">"
             GetVariableFromAttribute( szTempString_11, 0, 'S', 261, vDialog, "Control", "WebFileName", "", 0 );
@@ -555,7 +555,7 @@ GenJSP_CrteJPG( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-         } 
+         }
 
          //:   //szWriteBuffer = "<a href=^#^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ ^onclick=^" +
          //:   //                szActionName + "( )^><img src=^" + vDialog.Control.WebFileName + "^ " + szStyle + szTitleHTML + "></a>"
@@ -563,23 +563,23 @@ GenJSP_CrteJPG( zVIEW     vDialog,
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //://Neither mapping nor filename was specified.
          //:szWriteBuffer = "//There was no information on where to get the image.  Nothing created."
          ZeidonStringCopy( szWriteBuffer, 1, 0, "//There was no information on where to get the image.  Nothing created.", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
    return;
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -595,11 +595,11 @@ GenJSP_ChildFunctions( zVIEW     vDialog,
                        zPCHAR    szWriteBuffer,
                        zPCHAR    szFormName )
 {
-   zCHAR     szCtrlTag[ 51 ] = { 0 }; 
+   zCHAR     szCtrlTag[ 51 ] = { 0 };
 
    return;
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -623,127 +623,127 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                        zLONG     lTableRowCnt,
                        zPCHAR    szNoPositioning )
 {
-   zLONG     X_Size = 0; 
+   zLONG     X_Size = 0;
    //:INTEGER        Y_Size
-   zLONG     Y_Size = 0; 
+   zLONG     Y_Size = 0;
    //:INTEGER        X_Pos
-   zLONG     X_Pos = 0; 
+   zLONG     X_Pos = 0;
    //:INTEGER        Y_Pos
-   zLONG     Y_Pos = 0; 
+   zLONG     Y_Pos = 0;
    //:INTEGER        LastY_Pos
-   zLONG     LastY_Pos = 0; 
+   zLONG     LastY_Pos = 0;
    //:INTEGER        iHighestColCnt
-   zLONG     iHighestColCnt = 0; 
+   zLONG     iHighestColCnt = 0;
    //:INTEGER        iColCnt
-   zLONG     iColCnt = 0; 
+   zLONG     iColCnt = 0;
    //:INTEGER        nRC
-   zLONG     nRC = 0; 
+   zLONG     nRC = 0;
    //:INTEGER        iColWidth
-   zLONG     iColWidth = 0; 
+   zLONG     iColWidth = 0;
    //:INTEGER        lMaxStringLength
-   zLONG     lMaxStringLength = 0; 
+   zLONG     lMaxStringLength = 0;
    //:INTEGER        lTemp
-   zLONG     lTemp = 0; 
+   zLONG     lTemp = 0;
    //:INTEGER        lStyleX
-   zLONG     lStyleX = 0; 
+   zLONG     lStyleX = 0;
    //:INTEGER        Size
-   zLONG     Size = 0; 
+   zLONG     Size = 0;
    //:INTEGER        lOffsetX
-   zLONG     lOffsetX = 0; 
+   zLONG     lOffsetX = 0;
    //:INTEGER        lOffsetY
-   zLONG     lOffsetY = 0; 
+   zLONG     lOffsetY = 0;
    //:DECIMAL        dDLUnits
-   ZDecimal  dDLUnits = 0.0; 
+   ZDecimal  dDLUnits = 0.0;
    //:STRING ( 10 )  szColCnt
-   zCHAR     szColCnt[ 11 ] = { 0 }; 
+   zCHAR     szColCnt[ 11 ] = { 0 };
    //:STRING ( 10 )  szWidth
-   zCHAR     szWidth[ 11 ] = { 0 }; 
+   zCHAR     szWidth[ 11 ] = { 0 };
    //:STRING ( 10 )  szHeight
-   zCHAR     szHeight[ 11 ] = { 0 }; 
+   zCHAR     szHeight[ 11 ] = { 0 };
    //:STRING ( 50 )  szCtrlTag
-   zCHAR     szCtrlTag[ 51 ] = { 0 }; 
+   zCHAR     szCtrlTag[ 51 ] = { 0 };
    //:STRING ( 50 )  szParentCtrlTag
-   zCHAR     szParentCtrlTag[ 51 ] = { 0 }; 
+   zCHAR     szParentCtrlTag[ 51 ] = { 0 };
    //:STRING ( 85 )  szHTMLCtrlID
-   zCHAR     szHTMLCtrlID[ 86 ] = { 0 }; 
+   zCHAR     szHTMLCtrlID[ 86 ] = { 0 };
    //:STRING ( 256 ) szTitle
-   zCHAR     szTitle[ 257 ] = { 0 }; 
+   zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
-   zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   zCHAR     szTitleHTML[ 257 ] = { 0 };
    //:STRING ( 256 ) szStyle
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 256 ) szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 32 )  szActionName
-   zCHAR     szActionName[ 33 ] = { 0 }; 
+   zCHAR     szActionName[ 33 ] = { 0 };
    //:STRING ( 50 )  szControlType
-   zCHAR     szControlType[ 51 ] = { 0 }; 
+   zCHAR     szControlType[ 51 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
-   zCHAR     szTabIndex[ 17 ] = { 0 }; 
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 256 ) szText
-   zCHAR     szText[ 257 ] = { 0 }; 
+   zCHAR     szText[ 257 ] = { 0 };
    //:STRING ( 32 )  szContextName
-   zCHAR     szContextName[ 33 ] = { 0 }; 
+   zCHAR     szContextName[ 33 ] = { 0 };
    //:STRING ( 10 )  szMaxStringLength
-   zCHAR     szMaxStringLength[ 11 ] = { 0 }; 
+   zCHAR     szMaxStringLength[ 11 ] = { 0 };
    //:STRING ( 32 )  szSize
-   zCHAR     szSize[ 33 ] = { 0 }; 
+   zCHAR     szSize[ 33 ] = { 0 };
    //:STRING ( 256 ) szAbsoluteStyle
-   zCHAR     szAbsoluteStyle[ 257 ] = { 0 }; 
+   zCHAR     szAbsoluteStyle[ 257 ] = { 0 };
 
    //:STRING ( 1 )   szNoHeightFlag
-   zCHAR     szNoHeightFlag[ 2 ] = { 0 }; 
+   zCHAR     szNoHeightFlag[ 2 ] = { 0 };
    //:STRING ( 1 )   szNoWidthFlag
-   zCHAR     szNoWidthFlag[ 2 ] = { 0 }; 
+   zCHAR     szNoWidthFlag[ 2 ] = { 0 };
    //:STRING ( 1 )   szSpanFlag
-   zCHAR     szSpanFlag[ 2 ] = { 0 }; 
+   zCHAR     szSpanFlag[ 2 ] = { 0 };
    //:STRING ( 1 )   szDivFlag
-   zCHAR     szDivFlag[ 2 ] = { 0 }; 
+   zCHAR     szDivFlag[ 2 ] = { 0 };
    //:STRING ( 1 )   szScrollableFlag
-   zCHAR     szScrollableFlag[ 2 ] = { 0 }; 
+   zCHAR     szScrollableFlag[ 2 ] = { 0 };
    //:STRING ( 1 )   szScrollingTable
-   zCHAR     szScrollingTable[ 2 ] = { 0 }; 
+   zCHAR     szScrollingTable[ 2 ] = { 0 };
    //:STRING ( 1 )   szGroupIsTable
-   zCHAR     szGroupIsTable[ 2 ] = { 0 }; 
+   zCHAR     szGroupIsTable[ 2 ] = { 0 };
    //:STRING ( 1 )   szTinyMCEFlag
-   zCHAR     szTinyMCEFlag[ 2 ] = { 0 }; 
+   zCHAR     szTinyMCEFlag[ 2 ] = { 0 };
    //:STRING ( 100 ) szIndentGroup
-   zCHAR     szIndentGroup[ 101 ] = { 0 }; 
+   zCHAR     szIndentGroup[ 101 ] = { 0 };
    //:STRING ( 50 )  szWebCtrlType
-   zCHAR     szWebCtrlType[ 51 ] = { 0 }; 
-   zCHAR     szTempString_0[ 255 ]; 
-   zSHORT    lTempInteger_0; 
-   zSHORT    RESULT; 
-   zSHORT    lTempInteger_1; 
-   zLONG     lTempInteger_2; 
-   zCHAR     szTempString_1[ 255 ]; 
-   zLONG     lTempInteger_3; 
-   zLONG     lTempInteger_4; 
-   zLONG     lTempInteger_5; 
-   zLONG     lTempInteger_6; 
-   zCHAR     szTempString_2[ 255 ]; 
-   zSHORT    lTempInteger_7; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zCHAR     szTempString_4[ 33 ]; 
-   zCHAR     szTempString_5[ 33 ]; 
-   zCHAR     szTempString_6[ 33 ]; 
-   zCHAR     szTempString_7[ 33 ]; 
-   zCHAR     szTempString_8[ 33 ]; 
-   zCHAR     szTempString_9[ 33 ]; 
-   zCHAR     szTempString_10[ 33 ]; 
-   zCHAR     szTempString_11[ 255 ]; 
-   zSHORT    lTempInteger_8; 
-   zCHAR     szTempString_12[ 255 ]; 
-   zCHAR     szTempString_13[ 33 ]; 
-   zCHAR     szTempString_14[ 33 ]; 
-   zCHAR     szTempString_15[ 33 ]; 
-   zCHAR     szTempString_16[ 33 ]; 
-   zCHAR     szTempString_17[ 33 ]; 
-   zSHORT    lTempInteger_9; 
-   zCHAR     szTempString_18[ 33 ]; 
-   zCHAR     szTempString_19[ 33 ]; 
-   zCHAR     szTempString_20[ 33 ]; 
-   zCHAR     szTempString_21[ 255 ]; 
+   zCHAR     szWebCtrlType[ 51 ] = { 0 };
+   zCHAR     szTempString_0[ 255 ];
+   zSHORT    lTempInteger_0;
+   zSHORT    RESULT;
+   zSHORT    lTempInteger_1;
+   zLONG     lTempInteger_2;
+   zCHAR     szTempString_1[ 255 ];
+   zLONG     lTempInteger_3;
+   zLONG     lTempInteger_4;
+   zLONG     lTempInteger_5;
+   zLONG     lTempInteger_6;
+   zCHAR     szTempString_2[ 255 ];
+   zSHORT    lTempInteger_7;
+   zCHAR     szTempString_3[ 33 ];
+   zCHAR     szTempString_4[ 33 ];
+   zCHAR     szTempString_5[ 33 ];
+   zCHAR     szTempString_6[ 33 ];
+   zCHAR     szTempString_7[ 33 ];
+   zCHAR     szTempString_8[ 33 ];
+   zCHAR     szTempString_9[ 33 ];
+   zCHAR     szTempString_10[ 33 ];
+   zCHAR     szTempString_11[ 255 ];
+   zSHORT    lTempInteger_8;
+   zCHAR     szTempString_12[ 255 ];
+   zCHAR     szTempString_13[ 33 ];
+   zCHAR     szTempString_14[ 33 ];
+   zCHAR     szTempString_15[ 33 ];
+   zCHAR     szTempString_16[ 33 ];
+   zCHAR     szTempString_17[ 33 ];
+   zSHORT    lTempInteger_9;
+   zCHAR     szTempString_18[ 33 ];
+   zCHAR     szTempString_19[ 33 ];
+   zCHAR     szTempString_20[ 33 ];
+   zCHAR     szTempString_21[ 255 ];
 
 
    //:LastY_Pos = 0
@@ -764,31 +764,31 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
    //:IF vGroupParent.Control.CSS_Class != ""
    if ( CompareAttributeToString( vGroupParent, "Control", "CSS_Class", "" ) != 0 )
-   { 
+   {
       //:szClass = " class=^" + vGroupParent.Control.CSS_Class + "^"
       GetVariableFromAttribute( szTempString_0, 0, 'S', 255, vGroupParent, "Control", "CSS_Class", "", 0 );
       ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
       ZeidonStringConcat( szClass, 1, 0, szTempString_0, 1, 0, 257 );
       ZeidonStringConcat( szClass, 1, 0, "^", 1, 0, 257 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:szClass = ""
       ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
    //:IF  vDialog.Control EXISTS
    lTempInteger_0 = CheckExistenceOfEntity( vDialog, "Control" );
    if ( lTempInteger_0 == 0 )
-   { 
+   {
       //:SET CURSOR  FIRST vDialog.Control
       RESULT = SetCursorFirstEntity( vDialog, "Control", "" );
       //:LastY_Pos = vDialog.Control.PSDLG_Y
       GetIntegerFromAttribute( &LastY_Pos, vDialog, "Control", "PSDLG_Y" );
-   } 
+   }
 
    //:END
 
@@ -797,23 +797,23 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    //:FOR EACH vDialog.Control
    RESULT = SetCursorFirstEntity( vDialog, "Control", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   { 
+   {
 
       //:IF  LastY_Pos < vDialog.Control.PSDLG_Y
       if ( CompareAttributeToInteger( vDialog, "Control", "PSDLG_Y", LastY_Pos ) > 0 )
-      { 
+      {
 
          //:IF  iColCnt > iHighestColCnt
          if ( iColCnt > iHighestColCnt )
-         { 
+         {
             //:iHighestColCnt = iColCnt
             iHighestColCnt = iColCnt;
-         } 
+         }
 
          //:END
          //:iColCnt = 0
          iColCnt = 0;
-      } 
+      }
 
       //:END
 
@@ -823,7 +823,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
       //:LastY_Pos = vDialog.Control.PSDLG_Y
       GetIntegerFromAttribute( &LastY_Pos, vDialog, "Control", "PSDLG_Y" );
       RESULT = SetCursorNextEntity( vDialog, "Control", "" );
-   } 
+   }
 
    //:END
 
@@ -840,7 +840,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    //:// 05/27/09 - Currently, we never put in a height.  Would we want to do this?????!!!.
    //:IF  szNoPositioning = "Y"
    if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
-   { 
+   {
 
       //:szNoWidthFlag = ""
       ZeidonStringCopy( szNoWidthFlag, 1, 0, "", 1, 0, 2 );
@@ -848,13 +848,13 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
       RESULT = SetCursorFirstEntityByString( vGroupParent, "WebControlProperty", "Name", "No Width", "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      { 
+      {
          //:szNoWidthFlag = "Y"
          ZeidonStringCopy( szNoWidthFlag, 1, 0, "Y", 1, 0, 2 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
 
@@ -870,12 +870,12 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    ZeidonStringConcat( szWriteBuffer, 1, 0, "^ style=^float:left;", 1, 0, 10001 );
    //:IF szNoWidthFlag = ""
    if ( ZeidonStringCompare( szNoWidthFlag, 1, 0, "", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:szWriteBuffer = szWriteBuffer + "width:" + szWidth + "px;"
       ZeidonStringConcat( szWriteBuffer, 1, 0, "width:", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szWidth, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "px;", 1, 0, 10001 );
-   } 
+   }
 
    //:END
    //:szWriteBuffer = szWriteBuffer + "^ " + szClass + ">"
@@ -892,12 +892,12 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    ZeidonStringConcat( szWriteBuffer, 1, 0, szColCnt, 1, 0, 10001 );
    //:IF szNoWidthFlag = ""
    if ( ZeidonStringCompare( szNoWidthFlag, 1, 0, "", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:szWriteBuffer = szWriteBuffer + " style=^width:" + szWidth + "px;^ "
       ZeidonStringConcat( szWriteBuffer, 1, 0, " style=^width:", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szWidth, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "px;^ ", 1, 0, 10001 );
-   } 
+   }
 
    //:END
    //:szWriteBuffer = szWriteBuffer + " class=^grouptable^>"
@@ -915,12 +915,12 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    //:IF  vDialog.Control EXISTS
    lTempInteger_1 = CheckExistenceOfEntity( vDialog, "Control" );
    if ( lTempInteger_1 == 0 )
-   { 
+   {
       //:SET CURSOR  FIRST vDialog.Control
       RESULT = SetCursorFirstEntity( vDialog, "Control", "" );
       //:LastY_Pos = vDialog.Control.PSDLG_Y
       GetIntegerFromAttribute( &LastY_Pos, vDialog, "Control", "PSDLG_Y" );
-   } 
+   }
 
    //:END
 
@@ -930,12 +930,12 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    //:FOR EACH vDialog.Control
    RESULT = SetCursorFirstEntity( vDialog, "Control", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   { 
+   {
 
       //:// We are onto a new row
       //:IF  LastY_Pos < vDialog.Control.PSDLG_Y
       if ( CompareAttributeToInteger( vDialog, "Control", "PSDLG_Y", LastY_Pos ) > 0 )
-      { 
+      {
 
          //:// If LastY_Pos is 0 then we are on the first control.
          //:// If this wasn't the very first row, then
@@ -945,14 +945,14 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          //:   // table columns, then we need to create a blank column
          //:   LOOP  WHILE iColCnt < iHighestColCnt
          while ( iColCnt < iHighestColCnt )
-         { 
+         {
             //:   szWriteBuffer = "<td>&nbsp</td>"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "<td>&nbsp</td>", 1, 0, 10001 );
             //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
             //:   iColCnt = iColCnt + 1
             iColCnt = iColCnt + 1;
-         } 
+         }
 
          //:   END
          //:   szWriteBuffer = "</tr>"
@@ -968,7 +968,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          //:// Since we are on a new row, reset the column count.
          //:iColCnt = 0
          iColCnt = 0;
-      } 
+      }
 
       //:END
 
@@ -998,31 +998,31 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
       iColWidth = 0;
       //:IF  nRC >= zCURSOR_SET AND LastY_Pos = vDialog.Control.PSDLG_Y
       if ( nRC >= zCURSOR_SET && CompareAttributeToInteger( vDialog, "Control", "PSDLG_Y", LastY_Pos ) == 0 )
-      { 
+      {
          //://TraceLineI("*** Next Control Start position *** ", vDialog.Control.PSDLG_X )
          //:iColWidth = vDialog.Control.PSDLG_X - X_Pos
          GetIntegerFromAttribute( &lTempInteger_2, vDialog, "Control", "PSDLG_X" );
          iColWidth = lTempInteger_2 - X_Pos;
-      } 
+      }
 
       //:END
 
       //:IF  nRC >= zCURSOR_SET
       if ( nRC >= zCURSOR_SET )
-      { 
+      {
          //:nRC = SetCursorPrevEntity( vDialog, "Control", "" )
          nRC = SetCursorPrevEntity( vDialog, "Control", "" );
-      } 
+      }
 
       //:END
 
       //:IF  iColWidth = 0
       if ( iColWidth == 0 )
-      { 
+      {
          //://TraceLineI("*** Width is width of control *** ", vDialog.Control.SZDLG_X )
          //:iColWidth = vDialog.Control.SZDLG_X
          GetIntegerFromAttribute( &iColWidth, vDialog, "Control", "SZDLG_X" );
-      } 
+      }
 
       //:END
 
@@ -1030,19 +1030,19 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
       GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
       //:IF vDialog.Control.CSS_Class != ""
       if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 )
-      { 
+      {
          //:szClass = " class=^" + vDialog.Control.CSS_Class + "^ "
          GetVariableFromAttribute( szTempString_1, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
          ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, szTempString_1, 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szClass = ""
          ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
-      } 
+      }
 
       //:END
 
@@ -1079,7 +1079,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
       //:IF szControlType = "GroupBox"
       if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 )
-      { 
+      {
 
          //:// Do I need to check if this is a groupbox and we are not using absolute positioning, then I want to
          //:// check if there are other groupboxes at this same PSDLG_Y.  If so, then these groups would need to
@@ -1100,10 +1100,10 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Table", "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         { 
+         {
             //:szGroupIsTable = "Y"
             ZeidonStringCopy( szGroupIsTable, 1, 0, "Y", 1, 0, 2 );
-         } 
+         }
 
          //:END
 
@@ -1113,10 +1113,10 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "No Height", "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         { 
+         {
             //:szNoHeightFlag = "Y"
             ZeidonStringCopy( szNoHeightFlag, 1, 0, "Y", 1, 0, 2 );
-         } 
+         }
 
          //:END
 
@@ -1126,13 +1126,13 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "No Width", "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         { 
+         {
             //:szNoWidthFlag = "Y"
             ZeidonStringCopy( szNoWidthFlag, 1, 0, "Y", 1, 0, 2 );
-         } 
+         }
 
          //:END
-      } 
+      }
 
 
       //:END
@@ -1140,19 +1140,19 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
       //:// Initialize the szAbsoluteStyle variable with X and Y values.
       //:IF  szNoPositioning = "Y"
       if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
-      { 
+      {
          //:IF szControlType = "GroupBox" AND szNoHeightFlag = "Y" AND szNoWidthFlag = "Y"
          if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 && ZeidonStringCompare( szNoHeightFlag, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szNoWidthFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-         { 
+         {
             //:szAbsoluteStyle = ""
             ZeidonStringCopy( szAbsoluteStyle, 1, 0, "", 1, 0, 257 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:IF szControlType = "GroupBox" AND szNoHeightFlag = "Y"
             if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 && ZeidonStringCompare( szNoHeightFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-            { 
+            {
                //:// We might not want the groupbox to have a height (so it grows)
                //:zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
                GetIntegerFromAttribute( &lTempInteger_3, vDialog, "Control", "SZDLG_X" );
@@ -1162,12 +1162,12 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                ZeidonStringConcat( szAbsoluteStyle, 1, 0, szWidth, 1, 0, 257 );
                ZeidonStringConcat( szAbsoluteStyle, 1, 0, ";^", 1, 0, 257 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:IF szControlType = "GroupBox" AND szNoWidthFlag = "Y"
                if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 && ZeidonStringCompare( szNoWidthFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-               { 
+               {
                   //:// We might not want the groupbox to have a width (so it grows)
                   //:zIntegerToString( szHeight, 10, vDialog.Control.SZDLG_Y * dDLUnits )
                   GetIntegerFromAttribute( &lTempInteger_4, vDialog, "Control", "SZDLG_Y" );
@@ -1177,27 +1177,27 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                   ZeidonStringConcat( szAbsoluteStyle, 1, 0, szHeight, 1, 0, 257 );
                   ZeidonStringConcat( szAbsoluteStyle, 1, 0, ";^", 1, 0, 257 );
                   //:ELSE
-               } 
+               }
                else
-               { 
+               {
                   //:CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" )
                   CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" );
-               } 
+               }
 
                //:END
-            } 
+            }
 
             //:END
-         } 
+         }
 
          //:END
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
          CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" );
-      } 
+      }
 
       //:END
 
@@ -1214,7 +1214,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
       //:// as a table and try and position what is in this group box as a table.
       //:IF szControlType = "GroupBox" AND szGroupIsTable = "Y"
       if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 && ZeidonStringCompare( szGroupIsTable, 1, 0, "Y", 1, 0, 2 ) == 0 )
-      { 
+      {
 
          //:   X_Size = vDialog.Control.SZDLG_X
          GetIntegerFromAttribute( &X_Size, vDialog, "Control", "SZDLG_X" );
@@ -1238,85 +1238,85 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          DropView( vGroupParent );
          //:   vGroupParent = 0
          vGroupParent = 0;
-      } 
+      }
 
       //:END
 
       //:IF szControlType = "GroupBox" AND szGroupIsTable = ""
       if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 && ZeidonStringCompare( szGroupIsTable, 1, 0, "", 1, 0, 2 ) == 0 )
-      { 
+      {
 
          //:// Set Group flags either from old szWebCtrlType or new WebControlProperty.
          //:IF szWebCtrlType = "Scrollable"
          if ( ZeidonStringCompare( szWebCtrlType, 1, 0, "Scrollable", 1, 0, 51 ) == 0 )
-         { 
+         {
             //:szScrollableFlag = "Y"
             ZeidonStringCopy( szScrollableFlag, 1, 0, "Y", 1, 0, 2 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szScrollableFlag = ""
             ZeidonStringCopy( szScrollableFlag, 1, 0, "", 1, 0, 2 );
             //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Scrollable"
             RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Scrollable", "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
-            { 
+            {
                //:szScrollableFlag = "Y"
                ZeidonStringCopy( szScrollableFlag, 1, 0, "Y", 1, 0, 2 );
-            } 
+            }
 
             //:END
-         } 
+         }
 
          //:END
          //:IF szWebCtrlType = "Span"
          if ( ZeidonStringCompare( szWebCtrlType, 1, 0, "Span", 1, 0, 51 ) == 0 )
-         { 
+         {
             //:szSpanFlag = "Y"
             ZeidonStringCopy( szSpanFlag, 1, 0, "Y", 1, 0, 2 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szSpanFlag = ""
             ZeidonStringCopy( szSpanFlag, 1, 0, "", 1, 0, 2 );
             //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Span"
             RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Span", "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
-            { 
+            {
                //:szSpanFlag = "Y"
                ZeidonStringCopy( szSpanFlag, 1, 0, "Y", 1, 0, 2 );
-            } 
+            }
 
             //:END
-         } 
+         }
 
          //:END
          //:IF szWebCtrlType = "Div"
          if ( ZeidonStringCompare( szWebCtrlType, 1, 0, "Div", 1, 0, 51 ) == 0 )
-         { 
+         {
             //:szDivFlag = "Y"
             ZeidonStringCopy( szDivFlag, 1, 0, "Y", 1, 0, 2 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szDivFlag = ""
             ZeidonStringCopy( szDivFlag, 1, 0, "", 1, 0, 2 );
             //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Div"
             RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Div", "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
-            { 
+            {
                //:szDivFlag = "Y"
                ZeidonStringCopy( szDivFlag, 1, 0, "Y", 1, 0, 2 );
-            } 
+            }
 
             //:END
-         } 
+         }
 
          //:END
 
@@ -1324,7 +1324,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          //:// Is this clear even working???!!!
          //:IF szWebCtrlType = "Clear"
          if ( ZeidonStringCompare( szWebCtrlType, 1, 0, "Clear", 1, 0, 51 ) == 0 )
-         { 
+         {
             //:szWriteBuffer = "<div id='clear'></div>"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "<div id='clear'></div>", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1358,28 +1358,28 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:IF szSpanFlag = "Y"
             if ( ZeidonStringCompare( szSpanFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-            { 
+            {
 
                //:// Div on a Group Control requests that all the controls inside the group line up one under the other.
                //:szClass = vDialog.Control.CSS_Class
                GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
                //:IF szClass = ""
                if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-               { 
+               {
                   //:szWriteBuffer = "<span" + szHTMLCtrlID + szAbsoluteStyle + ">"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<span", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
                   //:ELSE
-               } 
+               }
                else
-               { 
+               {
                   //:szWriteBuffer = "<span" + szHTMLCtrlID + "class=^" + szClass + "^ " + szAbsoluteStyle + ">"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<span", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
@@ -1388,7 +1388,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                   ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-               } 
+               }
 
                //:END
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1417,20 +1417,20 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:IF szDivFlag = "Y"
                if ( ZeidonStringCompare( szDivFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-               { 
+               {
 
                   //:// Add Scrollable if requested.
                   //:IF szScrollableFlag = "Y"
                   if ( ZeidonStringCompare( szScrollableFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-                  { 
+                  {
                      //:zAppendQuotedString( szAbsoluteStyle, "overflow:auto;", "style=", "^" )
                      zAppendQuotedString( szAbsoluteStyle, "overflow:auto;", "style=", "^" );
-                  } 
+                  }
 
                   //:END
 
@@ -1438,10 +1438,10 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                   //:// float left.
                   //:IF  szNoPositioning = "Y"
                   if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
-                  { 
+                  {
                      //:zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
                      zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" );
-                  } 
+                  }
 
                   //:END
 
@@ -1450,16 +1450,16 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                   GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
                   //:IF szClass = ""
                   if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-                  { 
+                  {
                      //:szWriteBuffer = "<div" + szHTMLCtrlID + szAbsoluteStyle + ">"
                      ZeidonStringCopy( szWriteBuffer, 1, 0, "<div", 1, 0, 10001 );
                      ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
                      ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
                      ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
                      //:ELSE
-                  } 
+                  }
                   else
-                  { 
+                  {
                      //:szWriteBuffer = "<div" + szHTMLCtrlID + "class=^" + szClass + "^ " + szAbsoluteStyle + ">"
                      ZeidonStringCopy( szWriteBuffer, 1, 0, "<div", 1, 0, 10001 );
                      ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
@@ -1468,7 +1468,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
                      ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
                      ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-                  } 
+                  }
 
                   //:END
                   //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1499,12 +1499,12 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                   //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                   //:ELSE
-               } 
+               }
                else
-               { 
+               {
                   //:IF szWebCtrlType = "DivScroll"
                   if ( ZeidonStringCompare( szWebCtrlType, 1, 0, "DivScroll", 1, 0, 51 ) == 0 )
-                  { 
+                  {
                      //:// Div on a Group Control requests that all the controls inside the group line up one under the other.
                      //:zAppendQuotedString( szAbsoluteStyle, "overflow:auto;", "style=", "^" )
                      zAppendQuotedString( szAbsoluteStyle, "overflow:auto;", "style=", "^" );
@@ -1513,26 +1513,26 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                      //:// float left.
                      //:IF  szNoPositioning = "Y"
                      if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
-                     { 
+                     {
                         //:zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
                         zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" );
-                     } 
+                     }
 
                      //:END
                      //:szClass = vDialog.Control.CSS_Class
                      GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
                      //:IF szClass = ""
                      if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-                     { 
+                     {
                         //:szWriteBuffer = "<div" + szHTMLCtrlID + szAbsoluteStyle + ">"
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "<div", 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
                         //:ELSE
-                     } 
+                     }
                      else
-                     { 
+                     {
                         //:szWriteBuffer = "<div" + szHTMLCtrlID + "class=^" + szClass + "^ " + szAbsoluteStyle + ">"
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "<div", 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
@@ -1541,7 +1541,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-                     } 
+                     }
 
                      //:END
                      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1572,18 +1572,18 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                      //:ELSE
-                  } 
+                  }
                   else
-                  { 
+                  {
                      //:// Default Group is div for now
 
                      //:// If we are not using absolute positioning, then make all the divs float left.
                      //:IF  szNoPositioning = "Y"
                      if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
-                     { 
+                     {
                         //:zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
                         zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" );
-                     } 
+                     }
 
                      //:END
 
@@ -1591,16 +1591,16 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                      GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
                      //:IF szClass = ""
                      if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-                     { 
+                     {
                         //:szWriteBuffer = "<div" + szHTMLCtrlID + szAbsoluteStyle + ">"
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "<div", 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
                         //:ELSE
-                     } 
+                     }
                      else
-                     { 
+                     {
                         //:szWriteBuffer = "<div" + szHTMLCtrlID + "class=^" + szClass + "^ " + szAbsoluteStyle + ">"
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "<div", 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
@@ -1609,7 +1609,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-                     } 
+                     }
 
                      //:END
                      //:/*IF szClass = ""
@@ -1621,7 +1621,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                      //:IF vDialog.Control.Text != ""
                      if ( CompareAttributeToString( vDialog, "Control", "Text", "" ) != 0 )
-                     { 
+                     {
                         //:szWriteBuffer = "<div>" + vDialog.Control.Text + "</div>"
                         GetVariableFromAttribute( szTempString_2, 0, 'S', 255, vDialog, "Control", "Text", "", 0 );
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "<div>", 1, 0, 10001 );
@@ -1629,7 +1629,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                         ZeidonStringConcat( szWriteBuffer, 1, 0, "</div>", 1, 0, 10001 );
                         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                     } 
+                     }
 
                      //:END
 
@@ -1659,56 +1659,56 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                      ZeidonStringConcat( szWriteBuffer, 1, 0, " --> ", 1, 0, 10001 );
                      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                  } 
+                  }
 
                   //:END
-               } 
+               }
 
                //:END
-            } 
+            }
 
             //:END
-         } 
+         }
 
          //:END
-      } 
+      }
 
 
       //:END  // Control is groupbox
 
       //:IF szControlType = "Text"  // TEXT
       if ( ZeidonStringCompare( szControlType, 1, 0, "Text", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:GenJSP_CrteText( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndent, szCtrlTag,
          //:                 "", szNoPositioning, 0, 0 )
          GenJSP_CrteText( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndent, szCtrlTag, "", szNoPositioning, 0, 0 );
-      } 
+      }
 
       //:END
 
       //:IF szControlType = "EditBox"  // EDITBOX
       if ( ZeidonStringCompare( szControlType, 1, 0, "EditBox", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:GenJSP_CrteEditBox( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag,
          //:                    "", "", szNoPositioning, 0, 0 )
          GenJSP_CrteEditBox( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag, "", "", szNoPositioning, 0, 0 );
-      } 
+      }
 
       //:END
 
       //:IF szControlType = "Calendar"  // CALENDAR
       if ( ZeidonStringCompare( szControlType, 1, 0, "Calendar", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:GenJSP_CrteCalendar( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag,
          //:                     "", "", szNoPositioning, 0, 0 )
          GenJSP_CrteCalendar( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag, "", "", szNoPositioning, 0, 0 );
-      } 
+      }
 
       //:END
 
       //:IF szControlType = "RadioGrp" // RADIO BUTTON GROUP
       if ( ZeidonStringCompare( szControlType, 1, 0, "RadioGrp", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:szWriteBuffer = "<% strErrorMapValue = ^^;"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<% strErrorMapValue = ^^;", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1717,7 +1717,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          //:IF vDialog.CtrlMapView EXISTS
          lTempInteger_7 = CheckExistenceOfEntity( vDialog, "CtrlMapView" );
          if ( lTempInteger_7 == 0 )
-         { 
+         {
             //:szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
             //:                ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
             GetVariableFromAttribute( szTempString_3, 0, 'S', 33, vDialog, "CtrlMapView", "Name", "", 0 );
@@ -1787,7 +1787,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
             ZeidonStringCopy( szWriteBuffer, 1, 0, "   }", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-         } 
+         }
 
          //:END
 
@@ -1805,7 +1805,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          //://an id and name but think it should.
          //:IF vDialog.Control.Text = ""
          if ( CompareAttributeToString( vDialog, "Control", "Text", "" ) == 0 )
-         { 
+         {
             //://szWriteBuffer = "<div " + szStyle + ">"
             //:szWriteBuffer = "<div id=^gb" + szCtrlTag + "^ name=^gb" + szCtrlTag + "^ " + szStyle + ">"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "<div id=^gb", 1, 0, 10001 );
@@ -1816,21 +1816,21 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szWriteBuffer = "<fieldset " + szStyle + ">"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "<fieldset ", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-         } 
+         }
 
          //:END
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
          //:IF vDialog.Control.Text != ""
          if ( CompareAttributeToString( vDialog, "Control", "Text", "" ) != 0 )
-         { 
+         {
             //:szWriteBuffer = "<div>" + vDialog.Control.Text + "</div>"
             GetVariableFromAttribute( szTempString_11, 0, 'S', 255, vDialog, "Control", "Text", "", 0 );
             ZeidonStringCopy( szWriteBuffer, 1, 0, "<div>", 1, 0, 10001 );
@@ -1838,7 +1838,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, "</div>", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-         } 
+         }
 
          //:END
 
@@ -1855,64 +1855,64 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          ResetViewFromSubobject( vDialog );
          //:IF vDialog.Control.Text = ""
          if ( CompareAttributeToString( vDialog, "Control", "Text", "" ) == 0 )
-         { 
+         {
             //:szWriteBuffer = "</div>"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "</div>", 1, 0, 10001 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szWriteBuffer = "</fieldset>"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "</fieldset>", 1, 0, 10001 );
-         } 
+         }
 
          //:END
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      } 
+      }
 
 
       //:END
 
       //:IF szControlType = "CheckBox"  // CHECKBOX
       if ( ZeidonStringCompare( szControlType, 1, 0, "CheckBox", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:GenJSP_CrteCheckBox( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag,
          //:                     "", "", szNoPositioning, 0, 0 )
          GenJSP_CrteCheckBox( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag, "", "", szNoPositioning, 0, 0 );
-      } 
+      }
 
       //:END
 
       //:IF szControlType = "PushBtn"  // PUSH BUTTON
       if ( ZeidonStringCompare( szControlType, 1, 0, "PushBtn", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:szActionName = ""
          ZeidonStringCopy( szActionName, 1, 0, "", 1, 0, 33 );
          //:IF vDialog.EventAct EXISTS
          lTempInteger_8 = CheckExistenceOfEntity( vDialog, "EventAct" );
          if ( lTempInteger_8 == 0 )
-         { 
+         {
             //:szActionName = vDialog.EventAct.Tag
             GetVariableFromAttribute( szActionName, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
             //:nRC = zstrcmpi( szActionName, "alt-f4" )
             nRC = zstrcmpi( szActionName, "alt-f4" );
             //:IF nRC = 0
             if ( nRC == 0 )
-            { 
+            {
                //:szActionName = "AltF4"
                ZeidonStringCopy( szActionName, 1, 0, "AltF4", 1, 0, 33 );
-            } 
+            }
 
             //:END
-         } 
+         }
 
          //:END
 
          //:CreateTabIndexString( vDialog, szTabIndex )
          CreateTabIndexString( vDialog, szTabIndex );
          //:szStyle = szStyle + szTabIndex
-         ZeidonStringConcat( szStyle, 1, 0, szTabIndex, 1, 0, 101 );
+         ZeidonStringConcat( szStyle, 1, 0, szTabIndex, 1, 0, 257 );
 
          //:szText = ""
          ZeidonStringCopy( szText, 1, 0, "", 1, 0, 257 );
@@ -1921,19 +1921,19 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          //:// Set Class as either null or with Class value.
          //:IF vDialog.Control.CSS_Class = ""
          if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) == 0 )
-         { 
+         {
             //:szClass = ""
             ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szClass = "class=^" + vDialog.Control.CSS_Class + "^ "
             GetVariableFromAttribute( szTempString_12, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
             ZeidonStringCopy( szClass, 1, 0, "class=^", 1, 0, 257 );
             ZeidonStringConcat( szClass, 1, 0, szTempString_12, 1, 0, 257 );
             ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
-         } 
+         }
 
          //:END
 
@@ -1944,12 +1944,12 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
          GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
          //:IF szTitle != ""
          if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
-         { 
+         {
             //:szTitleHTML = " title=^" + szTitle + "^ "
             ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
             ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
             ZeidonStringConcat( szTitleHTML, 1, 0, "^ ", 1, 0, 257 );
-         } 
+         }
 
          //:END
 
@@ -1974,48 +1974,48 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-      } 
+      }
 
       //:END  //End of PushBtn
 
       //:IF szControlType = "ComboBox"  // COMBOBOX
       if ( ZeidonStringCompare( szControlType, 1, 0, "ComboBox", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:GenJSP_CrteComboBox( vDialog, lFile, szWriteBuffer, szIndent,
          //:                     szCtrlTag, "", szNoPositioning, 0, 0 )
          GenJSP_CrteComboBox( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag, "", szNoPositioning, 0, 0 );
-      } 
+      }
 
       //:END
 
       //:IF szControlType = "Bitmap" OR szControlType = "BitmapBtn"  // BITMAP or JPG
       if ( ZeidonStringCompare( szControlType, 1, 0, "Bitmap", 1, 0, 51 ) == 0 || ZeidonStringCompare( szControlType, 1, 0, "BitmapBtn", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:GenJSP_CrteJPG( vDialog, lFile, szWriteBuffer, szIndent,
          //:                szCtrlTag, szNoPositioning, 0, 0 )
          GenJSP_CrteJPG( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag, szNoPositioning, 0, 0 );
-      } 
+      }
 
       //:END
 
       //:IF szControlType = "ListBox"  // LISTBOX
       if ( ZeidonStringCompare( szControlType, 1, 0, "ListBox", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:GenJSP_CrteListBox( vDialog, lFile, szWriteBuffer, szIndent,
          //:                    szCtrlTag, szNoPositioning, 0, 0 )
          GenJSP_CrteListBox( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag, szNoPositioning, 0, 0 );
-      } 
+      }
 
       //:END  // IF szControlType = "ListBox"
 
       //:IF szControlType = "MLEdit"  // MLEDIT
       if ( ZeidonStringCompare( szControlType, 1, 0, "MLEdit", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:SET CURSOR FIRST vDialog.CtrlMapLOD_Attribute WITHIN vDialog.Control
          RESULT = SetCursorFirstEntity( vDialog, "CtrlMapLOD_Attribute", "Control" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         { 
+         {
             //:szWriteBuffer = "<%"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "<%", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2086,27 +2086,27 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
             //:IF vDialog.CtrlMapContext EXISTS
             lTempInteger_9 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
             if ( lTempInteger_9 == 0 )
-            { 
+            {
                //:szContextName = vDialog.CtrlMapContext.Name
                GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
-            } 
+            }
 
             //:END
 
             //:IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
             if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
-            { 
+            {
                //:lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
                GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
                //:szMaxStringLength = lMaxStringLength
                ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:szMaxStringLength = "254"
                ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
-            } 
+            }
 
             //:END
 
@@ -2141,7 +2141,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
             lTemp = IsFlagSequenceSet( lStyleX, zCONTROLX_PREFILL );
             //:IF lTemp != 0
             if ( lTemp != 0 )
-            { 
+            {
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
                //:szWriteBuffer = "      if ( strErrorMapValue.length( ) == 0 )"
@@ -2153,7 +2153,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "         strErrorMapValue = ^", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_21, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^;", 1, 0, 10001 );
-            } 
+            }
 
             //:END
 
@@ -2179,16 +2179,16 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
             //:IF vDialog.Control.VisibleBorder = "Y"
             if ( CompareAttributeToString( vDialog, "Control", "VisibleBorder", "Y" ) == 0 )
-            { 
+            {
                //:zAppendQuotedString( szStyle, "border:'4px solid';border-style:'groove';", "style=", "^" )
                zAppendQuotedString( szStyle, "border:'4px solid';border-style:'groove';", "style=", "^" );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:zAppendQuotedString( szStyle, "border:'2px solid';border-style:'groove';", "style=", "^" )
                zAppendQuotedString( szStyle, "border:'2px solid';border-style:'groove';", "style=", "^" );
-            } 
+            }
 
             //:END
             //:zAppendQuotedString( szStyle, szAbsoluteStyle, "style=", "^" )
@@ -2201,25 +2201,25 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
             RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "wysiwyg TinyMCE", "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
-            { 
+            {
                //:szTinyMCEFlag = "Y"
                ZeidonStringCopy( szTinyMCEFlag, 1, 0, "Y", 1, 0, 2 );
-            } 
+            }
 
             //:END
 
             //:IF vDialog.Control.WebCtrlType = "wysiwygEditor" OR szTinyMCEFlag = "Y"
             if ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "wysiwygEditor" ) == 0 || ZeidonStringCompare( szTinyMCEFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-            { 
+            {
 
                //:szClass = vDialog.Control.CSS_Class
                GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
                //:IF szClass = ""
                if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-               { 
+               {
                   //:szClass = "mceSimple" // "mceSimple" is TinyMCE default
                   ZeidonStringCopy( szClass, 1, 0, "mceSimple", 1, 0, 257 );
-               } 
+               }
 
                //:END
 
@@ -2238,9 +2238,9 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
 
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:szClass = ""
                ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
                //:szClass = vDialog.Control.CSS_Class
@@ -2261,16 +2261,16 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, " wrap=^wrap^>", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
-            } 
+            }
 
 
             //:END
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-         } 
+         }
 
          //:END
-      } 
+      }
 
       //:END   //IF szControlType = "MLEdit"
 
@@ -2284,7 +2284,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
       //:iColCnt = iColCnt + 1
       iColCnt = iColCnt + 1;
       RESULT = SetCursorNextEntity( vDialog, "Control", "" );
-   } 
+   }
 
    //:END
 
@@ -2292,14 +2292,14 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    //:// table columns, then we need to create a blank column
    //:LOOP  WHILE iColCnt < iHighestColCnt
    while ( iColCnt < iHighestColCnt )
-   { 
+   {
       //:szWriteBuffer = "<td>&nbsp</td>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<td>&nbsp</td>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:iColCnt = iColCnt + 1
       iColCnt = iColCnt + 1;
-   } 
+   }
 
    //:END
 
@@ -2320,7 +2320,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
    return;
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -2356,85 +2356,85 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
                      zLONG     lOffsetX,
                      zLONG     lOffsetY )
 {
-   zVIEW     vList = 0; 
+   zVIEW     vList = 0;
    //:VIEW vEntity BASED ON LOD TZWDLGSO  // identifies entity mapping for list entries
-   zVIEW     vEntity = 0; 
+   zVIEW     vEntity = 0;
    //:VIEW vScope  BASED ON LOD TZWDLGSO  // identifies scoping entity for list entries
-   zVIEW     vScope = 0; 
+   zVIEW     vScope = 0;
    //:STRING ( 32 )  szContextName
-   zCHAR     szContextName[ 33 ] = { 0 }; 
+   zCHAR     szContextName[ 33 ] = { 0 };
    //:STRING ( 32 )  szScopingEntityName
-   zCHAR     szScopingEntityName[ 33 ] = { 0 }; 
+   zCHAR     szScopingEntityName[ 33 ] = { 0 };
    //:STRING ( 32 )  szListEntityName
-   zCHAR     szListEntityName[ 33 ] = { 0 }; 
+   zCHAR     szListEntityName[ 33 ] = { 0 };
    //:STRING ( 256 ) szStyle
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 256 ) szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitle
-   zCHAR     szTitle[ 257 ] = { 0 }; 
+   zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
-   zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   zCHAR     szTitleHTML[ 257 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
-   zCHAR     szTabIndex[ 17 ] = { 0 }; 
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 10 )  szWidth
-   zCHAR     szWidth[ 11 ] = { 0 }; 
+   zCHAR     szWidth[ 11 ] = { 0 };
    //:STRING ( 10 )  szSelectAction
-   zCHAR     szSelectAction[ 11 ] = { 0 }; 
+   zCHAR     szSelectAction[ 11 ] = { 0 };
    //:STRING ( 10 )  szSelectFunction
-   zCHAR     szSelectFunction[ 11 ] = { 0 }; 
+   zCHAR     szSelectFunction[ 11 ] = { 0 };
    //:STRING ( 10 )  szHeight
-   zCHAR     szHeight[ 11 ] = { 0 }; 
+   zCHAR     szHeight[ 11 ] = { 0 };
    //:STRING ( 10 )  szX_Pos
-   zCHAR     szX_Pos[ 11 ] = { 0 }; 
+   zCHAR     szX_Pos[ 11 ] = { 0 };
    //:STRING ( 10 )  szY_Pos
-   zCHAR     szY_Pos[ 11 ] = { 0 }; 
+   zCHAR     szY_Pos[ 11 ] = { 0 };
    //:STRING ( 100 ) szDisabled
-   zCHAR     szDisabled[ 11 ] = { 0 }; 
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:DECIMAL        dDLUnits
-   ZDecimal  dDLUnits = 0.0; 
+   ZDecimal  dDLUnits = 0.0;
    //:INTEGER        lSubtype
-   zLONG     lSubtype = 0; 
+   zLONG     lSubtype = 0;
    //:SHORT          nRC
-   zSHORT    nRC = 0; 
-   zLONG     lTempInteger_0; 
-   zLONG     lTempInteger_1; 
-   zLONG     lTempInteger_2; 
-   zSHORT    lTempInteger_3; 
-   zSHORT    lTempInteger_4; 
-   zCHAR     szTempString_0[ 33 ]; 
-   zCHAR     szTempString_1[ 33 ]; 
-   zSHORT    lTempInteger_5; 
-   zSHORT    lTempInteger_6; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zCHAR     szTempString_4[ 33 ]; 
-   zCHAR     szTempString_5[ 33 ]; 
-   zCHAR     szTempString_6[ 33 ]; 
-   zCHAR     szTempString_7[ 33 ]; 
-   zCHAR     szTempString_8[ 33 ]; 
-   zCHAR     szTempString_9[ 33 ]; 
-   zSHORT    RESULT; 
-   zSHORT    lTempInteger_7; 
-   zSHORT    lTempInteger_8; 
-   zCHAR     szTempString_10[ 33 ]; 
-   zCHAR     szTempString_11[ 33 ]; 
-   zSHORT    lTempInteger_9; 
-   zCHAR     szTempString_12[ 33 ]; 
-   zCHAR     szTempString_13[ 33 ]; 
-   zCHAR     szTempString_14[ 33 ]; 
-   zCHAR     szTempString_15[ 33 ]; 
-   zSHORT    lTempInteger_10; 
-   zCHAR     szTempString_16[ 33 ]; 
-   zCHAR     szTempString_17[ 33 ]; 
-   zCHAR     szTempString_18[ 33 ]; 
-   zSHORT    lTempInteger_11; 
-   zSHORT    lTempInteger_12; 
-   zCHAR     szTempString_19[ 33 ]; 
-   zSHORT    lTempInteger_13; 
-   zSHORT    lTempInteger_14; 
-   zCHAR     szTempString_20[ 33 ]; 
-   zCHAR     szTempString_21[ 33 ]; 
+   zSHORT    nRC = 0;
+   zLONG     lTempInteger_0;
+   zLONG     lTempInteger_1;
+   zLONG     lTempInteger_2;
+   zSHORT    lTempInteger_3;
+   zSHORT    lTempInteger_4;
+   zCHAR     szTempString_0[ 33 ];
+   zCHAR     szTempString_1[ 33 ];
+   zSHORT    lTempInteger_5;
+   zSHORT    lTempInteger_6;
+   zCHAR     szTempString_2[ 33 ];
+   zCHAR     szTempString_3[ 33 ];
+   zCHAR     szTempString_4[ 33 ];
+   zCHAR     szTempString_5[ 33 ];
+   zCHAR     szTempString_6[ 33 ];
+   zCHAR     szTempString_7[ 33 ];
+   zCHAR     szTempString_8[ 33 ];
+   zCHAR     szTempString_9[ 33 ];
+   zSHORT    RESULT;
+   zSHORT    lTempInteger_7;
+   zSHORT    lTempInteger_8;
+   zCHAR     szTempString_10[ 33 ];
+   zCHAR     szTempString_11[ 33 ];
+   zSHORT    lTempInteger_9;
+   zCHAR     szTempString_12[ 33 ];
+   zCHAR     szTempString_13[ 33 ];
+   zCHAR     szTempString_14[ 33 ];
+   zCHAR     szTempString_15[ 33 ];
+   zSHORT    lTempInteger_10;
+   zCHAR     szTempString_16[ 33 ];
+   zCHAR     szTempString_17[ 33 ];
+   zCHAR     szTempString_18[ 33 ];
+   zSHORT    lTempInteger_11;
+   zSHORT    lTempInteger_12;
+   zCHAR     szTempString_19[ 33 ];
+   zSHORT    lTempInteger_13;
+   zSHORT    lTempInteger_14;
+   zCHAR     szTempString_20[ 33 ];
+   zCHAR     szTempString_21[ 33 ];
 
 
    //:szStyle = "width:" + szWidth + "px; height:" + szHeight + "px;"
@@ -2453,12 +2453,12 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
    GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
    //:IF szTitle != ""
    if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
-   { 
+   {
       //:szTitleHTML = " title=^" + szTitle + "^ "
       ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
@@ -2482,7 +2482,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
    //:// If szNoPositioning is null then we are using absolute positioning.
    //:IF  szNoPositioning = ""
    if ( ZeidonStringCompare( szNoPositioning, 1, 0, "", 1, 0, 2 ) == 0 )
-   { 
+   {
 
       //:zIntegerToString( szX_Pos, 10, vDialog.Control.PSDLG_X * dDLUnits )
       GetIntegerFromAttribute( &lTempInteger_1, vDialog, "Control", "PSDLG_X" );
@@ -2501,12 +2501,12 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
       ZeidonStringConcat( szStyle, 1, 0, "px;^ ", 1, 0, 257 );
       //:// CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:szStyle = szStyle + "^ "
       ZeidonStringConcat( szStyle, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
@@ -2524,7 +2524,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
    nRC = AreBitsSetInFlag( lSubtype, 61440 );
    //:IF nRC = 0   // IF vDialog.Control.Subtype < 12000  ==> Domain Combobox
    if ( nRC == 0 )
-   { 
+   {
 
       //:// Domain type combo box
 
@@ -2544,34 +2544,34 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
       //:IF vDialog.Event EXISTS
       lTempInteger_3 = CheckExistenceOfEntity( vDialog, "Event" );
       if ( lTempInteger_3 == 0 )
-      { 
+      {
          //:IF vDialog.Event.Type = 1
          if ( CompareAttributeToInteger( vDialog, "Event", "Type", 1 ) == 0 )
-         { 
+         {
             //:szSelectAction   = "onchange"
             ZeidonStringCopy( szSelectAction, 1, 0, "onchange", 1, 0, 11 );
             //:szSelectFunction = "OnChange"
             ZeidonStringCopy( szSelectFunction, 1, 0, "OnChange", 1, 0, 11 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szSelectAction   = "onblur"
             ZeidonStringCopy( szSelectAction, 1, 0, "onblur", 1, 0, 11 );
             //:szSelectFunction = "OnBlur"
             ZeidonStringCopy( szSelectFunction, 1, 0, "OnBlur", 1, 0, 11 );
-         } 
+         }
 
          //:END
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szSelectAction   = "onchange"
          ZeidonStringCopy( szSelectAction, 1, 0, "onchange", 1, 0, 11 );
          //:szSelectFunction = "OnChange"
          ZeidonStringCopy( szSelectFunction, 1, 0, "OnChange", 1, 0, 11 );
-      } 
+      }
 
       //:END
 
@@ -2580,7 +2580,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
 
       //:IF szClass = ""
       if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-      { 
+      {
          //:szWriteBuffer = "<select name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^1^ " + szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" +
          //:                szCtrlTag + szSelectFunction + "( )^" + ">"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<select name=^", 1, 0, 10001 );
@@ -2598,9 +2598,9 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szWriteBuffer = "<select class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^1^ " + szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" +
          //:                szCtrlTag + szSelectFunction + "( )^" + ">"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<select class=^", 1, 0, 10001 );
@@ -2619,7 +2619,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szSelectFunction, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-      } 
+      }
 
       //:END
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -2632,7 +2632,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
       //:IF vDialog.CtrlMapView EXISTS
       lTempInteger_4 = CheckExistenceOfEntity( vDialog, "CtrlMapView" );
       if ( lTempInteger_4 == 0 )
-      { 
+      {
          //:szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
          //:             ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
          GetVariableFromAttribute( szTempString_0, 0, 'S', 33, vDialog, "CtrlMapView", "Name", "", 0 );
@@ -2657,7 +2657,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          //:IF vDialog.CtrlMapLOD_Attribute EXISTS
          lTempInteger_5 = CheckExistenceOfEntity( vDialog, "CtrlMapLOD_Attribute" );
          if ( lTempInteger_5 == 0 )
-         { 
+         {
             //:szWriteBuffer = "      int    nRowCnt= 0;"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "      int    nRowCnt= 0;", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2670,16 +2670,16 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             //:IF vDialog.CtrlMapContext EXISTS
             lTempInteger_6 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
             if ( lTempInteger_6 == 0 )
-            { 
+            {
                //:szContextName = vDialog.CtrlMapContext.Name
                GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:szContextName = ""
                ZeidonStringCopy( szContextName, 1, 0, "", 1, 0, 33 );
-            } 
+            }
 
             //:END
             //:/***** 04/26/11 */
@@ -2765,7 +2765,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
 
             //:IF vDialog.CtrlMapER_Attribute.NotNull = "Y"
             if ( CompareAttributeToString( vDialog, "CtrlMapER_Attribute", "NotNull", "Y" ) == 0 )
-            { 
+            {
                //:// Generate code when attribute IS required.
                //:szWriteBuffer = "      // Code for required attribute, which doesn't allow a blank entry."
                ZeidonStringCopy( szWriteBuffer, 1, 0, "      // Code for required attribute, which doesn't allow a blank entry.", 1, 0, 10001 );
@@ -2777,9 +2777,9 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
 
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:// Generate code when attribute is NOT required.
                //:szWriteBuffer = "      // Code for NOT required attribute, which makes sure a blank entry exists."
                ZeidonStringCopy( szWriteBuffer, 1, 0, "      // Code for NOT required attribute, which makes sure a blank entry exists.", 1, 0, 10001 );
@@ -2850,7 +2850,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "         nFirst = 0;", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            } 
+            }
 
             //:END
 
@@ -2928,10 +2928,10 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             ZeidonStringCopy( szWriteBuffer, 1, 0, "            }", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-         } 
+         }
 
          //:END
-      } 
+      }
 
       //:END
 
@@ -2957,9 +2957,9 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
 
       //:ELSE  //kelly1
-   } 
+   }
    else
-   { 
+   {
       //:// Select type combo box
       //:CreateViewFromViewForTask( vList, vDialog, 0 )
       CreateViewFromViewForTask( &vList, vDialog, 0 );
@@ -2981,39 +2981,39 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
       //:IF vDialog.Event EXISTS
       lTempInteger_7 = CheckExistenceOfEntity( vDialog, "Event" );
       if ( lTempInteger_7 == 0 )
-      { 
+      {
          //:IF vDialog.Event.Type = 1
          if ( CompareAttributeToInteger( vDialog, "Event", "Type", 1 ) == 0 )
-         { 
+         {
             //:szSelectAction   = "onchange"
             ZeidonStringCopy( szSelectAction, 1, 0, "onchange", 1, 0, 11 );
             //:szSelectFunction = "OnChange"
             ZeidonStringCopy( szSelectFunction, 1, 0, "OnChange", 1, 0, 11 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szSelectAction   = "onblur"
             ZeidonStringCopy( szSelectAction, 1, 0, "onblur", 1, 0, 11 );
             //:szSelectFunction = "OnBlur"
             ZeidonStringCopy( szSelectFunction, 1, 0, "OnBlur", 1, 0, 11 );
-         } 
+         }
 
          //:END
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szSelectAction = "onchange"
          ZeidonStringCopy( szSelectAction, 1, 0, "onchange", 1, 0, 11 );
          //:szSelectFunction = "OnChange"
          ZeidonStringCopy( szSelectFunction, 1, 0, "OnChange", 1, 0, 11 );
-      } 
+      }
 
       //:END
       //:IF szClass = ""
       if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-      { 
+      {
          //:szWriteBuffer = "<select name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^1^" + szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" +
          //:                szCtrlTag + szSelectFunction + "( )^" + ">"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<select name=^", 1, 0, 10001 );
@@ -3031,9 +3031,9 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szWriteBuffer = "<select class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^1^" + szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" +
          //:                szCtrlTag + szSelectFunction + "( )^" + ">"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<select class=^", 1, 0, 10001 );
@@ -3052,7 +3052,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szSelectFunction, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-      } 
+      }
 
       //:END
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -3065,7 +3065,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
       //:IF vDialog.CtrlMapView EXISTS
       lTempInteger_8 = CheckExistenceOfEntity( vDialog, "CtrlMapView" );
       if ( lTempInteger_8 == 0 )
-      { 
+      {
          //:szWriteBuffer = "   nRC = " + vList.CtrlMapView.Name +
          //:                ".GetView( strSessionId, ^" + vList.CtrlMapView.Name + "^, vAppSubtask );"
          GetVariableFromAttribute( szTempString_10, 0, 'S', 33, vList, "CtrlMapView", "Name", "", 0 );
@@ -3101,7 +3101,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          //:IF vDialog.CtrlMapLOD_Attribute EXISTS
          lTempInteger_9 = CheckExistenceOfEntity( vDialog, "CtrlMapLOD_Attribute" );
          if ( lTempInteger_9 == 0 )
-         { 
+         {
             //:szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name +
             //:                ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name +
             //:                "^, vAppSubtask );"
@@ -3140,16 +3140,16 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             //:IF vDialog.CtrlMapContext EXISTS
             lTempInteger_10 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
             if ( lTempInteger_10 == 0 )
-            { 
+            {
                //:szContextName = vDialog.CtrlMapContext.Name
                GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:szContextName = ""
                ZeidonStringCopy( szContextName, 1, 0, "", 1, 0, 33 );
-            } 
+            }
 
             //:END
             //:szWriteBuffer = "            strComboCurrentValue = " + vDialog.CtrlMapView.Name +
@@ -3173,12 +3173,12 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             //:szWriteBuffer = "      }"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szWriteBuffer = "      strComboCurrentValue = ^^;"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "      strComboCurrentValue = ^^;", 1, 0, 10001 );
-         } 
+         }
 
          //:END
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -3188,16 +3188,16 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          //:IF vEntity.CtrlMapLOD_Entity EXISTS
          lTempInteger_11 = CheckExistenceOfEntity( vEntity, "CtrlMapLOD_Entity" );
          if ( lTempInteger_11 == 0 )
-         { 
+         {
             //:szListEntityName = vEntity.CtrlMapLOD_Entity.Name
             GetVariableFromAttribute( szListEntityName, 0, 'S', 33, vEntity, "CtrlMapLOD_Entity", "Name", "", 0 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szListEntityName = vList.CtrlMapRelatedEntity.Name
             GetVariableFromAttribute( szListEntityName, 0, 'S', 33, vList, "CtrlMapRelatedEntity", "Name", "", 0 );
-         } 
+         }
 
          //:END
 
@@ -3208,23 +3208,23 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          lSubtype = IsFlagSequenceSet( lSubtype, zCOMBOBOX_SCOPE_OI );
          //:IF lSubtype = 0
          if ( lSubtype == 0 )
-         { 
+         {
             //:IF vScope.CtrlMapLOD_Entity EXISTS
             lTempInteger_12 = CheckExistenceOfEntity( vScope, "CtrlMapLOD_Entity" );
             if ( lTempInteger_12 == 0 )
-            { 
+            {
                //:szScopingEntityName = vScope.CtrlMapLOD_Entity.Name
                GetVariableFromAttribute( szScopingEntityName, 0, 'S', 33, vScope, "CtrlMapLOD_Entity", "Name", "", 0 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:szScopingEntityName = ""
                ZeidonStringCopy( szScopingEntityName, 1, 0, "", 1, 0, 33 );
-            } 
+            }
 
             //:END
-         } 
+         }
 
          //:END
 
@@ -3249,7 +3249,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          //:// Auto Include
          //:IF vDialog.Control.Subtype >= 20480 AND vDialog.Control.Subtype <= 21252   // IF Auto Include
          if ( CompareAttributeToInteger( vDialog, "Control", "Subtype", 20480 ) >= 0 && CompareAttributeToInteger( vDialog, "Control", "Subtype", 21252 ) <= 0 )
-         { 
+         {
             //:szWriteBuffer = ""
             ZeidonStringCopy( szWriteBuffer, 1, 0, "", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -3316,13 +3316,13 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-         } 
+         }
 
          //:END
 
          //:IF lSubtype = 0
          if ( lSubtype == 0 )
-         { 
+         {
             //:szWriteBuffer = "      nRC = v" + szCtrlTag + ".SetCursorFirst( strSessionId, ^" +
             //:                             szListEntityName + "^, ^" + szScopingEntityName + "^ );"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "      nRC = v", 1, 0, 10001 );
@@ -3333,9 +3333,9 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, szScopingEntityName, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szWriteBuffer = "      nRC = v" + szCtrlTag + ".SetCursorScopeOI( strSessionId, ^" +
             //:                             szListEntityName + "^, 1 ); // first" // zPOS_FIRST
             ZeidonStringCopy( szWriteBuffer, 1, 0, "      nRC = v", 1, 0, 10001 );
@@ -3343,7 +3343,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, ".SetCursorScopeOI( strSessionId, ^", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szListEntityName, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^, 1 ); // first", 1, 0, 10001 );
-         } 
+         }
 
          //:END
 
@@ -3360,20 +3360,20 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          //:IF vList.CtrlMapLOD_Attribute EXISTS
          lTempInteger_13 = CheckExistenceOfEntity( vList, "CtrlMapLOD_Attribute" );
          if ( lTempInteger_13 == 0 )
-         { 
+         {
             //:IF vList.CtrlMapContext EXISTS
             lTempInteger_14 = CheckExistenceOfEntity( vList, "CtrlMapContext" );
             if ( lTempInteger_14 == 0 )
-            { 
+            {
                //:szContextName = vList.CtrlMapContext.Name
                GetVariableFromAttribute( szContextName, 0, 'S', 33, vList, "CtrlMapContext", "Name", "", 0 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:szContextName = ""
                ZeidonStringCopy( szContextName, 1, 0, "", 1, 0, 33 );
-            } 
+            }
 
             //:END
 
@@ -3395,7 +3395,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^, 254 );", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-         } 
+         }
 
          //:END
 
@@ -3405,7 +3405,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          //:// blank, don't add it if it is.
          //:IF vDialog.Control.Subtype >= 20480 AND vDialog.Control.Subtype <= 21252   // IF Auto Include
          if ( CompareAttributeToInteger( vDialog, "Control", "Subtype", 20480 ) >= 0 && CompareAttributeToInteger( vDialog, "Control", "Subtype", 21252 ) <= 0 )
-         { 
+         {
             //:szWriteBuffer = "         // For Auto Include, we have already created a blank entry for the combobox, check to make "
             ZeidonStringCopy( szWriteBuffer, 1, 0, "         // For Auto Include, we have already created a blank entry for the combobox, check to make ", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -3422,7 +3422,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             ZeidonStringCopy( szWriteBuffer, 1, 0, "         {", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-         } 
+         }
 
          //:END
 
@@ -3481,12 +3481,12 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
 
          //:IF vDialog.Control.Subtype >= 20480 AND vDialog.Control.Subtype <= 21252   // IF Auto Include
          if ( CompareAttributeToInteger( vDialog, "Control", "Subtype", 20480 ) >= 0 && CompareAttributeToInteger( vDialog, "Control", "Subtype", 21252 ) <= 0 )
-         { 
+         {
             //:szWriteBuffer = "         } // if ( !StringUtils.isBlank( strErrorMapValue ) )"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "         } // if ( !StringUtils.isBlank( strErrorMapValue ) )", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-         } 
+         }
 
          //:END
 
@@ -3496,7 +3496,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
          //:IF lSubtype = 0
          if ( lSubtype == 0 )
-         { 
+         {
             //:szWriteBuffer = "         nRC =  v" + szCtrlTag +
             //:                ".SetCursorNext( strSessionId, ^" + szListEntityName +
             //:                "^, ^" + szScopingEntityName + "^ );"
@@ -3508,9 +3508,9 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, szScopingEntityName, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szWriteBuffer = "         nRC =  v" + szCtrlTag +
             //:                ".SetCursorScopeOI( strSessionId, ^" + szListEntityName + "^, 3 ); // next" // zPOS_NEXT
             ZeidonStringCopy( szWriteBuffer, 1, 0, "         nRC =  v", 1, 0, 10001 );
@@ -3518,7 +3518,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, ".SetCursorScopeOI( strSessionId, ^", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szListEntityName, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^, 3 ); // next", 1, 0, 10001 );
-         } 
+         }
 
          //:END
 
@@ -3530,7 +3530,7 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
          DropView( vEntity );
          //:DropView( vScope )
          DropView( vScope );
-      } 
+      }
 
       //:END
 
@@ -3565,12 +3565,12 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ type=^hidden^ value=^<%=strComboSelectedValue%>^ >", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-   } 
+   }
 
    //:END
    return;
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -3600,80 +3600,80 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
                     zLONG     lOffsetX,
                     zLONG     lOffsetY )
 {
-   zVIEW     vDialogRoot = 0; 
+   zVIEW     vDialogRoot = 0;
    //:STRING ( 32 )  szContextName
-   zCHAR     szContextName[ 33 ] = { 0 }; 
+   zCHAR     szContextName[ 33 ] = { 0 };
    //:STRING ( 300 ) szValue
-   zCHAR     szValue[ 301 ] = { 0 }; 
+   zCHAR     szValue[ 301 ] = { 0 };
    //:STRING ( 256 ) szStyle
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 256 ) szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitle
-   zCHAR     szTitle[ 257 ] = { 0 }; 
+   zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
-   zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   zCHAR     szTitleHTML[ 257 ] = { 0 };
    //:STRING ( 64 )  szType
-   zCHAR     szType[ 65 ] = { 0 }; 
+   zCHAR     szType[ 65 ] = { 0 };
    //:STRING ( 64 )  szWidget
-   zCHAR     szWidget[ 65 ] = { 0 }; 
+   zCHAR     szWidget[ 65 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
-   zCHAR     szTabIndex[ 17 ] = { 0 }; 
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 50 )  szEditActionCode
-   zCHAR     szEditActionCode[ 51 ] = { 0 }; 
+   zCHAR     szEditActionCode[ 51 ] = { 0 };
    //:STRING ( 32 )  szActionName
-   zCHAR     szActionName[ 33 ] = { 0 }; 
+   zCHAR     szActionName[ 33 ] = { 0 };
    //:STRING ( 10 )  szMaxStringLength
-   zCHAR     szMaxStringLength[ 11 ] = { 0 }; 
+   zCHAR     szMaxStringLength[ 11 ] = { 0 };
    //:STRING ( 100 ) szDisabled
-   zCHAR     szDisabled[ 101 ] = { 0 }; 
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:STRING ( 1 )   szWCP_Hidden
-   zCHAR     szWCP_Hidden[ 2 ] = { 0 }; 
+   zCHAR     szWCP_Hidden[ 2 ] = { 0 };
    //:STRING ( 1 )   szCreateSessionVariable
-   zCHAR     szCreateSessionVariable[ 2 ] = { 0 }; 
+   zCHAR     szCreateSessionVariable[ 2 ] = { 0 };
    //:STRING ( 1 )   szNoOutputMapping
-   zCHAR     szNoOutputMapping[ 2 ] = { 0 }; 
+   zCHAR     szNoOutputMapping[ 2 ] = { 0 };
    //:INTEGER        lMaxStringLength
-   zLONG     lMaxStringLength = 0; 
+   zLONG     lMaxStringLength = 0;
    //:INTEGER        lStyleX
-   zLONG     lStyleX = 0; 
+   zLONG     lStyleX = 0;
    //:INTEGER        lTemp
-   zLONG     lTemp = 0; 
+   zLONG     lTemp = 0;
    //:SHORT          bMapping
-   zSHORT    bMapping = 0; 
+   zSHORT    bMapping = 0;
    //:SHORT          nRC
-   zSHORT    nRC = 0; 
+   zSHORT    nRC = 0;
 
    //:// For testing no height on input boxes
    //:STRING ( 10 )  szWidth
-   zCHAR     szWidth[ 11 ] = { 0 }; 
+   zCHAR     szWidth[ 11 ] = { 0 };
    //:DECIMAL        dDLUnits
-   ZDecimal  dDLUnits = 0.0; 
+   ZDecimal  dDLUnits = 0.0;
    //:STRING ( 100 )  szSize
-   zCHAR     szSize[ 101 ] = { 0 }; 
+   zCHAR     szSize[ 101 ] = { 0 };
    //:STRING ( 100 )  szPosition
-   zCHAR     szPosition[ 101 ] = { 0 }; 
-   zLONG     lTempInteger_0; 
-   zSHORT    RESULT; 
-   zCHAR     szTempString_0[ 33 ]; 
-   zCHAR     szTempString_1[ 33 ]; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zCHAR     szTempString_4[ 33 ]; 
-   zSHORT    lTempInteger_1; 
-   zCHAR     szTempString_5[ 33 ]; 
-   zCHAR     szTempString_6[ 33 ]; 
-   zCHAR     szTempString_7[ 33 ]; 
-   zCHAR     szTempString_8[ 33 ]; 
-   zCHAR     szTempString_9[ 33 ]; 
-   zCHAR     szTempString_10[ 33 ]; 
-   zCHAR     szTempString_11[ 33 ]; 
-   zCHAR     szTempString_12[ 33 ]; 
-   zCHAR     szTempString_13[ 33 ]; 
-   zCHAR     szTempString_14[ 255 ]; 
-   zSHORT    lTempInteger_2; 
-   zSHORT    lTempInteger_3; 
-   zCHAR     szTempString_15[ 255 ]; 
+   zCHAR     szPosition[ 101 ] = { 0 };
+   zLONG     lTempInteger_0;
+   zSHORT    RESULT;
+   zCHAR     szTempString_0[ 33 ];
+   zCHAR     szTempString_1[ 33 ];
+   zCHAR     szTempString_2[ 33 ];
+   zCHAR     szTempString_3[ 33 ];
+   zCHAR     szTempString_4[ 33 ];
+   zSHORT    lTempInteger_1;
+   zCHAR     szTempString_5[ 33 ];
+   zCHAR     szTempString_6[ 33 ];
+   zCHAR     szTempString_7[ 33 ];
+   zCHAR     szTempString_8[ 33 ];
+   zCHAR     szTempString_9[ 33 ];
+   zCHAR     szTempString_10[ 33 ];
+   zCHAR     szTempString_11[ 33 ];
+   zCHAR     szTempString_12[ 33 ];
+   zCHAR     szTempString_13[ 33 ];
+   zCHAR     szTempString_14[ 255 ];
+   zSHORT    lTempInteger_2;
+   zSHORT    lTempInteger_3;
+   zCHAR     szTempString_15[ 255 ];
 
 
    //:CreateTabIndexString( vDialog, szTabIndex )
@@ -3695,10 +3695,10 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    //:// If zNoPositioning is null then we are using absolute positioning for controls
    //:IF  szNoPositioning = ""
    if ( ZeidonStringCompare( szNoPositioning, 1, 0, "", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY )
       CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY );
-   } 
+   }
 
    //:END
 
@@ -3716,10 +3716,10 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Create Session Variable", "" );
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
-   { 
+   {
       //:szCreateSessionVariable = "Y"
       ZeidonStringCopy( szCreateSessionVariable, 1, 0, "Y", 1, 0, 2 );
-   } 
+   }
 
    //:END
 
@@ -3732,10 +3732,10 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "No Output Mapping", "" );
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
-   { 
+   {
       //:szNoOutputMapping = "Y"
       ZeidonStringCopy( szNoOutputMapping, 1, 0, "Y", 1, 0, 2 );
-   } 
+   }
 
    //:END
 
@@ -3746,7 +3746,7 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    RESULT = SetCursorFirstEntity( vDialog, "CtrlMapLOD_Attribute", "Control" );
    //:IF RESULT >= zCURSOR_SET AND szNoOutputMapping = ""
    if ( RESULT >= zCURSOR_SET && ZeidonStringCompare( szNoOutputMapping, 1, 0, "", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:bMapping = 1
       bMapping = 1;
       //:szWriteBuffer = "<%"
@@ -3843,33 +3843,33 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
       //:IF vDialog.CtrlMapContext EXISTS
       lTempInteger_1 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
       if ( lTempInteger_1 == 0 )
-      { 
+      {
          //:szContextName = vDialog.CtrlMapContext.Name
          GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szContextName = ""
          ZeidonStringCopy( szContextName, 1, 0, "", 1, 0, 33 );
-      } 
+      }
 
       //:END
 
       //:IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
       if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
-      { 
+      {
          //:lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
          GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
          //:szMaxStringLength = lMaxStringLength
          ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szMaxStringLength = "254"
          ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
-      } 
+      }
 
       //:END
       //:szWriteBuffer = "            strErrorMapValue = " +
@@ -3913,14 +3913,14 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
       //:// with the value of this edit box with the Control Tag as the name.
       //:IF szCreateSessionVariable = "Y"
       if ( ZeidonStringCompare( szCreateSessionVariable, 1, 0, "Y", 1, 0, 2 ) == 0 )
-      { 
+      {
          //:szWriteBuffer = "            session.setAttribute(^" + szCtrlTag + "^, strErrorMapValue); "
          ZeidonStringCopy( szWriteBuffer, 1, 0, "            session.setAttribute(^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, strErrorMapValue); ", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      } 
+      }
 
       //:END
       //:szWriteBuffer = "         }"
@@ -3960,7 +3960,7 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
       lTemp = IsFlagSequenceSet( lStyleX, zCONTROLX_PREFILL );
       //:IF lTemp != 0
       if ( lTemp != 0 )
-      { 
+      {
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
          //:szWriteBuffer = "      if ( strErrorMapValue.length( ) == 0 )"
@@ -3972,7 +3972,7 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         strErrorMapValue = ^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_14, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^;", 1, 0, 10001 );
-      } 
+      }
 
       //:END
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -3983,12 +3983,12 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:bMapping = 0
       bMapping = 0;
-   } 
+   }
 
    //:END
 
@@ -4000,45 +4000,45 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Hidden", "" );
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
-   { 
+   {
       //:szWCP_Hidden = "Y"
       ZeidonStringCopy( szWCP_Hidden, 1, 0, "Y", 1, 0, 2 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:szWCP_Hidden = "N"
       ZeidonStringCopy( szWCP_Hidden, 1, 0, "N", 1, 0, 2 );
-   } 
+   }
 
    //:END
 
    //:IF vDialog.Control.WebCtrlType = "Hidden" OR szWCP_Hidden = "Y"
    if ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "Hidden" ) == 0 || ZeidonStringCompare( szWCP_Hidden, 1, 0, "Y", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:szType = " type=^hidden^ "
       ZeidonStringCopy( szType, 1, 0, " type=^hidden^ ", 1, 0, 65 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //://IF vDialog.CtrlMapER_Domain EXISTS AND vDialog.CtrlMapER_Domain.Name = "Password"
       //:IF vDialog.CtrlMapER_Domain EXISTS AND vDialog.Control.Subtype = 4
       lTempInteger_2 = CheckExistenceOfEntity( vDialog, "CtrlMapER_Domain" );
       if ( lTempInteger_2 == 0 && CompareAttributeToInteger( vDialog, "Control", "Subtype", 4 ) == 0 )
-      { 
+      {
          //:szType = " type=^password^ "
          ZeidonStringCopy( szType, 1, 0, " type=^password^ ", 1, 0, 65 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szType = " type=^text^ "
          ZeidonStringCopy( szType, 1, 0, " type=^text^ ", 1, 0, 65 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
 
@@ -4048,93 +4048,93 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    //:IF vDialog.EventAct EXISTS
    lTempInteger_3 = CheckExistenceOfEntity( vDialog, "EventAct" );
    if ( lTempInteger_3 == 0 )
-   { 
+   {
       //:szActionName = vDialog.EventAct.Tag
       GetVariableFromAttribute( szActionName, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
       //:IF vDialog.Event.Type = 16
       if ( CompareAttributeToInteger( vDialog, "Event", "Type", 16 ) == 0 )
-      { 
+      {
          //:szEditActionCode = " onfocus=^" + szActionName + "()^ "
          ZeidonStringCopy( szEditActionCode, 1, 0, " onfocus=^", 1, 0, 51 );
          ZeidonStringConcat( szEditActionCode, 1, 0, szActionName, 1, 0, 51 );
          ZeidonStringConcat( szEditActionCode, 1, 0, "()^ ", 1, 0, 51 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:IF vDialog.Event.Type = 17
          if ( CompareAttributeToInteger( vDialog, "Event", "Type", 17 ) == 0 )
-         { 
+         {
             //:szEditActionCode = " onblur=^" + szActionName + "()^ "
             ZeidonStringCopy( szEditActionCode, 1, 0, " onblur=^", 1, 0, 51 );
             ZeidonStringConcat( szEditActionCode, 1, 0, szActionName, 1, 0, 51 );
             ZeidonStringConcat( szEditActionCode, 1, 0, "()^ ", 1, 0, 51 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:IF vDialog.Event.Type = 18
             if ( CompareAttributeToInteger( vDialog, "Event", "Type", 18 ) == 0 )
-            { 
+            {
                //:szEditActionCode = " onchange=^" + szActionName + "()^ "
                ZeidonStringCopy( szEditActionCode, 1, 0, " onchange=^", 1, 0, 51 );
                ZeidonStringConcat( szEditActionCode, 1, 0, szActionName, 1, 0, 51 );
                ZeidonStringConcat( szEditActionCode, 1, 0, "()^ ", 1, 0, 51 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:IF vDialog.Event.Type = 21
                if ( CompareAttributeToInteger( vDialog, "Event", "Type", 21 ) == 0 )
-               { 
+               {
                   //:szEditActionCode = " onkeydown=^" + szActionName + "()^ "
                   ZeidonStringCopy( szEditActionCode, 1, 0, " onkeydown=^", 1, 0, 51 );
                   ZeidonStringConcat( szEditActionCode, 1, 0, szActionName, 1, 0, 51 );
                   ZeidonStringConcat( szEditActionCode, 1, 0, "()^ ", 1, 0, 51 );
                   //:ELSE
-               } 
+               }
                else
-               { 
+               {
                   //:IF vDialog.Event.Type = 22
                   if ( CompareAttributeToInteger( vDialog, "Event", "Type", 22 ) == 0 )
-                  { 
+                  {
                      //:szEditActionCode = " onkeyup=^" + szActionName + "()^ "
                      ZeidonStringCopy( szEditActionCode, 1, 0, " onkeyup=^", 1, 0, 51 );
                      ZeidonStringConcat( szEditActionCode, 1, 0, szActionName, 1, 0, 51 );
                      ZeidonStringConcat( szEditActionCode, 1, 0, "()^ ", 1, 0, 51 );
                      //:ELSE
-                  } 
+                  }
                   else
-                  { 
+                  {
                      //:IF vDialog.Event.Type = 24
                      if ( CompareAttributeToInteger( vDialog, "Event", "Type", 24 ) == 0 )
-                     { 
+                     {
                         //:szEditActionCode = " onclick=^" + szActionName + "()^ "
                         ZeidonStringCopy( szEditActionCode, 1, 0, " onclick=^", 1, 0, 51 );
                         ZeidonStringConcat( szEditActionCode, 1, 0, szActionName, 1, 0, 51 );
                         ZeidonStringConcat( szEditActionCode, 1, 0, "()^ ", 1, 0, 51 );
-                     } 
+                     }
 
                      //:END
-                  } 
+                  }
 
                   //:END
-               } 
+               }
 
                //:END
-            } 
+            }
 
             //:END
-         } 
+         }
 
          //:END
-      } 
+      }
 
       //:END
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:// If there is a Default button for the window, we must add some characters
       //:// to the end of the input statement.
       //:CreateViewFromView( vDialogRoot, vDialog )
@@ -4143,63 +4143,63 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
       nRC = ResetViewFromSubobject( vDialogRoot );
       //:LOOP WHILE nRC = 0
       while ( nRC == 0 )
-      { 
+      {
          //:nRC = ResetViewFromSubobject( vDialogRoot )
          nRC = ResetViewFromSubobject( vDialogRoot );
-      } 
+      }
 
       //:END
       //:IF vDialogRoot.Window.DfltButton != ""
       if ( CompareAttributeToString( vDialogRoot, "Window", "DfltButton", "" ) != 0 )
-      { 
+      {
          //:szEditActionCode = " onKeyPress=^return _OnEnter( event )^"
          ZeidonStringCopy( szEditActionCode, 1, 0, " onKeyPress=^return _OnEnter( event )^", 1, 0, 51 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szEditActionCode = ""
          ZeidonStringCopy( szEditActionCode, 1, 0, "", 1, 0, 51 );
-      } 
+      }
 
       //:END
       //:DropView( vDialogRoot )
       DropView( vDialogRoot );
-   } 
+   }
 
    //:END
 
    //:IF szNoOutputMapping = "Y"
    if ( ZeidonStringCompare( szNoOutputMapping, 1, 0, "Y", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:   szValue = "value=^^"
       ZeidonStringCopy( szValue, 1, 0, "value=^^", 1, 0, 301 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:lStyleX = vDialog.Control.ExtendedStyle
       GetIntegerFromAttribute( &lStyleX, vDialog, "Control", "ExtendedStyle" );
       //:lTemp = IsFlagSequenceSet( lStyleX, zCONTROLX_PREFILL )
       lTemp = IsFlagSequenceSet( lStyleX, zCONTROLX_PREFILL );
       //:IF lTemp != 0 AND bMapping = 0
       if ( lTemp != 0 && bMapping == 0 )
-      { 
+      {
          //:szValue = "value=^" + vDialog.Control.Text + "^"
          GetVariableFromAttribute( szTempString_15, 0, 'S', 255, vDialog, "Control", "Text", "", 0 );
          ZeidonStringCopy( szValue, 1, 0, "value=^", 1, 0, 301 );
          ZeidonStringConcat( szValue, 1, 0, szTempString_15, 1, 0, 301 );
          ZeidonStringConcat( szValue, 1, 0, "^", 1, 0, 301 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szValue = "value=^<%=strErrorMapValue%>^"
          ZeidonStringCopy( szValue, 1, 0, "value=^<%=strErrorMapValue%>^", 1, 0, 301 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
 
@@ -4211,12 +4211,12 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
    //:IF szTitle != ""
    if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
-   { 
+   {
       //:szTitleHTML = " title=^" + szTitle + "^ "
       ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
@@ -4226,7 +4226,7 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
    //:IF szClass = ""
    if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-   { 
+   {
       //:szWriteBuffer = "<input name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szDisabled + szTitleHTML + szStyle + szType +
       //:                szValue + szEditActionCode + " >"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<input name=^", 1, 0, 10001 );
@@ -4242,9 +4242,9 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, szEditActionCode, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, " >", 1, 0, 10001 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:szWriteBuffer = "<input class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szDisabled +
       //:                szTitleHTML + szStyle + szType + szValue + szEditActionCode + " >"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<input class=^", 1, 0, 10001 );
@@ -4261,14 +4261,14 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, szValue, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szEditActionCode, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, " >", 1, 0, 10001 );
-   } 
+   }
 
    //:END
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
    return( 0 );
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -4297,37 +4297,37 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
                      zLONG     lOffsetX,
                      zLONG     lOffsetY )
 {
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 256 ) szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitle
-   zCHAR     szTitle[ 257 ] = { 0 }; 
+   zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
-   zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   zCHAR     szTitleHTML[ 257 ] = { 0 };
    //:STRING ( 100 ) szDisabled
-   zCHAR     szDisabled[ 101 ] = { 0 }; 
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:STRING ( 100 ) szPosition
-   zCHAR     szPosition[ 101 ] = { 0 }; 
+   zCHAR     szPosition[ 101 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
-   zCHAR     szTabIndex[ 17 ] = { 0 }; 
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 20 )  szSpaces
-   zCHAR     szSpaces[ 21 ] = { 0 }; 
-   zSHORT    lTempInteger_0; 
-   zCHAR     szTempString_0[ 33 ]; 
-   zCHAR     szTempString_1[ 33 ]; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zCHAR     szTempString_4[ 33 ]; 
-   zCHAR     szTempString_5[ 33 ]; 
-   zCHAR     szTempString_6[ 33 ]; 
-   zCHAR     szTempString_7[ 33 ]; 
-   zCHAR     szTempString_8[ 51 ]; 
-   zSHORT    lTempInteger_1; 
-   zCHAR     szTempString_9[ 51 ]; 
-   zCHAR     szTempString_10[ 33 ]; 
-   zCHAR     szTempString_11[ 51 ]; 
-   zCHAR     szTempString_12[ 255 ]; 
-   zCHAR     szTempString_13[ 255 ]; 
+   zCHAR     szSpaces[ 21 ] = { 0 };
+   zSHORT    lTempInteger_0;
+   zCHAR     szTempString_0[ 33 ];
+   zCHAR     szTempString_1[ 33 ];
+   zCHAR     szTempString_2[ 33 ];
+   zCHAR     szTempString_3[ 33 ];
+   zCHAR     szTempString_4[ 33 ];
+   zCHAR     szTempString_5[ 33 ];
+   zCHAR     szTempString_6[ 33 ];
+   zCHAR     szTempString_7[ 33 ];
+   zCHAR     szTempString_8[ 51 ];
+   zSHORT    lTempInteger_1;
+   zCHAR     szTempString_9[ 51 ];
+   zCHAR     szTempString_10[ 33 ];
+   zCHAR     szTempString_11[ 51 ];
+   zCHAR     szTempString_12[ 255 ];
+   zCHAR     szTempString_13[ 255 ];
 
 
    //:szWriteBuffer = "<%   strErrorMapValue = ^^;"
@@ -4338,7 +4338,7 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
    //:IF vDialog.CtrlMapView EXISTS
    lTempInteger_0 = CheckExistenceOfEntity( vDialog, "CtrlMapView" );
    if ( lTempInteger_0 == 0 )
-   { 
+   {
       //:szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
       //:                ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
       GetVariableFromAttribute( szTempString_0, 0, 'S', 33, vDialog, "CtrlMapView", "Name", "", 0 );
@@ -4408,7 +4408,7 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "   }", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-   } 
+   }
 
    //:END
 
@@ -4436,19 +4436,19 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
    //:// do not create the position in the style.
    //:IF  szNoPositioning = ""
    if ( ZeidonStringCompare( szNoPositioning, 1, 0, "", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY )
       CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY );
-   } 
+   }
 
    //:END
 
    //:IF vDialog.Control.VisibleBorder = "Y"
    if ( CompareAttributeToString( vDialog, "Control", "VisibleBorder", "Y" ) == 0 )
-   { 
+   {
       //:szPosition = szPosition + "border:'2px solid';border-style:'groove';"
       ZeidonStringConcat( szPosition, 1, 0, "border:'2px solid';border-style:'groove';", 1, 0, 101 );
-   } 
+   }
 
    //:END
 
@@ -4468,25 +4468,25 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
    GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
    //:IF szTitle = ""
    if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) == 0 )
-   { 
+   {
       //:szTitleHTML = ""
       ZeidonStringCopy( szTitleHTML, 1, 0, "", 1, 0, 257 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:szTitleHTML = " title=^" + szTitle + "^ "
       ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
    //:IF vDialog.EventAct EXISTS
    lTempInteger_1 = CheckExistenceOfEntity( vDialog, "EventAct" );
    if ( lTempInteger_1 == 0 )
-   { 
+   {
       //:szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szDisabled +
       //:                " value=^" + vDialog.Control.RadioOrCheckboxValue +
       //:                "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( )^>"
@@ -4507,9 +4507,9 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_10, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^>", 1, 0, 10001 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szDisabled +
       //:                " value=^" + vDialog.Control.RadioOrCheckboxValue +
       //:                "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + ">"
@@ -4526,7 +4526,7 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-   } 
+   }
 
    //:END
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -4536,7 +4536,7 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
    //:// do not create the position in the style.
    //:IF  szNoPositioning = "Y"
    if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:CreateNoPosStyleString( vDialog, szStyle, "" )
       CreateNoPosStyleString( vDialog, szStyle, "" );
       //:// If we aren't putting in absolute positioning, make sure that there is a little space between
@@ -4544,14 +4544,14 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
       //:szSpaces = "&nbsp "
       ZeidonStringCopy( szSpaces, 1, 0, "&nbsp ", 1, 0, 21 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:CreateAbsolStyleString( vDialog, szStyle, 30 + lOffsetX, lOffsetY, "" )
       CreateAbsolStyleString( vDialog, szStyle, 30 + lOffsetX, lOffsetY, "" );
       //:szSpaces = ""
       ZeidonStringCopy( szSpaces, 1, 0, "", 1, 0, 21 );
-   } 
+   }
 
    //:END
    //:szClass = vDialog.Control.CSS_Class
@@ -4559,7 +4559,7 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
 
    //:IF szClass = ""
    if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-   { 
+   {
       //:szWriteBuffer = "<span " + szTitleHTML + szStyle + ">" + szSpaces + vDialog.Control.Text + "</span>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<span ", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
@@ -4570,9 +4570,9 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_12, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:szWriteBuffer = "<span class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + szSpaces + vDialog.Control.Text + "</span>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<span class=^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
@@ -4584,14 +4584,14 @@ GenJSP_CrteCheckBox( zVIEW     vDialog,
       GetVariableFromAttribute( szTempString_13, 0, 'S', 255, vDialog, "Control", "Text", "", 0 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_13, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
-   } 
+   }
 
    //:END
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
    return( 0 );
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -4615,37 +4615,37 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
                        zLONG     lOffsetX,
                        zLONG     lOffsetY )
 {
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 256 ) szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitle
-   zCHAR     szTitle[ 257 ] = { 0 }; 
+   zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szCtrlTag
-   zCHAR     szCtrlTag[ 257 ] = { 0 }; 
+   zCHAR     szCtrlTag[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
-   zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   zCHAR     szTitleHTML[ 257 ] = { 0 };
    //:STRING ( 100 ) szDisabled
-   zCHAR     szDisabled[ 101 ] = { 0 }; 
-   //:STRING ( 100 )  szPosition
-   zCHAR     szPosition[ 101 ] = { 0 }; 
+   zCHAR     szDisabled[ 101 ] = { 0 };
+   //:STRING ( 100 ) szPosition
+   zCHAR     szPosition[ 101 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
-   zCHAR     szTabIndex[ 17 ] = { 0 }; 
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 32 )  szActionName
-   zCHAR     szActionName[ 33 ] = { 0 }; 
+   zCHAR     szActionName[ 33 ] = { 0 };
    //:STRING ( 1 )   szFirstTimeThru
-   zCHAR     szFirstTimeThru[ 2 ] = { 0 }; 
+   zCHAR     szFirstTimeThru[ 2 ] = { 0 };
    //:INTEGER        nRC
-   zLONG     nRC = 0; 
+   zLONG     nRC = 0;
    //:INTEGER        LastY_Pos
-   zLONG     LastY_Pos = 0; 
-   zSHORT    lTempInteger_0; 
-   zSHORT    RESULT; 
-   zSHORT    lTempInteger_1; 
-   zCHAR     szTempString_0[ 51 ]; 
-   zCHAR     szTempString_1[ 51 ]; 
-   zCHAR     szTempString_2[ 51 ]; 
-   zCHAR     szTempString_3[ 255 ]; 
-   zCHAR     szTempString_4[ 255 ]; 
+   zLONG     LastY_Pos = 0;
+   zSHORT    lTempInteger_0;
+   zSHORT    RESULT;
+   zSHORT    lTempInteger_1;
+   zCHAR     szTempString_0[ 51 ];
+   zCHAR     szTempString_1[ 51 ];
+   zCHAR     szTempString_2[ 51 ];
+   zCHAR     szTempString_3[ 255 ];
+   zCHAR     szTempString_4[ 255 ];
 
 
    //:LastY_Pos = 0
@@ -4655,10 +4655,10 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
    //:IF vDialog.Control EXISTS
    lTempInteger_0 = CheckExistenceOfEntity( vDialog, "Control" );
    if ( lTempInteger_0 == 0 )
-   { 
+   {
       //:LastY_Pos = vDialog.Control.PSDLG_Y
       GetIntegerFromAttribute( &LastY_Pos, vDialog, "Control", "PSDLG_Y" );
-   } 
+   }
 
    //:END
    //:szWriteBuffer = "   <table style=^margin:0px;padding:0px;^  name=^tbl" + szRadioGroupName + "^ id=tbl^" + szRadioGroupName + "^>"
@@ -4678,26 +4678,26 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
    //:FOR EACH vDialog.Control
    RESULT = SetCursorFirstEntity( vDialog, "Control", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   { 
+   {
       //:szActionName = ""
       ZeidonStringCopy( szActionName, 1, 0, "", 1, 0, 33 );
       //:IF vDialog.EventAct EXISTS
       lTempInteger_1 = CheckExistenceOfEntity( vDialog, "EventAct" );
       if ( lTempInteger_1 == 0 )
-      { 
+      {
          //:szActionName = vDialog.EventAct.Tag
          GetVariableFromAttribute( szActionName, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
          //:nRC = zstrcmpi( szActionName, "alt-f4" )
          nRC = zstrcmpi( szActionName, "alt-f4" );
          //:IF nRC = 0
          if ( nRC == 0 )
-         { 
+         {
             //:szActionName = "AltF4"
             ZeidonStringCopy( szActionName, 1, 0, "AltF4", 1, 0, 33 );
-         } 
+         }
 
          //:END
-      } 
+      }
 
       //:END
 
@@ -4728,10 +4728,10 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
       //:// do not create the position in the style.
       //:IF  szNoPositioning = ""
       if ( ZeidonStringCompare( szNoPositioning, 1, 0, "", 1, 0, 2 ) == 0 )
-      { 
+      {
          //:CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY )
          CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY );
-      } 
+      }
 
       //:END
       //://CreateAbsolPosString( vDialog, szPosition, 0, 0 )
@@ -4743,7 +4743,7 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
       //:// If LastY_Pos = -100 then this is the first time thru...
       //:IF ( ( LastY_Pos < vDialog.Control.PSDLG_Y ) )
       if ( ( CompareAttributeToInteger( vDialog, "Control", "PSDLG_Y", LastY_Pos ) > 0 ) )
-      { 
+      {
          //:szWriteBuffer = "   </tr>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "   </tr>", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -4753,23 +4753,23 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:// KJS 07/22/10 - Currently for relative positioning, the radio buttons are being created one right after the other
          //:// (on the same line), no matter how I paint them on the screen).  Really to look at that but since we hardly ever
          //:// use them, I am for a fast fix going to append "&nbsp&nbsp&nbsp" after each button, to give some spacing.
          //:IF szNoPositioning = "Y" AND szFirstTimeThru = "N"
          if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szFirstTimeThru, 1, 0, "N", 1, 0, 2 ) == 0 )
-         { 
+         {
             //:szWriteBuffer = "      <td nowrap style=^border:0px;^>&nbsp&nbsp&nbsp</td>"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "      <td nowrap style=^border:0px;^>&nbsp&nbsp&nbsp</td>", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-         } 
+         }
 
          //:END
-      } 
+      }
 
       //:END
 
@@ -4778,7 +4778,7 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
       //:// szStyle = " style=^position:absolute;LEFT:" + szX + ";TOP:" + szY + ";^ "
       //:IF  szActionName != ""
       if ( ZeidonStringCompare( szActionName, 1, 0, "", 1, 0, 33 ) != 0 )
-      { 
+      {
          //:szWriteBuffer = "      <td style=^width:15px;border:0px;^><input type=^radio^ name=^" + szRadioGroupName + "^ id=^" + szCtrlTag +
          //:                "^ value=^" + vDialog.Control.RadioOrCheckboxValue +
          //:                "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " onclick=^" + szActionName + "( )^  ></td>"
@@ -4796,9 +4796,9 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^  ></td>", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szWriteBuffer = "      <td style=^width:15px;border:0px;^><input type=^radio^ name=^" + szRadioGroupName + "^ id=^" + szCtrlTag +
          //:                "^ value=^" + vDialog.Control.RadioOrCheckboxValue +
          //:                "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " ></td>"
@@ -4813,7 +4813,7 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " ></td>", 1, 0, 10001 );
-      } 
+      }
 
       //:END
 
@@ -4822,16 +4822,16 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
 
       //:IF szNoPositioning = "Y"
       if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
-      { 
+      {
          //:CreateNoPosStyleString( vDialog, szStyle, "")
          CreateNoPosStyleString( vDialog, szStyle, "" );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:CreateAbsolStyleString( vDialog, szStyle, 30 + lOffsetX, lOffsetY, "" )
          CreateAbsolStyleString( vDialog, szStyle, 30 + lOffsetX, lOffsetY, "" );
-      } 
+      }
 
       //:END
 
@@ -4842,12 +4842,12 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
       GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
       //:IF szTitle != ""
       if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
-      { 
+      {
          //:szTitleHTML = " title=^" + szTitle + "^ "
          ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
          ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
          ZeidonStringConcat( szTitleHTML, 1, 0, "^ ", 1, 0, 257 );
-      } 
+      }
 
       //:END
 
@@ -4855,7 +4855,7 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
       GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
       //:IF szClass = ""
       if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-      { 
+      {
          //:szWriteBuffer = "      <td nowrap style=^border:0px;^><span " + szTitleHTML + ">" + vDialog.Control.Text + "</span></td>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "      <td nowrap style=^border:0px;^><span ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
@@ -4864,9 +4864,9 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_3, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "</span></td>", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szWriteBuffer = "      <td nowrap style=^border:0px;^><span class=^" + szClass + "^ " + szTitleHTML + ">" + vDialog.Control.Text + "</span></td>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "      <td nowrap style=^border:0px;^><span class=^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
@@ -4876,7 +4876,7 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
          GetVariableFromAttribute( szTempString_4, 0, 'S', 255, vDialog, "Control", "Text", "", 0 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_4, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "</span></td>", 1, 0, 10001 );
-      } 
+      }
 
       //:END
 
@@ -4888,7 +4888,7 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
       //:szFirstTimeThru = "N"
       ZeidonStringCopy( szFirstTimeThru, 1, 0, "N", 1, 0, 2 );
       RESULT = SetCursorNextEntity( vDialog, "Control", "" );
-   } 
+   }
 
    //:END
    //:szWriteBuffer = "   </tr>"
@@ -4901,7 +4901,7 @@ GenJSP_CrteCtrlsRadio( zVIEW     vDialog,
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
    return( 0 );
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -4933,100 +4933,100 @@ GenJSP_CrteText( zVIEW     vDialog,
                  zLONG     lOffsetX,
                  zLONG     lOffsetY )
 {
-   zCHAR     szContextName[ 33 ] = { 0 }; 
+   zCHAR     szContextName[ 33 ] = { 0 };
    //:STRING ( 256 ) szStyle
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 256 ) szClassHTML
-   zCHAR     szClassHTML[ 257 ] = { 0 }; 
+   zCHAR     szClassHTML[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitle
-   zCHAR     szTitle[ 257 ] = { 0 }; 
+   zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
-   zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   zCHAR     szTitleHTML[ 257 ] = { 0 };
    //:STRING ( 1000 ) szText
-   zCHAR     szText[ 1001 ] = { 0 }; 
+   zCHAR     szText[ 1001 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
-   zCHAR     szTabIndex[ 17 ] = { 0 }; 
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 10 )  szMaxStringLength
-   zCHAR     szMaxStringLength[ 11 ] = { 0 }; 
+   zCHAR     szMaxStringLength[ 11 ] = { 0 };
    //:STRING ( 20 )  szGroupParentType
-   zCHAR     szGroupParentType[ 21 ] = { 0 }; 
+   zCHAR     szGroupParentType[ 21 ] = { 0 };
    //:STRING ( 85 )  szHTMLCtrlID
-   zCHAR     szHTMLCtrlID[ 86 ] = { 0 }; 
+   zCHAR     szHTMLCtrlID[ 86 ] = { 0 };
    //:INTEGER        lMaxStringLength
-   zLONG     lMaxStringLength = 0; 
+   zLONG     lMaxStringLength = 0;
    //:INTEGER        lSubtypeX
-   zLONG     lSubtypeX = 0; 
+   zLONG     lSubtypeX = 0;
    //:INTEGER        lSubtype
-   zLONG     lSubtype = 0; 
+   zLONG     lSubtype = 0;
    //:INTEGER        lTemp
-   zLONG     lTemp = 0; 
+   zLONG     lTemp = 0;
    //:SHORT          nMultiLineFlag
-   zSHORT    nMultiLineFlag = 0; 
+   zSHORT    nMultiLineFlag = 0;
    //:SHORT          nBoldFlag
-   zSHORT    nBoldFlag = 0; 
+   zSHORT    nBoldFlag = 0;
    //:SHORT          nItalicFlag
-   zSHORT    nItalicFlag = 0; 
+   zSHORT    nItalicFlag = 0;
    //:SHORT          nStrikeoutFlag
-   zSHORT    nStrikeoutFlag = 0; 
+   zSHORT    nStrikeoutFlag = 0;
    //:SHORT          nUnderlineFlag
-   zSHORT    nUnderlineFlag = 0; 
+   zSHORT    nUnderlineFlag = 0;
    //:INTEGER        lJustify
-   zLONG     lJustify = 0; 
+   zLONG     lJustify = 0;
    //:INTEGER        lFontSize
-   zLONG     lFontSize = 0; 
+   zLONG     lFontSize = 0;
    //:INTEGER        lTextColor
-   zLONG     lTextColor = 0; 
+   zLONG     lTextColor = 0;
    //:INTEGER        lTextBkColor
-   zLONG     lTextBkColor = 0; 
+   zLONG     lTextBkColor = 0;
    //:INTEGER        lBorderStyle
-   zLONG     lBorderStyle = 0; 
+   zLONG     lBorderStyle = 0;
    //:INTEGER        lBorderColor
-   zLONG     lBorderColor = 0; 
+   zLONG     lBorderColor = 0;
    //:INTEGER        lEscapement
-   zLONG     lEscapement = 0; 
+   zLONG     lEscapement = 0;
    //:INTEGER        lType
-   zLONG     lType = 0; 
+   zLONG     lType = 0;
    //:STRING ( 32 )  szFaceName
-   zCHAR     szFaceName[ 33 ] = { 0 }; 
+   zCHAR     szFaceName[ 33 ] = { 0 };
    //:STRING ( 256 ) szDecoration
-   zCHAR     szDecoration[ 257 ] = { 0 }; 
+   zCHAR     szDecoration[ 257 ] = { 0 };
    //:STRING ( 1 )   szIsLabel
-   zCHAR     szIsLabel[ 2 ] = { 0 }; 
+   zCHAR     szIsLabel[ 2 ] = { 0 };
    //:STRING ( 256 ) szLabelFor
-   zCHAR     szLabelFor[ 257 ] = { 0 }; 
+   zCHAR     szLabelFor[ 257 ] = { 0 };
    //:SHORT          nRC
-   zSHORT    nRC = 0; 
-   zCHAR     szTempString_0[ 255 ]; 
-   zSHORT    RESULT; 
-   zCHAR     szTempString_1[ 33 ]; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zCHAR     szTempString_4[ 33 ]; 
-   zCHAR     szTempString_5[ 33 ]; 
-   zSHORT    lTempInteger_0; 
-   zCHAR     szTempString_6[ 33 ]; 
-   zCHAR     szTempString_7[ 33 ]; 
-   zCHAR     szTempString_8[ 33 ]; 
-   zCHAR     szTempString_9[ 33 ]; 
-   zCHAR     szTempString_10[ 33 ]; 
-   zCHAR     szTempString_11[ 33 ]; 
-   zSHORT    lTempInteger_1; 
-   zCHAR     szTempString_12[ 33 ]; 
-   zCHAR     szTempString_13[ 33 ]; 
-   zCHAR     szTempString_14[ 33 ]; 
-   zCHAR     szTempString_15[ 33 ]; 
-   zCHAR     szTempString_16[ 33 ]; 
-   zSHORT    lTempInteger_2; 
-   zCHAR     szTempString_17[ 33 ]; 
-   zCHAR     szTempString_18[ 33 ]; 
-   zCHAR     szTempString_19[ 33 ]; 
-   zCHAR     szTempString_20[ 33 ]; 
-   zCHAR     szTempString_21[ 33 ]; 
-   zCHAR     szTempString_22[ 33 ]; 
-   zLONG     lTempInteger_3; 
-   zCHAR     szTempString_23[ 255 ]; 
-   zCHAR     szTempString_24[ 33 ]; 
-   zCHAR     szTempString_25[ 255 ]; 
+   zSHORT    nRC = 0;
+   zCHAR     szTempString_0[ 255 ];
+   zSHORT    RESULT;
+   zCHAR     szTempString_1[ 33 ];
+   zCHAR     szTempString_2[ 33 ];
+   zCHAR     szTempString_3[ 33 ];
+   zCHAR     szTempString_4[ 33 ];
+   zCHAR     szTempString_5[ 33 ];
+   zSHORT    lTempInteger_0;
+   zCHAR     szTempString_6[ 33 ];
+   zCHAR     szTempString_7[ 33 ];
+   zCHAR     szTempString_8[ 33 ];
+   zCHAR     szTempString_9[ 33 ];
+   zCHAR     szTempString_10[ 33 ];
+   zCHAR     szTempString_11[ 33 ];
+   zSHORT    lTempInteger_1;
+   zCHAR     szTempString_12[ 33 ];
+   zCHAR     szTempString_13[ 33 ];
+   zCHAR     szTempString_14[ 33 ];
+   zCHAR     szTempString_15[ 33 ];
+   zCHAR     szTempString_16[ 33 ];
+   zSHORT    lTempInteger_2;
+   zCHAR     szTempString_17[ 33 ];
+   zCHAR     szTempString_18[ 33 ];
+   zCHAR     szTempString_19[ 33 ];
+   zCHAR     szTempString_20[ 33 ];
+   zCHAR     szTempString_21[ 33 ];
+   zCHAR     szTempString_22[ 33 ];
+   zLONG     lTempInteger_3;
+   zCHAR     szTempString_23[ 255 ];
+   zCHAR     szTempString_24[ 33 ];
+   zCHAR     szTempString_25[ 255 ];
 
 
    //:szText = vDialog.Control.Text
@@ -5043,16 +5043,16 @@ GenJSP_CrteText( zVIEW     vDialog,
 
    //:IF  szNoPositioning = "Y"
    if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
-   { 
+   {
       //:CreateNoPosStyleString( vDialog, szStyle, "" )
       CreateNoPosStyleString( vDialog, szStyle, "" );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
       CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" );
-   } 
+   }
 
    //:END
 
@@ -5069,87 +5069,87 @@ GenJSP_CrteText( zVIEW     vDialog,
    ZeidonStringCopy( szDecoration, 1, 0, "", 1, 0, 257 );
    //:IF nRC > 0
    if ( nRC > 0 )
-   { 
+   {
 
       //:IF nItalicFlag != 0
       if ( nItalicFlag != 0 )
-      { 
+      {
          //:szDecoration = szDecoration + "font-style:italic;"
          ZeidonStringConcat( szDecoration, 1, 0, "font-style:italic;", 1, 0, 257 );
-      } 
+      }
 
       //:END
 
       //:IF nBoldFlag != 0
       if ( nBoldFlag != 0 )
-      { 
+      {
          //:szDecoration = szDecoration + "font-weight:bold;"
          ZeidonStringConcat( szDecoration, 1, 0, "font-weight:bold;", 1, 0, 257 );
-      } 
+      }
 
       //:END
 
       //:IF lJustify != 0
       if ( lJustify != 0 )
-      { 
+      {
          //:nRC = IsFlagSequenceSet( lJustify, 2 )
          nRC = IsFlagSequenceSet( lJustify, 2 );
          //:IF nRC != 0
          if ( nRC != 0 )
-         { 
+         {
             //:szDecoration = szDecoration + "text-align:center;"
             ZeidonStringConcat( szDecoration, 1, 0, "text-align:center;", 1, 0, 257 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:nRC = IsFlagSequenceSet( lJustify, 4 )
             nRC = IsFlagSequenceSet( lJustify, 4 );
             //:IF nRC != 0
             if ( nRC != 0 )
-            { 
+            {
                //:szDecoration = szDecoration + "text-align:right;"
                ZeidonStringConcat( szDecoration, 1, 0, "text-align:right;", 1, 0, 257 );
-            } 
+            }
 
             //:END
-         } 
+         }
 
          //:END
-      } 
+      }
 
       //:END
 
       //:IF nUnderlineFlag != 0 AND nStrikeoutFlag != 0
       if ( nUnderlineFlag != 0 && nStrikeoutFlag != 0 )
-      { 
+      {
          //:szDecoration = szDecoration + "text-decoration:underline line-through;"
          ZeidonStringConcat( szDecoration, 1, 0, "text-decoration:underline line-through;", 1, 0, 257 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:IF nUnderlineFlag != 0
          if ( nUnderlineFlag != 0 )
-         { 
+         {
             //:szDecoration = szDecoration + "text-decoration:underline;"
             ZeidonStringConcat( szDecoration, 1, 0, "text-decoration:underline;", 1, 0, 257 );
-         } 
+         }
 
          //:END
 
          //:IF nStrikeoutFlag != 0
          if ( nStrikeoutFlag != 0 )
-         { 
+         {
             //:szDecoration = szDecoration + "text-decoration:line-through;"
             ZeidonStringConcat( szDecoration, 1, 0, "text-decoration:line-through;", 1, 0, 257 );
-         } 
+         }
 
          //:END
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
 
@@ -5161,12 +5161,12 @@ GenJSP_CrteText( zVIEW     vDialog,
    GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
    //:IF szTitle != ""
    if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
-   { 
+   {
       //:szTitleHTML = " title=^" + szTitle + "^ "
       ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
@@ -5176,13 +5176,13 @@ GenJSP_CrteText( zVIEW     vDialog,
    ZeidonStringConcat( szStyle, 1, 0, szTabIndex, 1, 0, 257 );
    //:IF vDialog.Control.CSS_Class != ""
    if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 )
-   { 
+   {
       //:szClassHTML = "class=^" + vDialog.Control.CSS_Class + "^ "
       GetVariableFromAttribute( szTempString_0, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
       ZeidonStringCopy( szClassHTML, 1, 0, "class=^", 1, 0, 257 );
       ZeidonStringConcat( szClassHTML, 1, 0, szTempString_0, 1, 0, 257 );
       ZeidonStringConcat( szClassHTML, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
@@ -5192,7 +5192,7 @@ GenJSP_CrteText( zVIEW     vDialog,
    ZeidonStringCopy( szGroupParentType, 1, 0, "", 1, 0, 21 );
    //:IF vGroupParent != 0
    if ( vGroupParent != 0 )
-   { 
+   {
       //:// Override Style if parent group requests relative positioning
       //:// KJS 01/30/14 - I'm thinking "Relative Positioning" is old. I only use this in one pwd and when I take it
       //:// out and use "Div/No Height", the results look exactly the same so I am going to take this off grid controls.
@@ -5208,13 +5208,13 @@ GenJSP_CrteText( zVIEW     vDialog,
       GetVariableFromAttribute( szGroupParentType, 0, 'S', 21, vGroupParent, "Control", "WebCtrlType", "", 0 );
       //:IF szGroupParentType = "RelativePos" OR szGroupParentType = "Span"
       if ( ZeidonStringCompare( szGroupParentType, 1, 0, "RelativePos", 1, 0, 21 ) == 0 || ZeidonStringCompare( szGroupParentType, 1, 0, "Span", 1, 0, 21 ) == 0 )
-      { 
+      {
          //:szStyle = "style=^position:relative;^"
          ZeidonStringCopy( szStyle, 1, 0, "style=^position:relative;^", 1, 0, 257 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
 
@@ -5223,25 +5223,25 @@ GenJSP_CrteText( zVIEW     vDialog,
    RESULT = SetCursorFirstEntityByString( vDialog, "CtrlMap", "Tag", "Displayed Text", "" );
    //:IF RESULT < zCURSOR_SET
    if ( RESULT < zCURSOR_SET )
-   { 
+   {
       //:SET CURSOR FIRST vDialog.CtrlMapLOD_Attribute WITHIN vDialog.Control
       //:           WHERE vDialog.CtrlMap.Tag = ""
       RESULT = SetCursorFirstEntity( vDialog, "CtrlMapLOD_Attribute", "Control" );
       if ( RESULT > zCURSOR_UNCHANGED )
-      { 
+      {
          while ( RESULT > zCURSOR_UNCHANGED && ( CompareAttributeToString( vDialog, "CtrlMap", "Tag", "" ) != 0 ) )
-         { 
+         {
             RESULT = SetCursorNextEntity( vDialog, "CtrlMapLOD_Attribute", "Control" );
-         } 
+         }
 
-      } 
+      }
 
-   } 
+   }
 
    //:END
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
-   { 
+   {
       //:// There is mapping of the Display Text value.
       //:szWriteBuffer = "<% strTextDisplayValue = ^^;"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<% strTextDisplayValue = ^^;", 1, 0, 10001 );
@@ -5298,22 +5298,22 @@ GenJSP_CrteText( zVIEW     vDialog,
       //:IF vDialog.CtrlMapContext EXISTS
       lTempInteger_0 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
       if ( lTempInteger_0 == 0 )
-      { 
+      {
          //:szContextName = vDialog.CtrlMapContext.Name
          GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szContextName = ""
          ZeidonStringCopy( szContextName, 1, 0, "", 1, 0, 33 );
-      } 
+      }
 
       //:END
 
       //:IF vDialog.CtrlMapER_Domain.DataType = "T" OR vDialog.CtrlMapER_Domain.DataType = "D"
       if ( CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "T" ) == 0 || CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "D" ) == 0 )
-      { 
+      {
          //:szWriteBuffer = "         strTextDisplayValue = " +
          //:                vDialog.CtrlMapView.Name +
          //:                ".GetStringFromAttributeByContext( strSessionId, ^" +
@@ -5333,23 +5333,23 @@ GenJSP_CrteText( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szContextName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, 20 );", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
          if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
-         { 
+         {
             //:lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
             GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
             //:szMaxStringLength = lMaxStringLength
             ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szMaxStringLength = "254"
             ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
-         } 
+         }
 
          //:END
 
@@ -5373,7 +5373,7 @@ GenJSP_CrteText( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLength, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
-      } 
+      }
 
       //:END
 
@@ -5390,7 +5390,7 @@ GenJSP_CrteText( zVIEW     vDialog,
 
       //:szText = "<%=strTextDisplayValue%>"
       ZeidonStringCopy( szText, 1, 0, "<%=strTextDisplayValue%>", 1, 0, 1001 );
-   } 
+   }
 
 
    //:END
@@ -5398,16 +5398,16 @@ GenJSP_CrteText( zVIEW     vDialog,
    //:IF vDialog.EventAct EXISTS    // There is only one EventAct, which is HotText.
    lTempInteger_1 = CheckExistenceOfEntity( vDialog, "EventAct" );
    if ( lTempInteger_1 == 0 )
-   { 
+   {
       //:IF vDialog.EventAct.Type = 45    // Type 45 is Hyperlink Action.
       if ( CompareAttributeToInteger( vDialog, "EventAct", "Type", 45 ) == 0 )
-      { 
+      {
          //:// The Text triggers a Hyperlink to a constant or variable URL address
          //:SET CURSOR FIRST vDialog.CtrlMap WHERE vDialog.CtrlMap.Tag = "Hyperlink URL"
          RESULT = SetCursorFirstEntityByString( vDialog, "CtrlMap", "Tag", "Hyperlink URL", "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         { 
+         {
             //:// There is mapping of the Hyperlink URL value.
             //:szWriteBuffer = "<% strTextURL_Value = ^^;"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "<% strTextURL_Value = ^^;", 1, 0, 10001 );
@@ -5464,22 +5464,22 @@ GenJSP_CrteText( zVIEW     vDialog,
             //:IF vDialog.CtrlMapContext EXISTS
             lTempInteger_2 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
             if ( lTempInteger_2 == 0 )
-            { 
+            {
                //:szContextName = vDialog.CtrlMapContext.Name
                GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:szContextName = ""
                ZeidonStringCopy( szContextName, 1, 0, "", 1, 0, 33 );
-            } 
+            }
 
             //:END
 
             //:IF vDialog.CtrlMapER_Domain.DataType = "T" OR vDialog.CtrlMapER_Domain.DataType = "D"
             if ( CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "T" ) == 0 || CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "D" ) == 0 )
-            { 
+            {
                //:szWriteBuffer = "         strTextURL_Value = " +
                //:                vDialog.CtrlMapView.Name +
                //:                ".GetStringFromAttributeByContext( strSessionId, ^" +
@@ -5499,23 +5499,23 @@ GenJSP_CrteText( zVIEW     vDialog,
                ZeidonStringConcat( szWriteBuffer, 1, 0, szContextName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^, 20 );", 1, 0, 10001 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
                if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
-               { 
+               {
                   //:lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
                   GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
                   //:szMaxStringLength = lMaxStringLength
                   ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
                   //:ELSE
-               } 
+               }
                else
-               { 
+               {
                   //:szMaxStringLength = "254"
                   ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
-               } 
+               }
 
                //:END
 
@@ -5539,7 +5539,7 @@ GenJSP_CrteText( zVIEW     vDialog,
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLength, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
-            } 
+            }
 
             //:END
 
@@ -5570,9 +5570,9 @@ GenJSP_CrteText( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "</a>", 1, 0, 10001 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
 
             //:// The Hyperlink URL value is a constant in the Action.
             //:SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialog.EventAct.ZKey
@@ -5580,12 +5580,12 @@ GenJSP_CrteText( zVIEW     vDialog,
             RESULT = SetCursorFirstEntityByInteger( vDialogRoot, "Action", "ZKey", lTempInteger_3, "" );
             //:IF vDialogRoot.Action.WebHTML_TransferAddress = ""
             if ( CompareAttributeToString( vDialogRoot, "Action", "WebHTML_TransferAddress", "" ) == 0 )
-            { 
+            {
                //:MessageSend( vDialog, "", "XSL Generation",
                //:             "A Hyperlink Action without URL mapping requires a 'Link to HTML Address' value.",
                //:             zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                MessageSend( vDialog, "", "XSL Generation", "A Hyperlink Action without URL mapping requires a 'Link to HTML Address' value.", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
-            } 
+            }
 
             //:END
 
@@ -5605,13 +5605,13 @@ GenJSP_CrteText( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, " target=^_blank^>", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "</a>", 1, 0, 10001 );
-         } 
+         }
 
          //:END
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:// This is HotText with regular Action, rather than HyperLink.
          //:szWriteBuffer = ""
          ZeidonStringCopy( szWriteBuffer, 1, 0, "", 1, 0, 10001 );
@@ -5634,13 +5634,13 @@ GenJSP_CrteText( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "</a>", 1, 0, 10001 );
-      } 
+      }
 
       //:END
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:// Regular Text Control (No HotText)
 
 
@@ -5654,22 +5654,22 @@ GenJSP_CrteText( zVIEW     vDialog,
       RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Label", "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      { 
+      {
          //:szIsLabel = "Y"
          ZeidonStringCopy( szIsLabel, 1, 0, "Y", 1, 0, 2 );
          //:IF vDialog.Control.WebCtrlLabelLink != ""
          if ( CompareAttributeToString( vDialog, "Control", "WebCtrlLabelLink", "" ) != 0 )
-         { 
+         {
             //:// Tie the label to an input control.
             //:szLabelFor = " for=^" + vDialog.Control.WebCtrlLabelLink + "^ "
             GetVariableFromAttribute( szTempString_25, 0, 'S', 255, vDialog, "Control", "WebCtrlLabelLink", "", 0 );
             ZeidonStringCopy( szLabelFor, 1, 0, " for=^", 1, 0, 257 );
             ZeidonStringConcat( szLabelFor, 1, 0, szTempString_25, 1, 0, 257 );
             ZeidonStringConcat( szLabelFor, 1, 0, "^ ", 1, 0, 257 );
-         } 
+         }
 
          //:END
-      } 
+      }
 
       //:END
 
@@ -5680,7 +5680,7 @@ GenJSP_CrteText( zVIEW     vDialog,
       //:// If there is a "Label" web control property than make this a label, otherwise, just use <span>.
       //:IF szIsLabel = "Y"
       if ( ZeidonStringCompare( szIsLabel, 1, 0, "Y", 1, 0, 2 ) == 0 )
-      { 
+      {
          //:   szWriteBuffer = "<label " + szClassHTML + szHTMLCtrlID + szLabelFor + szTitleHTML + szStyle + ">" + szText + "</label>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<label ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szClassHTML, 1, 0, 10001 );
@@ -5692,9 +5692,9 @@ GenJSP_CrteText( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "</label>", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szWriteBuffer = "<span " + szClassHTML + szHTMLCtrlID + szTitleHTML + szStyle + ">" + szText + "</span>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<span ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szClassHTML, 1, 0, 10001 );
@@ -5704,10 +5704,10 @@ GenJSP_CrteText( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
 
@@ -5715,7 +5715,7 @@ GenJSP_CrteText( zVIEW     vDialog,
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
    return( 0 );
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -5739,68 +5739,68 @@ GenJSP_CrteListBox( zVIEW     vDialog,
                     zLONG     lOffsetX,
                     zLONG     lOffsetY )
 {
-   zVIEW     vScope = 0; 
+   zVIEW     vScope = 0;
    //:STRING ( 32 )  szContextName
-   zCHAR     szContextName[ 33 ] = { 0 }; 
+   zCHAR     szContextName[ 33 ] = { 0 };
    //:STRING ( 32 )  szScopingEntityName
-   zCHAR     szScopingEntityName[ 33 ] = { 0 }; 
+   zCHAR     szScopingEntityName[ 33 ] = { 0 };
    //:STRING ( 32 )  szListEntityName
-   zCHAR     szListEntityName[ 33 ] = { 0 }; 
+   zCHAR     szListEntityName[ 33 ] = { 0 };
    //:STRING ( 32 )  szAttributeName
-   zCHAR     szAttributeName[ 33 ] = { 0 }; 
+   zCHAR     szAttributeName[ 33 ] = { 0 };
    //:STRING ( 32 )  szEntityName
-   zCHAR     szEntityName[ 33 ] = { 0 }; 
+   zCHAR     szEntityName[ 33 ] = { 0 };
    //:STRING ( 256 ) szStyle
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 256 ) szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitle
-   zCHAR     szTitle[ 257 ] = { 0 }; 
+   zCHAR     szTitle[ 257 ] = { 0 };
    //:STRING ( 256 ) szTitleHTML
-   zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   zCHAR     szTitleHTML[ 257 ] = { 0 };
    //:STRING ( 256 ) ListBoxDoubleClickAction
-   zCHAR     ListBoxDoubleClickAction[ 257 ] = { 0 }; 
+   zCHAR     ListBoxDoubleClickAction[ 257 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
-   zCHAR     szTabIndex[ 17 ] = { 0 }; 
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:STRING ( 10 )  szMaxStringLength
-   zCHAR     szMaxStringLength[ 11 ] = { 0 }; 
+   zCHAR     szMaxStringLength[ 11 ] = { 0 };
    //:STRING ( 10 )  szWidth
-   zCHAR     szWidth[ 11 ] = { 0 }; 
+   zCHAR     szWidth[ 11 ] = { 0 };
    //:STRING ( 10 )  szSelectAction
-   zCHAR     szSelectAction[ 11 ] = { 0 }; 
+   zCHAR     szSelectAction[ 11 ] = { 0 };
    //:STRING ( 10 )  szSelectFunction
-   zCHAR     szSelectFunction[ 11 ] = { 0 }; 
+   zCHAR     szSelectFunction[ 11 ] = { 0 };
    //:STRING ( 10 )  szHeight
-   zCHAR     szHeight[ 11 ] = { 0 }; 
+   zCHAR     szHeight[ 11 ] = { 0 };
    //:STRING ( 10 )  szX_Pos
-   zCHAR     szX_Pos[ 11 ] = { 0 }; 
+   zCHAR     szX_Pos[ 11 ] = { 0 };
    //:STRING ( 10 )  szY_Pos
-   zCHAR     szY_Pos[ 11 ] = { 0 }; 
+   zCHAR     szY_Pos[ 11 ] = { 0 };
    //:STRING ( 100 ) szDisabled
-   zCHAR     szDisabled[ 101 ] = { 0 }; 
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:DECIMAL        dDLUnits
-   ZDecimal  dDLUnits = 0.0; 
+   ZDecimal  dDLUnits = 0.0;
    //:INTEGER        lSubtype
-   zLONG     lSubtype = 0; 
+   zLONG     lSubtype = 0;
    //:INTEGER        lMaxStringLength
-   zLONG     lMaxStringLength = 0; 
-   zLONG     lTempInteger_0; 
-   zLONG     lTempInteger_1; 
-   zLONG     lTempInteger_2; 
-   zLONG     lTempInteger_3; 
-   zSHORT    RESULT; 
-   zSHORT    lTempInteger_4; 
-   zCHAR     szTempString_0[ 1026 ]; 
-   zSHORT    lTempInteger_5; 
-   zSHORT    lTempInteger_6; 
-   zCHAR     szTempString_1[ 1026 ]; 
-   zCHAR     szTempString_2[ 1026 ]; 
-   zSHORT    lTempInteger_7; 
-   zCHAR     szTempString_3[ 1026 ]; 
-   zSHORT    lTempInteger_8; 
-   zCHAR     szTempString_4[ 1026 ]; 
-   zSHORT    lTempInteger_9; 
-   zCHAR     szTempString_5[ 1026 ]; 
+   zLONG     lMaxStringLength = 0;
+   zLONG     lTempInteger_0;
+   zLONG     lTempInteger_1;
+   zLONG     lTempInteger_2;
+   zLONG     lTempInteger_3;
+   zSHORT    RESULT;
+   zSHORT    lTempInteger_4;
+   zCHAR     szTempString_0[ 1026 ];
+   zSHORT    lTempInteger_5;
+   zSHORT    lTempInteger_6;
+   zCHAR     szTempString_1[ 1026 ];
+   zCHAR     szTempString_2[ 1026 ];
+   zSHORT    lTempInteger_7;
+   zCHAR     szTempString_3[ 1026 ];
+   zSHORT    lTempInteger_8;
+   zCHAR     szTempString_4[ 1026 ];
+   zSHORT    lTempInteger_9;
+   zCHAR     szTempString_5[ 1026 ];
 
 
    //:szStyle = "width:" + szWidth + "px; height:" + szHeight + "px;"
@@ -5819,12 +5819,12 @@ GenJSP_CrteListBox( zVIEW     vDialog,
    GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
    //:IF szTitle != ""
    if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
-   { 
+   {
       //:szTitleHTML = " title=^" + szTitle + "^ "
       ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, "^ ", 1, 0, 257 );
-   } 
+   }
 
    //:END
 
@@ -5849,7 +5849,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
    //:// If szNoPositioning is null then we are using absolute positioning on controls.
    //:IF  szNoPositioning = ""
    if ( ZeidonStringCompare( szNoPositioning, 1, 0, "", 1, 0, 2 ) == 0 )
-   { 
+   {
 
       //:zIntegerToString( szX_Pos, 10, vDialog.Control.PSDLG_X * dDLUnits )
       GetIntegerFromAttribute( &lTempInteger_2, vDialog, "Control", "PSDLG_X" );
@@ -5865,7 +5865,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
       ZeidonStringConcat( szStyle, 1, 0, "top:", 1, 0, 257 );
       ZeidonStringConcat( szStyle, 1, 0, szY_Pos, 1, 0, 257 );
       ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 257 );
-   } 
+   }
 
    //:   //CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
    //:END
@@ -5891,13 +5891,13 @@ GenJSP_CrteListBox( zVIEW     vDialog,
    //:   IF RESULT >= zCURSOR_SET AND vDialog.EventAct EXISTS
    lTempInteger_4 = CheckExistenceOfEntity( vDialog, "EventAct" );
    if ( RESULT >= zCURSOR_SET && lTempInteger_4 == 0 )
-   { 
+   {
       //:   ListBoxDoubleClickAction = " ondblclick=^" + vDialog.EventAct.Tag + "( )^ "
       GetVariableFromAttribute( szTempString_0, 0, 'S', 1026, vDialog, "EventAct", "Tag", "", 0 );
       ZeidonStringCopy( ListBoxDoubleClickAction, 1, 0, " ondblclick=^", 1, 0, 257 );
       ZeidonStringConcat( ListBoxDoubleClickAction, 1, 0, szTempString_0, 1, 0, 257 );
       ZeidonStringConcat( ListBoxDoubleClickAction, 1, 0, "( )^ ", 1, 0, 257 );
-   } 
+   }
 
    //:   END
 
@@ -5910,7 +5910,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
 
    //:   IF szClass = ""
    if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-   { 
+   {
       //:   szWriteBuffer = "<select name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^4^ " + szTitleHTML + szStyle + szDisabled + " onclick=^" +
       //:                   szCtrlTag + szSelectFunction + "( )^" + ListBoxDoubleClickAction + ">"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<select name=^", 1, 0, 10001 );
@@ -5928,9 +5928,9 @@ GenJSP_CrteListBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, ListBoxDoubleClickAction, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:   szWriteBuffer = "<select class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^4^ " + szTitleHTML + szStyle + szDisabled + " onclick=^" +
       //:                   szCtrlTag + szSelectFunction + "( )^" + ListBoxDoubleClickAction + ">"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<select class=^", 1, 0, 10001 );
@@ -5949,7 +5949,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, ListBoxDoubleClickAction, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-   } 
+   }
 
    //:   END
    //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -5962,7 +5962,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
    //:   IF vDialog.CtrlMapView EXISTS
    lTempInteger_5 = CheckExistenceOfEntity( vDialog, "CtrlMapView" );
    if ( lTempInteger_5 == 0 )
-   { 
+   {
 
 
       //:   // See if a list entity has been specified, and if so, use it.
@@ -5970,10 +5970,10 @@ GenJSP_CrteListBox( zVIEW     vDialog,
       //:   IF vDialog.CtrlMapLOD_Entity EXISTS
       lTempInteger_6 = CheckExistenceOfEntity( vDialog, "CtrlMapLOD_Entity" );
       if ( lTempInteger_6 == 0 )
-      { 
+      {
          //:   szListEntityName = vDialog.CtrlMapLOD_Entity.Name
          GetVariableFromAttribute( szListEntityName, 0, 'S', 33, vDialog, "CtrlMapLOD_Entity", "Name", "", 0 );
-      } 
+      }
 
       //:   END
 
@@ -6020,7 +6020,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
       //:   IF vDialog.CtrlMapLOD_Attribute EXISTS
       lTempInteger_7 = CheckExistenceOfEntity( vDialog, "CtrlMapLOD_Attribute" );
       if ( lTempInteger_7 == 0 )
-      { 
+      {
 
          //:   szAttributeName = vDialog.CtrlMapER_Attribute.Name
          GetVariableFromAttribute( szAttributeName, 0, 'S', 33, vDialog, "CtrlMapER_Attribute", "Name", "", 0 );
@@ -6044,27 +6044,27 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          //:   IF vDialog.CtrlMapContext EXISTS
          lTempInteger_8 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
          if ( lTempInteger_8 == 0 )
-         { 
+         {
             //:   szContextName = vDialog.CtrlMapContext.Name
             GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
-         } 
+         }
 
          //:   END
 
          //:   IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
          if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
-         { 
+         {
             //:   lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
             GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
             //:   szMaxStringLength = lMaxStringLength
             ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:   szMaxStringLength = "254"
             ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
-         } 
+         }
 
          //:   END
 
@@ -6088,14 +6088,14 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:   szWriteBuffer = "      strComboCurrentValue = ^^;"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "      strComboCurrentValue = ^^;", 1, 0, 10001 );
          //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-      } 
+      }
 
       //:   END
       //:   ResetViewFromSubobject( vDialog )
@@ -6110,17 +6110,17 @@ GenJSP_CrteListBox( zVIEW     vDialog,
       lSubtype = IsFlagSequenceSet( lSubtype, zLISTBOX_SCOPE_OI );
       //:   IF lSubtype = 0
       if ( lSubtype == 0 )
-      { 
+      {
          //:   IF vScope.CtrlMapLOD_Entity EXISTS
          lTempInteger_9 = CheckExistenceOfEntity( vScope, "CtrlMapLOD_Entity" );
          if ( lTempInteger_9 == 0 )
-         { 
+         {
             //:   szScopingEntityName = vScope.CtrlMapLOD_Entity.Name
             GetVariableFromAttribute( szScopingEntityName, 0, 'S', 33, vScope, "CtrlMapLOD_Entity", "Name", "", 0 );
-         } 
+         }
 
          //:   END
-      } 
+      }
 
       //:   END
 
@@ -6144,7 +6144,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
 
       //:   IF lSubtype = 0
       if ( lSubtype == 0 )
-      { 
+      {
          //:   szWriteBuffer = "      nRC = v" + szCtrlTag + ".SetCursorFirst( strSessionId, ^" +
          //:                                szListEntityName + "^, ^" + szScopingEntityName + "^ );"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "      nRC = v", 1, 0, 10001 );
@@ -6155,9 +6155,9 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szScopingEntityName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:   szWriteBuffer = "      nRC = v" + szCtrlTag + ".SetCursorScopeOI( strSessionId, ^" +
          //:                                szListEntityName + "^, 1 ); // first" // zPOS_FIRST
          ZeidonStringCopy( szWriteBuffer, 1, 0, "      nRC = v", 1, 0, 10001 );
@@ -6165,7 +6165,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, ".SetCursorScopeOI( strSessionId, ^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szListEntityName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, 1 ); // first", 1, 0, 10001 );
-      } 
+      }
 
       //:   END
 
@@ -6182,7 +6182,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
 
       //:   IF szAttributeName != ""
       if ( ZeidonStringCompare( szAttributeName, 1, 0, "", 1, 0, 33 ) != 0 )
-      { 
+      {
 
          //:   szWriteBuffer = "         strErrorMapValue = v" + szCtrlTag +
          //:                   ".GetStringFromAttributeByContext( strSessionId, ^" +
@@ -6202,7 +6202,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
          //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      } 
+      }
 
       //:   END
 
@@ -6264,7 +6264,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:   IF lSubtype = 0
       if ( lSubtype == 0 )
-      { 
+      {
          //:   szWriteBuffer = "         nRC =  v" + szCtrlTag +
          //:                   ".SetCursorNext( strSessionId, ^" + szListEntityName +
          //:                   "^, ^" + szScopingEntityName + "^ );"
@@ -6276,9 +6276,9 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szScopingEntityName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:   szWriteBuffer = "         nRC =  v" + szCtrlTag +
          //:                   ".SetCursorScopeOI( strSessionId, ^" + szListEntityName + "^, 3 ); // next" // zPOS_NEXT
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         nRC =  v", 1, 0, 10001 );
@@ -6286,7 +6286,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, ".SetCursorScopeOI( strSessionId, ^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szListEntityName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, 3 ); // next", 1, 0, 10001 );
-      } 
+      }
 
       //:   END
 
@@ -6294,7 +6294,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:   DropView( vScope )
       DropView( vScope );
-   } 
+   }
 
    //:   END
 
@@ -6332,7 +6332,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
    return;
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -6350,25 +6350,25 @@ GenJSP_EmailEntries( zVIEW     vDialog,
                      zPCHAR    szWriteBuffer,
                      zPCHAR    szFormName )
 {
-   zVIEW     vDialogTemp = 0; 
+   zVIEW     vDialogTemp = 0;
    //:STRING ( 32 ) szCtrlWebCtrlType
-   zCHAR     szCtrlWebCtrlType[ 33 ] = { 0 }; 
+   zCHAR     szCtrlWebCtrlType[ 33 ] = { 0 };
    //:STRING ( 32 ) szActionName
-   zCHAR     szActionName[ 33 ] = { 0 }; 
+   zCHAR     szActionName[ 33 ] = { 0 };
    //:INTEGER       lControl
-   zLONG     lControl = 0; 
+   zLONG     lControl = 0;
    //:INTEGER       lActionType
-   zLONG     lActionType = 0; 
+   zLONG     lActionType = 0;
    //:SHORT         nRC
-   zSHORT    nRC = 0; 
-   zCHAR     szTempString_0[ 33 ]; 
-   zCHAR     szTempString_1[ 33 ]; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zCHAR     szTempString_4[ 33 ]; 
-   zCHAR     szTempString_5[ 33 ]; 
-   zCHAR     szTempString_6[ 33 ]; 
-   zSHORT    lTempInteger_0; 
+   zSHORT    nRC = 0;
+   zCHAR     szTempString_0[ 33 ];
+   zCHAR     szTempString_1[ 33 ];
+   zCHAR     szTempString_2[ 33 ];
+   zCHAR     szTempString_3[ 33 ];
+   zCHAR     szTempString_4[ 33 ];
+   zCHAR     szTempString_5[ 33 ];
+   zCHAR     szTempString_6[ 33 ];
+   zSHORT    lTempInteger_0;
 
 
    //:// Generate statements for formatting an email to be sent to all email addresses in a list.
@@ -6521,16 +6521,16 @@ GenJSP_EmailEntries( zVIEW     vDialog,
    GetIntegerFromAttribute( &lActionType, vDialog, "Action", "Type" );
    //:IF lActionType = zWAB_StartEmailClient
    if ( lActionType == zWAB_StartEmailClient )
-   { 
+   {
       //:// Case 1 above
       //:szWriteBuffer = "         eml = szEmailList;"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "         eml = szEmailList;", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
 
       //:szCtrlWebCtrlType = "EmailRecipient"
       ZeidonStringCopy( szCtrlWebCtrlType, 1, 0, "EmailRecipient", 1, 0, 33 );
@@ -6542,7 +6542,7 @@ GenJSP_EmailEntries( zVIEW     vDialog,
       nRC = SetEntityCursor( vDialogTemp, "Control", "WebCtrlType", lControl, szCtrlWebCtrlType, "", "", 0, "Window", "" );
       //:IF nRC >= zCURSOR_SET
       if ( nRC >= zCURSOR_SET )
-      { 
+      {
          //:// Case 2 above
          //:szWriteBuffer = "         eml = document." + vDialogRoot.Dialog.Tag + vDialogRoot.Window.Tag +
          //:                "." + vDialogTemp.Control.Tag + ".value;"
@@ -6558,20 +6558,20 @@ GenJSP_EmailEntries( zVIEW     vDialog,
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:// Case 3 above
          //:szWriteBuffer = "         eml = ^^;"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         eml = ^^;", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-      } 
+      }
 
       //:END
       //:DropView( vDialogTemp )
       DropView( vDialogTemp );
-   } 
+   }
 
    //:END
 
@@ -6592,7 +6592,7 @@ GenJSP_EmailEntries( zVIEW     vDialog,
    nRC = SetEntityCursor( vDialogTemp, "Control", "WebCtrlType", lControl, szCtrlWebCtrlType, "", "", 0, "Window", "" );
    //:IF nRC >= zCURSOR_SET
    if ( nRC >= zCURSOR_SET )
-   { 
+   {
       //:szWriteBuffer = "         subject = document." + vDialogRoot.Dialog.Tag + vDialogRoot.Window.Tag +
       //:                "." + vDialogTemp.Control.Tag + ".value;"
       GetVariableFromAttribute( szTempString_3, 0, 'S', 33, vDialogRoot, "Dialog", "Tag", "", 0 );
@@ -6606,7 +6606,7 @@ GenJSP_EmailEntries( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, ".value;", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-   } 
+   }
 
    //:END
    //:DropView( vDialogTemp )
@@ -6644,7 +6644,7 @@ GenJSP_EmailEntries( zVIEW     vDialog,
    nRC = SetEntityCursor( vDialogTemp, "Control", "WebCtrlType", lControl, szCtrlWebCtrlType, "", "", 0, "Window", "" );
    //:IF nRC >= zCURSOR_SET
    if ( nRC >= zCURSOR_SET )
-   { 
+   {
       //:szWriteBuffer = "         mle = document.getElementById( ^" + vDialogTemp.Control.Tag + "^ ).value;"
       GetVariableFromAttribute( szTempString_6, 0, 'S', 33, vDialogTemp, "Control", "Tag", "", 0 );
       ZeidonStringCopy( szWriteBuffer, 1, 0, "         mle = document.getElementById( ^", 1, 0, 10001 );
@@ -6652,7 +6652,7 @@ GenJSP_EmailEntries( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ).value;", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-   } 
+   }
 
    //:END
    //:DropView( vDialogTemp )
@@ -6701,7 +6701,7 @@ GenJSP_EmailEntries( zVIEW     vDialog,
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
    //:IF lActionType = zWAB_StartEmailClientBCC
    if ( lActionType == zWAB_StartEmailClientBCC )
-   { 
+   {
       //:szWriteBuffer = "         bcc = ^&bcc=^ + szEmailList;"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "         bcc = ^&bcc=^ + szEmailList;", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -6711,12 +6711,12 @@ GenJSP_EmailEntries( zVIEW     vDialog,
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:IF lActionType = zWAB_StartEmailClientCC
       if ( lActionType == zWAB_StartEmailClientCC )
-      { 
+      {
          //:szWriteBuffer = "         bcc = ^&cc=^ + szEmailList;"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         bcc = ^&cc=^ + szEmailList;", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -6726,9 +6726,9 @@ GenJSP_EmailEntries( zVIEW     vDialog,
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szWriteBuffer = "         bcc = ^^;"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         bcc = ^^;", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -6737,10 +6737,10 @@ GenJSP_EmailEntries( zVIEW     vDialog,
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         location.href=^mailto:^ + eml + sub + bcc + bod;", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
 
@@ -6749,7 +6749,7 @@ GenJSP_EmailEntries( zVIEW     vDialog,
    //:IF vDialog.ActOper EXISTS
    lTempInteger_0 = CheckExistenceOfEntity( vDialog, "ActOper" );
    if ( lTempInteger_0 == 0 )
-   { 
+   {
       //:szActionName = vDialog.Action.Tag
       GetVariableFromAttribute( szActionName, 0, 'S', 33, vDialog, "Action", "Tag", "", 0 );
       //:szWriteBuffer = "         document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
@@ -6766,7 +6766,7 @@ GenJSP_EmailEntries( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, ".submit( );", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-   } 
+   }
 
    //:END
 
@@ -6785,7 +6785,7 @@ GenJSP_EmailEntries( zVIEW     vDialog,
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
    return( 0 );
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -6815,35 +6815,35 @@ GenJSP_CrteCalendar( zVIEW     vDialog,
                      zLONG     lOffsetX,
                      zLONG     lOffsetY )
 {
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   zCHAR     szStyle[ 257 ] = { 0 };
    //:STRING ( 256 ) szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 100 ) szDisabled
-   zCHAR     szDisabled[ 101 ] = { 0 }; 
+   zCHAR     szDisabled[ 101 ] = { 0 };
    //:STRING ( 10 )  szWidth
-   zCHAR     szWidth[ 11 ] = { 0 }; 
+   zCHAR     szWidth[ 11 ] = { 0 };
    //:STRING ( 10 )  szHeight
-   zCHAR     szHeight[ 11 ] = { 0 }; 
+   zCHAR     szHeight[ 11 ] = { 0 };
    //:STRING ( 10 )  szX_Pos
-   zCHAR     szX_Pos[ 11 ] = { 0 }; 
+   zCHAR     szX_Pos[ 11 ] = { 0 };
    //:STRING ( 10 )  szY_Pos
-   zCHAR     szY_Pos[ 11 ] = { 0 }; 
+   zCHAR     szY_Pos[ 11 ] = { 0 };
    //:STRING ( 16 )  szTabIndex
-   zCHAR     szTabIndex[ 17 ] = { 0 }; 
+   zCHAR     szTabIndex[ 17 ] = { 0 };
    //:DECIMAL        dDLUnits
-   ZDecimal  dDLUnits = 0.0; 
-   zSHORT    RESULT; 
-   zCHAR     szTempString_0[ 33 ]; 
-   zCHAR     szTempString_1[ 33 ]; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zCHAR     szTempString_4[ 33 ]; 
-   zCHAR     szTempString_5[ 33 ]; 
-   zCHAR     szTempString_6[ 33 ]; 
-   zCHAR     szTempString_7[ 33 ]; 
-   zLONG     lTempInteger_0; 
-   zLONG     lTempInteger_1; 
-   zLONG     lTempInteger_2; 
+   ZDecimal  dDLUnits = 0.0;
+   zSHORT    RESULT;
+   zCHAR     szTempString_0[ 33 ];
+   zCHAR     szTempString_1[ 33 ];
+   zCHAR     szTempString_2[ 33 ];
+   zCHAR     szTempString_3[ 33 ];
+   zCHAR     szTempString_4[ 33 ];
+   zCHAR     szTempString_5[ 33 ];
+   zCHAR     szTempString_6[ 33 ];
+   zCHAR     szTempString_7[ 33 ];
+   zLONG     lTempInteger_0;
+   zLONG     lTempInteger_1;
+   zLONG     lTempInteger_2;
 
 
    //:szWriteBuffer = "<% strErrorMapValue = ^^;"
@@ -6854,7 +6854,7 @@ GenJSP_CrteCalendar( zVIEW     vDialog,
    RESULT = SetCursorFirstEntity( vDialog, "CtrlMapLOD_Attribute", "Control" );
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
-   { 
+   {
       //:szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name +
       //:                ".GetView( strSessionId, ^" + vDialog.CtrlMapView.Name + "^, vAppSubtask );"
       GetVariableFromAttribute( szTempString_0, 0, 'S', 33, vDialog, "CtrlMapView", "Name", "", 0 );
@@ -6948,7 +6948,7 @@ GenJSP_CrteCalendar( zVIEW     vDialog,
       //:// If szNoPositioning is null then we are using absolute positioning when creating controls.
       //:IF  szNoPositioning = ""
       if ( ZeidonStringCompare( szNoPositioning, 1, 0, "", 1, 0, 2 ) == 0 )
-      { 
+      {
 
          //:zIntegerToString( szX_Pos, 10, vDialog.Control.PSDLG_X * dDLUnits )
          GetIntegerFromAttribute( &lTempInteger_1, vDialog, "Control", "PSDLG_X" );
@@ -6964,12 +6964,12 @@ GenJSP_CrteCalendar( zVIEW     vDialog,
          ZeidonStringConcat( szStyle, 1, 0, szY_Pos, 1, 0, 257 );
          ZeidonStringConcat( szStyle, 1, 0, "px;^ ", 1, 0, 257 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szStyle = szStyle + "^ "
          ZeidonStringConcat( szStyle, 1, 0, "^ ", 1, 0, 257 );
-      } 
+      }
 
       //:END
 
@@ -6991,7 +6991,7 @@ GenJSP_CrteCalendar( zVIEW     vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:IF szClass = ""
       if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-      { 
+      {
          //:szWriteBuffer = "   <input name=^" + szCtrlTag + "^ id='" + szCtrlTag + "' " + szDisabled +
          //:                    "style=^width:80px^ type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + " />"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "   <input name=^", 1, 0, 10001 );
@@ -7004,9 +7004,9 @@ GenJSP_CrteCalendar( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " />", 1, 0, 10001 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + "^ id='" + szCtrlTag + "' " + szDisabled +
          //:                    "style=^width:80px^ type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + " />"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "   <input class=^", 1, 0, 10001 );
@@ -7020,7 +7020,7 @@ GenJSP_CrteCalendar( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "style=^width:80px^ type=^text^ value=^<%=strErrorMapValue%>^ ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " />", 1, 0, 10001 );
-      } 
+      }
 
       //:END
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -7045,13 +7045,13 @@ GenJSP_CrteCalendar( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-   } 
+   }
 
 
    //:END
    return;
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -7071,42 +7071,42 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
                       zPCHAR    szFormName,
                       zPCHAR    szActionPrefix )
 {
-   zVIEW     vDialog2 = 0; 
+   zVIEW     vDialog2 = 0;
    //:STRING ( 34 )    szActionName
-   zCHAR     szActionName[ 35 ] = { 0 }; 
+   zCHAR     szActionName[ 35 ] = { 0 };
    //:STRING ( 32 )    szCtrlTag
-   zCHAR     szCtrlTag[ 33 ] = { 0 }; 
+   zCHAR     szCtrlTag[ 33 ] = { 0 };
    //:STRING ( 10000 ) szJavaScript
-   zCHAR     szJavaScript[ 10001 ] = { 0 }; 
+   zCHAR     szJavaScript[ 10001 ] = { 0 };
    //:INTEGER          lControl
-   zLONG     lControl = 0; 
+   zLONG     lControl = 0;
    //:SHORT            bListButton
-   zSHORT    bListButton = 0; 
+   zSHORT    bListButton = 0;
    //:SHORT            nRC
-   zSHORT    nRC = 0; 
-   zSHORT    RESULT; 
-   zSHORT    lTempInteger_0; 
-   zCHAR     szTempString_0[ 33 ]; 
-   zSHORT    lTempInteger_1; 
-   zSHORT    lTempInteger_2; 
-   zSHORT    lTempInteger_3; 
-   zSHORT    lTempInteger_4; 
+   zSHORT    nRC = 0;
+   zSHORT    RESULT;
+   zSHORT    lTempInteger_0;
+   zCHAR     szTempString_0[ 33 ];
+   zSHORT    lTempInteger_1;
+   zSHORT    lTempInteger_2;
+   zSHORT    lTempInteger_3;
+   zSHORT    lTempInteger_4;
 
 
    //:FOR EACH vDialog.Option
    RESULT = SetCursorFirstEntity( vDialog, "Option", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   { 
+   {
       //:IF vDialog.OptAct EXISTS
       lTempInteger_0 = CheckExistenceOfEntity( vDialog, "OptAct" );
       if ( lTempInteger_0 == 0 )
-      { 
+      {
          //:SET CURSOR FIRST vDialog.Action WHERE vDialog.Action.Tag = vDialog.OptAct.Tag
          GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialog, "OptAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( vDialog, "Action", "Tag", szTempString_0, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         { 
+         {
             //://Because the menu actions can be created on separate windows from the control
             //://actions, we need to make sure these actions are unique.  We will prefix a
             //://"m" to the main menu actions and prefix a "sm" to the side menu actions.
@@ -7118,10 +7118,10 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
             nRC = zstrcmpi( szActionName, "alt-f4" );
             //:IF nRC = 0
             if ( nRC == 0 )
-            { 
+            {
                //:szActionName = "AltF4"
                ZeidonStringCopy( szActionName, 1, 0, "AltF4", 1, 0, 35 );
-            } 
+            }
 
             //:END
 
@@ -7131,7 +7131,7 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
             lTempInteger_1 = CheckExistenceOfEntity( vDialog, "ActEvent" );
             lTempInteger_2 = CheckExistenceOfEntity( vDialog, "ActCtrl" );
             if ( lTempInteger_1 == 0 && lTempInteger_2 == 0 )
-            { 
+            {
 
                //:szCtrlTag = vDialog.ActCtrl.Tag
                GetVariableFromAttribute( szCtrlTag, 0, 'S', 33, vDialog, "ActCtrl", "Tag", "", 0 );
@@ -7146,47 +7146,47 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
                //:   vDialog2.ControlDef.Key = 1020
                lTempInteger_3 = SetEntityCursor( vDialog2, "Control", "Tag", lControl, szCtrlTag, "", "", 0, "Window", "" );
                if ( lTempInteger_3 >= zCURSOR_SET && CompareAttributeToInteger( vDialog2, "ControlDef", "Key", 1020 ) == 0 )
-               { 
+               {
 
                   //:IF ResetViewFromSubobject( vDialog2 ) = 0 AND
                   //:   vDialog2.ControlDef.Key = 2010
                   lTempInteger_4 = ResetViewFromSubobject( vDialog2 );
                   if ( lTempInteger_4 == 0 && CompareAttributeToInteger( vDialog2, "ControlDef", "Key", 2010 ) == 0 )
-                  { 
+                  {
 
                      //:bListButton = 1
                      bListButton = 1;
-                  } 
+                  }
 
 
                   //:END
-               } 
+               }
 
                //:END
 
                //:DropView( vDialog2 )
                DropView( vDialog2 );
-            } 
+            }
 
 
             //:END
 
             //:IF bListButton = 1
             if ( bListButton == 1 )
-            { 
+            {
                //:szWriteBuffer = "function " + szActionName + "( strEntityKey )"
                ZeidonStringCopy( szWriteBuffer, 1, 0, "function ", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "( strEntityKey )", 1, 0, 10001 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:szWriteBuffer = "function " + szActionName + "( )"
                ZeidonStringCopy( szWriteBuffer, 1, 0, "function ", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "( )", 1, 0, 10001 );
-            } 
+            }
 
             //:END
 
@@ -7222,7 +7222,7 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
             GetVariableFromAttribute( szJavaScript, 0, 'S', 10001, vDialog, "Action", "WebJavaScript", "", 0 );
             //:IF szJavaScript != ""
             if ( ZeidonStringCompare( szJavaScript, 1, 0, "", 1, 0, 10001 ) != 0 )
-            { 
+            {
                //:szWriteBuffer = ""
                ZeidonStringCopy( szWriteBuffer, 1, 0, "", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -7239,7 +7239,7 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "      // END of Javascript code entered by user.", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-            } 
+            }
 
             //:END
 
@@ -7255,36 +7255,36 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
 
             //:IF bListButton = 1
             if ( bListButton == 1 )
-            { 
+            {
                //:szWriteBuffer = "      document." + szFormName + ".zTableRowSelect.value = strEntityKey;"
                ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, ".zTableRowSelect.value = strEntityKey;", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            } 
+            }
 
             //:END
 
             //:IF vDialog.Action.Type = zWAB_ExitDialogTask
             if ( CompareAttributeToInteger( vDialog, "Action", "Type", zWAB_ExitDialogTask ) == 0 )
-            { 
+            {
                //:// For exiting the Dialog (ie., Session), the Action is OnUnload.
                //:szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnUnload^;"
                ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, ".zAction.value = ^_OnUnload^;", 1, 0, 10001 );
                //:ELSE
-            } 
+            }
             else
-            { 
+            {
                //:szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
                ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, ".zAction.value = ^", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^;", 1, 0, 10001 );
-            } 
+            }
 
             //:END
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -7303,19 +7303,19 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
             ZeidonStringCopy( szWriteBuffer, 1, 0, "}", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-         } 
+         }
 
          //:END
-      } 
+      }
 
       RESULT = SetCursorNextEntity( vDialog, "Option", "" );
       //:END
-   } 
+   }
 
    //:END
    return;
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -7333,41 +7333,41 @@ BuildSideNavSection( zVIEW     vDialog,
                      zPCHAR    szReusableMenu,
                      zVIEW     vDialogMenu )
 {
-   zCHAR     szWriteBuffer[ 10001 ] = { 0 }; 
+   zCHAR     szWriteBuffer[ 10001 ] = { 0 };
    //:STRING ( 50 )    szNavigationTitle
-   zCHAR     szNavigationTitle[ 51 ] = { 0 }; 
+   zCHAR     szNavigationTitle[ 51 ] = { 0 };
    //:STRING ( 50 )    szHTML_Name
-   zCHAR     szHTML_Name[ 51 ] = { 0 }; 
+   zCHAR     szHTML_Name[ 51 ] = { 0 };
    //:STRING ( 50 )    szDialogName
-   zCHAR     szDialogName[ 51 ] = { 0 }; 
+   zCHAR     szDialogName[ 51 ] = { 0 };
    //:STRING ( 50 )    szOptionTag
-   zCHAR     szOptionTag[ 51 ] = { 0 }; 
+   zCHAR     szOptionTag[ 51 ] = { 0 };
    //:STRING ( 50 )    szMenuName
-   zCHAR     szMenuName[ 51 ] = { 0 }; 
+   zCHAR     szMenuName[ 51 ] = { 0 };
    //:STRING ( 34 )    szActionName
-   zCHAR     szActionName[ 35 ] = { 0 }; 
+   zCHAR     szActionName[ 35 ] = { 0 };
    //:STRING ( 256 )   szClass
-   zCHAR     szClass[ 257 ] = { 0 }; 
+   zCHAR     szClass[ 257 ] = { 0 };
    //:STRING ( 256 )   szClass2
-   zCHAR     szClass2[ 257 ] = { 0 }; 
+   zCHAR     szClass2[ 257 ] = { 0 };
    //:INTEGER          ActionType
-   zLONG     ActionType = 0; 
+   zLONG     ActionType = 0;
    //:INTEGER          lLth
-   zLONG     lLth = 0; 
+   zLONG     lLth = 0;
    //:SHORT            nRC
-   zSHORT    nRC = 0; 
-   zCHAR     szTempString_0[ 1026 ]; 
-   zSHORT    lTempInteger_0; 
-   zCHAR     szTempString_1[ 255 ]; 
-   zSHORT    RESULT; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zSHORT    lTempInteger_1; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zCHAR     szTempString_4[ 255 ]; 
-   zLONG     lTempInteger_2; 
-   zSHORT    lTempInteger_3; 
-   zCHAR     szTempString_5[ 255 ]; 
-   zCHAR     szTempString_6[ 255 ]; 
+   zSHORT    nRC = 0;
+   zCHAR     szTempString_0[ 1026 ];
+   zSHORT    lTempInteger_0;
+   zCHAR     szTempString_1[ 255 ];
+   zSHORT    RESULT;
+   zCHAR     szTempString_2[ 33 ];
+   zSHORT    lTempInteger_1;
+   zCHAR     szTempString_3[ 33 ];
+   zCHAR     szTempString_4[ 255 ];
+   zLONG     lTempInteger_2;
+   zSHORT    lTempInteger_3;
+   zCHAR     szTempString_5[ 255 ];
+   zCHAR     szTempString_6[ 255 ];
 
 
    //:// SIDE NAVIGATION BAR
@@ -7390,21 +7390,21 @@ BuildSideNavSection( zVIEW     vDialog,
    //:IF vDialogRoot.Menu EXISTS
    lTempInteger_0 = CheckExistenceOfEntity( vDialogRoot, "Menu" );
    if ( lTempInteger_0 == 0 )
-   { 
+   {
       //:szMenuName = vDialogRoot.Menu.Tag
       GetVariableFromAttribute( szMenuName, 0, 'S', 51, vDialogRoot, "Menu", "Tag", "", 0 );
       //:IF vDialogRoot.Menu.CSS_Class != ""
       if ( CompareAttributeToString( vDialogRoot, "Menu", "CSS_Class", "" ) != 0 )
-      { 
+      {
          //:szClass = " class=^" + vDialogRoot.Menu.CSS_Class + "^ "
          GetVariableFromAttribute( szTempString_1, 0, 'S', 255, vDialogRoot, "Menu", "CSS_Class", "", 0 );
          ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, szTempString_1, 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
    //:szWriteBuffer = "<div id=^sidenavigation^" + szClass + ">"
@@ -7427,34 +7427,34 @@ BuildSideNavSection( zVIEW     vDialog,
    //:FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
    RESULT = SetCursorFirstEntity( vDialogRoot, "OptAct", "Menu" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   { 
+   {
       //:szNavigationTitle = vDialogRoot.Option.Text
       GetVariableFromAttribute( szNavigationTitle, 0, 'S', 51, vDialogRoot, "Option", "Text", "", 0 );
       //:szDialogName = vDialogRoot.OptAct.DialogName
       GetVariableFromAttribute( szDialogName, 0, 'S', 51, vDialogRoot, "OptAct", "DialogName", "", 0 );
       //:IF szDialogName = ""
       if ( ZeidonStringCompare( szDialogName, 1, 0, "", 1, 0, 51 ) == 0 )
-      { 
+      {
          //:szDialogName = "NoDialogName"
          ZeidonStringCopy( szDialogName, 1, 0, "NoDialogName", 1, 0, 51 );
-      } 
+      }
 
       //:END
 
       //:IF szReusableMenu = "Y"
       if ( ZeidonStringCompare( szReusableMenu, 1, 0, "Y", 1, 0, 2 ) == 0 )
-      { 
+      {
          //:szMenuName = "sm" + vDialogRoot.Option.Tag
          GetVariableFromAttribute( szTempString_2, 0, 'S', 33, vDialogRoot, "Option", "Tag", "", 0 );
          ZeidonStringCopy( szMenuName, 1, 0, "sm", 1, 0, 51 );
          ZeidonStringConcat( szMenuName, 1, 0, szTempString_2, 1, 0, 51 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szMenuName = vDialogRoot.Option.Tag
          GetVariableFromAttribute( szMenuName, 0, 'S', 51, vDialogRoot, "Option", "Tag", "", 0 );
-      } 
+      }
 
       //:END
 
@@ -7462,14 +7462,14 @@ BuildSideNavSection( zVIEW     vDialog,
       //:IF vDialogRoot.OptAct EXISTS
       lTempInteger_1 = CheckExistenceOfEntity( vDialogRoot, "OptAct" );
       if ( lTempInteger_1 == 0 )
-      { 
+      {
 
          //:// Because the menu actions can be created on separate windows from the control
          //:// actions, we need to make sure these actions are unique.  We will prefix a
          //:// "m" to the main menu actions and prefix a "sm" to the side menu actions.
          //:IF szReusableMenu = "Y"
          if ( ZeidonStringCompare( szReusableMenu, 1, 0, "Y", 1, 0, 2 ) == 0 )
-         { 
+         {
             //:szActionName = "sm" + vDialogRoot.OptAct.Tag
             GetVariableFromAttribute( szTempString_3, 0, 'S', 33, vDialogRoot, "OptAct", "Tag", "", 0 );
             ZeidonStringCopy( szActionName, 1, 0, "sm", 1, 0, 35 );
@@ -7478,34 +7478,34 @@ BuildSideNavSection( zVIEW     vDialog,
             lLth = zstrlen( szActionName );
             //:IF lLth > 32
             if ( lLth > 32 )
-            { 
+            {
                //:MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
                //:             szActionName,
                //:             zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32", szActionName, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
-            } 
+            }
 
             //:END
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szActionName = vDialogRoot.OptAct.Tag
             GetVariableFromAttribute( szActionName, 0, 'S', 35, vDialogRoot, "OptAct", "Tag", "", 0 );
-         } 
+         }
 
          //:END
          //:ActionType = vDialogRoot.OptAct.Type
          GetIntegerFromAttribute( &ActionType, vDialogRoot, "OptAct", "Type" );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szActionName = ""
          ZeidonStringCopy( szActionName, 1, 0, "", 1, 0, 35 );
          //:ActionType = 0
          ActionType = 0;
-      } 
+      }
 
       //:END
 
@@ -7514,34 +7514,34 @@ BuildSideNavSection( zVIEW     vDialog,
       //:// reason is so that we can tell which side menu option the user has selected.
       //:IF vDialogRoot.OptAct.WindowName = vDialog.Window.Tag
       if ( CompareAttributeToAttribute( vDialogRoot, "OptAct", "WindowName", vDialog, "Window", "Tag" ) == 0 )
-      { 
+      {
          //:szClass2 = " class=^sideselected^ "
          ZeidonStringCopy( szClass2, 1, 0, " class=^sideselected^ ", 1, 0, 257 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szClass2 = ""
          ZeidonStringCopy( szClass2, 1, 0, "", 1, 0, 257 );
-      } 
+      }
 
       //:END
 
       //:IF vDialogRoot.Option.CSS_Class != ""
       if ( CompareAttributeToString( vDialogRoot, "Option", "CSS_Class", "" ) != 0 )
-      { 
+      {
          //:szClass = " class=^" + vDialogRoot.Option.CSS_Class + "^"
          GetVariableFromAttribute( szTempString_4, 0, 'S', 255, vDialogRoot, "Option", "CSS_Class", "", 0 );
          ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, szTempString_4, 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, "^", 1, 0, 257 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szClass = ""
          ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
-      } 
+      }
 
       //:END
 
@@ -7600,7 +7600,7 @@ BuildSideNavSection( zVIEW     vDialog,
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 );
       RESULT = SetCursorNextEntity( vDialogRoot, "OptAct", "Menu" );
-   } 
+   }
 
    //:END  // FOR EACH
 
@@ -7608,7 +7608,7 @@ BuildSideNavSection( zVIEW     vDialog,
    //:// Trying to get this file to compile.
    //:IF vDialogMenu != 0
    if ( vDialogMenu != 0 )
-   { 
+   {
       //:CreateViewFromViewForTask( vDialogMenu, vDialogMenu, 0 )
       CreateViewFromViewForTask( &vDialogMenu, vDialogMenu, 0 );
       //:SET CURSOR FIRST vDialogMenu.Menu WHERE vDialogMenu.Menu.ZKey = vDialogMenu.DfltMenu.ZKey
@@ -7617,17 +7617,17 @@ BuildSideNavSection( zVIEW     vDialog,
       //:FOR EACH vDialogMenu.OptAct WITHIN vDialogMenu.Menu
       RESULT = SetCursorFirstEntity( vDialogMenu, "OptAct", "Menu" );
       while ( RESULT > zCURSOR_UNCHANGED )
-      { 
+      {
          //:szNavigationTitle = vDialogMenu.Option.Text
          GetVariableFromAttribute( szNavigationTitle, 0, 'S', 51, vDialogMenu, "Option", "Text", "", 0 );
          //:szDialogName = vDialogMenu.OptAct.DialogName
          GetVariableFromAttribute( szDialogName, 0, 'S', 51, vDialogMenu, "OptAct", "DialogName", "", 0 );
          //:IF szDialogName = ""
          if ( ZeidonStringCompare( szDialogName, 1, 0, "", 1, 0, 51 ) == 0 )
-         { 
+         {
             //:szDialogName = "NoDialogName"
             ZeidonStringCopy( szDialogName, 1, 0, "NoDialogName", 1, 0, 51 );
-         } 
+         }
 
          //:END
 
@@ -7635,20 +7635,20 @@ BuildSideNavSection( zVIEW     vDialog,
          //:IF vDialogMenu.OptAct EXISTS
          lTempInteger_3 = CheckExistenceOfEntity( vDialogMenu, "OptAct" );
          if ( lTempInteger_3 == 0 )
-         { 
+         {
             //:szActionName = vDialogMenu.OptAct.Tag
             GetVariableFromAttribute( szActionName, 0, 'S', 35, vDialogMenu, "OptAct", "Tag", "", 0 );
             //:ActionType = vDialogMenu.OptAct.Type
             GetIntegerFromAttribute( &ActionType, vDialogMenu, "OptAct", "Type" );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szActionName = ""
             ZeidonStringCopy( szActionName, 1, 0, "", 1, 0, 35 );
             //:ActionType = 0
             ActionType = 0;
-         } 
+         }
 
          //:END
 
@@ -7660,34 +7660,34 @@ BuildSideNavSection( zVIEW     vDialog,
          //:// reason is so that we can tell which side menu option the user has selected.
          //:IF vDialogMenu.OptAct.WindowName = vDialog.Window.Tag
          if ( CompareAttributeToAttribute( vDialogMenu, "OptAct", "WindowName", vDialog, "Window", "Tag" ) == 0 )
-         { 
+         {
             //:szClass2 = "class=^sideselected^ "
             ZeidonStringCopy( szClass2, 1, 0, "class=^sideselected^ ", 1, 0, 257 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szClass2 = ""
             ZeidonStringCopy( szClass2, 1, 0, "", 1, 0, 257 );
-         } 
+         }
 
          //:END
 
          //:IF vDialogMenu.Option.CSS_Class != ""
          if ( CompareAttributeToString( vDialogMenu, "Option", "CSS_Class", "" ) != 0 )
-         { 
+         {
             //:szClass = "class=^" + vDialogMenu.Option.CSS_Class + "^"
             GetVariableFromAttribute( szTempString_5, 0, 'S', 255, vDialogMenu, "Option", "CSS_Class", "", 0 );
             ZeidonStringCopy( szClass, 1, 0, "class=^", 1, 0, 257 );
             ZeidonStringConcat( szClass, 1, 0, szTempString_5, 1, 0, 257 );
             ZeidonStringConcat( szClass, 1, 0, "^", 1, 0, 257 );
             //:ELSE
-         } 
+         }
          else
-         { 
+         {
             //:szClass = ""
             ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
-         } 
+         }
 
          //:END
 
@@ -7748,13 +7748,13 @@ BuildSideNavSection( zVIEW     vDialog,
          //:WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialogMenu, lFile, szWriteBuffer, "^", 1 );
          RESULT = SetCursorNextEntity( vDialogMenu, "OptAct", "Menu" );
-      } 
+      }
 
       //:END  // FOR EACH
 
       //:DropView( vDialogMenu )
       DropView( vDialogMenu );
-   } 
+   }
 
    //:END  // vDialogMenu != 0
 
@@ -7769,7 +7769,7 @@ BuildSideNavSection( zVIEW     vDialog,
    WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 );
    //:IF vDialogRoot.Dialog.WEB_LeftSideInclude != ""
    if ( CompareAttributeToString( vDialogRoot, "Dialog", "WEB_LeftSideInclude", "" ) != 0 )
-   { 
+   {
       //://szWriteBuffer = "<%@ include file=^./include/leftcontent.inc^ %>"
       //:szWriteBuffer = "<!-- left content include file -->"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<!-- left content include file -->", 1, 0, 10001 );
@@ -7782,7 +7782,7 @@ BuildSideNavSection( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 );
-   } 
+   }
 
    //:END
    //:szWriteBuffer = "</div>  <!-- leftcontent -->"
@@ -7803,7 +7803,7 @@ BuildSideNavSection( zVIEW     vDialog,
 //    END
 //    */
 // END
-} 
+}
 
 
 //:GLOBAL OPERATION
@@ -7815,12 +7815,12 @@ zOPER_EXPORT zSHORT OPERATION
 CreateTabIndexString( zVIEW     vDialog,
                       zPCHAR    szTabIndex )
 {
-   zVIEW     vDialogRoot = 0; 
+   zVIEW     vDialogRoot = 0;
    //:STRING ( 8 ) szWork
-   zCHAR     szWork[ 9 ] = { 0 }; 
-   //:INTEGER  lTabIndex
-   zLONG     lTabIndex = 0; 
-   zSHORT    RESULT; 
+   zCHAR     szWork[ 9 ] = { 0 };
+   //:INTEGER      lTabIndex
+   zLONG     lTabIndex = 0;
+   zSHORT    RESULT;
 
 
    //:GET VIEW vDialogRoot NAMED "vDialogRoot"
@@ -7829,7 +7829,7 @@ CreateTabIndexString( zVIEW     vDialog,
    GetIntegerFromAttribute( &lTabIndex, vDialog, "Control", "SyncKey" );
    //:IF lTabIndex > 0 AND lTabIndex < 9999
    if ( lTabIndex > 0 && lTabIndex < 9999 )
-   { 
+   {
       //:zIntegerToString( szWork, 8, lTabIndex )
       zIntegerToString( szWork, 8, lTabIndex );
       //:szTabIndex = " tabindex=" + szWork + " "
@@ -7837,36 +7837,36 @@ CreateTabIndexString( zVIEW     vDialog,
       ZeidonStringConcat( szTabIndex, 1, 0, szWork, 1, 0, 17 );
       ZeidonStringConcat( szTabIndex, 1, 0, " ", 1, 0, 17 );
       //:ELSE
-   } 
+   }
    else
-   { 
+   {
       //:GET VIEW vDialogRoot NAMED "DialogRoot"
       RESULT = GetViewByName( &vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK );
       //:IF vDialogRoot.Window.wWindowHasTabsFlag = "Y"
       if ( CompareAttributeToString( vDialogRoot, "Window", "wWindowHasTabsFlag", "Y" ) == 0 )
-      { 
+      {
          //:szTabIndex = " tabindex=-1 "    // Since tabs are used on the Window, this Control will be marked "no tab".
          ZeidonStringCopy( szTabIndex, 1, 0, " tabindex=-1 ", 1, 0, 17 );
          //:ELSE
-      } 
+      }
       else
-      { 
+      {
          //:szTabIndex = ""
          ZeidonStringCopy( szTabIndex, 1, 0, "", 1, 0, 17 );
-      } 
+      }
 
       //:END
-   } 
+   }
 
    //:END
 
    //:RETURN( lTabIndex )
    return( ( (zSHORT) lTabIndex ) );
 // END
-} 
+}
 
 
- 
+
 #ifdef __cplusplus
 }
 #endif

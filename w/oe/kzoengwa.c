@@ -870,6 +870,26 @@ MainWndProc( HWND   hWnd,                // window handle
                SfFreeTaskMemory( pchMem );
             }
 
+            if ( OpenClipboard( hWnd ) ) 
+            {
+               HGLOBAL hglbCopy; 
+               LPTSTR  lptstrCopy; 
+
+               EmptyClipboard(); 
+               hglbCopy = GlobalAlloc( GMEM_MOVEABLE, (lTextLth + 1) * sizeof( TCHAR ) ); 
+               if ( hglbCopy ) 
+               { 
+                  lptstrCopy = GlobalLock( hglbCopy ); 
+                  memcpy( lptstrCopy, g_szCopyBuffer, (lTextLth + 1) * sizeof( TCHAR ) );
+                  lptstrCopy[ lTextLth ] = (TCHAR) 0;    // null character 
+                  GlobalUnlock( hglbCopy ); 
+
+                  // Place the handle on the clipboard. 
+                  SetClipboardData( CF_TEXT, hglbCopy ); 
+               }
+               CloseClipboard(); 
+            }
+
             if ( wCommand == IDM_CUTSTRING )
             {
                SendMessage( g_hwndTraceWindow[ g_nTraceWindowDisplayed ], LB_DELETESTRING, wCurSel, 0L );

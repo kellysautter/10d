@@ -945,7 +945,7 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
    zCHAR     szTableExport[ 2 ] = { 0 };
    //:STRING ( 256 ) szStyle
    zCHAR     szStyle[ 257 ] = { 0 };
-   //:STRING ( 256 ) szRepeatingGroupKey
+   //:STRING ( 100 ) szRepeatingGroupKey
    zCHAR     szRepeatingGroupKey[ 101 ] = { 0 };
    //:DECIMAL        dDLUnits
    ZDecimal  dDLUnits = 0.0;
@@ -3895,7 +3895,7 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
             GenJSPJ_CrtePushButton( vDialog, vGroupParent, lFile, szWriteBuffer, szIndent, szCtrlTag, "", szJustify, szNoPositioning, lOffsetX, lOffsetY, szRepeatGrpKey );
          }
 
-         //:
+
          //:END  //End of PushBtn
 
          //:IF szControlType = "ComboBox"  // COMBOBOX
@@ -4954,15 +4954,15 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
             if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
             {
                //:szStyle = ""
-               ZeidonStringCopy( szStyle, 1, 0, "", 1, 0, 101 );
+               ZeidonStringCopy( szStyle, 1, 0, "", 1, 0, 257 );
                //:ELSE
             }
             else
             {
                //:szStyle = "style=^height:" + szHeight + "px;^"
-               ZeidonStringCopy( szStyle, 1, 0, "style=^height:", 1, 0, 101 );
-               ZeidonStringConcat( szStyle, 1, 0, szHeight, 1, 0, 101 );
-               ZeidonStringConcat( szStyle, 1, 0, "px;^", 1, 0, 101 );
+               ZeidonStringCopy( szStyle, 1, 0, "style=^height:", 1, 0, 257 );
+               ZeidonStringConcat( szStyle, 1, 0, szHeight, 1, 0, 257 );
+               ZeidonStringConcat( szStyle, 1, 0, "px;^", 1, 0, 257 );
             }
 
             //:END
@@ -6539,8 +6539,7 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "         strEntityKey = Long.toString( lEntityKey );", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //://KJS 10/22/15 - Taking these out. Not sure why we even do it because if there is more than one button, then they do not
-               //:// have unique names.
+               //://KJS 10/22/15 - Taking these out. Not sure why we even do it because if there is more than one button, then they do not have unique names.
                //:// szWriteBuffer = "         strButtonName = ^SelectButton^ + strEntityKey;"
                //:// WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )                                                     // strButtonName?
 
@@ -7158,7 +7157,7 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szControlTag, 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, "Value = ^", 1, 0, 10001 );
                         GetVariableFromAttribute( szTempString_107, 0, 'S', 33, vDialog, "Control", "Tag", "", 0 );
-                           ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_107, 1, 0, 10001 );
+                        ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_107, 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ + strEntityKey;", 1, 0, 10001 );
                         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
@@ -7644,9 +7643,9 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                         GetIntegerFromAttribute( &lTempInteger_33, vDialog, "Control", "SZDLG_X" );
                         zIntegerToString( szWidth, 10, lTempInteger_33 * dDLUnits );
                         //:szStyle = " style=^width:" + szWidth + "px;^ "
-                        ZeidonStringCopy( szStyle, 1, 0, " style=^width:", 1, 0, 101 );
-                        ZeidonStringConcat( szStyle, 1, 0, szWidth, 1, 0, 101 );
-                        ZeidonStringConcat( szStyle, 1, 0, "px;^ ", 1, 0, 101 );
+                        ZeidonStringCopy( szStyle, 1, 0, " style=^width:", 1, 0, 257 );
+                        ZeidonStringConcat( szStyle, 1, 0, szWidth, 1, 0, 257 );
+                        ZeidonStringConcat( szStyle, 1, 0, "px;^ ", 1, 0, 257 );
 
                         //:/************************************** NEW CODE *********************************/
                         //:// KJS 10/22/15 - Added code for button text mapping, if a button has mapping defined.
@@ -7903,7 +7902,7 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                         //:END
                         //:/************************************** END OF NEW CODE *********************************/
 
-                        //:
+
                         //:// szWriteBuffer = "   " + szItemTableHeader + "><input type=^submit^ " + szTitleHTML + szClass + "name=<%=strButtonName%> onclick=^" + szActionName +
                         //://                 "( this.id )^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ value=^" + vDialog.Control.Text + "^" + szDisabled + "></td>"
                         //:szWriteBuffer = "   " + szItemTableHeader + "><button type=^button^ " + szTitleHTML + szClass + "name=^" + szListCtrlTag + "::<%=strEntityKey%>^  onclick=^" + szActionName +
@@ -10181,7 +10180,7 @@ GenJSPJ_InputMapRecurs( zVIEW     vDialog,
             //:END
          }
 
-         //:
+
          //:END
 
          //:// If the current control is a repeating groupbox, then it has mapping, so we need to ignore that case.
@@ -10381,7 +10380,7 @@ GenJSPJ_InputMapRecurs( zVIEW     vDialog,
                      //:END
                   }
 
-                  //:
+
                   //:END
 
                   //:// try
@@ -13661,7 +13660,7 @@ GenJSPJ_Action( zVIEW     vDialog,
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                   }
 
-                  //:
+
                   //:END
                }
 
@@ -15645,7 +15644,7 @@ GenJSPJ_Action( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "         {", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //:
+
                //:IF lAutoSubAction = 1
                if ( lAutoSubAction == 1 )
                {
@@ -16641,7 +16640,7 @@ GenJSPJ_Action( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "               response.setHeader(^Content-disposition^, ^attachment; filename=\\^Report.pdf\\^^);", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-      //:
+
       //:szWriteBuffer = "               response.getOutputStream().write(file);"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "               response.getOutputStream().write(file);", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

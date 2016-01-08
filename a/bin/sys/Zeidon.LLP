@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO 01/07/16   08:18:08 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO 01/08/16   09:44:36 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -246,7 +246,7 @@ aCPLR_ZKey 4896725
 aStatus    1
 aUpdateInd 2
 aName      BuildSideNavSectionJ
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 91020918
@@ -904,28 +904,28 @@ aCPLR_ZKey 4896831
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteCalendar
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 4896842
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteCheckBox
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 4896853
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteComboBox
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 4896863
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteCtrlsRadio
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 91724935
@@ -939,49 +939,48 @@ aCPLR_ZKey 4896881
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteEditBox
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 4896872
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteGroupTable
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 4896904
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteJPG
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 4896913
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteListBox
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 130000067
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteMLEdit
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
-aCPLR_ZKey 130070315
+aCPLR_ZKey 130000080
 aStatus    1
-aUpdateInd 2
 aName      GenJSPJ_CrtePushButton
-aLastUpdateDate 20151020204524406
+aGroupName TZWEBGL4
 
 eW_MetaDef 3
 aCPLR_ZKey 4896892
 aStatus    1
 aUpdateInd 2
 aName      GenJSPJ_CrteText
-aLastUpdateDate 20151020204524406
+aLastUpdateDate 20160108092551218
 
 eW_MetaDef 3
 aCPLR_ZKey 91724996
@@ -7443,8 +7442,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZWEBGL4
 aDesc      JSP Generation operations for zeidon JAVA
-aLastSyncDate 20151020204524406
-aLastUpdateDate 20151020204524406
+aLastSyncDate 20160108093305396
+aLastUpdateDate 20160108093305396
 
 eW_MetaDef 3
 aCPLR_ZKey 88002173
@@ -7932,6 +7931,10 @@ eW_MetaDef 3
 aGroupName TZWEBGL4
 
 eW_MetaDef 3
+aCPLR_ZKey 130000080
+aStatus    1
+aName      GenJSPJ_CrtePushButton
+aLastUpdateDate 20160108092551218
 aGroupName TZWEBGL4
 
 eW_MetaDef 3
@@ -9730,7 +9733,7 @@ eW_MetaDef 3
 
 eCompiler  2
 aName      AutoGen
-aMakeOption 2
+aMakeOption 7
 aCurrentCompilerSpec N
 aCreateExternalList 0
 aBrowseInfo N
@@ -10562,7 +10565,6 @@ i1056      150
 i1057      151
 i1058      152
 i1059      153
-i1060      154
 i1061      155
 i1062      156
 i1063      157

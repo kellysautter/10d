@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZZOXOGO 11/20/15   12:00:26 1.0a2    
+z1000-Zeidon    ZEIDON   TZZOXOGO 01/08/16   09:33:05 1.0a2   
 eTZZOXOGO  1
 aNAME      Zeidon
 
@@ -2504,11 +2504,11 @@ aNAME      GenJSPJ_CrtePushButton
 aTYPE      G
 
 ePARAMETER 4
-aNAME      vDialog
+aNAME      Dialog
 aDATATYPE  V
 
 ePARAMETER 4
-aNAME      vGroupParent
+aNAME      GroupParent
 aDATATYPE  V
 
 ePARAMETER 4
@@ -2548,7 +2548,7 @@ aNAME      OffsetY
 aDATATYPE  L
 
 ePARAMETER 4
-aNAME      strRepeatGrpKey
+aNAME      RepeatGrpKey
 aDATATYPE  S
 
 eOPERATION 3

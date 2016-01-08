@@ -1684,7 +1684,7 @@ GenJSP_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 50 )  szEditActionCode
    STRING ( 32 )  szActionName
    STRING ( 10 )  szMaxStringLength
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    STRING ( 1 )   szWCP_Hidden
    STRING ( 1 )   szCreateSessionVariable
    STRING ( 1 )   szNoOutputMapping
@@ -2111,7 +2111,7 @@ GenJSP_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 10 )  szHeight
    STRING ( 10 )  szX_Pos
    STRING ( 10 )  szY_Pos
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    DECIMAL        dDLUnits
    INTEGER        lSubtype
    SHORT          nRC

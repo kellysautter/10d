@@ -2491,8 +2491,22 @@ DKS_TRACE_END */
 
       FOR EACH vDialogTemp.ActWndEvent
 
-         // Only worry about PostBuild window actions.
-         IF vDialogTemp.ActWndEvent.Type = 2
+         // DKS 2015.05.15 - for prebuild, need javascript code inserted directly into _AfterPageLoaded function,IF lActionType = zWAB_StayOnWindow AND
+         // if szInsertPrebuildJavascriptInline = "Y", otherwise the prebuild javascript code is called in the
+         // <head> section. InsertPrebuildJavascriptInline has to do with KeyRole code.
+         // do not mess with szJavaScript here ... szJavaScript = vDialogTemp.Action.WebJavaScript
+         IF vDialogTemp.ActWndEvent.Type = 1 AND szInsertPrebuildJavascriptInline = "Y"
+            // Action is Prebuild.
+            IF vDialogTemp.Action.WebJavaScript != ""
+               szWriteBuffer = "   // Prebuild action has javascript code entered by user."
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = vDialogTemp.Action.WebJavaScript
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "   // END of Javascript code entered by user."
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+            END
+         END
+         IF vDialogTemp.ActWndEvent.Type = 2  // Action is postbuild.
 
             IF vDialogTemp.Action.WebJavaScript != ""
 
@@ -2749,13 +2763,36 @@ DKS_TRACE_END */
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
             szJavaScript = vDialog.Action.WebJavaScript
-            IF  szJavaScript != ""
-               szWriteBuffer = "      // Javascript code entered by user."
-               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-               szWriteBuffer = szJavaScript
-               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-               szWriteBuffer = "      // END of Javascript code entered by user."
-               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+            // DKS 2015.06.20 - remove prebuild javascript if it is being inserted in _AfterPageLoaded
+            IF szInsertPrebuildJavascriptInline = "Y"
+               IF vDialog.ActWndEvent EXISTS AND vDialog.ActWndEvent.Type = 1
+                  // prebuild javascript being inserted inline in _AfterPageLoaded
+               ELSE
+                  // otherwise, we need the javascript code
+                  IF  szJavaScript != ""
+                     szWriteBuffer = "      // Javascript code entered by user."
+                     WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+                     szWriteBuffer = szJavaScript
+                     WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+                     szWriteBuffer = "      // END of Javascript code entered by user."
+                     WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+                  END
+               END
+               // DKS 2015.07.07 - and we always want the submit
+               szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionTag + "^;"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      document." + szFormName + ".submit( );"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            ELSE
+               IF  szJavaScript != ""
+                  szWriteBuffer = "      // Javascript code entered by user."
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+                  szWriteBuffer = szJavaScript
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+                  szWriteBuffer = "      // END of Javascript code entered by user."
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+               END
             END
             szWriteBuffer = "   }"
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )

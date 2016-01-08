@@ -112,6 +112,7 @@ BEGIN
        MENUITEM "Find Next\tF3",               IDM_FINDNEXT
        MENUITEM "Find Prev\tShift+F3",         IDM_FINDPREV
        MENUITEM SEPARATOR
+       MENUITEM "Copy Selected Line\tCtrl+C",  IDM_COPYSTRING
        MENUITEM "Delete Selected Line\tDel",   IDM_DELETESELECTED
        MENUITEM "Insert Marker Line\tIns",     IDM_INSERTMARKER
        MENUITEM SEPARATOR
@@ -199,6 +200,7 @@ BEGIN
        MENUITEM "Find Next\tF3",               IDM_FINDNEXT
        MENUITEM "Find Prev\tShift+F3",         IDM_FINDPREV
        MENUITEM SEPARATOR
+       MENUITEM "Copy Selected Line\tCtrl+C",  IDM_COPYSTRING
        MENUITEM "Delete Selected Line\tDel",   IDM_DELETESELECTED
        MENUITEM "Insert Marker Line\tIns",     IDM_INSERTMARKER
        MENUITEM SEPARATOR

@@ -1166,7 +1166,7 @@ GenJSPJ_CrteCtrlsRadio( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szTitle
    STRING ( 256 ) szCtrlTag
    STRING ( 256 ) szTitleHTML
-   STRING ( 10 )  szDisabled
+   STRING ( 100 ) szDisabled
    STRING ( 16 )  szPosition
    STRING ( 16 )  szTabIndex
    STRING ( 32 )  szActionName

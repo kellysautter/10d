@@ -1,6 +1,7 @@
-z1000-Zeidon    TZWEBGL4 TZOGSRCO 04/16/14   15:04:41 1.0a2    
+z1000-Zeidon    TZWEBGL4 TZOGSRCO 01/08/16   09:33:05 1.0a2   
 eGlobalOperationGroup 1
 aZKey      4896724
+aNextZKeyToAssign 130000092
 aName      TZWEBGL4
 aDesc      JSP Generation operations for zeidon JAVA
 aExtension VML
@@ -47,6 +48,96 @@ aDataType  V
 aPFlag     N
 aUFlag     N
 aZKey      4896730
+
+eOperation 2
+aName      GenJSPJ_CrtePushButton
+aZKey      130000080
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      130000081
+
+eParameter 3
+aShortDesc GroupParent
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      130000082
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130000083
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000084
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000085
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000086
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000087
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000088
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000089
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130000090
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130000091
+
+eParameter 3
+aShortDesc RepeatGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130000092
 
 eOperation 2
 aName      GenJSPJ_CrteMLEdit
@@ -135,6 +226,7 @@ aZKey      130000078
 eOperation 2
 aName      GenJSPJ_CrteListBox
 aZKey      4896913
+aDesc      Create ListBox for Java JSP
 aType      G
 
 eParameter 3

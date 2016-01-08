@@ -1717,7 +1717,7 @@ CreateTabIndexString( zVIEW vDialog0,
                       zPCHAR pchTabIndex1 );
 
 //end
-//start TZWEBGL4 2014.04.16 15:04:41
+//start TZWEBGL4 2016.01.08 09:33:05
 zOPER_EXPORT zSHORT OPERATION
 BuildSideNavSectionJ( zVIEW vvDialog0,
                       zVIEW vvDialogRoot1,
@@ -1725,9 +1725,9 @@ BuildSideNavSectionJ( zVIEW vvDialog0,
                       zPCHAR pchReusableMenu3,
                       zVIEW vvDialogMenu4 );
 
-zOPER_EXPORT zVOID OPERATION
-GenJSPJ_CrtePushButton( zVIEW vvDialog0,
-                        zVIEW vvGroupParent1,
+zOPER_EXPORT zSHORT OPERATION
+GenJSPJ_CrtePushButton( zVIEW vDialog0,
+                        zVIEW vGroupParent1,
                         zLONG lFile2,
                         zPCHAR pchWriteBuffer3,
                         zPCHAR pchIndent4,
@@ -1737,7 +1737,7 @@ GenJSPJ_CrtePushButton( zVIEW vvDialog0,
                         zPCHAR pchNoPositioning8,
                         zLONG lOffsetX9,
                         zLONG lOffsetY10,
-                        zPCHAR pchstrRepeatGrpKey11 );
+                        zPCHAR pchRepeatGrpKey11 );
 
 zOPER_EXPORT zSHORT OPERATION
 GenJSPJ_CrteMLEdit( zVIEW vvDialog0,
