@@ -2,8 +2,8 @@
 # DESCRIPTION: QuinSoft Zeidon E/R Dialog
 #              NMAKE makefile
 #
-#CHANGE LOG
-#2000.10.14   BL  Z10
+# Change Log
+# 2000.10.14   BL  Z10
 #     Added tzersapd.obj for SAP Import
 #-------------------------------------------------------------------
 

@@ -20,8 +20,8 @@ CHANGE LOG
 #include <stdio.h>
 #include <ctype.h>
 
-#define MAX_TABLENAME_LTH     31
-#define MAX_COLUMNNAME_LTH    31
+#define MAX_TABLENAME_LTH     34
+#define MAX_COLUMNNAME_LTH    34
 #define MAX_DATATYPE_LTH      20
 #define COLUMN_INDENT         10
 #define COMMENT_START         "/*"

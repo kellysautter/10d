@@ -51,7 +51,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /EHsc /ZI /Od /I "$(KZD):\$(KZV)\a\tz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\zdr" /D "_RELEASE" /D "_WINDLL" /D "_USE_DATASET_" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "zGRID_COMPILE" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MD /W3 /EHsc /ZI /Od /D "_RELEASE" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "_USE_DATASET_" /D "zGRID_COMPILE" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\a\tz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\zdr" /FD /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -141,7 +141,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GR /EHsc /ZI /Od /I "$(KZD):\$(KZV)\a\tz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\zdr" /D "_DEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "zGRID_COMPILE" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\tzvmledt.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MDd /W3 /GR /EHsc /ZI /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "zGRID_COMPILE" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\tzvmledt.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\a\tz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\zdr" /FD /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<

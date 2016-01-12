@@ -194,8 +194,8 @@ zCHAR szDebug[ 512 ];
 
 
 #define BUFF_SIZE 256
-#define MAX_TABLENAME_LTH  32
-#define MAX_COLUMNNAME_LTH       32
+#define MAX_TABLENAME_LTH       34
+#define MAX_COLUMNNAME_LTH      34
 
 
 

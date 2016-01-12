@@ -106,8 +106,8 @@ the brackets for the DDL-command
 
    #define CONTINUATION_STR      ""
    #define LINE_TERMINATOR       ";"
-   #define MAX_TABLENAME_LTH     32
-   #define MAX_COLUMNNAME_LTH    32
+   #define MAX_TABLENAME_LTH     34
+   #define MAX_COLUMNNAME_LTH    34
    #define MAX_DATATYPE_LTH      20
    #define COLUMN_INDENT         10
    #define COMMENT_START         "--"
@@ -1134,8 +1134,8 @@ the brackets for the DDL-command
    #define NULL_FIELD            "NULL    "
    #define ADD_COLUMN_STMT       "ADD"
    #define DROP_COLUMN_STMT      "DROP COLUMN"
-   #define MAX_TABLENAME_LTH     32
-   #define MAX_COLUMNNAME_LTH    32
+   #define MAX_TABLENAME_LTH     34
+   #define MAX_COLUMNNAME_LTH    34
    #define MAX_DATATYPE_LTH      20
    #define COLUMN_INDENT         10
    #define CREATE_DB             0
@@ -1716,8 +1716,8 @@ the brackets for the DDL-command
 
    #define CONTINUATION_STR      ""
    #define LINE_TERMINATOR       ";"
-   #define MAX_TABLENAME_LTH     32
-   #define MAX_COLUMNNAME_LTH    32
+   #define MAX_TABLENAME_LTH     34
+   #define MAX_COLUMNNAME_LTH    34
    #define MAX_DATATYPE_LTH      20
    #define COLUMN_INDENT         10
    #define COMMENT_START         "--"
@@ -1876,8 +1876,8 @@ the brackets for the DDL-command
 
    #define CONTINUATION_STR      ""
    #define LINE_TERMINATOR       ""
-   #define MAX_TABLENAME_LTH     32
-   #define MAX_COLUMNNAME_LTH    32
+   #define MAX_TABLENAME_LTH     34
+   #define MAX_COLUMNNAME_LTH    34
    #define MAX_DATATYPE_LTH      20
    #define COLUMN_INDENT         10
    #define COMMENT_START         "/*"

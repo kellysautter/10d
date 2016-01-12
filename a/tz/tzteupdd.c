@@ -1123,7 +1123,7 @@ zwTZTEUPDD_RebuildTablesRels( zVIEW vSubtask )
    return( 0 );
 }
 
-typedef zSHORT (POPERATION zFARPROC_VVPV)( zVIEW, zVIEW, zPCHAR, zVIEW );
+typedef zSHORT (POPERATION zFARPROC_VVPLV)( zVIEW, zVIEW, zPCHAR, zLONG, zVIEW );
 
 zOPER_EXPORT zSHORT OPERATION
 zwTZTEUPDD_GenerateDDL( zVIEW vSubtask )
@@ -1132,8 +1132,8 @@ zwTZTEUPDD_GenerateDDL( zVIEW vSubtask )
    zVIEW     vDTE;
    zVIEW     vEMD;
    LPLIBRARY hLibrary;
-   zFARPROC_VVPV pfn;
-// zSHORT    (POPERATION pfn)( zVIEW, zVIEW, zPCHAR, zVIEW );
+   zFARPROC_VVPLV pfn;
+// zSHORT    (POPERATION pfn)( zVIEW, zVIEW, zPCHAR, zLONG, zVIEW );
    zCHAR     szFileName[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR     szTempFileName[ zMAX_FILESPEC_LTH + 1 ];
 
@@ -1149,7 +1149,7 @@ zwTZTEUPDD_GenerateDDL( zVIEW vSubtask )
    hLibrary = SysLoadLibrary( vSubtask, szFileName );
    if ( hLibrary )
    {
-      pfn = (zFARPROC_VVPV) SysGetProc( hLibrary, "BuildDDL" );
+      pfn = (zFARPROC_VVPLV) SysGetProc( hLibrary, "BuildDDL" );
       if ( pfn )
       {
          zVIEW vTaskLPLR;
@@ -1161,7 +1161,7 @@ zwTZTEUPDD_GenerateDDL( zVIEW vSubtask )
          GetStringFromAttribute( szTempFileName, sizeof( szTempFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
          SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTempFileName );
          SysAppendcDirSep( szFileName );
-         (*pfn) ( vDTE, vEMD, szFileName, vSubtask );
+         (*pfn) ( vDTE, vEMD, szFileName, sizeof( szFileName ), vSubtask );
       }
       else
          MessageSend( vSubtask, "TE00422", "Physical Data Model",
@@ -1178,7 +1178,7 @@ zwTZTEUPDD_GenerateDDL( zVIEW vSubtask )
    return( 0 );
 }
 
-typedef zSHORT (POPERATION zFARPROC_VVVPV)( zVIEW, zVIEW, zVIEW, zPCHAR, zVIEW );
+typedef zSHORT (POPERATION zFARPROC_VVVPLV)( zVIEW, zVIEW, zVIEW, zPCHAR, zLONG, zVIEW );
 
 zOPER_EXPORT zSHORT OPERATION
 zwTZTEUPDD_GenerateSyncDDL( zVIEW vSubtask )
@@ -1187,8 +1187,8 @@ zwTZTEUPDD_GenerateSyncDDL( zVIEW vSubtask )
    zVIEW     vDTE;
    zVIEW     vEMD;
    LPLIBRARY hLibrary;
-   zFARPROC_VVVPV pfn;
-// zSHORT    (POPERATION pfn)( zVIEW, zVIEW, zVIEW, zPCHAR, zVIEW );
+   zFARPROC_VVVPLV pfn;
+// zSHORT    (POPERATION pfn)( zVIEW, zVIEW, zVIEW, zPCHAR, zLONG, zVIEW );
    zCHAR     szFileName[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR     szTempFileName[ zMAX_FILESPEC_LTH + 1 ];
 
@@ -1204,7 +1204,7 @@ zwTZTEUPDD_GenerateSyncDDL( zVIEW vSubtask )
    hLibrary = SysLoadLibrary( vSubtask, szFileName );
    if ( hLibrary )
    {
-      pfn = (zFARPROC_VVVPV) SysGetProc( hLibrary, "BuildSyncDDL" );
+      pfn = (zFARPROC_VVVPLV) SysGetProc( hLibrary, "BuildSyncDDL" );
       if ( pfn )
       {
          zVIEW vTaskLPLR;
@@ -1213,7 +1213,7 @@ zwTZTEUPDD_GenerateSyncDDL( zVIEW vSubtask )
          GetStringFromAttribute( szTempFileName, sizeof( szTempFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
          SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTempFileName );
          SysAppendcDirSep( szFileName );
-         (*pfn)( vDTE, vEMD, vTZTEDBLO, szFileName, vSubtask );
+         (*pfn)( vDTE, vEMD, vTZTEDBLO, szFileName, sizeof( szFileName ), vSubtask );
       }
       else
          MessageSend( vSubtask, "TE00422", "Physical Data Model",

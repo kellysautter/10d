@@ -36,12 +36,12 @@ ALL : "..\..\..\..\w\bin\TzAxCtl.dll"
 
 !ELSE 
 
-ALL : "ZDrApp - Win32 Release" "ZdCtl - Win32 Release" "TzCtl - Win32 Release" "..\..\..\..\w\bin\TzAxCtl.dll"
+ALL : "..\..\..\..\w\bin\TzAxCtl.dll"
 
 !ENDIF 
 
 !IF "$(RECURSE)" == "1" 
-CLEAN :"TzCtl - Win32 ReleaseCLEAN" "ZdCtl - Win32 ReleaseCLEAN" "ZDrApp - Win32 ReleaseCLEAN" 
+CLEAN :
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -59,7 +59,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\\" /D "NDEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MD /W3 /EHsc /ZI /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\\" /FD /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -158,7 +158,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\\" /D "_DEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MDd /W3 /EHsc /ZI /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\\" /FD /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -239,7 +239,7 @@ SOURCE=.\TzAxCal.cpp
 
 !IF  "$(CFG)" == "TzAxCtl - Win32 Release"
 
-CPP_SWITCHES=/nologo /MD /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\\" /D "NDEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /Fp"$(INTDIR)\TzAxCtl.pch" /Yc"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_SWITCHES=/nologo /MD /W3 /EHsc /ZI /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /Fp"$(INTDIR)\TzAxCtl.pch" /Yc"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\\" /FD /c 
 
 "$(INTDIR)\TzAxCal.obj"	"$(INTDIR)\TzAxCtl.pch" : $(SOURCE) "$(INTDIR)"
 	$(CPP) @<<
@@ -249,7 +249,7 @@ CPP_SWITCHES=/nologo /MD /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(
 
 !ELSEIF  "$(CFG)" == "TzAxCtl - Win32 Debug"
 
-CPP_SWITCHES=/nologo /MDd /W3 /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I ".\." /D "_DEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TzAxCtl.pch" /Yc"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_SWITCHES=/nologo /MDd /W3 /EHsc /ZI /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TzAxCtl.pch" /Yc"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I ".\." /FD /c 
 
 "$(INTDIR)\TzAxCal.obj"	"$(INTDIR)\TzAxCal.sbr"	"$(INTDIR)\TzAxCtl.pch" : $(SOURCE) "$(INTDIR)"
 	$(CPP) @<<
@@ -263,7 +263,7 @@ SOURCE=.\TzAxCtl.cpp
 
 !IF  "$(CFG)" == "TzAxCtl - Win32 Release"
 
-CPP_SWITCHES=/nologo /MD /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\\" /D "NDEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_SWITCHES=/nologo /MD /W3 /EHsc /ZI /Od /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\\"/FD /c 
 
 "$(INTDIR)\TzAxCtl.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\TzAxCtl.pch"
 	$(CPP) @<<
@@ -273,115 +273,13 @@ CPP_SWITCHES=/nologo /MD /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(
 
 !ELSEIF  "$(CFG)" == "TzAxCtl - Win32 Debug"
 
-CPP_SWITCHES=/nologo /MDd /W3 /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I ".\." /D "_DEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_SWITCHES=/nologo /MDd /W3 /EHsc /ZI /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I ".\." /FD /c 
 
 "$(INTDIR)\TzAxCtl.obj"	"$(INTDIR)\TzAxCtl.sbr" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\TzAxCtl.pch"
 	$(CPP) @<<
   $(CPP_SWITCHES) $(SOURCE)
 <<
 
-
-!ENDIF 
-
-SOURCE=.\TzAxDate.cpp
-
-!IF  "$(CFG)" == "TzAxCtl - Win32 Release"
-
-CPP_SWITCHES=/nologo /MD /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\\" /D "NDEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
-
-"$(INTDIR)\TzAxDate.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\TzAxCtl.pch"
-	$(CPP) @<<
-  $(CPP_SWITCHES) $(SOURCE)
-<<
-
-
-!ELSEIF  "$(CFG)" == "TzAxCtl - Win32 Debug"
-
-CPP_SWITCHES=/nologo /MDd /W3 /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I ".\." /D "_DEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "QUINSOFT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\TzAxCtl.pch" /Yu"zstdafx.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
-
-"$(INTDIR)\TzAxDate.obj"	"$(INTDIR)\TzAxDate.sbr" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\TzAxCtl.pch"
-	$(CPP) @<<
-  $(CPP_SWITCHES) $(SOURCE)
-<<
-
-
-!ENDIF 
-
-!IF  "$(CFG)" == "TzAxCtl - Win32 Release"
-
-"TzCtl - Win32 Release" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Release" 
-   cd "..\TZ\ax\tzaxctl"
-
-"TzCtl - Win32 ReleaseCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Release" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\tzaxctl"
-
-!ELSEIF  "$(CFG)" == "TzAxCtl - Win32 Debug"
-
-"TzCtl - Win32 Debug" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Debug" 
-   cd "..\TZ\ax\tzaxctl"
-
-"TzCtl - Win32 DebugCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Debug" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\tzaxctl"
-
-!ENDIF 
-
-!IF  "$(CFG)" == "TzAxCtl - Win32 Release"
-
-"ZdCtl - Win32 Release" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdCtl.mak CFG="ZdCtl - Win32 Release" 
-   cd "..\TZ\ax\tzaxctl"
-
-"ZdCtl - Win32 ReleaseCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdCtl.mak CFG="ZdCtl - Win32 Release" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\tzaxctl"
-
-!ELSEIF  "$(CFG)" == "TzAxCtl - Win32 Debug"
-
-"ZdCtl - Win32 Debug" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdCtl.mak CFG="ZdCtl - Win32 Debug" 
-   cd "..\TZ\ax\tzaxctl"
-
-"ZdCtl - Win32 DebugCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdCtl.mak CFG="ZdCtl - Win32 Debug" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\tzaxctl"
-
-!ENDIF 
-
-!IF  "$(CFG)" == "TzAxCtl - Win32 Release"
-
-"ZDrApp - Win32 Release" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" 
-   cd "..\TZ\ax\tzaxctl"
-
-"ZDrApp - Win32 ReleaseCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\tzaxctl"
-
-!ELSEIF  "$(CFG)" == "TzAxCtl - Win32 Debug"
-
-"ZDrApp - Win32 Debug" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" 
-   cd "..\TZ\ax\tzaxctl"
-
-"ZDrApp - Win32 DebugCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\tzaxctl"
 
 !ENDIF 
 

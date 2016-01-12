@@ -36,12 +36,11 @@ ALL : "..\..\..\..\w\bin\truegrid.dll"
 
 !ELSE 
 
-ALL : "TzCtl - Win32 Release" "ZDrApp - Win32 Release" "ZdCtl - Win32 Release" "..\..\..\..\w\bin\truegrid.dll"
+ALL : "..\..\..\..\w\bin\truegrid.dll"
 
 !ENDIF 
 
 !IF "$(RECURSE)" == "1" 
-CLEAN :"ZdCtl - Win32 ReleaseCLEAN" "ZDrApp - Win32 ReleaseCLEAN" "TzCtl - Win32 ReleaseCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -64,7 +63,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\tzaxctl" /D "_RELEASE" /D "_WINDLL" /D "_USE_DATASET_" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "zGRID_COMPILE" /D "TB_DROPDOWN_IMPLEMENT" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MD /W3 /EHsc /ZI /Od /D "_RELEASE" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "_USE_DATASET_" /D "zGRID_COMPILE" /D "TB_DROPDOWN_IMPLEMENT" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\tzaxctl" /FD /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -125,7 +124,7 @@ LINK32_OBJS= \
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
 
-!ELSEIF  "$(CFG)" == "truegrid - Win32 Debug"
+!ELSEIF                                               "$(CFG)" == "truegrid - Win32 Debug"
 
 OUTDIR=.\Debug
 INTDIR=.\Debug
@@ -139,12 +138,12 @@ ALL : "..\..\..\..\w\bin\truegrid.dll" "$(OUTDIR)\truegrid.bsc"
 
 !ELSE 
 
-ALL : "TzCtl - Win32 Debug" "ZDrApp - Win32 Debug" "ZdCtl - Win32 Debug" "..\..\..\..\w\bin\truegrid.dll" "$(OUTDIR)\truegrid.bsc"
+ALL : "..\..\..\..\w\bin\truegrid.dll" "$(OUTDIR)\truegrid.bsc"
 
 !ENDIF 
 
 !IF "$(RECURSE)" == "1" 
-CLEAN :"ZdCtl - Win32 DebugCLEAN" "ZDrApp - Win32 DebugCLEAN" "TzCtl - Win32 DebugCLEAN" 
+CLEAN :
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -177,12 +176,12 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GR /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\tzaxctl" /D "_DEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "zGRID_COMPILE" /D "TB_DROPDOWN_IMPLEMENT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\truegrid.pch" /Yu"tdbg6.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MDd /W3 /EHsc /ZI /Od /GR /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "zGRID_COMPILE" /D "TB_DROPDOWN_IMPLEMENT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\truegrid.pch" /Yu"tdbg6.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\tzaxctl" /FD /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
    $(CPP_PROJ) $< 
-<<
+<< KEEP
 
 .cpp{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -197,7 +196,7 @@ CPP_PROJ=/nologo /MDd /W3 /GR /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD
 .c{$(INTDIR)}.sbr::
    $(CPP) @<<
    $(CPP_PROJ) $< 
-<<
+<< KEEP
 
 .cpp{$(INTDIR)}.sbr::
    $(CPP) @<<
@@ -268,7 +267,7 @@ SOURCE=.\tdbg6.cpp
 
 !IF  "$(CFG)" == "truegrid - Win32 Release"
 
-CPP_SWITCHES=/nologo /MD /W3 /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\tzaxctl" /D "_RELEASE" /D "_WINDLL" /D "_USE_DATASET_" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "zGRID_COMPILE" /D "TB_DROPDOWN_IMPLEMENT" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_SWITCHES=/nologo /MD /W3 /EHsc /ZI /Od /D "_RELEASE" /D "_WINDLL" /D "_USE_DATASET_" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "__WIN32__" /D "zGRID_COMPILE" /D "TB_DROPDOWN_IMPLEMENT" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\tzaxctl" /FD /c 
 
 "$(INTDIR)\tdbg6.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) @<<
@@ -278,13 +277,12 @@ CPP_SWITCHES=/nologo /MD /W3 /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD)
 
 !ELSEIF  "$(CFG)" == "truegrid - Win32 Debug"
 
-CPP_SWITCHES=/nologo /MDd /W3 /GR /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\tzaxctl" /D "_DEBUG" /D "_AFXEXT" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /D "zGRID_COMPILE" /D "TB_DROPDOWN_IMPLEMENT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\truegrid.pch" /Yc"tdbg6.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_SWITCHES=/nologo /MDd /W3 /EHsc /ZI /Od /GR /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_USRDLL" /D "_AFXEXT" /D "__WIN32__" /D "zGRID_COMPILE" /D "TB_DROPDOWN_IMPLEMENT" /D "_NOANCHOR" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\truegrid.pch" /Yc"tdbg6.h" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\zdr" /I "..\tzaxctl" /FD /c 
 
 "$(INTDIR)\tdbg6.obj"	"$(INTDIR)\tdbg6.sbr"	"$(INTDIR)\truegrid.pch" : $(SOURCE) "$(INTDIR)"
 	$(CPP) @<<
   $(CPP_SWITCHES) $(SOURCE)
-<<
-
+<< KEEP
 
 !ENDIF 
 
@@ -397,84 +395,6 @@ SOURCE=.\xarraydb.cpp
 
 "$(INTDIR)\xarraydb.obj"	"$(INTDIR)\xarraydb.sbr" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\truegrid.pch"
 
-
-!ENDIF 
-
-!IF  "$(CFG)" == "truegrid - Win32 Release"
-
-"ZdCtl - Win32 Release" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdCtl.mak CFG="ZdCtl - Win32 Release" 
-   cd "..\TZ\ax\TrueGrid"
-
-"ZdCtl - Win32 ReleaseCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdCtl.mak CFG="ZdCtl - Win32 Release" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\TrueGrid"
-
-!ELSEIF  "$(CFG)" == "truegrid - Win32 Debug"
-
-"ZdCtl - Win32 Debug" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdCtl.mak CFG="ZdCtl - Win32 Debug" 
-   cd "..\TZ\ax\TrueGrid"
-
-"ZdCtl - Win32 DebugCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdCtl.mak CFG="ZdCtl - Win32 Debug" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\TrueGrid"
-
-!ENDIF 
-
-!IF  "$(CFG)" == "truegrid - Win32 Release"
-
-"ZDrApp - Win32 Release" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" 
-   cd "..\TZ\ax\TrueGrid"
-
-"ZDrApp - Win32 ReleaseCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\TrueGrid"
-
-!ELSEIF  "$(CFG)" == "truegrid - Win32 Debug"
-
-"ZDrApp - Win32 Debug" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" 
-   cd "..\TZ\ax\TrueGrid"
-
-"ZDrApp - Win32 DebugCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\TrueGrid"
-
-!ENDIF 
-
-!IF  "$(CFG)" == "truegrid - Win32 Release"
-
-"TzCtl - Win32 Release" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Release" 
-   cd "..\TZ\ax\TrueGrid"
-
-"TzCtl - Win32 ReleaseCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Release" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\TrueGrid"
-
-!ELSEIF  "$(CFG)" == "truegrid - Win32 Debug"
-
-"TzCtl - Win32 Debug" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Debug" 
-   cd "..\TZ\ax\TrueGrid"
-
-"TzCtl - Win32 DebugCLEAN" : 
-   cd %KZD%:\%KZV%\a\zdr
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Debug" RECURSE=1 CLEAN 
-   cd "..\TZ\ax\TrueGrid"
 
 !ENDIF 
 

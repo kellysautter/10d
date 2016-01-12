@@ -132,10 +132,19 @@ nmake %1 -f tzzolodq.mak
 cd ..\waccount
 nmake %1 -f waccount.mak
 cd ..
+@call cds a ms
+@cd kzmsgqaa
+nmake -f kzmsgqaa.mak
+@cd ..
+qff *.err /q /12
+@call cds a tz
 qff *.err /q /11
 qff *.err /q /12
 qff *.err /q /91
-dir *.err
+@call cds a ms
+@dir *.err /s
+@call cds a tz
+@dir *.err
 @echo Expected error sizes:
 @echo                                  2,033 kzrpsrco.err
 @echo                                    795 kzxmlpg2.err
