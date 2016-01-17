@@ -363,10 +363,8 @@ extern "C"
 #include "ZeidonOp.H"
 
 
-#define mGetProfileView( pv )      GetViewByName( (pv), szlProfileXFER, vSubtask, \
-                                                  zLEVEL_TASK )
-#define mGetWorkView( pvView, v )  GetViewByName( (pvView), szlTZEDWRKO, v, \
-                                                  zLEVEL_SUBTASK )
+#define mGetProfileView( pv, v )   GetViewByName( (pv), szlProfileXFER, v, zLEVEL_TASK )
+#define mGetWorkView( pvView, v )  GetViewByName( (pvView), szlTZEDWRKO, v, zLEVEL_SUBTASK )
 
 // Editor related Macros
 // for cursor positioning purpose
@@ -1976,7 +1974,7 @@ fnShowSubwindows( zVIEW  vSubtask )
    // Call dialog op to indicate we're about to open some subwindows.
    TZEDFRMD_OpenSubwindow( vSubtask );
 
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    if ( vProfileXFER )
    {
       for ( nRC = SetCursorFirstEntity( vProfileXFER, szlSubwindow, 0 );
@@ -2136,7 +2134,7 @@ CreateErrorMessage( zVIEW  vSubtask,
    zCHAR      szComponentType[ 33 ];
    zCHAR      szMsg[ 100 ];
 
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
 
    GetAddrForAttribute( &pszInvokingTool, vProfileXFER, szlED, "InvokingTool" );
 
@@ -2444,7 +2442,7 @@ InitSession( zVIEW  vSubtask )
 
    oEditor->WantKeystrokes( TRUE );
    mGetWorkView( &vEdWrk, vSubtask );
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
    GetAddrForAttribute( &pszInvokingTool, vProfileXFER, szlED, "InvokingTool" );
 
@@ -2731,7 +2729,7 @@ fnCommandCompletion( zVIEW vSubtask )
    pszToken++;
 
    // Create a temp view so we don't mess up cursors.
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    CreateViewFromViewForTask( &vProfileXFER, vProfileXFER, 0 );
 
    // Now try to find the token in the list of commands.
@@ -2786,7 +2784,7 @@ TZEDFRMD_Keystroke( zVIEW vSubtask )
    //TraceLineS( "(tzedfrmd)", "Keystroke" );
 
    mGetWorkView( &vEdWrk, vSubtask );
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
 
    pCE = (zCTRL_EVENT *) GetActionParameters( vSubtask );
    cKey = (zCHAR) pCE->m_pEvent->m_pDispParams->rgvarg[ 1 ].iVal;
@@ -2847,7 +2845,7 @@ PostBuild( zVIEW vSubtask )
    zCHAR   sz[300];
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    if ( vProfileXFER )
    {
       // Set a couple of attributes to NULL.  We don't need them anymore and
@@ -3149,7 +3147,7 @@ SystemClose( zVIEW vSubtask )
       return( -1 );
 
    // Save the current options values in the editor to the profile.
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    mGetWorkView( &vEdWrk, vSubtask );
    if ( vEdWrk )
    {
@@ -3198,7 +3196,7 @@ fnSaveSubwindowPosition( zVIEW  vSubtask,
    else
       pszWindowActive = "N";
 
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    if ( vProfileXFER )
    {
       nRC = SetCursorFirstEntityByString( vProfileXFER, szlSubwindow, szlName, pszName, "" );
@@ -3231,7 +3229,7 @@ fnSetSubwindowPosition( zVIEW  vSubtask,
    zSHORT nRC;
    zVIEW  vProfileXFER;
 
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    nRC = SetCursorFirstEntityByString( vProfileXFER, szlSubwindow, szlName, szName, 0 );
    if ( nRC != zCURSOR_SET )
       return( FALSE );
@@ -5019,7 +5017,7 @@ VML_DisplayList( zVIEW vSubtask )
    zCHAR  szMsg[ 100 ];
 
    mGetWorkView( &vEdWrk, vSubtask );
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    szShowStr[ 0 ] = 0;
 
    // Build a string that contains each of the VML types that the user
@@ -5099,7 +5097,7 @@ VML_BuildTextList( zVIEW vSubtask )
    zSHORT k;
    zVIEW  vProfileXFER;
 
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
 
    // Add each of the 'standard' VML statements to the text list.
    for ( k = 0; g_VML_TextStrings[ k ].pszText != 0; k++ )
@@ -5284,7 +5282,7 @@ VML_InsertText( zVIEW vSubtask )
    zVIEW      vTemp;
    ZDrTBEdt   *oEditor;
 
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    mGetWorkView( &vEdWrk, vSubtask );
    GetParentWindow( &vEditorSubtask, vSubtask );
    oEditor = (ZDrTBEdt *) GetActiveX_WrapperInstance( vEditorSubtask,
@@ -5317,7 +5315,7 @@ VML_CreateText_Exit( zVIEW vSubtask )
 {
    zVIEW  vProfileXFER;
 
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    OrderEntityForView( vProfileXFER, "VML_Text", "Text A" );
    return( 0 );
 
@@ -5336,7 +5334,7 @@ VML_CreateText_DeleteAll( zVIEW vSubtask )
       return( 0 );
    }
 
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    for ( nRC = SetCursorFirstEntity( vProfileXFER, "VML_Text", 0 );
          nRC == zCURSOR_SET;
          nRC = SetCursorNextEntity( vProfileXFER, "VML_Text", 0 ) )
@@ -5369,7 +5367,7 @@ VML_StartHelp( zVIEW vSubtask )
    zVIEW  vProfileXFER;
 
    // GET ADDRESS OF THE STRING FOR THE TEXT IN THE LIST BOX
-   mGetProfileView( &vProfileXFER );
+   mGetProfileView( &vProfileXFER, vSubtask );
    GetAddrForAttribute( &pszText,       /* Return Address */
                         vProfileXFER,  /* View Id */
                         "VML_Text",    /* Entity name */
@@ -7244,7 +7242,7 @@ InitEditorForMoveAndDelete( ZDrTBEdt *oEditor,
    }
 
    mGetWorkView( pvEdWrk, vSubtask );
-   mGetProfileView( pvProfileXFER );
+   mGetProfileView( pvProfileXFER, vSubtask );
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
    GetStringFromAttribute( szInvokingTool, sizeof( szInvokingTool ), *pvProfileXFER, szlED, "InvokingTool" );

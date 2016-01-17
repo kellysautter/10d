@@ -11534,7 +11534,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
             while ( lLinkSrc >= 0 )
             {
                lpViewEntity = zGETPTR( lpSrcInstance->hViewEntity );
-#if 1 // debugging
+#if 0 // debugging
                if ( nFlag > 0 )
                   TraceLine( "Checking Relink (OD: %s) - TgtPtr: %d.%d   SrcPtr: %d.%d   at Index: %d   for Entity  Tgt: %s   Src: %s",
                              lpViewOD->szName, lLinkTgt, (zLONG) lpTgtInstance, lLinkSrc, (zLONG) lpSrcInstance, k, lpTgtViewEntity->szName, lpViewEntity->szName );
