@@ -21,7 +21,7 @@
 EXPORTS
 
 ;;
-;; Maximum Ordinal value in this "OPERATION" section is > @532 <
+;; Maximum Ordinal value in this "OPERATION" section is > @589 <
 ;;
 
    ActiveX                                                @19
@@ -60,6 +60,49 @@ EXPORTS
    ED_SetPlaceHolder                                      @507
    ED_SetSelText                                          @463
    Edit                                                   @5
+   EditorControl                                          @533
+   EDT_CanCopy                                            @546
+   EDT_CanPaste                                           @547
+   EDT_CanRedo                                            @548
+   EDT_CanUndo                                            @549
+   EDT_CloseSubWindow                                     @542
+   EDT_CloseObject                                        @544
+   EDT_CopyText                                           @559
+   EDT_CutText                                            @560
+   EDT_DeleteText                                         @561
+   EDT_DeleteTextRange                                    @540
+   EDT_Deselect                                           @562
+   EDT_FindTextPosition                                   @537
+   EDT_GetActualTextLine                                  @555
+   EDT_GetCursorPosition                                  @535
+   EDT_GetLineCount                                       @534
+   EDT_GetLineLength                                      @536
+   EDT_GetObjectName                                      @566
+   EDT_GetPositionByIndex                                 @567
+   EDT_GetSelectedText                                    @556
+   EDT_GetTextFromLineOfIndex                             @558
+   EDT_GetTextFromRange                                   @554
+   EDT_GotoWindow                                         @569
+   EDT_InsertItem                                         @570
+   EDT_IsCommentAtIndex                                   @541
+   EDT_IsObjectChanged                                    @571
+   EDT_IsReadOnly                                         @552
+   EDT_OpenObject                                         @572
+   EDT_PasteText                                          @573
+   EDT_PrintObject                                        @574
+   EDT_PropertyDialog                                     @575
+   EDT_ReadOnlyMode                                       @576
+   EDT_Redo                                               @577
+   EDT_SaveObject                                         @538
+   EDT_SaveObjectAs                                       @539
+   EDT_SelectAll                                          @579
+   EDT_SelectItem                                         @580
+   EDT_SelectRange                                        @581
+   EDT_SetCursorPositionByLine                            @582
+   EDT_SyntaxOff                                          @583
+   EDT_Undo                                               @584
+   EDT_WantKeystrokes                                     @585
+   EDT_ZeidonSyntaxOn                                     @586
    GetActiveX_ParameterCount                              @409
    GetActiveX_ParameterValue                              @410
    GetActiveX_WrapperInstance                             @84

@@ -37,18 +37,20 @@ ofnTZOPSIGO_CopyOperToXGO( zVIEW vSubtask,
                            zVIEW vOperation,
                            zVIEW vXGO );
 zOPER_EXPORT zSHORT OPERATION
-ofnTZOPSIGO_CopyHdrToXGO( zVIEW vHdrFile,
+ofnTZOPSIGO_CopyHdrToXGO( zVIEW vSubtask,
+                          zVIEW vHdrFile,
                           zVIEW vXGO );
 
 zOPER_EXPORT zSHORT OPERATION
-oTZOPSIGO_RemoveOperFromXGO( zVIEW  vOperation )
+oTZOPSIGO_RemoveOperFromXGO( zVIEW  vSubtask,
+                             zVIEW  vOperation )
 {
    zVIEW    vXGO;
    zSHORT   nRC;
    zCHAR    szOperationName[ 33 ];
    zLONG    lZKey;
 
-   nRC = oTZOPGRPO_GetViewForXGO( &vXGO, zCURRENT_OI );
+   nRC = oTZOPGRPO_GetViewForXGO( vSubtask, &vXGO, zCURRENT_OI );
    if ( nRC < 0 )
       return( nRC );
 
@@ -78,7 +80,7 @@ oTZOPSIGO_ReplaceOrAddOperToXGO( zVIEW  vSubtask,
    zCHAR    szOperationName[ 33 ];
    zLONG    lZKey;
 
-   nRC = oTZOPGRPO_GetViewForXGO( &vXGO, zCURRENT_OI );
+   nRC = oTZOPGRPO_GetViewForXGO( vSubtask, &vXGO, zCURRENT_OI );
    if ( nRC < 0 )
       return( nRC );
 
@@ -112,7 +114,7 @@ oTZOPSIGO_AddOperToXGO( zVIEW  vSubtask,
    zCHAR    szOperationName[ 33 ];
    zLONG    lZKey;
 
-   nRC = oTZOPGRPO_GetViewForXGO( &vXGO, zCURRENT_OI );
+   nRC = oTZOPGRPO_GetViewForXGO( vSubtask, &vXGO, zCURRENT_OI );
    if ( nRC < 0 )
       return( nRC );
 
@@ -244,14 +246,15 @@ oTZOPSIGO_UniqueHdrName( zVIEW vHdrFile, zVIEW vCM_List )
 }
 
 zOPER_EXPORT zSHORT OPERATION
-oTZOPSIGO_RemoveHdrFromXGO( zVIEW vHdrFile )
+oTZOPSIGO_RemoveHdrFromXGO( zVIEW vSubtask,
+                            zVIEW vHdrFile )
 {
    zVIEW    vXGO;
    zSHORT   nRC;
    zCHAR    szHdrFileName[ 33 ];
    zLONG    lZKey;
 
-   nRC = oTZOPGRPO_GetViewForXGO( &vXGO, zCURRENT_OI );
+   nRC = oTZOPGRPO_GetViewForXGO( vSubtask, &vXGO, zCURRENT_OI );
    if ( nRC < 0 )
       return( nRC );
 
@@ -273,14 +276,15 @@ oTZOPSIGO_RemoveHdrFromXGO( zVIEW vHdrFile )
 }
 
 zOPER_EXPORT zSHORT OPERATION
-oTZOPSIGO_ReplaceOrAddHdrToXGO( zVIEW vHdrFile )
+oTZOPSIGO_ReplaceOrAddHdrToXGO( zVIEW vSubtask,
+                                zVIEW vHdrFile )
 {
    zVIEW    vXGO;
    zSHORT   nRC;
    zCHAR    szHdrFileName[ 33 ];
    zLONG    lZKey;
 
-   nRC = oTZOPGRPO_GetViewForXGO( &vXGO, zCURRENT_OI );
+   nRC = oTZOPGRPO_GetViewForXGO( vSubtask, &vXGO, zCURRENT_OI );
    if ( nRC < 0 )
       return( nRC );
 
@@ -298,20 +302,21 @@ oTZOPSIGO_ReplaceOrAddHdrToXGO( zVIEW vHdrFile )
       nRC = DeleteEntity( vXGO, "HeaderFile", zREPOS_PREV );
    }
 
-   ofnTZOPSIGO_CopyHdrToXGO( vHdrFile, vXGO );
+   ofnTZOPSIGO_CopyHdrToXGO( vSubtask, vHdrFile, vXGO );
    nRC = oTZOPGRPO_CommitXGO( vXGO );
    return( nRC );
 }
 
 zOPER_EXPORT zSHORT OPERATION
-oTZOPSIGO_AddHdrToXGO( zVIEW vHdrFile )
+oTZOPSIGO_AddHdrToXGO( zVIEW vSubtask,
+                       zVIEW vHdrFile )
 {
    zVIEW    vXGO;
    zSHORT   nRC;
    zCHAR    szHdrFileName[ 33 ];
    zLONG    lZKey;
 
-   nRC = oTZOPGRPO_GetViewForXGO( &vXGO, zCURRENT_OI );
+   nRC = oTZOPGRPO_GetViewForXGO( vSubtask, &vXGO, zCURRENT_OI );
    if ( nRC < 0 )
       return( nRC );
 
@@ -329,7 +334,7 @@ oTZOPSIGO_AddHdrToXGO( zVIEW vHdrFile )
       return( 1 );
    }
 
-   ofnTZOPSIGO_CopyHdrToXGO( vHdrFile, vXGO );
+   ofnTZOPSIGO_CopyHdrToXGO( vSubtask, vHdrFile, vXGO );
 
    nRC = oTZOPGRPO_CommitXGO( vXGO );
 
@@ -337,7 +342,8 @@ oTZOPSIGO_AddHdrToXGO( zVIEW vHdrFile )
 }
 
 zOPER_EXPORT zSHORT OPERATION
-ofnTZOPSIGO_CopyHdrToXGO( zVIEW vHdrFile,
+ofnTZOPSIGO_CopyHdrToXGO( zVIEW vSubtask,
+                          zVIEW vHdrFile,
                           zVIEW vXGO )
 {
    zVIEW    vTmpXGO;
@@ -346,7 +352,7 @@ ofnTZOPSIGO_CopyHdrToXGO( zVIEW vHdrFile,
    zSHORT   nRC;
    zLONG    lZKey;
 
-   nRC = oTZOPGRPO_GetViewForXGO( &vSysXGO, zSYS_CURRENT_OI );
+   nRC = oTZOPGRPO_GetViewForXGO( vSubtask, &vSysXGO, zSYS_CURRENT_OI );
    CreateViewFromViewForTask( &vTmpXGO, vXGO, 0 );
    nRC = CreateEntity( vXGO, "HeaderFile", zPOS_AFTER );
    nRC = SetMatchingAttributesByName( vXGO, "HeaderFile",

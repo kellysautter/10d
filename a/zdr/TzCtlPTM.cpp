@@ -352,6 +352,54 @@ TZEditMsg( zSHORT nMessage,
 }
 
 zLONG OPERATION
+TZEditorMsg( zSHORT nMessage,
+             TZPainterWindow *pPainterWindow,
+             zLONG  lParentType,
+             CWnd   *pWndParent,
+             zVIEW  vCtrl,
+             CRect& rect,
+             TZPainterCtrl *pCtrl,
+             zLONG  lType,
+             zBOOL  bPlaceHolder,
+             zLONG  lZKey,
+             zLONG  lCtrlID,
+             zLONG  lTabStopNbr,
+             zPCHAR pchTag,
+             zPCHAR pchText )
+{
+#ifdef DEBUG_ALL
+   TraceLineI( "TZEditorMsg msg: ", nMessage );
+#endif
+
+   switch ( nMessage )
+   {
+      case zCTRLMSG_CREATE_GUI:
+         // Note that for zCTRLMSG_CREATE_GUI, pCtrl is the parent ctrl!!!
+         return( (zLONG) (TZPainterCtrl *)
+                 new TZEditor( pPainterWindow, pCtrl, pWndParent,
+                               rect, vCtrl, lType, bPlaceHolder, lZKey, lTabStopNbr,
+                               lCtrlID, pchTag, pchText ) );
+
+      case zCTRLMSG_ACCEPT_PARENT:  // accept parents if they accept me
+         return( lType );
+
+      case zCTRLMSG_CREATE_ZEIDON:  // create Zeidon Control, empty Text
+         SetAttributeFromString( vCtrl, szlControl, szlText, 0 );
+         SetAttributeFromInteger( vCtrl, szlControl, "ExtendedStyle",
+                                  zCONTROLX_DISABLE_READONLY );
+         break;
+
+      case zCTRLMSG_CHANGE_TYPE:    // Type change
+         break;
+
+      default:
+         return( 0 );
+   }
+
+   return( 0 );
+}
+
+zLONG OPERATION
 TZGraphMsg( zSHORT nMessage,
             TZPainterWindow *pPainterWindow,
             zLONG  lParentType,

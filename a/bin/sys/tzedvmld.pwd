@@ -1,13 +1,14 @@
-z1000-Zeidon    TZEDVMLD TZWDLGSO 01/23/03   14:12:22 1.0b0    
+z1000-Zeidon    TZEDVMLD TZWDLGSO 02/01/16   12:43:12 1.0b0   
 eDialog    1
 aTag       TZEDVMLD
-aZKey      190008888
-aDesc      VML Editor based on Codesense OCX implementation
 aDLL_Name  TZEDVMLD
+aZKey      190008888
+aNextZKeyToAssign 190011757
+aDesc      VML Editor based on Codesense OCX implementation
 
 eDfltWnd   2
 aTag       TZEDVMLD
-aCaption   Zeidon Editor
+aCaption   Zeidon EditorV
 aPSDLG_X   2
 aPSDLG_Y   2
 aSZDLG_X   29950310
@@ -24,8 +25,8 @@ aPSDLG_Y   2
 aSZDLG_X   15728888
 aSZDLG_Y   17105175
 aZKey      190011014
-aBarID     59451
 aGeneralFlag 0
+aBarID     59451
 
 eControl   3
 aTag       ErrorList
@@ -302,9 +303,9 @@ aPSDLG_Y   2
 aSZDLG_X   10944687
 aSZDLG_Y   11206846
 aZKey      190011494
-aBarID     59451
 aDIL_Active Y
 aGeneralFlag 0
+aBarID     59451
 
 eControl   3
 aTag       TextList
@@ -1057,9 +1058,9 @@ aSZDLG_X   23200105
 aSZDLG_Y   14287084
 aDfltButton Close
 aZKey      190011041
-aBarID     59451
 aDIL_Active Y
 aGeneralFlag 0
+aBarID     59451
 
 eControl   3
 aTag       ListObjects
@@ -1625,9 +1626,9 @@ aSZDLG_X   23265643
 aSZDLG_Y   14418159
 aDfltButton Close
 aZKey      190011103
-aBarID     59451
 aDIL_Active Y
 aGeneralFlag 0
+aBarID     59451
 
 eControl   3
 aTag       ListObjects
@@ -2076,9 +2077,9 @@ aPSDLG_Y   9
 aSZDLG_X   9896094
 aSZDLG_Y   15204614
 aZKey      190011158
-aBarID     59451
 aDIL_Active Y
 aGeneralFlag 0
+aBarID     59451
 
 eControl   3
 aTag       AttributeList
@@ -3004,8 +3005,8 @@ aSZDLG_X   22806883
 aSZDLG_Y   12124366
 aDfltButton Close
 aZKey      190011296
-aBarID     59451
 aDIL_Active Y
+aBarID     59451
 
 eControl   3
 aTag       ListObjects
@@ -3349,9 +3350,9 @@ aSZDLG_X   21037386
 aSZDLG_Y   15794436
 aDfltButton Refresh
 aZKey      190011345
-aBarID     59451
 aDIL_Active Y
 aGeneralFlag 0
+aBarID     59451
 
 eControl   3
 aTag       GroupBox1
@@ -4230,7 +4231,7 @@ aSubtype   808452096
 aPSDLG_X   0
 aPSDLG_Y   0
 aSZDLG_X   333
-aSZDLG_Y   115
+aSZDLG_Y   20
 aSyncKey   9999
 aExtendedStyle 0
 aGUID      {A0F69707-2D87-4B20-9471-FBC003427134}
@@ -5887,9 +5888,9 @@ aPSDLG_Y   0
 aSZDLG_X   21496143
 aSZDLG_Y   16515344
 aZKey      190011441
-aBarID     59451
 aDIL_Active Y
 aGeneralFlag 0
+aBarID     59451
 
 eControl   3
 aTag       Push1

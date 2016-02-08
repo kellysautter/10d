@@ -7749,8 +7749,7 @@ zwTZPNCTAD_TransferToEditor( zVIEW vSubtask )
 
    if ( CheckExistenceOfEntity( vMeta, "ActOper" ) == zCURSOR_SET )
    {
-      SetCursorFirstEntityByAttr( vMeta, "Operation", "Name",
-                                  vMeta, "ActOper", "Name", "" );
+      SetCursorFirstEntityByAttr( vMeta, "Operation", "Name", vMeta, "ActOper", "Name", "" );
    }
 
    TransferToEditor( vSubtask, vMeta, "PN", 0 );

@@ -4310,7 +4310,7 @@ CreateTemporalMetaEntity( zVIEW  vSubtask,
 //
 //  PARAMETERS: szFileName - the address of the file name to be created
 //              lpView - the view for which the entity resides
-//              szEntityName - the Zeidon meta entity name
+//              pchEntityName - the Zeidon meta entity name
 //
 //  RETURNS:    0 - FileName created successfully
 //             -1 - Error encountered
@@ -4321,12 +4321,12 @@ zOPER_EXPORT zSHORT OPERATION
 CreateFileNameFromZKey( zPCHAR pchFileName,
                         zLONG  lMaxLth,
                         zVIEW  lpView,
-                        zPCHAR szEntity )
+                        zPCHAR pchEntity )
 {
    zULONG  ulZKey;
    zSHORT  nRC;
 
-   nRC = GetIntegerFromAttribute( (zPLONG) &ulZKey, lpView, szEntity, "ZKey" );
+   nRC = GetIntegerFromAttribute( (zPLONG) &ulZKey, lpView, pchEntity, "ZKey" );
    zltoxa( ulZKey, pchFileName );
    return( 0 );
 

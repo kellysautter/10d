@@ -1869,8 +1869,7 @@ ZSubtask::RestartBuildWindow( zVIEW vAppSubtask )
 
 #ifdef zREMOTE_SERVER
 
-      if ( pZSocketTask->m_lSocketState == -1 ||
-           (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) )
+      if ( pZSocketTask->m_lSocketState == -1 || (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) )
       {
       // SysMutexUnlock( m_vDialog, "ZDw", 0 );
          return;
@@ -2060,8 +2059,7 @@ POSTBUILD_PRECODE_label:
 
 #ifdef zREMOTE_SERVER
 
-      if ( pZSocketTask->m_lSocketState == -1 ||
-           (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) )
+      if ( pZSocketTask->m_lSocketState == -1 || (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) )
       {
       // SysMutexUnlock( m_vDialog, "ZDw", 0 );
          return;
@@ -2121,8 +2119,7 @@ POSTBUILD_POSTCODE_label:
 
 #ifdef zREMOTE_SERVER
 
-      if ( pZSocketTask->m_lSocketState == -1 ||
-           (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) )
+      if ( pZSocketTask->m_lSocketState == -1 || (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) )
       {
       // SysMutexUnlock( m_vDialog, "ZDw", 0 );
          return;
@@ -2693,8 +2690,7 @@ ZSubtask::MapFromOI( WPARAM wFlag, zCPCHAR cpcCtrlTag )
 
    // Subtask MapFromOI in progress.
    zULONG ulSubtaskState = ZSubtask::GetSubtaskState( this );
-   if ( (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) != 0 ||
-        m_pZMIXCtrl == 0 )
+   if ( (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) != 0 || m_pZMIXCtrl == 0 )
    {
       return( 0 );
    }

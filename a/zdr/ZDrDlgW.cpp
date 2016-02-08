@@ -1399,13 +1399,10 @@ AttachSubtaskToPane( zVIEW   vSubtask,
    ZSubtask *pZSubtaskTemp;
    ZDrView *pZView;
 
-   if ( lPane &&
-        pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask2 &&
-        (ZSubtask::GetSubtaskState( pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask2 ) &
-                                      zSUBTASK_STATE_MARK_FOR_DELETE) == 0 )
+   if ( lPane && pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask2 &&
+        (ZSubtask::GetSubtaskState( pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask2 ) & zSUBTASK_STATE_MARK_FOR_DELETE) == 0 )
    {
-      pZSubtaskTemp =
-                  pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask2;
+      pZSubtaskTemp = pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask2;
       pZView = pZSubtaskTemp->m_pZView;
       pZSubtaskTemp->m_pZView = 0;
       pZSubtaskNew->m_pZView = pZView;
@@ -1421,13 +1418,10 @@ AttachSubtaskToPane( zVIEW   vSubtask,
       pZTask->PutSubtaskOnSplitterDiscardPile( pZSubtaskTemp );
    }
    else
-   if ( lPane == 0 &&
-        pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask1 &&
-        (ZSubtask::GetSubtaskState( pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask1 ) &
-                                      zSUBTASK_STATE_MARK_FOR_DELETE) == 0 )
+   if ( lPane == 0 && pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask1 &&
+        (ZSubtask::GetSubtaskState( pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask1 ) & zSUBTASK_STATE_MARK_FOR_DELETE) == 0 )
    {
-      pZSubtaskTemp =
-                  pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask1;
+      pZSubtaskTemp = pZSubtask->m_pZView->m_pParentSplitterWnd->m_pZSubtask1;
       pZView = pZSubtaskTemp->m_pZView;
       pZSubtaskTemp->m_pZView = 0;
       pZSubtaskNew->m_pZView = pZView;
@@ -1443,13 +1437,10 @@ AttachSubtaskToPane( zVIEW   vSubtask,
       pZTask->PutSubtaskOnSplitterDiscardPile( pZSubtaskTemp );
    }
    else
-   if ( (lPane == 0 && (pZSubtask->m_pZView->m_eQuad == ZDrView::eTop ||
-                        pZSubtask->m_pZView->m_eQuad == ZDrView::eLeft)) ||
-        (lPane != 0 && (pZSubtask->m_pZView->m_eQuad == ZDrView::eBottom ||
-                        pZSubtask->m_pZView->m_eQuad == ZDrView::eRight)) )
+   if ( (lPane == 0 && (pZSubtask->m_pZView->m_eQuad == ZDrView::eTop || pZSubtask->m_pZView->m_eQuad == ZDrView::eLeft)) ||
+        (lPane != 0 && (pZSubtask->m_pZView->m_eQuad == ZDrView::eBottom || pZSubtask->m_pZView->m_eQuad == ZDrView::eRight)) )
    {
-      ::MessageBox( 0, "Replacing primary subtask",
-                    "AttachSubtaskToPane", MB_OK );
+      ::MessageBox( 0, "Replacing primary subtask", "AttachSubtaskToPane", MB_OK );
 
       // Replace the current subtask.
       pZView = pZSubtask->m_pZView;
@@ -1463,10 +1454,8 @@ AttachSubtaskToPane( zVIEW   vSubtask,
       nCol2 = nCol;
    }
    else
-   if ( (lPane == 0 && (pZViewOtherPane->m_eQuad == ZDrView::eTop ||
-                        pZViewOtherPane->m_eQuad == ZDrView::eLeft)) ||
-        (lPane != 0 && (pZViewOtherPane->m_eQuad == ZDrView::eBottom ||
-                        pZViewOtherPane->m_eQuad == ZDrView::eRight)) )
+   if ( (lPane == 0 && (pZViewOtherPane->m_eQuad == ZDrView::eTop || pZViewOtherPane->m_eQuad == ZDrView::eLeft)) ||
+        (lPane != 0 && (pZViewOtherPane->m_eQuad == ZDrView::eBottom || pZViewOtherPane->m_eQuad == ZDrView::eRight)) )
    {
       pZView = pZViewOtherPane;
       pZView->m_pParentSplitterWnd->m_pZSubtask2 = pZSubtaskNew;
@@ -1483,8 +1472,7 @@ AttachSubtaskToPane( zVIEW   vSubtask,
    }
    else
    {
-      ::MessageBox( 0, "Invalid pane position for Subtask",
-                    "AttachSubtaskToPane", MB_OK );
+      ::MessageBox( 0, "Invalid pane position for Subtask", "AttachSubtaskToPane", MB_OK );
       break;
    }
 
@@ -2393,12 +2381,9 @@ GetSubtaskForWindowName( zVIEW   vSubtask,  // current subtask within task
               g_pSubtaskList[ lItemCnt ].lTID == pZSubtask->m_lTID &&
               zstricmp( g_pSubtaskList[ lItemCnt ].WndN, cpcWndTag ) == 0 )
          {
-            if ( ((g_pSubtaskList[ lItemCnt ].ulSubtaskState &
-                      zSUBTASK_STATE_MARK_FOR_DELETE) == 0) &&
-                 (((g_pSubtaskList[ lItemCnt ].ulSubtaskState &
-                    zSUBTASK_STATE_WELL_FORMED) == zSUBTASK_STATE_WELL_FORMED) ||
-                  ((g_pSubtaskList[ lItemCnt ].ulSubtaskState &
-                     0x000000ff) >= zSUBTASK_STATE_PREBUILD_PRECODE)) )
+            if ( ((g_pSubtaskList[ lItemCnt ].ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) == 0) &&
+                 (((g_pSubtaskList[ lItemCnt ].ulSubtaskState & zSUBTASK_STATE_WELL_FORMED) == zSUBTASK_STATE_WELL_FORMED) ||
+                  ((g_pSubtaskList[ lItemCnt ].ulSubtaskState & 0x000000ff) >= zSUBTASK_STATE_PREBUILD_PRECODE)) )
             {
                nCnt++;
                if ( *pvSubtaskReturn == 0 )

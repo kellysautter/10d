@@ -50,7 +50,8 @@ CHANGE LOG
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
-oTZOPGRPO_GetViewForXGO( zPVIEW pvTZOPGRPO,
+oTZOPGRPO_GetViewForXGO( zVIEW  vSubtask,
+                         zPVIEW pvTZOPGRPO,
                          zSHORT nCurrentOrReload )
 {
    zVIEW  vT;
@@ -60,11 +61,9 @@ oTZOPGRPO_GetViewForXGO( zPVIEW pvTZOPGRPO,
    zSHORT nRC;
    zSHORT nRScope;
    zCHAR  szAppViewName[ 66 ];
-   zVIEW  vSubtask = GetDefaultViewForActiveTask( );
 
 // Set up the XGO File Name and the View Name
-   if ( nCurrentOrReload == zCURRENT_OI ||
-        nCurrentOrReload == zFORCE_RELOAD )
+   if ( nCurrentOrReload == zCURRENT_OI || nCurrentOrReload == zFORCE_RELOAD )
    {
       strcpy_s( szAppViewName, sizeof( szAppViewName ), "xoOPERSIGS." );
       nRC = GetViewByName( &vT, "TaskLPLR", vSubtask, zLEVEL_TASK );
@@ -81,8 +80,7 @@ oTZOPGRPO_GetViewForXGO( zPVIEW pvTZOPGRPO,
       if ( nRC == zCALL_ERROR )
          return( zCALL_ERROR );
 
-      nRC = GetApplDirectoryFromView( szXGO_FileName, vT, zAPPL_DIR_OBJECT,
-                                      zMAX_FILENAME_LTH + 1 );
+      nRC = GetApplDirectoryFromView( szXGO_FileName, vT, zAPPL_DIR_OBJECT, zMAX_FILENAME_LTH + 1 );
       nRC = SfDropSubtask( vT, 0 );
       strcat_s( szXGO_FileName, sizeof( szXGO_FileName ), "tzopsigk.xgo" );
    }
@@ -110,17 +108,13 @@ oTZOPGRPO_GetViewForXGO( zPVIEW pvTZOPGRPO,
    if ( nRScope != zLEVEL_APPLICATION )
    {
       // Load it from a file or create a new one if file is missing.
-      if ( ActivateOI_FromFile( &vT, "TZOPGRPO", vTask,
-                                szXGO_FileName,
-                                zSINGLE | zLEVEL_APPLICATION ) != 0 )
+      if ( ActivateOI_FromFile( &vT, "TZOPGRPO", vTask, szXGO_FileName, zSINGLE | zLEVEL_APPLICATION ) != 0 )
       {
-         nRC = ActivateEmptyObjectInstance( &vT, "TZOPGRPO", vTask,
-                                            zSINGLE | zLEVEL_APPLICATION );
+         nRC = ActivateEmptyObjectInstance( &vT, "TZOPGRPO", vTask, zSINGLE | zLEVEL_APPLICATION );
          if ( nRC >= 0 )
          {
             nRC = CreateEntity( vT, "OPERSIG", zPOS_AFTER );
-            nRC = SetAttributeFromString( vT, "OPERSIG", "Name",
-                                          &szAppViewName[ 10 ] );
+            nRC = SetAttributeFromString( vT, "OPERSIG", "Name", &szAppViewName[ 10 ] );
             //nRC = CommitOI_ToFile( vT, szXGO_FileName, zASCII );
             nRC = SetNameForView( vT, szAppViewName, 0, zLEVEL_APPLICATION );
          }

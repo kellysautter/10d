@@ -1191,9 +1191,7 @@ TransferToEditor( zVIEW  vSubtask,
    // then the subdir attribute is null, so nothing was retrieved.  If subdir
    // is set, then we need to add a '\'.
    if ( GetStringFromAttribute( szFileName + zstrlen( szFileName ), sizeof( szFileName ) - zstrlen( szFileName ),
-                                vMeta,
-                                lpchSourceFileEntityName,
-                                "Subdirectory" ) >= 0 )
+                                vMeta, lpchSourceFileEntityName, "Subdirectory" ) >= 0 )
    {
       SysAppendcDirSep( szFileName );
    }
@@ -1203,8 +1201,7 @@ TransferToEditor( zVIEW  vSubtask,
    strcat_s( szFileName, sizeof( szFileName ), "." );
    GetStringFromAttribute( szFileName + zstrlen( szFileName ), sizeof( szFileName ) - zstrlen( szFileName ), vMeta, lpchSourceFileEntityName, "Extension" );
 
-   // If we found the editor work view then check to see if we are already
-   // editing the file.
+   // If we found the editor work view then check to see if we are already editing the file.
    if ( vEdWrk )
    {
       // We're about to change a cursor so create temp view.
@@ -1234,7 +1231,7 @@ TransferToEditor( zVIEW  vSubtask,
    }
    else
    {
-      SetAttributeFromString( vProfileXFER, "ED", "InvokeEditorCommand", "S");
+      SetAttributeFromString( vProfileXFER, "ED", "InvokeEditorCommand", "S" );
    }
 
    // Pass views to editor.

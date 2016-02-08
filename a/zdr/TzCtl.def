@@ -25,7 +25,7 @@
 
 
 ;;
-;; Maximum Ordinal value in this "OPERATION" section is > @123 <
+;; Maximum Ordinal value in this "OPERATION" section is > @125 <
 ;;
 EXPORTS
    AcceptEntity                                           @50
@@ -104,6 +104,7 @@ EXPORTS
    TZDayTimerMsg                                          @109
    TZDilMsg                                               @74
    TZEditMsg                                              @76
+   TZEditorMsg                                            @125
    TZERD_Msg                                              @75
    TZGraphMsg                                             @77
    TZGroupBoxMsg                                          @78

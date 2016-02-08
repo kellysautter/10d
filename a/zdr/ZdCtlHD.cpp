@@ -2537,15 +2537,13 @@ HD_ZoomDiagram( zVIEW    vSubtask,
 
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, cpcCtrlTag ) == 0 )
    {
-      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram,
-                                                   pzma->m_pCtrl );
+      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram, pzma->m_pCtrl );
       if ( pHD_Diagram )
       {
          return( pHD_Diagram->ZoomDiagram( nPercent, nOptions ) );
       }
 
-      TraceLineS( "drvr - Invalid control type for HD_ZoomDiagram ",
-                  cpcCtrlTag );
+      TraceLineS( "drvr - Invalid control type for HD_ZoomDiagram ", cpcCtrlTag );
    }
 
    return( -1 );
@@ -2599,15 +2597,13 @@ HD_PrintDiagram( zVIEW    vSubtask,
 
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, cpcCtrlTag ) == 0 )
    {
-      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram,
-                                                   pzma->m_pCtrl );
+      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram, pzma->m_pCtrl );
       if ( pHD_Diagram )
       {
          return( pHD_Diagram->PrintDiagram( nPercent, nOptions ) );
       }
 
-      TraceLineS( "drvr - Invalid control type for HD_PrintDiagram ",
-                  cpcCtrlTag );
+      TraceLineS( "drvr - Invalid control type for HD_PrintDiagram ", cpcCtrlTag );
    }
 
    return( -1 );
@@ -2639,8 +2635,7 @@ HD_GetPointerCoordinates( zVIEW    vSubtask,
    *plPosY = 0;
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, cpcCtrlTag ) == 0 )
    {
-      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram,
-                                                   pzma->m_pCtrl );
+      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram, pzma->m_pCtrl );
       if ( pHD_Diagram )
       {
          pt = pHD_Diagram->m_ptMouseSelect;
@@ -2650,8 +2645,7 @@ HD_GetPointerCoordinates( zVIEW    vSubtask,
          return( 0 );
       }
 
-      TraceLineS( "drvr - Invalid control type for HD_GetPointerCoordinates ",
-                  cpcCtrlTag );
+      TraceLineS( "drvr - Invalid control type for HD_GetPointerCoordinates ", cpcCtrlTag );
    }
 
    return( -1 );
@@ -2684,15 +2678,13 @@ HD_SetProperties( zVIEW   vSubtask,
 
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, cpcCtrlTag ) == 0 )
    {
-      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram,
-                                                   pzma->m_pCtrl );
+      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram, pzma->m_pCtrl );
       if ( pHD_Diagram )
       {
          return( pHD_Diagram->SetProperties( lProperties ) );
       }
 
-      TraceLineS( "drvr - Invalid control type for HD_SetProperties ",
-                  cpcCtrlTag );
+      TraceLineS( "drvr - Invalid control type for HD_SetProperties ", cpcCtrlTag );
    }
 
    return( -1 );
@@ -2726,8 +2718,7 @@ HD_SetColors( zVIEW    vSubtask,
 
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, cpcCtrlTag ) == 0 )
    {
-      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram,
-                                                   pzma->m_pCtrl );
+      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram, pzma->m_pCtrl );
       if ( pHD_Diagram )
       {
          if ( pulColorNormal && *pulColorNormal )
@@ -2785,8 +2776,7 @@ HD_CenterNode( zVIEW    vSubtask,
 
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, cpcCtrlTag ) == 0 )
    {
-      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram,
-                                                   pzma->m_pCtrl );
+      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram, pzma->m_pCtrl );
       if ( pHD_Diagram )
       {
          if ( GetViewByName( &vDiagram, *(pzma->m_pzsVName),
@@ -2809,8 +2799,7 @@ HD_CenterNode( zVIEW    vSubtask,
          return;
       }
 
-      TraceLineS( "drvr - Invalid control type for HD_CenterNode ",
-                  cpcCtrlTag );
+      TraceLineS( "drvr - Invalid control type for HD_CenterNode ", cpcCtrlTag );
    }
 }
 
@@ -2829,8 +2818,7 @@ HD_SelectNode( zVIEW    vSubtask,
 
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, cpcCtrlTag ) == 0 )
    {
-      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram,
-                                                   pzma->m_pCtrl );
+      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram, pzma->m_pCtrl );
       if ( pHD_Diagram )
       {
          if ( GetViewByName( &vDiagram, *(pzma->m_pzsVName),
@@ -2876,8 +2864,7 @@ HD_IsNodeVisible( zVIEW    vSubtask,
 
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, cpcCtrlTag ) == 0 )
    {
-      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram,
-                                                   pzma->m_pCtrl );
+      ZHD_Diagram *pHD_Diagram = DYNAMIC_DOWNCAST( ZHD_Diagram, pzma->m_pCtrl );
       if ( pHD_Diagram )
       {
          if ( GetViewByName( &vDiagram, *(pzma->m_pzsVName),

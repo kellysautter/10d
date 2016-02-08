@@ -1051,7 +1051,7 @@ SKIP_TO_ACTION_label:
       double dTime = ((double) (SysGetTickCount( ) - ulTime)) / zTICKS_PER_SECOND;
 
       nLth = (zSHORT) zstrlen( szMessage );
-      sprintf( szMessage + nLth, " [%1.3f sec] %s.%s", dTime, ActDef.DlgN, ActDef.WndN );
+      sprintf_s( szMessage + nLth, sizeof( szMessage ) - nLth, " [%1.3f sec] %s.%s", dTime, ActDef.DlgN, ActDef.WndN );
       TraceLineS( szMessage, "" );
    }
 
@@ -2051,13 +2051,16 @@ fnProcessDialogOperationCode( ZSubtask *pZSubtask,
                                                                       pchDLL_Name, cpcCodeName, "(drvr5)" );
    if ( lpfnDynRoutine )
    {
-   // TraceLineS( "Processing Dialog Operation ", cpcCodeName );
+      if ( (pZSubtask->m_ulSubtaskFlags & zSUBTASK_PROCESSING_ACTIVATE) == 0 &&
+           zstrstr( cpcCodeName, "InitMenu" ) != 0 && zstrstr( cpcCodeName, "ReceiveFocus" ) != 0 )
+      {
+         TraceLineS( "=================================>>>> Processing Dialog Operation ", cpcCodeName );
+      }
       pZSubtask->m_cpcCurrOper = cpcCodeName;
-
       try   // to catch any application generated exceptions
       {  // begin of try block
 
-      lRC = zMAKELONG( zLOUSHORT( (*lpfnDynRoutine)( pZSubtask->m_vDialog ) ), 0 );
+         lRC = zMAKELONG( zLOUSHORT( (*lpfnDynRoutine)( pZSubtask->m_vDialog ) ), 0 );
 
       }  // end of try block
 

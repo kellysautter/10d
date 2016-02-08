@@ -100,6 +100,11 @@ BEGIN_MESSAGE_MAP( TZEdit, CEdit )
    ON_WM_CREATE( )
 END_MESSAGE_MAP( )
 
+IMPLEMENT_DYNAMIC( TZEditor, CEdit )
+BEGIN_MESSAGE_MAP( TZEditor, CEdit )
+   ON_WM_CREATE( )
+END_MESSAGE_MAP( )
+
 IMPLEMENT_DYNAMIC( TZPush, CButton )
 BEGIN_MESSAGE_MAP( TZPush, CButton )
    ON_WM_CREATE( )
@@ -775,6 +780,71 @@ TZEdit::~TZEdit( )
 {
 #ifdef DEBUG_ALL
    TraceLineS( "TZEdit::dtor: ", m_csTag );
+#endif
+
+   DestroyWindow( );
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// TZEditor, class implementation
+/////////////////////////////////////////////////////////////////////////////
+// ctor
+TZEditor::TZEditor( TZPainterWindow *pPainterWindow,
+                    TZPainterCtrl   *pCtrlParent,
+                    CWnd    *pWndParent,
+                    CRect&  rect,
+                    zVIEW   vCtrl,
+                    zLONG   lType,
+                    zBOOL   bPlaceHolder,
+                    zLONG   lZKey,
+                    zLONG   lTabStopNbr,
+                    zLONG   lCtrlID,
+                    zPCHAR  pchTag,
+                    zPCHAR  pchText ) :
+          CEdit( ),
+          TZPainterCtrl( pPainterWindow, pCtrlParent, pWndParent,
+                         rect, vCtrl, this, pchTag, pchText,
+                         lType, bPlaceHolder, lZKey, lTabStopNbr, lCtrlID )
+{
+#ifdef DEBUG_ALL
+   TraceLineS( "TZEditor::ctor", m_csTag );
+#endif
+
+// Attr.Style |= SS_LEFT;
+   CreateZ( );
+}
+
+void
+TZEditor::CreateZ( )
+{
+#ifdef DEBUG_ALL
+   TraceLineS( "TZEditor::CreateZ: ", m_csTag );
+#endif
+
+   CreateEx( WS_EX_CLIENTEDGE, "EDIT", m_csText,
+             Attr.Style, Attr.X, Attr.Y, Attr.W, Attr.H,
+             m_pWndParent->m_hWnd, (HMENU) -1 );
+}
+
+int
+TZEditor::OnCreate( LPCREATESTRUCT lpCreateStruct )
+{
+#ifdef DEBUG_ALL
+   TraceLineS( "TZEditor::OnCreate: ", m_csTag );
+#endif
+
+   if ( CEdit::OnCreate( lpCreateStruct ) == -1 )
+      return( -1 );
+
+   SetFontOverride( );
+   return( 0 );
+}
+
+// dtor
+TZEditor::~TZEditor( )
+{
+#ifdef DEBUG_ALL
+   TraceLineS( "TZEditor::dtor: ", m_csTag );
 #endif
 
    DestroyWindow( );

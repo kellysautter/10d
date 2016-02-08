@@ -2421,8 +2421,7 @@ ZDrFrame::OnQueryDrop( WPARAM wParam, LPARAM lParam )
 {
    zULONG ulSubtaskState = ZSubtask::GetSubtaskState( m_pZSubtask );
    ZMapAct *pzmaSrc = (ZMapAct *) lParam;
-   if ( (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) == 0 ||
-        pzmaSrc == 0 || pzmaSrc->m_pchDragDrop == 0 )
+   if ( (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) == 0 || pzmaSrc == 0 || pzmaSrc->m_pchDragDrop == 0 )
    {
       return( 0 );
    }

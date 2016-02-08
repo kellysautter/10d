@@ -182,16 +182,14 @@ ZModalDlg::OnInitDialog( )
 #endif
    ZSubtask::InitializeSubtaskState( m_pZSubtask, m_hWnd );
    m_pZSubtask->CreateDefaultFont( );
-   m_pZSubtask->m_ulSubtaskFlags = zSUBTASK_CREATED_MODAL |
-                                   zSUBTASK_SUBWND_CONVERSATIONAL;
+   m_pZSubtask->m_ulSubtaskFlags = zSUBTASK_CREATED_MODAL | zSUBTASK_SUBWND_CONVERSATIONAL;
 
    m_pZSubtask->EnableParentWindows( FALSE );
 
    if ( m_pZSubtask->m_vMsgQ == 0 )
    {
       GetViewByName( &vMsgQ, szl__MSGQ, m_pZSubtask->m_vDialog, zLEVEL_TASK );
-      CreateViewFromViewForTask( &(m_pZSubtask->m_vMsgQ), vMsgQ,
-                                 m_pZSubtask->m_vDialog );
+      CreateViewFromViewForTask( &(m_pZSubtask->m_vMsgQ), vMsgQ, m_pZSubtask->m_vDialog );
       SfLockView( m_pZSubtask->m_vMsgQ ); // we lock this view because it is
                                           // unnamed ... to prevent the OE from
                                           // automatically cleaning it up during
@@ -203,14 +201,11 @@ ZModalDlg::OnInitDialog( )
                          zPOS_FIRST | zQUAL_INTEGER,
                          &(m_pZSubtask->m_lTID), 0, 0, 0, 0, 0 ) < 0 )
    {
-      zUSHORT uLth = sizeof( zLONG ) + 2 * sizeof( zSHORT ) +
-                                                       10 * sizeof( zLONG );
+      zUSHORT uLth = sizeof( zLONG ) + 2 * sizeof( zSHORT ) + 10 * sizeof( zLONG );
 
       CreateEntity( m_pZSubtask->m_vMsgQ, szlTask, zPOS_LAST );
-      SetAttributeFromVariable( m_pZSubtask->m_vMsgQ, szlTask, szlId,
-                                &(m_pZSubtask->m_lTID), zTYPE_INTEGER, 0, 0, 0 );
-      SetAttributeFromVariable( m_pZSubtask->m_vMsgQ, szlTask, szlClient,
-                                szlZeidon, zTYPE_STRING, 0, 0, 0 );
+      SetAttributeFromVariable( m_pZSubtask->m_vMsgQ, szlTask, szlId, &(m_pZSubtask->m_lTID), zTYPE_INTEGER, 0, 0, 0 );
+      SetAttributeFromVariable( m_pZSubtask->m_vMsgQ, szlTask, szlClient, szlZeidon, zTYPE_STRING, 0, 0, 0 );
 
       pch = new char[ uLth ];
       *((zPSHORT) (pch + sizeof( zLONG ))) = 0;
@@ -238,8 +233,7 @@ ZModalDlg::OnInitDialog( )
       TraceLineI( "Hotkey length = ", ulHotkeyLth );
       TraceLineI( "zACCEL_ACTION = ", sizeof( zACCEL_TABLE ) );
       MessageSend( m_pZSubtask->m_vDialog, 0, *(m_pZSubtask->m_pzsDlgTag),
-                   "Hotkey length error - please resave .PWD",
-                   zMSGQ_MODAL_ERROR, FALSE );
+                   "Hotkey length error - please resave .PWD", zMSGQ_MODAL_ERROR, FALSE );
    }
 
    if ( ulGlobalHotkeyLth % sizeof( zACCEL_TABLE ) )
@@ -253,13 +247,10 @@ ZModalDlg::OnInitDialog( )
 
 // if ( ulHotkeyLth || ulGlobalHotkeyLth )
    {
-      k = (zSHORT) (ulHotkeyLth / sizeof( zACCEL_TABLE ) +
-                    ulGlobalHotkeyLth / sizeof( zACCEL_TABLE ));
+      k = (zSHORT) (ulHotkeyLth / sizeof( zACCEL_TABLE ) + ulGlobalHotkeyLth / sizeof( zACCEL_TABLE ));
       m_pZSubtask->m_pAccels = new char[ (k + 1) * sizeof( zACCEL_TABLE ) ];
-      GetBlobFromAttribute( m_pZSubtask->m_pAccels, &ulHotkeyLth,
-                            m_pZSubtask->m_vDialog, szlWnd, szlHotkey );
-      GetBlobFromAttribute( m_pZSubtask->m_pAccels + ulHotkeyLth,
-                            &ulGlobalHotkeyLth, vHotkey, szlApp, szlHotkey );
+      GetBlobFromAttribute( m_pZSubtask->m_pAccels, &ulHotkeyLth, m_pZSubtask->m_vDialog, szlWnd, szlHotkey );
+      GetBlobFromAttribute( m_pZSubtask->m_pAccels + ulHotkeyLth, &ulGlobalHotkeyLth, vHotkey, szlApp, szlHotkey );
       LPACCEL_TABLE lpAT = (LPACCEL_TABLE) m_pZSubtask->m_pAccels;
       lpAT[ k ].nID = -1;
 //    while ( k > 0 )
@@ -452,24 +443,19 @@ ZModalDlg::OnInitDialog( )
    }
 
    m_pZSubtask->m_ulWndOper = *((zPLONG) m_pZSubtask->m_pWndDef->OperCtrl);
-   ZSubtask::SetSubtaskState( m_pZSubtask, 0,
-                              zSUBTASK_STATE_PREBUILD_PRECODE );
+   ZSubtask::SetSubtaskState( m_pZSubtask, 0, zSUBTASK_STATE_PREBUILD_PRECODE );
 
    // Based on flags in the Dialog, do the right thing here (MDI/SDI, 3D)???
 #pragma mMSG( Override OnUpdateFrameTitle for setting caption )
    if ( m_pZSubtask->m_pWndDef->Caption[ 0 ] )
-      m_pZSubtask->SetCaptionTitle( m_pZSubtask->m_pWndDef->Caption,
-                                    0, FALSE );
+      m_pZSubtask->SetCaptionTitle( m_pZSubtask->m_pWndDef->Caption, 0, FALSE );
 
    if ( SetCursorFirstEntityByInteger( m_pZSubtask->m_vDialog, szlWndEvent,
-                                       szlType, zWND_EVENT_PRE_BUILD, 0 ) >
-                                                          zCURSOR_UNCHANGED )
+                                       szlType, zWND_EVENT_PRE_BUILD, 0 ) > zCURSOR_UNCHANGED )
    {
-      lRC = ProcessActionLoop( m_pZSubtask, szlWndAct, GetMessagePos( ), 0,
-                               0, TRUE, "PreBuild" );
+      lRC = ProcessActionLoop( m_pZSubtask, szlWndAct, GetMessagePos( ), 0, 0, TRUE, "PreBuild" );
       if ( (pZTask->m_uAppState & zAPP_STATE_TERMINATED) ||
-           ((ulSubtaskState = ZSubtask::GetSubtaskState( m_pZSubtask )) &
-                                            zSUBTASK_STATE_MARK_FOR_DELETE) )
+           ((ulSubtaskState = ZSubtask::GetSubtaskState( m_pZSubtask )) & zSUBTASK_STATE_MARK_FOR_DELETE) )
       {
          return( FALSE );
       }
@@ -481,8 +467,7 @@ ZModalDlg::OnInitDialog( )
       }
    }
 
-   ZSubtask::SetSubtaskState( m_pZSubtask, 0,
-                              zSUBTASK_STATE_PREBUILD_POSTCODE );
+   ZSubtask::SetSubtaskState( m_pZSubtask, 0, zSUBTASK_STATE_PREBUILD_POSTCODE );
 //PREBUILD_POSTCODE_label:
 
    m_pZSubtask->Attr.StyleEx = m_pZSubtask->m_pWndDef->StyleEx;
@@ -490,13 +475,11 @@ ZModalDlg::OnInitDialog( )
 
    m_pZSubtask->SetCaptionTitle( 0, 0 );
 
-   CreateZeidonCtrls( m_pZSubtask->m_vDialog, m_pZSubtask,
-                      this, 0, 0, 0, FALSE );
+   CreateZeidonCtrls( m_pZSubtask->m_vDialog, m_pZSubtask, this, 0, 0, 0, FALSE );
 
    if ( m_pZSubtask->m_pZMIXCtrl )
    {
-      m_pZSubtask->m_pZMIXCtrl->
-                   VisitInorder( (fnVISIT_INORDER) fnSetFirstLastFocus, 0 );
+      m_pZSubtask->m_pZMIXCtrl->VisitInorder( (fnVISIT_INORDER) fnSetFirstLastFocus, 0 );
       if ( m_pZSubtask->m_pzmaWithFocus &&
            m_pZSubtask->m_pzmaWithFocus->m_pCtrl &&
            mIs_hWnd( m_pZSubtask->m_pzmaWithFocus->m_pCtrl->m_hWnd ) )
@@ -505,8 +488,7 @@ ZModalDlg::OnInitDialog( )
       }
    }
 
-   ZSubtask::SetSubtaskState( m_pZSubtask, 0,
-                              zSUBTASK_STATE_POSTBUILD_PRECODE );
+   ZSubtask::SetSubtaskState( m_pZSubtask, 0, zSUBTASK_STATE_POSTBUILD_PRECODE );
 //POSTBUILD_PRECODE_label:
 
    if ( m_pZSubtask->m_pZFWnd && mIs_hWnd( m_pZSubtask->m_pZFWnd->m_hWnd ) )
@@ -530,10 +512,8 @@ ZModalDlg::OnInitDialog( )
       SHAppBarMessage( ABM_GETTASKBARPOS, &abd );
       UINT uEdge = GetTaskbarEdge( abd.rc );
 
-      if ( ReadWindowPlacement( m_pZSubtask->m_vDialog, "ZDR",
-                                *(m_pZSubtask->m_pzsDlgTag),
-                                *(m_pZSubtask->m_pzsWndTag), &wp ) &&
-           CheckWindowPos( &wp ) )
+      if ( ReadWindowPlacement( m_pZSubtask->m_vDialog, "ZDR", *(m_pZSubtask->m_pzsDlgTag),
+                                *(m_pZSubtask->m_pzsWndTag), &wp ) && CheckWindowPos( &wp ) )
       {
          if ( m_pZSubtask->m_pWndDef->Style == (WS_POPUP | WS_VISIBLE | WS_DLGFRAME) )
          {
@@ -622,20 +602,16 @@ ZModalDlg::OnInitDialog( )
    // in the common attributes in the PWD.
    if ( m_pZSubtask->m_pZMIXCtrl )
    {
-      m_pZSubtask->m_pZMIXCtrl->
-         VisitInorder( (fnVISIT_INORDER) fnDisableCtrls, 0 );
+      m_pZSubtask->m_pZMIXCtrl->VisitInorder( (fnVISIT_INORDER) fnDisableCtrls, 0 );
    }
 
    if ( (m_pZSubtask->m_ulWndOper & zWND_EVENT_POST_BUILD) &&
         SetCursorFirstEntityByInteger( m_pZSubtask->m_vDialog, szlWndEvent,
-                                       szlType, zWND_EVENT_POST_BUILD, 0 )
-                                                      > zCURSOR_UNCHANGED )
+                                       szlType, zWND_EVENT_POST_BUILD, 0 ) > zCURSOR_UNCHANGED )
    {
-      lRC = ProcessActionLoop( m_pZSubtask, szlWndAct, GetMessagePos( ), 0,
-                               0, TRUE, "PostBuild" );
+      lRC = ProcessActionLoop( m_pZSubtask, szlWndAct, GetMessagePos( ), 0, 0, TRUE, "PostBuild" );
       if ( (pZTask->m_uAppState & zAPP_STATE_TERMINATED) ||
-           ((ulSubtaskState = ZSubtask::GetSubtaskState( m_pZSubtask )) &
-                                            zSUBTASK_STATE_MARK_FOR_DELETE) )
+           ((ulSubtaskState = ZSubtask::GetSubtaskState( m_pZSubtask )) & zSUBTASK_STATE_MARK_FOR_DELETE) )
       {
          return( FALSE );
       }
@@ -647,8 +623,7 @@ ZModalDlg::OnInitDialog( )
       }
    }
 
-   ZSubtask::SetSubtaskState( m_pZSubtask, 0,
-                              zSUBTASK_STATE_POSTBUILD_POSTCODE );
+   ZSubtask::SetSubtaskState( m_pZSubtask, 0, zSUBTASK_STATE_POSTBUILD_POSTCODE );
 //POSTBUILD_POSTCODE_label:
 
    m_pZSubtask->MapFromOI( zMAP_FIRST_TIME );  // do mapping for all controls
@@ -668,8 +643,7 @@ ZModalDlg::OnInitDialog( )
       // We have disabled MessageBars in Conversational dialogs.
    // if ( m_pZSubtask->m_pDIL )
    // {
-   //    m_pZSubtask->m_pZFWnd->ShowControlBar( m_pZSubtask->m_pDIL,
-   //                                           TRUE, FALSE );
+   //    m_pZSubtask->m_pZFWnd->ShowControlBar( m_pZSubtask->m_pDIL, TRUE, FALSE );
    // }
    }
 
@@ -816,8 +790,7 @@ ZModalDlg::OnProcessAction( WPARAM wParam, LPARAM lParam )
    {
       zPCHAR pch;
 
-      GetAddrForAttribute( (zPCHAR *) &pch, m_pZSubtask->m_vDialog,
-                           szlAct, szlTag );
+      GetAddrForAttribute( (zPCHAR *) &pch, m_pZSubtask->m_vDialog, szlAct, szlTag );
       ProcessActionLoop( m_pZSubtask, pch, wParam, 0, 0, FALSE, szlHotkey );
    }
 
@@ -840,17 +813,12 @@ ZModalDlg::OnProcessHotkey( WPARAM wParam, LPARAM lParam )
 
    // Get access to hotkey object instance ... it must exist.
    GetViewByName( &vHotkey, szl__HKEY, m_pZSubtask->m_vDialog, zLEVEL_TASK );
-   SetEntityCursor( vHotkey, szlHotkey, 0,
-                    zPOS_FIRST | zPOS_RELATIVE, 0, 0, 0,
-                    (zSHORT) lParam, 0, 0 );
+   SetEntityCursor( vHotkey, szlHotkey, 0, zPOS_FIRST | zPOS_RELATIVE, 0, 0, 0, (zSHORT) lParam, 0, 0 );
    GetStringFromAttribute( szDLL_Name, sizeof( szDLL_Name ), vHotkey, szlHotkey, szlDLL );
    GetStringFromAttribute( szOperName, sizeof( szOperName ), vHotkey, szlHotkey, szlCOP );
 
-   lpfnDynRoutine = (zFARPROC_DRIVER)
-     GetOperationDynamicCallAddress( m_pZSubtask->m_vDialog,
-                                     (LPLPLIBRARY) &hHotkeyLibrary,
-                                     szDLL_Name, szOperName,
-                                     "(drvr hotkey)" );
+   lpfnDynRoutine = (zFARPROC_DRIVER) GetOperationDynamicCallAddress( m_pZSubtask->m_vDialog, (LPLPLIBRARY) &hHotkeyLibrary,
+                                                                      szDLL_Name, szOperName, "(drvr hotkey)" );
    if ( lpfnDynRoutine )
    {
       CWaitCursor wait;
@@ -897,9 +865,7 @@ ZModalDlg::OnPostedClose( WPARAM wParam, LPARAM lParam )
    if ( ulSubtaskState == zSUBTASK_STATE_ERROR )
      pZSubtask = 0;
 
-   if ( m_pZSubtask &&
-        (pZSubtask == m_pZSubtask ||
-         (wParam == -1 && lParam == (zLONG) m_hWnd)) )
+   if ( m_pZSubtask && (pZSubtask == m_pZSubtask || (wParam == -1 && lParam == (zLONG) m_hWnd)) )
    {
       ZTask *pZTask = m_pZSubtask->m_pZTask;
 
@@ -919,8 +885,7 @@ ZModalDlg::OnPostedClose( WPARAM wParam, LPARAM lParam )
          SHAppBarMessage( ABM_GETTASKBARPOS, &abd );
          UINT uEdge = GetTaskbarEdge( abd.rc );
 
-         // abd.rc contains the rectangular location of the taskbar in
-         // screen coordinates.
+         // abd.rc contains the rectangular location of the taskbar in screen coordinates.
          if ( uEdge == ABE_TOP )
          {
             wp.rcNormalPosition.top -= (abd.rc.bottom - abd.rc.top);

@@ -87,6 +87,7 @@ IDB_DAYTIMER            BITMAP  DISCARDABLE     "daytimer.bmp"
 IDB_DIL                 BITMAP  DISCARDABLE     "dil.bmp"
 IDB_EDITGRP             BITMAP  DISCARDABLE     "editgrp.bmp"
 IDB_EDIT                BITMAP  DISCARDABLE     "edit.bmp"
+IDB_EDITOR              BITMAP  DISCARDABLE     "editor.bmp"
 IDB_GRAPH               BITMAP  DISCARDABLE     "graph.bmp"
 IDB_GROUP               BITMAP  DISCARDABLE     "grp.bmp"
 IDB_GROUPBOX            BITMAP  DISCARDABLE     "group.bmp"
@@ -132,3 +133,4 @@ END
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
+

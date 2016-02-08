@@ -2022,7 +2022,8 @@ oTZERSASO_CompleteRelCreate( zVIEW vSubtask, zVIEW  vSubjectArea );
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
-oTZOPGRPO_GetViewForXGO( zPVIEW pvTZOPGRPO,
+oTZOPGRPO_GetViewForXGO( zVIEW  vSubtask,
+                         zPVIEW pvTZOPGRPO,
                          zSHORT CurrentOrReload );
 zOPER_EXPORT zSHORT OPERATION
 oTZOPGRPO_CommitXGO( zVIEW  vTZOPGRPO );
@@ -2040,11 +2041,14 @@ zOPER_EXPORT zSHORT OPERATION
 oTZOPSIGO_UniqueHdrName( zVIEW  vOperation,
                          zVIEW  vCM_List );
 zOPER_EXPORT zSHORT OPERATION
-oTZOPSIGO_RemoveHdrFromXGO( zVIEW  vOperation );
+oTZOPSIGO_RemoveHdrFromXGO( zVIEW vSubtask,
+                            zVIEW vOperation );
 zOPER_EXPORT zSHORT OPERATION
-oTZOPSIGO_ReplaceOrAddHdrToXGO( zVIEW  vOperation );
+oTZOPSIGO_ReplaceOrAddHdrToXGO( zVIEW vSubtask,
+                                zVIEW vOperation );
 zOPER_EXPORT zSHORT OPERATION
-oTZOPSIGO_AddHdrToXGO( zVIEW  vOperation );
+oTZOPSIGO_AddHdrToXGO( zVIEW vSubtask,
+                       zVIEW vOperation );
 
 /////////////////////////////////////////////////////////////////////////////
 //

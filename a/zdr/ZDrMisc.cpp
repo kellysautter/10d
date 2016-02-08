@@ -472,14 +472,11 @@ GetNextSubtaskWithinParent( zVIEW vSubtaskParent,
          {
             if ( g_pSubtaskList[ lPos ].pZSubtask &&
                  g_pSubtaskList[ lPos ].lTID == pZSubtaskParent->m_lTID &&
-                 (g_pSubtaskList[ lPos ].ulSubtaskState &
-                                       zSUBTASK_STATE_MARK_FOR_DELETE) == 0 )
+                 (g_pSubtaskList[ lPos ].ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) == 0 )
             {
                if ( (lFlag & 0x00000001) == 0 )
                {
-                  return( (zVIEW)
-                             SysGetPointerFromHandle( g_pSubtaskList[ lPos ].
-                                                                pvDialog ) );
+                  return( (zVIEW) SysGetPointerFromHandle( g_pSubtaskList[ lPos ].pvDialog ) );
                }
                else
                {
@@ -488,9 +485,7 @@ GetNextSubtaskWithinParent( zVIEW vSubtaskParent,
                   {
                      if ( pZSubtask->m_pZParent == pZSubtaskParent )
                      {
-                        return( (zVIEW)
-                             SysGetPointerFromHandle( g_pSubtaskList[ lPos ].
-                                                                pvDialog ) );
+                        return( (zVIEW) SysGetPointerFromHandle( g_pSubtaskList[ lPos ].pvDialog ) );
                      }
 
                      pZSubtask = pZSubtask->m_pZParent;
@@ -1294,12 +1289,10 @@ EnableZWindowsForApplication( ZSubtask *pZSubtask,
    {
       if ( g_pSubtaskList[ lItemCnt ].pZSubtask )
       {
-         if ( (g_pSubtaskList[ lItemCnt ].ulSubtaskState &
-                                      zSUBTASK_STATE_MARK_FOR_DELETE) == 0 &&
+         if ( (g_pSubtaskList[ lItemCnt ].ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) == 0 &&
               g_pSubtaskList[ lItemCnt ].lTID == pZSubtask->m_lTID )
               // &&
-              // (ulInterp & g_pSubtaskList[ lItemCnt ].ulSubtaskState) ==
-              //                                                   ulInterp )
+              // (ulInterp & g_pSubtaskList[ lItemCnt ].ulSubtaskState) == ulInterp )
          {
             if ( bEnable )
             {
@@ -1354,11 +1347,9 @@ GetIconForWindow( ZSubtask *pZSubtask )
    HICON hIcon = 0;
    zULONG ulSubtaskState = ZSubtask::GetSubtaskState( pZSubtask );
 
-   if ( (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) == 0 &&
-        pZSubtask->m_hLibrary )
+   if ( (ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) == 0 && pZSubtask->m_hLibrary )
    {
-      hIcon = ::LoadIcon( (HINSTANCE) pZSubtask->m_hLibrary->hLibrary,
-                          *(pZSubtask->m_pzsDlgTag) );
+      hIcon = ::LoadIcon( (HINSTANCE) pZSubtask->m_hLibrary->hLibrary, *(pZSubtask->m_pzsDlgTag) );
    }
 
    if ( hIcon == 0 )

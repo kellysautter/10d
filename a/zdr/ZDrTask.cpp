@@ -1889,8 +1889,7 @@ ZTask::NewZWnd( ZSubtask *pZParent,    // Zeidon parent window (subtask)
    else
 #endif
    {
-      if ( pZParent &&
-           (pZParent->m_ulSubtaskFlags & zSUBTASK_SUBWND_SPLITTER_PANE) )
+      if ( pZParent && (pZParent->m_ulSubtaskFlags & zSUBTASK_SUBWND_SPLITTER_PANE) )
       {
          pZSubtask = pZParent->GetSplitterMainSubtask( );
          if ( pZSubtask )

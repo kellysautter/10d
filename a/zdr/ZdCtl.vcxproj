@@ -176,6 +176,7 @@
     <ClCompile Include="ZdCtlDIL.cpp" />
     <ClCompile Include="ZdCtlDT.CPP" />
     <ClCompile Include="ZdCtlEDT.cpp" />
+    <ClCompile Include="ZdCtlEVW.cpp" />
     <ClCompile Include="ZdCtlGBX.cpp" />
     <ClCompile Include="ZdCtlHD.cpp" />
     <ClCompile Include="ZdCtlHDN.cpp" />
