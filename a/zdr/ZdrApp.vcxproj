@@ -86,6 +86,7 @@
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <AdditionalOptions>/FS</AdditionalOptions>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>

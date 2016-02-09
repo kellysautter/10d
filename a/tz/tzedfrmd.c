@@ -192,6 +192,12 @@ zBOOL   g_bMatchCase = FALSE;
 // Operation declarations
 
 zOPER_EXPORT zSHORT OPERATION
+GetWindowAndCtrl( ZSubtask **pWndReturn,
+                  ZMapAct  **pzmaReturn,
+                  zVIEW    vSubtask,
+                  zCPCHAR  cpcCtrlTag );
+
+zOPER_EXPORT zSHORT OPERATION
 SearchContinue( zVIEW vSubtask,
                 zLONG lDirectionFlag );
 zOPER_EXPORT zSHORT OPERATION
@@ -385,6 +391,8 @@ zOPER_EXPORT zBOOL OPERATION
 EDT_GetPositionByIndex( zVIEW vSubtask, zPLONG plLine, zPLONG plColumn );
 zOPER_EXPORT zBOOL OPERATION
 EDT_GetSelectedText( zVIEW vSubtask, zPCHAR pchText, zLONG lMaxLth );
+zOPER_EXPORT zLONG OPERATION
+EDT_GetSelectedTextLength( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_GetTextFromLineOfIndex( zVIEW vSubtask, zPCHAR pchBuffer, zLONG lMaxLth, zLONG lLine );
 zOPER_EXPORT zLONG OPERATION
@@ -427,6 +435,9 @@ zOPER_EXPORT zBOOL OPERATION
 EDT_ZeidonSyntaxOn( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_SyntaxOff( zVIEW vSubtask );
+zOPER_EXPORT zBOOL OPERATION
+EDT_OnSize( zVIEW vSubtask );
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Setup a comment in the current editor instance
@@ -581,6 +592,8 @@ FileIsEmpty( ZMapAct *pzma )
       zLONG lStartCol = 0;
       zLONG lEndLine = EDT_GetLineCount( pzma->m_pZSubtask->m_vDialog ) - 1;
       zLONG lEndCol = EDT_GetLineLength( pzma->m_pZSubtask->m_vDialog, lEndLine );
+      if ( lEndLine == 0 && lEndCol == 0 )
+         return TRUE;
 
       while ( bIsSpace && lByteCount > 0 )
       {
@@ -1947,7 +1960,7 @@ GotoCurrentOperation( zVIEW    vSubtask,
       // Find end of parm list.
       EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
       // Move cursor to beginning of next line.
-      EDT_SetCursorPositionByLine( vSubtask, lLine + 1, 3 );
+      EDT_SetCursorPositionByLine( vSubtask, lLine, 3 );
    }
 
    EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
@@ -2199,8 +2212,7 @@ InitSession( zVIEW  vSubtask )
       // There is no meta view so we must be opening the current file using
       // the Open/File menu command.  Get the file name.
       GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlEditor, "OpenFileName" );
-      if ( CompareAttributeToString( vEdWrk, szlEditor,
-                                     "OpenReadOnly", "Y" ) == 0 )
+      if ( CompareAttributeToString( vEdWrk, szlEditor, "OpenReadOnly", "Y" ) == 0 )
       {
          bReadOnly = TRUE;
       }
@@ -2314,6 +2326,12 @@ TZEDFRMD_ZeidonMenuSelected( zVIEW vSubtask )
    }
 
    return( 0 );
+}
+
+zOPER_EXPORT zSHORT OPERATION
+TZEDFRMD_OnSize( zVIEW vSubtask )
+{
+   return EDT_OnSize( vSubtask );
 }
 
 zOPER_EXPORT zSHORT OPERATION
@@ -2873,8 +2891,9 @@ SystemClose( zVIEW vSubtask )
    zVIEW    vProfileXFER = 0;
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
+   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+   
    // Are there any Subwindows of the control which have to be closed.
    if ( EDT_CloseSubWindow( vSubtask ) )
    {
@@ -2884,6 +2903,8 @@ SystemClose( zVIEW vSubtask )
 
    if ( TZEDFRMD_AskForSaveWithParse( vSubtask, PARSE_FILE ) < 0 )
       return( -1 );
+
+   pZSubtask->m_pZMIXCtrl->RemoveNode( pzma );
 
    // Save the current options values in the editor to the profile.
    mGetProfileView( &vProfileXFER, vSubtask );
@@ -2904,6 +2925,8 @@ SystemClose( zVIEW vSubtask )
 
    if ( g_nTrace )
       SetActionTrace( vSubtask, g_nTrace );
+
+   SetWindowActionBehavior( vSubtask, zWAB_ReturnToParent | zWAB_ProcessImmediateAction | zWAB_ProcessImmediateReturn, 0, 0 );
 
    return( 0 );
 
@@ -5325,7 +5348,7 @@ FileSaveAs( zVIEW vSubtask )
    zVIEW      vEdWrk;
    zCHAR      szMsg[ zMAX_FILENAME_LTH + 40 ];
    zCHAR      szFileName[ zMAX_FILENAME_LTH + 1 ];
-   zCHAR      szExtension[ 3 ];
+   zCHAR      szExtension[ 4 ];
    zULONG     ulZFlags = 0;
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
@@ -6294,7 +6317,6 @@ TZEDFRMD_EditFind( zVIEW vSubtask )
 {
    zPCHAR   pch = 0;
    CString  strBuffer;
-   zLONG    lBufferLth = 512;
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
    GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
@@ -6303,13 +6325,9 @@ TZEDFRMD_EditFind( zVIEW vSubtask )
    {
       if ( EDT_CanCopy( vSubtask ) ) // something is selected
       {
-         pch = strBuffer.GetBufferSetLength( lBufferLth );
-         zLONG lReturn = EDT_GetSelectedText( vSubtask, pch, lBufferLth );
-         while ( lReturn > lBufferLth )
-         {
-            lBufferLth = lReturn + 1;
-            lReturn = EDT_GetSelectedText( vSubtask, pch, lBufferLth );
-         }
+         zLONG lLth = EDT_GetSelectedTextLength( vSubtask ) + 1;
+         pch = strBuffer.GetBufferSetLength( lLth );
+         lLth = EDT_GetSelectedText( vSubtask, pch, lLth );
       }
    }
    else
@@ -6320,7 +6338,7 @@ TZEDFRMD_EditFind( zVIEW vSubtask )
    if ( pch == 0 )
       pch = g_strFindWhat.GetBufferSetLength( g_strFindWhat.GetLength( ) );
 
-   return( OperatorPromptFindReplace( vSubtask, pch,"", FALSE ) );
+   return( OperatorPromptFindReplace( vSubtask, pch, "", FALSE ) );
 
 } // TZEDFRMD_EditFind
 

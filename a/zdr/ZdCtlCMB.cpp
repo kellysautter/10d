@@ -1752,21 +1752,21 @@ ZComboBox::SelectExactString( zLONG lStartAfter, zCPCHAR cpcSearchString )
    zLONG lSearchLth = zstrlen( cpcSearchString );
    zLONG lCnt = GetCount();
 
-   TraceLine( "ZComboBox::SelectExactString for String: %s  Count: %d   Position1: %d", cpcSearchString, lCnt, lFirstPos );
+// TraceLine( "ZComboBox::SelectExactString for String: %s  Count: %d   Position1: %d", cpcSearchString, lCnt, lFirstPos );
 
    lPos = lFirstPos;
    while ( lLth != lSearchLth )
    {
       if ( lLth == CB_ERR )
       {
-         TraceLine( "ZComboBox::SelectExactString for String: %s  Position2: %d", cpcSearchString, lLth );
+      // TraceLine( "ZComboBox::SelectExactString for String: %s  Position2: %d", cpcSearchString, lLth );
          SetCurSel( lFirstPos );
          return( lFirstPos );
       }
 
       lLastPos = lPos;
       lPos = SelectString( lPos, cpcSearchString );
-      TraceLine( "ZComboBox::SelectExactString for String: %s  Position3: %d", cpcSearchString, lPos );
+   // TraceLine( "ZComboBox::SelectExactString for String: %s  Position3: %d", cpcSearchString, lPos );
       lLth = GetLBTextLen( lPos );
       if ( lLastPos == lPos || lLastPos == lFirstPos )
          break;
@@ -4495,7 +4495,7 @@ CB_SelectString( zVIEW   vSubtask,
          if ( lFlags & 1 )
          {
             lFirstPos = pCombo->SelectExactString( -1, cpcSearchString );
-            TraceLine( "CB_SelectString for String: %s  Position: %d", cpcSearchString, lFirstPos );
+         // TraceLine( "CB_SelectString for String: %s  Position: %d", cpcSearchString, lFirstPos );
          }
          else
          {

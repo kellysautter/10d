@@ -322,7 +322,7 @@ ProcessActionLoop( ZSubtask *pZSubtask,
       zPCHAR pch;
 
       GetAddrForAttribute( (zCOREMEM) &pch, pZSubtask->m_vDialog, cpcEntityName, szlTag );
-      lRC = ProcessAction( pZSubtask, pch, vResumeSubtask,lOperCtrl, cpcEvent );
+      lRC = ProcessAction( pZSubtask, pch, vResumeSubtask, lOperCtrl, cpcEvent );
    }
    else
       lRC = ProcessAction( pZSubtask, cpcEntityName, vResumeSubtask, lOperCtrl, cpcEvent );
@@ -381,7 +381,17 @@ ProcessAction( ZSubtask *pZSubtask,
 
    if ( cpcActionName == 0 && pAction->m_lActType == 0 )
       return( 0 );
-
+/*
+   if ( (pZSubtask->m_ulSubtaskFlags & zSUBTASK_PROCESSING_ACTIVATE) != 0 ||
+        (cpcEvent != 0 && (zstrcmp( cpcEvent, "Immediate" ) == 0 || zstrcmp( cpcEvent, "cpcEvent" ) == 0 || zstrcmp( cpcEvent, "OnActivate" ) == 0)) ||
+        (cpcActionName != 0 && (zstrstr( cpcActionName, "InitMenu" ) != 0 || zstrstr( cpcActionName, "ReceiveFocus" ) != 0)) )
+   {
+   }
+   else
+   {
+      TraceLineS( "=================================>>>> Processing Dialog Operation ", cpcActionName ? cpcActionName : cpcEvent );
+   }
+*/
    pZTask = pZSubtask->m_pZTask;
    pZSubtask->m_szActionName[ 0 ] = 0;  // dks conversational fix
 
@@ -638,8 +648,7 @@ ProcessAction( ZSubtask *pZSubtask,
 
                // This is against all structured programming rules and as such is clearly
                // indefensible, but here GOes anyway ...
-               continue;  // go back up (in code) and restart
-                          // processing this new action
+               continue;  // go back up (in code) and restart processing this new action
             }
 
             ActDef.Type = pAction->m_lActType;
@@ -2051,11 +2060,13 @@ fnProcessDialogOperationCode( ZSubtask *pZSubtask,
                                                                       pchDLL_Name, cpcCodeName, "(drvr5)" );
    if ( lpfnDynRoutine )
    {
+   /*
       if ( (pZSubtask->m_ulSubtaskFlags & zSUBTASK_PROCESSING_ACTIVATE) == 0 &&
-           zstrstr( cpcCodeName, "InitMenu" ) != 0 && zstrstr( cpcCodeName, "ReceiveFocus" ) != 0 )
+            zstrstr( cpcCodeName, "InitMenu" ) != 0 && zstrstr( cpcCodeName, "ReceiveFocus" ) != 0 )
       {
          TraceLineS( "=================================>>>> Processing Dialog Operation ", cpcCodeName );
       }
+   */
       pZSubtask->m_cpcCurrOper = cpcCodeName;
       try   // to catch any application generated exceptions
       {  // begin of try block

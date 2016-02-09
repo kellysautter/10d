@@ -21,7 +21,7 @@
 EXPORTS
 
 ;;
-;; Maximum Ordinal value in this "OPERATION" section is > @589 <
+;; Maximum Ordinal value in this "OPERATION" section is > @591 <
 ;;
 
    ActiveX                                                @19
@@ -80,6 +80,7 @@ EXPORTS
    EDT_GetObjectName                                      @566
    EDT_GetPositionByIndex                                 @567
    EDT_GetSelectedText                                    @556
+   EDT_GetSelectedTextLength                              @591
    EDT_GetTextFromLineOfIndex                             @558
    EDT_GetTextFromRange                                   @554
    EDT_GotoWindow                                         @569
@@ -87,6 +88,7 @@ EXPORTS
    EDT_IsCommentAtIndex                                   @541
    EDT_IsObjectChanged                                    @571
    EDT_IsReadOnly                                         @552
+   EDT_OnSize                                             @590
    EDT_OpenObject                                         @572
    EDT_PasteText                                          @573
    EDT_PrintObject                                        @574

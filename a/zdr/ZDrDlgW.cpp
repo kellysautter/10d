@@ -277,14 +277,12 @@ GetWindowAndCtrl( ZSubtask **pZSubtaskReturn,
             return( -2 );
          }
 
-         // Run through the list of Child windows to find the one with the
-         // specified name.
+         // Run through the list of Child windows to find the one with the specified name.
          CString csSeek( cpcCtrlTag );  // localize Tag for the seek
          *pzmaReturn = (ZMapAct *)(*pZSubtaskReturn)->m_pZMIXCtrl->SeekNode( &csSeek );
          if ( *pzmaReturn )
          {
-         // TraceLineS( "Located control by name = ",
-         //             (*pzmaReturn)->pzsTag );
+         // TraceLineS( "Located control by name = ", (*pzmaReturn)->pzsTag );
          // TraceLineI( "Located control by ID   = ", (*pzmaReturn)->nIdNbr );
             return( 0 );
          }
