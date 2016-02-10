@@ -5407,8 +5407,9 @@ void ZCrystalTextBuffer::CDeleteContext::RecalcPoint(CPoint &ptPoint)
 
 IMPLEMENT_DYNAMIC(ZCrystalTextBuffer, CCmdTarget)  // IMPLEMENT_DYNCREATE(ZCrystalTextBuffer, CCmdTarget)
 
-ZCrystalTextBuffer::ZCrystalTextBuffer()
+ZCrystalTextBuffer::ZCrystalTextBuffer( ZCrystalEditView *pED_Crystal )
 {
+   m_pED_Crystal = pED_Crystal;
    m_bInit = FALSE;     // text buffer not yet initialized ... must call InitNew or LoadFromFile early!
    m_bReadOnly = FALSE;
    m_bModified = FALSE;
@@ -5530,6 +5531,12 @@ static const char *crlfs[] =
    "\x0a\x0d",       // UNIX style
    "\x0a"            // Macintosh style
 };
+
+void
+ZCrystalTextBuffer::SetFileName(LPCTSTR cpcFileName)
+{
+   m_csFileName = cpcFileName;
+}
 
 CString
 ZCrystalTextBuffer::GetFileName()
@@ -6453,6 +6460,12 @@ BOOL ZCrystalTextBuffer::GetActionDescription(int nAction, CString &desc)
 void ZCrystalTextBuffer::SetModified(BOOL bModified /*= TRUE*/)
 {
    m_bModified = bModified;
+   CString cs = "Zeidon Editor - " + GetFileName();
+   if (bModified)
+   {
+      cs += "*";
+   }
+   m_pED_Crystal->m_pZSubtask->m_pZFWnd->SetWindowText( cs );
 }
 
 void ZCrystalTextBuffer::BeginUndoGroup(BOOL bMergeWithPrevious /*= FALSE*/)
@@ -7912,7 +7925,7 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
          BOOL bRC;
          SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 0, 0 );
          pED_Crystal->OnInitialUpdate();
-         pED_Crystal->m_pTextBuffer = new ZCrystalTextBuffer();
+         pED_Crystal->m_pTextBuffer = new ZCrystalTextBuffer(pED_Crystal);
          pED_Crystal->m_pTextBuffer->AddView(pED_Crystal);
       // pED_Crystal->AttachToBuffer(pED_Crystal->m_pTextBuffer);
          char *pchDot = strrchr( (char *) cpcFileName, '.' );
@@ -7927,6 +7940,7 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
                   pED_Crystal->m_chLang = 'C';
             }
          }
+         pED_Crystal->m_pTextBuffer->SetFileName(cpcFileName);
          bRC = pED_Crystal->m_pTextBuffer->LoadFromFile(cpcFileName);
          SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 1, 0 );
          if (::IsWindow(pED_Crystal->m_hWnd))

@@ -113,7 +113,8 @@ private:
    CBitmap *m_pCacheBitmap;
 
    // Line/character dimensions
-   int m_nLineHeight, m_nCharWidth;
+   int m_nLineHeight;
+   int m_nCharWidth;
    void CalcLineCharDim();
 
    // Text attributes
@@ -144,7 +145,9 @@ private:
 
    BOOL m_bPreparingToDrag;
    BOOL m_bDraggingText;
-   BOOL m_bDragSelection, m_bWordSelection, m_bLineSelection;
+   BOOL m_bDragSelection;
+   BOOL m_bWordSelection;
+   BOOL m_bLineSelection;
    UINT m_nDragSelTimer;
    CPoint WordToRight(CPoint pt);
    CPoint WordToLeft(CPoint pt);
@@ -450,7 +453,7 @@ protected:
    afx_msg void OnSysKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags );
    afx_msg void OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags );
    afx_msg void OnKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags );
-   afx_msg void OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags);
+   afx_msg void OnChar( UINT nChar, UINT uRepeatCnt, UINT uFlags );
    afx_msg UINT OnGetDlgCode();
    afx_msg void OnEditDeleteBack();
    afx_msg void OnEditUntab();
@@ -580,6 +583,7 @@ class ZDCTL_CLASS ZCrystalTextBuffer : public CCmdTarget
    DECLARE_DYNAMIC(ZCrystalTextBuffer)
 
 private:
+   ZCrystalEditView *m_pED_Crystal;
    BOOL m_bInit;
    BOOL m_bReadOnly;
    BOOL m_bModified;
@@ -692,7 +696,7 @@ protected:
 // Operations
 public:
    // Construction/destruction code
-   ZCrystalTextBuffer();
+   ZCrystalTextBuffer(ZCrystalEditView *pED_Crystal);
    ~ZCrystalTextBuffer();
 
    // Basic functions
@@ -700,6 +704,7 @@ public:
    BOOL LoadFromFile(LPCTSTR pszFileName, int nCrlfStyle = CRLF_STYLE_AUTOMATIC);
    BOOL SaveToFile(LPCTSTR pszFileName, int nCrlfStyle = CRLF_STYLE_AUTOMATIC, BOOL bClearModifiedFlag = TRUE);
    CString GetFileName();
+   void SetFileName(LPCTSTR cpcFileName);
    void FreeAll();
 
    // 'Dirty' flag
