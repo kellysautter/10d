@@ -275,7 +275,6 @@ MakeShortString( CDC *pDC, zPCHAR pchReturn, zLONG lMaxReturnLth,
    }
 
    strncpy_s( pchReturn, lMaxReturnLth, cpcString, lMaxReturnLth - 1 );
-   pchReturn[ lMaxReturnLth ] = 0;
    zSHORT nStringLth = (zSHORT) zstrlen( cpcString );
    CSize  size;
    zSHORT k;
@@ -294,15 +293,25 @@ MakeShortString( CDC *pDC, zPCHAR pchReturn, zLONG lMaxReturnLth,
    GetTextExtentPoint32( pDC->m_hDC, szThreeDots, sizeof( szThreeDots ), &size );
    zLONG lAddLth = size.cx;
 
-   for ( k = nStringLth - 1; k > 0; k-- )
-   {
-      pchReturn[ k ] = 0;
-      GetTextExtentPoint32( pDC->m_hDC, pchReturn, k, &size );
-      if ( pDC->m_bPrinting )
-         GetTextExtentPoint32( pDC->m_hAttribDC, pchReturn, k, &size );
+   if ( nStringLth >= lMaxReturnLth - 3 )
+      nStringLth = lMaxReturnLth - 3;
 
-      if ( (size.cx + lOffset + lAddLth) <= lColLth )
-         break;
+   if ( nStringLth > 0 )
+   {
+      for ( k = nStringLth - 1; k > 0; k-- )
+      {
+         pchReturn[ k ] = 0;
+         GetTextExtentPoint32( pDC->m_hDC, pchReturn, k, &size );
+         if ( pDC->m_bPrinting )
+            GetTextExtentPoint32( pDC->m_hAttribDC, pchReturn, k, &size );
+
+         if ( (size.cx + lOffset + lAddLth) <= lColLth )
+            break;
+      }
+   }
+   else
+   {
+      pchReturn[ 0 ] = 0;
    }
 
    strcat_s( pchReturn, lMaxReturnLth, szThreeDots );
