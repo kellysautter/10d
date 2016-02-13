@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO 02/10/16   13:08:59 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO 02/12/16   21:32:28 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -5912,8 +5912,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZEDFRMD
 aDesc      Dialog Frame for Editor
-aLastSyncDate 20160209194355077
-aLastUpdateDate 20160209194355077
+aLastSyncDate 20160210144809019
+aLastUpdateDate 20160210144809019
 
 eW_MetaDef 3
 aCPLR_ZKey 90037515

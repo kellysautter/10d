@@ -437,7 +437,10 @@ zOPER_EXPORT zBOOL OPERATION
 EDT_SyntaxOff( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_OnSize( zVIEW vSubtask );
-
+zOPER_EXPORT zBOOL OPERATION
+EDT_FindDialog( zVIEW vSubtask );
+zOPER_EXPORT zBOOL OPERATION
+EDT_ReplaceDialog( zVIEW vSubtask );
 
 /////////////////////////////////////////////////////////////////////////////
 // Setup a comment in the current editor instance
@@ -2904,7 +2907,8 @@ SystemClose( zVIEW vSubtask )
    if ( TZEDFRMD_AskForSaveWithParse( vSubtask, PARSE_FILE ) < 0 )
       return( -1 );
 
-   pZSubtask->m_pZMIXCtrl->RemoveNode( pzma );
+   if ( pZSubtask->m_pZMIXCtrl )
+      pZSubtask->m_pZMIXCtrl->RemoveNode( pzma );
 
    // Save the current options values in the editor to the profile.
    mGetProfileView( &vProfileXFER, vSubtask );
@@ -6315,6 +6319,11 @@ TZEDFRMD_EditRedo( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditFind( zVIEW vSubtask )
 {
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+   return EDT_FindDialog( vSubtask );
+/*
    zPCHAR   pch = 0;
    CString  strBuffer;
    ZSubtask *pZSubtask;
@@ -6339,6 +6348,7 @@ TZEDFRMD_EditFind( zVIEW vSubtask )
       pch = g_strFindWhat.GetBufferSetLength( g_strFindWhat.GetLength( ) );
 
    return( OperatorPromptFindReplace( vSubtask, pch, "", FALSE ) );
+*/
 
 } // TZEDFRMD_EditFind
 
@@ -6349,6 +6359,11 @@ TZEDFRMD_EditFind( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditReplace( zVIEW vSubtask )
 {
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+   return EDT_ReplaceDialog( vSubtask );
+   /*
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
    CString  strMsg,
@@ -6408,7 +6423,7 @@ TZEDFRMD_EditReplace( zVIEW vSubtask )
    }
 
    return( 0 );
-
+*/
 } // TZEDFRMD_EditReplace
 
 /////////////////////////////////////////////////////////////////////////////

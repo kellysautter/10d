@@ -138,9 +138,15 @@ nmake -f kzmsgqaa.mak
 @cd ..
 qff *.err /q /12
 @call cds a tz
+cd tzlodopr
+nmake %1 -f tzlodopr.mak
+cd ..\kzrpsrco
+nmake %1 -f kzrpsrco.mak
+@cd..
 qff *.err /q /11
 qff *.err /q /12
 qff *.err /q /91
+qff *.ler /q /180
 @call cds a ms
 @dir *.err /s
 @call cds a tz
@@ -157,3 +163,5 @@ qff *.err /q /91
 @echo                                    129 tzwdlg6o.err
 @echo                                    238 tzwebgl1.err
 @echo               10 File(s)          5,687 bytes
+
+dir *.ler

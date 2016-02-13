@@ -955,7 +955,7 @@ public:
 
    friend zOPER_EXPORT ZDecimal OPERATION
    operator /= ( ZDecimal zDec, double d );
-
+/*
    // declared here implemented in kzoedeca.cpp
    friend zOPER_EXPORT zSHORT OPERATION
    CommitMultipleOIs( zLONG   lViewCluster,
@@ -969,7 +969,7 @@ public:
                       zSHORT  nViewCount,
                       zPSHORT pnViewErrorIdx,
                       zLONG   lControl );
-
+*/
    zVIEW m_lpView;
 
 };  // ZDecimal class

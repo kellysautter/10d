@@ -101,6 +101,15 @@ BEGIN_MESSAGE_MAP(ZCrystalEditView, CView)
    ON_COMMAND(ID_EDIT_UNDO, OnEditUndo)
    ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, OnUpdateEditRedo)
    ON_COMMAND(ID_EDIT_REDO, OnEditRedo)
+   ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
+   ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, OnUpdateEditCopy)
+   ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
+   ON_UPDATE_COMMAND_UI(ID_EDIT_SELECT_ALL, OnUpdateEditSelectAll)
+   ON_COMMAND(ID_EDIT_FIND, OnEditFind)
+   ON_COMMAND(ID_EDIT_REPEAT, OnEditRepeat)
+   ON_UPDATE_COMMAND_UI(ID_EDIT_REPEAT, OnUpdateEditRepeat)
+   ON_COMMAND(ID_EDIT_FIND_PREVIOUS, OnEditFindPrevious)
+   ON_UPDATE_COMMAND_UI(ID_EDIT_FIND_PREVIOUS, OnUpdateEditFindPrevious)
    ON_WM_CREATE()
    ON_WM_DESTROY()
    ON_WM_SYSKEYDOWN( )
@@ -123,16 +132,7 @@ BEGIN_MESSAGE_MAP(ZCrystalEditView, CView)
    ON_WM_TIMER()
    ON_WM_KILLFOCUS()
    ON_WM_SETFOCUS()
-   ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, OnUpdateEditCopy)
-   ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_SELECT_ALL, OnUpdateEditSelectAll)
    ON_WM_SYSCOLORCHANGE()
-   ON_COMMAND(ID_EDIT_FIND, OnEditFind)
-   ON_COMMAND(ID_EDIT_REPEAT, OnEditRepeat)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_REPEAT, OnUpdateEditRepeat)
-   ON_COMMAND(ID_EDIT_FIND_PREVIOUS, OnEditFindPrevious)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_FIND_PREVIOUS, OnUpdateEditFindPrevious)
    //}}AFX_MSG_MAP
 
    ON_UPDATE_COMMAND_UI(ID_EDIT_INDICATOR_READ, OnUpdateIndicatorRead)
@@ -1406,12 +1406,12 @@ int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
    if (CView::OnCreate(lpCreateStruct) == -1)
       return -1;
-
+/*
    ASSERT(m_hAccel == NULL);
    m_hAccel = ::LoadAccelerators(GetResourceHandle(), MAKEINTRESOURCE(IDR_DEFAULT_ACCEL));
    ASSERT(m_hAccel != NULL);
 // return 0;
-
+*/
    ASSERT(m_pOleDropTarget == NULL);
    m_pOleDropTarget = new ZEditDropTargetImpl(this);
    if (! m_pOleDropTarget->Register(this))
@@ -2620,6 +2620,15 @@ void ZCrystalEditView::UpdateCaret()
       CreateSolidCaret(2, GetLineHeight());
       SetCaretPos(TextToClient(m_ptCursorPos));
       ShowCaret();
+      char szWork[ 16 ];
+      _itoa_s( m_ptCursorPos.y + 1, szWork, sizeof( szWork ), 10 );
+      CString csPos = "(Line: ";
+      csPos += szWork;
+      csPos += " , Col: ";
+      _itoa_s( m_ptCursorPos.x + 1, szWork, sizeof( szWork ), 10 );
+      csPos += szWork;
+      csPos += ")";
+      m_pZSubtask->SetStatusBarText( csPos, 3 );
    }
    else
    {
@@ -5544,6 +5553,18 @@ ZCrystalTextBuffer::GetFileName()
    return m_csFileName;
 }
 
+void
+ZCrystalTextBuffer::SetModifiedFileName(LPCTSTR cpcFileName)
+{
+   m_csModifiedFileName = cpcFileName;
+}
+
+CString
+ZCrystalTextBuffer::GetModifiedFileName()
+{
+   return m_csModifiedFileName;
+}
+
 // Called when opening a new document.
 BOOL ZCrystalTextBuffer::InitNew(int nCrlfStyle /*= CRLF_STYLE_DOS*/)
 {
@@ -6460,12 +6481,18 @@ BOOL ZCrystalTextBuffer::GetActionDescription(int nAction, CString &desc)
 void ZCrystalTextBuffer::SetModified(BOOL bModified /*= TRUE*/)
 {
    m_bModified = bModified;
-   CString cs = "Zeidon Editor - " + GetFileName();
-   if (bModified)
+   if ( m_pED_Crystal )
    {
-      cs += "*";
+      if (bModified)
+      {
+         m_pED_Crystal->m_pZSubtask->m_pZFWnd->SetWindowText( GetModifiedFileName() );
+      }
+      else
+      {
+         CString cs = "Zeidon Editor - " + GetFileName();
+         m_pED_Crystal->m_pZSubtask->m_pZFWnd->SetWindowText( cs );
+      }
    }
-   m_pED_Crystal->m_pZSubtask->m_pZFWnd->SetWindowText( cs );
 }
 
 void ZCrystalTextBuffer::BeginUndoGroup(BOOL bMergeWithPrevious /*= FALSE*/)
@@ -7941,6 +7968,11 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
             }
          }
          pED_Crystal->m_pTextBuffer->SetFileName(cpcFileName);
+         CString cs = "Zeidon Editor - ";
+         cs += cpcFileName;
+         cs += "*";
+         pED_Crystal->m_pTextBuffer->SetModifiedFileName( cs );
+
          bRC = pED_Crystal->m_pTextBuffer->LoadFromFile(cpcFileName);
          SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 1, 0 );
          if (::IsWindow(pED_Crystal->m_hWnd))
@@ -7994,6 +8026,46 @@ EDT_PrintObject( zVIEW vSubtask )
       }
 
       TraceLineS( "drvr - Invalid control type for EDT_PrintObject ", EDIT_CONTROL_NAME );
+   }
+   return( FALSE );
+}
+
+zOPER_EXPORT zBOOL OPERATION
+EDT_FindDialog( zVIEW vSubtask )
+{
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+
+   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
+   {
+      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
+      if ( pED_Crystal )
+      {
+         pED_Crystal->OnEditFind();
+         return( TRUE );
+      }
+
+      TraceLineS( "drvr - Invalid control type for EDT_FindDialog ", EDIT_CONTROL_NAME );
+   }
+   return( FALSE );
+}
+
+zOPER_EXPORT zBOOL OPERATION
+EDT_ReplaceDialog( zVIEW vSubtask )
+{
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+
+   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
+   {
+      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
+      if ( pED_Crystal )
+      {
+         pED_Crystal->OnEditReplace();
+         return( TRUE );
+      }
+
+      TraceLineS( "drvr - Invalid control type for EDT_ReplaceDialog ", EDIT_CONTROL_NAME );
    }
    return( FALSE );
 }

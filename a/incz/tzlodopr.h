@@ -2455,7 +2455,8 @@ xGetDefineInternalValue( zPCHAR pchInternalValue,
                          zLONG  lOperationClass,
                          zLONG  lDefineZKey );
 zOPER_EXPORT zSHORT OPERATION
-GetDefineInternalValue( zPCHAR pchInternalValue,
+GetDefineInternalValue( zVIEW  vSubtask,
+                        zPCHAR pchInternalValue,
                         zLONG  lDefineZKey );
 zOPER_EXPORT zSHORT OPERATION
 SetPointerValues( zPSHORT nStartStackPtr, zVIEW lpInterpSubtask );

@@ -275,30 +275,30 @@ MakeShortString( CDC *pDC, zPCHAR pchReturn, zLONG lMaxReturnLth,
    }
 
    strncpy_s( pchReturn, lMaxReturnLth, cpcString, lMaxReturnLth - 1 );
-   zSHORT nStringLth = (zSHORT) zstrlen( cpcString );
+   zLONG  lStringLth = zstrlen( cpcString );
    CSize  size;
-   zSHORT k;
+   zLONG  k;
 
    zCHAR szFontFace[ 32 ];
 
    GetTextFace( pDC->m_hDC, sizeof( szFontFace ), szFontFace );
    GetTextFace( pDC->m_hAttribDC, sizeof( szFontFace ), szFontFace );
-   GetTextExtentPoint32( pDC->m_hDC, cpcString, nStringLth, &size );
+   GetTextExtentPoint32( pDC->m_hDC, cpcString, lStringLth, &size );
    if ( pDC->m_bPrinting )
-      GetTextExtentPoint32( pDC->m_hAttribDC, cpcString, nStringLth, &size );
+      GetTextExtentPoint32( pDC->m_hAttribDC, cpcString, lStringLth, &size );
 
-   if ( nStringLth == 0 || (size.cx + lOffset) <= lColLth )
+   if ( lStringLth == 0 || (size.cx + lOffset) <= lColLth )
       return;
 
    GetTextExtentPoint32( pDC->m_hDC, szThreeDots, sizeof( szThreeDots ), &size );
    zLONG lAddLth = size.cx;
 
-   if ( nStringLth >= lMaxReturnLth - 3 )
-      nStringLth = lMaxReturnLth - 3;
+   if ( lStringLth >= lMaxReturnLth - 3 )
+      lStringLth = lMaxReturnLth - 3;
 
-   if ( nStringLth > 0 )
+   if ( lStringLth > 0 )
    {
-      for ( k = nStringLth - 1; k > 0; k-- )
+      for ( k = lStringLth - 1; k > 0; k-- )
       {
          pchReturn[ k ] = 0;
          GetTextExtentPoint32( pDC->m_hDC, pchReturn, k, &size );

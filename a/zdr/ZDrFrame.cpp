@@ -2055,17 +2055,17 @@ fnFindOption( ZMultiIdxSet *pMenu, UINT uID )
 BOOL
 ZDrFrame::OnCommand( WPARAM wParam, LPARAM lParam )
 {
- TraceLineX( "ZDrFrame::OnCommand wParam: ", wParam );
- TraceLineX( "ZDrFrame::OnCommand lParam: ", lParam );
+// TraceLineX( "ZDrFrame::OnCommand wParam: ", wParam );
+// TraceLineX( "ZDrFrame::OnCommand lParam: ", lParam );
 
    UINT k;
    UINT uID = LOWORD( wParam );
    UINT uNotifyCode = HIWORD( wParam );
    HWND hWndCtrl = (HWND) lParam;
 
- TraceLineI( "ZDrFrame::OnCommand NotifyCode = ", uNotifyCode );
- TraceLineI( "ZDrFrame::OnCommand hWndCtrl = ", (zLONG) hWndCtrl );
- TraceLineI( "ZDrFrame::OnCommand uID = ", uID );
+// TraceLineI( "ZDrFrame::OnCommand NotifyCode = ", uNotifyCode );
+// TraceLineI( "ZDrFrame::OnCommand hWndCtrl = ", (zLONG) hWndCtrl );
+// TraceLineI( "ZDrFrame::OnCommand uID = ", uID );
 
    if ( uID >= zZEIDON_FIRST_TOOLBAR_CMD && uID <= zZEIDON_LAST_TOOLBAR_CMD )
    {

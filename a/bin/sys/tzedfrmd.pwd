@@ -1,9 +1,9 @@
-z1000-Zeidon    TZEDFRMD TZWDLGSO 02/09/16   19:43:55 1.0b0   
+z1000-Zeidon    TZEDFRMD TZWDLGSO 02/10/16   14:48:08 1.0b0   
 eDialog    1
 aTag       TZEDFRMD
 aDLL_Name  TZEDFRMD
 aZKey      90004018
-aNextZKeyToAssign 190007213
+aNextZKeyToAssign 190007215
 aDesc      Dialog Frame for Editor
 
 eDfltWnd   2
@@ -69,9 +69,10 @@ aZKey      90034643
 aSubtype   1
 aPSDLG_X   2
 aPSDLG_Y   1
-aSZDLG_X   251
+aSZDLG_X   217
 aSZDLG_Y   15
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   5
 aZKey      90034644
@@ -89,14 +90,15 @@ aId        24
 aInvisible -1
 
 eCtrlCtrl  4
-aTag       DilItem4
+aTag       DilItem2
 aZKey      90034687
 aSubtype   2
-aPSDLG_X   256
+aPSDLG_X   221
 aPSDLG_Y   1
 aSZDLG_X   4
 aSZDLG_Y   15
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   5
 aZKey      90034688
@@ -107,11 +109,12 @@ eCtrlCtrl  4
 aTag       DilItem3
 aZKey      90034673
 aSubtype   1
-aPSDLG_X   266
+aPSDLG_X   230
 aPSDLG_Y   1
-aSZDLG_X   43
+aSZDLG_X   74
 aSZDLG_Y   15
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   5
 aZKey      90034674
@@ -119,15 +122,16 @@ aZKey      90034674
 eControlDef 5
 
 eCtrlCtrl  4
-aTag       DilItem2
+aTag       DilItem4
 aText      Ins
 aZKey      90034658
 aSubtype   2
-aPSDLG_X   315
+aPSDLG_X   306
 aPSDLG_Y   1
-aSZDLG_X   16
+aSZDLG_X   20
 aSZDLG_Y   15
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   5
 aZKey      90034659

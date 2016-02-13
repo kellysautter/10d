@@ -234,8 +234,8 @@ RereadStatement( zVIEW  vStatementView,
 
 zOPER_EXPORT zLONG OPERATION
 EvaluateExpression( zPVOID pResultOfExpression,
-                    zVIEW  lpInterpSubtask,
-                    zVIEW  lpAppSubtask,
+                    zVIEW  vInterpSubtask,
+                    zVIEW  vAppSubtask,
                     zVIEW  vStatementView,
                     zPVOID hWRKS )
 {
@@ -252,7 +252,7 @@ EvaluateExpression( zPVOID pResultOfExpression,
    zSHORT  nRC;
 
    // Get the stack object as it was loaded with the XPG
-   nRC = GetViewByName( &vStackObject, "StackObject", lpInterpSubtask, zLEVEL_SUBTASK );
+   nRC = GetViewByName( &vStackObject, "StackObject", vInterpSubtask, zLEVEL_SUBTASK );
 
    // Whenever a new expression is processed, we want to reset the work storage
    WRKS_Reset( hWRKS );
@@ -368,7 +368,7 @@ EvaluateExpression( zPVOID pResultOfExpression,
             {
                zCHAR szTemp[ 256 ]; // should be sufficient for a define
 
-               GetDefineInternalValue( szTemp, sWorkExpr.lOffset );
+               GetDefineInternalValue( vAppSubtask, szTemp, sWorkExpr.lOffset );
                sValueStack[ g_nStackPtr ].lpVal = fnWorkStorage( hWRKS, zstrlen( szTemp ) + 1 );
 
                strcpy_s( (zPCHAR)(sValueStack[ g_nStackPtr ].lpVal), zstrlen( szTemp ) + 1, szTemp );
@@ -381,7 +381,7 @@ EvaluateExpression( zPVOID pResultOfExpression,
                }
                else
                {
-                  GetDefineInternalValue( szTempNumber, sWorkExpr.lOffset );
+                  GetDefineInternalValue( vAppSubtask, szTempNumber, sWorkExpr.lOffset );
                   sValueStack[ g_nStackPtr ].lVal = zatol( szTempNumber );
                }
             }
@@ -440,7 +440,7 @@ EvaluateExpression( zPVOID pResultOfExpression,
             lRC = 0;
             if ( sWorkExpr.lOffset == qCLOSEOPER )
             {
-               lRC = SetUpOperationCall( lpInterpSubtask, (zSHORT) (lExprIndex + sizeof( sQExprStruct ) - MAXSTRING) );
+               lRC = SetUpOperationCall( vInterpSubtask, (zSHORT) (lExprIndex + sizeof( sQExprStruct ) - MAXSTRING) );
 
                g_nStackPtr++;
                if ( lRC != zXC_OPERATION_EXECUTED ) // If the operation was only partially completed (the operation is being interpreted) we return now.
@@ -451,7 +451,7 @@ EvaluateExpression( zPVOID pResultOfExpression,
             }
             else
             {
-               nRC = Operate( sWorkExpr.lOffset, nNumericType, lpInterpSubtask );
+               nRC = Operate( sWorkExpr.lOffset, nNumericType, vInterpSubtask );
 
                if ( sWorkExpr.lOffset == qEQUAL )
                {
@@ -500,7 +500,7 @@ EvaluateExpression( zPVOID pResultOfExpression,
 zOPER_EXPORT zSHORT OPERATION
 Operate( zLONG  lOperator,
          zSHORT nResultType,
-         zVIEW  lpInterpSubtask )
+         zVIEW  vInterpSubtask )
 {
 
    // nResultType is the type of the result in an equal expression.
@@ -738,7 +738,7 @@ Operate( zLONG  lOperator,
 
          if ( sValueStack[ g_nStackPtr + 1 ].lDataType == qTDECIMAL && sValueStack[ g_nStackPtr + 1 ].ldVal == 0 )
          {
-            MessageSend( lpInterpSubtask, "VM00204", "VML Interpretor",
+            MessageSend( vInterpSubtask, "VM00204", "VML Interpretor",
                          "Divisor in division statement is 0.",
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             break;
@@ -746,7 +746,7 @@ Operate( zLONG  lOperator,
 
          if ( sValueStack[ g_nStackPtr + 1 ].lDataType == qTINTEGER && sValueStack[ g_nStackPtr + 1 ].lVal == 0 )
          {
-            MessageSend( lpInterpSubtask, "VM00204", "VML Interpretor",
+            MessageSend( vInterpSubtask, "VM00204", "VML Interpretor",
                          "Divisor in division statement is 0.",
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             break;
@@ -935,7 +935,7 @@ zOPER_EXPORT zLONG OPERATION
 SetUpOperationCall( zVIEW  vInterpSubtask,
                     zSHORT nIndex )
 {
-   zVIEW lpAppSubtask;
+   zVIEW vAppSubtask;
    zVIEW vXPG;
    zVIEW vStatementView;
 
@@ -1013,7 +1013,7 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
 // DGC 9/10/2002         (zPCHAR) sValueStack[ lPosOfOper ].lpVal,
                          (zPCHAR) szReturnName,
                          sValueStack[ lPosOfOper ].lDataType );
-   GetViewByName( &lpAppSubtask, "ApplicationView", vInterpSubtask, zLEVEL_SUBTASK );
+   GetViewByName( &vAppSubtask, "ApplicationView", vInterpSubtask, zLEVEL_SUBTASK );
 
    if ( sValueStack[ lPosOfOper ].lDataType == qZEIDONOPERATION )
       strcpy_s( szCurrentName, sizeof( szCurrentName ), "" );
@@ -1029,7 +1029,7 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
    if ( sValueStack[ g_nStackPtr ].lDataType == qZEIDONOPERATION )
       lMode = -1;
    else
-      lMode = GetExecMode( vInterpSubtask, lpAppSubtask, szModuleName, szReturnName, szCurrentName );
+      lMode = GetExecMode( vInterpSubtask, vAppSubtask, szModuleName, szReturnName, szCurrentName );
 
    nDefinedParmIndex = 0;
 #if 0
@@ -1227,7 +1227,7 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
       nRC = GetViewByName( &vStatementView, "StatementView", vInterpSubtask, zLEVEL_SUBTASK );
       nRC = UpdateStackObjectFromViews( vInterpSubtask, g_vXPGView, vStatementView, nIndex, nStartStackPtr );
       g_nStackPtr = nStartStackPtr;
-      StageOperationCall( vInterpSubtask, lpAppSubtask, szModuleName, szReturnName );
+      StageOperationCall( vInterpSubtask, vAppSubtask, szModuleName, szReturnName );
 
       GetViewByName( &vXPG, "XPG", vInterpSubtask, zLEVEL_SUBTASK );
       GetViewByName( &vStatementView, "StatementView", vInterpSubtask, zLEVEL_SUBTASK );
@@ -1395,7 +1395,7 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
    if ( szModuleName[ 0 ] == 0 )
       hLib = SysLoadLibrary( vInterpSubtask, "KZOENGAA" );
    else
-      hLib = SysLoadLibrary( lpAppSubtask, szModuleName );
+      hLib = SysLoadLibrary( vAppSubtask, szModuleName );
 
    if ( hLib == 0 )
    {
@@ -1651,7 +1651,7 @@ GetOperationNameFromZKeyM2( zVIEW  vSubtask,
       }
 
       case qZEIDONOPERATION:
-         oTZOPGRPO_GetViewForXGO( &vLookupView, zSYS_CURRENT_OI );
+         oTZOPGRPO_GetViewForXGO( vSubtask, &vLookupView, zSYS_CURRENT_OI );
          break;
 
       default:
@@ -1755,7 +1755,7 @@ GetOperationParmList( zVIEW  vSubtask,
             break;
 
          case qZEIDONOPERATION:
-            oTZOPGRPO_GetViewForXGO( &vLookupView, zSYS_CURRENT_OI );
+            oTZOPGRPO_GetViewForXGO( vSubtask, &vLookupView, zSYS_CURRENT_OI );
             break;
 
          default:
@@ -1868,7 +1868,7 @@ GetOperationModuleName( zVIEW  vSubtask,
       }
 
       case qZEIDONOPERATION:
-         oTZOPGRPO_GetViewForXGO( &vLookupView, zSYS_CURRENT_OI );
+         oTZOPGRPO_GetViewForXGO( vSubtask, &vLookupView, zSYS_CURRENT_OI );
          SetCursorFirstEntityByInteger( vLookupView, szLookupEName, "ZKey", lZKey, "" );
          SetCursorFirstEntityByAttr( vLookupView, "SourceFileOfOperation", "ZKey", vLookupView, "SourceFile", "ZKey", "" );
          GetStringFromAttribute( szModuleName, sizeof( szModuleName ), vLookupView, "ExecComposite", "Name" );
@@ -1982,7 +1982,8 @@ ConvertZeidonTypeToVMLTypeS( zCHAR cZeidonType )
 }
 
 zOPER_EXPORT zSHORT OPERATION
-GetDefineInternalValue( zPCHAR szInternalValue,
+GetDefineInternalValue( zVIEW  vSubtask,
+                        zPCHAR szInternalValue,
                         zLONG  lDefineZKey )
 {
    zLONG lRC;
@@ -2013,7 +2014,7 @@ GetDefineInternalValue( zPCHAR szInternalValue,
    else
    {
       DropView( vLookupView );
-      oTZOPGRPO_GetViewForXGO( &vLookupView, zSYS_CURRENT_OI );
+      oTZOPGRPO_GetViewForXGO( vSubtask, &vLookupView, zSYS_CURRENT_OI );
       lRC = SetCursorFirstEntity( vLookupView, "OPERSIG", "" );
       if ( lRC == zCURSOR_SET )
       {

@@ -298,6 +298,8 @@ public:
    void GetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public
    void SetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public
    void UpdateCaret();  // moved to public
+   afx_msg void OnEditFind();  // moved to public
+   afx_msg void OnEditReplace();  // moved to public
 
    BOOL GetAutoIndent() const;
    void SetAutoIndent(BOOL bAutoIndent);
@@ -438,7 +440,6 @@ protected:
    afx_msg void OnRButtonDown(UINT uFlags, CPoint point);
    afx_msg void OnSysColorChange();
    afx_msg int  OnCreate(LPCREATESTRUCT lpCreateStruct);
-   afx_msg void OnEditFind();
    afx_msg void OnEditRepeat();
    afx_msg void OnUpdateEditRepeat(CCmdUI *pCmdUI);
    afx_msg void OnEditFindPrevious();                 // More search
@@ -461,7 +462,6 @@ protected:
    afx_msg void OnEditSwitchOvrmode();
    afx_msg void OnUpdateEditSwitchOvrmode(CCmdUI *pCmdUI);
 
-   afx_msg void OnEditReplace();
    afx_msg void OnUpdateEditUndo(CCmdUI *pCmdUI);
    afx_msg void OnEditUndo();
    afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
@@ -591,6 +591,7 @@ private:
    BOOL m_bCreateBackupFile;
    int  m_nUndoBufSize;
    CString m_csFileName;
+   CString m_csModifiedFileName;
    int  FindLineWithFlag(DWORD dwFlag);
 
 protected:
@@ -705,6 +706,8 @@ public:
    BOOL SaveToFile(LPCTSTR pszFileName, int nCrlfStyle = CRLF_STYLE_AUTOMATIC, BOOL bClearModifiedFlag = TRUE);
    CString GetFileName();
    void SetFileName(LPCTSTR cpcFileName);
+   CString GetModifiedFileName();
+   void SetModifiedFileName(LPCTSTR cpcModifiedFileName);
    void FreeAll();
 
    // 'Dirty' flag
