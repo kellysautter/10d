@@ -18,6 +18,7 @@ ren w\libr\ZdCtl.lib ZdCtl.lib.hld
 ren w\libr\ZDrApp.lib ZDrApp.lib.hld
 ren w\libr\kzrpsrco.lib kzrpsrco.lib.hld
 ren w\libz\tzlodopr.lib tzlodopr.lib.hld
+ren w\libz\tzvmpopr.lib tzvmpopr.lib.hld
 ren w\libz\tzvmledt.lib tzvmledt.lib.hld
 ren w\libz\truegrid.lib truegrid.lib.hld
 ren w\libz\truegrid.lib truegrid.lib.hld
@@ -66,6 +67,7 @@ ren w\libr\ZdCtl.lib.hld ZdCtl.lib
 ren w\libr\ZDrApp.lib.hld ZDrApp.lib
 ren w\libr\kzrpsrco.lib.hld kzrpsrco.lib
 ren w\libz\tzlodopr.lib.hld tzlodopr.lib
+ren w\libz\tzvmpopr.lib.hld tzvmpopr.lib
 ren w\libz\tzvmledt.lib.hld tzvmledt.lib
 ren w\libz\truegrid.lib.hld truegrid.lib
 ren w\libz\tzedfrmd.lib.hld tzedfrmd.lib

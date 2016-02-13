@@ -1,4 +1,4 @@
-# Microsoft Developer Studio Generated NMAKE File, Based on ZdrApp.dsp
+# Microsoft Developer Studio Generated NMAKE File, Based on ZDrApp.dsp
 !IF "$(CFG)" == ""
 CFG=ZDrApp - Win32 Release
 !MESSAGE No configuration specified. Defaulting to ZDrApp - Win32 Release.
@@ -9,7 +9,7 @@ CFG=ZDrApp - Win32 Release
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "ZdrApp.mak" CFG="ZDrApp - Win32 Release"
+!MESSAGE NMAKE /f "ZDrApp.mak" CFG="ZDrApp - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -82,7 +82,7 @@ CLEAN :
 	-@erase "$(INTDIR)\ZDrPrtC.obj"
 	-@erase "$(INTDIR)\ZDrSTask.obj"
 	-@erase "$(INTDIR)\ZDrTask.obj"
-	-@erase "$(INTDIR)\ZdrTwain.obj"
+	-@erase "$(INTDIR)\ZDrTwain.obj"
 	-@erase "$(INTDIR)\ZDrUtil.obj"
 	-@erase "$(INTDIR)\ZDrVCtrl.obj"
 	-@erase "$(INTDIR)\ZDrView.obj"
@@ -174,7 +174,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\ZDrPrtC.obj" \
 	"$(INTDIR)\ZDrSTask.obj" \
 	"$(INTDIR)\ZDrTask.obj" \
-	"$(INTDIR)\ZdrTwain.obj" \
+	"$(INTDIR)\ZDrTwain.obj" \
 	"$(INTDIR)\ZDrUtil.obj" \
 	"$(INTDIR)\ZDrVCtrl.obj" \
 	"$(INTDIR)\ZDrView.obj" \
@@ -282,8 +282,8 @@ CLEAN :
 	-@erase "$(INTDIR)\ZDrSTask.sbr"
 	-@erase "$(INTDIR)\ZDrTask.obj"
 	-@erase "$(INTDIR)\ZDrTask.sbr"
-	-@erase "$(INTDIR)\ZdrTwain.obj"
-	-@erase "$(INTDIR)\ZdrTwain.sbr"
+	-@erase "$(INTDIR)\ZDrTwain.obj"
+	-@erase "$(INTDIR)\ZDrTwain.sbr"
 	-@erase "$(INTDIR)\ZDrUtil.obj"
 	-@erase "$(INTDIR)\ZDrUtil.sbr"
 	-@erase "$(INTDIR)\ZDrVCtrl.obj"
@@ -376,7 +376,7 @@ BSC32_SBRS= \
 	"$(INTDIR)\ZDrPrtC.sbr" \
 	"$(INTDIR)\ZDrSTask.sbr" \
 	"$(INTDIR)\ZDrTask.sbr" \
-	"$(INTDIR)\ZdrTwain.sbr" \
+	"$(INTDIR)\ZDrTwain.sbr" \
 	"$(INTDIR)\ZDrUtil.sbr" \
 	"$(INTDIR)\ZDrVCtrl.sbr" \
 	"$(INTDIR)\ZDrView.sbr" \
@@ -426,7 +426,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\ZDrPrtC.obj" \
 	"$(INTDIR)\ZDrSTask.obj" \
 	"$(INTDIR)\ZDrTask.obj" \
-	"$(INTDIR)\ZdrTwain.obj" \
+	"$(INTDIR)\ZDrTwain.obj" \
 	"$(INTDIR)\ZDrUtil.obj" \
 	"$(INTDIR)\ZDrVCtrl.obj" \
 	"$(INTDIR)\ZDrView.obj" \
@@ -443,10 +443,10 @@ LINK32_OBJS= \
 
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
-!IF EXISTS("ZdrApp.dep")
-!INCLUDE "ZdrApp.dep"
+!IF EXISTS("ZDrApp.dep")
+!INCLUDE "ZDrApp.dep"
 !ELSE 
-!MESSAGE Warning: cannot find "ZdrApp.dep"
+!MESSAGE Warning: cannot find "ZDrApp.dep"
 !ENDIF 
 !ENDIF 
 
@@ -1010,18 +1010,18 @@ SOURCE=.\ZDrTask.cpp
 
 !ENDIF 
 
-SOURCE=.\ZdrTwain.cpp
+SOURCE=.\ZDrTwain.cpp
 
 !IF  "$(CFG)" == "ZDrApp - Win32 Release"
 
 
-"$(INTDIR)\ZdrTwain.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\ZDrApp.pch"
+"$(INTDIR)\ZDrTwain.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\ZDrApp.pch"
 
 
 !ELSEIF  "$(CFG)" == "ZDrApp - Win32 Debug"
 
 
-"$(INTDIR)\ZdrTwain.obj"	"$(INTDIR)\ZdrTwain.sbr" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\ZDrApp.pch"
+"$(INTDIR)\ZDrTwain.obj"	"$(INTDIR)\ZDrTwain.sbr" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\ZDrApp.pch"
 
 
 !ENDIF 

@@ -216,7 +216,7 @@ ZeidonCommOE_ThreadProc( zPVOID pParam )
 // ZDrApp
 
 BEGIN_MESSAGE_MAP(ZDrApp, CWinApp)
-   //{{AFX_MSG_MAP(ZdrApp)
+   //{{AFX_MSG_MAP(ZDrApp)
       // NOTE - the ClassWizard will add and remove mapping macros here.
       //    DO NOT EDIT what you see in these blocks of generated code!
    //}}AFX_MSG_MAP

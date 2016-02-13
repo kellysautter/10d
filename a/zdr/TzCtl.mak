@@ -1,4 +1,4 @@
-# Microsoft Developer Studio Generated NMAKE File, Based on Tzctl.dsp
+# Microsoft Developer Studio Generated NMAKE File, Based on TzCtl.dsp
 !IF "$(CFG)" == ""
 CFG=TzCtl - Win32 Release
 !MESSAGE No configuration specified. Defaulting to TzCtl - Win32 Release.
@@ -9,7 +9,7 @@ CFG=TzCtl - Win32 Release
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "Tzctl.mak" CFG="TzCtl - Win32 Release"
+!MESSAGE NMAKE /f "TzCtl.mak" CFG="TzCtl - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -320,10 +320,10 @@ LINK32_OBJS= \
 
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
-!IF EXISTS("Tzctl.dep")
-!INCLUDE "Tzctl.dep"
+!IF EXISTS("TzCtl.dep")
+!INCLUDE "TzCtl.dep"
 !ELSE 
-!MESSAGE Warning: cannot find "Tzctl.dep"
+!MESSAGE Warning: cannot find "TzCtl.dep"
 !ENDIF 
 !ENDIF 
 
@@ -661,24 +661,24 @@ SOURCE=.\TzCtlTBE.cpp
 
 "ZDrApp - Win32 Release" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Release" 
    cd "."
 
 "ZDrApp - Win32 ReleaseCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Release" RECURSE=1 CLEAN 
    cd "."
 
 !ELSEIF  "$(CFG)" == "TzCtl - Win32 Debug"
 
 "ZDrApp - Win32 Debug" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Debug" 
    cd "."
 
 "ZDrApp - Win32 DebugCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Debug" RECURSE=1 CLEAN 
    cd "."
 
 !ENDIF 

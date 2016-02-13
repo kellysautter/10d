@@ -942,24 +942,24 @@ SOURCE=.\ZdCtlVWG.cpp
 
 "ZDrApp - Win32 Release" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Release" 
    cd "."
 
 "ZDrApp - Win32 ReleaseCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Release" RECURSE=1 CLEAN 
    cd "."
 
 !ELSEIF  "$(CFG)" == "ZdCtl - Win32 Debug"
 
 "ZDrApp - Win32 Debug" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Debug" 
    cd "."
 
 "ZDrApp - Win32 DebugCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Debug" RECURSE=1 CLEAN 
    cd "."
 
 !ENDIF 

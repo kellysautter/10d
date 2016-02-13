@@ -15,11 +15,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>TzCtl</ProjectName>
-    <SccProjectName>TzCtl</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
+    <SccProjectName />
+    <SccLocalPath />
     <Keyword>MFCProj</Keyword>
-    <ProjectGuid>{DBD15B43-74C3-4280-A5E2-E518844410FB}</ProjectGuid>
+    <ProjectGuid>{DD6FBC7B-AE10-4B9E-832C-F8585315FF1B}</ProjectGuid>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -55,15 +54,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\Release\</OutDir>
-    <IntDir>.\Release\</IntDir>
+    <OutDir>..\Release\</OutDir>
+    <IntDir>..\Release\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(KZD):\$(KZV)\w\bin\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\src\mfc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -74,40 +72,36 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <TreatWarningAsError>false</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_AFXEXT;WIN32;_WINDOWS;__WIN32__;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Release\Tzctl.pch</PrecompiledHeaderOutputFile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>..\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>..\Release\Z2MP.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>TzCtl.h</PrecompiledHeaderFile>
-      <ObjectFileName>.\Release\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>..\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>..\Release\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Release\Tzctl.tlb</TypeLibraryName>
+      <TypeLibraryName>..\Release\Z2MP.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
     <ResourceCompile>
-      <Culture>0x0409</Culture>
+      <Culture>0x0407</Culture>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Release\Tzctl.bsc</OutputFile>
+      <OutputFile>..\Release\Z2MP.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>..\..\w\bin\TzCtl.dll</OutputFile>
-      <ImportLibrary>..\..\w\libr\TzCtl.lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ZdCtl.lib;ZDrApp.lib;kzoengaa.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\TzCtl.def</ModuleDefinitionFile>
+      <OutputFile>..\Release\Z2MP.dll</OutputFile>
+      <ImportLibrary>..\Release\Z2MP.lib</ImportLibrary>
+      <ModuleDefinitionFile>..\Z2MP.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -121,21 +115,22 @@
       <TreatWarningAsError>false</TreatWarningAsError>
       <MinimalRebuild>true</MinimalRebuild>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_DEBUG;QUINSOFT;_AFXEXT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\src\mfc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_USRDLL;_DEBUG;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>..\Debug\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
-      <PrecompiledHeaderOutputFile>.\Debug\Tzctl.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>..\Debug\Z2MP.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>TzCtl.h</PrecompiledHeaderFile>
-      <ObjectFileName>.\Debug\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+      <PrecompiledHeaderFile>mpna81.h</PrecompiledHeaderFile>
+      <ObjectFileName>..\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>..\Debug\</ProgramDataBaseFileName>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/FS</AdditionalOptions>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Debug\Tzctl.tlb</TypeLibraryName>
+      <TypeLibraryName>..\Debug\Z2MP.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -145,7 +140,7 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Debug/ZDr.bsc</OutputFile>
+      <OutputFile>..\Debug\Z2MP.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -155,85 +150,32 @@
       <OutputFile>$(KZD):\$(KZV)\w\bin\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>$(KZD):\$(KZV)\w\libr\$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ZdCtl.lib;ZDrApp.lib;kzoengaa.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\$(TargetName).def</ModuleDefinitionFile>
-      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>kzoengaa.lib;ZDrApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>..\$(TargetName).def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="TzCtl.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TzCtl.h</PrecompiledHeaderFile>
+    <ClCompile Include="..\mpna81.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TzCtl.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mpna81.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="TzCtlATX.cpp" />
-    <ClCompile Include="TzCtlCVT.cpp" />
-    <ClCompile Include="TzCtlERD.cpp" />
-    <ClCompile Include="TzCtlERE.cpp" />
-    <ClCompile Include="TzCtlERL.cpp" />
-    <ClCompile Include="TzCtlERV.cpp" />
-    <ClCompile Include="TzCtlOPR.cpp" />
-    <ClCompile Include="TzCtlPTB.cpp" />
-    <ClCompile Include="TzCtlPTC.cpp" />
-    <ClCompile Include="TzCtlPTE.cpp" />
-    <ClCompile Include="TzCtlPTM.cpp" />
-    <ClCompile Include="TzCtlPTR.cpp" />
-    <ClCompile Include="TzCtlPTS.cpp" />
-    <ClCompile Include="TzCtlPTU.cpp" />
-    <ClCompile Include="TzCtlPTX.cpp" />
-    <ClCompile Include="TzCtlTAB.cpp" />
-    <ClCompile Include="TzCtlTBE.cpp" />
+    <ClCompile Include="..\Z2MP.cpp" />
+    <ClCompile Include="..\Z2MPAPI.CPP" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="TzCtl.def" />
+    <CustomBuild Include="..\res\Z2MP.rc2" />
+    <CustomBuild Include="..\Z2MP.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="TzCtl.rc" />
+    <ResourceCompile Include="..\Z2MP.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="TzCtl.h" />
+    <ClInclude Include="..\mpna81.h" />
+    <ClInclude Include="..\Resource.h" />
+    <ClInclude Include="..\Z2MP.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bitmap.bmp" />
-    <Image Include="bmpctl.bmp" />
-    <Image Include="calendar.bmp" />
-    <Image Include="check.bmp" />
-    <Image Include="combo.bmp" />
-    <Image Include="ctrlbar.bmp" />
-    <Image Include="DayTimer.bmp" />
-    <Image Include="dil.bmp" />
-    <Image Include="edit.bmp" />
-    <Image Include="editgrp.bmp" />
-    <Image Include="graph.bmp" />
-    <Image Include="group.bmp" />
-    <Image Include="grp.bmp" />
-    <Image Include="grpset.bmp" />
-    <Image Include="hierdgrm.bmp" />
-    <Image Include="icon.bmp" />
-    <Image Include="list.bmp" />
-    <Image Include="mle.bmp" />
-    <Image Include="outliner.bmp" />
-    <Image Include="palette.bmp" />
-    <Image Include="push.bmp" />
-    <Image Include="radio.bmp" />
-    <Image Include="shape.bmp" />
-    <Image Include="ss.bmp" />
-    <Image Include="tab.bmp" />
-    <Image Include="text.bmp" />
-    <Image Include="timer.bmp" />
-    <Image Include="Toolbar.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="ZdCtl.vcxproj">
-      <Project>{126fc027-c562-4dbe-9a83-a502513e9f02}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="ZdrApp.vcxproj">
-      <Project>{9fb0ccae-7409-40ab-bd2a-fe501c681094}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
+    <Text Include="..\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

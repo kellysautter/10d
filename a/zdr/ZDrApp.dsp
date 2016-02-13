@@ -8,12 +8,12 @@ CFG=ZDrApp - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "ZdrApp.mak".
+!MESSAGE NMAKE /f "ZDrApp.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "ZdrApp.mak" CFG="ZDrApp - Win32 Release"
+!MESSAGE NMAKE /f "ZDrApp.mak" CFG="ZDrApp - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -240,7 +240,7 @@ SOURCE=.\ZDrTask.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ZdrTwain.cpp
+SOURCE=.\ZDrTwain.cpp
 # End Source File
 # Begin Source File
 

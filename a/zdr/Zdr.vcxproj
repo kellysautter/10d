@@ -78,7 +78,7 @@
       <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;__WIN32__;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Release\Zdr.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>.\Release\ZDr.pch</PrecompiledHeaderOutputFile>
       <ObjectFileName>.\Release\</ObjectFileName>
       <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
       <AdditionalOptions>/FS</AdditionalOptions>
@@ -86,7 +86,7 @@
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Release\Zdr.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Release\ZDr.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -96,7 +96,7 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Release\Zdr.bsc</OutputFile>
+      <OutputFile>.\Release\ZDr.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -121,7 +121,7 @@
       <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_DEBUG;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
-      <PrecompiledHeaderOutputFile>.\Debug\Zdr.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>.\Debug\ZDr.pch</PrecompiledHeaderOutputFile>
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <AdditionalOptions>/FS</AdditionalOptions>
@@ -130,7 +130,7 @@
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Debug\Zdr.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Debug\ZDr.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -140,7 +140,7 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Debug\Zdr.bsc</OutputFile>
+      <OutputFile>.\Debug\ZDr.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -251,10 +251,6 @@
     <CustomBuild Include="XSPLIT.cur" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\w\tz\tzedvmld.vcxproj">
-      <Project>{62004c7d-8b52-4e80-b367-1d2b0215a8d9}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\tz\ax\truegrid\truegrid.vcxproj">
       <Project>{2b68362b-0336-4e95-959f-62a143748f45}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -263,19 +259,11 @@
       <Project>{056f321b-4498-4b42-bb50-9c1b7d062f3c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\tz\ax\tzvmledt\tzvmledt.vcxproj">
-      <Project>{559592b4-3b66-4206-870b-06dfc4c72611}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\tz\ax\_edit\tbedit.vcxproj">
-      <Project>{0b62d126-4046-47e9-b3e0-05bee677cd5e}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="jpeglib\JPegLib.vcxproj">
       <Project>{87f9cc3f-44b0-4eef-9c90-a7901ce420d9}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="Tzctl.vcxproj">
+    <ProjectReference Include="TzCtl\TzCtl.vcxproj">
       <Project>{dbd15b43-74c3-4280-a5e2-e518844410fb}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
@@ -283,11 +271,11 @@
       <Project>{dd6fbc7b-ae10-4b9e-832c-f8585315ff1b}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="ZdCtl.vcxproj">
+    <ProjectReference Include="ZdCtl\ZdCtl.vcxproj">
       <Project>{126fc027-c562-4dbe-9a83-a502513e9f02}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="ZdrApp.vcxproj">
+    <ProjectReference Include="ZDrApp\ZDrApp.vcxproj">
       <Project>{9fb0ccae-7409-40ab-bd2a-fe501c681094}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

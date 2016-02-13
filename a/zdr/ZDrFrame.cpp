@@ -989,7 +989,7 @@ ZDrFrame::DestroyWindow( )
 
    // TraceRect( "ZDrFrame::OnDestroy NormalPos:", wp.rcNormalPosition );
    // TraceRect( "ZDRFrame::OnDestroy abd.rc:", abd.rc );
-   // TraceLineI( "ZdrFrame::OnDestroy uEdge", uEdge );
+   // TraceLineI( "ZDrFrame::OnDestroy uEdge", uEdge );
 
       // abd.rc contains the rectangular location of the taskbar in
       // screen coordinates.

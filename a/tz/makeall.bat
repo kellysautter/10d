@@ -7,7 +7,9 @@ shift
 del *.err
 del *.ler
 cls
-cd account
+cd tzvmlip
+nmake %1 -f tzvmlip.mak
+cd ..\account
 nmake %1 -f account.mak
 cd ..\kzrpsrco
 nmake %1 -f kzrpsrco.mak
@@ -101,8 +103,6 @@ cd ..\tztedbld
 nmake %1 -f tztedbld.mak
 cd ..\tzteupdd
 nmake %1 -f tzteupdd.mak
-cd ..\tzvmlip
-nmake %1 -f tzvmlip.mak
 cd ..\tzvmlopr
 nmake %1 -f tzvmlopr.mak
 cd ..\tzvmpopr

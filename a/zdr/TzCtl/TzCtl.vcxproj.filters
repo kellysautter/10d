@@ -15,63 +15,63 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TzCtl.cpp">
+    <ClCompile Include="..\TzCtl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlATX.cpp">
+    <ClCompile Include="..\TzCtlATX.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlCVT.cpp">
+    <ClCompile Include="..\TzCtlCVT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlERD.cpp">
+    <ClCompile Include="..\TzCtlERD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlERE.cpp">
+    <ClCompile Include="..\TzCtlERE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlERL.cpp">
+    <ClCompile Include="..\TzCtlERL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlERV.cpp">
+    <ClCompile Include="..\TzCtlERV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlOPR.cpp">
+    <ClCompile Include="..\TzCtlOPR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlPTB.cpp">
+    <ClCompile Include="..\TzCtlPTB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlPTC.cpp">
+    <ClCompile Include="..\TzCtlPTC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlPTE.cpp">
+    <ClCompile Include="..\TzCtlPTE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlPTM.cpp">
+    <ClCompile Include="..\TzCtlPTM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlPTR.cpp">
+    <ClCompile Include="..\TzCtlPTR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlPTS.cpp">
+    <ClCompile Include="..\TzCtlPTS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlPTU.cpp">
+    <ClCompile Include="..\TzCtlPTU.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlPTX.cpp">
+    <ClCompile Include="..\TzCtlPTX.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlTAB.cpp">
+    <ClCompile Include="..\TzCtlTAB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TzCtlTBE.cpp">
+    <ClCompile Include="..\TzCtlTBE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="TzCtl.rc">
+    <ResourceCompile Include="..\TzCtl.rc">
       <Filter>Source Files</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -79,98 +79,98 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TzCtl.h">
+    <ClInclude Include="..\TzCtl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bitmap.bmp">
+    <Image Include="..\bitmap.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="bmpctl.bmp">
+    <Image Include="..\bmpctl.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="calendar.bmp">
+    <Image Include="..\calendar.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="check.bmp">
+    <Image Include="..\check.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="combo.bmp">
+    <Image Include="..\combo.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="ctrlbar.bmp">
+    <Image Include="..\ctrlbar.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="DayTimer.bmp">
+    <Image Include="..\DayTimer.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="dil.bmp">
+    <Image Include="..\dil.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="edit.bmp">
+    <Image Include="..\edit.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="editgrp.bmp">
+    <Image Include="..\editgrp.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="graph.bmp">
+    <Image Include="..\graph.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="group.bmp">
+    <Image Include="..\group.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="grp.bmp">
+    <Image Include="..\grp.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="grpset.bmp">
+    <Image Include="..\grpset.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="hierdgrm.bmp">
+    <Image Include="..\hierdgrm.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="icon.bmp">
+    <Image Include="..\icon.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="list.bmp">
+    <Image Include="..\list.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="mle.bmp">
+    <Image Include="..\mle.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="outliner.bmp">
+    <Image Include="..\outliner.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="palette.bmp">
+    <Image Include="..\palette.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="push.bmp">
+    <Image Include="..\push.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="radio.bmp">
+    <Image Include="..\radio.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="shape.bmp">
+    <Image Include="..\shape.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="ss.bmp">
+    <Image Include="..\ss.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="tab.bmp">
+    <Image Include="..\tab.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="text.bmp">
+    <Image Include="..\text.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="timer.bmp">
+    <Image Include="..\timer.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Toolbar.bmp">
+    <Image Include="..\Toolbar.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="TzCtl.def">
+    <CustomBuild Include="..\TzCtl.def">
       <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>

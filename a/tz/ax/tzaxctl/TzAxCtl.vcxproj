@@ -69,7 +69,7 @@
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
@@ -176,15 +176,15 @@
     <CustomBuild Include="TzAxCtl.def" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\zdr\Tzctl.vcxproj">
+    <ProjectReference Include="..\..\..\zdr\TzCtl\TzCtl.vcxproj">
       <Project>{dbd15b43-74c3-4280-a5e2-e518844410fb}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\zdr\ZdCtl.vcxproj">
+    <ProjectReference Include="..\..\..\zdr\ZdCtl\ZdCtl.vcxproj">
       <Project>{126fc027-c562-4dbe-9a83-a502513e9f02}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\zdr\ZdrApp.vcxproj">
+    <ProjectReference Include="..\..\..\zdr\ZDrApp\ZDrApp.vcxproj">
       <Project>{9fb0ccae-7409-40ab-bd2a-fe501c681094}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

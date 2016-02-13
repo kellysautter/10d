@@ -52,7 +52,7 @@
       <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>

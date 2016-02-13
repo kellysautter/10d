@@ -44,7 +44,7 @@
 //    Overload method OnMouseActivate for ZDrView.
 //
 // 2001.03.28    TMV   2000   ActiveX
-//    Changed ZdrView::InitAmbientProperties to get COLOR_WINDOWTEXT
+//    Changed ZDrView::InitAmbientProperties to get COLOR_WINDOWTEXT
 //    instead of RGB( 255, 0, 0 ).
 //
 // 2001.03.27    DKS

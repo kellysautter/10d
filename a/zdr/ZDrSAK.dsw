@@ -36,7 +36,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "TzCtl"=.\Tzctl.dsp - Package Owner=<4>
+Project: "TzCtl"=.\TzCtl.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -48,7 +48,7 @@ Package=<4>
     Project_Dep_Name ZdCtl
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name ZdrApp
+    Project_Dep_Name ZDrApp
     End Project Dependency
 }}}
 
@@ -66,7 +66,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZDr"=.\Zdr.dsp - Package Owner=<4>
+Project: "ZDr"=.\ZDr.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -108,7 +108,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZDrApp"=.\ZdrApp.dsp - Package Owner=<4>
+Project: "ZDrApp"=.\ZDrApp.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -129,7 +129,7 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
-    Project_Dep_Name ZdrApp
+    Project_Dep_Name ZDrApp
     End Project Dependency
 }}}
 
@@ -150,7 +150,7 @@ Package=<4>
     Project_Dep_Name ZdCtl
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name ZdrApp
+    Project_Dep_Name ZDrApp
     End Project Dependency
 }}}
 

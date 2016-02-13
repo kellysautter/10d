@@ -1,4 +1,4 @@
-# Microsoft Developer Studio Generated NMAKE File, Based on Zdr.dsp
+# Microsoft Developer Studio Generated NMAKE File, Based on ZDr.dsp
 !IF "$(CFG)" == ""
 CFG=ZDr - Win32 Release
 !MESSAGE No configuration specified. Defaulting to ZDr - Win32 Release.
@@ -9,7 +9,7 @@ CFG=ZDr - Win32 Release
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "Zdr.mak" CFG="ZDr - Win32 Release"
+!MESSAGE NMAKE /f "ZDr.mak" CFG="ZDr - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -91,7 +91,7 @@ MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32
 RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\ZDr.res" /d "NDEBUG" /d "_AFXDLL" 
 BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\Zdr.bsc" 
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\ZDr.bsc" 
 BSC32_SBRS= \
 	
 LINK32=link.exe
@@ -189,7 +189,7 @@ MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32
 RSC=rc.exe
 RSC_PROJ=/l 0x409 /fo"$(INTDIR)\ZDr.res" /d "_DEBUG" /d "_AFXDLL" 
 BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\Zdr.bsc" 
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\ZDr.bsc" 
 BSC32_SBRS= \
 	"$(INTDIR)\ZDr.sbr"
 
@@ -223,10 +223,10 @@ LINK32_OBJS= \
 
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
-!IF EXISTS("Zdr.dep")
-!INCLUDE "Zdr.dep"
+!IF EXISTS("ZDr.dep")
+!INCLUDE "ZDr.dep"
 !ELSE 
-!MESSAGE Warning: cannot find "Zdr.dep"
+!MESSAGE Warning: cannot find "ZDr.dep"
 !ENDIF 
 !ENDIF 
 
@@ -292,24 +292,24 @@ SOURCE=.\ZDr.rc
 
 "TzCtl - Win32 Release" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Release" 
+   $(MAKE) /$(MAKEFLAGS) /F .\TzCtl.mak CFG="TzCtl - Win32 Release" 
    cd "."
 
 "TzCtl - Win32 ReleaseCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Release" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F .\TzCtl.mak CFG="TzCtl - Win32 Release" RECURSE=1 CLEAN 
    cd "."
 
 !ELSEIF  "$(CFG)" == "ZDr - Win32 Debug"
 
 "TzCtl - Win32 Debug" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Debug" 
+   $(MAKE) /$(MAKEFLAGS) /F .\TzCtl.mak CFG="TzCtl - Win32 Debug" 
    cd "."
 
 "TzCtl - Win32 DebugCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\Tzctl.mak CFG="TzCtl - Win32 Debug" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F .\TzCtl.mak CFG="TzCtl - Win32 Debug" RECURSE=1 CLEAN 
    cd "."
 
 !ENDIF 
@@ -344,24 +344,24 @@ SOURCE=.\ZDr.rc
 
 "ZDrApp - Win32 Release" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Release" 
    cd "."
 
 "ZDrApp - Win32 ReleaseCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Release" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Release" RECURSE=1 CLEAN 
    cd "."
 
 !ELSEIF  "$(CFG)" == "ZDr - Win32 Debug"
 
 "ZDrApp - Win32 Debug" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Debug" 
    cd "."
 
 "ZDrApp - Win32 DebugCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F .\ZdrApp.mak CFG="ZDrApp - Win32 Debug" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F .\ZDrApp.mak CFG="ZDrApp - Win32 Debug" RECURSE=1 CLEAN 
    cd "."
 
 !ENDIF 

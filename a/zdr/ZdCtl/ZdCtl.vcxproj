@@ -15,10 +15,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
+    <ProjectName>ZdCtl</ProjectName>
     <SccProjectName />
     <SccLocalPath />
     <Keyword>MFCProj</Keyword>
-    <ProjectGuid>{04A79DA6-B17E-4B0B-AD96-B2E7A8AFA3FD}</ProjectGuid>
+    <ProjectGuid>{126FC027-C562-4DBE-9A83-A502513E9F02}</ProjectGuid>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -35,7 +36,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <PlatformToolset>v140</PlatformToolset>
-    <UseOfMfc>false</UseOfMfc>
+    <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -55,41 +56,42 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(KZD):\$(KZV)\w\bin\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <LinkIncremental>true</LinkIncremental>
+    <IntDir>.\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\src\mfc;$(IncludePath)</IncludePath>
+    <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\Release\</OutDir>
-    <IntDir>.\Release\</IntDir>
+    <OutDir>..\Release\</OutDir>
+    <IntDir>..\Release\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <MinimalRebuild>true</MinimalRebuild>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_USRDLL;_DEBUG;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_DEBUG;QUINSOFT;_AFXEXT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>..\Debug\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
-      <PrecompiledHeaderOutputFile>.\Debug\ZSEMail.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeader />
-      <ObjectFileName>.\Debug\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderOutputFile>..\Debug\ZdCtl.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>ZDr.h</PrecompiledHeaderFile>
+      <ObjectFileName>..\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>..\Debug\</ProgramDataBaseFileName>
       <AdditionalOptions>/FS</AdditionalOptions>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Debug\ZSEMail.tlb</TypeLibraryName>
+      <TypeLibraryName>..\Debug\ZdCtl.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -99,20 +101,19 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Debug\ZSEMail.bsc</OutputFile>
+      <OutputFile>..\Debug\ZDr.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <OutputFile>$(KZD):\$(KZV)\w\bin\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>$(KZD):\$(KZV)\w\libr\$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kzoengaa.lib;ZDrApp.lib;Ws2_32.lib;see32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\$(TargetName).def</ModuleDefinitionFile>
-      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalDependencies>kzoengaa.lib;jpeglib.lib;ZDrApp.lib;msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>..\$(TargetName).def</ModuleDefinitionFile>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -124,51 +125,133 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Release\ZSEMail.pch</PrecompiledHeaderOutputFile>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_AFXEXT;WIN32;_WINDOWS;__WIN32__;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>..\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>..\Release\ZdCtl.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <ObjectFileName>.\Release\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+      <PrecompiledHeaderFile>ZdCtl.h</PrecompiledHeaderFile>
+      <ObjectFileName>..\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>..\Release\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\Release\ZSEMail.tlb</TypeLibraryName>
+      <TypeLibraryName>..\Release\ZdCtl.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
     <ResourceCompile>
-      <Culture>0x0407</Culture>
+      <Culture>0x0409</Culture>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Release\ZSEMail.bsc</OutputFile>
+      <OutputFile>..\Release\ZdCtl.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>.\Release\ZSEMail.dll</OutputFile>
-      <ImportLibrary>.\Release\ZSEMail.lib</ImportLibrary>
-      <ModuleDefinitionFile>.\ZSEMail.def</ModuleDefinitionFile>
+      <OutputFile>$(KZD):\$(KZV)\w\bin\ZdCtl.dll</OutputFile>
+      <ImportLibrary>$(KZD):\$(KZV)\w\libr\ZdCtl.lib</ImportLibrary>
+      <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ZDrApp.lib;kzoengaa.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>..\ZdCtl.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
+
   <ItemGroup>
-    <ClCompile Include="ZSEMail.cpp" />
+    <ClCompile Include="..\ZdCtl.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ZDr.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ZDr.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="..\ZdCtlATX.cpp" />
+    <ClCompile Include="..\ZdCtlBar.CPP" />
+    <ClCompile Include="..\ZdCtlBMB.cpp" />
+    <ClCompile Include="..\ZdCtlBMP.cpp" />
+    <ClCompile Include="..\ZdCtlBTN.cpp" />
+    <ClCompile Include="..\ZdCtlCal.cpp" />
+    <ClCompile Include="..\ZdCtlCHK.cpp" />
+    <ClCompile Include="..\ZdCtlCMB.cpp" />
+    <ClCompile Include="..\ZdCtlDIL.cpp" />
+    <ClCompile Include="..\ZdCtlDT.CPP" />
+    <ClCompile Include="..\ZdCtlEDT.cpp" />
+    <ClCompile Include="..\ZdCtlEVW.cpp" />
+    <ClCompile Include="..\ZdCtlGBX.cpp" />
+    <ClCompile Include="..\ZdCtlHD.cpp" />
+    <ClCompile Include="..\ZdCtlHDN.cpp" />
+    <ClCompile Include="..\ZdCtlHot.cpp" />
+    <ClCompile Include="..\ZdCtlICO.cpp" />
+    <ClCompile Include="..\ZdCtlLBH.cpp" />
+    <ClCompile Include="..\ZdCtlLBX.cpp" />
+    <ClCompile Include="..\ZdCtlMLE.cpp" />
+    <ClCompile Include="..\ZdCtlMST.cpp" />
+    <ClCompile Include="..\ZdCtlO.cpp" />
+    <ClCompile Include="..\ZdCtlOLB.cpp" />
+    <ClCompile Include="..\ZdCtlRB.cpp" />
+    <ClCompile Include="..\ZdCtlRTE.cpp" />
+    <ClCompile Include="..\ZdCtlRTO.cpp" />
+    <ClCompile Include="..\ZdCtlSS.cpp" />
+    <ClCompile Include="..\ZdCtlSSU.cpp" />
+    <ClCompile Include="..\ZdCtlTAB.cpp" />
+    <ClCompile Include="..\ZdCtlTim.cpp" />
+    <ClCompile Include="..\ZdCtlTXT.cpp" />
+    <ClCompile Include="..\ZdCtlVWG.CPP" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="res\ZSEMail.rc2" />
-    <CustomBuild Include="ZSEMail.def" />
+    <CustomBuild Include="..\BCOPY1.cur" />
+    <CustomBuild Include="..\BCOPYM.cur" />
+    <CustomBuild Include="..\BDROPNOT.cur" />
+    <CustomBuild Include="..\BMOVE.cur" />
+    <CustomBuild Include="..\BMOVE1.cur" />
+    <CustomBuild Include="..\BMOVEM.cur" />
+    <CustomBuild Include="..\BPROMOTE.cur" />
+    <CustomBuild Include="..\DROPNOT.cur" />
+    <CustomBuild Include="..\DROPOKC1.cur" />
+    <CustomBuild Include="..\DROPOKCM.cur" />
+    <CustomBuild Include="..\DROPOKM1.cur" />
+    <CustomBuild Include="..\DROPOKMM.cur" />
+    <CustomBuild Include="..\HAND1.cur" />
+    <CustomBuild Include="..\HSPLIT.cur" />
+    <CustomBuild Include="..\VSPLIT.cur" />
+    <CustomBuild Include="..\XSPLIT.cur" />
+    <CustomBuild Include="..\ZdCtl.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ZSEMail.rc" />
+    <ResourceCompile Include="..\ZdCtl.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="ZSEMail.h" />
+    <ClInclude Include="..\resource.h" />
+    <ClInclude Include="..\ZdCtl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\CBRSV1.bmp" />
+    <Image Include="..\CBRSV2.bmp" />
+    <Image Include="..\CBRSV3.bmp" />
+    <Image Include="..\CBRSV4.bmp" />
+    <Image Include="..\CBRSV5.bmp" />
+    <Image Include="..\CBRSV6.bmp" />
+    <Image Include="..\STATEICO.bmp" />
+    <Image Include="..\treeclse.bmp" />
+    <Image Include="..\treedflt.ico" />
+    <Image Include="..\treeopen.bmp" />
+    <Image Include="..\treeopen.ico" />
+    <Image Include="..\treesel.bmp" />
+    <Image Include="..\treesel.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\jpeglib\JPegLib.vcxproj">
+      <Project>{87f9cc3f-44b0-4eef-9c90-a7901ce420d9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\ZDrApp\ZDrApp.vcxproj">
+      <Project>{9fb0ccae-7409-40ab-bd2a-fe501c681094}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

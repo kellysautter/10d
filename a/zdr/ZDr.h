@@ -70,7 +70,7 @@ class ZDxDoc;
 
 /////////////////////////////////////////////////////////////////////////////
 // ZDrApp:
-// See Zdr.cpp for the implementation of this class
+// See ZDr.cpp for the implementation of this class
 //
 
 class ZDR_CLASS ZDrApp : public CWinApp

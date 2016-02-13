@@ -38,7 +38,7 @@ static char THIS_FILE[] = __FILE__;
 
 // #define DEBUG_ALL
 
-// #include "ZdrOle.h"
+// #include "ZDrOle.h"
 
 //IMPLEMENT_DYNAMIC(ZDrDoc, COleDocument)
 IMPLEMENT_DYNCREATE(ZDrDoc, COleDocument)

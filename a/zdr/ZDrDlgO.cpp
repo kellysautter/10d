@@ -858,7 +858,7 @@ StartPainterForApp( zVIEW vSubtask, // Subtask from application
       // Disable all windows in the current application and start painter.
       EnableAllSubwindows( vSubtask, FALSE );
 
-      StartTask( vSubtask, "Zdr.exe ~~Zeidon_Tools~tzrpupzd", SW_SHOW );
+      StartTask( vSubtask, "ZDr.exe ~~Zeidon_Tools~tzrpupzd", SW_SHOW );
       while ( GetViewByName( &vDialogReport, "__SysApplicationReport",
                              vSubtask, zLEVEL_SYSTEM ) == zLEVEL_SYSTEM )
       {
