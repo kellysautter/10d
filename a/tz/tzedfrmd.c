@@ -6354,126 +6354,6 @@ TZEDFRMD_EditFind( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditReplace
-//
-zOPER_EXPORT zSHORT OPERATION
-TZEDFRMD_EditReplace( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-   return EDT_ReplaceDialog( vSubtask );
-   /*
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   CString  strMsg,
-            strMsgFormat = "%d occurrences of \"%s\" have been replaced by \"%s\"!";
-   zLONG    lSearchBehavior = 0, lPosition = 0, lReplacements = 0;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   FINDREPLACE *pfr = (FINDREPLACE *) GetActionParameters( vSubtask );
-
-   if ( zstrlen(pfr->lpstrReplaceWith ) > 0 )
-   {
-      if ( pzma == 0 )
-         return( 0 );
-
-      if ( pfr->Flags & FR_REPLACEALL )
-      {
-         // remember current position
-         long lLine = 0, lCol = 0;
-         EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
-         EDT_SetCursorPositionByLine( vSubtask, 0, 0 );
-
-         // replace current selection
-         if ( EDT_CanCopy( vSubtask ) ) // is something selected?
-         {
-            lReplacements++;
-            EDT_InsertItem( vSubtask, pfr->lpstrReplaceWith );
-         }
-
-         if ( pfr->Flags & FR_MATCHCASE )
-         {
-            lSearchBehavior |= SRCH_MATCHCASE;
-         }
-
-         if ( pfr->Flags & FR_DOWN )
-            lSearchBehavior |= SRCH_FORWARD;
-
-         EDT_FindTextPosition( vSubtask, pfr->lpstrFindWhat, &lLine, &lCol, lSearchBehavior );
-         while ( lPosition > -1 )
-         {
-            lReplacements++;
-            EDT_SelectRange( vSubtask, lPosition, 0, zstrlen( pfr->lpstrFindWhat ) );
-            if ( EDT_CanCopy( vSubtask ) ) // is something selected?
-               EDT_InsertItem( vSubtask, pfr->lpstrReplaceWith );
-            EDT_FindTextPosition( vSubtask, pfr->lpstrFindWhat, &lLine, &lCol, lSearchBehavior );
-         }
-         if ( lReplacements > 0 )
-         {
-            EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
-
-            strMsg.Format( strMsgFormat, lReplacements, pfr->lpstrFindWhat, pfr->lpstrReplaceWith );
-            SysMessageBox( vSubtask, "Replace", strMsg, FALSE );
-         }
-      }
-      else
-      if ( EDT_CanCopy( vSubtask ) ) // is something selected?
-         EDT_InsertItem( vSubtask, pfr->lpstrReplaceWith );
-   }
-
-   return( 0 );
-*/
-} // TZEDFRMD_EditReplace
-
-/////////////////////////////////////////////////////////////////////////////
-//
-//    OPERATION: OptionSettings
-//
-zOPER_EXPORT zSHORT OPERATION
-OptionSettings( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-      EDT_PropertyDialog( vSubtask );
-
-   return( 0 );
-
-} // OptionSettings
-
-zOPER_EXPORT zSHORT OPERATION
-GotoWindow( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-      pzma->ResetFocus( );
-
-   return( 0 );
-
-} // GotoWindow
-
-/////////////////////////////////////////////////////////////////////////////
-//
-//  OPERATION: TZEDFRMD_OpenFindReplace
-//
-//  Popup common Find/Replace Dialog
-//
-/////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
-TZEDFRMD_OpenFindReplace( zVIEW vSubtask )
-{
-   return( OperatorPromptFindReplace( vSubtask, "","", TRUE ) );
-
-} // TZEDFRMD_OpenFindReplace
-
-/////////////////////////////////////////////////////////////////////////////
-//
 //  OPERATION: TZEDFRMD_OnEditFind
 //
 //  Handles the edit find event
@@ -6576,6 +6456,126 @@ TZEDFRMD_OnEditFindNext( zVIEW vSubtask )
    return( 0 );
 
 } // TZEDFRMD_OnEditFindNext
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: TZEDFRMD_EditReplace
+//
+zOPER_EXPORT zSHORT OPERATION
+TZEDFRMD_EditReplace( zVIEW vSubtask )
+{
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+   return EDT_ReplaceDialog( vSubtask );
+   /*
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+   CString  strMsg,
+            strMsgFormat = "%d occurrences of \"%s\" have been replaced by \"%s\"!";
+   zLONG    lSearchBehavior = 0, lPosition = 0, lReplacements = 0;
+   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+
+   FINDREPLACE *pfr = (FINDREPLACE *) GetActionParameters( vSubtask );
+
+   if ( zstrlen(pfr->lpstrReplaceWith ) > 0 )
+   {
+      if ( pzma == 0 )
+         return( 0 );
+
+      if ( pfr->Flags & FR_REPLACEALL )
+      {
+         // remember current position
+         long lLine = 0, lCol = 0;
+         EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+         EDT_SetCursorPositionByLine( vSubtask, 0, 0 );
+
+         // replace current selection
+         if ( EDT_CanCopy( vSubtask ) ) // is something selected?
+         {
+            lReplacements++;
+            EDT_InsertItem( vSubtask, pfr->lpstrReplaceWith );
+         }
+
+         if ( pfr->Flags & FR_MATCHCASE )
+         {
+            lSearchBehavior |= SRCH_MATCHCASE;
+         }
+
+         if ( pfr->Flags & FR_DOWN )
+            lSearchBehavior |= SRCH_FORWARD;
+
+         EDT_FindTextPosition( vSubtask, pfr->lpstrFindWhat, &lLine, &lCol, lSearchBehavior );
+         while ( lPosition > -1 )
+         {
+            lReplacements++;
+            EDT_SelectRange( vSubtask, lPosition, 0, zstrlen( pfr->lpstrFindWhat ) );
+            if ( EDT_CanCopy( vSubtask ) ) // is something selected?
+               EDT_InsertItem( vSubtask, pfr->lpstrReplaceWith );
+            EDT_FindTextPosition( vSubtask, pfr->lpstrFindWhat, &lLine, &lCol, lSearchBehavior );
+         }
+         if ( lReplacements > 0 )
+         {
+            EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+
+            strMsg.Format( strMsgFormat, lReplacements, pfr->lpstrFindWhat, pfr->lpstrReplaceWith );
+            SysMessageBox( vSubtask, "Replace", strMsg, FALSE );
+         }
+      }
+      else
+      if ( EDT_CanCopy( vSubtask ) ) // is something selected?
+         EDT_InsertItem( vSubtask, pfr->lpstrReplaceWith );
+   }
+
+   return( 0 );
+*/
+} // TZEDFRMD_EditReplace
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: TZEDFRMD_RepeatReplace
+//
+//  Repeat Replace
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+TZEDFRMD_RepeatReplace( zVIEW vSubtask )
+{
+   return( OperatorPromptFindReplace( vSubtask, "","", TRUE ) );
+
+} // TZEDFRMD_OpenFindReplace
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: OptionSettings
+//
+zOPER_EXPORT zSHORT OPERATION
+OptionSettings( zVIEW vSubtask )
+{
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+
+   if ( pzma )
+      EDT_PropertyDialog( vSubtask );
+
+   return( 0 );
+
+} // OptionSettings
+
+zOPER_EXPORT zSHORT OPERATION
+GotoWindow( zVIEW vSubtask )
+{
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+
+   if ( pzma )
+      pzma->ResetFocus( );
+
+   return( 0 );
+
+} // GotoWindow
 
 static zBOOL
 GetOperationPosition( zVIEW   vSubtask,

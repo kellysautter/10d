@@ -225,7 +225,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#define DEBUG_ALL
+// #define DEBUG_ALL
 
 IMPLEMENT_DYNAMIC( ZListCtrl, CListCtrl )
 
@@ -2025,9 +2025,6 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
 {
    nCol++;  // compensate for 1-based index into m_pCol table
    pchText[ 0 ] = 0; // initialize to null string in case there are problems
-
-   if ( nCol == 2 )
-      TraceLineI( "FormatTextAtPosition Col: 2   MaxLth: ", nMaxLth );
 
    // If we don't have list info or we are in a delete state ... quit.
    if ( m_pchListInfo == 0 || (ZSubtask::GetSubtaskState( m_pZSubtask ) & zSUBTASK_STATE_DELETED) )
@@ -4497,8 +4494,8 @@ ZListCtrl::OnMouseMove( UINT uModKeys, CPoint pt )
          }
 
          FormatTextAtPosition( szText, HitTestInfo.iItem, HitTestInfo.iSubItem, sizeof( szText ) );
-         TraceLineI( "HitTestItem: ", HitTestInfo.iItem );
-         TraceLineS( "LBH Text: ", szText );
+      // TraceLineI( "HitTestItem: ", HitTestInfo.iItem );
+      // TraceLineS( "LBH Text: ", szText );
       // CSize size = dc.GetTextExtent( szText );
          zSHORT nOffset = (zSHORT) dc.GetTextExtent( _T( " " ), 1 ).cx; // * 2;
       // rectCell.right = rectCell.left + size.cx + nOffset * 2;
