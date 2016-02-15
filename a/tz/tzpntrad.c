@@ -13076,6 +13076,7 @@ fnLocateDialogDate( zPCHAR pchBuffer )
    zPCHAR pchColon1;
    zPCHAR pchSlash2;
    zPCHAR pchSlash1;
+   zLONG  lLth = zstrlen( pchBuffer );
    zLONG  k;
 
    pchColon2 = zstrchr( pchBuffer, '\n' );
@@ -13115,11 +13116,11 @@ fnLocateDialogDate( zPCHAR pchBuffer )
                   pchBuffer[ 1 ] = '0';
                }
 
-               zstrcpy( pchBuffer + 2, pchSlash2 + 1 );
+               strcpy_s( pchBuffer + 2, lLth - 2, pchSlash2 + 1 );
                pchBuffer[ 4 ] = '/';
-               zstrcpy( pchBuffer + 5, pchSlash1 - 2 );
+               strcpy_s( pchBuffer + 5, lLth - 5, pchSlash1 - 2 );
                pchBuffer[ 10 ] = ' ';
-               zstrcpy( pchBuffer + 11, pchColon1 - 2 );
+               strcpy_s( pchBuffer + 11, lLth - 11, pchColon1 - 2 );
                return( 0 );   // we think we did this correctly
             }
          }
@@ -14180,7 +14181,7 @@ MigrateDialogs( zVIEW vSubtask )
                if ( nLth && szFileSpec2[ nLth - 1 ] != '\\' )
                   szFileSpec2[ nLth++ ] = '\\';
 
-               strcpy_s( szFileSpec2 + nLth, sizeof( nLth ), pchDlgTag );
+               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, pchDlgTag );
                strcat_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".xwd" );
 
                GetStringFromAttribute( szFileSpec1, sizeof( szFileSpec1 ), vTaskLPLR, "LPLR", "MetaSrcDir" );
@@ -14188,13 +14189,13 @@ MigrateDialogs( zVIEW vSubtask )
                if ( nLth && szFileSpec1[ nLth - 1 ] != '\\' )
                   szFileSpec1[ nLth++ ] = '\\';
 
-               zstrcpy( szFileSpec1 + nLth, pchDlgTag );
+               strcpy_s( szFileSpec1 + nLth, sizeof( szFileSpec1 ) - nLth, pchDlgTag );
                nLth += (zSHORT) zstrlen( pchDlgTag );
-               zstrcpy( szFileSpec1 + nLth, ".pwd" );
+               strcpy_s( szFileSpec1 + nLth, sizeof( szFileSpec1 ) - nLth, ".pwd" );
                lFilePWD = SysOpenFile( vSubtask, szFileSpec1, COREFILE_READ );
                lFileXWD = SysOpenFile( vSubtask, szFileSpec2, COREFILE_READ );
                strcpy_s( szFileSpec2, sizeof( szFileSpec2 ), szFileSpec1 );
-               strcpy_s( szFileSpec2 + nLth, sizeof( nLth ), ".tmp" );
+               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".tmp" );
                if ( lFilePWD >= 0 &&
                     (lFileXWD < 0 ||
                      (lFileXWD >= 0 &&
@@ -14212,14 +14213,14 @@ MigrateDialogs( zVIEW vSubtask )
 
                   lFileXWD = -1;
 
-                  strcpy_s( szFileSpec2 + nLth, sizeof( nLth ), ".pw~" );
+                  strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".pw~" );
                   SysRenameFile( vSubtask, szFileSpec1, szFileSpec2, TRUE );
-                  strcpy_s( szFileSpec2 + nLth, sizeof( nLth ), ".tmp" );
+                  strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".tmp" );
                   SysRenameFile( vSubtask, szFileSpec2, szFileSpec1, TRUE );
 
                   TraceLineS( "MigrateDialogs synchronize dialog: ", pchDlgTag );
                   CommitMetaOI( vSubtask, vDialog, zSOURCE_DIALOG_META );
-                  strcpy_s( szFileSpec2 + nLth, sizeof( nLth ), ".pw~" );
+                  strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".pw~" );
                   SysRenameFile( vSubtask, szFileSpec2, szFileSpec1, TRUE );
                }
                else
@@ -16417,7 +16418,7 @@ BuildDialogFlow( zVIEW vSubtask )
          szText[ nLth++ ] = ' ';
          szText[ nLth++ ] = '-';
          szText[ nLth++ ] = ' ';
-         zstrcpy( szText + nLth, szWork );
+         strcpy_s( szText + nLth, sizeof( szText ) - nLth, szWork );
       }
 
       SetAttributeFromString( vFlow, "TZFLOW", "Name", szText );

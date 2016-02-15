@@ -62,8 +62,8 @@
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\Release\</OutDir>
-    <IntDir>..\Release\</IntDir>
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -79,19 +79,19 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_DEBUG;QUINSOFT;_AFXEXT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>..\Debug\</AssemblerListingLocation>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
-      <PrecompiledHeaderOutputFile>..\Debug\ZdCtl.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>.\Debug\ZdCtl.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ZDr.h</PrecompiledHeaderFile>
-      <ObjectFileName>..\Debug\</ObjectFileName>
-      <ProgramDataBaseFileName>..\Debug\</ProgramDataBaseFileName>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <AdditionalOptions>/FS</AdditionalOptions>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>..\Debug\ZdCtl.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Debug\ZdCtl.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -101,7 +101,7 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>..\Debug\ZDr.bsc</OutputFile>
+      <OutputFile>.\Debug\ZDr.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -112,7 +112,7 @@
       <ImportLibrary>$(KZD):\$(KZV)\w\libr\$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kzoengaa.lib;jpeglib.lib;ZDrApp.lib;msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>..\$(TargetName).def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\..\$(TargetName).def</ModuleDefinitionFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
@@ -128,17 +128,17 @@
       <TreatWarningAsError>false</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_AFXEXT;WIN32;_WINDOWS;__WIN32__;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>..\Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>..\Release\ZdCtl.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\ZdCtl.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ZdCtl.h</PrecompiledHeaderFile>
-      <ObjectFileName>..\Release\</ObjectFileName>
-      <ProgramDataBaseFileName>..\Release\</ProgramDataBaseFileName>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>..\Release\ZdCtl.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Release\ZdCtl.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -148,7 +148,7 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>..\Release\ZdCtl.bsc</OutputFile>
+      <OutputFile>.\Release\ZdCtl.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -158,97 +158,97 @@
       <ImportLibrary>$(KZD):\$(KZV)\w\libr\ZdCtl.lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ZDrApp.lib;kzoengaa.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>..\ZdCtl.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\..\ZdCtl.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
 
   <ItemGroup>
-    <ClCompile Include="..\ZdCtl.cpp">
+    <ClCompile Include=".\..\ZdCtl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ZDr.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ZDr.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="..\ZdCtlATX.cpp" />
-    <ClCompile Include="..\ZdCtlBar.CPP" />
-    <ClCompile Include="..\ZdCtlBMB.cpp" />
-    <ClCompile Include="..\ZdCtlBMP.cpp" />
-    <ClCompile Include="..\ZdCtlBTN.cpp" />
-    <ClCompile Include="..\ZdCtlCal.cpp" />
-    <ClCompile Include="..\ZdCtlCHK.cpp" />
-    <ClCompile Include="..\ZdCtlCMB.cpp" />
-    <ClCompile Include="..\ZdCtlDIL.cpp" />
-    <ClCompile Include="..\ZdCtlDT.CPP" />
-    <ClCompile Include="..\ZdCtlEDT.cpp" />
-    <ClCompile Include="..\ZdCtlEVW.cpp" />
-    <ClCompile Include="..\ZdCtlGBX.cpp" />
-    <ClCompile Include="..\ZdCtlHD.cpp" />
-    <ClCompile Include="..\ZdCtlHDN.cpp" />
-    <ClCompile Include="..\ZdCtlHot.cpp" />
-    <ClCompile Include="..\ZdCtlICO.cpp" />
-    <ClCompile Include="..\ZdCtlLBH.cpp" />
-    <ClCompile Include="..\ZdCtlLBX.cpp" />
-    <ClCompile Include="..\ZdCtlMLE.cpp" />
-    <ClCompile Include="..\ZdCtlMST.cpp" />
-    <ClCompile Include="..\ZdCtlO.cpp" />
-    <ClCompile Include="..\ZdCtlOLB.cpp" />
-    <ClCompile Include="..\ZdCtlRB.cpp" />
-    <ClCompile Include="..\ZdCtlRTE.cpp" />
-    <ClCompile Include="..\ZdCtlRTO.cpp" />
-    <ClCompile Include="..\ZdCtlSS.cpp" />
-    <ClCompile Include="..\ZdCtlSSU.cpp" />
-    <ClCompile Include="..\ZdCtlTAB.cpp" />
-    <ClCompile Include="..\ZdCtlTim.cpp" />
-    <ClCompile Include="..\ZdCtlTXT.cpp" />
-    <ClCompile Include="..\ZdCtlVWG.CPP" />
+    <ClCompile Include=".\..\ZdCtlATX.cpp" />
+    <ClCompile Include=".\..\ZdCtlBar.CPP" />
+    <ClCompile Include=".\..\ZdCtlBMB.cpp" />
+    <ClCompile Include=".\..\ZdCtlBMP.cpp" />
+    <ClCompile Include=".\..\ZdCtlBTN.cpp" />
+    <ClCompile Include=".\..\ZdCtlCal.cpp" />
+    <ClCompile Include=".\..\ZdCtlCHK.cpp" />
+    <ClCompile Include=".\..\ZdCtlCMB.cpp" />
+    <ClCompile Include=".\..\ZdCtlDIL.cpp" />
+    <ClCompile Include=".\..\ZdCtlDT.CPP" />
+    <ClCompile Include=".\..\ZdCtlEDT.cpp" />
+    <ClCompile Include=".\..\ZdCtlEVW.cpp" />
+    <ClCompile Include=".\..\ZdCtlGBX.cpp" />
+    <ClCompile Include=".\..\ZdCtlHD.cpp" />
+    <ClCompile Include=".\..\ZdCtlHDN.cpp" />
+    <ClCompile Include=".\..\ZdCtlHot.cpp" />
+    <ClCompile Include=".\..\ZdCtlICO.cpp" />
+    <ClCompile Include=".\..\ZdCtlLBH.cpp" />
+    <ClCompile Include=".\..\ZdCtlLBX.cpp" />
+    <ClCompile Include=".\..\ZdCtlMLE.cpp" />
+    <ClCompile Include=".\..\ZdCtlMST.cpp" />
+    <ClCompile Include=".\..\ZdCtlO.cpp" />
+    <ClCompile Include=".\..\ZdCtlOLB.cpp" />
+    <ClCompile Include=".\..\ZdCtlRB.cpp" />
+    <ClCompile Include=".\..\ZdCtlRTE.cpp" />
+    <ClCompile Include=".\..\ZdCtlRTO.cpp" />
+    <ClCompile Include=".\..\ZdCtlSS.cpp" />
+    <ClCompile Include=".\..\ZdCtlSSU.cpp" />
+    <ClCompile Include=".\..\ZdCtlTAB.cpp" />
+    <ClCompile Include=".\..\ZdCtlTim.cpp" />
+    <ClCompile Include=".\..\ZdCtlTXT.cpp" />
+    <ClCompile Include=".\..\ZdCtlVWG.CPP" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\BCOPY1.cur" />
-    <CustomBuild Include="..\BCOPYM.cur" />
-    <CustomBuild Include="..\BDROPNOT.cur" />
-    <CustomBuild Include="..\BMOVE.cur" />
-    <CustomBuild Include="..\BMOVE1.cur" />
-    <CustomBuild Include="..\BMOVEM.cur" />
-    <CustomBuild Include="..\BPROMOTE.cur" />
-    <CustomBuild Include="..\DROPNOT.cur" />
-    <CustomBuild Include="..\DROPOKC1.cur" />
-    <CustomBuild Include="..\DROPOKCM.cur" />
-    <CustomBuild Include="..\DROPOKM1.cur" />
-    <CustomBuild Include="..\DROPOKMM.cur" />
-    <CustomBuild Include="..\HAND1.cur" />
-    <CustomBuild Include="..\HSPLIT.cur" />
-    <CustomBuild Include="..\VSPLIT.cur" />
-    <CustomBuild Include="..\XSPLIT.cur" />
-    <CustomBuild Include="..\ZdCtl.def" />
+    <CustomBuild Include=".\..\BCOPY1.cur" />
+    <CustomBuild Include=".\..\BCOPYM.cur" />
+    <CustomBuild Include=".\..\BDROPNOT.cur" />
+    <CustomBuild Include=".\..\BMOVE.cur" />
+    <CustomBuild Include=".\..\BMOVE1.cur" />
+    <CustomBuild Include=".\..\BMOVEM.cur" />
+    <CustomBuild Include=".\..\BPROMOTE.cur" />
+    <CustomBuild Include=".\..\DROPNOT.cur" />
+    <CustomBuild Include=".\..\DROPOKC1.cur" />
+    <CustomBuild Include=".\..\DROPOKCM.cur" />
+    <CustomBuild Include=".\..\DROPOKM1.cur" />
+    <CustomBuild Include=".\..\DROPOKMM.cur" />
+    <CustomBuild Include=".\..\HAND1.cur" />
+    <CustomBuild Include=".\..\HSPLIT.cur" />
+    <CustomBuild Include=".\..\VSPLIT.cur" />
+    <CustomBuild Include=".\..\XSPLIT.cur" />
+    <CustomBuild Include=".\..\ZdCtl.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\ZdCtl.rc" />
+    <ResourceCompile Include=".\..\ZdCtl.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\resource.h" />
-    <ClInclude Include="..\ZdCtl.h" />
+    <ClInclude Include=".\..\resource.h" />
+    <ClInclude Include=".\..\ZdCtl.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\CBRSV1.bmp" />
-    <Image Include="..\CBRSV2.bmp" />
-    <Image Include="..\CBRSV3.bmp" />
-    <Image Include="..\CBRSV4.bmp" />
-    <Image Include="..\CBRSV5.bmp" />
-    <Image Include="..\CBRSV6.bmp" />
-    <Image Include="..\STATEICO.bmp" />
-    <Image Include="..\treeclse.bmp" />
-    <Image Include="..\treedflt.ico" />
-    <Image Include="..\treeopen.bmp" />
-    <Image Include="..\treeopen.ico" />
-    <Image Include="..\treesel.bmp" />
-    <Image Include="..\treesel.ico" />
+    <Image Include=".\..\CBRSV1.bmp" />
+    <Image Include=".\..\CBRSV2.bmp" />
+    <Image Include=".\..\CBRSV3.bmp" />
+    <Image Include=".\..\CBRSV4.bmp" />
+    <Image Include=".\..\CBRSV5.bmp" />
+    <Image Include=".\..\CBRSV6.bmp" />
+    <Image Include=".\..\STATEICO.bmp" />
+    <Image Include=".\..\treeclse.bmp" />
+    <Image Include=".\..\treedflt.ico" />
+    <Image Include=".\..\treeopen.bmp" />
+    <Image Include=".\..\treeopen.ico" />
+    <Image Include=".\..\treesel.bmp" />
+    <Image Include=".\..\treesel.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\jpeglib\JPegLib.vcxproj">
+    <ProjectReference Include=".\..\jpeglib\JPegLib.vcxproj">
       <Project>{87f9cc3f-44b0-4eef-9c90-a7901ce420d9}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\ZDrApp\ZDrApp.vcxproj">
+    <ProjectReference Include=".\..\ZDrApp\ZDrApp.vcxproj">
       <Project>{9fb0ccae-7409-40ab-bd2a-fe501c681094}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

@@ -15,6 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
+    <ProjectName>ZSEMail</ProjectName>
     <SccProjectName />
     <SccLocalPath />
     <Keyword>MFCProj</Keyword>
@@ -56,40 +57,40 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(KZD):\$(KZV)\w\bin\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\src\mfc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\Release\</OutDir>
-    <IntDir>..\Release\</IntDir>
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <MinimalRebuild>true</MinimalRebuild>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_USRDLL;_DEBUG;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>..\Debug\</AssemblerListingLocation>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
-      <PrecompiledHeaderOutputFile>..\Debug\ZSEMail.pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeader />
-      <ObjectFileName>..\Debug\</ObjectFileName>
-      <ProgramDataBaseFileName>..\Debug\</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>.\Debug\ZSEMail.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/FS</AdditionalOptions>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>..\Debug\ZSEMail.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Debug\ZSEMail.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -99,7 +100,7 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>..\Debug\ZSEMail.bsc</OutputFile>
+      <OutputFile>.\Debug\ZSEMail.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -111,7 +112,7 @@
       <ImportLibrary>$(KZD):\$(KZV)\w\libr\$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kzoengaa.lib;ZDrApp.lib;Ws2_32.lib;see32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>..\$(TargetName).def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\..\$(TargetName).def</ModuleDefinitionFile>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -125,17 +126,17 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>..\Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>..\Release\ZSEMail.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\ZSEMail.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <ObjectFileName>..\Release\</ObjectFileName>
-      <ProgramDataBaseFileName>..\Release\</ProgramDataBaseFileName>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>..\Release\ZSEMail.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Release\ZSEMail.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -145,30 +146,30 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>..\Release\ZSEMail.bsc</OutputFile>
+      <OutputFile>.\Release\ZSEMail.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>..\Release\ZSEMail.dll</OutputFile>
-      <ImportLibrary>..\Release\ZSEMail.lib</ImportLibrary>
-      <ModuleDefinitionFile>..\ZSEMail.def</ModuleDefinitionFile>
+      <OutputFile>$(KZD):\$(KZV)\w\bin\ZSEMail.dll</OutputFile>
+      <ImportLibrary>$(KZD):\$(KZV)\w\libr\ZSEMail.lib</ImportLibrary>
+      <ModuleDefinitionFile>.\..\ZSEMail.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ZSEMail.cpp" />
+    <ClCompile Include=".\..\ZSEMail.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\res\ZSEMail.rc2" />
-    <CustomBuild Include="..\ZSEMail.def" />
+    <CustomBuild Include=".\..\res\ZSEMail.rc2" />
+    <CustomBuild Include=".\..\ZSEMail.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\ZSEMail.rc" />
+    <ResourceCompile Include=".\..\ZSEMail.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Resource.h" />
-    <ClInclude Include="..\ZSEMail.h" />
+    <ClInclude Include=".\..\resource.h" />
+    <ClInclude Include=".\..\ZSEMail.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

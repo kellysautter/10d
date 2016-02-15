@@ -2142,7 +2142,7 @@ zwTZPEUPDD_GenerateCodePostBuild( zVIEW vSubtask )
 
    while ( (pch = zstrchr( szTag, ' ' )) != 0 )
    {
-      zstrcpy( pch, pch + 1 );
+      strcpy_s( pch, sizeof( szTag ) - (pch - szTag), pch + 1 );
    }
 
    szClassName[ 0 ] = 'I';

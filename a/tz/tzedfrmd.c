@@ -5108,8 +5108,8 @@ ErrList_GetFocus( zVIEW vSubtask )
 
    // Create the error file name.
    GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
-   psz = &szFileName[ zstrlen( szFileName ) - 3 ];
-   zstrcpy( psz, "ERR" );       // Change ".VML" to ".ERR".
+   psz = szFileName + zstrlen( szFileName ) - 3;
+   strcpy_s( psz, sizeof( szFileName ) - zstrlen( szFileName ) + 3, "ERR" );      // Change ".VML" to ".ERR".
 
    hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( hFile == -1 )
@@ -6483,8 +6483,8 @@ zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_OnEditFind( zVIEW vSubtask )
 {
    CString  strMsg, strMsgFormat = "Could not find requested string\"%s\"!";
-   zLONG    lSearchBehavior = 0, lPosition = 0, lLine = 0;
-   zLONG    lCol = 0, lCharCount = 0;
+   zLONG    lSearchBehavior = 0, lPosition = 0;
+   zLONG    lCharCount = 0;
    zLONG    lStartLine = 0, lStartCol = 0, lEndLine = 0, lEndCol = 0;
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
@@ -6492,12 +6492,12 @@ TZEDFRMD_OnEditFind( zVIEW vSubtask )
    FINDREPLACE *pfr = (FINDREPLACE *) GetActionParameters( vSubtask );
 
    memcpy( &g_fr, pfr, sizeof( FINDREPLACE ) );
-   EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+   EDT_GetCursorPosition( vSubtask, &lStartLine, &lStartCol );
 
    if ( zstrlen( pfr->lpstrFindWhat ) == 0 )
       return( 0 );
 
-   // store search string for F3 / Shift - F3 use
+   // store search string for F3 / Shift+F3 use
    g_strFindWhat = pfr->lpstrFindWhat;
    lCharCount = g_strFindWhat.GetLength( );
    CString strStringToFind = g_strFindWhat;
@@ -6547,7 +6547,7 @@ TZEDFRMD_OnEditFind( zVIEW vSubtask )
    if ( pfr->Flags & FR_DOWN )
       lSearchBehavior |= SRCH_FORWARD;
 
-   EDT_FindTextPosition( vSubtask, strStringToFind, &lLine, &lCol, lSearchBehavior );
+   EDT_FindTextPosition( vSubtask, strStringToFind, &lStartLine, &lStartCol, lSearchBehavior );
    if ( lPosition > -1 )
    {
       EDT_SelectRange( vSubtask, lPosition, 0, lCharCount );

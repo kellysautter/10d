@@ -432,7 +432,7 @@ PostGenerateC( zVIEW vSubtask,
    // Delete the temp C file
    // DM - instead of using the dos 'remove' command to delete the old C file, we use
    // our own system open with the delete option. This avoids problems with the short
-   // pointers that 'remove' expects arrives, we can get rid of the following 'zstrcpy'.
+   // pointers that 'remove' expects arrives, we can get rid of the following 'strcpy_s'.
    nRC = SysCloseFile( vSubtask, lfTempCFileHandle, 0 );
    lfTempCFileHandle = SysOpenFile( vSubtask, szTempCFileSpec, COREFILE_DELETE );
 
@@ -478,7 +478,7 @@ PostGenerateJava( zVIEW vSubtask,
    // Delete the temp Java file
    // DM - instead of using the dos 'remove' command to delete the old Java file, we use
    // our own system open with the delete option. This avoids problems with the short
-   // pointers that 'remove' expects arrives, we can get rid of the following 'zstrcpy'.
+   // pointers that 'remove' expects arrives, we can get rid of the following 'strcpy_s'.
    nRC = SysCloseFile( vSubtask, lfTempCFileHandle, 0 );
    lfTempCFileHandle = SysOpenFile( vSubtask, szTempJavaFileSpec, COREFILE_DELETE );
 

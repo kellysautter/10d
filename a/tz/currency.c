@@ -564,8 +564,8 @@ fnFormatCurrencyText( zVIEW  vSubtask,
    if ( nLth == 0 )
    {
       strcpy_s( szCurrencyText, sizeof( szCurrencyText ), pcDecimal );
-      zstrcpy( pchDecString, "0" );
-      zstrcpy( pchDecString + 2, szCurrencyText );
+      strcpy_s( pchDecString, "0" );
+      strcpy_s( pchDecString + 2, szCurrencyText );
       pch = pchDecString;
       pcDecimal = pchDecString + 2;
       nLth = 1;
@@ -673,7 +673,7 @@ fnFormatCurrencyText( zVIEW  vSubtask,
                                  szCurrencyText + nCurrencyLth,
                                  zMAX_DECIMAL_STRING - nCurrencyLth );
 
-   zstrcpy( pchDecString, szCurrencyText );
+   strcpy_s( pchDecString, szCurrencyText );
    return( 0 );
 }
 

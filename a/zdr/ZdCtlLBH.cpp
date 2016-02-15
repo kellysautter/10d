@@ -225,7 +225,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// #define DEBUG_ALL
+#define DEBUG_ALL
 
 IMPLEMENT_DYNAMIC( ZListCtrl, CListCtrl )
 
@@ -338,7 +338,7 @@ ZListCtrl::ZListCtrl( ZSubtask *pZSubtask,
            m_wndListTip( pZSubtask->m_pZTask->m_lHoverDelay )
 {
 #ifdef DEBUG_ALL
-   if ( zstrcmp( *m_pzsTag, "Bomb" ) == 0 )
+   if ( zstrcmp( m_pzsTag->GetString(), "Bomb" ) == 0 )
    {
       TraceLineS( "ListCtrl::ctor Name ", *m_pzsTag );
       Attr.H = 410;
@@ -1211,7 +1211,7 @@ BOOL
 ZListCtrl::PreCreateWindow( CREATESTRUCT& cs )
 {
 #ifdef DEBUG_ALL
-   if ( zstrcmp( *m_pzsTag, "DKS" ) == 0 )
+   if ( zstrcmp( m_pzsTag->GetString(), "DKS" ) == 0 )
    {
       TraceLineS( "ZListCtrl::PreCreateWindow DKS: ", *(m_pZSubtask->m_pzsWndTag) );
       TraceLineS( "ZListCtrl::PreCreateWindow: ", m_pCol[ 1 ].pchAttrib );
@@ -1853,7 +1853,7 @@ ZListCtrl::SetZCtrlState( zLONG  lStatusType,
                           zULONG ulValue )
 {
 #ifdef DEBUG_ALL
-   if ( zstrcmp( *m_pzsTag, "TableListBox" ) == 0 )
+   if ( zstrcmp( m_pzsTag->GetString(), "TableListBox" ) == 0 )
    {
       TraceLineS( "ZListCtrl::SetZCtrlState ", *m_pzsTag );
       TraceLineS( "ZListCtrl::SetZCtrlState: ", *(m_pZSubtask->m_pzsWndTag) );
@@ -2026,6 +2026,9 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
    nCol++;  // compensate for 1-based index into m_pCol table
    pchText[ 0 ] = 0; // initialize to null string in case there are problems
 
+   if ( nCol == 2 )
+      TraceLineI( "FormatTextAtPosition Col: 2   MaxLth: ", nMaxLth );
+
    // If we don't have list info or we are in a delete state ... quit.
    if ( m_pchListInfo == 0 || (ZSubtask::GetSubtaskState( m_pZSubtask ) & zSUBTASK_STATE_DELETED) )
    {
@@ -2052,7 +2055,7 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
    if ( GetViewByName( &m_vAppList, m_csViewNameList, m_pZSubtask->m_vDialog, zLEVEL_SUBTASK ) <= 0 )
    {
 #ifdef DEBUG_ALL
-      if ( zstrcmp( *m_pzsTag, "ER_AttributeList" ) == 0 )
+      if ( zstrcmp( m_pzsTag->GetString(), "ER_AttributeList" ) == 0 )
       {
          TraceLine( "ZListCtrl::FormatTextAtPosition ER_AttributeList: %s  Attribute: %s",
                      *(m_pZSubtask->m_pzsWndTag), m_pCol[ nCol ].pchAttrib );
@@ -2178,14 +2181,13 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
 
 #ifdef DEBUG_ALL
 // if ( zstrcmp( *m_pzsTag, "DKS" ) == 0 )
-   if ( m_bSortDisplay )
+// if ( m_bSortDisplay )
    {
       zCHAR szMsg[ 2 * LBH_TEXT_LTH ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "ZListCtrl::FormatTextAtPosition Tag: %s "
-                         "EntityNbr: %d  Row: %ld  Col: %d  MaxLth: %d  VN: %s   DlgTag: %s  WndTag: %s - ",
-                *m_pzsTag, m_lEntityNbr, lRow, nCol, nMaxLth, *m_pzsVName,
-                *m_pZSubtask->m_pzsDlgTag, *m_pZSubtask->m_pzsWndTag );
+      sprintf_s( szMsg, sizeof( szMsg ), "ZListCtrl::FormatTextAtPosition Tag: %s EntityNbr: %d  Row: %ld  Col: %d  MaxLth: %d  VN: %s   DlgTag: %s  WndTag: %s - ",
+                m_pzsTag->GetString(), m_lEntityNbr, lRow, nCol, nMaxLth, m_pzsVName->GetString(),
+                m_pZSubtask->m_pzsDlgTag->GetString(), m_pZSubtask->m_pzsWndTag->GetString() );
       TraceLineS( szMsg, pchText );
    }
 #endif
@@ -2256,7 +2258,7 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
 
 #ifdef DEBUG_ALL
 // if ( zstrcmp( "CurrentShipments", *m_pzsTag ) == 0 )
-   if ( zstrcmp( *m_pzsTag, "DKS" ) == 0 )
+   if ( zstrcmp( m_pzsTag->GetString(), "DKS" ) == 0 )
       TraceLineS( "ZListCtrl::FormatText Text: ", pchText );
 #endif
 
@@ -2489,11 +2491,11 @@ ZListCtrl::SortByDisplayData( )
    {
       lKey = m_EntityKeyList.GetAt( k );
       sprintf_s( szMsg, sizeof( szMsg ), " %ld - %ld: ", k, lKey );
-      nLth = zstrlen( szMsg );
-      if ( SetEntityCursor( m_vApp1, *m_pzsEName, 0,
+      nLth = (zSHORT) zstrlen( szMsg );
+      if ( SetEntityCursor( m_vApp1, m_pzsEName->GetString(), 0,
                             m_ulFlag | zQUAL_ENTITYKEY | zPOS_FIRST,
                             (zCPVOID) &lKey, 0, 0, 0,
-                            m_pzsScope ? *m_pzsScope : (zCPCHAR) 0, 0 ) >= 0 ) // m_pzsAName
+                            m_pzsScope ? m_pzsScope->GetString() : (zCPCHAR) 0, 0 ) >= 0 ) // m_pzsAName
       {
          GetVariableFromAttribute( szMsg + nLth, 0, zTYPE_STRING,
                                    sizeof( szMsg ) - nLth,
@@ -2519,7 +2521,7 @@ ZListCtrl::SortByDisplayData( )
    {
       lKey = m_EntityKeyList.GetAt( k );
       sprintf_s( szMsg, sizeof( szMsg ), " %ld - %ld: ", k, lKey );
-      nLth = zstrlen( szMsg );
+      nLth = (zSHORT) zstrlen( szMsg );
       if ( SetEntityCursor( m_vApp1, *m_pzsEName, 0,
                             m_ulFlag | zQUAL_ENTITYKEY | zPOS_FIRST,
                             (zCPVOID) &lKey, 0, 0, 0, m_pzsScope ? *m_pzsScope : (zCPCHAR) 0, 0 ) >= 0 ) // m_pzsAName
@@ -2548,7 +2550,7 @@ zSHORT
 ZListCtrl::MapFromOI( WPARAM wFlag )
 {
 #ifdef DEBUG_ALL
-   if ( zstrcmp( *m_pzsTag, "OperationList" ) == 0 )
+   if ( zstrcmp( m_pzsTag->GetString(), "OperationList" ) == 0 )
    {
       TraceLineS( "ZListCtrl::MapFromOI ", *m_pzsTag );
       TraceLineS( "ZListCtrl::MapFromOI: ", *(m_pZSubtask->m_pzsWndTag) );
@@ -2620,7 +2622,7 @@ ZListCtrl::MapFromOI( WPARAM wFlag )
    mDeleteInitA( m_pchLabelText );
 
 #ifdef DEBUG_ALL
-   if ( zstrcmp( "EntityList", *m_pzsTag ) == 0 )
+   if ( zstrcmp( "EntityList", m_pzsTag->GetString() ) == 0 )
    {
       TraceLineS( "ZListCtrl::MapFromOI ", *m_pzsTag );
       TraceLineS( "ZListCtrl::MapFromOI SortBuffer ", m_csSortBuffer );
@@ -3015,7 +3017,7 @@ zSHORT
 ZListCtrl::MapToOI( zLONG lFlag )
 {
 #ifdef DEBUG_ALL
-   if ( zstrcmp( *m_pzsTag, "DKS" ) == 0 )
+   if ( zstrcmp( m_pzsTag->GetString(), "DKS" ) == 0 )
    {
       TraceLineS( "ZListCtrl::MapToOI DKS: ", *(m_pZSubtask->m_pzsWndTag) );
       TraceLineS( "ZListCtrl::MapToOI: ", m_pCol[ 1 ].pchAttrib );
@@ -3059,7 +3061,7 @@ zLONG
 ZListCtrl::GetZCtrlState( zLONG lStatusType )
 {
 #ifdef DEBUG_ALL
-   if ( zstrcmp( *m_pzsTag, "DKS" ) == 0 )
+   if ( zstrcmp( m_pzsTag->GetString(), "DKS" ) == 0 )
    {
       TraceLineS( "ZListCtrl::GetZCtrlState DKS: ", *(m_pZSubtask->m_pzsWndTag) );
       TraceLineS( "ZListCtrl::GetZCtrlState: ", m_pCol[ 1 ].pchAttrib );
@@ -3124,7 +3126,7 @@ zSHORT
 ZListCtrl::SetRowColText( zCPCHAR cpcText, zLONG lRow, zLONG lColumn )
 {
 #ifdef DEBUG_ALL
-   if ( zstrcmp( *m_pzsTag, "DKS" ) == 0 )
+   if ( zstrcmp( m_pzsTag->GetString(), "DKS" ) == 0 )
    {
       TraceLineS( "ZListCtrl::SetRowColText DKS: ", *(m_pZSubtask->m_pzsWndTag) );
       TraceLineS( "ZListCtrl::SetRowColText: ", m_pCol[ 1 ].pchAttrib );
@@ -4495,6 +4497,8 @@ ZListCtrl::OnMouseMove( UINT uModKeys, CPoint pt )
          }
 
          FormatTextAtPosition( szText, HitTestInfo.iItem, HitTestInfo.iSubItem, sizeof( szText ) );
+         TraceLineI( "HitTestItem: ", HitTestInfo.iItem );
+         TraceLineS( "LBH Text: ", szText );
       // CSize size = dc.GetTextExtent( szText );
          zSHORT nOffset = (zSHORT) dc.GetTextExtent( _T( " " ), 1 ).cx; // * 2;
       // rectCell.right = rectCell.left + size.cx + nOffset * 2;
@@ -5543,7 +5547,7 @@ fnTextState( UINT uState, zPCHAR pchTextState )
    zSHORT j = 0;
 
    pchTextState[ 0 ] = '(';
-   _ltoa_s( uState, pchTextState + 1, commented out???, 10 );
+   _ltoa_s( uState, pchTextState + 1, LBH_TEXT_LTH - 1, 10 );
    nLth = (zSHORT) zstrlen( pchTextState );
    pchTextState[ nLth++ ] = ')';
    if ( uState )
@@ -5560,7 +5564,7 @@ fnTextState( UINT uState, zPCHAR pchTextState )
             pchTextState[ nLth++ ] = '+';
 
          j++;
-         strcpy_s( pchTextState + nLth, commented out??? pState->pchName );
+         strcpy_s( pchTextState + nLth, LBH_TEXT_LTH - nLth, pState->pchName );
          nLth += (zSHORT) zstrlen( pchTextState + nLth );
       }
 
@@ -5895,7 +5899,7 @@ ZListCtrl::OnItemChanged( LPNMHDR pNMHDR, LRESULT *pResult )
                                              LVIS_CUT | LVIS_DROPHILITED ) );
    }
 
-   if ( zstrcmp( *m_pzsTag, "States" ) == 0 && pnmv->iItem == 53 )
+   if ( zstrcmp( m_pzsTag->GetString(), "States" ) == 0 && pnmv->iItem == 53 )
       TraceLineI( "  Item    : ", pnmv->iItem );
 #endif
 
@@ -7561,7 +7565,7 @@ void
 ZListCtrl::OnSize( UINT uType, int cx, int cy )
 {
 #ifdef DEBUG_ALL
-   if ( zstrcmp( *m_pzsTag, "TableListBox" ) == 0 )
+   if ( zstrcmp( m_pzsTag->GetString(), "TableListBox" ) == 0 )
       TraceLineS( "ZListCtrl::OnSize ", *m_pzsTag );
 #endif
 
@@ -7721,8 +7725,8 @@ ZListCtrl::OnPaint( )
    DrawSeparatorLines( );
 
 #ifdef DEBUG_ALL
-   if ( zstrcmp( "LBAllTransactions", *m_pzsTag ) == 0 )
-      TraceLineS( "ZListCtrl::OnPaint End: ", *m_pzsTag );
+   if ( zstrcmp( "LBAllTransactions", m_pzsTag->GetString() ) == 0 )
+      TraceLineS( "ZListCtrl::OnPaint End: ", m_pzsTag->GetString() );
 #endif
 }
 

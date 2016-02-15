@@ -740,11 +740,10 @@ fnGetDecimalAttribute( LPDOMAINDATA lpDomainData )
 
          // Return the formatted decimal, unless the return area is not
          // large enough, in that case fill it with '*'.
-         if ( lpDomainData->uMaxStringLength &&
-              zstrlen( sz ) > lpDomainData->uMaxStringLength )
+         if ( lpDomainData->uMaxStringLength && zstrlen( sz ) > lpDomainData->uMaxStringLength )
          {
-            zmemset( lpDomainData->lpData, '*', lpDomainData->uMaxStringLength );
-            *((zPCHAR) lpDomainData->lpData + lpDomainData->uMaxStringLength) = 0;
+            zmemset( lpDomainData->lpData, '*', lpDomainData->uMaxStringLength - 1 );
+            *((zPCHAR) lpDomainData->lpData + lpDomainData->uMaxStringLength - 1) = 0;
 
             // "TZDME021 - Return area not large enough for formatted string "
             SendDomainError( lpDomainData->zView, lpDomain, 8, 21, 0,  lpDomainData->lpViewEntity->szName,

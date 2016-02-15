@@ -804,7 +804,10 @@ void ZCrystalEditView::OnKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags )
 
 UINT ZCrystalEditView::OnGetDlgCode()
 {
-   return DLGC_WANTALLKEYS;
+   UINT uCode = CView::OnGetDlgCode( );
+   uCode = uCode | DLGC_WANTALLKEYS;
+   return( uCode );
+// return DLGC_WANTALLKEYS;
 }
 
 void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
@@ -7165,19 +7168,19 @@ DWORD ZCrystalEditView::ParseLine(DWORD dwCookie, int nLineIndex, TEXTBLOCK *pBu
             DEFINE_BLOCK(nPos, COLORINDEX_COMMENT);
          }
          else
-            if (dwCookie & (COOKIE_CHAR | COOKIE_STRING))
-            {
-               DEFINE_BLOCK(nPos, COLORINDEX_STRING);
-            }
-            else
-               if (dwCookie & COOKIE_PREPROCESSOR)
-               {
-                  DEFINE_BLOCK(nPos, COLORINDEX_PREPROCESSOR);
-               }
-               else
-               {
-                  DEFINE_BLOCK(nPos, COLORINDEX_NORMALTEXT);
-               }
+         if (dwCookie & (COOKIE_CHAR | COOKIE_STRING))
+         {
+            DEFINE_BLOCK(nPos, COLORINDEX_STRING);
+         }
+         else
+         if (dwCookie & COOKIE_PREPROCESSOR)
+         {
+            DEFINE_BLOCK(nPos, COLORINDEX_PREPROCESSOR);
+         }
+         else
+         {
+            DEFINE_BLOCK(nPos, COLORINDEX_NORMALTEXT);
+         }
          bRedefineBlock = FALSE;
          bDecIndex      = FALSE;
       }
@@ -7293,10 +7296,10 @@ DWORD ZCrystalEditView::ParseLine(DWORD dwCookie, int nLineIndex, TEXTBLOCK *pBu
                DEFINE_BLOCK(nIdentBegin, COLORINDEX_KEYWORD);
             }
             else
-               if (IsNumeric(pszChars + nIdentBegin, k - nIdentBegin))
-               {
-                  DEFINE_BLOCK(nIdentBegin, COLORINDEX_NUMBER);
-               }
+            if (IsNumeric(pszChars + nIdentBegin, k - nIdentBegin))
+            {
+               DEFINE_BLOCK(nIdentBegin, COLORINDEX_NUMBER);
+            }
             bRedefineBlock = TRUE;
             bDecIndex = TRUE;
             nIdentBegin = -1;
@@ -7311,10 +7314,10 @@ DWORD ZCrystalEditView::ParseLine(DWORD dwCookie, int nLineIndex, TEXTBLOCK *pBu
          DEFINE_BLOCK(nIdentBegin, COLORINDEX_KEYWORD);
       }
       else
-         if (IsNumeric(pszChars + nIdentBegin, k - nIdentBegin))
-         {
-            DEFINE_BLOCK(nIdentBegin, COLORINDEX_NUMBER);
-         }
+      if (IsNumeric(pszChars + nIdentBegin, k - nIdentBegin))
+      {
+         DEFINE_BLOCK(nIdentBegin, COLORINDEX_NUMBER);
+      }
    }
 
    if (pszChars[nLength - 1] != '\\')

@@ -251,12 +251,20 @@
     <CustomBuild Include="XSPLIT.cur" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\w\tz\tzedvmld.vcxproj">
+      <Project>{62004c7d-8b52-4e80-b367-1d2b0215a8d9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\tz\ax\truegrid\truegrid.vcxproj">
       <Project>{2b68362b-0336-4e95-959f-62a143748f45}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\tz\ax\tzaxctl\TzAxCtl.vcxproj">
       <Project>{056f321b-4498-4b42-bb50-9c1b7d062f3c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\tz\ax\tzvmledt\tzvmledt.vcxproj">
+      <Project>{559592b4-3b66-4206-870b-06dfc4c72611}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="jpeglib\JPegLib.vcxproj">
@@ -267,7 +275,7 @@
       <Project>{dbd15b43-74c3-4280-a5e2-e518844410fb}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="Z2MP.vcxproj">
+    <ProjectReference Include="Z2MP\Z2MP.vcxproj">
       <Project>{dd6fbc7b-ae10-4b9e-832c-f8585315ff1b}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
@@ -279,7 +287,7 @@
       <Project>{9fb0ccae-7409-40ab-bd2a-fe501c681094}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="ZSEMail.vcxproj">
+    <ProjectReference Include="ZSEMail\ZSEMail.vcxproj">
       <Project>{04a79da6-b17e-4b0b-ad96-b2e7a8afa3fd}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

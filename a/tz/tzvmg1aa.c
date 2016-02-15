@@ -1523,9 +1523,9 @@ GenerateJavaLocalVariableList( zVIEW  vSubtask,
          szPFlag[ 0 ] = 0;
          GetStringFromAttribute( szPFlag, sizeof( szPFlag ), vTemp, "Variable", "PFlag" );
       // if ( szPFlag[ 0 ] == 'Y' )
-      //    zstrcpy( psz, "double *" );  // zstrcpy( psz, "decimal *" );
+      //    strcpy_s( psz, "double *" ); // strcpy_s( psz, "decimal *" );
       // else
-            strcpy_s( psz, commented out, "double " );   // zstrcpy( psz, "decimal " );
+            strcpy_s( psz, commented out, "double " );   // strcpy_s( psz, "decimal " );
 
          psz = psz + zstrlen( psz );
 

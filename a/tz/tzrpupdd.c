@@ -4328,7 +4328,7 @@ InitPopup( zVIEW vSubtask )
       {
          if ( bFirstTime )
          {
-         // zstrcpy( szUnknown + 9, cpcOptionTags[ k ] );
+         // strcpy_s( szUnknown + 9, cpcOptionTags[ k ] );
          // RemoveOptionFromPopupMenu( vSubtask, szUnknown );
             lFlag = 4 + 128;
          }
@@ -4499,6 +4499,7 @@ fnLocateReportDate( zPCHAR pchBuffer )
    zPCHAR pchColon1;
    zPCHAR pchSlash2;
    zPCHAR pchSlash1;
+   zLONG  lLth = zstrlen( pchBuffer );
    zLONG  k;
 
    pchColon2 = zstrchr( pchBuffer, '\n' );
@@ -4537,11 +4538,11 @@ fnLocateReportDate( zPCHAR pchBuffer )
                   pchBuffer[ 1 ] = '0';
                }
 
-               zstrcpy( pchBuffer + 2, pchSlash2 + 1 );
+               strcpy_s( pchBuffer + 2, lLth - 2, pchSlash2 + 1 );
                pchBuffer[ 4 ] = '/';
-               zstrcpy( pchBuffer + 5, pchSlash1 - 2 );
+               strcpy_s( pchBuffer + 5, lLth - 5, pchSlash1 - 2 );
                pchBuffer[ 10 ] = ' ';
-               zstrcpy( pchBuffer + 11, pchColon1 - 2 );
+               strcpy_s( pchBuffer + 11, lLth - 11, pchColon1 - 2 );
                return( 0 );   // we think we did this correctly
             }
          }

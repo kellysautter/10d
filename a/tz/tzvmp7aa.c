@@ -237,7 +237,7 @@ zLONG lLocal7Text;
 //    respectively. This expression could, at the end of this function, be
 //    broken up into two seperate expressions:
 //
-//             1: zstrcpy( A, B ); A is "YYY" B is "YYY"
+//             1: strcpy_s( A, B ); A is "YYY" B is "YYY"
 //             2: zstrcat( A, A ); A is "YYYYYY" B is "YYY"
 //
 //    Notice the problem, after expression 1:, the value of AAA is now "YYY"
@@ -247,7 +247,7 @@ zLONG lLocal7Text;
 //
 //    1: strcpy_s( szTemp, sizeof( szTemp ), B ); A is "XXX" B is "YYY" szTemp is "YYY"
 //    2: strcat_s( szTemp, sizeof( szTemp ), A ); A is "XXX" B is "YYY" szTemp is "YYYXXX"
-//    3: zstrcpy( A, szTemp );  A is "YYYXXX" B is "YYY" szTemp is "YYYXXX
+//    3: strcpy_s( A, szTemp ); A is "YYYXXX" B is "YYY" szTemp is "YYYXXX
 //
 //    If during the scan it is discovered that the target is not reused,
 //    then it can be the target itself. Note that the target could be an

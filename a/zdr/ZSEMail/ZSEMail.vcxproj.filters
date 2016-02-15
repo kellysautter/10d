@@ -15,29 +15,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ZSEMail.cpp">
+    <ClCompile Include=".\..\ZSEMail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ZSEMail.rc">
+    <ResourceCompile Include=".\..\ZSEMail.rc">
       <Filter>Source Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include=".\..\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ZSEMail.h">
+    <ClInclude Include=".\..\ZSEMail.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="ZSEMail.def">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\ZSEMail.rc2">
+    <CustomBuild Include=".\..\res\ZSEMail.rc2">
       <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include=".\..\ZSEMail.def">
+      <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

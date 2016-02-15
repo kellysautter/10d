@@ -1330,7 +1330,7 @@ AddExpressionEntryToString( zPCHAR pchExprCode,      // the expression code
          //{
          //   sCurrExpr.lOffset = *plExprTextIndex;
          //   // store the operation name value
-         //   zstrcpy( (zPCHAR)&pchExprText[ *plExprTextIndex ], pchEntryValue );
+         //   strcpy_s( (zPCHAR)&pchExprText[ *plExprTextIndex ], pchEntryValue );
          //   *plExprTextIndex += zstrlen( pchEntryValue ) + 1;
          //}
          sCurrExpr.lLevel = g_lPriorityFudgeFactor;

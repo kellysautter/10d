@@ -718,7 +718,7 @@ TerminateLPLR( zVIEW vSubtask )
       if ( WorkView )
          DropObjectInstance( WorkView );
 
-      zstrcpy( &szViewName[ zstrlen( szViewName ) - 2 ], ".r" );
+      strcpy_s( szViewName + zstrlen( szViewName ) - 2, sizeof( szViewName ) - zstrlen( szViewName ) + 2, ".r" );
       if ( GetViewByName( &WorkView, szViewName, vZeidonCM, zLEVEL_SUBTASK ) > 0 )
       {
          SetAttributeFromString( vActiveMetas, "W_MetaDef", "TaskID", "" );
@@ -2201,7 +2201,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
             else
             {
                strcpy_s( szRemotePath, sizeof( szRemotePath ), szFileSpec );
-               zstrcpy( szRemotePath + nLth, ".XRA" );
+               strcpy_s( szRemotePath + nLth, sizeof( szRemotePath ) - nLth, ".XRA" );
             }
 
             nRC = CommitOI_ToFile( vXRA, szRemotePath, zSINGLE );
@@ -4128,63 +4128,63 @@ fnCreateMetaEntity( zVIEW  vSubtask,
    // Determine Root Entity Name for meta object for use in processing the ZKey.
    MiGetObjectNameForView( szObjectName, lpView );
    if ( zstrcmpi( szObjectName, "TZWDLGSO" ) == 0 )
-      zstrcpy( szRootEntityName, "Dialog" );
+      strcpy_s( szRootEntityName, "Dialog" );
    else
    if ( zstrcmpi( szObjectName, "TZZOLODO" ) == 0 )
-      zstrcpy( szRootEntityName, "LOD" );
+      strcpy_s( szRootEntityName, "LOD" );
    else
    if ( zstrcmpi( szObjectName, "TZTEVNRO" ) == 0 )
-      zstrcpy( szRootEntityName, "TE_DB_Environ" );
+      strcpy_s( szRootEntityName, "TE_DB_Environ" );
    else
    if ( zstrcmpi( szObjectName, "TZEREMDO" ) == 0 )
-      zstrcpy( szRootEntityName, "EntpER_Model" );
+      strcpy_s( szRootEntityName, "EntpER_Model" );
    else
    if ( zstrcmpi( szObjectName, "TZRPSRCO" ) == 0 )
-      zstrcpy( szRootEntityName, "Report" );
+      strcpy_s( szRootEntityName, "Report" );
    else
    if ( zstrcmpi( szObjectName, "TZCMLPLO" ) == 0 )
-      zstrcpy( szRootEntityName, "LPLR" );
+      strcpy_s( szRootEntityName, "LPLR" );
    else
    if ( zstrcmpi( szObjectName, "TZDGSRCO" ) == 0 )
-      zstrcpy( szRootEntityName, "DomainGroup" );
+      strcpy_s( szRootEntityName, "DomainGroup" );
    else
    if ( zstrcmpi( szObjectName, "TZDMXGPO" ) == 0 )
-      zstrcpy( szRootEntityName, "DomainGroup" );
+      strcpy_s( szRootEntityName, "DomainGroup" );
    else
    if ( zstrcmpi( szObjectName, "TZOGSRCO" ) == 0 )
-      zstrcpy( szRootEntityName, "GlobalOperationGroup" );
+      strcpy_s( szRootEntityName, "GlobalOperationGroup" );
    else
    if ( zstrcmpi( szObjectName, "TZBRLOVO" ) == 0 )
-      zstrcpy( szRootEntityName, "Root" );
+      strcpy_s( szRootEntityName, "Root" );
    else
    if ( zstrcmpi( szObjectName, "TZTENVRO" ) == 0 )
-      zstrcpy( szRootEntityName, "TE_DB_Environ" );
+      strcpy_s( szRootEntityName, "TE_DB_Environ" );
    else
    if ( zstrcmpi( szObjectName, "TZOPHDRO" ) == 0 )
-      zstrcpy( szRootEntityName, "HeaderFile" );
+      strcpy_s( szRootEntityName, "HeaderFile" );
    else
    if ( zstrcmpi( szObjectName, "TZERSASO" ) == 0 )
-      zstrcpy( szRootEntityName, "SubjectArea" );
+      strcpy_s( szRootEntityName, "SubjectArea" );
    else
    if ( zstrcmpi( szObjectName, "TZWDVORO" ) == 0 )
-      zstrcpy( szRootEntityName, "ViewObjRef" );
+      strcpy_s( szRootEntityName, "ViewObjRef" );
    else
    if ( zstrcmpi( szObjectName, "TZPESRCO" ) == 0 )
-      zstrcpy( szRootEntityName, "PresEnvDef" );
+      strcpy_s( szRootEntityName, "PresEnvDef" );
    else
    if ( zstrcmpi( szObjectName, "TZADSCDO" ) == 0 )
-      zstrcpy( szRootEntityName, "UI_Spec" );
+      strcpy_s( szRootEntityName, "UI_Spec" );
    else
    if ( zstrcmpi( szObjectName, "TZCMWKSO" ) == 0 )
-      zstrcpy( szRootEntityName, "RepositoryClient" );
+      strcpy_s( szRootEntityName, "RepositoryClient" );
    else
    if ( zstrcmpi( szObjectName, "TZXSLTSO" ) == 0 )
-      zstrcpy( szRootEntityName, "XSLT" );
+      strcpy_s( szRootEntityName, "XSLT" );
    else
 // if ( zstrcmpi( szRootEntityName, "NULL" ) == 0 )
    {
-   // zstrcpy( szRootEntityName, "NULL" );
-      zstrcpy( szMsg, "There is no ZKey Handler for object, " );
+   // strcpy_s( szRootEntityName, "NULL" );
+      strcpy_s( szMsg, "There is no ZKey Handler for object, " );
       zstrcat( szMsg, szObjectName );
       MessageSend( lpView, "", "Create Meta Entity", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );

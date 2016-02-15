@@ -4107,14 +4107,11 @@ zwTZZOLODD_OK_NewEntity( zVIEW vSubtask )
    // Reset Ident Name
    nRC = GetStringFromAttribute( szEntityNameIndent, sizeof( szEntityNameIndent ),
                                  vTZZOLODO, "LOD_Entity", "IndentName" );
-   nRC = GetIntegerFromAttribute( &lIndentLvl,
-                                  vTZZOLODO, "LOD_Entity", "IndentLvl" );
-   zstrcpy( &szEntityNameIndent[ lIndentLvl ], szEntityName );
-   nRC = SetAttributeFromString( vTZZOLODO, "LOD_Entity", "IndentName",
-                                 szEntityNameIndent );
+   nRC = GetIntegerFromAttribute( &lIndentLvl, vTZZOLODO, "LOD_Entity", "IndentLvl" );
+   strcpy_s( szEntityNameIndent + lIndentLvl, sizeof( szEntityNameIndent ) - lIndentLvl, szEntityName );
+   nRC = SetAttributeFromString( vTZZOLODO, "LOD_Entity", "IndentName", szEntityNameIndent );
 
-   if ( GetViewByName( &vTZZOHDGO, "TZZOHDGO", vSubtask, zLEVEL_TASK )
-                                                      == zLEVEL_TASK )
+   if ( GetViewByName( &vTZZOHDGO, "TZZOHDGO", vSubtask, zLEVEL_TASK ) == zLEVEL_TASK )
    {
       zVIEW vW;
 
@@ -8833,6 +8830,7 @@ fnLocateLODDate( zPCHAR pchBuffer )
    zPCHAR pchColon1;
    zPCHAR pchSlash2;
    zPCHAR pchSlash1;
+   zLONG  lLth = zstrlen( pchBuffer );
    zLONG  k;
 
    pchColon2 = zstrchr( pchBuffer, '\n' );
@@ -8872,11 +8870,11 @@ fnLocateLODDate( zPCHAR pchBuffer )
                   pchBuffer[ 1 ] = '0';
                }
 
-               zstrcpy( pchBuffer + 2, pchSlash2 + 1 );
+               strcpy_s( pchBuffer + 2, lLth - 2, pchSlash2 + 1 );
                pchBuffer[ 4 ] = '/';
-               zstrcpy( pchBuffer + 5, pchSlash1 - 2 );
+               strcpy_s( pchBuffer + 5, lLth - 5, pchSlash1 - 2 );
                pchBuffer[ 10 ] = ' ';
-               zstrcpy( pchBuffer + 11, pchColon1 - 2 );
+               strcpy_s( pchBuffer + 11, lLth - 11, pchColon1 - 2 );
                return( 0 );   // we think we did this correctly
             }
          }

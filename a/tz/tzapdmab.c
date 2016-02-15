@@ -1484,9 +1484,9 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
                   }
                }
 
-               // Copy value to target string.  Since strncpy doesn't automatically add the null-terminator, we have to do it ourselves.
+               // Copy value to target string.  Since strncpy doesn't automatically add the null-terminator, we have to do it ourselves ... not anymore dks 2016.02.14
                strncpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, sz2, lpDomainData->uMaxStringLength - 1 );
-               ((zPCHAR) lpDomainData->lpData )[ lpDomainData->uMaxStringLength ] = 0;
+            // ((zPCHAR) lpDomainData->lpData )[ lpDomainData->uMaxStringLength ] = 0;
             }
             else
             {
@@ -1497,9 +1497,9 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
          }
          else
          {
-            // no context, just copy our DateTime string as is.  Since strncpy doesn't automatically add the null-terminator, we have to do it ourselves.
+            // no context, just copy our DateTime string as is.  Since strncpy doesn't automatically add the null-terminator, we have to do it ourselves ... not anymore dks 2016.02.14
             strncpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, szDT1, lpDomainData->uMaxStringLength - 1 );
-            ((zPCHAR) lpDomainData->lpData)[ lpDomainData->uMaxStringLength ] = 0;
+         // ((zPCHAR) lpDomainData->lpData)[ lpDomainData->uMaxStringLength ] = 0;
          }
 
          break;
@@ -1512,9 +1512,9 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
 
             if ( lpEditString && *lpEditString )
             {
-               // Copy value to target string.  Since strncpy doesn't automatically add the null-terminator, we have to do it ourselves.
+               // Copy value to target string.  Since strncpy doesn't automatically add the null-terminator, we have to do it ourselves ... not anymore dks 2016.02.14
                strncpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, lpEditString, lpDomainData->uMaxStringLength - 1 );
-               ((zPCHAR) lpDomainData->lpData )[ lpDomainData->uMaxStringLength ] = 0;
+            // ((zPCHAR) lpDomainData->lpData )[ lpDomainData->uMaxStringLength ] = 0;
             }
             else
             {
@@ -1533,9 +1533,9 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
                   else
                      szTemp[ 0 ] = 0;
 
-                  // Copy value to target string.  Since strncpy doesn't automatically add the null-terminator, we have to do it ourselves.
+                  // Copy value to target string.  Since strncpy doesn't automatically add the null-terminator, we have to do it ourselves ... not anymore dks 2016.02.14
                   strncpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, szTemp, lpDomainData->uMaxStringLength - 1 );
-                  ((zPCHAR) lpDomainData->lpData)[ lpDomainData->uMaxStringLength ] = 0;
+               // ((zPCHAR) lpDomainData->lpData)[ lpDomainData->uMaxStringLength ] = 0;
                }
                else
                   *((zPCHAR) lpDomainData->lpData) = 0;

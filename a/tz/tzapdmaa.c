@@ -835,7 +835,7 @@ fnText( zSHORT       nID,
    //    Gig, strncpy_s NULLS for complete length!!!!
    //                strcpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, (zPCHAR) lpAttrAddr );
    //                strncpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, (zPCHAR) lpAttrAddr, lpDomainData->uMaxStringLength - 1 );
-   //                *((zPCHAR) lpDomainData->lpData + lpDomainData->uMaxStringLength - 1 ) = 0;
+   //                *((zPCHAR) lpDomainData->lpData + lpDomainData->uMaxStringLength - 1 ) = 0;  no longer needed
 
                      *((zPCHAR) lpDomainData->lpData) = 0;
                      if ( nID == eDM_EXPAND_ENVIRONMENT )
@@ -854,8 +854,7 @@ fnText( zSHORT       nID,
                         // SysMessageBox( 0, "Domain Error", "Truncating attribute length - see Trace Log", -1 );
                            uAttrLength = lpDomainData->uMaxStringLength;
                         }
-                        strncat_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength,
-                                   (zPCHAR) lpAttrAddr, lpDomainData->uMaxStringLength - 1 );
+                        strncat_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, (zPCHAR) lpAttrAddr, lpDomainData->uMaxStringLength - 1 );
                      }
 
                      nRC = 0;
@@ -912,8 +911,7 @@ fnText( zSHORT       nID,
                         zPCHAR lpEditString = SysGetPointerFromHandle( lpContext->hEditString );
 
                         if ( lpEditString && *lpEditString )
-                           strcpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength,
-                                    lpEditString );
+                           strcpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, lpEditString );
                         else
                            *((zPCHAR) lpDomainData->lpData) = 0;
 
@@ -1039,10 +1037,8 @@ fnText( zSHORT       nID,
                break;
 
             case zTYPE_DECIMAL:
-               ConvertDecimalToString( szWorkString,
-                                       lpDomainData->lpViewAttribute,
-                                       *((zPDECIMAL) lpDomainData->lpData),
-                                       lpDomainData->pszContextName );
+               ConvertDecimalToString( szWorkString, lpDomainData->lpViewAttribute,
+                                       *((zPDECIMAL) lpDomainData->lpData), lpDomainData->pszContextName );
                strcpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, szWorkString );
                nRC = 1; // indicate returning a string value
                break;

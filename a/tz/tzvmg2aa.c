@@ -1364,7 +1364,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
             nLth = sizeof( szJavaRC ) + 1;
 
             nOutputIdx = VM_MAX_STRING_SIZE - nLth;
-            zstrcpy( g_pchOutputExprStr + nOutputIdx + 1, szJavaRC );
+            strcpy_s( g_pchOutputExprStr + nOutputIdx + 1, szJavaRC );
 
             nOutputIdx -= nIndent;
             zmemset( g_pchOutputExprStr + nOutputIdx, ' ', nIndent );
@@ -2016,7 +2016,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
       //if ( (pch = zstrstr( pchOutputString, "RESULT > zCURSOR_UNCHANGED" )) != 0 )
       {
          zmemcpy( pch, "cr.isSet()", 10 );
-         zstrcpy( pch + 10, pch + 21 );
+         strcpy_s( pch + 10, pch + 21 );
          //zstrcat( pch, " )" );
       }
      */
@@ -2291,7 +2291,7 @@ FormatString( zPCHAR pchOutputString )
 
             *(pch + k + 254) = '"';
 
-            zstrcpy( pch + 255 + k, szTemp );
+            strcpy_s( pch + 255 + k, szTemp );
             pch = pch + 255;
 
             while ( n255 > 254 )
@@ -2300,7 +2300,7 @@ FormatString( zPCHAR pchOutputString )
                *(pch + 253) = '"';
                *(pch + 254) = '"';
 
-               zstrcpy( pch + 255, szTemp );
+               strcpy_s( pch + 255, szTemp );
                pch = pch + 255;
                n255 = n255 - 253;
          }

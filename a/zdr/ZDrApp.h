@@ -1276,15 +1276,15 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-#define zMOUSE_STATUS_OFF                    0x0000
-#define zMOUSE_SELECT_PENDING                0x0010
-#define zMOUSE_CAPTURE                       0x1000
-#define zMOUSE_CAPTURE_LEFT                  0x1001
-#define zMOUSE_CAPTURE_RIGHT                 0x1002
-#define zMOUSE_DRAG                          0x1100
-#define zMOUSE_DRAG_LEFT                     0x1101
-#define zMOUSE_DRAG_RIGHT                    0x1102
-#define zMOUSE_ASYNC_DISABLE                 0x2000
+#define zMOUSE_STATUS_OFF             (UINT) 0x0000
+#define zMOUSE_SELECT_PENDING         (UINT) 0x0010
+#define zMOUSE_CAPTURE                (UINT) 0x1000
+#define zMOUSE_CAPTURE_LEFT           (UINT) 0x1001
+#define zMOUSE_CAPTURE_RIGHT          (UINT) 0x1002
+#define zMOUSE_DRAG                   (UINT) 0x1100
+#define zMOUSE_DRAG_LEFT              (UINT) 0x1101
+#define zMOUSE_DRAG_RIGHT             (UINT) 0x1102
+#define zMOUSE_ASYNC_DISABLE          (UINT) 0x2000
 
 /////////////////////////////////////////////////////////////////////////////
 // Structure definition for ZDragDrop.
@@ -1933,7 +1933,7 @@ public:
    zSHORT   m_nDisabled;         // == 0 ==> control is enabled ... < 0 otw
    zBOOL    m_bLocked;           // Locked for update using LockWindowUpdate
    zULONG   m_ulSubtaskFlags;    // modal, dialog box, child, popup, ..., flags
-   zUSHORT  m_uMouseStatus;
+   UINT     m_uMouseStatus;
    zBOOL    m_bStopEvents;
    zPCHAR   m_pAccels;
    zSHORT   m_nDIL_Items;
@@ -3194,15 +3194,15 @@ private:
 #define zAUTOGRAY_ACTION_NOT_NULL            0x00000020L
 #define zAUTOGRAY_ACTION_READONLY            0x10000000L
 
-#define zMOUSE_STATUS_OFF                    0x0000
-#define zMOUSE_SELECT_PENDING                0x0010
-#define zMOUSE_CAPTURE                       0x1000
-#define zMOUSE_CAPTURE_LEFT                  0x1001
-#define zMOUSE_CAPTURE_RIGHT                 0x1002
-#define zMOUSE_DRAG                          0x1100
-#define zMOUSE_DRAG_LEFT                     0x1101
-#define zMOUSE_DRAG_RIGHT                    0x1102
-#define zMOUSE_ASYNC_DISABLE                 0x2000
+#define zMOUSE_STATUS_OFF             (UINT) 0x0000
+#define zMOUSE_SELECT_PENDING         (UINT) 0x0010
+#define zMOUSE_CAPTURE                (UINT) 0x1000
+#define zMOUSE_CAPTURE_LEFT           (UINT) 0x1001
+#define zMOUSE_CAPTURE_RIGHT          (UINT) 0x1002
+#define zMOUSE_DRAG                   (UINT) 0x1100
+#define zMOUSE_DRAG_LEFT              (UINT) 0x1101
+#define zMOUSE_DRAG_RIGHT             (UINT) 0x1102
+#define zMOUSE_ASYNC_DISABLE          (UINT) 0x2000
 
 ////////////////////////////////////////////////////////////////////////////
 //

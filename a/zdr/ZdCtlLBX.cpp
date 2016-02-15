@@ -2666,7 +2666,7 @@ ZListBox::OnLButtonDown( UINT uModKeys, CPoint pt )
 #ifdef DEBUG_ALL
       TraceLineS( "Returning from LButtonDown ... LB_ERR ", *m_pzsTag );
 #endif
-//    m_pZSubtask->m_uMouseStatus = zMOUSE_STATUS_OFF;  // enforced by other code
+//    m_pZSubtask->m_uMouseStatus = zMOUSE_STATUS_OFF; // enforced by other code
       return;
    }
 

@@ -12452,11 +12452,11 @@ fnLocateXSLTDate( zPCHAR pchBuffer )
                   pchBuffer[ 1 ] = '0';
                }
 
-               zstrcpy( pchBuffer + 2, pchSlash2 + 1 );
+               strcpy_s( pchBuffer + 2, pchSlash2 + 1 );
                pchBuffer[ 4 ] = '/';
-               zstrcpy( pchBuffer + 5, pchSlash1 - 2 );
+               strcpy_s( pchBuffer + 5, pchSlash1 - 2 );
                pchBuffer[ 10 ] = ' ';
-               zstrcpy( pchBuffer + 11, pchColon1 - 2 );
+               strcpy_s( pchBuffer + 11, pchColon1 - 2 );
                return( 0 );   // we think we did this correctly
             }
          }
@@ -13522,9 +13522,9 @@ MigrateXSLTs( zVIEW vSubtask )
                if ( nLth && szFileSpec1[ nLth - 1 ] != '\\' )
                   szFileSpec1[ nLth++ ] = '\\';
 
-               zstrcpy( szFileSpec1 + nLth, pchDlgTag );
+               strcpy_s( szFileSpec1 + nLth, pchDlgTag );
                nLth += (zSHORT) zstrlen( pchDlgTag );
-               zstrcpy( szFileSpec1 + nLth, ".pwd" );
+               strcpy_s( szFileSpec1 + nLth, ".pwd" );
                lFilePWD = SysOpenFile( vSubtask, szFileSpec1, COREFILE_READ );
                lFileXWD = SysOpenFile( vSubtask, szFileSpec2, COREFILE_READ );
                strcpy_s( szFileSpec2, sizeof( szFileSpec2 ), szFileSpec1 );

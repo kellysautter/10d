@@ -62,8 +62,8 @@
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\Release\</OutDir>
-    <IntDir>..\Release\</IntDir>
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -81,7 +81,7 @@
       <PreprocessorDefinitions>WIN32;__WIN32__;_WINDOWS;_DEBUG;QUINSOFT;_AFXEXT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
-      <PrecompiledHeaderOutputFile>.\..\Debug\TzCtl.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>.\Debug\TzCtl.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>TzCtl.h</PrecompiledHeaderFile>
       <ObjectFileName>.\Debug\</ObjectFileName>
@@ -91,7 +91,7 @@
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\..\Debug\TzCtl.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Debug\TzCtl.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -101,7 +101,7 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\..\Debug\ZDr.bsc</OutputFile>
+      <OutputFile>.\Debug\ZDr.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -128,17 +128,17 @@
       <TreatWarningAsError>false</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(KZD):\$(KZV)\w\incz;$(KZD):\$(KZV)\w\incr;$(KZD):\$(KZV)\a\incz;$(KZD):\$(KZV)\a\incr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_AFXEXT;WIN32;_WINDOWS;__WIN32__;QUINSOFT;_NOANCHOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>..\Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>..\Release\TzCtl.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\TzCtl.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>TzCtl.h</PrecompiledHeaderFile>
-      <ObjectFileName>..\Release\</ObjectFileName>
-      <ProgramDataBaseFileName>..\Release\</ProgramDataBaseFileName>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>.\..\Release\TzCtl.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Release\TzCtl.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <TargetEnvironment>Win32</TargetEnvironment>
     </Midl>
@@ -148,7 +148,7 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\..\Release\TzCtl.bsc</OutputFile>
+      <OutputFile>.\Release\TzCtl.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -158,81 +158,81 @@
       <ImportLibrary>$(KZD):\$(KZV)\w\libr\TzCtl.lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(KZD):\$(KZV)\w\libz;$(KZD):\$(KZV)\w\libr;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ZdCtl.lib;ZDrApp.lib;kzoengaa.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>..\TzCtl.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\..\TzCtl.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
 
   <ItemGroup>
-    <ClCompile Include="..\TzCtl.cpp">
+    <ClCompile Include=".\..\TzCtl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TzCtl.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TzCtl.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="..\TzCtlATX.cpp" />
-    <ClCompile Include="..\TzCtlCVT.cpp" />
-    <ClCompile Include="..\TzCtlERD.cpp" />
-    <ClCompile Include="..\TzCtlERE.cpp" />
-    <ClCompile Include="..\TzCtlERL.cpp" />
-    <ClCompile Include="..\TzCtlERV.cpp" />
-    <ClCompile Include="..\TzCtlOPR.cpp" />
-    <ClCompile Include="..\TzCtlPTB.cpp" />
-    <ClCompile Include="..\TzCtlPTC.cpp" />
-    <ClCompile Include="..\TzCtlPTE.cpp" />
-    <ClCompile Include="..\TzCtlPTM.cpp" />
-    <ClCompile Include="..\TzCtlPTR.cpp" />
-    <ClCompile Include="..\TzCtlPTS.cpp" />
-    <ClCompile Include="..\TzCtlPTU.cpp" />
-    <ClCompile Include="..\TzCtlPTX.cpp" />
-    <ClCompile Include="..\TzCtlTAB.cpp" />
-    <ClCompile Include="..\TzCtlTBE.cpp" />
+    <ClCompile Include=".\..\TzCtlATX.cpp" />
+    <ClCompile Include=".\..\TzCtlCVT.cpp" />
+    <ClCompile Include=".\..\TzCtlERD.cpp" />
+    <ClCompile Include=".\..\TzCtlERE.cpp" />
+    <ClCompile Include=".\..\TzCtlERL.cpp" />
+    <ClCompile Include=".\..\TzCtlERV.cpp" />
+    <ClCompile Include=".\..\TzCtlOPR.cpp" />
+    <ClCompile Include=".\..\TzCtlPTB.cpp" />
+    <ClCompile Include=".\..\TzCtlPTC.cpp" />
+    <ClCompile Include=".\..\TzCtlPTE.cpp" />
+    <ClCompile Include=".\..\TzCtlPTM.cpp" />
+    <ClCompile Include=".\..\TzCtlPTR.cpp" />
+    <ClCompile Include=".\..\TzCtlPTS.cpp" />
+    <ClCompile Include=".\..\TzCtlPTU.cpp" />
+    <ClCompile Include=".\..\TzCtlPTX.cpp" />
+    <ClCompile Include=".\..\TzCtlTAB.cpp" />
+    <ClCompile Include=".\..\TzCtlTBE.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\TzCtl.def" />
+    <CustomBuild Include=".\..\TzCtl.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\TzCtl.rc" />
+    <ResourceCompile Include=".\..\TzCtl.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\resource.h" />
-    <ClInclude Include="..\TzCtl.h" />
+    <ClInclude Include=".\..\resource.h" />
+    <ClInclude Include=".\..\TzCtl.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\bitmap.bmp" />
-    <Image Include="..\bmpctl.bmp" />
-    <Image Include="..\calendar.bmp" />
-    <Image Include="..\check.bmp" />
-    <Image Include="..\combo.bmp" />
-    <Image Include="..\ctrlbar.bmp" />
-    <Image Include="..\DayTimer.bmp" />
-    <Image Include="..\dil.bmp" />
-    <Image Include="..\edit.bmp" />
-    <Image Include="..\editgrp.bmp" />
-    <Image Include="..\graph.bmp" />
-    <Image Include="..\group.bmp" />
-    <Image Include="..\grp.bmp" />
-    <Image Include="..\grpset.bmp" />
-    <Image Include="..\hierdgrm.bmp" />
-    <Image Include="..\icon.bmp" />
-    <Image Include="..\list.bmp" />
-    <Image Include="..\mle.bmp" />
-    <Image Include="..\outliner.bmp" />
-    <Image Include="..\palette.bmp" />
-    <Image Include="..\push.bmp" />
-    <Image Include="..\radio.bmp" />
-    <Image Include="..\shape.bmp" />
-    <Image Include="..\ss.bmp" />
-    <Image Include="..\tab.bmp" />
-    <Image Include="..\text.bmp" />
-    <Image Include="..\timer.bmp" />
-    <Image Include="..\Toolbar.bmp" />
+    <Image Include=".\..\bitmap.bmp" />
+    <Image Include=".\..\bmpctl.bmp" />
+    <Image Include=".\..\calendar.bmp" />
+    <Image Include=".\..\check.bmp" />
+    <Image Include=".\..\combo.bmp" />
+    <Image Include=".\..\ctrlbar.bmp" />
+    <Image Include=".\..\DayTimer.bmp" />
+    <Image Include=".\..\dil.bmp" />
+    <Image Include=".\..\edit.bmp" />
+    <Image Include=".\..\editgrp.bmp" />
+    <Image Include=".\..\graph.bmp" />
+    <Image Include=".\..\group.bmp" />
+    <Image Include=".\..\grp.bmp" />
+    <Image Include=".\..\grpset.bmp" />
+    <Image Include=".\..\hierdgrm.bmp" />
+    <Image Include=".\..\icon.bmp" />
+    <Image Include=".\..\list.bmp" />
+    <Image Include=".\..\mle.bmp" />
+    <Image Include=".\..\outliner.bmp" />
+    <Image Include=".\..\palette.bmp" />
+    <Image Include=".\..\push.bmp" />
+    <Image Include=".\..\radio.bmp" />
+    <Image Include=".\..\shape.bmp" />
+    <Image Include=".\..\ss.bmp" />
+    <Image Include=".\..\tab.bmp" />
+    <Image Include=".\..\text.bmp" />
+    <Image Include=".\..\timer.bmp" />
+    <Image Include=".\..\Toolbar.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ZdCtl\ZdCtl.vcxproj">
+    <ProjectReference Include=".\..\ZdCtl\ZdCtl.vcxproj">
       <Project>{126fc027-c562-4dbe-9a83-a502513e9f02}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\ZDrApp\ZDrApp.vcxproj">
+    <ProjectReference Include=".\..\ZDrApp\ZDrApp.vcxproj">
       <Project>{9fb0ccae-7409-40ab-bd2a-fe501c681094}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
