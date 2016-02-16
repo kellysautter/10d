@@ -27,15 +27,9 @@
 // +  FIX: ResetView() was overriden to provide cleanup
 ////////////////////////////////////////////////////////////////////////////
 
-
-#include "zstdafx.h"
-
-#define ZDCTL_CLASS AFX_EXT_CLASS
-#include "ZDr.h"
-
-#include "ZdCtl.h"
-#include "ZdCtlGbl.h"
-#include "ZdCtlEVW.h"
+#include "stdafx.h"
+#include "editcmd.h"
+#include "ZCrystalEditView.h"
 
 #ifndef __AFXPRIV_H__
 #pragma message("Include <afxpriv.h> in your stdafx.h to avoid this message")
@@ -73,12 +67,12 @@ private:
 public:
    ZEditDropTargetImpl(ZCrystalEditView *pOwner) { m_pOwner = pOwner; };
 
-   virtual DROPEFFECT OnDragEnter(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point);
-   virtual void OnDragLeave(CWnd *pWnd);  //
-   virtual DROPEFFECT OnDragOver(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point);  //
-   virtual BOOL OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point);  //
-   virtual DROPEFFECT OnDragScroll(CWnd *pWnd, DWORD dwKeyState, CPoint point);
-//?virtual DROPEFFECT OnDropEx(CWnd *pWnd, COleDataObject *pDataObject, DROPEFFECT dropEffect, DROPEFFECT dropList, CPoint point);
+   virtual DROPEFFECT OnDragEnter(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
+   virtual void OnDragLeave(CWnd* pWnd);  //
+   virtual DROPEFFECT OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);  //
+   virtual BOOL OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);  //
+   virtual DROPEFFECT OnDragScroll(CWnd* pWnd, DWORD dwKeyState, CPoint point);
+//?virtual DROPEFFECT OnDropEx(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, DROPEFFECT dropList, CPoint point);
 };
 
 
@@ -206,7 +200,6 @@ END_MESSAGE_MAP()
 
 //Virtual bool Initialize();
 
-#define DEBUG_ALL
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -214,28 +207,9 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // ZCrystalEditView
 
-IMPLEMENT_DYNAMIC(ZCrystalEditView, CView)  // IMPLEMENT_DYNCREATE(ZCrystalEditView, CView)
+IMPLEMENT_DYNCREATE(ZCrystalEditView, CView)
 
-//
-//  CONSTRUCTOR: HD_Diagram
-//
-ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
-                                    CWnd     *pWndParent,
-                                    ZMapAct  *pzmaComposite,
-                                    zVIEW    vDialog,
-                                    zSHORT   nOffsetX,
-                                    zSHORT   nOffsetY,
-                                    zKZWDLGXO_Ctrl_DEF *pCtrlDef ) :
-                  CView( ),
-                  ZMapAct( pZSubtask,          // base class ctor
-                           pzmaComposite,
-                           pWndParent,
-                           this,
-                           vDialog,
-                           nOffsetX,
-                           nOffsetY,
-                           pCtrlDef,
-                           "Editor" )
+ZCrystalEditView::ZCrystalEditView() : CView()
 {
 // AFX_ZERO_INIT_OBJECT(ZCrystalEditView); ==>   memset(&object, 0, sizeof(ZCrystalEditView));
    m_pTextBuffer = NULL;
@@ -344,55 +318,7 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
    SetDisableDragAndDrop( 0 );
 
    ResetView();
-
-
-   Attr.Style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_HSCROLL | WS_VSCROLL;
-
-// if ( m_pzsVName == 0 )
-//    return;
-
-   // Always create an Editor ... should never have a parent control!
-   CreateZ( );
- }
-
-void
-ZCrystalEditView::CreateZ( )
-{
-   if ( m_ulMapActFlags & zMAPACT_VISIBLE )
-      Attr.Style |= WS_VISIBLE;
-   else
-      Attr.Style &= ~WS_VISIBLE;
-
-   if ( m_ulMapActFlags & zMAPACT_ENABLED )
-      Attr.Style &= ~WS_DISABLED;
-   else
-      Attr.Style |= WS_DISABLED;
-
-#ifdef zREMOTE_SERVER
-   m_ulMapActFlag2 |= zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED1;
-#else
-   if ( mIs_hWnd( m_hWnd ) ||
-        (m_pWndParent && mIs_hWnd( m_pWndParent->m_hWnd ) &&
-         CreateEx( 0, "ZeidonCustomCtrl", *m_pzsText,
-                   Attr.Style, Attr.X, Attr.Y, Attr.W, Attr.H,
-                   m_pWndParent->m_hWnd, (HMENU) m_nIdNbr )) )
-   {
-      m_ulMapActFlag2 |= zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED1;
-   }
-#endif
 }
-
-/*
-BOOL
-ZCrystalEditView::DestroyWindow( )
-{
-   return( CView::DestroyWindow( ) );
-}
-*/
-
-//
-//  DESTRUCTOR: ZCrystalEditView
-//
 
 ZCrystalEditView::~ZCrystalEditView()
 {
@@ -403,10 +329,6 @@ ZCrystalEditView::~ZCrystalEditView()
       delete m_pdwParseCookies;
    if (m_pnActualLineLength != NULL)
       delete m_pnActualLineLength;
-
-// TraceLineS( "ZCrystalEditView::~ZCrystalEditView", "" );
-   if ( mIs_hWnd( m_hWnd ) )
-      DestroyWindow( );
 }
 
 
@@ -423,12 +345,12 @@ void ZCrystalEditView::OnEditPaste()
    Paste();
 }
 
-void ZCrystalEditView::OnUpdateEditPaste(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(TextInClipboard());
 }
 
-void ZCrystalEditView::OnUpdateEditCut(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateEditCut(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(IsSelection());
 }
@@ -795,17 +717,9 @@ void ZCrystalEditView::OnKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags )
       }
    }
 */
-#endif
 
    CView::OnKeyUp( uKey, uRepeatCnt, uFlags );
-}
-
-UINT ZCrystalEditView::OnGetDlgCode()
-{
-   UINT uCode = CView::OnGetDlgCode( );
-   uCode = uCode | DLGC_WANTALLKEYS;
-   return( uCode );
-// return DLGC_WANTALLKEYS;
+#endif
 }
 
 void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
@@ -1188,17 +1102,17 @@ void ZCrystalEditView::OnEditUntab()
    }
 }
 
-void ZCrystalEditView::OnUpdateIndicatorCol(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateIndicatorCol(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(FALSE);
 }
 
-void ZCrystalEditView::OnUpdateIndicatorOvr(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateIndicatorOvr(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(m_bOvrMode);
 }
 
-void ZCrystalEditView::OnUpdateIndicatorRead(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateIndicatorRead(CCmdUI* pCmdUI)
 {
    if (m_pTextBuffer == NULL)
       pCmdUI->Enable(FALSE);
@@ -1211,12 +1125,12 @@ void ZCrystalEditView::OnEditSwitchOvrmode()
    m_bOvrMode = ! m_bOvrMode;
 }
 
-void ZCrystalEditView::OnUpdateEditSwitchOvrmode(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateEditSwitchOvrmode(CCmdUI* pCmdUI)
 {
    pCmdUI->SetCheck(m_bOvrMode ? 1 : 0);
 }
 
-DROPEFFECT ZEditDropTargetImpl::OnDragEnter(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)
+DROPEFFECT ZEditDropTargetImpl::OnDragEnter(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
 {
    if (! pDataObject->IsDataAvailable(CF_TEXT))
    {
@@ -1229,12 +1143,12 @@ DROPEFFECT ZEditDropTargetImpl::OnDragEnter(CWnd *pWnd, COleDataObject *pDataObj
    return DROPEFFECT_MOVE;
 }
 
-void ZEditDropTargetImpl::OnDragLeave(CWnd *pWnd)
+void ZEditDropTargetImpl::OnDragLeave(CWnd* pWnd)
 {
    m_pOwner->HideDropIndicator();
 }
 
-DROPEFFECT ZEditDropTargetImpl::OnDragOver(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)
+DROPEFFECT ZEditDropTargetImpl::OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
 {
 /*
    if (! pDataObject->IsDataAvailable(CF_TEXT))
@@ -1273,7 +1187,7 @@ DROPEFFECT ZEditDropTargetImpl::OnDragOver(CWnd *pWnd, COleDataObject *pDataObje
    return DROPEFFECT_MOVE;
 }
 
-BOOL ZEditDropTargetImpl::OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)
+BOOL ZEditDropTargetImpl::OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
 {
    //
    // [JRT]          ( m_pOwner -> GetDisableDragAndDrop() ) )    // Or Drag And Drop Disabled
@@ -1301,7 +1215,7 @@ BOOL ZEditDropTargetImpl::OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEF
    return (m_pOwner->DoDropText(pDataObject, point));     // Return Result Of Drop
 }
 
-DROPEFFECT ZEditDropTargetImpl::OnDragScroll(CWnd *pWnd, DWORD dwKeyState, CPoint point)
+DROPEFFECT ZEditDropTargetImpl::OnDragScroll(CWnd* pWnd, DWORD dwKeyState, CPoint point)
 {
    ASSERT(m_pOwner == pWnd);
    m_pOwner->DoDragScroll(point);
@@ -1393,7 +1307,6 @@ int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 // if (ZCrystalEditView::OnCreate(lpCreateStruct) == -1)
 //    return -1;
 
-//?SetFontOverride( );
    memset(&m_lfBaseFont, 0, sizeof(m_lfBaseFont));
    lstrcpy(m_lfBaseFont.lfFaceName, _T("Consolas "));
    m_lfBaseFont.lfHeight = 0;
@@ -1407,12 +1320,12 @@ int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
    if (CView::OnCreate(lpCreateStruct) == -1)
       return -1;
-/*
+
    ASSERT(m_hAccel == NULL);
    m_hAccel = ::LoadAccelerators(GetResourceHandle(), MAKEINTRESOURCE(IDR_DEFAULT_ACCEL));
    ASSERT(m_hAccel != NULL);
 // return 0;
-*/
+
    ASSERT(m_pOleDropTarget == NULL);
    m_pOleDropTarget = new ZEditDropTargetImpl(this);
    if (! m_pOleDropTarget->Register(this))
@@ -1425,7 +1338,7 @@ int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
    {
       TRACE("Register successful for drop target for ZCrystalEditView hWnd: %d\n", m_hWnd );
    }
-   SetFocus();
+
    return 0;
 }
 
@@ -1715,7 +1628,7 @@ BOOL ZCrystalEditView::ReplaceSelection(LPCTSTR pszNewText)
    return TRUE;
 }
 
-void ZCrystalEditView::OnUpdateEditUndo(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
    BOOL bCanUndo = CanUndo();
    pCmdUI->Enable(bCanUndo);
@@ -1807,7 +1720,7 @@ void ZCrystalEditView::Redo()
    }
 }
 
-void ZCrystalEditView::OnUpdateEditRedo(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateEditRedo(CCmdUI* pCmdUI)
 {
    BOOL bCanRedo = m_pTextBuffer != NULL && m_pTextBuffer->CanRedo();
    pCmdUI->Enable(bCanRedo);
@@ -2112,7 +2025,7 @@ void ZCrystalEditView::ExpandChars(LPCTSTR pszChars, int nOffset, int nCount, CS
 }
 
 void ZCrystalEditView::DrawLineHelperImpl(CDC *pdc, CPoint &ptOrigin, const CRect &rcClip,
-                                          LPCTSTR pszChars, int nOffset, int nCount)
+                            LPCTSTR pszChars, int nOffset, int nCount)
 {
    ASSERT(nCount >= 0);
    if (nCount > 0)
@@ -2144,7 +2057,7 @@ void ZCrystalEditView::DrawLineHelperImpl(CDC *pdc, CPoint &ptOrigin, const CRec
 }
 
 void ZCrystalEditView::DrawLineHelper(CDC *pdc, CPoint &ptOrigin, const CRect &rcClip, int nColorIndex,
-                                      LPCTSTR pszChars, int nOffset, int nCount, CPoint ptTextPos)
+                            LPCTSTR pszChars, int nOffset, int nCount, CPoint ptTextPos)
 {
    if (nCount > 0)
    {
@@ -2810,7 +2723,7 @@ void ZCrystalEditView::OnInitialUpdate()
 /////////////////////////////////////////////////////////////////////////////
 // ZCrystalEditView printing
 
-void ZCrystalEditView::OnPrepareDC(CDC *pDC, CPrintInfo *pInfo)
+void ZCrystalEditView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo)
 {
    CView::OnPrepareDC(pDC, pInfo);
 
@@ -2822,7 +2735,7 @@ void ZCrystalEditView::OnPrepareDC(CDC *pDC, CPrintInfo *pInfo)
    }
 }
 
-BOOL ZCrystalEditView::OnPreparePrinting(CPrintInfo *pInfo)
+BOOL ZCrystalEditView::OnPreparePrinting(CPrintInfo* pInfo)
 {
    return DoPreparePrinting(pInfo);
 }
@@ -2980,7 +2893,7 @@ void ZCrystalEditView::OnEndPrinting(CDC *pdc, CPrintInfo *pInfo)
    m_nPrintLineHeight = 0;
 }
 
-void ZCrystalEditView::OnPrint(CDC *pdc, CPrintInfo *pInfo)
+void ZCrystalEditView::OnPrint(CDC* pdc, CPrintInfo* pInfo)
 {
    if (m_pnPages == NULL)
    {
@@ -3050,13 +2963,11 @@ void ZCrystalEditView::AttachToBuffer(ZCrystalTextBuffer *pBuf /*= NULL*/)
 {
    if (m_pTextBuffer != NULL)
       m_pTextBuffer->RemoveView(this);
-/* Since we have no super class to do this, we will just remove and add
    if (pBuf == NULL)
    {
       pBuf = LocateTextBuffer();  // this returns null ... actual returned from the super class
       // ...
    }
-*/
    m_pTextBuffer = pBuf;
    if (m_pTextBuffer != NULL)
       m_pTextBuffer->AddView(this);
@@ -3235,7 +3146,7 @@ void ZCrystalEditView::RecalcVertScrollBar(BOOL bPositionOnly /*= FALSE*/)
    VERIFY(SetScrollInfo(SB_VERT, &si));
 }
 
-void ZCrystalEditView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)
+void ZCrystalEditView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
    CView::OnVScroll(nSBCode, nPos, pScrollBar);
 
@@ -3364,7 +3275,7 @@ void ZCrystalEditView::RecalcHorzScrollBar(BOOL bPositionOnly /*= FALSE*/)
    VERIFY(SetScrollInfo(SB_HORZ, &si));
 }
 
-void ZCrystalEditView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)
+void ZCrystalEditView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
    CView::OnHScroll(nSBCode, nPos, pScrollBar);
 
@@ -3413,7 +3324,7 @@ void ZCrystalEditView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar
    UpdateCaret();
 }
 
-BOOL ZCrystalEditView::OnSetCursor(CWnd *pWnd, UINT nHitTest, UINT message)
+BOOL ZCrystalEditView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
    if (nHitTest == HTCLIENT)
    {
@@ -3589,7 +3500,7 @@ void ZCrystalEditView::AdjustTextPoint(CPoint &point)
    point.x += GetCharWidth() / 2;   //todo
 }
 
-void ZCrystalEditView::OnSetFocus(CWnd *pOldWnd)
+void ZCrystalEditView::OnSetFocus(CWnd* pOldWnd)
 {
    CView::OnSetFocus(pOldWnd);
 
@@ -3597,6 +3508,11 @@ void ZCrystalEditView::OnSetFocus(CWnd *pOldWnd)
    if (m_ptSelStart != m_ptSelEnd)
       InvalidateLines(m_ptSelStart.y, m_ptSelEnd.y);
    UpdateCaret();
+}
+
+DWORD ZCrystalEditView::ParseLine(DWORD dwCookie, int nLineIndex, TEXTBLOCK *pBuf, int &nActualItems)
+{
+   return 0;
 }
 
 int ZCrystalEditView::CalculateActualOffset(int nLineIndex, int nCharIndex)
@@ -3694,7 +3610,7 @@ void ZCrystalEditView::EnsureVisible(CPoint pt)
    }
 }
 
-void ZCrystalEditView::OnKillFocus(CWnd *pNewWnd)
+void ZCrystalEditView::OnKillFocus(CWnd* pNewWnd)
 {
    CView::OnKillFocus(pNewWnd);
 
@@ -3731,11 +3647,7 @@ HINSTANCE ZCrystalEditView::GetResourceHandle()
 #else
    if (s_hResourceInst != NULL)
       return s_hResourceInst;
-
-   LPLIBRARY hLibrary = SysLoadLibraryWithErrFlag( m_pZSubtask->m_vDialog, "ZdCtl", zLOADLIB_RESOURCES );
-   s_hResourceInst = (HINSTANCE) SysGetInstance( hLibrary );
-   return s_hResourceInst;
-// return AfxGetResourceHandle();
+   return AfxGetResourceHandle();
 #endif
 }
 
@@ -3823,7 +3735,7 @@ void ZCrystalEditView::SetFont(const LOGFONT &lf)
    }
 }
 
-void ZCrystalEditView::OnUpdateIndicatorPosition(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateIndicatorPosition(CCmdUI* pCmdUI)
 {
    ASSERT_VALIDTEXTPOS(m_ptCursorPos,FALSE);
    CString stat;
@@ -3831,7 +3743,7 @@ void ZCrystalEditView::OnUpdateIndicatorPosition(CCmdUI *pCmdUI)
    pCmdUI->SetText(stat);
 }
 
-void ZCrystalEditView::OnUpdateIndicatorCRLF(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateIndicatorCRLF(CCmdUI* pCmdUI)
 {
    if (m_pTextBuffer != NULL)
    {
@@ -3993,7 +3905,7 @@ BOOL ZCrystalEditView::HighlightText(CPoint &ptStartPos, int nLength)
 }
 
 int ZCrystalEditView::FindText(LPCTSTR pszText, CPoint &ptStartPos, DWORD dwFlags,
-                               BOOL bWrapSearch, CPoint *pptFoundPos)
+                                BOOL bWrapSearch, CPoint *pptFoundPos)
 {
    int nLineCount = GetLineCount();
    return FindTextInBlock(pszText, ptStartPos, CPoint(0, 0),
@@ -4003,7 +3915,7 @@ int ZCrystalEditView::FindText(LPCTSTR pszText, CPoint &ptStartPos, DWORD dwFlag
 
 int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
                                       CPoint &ptBlockBegin, CPoint &ptBlockEnd,
-                                      DWORD dwFlags, BOOL bWrapSearch, CPoint *pptFoundPos)
+                                       DWORD dwFlags, BOOL bWrapSearch, CPoint *pptFoundPos)
 {
    CPoint ptCurrentPos = ptStartPosition;
    BOOL bSearchWrapped = FALSE;
@@ -4155,7 +4067,7 @@ int ZCrystalEditView::EditFind()
       // Take search parameters from registry
       dlg.m_bMatchCase = pApp->GetProfileInt(REG_FIND_SUBKEY, REG_MATCH_CASE, FALSE);
       dlg.m_bWholeWord = pApp->GetProfileInt(REG_FIND_SUBKEY, REG_WHOLE_WORD, FALSE);
-      dlg.m_nDirection = 1;  // Search down
+      dlg.m_nDirection = 1;      // Search down
       dlg.m_sText = pApp->GetProfileString(REG_FIND_SUBKEY, REG_FIND_WHAT, _T(""));
    }
 
@@ -4228,7 +4140,7 @@ void ZCrystalEditView::OnEditRepeat()
    EditRepeat();
 }
 
-void ZCrystalEditView::OnUpdateEditRepeat(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateEditRepeat(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(m_bLastSearch);
 }
@@ -4250,7 +4162,7 @@ void ZCrystalEditView::OnEditFindPrevious()
    EditFindPrevious();
 }
 
-void ZCrystalEditView::OnUpdateEditFindPrevious(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateEditFindPrevious(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(m_bLastSearch);
 }
@@ -4340,17 +4252,17 @@ void ZCrystalEditView::OnClearAllBookmarks()
    }
 }
 
-void ZCrystalEditView::OnUpdateNextBookmark(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateNextBookmark(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(m_bBookmarkExist);
 }
 
-void ZCrystalEditView::OnUpdatePrevBookmark(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdatePrevBookmark(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(m_bBookmarkExist);
 }
 
-void ZCrystalEditView::OnUpdateClearAllBookmarks(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateClearAllBookmarks(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(m_bBookmarkExist);
 }
@@ -5208,7 +5120,7 @@ void ZCrystalEditView::OnEditCopy()
    Copy();
 }
 
-void ZCrystalEditView::OnUpdateEditCopy(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(IsSelection());
 }
@@ -5218,7 +5130,7 @@ void ZCrystalEditView::OnEditSelectAll()
    SelectAllLines();
 }
 
-void ZCrystalEditView::OnUpdateEditSelectAll(CCmdUI *pCmdUI)
+void ZCrystalEditView::OnUpdateEditSelectAll(CCmdUI* pCmdUI)
 {
    pCmdUI->Enable(TRUE);
 }
@@ -5431,7 +5343,7 @@ void ZCrystalTextBuffer::CDeleteContext::RecalcPoint(CPoint &ptPoint)
 /////////////////////////////////////////////////////////////////////////////
 // ZCrystalTextBuffer
 
-IMPLEMENT_DYNAMIC(ZCrystalTextBuffer, CCmdTarget)  // IMPLEMENT_DYNCREATE(ZCrystalTextBuffer, CCmdTarget)
+IMPLEMENT_DYNCREATE(ZCrystalTextBuffer, CCmdTarget)
 
 ZCrystalTextBuffer::ZCrystalTextBuffer( ZCrystalEditView *pED_Crystal )
 {
@@ -6261,7 +6173,7 @@ POSITION ZCrystalTextBuffer::GetRedoDescription(CString &desc, POSITION pos /*= 
    if (! GetActionDescription(m_aUndoBuf[nPosition].m_nAction, desc))
       desc.Empty();     // Use empty string as description
 
-   // Advance to next undo group
+                        // Advance to next undo group
    nPosition++;
    while (nPosition < m_aUndoBuf.GetSize() && (m_aUndoBuf[nPosition].m_dwFlags & UNDO_BEGINGROUP) == 0)
       nPosition--;
@@ -6640,7 +6552,7 @@ ZEditReplaceDlg::ZEditReplaceDlg(ZCrystalEditView *pBuddy) : CDialog(ZEditReplac
 }
 
 
-void ZEditReplaceDlg::DoDataExchange(CDataExchange *pDX)
+void ZEditReplaceDlg::DoDataExchange(CDataExchange* pDX)
 {
    CDialog::DoDataExchange(pDX);
    //{{AFX_DATA_MAP(ZEditReplaceDlg)
@@ -6704,7 +6616,7 @@ BOOL ZEditReplaceDlg::DoHighlightText()
    {
       // Searching selection only
       nFound = m_pBuddy->FindTextInBlock(m_sText, m_ptFoundAt, m_ptBlockBegin, m_ptBlockEnd,
-                                         dwSearchFlags, FALSE, &m_ptFoundAt);
+         dwSearchFlags, FALSE, &m_ptFoundAt);
    }
    else
    {
@@ -6826,7 +6738,7 @@ ZFindTextDlg::ZFindTextDlg(ZCrystalEditView *pBuddy) : CDialog(ZFindTextDlg::IDD
 }
 
 
-void ZFindTextDlg::DoDataExchange(CDataExchange *pDX)
+void ZFindTextDlg::DoDataExchange(CDataExchange* pDX)
 {
    CDialog::DoDataExchange(pDX);
    //{{AFX_DATA_MAP(ZFindTextDlg)
@@ -6898,1575 +6810,3 @@ void ZFindTextDlg::OnCancel()
 
    CDialog::OnCancel();
 }
-
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-
-#define DEFINE_BLOCK(pos, colorindex)  \
-   ASSERT((pos) >= 0 && (pos) <= nLength);\
-   if (pBuf != NULL)\
-   {\
-      if (nActualItems == 0 || pBuf[nActualItems - 1].m_nCharPos <= (pos))\
-      {\
-         pBuf[nActualItems].m_nCharPos = (pos);\
-         pBuf[nActualItems].m_nColorIndex = (colorindex);\
-         nActualItems++;\
-      }\
-   }
-
-#define COOKIE_COMMENT        0x0001
-#define COOKIE_PREPROCESSOR   0x0002
-#define COOKIE_EXT_COMMENT    0x0004
-#define COOKIE_STRING         0x0008
-#define COOKIE_CHAR           0x0010
-
-// VML keywords
-static LPTSTR s_szVmlKeywordList[] =
-{
-   _T( "ACTIVATE" ),
-   _T( "AND" ),
-   _T( "BASED ON LOD" ),
-   _T( "CASE" ),
-   _T( "COMMIT" ),
-   _T( "CREATE" ),
-   _T( "DECIMAL" ),
-   _T( "DELETE" ),
-   _T( "DERIVED ATTRIBUTE" ),
-   _T( "DIALOG" ),
-   _T( "DOES NOT EXIST" ),
-   _T( "EACH" ),
-   _T( "ELSE" ),
-   _T( "END" ),
-   _T( "ENTITY" ),
-   _T( "EXCLUDE" ),
-   _T( "EXISTS" ),
-   _T( "FIRST" ),
-   _T( "FOR" ),
-   _T( "FROM" ),
-   _T( "GET" ),
-   _T( "GetOrSetFlag" ),
-   _T( "IF" ),
-   _T( "INCLUDE" ),
-   _T( "INTEGER" ),
-   _T( "LAST" ),
-   _T( "LOCAL" ),
-   _T( "LOOP" ),
-   _T( "MULTIPLE" ),
-   _T( "NAME" ),
-   _T( "NEXT" ),
-   _T( "NONE" ),
-   _T( "OF" ),
-   _T( "OPERATION" ),
-   _T( "PREV" ),
-   _T( "REGISTERED AS" ),
-   _T( "RESULT" ),
-   _T( "RETURN" ),
-   _T( "SET" ),
-   _T( "SET CURSOR" ),
-   _T( "SHORT" ),
-   _T( "STRING" ),
-   _T( "TRANSFORMATION" ),
-   _T( "VIEW" ),
-   _T( "WHERE" ),
-   _T( "WHILE" ),
-   _T( "zCURSOR_SET" ),
-   _T( "zDERIVED_GET" ),
-   _T( "zDERIVED_sET" ),
-   // Some of the operations
-   _T( "CreateViewFromView" ),
-   _T( "DropEntity" ),
-   _T( "DropObjectInstance" ),
-   _T( "DropView" ),
-   _T( "MessageSend" ),
-   _T( "ResetViewFromSubobjectTop" ),
-   _T( "SetMatchingAttributesByName" ),
-   _T( "StoreStringInRecord" ),
-   _T( "SysConvertEnvironmentString" ),
-   _T( "SysGetEnvVar" ),
-   _T( "TraceLineI" ),
-   _T( "TraceLineS" ),
-   _T( "RootOnlyMultiple" ),
-   NULL
-};
-
-// C++ keywords
-static LPTSTR s_apszCppKeywordList[] =
-{
-   _T("__asm"),
-   _T("enum"),
-   _T("__multiple_inheritance"),
-   _T("template"),
-   _T("auto"),
-   _T("__except"),
-   _T("__single_inheritance"),
-   _T("this"),
-   _T("__based"),
-   _T("explicit"),
-   _T("__virtual_inheritance"),
-   _T("thread"),
-   _T("bool"),
-   _T("extern"),
-   _T("mutable"),
-   _T("throw"),
-   _T("break"),
-   _T("false"),
-   _T("naked"),
-   _T("true"),
-   _T("case"),
-   _T("__fastcall"),
-   _T("namespace"),
-   _T("try"),
-   _T("catch"),
-   _T("__finally"),
-   _T("new"),
-   _T("__try"),
-   _T("__cdecl"),
-   _T("float"),
-   _T("operator"),
-   _T("typedef"),
-   _T("char"),
-   _T("for"),
-   _T("private"),
-   _T("typeid"),
-   _T("class"),
-   _T("friend"),
-   _T("protected"),
-   _T("typename"),
-   _T("const"),
-   _T("goto"),
-   _T("public"),
-   _T("union"),
-   _T("const_cast"),
-   _T("if"),
-   _T("register"),
-   _T("unsigned"),
-   _T("continue"),
-   _T("inline"),
-   _T("reinterpret_cast"),
-   _T("using"),
-   _T("__declspec"),
-   _T("__inline"),
-   _T("return"),
-   _T("uuid"),
-   _T("default"),
-   _T("int"),
-   _T("short"),
-   _T("__uuidof"),
-   _T("delete"),
-   _T("__int8"),
-   _T("signed"),
-   _T("virtual"),
-   _T("dllexport"),
-   _T("__int16"),
-   _T("sizeof"),
-   _T("void"),
-   _T("dllimport"),
-   _T("__int32"),
-   _T("static"),
-   _T("volatile"),
-   _T("do"),
-   _T("__int64"),
-   _T("static_cast"),
-   _T("wmain"),
-   _T("double"),
-   _T("__leave"),
-   _T("__stdcall"),
-   _T("while"),
-   _T("dynamic_cast"),
-   _T("long"),
-   _T("struct"),
-   _T("xalloc"),
-   _T("else"),
-   _T("main"),
-   _T("switch"),
-   _T("interface"),
-   // Added by a.s.
-   _T("persistent"),
-   _T("_persistent"),
-   _T("transient"),
-   _T("depend"),
-   _T("ondemand"),
-   _T("transient"),
-   _T("cset"),
-   _T("useindex"),
-   _T("indexdef"),
-   NULL
-};
-
-static BOOL IsVmlKeyword(LPCTSTR pszChars, int nLength)
-{
-   for (int k = 0; s_szVmlKeywordList[k] != NULL; k++)
-   {
-      if (strncmp(s_szVmlKeywordList[k], pszChars, nLength) == 0 && s_szVmlKeywordList[k][nLength] == 0)
-         return TRUE;
-   }
-   return FALSE;
-}
-
-static BOOL IsCppKeyword(LPCTSTR pszChars, int nLength)
-{
-   for (int k = 0; s_apszCppKeywordList[k] != NULL; k++)
-   {
-      if (strncmp(s_apszCppKeywordList[k], pszChars, nLength) == 0 && s_apszCppKeywordList[k][nLength] == 0)
-         return TRUE;
-   }
-   return FALSE;
-}
-
-BOOL ZCrystalEditView::IsKeyword(LPCTSTR pszChars, int nLength)
-{
-   if ( m_chLang == 'V' )
-      return IsVmlKeyword( pszChars, nLength );
-   else
-   if ( m_chLang == 'C' )
-      return IsCppKeyword( pszChars, nLength );
-   else
-      return FALSE;
-}
-
-static BOOL IsNumeric(LPCTSTR pszChars, int nLength)
-{
-   int k;
-   if (nLength > 2 && pszChars[0] == '0' && pszChars[1] == 'x')
-   {
-      for (k = 2; k < nLength; k++)
-      {
-         if (isdigit(pszChars[k]) || (pszChars[k] >= 'A' && pszChars[k] <= 'F') || (pszChars[k] >= 'a' && pszChars[k] <= 'f'))
-            continue;
-         return FALSE;
-      }
-      return TRUE;
-   }
-   if (! isdigit(pszChars[0]))
-      return FALSE;
-
-   for (k = 1; k < nLength; k++)
-   {
-      if (! isdigit(pszChars[k]) && pszChars[k] != '+' &&  pszChars[k] != '-' && pszChars[k] != '.' && pszChars[k] != 'e' && pszChars[k] != 'E')
-         return FALSE;
-   }
-   return TRUE;
-}
-
-int ZCrystalEditView::IsInComment(int nLine, int nCol)
-{
-   LPCTSTR pszChars = GetLineChars(nLine);
-   DWORD dwCookie = GetParseCookie(nLine);
-   int k = 0;
-
-   if (dwCookie & COOKIE_EXT_COMMENT)
-   {
-      while ( k < nCol )
-      {
-         if ( pszChars[k + 1] == '/')
-         {
-            if ( pszChars[k] == '/' )
-               return -1;  // in comment to end-of-line
-
-            if ( pszChars[k] == '*')
-            {
-               k += 2;
-               break;  // out of continuation comment
-            }
-         }
-         k++;
-         if ( k >= nCol )
-            return 1;
-      }
-   }
-
-   while ( k < nCol - 1 )
-   {
-      if ( pszChars[k] == '/')
-      {
-         if ( pszChars[k + 1] == '/' )
-            return -1;  // in comment to end-of-line
-
-         if ( pszChars[k + 1] == '*')
-         {
-            k += 2;
-            while ( k < nCol )  // look for terminating comment
-            {
-               if ( pszChars[k] == '*' && pszChars[k + 1] == '/' )
-               {
-                  k += 2;
-                  break;  // inner while
-               }
-               k++;
-               if ( k >= nCol )
-                  return 1;
-            }
-         }
-      }
-   }
-   return 0;
-}
-
-DWORD ZCrystalEditView::ParseLine(DWORD dwCookie, int nLineIndex, TEXTBLOCK *pBuf, int &nActualItems)
-{
-   int nLength = GetLineLength(nLineIndex);
-   if (nLength <= 0)
-      return dwCookie & COOKIE_EXT_COMMENT;
-
-   LPCTSTR pszChars    = GetLineChars(nLineIndex);
-   BOOL bFirstChar     = (dwCookie & ~COOKIE_EXT_COMMENT) == 0;
-   BOOL bRedefineBlock = TRUE;
-   BOOL bDecrementIndex  = FALSE;
-   int nIdentBegin = -1;
-   int k;
-   for (k = 0; ; k++)
-   {
-      if (bRedefineBlock)
-      {
-         int nPos = k;
-         if (bDecrementIndex)
-            nPos--;
-         if (dwCookie & (COOKIE_COMMENT | COOKIE_EXT_COMMENT))
-         {
-            DEFINE_BLOCK(nPos, COLORINDEX_COMMENT);
-         }
-         else
-         if (dwCookie & (COOKIE_CHAR | COOKIE_STRING))
-         {
-            DEFINE_BLOCK(nPos, COLORINDEX_STRING);
-         }
-         else
-         if (dwCookie & COOKIE_PREPROCESSOR)
-         {
-            DEFINE_BLOCK(nPos, COLORINDEX_PREPROCESSOR);
-         }
-         else
-         {
-            DEFINE_BLOCK(nPos, COLORINDEX_NORMALTEXT);
-         }
-         bRedefineBlock = FALSE;
-         bDecrementIndex = FALSE;
-      }
-
-      if (k == nLength)
-         break;
-
-      if (dwCookie & COOKIE_COMMENT)
-      {
-         DEFINE_BLOCK(k, COLORINDEX_COMMENT);
-         dwCookie |= COOKIE_COMMENT;
-         break;
-      }
-
-      // String constant "...."
-      if (dwCookie & COOKIE_STRING)
-      {
-         if (pszChars[k] == '"' && (k == 0 || pszChars[k - 1] != '\\'))
-         {
-            dwCookie &= ~COOKIE_STRING;
-            bRedefineBlock = TRUE;
-         }
-         continue;
-      }
-
-      // Char constant '..'
-      if (dwCookie & COOKIE_CHAR)
-      {
-         if (pszChars[k] == '\'' && (k == 0 || pszChars[k - 1] != '\\'))
-         {
-            dwCookie &= ~COOKIE_CHAR;
-            bRedefineBlock = TRUE;
-         }
-         continue;
-      }
-
-      // Extended comment /*....*/
-      if (dwCookie & COOKIE_EXT_COMMENT)
-      {
-         if (k > 0 && pszChars[k] == '/' && pszChars[k - 1] == '*')
-         {
-            dwCookie &= ~COOKIE_EXT_COMMENT;
-            bRedefineBlock = TRUE;
-         }
-         continue;
-      }
-
-      if (k > 0 && pszChars[k] == '/' && pszChars[k - 1] == '/')
-      {
-         DEFINE_BLOCK(k - 1, COLORINDEX_COMMENT);
-         dwCookie |= COOKIE_COMMENT;
-         break;
-      }
-
-      // Preprocessor directive #....
-      if (dwCookie & COOKIE_PREPROCESSOR)
-      {
-         if (k > 0 && pszChars[k] == '*' && pszChars[k - 1] == '/')
-         {
-            DEFINE_BLOCK(k - 1, COLORINDEX_COMMENT);
-            dwCookie |= COOKIE_EXT_COMMENT;
-         }
-         continue;
-      }
-
-      // Normal text
-      if (pszChars[k] == '"')
-      {
-         DEFINE_BLOCK(k, COLORINDEX_STRING);
-         dwCookie |= COOKIE_STRING;
-         continue;
-      }
-      if (pszChars[k] == '\'')
-      {
-         DEFINE_BLOCK(k, COLORINDEX_STRING);
-         dwCookie |= COOKIE_CHAR;
-         continue;
-      }
-      if (k > 0 && pszChars[k] == '*' && pszChars[k - 1] == '/')
-      {
-         DEFINE_BLOCK(k - 1, COLORINDEX_COMMENT);
-         dwCookie |= COOKIE_EXT_COMMENT;
-         continue;
-      }
-
-      if (bFirstChar)
-      {
-         if (pszChars[k] == '#')
-         {
-            DEFINE_BLOCK(k, COLORINDEX_PREPROCESSOR);
-            dwCookie |= COOKIE_PREPROCESSOR;
-            continue;
-         }
-         if (! isspace(pszChars[k]))
-            bFirstChar = FALSE;
-      }
-
-      if (pBuf == NULL)  // no need to extract keywords
-         continue;  // for faster parsing skip the rest of loop
-
-      if (isalnum(pszChars[k]) || pszChars[k] == '_' || pszChars[k] == '.')
-      {
-         if (nIdentBegin == -1)
-            nIdentBegin = k;
-      }
-      else
-      {
-         if (nIdentBegin >= 0)
-         {
-            if (IsKeyword(pszChars + nIdentBegin, k - nIdentBegin))
-            {
-               DEFINE_BLOCK(nIdentBegin, COLORINDEX_KEYWORD);
-            }
-            else
-            if (IsNumeric(pszChars + nIdentBegin, k - nIdentBegin))
-            {
-               DEFINE_BLOCK(nIdentBegin, COLORINDEX_NUMBER);
-            }
-            bRedefineBlock = TRUE;
-            bDecrementIndex = TRUE;
-            nIdentBegin = -1;
-         }
-      }
-   }
-
-   if (nIdentBegin >= 0)
-   {
-      if (IsKeyword(pszChars + nIdentBegin, k - nIdentBegin))
-      {
-         DEFINE_BLOCK(nIdentBegin, COLORINDEX_KEYWORD);
-      }
-      else
-      if (IsNumeric(pszChars + nIdentBegin, k - nIdentBegin))
-      {
-         DEFINE_BLOCK(nIdentBegin, COLORINDEX_NUMBER);
-      }
-   }
-
-   if (pszChars[nLength - 1] != '\\')
-      dwCookie &= COOKIE_EXT_COMMENT;
-   return dwCookie;
-}
-
-
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-
-AFX_EXT_API
-CWnd * OPERATION
-EditorControl( ZSubtask *pZSubtask,
-               CWnd     *pWndParent,
-               ZMapAct  *pzmaComposite,
-               zVIEW    vDialog,
-               zSHORT   nOffsetX,
-               zSHORT   nOffsetY,
-               zKZWDLGXO_Ctrl_DEF *pCtrlDef )
-{
-   return( new ZCrystalEditView( pZSubtask, pWndParent,
-                                 pzmaComposite, vDialog,
-                                 nOffsetX, nOffsetY, pCtrlDef ) );
-}
-
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-extern "C"
-{
-
-#define EDIT_CONTROL_NAME    "_ZeidonEditor"
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_CanCopy( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-         return pED_Crystal->IsSelection();
-
-      TraceLineS( "drvr - Invalid control type for EDT_CanCopy ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_CanPaste( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-         return pED_Crystal->CanPaste();
-
-      TraceLineS( "drvr - Invalid control type for EDT_CanPaste ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_CanRedo( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-         return pED_Crystal->CanRedo();
-
-      TraceLineS( "drvr - Invalid control type for EDT_CanRedo ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_CanUndo( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-         return pED_Crystal->CanUndo();
-
-      TraceLineS( "drvr - Invalid control type for EDT_CanUndo ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_Undo( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->Undo();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_Undo ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_Redo( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->Redo();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_Redo ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_CopyText( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->Copy();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_CopyText ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_CutText( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->Cut();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_CutText ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_DeleteText( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->Delete();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_DeleteText ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_DeleteTextRange( zVIEW vSubtask, zLONG lStartLine, zLONG lStartCol, zLONG lEndLine, zLONG lEndCol )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->m_pTextBuffer->DeleteText(pED_Crystal,lStartLine, lStartCol, lEndLine, lEndCol, CE_ACTION_DELETE);
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_DeleteTextRange ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_Deselect( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->DeleteCurrentSelection();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_Deselect ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zCPCHAR OPERATION
-EDT_GetLastFindString(zVIEW vSubtask)
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-         return pED_Crystal->m_csLastFindWhat.GetString();
-   }
-   TraceLineS( "drvr - Invalid control type for EDT_GetLastFindString ", EDIT_CONTROL_NAME );
-   return "";
-}
-
-zOPER_EXPORT zSHORT OPERATION
-EDT_FindTextPosition( zVIEW vSubtask, zCPCHAR cpcFind, zPLONG lLine, zPLONG lCol, zLONG lFlags )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         DWORD dwSearchFlags = FIND_MATCH_CASE | FIND_WHOLE_WORD;
-         CPoint pt( 0, 0 );
-         CPoint ptReturn;
-         int  nRC;
-      // pED_Crystal->m_csLastFindWhat = cpcFind;
-
-         while (pED_Crystal->FindText(cpcFind, pt, dwSearchFlags, FALSE, &ptReturn))
-         {
-            nRC = pED_Crystal->IsInComment(ptReturn.y, ptReturn.x);
-            if (nRC == 0)  // not in comment
-            {
-               pED_Crystal->HighlightText(ptReturn, strlen( cpcFind ) );
-               *lLine = ptReturn.y;
-               *lCol = ptReturn.x;
-               return( TRUE );
-            }
-            if ( nRC == -1 ) // in comment to end-of-line
-            {
-               pt.y = ptReturn.y + 1;
-               pt.x = 0;
-            }
-            else  // in multi-line comment
-            {
-               pt.x = ptReturn.x + strlen( cpcFind );
-               if (pt.x >= pED_Crystal->m_pTextBuffer->GetLineLength(ptReturn.y))
-               {
-                  pt.y = ptReturn.y + 1;
-                  pt.x = 0;
-               }
-            }
-         }
-
-         CPoint ptCursorPos = pED_Crystal->GetCursorPos();
-         *lLine = ptCursorPos.y;
-         *lCol = ptCursorPos.x;
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_FindTextPosition ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zSHORT OPERATION
-EDT_RepeatFind( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         return pED_Crystal->EditRepeat();
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_RepeatFind ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-/////////////////////////////////////////////////////////////////////////////
-//
-//    OPERATION: TZEDFRMD_FindPrevious
-//
-zOPER_EXPORT zSHORT OPERATION
-EDT_FindPrevious( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         return pED_Crystal->EditFindPrevious();
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_FindPrevious ", EDIT_CONTROL_NAME );
-   }
-   return( 0 );
-}
-
-zOPER_EXPORT zSHORT OPERATION
-EDT_GetActualTextLine( zVIEW vSubtask, zPCHAR pchCurrentLine, zLONG lMaxLth )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CString text;
-         CPoint ptCursorPos = pED_Crystal->GetCursorPos();
-         pED_Crystal->m_pTextBuffer->GetText(ptCursorPos.y, 0, ptCursorPos.y, pED_Crystal->m_pTextBuffer->GetLineLength( ptCursorPos.y ), text);
-         strcpy_s( pchCurrentLine, lMaxLth, text );
-         return( text.GetLength() );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetActualTextLine ", EDIT_CONTROL_NAME );
-   }
-   return( 0 );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_GetCursorPosition( zVIEW vSubtask, zPLONG plLine, zPLONG plCol )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CPoint ptCursorPos = pED_Crystal->GetCursorPos();
-         *plCol = ptCursorPos.x;
-         *plLine = ptCursorPos.y;
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetCursorPosition ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zLONG OPERATION
-EDT_GetLineCount( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         return pED_Crystal->GetLineCount();
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetLineCount ", EDIT_CONTROL_NAME );
-   }
-   return( 0 );
-}
-
-zOPER_EXPORT zLONG OPERATION
-EDT_GetLineLength( zVIEW vSubtask, zLONG lLine )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         return pED_Crystal->m_pTextBuffer->GetLineLength( lLine );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetLineLength ", EDIT_CONTROL_NAME );
-   }
-   return( 0 );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_CloseObject( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-      // return pED_Crystal->CloseObject();  not yet implemented
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_CloseObject ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_CloseSubWindow( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-      // return pED_Crystal->CloseSubWindow();  not yet implemented
-         return( FALSE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_CloseSubWindow ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_GetObjectName( zVIEW vSubtask, zPCHAR pchFileName, zLONG lMaxLth )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CString csFileName = pED_Crystal->m_pTextBuffer->GetFileName();
-         strcpy_s( pchFileName, lMaxLth, csFileName );
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetObjectName ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_GetPositionByIndex( zVIEW vSubtask, zPLONG plLine, zPLONG plColumn )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-      // return pED_Crystal->EDT_GetPositionByIndex;   not yet implemented
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetPositionByIndex ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zLONG OPERATION
-EDT_GetSelectedTextLength( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CPoint ptSelStart, ptSelEnd;
-         CString text;
-         pED_Crystal->GetSelection(ptSelStart, ptSelEnd);
-         pED_Crystal->GetText(ptSelStart, ptSelEnd, text);
-         return text.GetLength();
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetSelectedText ", EDIT_CONTROL_NAME );
-   }
-   return( 0 );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_GetSelectedText( zVIEW vSubtask, zPCHAR pchText, zLONG lMaxLth )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CPoint ptSelStart, ptSelEnd;
-         CString text;
-         pED_Crystal->GetSelection(ptSelStart, ptSelEnd);
-         pED_Crystal->GetText(ptSelStart, ptSelEnd, text);
-         strcpy_s( pchText, lMaxLth, text );
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetSelectedText ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_GetTextFromLineOfIndex( zVIEW vSubtask, zPCHAR pchBuffer, zLONG lMaxLth, zLONG lIndex )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-      // return pED_Crystal->EDT_GetTextFromLineOfIndex();    not yet implemented
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetTextFromLineOfIndex ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zLONG OPERATION
-EDT_GetTextFromRange( zVIEW vSubtask, zPCHAR pchBuffer, zLONG lMaxLth, zLONG lStartLine, zLONG lStartCol, zLONG lEndLine, zLONG lEndCol )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CString text;
-         pED_Crystal->m_pTextBuffer->GetText(lStartLine, lStartCol, lEndLine, lEndCol, text);
-         if ( text.GetLength() >= lMaxLth )
-            text.GetBufferSetLength( lMaxLth - 1 );
-         strcpy_s( pchBuffer, lMaxLth, text );
-         return text.GetLength();
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GetTextFromRange ", EDIT_CONTROL_NAME );
-   }
-   return( 0 );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_GotoWindow( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-      // return pED_Crystal->EDT_GotoWindow();  not yet implemented
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_GotoWindow ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_InsertItem( zVIEW vSubtask, zCPCHAR cpcInsertText )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         int x;
-         int y;
-         CPoint ptCursorPos = pED_Crystal->GetCursorPos();
-         pED_Crystal->m_pTextBuffer->InsertText(pED_Crystal, ptCursorPos.y, ptCursorPos.x, cpcInsertText, y, x, CE_ACTION_TYPING);
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_InsertItem ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_IsCommentAtIndex( zVIEW vSubtask, zLONG lIndex )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-      // return pED_Crystal->EDT_IsCommentAtIndex();   not yet implemented
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_IsCommentAtIndex ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_IsObjectChanged( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal && pED_Crystal->m_pTextBuffer->IsModified() )
-      {
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_IsObjectChanged ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_IsReadOnly( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-         return pED_Crystal->m_pTextBuffer->GetReadOnly();
-
-      TraceLineS( "drvr - Invalid control type for EDT_IsReadOnly ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         BOOL bRC;
-         SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 0, 0 );
-         pED_Crystal->OnInitialUpdate();
-         pED_Crystal->m_pTextBuffer = new ZCrystalTextBuffer(pED_Crystal);
-         pED_Crystal->m_pTextBuffer->AddView(pED_Crystal);
-      // pED_Crystal->AttachToBuffer(pED_Crystal->m_pTextBuffer);
-         char *pchDot = strrchr( (char *) cpcFileName, '.' );
-         if (pchDot)
-         {
-            if ( (pchDot[ 1 ] == 'v' || pchDot[ 1 ] == 'V') && (pchDot[ 2 ] == 'm' || pchDot[ 2 ] == 'M') && (pchDot[ 3 ] == 'l' || pchDot[ 3 ] == 'L') )
-               pED_Crystal->m_chLang = 'V';
-            else
-            if ( (pchDot[ 1 ] == 'c' || pchDot[ 1 ] == 'C') )
-            {
-               if ( pchDot[ 2 ] == 0 || ((pchDot[ 2 ] == 'p' || pchDot[ 2 ] == 'P') && (pchDot[ 3 ] == 'p' || pchDot[ 3 ] == 'P')) )
-                  pED_Crystal->m_chLang = 'C';
-            }
-         }
-         pED_Crystal->m_pTextBuffer->SetFileName(cpcFileName);
-         CString cs = "Zeidon Editor - ";
-         cs += cpcFileName;
-         cs += "*";
-         pED_Crystal->m_pTextBuffer->SetModifiedFileName( cs );
-
-         bRC = pED_Crystal->m_pTextBuffer->LoadFromFile(cpcFileName);
-         SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 1, 0 );
-         if (::IsWindow(pED_Crystal->m_hWnd))
-         {
-            pZSubtask->m_pZFWnd->SetFocus();
-            CPoint pt( 0, 0 );
-            pED_Crystal->SetCursorPos( pt );
-            pED_Crystal->UpdateCaret();
-         }
-         return( bRC );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_OpenObject ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_PasteText( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->Paste();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_PasteText ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_PrintObject( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->SendMessage( WM_COMMAND, ID_FILE_PRINT_PREVIEW, 0 );
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_PrintObject ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_FindDialog( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->EditFind();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_FindDialog ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_ReplaceDialog( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->EditReplace();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_ReplaceDialog ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_PropertyDialog( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->MessageBox( "Property Dialog Not Implemented", "Zeidon Editor", MB_OK );
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_PropertyDialog ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_ReadOnlyMode( zVIEW vSubtask, zBOOL bReadOnly )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal && pED_Crystal->m_pTextBuffer )
-      {
-         pED_Crystal->m_pTextBuffer->SetReadOnly( bReadOnly ? 1 : 0 );
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_ReadOnlyMode ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_SaveObject( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         return pED_Crystal->m_pTextBuffer->SaveToFile(pED_Crystal->m_pTextBuffer->GetFileName());
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_SaveObject ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_SaveObjectAs( zVIEW vSubtask, zCPCHAR cpcFileName )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         return pED_Crystal->m_pTextBuffer->SaveToFile(cpcFileName);
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_SaveObjectAs ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_SelectAll( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         pED_Crystal->SelectAllLines();
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_SelectAll ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_SelectItem( zVIEW vSubtask, zLONG lLine, zLONG lCol, zCPCHAR cpcText )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CPoint pt( 0, lLine );
-         CPoint ptReturn;
-         return pED_Crystal->FindText(cpcText, pt, 0, FALSE, &ptReturn);
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_SelectItem ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_SelectRange( zVIEW vSubtask, zLONG lLine, zLONG lCol, zLONG lCharCnt )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CPoint pt( lCol, lLine );
-         return pED_Crystal->HighlightText( pt, lCharCnt );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_SelectRange ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_SetCursorPositionByLine( zVIEW vSubtask, zLONG lLine, zLONG lReturnedBuffSize )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CPoint pt( 0, lLine );
-         pED_Crystal->SetCursorPos( pt );
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_SetCursorPositionByLine ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_WantKeystrokes( zVIEW vSubtask, zBOOL bOn )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal  )
-      {
-      // pED_Crystal->WantKeystrokes( bOn ); not yet implemented
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_WantKeystrokes ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_ZeidonSyntaxOn( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-      // pED_Crystal->EDT_ZeidonSyntaxOn();  // always on for now
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_ZeidonSyntaxOn ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_SyntaxOff( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-      // pED_Crystal->EDT_SyntaxOff();  // always on for now
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_SyntaxOff ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_OnSize( zVIEW vSubtask )
-{
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
-   {
-      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
-      {
-         CRect rect;
-         pZSubtask->m_pZFWnd->GetClientRect( rect );
-         pED_Crystal->SetWindowPos( 0, 0, 0, rect.Width() - GetSystemMetrics(SM_CXVSCROLL) + 8, rect.Height() - GetSystemMetrics(SM_CXHSCROLL) - 8, SWP_NOMOVE | SWP_NOZORDER );
-         return( TRUE );
-      }
-
-      TraceLineS( "drvr - Invalid control type for EDT_SyntaxOff ", EDIT_CONTROL_NAME );
-   }
-   return( FALSE );
-}
-
-} // end: extern "C"

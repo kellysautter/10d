@@ -441,6 +441,12 @@ zOPER_EXPORT zBOOL OPERATION
 EDT_FindDialog( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_ReplaceDialog( zVIEW vSubtask );
+zOPER_EXPORT zSHORT OPERATION
+EDT_FindPrevious( zVIEW vSubtask );
+zOPER_EXPORT zSHORT OPERATION
+EDT_RepeatFind( zVIEW vSubtask );
+zOPER_EXPORT zCPCHAR OPERATION
+EDT_GetLastFindString( zVIEW vSubtask );
 
 /////////////////////////////////////////////////////////////////////////////
 // Setup a comment in the current editor instance
@@ -1925,7 +1931,7 @@ GotoCurrentOperation( zVIEW    vSubtask,
    EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
    EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, lTBEDTDefaultSearchBehavior );
    EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
-   // TraceLineI( "(xxx) Return line from search = ", lLine );
+   TraceLine( "(xxx) Return from search line: %d  col: %d", lLine, lCol );
 
    // Skipping lines where the search text is part of a comment
    while ( fnIsCommentAtIndex( vSubtask, lLine, lCol ) && lLine > -1 ) // 1998.10.15  TMV check lLine
@@ -2157,9 +2163,8 @@ SetEditorStatus( ZMapAct *pzma,
    return( 0 );
 }
 
-// Sets the line,col DIL message.  Since the line,col values are 0-based we
-// add 1 before displaying them.
-// Also checks to see if the file's been changed.
+// Sets the line,col DIL message.  Since the line,col values are 0-based we add 1 before displaying them.
+// Also checks to see if the file has been changed.
 zSHORT
 InitSession( zVIEW  vSubtask )
 {
@@ -2212,8 +2217,8 @@ InitSession( zVIEW  vSubtask )
    else
    {
       // If there is no vSource, the editor is invoked by another editor instance.
-      // There is no meta view so we must be opening the current file using
-      // the Open/File menu command.  Get the file name.
+      // There is no meta view so we must be opening the current file using the Open/File menu command.
+      // Get the file name.
       GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlEditor, "OpenFileName" );
       if ( CompareAttributeToString( vEdWrk, szlEditor, "OpenReadOnly", "Y" ) == 0 )
       {
@@ -2239,9 +2244,8 @@ InitSession( zVIEW  vSubtask )
       MB_SetMessage( vSubtask, MAIN_DIL, "File is write protected");
    }
 
-   // If vSource is 0 then we must have been started via a File/Open
-   // command and therefore we don't have a meta.  We've done all we
-   // need to do ... so exit.
+   // If vSource is 0 then we must have been started via a File/Open command and therefore
+   // we don't have a meta.  We've done all we need to do ... so exit.
    if ( vSource == 0 )
    {
       // Extension checking is the only way to find out whether syntax coloring can occur.
@@ -2266,13 +2270,11 @@ InitSession( zVIEW  vSubtask )
 
    // Set the target executable name from the source meta.
    // Also set the MetaType and MetaName to be used further on.
-   SetTargetExecutableName( vSource, vEdWrk, pszInvokingTool,
-                            szMetaName, &lMetaType );
+   SetTargetExecutableName( vSource, vEdWrk, pszInvokingTool, szMetaName, &lMetaType );
 
-   // If the source meta view is not updateable, then make sure that the edit
-   // buffer is not updateable.  There is a chance that the souce meta
-   // properties conflict with the readonly attribute setting of the file
-   // itself (checked above).
+   // If the source meta view is not updateable, then make sure that the edit buffer is not
+   // updateable.  There is a chance that the souce meta properties conflict with the readonly
+   // attribute setting of the file itself (checked above).
    if ( bReadOnly == FALSE )
       SetEditorStatus( pzma, vSource, vEdWrk );
 
@@ -2280,27 +2282,33 @@ InitSession( zVIEW  vSubtask )
    SetAttributeFromAttribute( vEdWrk, szlBuffer, szlLanguageType,
                               vSource, szSourceFileEntityName, szlLanguageType );
 
-   // If source file is of type "C" ...
-   if  ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlC_File ) != 0 )
+   // If source file is of type "VML" || "C" ...
+   if  ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) == 0 )
    {
       bCFile = FALSE;
       EDT_ZeidonSyntaxOn( vSubtask );
    }
    else
+   if  ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlC_File ) == 0 )
    {
       bCFile = TRUE;
-      EDT_SyntaxOff( vSubtask );  // no syntax coloring in C-Sources
+      EDT_ZeidonSyntaxOn( vSubtask );
+   }
+   else
+   {
+      bCFile = FALSE;
+      EDT_SyntaxOff( vSubtask );  // no syntax coloring otherwise
    }
 
-   // If the file did not previously exist or if its empty then init
-   // all operations in Meta.
+   // If the file did not previously exist or if it's empty then init all operations in Meta.
    lLine = EDT_GetLineCount( vSubtask );
    if ( bFileExists == FALSE || lLine < 1 )
       CreateSourceFile( vSubtask, vSource, pzma, bCFile, szSourceFileEntityName );
 
    // Determine if the operation is in the file or we should create a template
    GetAddrForAttribute( &lpszOperName, vSource, szlOperation, szlName );
-   zsprintf( szOperSrch, "\\bOPERATION[^!-~°§²³´ßäöüÄÖÜ]+%s[^!-~°§²³´ßäöüÄÖÜ]*(", lpszOperName );
+// zsprintf( szOperSrch, "\\bOPERATION[^!-~°§²³´ßäöüÄÖÜ]+%s[^!-~°§²³´ßäöüÄÖÜ]*(", lpszOperName );
+   zsprintf( szOperSrch, "%s", lpszOperName );
 
    GotoCurrentOperation( vSubtask, vSource, pzma, szOperSrch, szMetaName, bCFile );
    return( 0 );
@@ -2314,8 +2322,7 @@ TZEDFRMD_ZeidonMenuSelected( zVIEW vSubtask )
 
    mGetWorkView( &vEdWrk, vSubtask );
 
-   if ( CompareAttributeToString( vEdWrk, szlBuffer,
-                                  szlLanguageType, szlVML_File ) == 0 )
+   if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) == 0 )
    {
       // We're editing a VML file so enable certain items.
       SetOptionState( vSubtask, "ParseVML", zCONTROL_STATUS_ENABLED, TRUE );
@@ -2383,6 +2390,7 @@ TZEDFRMD_InitMenu( zVIEW vSubtask )
    return( 0 );
 }
 
+// TZEDFRMD_ReceiveFocus
 // When the editor window gets focus we need to do a few things:
 // o  Check to see if the editor work view is available yet.  If it's not then
 //    skip the rest of the function.
@@ -2600,19 +2608,18 @@ zOPER_EXPORT zSHORT OPERATION
 PostBuild( zVIEW vSubtask )
 {
    zVIEW   vTaskLPLR;
-   zVIEW   vProfileXFER;
+// zVIEW   vProfileXFER;
    zVIEW   vEdWrk;
    zCHAR   sz[ 300 ];
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   mGetProfileView( &vProfileXFER, vSubtask );
-   if ( vProfileXFER )
-   {
-      // Set a couple of attributes to NULL.  We don't need them anymore and
-      // someday we'll want to get rid of them.
-      SetAttributeFromString( vProfileXFER, "ED", "SearchFlags", "" );
-      SetAttributeFromString( vProfileXFER, "ED", "FontString", "" );
-   }
+// mGetProfileView( &vProfileXFER, vSubtask );
+// if ( vProfileXFER )
+// {
+//    // Set a couple of attributes to NULL.  We don't need them anymore and someday we'll want to get rid of them.
+//    SetAttributeFromString( vProfileXFER, "ED", "SearchFlags", "" ); dks 2016.02.15
+//    SetAttributeFromString( vProfileXFER, "ED", "FontString", "" );
+// }
 
    // First thing - create an editor work object instance.
    GetViewByName( &vEdWrk, szlTZEDWRKO, vSubtask, zLEVEL_SUBTASK );
@@ -6351,6 +6358,64 @@ TZEDFRMD_EditFind( zVIEW vSubtask )
 */
 
 } // TZEDFRMD_EditFind
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: TZEDFRMD_RepeatFind
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT OPERATION
+TZEDFRMD_EditRepeatFind( zVIEW vSubtask )
+{
+   zSHORT nRC = EDT_RepeatFind( vSubtask );
+   CString csLast = EDT_GetLastFindString( vSubtask );
+   CString csMsg;
+   if (nRC == 0)
+   {
+      csMsg = "Requested text NOT found: ";
+   }
+   else
+   if (nRC < 0)
+   {
+      csMsg = "Found past the end of the document: ";
+   }
+   else
+   {
+      csMsg = "Requested text found: ";
+   }
+   csMsg += csLast;
+   MB_SetMessage( vSubtask, MAIN_DIL, csMsg );
+   return nRC;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: TZEDFRMD_FindPrevious
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT OPERATION
+TZEDFRMD_EditFindPrevious( zVIEW vSubtask )
+{
+   zSHORT nRC = EDT_FindPrevious( vSubtask );
+   CString csLast = EDT_GetLastFindString( vSubtask );
+   CString csMsg;
+   if (nRC == 0)
+   {
+      csMsg = "Requested text NOT found: ";
+   }
+   else
+   if (nRC < 0)
+   {
+      csMsg = "Found past the end of the document: ";
+   }
+   else
+   {
+      csMsg = "Requested text found: ";
+   }
+   csMsg += csLast;
+   MB_SetMessage( vSubtask, MAIN_DIL, csMsg );
+   return nRC;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 //
