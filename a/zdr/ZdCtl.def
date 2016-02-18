@@ -21,7 +21,7 @@
 EXPORTS
 
 ;;
-;; Maximum Ordinal value in this "OPERATION" section is > @596 <
+;; Maximum Ordinal value in this "OPERATION" section is > @602 <
 ;;
 
    ActiveX                                                @19
@@ -65,6 +65,7 @@ EXPORTS
    EDT_CanPaste                                           @547
    EDT_CanRedo                                            @548
    EDT_CanUndo                                            @549
+   EDT_ClearAllBookmarks                                  @600
    EDT_CloseSubWindow                                     @542
    EDT_CloseObject                                        @544
    EDT_CopyText                                           @559
@@ -85,6 +86,9 @@ EXPORTS
    EDT_GetSelectedTextLength                              @591
    EDT_GetTextFromLineOfIndex                             @558
    EDT_GetTextFromRange                                   @554
+   EDT_GoToBookmark                                       @597
+   EDT_GoToNextBookmark                                   @601
+   EDT_GoToPreviousBookmark                               @602
    EDT_GotoWindow                                         @569
    EDT_InsertItem                                         @570
    EDT_IsCommentAtIndex                                   @541
@@ -104,8 +108,10 @@ EXPORTS
    EDT_SelectAll                                          @579
    EDT_SelectItem                                         @580
    EDT_SelectRange                                        @581
+   EDT_SetBookmark                                        @598
    EDT_SetCursorPositionByLine                            @582
    EDT_SyntaxOff                                          @583
+   EDT_ToggleBookmark                                     @599
    EDT_Undo                                               @584
    EDT_WantKeystrokes                                     @585
    EDT_ZeidonSyntaxOn                                     @586

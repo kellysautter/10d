@@ -15417,7 +15417,7 @@ UpdateTextInPlace( zVIEW vSubtask )
    GetViewByName( &vDialog, "vDialog", vSubtask, zLEVEL_TASK );
    if ( vDialog )
    {
-      zCHAR szOptionTag[ 33 ];
+      zCHAR szOptionTag[ 65 ];
       zPCHAR pch;
 
       GetLastCommandTag( vSubtask, szOptionTag );
@@ -15443,7 +15443,7 @@ UpdateFontFaceNameInPlace( zVIEW vSubtask )
    GetViewByName( &vDialog, "vDialog", vSubtask, zLEVEL_TASK );
    if ( vDialog )
    {
-      zCHAR szOptionTag[ 33 ];
+      zCHAR szOptionTag[ 65 ];
       zPCHAR pch;
 
       GetLastCommandTag( vSubtask, szOptionTag );
@@ -15469,7 +15469,7 @@ UpdateFontSizeInPlace( zVIEW vSubtask )
    GetViewByName( &vDialog, "vDialog", vSubtask, zLEVEL_TASK );
    if ( vDialog )
    {
-      zCHAR szOptionTag[ 33 ];
+      zCHAR szOptionTag[ 65 ];
       zPCHAR pch;
 
       GetLastCommandTag( vSubtask, szOptionTag );

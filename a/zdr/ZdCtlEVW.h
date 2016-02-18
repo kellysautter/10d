@@ -45,8 +45,9 @@ class ZEditDropTargetImpl;
 // ZCrystalEditView::FindText() flags
 enum
 {
-   FIND_MATCH_CASE      = 0x0001,
-   FIND_WHOLE_WORD      = 0x0002,
+   FIND_FORWARD      = 0x0000,
+   FIND_MATCH_CASE   = 0x0001,
+   FIND_WHOLE_WORD   = 0x0002,
    FIND_DIRECTION_UP = 0x0010,
    REPLACE_SELECTION = 0x0100
 };
@@ -58,8 +59,7 @@ enum
    UPDATE_VERTRANGE  = 0x0002,      // update vert scrollbar
    UPDATE_SINGLELINE = 0x0100,      // single line has changed
    UPDATE_FLAGSONLY  = 0x0200,      // only line-flags were changed
-
-   UPDATE_RESET      = 0x1000    // document was reloaded, update all!
+   UPDATE_RESET      = 0x1000       // document was reloaded, update all!
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -242,9 +242,7 @@ protected:
    virtual void OnUpdateSibling(ZCrystalEditView *pUpdateSource, BOOL bHorz);
    ZCrystalEditView *GetSiblingView(int nRow, int nCol);
 
-   virtual int GetLineLength(int nLineIndex);
    virtual int GetLineActualLength(int nLineIndex);
-   virtual LPCTSTR GetLineChars(int nLineIndex);
    virtual DWORD GetLineFlags(int nLineIndex);
 
    // Clipboard overridable
@@ -285,12 +283,14 @@ public:
    BOOL CanPaste();
    BOOL CanUndo();
    BOOL CanRedo();
-   void Cut();    // moved to public
-   void Copy();   // moved to public
+   void Cut();  // moved to public
+   void Copy();  // moved to public
    void Paste();  // moved to public
    void SelectAllLines();  // moved to public
    virtual int GetLineCount();  // moved to public
-   virtual void GetText(CPoint &ptStart, CPoint &ptEnd, CString& text);  // moved to public
+   virtual int GetLineLength(int nLineIndex);  // moved to public
+   virtual LPCTSTR GetLineChars(int nLineIndex);  // moved to public
+   virtual void GetText(CPoint &ptStart, CPoint &ptEnd, CString &text);  // moved to public
    BOOL DeleteCurrentSelection();  // moved to public
    void Delete();
    void Undo();
@@ -300,6 +300,12 @@ public:
    int  EditRepeat();
    int  EditFindPrevious();
    int  IsInComment(int nLine, int nCol);
+   void GoToBookmark( int nBookmarkID );
+   void GoToNextBookmark();
+   void GoToPreviousBookmark();
+   void ToggleBookmark( int nBookmarkID );
+   void SetBookmark( int nBookmarkID );
+   void ClearAllBookmarks();
 
    void GetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public
    void SetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public

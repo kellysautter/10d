@@ -45,7 +45,7 @@ extern "C"
 
 /*
 #define MovEOL( )    {  zCHAR Buffer[ 2 ];\
-                        EDT_GetCursorPosition( &lMoveBaseLine, &lMoveBaseColumn, &lMoveBaseIndex );    \
+                        EDT_GetCursorPosition( vSubtask, &lMoveBaseLine, &lMoveBaseColumn );    \
                         lMoveBaseColumn = pzma->GetActualTextLine( Buffer, 1 ); \
                         EDT_SetCursorPositionByLine( vSubtask, lMoveBaseLine, lMoveBaseColumn );     \
                      }
@@ -58,11 +58,6 @@ extern "C"
 #define EDIT_CONTROL_NAME    "_ZeidonEditor"
 #define MAX_TOKEN_LTH        100
 #define BUFFER_SIZE          512
-
-#define SRCH_BACKWARD        0x00000000
-#define SRCH_FORWARD         0x00000001
-#define SRCH_MATCHCASE       0x00000002
-#define SRCH_REGEXPR         0x00000004
 
 #define TZEDFRMD_EDIT_CONTEXT_MENU_TAG       "EditContext"
 #define TZEDFRMD_EDIT_CONTEXT_MENU_UNDO      "EditContextUndo"
@@ -185,7 +180,7 @@ long lMoveBaseLine, lMoveBaseColumn, lMoveBaseIndex;
 
 zBOOL   g_bIsFileNew = FALSE; // to handle "File New" menu command
 FINDREPLACE g_fr;
-CString g_strFindWhat = "";
+CString g_csFindWhat = "";
 zBOOL   g_bMatchCase = FALSE;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -204,15 +199,14 @@ zOPER_EXPORT zSHORT OPERATION
 SystemClose( zVIEW vSubtask );
 
 zOPER_EXPORT zSHORT OPERATION
-InsertComment( ZMapAct *pzma, LPSTR szOperName, LPSTR szOperComment );
+InsertComment( zVIEW vSubtask, LPSTR szOperName, LPSTR szOperComment );
 zOPER_EXPORT zSHORT OPERATION
 OpIns_BuildOperList( zVIEW vSubtask );
 
 zSHORT LOCALOPER
 fnInsertVML_Text( zVIEW    vSubtask,
                   zVIEW    vEdWrk,
-                  zVIEW    vProfileXFER,
-                  ZMapAct *pzma );
+                  zVIEW    vProfileXFER );
 zOPER_EXPORT zSHORT OPERATION
 SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang );
 zOPER_EXPORT zSHORT OPERATION
@@ -239,30 +233,28 @@ TZEDFRMD_EnableEditMenuActions( zVIEW vSubtask );
 zLONG
 FindBeginOfOperation( zVIEW    vSubtask,
                       LPCSTR   szOperationName,
-                      ZMapAct *pzma );
+                      ZMapAct  *pzma );
 zLONG
 FindEndOfOperation( zVIEW    vSubtask,
                     LPCSTR   szOperationName,
-                    ZMapAct *pzma );
+                    ZMapAct  *pzma );
 zBOOL
 FileIsEmpty( ZMapAct *pzma );
 
 void
-BufInsertStr( ZMapAct *pzma,
+BufInsertStr( zVIEW    vSubtask,
               zCPCHAR  cpc );
 static zSHORT
-CreateFileInfo( ZMapAct *pzma,
+CreateFileInfo( zVIEW    vSubtask,
                 zPCHAR   pszName );
 static zSHORT
 CreateSourceFile( zVIEW    vSubtask,
                   zVIEW    vSource,
-                  ZMapAct *pzma,
                   zBOOL    bCFile,
                   zPCHAR   szSourceFileEntityName );
 static zSHORT
 GotoCurrentOperation( zVIEW    vSubtask,
                       zVIEW    vSource,
-                      ZMapAct *pzma,
                       zPCHAR   szOperSrch,
                       zPCHAR   szMetaName,
                       zBOOL    bCFile );
@@ -285,16 +277,12 @@ CreateFileName( zVIEW   vTaskLPLR,
                 zLONG   lEntityNameLth,
                 zPBOOL  pbFileExists );
 static zSHORT
-SetEditorStatus( ZMapAct *pzma,
-                 zVIEW    vSource,
-                 zVIEW    vEdWrk );
-static zSHORT
 DeleteOperationFromCurrentFile( zVIEW    vSubtask,
                                 zVIEW    vSource,
                                 zVIEW    vDeleteOp,
                                 zVIEW    vEdWrk,
                                 zVIEW    vProfileXFER,
-                                ZMapAct *pzma,
+                                ZMapAct  *pzma,
                                 zPCHAR   pchFileName );
 static zSHORT
 InitEditorForMoveAndDelete( ZMapAct *pzma,
@@ -320,21 +308,20 @@ DropViewsForMoveAndDelete( zVIEW vSubtask,
                            zVIEW vEdWrk );
 static zBOOL
 GetOperationPosition( zVIEW    vSubtask,
-                      ZMapAct *pzma,
+                      ZMapAct  *pzma,
                       zVIEW    vDeleteOp,
                       zPLONG   plOpStartIndex,
                       zPLONG   plOpEndIndex );
 static zLONG
-CopyOperationToNewFile( ZMapAct *pzma,
+CopyOperationToNewFile( zVIEW    vSubtask,
                         zVIEW    vEdWrk,
                         zPCHAR   pszBuffer );
 static zSHORT
-GetPositionForNextInsert( ZMapAct *pzma,
+GetPositionForNextInsert( zVIEW    vSubtask,
                           zPLONG   plLine,
                           zPLONG   plCol );
 static zSHORT /*LOCAL */
 fnTZEDFRMD_SaveFile( zVIEW    vSubtask,
-                     ZMapAct *pzma,
                      zPCHAR   pchFileName,
                      zLONG    lMaxLth,
                      zSHORT   nAskForParse );
@@ -342,12 +329,18 @@ static zSHORT
 CreateErrorMessage( zVIEW  vSubtask,
                     zPCHAR szMsgText );
 static zSHORT
-RenameOperation( ZMapAct *pzma,
+RenameOperation( ZMapAct  *pzma,
                  zVIEW    vSubtask,
                  zLONG    lPosition );
 static zSHORT
 SetUpdateFlagInMeta( zVIEW vSubtask );
 
+// From ZCrystalEditView
+#define FIND_FORWARD       0x0000
+#define FIND_MATCH_CASE    0x0001
+#define FIND_WHOLE_WORD    0x0002
+#define FIND_DIRECTION_UP  0x0010
+#define REPLACE_SELECTION  0x0100
 
 zOPER_EXPORT zBOOL OPERATION
 EDT_CanCopy( zVIEW vSubtask );
@@ -372,9 +365,9 @@ EDT_DeleteTextRange( zVIEW vSubtask, zLONG lStartLine, zLONG lStartCol, zLONG lE
 zOPER_EXPORT zBOOL OPERATION
 EDT_Deselect( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
-EDT_FindTextPosition( zVIEW vSubtask, zCPCHAR cpcFind, zPLONG plLine, zPLONG plCol, zLONG lFlags );
+EDT_FindTextPosition( zVIEW vSubtask, zCPCHAR cpcFind, zPLONG plLine, zPLONG plCol, DWORD dwFlags );
 zOPER_EXPORT zSHORT OPERATION
-EDT_GetActualTextLine( zVIEW vSubtask, zPCHAR pchCurrentLine, zLONG lMaxLth );
+EDT_GetActualTextLine( zVIEW vSubtask, zPCHAR pchCurrentLine, zLONG lMaxLth, zLONG lLine );
 zOPER_EXPORT zBOOL OPERATION
 EDT_GetCursorPosition( zVIEW vSubtask, zPLONG plLine, zPLONG plCol );
 zOPER_EXPORT zLONG OPERATION
@@ -447,6 +440,19 @@ zOPER_EXPORT zSHORT OPERATION
 EDT_RepeatFind( zVIEW vSubtask );
 zOPER_EXPORT zCPCHAR OPERATION
 EDT_GetLastFindString( zVIEW vSubtask );
+zOPER_EXPORT zBOOL OPERATION
+EDT_SetBookmark( zVIEW vSubtask, int nTag );
+zOPER_EXPORT zBOOL OPERATION
+EDT_GoToBookmark( zVIEW vSubtask, int nTag );
+zOPER_EXPORT zBOOL OPERATION
+EDT_GoToNextBookmark( zVIEW vSubtask );
+zOPER_EXPORT zBOOL OPERATION
+EDT_GoToPreviousBookmark( zVIEW vSubtask );
+zOPER_EXPORT zBOOL OPERATION
+EDT_ToggleBookmark( zVIEW vSubtask, int nTag );
+zOPER_EXPORT zBOOL OPERATION
+EDT_ClearAllBookmarks( zVIEW vSubtask );
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Setup a comment in the current editor instance
@@ -460,54 +466,54 @@ EDT_GetLastFindString( zVIEW vSubtask );
 //    zShort number of lines inserted as a comment
 //
 zOPER_EXPORT zSHORT OPERATION
-InsertComment( ZMapAct *pzma, LPSTR szOperName, LPSTR szOperComment )
+InsertComment( zVIEW vSubtask, LPSTR szOperName, LPSTR szOperComment )
 {
 // zCHAR       szCommentType[ 256 ];
    CStringList sl;
    POSITION    pos = NULL;
-   CString     strSource, strLine;
-   CString     strHelp,
-               strCommentStart = "/*",
-               strLineStart = "**    ",
-               strCommentStop = "*/",
-               strNewLine = "\r\n";
+   CString     csSource, csLine;
+   CString     csHelp,
+               csCommentStart = "/*",
+               csLineStart = "**    ",
+               csCommentStop = "*/",
+               csNewLine = "\r\n";
    zPCHAR      pszBuffer = 0;
    zLONG       lCommentLength = 0;
    zLONG       lLineLength = 100;
    zLONG       k = 0, j = 0;
 
    // A line containing the beginning of Operation Documentation like "///////////..."
-   CString strBegin( '*', lLineLength - strCommentStart.GetLength( ) - strCommentStop.GetLength( ) );
+   CString csBegin( '*', lLineLength - csCommentStart.GetLength( ) - csCommentStop.GetLength( ) );
 #if 0
    if ( GetAppOrWorkstationValue( vSource, "CommentType", szCommentType, sizeof( szCommentType ) ) &&
         szCommentType[ 0 ] == '/' )
    {
-      strCommentStart = "//";
-      strLineStart = "// ";
-      strCommentStop = "//";
+      csCommentStart = "//";
+      csLineStart = "// ";
+      csCommentStop = "//";
 
       // Fix line containing the beginning of Operation Documentation like "///// ..."
-      strBegin.Replace( '*', '/' );
+      csBegin.Replace( '*', '/' );
    }
 #endif
    // A line which contains only blanks.
-   CString strBlanks( ' ', lLineLength - strCommentStart.GetLength( ) - strCommentStop.GetLength( ) );
-   strSource = szOperComment;
+   CString csBlanks( ' ', lLineLength - csCommentStart.GetLength( ) - csCommentStop.GetLength( ) );
+   csSource = szOperComment;
 
    // Setting up a list of strings which are part of the Comment.
-   strLine = strNewLine + strNewLine + strCommentStart + strBegin + strNewLine;
-   sl.AddTail( strLine );
-   sl.AddTail( strLineStart + strNewLine ); // insert an empty comment line
+   csLine = csNewLine + csNewLine + csCommentStart + csBegin + csNewLine;
+   sl.AddTail( csLine );
+   sl.AddTail( csLineStart + csNewLine ); // insert an empty comment line
 
    // Add operation name.
-   strLine = strLineStart + "OPERATION: " + szOperName + strNewLine;
-   sl.AddTail( strLine );
+   csLine = csLineStart + "OPERATION: " + szOperName + csNewLine;
+   sl.AddTail( csLine );
 
-// strLine = strLineStart + strNewLine;  // insert an empty comment line
-// sl.AddTail( strLine );
+// csLine = csLineStart + csNewLine;  // insert an empty comment line
+// sl.AddTail( csLine );
 
-   lCommentLength = strSource.GetLength( );
-   pszBuffer = strSource.GetBufferSetLength( lCommentLength );
+   lCommentLength = csSource.GetLength( );
+   pszBuffer = csSource.GetBufferSetLength( lCommentLength );
 
    // replace \r and \n by spaces
    while ( *pszBuffer )
@@ -518,38 +524,38 @@ InsertComment( ZMapAct *pzma, LPSTR szOperName, LPSTR szOperComment )
       pszBuffer++;
    }
 
-   strSource.ReleaseBuffer( );
+   csSource.ReleaseBuffer( );
 
-   strSource.TrimLeft( );     // ensure there is no blank at the beginning
-   lCommentLength = strSource.GetLength( );
+   csSource.TrimLeft( );     // ensure there is no blank at the beginning
+   lCommentLength = csSource.GetLength( );
 
    j = k = 0;
    while ( lCommentLength > 0 )
    {
-      strHelp = strSource.Mid( k, lLineLength ); // take the first 100 bytes
+      csHelp = csSource.Mid( k, lLineLength ); // take the first 100 bytes
 
-      strHelp.TrimLeft( ); // make sure there is no blank at the beginning
+      csHelp.TrimLeft( ); // make sure there is no blank at the beginning
 
       // Find a previous blank to have no linefeed within a word.
-      if ( strHelp.GetLength( ) >= lLineLength )
-         j = strHelp.ReverseFind( ' ' );
+      if ( csHelp.GetLength( ) >= lLineLength )
+         j = csHelp.ReverseFind( ' ' );
       else
          j= -1;
 
       if ( j > -1 )
       {
-         strHelp = strHelp.Left( j );
+         csHelp = csHelp.Left( j );
       }
 
-      if ( !strHelp.IsEmpty( ) )
+      if ( !csHelp.IsEmpty( ) )
       {
-         k += strHelp.GetLength( );    // The next 100 bytes we want to proceed with
-                                       // start at k + length of current line
-         lCommentLength = lCommentLength - strHelp.GetLength( );
-         strHelp.TrimRight( );
-         strLine = strLineStart;
-         strLine = strLine + strHelp + strNewLine;
-         sl.AddTail( strLine );
+         k += csHelp.GetLength( );    // The next 100 bytes we want to proceed with
+                                      // start at k + length of current line
+         lCommentLength = lCommentLength - csHelp.GetLength( );
+         csHelp.TrimRight( );
+         csLine = csLineStart;
+         csLine = csLine + csHelp + csNewLine;
+         sl.AddTail( csLine );
       }
       else
       {
@@ -558,19 +564,19 @@ InsertComment( ZMapAct *pzma, LPSTR szOperName, LPSTR szOperComment )
       }
    }
 
-   strLine = strLineStart + strNewLine;  // insert an empty comment line
-   sl.AddTail(strLine );
+   csLine = csLineStart + csNewLine;  // insert an empty comment line
+   sl.AddTail(csLine );
 
-   strLine = strBegin + strCommentStop + strNewLine;
-   sl.AddTail( strLine );
+   csLine = csBegin + csCommentStop + csNewLine;
+   sl.AddTail( csLine );
 
    // inserting the strings stored in the stringlist
    pos = sl.GetHeadPosition( );  // get the beginning of the list
 
    while ( pos )
    {
-      strHelp = sl.GetAt( pos );
-      EDT_InsertItem( pzma->m_pZSubtask->m_vDialog, strHelp ); // send string to Editor control
+      csHelp = sl.GetAt( pos );
+      EDT_InsertItem( vSubtask, csHelp ); // send string to Editor control
       sl.GetNext( pos );  // get next list entry
    }
 
@@ -646,7 +652,7 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
 {
    zLONG   lEndLine, lEndCol, lLine = 0, lLastLine = 0, lCol = 0;
    zCHAR   szOperSrch[ 256 ];
-   long    lTBEDTDefaultSearchBehavior = 5;
+   DWORD   dwTBEDTDefaultSearchBehavior = FIND_MATCH_CASE | FIND_WHOLE_WORD;
    zCHAR   szExtension[ 3 ];
    CString csENDString;
    zLONG   lKeyWordLength = 0;
@@ -657,7 +663,7 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
 
    GetStringFromAttribute( szExtension, sizeof( szExtension ), vEdWrk, szlBuffer, szlLanguageType );
 
-   // If current file is a C-Source the end of an operation is "}" otherwise it's END
+   // If current file is a C-Source the end of an operation is "}" otherwise it is END
    if ( zstrcmp( szExtension, szlC_File ) == 0 )
    {
       csENDString = "} *";
@@ -672,13 +678,13 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
    // Set up search string.
    zsprintf( szOperSrch, "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", szOperationName );
 
-   EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, lTBEDTDefaultSearchBehavior );
+   EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
 
    // Skipping lines where the search text is part of a comment.
    while ( fnIsCommentAtIndex( vSubtask, lLine, lCol ) && lLine > -1 )
    {
       lLine++;
-      EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, lTBEDTDefaultSearchBehavior );
+      EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
    }
 
    // Now we are at the position which looks like this "OPERATION MyOperation ("
@@ -688,12 +694,12 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
    if ( lLine > -1 )
    {
       lEndLine = lLine;
-      EDT_FindTextPosition( vSubtask, csENDString, &lEndLine, &lEndCol, SRCH_REGEXPR );
+      EDT_FindTextPosition( vSubtask, csENDString, &lEndLine, &lEndCol, 0 );
 
       while ( fnIsCommentAtIndex( vSubtask, lEndLine, lEndCol ) && lEndLine > -1 )
       {
          lEndLine--;
-         EDT_FindTextPosition( vSubtask, csENDString, &lEndLine, &lEndCol, SRCH_REGEXPR );
+         EDT_FindTextPosition( vSubtask, csENDString, &lEndLine, &lEndCol, 0 );
       }
 
       if ( lEndLine > -1 )
@@ -717,9 +723,9 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
          // we are still at the position which looks like this "OPERATION MyOperation ("
          zLONG lReturnedBuffSize = 0;
          BOOL bIsSpace = FALSE;
-         CString strBuffer;
+         CString csBuffer;
          LPSTR szBuffer;
-         szBuffer = strBuffer.GetBufferSetLength( lDefaultLineLength );
+         szBuffer = csBuffer.GetBufferSetLength( lDefaultLineLength );
 
          lEndLine = lLine;
 
@@ -799,8 +805,8 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
          {
             csENDString = "[#;]";
 
-            EDT_FindTextPosition( vSubtask, szOperSrch, &lEndLine, &lEndCol, lTBEDTDefaultSearchBehavior );
-            EDT_FindTextPosition( vSubtask, csENDString, &lEndLine, &lEndCol, SRCH_REGEXPR );
+            EDT_FindTextPosition( vSubtask, szOperSrch, &lEndLine, &lEndCol, dwTBEDTDefaultSearchBehavior );
+            EDT_FindTextPosition( vSubtask, csENDString, &lEndLine, &lEndCol, 0 );
             if ( lEndLine > -1 )
             {
                // Setting index to the first column of the next line.
@@ -840,7 +846,7 @@ FindEndOfOperation( zVIEW    vSubtask,
    static   zCHAR szOperationString[] = "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+";
    zVIEW    vEdWrk = 0;
    zCHAR    szOperSrch[ 256 ];
-   long     lTBEDTDefaultSearchBehavior = 5;
+   DWORD    dwTBEDTDefaultSearchBehavior = FIND_MATCH_CASE | FIND_WHOLE_WORD;
    zCHAR    szExtension[ 3 ];
    CString  csENDString;
 
@@ -858,15 +864,15 @@ FindEndOfOperation( zVIEW    vSubtask,
       lKeyWordLength = 3; // END
    }
 
-   // setup searchstring "OPERATION OperationName ("
+   // setup search string "OPERATION OperationName ("
    zsprintf( szOperSrch, "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", szOperationName );
-   EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, lTBEDTDefaultSearchBehavior );
+   EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
 
    // Skipping lines where the search text is part of a comment
    while ( fnIsCommentAtIndex( vSubtask, lLine, lCol ) && lLine > -1 )
    {
       lLine++;
-      EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, lTBEDTDefaultSearchBehavior );
+      EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
       TraceLineI( "(xxx) Return line from search = ", lLine );
    }
 
@@ -879,11 +885,11 @@ FindEndOfOperation( zVIEW    vSubtask,
    // of the next operation.  Since we want to ignore any operations that
    // might be commented out, keep searching until we are not in a comment.
 
-   EDT_FindTextPosition( vSubtask, szOperationString, &lLine, &lCol, SRCH_FORWARD | SRCH_REGEXPR );
+   EDT_FindTextPosition( vSubtask, szOperationString, &lLine, &lCol, FIND_FORWARD );
    while ( fnIsCommentAtIndex( vSubtask, lLine, lCol ) && lLine > -1 )
    {
       lLine++;
-      EDT_FindTextPosition( vSubtask, szOperationString, &lLine, &lCol, SRCH_FORWARD | SRCH_REGEXPR );
+      EDT_FindTextPosition( vSubtask, szOperationString, &lLine, &lCol, FIND_FORWARD );
    }
 
    // Now we should have the begin of the next operation.
@@ -892,11 +898,11 @@ FindEndOfOperation( zVIEW    vSubtask,
    //
    if ( lLine > -1 )
    {
-      EDT_FindTextPosition( vSubtask, csENDString, &lLine, &lCol, SRCH_REGEXPR );
+      EDT_FindTextPosition( vSubtask, csENDString, &lLine, &lCol, 0 );
       while ( fnIsCommentAtIndex( vSubtask, lLine, lCol ) && lLine > -1 )
       {
          lLine--;
-         EDT_FindTextPosition( vSubtask, csENDString, &lLine, &lCol, SRCH_REGEXPR );
+         EDT_FindTextPosition( vSubtask, csENDString, &lLine, &lCol, 0 );
       }
 
       // Right now we have the startposition of the keyword "END" which
@@ -920,8 +926,7 @@ FindEndOfOperation( zVIEW    vSubtask,
    }
    else
    {
-      // an index of -1 means there is no next Operation so delete anything
-      // to the end of file
+      // an index of -1 means there is no next Operation so delete anything to the end of file
       if ( zstrcmp( szExtension, szlC_File ) == 0 )
       {
          // in c-files search for #ifdef __cplusplus (from end to begin)
@@ -932,7 +937,7 @@ FindEndOfOperation( zVIEW    vSubtask,
          // set cursor to the last line
          lLine = EDT_GetLineCount( vSubtask );
          EDT_SetCursorPositionByLine( vSubtask, lLine - 1, 0 );
-         EDT_FindTextPosition( vSubtask, szSearchString, &lLine, &lCol, SRCH_BACKWARD | SRCH_REGEXPR );
+         EDT_FindTextPosition( vSubtask, szSearchString, &lLine, &lCol, FIND_DIRECTION_UP );
          lLine--;
          zLONG lOpStartLine = -1;
          lOpStartLine = FindBeginOfOperation( vSubtask, szOperationName, pzma );
@@ -1017,8 +1022,6 @@ DeleteOperationFromCurrentFile( zVIEW    vSubtask,
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_DropOperationFromSource( zVIEW vSubtask )
 {
-   ZSubtask   *pZSubtask;
-   ZMapAct    *pzma;
    zSHORT     nReturn = 0;
    zSHORT     nRC;
    zCHAR      szFileName[ zMAX_FILENAME_LTH + 1 ];
@@ -1026,6 +1029,8 @@ TZEDFRMD_DropOperationFromSource( zVIEW vSubtask )
    zVIEW      vSource = 0;
    zVIEW      vProfileXFER = 0;
    zVIEW      vDeleteOp = 0;
+   ZSubtask   *pZSubtask;
+   ZMapAct    *pzma;
    GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    if ( InitEditorForMoveAndDelete( pzma, vSubtask, &vDeleteOp, &vSource,
@@ -1040,8 +1045,7 @@ TZEDFRMD_DropOperationFromSource( zVIEW vSubtask )
          nRC = SetCursorNextEntity( vDeleteOp, "SourceFile", "" ) )
    {
       nReturn = DeleteOperationFromCurrentFile( vSubtask, vSource, vDeleteOp,
-                                                vEdWrk, vProfileXFER, pzma,
-                                                szFileName );
+                                                vEdWrk, vProfileXFER, pzma, szFileName );
    }
 
    DropViewsForMoveAndDelete( vSubtask, vDeleteOp, vEdWrk );
@@ -1057,68 +1061,65 @@ TZEDFRMD_DropOperationFromSource( zVIEW vSubtask )
 // This function formats every character in the source, regardless of
 // escape sequences. So be aware of passing incorrect search strings.
 zLONG
-BuildCaseSensitiveSearchString( LPCSTR lpSource, CString &strTarget )
+BuildCaseSensitiveSearchString( LPCSTR lpSource, CString &csTarget )
 {
-   CString strLower = lpSource;
-   CString strUpper = lpSource;
-   CString strHelp;
-   CString strFormatHelp = "[%c%c]";
+   CString csLower = lpSource;
+   CString csUpper = lpSource;
+   CString csHelp;
+   CString csFormatHelp = "[%c%c]";
    zLONG lLength;
 
-   strTarget.Empty( );      // clean Target
-   strUpper.MakeUpper( );   // Conversion so I don't have to do
-   strLower.MakeLower( );   // thus c stuff isupper(*lpx)?*lpx:*lpx += 32;
+   csTarget.Empty( );      // clean Target
+   csUpper.MakeUpper( );   // Conversion so I don't have to do
+   csLower.MakeLower( );   // thus c stuff isupper(*lpx)?*lpx:*lpx += 32;
 
-   lLength = strLower.GetLength( );
+   lLength = csLower.GetLength( );
    for ( zLONG k = 0; k < lLength; k++ )
    {
-      if ( strUpper.GetAt( k ) != ' ' )// skip formating if blank occurs
+      if ( csUpper.GetAt( k ) != ' ' )// skip formating if blank occurs
       {
-         strHelp.Format( strFormatHelp, strUpper.GetAt( k ), strLower.GetAt( k ) );
+         csHelp.Format( csFormatHelp, csUpper.GetAt( k ), csLower.GetAt( k ) );
       }
       else
       {
-         strHelp = " ";
+         csHelp = " ";
       }
 
-      strTarget += strHelp;
+      csTarget += csHelp;
    }
 
-   return( strTarget.GetLength( ) );
+   return( csTarget.GetLength( ) );
 }
 
 // Get the Numer of Tabs in the current line up to the given position.
 int
-GetTabsInLine( ZMapAct *pzma, zLONG lUpToPosition )
+GetTabsInLine( zVIEW vSubtask, zLONG lUpToPosition )
 {
-   CString  strCurrentLine;
+   CString  csCurrentLine;
    LPSTR    pchCurrentLine;
-   zLONG    lBuffSize = 64000;   // this crashes at 16000!!!
-   zLONG    lReturnedBuffSize = 0;
-   zLONG    lPosition = 0;
+   zLONG    lBuffSize;
+   zLONG    lPosition;
+   zLONG    lLine;
+   zLONG    lCol;
    int      k = 0;
 
-   pchCurrentLine = strCurrentLine.GetBufferSetLength( lBuffSize );
-
-   // Get the text of the current line.
-   lReturnedBuffSize = EDT_GetActualTextLine( pzma->m_pZSubtask->m_vDialog, pchCurrentLine, lBuffSize - 1 );
-
-   // Buffer to small -> increase Buffer and do it once more.
-   if ( lBuffSize < lReturnedBuffSize )
+   EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+   lBuffSize = EDT_GetLineLength( vSubtask, lLine ) + 1;
+   if ( lBuffSize > 1 )
    {
-      lBuffSize = lReturnedBuffSize + 1;
-      pchCurrentLine = strCurrentLine.GetBufferSetLength( lBuffSize );
-      lReturnedBuffSize = EDT_GetActualTextLine( pzma->m_pZSubtask->m_vDialog, pchCurrentLine, lBuffSize - 1 );
-   }
+      // Get the text of the current line.
+      pchCurrentLine = csCurrentLine.GetBufferSetLength( lBuffSize );
+      EDT_GetActualTextLine( vSubtask, pchCurrentLine, lBuffSize, lLine );
 
-   // Count the Number of TABS.
-   for ( k = 0, lPosition;
-         *pchCurrentLine && lPosition <= lUpToPosition;
-         pchCurrentLine++, lPosition++ )
-   {
-      if ( *pchCurrentLine == '\t' )
+      // Count the Number of TABS.
+      for ( lPosition = 0;
+            *pchCurrentLine && lPosition <= lUpToPosition;
+            pchCurrentLine++, lPosition++ )
       {
-         k++;
+         if ( *pchCurrentLine == '\t' )
+         {
+            k++;
+         }
       }
    }
 
@@ -1126,14 +1127,13 @@ GetTabsInLine( ZMapAct *pzma, zLONG lUpToPosition )
 }
 
 void
-BufInsertStr( ZMapAct *pzma, zCPCHAR psz )
+BufInsertStr( zVIEW vSubtask, zCPCHAR psz )
 {
-   EDT_InsertItem( pzma->m_pZSubtask->m_vDialog, psz );
-   return;
+   EDT_InsertItem( vSubtask, psz );
 }
 
 int
-OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
+OperTemplate( zVIEW vSubtask, zVIEW vSource )
 {
    zVIEW    vLOD   = 0;
    zVIEW    vEdWrk = 0;
@@ -1151,7 +1151,7 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
    zCHAR    szLine[ 65 ];
    LPSTR    szOperComment;
    LPSTR    szTab = "   ";
-   CString  strFormat, strInsertBuffer;
+   CString  csFormat, csInsertBuffer;
    zSHORT   nRC;
    zSHORT   nLth;
 
@@ -1164,99 +1164,99 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
    bFileC = CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlC_File ) == 0;
 
    // First of all set up comment for the Operation.
-   InsertComment( pzma, szOperName, szOperComment );
+   InsertComment( vSubtask, szOperName, szOperComment );
 
    if ( szType )
    {
       if ( bFileC )
       {
-         strFormat = "zOPER_EXPORT %s /*";
+         csFormat = "zOPER_EXPORT %s /*";
          switch ( szReturnDataType[ 0 ] )
          {
             case 'V':
-               strInsertBuffer.Format( strFormat, "zVIEW" );
+               csInsertBuffer.Format( csFormat, "zVIEW" );
                break;
 
             case 'N':
-               strInsertBuffer.Format( strFormat, "zSHORT" );
+               csInsertBuffer.Format( csFormat, "zSHORT" );
                break;
 
             case 'M':
-               strInsertBuffer.Format( strFormat, "zDECIMAL" );
+               csInsertBuffer.Format( csFormat, "zDECIMAL" );
                break;
 
             case 'Y':
-               strInsertBuffer.Format( strFormat, "zCHAR" );
+               csInsertBuffer.Format( csFormat, "zCHAR" );
                break;
 
             case 'L':
-               strInsertBuffer.Format( strFormat, "zLONG" );
+               csInsertBuffer.Format( csFormat, "zLONG" );
                break;
 
             case 'O':
             case 0: // empty data type is handled as void
-               strInsertBuffer.Format( strFormat, "zVOID" );
+               csInsertBuffer.Format( csFormat, "zVOID" );
                break;
 
             default:
-               strInsertBuffer.Format( strFormat, "zSHORT" );
+               csInsertBuffer.Format( csFormat, "zSHORT" );
          }
-         //BufInsertStr( pzma, strInsertBuffer );
+         //BufInsertStr( vSubtask, csInsertBuffer );
       }
 
-      switch ( *szType )
+      switch ( szType[0] )
       {
          case 'D':
-            bFileC ? strInsertBuffer += "DIALOG */  OPERATION\r\n"
-                   : strInsertBuffer += "DIALOG OPERATION\r\n";
+            bFileC ? csInsertBuffer += "DIALOG */  OPERATION\r\n"
+                   : csInsertBuffer += "DIALOG OPERATION\r\n";
             break;
 
          case 'E':
-            bFileC ? strInsertBuffer += "ENTITY CONSTRAINT */  OPERATION\r\n"
-                   : strInsertBuffer += "ENTITY CONSTRAINT OPERATION\r\n";
+            bFileC ? csInsertBuffer += "ENTITY CONSTRAINT */  OPERATION\r\n"
+                   : csInsertBuffer += "ENTITY CONSTRAINT OPERATION\r\n";
             break;
 
          case 'C':
          case 'O':
-            bFileC ? strInsertBuffer += "OBJECT CONSTRAINT */  OPERATION\r\n"
-                   : strInsertBuffer += "OBJECT CONSTRAINT OPERATION\r\n";
+            bFileC ? csInsertBuffer += "OBJECT CONSTRAINT */  OPERATION\r\n"
+                   : csInsertBuffer += "OBJECT CONSTRAINT OPERATION\r\n";
             break;
 
          case 'T':
-            bFileC ? strInsertBuffer += "TRANSFORMATION */  OPERATION\r\n"
-                   : strInsertBuffer += "TRANSFORMATION OPERATION\r\n";
+            bFileC ? csInsertBuffer += "TRANSFORMATION */  OPERATION\r\n"
+                   : csInsertBuffer += "TRANSFORMATION OPERATION\r\n";
             break;
 
          case 'A':
-            bFileC ? strInsertBuffer += "DERIVED ATTRIBUTE */  OPERATION\r\n"
-                   : strInsertBuffer += "DERIVED ATTRIBUTE OPERATION\r\n";
+            bFileC ? csInsertBuffer += "DERIVED ATTRIBUTE */  OPERATION\r\n"
+                   : csInsertBuffer += "DERIVED ATTRIBUTE OPERATION\r\n";
             break;
 
          case 'M':
-            bFileC ? strInsertBuffer += "DOMAIN */  OPERATION\r\n"
-                   : strInsertBuffer += "DOMAIN OPERATION\r\n";
+            bFileC ? csInsertBuffer += "DOMAIN */  OPERATION\r\n"
+                   : csInsertBuffer += "DOMAIN OPERATION\r\n";
             break;
 
          case 'G':
-            bFileC ? strInsertBuffer += "GLOBAL */  OPERATION\r\n"
-                   : strInsertBuffer += "GLOBAL OPERATION\r\n";
+            bFileC ? csInsertBuffer += "GLOBAL */  OPERATION\r\n"
+                   : csInsertBuffer += "GLOBAL OPERATION\r\n";
             break;
 
          case 'L':
          default:
-            bFileC ? strInsertBuffer += "LOCAL */  OPERATION\r\n"
-                   : strInsertBuffer += "LOCAL OPERATION\r\n";
+            bFileC ? csInsertBuffer += "LOCAL */  OPERATION\r\n"
+                   : csInsertBuffer += "LOCAL OPERATION\r\n";
          }
    }
    else
-      bFileC ? strInsertBuffer += "LOCAL */  OPERATION\r\n"
-             : strInsertBuffer += "LOCAL OPERATION\r\n";
+      bFileC ? csInsertBuffer += "LOCAL */  OPERATION\r\n"
+             : csInsertBuffer += "LOCAL OPERATION\r\n";
 
    nLth = lstrlen( szOperName ) + 2;
-   strInsertBuffer +=  szOperName;
-   strInsertBuffer += "( ";
+   csInsertBuffer +=  szOperName;
+   csInsertBuffer += "( ";
 
-   CString strParamIndent( ' ', nLth );
+   CString csParamIndent( ' ', nLth );
 
    // Insert parameter list.
    nParam = 0;
@@ -1266,8 +1266,8 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
    {
       if ( nParam > 0 )
       {
-         strInsertBuffer += ",\r\n";
-         strInsertBuffer += strParamIndent;
+         csInsertBuffer += ",\r\n";
+         csInsertBuffer += csParamIndent;
          //MovRight( nLth );
       }
 
@@ -1280,13 +1280,13 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
       strcpy_s( szParam, sizeof( szParam ), "");
       if (bFileC)
       {
-         if ( bPointer && *szDataType != 'S' )
+         if ( bPointer && szDataType[0] != 'S' )
            strcat_s( szParam, sizeof( szParam ), "p");
 
-         if ( bUnsigned && *szDataType == 'N' || *szDataType == 'L' )
+         if ( bUnsigned && szDataType[0] == 'N' || szDataType[0] == 'L' )
            strcat_s( szParam, sizeof( szParam ), "u" );
 
-         switch ( *szDataType )
+         switch ( szDataType[0] )
          {
             case 'V':
                strcat_s( szParam, sizeof( szParam ), "v");
@@ -1332,12 +1332,12 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
          // create prefix for "C"
          strcat_s( szLine, sizeof( szLine ), "z");
 
-         if ( bPointer && *szDataType != 'S' ) // not for String
+         if ( bPointer && szDataType[0] != 'S' ) // not for String
            strcat_s( szLine, sizeof( szLine ), "P");
 
          if ( bUnsigned )
          {
-            switch ( *szDataType )
+            switch ( szDataType[0] )
             {
 //               case 'Y':
                case 'N':
@@ -1348,14 +1348,14 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
          }
       }
 
-      switch ( *szDataType )
+      switch ( szDataType[0] )
       {
          case 'V':
             strcat_s( szLine, sizeof( szLine ), "VIEW ");
             strcat_s( szLine, sizeof( szLine ), szParam );
 
             if ( nParam == 1 &&
-                 (*szType == 'A' || *szType == 'E' || *szType == 'T' || *szType == 'C' || *szType == 'O') )
+                 (szType[0] == 'A' || szType[0] == 'E' || szType[0] == 'T' || szType[0] == 'C' || szType[0] == 'O') )
             {
                zLONG ZKey;
 
@@ -1436,31 +1436,31 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
             break;
       }
 
-      strInsertBuffer += szLine;
+      csInsertBuffer += szLine;
 
       // Store parameters for CASE in VML function prototype.
       switch ( nParam )
       {
          case 1:
-            if ( *szType == 'M' )
+            if ( szType[0] == 'M' )
                strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
 
             break;
 
          case 2:
-            if ( *szType == 'C' || *szType == 'O' )
+            if ( szType[0] == 'C' || szType[0] == 'O' )
                strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
 
             break;
 
          case 3:
-            if ( *szType == 'E' )
+            if ( szType[0] == 'E' )
                strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
 
             break;
 
          case 4:
-            if ( *szType == 'A' )
+            if ( szType[0] == 'A' )
                strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
 
             break;
@@ -1473,143 +1473,143 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
    {
       // Use dummy parameter, to avoid compiler warnings.
       if ( nParam == 0 )
-         strInsertBuffer += "void";
+         csInsertBuffer += "void";
 
-      strInsertBuffer += " )\r\n";
+      csInsertBuffer += " )\r\n";
    }
    else
    {
-      strInsertBuffer += " )\r\n\r\n";
+      csInsertBuffer += " )\r\n\r\n";
    }
 
    if ( bFileC == FALSE )
    {
-      switch ( *szType )
+      switch ( szType[0] )
       {
          case 'E':
             //MovRight( 3 );
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "CASE ";
-            strInsertBuffer +=  szParamCase;
-            strInsertBuffer +=  "\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zECE_ACCEPT:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zECE_ACCEPT */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zECE_CANCEL:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zECE_CANCEL */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zECE_CREATE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zECE_CREATE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zECE_DELETE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zECE_DELETE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zECE_EXCLUDE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zECE_EXCLUDE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zECE_INCLUDE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zECE_INCLUDE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "END  /* case */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "CASE ";
+            csInsertBuffer +=  szParamCase;
+            csInsertBuffer +=  "\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zECE_ACCEPT:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zECE_ACCEPT */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zECE_CANCEL:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zECE_CANCEL */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zECE_CREATE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zECE_CREATE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zECE_DELETE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zECE_DELETE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zECE_EXCLUDE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zECE_EXCLUDE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zECE_INCLUDE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zECE_INCLUDE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "END  /* case */\r\n";
             break;
 
          case 'C':
          case 'O':
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "CASE ";
-            strInsertBuffer +=  szParamCase;
-            strInsertBuffer +=  "\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zOCE_ACTIVATE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zOCE_ACTIVATE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zOCE_ACTIVATE_EMPTY:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zOCE_ACTIVATE_EMPTY */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zOCE_COMMIT:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zOCE_COMMIT */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zOCE_DROPOI:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zOCE_DROPOI */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "END  /* case */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "CASE ";
+            csInsertBuffer +=  szParamCase;
+            csInsertBuffer +=  "\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zOCE_ACTIVATE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zOCE_ACTIVATE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zOCE_ACTIVATE_EMPTY:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zOCE_ACTIVATE_EMPTY */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zOCE_COMMIT:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zOCE_COMMIT */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zOCE_DROPOI:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zOCE_DROPOI */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "END  /* case */\r\n";
             break;
 
          case 'A':
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "CASE ";
-            strInsertBuffer +=  szParamCase;
-            strInsertBuffer +=  "\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDERIVED_GET:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDERIVED_GET */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDERIVED_SET:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDERIVED_SET */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "END  /* case */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "CASE ";
+            csInsertBuffer +=  szParamCase;
+            csInsertBuffer +=  "\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDERIVED_GET:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDERIVED_GET */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDERIVED_SET:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDERIVED_SET */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "END  /* case */\r\n";
             break;
 
          case 'M':
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "CASE ";
-            strInsertBuffer +=  szParamCase;
-            strInsertBuffer +=  "\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_SET_ATTRIBUTE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_SET_ATTRIBUTE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_GET_VARIABLE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_GET_VARIABLE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_COMPARE_ATTRIBUTE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_COMPARE_ATTRIBUTE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_GET_FIRST_TBL_ENT_FOR_ATTR:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_GET_FIRST_TBL_ENT_FOR_ATTR */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_GET_NEXT_TBL_ENT_FOR_ATTR:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_GET_NEXT_TBL_ENT_FOR_ATTR */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_SET_ATTRIBUTE_VALUE_NEXT:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_SET_ATTRIBUTE_VALUE_NEXT */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_SET_ATTRIBUTE_VALUE_PREV:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_SET_ATTRIBUTE_VALUE_PREV */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_ADD_TO_ATTRIBUTE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_ADD_TO_ATTRIBUTE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_GET_COMPARE_VALUE:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_GET_COMPARE_VALUE */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "OF   zDME_VALIDATE_LPDATA:\r\n\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "     /* end zDME_VALIDATE_LPDATA */\r\n";
-            strInsertBuffer += szTab;
-            strInsertBuffer +=  "END  /* case */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "CASE ";
+            csInsertBuffer +=  szParamCase;
+            csInsertBuffer +=  "\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_SET_ATTRIBUTE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_SET_ATTRIBUTE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_GET_VARIABLE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_GET_VARIABLE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_COMPARE_ATTRIBUTE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_COMPARE_ATTRIBUTE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_GET_FIRST_TBL_ENT_FOR_ATTR:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_GET_FIRST_TBL_ENT_FOR_ATTR */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_GET_NEXT_TBL_ENT_FOR_ATTR:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_GET_NEXT_TBL_ENT_FOR_ATTR */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_SET_ATTRIBUTE_VALUE_NEXT:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_SET_ATTRIBUTE_VALUE_NEXT */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_SET_ATTRIBUTE_VALUE_PREV:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_SET_ATTRIBUTE_VALUE_PREV */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_ADD_TO_ATTRIBUTE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_ADD_TO_ATTRIBUTE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_GET_COMPARE_VALUE:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_GET_COMPARE_VALUE */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "OF   zDME_VALIDATE_LPDATA:\r\n\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "     /* end zDME_VALIDATE_LPDATA */\r\n";
+            csInsertBuffer += szTab;
+            csInsertBuffer +=  "END  /* case */\r\n";
             break;
 
          case 'T':
@@ -1617,7 +1617,7 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
          case 'D':
          case 'L':
          default:
-            strInsertBuffer +=  "\r\n";
+            csInsertBuffer +=  "\r\n";
             break;
       }
    }
@@ -1639,12 +1639,12 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
       strcpy_s( szLine, sizeof( szLine ), "\r\nEND\r\n" );
    }
 
-   strInsertBuffer += szLine;
+   csInsertBuffer += szLine;
 
    // insert a single string
-   BufInsertStr( pzma, strInsertBuffer );
+   BufInsertStr( vSubtask, csInsertBuffer );
    if ( bFileC )
-      BufInsertStr( pzma, "\r\n\r\n" );
+      BufInsertStr( vSubtask, "\r\n\r\n" );
 
    if ( vLOD )
       DropView( vLOD );
@@ -1655,30 +1655,30 @@ OperTemplate( ZMapAct *pzma, zVIEW vSource, zVIEW vSubtask )
 // Operation: fnCursorInCommentOrQuote
 // Returns:  TRUE if index is in comment or quotes.
 zSHORT
-fnCursorInCommentOrQuote( ZMapAct *pzma, long lLine, long lCol )
+fnCursorInCommentOrQuote( zVIEW vSubtask, long lLine, long lCol )
 {
-   CString strBuffer;
+   CString csBuffer;
    LPSTR  szBuffer;
    zLONG  lReturnedBuffSize = MAX_TOKEN_LTH;
    zBOOL  bReturn = FALSE;
 
-   bReturn = fnIsCommentAtIndex( pzma->m_pZSubtask->m_vDialog, lLine, lCol );
+   bReturn = fnIsCommentAtIndex( vSubtask, lLine, lCol );
 
    // If cursor is not in a comment, check to see if it is in quotes.
    if ( bReturn == FALSE )
    {
       // Read line.
-      szBuffer = strBuffer.GetBufferSetLength( lReturnedBuffSize );
-      lReturnedBuffSize = EDT_GetTextFromLineOfIndex( pzma->m_pZSubtask->m_vDialog, szBuffer, lReturnedBuffSize, lLine );
+      szBuffer = csBuffer.GetBufferSetLength( lReturnedBuffSize );
+      lReturnedBuffSize = EDT_GetTextFromLineOfIndex( vSubtask, szBuffer, lReturnedBuffSize, lLine );
       // in Case of an editor error
       if ( lReturnedBuffSize >= MAX_TOKEN_LTH )
       {
          lReturnedBuffSize++;
-         szBuffer = strBuffer.GetBufferSetLength( lReturnedBuffSize );
-         lReturnedBuffSize = EDT_GetTextFromLineOfIndex( pzma->m_pZSubtask->m_vDialog, szBuffer, lReturnedBuffSize, lLine );
+         szBuffer = csBuffer.GetBufferSetLength( lReturnedBuffSize );
+         lReturnedBuffSize = EDT_GetTextFromLineOfIndex( vSubtask, szBuffer, lReturnedBuffSize, lLine );
       }
 
-      strBuffer.ReleaseBuffer( );
+      csBuffer.ReleaseBuffer( );
 
       // Check to see if the original cursor position is inside quotes.  To
       // do this, we first go to the beginning of the line and then start
@@ -1689,7 +1689,7 @@ fnCursorInCommentOrQuote( ZMapAct *pzma, long lLine, long lCol )
       // on to multiple lines.
 
       // Reset the charactercount (lCol) relative to the begin of line.
-      EDT_GetPositionByIndex( pzma->m_pZSubtask->m_vDialog, &lLine, &lCol );
+      EDT_GetPositionByIndex( vSubtask, &lLine, &lCol );
 
       // Set bReturn to false.  bReturn is an indicator that
       // specifies whether the last quote found is an open quote.
@@ -1698,7 +1698,7 @@ fnCursorInCommentOrQuote( ZMapAct *pzma, long lLine, long lCol )
       {
          // If quote is before the original cursor position, then toggle
          // bReturn, otherwise break out of loop.
-         if ( strBuffer.GetAt( l ) == '\"' )
+         if ( csBuffer.GetAt( l ) == '\"' )
             if ( l <= lCol )
                bReturn = !bReturn;
             else
@@ -1759,7 +1759,7 @@ fnShowSubwindows( zVIEW  vSubtask )
 
 
 static zSHORT
-CreateFileInfo( ZMapAct *pzma,
+CreateFileInfo( zVIEW    vSubtask,
                 zPCHAR   pszName )
 
 {
@@ -1769,19 +1769,19 @@ CreateFileInfo( ZMapAct *pzma,
    SysGetDateTime( szDateRaw, sizeof( szDateRaw ) );
    UfFormatDateTime( szDateFormatted, sizeof( szDateFormatted ), szDateRaw, "DD-MM-YYYY" );
 
-   BufInsertStr( pzma,
+   BufInsertStr( vSubtask,
      "/*\r\n"
      "//----------------------------------------------------------------------\r\n"
      "//\r\n"
      "// .Name:         " );
-   BufInsertStr( pzma, pszName );
-   BufInsertStr( pzma, ".c\r\n"
+   BufInsertStr( vSubtask, pszName );
+   BufInsertStr( vSubtask, ".c\r\n"
      "//\r\n"
      "// .Version:      1.0\r\n"
      "//\r\n"
      "// .Last change:  " );
-   BufInsertStr( pzma, szDateFormatted );
-   BufInsertStr( pzma, "\r\n"
+   BufInsertStr( vSubtask, szDateFormatted );
+   BufInsertStr( vSubtask, "\r\n"
      "//\r\n"
      "// .Description:  Zeidon operations\r\n"
      "//\r\n"
@@ -1790,13 +1790,13 @@ CreateFileInfo( ZMapAct *pzma,
      "//\r\n"
      "//  1.0  = New\r\n"
      "//        (" );
-   BufInsertStr( pzma, szDateFormatted );
-   BufInsertStr( pzma, ") Zeidon\r\n"
+   BufInsertStr( vSubtask, szDateFormatted );
+   BufInsertStr( vSubtask, ") Zeidon\r\n"
      "//\r\n"
      "//----------------------------------------------------------------------\r\n"
      "*/\r\n\r\n" );
 
-   BufInsertStr( pzma,
+   BufInsertStr( vSubtask,
      "#define KZSYSSVC_INCL\r\n"
      "#include <KZOENGAA.H>\r\n"
      "#include <ZDRVROPR.H>\r\n"
@@ -1816,7 +1816,6 @@ CreateFileInfo( ZMapAct *pzma,
 static zSHORT
 CreateSourceFile( zVIEW    vSubtask,
                   zVIEW    vSource,
-                  ZMapAct  *pzma,
                   zBOOL    bCFile,
                   zPCHAR   szSourceFileEntityName )
 {
@@ -1832,7 +1831,7 @@ CreateSourceFile( zVIEW    vSubtask,
       // Create a "C" source header.
       GetAddrForAttribute( &pszName, vSource, szSourceFileEntityName, szlName );
 
-      CreateFileInfo( pzma, pszName );
+      CreateFileInfo( vSubtask, pszName );
 
       // In c-files search for #ifdef __cplusplus (from end to begin)
       // to get the position where to insert new operation.
@@ -1842,7 +1841,7 @@ CreateSourceFile( zVIEW    vSubtask,
       MovEOF( );
       EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
 
-      EDT_FindTextPosition( vSubtask, szSearchString, &lLine, &lCol, SRCH_BACKWARD | SRCH_REGEXPR );
+      EDT_FindTextPosition( vSubtask, szSearchString, &lLine, &lCol, FIND_DIRECTION_UP );
 
       // Something found so insert two blank lines and reposition the cursor
       // to one of the blank lines.
@@ -1851,7 +1850,7 @@ CreateSourceFile( zVIEW    vSubtask,
          // Set cursor to begin of line
          EDT_GetPositionByIndex( vSubtask, &lLine, &lCol );
          EDT_SetCursorPositionByLine( vSubtask, lLine, 0 );
-         BufInsertStr( pzma, "\r\n\r\n" );
+         BufInsertStr( vSubtask, "\r\n\r\n" );
          EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
          EDT_SetCursorPositionByLine( vSubtask, lLine - 1, lCol );
       }
@@ -1863,7 +1862,7 @@ CreateSourceFile( zVIEW    vSubtask,
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTmp, szlOperation, "" ) )
    {
-      OperTemplate( pzma, vTmp, vSubtask );
+      OperTemplate( vSubtask, vTmp );
       // reposition cursor for next insert
       if ( bCFile )
       {
@@ -1920,16 +1919,15 @@ CreateErrorMessage( zVIEW  vSubtask,
 static zSHORT
 GotoCurrentOperation( zVIEW    vSubtask,
                       zVIEW    vSource,
-                      ZMapAct  *pzma,
                       zPCHAR   szOperSrch,
                       zPCHAR   szMetaName,
                       zBOOL    bCFile )
 {
    zLONG  lLine = 0, lCol = 0;
-   long   lTBEDTDefaultSearchBehavior = 5;
+   DWORD  dwTBEDTDefaultSearchBehavior = FIND_MATCH_CASE | FIND_WHOLE_WORD;
 
    EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
-   EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, lTBEDTDefaultSearchBehavior );
+   EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
    EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
    TraceLine( "(xxx) Return from search line: %d  col: %d", lLine, lCol );
 
@@ -1938,7 +1936,7 @@ GotoCurrentOperation( zVIEW    vSubtask,
    {
       lLine++;
       EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
-      EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, lTBEDTDefaultSearchBehavior );
+      EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
       EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
    }
 
@@ -1951,7 +1949,7 @@ GotoCurrentOperation( zVIEW    vSubtask,
       {
          // in c-files search for #ifdef __cplusplus (from end to begin)
          // to get the position where to insert new operation
-         GetPositionForNextInsert( pzma, &lLine, &lCol );
+         GetPositionForNextInsert( vSubtask, &lLine, &lCol );
          EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
       }
 
@@ -1960,7 +1958,7 @@ GotoCurrentOperation( zVIEW    vSubtask,
          CreateErrorMessage( vSubtask, "Operation" );
       else
       {
-         OperTemplate( pzma, vSource, vSubtask );
+         OperTemplate( vSubtask, vSource );
          MovUp( 3 );
       }
    }
@@ -2054,11 +2052,11 @@ CheckFileAttribute( zPCHAR  pchFileName,
    if (dwAttribute == 0xFFFFFFFF) //call of function GetFileAttributes failed
    {
       LPSTR lpMsgBuf = NULL;
-      CString strMsgTitle = "Zeidon";
+      CString csMsgTitle = "Zeidon";
       FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, GetLastError( ),
                      MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ), // Default language
                      lpMsgBuf, 0, NULL );
-      MessageBox( NULL, lpMsgBuf, strMsgTitle, MB_OK | MB_ICONINFORMATION );
+      MessageBox( NULL, lpMsgBuf, csMsgTitle, MB_OK | MB_ICONINFORMATION );
 
       // Free the buffer.
       LocalFree( lpMsgBuf );
@@ -2140,29 +2138,6 @@ CreateFileName( zVIEW   vTaskLPLR,
 
 } // CreateFileName
 
-static zSHORT
-SetEditorStatus( ZMapAct *pzma,
-                 zVIEW    vSource,
-                 zVIEW    vEdWrk )
-{
-   if ( MiGetUpdateForView( vSource ) )
-   {
-      // Source view is updateable
-      SetAttributeFromString( vEdWrk, szlBuffer, szlActiveStatus, "Y" );
-      // set ReadOnly off;
-      EDT_ReadOnlyMode( pzma->m_pZSubtask->m_vDialog, FALSE );
-   }
-   else
-   {
-      // Source view is NOT updateable
-      SetAttributeFromString( vEdWrk, szlBuffer, szlActiveStatus, "N" );
-      // ReadOnly on;
-      EDT_ReadOnlyMode( pzma->m_pZSubtask->m_vDialog, TRUE );
-   }
-
-   return( 0 );
-}
-
 // Sets the line,col DIL message.  Since the line,col values are 0-based we add 1 before displaying them.
 // Also checks to see if the file has been changed.
 zSHORT
@@ -2183,14 +2158,6 @@ InitSession( zVIEW  vSubtask )
    zVIEW    vProfileXFER = 0;
    zLONG    lLine = -1;
    zBOOL    bReadOnly = FALSE;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   // TMV 1998.05.26 registry problem
-   // Don't know if this is the best way to do this, but it's better than an access violation.
-   if ( pzma == 0 )
-      return( -1 );
 
    // Flag which says that the Object is created by Menu-Command 'File New'.
    g_bIsFileNew = FALSE;
@@ -2249,10 +2216,10 @@ InitSession( zVIEW  vSubtask )
    if ( vSource == 0 )
    {
       // Extension checking is the only way to find out whether syntax coloring can occur.
-      CString strExtension = szFileName;
-      int iPoint = strExtension.ReverseFind( '.' );
-      CString strHelp = strExtension.Mid( iPoint + 1 );
-      if ( strHelp.CompareNoCase( "VML" ) == 0 )
+      CString csExtension = szFileName;
+      int iPoint = csExtension.ReverseFind( '.' );
+      CString csHelp = csExtension.Mid( iPoint + 1 );
+      if ( csHelp.CompareNoCase( "VML" ) == 0 )
       {
          bCFile = FALSE;
          EDT_ZeidonSyntaxOn( vSubtask );
@@ -2276,7 +2243,22 @@ InitSession( zVIEW  vSubtask )
    // updateable.  There is a chance that the souce meta properties conflict with the readonly
    // attribute setting of the file itself (checked above).
    if ( bReadOnly == FALSE )
-      SetEditorStatus( pzma, vSource, vEdWrk );
+   {
+      if ( MiGetUpdateForView( vSource ) )
+      {
+         // Source view is updateable
+         SetAttributeFromString( vEdWrk, szlBuffer, szlActiveStatus, "Y" );
+         // set ReadOnly off;
+         EDT_ReadOnlyMode( vSubtask, FALSE );
+      }
+      else
+      {
+         // Source view is NOT updateable
+         SetAttributeFromString( vEdWrk, szlBuffer, szlActiveStatus, "N" );
+         // ReadOnly on;
+         EDT_ReadOnlyMode( vSubtask, TRUE );
+      }
+   }
 
    // Set the LanguageType for the current buffer.
    SetAttributeFromAttribute( vEdWrk, szlBuffer, szlLanguageType,
@@ -2303,14 +2285,14 @@ InitSession( zVIEW  vSubtask )
    // If the file did not previously exist or if it's empty then init all operations in Meta.
    lLine = EDT_GetLineCount( vSubtask );
    if ( bFileExists == FALSE || lLine < 1 )
-      CreateSourceFile( vSubtask, vSource, pzma, bCFile, szSourceFileEntityName );
+      CreateSourceFile( vSubtask, vSource, bCFile, szSourceFileEntityName );
 
    // Determine if the operation is in the file or we should create a template
    GetAddrForAttribute( &lpszOperName, vSource, szlOperation, szlName );
 // zsprintf( szOperSrch, "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", lpszOperName );
    zsprintf( szOperSrch, "%s", lpszOperName );
 
-   GotoCurrentOperation( vSubtask, vSource, pzma, szOperSrch, szMetaName, bCFile );
+   GotoCurrentOperation( vSubtask, vSource, szOperSrch, szMetaName, bCFile );
    return( 0 );
 
 } // InitSession
@@ -2350,9 +2332,6 @@ TZEDFRMD_InitMenu( zVIEW vSubtask )
    zVIEW    vEdWrk;
    zBOOL    bEnable   = FALSE;
    zBOOL    bReadOnly = TRUE;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    mGetWorkView( &vEdWrk, vSubtask );
 
@@ -2375,7 +2354,7 @@ TZEDFRMD_InitMenu( zVIEW vSubtask )
    SetOptionState( vSubtask, "EditCut",  zCONTROL_STATUS_ENABLED, bReadOnly ? bCanCopy : FALSE );
    SetOptionState( vSubtask, "EditPaste", zCONTROL_STATUS_ENABLED, bReadOnly ? bCanPaste : FALSE );
    SetOptionState( vSubtask, "EditDelete", zCONTROL_STATUS_ENABLED, bReadOnly ? bCanCopy : FALSE );
-   SetOptionState( vSubtask, "EditSelectAll", zCONTROL_STATUS_ENABLED, !FileIsEmpty( pzma ) );
+   SetOptionState( vSubtask, "EditSelectAll", zCONTROL_STATUS_ENABLED, EDT_GetLineCount( vSubtask ) > 0 );
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) == 0 )
    {
@@ -2401,16 +2380,12 @@ TZEDFRMD_ReceiveFocus( zVIEW vSubtask )
 {
 #if 1
    zVIEW    vEdWrk;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    mGetWorkView( &vEdWrk, vSubtask );
    if ( vEdWrk == 0 )
       return( 0 );
 
-   if ( pzma )
-      SetFocusToCtrl( vSubtask, EDIT_CONTROL_NAME );
+   SetFocusToCtrl( vSubtask, EDIT_CONTROL_NAME );
 #endif
    return( 0 );
 }
@@ -2429,10 +2404,7 @@ fnCommandCompletion( zVIEW vSubtask )
    zCHAR    szBuffer[ 300 ];
    zPCHAR   pszToken;
    zCHAR    szFileName[ MAX_PATH + 1 ];
-   CString  strHelp;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+   CString  csHelp;
 
    mGetWorkView( &vEdWrk, vSubtask );
 
@@ -2441,10 +2413,10 @@ fnCommandCompletion( zVIEW vSubtask )
    zmemset( szFileName, ' ', MAX_PATH );
    EDT_GetObjectName( vSubtask, szFileName, MAX_PATH );
 
-   CString strExtension = szFileName;
-   int iPoint = strExtension.ReverseFind( '.' );
-   strHelp = strExtension.Mid( iPoint + 1 );
-   if ( strHelp.CompareNoCase( "VML" ) != 0 )
+   CString csExtension = szFileName;
+   int iPoint = csExtension.ReverseFind( '.' );
+   csHelp = csExtension.Mid( iPoint + 1 );
+   if ( csHelp.CompareNoCase( "VML" ) != 0 )
    {
       return( FALSE );
    }
@@ -2458,11 +2430,11 @@ fnCommandCompletion( zVIEW vSubtask )
    }
 
    // If we're in a comment or quote then don't do command completion.
-   if ( fnCursorInCommentOrQuote( pzma, lLine, lCol ) )
+   if ( fnCursorInCommentOrQuote( vSubtask, lLine, lCol ) )
       return( FALSE );
 
    zmemset( szBuffer, 0, sizeof( szBuffer ) );
-   lLth = EDT_GetActualTextLine( vSubtask, szBuffer, sizeof( szBuffer ) - 1 );
+   lLth = EDT_GetActualTextLine( vSubtask, szBuffer, sizeof( szBuffer ), lLine );
 
    // If the previous character to the space that was just entered is also a
    // space then skip command completion.
@@ -2526,12 +2498,12 @@ fnCommandCompletion( zVIEW vSubtask )
    // OK...we are about to do command completion so we need to remove the
    // token from the current line.
 // EDT_DeleteTextRange( vSubtask, lLine - zstrlen( pszToken ), 0, lLine, 0 );
-   strHelp = pszToken;
-   EDT_SelectItem( vSubtask, lLine + 1, 0, strHelp );
+   csHelp = pszToken;
+   EDT_SelectItem( vSubtask, lLine + 1, 0, csHelp );
 // EDT_SetCursorPositionByLine( vSubtask, lLine, lCol - zstrlen( pszToken ) );
 
    // Call operation to insert currently selected keyword in profile OI.
-   fnInsertVML_Text( vSubtask, vEdWrk, vProfileXFER, pzma );
+   fnInsertVML_Text( vSubtask, vEdWrk, vProfileXFER );
 
    DropView( vProfileXFER );     // drop temp copy of vProfileXFER.
    return( TRUE );
@@ -2571,9 +2543,6 @@ TZEDFRMD_LineChange( zVIEW vSubtask )
    zCTRL_EVENT *pCE;
    zLONG       lLine, lCol;
    zCHAR       szData[ 30 ];
-   ZSubtask    *pZSubtask;
-   ZMapAct     *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
 // TraceLineS( "(tzedfrmd)", "LineChange" );
    szData[ 0 ] = 0;
@@ -2591,14 +2560,11 @@ TZEDFRMD_LineChange( zVIEW vSubtask )
 
    MB_SetMessage( vSubtask, LINECOL_DIL, szData );
 
-   if ( pzma )
-   {
-      lLine = EDT_IsObjectChanged( vSubtask );
-      if ( lLine )
-         strcpy_s( szData, sizeof( szData ), "*" );
-      else
-         strcpy_s( szData, sizeof( szData ), "" );
-   }
+   lLine = EDT_IsObjectChanged( vSubtask );
+   if ( lLine )
+      strcpy_s( szData, sizeof( szData ), "*" );
+   else
+      strcpy_s( szData, sizeof( szData ), "" );
 
    MB_SetMessage( vSubtask, FILECHANGED_DIL, szData );
    return( 0 );
@@ -2672,7 +2638,6 @@ PostBuild( zVIEW vSubtask )
 
 static zSHORT /*LOCAL */
 fnTZEDFRMD_SaveFile( zVIEW    vSubtask,
-                     ZMapAct *pzma,
                      zPCHAR   pchFileName,
                      zLONG    lMaxLth,
                      zSHORT   nAskForParse )
@@ -2718,11 +2683,11 @@ fnTZEDFRMD_SaveFile( zVIEW    vSubtask,
            CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType,
                                      szlVML_File ) == 0 )
       {
-         CString strMsg;
+         CString csMsg;
 
          GetStringFromAttribute( pchFileName, lMaxLth, vEdWrk, szlBuffer, szlFileName );
-         strMsg.Format("Do you want to parse '%s' for C (Yes) or Java (No)?",pchFileName);
-         zLONG lRC = OperatorPrompt( vSubtask, szlZeidonEditor, strMsg, TRUE,
+         csMsg.Format("Do you want to parse '%s' for C (Yes) or Java (No)?",pchFileName);
+         zLONG lRC = OperatorPrompt( vSubtask, szlZeidonEditor, csMsg, TRUE,
                                      zBUTTONS_YESNOCANCEL, zRESPONSE_YES,
                                      zICON_EXCLAMATION );
 
@@ -2761,9 +2726,6 @@ TZEDFRMD_AskForSaveWithParse( zVIEW vSubtask,
    BOOL     bObjectChanged = FALSE;
    zCHAR    szFileName[ zMAX_FILENAME_LTH + 1 ];
    zULONG   ulZFlags = 0;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    mGetWorkView( &vEdWrk, vSubtask );
 
@@ -2801,7 +2763,7 @@ TZEDFRMD_AskForSaveWithParse( zVIEW vSubtask,
    else
    if ( nRC == zRESPONSE_YES )
    {
-      if ( fnTZEDFRMD_SaveFile( vSubtask, pzma, szFileName, sizeof( szFileName ), nAskForParse ) < 0 )
+      if ( fnTZEDFRMD_SaveFile( vSubtask, szFileName, sizeof( szFileName ), nAskForParse ) < 0 )
       {
          SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
          return( -1 );
@@ -2896,14 +2858,13 @@ PreBuild( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 SystemClose( zVIEW vSubtask )
 {
-   zVIEW    vEdWrk = 0;
-   zVIEW    vLastEdWrk = 0;
-   zVIEW    vProfileXFER = 0;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
+   zVIEW      vEdWrk = 0;
+   zVIEW      vLastEdWrk = 0;
+   zVIEW      vProfileXFER = 0;
+   ZSubtask   *pZSubtask;
+   ZMapAct    *pzma;
    GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-   
+
    // Are there any Subwindows of the control which have to be closed.
    if ( EDT_CloseSubWindow( vSubtask ) )
    {
@@ -3108,245 +3069,337 @@ AEQ_ClearViews( zVIEW vSubtask )
 zSHORT LOCALOPER
 fnGetNextTokenFromBuffer( ZMapAct *pzma, LPSTR szToken, zLONG lLine, zLONG lCol )
 {
-   CString strLine;
+   CString csLine;
    LPSTR   szBuffer;
    zLONG   lReturnedBuffSize = MAX_TOKEN_LTH;
-   CString strDelimiter = "\t,)( ";
+   CString csDelimiter = "\t,)( ";
 
    szToken[ 0 ] = 0;
 
    // Read line from Editor.
-   szBuffer = strLine.GetBufferSetLength( lReturnedBuffSize );
+   szBuffer = csLine.GetBufferSetLength( lReturnedBuffSize );
    lReturnedBuffSize = EDT_GetTextFromLineOfIndex( pzma->m_pZSubtask->m_vDialog, szBuffer, lReturnedBuffSize, lLine );
 
    // In Case of an editor error (Buffer too small) ...
    if ( lReturnedBuffSize >= MAX_TOKEN_LTH )
    {
       lReturnedBuffSize++;
-      strLine.ReleaseBuffer( );
-      szBuffer = strLine.GetBufferSetLength( lReturnedBuffSize );
+      csLine.ReleaseBuffer( );
+      szBuffer = csLine.GetBufferSetLength( lReturnedBuffSize );
       lReturnedBuffSize = EDT_GetTextFromLineOfIndex( pzma->m_pZSubtask->m_vDialog, szBuffer, lReturnedBuffSize, lLine );
    }
 
-   strLine.ReleaseBuffer( );
+   csLine.ReleaseBuffer( );
 
    // Since we retrieved the whole line we need to start where the cursor is.
    EDT_GetPositionByIndex( pzma->m_pZSubtask->m_vDialog, &lLine, &lCol );
-   strLine = strLine.Mid( lCol, strLine.GetLength( ) - lCol );
+   csLine = csLine.Mid( lCol, csLine.GetLength( ) - lCol );
 
    // Remove obsolete whitespaces.
-   strLine.TrimLeft( );
-   strLine.TrimRight( );
+   csLine.TrimLeft( );
+   csLine.TrimRight( );
 
-   int iTokenLength = strLine.FindOneOf( strDelimiter );
+   int iTokenLength = csLine.FindOneOf( csDelimiter );
    if ( iTokenLength >= 0 )
    {
-      strLine = strLine.Mid( 0, iTokenLength );
+      csLine = csLine.Mid( 0, iTokenLength );
    }
 
-   strcpy_s( szToken, sizeof( szToken ), strLine );
+   strcpy_s( szToken, sizeof( szToken ), csLine );
    return( TRUE );
+}
+
+void fnTextTokenizer(zCPCHAR cpcTextLine, CStringArray &arrToken, zCPCHAR cpcDelimiters)
+{
+   arrToken.RemoveAll();
+
+   if ( cpcDelimiters == 0 || cpcDelimiters == "" )
+      cpcDelimiters = " \r\n\t";
+
+   // Do not process empty strings.
+   if (cpcTextLine != 0 && cpcTextLine != "")
+   {
+      zPCHAR pchContext = 0;
+
+      int nTotalTokens = 0;
+      int nLth = strlen( cpcTextLine ) + 1;
+      char *pchTextLine = new char[nLth];
+
+      strcpy_s(pchTextLine, nLth, cpcTextLine);
+      char *pchToken = strtok_s( pchTextLine, cpcDelimiters, &pchContext );
+      while ( pchToken ) // while there are tokens in pchTextLine
+      {
+         if ( pchToken[0] )
+            arrToken.SetAtGrow(nTotalTokens++, pchToken);
+
+         pchToken = strtok_s( 0, cpcDelimiters, &pchContext );
+      }
+   }
+}
+
+// VIEW wWebXfer REGISTERED AS wWebXfer
+// VIEW mSubreg  BASED ON LOD  mSubreg
+
+#define zTokenView                  0x0001
+#define zTokenName1                 0x1000
+#define zTokenRegistered            0x0010
+#define zTokenAs                    0x0020
+#define zTokenBased                 0x0100
+#define zTokenOn                    0x0200
+#define zTokenLod                   0x0400
+#define zTokenName2                 0x2000
+#define zTokenViewName              0x1001
+#define zTokenRegisteredAs          0x1031
+#define zTokenBasedOnLod            0x1701
+#define zTokenRegisteredAsComplete  0x3031
+#define zTokenBasedOnLodComplete    0x3701
+
+zBOOL fnLocateViewName( int &nFlags, CStringArray &arrToken, CString &csViewName, CString &csLodName, int &nPos, BOOL &bContinuedComment )
+{
+// TODO:  check for comments
+   int nCnt = arrToken.GetCount();
+   CString cs;
+
+   while ( nPos < nCnt )
+   {
+      cs = arrToken[nPos];
+      if ( cs.CompareNoCase( "VIEW" ) == 0 )
+      {
+         nFlags = zTokenView;
+         csViewName = "";
+         csLodName = "";
+      }
+      else
+      if ( cs.CompareNoCase( "REGISTERED" ) == 0 )
+      {
+         if ( nFlags == zTokenViewName )
+         {
+            nFlags |= zTokenRegistered;
+         }
+         else
+         {
+            nFlags = 0;
+         }
+      }
+      else
+      if ( cs.CompareNoCase( "AS" ) == 0 )
+      {
+         if ( nFlags == (zTokenViewName | zTokenRegistered) )
+         {
+            nFlags |= zTokenAs;
+         }
+         else
+         {
+            nFlags = 0;
+         }
+      }
+      else
+      if ( cs.CompareNoCase( "BASED" ) == 0 )
+      {
+         if ( nFlags == zTokenViewName )
+         {
+            nFlags |= zTokenBased;
+         }
+         else
+         {
+            nFlags = 0;
+         }
+      }
+      else
+      if ( cs.CompareNoCase( "ON" ) == 0 )
+      {
+         if ( nFlags == (zTokenViewName | zTokenBased) )
+         {
+            nFlags |= zTokenOn;
+         }
+         else
+         {
+            nFlags = 0;
+         }
+      }
+      else
+      if ( cs.CompareNoCase( "LOD" ) == 0 )
+      {
+         if ( nFlags == (zTokenViewName | zTokenBased | zTokenOn) )
+         {
+            nFlags |= zTokenLod;
+         }
+         else
+         {
+            nFlags = 0;
+         }
+      }
+      else
+      if ( nFlags == zTokenView )
+      {
+         nFlags |= zTokenViewName;
+         csViewName = cs;
+      }
+      else
+      {
+         if ( (nFlags == zTokenRegisteredAs) || (nFlags == zTokenBasedOnLod) )
+         {
+            nFlags |= zTokenName2;
+            csLodName = cs;
+            nPos++;
+            return TRUE;
+         }
+      }
+      nPos++;
+   }
+   return FALSE;
 }
 
 zOPER_EXPORT zSHORT OPERATION
 AEQ_GetViews( zVIEW vSubtask )
 {
    static zCHAR szOperationString[] = "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+";
-   zSHORT   nRC;
-   zSHORT   nViewType;
    zVIEW    vEdWrk;
    zVIEW    vVor;
-   zVIEW    vTemp;
+   zVIEW    vEditorSubtask;
+   zLONG    lLineCnt;
+   zLONG    lLineLth;
    zLONG    lLine = 0, lCol = 0;
-   zLONG    lOperationEndIndex = -1, lOperationStartIndex = -1;
+   zLONG    lOperationEndLine = -1, lOperationStartLine = -1;
    zLONG    lIndexAfterObjectName = 0;
-   zCHAR    szObjectName[ MAX_TOKEN_LTH ];
-   zCHAR    szVarName[ MAX_TOKEN_LTH ];
    zCHAR    sz[ 100 ];
-   zPCHAR   szSearchString;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma = 0;
+   CString  csCurrentLine;
+   LPSTR    pchCurrentLine;
+   zSHORT   nRC;
 
    mGetWorkView( &vEdWrk, vSubtask );
    if ( vEdWrk == 0 )
    {
       strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at GetViews." );
-      OperatorPrompt( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 );
+      OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
    }
 
-   if ( CompareAttributeToString( vEdWrk, szlBuffer,
-                                  szlLanguageType, szlVML_File ) != 0 )
+   if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) != 0 )
    {
       strcpy_s( sz, sizeof( sz ), "'Get Views' only works on VML Files." );
-      OperatorPrompt( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 );
+      OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
    }
 
-   GetIntegerFromAttribute( (zPLONG) &vTemp, vEdWrk, szlBuffer, "vSubtask" );
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+   GetIntegerFromAttribute( (zPLONG) &vEditorSubtask, vEdWrk, szlBuffer, "vSubtask" );
 
    // Find the end of the current operation by searching for the beginning
    // of the next operation.  Since we want to ignore any operations that
    // might be commented out, keep searching until we are not in a comment.
-
-   EDT_GetCursorPosition( vSubtask, &lCol, &lLine );
-   lOperationEndIndex = lLine;
-   for (;;)
+   lLineCnt = EDT_GetLineCount( vEditorSubtask );
+   EDT_GetCursorPosition( vEditorSubtask, &lLine, &lCol );
+   lOperationEndLine = lLine;
+   lCol = 0;
+   while ( lOperationEndLine <= lLineCnt )
    {
-      EDT_FindTextPosition( vSubtask, szOperationString, &lLine, &lCol, SRCH_FORWARD | SRCH_REGEXPR );
-      if ( lOperationEndIndex == -1 )
+      if ( EDT_FindTextPosition( vEditorSubtask, "OPERATION", &lOperationEndLine, &lCol, FIND_FORWARD ) == FALSE )
       {
-         // Operation not found, so set lLastLine to some ridiculously high
-         // number (this number indicates the last line of the current op) and stop searching
-         lOperationEndIndex = 99999999;
+         // OPERATION not found, so set lLastLine to some ridiculously high number
+         // (this number indicates the last line of the current op) and stop searching
+         lOperationEndLine = lLineCnt;
          break;
       }
 
-      if ( fnCursorInCommentOrQuote( pzma, lOperationEndIndex, lCol ) )
-         lOperationEndIndex ++;
+      if ( EDT_IsCommentAtIndex( vEditorSubtask, lOperationEndLine, lCol ) )
+         lOperationEndLine++;
       else
          break;
    }
 
    // From the end of the current operation, search back to the beginning of current operation.
-   lOperationStartIndex = lOperationEndIndex;
-   do
+   lOperationStartLine = lLine + 1;
+   lCol = 0;
+   while ( lOperationStartLine >= 0 )
    {
-      EDT_FindTextPosition( vSubtask, szOperationString, &lLine, &lCol, SRCH_REGEXPR );
-      if ( lOperationStartIndex == -1 )
+      if ( EDT_FindTextPosition( vEditorSubtask, "OPERATION", &lOperationStartLine, &lCol, FIND_DIRECTION_UP ) == FALSE )
       {
          strcpy_s( sz, sizeof( sz ), "Couldn't find beginning of operation" );
-         OperatorPrompt( 0, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
+         OperatorPrompt( vSubtask, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
          return( zCALL_ERROR );
       }
 
-   } while ( fnCursorInCommentOrQuote( pzma, lOperationStartIndex, lCol ) );
+      if ( EDT_IsCommentAtIndex( vEditorSubtask, lOperationStartLine, lCol ) )
+         lOperationStartLine--;
+      else
+         break;
+   }
 
    // Search for 'BASED ON LOD' and 'REGISTERED AS' and retrieve the object name and view variable name.
-   for ( nViewType = 0; nViewType < 2; nViewType++ )
+   // e.g.  VIEW wWebXfer REGISTERED AS wWebXfer
+   //       VIEW mSubreg  BASED ON LOD  mSubreg
+
+   CString  csViewName = "";
+   CString  csLodName = "";
+   CStringArray arrToken;
+   BOOL     bContinuedComment = FALSE;
+   int      nFlags = 0;
+   int      nPos;
+
+   lLine = lOperationStartLine;
+   while ( lLine < lOperationEndLine )
    {
-      // NOTE: If we go back to using regular expressions then we need to change the logic for finding
-      // the variable name.  Look where we set the cursor position for more.
-      CString strFind;
-
-      if ( nViewType == 0 )
-      {  // searching for Based on lod
-         szSearchString = "BASED ON LOD ";
-         CString strTemp;
-         BuildCaseSensitiveSearchString( "BASED", strTemp );
-         strFind = "\\b";
-         strFind = strFind + strTemp + "[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+";
-         BuildCaseSensitiveSearchString("ON", strTemp);
-         strFind += "\\b";
-         strFind = strFind + strTemp + "[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+";
-         BuildCaseSensitiveSearchString( "LOD", strTemp );
-         strFind += "\\b";
-         strFind = strFind + strTemp + "[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+";
-      }
-      else
-      if ( nViewType == 1 )
+      lLineLth = EDT_GetLineLength( vEditorSubtask, lLine ) + 1;
+      pchCurrentLine = csCurrentLine.GetBufferSetLength( lLineLth );
+      EDT_GetActualTextLine( vEditorSubtask, pchCurrentLine, lLineLth, lLine );
+      fnTextTokenizer(pchCurrentLine, arrToken, 0);
+      nPos = 0;
+      while (fnLocateViewName( nFlags, arrToken, csViewName, csLodName, nPos, bContinuedComment ))
       {
-         szSearchString = "REGISTERED AS ";    // see NOTE above.
-         CString strTemp;
-         BuildCaseSensitiveSearchString( "REGISTERED", strTemp );
-         strFind = "\\b";
-         strFind = strFind + strTemp + "[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+";
-         BuildCaseSensitiveSearchString( "AS", strTemp );
-         strFind += "\\b";
-         strFind = strFind + strTemp + "[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+";
-      }
-
-      lLine = lOperationStartIndex;
-
-      // Search for view declaration and retrieve object names.
-      for ( EDT_FindTextPosition( vSubtask, strFind, &lLine, &lCol, SRCH_FORWARD | SRCH_REGEXPR );
-            lLine > -1;
-            EDT_FindTextPosition( vSubtask, strFind, &lLine, &lCol, SRCH_FORWARD | SRCH_REGEXPR ) )
-      {
-         // Stop searching once we have passed the last line of the current operation.
-         if ( lLine > lOperationEndIndex )
-            break;
-
-         // If current string is commented or quoted, continue.
-         if ( fnCursorInCommentOrQuote( pzma, lLine, lCol ) )
-         {
-            // Increment Index so we don't step into an endless loop
-            lLine++;
-            continue;
-         }
-
-         lLine = lLine + zstrlen( szSearchString );
-         fnGetNextTokenFromBuffer( pzma, szObjectName, lLine, lCol );
-
-         // Get Index of first zCHAR after Object name.
-         lIndexAfterObjectName = lLine + zstrlen(szObjectName);
-
-         // Find variable name.
-         do
-         {
-            CString strFind, strTemp;
-            // prepare for Casesensitive search
-            BuildCaseSensitiveSearchString( "VIEW", strTemp );
-            strFind = "\\b";
-            strFind = strFind + strTemp + "[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+";
-
-            EDT_FindTextPosition( vSubtask, strFind, &lLine, &lCol, SRCH_REGEXPR );
-
-         } while ( fnCursorInCommentOrQuote( pzma, lLine, lCol ) );
-
-         // The search doesn't set the cursor position so set it.
-         lLine = lLine + zstrlen( "VIEW " );
-         fnGetNextTokenFromBuffer( pzma, szVarName, lLine, lCol );
-
-         // Move back to position after Object name.
-         lLine = lIndexAfterObjectName;
-         // If we are searching for registered views, then szObjectName is
-         // really the VOR name.  Get the object name.
-         if ( nViewType == 1 )
+         // Add the view name.
+         // If we are searching for registered views, then csLodName is really the VOR name.  Get the object name.
+         if ( (nFlags & zTokenRegisteredAsComplete) == zTokenRegisteredAsComplete )
          {
             // Add view variable and Object name to editor work object.
             // First, get the VOR by name.
             nRC = ActivateMetaOI_ByName( vSubtask, &vVor, 0, zREFER_VOR_META,
-                                         zSINGLE | zLEVEL_APPLICATION, szObjectName, 0 );
+                                         zSINGLE | zLEVEL_APPLICATION, (zPCHAR) csLodName.GetString(), 0 );
             if ( nRC < 0 )
             {
                strcpy_s( sz, sizeof( sz ), "Can't find Registered View with name " );
-               strcat_s( sz, sizeof( sz ), szObjectName );
-               OperatorPrompt( 0, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
+               strcat_s( sz, sizeof( sz ), csLodName );
+               OperatorPrompt( vSubtask, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
                continue;
             }
 
             // Get Object name from VOR.
-            GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vVor, "LOD", szlName );
+            zPCHAR pchLodName;
+            GetAddrForAttribute( &pchLodName, vVor, "LOD", szlName );
+            csLodName = pchLodName;
             DropMetaOI( vSubtask, vVor );
          }
 
          // Add view variable and Object name to editor work object.
 
-         // If entity with szVarName does NOT exist, create it.
+         // If entity with csViewName does NOT exist, create it.
          // If the variable name is the same but the object name is different,
          // delete the old View and replace it with a new View.  If variable
          // name and object name are the same, then don't do anything.
-         nRC = SetCursorFirstEntityByString( vEdWrk, szlView, szlVariableName, szVarName, "" );
+         nRC = SetCursorFirstEntityByString( vEdWrk, szlView, szlVariableName, csViewName, "" );
          if ( nRC != zCURSOR_SET )
          {
             CreateEntity( vEdWrk, szlView, zPOS_LAST );
-            SetAttributeFromString( vEdWrk, szlView, szlObjectName, szObjectName );
-            SetAttributeFromString( vEdWrk, szlView, szlVariableName, szVarName );
+            SetAttributeFromString( vEdWrk, szlView, szlObjectName, csLodName );
+            SetAttributeFromString( vEdWrk, szlView, szlVariableName, csViewName );
          }
          else
-         if ( CompareAttributeToString( vEdWrk, szlView, szlObjectName, szObjectName ) != 0 )
+         if ( CompareAttributeToString( vEdWrk, szlView, szlObjectName, csLodName ) != 0 )
          {
             // We must do a delete to get rid of all Entity/Attribute entities.
             DeleteEntity( vEdWrk, szlView, zREPOS_FIRST );
 
             CreateEntity( vEdWrk, szlView, zPOS_LAST );
-            SetAttributeFromString( vEdWrk, szlView, szlObjectName, szObjectName );
-            SetAttributeFromString( vEdWrk, szlView, szlVariableName, szVarName );
+            SetAttributeFromString( vEdWrk, szlView, szlObjectName, csLodName );
+            SetAttributeFromString( vEdWrk, szlView, szlVariableName, csViewName );
          }
-      } // while ( SrchFind... )
-   } //  for ( nViewType = 0; nViewType < 2; nViewType++ )...
+
+         nFlags = 0;
+         csViewName = "";
+         csLodName = "";
+         continue;
+      }
+      lLine++;
+   }
 
    if ( CheckExistenceOfEntity( vEdWrk, szlView ) >= zCURSOR_SET )
       AEQ_SelectView( vSubtask );
@@ -3365,7 +3418,6 @@ fnPasteQualifier( zVIEW  vSubtask,
    zPCHAR pszEntityName;
    zPCHAR pszAttribName;
    zCHAR  sz[ 400 ];
-   ZSubtask *pZSubtask;
 
    mGetWorkView( &vEdWrk, vSubtask );
    GetParentWindow( &vEditorSubtask, vSubtask );
@@ -3373,7 +3425,7 @@ fnPasteQualifier( zVIEW  vSubtask,
    if ( vEdWrk == 0 )
    {
       strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at PasteQualifier." );
-      OperatorPrompt( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 );
+      OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
    }
 
@@ -3383,11 +3435,11 @@ fnPasteQualifier( zVIEW  vSubtask,
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) != 0 )
    {
       strcpy_s( sz, sizeof( sz ), "Paste only works for VML Files." );
-      OperatorPrompt( 0, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
+      OperatorPrompt( vSubtask, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
    }
 
-   *sz = 0;
+   sz[0] = 0;
 
    if ( nPasteCtl & PASTE_VIEW_VARIABLE && CheckExistenceOfEntity( vEdWrk, szlView ) == zCURSOR_SET )
    {
@@ -3399,7 +3451,7 @@ fnPasteQualifier( zVIEW  vSubtask,
       GetAddrForAttribute( &pszEntityName, vEdWrk, szlEntity, szlEntityName );
       if ( pszEntityName )
       {
-         if ( *sz )
+         if ( sz[0] )
          {
             if ( bInsertWithQuote )
                strcat_s( sz, sizeof( sz ), ", " );
@@ -3425,7 +3477,7 @@ fnPasteQualifier( zVIEW  vSubtask,
       GetAddrForAttribute( &pszAttribName, vEdWrk, szlAttribute, szlAttributeName );
       if ( pszAttribName )
       {
-         if ( *sz )
+         if ( sz[0] )
          {
             if ( bInsertWithQuote )
                strcat_s( sz, sizeof( sz ), ", " );
@@ -3443,20 +3495,14 @@ fnPasteQualifier( zVIEW  vSubtask,
       }
    }
 
-   if ( *sz )
+   if ( sz[0] )
    {
-      ZMapAct *pzma;
-      zVIEW      vTemp;
-      CString strStringToInsert;
-
-      // Get the subtask for the editor window.
-      GetParentWindow( &vTemp, vSubtask );
-      GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+      CString csStringToInsert;
 
       strcat_s( sz, sizeof( sz ), " " );
-      strStringToInsert = sz;
-      EDT_InsertItem( vSubtask, strStringToInsert );
-      SetFocusToCtrl( vTemp, EDIT_CONTROL_NAME );
+      csStringToInsert = sz;
+      EDT_InsertItem( vEditorSubtask, csStringToInsert );
+      SetFocusToCtrl( vEditorSubtask, EDIT_CONTROL_NAME );
    }
 
    return( 0 );
@@ -3514,7 +3560,7 @@ AEQ_SelectView( zVIEW vSubtask )
       zCHAR sz[ 200 ];
 
       strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at ObjSelAQ_ObjSelView." );
-      OperatorPrompt( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
+      OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
       return( zCALL_ERROR );
    }
 
@@ -3668,26 +3714,16 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
               lLine = 0, lCol = 0;
    zLONG      lTabSize = 4; // Today a fixed length, in future this has to be queried
                             // from the edit-control
-   CString    strComment;
-   CString    strIndent;
-   CString    strTemp;
-   ZMapAct *pzma = 0;
-   ZSubtask *pZSubtask;
+   CString    csComment;
+   CString    csIndent;
+   CString    csTemp;
 
    if ( lTabSize > 1 )  // Don't ask why ... it's hard to explain
       lTabSize--;
 
    // Get the c++ object handle for the editor control.
    mGetWorkView( &vEdWrk, vSubtask );
-
    GetIntegerFromAttribute( (zPLONG) &vEditorSubtask, vEdWrk, szlBuffer, "vSubtask" );
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-   if ( pzma == 0 )
-   {
-      SysMessageBox( vSubtask, "Zeidon Error", "Couldn't find Editor control.", 1 );
-      return( 0 );
-   }
-
    bVML_File = (CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) == 0);
    bInsertComment = (CompareAttributeToString( vEdWrk, szlBuffer, szlOpIns_InsertDescribtion, "Y" ) == 0);
    GetAddrForAttribute( &szStr, vOp, szlOperation, szlName );
@@ -3700,22 +3736,22 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
       lCommentLength = zstrlen( szComment );
       if ( lCommentLength > 0 )
       {
-         strComment  = "/*\n";
-         strComment += szComment;
-         strComment += "*/\n";
+         csComment  = "/*\n";
+         csComment += szComment;
+         csComment += "*/\n";
       }
       else
-         strComment.Empty( );
+         csComment.Empty( );
    }
 
-   strTemp = szStr;
-   strTemp += "( ";
+   csTemp = szStr;
+   csTemp += "( ";
 
    // Get length of operation name and add position within current line.
-   lOperationNameLength = zstrlen( strTemp );
-   EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+   lOperationNameLength = zstrlen( csTemp );
+   EDT_GetCursorPosition( vEditorSubtask, &lLine, &lCol );
    lOperationNameLength += lCol;
-   lCol = GetTabsInLine( pzma, lCol ); // Get number of tabs until current Cursorposition
+   lCol = GetTabsInLine( vEditorSubtask, lCol ); // Get number of tabs until current Cursor position
    lOperationNameLength -=lCol;  // Control interprets tab as a single character
    lCol = lCol * lTabSize;    // remove single zCHAR and add multiple
    lOperationNameLength += lCol; // (virtual) characters depending on tabsize
@@ -3726,14 +3762,14 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
    // insert several tabs
    // while ( lOperationNameLength > lTabSize )
    // {
-   //   strIndent += "\t";
+   //   csIndent += "\t";
    //   lOperationNameLength -= lTabSize;
    // }
 
    // insert several tabs
    while ( lOperationNameLength > 0 )
    {
-      strIndent += " ";
+      csIndent += " ";
       lOperationNameLength--;
    }
 
@@ -3741,104 +3777,104 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
    while ( nRC == zCURSOR_SET )
    {
       GetAddrForAttribute( &szStr, vOp, "Parameter", "PFlag" );
-      if ( bVML_File == FALSE && *szStr == 'Y' )
-         strTemp += "PTR ";
+      if ( bVML_File == FALSE && szStr[0] == 'Y' )
+         csTemp += "PTR ";
 
       GetAddrForAttribute( &szStr, vOp, "Parameter", "UFlag" );
-      if ( bVML_File == FALSE  && *szStr == 'Y' )
-         strTemp += "UNSIGNED ";
+      if ( bVML_File == FALSE  && szStr[0] == 'Y' )
+         csTemp += "UNSIGNED ";
 
       GetAddrForAttribute( &szStr, vOp, "Parameter", "DataType" );
-      if ( *szStr )
+      if ( szStr[0] )
       {
          if ( bVML_File )
          {
-            switch ( *szStr )
+            switch ( szStr[0] )
             {
                case 'A':
-                  strTemp += "\"ATTRIBUTE_NAME\"";
+                  csTemp += "\"ATTRIBUTE_NAME\"";
                   break;
 
                case 'E':
-                  strTemp +="\"ENTITY_NAME\"";
+                  csTemp +="\"ENTITY_NAME\"";
                   break;
 
                case 'L':
-                  strTemp += "INTEGER";
+                  csTemp += "INTEGER";
                   break;
 
                case 'M':
-                  strTemp += "DOUBLE";
+                  csTemp += "DOUBLE";
                   break;
 
                case 'N':
-                  strTemp += "INTEGER";
+                  csTemp += "INTEGER";
                   break;
 
                case 'O':
-                  strTemp += "VOID";
+                  csTemp += "VOID";
                   break;
 
                case 'S':
-                  strTemp += "STRING";
+                  csTemp += "STRING";
                   break;
 
                case 'V':
-                  strTemp += "VIEW";
+                  csTemp += "VIEW";
                   break;
 
                case 'Y':
-                  strTemp += "STRING";
+                  csTemp += "STRING";
                   break;
 
                default :
-                  strTemp += szStr;
+                  csTemp += szStr;
                   break;
 
             } // switch
          }
          else
          {
-            switch ( *szStr )
+            switch ( szStr[0] )
             {
                case 'A':
-                  strTemp += "\"ATTRIBUTE_NAME\"";
+                  csTemp += "\"ATTRIBUTE_NAME\"";
                   break;
 
                case 'E':
-                  strTemp += "\"ENTITY_NAME\"";
+                  csTemp += "\"ENTITY_NAME\"";
                   break;
 
                case 'L':
-                  strTemp +="zLONG";
+                  csTemp +="zLONG";
                   break;
 
                case 'M':
-                  strTemp += "DOUBLE";
+                  csTemp += "DOUBLE";
                   break;
 
                case 'N':
-                  strTemp += "zSHORT";
+                  csTemp += "zSHORT";
                   break;
 
                case 'O':
-                  strTemp += "void";
+                  csTemp += "void";
                   break;
 
                case 'S':
-                  strTemp += "zCHAR";
+                  csTemp += "zCHAR";
                   break;
 
                case 'V':
-                  strTemp += "zVIEW";
+                  csTemp += "zVIEW";
                   break;
 
                case 'Y':
-                  strTemp += "zCHAR";
+                  csTemp += "zCHAR";
                   break;
 
                default :
-                  strTemp += szStr;
+                  csTemp += szStr;
                   break;
 
             } // switch
@@ -3846,34 +3882,34 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
       }
 
       GetAddrForAttribute( &szStr, vOp, "Parameter", "ShortDesc" );
-      if ( *szStr )
+      if ( szStr[0] )
       {
-         strTemp += " /* ";
-         strTemp += szStr;
-         strTemp += " */";
+         csTemp += " /* ";
+         csTemp += szStr;
+         csTemp += " */";
       }
 
       nRC = SetCursorNextEntity( vOp, "Parameter", "" );
       if ( nRC == zCURSOR_SET )
       {
-         strTemp += ",\n";
-         strTemp += strIndent;
+         csTemp += ",\n";
+         csTemp += csIndent;
       }
       else
-         strTemp += " ";
+         csTemp += " ";
    }
 
-   strTemp += ")";
+   csTemp += ")";
    if ( bVML_File == FALSE )
-      strTemp += ";";
+      csTemp += ";";
 
-   if ( strComment.GetLength( ) > 0 )
+   if ( csComment.GetLength( ) > 0 )
    {
-      strComment += strTemp;
-      strTemp = strComment;
+      csComment += csTemp;
+      csTemp = csComment;
    }
 
-   EDT_InsertItem( vSubtask, strTemp );
+   EDT_InsertItem( vEditorSubtask, csTemp );
    return( 0 );
 
 } // PasteOperation
@@ -3884,11 +3920,10 @@ OpIns_InsertOperation( zVIEW vSubtask )
    zCHAR  szType[ 5 ];
    zVIEW  vEdWrk;
    zVIEW  vTemp;
-   ZSubtask *pZSubtask;
 
    mGetWorkView( &vEdWrk, vSubtask );
    GetStringFromAttribute( szType, sizeof( szType ), vEdWrk, szlOperListType, szlType );
-   switch ( *szType )
+   switch ( szType[0] )
    {
       case 'Z':
       {
@@ -3981,14 +4016,15 @@ OpIns_InsertOperation( zVIEW vSubtask )
 
       case 'X':
       {
-         CString  strIndent;
-         zVIEW    vEditorSubtask;
-         ZMapAct *pzma = 0;
-         zCHAR    szBuffer[ 1024 ];
-         zLONG    lOperationNameLth = 0,
-                  lLine = 0, lCol = 0;
-         zLONG    lTabSize = 4; // Today a fixed length, in future this has to be queried from the edit-control
-         zBOOL    bVML_File;
+         CString    csIndent;
+         zVIEW      vEditorSubtask;
+         zCHAR      szBuffer[ 1024 ];
+         zLONG      lOperationNameLth = 0,
+                    lLine = 0, lCol = 0;
+         zLONG      lTabSize = 4; // Today a fixed length, in future this has to be queried from the edit-control
+         zBOOL      bVML_File;
+         ZSubtask   *pZSubtask;
+         ZMapAct    *pzma;
 
          GetStringFromAttribute( szBuffer, sizeof( szBuffer ), vEdWrk, szlOper, szlName );
          BuildTZEDWRKO( vEdWrk, szBuffer, sizeof( szBuffer ) );
@@ -3998,7 +4034,7 @@ OpIns_InsertOperation( zVIEW vSubtask )
 
          // Get the C++ object handle for the editor control.
          GetIntegerFromAttribute( (zPLONG) &vEditorSubtask, vEdWrk, szlBuffer, "vSubtask" );
-         GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+         GetWindowAndCtrl( &pZSubtask, &pzma, vEditorSubtask, EDIT_CONTROL_NAME );
          if ( pzma == 0 )
          {
             SysMessageBox( vSubtask, "Zeidon Error", "Couldn't find Editor control.", 1 );
@@ -4011,7 +4047,7 @@ OpIns_InsertOperation( zVIEW vSubtask )
          lOperationNameLth = zstrlen( szBuffer );
          EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
          lOperationNameLth += lCol;
-         lCol = GetTabsInLine( pzma, lCol ); // Get number of tabs until current Cursorposition
+         lCol = GetTabsInLine( vSubtask, lCol ); // Get number of tabs until current Cursorposition
          lOperationNameLth -=lCol;  // Control interprets tab as a single character
          lCol = lCol * lTabSize;    // remove single zCHAR and add multiple
          lOperationNameLth += lCol; // (virtual) characters depending on tabsize
@@ -4022,24 +4058,23 @@ OpIns_InsertOperation( zVIEW vSubtask )
          // insert several tabs
          while ( lOperationNameLth > 1 )
          {
-            strIndent += " ";
+            csIndent += " ";
             lOperationNameLth--;
          }
 
          if ( bVML_File == FALSE )
             strcat_s( szBuffer, sizeof( szBuffer ), ";" );
 
-         strIndent += szBuffer;
-         EDT_InsertItem( vSubtask, strIndent );
+         csIndent += szBuffer;
+         EDT_InsertItem( vSubtask, csIndent );
          break;
       }
 
       default:
-         SysMessageBox( vSubtask, "Zeidon Internal",
-                        "This operation type not yet supported", 0 );
+         SysMessageBox( vSubtask, "Zeidon Internal", "This operation type not yet supported", 0 );
          break;
 
-   } // switch ( *szType )...
+   } // switch ( szType[0] )...
 
    // Set Focus to Editor
    GetParentWindow( &vTemp, vSubtask );
@@ -4069,8 +4104,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
    SetAllSelStatesForEntityForSet( vEdWrk, "Oper", FALSE, DISP_SELECT_SET, 0 );
    SetAllSelStatesForEntityForSet( vEdWrk, "Oper", FALSE, SEL_SELECT_SET, 0 );
 
-   GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ), vEdWrk, szlBuffer,
-                           "OpIns_CurrentType" );
+   GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ), vEdWrk, szlBuffer, "OpIns_CurrentType" );
 
    // Default of CurrentType is 'Z'...
    if ( szCurrentType[ 0 ] == 0 )
@@ -4216,7 +4250,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
 
    // Now set the select states depending on the keyword values.
    GetStringFromAttribute( szKeyword, sizeof( szKeyword ), vEdWrk, szlBuffer, "OpIns_Keyword" );
-   if ( *szKeyword &&
+   if ( szKeyword[0] &&
         CompareAttributeToString( vEdWrk, szlBuffer, "OpIns_UseKeyword", "Y" ) == 0 )
    {
       zCHAR  szIgnoreCase[ 5 ];
@@ -4229,7 +4263,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
       SetAllSelStatesForEntityForSet( vEdWrk, "Oper", FALSE, SEL_SELECT_SET, 0 );
 
       GetStringFromAttribute( szIgnoreCase, sizeof( szIgnoreCase ), vEdWrk, szlBuffer, "OpIns_KeywordIgnoreCase" );
-      if ( *szIgnoreCase == 'Y' )
+      if ( szIgnoreCase[0] == 'Y' )
       {
          for ( pszKeyword = szKeyword; *pszKeyword; pszKeyword++ )
             *pszKeyword = ztoupper( *pszKeyword );
@@ -4254,7 +4288,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
          zCHAR  szOperName[ 255 ];
 
          GetStringFromAttribute( szOperName, sizeof( szOperName ), vEdWrk, "Oper", "Name" );
-         if ( *szIgnoreCase == 'Y' )
+         if ( szIgnoreCase[0] == 'Y' )
          {
             zPCHAR pszOperName;
 
@@ -4306,8 +4340,7 @@ OpIns_RebuildOperList( zVIEW vSubtask )
    zVIEW  vEdWrk;
 
    mGetWorkView( &vEdWrk, vSubtask );
-   GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ), vEdWrk, szlBuffer,
-                           "OpIns_CurrentType" );
+   GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ), vEdWrk, szlBuffer, "OpIns_CurrentType" );
 
    // Default of CurrentType is 'Z'...
    if ( szCurrentType[ 0 ] == 0 )
@@ -4316,8 +4349,7 @@ OpIns_RebuildOperList( zVIEW vSubtask )
       SetAttributeFromString( vEdWrk, szlBuffer, "OpIns_CurrentType", szCurrentType );
    }
 
-   // Check to see if the operations for the current type are already
-   // loaded. If they are, then delete the list.
+   // Check to see if the operations for the current type are already loaded. If they are, then delete the list.
    if ( SetCursorFirstEntityByString( vEdWrk, "OperListType", "Type", szCurrentType, 0 ) == zCURSOR_SET )
    {
       DeleteEntity( vEdWrk, "OperListType", zREPOS_FIRST );
@@ -4442,9 +4474,6 @@ VOR_PasteName( zVIEW vSubtask )
    zPCHAR   szOption;
    zPCHAR   pszName;
    zCHAR    sz[ 200 ];
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
 
    GetViewByName( &vList, szlTZCMLPLO_List, vSubtask, zLEVEL_TASK );
    if ( CheckExistenceOfEntity( vList, szlW_MetaDef ) != zCURSOR_SET )
@@ -4454,12 +4483,11 @@ VOR_PasteName( zVIEW vSubtask )
    GetParentWindow( &vTemp, vSubtask );
    GetParentWindow( &vEditorSubtask, vTemp );
    mGetWorkView( &vEdWrk, vEditorSubtask );
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    GetAddrForAttribute( &szOption, vEdWrk, szlBuffer, szlPasteVorOption );
    GetAddrForAttribute( &pszName, vList, szlW_MetaDef, szlName );
 
-   switch ( *szOption )
+   switch ( szOption[0] )
    {
       case 'N':
          strcpy_s( sz, sizeof( sz ), pszName );
@@ -4482,8 +4510,7 @@ VOR_PasteName( zVIEW vSubtask )
          zVIEW  vVOR;
          zPCHAR pszLOD_Name;
 
-         ActivateMetaOI_ByName( vSubtask, &vVOR, 0, zREFER_VOR_META,
-                                zSINGLE | zLEVEL_APPLICATION, pszName, zCURRENT_OI );
+         ActivateMetaOI_ByName( vSubtask, &vVOR, 0, zREFER_VOR_META, zSINGLE | zLEVEL_APPLICATION, pszName, zCURRENT_OI );
 
          GetAddrForAttribute( &pszLOD_Name, vVOR, "LOD", "Name" );
          sprintf_s( sz, sizeof( sz ), "VIEW %s BASED ON LOD %s", pszName, pszLOD_Name );
@@ -4761,7 +4788,7 @@ VML_DisplayList( zVIEW vSubtask )
       lEntityCount++;
 
       GetStringFromAttribute( szType, sizeof( szType ), vProfileXFER, "VML_Text", "Type" );
-      if ( zstrchr( szShowStr, *szType ) )
+      if ( zstrchr( szShowStr, szType[0] ) )
       {
          SetSelectStateOfEntity( vProfileXFER, "VML_Text", TRUE );
          lSelectedCount++;
@@ -4791,8 +4818,7 @@ VML_BuildTextList( zVIEW vSubtask )
    // Add each of the 'standard' VML statements to the text list.
    for ( k = 0; g_VML_TextStrings[ k ].pszText != 0; k++ )
    {
-      if ( SetCursorFirstEntityByString( vProfileXFER, "VML_Text", "Text",
-                                         g_VML_TextStrings[ k ].pszText, 0 ) != zCURSOR_SET )
+      if ( SetCursorFirstEntityByString( vProfileXFER, "VML_Text", "Text", g_VML_TextStrings[ k ].pszText, 0 ) != zCURSOR_SET )
       {
          // Text doesn't exist, so create it.
          CreateEntity( vProfileXFER, "VML_Text", zPOS_LAST );
@@ -4845,8 +4871,7 @@ VML_Close( zVIEW vSubtask )
 zSHORT LOCALOPER
 fnInsertVML_Text( zVIEW      vSubtask,
                   zVIEW      vEdWrk,
-                  zVIEW      vProfileXFER,
-                  ZMapAct   *pzma )
+                  zVIEW      vProfileXFER )
 {
    zCHAR      szInsertString[ 1000 ];
    zPCHAR     pszStrBegin;
@@ -4857,7 +4882,7 @@ fnInsertVML_Text( zVIEW      vSubtask,
    zLONG      lOriginalLine = 0;
    zLONG      lTabCount = 0, lTabSize = 4;
    zLONG      lPositionCursor;
-   CString    strCompleteCommand;
+   CString    csCompleteCommand;
 
    szInsertString[ 0 ] = 0;
 
@@ -4886,13 +4911,13 @@ fnInsertVML_Text( zVIEW      vSubtask,
    EDT_GetCursorPosition( vSubtask, &lOriginalLine, &lOriginalCol );
 
    // Tabs have to be replaced by a number of blanks.
-   lTabCount = GetTabsInLine( pzma, lOriginalCol );
+   lTabCount = GetTabsInLine( vSubtask, lOriginalCol );
 
    lOriginalCol -=lTabCount;
    lOriginalCol += (lTabCount * lTabSize);
 
    // Insert each line seperately.  Setup insert string line by line.
-   strCompleteCommand.Empty( );
+   csCompleteCommand.Empty( );
    for ( pszStrBegin = szInsertString; *pszStrBegin; pszStrBegin = pszStrEnd )
    {
       zBOOL bMoreLines;
@@ -4921,7 +4946,7 @@ fnInsertVML_Text( zVIEW      vSubtask,
          bMoreLines = FALSE;
 
       // Setup the string that has to be inserted
-      strCompleteCommand += pszStrBegin;
+      csCompleteCommand += pszStrBegin;
       //pzma->InsertItem( pszStrBegin );
 
       if ( bMoreLines )
@@ -4934,18 +4959,18 @@ fnInsertVML_Text( zVIEW      vSubtask,
          zmemset( &szTemp[ k ], ' ', lOriginalCol );
          szTemp[ k + lOriginalCol ] = 0;
 
-         strCompleteCommand += szTemp;
+         csCompleteCommand += szTemp;
          //pzma->InsertItem( szTemp );
       }
    } // for...
 
-   lPositionCursor = strCompleteCommand.Find( _T( "&" ) );
+   lPositionCursor = csCompleteCommand.Find( _T( "&" ) );
    if ( lPositionCursor >= 0 )
    {  // Get rid of that "&" so we don't have to call DeleteTextRange
-      strCompleteCommand.SetAt( lPositionCursor, ' ' );
+      csCompleteCommand.SetAt( lPositionCursor, ' ' );
    }
 
-   EDT_InsertItem( vSubtask, strCompleteCommand );
+   EDT_InsertItem( vSubtask, csCompleteCommand );
 
    if ( lPositionCursor >= 0 )
    {
@@ -4962,18 +4987,15 @@ VML_InsertText( zVIEW vSubtask )
    zVIEW      vEditorSubtask;
    zVIEW      vProfileXFER;
    zVIEW      vTemp;
-   ZSubtask   *pZSubtask;
-   ZMapAct    *pzma;
 
    mGetProfileView( &vProfileXFER, vSubtask );
    mGetWorkView( &vEdWrk, vSubtask );
    GetParentWindow( &vEditorSubtask, vSubtask );
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlReadOnly, "Y" ) != 0 &&
         CompareAttributeToString( vEdWrk, szlBuffer, szlActiveStatus, "N" ) != 0 )
    {
-      fnInsertVML_Text( vSubtask, vEdWrk, vProfileXFER, pzma );
+      fnInsertVML_Text( vSubtask, vEdWrk, vProfileXFER );
    }
 
    // Set Focus to Editor
@@ -5212,8 +5234,6 @@ ErrList_ShowError( zVIEW vSubtask )
    zVIEW    vEdWrk;
    zVIEW    vEditorSubtask;
    zLONG    lErrorLine, lLine, lCol;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
 
    lLine = lCol = lLine = 0;
 
@@ -5223,14 +5243,12 @@ ErrList_ShowError( zVIEW vSubtask )
    GetIntegerFromAttribute( &lErrorLine, vEdWrk, "Error", "LineNumber" );
    lErrorLine--;
 
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
    // Set cursor only if it is not already there, otherwise the Editctrl will
    // scroll up for one line and this will drive "evil" crazy.
-   EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+   EDT_GetCursorPosition( vEditorSubtask, &lLine, &lCol );
    if ( lErrorLine != lLine )
    {
-      EDT_SetCursorPositionByLine( vSubtask, lErrorLine, 0 );
+      EDT_SetCursorPositionByLine( vEditorSubtask, lErrorLine, 0 );
    }
 
    SetFocusToCtrl( vEditorSubtask, EDIT_CONTROL_NAME );
@@ -5241,7 +5259,7 @@ zOPER_EXPORT zSHORT OPERATION
 zTZEDFRMD_OpenFile( zVIEW vSubtask )
 {
    zVIEW  vEdWrk;
-// zVIEW  vTempEdWrk;
+   zVIEW  vEditorSubtask;
    zVIEW  vParentSubtask;
    zSHORT nRC;
    zCHAR  szFileName[ zMAX_FILENAME_LTH + 1 ];
@@ -5277,9 +5295,9 @@ zTZEDFRMD_OpenFile( zVIEW vSubtask )
 
       if ( nRC == zRESPONSE_NO )
       {
-         GetIntegerFromAttribute( (zPLONG) &vSubtask, vEdWrk, szlBuffer, "vSubtask" );
+         GetIntegerFromAttribute( (zPLONG) &vEditorSubtask, vEdWrk, szlBuffer, "vSubtask" );
       // DropView( vTempEdWrk );
-         SetFocusToCtrl( vSubtask, EDIT_CONTROL_NAME );
+         SetFocusToCtrl( vEditorSubtask, EDIT_CONTROL_NAME );
          return( 0 );
       }
 
@@ -5295,7 +5313,7 @@ zTZEDFRMD_OpenFile( zVIEW vSubtask )
 
    // Start up another editor.  We use the parent subtask of the current
    // editor so that the new editor is a sibling of the current editor.
-   GetParentWindow( &vParentSubtask, vSubtask );
+   GetParentWindow( &vParentSubtask, vEditorSubtask );
    SetWindowActionBehavior( vParentSubtask, zWAB_StartModelessSubwindow | zWAB_ProcessImmediateAction,
                             "TZEDFRMD", "TZEDFRMD" );
    return( 0 );
@@ -5330,9 +5348,6 @@ SaveFile( zVIEW vSubtask )
 {
    zLONG      lChanged = 0;
    zCHAR      szFileName[ zMAX_FILENAME_LTH + 1];
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    lChanged = EDT_IsObjectChanged( vSubtask );
    if ( lChanged && !EDT_IsReadOnly( vSubtask ) )
@@ -5341,7 +5356,7 @@ SaveFile( zVIEW vSubtask )
       // KJS 06/19/12 - I would like SaveFile to only save the file not prompt for parsing.  This is
       // because then everytime the user "saves" it prompts to parse either c or vml and always parses
       // one of them.  I don't want to always parse.
-      if ( fnTZEDFRMD_SaveFile( vSubtask, pzma, szFileName, sizeof( szFileName ), 0 ) < 0 )
+      if ( fnTZEDFRMD_SaveFile( vSubtask, szFileName, sizeof( szFileName ), 0 ) < 0 )
       {
          SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
          return( -1 );
@@ -5361,9 +5376,6 @@ FileSaveAs( zVIEW vSubtask )
    zCHAR      szFileName[ zMAX_FILENAME_LTH + 1 ];
    zCHAR      szExtension[ 4 ];
    zULONG     ulZFlags = 0;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    mGetWorkView( &vEdWrk, vSubtask );
 
@@ -5415,9 +5427,6 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
    zBOOL      bReadOnly = FALSE;
    zLONG      lMetaType;
    zLONG      lChanged = 0;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    mGetWorkView( &vEdWrk, vSubtask );
    if ( vEdWrk == 0 )
@@ -5554,10 +5563,6 @@ Generate( zVIEW vSubtask, zCPCHAR cpcGenLang )
    zLONG    lChanged = 0;
    zLONG    lType = 0;
    zSHORT   nRC;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    mGetWorkView( &vEdWrk, vSubtask );
    if ( vEdWrk == 0 )
@@ -5703,10 +5708,6 @@ CompileJava( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 zPrint( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
    EDT_PrintObject( vSubtask );
    return( 0 );
 }
@@ -5772,8 +5773,6 @@ OBJ_PasteObjectName( zVIEW vSubtask )
    zPCHAR   szOption;
    zPCHAR   szName;
    CString  zs;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma = 0;
 
    GetViewByName( &vList, szlTZCMLPLO_List, vSubtask, zLEVEL_TASK );
    if ( CheckExistenceOfEntity( vList, szlW_MetaDef ) != zCURSOR_SET )
@@ -5783,16 +5782,15 @@ OBJ_PasteObjectName( zVIEW vSubtask )
    GetParentWindow( &vTemp, vSubtask );
    GetParentWindow( &vEditorSubtask, vTemp );
    mGetWorkView( &vEdWrk, vEditorSubtask );
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    GetAddrForAttribute( &szOption, vEdWrk, szlBuffer, szlPasteObjectOption );
    GetAddrForAttribute( &szName, vList, szlW_MetaDef, szlName );
 
-   switch ( *szOption )
+   switch ( szOption[0] )
    {
       case 'N':
          zs = szName;
-         EDT_InsertItem( vSubtask, zs );
+         EDT_InsertItem( vEditorSubtask, zs );
          break;
 
       case 'B':
@@ -5800,7 +5798,7 @@ OBJ_PasteObjectName( zVIEW vSubtask )
          zs += szName;
          zs += " BASED ON LOD ";
          zs += szName;
-         EDT_InsertItem( vSubtask, zs );
+         EDT_InsertItem( vEditorSubtask, zs );
          break;
 
       case 'G':
@@ -5809,7 +5807,7 @@ OBJ_PasteObjectName( zVIEW vSubtask )
          zs += " NAMED \"";
          zs += szName;
          zs += "\"";
-         EDT_InsertItem( vSubtask, zs );
+         EDT_InsertItem( vEditorSubtask, zs );
          break;
 
       case 'S':
@@ -5818,7 +5816,7 @@ OBJ_PasteObjectName( zVIEW vSubtask )
          zs += " \"";
          zs += szName;
          zs += "\"";
-         EDT_InsertItem( vSubtask, zs );
+         EDT_InsertItem( vEditorSubtask, zs );
          break;
    }
 
@@ -5832,9 +5830,6 @@ FileNew( zVIEW vSubtask )
      // TMV 1998.06.15
    BOOL     bObjectChanged = FALSE;
    zPCHAR   szMsg = {"Do you want to save the changes?"};
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    // Check if file changed.
    bObjectChanged = EDT_IsObjectChanged( vSubtask );
@@ -5888,12 +5883,7 @@ FileNew( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_Cancel( zVIEW vSubtask )
 {
-   zSHORT   bSubwindowOpen = FALSE;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   bSubwindowOpen = EDT_CloseSubWindow( vSubtask );
+   zSHORT   bSubwindowOpen = EDT_CloseSubWindow( vSubtask );
 
    if ( bSubwindowOpen == FALSE )
    {
@@ -5947,57 +5937,53 @@ OpIns_StartOperationHelp( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 SearchForward( zVIEW vSubtask )
 {
-   return( SearchContinue( vSubtask, SRCH_FORWARD ) );
+   return( SearchContinue( vSubtask, FIND_FORWARD ) );
 }
 
 // Handles a pressed Shift-F3-Key in the Editor.
 zOPER_EXPORT zSHORT OPERATION
 SearchBackward( zVIEW vSubtask )
 {
-   return( SearchContinue( vSubtask, SRCH_BACKWARD ) );
+   return( SearchContinue( vSubtask, FIND_DIRECTION_UP ) );
 }
 
 // Continue a search that has been started with Find/Replace Dialog.
 zOPER_EXPORT zSHORT OPERATION
 SearchContinue( zVIEW vSubtask, zLONG lDirectionFlag )
 {
-   CString  strMsg, strMsgFormat = "Could not find requested string\"%s\"!";
-   CString  strStringToFind = "";
+   CString  csMsg, csMsgFormat = "Could not find requested string\"%s\"!";
+   CString  csStringToFind = "";
    zLONG    lStartLine = 0, lStartCol = 0, lEndLine = 0, lEndCol = 0, lLine = 0, lCol = 0;
    zLONG    lSearchBehavior = lDirectionFlag;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
 
    EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
 
-   zLONG lCharCount = g_strFindWhat.GetLength( );
-   strStringToFind = g_strFindWhat;
+   zLONG lCharCount = g_csFindWhat.GetLength( );
+   csStringToFind = g_csFindWhat;
 
    if ( g_fr.Flags & FR_WHOLEWORD )
    {
-      lSearchBehavior |= SRCH_REGEXPR;
-      strStringToFind = "\\b";
-      CString strUpper = g_strFindWhat;
-      CString strLower = g_strFindWhat;
-      strUpper.MakeUpper( );
-      strLower.MakeLower( );
-      for( int k = 0; k < strUpper.GetLength( ); k++ )
+      csStringToFind = "\\b";
+      CString csUpper = g_csFindWhat;
+      CString csLower = g_csFindWhat;
+      csUpper.MakeUpper( );
+      csLower.MakeLower( );
+      for( int k = 0; k < csUpper.GetLength( ); k++ )
       {
-         strStringToFind += "[";
-         strStringToFind += strUpper[ k ];
-         strStringToFind += strLower[ k ];
-         strStringToFind += "]";
+         csStringToFind += "[";
+         csStringToFind += csUpper[ k ];
+         csStringToFind += csLower[ k ];
+         csStringToFind += "]";
       }
 
-      strStringToFind += "[^a-zA-Z_0-9]";
+      csStringToFind += "[^a-zA-Z_0-9]";
       if ( EDT_CanCopy( vSubtask ) )
       {
-         CString strHelp;
-         LPSTR pszBuffer = strHelp.GetBufferSetLength( lCharCount );
+         CString csHelp;
+         LPSTR pszBuffer = csHelp.GetBufferSetLength( lCharCount );
          EDT_GetTextFromRange( vSubtask, pszBuffer, lCharCount, lStartLine, lStartCol, lEndLine, lEndCol );
-         strHelp.ReleaseBuffer( );
-         if ( strHelp.CompareNoCase( g_strFindWhat ) == 0 && g_fr.Flags & FR_DOWN )
+         csHelp.ReleaseBuffer( );
+         if ( csHelp.CompareNoCase( g_csFindWhat ) == 0 && g_fr.Flags & FR_DOWN )
          {
             lStartLine += lCharCount;
             EDT_SetCursorPositionByLine( vSubtask, lStartLine, lStartCol );
@@ -6007,22 +5993,22 @@ SearchContinue( zVIEW vSubtask, zLONG lDirectionFlag )
 
    if ( g_fr.Flags & FR_MATCHCASE )
    {
-      lSearchBehavior |= SRCH_MATCHCASE;
+      lSearchBehavior |= FIND_MATCH_CASE;
       g_bMatchCase = TRUE;
-//    strStringToFind = "\\b";
-      strStringToFind = g_strFindWhat;
-//    strStringToFind += "[^a-zA-Z_0-9]";
+//    csStringToFind = "\\b";
+      csStringToFind = g_csFindWhat;
+//    csStringToFind += "[^a-zA-Z_0-9]";
    }
 
-   EDT_FindTextPosition( vSubtask, strStringToFind, &lStartLine, &lStartCol, lSearchBehavior );
+   EDT_FindTextPosition( vSubtask, csStringToFind, &lStartLine, &lStartCol, lSearchBehavior );
    if ( lStartLine > -1 )
    {
-      EDT_SelectRange( vSubtask, lStartLine, lStartCol, g_strFindWhat.GetLength( ) );
+      EDT_SelectRange( vSubtask, lStartLine, lStartCol, g_csFindWhat.GetLength( ) );
    }
    else
    {
-      strMsg.Format( strMsgFormat, g_strFindWhat );
-      MB_SetMessage( vSubtask, MAIN_DIL, strMsg );
+      csMsg.Format( csMsgFormat, g_csFindWhat );
+      MB_SetMessage( vSubtask, MAIN_DIL, csMsg );
    }
 
    return( 0 );
@@ -6038,20 +6024,13 @@ SearchContinue( zVIEW vSubtask, zLONG lDirectionFlag )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_GotoOperation( zVIEW vSubtask )
 {
-
    zLONG    lLine = 0, lCol = 0;
    zLONG    lReturnedBuffSize = MAX_TOKEN_LTH;
-   CString  strBuffer;
-   CString  strOperSrch = "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(";
-   zLONG    lTBEDTDefaultSearchBehavior = 5;
+   CString  csBuffer;
+   CString  csOperSrch = "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(";
+   DWORD    dwTBEDTDefaultSearchBehavior = FIND_MATCH_CASE | FIND_WHOLE_WORD;
    LPSTR    szBuffer = NULL;
-   CString  strDelimiter = "\t,)( ";
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma == 0 )
-      return( 0 );
+   CString  csDelimiter = "\t,)( ";
 
    EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
 
@@ -6061,19 +6040,19 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
       return( 0 );
    }
 
-   szBuffer = strBuffer.GetBufferSetLength( lReturnedBuffSize );
+   szBuffer = csBuffer.GetBufferSetLength( lReturnedBuffSize );
    lReturnedBuffSize = EDT_GetTextFromLineOfIndex( vSubtask, szBuffer, lReturnedBuffSize, lLine );
 
    // In Case of an editor error (e.g. Buffer to small), retry with new buffersize.
    if ( lReturnedBuffSize >= MAX_TOKEN_LTH )
    {
       lReturnedBuffSize++;
-      szBuffer = strBuffer.GetBufferSetLength( lReturnedBuffSize );
+      szBuffer = csBuffer.GetBufferSetLength( lReturnedBuffSize );
       lReturnedBuffSize = EDT_GetTextFromLineOfIndex( vSubtask, szBuffer, lReturnedBuffSize, lLine );
    }
 
-   strBuffer.ReleaseBuffer( );
-   zLONG lBufferLth = strBuffer.GetLength( );
+   csBuffer.ReleaseBuffer( );
+   zLONG lBufferLth = csBuffer.GetLength( );
    if ( lBufferLth == 0 )
    {
       return( 0 );
@@ -6084,11 +6063,11 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
 
    if ( lCol < lBufferLth )
    {
-      for ( c = strBuffer.GetAt( lCol );
+      for ( c = csBuffer.GetAt( lCol );
             isspace( c ) && lCol < lBufferLth;
             lCol++ )
       {
-         c = strBuffer.GetAt( lCol );
+         c = csBuffer.GetAt( lCol );
       }
    }
 
@@ -6103,7 +6082,7 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
            lCurrentColumn >= 0 &&        // iterate only between lower
            lCurrentColumn < lBufferLth ) // and upper bounds
    {
-      c = strBuffer.GetAt(lCurrentColumn);
+      c = csBuffer.GetAt(lCurrentColumn);
       if ( !__iscsym( c )) // Alphanumeric + digits + underscore
       {
          lTokenStart = lCurrentColumn + 1;
@@ -6118,9 +6097,9 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
    lCurrentColumn = lCol;
    while ( lTokenEnd == 0 &&
            lCurrentColumn >= 0  &&                   // iterate only between lower
-           lCurrentColumn < strBuffer.GetLength( ) ) // and upper bounds
+           lCurrentColumn < csBuffer.GetLength( ) ) // and upper bounds
    {
-      c = strBuffer.GetAt( lCurrentColumn );
+      c = csBuffer.GetAt( lCurrentColumn );
       if ( !__iscsym( c ) )  // alphanumeric + digits + underscore
       {
          lTokenEnd = lCurrentColumn;
@@ -6132,25 +6111,25 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
    }
 
    if ( lTokenEnd == 0 )
-      lTokenEnd = strBuffer.GetLength( );
+      lTokenEnd = csBuffer.GetLength( );
 
    // Extract OperationName.
-   strBuffer = strBuffer.Mid( lTokenStart, (lTokenEnd - lTokenStart) );
+   csBuffer = csBuffer.Mid( lTokenStart, (lTokenEnd - lTokenStart) );
 
-   if ( strBuffer.GetLength( ) == 0 )
+   if ( csBuffer.GetLength( ) == 0 )
       return( 0 );
 
-   CString strSearchString;
-   strSearchString.Format( strOperSrch, strBuffer );
+   CString csSearchString;
+   csSearchString.Format( csOperSrch, csBuffer );
 
    lLine = 0; // search from begin of file
-   EDT_FindTextPosition( vSubtask, strSearchString, &lLine, &lCol, lTBEDTDefaultSearchBehavior );
+   EDT_FindTextPosition( vSubtask, csSearchString, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
 
    // Skipping lines where the search text is part of a comment
    while ( fnIsCommentAtIndex( vSubtask, lLine, lCol ) && lLine > -1 )
    {
       lLine++;
-      EDT_FindTextPosition( vSubtask, strSearchString, &lLine, &lCol, lTBEDTDefaultSearchBehavior );
+      EDT_FindTextPosition( vSubtask, csSearchString, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
    }
 
    if ( lLine >= 0 ) // we found something so place the cursor onto it
@@ -6160,8 +6139,8 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
    }
    else
    {
-      strSearchString.Format( "Operation \'%s\' could not be located", strBuffer );
-      MB_SetMessage( vSubtask, MAIN_DIL, strSearchString );
+      csSearchString.Format( "Operation \'%s\' could not be located", csBuffer );
+      MB_SetMessage( vSubtask, MAIN_DIL, csSearchString );
    }
 
    return( 0 );
@@ -6175,15 +6154,8 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditCut( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-   {
-      if ( EDT_CanCopy( vSubtask ) )
-         EDT_CutText( vSubtask );
-   }
+   if ( EDT_CanCopy( vSubtask ) )
+      EDT_CutText( vSubtask );
 
    return( 0 );
 
@@ -6196,15 +6168,8 @@ TZEDFRMD_EditCut( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditPaste( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-   {
-      if ( EDT_CanPaste( vSubtask ) )
-         EDT_PasteText( vSubtask );
-   }
+   if ( EDT_CanPaste( vSubtask ) )
+      EDT_PasteText( vSubtask );
 
    return( 0 );
 
@@ -6217,15 +6182,8 @@ TZEDFRMD_EditPaste( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditCopy( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-   {
-      if ( EDT_CanCopy( vSubtask ) )
-         EDT_CopyText( vSubtask );
-   }
+   if ( EDT_CanCopy( vSubtask ) )
+      EDT_CopyText( vSubtask );
 
    return( 0 );
 
@@ -6238,14 +6196,8 @@ TZEDFRMD_EditCopy( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditSelectAll( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
+   EDT_SelectAll( vSubtask );
 
-   if ( pzma )
-   {
-      EDT_SelectAll( vSubtask );
-   }
    return( 0 );
 
 } // TZEDFRMD_EditSelectAll
@@ -6257,17 +6209,8 @@ TZEDFRMD_EditSelectAll( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditDelete( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-   {
-      if ( EDT_CanCopy( vSubtask ) )
-      {
-         EDT_DeleteText( vSubtask );
-      }
-   }
+   if ( EDT_CanCopy( vSubtask ) )
+      EDT_DeleteText( vSubtask );
 
    return( 0 );
 
@@ -6280,17 +6223,8 @@ TZEDFRMD_EditDelete( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditUndo( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-   {
-      if ( EDT_CanUndo( vSubtask ) )
-      {
-         EDT_Undo( vSubtask );
-      }
-   }
+   if ( EDT_CanUndo( vSubtask ) )
+      EDT_Undo( vSubtask );
 
    return( 0 );
 
@@ -6303,17 +6237,8 @@ TZEDFRMD_EditUndo( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditRedo( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-   {
-      if ( EDT_CanRedo( vSubtask ) )
-      {
-         EDT_Redo( vSubtask );
-      }
-   }
+   if ( EDT_CanRedo( vSubtask ) )
+      EDT_Redo( vSubtask );
 
    return( 0 );
 
@@ -6326,36 +6251,7 @@ TZEDFRMD_EditRedo( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditFind( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
    return EDT_FindDialog( vSubtask );
-/*
-   zPCHAR   pch = 0;
-   CString  strBuffer;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-   {
-      if ( EDT_CanCopy( vSubtask ) ) // something is selected
-      {
-         zLONG lLth = EDT_GetSelectedTextLength( vSubtask ) + 1;
-         pch = strBuffer.GetBufferSetLength( lLth );
-         lLth = EDT_GetSelectedText( vSubtask, pch, lLth );
-      }
-   }
-   else
-   {
-      return( -1 );
-   }
-
-   if ( pch == 0 )
-      pch = g_strFindWhat.GetBufferSetLength( g_strFindWhat.GetLength( ) );
-
-   return( OperatorPromptFindReplace( vSubtask, pch, "", FALSE ) );
-*/
 
 } // TZEDFRMD_EditFind
 
@@ -6427,13 +6323,10 @@ TZEDFRMD_EditFindPrevious( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_OnEditFind( zVIEW vSubtask )
 {
-   CString  strMsg, strMsgFormat = "Could not find requested string\"%s\"!";
+   CString  csMsg, csMsgFormat = "Could not find requested string\"%s\"!";
    zLONG    lSearchBehavior = 0, lPosition = 0;
    zLONG    lCharCount = 0;
    zLONG    lStartLine = 0, lStartCol = 0, lEndLine = 0, lEndCol = 0;
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
    FINDREPLACE *pfr = (FINDREPLACE *) GetActionParameters( vSubtask );
 
    memcpy( &g_fr, pfr, sizeof( FINDREPLACE ) );
@@ -6443,36 +6336,36 @@ TZEDFRMD_OnEditFind( zVIEW vSubtask )
       return( 0 );
 
    // store search string for F3 / Shift+F3 use
-   g_strFindWhat = pfr->lpstrFindWhat;
-   lCharCount = g_strFindWhat.GetLength( );
-   CString strStringToFind = g_strFindWhat;
+   g_csFindWhat = pfr->lpstrFindWhat;
+   lCharCount = g_csFindWhat.GetLength( );
+   CString csStringToFind = g_csFindWhat;
 
    // Check if currently selected text already matches search text. If so,
    // set cursor to the end of the selected text but only in FR_DOWN mode.
    if ( pfr->Flags & FR_WHOLEWORD )
    {
-      lSearchBehavior = SRCH_REGEXPR;
-      strStringToFind = "\\b";
-      CString strUpper = g_strFindWhat;
-      CString strLower = g_strFindWhat;
-      strUpper.MakeUpper( );
-      strLower.MakeLower( );
-      for( int k = 0; k < strUpper.GetLength( ); k++ )
+      lSearchBehavior = 0;
+      csStringToFind = "\\b";
+      CString csUpper = g_csFindWhat;
+      CString csLower = g_csFindWhat;
+      csUpper.MakeUpper( );
+      csLower.MakeLower( );
+      for( int k = 0; k < csUpper.GetLength( ); k++ )
       {
-         strStringToFind += "[";
-         strStringToFind += strUpper[ k ];
-         strStringToFind += strLower[ k ];
-         strStringToFind += "]";
+         csStringToFind += "[";
+         csStringToFind += csUpper[ k ];
+         csStringToFind += csLower[ k ];
+         csStringToFind += "]";
       }
 
-      strStringToFind += "[^a-zA-Z_0-9]";
+      csStringToFind += "[^a-zA-Z_0-9]";
       if ( EDT_CanCopy( vSubtask ) )
       {
-         CString strHelp;
-         LPSTR pszBuffer = strHelp.GetBufferSetLength( lCharCount );
+         CString csHelp;
+         LPSTR pszBuffer = csHelp.GetBufferSetLength( lCharCount );
          EDT_GetTextFromRange( vSubtask, pszBuffer, lCharCount, lStartLine, lStartCol, lEndLine, lEndCol );
-         strHelp.ReleaseBuffer( );
-         if ( strHelp.CompareNoCase( g_strFindWhat ) == 0 && pfr->Flags & FR_DOWN )
+         csHelp.ReleaseBuffer( );
+         if ( csHelp.CompareNoCase( g_csFindWhat ) == 0 && pfr->Flags & FR_DOWN )
          {
             lPosition += lCharCount;
             EDT_SetCursorPositionByLine( vSubtask, lPosition, 0 );
@@ -6482,25 +6375,25 @@ TZEDFRMD_OnEditFind( zVIEW vSubtask )
 
    if ( pfr->Flags & FR_MATCHCASE )
    {
-      lSearchBehavior |= SRCH_MATCHCASE;
+      lSearchBehavior |= FIND_MATCH_CASE;
       g_bMatchCase = TRUE;
-   // strStringToFind = "\\b";
-      strStringToFind = g_strFindWhat;
-   // strStringToFind += "[^a-zA-Z_0-9]";
+   // csStringToFind = "\\b";
+      csStringToFind = g_csFindWhat;
+   // csStringToFind += "[^a-zA-Z_0-9]";
    }
 
    if ( pfr->Flags & FR_DOWN )
-      lSearchBehavior |= SRCH_FORWARD;
+      lSearchBehavior |= FIND_FORWARD;
 
-   EDT_FindTextPosition( vSubtask, strStringToFind, &lStartLine, &lStartCol, lSearchBehavior );
+   EDT_FindTextPosition( vSubtask, csStringToFind, &lStartLine, &lStartCol, lSearchBehavior );
    if ( lPosition > -1 )
    {
       EDT_SelectRange( vSubtask, lPosition, 0, lCharCount );
    }
    else
    {
-      strMsg.Format( strMsgFormat, pfr->lpstrFindWhat );
-      MB_SetMessage( vSubtask, MAIN_DIL, strMsg );
+      csMsg.Format( csMsgFormat, pfr->lpstrFindWhat );
+      MB_SetMessage( vSubtask, MAIN_DIL, csMsg );
    }
 
    return( 0 );
@@ -6529,71 +6422,8 @@ TZEDFRMD_OnEditFindNext( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditReplace( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
    return EDT_ReplaceDialog( vSubtask );
-   /*
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   CString  strMsg,
-            strMsgFormat = "%d occurrences of \"%s\" have been replaced by \"%s\"!";
-   zLONG    lSearchBehavior = 0, lPosition = 0, lReplacements = 0;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   FINDREPLACE *pfr = (FINDREPLACE *) GetActionParameters( vSubtask );
-
-   if ( zstrlen(pfr->lpstrReplaceWith ) > 0 )
-   {
-      if ( pzma == 0 )
-         return( 0 );
-
-      if ( pfr->Flags & FR_REPLACEALL )
-      {
-         // remember current position
-         long lLine = 0, lCol = 0;
-         EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
-         EDT_SetCursorPositionByLine( vSubtask, 0, 0 );
-
-         // replace current selection
-         if ( EDT_CanCopy( vSubtask ) ) // is something selected?
-         {
-            lReplacements++;
-            EDT_InsertItem( vSubtask, pfr->lpstrReplaceWith );
-         }
-
-         if ( pfr->Flags & FR_MATCHCASE )
-         {
-            lSearchBehavior |= SRCH_MATCHCASE;
-         }
-
-         if ( pfr->Flags & FR_DOWN )
-            lSearchBehavior |= SRCH_FORWARD;
-
-         EDT_FindTextPosition( vSubtask, pfr->lpstrFindWhat, &lLine, &lCol, lSearchBehavior );
-         while ( lPosition > -1 )
-         {
-            lReplacements++;
-            EDT_SelectRange( vSubtask, lPosition, 0, zstrlen( pfr->lpstrFindWhat ) );
-            if ( EDT_CanCopy( vSubtask ) ) // is something selected?
-               EDT_InsertItem( vSubtask, pfr->lpstrReplaceWith );
-            EDT_FindTextPosition( vSubtask, pfr->lpstrFindWhat, &lLine, &lCol, lSearchBehavior );
-         }
-         if ( lReplacements > 0 )
-         {
-            EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
-
-            strMsg.Format( strMsgFormat, lReplacements, pfr->lpstrFindWhat, pfr->lpstrReplaceWith );
-            SysMessageBox( vSubtask, "Replace", strMsg, FALSE );
-         }
-      }
-      else
-      if ( EDT_CanCopy( vSubtask ) ) // is something selected?
-         EDT_InsertItem( vSubtask, pfr->lpstrReplaceWith );
-   }
-
-   return( 0 );
-*/
+ 
 } // TZEDFRMD_EditReplace
 
 /////////////////////////////////////////////////////////////////////////////
@@ -6617,12 +6447,7 @@ TZEDFRMD_RepeatReplace( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 OptionSettings( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma )
-      EDT_PropertyDialog( vSubtask );
+   EDT_PropertyDialog( vSubtask );
 
    return( 0 );
 
@@ -6671,7 +6496,7 @@ GetOperationPosition( zVIEW   vSubtask,
 }
 
 static zSHORT
-GetPositionForNextInsert( ZMapAct *pzma,
+GetPositionForNextInsert( zVIEW   vSubtask,
                           zPLONG  plLine,
                           zPLONG  plCol )
 {
@@ -6679,14 +6504,14 @@ GetPositionForNextInsert( ZMapAct *pzma,
    zLONG lCol   = -1;
 
    // set cursor to the last line
-   lLine = EDT_GetLineCount( pzma->m_pZSubtask->m_vDialog );
-   EDT_SetCursorPositionByLine( pzma->m_pZSubtask->m_vDialog, lLine - 1, 0 );
+   lLine = EDT_GetLineCount( vSubtask );
+   EDT_SetCursorPositionByLine( vSubtask, lLine - 1, 0 );
 
    // in c-files search for #ifdef __cplusplus (from end to begin)
    static zCHAR szSearchString[] = "\\bifdef[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+__cplusplus[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+";
 
-   EDT_GetCursorPosition( pzma->m_pZSubtask->m_vDialog, &lLine, &lCol );
-   EDT_FindTextPosition( pzma->m_pZSubtask->m_vDialog, szSearchString, &lLine, &lCol, SRCH_BACKWARD | SRCH_REGEXPR );
+   EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+   EDT_FindTextPosition( vSubtask, szSearchString, &lLine, &lCol, FIND_DIRECTION_UP );
    lLine--;
 
    if ( lLine > -1 )
@@ -6697,23 +6522,23 @@ GetPositionForNextInsert( ZMapAct *pzma,
       zLONG  lCol_2 = 0;
 
       //set cursor to #ifdef __cplusplus
-      EDT_SetCursorPositionByLine( pzma->m_pZSubtask->m_vDialog, lLine, lCol );
+      EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
 
       // search for } ( from #ifdef __cplusplus to end )
       static zCHAR szSearchString_1[] = "} *";
-      EDT_GetCursorPosition( pzma->m_pZSubtask->m_vDialog, &lLine, &lCol );
-      EDT_FindTextPosition( pzma->m_pZSubtask->m_vDialog, szSearchString_1, &lLine_1, &lCol_1, SRCH_FORWARD | SRCH_REGEXPR );
+      EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+      EDT_FindTextPosition( vSubtask, szSearchString_1, &lLine_1, &lCol_1, FIND_FORWARD );
 
       if ( lLine_1 >= 0 && lLine_1 > lLine )
       {
          //set cursor to #ifdef __cplusplus
-         EDT_SetCursorPositionByLine( pzma->m_pZSubtask->m_vDialog, lLine, lCol );
+         EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
 
          // search for #endif (from #ifdef __cplusplus to end)
          static zCHAR szSearchString_2[] = "\\bendif[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*";
 
-         EDT_GetCursorPosition( pzma->m_pZSubtask->m_vDialog, &lLine, &lCol );
-         EDT_FindTextPosition( pzma->m_pZSubtask->m_vDialog, szSearchString_2, &lLine_2, &lCol_2, SRCH_FORWARD | SRCH_REGEXPR );
+         EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+         EDT_FindTextPosition( vSubtask, szSearchString_2, &lLine_2, &lCol_2, FIND_FORWARD );
          if ( lLine_2 < 0 || lLine_2 <= lLine_1 )
             lLine =  1048576; // end of file
       }
@@ -6733,40 +6558,40 @@ GetPositionForNextInsert( ZMapAct *pzma,
 }
 
 static zLONG
-CopyOperationToNewFile( ZMapAct *pzma,
+CopyOperationToNewFile( zVIEW    vSubtask,
                         zVIEW    vEdWrk,
                         zPCHAR   pszBuffer )
 {
    zLONG    lReturnedBuffSize = -1;
    zLONG    lLine, lCol;
-   CString  strBuffer;
+   CString  csBuffer;
    zPCHAR   szBuffer = NULL;
 
    // if source file is of type "C"
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlC_File ) == 0 )
    {
       // in c-files search for #ifdef __cplusplus (from end to begin)
-      GetPositionForNextInsert( pzma, &lLine, &lCol );
-      EDT_SetCursorPositionByLine( pzma->m_pZSubtask->m_vDialog, lLine, lCol );
+      GetPositionForNextInsert( vSubtask, &lLine, &lCol );
+      EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
    }
    else
    {
       // set cursor to the last line
-      lLine = EDT_GetLineCount( pzma->m_pZSubtask->m_vDialog );
-      EDT_SetCursorPositionByLine( pzma->m_pZSubtask->m_vDialog, lLine - 1, 0 );
-      EDT_GetCursorPosition( pzma->m_pZSubtask->m_vDialog, &lLine, &lCol );
-      szBuffer = strBuffer.GetBufferSetLength( 64004 );   // 255
-      lReturnedBuffSize = EDT_GetTextFromLineOfIndex( pzma->m_pZSubtask->m_vDialog, szBuffer, 64000, lLine );
-      EDT_SetCursorPositionByLine( pzma->m_pZSubtask->m_vDialog, lLine, lReturnedBuffSize );
+      lLine = EDT_GetLineCount( vSubtask );
+      EDT_SetCursorPositionByLine( vSubtask, lLine - 1, 0 );
+      EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+      szBuffer = csBuffer.GetBufferSetLength( 64004 );   // 255
+      lReturnedBuffSize = EDT_GetTextFromLineOfIndex( vSubtask, szBuffer, 64000, lLine );
+      EDT_SetCursorPositionByLine( vSubtask, lLine, lReturnedBuffSize );
    }
 
-   EDT_GetCursorPosition( pzma->m_pZSubtask->m_vDialog, &lLine, &lCol );
+   EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
 
    // insert Operation
-   BufInsertStr( pzma, "\r\n\r\n" );
-   BufInsertStr( pzma, pszBuffer );
+   BufInsertStr( vSubtask, "\r\n\r\n" );
+   BufInsertStr( vSubtask, pszBuffer );
 
-   EDT_SaveObject( pzma->m_pZSubtask->m_vDialog );
+   EDT_SaveObject( vSubtask );
    return( lLine );
 }
 
@@ -6775,7 +6600,7 @@ TZEDFRMD_MoveOperationCode( zVIEW  vSubtask,
                             zSHORT nCopyOrMoveFlag )
 {
    zPCHAR   pszBuffer = NULL;
-   CString  strBuffer;
+   CString  csBuffer;
    zCHAR    szFileName[ zMAX_FILENAME_LTH + 1 ];
    zCHAR    szSourceFileName[ zMAX_FILENAME_LTH + 1 ];
    zVIEW    vEdWrk  = 0;
@@ -6810,7 +6635,7 @@ TZEDFRMD_MoveOperationCode( zVIEW  vSubtask,
       if ( GetOperationPosition( vSubtask, pzma, vDeleteOp, &lStartLine, &lEndLine ) == TRUE )
       {
          // get Operation Code
-         pszBuffer = strBuffer.GetBufferSetLength( lEndLine - lStartLine + 1 );
+         pszBuffer = csBuffer.GetBufferSetLength( lEndLine - lStartLine + 1 );
       // EDT_GetTextFromRange( vSubtask, pszBuffer, lStartLine, lEndLine );
          EDT_GetTextFromRange( vSubtask, pszBuffer, lEndLine - lStartLine + 1, lStartLine, lStartCol, lEndLine, lEndCol );
 
@@ -6827,7 +6652,7 @@ TZEDFRMD_MoveOperationCode( zVIEW  vSubtask,
             }
 
             // set cursor to last line and insert operation
-            CopyOperationToNewFile( pzma, vEdWrk, pszBuffer );
+            CopyOperationToNewFile( vSubtask, vEdWrk, pszBuffer );
             DeleteEntity( vEdWrk, "Buffer", zREPOS_NEXT );
 
             if ( nCopyOrMoveFlag == zMOVE_OPERATION )
@@ -6875,30 +6700,30 @@ RenameOperation( ZMapAct  *pzma,
    // replace Operation name in comments
    zsprintf( szSearchText, "\\b%s\\W", szOperation );
    EDT_SetCursorPositionByLine( vSubtask, lPosition, lCol );
-   EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, SRCH_FORWARD | SRCH_REGEXPR );
+   EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    while ( lPosition > -1 )
    {
-      if ( fnCursorInCommentOrQuote( pzma, lPosition, lCol ) == 1 )
+      if ( fnCursorInCommentOrQuote( vSubtask, lPosition, lCol ) == 1 )
       {
          EDT_SelectRange( vSubtask, lPosition, 0, zstrlen( szOperation ) );
          if ( EDT_CanCopy( vSubtask ) ) // is something selected?
             EDT_InsertItem( vSubtask, szReplaceText );
       }
       lPosition++;
-      EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, SRCH_FORWARD | SRCH_REGEXPR );
+      EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    }
 
    // replace Operation name
    zsprintf( szSearchText, "\\b%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", szOperation );
    EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
-   EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, SRCH_FORWARD | SRCH_REGEXPR );
+   EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    while ( lLine > -1 )
    {
       EDT_SelectRange( vSubtask, lLine, 0, zstrlen( szOperation ) );
       if ( EDT_CanCopy( vSubtask ) ) // is something selected?
          EDT_InsertItem( vSubtask, szReplaceText );
 
-      EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, SRCH_FORWARD | SRCH_REGEXPR );
+      EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    }
 
    EDT_SaveObject( vSubtask );
@@ -6915,7 +6740,7 @@ TZEDFRMD_CopyOperationCode( zVIEW vSubtask,
                             zSHORT nRenameOperation )
 {
    zPCHAR   pszBuffer = NULL;
-   CString  strBuffer;
+   CString  csBuffer;
    zCHAR    szFileName[ zMAX_FILENAME_LTH + 1 ];
    zCHAR    szSourceFileName[ zMAX_FILENAME_LTH + 1 ];
    zVIEW    vEdWrk  = 0;
@@ -6950,7 +6775,7 @@ TZEDFRMD_CopyOperationCode( zVIEW vSubtask,
       if ( GetOperationPosition( vSubtask, pzma, vDeleteOp, &lStartLine, &lEndLine ) == TRUE )
       {
          // get Operation Code
-         pszBuffer = strBuffer.GetBufferSetLength( lEndLine - lStartLine + 1 );
+         pszBuffer = csBuffer.GetBufferSetLength( lEndLine - lStartLine + 1 );
       // EDT_GetTextFromRange( vSubtask, pszBuffer, lStartLine, lEndLine );
          EDT_GetTextFromRange( vSubtask, pszBuffer, lEndLine - lStartLine + 1, lStartLine, lStartCol, lEndLine, lEndCol );
 
@@ -6966,7 +6791,7 @@ TZEDFRMD_CopyOperationCode( zVIEW vSubtask,
             }
 
             // set cursor to last line and insert operation
-            lStartLine = CopyOperationToNewFile( pzma, vEdWrk, pszBuffer );
+            lStartLine = CopyOperationToNewFile( vSubtask, vEdWrk, pszBuffer );
 
             // Rename Operation
             if ( nRenameOperation == zRENAME_OPERATION )
@@ -7034,7 +6859,7 @@ InitEditorForMoveAndDelete( ZMapAct *pzma,
 }
 
 static zSHORT
-OpenFileForMoveAndDelete( ZMapAct *pzma,
+OpenFileForMoveAndDelete( ZMapAct  *pzma,
                           zVIEW    vDeleteOp,
                           zVIEW    vEdWrk,
                           zVIEW    vSource,
@@ -7095,7 +6920,7 @@ OpenFileForMoveAndDelete( ZMapAct *pzma,
         CompareAttributeToString( vDeleteOp, "SourceFile", "LanguageType", szlC_File ) == 0 )
    {
       GetStringFromAttribute( szName, sizeof( szName ), vDeleteOp, "SourceFile", "Name" );
-      CreateFileInfo( pzma, szName );
+      CreateFileInfo( pzma->m_pZSubtask->m_vDialog, szName );
    }
 
    return( 0 );
@@ -7178,13 +7003,6 @@ TZEDFRMD_CreateContextMenue( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
 TZEDFRMD_EnableEditMenuActions( zVIEW vSubtask )
 {
-   ZSubtask *pZSubtask;
-   ZMapAct  *pzma;
-   GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME );
-
-   if ( pzma == 0 )
-      return( 0 );
-
    BOOL bEnable = TRUE;
    BOOL bCanCopy  = EDT_CanCopy( vSubtask );
    BOOL bCanPaste = EDT_CanPaste( vSubtask );
@@ -7200,7 +7018,7 @@ TZEDFRMD_EnableEditMenuActions( zVIEW vSubtask )
    EnableAction( vSubtask, TZEDFRMD_EDIT_CONTEXT_MENU_COPY, bCanCopy );
    EnableAction( vSubtask, TZEDFRMD_EDIT_CONTEXT_MENU_PASTE, bEnable ? bCanPaste : FALSE );
    EnableAction( vSubtask, TZEDFRMD_EDIT_CONTEXT_MENU_DELETE, bEnable ? bCanCopy : FALSE );
-   EnableAction( vSubtask, TZEDFRMD_EDIT_CONTEXT_MENU_SELECTALL, !FileIsEmpty( pzma ) );
+   EnableAction( vSubtask, TZEDFRMD_EDIT_CONTEXT_MENU_SELECTALL, EDT_GetLineCount( vSubtask ) > 0 );
 
    return( 0 );
 
@@ -7294,6 +7112,144 @@ SetUpdateFlagInMeta( zVIEW vSubtask )
    DropView( vMeta );
    return( nRC );
 }
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: TZEDFRMD_SetBookmark
+//
+//    Sets a bookmark at the current location in the editor
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+TZEDFRMD_SetBookmark( zVIEW vSubtask )
+{
+   zCHAR szOptionTag[ 65 ];
+   int nTag;
+
+   GetLastCommandTag( vSubtask, szOptionTag );
+   if ( strlen( szOptionTag ) > 8 )
+   {
+      nTag = atoi( szOptionTag + 8 );
+      EDT_SetBookmark( vSubtask, nTag );
+   }
+   return( 0 );
+
+} // TZEDFRMD_SetBookmark
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: TZEDFRMD_GoToBookmark
+//
+//    Sets position to the specified bookmark in the editor
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+TZEDFRMD_GoToBookmark( zVIEW vSubtask )
+{
+   zCHAR szOptionTag[ 65 ];
+   int nTag;
+
+   GetLastCommandTag( vSubtask, szOptionTag );
+   if ( strlen( szOptionTag ) > 8 )
+   {
+      nTag = atoi( szOptionTag + 8 );
+      EDT_GoToBookmark( vSubtask, nTag );
+   }
+   return( 0 );
+
+} // TZEDFRMD_GoToBookmark
+
+  /////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: TZEDFRMD_ToggleBookmark
+//
+//    Toggles a bookmark at the current location in the editor
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+TZEDFRMD_ToggleBookmark( zVIEW vSubtask )
+{
+   zCHAR szOptionTag[ 65 ];
+   int nTag;
+
+   GetLastCommandTag( vSubtask, szOptionTag );
+   if ( strlen( szOptionTag ) > 8 )
+   {
+      nTag = atoi( szOptionTag + 8 );
+      EDT_ToggleBookmark( vSubtask, nTag );
+   }
+   return( 0 );
+
+} // TZEDFRMD_ToggleBookmark
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: TZEDFRMD_ClearAllBookmarks
+//
+//    Clears all bookmarks in the editor
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+TZEDFRMD_ClearAllBookmarks( zVIEW vSubtask )
+{
+   zCHAR szOptionTag[ 65 ];
+   int nTag;
+
+   GetLastCommandTag( vSubtask, szOptionTag );
+   if ( strlen( szOptionTag ) > 8 )
+   {
+      nTag = atoi( szOptionTag + 8 );
+      EDT_ClearAllBookmarks( vSubtask );
+   }
+   return( 0 );
+
+} // TZEDFRMD_ClearAllBookmarks
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: TZEDFRMD_GoToNextBookmark
+//
+//    Go to next bookmark in the editor
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+TZEDFRMD_GoToNextBookmark( zVIEW vSubtask )
+{
+   zCHAR szOptionTag[ 65 ];
+   int nTag;
+
+   GetLastCommandTag( vSubtask, szOptionTag );
+   if ( strlen( szOptionTag ) > 8 )
+   {
+      nTag = atoi( szOptionTag + 8 );
+      EDT_GoToNextBookmark( vSubtask );
+   }
+   return( 0 );
+
+} // TZEDFRMD_GoToNextBookmark
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: TZEDFRMD_GoToPreviousBookmark
+//
+//    Go to previous bookmark in the editor
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+TZEDFRMD_GoToPreviousBookmark( zVIEW vSubtask )
+{
+   zCHAR szOptionTag[ 65 ];
+   int nTag;
+
+   GetLastCommandTag( vSubtask, szOptionTag );
+   if ( strlen( szOptionTag ) > 8 )
+   {
+      nTag = atoi( szOptionTag + 8 );
+      EDT_GoToPreviousBookmark( vSubtask );
+   }
+   return( 0 );
+
+} // TZEDFRMD_GoToNextBookmark
 
 
 #ifdef __cplusplus

@@ -91,7 +91,7 @@ AEQ_ClearViews( zVIEW vSubtask )
       zCHAR sz[ 200 ];
 
       strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at AEQ_ClearViews." );
-      OperatorPrompt( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
+      OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
       return( zCALL_ERROR );
    }
 
@@ -176,7 +176,7 @@ AEQ_SelectView( zVIEW vSubtask )
       zCHAR sz[ 200 ];
 
       strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at ObjSelAQ_ObjSelView." );
-      OperatorPrompt( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
+      OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
       return( zCALL_ERROR );
    }
 

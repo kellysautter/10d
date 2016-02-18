@@ -3586,7 +3586,7 @@ AEQ_GetViews( zVIEW vCurrentSubtask )
    mGetWorkView( &vEdWrk, vCurrentSubtask );
    if ( vEdWrk == 0 )
    {
-      OperatorPrompt( 0, "ED - Error", "TZEDWRKO not Available at GetViews.", 0, zBUTTONS_OK, 0, 0 );
+      OperatorPrompt( vCurrentSubtask, "ED - Error", "TZEDWRKO not Available at GetViews.", 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
    }
 
@@ -3795,7 +3795,7 @@ fnPasteQualifier( zVIEW  vCurrentSubtask,
    if ( vEdWrk == 0 )
    {
       strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at PasteQualifier." );
-      OperatorPrompt( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 );
+      OperatorPrompt( vCurrentSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
    }
 
@@ -3805,7 +3805,7 @@ fnPasteQualifier( zVIEW  vCurrentSubtask,
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) != 0 )
    {
       strcpy_s( sz, sizeof( sz ), "Paste only works for VML Files." );
-      OperatorPrompt( 0, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
+      OperatorPrompt( vCurrentSubtask, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
    }
 
@@ -5277,7 +5277,7 @@ AEQ_SelectView( zVIEW vSubtask )
       zCHAR sz[ 200 ];
 
       strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at ObjSelAQ_ObjSelView." );
-      OperatorPrompt( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
+      OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
       return( zCALL_ERROR );
    }
 

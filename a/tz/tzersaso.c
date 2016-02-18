@@ -374,7 +374,7 @@ oTZERSASO_CompleteRelCreate( zVIEW vSubtask,
    zLONG  lZKey;
    zPCHAR szName;
 
-   OperatorPrompt( 0, "Subject Area",
+   OperatorPrompt( vSubtask, "Subject Area",
                    "oTZERSASO_CompleteRelCreate - This code is supposed to be disabled and never called again. However, a call "
                    "has taken place as a result of your last action! Do you promise to run and tell Gig (or Don) NOW?",
                    0, zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
