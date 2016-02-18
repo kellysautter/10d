@@ -345,7 +345,6 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
 
    ResetView();
 
-
    Attr.Style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_HSCROLL | WS_VSCROLL;
 
 // if ( m_pzsVName == 0 )
@@ -2118,13 +2117,13 @@ void ZCrystalEditView::DrawLineHelperImpl(CDC *pdc, CPoint &ptOrigin, const CRec
    ASSERT(nCount >= 0);
    if (nCount > 0)
    {
-      CString line;
-      ExpandChars(pszChars, nOffset, nCount, line);
+      CString csTextLine;
+      ExpandChars(pszChars, nOffset, nCount, csTextLine);
       int nWidth = rcClip.right - ptOrigin.x;
       if (nWidth > 0)
       {
          int nCharWidth = GetCharWidth();
-         int nCount = line.GetLength();
+         int nCount = csTextLine.GetLength();
          int nCountFit = nWidth / nCharWidth + 1;
          if (nCount > nCountFit)
             nCount = nCountFit;
@@ -2138,9 +2137,10 @@ void ZCrystalEditView::DrawLineHelperImpl(CDC *pdc, CPoint &ptOrigin, const CRec
          rcBounds.right = rcBounds.left + GetCharWidth() * nCount;
          pdc->ExtTextOut(rcBounds.left, rcBounds.top, ETO_OPAQUE, &rcBounds, NULL, 0, NULL);
          */
-         VERIFY(pdc->ExtTextOut(ptOrigin.x, ptOrigin.y, ETO_CLIPPED, &rcClip, line, nCount, NULL));
+      // TraceLine( "DrawLineHelperImpl L: %d, T: %d, t:%d, l:%d, b:%d, r:%d  Msg:%s", ptOrigin.x, ptOrigin.y, rcClip.top, rcClip.left, rcClip.bottom, rcClip.right, csTextLine );
+         VERIFY(pdc->ExtTextOut(ptOrigin.x, ptOrigin.y, ETO_CLIPPED, &rcClip, csTextLine, nCount, NULL));
       }
-      ptOrigin.x += GetCharWidth() * line.GetLength();
+      ptOrigin.x += GetCharWidth() * csTextLine.GetLength();
    }
 }
 
@@ -2268,14 +2268,14 @@ DWORD ZCrystalEditView::GetParseCookie(int nLineIndex)
    return m_pdwParseCookies[nLineIndex];
 }
 
-void ZCrystalEditView::DrawSingleLine(CDC *pDC, const CRect &rc, int nLineIndex)
+void ZCrystalEditView::DrawSingleLine(CDC *pdc, const CRect &rc, int nLineIndex)
 {
    ASSERT(nLineIndex >= -1 && nLineIndex < GetLineCount());
 
    if (nLineIndex == -1)
    {
       // Draw line beyond the text
-      pDC->FillSolidRect(rc, GetColor(COLORINDEX_WHITESPACE));
+      pdc->FillSolidRect(rc, GetColor(COLORINDEX_WHITESPACE));
       return;
    }
 
@@ -2293,10 +2293,10 @@ void ZCrystalEditView::DrawSingleLine(CDC *pDC, const CRect &rc, int nLineIndex)
       CRect rect = rc;
       if ((m_bFocused || m_bShowInactiveSelection) && IsInsideSelBlock(CPoint(0, nLineIndex)))
       {
-         pDC->FillSolidRect(rect.left, rect.top, GetCharWidth(), rect.Height(), GetColor(COLORINDEX_SELBKGND));
+         pdc->FillSolidRect(rect.left, rect.top, GetCharWidth(), rect.Height(), GetColor(COLORINDEX_SELBKGND));
          rect.left += GetCharWidth();
       }
-      pDC->FillSolidRect(rect, bDrawWhitespace ? crBkgnd : GetColor(COLORINDEX_WHITESPACE));
+      pdc->FillSolidRect(rect, bDrawWhitespace ? crBkgnd : GetColor(COLORINDEX_WHITESPACE));
       return;
    }
 
@@ -2310,9 +2310,9 @@ void ZCrystalEditView::DrawSingleLine(CDC *pDC, const CRect &rc, int nLineIndex)
 
    // Draw the line text
    CPoint origin(rc.left - m_nOffsetChar * GetCharWidth(), rc.top);
-   pDC->SetBkColor(crBkgnd);
+   pdc->SetBkColor(crBkgnd);
    if (crText != CLR_NONE)
-      pDC->SetTextColor(crText);
+      pdc->SetTextColor(crText);
    BOOL bColorSet = FALSE;
 
    if (nBlocks > 0)
@@ -2320,31 +2320,31 @@ void ZCrystalEditView::DrawSingleLine(CDC *pDC, const CRect &rc, int nLineIndex)
       int k;
       ASSERT(pBuf[0].m_nCharPos >= 0 && pBuf[0].m_nCharPos <= nLength);
       if (crText == CLR_NONE)
-         pDC->SetTextColor(GetColor(COLORINDEX_NORMALTEXT));
-      pDC->SelectObject(GetFont(pDC, GetItalic(COLORINDEX_NORMALTEXT), GetBold(COLORINDEX_NORMALTEXT)));
-      DrawLineHelper(pDC, origin, rc, COLORINDEX_NORMALTEXT, pszChars, 0, pBuf[0].m_nCharPos, CPoint(0, nLineIndex));
+         pdc->SetTextColor(GetColor(COLORINDEX_NORMALTEXT));
+      pdc->SelectObject(GetFont(pdc, GetItalic(COLORINDEX_NORMALTEXT), GetBold(COLORINDEX_NORMALTEXT)));
+      DrawLineHelper(pdc, origin, rc, COLORINDEX_NORMALTEXT, pszChars, 0, pBuf[0].m_nCharPos, CPoint(0, nLineIndex));
       for (k = 0; k < nBlocks - 1; k++)
       {
          ASSERT(pBuf[k].m_nCharPos >= 0 && pBuf[k].m_nCharPos <= nLength);
          if (crText == CLR_NONE)
-            pDC->SetTextColor(GetColor(pBuf[k].m_nColorIndex));
-         pDC->SelectObject(GetFont(pDC, GetItalic(pBuf[k].m_nColorIndex), GetBold(pBuf[k].m_nColorIndex)));
-         DrawLineHelper(pDC, origin, rc, pBuf[k].m_nColorIndex, pszChars, pBuf[k].m_nCharPos,
+            pdc->SetTextColor(GetColor(pBuf[k].m_nColorIndex));
+         pdc->SelectObject(GetFont(pdc, GetItalic(pBuf[k].m_nColorIndex), GetBold(pBuf[k].m_nColorIndex)));
+         DrawLineHelper(pdc, origin, rc, pBuf[k].m_nColorIndex, pszChars, pBuf[k].m_nCharPos,
                         pBuf[k + 1].m_nCharPos - pBuf[k].m_nCharPos, CPoint(pBuf[k].m_nCharPos, nLineIndex));
       }
       ASSERT(pBuf[nBlocks - 1].m_nCharPos >= 0 && pBuf[nBlocks - 1].m_nCharPos <= nLength);
       if (crText == CLR_NONE)
-         pDC->SetTextColor(GetColor(pBuf[nBlocks - 1].m_nColorIndex));
-      pDC->SelectObject(GetFont(pDC, GetItalic(pBuf[nBlocks - 1].m_nColorIndex), GetBold(pBuf[nBlocks - 1].m_nColorIndex)));
-      DrawLineHelper(pDC, origin, rc, pBuf[nBlocks - 1].m_nColorIndex, pszChars, pBuf[nBlocks - 1].m_nCharPos,
+         pdc->SetTextColor(GetColor(pBuf[nBlocks - 1].m_nColorIndex));
+      pdc->SelectObject(GetFont(pdc, GetItalic(pBuf[nBlocks - 1].m_nColorIndex), GetBold(pBuf[nBlocks - 1].m_nColorIndex)));
+      DrawLineHelper(pdc, origin, rc, pBuf[nBlocks - 1].m_nColorIndex, pszChars, pBuf[nBlocks - 1].m_nCharPos,
                      nLength - pBuf[nBlocks - 1].m_nCharPos, CPoint(pBuf[nBlocks - 1].m_nCharPos, nLineIndex));
    }
    else
    {
       if (crText == CLR_NONE)
-         pDC->SetTextColor(GetColor(COLORINDEX_NORMALTEXT));
-      pDC->SelectObject(GetFont(pDC, GetItalic(COLORINDEX_NORMALTEXT), GetBold(COLORINDEX_NORMALTEXT)));
-      DrawLineHelper(pDC, origin, rc, COLORINDEX_NORMALTEXT, pszChars, 0, nLength, CPoint(0, nLineIndex));
+         pdc->SetTextColor(GetColor(COLORINDEX_NORMALTEXT));
+      pdc->SelectObject(GetFont(pdc, GetItalic(COLORINDEX_NORMALTEXT), GetBold(COLORINDEX_NORMALTEXT)));
+      DrawLineHelper(pdc, origin, rc, COLORINDEX_NORMALTEXT, pszChars, 0, nLength, CPoint(0, nLineIndex));
    }
 
    // Draw whitespaces to the left of the text
@@ -2355,11 +2355,11 @@ void ZCrystalEditView::DrawSingleLine(CDC *pDC, const CRect &rc, int nLineIndex)
    {
       if ((m_bFocused || m_bShowInactiveSelection) && IsInsideSelBlock(CPoint(nLength, nLineIndex)))
       {
-         pDC->FillSolidRect(frect.left, frect.top, GetCharWidth(), frect.Height(), GetColor(COLORINDEX_SELBKGND));
+         pdc->FillSolidRect(frect.left, frect.top, GetCharWidth(), frect.Height(), GetColor(COLORINDEX_SELBKGND));
          frect.left += GetCharWidth();
       }
       if (frect.right > frect.left)
-         pDC->FillSolidRect(frect, bDrawWhitespace ? crBkgnd : GetColor(COLORINDEX_WHITESPACE));
+         pdc->FillSolidRect(frect, bDrawWhitespace ? crBkgnd : GetColor(COLORINDEX_WHITESPACE));
    }
 }
 
@@ -2373,7 +2373,8 @@ COLORREF ZCrystalEditView::GetColor(int nColorIndex)
    case COLORINDEX_NORMALTEXT:
       return ::GetSysColor(COLOR_WINDOWTEXT);
    case COLORINDEX_SELMARGIN:
-      return ::GetSysColor(COLOR_SCROLLBAR);
+   // return ::GetSysColor(COLOR_SCROLLBAR);
+      return RGB(247, 247, 247);
    case COLORINDEX_PREPROCESSOR:
       return RGB(0, 128, 192);
    case COLORINDEX_COMMENT:
@@ -2401,15 +2402,33 @@ DWORD ZCrystalEditView::GetLineFlags(int nLineIndex)
    return m_pTextBuffer->GetLineFlags(nLineIndex);
 }
 
-void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rect, int nLineIndex)
+void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rc, int nLineIndex)
 {
-   if (! m_bSelMargin)
+   if (m_bSelMargin == FALSE)
    {
-      pdc->FillSolidRect(rect, GetColor(COLORINDEX_BKGND));
+      pdc->FillSolidRect(rc, GetColor(COLORINDEX_BKGND));
       return;
    }
 
-   pdc->FillSolidRect(rect, GetColor(COLORINDEX_SELMARGIN));
+   pdc->FillSolidRect(rc, GetColor(COLORINDEX_SELMARGIN));
+
+   // Draw line numbers
+   if (m_bSelMargin)
+   {
+      char szLineNbr[16];
+      char szMsg[16];
+
+      CRect rect = rc;
+      rect.left = 0;
+      rect.right = GetMarginWidth();
+      pdc->SetTextColor(GetColor(COLORINDEX_PREPROCESSOR));
+      _ltoa_s( nLineIndex + 1, szLineNbr, sizeof( szLineNbr ), 10 );
+      sprintf_s( szMsg, sizeof( szMsg ), "%7s", szLineNbr );
+      CSize charExt = pdc->GetTextExtent(szMsg);
+      int nLeft = rect.right - charExt.cx - 8;
+      TraceLine( "DrawMargin L: %d, T: %d, t:%d, l:%d, b:%d, r:%d  Msg:%s", nLeft, rect.top, rect.top, rect.left, rect.bottom, rect.right, szMsg );
+      VERIFY(pdc->ExtTextOut(nLeft, rect.top, ETO_CLIPPED, &rect, szMsg, strlen( szMsg ), NULL));
+   }
 
    int nImageIndex = -1;
    if (nLineIndex >= 0)
@@ -2451,7 +2470,7 @@ void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rect, int nLineIndex)
          m_pIcons = new CImageList;
          VERIFY(m_pIcons->Create(IDR_MARGIN_ICONS, 16, 16, RGB(255, 255, 255)));
       }
-      CPoint pt(rect.left + 2, rect.top + (rect.Height() - 16) / 2);
+      CPoint pt(rc.left + 2, rc.top + (rc.Height() - 16) / 2);
       VERIFY(m_pIcons->Draw(pdc, nImageIndex, pt, ILD_TRANSPARENT));
    }
 }
@@ -2712,9 +2731,9 @@ CFont *ZCrystalEditView::GetFont(CDC *pDC, BOOL bItalic /*= FALSE*/, BOOL bBold 
 
 void ZCrystalEditView::CalcLineCharDim()
 {
-   CDC *pDC = GetDC();
-   CFont *pOldFont = pDC->SelectObject(GetFont( pDC ));
-   CSize szCharExt = pDC->GetTextExtent(_T("W"));
+   CDC *pdc = GetDC();
+   CFont *pOldFont = pdc->SelectObject(GetFont( pdc ));
+   CSize szCharExt = pdc->GetTextExtent(_T("W"));
    m_nLineHeight = szCharExt.cy;
    if (m_nLineHeight < 1)
       m_nLineHeight = 1;
@@ -2724,8 +2743,8 @@ void ZCrystalEditView::CalcLineCharDim()
    if (pdc->GetTextMetrics(&tm))
       m_nCharWidth -= tm.tmOverhang;
    */
-   pDC->SelectObject(pOldFont);
-   ReleaseDC(pDC);
+   pdc->SelectObject(pOldFont);
+   ReleaseDC(pdc);
 }
 
 int ZCrystalEditView::GetLineHeight()
@@ -4407,7 +4426,7 @@ BOOL ZCrystalEditView::GetSelectionMargin()
 
 int ZCrystalEditView::GetMarginWidth()
 {
-   return m_bSelMargin ? 20 : 1;
+   return m_bSelMargin ? GetCharWidth() * 9 : 1;
 }
 
 BOOL ZCrystalEditView::GetSmoothScroll() const
@@ -4912,6 +4931,11 @@ void ZCrystalEditView::OnMouseMove(UINT uFlags, CPoint point)
    CView::OnMouseMove(uFlags, point);
 
 // TRACE(_T("OnMouseMove m_bDragSelection - %d\n"), m_bDragSelection);
+// TraceLine( "OnMouseMove x:%d, y:%d", point.x, point.y );
+   if ( point.x >= 0 && point.x <= GetMarginWidth() )
+      ::SetCursor(::LoadCursor(NULL, IDC_ARROW));
+   else
+      ::SetCursor(::LoadCursor(NULL, IDC_IBEAM));
 
    if (m_bDragSelection)
    {
@@ -8165,6 +8189,9 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
             pED_Crystal->SetCursorPos( pt );
             pED_Crystal->UpdateCaret();
          }
+         pED_Crystal->SetSelectionMargin(TRUE);
+         pED_Crystal->SetSmoothScroll(TRUE);
+
          return( bRC );
       }
 
@@ -8606,7 +8633,9 @@ EDT_OnSize( zVIEW vSubtask )
       {
          CRect rect;
          pZSubtask->m_pZFWnd->GetClientRect( rect );
+      // int nLeftMargin = pED_Crystal->GetCharWidth() * 8;
          pED_Crystal->SetWindowPos( 0, 0, 0, rect.Width() - GetSystemMetrics(SM_CXVSCROLL) + 8, rect.Height() - GetSystemMetrics(SM_CXHSCROLL) - 8, SWP_NOMOVE | SWP_NOZORDER );
+      // pED_Crystal->SetWindowPos( 0, nLeftMargin, 0, rect.Width() - GetSystemMetrics(SM_CXVSCROLL) + 8 - nLeftMargin, rect.Height() - GetSystemMetrics(SM_CXHSCROLL) - 8, SWP_NOZORDER );
          return( TRUE );
       }
 

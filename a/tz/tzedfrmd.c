@@ -2371,8 +2371,7 @@ TZEDFRMD_InitMenu( zVIEW vSubtask )
 
 // TZEDFRMD_ReceiveFocus
 // When the editor window gets focus we need to do a few things:
-// o  Check to see if the editor work view is available yet.  If it's not then
-//    skip the rest of the function.
+// o  Check to see if the editor work view is available yet.  If not, then skip the rest of the function.
 // o  Lastly, set focus to the editor control.
 //
 zOPER_EXPORT zSHORT OPERATION

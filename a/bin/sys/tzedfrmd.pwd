@@ -1,9 +1,9 @@
-z1000-Zeidon    TZEDFRMD TZWDLGSO 02/17/16   18:54:34 1.0b0   
+z1000-Zeidon    TZEDFRMD TZWDLGSO 02/18/16   12:49:38 1.0b0   
 eDialog    1
 aTag       TZEDFRMD
 aDLL_Name  TZEDFRMD
 aZKey      90004018
-aNextZKeyToAssign 190007358
+aNextZKeyToAssign 190007360
 aDesc      Dialog Frame for Editor
 
 eDfltWnd   2

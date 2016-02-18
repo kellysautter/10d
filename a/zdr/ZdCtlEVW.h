@@ -222,8 +222,6 @@ protected:
    int m_nTopLine, m_nOffsetChar;
    BOOL m_bSmoothScroll;
 
-   int GetLineHeight();
-   int GetCharWidth();
    int GetMaxLineLength();
    int GetScreenLines();
    int GetScreenChars();
@@ -292,6 +290,8 @@ public:
    virtual LPCTSTR GetLineChars(int nLineIndex);  // moved to public
    virtual void GetText(CPoint &ptStart, CPoint &ptEnd, CString &text);  // moved to public
    BOOL DeleteCurrentSelection();  // moved to public
+   int  GetLineHeight();  // moved to public
+   int  GetCharWidth();  // moved to public
    void Delete();
    void Undo();
    void Redo();
