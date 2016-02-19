@@ -449,7 +449,7 @@ EDT_GoToNextBookmark( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_GoToPreviousBookmark( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
-EDT_ToggleBookmark( zVIEW vSubtask, int nTag );
+EDT_ToggleBookmark( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_ClearAllBookmarks( zVIEW vSubtask );
 
@@ -7149,9 +7149,9 @@ TZEDFRMD_GoToBookmark( zVIEW vSubtask )
    int nTag;
 
    GetLastCommandTag( vSubtask, szOptionTag );
-   if ( strlen( szOptionTag ) > 8 )
+   if ( strlen( szOptionTag ) > 12 )
    {
-      nTag = atoi( szOptionTag + 8 );
+      nTag = atoi( szOptionTag + 12 );
       EDT_GoToBookmark( vSubtask, nTag );
    }
    return( 0 );
@@ -7168,15 +7168,7 @@ TZEDFRMD_GoToBookmark( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
 TZEDFRMD_ToggleBookmark( zVIEW vSubtask )
 {
-   zCHAR szOptionTag[ 65 ];
-   int nTag;
-
-   GetLastCommandTag( vSubtask, szOptionTag );
-   if ( strlen( szOptionTag ) > 8 )
-   {
-      nTag = atoi( szOptionTag + 8 );
-      EDT_ToggleBookmark( vSubtask, nTag );
-   }
+   EDT_ToggleBookmark( vSubtask );
    return( 0 );
 
 } // TZEDFRMD_ToggleBookmark

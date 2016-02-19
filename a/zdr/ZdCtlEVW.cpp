@@ -129,6 +129,7 @@ BEGIN_MESSAGE_MAP(ZCrystalEditView, CView)
    ON_WM_LBUTTONDBLCLK()
    ON_WM_MOUSEMOVE()
    ON_WM_RBUTTONDOWN()
+   ON_WM_RBUTTONUP()
    ON_WM_TIMER()
    ON_WM_KILLFOCUS()
    ON_WM_SETFOCUS()
@@ -2417,7 +2418,7 @@ void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rc, int nLineIndex)
    {
       char szLineNbr[16];
       char szMsg[16];
-
+      CFont *pOldFont = pdc->SelectObject(GetFont( pdc ));
       CRect rect = rc;
       rect.left = 0;
       rect.right = GetMarginWidth();
@@ -2426,8 +2427,9 @@ void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rc, int nLineIndex)
       sprintf_s( szMsg, sizeof( szMsg ), "%7s", szLineNbr );
       CSize charExt = pdc->GetTextExtent(szMsg);
       int nLeft = rect.right - charExt.cx - 8;
-      TraceLine( "DrawMargin L: %d, T: %d, t:%d, l:%d, b:%d, r:%d  Msg:%s", nLeft, rect.top, rect.top, rect.left, rect.bottom, rect.right, szMsg );
+   // TraceLine( "DrawMargin L: %d, T: %d, t:%d, l:%d, b:%d, r:%d  Msg:%s", nLeft, rect.top, rect.top, rect.left, rect.bottom, rect.right, szMsg );
       VERIFY(pdc->ExtTextOut(nLeft, rect.top, ETO_CLIPPED, &rect, szMsg, strlen( szMsg ), NULL));
+      pdc->SelectObject(pOldFont);
    }
 
    int nImageIndex = -1;
@@ -2716,7 +2718,7 @@ CFont *ZCrystalEditView::GetFont(CDC *pDC, BOOL bItalic /*= FALSE*/, BOOL bBold 
       m_lfBaseFont.lfWeight = bBold ? FW_BOLD : FW_NORMAL;
       m_lfBaseFont.lfItalic = (BYTE) bItalic;
       strcpy_s( m_lfBaseFont.lfFaceName, sizeof( m_lfBaseFont.lfFaceName ), "Consolas" );
-      m_lfBaseFont.lfHeight = GetFontSize( pDC, 16 );
+      m_lfBaseFont.lfHeight = GetFontSize( pDC, 14 );
    // m_lfBaseFont.lfWidth = 7;
       if (! m_apFonts[nIndex]->CreateFontIndirect(&m_lfBaseFont))
       {
@@ -4317,6 +4319,11 @@ void ZCrystalEditView::OnFilePageSetup()
 
 void ZCrystalEditView::OnToggleBookmark()
 {
+   ToggleBookmark();
+}
+
+void ZCrystalEditView::ToggleBookmark()
+{
    if (m_pTextBuffer != NULL)
    {
       DWORD dwFlags = GetLineFlags(m_ptCursorPos.y);
@@ -5291,6 +5298,17 @@ void ZCrystalEditView::OnRButtonDown(UINT uFlags, CPoint point)
    }
 
    CView::OnRButtonDown(uFlags, point);
+}
+
+void ZCrystalEditView::OnRButtonUp(UINT uFlags, CPoint point)
+{
+   CPoint pt = point;
+   AdjustTextPoint(pt);
+   pt = ClientToText(pt);
+   TraceLineI( "RButtonUp on line: ", pt.y + 1 );
+   InvokeAction( m_pZSubtask->m_vDialog, "BookmarkMenu" );
+      
+// CView::OnRButtonUp(uFlags, point);
 }
 
 BOOL ZCrystalEditView::IsSelection()
@@ -8501,7 +8519,7 @@ EDT_SyntaxOff( zVIEW vSubtask )
 }
 
 zOPER_EXPORT zBOOL OPERATION
-EDT_ToggleBookmark( zVIEW vSubtask, int nBookmarkID )
+EDT_ToggleBookmark( zVIEW vSubtask )
 {
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
@@ -8511,7 +8529,7 @@ EDT_ToggleBookmark( zVIEW vSubtask, int nBookmarkID )
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
       if ( pED_Crystal )
       {
-         pED_Crystal->ToggleBookmark( nBookmarkID );
+         pED_Crystal->ToggleBookmark();
          return( TRUE );
       }
 

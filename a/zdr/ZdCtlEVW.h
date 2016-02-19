@@ -303,10 +303,10 @@ public:
    void GoToBookmark( int nBookmarkID );
    void GoToNextBookmark();
    void GoToPreviousBookmark();
+   void ToggleBookmark();
    void ToggleBookmark( int nBookmarkID );
    void SetBookmark( int nBookmarkID );
    void ClearAllBookmarks();
-
    void GetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public
    void SetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public
    void UpdateCaret();  // moved to public
@@ -448,6 +448,7 @@ protected:
    afx_msg void OnEditSelectAll();
    afx_msg void OnUpdateEditSelectAll(CCmdUI *pCmdUI);
    afx_msg void OnRButtonDown(UINT uFlags, CPoint point);
+   afx_msg void OnRButtonUp(UINT uFlags, CPoint point);
    afx_msg void OnSysColorChange();
    afx_msg int  OnCreate(LPCREATESTRUCT lpCreateStruct);
    afx_msg void OnEditFind();
