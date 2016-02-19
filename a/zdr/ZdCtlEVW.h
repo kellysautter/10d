@@ -225,8 +225,8 @@ protected:
    int GetMaxLineLength();
    int GetScreenLines();
    int GetScreenChars();
-   CFont *GetFont(CDC *pDC, BOOL bItalic = FALSE, BOOL bBold = FALSE);
-   int GetFontSize( CDC *pDC, int nFontHeight );
+   CFont *GetFont(CDC *pdc, BOOL bItalic = FALSE, BOOL bBold = FALSE);
+   int GetFontSize( CDC *pdc, int nFontHeight );
 
    void RecalcVertScrollBar(BOOL bPositionOnly = FALSE);
    void RecalcHorzScrollBar(BOOL bPositionOnly = FALSE);
@@ -406,15 +406,15 @@ public:
    // ClassWizard generated virtual function overrides
    //{{AFX_VIRTUAL(ZCrystalEditView)
 public:
-   virtual void OnDraw(CDC *pDC);  // overridden to draw this view
+   virtual void OnDraw(CDC *pdc);  // overridden to draw this view
    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
    virtual BOOL PreTranslateMessage(MSG *pMsg);
-   virtual void OnPrepareDC(CDC *pDC, CPrintInfo *pInfo = NULL);
+   virtual void OnPrepareDC(CDC *pdc, CPrintInfo *pInfo = NULL);
 protected:
    virtual BOOL OnPreparePrinting(CPrintInfo *pInfo);
-   virtual void OnBeginPrinting(CDC *pDC, CPrintInfo *pInfo);
-   virtual void OnEndPrinting(CDC *pDC, CPrintInfo *pInfo);
-   virtual void OnPrint(CDC *pDC, CPrintInfo *pInfo);
+   virtual void OnBeginPrinting(CDC *pdc, CPrintInfo *pInfo);
+   virtual void OnEndPrinting(CDC *pdc, CPrintInfo *pInfo);
+   virtual void OnPrint(CDC *pdc, CPrintInfo *pInfo);
    //}}AFX_VIRTUAL
 
 // Implementation
@@ -430,7 +430,7 @@ protected:
 
    //{{AFX_MSG(ZCrystalEditView)
    afx_msg void OnDestroy();
-   afx_msg BOOL OnEraseBkgnd(CDC *pDC);
+   afx_msg BOOL OnEraseBkgnd(CDC *pdc);
    afx_msg void OnSize(UINT nType, int cx, int cy);
    afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar);
    afx_msg BOOL OnMouseWheel( UINT uFlags, short nDelta, CPoint point );
@@ -546,7 +546,8 @@ enum LINEFLAGS
    LF_BREAKPOINT           = 0x00020000L,
    LF_COMPILATION_ERROR    = 0x00040000L,
    LF_BOOKMARKS            = 0x00080000L,
-   LF_INVALID_BREAKPOINT   = 0x00100000L
+   LF_INVALID_BREAKPOINT   = 0x00100000L,
+   LF_ALL_BOOKMARKS        = 0x0008FFFFL
 };
 
 #define LF_BOOKMARK(id)    (LF_BOOKMARK_FIRST << id)

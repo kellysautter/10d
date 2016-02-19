@@ -39,8 +39,9 @@ class ZEditDropTargetImpl;
 // ZCrystalEditView::FindText() flags
 enum
 {
-   FIND_MATCH_CASE      = 0x0001,
-   FIND_WHOLE_WORD      = 0x0002,
+   FIND_FORWARD      = 0x0000,
+   FIND_MATCH_CASE   = 0x0001,
+   FIND_WHOLE_WORD   = 0x0002,
    FIND_DIRECTION_UP = 0x0010,
    REPLACE_SELECTION = 0x0100
 };
@@ -52,8 +53,7 @@ enum
    UPDATE_VERTRANGE  = 0x0002,      // update vert scrollbar
    UPDATE_SINGLELINE = 0x0100,      // single line has changed
    UPDATE_FLAGSONLY  = 0x0200,      // only line-flags were changed
-
-   UPDATE_RESET      = 0x1000    // document was reloaded, update all!
+   UPDATE_RESET      = 0x1000       // document was reloaded, update all!
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -205,13 +205,11 @@ protected:
    int m_nTopLine, m_nOffsetChar;
    BOOL m_bSmoothScroll;
 
-   int GetLineHeight();
-   int GetCharWidth();
    int GetMaxLineLength();
    int GetScreenLines();
    int GetScreenChars();
-   CFont *GetFont(CDC *pDC, BOOL bItalic = FALSE, BOOL bBold = FALSE);
-   int GetFontSize( CDC *pDC, int nFontHeight );
+   CFont *GetFont(CDC *pdc, BOOL bItalic = FALSE, BOOL bBold = FALSE);
+   int GetFontSize( CDC *pdc, int nFontHeight );
 
    void RecalcVertScrollBar(BOOL bPositionOnly = FALSE);
    void RecalcHorzScrollBar(BOOL bPositionOnly = FALSE);
@@ -225,9 +223,7 @@ protected:
    virtual void OnUpdateSibling(ZCrystalEditView *pUpdateSource, BOOL bHorz);
    ZCrystalEditView *GetSiblingView(int nRow, int nCol);
 
-   virtual int GetLineLength(int nLineIndex);
    virtual int GetLineActualLength(int nLineIndex);
-   virtual LPCTSTR GetLineChars(int nLineIndex);
    virtual DWORD GetLineFlags(int nLineIndex);
 
    // Clipboard overridable
@@ -268,13 +264,17 @@ public:
    BOOL CanPaste();
    BOOL CanUndo();
    BOOL CanRedo();
-   void Cut();    // moved to public
-   void Copy();   // moved to public
+   void Cut();  // moved to public
+   void Copy();  // moved to public
    void Paste();  // moved to public
    void SelectAllLines();  // moved to public
    virtual int GetLineCount();  // moved to public
-   virtual void GetText(CPoint &ptStart, CPoint &ptEnd, CString& text);  // moved to public
+   virtual int GetLineLength(int nLineIndex);  // moved to public
+   virtual LPCTSTR GetLineChars(int nLineIndex);  // moved to public
+   virtual void GetText(CPoint &ptStart, CPoint &ptEnd, CString &text);  // moved to public
    BOOL DeleteCurrentSelection();  // moved to public
+   int  GetLineHeight();  // moved to public
+   int  GetCharWidth();  // moved to public
    void Delete();
    void Undo();
    void Redo();
@@ -283,7 +283,13 @@ public:
    int  EditRepeat();
    int  EditFindPrevious();
    int  IsInComment(int nLine, int nCol);
-
+   void GoToBookmark( int nBookmarkID );
+   void GoToNextBookmark();
+   void GoToPreviousBookmark();
+   void ToggleBookmark();
+   void ToggleBookmark( int nBookmarkID );
+   void SetBookmark( int nBookmarkID );
+   void ClearAllBookmarks();
    void GetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public
    void SetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public
    void UpdateCaret();  // moved to public
@@ -350,7 +356,7 @@ public:
    // Text search helpers
    int FindText(LPCTSTR pszText, CPoint &ptStartPos, DWORD dwFlags, BOOL bWrapSearch, CPoint *pptFoundPos);
    int FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPos, CPoint &ptBlockBegin, CPoint &ptBlockEnd,
-                        DWORD dwFlags, BOOL bWrapSearch, CPoint *pptFoundPos);
+                       DWORD dwFlags, BOOL bWrapSearch, CPoint *pptFoundPos);
    BOOL HighlightText(CPoint &ptStartPos, int nLength);
 
    // Default handle to resources
@@ -387,15 +393,15 @@ public:
    // ClassWizard generated virtual function overrides
    //{{AFX_VIRTUAL(ZCrystalEditView)
 public:
-   virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+   virtual void OnDraw(CDC *pdc);  // overridden to draw this view
    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-   virtual BOOL PreTranslateMessage(MSG* pMsg);
-   virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
+   virtual BOOL PreTranslateMessage(MSG *pMsg);
+   virtual void OnPrepareDC(CDC *pdc, CPrintInfo *pInfo = NULL);
 protected:
-   virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
-   virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
-   virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
-   virtual void OnPrint(CDC* pDC, CPrintInfo* pInfo);
+   virtual BOOL OnPreparePrinting(CPrintInfo *pInfo);
+   virtual void OnBeginPrinting(CDC *pdc, CPrintInfo *pInfo);
+   virtual void OnEndPrinting(CDC *pdc, CPrintInfo *pInfo);
+   virtual void OnPrint(CDC *pdc, CPrintInfo *pInfo);
    //}}AFX_VIRTUAL
 
 // Implementation
@@ -413,52 +419,53 @@ protected:
 
    //{{AFX_MSG(ZCrystalEditView)
    afx_msg void OnDestroy();
-   afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+   afx_msg BOOL OnEraseBkgnd(CDC *pdc);
    afx_msg void OnSize(UINT nType, int cx, int cy);
-   afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+   afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar);
    afx_msg BOOL OnMouseWheel( UINT uFlags, short nDelta, CPoint point );
-   afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+   afx_msg BOOL OnSetCursor(CWnd *pWnd, UINT nHitTest, UINT message);
    afx_msg void OnLButtonDown(UINT uFlags, CPoint point);
-   afx_msg void OnSetFocus(CWnd* pOldWnd);
-   afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+   afx_msg void OnSetFocus(CWnd *pOldWnd);
+   afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar);
    afx_msg void OnLButtonUp(UINT uFlags, CPoint point);
    afx_msg void OnMouseMove(UINT uFlags, CPoint point);
    afx_msg void OnTimer(UINT nIDEvent);
-   afx_msg void OnKillFocus(CWnd* pNewWnd);
+   afx_msg void OnKillFocus(CWnd *pNewWnd);
    afx_msg void OnLButtonDblClk(UINT uFlags, CPoint point);
    afx_msg void OnEditCopy();
-   afx_msg void OnUpdateEditCopy(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateEditCopy(CCmdUI *pCmdUI);
    afx_msg void OnEditSelectAll();
-   afx_msg void OnUpdateEditSelectAll(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateEditSelectAll(CCmdUI *pCmdUI);
    afx_msg void OnRButtonDown(UINT uFlags, CPoint point);
+   afx_msg void OnRButtonUp(UINT uFlags, CPoint point);
    afx_msg void OnSysColorChange();
    afx_msg int  OnCreate(LPCREATESTRUCT lpCreateStruct);
    afx_msg void OnEditFind();
    afx_msg void OnEditReplace();
    afx_msg void OnEditRepeat();
    afx_msg void OnEditFindPrevious();
-   afx_msg void OnUpdateEditRepeat(CCmdUI* pCmdUI);
-   afx_msg void OnUpdateEditFindPrevious(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateEditRepeat(CCmdUI *pCmdUI);
+   afx_msg void OnUpdateEditFindPrevious(CCmdUI *pCmdUI);
    afx_msg void OnEditPaste();
-   afx_msg void OnUpdateEditCut(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateEditCut(CCmdUI *pCmdUI);
    afx_msg void OnEditCut();
-   afx_msg void OnUpdateEditPaste(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateEditPaste(CCmdUI *pCmdUI);
    afx_msg void OnEditDelete();
    afx_msg void OnSysKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags );
    afx_msg void OnSysKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags );
    afx_msg void OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags );
    afx_msg void OnKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags );
-   afx_msg void OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags);
+   afx_msg void OnChar( UINT nChar, UINT uRepeatCnt, UINT uFlags );
    afx_msg UINT OnGetDlgCode();
    afx_msg void OnEditDeleteBack();
    afx_msg void OnEditUntab();
    afx_msg void OnEditTab();
    afx_msg void OnEditSwitchOvrmode();
-   afx_msg void OnUpdateEditSwitchOvrmode(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateEditSwitchOvrmode(CCmdUI *pCmdUI);
 
-   afx_msg void OnUpdateEditUndo(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateEditUndo(CCmdUI *pCmdUI);
    afx_msg void OnEditUndo();
-   afx_msg void OnUpdateEditRedo(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
    afx_msg void OnEditRedo();
    //}}AFX_MSG
    afx_msg void OnFilePageSetup();
@@ -487,8 +494,8 @@ protected:
    afx_msg void OnExtTextBegin();
    afx_msg void OnTextEnd();
    afx_msg void OnExtTextEnd();
-   afx_msg void OnUpdateIndicatorCRLF(CCmdUI* pCmdUI);
-   afx_msg void OnUpdateIndicatorPosition(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateIndicatorCRLF(CCmdUI *pCmdUI);
+   afx_msg void OnUpdateIndicatorPosition(CCmdUI *pCmdUI);
    afx_msg void OnToggleBookmark(UINT nCmdID);
    afx_msg void OnGoBookmark(UINT nCmdID);
    afx_msg void OnClearBookmarks();
@@ -497,18 +504,18 @@ protected:
    afx_msg void OnClearAllBookmarks();
    afx_msg void OnNextBookmark();
    afx_msg void OnPrevBookmark();
-   afx_msg void OnUpdateClearAllBookmarks(CCmdUI* pCmdUI);
-   afx_msg void OnUpdateNextBookmark(CCmdUI* pCmdUI);
-   afx_msg void OnUpdatePrevBookmark(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateClearAllBookmarks(CCmdUI *pCmdUI);
+   afx_msg void OnUpdateNextBookmark(CCmdUI *pCmdUI);
+   afx_msg void OnUpdatePrevBookmark(CCmdUI *pCmdUI);
 
    afx_msg void ScrollUp();
    afx_msg void ScrollDown();
    afx_msg void ScrollLeft();
    afx_msg void ScrollRight();
 
-   afx_msg void OnUpdateIndicatorCol(CCmdUI* pCmdUI);
-   afx_msg void OnUpdateIndicatorOvr(CCmdUI* pCmdUI);
-   afx_msg void OnUpdateIndicatorRead(CCmdUI* pCmdUI);
+   afx_msg void OnUpdateIndicatorCol(CCmdUI *pCmdUI);
+   afx_msg void OnUpdateIndicatorOvr(CCmdUI *pCmdUI);
+   afx_msg void OnUpdateIndicatorRead(CCmdUI *pCmdUI);
 
    DECLARE_MESSAGE_MAP()
 };
@@ -528,7 +535,8 @@ enum LINEFLAGS
    LF_BREAKPOINT           = 0x00020000L,
    LF_COMPILATION_ERROR    = 0x00040000L,
    LF_BOOKMARKS            = 0x00080000L,
-   LF_INVALID_BREAKPOINT   = 0x00100000L
+   LF_INVALID_BREAKPOINT   = 0x00100000L,
+   LF_ALL_BOOKMARKS        = 0x0008FFFFL
 };
 
 #define LF_BOOKMARK(id)    (LF_BOOKMARK_FIRST << id)
@@ -812,7 +820,7 @@ public:
    // ClassWizard generated virtual function overrides
    //{{AFX_VIRTUAL(ZFindTextDlg)
 protected:
-   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+   virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
                                                        //}}AFX_VIRTUAL
 
                                                        // Implementation
@@ -862,7 +870,7 @@ public:
    // ClassWizard generated virtual function overrides
    //{{AFX_VIRTUAL(ZEditReplaceDlg)
 protected:
-   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+   virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
                                                        //}}AFX_VIRTUAL
 
                                                        // Implementation
