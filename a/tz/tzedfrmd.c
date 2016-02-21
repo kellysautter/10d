@@ -2047,7 +2047,6 @@ static zSHORT
 CheckFileAttribute( zPCHAR  pchFileName,
                     zPBOOL  bReadOnly )
 {
-
    DWORD dwAttribute = ::GetFileAttributes(pchFileName);
    if (dwAttribute == 0xFFFFFFFF) //call of function GetFileAttributes failed
    {
@@ -3795,7 +3794,7 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
                   break;
 
                case 'E':
-                  csTemp +="\"ENTITY_NAME\"";
+                  csTemp += "\"ENTITY_NAME\"";
                   break;
 
                case 'L':
@@ -5242,8 +5241,8 @@ ErrList_ShowError( zVIEW vSubtask )
    GetIntegerFromAttribute( &lErrorLine, vEdWrk, "Error", "LineNumber" );
    lErrorLine--;
 
-   // Set cursor only if it is not already there, otherwise the Editctrl will
-   // scroll up for one line and this will drive "evil" crazy.
+   // Set cursor only if it is not already there, otherwise the Editctrl will scroll up for
+   // one line and this will drive "evil" crazy.
    EDT_GetCursorPosition( vEditorSubtask, &lLine, &lCol );
    if ( lErrorLine != lLine )
    {
@@ -5275,8 +5274,7 @@ zTZEDFRMD_OpenFile( zVIEW vSubtask )
    }
 
 // CreateViewFromViewForTask( &vTempEdWrk, vEdWrk ); why??? dks 2004.12.06
-   nRC = SetCursorFirstEntityByString( vEdWrk, szlBuffer, szlFileName,
-                                       szFileName, 0 );
+   nRC = SetCursorFirstEntityByString( vEdWrk, szlBuffer, szlFileName, szFileName, 0 );
    if ( nRC == zCURSOR_SET )
    {
       zCHAR sz[ zMAX_FILENAME_LTH + 100 ];
@@ -5294,9 +5292,9 @@ zTZEDFRMD_OpenFile( zVIEW vSubtask )
 
       if ( nRC == zRESPONSE_NO )
       {
-         GetIntegerFromAttribute( (zPLONG) &vEditorSubtask, vEdWrk, szlBuffer, "vSubtask" );
+      // GetIntegerFromAttribute( (zPLONG) &vEditorSubtask, vEdWrk, szlBuffer, "vSubtask" );
       // DropView( vTempEdWrk );
-         SetFocusToCtrl( vEditorSubtask, EDIT_CONTROL_NAME );
+         SetFocusToCtrl( vSubtask, EDIT_CONTROL_NAME );
          return( 0 );
       }
 
@@ -5306,13 +5304,12 @@ zTZEDFRMD_OpenFile( zVIEW vSubtask )
 
 // DropView( vTempEdWrk );
 
-   // Set attribute value so that next editing session knows what file to
-   // open.
+   // Set attribute value so that next editing session knows what file to open.
    SetAttributeFromString( vEdWrk, szlEditor, "OpenFileName", szFileName );
 
-   // Start up another editor.  We use the parent subtask of the current
-   // editor so that the new editor is a sibling of the current editor.
-   GetParentWindow( &vParentSubtask, vEditorSubtask );
+   // Start up another editor.  We use the parent subtask of the current editor so that the new
+   // editor is a sibling of the current editor.
+   GetParentWindow( &vParentSubtask, vSubtask );
    SetWindowActionBehavior( vParentSubtask, zWAB_StartModelessSubwindow | zWAB_ProcessImmediateAction,
                             "TZEDFRMD", "TZEDFRMD" );
    return( 0 );

@@ -1392,8 +1392,7 @@ TZPainterBar::DeleteAllPainterWindows( )
 //
 // METHOD: EnablePainterWindows
 //
-//    This method enables and disables painter windows when processing
-//    sub-dialogs.
+//    This method enables and disables painter windows when processing sub-dialogs.
 //
 void
 TZPainterBar::EnablePainterWindows( zBOOL bEnable )

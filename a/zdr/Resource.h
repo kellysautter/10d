@@ -121,10 +121,11 @@
 #define IDR_COLOR_MAINBAR               701
 #define IDR_MAINFRAME                   702
 #define IDR_MAINFRAMEX                  703
-#define IDR_PAINTER_CONTROL             704
-#define IDR_POPUPMENUS                  705
-#define IDR_TABCTRL                     706
-#define IDR_TEXTTYPE                    707
+#define IDR_MAINFRAMEY                  704
+#define IDR_PAINTER_CONTROL             705
+#define IDR_POPUPMENUS                  706
+#define IDR_TABCTRL                     707
+#define IDR_TEXTTYPE                    708
 #define IDS_CALENDAR_BKGND              801
 #define IDS_CALENDAR_WORKDAY            802
 #define IDS_CANNOT_CREATE_NEW_SWITCHSPLIT 803
@@ -246,26 +247,26 @@
 #define IDM_BLUE                        0x9003
 #define IDM_WHITE                       0x9004
 #define IDM_CUSTOM                      0x9005
-#define ID_ACTION_BAR_UPDATE            0xE820
-#define ID_ALIGN_LEFT                   0xE821
-#define ID_ALIGN_TOP                    0xE822
-#define ID_ALIGN_RIGHT                  0xE823
-#define ID_ALIGN_BOTTOM                 0xE824
-#define ID_SIZE_WIDTH                   0xE825
-#define ID_SIZE_HEIGHT                  0xE826
-#define ID_SIZE_WIDTH_HEIGHT            0xE827
-#define ID_EQUAL_SPACE_HORIZONTAL       0xE828
-#define ID_EQUAL_SPACE_VERTICAL         0xE829
-#define ID_ABUT_HORIZONTAL              0xE82A
-#define ID_ABUT_VERTICAL                0xE82B
-#define ID_DELETE_SELECTED              0xE82C
-#define ID_EQUAL_SIZE_POS_CLASS         0xE82D
-#define ID_GROUP_SELECTED               0xE82E
-#define ID_UNGROUP_SELECTED             0xE82F
-#define ID_TOOLBAR_WNDLIST              0xE830
-#define ID_TOOLBAR_ACTLIST              0xE831
-#define ID_TOOLBAR_OPERLIST             0xE832
-#define ID_ARROW                        0xE833
+#define ID_ACTION_BAR_UPDATE            0x4820
+#define ID_ALIGN_LEFT                   0x4821
+#define ID_ALIGN_TOP                    0x4822
+#define ID_ALIGN_RIGHT                  0x4823
+#define ID_ALIGN_BOTTOM                 0x4824
+#define ID_SIZE_WIDTH                   0x4825
+#define ID_SIZE_HEIGHT                  0x4826
+#define ID_SIZE_WIDTH_HEIGHT            0x4827
+#define ID_EQUAL_SPACE_HORIZONTAL       0x4828
+#define ID_EQUAL_SPACE_VERTICAL         0x4829
+#define ID_ABUT_HORIZONTAL              0x482A
+#define ID_ABUT_VERTICAL                0x482B
+#define ID_DELETE_SELECTED              0x482C
+#define ID_EQUAL_SIZE_POS_CLASS         0x482D
+#define ID_GROUP_SELECTED               0x482E
+#define ID_UNGROUP_SELECTED             0x482F
+#define ID_TOOLBAR_WNDLIST              0x4830
+#define ID_TOOLBAR_ACTLIST              0x4831
+#define ID_TOOLBAR_OPERLIST             0x4832
+#define ID_ARROW                        0x4833
 
 // Next default values for new objects
 //
@@ -296,86 +297,137 @@
 // - LEAVE THIS HEADER INTACT
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef _EDITCMD_H_INCLUDED
-#define _EDITCMD_H_INCLUDED
+#define     ID_EDITOR_FIRST           37000
+#define     ID_EDITOR_LAST            37999
 
-#define     ID_EDIT_FIRST           37000
-#define     ID_EDIT_LAST            37999
+// ID_EDIT_COPY, ID_EDIT_PASTE, ID_EDIT_CUT, ID_EDIT_SELECT_ALL ... are defined in afxres.h
+// Edit commands
+//
+//#define ID_EDIT_CLEAR                   0xE120
+//#define ID_EDIT_CLEAR_ALL               0xE121
+//#define ID_EDIT_COPY                    0xE122
+//#define ID_EDIT_CUT                     0xE123
+//#define ID_EDIT_FIND                    0xE124
+//#define ID_EDIT_PASTE                   0xE125
+//#define ID_EDIT_PASTE_LINK              0xE126
+//#define ID_EDIT_PASTE_SPECIAL           0xE127
+//#define ID_EDIT_REPEAT                  0xE128
+//#define ID_EDIT_REPLACE                 0xE129
+//#define ID_EDIT_SELECT_ALL              0xE12A
+//#define ID_EDIT_UNDO                    0xE12B
+//#define ID_EDIT_REDO                    0xE12C
 
-// ID_EDIT_COPY, ID_EDIT_PASTE, ID_EDIT_CUT, ID_EDIT_SELECT_ALL
-// are defined in afxres.h
+// File commands
+//#define ID_FILE_NEW                     0xE100
+//#define ID_FILE_OPEN                    0xE101
+//#define ID_FILE_CLOSE                   0xE102
+//#define ID_FILE_SAVE                    0xE103
+//#define ID_FILE_SAVE_AS                 0xE104
+//#define ID_FILE_PAGE_SETUP              0xE105
+//#define ID_FILE_PRINT_SETUP             0xE106
+//#define ID_FILE_PRINT                   0xE107
+//#define ID_FILE_PRINT_DIRECT            0xE108
+//#define ID_FILE_PRINT_PREVIEW           0xE109
+//#define ID_FILE_UPDATE                  0xE10A
+//#define ID_FILE_SAVE_COPY_AS            0xE10B
+//#define ID_FILE_SEND_MAIL               0xE10C
+//#define ID_FILE_NEW_FRAME               0xE10D
 
 // Edit commands
-#define     ID_EDIT_DELETE             37000
-#define     ID_EDIT_DELETE_BACK        37001
-#define     ID_EDIT_DELETE_WORD_BACK   37002
-#define     ID_EDIT_TAB                37003
-#define     ID_EDIT_UNTAB              37004
-#define     ID_EDIT_SWITCH_OVRMODE     37005
+#define     ID_EDITOR_DELETE             37000
+#define     ID_EDITOR_DELETE_BACK        37001
+#define     ID_EDITOR_DELETE_WORD_BACK   37002
+#define     ID_EDITOR_TAB                37003
+#define     ID_EDITOR_UNTAB              37004
+#define     ID_EDITOR_SWITCH_OVRMODE     37005
 
 // Cursor movement commands
-#define     ID_EDIT_CHAR_LEFT          37100
-#define     ID_EDIT_EXT_CHAR_LEFT      37101
-#define     ID_EDIT_CHAR_RIGHT         37102
-#define     ID_EDIT_EXT_CHAR_RIGHT     37103
-#define     ID_EDIT_WORD_LEFT          37104
-#define     ID_EDIT_EXT_WORD_LEFT      37105
-#define     ID_EDIT_WORD_RIGHT         37106
-#define     ID_EDIT_EXT_WORD_RIGHT     37107
-#define     ID_EDIT_LINE_UP            37108
-#define     ID_EDIT_EXT_LINE_UP        37109
-#define     ID_EDIT_LINE_DOWN          37110
-#define     ID_EDIT_EXT_LINE_DOWN      37111
-#define     ID_EDIT_SCROLL_UP          37112
-#define     ID_EDIT_SCROLL_DOWN        37113
-#define     ID_EDIT_PAGE_UP            37114
-#define     ID_EDIT_EXT_PAGE_UP        37115
-#define     ID_EDIT_PAGE_DOWN          37116
-#define     ID_EDIT_EXT_PAGE_DOWN      37117
-#define     ID_EDIT_LINE_END           37118
-#define     ID_EDIT_EXT_LINE_END       37119
-#define     ID_EDIT_HOME               37120
-#define     ID_EDIT_EXT_HOME           37121
-#define     ID_EDIT_TEXT_BEGIN         37122
-#define     ID_EDIT_EXT_TEXT_BEGIN     37123
-#define     ID_EDIT_TEXT_END           37124
-#define     ID_EDIT_EXT_TEXT_END       37125
-#define     ID_EDIT_FIND_PREVIOUS      37126
+#define     ID_EDITOR_CHAR_LEFT          37100
+#define     ID_EDITOR_EXT_CHAR_LEFT      37101
+#define     ID_EDITOR_CHAR_RIGHT         37102
+#define     ID_EDITOR_EXT_CHAR_RIGHT     37103
+#define     ID_EDITOR_WORD_LEFT          37104
+#define     ID_EDITOR_EXT_WORD_LEFT      37105
+#define     ID_EDITOR_WORD_RIGHT         37106
+#define     ID_EDITOR_EXT_WORD_RIGHT     37107
+#define     ID_EDITOR_LINE_UP            37108
+#define     ID_EDITOR_EXT_LINE_UP        37109
+#define     ID_EDITOR_LINE_DOWN          37110
+#define     ID_EDITOR_EXT_LINE_DOWN      37111
+#define     ID_EDITOR_SCROLL_UP          37112
+#define     ID_EDITOR_SCROLL_DOWN        37113
+#define     ID_EDITOR_PAGE_UP            37114
+#define     ID_EDITOR_EXT_PAGE_UP        37115
+#define     ID_EDITOR_PAGE_DOWN          37116
+#define     ID_EDITOR_EXT_PAGE_DOWN      37117
+#define     ID_EDITOR_LINE_END           37118
+#define     ID_EDITOR_EXT_LINE_END       37119
+#define     ID_EDITOR_HOME               37120
+#define     ID_EDITOR_EXT_HOME           37121
+#define     ID_EDITOR_TEXT_BEGIN         37122
+#define     ID_EDITOR_EXT_TEXT_BEGIN     37123
+#define     ID_EDITOR_TEXT_END           37124
+#define     ID_EDITOR_EXT_TEXT_END       37125
 
 // Bookmark commands
-#define     ID_EDIT_TOGGLE_BOOKMARK0   37200
-#define     ID_EDIT_TOGGLE_BOOKMARK1   37201
-#define     ID_EDIT_TOGGLE_BOOKMARK2   37202
-#define     ID_EDIT_TOGGLE_BOOKMARK3   37203
-#define     ID_EDIT_TOGGLE_BOOKMARK4   37204
-#define     ID_EDIT_TOGGLE_BOOKMARK5   37205
-#define     ID_EDIT_TOGGLE_BOOKMARK6   37206
-#define     ID_EDIT_TOGGLE_BOOKMARK7   37207
-#define     ID_EDIT_TOGGLE_BOOKMARK8   37208
-#define     ID_EDIT_TOGGLE_BOOKMARK9   37209
-#define     ID_EDIT_GO_BOOKMARK0       37210
-#define     ID_EDIT_GO_BOOKMARK1       37211
-#define     ID_EDIT_GO_BOOKMARK2       37212
-#define     ID_EDIT_GO_BOOKMARK3       37213
-#define     ID_EDIT_GO_BOOKMARK4       37214
-#define     ID_EDIT_GO_BOOKMARK5       37215
-#define     ID_EDIT_GO_BOOKMARK6       37216
-#define     ID_EDIT_GO_BOOKMARK7       37217
-#define     ID_EDIT_GO_BOOKMARK8       37218
-#define     ID_EDIT_GO_BOOKMARK9       37219
-#define     ID_EDIT_CLEAR_BOOKMARKS    37220
-#define     ID_EDIT_SET_BREAKPOINT     37221
-#define     ID_EDIT_ENABLE_BREAKPOINT  37222
-#define     ID_EDIT_TOGGLE_BOOKMARK    37223
-#define     ID_EDIT_GOTO_NEXT_BOOKMARK 37224
-#define     ID_EDIT_GOTO_PREV_BOOKMARK 37225
-#define     ID_EDIT_CLEAR_ALL_BOOKMARKS 37226
+#define     ID_EDITOR_TOGGLE_BOOKMARK0   0xE840
+#define     ID_EDITOR_TOGGLE_BOOKMARK1   0xE841
+#define     ID_EDITOR_TOGGLE_BOOKMARK2   0xE842
+#define     ID_EDITOR_TOGGLE_BOOKMARK3   0xE843
+#define     ID_EDITOR_TOGGLE_BOOKMARK4   0xE844
+#define     ID_EDITOR_TOGGLE_BOOKMARK5   0xE845
+#define     ID_EDITOR_TOGGLE_BOOKMARK6   0xE846
+#define     ID_EDITOR_TOGGLE_BOOKMARK7   0xE847
+#define     ID_EDITOR_TOGGLE_BOOKMARK8   0xE848
+#define     ID_EDITOR_TOGGLE_BOOKMARK9   0xE849
+#define     ID_EDITOR_GO_BOOKMARK0       0xE84A
+#define     ID_EDITOR_GO_BOOKMARK1       0xE84B
+#define     ID_EDITOR_GO_BOOKMARK2       0xE84C
+#define     ID_EDITOR_GO_BOOKMARK3       0xE84D
+#define     ID_EDITOR_GO_BOOKMARK4       0xE84E
+#define     ID_EDITOR_GO_BOOKMARK5       0xE84F
+#define     ID_EDITOR_GO_BOOKMARK6       0xE850
+#define     ID_EDITOR_GO_BOOKMARK7       0xE851
+#define     ID_EDITOR_GO_BOOKMARK8       0xE852
+#define     ID_EDITOR_GO_BOOKMARK9       0xE853
+#define     ID_EDITOR_CLEAR_BOOKMARKS    0xE854
+#define     ID_EDITOR_TOGGLE_BOOKMARK    0xE855
+#define     ID_EDITOR_GOTO_NEXT_BOOKMARK 0xE856
+#define     ID_EDITOR_GOTO_PREV_BOOKMARK 0xE857
+#define     ID_EDITOR_CLEAR_ALL_BOOKMARKS 0xE858
+#define     ID_EDITOR_SET_BREAKPOINT     0xE859
+#define     ID_EDITOR_ENABLE_BREAKPOINT  0xE860
+
+#define     ID_EDITOR_FILE_NEW              0xE861
+#define     ID_EDITOR_FILE_OPEN             0xE862
+#define     ID_EDITOR_FILE_SAVE             0xE863
+#define     ID_EDITOR_FILE_SAVE_AS          0xE864
+#define     ID_EDITOR_FILE_PAGE_SETUP       0xE865
+#define     ID_EDITOR_FILE_CLOSE            0xE866
+#define     ID_EDITOR_FILE_PRINT            0xE867
+#define     ID_EDITOR_FILE_PRINT_SETUP      0xE868
+#define     ID_EDITOR_FILE_PRINT_PREVIEW    0xE869
+#define     ID_EDITOR_FILE_PRINT_DIRECT     0xE86A
+#define     ID_EDITOR_CUT                   0xE86B
+#define     ID_EDITOR_COPY                  0xE86C
+#define     ID_EDITOR_PASTE                 0xE86D
+#define     ID_EDITOR_UNDO                  0xE86E
+#define     ID_EDITOR_REDO                  0xE86F
+#define     ID_EDITOR_FIND                  0xE870
+#define     ID_EDITOR_REPEAT                0xE871
+#define     ID_EDITOR_FIND_PREVIOUS         0xE872
+#define     ID_EDITOR_REPLACE               0xE873
+#define     ID_EDITOR_SELECT_ALL            0xE874
+#define     ID_EDITOR_CLEAR                 0xE875
+#define     ID_EDITOR_CLEAR_ALL             0xE876
+#define     ID_EDITOR_PASTE_LINK            0xE877
+#define     ID_EDITOR_PASTE_SPECIAL         0xE878
 
 // Status update
-#define     ID_EDIT_INDICATOR_COL      37900
-#define     ID_EDIT_INDICATOR_READ     37901
-#define     ID_EDIT_INDICATOR_CRLF     37902
-#define     ID_EDIT_INDICATOR_POSITION 37903
+#define     ID_EDITOR_INDICATOR_COL      37900
+#define     ID_EDITOR_INDICATOR_READ     37901
+#define     ID_EDITOR_INDICATOR_CRLF     37902
+#define     ID_EDITOR_INDICATOR_POSITION 37903
 
 // Resource IDs
 #define     IDR_MARGIN_CURSOR          22900
@@ -384,7 +436,7 @@
 
 // Dialog IDs
 #define     IDD_EDIT_FIND              8601
-#define     IDD_EDIT_REPLACE           8602
+#define     IDD_EDIT_REPLACE           8602 
 
 // Control IDs
 #define     IDC_EDIT_WHOLE_WORD        8603
@@ -415,5 +467,3 @@
 #define     IDS_EDIT_OP_DRAGDROP       8627
 #define     IDS_EDIT_OP_REPLACE        8628
 #define     IDS_EDIT_OP_AUTOINDENT     8629
-
-#endif

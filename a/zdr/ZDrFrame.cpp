@@ -2063,20 +2063,19 @@ ZDrFrame::OnCommand( WPARAM wParam, LPARAM lParam )
    UINT uNotifyCode = HIWORD( wParam );
    HWND hWndCtrl = (HWND) lParam;
 
-// TraceLineI( "ZDrFrame::OnCommand NotifyCode = ", uNotifyCode );
-// TraceLineI( "ZDrFrame::OnCommand hWndCtrl = ", (zLONG) hWndCtrl );
-// TraceLineI( "ZDrFrame::OnCommand uID = ", uID );
+   TraceLineX( "ZDrFrame::OnCommand NotifyCode = ", uNotifyCode );
+   TraceLineX( "ZDrFrame::OnCommand hWndCtrl = ", (zLONG) hWndCtrl );
+   TraceLineX( "ZDrFrame::OnCommand uID = ", uID );
 
    if ( uID >= zZEIDON_FIRST_TOOLBAR_CMD && uID <= zZEIDON_LAST_TOOLBAR_CMD )
    {
-   // TraceLineX( "ZDrFrame::OnCommand TOOLBAR uID = ", uID );
+      TraceLineX( "ZDrFrame::OnCommand TOOLBAR uID = ", uID );
       return( CFrameWnd::OnCommand( wParam, lParam ) );
    }
 
-   if ( uID >= zZEIDON_FIRST_TOOLBAR_CMD + 0x0100 &&
-        uID <= zZEIDON_LAST_TOOLBAR_CMD + 0x0100 )
+   if ( uID >= zZEIDON_FIRST_TOOLBAR_CMD + 0x0100 && uID <= zZEIDON_LAST_TOOLBAR_CMD + 0x0100 )
    {
-   // TraceLineX( "ZDrFrame::OnCommand TOOLBAR ctrl uID = ", uID );
+      TraceLineX( "ZDrFrame::OnCommand TOOLBAR ctrl uID = ", uID );
       return( CFrameWnd::OnCommand( wParam, lParam ) );
    }
 

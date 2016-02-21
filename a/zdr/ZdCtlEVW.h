@@ -171,6 +171,7 @@ public:
    ZCrystalTextBuffer *m_pTextBuffer;  // moved from protected
    CString m_csLastFindWhat;
    char m_chLang;
+   CToolBar m_wndToolBar;
 
 protected:
    CImageList *m_pIcons;
@@ -429,6 +430,7 @@ protected:
 #endif
 
    //{{AFX_MSG(ZCrystalEditView)
+// afx_msg void OnBnClickedToggleBookmark(NMHDR *n,LRESULT *);
    afx_msg void OnDestroy();
    afx_msg BOOL OnEraseBkgnd(CDC *pdc);
    afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -451,6 +453,7 @@ protected:
    afx_msg void OnRButtonUp(UINT uFlags, CPoint point);
    afx_msg void OnSysColorChange();
    afx_msg int  OnCreate(LPCREATESTRUCT lpCreateStruct);
+   afx_msg BOOL OnCommand( WPARAM wParam, LPARAM lParam );
    afx_msg void OnEditFind();
    afx_msg void OnEditReplace();
    afx_msg void OnEditRepeat();
@@ -479,6 +482,9 @@ protected:
    afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
    afx_msg void OnEditRedo();
    //}}AFX_MSG
+   afx_msg void OnFileNew();
+   afx_msg void OnFileOpen();
+   afx_msg void OnFileSave();
    afx_msg void OnFilePageSetup();
 
    afx_msg void OnCharLeft();
@@ -507,7 +513,7 @@ protected:
    afx_msg void OnExtTextEnd();
    afx_msg void OnUpdateIndicatorCRLF(CCmdUI *pCmdUI);
    afx_msg void OnUpdateIndicatorPosition(CCmdUI *pCmdUI);
-   afx_msg void OnToggleBookmark(UINT nCmdID);
+   afx_msg void OnToggleBookmarkID(UINT nCmdID);
    afx_msg void OnGoBookmark(UINT nCmdID);
    afx_msg void OnClearBookmarks();
 
