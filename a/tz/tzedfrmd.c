@@ -1751,8 +1751,8 @@ fnShowSubwindows( zVIEW  vSubtask )
    }
 
    // set Focus to Editor Window
-   SetWindowState( vSubtask, zWINDOW_STATUS_SETFOCUS, TRUE );
-
+// SetWindowState( vSubtask, zWINDOW_STATUS_SETFOCUS, TRUE );
+   EDT_GotoWindow( vSubtask );
    return( 0 );
 
 } // fnShowSubwindows
@@ -2379,10 +2379,12 @@ TZEDFRMD_ReceiveFocus( zVIEW vSubtask )
 #if 1
    zVIEW    vEdWrk;
 
+   TraceLineS( "Setting focus to control1: ", EDIT_CONTROL_NAME );
    mGetWorkView( &vEdWrk, vSubtask );
    if ( vEdWrk == 0 )
       return( 0 );
 
+   TraceLineS( "Setting focus to control2: ", EDIT_CONTROL_NAME );
    SetFocusToCtrl( vSubtask, EDIT_CONTROL_NAME );
 #endif
    return( 0 );
@@ -3112,7 +3114,7 @@ void fnTextTokenizer(zCPCHAR cpcTextLine, CStringArray &arrToken, zCPCHAR cpcDel
    arrToken.RemoveAll();
 
    if ( cpcDelimiters == 0 || cpcDelimiters == "" )
-      cpcDelimiters = " \r\n\t";
+      cpcDelimiters = " ,()\r\n\t";
 
    // Do not process empty strings.
    if (cpcTextLine != 0 && cpcTextLine != "")
@@ -5257,11 +5259,16 @@ zOPER_EXPORT zSHORT OPERATION
 zTZEDFRMD_OpenFile( zVIEW vSubtask )
 {
    zVIEW  vEdWrk;
-   zVIEW  vEditorSubtask;
    zVIEW  vParentSubtask;
    zSHORT nRC;
    zCHAR  szFileName[ zMAX_FILENAME_LTH + 1 ];
    zULONG ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT;
+
+   MessagePrompt( vSubtask, "ED0000", szlZeidonEditor, "Open File not yet implemented", 1, 0, 0, zICON_EXCLAMATION );
+   return( 0 );
+
+   if ( TZEDFRMD_AskForSaveWithParse( vSubtask, PARSE_FILE ) < 0 )
+      return( -1 );
 
    mGetWorkView( &vEdWrk, vSubtask );
    GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
@@ -5272,6 +5279,8 @@ zTZEDFRMD_OpenFile( zVIEW vSubtask )
    {
       return( 0 );
    }
+
+// EDT_CloseObject( vSubtask );
 
 // CreateViewFromViewForTask( &vTempEdWrk, vEdWrk ); why??? dks 2004.12.06
    nRC = SetCursorFirstEntityByString( vEdWrk, szlBuffer, szlFileName, szFileName, 0 );
@@ -5826,6 +5835,9 @@ FileNew( zVIEW vSubtask )
      // TMV 1998.06.15
    BOOL     bObjectChanged = FALSE;
    zPCHAR   szMsg = {"Do you want to save the changes?"};
+
+   MessagePrompt( vSubtask, "ED0000", szlZeidonEditor, "File New not yet implemented", 1, 0, 0, zICON_EXCLAMATION );
+   return( 0 );
 
    // Check if file changed.
    bObjectChanged = EDT_IsObjectChanged( vSubtask );

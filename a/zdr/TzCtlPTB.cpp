@@ -553,14 +553,12 @@ TZPainterBar::Initialization( )
 
    CreatePaletteButtons( );
 
-   // The frame's EnableDocking is required for the following DockControlBar
-   // calls to work.
+   // The frame's EnableDocking is required for the following DockControlBar calls to work.
    m_pZSubtask->m_pZFWnd->EnableDocking( CBRS_ALIGN_ANY );
    m_pZSubtask->m_pZFWnd->DockControlBar( this, AFX_IDW_DOCKBAR_TOP );
    m_wndPaletteBar.SetWindowText( _T( "Toolbar" ) );
    m_wndPaletteBar.EnableDocking( CBRS_ALIGN_ANY );
-   m_pZSubtask->m_pZFWnd->DockControlBar( &m_wndPaletteBar,
-                                          AFX_IDW_DOCKBAR_RIGHT );
+   m_pZSubtask->m_pZFWnd->DockControlBar( &m_wndPaletteBar, AFX_IDW_DOCKBAR_RIGHT );
    m_pZSubtask->m_pZFWnd->ShowControlBar( &m_wndPaletteBar, TRUE, FALSE );
 
 // m_pZSubtask->m_pZFWnd->UpdateWindow( );
@@ -619,8 +617,7 @@ TZPainterBar::OnCreateBands( )
 
    // Band 1: Add toolbar band
    CRebarBandInfo rbbi;
-   rbbi.fMask = RBBIM_STYLE | RBBIM_CHILD | RBBIM_CHILDSIZE |
-                  RBBIM_BACKGROUND | RBBIM_COLORS;
+   rbbi.fMask = RBBIM_STYLE | RBBIM_CHILD | RBBIM_CHILDSIZE | RBBIM_BACKGROUND | RBBIM_COLORS;
    rbbi.fStyle = RBBS_FIXEDBMP;
    rbbi.hwndChild = m_wndToolBar;
    rbbi.cxMinChild = szHorz.cx;
@@ -656,8 +653,7 @@ TZPainterBar::LoadActionList( zCPCHAR cpcWndTag )
 
       if ( GetViewByName( &vList, "TZWINDOWL", m_vSubtask, zLEVEL_TASK ) > 0 )
       {
-         if ( SetCursorFirstEntityByString( vList, szlWindow,
-                                            szlTag, cpcWndTag, 0 ) == 0 )
+         if ( SetCursorFirstEntityByString( vList, szlWindow, szlTag, cpcWndTag, 0 ) == 0 )
          {
             if ( CheckExistenceOfEntity( vList, "Action" ) == 0 )
             {

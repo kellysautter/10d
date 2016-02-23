@@ -431,6 +431,7 @@ protected:
 
    //{{AFX_MSG(ZCrystalEditView)
 // afx_msg void OnBnClickedToggleBookmark(NMHDR *n,LRESULT *);
+   afx_msg LRESULT OnGetToolTipText( WPARAM wParam, LPARAM lParam );
    afx_msg void OnDestroy();
    afx_msg BOOL OnEraseBkgnd(CDC *pdc);
    afx_msg void OnSize(UINT nType, int cx, int cy);

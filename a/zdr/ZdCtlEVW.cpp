@@ -86,6 +86,8 @@ HINSTANCE ZCrystalEditView::s_hResourceInst = NULL;
 BEGIN_MESSAGE_MAP(ZCrystalEditView, CView)
    //{{AFX_MSG_MAP(ZCrystalEditView)
 // ON_NOTIFY_REFLECT( ID_EDITOR_TOGGLE_BOOKMARK, OnBnClickedToggleBookmark )
+   ON_MESSAGE( zZEIDON_GET_TOOLTIP_TEXT, OnGetToolTipText )
+
    ON_UPDATE_COMMAND_UI(ID_EDITOR_CUT, OnUpdateEditCut)
    ON_COMMAND(ID_EDITOR_CUT, OnEditCut)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_PASTE, OnUpdateEditPaste)
@@ -429,6 +431,91 @@ void ZCrystalEditView::OnBnClickedToggleBookmark(NMHDR *n,LRESULT *l)
 #endif
 }
 #endif
+LRESULT ZCrystalEditView::OnGetToolTipText( WPARAM wParam, LPARAM lParam )
+{
+#ifdef DEBUG_ALL
+   TraceLineS( "ZCrystalEditView::OnGetToolTipText", "" );
+#endif
+
+   zPCHAR pchText = (zPCHAR) lParam;
+
+   switch ( wParam )
+   {
+      case ID_EDITOR_FILE_NEW:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "New File", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_FILE_OPEN:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Open File", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_FILE_SAVE:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Save File", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_FILE_PRINT:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Print File", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_CUT:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Cut", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_COPY:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Copy", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_PASTE:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Paste", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_UNDO:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Undo", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_REDO:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Redo", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_FIND:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Find", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_REPEAT:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Find Next", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_FIND_PREVIOUS:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Find Previous", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_REPLACE:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Replace", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_TOGGLE_BOOKMARK:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Toggle Bookmark", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_GOTO_NEXT_BOOKMARK:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Next Bookmark", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_GOTO_PREV_BOOKMARK:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Previous Bookmark", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+      case ID_EDITOR_CLEAR_ALL_BOOKMARKS:
+         strncpy_s( pchText, zZEIDON_TOOLTIP_TEXTLTH, "Clear All Bookmarks", zZEIDON_TOOLTIP_TEXTLTH - 1 );
+         break;
+
+   default:
+      pchText[ 0 ] = 0;
+      break;
+   }
+
+   return( 0 );
+}
 
 BOOL ZCrystalEditView::QueryEditable()
 {
@@ -1505,7 +1592,8 @@ int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
       TRACE("Register successful for drop target for ZCrystalEditView hWnd: %d\n", m_hWnd );
    }
 
-   SetFocus();  // dks
+// SetFocus();  // dks
+// TraceLineS( "Setting focus to EditView", "" );
    return 0;
 }
 
@@ -3762,9 +3850,9 @@ void ZCrystalEditView::AdjustTextPoint(CPoint &point)
 
 void ZCrystalEditView::OnSetFocus(CWnd *pOldWnd)
 {
-#ifdef DEBUG_ALL
-   TraceLineS( "OnSetFocus", "");
-#endif
+//#ifdef DEBUG_ALL
+   TraceLineS( "CrystalEditView OnSetFocus: ", "EditView");
+//#endif
    CView::OnSetFocus(pOldWnd);
 
    m_bFocused = TRUE;
@@ -4410,6 +4498,8 @@ void ZCrystalEditView::OnFileNew()
 #ifdef DEBUG_ALL
    TraceLineS( "OnFileNew", "");
 #endif
+   ::MessageBox(m_hWnd, "File new not yet implemented", "Zeidon Editor", MB_OK);
+// InvokeAction( m_pZSubtask->m_vDialog, "FileNew" );
 }
 
 void ZCrystalEditView::OnFileOpen()
@@ -4417,6 +4507,8 @@ void ZCrystalEditView::OnFileOpen()
 #ifdef DEBUG_ALL
    TraceLineS( "OnFileOpen", "");
 #endif
+   ::MessageBox(m_hWnd, "File open not yet implemented", "Zeidon Editor", MB_OK);
+// InvokeAction( m_pZSubtask->m_vDialog, "FileOpen" );
 }
 
 void ZCrystalEditView::OnFileSave()
@@ -4424,6 +4516,7 @@ void ZCrystalEditView::OnFileSave()
 #ifdef DEBUG_ALL
    TraceLineS( "OnFileSave", "");
 #endif
+   InvokeAction( m_pZSubtask->m_vDialog, "FileSave" );
 }
 
 void ZCrystalEditView::OnFilePageSetup()
@@ -8197,7 +8290,9 @@ EDT_CloseObject( zVIEW vSubtask )
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
       if ( pED_Crystal )
       {
-      // return pED_Crystal->CloseObject();  not yet implemented
+         pED_Crystal->DetachFromBuffer();
+         delete(pED_Crystal->m_pTextBuffer);
+         pED_Crystal->m_pTextBuffer = 0;
          return( TRUE );
       }
 
@@ -8369,8 +8464,18 @@ EDT_GotoWindow( zVIEW vSubtask )
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
       if ( pED_Crystal )
       {
-      // return pED_Crystal->EDT_GotoWindow();  not yet implemented
-         return( TRUE );
+         pZSubtask->m_pZFWnd->SetFocus();
+         if ( ::IsWindow(pED_Crystal->m_hWnd) )
+         {
+            TraceLineS( "Setting focus to: ", EDIT_CONTROL_NAME );
+            pED_Crystal->SetFocus();
+            return( TRUE );
+         }
+         else
+         {
+            TraceLineS( "Cannot set focus to: ", EDIT_CONTROL_NAME );
+            return( FALSE );
+         }
       }
 
       TraceLineS( "drvr - Invalid control type for EDT_GotoWindow ", EDIT_CONTROL_NAME );
@@ -8429,9 +8534,9 @@ EDT_IsObjectChanged( zVIEW vSubtask )
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
    {
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal && pED_Crystal->m_pTextBuffer->IsModified() )
+      if ( pED_Crystal )
       {
-         return( TRUE );
+         return pED_Crystal->m_pTextBuffer->IsModified();
       }
 
       TraceLineS( "drvr - Invalid control type for EDT_IsObjectChanged ", EDIT_CONTROL_NAME );
@@ -8465,7 +8570,7 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
    {
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
-      if ( pED_Crystal )
+      if ( pED_Crystal && ::IsWindow(pED_Crystal->m_hWnd) )
       {
          BOOL bRC;
          SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 0, 0 );
@@ -8492,35 +8597,38 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
          pED_Crystal->m_pTextBuffer->SetModifiedFileName( cs );
 
          bRC = pED_Crystal->m_pTextBuffer->LoadFromFile(cpcFileName);
-         SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 1, 0 );
-         if (::IsWindow(pED_Crystal->m_hWnd))
-         {
-            pZSubtask->m_pZFWnd->SetFocus();
-            CPoint pt( 0, 0 );
-            pED_Crystal->SetCursorPos( pt );
-            pED_Crystal->UpdateCaret();
-         }
          pED_Crystal->SetDisableDragAndDrop(FALSE);
          pED_Crystal->SetSelectionMargin(TRUE);
          pED_Crystal->SetSmoothScroll(TRUE);
 
-
-
          if (!pED_Crystal->m_wndToolBar.Create(pED_Crystal->m_pZSubtask->m_pZFWnd) || !pED_Crystal->m_wndToolBar.LoadToolBar(IDR_MAINFRAMEY))
          {
             TRACE0("Failed to create toolbar\n");
-            return FALSE; // -1;      // fail to create
+            bRC = FALSE; // -1;      // fail to create
+         }
+         else
+         {
+            // TODO: Remove this if you don't want tool tips or a resizeable toolbar
+            pED_Crystal->m_wndToolBar.SetBarStyle(pED_Crystal->m_wndToolBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+
+            // TODO: Delete these three lines if you don't want the toolbar to be dockable
+            pED_Crystal->m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+            pED_Crystal->m_pZSubtask->m_pZFWnd->EnableDocking(CBRS_ALIGN_ANY);
+            pED_Crystal->m_pZSubtask->m_pZFWnd->DockControlBar(&pED_Crystal->m_wndToolBar);
+            pED_Crystal->m_pZSubtask->AddBarTip( pED_Crystal->m_hWnd, ID_EDITOR_FILE_NEW, ID_EDITOR_CLEAR_ALL_BOOKMARKS );
+            pED_Crystal->m_wndToolBar.EnableWindow(TRUE);
+            pED_Crystal->m_wndToolBar.GetToolBarCtrl().EnableButton(ID_EDITOR_FILE_NEW, TRUE);
          }
 
-         // TODO: Remove this if you don't want tool tips or a resizeable toolbar
-         pED_Crystal->m_wndToolBar.SetBarStyle(pED_Crystal->m_wndToolBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+         SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 1, 0 );
+         pED_Crystal->RedrawWindow(0, 0, RDW_INTERNALPAINT);  // RDW_ERASE | RDW_INVALIDATE); 
 
-         // TODO: Delete these three lines if you don't want the toolbar to be dockable
-         pED_Crystal->m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
-         pED_Crystal->m_pZSubtask->m_pZFWnd->EnableDocking(CBRS_ALIGN_ANY);
-         pED_Crystal->m_pZSubtask->m_pZFWnd->DockControlBar(&pED_Crystal->m_wndToolBar);
-
-
+         TraceLineS( "Setting focus to FrameWnd", "" );
+         pZSubtask->m_pZFWnd->SetFocus();
+         pED_Crystal->SetFocus();
+         CPoint pt( 0, 0 );
+         pED_Crystal->SetCursorPos( pt );
+         pED_Crystal->UpdateCaret();
 
          return( bRC );
       }

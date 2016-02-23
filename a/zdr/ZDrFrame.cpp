@@ -2063,9 +2063,9 @@ ZDrFrame::OnCommand( WPARAM wParam, LPARAM lParam )
    UINT uNotifyCode = HIWORD( wParam );
    HWND hWndCtrl = (HWND) lParam;
 
-   TraceLineX( "ZDrFrame::OnCommand NotifyCode = ", uNotifyCode );
-   TraceLineX( "ZDrFrame::OnCommand hWndCtrl = ", (zLONG) hWndCtrl );
-   TraceLineX( "ZDrFrame::OnCommand uID = ", uID );
+// TraceLineX( "ZDrFrame::OnCommand NotifyCode = ", uNotifyCode );
+// TraceLineX( "ZDrFrame::OnCommand hWndCtrl = ", (zLONG) hWndCtrl );
+// TraceLineX( "ZDrFrame::OnCommand uID = ", uID );
 
    if ( uID >= zZEIDON_FIRST_TOOLBAR_CMD && uID <= zZEIDON_LAST_TOOLBAR_CMD )
    {
