@@ -170,7 +170,6 @@ private:
 public:
    ZCrystalTextBuffer *m_pTextBuffer;  // moved from protected
    CString m_csLastFindWhat;
-   char m_chLang;
    CToolBar m_wndToolBar;
 
 protected:
@@ -605,11 +604,13 @@ class ZDCTL_CLASS ZCrystalTextBuffer : public CCmdTarget
 private:
    ZCrystalEditView *m_pED_Crystal;
    BOOL m_bInit;
+   BOOL m_bNew;
    BOOL m_bReadOnly;
    BOOL m_bModified;
    int  m_nCRLFMode;
    BOOL m_bCreateBackupFile;
    int  m_nUndoBufSize;
+   char m_chLang;
    CString m_csFileName;
    CString m_csModifiedFileName;
    int  FindLineWithFlag(DWORD dwFlag);
@@ -724,6 +725,8 @@ public:
    BOOL InitNew(int nCrlfStyle = CRLF_STYLE_DOS);
    BOOL LoadFromFile(LPCTSTR pszFileName, int nCrlfStyle = CRLF_STYLE_AUTOMATIC);
    BOOL SaveToFile(LPCTSTR pszFileName, int nCrlfStyle = CRLF_STYLE_AUTOMATIC, BOOL bClearModifiedFlag = TRUE);
+   void SetLanguageType( char chLang );
+   char GetLanguageType();
    CString GetFileName();
    void SetFileName(LPCTSTR cpcFileName);
    CString GetModifiedFileName();
@@ -733,6 +736,7 @@ public:
    // 'Dirty' flag
    virtual void SetModified(BOOL bModified = TRUE);
    BOOL IsModified() const;
+   BOOL IsNew() const;
 
    // Connect/disconnect views
    void AddView(ZCrystalEditView *pView);
