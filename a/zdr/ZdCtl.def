@@ -105,8 +105,8 @@ EXPORTS
    EDT_Redo                                               @577
    EDT_RepeatFind                                         @595
    EDT_ReplaceDialog                                      @593
-   EDT_SaveObject                                         @538
-   EDT_SaveObjectAs                                       @539
+   EDT_SaveFile                                           @538
+   EDT_SaveFileAs                                         @539
    EDT_SelectAll                                          @579
    EDT_SelectItem                                         @580
    EDT_SelectRange                                        @581

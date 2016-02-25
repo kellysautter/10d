@@ -101,11 +101,6 @@ protected:
 protected:
 
 private:
-   // Search parameters
-   BOOL m_bLastSearch;
-   DWORD m_dwLastSearchFlags;
-   BOOL m_bMultipleSearch;         // More search
-
    BOOL m_bCursorHidden;
 
    // Painting caching bitmap
@@ -152,7 +147,6 @@ private:
    CPoint WordToLeft(CPoint pt);
 
    CPoint m_ptDrawSelStart, m_ptDrawSelEnd;
-   CPoint m_ptCursorPos;
    CPoint m_ptSelStart, m_ptSelEnd;
    void PrepareSelBounds();
 
@@ -171,6 +165,11 @@ public:
    ZCrystalTextBuffer *m_pTextBuffer;  // moved from protected
    CString m_csLastFindWhat;
    CToolBar m_wndToolBar;
+   // Search parameters
+   BOOL m_bLastSearch;  // moved from private
+   DWORD m_dwLastSearchFlags;  // moved from private
+   BOOL m_bMultipleSearch;  // More search ... moved from private
+   CPoint m_ptCursorPos;  // moved from private
 
 protected:
    CImageList *m_pIcons;
@@ -514,7 +513,7 @@ protected:
    afx_msg void OnUpdateIndicatorCRLF(CCmdUI *pCmdUI);
    afx_msg void OnUpdateIndicatorPosition(CCmdUI *pCmdUI);
    afx_msg void OnToggleBookmarkID(UINT nCmdID);
-   afx_msg void OnGoBookmark(UINT nCmdID);
+   afx_msg void OnGoBookmarkID(UINT nCmdID);
    afx_msg void OnClearBookmarks();
 
    afx_msg void OnToggleBookmark(); // More bookmarks

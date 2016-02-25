@@ -88,30 +88,30 @@ BEGIN_MESSAGE_MAP(ZCrystalEditView, CView)
 // ON_NOTIFY_REFLECT( ID_EDITOR_TOGGLE_BOOKMARK, OnBnClickedToggleBookmark )
    ON_MESSAGE( zZEIDON_GET_TOOLTIP_TEXT, OnGetToolTipText )
 
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_COPY, OnUpdateEditCopy)
+   ON_COMMAND(ID_EDITOR_COPY, OnEditCopy)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_CUT, OnUpdateEditCut)
    ON_COMMAND(ID_EDITOR_CUT, OnEditCut)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_PASTE, OnUpdateEditPaste)
    ON_COMMAND(ID_EDITOR_PASTE, OnEditPaste)
-   ON_COMMAND(ID_EDITOR_DELETE, OnEditDelete)
-   ON_COMMAND(ID_EDITOR_DELETE_BACK, OnEditDeleteBack)
-   ON_COMMAND(ID_EDITOR_UNTAB, OnEditUntab)
-   ON_COMMAND(ID_EDITOR_TAB, OnEditTab)
-   ON_COMMAND(ID_EDITOR_SWITCH_OVRMODE, OnEditSwitchOvrmode)
-   ON_UPDATE_COMMAND_UI(ID_EDITOR_SWITCH_OVRMODE, OnUpdateEditSwitchOvrmode)
-   ON_COMMAND(ID_EDITOR_REPLACE, OnEditReplace)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_SELECT_ALL, OnUpdateEditSelectAll)
+   ON_COMMAND(ID_EDITOR_SELECT_ALL, OnEditSelectAll)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_UNDO, OnUpdateEditUndo)
    ON_COMMAND(ID_EDITOR_UNDO, OnEditUndo)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_REDO, OnUpdateEditRedo)
    ON_COMMAND(ID_EDITOR_REDO, OnEditRedo)
-   ON_COMMAND(ID_EDITOR_COPY, OnEditCopy)
-   ON_UPDATE_COMMAND_UI(ID_EDITOR_COPY, OnUpdateEditCopy)
-   ON_COMMAND(ID_EDITOR_SELECT_ALL, OnEditSelectAll)
-   ON_UPDATE_COMMAND_UI(ID_EDITOR_SELECT_ALL, OnUpdateEditSelectAll)
-   ON_COMMAND(ID_EDITOR_FIND, OnEditFind)
-   ON_COMMAND(ID_EDITOR_REPEAT, OnEditRepeat)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_REPEAT, OnUpdateEditRepeat)
-   ON_COMMAND(ID_EDITOR_FIND_PREVIOUS, OnEditFindPrevious)
+   ON_COMMAND(ID_EDITOR_REPEAT, OnEditRepeat)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_FIND_PREVIOUS, OnUpdateEditFindPrevious)
+   ON_COMMAND(ID_EDITOR_FIND_PREVIOUS, OnEditFindPrevious)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_SWITCH_OVRMODE, OnUpdateEditSwitchOvrmode)
+   ON_COMMAND(ID_EDITOR_SWITCH_OVRMODE, OnEditSwitchOvrmode)
+   ON_COMMAND(ID_EDITOR_DELETE, OnEditDelete)
+   ON_COMMAND(ID_EDITOR_DELETE_BACK, OnEditDeleteBack)
+   ON_COMMAND(ID_EDITOR_UNTAB, OnEditUntab)
+   ON_COMMAND(ID_EDITOR_TAB, OnEditTab)
+   ON_COMMAND(ID_EDITOR_REPLACE, OnEditReplace)
+   ON_COMMAND(ID_EDITOR_FIND, OnEditFind)
    ON_WM_CREATE()
    ON_WM_DESTROY()
    ON_WM_SYSKEYDOWN( )
@@ -183,18 +183,18 @@ BEGIN_MESSAGE_MAP(ZCrystalEditView, CView)
    // Status
    ON_UPDATE_COMMAND_UI(ID_EDITOR_INDICATOR_CRLF, OnUpdateIndicatorCRLF)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_INDICATOR_POSITION, OnUpdateIndicatorPosition)
+
    // Bookmarks
    ON_COMMAND_RANGE(ID_EDITOR_TOGGLE_BOOKMARK0, ID_EDITOR_TOGGLE_BOOKMARK9, OnToggleBookmarkID)
-   ON_COMMAND_RANGE(ID_EDITOR_GO_BOOKMARK0, ID_EDITOR_GO_BOOKMARK9, OnGoBookmark)
+   ON_COMMAND_RANGE(ID_EDITOR_GO_BOOKMARK0, ID_EDITOR_GO_BOOKMARK9, OnGoBookmarkID)
    ON_COMMAND(ID_EDITOR_CLEAR_BOOKMARKS, OnClearBookmarks)
-   // More Bookmarks
    ON_COMMAND(ID_EDITOR_TOGGLE_BOOKMARK, OnToggleBookmark)
-   ON_COMMAND(ID_EDITOR_GOTO_NEXT_BOOKMARK, OnNextBookmark)
-   ON_COMMAND(ID_EDITOR_GOTO_PREV_BOOKMARK, OnPrevBookmark)
-   ON_COMMAND(ID_EDITOR_CLEAR_ALL_BOOKMARKS, OnClearAllBookmarks)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_GOTO_NEXT_BOOKMARK, OnUpdateNextBookmark)
+   ON_COMMAND(ID_EDITOR_GOTO_NEXT_BOOKMARK, OnNextBookmark)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_GOTO_PREV_BOOKMARK, OnUpdatePrevBookmark)
+   ON_COMMAND(ID_EDITOR_GOTO_PREV_BOOKMARK, OnPrevBookmark)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_CLEAR_ALL_BOOKMARKS, OnUpdateClearAllBookmarks)
+   ON_COMMAND(ID_EDITOR_CLEAR_ALL_BOOKMARKS, OnClearAllBookmarks)
 END_MESSAGE_MAP()
 
 #define EXPAND_PRIMITIVE(impl, func)   \
@@ -1873,7 +1873,8 @@ void ZCrystalEditView::OnEditReplace()
 #ifdef DEBUG_ALL
    TraceLineS( "OnEditReplace", "");
 #endif
-   EditReplace();
+   InvokeAction( m_pZSubtask->m_vDialog, "EditReplace" );
+// EditReplace();
 }
 
 BOOL ZCrystalEditView::ReplaceSelection(LPCTSTR pszNewText)
@@ -4426,9 +4427,10 @@ int ZCrystalEditView::EditFind()
 void ZCrystalEditView::OnEditFind()
 {
 #ifdef DEBUG_ALL
-   TraceLineS( "OnEditFind", "");
+   TraceLineS( "OnEditFind", "" );
 #endif
-   EditFind();
+   InvokeAction( m_pZSubtask->m_vDialog, "EditFind" );
+// EditFind();
 }
 
 int ZCrystalEditView::EditRepeat()
@@ -4453,13 +4455,14 @@ int ZCrystalEditView::EditRepeat()
 
 void ZCrystalEditView::OnEditRepeat()
 {
-   EditRepeat();
+   InvokeAction( m_pZSubtask->m_vDialog, "EditRepeatFind" );
+// EditRepeat();
 }
 
 void ZCrystalEditView::OnUpdateEditRepeat(CCmdUI *pCmdUI)
 {
 #ifdef DEBUG_ALL
-// TraceLineS( "OnUpdateEditRepeat", "");
+   TraceLineS( "OnUpdateEditRepeat", "");
 #endif
    pCmdUI->Enable(m_bLastSearch);
 }
@@ -4481,7 +4484,8 @@ void ZCrystalEditView::OnEditFindPrevious()
 #ifdef DEBUG_ALL
    TraceLineS( "OnEditFindPrevious", "");
 #endif
-   EditFindPrevious();
+   InvokeAction( m_pZSubtask->m_vDialog, "EditFindPrevious" );
+// EditFindPrevious();
 }
 
 void ZCrystalEditView::OnUpdateEditFindPrevious(CCmdUI *pCmdUI)
@@ -4598,10 +4602,10 @@ void ZCrystalEditView::ToggleBookmark()
    ToggleBookmark(-1);
 }
 
-void ZCrystalEditView::OnGoBookmark(UINT nCmdID)
+void ZCrystalEditView::OnGoBookmarkID(UINT nCmdID)
 {
 #ifdef DEBUG_ALL
-   TraceLineS( "OnGoBookmark", "");
+   TraceLineS( "OnGoBookmarkID", "");
 #endif
    int nBookmarkID = nCmdID - ID_EDITOR_GO_BOOKMARK0;
    GoToBookmark( nBookmarkID );
@@ -8135,17 +8139,23 @@ EDT_FindTextPosition( zVIEW vSubtask, zCPCHAR cpcFind, zPLONG plLine, zPLONG plC
       {
          CPoint pt( *plCol, *plLine );
          CPoint ptReturn;
+         int  nLth = strlen( cpcFind );
          int  nRC;
-      // pED_Crystal->m_csLastFindWhat = cpcFind;
 
          while (pED_Crystal->FindText(cpcFind, pt, dwSearchFlags, FALSE, &ptReturn))
          {
             nRC = pED_Crystal->IsInComment(ptReturn.y, ptReturn.x);
             if (nRC == 0)  // not in comment
             {
-               pED_Crystal->HighlightText(ptReturn, strlen( cpcFind ) );
+               pED_Crystal->HighlightText(ptReturn, nLth);
                *plLine = ptReturn.y;
                *plCol = ptReturn.x;
+               pED_Crystal->m_ptCursorPos.y = ptReturn.y;
+               pED_Crystal->m_ptCursorPos.x = ptReturn.x + nLth;
+               pED_Crystal->m_bLastSearch = TRUE;
+               pED_Crystal->m_dwLastSearchFlags = FIND_MATCH_CASE | FIND_WHOLE_WORD;
+               pED_Crystal->m_bMultipleSearch = TRUE; 
+               pED_Crystal->m_csLastFindWhat = cpcFind;
                return( TRUE );
             }
             if ( nRC == -1 ) // in comment to end-of-line
@@ -8649,13 +8659,15 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
 
+   // The lines below marked with //? are in an attempt to "light up" the toolbar without having to click on the client.
+   // So far unsuccessful...
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
    {
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
       if ( pED_Crystal && ::IsWindow(pED_Crystal->m_hWnd) )
       {
          BOOL bRC;
-         SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 0, 0 );
+      //?pZSubtask->m_pZFWnd->SetRedraw( FALSE ); // SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 0, 0 );
          pED_Crystal->OnInitialUpdate();
          bRC = fnLoadTextBufferFromFile( pED_Crystal, cpcFileName );
          pED_Crystal->SetDisableDragAndDrop(FALSE);
@@ -8678,19 +8690,24 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
                pZSubtask->m_pZFWnd->DockControlBar(&pED_Crystal->m_wndToolBar);
                pZSubtask->AddBarTip( pED_Crystal->m_hWnd, ID_EDITOR_FILE_NEW, ID_EDITOR_CLEAR_ALL_BOOKMARKS );
                pED_Crystal->m_wndToolBar.EnableWindow(TRUE);
-               pED_Crystal->m_wndToolBar.GetToolBarCtrl().EnableButton(ID_EDITOR_FILE_NEW, TRUE);
+            //?pED_Crystal->m_wndToolBar.GetToolBarCtrl().EnableButton(ID_EDITOR_FILE_NEW, TRUE);
          }
 
-         SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 1, 0 );
-         pED_Crystal->RedrawWindow(0, 0, RDW_INTERNALPAINT);  // RDW_ERASE | RDW_INVALIDATE);
-
-         TraceLineS( "Setting focus to FrameWnd", "" );
-         pZSubtask->m_pZFWnd->SetFocus();
+      //?TraceLineS( "Setting focus to FrameWnd", "" );
+      //?pZSubtask->m_pZFWnd->SetFocus();
          pED_Crystal->SetFocus();
          CPoint pt( 0, 0 );
          pED_Crystal->SetCursorPos( pt );
          pED_Crystal->UpdateCaret();
-         pZSubtask->m_pZFWnd->ModifyStyle(WS_MINIMIZEBOX, 0, SWP_FRAMECHANGED);
+      //?pZSubtask->m_pZFWnd->ModifyStyle(WS_MINIMIZEBOX, 0, SWP_FRAMECHANGED);
+
+      //?pED_Crystal->ModifyStyleEx( 0, WS_EX_CONTROLPARENT );
+      //?pZSubtask->m_pZFWnd->ModifyStyleEx( WS_EX_APPWINDOW, WS_EX_CONTROLPARENT );
+
+      //?pZSubtask->m_pZFWnd->RecalcLayout( );
+      //?pZSubtask->m_pZFWnd->SetRedraw( TRUE );  // SendMessage( pED_Crystal->m_hWnd, WM_SETREDRAW, 1, 0 );
+      //?pED_Crystal->RedrawWindow(0, 0, RDW_INTERNALPAINT);  // RDW_ERASE | RDW_INVALIDATE);
+      //?pZSubtask->m_pZFWnd->Invalidate();
          return( bRC );
       }
 
@@ -8842,7 +8859,7 @@ EDT_ReadOnlyMode( zVIEW vSubtask, zBOOL bReadOnly )
 }
 
 zOPER_EXPORT zBOOL OPERATION
-EDT_SaveObject( zVIEW vSubtask )
+EDT_SaveFile( zVIEW vSubtask )
 {
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
@@ -8852,16 +8869,19 @@ EDT_SaveObject( zVIEW vSubtask )
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
       if ( pED_Crystal )
       {
-         return pED_Crystal->m_pTextBuffer->SaveToFile(pED_Crystal->m_pTextBuffer->GetFileName());
+         if ( pED_Crystal->m_pTextBuffer->IsModified() )
+            return( pED_Crystal->m_pTextBuffer->SaveToFile(pED_Crystal->m_pTextBuffer->GetFileName()) );
+         else
+            return( FALSE );
       }
 
-      TraceLineS( "drvr - Invalid control type for EDT_SaveObject ", EDIT_CONTROL_NAME );
+      TraceLineS( "drvr - Invalid control type for EDT_SaveFile ", EDIT_CONTROL_NAME );
    }
    return( FALSE );
 }
 
 zOPER_EXPORT zBOOL OPERATION
-EDT_SaveObjectAs( zVIEW vSubtask, zCPCHAR cpcFileName )
+EDT_SaveFileAs( zVIEW vSubtask, zCPCHAR cpcFileName )
 {
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
@@ -8874,7 +8894,7 @@ EDT_SaveObjectAs( zVIEW vSubtask, zCPCHAR cpcFileName )
          return pED_Crystal->m_pTextBuffer->SaveToFile(cpcFileName);
       }
 
-      TraceLineS( "drvr - Invalid control type for EDT_SaveObjectAs ", EDIT_CONTROL_NAME );
+      TraceLineS( "drvr - Invalid control type for EDT_SaveFileAs ", EDIT_CONTROL_NAME );
    }
    return( FALSE );
 }

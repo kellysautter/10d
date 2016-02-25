@@ -418,9 +418,9 @@ EDT_PropertyDialog( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_ReadOnlyMode( zVIEW vSubtask, zBOOL bReadOnly );
 zOPER_EXPORT zBOOL OPERATION
-EDT_SaveObject( zVIEW vSubtask );
+EDT_SaveFile( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
-EDT_SaveObjectAs( zVIEW vSubtask, zCPCHAR cpcFileName );
+EDT_SaveFileAs( zVIEW vSubtask, zCPCHAR cpcFileName );
 zOPER_EXPORT zBOOL OPERATION
 EDT_SelectAll( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
@@ -1012,7 +1012,7 @@ DeleteOperationFromCurrentFile( zVIEW    vSubtask,
 
       if ( bReturn == TRUE )
       {
-         EDT_SaveObject( vSubtask );
+         EDT_SaveFile( vSubtask );
       }
 
       // if source file empty, delete it
@@ -5063,26 +5063,11 @@ ErrList_ShowError( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 SaveFile( zVIEW vSubtask )
 {
-   zLONG      lChanged = 0;
-   zCHAR      szFileName[ zMAX_FILENAME_LTH + 1];
-
-   lChanged = EDT_IsFileChanged( vSubtask );
-   if ( lChanged && !EDT_IsReadOnly( vSubtask ) )
-   {
-      //if ( fnTZEDFRMD_SaveFile( vSubtask, pzma, szFileName, PARSE_FILE ) < 0 )
-      // KJS 06/19/12 - I would like SaveFile to only save the file not prompt for parsing.  This is
-      // because then everytime the user "saves" it prompts to parse either c or vml and always parses
-      // one of them.  I don't want to always parse.
-      if ( fnTZEDFRMD_SaveFile( vSubtask, szFileName, sizeof( szFileName ), 0 ) < 0 )
-      {
-         SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
-         return( -1 );
-      }
-
-      SetUpdateFlagInMeta( vSubtask );
-   }
-
-   return( 0 );
+   //if ( fnTZEDFRMD_SaveFile( vSubtask, pzma, szFileName, PARSE_FILE ) < 0 )
+   // KJS 06/19/12 - I would like SaveFile to only save the file not prompt for parsing.  This is
+   // because then everytime the user "saves" it prompts to parse either c or vml and always parses
+   // one of them.  I don't want to always parse.
+   return( EDT_SaveFile( vSubtask ) );
 }
 
 zSHORT
@@ -5165,7 +5150,6 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
    zCHAR  szMsg[ 300 ];
    zVIEW  vEdWrk;
    zVIEW  vSource;
-   zLONG  lChanged = 0;
    zSHORT nRC = 0;
 
    mGetWorkView( &vEdWrk, vSubtask );
@@ -5194,11 +5178,10 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
       return( 1 );
    }
 
-   // Just look if there is anything changed
-   lChanged = EDT_IsFileChanged( vSubtask );
-   if ( lChanged && !EDT_IsReadOnly( vSubtask ) )
+   // Check if anything has changed
+   if ( EDT_IsFileChanged( vSubtask ) )
    {
-      EDT_SaveObject( vSubtask );
+      EDT_SaveFile( vSubtask );
       SetUpdateFlagInMeta( vSubtask );
    }
 
@@ -5255,7 +5238,7 @@ Generate( zVIEW vSubtask, zCPCHAR cpcGenLang )
    if ( lChanged )
    {
       MB_SetMessage( vSubtask, MAIN_DIL, "Saving file..." );
-      EDT_SaveObject( vSubtask );
+      EDT_SaveFile( vSubtask );
       SetUpdateFlagInMeta( vSubtask );
    }
 
@@ -5385,7 +5368,7 @@ fnTZEDFRMD_SaveFile( zVIEW    vSubtask,
          return( -1 );
       }
 
-      bFileSaved = EDT_SaveObjectAs( vSubtask, pchFileName );
+      bFileSaved = EDT_SaveFileAs( vSubtask, pchFileName );
       if ( bFileSaved == TRUE )
       {
          SetWindowCaptionTitle( vSubtask, "Zeidon Editor", pchFileName);
@@ -5404,7 +5387,7 @@ fnTZEDFRMD_SaveFile( zVIEW    vSubtask,
          return( -1 );
       }
 
-      bFileSaved = EDT_SaveObject( vSubtask );
+      bFileSaved = EDT_SaveFile( vSubtask );
 
       // Parse only valid for VML-Files.
       if ( nAskForParse == PARSE_FILE &&
@@ -5597,7 +5580,7 @@ FileSaveAs( zVIEW vSubtask )
       return( -1 );
    }
 
-   if ( EDT_SaveObjectAs( vSubtask, szFileName ) )
+   if ( EDT_SaveFileAs( vSubtask, szFileName ) )
    {
       sprintf_s( szMsg, sizeof( szMsg ), "File saved as '%s'.", szFileName );
       MB_SetMessage( vSubtask, MAIN_DIL, szMsg );
@@ -5651,7 +5634,7 @@ fnSaveWithCheckForParse( zVIEW vSubtask )
          }
          else
          {
-            nRC = EDT_SaveObject( vSubtask );
+            nRC = EDT_SaveFile( vSubtask );
          }
 
          if ( nRC >= 0 && chType == 'V' )  // parse only valid for VML-Files.
@@ -6350,6 +6333,7 @@ TZEDFRMD_EditFindPrevious( zVIEW vSubtask )
    return nRC;
 }
 
+#if 0
 /////////////////////////////////////////////////////////////////////////////
 //
 //  OPERATION: TZEDFRMD_OnEditFind
@@ -6451,11 +6435,15 @@ TZEDFRMD_OnEditFindNext( zVIEW vSubtask )
    return( 0 );
 
 } // TZEDFRMD_OnEditFindNext
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //    OPERATION: TZEDFRMD_EditReplace
 //
+//  Repeat Replace
+//
+/////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditReplace( zVIEW vSubtask )
 {
@@ -6463,24 +6451,19 @@ TZEDFRMD_EditReplace( zVIEW vSubtask )
  
 } // TZEDFRMD_EditReplace
 
-/////////////////////////////////////////////////////////////////////////////
-//
-//  OPERATION: TZEDFRMD_RepeatReplace
-//
-//  Repeat Replace
-//
-/////////////////////////////////////////////////////////////////////////////
+#if 0
 zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
-TZEDFRMD_RepeatReplace( zVIEW vSubtask )
+TZEDFRMD_EditReplace( zVIEW vSubtask )
 {
    return( OperatorPromptFindReplace( vSubtask, "","", TRUE ) );
-
-} // TZEDFRMD_OpenFindReplace
+}
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //    OPERATION: OptionSettings
 //
+/////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
 OptionSettings( zVIEW vSubtask )
 {
@@ -6628,7 +6611,7 @@ CopyOperationToNewFile( zVIEW    vSubtask,
    BufInsertStr( vSubtask, "\r\n\r\n" );
    BufInsertStr( vSubtask, pchBuffer );
 
-   EDT_SaveObject( vSubtask );
+   EDT_SaveFile( vSubtask );
    return( lLine );
 }
 
@@ -6763,7 +6746,7 @@ RenameOperation( ZMapAct  *pzma,
       EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    }
 
-   EDT_SaveObject( vSubtask );
+   EDT_SaveFile( vSubtask );
    return( 0 );
 }
 
