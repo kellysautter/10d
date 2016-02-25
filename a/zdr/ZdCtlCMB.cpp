@@ -1429,6 +1429,7 @@ ZComboBox::SetData( zCPCHAR cpcSelectItem, zCPCHAR cpcListData )
    m_pchSelectItem = new char[ lLth ];
    strcpy_s( m_pchSelectItem, lLth, cpcSelectItem );
    lLth = zstrlen( cpcListData ) + 1;
+   mDeleteInit( m_pchListData );
    m_pchListData = new char[ lLth ];
    strcpy_s( m_pchListData, lLth, cpcListData );
    mDeleteInit( m_pzsVName );
