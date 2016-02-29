@@ -2374,8 +2374,8 @@ TZEDFRMD_InitMenu( zVIEW vSubtask )
 }
 
 // When the editor window gets focus we need to do a few things:
-// o  Check to see if the editor work view is available yet.  If not, then skip the rest of the function.
-// o  Lastly, set focus to the editor control.
+// o Check to see if the editor work view is available yet.  If not, then skip the rest of the function.
+// o Lastly, set focus to the editor control.
 //
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_ReceiveFocus( zVIEW vSubtask )
@@ -5695,7 +5695,7 @@ zOPER_EXPORT zSHORT OPERATION
 zTZEDFRMD_OpenFile( zVIEW vSubtask )
 {
    zVIEW  vEdWrk;
-   zVIEW  vParentSubtask;
+// zVIEW  vParentSubtask;
    zSHORT nRC;
    zCHAR  szFileName[ zMAX_FILENAME_LTH + 1 ];
    zULONG ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT;
@@ -5748,12 +5748,6 @@ zTZEDFRMD_OpenFile( zVIEW vSubtask )
    EDT_CloseObject( vSubtask );
    SetAttributeFromString( vEdWrk, szlBuffer, szlFileName, szFileName );
    EDT_OpenNewObject( vSubtask, szFileName );
-   return( 0 );
-}
-
-zOPER_EXPORT zSHORT OPERATION
-zTZEDFRMD_FileClose( zVIEW vSubtask )
-{
    return( 0 );
 }
 

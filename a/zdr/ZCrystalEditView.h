@@ -84,11 +84,6 @@ protected:
 protected:
 
 private:
-   // Search parameters
-   BOOL m_bLastSearch;
-   DWORD m_dwLastSearchFlags;
-   BOOL m_bMultipleSearch;         // More search
-
    BOOL m_bCursorHidden;
 
    // Painting caching bitmap
@@ -135,7 +130,6 @@ private:
    CPoint WordToLeft(CPoint pt);
 
    CPoint m_ptDrawSelStart, m_ptDrawSelEnd;
-   CPoint m_ptCursorPos;
    CPoint m_ptSelStart, m_ptSelEnd;
    void PrepareSelBounds();
 
@@ -153,7 +147,12 @@ private:
 public:
    ZCrystalTextBuffer *m_pTextBuffer;  // moved from protected
    CString m_csLastFindWhat;
-   char m_chLang;
+   CToolBar m_wndToolBar;
+   // Search parameters
+   BOOL m_bLastSearch;  // moved from private
+   DWORD m_dwLastSearchFlags;  // moved from private
+   BOOL m_bMultipleSearch;  // More search ... moved from private
+   CPoint m_ptCursorPos;  // moved from private
 
 protected:
    CImageList *m_pIcons;
@@ -418,6 +417,8 @@ protected:
 #endif
 
    //{{AFX_MSG(ZCrystalEditView)
+// afx_msg void OnBnClickedToggleBookmark(NMHDR *n,LRESULT *);
+   afx_msg LRESULT OnGetToolTipText( WPARAM wParam, LPARAM lParam );
    afx_msg void OnDestroy();
    afx_msg BOOL OnEraseBkgnd(CDC *pdc);
    afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -496,8 +497,8 @@ protected:
    afx_msg void OnExtTextEnd();
    afx_msg void OnUpdateIndicatorCRLF(CCmdUI *pCmdUI);
    afx_msg void OnUpdateIndicatorPosition(CCmdUI *pCmdUI);
-   afx_msg void OnToggleBookmark(UINT nCmdID);
-   afx_msg void OnGoBookmark(UINT nCmdID);
+   afx_msg void OnToggleBookmarkID(UINT nCmdID);
+   afx_msg void OnGoBookmarkID(UINT nCmdID);
    afx_msg void OnClearBookmarks();
 
    afx_msg void OnToggleBookmark(); // More bookmarks
@@ -587,11 +588,13 @@ class ZDCTL_CLASS ZCrystalTextBuffer : public CCmdTarget
 private:
    ZCrystalEditView *m_pED_Crystal;
    BOOL m_bInit;
+   BOOL m_bNew;
    BOOL m_bReadOnly;
    BOOL m_bModified;
    int  m_nCRLFMode;
    BOOL m_bCreateBackupFile;
    int  m_nUndoBufSize;
+   char m_chLang;
    CString m_csFileName;
    CString m_csModifiedFileName;
    int  FindLineWithFlag(DWORD dwFlag);
@@ -602,7 +605,8 @@ protected:
    struct SLineInfo
    {
       TCHAR *m_pcLine;
-      int      m_nLength, m_nMax;
+      int   m_nLength;
+      int   m_nMax;
       DWORD m_dwFlags;
 
       SLineInfo() { memset(this, 0, sizeof(SLineInfo)); };
@@ -619,7 +623,8 @@ protected:
    {
       DWORD  m_dwFlags;
 
-      CPoint m_ptStartPos, m_ptEndPos;     // Block of text participating
+      CPoint m_ptStartPos;     // Block of text participating start position ...
+      CPoint m_ptEndPos;       // ... end position
       int    m_nAction;                    // For information only: action type
 
    private:
@@ -706,6 +711,8 @@ public:
    BOOL InitNew(int nCrlfStyle = CRLF_STYLE_DOS);
    BOOL LoadFromFile(LPCTSTR pszFileName, int nCrlfStyle = CRLF_STYLE_AUTOMATIC);
    BOOL SaveToFile(LPCTSTR pszFileName, int nCrlfStyle = CRLF_STYLE_AUTOMATIC, BOOL bClearModifiedFlag = TRUE);
+   void SetLanguageType( char chLang );
+   char GetLanguageType();
    CString GetFileName();
    void SetFileName(LPCTSTR cpcFileName);
    CString GetModifiedFileName();
@@ -715,6 +722,7 @@ public:
    // 'Dirty' flag
    virtual void SetModified(BOOL bModified = TRUE);
    BOOL IsModified() const;
+   BOOL IsNew() const;
 
    // Connect/disconnect views
    void AddView(ZCrystalEditView *pView);

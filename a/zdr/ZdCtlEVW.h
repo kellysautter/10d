@@ -452,7 +452,6 @@ protected:
    afx_msg void OnRButtonUp(UINT uFlags, CPoint point);
    afx_msg void OnSysColorChange();
    afx_msg int  OnCreate(LPCREATESTRUCT lpCreateStruct);
-   afx_msg BOOL OnCommand( WPARAM wParam, LPARAM lParam );
    afx_msg void OnEditFind();
    afx_msg void OnEditReplace();
    afx_msg void OnEditRepeat();

@@ -50,6 +50,19 @@ static char THIS_FILE[] = __FILE__;
 #define DRAG_BORDER_Y   5
 
 /*
+Here is a quick explanation of what each of these classes do. COleDataSource is the class that holds the data
+that will be transferred from the source to the destination. COleDropSource is a relatively small class that
+gives visual feedback during the Drag and Drop operation. And finally, COleDropTarget is the class that handles
+everything on the destination side of things. In reality, most people will only use COleDataSource and
+COleDropTarget, since most people don't need to change the behavior of COleDropSource, and it is automatically
+created by the COleDataSource.
+
+The drag and drop operation consists of the source object creating a COleDataSource, attaching some data to it,
+and calling the DoDragDrop method of the COleDataSource object. The destination object would have to implement
+a COleDropTarget class. The COleDropTarget class has a handful of virtual functions that get called during the
+operation: OnDragEnter, OnDragOver, OnDragLeave, and OnDrop are the most important ones. These methods must be
+overwritten so that we can tell the system what to do.
+
 OnDragEnter - Drop operations to occur in the window. Called when the cursor first enters the window.
 OnDragLeave - Special behavior when the drag operation leaves the specified window.
 OnDragOver - Drop operations to occur in the window. Called when the cursor is being dragged across the window.
@@ -72,38 +85,38 @@ public:
    virtual DROPEFFECT OnDragOver(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point);  //
    virtual BOOL OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point);  //
    virtual DROPEFFECT OnDragScroll(CWnd *pWnd, DWORD dwKeyState, CPoint point);
-//?virtual DROPEFFECT OnDropEx(CWnd *pWnd, COleDataObject *pDataObject, DROPEFFECT dropEffect, DROPEFFECT dropList, CPoint point);
+//?virtual DROPEFFECT OnDropEx(CWnd *pWnd, COleDataObject *pDataObject, DROPEFFECT dropDefault, DROPEFFECT dropList, CPoint point);
 };
-
 
 HINSTANCE ZCrystalEditView::s_hResourceInst = NULL;
 
 BEGIN_MESSAGE_MAP(ZCrystalEditView, CView)
    //{{AFX_MSG_MAP(ZCrystalEditView)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_CUT, OnUpdateEditCut)
-   ON_COMMAND(ID_EDIT_CUT, OnEditCut)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_PASTE, OnUpdateEditPaste)
-   ON_COMMAND(ID_EDIT_PASTE, OnEditPaste)
-   ON_COMMAND(ID_EDIT_DELETE, OnEditDelete)
-   ON_COMMAND(ID_EDIT_DELETE_BACK, OnEditDeleteBack)
-   ON_COMMAND(ID_EDIT_UNTAB, OnEditUntab)
-   ON_COMMAND(ID_EDIT_TAB, OnEditTab)
-   ON_COMMAND(ID_EDIT_SWITCH_OVRMODE, OnEditSwitchOvrmode)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_SWITCH_OVRMODE, OnUpdateEditSwitchOvrmode)
-   ON_COMMAND(ID_EDIT_REPLACE, OnEditReplace)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, OnUpdateEditUndo)
-   ON_COMMAND(ID_EDIT_UNDO, OnEditUndo)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, OnUpdateEditRedo)
-   ON_COMMAND(ID_EDIT_REDO, OnEditRedo)
-   ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, OnUpdateEditCopy)
-   ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_SELECT_ALL, OnUpdateEditSelectAll)
-   ON_COMMAND(ID_EDIT_FIND, OnEditFind)
-   ON_COMMAND(ID_EDIT_REPEAT, OnEditRepeat)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_REPEAT, OnUpdateEditRepeat)
-   ON_COMMAND(ID_EDIT_FIND_PREVIOUS, OnEditFindPrevious)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_FIND_PREVIOUS, OnUpdateEditFindPrevious)
+
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_COPY, OnUpdateEditCopy)
+   ON_COMMAND(ID_EDITOR_COPY, OnEditCopy)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_CUT, OnUpdateEditCut)
+   ON_COMMAND(ID_EDITOR_CUT, OnEditCut)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_PASTE, OnUpdateEditPaste)
+   ON_COMMAND(ID_EDITOR_PASTE, OnEditPaste)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_SELECT_ALL, OnUpdateEditSelectAll)
+   ON_COMMAND(ID_EDITOR_SELECT_ALL, OnEditSelectAll)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_UNDO, OnUpdateEditUndo)
+   ON_COMMAND(ID_EDITOR_UNDO, OnEditUndo)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_REDO, OnUpdateEditRedo)
+   ON_COMMAND(ID_EDITOR_REDO, OnEditRedo)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_REPEAT, OnUpdateEditRepeat)
+   ON_COMMAND(ID_EDITOR_REPEAT, OnEditRepeat)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_FIND_PREVIOUS, OnUpdateEditFindPrevious)
+   ON_COMMAND(ID_EDITOR_FIND_PREVIOUS, OnEditFindPrevious)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_SWITCH_OVRMODE, OnUpdateEditSwitchOvrmode)
+   ON_COMMAND(ID_EDITOR_SWITCH_OVRMODE, OnEditSwitchOvrmode)
+   ON_COMMAND(ID_EDITOR_DELETE, OnEditDelete)
+   ON_COMMAND(ID_EDITOR_DELETE_BACK, OnEditDeleteBack)
+   ON_COMMAND(ID_EDITOR_UNTAB, OnEditUntab)
+   ON_COMMAND(ID_EDITOR_TAB, OnEditTab)
+   ON_COMMAND(ID_EDITOR_REPLACE, OnEditReplace)
+   ON_COMMAND(ID_EDITOR_FIND, OnEditFind)
    ON_WM_CREATE()
    ON_WM_DESTROY()
    ON_WM_SYSKEYDOWN( )
@@ -130,56 +143,57 @@ BEGIN_MESSAGE_MAP(ZCrystalEditView, CView)
    ON_WM_SYSCOLORCHANGE()
    //}}AFX_MSG_MAP
 
-   ON_UPDATE_COMMAND_UI(ID_EDIT_INDICATOR_READ, OnUpdateIndicatorRead)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_INDICATOR_READ, OnUpdateIndicatorRead)
    ON_UPDATE_COMMAND_UI(ID_INDICATOR_OVR, OnUpdateIndicatorOvr)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_INDICATOR_COL, OnUpdateIndicatorCol)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_INDICATOR_COL, OnUpdateIndicatorCol)
 
-   ON_COMMAND(ID_EDIT_CHAR_LEFT, OnCharLeft)
-   ON_COMMAND(ID_EDIT_EXT_CHAR_LEFT, OnExtCharLeft)
-   ON_COMMAND(ID_EDIT_CHAR_RIGHT, OnCharRight)
-   ON_COMMAND(ID_EDIT_EXT_CHAR_RIGHT, OnExtCharRight)
-   ON_COMMAND(ID_EDIT_WORD_LEFT, OnWordLeft)
-   ON_COMMAND(ID_EDIT_EXT_WORD_LEFT, OnExtWordLeft)
-   ON_COMMAND(ID_EDIT_WORD_RIGHT, OnWordRight)
-   ON_COMMAND(ID_EDIT_EXT_WORD_RIGHT, OnExtWordRight)
-   ON_COMMAND(ID_EDIT_LINE_UP, OnLineUp)
-   ON_COMMAND(ID_EDIT_EXT_LINE_UP, OnExtLineUp)
-   ON_COMMAND(ID_EDIT_LINE_DOWN, OnLineDown)
-   ON_COMMAND(ID_EDIT_EXT_LINE_DOWN, OnExtLineDown)
-   ON_COMMAND(ID_EDIT_SCROLL_UP, ScrollUp)
-   ON_COMMAND(ID_EDIT_SCROLL_DOWN, ScrollDown)
-   ON_COMMAND(ID_EDIT_PAGE_UP, OnPageUp)
-   ON_COMMAND(ID_EDIT_EXT_PAGE_UP, OnExtPageUp)
-   ON_COMMAND(ID_EDIT_PAGE_DOWN, OnPageDown)
-   ON_COMMAND(ID_EDIT_EXT_PAGE_DOWN, OnExtPageDown)
-   ON_COMMAND(ID_EDIT_LINE_END, OnLineEnd)
-   ON_COMMAND(ID_EDIT_EXT_LINE_END, OnExtLineEnd)
-   ON_COMMAND(ID_EDIT_HOME, OnHome)
-   ON_COMMAND(ID_EDIT_EXT_HOME, OnExtHome)
-   ON_COMMAND(ID_EDIT_TEXT_BEGIN, OnTextBegin)
-   ON_COMMAND(ID_EDIT_EXT_TEXT_BEGIN, OnExtTextBegin)
-   ON_COMMAND(ID_EDIT_TEXT_END, OnTextEnd)
-   ON_COMMAND(ID_EDIT_EXT_TEXT_END, OnExtTextEnd)
+   ON_COMMAND(ID_EDITOR_CHAR_LEFT, OnCharLeft)
+   ON_COMMAND(ID_EDITOR_EXT_CHAR_LEFT, OnExtCharLeft)
+   ON_COMMAND(ID_EDITOR_CHAR_RIGHT, OnCharRight)
+   ON_COMMAND(ID_EDITOR_EXT_CHAR_RIGHT, OnExtCharRight)
+   ON_COMMAND(ID_EDITOR_WORD_LEFT, OnWordLeft)
+   ON_COMMAND(ID_EDITOR_EXT_WORD_LEFT, OnExtWordLeft)
+   ON_COMMAND(ID_EDITOR_WORD_RIGHT, OnWordRight)
+   ON_COMMAND(ID_EDITOR_EXT_WORD_RIGHT, OnExtWordRight)
+   ON_COMMAND(ID_EDITOR_LINE_UP, OnLineUp)
+   ON_COMMAND(ID_EDITOR_EXT_LINE_UP, OnExtLineUp)
+   ON_COMMAND(ID_EDITOR_LINE_DOWN, OnLineDown)
+   ON_COMMAND(ID_EDITOR_EXT_LINE_DOWN, OnExtLineDown)
+   ON_COMMAND(ID_EDITOR_SCROLL_UP, ScrollUp)
+   ON_COMMAND(ID_EDITOR_SCROLL_DOWN, ScrollDown)
+   ON_COMMAND(ID_EDITOR_PAGE_UP, OnPageUp)
+   ON_COMMAND(ID_EDITOR_EXT_PAGE_UP, OnExtPageUp)
+   ON_COMMAND(ID_EDITOR_PAGE_DOWN, OnPageDown)
+   ON_COMMAND(ID_EDITOR_EXT_PAGE_DOWN, OnExtPageDown)
+   ON_COMMAND(ID_EDITOR_LINE_END, OnLineEnd)
+   ON_COMMAND(ID_EDITOR_EXT_LINE_END, OnExtLineEnd)
+   ON_COMMAND(ID_EDITOR_HOME, OnHome)
+   ON_COMMAND(ID_EDITOR_EXT_HOME, OnExtHome)
+   ON_COMMAND(ID_EDITOR_TEXT_BEGIN, OnTextBegin)
+   ON_COMMAND(ID_EDITOR_EXT_TEXT_BEGIN, OnExtTextBegin)
+   ON_COMMAND(ID_EDITOR_TEXT_END, OnTextEnd)
+   ON_COMMAND(ID_EDITOR_EXT_TEXT_END, OnExtTextEnd)
    // Standard printing commands
-   ON_COMMAND(ID_FILE_PAGE_SETUP, OnFilePageSetup)
-   ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
-   ON_COMMAND(ID_FILE_PRINT_DIRECT, CView::OnFilePrint)
-   ON_COMMAND(ID_FILE_PRINT_PREVIEW, CView::OnFilePrintPreview)
+   ON_COMMAND(ID_EDITOR_FILE_PAGE_SETUP, OnFilePageSetup)
+   ON_COMMAND(ID_EDITOR_FILE_PRINT, CView::OnFilePrint)
+   ON_COMMAND(ID_EDITOR_FILE_PRINT_DIRECT, CView::OnFilePrint)
+   ON_COMMAND(ID_EDITOR_FILE_PRINT_PREVIEW, CView::OnFilePrintPreview)
+
    // Status
-   ON_UPDATE_COMMAND_UI(ID_EDIT_INDICATOR_CRLF, OnUpdateIndicatorCRLF)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_INDICATOR_POSITION, OnUpdateIndicatorPosition)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_INDICATOR_CRLF, OnUpdateIndicatorCRLF)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_INDICATOR_POSITION, OnUpdateIndicatorPosition)
+
    // Bookmarks
-   ON_COMMAND_RANGE(ID_EDIT_TOGGLE_BOOKMARK0, ID_EDIT_TOGGLE_BOOKMARK9, OnToggleBookmark)
-   ON_COMMAND_RANGE(ID_EDIT_GO_BOOKMARK0, ID_EDIT_GO_BOOKMARK9, OnGoBookmark)
-   ON_COMMAND(ID_EDIT_CLEAR_BOOKMARKS, OnClearBookmarks)
-   // More Bookmarks
-   ON_COMMAND(ID_EDIT_TOGGLE_BOOKMARK,     OnToggleBookmark)
-   ON_COMMAND(ID_EDIT_GOTO_NEXT_BOOKMARK,  OnNextBookmark)
-   ON_COMMAND(ID_EDIT_GOTO_PREV_BOOKMARK,  OnPrevBookmark)
-   ON_COMMAND(ID_EDIT_CLEAR_ALL_BOOKMARKS, OnClearAllBookmarks)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_GOTO_NEXT_BOOKMARK,  OnUpdateNextBookmark)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_GOTO_PREV_BOOKMARK,  OnUpdatePrevBookmark)
-   ON_UPDATE_COMMAND_UI(ID_EDIT_CLEAR_ALL_BOOKMARKS, OnUpdateClearAllBookmarks)
+   ON_COMMAND_RANGE(ID_EDITOR_TOGGLE_BOOKMARK0, ID_EDITOR_TOGGLE_BOOKMARK9, OnToggleBookmarkID)
+   ON_COMMAND_RANGE(ID_EDITOR_GO_BOOKMARK0, ID_EDITOR_GO_BOOKMARK9, OnGoBookmarkID)
+   ON_COMMAND(ID_EDITOR_CLEAR_BOOKMARKS, OnClearBookmarks)
+   ON_COMMAND(ID_EDITOR_TOGGLE_BOOKMARK, OnToggleBookmark)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_GOTO_NEXT_BOOKMARK,  OnUpdateNextBookmark)
+   ON_COMMAND(ID_EDITOR_GOTO_NEXT_BOOKMARK, OnNextBookmark)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_GOTO_PREV_BOOKMARK,  OnUpdatePrevBookmark)
+   ON_COMMAND(ID_EDITOR_GOTO_PREV_BOOKMARK, OnPrevBookmark)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_CLEAR_ALL_BOOKMARKS, OnUpdateClearAllBookmarks)
+   ON_COMMAND(ID_EDITOR_CLEAR_ALL_BOOKMARKS, OnClearAllBookmarks)
 END_MESSAGE_MAP()
 
 #define EXPAND_PRIMITIVE(impl, func)   \
@@ -201,6 +215,7 @@ END_MESSAGE_MAP()
 
 //Virtual bool Initialize();
 
+// #define DEBUG_ALL
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -314,7 +329,6 @@ ZCrystalEditView::ZCrystalEditView() : CView()
 
    m_nTopLine = 0;
    m_nOffsetChar = 0;
-   m_chLang = 0;
 
    SetDisableDragAndDrop( FALSE );
    SetSmoothScroll(TRUE);
@@ -333,11 +347,21 @@ ZCrystalEditView::~ZCrystalEditView()
       delete m_pdwParseCookies;
    if (m_pnActualLineLength != NULL)
       delete m_pnActualLineLength;
+
+// TraceLineS( "ZCrystalEditView::~ZCrystalEditView", "" );
 }
 
-
+#if 0
 /////////////////////////////////////////////////////////////////////////////
 // ZCrystalEditView message handlers
+void ZCrystalEditView::OnBnClickedToggleBookmark(NMHDR *n,LRESULT *l)
+{
+#ifdef DEBUG_ALL
+   TraceLineS( "OnBnClickedToggleBookmark", "");
+#endif
+}
+#endif
+
 
 BOOL ZCrystalEditView::QueryEditable()
 {
@@ -346,21 +370,33 @@ BOOL ZCrystalEditView::QueryEditable()
 
 void ZCrystalEditView::OnEditPaste()
 {
+#ifdef DEBUG_ALL
+//TraceLineS( "OnEditPaste", "");
+#endif
    Paste();
 }
 
 void ZCrystalEditView::OnUpdateEditPaste(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdateEditPaste", "");
+#endif
    pCmdUI->Enable(TextInClipboard());
 }
 
 void ZCrystalEditView::OnUpdateEditCut(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdateEditCut", "");
+#endif
    pCmdUI->Enable(IsSelection());
 }
 
 void ZCrystalEditView::OnEditCut()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditCut", "");
+#endif
    Cut();
 }
 
@@ -444,6 +480,9 @@ void ZCrystalEditView::Cut()
 
 void ZCrystalEditView::OnEditDelete()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditDelete", "");
+#endif
    Delete();
 }
 
@@ -831,6 +870,9 @@ void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
 //
 void ZCrystalEditView::OnEditDeleteBack()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditDeleteBack", "");
+#endif
    if (IsSelection())
    {
       OnEditDelete();
@@ -887,6 +929,9 @@ void ZCrystalEditView::OnEditDeleteBack()
 
 void ZCrystalEditView::OnEditTab()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditTab", "");
+#endif
    if (! QueryEditable())
       return;
 
@@ -997,6 +1042,9 @@ void ZCrystalEditView::OnEditTab()
 
 void ZCrystalEditView::OnEditUntab()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditUntab", "");
+#endif
    if (! QueryEditable())
       return;
 
@@ -1109,16 +1157,25 @@ void ZCrystalEditView::OnEditUntab()
 
 void ZCrystalEditView::OnUpdateIndicatorCol(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnUpdateIndicatorCol", "");
+#endif
    pCmdUI->Enable(FALSE);
 }
 
 void ZCrystalEditView::OnUpdateIndicatorOvr(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnUpdateIndicatorOvr", "");
+#endif
    pCmdUI->Enable(m_bOvrMode);
 }
 
 void ZCrystalEditView::OnUpdateIndicatorRead(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnUpdateIndicatorRead", "");
+#endif
    if (m_pTextBuffer == NULL)
       pCmdUI->Enable(FALSE);
    else
@@ -1127,16 +1184,28 @@ void ZCrystalEditView::OnUpdateIndicatorRead(CCmdUI *pCmdUI)
 
 void ZCrystalEditView::OnEditSwitchOvrmode()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditSwitchOvrmode", "");
+#endif
    m_bOvrMode = ! m_bOvrMode;
 }
 
 void ZCrystalEditView::OnUpdateEditSwitchOvrmode(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnUpdateEditSwitchOvrmode", "");
+#endif
    pCmdUI->SetCheck(m_bOvrMode ? 1 : 0);
 }
 
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
 DROPEFFECT ZEditDropTargetImpl::OnDragEnter(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)
 {
+// TRACE(_T("ZEditDropTargetImpl::OnDragEnter - %x\n"), pWnd->m_hWnd);
    if (! pDataObject->IsDataAvailable(CF_TEXT))
    {
       m_pOwner->HideDropIndicator();
@@ -1150,11 +1219,13 @@ DROPEFFECT ZEditDropTargetImpl::OnDragEnter(CWnd *pWnd, COleDataObject *pDataObj
 
 void ZEditDropTargetImpl::OnDragLeave(CWnd *pWnd)
 {
+// TRACE(_T("ZEditDropTargetImpl::OnDragLeave - %x\n"), pWnd->m_hWnd);
    m_pOwner->HideDropIndicator();
 }
 
 DROPEFFECT ZEditDropTargetImpl::OnDragOver(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)
 {
+// TRACE(_T("ZEditDropTargetImpl::OnDragOver - %x\n"), pWnd->m_hWnd);
 /*
    if (! pDataObject->IsDataAvailable(CF_TEXT))
    {
@@ -1194,6 +1265,7 @@ DROPEFFECT ZEditDropTargetImpl::OnDragOver(CWnd *pWnd, COleDataObject *pDataObje
 
 BOOL ZEditDropTargetImpl::OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)
 {
+// TRACE(_T("ZEditDropTargetImpl::OnDrop - %x\n"), pWnd->m_hWnd);
    //
    // [JRT]          ( m_pOwner -> GetDisableDragAndDrop() ) )    // Or Drag And Drop Disabled
    //
@@ -1219,9 +1291,16 @@ BOOL ZEditDropTargetImpl::OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEF
    }
    return (m_pOwner->DoDropText(pDataObject, point));     // Return Result Of Drop
 }
-
+#if 0
+DROPEFFECT ZEditDropTargetImpl::OnDropEx(CWnd *pWnd, COleDataObject *pDataObject, DROPEFFECT dropDefault, DROPEFFECT dropList, CPoint point)
+{
+   TRACE(_T("ZEditDropTargetImpl::OnDropEx - %x\n"), pWnd->m_hWnd);
+   return DROPEFFECT_MOVE;
+}
+#endif
 DROPEFFECT ZEditDropTargetImpl::OnDragScroll(CWnd *pWnd, DWORD dwKeyState, CPoint point)
 {
+// TRACE(_T("ZEditDropTargetImpl::OnDragScroll - %x\n"), pWnd->m_hWnd);
    ASSERT(m_pOwner == pWnd);
    m_pOwner->DoDragScroll(point);
 
@@ -1232,6 +1311,7 @@ DROPEFFECT ZEditDropTargetImpl::OnDragScroll(CWnd *pWnd, DWORD dwKeyState, CPoin
 
 void ZCrystalEditView::DoDragScroll(CPoint &point)
 {
+// TRACE(_T("ZCrystalEditView::DoDragScroll - x:%d, y:%d\n"), point.x, point.y);
    CRect rcClientRect;
    GetClientRect(rcClientRect);
    if (point.y < rcClientRect.top + DRAG_BORDER_Y)
@@ -1270,11 +1350,13 @@ void ZCrystalEditView::DoDragScroll(CPoint &point)
 
 BOOL ZCrystalEditView::IsDraggingText() const
 {
+// TRACE(_T("ZCrystalEditView::IsDraggingText - dragging: %d\n"), m_bDraggingText);
    return m_bDraggingText;
 }
 
 BOOL ZCrystalEditView::DoDropText(COleDataObject *pDataObject, CPoint &ptClient)
 {
+// TRACE(_T("ZCrystalEditView::DoDropText - drop: %d, y:%d\n"), ptClient.x, ptClient.y);
    HGLOBAL hData = pDataObject->GetGlobalData(CF_TEXT);
    if (hData == NULL)
       return FALSE;
@@ -1309,6 +1391,9 @@ BOOL ZCrystalEditView::DoDropText(COleDataObject *pDataObject, CPoint &ptClient)
 
 int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnCreate", "");
+#endif
 // if (ZCrystalEditView::OnCreate(lpCreateStruct) == -1)
 //    return -1;
 
@@ -1341,14 +1426,18 @@ int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
    }
    else
    {
-      TRACE("Register successful for drop target for ZCrystalEditView hWnd: %d\n", m_hWnd );
+   // TRACE("Register successful for drop target for ZCrystalEditView hWnd: %d\n", m_hWnd );
    }
+
    SetFocus();  // dks
    return 0;
 }
 
 void ZCrystalEditView::OnDestroy()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnDestroy", "");
+#endif
    if (m_pOleDropTarget != NULL)
    {
       m_pOleDropTarget->Revoke();
@@ -1380,6 +1469,7 @@ void ZCrystalEditView::OnDestroy()
 
 void ZCrystalEditView::ShowDropIndicator(CPoint &point)
 {
+// TRACE(_T("ZCrystalEditView::ShowDropIndicator - x:%d, y:%d\n"), point.x, point.y);
    if (! m_bDropPosVisible)
    {
       HideCursor();
@@ -1401,6 +1491,7 @@ void ZCrystalEditView::ShowDropIndicator(CPoint &point)
 
 void ZCrystalEditView::HideDropIndicator()
 {
+// TRACE0(_T("ZCrystalEditView::HideDropIndicator\n"));
    if (m_bDropPosVisible)
    {
       SetCursorPos(m_ptSavedCaretPos);
@@ -1411,12 +1502,15 @@ void ZCrystalEditView::HideDropIndicator()
 
 DROPEFFECT ZCrystalEditView::GetDropEffect()
 {
+// TRACE0(_T("ZCrystalEditView::GetDropEffect\n"));
    return DROPEFFECT_COPY | DROPEFFECT_MOVE;
+// return DROPEFFECT_MOVE;
 // return DROPEFFECT_COPY;
 }
 
 void ZCrystalEditView::OnDropSource(DROPEFFECT de)
 {
+// TRACE(_T("ZCrystalEditView::OnDropSource %d\n"), de);
    ASSERT(de == DROPEFFECT_COPY || de == DROPEFFECT_MOVE);
    if (! IsDraggingText())
       return;
@@ -1608,6 +1702,9 @@ int ZCrystalEditView::EditReplace()
 
 void ZCrystalEditView::OnEditReplace()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditReplace", "");
+#endif
    EditReplace();
 }
 
@@ -1635,6 +1732,9 @@ BOOL ZCrystalEditView::ReplaceSelection(LPCTSTR pszNewText)
 
 void ZCrystalEditView::OnUpdateEditUndo(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdateEditUndo", "");
+#endif
    BOOL bCanUndo = CanUndo();
    pCmdUI->Enable(bCanUndo);
 
@@ -1674,6 +1774,9 @@ BOOL ZCrystalEditView::CanUndo()
 
 void ZCrystalEditView::OnEditUndo()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditUndo", "");
+#endif
    Undo();
 }
 
@@ -1706,6 +1809,9 @@ BOOL ZCrystalEditView::CanRedo()
 
 void ZCrystalEditView::OnEditRedo()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditRedo", "");
+#endif
    Redo();
 }
 
@@ -1727,6 +1833,9 @@ void ZCrystalEditView::Redo()
 
 void ZCrystalEditView::OnUpdateEditRedo(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdateEditRedo", "");
+#endif
    BOOL bCanRedo = m_pTextBuffer != NULL && m_pTextBuffer->CanRedo();
    pCmdUI->Enable(bCanRedo);
 
@@ -1761,6 +1870,9 @@ void ZCrystalEditView::OnUpdateEditRedo(CCmdUI *pCmdUI)
 
 void ZCrystalEditView::OnEditOperation(int nAction, LPCTSTR pszText)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditOperation", "");
+#endif
    if (m_bAutoIndent)
    {
       // Analyse last action...
@@ -2442,6 +2554,9 @@ void ZCrystalEditView::PrepareSelBounds()
 
 void ZCrystalEditView::OnDraw(CDC *pdc)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnDraw", "");
+#endif
    CRect rcClient;
    GetClientRect(rcClient);
 
@@ -2547,12 +2662,15 @@ void ZCrystalEditView::ResetView()
    m_bPrintFooter = TRUE;
 
    m_hAccel = NULL;
+
+/* Don't do this here since it will prevent Drop functionality
    if ( m_pDropTarget )
    {
       m_pDropTarget->Revoke();
       delete m_pDropTarget;
       m_pDropTarget = NULL;
    }
+*/
    m_bBookmarkExist  = FALSE; // More bookmarks
    m_bMultipleSearch = FALSE; // More search
 }
@@ -2716,6 +2834,9 @@ ZCrystalEditView *ZCrystalEditView::GetSiblingView(int nRow, int nCol)
 
 void ZCrystalEditView::OnInitialUpdate()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnInitialUpdate", "");
+#endif
    CView::OnInitialUpdate();
 
    AttachToBuffer(NULL);
@@ -2757,6 +2878,9 @@ void ZCrystalEditView::OnInitialUpdate()
 
 void ZCrystalEditView::OnPrepareDC(CDC *pdc, CPrintInfo *pInfo)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnPrepareDC", "");
+#endif
    CView::OnPrepareDC(pdc, pInfo);
 
    if (pInfo != NULL)
@@ -2769,6 +2893,9 @@ void ZCrystalEditView::OnPrepareDC(CDC *pdc, CPrintInfo *pInfo)
 
 BOOL ZCrystalEditView::OnPreparePrinting(CPrintInfo *pInfo)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnPreparePrinting", "");
+#endif
    return DoPreparePrinting(pInfo);
 }
 
@@ -2886,6 +3013,9 @@ void ZCrystalEditView::RecalcPageLayouts(CDC *pdc, CPrintInfo *pInfo)
 
 void ZCrystalEditView::OnBeginPrinting(CDC *pdc, CPrintInfo *pInfo)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnBeginPrinting", "");
+#endif
    ASSERT(m_pnPages == NULL);
    ASSERT(m_pPrintFont == NULL);
    CFont *pDisplayFont = GetFont( pdc );
@@ -2911,6 +3041,9 @@ void ZCrystalEditView::OnBeginPrinting(CDC *pdc, CPrintInfo *pInfo)
 
 void ZCrystalEditView::OnEndPrinting(CDC *pdc, CPrintInfo *pInfo)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEndPrinting", "");
+#endif
    if (m_pPrintFont != NULL)
    {
       delete m_pPrintFont;
@@ -2927,6 +3060,9 @@ void ZCrystalEditView::OnEndPrinting(CDC *pdc, CPrintInfo *pInfo)
 
 void ZCrystalEditView::OnPrint(CDC *pdc, CPrintInfo *pInfo)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnPrint", "");
+#endif
    if (m_pnPages == NULL)
    {
       RecalcPageLayouts(pdc, pInfo);
@@ -3064,11 +3200,17 @@ int ZCrystalEditView::GetScreenChars()
 
 BOOL ZCrystalEditView::OnEraseBkgnd(CDC *pdc)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnEraseBkgnd", "");
+#endif
    return TRUE;
 }
 
 void ZCrystalEditView::OnSize(UINT nType, int cx, int cy)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnSize", "");
+#endif
    CView::OnSize(nType, cx, cy);
 
    if (m_pCacheBitmap != NULL)
@@ -3125,6 +3267,9 @@ void ZCrystalEditView::UpdateSiblingScrollPos(BOOL bHorz)
 
 void ZCrystalEditView::OnUpdateSibling(ZCrystalEditView *pUpdateSource, BOOL bHorz)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnUpdateSibling", "");
+#endif
    if (pUpdateSource != this)
    {
       ASSERT(pUpdateSource != NULL);
@@ -3180,6 +3325,9 @@ void ZCrystalEditView::RecalcVertScrollBar(BOOL bPositionOnly /*= FALSE*/)
 
 void ZCrystalEditView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnVScroll", "");
+#endif
    CView::OnVScroll(nSBCode, nPos, pScrollBar);
 
    // Note we cannot use nPos because of its 16-bit nature
@@ -3534,17 +3682,15 @@ void ZCrystalEditView::AdjustTextPoint(CPoint &point)
 
 void ZCrystalEditView::OnSetFocus(CWnd *pOldWnd)
 {
+//#ifdef DEBUG_ALL
+   TraceLineS( "CrystalEditView OnSetFocus: ", "EditView");
+//#endif
    CView::OnSetFocus(pOldWnd);
 
    m_bFocused = TRUE;
    if (m_ptSelStart != m_ptSelEnd)
       InvalidateLines(m_ptSelStart.y, m_ptSelEnd.y);
    UpdateCaret();
-}
-
-DWORD ZCrystalEditView::ParseLine(DWORD dwCookie, int nLineIndex, TEXTBLOCK *pBuf, int &nActualItems)
-{
-   return 0;
 }
 
 int ZCrystalEditView::CalculateActualOffset(int nLineIndex, int nCharIndex)
@@ -3644,6 +3790,9 @@ void ZCrystalEditView::EnsureVisible(CPoint pt)
 
 void ZCrystalEditView::OnKillFocus(CWnd *pNewWnd)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnKillFocus", "");
+#endif
    CView::OnKillFocus(pNewWnd);
 
    m_bFocused = FALSE;
@@ -3660,6 +3809,9 @@ void ZCrystalEditView::OnKillFocus(CWnd *pNewWnd)
 
 void ZCrystalEditView::OnSysColorChange()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnSysColorChange", "");
+#endif
    CView::OnSysColorChange();
    Invalidate();
 }
@@ -3769,6 +3921,9 @@ void ZCrystalEditView::SetFont(const LOGFONT &lf)
 
 void ZCrystalEditView::OnUpdateIndicatorPosition(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnUpdateIndicatorPosition", "");
+#endif
    ASSERT_VALIDTEXTPOS(m_ptCursorPos,FALSE);
    CString stat;
    stat.Format(_T("Ln %d, Col %d"), m_ptCursorPos.y + 1, m_ptCursorPos.x + 1);
@@ -3777,6 +3932,9 @@ void ZCrystalEditView::OnUpdateIndicatorPosition(CCmdUI *pCmdUI)
 
 void ZCrystalEditView::OnUpdateIndicatorCRLF(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnUpdateIndicatorCRLF", "");
+#endif
    if (m_pTextBuffer != NULL)
    {
       int crlfMode = m_pTextBuffer->GetCRLFMode();
@@ -3826,6 +3984,7 @@ HGLOBAL ZCrystalEditView::PrepareDragData()
 
    CString text;
    GetText(m_ptDrawSelStart, m_ptDrawSelEnd, text);
+// TRACE(_T("ZCrystalEditView::PrepareDragData - %s\n"), text.GetString());
    HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, lstrlen(text) + 1);
    if (hData == NULL)
       return NULL;
@@ -4096,6 +4255,9 @@ int ZCrystalEditView::EditFind()
 
 void ZCrystalEditView::OnEditFind()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditFind", "" );
+#endif
    EditFind();
 }
 
@@ -4126,6 +4288,9 @@ void ZCrystalEditView::OnEditRepeat()
 
 void ZCrystalEditView::OnUpdateEditRepeat(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdateEditRepeat", "");
+#endif
    pCmdUI->Enable(m_bLastSearch);
 }
 
@@ -4143,16 +4308,25 @@ int ZCrystalEditView::EditFindPrevious()
 
 void ZCrystalEditView::OnEditFindPrevious()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditFindPrevious", "");
+#endif
    EditFindPrevious();
 }
 
 void ZCrystalEditView::OnUpdateEditFindPrevious(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdateEditFindPrevious", "");
+#endif
    pCmdUI->Enable(m_bLastSearch);
 }
 
 void ZCrystalEditView::OnFilePageSetup()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnFilePageSetup", "");
+#endif
    CWinApp *pApp = AfxGetApp();
    ASSERT(pApp != NULL);
 
@@ -4172,9 +4346,12 @@ void ZCrystalEditView::OnFilePageSetup()
    }
 }
 
-void ZCrystalEditView::OnToggleBookmark(UINT nCmdID)
+void ZCrystalEditView::OnToggleBookmarkID(UINT nCmdID)
 {
-   int nBookmarkID = nCmdID - ID_EDIT_TOGGLE_BOOKMARK0;
+#ifdef DEBUG_ALL
+   TraceLineI( "OnToggleBookmark ID: ", nCmdID);
+#endif
+   int nBookmarkID = nCmdID - ID_EDITOR_TOGGLE_BOOKMARK0;
    ToggleBookmark( nBookmarkID );
 }
 
@@ -4214,6 +4391,9 @@ void ZCrystalEditView::ToggleBookmark( int nBookmarkID )
 
 void ZCrystalEditView::OnToggleBookmark()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnToggleBookmark", "");
+#endif
    ToggleBookmark();
 }
 
@@ -4222,9 +4402,12 @@ void ZCrystalEditView::ToggleBookmark()
    ToggleBookmark(-1);
 }
 
-void ZCrystalEditView::OnGoBookmark(UINT nCmdID)
+void ZCrystalEditView::OnGoBookmarkID(UINT nCmdID)
 {
-   int nBookmarkID = nCmdID - ID_EDIT_GO_BOOKMARK0;
+#ifdef DEBUG_ALL
+   TraceLineS( "OnGoBookmarkID", "");
+#endif
+   int nBookmarkID = nCmdID - ID_EDITOR_GO_BOOKMARK0;
    GoToBookmark( nBookmarkID );
 }
 
@@ -4248,11 +4431,17 @@ void ZCrystalEditView::GoToBookmark( int nBookmarkID )
 
 void ZCrystalEditView::OnClearBookmarks()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnClearBookmarks", "");
+#endif
    ClearAllBookmarks();
 }
 
 void ZCrystalEditView::OnClearAllBookmarks()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnClearAllBookmarks", "");
+#endif
    ClearAllBookmarks();
 }
 
@@ -4290,6 +4479,9 @@ void ZCrystalEditView::SetBookmark(int nBookmarkID)
 
 void ZCrystalEditView::OnNextBookmark()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnNextBookmark", "");
+#endif
    GoToNextBookmark();
 }
 
@@ -4312,6 +4504,9 @@ void ZCrystalEditView::GoToNextBookmark()
 
 void ZCrystalEditView::OnPrevBookmark()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnPrevBookmark", "");
+#endif
    GoToPreviousBookmark();
 }
 
@@ -4334,16 +4529,25 @@ void ZCrystalEditView::GoToPreviousBookmark()
 
 void ZCrystalEditView::OnUpdateNextBookmark(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdateNextBookmark", "");
+#endif
    pCmdUI->Enable(m_bBookmarkExist);
 }
 
 void ZCrystalEditView::OnUpdatePrevBookmark(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdatePrevBookmark", "");
+#endif
    pCmdUI->Enable(m_bBookmarkExist);
 }
 
 void ZCrystalEditView::OnUpdateClearAllBookmarks(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdateClearAllBookmarks", "");
+#endif
    pCmdUI->Enable(m_bBookmarkExist);
 }
 
@@ -4767,11 +4971,15 @@ void ZCrystalEditView::SelectAllLines()
 
 void ZCrystalEditView::OnLButtonDown(UINT uFlags, CPoint point)
 {
+#ifdef DEBUG_ALL
+   TraceLine("OnLButtonDown point.x = %d   MarginWidth = %d - %d", point.x, GetMarginWidth());
+   m_bTrace = TRUE;
+#endif
    CView::OnLButtonDown(uFlags, point);
 
    BOOL bShift = GetKeyState(VK_SHIFT) & 0x8000;
    BOOL bControl = GetKeyState(VK_CONTROL) & 0x8000;
-   TRACE(_T("OnLButtonDown point.x = %d   MarginWidth = %d - %d\n"), point.x, GetMarginWidth());
+// TRACE(_T("OnLButtonDown point.x = %d   MarginWidth = %d - %d\n"), point.x, GetMarginWidth());
    if (point.x < GetMarginWidth())
    {
       AdjustTextPoint(point);
@@ -4810,19 +5018,19 @@ void ZCrystalEditView::OnLButtonDown(UINT uFlags, CPoint point)
          m_bWordSelection = FALSE;
          m_bLineSelection = TRUE;
          m_bDragSelection = TRUE;
-         TRACE(_T("OnLButtonDown setting m_bDragSelection - %d\n"), m_bDragSelection);
+      // TRACE(_T("OnLButtonDown setting m_bDragSelection - %d\n"), m_bDragSelection);
       }
    }
    else
    {
       CPoint ptText = ClientToText(point);
       PrepareSelBounds();
-      TRACE(_T("OnLButtonDown checking DragAndDrop Disabled: %d\n"), m_bDisabledDragAndDrop);
+   // TRACE(_T("OnLButtonDown checking DragAndDrop Disabled: %d\n"), m_bDisabledDragAndDrop);
       // [JRT]:   Support For Disabling Drag and Drop...
-      if ((IsInsideSelBlock(ptText)) && (!m_bDisabledDragAndDrop))  // If Inside Selection Area ... and D&D Not Disabled
+      if ((IsInsideSelBlock(ptText)) && (m_bDisabledDragAndDrop == FALSE))  // If Inside Selection Area ... and D&D Not Disabled
       {
          m_bPreparingToDrag = TRUE;
-         TRACE(_T("OnLButtonDown setting m_bPreparingToDrag: %d   for hWnd: %d\n"), m_bPreparingToDrag, m_hWnd);
+      // TRACE(_T("OnLButtonDown setting m_bPreparingToDrag: %d   for hWnd: %d\n"), m_bPreparingToDrag, m_hWnd);
       }
       else
       {
@@ -4874,7 +5082,7 @@ void ZCrystalEditView::OnMouseMove(UINT uFlags, CPoint point)
    CView::OnMouseMove(uFlags, point);
 
 // TRACE(_T("OnMouseMove m_bDragSelection - %d\n"), m_bDragSelection);
-// TraceLine( "OnMouseMove x:%d, y:%d", point.x, point.y );
+   // TraceLine( "OnMouseMove x:%d, y:%d  DragSelection: %s", point.x, point.y, m_bDragSelection ? "TRUE" : "FALSE" );
    if ( point.x >= 0 && point.x <= GetMarginWidth() )
       ::SetCursor(::LoadCursor(NULL, IDC_ARROW));
    else
@@ -4960,7 +5168,7 @@ void ZCrystalEditView::OnMouseMove(UINT uFlags, CPoint point)
 
    if (m_bPreparingToDrag)
    {
-      TRACE(_T("OnMouseMove m_bPreparingToDrag - %d   for hWnd: %d\n"), m_bPreparingToDrag, m_hWnd);
+   // TRACE(_T("OnMouseMove m_bPreparingToDrag - %d   for hWnd: %d\n"), m_bPreparingToDrag, m_hWnd);
       m_bPreparingToDrag = FALSE;
       HGLOBAL hData = PrepareDragData();
       if (hData != NULL)
@@ -4971,12 +5179,14 @@ void ZCrystalEditView::OnMouseMove(UINT uFlags, CPoint point)
          COleDataSource ds;
          ds.CacheGlobalData(CF_TEXT, hData);
          m_bDraggingText = TRUE;
-         TRACE(_T("OnMouseMove m_bDraggingText1 - %d\n"), m_bDraggingText);
+      // TRACE(_T("OnMouseMove m_bDraggingText1 - %d\n"), m_bDraggingText);
          DROPEFFECT de = ds.DoDragDrop(GetDropEffect());
          if (de != DROPEFFECT_NONE)
+         {
             OnDropSource(de);
+         }
          m_bDraggingText = FALSE;
-         TRACE(_T("OnMouseMove m_bDraggingText2 - %d\n"), m_bDraggingText);
+      // TRACE(_T("OnMouseMove m_bDraggingText2 - %d\n"), m_bDraggingText);
 
          if (m_pTextBuffer != NULL)
             m_pTextBuffer->FlushUndoGroup(this);
@@ -4988,8 +5198,11 @@ void ZCrystalEditView::OnMouseMove(UINT uFlags, CPoint point)
 
 void ZCrystalEditView::OnLButtonUp(UINT uFlags, CPoint point)
 {
+#ifdef DEBUG_ALL
+   TraceLine("OnLButtonUp m_bDragSelection - %d", m_bDragSelection);
+#endif
    CView::OnLButtonUp(uFlags, point);
-   TRACE(_T("OnLButtonUp m_bDragSelection - %d\n"), m_bDragSelection);
+// TRACE(_T("OnLButtonUp m_bDragSelection - %d\n"), m_bDragSelection);
    if (m_bDragSelection)
    {
       AdjustTextPoint(point);
@@ -5084,7 +5297,7 @@ void ZCrystalEditView::OnLButtonUp(UINT uFlags, CPoint point)
 void ZCrystalEditView::OnTimer(UINT nIDEvent)
 {
    CView::OnTimer(nIDEvent);
-   TRACE(_T("OnTimer m_bDragSelection - %d\n"), m_bDragSelection);
+// TRACE(_T("OnTimer m_bDragSelection - %d\n"), m_bDragSelection);
    if (nIDEvent == CRYSTAL_TIMER_DRAGSEL)
    {
       ASSERT(m_bDragSelection);
@@ -5164,8 +5377,11 @@ void ZCrystalEditView::OnTimer(UINT nIDEvent)
 
 void ZCrystalEditView::OnLButtonDblClk(UINT uFlags, CPoint point)
 {
+#ifdef DEBUG_ALL
+   TraceLine("OnLButtonDblClk m_bDragSelection - %d", m_bDragSelection);
+#endif
    CView::OnLButtonDblClk(uFlags, point);
-   TRACE(_T("OnLButtonDblClk m_bDragSelection - %d\n"), m_bDragSelection);
+// TRACE(_T("OnLButtonDblClk m_bDragSelection - %d\n"), m_bDragSelection);
    if (! m_bDragSelection)
    {
       AdjustTextPoint(point);
@@ -5202,26 +5418,41 @@ void ZCrystalEditView::OnLButtonDblClk(UINT uFlags, CPoint point)
 
 void ZCrystalEditView::OnEditCopy()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditCopy", "");
+#endif
    Copy();
 }
 
 void ZCrystalEditView::OnUpdateEditCopy(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+// TraceLineS( "OnUpdateEditCopy", "");
+#endif
    pCmdUI->Enable(IsSelection());
 }
 
 void ZCrystalEditView::OnEditSelectAll()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditSelectAll", "");
+#endif
    SelectAllLines();
 }
 
 void ZCrystalEditView::OnUpdateEditSelectAll(CCmdUI *pCmdUI)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnUpdateEditSelectAll", "");
+#endif
    pCmdUI->Enable(TRUE);
 }
 
 void ZCrystalEditView::OnRButtonDown(UINT uFlags, CPoint point)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnRButtonDown", "");
+#endif
    CPoint pt = point;
    AdjustTextPoint(pt);
    pt = ClientToText(pt);
@@ -5238,6 +5469,9 @@ void ZCrystalEditView::OnRButtonDown(UINT uFlags, CPoint point)
 
 void ZCrystalEditView::OnRButtonUp(UINT uFlags, CPoint point)
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnRButtonUp", "");
+#endif
    CPoint pt = point;
    AdjustTextPoint(pt);
    pt = ClientToText(pt);
@@ -5312,7 +5546,6 @@ BOOL ZCrystalEditView::GetFromClipboard(CString &text)
    }
    return bSuccess;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////
 // File:    ZCrystalTextBuffer.cpp
@@ -5445,10 +5678,12 @@ ZCrystalTextBuffer::ZCrystalTextBuffer( ZCrystalEditView *pED_Crystal )
 {
    m_pED_Crystal = pED_Crystal;
    m_bInit = FALSE;     // text buffer not yet initialized ... must call InitNew or LoadFromFile early!
+   m_bNew = FALSE;
    m_bReadOnly = FALSE;
    m_bModified = FALSE;
    m_bCreateBackupFile = FALSE;
    m_nUndoPosition = 0;
+   m_chLang = 0;
 }
 
 ZCrystalTextBuffer::~ZCrystalTextBuffer()
@@ -5566,16 +5801,24 @@ static const char *crlfs[] =
    "\x0a"            // Macintosh style
 };
 
-void
-ZCrystalTextBuffer::SetFileName(LPCTSTR cpcFileName)
+void ZCrystalTextBuffer::SetFileName(LPCTSTR cpcFileName)
 {
    m_csFileName = cpcFileName;
 }
 
-CString
-ZCrystalTextBuffer::GetFileName()
+CString ZCrystalTextBuffer::GetFileName()
 {
    return m_csFileName;
+}
+
+void ZCrystalTextBuffer::SetLanguageType( char chLang )
+{
+   m_chLang = chLang;
+}
+
+char ZCrystalTextBuffer::GetLanguageType()
+{
+   return m_chLang;
 }
 
 void
@@ -5584,8 +5827,7 @@ ZCrystalTextBuffer::SetModifiedFileName(LPCTSTR cpcFileName)
    m_csModifiedFileName = cpcFileName;
 }
 
-CString
-ZCrystalTextBuffer::GetModifiedFileName()
+CString ZCrystalTextBuffer::GetModifiedFileName()
 {
    return m_csModifiedFileName;
 }
@@ -5597,6 +5839,7 @@ BOOL ZCrystalTextBuffer::InitNew(int nCrlfStyle /*= CRLF_STYLE_DOS*/)
    ASSERT(m_aLines.GetSize() == 0);
    ASSERT(nCrlfStyle >= 0 && nCrlfStyle <= 2);
    InsertLine(_T(""));
+   m_bNew = TRUE;
    m_bInit = TRUE;
    m_bReadOnly = FALSE;
    m_nCRLFMode = nCrlfStyle;
@@ -5617,6 +5860,11 @@ BOOL ZCrystalTextBuffer::LoadFromFile(LPCTSTR pszFileName, int nCrlfStyle /*= CR
    HANDLE hFile = NULL;
    int nCurrentMax = 256;
    char *pchLineBuffer = new char[nCurrentMax];
+
+   m_bModified = FALSE;
+   m_bUndoGroup = m_bUndoBeginGroup = FALSE;
+   m_nUndoBufSize = UNDO_BUF_SIZE;
+   m_nSyncPosition = m_nUndoPosition = 0;
 
    BOOL bSuccess = FALSE;
    __try
@@ -5723,10 +5971,6 @@ BOOL ZCrystalTextBuffer::LoadFromFile(LPCTSTR pszFileName, int nCrlfStyle /*= CR
 
       m_bInit = TRUE;
       m_bReadOnly = (dwFileAttributes & FILE_ATTRIBUTE_READONLY) != 0;
-      m_bModified = FALSE;
-      m_bUndoGroup = m_bUndoBeginGroup = FALSE;
-      m_nUndoBufSize = UNDO_BUF_SIZE;
-      m_nSyncPosition = m_nUndoPosition = 0;
       ASSERT(m_aUndoBuf.GetSize() == 0);
       bSuccess = TRUE;
 
@@ -5738,6 +5982,10 @@ BOOL ZCrystalTextBuffer::LoadFromFile(LPCTSTR pszFileName, int nCrlfStyle /*= CR
          delete pchLineBuffer;
       if (hFile != NULL)
          ::CloseHandle(hFile);
+      if (m_aLines.GetSize() == 0)
+         InsertLine(_T(""));
+
+      m_bInit = TRUE;
    }
    return bSuccess;
 }
@@ -5834,6 +6082,7 @@ BOOL ZCrystalTextBuffer::SaveToFile(LPCTSTR pszFileName, int nCrlfStyle /*= CRLF
          m_nSyncPosition = m_nUndoPosition;
       }
       bSuccess = TRUE;
+      m_bNew = FALSE;
    }
    __finally
    {
@@ -6603,7 +6852,12 @@ int ZCrystalTextBuffer::FindPrevBookmarkLine(int nCurrentLine)
 
 BOOL ZCrystalTextBuffer::IsModified() const
 {
-   return m_bModified;
+   return m_bModified && (m_bReadOnly == FALSE);
+}
+
+BOOL ZCrystalTextBuffer::IsNew() const
+{
+   return m_bNew;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -6679,6 +6933,9 @@ END_MESSAGE_MAP()
 
 void ZEditReplaceDlg::OnChangeEditText()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnChangeEditText", "");
+#endif
    CString text;
    GetDlgItem(IDC_EDIT_TEXT)->GetWindowText(text);
    GetDlgItem(IDC_EDIT_SKIP)->EnableWindow(text != _T(""));
@@ -6686,6 +6943,9 @@ void ZEditReplaceDlg::OnChangeEditText()
 
 void ZEditReplaceDlg::OnCancel()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnCancel", "");
+#endif
    VERIFY(UpdateData());
 
    CDialog::OnCancel();
@@ -6693,6 +6953,9 @@ void ZEditReplaceDlg::OnCancel()
 
 BOOL ZEditReplaceDlg::OnInitDialog()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnInitDialog", "");
+#endif
    CDialog::OnInitDialog();
 
    GetDlgItem(IDC_EDIT_SKIP)->EnableWindow(m_sText != _T(""));
@@ -6739,6 +7002,9 @@ BOOL ZEditReplaceDlg::DoHighlightText()
 
 void ZEditReplaceDlg::OnEditSkip()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditSkip", "");
+#endif
    if (! UpdateData())
       return;
 
@@ -6755,6 +7021,9 @@ void ZEditReplaceDlg::OnEditSkip()
 
 void ZEditReplaceDlg::OnEditReplace()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditReplace", "");
+#endif
    if (! UpdateData())
       return;
 
@@ -6788,6 +7057,9 @@ void ZEditReplaceDlg::OnEditReplace()
 
 void ZEditReplaceDlg::OnEditReplaceAll()
 {
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditReplaceAll", "");
+#endif
    if (! UpdateData())
       return;
 
@@ -6910,3 +7182,9 @@ void ZFindTextDlg::OnCancel()
 
    CDialog::OnCancel();
 }
+
+DWORD ZCrystalEditView::ParseLine(DWORD dwCookie, int nLineIndex, TEXTBLOCK *pBuf, int &nActualItems)
+{
+   return 0;
+}
+
