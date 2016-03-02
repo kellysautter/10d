@@ -176,7 +176,7 @@ ZBmpCtl::ZBmpCtl( ZSubtask *pZSubtask,
       zCHAR  szImageURL[ zMAX_FILENAME_LTH ];
       zSHORT nLth;
 
-      fnGetImageURL( m_pZSubtask, szImageURL, sizeof( szImageURL ) );
+      fnGetImageURL( m_pZSubtask, szImageURL, zsizeof( szImageURL ) );
       nLth = zstrlen( szImageURL );
 #if 0  //HH
       if ( nLth > 0 && szImageURL[ nLth - 1 ] != '/' &&
@@ -185,7 +185,7 @@ ZBmpCtl::ZBmpCtl( ZSubtask *pZSubtask,
          // append backslash, if the URL does not end with back or
          // forward slash, the lightdriver will convert back slashes
          // to forward slashes, if neccessary.
-         strcat_s( szImageURL, sizeof( szImageURL ), "\\" );
+         strcat_s( szImageURL, zsizeof( szImageURL ), "\\" );
          nLth++;
       }
 #endif
@@ -203,7 +203,7 @@ ZBmpCtl::ZBmpCtl( ZSubtask *pZSubtask,
 #if 0 //HH
             zCHAR szBitmap[ zMAX_FILENAME_LTH ];
             SetRemoteZCtrlAttribute( this, "Ctrl", "Fix", "Y" );
-            GetStringFromAttribute( szBitmap, sizeof( szBitmap ), vXRA, "Bitmap", "URL" );
+            GetStringFromAttribute( szBitmap, zsizeof( szBitmap ), vXRA, "Bitmap", "URL" );
             // convert the bitmap string to lowercase, if triggered by
             //  Zeidon.ini
             // [Workstation]
@@ -211,7 +211,7 @@ ZBmpCtl::ZBmpCtl( ZSubtask *pZSubtask,
             if ( fnGetLowerCaseUrl( m_pZSubtask ) == 'Y' )
                SysTranslateString( szBitmap, 'L' );
 
-            strcpy_s( szImageURL + nLth, sizeof( szImageURL - nLth ), szBitmap );
+            strcpy_s( szImageURL + nLth, zsizeof( szImageURL - nLth ), szBitmap );
             SetRemoteZCtrlAttribute( this, "Bitmap", "URL", szImageURL );
 #endif
             SetRemoteZCtrlAttribute( this, "Ctrl", "Fix", "Y" );
@@ -406,7 +406,7 @@ ZBmpCtl::LoadDib( HINSTANCE hInstDLL,
    if ( pchSemiColon && *pchSemiColon == '@' ) // V.E.A.P.X reference
    {
       GetVEAPX_Reference( m_pZSubtask->m_vDialog, 0, pchSemiColon,
-                          szFileName, sizeof( szFileName ) );
+                          szFileName, zsizeof( szFileName ) );
       if ( *szFileName )
       {
          if ( m_pchVEAPX == 0 || zstrcmp( pchSemiColon, m_pchVEAPX ) != 0 )
@@ -502,12 +502,12 @@ ZBmpCtl::LoadDib( HINSTANCE hInstDLL,
                                           m_pZSubtask->m_vDialog ) == 0 &&
               pApp )
          {
-            strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+            strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
             if ( szZeidonPath[ 0 ] )
             {
                SysAppendcDirSep( szZeidonPath );
-               strcat_s( szZeidonPath, sizeof( szZeidonPath ), pchSemiColon );
-               SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+               strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pchSemiColon );
+               SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
                if ( m_dib.Load( szWorkString ) )
                {
                   if ( m_pZSubtask == 0 || m_pZSubtask->m_pZTask->m_nTraceAction > 2 )
@@ -543,12 +543,12 @@ ZBmpCtl::LoadDib( HINSTANCE hInstDLL,
             }
          }
 
-         SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+         SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
          if ( szZeidonPath[ 0 ] )
          {
             SysAppendcDirSep( szZeidonPath );
-            strcat_s( szZeidonPath, sizeof( szZeidonPath ), pchSemiColon );
-            SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+            strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pchSemiColon );
+            SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
             if ( m_dib.Load( szWorkString ) )
             {
                if ( m_pZSubtask == 0 || m_pZSubtask->m_pZTask->m_nTraceAction > 2 )
@@ -631,7 +631,7 @@ ZBmpCtl::MapFromOI( WPARAM wFlag )
 #ifdef zREMOTE_SERVER
          zCHAR szBitmap[ 512 ];
 
-         strcpy_s( szBitmap, sizeof( szBitmap ), pch );
+         strcpy_s( szBitmap, zsizeof( szBitmap ), pch );
          BMP_SetBitmapFileName( m_pZSubtask->m_vDialog, *m_pzsTag, szBitmap );
 #else
          SetBitmapFileName( pch );
@@ -1549,8 +1549,7 @@ ZBmpFile::SaveBMP( CString csFileName,    // output path
 
    DWORD widthDW = WIDTHBYTES( width * 24 );
 
-   long bmfsize = sizeof( BITMAPFILEHEADER ) + sizeof( BITMAPINFOHEADER ) +
-                     widthDW * height;
+   long bmfsize = sizeof( BITMAPFILEHEADER ) + sizeof( BITMAPINFOHEADER ) + widthDW * height;
    long byteswritten = 0;
 
    BITMAPINFOHEADER header;
@@ -1999,7 +1998,7 @@ int build_table( uchar *image, ulong pixels )
       return( 0 );
 
 #ifdef FAST
-    dl_image = malloc( sizeof( short ) * pixels );
+    dl_image = malloc( zsizeof( short ) * pixels );
     if ( dl_image == 0 )
       return( 0 );
 #endif
@@ -2430,7 +2429,7 @@ quantize_image( uchar *in, uchar *out, int width, int height, int dither )
       slong offset = 0;
 
       uchar *range_tbl = (BYTE *) malloc( 3 * 256 ), *range = range_tbl + 256;
-      sshort *lookup = (sshort *) malloc( sizeof( short ) * 32768 );
+      sshort *lookup = (sshort *) malloc( zsizeof( short ) * 32768 );
 
       if ( range_tbl == 0 || lookup == 0 )
       {
@@ -3146,7 +3145,7 @@ BMP_SetBitmapFileName( zVIEW    vSubtask,
       zSHORT nLth = zstrlen( cpcBitmapFileName ) + zMAX_FILENAME_LTH + 1;
       zPCHAR pchName = new char[ nLth ];
 
-      GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteImage", szImage, sizeof( szImage ) );
+      GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteImage", szImage, zsizeof( szImage ) );
       strcpy_s( pchName, cpcBitmapFileName );
       if ( szImage[ 0 ] )
       {
@@ -3164,13 +3163,13 @@ BMP_SetBitmapFileName( zVIEW    vSubtask,
          delete [] pch;
       }
 
-      GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteImageStrip", szImage, sizeof( szImage ) );
+      GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteImageStrip", szImage, zsizeof( szImage ) );
       if ( szImage[ 0 ] )
       {
          zPCHAR pch = new char[ nLth ];
 
          strcpy_s( pch, nLth, szImage );
-         SysConvertEnvironmentString( szImage, sizeof( szImage ), pch );
+         SysConvertEnvironmentString( szImage, zsizeof( szImage ), pch );
          SysTranslateString( szImage, 'L' );
 
          strcpy_s( pch, nLth, pchName );

@@ -70,12 +70,12 @@ TZZAPP2D_SendServerExecs( zVIEW vSubtask )
 
    // get XLP for selceted application
    GetViewByName( &vZApp, "KZAPPLOO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szAppName, sizeof( szAppName ), vZApp, "APPLICATION", "APP_NAME" );
-   GetStringFromAttribute( szLPLR_Path, sizeof( szLPLR_Path ), vZApp, "APPLICATION", "APP_ADOBIN" );
+   GetStringFromAttribute( szAppName, zsizeof( szAppName ), vZApp, "APPLICATION", "APP_NAME" );
+   GetStringFromAttribute( szLPLR_Path, zsizeof( szLPLR_Path ), vZApp, "APPLICATION", "APP_ADOBIN" );
    SysAppendcDirSep( szLPLR_Path );
-   strcpy_s( szFileName, sizeof( szFileName ), szLPLR_Path );
-   strcat_s( szFileName, sizeof( szFileName ), szAppName );
-   strcat_s( szFileName, sizeof( szFileName ), ".XLP" );
+   strcpy_s( szFileName, zsizeof( szFileName ), szLPLR_Path );
+   strcat_s( szFileName, zsizeof( szFileName ), szAppName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".XLP" );
 
    // open Task LPLR
    nRC = ActivateOI_FromFile( &vLPLR, "TZCMLPLO", vSubtask, szFileName,
@@ -90,7 +90,7 @@ TZZAPP2D_SendServerExecs( zVIEW vSubtask )
 
    SetNameForView( vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK);
 
-   zmemset (szServer,0,sizeof(szServer));
+   zmemset (szServer,0,zsizeof(szServer));
 // GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
    // Start the network if necessary.  Use zeidon and hzkzoe as constants for now.
@@ -109,8 +109,8 @@ TZZAPP2D_SendServerExecs( zVIEW vSubtask )
 
    // First get the application name and make sure it exists in the
    // zeidon.app object on the server.  If it isn't there, add it.
-   GetStringFromAttribute( szAppName, sizeof( szAppName ), vLPLR, "LPLR", "Name" );
-   strcpy_s( szFileName, sizeof( szFileName ), "zeidon.app" );
+   GetStringFromAttribute( szAppName, zsizeof( szAppName ), vLPLR, "LPLR", "Name" );
+   strcpy_s( szFileName, zsizeof( szFileName ), "zeidon.app" );
    SfCreateSubtask( &vApplSubtask, vSubtask, "Zeidon System" );
    nRC = NetActivateOI_FromFile( 0, szServer, &vMeta, "KZAPPLOO",
                                  vApplSubtask, szFileName, zSINGLE );
@@ -124,8 +124,8 @@ TZZAPP2D_SendServerExecs( zVIEW vSubtask )
       {
          CreateEntity( vMeta, "APPLICATION", zPOS_LAST );
          SetAttributeFromString( vMeta, "APPLICATION", "APP_NAME", szAppName );
-         strcpy_s( szServerSubDir, sizeof( szServerSubDir ), szAppName );
-         strcat_s( szServerSubDir, sizeof( szServerSubDir ), "/" );
+         strcpy_s( szServerSubDir, zsizeof( szServerSubDir ), szAppName );
+         strcat_s( szServerSubDir, zsizeof( szServerSubDir ), "/" );
          SetAttributeFromString( vMeta, "APPLICATION",
                                  "APP_DLL", szServerSubDir );
          SetAttributeFromString( vMeta, "APPLICATION",
@@ -133,7 +133,7 @@ TZZAPP2D_SendServerExecs( zVIEW vSubtask )
          SetAttributeFromString( vMeta, "APPLICATION",
                                  "APP_LOCAL", szServerSubDir );
          TraceLineS( "*** Committing server file: ", szFileName );
-         strcpy_s( szMsg, sizeof( szMsg ), "Sending ZEIDON.APP: " );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Sending ZEIDON.APP: " );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          // Send OI to server.
@@ -156,10 +156,10 @@ TZZAPP2D_SendServerExecs( zVIEW vSubtask )
    // Send the XDM before all the xods.
    // First format the file name for activation on the client and then
    // format it for commit on the server.
-// GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
-   strcpy_s( szFileName, sizeof( szFileName ), szLPLR_Path );
-   strcpy_s( szMetaName, sizeof( szMetaName ), "ZEIDON.XDM" );
-   strcat_s( szFileName, sizeof( szFileName ), szMetaName );
+// GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
+   strcpy_s( szFileName, zsizeof( szFileName ), szLPLR_Path );
+   strcpy_s( szMetaName, zsizeof( szMetaName ), "ZEIDON.XDM" );
+   strcat_s( szFileName, zsizeof( szFileName ), szMetaName );
    TraceLineS( "*** Activating client file: ", szFileName );
    nRC = ActivateOI_FromFile( &vMeta, "TZDMXGPO", vSubtask,
                               szFileName, zSINGLE );
@@ -167,9 +167,9 @@ TZZAPP2D_SendServerExecs( zVIEW vSubtask )
    if ( nRC >= 0 )
    {
       // Filename includes Directory-prefix **HH**
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "Name" );
-      strcat_s( szFileName, sizeof( szFileName ), "/" );
-      strcat_s( szFileName, sizeof( szFileName ), szMetaName );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "Name" );
+      strcat_s( szFileName, zsizeof( szFileName ), "/" );
+      strcat_s( szFileName, zsizeof( szFileName ), szMetaName );
       TraceLineS( "*** Committing server file: ", szFileName );
       MB_SetMessage( vSubtask, 1, "Sending XDM" );
 
@@ -184,23 +184,23 @@ TZZAPP2D_SendServerExecs( zVIEW vSubtask )
    nRC = SetCursorFirstEntity( vLPLR, "W_MetaDef", 0 );
    while ( nRC >= zCURSOR_SET )
    {
-      strcpy_s( szFileName, sizeof( szFileName ), szLPLR_Path );
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vLPLR, "W_MetaDef", "Name" );
-      strcat_s( szFileName, sizeof( szFileName ), szMetaName );
-      strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+      strcpy_s( szFileName, zsizeof( szFileName ), szLPLR_Path );
+      GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vLPLR, "W_MetaDef", "Name" );
+      strcat_s( szFileName, zsizeof( szFileName ), szMetaName );
+      strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
       TraceLineS( "*** Activating client file: ", szFileName );
       nRC = ActivateOI_FromFile( &vMeta, "TZZOXODO", vSubtask,
                                  szFileName, zSINGLE );
       if ( nRC >= 0 )
       {
         // Filename includes Directory-prefix **HH**
-        GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "Name" );
-        strcat_s( szFileName, sizeof( szFileName ), "/" );
-        strcat_s( szFileName, sizeof( szFileName ), szMetaName );
-        strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+        GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "Name" );
+        strcat_s( szFileName, zsizeof( szFileName ), "/" );
+        strcat_s( szFileName, zsizeof( szFileName ), szMetaName );
+        strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
         TraceLineS( "*** Committing server file: ", szFileName );
-        strcpy_s( szMsg, sizeof( szMsg ), "Sending XOD: " );
-        strcat_s( szMsg, sizeof( szMsg ), szMetaName );
+        strcpy_s( szMsg, zsizeof( szMsg ), "Sending XOD: " );
+        strcat_s( szMsg, zsizeof( szMsg ), szMetaName );
         MB_SetMessage( vSubtask, 1, szMsg );
 
         // Send OI to server.

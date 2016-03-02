@@ -684,10 +684,10 @@ o_ImportERD_Recursive( zVIEW     vWkRecur,
 
    //:SET CURSOR  FIRST vWkDim.OrigSironSubField
    //:    WHERE vWkDim.OrigSironSubField.FieldName = vWkRecur.HD_ChildNode.Name
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vWkRecur, "HD_ChildNode", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vWkRecur, "HD_ChildNode", "Name" );
    RESULT = SetCursorFirstEntityByString( vWkDim, "OrigSironSubField", "FieldName", szTempString_0, "" );
    //:GetStringFromAttribute( szDimension, vWkDim, "OrigSironSubField", "Dimension" )
-   GetStringFromAttribute( szDimension, sizeof( szDimension ), vWkDim, "OrigSironSubField", "Dimension" );
+   GetStringFromAttribute( szDimension, zsizeof( szDimension ), vWkDim, "OrigSironSubField", "Dimension" );
    //:DropView( vWkDim )
    DropView( vWkDim );
 
@@ -746,7 +746,7 @@ o_ImportERD_Recursive( zVIEW     vWkRecur,
       SetAttributeFromString( vERD, "ER_RelLink_2", "CardMax", szDimension );
       //:SET CURSOR FIRST vERD.ER_Entity WHERE
       //:    vERD.ER_Entity.Name = vWkHigh.NewEntity.FieldName
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vWkHigh, "NewEntity", "FieldName" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vWkHigh, "NewEntity", "FieldName" );
       RESULT = SetCursorFirstEntityByString( vERD, "ER_Entity", "Name", szTempString_0, "" );
       //:INCLUDE vERD.ER_Entity_2 FROM vERD.ER_Entity
       RESULT = IncludeSubobjectFromSubobject( vERD, "ER_Entity_2", vERD, "ER_Entity", zPOS_AFTER );
@@ -1003,7 +1003,7 @@ o_ImportWorkOIToZeidon( zVIEW     vSubtask )
    //:// Create ERD entries for the main Katalog entry.
    //:nRC = ImportCreateERD( vWkRecur, vERD, vLPLRDomain, vSubtask,
    //:                        vWkRecur.NewEntity.FieldName, 1 )
-   GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vWkRecur, "NewEntity", "FieldName" );
+   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vWkRecur, "NewEntity", "FieldName" );
    nRC = o_ImportCreateERD( vWkRecur, vERD, vLPLRDomain, vSubtask, szTempString_1, 1 );
    //:IF nRC >= 0
    if ( nRC >= 0 )
@@ -1830,9 +1830,9 @@ ImportCatalogAndWSK( zVIEW     vSubtask )
    //:                TZSIIMWK.CatFiles.wkCatFiles,
    //:                TZSIIMWK.Catalogs.wkCatalogName,
    //:                szFilename )
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TZSIIMWK, "TZSIIMWK", "wkServerName" );
-   GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TZSIIMWK, "CatFiles", "wkCatFiles" );
-   GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), TZSIIMWK, "Catalogs", "wkCatalogName" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZSIIMWK, "TZSIIMWK", "wkServerName" );
+   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZSIIMWK, "CatFiles", "wkCatFiles" );
+   GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), TZSIIMWK, "Catalogs", "wkCatalogName" );
    nRC = BuildWSK( vSubtask, TZSIIMWK, szTempString_0, szTempString_1, szTempString_2, szFilename );
 
    //:IF  nRC != 0

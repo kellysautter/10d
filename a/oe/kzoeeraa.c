@@ -71,139 +71,139 @@ SendDomainError( zVIEW     zView,
    switch ( lMessageID )
    {
       case 1:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME001" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Invalid Input Data Type." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME001" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Invalid Input Data Type." );
          nEntityAttrFlag = 0;
          break;
 
       case 2:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME002" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Text String exceeds attribute length." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME002" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Text String exceeds attribute length." );
          break;
 
       case 3:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME003" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Attribute Type invalid for this Domain." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME003" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Attribute Type invalid for this Domain." );
          break;
 
       case 4:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME004" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Invalid Domain Entry Type." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME004" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Invalid Domain Entry Type." );
          break;
 
       case 5:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME005" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Table_Handler invalid for this Domain." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME005" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Table_Handler invalid for this Domain." );
          break;
 
       case 6:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME006" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Integer overflow." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME006" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Integer overflow." );
          break;
 
       case 7:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME007" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Integer underflow." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME007" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Integer underflow." );
          break;
 
       case 8:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME008" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Could not find context for Domain." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME008" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Could not find context for Domain." );
          break;
 
       case 9:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME009" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Context edit string is invalid for Domain." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME009" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Context edit string is invalid for Domain." );
          break;
 
       case 10:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME010" );
-         strcpy_s( szMsg, sizeof( szMsg ), "DateTime input string invalid." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME010" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "DateTime input string invalid." );
          nEntityAttrFlag = 0;
          break;
 
       case 11:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME011" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Error storing value in record." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME011" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Error storing value in record." );
          break;
 
       case 12:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME012" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Context Required when Type is INTEGER. " );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME012" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Context Required when Type is INTEGER. " );
          break;
 
       case 13:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME013" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Context/cType Combination is invalid." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME013" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Context/cType Combination is invalid." );
          break;
 
       case 14:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME014" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Context is for retrieval only." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME014" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Context is for retrieval only." );
          break;
 
       case 15:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME015" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Context only used for arithmetic operations." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME015" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Context only used for arithmetic operations." );
          break;
 
       case 16:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME016" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Input invalid for context." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME016" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Input invalid for context." );
          break;
 
       case 17:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME017" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Context Required when Type is DECIMAL." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME017" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Context Required when Type is DECIMAL." );
          break;
 
       case 18:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME018" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Context edit string is null." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME018" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Context edit string is null." );
          break;
 
       case 19:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME019" );
-         strcpy_s( szMsg, sizeof( szMsg ), "International number formatting is not available." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME019" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "International number formatting is not available." );
          break;
 
       case 20:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME020" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Invalid decimal string." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME020" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Invalid decimal string." );
          nEntityAttrFlag = 0;
          break;
 
       case 21:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME021" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Return area not large enough for formatted string." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME021" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Return area not large enough for formatted string." );
          break;
 
       case 22:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME022" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Only AlphaNumeric chars are allowed." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME022" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Only AlphaNumeric chars are allowed." );
          nEntityAttrFlag = 0;
          break;
 
       case 23:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME023" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Value is out of valid range." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME023" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Value is out of valid range." );
          nEntityAttrFlag = 0;
          break;
 
       case 24:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME024" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Invalid integer string." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME024" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Invalid integer string." );
          nEntityAttrFlag = 0;
          break;
 
       case 25:
-         strcpy_s( szMsgID, sizeof( szMsgID ), "TZDME025" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Invalid table value." );
+         strcpy_s( szMsgID, zsizeof( szMsgID ), "TZDME025" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Invalid table value." );
          nEntityAttrFlag = 0;
          break;
 
       default:
-         strcpy_s( szMsg, sizeof( szMsg ), "Unknown Error Message " );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unknown Error Message " );
    }
 
    // If flag is off then check Zeidon INI file to see if we should turn it
@@ -212,7 +212,7 @@ SendDomainError( zVIEW     zView,
    {
       zCHAR sz[ 10 ];
 
-      SysReadZeidonIni( -1, "[Debug]", "DomainMessage", sz, sizeof( sz ) );
+      SysReadZeidonIni( -1, "[Debug]", "DomainMessage", sz, zsizeof( sz ) );
       if ( sz[ 0 ] == 'Y' || sz[ 0 ] == 'y' )
          nEntityAttrFlag = 1;
    }
@@ -225,14 +225,14 @@ SendDomainError( zVIEW     zView,
       // overwrites everything!
       if ( cpcInfo1 )
       {
-         strcat_s( szMsg, sizeof( szMsg ), "\n\n Debug Info 1:\t" );
-         strcat_s( szMsg, sizeof( szMsg ), cpcInfo1 );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n\n Debug Info 1:\t" );
+         strcat_s( szMsg, zsizeof( szMsg ), cpcInfo1 );
       }
 
       if ( cpcInfo2 )
       {
-         strcat_s( szMsg, sizeof( szMsg ), "\n Debug Info 2:\t" );
-         strcat_s( szMsg, sizeof( szMsg ), cpcInfo2 );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n Debug Info 2:\t" );
+         strcat_s( szMsg, zsizeof( szMsg ), cpcInfo2 );
       }
    }
 
@@ -396,26 +396,26 @@ IssueOE_Error( zVIEW        lpView,
    SysGetBaseMessage( szCoreMessage, nID, 256 );
    if ( szCoreMessage[ 0 ] == 0 )
    {
-      strcpy_s( szCoreMessage, sizeof( szCoreMessage ), "Unknown Error Message (" );
-      zltoa( nID, szCoreMessage + 490, sizeof( szCoreMessage ) - 490 );
-      strcat_s( szCoreMessage, sizeof( szCoreMessage ), szCoreMessage + 490 );
-      strcat_s( szCoreMessage, sizeof( szCoreMessage ), ") " );
+      strcpy_s( szCoreMessage, zsizeof( szCoreMessage ), "Unknown Error Message (" );
+      zltoa( nID, szCoreMessage + 490, zsizeof( szCoreMessage ) - 490 );
+      strcat_s( szCoreMessage, zsizeof( szCoreMessage ), szCoreMessage + 490 );
+      strcat_s( szCoreMessage, zsizeof( szCoreMessage ), ") " );
    }
 
    if ( lLong )
    {
-      zltoa( lLong, szCoreMessage + 490, sizeof( szCoreMessage ) - 490 );
-      strcat_s( szCoreMessage, sizeof( szCoreMessage ), &szCoreMessage[ 490 ] );
+      zltoa( lLong, szCoreMessage + 490, zsizeof( szCoreMessage ) - 490 );
+      strcat_s( szCoreMessage, zsizeof( szCoreMessage ), &szCoreMessage[ 490 ] );
    }
 
    if ( cpcMessage1 )  // if any additional information
    {
-      strcat_s( szCoreMessage, sizeof( szCoreMessage ), ",\n\n " );
-      strcat_s( szCoreMessage, sizeof( szCoreMessage ), cpcMessage1 );
+      strcat_s( szCoreMessage, zsizeof( szCoreMessage ), ",\n\n " );
+      strcat_s( szCoreMessage, zsizeof( szCoreMessage ), cpcMessage1 );
       if ( cpcMessage2 )
       {
-         strcat_s( szCoreMessage, sizeof( szCoreMessage ), ",\n" );
-         strcat_s( szCoreMessage, sizeof( szCoreMessage ), cpcMessage2 );
+         strcat_s( szCoreMessage, zsizeof( szCoreMessage ), ",\n" );
+         strcat_s( szCoreMessage, zsizeof( szCoreMessage ), cpcMessage2 );
       }
    }
 
@@ -425,8 +425,8 @@ IssueOE_Error( zVIEW        lpView,
    // But don't do it for EE071 or EE101 as it implies erroneous information.
    if ( lpView && lpViewOD && nID != 71 && nID != 101 )  // dks 2006.04.27
    {
-       strcat_s( szCoreMessage, sizeof( szCoreMessage ), ",\n\nView Object: " );
-       strcat_s( szCoreMessage, sizeof( szCoreMessage ), lpViewOD->szName );
+       strcat_s( szCoreMessage, zsizeof( szCoreMessage ), ",\n\nView Object: " );
+       strcat_s( szCoreMessage, zsizeof( szCoreMessage ), lpViewOD->szName );
    }
 
    // See if we can determine the operation.
@@ -441,29 +441,29 @@ IssueOE_Error( zVIEW        lpView,
       if ( szOperationName[ 0 ] == 0 )
       {
          szOperationName[ 0 ] = '(';
-      // zltoa( lpTask->nOper[ 0 ], szOperationName + 1, sizeof( szOperationName ) - 1 );
-         zltoa( lpTask->nOper[ lpTask->nOperIdx ], szOperationName + 1, sizeof( szOperationName ) - 1 );
-         strcat_s( szOperationName, sizeof( szOperationName ), ")" );
+      // zltoa( lpTask->nOper[ 0 ], szOperationName + 1, zsizeof( szOperationName ) - 1 );
+         zltoa( lpTask->nOper[ lpTask->nOperIdx ], szOperationName + 1, zsizeof( szOperationName ) - 1 );
+         strcat_s( szOperationName, zsizeof( szOperationName ), ")" );
       }
 
-      strcat_s( szCoreMessage, sizeof( szCoreMessage ), ",\nOperation: " );
-      strcat_s( szCoreMessage, sizeof( szCoreMessage ), szOperationName );
+      strcat_s( szCoreMessage, zsizeof( szCoreMessage ), ",\nOperation: " );
+      strcat_s( szCoreMessage, zsizeof( szCoreMessage ), szOperationName );
       if ( lpTask->nOperIdx > 0 )
       {
          zSHORT k;
          for ( k = lpTask->nOperIdx - 1; k > -1 ; k-- )
          {
-            strcat_s( szCoreMessage, sizeof( szCoreMessage ), ", " );
+            strcat_s( szCoreMessage, zsizeof( szCoreMessage ), ", " );
             szOperationName[ 0 ] = 0;
             SysGetOperationMessage( szOperationName, lpTask->nOper[ k ], 31 );
             if ( szOperationName[ 0 ] == 0 )
             {
                szOperationName[ 0 ] = '(';
-               zltoa( lpTask->nOper[ k ], szOperationName + 1, sizeof( szOperationName ) - 1 );
-               strcat_s( szOperationName, sizeof( szOperationName ), ") " );
+               zltoa( lpTask->nOper[ k ], szOperationName + 1, zsizeof( szOperationName ) - 1 );
+               strcat_s( szOperationName, zsizeof( szOperationName ), ") " );
             }
 
-            strcat_s( szCoreMessage, sizeof( szCoreMessage ), szOperationName );
+            strcat_s( szCoreMessage, zsizeof( szCoreMessage ), szOperationName );
          }
       }
    }
@@ -483,7 +483,7 @@ IssueOE_Error( zVIEW        lpView,
    else
       pchTitle = szlApplicationLogicError;
 
-   zltoa( nID, szMsgId, sizeof( szMsgId ) ); // convert message id to a string
+   zltoa( nID, szMsgId, zsizeof( szMsgId ) ); // convert message id to a string
    return( MessageSend( zView, szMsgId,
                         szlApplicationLogicError,
                         szCoreMessage,

@@ -118,7 +118,7 @@ oTZADCSDO_DS_EntityRelink( zVIEW     vSubtask,
    { 
       //:SET CURSOR FIRST vLOD.LOD_Entity WHERE
       //:    vLOD.LOD_Entity.Name = vDSR.LOD_Entity.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDSR, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDSR, "LOD_Entity", "Name" );
       RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTempString_0, "" );
       //:IF RESULT >= 0
       if ( RESULT >= 0 )
@@ -174,14 +174,14 @@ oTZADCSDO_DS_EntityRelink( zVIEW     vSubtask,
             //:// and recreated.  In this case, re-include the Attribute.
             //:SET CURSOR FIRST vLOD.LOD_Entity WHERE
             //:                 vLOD.LOD_Entity.Name = vDSR.M_LOD_Entity.Name
-            GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vDSR, "M_LOD_Entity", "Name" );
+            GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vDSR, "M_LOD_Entity", "Name" );
             RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTempString_2, "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
             { 
                //:SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity WHERE
                //:                 vLOD.ER_Attribute.Name = vDSR.M_ER_Attribute.Name
-               GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vDSR, "M_ER_Attribute", "Name" );
+               GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vDSR, "M_ER_Attribute", "Name" );
                RESULT = SetCursorFirstEntityByString( vLOD, "ER_Attribute", "Name", szTempString_2, "LOD_Entity" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -259,14 +259,14 @@ oTZADCSDO_DS_EntityRelink( zVIEW     vSubtask,
             //:// and recreated.  In this case, re-include the Attribute.
             //:SET CURSOR FIRST vLOD.LOD_Entity WHERE
             //:                 vLOD.LOD_Entity.Name = vDSR.L_LOD_Entity.Name
-            GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vDSR, "L_LOD_Entity", "Name" );
+            GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vDSR, "L_LOD_Entity", "Name" );
             RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTempString_4, "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
             { 
                //:SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity WHERE
                //:                 vLOD.ER_Attribute.Name = vDSR.L_ER_Attribute.Name
-               GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vDSR, "L_ER_Attribute", "Name" );
+               GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vDSR, "L_ER_Attribute", "Name" );
                RESULT = SetCursorFirstEntityByString( vLOD, "ER_Attribute", "Name", szTempString_4, "LOD_Entity" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -351,7 +351,7 @@ oTZADCSDO_DS_EntityRelink( zVIEW     vSubtask,
       { 
          //:nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
          //:                             zSINGLE, vDSR.ListViewObjRef.Name  , 0 )
-         GetStringFromAttribute( szTempString_6, sizeof( szTempString_6 ), vDSR, "ListViewObjRef", "Name" );
+         GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), vDSR, "ListViewObjRef", "Name" );
          nRC = ActivateMetaOI_ByName( vSubtask, &vVOR, 0, zREFER_VOR_META, zSINGLE, szTempString_6, 0 );
          //:IF nRC >= 0
          if ( nRC >= 0 )
@@ -412,7 +412,7 @@ oTZADCSDO_DS_EntityRelink( zVIEW     vSubtask,
       { 
          //:nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
          //:                             zSINGLE, vDSR.IncludeViewObjRef.Name  , 0 )
-         GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), vDSR, "IncludeViewObjRef", "Name" );
+         GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), vDSR, "IncludeViewObjRef", "Name" );
          nRC = ActivateMetaOI_ByName( vSubtask, &vVOR, 0, zREFER_VOR_META, zSINGLE, szTempString_8, 0 );
          //:IF nRC >= 0
          if ( nRC >= 0 )
@@ -476,14 +476,14 @@ oTZADCSDO_DS_EntityRelink( zVIEW     vSubtask,
                //:// and recreated.  In this case, re-include the Attribute.
                //:SET CURSOR FIRST vLOD_List.LOD_Entity WHERE
                //:                 vLOD_List.LOD_Entity.Name = vDSR.I_LOD_Entity.Name
-               GetStringFromAttribute( szTempString_10, sizeof( szTempString_10 ), vDSR, "I_LOD_Entity", "Name" );
+               GetStringFromAttribute( szTempString_10, zsizeof( szTempString_10 ), vDSR, "I_LOD_Entity", "Name" );
                RESULT = SetCursorFirstEntityByString( vLOD_List, "LOD_Entity", "Name", szTempString_10, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
                { 
                   //:SET CURSOR FIRST vLOD_List.ER_Attribute WITHIN vLOD_List.LOD_Entity WHERE
                   //:                 vLOD_List.ER_Attribute.Name = vDSR.I_ER_Attribute.Name
-                  GetStringFromAttribute( szTempString_10, sizeof( szTempString_10 ), vDSR, "I_ER_Attribute", "Name" );
+                  GetStringFromAttribute( szTempString_10, zsizeof( szTempString_10 ), vDSR, "I_ER_Attribute", "Name" );
                   RESULT = SetCursorFirstEntityByString( vLOD_List, "ER_Attribute", "Name", szTempString_10, "LOD_Entity" );
                   //:IF RESULT >= zCURSOR_SET
                   if ( RESULT >= zCURSOR_SET )
@@ -597,7 +597,7 @@ oTZADCSDO_DS_RelinkDelete( zVIEW     vDialogSpec,
    { 
       //:nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
       //:                             zSINGLE, vDialogSpec.UIS_ViewObjRef.Name , 0 )
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialogSpec, "UIS_ViewObjRef", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialogSpec, "UIS_ViewObjRef", "Name" );
       nRC = ActivateMetaOI_ByName( vSubtask, &vVOR, 0, zREFER_VOR_META, zSINGLE, szTempString_0, 0 );
       //:IF nRC < 0
       if ( nRC < 0 )
@@ -639,7 +639,7 @@ oTZADCSDO_DS_RelinkDelete( zVIEW     vDialogSpec,
    { 
       //:nRC = ActivateMetaOI_ByName( vSubtask, vLOD, 0, zREFER_LOD_META,
       //:                             zSINGLE, vDialogSpec.UIS_LOD.Name  , 0 )
-      GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vDialogSpec, "UIS_LOD", "Name" );
+      GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vDialogSpec, "UIS_LOD", "Name" );
       nRC = ActivateMetaOI_ByName( vSubtask, &vLOD, 0, zREFER_LOD_META, zSINGLE, szTempString_2, 0 );
       //:IF nRC < 0
       if ( nRC < 0 )
@@ -697,7 +697,7 @@ oTZADCSDO_DS_RelinkDelete( zVIEW     vDialogSpec,
       { 
          //:nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
          //:                             zSINGLE, vDialogSpec.ListVOR.Name , 0 )
-         GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vDialogSpec, "ListVOR", "Name" );
+         GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vDialogSpec, "ListVOR", "Name" );
          nRC = ActivateMetaOI_ByName( vSubtask, &vVOR, 0, zREFER_VOR_META, zSINGLE, szTempString_4, 0 );
          //:IF nRC < 0
          if ( nRC < 0 )
@@ -836,7 +836,7 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
    { 
       //:SET CURSOR FIRST MapLOD.LOD_Entity WHERE
       //:    MapLOD.LOD_Entity.Name = OldDS_C.LOD_Entity.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldDS_C, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDS_C, "LOD_Entity", "Name" );
       RESULT = SetCursorFirstEntityByString( MapLOD, "LOD_Entity", "Name", szTempString_0, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -877,7 +877,7 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
       { 
          //:SET CURSOR FIRST vPE.WindowStyle WHERE
          //:    vPE.WindowStyle.Tag = OldDS_C.WndStyle.Tag
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), OldDS_C, "WndStyle", "Tag" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), OldDS_C, "WndStyle", "Tag" );
          RESULT = SetCursorFirstEntityByString( vPE, "WindowStyle", "Tag", szTempString_1, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -913,7 +913,7 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
    { 
       //:SET CURSOR FIRST MapLOD.LOD_Entity WHERE
       //:    MapLOD.LOD_Entity.Name = OldDS_C.M_LOD_Entity.Name
-      GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), OldDS_C, "M_LOD_Entity", "Name" );
+      GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), OldDS_C, "M_LOD_Entity", "Name" );
       RESULT = SetCursorFirstEntityByString( MapLOD, "LOD_Entity", "Name", szTempString_2, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -932,7 +932,7 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
       { 
          //:SET CURSOR FIRST MapLOD.ER_Attribute WITHIN MapLOD.LOD_Entity WHERE
          //:    MapLOD.ER_Attribute.Name = OldDS_C.M_ER_Attribute.Name
-         GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), OldDS_C, "M_ER_Attribute", "Name" );
+         GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), OldDS_C, "M_ER_Attribute", "Name" );
          RESULT = SetCursorFirstEntityByString( MapLOD, "ER_Attribute", "Name", szTempString_3, "LOD_Entity" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -968,7 +968,7 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
    { 
       //:SET CURSOR FIRST MapLOD.LOD_Entity WHERE
       //:    MapLOD.LOD_Entity.Name = OldDS_C.L_LOD_Entity.Name
-      GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), OldDS_C, "L_LOD_Entity", "Name" );
+      GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), OldDS_C, "L_LOD_Entity", "Name" );
       RESULT = SetCursorFirstEntityByString( MapLOD, "LOD_Entity", "Name", szTempString_4, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -987,7 +987,7 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
       { 
          //:SET CURSOR FIRST MapLOD.ER_Attribute WITHIN MapLOD.LOD_Entity WHERE
          //:    MapLOD.ER_Attribute.Name = OldDS_C.L_ER_Attribute.Name
-         GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), OldDS_C, "L_ER_Attribute", "Name" );
+         GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), OldDS_C, "L_ER_Attribute", "Name" );
          RESULT = SetCursorFirstEntityByString( MapLOD, "ER_Attribute", "Name", szTempString_5, "LOD_Entity" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -1033,8 +1033,8 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
       //:                            OldDS_C.ListSubObjLOD.Name,
       //:                            OldDS_C.ListViewObjRef.Name,
       //:                            "ListViewObjRef" )
-      GetStringFromAttribute( szTempString_6, sizeof( szTempString_6 ), OldDS_C, "ListSubObjLOD", "Name" );
-      GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), OldDS_C, "ListViewObjRef", "Name" );
+      GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), OldDS_C, "ListSubObjLOD", "Name" );
+      GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), OldDS_C, "ListViewObjRef", "Name" );
       nRC = oTZADCSDO_DialogSpecGetVOR_LOD( vSubtask, OldDS, &VOR, &MapLOD, szTempString_6, szTempString_7, "ListViewObjRef" );
 
       //:IF nRC = 0
@@ -1060,8 +1060,8 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
       //:                            OldDS_C.IncludeSubObjLOD.Name,
       //:                            OldDS_C.IncludeViewObjRef.Name,
       //:                            "IncludeViewObjRef" )
-      GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), OldDS_C, "IncludeSubObjLOD", "Name" );
-      GetStringFromAttribute( szTempString_9, sizeof( szTempString_9 ), OldDS_C, "IncludeViewObjRef", "Name" );
+      GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), OldDS_C, "IncludeSubObjLOD", "Name" );
+      GetStringFromAttribute( szTempString_9, zsizeof( szTempString_9 ), OldDS_C, "IncludeViewObjRef", "Name" );
       nRC = oTZADCSDO_DialogSpecGetVOR_LOD( vSubtask, OldDS, &VOR, &MapLOD, szTempString_8, szTempString_9, "IncludeViewObjRef" );
       //:IF nRC = 0
       if ( nRC == 0 )
@@ -1090,7 +1090,7 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
    { 
       //:SET CURSOR FIRST MapLOD.LOD_Entity WHERE
       //:    MapLOD.LOD_Entity.Name = OldDS_C.I_LOD_Entity.Name
-      GetStringFromAttribute( szTempString_10, sizeof( szTempString_10 ), OldDS_C, "I_LOD_Entity", "Name" );
+      GetStringFromAttribute( szTempString_10, zsizeof( szTempString_10 ), OldDS_C, "I_LOD_Entity", "Name" );
       RESULT = SetCursorFirstEntityByString( MapLOD, "LOD_Entity", "Name", szTempString_10, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -1109,7 +1109,7 @@ oTZADCSDO_DialogSpecEntityCopy( zVIEW     vSubtask,
       { 
          //:SET CURSOR FIRST MapLOD.ER_Attribute WITHIN MapLOD.LOD_Entity WHERE
          //:    MapLOD.ER_Attribute.Name = OldDS_C.I_ER_Attribute.Name
-         GetStringFromAttribute( szTempString_11, sizeof( szTempString_11 ), OldDS_C, "I_ER_Attribute", "Name" );
+         GetStringFromAttribute( szTempString_11, zsizeof( szTempString_11 ), OldDS_C, "I_ER_Attribute", "Name" );
          RESULT = SetCursorFirstEntityByString( MapLOD, "ER_Attribute", "Name", szTempString_11, "LOD_Entity" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -1190,7 +1190,7 @@ oTZADCSDO_DialogSpecGetVOR_LOD( zVIEW     vSubtask,
       RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
       //:SET CURSOR FIRST LOD_List.W_MetaDef WHERE
       //:                 LOD_List.W_MetaDef.Name = VOR.LOD.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), *VOR, "LOD", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), *VOR, "LOD", "Name" );
       RESULT = SetCursorFirstEntityByString( LOD_List, "W_MetaDef", "Name", szTempString_0, "" );
       //:ActivateMetaOI( vSubtask, vLOD, LOD_List, zREFER_LOD_META, zSINGLE )
       ActivateMetaOI( vSubtask, vLOD, LOD_List, zREFER_LOD_META, zSINGLE );
@@ -1308,7 +1308,7 @@ oTZADCSDO_DialogSpecMigrate( zPVIEW    NewDS,
 
    //:// Activate existing source meta OldDS
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DialogSpecName + ".PUI"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, DialogSpecName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".PUI", 1, 0, 514 );
@@ -1378,7 +1378,7 @@ oTZADCSDO_DialogSpecMigrate( zPVIEW    NewDS,
       { 
          //:SET CURSOR FIRST vPE.WindowStyle WHERE
          //:    vPE.WindowStyle.Tag = OldDS.DfltWndStyle.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldDS, "DfltWndStyle", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDS, "DfltWndStyle", "Tag" );
          RESULT = SetCursorFirstEntityByString( vPE, "WindowStyle", "Tag", szTempString_0, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -1432,8 +1432,8 @@ oTZADCSDO_DialogSpecMigrate( zPVIEW    NewDS,
       //:                            OldDS.UIS_LOD.Name,
       //:                            OldDS.UIS_ViewObjRef.Name,
       //:                            "UIS_ViewObjRef" )
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), OldDS, "UIS_LOD", "Name" );
-      GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), OldDS, "UIS_ViewObjRef", "Name" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), OldDS, "UIS_LOD", "Name" );
+      GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), OldDS, "UIS_ViewObjRef", "Name" );
       nRC = oTZADCSDO_DialogSpecGetVOR_LOD( vSubtask, OldDS, &MapVOR, &MapLOD, szTempString_1, szTempString_2, "UIS_ViewObjRef" );
       //:IF nRC = 0
       if ( nRC == 0 )
@@ -1477,8 +1477,8 @@ oTZADCSDO_DialogSpecMigrate( zPVIEW    NewDS,
       //:                            OldDS.ListLOD.Name,
       //:                            OldDS.ListVOR.Name,
       //:                            "UIS_ViewObjRef" )
-      GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), OldDS, "ListLOD", "Name" );
-      GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), OldDS, "ListVOR", "Name" );
+      GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), OldDS, "ListLOD", "Name" );
+      GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), OldDS, "ListVOR", "Name" );
       nRC = oTZADCSDO_DialogSpecGetVOR_LOD( vSubtask, OldDS, &MapVOR, &MapLOD, szTempString_3, szTempString_4, "UIS_ViewObjRef" );
       //:IF nRC = 0
       if ( nRC == 0 )

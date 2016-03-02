@@ -518,7 +518,7 @@ ZEditBar::Init( CWnd *pParentWnd, zBOOL bColor )
    // Start out with no borders.
    DWORD  dwStyle = Attr.Style | CBRS_SIZE_DYNAMIC;
    zCHAR  szBuffer[ 40 ];
-   zSHORT nLth = sizeof( "-2147483647," ) * 4;  // style, bar item cnt, x, y
+   zSHORT nLth = zsizeof( "-2147483647," ) * 4; // style, bar item cnt, x, y
    zPCHAR pchBuffer = new char[ nLth + 1 ];
    zPCHAR pch;
    zPCHAR pchComma;
@@ -527,8 +527,8 @@ ZEditBar::Init( CWnd *pParentWnd, zBOOL bColor )
    zLONG  lPosX = 0;
    zLONG  lPosY = 0;
 
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    GetWindowPreferenceString( m_pZSubtask->m_vDialog,
                               szBuffer, pchBuffer, nLth );
    if ( *pchBuffer )
@@ -783,7 +783,7 @@ ZEditBar::DestroyWindow( )
 #endif
    zCHAR szBuffer[ 40 ]; // tag length + 7
 
-   zLONG  lLth = sizeof( "-2147483647," ) * 4;
+   zLONG  lLth = zsizeof( "-2147483647," ) * 4;
    zPCHAR pch = new char[ lLth ];
    zLONG  lStyle = GetBarStyle( );
    zSHORT nStyleLth;
@@ -817,8 +817,8 @@ ZEditBar::DestroyWindow( )
    pch[ nStyleLth++ ] = ',';
    _ltoa_s( m_nBarItemCnt, pch + nStyleLth, lLth - nStyleLth, 10 );
 
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    SetWindowPreferenceString( m_pZSubtask->m_vDialog, szBuffer, pch );
    mDeleteInitA( pch );
    m_ulMapActFlag2 &= ~(zMAPACT_MAPPED_FROM_OI | zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED);
@@ -872,7 +872,7 @@ ZEditBar::MapFromOI( WPARAM wFlag )
                while ( nRC >= zCURSOR_SET )
                {
                   nRC = GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                                  sizeof( szMap ) - 1, v,
+                                                  zsizeof( szMap ) - 1, v,
                                                   pBarItem->m_cpcEntity,
                                                   pBarItem->m_cpcAttribute,
                                                   0, zUSE_DEFAULT_CONTEXT );
@@ -892,7 +892,7 @@ ZEditBar::MapFromOI( WPARAM wFlag )
 
                DropView( v );
                nRC = GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                               sizeof( szMap ) - 1, v1,
+                                               zsizeof( szMap ) - 1, v1,
                                                pBarItem->m_cpcEntity,
                                                pBarItem->m_cpcAttribute,
                                                0, zUSE_DEFAULT_CONTEXT );
@@ -1261,7 +1261,7 @@ ZEditBar::GetBackgroundBrush( HWND hWnd )
    WndClassEx.cbSize = sizeof( WndClassEx );
 
    if ( ::GetClassName( hWnd, szClassName,
-                        sizeof( szClassName ) / sizeof( zCHAR ) ) &&
+                        zsizeof( szClassName ) / sizeof( zCHAR ) ) &&
         ::GetClassInfoEx( ::AfxGetApp( )->m_hInstance,
                           szClassName, &WndClassEx ) )
    {
@@ -1617,7 +1617,7 @@ ZEditBar::OnToolBarDropDown( WPARAM wParam, LPARAM lParam )
          while ( nRC >= zCURSOR_SET )
          {
             nRC = GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                            sizeof( szMap ) - 1, v,
+                                            zsizeof( szMap ) - 1, v,
                                             pBarItem->m_cpcEntity,
                                             pBarItem->m_cpcAttribute,
                                             0, zUSE_DEFAULT_CONTEXT );
@@ -2226,7 +2226,7 @@ ZEditBar::OnCmdMsg( UINT uId, int nCode, void *pExtra,
          if ( nIdx >= 0 )
             m_wndListWindows.GetLBText( nIdx, szTag );
          else
-            m_wndListWindows.GetWindowText( szTag, sizeof( szTag ) - 1 );
+            m_wndListWindows.GetWindowText( szTag, zsizeof( szTag ) - 1 );
 
          if ( m_fState & zTZCB_XSLT )
          {
@@ -2252,7 +2252,7 @@ ZEditBar::OnCmdMsg( UINT uId, int nCode, void *pExtra,
                                             szTag, 0 ) == zCURSOR_SET )
          {
             GetViewByName( &vTZPNTROO, "TZPNTROO", m_vSubtask, zLEVEL_TASK );
-            PainterCall( zMSG_UPDATEWINDOWBYNAME, vTZPNTROO, this, vDialogList, szTag, sizeof( szTag ) );
+            PainterCall( zMSG_UPDATEWINDOWBYNAME, vTZPNTROO, this, vDialogList, szTag, zsizeof( szTag ) );
          }
 
          return( TRUE );
@@ -2589,7 +2589,7 @@ ZToolBar::LoadToolBar( UINT uResourceId )       // toolbar resource id
    TBBUTTON tb;
    for ( nIndex = bar.GetButtonCount( ); nIndex >= 0; nIndex-- )
    {
-      ZeroMemory( &tb, sizeof( TBBUTTON ) );
+      ZeroMemory( &tb, zsizeof( TBBUTTON ) );
       bar.GetButton( nIndex, &tb );
 
       // Do we have a separator?
@@ -6180,7 +6180,7 @@ ZControlBarG::DestroyWindow( )
    TraceLineS( "ZControlBarG::DestroyWindow ", *m_pzsTag );
 #endif
    zCHAR szBuffer[ 40 ]; // tag length + 7
-   zLONG lLth = sizeof( "-2147483647," ) * 4;
+   zLONG lLth = zsizeof( "-2147483647," ) * 4;
    zPCHAR pch = new char[ lLth ];
    zLONG  lStyle = GetBarStyle( );
    zSHORT nStyleLth;
@@ -6213,8 +6213,8 @@ ZControlBarG::DestroyWindow( )
    nStyleLth = (zSHORT) zstrlen( pch );
    pch[ nStyleLth++ ] = ',';
    pch[ nStyleLth ] = 0;
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    SetWindowPreferenceString( m_pZSubtask->m_vDialog, szBuffer, pch );
    mDeleteInitA( pch );
    m_ulMapActFlag2 &= ~(zMAPACT_MAPPED_FROM_OI | zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED);
@@ -6486,7 +6486,7 @@ ZControlBarC::DestroyWindow( )
    TraceLineS( "ZControlBarC::DestroyWindow ", *m_pzsTag );
 #endif
    zCHAR szBuffer[ 40 ]; // tag length + 7
-   zLONG lLth = sizeof( "-2147483647," ) * 4;
+   zLONG lLth = zsizeof( "-2147483647," ) * 4;
    zPCHAR pch = new char[ lLth ];
    zLONG  lStyle = GetBarStyle( );
    zSHORT nStyleLth;
@@ -6519,8 +6519,8 @@ ZControlBarC::DestroyWindow( )
    nStyleLth = (zSHORT) zstrlen( pch );
    pch[ nStyleLth++ ] = ',';
    pch[ nStyleLth ] = 0;
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    SetWindowPreferenceString( m_pZSubtask->m_vDialog, szBuffer, pch );
    mDeleteInitA( pch );
    m_ulMapActFlag2 &= ~(zMAPACT_MAPPED_FROM_OI | zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED);

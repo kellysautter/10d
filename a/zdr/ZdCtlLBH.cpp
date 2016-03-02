@@ -1253,8 +1253,8 @@ ZListCtrl::GetPreferencesFromIni( )
    zPCHAR pch;
    int    nCol;
 
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    GetWindowPreferenceString( m_pZSubtask->m_vDialog, szBuffer, pchBuffer, nLth );
 
    nCol = 0;
@@ -1292,8 +1292,8 @@ ZListCtrl::GetPreferencesFromIni( )
       {
          zBOOL bLocateSort = FALSE;
 
-         strcpy_s( szBuffer, sizeof( szBuffer ), "Sort:" );
-         strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+         strcpy_s( szBuffer, zsizeof( szBuffer ), "Sort:" );
+         strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
          GetWindowPreferenceString( m_pZSubtask->m_vDialog, szBuffer, pchBuffer, nLth );
          zSHORT k = (zSHORT) zstrlen( pchBuffer );
          if ( k )
@@ -1568,7 +1568,7 @@ ZListCtrl::DestroyWindow( )
       m_pRowColColorList = 0;
    }
 
-   zLONG  lMaxLth = sizeof("-2147483647,") * (m_nCols + 1);
+   zLONG  lMaxLth = zsizeof("-2147483647,") * (m_nCols + 1);
    zPCHAR pch = new char[ lMaxLth ];
    zSHORT nLth = 0;
    zSHORT k;
@@ -1585,13 +1585,13 @@ ZListCtrl::DestroyWindow( )
    }
 
    pch[ nLth ] = 0;
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    SetWindowPreferenceString( m_pZSubtask->m_vDialog, szBuffer, pch );
    if ( m_bRememberSort )
    {
-      strcpy_s( szBuffer, sizeof( szBuffer ), "Sort:" );
-      strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), "Sort:" );
+      strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
 
       // Set the "check bytes" at end of string.
       m_csSortBuffer += _T( "##" );
@@ -1963,7 +1963,7 @@ ZListCtrl::SetZCtrlState( zLONG  lStatusType,
          // zLONG lTop = GetTopIndex( );
             zLONG lEntityNbr = GetRelativeEntityNumber( m_vApp, *m_pzsEName, m_pzsScope ? *m_pzsScope : (zCPCHAR) 0, m_ulFlag );
             GetItemRect( lEntityNbr, rect, LVIR_BOUNDS );
-         // sprintf_s( szMsg, sizeof( szMsg ), "REPAINT top(%ld) item %ld:", lTop, lEntityNbr );
+         // sprintf_s( szMsg, zsizeof( szMsg ), "REPAINT top(%ld) item %ld:", lTop, lEntityNbr );
          // TraceRect( szMsg, rect );
             InvalidateRect( rect );
          }
@@ -1994,7 +1994,7 @@ DisplayEntityKey( zCPCHAR cpcText, zVIEW vApp, zVIEW vAppList,
                                 pCol[ 1 ].pchAttrib,
                                 pCol[ 1 ].pchContext,
                                 pCol[ 1 ].pchContext ? zACCEPT_NULL_ENTITY : zACCEPT_NULL_ENTITY | zUSE_DEFAULT_CONTEXT );
-      sprintf_s( szMsg, sizeof( szMsg ), " App: %6d %s", ulKey, szText );
+      sprintf_s( szMsg, zsizeof( szMsg ), " App: %6d %s", ulKey, szText );
       TraceLineS( cpcText, szMsg );
    }
 
@@ -2008,7 +2008,7 @@ DisplayEntityKey( zCPCHAR cpcText, zVIEW vApp, zVIEW vAppList,
                                 pCol[ 1 ].pchAttrib,
                                 pCol[ 1 ].pchContext,
                                 pCol[ 1 ].pchContext ? zACCEPT_NULL_ENTITY : zACCEPT_NULL_ENTITY | zUSE_DEFAULT_CONTEXT );
-      sprintf_s( szMsg, sizeof( szMsg ), " AppList: %6d %s", ulKey, szText );
+      sprintf_s( szMsg, zsizeof( szMsg ), " AppList: %6d %s", ulKey, szText );
       TraceLineS( cpcText, szMsg );
    }
 }
@@ -2066,7 +2066,7 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
       {
          zCHAR szMsg[ 2 * LBH_TEXT_LTH ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
                    *m_pzsVName, *(m_pZSubtask->m_pzsDlgTag), *(m_pZSubtask->m_pzsWndTag), *m_pzsTag );
          TraceLineS( "ZListCtrl::FormatTextAtPosition Retry MapFromOI: ", szMsg );
 
@@ -2083,7 +2083,7 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
          {
             zCHAR szMsg[ 2 * LBH_TEXT_LTH ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
                       (*m_pzsVName).GetString(), (*(m_pZSubtask->m_pzsDlgTag)).GetString(),
                       (*(m_pZSubtask->m_pzsWndTag)).GetString(), (*m_pzsTag).GetString() );
             TraceLineS( "ZListCtrl::FormatTextAtPosition ", szMsg );
@@ -2118,7 +2118,7 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
       {
          zCHAR szMsg[ 2 * LBH_TEXT_LTH ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Error in entity count for view: %s  entity: %s for %s.%s.%s",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Error in entity count for view: %s entity: %s for %s.%s.%s",
                    (*m_pzsVName).GetString(), (*m_pzsEName).GetString(), (*m_pZSubtask->m_pzsDlgTag).GetString(),
                    (*m_pZSubtask->m_pzsWndTag).GetString(), (*m_pzsTag).GetString() );
          TraceLineS( "ZListCtrl::FormatTextAtPosition ", szMsg );
@@ -2147,7 +2147,7 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
       {
          zCHAR szMsg[ 2 * LBH_TEXT_LTH ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Entity Key Error: %s  Entity: %s  row: %d for %s.%s.%s",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Entity Key Error: %s Entity: %s  row: %d for %s.%s.%s",
                    (*m_pzsVName).GetString(), (*m_pzsEName).GetString(), lRow + 1, (*m_pZSubtask->m_pzsDlgTag).GetString(),
                    (*m_pZSubtask->m_pzsWndTag).GetString(), (*m_pzsTag).GetString() );
          TraceLineS( "ZListCtrl::FormatTextAtPosition ", szMsg );
@@ -2182,7 +2182,7 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
    {
       zCHAR szMsg[ 2 * LBH_TEXT_LTH ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "ZListCtrl::FormatTextAtPosition Tag: %s EntityNbr: %d  Row: %ld  Col: %d  MaxLth: %d  VN: %s   DlgTag: %s  WndTag: %s - ",
+      sprintf_s( szMsg, zsizeof( szMsg ), "ZListCtrl::FormatTextAtPosition Tag: %s EntityNbr: %d Row: %ld  Col: %d  MaxLth: %d  VN: %s   DlgTag: %s  WndTag: %s - ",
                 m_pzsTag->GetString(), m_lEntityNbr, lRow, nCol, nMaxLth, m_pzsVName->GetString(),
                 m_pZSubtask->m_pzsDlgTag->GetString(), m_pZSubtask->m_pzsWndTag->GetString() );
       TraceLineS( szMsg, pchText );
@@ -2232,7 +2232,7 @@ ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
       {
          zCHAR szValue[ 2 * LBH_TEXT_LTH ];
 
-         GetStringFromAttribute( szValue, sizeof( szValue ), m_vAppList, *m_pzsEName,
+         GetStringFromAttribute( szValue, zsizeof( szValue ), m_vAppList, *m_pzsEName,
                                  m_pCol[ nCol ].pchColorAttribute ? m_pCol[ nCol ].pchColorAttribute : m_pCol[ 0 ].pchColorAttribute );
 
          // Use the setting for the column (if it exists).  Otherwise use the setting for the whole row if we can find it.
@@ -2331,7 +2331,7 @@ fnCompareListData( CArray<zLONG, zLONG> *pca,
       lCol--;
       nRC =
       GetVariableFromAttribute( szText1, 0, zTYPE_STRING,
-                                sizeof( szText1 ), // ... bombs if > 255
+                                zsizeof( szText1 ), // ... bombs if > 255
                                 pListCtrl->m_vApp1,
                                 pListCtrl->m_pCol[ lCol ].pchEntity,
                                 pListCtrl->m_pCol[ lCol ].pchAttrib,
@@ -2339,7 +2339,7 @@ fnCompareListData( CArray<zLONG, zLONG> *pca,
                                 pListCtrl->m_pCol[ lCol ].pchContext ? zACCEPT_NULL_ENTITY : zACCEPT_NULL_ENTITY | zUSE_DEFAULT_CONTEXT );
       nRC =
       GetVariableFromAttribute( szText2, 0, zTYPE_STRING,
-                                sizeof( szText2 ), // ... bombs if > 255
+                                zsizeof( szText2 ), // ... bombs if > 255
                                 pListCtrl->m_vApp2,
                                 pListCtrl->m_pCol[ lCol ].pchEntity,
                                 pListCtrl->m_pCol[ lCol ].pchAttrib,
@@ -2487,7 +2487,7 @@ ZListCtrl::SortByDisplayData( )
    for ( k = 0; k < m_lEntityCnt; k++ )
    {
       lKey = m_EntityKeyList.GetAt( k );
-      sprintf_s( szMsg, sizeof( szMsg ), " %ld - %ld: ", k, lKey );
+      sprintf_s( szMsg, zsizeof( szMsg ), " %ld - %ld: ", k, lKey );
       nLth = (zSHORT) zstrlen( szMsg );
       if ( SetEntityCursor( m_vApp1, m_pzsEName->GetString(), 0,
                             m_ulFlag | zQUAL_ENTITYKEY | zPOS_FIRST,
@@ -2495,7 +2495,7 @@ ZListCtrl::SortByDisplayData( )
                             m_pzsScope ? m_pzsScope->GetString() : (zCPCHAR) 0, 0 ) >= 0 ) // m_pzsAName
       {
          GetVariableFromAttribute( szMsg + nLth, 0, zTYPE_STRING,
-                                   sizeof( szMsg ) - nLth,
+                                   zsizeof( szMsg ) - nLth,
                                    m_vApp1,
                                    m_pCol[ 1 ].pchEntity,
                                    m_pCol[ 1 ].pchAttrib,
@@ -2517,14 +2517,14 @@ ZListCtrl::SortByDisplayData( )
    for ( k = 0; k < m_lEntityCnt; k++ )
    {
       lKey = m_EntityKeyList.GetAt( k );
-      sprintf_s( szMsg, sizeof( szMsg ), " %ld - %ld: ", k, lKey );
+      sprintf_s( szMsg, zsizeof( szMsg ), " %ld - %ld: ", k, lKey );
       nLth = (zSHORT) zstrlen( szMsg );
       if ( SetEntityCursor( m_vApp1, *m_pzsEName, 0,
                             m_ulFlag | zQUAL_ENTITYKEY | zPOS_FIRST,
                             (zCPVOID) &lKey, 0, 0, 0, m_pzsScope ? *m_pzsScope : (zCPCHAR) 0, 0 ) >= 0 ) // m_pzsAName
       {
          GetVariableFromAttribute( szMsg + nLth, 0, zTYPE_STRING,
-                                   sizeof( szMsg ) - nLth,
+                                   zsizeof( szMsg ) - nLth,
                                    m_vApp1,
                                    m_pCol[ 1 ].pchEntity,
                                    m_pCol[ 1 ].pchAttrib,
@@ -4493,7 +4493,7 @@ ZListCtrl::OnMouseMove( UINT uModKeys, CPoint pt )
             rectCell.right = rectCell2.left - 1;
          }
 
-         FormatTextAtPosition( szText, HitTestInfo.iItem, HitTestInfo.iSubItem, sizeof( szText ) );
+         FormatTextAtPosition( szText, HitTestInfo.iItem, HitTestInfo.iSubItem, zsizeof( szText ) );
       // TraceLineI( "HitTestItem: ", HitTestInfo.iItem );
       // TraceLineS( "LBH Text: ", szText );
       // CSize size = dc.GetTextExtent( szText );
@@ -4662,7 +4662,7 @@ ZListCtrl::WriteRow( CSharedFile& sf, zLONG lMinRow, zLONG lMaxRow,
       cs.Empty( );
       for ( nCol = nMinCol; nCol <= nMaxCol; nCol++ )
       {
-         FormatTextAtPosition( szText, lRow - 1, nCol - 1, sizeof( szText ) );
+         FormatTextAtPosition( szText, lRow - 1, nCol - 1, zsizeof( szText ) );
          // if ( !pCell->GetText( lRow, nCol ) )
          //    cs += _T( " " );
          // else
@@ -4958,10 +4958,10 @@ ZListCtrl::SortByColumn( zSHORT nCol, zSHORT nAscending )
       zSHORT nFind;
       zCHAR szBuffer[ 4096 ];
 
-      strcpy_s( szBuffer, sizeof( szBuffer ), m_pCol[ nCol ].pchEntity );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), m_pCol[ nCol ].pchEntity );
       nLth = (zSHORT) zstrlen( szBuffer );
       szBuffer[ nLth++ ] = '.';
-      strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, m_pCol[ nCol ].pchAttrib );
+      strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, m_pCol[ nCol ].pchAttrib );
       nLth = (zSHORT) zstrlen( szBuffer );
       szBuffer[ nLth++ ] = ' ';
       szBuffer[ nLth ] = 0;
@@ -5011,7 +5011,7 @@ ZListCtrl::SortByColumn( zSHORT nCol, zSHORT nAscending )
       {
          szBuffer[ nLth++ ] = ' ';
          szBuffer[ nLth++ ] = '[';
-         strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, m_pCol[ nCol ].pchContext );
+         strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, m_pCol[ nCol ].pchContext );
          nLth = (zSHORT) zstrlen( szBuffer );
          szBuffer[ nLth++ ] = ']';
       }
@@ -6584,7 +6584,7 @@ ZListCtrl::PrintZPage( zLONG  lPageNbr,
       cs = pZPrintout->m_csReportInfo;
 
    cs += "   ";
-   SysGetDateTime( szText, sizeof( szText ) );
+   SysGetDateTime( szText, zsizeof( szText ) );
    szText[ 14 ] = 0;
    fnFormatString( szText, "####.##.##  ##:##:##" );
    cs += szText;
@@ -6607,7 +6607,7 @@ ZListCtrl::PrintZPage( zLONG  lPageNbr,
    {
       hditem.mask = HDI_TEXT | HDI_FORMAT | HDI_LPARAM | HDI_WIDTH;
       hditem.pszText = buf;
-      hditem.cchTextMax = sizeof( buf ) - 1;
+      hditem.cchTextMax = zsizeof( buf ) - 1;
 
       pHeader->GetItem( nCol, &hditem );
       lJustify = DT_LEFT;
@@ -6731,7 +6731,7 @@ ZListCtrl::PrintZPage( zLONG  lPageNbr,
          x2 += lvc.cx * rectItem.Width( ) / rectAllLabels.Width( );
 
       // GetItemTextEx( lRow, nCol, cs, &lData );
-         nRC = FormatTextAtPosition( szText, lRow, nCol, sizeof( szText ) );
+         nRC = FormatTextAtPosition( szText, lRow, nCol, zsizeof( szText ) );
          if ( bPrintCSV )
             PrintTextToCSV( m_pZSubtask->m_vDialog, szText, nCol + 1 );
 
@@ -6912,10 +6912,10 @@ ZListCtrl::PrintZPage( zLONG  lPageNbr,
       zCHAR  szPageNbr[ 32 ];
       zSHORT k;
 
-      _ltoa_s( lPageNbr, szPageNbr, sizeof( szPageNbr ), 10 );
+      _ltoa_s( lPageNbr, szPageNbr, zsizeof( szPageNbr ), 10 );
       k = (zSHORT) zstrlen( szPageNbr );
       szPageNbr[ k ] = '/';
-      _ltoa_s( m_nMaxPage, szPageNbr + k + 1, sizeof( szPageNbr ) - k - 1, 10 );
+      _ltoa_s( m_nMaxPage, szPageNbr + k + 1, zsizeof( szPageNbr ) - k - 1, 10 );
       rectItem = rect;
       rectItem.bottom += 3 * m_nTextHeightBold;
       rectItem.top = rectItem.bottom;
@@ -6931,7 +6931,7 @@ ZListCtrl::PrintZPage( zLONG  lPageNbr,
    pDC->SetBkMode( nOldBkMode );
 
    if ( nRC == 0 && lLast < m_EntityKeyList.GetSize( ) &&
-        FormatTextAtPosition( szText, lLast, 0, sizeof( szText ) ) == 0 )
+        FormatTextAtPosition( szText, lLast, 0, zsizeof( szText ) ) == 0 )
    {
       nRC = 1;     // more pages
    }
@@ -7115,7 +7115,7 @@ ZListCtrl::DrawItem( LPDRAWITEMSTRUCT lpDIS )
    lvi.iItem = lItem;
    lvi.iSubItem = 0;
    lvi.pszText = szText;
-   lvi.cchTextMax = sizeof( szText ) - 22;
+   lvi.cchTextMax = zsizeof( szText ) - 22;
    lvi.stateMask = 0xFFFF;      // get all state flags
    GetItem( &lvi );
    if ( szText[ LBH_TEXT_LTH + 1 ] != (char) 0xFE )
@@ -8039,7 +8039,7 @@ ZSortedHeaderCtrl::DrawItem( LPDRAWITEMSTRUCT lpDIS )
 
    hditem.mask = HDI_TEXT | HDI_FORMAT;
    hditem.pszText = szBuffer;
-   hditem.cchTextMax = sizeof( szBuffer ) - 1;
+   hditem.cchTextMax = zsizeof( szBuffer ) - 1;
 
    GetItem( lpDIS->itemID, &hditem );
 

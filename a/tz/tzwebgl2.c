@@ -13424,7 +13424,7 @@ GenJSPJ_Action( zVIEW     vDialog,
    ZeidonStringConcat( szSystemIniApplName, 1, 0, szTempString_0, 1, 0, 65 );
    ZeidonStringConcat( szSystemIniApplName, 1, 0, "]", 1, 0, 65 );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebRedirection", szWebRedirection )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebRedirection", szWebRedirection, sizeof( szWebRedirection ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebRedirection", szWebRedirection, zsizeof( szWebRedirection ) );
 
    //:szWriteBuffer = "   while ( bDone == false && StringUtils.equals( strActionToProcess, ^" + szActionName + "^ ) )"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   while ( bDone == false && StringUtils.equals( strActionToProcess, ^", 1, 0, 10001 );
@@ -14307,7 +14307,7 @@ GenJSPJ_Action( zVIEW     vDialog,
    ZeidonStringCopy( szPosDataCreated, 1, 0, "N", 1, 0, 2 );
 
    //:   TraceLineS("*** Action Loop *** ", vDialog.Action.Tag  )
-   GetStringFromAttribute( szTempString_20, sizeof( szTempString_20 ), vDialog, "Action", "Tag" );
+   GetStringFromAttribute( szTempString_20, zsizeof( szTempString_20 ), vDialog, "Action", "Tag" );
    TraceLineS( "*** Action Loop *** ", szTempString_20 );
    //://Loop through each ActCtrl to see if there is a button or hot text
    //://on a grid that calls this action.  If so, then we need to

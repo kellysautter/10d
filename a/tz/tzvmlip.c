@@ -356,8 +356,8 @@ zSearchAndReplaceWord( zPCHAR  pchTarget,
    zCHAR   szDelimiters[ 256 ];
    zPCHAR  pchContext = NULL;
 
-   strcpy_s( szDelimiters, sizeof( szDelimiters ), cpcDelimiters );
-   strcat_s( szDelimiters, sizeof( szDelimiters ), " \t\r\n" );  // always look for space/tab/CRLF
+   strcpy_s( szDelimiters, zsizeof( szDelimiters ), cpcDelimiters );
+   strcat_s( szDelimiters, zsizeof( szDelimiters ), " \t\r\n" ); // always look for space/tab/CRLF
 
    ulOrigLth = strlen( pchTarget );
    ulSearchLth  = strlen( cpcSearch );
@@ -1831,8 +1831,8 @@ GenFullQualPathFromRelPath( zPCHAR pchPathName,  // Pathname or empty string
    zCHAR szTempBase[ zMAX_FILESPEC_LTH + 1 ];
    // if pathname = "" || "."
 // strcpy_s( pchOutput, nMaxLth, pchBaseDir );
-   SysConvertEnvironmentString( szTempPath, sizeof( szTempPath ), pchPathName );
-   SysConvertEnvironmentString( szTempBase, sizeof( szTempBase ), pchBaseDir );
+   SysConvertEnvironmentString( szTempPath, zsizeof( szTempPath ), pchPathName );
+   SysConvertEnvironmentString( szTempBase, zsizeof( szTempBase ), pchBaseDir );
 
    if ( strlen( szTempPath ) >= 2 )
    {
@@ -2925,17 +2925,17 @@ zAppendQuotedString( zPCHAR pchTarget,        // the only place in the Zeidon to
             if ( ch == pchTarget[ 0 ] )
             {
                // It's already quoted.
-               strcpy_s( szTemp, sizeof( szTemp ), pchSkipString );
-               strcat_s( szTemp, sizeof( szTemp ),pchTarget );
+               strcpy_s( szTemp, zsizeof( szTemp ), pchSkipString );
+               strcat_s( szTemp, zsizeof( szTemp ),pchTarget );
                lLth = zstrlen( szTemp );
                strcpy_s( pchTarget, 257, szTemp );
             }
             else
             {
                // Needs to be quoted.
-               strcpy_s( szTemp, sizeof( szTemp ), pchSkipString );
-               strcat_s( szTemp, sizeof( szTemp ), pchDfltQuoteChar );
-               strcat_s( szTemp, sizeof( szTemp ), pchTarget );
+               strcpy_s( szTemp, zsizeof( szTemp ), pchSkipString );
+               strcat_s( szTemp, zsizeof( szTemp ), pchDfltQuoteChar );
+               strcat_s( szTemp, zsizeof( szTemp ), pchTarget );
                lLth = zstrlen( szTemp );
                strcpy_s( pchTarget, 257, szTemp );
                pchTarget[ lLth++ ] = ch;
@@ -2946,8 +2946,8 @@ zAppendQuotedString( zPCHAR pchTarget,        // the only place in the Zeidon to
          {
             // Assume the Target begins with the QuoteChar.
             ch = pchTarget[ 0 ];
-            strcpy_s( szTemp, sizeof( szTemp ), pchSkipString );
-            strcat_s( szTemp, sizeof( szTemp ), pchTarget );
+            strcpy_s( szTemp, zsizeof( szTemp ), pchSkipString );
+            strcat_s( szTemp, zsizeof( szTemp ), pchTarget );
             lLth = zstrlen( szTemp );
             strcpy_s( pchTarget, 257, szTemp );
          }
@@ -2964,7 +2964,7 @@ zAppendQuotedString( zPCHAR pchTarget,        // the only place in the Zeidon to
             {
                ch = pchDfltQuoteChar[ 0 ];
                szTemp[ 0 ] = ch;
-               strcpy_s( szTemp + 1, sizeof( szTemp ), pchTarget );
+               strcpy_s( szTemp + 1, zsizeof( szTemp ), pchTarget );
                lLth = zstrlen( szTemp );
                strcpy_s( pchTarget, 257, szTemp );
                pchTarget[ lLth++ ] = ch;

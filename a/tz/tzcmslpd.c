@@ -124,7 +124,7 @@ zwTZCMSLPD_SwitchLPLR( zVIEW vSubtask )
       // Check the name of the dialog associated with the task.  If it begins
       // with TZ then it's a Zeidon Tools task.  We allow the object browser
       // to run and we have to ignore the current task.
-      SfGetTaskInfo( szDialogName, sizeof( szDialogName ), zTASK_DIALOG, lpTask );
+      SfGetTaskInfo( szDialogName, zsizeof( szDialogName ), zTASK_DIALOG, lpTask );
 
       // We allow non-Zeidon tasks...
       if ( zstrncmpi( szDialogName, "TZ", 2 ) != 0 )

@@ -1347,7 +1347,7 @@ DeleteEntity( zVIEW lpView, zCPCHAR cpcEntityName, zSHORT nReposition )
          {
             zCHAR szMsg[ 200 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Can't delete entity %s because of Restrict "
+            sprintf_s( szMsg, zsizeof( szMsg ), "Can't delete entity %s because of Restrict "
                        "constraint on child entity %s",
                        lpViewEntity->szName,
                        lpChildViewEntity->szName );
@@ -1941,15 +1941,15 @@ RelinkInstanceToInstance( zVIEW    zTgtView,
 
       TraceLineS( "ERROR: ", "The following LODs are out of sync and should be re-built" );
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Out-of-sync error. Target LOD = %s, date = %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "Out-of-sync error. Target LOD = %s, date = %s",
                  lpTgtViewOD->szName, lpTgtViewOD->szER_Date );
       TraceLineS( "   ==> ", szMsg );
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Out-of-sync error. Source LOD = %s, date = %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "Out-of-sync error. Source LOD = %s, date = %s",
                  lpSrcViewOD->szName, lpSrcViewOD->szER_Date );
       TraceLineS( "   ==> ", szMsg );
 
-      SysReadZeidonIni( -1, "[Workstation]", "SyncER/LOD", szYN, sizeof( szYN ) );
+      SysReadZeidonIni( -1, "[Workstation]", "SyncER/LOD", szYN, zsizeof( szYN ) );
       if ( szYN[ 0 ] != 'N' )
       {
          // "KZOEE106 - Rules violation"
@@ -2470,7 +2470,7 @@ fnEstablishViewForInstance( zVIEW             lpView,
       fnResetView( lpView, 1 );
       bReset = TRUE;
       lpViewEntityCsr = lpFirstViewEntityCsr;
-      lpViewEntityCsr += (lpViewEntity->nHierNbr - 1); // + (# * sizeof( EntityCsr Structure ))
+      lpViewEntityCsr += (lpViewEntity->nHierNbr - 1); // + (# * zsizeof( EntityCsr Structure ))
    }
    else
    if ( lpViewEntity != zGETPTR( lpViewEntityCsr->hViewEntity ) )

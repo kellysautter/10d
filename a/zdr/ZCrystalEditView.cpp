@@ -227,7 +227,7 @@ IMPLEMENT_DYNCREATE(ZCrystalEditView, CView)
 
 ZCrystalEditView::ZCrystalEditView() : CView()
 {
-// AFX_ZERO_INIT_OBJECT(ZCrystalEditView); ==>   memset(&object, 0, sizeof(ZCrystalEditView));
+// AFX_ZERO_INIT_OBJECT(ZCrystalEditView); ==>   memset(&object, 0, zsizeof(ZCrystalEditView));
    m_pTextBuffer = NULL;
    m_bAutoIndent = TRUE;
    m_pOleDropTarget = NULL;
@@ -243,7 +243,7 @@ ZCrystalEditView::ZCrystalEditView() : CView()
 
    m_bDisableBSAtSOL = FALSE;
 
-   // AFX_ZERO_INIT_OBJECT(CView);  ==>  memset (&object, 0, sizeof(object));
+   // AFX_ZERO_INIT_OBJECT(CView);  ==>  memset (&object, 0, zsizeof(object));
 
    int k;
 
@@ -278,7 +278,7 @@ ZCrystalEditView::ZCrystalEditView() : CView()
 
    m_bFocused = FALSE;
    m_ptAnchor = {0,0};
-   memset(&m_lfBaseFont, 0, sizeof(m_lfBaseFont));
+   memset(&m_lfBaseFont, 0, zsizeof(m_lfBaseFont));
 
    for (k = 0; k < 4; k++)
    {
@@ -1397,7 +1397,7 @@ int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 // if (ZCrystalEditView::OnCreate(lpCreateStruct) == -1)
 //    return -1;
 
-   memset(&m_lfBaseFont, 0, sizeof(m_lfBaseFont));
+   memset(&m_lfBaseFont, 0, zsizeof(m_lfBaseFont));
    lstrcpy(m_lfBaseFont.lfFaceName, _T("Consolas "));
    m_lfBaseFont.lfHeight = 0;
    m_lfBaseFont.lfWeight = FW_NORMAL;
@@ -1547,7 +1547,7 @@ void ZCrystalEditView::UpdateView(ZCrystalEditView *pSource, ZUpdateContext *pCo
       if (m_pdwParseCookies != NULL)
       {
          ASSERT(m_nParseArraySize == nLineCount);
-         memset(m_pdwParseCookies + nLineIndex, 0xff, sizeof(DWORD) * (m_nParseArraySize - nLineIndex));
+         memset(m_pdwParseCookies + nLineIndex, 0xff, zsizeof(DWORD) * (m_nParseArraySize - nLineIndex));
       }
       // This line'th actual length must be recalculated
       if (m_pnActualLineLength != NULL)
@@ -1570,12 +1570,12 @@ void ZCrystalEditView::UpdateView(ZCrystalEditView *pSource, ZUpdateContext *pCo
             // Reallocate cookies array
             DWORD *pdwNewArray = new DWORD[nLineCount];
             if (nLineIndex > 0)
-               memcpy(pdwNewArray, m_pdwParseCookies, sizeof(DWORD) * nLineIndex);
+               memcpy(pdwNewArray, m_pdwParseCookies, zsizeof(DWORD) * nLineIndex);
             delete m_pdwParseCookies;
             m_nParseArraySize = nLineCount;
             m_pdwParseCookies = pdwNewArray;
          }
-         memset(m_pdwParseCookies + nLineIndex, 0xff, sizeof(DWORD) * (m_nParseArraySize - nLineIndex));
+         memset(m_pdwParseCookies + nLineIndex, 0xff, zsizeof(DWORD) * (m_nParseArraySize - nLineIndex));
       }
       // Recalculate actual length for all lines below this
       if (m_pnActualLineLength != NULL)
@@ -1585,12 +1585,12 @@ void ZCrystalEditView::UpdateView(ZCrystalEditView *pSource, ZUpdateContext *pCo
             // Reallocate actual length array
             int *pnNewArray = new int[nLineCount];
             if (nLineIndex > 0)
-               memcpy(pnNewArray, m_pnActualLineLength, sizeof(int) * nLineIndex);
+               memcpy(pnNewArray, m_pnActualLineLength, zsizeof(int) * nLineIndex);
             delete m_pnActualLineLength;
             m_nActualLengthArraySize = nLineCount;
             m_pnActualLineLength = pnNewArray;
          }
-         memset(m_pnActualLineLength + nLineIndex, 0xff, sizeof(DWORD) * (m_nActualLengthArraySize - nLineIndex));
+         memset(m_pnActualLineLength + nLineIndex, 0xff, zsizeof(DWORD) * (m_nActualLengthArraySize - nLineIndex));
       }
       // Repaint the lines
       InvalidateLines(nLineIndex, -1, TRUE);
@@ -1892,8 +1892,8 @@ void ZCrystalEditView::OnEditOperation(int nAction, LPCTSTR pszText)
          if (nPos > 0)
          {
             // Insert part of the previos line
-            TCHAR *pszInsertStr = (TCHAR *) _alloca(sizeof(TCHAR) * (nLength + 1));
-            strncpy_s(pszInsertStr, sizeof(TCHAR) * (nLength + 1), pszLineChars, nPos);
+            TCHAR *pszInsertStr = (TCHAR *) _alloca(zsizeof(TCHAR) * (nLength + 1));
+            strncpy_s(pszInsertStr, zsizeof(TCHAR) * (nLength + 1), pszLineChars, nPos);
             pszInsertStr[nPos] = 0;
 
             int x, y;
@@ -1961,7 +1961,7 @@ int ZCrystalEditView::GetLineActualLength(int nLineIndex)
    if (m_pnActualLineLength == NULL)
    {
       m_pnActualLineLength = new int[nLineCount];
-      memset(m_pnActualLineLength, 0xff, sizeof(int) * nLineCount);
+      memset(m_pnActualLineLength, 0xff, zsizeof(int) * nLineCount);
       m_nActualLengthArraySize = nLineCount;
    }
 
@@ -1974,8 +1974,8 @@ int ZCrystalEditView::GetLineActualLength(int nLineIndex)
    if (nLength > 0)
    {
       LPCTSTR pszLine = GetLineChars(nLineIndex);
-      LPTSTR pszChars = (LPTSTR) _alloca(sizeof(TCHAR) * (nLength + 1));
-      memcpy(pszChars, pszLine, sizeof(TCHAR) * nLength);
+      LPTSTR pszChars = (LPTSTR) _alloca(zsizeof(TCHAR) * (nLength + 1));
+      memcpy(pszChars, pszLine, zsizeof(TCHAR) * nLength);
       pszChars[nLength] = 0;
       LPTSTR pszCurrent = pszChars;
 
@@ -2134,7 +2134,7 @@ void ZCrystalEditView::ExpandChars(LPCTSTR pszChars, int nOffset, int nCount, CS
    }
    else
    {
-      memcpy(pszBuf, pszChars, sizeof(TCHAR) * nLength);
+      memcpy(pszBuf, pszChars, zsizeof(TCHAR) * nLength);
       nCurPos = nLength;
    }
    pszBuf[nCurPos] = 0;
@@ -2270,7 +2270,7 @@ DWORD ZCrystalEditView::GetParseCookie(int nLineIndex)
    {
       m_nParseArraySize = nLineCount;
       m_pdwParseCookies = new DWORD[nLineCount];
-      memset(m_pdwParseCookies, 0xff, nLineCount * sizeof(DWORD));
+      memset(m_pdwParseCookies, 0xff, nLineCount * zsizeof(DWORD));
    }
 
    if (nLineIndex < 0)
@@ -2333,7 +2333,7 @@ void ZCrystalEditView::DrawSingleLine(CDC *pdc, const CRect &rc, int nLineIndex)
    // Parse the line
    LPCTSTR pszChars = GetLineChars(nLineIndex);
    DWORD dwCookie = GetParseCookie(nLineIndex - 1);
-   TEXTBLOCK *pBuf = (TEXTBLOCK *) _alloca(sizeof(TEXTBLOCK) * nLength * 3);
+   TEXTBLOCK *pBuf = (TEXTBLOCK *) _alloca(zsizeof(TEXTBLOCK) * nLength * 3);
    int nBlocks = 0;
    m_pdwParseCookies[nLineIndex] = ParseLine(dwCookie, nLineIndex, pBuf, nBlocks);
    ASSERT(m_pdwParseCookies[nLineIndex] != (DWORD) -1);
@@ -2453,8 +2453,8 @@ void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rc, int nLineIndex)
       pdc->SetTextColor(GetColor(COLORINDEX_PREPROCESSOR));
       if ( nLineIndex >= 0 )
       {
-      _ltoa_s( nLineIndex + 1, szLineNbr, sizeof( szLineNbr ), 10 );
-      sprintf_s( szMsg, sizeof( szMsg ), "%7s", szLineNbr );
+      _ltoa_s( nLineIndex + 1, szLineNbr, zsizeof( szLineNbr ), 10 );
+      sprintf_s( szMsg, zsizeof( szMsg ), "%7s", szLineNbr );
       }
       else
       {
@@ -2490,7 +2490,7 @@ void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rc, int nLineIndex)
          LF_INVALID_BREAKPOINT
       };
       int k;
-      for (k = 0; k <= sizeof(adwFlags) / sizeof(adwFlags[0]); k++)
+      for (k = 0; k <= zsizeof(adwFlags) / zsizeof(adwFlags[0]); k++)
       {
          if ((dwLineFlags & adwFlags[k]) != 0)
          {
@@ -2685,11 +2685,11 @@ void ZCrystalEditView::UpdateCaret()
       SetCaretPos(TextToClient(m_ptCursorPos));
       ShowCaret();
       char szWork[ 16 ];
-      _itoa_s( m_ptCursorPos.y + 1, szWork, sizeof( szWork ), 10 );
+      _itoa_s( m_ptCursorPos.y + 1, szWork, zsizeof( szWork ), 10 );
       CString csPos = "(Line: ";
       csPos += szWork;
       csPos += " , Col: ";
-      _itoa_s( m_ptCursorPos.x + 1, szWork, sizeof( szWork ), 10 );
+      _itoa_s( m_ptCursorPos.x + 1, szWork, zsizeof( szWork ), 10 );
       csPos += szWork;
       csPos += ")";
       m_pZSubtask->SetStatusBarText( csPos, 3 );
@@ -2736,7 +2736,7 @@ int ZCrystalEditView::GetFontSize( CDC *pdc, int nFontHeight )
    else
 */ {
       TEXTMETRIC tm;
-      ::ZeroMemory( &tm, sizeof( TEXTMETRIC ) );
+      ::ZeroMemory( &tm, zsizeof( TEXTMETRIC ) );
       pdc->GetTextMetrics( &tm );
 
       nFontSize = -::MulDiv( nFontHeight, 72, pdc->GetDeviceCaps( LOGPIXELSY ) ) - tm.tmInternalLeading;
@@ -2758,7 +2758,7 @@ CFont *ZCrystalEditView::GetFont(CDC *pdc, BOOL bItalic /*= FALSE*/, BOOL bBold 
       m_apFonts[nIndex] = new CFont;
       m_lfBaseFont.lfWeight = bBold ? FW_BOLD : FW_NORMAL;
       m_lfBaseFont.lfItalic = (BYTE) bItalic;
-      strcpy_s( m_lfBaseFont.lfFaceName, sizeof( m_lfBaseFont.lfFaceName ), "Consolas" );
+      strcpy_s( m_lfBaseFont.lfFaceName, zsizeof( m_lfBaseFont.lfFaceName ), "Consolas" );
       m_lfBaseFont.lfHeight = GetFontSize( pdc, 14 );
    // m_lfBaseFont.lfWidth = 7;
       if (! m_apFonts[nIndex]->CreateFontIndirect(&m_lfBaseFont))
@@ -2999,7 +2999,7 @@ void ZCrystalEditView::RecalcPageLayouts(CDC *pdc, CPrintInfo *pInfo)
          {
             nLimit += 32;
             int *pnNewPages = new int[nLimit];
-            memcpy(pnNewPages, m_pnPages, sizeof(int) * m_nPrintPages);
+            memcpy(pnNewPages, m_pnPages, zsizeof(int) * m_nPrintPages);
             delete m_pnPages;
             m_pnPages = pnNewPages;
          }
@@ -3300,7 +3300,7 @@ void ZCrystalEditView::OnUpdateSibling(ZCrystalEditView *pUpdateSource, BOOL bHo
 void ZCrystalEditView::RecalcVertScrollBar(BOOL bPositionOnly /*= FALSE*/)
 {
    SCROLLINFO si;
-   si.cbSize = sizeof(si);
+   si.cbSize = zsizeof(si);
    if (bPositionOnly)
    {
       si.fMask = SIF_POS;
@@ -3332,7 +3332,7 @@ void ZCrystalEditView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar
 
    // Note we cannot use nPos because of its 16-bit nature
    SCROLLINFO si;
-   si.cbSize = sizeof(si);
+   si.cbSize = zsizeof(si);
    si.fMask = SIF_ALL;
    VERIFY(GetScrollInfo(SB_VERT, &si));
 
@@ -3432,7 +3432,7 @@ void ZCrystalEditView::RecalcHorzScrollBar(BOOL bPositionOnly /*= FALSE*/)
 {
    // Again, we cannot use nPos because it's 16-bit
    SCROLLINFO si;
-   si.cbSize = sizeof(si);
+   si.cbSize = zsizeof(si);
    if (bPositionOnly)
    {
       si.fMask = SIF_POS;
@@ -3460,7 +3460,7 @@ void ZCrystalEditView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar
    CView::OnHScroll(nSBCode, nPos, pScrollBar);
 
    SCROLLINFO si;
-   si.cbSize = sizeof(si);
+   si.cbSize = zsizeof(si);
    si.fMask = SIF_ALL;
    VERIFY(GetScrollInfo(SB_HORZ, &si));
 
@@ -5605,7 +5605,7 @@ void ZCrystalTextBuffer::SUndoRecord::SetText(LPCTSTR pszText)
       int nLength = _tcslen(pszText);
       if (nLength > 1)
       {
-         m_pszText = new TCHAR[(nLength + 1) * sizeof(TCHAR)];
+         m_pszText = new TCHAR[(nLength + 1) * zsizeof(TCHAR)];
          strcpy_s(m_pszText, nLength + 1, pszText);
       }
       else
@@ -5718,7 +5718,7 @@ void ZCrystalTextBuffer::InsertLine(LPCTSTR pszLine, int nLength /*= -1*/, int n
    if (li.m_nMax > 0)
       li.m_pcLine = new TCHAR[li.m_nMax];
    if (li.m_nLength > 0)
-      memcpy(li.m_pcLine, pszLine, sizeof(TCHAR) * li.m_nLength);
+      memcpy(li.m_pcLine, pszLine, zsizeof(TCHAR) * li.m_nLength);
 
    if (nPosition == -1)
       m_aLines.Add(li);
@@ -5752,11 +5752,11 @@ void ZCrystalTextBuffer::AppendLine(int nLineIndex, LPCTSTR pszChars, int nLengt
       ASSERT(li.m_nMax >= li.m_nLength + nLength);
       TCHAR *pcNewBuf = new TCHAR[li.m_nMax];
       if (li.m_nLength > 0)
-         memcpy(pcNewBuf, li.m_pcLine, sizeof(TCHAR) * li.m_nLength);
+         memcpy(pcNewBuf, li.m_pcLine, zsizeof(TCHAR) * li.m_nLength);
       delete li.m_pcLine;
       li.m_pcLine = pcNewBuf;
    }
-   memcpy(li.m_pcLine + li.m_nLength, pszChars, sizeof(TCHAR) * nLength);
+   memcpy(li.m_pcLine + li.m_nLength, pszChars, zsizeof(TCHAR) * nLength);
    li.m_nLength += nLength;
    ASSERT(li.m_nLength <= li.m_nMax);
 }
@@ -6254,32 +6254,32 @@ void ZCrystalTextBuffer::GetText(int nStartLine, int nStartChar, int nEndLine, i
       int nCount = m_aLines[nStartLine].m_nLength - nStartChar;
       if (nCount > 0)
       {
-         memcpy(pszBuf, m_aLines[nStartLine].m_pcLine + nStartChar, sizeof(TCHAR) * nCount);
+         memcpy(pszBuf, m_aLines[nStartLine].m_pcLine + nStartChar, zsizeof(TCHAR) * nCount);
          pszBuf += nCount;
       }
-      memcpy(pszBuf, pszCRLF, sizeof(TCHAR) * nCRLFLength);
+      memcpy(pszBuf, pszCRLF, zsizeof(TCHAR) * nCRLFLength);
       pszBuf += nCRLFLength;
       for (k = nStartLine + 1; k < nEndLine; k++)
       {
          nCount = m_aLines[k].m_nLength;
          if (nCount > 0)
          {
-            memcpy(pszBuf, m_aLines[k].m_pcLine, sizeof(TCHAR) * nCount);
+            memcpy(pszBuf, m_aLines[k].m_pcLine, zsizeof(TCHAR) * nCount);
             pszBuf += nCount;
          }
-         memcpy(pszBuf, pszCRLF, sizeof(TCHAR) * nCRLFLength);
+         memcpy(pszBuf, pszCRLF, zsizeof(TCHAR) * nCRLFLength);
          pszBuf += nCRLFLength;
       }
       if (nEndChar > 0)
       {
-         memcpy(pszBuf, m_aLines[nEndLine].m_pcLine, sizeof(TCHAR) * nEndChar);
+         memcpy(pszBuf, m_aLines[nEndLine].m_pcLine, zsizeof(TCHAR) * nEndChar);
          pszBuf += nEndChar;
       }
    }
    else
    {
       k = nEndChar - nStartChar;
-      memcpy(pszBuf, m_aLines[nStartLine].m_pcLine + nStartChar, sizeof(TCHAR) * k);
+      memcpy(pszBuf, m_aLines[nStartLine].m_pcLine + nStartChar, zsizeof(TCHAR) * k);
       pszBuf += k;
    }
    pszBuf[0] = 0;
@@ -6340,7 +6340,7 @@ BOOL ZCrystalTextBuffer::InternalDeleteText(ZCrystalEditView *pSource, int nStar
       if (nEndChar < li.m_nLength)
       {
          memcpy(li.m_pcLine + nStartChar, li.m_pcLine + nEndChar,
-            sizeof(TCHAR) * (li.m_nLength - nEndChar));
+            zsizeof(TCHAR) * (li.m_nLength - nEndChar));
       }
       li.m_nLength -= (nEndChar - nStartChar);
 
@@ -6353,7 +6353,7 @@ BOOL ZCrystalTextBuffer::InternalDeleteText(ZCrystalEditView *pSource, int nStar
       if (nRestCount > 0)
       {
          pszRestChars = new TCHAR[nRestCount];
-         memcpy(pszRestChars, m_aLines[nEndLine].m_pcLine + nEndChar, nRestCount * sizeof(TCHAR));
+         memcpy(pszRestChars, m_aLines[nEndLine].m_pcLine + nEndChar, nRestCount * zsizeof(TCHAR));
       }
 
       int nDelCount = nEndLine - nStartLine;
@@ -6394,7 +6394,7 @@ BOOL ZCrystalTextBuffer::InternalInsertText(ZCrystalEditView *pSource, int nLine
    if (nRestCount > 0)
    {
       pszRestChars = new TCHAR[nRestCount];
-      memcpy(pszRestChars, m_aLines[nLine].m_pcLine + nPos, nRestCount * sizeof(TCHAR));
+      memcpy(pszRestChars, m_aLines[nLine].m_pcLine + nPos, nRestCount * zsizeof(TCHAR));
       m_aLines[nLine].m_nLength = nPos;
    }
 

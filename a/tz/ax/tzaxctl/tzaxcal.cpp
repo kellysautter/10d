@@ -596,7 +596,7 @@ CalendarScript( ZMapAct *pzma, zLONG lFlags, zULONG ulParm, zLONG lRequest )
          TraceLineS( "Calendar Entity Name: ", *(pzma->m_pzsEName) );
          TraceLineS( "Calendar Attribute Name: ", *(pzma->m_pzsAName) );
 #endif
-         GetStringFromAttribute( szDate, sizeof( szDate ), vApp,
+         GetStringFromAttribute( szDate, zsizeof( szDate ), vApp,
                                  *(pzma->m_pzsEName),
                                  *(pzma->m_pzsAName) );
 

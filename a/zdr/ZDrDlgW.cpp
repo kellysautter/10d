@@ -267,7 +267,7 @@ GetWindowAndCtrl( ZSubtask **pZSubtaskReturn,
             {
                zCHAR szMsg[ 256 ];
 
-               sprintf_s( szMsg, sizeof( szMsg ),
+               sprintf_s( szMsg, zsizeof( szMsg ),
                          "(drvr) Controls have not yet been created for: %s.%s.%s ",
                          (*(*pZSubtaskReturn)->m_pzsDlgTag).GetString(),
                          (*(*pZSubtaskReturn)->m_pzsWndTag).GetString(), cpcCtrlTag );
@@ -1111,7 +1111,7 @@ SplitFrame( zVIEW   vSubtask,
    //
    // zCHAR szMsg[ 256 ];
    //
-   // sprintf_s( szMsg, sizeof( szMsg ), "SplitFrame: %s ZSubtask: 0x%08x ZView: 0x%08x",
+   // sprintf_s( szMsg, zsizeof( szMsg ), "SplitFrame: %s ZSubtask: 0x%08x ZView: 0x%08x",
    //           cpcSplitTag, pZSubtask, pZSubtask->m_pZView );
    // TraceLineS( szMsg, "" );
 
@@ -2029,14 +2029,14 @@ AcquireTwainImage( zVIEW   vSubtask,
                                              pZSubtask->m_vDialog ) == 0 &&
                  pApp )
             {
-               strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+               strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
             }
 
             if ( szZeidonPath[ 0 ] == 0  )
-               strcpy_s( szZeidonPath, sizeof( szZeidonPath ), "c:\\temp\\" );
+               strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), "c:\\temp\\" );
 
             SysAppendcDirSep( szZeidonPath );
-            SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+            SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
             GenerateUniqueFileName( pchReturnFileName, nMaxFileNameLth, szWorkString, "Twain", "bmp" );
          }
 
@@ -2279,9 +2279,9 @@ FindDialogWindow( zVIEW   vSubtask,
       ZFindDialog fd;
 
       fd.pvDialog = 0;
-      strcpy_s( fd.DlgN, sizeof( fd.DlgN ), cpcDlgTag );
+      strcpy_s( fd.DlgN, zsizeof( fd.DlgN ), cpcDlgTag );
       if ( cpcWndTag )
-         strcpy_s( fd.WndN, sizeof( fd.WndN ), cpcWndTag );
+         strcpy_s( fd.WndN, zsizeof( fd.WndN ), cpcWndTag );
       else
          fd.WndN[ 0 ] = 0;
 
@@ -2994,13 +2994,13 @@ GetAppOrWorkstationValue( zVIEW    vSubtask,
 
    // Get application value.
    pchReturnString[ 0 ] = 0;
-   GetApplDirectoryFromView( szAppName, vSubtask, zAPPL_NAME, sizeof( szAppName ) );
+   GetApplDirectoryFromView( szAppName, vSubtask, zAPPL_NAME, zsizeof( szAppName ) );
    sprintf_s( szAppSection, "[App.%s]", szAppName );
 
-   SysReadZeidonIni( -1, szAppSection, (zPCHAR) cpcKey, szValue, sizeof( szValue ) );
+   SysReadZeidonIni( -1, szAppSection, (zPCHAR) cpcKey, szValue, zsizeof( szValue ) );
    if ( szValue[ 0 ] == 0 )
    {
-      SysReadZeidonIni( -1, "[Workstation]", (zPCHAR) cpcKey, szValue, sizeof( szValue ) );
+      SysReadZeidonIni( -1, "[Workstation]", (zPCHAR) cpcKey, szValue, zsizeof( szValue ) );
    }
 
    if ( szValue[ 0 ] )
@@ -3056,7 +3056,7 @@ GetWorkstationAppValue( zVIEW    vSubtask,
    pchReturnString[ 0 ] = 0;
    szZeidonRT_Path[ 0 ] = 0;
    if ( SfGetApplicationForSubtask( &pApp, vSubtask ) == 0 && pApp )
-      strcpy_s( szZeidonRT_Path, sizeof( szZeidonRT_Path ), pApp->szLocalDir );
+      strcpy_s( szZeidonRT_Path, zsizeof( szZeidonRT_Path ), pApp->szLocalDir );
 
    if ( szZeidonRT_Path[ 0 ] )
    {
@@ -3067,11 +3067,11 @@ GetWorkstationAppValue( zVIEW    vSubtask,
 
    if ( pchReturnString[ 0 ] == 0 )
    {
-      SysReadZeidonIni( -1, "[Workstation]", "LocalDir", szZeidonRT_Path, sizeof( szZeidonRT_Path ) );
+      SysReadZeidonIni( -1, "[Workstation]", "LocalDir", szZeidonRT_Path, zsizeof( szZeidonRT_Path ) );
       if ( szZeidonRT_Path[ 0 ] )
       {
          SysAppendcDirSep( szZeidonRT_Path );
-         strcat_s( szZeidonRT_Path, sizeof( szZeidonRT_Path ), "ZeidonRT.ini" );
+         strcat_s( szZeidonRT_Path, zsizeof( szZeidonRT_Path ), "ZeidonRT.ini" );
          GetPrivateProfileString( cpcSection, cpcKey, "", pchReturnString, nReturnStringLth, szZeidonRT_Path );
       }
 
@@ -3083,7 +3083,7 @@ GetWorkstationAppValue( zVIEW    vSubtask,
 
          strcpy_s( pch + 1, nLth + 1, cpcSection );
          pch[ 0 ] = '['; pch[ nLth ] = ']'; pch[ nLth + 1 ] = 0;
-         SysReadZeidonIni( -1, pch, (zPCHAR) cpcKey, szValue, sizeof( szValue ) );
+         SysReadZeidonIni( -1, pch, (zPCHAR) cpcKey, szValue, zsizeof( szValue ) );
          strncat_s( pchReturnString, nReturnStringLth, szValue, nReturnStringLth - 1 );
          delete [] pch;
       }
@@ -3423,7 +3423,7 @@ SetRemoteWndAttribute( zVIEW   vSubtask,
 #ifdef DEBUG_ALL
          zCHAR  szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ),
+         sprintf_s( szMsg, zsizeof( szMsg ),
                    "SetRemoteWndAttribute Tag: %s  Attribute: %s  Value: %s",
                    *(pZSubtask->m_pzsRemoteWndTag), cpcAttribute, cpcValue );
          TraceLineS( szMsg, "" );

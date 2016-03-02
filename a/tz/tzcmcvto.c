@@ -225,7 +225,7 @@ fnCloneAction( zVIEW     vSrcLPLR,
    zCHAR     szTag[ 33 ];
    zSHORT    nRC;
 
-   GetStringFromAttribute( szTag, sizeof( szTag ), vSrc, "Action", "Tag" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vSrc, "Action", "Tag" );
    nRC = SetCursorFirstEntityByString( vTgt, "Action", "Tag", szTag, 0 );
    if ( nRC >= zCURSOR_SET )
    {
@@ -249,7 +249,7 @@ fnCloneAction( zVIEW     vSrcLPLR,
 
    if ( CheckExistenceOfEntity( vSrc, "ActOper" ) == 0 )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vSrc, "ActOper", "Name" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vSrc, "ActOper", "Name" );
       nRC = SetCursorFirstEntityByString( vTgt, "Operation", "Name",
                                           szTag, "Dialog" );
       if ( nRC < zCURSOR_SET )
@@ -270,10 +270,10 @@ fnCloneAction( zVIEW     vSrcLPLR,
                lLth = zstrlen( szSourceName );
                if ( lLth >= 8 )
                {
-                  strcpy_s( szSourceName, sizeof( szSourceName ), szSourceName );
+                  strcpy_s( szSourceName, zsizeof( szSourceName ), szSourceName );
                }
 
-               strcat_s( szSourceName, sizeof( szSourceName ), szLanguageType );
+               strcat_s( szSourceName, zsizeof( szSourceName ), szLanguageType );
             }
 
             CreateMetaEntity( vSubtask, vTgt, "SourceFile", zPOS_AFTER );
@@ -293,7 +293,7 @@ fnCloneAction( zVIEW     vSrcLPLR,
             }
          }
 
-         GetStringFromAttribute( szTag, sizeof( szTag ), vSrc, "ActOper", "Name" );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vSrc, "ActOper", "Name" );
          nRC = SetCursorFirstEntityByString( vSrc, "Operation",
                                              "Name", szTag, "Dialog" );
          CreateMetaEntity( vSubtask, vTgt, "Operation", zPOS_AFTER );
@@ -343,7 +343,7 @@ fnCloneActions( zVIEW vAct, zVIEW vActSrc, zVIEW vSubtask, zCPCHAR cpcDLL_Name, 
       {
          // We have an option tied to this action, so we want to add the action.
 
-         GetStringFromAttribute( szTag + nOffset, sizeof( szTag ) - nOffset, vActSrc, "Action", "Tag" );
+         GetStringFromAttribute( szTag + nOffset, zsizeof( szTag ) - nOffset, vActSrc, "Action", "Tag" );
          szTag[ 32 ] = 0;  // force within 32 byte length
 
          CreateMetaEntity( vSubtask, vAct, "Action", zPOS_LAST );
@@ -353,12 +353,12 @@ fnCloneActions( zVIEW vAct, zVIEW vActSrc, zVIEW vSubtask, zCPCHAR cpcDLL_Name, 
 
          if ( CheckExistenceOfEntity( vActSrc, "ActOper" ) == 0 )
          {
-            GetStringFromAttribute( szTag + nOffset, sizeof( szTag ) - nOffset, vActSrc, "ActOper", "Name" );
+            GetStringFromAttribute( szTag + nOffset, zsizeof( szTag ) - nOffset, vActSrc, "ActOper", "Name" );
             nRC = SetCursorFirstEntityByString( vAct, "Operation", "Name",
                                                 szTag, "Dialog" );
             if ( nRC < zCURSOR_SET )
             {
-               GetStringFromAttribute( szTag + nOffset, sizeof( szTag ) - nOffset, vActSrc, "ActOper", "Name" );
+               GetStringFromAttribute( szTag + nOffset, zsizeof( szTag ) - nOffset, vActSrc, "ActOper", "Name" );
                nRC = SetCursorFirstEntityByString( vActSrc, "Operation",
                                                    "Name", szTag + nOffset, "Dialog" );
                SetAttributeFromString( vAct, "Action", "DLL", cpcDLL_Name );
@@ -419,7 +419,7 @@ fnCloneOption( zVIEW    vOrigW,
    }
 
 #if 0 // skip OptMap for now
-   GetStringFromAttribute( szViewName, sizeof( szViewName ), vOrigWO, "OptMap", "X_ViewName" );
+   GetStringFromAttribute( szViewName, zsizeof( szViewName ), vOrigWO, "OptMap", "X_ViewName" );
    nRC = SetCursorFirstEntity( vOrigWO, "OptMap", "" );
    while ( nRC > zCURSOR_UNCHANGED )
    {
@@ -433,7 +433,7 @@ fnCloneOption( zVIEW    vOrigW,
    {
       if ( CompareAttributeToString( vOrigWO, "OptAct", "Tag", "" ) != 0 )
       {
-         GetStringFromAttribute( szTag + nOffset, sizeof( szTag ) - nOffset, vOrigWO, "OptAct", "Tag" );
+         GetStringFromAttribute( szTag + nOffset, zsizeof( szTag ) - nOffset, vOrigWO, "OptAct", "Tag" );
          szTag[ 32 ] = 0;
          nRC = SetCursorFirstEntityByString( vNewW, "Action", "Tag", szTag, "" );
          if ( nRC >= 0 )
@@ -493,7 +493,7 @@ fnCloneMenuAndOptions( zVIEW  vNewW,
 
    if ( bDflt == FALSE )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vOrigW, "DfltMenu", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vOrigW, "DfltMenu", "Tag" );
       nRC = SetCursorFirstEntityByString( vNewW, "Menu", "Tag", szTag, "" );
       IncludeSubobjectFromSubobject( vNewW, "DfltMenu", vNewW,
                                      "Menu", zPOS_AFTER );
@@ -623,7 +623,7 @@ ConvertDialog( zVIEW   vSubtask,
    else
       SetNameForView( vTgtRemote, "__Convert_XRA", vSubtask, zLEVEL_TASK );
 
-   SysReadZeidonIni( -1, "[Workstation]", "ReusableMainSideWindow", szReusableMainSideWindow, sizeof( szReusableMainSideWindow ) );
+   SysReadZeidonIni( -1, "[Workstation]", "ReusableMainSideWindow", szReusableMainSideWindow, zsizeof( szReusableMainSideWindow ) );
 
    // So we can modify the Dialog and not worry about the consequences.
    ActivateOI_FromOI_ForTask( &vSrcDialog, vSrcDialog, vSubtask, 0 );
@@ -637,7 +637,7 @@ ConvertDialog( zVIEW   vSubtask,
    g_lpHotkey = (zPCHAR) SfLockTaskMemory( g_lpHotkey );
    g_lpEventAct = (zPCHAR) SfLockTaskMemory( g_lpEventAct );
 
-   GetStringFromAttribute( szRemoteWndTag, sizeof( szRemoteWndTag ), vSrcDialog, "Dialog", "Tag" );
+   GetStringFromAttribute( szRemoteWndTag, zsizeof( szRemoteWndTag ), vSrcDialog, "Dialog", "Tag" );
    nRemoteDlgTagLth = (zSHORT) zstrlen( szRemoteWndTag );
    szRemoteWndTag[ nRemoteDlgTagLth++ ] = '.';
 
@@ -649,7 +649,7 @@ ConvertDialog( zVIEW   vSubtask,
                               vSrcDialog, "Dialog", "Tag" );
    SetAttributeFromString( vTgtRemote, "App", "Definition", "Y" );
 
-   SetResourceFileIDs( vSubtask, vSrcDialog, 0, 0, szBuffer, sizeof( szBuffer ), vSrcDialog );
+   SetResourceFileIDs( vSubtask, vSrcDialog, 0, 0, szBuffer, zsizeof( szBuffer ), vSrcDialog );
    ResetView( vSrcDialog );
 
    g_dDLTextEditUnits = 0.0;
@@ -660,28 +660,28 @@ ConvertDialog( zVIEW   vSubtask,
    {
       GetAddrForAttribute( &pch, vWork, "LPLR", "Name" );
    // GetApplDirectoryFromView( szAppName, vWork, zAPPL_NAME,
-   //                           sizeof( szAppName ) );
-      sprintf_s( szAppSection, sizeof( szAppSection ), "[App.%s]", pch );
+   //                           zsizeof( szAppName ) );
+      sprintf_s( szAppSection, zsizeof( szAppSection ), "[App.%s]", pch );
 
-      SysReadZeidonIni( -1, szAppSection, "ExecutableRemoteImageStrip", szTempString, sizeof( szTempString ) );
+      SysReadZeidonIni( -1, szAppSection, "ExecutableRemoteImageStrip", szTempString, zsizeof( szTempString ) );
       if ( szTempString[ 0 ] == 0 )
       {
-         SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemoteImageStrip", szTempString, sizeof( szTempString ) );
+         SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemoteImageStrip", szTempString, zsizeof( szTempString ) );
       }
 
       if ( szTempString[ 0 ] )
          SetAttributeFromString( vTgtRemote, "App", "ImageURL", szTempString );
 
-      SysReadZeidonIni( -1, szAppSection, "ExecutableRemoteImage", szTempString, sizeof( szTempString ) );
+      SysReadZeidonIni( -1, szAppSection, "ExecutableRemoteImage", szTempString, zsizeof( szTempString ) );
       if ( szTempString[ 0 ] == 0 )
       {
-         SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemoteImage", szTempString, sizeof( szTempString ) );
+         SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemoteImage", szTempString, zsizeof( szTempString ) );
       }
 
       if ( szTempString[ 0 ] )
          SetAttributeFromString( vTgtRemote, "App", "Image", szTempString );
 
-      SysReadZeidonIni( -1, szAppSection, "DLTextEditUnits", szTempString, sizeof( szTempString ) );
+      SysReadZeidonIni( -1, szAppSection, "DLTextEditUnits", szTempString, zsizeof( szTempString ) );
       if ( szTempString[ 0 ] )
       {
          g_dDLTextEditUnits = atof( szTempString );
@@ -709,7 +709,7 @@ ConvertDialog( zVIEW   vSubtask,
    // Embed default window into executable's Dialog entity.
    if ( CheckExistenceOfEntity( vSrcDialog, "DfltWnd" ) == 0 )
    {
-      GetStringFromAttribute( szDfltWnd, sizeof( szDfltWnd ), vSrcDialog, "DfltWnd", "Tag" );
+      GetStringFromAttribute( szDfltWnd, zsizeof( szDfltWnd ), vSrcDialog, "DfltWnd", "Tag" );
       SetAttributeFromString( vTgtDialog, "Dlg", "DfltWnd", szDfltWnd );
 
       // For the XRA, set this attribute on the Window entity.
@@ -733,7 +733,7 @@ ConvertDialog( zVIEW   vSubtask,
       g_rectRelSizeY.right = -9999;
       g_nRelSizeCntX = 0;
       g_nRelSizeCntY = 0;
-      GetStringFromAttribute( szRemoteWndTag + nRemoteDlgTagLth, sizeof( szRemoteWndTag ) - nRemoteDlgTagLth, vSrcDialog, "Window", "Tag" );
+      GetStringFromAttribute( szRemoteWndTag + nRemoteDlgTagLth, zsizeof( szRemoteWndTag ) - nRemoteDlgTagLth, vSrcDialog, "Window", "Tag" );
 #ifdef DEBUG_ALL
       TraceLineS( "(tzcmcvto) Processing Window ====> ", szRemoteWndTag + nRemoteDlgTagLth );
 #endif
@@ -764,7 +764,7 @@ ConvertDialog( zVIEW   vSubtask,
       if ( CheckExistenceOfEntity( vSrcDialog, "DfltMenu" ) == zCURSOR_SET )
       {
          // Get the name of the default menu and store it for later use.
-         GetStringFromAttribute( szDfltMenu, sizeof( szDfltMenu ), vSrcDialog, "DfltMenu", "Tag" );
+         GetStringFromAttribute( szDfltMenu, zsizeof( szDfltMenu ), vSrcDialog, "DfltMenu", "Tag" );
 //       TraceLineS( "(tzcmcvto) Processing DfltMenu ", szDfltMenu );
          SetAttributeFromString( vTgtDialog, "Wnd", "DfltMenu", szDfltMenu );
       //xSetAttributeFromString( vTgtRemote, "Wnd", "DfltMenu", szDfltMenu );
@@ -794,7 +794,7 @@ ConvertDialog( zVIEW   vSubtask,
                   if ( CheckExistenceOfEntity( vAct, "DfltMenu" ) > zCURSOR_UNCHANGED )
                   {
                      // Get the name of the default menu and store it for later use.
-                     GetStringFromAttribute( szDfltMenu, sizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
+                     GetStringFromAttribute( szDfltMenu, zsizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
                      SetAttributeFromString( vTgtDialog, "Wnd", "DfltMenu", szDfltMenu );
                   }
 
@@ -814,13 +814,13 @@ ConvertDialog( zVIEW   vSubtask,
                {
                   zCHAR szDLL_Name[ 32 ];
 
-                  GetStringFromAttribute( szDLL_Name, sizeof( szDLL_Name ), vActSrc, "Dialog", "DLL_Name" );
+                  GetStringFromAttribute( szDLL_Name, zsizeof( szDLL_Name ), vActSrc, "Dialog", "DLL_Name" );
                   fnCloneActions( vAct, vActSrc, vSubtask, szDLL_Name, 't' );
                   fnCloneMenuAndOptions( vAct, vActSrc, vSubtask, TRUE, 't' );
                   if ( CheckExistenceOfEntity( vAct, "DfltMenu" ) > zCURSOR_UNCHANGED )
                   {
                      // Get the name of the default menu and store it for later use.
-                     GetStringFromAttribute( szDfltMenu, sizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
+                     GetStringFromAttribute( szDfltMenu, zsizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
                      SetAttributeFromString( vTgtDialog, "Wnd", "DfltMenu", szDfltMenu );
                   }
                }
@@ -858,7 +858,7 @@ ConvertDialog( zVIEW   vSubtask,
                   if ( CheckExistenceOfEntity( vAct, "DfltMenu" ) > zCURSOR_UNCHANGED )
                   {
                      // Get the name of the default menu and store it for later use.
-                     GetStringFromAttribute( szDfltMenu, sizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
+                     GetStringFromAttribute( szDfltMenu, zsizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
                      SetAttributeFromString( vTgtDialog, "Wnd", "DfltMenu", szDfltMenu );
                   }
 
@@ -878,13 +878,13 @@ ConvertDialog( zVIEW   vSubtask,
                {
                   zCHAR szDLL_Name[ 32 ];
 
-                  GetStringFromAttribute( szDLL_Name, sizeof( szDLL_Name ), vActSrc, "Dialog", "DLL_Name" );
+                  GetStringFromAttribute( szDLL_Name, zsizeof( szDLL_Name ), vActSrc, "Dialog", "DLL_Name" );
                   fnCloneActions( vAct, vActSrc, vSubtask, szDLL_Name, 's' );
                   fnCloneMenuAndOptions( vAct, vActSrc, vSubtask, FALSE, 's' );
                   if ( CheckExistenceOfEntity( vAct, "DfltMenu" ) > zCURSOR_UNCHANGED )
                   {
                      // Get the name of the default menu and store it for later use.
-                     GetStringFromAttribute( szDfltMenu, sizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
+                     GetStringFromAttribute( szDfltMenu, zsizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
                      SetAttributeFromString( vTgtDialog, "Wnd", "DfltMenu", szDfltMenu );
                   }
                }
@@ -926,7 +926,7 @@ ConvertDialog( zVIEW   vSubtask,
                if ( CheckExistenceOfEntity( vAct, "DfltMenu" ) > zCURSOR_UNCHANGED )
                {
                   // Get the name of the default menu and store it for later use.
-                  GetStringFromAttribute( szDfltMenu, sizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
+                  GetStringFromAttribute( szDfltMenu, zsizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
                   SetAttributeFromString( vTgtDialog, "Wnd", "DfltMenu", szDfltMenu );
                }
 
@@ -946,13 +946,13 @@ ConvertDialog( zVIEW   vSubtask,
             {
                zCHAR szDLL_Name[ 32 ];
 
-               GetStringFromAttribute( szDLL_Name, sizeof( szDLL_Name ), vActSrc, "Dialog", "DLL_Name" );
+               GetStringFromAttribute( szDLL_Name, zsizeof( szDLL_Name ), vActSrc, "Dialog", "DLL_Name" );
                fnCloneActions( vAct, vActSrc, vSubtask, szDLL_Name, 's' );
                fnCloneMenuAndOptions( vAct, vActSrc, vSubtask, bDefaultMenu, 's' );
                if ( CheckExistenceOfEntity( vAct, "DfltMenu" ) > zCURSOR_UNCHANGED )
                {
                   // Get the name of the default menu and store it for later use.
-                  GetStringFromAttribute( szDfltMenu, sizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
+                  GetStringFromAttribute( szDfltMenu, zsizeof( szDfltMenu ), vAct, "DfltMenu", "Tag" );
                   SetAttributeFromString( vTgtDialog, "Wnd", "DfltMenu", szDfltMenu );
                }
             }
@@ -973,7 +973,7 @@ ConvertDialog( zVIEW   vSubtask,
          GetAddrForAttribute( &pch, vSrcDialog, "Action", "Tag" );
          if ( zstrchr( pch, ' ' ) != 0 )
          {
-            sprintf_s( szTempString, sizeof( szTempString ),
+            sprintf_s( szTempString, zsizeof( szTempString ),
                        "(tzcmcvto) Processing Action: \"%s.%s\"  ZKey: %ld  contains spaces",
                        szRemoteWndTag, pch, lZKey );
             TraceLineS( szTempString, "" );
@@ -1088,7 +1088,7 @@ ConvertDialog( zVIEW   vSubtask,
       }
 
       // Get the name of the default button and store it for later use.
-      GetStringFromAttribute( szDfltBtn, sizeof( szDfltBtn ), vSrcDialog, "Window", "DfltButton" );
+      GetStringFromAttribute( szDfltBtn, zsizeof( szDfltBtn ), vSrcDialog, "Window", "DfltButton" );
       SetAttributeFromString( vTgtDialog, "Wnd", "DfltBtn", szDfltBtn );
    //xSetAttributeFromString( vTgtRemote, "Wnd", "DfltBtn", szDfltBtn );
 
@@ -1399,10 +1399,10 @@ ConvertDialog( zVIEW   vSubtask,
                CreateEntity( vTgtRemote, "WndEvent", zPOS_AFTER );
                SetAttributeFromInteger( vTgtRemote, "WndEvent", "SyncIdx", -1 );
                SetAttributeFromInteger( vTgtRemote, "WndEvent", "Tag", ul );
-               strcpy_s( szTempString, sizeof( szTempString ), szRemoteWndTag + nRemoteDlgTagLth );
+               strcpy_s( szTempString, zsizeof( szTempString ), szRemoteWndTag + nRemoteDlgTagLth );
                k = (zSHORT) zstrlen( szTempString );
                szTempString[ k++ ] = ';';
-               zltoa( ul, szTempString + k, sizeof( szTempString ) - k );
+               zltoa( ul, szTempString + k, zsizeof( szTempString ) - k );
                SetAttributeFromString( vTgtRemote, "WndEvent", "ActionTag", szTempString );
             }
          }
@@ -1564,10 +1564,10 @@ ConvertDialog( zVIEW   vSubtask,
          nRC = (*lpfnDuplicateCheck)( vSubtask, vSrcDialog, 0 );
          if ( nRC > 0 )
          {
-            sprintf_s( szTempString, sizeof( szTempString ),
+            sprintf_s( szTempString, zsizeof( szTempString ),
                        "(tzcmcvto) Duplicate control tags found in Dialog: %s", pch );
             TraceLineS( szTempString, "" );
-            strcat_s( szTempString, sizeof( szTempString ), "\n(see Zeidon trace for details)" );
+            strcat_s( szTempString, zsizeof( szTempString ), "\n(see Zeidon trace for details)" );
             MessageSend( vSubtask, "CM00815", "Configuration Management",
                          szTempString, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          }
@@ -1613,13 +1613,13 @@ fnProcessOptions( zVIEW vSubtask,
    while ( nRC >= zCURSOR_SET )
    {
       g_nOptCnt++;
-      GetStringFromAttribute( szTempString, sizeof( szTempString ), vSrcDialog, "Option", "Tag" );
+      GetStringFromAttribute( szTempString, zsizeof( szTempString ), vSrcDialog, "Option", "Tag" );
 //    TraceLineS( "(tzcmcvto) Processing Option ", szTempString );
       CreateEntity( vTgtDialog, "Opt", zPOS_AFTER );
       SetMatchingAttributesByName( vTgtDialog, "Opt", vSrcDialog, "Option", zSET_ALL );
 
       CreateEntity( vTgtRemote, "Opt", zPOS_AFTER );
-      GetStringFromAttribute( szTempString, sizeof( szTempString ), vSrcDialog, "Option", "Separator" );
+      GetStringFromAttribute( szTempString, zsizeof( szTempString ), vSrcDialog, "Option", "Separator" );
       // Is it a Separator?
       if ( szTempString[ 0 ] == 'Y' )
       {
@@ -1670,7 +1670,7 @@ fnProcessOptions( zVIEW vSubtask,
          // null, since there should not be a null Option.
 
          GetVariableFromAttribute( szTempString, 0, zTYPE_STRING,
-                                   sizeof( szTempString ), vSrcDialog,
+                                   zsizeof( szTempString ), vSrcDialog,
                                    "Option", "Text", 0, 0 );
          fnRemoveChar( szTempString, '&', TRUE );
          if ( SetCursorFirstEntityByString( vTgtWndDialog, "DIL", "Msg",
@@ -1708,8 +1708,8 @@ fnProcessOptions( zVIEW vSubtask,
          zCHAR  szTempString[ 256 ];
 
          nRC = (zSHORT) ul - 1;
-         GetStringFromAttribute( szTempString + 1, sizeof( szTempString ) - 1, vSrcDialog, "Option", "Text" );
-         strncpy_s( szTempString, sizeof( szTempString ), szTempString + 1, nRC );
+         GetStringFromAttribute( szTempString + 1, zsizeof( szTempString ) - 1, vSrcDialog, "Option", "Text" );
+         strncpy_s( szTempString, zsizeof( szTempString ), szTempString + 1, nRC );
          szTempString[ nRC ] = zMNEMONIC_FLAG;
          szTempString[ nRC + 1 ] = 0;
          SetAttributeFromString( vTgtDialog, "Opt", "Text", szTempString );
@@ -1883,7 +1883,7 @@ fnCountRelCtrls( zVIEW vCtrl, RECT *rect, zULONG ulSubtype,
    *pnRelSizeTotalX = 0;
    *pnRelSizeTotalY = 0;
    GetIntegerFromAttribute( &lZKeyIn, vCtrl, "Control", "ZKey" );
-// GetStringFromAttribute( szTag, sizeof( szTag ), vCtrl, "Control", "Tag" );
+// GetStringFromAttribute( szTag, zsizeof( szTag ), vCtrl, "Control", "Tag" );
 // TraceLineS( "= Invoked fnCountRelCtrls  for: ", szTag );
    nRC = SetCursorFirstEntity( vCtrl, "Control", 0 );
    while ( nRC >= zCURSOR_SET )
@@ -1893,7 +1893,7 @@ fnCountRelCtrls( zVIEW vCtrl, RECT *rect, zULONG ulSubtype,
       {
          GetIntegerFromAttribute( &lType, vCtrl, "ControlDef", "Key" );
          GetIntegerFromAttribute( &lZKeyChk, vCtrl, "Control", "ZKey" );
-         GetStringFromAttribute( szTag, sizeof( szTag ), vCtrl, "Control", "Tag" );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vCtrl, "Control", "Tag" );
          GetIntegerFromAttribute( &lTop, vCtrl, "Control", "PSDLG_Y" );
          GetIntegerFromAttribute( &lLeft, vCtrl, "Control", "PSDLG_X" );
          if ( lType == zCOMBOBOX_CONTROL )
@@ -2029,7 +2029,7 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
          SetAttributeFromInteger( vTgtDialog, "Ctrl", "SZDLG_Y", lSize );
       }
 
-   // GetStringFromAttribute( szCtrlTag, sizeof( szCtrlTag ), vSrcDialog, "Control", "Tag" );
+   // GetStringFromAttribute( szCtrlTag, zsizeof( szCtrlTag ), vSrcDialog, "Control", "Tag" );
    //xfnRemoveAmpersand( ControlDef.Tag );
    //xSetAttributeFromString( vTgtRemote, "Ctrl", "Tag", ControlDef.Tag );
 
@@ -2040,18 +2040,18 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
       SetAttributeFromInteger( vTgtRemote, "Ctrl", "Type", lCtrlType );
       if ( SetCursorFirstEntityByInteger( vPE, "ControlDef", "Key", lCtrlType, 0 ) == 0 )
       {
-         GetStringFromAttribute( szTempString, sizeof( szTempString ), vPE, "ControlDef", "Tag" );
+         GetStringFromAttribute( szTempString, zsizeof( szTempString ), vPE, "ControlDef", "Tag" );
          SetAttributeFromString( vTgtDialog, "Ctrl", "TagPE", szTempString );
-         GetStringFromAttribute( szTempString, sizeof( szTempString ), vPE, "ControlDef", "ActiveX_Script" );
+         GetStringFromAttribute( szTempString, zsizeof( szTempString ), vPE, "ControlDef", "ActiveX_Script" );
          SetAttributeFromString( vTgtDialog, "Ctrl", "Script", szTempString );
-         GetStringFromAttribute( szTempString, sizeof( szTempString ), vPE, "ControlDef", "ActiveX_ScriptDLL" );
+         GetStringFromAttribute( szTempString, zsizeof( szTempString ), vPE, "ControlDef", "ActiveX_ScriptDLL" );
          SetAttributeFromString( vTgtDialog, "Ctrl", "ScriptDLL", szTempString );
       }
       else
       {
-         GetStringFromAttribute( szTempString, sizeof( szTempString ), vSrcDialog, "ControlDef", "ActiveX_Script" );
+         GetStringFromAttribute( szTempString, zsizeof( szTempString ), vSrcDialog, "ControlDef", "ActiveX_Script" );
          SetAttributeFromString( vTgtDialog, "Ctrl", "Script", szTempString );
-         GetStringFromAttribute( szTempString, sizeof( szTempString ), vSrcDialog, "ControlDef", "ActiveX_ScriptDLL" );
+         GetStringFromAttribute( szTempString, zsizeof( szTempString ), vSrcDialog, "ControlDef", "ActiveX_ScriptDLL" );
          SetAttributeFromString( vTgtDialog, "Ctrl", "ScriptDLL", szTempString );
       }
 
@@ -2080,7 +2080,7 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
       if ( ControlDef.Tag[ 0 ] == 0 )
       {
          nGenTag++;    // nGenTag started at 1000
-         zltoa( nGenTag, szTempString, sizeof( szTempString ) );
+         zltoa( nGenTag, szTempString, zsizeof( szTempString ) );
          szTempString[ 0 ] = '~';
          SetAttributeFromString( vTgtDialog, "Ctrl", "Tag", szTempString );
          SetAttributeFromString( vTgtRemote, "Ctrl", "Tag", szTempString );
@@ -2241,7 +2241,7 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
 
       if ( g_chDIL_Active )
       {
-         GetVariableFromAttribute( szTempString, 0, zTYPE_STRING, sizeof( szTempString ), vSrcDialog, "Control", "DIL_Text", 0, 0 );
+         GetVariableFromAttribute( szTempString, 0, zTYPE_STRING, zsizeof( szTempString ), vSrcDialog, "Control", "DIL_Text", 0, 0 );
          if ( szTempString[ 0 ] )
          {
             // Case 1 above, DIL_Text.
@@ -2251,7 +2251,7 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
             if ( CheckExistenceOfEntity( vSrcDialog, "CtrlMapER_Domain" ) >= zCURSOR_SET )
             {
                // Case 2 above, DIL_Inherited.
-               GetStringFromAttribute( szTempString, sizeof( szTempString ), vSrcDialog, "Control", "DIL_Inherited" );
+               GetStringFromAttribute( szTempString, zsizeof( szTempString ), vSrcDialog, "Control", "DIL_Inherited" );
             }
             else
             {
@@ -2259,7 +2259,7 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
                if ( zstrcmp( pchAttr, "Radio" ) == 0 || zstrcmp( pchAttr, "Push" ) == 0 )
                {
                   //Case 3 above, Text.
-                  GetStringFromAttribute( szTempString, sizeof( szTempString ), vSrcDialog, "Control", "Text" );
+                  GetStringFromAttribute( szTempString, zsizeof( szTempString ), vSrcDialog, "Control", "Text" );
                   fnRemoveChar( szTempString, '&', TRUE );
                }
                else
@@ -2309,8 +2309,8 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
       if ( ul )
       {
          nRC = (zSHORT) ul - 1;
-         GetStringFromAttribute( szTempString + 1, sizeof( szTempString ) - 1, vSrcDialog, "Control", "Text" );
-         strncpy_s( szTempString, sizeof( szTempString ), szTempString + 1, nRC );
+         GetStringFromAttribute( szTempString + 1, zsizeof( szTempString ) - 1, vSrcDialog, "Control", "Text" );
+         strncpy_s( szTempString, zsizeof( szTempString ), szTempString + 1, nRC );
          szTempString[ nRC ] = zMNEMONIC_FLAG;
          szTempString[ nRC + 1 ] = 0;
          SetAttributeFromString( vTgtDialog, "Ctrl", "Text", szTempString );
@@ -2327,8 +2327,8 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
       //    second key string (if both source and target)
       //    second null terminator
       //
-      k = 4 + sizeof( zLONG );  // 4-byte flag + key length
-      GetStringFromAttribute( szTempString + k, sizeof( szTempString ) - k, vSrcDialog, "Control", "DD_SourceKey" );
+      k = 4 + sizeof( zLONG ); // 4-byte flag + key length
+      GetStringFromAttribute( szTempString + k, zsizeof( szTempString ) - k, vSrcDialog, "Control", "DD_SourceKey" );
       if ( szTempString[ k ] )
       {
          zSHORT j;
@@ -2343,7 +2343,7 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
          k += 4 + sizeof( zLONG );
       }
 
-      GetStringFromAttribute( szTempString + k, sizeof( szTempString ) - k, vSrcDialog, "Control", "DD_TargetKey" );
+      GetStringFromAttribute( szTempString + k, zsizeof( szTempString ) - k, vSrcDialog, "Control", "DD_TargetKey" );
       if ( (k > (4 + sizeof( zLONG ))) && *(szTempString + k) )
       {
          k += zstrlen( szTempString + k ) + 1;  // include null terminator
@@ -2450,7 +2450,7 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
             else
             {
                GetAddrForAttribute( &pchAttr, vSrcWndDialog, "Window", "Tag" );
-               sprintf_s( szTempString, sizeof( szTempString ),
+               sprintf_s( szTempString, zsizeof( szTempString ),
                           "Control (%s) cannot locate\n"
                           "Action (%s) with ZKey (%ld)\n"
                           "for include in Window (%s)",
@@ -2470,7 +2470,7 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
       if ( uLth )
       {
          *((zPLONG) (g_lpEventAct + uLth)) = -1L;    // long terminator
-         uLth += sizeof( zLONG );  // room for extra terminator long
+         uLth += sizeof( zLONG ); // room for extra terminator long
          SetAttributeFromBlob( vTgtDialog, "Ctrl", "EventAct",
                                g_lpEventAct, uLth );
       }
@@ -2501,10 +2501,10 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
                CreateEntity( vTgtRemote, "Event", zPOS_AFTER );
                SetAttributeFromInteger( vTgtRemote, "Event", "SyncIdx", -1 );
                SetAttributeFromInteger( vTgtRemote, "Event", "Tag", ul );
-               GetStringFromAttribute( szTempString, sizeof( szTempString ), vSrcDialog, "Control", "Tag" );
+               GetStringFromAttribute( szTempString, zsizeof( szTempString ), vSrcDialog, "Control", "Tag" );
                k = zstrlen( szTempString );
                szTempString[ k++ ] = ';';
-               zltoa( ul, szTempString + k, sizeof( szTempString ) - k );
+               zltoa( ul, szTempString + k, zsizeof( szTempString ) - k );
                SetAttributeFromString( vTgtRemote, "Event", "ActionTag", szTempString );
             }
          }
@@ -2532,7 +2532,7 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
          }
          else
          {
-            sprintf_s( szTempString, sizeof( szTempString ),
+            sprintf_s( szTempString, zsizeof( szTempString ),
                        "Ctrl (%s) cannot locate action (%s) for include",
                        ControlDef.Tag, pch );
             MessageSend( vSubtask, "CM00809", "Configuration Management",
@@ -2677,9 +2677,9 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
       // if conversion code exists ... execute it.
       GetIntegerFromAttribute( &lKey, vSrcDialog, "ControlDef", "Key" );
       SetCursorFirstEntityByInteger( vPE, "ControlDef", "Key", lKey, 0 );
-      GetStringFromAttribute( szTempString, sizeof( szTempString ), vPE,
+      GetStringFromAttribute( szTempString, zsizeof( szTempString ), vPE,
                               "ControlDef", "PainterDLL_Name" );
-      GetStringFromAttribute( szTempString + 100, sizeof( szTempString ) - 100, vPE,
+      GetStringFromAttribute( szTempString + 100, zsizeof( szTempString ) - 100, vPE,
                               "ControlDef", "PainterConvertOperationName" );
       if ( szTempString[ 100 ] )  // there is a conversion operation
       {
@@ -2694,12 +2694,12 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
                                                  szTempString + 100 )) == 0 )
             {
                // ERROR !!!
-               strcpy_s( szTempString, sizeof( szTempString ), "(tzcmcvto) Cannot access Ctrl convert operation: " );
-               strcat_s( szTempString, sizeof( szTempString ), szTempString + 100 );
+               strcpy_s( szTempString, zsizeof( szTempString ), "(tzcmcvto) Cannot access Ctrl convert operation: " );
+               strcat_s( szTempString, zsizeof( szTempString ), szTempString + 100 );
                MessageSend( vSubtask, "CM00813", "Configuration Management",
                             szTempString + 11,
                             zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
-               strcat_s( szTempString, sizeof( szTempString ), " for token " );
+               strcat_s( szTempString, zsizeof( szTempString ), " for token " );
                TraceLineI( szTempString, lCtrlType );
             }
             else
@@ -2764,14 +2764,14 @@ fnProcessControlsAtLevel( zVIEW   vSubtask,
          else
          {
             // ERROR !!!
-            strcpy_s( szTempString + 100, sizeof( szTempString ) - 100, szTempString );
-            strcpy_s( szTempString, sizeof( szTempString ),
+            strcpy_s( szTempString + 100, zsizeof( szTempString ) - 100, szTempString );
+            strcpy_s( szTempString, zsizeof( szTempString ),
                      "(tzcmcvto) Cannot load Ctrl conversion library: " );
-            strcat_s( szTempString, sizeof( szTempString ), szTempString + 100 );
+            strcat_s( szTempString, zsizeof( szTempString ), szTempString + 100 );
             MessageSend( vSubtask, "CM00814", "Configuration Management",
                          szTempString + 7,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
-            strcat_s( szTempString, sizeof( szTempString ), " for token " );
+            strcat_s( szTempString, zsizeof( szTempString ), " for token " );
             TraceLineI( szTempString, lCtrlType );
          }
       }
@@ -3001,7 +3001,7 @@ ConvertReport( zVIEW   vSubtask,
          // GetAddrForAttribute( &pch, vTgtReport, "Group", "Tag" );
          // TraceLineS( "(tzcmcvto) Processing Group ", pch );
 
-            GetStringFromAttribute( szAllowPageBreak, sizeof( szAllowPageBreak ), vTgtReport, "Group",
+            GetStringFromAttribute( szAllowPageBreak, zsizeof( szAllowPageBreak ), vTgtReport, "Group",
                                     "AllowPageBreak" );
             lExtent = -1;  // indicate that Extent has been calculated.
 
@@ -3165,17 +3165,17 @@ ConvertReport( zVIEW   vSubtask,
             nRC = SetCursorFirstEntity( vTgtReport, "Control", "" );
             while ( nRC >= zCURSOR_SET )
             {
-               GetStringFromAttribute( szTag, sizeof( szTag ), vTgtReport, "Control", "Tag" );
-               GetStringFromAttribute( szPosY, sizeof( szPosY ), vTgtReport, "Control", "PSDLG_Y" );
-               GetStringFromAttribute( szSizeY, sizeof( szSizeY ), vTgtReport, "Control", "SZDLG_Y" );
-               GetStringFromAttribute( szTop, sizeof( szTop ), vTgtReport, "Control", "RangeTop" );
-               GetStringFromAttribute( szBottom, sizeof( szBottom ), vTgtReport, "Control", "RangeBottom" );
+               GetStringFromAttribute( szTag, zsizeof( szTag ), vTgtReport, "Control", "Tag" );
+               GetStringFromAttribute( szPosY, zsizeof( szPosY ), vTgtReport, "Control", "PSDLG_Y" );
+               GetStringFromAttribute( szSizeY, zsizeof( szSizeY ), vTgtReport, "Control", "SZDLG_Y" );
+               GetStringFromAttribute( szTop, zsizeof( szTop ), vTgtReport, "Control", "RangeTop" );
+               GetStringFromAttribute( szBottom, zsizeof( szBottom ), vTgtReport, "Control", "RangeBottom" );
                GetIntegerFromAttribute( &lPosY, vTgtReport, "Control", "PSDLG_Y" );
                GetIntegerFromAttribute( &lSizeY, vTgtReport, "Control", "SZDLG_Y" );
                lSizeY += lPosY;
                lSizeY--;
 
-               sprintf_s( szMsg, sizeof( szMsg ), "Top %s; Bot %s; Pos %s; Siz %s; End %ld; for %s",
+               sprintf_s( szMsg, zsizeof( szMsg ), "Top %s; Bot %s; Pos %s; Siz %s; End %ld; for %s",
                          szTop, szBottom, szPosY, szSizeY, lSizeY, szTag );
                TraceLineS( "Debug Range - ", szMsg );
 
@@ -3300,11 +3300,11 @@ ConvertReport( zVIEW   vSubtask,
          nRC = (*lpfnDuplicateCheck)( vSubtask, vSrcReport, 0 );
          if ( nRC > 0 )
          {
-            sprintf_s( szTempString, sizeof( szTempString ),
+            sprintf_s( szTempString, zsizeof( szTempString ),
                        "(tzcmcvto) Duplicate control tags found in Report: %s",
                        pch );
             TraceLineS( szTempString, "" );
-            strcat_s( szTempString, sizeof( szTempString ), "\n(see Zeidon trace for details)" );
+            strcat_s( szTempString, zsizeof( szTempString ), "\n(see Zeidon trace for details)" );
             MessageSend( vSubtask, "CM00815", "Configuration Management",
                          szTempString, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          }
@@ -3561,17 +3561,17 @@ ConvertXSLT( zVIEW   vSubtask,
       nRC = SetCursorFirstEntity( vTgtXSLT, "Control", "" );
       while ( nRC >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szTag, sizeof( szTag ), vTgtXSLT, "Control", "Tag" );
-         GetStringFromAttribute( szPosY, sizeof( szPosY ), vTgtXSLT, "Control", "PSDLG_Y" );
-         GetStringFromAttribute( szSizeY, sizeof( szSizeY ), vTgtXSLT, "Control", "SZDLG_Y" );
-         GetStringFromAttribute( szTop, sizeof( szTop ), vTgtXSLT, "Control", "RangeTop" );
-         GetStringFromAttribute( szBottom, sizeof( szBottom ), vTgtXSLT, "Control", "RangeBottom" );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vTgtXSLT, "Control", "Tag" );
+         GetStringFromAttribute( szPosY, zsizeof( szPosY ), vTgtXSLT, "Control", "PSDLG_Y" );
+         GetStringFromAttribute( szSizeY, zsizeof( szSizeY ), vTgtXSLT, "Control", "SZDLG_Y" );
+         GetStringFromAttribute( szTop, zsizeof( szTop ), vTgtXSLT, "Control", "RangeTop" );
+         GetStringFromAttribute( szBottom, zsizeof( szBottom ), vTgtXSLT, "Control", "RangeBottom" );
          GetIntegerFromAttribute( &lPosY, vTgtXSLT, "Control", "PSDLG_Y" );
          GetIntegerFromAttribute( &lSizeY, vTgtXSLT, "Control", "SZDLG_Y" );
          lSizeY += lPosY;
          lSizeY--;
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Top %s; Bot %s; Pos %s; Siz %s; End %ld; for %s",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Top %s; Bot %s; Pos %s; Siz %s; End %ld; for %s",
                    szTop, szBottom, szPosY, szSizeY, lSizeY, szTag );
          TraceLineS( "Debug Range - ", szMsg );
 
@@ -3684,11 +3684,11 @@ ConvertXSLT( zVIEW   vSubtask,
          nRC = (*lpfnDuplicateCheck)( vSubtask, vSrcXSLT, 0 );
          if ( nRC > 0 )
          {
-            sprintf_s( szTempString, sizeof( szTempString ),
+            sprintf_s( szTempString, zsizeof( szTempString ),
                        "(tzcmcvto) Duplicate control tags found in XSLT: %s",
                        pch );
             TraceLineS( szTempString, "" );
-            strcat_s( szTempString, sizeof( szTempString ), "\n(see Zeidon trace for details)" );
+            strcat_s( szTempString, zsizeof( szTempString ), "\n(see Zeidon trace for details)" );
             MessageSend( vSubtask, "CM00815", "Configuration Management",
                          szTempString, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          }

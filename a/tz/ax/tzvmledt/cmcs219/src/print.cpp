@@ -88,7 +88,7 @@ BOOL CEdit::Print( HDC hDC, DWORD dwFlags ) const
    _tcsncpy( szTitle, LoadStringPtr( IDS_PRINT_JOB_TITLE ), ARRAY_SIZE(szTitle) - 1 );
    szTitle[ARRAY_SIZE(szTitle) - 1] = 0;
    DOCINFO di = {
-      sizeof( DOCINFO ),
+      zsizeof( DOCINFO ),
       szTitle,
       NULL,
       NULL,
@@ -98,7 +98,7 @@ BOOL CEdit::Print( HDC hDC, DWORD dwFlags ) const
    // use an 11 point font
    int cyLine = MulDiv( 11, GetDeviceCaps( hDC, LOGPIXELSY ), 72 );
    LOGFONT lf;
-   VERIFY ( GetObject( m_font->hFont, sizeof( lf ), &lf ) );
+   VERIFY ( GetObject( m_font->hFont, zsizeof( lf ), &lf ) );
    lf.lfHeight = -cyLine;
    lf.lfWidth = 0;
 

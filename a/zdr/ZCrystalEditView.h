@@ -609,7 +609,7 @@ protected:
       int   m_nMax;
       DWORD m_dwFlags;
 
-      SLineInfo() { memset(this, 0, sizeof(SLineInfo)); };
+      SLineInfo() { memset(this, 0, zsizeof(SLineInfo)); };
    };
 
    enum
@@ -630,7 +630,7 @@ protected:
    private:
       // TCHAR *m_pcText;
       // Since in most cases we have 1 character here,
-      // we should invent a better way. Note: 2 * sizeof(WORD) <= sizeof(TCHAR*)
+      // we should invent a better way. Note: 2 * zsizeof(WORD) <= zsizeof(TCHAR*)
       //
       // Here we will use the following trick: on Win32 platforms high-order word
       // of any pointer will be != 0. So we can store 1 character strings without
@@ -645,7 +645,7 @@ protected:
 
    public:
       // constructor/destructor for this struct
-      SUndoRecord() { memset(this, 0, sizeof(SUndoRecord)); };
+      SUndoRecord() { memset(this, 0, zsizeof(SUndoRecord)); };
 
       void SetText(LPCTSTR pszText);
       void FreeText();

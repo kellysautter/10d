@@ -492,7 +492,7 @@ ZMSTree::ZMSTree( ZSubtask *pZSubtask,
 
    mDeleteInit( m_pzsText );
    m_pzsText = new CString( pCtrlDef->Text );
-   strcpy_s( m_szClass, sizeof( m_szClass ), "ZeidonOL" );
+   strcpy_s( m_szClass, zsizeof( m_szClass ), "ZeidonOL" );
 
    // DM - Commenting out unneeded stuff assuming that there is no subtype.
    Attr.Style = WS_CHILD;
@@ -568,7 +568,7 @@ ZMSTree::ZMSTree( ZSubtask *pZSubtask,
    *((zVIEW *) m_pchCtrlBOI) = pZSubtask->m_vDialog;
    m_vSubtask = pZSubtask->m_vDialog;
 
-   zPCHAR pch = m_pchCtrlBOI + sizeof( zVIEW );  // skip Dialog view
+   zPCHAR pch = m_pchCtrlBOI + sizeof( zVIEW ); // skip Dialog view
 
    // Skip past the operation and DLL name if they are specified.
    if ( pch[ 0 ] )
@@ -603,7 +603,7 @@ ZMSTree::ZMSTree( ZSubtask *pZSubtask,
    // with the first view entity.
    m_nType = (zSHORT) *((zPLONG) pch);
 
-   pch += sizeof( zLONG );  // now pointing to tree text
+   pch += sizeof( zLONG ); // now pointing to tree text
    m_csTreeText = pch;
    pch += m_csTreeText.GetLength( ) + 1;
 
@@ -658,7 +658,7 @@ void
 ZMSTree::CursorListener( zVIEW pView, zCPCHAR cpcEntityName )
 {
    if ( cpcEntityName && pView == m_vApp && IsMappedEntity( cpcEntityName ) )
-      strncpy_s( m_szLastAccEntity, sizeof( m_szLastAccEntity ), cpcEntityName, sizeof( m_szLastAccEntity ) - 1 );
+      strncpy_s( m_szLastAccEntity, zsizeof( m_szLastAccEntity ), cpcEntityName, zsizeof( m_szLastAccEntity ) - 1 );
 }
 
 ZMSTree::~ZMSTree( )
@@ -1800,7 +1800,7 @@ ZMSTree::BuildTreeDataStruct( zVIEW      vApp,
          {
             zCHAR szEntityName[ zTAG_LTH ];
 
-            strcpy_s( szEntityName, sizeof( szEntityName ), OL_Item->szEntityName );
+            strcpy_s( szEntityName, zsizeof( szEntityName ), OL_Item->szEntityName );
             GetRealEntityName( vApp, szEntityName );
             ReadFontColorBitmap( pNode, szEntityName );
          }
@@ -2284,13 +2284,13 @@ ZMSTree::SetBitmapFileToImageList( CString csBitmapFile )
       zCHAR  szZeidonPath[ zMAX_FILENAME_LTH ];
       zCHAR  szWorkString[ zMAX_FILENAME_LTH ];
 
-      SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+      SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
 
       if ( szZeidonPath[ 0 ] )
       {
          SysAppendcDirSep( szZeidonPath );
-         strcat_s( szZeidonPath, sizeof( szZeidonPath ), csBitmapFile );
-         SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+         strcat_s( szZeidonPath, zsizeof( szZeidonPath ), csBitmapFile );
+         SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
 
          csBitmapFile = szWorkString;
          if ( m_mapFileImage.Lookup( csBitmapFile, fi ) )
@@ -2543,13 +2543,13 @@ ZMSTree::LoadBitmapWithResourcePath( HTREEITEM hItem,
    zCHAR    szWorkString[ zMAX_FILENAME_LTH + 40 ];
 
    // Load Bitmap with Resource Path.
-   SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+   SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
 
    if ( szZeidonPath[ 0 ] )
    {
       SysAppendcDirSep( szZeidonPath );
-      strcat_s( szZeidonPath, sizeof( szZeidonPath ), cpcBitmapFileName );
-      SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+      strcat_s( szZeidonPath, zsizeof( szZeidonPath ), cpcBitmapFileName );
+      SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
       lImageListIdx = GetBitmapIdFromImageList( hItem, szWorkString, bSelected );
    }
 
@@ -3304,8 +3304,8 @@ ZMSTree::SetNewFontColorBitmapBlob( ZOL_Node *pNode, CString csEntityName )
          OL_ItemColorFontImage->fntTextFont = pNode->m_TextFont;
          OL_ItemColorFontImage->lUseDefaultBitmap = pNode->m_lUseDefaultBitmap;
          OL_ItemColorFontImage->lUseSelectedBitmap = pNode->m_lUseSelectedBitmap;
-         strcpy_s( OL_ItemColorFontImage->szDefaultBitmapFile, sizeof( OL_ItemColorFontImage->szDefaultBitmapFile ), pNode->m_csDefaultBitmapFile );
-         strcpy_s( OL_ItemColorFontImage->szSelectedBitmapFile, sizeof( OL_ItemColorFontImage->szSelectedBitmapFile ), pNode->m_csSelectedBitmapFile );
+         strcpy_s( OL_ItemColorFontImage->szDefaultBitmapFile, zsizeof( OL_ItemColorFontImage->szDefaultBitmapFile ), pNode->m_csDefaultBitmapFile );
+         strcpy_s( OL_ItemColorFontImage->szSelectedBitmapFile, zsizeof( OL_ItemColorFontImage->szSelectedBitmapFile ), pNode->m_csSelectedBitmapFile );
       }
 
       pchItemColorFontImage += sizeof( zTREE_COLOR_FONT );
@@ -4010,7 +4010,7 @@ ZMSTree::SetTextFontForEntity( zCPCHAR cpcEntityName,
    fntTextFont.lfQuality       = PROOF_QUALITY;
 
    if ( pchFaceName )
-      strcpy_s( fntTextFont.lfFaceName, sizeof( fntTextFont.lfFaceName ), pchFaceName );
+      strcpy_s( fntTextFont.lfFaceName, zsizeof( fntTextFont.lfFaceName ), pchFaceName );
 
    lRC  = SetTxtFontForEntity( cpcEntityName, fntTextFont );
    lRC1 = SetTextColorForEntity( cpcEntityName, lTextColor );
@@ -5613,7 +5613,7 @@ ZMSTree::ToggleSelection( ZOL_Node *pNode )
          {
             zCHAR szEntityName[ zTAG_LTH ];
 
-            strcpy_s( szEntityName, sizeof( szEntityName ), pNode->m_csEntityName );
+            strcpy_s( szEntityName, zsizeof( szEntityName ), pNode->m_csEntityName );
             GetRealEntityName( m_vApp, szEntityName );
 
             SetSelectStateOfEntity( m_vApp, szEntityName, pNode->m_bSelected );
@@ -6559,7 +6559,7 @@ ZMSTree::OnSelChanged( NMHDR *pNMHDR, LRESULT *pResult )
          {
             zCHAR szEntityName[ zTAG_LTH ];
 
-            strcpy_s( szEntityName, sizeof( szEntityName ), pNodeNew->m_csEntityName );
+            strcpy_s( szEntityName, zsizeof( szEntityName ), pNodeNew->m_csEntityName );
             GetRealEntityName( m_vApp, szEntityName );
             if ( zstrcmp( szEntityName, pNodeNew->m_csEntityName.GetString() ) != 0 )
             {
@@ -7156,7 +7156,7 @@ ZMSTree::PrintZPage( zLONG      lPageNbr,
       cs = pZPrintout->m_csReportInfo;
 
    cs += "   ";
-   SysGetDateTime( szText, sizeof( szText ) );
+   SysGetDateTime( szText, zsizeof( szText ) );
    szText[ 14 ] = 0;
    fnFormatString( szText, "####.##.##  ##:##:##" );
    cs += szText;
@@ -7243,10 +7243,10 @@ ZMSTree::PrintZPage( zLONG      lPageNbr,
       zCHAR  szPageNbr[ 32 ];
       zSHORT k;
 
-      _ltoa_s( lPageNbr, szPageNbr, sizeof( szPageNbr ), 10 );
+      _ltoa_s( lPageNbr, szPageNbr, zsizeof( szPageNbr ), 10 );
       k = (zSHORT) zstrlen( szPageNbr );
       szPageNbr[ k ] = '/';
-      _ltoa_s( m_lMaxPage, szPageNbr + k + 1, sizeof( szPageNbr ) - k - 1, 10 );
+      _ltoa_s( m_lMaxPage, szPageNbr + k + 1, zsizeof( szPageNbr ) - k - 1, 10 );
       rectItem = m_rectDraw;
       rectItem.bottom -= BOTTOM_MARGIN;
       rectItem.top = rectItem.bottom - (3 * m_nTextHeightBold);
@@ -7293,7 +7293,7 @@ ZMSTree::PrintHeadFoot( CDC *pDC, zLONG lPage )
    // Print App title on top left corner.
    CString csTemp( m_csTitle );
 
-   SysGetDateTime( szText, sizeof( szText ) );
+   SysGetDateTime( szText, zsizeof( szText ) );
    szText[ 14 ] = 0;
    fnFormatString( szText, "####.##.##  ##:##:##" );
    csTemp += szText;
@@ -9144,7 +9144,7 @@ OL_SetTextForCurrentItem( zVIEW    vSubtask,
            (pOL = DYNAMIC_DOWNCAST( ZMSTree, pzma->m_pCtrl )) != 0 )
       {
       // zCHAR szMsg[ 256 ];
-      // sprintf_s( szMsg, sizeof( szMsg ), "OL_SetTextForCurrentItem Tag: %s %s", cpcCtrlTag, cpcItemText );
+      // sprintf_s( szMsg, zsizeof( szMsg ), "OL_SetTextForCurrentItem Tag: %s %s", cpcCtrlTag, cpcItemText );
       // pOL->ListAllItems( szMsg );
          zLONG lRC = pOL->SetTextForCurrentItem( cpcItemText );
          return( lRC );
@@ -9869,7 +9869,7 @@ OL_SetCursorByEntityNumber( zVIEW   v,
                                 // ResetViewPositions instead of just
                                 // ResetViewFromSubobject.
 
-      strcpy_s( szEntityName, sizeof( szEntityName ), cpcEntityName );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), cpcEntityName );
       GetRealEntityName( v, szEntityName );
 
       if ( SetEntityCursor( v, szEntityName, 0, zQUAL_ENTITYKEY | zPOS_FIRST | zRECURS,
@@ -9952,7 +9952,7 @@ OL_GetCurrentEntityNumber( zVIEW   v,
 
    zCHAR szEntityName[ zTAG_LTH ];
 
-   strcpy_s( szEntityName, sizeof( szEntityName ), cpcEntityName );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), cpcEntityName );
    *pulEntityNbr = GetEntityKey( v, szEntityName );
    GetRealEntityName( v, szEntityName );
 

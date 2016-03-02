@@ -267,7 +267,7 @@ SS_AutoSize( HWND hWnd, zBOOL fWM_Size )
       }
 
       SS_GetClientRect( hWnd, &rectClient );
-      zmemcpy( &lpSS->rectClient, &rectClient, sizeof( RECT ) );
+      zmemcpy( &lpSS->rectClient, &rectClient, zsizeof( RECT ) );
 
       if ( lpSS->fAutoSize )
       {
@@ -823,7 +823,7 @@ SS_InitSpread( HWND hWnd, LPSPREADSHEET lpSS )
    // is reserved for header row.
    while ( lpSS->Virtual.VSize > VBUFFER_MIN &&
            DrAllocTaskMemory( (zCOREMEM) &lpSS->Virtual.VRows, (zLONG)
-           ((lpSS->Virtual.VSize + 1) * sizeof( SS_ALLOCITEM )), 1081 ) != 0 )
+           ((lpSS->Virtual.VSize + 1) * zsizeof( SS_ALLOCITEM )), 1081 ) != 0 )
    {
       lpSS->Virtual.VSize -= VBUFFER_MIN;
    }
@@ -848,7 +848,7 @@ SS_InitSpread( HWND hWnd, LPSPREADSHEET lpSS )
    // lpSS->Virtual.VRows =
    //          (LPSS_ALLOCITEM) DrLockTaskMemory( lpSS->Virtual.VRows );
       zmemset( (zPCHAR) lpSS->Virtual.VRows, 0,
-               lpSS->Virtual.VSize * sizeof( SS_ALLOCITEM ) );
+               lpSS->Virtual.VSize * zsizeof( SS_ALLOCITEM ) );
 //    DrUnlockTaskMemory( lpRows );
    }
 
@@ -2822,7 +2822,7 @@ SS_VRefreshBuffer( HWND hWnd,
    fRedraw = lpSS->Redraw;
    lpSS->Redraw = FALSE;
 
-   zmemset( &VQueryData, 0, sizeof( SS_VQUERYDATA ) );
+   zmemset( &VQueryData, 0, zsizeof( SS_VQUERYDATA ) );
 
    SS_VClear( hWnd, lpSS->Virtual.VTop,
               lpSS->Virtual.VTop + lpSS->Virtual.VPhysSize - 1 );
@@ -3162,7 +3162,7 @@ SS_VQueryData( HWND hWnd,
 
    lpSS->fProcessingVQueryData = TRUE;
 
-   zmemset( &VQueryData, 0, sizeof( SS_VQUERYDATA ) );
+   zmemset( &VQueryData, 0, zsizeof( SS_VQUERYDATA ) );
 
    ssRowsPerScreen = BottomVisCell - lpSS->Row.UL + 1;
 
@@ -3454,7 +3454,7 @@ SuperBtnGetCurrColor( LPSUPERBTNCOLOR lpColor,
                       LPSUPERBTN lpSuperBtn )
 {
    TRACE_DEBUG( "<SUPERBTN.CPP>", "SuperBtnGetCurrColor" );
-   zmemcpy( lpColor, &lpSuperBtn->Color, sizeof( SUPERBTNCOLOR ) );
+   zmemcpy( lpColor, &lpSuperBtn->Color, zsizeof( SUPERBTNCOLOR ) );
 
    if ( lpColor->Color == RGBCOLOR_DEFAULT )
       lpColor->Color = GetSysColor( COLOR_BTNFACE );
@@ -3612,8 +3612,8 @@ SuperBtnPaint( HWND          hWnd,
    else
       lLth = 0;
 
-   zmemcpy( &rectPict, &rect, sizeof( RECT ) );
-   zmemcpy( &rectText, &rect, sizeof( RECT ) );
+   zmemcpy( &rectPict, &rect, zsizeof( RECT ) );
+   zmemcpy( &rectText, &rect, zsizeof( RECT ) );
 
    lpPict = &lpSuperBtn->Pict;
 
@@ -3715,7 +3715,7 @@ SuperBtnPaint( HWND          hWnd,
                                                 &rectPict );
          }
 
-         GetObject( lpPict->hPictStretch, sizeof( BITMAP ), (zPCHAR) &bm );
+         GetObject( lpPict->hPictStretch, zsizeof( BITMAP ), (zPCHAR) &bm );
 
          if ( fUseDib )
          {
@@ -3844,7 +3844,7 @@ SuperBtnPaint( HWND          hWnd,
    // Draw Text.
    if ( lLth )
    {
-      zmemcpy( &rectTemp, &rectText, sizeof( RECT ) );
+      zmemcpy( &rectTemp, &rectText, zsizeof( RECT ) );
       lTextHeight = DrawText( hDC, Text, -1, &rectTemp, DT_CALCRECT | DT_TOP |
                               DT_LEFT | DT_SINGLELINE );
       lTextWidth = rectTemp.right - rectTemp.left;
@@ -4000,7 +4000,7 @@ SuperBtnSetPict( HWND        hWnd,
       {
          Pict->chPictType = SUPERBTN_PICT_BITMAP;
 
-         GetObject( Pict->hPict, sizeof( BITMAP ), (zPCHAR) &Bitmap );
+         GetObject( Pict->hPict, zsizeof( BITMAP ), (zPCHAR) &Bitmap );
          Pict->lPictWidth = Bitmap.bmWidth;
          Pict->lPictHeight = Bitmap.bmHeight;
       }
@@ -4213,7 +4213,7 @@ DibNumColors( VOID  *pv )
    // is in biClrUsed, whereas in the BITMAPCORE - style headers, it
    // is dependent on the bits per pixel ( = 2 raised to the power of
    // bits/pixel).
-   if ( lpbi->biSize != sizeof( BITMAPCOREHEADER ) )
+   if ( lpbi->biSize != zsizeof( BITMAPCOREHEADER ) )
    {
       if ( lpbi->biClrUsed != 0 )
          return( (WORD) lpbi->biClrUsed );
@@ -4341,7 +4341,7 @@ kzCreateStretchedBitmap( HDC     hDC,
    zLONG   lWidth;
    zLONG   lHeight;
 
-   GetObject( hBitmap, sizeof( BITMAP ), (zPCHAR) &bm );
+   GetObject( hBitmap, zsizeof( BITMAP ), (zPCHAR) &bm );
 
    lHeight = (zLONG) (((lpRect->right - lpRect->left) * bm.bmHeight) / bm.bmWidth);
 
@@ -4399,7 +4399,7 @@ kzDrawBitmap( HDC     hDC,
    hBitmapOld = SelectBitmap( hDCMem, hBitmap );
    int nMapModeOld = SetMapMode( hDCMem, GetMapMode( hDC ) );
 
-   GetObject( hBitmap, sizeof( BITMAP ), (zPCHAR)&bm );
+   GetObject( hBitmap, zsizeof( BITMAP ), (zPCHAR)&bm );
 
    ptSize.x = mMin( bm.bmWidth, lpRect->right - lpRect->left );
    ptSize.y = mMin( bm.bmHeight, lpRect->bottom - lpRect->top );

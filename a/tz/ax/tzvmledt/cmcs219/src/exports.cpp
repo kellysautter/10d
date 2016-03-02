@@ -99,7 +99,7 @@ extern "C" void CMSetFindReplaceMRUList( LPCTSTR pszMRUList, BOOL bFind )
    if ( pszMRUList )
    {
       int nLen = _tcslen( pszMRUList );
-      int cb = ( nLen + 1 ) * sizeof( TCHAR );
+      int cb = ( nLen + 1 ) * zsizeof( TCHAR );
       cb = min( CM_FIND_REPLACE_MRU_BUFF_SIZE, cb );
       LPTSTR pszNewList = ( LPTSTR ) malloc( cb + 1 );
       if ( bFind )

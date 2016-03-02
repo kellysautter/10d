@@ -151,8 +151,7 @@ fnChainFreespaces( LPDATAHEADER lpDataHeader)
    zLOCK_MUTEX( zMUTEX_MEMORY );
 
    lpSpace = (LPFREESPACE)((zPCHAR) lpDataHeader + sizeof( DataHeaderRecord ));
-   pvEndOfBuffer = (zPCHAR) lpDataHeader + sizeof( DataHeaderRecord ) +
-                                                 lpDataHeader->ulUseableSize;
+   pvEndOfBuffer = (zPCHAR) lpDataHeader + sizeof( DataHeaderRecord ) + lpDataHeader->ulUseableSize;
    lpFreespace = &lpDataHeader->Freespace;
    while ( (void *) lpSpace < pvEndOfBuffer )
    {
@@ -509,7 +508,7 @@ fnAllocDataspace( LPDATAHEADER hFirstDataHeader,
             zmemset( lpReturnPtr, chInitByte, (unsigned int) ulReqSize );
 
          if ( nTableID && nTableID < iAttributeRecord )
-            memcpy( lpReturnPtr, &nTableID, sizeof( nTableID ) );
+            memcpy( lpReturnPtr, &nTableID, zsizeof( nTableID ) );
       }
 
       return( lpReturnPtr );
@@ -1009,7 +1008,7 @@ fnFreeDataspace( zPVOID Address )
 
    // Set user-data to all 0.
 // zmemset( Address, 0,
-//          (unsigned int) (ulSize - (sizeof( FreespaceRecord ))) );
+//          (unsigned int) (ulSize - (zsizeof( FreespaceRecord ))) );
 
    // Reset nTableID to Freespace
    lpFreespace->nTableID     = iFreespace;

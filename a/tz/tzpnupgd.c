@@ -106,7 +106,7 @@ UpgradeControl( zVIEW    vSubtask,
    {
       GetIntegerFromAttribute( &lType, OrigWC, "Control", "Type" );
       SetCursorFirstEntityByInteger( vType, "Control", "Type", lType, "" );
-      GetStringFromAttribute( szTag, sizeof( szTag ), vType, "Control", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vType, "Control", "Tag" );
       SetCursorFirstEntityByString( vPE, "ControlDef", "Tag", szTag, "" );
       IncludeSubobjectFromSubobject( OrigWC, "ControlDef", vPE, "ControlDef", zPOS_AFTER );
       SetAttributeFromString ( OrigWC, "Control", "Type", "");
@@ -131,14 +131,14 @@ UpgradeCtrlMap( zVIEW    vSubtask,
    lTempInteger_0 = CheckExistenceOfEntity( OrigWC, "CtrlMapView" );
    if ( lTempInteger_0 >= 0 )
    {
-      nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWC, "CtrlMapView", "Name" );
+      nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWC, "CtrlMapView", "Name" );
       RESULT = SetCursorFirstEntityByString( OrigW, "ViewObjRef", "Name", szTempString_0, "" );
    }
    else
    {
       if ( CompareAttributeToString ( OrigWC, "CtrlMap", "X_ViewName", "" ) != 0 )
       {
-         nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_ViewName" );
+         nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_ViewName" );
          RESULT = SetCursorFirstEntityByString( OrigW, "ViewObjRef", "Name", szTempString_0, "" );
       }
    }
@@ -175,14 +175,14 @@ IncludeAttributeMapping( zVIEW    vSubtask,
    zCHAR    szTempString_0[ 33 ];
 
    RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigW, "LOD", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigW, "LOD", "Name" );
    SetCursorFirstEntityByString( LOD_List, "W_MetaDef", "Name", szTempString_0, "" );
    ActivateMetaOI( vSubtask, &vLOD, LOD_List, zREFER_LOD_META, zSINGLE );
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_EntityName" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_EntityName" );
    RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTempString_0, "" );
    if ( RESULT >= 0 )
    {
-      nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_AttributeName" );
+      nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_AttributeName" );
       RESULT = SetCursorFirstEntityByString( vLOD, "ER_Attribute", "Name", szTempString_0, "LOD_Entity" );
       if ( RESULT >= 0 )
       {
@@ -190,10 +190,10 @@ IncludeAttributeMapping( zVIEW    vSubtask,
          if ( CompareAttributeToString ( OrigWC, "CtrlMap", "X_Context", "" ) != 0 )
          {
             nZRetCode = RetrieveViewForMetaList( vSubtask, &DomainList, zREFER_DOMAIN_META );
-            nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vLOD, "Domain", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vLOD, "Domain", "Name" );
             RESULT = SetCursorFirstEntityByString( DomainList, "W_MetaDef", "Name", szTempString_0, "" );
             nZRetCode = ActivateMetaOI( vSubtask, &vDomain, DomainList, zREFER_DOMAIN_META, zSINGLE );
-            nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_Context" );
+            nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_Context" );
             RESULT = SetCursorFirstEntityByString( vDomain, "Context", "Name", szTempString_0, "" );
             if ( RESULT >= 0 )
             {
@@ -222,7 +222,7 @@ UpgradeAction( zVIEW    vSubtask,
 
    if ( CompareAttributeToString( OrigW, "Action", "OperName", "" ) != 0 )
    {
-      nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigW, "Action", "OperName" );
+      nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigW, "Action", "OperName" );
       RESULT = SetCursorFirstEntityByString( OrigW, "Operation", "Name", szTempString_0, "" );
       if ( RESULT < 0 )
       {

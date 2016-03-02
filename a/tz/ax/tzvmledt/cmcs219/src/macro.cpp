@@ -37,14 +37,14 @@ void CEdit::PlayMacro( int nMacro )
          #endif
 
          int nSize = ( int ) ( *( DWORD * )m_pActiveMacro );
-         m_pActiveMacro += sizeof( DWORD );
+         m_pActiveMacro += zsizeof( DWORD );
 
          LPBYTE pMacroEnd = m_pActiveMacro + nSize;
 
          while ( m_pActiveMacro < pMacroEnd )
          {
             WORD wCmd = *( WORD * )m_pActiveMacro;
-            m_pActiveMacro += sizeof( WORD );
+            m_pActiveMacro += zsizeof( WORD );
             ExecuteCommand( wCmd, 0, FALSE );
             if ( m_bAbortMacro )
             {
@@ -84,7 +84,7 @@ void CEdit::RecordMacro( BOOL bAbortRecording )
          ASSERT( m_pActiveMacro );
          ASSERT( m_pMacroRecordBuffer );
          int cbMacro = m_pActiveMacro - m_pMacroRecordBuffer;
-         int cbCmds = cbMacro - 2 - sizeof( DWORD );
+         int cbCmds = cbMacro - 2 - zsizeof( DWORD );
          LPBYTE pMacro = NULL;
          if ( cbCmds && !m_bAbortMacro )
          {
@@ -140,7 +140,7 @@ void CEdit::RecordMacro( BOOL bAbortRecording )
          DisplayRecordMacroDialog( TRUE );
          m_pMacroRecordBuffer = ( LPBYTE ) malloc( MACRO_GROWBY );
          m_cbMacroRecordBuffer = MACRO_GROWBY;
-         m_pActiveMacro = m_pMacroRecordBuffer + 2 + sizeof( DWORD );
+         m_pActiveMacro = m_pMacroRecordBuffer + 2 + zsizeof( DWORD );
          SetMode( eMacroRecord );
       }
       m_bAbortMacro = FALSE;
@@ -241,7 +241,7 @@ BOOL CALLBACK RecordMacroDlgProc( HWND hWndDlg, UINT uMsg, WPARAM wParam, LPARAM
                                   NULL );
 
          ASSERT( IsWindow( hwndToolTip ) );
-         TOOLINFO info = { sizeof( TOOLINFO ), TTF_SUBCLASS | TTF_IDISHWND, hWndDlg, ( UINT ) hWndOK, { 0, 0, 0, 0 }, hInstance, ( LPTSTR ) LoadStringPtr( IDS_END_RECORDING ) };
+         TOOLINFO info = { zsizeof( TOOLINFO ), TTF_SUBCLASS | TTF_IDISHWND, hWndDlg, ( UINT ) hWndOK, { 0, 0, 0, 0 }, hInstance, ( LPTSTR ) LoadStringPtr( IDS_END_RECORDING ) };
          VERIFY( SendMessage( hwndToolTip, TTM_ADDTOOL, 0, ( LPARAM ) &info ) );
 
          RECT rcDlg;

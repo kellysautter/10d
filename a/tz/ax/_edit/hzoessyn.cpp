@@ -114,7 +114,7 @@ SironSyntax::SironSyntax( CTBEditor *pT, char *pData, HWND hWnd, BOOL bLanguage 
     //HZ115 durch einen NULL-Eintrag vom restlichen Schrott getrennt sind
     do
     {
-        m_pArray += sizeof( short );
+        m_pArray += zsizeof( short );
         p = m_pArray; //Anfang eines Keywords merken
 
         m_pArray += iSize;
@@ -148,12 +148,12 @@ SironSyntax::SironSyntax( CTBEditor *pT, char *pData, HWND hWnd, BOOL bLanguage 
 
     if( m_bLanguage )
     {
-        lAnzKey = sizeof( cGerZusatz ) / KEY_ARR_SIZE;
+        lAnzKey = zsizeof( cGerZusatz ) / KEY_ARR_SIZE;
         pKey = & cGerZusatz[0];
     }
     else
     {
-        lAnzKey = sizeof( cEngZusatz ) / KEY_ARR_SIZE;
+        lAnzKey = zsizeof( cEngZusatz ) / KEY_ARR_SIZE;
         pKey = & cEngZusatz[0];
     }
 

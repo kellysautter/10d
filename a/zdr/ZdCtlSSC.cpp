@@ -565,7 +565,7 @@ GenCreateField( zVIEW v, HWND hWnd, LPARAM  lParam )
    zPCHAR      hGen;
    zBOOL       fRetCode = FALSE;
 
-   if ( (DrAllocTaskMemory( &hGen, sizeof( GENFIELD ), 1000 )) != 0 )
+   if ( (DrAllocTaskMemory( &hGen, zsizeof( GENFIELD ), 1000 )) != 0 )
    {
       NotifyParent( hWnd, EN_ERRSPACE );
    }
@@ -615,7 +615,7 @@ EditSet3DParams( HWND    hWnd,
    lpField->f3D = wParam;
 
    if ( lParam )
-      zmemcpy( &lpField->Edit3DFormat, (LPEDIT3DFORMAT) lParam, sizeof( EDIT3DFORMAT ) );
+      zmemcpy( &lpField->Edit3DFormat, (LPEDIT3DFORMAT) lParam, zsizeof( EDIT3DFORMAT ) );
 
    GetClientRect( hWnd, &rectClient );
    TraceRect( "EditSet3DParams ClientRect", rectClient );
@@ -637,7 +637,7 @@ EditGet3DParams( HWND   hWnd,
 
    lpField = LockField ( hWnd );
    if ( lParam )
-      zmemcpy( (zPCHAR) lParam, &lpField->Edit3DFormat, sizeof( EDIT3DFORMAT ) );
+      zmemcpy( (zPCHAR) lParam, &lpField->Edit3DFormat, zsizeof( EDIT3DFORMAT ) );
 
    fRet = lpField->f3D;
 // DrUnlockTaskMemory( lpField );
@@ -667,7 +667,7 @@ EditTextOut( HWND        hWnd,
    zBOOL   fIsEnabled;
    HFONT   hFontOld = 0;
 
-   zmemcpy( &RectTemp, &Rect, sizeof( RECT ) );
+   zmemcpy( &RectTemp, &Rect, zsizeof( RECT ) );
 
    // Draw the text.
    if ( hFont )
@@ -758,7 +758,7 @@ GenInitializeField( HWND hWnd, LPARAM  lParam )
    LPGENFIELD  lpGen = LockGenField( hWnd );
 
    if ( ((LPCREATESTRUCT) lParam)->lpszName )
-      strncpy_s( szGen, sizeof( szGen ), (zPCHAR) ((LPCREATESTRUCT)lParam)->lpszName, sizeof( szGen ) - 1 );
+      strncpy_s( szGen, zsizeof( szGen ), (zPCHAR) ((LPCREATESTRUCT)lParam)->lpszName, zsizeof( szGen ) - 1 );
    else
       szGen[ 0 ] = 0;
 
@@ -1142,7 +1142,7 @@ CreateField( zVIEW v, HWND hWnd, LPARAM lParam )
    zLONG         lStyle;
    zBOOL         fRetCode = FALSE;
 
-   if ( DrAllocTaskMemory( &hField, sizeof( EDITFIELD ), 1001 ) != 0 )
+   if ( DrAllocTaskMemory( &hField, zsizeof( EDITFIELD ), 1001 ) != 0 )
    {
       NotifyParent( hWnd, EN_ERRSPACE );
    }
@@ -1560,7 +1560,7 @@ EditPaintField( HWND hWnd, HDC hDC, LPEDITFIELD lpField )
       szBuffer[ zstrlen( lpField->szString ) ] = 0;
    }
    else
-      strcpy_s( szBuffer, sizeof( szBuffer ), lpField->szString );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), lpField->szString );
 
    if ( lpField->bRightJustify )
    {
@@ -1749,13 +1749,13 @@ InsertCharacter( HWND hWnd, LPEDITFIELD lpField, zCHAR cChar )
       ::MessageBeep( MB_OK );              // No more room in field.
    else
    {
-      strcpy_s( szLocal, sizeof( szLocal ), lpField->szString );
+      strcpy_s( szLocal, zsizeof( szLocal ), lpField->szString );
       StrInsertChar( cChar, szLocal, lpField->nCurrentPos );
       lpField->bCharBeingInserted = TRUE;
       if ( Validate( hWnd, szLocal, lpField->nCurrentPos ) )
       {
          NotifyParent ( hWnd, EN_UPDATE );
-         strcpy_s( lpField->szString, sizeof( lpField->szString ), szLocal );
+         strcpy_s( lpField->szString, zsizeof( lpField->szString ), szLocal );
          lpField->nChars++;
          if ( lpField->bRightJustify == 0 )
             RightCaret ( hWnd, lpField );
@@ -1780,12 +1780,12 @@ ReplaceCharacter( HWND hWnd, LPEDITFIELD lpField, zCHAR cChar )
    TRACE_DEBUG( "<CHAR.CPP>", "ReplaceCharacter " );
    zCHAR szLocal[ MAXFIELD ];
 
-   strcpy_s( szLocal, sizeof( szLocal ), lpField->szString );
+   strcpy_s( szLocal, zsizeof( szLocal ), lpField->szString );
    szLocal[ lpField->nCurrentPos ] = cChar;
    if ( Validate( hWnd, szLocal, lpField->nCurrentPos ) )
    {
       NotifyParent( hWnd, EN_UPDATE );
-      strcpy_s( lpField->szString, sizeof( lpField->szString ), szLocal );
+      strcpy_s( lpField->szString, zsizeof( lpField->szString ), szLocal );
       RightCaret( hWnd, lpField );
       InvalidateRect( hWnd, 0, TRUE );
       UpdateWindow( hWnd );
@@ -1804,15 +1804,15 @@ ReplaceSelectedText( HWND hWnd, LPEDITFIELD lpField, zPCHAR lpNewText )
 
    if ( lpField->bHilited )
    {
-      strcpy_s( szLocal, sizeof( szLocal ), lpNewText );
+      strcpy_s( szLocal, zsizeof( szLocal ), lpNewText );
       nTextLth = zstrlen( lpNewText );
 
       if ( !SendMessage( hWnd, EM_REPLACETEXT, 0, (zLONG) szLocal ) )
       {
-         strncpy_s( szLocal, sizeof( szLocal ), lpField->szString, lpField->nHiStart + 1 );
+         strncpy_s( szLocal, zsizeof( szLocal ), lpField->szString, lpField->nHiStart + 1 );
          szLocal[ lpField->nHiStart + 1 ] = 0;  // force null terminator
-         strcat_s( szLocal, sizeof( szLocal ), lpNewText );
-         strcat_s( szLocal, sizeof( szLocal ), &lpField->szString[ lpField->nHiEnd ] );
+         strcat_s( szLocal, zsizeof( szLocal ), lpNewText );
+         strcat_s( szLocal, zsizeof( szLocal ), &lpField->szString[ lpField->nHiEnd ] );
 
          nCurrentPos = lpField->nHiStart + nTextLth;
       }
@@ -1824,7 +1824,7 @@ ReplaceSelectedText( HWND hWnd, LPEDITFIELD lpField, zPCHAR lpNewText )
       if ( Validate( hWnd, szLocal, nCurrentPos ) )
       {
          NotifyParent( hWnd, EN_UPDATE );
-         strcpy_s( lpField->szString, sizeof( lpField->szString ), szLocal );
+         strcpy_s( lpField->szString, zsizeof( lpField->szString ), szLocal );
          lpField->nChars = zstrlen( lpField->szString );
          PositionCaret( hWnd, lpField, lpField->nHiStart + nTextLth );
          lpField->bHilited = FALSE;
@@ -2223,13 +2223,13 @@ ProcessKeystroke( HWND hWnd, WPARAM wParam )
 
             if ( lpField->nCurrentPos > 0 )
             {
-               strcpy_s( szLocal, sizeof( szLocal ), lpField->szString );
-               strcpy_s( szLocal + lpField->nCurrentPos - 1, sizeof( szLocal ) - (lpField->nCurrentPos - 1), // delete 1 char
+               strcpy_s( szLocal, zsizeof( szLocal ), lpField->szString );
+               strcpy_s( szLocal + lpField->nCurrentPos - 1, zsizeof( szLocal ) - (lpField->nCurrentPos - 1), // delete 1 char
                          szLocal + lpField->nCurrentPos );
                if ( Validate( hWnd, szLocal, lpField->nCurrentPos ) )
                {
                   NotifyParent( hWnd, EN_UPDATE );
-                  strcpy_s( lpField->szString, sizeof( lpField->szString ), szLocal );
+                  strcpy_s( lpField->szString, zsizeof( lpField->szString ), szLocal );
                   lpField->nChars--;
                   LeftCaret( hWnd, lpField );
                   InvalidateRect ( hWnd, 0, TRUE );
@@ -2276,13 +2276,13 @@ ProcessKeystroke( HWND hWnd, WPARAM wParam )
 
                if ( lpField->nCurrentPos < lpField->nChars )
                {
-                  strcpy_s( szLocal, sizeof( szLocal ), lpField->szString );
-                  strcpy_s( szLocal + lpField->nCurrentPos, sizeof( szLocal ) - lpField->nCurrentPos, // delete 1 char
+                  strcpy_s( szLocal, zsizeof( szLocal ), lpField->szString );
+                  strcpy_s( szLocal + lpField->nCurrentPos, zsizeof( szLocal ) - lpField->nCurrentPos, // delete 1 char
                             szLocal + lpField->nCurrentPos + 1 );
                   if ( Validate( hWnd, szLocal, lpField->nCurrentPos ) )
                   {
                      NotifyParent( hWnd, EN_UPDATE );
-                     strcpy_s( lpField->szString, sizeof( lpField->szString ), szLocal );
+                     strcpy_s( lpField->szString, zsizeof( lpField->szString ), szLocal );
                      lpField->nChars--;
                      InvalidateRect( hWnd, 0, TRUE );
                      UpdateWindow( hWnd );
@@ -2362,14 +2362,14 @@ InsertText( HWND hWnd, LPEDITFIELD lpField, zPCHAR lpNewText )
    zCHAR szLocal[ MAXFIELD ];
    zULONG lTextLth;
 
-   zmemset( szLocal, 0, sizeof( szLocal ) );
+   zmemset( szLocal, 0, zsizeof( szLocal ) );
 
    lTextLth = zstrlen( lpNewText );
    lTextLth = mMin( lTextLth, MAXFIELD - 1 - zstrlen( lpField->szString ) );
 
    zmemcpy( szLocal, lpField->szString, lpField->nCurrentPos );
    zmemcpy( szLocal + zstrlen( szLocal ), lpNewText, lTextLth );
-   strcat_s( szLocal + zstrlen( szLocal ), sizeof( szLocal ) - zstrlen( szLocal ),
+   strcat_s( szLocal + zstrlen( szLocal ), zsizeof( szLocal ) - zstrlen( szLocal ),
              lpField->szString + lpField->nCurrentPos );
 
    if ( lpField->nMaxChars != -1 )
@@ -2378,7 +2378,7 @@ InsertText( HWND hWnd, LPEDITFIELD lpField, zPCHAR lpNewText )
    if ( Validate( hWnd, szLocal, lpField->nCurrentPos ) )
    {
       NotifyParent( hWnd, EN_UPDATE );
-      strcpy_s( lpField->szString, sizeof( lpField->szString ), szLocal );
+      strcpy_s( lpField->szString, zsizeof( lpField->szString ), szLocal );
       lpField->nChars = zstrlen( lpField->szString );
       InvalidateRect( hWnd, 0, TRUE );
       UpdateWindow( hWnd );
@@ -2511,12 +2511,12 @@ DeleteSelectedText( HWND hWnd, LPEDITFIELD lpField )
 
    if ( lpField->bHilited )
    {
-      strcpy_s( szLocal, sizeof( szLocal ), lpField->szString );
+      strcpy_s( szLocal, zsizeof( szLocal ), lpField->szString );
       StrRemove( szLocal, lpField->nHiStart, mMin( zstrlen( szLocal ), (zUSHORT) lpField->nHiEnd ) - 1 );
       if ( Validate( hWnd, szLocal, lpField->nCurrentPos ) )
       {
          NotifyParent( hWnd, EN_UPDATE );
-         strcpy_s( lpField->szString, sizeof( lpField->szString ), szLocal );
+         strcpy_s( lpField->szString, zsizeof( lpField->szString ), szLocal );
          lpField->nChars -= lpField->nHiEnd - lpField->nHiStart;
          lpField->nChars = mMax( lpField->nChars, 0 );
          PositionCaret( hWnd, lpField, lpField->nHiStart );
@@ -2599,7 +2599,7 @@ SetFieldText( HWND hWnd, LPARAM  lParam )
    if ( lpField->bHilited )
       DeselectText( hWnd, lpField );
 
-   strncpy_s( lpField->szString, sizeof( lpField->szString ), pchText, sizeof( lpField->szString ) - 1 );
+   strncpy_s( lpField->szString, zsizeof( lpField->szString ), pchText, zsizeof( lpField->szString ) - 1 );
 
    if ( lpField->nMaxChars != -1 )
       lpField->szString[ lpField->nMaxChars ] = '\0';
@@ -3436,7 +3436,7 @@ kzCheckBoxWndProc( HWND    hWnd,
          {
             if ( lpCheckBox->fUseDefPicts )
             {
-               zmemset( &lpCheckBox->Picts, 0, sizeof( CHECKBOXPICTS ) );
+               zmemset( &lpCheckBox->Picts, 0, zsizeof( CHECKBOXPICTS ) );
                lpCheckBox->fUseDefPicts = FALSE;
             }
 
@@ -4380,7 +4380,7 @@ CheckBoxInit( )
    LPCHECKBOX   lpCheckBox;
    static WORD  Bits[] = {0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55, 0xAA, 0x55};
 
-   if ( DrAllocTaskMemory( (zCOREMEM) &lpCheckBox, (zLONG) sizeof( CHECKBOX ), 1006 ) != 0 )
+   if ( DrAllocTaskMemory( (zCOREMEM) &lpCheckBox, (zLONG) zsizeof( CHECKBOX ), 1006 ) != 0 )
    {
       return( 0 );
    }
@@ -4685,8 +4685,8 @@ CheckBoxPaint( HWND       hWnd,
    HBRUSH  hBrush = (HBRUSH) SendMessage( hWndParent, WM_CTLCOLOR, (WPARAM) hDC, MAKELONG( hWnd, lpCheckBox->nCtlColorCode ) );
 #endif
 
-   zmemcpy( &rectTemp, lpRect, sizeof( RECT ) );
-   zmemcpy( &rectShrink, lpRect, sizeof( RECT ) );
+   zmemcpy( &rectTemp, lpRect, zsizeof( RECT ) );
+   zmemcpy( &rectShrink, lpRect, zsizeof( RECT ) );
 
    FillRect( hDC, lpRect, ClrTblItem.hBrush );
 
@@ -4747,8 +4747,8 @@ CheckBoxPaintPict( HWND       hWnd,
    if ( lpCheckBox->hFont )
       hFontOld = SelectFont( hDC, lpCheckBox->hFont );
 
-   zmemcpy( &rectPict, lpRect, sizeof( RECT ) );
-   zmemcpy( &rectControl, lpRect, sizeof( RECT ) );
+   zmemcpy( &rectPict, lpRect, zsizeof( RECT ) );
+   zmemcpy( &rectControl, lpRect, zsizeof( RECT ) );
 
    // Determine picture to use.
    CheckBoxGetPicture( hWnd, lpCheckBox, &Pict );
@@ -4771,7 +4771,7 @@ CheckBoxPaintPict( HWND       hWnd,
 
    if ( lpCheckBox->lStyle & BS_CENTER )
    {
-      zmemcpy( &rectTemp, lpRect, sizeof( RECT ) );
+      zmemcpy( &rectTemp, lpRect, zsizeof( RECT ) );
 
       if ( lpCheckBox->hText )
       {
@@ -4794,7 +4794,7 @@ CheckBoxPaintPict( HWND       hWnd,
       rectPict.right = mMin( rectPict.right, rectPict.left + lWidth );
    }
 
-   zmemcpy( lpRect, &rectPict, sizeof( RECT ) );
+   zmemcpy( lpRect, &rectPict, zsizeof( RECT ) );
 
    if ( lpCheckBox->lStyle & BS_LEFTTEXT )
       rectPict.left = rectPict.right - lPictWidth;
@@ -4947,7 +4947,7 @@ CheckBoxPaintText( HWND         hWnd,
    else
       nLth = 0;
 
-   zmemcpy( &rectText, lpRectText, sizeof( RECT ) );
+   zmemcpy( &rectText, lpRectText, zsizeof( RECT ) );
 
    GetTextMetrics( hDC, &fm );
 
@@ -4959,7 +4959,7 @@ CheckBoxPaintText( HWND         hWnd,
 
    if ( nLth )
    {
-      zmemcpy( &rectTemp, &rectText, sizeof( RECT ) );
+      zmemcpy( &rectTemp, &rectText, zsizeof( RECT ) );
       DrawText( hDC, lpCheckBox->hText, -1, &rectTemp, DT_TOP | DT_LEFT | DT_SINGLELINE | DT_CALCRECT );
       lTextWidth = rectTemp.right - rectTemp.left;
    }
@@ -4981,7 +4981,7 @@ CheckBoxPaintText( HWND         hWnd,
    int nOldBkMode = SetBkMode( hDC, TRANSPARENT );
    if ( nLth )
    {
-      zmemcpy( &rectTemp, &rectText, sizeof( RECT ) );
+      zmemcpy( &rectTemp, &rectText, zsizeof( RECT ) );
       lTextHeight = (zSHORT)fm.tmHeight;
 
       x = rectText.left + mMax( (rectText.right - rectText.left - lTextWidth) / 2, 0 );
@@ -5183,12 +5183,12 @@ CheckBoxPickPicture( LPCHECKBOX  lpCheckBox,
    if ( lpCheckBox->fChecked )
    {
       lpwPriority = wPriorityDown;
-      nPriorityCnt = sizeof( wPriorityDown ) / sizeof(WORD);
+      nPriorityCnt = zsizeof( wPriorityDown ) / zsizeof(WORD);
    }
    else
    {
       lpwPriority = wPriorityUp;
-      nPriorityCnt = sizeof( wPriorityUp ) / sizeof(WORD);
+      nPriorityCnt = zsizeof( wPriorityUp ) / zsizeof(WORD);
    }
 
    for ( k = nPriorityCnt - 1, fFound = FALSE; k >= 0; k-- )
@@ -5202,7 +5202,7 @@ CheckBoxPickPicture( LPCHECKBOX  lpCheckBox,
    }
 
    if ( fFound < 0 )
-      zmemcpy( lpPict, &lpCheckBox->Picts.Pict, sizeof( zBTNPICT ) );
+      zmemcpy( lpPict, &lpCheckBox->Picts.Pict, zsizeof( zBTNPICT ) );
 }
 
 zBOOL
@@ -5217,11 +5217,11 @@ CheckBoxChoosePicture( LPCHECKBOX  lpCheckBox,
 
    if ( lpPictTemp->chPictType )
    {
-      zmemcpy( lpPict, lpPictTemp, sizeof( zBTNPICT ) );
+      zmemcpy( lpPict, lpPictTemp, zsizeof( zBTNPICT ) );
       return( TRUE );
    }
 
-   zmemset( lpPict, 0, sizeof( zBTNPICT ) );
+   zmemset( lpPict, 0, zsizeof( zBTNPICT ) );
    return( FALSE );
 }
 
@@ -5274,7 +5274,7 @@ kzxCheckBoxLoadDef( zPCHAR     *lphDefPicts,
       if ( nFound == -1 )
       {
          *lphDefPicts = (zPCHAR) DrUnlockTaskMemory( lpDefPicts );
-         if ( DrReAllocTaskMemory( lphDefPicts, (zLONG)(sizeof( CHECKBOXPICTS ) * (*pnDefPictCnt + 1)) ) != 0 )
+         if ( DrReAllocTaskMemory( lphDefPicts, (zLONG)(zsizeof( CHECKBOXPICTS ) * (*pnDefPictCnt + 1)) ) != 0 )
          {
             *lphDefPicts = (zPCHAR) DrLockTaskMemory( lpDefPicts );
             return( FALSE );
@@ -5288,7 +5288,7 @@ kzxCheckBoxLoadDef( zPCHAR     *lphDefPicts,
    }
    else
    {
-      if ( DrAllocTaskMemory( lphDefPicts, sizeof( CHECKBOXPICTS ), 1011 ) != 0 )
+      if ( DrAllocTaskMemory( lphDefPicts, zsizeof( CHECKBOXPICTS ), 1011 ) != 0 )
       {
          return( FALSE );
       }
@@ -5335,7 +5335,7 @@ kzxCheckBoxUnloadDefs( zPCHAR     *lphDefPicts,
          CheckBoxFreePict( &lpDefPicts[ nFound ].PictDisabledDown );
 
          for ( k = nFound; k < *pnDefPictCnt - 1; k++ )
-            zmemcpy( &lpDefPicts[ nFound ], &lpDefPicts[ nFound + 1 ], sizeof( CHECKBOXPICTS ) );
+            zmemcpy( &lpDefPicts[ nFound ], &lpDefPicts[ nFound + 1 ], zsizeof( CHECKBOXPICTS ) );
 
 //       DrUnlockTaskMemory( lpDefPicts );
          *lphDefPicts = (zPCHAR) DrUnlockTaskMemory( lpDefPicts );
@@ -5345,7 +5345,7 @@ kzxCheckBoxUnloadDefs( zPCHAR     *lphDefPicts,
             *lphDefPicts = 0;
          }
          else
-         if ( DrReAllocTaskMemory( lphDefPicts, (sizeof( CHECKBOXPICTS ) * (*pnDefPictCnt - 1)) ) != 0 )
+         if ( DrReAllocTaskMemory( lphDefPicts, (zsizeof( CHECKBOXPICTS ) * (*pnDefPictCnt - 1)) ) != 0 )
          {
             return( FALSE );
          }
@@ -5382,11 +5382,11 @@ kzxCheckBoxGetPict( zPCHAR          *lphDefPicts,
 
       if ( nFound != -1 )
       {
-         zmemcpy( lpDefPict, &lpDefPicts[ nFound ], sizeof( CHECKBOXPICTS ) );
+         zmemcpy( lpDefPict, &lpDefPicts[ nFound ], zsizeof( CHECKBOXPICTS ) );
          fRet = TRUE;
       }
       else
-         zmemset( lpDefPict, 0, sizeof( CHECKBOXPICTS ) );
+         zmemset( lpDefPict, 0, zsizeof( CHECKBOXPICTS ) );
 
 //    DrUnlockTaskMemory( lpDefPicts );
    }

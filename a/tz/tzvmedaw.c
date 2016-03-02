@@ -90,17 +90,17 @@ zwTZVSEDAW_OpenSourceFile( zVIEW vSubtask )
 
 
    GetViewByName( &vSource, "TZVSSROO", vSubtask, zLEVEL_SUBTASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vSource, "VMLMODULE", "NAME" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vSource, "VMLMODULE", "NAME" );
 
-   strcat_s( szFileName, sizeof( szFileName ), ".VML" );
+   strcat_s( szFileName, zsizeof( szFileName ), ".VML" );
 
-   GetStringFromAttribute( szDirectory, sizeof( szDirectory ), vSource, "VMLMODULE", "DIRECTORY" );
+   GetStringFromAttribute( szDirectory, zsizeof( szDirectory ), vSource, "VMLMODULE", "DIRECTORY" );
 
    //   GetApplDirectoryFromView( szDirectory, vSource,
    //                             zAPPL_DIR_OBJECT, 128 );
    //
-   strcpy_s( szQualifiedName, sizeof( szQualifiedName ), szDirectory );
-   strcat_s( szQualifiedName, sizeof( szQualifiedName ), szFileName );
+   strcpy_s( szQualifiedName, zsizeof( szQualifiedName ), szDirectory );
+   strcat_s( szQualifiedName, zsizeof( szQualifiedName ), szFileName );
 
    lfHandle = SysOpenFile( vSubtask, szQualifiedName, COREFILE_READ );
 

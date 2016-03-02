@@ -127,11 +127,11 @@ OperationCount( zVIEW vTaskView, zSHORT nOpt )
          {
             lplCount1 = (zPLONG) zGETPTR( lpTask->hCountBuf );
             lplCount2 = lplCount1 + 1;
-            SysGetDateTime( szMessage, sizeof( szMessage ) );
+            SysGetDateTime( szMessage, zsizeof( szMessage ) );
             szMessage[ 16 ] = 0;
             *lplCount2 = zatol( szMessage + 8 ) + 100000000;
             lTime = *lplCount2 - *lplCount1;
-            strcpy_s( szMessage, sizeof( szMessage ), " " );
+            strcpy_s( szMessage, zsizeof( szMessage ), " " );
             for ( nIdx = 1 ; nIdx < 450 ; nIdx++ )
             {
                lplCount1 += 2;
@@ -145,17 +145,17 @@ OperationCount( zVIEW vTaskView, zSHORT nOpt )
                   if ( szMessage[ 3 ] == 0 )
                   {
                      szMessage[ 3 ] = '(';
-                     zltoa( nIdx, szMessage + 4, sizeof( szMessage ) - 4 );
-                     strcat_s( szMessage, sizeof( szMessage ), ")" );
+                     zltoa( nIdx, szMessage + 4, zsizeof( szMessage ) - 4 );
+                     strcat_s( szMessage, zsizeof( szMessage ), ")" );
                   }
 
-                  strcat_s( szMessage, sizeof( szMessage ), ", External calls (" );
-                  zltoa( *lplCount1, szMessage + 200, sizeof( szMessage ) - 200 );
-                  strcat_s( szMessage, sizeof( szMessage ), szMessage + 200 );
-                  strcat_s( szMessage, sizeof( szMessage ), "), Internal calls (" );
-                  zltoa( *lplCount2, szMessage + 200, sizeof( szMessage ) - 200 );
-                  strcat_s( szMessage, sizeof( szMessage ), szMessage + 200 );
-                  strcat_s( szMessage, sizeof( szMessage ), ")" );
+                  strcat_s( szMessage, zsizeof( szMessage ), ", External calls (" );
+                  zltoa( *lplCount1, szMessage + 200, zsizeof( szMessage ) - 200 );
+                  strcat_s( szMessage, zsizeof( szMessage ), szMessage + 200 );
+                  strcat_s( szMessage, zsizeof( szMessage ), "), Internal calls (" );
+                  zltoa( *lplCount2, szMessage + 200, zsizeof( szMessage ) - 200 );
+                  strcat_s( szMessage, zsizeof( szMessage ), szMessage + 200 );
+                  strcat_s( szMessage, zsizeof( szMessage ), ")" );
                   TraceLineS( szMessage, "" );
                }
             }
@@ -164,23 +164,23 @@ OperationCount( zVIEW vTaskView, zSHORT nOpt )
             TraceLineI( "   Total internal calls: ", lInternal );
             lplCount1 = (zPLONG) zGETPTR( lpTask->hCountBuf );
             lplCount2 = lplCount1 + 1;
-            zltoa( *lplCount1, szMessage + 199, sizeof( szMessage ) - 199 );
-            strncpy_s( szMessage, sizeof( szMessage ), szMessage + 200, 2 );
-            strcpy_s( szMessage + 2, sizeof( szMessage ) - 2, ":" );
-            strncpy_s( szMessage + 3, sizeof( szMessage ) - 3, szMessage + 202, 2 );
-            strcpy_s( szMessage + 5, sizeof( szMessage ) - 5, ":" );
-            strncpy_s( szMessage + 6, sizeof( szMessage ) - 6, szMessage + 204, 2 );
-            strcpy_s( szMessage + 8, sizeof( szMessage ) - 9, "." );
-            strcpy_s( szMessage + 9, sizeof( szMessage ) - 9, szMessage + 206 );
+            zltoa( *lplCount1, szMessage + 199, zsizeof( szMessage ) - 199 );
+            strncpy_s( szMessage, zsizeof( szMessage ), szMessage + 200, 2 );
+            strcpy_s( szMessage + 2, zsizeof( szMessage ) - 2, ":" );
+            strncpy_s( szMessage + 3, zsizeof( szMessage ) - 3, szMessage + 202, 2 );
+            strcpy_s( szMessage + 5, zsizeof( szMessage ) - 5, ":" );
+            strncpy_s( szMessage + 6, zsizeof( szMessage ) - 6, szMessage + 204, 2 );
+            strcpy_s( szMessage + 8, zsizeof( szMessage ) - 9, "." );
+            strcpy_s( szMessage + 9, zsizeof( szMessage ) - 9, szMessage + 206 );
             TraceLineS( "   Start time: ", szMessage );
-            zltoa( *lplCount2, szMessage + 199, sizeof( szMessage ) - 199 );
-            strncpy_s( szMessage, sizeof( szMessage ), szMessage + 200, 2 );
-            strcpy_s( szMessage + 2, sizeof( szMessage ) - 2, ":" );
-            strncpy_s( szMessage + 3, sizeof( szMessage ) - 3, szMessage + 202, 2 );
-            strcpy_s( szMessage + 5, sizeof( szMessage ) - 5, ":" );
-            strncpy_s( szMessage + 6, sizeof( szMessage ) - 6, szMessage + 204, 2 );
-            strcpy_s( szMessage + 8, sizeof( szMessage ) - 8, "." );
-            strcpy_s( szMessage + 9, sizeof( szMessage ) - 9, szMessage + 206 );
+            zltoa( *lplCount2, szMessage + 199, zsizeof( szMessage ) - 199 );
+            strncpy_s( szMessage, zsizeof( szMessage ), szMessage + 200, 2 );
+            strcpy_s( szMessage + 2, zsizeof( szMessage ) - 2, ":" );
+            strncpy_s( szMessage + 3, zsizeof( szMessage ) - 3, szMessage + 202, 2 );
+            strcpy_s( szMessage + 5, zsizeof( szMessage ) - 5, ":" );
+            strncpy_s( szMessage + 6, zsizeof( szMessage ) - 6, szMessage + 204, 2 );
+            strcpy_s( szMessage + 8, zsizeof( szMessage ) - 8, "." );
+            strcpy_s( szMessage + 9, zsizeof( szMessage ) - 9, szMessage + 206 );
             TraceLineS( "   Stop  time: ", szMessage );
          }
          else
@@ -203,7 +203,7 @@ OperationCount( zVIEW vTaskView, zSHORT nOpt )
          if ( lpTask->hCountBuf )
          {
             lplCount1 = (zPLONG) zGETPTR( lpTask->hCountBuf );
-            SysGetDateTime( szMessage, sizeof( szMessage ) );
+            SysGetDateTime( szMessage, zsizeof( szMessage ) );
             szMessage[ 16 ] = 0;
             *lplCount1 = zatol( szMessage + 8 ) + 100000000;
          }
@@ -248,7 +248,7 @@ TraceLineI( zCPCHAR Title, zLONG lValue )
 {
    zCHAR szLong[ 32 ];
 
-   zltoa( lValue, szLong, sizeof( szLong ) );
+   zltoa( lValue, szLong, zsizeof( szLong ) );
    TraceLineS( Title, szLong );
 }
 
@@ -269,7 +269,7 @@ TraceLineX( zCPCHAR Title, zULONG lValue )
 
    szHex[ 0 ] = '0';
    szHex[ 1 ] = 'x';
-   zltox( lValue, szHex + 2, sizeof( szHex ) - 2 );
+   zltox( lValue, szHex + 2, zsizeof( szHex ) - 2 );
    TraceLineS( Title, szHex );
 }
 
@@ -304,11 +304,11 @@ TraceLineS( zCPCHAR Title, zCPCHAR String )
       // The common case is that everything fits nicely ... so take care of it right away.
       if ( nTitleLth + nStringLth < zMAX_MSG_LTH )
       {
-         strcpy_s( szMessage, sizeof( szMessage ), Title );
+         strcpy_s( szMessage, zsizeof( szMessage ), Title );
          if ( String )
-            strcpy_s( szMessage + nTitleLth, sizeof( szMessage ) - nTitleLth, String );
+            strcpy_s( szMessage + nTitleLth, zsizeof( szMessage ) - nTitleLth, String );
          else
-            strcpy_s( szMessage + nTitleLth, sizeof( szMessage ) - nTitleLth, "(null)" );
+            strcpy_s( szMessage + nTitleLth, zsizeof( szMessage ) - nTitleLth, "(null)" );
       }
       else
       {
@@ -326,7 +326,7 @@ TraceLineS( zCPCHAR Title, zCPCHAR String )
             nVacant = zMAX_MSG_LTH - nMsgOffset;
             if ( nVacant > nTitleLth - nLth )  // fit rest of title?
             {
-               strcpy_s( szMessage + nMsgOffset, sizeof( szMessage ) - nMsgOffset, Title + nLth );
+               strcpy_s( szMessage + nMsgOffset, zsizeof( szMessage ) - nMsgOffset, Title + nLth );
                nVacant -= (nTitleLth - nLth);
                nMsgOffset += nTitleLth - nLth;
                nLth = nTitleLth;
@@ -335,7 +335,7 @@ TraceLineS( zCPCHAR Title, zCPCHAR String )
             {
                // fit as much of title as possible into szMessage using
                // commas and spaces to break the message if possible
-               strncpy_s( szMessage + nMsgOffset, sizeof( szMessage ) - nMsgOffset, Title + nLth, nVacant );
+               strncpy_s( szMessage + nMsgOffset, zsizeof( szMessage ) - nMsgOffset, Title + nLth, nVacant );
                szMessage[ zMAX_MSG_LTH ] = 0;
 
                pch = zstrrchr( szMessage, ',' );
@@ -359,7 +359,7 @@ TraceLineS( zCPCHAR Title, zCPCHAR String )
                }
 
                SysMessageList( szMessage );
-               strcpy_s( szMessage, sizeof( szMessage ), " + " );
+               strcpy_s( szMessage, zsizeof( szMessage ), " + " );
                nMsgOffset = 5;
             }
          }
@@ -370,7 +370,7 @@ TraceLineS( zCPCHAR Title, zCPCHAR String )
             nVacant = zMAX_MSG_LTH - nMsgOffset;
             if ( nVacant > nStringLth - nLth )  // fit rest of string?
             {
-               strcpy_s( szMessage + nMsgOffset, sizeof( szMessage ) - nMsgOffset, String + nLth );
+               strcpy_s( szMessage + nMsgOffset, zsizeof( szMessage ) - nMsgOffset, String + nLth );
                nVacant -= (nStringLth - nLth);
                nMsgOffset += nStringLth - nLth;
                nLth = nStringLth;
@@ -379,7 +379,7 @@ TraceLineS( zCPCHAR Title, zCPCHAR String )
             {
                // fit as much of title as possible into szMessage using
                // commas and spaces to break the message if possible
-               strncpy_s( szMessage + nMsgOffset, sizeof( szMessage ) - nMsgOffset, String + nLth, nVacant );
+               strncpy_s( szMessage + nMsgOffset, zsizeof( szMessage ) - nMsgOffset, String + nLth, nVacant );
                szMessage[ zMAX_MSG_LTH ] = 0;
 
                pch = zstrrchr( szMessage, ',' );
@@ -403,7 +403,7 @@ TraceLineS( zCPCHAR Title, zCPCHAR String )
                }
 
                SysMessageList( szMessage );
-               strcpy_s( szMessage, sizeof( szMessage ), " + " );
+               strcpy_s( szMessage, zsizeof( szMessage ), " + " );
                nMsgOffset = 5;
             }
          }
@@ -411,14 +411,14 @@ TraceLineS( zCPCHAR Title, zCPCHAR String )
    }
    else
    {
-      strcpy_s( szMessage, sizeof( szMessage ), "(oetr) Invalid \"null\" TraceLine title" );
+      strcpy_s( szMessage, zsizeof( szMessage ), "(oetr) Invalid \"null\" TraceLine title" );
    }
 
    SysMessageList( szMessage );
 }
 
 #ifndef _countof
-#define _countof(array) (sizeof(array)/sizeof(array[ 0 ]))
+#define _countof(array) (zsizeof(array)/zsizeof(array[ 0 ]))
 #endif
 
 //./ ADD NAME=TraceLine
@@ -440,7 +440,7 @@ TraceLine( zCPCHAR cpcFormat, ... )
 
    va_start( args, cpcFormat );
 
-   nBufCnt = _vsnprintf_s( szBuffer, sizeof( szBuffer ), _countof( szBuffer ), cpcFormat, args );
+   nBufCnt = _vsnprintf_s( szBuffer, zsizeof( szBuffer ), _countof( szBuffer ), cpcFormat, args );
 
    // was there an error? was the expanded string too long?
    if ( nBufCnt >= 0 )
@@ -508,39 +508,39 @@ TraceBuffer( zCPCHAR cpcPrefix, zPVOID pvBuffer, zULONG ulLth )
          if ( ulBlankLines > 2 )
          {
             n = ulBlankLines * 16;
-            sprintf_s( szHex, sizeof( szHex ), "%s %d Repeat Lines (%4d thru %4d) ",
+            sprintf_s( szHex, zsizeof( szHex ), "%s %d Repeat Lines (%4d thru %4d) ",
                        cpcPrefix, ulBlankLines, ulPos, ulPos + n - 1 );
             TraceLineS( szHex, "" );
             ulPos += n;
          }
 
          // Add the offset counter to cpcPrefix.
-         sprintf_s( szHex, sizeof( szHex ), "%s(%4d) ", cpcPrefix, ulPos );
-         strcpy_s( szAscii, sizeof( szAscii ), " " );
+         sprintf_s( szHex, zsizeof( szHex ), "%s(%4d) ", cpcPrefix, ulPos );
+         strcpy_s( szAscii, zsizeof( szAscii ), " " );
       }
       else
       if ( ulPos % 8 == 0 )
       {
          // The index is a multiple of 8, so add a few spaces to the buffers
          // to make the trace a little easier to read.
-         strcat_s( szHex, sizeof( szHex ), "  " );
-      // strcat_s( szAscii, sizeof( szAscii ), " " );
+         strcat_s( szHex, zsizeof( szHex ), " " );
+      // strcat_s( szAscii, zsizeof( szAscii ), " " );
       }
 
       // Convert the current byte to a 2-char hex number.
-      zltox( (zLONG) cpcBuffer[ ulPos ], sz, sizeof( sz ) );
+      zltox( (zLONG) cpcBuffer[ ulPos ], sz, zsizeof( sz ) );
       n = zstrlen( sz );
       if ( n < 2 )
       {
-         strcat_s( szHex, sizeof( szHex ), "0" );
+         strcat_s( szHex, zsizeof( szHex ), "0" );
          n = 0;
       }
       else
          n -= 2;
 
       // Add the hex number to szHex.
-      strcat_s( szHex, sizeof( szHex ), sz + n );
-      strcat_s( szHex, sizeof( szHex ), " " );
+      strcat_s( szHex, zsizeof( szHex ), sz + n );
+      strcat_s( szHex, zsizeof( szHex ), " " );
 
       // If the current byte is a printable char, then copy it to the ASCII
       // buffer.  Otherwise add a "." to the buffer.
@@ -551,7 +551,7 @@ TraceBuffer( zCPCHAR cpcPrefix, zPVOID pvBuffer, zULONG ulLth )
          szAscii[ n ]   = 0;
       }
       else
-         strcat_s( szAscii, sizeof( szAscii ), "." );
+         strcat_s( szAscii, zsizeof( szAscii ), "." );
 
    } // for...
 
@@ -630,7 +630,7 @@ TraceHex( zPVOID  pvBlob,
    zSHORT j;
 
    k = 1;
-   strcpy_s( szBuffer, sizeof( szBuffer ), szBlankLine );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), szBlankLine );
    szBuffer[ 34 ] = '-';
    szBuffer[ 59 ] = szBuffer[ 76 ] = (zCHAR) 0xB3;
    szBuffer[ 77 ] = 0;
@@ -1005,9 +1005,9 @@ fnDisplayEntityInstance( zVIEW            lpView,
    LPSELECTEDINSTANCE lpSelectedInstance;
    int           k;
 
-   SysReadZeidonIni( -1, "[Debug]", "TraceAllAttributes", szTraceAll, sizeof( szTraceAll ) );
+   SysReadZeidonIni( -1, "[Debug]", "TraceAllAttributes", szTraceAll, zsizeof( szTraceAll ) );
 
-   strcpy_s( szSpaces, sizeof( szSpaces ), "                            " );
+   strcpy_s( szSpaces, zsizeof( szSpaces ), "                           " );
    if ( nSpaces > 20 )
       nSpaces = 20;
 
@@ -1020,7 +1020,7 @@ fnDisplayEntityInstance( zVIEW            lpView,
                   lpViewEntityCsrPosition->hEntityInstance) ? " *" : "" );
 
    lpViewAttrib = zGETPTR( lpViewEntity->hFirstOD_Attrib );
-   strcpy_s( szWorkString, sizeof( szWorkString ), "   " );
+   strcpy_s( szWorkString, zsizeof( szWorkString ), "  " );
    if ( lpViewEntityCsr->hEntityInstance == UNSET_CSR )
    {
       TraceLineS( "   Cursor for EntityInstance is ", "UNSET" );
@@ -1057,19 +1057,19 @@ fnDisplayEntityInstance( zVIEW            lpView,
       }
 
       if ( lpEntityInstance->u.nInd.bCreated )
-         strcat_s( szFlags, sizeof( szFlags ), "C" );
+         strcat_s( szFlags, zsizeof( szFlags ), "C" );
 
       if ( lpEntityInstance->u.nInd.bIncluded )
-         strcat_s( szFlags, sizeof( szFlags ), "I" );
+         strcat_s( szFlags, zsizeof( szFlags ), "I" );
 
       if ( lpEntityInstance->u.nInd.bDeleted )
-         strcat_s( szFlags, sizeof( szFlags ), "D" );
+         strcat_s( szFlags, zsizeof( szFlags ), "D" );
 
       if ( lpEntityInstance->u.nInd.bExcluded )
-         strcat_s( szFlags, sizeof( szFlags ), "X" );
+         strcat_s( szFlags, zsizeof( szFlags ), "X" );
 
       if ( lpEntityInstance->u.nInd.bExcluded )
-         strcat_s( szFlags, sizeof( szFlags ), "U" );
+         strcat_s( szFlags, zsizeof( szFlags ), "U" );
 
       TraceLineS( szSpaces, szFlags );
 
@@ -1090,37 +1090,37 @@ fnDisplayEntityInstance( zVIEW            lpView,
                         zGETPTR( lpSelectedInstance->hNextSelectedInstance );
       }
 
-      strcpy_s( szWorkString, sizeof( szWorkString ), ">>>EntityInstance " );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), ">>>EntityInstance " );
       if ( lpSelectedInstance && lpSelectedInstance->nSelectSet )
       {
          zSHORT nWk1, nWk2, nWk3;
 
          nWk1 = 0;
          nWk2 = 0x0001;
-         strcat_s( szWorkString, sizeof( szWorkString ), "Selected(" );
+         strcat_s( szWorkString, zsizeof( szWorkString ), "Selected(" );
          for ( nWk3 = 1; nWk3 < 17; nWk3++ )
          {
             if ( lpSelectedInstance->nSelectSet & nWk2 )
             {
                if ( nWk1 )
-                  strcat_s( szWorkString, sizeof( szWorkString ), "," );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), "," );
 
-               zltoa( nWk3, szWorkString + 250, sizeof( szWorkString ) - 250 );
-               strcat_s( szWorkString, sizeof( szWorkString ), szWorkString + 250 );
+               zltoa( nWk3, szWorkString + 250, zsizeof( szWorkString ) - 250 );
+               strcat_s( szWorkString, zsizeof( szWorkString ), szWorkString + 250 );
                nWk1++;
             }
 
             nWk2 <<= 1;
          }
 
-         strcat_s( szWorkString, sizeof( szWorkString ), ") " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), ") " );
       }
 
       TraceLine( "%s%s%d", szSpaces, "Entity Key: ", lpEntityInstance->ulKey );
 
       while ( lpViewAttrib )
       {
-         strcpy_s( szWorkString + 3, sizeof( szWorkString ) - 3, lpViewAttrib->szName );
+         strcpy_s( szWorkString + 3, zsizeof( szWorkString ) - 3, lpViewAttrib->szName );
          k = zstrlen( szWorkString );
          szWorkString[ k++ ] = ' ';
          while ( k < 14 )
@@ -1137,8 +1137,8 @@ fnDisplayEntityInstance( zVIEW            lpView,
                                   lpViewAttrib );
             if ( ulLth )
             {
-               strcpy_s( szWorkString + k, sizeof( szWorkString ) - k, "Blob Lth=" );
-               zltoa( (zLONG) ulLth, szWorkString + k + 9, sizeof( szWorkString ) - k - 9 );
+               strcpy_s( szWorkString + k, zsizeof( szWorkString ) - k, "Blob Lth=" );
+               zltoa( (zLONG) ulLth, szWorkString + k + 9, zsizeof( szWorkString ) - k - 9 );
                k = zstrlen( szWorkString );
                szWorkString[ k++ ] = ' ';
                szWorkString[ k ] = 0;
@@ -1147,7 +1147,7 @@ fnDisplayEntityInstance( zVIEW            lpView,
       // else  dks 2007.01.11
          {
             fnGetStringFromAttribute( &szWorkString[ k ],
-                                      (zSHORT) ((sizeof( szWorkString ) - 1000) - k),
+                                      (zSHORT) ((zsizeof( szWorkString ) - 1000) - k),
                                       lpView,
                                       lpViewEntityCsr,
                                       lpViewAttrib, 0 );

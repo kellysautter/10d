@@ -104,12 +104,12 @@ fnMQ_MessageSendServer( zVIEW    vMsgQ,
    zmemset( szTimestamp, 0, 17 );
    zmemset( szTSMessage, 0, 5000 );
 
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
-   UfFormatDateTime( szDateTime, sizeof( szDateTime ), szTimestamp, "YYYY-mm-DD-HH.MI.SS.999" );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
+   UfFormatDateTime( szDateTime, zsizeof( szDateTime ), szTimestamp, "YYYY-mm-DD-HH.MI.SS.999" );
 
    // Setup timestamped message buffer.
-   strcpy_s( szTSMessage, sizeof( szTSMessage ), szDateTime );
-   strcat_s( szTSMessage, sizeof( szTSMessage ), "\n" );
+   strcpy_s( szTSMessage, zsizeof( szTSMessage ), szDateTime );
+   strcat_s( szTSMessage, zsizeof( szTSMessage ), "\n" );
 
    if ( CreateEntity( vMsgQ, "QMsg", zPOS_LAST ) == 0 )
    {
@@ -120,7 +120,7 @@ fnMQ_MessageSendServer( zVIEW    vMsgQ,
       SetAttributeFromInteger( vMsgQ, "QMsg", "Beep", bBeep);
    }
 
-   strcat_s( szTSMessage, sizeof( szTSMessage ), cpcMsgText );
+   strcat_s( szTSMessage, zsizeof( szTSMessage ), cpcMsgText );
 
    // Also copy to TraceFile.
    SysMessageBox( vSubtask, cpcTitle, szTSMessage, 1 );
@@ -148,15 +148,15 @@ fnMQ_MessageSend( zVIEW    vMsgQ,
    zCHAR szTimestamp[ 20 ];
    zCHAR szDateTime[ 32 ];
 
-   zmemset( szTimestamp, 0, sizeof( szTimestamp ) );
-   zmemset( szTSMessage, 0, sizeof( szTSMessage ) );
+   zmemset( szTimestamp, 0, zsizeof( szTimestamp ) );
+   zmemset( szTSMessage, 0, zsizeof( szTSMessage ) );
 
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
-   UfFormatDateTime( szDateTime, sizeof( szDateTime ), szTimestamp, "YYYY-mm-DD-HH.MI.SS.999" );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
+   UfFormatDateTime( szDateTime, zsizeof( szDateTime ), szTimestamp, "YYYY-mm-DD-HH.MI.SS.999" );
 
    // setup timestamped messagebuffer
-   strcpy_s( szTSMessage, sizeof( szTSMessage ), szDateTime );
-   strcat_s( szTSMessage, sizeof( szTSMessage ), "\n" );
+   strcpy_s( szTSMessage, zsizeof( szTSMessage ), szDateTime );
+   strcat_s( szTSMessage, zsizeof( szTSMessage ), "\n" );
 
    // This message processing routine has two major sections.
    // 1. A message object named LAND.MSG is activated, if it exists, for overriding messages with German equivalents.
@@ -174,7 +174,7 @@ fnMQ_MessageSend( zVIEW    vMsgQ,
    else
    {
       SysGetLocalDirectory( szFileName );
-      strcat_s( szFileName, sizeof( szFileName ), "LAND.MSG" );
+      strcat_s( szFileName, zsizeof( szFileName ), "LAND.MSG" );
       hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
       if ( hFile >= 0 )
       {
@@ -188,20 +188,20 @@ fnMQ_MessageSend( zVIEW    vMsgQ,
 
    if ( nMsgTypeFlag == 1 )   // An override message was found.
    {
-      GetStringFromAttribute( szMsgText, sizeof( szMsgText ), vMsg, "OverrideMsg", "Text" );
+      GetStringFromAttribute( szMsgText, zsizeof( szMsgText ), vMsg, "OverrideMsg", "Text" );
       // If the original message contains '\n', then we want to add everything after the \n.
       // This is done, because special information is added (Domain Messages), separated by \n.
       // We do not want to lose this information.
-      AddSpecialInfo( szMsgText, cpcMsgText, sizeof( szMsgText ) );
-      GetStringFromAttribute( szMsgTitle, sizeof( szMsgTitle ), vMsg, "OverrideMsg", "Title" );
+      AddSpecialInfo( szMsgText, cpcMsgText, zsizeof( szMsgText ) );
+      GetStringFromAttribute( szMsgTitle, zsizeof( szMsgTitle ), vMsg, "OverrideMsg", "Title" );
    }
    else                       // No override message was found.
    {
-      strncpy_s( szMsgText, sizeof( szMsgText ), cpcMsgText, sizeof( szMsgText ) - 1 );
-      strncpy_s( szMsgTitle, sizeof( szMsgTitle ), cpcTitle, sizeof( szMsgTitle ) - 1 );
+      strncpy_s( szMsgText, zsizeof( szMsgText ), cpcMsgText, zsizeof( szMsgText ) - 1 );
+      strncpy_s( szMsgTitle, zsizeof( szMsgTitle ), cpcTitle, zsizeof( szMsgTitle ) - 1 );
    }
 
-   strcat_s( szTSMessage, sizeof( szTSMessage ), szMsgText );
+   strcat_s( szTSMessage, zsizeof( szTSMessage ), szMsgText );
    TraceLineS( "", szTSMessage );
 
 #ifdef NO_DRIVER
@@ -227,7 +227,7 @@ fnMQ_MessageSend( zVIEW    vMsgQ,
       default:
          if ( lMsgType > 500 )  // Messages over 500 should only be system errors.
          {
-         // strcat_s( szMsgText, sizeof( szMsgText ), "\n\n                  Cancel will abort task." );
+         // strcat_s( szMsgText, zsizeof( szMsgText ), "\n\n                 Cancel will abort task." );
             nRC = OperatorPrompt( vSubtask, szMsgTitle,
                                   szMsgText, FALSE, 0, 0,
                                // zBUTTONS_OKCANCEL, zRESPONSE_OK,
@@ -308,7 +308,7 @@ MQ_MessagePrompt( zVIEW    vMsgQ,
    else
    {
       SysGetLocalDirectory( szFileName );
-      strcat_s( szFileName, sizeof( szFileName ), "LAND.MSG" );
+      strcat_s( szFileName, zsizeof( szFileName ), "LAND.MSG" );
       hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
       if ( hFile >= 0 )
       {
@@ -322,14 +322,14 @@ MQ_MessagePrompt( zVIEW    vMsgQ,
 
    if ( nMsgTypeFlag == 1 )   // An override message was found.
    {
-      GetStringFromAttribute( szMsgText, sizeof( szMsgText ), vMsg, "OverrideMsg", "Text" );
-      AddSpecialInfo( szMsgText, cpcMsgText, sizeof( szMsgText ) );
-      GetStringFromAttribute( szMsgTitle, sizeof( szMsgTitle ), vMsg, "OverrideMsg", "Title" );
+      GetStringFromAttribute( szMsgText, zsizeof( szMsgText ), vMsg, "OverrideMsg", "Text" );
+      AddSpecialInfo( szMsgText, cpcMsgText, zsizeof( szMsgText ) );
+      GetStringFromAttribute( szMsgTitle, zsizeof( szMsgTitle ), vMsg, "OverrideMsg", "Title" );
    }
    else                       // No override message was found.
    {
-      strncpy_s( szMsgText, sizeof( szMsgText ), cpcMsgText, sizeof( szMsgText ) - 1 );
-      strncpy_s( szMsgTitle, sizeof( szMsgTitle ), cpcTitle, sizeof( szMsgTitle ) - 1 );
+      strncpy_s( szMsgText, zsizeof( szMsgText ), cpcMsgText, zsizeof( szMsgText ) - 1 );
+      strncpy_s( szMsgTitle, zsizeof( szMsgTitle ), cpcTitle, zsizeof( szMsgTitle ) - 1 );
    }
 
    TraceLine( "MessagePrompt: %s %s %s", cpcMsgId, szMsgTitle, szMsgText );

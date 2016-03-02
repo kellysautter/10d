@@ -234,7 +234,7 @@ oTZTENVRO_BuildTablRecsFromEMD( zVIEW    vSubtask,
    zCHAR     szSironDB_Type[ 2 ];
    zCHAR     szCreateUnderscore[ 2 ];
 
-   GetStringFromAttribute( szName, sizeof( szName ), vDTE, "TE_DBMS_Source", "GenerateExecutable" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vDTE, "TE_DBMS_Source", "GenerateExecutable" );
 
    if ( zstrcmp( szName, "" ) == 0 )
       return( -1 );
@@ -275,7 +275,7 @@ oTZTENVRO_BuildTablRecsFromEMD( zVIEW    vSubtask,
    CreateViewFromViewForTask( &vDTE3, vDTE, 0 );
    SetNameForView( vDTE3, "vDTE3_Init", vDTE, zLEVEL_TASK );
 
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type" );
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type" );
 
    //=======================================================================
    //
@@ -322,15 +322,15 @@ oTZTENVRO_BuildTablRecsFromEMD( zVIEW    vSubtask,
             IncludeSubobjectFromSubobject( vDTE, "ER_Entity", vEMD, "ER_Entity", zPOS_AFTER );
 
             // If there is a TE Table name, use it.  Otherwise use the ER Entity name.
-            GetStringFromAttribute( szName, sizeof( szName ), vEMD, "ER_Entity", "TE_TableName" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vEMD, "ER_Entity", "TE_TableName" );
             if ( szName[ 0 ] == 0 )
             {
-               GetStringFromAttribute( szName, sizeof( szName ), vEMD, "ER_Entity", "Name" );
-               GetStringFromAttribute( szCreateUnderscore, sizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
+               GetStringFromAttribute( szName, zsizeof( szName ), vEMD, "ER_Entity", "Name" );
+               GetStringFromAttribute( szCreateUnderscore, zsizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
                if ( szCreateUnderscore[ 0 ] == 'Y' )
                   TranslateToUnderscoreCase( szName, szName, 'E' );
 
-               ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szName, sizeof( szName ), 'E', "TE_TablRec", "Name", 0, pfnGenerateName );
+               ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szName, zsizeof( szName ), 'E', "TE_TablRec", "Name", 0, pfnGenerateName );
             }
             else
                SetAttributeFromString( vDTE, "TE_TablRec", "Name", szName );
@@ -350,7 +350,7 @@ oTZTENVRO_BuildTablRecsFromEMD( zVIEW    vSubtask,
       // If the Entity already exists, we have to set bModifyExistingTables
       if ( bExists )
       {
-         GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+         GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
          if (*szSironDB_Type == 'F')
          {
              // Identifier processing must always run for Siron Catalogs
@@ -384,20 +384,20 @@ oTZTENVRO_BuildTablRecsFromEMD( zVIEW    vSubtask,
             CreateTE_MetaEntity( vSubtask, vDTE, "TE_FieldDataRel", zPOS_AFTER );
 
             // If there is a TE Column name, use it.  Otherwise use the ER Attribute name.
-            GetStringFromAttribute( szName, sizeof( szName ), vEMD, "ER_Attribute", "TE_ColumnName" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vEMD, "ER_Attribute", "TE_ColumnName" );
             if ( *szName == 0 )
             {
-               GetStringFromAttribute( szName, sizeof( szName ), vEMD, "ER_Attribute", "Name" );
-               GetStringFromAttribute( szCreateUnderscore, sizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
+               GetStringFromAttribute( szName, zsizeof( szName ), vEMD, "ER_Attribute", "Name" );
+               GetStringFromAttribute( szCreateUnderscore, zsizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
                if ( szCreateUnderscore[ 0 ] == 'Y' )
                   TranslateToUnderscoreCase( szName, szName, 'A' );
-               ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szName, sizeof( szName ), 'A', "TE_FieldDataRel", "Name", 0, pfnGenerateName );
+               ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szName, zsizeof( szName ), 'A', "TE_FieldDataRel", "Name", 0, pfnGenerateName );
             }
             else
             {
                // If the column name is embedded in quotation marks, delete them for DB2, otherwise we get runtime errors
                if ( *szName == '\"' )
-                  strcpy_s( szName, sizeof( szName ), szName + 1 );
+                  strcpy_s( szName, zsizeof( szName ), szName + 1 );
 
                if ( szName[ strlen( szName ) - 1 ] == '\"' )
                   szName[ strlen( szName ) - 1 ] = 0;
@@ -435,16 +435,16 @@ oTZTENVRO_BuildTablRecsFromEMD( zVIEW    vSubtask,
                // Use the TE Key Name for the IndexName.
                SetAttributeFromAttribute( vDTE, "TE_TablRecKey", "IndexName", vEMD, "ER_EntIdentifier", "TE_KeyName" );
 
-               GetStringFromAttribute( szName, sizeof( szName ), vEMD, "ER_EntIdentifier", "Name" );
-               GetStringFromAttribute( szCreateUnderscore, sizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
+               GetStringFromAttribute( szName, zsizeof( szName ), vEMD, "ER_EntIdentifier", "Name" );
+               GetStringFromAttribute( szCreateUnderscore, zsizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
                if ( szCreateUnderscore[ 0 ] == 'Y' )
                   TranslateToUnderscoreCase( szName, szName, 'A' );
 
-               ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szName, sizeof( szName ), 'A', "TE_TablRecKey", "Name", 0, pfnGenerateName );
+               ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szName, zsizeof( szName ), 'A', "TE_TablRecKey", "Name", 0, pfnGenerateName );
 
                // Set description.
-               strcpy_s( szTemp, sizeof( szTemp ), "Implements " );
-               GetStringFromAttribute( szTemp + zstrlen( szTemp ), sizeof( szTemp ) - zstrlen( szTemp ), vEMD, "ER_EntIdentifier", "Desc" );
+               strcpy_s( szTemp, zsizeof( szTemp ), "Implements " );
+               GetStringFromAttribute( szTemp + zstrlen( szTemp ), zsizeof( szTemp ) - zstrlen( szTemp ), vEMD, "ER_EntIdentifier", "Desc" );
                SetAttributeFromString( vDTE, "TE_TablRecKey", "Desc", szTemp );
 
                SetAttributeFromString( vDTE, "TE_TablRecKey", "Category", "9" );
@@ -467,8 +467,8 @@ oTZTENVRO_BuildTablRecsFromEMD( zVIEW    vSubtask,
                   }
                   else
                   {
-                     strcpy_s( szTemp, sizeof( szTemp ), "Entity does not have a valid Key. " );
-                     GetStringFromAttribute( szName, sizeof( szName ), vEMD, "ER_Entity", "Name" );
+                     strcpy_s( szTemp, zsizeof( szTemp ), "Entity does not have a valid Key. " );
+                     GetStringFromAttribute( szName, zsizeof( szName ), vEMD, "ER_Entity", "Name" );
                      oTZTENVRO_WriteErrorMsgToList( vEMD, szName, szTemp );
                   }
                }
@@ -521,11 +521,11 @@ ofnTZTENVRO_BldPrimaryKeyToken( zVIEW    vSubtask,
 
    CreateTE_MetaEntity( vSubtask, vDTE, "TE_FieldDataRel", zPOS_FIRST );
 
-   GetStringFromAttribute( szName, sizeof( szName ), vDTE, "TE_TablRec", "Name" );
-   strcat_s( szName, sizeof( szName ), "_Token" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vDTE, "TE_TablRec", "Name" );
+   strcat_s( szName, zsizeof( szName ), "_Token" );
 //  ***ADD ???? from ERD.
 
-   ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szName, sizeof( szName ), 'A', "TE_FieldDataRel", "Name", 0, pfnGenerateName );
+   ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szName, zsizeof( szName ), 'A', "TE_FieldDataRel", "Name", 0, pfnGenerateName );
 
    SetAttributeFromString( vDTE, "TE_FieldDataRel", "Desc", "Auto build key" );
    SetAttributeFromString( vDTE, "TE_FieldDataRel", "DataOrRelfieldOrSet", "D" );
@@ -565,15 +565,15 @@ ofnTZTENVRO_BldPrimaryKeyAttr( zVIEW    vSubtask,
          if ( CompareAttributeToString( vDTE, "TE_FieldDataRel", "SQL_NULLS", "Y" ) != 0 &&
               GetRelativeEntityNumber( vEMD, "ER_EntIdentifier", "", 0 ) == 0 )
          {
-            strcpy_s( sz, sizeof( sz ), "Attribute '" );
+            strcpy_s( sz, zsizeof( sz ), "Attribute '" );
             GetAddrForAttribute( &szName, vEMD, "ER_AttributeIdentifier", "Name" );
-            strcat_s( sz, sizeof( sz ), szName );
-            strcat_s( sz, sizeof( sz ), "' in Identifier '" );
+            strcat_s( sz, zsizeof( sz ), szName );
+            strcat_s( sz, zsizeof( sz ), "' in Identifier '" );
             GetAddrForAttribute( &szName, vEMD, "ER_EntIdentifier", "Name" );
-            strcat_s( sz, sizeof( sz ), szName );
-            strcat_s( sz, sizeof( sz ), "' is specified as NOT required. " );
-            strcat_s( sz, sizeof( sz ), "Physical key will be created as required. " );
-            strcat_s( sz, sizeof( sz ), "Please correct ER Data Model." );
+            strcat_s( sz, zsizeof( sz ), szName );
+            strcat_s( sz, zsizeof( sz ), "' is specified as NOT required. " );
+            strcat_s( sz, zsizeof( sz ), "Physical key will be created as required. " );
+            strcat_s( sz, zsizeof( sz ), "Please correct ER Data Model." );
             GetAddrForAttribute( &szName, vEMD, "ER_Entity", "Name" );
             oTZTENVRO_WriteErrorMsgToList( vDTE, szName, sz );
             SetAttributeFromString( vDTE, "TE_FieldDataRel", "SQL_NULLS", "Y" );
@@ -581,7 +581,7 @@ ofnTZTENVRO_BldPrimaryKeyAttr( zVIEW    vSubtask,
       }
       else
       {
-         strcpy_s( sz, sizeof( sz ), "Invalid Identifier." );
+         strcpy_s( sz, zsizeof( sz ), "Invalid Identifier." );
          GetAddrForAttribute( &szName, vEMD, "ER_Entity", "Name" );
          oTZTENVRO_WriteErrorMsgToList( vDTE, szName, sz );
       }
@@ -654,15 +654,15 @@ ofnTZTENVRO_BldPrimaryKeyAttRel( zVIEW    vSubtask,
          if ( CompareAttributeToString( vDTE, "TE_FieldDataRel", "SQL_NULLS", "Y" ) != 0 &&
               GetRelativeEntityNumber( vEMD, "ER_EntIdentifier", "", 0 ) == 0 )
          {
-            strcpy_s( sz, sizeof( sz ), "Attribute '" );
+            strcpy_s( sz, zsizeof( sz ), "Attribute '" );
             GetAddrForAttribute( &szName, vEMD, "ER_AttributeIdentifier", "Name" );
-            strcat_s( sz, sizeof( sz ), szName );
-            strcat_s( sz, sizeof( sz ), "' in Identifier '" );
+            strcat_s( sz, zsizeof( sz ), szName );
+            strcat_s( sz, zsizeof( sz ), "' in Identifier '" );
             GetAddrForAttribute( &szName, vEMD, "ER_EntIdentifier", "Name" );
-            strcat_s( sz, sizeof( sz ), szName );
-            strcat_s( sz, sizeof( sz ), "' is specified as NOT required. " );
-            strcat_s( sz, sizeof( sz ), "Physical key will be created as required. " );
-            strcat_s( sz, sizeof( sz ), "Please correct ER Data Model." );
+            strcat_s( sz, zsizeof( sz ), szName );
+            strcat_s( sz, zsizeof( sz ), "' is specified as NOT required. " );
+            strcat_s( sz, zsizeof( sz ), "Physical key will be created as required. " );
+            strcat_s( sz, zsizeof( sz ), "Please correct ER Data Model." );
             GetAddrForAttribute( &szName, vEMD, "ER_Entity", "Name" );
             oTZTENVRO_WriteErrorMsgToList( vDTE, szName, sz );
             SetAttributeFromString( vDTE, "TE_FieldDataRel", "SQL_NULLS", "Y" );
@@ -681,7 +681,7 @@ ofnTZTENVRO_BldPrimaryKeyAttRel( zVIEW    vSubtask,
       // At this time, we're looking for it only within the same DBMS_Source.
       if ( SetCursorFirstEntityByEntityCsr( vDTE2, "ER_Entity", vEMD, "ER_Entity_Other_Identifier", "TE_DBMS_Source" ) < zCURSOR_SET )
       {
-         strcpy_s( sz, sizeof( sz ), "Cannot locate Entity in TE in same DS for Rel Key." );
+         strcpy_s( sz, zsizeof( sz ), "Cannot locate Entity in TE in same DS for Rel Key." );
          GetAddrForAttribute( &szName, vEMD, "ER_Entity_Other_Identifier", "Name" );
          oTZTENVRO_WriteErrorMsgToList( vDTE, szName, sz );
 #if 0
@@ -697,7 +697,7 @@ ofnTZTENVRO_BldPrimaryKeyAttRel( zVIEW    vSubtask,
 
          if ( RESULT <= zCURSOR_UNCHANGED )
          {
-            strcpy_s( sz, sizeof( sz ), "Cannot locate Entity in TE in same DS for Rel Key." );
+            strcpy_s( sz, zsizeof( sz ), "Cannot locate Entity in TE in same DS for Rel Key." );
             GetAddrForAttribute( &szName, vEMD, "ER_Entity_Other_Identifier", "Name" );
             oTZTENVRO_WriteErrorMsgToList( vDTE, szName, sz );
             continue;
@@ -709,7 +709,7 @@ ofnTZTENVRO_BldPrimaryKeyAttRel( zVIEW    vSubtask,
       // we have an error.
       if ( CheckExistenceOfEntity( vDTE2, "ER_EntIdentifier" ) < zCURSOR_SET )
       {
-         strcpy_s( sz, sizeof( sz ), "ER Relationship has Entity without an Identifier." );
+         strcpy_s( sz, zsizeof( sz ), "ER Relationship has Entity without an Identifier." );
          GetAddrForAttribute( &szName, vEMD, "ER_Entity_Other_Identifier", "Name" );
          oTZTENVRO_WriteErrorMsgToList( vDTE, szName, sz );
          continue;
@@ -979,28 +979,28 @@ ofnTZTENVRO_ImplementRelAs( zPSHORT nRelImplemented,
    {
       if ( bRelImplemented && !bRelImplementedInDS )
       {
-         strcpy_s( sz, sizeof( sz ), "Relationship: '" );
+         strcpy_s( sz, zsizeof( sz ), "Relationship: '" );
 
          SetCursorFirstEntityByEntityCsr( vEMD, "ER_Entity", vEMD, "ER_Entity_2", "" );
-         GetStringFromAttribute( szSrcEntity, sizeof( szSrcEntity ), vEMD, "ER_Entity", "Name" );
-         strcpy_s( szRelDesc, sizeof( szRelDesc ), szSrcEntity );
-         strcat_s( szRelDesc, sizeof( szRelDesc ), " (" );
-         GetStringFromAttribute( szSrcRelLink, sizeof( szSrcRelLink ), vEMD, "ER_RelLink_2", "Name" );
-         strcat_s( szRelDesc, sizeof( szRelDesc ), szSrcRelLink );
+         GetStringFromAttribute( szSrcEntity, zsizeof( szSrcEntity ), vEMD, "ER_Entity", "Name" );
+         strcpy_s( szRelDesc, zsizeof( szRelDesc ), szSrcEntity );
+         strcat_s( szRelDesc, zsizeof( szRelDesc ), " (" );
+         GetStringFromAttribute( szSrcRelLink, zsizeof( szSrcRelLink ), vEMD, "ER_RelLink_2", "Name" );
+         strcat_s( szRelDesc, zsizeof( szRelDesc ), szSrcRelLink );
          SetCursorFirstEntityByEntityCsr( vEMD2, "ER_Entity", vEMD2, "ER_Entity_2", "" );
-         GetStringFromAttribute( szTgtEntity, sizeof( szTgtEntity ), vEMD2, "ER_Entity_2", "Name" );
-         strcat_s( szRelDesc, sizeof( szRelDesc ), ") " );
-         strcat_s( szRelDesc, sizeof( szRelDesc ), szTgtEntity );
+         GetStringFromAttribute( szTgtEntity, zsizeof( szTgtEntity ), vEMD2, "ER_Entity_2", "Name" );
+         strcat_s( szRelDesc, zsizeof( szRelDesc ), ") " );
+         strcat_s( szRelDesc, zsizeof( szRelDesc ), szTgtEntity );
 
-         strcat_s( sz, sizeof( sz ), szRelDesc );
-         strcat_s( sz, sizeof( sz ), "'\n is currently implemented in Data Source: '" );
+         strcat_s( sz, zsizeof( sz ), szRelDesc );
+         strcat_s( sz, zsizeof( sz ), "'\n is currently implemented in Data Source: '" );
          GetAddrForAttribute( &szDS, vDTE_RelTR, "TE_DBMS_Source", "Name" );
-         strcat_s( sz, sizeof( sz ), szDS);
-         strcat_s( sz, sizeof( sz ), "'.\n\n Table/Record '" );
+         strcat_s( sz, zsizeof( sz ), szDS);
+         strcat_s( sz, zsizeof( sz ), "'.\n\n Table/Record '" );
          GetAddrForAttribute( &szDS, vDTE_RelTR, "TE_TablRec", "Name" );
-         strcat_s( sz, sizeof( sz ), szDS);
-         strcat_s( sz, sizeof( sz ), "'." );
-         strcat_s( sz, sizeof( sz ), "\n\nRe-implement in the current Data Source?" );
+         strcat_s( sz, zsizeof( sz ), szDS);
+         strcat_s( sz, zsizeof( sz ), "'." );
+         strcat_s( sz, zsizeof( sz ), "\n\nRe-implement in the current Data Source?" );
          if (  MessagePrompt( vDTE_RelTR,  "TE00105", "Physical Data Model",
                               sz, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 ) == zRESPONSE_NO )
          {
@@ -1008,7 +1008,7 @@ ofnTZTENVRO_ImplementRelAs( zPSHORT nRelImplemented,
          }
          else
          {
-            strcpy_s( sz, sizeof( sz ), "Delete current implementation before re-implementing?" );
+            strcpy_s( sz, zsizeof( sz ), "Delete current implementation before re-implementing?" );
             if (  MessagePrompt( vDTE_RelTR,  "TE00111", "Physical Data Model",
                                  sz, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 ) == zRESPONSE_NO )
             {
@@ -1208,9 +1208,9 @@ oTZTENVRO_BuildAutoSeqField( zVIEW    vSubtask,
 
    // Create the AutoSeq entity and set attributes.
    CreateTE_MetaEntity( vSubtask, vDTE1, "TE_FieldDataRel", zPOS_LAST );
-   strcpy_s( szName, sizeof( szName ), "AutoSeq" );
+   strcpy_s( szName, zsizeof( szName ), "AutoSeq" );
 
-   ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE1, szName, sizeof( szName ), 'A', "TE_FieldDataRel", "Name", 0, pfnGenerateName );
+   ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE1, szName, zsizeof( szName ), 'A', "TE_FieldDataRel", "Name", 0, pfnGenerateName );
 
    SetAttributeFromString( vDTE1, "TE_FieldDataRel", "Name", szName );
    SetAttributeFromString( vDTE1, "TE_FieldDataRel", "DataType", "L" );
@@ -1257,7 +1257,7 @@ oTZTENVRO_BuildSQL_RelsFromEMD( zVIEW    vSubtask,
    PFNGENERATENAME pfnGenerateName;
    zBOOL     bRelProcsIncomplete;
 
-   GetStringFromAttribute( szName, sizeof( szName ), vDTE_Save, "TE_DBMS_Source", "GenerateExecutable" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vDTE_Save, "TE_DBMS_Source", "GenerateExecutable" );
 
    hLibrary = SysLoadLibrary( vDTE_Save, szName );
    if ( !hLibrary )
@@ -1399,17 +1399,17 @@ IssueError( vEMD, 0, 0, "stop" );
             {
                // If we have executed the outer loop 10 times, we will assume that we have some kind of a relationship loop,
                // that is a ring of entities where they each have a relationship to one of the other entities as a part of the key.
-               strcpy_s( sz, sizeof( sz ), "Relationship is part of an Identifier loop. " );
-               strcat_s( sz, sizeof( sz ), "From Entity = " );
-               GetStringFromAttribute( szName, sizeof( szName ), vEMD, "ER_Entity_2", "Name" );
-               strcat_s( sz, sizeof( sz ), szName );
-               strcat_s( sz, sizeof( sz ), ",  Relationship = " );
-               GetStringFromAttribute( szName, sizeof( szName ), vEMD, "ER_RelLink_2", "Name" );
-               strcat_s( sz, sizeof( sz ), szName );
-               strcat_s( sz, sizeof( sz ), ",  To Entity = " );
-               GetStringFromAttribute( szName, sizeof( szName ), vEMD2, "ER_Entity_2", "Name" );
-               strcat_s( sz, sizeof( sz ), szName );
-               GetStringFromAttribute( szName, sizeof( szName ), vEMD, "ER_Entity_2", "Name" );
+               strcpy_s( sz, zsizeof( sz ), "Relationship is part of an Identifier loop. " );
+               strcat_s( sz, zsizeof( sz ), "From Entity = " );
+               GetStringFromAttribute( szName, zsizeof( szName ), vEMD, "ER_Entity_2", "Name" );
+               strcat_s( sz, zsizeof( sz ), szName );
+               strcat_s( sz, zsizeof( sz ), ", Relationship = " );
+               GetStringFromAttribute( szName, zsizeof( szName ), vEMD, "ER_RelLink_2", "Name" );
+               strcat_s( sz, zsizeof( sz ), szName );
+               strcat_s( sz, zsizeof( sz ), ", To Entity = " );
+               GetStringFromAttribute( szName, zsizeof( szName ), vEMD2, "ER_Entity_2", "Name" );
+               strcat_s( sz, zsizeof( sz ), szName );
+               GetStringFromAttribute( szName, zsizeof( szName ), vEMD, "ER_Entity_2", "Name" );
                oTZTENVRO_WriteErrorMsgToList( vDTE_Save, szName, sz );
                return( zCALL_ERROR );
             }
@@ -1509,7 +1509,7 @@ oTZTENVRO_BuildNET_RelsFromEMD( zVIEW    vSubtask,
    // This routine builds relationships for Network databases.  It once was also used for SQL databases but handling
    // relationships for SQL was rewritten as a separate routine.
 
-   GetStringFromAttribute( szName, sizeof( szName ), vDTE_Save, "TE_DBMS_Source", "GenerateExecutable" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vDTE_Save, "TE_DBMS_Source", "GenerateExecutable" );
 
    hLibrary = SysLoadLibrary( vDTE_Save, szName );
    if ( !hLibrary )
@@ -1721,16 +1721,16 @@ ofnTZTENVRO_ImplementSQL_RelLink( zVIEW    vSubtask,
    // If RESULT is < zCURSOR_SET then no Category found < 9.
    if ( RESULT < zCURSOR_SET )
    {
-      strcpy_s( sz, sizeof( sz ), "Parent Entity does not have a valid Key. " );
+      strcpy_s( sz, zsizeof( sz ), "Parent Entity does not have a valid Key. " );
       if ( CheckExistenceOfEntity( vDTE_p, "ER_Entity" ) >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szDesc, sizeof( szDesc ), vDTE_p, "ER_Entity", "Name" );
+         GetStringFromAttribute( szDesc, zsizeof( szDesc ), vDTE_p, "ER_Entity", "Name" );
       }
       else
       {
-         strcat_s( sz, sizeof( sz ), " TE_TablRec: Name = " );
-         GetStringFromAttribute( szDesc, sizeof( szDesc ), vDTE_p, "TE_TablRec", "Name" );
-         strcat_s( sz, sizeof( sz ), szDesc );
+         strcat_s( sz, zsizeof( sz ), " TE_TablRec: Name = " );
+         GetStringFromAttribute( szDesc, zsizeof( szDesc ), vDTE_p, "TE_TablRec", "Name" );
+         strcat_s( sz, zsizeof( sz ), szDesc );
       }
       oTZTENVRO_WriteErrorMsgToList( vDTE_c, szDesc, sz );
       return( 0 );
@@ -1769,8 +1769,8 @@ ofnTZTENVRO_ImplementSQL_RelLink( zVIEW    vSubtask,
 
       if ( CompareAttributeToString( vDTE_p, "TE_FieldDataRelKey", "DataOrRelfieldOrSet", "R" ) == 0 )
       {
-         GetStringFromAttribute( szTemp2, sizeof( szTemp2 ), vDTE_c, "TE_FieldDataRel", "Name" );
-         strcpy_s( szTemp, sizeof( szTemp ), szTemp2 );
+         GetStringFromAttribute( szTemp2, zsizeof( szTemp2 ), vDTE_c, "TE_FieldDataRel", "Name" );
+         strcpy_s( szTemp, zsizeof( szTemp ), szTemp2 );
       }
       else
       {
@@ -1793,27 +1793,27 @@ ofnTZTENVRO_ImplementSQL_RelLink( zVIEW    vSubtask,
 
          CreateViewFromViewForTask( &vDTE_t, vDTE_p, 0 );
          SetCursorFirstEntityByAttr( vDTE_t, "TE_FieldDataRel", "ZKey", vDTE_p, "TE_FieldDataRelKey", "ZKey", 0 );
-         GetStringFromAttribute( szNoPrefix, sizeof( szNoPrefix ), vEMD_p, "ER_RelLink_2", "TE_NoForeignKeyPrefix" );
-         GetStringFromAttribute( szPrefix, sizeof( szPrefix ), vEMD_p, "ER_RelLink_2", "TE_ForeignKeyPrefix" );
+         GetStringFromAttribute( szNoPrefix, zsizeof( szNoPrefix ), vEMD_p, "ER_RelLink_2", "TE_NoForeignKeyPrefix" );
+         GetStringFromAttribute( szPrefix, zsizeof( szPrefix ), vEMD_p, "ER_RelLink_2", "TE_ForeignKeyPrefix" );
          // get Foreign Key Column Name
          if ( CheckExistenceOfEntity( vDTE_t, "ER_Attribute" ) >= zCURSOR_SET )
          {
-            GetStringFromAttribute( szColumnName, sizeof( szColumnName ), vDTE_t, "ER_Attribute", "TE_ForeignKeyName" );
+            GetStringFromAttribute( szColumnName, zsizeof( szColumnName ), vDTE_t, "ER_Attribute", "TE_ForeignKeyName" );
             if ( *szColumnName == 0 )
             {
-               GetStringFromAttribute( szColumnName, sizeof( szColumnName ), vDTE_t, "ER_Attribute", "TE_ColumnName" );
+               GetStringFromAttribute( szColumnName, zsizeof( szColumnName ), vDTE_t, "ER_Attribute", "TE_ColumnName" );
                if ( *szColumnName == 0 )
-                  GetStringFromAttribute( szColumnName, sizeof( szColumnName ), vDTE_t, "ER_Attribute", "Name" );
+                  GetStringFromAttribute( szColumnName, zsizeof( szColumnName ), vDTE_t, "ER_Attribute", "Name" );
             }
          }
          else
-            GetStringFromAttribute( szColumnName, sizeof( szColumnName ), vDTE_c, "TE_FieldDataRel", "Name" );
+            GetStringFromAttribute( szColumnName, zsizeof( szColumnName ), vDTE_c, "TE_FieldDataRel", "Name" );
 
          // create Default Prefix + Column Name
          if ( zstrcmp( szNoPrefix, "Y" ) != 0 && *szPrefix == 0 )
          {
-            strcpy_s( szTemp, sizeof( szTemp ), "FK_" );
-            strcat_s( szTemp, sizeof( szTemp ), szColumnName );
+            strcpy_s( szTemp, zsizeof( szTemp ), "FK_" );
+            strcat_s( szTemp, zsizeof( szTemp ), szColumnName );
             /* Change foreign key name to upper-case. */
             SysTranslateString( szTemp, 'U' );
          }
@@ -1821,11 +1821,11 @@ ofnTZTENVRO_ImplementSQL_RelLink( zVIEW    vSubtask,
          {
             // if TE_NoForeignKeyPrefix = Y, do not generate a Prefix
             if ( zstrcmp( szNoPrefix, "Y" ) == 0 || *szPrefix == 0 )
-               strcpy_s( szTemp, sizeof( szTemp ), szColumnName );
+               strcpy_s( szTemp, zsizeof( szTemp ), szColumnName );
             else
             {
-               strcpy_s( szTemp, sizeof( szTemp ), szPrefix );
-               strcat_s( szTemp, sizeof( szTemp ), szColumnName );
+               strcpy_s( szTemp, zsizeof( szTemp ), szPrefix );
+               strcat_s( szTemp, zsizeof( szTemp ), szColumnName );
             }
          }
          DropView( vDTE_t );
@@ -1837,23 +1837,23 @@ ofnTZTENVRO_ImplementSQL_RelLink( zVIEW    vSubtask,
       {
          if ( CompareAttributeToString( vDBH_Data, "ODBC", "AddTableNameToFK_Override", "Y" ) == 0 )
          {
-            GetStringFromAttribute( szName, sizeof( szName ), vDTE_p, "TE_TablRec", "Name" );
-            strcat_s( szTemp, sizeof( szTemp ), "_" );
-            strcat_s( szTemp, sizeof( szTemp ), szName );
+            GetStringFromAttribute( szName, zsizeof( szName ), vDTE_p, "TE_TablRec", "Name" );
+            strcat_s( szTemp, zsizeof( szTemp ), "_" );
+            strcat_s( szTemp, zsizeof( szTemp ), szName );
          }
       }
       else
       if ( CompareAttributeToString( vTZTEDBLO, "TE_DBMS_Source", "DBS_FullFK_Name", "Y" ) == 0 )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vDTE_p, "TE_TablRec", "Name" );
-         strcat_s( szTemp, sizeof( szTemp ), "_" );
-         strcat_s( szTemp, sizeof( szTemp ), szName );
+         GetStringFromAttribute( szName, zsizeof( szName ), vDTE_p, "TE_TablRec", "Name" );
+         strcat_s( szTemp, zsizeof( szTemp ), "_" );
+         strcat_s( szTemp, zsizeof( szTemp ), szName );
       }
 
       // DGC 4/2/97  Blank out attribute Name so we don't get any frivolous Duplicate names.
       SetAttributeFromString( vDTE_c, "TE_FieldDataRel", "Name", " " );
 
-      ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE_c, szTemp, sizeof( szTemp ), 'A', "TE_FieldDataRel", "Name", 0, pfnGenerateName );
+      ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE_c, szTemp, zsizeof( szTemp ), 'A', "TE_FieldDataRel", "Name", 0, pfnGenerateName );
 
       SetAttributeFromString( vDTE_c, "TE_FieldDataRel", "DataOrRelfieldOrSet", "R" );
       SetAttributeFromString( vDTE_c, "TE_FieldDataRel", "Key", "" );
@@ -1876,19 +1876,19 @@ ofnTZTENVRO_ImplementSQL_RelLink( zVIEW    vSubtask,
          }
       }
 
-      GetStringFromAttribute( szDesc, sizeof( szDesc ), vDTE_p, "TE_TablRec", "Name" );
-      strcat_s( szDesc, sizeof( szDesc ), "(" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD_p, "ER_RelLink_2", "Name" );
-      strcat_s( szDesc, sizeof( szDesc ), szTemp );
-      strcat_s( szDesc, sizeof( szDesc ), " [" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD_p, "ER_RelLink_2", "CardMin" );
-      strcat_s( szDesc, sizeof( szDesc ), szTemp );
-      strcat_s( szDesc, sizeof( szDesc ), ":" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD_p, "ER_RelLink_2", "CardMax" );
-      strcat_s( szDesc, sizeof( szDesc ), szTemp );
-      strcat_s( szDesc, sizeof( szDesc ), "] ) " );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vDTE_c, "TE_TablRec", "Name" );
-      strcat_s( szDesc, sizeof( szDesc ), szTemp );
+      GetStringFromAttribute( szDesc, zsizeof( szDesc ), vDTE_p, "TE_TablRec", "Name" );
+      strcat_s( szDesc, zsizeof( szDesc ), "(" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD_p, "ER_RelLink_2", "Name" );
+      strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+      strcat_s( szDesc, zsizeof( szDesc ), " [" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD_p, "ER_RelLink_2", "CardMin" );
+      strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+      strcat_s( szDesc, zsizeof( szDesc ), ":" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD_p, "ER_RelLink_2", "CardMax" );
+      strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+      strcat_s( szDesc, zsizeof( szDesc ), "] ) " );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vDTE_c, "TE_TablRec", "Name" );
+      strcat_s( szDesc, zsizeof( szDesc ), szTemp );
       SetAttributeFromString( vDTE_c, "TE_FieldDataRel", "Desc", szDesc );
 
       IncludeSubobjectFromSubobject( vDTE_c, "ER_RelLink", vEMD_p, "ER_RelLink_2", zPOS_AFTER );
@@ -1897,14 +1897,14 @@ ofnTZTENVRO_ImplementSQL_RelLink( zVIEW    vSubtask,
       if ( CheckExistenceOfEntity( vDTE_c, "TE_TablRecKey" ) < zCURSOR_SET )
       {
          CreateTE_MetaEntity( vSubtask, vDTE_c, "TE_TablRecKey", zPOS_LAST );
-         strcpy_s( szName, sizeof( szName ), "ID_" );
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vDTE_c, "TE_TablRec", "Name" );
-         strcat_s( szName, sizeof( szName ), szTemp );
-         ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE_c, szName, sizeof( szName ), 'A', "TE_TablRecKey", "Name", 0, pfnGenerateName );
+         strcpy_s( szName, zsizeof( szName ), "ID_" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vDTE_c, "TE_TablRec", "Name" );
+         strcat_s( szName, zsizeof( szName ), szTemp );
+         ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE_c, szName, zsizeof( szName ), 'A', "TE_TablRecKey", "Name", 0, pfnGenerateName );
 
-         strcpy_s( szTemp, sizeof( szTemp ), "Implements " );
-         GetStringFromAttribute( szTemp2, sizeof( szTemp2 ), vDTE_c, "TE_TablRec", "Name" );
-         strcat_s( szTemp, sizeof( szTemp ), szTemp2 );
+         strcpy_s( szTemp, zsizeof( szTemp ), "Implements " );
+         GetStringFromAttribute( szTemp2, zsizeof( szTemp2 ), vDTE_c, "TE_TablRec", "Name" );
+         strcat_s( szTemp, zsizeof( szTemp ), szTemp2 );
          SetAttributeFromString( vDTE_c, "TE_TablRecKey", "Desc", szTemp );
          SetAttributeFromString( vDTE_c, "TE_TablRecKey", "Category", "4" );
       }
@@ -1965,27 +1965,27 @@ ofnTZTENVRO_ImplementNET_RelLink( zVIEW    vSubtask,
    IncludeSubobjectFromSubobject( vDTE, "ER_RelLink", vEMD_p, "ER_RelLink_2", zPOS_AFTER );
    SetAttributeFromString( vDTE, "TE_FieldDataRel", "DataOrRelfieldOrSet", "S" );
 
-   GetStringFromAttribute( szOwner, sizeof( szOwner ), vDTE_p, "TE_TablRec", "Name" );
-   GetStringFromAttribute( szMember, sizeof( szMember ), vDTE, "TE_TablRec", "Name" );
-   GetStringFromAttribute( szSet, sizeof( szSet ), vEMD_p, "ER_RelLink_2", "Name" );
-   sprintf_s( szDesc, sizeof( szDesc ), "%s_%s_%s", szOwner, szSet, szMember );
+   GetStringFromAttribute( szOwner, zsizeof( szOwner ), vDTE_p, "TE_TablRec", "Name" );
+   GetStringFromAttribute( szMember, zsizeof( szMember ), vDTE, "TE_TablRec", "Name" );
+   GetStringFromAttribute( szSet, zsizeof( szSet ), vEMD_p, "ER_RelLink_2", "Name" );
+   sprintf_s( szDesc, zsizeof( szDesc ), "%s_%s_%s", szOwner, szSet, szMember );
 
    // Generate a unique name for sets.  We need to make sure that the set name is unique across the entire DBMS.
-   ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szDesc, sizeof( szDesc ), 'S', "TE_FieldDataRel", "Name", "TE_DBMS_Source", pfnGenerateName );
+   ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE, szDesc, zsizeof( szDesc ), 'S', "TE_FieldDataRel", "Name", "TE_DBMS_Source", pfnGenerateName );
 
-   GetStringFromAttribute( szDesc, sizeof( szDesc ), vDTE_p, "TE_TablRec", "Name" );
-   strcat_s( szDesc, sizeof( szDesc ), "(" );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD_p, "ER_RelLink_2", "Name" );
-   strcat_s( szDesc, sizeof( szDesc ), szTemp );
-   strcat_s( szDesc, sizeof( szDesc ), " [" );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD, "ER_RelLink_2", "CardMax" );
-   strcat_s( szDesc, sizeof( szDesc ), szTemp );
-   strcat_s( szDesc, sizeof( szDesc ), ":" );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD_p, "ER_RelLink_2", "CardMax" );
-   strcat_s( szDesc, sizeof( szDesc ), szTemp );
-   strcat_s( szDesc, sizeof( szDesc ), "] ) " );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vDTE, "TE_TablRec", "Name" );
-   strcat_s( szDesc, sizeof( szDesc ), szTemp );
+   GetStringFromAttribute( szDesc, zsizeof( szDesc ), vDTE_p, "TE_TablRec", "Name" );
+   strcat_s( szDesc, zsizeof( szDesc ), "(" );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD_p, "ER_RelLink_2", "Name" );
+   strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+   strcat_s( szDesc, zsizeof( szDesc ), " [" );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD, "ER_RelLink_2", "CardMax" );
+   strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+   strcat_s( szDesc, zsizeof( szDesc ), ":" );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD_p, "ER_RelLink_2", "CardMax" );
+   strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+   strcat_s( szDesc, zsizeof( szDesc ), "] ) " );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vDTE, "TE_TablRec", "Name" );
+   strcat_s( szDesc, zsizeof( szDesc ), szTemp );
    SetAttributeFromString( vDTE, "TE_FieldDataRel", "Desc", szDesc );
    return( 0 );
 }
@@ -2008,41 +2008,41 @@ ofnTZTENVRO_CreateRelTablRec( zVIEW    vSubtask,
    CreateTE_MetaEntity( vSubtask, vDTE_new, "TE_TablRec", zPOS_AFTER );
    IncludeSubobjectFromSubobject( vDTE_new, "ER_RelType", vEMD1, "ER_RelType", zPOS_AFTER );
 
-   GetStringFromAttribute( szDesc, sizeof( szDesc ), vDTE2, "TE_TablRec", "Name" );
-   strcat_s( szDesc, sizeof( szDesc ), "(" );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD2, "ER_RelLink_2", "Name" );
-   strcat_s( szDesc, sizeof( szDesc ), szTemp );
-   strcat_s( szDesc, sizeof( szDesc ), " [" );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD1, "ER_RelLink_2", "CardMax" );
-   strcat_s( szDesc, sizeof( szDesc ), szTemp );
-   strcat_s( szDesc, sizeof( szDesc ), ":" );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD2, "ER_RelLink_2", "CardMax" );
-   strcat_s( szDesc, sizeof( szDesc ), szTemp );
-   strcat_s( szDesc, sizeof( szDesc ), "] ) " );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vDTE1, "TE_TablRec", "Name" );
-   strcat_s( szDesc, sizeof( szDesc ), szTemp );
+   GetStringFromAttribute( szDesc, zsizeof( szDesc ), vDTE2, "TE_TablRec", "Name" );
+   strcat_s( szDesc, zsizeof( szDesc ), "(" );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD2, "ER_RelLink_2", "Name" );
+   strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+   strcat_s( szDesc, zsizeof( szDesc ), " [" );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD1, "ER_RelLink_2", "CardMax" );
+   strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+   strcat_s( szDesc, zsizeof( szDesc ), ":" );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD2, "ER_RelLink_2", "CardMax" );
+   strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+   strcat_s( szDesc, zsizeof( szDesc ), "] ) " );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vDTE1, "TE_TablRec", "Name" );
+   strcat_s( szDesc, zsizeof( szDesc ), szTemp );
    SetAttributeFromString( vDTE_new, "TE_TablRec", "Desc", szDesc );
 
    // If a table name was specified in ER, use it. Otherwise generate a name.
-   GetStringFromAttribute( szDesc, sizeof( szDesc ), vEMD2, "ER_RelType", "TE_TableName" );
+   GetStringFromAttribute( szDesc, zsizeof( szDesc ), vEMD2, "ER_RelType", "TE_TableName" );
    if ( *szDesc == 0 )
    {
-      strcpy_s( szDesc, sizeof( szDesc ), "Mm_" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vDTE2, "TE_TablRec", "Name" );
+      strcpy_s( szDesc, zsizeof( szDesc ), "Mm_" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vDTE2, "TE_TablRec", "Name" );
       /* Change entity-name to all upper-case. It is not longer changes while initializing Tables */
       SysTranslateString( szTemp, 'U' );
-      strcat_s( szDesc, sizeof( szDesc ), szTemp );
-      strcat_s( szDesc, sizeof( szDesc ), "_" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vEMD2, "ER_RelLink_2", "Name" );
-      strcat_s( szDesc, sizeof( szDesc ), szTemp );
-      strcat_s( szDesc, sizeof( szDesc ), "_" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vDTE1, "TE_TablRec", "Name" );
+      strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+      strcat_s( szDesc, zsizeof( szDesc ), "_" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vEMD2, "ER_RelLink_2", "Name" );
+      strcat_s( szDesc, zsizeof( szDesc ), szTemp );
+      strcat_s( szDesc, zsizeof( szDesc ), "_" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vDTE1, "TE_TablRec", "Name" );
       // Change entity-name to all upper-case. It is not longer changes while initializing Tables
       SysTranslateString( szTemp, 'U' );
-      strcat_s( szDesc, sizeof( szDesc ), szTemp );
+      strcat_s( szDesc, zsizeof( szDesc ), szTemp );
    }
 
-   ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE_new, szDesc, sizeof( szDesc ), 'E', "TE_TablRec", "Name", 0, pfnGenerateName );
+   ofnTZTENVRO_GenerateUniqueName( vSubtask, vDTE_new, szDesc, zsizeof( szDesc ), 'E', "TE_TablRec", "Name", 0, pfnGenerateName );
 
    SetAttributeFromString( vDTE_new, "TE_TablRec", "DataOrRel", "R" );
 
@@ -2066,10 +2066,10 @@ ofnTZTENVRO_GenerateUniqueName( zVIEW  vSubtask,
 // zCHAR  szCreateUnderscore[ 2 ];
 
    // Generate unique name only for databases, not for Siron Flat Files
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
    if ( *szSironDB_Type != 'F' )
    {
-      //GetStringFromAttribute( szCreateUnderscore, sizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
+      //GetStringFromAttribute( szCreateUnderscore, zsizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
       //if ( szCreateUnderscore[ 0 ] == 'Y' )
       //   TranslateToUnderscoreCase( pszName, pszName, cType );
 
@@ -2163,7 +2163,7 @@ TranslateToUnderscoreCase( zPCHAR pchSrc, zPCHAR pchTarget, zCHAR  cMetaType )
    if ( zstrlen( pchSrc ) >= (zULONG) nMaxLth )
       return zCALL_ERROR;
 
-   strcpy_s( sz, sizeof( sz ), pchSrc );
+   strcpy_s( sz, zsizeof( sz ), pchSrc );
 
    //p = pchTarget;
    p = (zPCHAR) &sz;
@@ -2245,7 +2245,7 @@ oTZTENVRO_GetUpdViewForDTE_P( zVIEW vSubtask, zPVIEW pvTZTENVRO )
    {
       GetViewByName( &vLPL, "TaskLPLR", vSubtask, zLEVEL_TASK );
       if ( vLPL )
-         GetStringFromAttribute( sz, sizeof( sz ), vLPL, "LPLR", "Name" );
+         GetStringFromAttribute( sz, zsizeof( sz ), vLPL, "LPLR", "Name" );
 
       ActivateEmptyMetaOI( vSubtask, &vDTE, zSOURCE_DTE_META, zSINGLE | zLEVEL_APPLICATION );
       if ( vDTE == 0 )
@@ -2263,7 +2263,7 @@ oTZTENVRO_GetUpdViewForDTE_P( zVIEW vSubtask, zPVIEW pvTZTENVRO )
 // Get LPL Name
    GetViewByName( &vLPL, "TaskLPLR", vSubtask, zLEVEL_TASK );
    if ( vLPL )
-      GetStringFromAttribute( sz, sizeof( sz ), vLPL, "LPLR", "Name" );
+      GetStringFromAttribute( sz, zsizeof( sz ), vLPL, "LPLR", "Name" );
 
    nRC = SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name", sz, "" );
    if ( nRC < zCURSOR_SET )
@@ -2346,7 +2346,7 @@ oTZTENVRO_GetRefViewForDTE_P( zVIEW vSubtask, zPVIEW pvTZTENVRO )
 // Get LPL Name
    GetViewByName( &vLPL, "TaskLPLR", vSubtask, zLEVEL_TASK );
    if ( vLPL )
-      GetStringFromAttribute( sz, sizeof( sz ), vLPL, "LPLR", "Name" );
+      GetStringFromAttribute( sz, zsizeof( sz ), vLPL, "LPLR", "Name" );
 
    nRC = SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name", sz, "" );
    if ( nRC < zCURSOR_SET )

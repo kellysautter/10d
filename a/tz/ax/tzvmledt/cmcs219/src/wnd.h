@@ -196,7 +196,7 @@ protected:
       if( NULL == hFont )
          hFont = CWnd::GetDefaultFont();
 
-      GetObject( hFont, sizeof(LOGFONT), &lf );
+      GetObject( hFont, zsizeof(LOGFONT), &lf );
 
       HDC hdc = GetDC();
       double cyFont = ( ( (double)lf.lfHeight * 72.0 ) /
@@ -206,7 +206,7 @@ protected:
 
       FONTDESC fd =
       {
-         sizeof(FONTDESC),
+         zsizeof(FONTDESC),
          T2OLE( lf.lfFaceName ),
          { abs((int)cyFont), 0 },
          (SHORT)lf.lfWeight,

@@ -118,7 +118,7 @@ GetTaskList95( PTASK_LIST  pTask,
     // Walk the snapshot of processes and for each process, get information
     // to display.
     dwTaskCount = 0;
-    pe32.dwSize = sizeof(PROCESSENTRY32);   // must be filled out before use
+    pe32.dwSize = zsizeof(PROCESSENTRY32);  // must be filled out before use
     if (pProcess32First(hProcessSnap, &pe32))
     {
         do
@@ -382,7 +382,7 @@ GetTaskListNT( PTASK_LIST  pTask,
                                   p,
                                   -1,
                                   szProcessName,
-                                  sizeof(szProcessName),
+                                  zsizeof(szProcessName),
                                   NULL,
                                   NULL
                                 );
@@ -394,7 +394,7 @@ GetTaskListNT( PTASK_LIST  pTask,
             strcpy( (LPSTR)pTask->ProcessName, UNKNOWN_TASK );
         }
 
-        if (strlen(szProcessName)+4 <= sizeof(pTask->ProcessName)) {
+        if (strlen(szProcessName)+4 <= zsizeof(pTask->ProcessName)) {
             strcpy( (LPSTR)pTask->ProcessName, szProcessName );
             strcat( (LPSTR)pTask->ProcessName, ".exe" );
         }
@@ -507,7 +507,7 @@ EnableDebugPrivNT( VOID )
     AdjustTokenPrivileges(hToken,
         FALSE,
         &tkp,
-        sizeof(TOKEN_PRIVILEGES),
+        zsizeof(TOKEN_PRIVILEGES),
         (PTOKEN_PRIVILEGES) NULL,
         (PDWORD) NULL);
 
@@ -612,7 +612,7 @@ BOOL CALLBACK EnumWindowsProc( HWND hwnd, LONG lParam )
        // we found the task so lets try to get the
             // window text
             //
-            if (GetWindowText( tlist[i].hwnd, buf, sizeof(buf) )) {
+            if (GetWindowText( tlist[i].hwnd, buf, zsizeof(buf) )) {
                 //
       // got it, so lets save it
                 //

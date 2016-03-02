@@ -454,11 +454,11 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
                zCHAR szUFlag[ 2 ];
 
                szUFlag[ 0 ] = 0;
-               GetStringFromAttribute( szUFlag, sizeof( szUFlag ), g_vSourceMeta, "Parameter", "UFlag" );
+               GetStringFromAttribute( szUFlag, zsizeof( szUFlag ), g_vSourceMeta, "Parameter", "UFlag" );
                SetAttributeFromString( g_lpPIView, "Variable", "UFlag", szUFlag );
             }
 
-            GetStringFromAttribute( szWorkPFlag, sizeof( szWorkPFlag ), g_vSourceMeta, "Parameter", "PFlag" ); // pointer flag
+            GetStringFromAttribute( szWorkPFlag, zsizeof( szWorkPFlag ), g_vSourceMeta, "Parameter", "PFlag" ); // pointer flag
          }
 
          // If the parameter was a string, it is always a pointer ... however, the "pointer" flag for a string indicates, that
@@ -621,7 +621,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          if ( g_lOperationFlag == 1 && g_lFlag != 1 ) // create
             break;
 
-         // strcpy_s( g_szViewName, sizeof( g_szViewName ), sQToken.szToken );
+         // strcpy_s( g_szViewName, zsizeof( g_szViewName ), sQToken.szToken );
          g_lLastTypeDeclared = qTVIEW;
 
          // If we are trying to establish position, then do it.
@@ -797,7 +797,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
             {
                // no RETURN found, generate one
                zCHAR szReturnType[ 2 ] = { 0 };
-               GetStringFromAttribute( szReturnType, sizeof( szReturnType ), g_vStatementView, "Operation", "ReturnDataType" );
+               GetStringFromAttribute( szReturnType, zsizeof( szReturnType ), g_vStatementView, "Operation", "ReturnDataType" );
                SetCursorLastEntity( g_vStatementView, "Statement", "" );
                if ( szReturnType[ 0 ] == 0 || szReturnType[ 0 ] == 'O' )
                {
@@ -1032,17 +1032,17 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          break;
 
       case aQSAVENAMEVIEWNAME:
-         strcpy_s( g_szViewName, sizeof( g_szViewName ), sQToken.szLastToken );
+         strcpy_s( g_szViewName, zsizeof( g_szViewName ), sQToken.szLastToken );
          g_szEntityName[ 0 ] = 0;
          break;
 
       case aQSAVENAMEVIEWCONSTANT:
-         strcpy_s( g_szScopeViewName, sizeof( g_szScopeViewName ), sQToken.szToken );
+         strcpy_s( g_szScopeViewName, zsizeof( g_szScopeViewName ), sQToken.szToken );
          g_lScopeViewID = -1;
          break;
 
       case aQSAVENAMEVIEWVARIABLE:
-         strcpy_s( g_szScopeViewName, sizeof( g_szScopeViewName ), sQToken.szToken );
+         strcpy_s( g_szScopeViewName, zsizeof( g_szScopeViewName ), sQToken.szToken );
          GetVariableID( &g_lScopeViewID, sQToken.szToken );
          break;
 
@@ -1055,7 +1055,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          }
 
          if ( g_szEntityName[ 0 ] == 0 )
-            strcpy_s( g_szEntityName, sizeof( g_szEntityName ), "zLEVEL_TASK" );
+            strcpy_s( g_szEntityName, zsizeof( g_szEntityName ), "zLEVEL_TASK" );
 
          BuildNameView( vSubtask, (zSHORT) lIDNumber, g_szScopeViewName, (zSHORT) g_lScopeViewID, -1, g_szEntityName ); //level
 
@@ -1070,7 +1070,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          GetVariableID( &lTempID, sQToken.szToken );
 
          if ( g_szEntityName[ 0 ] == 0 )
-            strcpy_s( g_szEntityName, sizeof( g_szEntityName ), "zLEVEL_TASK" );
+            strcpy_s( g_szEntityName, zsizeof( g_szEntityName ), "zLEVEL_TASK" );
 
          BuildNameView( vSubtask, (zSHORT) lIDNumber, g_szScopeViewName, (zSHORT) g_lScopeViewID, (zSHORT) lTempID, g_szEntityName ); //level
 
@@ -1087,12 +1087,12 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          break;
 
       case aQSAVEGETVIEWNAME:
-         strcpy_s( g_szViewName, sizeof( g_szViewName ), sQToken.szToken );
+         strcpy_s( g_szViewName, zsizeof( g_szViewName ), sQToken.szToken );
          g_lViewID = qVARIABLE;
          break;
 
       case aQSAVEGETVIEWCONSTANT:
-         strcpy_s( g_szViewName, sizeof( g_szViewName ), sQToken.szToken );
+         strcpy_s( g_szViewName, zsizeof( g_szViewName ), sQToken.szToken );
          g_lViewID = qCONSTANT;
          break;
 
@@ -1108,20 +1108,20 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          switch( sQToken.lToken )
          {
             case qSUBTASK:
-               strcpy_s( g_szEntityName, sizeof( g_szEntityName ), "zLEVEL_SUBTASK" );
+               strcpy_s( g_szEntityName, zsizeof( g_szEntityName ), "zLEVEL_SUBTASK" );
                break;
             case qTASK:
-               strcpy_s( g_szEntityName, sizeof( g_szEntityName ), "zLEVEL_TASK" );
+               strcpy_s( g_szEntityName, zsizeof( g_szEntityName ), "zLEVEL_TASK" );
                break;
             case qAPPLICATION:
-               strcpy_s( g_szEntityName, sizeof( g_szEntityName ), "zLEVEL_APPLICATION" );
+               strcpy_s( g_szEntityName, zsizeof( g_szEntityName ), "zLEVEL_APPLICATION" );
                break;
             case qSYSTEM:
-               strcpy_s( g_szEntityName, sizeof( g_szEntityName ), "zLEVEL_SYSTEM" );
+               strcpy_s( g_szEntityName, zsizeof( g_szEntityName ), "zLEVEL_SYSTEM" );
                break;
             case qANY:
             default:
-               strcpy_s( g_szEntityName, sizeof( g_szEntityName ), "zLEVEL_ANY" );
+               strcpy_s( g_szEntityName, zsizeof( g_szEntityName ), "zLEVEL_ANY" );
                break;
          }
          break;
@@ -1407,7 +1407,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
                break;
 
             case 1:
-               sprintf_s( szErrorMsg, sizeof( szErrorMsg ), " Parameter Number %ld", lError );
+               sprintf_s( szErrorMsg, zsizeof( szErrorMsg ), " Parameter Number %ld", lError );
                SyntaxError( vSubtask, eQINVALIDFUNCTIONPARAM, szErrorMsg );
                break;
 
@@ -1507,7 +1507,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
       // if ( zstrcmp( g_szOperationName, "SetCursorNextEntityHierarchical" ) == 0 )
       //    TraceLineS( "", "" );
 
-         strcpy_s( g_szOperationName, sizeof( g_szOperationName ), sQToken.szLastToken );
+         strcpy_s( g_szOperationName, zsizeof( g_szOperationName ), sQToken.szLastToken );
          ERROR_ON_UNARY_MINUS( "operation call" );
          break;
 
@@ -1764,9 +1764,9 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
       {
          zLONG k;
 
-         strcpy_s( g_sWhereLeft[ 0 ].szText, sizeof( g_sWhereLeft[0].szText ), g_szViewName );
-         strcat_s( g_sWhereLeft[ 0 ].szText, sizeof( g_sWhereLeft[0].szText ), "." );
-         strcat_s( g_sWhereLeft[ 0 ].szText, sizeof( g_sWhereLeft[0].szText ), g_szEntityName );
+         strcpy_s( g_sWhereLeft[ 0 ].szText, zsizeof( g_sWhereLeft[0].szText ), g_szViewName );
+         strcat_s( g_sWhereLeft[ 0 ].szText, zsizeof( g_sWhereLeft[0].szText ), "." );
+         strcat_s( g_sWhereLeft[ 0 ].szText, zsizeof( g_sWhereLeft[0].szText ), g_szEntityName );
 
          // Store the length of the EQ in the offset since it is not used otherwise.
          g_sWhereLeft[ 0 ].lElementClass = qENTITYQUALIFIER;
@@ -1877,7 +1877,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          g_sWhereRight[ g_lWhereIndex ].lDataType = sQToken.lToken;
          g_sWhereRight[ g_lWhereIndex ].lDataClass = GetClassBasedOnType( g_sWhereRight[ g_lWhereIndex ].lDataType );
          g_sWhereRight[ g_lWhereIndex ].lFlags = 0; // dks added 2015.12.08
-         strcpy_s( g_sWhereRight[ g_lWhereIndex ].szText, sizeof( g_sWhereRight[g_lWhereIndex].szText ), sQToken.szToken );
+         strcpy_s( g_sWhereRight[ g_lWhereIndex ].szText, zsizeof( g_sWhereRight[g_lWhereIndex].szText ), sQToken.szToken );
          break;
 
       case aQADDWHERELEFTAQ:
@@ -1919,7 +1919,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          g_sWhereLeft[ g_lWhereIndex ].lDataClass = lRC; // from verify
          g_sWhereRight[ g_lWhereIndex ].lFlags = 0; // dks added 2015.12.08
          g_sWhereLeft[ g_lWhereIndex ].lOffset = 0;
-         strcpy_s( g_sWhereLeft[ g_lWhereIndex ].szText, sizeof( g_sWhereLeft[ g_lWhereIndex ].szText ), sQToken.szLastToken );
+         strcpy_s( g_sWhereLeft[ g_lWhereIndex ].szText, zsizeof( g_sWhereLeft[ g_lWhereIndex ].szText ), sQToken.szLastToken );
          break;
 
       case aQADDWHERELEFTEQCOND:
@@ -1934,7 +1934,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          g_sWhereLeft[ g_lWhereIndex ].lDataClass = 0; // from verify ... not really! (dks)
          g_sWhereRight[ g_lWhereIndex ].lFlags = 0; // dks added 2015.12.08
          g_sWhereLeft[ g_lWhereIndex ].lOffset = 0;
-         strcpy_s( g_sWhereLeft[ g_lWhereIndex ].szText, sizeof( g_sWhereLeft[g_lWhereIndex].szText ), sQToken.szToken );
+         strcpy_s( g_sWhereLeft[ g_lWhereIndex ].szText, zsizeof( g_sWhereLeft[g_lWhereIndex].szText ), sQToken.szToken );
          break;
 
       case aQADDWHERELEFTEQ:
@@ -1950,7 +1950,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          g_sWhereLeft[ g_lWhereIndex ].lDataClass = 0; // from verify ... not really! (dks)
          g_sWhereRight[ g_lWhereIndex ].lFlags = 0; // dks added 2015.12.08
          g_sWhereLeft[ g_lWhereIndex ].lOffset = 0;
-         strcpy_s( g_sWhereLeft[ g_lWhereIndex ].szText, sizeof( g_sWhereLeft[ g_lWhereIndex ].szText ), sQToken.szLastToken );
+         strcpy_s( g_sWhereLeft[ g_lWhereIndex ].szText, zsizeof( g_sWhereLeft[ g_lWhereIndex ].szText ), sQToken.szLastToken );
          break;
 
       case aQADDWHERERIGHTAQ:
@@ -1974,7 +1974,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          g_sWhereRight[ g_lWhereIndex ].lDataClass = lRC; // from verify
          g_sWhereRight[ g_lWhereIndex ].lFlags = 0; // dks added 2015.12.08
          g_sWhereRight[ g_lWhereIndex ].lOffset = 0;
-         strcpy_s( g_sWhereRight[ g_lWhereIndex ].szText, sizeof( g_sWhereRight[g_lWhereIndex].szText ), sQToken.szToken );
+         strcpy_s( g_sWhereRight[ g_lWhereIndex ].szText, zsizeof( g_sWhereRight[g_lWhereIndex].szText ), sQToken.szToken );
          break;
 
       case aQADDWHERERIGHTEQ:
@@ -1989,7 +1989,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          g_sWhereRight[ g_lWhereIndex ].lDataClass = lRC; // from verify
          g_sWhereRight[ g_lWhereIndex ].lFlags = 0; // dks added 2015.12.08
          g_sWhereRight[ g_lWhereIndex ].lOffset = 0;
-         strcpy_s( g_sWhereRight[ g_lWhereIndex ].szText, sizeof( g_sWhereRight[g_lWhereIndex].szText ), sQToken.szToken );
+         strcpy_s( g_sWhereRight[ g_lWhereIndex ].szText, zsizeof( g_sWhereRight[g_lWhereIndex].szText ), sQToken.szToken );
 
          g_lWhereJoin[ g_lWhereIndex ] = 0;
          g_lWhereIndex++;
@@ -2429,7 +2429,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          // add to expression ... qTINTEGER 1040   qTVIEW 1045
          if ( g_szGenLang[ 0 ] == 'J' && sQToken.lToken == qTINTEGER && g_lLeftDataType == qTVIEW && zstrcmp( sQToken.szToken, "0" ) == 0 )
          {
-            strcpy_s( sQToken.szToken, sizeof( sQToken.szToken ), "null" );  // we cannot compare a view to 0
+            strcpy_s( sQToken.szToken, zsizeof( sQToken.szToken ), "null" ); // we cannot compare a view to 0
             AddExprNodeEntityToView( vSubtask, g_vGlobalView, qCONSTANT, 0, sQToken.lToken, sQToken.szToken, 0, g_lParmListExt[ g_lParmListIndex ] );
          }
          else
@@ -2505,7 +2505,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          GetOperationInformation( vSubtask,
                                   &g_lOperationClass, // class to return
                                   &g_lOperationZKey,  // ZKey of oper
-                                  &lType, szType, sizeof( szType ),  // type of oper
+                                  &lType, szType, zsizeof( szType ), // type of oper
                                   &vSource,           // view to assoc. src
                                   g_szOperationName,  // name (sending in)
                                   lSearchOrder,       // (from above)
@@ -2529,7 +2529,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
 
          // If all is well, get the parameter list.  If lReturnType > 0, it is the parameter type of the
          // return parameter (e.g. qTSTRING == 1042).
-         lReturnType = GetOperationParmListFromSource( g_lParmList, g_lParmListExt, szReturnVarName, sizeof( szReturnVarName ), vSource );
+         lReturnType = GetOperationParmListFromSource( g_lParmList, g_lParmListExt, szReturnVarName, zsizeof( szReturnVarName ), vSource );
 
       // if ( lReturnType > 0 && szReturnVarName[ 0 ] != 0 )  // don't do this anymore ... multiple return
       //    lType = lReturnType;                              // parms implemented!  dks 2010.07.14
@@ -2766,7 +2766,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
             SyntaxError( vSubtask, eQVARIABLEUNDEFINED, sQToken.szLastToken );
          }
 
-         strcpy_s( g_szViewName, sizeof( g_szViewName ), sQToken.szLastToken );
+         strcpy_s( g_szViewName, zsizeof( g_szViewName ), sQToken.szLastToken );
 
          // Save g_lAddNextStatementBefore, because it will be altered during Activate processing.  It is restored in InsertActivateIntoCurrentOperation.
          g_lAddNextStatementBeforeSave = g_lAddNextStatementBefore;
@@ -2775,38 +2775,38 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          break;
 
       case aQSAVEACTIVATESINGLE:
-         strcpy_s( g_szLoadControl, sizeof( g_szLoadControl ), "zSINGLE" );
+         strcpy_s( g_szLoadControl, zsizeof( g_szLoadControl ), "zSINGLE" );
          break;
 
       case aQSAVEACTIVATEMULTIPLE:
-         strcpy_s( g_szLoadControl, sizeof( g_szLoadControl ), "zMULTIPLE" );
+         strcpy_s( g_szLoadControl, zsizeof( g_szLoadControl ), "zMULTIPLE" );
          break;
 
       case aQSAVEACTIVATEROOTONLY:
-         strcpy_s( g_szLoadControl, sizeof( g_szLoadControl ), "zACTIVATE_ROOTONLY" );
+         strcpy_s( g_szLoadControl, zsizeof( g_szLoadControl ), "zACTIVATE_ROOTONLY" );
          break;
 
       case aQSAVEACTIVATEROOTONLYMULTIPLE:
-         strcpy_s( g_szLoadControl, sizeof( g_szLoadControl ), "zACTIVATE_ROOTONLY_MULTIPLE" );
+         strcpy_s( g_szLoadControl, zsizeof( g_szLoadControl ), "zACTIVATE_ROOTONLY_MULTIPLE" );
          break;
 
       case aQSAVEACTIVATECONTINUE:
-         strcpy_s( g_szLoadControl, sizeof( g_szLoadControl ), "zACTIVATE_MULTIPLE_CONTINUE" );
+         strcpy_s( g_szLoadControl, zsizeof( g_szLoadControl ), "zACTIVATE_MULTIPLE_CONTINUE" );
          break;
 
       case aQSAVEACTIVATEROOTONLYCONTINUE:
-         strcpy_s( g_szLoadControl, sizeof( g_szLoadControl ), "zACTIVATE_ROOTONLY_CONTINUE" );
+         strcpy_s( g_szLoadControl, zsizeof( g_szLoadControl ), "zACTIVATE_ROOTONLY_CONTINUE" );
          break;
 
       case aQSAVEACTIVATESINGLEFORUPDATE:
-         strcpy_s( g_szLoadControl, sizeof( g_szLoadControl ), "zSINGLE_FOR_UPDATE" );
+         strcpy_s( g_szLoadControl, zsizeof( g_szLoadControl ), "zSINGLE_FOR_UPDATE" );
          break;
 
       case aQSETRESTRICTION:
       {
          zLONG k;
 
-         strcpy_s( g_sWhereLeft[ 0 ].szText, sizeof( g_sWhereLeft[0].szText ), sQToken.szToken );
+         strcpy_s( g_sWhereLeft[ 0 ].szText, zsizeof( g_sWhereLeft[0].szText ), sQToken.szToken );
 
          // Store the length of the EQ in the offset as it is not used otherwise.
          g_sWhereLeft[ 0 ].lElementClass = qENTITYQUALIFIER;
@@ -2861,7 +2861,7 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
 
       case aQSETVARIABLETEXT:
          // Remember the name of an operation or variable or other symbol.
-         strncpy_s( szGlbVariable, sizeof( szGlbVariable ), sQToken.szToken, sizeof( szGlbVariable ) - 1 );
+         strncpy_s( szGlbVariable, zsizeof( szGlbVariable ), sQToken.szToken, zsizeof( szGlbVariable ) - 1 );
          break;
 
       default:
@@ -3149,7 +3149,7 @@ CheckParaWithSource( void )
    // Make sure that parameter type matches.
    ConvertVMLTypeToZeidonType( cZeidonType, g_lLastTypeDeclared );
    cMetaType[ 0 ] = 0;
-   GetStringFromAttribute( cMetaType, sizeof( cMetaType ), g_vSourceMeta, "Parameter", "DataType" );
+   GetStringFromAttribute( cMetaType, zsizeof( cMetaType ), g_vSourceMeta, "Parameter", "DataType" );
 // DisplayObjectInstance( g_vSourceMeta, "", "" );
 // MessageSend( g_vSourceMeta, "???", "Title9", "StatementView", 0, 0 );
    if ( cMetaType[ 0 ] == cZeidonType[ 0 ] )
@@ -3170,7 +3170,7 @@ fnAddDefaultReturn( zVIEW vExpression )
    zCHAR szReturnType[ 2 ];
 
    // Get the Return Type of the current operation for which the RETURN is currently built.
-   GetStringFromAttribute( szReturnType, sizeof( szReturnType ), g_lpPIView, "Operation", "ReturnDataType" );
+   GetStringFromAttribute( szReturnType, zsizeof( szReturnType ), g_lpPIView, "Operation", "ReturnDataType" );
    if ( szReturnType[ 0 ] == 0 || szReturnType[ 0 ] == 'O' )
       return;  // void operation, nothing has to be done
 
@@ -3212,7 +3212,7 @@ OperationNameValid( zPCHAR szToken )
 
       // The source meta is a LOD.  For a LOD Operation, the length is restricted to 22 chars to
       // allow for a LOD name length of 8 characters. (o_LODNAME_).
-      GetStringFromAttribute( szLodName, sizeof( szLodName ), g_lpPIView, "VML_XSource", "MetaName" );
+      GetStringFromAttribute( szLodName, zsizeof( szLodName ), g_lpPIView, "VML_XSource", "MetaName" );
       if ( zstrlen( szToken ) + zstrlen( szLodName ) > 30 )
          return( 0 );
    }
@@ -3252,9 +3252,9 @@ UnaryOperatorConstant( zVIEW vSubtask )
    // Just add the MINUS to the token.  Admittedly not a beautiful solution, but otherwise we would have to rewrite too much.
    // To handle the unary operator as qUNARYMINUS as with a variable would not be sufficient, because unary minus as a function
    // parameter would not work any more.  Note, that the old (erroneous) grammer handled unary operators in the lex part.
-   strcpy_s( szSave, sizeof( szSave ), sQToken.szToken );
-   strcpy_s( sQToken.szToken, sizeof( sQToken.szToken ), "-" );
-   strncat_s( sQToken.szToken, sizeof( sQToken.szToken ), szSave, sizeof( sQToken.szToken ) - 1 );
+   strcpy_s( szSave, zsizeof( szSave ), sQToken.szToken );
+   strcpy_s( sQToken.szToken, zsizeof( sQToken.szToken ), "-" );
+   strncat_s( sQToken.szToken, zsizeof( sQToken.szToken ), szSave, zsizeof( sQToken.szToken ) - 1 );
    return( 0 );
 }
 

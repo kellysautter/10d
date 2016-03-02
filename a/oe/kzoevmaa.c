@@ -1437,7 +1437,7 @@ GetNameForView( zPCHAR   pchReturnName,
    // If a name search was done, then see if the name was found.
    // If so, return the name in pchReturnName
    if ( nRC > 0 )
-      strcpy_s( pchReturnName, sizeof( lpViewName->szName ), lpViewName->szName );
+      strcpy_s( pchReturnName, zsizeof( lpViewName->szName ), lpViewName->szName );
 
    fnOperationReturn( iGetNameForView, lpCurrentTask );
    return( nRC );
@@ -1721,7 +1721,7 @@ SetNameForView( zVIEW    lpView,
 
          TraceLineS( "(vm) Naming non-application level view at the application level: ", cpcName );
 
-      // SysReadZeidonIni( -1, "[Debug]", "BombZDr", szDebug, sizeof( szDebug ) );
+      // SysReadZeidonIni( -1, "[Debug]", "BombZDr", szDebug, zsizeof( szDebug ) );
       // if ( szDebug[ 0 ] == 'Y' )
       // {
       //    k /= k;
@@ -1776,8 +1776,7 @@ SetNameForView( zVIEW    lpView,
             lpViewName = zGETPTR( lpViewName->hNextViewName );
          }
 
-         // If the view name was found, change it to point to the view
-         // just passed in.
+         // If the view name was found, change it to point to the view just passed in.
          if ( lpViewName )
          {
             zVIEW lpTempView = zGETPTR( lpViewName->hView );
@@ -1794,7 +1793,7 @@ SetNameForView( zVIEW    lpView,
             lpViewName = zGETPTR( hViewName );
             if ( lpViewName )
             {
-               strcpy_s( lpViewName->szName, sizeof( lpViewName->szName ), cpcName );
+               strcpy_s( lpViewName->szName, zsizeof( lpViewName->szName ), cpcName );
                lpViewName->hView = zGETHNDL( lpView );
                lpView->nViewNames++;
                lpViewName->hNextViewName = lpSubtask->hFirstViewName;
@@ -1836,7 +1835,7 @@ SetNameForView( zVIEW    lpView,
             lpViewName = zGETPTR( hViewName );
             if ( lpViewName )
             {
-               strcpy_s( lpViewName->szName, sizeof( lpViewName->szName ), cpcName );
+               strcpy_s( lpViewName->szName, zsizeof( lpViewName->szName ), cpcName );
                lpViewName->hView = zGETHNDL( lpView );
                lpView->nViewNames++;
                lpView->bTaskNamed = TRUE;
@@ -1886,7 +1885,7 @@ SetNameForView( zVIEW    lpView,
             lpViewName = zGETPTR( hViewName );
             if ( lpViewName )
             {
-               strcpy_s( lpViewName->szName, sizeof( lpViewName->szName ), cpcName );
+               strcpy_s( lpViewName->szName, zsizeof( lpViewName->szName ), cpcName );
                lpViewName->hView = zGETHNDL( lpView );
                lpView->nViewNames++;
                lpView->bApplicationNamed = TRUE;
@@ -1931,7 +1930,7 @@ SetNameForView( zVIEW    lpView,
             lpViewName = zGETPTR( hViewName );
             if ( lpViewName )
             {
-               strcpy_s( lpViewName->szName, sizeof( lpViewName->szName ), cpcName );
+               strcpy_s( lpViewName->szName, zsizeof( lpViewName->szName ), cpcName );
                lpViewName->hView = zGETHNDL( lpView );
                lpView->nViewNames++;
                lpView->bSystemNamed = TRUE;
@@ -2388,7 +2387,7 @@ SfGetFirstNamedView( zPVIEW  pvReturnView,
    {
       // Set the view to be returned
       *pvReturnView = zGETPTR( lpViewName->hView );
-      strcpy_s( pchReturnName, sizeof( lpViewName->szName ), lpViewName->szName );
+      strcpy_s( pchReturnName, zsizeof( lpViewName->szName ), lpViewName->szName );
    }
    else
       nRC = -1;
@@ -2538,7 +2537,7 @@ SfGetNextNamedView( zPVIEW   pvReturnView,
    {
       // Set the view to be returned.
       *pvReturnView = zGETPTR( lpViewName->hView );
-      strcpy_s( pchReturnName, sizeof( lpViewName->szName ), lpViewName->szName );
+      strcpy_s( pchReturnName, zsizeof( lpViewName->szName ), lpViewName->szName );
    }
    else
    {
@@ -3211,7 +3210,7 @@ SfSetUserIdForTask( zVIEW lpTaskView, zCPCHAR cpcUserId )
    }
 
    lpTask->szUserId[ 0 ] = 0;
-   strncat_s( lpTask->szUserId, sizeof( lpTask->szUserId ), cpcUserId, sizeof( lpTask->szUserId ) - 1 );
+   strncat_s( lpTask->szUserId, zsizeof( lpTask->szUserId ), cpcUserId, zsizeof( lpTask->szUserId ) - 1 );
 
    fnOperationReturn( iSfSetUserIdForTask, lpTask );
    return( 0 );
@@ -3246,7 +3245,7 @@ SfGetUserIdForTask( zVIEW lpTaskView, zPCHAR pchUserId )
       return( zCALL_ERROR );
    }
 
-   strcpy_s( pchUserId, sizeof( lpTask->szUserId ), lpTask->szUserId );
+   strcpy_s( pchUserId, zsizeof( lpTask->szUserId ), lpTask->szUserId );
 
    fnOperationReturn( iSfGetUserIdForTask, lpTask );
    return( 0 );
@@ -3415,7 +3414,7 @@ SfTransferView( zVIEW  lpView,
    {
       zCHAR szDebug[ 2 ];
 
-      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szDebug, sizeof( szDebug ) );
+      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szDebug, zsizeof( szDebug ) );
       if ( szDebug[ 0 ] == 'Y' )
          SysMessageBox( 0, "Houston ... we have a problem", "Recursive view", -1 );
    }
@@ -3556,7 +3555,7 @@ fnDropView( zVIEW  lpView )
          pch = lpViewOD->szName;
       }
 
-      sprintf_s( szMsg, sizeof( szMsg ), "View about to be dropped (0x%08x). Object Name = %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "View about to be dropped (0x%08x). Object Name = %s",
                 (zULONG) lpView, pch );
       TraceLineS( "(vm) ", szMsg );
       if ( lpView->bFlagDropView )

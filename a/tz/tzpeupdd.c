@@ -136,15 +136,15 @@ zwTZPEUPDD_DeleteSubobject( zVIEW vSubtask,
 
 static zSHORT
 zwfnTZPEUPDD_CheckDelete( zVIEW    vSubtask,
-                        zVIEW    vPresEnv,
-                        zPCHAR   szTag,
-                        zPCHAR   szEntityName,
-                        zPCHAR   szEntityName1,
-                        zPCHAR   szChildName,
-                        zPCHAR   szChildName1,
-                        zPCHAR   szMessageEntity,
-                        zPCHAR   szMessageChildEnitity,
-                        zPCHAR   szMessageChildEnitity1 );
+                          zVIEW    vPresEnv,
+                          zPCHAR   pchTag,
+                          zPCHAR   pchEntityName,
+                          zPCHAR   pchEntityName1,
+                          zPCHAR   pchChildName,
+                          zPCHAR   pchChildName1,
+                          zPCHAR   pchMessageEntity,
+                          zPCHAR   pchMessageChildEnitity,
+                          zPCHAR   pchMessageChildEnitity1 );
 
 static void
 zwfnTZPEUPDD_DisableAllMenuItems( zVIEW vSubtask );
@@ -327,7 +327,7 @@ zwTZPEUPDD_SwitchLPLR( zVIEW vSubtask )
         (ObjectInstanceUpdatedFromFile( vPresEnv ) == 1) &&
         (ComponentIsCheckedOut( vSubtask, vPresEnv, zSOURCE_PENV_META ) == 1) )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ),
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ),
                 "Do you wish to save current Presentation Environment?" );
       nRC = MessagePrompt( vSubtask, "PE00101",
                            "Presentation Environment",
@@ -427,14 +427,14 @@ zwTZPEUPDD_DeletePresEnv( zVIEW vSubtask )
          DeleteMetaOI( vSubtask, vCM_List, zSOURCE_PENV_META );
 
       //BL, 2000.02.11 delete XPE-File
-      GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
       ofnTZCMWKSO_AppendSlash( szFileSpec );
-      strcat_s( szFileSpec, sizeof( szFileSpec ), "Zeidon.xpe" );
+      strcat_s( szFileSpec, zsizeof( szFileSpec ), "Zeidon.xpe" );
       if ( SysOpenFile( vSubtask, szFileSpec, COREFILE_DELETE ) < 0 )
       {
-         strcpy_s( szERR_Msg, sizeof( szERR_Msg ), "Corresponding Executable File " );
-         strcat_s( szERR_Msg, sizeof( szERR_Msg ), szFileSpec );
-         strcat_s( szERR_Msg, sizeof( szERR_Msg ), " not found." );
+         strcpy_s( szERR_Msg, zsizeof( szERR_Msg ), "Corresponding Executable File " );
+         strcat_s( szERR_Msg, zsizeof( szERR_Msg ), szFileSpec );
+         strcat_s( szERR_Msg, zsizeof( szERR_Msg ), " not found." );
          MessageSend( vSubtask, "CM00458", "Configuration Management",
                       szERR_Msg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -472,7 +472,7 @@ zwTZPEUPDD_CreateNewFont( zVIEW vSubtask )
    GetViewByName( &vPresEnv, "TZPESRCV", vSubtask, zLEVEL_ANY );
    GetViewByName( &vWorkObj, "TZPEWRKV", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vWorkObj, "ROOT", "NewName" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vWorkObj, "ROOT", "NewName" );
    zGetStringWithoutBlank( szNewName, szNewName );
 
    if ( zstrcmp( szNewName, "") == 0 )
@@ -624,7 +624,7 @@ zwTZPEUPDD_CreateNewColor( zVIEW vSubtask )
    GetViewByName( &vPresEnv, "TZPESRCV", vSubtask, zLEVEL_ANY );
    GetViewByName( &vWorkObj, "TZPEWRKV", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vWorkObj, "ROOT", "NewName" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vWorkObj, "ROOT", "NewName" );
    zGetStringWithoutBlank( szNewName, szNewName );
 
    if ( zstrcmp( szNewName, "") == 0 )
@@ -660,7 +660,7 @@ zwTZPEUPDD_CreateNewColor( zVIEW vSubtask )
    {
       SetAttributeFromInteger( vPresEnv, "Color", "RGB_Color", clr );
       SetAttributeFromBlob( vPresEnv, "Color", "CustomColors",
-                            aclrCust, sizeof( aclrCust ) );
+                            aclrCust, zsizeof( aclrCust ) );
    }
 
 // TraceLineS( "!!! END ", "CreateNewColor" );
@@ -682,7 +682,7 @@ zwTZPEUPDD_UpdateColor( zVIEW vSubtask )
    zVIEW    vPresEnv;
    COLORREF clr;
    COLORREF aclrCust[ 32 ];
-   zULONG   nArraySize = sizeof( COLORREF * ) * 32;
+   zULONG   nArraySize = zsizeof( COLORREF * ) * 32;
    zBOOL    bUpdate = FALSE;
 
 // TraceLineS( "!!! IN ", "UpdateColor" );
@@ -701,7 +701,7 @@ zwTZPEUPDD_UpdateColor( zVIEW vSubtask )
    {
       SetAttributeFromInteger( vPresEnv, "Color", "RGB_Color", clr );
       SetAttributeFromBlob( vPresEnv, "Color", "CustomColors",
-                            aclrCust, sizeof( aclrCust ) );
+                            aclrCust, zsizeof( aclrCust ) );
    }
 
 // TraceLineS( "!!! END ", "UpdateColor" );
@@ -996,18 +996,18 @@ zwTZPEUPDD_DeleteValidParents( zVIEW vSubtask )
    return( 0 );
 }
 
-
+#if 0
 static zSHORT
 zwfnTZPEUPDD_CheckDelete( zVIEW    vSubtask,
                           zVIEW    vPresEnv,
-                          zPCHAR   szTag,
-                          zPCHAR   szEntityName,
-                          zPCHAR   szEntityName1,
-                          zPCHAR   szChildName,
-                          zPCHAR   szChildName1,
-                          zPCHAR   szMessageEntity,
-                          zPCHAR   szMessageChildEnitity,
-                          zPCHAR   szMessageChildEnitity1 )
+                          zPCHAR   pchTag,
+                          zPCHAR   pchEntityName,
+                          zPCHAR   pchEntityName1,
+                          zPCHAR   pchChildName,
+                          zPCHAR   pchChildName1,
+                          zPCHAR   pchMessageEntity,
+                          zPCHAR   pchMessageChildEnitity,
+                          zPCHAR   pchMessageChildEnitity1 )
 {
    zVIEW  vPresEnvCopy;
    zCHAR  szMessageText[ 254 ];
@@ -1022,18 +1022,18 @@ zwfnTZPEUPDD_CheckDelete( zVIEW    vSubtask,
    nRC = SetCursorFirstEntity( vPresEnvCopy, "WindowStyle", "" );
    while ( nRC == zCURSOR_SET && !bDeleteError )
    {
-      nRC = SetCursorFirstEntity( vPresEnvCopy, szEntityName, "" );
+      nRC = SetCursorFirstEntity( vPresEnvCopy, pchEntityName, "" );
       while ( nRC == zCURSOR_SET && !bDeleteError )
       {
-         if ( SetCursorFirstEntityByString( vPresEnvCopy, szChildName, "Tag", szTag, "" ) == zCURSOR_SET )
+         if ( SetCursorFirstEntityByString( vPresEnvCopy, pchChildName, "Tag", pchTag, "" ) == zCURSOR_SET )
          {
             bDeleteError = TRUE;
-            strcpy_s( szMessageParentEntity, sizeof( szMessageParentEntity ), "Window Style" );
-            GetStringFromAttribute( szParentTag, sizeof( szParentTag ), vPresEnvCopy, "WindowStyle", "Tag" );
-            GetStringFromAttribute( szDefTag, sizeof( szDefTag ), vPresEnvCopy, szEntityName, "Tag" );
+            strcpy_s( szMessageParentEntity, zsizeof( szMessageParentEntity ), "Window Style" );
+            GetStringFromAttribute( szParentTag, zsizeof( szParentTag ), vPresEnvCopy, "WindowStyle", "Tag" );
+            GetStringFromAttribute( szDefTag, zsizeof( szDefTag ), vPresEnvCopy, pchEntityName, "Tag" );
          }
 
-         nRC = SetCursorNextEntity( vPresEnvCopy, szEntityName, "" );
+         nRC = SetCursorNextEntity( vPresEnvCopy, pchEntityName, "" );
       }
       nRC = SetCursorNextEntity( vPresEnvCopy, "WindowStyle", "" );
    }
@@ -1043,20 +1043,19 @@ zwfnTZPEUPDD_CheckDelete( zVIEW    vSubtask,
       nRC = SetCursorFirstEntity( vPresEnvCopy, "ControlDef", "" );
       while ( nRC == zCURSOR_SET && !bDeleteError )
       {
-         nRC = SetCursorFirstEntity( vPresEnvCopy, szEntityName1, "" );
+         nRC = SetCursorFirstEntity( vPresEnvCopy, pchEntityName1, "" );
          while ( nRC == zCURSOR_SET && !bDeleteError )
          {
-            if ( SetCursorFirstEntityByString( vPresEnvCopy, szChildName1,
-                                               "Tag", szTag, "" ) == zCURSOR_SET )
+            if ( SetCursorFirstEntityByString( vPresEnvCopy, pchChildName1, "Tag", pchTag, "" ) == zCURSOR_SET )
             {
                bDeleteError = TRUE;
-               strcpy_s( szMessageParentEntity, sizeof( szMessageParentEntity ), "Control Definition" );
-               GetStringFromAttribute( szParentTag, sizeof( szParentTag ), vPresEnvCopy, "ControlDef", "Tag" );
-               strcpy_s( szMessageChildEnitity, sizeof( szMessageChildEnitity ), szMessageChildEnitity1 );
-               GetStringFromAttribute( szDefTag, sizeof( szDefTag ), vPresEnvCopy, szEntityName1, "Tag" );
+               strcpy_s( szMessageParentEntity, zsizeof( szMessageParentEntity ), "Control Definition" );
+               GetStringFromAttribute( szParentTag, zsizeof( szParentTag ), vPresEnvCopy, "ControlDef", "Tag" );
+               strcpy_s( pchMessageChildEnitity, zsizeof( pchMessageChildEnitity ), pchMessageChildEnitity1 );
+               GetStringFromAttribute( szDefTag, zsizeof( szDefTag ), vPresEnvCopy, pchEntityName1, "Tag" );
             }
 
-            nRC = SetCursorNextEntity( vPresEnvCopy, szEntityName1, "" );
+            nRC = SetCursorNextEntity( vPresEnvCopy, pchEntityName1, "" );
          }
          nRC = SetCursorNextEntity( vPresEnvCopy, "ControlDef", "" );
       }
@@ -1064,18 +1063,18 @@ zwfnTZPEUPDD_CheckDelete( zVIEW    vSubtask,
 
    if ( bDeleteError )
    {
-      strcpy_s( szMessageText, sizeof( szMessageText ), "The " );
-      strcat_s( szMessageText, sizeof( szMessageText ), szMessageEntity );
-      strcat_s( szMessageText, sizeof( szMessageText ), " cannot be removed, because it " );
-      strcat_s( szMessageText, sizeof( szMessageText ), "is referenced by \n" );
-      strcat_s( szMessageText, sizeof( szMessageText ), szMessageParentEntity );
-      strcat_s( szMessageText, sizeof( szMessageText ), " '" );
-      strcat_s( szMessageText, sizeof( szMessageText ), szParentTag );
-      strcat_s( szMessageText, sizeof( szMessageText ), "', " );
-      strcat_s( szMessageText, sizeof( szMessageText ), szMessageChildEnitity );
-      strcat_s( szMessageText, sizeof( szMessageText ), " ' " );
-      strcat_s( szMessageText, sizeof( szMessageText ), szDefTag );
-      strcat_s( szMessageText, sizeof( szMessageText ), "'." );
+      strcpy_s( szMessageText, zsizeof( szMessageText ), "The " );
+      strcat_s( szMessageText, zsizeof( szMessageText ), pchMessageEntity );
+      strcat_s( szMessageText, zsizeof( szMessageText ), " cannot be removed, because it " );
+      strcat_s( szMessageText, zsizeof( szMessageText ), "is referenced by \n" );
+      strcat_s( szMessageText, zsizeof( szMessageText ), szMessageParentEntity );
+      strcat_s( szMessageText, zsizeof( szMessageText ), " '" );
+      strcat_s( szMessageText, zsizeof( szMessageText ), szParentTag );
+      strcat_s( szMessageText, zsizeof( szMessageText ), "', " );
+      strcat_s( szMessageText, zsizeof( szMessageText ), pchMessageChildEnitity );
+      strcat_s( szMessageText, zsizeof( szMessageText ), " ' " );
+      strcat_s( szMessageText, zsizeof( szMessageText ), szDefTag );
+      strcat_s( szMessageText, zsizeof( szMessageText ), "'." );
       MessageSend( vSubtask, "PE00116", "Presentation Environment",
                    szMessageText,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1087,6 +1086,7 @@ zwfnTZPEUPDD_CheckDelete( zVIEW    vSubtask,
 
    return( 0 );
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1115,7 +1115,7 @@ zwTZPEUPDD_DeleteFont( zVIEW vSubtask )
       {
          // if Font reused in Window Style or Control Definition, do not
          // delete this Font
-         GetStringFromAttribute( szTag, sizeof( szTag ), vPresEnv, "Font", "Tag" );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vPresEnv, "Font", "Tag" );
          if ( zwfnTZPEUPDD_CheckDelete( vSubtask, vPresEnv, szTag, "WndFontDef",
                                         "CtrlFontDef", "WndFont", "CtrlFont",
                                         "Font", "Window Font Option",
@@ -1156,7 +1156,7 @@ zwTZPEUPDD_DeleteColor( zVIEW vSubtask )
    {
       // if Color reused in Window Style or Control Definition, do not
       // delete this Color
-      GetStringFromAttribute( szTag, sizeof( szTag ), vPresEnv, "Color", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vPresEnv, "Color", "Tag" );
       if ( zwfnTZPEUPDD_CheckDelete( vSubtask, vPresEnv, szTag, "WndColorDef",
                                      "CtrlColorDef", "WndColor", "CtrlColor",
                                      "Color", "Window Color Option",
@@ -1434,8 +1434,8 @@ zwTZPESRCO_DelInvisibleFont( zVIEW vSubtask )
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
-fnTZPESRCO_GetRidOfInvisible( zVIEW vSubtask, zPCHAR szEntityName,
-                              zPCHAR szAttribName )
+fnTZPESRCO_GetRidOfInvisible( zVIEW vSubtask, zPCHAR pchEntityName,
+                              zPCHAR pchAttribName )
 {
    zVIEW  vPresEnv;
    zVIEW  vTmpView;
@@ -1446,35 +1446,35 @@ fnTZPESRCO_GetRidOfInvisible( zVIEW vSubtask, zPCHAR szEntityName,
    // Get Access to LOD Object.
    nRC = GetViewByName( &vPresEnv, "TZPESRCV", vSubtask, zLEVEL_TASK );
 
-   nRC = SetCursorFirstEntity( vPresEnv, szEntityName, 0 );
+   nRC = SetCursorFirstEntity( vPresEnv, pchEntityName, 0 );
    while ( nRC >= zCURSOR_SET )
    {
       // If the Font or ControlDef is invisible, delete it
-      if ( CompareAttributeToInteger( vPresEnv, szEntityName,
+      if ( CompareAttributeToInteger( vPresEnv, pchEntityName,
                                       "Invisible", 1 ) == 0 )
       {
-         GetIntegerFromAttribute( &lId, vPresEnv, szEntityName, "Id" );
-         nRC = DeleteEntity( vPresEnv, szEntityName, zREPOS_NEXT );
+         GetIntegerFromAttribute( &lId, vPresEnv, pchEntityName, "Id" );
+         nRC = DeleteEntity( vPresEnv, pchEntityName, zREPOS_NEXT );
 
          CreateViewFromViewForTask( &vTmpView, vPresEnv, 0 );
-         nRC2 = SetCursorFirstEntity( vTmpView, szEntityName, 0 );
+         nRC2 = SetCursorFirstEntity( vTmpView, pchEntityName, 0 );
          while ( nRC2 > zCURSOR_UNCHANGED )
          {
-            if ( CompareAttributeToInteger( vTmpView, szEntityName,
+            if ( CompareAttributeToInteger( vTmpView, pchEntityName,
                                             "Id", lId ) > 0 )
             {
-               AddToAttributeFromInteger( vTmpView, szEntityName, "Id", -1 );
+               AddToAttributeFromInteger( vTmpView, pchEntityName, "Id", -1 );
                AddToAttributeFromInteger( vPresEnv, "PresEnvDef",
-                                          szAttribName, -1 );
+                                          pchAttribName, -1 );
             }
 
-            nRC2 = SetCursorNextEntity( vTmpView, szEntityName, 0 );
+            nRC2 = SetCursorNextEntity( vTmpView, pchEntityName, 0 );
          }
 
          DropView( vTmpView );
       }
       else
-         nRC = SetCursorNextEntity( vPresEnv, szEntityName, 0 );
+         nRC = SetCursorNextEntity( vPresEnv, pchEntityName, 0 );
    }
 
    return( 0 );
@@ -1555,7 +1555,7 @@ zwTZPEUPDD_AddNewCtrlDef( zVIEW vSubtask )
                                           "   ActiveX: 4001-32000\n"
                                           "   New in-house: 32001-32700",
                                           FALSE, szBuffer,
-                                          sizeof( szBuffer ) )) == IDOK )
+                                          zsizeof( szBuffer ) )) == IDOK )
    {
       lKey = atol( szBuffer );
       if ( lKey > 1000 && lKey < 10000 &&
@@ -1683,11 +1683,11 @@ zwTZPEUPDD_CtrlDefOK( zVIEW vSubtask )
    GetViewByName( &vPresEnv, "TZPESRCV", vSubtask, zLEVEL_ANY );
 
    GetIntegerFromAttribute( &lId, vPresEnv, "ControlDef", "Id" );
-   GetStringFromAttribute( szScript, sizeof( szScript ), vPresEnv,
+   GetStringFromAttribute( szScript, zsizeof( szScript ), vPresEnv,
                            "ControlDef", "ActiveX_Script" );
-   GetStringFromAttribute( szScriptDLL, sizeof( szScriptDLL ), vPresEnv,
+   GetStringFromAttribute( szScriptDLL, zsizeof( szScriptDLL ), vPresEnv,
                            "ControlDef", "ActiveX_ScriptDLL" );
-   GetStringFromAttribute( szGUID, sizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
+   GetStringFromAttribute( szGUID, zsizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
 
    if ( lId && szGUID[ 0 ] )
    {
@@ -1744,7 +1744,7 @@ zwTZPEUPDD_BuildActiveX_CtrlList( zVIEW vSubtask )
    BuildTZPEAXWO( vTZPEAXWO, 0, FALSE );
    CreateEntity( vTZPEAXWO, "ActiveX", zPOS_FIRST );   // blank entity
 
-   GetStringFromAttribute( szGUID, sizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
+   GetStringFromAttribute( szGUID, zsizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
    SetCursorFirstEntityByString( vTZPEAXWO, "ActiveX", "ClassId", szGUID, "" );
    return( 0 );
 }
@@ -1759,7 +1759,7 @@ zwTZPEUPDD_SetActiveX_GUID( zVIEW vSubtask )
 
    GetViewByName( &vTZPEAXWO, "TZPEAXWO", vSubtask, zLEVEL_TASK );
    GetViewByName( &vPresEnv, "TZPESRCV", vSubtask, zLEVEL_ANY );
-   GetStringFromAttribute( szGUID, sizeof( szGUID ), vTZPEAXWO, "ActiveX", "ClassId" );
+   GetStringFromAttribute( szGUID, zsizeof( szGUID ), vTZPEAXWO, "ActiveX", "ClassId" );
    if ( CompareAttributeToString( vPresEnv, "ControlDef",
                                   "GUID", szGUID ) != 0 )
    {
@@ -1831,7 +1831,7 @@ zwTZPEUPDD_BuildActiveX_EventLst( zVIEW vSubtask )
                                       vSubtask, zSINGLE );
    nRC = SetNameForView( vTZPEAXWO, "TZPEAXWO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szGUID, sizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
+   GetStringFromAttribute( szGUID, zsizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
    BuildTZPEAXWO( vTZPEAXWO, szGUID, TRUE );
    if ( SetCursorFirstEntityByString( vTZPEAXWO, "ActiveX", "ClassId",
                                       szGUID, "" ) >= zCURSOR_SET )
@@ -2056,7 +2056,7 @@ zwTZPEUPDD_MapDefOK( zVIEW vSubtask )
 
    GetViewByName( &vPresEnv, "TZPESRCV", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szMapDefTag, sizeof( szMapDefTag ), vPresEnv, "CtrlMapDef", "Tag" );
+   GetStringFromAttribute( szMapDefTag, zsizeof( szMapDefTag ), vPresEnv, "CtrlMapDef", "Tag" );
    zGetStringWithoutBlank( szMapDefTag, szMapDefTag );
    if ( zstrcmp( szMapDefTag, "") == 0 )
    {
@@ -2072,7 +2072,7 @@ zwTZPEUPDD_MapDefOK( zVIEW vSubtask )
       SetAttributeFromString( vPresEnv, "CtrlMapDef", "Tag", szMapDefTag );
    }
 
-   GetStringFromAttribute( szMapDefType, sizeof( szMapDefType ), vPresEnv, "CtrlMapDef", "Type" );
+   GetStringFromAttribute( szMapDefType, zsizeof( szMapDefType ), vPresEnv, "CtrlMapDef", "Type" );
    if ( zstrcmp( szMapDefType, "") == 0 )
    {
       MessageSend( vSubtask, "PE00114", "Presentation Environment",
@@ -2130,9 +2130,9 @@ zwTZPEUPDD_GenerateCodePostBuild( zVIEW vSubtask )
    }
 
    GetViewByName( &vPresEnv, "TZPESRCV", vSubtask, zLEVEL_ANY );
-   GetStringFromAttribute( szTag, sizeof( szTag ), vPresEnv, "ControlDef", "Tag" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vPresEnv, "ControlDef", "Tag" );
    SetWindowCaptionTitle( vSubtask, 0, szTag );
-   GetStringFromAttribute( szGUID, sizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
+   GetStringFromAttribute( szGUID, zsizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
    if ( szGUID[ 0 ] == 0 ||
         SetCursorFirstEntityByString( vTZPEAXWO, "ActiveX",
                                       "ClassId", szGUID, 0 ) < zCURSOR_SET )
@@ -2142,11 +2142,11 @@ zwTZPEUPDD_GenerateCodePostBuild( zVIEW vSubtask )
 
    while ( (pch = zstrchr( szTag, ' ' )) != 0 )
    {
-      strcpy_s( pch, sizeof( szTag ) - (pch - szTag), pch + 1 );
+      strcpy_s( pch, zsizeof( szTag ) - (pch - szTag), pch + 1 );
    }
 
    szClassName[ 0 ] = 'I';
-   strcpy_s( szClassName + 1, sizeof( szClassName + 1 ), szTag );
+   strcpy_s( szClassName + 1, zsizeof( szClassName ) - 1, szTag );
    SetCtrlText( vSubtask, "ClassName", szClassName );
    szClassName[ 32 ] = 0;
    SetCtrlTextLth( vSubtask, "ClassName", 32 );
@@ -2156,9 +2156,9 @@ zwTZPEUPDD_GenerateCodePostBuild( zVIEW vSubtask )
    SetCtrlTextLth( vSubtask, "SourceFileName", 8 );
 
    if ( SfGetApplicationForSubtask( &pApp, vSubtask ) == 0 && pApp )
-      strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+      strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
    else
-      SysGetEnvVar( szZeidonPath, "ZEIDON", sizeof( szZeidonPath ) );
+      SysGetEnvVar( szZeidonPath, "ZEIDON", zsizeof( szZeidonPath ) );
 
    SetCtrlText( vSubtask, "DirectoryName", szZeidonPath );
    return( 0 );
@@ -2181,12 +2181,12 @@ zwTZPEUPDD_GenerateCode( zVIEW vSubtask )
 
    GetViewByName( &vTZPEAXWO, "TZPEAXWO", vSubtask, zLEVEL_ANY );
    GetViewByName( &vPresEnv, "TZPESRCV", vSubtask, zLEVEL_ANY );
-   GetStringFromAttribute( szTypeLib, sizeof( szTypeLib ), vTZPEAXWO, "ActiveX", "TypeLib" );
-   GetStringFromAttribute( szScriptOper, sizeof( szScriptOper ), vPresEnv, "ControlDef", "ActiveX_Script" );
+   GetStringFromAttribute( szTypeLib, zsizeof( szTypeLib ), vTZPEAXWO, "ActiveX", "TypeLib" );
+   GetStringFromAttribute( szScriptOper, zsizeof( szScriptOper ), vPresEnv, "ControlDef", "ActiveX_Script" );
 
-   GetCtrlText( vSubtask, "ClassName", szClassName, sizeof( szClassName ) );
-   GetCtrlText( vSubtask, "SourceFileName", szSourceFileName, sizeof( szSourceFileName ) );
-   GetCtrlText( vSubtask, "DirectoryName", szPathName, sizeof( szPathName ) );
+   GetCtrlText( vSubtask, "ClassName", szClassName, zsizeof( szClassName ) );
+   GetCtrlText( vSubtask, "SourceFileName", szSourceFileName, zsizeof( szSourceFileName ) );
+   GetCtrlText( vSubtask, "DirectoryName", szPathName, zsizeof( szPathName ) );
    if ( (pch = zstrchr( szClassName, ' ' )) != 0 ||
         (pch = zstrchr( szSourceFileName, ' ' )) != 0 ||
         (pch = zstrchr( szPathName, ' ' )) != 0 )
@@ -2202,7 +2202,7 @@ zwTZPEUPDD_GenerateCode( zVIEW vSubtask )
       szPathName[ nLth ] = 0;
    }
 
-   GetStringFromAttribute( szGUID, sizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
+   GetStringFromAttribute( szGUID, zsizeof( szGUID ), vPresEnv, "ControlDef", "GUID" );
    nRC = GenerateActiveX_Code( vSubtask, szTypeLib, szScriptOper,
                                szClassName, szSourceFileName, szPathName, szGUID );
    if ( nRC )
@@ -2232,7 +2232,7 @@ zwTZPEUPDD_GenerateCode( zVIEW vSubtask )
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT /*LOCAL */  OPERATION
 zwTZPEUPDD_LoadPopup( zVIEW vSubtask,
-                      zPCHAR szEntityName,
+                      zPCHAR pchEntityName,
                       zPCHAR szActionNameForUpdate,
                       zPCHAR szActionNameForNew,
                       zPCHAR szActionNameForDelete,
@@ -2252,7 +2252,7 @@ zwTZPEUPDD_LoadPopup( zVIEW vSubtask,
    {
       nComponentIsCheckedOut = ComponentIsCheckedOut( vSubtask, vPresEnv, zSOURCE_PENV_META );
 
-      if ( CheckExistenceOfEntity( vPresEnv, szEntityName ) >= zCURSOR_SET )
+      if ( CheckExistenceOfEntity( vPresEnv, pchEntityName ) >= zCURSOR_SET )
       {
          bOpen = TRUE;
          if ( nComponentIsCheckedOut == 1 )
@@ -2504,7 +2504,7 @@ zwTZPEUPDD_PrevWindowStyle( zVIEW vSubtask )
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT /*LOCAL */  OPERATION
 zwTZPEUPDD_AcceptSubobject( zVIEW  vSubtask,
-                            zPCHAR szEntityName,
+                            zPCHAR pchEntityName,
                             zPCHAR szMessageText )
 {
    zVIEW    vPresEnv;
@@ -2516,13 +2516,13 @@ zwTZPEUPDD_AcceptSubobject( zVIEW  vSubtask,
 
    GetViewByName( &vPresEnv, "TZPESRCV", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vPresEnv, szEntityName, "Tag" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vPresEnv, pchEntityName, "Tag" );
    zGetStringWithoutBlank( szNewName, szNewName );
 
    if ( zstrcmp( szNewName, "") == 0 )
    {
-      strcpy_s( szMessage, sizeof( szMessage ), szMessageText );
-      strcat_s( szMessage, sizeof( szMessage ), " Name is required.");
+      strcpy_s( szMessage, zsizeof( szMessage ), szMessageText );
+      strcat_s( szMessage, zsizeof( szMessage ), " Name is required.");
       MessageSend( vSubtask, "PE00114", "Presentation Environment",
                    szMessage,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2532,10 +2532,10 @@ zwTZPEUPDD_AcceptSubobject( zVIEW  vSubtask,
    }
    else
    {
-      SetAttributeFromString( vPresEnv, szEntityName, "Tag", szNewName );
+      SetAttributeFromString( vPresEnv, pchEntityName, "Tag", szNewName );
    }
 
-   if ( zstrcmp( szEntityName, "ControlDef" ) == 0 &&
+   if ( zstrcmp( pchEntityName, "ControlDef" ) == 0 &&
         zstrcmp( szNewName, "INVISIBLE" ) == 0 )
    {
       bCheck = FALSE;
@@ -2544,17 +2544,17 @@ zwTZPEUPDD_AcceptSubobject( zVIEW  vSubtask,
    if ( bCheck )
    {
       CreateViewFromViewForTask( &vPresEnvCopy, vPresEnv, 0 );
-      nRC = SetCursorFirstEntityByString( vPresEnvCopy, szEntityName,
+      nRC = SetCursorFirstEntityByString( vPresEnvCopy, pchEntityName,
                                           "Tag", szNewName, "" );
-      nRC = SetCursorNextEntityByString( vPresEnvCopy, szEntityName,
+      nRC = SetCursorNextEntityByString( vPresEnvCopy, pchEntityName,
                                          "Tag", szNewName, "" );
       DropView( vPresEnvCopy );
 
       if ( nRC == zCURSOR_SET )
       {
-         strcpy_s( szMessage, sizeof( szMessage ), "A " );
-         strcat_s( szMessage, sizeof( szMessage ), szMessageText );
-         strcat_s( szMessage, sizeof( szMessage ), " already exists by this name!" );
+         strcpy_s( szMessage, zsizeof( szMessage ), "A " );
+         strcat_s( szMessage, zsizeof( szMessage ), szMessageText );
+         strcat_s( szMessage, zsizeof( szMessage ), " already exists by this name!" );
          MessageSend( vSubtask, "PE00115", "Presentation Environment",
                       szMessage,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2564,7 +2564,7 @@ zwTZPEUPDD_AcceptSubobject( zVIEW  vSubtask,
       }
    }
 
-   if ( AcceptSubobject( vPresEnv, szEntityName ) < 0 )
+   if ( AcceptSubobject( vPresEnv, pchEntityName ) < 0 )
    {
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( -1 );
@@ -2954,7 +2954,7 @@ zwTZPEUPDD_PrevColorOption( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /*LOCAL */  OPERATION
 zwTZPEUPDD_DeleteSubobject( zVIEW vSubtask,
                             zSHORT nObject,
-                            zPCHAR szEntityName,
+                            zPCHAR pchEntityName,
                             zSHORT nCloseWindow )
 {
    zVIEW  vPresEnv;
@@ -2965,13 +2965,13 @@ zwTZPEUPDD_DeleteSubobject( zVIEW vSubtask,
 
    nRC = IssueToolMsg( vSubtask, zTOOLMSG_DELETE, zTOOL_PENV,
                        nObject,
-                       vPresEnv, szEntityName, "Tag", 0 );
+                       vPresEnv, pchEntityName, "Tag", 0 );
 
    if ( nRC == zRESPONSE_YES )
    {
-      nRC = DeleteEntity( vPresEnv, szEntityName, zREPOS_PREV );
+      nRC = DeleteEntity( vPresEnv, pchEntityName, zREPOS_PREV );
       if ( nCloseWindow == 1 &&
-           CheckExistenceOfEntity( vPresEnv, szEntityName ) == zCURSOR_NULL )
+           CheckExistenceOfEntity( vPresEnv, pchEntityName ) == zCURSOR_NULL )
       {
          SetWindowActionBehavior( vSubtask, zWAB_ReturnToParentWithRefresh, 0, 0 );
       }
@@ -3752,7 +3752,7 @@ zwTZPEUPDD_PrevCtrlColor( zVIEW vSubtask )
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
 zwTZPEUPDD_LoadValidPopup( zVIEW   vSubtask,
-                           zPCHAR  szEntityName,
+                           zPCHAR  pchEntityName,
                            zPCHAR  szActionForSelect,
                            zPCHAR  szActionForDelete,
                            zPCHAR  szPopupName )
@@ -3768,7 +3768,7 @@ zwTZPEUPDD_LoadValidPopup( zVIEW   vSubtask,
    {
       nComponentIsCheckedOut = ComponentIsCheckedOut( vSubtask, vPresEnv, zSOURCE_PENV_META );
 
-      if ( CheckExistenceOfEntity( vPresEnv, szEntityName ) >= zCURSOR_SET )
+      if ( CheckExistenceOfEntity( vPresEnv, pchEntityName ) >= zCURSOR_SET )
       {
          if ( nComponentIsCheckedOut == 1 )
             bDelete = TRUE;

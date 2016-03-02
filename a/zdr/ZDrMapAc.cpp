@@ -254,7 +254,7 @@ ZMapAct::ZMapAct( ZSubtask *pZSubtask,
       zCHAR  ch = '0';
       zSHORT k;
 
-      strcpy_s( szTag, sizeof( szTag ), pCtrlDef->Tag );
+      strcpy_s( szTag, zsizeof( szTag ), pCtrlDef->Tag );
       k = (zSHORT) zstrlen( szTag );
       if ( k >= 32 )
          k = 31;
@@ -279,24 +279,24 @@ ZMapAct::ZMapAct( ZSubtask *pZSubtask,
       {
          zCHAR szMessage[ 256 ];
 
-         strcpy_s( szMessage, sizeof( szMessage ), "(drvr[" );
-         _ltoa_s( (zLONG) pZSubtask, szMessage + 6, sizeof( szMessage ) - 6, 10 );
+         strcpy_s( szMessage, zsizeof( szMessage ), "(drvr[" );
+         _ltoa_s( (zLONG) pZSubtask, szMessage + 6, zsizeof( szMessage ) - 6, 10 );
          if ( pZSubtask )
          {
             if ( pZSubtask->m_pzsDlgTag )
             {
-               strcat_s( szMessage, sizeof( szMessage ), "." );
-               strcat_s( szMessage, sizeof( szMessage ), *(pZSubtask->m_pzsDlgTag) );
+               strcat_s( szMessage, zsizeof( szMessage ), "." );
+               strcat_s( szMessage, zsizeof( szMessage ), *(pZSubtask->m_pzsDlgTag) );
             }
 
             if ( pZSubtask->m_pzsWndTag )
             {
-               strcat_s( szMessage, sizeof( szMessage ), "." );
-               strcat_s( szMessage, sizeof( szMessage ), *(pZSubtask->m_pzsWndTag) );
+               strcat_s( szMessage, zsizeof( szMessage ), "." );
+               strcat_s( szMessage, zsizeof( szMessage ), *(pZSubtask->m_pzsWndTag) );
             }
          }
 
-         strcat_s( szMessage, sizeof( szMessage ), "] Generated unique Ctrl tag ===> " );
+         strcat_s( szMessage, zsizeof( szMessage ), "] Generated unique Ctrl tag ===> " );
          TraceLineS( szMessage, *m_pzsTag );
       }
    }
@@ -304,9 +304,9 @@ ZMapAct::ZMapAct( ZSubtask *pZSubtask,
    {
 #ifdef DEBUG_ALL
       zCHAR szBuffer[ 64 ];
-      strcpy_s( szBuffer, sizeof( szBuffer ), "ZMapAct ctor for " );
-      strcat_s( szBuffer, sizeof( szBuffer ), *m_pzsTag );
-      strcat_s( szBuffer, sizeof( szBuffer ), ": " );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), "ZMapAct ctor for " );
+      strcat_s( szBuffer, zsizeof( szBuffer ), *m_pzsTag );
+      strcat_s( szBuffer, zsizeof( szBuffer ), ": " );
       TraceLineI( szBuffer, m_lIdx );
 #endif
    }
@@ -433,7 +433,7 @@ ZMapAct::ZMapAct( ZSubtask *pZSubtask,
 
 #ifdef DEBUG_RESIZE
    zCHAR szTag[ zTAG_LTH ];
-   strcpy_s( szTag, sizeof( szTag ), *m_pzsTag );
+   strcpy_s( szTag, zsizeof( szTag ), *m_pzsTag );
    if ( (szTag[ 0 ] == 'L' && szTag[ 1 ] == 'i' &&
          szTag[ 2 ] == 's' && szTag[ 3 ] == 't' &&
          szTag[ 4 ] == 'B' && szTag[ 5 ] == 'o' &&
@@ -640,7 +640,7 @@ ZMapAct::SetMapViewFromView( zVIEW v,
          {
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Entity Key Error: Control: %s  Entity: %s", (*m_pzsTag).GetString(), cpcEName );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Entity Key Error: Control: %s Entity: %s", (*m_pzsTag).GetString(), cpcEName );
             TraceLineS( "ZMapAct::SetMapViewFromView ", szMsg );
          }
 
@@ -690,7 +690,7 @@ ZMapAct::GetMappingAutoGray( zVIEW   *pvApp,
          {
             zCHAR szMsg[ 512 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Resetting (undefined) application cursor for View.Entity: %s.%s\nApplication must position cursor appropriately.",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Resetting (undefined) application cursor for View.Entity: %s.%s\nApplication must position cursor appropriately.",
                       cpcVName, cpcEName );
             MessageSend( m_pZSubtask->m_vDialog, 0,
                          "Zeidon Application", szMsg,
@@ -780,13 +780,13 @@ ZMapAct::MapFromOI( WPARAM wFlag )
          zULONG ulLth;
 
          GetAttributeDisplayLength( &ulLth, vApp, *m_pzsEName, *m_pzsAName, *m_pzsContext );
-         if ( ulLth > sizeof( szMap ) - 1 )
+         if ( ulLth > zsizeof( szMap ) - 1 )
          {
             GetAddrForAttribute( (zPCHAR *) &pch, vApp, *m_pzsEName, *m_pzsAName );
          }
          else
          {
-            zSHORT nRC = GetVariableFromAttribute( szMap, 0, zTYPE_STRING, sizeof( szMap ) - 1, vApp,
+            zSHORT nRC = GetVariableFromAttribute( szMap, 0, zTYPE_STRING, zsizeof( szMap ) - 1, vApp,
                                                    *m_pzsEName, *m_pzsAName, *m_pzsContext,
                                                    m_pzsContext->IsEmpty( ) ? zUSE_DEFAULT_CONTEXT : 0 );
             if ( nRC == zVAR_NULL )
@@ -806,9 +806,9 @@ ZMapAct::MapFromOI( WPARAM wFlag )
          pch = szMap;
       }
 
-      TranslateValue( pch, sizeof( szMap ), TRUE, 1 );
+      TranslateValue( pch, zsizeof( szMap ), TRUE, 1 );
       if ( pch[ 0 ] == 0 && (m_ulMapActFlag2 & zMAPACT_PREFILL) )
-         strcpy_s( pch, sizeof( szMap ), *m_pzsText );
+         strcpy_s( pch, zsizeof( szMap ), *m_pzsText );
 
       SetZCtrlText( this, pch );
       m_ulMapActFlag2 &= ~zMAPACT_MAPPING_FROM_OI;
@@ -1011,7 +1011,7 @@ ZMapAct::ParentResize( ZMapAct *pParent,
 
 #ifdef DEBUG_RESIZE
    zCHAR szTag[ zTAG_LTH ];
-   strcpy_s( szTag, sizeof( szTag ), *m_pzsTag );
+   strcpy_s( szTag, zsizeof( szTag ), *m_pzsTag );
 
 // if ( zstrcmp( "OK", *m_pzsTag ) == 0 || zstrcmp( "Cancel", *m_pzsTag ) == 0 )
 //    TraceLineS( "ZMapAct::ParentResize ", *m_pzsTag );
@@ -1645,7 +1645,7 @@ ZMapAct::SetZCtrlProperty( zLONG   lPropertyType,
          {
             zCHAR szNumeric[ 64 ];
 
-            _ltoa_s( ulNumericProperty, szNumeric, sizeof( szNumeric ), 10 );
+            _ltoa_s( ulNumericProperty, szNumeric, zsizeof( szNumeric ), 10 );
             SetWindowText( m_pCtrl->m_hWnd, szNumeric );
             lRC = 0;
          }

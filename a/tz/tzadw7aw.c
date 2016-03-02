@@ -172,10 +172,10 @@ AddQualToWhereSub( zPCHAR szTemplate,
    // Make sure there is at least one FactType under Identifier.
    if ( CheckExistenceOfEntity( vERD, "ER_FactType" ) < zCURSOR_SET )
    {
-      GetStringFromAttribute( szWhereEntityName, sizeof( szWhereEntityName ), vERD, "ER_Entity", "Name" );
-      strcpy_s( szMsg, sizeof( szMsg ), "Entity '" );
-      strcat_s( szMsg, sizeof( szMsg ), szWhereEntityName );
-      strcat_s( szMsg, sizeof( szMsg ), "' has no Identifier entries. " );
+      GetStringFromAttribute( szWhereEntityName, zsizeof( szWhereEntityName ), vERD, "ER_Entity", "Name" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Entity '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szWhereEntityName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' has no Identifier entries. " );
       MessageSend( vERD, "AD10409", "Autodesigner",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -207,9 +207,9 @@ AddQualToWhereSub( zPCHAR szTemplate,
                                      "EntpER_Model" );
          SetCursorFirstEntityByAttr( vObject,  "ER_Entity", "ZKey",
                                      vTempERD, "ER_Entity", "ZKey", "LOD" );
-         GetStringFromAttribute( szWhereAttributeName, sizeof( szWhereAttributeName ),
+         GetStringFromAttribute( szWhereAttributeName, zsizeof( szWhereAttributeName ),
                                  vTempERD, "ER_Attribute", "Name" );
-         GetStringFromAttribute( szWhereEntityName, sizeof( szWhereEntityName ),
+         GetStringFromAttribute( szWhereEntityName, zsizeof( szWhereEntityName ),
                                  vObject, "LOD_Entity", "Name" );
 
          strcat_s( szTemplate, 60000, "            " );
@@ -452,19 +452,19 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
 // TraceLineS("IN", "CreateSourceCode W7" );
 
    cLanguage = 'Y';
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-   GetStringFromAttribute( szFirstDataFieldName, sizeof( szFirstDataFieldName ),
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szFirstDataFieldName, zsizeof( szFirstDataFieldName ),
                            vUserSpec, "UIS_Entity", "FirstDataFieldName" );
 
    // Copy an entity name extension on the Operation name if the Operation
    // is one of the following:
    //                          ListAllSubObj
    //                          SelectSubObj
-   strcpy_s( szSourceCodeName, sizeof( szSourceCodeName ), szSourceCode );
+   strcpy_s( szSourceCodeName, zsizeof( szSourceCodeName ), szSourceCode );
    if ( zstrcmp( szSourceCode, "ListAllSubObj" ) == 0 ||
         zstrcmp( szSourceCode, "SelectSubObj" ) == 0 )
    {
-      strcat_s( szSourceCodeName, sizeof( szSourceCodeName ), szEntityName );
+      strcat_s( szSourceCodeName, zsizeof( szSourceCodeName ), szEntityName );
       szSourceCodeName[ 32 ] = 0;
    }
 
@@ -473,8 +473,8 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
    {
       CreateViewFromViewForTask( &vTempUIS, vUserSpec, 0 );
       ResetViewFromSubobject( vTempUIS );
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vTempUIS, "LOD_Entity", "Name" );
-      strcat_s( szSourceCodeName, sizeof( szSourceCodeName ), szWorkString );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vTempUIS, "LOD_Entity", "Name" );
+      strcat_s( szSourceCodeName, zsizeof( szSourceCodeName ), szWorkString );
       szSourceCodeName[ 32 ] = 0;
       DropView( vTempUIS );
    }
@@ -482,7 +482,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
    // If the Source Code name is not found in the editor file, then when the
    // operation template is created, certain information must be known about the
    // Source Code (e.g. What window and action the Source Code is called from).
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vNewDialog, "Window", "Tag" );
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vNewDialog, "Window", "Tag" );
 
    // Get the currently selected directory.
    // THIS IS ASSUMING THAT THE SOURCE CODE AND THE .PWD ETC ARE IN
@@ -491,13 +491,13 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
    GetViewByName( &vTempObj, "TZCMWKSO", vCM_Obj, zLEVEL_SUBTASK );
 
    // Borrow szFileName to permit conversion of environment strings.
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTempObj, "LPLR", "PgmSrcDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTempObj, "LPLR", "PgmSrcDir" );
    if ( szFileName[ 0 ] == 0 )
    {
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vTempObj, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTempObj, "LPLR", "MetaSrcDir" );
    }
 
-   SysConvertEnvironmentString( szFileSpec, sizeof( szFileSpec ), szFileName );
+   SysConvertEnvironmentString( szFileSpec, zsizeof( szFileSpec ), szFileName );
    nLth = zstrlen( szFileSpec );
    if ( nLth > 0 )
    {
@@ -509,14 +509,14 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
    }
 
    // Get the name of the file to edit.
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vNewDialog, "Dialog", "DLL_Name" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vNewDialog, "Dialog", "DLL_Name" );
 
    // If EXE_NAME is blank then the file name is the wdod name.
    if ( szFileName[ 0 ] == 0 )
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vNewDialog, "Dialog", "Tag" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vNewDialog, "Dialog", "Tag" );
 
-   strcat_s( szFileName, sizeof( szFileName ), ".VML" );
-   strcat_s( szFileSpec, sizeof( szFileSpec ), szFileName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".VML" );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), szFileName );
 
    fh = SysOpenFile( vUserSpec, szFileSpec, COREFILE_EXIST );
 
@@ -634,10 +634,10 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
    // a template for the operation and put it in the editor text.
    if ( NotFound == TRUE )
    {
-      GetStringFromAttribute( szDialogName, sizeof( szDialogName ), vNewDialog, "Dialog", "Tag" );
+      GetStringFromAttribute( szDialogName, zsizeof( szDialogName ), vNewDialog, "Dialog", "Tag" );
       if ( CheckExistenceOfEntity( vUserSpec, "UIS_Include" ) >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szSubObjType, sizeof( szSubObjType ),
+         GetStringFromAttribute( szSubObjType, zsizeof( szSubObjType ),
                                  vUserSpec, "UIS_Include", "SubObjectType" );
          cSubObjType = szSubObjType[ 0 ];
       }
@@ -650,29 +650,29 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
       {
          CreateViewFromViewForTask( &vTemp, vUserSpec, 0 );
          ResetViewFromSubobject( vTemp );
-         GetStringFromAttribute( szParentEntityName, sizeof( szParentEntityName ),
+         GetStringFromAttribute( szParentEntityName, zsizeof( szParentEntityName ),
                                  vTemp, "LOD_Entity", "Name" );
          DropView( vTemp );
       }
 
-      GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vNewDialog, "Window", "Tag" );
+      GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vNewDialog, "Window", "Tag" );
       CreateViewFromViewForTask( &vTempUIS, vUserSpec, 0 );
       ResetView( vTempUIS );
-      GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vTempUIS, "UIS_LOD", "Name" );
+      GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vTempUIS, "UIS_LOD", "Name" );
       DropView( vTempUIS );
 
       // Set up values for SelectSubObj...
       szIncludeListVOR[ 0 ] = 0;
       if ( CheckExistenceOfEntity( vUserSpec, "IncludeViewObjRef" ) >= zCURSOR_SET )
-         GetStringFromAttribute( szIncludeVOR, sizeof( szIncludeVOR ), vUserSpec,
+         GetStringFromAttribute( szIncludeVOR, zsizeof( szIncludeVOR ), vUserSpec,
                                  "IncludeViewObjRef", "Name" );
 
       if ( CheckExistenceOfEntity( vUserSpec, "ListViewObjRef" ) >= zCURSOR_SET )
-         GetStringFromAttribute( szIncludeListVOR, sizeof( szIncludeListVOR ), vUserSpec,
+         GetStringFromAttribute( szIncludeListVOR, zsizeof( szIncludeListVOR ), vUserSpec,
                                  "ListViewObjRef", "Name" );
 
       if ( CheckExistenceOfEntity( vUserSpec, "IncludeSubObjLOD" ) >= zCURSOR_SET )
-         GetStringFromAttribute( szIncludeObject, sizeof( szIncludeObject ), vUserSpec,
+         GetStringFromAttribute( szIncludeObject, zsizeof( szIncludeObject ), vUserSpec,
                                  "IncludeSubObjLOD", "Name" );
 
       nRC = ActivateMetaOI_ByName( vSubtask, &vObject, 0,
@@ -681,9 +681,9 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                                    szObjectName, 0 );
       if ( nRC == -1 )
       {
-         strcpy_s( szWorkString, sizeof( szWorkString ), "Activate failed on the Object - " );
-         strcat_s( szWorkString, sizeof( szWorkString ), szIncludeObject );
-         strcat_s( szWorkString, sizeof( szWorkString ), ", used in this style." );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), "Activate failed on the Object - " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), szIncludeObject );
+         strcat_s( szWorkString, zsizeof( szWorkString ), ", used in this style." );
          MessageSend( vSubtask, "AD10403", "Autodesigner",
                       szWorkString,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -697,7 +697,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
       GetViewByName( &vLOD, "LOD_Object", vSubtask, zLEVEL_TASK );
       GetIntegerFromAttribute( &lZKey, vUserSpec, "LOD_Entity", "ZKey" );
       nRC = SetCursorFirstEntityByInteger( vLOD, "LOD_Entity", "ZKey", lZKey, 0 );
-      GetStringFromAttribute( szER_Entity, sizeof( szER_Entity ), vLOD, "ER_Entity", "Name" );
+      GetStringFromAttribute( szER_Entity, zsizeof( szER_Entity ), vLOD, "ER_Entity", "Name" );
 
       nRC = SetCursorFirstEntityByString( vObject, "ER_Entity",
                                           "Name", szER_Entity, "LOD" );
@@ -727,33 +727,33 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
             SetCursorFirstEntityByInteger( vLOD, "LOD_Entity", "ZKey", lZKey, 0 );
             SetCursorFirstEntityByString( vLOD, "LOD_Attribute",
                                           "ParticipatesInKey", "Y", 0 );
-            GetStringFromAttribute( szAttribName, sizeof( szAttribName ), vLOD,
+            GetStringFromAttribute( szAttribName, zsizeof( szAttribName ), vLOD,
                                     "ER_Attribute", "Name" );
          }
       }
 
       if ( CheckExistenceOfEntity( vUserSpec, "ListSubObjLOD" ) >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szListObject, sizeof( szListObject ),
+         GetStringFromAttribute( szListObject, zsizeof( szListObject ),
                                  vUserSpec, "ListSubObjLOD", "Name" );
       }
 
       if ( cSubObjType == 'K' )
       {
-         strcpy_s( szListQualifier, sizeof( szListQualifier ), "szEntryField" );
+         strcpy_s( szListQualifier, zsizeof( szListQualifier ), "szEntryField" );
       }
       else
       {
          if ( CheckExistenceOfEntity( vUserSpec, "ListViewObjRef" ) >= zCURSOR_SET )
          {
-            GetStringFromAttribute( szListVOR, sizeof( szListVOR ),
+            GetStringFromAttribute( szListVOR, zsizeof( szListVOR ),
                                     vUserSpec, "ListViewObjRef", "Name" );
 
-            strcpy_s( szListQualifier, sizeof( szListQualifier ), szListVOR );
-            strcat_s( szListQualifier, sizeof( szListQualifier ), "." );
-            strcat_s( szListQualifier, sizeof( szListQualifier ), szEntityName );
-            strcat_s( szListQualifier, sizeof( szListQualifier ), "." );
-            strcat_s( szListQualifier, sizeof( szListQualifier ), szAttribName );
+            strcpy_s( szListQualifier, zsizeof( szListQualifier ), szListVOR );
+            strcat_s( szListQualifier, zsizeof( szListQualifier ), "." );
+            strcat_s( szListQualifier, zsizeof( szListQualifier ), szEntityName );
+            strcat_s( szListQualifier, zsizeof( szListQualifier ), "." );
+            strcat_s( szListQualifier, zsizeof( szListQualifier ), szAttribName );
          }
          else
             szListVOR[ 0 ] = 0;
@@ -762,24 +762,24 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
       if ( cSubObjType == 'P' &&
            zstrcmp( szSourceCode, "ListQualSubObj" ) == 0 )
       {
-         GetStringFromAttribute( szOperator, sizeof( szOperator ), vUserSpec, "UIS_Include", "SubObjectOperators" );
+         GetStringFromAttribute( szOperator, zsizeof( szOperator ), vUserSpec, "UIS_Include", "SubObjectOperators" );
          if ( szOperator[ 0 ] == 0 )
-            strcpy_s( szOperator, sizeof( szOperator ), "=" );
+            strcpy_s( szOperator, zsizeof( szOperator ), "=" );
 
-         strcpy_s( szObjectKeyName, sizeof( szObjectKeyName ), "" );
-         strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), szListVOR );
-         strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), "." );
-         strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), szEntityName );
-         strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), "." );
-         strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), szAttribName );
-         strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), " " );
-         strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), szOperator );
-         strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), " " );
-         strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), "szEntryField" );
-      // strcat_s( szObjectKeyName, sizeof( szObjectKeyName ), "\"" );
+         strcpy_s( szObjectKeyName, zsizeof( szObjectKeyName ), "" );
+         strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), szListVOR );
+         strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), "." );
+         strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), szEntityName );
+         strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), "." );
+         strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), szAttribName );
+         strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), " " );
+         strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), szOperator );
+         strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), " " );
+         strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), "szEntryField" );
+      // strcat_s( szObjectKeyName, zsizeof( szObjectKeyName ), "\"" );
       }
       else
-         strcpy_s( szObjectKeyName, sizeof( szObjectKeyName ), "\"\"" );
+         strcpy_s( szObjectKeyName, zsizeof( szObjectKeyName ), "\"\"" );
 
       /* Create an operation template. */
       /* Get the information from the editor object about where
@@ -814,12 +814,12 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
             GetIntegerFromAttribute( &lZKey, vObject, "ER_Entity", "ZKey" );
             SetCursorFirstEntityByInteger( vObject2, "ER_Entity", "ZKey",
                                            lZKey, "LOD" );
-            GetStringFromAttribute( szSubobjEntity, sizeof( szSubobjEntity ), vObject2, "LOD_Entity", "Name" );
-            strcpy_s( szListQualifier, sizeof( szListQualifier ), szListVOR );
-            strcat_s( szListQualifier, sizeof( szListQualifier ), "." );
-            strcat_s( szListQualifier, sizeof( szListQualifier ), szSubobjEntity );
-            strcat_s( szListQualifier, sizeof( szListQualifier ), "." );
-            strcat_s( szListQualifier, sizeof( szListQualifier ), szAttribName );
+            GetStringFromAttribute( szSubobjEntity, zsizeof( szSubobjEntity ), vObject2, "LOD_Entity", "Name" );
+            strcpy_s( szListQualifier, zsizeof( szListQualifier ), szListVOR );
+            strcat_s( szListQualifier, zsizeof( szListQualifier ), "." );
+            strcat_s( szListQualifier, zsizeof( szListQualifier ), szSubobjEntity );
+            strcat_s( szListQualifier, zsizeof( szListQualifier ), "." );
+            strcat_s( szListQualifier, zsizeof( szListQualifier ), szAttribName );
          }
 
          strcat_s( szTemplate, 60000, "\r\n" );
@@ -847,8 +847,8 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
          }
 
          // Add the temporary view for the SET CURSOR statement.
-         strcpy_s( szSetCursorObjectName, sizeof( szSetCursorObjectName ), szObjectName );
-         strcat_s( szSetCursorObjectName, sizeof( szSetCursorObjectName ), "T" );
+         strcpy_s( szSetCursorObjectName, zsizeof( szSetCursorObjectName ), szObjectName );
+         strcat_s( szSetCursorObjectName, zsizeof( szSetCursorObjectName ), "T" );
          szSetCursorObjectName[ 32 ] = 0;
          strcat_s( szTemplate, 60000, "\r\n" );
          strcat_s( szTemplate, 60000, "   VIEW " );
@@ -930,7 +930,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                CreateViewFromViewForTask( &vUserSpecWithin, vUserSpec, 0 );
                ResetViewFromSubobject( vUserSpecWithin );
                ResetViewFromSubobject( vUserSpecWithin );
-               GetStringFromAttribute( szWithinEntityName, sizeof( szWithinEntityName ),
+               GetStringFromAttribute( szWithinEntityName, zsizeof( szWithinEntityName ),
                                        vUserSpecWithin, "LOD_Entity", "Name" );
                DropView( vUserSpecWithin );
                strcat_s( szTemplate, 60000, " WITHIN " );
@@ -982,7 +982,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
             /* If this object is a work object then it will not have
                ER_RelLink, default szCardinality to many. */
             if ( CheckExistenceOfEntity( vObject, "ER_RelLink" ) == 0 )
-               GetStringFromAttribute( szCardinality, sizeof( szCardinality ), vObject,
+               GetStringFromAttribute( szCardinality, zsizeof( szCardinality ), vObject,
                                        "ER_RelLink", "CardMax" );
             else
                szCardinality[ 0 ] = 0; /* many, not 1 */
@@ -1128,7 +1128,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
             {
                nRC = SetCursorNextEntity( vNewDialog, "Control", 0 );
             }
-            GetStringFromAttribute( szEditboxName, sizeof( szEditboxName ),
+            GetStringFromAttribute( szEditboxName, zsizeof( szEditboxName ),
                                     vNewDialog, "Control", "Tag" );
             ResetViewFromSubobject( vNewDialog );
             CL( szTemplate, "   SetFocusToCtrl ( vSubtask, \"", szEditboxName, "\" )", "", "" );
@@ -1291,7 +1291,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                   strcat_s( szTemplate, 60000, "   ELSE" );
                   strcat_s( szTemplate, 60000, "\r\n" );
 
-                  GetStringFromAttribute( szLikeFlag, sizeof( szLikeFlag ), vUserSpec,
+                  GetStringFromAttribute( szLikeFlag, zsizeof( szLikeFlag ), vUserSpec,
                                           "WndDesign", "ListQualLikeFlag" );
                   if ( szLikeFlag[ 0 ] == 'L' )
                   {
@@ -1307,9 +1307,9 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                   // Create the WHERE qualification from the first I_LOD_Attribute
                   // entry for the UIS_Entity.
                   SetCursorFirstEntity( vUserSpec, "I_LOD_Entity", "UIS_Entity" );
-                  GetStringFromAttribute( szWhereEntityName, sizeof( szWhereEntityName ),
+                  GetStringFromAttribute( szWhereEntityName, zsizeof( szWhereEntityName ),
                                           vUserSpec, "I_LOD_Entity", "Name" );
-                  GetStringFromAttribute( szWhereAttributeName, sizeof( szWhereAttributeName ),
+                  GetStringFromAttribute( szWhereAttributeName, zsizeof( szWhereAttributeName ),
                                           vUserSpec, "I_ER_Attribute", "Name" );
                   strcat_s( szTemplate, 60000, "               " );
                   strcat_s( szTemplate, 60000, szListVOR );
@@ -1434,7 +1434,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                CL( szTemplate, "      ACTIVATE ", szListVOR, " RootOnlyMultiple ", "", "" );
                CL( szTemplate, "   ELSE", "", "", "", "" );
 
-               GetStringFromAttribute( szLikeFlag, sizeof( szLikeFlag ), vUserSpec,
+               GetStringFromAttribute( szLikeFlag, zsizeof( szLikeFlag ), vUserSpec,
                                        "WndDesign", "ListQualLikeFlag" );
                if ( szLikeFlag[ 0 ] == 'L' )
                {
@@ -1446,9 +1446,9 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                // Create the WHERE qualification from the first L_LOD_Attribute
                // entry for the UIS_Entity.
                SetCursorFirstEntity( vUserSpec, "L_LOD_Entity", "UIS_Entity" );
-               GetStringFromAttribute( szWhereEntityName, sizeof( szWhereEntityName ),
+               GetStringFromAttribute( szWhereEntityName, zsizeof( szWhereEntityName ),
                                        vUserSpec, "L_LOD_Entity", "Name" );
-               GetStringFromAttribute( szWhereAttributeName, sizeof( szWhereAttributeName ),
+               GetStringFromAttribute( szWhereAttributeName, zsizeof( szWhereAttributeName ),
                                        vUserSpec, "L_ER_Attribute", "Name" );
                strcat_s( szTemplate, 60000, "               " );
                strcat_s( szTemplate, 60000, szListVOR );
@@ -1487,7 +1487,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
             // Create the WHERE qualification for repositioning the list view
             // on the entity last updated.
             SetCursorFirstEntity( vUserSpec, "LOD_Entity", "UIS_Entity" );
-            GetStringFromAttribute( szWhereEntityName, sizeof( szWhereEntityName ),
+            GetStringFromAttribute( szWhereEntityName, zsizeof( szWhereEntityName ),
                                     vUserSpec, "LOD_Entity", "Name" );
 
             CL( szTemplate, "", "", "", "", "" );
@@ -1554,7 +1554,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
          {
             CL( szTemplate, "   ACTIVATE ", szObjectName, "  EMPTY", "", "" );
             CL( szTemplate, "   NAME VIEW ", szObjectName, " \"", szObjectName, "\"" );
-            GetStringFromAttribute( szEntityName, sizeof( szEntityName ),
+            GetStringFromAttribute( szEntityName, zsizeof( szEntityName ),
                                     vUserSpec, "LOD_Entity", "Name" );
             CL( szTemplate, "   CREATE ENTITY ", szObjectName, ".", szEntityName, "" );
          }
@@ -1595,7 +1595,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                                      vUserSpec, vObject );
          if ( nRC >= 0 )
          {
-            GetStringFromAttribute( szEntityName, sizeof( szEntityName ),
+            GetStringFromAttribute( szEntityName, zsizeof( szEntityName ),
                                     vUserSpec, "LOD_Entity", "Name" );
             CL( szTemplate, "   AcceptSubobject ( ", szObjectName, ",\"", szEntityName, "\" )" );
             CL( szTemplate, "   IF nZRetCode < 0", "", "", "", "" );
@@ -1648,7 +1648,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                                      vObject );
          if ( nRC >= 0 )
          {
-            GetStringFromAttribute( szWhereEntityName, sizeof( szWhereEntityName ),
+            GetStringFromAttribute( szWhereEntityName, zsizeof( szWhereEntityName ),
                                     vUserSpec, "LOD_Entity", "Name" );
             CL( szTemplate, "   nRC = MessagePrompt( vSubtask,", "", "", "", "" );
             CL( szTemplate, "                        \"AD001\",", "", "", "", "" );
@@ -1709,13 +1709,13 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
          nRC = SetCursorFirstEntity( vUserSpec, "UIS_Entity", 0 );
          while ( nRC >= zCURSOR_SET )
          {
-            GetStringFromAttribute( szCase, sizeof( szCase ), vUserSpec,
+            GetStringFromAttribute( szCase, zsizeof( szCase ), vUserSpec,
                                     "UIS_Entity", "AutodesignCaseType" );
             if ( szCase[ 0 ] == '5' || szCase[ 0 ] == '6' )
             {
-               GetStringFromAttribute( szListVOR, sizeof( szListVOR ), vUserSpec,
+               GetStringFromAttribute( szListVOR, zsizeof( szListVOR ), vUserSpec,
                                        "ListViewObjRef", "Name" );
-               GetStringFromAttribute( szListObject, sizeof( szListObject ), vUserSpec,
+               GetStringFromAttribute( szListObject, zsizeof( szListObject ), vUserSpec,
                                        "ListSubObjLOD", "Name" );
 
                // It is possible that two Case 5/6 entries use the same List view.
@@ -1727,7 +1727,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                nRC = SetCursorPrevEntity( vTempUIS, "UIS_Entity", 0 );
                while ( nRC >= zCURSOR_SET )
                {
-                  GetStringFromAttribute( szWkCase, sizeof( szWkCase ),
+                  GetStringFromAttribute( szWkCase, zsizeof( szWkCase ),
                                           vTempUIS, "UIS_Entity", "AutodesignCaseType" );
                   if ( (szWkCase[ 0 ] == '5' || szWkCase[ 0 ] == '6') &&
                        CompareAttributeToAttribute( vTempUIS,
@@ -1770,13 +1770,13 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
             nRC = SetCursorFirstEntity( vUserSpec, "UIS_Entity", 0 );
             while ( nRC >= zCURSOR_SET )
             {
-               GetStringFromAttribute( szCase, sizeof( szCase ), vUserSpec,
+               GetStringFromAttribute( szCase, zsizeof( szCase ), vUserSpec,
                                        "UIS_Entity", "AutodesignCaseType" );
                if ( szCase[ 0 ] == '5' || szCase[ 0 ] == '6' )
                {
-                  GetStringFromAttribute( szListVOR, sizeof( szListVOR ), vUserSpec,
+                  GetStringFromAttribute( szListVOR, zsizeof( szListVOR ), vUserSpec,
                                           "ListViewObjRef", "Name" );
-                  GetStringFromAttribute( szListObject, sizeof( szListObject ), vUserSpec,
+                  GetStringFromAttribute( szListObject, zsizeof( szListObject ), vUserSpec,
                                           "ListSubObjLOD", "Name" );
 
                   // It is possible that two Case 5/6 entries use the same List view.
@@ -1788,7 +1788,7 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
                   nRC = SetCursorPrevEntity( vTempUIS, "UIS_Entity", 0 );
                   while ( nRC >= zCURSOR_SET )
                   {
-                     GetStringFromAttribute( szWkCase, sizeof( szWkCase ),
+                     GetStringFromAttribute( szWkCase, zsizeof( szWkCase ),
                                              vTempUIS, "UIS_Entity", "AutodesignCaseType" );
                      if ( (szWkCase[ 0 ] == '5' || szWkCase[ 0 ] == '6') &&
                           CompareAttributeToAttribute( vTempUIS, "ListViewObjRef", "Name", vUserSpec,
@@ -1869,9 +1869,9 @@ ofnTZWDLGSO_CreateSourceCode( zVIEW  vSubtask,
       // Write out the contents of the buffer to the file.
       if ( lLth != lRC )
       {
-         strcat_s( szFileSpec, sizeof( szFileSpec ), "\n\nAttempt to write " );
-         zltoa( lLth, szFileSpec + zstrlen( szFileSpec ), sizeof( szFileSpec ) - zstrlen( szFileSpec ) );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), " bytes." );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), "\n\nAttempt to write " );
+         zltoa( lLth, szFileSpec + zstrlen( szFileSpec ), zsizeof( szFileSpec ) - zstrlen( szFileSpec ) );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), " bytes." );
          MessageSend( vSubtask, "AD10405", "Autodesigner",
                       szFileSpec,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );

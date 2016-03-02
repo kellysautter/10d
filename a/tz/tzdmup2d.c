@@ -190,7 +190,7 @@ GrayGroupControls( zVIEW     vSubtask )
             { 
                //:SET CURSOR FIRST vCM_ListGroup.W_MetaDef
                //:           WHERE vCM_ListGroup.W_MetaDef.Name = vTZDGSRCO_DETAIL.DomainGroup.Name
-               GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTZDGSRCO_DETAIL, "DomainGroup", "Name" );
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTZDGSRCO_DETAIL, "DomainGroup", "Name" );
                RESULT = SetCursorFirstEntityByString( vCM_ListGroup, "W_MetaDef", "Name", szTempString_0, "" );
                //:IF RESULT < zCURSOR_SET // new Domain Group
                if ( RESULT < zCURSOR_SET )
@@ -283,7 +283,7 @@ NewDomainGroup( zVIEW     vSubtask )
       //:// Check that the domain name is unique.
       //:SET CURSOR FIRST vCM_List.W_MetaDef
       //:           WHERE vCM_List.W_MetaDef.Name = vProfileXFER.DM.DomainName
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vProfileXFER, "DM", "DomainName" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vProfileXFER, "DM", "DomainName" );
       RESULT = SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name", szTempString_0, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )

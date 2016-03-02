@@ -1227,7 +1227,7 @@ oTZRPSRCO_XSLT_GetStyleShape( zVIEW     vReportDef,
 
 
    //:TraceLineS("**** XSLT_GetStyleShape *** ", vReportDef.Control.Tag )
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vReportDef, "Control", "Tag" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vReportDef, "Control", "Tag" );
    TraceLineS( "**** XSLT_GetStyleShape *** ", szTempString_0 );
 
    //:szStyle = ""
@@ -1938,7 +1938,7 @@ oTZRPSRCO_XSLT_GroupRecur( zVIEW     vReportDefRoot,
          //:vReportDefRoot.XSLT_WorkRow.PSDLG_Y = vReportDef.Control.PSDLG_Y
          SetAttributeFromAttribute( vReportDefRoot, "XSLT_WorkRow", "PSDLG_Y", vReportDef, "Control", "PSDLG_Y" );
          //:vReportDefRoot.XSLT_WorkRow.Tag     = vReportDef.Control.Tag + "Parent"
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vReportDef, "Control", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vReportDef, "Control", "Tag" );
          ZeidonStringConcat( szTempString_0, 1, 0, "Parent", 1, 0, 33 );
          SetAttributeFromString( vReportDefRoot, "XSLT_WorkRow", "Tag", szTempString_0 );
       } 
@@ -4080,7 +4080,7 @@ oTZRPSRCO_GenerateXSLT( zVIEW     SourceReport )
 
    //:// Open XSLT output file.
    //:SysReadZeidonIni( -1, "[Workstation]", "XSLTDirectory", szPathName )
-   SysReadZeidonIni( -1, "[Workstation]", "XSLTDirectory", szPathName, sizeof( szPathName ) );
+   SysReadZeidonIni( -1, "[Workstation]", "XSLTDirectory", szPathName, zsizeof( szPathName ) );
 
    //://szFileName = "c:\temp\XSLT_OutputTest.xsl"
    //:szFileName = szPathName + vReportDef.Report.Tag + ".xsl"
@@ -4114,7 +4114,7 @@ oTZRPSRCO_GenerateXSLT( zVIEW     SourceReport )
       //:GET VIEW vTaskLPLR NAMED "TaskLPLR"
       RESULT = GetViewByName( &vTaskLPLR, "TaskLPLR", SourceReport, zLEVEL_TASK );
       //:szFileName = vTaskLPLR.LPLR.MetaSrcDir + "\"
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 201 );
       //:szFileName = szFileName + vReportDef.DrivingLOD.Name + ".lod"
       GetVariableFromAttribute( szTempString_1, 0, 'S', 33, vReportDef, "DrivingLOD", "Name", "", 0 );

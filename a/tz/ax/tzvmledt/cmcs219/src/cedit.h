@@ -2,7 +2,7 @@
 #define __CEDIT_H__
 
 #define HAS_FLAG( val, flag ) ( ( val & flag ) == flag )
-#define ARRAY_SIZE( array ) ( sizeof( array ) / sizeof( array[ 0 ] ) )
+#define ARRAY_SIZE( array ) ( zsizeof( array ) / zsizeof( array[ 0 ] ) )
 
 #include "buffer.h"
 #include "editsel.h"

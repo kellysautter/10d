@@ -210,7 +210,7 @@ oTZWDLGSO_ConvertCtrlTextToWeb( zVIEW vTZWDLGSO  /*  BASED ON LOD TZWDLGSO  */ )
          if ( *(pszIn + 1) == '&' )
          {
             // This is a double apersand, so convert to "&amp;".
-            strcpy_s( pszOut, sizeof( NewText ) - (pszOut - NewText), "&amp;" );
+            strcpy_s( pszOut, zsizeof( NewText ) - (pszOut - NewText), "&amp;" );
             pszIn  = pszIn + 2;
             pszOut = pszOut + 5;
          }

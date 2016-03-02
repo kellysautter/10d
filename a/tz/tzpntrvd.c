@@ -415,7 +415,7 @@ PASTE_WindowFromClipboard( zVIEW     ViewToWindow )
 
    //:// Check for duplicate name of Source window for paste
    //:SET CURSOR FIRST TargetDialog.Window WHERE TargetDialog.Window.Tag = TaskLPLR.LPLR.wCopyPasteWindowName
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TaskLPLR, "LPLR", "wCopyPasteWindowName" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TaskLPLR, "LPLR", "wCopyPasteWindowName" );
    RESULT = SetCursorFirstEntityByString( TargetDialog, "Window", "Tag", szTempString_0, "" );
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
@@ -454,7 +454,7 @@ PASTE_WindowFromClipboard( zVIEW     ViewToWindow )
    //:NAME VIEW SourceDialog "SourceDialog"
    SetNameForView( SourceDialog, "SourceDialog", 0, zLEVEL_TASK );
    //:SET CURSOR FIRST SourceDialog.Window WHERE SourceDialog.Window.Tag = TaskLPLR.LPLR.wCopyPasteWindowName
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TaskLPLR, "LPLR", "wCopyPasteWindowName" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TaskLPLR, "LPLR", "wCopyPasteWindowName" );
    RESULT = SetCursorFirstEntityByString( SourceDialog, "Window", "Tag", szTempString_0, "" );
 
    //:// Go to copy window.
@@ -471,7 +471,7 @@ PASTE_WindowFromClipboard( zVIEW     ViewToWindow )
       //:SET CURSOR FIRST TargetDialog.Window WHERE TargetDialog.Window.Tag = szTag
       RESULT = SetCursorFirstEntityByString( TargetDialog, "Window", "Tag", szTag, "" );
       //:fnPainterCall( 11, ViewToWindow, 0, szTag )
-      fnPainterCall( 11, ViewToWindow, 0, szTag, sizeof( szTag ) );
+      fnPainterCall( 11, ViewToWindow, 0, szTag, zsizeof( szTag ) );
       //:ELSE
    } 
    else

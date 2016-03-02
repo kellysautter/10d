@@ -53,7 +53,7 @@
 #endif
 
 #ifndef FORTIFY_ALIGNMENT
-    #define FORTIFY_ALIGNMENT                    sizeof(double)
+    #define FORTIFY_ALIGNMENT                    zsizeof(double)
 #endif
 
 #ifndef FORTIFY_BEFORE_SIZE

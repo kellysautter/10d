@@ -335,7 +335,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
    ZeidonStringConcat( szSystemIniApplName, 1, 0, szLPLR_Name, 1, 0, 65 );
    ZeidonStringConcat( szSystemIniApplName, 1, 0, "]", 1, 0, 65 );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebMinExtentY", szTempStr )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebMinExtentY", szTempStr, sizeof( szTempStr ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebMinExtentY", szTempStr, zsizeof( szTempStr ) );
    //:lMinExtentY = zatol( szTempStr )
    lMinExtentY = zatol( szTempStr );
 
@@ -347,11 +347,11 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
    ZeidonStringConcat( szSystemIniApplName, 1, 0, szTempString_0, 1, 0, 65 );
    ZeidonStringConcat( szSystemIniApplName, 1, 0, "]", 1, 0, 65 );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebDebugView", szWebDebugView )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebDebugView", szWebDebugView, sizeof( szWebDebugView ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebDebugView", szWebDebugView, zsizeof( szWebDebugView ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole, sizeof( szKeyRole ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole, zsizeof( szKeyRole ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebDirectory", szDirectoryName )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebDirectory", szDirectoryName, sizeof( szDirectoryName ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebDirectory", szDirectoryName, zsizeof( szDirectoryName ) );
    //:IF szDirectoryName = ""
    if ( ZeidonStringCompare( szDirectoryName, 1, 0, "", 1, 0, 1025 ) == 0 )
    {
@@ -368,7 +368,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
    //:END
 
    //:SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace )
-   SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace, sizeof( szTrace ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace, zsizeof( szTrace ) );
    //:TraceLineS("** TraceLevel ** ", szTrace)
    TraceLineS( "** TraceLevel ** ", szTrace );
    //:IF  szTrace = "1"
@@ -391,7 +391,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
    ZeidonStringConcat( szFileName, 1, 0, szFormName, 1, 0, 1025 );
    ZeidonStringConcat( szFileName, 1, 0, ".jsp", 1, 0, 1025 );
    //:SysConvertEnvironmentString( szJSP_FileName, szFileName )
-   SysConvertEnvironmentString( szJSP_FileName, sizeof( szJSP_FileName ), szFileName );
+   SysConvertEnvironmentString( szJSP_FileName, zsizeof( szJSP_FileName ), szFileName );
 
    //:TraceLineS( "GenerateJSP writing to file: ", szJSP_FileName )
    TraceLineS( "GenerateJSP writing to file: ", szJSP_FileName );
@@ -1961,7 +1961,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
       else
       {
          //:ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
-         GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), vDialog, "ReusableSideDialog", "Tag" );
+         GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), vDialog, "ReusableSideDialog", "Tag" );
          ActivateMetaOI_ByName( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, szTempString_5, 0 );
          //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
          GetIntegerFromAttribute( &lTempInteger_7, vDialog, "ReusableSideWindow", "ZKey" );
@@ -2725,7 +2725,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
 
    //:// DKS 2015.06.19 - Get the InsertPrebuildJavascriptInlineFlag.
    //:SysReadZeidonIni( -1, szSystemIniApplName, "InsertPrebuildJavascriptInlineFlag", szInsertPrebuildJavascriptInline )
-   SysReadZeidonIni( -1, szSystemIniApplName, "InsertPrebuildJavascriptInlineFlag", szInsertPrebuildJavascriptInline, sizeof( szInsertPrebuildJavascriptInline ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "InsertPrebuildJavascriptInlineFlag", szInsertPrebuildJavascriptInline, zsizeof( szInsertPrebuildJavascriptInline ) );
 
    //:szJavaScript = ""
    ZeidonStringCopy( szJavaScript, 1, 0, "", 1, 0, 10001 );
@@ -3152,7 +3152,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
       //:szJS_FileName = ""
       ZeidonStringCopy( szJS_FileName, 1, 0, "", 1, 0, 1025 );
       //:SysReadZeidonIni( -1, szSystemIniApplName, "TinyMCEJavaScript", szJS_FileName )
-      SysReadZeidonIni( -1, szSystemIniApplName, "TinyMCEJavaScript", szJS_FileName, sizeof( szJS_FileName ) );
+      SysReadZeidonIni( -1, szSystemIniApplName, "TinyMCEJavaScript", szJS_FileName, zsizeof( szJS_FileName ) );
       //:IF szJS_FileName = ""
       if ( ZeidonStringCompare( szJS_FileName, 1, 0, "", 1, 0, 1025 ) == 0 )
       {
@@ -3990,7 +3990,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
       lControl = zQUAL_STRING + zPOS_FIRST + zRECURS;
       //:nRC = SetEntityCursor( vDialogTemp, "Control", "Tag", lControl,
       //:                       vDialog.Window.DfltButton, "", "", 0, "Window", "" )
-      GetStringFromAttribute( szTempString_19, sizeof( szTempString_19 ), vDialog, "Window", "DfltButton" );
+      GetStringFromAttribute( szTempString_19, zsizeof( szTempString_19 ), vDialog, "Window", "DfltButton" );
       nRC = SetEntityCursor( vDialogTemp, "Control", "Tag", lControl, szTempString_19, "", "", 0, "Window", "" );
       //:IF nRC >= zCURSOR_SET
       if ( nRC >= zCURSOR_SET )
@@ -5330,7 +5330,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
                            //:CreateViewFromView( vDialogTemp2, vDialogRoot )
                            CreateViewFromView( &vDialogTemp2, vDialogRoot );
                            //:SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.Tag = vDialog.Action.WindowName
-                           GetStringFromAttribute( szTempString_25, sizeof( szTempString_25 ), vDialog, "Action", "WindowName" );
+                           GetStringFromAttribute( szTempString_25, zsizeof( szTempString_25 ), vDialog, "Action", "WindowName" );
                            RESULT = SetCursorFirstEntityByString( vDialogTemp2, "Window", "Tag", szTempString_25, "" );
 
                            //:IF RESULT >= zCURSOR_SET
@@ -5545,7 +5545,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
       else
       {
          //:ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
-         GetStringFromAttribute( szTempString_27, sizeof( szTempString_27 ), vDialog, "ReusableSideDialog", "Tag" );
+         GetStringFromAttribute( szTempString_27, zsizeof( szTempString_27 ), vDialog, "ReusableSideDialog", "Tag" );
          ActivateMetaOI_ByName( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, szTempString_27, 0 );
          //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
          GetIntegerFromAttribute( &lTempInteger_41, vDialog, "ReusableSideWindow", "ZKey" );
@@ -6043,7 +6043,7 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
       else
       {
          //:ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META,  zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
-         GetStringFromAttribute( szTempString_29, sizeof( szTempString_29 ), vDialog, "ReusableSideDialog", "Tag" );
+         GetStringFromAttribute( szTempString_29, zsizeof( szTempString_29 ), vDialog, "ReusableSideDialog", "Tag" );
          ActivateMetaOI_ByName( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, szTempString_29, 0 );
          //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
          GetIntegerFromAttribute( &lTempInteger_51, vDialog, "ReusableSideWindow", "ZKey" );

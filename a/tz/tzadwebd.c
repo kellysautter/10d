@@ -529,10 +529,10 @@ AUTODESIGN_Group( zVIEW     ViewToWindow )
    //:GET VIEW AD_Base NAMED "AD_Base"
    RESULT = GetViewByName( &AD_Base, "AD_Base", ViewToWindow, zLEVEL_TASK );
    //:TraceLineS( "*** BaseWindowName: ", TZWINDOWL.AutoDesignGroup.BaseWindowName )
-   GetStringFromAttribute( szTempString_0,  sizeof( szTempString_0 ), TZWINDOWL, "AutoDesignGroup", "BaseWindowName" );
+   GetStringFromAttribute( szTempString_0,  zsizeof( szTempString_0 ), TZWINDOWL, "AutoDesignGroup", "BaseWindowName" );
    TraceLineS( "*** BaseWindowName: ", szTempString_0 );
    //:SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = TZWINDOWL.AutoDesignGroup.BaseWindowName
-   GetStringFromAttribute( szTempString_1,  sizeof( szTempString_1 ), TZWINDOWL, "AutoDesignGroup", "BaseWindowName" );
+   GetStringFromAttribute( szTempString_1,  zsizeof( szTempString_1 ), TZWINDOWL, "AutoDesignGroup", "BaseWindowName" );
    RESULT = SetCursorFirstEntityByString( AD_Base, "Window", "Tag", szTempString_1, "" );
    //:IF RESULT < zCURSOR_SET
    if ( RESULT < zCURSOR_SET )
@@ -549,10 +549,10 @@ AUTODESIGN_Group( zVIEW     ViewToWindow )
 
    //:END
    //:TraceLineS( "*** BaseGroupName: ", TZWINDOWL.AutoDesignGroup.BaseGroupName )
-   GetStringFromAttribute( szTempString_1,  sizeof( szTempString_1 ), TZWINDOWL, "AutoDesignGroup", "BaseGroupName" );
+   GetStringFromAttribute( szTempString_1,  zsizeof( szTempString_1 ), TZWINDOWL, "AutoDesignGroup", "BaseGroupName" );
    TraceLineS( "*** BaseGroupName: ", szTempString_1 );
    //:SET CURSOR FIRST AD_Base.Control WHERE AD_Base.Control.Tag = TZWINDOWL.AutoDesignGroup.BaseGroupName
-   GetStringFromAttribute( szTempString_2,  sizeof( szTempString_2 ), TZWINDOWL, "AutoDesignGroup", "BaseGroupName" );
+   GetStringFromAttribute( szTempString_2,  zsizeof( szTempString_2 ), TZWINDOWL, "AutoDesignGroup", "BaseGroupName" );
    RESULT = SetCursorFirstEntityByString( AD_Base, "Control", "Tag", szTempString_2, "" );
    //:IF RESULT < zCURSOR_SET
    if ( RESULT < zCURSOR_SET )
@@ -692,7 +692,7 @@ AUTODESIGN_Group( zVIEW     ViewToWindow )
       //:szTag = TZWINDOWL.Window.Tag
       GetVariableFromAttribute( szTag, 0, 'S', 33, TZWINDOWL, "Window", "Tag", "", 0 );
       //:fnPainterCall( 8, ViewToWindow, 0, szTag )
-      fnPainterCall( 8, ViewToWindow, 0, szTag, sizeof( szTag ) );
+      fnPainterCall( 8, ViewToWindow, 0, szTag, zsizeof( szTag ) );
       //:ELSE
    }
    else
@@ -703,7 +703,7 @@ AUTODESIGN_Group( zVIEW     ViewToWindow )
       //:szTag = TZWINDOWL.Window.Tag
       GetVariableFromAttribute( szTag, 0, 'S', 33, TZWINDOWL, "Window", "Tag", "", 0 );
       //:fnPainterCall( 8, ViewToWindow, 0, szTag )
-      fnPainterCall( 8, ViewToWindow, 0, szTag, sizeof( szTag ) );
+      fnPainterCall( 8, ViewToWindow, 0, szTag, zsizeof( szTag ) );
    }
 
    //:END
@@ -897,7 +897,7 @@ o_AutodesignGridCtrl( zVIEW     TZWINDOWL,
 
          //:// Set basic Control values.
          //:SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = AD_Base.ControlDef.Tag
-         GetStringFromAttribute( szTempString_2,  sizeof( szTempString_2 ), AD_Base, "ControlDef", "Tag" );
+         GetStringFromAttribute( szTempString_2,  zsizeof( szTempString_2 ), AD_Base, "ControlDef", "Tag" );
          RESULT = SetCursorFirstEntityByString( TZPESRCO, "ControlDef", "Tag", szTempString_2, "" );
          //:CreateMetaEntity( TZWINDOWL, TZCONTROL, "Control", zPOS_AFTER )
          CreateMetaEntity( TZWINDOWL, TZCONTROL, "Control", zPOS_AFTER );
@@ -929,10 +929,10 @@ o_AutodesignGridCtrl( zVIEW     TZWINDOWL,
          if ( lTempInteger_2 == 0 )
          {
             //:SET CURSOR FIRST AD_BaseRoot.Action WHERE AD_BaseRoot.Action.Tag = AD_Base.EventAct.Tag
-            GetStringFromAttribute( szTempString_3,  sizeof( szTempString_3 ), AD_Base, "EventAct", "Tag" );
+            GetStringFromAttribute( szTempString_3,  zsizeof( szTempString_3 ), AD_Base, "EventAct", "Tag" );
             RESULT = SetCursorFirstEntityByString( AD_BaseRoot, "Action", "Tag", szTempString_3, "" );
             //:szActionName = AD_BaseRoot.Action.Tag + szActionSuffix
-            GetStringFromAttribute( szActionName,  sizeof( szActionName ), AD_BaseRoot, "Action", "Tag" );
+            GetStringFromAttribute( szActionName,  zsizeof( szActionName ), AD_BaseRoot, "Action", "Tag" );
             ZeidonStringConcat( szActionName, 1, 0, szActionSuffix, 1, 0, 101 );
             //:SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = szActionName
             RESULT = SetCursorFirstEntityByString( TZWINDOWL, "Action", "Tag", szActionName, "" );
@@ -1087,7 +1087,7 @@ o_AutodesignGridCtrl( zVIEW     TZWINDOWL,
    //:CreateMetaEntity( TZWINDOWL, TZCONTROL, "CtrlMap", zPOS_AFTER )
    CreateMetaEntity( TZWINDOWL, TZCONTROL, "CtrlMap", zPOS_AFTER );
    //:SET CURSOR FIRST SelectedLOD.LOD_Entity WHERE SelectedLOD.LOD_Entity.Name = TZWINDOWL.AutoDesignGroup.TopLevelEntityName
-   GetStringFromAttribute( szTempString_5,  sizeof( szTempString_5 ), TZWINDOWL, "AutoDesignGroup", "TopLevelEntityName" );
+   GetStringFromAttribute( szTempString_5,  zsizeof( szTempString_5 ), TZWINDOWL, "AutoDesignGroup", "TopLevelEntityName" );
    RESULT = SetCursorFirstEntityByString( SelectedLOD, "LOD_Entity", "Name", szTempString_5, "" );
    //:INCLUDE TZCONTROL.CtrlMapLOD_Entity FROM SelectedLOD.LOD_Entity
    RESULT = IncludeSubobjectFromSubobject( TZCONTROL, "CtrlMapLOD_Entity", SelectedLOD, "LOD_Entity", zPOS_AFTER );
@@ -1258,11 +1258,11 @@ o_AutodesignGridCtrl( zVIEW     TZWINDOWL,
       //:CreateMetaEntity( TZWINDOWL, TZCONTROL, "CtrlMap", zPOS_AFTER )
       CreateMetaEntity( TZWINDOWL, TZCONTROL, "CtrlMap", zPOS_AFTER );
       //:SET CURSOR FIRST SelectedLOD.LOD_Entity WHERE SelectedLOD.LOD_Entity.Name = TZWINDOWL.AD_MappingAttribute.EntityName
-      GetStringFromAttribute( szTempString_6,  sizeof( szTempString_6 ), TZWINDOWL, "AD_MappingAttribute", "EntityName" );
+      GetStringFromAttribute( szTempString_6,  zsizeof( szTempString_6 ), TZWINDOWL, "AD_MappingAttribute", "EntityName" );
       RESULT = SetCursorFirstEntityByString( SelectedLOD, "LOD_Entity", "Name", szTempString_6, "" );
       //:SET CURSOR FIRST SelectedLOD.ER_Attribute WITHIN SelectedLOD.LOD_Entity
       //:           WHERE SelectedLOD.ER_Attribute.Name = TZWINDOWL.AD_MappingAttribute.AttributeName
-      GetStringFromAttribute( szTempString_6,  sizeof( szTempString_6 ), TZWINDOWL, "AD_MappingAttribute", "AttributeName" );
+      GetStringFromAttribute( szTempString_6,  zsizeof( szTempString_6 ), TZWINDOWL, "AD_MappingAttribute", "AttributeName" );
       RESULT = SetCursorFirstEntityByString( SelectedLOD, "ER_Attribute", "Name", szTempString_6, "LOD_Entity" );
       //:INCLUDE TZCONTROL.CtrlMapLOD_Attribute FROM SelectedLOD.LOD_Attribute
       RESULT = IncludeSubobjectFromSubobject( TZCONTROL, "CtrlMapLOD_Attribute", SelectedLOD, "LOD_Attribute", zPOS_AFTER );
@@ -1334,10 +1334,10 @@ o_AutodesignGridCtrl( zVIEW     TZWINDOWL,
          //:
          //:// Add the Action (unless it already exists) and include it under the Control.
          //:SET CURSOR FIRST AD_BaseRoot.Action WHERE AD_BaseRoot.Action.Tag = AD_Base.EventAct.Tag
-         GetStringFromAttribute( szTempString_7,  sizeof( szTempString_7 ), AD_Base, "EventAct", "Tag" );
+         GetStringFromAttribute( szTempString_7,  zsizeof( szTempString_7 ), AD_Base, "EventAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( AD_BaseRoot, "Action", "Tag", szTempString_7, "" );
          //:szActionName = AD_BaseRoot.Action.Tag + szActionSuffix
-         GetStringFromAttribute( szActionName,  sizeof( szActionName ), AD_BaseRoot, "Action", "Tag" );
+         GetStringFromAttribute( szActionName,  zsizeof( szActionName ), AD_BaseRoot, "Action", "Tag" );
          ZeidonStringConcat( szActionName, 1, 0, szActionSuffix, 1, 0, 101 );
          //:SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = szActionName
          RESULT = SetCursorFirstEntityByString( TZWINDOWL, "Action", "Tag", szActionName, "" );
@@ -1764,7 +1764,7 @@ SELECT_TopEntityForAutodesign( zVIEW     ViewToWindow )
 
    //:END
    //:SET CURSOR FIRST SelectedLOD.LOD_Entity WHERE SelectedLOD.LOD_Entity.Name = TZADCSDO.FlatListPotentialTopEntity.Name
-   GetStringFromAttribute( szTempString_0,  sizeof( szTempString_0 ), TZADCSDO, "FlatListPotentialTopEntity", "Name" );
+   GetStringFromAttribute( szTempString_0,  zsizeof( szTempString_0 ), TZADCSDO, "FlatListPotentialTopEntity", "Name" );
    RESULT = SetCursorFirstEntityByString( SelectedLOD, "LOD_Entity", "Name", szTempString_0, "" );
    //:INCLUDE TZWINDOWL.AD_GroupLOD_Entity FROM SelectedLOD.LOD_Entity
    RESULT = IncludeSubobjectFromSubobject( TZWINDOWL, "AD_GroupLOD_Entity", SelectedLOD, "LOD_Entity", zPOS_AFTER );
@@ -1899,7 +1899,7 @@ SELECT_PotentialAttributes( zVIEW     ViewToWindow )
          if ( CompareAttributeToString( TZWINDOWL, "AutoDesignGroup", "GenerateGroupType", "F" ) == 0 )
          {
             //:TZADCSDO.FlatListSelectedAttribute.PromptValue = TZADCSDO.FlatListSelectedAttribute.PromptValue + ":"
-            GetStringFromAttribute( szTempString_0,  sizeof( szTempString_0 ), TZADCSDO, "FlatListSelectedAttribute", "PromptValue" );
+            GetStringFromAttribute( szTempString_0,  zsizeof( szTempString_0 ), TZADCSDO, "FlatListSelectedAttribute", "PromptValue" );
             ZeidonStringConcat( szTempString_0, 1, 0, ":", 1, 0, 255 );
             SetAttributeFromString( TZADCSDO, "FlatListSelectedAttribute", "PromptValue", szTempString_0 );
          }
@@ -2158,10 +2158,10 @@ o_AutodesignUpdateCtrls( zVIEW     TZWINDOWL,
          if ( lTempInteger_2 == 0 )
          {
             //:SET CURSOR FIRST AD_BaseRoot.Action WHERE AD_BaseRoot.Action.Tag = AD_Base.EventAct.Tag
-            GetStringFromAttribute( szTempString_3,  sizeof( szTempString_3 ), AD_Base, "EventAct", "Tag" );
+            GetStringFromAttribute( szTempString_3,  zsizeof( szTempString_3 ), AD_Base, "EventAct", "Tag" );
             RESULT = SetCursorFirstEntityByString( AD_BaseRoot, "Action", "Tag", szTempString_3, "" );
             //:szActionName = AD_BaseRoot.Action.Tag + szActionSuffix
-            GetStringFromAttribute( szActionName,  sizeof( szActionName ), AD_BaseRoot, "Action", "Tag" );
+            GetStringFromAttribute( szActionName,  zsizeof( szActionName ), AD_BaseRoot, "Action", "Tag" );
             ZeidonStringConcat( szActionName, 1, 0, szActionSuffix, 1, 0, 101 );
             //:SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = szActionName
             RESULT = SetCursorFirstEntityByString( TZWINDOWL, "Action", "Tag", szActionName, "" );
@@ -2289,7 +2289,7 @@ o_AutodesignUpdateCtrls( zVIEW     TZWINDOWL,
    //:TZCONTROL.Control.SZDLG_X = lGroupWidth    // Size is same as parent Group - 10.
    SetAttributeFromInteger( TZCONTROL, "Control", "SZDLG_X", lGroupWidth );
    //:SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = AD_Base.ControlDef.Tag
-   GetStringFromAttribute( szTempString_3,  sizeof( szTempString_3 ), AD_Base, "ControlDef", "Tag" );
+   GetStringFromAttribute( szTempString_3,  zsizeof( szTempString_3 ), AD_Base, "ControlDef", "Tag" );
    RESULT = SetCursorFirstEntityByString( TZPESRCO, "ControlDef", "Tag", szTempString_3, "" );
    //:INCLUDE TZCONTROL.ControlDef FROM TZPESRCO.ControlDef
    RESULT = IncludeSubobjectFromSubobject( TZCONTROL, "ControlDef", TZPESRCO, "ControlDef", zPOS_AFTER );
@@ -2442,11 +2442,11 @@ o_AutodesignUpdateCtrls( zVIEW     TZWINDOWL,
       //:CreateMetaEntity( TZWINDOWL, TZCONTROL, "CtrlMap", zPOS_AFTER )
       CreateMetaEntity( TZWINDOWL, TZCONTROL, "CtrlMap", zPOS_AFTER );
       //:SET CURSOR FIRST SelectedLOD.LOD_Entity WHERE SelectedLOD.LOD_Entity.Name = TZWINDOWL.AD_MappingAttribute.EntityName
-      GetStringFromAttribute( szTempString_9,  sizeof( szTempString_9 ), TZWINDOWL, "AD_MappingAttribute", "EntityName" );
+      GetStringFromAttribute( szTempString_9,  zsizeof( szTempString_9 ), TZWINDOWL, "AD_MappingAttribute", "EntityName" );
       RESULT = SetCursorFirstEntityByString( SelectedLOD, "LOD_Entity", "Name", szTempString_9, "" );
       //:SET CURSOR FIRST SelectedLOD.ER_Attribute WITHIN SelectedLOD.LOD_Entity
       //:           WHERE SelectedLOD.ER_Attribute.Name = TZWINDOWL.AD_MappingAttribute.AttributeName
-      GetStringFromAttribute( szTempString_9,  sizeof( szTempString_9 ), TZWINDOWL, "AD_MappingAttribute", "AttributeName" );
+      GetStringFromAttribute( szTempString_9,  zsizeof( szTempString_9 ), TZWINDOWL, "AD_MappingAttribute", "AttributeName" );
       RESULT = SetCursorFirstEntityByString( SelectedLOD, "ER_Attribute", "Name", szTempString_9, "LOD_Entity" );
       //:INCLUDE TZCONTROL.CtrlMapLOD_Attribute FROM SelectedLOD.LOD_Attribute
       RESULT = IncludeSubobjectFromSubobject( TZCONTROL, "CtrlMapLOD_Attribute", SelectedLOD, "LOD_Attribute", zPOS_AFTER );
@@ -2552,7 +2552,7 @@ PostbuildAutodesignForGroup( zVIEW     ViewToWindow )
    //:END
 
    //:SET CURSOR FIRST TZWINDOWL.AutoDesignWindow WHERE TZWINDOWL.AutoDesignWindow.WindowTag = TZWINDOWL.Window.Tag
-   GetStringFromAttribute( szTempString_0,  sizeof( szTempString_0 ), TZWINDOWL, "Window", "Tag" );
+   GetStringFromAttribute( szTempString_0,  zsizeof( szTempString_0 ), TZWINDOWL, "Window", "Tag" );
    RESULT = SetCursorFirstEntityByString( TZWINDOWL, "AutoDesignWindow", "WindowTag", szTempString_0, "" );
    //:IF RESULT < zCURSOR_SET
    if ( RESULT < zCURSOR_SET )
@@ -2565,7 +2565,7 @@ PostbuildAutodesignForGroup( zVIEW     ViewToWindow )
 
    //:END
    //:SET CURSOR FIRST TZWINDOWL.AutoDesignGroup WHERE TZWINDOWL.AutoDesignGroup.GroupTag = TZCONTROL.Control.Tag
-   GetStringFromAttribute( szTempString_0,  sizeof( szTempString_0 ), TZCONTROL, "Control", "Tag" );
+   GetStringFromAttribute( szTempString_0,  zsizeof( szTempString_0 ), TZCONTROL, "Control", "Tag" );
    RESULT = SetCursorFirstEntityByString( TZWINDOWL, "AutoDesignGroup", "GroupTag", szTempString_0, "" );
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
@@ -2798,7 +2798,7 @@ CHECK_ReorderAttributes( zVIEW     ViewToWindow )
       {
          //:SET CURSOR FIRST TZADCSDO2.FlatListSelectedAttribute
          //:           WHERE TZADCSDO2.FlatListSelectedAttribute.EntityName = TZADCSDO.FlatListSelectedAttribute.EntityName
-         GetStringFromAttribute( szTempString_0,  sizeof( szTempString_0 ), TZADCSDO, "FlatListSelectedAttribute", "EntityName" );
+         GetStringFromAttribute( szTempString_0,  zsizeof( szTempString_0 ), TZADCSDO, "FlatListSelectedAttribute", "EntityName" );
          RESULT = SetCursorFirstEntityByString( TZADCSDO2, "FlatListSelectedAttribute", "EntityName", szTempString_0, "" );
          //:IF TZADCSDO2.FlatListSelectedAttribute.IndentEntityName != TZADCSDO.FlatListSelectedAttribute.IndentEntityName
          if ( CompareAttributeToAttribute( TZADCSDO2, "FlatListSelectedAttribute", "IndentEntityName", TZADCSDO, "FlatListSelectedAttribute", "IndentEntityName" ) != 0 )

@@ -615,12 +615,12 @@ OL_DetailPreBuild( zVIEW vSubtask )
    // Build Work object.
 
    // Get view to LOD lod.
-   GetStringFromAttribute( szTempString, sizeof( szTempString ), vCtlDialog, "CtrlMapView", "Name" );
+   GetStringFromAttribute( szTempString, zsizeof( szTempString ), vCtlDialog, "CtrlMapView", "Name" );
 
    if ( SetCursorFirstEntityByString( vDialogW, "ViewObjRef", "Name",
                                       szTempString, 0 ) >= 0 )
    {
-      GetStringFromAttribute( szTempString, sizeof( szTempString ), vDialogW, "LOD", "Name" );
+      GetStringFromAttribute( szTempString, zsizeof( szTempString ), vDialogW, "LOD", "Name" );
       TraceLineS( "LOD found in list ", szTempString );
    }
    else
@@ -658,7 +658,7 @@ OL_DetailPreBuild( zVIEW vSubtask )
       //   front of the CtrlBOI. the next few lines will advance pchTemp to
       //   point to the first OL_Item in the CtrlBOI, should one exist.
 
-      pchTemp += sizeof( zVIEW ); // skip the  view
+      pchTemp += sizeof( zVIEW ); // skip the view
       pchTemp += zstrlen( pchTemp ) + 1; // skip the operation name; currently null
       pchTemp += zstrlen( pchTemp ) + 1; // skip the ?bottom? view name.
       pchTemp += zstrlen( pchTemp ) + 1; // skip the ?top? view name. currently null?
@@ -851,9 +851,9 @@ fnLoadFontColorAndBitmap( zPCHAR     pchColorTemp,
                OL_Default_Color_Font->fntTextFont        = OL_Color_Font->fntTextFont;
                OL_Default_Color_Font->lUseDefaultBitmap  = OL_Color_Font->lUseDefaultBitmap;
                OL_Default_Color_Font->lUseSelectedBitmap = OL_Color_Font->lUseSelectedBitmap;
-               strcpy_s( OL_Default_Color_Font->szDefaultBitmapFile, sizeof( OL_Default_Color_Font->szDefaultBitmapFile ),
+               strcpy_s( OL_Default_Color_Font->szDefaultBitmapFile, zsizeof( OL_Default_Color_Font->szDefaultBitmapFile ),
                          OL_Color_Font->szDefaultBitmapFile );
-               strcpy_s( OL_Default_Color_Font->szSelectedBitmapFile, sizeof( OL_Default_Color_Font->szSelectedBitmapFile ),
+               strcpy_s( OL_Default_Color_Font->szSelectedBitmapFile, zsizeof( OL_Default_Color_Font->szSelectedBitmapFile ),
                          OL_Color_Font->szSelectedBitmapFile );
                memcpy( pchDefaultColor, OL_Default_Color_Font, sizeof( zOL_COLOR_FONT ));
             }
@@ -907,7 +907,7 @@ fnLoadSelectionForSiblings( zVIEW      vSubtask,
 
       // Get the OL_ITEM
       OL_Item = (zLPOL_ITEM) pchLocalTemp;
-      strcpy_s( szTempString, sizeof( szTempString ), OL_Item->szEntityName );
+      strcpy_s( szTempString, zsizeof( szTempString ), OL_Item->szEntityName );
 //    TraceLineS( "Loaded EntityName: ", szTempString );
 
       // Gain position on related entity in work object
@@ -929,7 +929,7 @@ fnLoadSelectionForSiblings( zVIEW      vSubtask,
                                    OL_Item, vCtlWork, szTempString, nCountEntities );
 
       // Determine the tag attr and mark it as selected
-      strcpy_s( szTempString, sizeof( szTempString ), pchStart + OL_Item->lTagAttributeOffset );
+      strcpy_s( szTempString, zsizeof( szTempString ), pchStart + OL_Item->lTagAttributeOffset );
       SetCursorFirstEntityByString( vCtlWork, "Attribute", "Name",
                                     szTempString, 0 );
 //    TraceLineS( "Loaded AttribName: ", szTempString );
@@ -1005,7 +1005,7 @@ fnWriteDefaultColorFontBitmapBlob( zPCHAR           szEntityName,
    OL_Color_Font->lVersionsNumber = 1;
 
    // Set Entity Name
-   strcpy_s( OL_Color_Font->szEntityName, sizeof( OL_Color_Font->szEntityName ), szEntityName );
+   strcpy_s( OL_Color_Font->szEntityName, zsizeof( OL_Color_Font->szEntityName ), szEntityName );
 
    // Set Tree Default Bitmap for Tree Item
    OL_Color_Font->lUseDefaultBitmap  = 1;
@@ -1063,7 +1063,7 @@ fnAddSiblingsToWorkOI( zVIEW            vSubtask,
          TraceLineS( "", "" );
 
       // Copy over the entity info.
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vLOD_Ent, "LOD_EntityParent", "Name" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vLOD_Ent, "LOD_EntityParent", "Name" );
       SetAttributeFromString( vCtlWork, "Entity", "Name", szTemp );
 
       // Write empty color, font and Bitmap Blob.
@@ -1253,7 +1253,7 @@ OL_SetTextColor( zVIEW vSubtask )
    if ( GetViewByName( &vCtlWork, "TZOUTLINER", vSubtask, zLEVEL_TASK ) < 0 )
       return( 0 );
 
-   GetStringFromAttribute( szColor, sizeof( szColor ), vCtlWork, "Entity", "TextColor" );
+   GetStringFromAttribute( szColor, zsizeof( szColor ), vCtlWork, "Entity", "TextColor" );
 
    if ( zstrcmp( szColor, "" ) == 0 )
       clr = RGB( 0, 0, 0 );    // set Black for Text Color
@@ -1311,7 +1311,7 @@ OL_SetTextFont( zVIEW vSubtask )
    lSize = TextFont.lfHeight;
 
    // get old Text Color
-   GetStringFromAttribute( szColor, sizeof( szColor ), vCtlWork, "Entity", "TextColor" );
+   GetStringFromAttribute( szColor, zsizeof( szColor ), vCtlWork, "Entity", "TextColor" );
    if ( zstrcmp( szColor, "" ) == 0 )
       clr = RGB( 0, 0, 0 );    // set Black for Text Color
    else
@@ -1367,7 +1367,7 @@ OL_SetNewBackgrdColor( zVIEW vSubtask )
 
    GetViewByName( &vCtlWork, "TZPNCTWO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szColor, sizeof( szColor ), vCtlWork, "Outliner", "BackgroundColor" );
+   GetStringFromAttribute( szColor, zsizeof( szColor ), vCtlWork, "Outliner", "BackgroundColor" );
 
    if ( zstrcmp( szColor, "" ) == 0 )
       clr = RGB( 255, 255, 255 );    // set White for Background Color
@@ -1396,7 +1396,7 @@ OL_SetNewTextColor( zVIEW vSubtask )
    if ( zstrcmp( szEntityName, "Entity" ) == 0 )
    {
       GetViewByName( &vCtlWork, "TZOUTLINER", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szColor, sizeof( szColor ), vCtlWork, "Entity", "TextColor" );
+      GetStringFromAttribute( szColor, zsizeof( szColor ), vCtlWork, "Entity", "TextColor" );
 
       if ( zstrcmp( szColor, "" ) == 0 )
          clr = RGB( 0, 0, 0 );    // set Black for Text Color
@@ -1426,7 +1426,7 @@ OL_SetBackgrdColor( zVIEW vSubtask )
    GetViewByName( &vTZWINDOWL, "TZWINDOWL", vSubtask, zLEVEL_TASK );
    GetViewByName( &vCtlWork,   "TZPNCTWO",  vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szColor, sizeof( szColor ), vCtlWork, "Outliner", "BackgroundColor" );
+   GetStringFromAttribute( szColor, zsizeof( szColor ), vCtlWork, "Outliner", "BackgroundColor" );
 
    if ( zstrcmp( szColor, "" ) == 0 )
       clr = RGB( 255, 255, 255 );    // set White for Background Color
@@ -1437,7 +1437,7 @@ OL_SetBackgrdColor( zVIEW vSubtask )
    {
       if ( ComponentIsCheckedOut( vSubtask, vTZWINDOWL, zSOURCE_DIALOG_META ) )
       {
-         zltoa( clr, szColor, sizeof( szColor ) );
+         zltoa( clr, szColor, zsizeof( szColor ) );
          SetAttributeFromString( vCtlWork, "Outliner", "BackgroundColor", szColor );
          RefreshCtrl( vSubtask, "edBackgroundColor" );
          OL_SetBackgroundColor( vSubtask, "__Bootstrap", clr );
@@ -1549,7 +1549,7 @@ OL_DetailSave( zVIEW vSubtask )
    pchTempColor = pchColorBlob;
 
    // Get Background Color.
-   GetStringFromAttribute( szColor, sizeof( szColor ), vCtlWorkTop, "Outliner", "BackgroundColor" );
+   GetStringFromAttribute( szColor, zsizeof( szColor ), vCtlWorkTop, "Outliner", "BackgroundColor" );
    if ( zstrcmp( szColor, "" ) == 0 )
       lTemp = -1;
    else
@@ -1875,14 +1875,14 @@ fnWriteColorFontBitmapToBuffer( zVIEW            vCtlWork,
    OL_Color_Font->lVersionsNumber = 1;
 
    // Set Entity Name
-   strcpy_s( OL_Color_Font->szEntityName, sizeof( OL_Color_Font->szEntityName ), szEntityName );
+   strcpy_s( OL_Color_Font->szEntityName, zsizeof( OL_Color_Font->szEntityName ), szEntityName );
 
    // Set Item Text Color
    GetIntegerFromAttribute( &lTemp, vCtlWork, "Entity", "TextColor" );
    OL_Color_Font->clrTextColor = lTemp;
 
    // Set Item Text Font
-   if ( SfAllocTaskMemory( vCtlWork, (zCOREMEM) &pchFontBlob, sizeof ( LOGFONT )) != 0 )
+   if ( SfAllocTaskMemory( vCtlWork, (zCOREMEM) &pchFontBlob, sizeof( LOGFONT ) ) != 0 )
    {
       MessageSend( vCtlWork, "PN00406", "Dialog Maintenance",
                    "Memory error - Cannot read Text Color",
@@ -1903,10 +1903,10 @@ fnWriteColorFontBitmapToBuffer( zVIEW            vCtlWork,
    GetIntegerFromAttribute( &lTemp, vCtlWork, "Entity", "UseSelectedBitmap" );
    OL_Color_Font->lUseSelectedBitmap = lTemp;
 
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vCtlWork, "Entity", "DefaultBitmapFile" );
-   strcpy_s( OL_Color_Font->szDefaultBitmapFile, sizeof( OL_Color_Font->szDefaultBitmapFile ), szTemp );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vCtlWork, "Entity", "SelectedBitmapFile" );
-   strcpy_s( OL_Color_Font->szSelectedBitmapFile, sizeof( OL_Color_Font->szSelectedBitmapFile ), szTemp );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vCtlWork, "Entity", "DefaultBitmapFile" );
+   strcpy_s( OL_Color_Font->szDefaultBitmapFile, zsizeof( OL_Color_Font->szDefaultBitmapFile ), szTemp );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vCtlWork, "Entity", "SelectedBitmapFile" );
+   strcpy_s( OL_Color_Font->szSelectedBitmapFile, zsizeof( OL_Color_Font->szSelectedBitmapFile ), szTemp );
 
    // Set Blob
    zmemcpy( *ppchColor, OL_Color_Font, sizeof( zOL_COLOR_FONT ) );
@@ -1922,13 +1922,13 @@ fnWriteColorFontBitmapToBuffer( zVIEW            vCtlWork,
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT /*LOCAL */  OPERATION
 OL_GetScopeEntityName( zVIEW  vCtlWork,
-                       zPCHAR szScopeEntity )
+                       zPCHAR pchScopeEntity )
 {
    zVIEW  vCtlWork_Copy;
    zCHAR  szScope[ 34 ];
    zBOOL  bFound   = FALSE;
    szScope[ 0 ] = 0;
-   szScopeEntity[ 0 ] = 0;
+   pchScopeEntity[ 0 ] = 0;
 
    CreateViewFromViewForTask( &vCtlWork_Copy, vCtlWork, 0 );
 
@@ -1937,15 +1937,15 @@ OL_GetScopeEntityName( zVIEW  vCtlWork,
       if ( CompareAttributeToString( vCtlWork_Copy, "Entity", "SelectState", "Y" ) == 0 )
       {
          bFound = TRUE;
-         GetStringFromAttribute( szScope, sizeof( szScope ), vCtlWork_Copy, "Entity", "Name" );
+         GetStringFromAttribute( szScope, zsizeof( szScope ), vCtlWork_Copy, "Entity", "Name" );
       }
    }
 
    // if Parent not found, set Root Entity Name as Scope
    if ( bFound == FALSE )
-      strcpy_s( szScope, sizeof( szScope ), "zSCOPE_OI" );
+      strcpy_s( szScope, zsizeof( szScope ), "zSCOPE_OI" );
 
-   strcpy_s( szScopeEntity, sizeof( szScopeEntity ), szScope );
+   strcpy_s( pchScopeEntity, 34, szScope );
 
    DropView( vCtlWork_Copy );
 
@@ -2010,7 +2010,7 @@ fnWriteSiblingsToBuffer( zVIEW            vCtlWork,
                                      "RecursiveSelected", "1" ) == 0 )
       {
          // Register the name of the child with the parent
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vCtlWork, "Entity", "Name" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vCtlWork, "Entity", "Name" );
 
          // save the selection for get Scope Entity
          SetAttributeFromString( vCtlWork, "Entity", "SelectState", "Y" );
@@ -2018,7 +2018,7 @@ fnWriteSiblingsToBuffer( zVIEW            vCtlWork,
 
          if ( OL_ParentItem )
          {
-            strcpy_s( OL_ParentItem->szRecursiveEntity, sizeof( OL_ParentItem->szRecursiveEntity ), szTemp );
+            strcpy_s( OL_ParentItem->szRecursiveEntity, zsizeof( OL_ParentItem->szRecursiveEntity ), szTemp );
 
             // Mark parent as having a recursive child
             OL_ParentItem->lFlags |= zOL_RECURSIVE;
@@ -2057,12 +2057,12 @@ fnWriteSiblingsToBuffer( zVIEW            vCtlWork,
          *ppchTemp += sizeof( zOL_ITEM );
 
          // Put in the name.
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vCtlWork, "Entity", "Name" );
-         strcpy_s( OL_CurrentItem->szEntityName, sizeof( OL_CurrentItem->szEntityName ), szTemp );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vCtlWork, "Entity", "Name" );
+         strcpy_s( OL_CurrentItem->szEntityName, zsizeof( OL_CurrentItem->szEntityName ), szTemp );
 
          // Set Scope Entity Name.
          OL_GetScopeEntityName( vCtlWork, szScopeEntity );
-         strcpy_s( OL_CurrentItem->szScopeEntity, sizeof( OL_CurrentItem->szScopeEntity ), szScopeEntity );
+         strcpy_s( OL_CurrentItem->szScopeEntity, zsizeof( OL_CurrentItem->szScopeEntity ), szScopeEntity );
 
          // Create room in the buffer.
          OL_Color_Font = (zLPOL_COLOR_FONT) *ppchColor;
@@ -2079,7 +2079,7 @@ fnWriteSiblingsToBuffer( zVIEW            vCtlWork,
          // Put in tag attribute.
          nPrevSelSet = SetSelectSetForView( vCtlWork, 3 );
          SetCursorFirstSelectedEntity( vCtlWork, "Attribute", "Entity" );
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vCtlWork, "Attribute", "Name" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vCtlWork, "Attribute", "Name" );
          DisplayEntityInstance( vCtlWork, "Attribute" );
          SetSelectSetForView( vCtlWork, nPrevSelSet );
 
@@ -2138,7 +2138,7 @@ fnWriteSiblingsToBuffer( zVIEW            vCtlWork,
 }
 
 zOPER_EXPORT zSHORT OPERATION
-fnNextSelectedEntity( zVIEW vCtlWork, zPCHAR szScopeEntity )
+fnNextSelectedEntity( zVIEW vCtlWork, zPCHAR pchScopeEntity )
 {
    zBOOL   bFound = FALSE;
    zBOOL   bDone  = FALSE;
@@ -2161,7 +2161,7 @@ fnNextSelectedEntity( zVIEW vCtlWork, zPCHAR szScopeEntity )
          {
             // Compare Scope Entity = Parent Entity
             OL_GetScopeEntityName( vCtlWork, szScopeEntityNew );
-            if ( zstrcmp( szScopeEntityNew, szScopeEntity ) == 0 )
+            if ( zstrcmp( szScopeEntityNew, pchScopeEntity ) == 0 )
                return( 1 );
             else
                bDone = TRUE;
@@ -2181,7 +2181,7 @@ fnNextSelectedEntity( zVIEW vCtlWork, zPCHAR szScopeEntity )
 
 
 zOPER_EXPORT zSHORT OPERATION
-fnFindNextSelectedEntity( zVIEW vCtlWork, zPCHAR szScopeEntity )
+fnFindNextSelectedEntity( zVIEW vCtlWork, zPCHAR pchScopeEntity )
 {
    zSHORT  nFound = -1;
    zVIEW   vCtlWork_Test;
@@ -2191,13 +2191,13 @@ fnFindNextSelectedEntity( zVIEW vCtlWork, zPCHAR szScopeEntity )
 
    // fnNextSelectedEntity change the View ==> Test with a Copy
    CreateViewFromViewForTask( &vCtlWork_Test, vCtlWork, 0 );
-   nFound = fnNextSelectedEntity( vCtlWork_Test, szScopeEntity );
+   nFound = fnNextSelectedEntity( vCtlWork_Test, pchScopeEntity );
    DropView( vCtlWork_Test );
 
    // if Test OK, search Sibling Entity in Original View
    if ( nFound > 0 )
    {
-      nFound = fnNextSelectedEntity( vCtlWork, szScopeEntity );
+      nFound = fnNextSelectedEntity( vCtlWork, pchScopeEntity );
    }
 
 
@@ -2308,7 +2308,7 @@ fnSpecifyOutlinerOutliner( zVIEW vSubtask )
    pchTemp = pchColorBlob;
 
    // Store Background Color.
-   GetStringFromAttribute( szColor, sizeof( szColor ), vCtlWork, "Outliner", "BackgroundColor" );
+   GetStringFromAttribute( szColor, zsizeof( szColor ), vCtlWork, "Outliner", "BackgroundColor" );
    if ( zstrcmp( szColor, "" ) == 0 )
       lWork = -1;
    else
@@ -2383,7 +2383,7 @@ fnSpecifyOutlinerOutliner( zVIEW vSubtask )
    pchTemp += sizeof( zOL_ITEM );
 
    // Put in the name and null scope entity.
-   strcpy_s( OL_Item->szEntityName, sizeof( OL_Item->szEntityName ), "Object" );
+   strcpy_s( OL_Item->szEntityName, zsizeof( OL_Item->szEntityName ), "Object" );
    OL_Item->szScopeEntity[ 0 ] = 0;
    OL_Item->szRecursiveEntity[ 0 ] = 0;
 
@@ -2412,11 +2412,11 @@ fnSpecifyOutlinerOutliner( zVIEW vSubtask )
    pchTemp += sizeof( zOL_ITEM );
 
    // Put in the name and null scope entity.
-   strcpy_s( OL_Item->szEntityName, sizeof( OL_Item->szEntityName ), "Entity" );
+   strcpy_s( OL_Item->szEntityName, zsizeof( OL_Item->szEntityName ), "Entity" );
    OL_Item->szScopeEntity[ 0 ] = 0;
 
    OL_Item->lFlags = MAKELONG( zOL_RECURSIVE, sizeof( zOL_ITEM ) );
-   strcpy_s( OL_Item->szRecursiveEntity, sizeof( OL_Item->szRecursiveEntity ), "ChildEntity" );
+   strcpy_s( OL_Item->szRecursiveEntity, zsizeof( OL_Item->szRecursiveEntity ), "ChildEntity" );
 
    // Put in tag attribute.
    strcpy_s( pchTemp, zMAX_BLOB - (pchTemp - pchBuffer), "Name" );
@@ -2794,7 +2794,7 @@ OL_DetailOperationEdit( zVIEW vSubtask )
    if ( CheckExistenceOfEntity( vDialogC, "EventAct" ) == zCURSOR_SET &&
         CompareAttributeToString( vDialogC, "EventAct", "Tag", "" ) != 0 )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vDialogC, "EventAct", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vDialogC, "EventAct", "Tag" );
       SetCursorFirstEntityByString( vDialogW, "Action", "Tag", szTag, "" );
 
       if ( CheckExistenceOfEntity( vDialogW, "ActOper" ) == zCURSOR_SET )
@@ -2883,7 +2883,7 @@ OL_ShowBitmaps( zVIEW vSubtask, zSHORT bEnable, zPCHAR zsEntityName,
       }
       else
       {
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vCtlWork, "Entity", szEntityName2 );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vCtlWork, "Entity", szEntityName2 );
          if ( zstrcmp( szFileName, "" ) == 0 )
             BMP_SetBitmapResource( vSubtask, szBitmapTagName, "ZDCTL", lBitmapID );
          else
@@ -3266,7 +3266,7 @@ OL_GetBkgColorAndBitmapSize( zVIEW vSubtask )
 
       // set Background Color
       memcpy( (zPLONG) &lTemp, szBlob, sizeof( long ) );
-      zltoa( lTemp, szColor, sizeof( szColor ) );
+      zltoa( lTemp, szColor, zsizeof( szColor ) );
 
       if ( lTemp > -1 )
       {
@@ -3396,7 +3396,7 @@ OL_LoadDefaultBitmap( zVIEW vSubtask )
    zCHAR  szFileName[ zMAX_FILENAME_LTH + 40 ];
 
    if ( OL_BitmapBrowseFileName( vSubtask, szFileName,
-                                 sizeof( szFileName ) ) == 1 )
+                                 zsizeof( szFileName ) ) == 1 )
    {
       BMP_SetBitmapFileName( vSubtask, "bmpDefaultBmp", szFileName );
       SetCtrlText( vSubtask, "edDefaultBmp", szFileName );
@@ -3419,7 +3419,7 @@ OL_LoadSelectedBitmap( zVIEW vSubtask )
    zCHAR   szFileName[ zMAX_FILENAME_LTH + 40 ];
 
    if ( OL_BitmapBrowseFileName( vSubtask, szFileName,
-                                 sizeof( szFileName ) ) == 1 )
+                                 zsizeof( szFileName ) ) == 1 )
    {
       SetCtrlText( vSubtask, "edSelectedBmp", szFileName );
       MapCtrl( vSubtask, "edSelectedBmp" );
@@ -3459,13 +3459,13 @@ OL_LoadBitmapWithResourcePath( zVIEW vSubtask, zPCHAR szFileName )
    zCHAR  szWorkString[ zMAX_FILENAME_LTH + 40 ];
 
    // Load Bitmap mit Resource Path
-   SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+   SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
 
    if ( szZeidonPath[ 0 ] )
    {
       SysAppendcDirSep( szZeidonPath );
-      strcat_s( szZeidonPath, sizeof( szZeidonPath ), szFileName );
-      SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+      strcat_s( szZeidonPath, zsizeof( szZeidonPath ), szFileName );
+      SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
       BMP_SetBitmapFileName( vSubtask, "bmpDefaultBmp", szWorkString );
    }
 
@@ -3485,7 +3485,7 @@ OL_SetDflBitmap( zVIEW vSubtask )
 
    GetViewByName( &vCtlWork, "TZOUTLINER", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vCtlWork, "Entity", "DefaultBitmapFile" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vCtlWork, "Entity", "DefaultBitmapFile" );
 
    if ( zstrcmp( szFileName, "" ) == 0 )
    {
@@ -3518,7 +3518,7 @@ OL_SetSelBitmap( zVIEW vSubtask )
 
    GetViewByName( &vCtlWork, "TZOUTLINER", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vCtlWork, "Entity", "SelectedBitmapFile" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vCtlWork, "Entity", "SelectedBitmapFile" );
 
    if ( zstrcmp( szFileName, "" ) == 0 )
    {

@@ -69,32 +69,32 @@ oTZZOLODO_SummaryReport( zVIEW  vLOD_In,
    lShowZKey = 0;
    nZRetCode = CreateViewFromViewForTask( &vLOD, vLOD_In, 0 );
    ZeidonStringCopy( Line, 1, 0, " LOD: ", 1, 0, 511 );
-   nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD", "Name" );
+   nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD", "Name" );
    zstrblank( szData, 15, 1 );
    ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
    ZeidonStringConcat( Line, 1, 0, "ZKey: ", 1, 0, 511 );
-   nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD", "ZKey" );
+   nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD", "ZKey" );
    zstrblank( szData, 14, 1 );
    ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
    ZeidonStringConcat( Line, 1, 0, "Desc: ", 1, 0, 511 );
-   nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vLOD, "LOD", "Desc" );
+   nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vLOD, "LOD", "Desc" );
    ZeidonStringConcat( Line, 1, 0, szTempString_0, 1, 0, 511 );
    nZRetCode = SysWriteLine( vLOD_In,  lRptFile, Line );
    ZeidonStringCopy( Line, 1, 0, " DLL: ", 1, 0, 511 );
-   nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD", "DLL_Name" );
+   nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD", "DLL_Name" );
    zstrblank( szData, 15, 1 );
    ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
    ZeidonStringConcat( Line, 1, 0, "Rules: Activate=", 1, 0, 511 );
-   nZRetCode = GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vLOD, "LOD", "ActivateConstraint" );
+   nZRetCode = GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vLOD, "LOD", "ActivateConstraint" );
    ZeidonStringConcat( Line, 1, 0, szTempString_1, 1, 0, 511 );
    ZeidonStringConcat( Line, 1, 0, "  ActivateEmpty=", 1, 0, 511 );
-   nZRetCode = GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vLOD, "LOD", "ActivateEmptyConstraint" );
+   nZRetCode = GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vLOD, "LOD", "ActivateEmptyConstraint" );
    ZeidonStringConcat( Line, 1, 0, szTempString_2, 1, 0, 511 );
    ZeidonStringConcat( Line, 1, 0, "  Commit=", 1, 0, 511 );
-   nZRetCode = GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), vLOD, "LOD", "CommitConstraint" );
+   nZRetCode = GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), vLOD, "LOD", "CommitConstraint" );
    ZeidonStringConcat( Line, 1, 0, szTempString_3, 1, 0, 511 );
    ZeidonStringConcat( Line, 1, 0, "  DropOI=", 1, 0, 511 );
-   nZRetCode = GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vLOD, "LOD", "DropOIConstraint" );
+   nZRetCode = GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vLOD, "LOD", "DropOIConstraint" );
    ZeidonStringConcat( Line, 1, 0, szTempString_4, 1, 0, 511 );
    nZRetCode = SysWriteLine( vLOD_In,  lRptFile, Line );
    nZRetCode = SysWriteLine( vLOD_In,  lRptFile, "" );
@@ -102,7 +102,7 @@ oTZZOLODO_SummaryReport( zVIEW  vLOD_In,
    RESULT = SetCursorFirstEntity( vLOD, "LOD_Entity", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
    {
-      nZRetCode = GetStringFromAttribute( Line, sizeof( Line ), vLOD, "LOD_Entity", "IndentName" );
+      nZRetCode = GetStringFromAttribute( Line, zsizeof( Line ), vLOD, "LOD_Entity", "IndentName" );
       nZRetCode = SysWriteLine( vLOD_In,  lRptFile, Line );
       RESULT = SetCursorNextEntity ( vLOD, "LOD_Entity", "" );
    }
@@ -112,7 +112,7 @@ oTZZOLODO_SummaryReport( zVIEW  vLOD_In,
    while ( RESULT > zCURSOR_UNCHANGED )
    {
       nZRetCode = SysWriteLine( vLOD_In,  lRptFile, "" );
-      nZRetCode = GetStringFromAttribute( Line, sizeof( Line ), vLOD, "LOD_Entity", "Name" );
+      nZRetCode = GetStringFromAttribute( Line, zsizeof( Line ), vLOD, "LOD_Entity", "Name" );
       zstrblank( Line, 36, 1 );
       lTempInteger_0 = CheckExistenceOfEntity ( vLOD, "ER_Entity" );
       if ( lTempInteger_0 == 0 )
@@ -124,11 +124,11 @@ oTZZOLODO_SummaryReport( zVIEW  vLOD_In,
          }
          else
          {
-            nZRetCode = GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), vLOD, "ER_Entity", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), vLOD, "ER_Entity", "Name" );
             ZeidonStringConcat( Line, 1, 0, szTempString_5, 1, 0, 511 );
          }
          ZeidonStringConcat( Line, 1, 0, "[", 1, 0, 511 );
-         nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "ER_Entity", "ZKey" );
+         nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "ER_Entity", "ZKey" );
          ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
          ZeidonStringConcat( Line, 1, 0, "]", 1, 0, 511 );
       }
@@ -137,7 +137,7 @@ oTZZOLODO_SummaryReport( zVIEW  vLOD_In,
       if ( lTempInteger_1 == 0 )
       {
          ZeidonStringConcat( Line, 1, 0, " Rel=[", 1, 0, 511 );
-         nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "ER_RelLink", "ZKey" );
+         nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "ER_RelLink", "ZKey" );
          ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
          ZeidonStringConcat( Line, 1, 0, "]", 1, 0, 511 );
       }
@@ -157,43 +157,43 @@ oTZZOLODO_SummaryReport( zVIEW  vLOD_In,
       ZeidonStringConcat( Line, 1, 0, " ParDel", 1, 0, 511 );
       nZRetCode = SysWriteLine( vLOD_In,  lRptFile, Line );
       ZeidonStringCopy( Line, 1, 0, "        ", 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "Create" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "Create" );
       zstrblank( szData, 5, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "Delete" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "Delete" );
       zstrblank( szData, 5, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "Update" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "Update" );
       zstrblank( szData, 5, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "Include" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "Include" );
       zstrblank( szData, 5, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "InclSrc" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "InclSrc" );
       zstrblank( szData, 5, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "Exclude" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "Exclude" );
       zstrblank( szData, 5, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "Hidden" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "Hidden" );
       zstrblank( szData, 5, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "Recursive" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "Recursive" );
       zstrblank( szData, 9, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "AutoCreate" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "AutoCreate" );
       zstrblank( szData, 5, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "Derived" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "Derived" );
       zstrblank( szData, 7, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "SeqType" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "SeqType" );
       zstrblank( szData, 8, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "Work" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "Work" );
       zstrblank( szData, 6, 1 );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-      nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "LOD_Entity", "ParentDeleteBehave" );
+      nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "LOD_Entity", "ParentDeleteBehave" );
       ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
       nZRetCode = SysWriteLine( vLOD_In,  lRptFile, Line );
       RESULT = SetCursorFirstEntity( vLOD, "LOD_Attribute", "" );
@@ -201,13 +201,13 @@ oTZZOLODO_SummaryReport( zVIEW  vLOD_In,
       {
          if ( CompareAttributeToString( vLOD, "LOD_Attribute", "Work", "" ) == 0 || CompareAttributeToString ( vLOD, "LOD_Attribute", "Work", "N" ) == 0 )
          {
-            nZRetCode = GetStringFromAttribute( szTempString_6, sizeof( szTempString_6 ), vLOD, "ER_Attribute", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), vLOD, "ER_Attribute", "Name" );
             ZeidonStringCopy( Line, 1, 0, "...", 1, 0, 511 );
             ZeidonStringConcat( Line, 1, 0, szTempString_6, 1, 0, 511 );
          }
          else
          {
-            nZRetCode = GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), vLOD, "ER_Attribute", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), vLOD, "ER_Attribute", "Name" );
             ZeidonStringCopy( Line, 1, 0, ".w.", 1, 0, 511 );
             ZeidonStringConcat( Line, 1, 0, szTempString_7, 1, 0, 511 );
          }
@@ -216,7 +216,7 @@ oTZZOLODO_SummaryReport( zVIEW  vLOD_In,
          if ( lShowZKey == 1 )
          {
             ZeidonStringConcat( Line, 1, 0, "[", 1, 0, 511 );
-            nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "ER_Attribute", "ZKey" );
+            nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "ER_Attribute", "ZKey" );
             ZeidonStringConcat( szData, 1, 0, "]", 1, 0, 511 );
             zstrblank( szData, 11, 1 );
          }
@@ -241,13 +241,13 @@ oTZZOLODO_SummaryReport( zVIEW  vLOD_In,
          }
          ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
          ZeidonStringConcat( Line, 1, 0, "Type ", 1, 0, 511 );
-         nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "Domain", "DerivedDataType" );
+         nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "Domain", "DerivedDataType" );
          ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
          ZeidonStringConcat( Line, 1, 0, "  Lth=", 1, 0, 511 );
-         nZRetCode = GetStringFromAttribute( szData, sizeof( szData ), vLOD, "ER_Attribute", "Lth" );
+         nZRetCode = GetStringFromAttribute( szData, zsizeof( szData ), vLOD, "ER_Attribute", "Lth" );
          zstrblank( szData, 5, 1 );
          ZeidonStringConcat( Line, 1, 0, szData, 1, 0, 511 );
-         nZRetCode = GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), vLOD, "Domain", "DerivedName" );
+         nZRetCode = GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), vLOD, "Domain", "DerivedName" );
          ZeidonStringConcat( Line, 1, 0, szTempString_8, 1, 0, 511 );
          nZRetCode = SysWriteLine( vLOD_In,  lRptFile, Line );
          RESULT = SetCursorNextEntity ( vLOD, "LOD_Attribute", "" );

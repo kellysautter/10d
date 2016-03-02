@@ -269,7 +269,7 @@ ZSS::ZSS( ZSubtask *pZSubtask,
    if ( m_pchListInfo )
    {
       m_nCols = (zSHORT) *((zPLONG) m_pchListInfo);
-      m_cpcMB_Text = (zCPCHAR *) new char[ m_nCols * sizeof( zCPCHAR ) ];
+      m_cpcMB_Text = (zCPCHAR *) new char[ m_nCols * zsizeof( zCPCHAR ) ];
    }
 
 #ifndef zREMOTE_SERVER
@@ -381,13 +381,13 @@ ZSS::OnCreate( LPCREATESTRUCT lpCreateStruct )
 // VScrollSetSpecial( TRUE, 0 );
 
    zCHAR szBuffer[ 40 ];
-   zSHORT nLth = sizeof( "-2147483647," ) * m_nCols;
+   zSHORT nLth = zsizeof( "-2147483647," ) * m_nCols;
    zPCHAR pchBuffer = new char[ nLth + 1 ];
    zPCHAR pchComma;
    zPCHAR pchValue;
 
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    GetWindowPreferenceString( m_pZSubtask->m_vDialog,
                               szBuffer, pchBuffer, nLth );
 
@@ -470,7 +470,7 @@ ZSS::OnCreate( LPCREATESTRUCT lpCreateStruct )
 
       pch += lChar;
 
-//    TraceLineS( "SS tag: ", pch + sizeof(zPLONG) );
+//    TraceLineS( "SS tag: ", pch + zsizeof(zPLONG) );
 
       // skip past tag
       lChar = *((zPLONG) pch);
@@ -519,7 +519,7 @@ ZSS::DestroyWindow( )
    SS_TraceDone( );
 
    zCHAR    szBuffer[ 40 ];  // tag length + 7
-   zPCHAR   pch = new char[ sizeof( "-2147483647," ) * m_nCols ];
+   zPCHAR   pch = new char[ zsizeof( "-2147483647," ) * m_nCols ];
    LPSPREADSHEET lpSS = SS_Lock( m_hWnd );
    zLONG    lColWidth;
    zSHORT   nLth = 0;
@@ -540,8 +540,8 @@ ZSS::DestroyWindow( )
    }
 
    pch[ nLth ] = 0;
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    SetWindowPreferenceString( m_pZSubtask->m_vDialog, szBuffer, pch );
    mDeleteInitA( pch );
 
@@ -715,7 +715,7 @@ ZSS::MapRowsFromOI( SS_COORD ssRow, zLONG lRows, zSHORT nDisplayRows )
 #endif
 
          GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                   sizeof( szMap ) - 1,
+                                   zsizeof( szMap ) - 1,
                                    m_vAppList, CtrlMapDef.EN,
                                    CtrlMapDef.AN, CtrlMapDef.Context,
                                    CtrlMapDef.Context[ 0 ] ? 0 :
@@ -898,7 +898,7 @@ ZSS::MapRowsFromOI( SS_COORD ssRow, zLONG lRows, zSHORT nDisplayRows )
 
                   // This is the attribute to present to the spreadsheet.
                   GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                            sizeof( szMap ) - 1,
+                                            zsizeof( szMap ) - 1,
                                             m_vAppList, cpcEntityName,
                                             pchAttributeName, cpcContextName,
 //                                            cpcContextName &&
@@ -909,9 +909,9 @@ ZSS::MapRowsFromOI( SS_COORD ssRow, zLONG lRows, zSHORT nDisplayRows )
                                               zACCEPT_NULL_ENTITY | zUSE_DEFAULT_CONTEXT );
 
                   SetValue( k, ssRow, szMap );
-               // zCHAR szMsg[ sizeof( szMap ) + 100 ];
+               // zCHAR szMsg[ zsizeof( szMap ) + 100 ];
                //
-               // sprintf_s( szMsg, sizeof( szMsg ), "SetValue for Row: %d Col: %d %s",
+               // sprintf_s( szMsg, zsizeof( szMsg ), "SetValue for Row: %d Col: %d %s",
                //           (zLONG) ssRow, (zLONG) k, szMap );
                // TraceLineS( szMsg, "" );
                   break;
@@ -931,7 +931,7 @@ ZSS::MapRowsFromOI( SS_COORD ssRow, zLONG lRows, zSHORT nDisplayRows )
                      ulStyle |= CBS_SORT;
 
                   GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                            sizeof( szMap ) - 1,
+                                            zsizeof( szMap ) - 1,
                                             m_vAppList, cpcEntityName,
                                             pchAttributeName, cpcContextName,
 //                                          cpcContextName &&
@@ -987,7 +987,7 @@ ZSS::MapRowsFromOI( SS_COORD ssRow, zLONG lRows, zSHORT nDisplayRows )
 
                   // This is the attribute to present to the spreadsheet.
                   GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                            sizeof( szMap ) - 1,
+                                            zsizeof( szMap ) - 1,
                                             m_vAppList, cpcEntityName,
                                             pchAttributeName, cpcContextName,
 //                                          cpcContextName &&
@@ -1265,7 +1265,7 @@ ZSS::MapFromOI( WPARAM wFlag )
          {
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Grid: %s - no %s entities",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Grid: %s - no %s entities",
                       *m_pzsTag, *m_pzsEName );
             TraceLineS( szMsg, "" );
          }
@@ -1502,9 +1502,9 @@ ZSS::MapRowToOI( zLONG lFlag, zLONG lRow )
 
                // nRC = GetValue( k, ssActiveRow, szMap );
                   nRC = GetData( k, ssActiveRow, szMap );
-               // zCHAR szMsg[ sizeof( szMap ) + 100 ];
+               // zCHAR szMsg[ zsizeof( szMap ) + 100 ];
                //
-               // sprintf_s( szMsg, sizeof( szMsg ), "GetValue for Row: %d Col: %d %s",
+               // sprintf_s( szMsg, zsizeof( szMsg ), "GetValue for Row: %d Col: %d %s",
                //           (zLONG) ssActiveRow, (zLONG) k, szMap );
                // TraceLineS( szMsg, "" );
 
@@ -1520,7 +1520,7 @@ ZSS::MapRowToOI( zLONG lFlag, zLONG lRow )
                                              cpcEntityName,
                                              cpcAttributeName,
                                              szMap, zTYPE_STRING,
-                                             sizeof( szMap ) - 1,
+                                             zsizeof( szMap ) - 1,
                                              cpcContextName,
                                              (cpcContextName &&
                                               cpcContextName[ 0 ]) ?
@@ -1559,7 +1559,7 @@ ZSS::MapRowToOI( zLONG lFlag, zLONG lRow )
                                            cpcAttributeName,
                                            *szMap == '1' ? pchOn : pchOff,
                                            zTYPE_STRING,
-                                           sizeof( szMap ) - 1,
+                                           zsizeof( szMap ) - 1,
                                            cpcContextName,
                                            (cpcContextName &&
                                             cpcContextName[ 0 ]) ?
@@ -5091,7 +5091,7 @@ SSx_CellEditModeOn( HWND           hWnd,
                else
                {
                   zmemcpy( &DateFormat, &lpSS->DefaultDateFormat,
-                           sizeof( DATEFORMAT ) );
+                           zsizeof( DATEFORMAT ) );
 
                   if ( CellType->lStyle & DS_CENTURY )
                      DateFormat.bCentury = TRUE;
@@ -5129,7 +5129,7 @@ SSx_CellEditModeOn( HWND           hWnd,
                   TIMEFORMAT TimeFormat;
 
                   zmemcpy( &TimeFormat, &lpSS->DefaultTimeFormat,
-                           sizeof( TIMEFORMAT ) );
+                           zsizeof( TIMEFORMAT ) );
 
                   if ( CellType->lStyle & TS_SECONDS )
                      TimeFormat.bSeconds = TRUE;
@@ -5203,7 +5203,7 @@ SSx_CellEditModeOn( HWND           hWnd,
                   FloatSetRange( hWndCtrl, CellType->Spec.Float.dxMin,
                                  CellType->Spec.Float.dxMax );
 
-                  zmemset( Buffer, 0, sizeof( Buffer ) );
+                  zmemset( Buffer, 0, zsizeof( Buffer ) );
 
                   for ( k = 0; k < CellType->Spec.Float.nLeft; k++ )
                      strcat_s( Buffer, "9" );
@@ -5573,7 +5573,7 @@ SS_CheckBoxSetPict( HWND          hWnd,
 
       if ( lpCheckBox && lpCheckBox->fUseDefPicts )
       {
-         zmemset( &lpCheckBox->Picts, 0, sizeof( CHECKBOXPICTS ) );
+         zmemset( &lpCheckBox->Picts, 0, zsizeof( CHECKBOXPICTS ) );
          lpCheckBox->fUseDefPicts = FALSE;
       }
 
@@ -5822,7 +5822,7 @@ SS_GetFont( LPSPREADSHEET lpSS,
    lpFontTable = (LPSS_FONT) g_hFontTable;
    if ( FontId > 0 && FontId <= g_nFontTableCnt )
    {
-      zmemcpy( Font, &lpFontTable[ FontId - 1 ], sizeof( SS_FONT ) );
+      zmemcpy( Font, &lpFontTable[ FontId - 1 ], zsizeof( SS_FONT ) );
 //    DrUnlockTaskMemory( lpFontTable );
       return( Font );
    }
@@ -5858,7 +5858,7 @@ SS_InitFont( HWND  hWnd,
    if ( g_nFontTableCnt >= g_lFontTableAllocCnt )
       g_hFontTable = SS_FontAllocItem( g_hFontTable,
                                        &g_lFontTableAllocCnt,
-                                       sizeof( SS_FONT ) );
+                                       zsizeof( SS_FONT ) );
 
    if ( g_hFontTable == 0 )
       return( -1 );
@@ -5909,7 +5909,7 @@ SS_InitFont( HWND  hWnd,
       lSize = fm.tmHeight - fm.tmInternalLeading;
 
    for ( FontIdTemp = 0;
-         FontIdTemp < sizeof( DefaultFontHeight ) / sizeof( SS_FONTPOINTS );
+         FontIdTemp < zsizeof( DefaultFontHeight ) / zsizeof( SS_FONTPOINTS );
          FontIdTemp++ )
    {
       if ( lSize <= DefaultFontHeight[ FontIdTemp ].nSize )
@@ -6012,7 +6012,7 @@ SS_SetFont( LPSPREADSHEET lpSS,
 
    if ( FontId > 0 && FontId <= g_nFontTableCnt )
    {
-      zmemcpy( &lpFontTable[FontId - 1], lpFont, sizeof( SS_FONT ) );
+      zmemcpy( &lpFontTable[FontId - 1], lpFont, zsizeof( SS_FONT ) );
       fRet = TRUE;
    }
 
@@ -6423,7 +6423,7 @@ SS_CopyCell( HWND          hWnd,
              LPSS_CELL     lpCellSrc )
 {
    TRACE_DEBUG( "<SS_COPY.CPP>", "SS_CopyCell" );
-   zmemcpy( lpCellDest, lpCellSrc, sizeof( ZSS_Cell ) );
+   zmemcpy( lpCellDest, lpCellSrc, zsizeof( ZSS_Cell ) );
 
    if ( lpCellDest->Data.bDataType == SS_TYPE_EDIT )
       SSx_CopyData( &lpCellDest->Data, &lpCellSrc->Data );
@@ -6432,7 +6432,7 @@ SS_CopyCell( HWND          hWnd,
 
 #ifndef SS_NOCALC
    lpCellDest->hCalc = SSx_CopyCalc( lpSS, lpCellSrc->hCalc, ssCol, ssRow );
-   zmemset( &lpCellDest->Dependents, 0, sizeof( SS_CALCLIST ) );
+   zmemset( &lpCellDest->Dependents, 0, zsizeof( SS_CALCLIST ) );
 #endif
 
    SS_CopyAdjustDataCnt( hWnd, lpSS, lpCellDest->Data.bDataType, ssCol, ssRow );
@@ -6460,10 +6460,10 @@ SSx_CopyCellType( HWND    hWnd,
       lpCellTypeSrc = (LPSS_CELLTYPE) hCellTypeSrc;
 
       if ( DrAllocTaskMemory( (zCOREMEM) &hCellTypeDest,
-                              sizeof( SS_CELLTYPE ), 1026 ) == 0 )
+                              zsizeof( SS_CELLTYPE ), 1026 ) == 0 )
       {
          lpCellTypeDest = (LPSS_CELLTYPE) DrLockTaskMemory( hCellTypeDest );
-         zmemcpy( lpCellTypeDest, lpCellTypeSrc, sizeof( SS_CELLTYPE ) );
+         zmemcpy( lpCellTypeDest, lpCellTypeSrc, zsizeof( SS_CELLTYPE ) );
 
          switch ( lpCellTypeSrc->chType )
          {
@@ -6606,7 +6606,7 @@ SS_CopyCol( HWND          hWnd,
             LPSS_COL      lpColSrc )
 {
    TRACE_DEBUG( "<SS_COPY.CPP>", "SS_CopyCol" );
-   zmemcpy( lpColDest, lpColSrc, sizeof( SS_COL ) );
+   zmemcpy( lpColDest, lpColSrc, zsizeof( SS_COL ) );
 
    if ( lpColDest->Data.bDataType == SS_TYPE_EDIT )
       SSx_CopyData( &lpColDest->Data, &lpColSrc->Data );
@@ -6615,7 +6615,7 @@ SS_CopyCol( HWND          hWnd,
 
 #ifndef SS_NOCALC
    lpColDest->hCalc = SSx_CopyCalc( lpSS, lpColSrc->hCalc, ssCol, -1 );
-   zmemset( &lpColDest->Dependents, 0, sizeof( SS_CALCLIST ) );
+   zmemset( &lpColDest->Dependents, 0, zsizeof( SS_CALCLIST ) );
 #endif
 
    SS_CopyAdjustDataCnt( hWnd, lpSS, lpColDest->Data.bDataType,
@@ -6682,7 +6682,7 @@ SS_CopyRow( HWND          hWnd,
             LPSS_ROW      lpRowSrc )
 {
    TRACE_DEBUG( "<SS_COPY.CPP>", "SS_CopyRow" );
-   zmemcpy( lpRowDest, lpRowSrc, sizeof( SS_ROW ) );
+   zmemcpy( lpRowDest, lpRowSrc, zsizeof( SS_ROW ) );
 
    if ( lpRowDest->Data.bDataType == SS_TYPE_EDIT )
       SSx_CopyData( &lpRowDest->Data, &lpRowSrc->Data );
@@ -6691,7 +6691,7 @@ SS_CopyRow( HWND          hWnd,
 
 #ifndef SS_NOCALC
    lpRowDest->hCalc = SSx_CopyCalc( lpSS, lpRowSrc->hCalc, -1, ssRow );
-   zmemset( &lpRowDest->Dependents, 0, sizeof( SS_CALCLIST ) );
+   zmemset( &lpRowDest->Dependents, 0, zsizeof( SS_CALCLIST ) );
 #endif
 
    lpRowDest->Cells.dwItemCnt = 0;
@@ -7395,9 +7395,9 @@ InitBitmapInfoHeader( LPBITMAPINFOHEADER lpBmInfoHdr,
                       DWORD dwHeight, int nBPP )
 {
    TRACE_DEBUG( "<TBDIB.CPP>", "InitBitmapInfoHeader" );
-   zmemset( lpBmInfoHdr, 0, sizeof( BITMAPINFOHEADER ) );
+   zmemset( lpBmInfoHdr, 0, zsizeof( BITMAPINFOHEADER ) );
 
-   lpBmInfoHdr->biSize      = sizeof( BITMAPINFOHEADER );
+   lpBmInfoHdr->biSize      = zsizeof( BITMAPINFOHEADER );
    lpBmInfoHdr->biWidth     = dwWidth;
    lpBmInfoHdr->biHeight    = dwHeight;
    lpBmInfoHdr->biPlanes    = 1;
@@ -7432,7 +7432,7 @@ BitmapToDIB( HBITMAP hBitmap, HPALETTE hPal )
    if ( hBitmap == 0 )
       return( 0 );
 
-   if ( !GetObject( hBitmap, sizeof( Bitmap ), (zPCHAR) &Bitmap ) )
+   if ( !GetObject( hBitmap, zsizeof( Bitmap ), (zPCHAR) &Bitmap ) )
       return( 0 );
 
    InitBitmapInfoHeader( &bmInfoHdr,
@@ -7442,7 +7442,7 @@ BitmapToDIB( HBITMAP hBitmap, HPALETTE hPal )
 
    // Now allocate memory for the DIB.  Then, set the BITMAPINFOHEADER
    //  into this memory, and find out where the bitmap bits go.
-   hDIB = GlobalAlloc( GHND, sizeof( BITMAPINFOHEADER ) +
+   hDIB = GlobalAlloc( GHND, zsizeof( BITMAPINFOHEADER ) +
                        ::PaletteSize( &bmInfoHdr ) +
                        bmInfoHdr.biSizeImage );
 
@@ -7519,8 +7519,8 @@ GetSystemPalette( )
    ReleaseDC( 0, hDC );
 
    // Allocate room for the palette and lock it.
-   hLogPal = GlobalAlloc( GHND, sizeof( LOGPALETTE ) +
-                          nColors * sizeof( PALETTEENTRY ) );
+   hLogPal = GlobalAlloc( GHND, zsizeof( LOGPALETTE ) +
+                          nColors * zsizeof( PALETTEENTRY ) );
    if ( hLogPal == 0 )
       return( 0 );
 
@@ -7746,7 +7746,7 @@ SSx_EditProc( WNDPROC  lpfnProc,
 
          if ( lpSS->fFormulaMode )
             zmemcpy( &CellType, &lpSS->FormulaCellType,
-                     sizeof( SS_CELLTYPE ) );
+                     zsizeof( SS_CELLTYPE ) );
          else
             SS_RetrieveCellType( lpSS, &CellType, 0,
                                  lpSS->Col.ssCurrAt, lpSS->Row.ssCurrAt );
@@ -7875,7 +7875,7 @@ SS_EditPasteProc( WNDPROC lpfnProc,
       {
          if ( lpSS->fFormulaMode )
             zmemcpy( &CellType, &lpSS->FormulaCellType,
-                     sizeof( SS_CELLTYPE ) );
+                     zsizeof( SS_CELLTYPE ) );
          else
             SS_RetrieveCellType( lpSS, &CellType, 0, lpSS->Col.ssCurrAt, lpSS->Row.ssCurrAt );
 

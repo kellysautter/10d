@@ -333,9 +333,9 @@ ZDrApp::InitInstance( )
                                    zZEIDON_COMMUNICATE_OE, params.GetAt( 0 ), 0, 0 ) != 0 )
    {
       zCHAR szMsg[ 256 ];
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Register Object Engine for: " );
-      strcat_s( szMsg, sizeof( szMsg ), params.GetAt( 1 ) );
-      strcat_s( szMsg, sizeof( szMsg ), "\nPlease ensure Object Engine is running" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Register Object Engine for: " );
+      strcat_s( szMsg, zsizeof( szMsg ), params.GetAt( 1 ) );
+      strcat_s( szMsg, zsizeof( szMsg ), "\nPlease ensure Object Engine is running" );
 
       // Use SysMessageBox with -1 since we have no view!
       SysMessageBox( 0, "Zeidon Application", szMsg, -1 );
@@ -348,7 +348,7 @@ ZDrApp::InitInstance( )
 // TraceLineS( "RegisterZeidonApplication successful for: ", pCmdInfo->m_strFileName );
 
    zCHAR szUseHack[ 100 ];
-   SysReadZeidonIni( -1, "[Debug]", "UseDefaultTaskHack", szUseHack, sizeof( szUseHack ) );
+   SysReadZeidonIni( -1, "[Debug]", "UseDefaultTaskHack", szUseHack, zsizeof( szUseHack ) );
    if ( ztoupper( szUseHack[ 0 ] ) == 'Y' )
       SetDefaultViewForActiveTask( m_vSubtask, 1 );
 
@@ -381,7 +381,7 @@ ZDrApp::InitInstance( )
 #endif
       {
          zCHAR szMsg[ 256 ];
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to Activate KZZDR object" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Activate KZZDR object" );
          MessageSend( m_vSubtask, 0, "ZeidonApplication", szMsg, zMSGQ_MODAL_ERROR, FALSE );
          ::PostMessage( m_hWndCommOE, WM_CLOSE, 0, 0L );
          mDeleteInitA( pchSubtasks );
@@ -486,7 +486,7 @@ ZDrApp::InitInstance( )
    {
       zCHAR  szMsg[ 256 ];
 
-      e->GetErrorMessage( szMsg, sizeof( szMsg ) );
+      e->GetErrorMessage( szMsg, zsizeof( szMsg ) );
       TraceLineS( "(drvr) ZDrApp::InitInstance Exception ====> ", szMsg );
    // ::MessageBox( 0, szMsg, "Action New Exception", MB_OK );
       return( FALSE );
@@ -719,7 +719,7 @@ ZDxFrame::OnCreate( LPCREATESTRUCT lpCreateStruct )
    }
 
    if ( m_wndStatusBar.Create( this ) == 0 ||
-        m_wndStatusBar.SetIndicators( indicators, sizeof( indicators ) / sizeof( UINT ) ) == 0 )
+        m_wndStatusBar.SetIndicators( indicators, zsizeof( indicators ) / zsizeof( UINT ) ) == 0 )
    {
       TraceLineS( "ZDxFrame::OnCreate Failed to create status bar", "" );
       return( -1 );      // fail to create
@@ -738,7 +738,7 @@ ZDxFrame::OnCreate( LPCREATESTRUCT lpCreateStruct )
 
    WINDOWPLACEMENT wp;
    APPBARDATA abd;
-   abd.cbSize = sizeof( abd );
+   abd.cbSize = zsizeof( abd );
 
    // Ignored members: hwnd, uCallbackMessage, uEdge, rc, lParam.
    // abd.rc contains the rectangular location of the taskbar in
@@ -814,7 +814,7 @@ ZDxFrame::OnDestroy( )
    }
 
    WINDOWPLACEMENT wp;
-   wp.length = sizeof( wp );
+   wp.length = zsizeof( wp );
    if ( GetWindowPlacement( &wp ) )
    {
       wp.flags = 0;
@@ -822,7 +822,7 @@ ZDxFrame::OnDestroy( )
          wp.flags |= WPF_RESTORETOMAXIMIZED;
 
       APPBARDATA abd;
-      abd.cbSize = sizeof( abd );
+      abd.cbSize = zsizeof( abd );
 
       // Ignored members: hwnd, uCallbackMessage, uEdge, rc, lParam
       SHAppBarMessage( ABM_GETTASKBARPOS, &abd );
@@ -847,7 +847,7 @@ ZDxFrame::OnDestroy( )
 
       if ( mIs_hWnd( m_wndListCtrl.m_hWnd ) )
       {
-         zPCHAR pch = new char[ sizeof( "-2147483647," ) * 3 ];
+         zPCHAR pch = new char[ zsizeof( "-2147483647," ) * 3 ];
          zSHORT nLth = 0;
          zSHORT k;
 
@@ -1225,14 +1225,14 @@ ZDxView::OnCreate( LPCREATESTRUCT lpCreateStruct )
 
    // Loop processing each column.
    LV_COLUMN lvc;
-   zPCHAR    pchBuffer = new char[ sizeof( "-2147483647," ) * 3 ];
+   zPCHAR    pchBuffer = new char[ zsizeof( "-2147483647," ) * 3 ];
    zPCHAR    pchComma;
    zPCHAR    pch;
    zSHORT    nExtent;
    zSHORT    nCol;
 
    GetProfileStr( 0, "ZDRemote", "RemoteServer", "TaskList",
-                  "ColumnWidth", pchBuffer, sizeof( "-2147483647," ) * 3 );
+                  "ColumnWidth", pchBuffer, zsizeof( "-2147483647," ) * 3 );
    pch = pchBuffer;
 
    for ( nCol = 0; nCol < 3; nCol++ )
@@ -1647,7 +1647,7 @@ GetTaskList95( PTASK_LIST pTask,
    // Walk the snapshot of processes and for each process, get information
    // to display.
    dwTaskCount = 0;
-   pe32.dwSize = sizeof( PROCESSENTRY32 );   // must be filled out before use
+   pe32.dwSize = sizeof( PROCESSENTRY32 );  // must be filled out before use
    if ( pProcess32First( hProcessSnap, &pe32 ) )
    {
       do
@@ -1814,7 +1814,7 @@ GetTaskListNT( PTASK_LIST  pTask,
          {
          }
 
-         strcpy_s( szSubKey, sizeof( szSubKey ), p2 + 1 );
+         strcpy_s( szSubKey, zsizeof( szSubKey ), p2 + 1 );
       }
       else
       if ( zstricmp( p, PROCESSID_COUNTER ) == 0 )
@@ -1902,14 +1902,14 @@ GetTaskListNT( PTASK_LIST  pTask,
 
       // Convert it to ascii.
       rc = WideCharToMultiByte( CP_ACP, 0, (LPCWSTR) p, -1, szProcessName,
-                                sizeof( szProcessName ), NULL, NULL );
+                                zsizeof( szProcessName ), NULL, NULL );
       if ( rc == 0 )
       {
          // If we can't convert the string, then use a default value.
          strcpy_s( (zPCHAR) pTask->ProcessName, PROCESS_SIZE, UNKNOWN_TASK );
       }
 
-      if ( zstrlen( szProcessName ) + 4 <= sizeof( pTask->ProcessName ) )
+      if ( zstrlen( szProcessName ) + 4 <= zsizeof( pTask->ProcessName ) )
       {
          strcpy_s( (zPCHAR) pTask->ProcessName, PROCESS_SIZE, szProcessName );
          strcat_s( (zPCHAR) pTask->ProcessName, PROCESS_SIZE, ".exe" );
@@ -2102,7 +2102,7 @@ CALLBACK EnumWindowsProc( HWND hwnd, LONG lParam )
          tlist[ dw ].hwnd = hwnd;
 
          // We found the task so let's try to get the window text.
-         if ( GetWindowText( tlist[ dw ].hwnd, buf, sizeof( buf ) - 1 ) )
+         if ( GetWindowText( tlist[ dw ].hwnd, buf, zsizeof( buf ) - 1 ) )
          {
             // Got it, so let's save it.
             strcpy_s( (zPCHAR) tlist[ dw ].WindowTitle, TITLE_SIZE, buf );

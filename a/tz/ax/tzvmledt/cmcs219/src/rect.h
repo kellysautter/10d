@@ -25,7 +25,7 @@ class CRect : public tagRECT
 public:
    CRect()
    {
-      ZeroMemory( this, sizeof(RECT) );
+      ZeroMemory( this, zsizeof(RECT) );
    }
 
    CRect( int l, int t, int r, int b )

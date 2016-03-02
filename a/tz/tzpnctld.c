@@ -259,7 +259,7 @@ TabPostBuild( zVIEW vSubtask )
    zULONG  ulTabColor = 0xFF000000;
    zULONG  ulTextColor = 0xFF000000;
    zCHAR   szBlob[ 5 * sizeof( zLONG ) ];
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
    GetViewByName( &vTZWINDOWL, "TZWINDOWL", vSubtask, zLEVEL_TASK );
@@ -333,7 +333,7 @@ UpdateTab( zVIEW vSubtask )
    zPCHAR  pchWork;
    zLONG   lTabStyle;
    zCHAR   szBlob[ 5 * sizeof( zLONG ) ];
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
 // zCHAR   szColor[ 16 ];
 
    pchWork = (zPCHAR) GetCtrlState( vSubtask, "Edge",
@@ -422,7 +422,7 @@ SetTabTextColor( zVIEW vSubtask )
 
    GetViewByName( &vTZWINDOWL, "TZWINDOWL", vSubtask, zLEVEL_TASK );
 
-   GetCtrlText( vSubtask, "TextColor", szColor, sizeof( szColor ) );
+   GetCtrlText( vSubtask, "TextColor", szColor, zsizeof( szColor ) );
    clr = zatol( szColor );
 // TraceLineI( "TextColor colorref = ", (zLONG) clr );
 
@@ -430,7 +430,7 @@ SetTabTextColor( zVIEW vSubtask )
                                 (zPLONG) aclrCust, TRUE ) == 1 )
    {
    // TraceLineI( "TextColor colorref after = ", (zLONG) clr );
-      zltoa( clr, szColor, sizeof( szColor ) );
+      zltoa( clr, szColor, zsizeof( szColor ) );
       SetCtrlText( vSubtask, "TextColor", szColor );
    }
 
@@ -447,7 +447,7 @@ SetTabTabColor( zVIEW vSubtask )
 
    GetViewByName( &vTZWINDOWL, "TZWINDOWL", vSubtask, zLEVEL_TASK );
 
-   GetCtrlText( vSubtask, "TabColor", szColor, sizeof( szColor ) );
+   GetCtrlText( vSubtask, "TabColor", szColor, zsizeof( szColor ) );
    clr = zatol( szColor );
 // TraceLineI( "TabColor colorref = ", (zLONG) clr );
 
@@ -455,7 +455,7 @@ SetTabTabColor( zVIEW vSubtask )
                                 (zPLONG) aclrCust, TRUE ) == 1 )
    {
    // TraceLineI( "TabColor colorref after = ", (zLONG) clr );
-      zltoa( clr, szColor, sizeof( szColor ) );
+      zltoa( clr, szColor, zsizeof( szColor ) );
       SetCtrlText( vSubtask, "TabColor", szColor );
    }
 
@@ -491,13 +491,13 @@ SubTabPostBuild( zVIEW vSubtask )
    zULONG  ulTabColor = 0xFF000000;
    zULONG  ulTextColor = 0xFF000000;
    zCHAR   szBlob[ 2 * sizeof( zLONG ) ];
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
    GetViewByName( &vTZWINDOWL, "TZWINDOWL", vSubtask, zLEVEL_TASK );
 
    GetBlobFromAttribute( szBlob, &ulLth, vControl, "Control", "CtrlBOI" );
-   if ( ulLth >= sizeof( szBlob ) )
+   if ( ulLth >= zsizeof( szBlob ) )
    {
    // zCHAR   szColor[ 16 ];
       zPULONG pulTextColor = (zPULONG) (szBlob + sizeof( zLONG ) * 0);
@@ -531,7 +531,7 @@ SubTabOK( zVIEW vSubtask )
    zPULONG pulTextColor;
    zPULONG pulTabColor;
    zCHAR   szBlob[ 2 * sizeof( zLONG ) ];
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
 // zCHAR   szColor[ 16 ];
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
@@ -698,10 +698,10 @@ UPD_BmpCtlOK( zVIEW vSubtask )
    SplitCtrlBOI_BMP( pCtrlBOI, ulLth, &BMP );
 
    // set new CtrlBOI
-   GetCtrlText( vSubtask, "DLL_Name", BMP.szDLLName, sizeof( BMP.szDLLName ) );
+   GetCtrlText( vSubtask, "DLL_Name", BMP.szDLLName, zsizeof( BMP.szDLLName ) );
 
    // If there is a file name specified.
-   GetCtrlText( vSubtask, "FileName", szName, sizeof( szName ) );
+   GetCtrlText( vSubtask, "FileName", szName, zsizeof( szName ) );
    if ( szName[ 0 ] )
    {
       // If there is an ID on the line separated by ';'
@@ -718,12 +718,12 @@ UPD_BmpCtlOK( zVIEW vSubtask )
             BMP.lBMPUpOrIconID = 0;
          }
 
-         strcpy_s( BMP.szBMPUpOrIconName, sizeof( BMP.szBMPUpOrIconName ), szName );
+         strcpy_s( BMP.szBMPUpOrIconName, zsizeof( BMP.szBMPUpOrIconName ), szName );
       }
       else
       {
          // If the ID has been specified, take it.
-         strcpy_s( BMP.szBMPUpOrIconName, sizeof( BMP.szBMPUpOrIconName ), ++pszBMPName );
+         strcpy_s( BMP.szBMPUpOrIconName, zsizeof( BMP.szBMPUpOrIconName ), ++pszBMPName );
          BMP.lBMPUpOrIconID = zatol( szName );
       }
    }
@@ -734,7 +734,7 @@ UPD_BmpCtlOK( zVIEW vSubtask )
    }
 
    SetAttributeFromString( vControl, "Control", "WebFileName", BMP.szBMPUpOrIconName );
-   k = BuildCtrlBOI_BMP( &BMP, szBlob, sizeof( szBlob ) );
+   k = BuildCtrlBOI_BMP( &BMP, szBlob, zsizeof( szBlob ) );
    SetAttributeFromBlob( vControl, "Control", "CtrlBOI", szBlob, k );
 
    // For the Common Detail stuff, we want to hold on to the low order bits,
@@ -774,7 +774,7 @@ UPD_BmpCtlBrowseFileName( zVIEW vSubtask )
    zCHAR   szFileName[ 256 ];
 
    szFileName[ 0 ] = 0;
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                "Bitmap Files (*.BMP)|*.bmp|",
                                "BMP",
                                zOFN_HIDEREADONLY | zOFN_NOCHANGEDIR |
@@ -853,10 +853,10 @@ UPD_IconOK( zVIEW vSubtask )
    SplitCtrlBOI_BMP( pCtrlBOI, ulLth, &BMP);
 
    // Set new CtrlBOI.
-   GetCtrlText( vSubtask, "DLL_Name", BMP.szDLLName, sizeof( BMP.szDLLName ) );
+   GetCtrlText( vSubtask, "DLL_Name", BMP.szDLLName, zsizeof( BMP.szDLLName ) );
 
    // If there is a file name specified.
-   GetCtrlText( vSubtask, "FileName", szName, sizeof( szName ) );
+   GetCtrlText( vSubtask, "FileName", szName, zsizeof( szName ) );
    if ( szName[ 0 ] )
    {
       // If there is an ID on the line separated by ';'
@@ -873,12 +873,12 @@ UPD_IconOK( zVIEW vSubtask )
             BMP.lBMPUpOrIconID = 0;
          }
 
-         strcpy_s( BMP.szBMPUpOrIconName, sizeof( BMP.szBMPUpOrIconName ), szName );
+         strcpy_s( BMP.szBMPUpOrIconName, zsizeof( BMP.szBMPUpOrIconName ), szName );
       }
       else
       {
          // If an ID has been specified, take it.
-         strcpy_s( BMP.szBMPUpOrIconName, sizeof( BMP.szBMPUpOrIconName ), ++pszBMPName );
+         strcpy_s( BMP.szBMPUpOrIconName, zsizeof( BMP.szBMPUpOrIconName ), ++pszBMPName );
          BMP.lBMPUpOrIconID = zatol( szName );
       }
    }
@@ -888,7 +888,7 @@ UPD_IconOK( zVIEW vSubtask )
       BMP.lBMPUpOrIconID = 0;
    }
 
-   k = BuildCtrlBOI_BMP( &BMP, szBlob, sizeof( szBlob ) );
+   k = BuildCtrlBOI_BMP( &BMP, szBlob, zsizeof( szBlob ) );
    SetAttributeFromBlob( vControl, "Control", "CtrlBOI", szBlob, k );
 
    return( 0 );
@@ -900,7 +900,7 @@ UPD_IconBrowseFileName( zVIEW vSubtask )
    zCHAR   szFileName[ 256 ];
 
    szFileName[ 0 ] = 0;
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                "Icon Files (*.ICO)|*.ico|",
                                "ICO", TRUE ) == 1 )
    {
@@ -1142,7 +1142,7 @@ OperationEdit( zVIEW vSubtask )
    if ( CheckExistenceOfEntity( vDialogC, "EventAct" ) == zCURSOR_SET &&
         CompareAttributeToString( vDialogC, "EventAct", "Tag", "" ) != 0 )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vDialogC, "EventAct", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vDialogC, "EventAct", "Tag" );
       SetCursorFirstEntityByString( vDialogW, "Action", "Tag", szTag, "" );
       if ( CheckExistenceOfEntity( vDialogW, "Operation" ) == zCURSOR_SET &&
            CheckExistenceOfEntity( vDialogW, "ActOper" ) == zCURSOR_SET )
@@ -1302,7 +1302,7 @@ ReturnFromSubwindow( zVIEW vSubtask )
 
       // save cursor
       GetViewByName( &vTZPNEVWO, "TZPNEVWO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szEventTag, sizeof( szEventTag ), vTZPNEVWO, "Event", "Tag" );
+      GetStringFromAttribute( szEventTag, zsizeof( szEventTag ), vTZPNEVWO, "Event", "Tag" );
 
       // Build the TZPNEVWO object for the control events.
       fnPainterCall( zMSG_BUILDTZPNEVWO, vSubtask, 0, 0, 0 );
@@ -1669,14 +1669,14 @@ UpdateDayTimerPostBuild( zVIEW vSubtask )
    zVIEW   vControl;
    zVIEW   vTZWINDOWL;
    zCHAR   szBlob[ 100 ];
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
    zCHAR   szTemp[ 32 ];
 
    GetViewByName( &vTZWINDOWL, "TZWINDOWL", vSubtask, zLEVEL_TASK );
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
 
    GetBlobFromAttribute( szBlob, &ulLth, vControl, "Control", "CtrlBOI" );
-   if ( ulLth < sizeof( szBlob ) )
+   if ( ulLth < zsizeof( szBlob ) )
    {
       SetCtrlState( vSubtask, "Both", zCONTROL_STATUS_CHECKED, TRUE );
       SetCtrlText( vSubtask, "Rows", "1" );
@@ -1704,17 +1704,17 @@ UpdateDayTimerPostBuild( zVIEW vSubtask )
    // if ( szBlob[ 1 ] == 'B' )
          SetCtrlState( vSubtask, "Both", zCONTROL_STATUS_CHECKED, TRUE );
 
-      zltoa( *((zPLONG) (szBlob + 4)), szTemp, sizeof( szTemp ) );
+      zltoa( *((zPLONG) (szBlob + 4)), szTemp, zsizeof( szTemp ) );
       SetCtrlText( vSubtask, "Rows", szTemp );
-      zltoa( *((zPLONG) (szBlob + 8)), szTemp, sizeof( szTemp ) );
+      zltoa( *((zPLONG) (szBlob + 8)), szTemp, zsizeof( szTemp ) );
       SetCtrlText( vSubtask, "Cols", szTemp );
       if ( *((zPLONG) (szBlob + 12)) )
       {
-         zltoa( *((zPLONG) (szBlob + 12)), szTemp, sizeof( szTemp ) );
+         zltoa( *((zPLONG) (szBlob + 12)), szTemp, zsizeof( szTemp ) );
          SetCtrlText( vSubtask, "Size", szTemp );
       }
 
-      zltoa( *((zPLONG) (szBlob + 16)), szTemp, sizeof( szTemp ) );
+      zltoa( *((zPLONG) (szBlob + 16)), szTemp, zsizeof( szTemp ) );
       SetCtrlText( vSubtask, "MaxShowAppointment", szTemp );
 
       // Type - (4-byte long) MultiSelect, PermitNull, Today, Position
@@ -1792,7 +1792,7 @@ UpdateDayTimerOK( zVIEW vSubtask )
    zVIEW   vControl;
    zVIEW   vWork;
    zCHAR   szBlob[ 100 ];
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
    zCHAR   szTemp[ 32 ];
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
@@ -1802,7 +1802,7 @@ UpdateDayTimerOK( zVIEW vSubtask )
    AcceptSubobject( vControl, "Control" );
 
    // Set CtrlBOI values
-   zmemset( szBlob, 0, sizeof( szBlob ) );
+   zmemset( szBlob, 0, zsizeof( szBlob ) );
 
    if ( GetCtrlState( vSubtask, "MiniCal", zCONTROL_STATUS_CHECKED ) )
       szBlob[ 1 ] = 'M';
@@ -1813,13 +1813,13 @@ UpdateDayTimerOK( zVIEW vSubtask )
 // if ( GetCtrlState( vSubtask, "Both", zCONTROL_STATUS_CHECKED ) )
       szBlob[ 1 ] = 'B';
 
-   GetCtrlText( vSubtask, "Rows", szTemp, sizeof( szTemp ) );
+   GetCtrlText( vSubtask, "Rows", szTemp, zsizeof( szTemp ) );
    *((zPLONG) (szBlob + 4)) = zatol( szTemp );
-   GetCtrlText( vSubtask, "Cols", szTemp, sizeof( szTemp ) );
+   GetCtrlText( vSubtask, "Cols", szTemp, zsizeof( szTemp ) );
    *((zPLONG) (szBlob + 8)) = zatol( szTemp );
-   GetCtrlText( vSubtask, "Size", szTemp, sizeof( szTemp ) );
+   GetCtrlText( vSubtask, "Size", szTemp, zsizeof( szTemp ) );
    *((zPLONG) (szBlob + 12)) = zatol( szTemp );
-   GetCtrlText( vSubtask, "MaxShowAppointment", szTemp, sizeof( szTemp ) );
+   GetCtrlText( vSubtask, "MaxShowAppointment", szTemp, zsizeof( szTemp ) );
    *((zPLONG) (szBlob + 16)) = zatol( szTemp );
 
    // Type - (4-byte long) MultiSelect, PermitNull, Today, Position
@@ -1850,7 +1850,7 @@ UpdateDayTimerOK( zVIEW vSubtask )
    GetCtrlProperty( vSubtask, "__ColorBackground", zCONTROL_PROPERTY_INTEGER_DATA, pulColor, 0, 0 );
 
    GetCtrlText( vSubtask, "ScopeList", szBlob + 64, 33 );
-   SetAttributeFromBlob( vControl, "Control", "CtrlBOI", szBlob, sizeof( szBlob ) );
+   SetAttributeFromBlob( vControl, "Control", "CtrlBOI", szBlob, zsizeof( szBlob ) );
 
    if ( GetCtrlState( vSubtask, "OI", zCONTROL_STATUS_CHECKED ) )
       szBlob[ 97 ] = 'O'; // letter o

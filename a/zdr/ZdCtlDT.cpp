@@ -169,7 +169,7 @@ ZDayTimer::ZDayTimer( ZSubtask *pZSubtask,
    zULONG ulLth;
 
    GetAttributeLength( &ulLth, vDialog, szlCtrl, szlCtrlBOI );
-   if ( ulLth = sizeof( szBlob ) )
+   if ( ulLth = zsizeof( szBlob ) )
    {
       GetVariableFromAttribute( szBlob, &ulLth, zTYPE_BLOB,
                                 ulLth, vDialog, szlCtrl, szlCtrlBOI,
@@ -177,7 +177,7 @@ ZDayTimer::ZDayTimer( ZSubtask *pZSubtask,
    }
    else
    {
-      zmemset( szBlob, 0, sizeof( szBlob ) );
+      zmemset( szBlob, 0, zsizeof( szBlob ) );
    }
 
    m_uAppointmentTimerId = 0;
@@ -203,7 +203,7 @@ ZDayTimer::ZDayTimer( ZSubtask *pZSubtask,
    if ( m_chStyle != 'M' )
       m_pAgenda = new ZAgenda( this );
 
-   strcpy_s( pCtrlDef->Tag, sizeof( pCtrlDef->Tag ), *m_pzsTag );
+   strcpy_s( pCtrlDef->Tag, zsizeof( pCtrlDef->Tag ), *m_pzsTag );
    pCtrlDef->Subtype = lSubtype;
 
    m_nRows = (zSHORT) *((zPLONG) (szBlob + 4));
@@ -223,7 +223,7 @@ ZDayTimer::ZDayTimer( ZSubtask *pZSubtask,
    if ( m_clrBackground == 0 || m_clrBackground == 0xFF000000 )
       m_clrBackground = RGB( 231, 231, 214 );
 
-   strcpy_s( m_szScopeEntity, sizeof( m_szScopeEntity ), szBlob + 64 );
+   strcpy_s( m_szScopeEntity, zsizeof( m_szScopeEntity ), szBlob + 64 );
    m_chScope = szBlob[ 97 ];
 
    if ( m_nRows == 0 )
@@ -634,7 +634,7 @@ ZDayTimer::MapToOI( zLONG lFlag )
             m_pMiniCal->m_SelectedDays.GetNext( pos ) )
       {
          pSel = m_pMiniCal->m_SelectedDays.GetAt( pos );
-         SetZeidonDateFromOleDateTime( szDate, sizeof( szDate ), pSel->m_date );
+         SetZeidonDateFromOleDateTime( szDate, zsizeof( szDate ), pSel->m_date );
          if ( SetCursorFirstEntityByString( vApp, *m_pzsEName, *m_pzsAName, szDate, 0 ) != zCURSOR_SET )
          {
             CreateEntity( vApp, *m_pzsEName, zPOS_AFTER );
@@ -1229,7 +1229,7 @@ ZDayTimer::UpdateAppointment( ZAppointment *pA )
    {
       zCHAR  szDate[ 20 ];
 
-      SetZeidonDateFromOleDateTime( szDate, sizeof( szDate ), pA->m_date );
+      SetZeidonDateFromOleDateTime( szDate, zsizeof( szDate ), pA->m_date );
       if ( SetCursorFirstEntityByString( vApp, *m_pzsEName, *m_pzsAName, szDate, 0 ) != zCURSOR_SET )
       {
          CreateEntity( vApp, *m_pzsEName, zPOS_AFTER );
@@ -2786,7 +2786,7 @@ ZAgenda::DropAppointment( ZAppointment  *pA,
       {
          zCHAR  szDate[ 20 ];
 
-         SetZeidonDateFromOleDateTime( szDate, sizeof( szDate ), date );
+         SetZeidonDateFromOleDateTime( szDate, zsizeof( szDate ), date );
          if ( SetCursorFirstEntityByString( vApp,
                                             *(m_pDayTimer->m_pzsEName),
                                             *(m_pDayTimer->m_pzsAName),
@@ -2800,7 +2800,7 @@ ZAgenda::DropAppointment( ZAppointment  *pA,
             zVIEW vTgt;
 
             CreateViewFromViewForTask( &vTgt, vApp, m_pDayTimer->m_pZSubtask->m_vDialog );
-            SetZeidonDateFromOleDateTime( szDate, sizeof( szDate ), dateTracked );
+            SetZeidonDateFromOleDateTime( szDate, zsizeof( szDate ), dateTracked );
             if ( SetCursorFirstEntityByString( vTgt,
                                                *(m_pDayTimer->m_pzsEName),
                                                *(m_pDayTimer->m_pzsAName),
@@ -5450,9 +5450,9 @@ ZMiniCalendar::ZMiniCalendar( ZDayTimer *pDayTimer ) :
    // calendar.  We use the GetLocaleInfo function to do this.
    zCHAR szDayOfWeek[ 32 ];
    int  nFirstDayOfWeek = 0;
-   zmemset( szDayOfWeek, 0, sizeof( szDayOfWeek ) );
+   zmemset( szDayOfWeek, 0, zsizeof( szDayOfWeek ) );
    VERIFY( ::GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_IFIRSTDAYOFWEEK,
-                            szDayOfWeek, sizeof( szDayOfWeek ) ) != 0 );
+                            szDayOfWeek, zsizeof( szDayOfWeek ) ) != 0 );
 
    // The return value of GetLocaleInfo is 0 = Monday, 6 = Sunday.
    // Therefore we need to convert it to 1 = Sunday, 7 = Saturday,

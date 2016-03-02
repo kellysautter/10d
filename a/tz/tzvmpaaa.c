@@ -273,30 +273,30 @@ ParseSource( zVIEW  vVML_Subtask,
    // in the root of the CM LPLR object.  The LPLR object exists by name, "TaskLPLR".
    // DM - NOTE: szSrcDirectory will carry the full source file name. Bad naming - should get fixed sometime.
    GetViewByName( &vLPLR, "TaskLPLR", vVML_Subtask, zLEVEL_TASK );
-   GetStringFromAttribute( szSrcDirectory2, sizeof( szSrcDirectory2 ), vLPLR, "LPLR", "PgmSrcDir" );
-   SysConvertEnvironmentString( szSrcDirectory, sizeof( szSrcDirectory ), szSrcDirectory2 );
+   GetStringFromAttribute( szSrcDirectory2, zsizeof( szSrcDirectory2 ), vLPLR, "LPLR", "PgmSrcDir" );
+   SysConvertEnvironmentString( szSrcDirectory, zsizeof( szSrcDirectory ), szSrcDirectory2 );
    SysAppendcDirSep( szSrcDirectory );
-   strcpy_s( szSrcDirectory2, sizeof( szSrcDirectory2 ), szSrcDirectory );
+   strcpy_s( szSrcDirectory2, zsizeof( szSrcDirectory2 ), szSrcDirectory );
 
    // DM - Is this doing what it is supposed to?  Save the operation name.
-   strcpy_s( szOperationName, sizeof( szOperationName ), szInOperationName );
+   strcpy_s( szOperationName, zsizeof( szOperationName ), szInOperationName );
 
    // Fill out directory for error file.
-   strcpy_s( szErrorFile, sizeof( szErrorFile ), szSrcDirectory );
+   strcpy_s( szErrorFile, zsizeof( szErrorFile ), szSrcDirectory );
 
    // Stick in the file name.  DM - I am assuming the file name was properly passed in!!
-   strcat_s( szSrcDirectory, sizeof( szSrcDirectory ), szSourceFileName );
-   strcat_s( szErrorFile, sizeof( szErrorFile ), szSourceFileName );
+   strcat_s( szSrcDirectory, zsizeof( szSrcDirectory ), szSourceFileName );
+   strcat_s( szErrorFile, zsizeof( szErrorFile ), szSourceFileName );
 
    // Tack on extensions.
-   strcat_s( szSrcDirectory, sizeof (szSrcDirectory ), ".VML" );
-   strcat_s( szErrorFile, sizeof( szErrorFile ), ".ERR" );
+   strcat_s( szSrcDirectory, zsizeof (szSrcDirectory ), ".VML" );
+   strcat_s( szErrorFile, zsizeof( szErrorFile ), ".ERR" );
 
    // Get the dir name of the Zeidon tools so that we get the XGO directory.
    zgGetZeidonToolsDir( vVML_Subtask, szXGODirectory, zAPPL_DIR_OBJECT );
 
    // The name of the system core operation list.
-   strcat_s( szXGODirectory, sizeof( szXGODirectory ), "TZOPSIGK.XGO" );
+   strcat_s( szXGODirectory, zsizeof( szXGODirectory ), "TZOPSIGK.XGO" );
 
    // Get a view to the TaskLPLR to get the executable dir off of the TaskLPLR Entity. Never
    // Never Drop this View.
@@ -312,7 +312,7 @@ ParseSource( zVIEW  vVML_Subtask,
    }
 
    // Get the ExecDir off of the LPLR Entity.  This will be the directory where the xpg is now or will be saved to.
-   GetStringFromAttribute( szFullXPGPathName, sizeof( szFullXPGPathName ), vViewObject, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szFullXPGPathName, zsizeof( szFullXPGPathName ), vViewObject, "LPLR", "ExecDir" );
 
    // Be sure the dir name is terminated with the delimiter.
    SysAppendcDirSep( szFullXPGPathName );
@@ -324,13 +324,13 @@ ParseSource( zVIEW  vVML_Subtask,
    {
       // Should never come here, domain operations are not VML.
       GetViewByName( &g_vSourceMeta, "DGP_SourceFile", vVML_Subtask, zLEVEL_TASK );
-      strcpy_s( g_szSourceMetaObjectName, sizeof( g_szSourceMetaObjectName ), "TZDGSRCO" );
+      strcpy_s( g_szSourceMetaObjectName, zsizeof( g_szSourceMetaObjectName ), "TZDGSRCO" );
    }
    else
    if ( lMetaType == zSOURCE_GOPGRP_META || lMetaType == zREFER_GOPGRP_META )
    {
       GetViewByName( &g_vSourceMeta, "GOP_SourceFile", vVML_Subtask, zLEVEL_TASK );
-      strcpy_s( g_szSourceMetaObjectName, sizeof( g_szSourceMetaObjectName ), "TZOGSRCO" );
+      strcpy_s( g_szSourceMetaObjectName, zsizeof( g_szSourceMetaObjectName ), "TZOGSRCO" );
    }
    else
    if ( lMetaType == zSOURCE_SRC_META || lMetaType == zREFER_SRC_META )
@@ -338,11 +338,11 @@ ParseSource( zVIEW  vVML_Subtask,
       // Special code to recognize a Global Operation, if called from "parsgen".
       // We must examine the operation type, which is "G" for a Global Operation.
       zCHAR szOpType[ 2 ] = { 0 };
-      GetStringFromAttribute( szOpType, sizeof( szOpType ), g_vSourceMeta, "Operation", "Type" );
+      GetStringFromAttribute( szOpType, zsizeof( szOpType ), g_vSourceMeta, "Operation", "Type" );
       if ( szOpType[ 0 ] == 'G' )
       {
          // We recognized the fake.
-         strcpy_s( g_szSourceMetaObjectName, sizeof( g_szSourceMetaObjectName ), "TZOGSRCO" );
+         strcpy_s( g_szSourceMetaObjectName, zsizeof( g_szSourceMetaObjectName ), "TZOGSRCO" );
       }
    }
 
@@ -352,14 +352,14 @@ ParseSource( zVIEW  vVML_Subtask,
       MiGetObjectNameForView( g_szSourceMetaObjectName, g_vSourceMeta );
    }
 
-   strcpy_s( szXPGFileName, sizeof( szXPGFileName ), szSourceFileName );
-   strcat_s( szFullXPGPathName, sizeof( szFullXPGPathName ), szXPGFileName );
+   strcpy_s( szXPGFileName, zsizeof( szXPGFileName ), szSourceFileName );
+   strcat_s( szFullXPGPathName, zsizeof( szFullXPGPathName ), szXPGFileName );
 
    // Concat the Extension onto the directory.
    if ( g_szGenLang[ 0 ] == 'J' )
-      strcat_s( szFullXPGPathName, sizeof( szFullXPGPathName ), ".XPJ" );
+      strcat_s( szFullXPGPathName, zsizeof( szFullXPGPathName ), ".XPJ" );
    else
-      strcat_s( szFullXPGPathName, sizeof( szFullXPGPathName ), ".XPG" );
+      strcat_s( szFullXPGPathName, zsizeof( szFullXPGPathName ), ".XPG" );
 
    //-------------------------------------- Step Four -------------------------------------------//
    // Delete "generated" operations from source meta.  Set up support instance needed to parse
@@ -425,7 +425,7 @@ ParseSource( zVIEW  vVML_Subtask,
    while ( lRC >= zCURSOR_SET )
    {
       szOpGenType[ 0 ] = 0;
-      GetStringFromAttribute( szOpGenType, sizeof( szOpGenType ), g_lpZOListView, "Operation", "GenerationType" );
+      GetStringFromAttribute( szOpGenType, zsizeof( szOpGenType ), g_lpZOListView, "Operation", "GenerationType" );
       if ( szOpGenType[ 0 ] == 'C' && g_szGenLang[ 0 ] == 'J' )
       {
          DropEntity( g_lpZOListView, "Operation", zREPOS_NONE );
@@ -509,7 +509,7 @@ ParseSource( zVIEW  vVML_Subtask,
    {
       // The TimeStamp is not actually used, but might be in future
       zCHAR szTimestamp[ 22 ];
-      SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+      SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
       SetAttributeFromString( g_lpPIView, "VML_XSource", "ParseTimeStamp", szTimestamp );
    }
 
@@ -540,7 +540,7 @@ ParseSource( zVIEW  vVML_Subtask,
    ////////////////////////////////////////////////////////////////////////
 
    // Build the temporary file name. The directory structure was built above.
-   strcat_s( szSrcDirectory2, sizeof( szSrcDirectory2 ), "z__temp.vml" );
+   strcat_s( szSrcDirectory2, zsizeof( szSrcDirectory2 ), "z__temp.vml" );
    lOrigFile = SysOpenFile( vVML_Subtask, szSrcDirectory, COREFILE_READ );
 
    // Convert lines from original vml file to temp vml file.
@@ -562,7 +562,7 @@ ParseSource( zVIEW  vVML_Subtask,
       while ( SysReadLine( vVML_Subtask, &pchLineIn, lOrigFile ) == 1 )
       {
          // Copy the input line to the output line, converting German umlaut characters to |x and eliminating other characters with hex value > 80.
-         GermanUmlautHack( pchLineIn, szLineOut, sizeof( szLineOut ) - 1, FALSE );
+         GermanUmlautHack( pchLineIn, szLineOut, zsizeof( szLineOut ) - 1, FALSE );
          SysWriteLine( vVML_Subtask, lNewFile, szLineOut );
          lLineCount++;
       }
@@ -857,7 +857,7 @@ ParseSource( zVIEW  vVML_Subtask,
 
       // Give the XPG file the same timestamp as the VML file.  This will give us a more accurate guide to when the VML file needs to be parsed.
       lOrigFile = SysOpenFile( vVML_Subtask, szSrcDirectory,  COREFILE_READ );
-      SysGetFileDateTime( lOrigFile, szVML_DateTime, sizeof( szVML_DateTime ) );
+      SysGetFileDateTime( lOrigFile, szVML_DateTime, zsizeof( szVML_DateTime ) );
       SysCloseFile( vVML_Subtask, lOrigFile, 0 );
       SysSetFileTime( szFullXPGPathName, szVML_DateTime, 0 );
    }
@@ -865,7 +865,7 @@ ParseSource( zVIEW  vVML_Subtask,
    // print xpg if triggered by zeidon.ini  // dks
    {
       zCHAR szIni[ 16 ] = { 0 };
-      SysReadZeidonIni( -1, "[Zeidon]", "PrintXPG", szIni, sizeof( szIni ) );
+      SysReadZeidonIni( -1, "[Zeidon]", "PrintXPG", szIni, zsizeof( szIni ) );
 
       if ( szIni[ 0 ] == 'Y' || szIni[ 0 ] == 'y' || szIni[ 0 ] == '1' )
          PrintXPG( g_lpPIView );
@@ -1313,14 +1313,14 @@ SaveTextLine( void )
       CreateEntity( g_lpPIView, "OperationText", zPOS_AFTER );
       SetAttributeFromInteger( g_lpPIView, "OperationText", "RelativeLineNumber",
                                qqlineno - g_lRelativeLineNumber );
-      SetAttributeFromString( g_lpPIView, "OperationText", "Text", RemoveTabs( szWork, sizeof( szWork ) ) );
+      SetAttributeFromString( g_lpPIView, "OperationText", "Text", RemoveTabs( szWork, zsizeof( szWork ) ) );
    }
    else
    {
       // Save line.
       CreateEntity( g_lpPIView, "PreParseText", zPOS_AFTER );
       SetAttributeFromInteger( g_lpPIView, "PreParseText", "RelativeLineNumber", qqlineno - g_lRelativeLineNumber );
-      SetAttributeFromString( g_lpPIView, "PreParseText", "Text", RemoveTabs( szWork, sizeof( szWork ) ) );
+      SetAttributeFromString( g_lpPIView, "PreParseText", "Text", RemoveTabs( szWork, zsizeof( szWork ) ) );
    }
 
    return( 0 );
@@ -1343,7 +1343,7 @@ GetProfileData( zVIEW  vSubtask,
       GetIntegerFromAttribute( &g_lParseAction, vProfileView, "VML", "ParseAction" );
       GetIntegerFromAttribute( &g_lParseLimit, vProfileView, "VML", "ParseLimit" );
       GetIntegerFromAttribute( &g_lParseSource, vProfileView, "VML", "ParseSource" );
-      GetStringFromAttribute( szSrcDirectory, sizeof( szSrcDirectory ), vProfileView, "VML", "Dir" );
+      GetStringFromAttribute( szSrcDirectory, zsizeof( szSrcDirectory ), vProfileView, "VML", "Dir" );
       lLth = zstrlen( szSrcDirectory );
       if ( szSrcDirectory[ lLth ] != '\\' )
       {
@@ -1352,16 +1352,16 @@ GetProfileData( zVIEW  vSubtask,
       }
 
       lLth = 0;
-      GetStringFromAttribute( szSourceFileName, sizeof( szSourceFileName ), vProfileView, "VML", "SourceFileName" );
-      GetStringFromAttribute( szXPGFileName, sizeof( szXPGFileName ), vProfileView, "VML", "XPGFileName" );
+      GetStringFromAttribute( szSourceFileName, zsizeof( szSourceFileName ), vProfileView, "VML", "SourceFileName" );
+      GetStringFromAttribute( szXPGFileName, zsizeof( szXPGFileName ), vProfileView, "VML", "XPGFileName" );
 
       // If the XPG file name is NULL then copy in the SourceFileName.
       if ( szXPGFileName[ 0 ] == 0 )
       {
-         strcpy_s( szXPGFileName, sizeof( szXPGFileName ), szSourceFileName );
+         strcpy_s( szXPGFileName, zsizeof( szXPGFileName ), szSourceFileName );
       }
 
-      GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vProfileView, "OP", "PassedName1" );
+      GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vProfileView, "OP", "PassedName1" );
       return( 0 );
    }
    else
@@ -1575,17 +1575,17 @@ fnPrintOperation( zVIEW vXPG )
    zCHAR szType[ 2 ] = { 0 };
    zCHAR szReturnDataType[ 2 ] = { 0 };
 
-   GetStringFromAttribute( szOperation, sizeof( szOperation ), vXPG, "Operation", "Name" );
+   GetStringFromAttribute( szOperation, zsizeof( szOperation ), vXPG, "Operation", "Name" );
    GetIntegerFromAttribute( &lZKey, vXPG, "Operation", "ZKey" );
    // Description is skipped
-   GetStringFromAttribute( szType, sizeof( szType ), vXPG, "Operation", "Type" );
+   GetStringFromAttribute( szType, zsizeof( szType ), vXPG, "Operation", "Type" );
    // ReturnDesc is skipped
-   GetStringFromAttribute( szReturnDataType, sizeof( szReturnDataType ), vXPG, "Operation", "ReturnDataType" );
+   GetStringFromAttribute( szReturnDataType, zsizeof( szReturnDataType ), vXPG, "Operation", "ReturnDataType" );
    // OrdinalValue is skipped
    // CurrentDebugFlag is skipped
    // C_GeneratedOperationName is skipped
 
-   sprintf_s( szLine, sizeof( szLine ), "Operation=%s ZKey=%ld Type=%s ReturnType=%s",
+   sprintf_s( szLine, zsizeof( szLine ), "Operation=%s ZKey=%ld Type=%s ReturnType=%s",
               szOperation, lZKey, szType, szReturnDataType );
    TraceLineS( "", "" );
    TraceLineS( szLine, "" );
@@ -1614,17 +1614,17 @@ fnPrintVariable( zVIEW vXPG )
 
    GetIntegerFromAttribute( &lID, vXPG, "Variable", "ID" );
    GetIntegerFromAttribute( &lParameterFlag, vXPG, "Variable", "ParameterFlag" );
-   GetStringFromAttribute( szName, sizeof( szName ), vXPG, "Variable", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vXPG, "Variable", "Name" );
    GetIntegerFromAttribute( &lVMLType, vXPG, "Variable", "VMLType" );
    GetIntegerFromAttribute( &lDataType, vXPG, "Variable", "DataType" );
    GetIntegerFromAttribute( &lNElements, vXPG, "Variable", "NElements" );
    // Modify is skipped
    // Value is skipped
    GetIntegerFromAttribute( &lLineNumber, vXPG, "Variable", "LineNumber" );
-   GetStringFromAttribute( szPFlag, sizeof( szPFlag ), vXPG, "Variable", "PFlag" );
-   GetStringFromAttribute( szUFlag, sizeof( szUFlag ), vXPG, "Variable", "UFlag" );
+   GetStringFromAttribute( szPFlag, zsizeof( szPFlag ), vXPG, "Variable", "PFlag" );
+   GetStringFromAttribute( szUFlag, zsizeof( szUFlag ), vXPG, "Variable", "UFlag" );
 
-   sprintf_s( szLine, sizeof( szLine ), "   Variable=%s ID=%ld Parameter=%ld VMLType=%ld DataType=%ld NElements=%ld LineNumber=%ld PFlag=%s UFlag=%s",
+   sprintf_s( szLine, zsizeof( szLine ), "  Variable=%s ID=%ld Parameter=%ld VMLType=%ld DataType=%ld NElements=%ld LineNumber=%ld PFlag=%s UFlag=%s",
               szName, lID, lParameterFlag, lVMLType, lDataType, lNElements, lLineNumber, szPFlag, szUFlag );
    TraceLineS( szLine, "" );
 }
@@ -1660,7 +1660,7 @@ fnPrintStatement( zVIEW vXPG, zLONG lLevel )
 
    // indentation
    for ( k = 0; k < lLevel; k++ )
-      strcat_s( szIndent, sizeof( szIndent ), "   " );
+      strcat_s( szIndent, zsizeof( szIndent ), "  " );
 
    GetIntegerFromAttribute( &lLineNumber, vXPG, "Statement", "LineNumber" );
    GetIntegerFromAttribute( &lClass, vXPG, "Statement", "Class" );
@@ -1668,27 +1668,27 @@ fnPrintStatement( zVIEW vXPG, zLONG lLevel )
    switch ( lClass )
    {
       case qEXPRESSION:
-         strcpy_s( szClass, sizeof( szClass ), "qEXPRESSION" );
+         strcpy_s( szClass, zsizeof( szClass ), "qEXPRESSION" );
          break;
       case qWHILE:
-         strcpy_s( szClass, sizeof( szClass ), "qWHILE" );
+         strcpy_s( szClass, zsizeof( szClass ), "qWHILE" );
          break;
       case qEND:
-         strcpy_s( szClass, sizeof( szClass ), "qEND" );
+         strcpy_s( szClass, zsizeof( szClass ), "qEND" );
          break;
       case qRETURN:
       case qRETURNEND:
-         strcpy_s( szClass, sizeof( szClass ), "qRETURN" );
+         strcpy_s( szClass, zsizeof( szClass ), "qRETURN" );
          break;
       case qIF:
-         strcpy_s( szClass, sizeof( szClass ), "qIF" );
+         strcpy_s( szClass, zsizeof( szClass ), "qIF" );
          break;
       case qFOR:
-         strcpy_s( szClass, sizeof( szClass ), "qFOR" );
+         strcpy_s( szClass, zsizeof( szClass ), "qFOR" );
          break;
    }
 
-   sprintf_s( szLine, sizeof( szLine ), "*STATEMENT* LineNumber=%ld Class=%s(%ld)", lLineNumber, szClass, lClass );
+   sprintf_s( szLine, zsizeof( szLine ), "*STATEMENT* LineNumber=%ld Class=%s(%ld)", lLineNumber, szClass, lClass );
    TraceLineS( "", "" );
    TraceLineS( szIndent, szLine );
 
@@ -1715,7 +1715,7 @@ fnPrintStatement( zVIEW vXPG, zLONG lLevel )
             szExprText[ k ] = ' ';
       }
 
-      sprintf_s( szLine, sizeof( szLine ), "%s ExpressionText=", szIndent );
+      sprintf_s( szLine, zsizeof( szLine ), "%s ExpressionText=", szIndent );
       TraceLineS( szLine, szExprText );
    }
 
@@ -1755,24 +1755,24 @@ fnPrintExpression( sQExprStruct *pWorkExpr, zLONG lLevel )
 
    // indentation
    for ( k = 0; k < lLevel; k++ )
-      strcat_s( szIndent, sizeof( szIndent ), "   " );
+      strcat_s( szIndent, zsizeof( szIndent ), "  " );
 
    switch( pWorkExpr->lElementClass )
    {
       case qVARIABLE:
-         strcpy_s( szElementClass, sizeof( szElementClass ), "qVARIABLE" );
+         strcpy_s( szElementClass, zsizeof( szElementClass ), "qVARIABLE" );
          break;
       case qDEFINE:
-         strcpy_s( szElementClass, sizeof( szElementClass ), "qDEFINE" );
+         strcpy_s( szElementClass, zsizeof( szElementClass ), "qDEFINE" );
          break;
       case qCONSTANT:
-         strcpy_s( szElementClass, sizeof( szElementClass ), "qCONSTANT" );
+         strcpy_s( szElementClass, zsizeof( szElementClass ), "qCONSTANT" );
          break;
       case qATTRIBUTEQUALIFIER:
-         strcpy_s( szElementClass, sizeof( szElementClass ), "qATTRIBUTEQUALIFIER" );
+         strcpy_s( szElementClass, zsizeof( szElementClass ), "qATTRIBUTEQUALIFIER" );
          break;
       case qOPERATIONCALL:
-         strcpy_s( szElementClass, sizeof( szElementClass ), "qOPERATIONCALL" );
+         strcpy_s( szElementClass, zsizeof( szElementClass ), "qOPERATIONCALL" );
          break;
       case qOPERATOR:
          fnPrintOperator( pWorkExpr, szIndent );
@@ -1782,36 +1782,36 @@ fnPrintExpression( sQExprStruct *pWorkExpr, zLONG lLevel )
    switch( pWorkExpr->lDataClass )
    {
       case qTEXT:
-         strcpy_s( szDataClass, sizeof( szDataClass ), "qTEXT" );
+         strcpy_s( szDataClass, zsizeof( szDataClass ), "qTEXT" );
          break;
       case qNUMERIC:
-         strcpy_s( szDataClass, sizeof( szDataClass ), "qNUMERIC" );
+         strcpy_s( szDataClass, zsizeof( szDataClass ), "qNUMERIC" );
          break;
    }
 
    switch( pWorkExpr->lDataType )
    {
       case qTINTEGER:
-         strcpy_s( szDataType, sizeof( szDataType ), "qTINTEGER" );
+         strcpy_s( szDataType, zsizeof( szDataType ), "qTINTEGER" );
          break;
       case qTDECIMAL:
-         strcpy_s( szDataType, sizeof( szDataType ), "qTDECIMAL" );
+         strcpy_s( szDataType, zsizeof( szDataType ), "qTDECIMAL" );
          break;
       case qTSHORT:
-         strcpy_s( szDataType, sizeof( szDataType ), "qTSHORT" );
+         strcpy_s( szDataType, zsizeof( szDataType ), "qTSHORT" );
          break;
       case qTSTRING:
-         strcpy_s( szDataType, sizeof( szDataType ), "qTSTRING" );
+         strcpy_s( szDataType, zsizeof( szDataType ), "qTSTRING" );
          break;
       case qTCHARACTER:
-         strcpy_s( szDataType, sizeof( szDataType ), "qTCHARACTER" );
+         strcpy_s( szDataType, zsizeof( szDataType ), "qTCHARACTER" );
          break;
       case qTUNKNOWN:
-         strcpy_s( szDataType, sizeof( szDataType ), "qTUNKNOWN" );
+         strcpy_s( szDataType, zsizeof( szDataType ), "qTUNKNOWN" );
          break;
    }
 
-   sprintf_s( szLine, sizeof( szLine ), "%s DataClass=%s(%ld) DataType=%s(%ld) Offset=%ld Level=%ld Flags=%ld",
+   sprintf_s( szLine, zsizeof( szLine ), "%s DataClass=%s(%ld) DataType=%s(%ld) Offset=%ld Level=%ld Flags=%ld",
             szElementClass, szDataClass, pWorkExpr->lDataClass, szDataType, pWorkExpr->lDataType,
             pWorkExpr->lOffset, pWorkExpr->lLevel, pWorkExpr->lFlags );
    TraceLineS( szIndent, szLine );
@@ -1833,68 +1833,68 @@ fnPrintOperator( sQExprStruct *pWorkExpr, zCPCHAR szIndent )
    switch ( pWorkExpr->lOffset )
    {
       case qLPAREN:
-         strcpy_s( szOffset, sizeof( szOffset ), "qLPAREN" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qLPAREN" );
          break;
       case qRPAREN:
-         strcpy_s( szOffset, sizeof( szOffset ), "qRPAREN" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qRPAREN" );
          break;
       case qOPENOPER:
-         strcpy_s( szOffset, sizeof( szOffset ), "qOPENOPER" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qOPENOPER" );
          break;
       case qCLOSEOPER:
-         strcpy_s( szOffset, sizeof( szOffset ), "qCLOSEOPER" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qCLOSEOPER" );
          break;
       case qCOMMA:
-         strcpy_s( szOffset, sizeof(szOffset), "qCOMMA" );
+         strcpy_s( szOffset, zsizeof(szOffset), "qCOMMA" );
          break;
       case qPERIOD:
-         strcpy_s( szOffset, sizeof( szOffset ), "qPERIOD" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qPERIOD" );
          break;
       case qEQUAL:
-         strcpy_s( szOffset, sizeof( szOffset ), "qEQUAL" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qEQUAL" );
          break;
       case qMINUS:
-         strcpy_s( szOffset, sizeof( szOffset ), "qMINUS" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qMINUS" );
          break;
       case qADDITION:
-         strcpy_s( szOffset, sizeof( szOffset ), "qADDITION" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qADDITION" );
          break;
       case qMULTIPLICATION:
-         strcpy_s( szOffset, sizeof( szOffset ), "qMULTIPLICATION" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qMULTIPLICATION" );
          break;
       case qDIVISION:
-         strcpy_s( szOffset, sizeof( szOffset ), "qDIVISION" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qDIVISION" );
          break;
       case qCONDEQUAL:
-         strcpy_s( szOffset, sizeof( szOffset ), "qCONDEQUAL" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qCONDEQUAL" );
          break;
       case qLESSTHANEQUAL:
-         strcpy_s( szOffset, sizeof( szOffset ), "qLESSTHANEQUAL" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qLESSTHANEQUAL" );
          break;
       case qLESSTHAN:
-         strcpy_s( szOffset, sizeof( szOffset ), "qLESSTHAN" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qLESSTHAN" );
          break;
       case qGREATERTHANEQUAL:
-         strcpy_s( szOffset, sizeof( szOffset ), "qGREATERTHANEQUAL" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qGREATERTHANEQUAL" );
          break;
       case qGREATERTHAN:
-         strcpy_s( szOffset, sizeof( szOffset ), "qGREATERTHAN" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qGREATERTHAN" );
          break;
       case qNOTEQUAL:
-         strcpy_s( szOffset, sizeof( szOffset ), "qNOTEQUAL" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qNOTEQUAL" );
          break;
       case qNOT:
-         strcpy_s( szOffset, sizeof( szOffset ), "qNOT" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qNOT" );
          break;
       case qAND:
-         strcpy_s( szOffset, sizeof( szOffset ), "qAND" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qAND" );
          break;
       case qOR:
-         strcpy_s( szOffset, sizeof( szOffset ), "qOR" );
+         strcpy_s( szOffset, zsizeof( szOffset ), "qOR" );
          break;
    }
 
-   sprintf_s( szLine, sizeof( szLine ), "qOPERATOR Offset=%s(%ld)", szOffset, pWorkExpr->lOffset );
+   sprintf_s( szLine, zsizeof( szLine ), "qOPERATOR Offset=%s(%ld)", szOffset, pWorkExpr->lOffset );
    TraceLineS( szIndent, szLine );
 }
 
@@ -1914,7 +1914,7 @@ fnDeleteGenerated( zVIEW vSourceMeta )
       zCHAR szOperName[ 33 ];
       zLONG lClass = 0;
 
-      GetStringFromAttribute( szOperName, sizeof( szOperName ), vSearchView, "Operation", "Name" );
+      GetStringFromAttribute( szOperName, zsizeof( szOperName ), vSearchView, "Operation", "Name" );
       GetIntegerFromAttribute( &lClass, vSearchView, "Operation", "Class" );
       if ( zstrlen( szOperName ) > 7 && memcmp( szOperName, "fnLocal", 7 ) == 0 &&
            (lClass & 0x00000001) != 0 )

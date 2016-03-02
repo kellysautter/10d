@@ -315,7 +315,7 @@ ZPtrArray< T >::ZPtrArray( zSHORT nInitialPointers,
    if ( pBufferArray == 0 )
    {
       m_bLocalBuffer = TRUE;
-      m_pArrayBuffer = (T *) new char[ m_lMax * sizeof( T ) ];
+      m_pArrayBuffer = (T *) new char[ m_lMax * zsizeof( T ) ];
    }
    else
    {
@@ -344,12 +344,12 @@ ZPtrArray< T >::Insert( T pT )
       if ( m_bLocalBuffer == FALSE )
          return( -1 );
 
-      ASSERT( (m_lMax + m_nIncr) * sizeof( T ) < 64000 );
-      T *pTemp = (T *) new char[ (m_lMax + m_nIncr) * sizeof( T ) ];
+      ASSERT( (m_lMax + m_nIncr) * zsizeof( T ) < 64000 );
+      T *pTemp = (T *) new char[ (m_lMax + m_nIncr) * zsizeof( T ) ];
       if ( pTemp == 0 )
          return( -1 );
 
-      zmemcpy( pTemp, m_pArrayBuffer, m_lMax * sizeof( T ) );
+      zmemcpy( pTemp, m_pArrayBuffer, m_lMax * zsizeof( T ) );
       mDeleteInitA( m_pArrayBuffer );
       m_pArrayBuffer = pTemp;
       m_lMax += m_nIncr;
@@ -386,7 +386,7 @@ ZPtrArray< T >::Detach( T pT )
       m_lCnt--;
       zmemcpy( m_pArrayBuffer + lPos,
                m_pArrayBuffer + lPos + 1,
-               (m_nCnt - lPos) * sizeof( T ) );
+               (m_nCnt - lPos) * zsizeof( T ) );
    }
 
    return( lPos );
@@ -1106,14 +1106,14 @@ ZPairedList::Display( zCPCHAR cpcText )
 {
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "Display NumberList (0x%08x): ", (zULONG) this );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Display NumberList (0x%08x): ", (zULONG) this );
    TraceLineS( szMsg, cpcText );
 
    ZPairedItem *pItem = m_pHeadItem;
 
    while ( pItem )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), " 0x%8x 0x%8x 0x%8x 0x%8x",
+      sprintf_s( szMsg, zsizeof( szMsg ), " 0x%8x 0x%8x 0x%8x 0x%8x",
                 pItem->m_lValue1, pItem->m_lValue2,
                 pItem->m_lValue3, pItem->m_lValue4 );
       TraceLineS( szMsg, "" );
@@ -1919,7 +1919,7 @@ ZXRA_List::ZXRA_List( ZSocketTask *pZSocketTask )
 #ifdef DEBUG_ALL
    zCHAR szMsg[ 128 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] XRA_List ctor",
+   sprintf_s( szMsg, zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] XRA_List ctor",
              m_pZSocketTask,
              AfxGetThread( ),
              m_pZSocketTask->m_pWinThread,
@@ -1933,7 +1933,7 @@ ZXRA_List::~ZXRA_List( )
 #ifdef DEBUG_ALL
    zCHAR szMsg[ 128 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] XRA_List dtor",
+   sprintf_s( szMsg, zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] XRA_List dtor",
              m_pZSocketTask,
              AfxGetThread( ),
              m_pZSocketTask->m_pWinThread,
@@ -2011,12 +2011,12 @@ ZXRA_List::Find( zCPCHAR cpcName, ZSubtask *pZSubtask, zCPCHAR cpcLabel )
    zCHAR szMsg[ 256 ];
 
    pXRA = m_pHead;
-   sprintf_s( szMsg, sizeof( szMsg ), "ZXRA_List find: %s Label: %s", cpcName, cpcLabel );
+   sprintf_s( szMsg, zsizeof( szMsg ), "ZXRA_List find: %s Label: %s", cpcName, cpcLabel );
    TraceLineS( szMsg, "" );
 
    while ( pXRA )
    {
-      sprintf_s( szMsg, sizeof( szMsg ),
+      sprintf_s( szMsg, zsizeof( szMsg ),
                 "   XRA: %ld   pZSubtask: %ld   Def: %ld"
                 "   Name: %s   RemoteWndTag: %s",
                 pXRA, pXRA->m_pZSubtask, pXRA->m_vXRA_Def, pXRA->m_csName,
@@ -2037,7 +2037,7 @@ ZXRA_List::Find( zCPCHAR cpcName, ZSubtask *pZSubtask, zCPCHAR cpcLabel )
               zstrcmp( cpcName, pXRA->m_csName ) == 0 )
          {
 #ifdef DEBUG_ALL
-            sprintf_s( szMsg, sizeof( szMsg ), "=> XRA: %ld pZSubtask: %ld Def: %ld Name: %s",
+            sprintf_s( szMsg, zsizeof( szMsg ), "=> XRA: %ld pZSubtask: %ld Def: %ld Name: %s",
                       pXRA, pXRA->m_pZSubtask, pXRA->m_vXRA_Def, pXRA->m_csName );
             TraceLineS( szMsg, "" );
 #endif
@@ -2059,7 +2059,7 @@ ZXRA_List::Find( zCPCHAR cpcName, ZSubtask *pZSubtask, zCPCHAR cpcLabel )
          if ( zstrcmp( cpcName, pXRA->m_csName ) == 0 )
          {
 #ifdef DEBUG_ALL
-            sprintf_s( szMsg, sizeof( szMsg ),
+            sprintf_s( szMsg, zsizeof( szMsg ),
                       "=> XRA: %ld   pZSubtask: %ld   Def: %ld   Name: %s",
                       pXRA, pXRA->m_pZSubtask,
                       pXRA->m_vXRA_Def, pXRA->m_csName );
@@ -2240,10 +2240,10 @@ ZXRA_List::CountViews( zVIEW *pvOI )
          {
             zCHAR szY[ 2 ];
 
-            GetStringFromAttribute( szY, sizeof( szY ), pXRA->m_vXRA_Delta,
+            GetStringFromAttribute( szY, zsizeof( szY ), pXRA->m_vXRA_Delta,
                                     "Wnd", "Closed" );
             if ( szY[ 0 ] == 0 )
-               GetStringFromAttribute( szY, sizeof( szY ), pXRA->m_vXRA_Delta,
+               GetStringFromAttribute( szY, zsizeof( szY ), pXRA->m_vXRA_Delta,
                                        "Wnd", "Deleted" );
 
             if ( szY[ 0 ] == 0 )
@@ -2660,7 +2660,7 @@ DrAllocTaskMemory( zCOREMEM Memory, zLONG lBytes, zLONG lGuard )
       else
       {
          zCHAR szMsg[ 128 ];
-         sprintf_s( szMsg, sizeof( szMsg ), "DrAllocTaskMemory: 0x%lx %d",
+         sprintf_s( szMsg, zsizeof( szMsg ), "DrAllocTaskMemory: 0x%lx %d",
                    (zLONG) pchMem, lGuard );
          TraceLineS( szMsg, "" );
       }
@@ -2823,7 +2823,7 @@ NEXT_CHECK_label:
       else
       {
          zCHAR szMsg[ 128 ];
-         sprintf_s( szMsg, sizeof( szMsg ), "DrFreeTaskMemory: 0x%lx %d",
+         sprintf_s( szMsg, zsizeof( szMsg ), "DrFreeTaskMemory: 0x%lx %d",
                    (zLONG) Address, lGuard );
          TraceLineS( szMsg, "" );
       }

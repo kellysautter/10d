@@ -146,10 +146,10 @@ fnProcessObjectEntity( zVIEW         lpView,
             if ( lpLName )
             {
                lpViewOD->bLogicalDBName = TRUE;
-               strcpy_s( lpViewOD->szDfltDBName, sizeof( lpViewOD->szDfltDBName ), lpLName->szPName );
+               strcpy_s( lpViewOD->szDfltDBName, zsizeof( lpViewOD->szDfltDBName ), lpLName->szPName );
             }
             else
-               strcpy_s( lpViewOD->szDfltDBName, sizeof( lpViewOD->szDfltDBName ), lpProcessInfo->szLine );
+               strcpy_s( lpViewOD->szDfltDBName, zsizeof( lpViewOD->szDfltDBName ), lpProcessInfo->szLine );
          }
          else
          if ( zstrcmp( pchAttrName, szlDFT_SERVER ) == 0 )
@@ -171,10 +171,10 @@ fnProcessObjectEntity( zVIEW         lpView,
             if ( lpLName )
             {
                lpViewOD->bLogicalServerName = TRUE;
-               strcpy_s( lpViewOD->szDfltServer, sizeof( lpViewOD->szDfltServer ), lpLName->szPName );
+               strcpy_s( lpViewOD->szDfltServer, zsizeof( lpViewOD->szDfltServer ), lpLName->szPName );
             }
             else
-               strcpy_s( lpViewOD->szDfltServer, sizeof( lpViewOD->szDfltServer ), lpProcessInfo->szLine );
+               strcpy_s( lpViewOD->szDfltServer, zsizeof( lpViewOD->szDfltServer ), lpProcessInfo->szLine );
          }
          else
          if ( zstrcmp( pchAttrName, "DBH_Data" ) == 0 )
@@ -196,7 +196,7 @@ fnProcessObjectEntity( zVIEW         lpView,
 
       case 'E':
          if ( zstrcmp( pchAttrName, "ER_DATE" ) == 0 )
-            strcpy_s( lpViewOD->szER_Date, sizeof( lpViewOD->szER_Date ), lpProcessInfo->szLine );
+            strcpy_s( lpViewOD->szER_Date, zsizeof( lpViewOD->szER_Date ), lpProcessInfo->szLine );
 
          break;
 
@@ -248,7 +248,7 @@ fnProcessObjectEntity( zVIEW         lpView,
                                        lpProcessInfo->lpApp->hFirstGKHandler;
                   lpProcessInfo->lpApp->hFirstGKHandler = hndl;
 
-                  strcpy_s( lpGKHandler->szName, sizeof( lpGKHandler->szName ), lpProcessInfo->szLine );
+                  strcpy_s( lpGKHandler->szName, zsizeof( lpGKHandler->szName ), lpProcessInfo->szLine );
                   lpGKHandler->hApp = lpProcessInfo->lpApp;
                }
             }
@@ -311,7 +311,7 @@ fnProcessObjectEntity( zVIEW         lpView,
                   lpDBHandler->hNextDBHandler = lpProcessInfo->lpApp->hFirstDBHandler;
                   lpProcessInfo->lpApp->hFirstDBHandler = hndl;
 
-                  strcpy_s( lpDBHandler->szName, sizeof( lpDBHandler->szName ), lpProcessInfo->szLine );
+                  strcpy_s( lpDBHandler->szName, zsizeof( lpDBHandler->szName ), lpProcessInfo->szLine );
                   lpDBHandler->hApp = lpProcessInfo->lpApp;
                }
             }
@@ -345,10 +345,10 @@ fnProcessObjectEntity( zVIEW         lpView,
       // Object Attributes beginning with N
       case 'N':
          if ( zstrcmp( pchAttrName, szlNAME ) == 0 )
-            strcpy_s( lpViewOD->szName, sizeof( lpViewOD->szName ), lpProcessInfo->szLine );
+            strcpy_s( lpViewOD->szName, zsizeof( lpViewOD->szName ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlNETWORK ) == 0 )
-            strcpy_s( lpViewOD->szNetwork, sizeof( lpViewOD->szNetwork ), lpProcessInfo->szLine );
+            strcpy_s( lpViewOD->szNetwork, zsizeof( lpViewOD->szNetwork ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlNETCOMPRESS) == 0 )
          {
@@ -365,10 +365,10 @@ fnProcessObjectEntity( zVIEW         lpView,
 #ifdef __LOAD_CONSTR__
          else
          if ( zstrcmp( pchAttrName, szlOPER_LIBNM ) == 0 )
-            strcpy_s( lpViewOD->szOperLibname, sizeof( lpViewOD->szOperLibname ), lpProcessInfo->szLine );
+            strcpy_s( lpViewOD->szOperLibname, zsizeof( lpViewOD->szOperLibname ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlOCEOPER ) == 0 )
-            strcpy_s( lpViewOD->szOCEOpername, sizeof( lpViewOD->szOCEOpername ), lpProcessInfo->szLine );
+            strcpy_s( lpViewOD->szOCEOpername, zsizeof( lpViewOD->szOCEOpername ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, "OCEOPERN" ) == 0 )
          {
@@ -494,9 +494,9 @@ fnProcessEntityEntity( LPVIEWOD      lpViewOD,
          if ( zstrcmp( pchAttrName, szlDBNAME ) == 0 )
          {
             if ( zstrcmp( lpViewOD->szDfltDBName, lpProcessInfo->szLine ) == 0 )
-               strcpy_s( lpViewEntity->szDBName, sizeof( lpViewEntity->szDBName ), lpViewOD->szDfltDBName );
+               strcpy_s( lpViewEntity->szDBName, zsizeof( lpViewEntity->szDBName ), lpViewOD->szDfltDBName );
             else
-               strcpy_s( lpViewEntity->szDBName, sizeof( lpViewEntity->szDBName ), lpProcessInfo->szLine );
+               strcpy_s( lpViewEntity->szDBName, zsizeof( lpViewEntity->szDBName ), lpProcessInfo->szLine );
          }
          else
          if ( zstrcmp( pchAttrName, szlDELETE ) == 0 )
@@ -559,7 +559,7 @@ fnProcessEntityEntity( LPVIEWOD      lpViewOD,
          }
          else
          if ( zstrcmp( pchAttrName, szlECEOPER ) == 0 )
-            strcpy_s( lpViewEntity->szECEOpername, sizeof( lpViewEntity->szECEOpername ), lpProcessInfo->szLine );
+            strcpy_s( lpViewEntity->szECEOpername, zsizeof( lpViewEntity->szECEOpername ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, "ECEOPERN" ) == 0 )
          {
@@ -667,7 +667,7 @@ fnProcessEntityEntity( LPVIEWOD      lpViewOD,
       // Entity attributes beginning with 'N'
       case 'N':
          if ( zstrcmp( pchAttrName, szlNAME ) == 0 )
-            strcpy_s( lpViewEntity->szName, sizeof( lpViewEntity->szName ), lpProcessInfo->szLine );
+            strcpy_s( lpViewEntity->szName, zsizeof( lpViewEntity->szName ), lpProcessInfo->szLine );
 
          break;
 
@@ -714,9 +714,9 @@ fnProcessEntityEntity( LPVIEWOD      lpViewOD,
          if ( zstrcmp( pchAttrName, szlSERVER ) == 0 )
          {
             if ( zstrcmp( lpViewOD->szDfltServer, lpProcessInfo->szLine ) == 0 )
-               strcpy_s( lpViewEntity->szServer, sizeof( lpViewEntity->szServer ), lpViewOD->szDfltServer );
+               strcpy_s( lpViewEntity->szServer, zsizeof( lpViewEntity->szServer ), lpViewOD->szDfltServer );
             else
-               strcpy_s( lpViewEntity->szServer, sizeof( lpViewEntity->szServer ), lpProcessInfo->szLine );
+               strcpy_s( lpViewEntity->szServer, zsizeof( lpViewEntity->szServer ), lpProcessInfo->szLine );
          }
 
          break;
@@ -734,7 +734,7 @@ fnProcessEntityEntity( LPVIEWOD      lpViewOD,
       // Entity attributes beginning with 'X'
       case 'X':
          if ( zstrcmp( pchAttrName, "XML_NAME" ) == 0 )
-            strcpy_s( lpViewEntity->szXML_Name, sizeof( lpViewEntity->szXML_Name ), lpProcessInfo->szLine );
+            strcpy_s( lpViewEntity->szXML_Name, zsizeof( lpViewEntity->szXML_Name ), lpProcessInfo->szLine );
 
          break;
 
@@ -912,7 +912,7 @@ fnProcessAttribEntity( zVIEW         lpView,
          }
          else
          if ( zstrcmp( pchAttrName, szlDERIVEDF ) == 0 )
-            strcpy_s( lpViewAttrib->szDerivedOper, sizeof( lpViewAttrib->szDerivedOper ), lpProcessInfo->szLine );
+            strcpy_s( lpViewAttrib->szDerivedOper, zsizeof( lpViewAttrib->szDerivedOper ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, "DERIVEDOPERXPG" ) == 0 )
          {
@@ -1129,7 +1129,7 @@ fnProcessAttribEntity( zVIEW         lpView,
       // Attrib attributes beginning with 'N'
       case 'N':
          if ( zstrcmp( pchAttrName, szlNAME ) == 0 )
-            strcpy_s( lpViewAttrib->szName, sizeof( lpViewAttrib->szName ), lpProcessInfo->szLine );
+            strcpy_s( lpViewAttrib->szName, zsizeof( lpViewAttrib->szName ), lpProcessInfo->szLine );
 
          break;
 
@@ -1225,9 +1225,9 @@ fnProcessAttribEntity( zVIEW         lpView,
                   zCHAR szTempMsg[ 40 ];
 
                   // "KZOEE062 - Conflict between E/R Attribute type and TE Field Type: "
-                  strcpy_s( szTempMsg, sizeof( szTempMsg ), lpViewOD->szName );
-                  strcat_s( szTempMsg, sizeof( szTempMsg ), ", " );
-                  strcat_s( szTempMsg, sizeof( szTempMsg ), lpViewEntity->szName );
+                  strcpy_s( szTempMsg, zsizeof( szTempMsg ), lpViewOD->szName );
+                  strcat_s( szTempMsg, zsizeof( szTempMsg ), ", " );
+                  strcat_s( szTempMsg, zsizeof( szTempMsg ), lpViewEntity->szName );
                   fnIssueCoreError( lpTask, lpView, 16, 62,
                                     0, szTempMsg,
                                     lpViewAttrib->szName );
@@ -1257,10 +1257,10 @@ fnProcessAttribEntity( zVIEW         lpView,
 
       case 'X':
          if ( zstrcmp( pchAttrName, "XML_SIMPLE_NAME" ) == 0 )
-            strcpy_s( lpViewAttrib->szXML_SimpleName, sizeof( lpViewAttrib->szXML_SimpleName ), lpProcessInfo->szLine );
+            strcpy_s( lpViewAttrib->szXML_SimpleName, zsizeof( lpViewAttrib->szXML_SimpleName ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, "XML_NAME_EXTERNAL" ) == 0 )
-            strcpy_s( lpViewAttrib->szXML_ExternalName, sizeof( lpViewAttrib->szXML_ExternalName ), lpProcessInfo->szLine );
+            strcpy_s( lpViewAttrib->szXML_ExternalName, zsizeof( lpViewAttrib->szXML_ExternalName ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlXVAATT_TOK ) == 0 )
             lpViewAttrib->lXVAAttTok = zatol( lpProcessInfo->szLine );
@@ -1310,7 +1310,7 @@ fnProcessDataRecordEntity( LPVIEWOD      lpViewOD,
             lpDataRecord->lRecordID = zatol( lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlRECNAME ) == 0 )
-            strcpy_s( lpDataRecord->szRecordName, sizeof( lpDataRecord->szRecordName ), lpProcessInfo->szLine );
+            strcpy_s( lpDataRecord->szRecordName, zsizeof( lpDataRecord->szRecordName ), lpProcessInfo->szLine );
 
          break;
 
@@ -1365,7 +1365,7 @@ fnProcessDataFieldEntity( LPVIEWOD      lpViewOD,
             lpDataField->uFldLth = (zUSHORT) zatol( lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlFLDNAME ) == 0 )
-            strcpy_s( lpDataField->szFldName, sizeof( lpDataField->szFldName ), lpProcessInfo->szLine );
+            strcpy_s( lpDataField->szFldName, zsizeof( lpDataField->szFldName ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlFLDOFFSET ) == 0 )
             lpDataField->uFldOffset = (zUSHORT) zatol( lpProcessInfo->szLine );
@@ -1457,7 +1457,7 @@ fnProcessRelRecordEntity( LPVIEWOD      lpViewOD,
             lpRelRecord->lRecordID = zatol( lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlRECNAME ) == 0 )
-            strcpy_s( lpRelRecord->szRecordName, sizeof( lpRelRecord->szRecordName ), lpProcessInfo->szLine );
+            strcpy_s( lpRelRecord->szRecordName, zsizeof( lpRelRecord->szRecordName ), lpProcessInfo->szLine );
 
          break;
 
@@ -1470,10 +1470,10 @@ fnProcessRelRecordEntity( LPVIEWOD      lpViewOD,
             lpRelRecord->lSetID2 = zatol( lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlSETNAME1 ) == 0 )
-            strcpy_s( lpRelRecord->szSetName1, sizeof( lpRelRecord->szSetName1 ), lpProcessInfo->szLine );
+            strcpy_s( lpRelRecord->szSetName1, zsizeof( lpRelRecord->szSetName1 ), lpProcessInfo->szLine );
          else
          if ( zstrcmp( pchAttrName, szlSETNAME2 ) == 0 )
-            strcpy_s( lpRelRecord->szSetName2, sizeof( lpRelRecord->szSetName2 ), lpProcessInfo->szLine );
+            strcpy_s( lpRelRecord->szSetName2, zsizeof( lpRelRecord->szSetName2 ), lpProcessInfo->szLine );
          break;
 
       default:
@@ -1512,7 +1512,7 @@ fnProcessRelFieldEntity( LPVIEWOD      lpViewOD,
       // Rel Field attributes beginning with 'F'
       case 'F':
          if ( zstrcmp( pchAttrName, szlFLDNAME ) == 0 )
-            strcpy_s( lpRelField->szFldName, sizeof( lpRelField->szFldName ), lpProcessInfo->szLine );
+            strcpy_s( lpRelField->szFldName, zsizeof( lpRelField->szFldName ), lpProcessInfo->szLine );
 
          break;
 
@@ -1654,7 +1654,7 @@ DisplayObjectDefinition( LPVIEWOD lpViewOD )
    zCHAR  szIndent[ 256 ];
    zSHORT nLth = 0;
 
-   zmemset( szIndent, ' ', sizeof( szIndent ) - 1 );
+   zmemset( szIndent, ' ', zsizeof( szIndent ) - 1 );
    TraceLineS( "", "" );
    TraceLine( "Object Definition: %s  for App: %s", lpViewOD->szName, lpApp->szName );
 
@@ -1876,15 +1876,15 @@ ActivateViewObject( zVIEW    lpView,
    ProcessInfo.lpView      = lpView;
 
    // Set up the directory of where to find the object file.
-   strcpy_s( ProcessInfo.szFileName, sizeof( ProcessInfo.szFileName ), lpApp->szObjectDir );
-   strcat_s( ProcessInfo.szFileName, sizeof( ProcessInfo.szFileName ), cpcViewOD_Name );
-   strcat_s( ProcessInfo.szFileName, sizeof( ProcessInfo.szFileName ), szObjectSuffix );
+   strcpy_s( ProcessInfo.szFileName, zsizeof( ProcessInfo.szFileName ), lpApp->szObjectDir );
+   strcat_s( ProcessInfo.szFileName, zsizeof( ProcessInfo.szFileName ), cpcViewOD_Name );
+   strcat_s( ProcessInfo.szFileName, zsizeof( ProcessInfo.szFileName ), szObjectSuffix );
 
    // DGC 7/11/96 -- The following is a hack for compatability with Unix.
    // Unix file names are case-sensitive.  Since DOS/Windows files (when
    // copied to a unix system via a network) are assigned lower-case letters
    // in Unix, we will (for now) make all Zeidon System file names lowercase.
-   _strlwr_s( ProcessInfo.szFileName, sizeof( ProcessInfo.szFileName ) );  // zstrlower
+   _strlwr_s( ProcessInfo.szFileName, zsizeof( ProcessInfo.szFileName ) ); // zstrlower
 
    zLOCK_MUTEX( zMUTEX_ANCHORBLOCK );
 
@@ -2036,7 +2036,7 @@ ActivateViewObject( zVIEW    lpView,
             else
             {
                // Parse the Attribute line received.
-               SysParseLine( ProcessInfo.szAttrName, sizeof( ProcessInfo.szAttrName ),
+               SysParseLine( ProcessInfo.szAttrName, zsizeof( ProcessInfo.szAttrName ),
                              &ProcessInfo.szLine, &ProcessInfo.szLine[ 1 ] );
 
                // Set the Level for the Entity.
@@ -2251,7 +2251,7 @@ ActivateViewObject( zVIEW    lpView,
       if ( ProcessInfo.szLine[ 0 ] == 'a' )
       {
          // Parse the Attribute line received.
-         SysParseLine( ProcessInfo.szAttrName, sizeof( ProcessInfo.szAttrName ),
+         SysParseLine( ProcessInfo.szAttrName, zsizeof( ProcessInfo.szAttrName ),
                        &ProcessInfo.szLine, &ProcessInfo.szLine[ 1 ] );
 
          switch ( ProcessInfo.nCurrState )
@@ -2649,7 +2649,7 @@ DropViewObject( zVIEW   lpView,
    {
       zCHAR szMsg[ 200 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "View referencing '%s' = ", lpViewOD->szName );
+      sprintf_s( szMsg, zsizeof( szMsg ), "View referencing '%s' = ", lpViewOD->szName );
       TraceLineX( szMsg, (zLONG) lpView );
       nRC = 1;
    }

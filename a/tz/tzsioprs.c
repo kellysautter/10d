@@ -307,7 +307,7 @@ GetAllCatalogNames( zVIEW vSubtask, zVIEW vvAktView )
    if (GetComputerName( szLocalServer, &lLocalLength ) == 0 )
       return( -3);
 
-   GetStringFromAttribute( szActualServer, sizeof( szActualServer ), vvAktView, "TZSIIMWK", "wkServerName");
+   GetStringFromAttribute( szActualServer, zsizeof( szActualServer ), vvAktView, "TZSIIMWK", "wkServerName");
    if ( zstrcmp( szActualServer, szLocalServer ) == 0 )
       return( GetLocalCatalogs( vSubtask, vvAktView ) );
    else
@@ -350,7 +350,7 @@ BuildWSK( zVIEW vSubtask, zVIEW vAktView, zPCHAR szServerName,
    if ( GetComputerName( szLocalServer, &lLocalLength ) == 0 )
       return( -3 );
 
-   GetStringFromAttribute( szActualServer, sizeof( szActualServer ), vAktView, "TZSIIMWK", "wkServerName");
+   GetStringFromAttribute( szActualServer, zsizeof( szActualServer ), vAktView, "TZSIIMWK", "wkServerName");
    if ( zstrcmp( szActualServer, szLocalServer ) == 0 )
    {
       // First we have to read the actual catalogdata
@@ -608,7 +608,7 @@ static zSHORT GetCatalogs( zVIEW vSubtask, zVIEW vAktView )
 
     // Get the actual Servername and CatalogFileName
     memset( szServerName, 0, 9 );
-    GetStringFromAttribute( szServerName, sizeof( szServerName ), vAktView, "TZSIIMWK", "wkServerName" );
+    GetStringFromAttribute( szServerName, zsizeof( szServerName ), vAktView, "TZSIIMWK", "wkServerName" );
 
     if ( zstrcmp( szServerName, szLocalServer ) != 0 )
     {
@@ -642,9 +642,9 @@ static zSHORT GetCatalogs( zVIEW vSubtask, zVIEW vAktView )
     {
        // Set Catalogfilename in structure for getting the cataloglist
        memset(szCatalogFileName, 0, 9);
-       GetStringFromAttribute( szCatalogFileName, sizeof( szCatalogFileName ), vAktView,
+       GetStringFromAttribute( szCatalogFileName, zsizeof( szCatalogFileName ), vAktView,
                                "CatFiles", "wkCatFiles");
-       GetStringFromAttribute( szEinschraenkung, sizeof( szEinschraenkung ), vAktView,
+       GetStringFromAttribute( szEinschraenkung, zsizeof( szEinschraenkung ), vAktView,
                                "CatFiles", "wkCatFiles");
 
        lAnzahlCatalogs = 0;

@@ -440,7 +440,7 @@ int deflateInit2_(z_stream *strm,
     s->d.d_buf = (ushf *) &(s->d.pending_buf[2*s->d.lit_bufsize]);
     /* We overlay pending_buf and d_buf+l_buf. This works since the average
      * output size for (length,distance) codes is <= 32 bits (worst case
-     * is 15+15+13=zTAG_LTH). d_buf is put last in case sizeof(short)>2.
+     * is 15+15+13=zTAG_LTH). d_buf is put last in case zsizeof(short)>2.
      */
 
     s->d.level = level;
@@ -729,7 +729,7 @@ int deflateCopy(z_stream *dest, z_stream *source)
     return Z_STREAM_ERROR; /* to be implemented */
 #if 0
     dest->state = (struct dinternal_state FAR *)
-        (*dest->zalloc)(1, sizeof(deflate_state));
+        (*dest->zalloc)(1, zsizeof(deflate_state));
     if (dest->state == 0) return Z_MEM_ERROR;
 
     *(dest->state) = *(source->state);
@@ -857,7 +857,7 @@ local int longest_match(deflate_state *s,
          * or if the match length is less than 2:
          */
 #if (defined(UNALIGNED_OK) && MAX_MATCH == 258)
-        /* This code assumes sizeof(unsigned short) == 2. Do not use
+        /* This code assumes zsizeof(unsigned short) == 2. Do not use
          * UNALIGNED_OK if your compiler uses a different size.
          */
         if (*(ushf*)(match+best_len-1) != scan_end ||
@@ -4439,14 +4439,14 @@ CompressFile( zVIEW   vSubtask,
          if ( SfGetApplicationForSubtask( &pApp, pZSubtask->m_vDialog ) == 0 &&
               pApp )
          {
-            strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+            strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
          }
 
          if ( szZeidonPath[ 0 ] == 0  )
-            strcpy_s( szZeidonPath, sizeof( szZeidonPath ), "c:\\temp\\" );
+            strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), "c:\\temp\\" );
 
          SysAppendcDirSep( szZeidonPath );
-         SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+         SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
          GenerateUniqueFileName( pchReturnFileName, nMaxFileNameLth, szWorkString, "Compress", "out" );
       }
 

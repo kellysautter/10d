@@ -251,8 +251,7 @@ ZCheckBox::OnCreate( LPCREATESTRUCT lpCreateStruct )
 
    mDeleteInit( m_pFont );
    m_pFont = new CFont;
-   ::GetObject( (HFONT) GetStockObject( DEFAULT_GUI_FONT ),
-                                        sizeof( lf ), &lf );
+   ::GetObject( (HFONT) GetStockObject( DEFAULT_GUI_FONT ), sizeof( lf ), &lf );
    m_pFont->CreateFontIndirect( &lf );
    SetFontOverride( );
    return( nRC );
@@ -262,8 +261,7 @@ BOOL
 ZCheckBox::DestroyWindow( )
 {
 // TraceLineS( "ZCheckBox::DestroyWindow", "" );
-   m_ulMapActFlag2 &= ~(zMAPACT_MAPPED_FROM_OI |
-                        zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED);
+   m_ulMapActFlag2 &= ~(zMAPACT_MAPPED_FROM_OI | zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED);
    return( CButton::DestroyWindow( ) );
 }
 
@@ -284,8 +282,7 @@ ZCheckBox::MapToOI( zLONG lFlag )
       zBOOL bCheck = (GetCheck( ) == 1);
 
       return( SetAttributeFromVariable( vApp, *m_pzsEName, *m_pzsAName,
-                                        bCheck ?
-                                          *m_pzsValueOn : *m_pzsValueOff,
+                                        bCheck ? *m_pzsValueOn : *m_pzsValueOff,
                                         zTYPE_STRING, 0, *m_pzsContext,
                                         (zSHORT) lFlag ) );
    }
@@ -320,7 +317,7 @@ ZCheckBox::MapFromOI( WPARAM wFlag )
       if ( vApp && (uMapState & zMAPACT_ENTITY_EXISTS) )
       {
          GetAttributeLength( &ulLth, vApp, *m_pzsEName, *m_pzsAName );
-         if ( ulLth >= sizeof( szMap ) )
+         if ( ulLth >= zsizeof( szMap ) )
          {
             GetAddrForAttribute( (zPCHAR *) &pch, vApp,
                                  *m_pzsEName, *m_pzsAName );
@@ -474,7 +471,7 @@ ZCheckBox::GetCheck( )
    zCHAR  szYN[ 2 ];
 
    if ( GetRemoteZCtrlAttribute( this, m_csERemote,
-                                 "Checked", szYN, sizeof( szYN ) ) >= 0 )
+                                 "Checked", szYN, zsizeof( szYN ) ) >= 0 )
    {
       if ( *szYN == 'Y' || *szYN == 'y' )
          bRC = TRUE;

@@ -578,10 +578,10 @@ typedef struct
 // In each container structure ItemType can be TWTY_INT8, TWTY_INT16, etc.
 // The kind of data stored in the container can be determined by doing
 // DCItemSize[ ItemType ] where the following is defined in TWAIN glue code:
-//          DCItemSize[ ]= { sizeof( TW_INT8 ),
-//                           sizeof( TW_INT16 ),
+//          DCItemSize[ ]= { zsizeof( TW_INT8 ),
+//                           zsizeof( TW_INT16 ),
 //                           etc.
-//                           sizeof( TW_UINT32 ) };
+//                           zsizeof( TW_UINT32 ) };
 //
 
 #define TWTY_INT8        0x0000    // Means Item is a TW_INT8

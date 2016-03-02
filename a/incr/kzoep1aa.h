@@ -105,6 +105,8 @@ CHANGE LOG
 // typedefs copied from kzoestaa.h so they can be referenced by
 // ActivateViewObject, SysCloseFile, and SysLoadLibrary respectively
 
+#define zsizeof _countof
+
 typedef struct ProcessStruct ProcessRecord;
 typedef ProcessRecord *LPPROCESS;
 

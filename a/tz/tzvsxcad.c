@@ -159,7 +159,7 @@ zwTZVSXCAD_ReuseInitializeDialog( zVIEW   vSubtask,
          nRC >= zCURSOR_SET;
          nRC =  SetCursorNextEntity( X_Checker, "Dialog", 0 ))
    {
-      GetStringFromAttribute( szName, sizeof( szName ), X_Checker, "Dialog", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), X_Checker, "Dialog", "Name" );
       nRC = SetCursorFirstEntityByString( DialogMeta, "W_MetaDef", "Name",
                                              szName, 0 );
       if ( nRC >= zCURSOR_SET )
@@ -176,7 +176,7 @@ zwTZVSXCAD_ReuseInitializeDialog( zVIEW   vSubtask,
          nRC >= zCURSOR_SET;
          nRC =  SetCursorNextEntity( DialogMeta, "W_MetaDef", 0 ))
    {
-      GetStringFromAttribute( szName, sizeof( szName ), DialogMeta, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), DialogMeta, "W_MetaDef", "Name" );
       SetCursorFirstEntityByString( X_Checker, "Dialog", "Name",
                                     szName, 0 );
       nRC = SetCursorFirstEntityByAttr( X_Checker,  "Dialog",    "Name",
@@ -216,7 +216,7 @@ zwTZVSXCAD_InitializeDialog( zVIEW    vSubtask )
       }
    }
 
-   nRC = GetStringFromAttribute( szExecDir, sizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
+   nRC = GetStringFromAttribute( szExecDir, zsizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
    ZeidonStringConcat( szExecDir, 1, 0, "\\TZVSXC01.POR", 1, 0, zMAX_FILESPEC_LTH + 1 );
 
    nRC = ActivateOI_FromFile( &X_Checker, "TZVSXCOO", vSubtask, szExecDir,
@@ -443,16 +443,16 @@ zwTZVSXCAD_SaveApplicSettings( zVIEW vSubtask,
 
       if ( nRC == zRESPONSE_YES )
       {
-         GetStringFromAttribute( szExecDir, sizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szExecDir, zsizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
          ZeidonStringConcat( szExecDir, 1, 0, "\\TZVSXC01.POR", 1, 0, zMAX_FILESPEC_LTH + 1 );
          CommitOI_ToFile( X_Checker, szExecDir, zASCII );
 
          //BL, 1999.11.10 save showed Dialogs for main window in XLP-File
-         GetStringFromAttribute( szExecDir, sizeof( szExecDir ), vDialogMeta_Original, "LPLR", "ExecDir" );
-         GetStringFromAttribute( szLPLR_Name, sizeof( szLPLR_Name ), vDialogMeta_Original, "LPLR", "Name" );
-         strcat_s( szExecDir, sizeof( szExecDir ), "\\" );
-         strcat_s( szExecDir, sizeof( szExecDir ), szLPLR_Name );
-         strcat_s( szExecDir, sizeof( szExecDir ), ".XLP" );
+         GetStringFromAttribute( szExecDir, zsizeof( szExecDir ), vDialogMeta_Original, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), vDialogMeta_Original, "LPLR", "Name" );
+         strcat_s( szExecDir, zsizeof( szExecDir ), "\\" );
+         strcat_s( szExecDir, zsizeof( szExecDir ), szLPLR_Name );
+         strcat_s( szExecDir, zsizeof( szExecDir ), ".XLP" );
          GetViewByName( &vCurrentMeta, "CurrentMeta", vSubtask, zLEVEL_TASK );
          CommitOI_ToFile( vCurrentMeta, szExecDir, zASCII );
       }
@@ -466,7 +466,7 @@ zwTZVSXCAD_SaveApplicSettings( zVIEW vSubtask,
          if ( nExitTool == 1 )
          {
             GetViewByName( &vZeidonCM, "ZeidonCM", vSubtask, zLEVEL_APPLICATION );
-            GetStringFromAttribute( szLPLR_Name, sizeof( szLPLR_Name ), vDialogMeta_Original, "LPLR", "Name" );
+            GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), vDialogMeta_Original, "LPLR", "Name" );
             if ( GetViewByName( &vLPLR, szLPLR_Name, vZeidonCM, zLEVEL_SUBTASK ) >= 0 )
             {
                //BL, 2000.01.07 write old settings in the Zeidon internal View
@@ -512,7 +512,7 @@ zwTZVSXCAD_IncludeDialog( zVIEW    vSubtask )
    nRC = SetCursorFirstSelectedEntity( vDialogList, "W_MetaDef", 0 );
    while ( nRC >= 0)
    {
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialogList, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialogList, "W_MetaDef", "Name" );
       nRC = SetCursorFirstEntityByString( X_Checker, "Dialog", "Name", szTempString_0, "" );
       if ( nRC < zCURSOR_SET )
       {
@@ -716,7 +716,7 @@ zwTZVSXCAD_IncludeLOD( zVIEW    vSubtask )
    GetViewByName( &X_Checker, "TZVSXCOO", vSubtask, zLEVEL_APPLICATION );
    GetViewByName( &LODMeta, "CurrentMeta", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), LODMeta, "W_MetaDef", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), LODMeta, "W_MetaDef", "Name" );
    nRC = SetCursorFirstEntityByString( X_Checker, "LOD", "Name", szTempString_0, "" );
    if ( nRC == zCURSOR_SET )
    {
@@ -858,7 +858,7 @@ zwTZVSXCAD_IncludeGlobal( zVIEW    vSubtask )
    GetViewByName( &X_Checker, "TZVSXCOO", vSubtask, zLEVEL_APPLICATION );
    GetViewByName( &GlobalMeta, "CurrentMeta", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), GlobalMeta, "W_MetaDef", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), GlobalMeta, "W_MetaDef", "Name" );
    nRC = SetCursorFirstEntityByString( X_Checker, "GlobalOperation", "Name", szTempString_0, "" );
    if ( nRC == zCURSOR_SET )
    {
@@ -907,7 +907,7 @@ zwTZVSXCAD_SetupDLL( zVIEW    vSubtask )
    GetViewByName( &vCM_ShowDialog, "CM_ShowDialog", vSubtask, zLEVEL_TASK );
    SetCursorFirstEntityByAttr( CM_List, "W_MetaDef", "Name",
                                vCM_ShowDialog, "W_MetaDef", "Name", 0 );
-   GetStringFromAttribute( szDialogName, sizeof( szDialogName ), CM_List, "W_MetaDef", "Name" );
+   GetStringFromAttribute( szDialogName, zsizeof( szDialogName ), CM_List, "W_MetaDef", "Name" );
 
    //BL, 1999.11.11 Prompt for Save and reset views
    zwTZVSXCAD_SaveSettings( vSubtask );
@@ -918,8 +918,8 @@ zwTZVSXCAD_SetupDLL( zVIEW    vSubtask )
 
    GetViewByName( &LPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szAppName, sizeof( szAppName ), LPLR, "LPLR", "Name" );
-   GetStringFromAttribute( szDialogName, sizeof( szDialogName ), CM_List, "W_MetaDef", "Name" );
+   GetStringFromAttribute( szAppName, zsizeof( szAppName ), LPLR, "LPLR", "Name" );
+   GetStringFromAttribute( szDialogName, zsizeof( szDialogName ), CM_List, "W_MetaDef", "Name" );
 
    // Create the appl subtask and name it with the name sent in.
    SfCreateSubtask( &vTempSubtask, vSubtask, szAppName );
@@ -1030,7 +1030,7 @@ zwTZVSXCAD_ReturnFromSubwindow( zVIEW    vSubtask )
    if ( nZRetCode > 0 && nRC == 0 )
    {
       DropObjectInstance( X_Checker );
-      GetStringFromAttribute( szExecDir, sizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szExecDir, zsizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
       ZeidonStringConcat( szExecDir, 1, 0, "\\TZVSXC01.POR", 1, 0, zMAX_FILESPEC_LTH+1 );
       nZRetCode = ActivateOI_FromFile( &X_Checker, "TZVSXCOO", vSubtask, szExecDir,
                                        zSINGLE + zNOI_OKAY + zIGNORE_ATTRIB_ERRORS );
@@ -1187,7 +1187,7 @@ zwTZVSXCAD_SetupInterp( zVIEW    vSubtask )
    GetViewByName( &vCM_ShowDialog, "CM_ShowDialog", vSubtask, zLEVEL_TASK );
    SetCursorFirstEntityByAttr( CM_List, "W_MetaDef", "Name",
                                vCM_ShowDialog, "W_MetaDef", "Name", 0);
-   GetStringFromAttribute( szDialogName, sizeof( szDialogName ), CM_List, "W_MetaDef", "Name" );
+   GetStringFromAttribute( szDialogName, zsizeof( szDialogName ), CM_List, "W_MetaDef", "Name" );
 
    //BL, 1999.11.11 Prompt for Save and reset views
    zwTZVSXCAD_SaveSettings( vSubtask );
@@ -1197,7 +1197,7 @@ zwTZVSXCAD_SetupInterp( zVIEW    vSubtask )
                                  szDialogName, 0 );
 
    GetViewByName( &LPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szAppName, sizeof( szAppName ), LPLR, "LPLR", "Name" );
+   GetStringFromAttribute( szAppName, zsizeof( szAppName ), LPLR, "LPLR", "Name" );
    if ( ZeidonStringCompare( szAppName, 1, 0, "TZ8C", 1, 0, 128 ) == 0 )
    {
       ZeidonStringCopy( szAppName, 1, 0, "Zeidon_Tools", 1, 0, 128 );
@@ -1429,7 +1429,7 @@ zwTZVSXCAD_SetDescriptionInDIL( zVIEW vSubtask )
    if ( vCM_ShowDialog &&
         CheckExistenceOfEntity( vCM_ShowDialog, "W_MetaDef" ) >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szDescription, sizeof( szDescription ), vCM_ShowDialog, "W_MetaDef", "Desc" );
+      GetStringFromAttribute( szDescription, zsizeof( szDescription ), vCM_ShowDialog, "W_MetaDef", "Desc" );
       MB_SetMessage( vSubtask, 1, szDescription );
    }
    else

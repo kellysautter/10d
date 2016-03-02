@@ -299,7 +299,7 @@ fnTZRPUPDD_OpenReportFile( zVIEW vSubtask, zVIEW vNewReport )
    }
 
    //RG: If attribute SironName isn't empty, it's a SironReport
-   GetStringFromAttribute( szSironName, sizeof( szSironName ), vNewReport, "Report", "SironName" );
+   GetStringFromAttribute( szSironName, zsizeof( szSironName ), vNewReport, "Report", "SironName" );
    if ( zstrcmp( szSironName, "" ) != 0 )
    {
       // The Report is a SironReport
@@ -607,7 +607,7 @@ zOPER_EXPORT zSHORT OPERATION
 TZRPUPDD_UpdatePageFromList( zVIEW vSubtask )
 {
    zVIEW  vReportList;
-   zPCHAR szTag;
+   zPCHAR pchTag;
    zSHORT nRC;
 
    // Get the view to the page list
@@ -621,9 +621,9 @@ TZRPUPDD_UpdatePageFromList( zVIEW vSubtask )
 
    // Get Address of page tag and see if there is an active painter
    // for the page
-   GetAddrForAttribute( &szTag, vReportList, "Page", "Tag" );
+   GetAddrForAttribute( &pchTag, vReportList, "Page", "Tag" );
 
-   nRC = (zSHORT) fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, szTag, sizeof( szTag ) );
+   nRC = (zSHORT) fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, pchTag, zTAG_LTH );
 
    return( 0 );
 }
@@ -653,7 +653,7 @@ TZRPUPDD_SortWindows( zVIEW vSubtask )
    zCHAR szSelected[ 34 ];
 
    GetViewByName( &vReport, "PAGEL", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szSelected, sizeof( szSelected ), vReport, "Page", "Tag" );
+   GetStringFromAttribute( szSelected, zsizeof( szSelected ), vReport, "Page", "Tag" );
    zgSortEntityWithinParent( zASCENDING, vReport,
                              "Page", "Tag", "" );
    SetCursorFirstEntityByString( vReport, "Page", "Tag", szSelected, 0 );
@@ -770,11 +770,11 @@ TZRPUPDD_AskForSave( zVIEW vSubtask )
       if ( !ComponentIsCheckedOut( vSubtask, vReport, zSOURCE_REPORT_META ) )
       {
          nSaveAs = TRUE;
-         GetStringFromAttribute( szReportName, sizeof( szReportName ), vReport, "Report", "Tag" );
-         strcpy_s( szMessageText, sizeof( szMessageText ), "Report is not checked out, but Report '" );
-         strcat_s( szMessageText, sizeof( szMessageText ), szReportName );
-         strcat_s( szMessageText, sizeof( szMessageText ), "' has been modified. \n\nWould you like to " );
-         strcat_s( szMessageText, sizeof( szMessageText ), "save it with differend name?" );
+         GetStringFromAttribute( szReportName, zsizeof( szReportName ), vReport, "Report", "Tag" );
+         strcpy_s( szMessageText, zsizeof( szMessageText ), "Report is not checked out, but Report '" );
+         strcat_s( szMessageText, zsizeof( szMessageText ), szReportName );
+         strcat_s( szMessageText, zsizeof( szMessageText ), "' has been modified. \n\nWould you like to " );
+         strcat_s( szMessageText, zsizeof( szMessageText ), "save it with differend name?" );
          nRC = MessagePrompt( vSubtask, "DM00115", "Report Maintenance",
                               szMessageText, zBEEP, zBUTTONS_YESNOCANCEL,
                               zRESPONSE_YES, zICON_QUESTION );
@@ -1007,7 +1007,7 @@ fnTZRPUPDD_CreateGroupSet( zVIEW vSubtask, zVIEW vNewReport )
    nRC = SetCursorFirstEntity( vNewReport, "GroupSet", 0 );
    while ( nRC == zCURSOR_SET )
    {
-      GetStringFromAttribute( szType, sizeof( szType ), vNewReport, "GroupSet", "Type" );
+      GetStringFromAttribute( szType, zsizeof( szType ), vNewReport, "GroupSet", "Type" );
       if ( szType[ 0 ] )
       {
          if ( szType[ 1 ] == 'H' || szType[ 1 ] == 'h' )
@@ -1145,10 +1145,10 @@ TZRPUPDD_NewPage( zVIEW vSubtask )
    // Generate a name for the new page
    if ((nCursor = CheckExistenceOfEntity( vReport, "Page" )) != zCURSOR_NULL )
    {
-      strcpy_s( szTag, sizeof( szTag ), "Page" );
+      strcpy_s( szTag, zsizeof( szTag ), "Page" );
       for ( nIdx = 1; nIdx < 1000; nIdx++ )
       {
-         zltoa( (zLONG) nIdx, szTag + 6, sizeof( szTag ) - 6 );
+         zltoa( (zLONG) nIdx, szTag + 6, zsizeof( szTag ) - 6 );
          if ( SetCursorFirstEntityByString( vReport, "Page", "Tag", szTag, 0 ) < zCURSOR_SET )
          {
             break;
@@ -1157,7 +1157,7 @@ TZRPUPDD_NewPage( zVIEW vSubtask )
    }
    else
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vReport, "Report", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vReport, "Report", "Tag" );
    }
 
    // If a report is currently being processed by the painter, update
@@ -1205,7 +1205,7 @@ TZRPUPDD_NewReportFile( zVIEW vSubtask )
    // get the C++ class pointer to the painter object from the
    // zeidon control object
    GetViewByName( &vPainter, "TZPNTROO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vPainter,
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vPainter,
                            "Palette", "NewFile" );
    if ( szFileName[ 0 ] == 0 )
    {
@@ -1255,7 +1255,7 @@ TZRPUPDD_NewReportFile( zVIEW vSubtask )
       return( -2 );
    }
 
-   strcpy_s( szReportName, sizeof( szReportName ), szFileName );
+   strcpy_s( szReportName, zsizeof( szReportName ), szFileName );
 
    // Declare a view to the appropriate source report object type
    ActivateEmptyMetaOI( vSubtask, &vNewReport, zSOURCE_REPORT_META,
@@ -1302,10 +1302,10 @@ TZRPUPDD_DeletePage( zVIEW vSubtask )
       return( -1 );
 
    // Make operator confirm the delete
-   strcpy_s( szMessage, sizeof( szMessage ), "OK to delete Page '" );
+   strcpy_s( szMessage, zsizeof( szMessage ), "OK to delete Page '" );
    GetAddrForAttribute( &szTag, vReport, "Page", "Tag" );
-   strcat_s( szMessage, sizeof( szMessage ), szTag );
-   strcat_s( szMessage, sizeof( szMessage ), "'?" );
+   strcat_s( szMessage, zsizeof( szMessage ), szTag );
+   strcat_s( szMessage, zsizeof( szMessage ), "'?" );
 
    if ( MessagePrompt( vSubtask, "RP00202", "Report Maintenance",
                        szMessage, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 ) == zRESPONSE_NO )
@@ -1673,12 +1673,12 @@ UPD_GROUP_OK( zVIEW vSubtask )
    if ( MiGetUpdateForView( vReport ) == 0 )
       return( 0 );
 
-   GetStringFromAttribute( szType, sizeof( szType ), vReport, "Group", "Type" );
+   GetStringFromAttribute( szType, zsizeof( szType ), vReport, "Group", "Type" );
 
    // Group Type  is required
    if ( zstrcmp( szType, "" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Group Type is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Group Type is required." );
       MessageSend( vSubtask, "ZO00137", "Report Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -1696,8 +1696,8 @@ UPD_GROUP_OK( zVIEW vSubtask )
       if ( nRC >= zCURSOR_SET )
       {
          GetStringFromAttributeByContext( szContext, vReport, "Group", "Type", "ReportGroupType", 32 );
-         strcpy_s( szMsg, sizeof( szMsg ), szContext );
-         strcat_s( szMsg, sizeof( szMsg ), " already exists in the GroupSet." );
+         strcpy_s( szMsg, zsizeof( szMsg ), szContext );
+         strcat_s( szMsg, zsizeof( szMsg ), " already exists in the GroupSet." );
          MessageSend( vSubtask, "ZO00137", "Report Maintenance",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -1707,7 +1707,7 @@ UPD_GROUP_OK( zVIEW vSubtask )
    }
 
    GetIntegerFromAttribute( &lFlags, vReport, "Group", "Flags" );
-   GetStringFromAttribute( szOverlayTag, sizeof( szOverlayTag ), vReport, "Group", "OverlayTag" );
+   GetStringFromAttribute( szOverlayTag, zsizeof( szOverlayTag ), vReport, "Group", "OverlayTag" );
    if ( szOverlayTag[ 0 ] )
    {
       zVIEW  vReportTemp;
@@ -1784,12 +1784,12 @@ UPD_GROUPSET_CheckValues( zVIEW vSubtask )
 
    GetViewByName( &vReport, "PAGECTRL", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szType, sizeof( szType ), vReport, "GroupSet", "Type" );
+   GetStringFromAttribute( szType, zsizeof( szType ), vReport, "GroupSet", "Type" );
 
    // GroupSet Type  is required
    if ( zstrcmp( szType, "" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "GroupSet Type is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "GroupSet Type is required." );
       MessageSend( vSubtask, "ZO00137", "Report Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetFocusToCtrl( vSubtask, "GroupSetType" );
@@ -1814,8 +1814,8 @@ UPD_GROUPSET_CheckValues( zVIEW vSubtask )
       {
          GetStringFromAttributeByContext( szContext, vReport, "GroupSet", "Type",
                                           "ReportGroupSetType", 32 );
-         strcpy_s( szMsg, sizeof( szMsg ), szContext );
-         strcat_s( szMsg, sizeof( szMsg ), " already exists in the Page." );
+         strcpy_s( szMsg, zsizeof( szMsg ), szContext );
+         strcat_s( szMsg, zsizeof( szMsg ), " already exists in the Page." );
          MessageSend( vSubtask, "ZO00137", "Report Maintenance",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          SetFocusToCtrl( vSubtask, "GroupSetType" );
@@ -1831,12 +1831,12 @@ UPD_GROUPSET_CheckValues( zVIEW vSubtask )
       {
          GetStringFromAttributeByContext( szContext, vReport, "GroupSet", "Type",
                                           "ReportGroupSetType", 32 );
-         strcpy_s( szMsg, sizeof( szMsg ), szContext );
-         strcat_s( szMsg, sizeof( szMsg ), " GroupSet cannot include \na Group of Type " );
+         strcpy_s( szMsg, zsizeof( szMsg ), szContext );
+         strcat_s( szMsg, zsizeof( szMsg ), " GroupSet cannot include \na Group of Type " );
          GetStringFromAttributeByContext( szContext, vReportC, "Group", "Type",
                                           "ReportGroupType", 32 );
-         strcat_s( szMsg, sizeof( szMsg ), szContext );
-         strcat_s( szMsg, sizeof( szMsg ), "." );
+         strcat_s( szMsg, zsizeof( szMsg ), szContext );
+         strcat_s( szMsg, zsizeof( szMsg ), "." );
          MessageSend( vSubtask, "ZO00137", "Report Maintenance",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          SetFocusToCtrl( vSubtask, "GroupSetType" );
@@ -1852,7 +1852,7 @@ UPD_GROUPSET_CheckValues( zVIEW vSubtask )
    {
       // Check duplicate tags.
       nDupCount = 0;
-      GetStringFromAttribute( szTag, sizeof( szTag ), vReport, "GroupSet", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vReport, "GroupSet", "Tag" );
       CreateViewFromViewForTask( &vReportC, vReport, 0 );
       nRC = SetCursorFirstEntityByString( vReportC, "GroupSet", "Tag", szTag, "" );
       while ( nRC > zCURSOR_UNCHANGED )
@@ -1870,10 +1870,10 @@ UPD_GROUPSET_CheckValues( zVIEW vSubtask )
       {
          GetStringFromAttributeByContext( szContext, vReport, "GroupSet", "Type",
                                           "ReportGroupSetType", 32 );
-         strcpy_s( szMsg, sizeof( szMsg ), szContext );
-         strcat_s( szMsg, sizeof( szMsg ), " GroupSet named '" );
-         strcat_s( szMsg, sizeof( szMsg ), szTag );
-         strcat_s( szMsg, sizeof( szMsg ), "' already exists in the Page." );
+         strcpy_s( szMsg, zsizeof( szMsg ), szContext );
+         strcat_s( szMsg, zsizeof( szMsg ), " GroupSet named '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szTag );
+         strcat_s( szMsg, zsizeof( szMsg ), "' already exists in the Page." );
          MessageSend( vSubtask, "ZO00137", "Report Maintenance",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          SetFocusToCtrl( vSubtask, "Tag" );
@@ -2005,7 +2005,7 @@ fnTZRPUP2D_SaveAsCheckName( zVIEW  vSubtask,
    //Name is required
    if ( zstrcmp( szOutName, "" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Report Name is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Report Name is required." );
       MessageSend( vSubtask, "ZO00137", "Report Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -2017,7 +2017,7 @@ fnTZRPUP2D_SaveAsCheckName( zVIEW  vSubtask,
    if ( SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name",
                                       szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Report already exists. Replace existing Report?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Report already exists. Replace existing Report?" );
       nRC = MessagePrompt( vSubtask, "ZO00138", "Report Maintenance",
                            szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, zICON_QUESTION );
 
@@ -2032,9 +2032,9 @@ fnTZRPUP2D_SaveAsCheckName( zVIEW  vSubtask,
       if ( CompareAttributeToInteger( vCM_List, "W_MetaDef",
                                       "Status", 1 ) != 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Report '" );
-         strcat_s( szMsg, sizeof( szMsg ), szNewName );
-         strcat_s( szMsg, sizeof( szMsg ), "' is not checked out." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Report '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szNewName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' is not checked out." );
          MessageSend( vSubtask, "ZO00137", "Report Maintenance",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -2089,7 +2089,7 @@ TZRPUP2D_SaveAsReport( zVIEW vSubtask )
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_TASK );
 
    // Validate Report Name is OK
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
    UfCompressName( szNewName, szOutName, 8, "", "", "", "", 0 );
 
    // check Save as Name
@@ -2680,7 +2680,7 @@ SetGroupSetEntity( zVIEW vViewToWindow )
    {
       // WHEN OUTLINER IS DrivingLOD (LOD_Entity)
       nRC = GetViewByName( &vReportTmp, "DrivingLOD", vViewToWindow, zLEVEL_TASK );
-      GetStringFromAttribute( szTest, sizeof( szTest ), vReportTmp, "LOD_EntityParent", "Name" );
+      GetStringFromAttribute( szTest, zsizeof( szTest ), vReportTmp, "LOD_EntityParent", "Name" );
       SetAttributeFromAttribute( vReport, "DrivingViewObjRef", "wGroupSetName",
                                  vReportTmp, "LOD_EntityParent", "Name" );
       // Since we are selecting a lod entity, this will be an entity group set.
@@ -2688,7 +2688,7 @@ SetGroupSetEntity( zVIEW vViewToWindow )
 
       /* // WHEN OUTLINER IS TZRPTLODENT (FullReportEntity)
       nRC = GetViewByName( &vReportTmp, "TZRPTLODENT", vViewToWindow, zLEVEL_TASK );
-      GetStringFromAttribute( szTest, sizeof( szTest ), vReportTmp, "FullReportEntity", "Name" );
+      GetStringFromAttribute( szTest, zsizeof( szTest ), vReportTmp, "FullReportEntity", "Name" );
       SetAttributeFromAttribute( vReport, "DrivingViewObjRef", "wGroupSetName",
                                  vReportTmp, "FullReportEntity", "Name" );
       // Since we are selecting a lod entity, this will be an entity group set.

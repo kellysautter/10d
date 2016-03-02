@@ -130,63 +130,63 @@ STDAPI DllRegisterServer(void)
 
       //Schriftgroesse -> 9
       dTyp = REG_DWORD;
-      dSize = sizeof ( dWert );
+      dSize = zsizeof ( dWert );
       dWert = 180;
       if ( !pReg->ReadValue( REGSIZE, &dTyp, (LPBYTE)&dWert, &dSize ) )
       {
          dWert = 180;
          dTyp = REG_DWORD;
-         dSize = sizeof ( dWert );
+         dSize = zsizeof ( dWert );
          pReg->WriteValue( REGSIZE, dTyp, (LPBYTE)&dWert, dSize );
       }
 
       //Hintergrundfarbe -> Weiß
       dTyp = REG_DWORD;
-      dSize = sizeof ( cr );
+      dSize = zsizeof ( cr );
       if ( !pReg->ReadValue( REGBACK, &dTyp, (LPBYTE)&cr, &dSize ) )
       {
          dTyp = REG_DWORD;
-         dSize = sizeof ( cr );
+         dSize = zsizeof ( cr );
          cr = RGB( 255, 255, 255 );
          pReg->WriteValue( REGBACK, dTyp, (LPBYTE)&cr, dSize );
       }
 
       //Vordergrund -> Schwarz
       dTyp = REG_DWORD;
-      dSize = sizeof ( cr );
+      dSize = zsizeof ( cr );
       if ( !pReg->ReadValue( REGFORE, &dTyp, (LPBYTE)&cr, &dSize ) )
       {
          dTyp = REG_DWORD;
-         dSize = sizeof ( cr );
+         dSize = zsizeof ( cr );
          cr = RGB( 0,0,0 );
          pReg->WriteValue( REGFORE, dTyp, (LPBYTE)&cr, dSize );
       }
 
       //KeywordFarbe -> Rot
       dTyp = REG_DWORD;
-      dSize = sizeof ( cr );
+      dSize = zsizeof ( cr );
       if ( !pReg->ReadValue( REGWORD, &dTyp, (LPBYTE)&cr, &dSize ) )
       {
          dTyp = REG_DWORD;
-         dSize = sizeof ( cr );
+         dSize = zsizeof ( cr );
          cr = RGB( 255, 0, 0 );
          pReg->WriteValue( REGWORD, dTyp, (LPBYTE)&cr, dSize );
       }
 
       //Kommentarfarbe -> Blau
       dTyp = REG_DWORD;
-      dSize = sizeof ( cr );
+      dSize = zsizeof ( cr );
       if ( !pReg->ReadValue( REGCOMMENT, &dTyp, (LPBYTE)&cr, &dSize ) )
       {
          dTyp = REG_DWORD;
-         dSize = sizeof ( cr );
+         dSize = zsizeof ( cr );
          cr = RGB( 0, 0, 255 );
          pReg->WriteValue( REGCOMMENT, dTyp, (LPBYTE)&cr, dSize );
       }
 
       //Tabstop-Weite -> 4
       dTyp = REG_DWORD;
-      dSize = sizeof ( dWert );
+      dSize = zsizeof ( dWert );
       if ( !pReg->ReadValue( REGTABSTOP, &dTyp, (LPBYTE)&dWert, &dSize ) )
       {
          dTyp = REG_DWORD;
@@ -196,7 +196,7 @@ STDAPI DllRegisterServer(void)
 
       //UndoLevel -> 30
       dTyp = REG_DWORD;
-      dSize = sizeof ( dWert );
+      dSize = zsizeof ( dWert );
       if ( !pReg->ReadValue( REGUNDOLEVEL, &dTyp, (LPBYTE)&dWert, &dSize ) )
       {
          dTyp = REG_DWORD;
@@ -206,7 +206,7 @@ STDAPI DllRegisterServer(void)
 
       //Anzahl Zeilen fuer Kommentarpuffer -> 100
       dTyp = REG_DWORD;
-      dSize = sizeof ( dWert );
+      dSize = zsizeof ( dWert );
       if ( !pReg->ReadValue( REGBUFFERSIZE, &dTyp, (LPBYTE)&dWert, &dSize ) )
       {
          dTyp = REG_DWORD;

@@ -183,14 +183,14 @@ SP_GetShapeCtrlBOI( zVIEW    vCtrl,
                     zPLONG   plFlags )
 {
    zCHAR   szBlob[ 8 + 6 * sizeof( zLONG ) ];
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
 
    GetBlobFromAttribute( &szBlob, &ulLth, vCtrl, "Control", "CtrlBOI" );
 //MessageBox( 0, "vCtrl|Control|CtrlBOI", "Zeidon Error", MB_OK );
 //::MessageBox( 0, "vCtrl|Control|CtrlBOI", "Zeidon Error", MB_OK );
 
-   if ( ulLth == sizeof( szBlob ) ||
-        ulLth == sizeof( szBlob ) - sizeof( zLONG ) )
+   if ( ulLth == zsizeof( szBlob ) ||
+        ulLth == zsizeof( szBlob ) - sizeof( zLONG ) )
    {
       *pbRectangle   = szBlob[ 0 ];
       *pbRoundRect   = szBlob[ 1 ];
@@ -204,7 +204,7 @@ SP_GetShapeCtrlBOI( zVIEW    vCtrl,
       *plPenType     = *(zPLONG) (szBlob + 8 + (1 * sizeof( zLONG )) );
       *plPenColor    = *(zPLONG) (szBlob + 8 + (2 * sizeof( zLONG )) );
       *plRoundValue  = *(zPLONG) (szBlob + 8 + (3 * sizeof( zLONG )) );
-      if ( ulLth == sizeof( szBlob ) )
+      if ( ulLth == zsizeof( szBlob ) )
       {
          *plBackgroundColor = *(zPLONG) (szBlob + 8 + (4 * sizeof( zLONG )) );
          *plFlags = *(zPLONG) (szBlob + 8 + (5 * sizeof( zLONG )) );
@@ -263,7 +263,7 @@ SP_SetShapeCtrlBOI( zVIEW   vCtrl,
    {
       zPLONG lpLong;
 
-      ulLth = sizeof( szBlob );
+      ulLth = zsizeof( szBlob );
 
       szBlob[ 0 ] = (char) bRectangle;
       szBlob[ 1 ] = (char) bRoundRect;
@@ -568,7 +568,7 @@ SplitCtrlBOI_BMP( zPCHAR       pchCtrlBOI,
       pchEnd = pch0 + lCtrlBOI_Size;
 
       // get DLL Name
-      strcpy_s( pBMP->szDLLName, sizeof( pBMP->szDLLName ), pch0 );
+      strcpy_s( pBMP->szDLLName, zsizeof( pBMP->szDLLName ), pch0 );
 
       // get BMP up or Icon
       pch0 += zstrlen( pch0 ) + 1;
@@ -583,11 +583,11 @@ SplitCtrlBOI_BMP( zPCHAR       pchCtrlBOI,
          {
             // get it
             pBMP->lBMPUpOrIconID = zatol( pch0 );
-            strcpy_s( pBMP->szBMPUpOrIconName, sizeof( pBMP->szBMPUpOrIconName ), ++pch1 );
+            strcpy_s( pBMP->szBMPUpOrIconName, zsizeof( pBMP->szBMPUpOrIconName ), ++pch1 );
          }
          else
          {
-            strcpy_s( pBMP->szBMPUpOrIconName, sizeof( pBMP->szBMPUpOrIconName ), pch0 );
+            strcpy_s( pBMP->szBMPUpOrIconName, zsizeof( pBMP->szBMPUpOrIconName ), pch0 );
          }
 
          // get BMP down
@@ -603,11 +603,11 @@ SplitCtrlBOI_BMP( zPCHAR       pchCtrlBOI,
             {
                // get it
                pBMP->lBMPDownID = zatol( pch0 );
-               strcpy_s( pBMP->szBMPDownName, sizeof( pBMP->szBMPDownName ), ++pch1 );
+               strcpy_s( pBMP->szBMPDownName, zsizeof( pBMP->szBMPDownName ), ++pch1 );
             }
             else
             {
-               strcpy_s( pBMP->szBMPDownName, sizeof( pBMP->szBMPDownName ), pch0 );
+               strcpy_s( pBMP->szBMPDownName, zsizeof( pBMP->szBMPDownName ), pch0 );
             }
 
             // get BMP focus
@@ -623,11 +623,11 @@ SplitCtrlBOI_BMP( zPCHAR       pchCtrlBOI,
                {
                   // get it
                   pBMP->lBMPFocusID = zatol( pch0 );
-                  strcpy_s( pBMP->szBMPFocusName, sizeof( pBMP->szBMPFocusName ), ++pch1 );
+                  strcpy_s( pBMP->szBMPFocusName, zsizeof( pBMP->szBMPFocusName ), ++pch1 );
                }
                else
                {
-                  strcpy_s( pBMP->szBMPFocusName, sizeof( pBMP->szBMPFocusName ), pch0 );
+                  strcpy_s( pBMP->szBMPFocusName, zsizeof( pBMP->szBMPFocusName ), pch0 );
                }
 
                // get BMP disabled
@@ -643,11 +643,11 @@ SplitCtrlBOI_BMP( zPCHAR       pchCtrlBOI,
                   {
                      // get it
                      pBMP->lBMPDisabledID = zatol( pch0 );
-                     strcpy_s( pBMP->szBMPDisabledName, sizeof( pBMP->szBMPDisabledName ), ++pch1 );
+                     strcpy_s( pBMP->szBMPDisabledName, zsizeof( pBMP->szBMPDisabledName ), ++pch1 );
                   }
                   else
                   {
-                     strcpy_s( pBMP->szBMPDisabledName, sizeof( pBMP->szBMPDisabledName ), pch0 );
+                     strcpy_s( pBMP->szBMPDisabledName, zsizeof( pBMP->szBMPDisabledName ), pch0 );
                   }
                }
             }

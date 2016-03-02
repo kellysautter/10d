@@ -1036,49 +1036,49 @@ AcceptRelationship( zVIEW    vSubtask,
          }
 
          SetCursorFirstEntity( vDiagram, szlER_RelLink_2, 0 );
-         GetStringFromAttribute( szText, sizeof( szText ), vDiagram,
+         GetStringFromAttribute( szText, zsizeof( szText ), vDiagram,
                                  szlER_RelLink_2, szlName );
-         strcat_s( szText, sizeof( szText ), szlLPAREN );
-         GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram,
+         strcat_s( szText, zsizeof( szText ), szlLPAREN );
+         GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram,
                                  szlER_RelLink_2, szlCardMin );
-         strcat_s( szText, sizeof( szText ), szCard );
+         strcat_s( szText, zsizeof( szText ), szCard );
          if ( atoi( szCard ) == 1 )
             pRelationship->m_bSrcReq = 1;
          else
             pRelationship->m_bSrcReq = 0;
 
-         strcat_s( szText, sizeof( szText ), szlCOMMA );
-         GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram,
+         strcat_s( szText, zsizeof( szText ), szlCOMMA );
+         GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram,
                                  szlER_RelLink_2, szlCardMax );
-         strcat_s( szText, sizeof( szText ), szCard );
+         strcat_s( szText, zsizeof( szText ), szCard );
          if ( atoi( szCard ) == 1 )
             pRelationship->m_bSrcMany = 0;
          else
             pRelationship->m_bSrcMany = 1;
 
-         strcat_s( szText, sizeof( szText ), szlRPAREN );
+         strcat_s( szText, zsizeof( szText ), szlRPAREN );
          pRelationship->m_csTextF = szText;
          SetCursorNextEntity( vDiagram, szlER_RelLink_2, 0 );
-         GetStringFromAttribute( szText, sizeof( szText ), vDiagram,
+         GetStringFromAttribute( szText, zsizeof( szText ), vDiagram,
                                  szlER_RelLink_2, szlName );
-         strcat_s( szText, sizeof( szText ), szlLPAREN );
-         GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram,
+         strcat_s( szText, zsizeof( szText ), szlLPAREN );
+         GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram,
                                  szlER_RelLink_2, szlCardMin );
-         strcat_s( szText, sizeof( szText ), szCard );
+         strcat_s( szText, zsizeof( szText ), szCard );
          if ( atoi( szCard ) == 1 )
             pRelationship->m_bTgtReq = 1;
          else
             pRelationship->m_bTgtReq = 0;
 
-         strcat_s( szText, sizeof( szText ), szlCOMMA );
-         GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram,
+         strcat_s( szText, zsizeof( szText ), szlCOMMA );
+         GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram,
                                  szlER_RelLink_2, szlCardMax );
-         strcat_s( szText, sizeof( szText ), szCard );
+         strcat_s( szText, zsizeof( szText ), szCard );
          if ( atoi( szCard ) == 1 )
             pRelationship->m_bTgtMany = 0;
          else
             pRelationship->m_bTgtMany = 1;
-         strcat_s( szText, sizeof( szText ), szlRPAREN );
+         strcat_s( szText, zsizeof( szText ), szlRPAREN );
          pRelationship->m_csTextR = szText;
          pRelationship->Erase( FALSE );
          pRelationship->m_bSelected = (zBOOL)
@@ -1207,49 +1207,49 @@ RefreshRelationship( zVIEW    vSubtask,
       if ( nPos < pER_Diagram->m_nRelCnt )
       {
          SetCursorPrevEntity( vDiagram, szlER_RelLink_2, 0 );
-         GetStringFromAttribute( szText, sizeof( szText ),
+         GetStringFromAttribute( szText, zsizeof( szText ),
                                  vDiagram, szlER_RelLink_2, szlName );
-         strcat_s( szText, sizeof( szText ), szlLPAREN );
-         GetStringFromAttribute( szCard, sizeof( szCard ),
+         strcat_s( szText, zsizeof( szText ), szlLPAREN );
+         GetStringFromAttribute( szCard, zsizeof( szCard ),
                                  vDiagram, szlER_RelLink_2, szlCardMin );
-         strcat_s( szText, sizeof( szText ), szCard );
+         strcat_s( szText, zsizeof( szText ), szCard );
          if ( atoi( szCard ) == 1 )
             pRelationship->m_bSrcReq = 1;
          else
             pRelationship->m_bSrcReq = 0;
 
-         strcat_s( szText, sizeof( szText ), szlCOMMA );
-         GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram,
+         strcat_s( szText, zsizeof( szText ), szlCOMMA );
+         GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram,
                                  szlER_RelLink_2, szlCardMax );
-         strcat_s( szText, sizeof( szText ), szCard );
+         strcat_s( szText, zsizeof( szText ), szCard );
          if ( atoi( szCard ) == 1 )
             pRelationship->m_bSrcMany = 0;
          else
             pRelationship->m_bSrcMany = 1;
 
-         strcat_s( szText, sizeof( szText ), szlRPAREN );
+         strcat_s( szText, zsizeof( szText ), szlRPAREN );
          pRelationship->m_csTextF = szText;
          SetCursorNextEntity( vDiagram, szlER_RelLink_2, 0 );
-         GetStringFromAttribute( szText, sizeof( szText ), vDiagram, szlER_RelLink_2, szlName );
-         strcat_s( szText, sizeof( szText ), szlLPAREN );
-         GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram,
+         GetStringFromAttribute( szText, zsizeof( szText ), vDiagram, szlER_RelLink_2, szlName );
+         strcat_s( szText, zsizeof( szText ), szlLPAREN );
+         GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram,
                                  szlER_RelLink_2, szlCardMin );
-         strcat_s( szText, sizeof( szText ), szCard );
+         strcat_s( szText, zsizeof( szText ), szCard );
          if ( atoi( szCard ) == 1 )
             pRelationship->m_bTgtReq = 1;
          else
             pRelationship->m_bTgtReq = 0;
 
-         strcat_s( szText, sizeof( szText ), szlCOMMA );
-         GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram,
+         strcat_s( szText, zsizeof( szText ), szlCOMMA );
+         GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram,
                                  szlER_RelLink_2, szlCardMax );
-         strcat_s( szText, sizeof( szText ), szCard );
+         strcat_s( szText, zsizeof( szText ), szCard );
          if ( atoi( szCard ) == 1 )
             pRelationship->m_bTgtMany = 0;
          else
             pRelationship->m_bTgtMany = 1;
 
-         strcat_s( szText, sizeof( szText ), szlRPAREN );
+         strcat_s( szText, zsizeof( szText ), szlRPAREN );
          pRelationship->m_csTextR = szText;
          pRelationship->Erase( 0 );
          pRelationship->m_bSelected = (zBOOL)

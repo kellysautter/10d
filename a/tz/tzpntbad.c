@@ -99,7 +99,7 @@ ToolBarPostBuild( zVIEW vSubtask )
    zVIEW  vControl;
    zCHAR  szBlob[ zMAX_FILENAME_LTH * 3 ];
    zLONG  lSubtype;
-   zULONG ulLth = sizeof( szBlob );
+   zULONG ulLth = zsizeof( szBlob );
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
    GetBlobFromAttribute( szBlob, &ulLth, vControl, "Control", "CtrlBOI" );
@@ -167,7 +167,7 @@ ToolBarUPD_OK( zVIEW vSubtask )
    zVIEW  vControl;
    zCHAR  szBlob[ zMAX_FILENAME_LTH * 2 ];
    zLONG  lSubtype;
-   zULONG ulLth = sizeof( szBlob );
+   zULONG ulLth = zsizeof( szBlob );
 
    GetViewByName( &vControl, "TZCTLMAP2", vSubtask, zLEVEL_TASK );
    DropView( vControl );
@@ -175,9 +175,9 @@ ToolBarUPD_OK( zVIEW vSubtask )
    DropView( vControl );
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
-   GetCtrlText( vSubtask, "DLL", szBlob, sizeof( szBlob ) - 1 );
+   GetCtrlText( vSubtask, "DLL", szBlob, zsizeof( szBlob ) - 1 );
    ulLth = zstrlen( szBlob ) + 1;
-   GetCtrlText( vSubtask, "BitmapFile", szBlob + ulLth, (zUSHORT) (sizeof( szBlob ) - (ulLth + 1)) );
+   GetCtrlText( vSubtask, "BitmapFile", szBlob + ulLth, (zUSHORT) (zsizeof( szBlob ) - (ulLth + 1)) );
    ulLth += zstrlen( szBlob + ulLth ) + 1;
    szBlob[ ulLth++ ] = 0;  // double terminate for future additions
    SetAttributeFromBlob( vControl, "Control", "CtrlBOI", szBlob, ulLth );
@@ -262,14 +262,14 @@ LocateBitmapFile( zVIEW vSubtask )
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
    GetCtrlText( vSubtask, "BitmapFile", szFileName,
-                sizeof( szFileName ) - 1 );
+                zsizeof( szFileName ) - 1 );
    pch = zstrchr( szFileName, ';' );
    if ( pch )
       pch++;
    else
       pch = szFileName;
 
-   if ( OperatorPromptForFile( vSubtask, pch, sizeof( szFileName ) - 1,
+   if ( OperatorPromptForFile( vSubtask, pch, zsizeof( szFileName ) - 1,
                                "(*.bmp)|*.bmp|All Files (*.*)|*.*||",
                                0, TRUE ) == 1 )
    {
@@ -360,7 +360,7 @@ ToolBarItemPostBuild( zVIEW vSubtask )
    GetViewByName( &vControl, "TZCTLMAP3", vSubtask, zLEVEL_TASK );
    GetViewByName( &vTemp, "TZCONTROL", vSubtask, zLEVEL_TASK );
    SetViewFromView( vTemp, vControl );
-   GetStringFromAttribute( szText, sizeof( szText ), vControl, "Control", "Text" );
+   GetStringFromAttribute( szText, zsizeof( szText ), vControl, "Control", "Text" );
    pchToolTip = zstrchr( szText, '\t' );
    if ( pchToolTip )
    {
@@ -492,9 +492,9 @@ ToolBarItemAddAction( zVIEW vSubtask )
    GetViewByName( &vDialog, "TZWINDOW", vSubtask, zLEVEL_TASK );
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
 // GetViewByName( &vWork, "TZCTLMAP3", vSubtask, zLEVEL_TASK );
-// GetStringFromAttribute( szTag, sizeof( szTag ), vControl, "Control", "Tag" );
+// GetStringFromAttribute( szTag, zsizeof( szTag ), vControl, "Control", "Tag" );
 // TraceLineS( "ToolBarItemAddAction TZCONTROL: ", szTag );
-// GetStringFromAttribute( szTag, sizeof( szTag ), vWork, "Control", "Tag" );
+// GetStringFromAttribute( szTag, zsizeof( szTag ), vWork, "Control", "Tag" );
 // TraceLineS( "ToolBarItemAddAction TZCTLMAP3: ", szTag );
 
    if ( CheckExistenceOfEntity( vControl, "EventAct" ) == zCURSOR_SET )

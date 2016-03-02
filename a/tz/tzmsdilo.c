@@ -42,7 +42,7 @@ oTZMSDILO_UniqueMessageName( zVIEW vDIL_Msg,
    zCHAR    szMessageName[ 33 ];
    zSHORT   nRC;
 
-   GetStringFromAttribute( szMessageName, sizeof( szMessageName ), vDIL_Msg,
+   GetStringFromAttribute( szMessageName, zsizeof( szMessageName ), vDIL_Msg,
                            "DIL_Msg", "Name" );
    nRC = SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name",
                                        szMessageName, "" );
@@ -75,7 +75,7 @@ oTZMSDILO_RemoveMessageFromMSG( zVIEW vDIL_Msg )
    if ( nRC < 0 )
       return( nRC );
 
-   GetStringFromAttribute( szMessageName, sizeof( szMessageName ), vDIL_Msg, "DIL_Msg", "Name" );
+   GetStringFromAttribute( szMessageName, zsizeof( szMessageName ), vDIL_Msg, "DIL_Msg", "Name" );
    if ( SetCursorFirstEntityByString( vMSG, "DIL_Msg", "Name",
                                       szMessageName, "" ) != zCURSOR_SET )
    {
@@ -112,7 +112,7 @@ oTZMSDILO_ReplaceOrAddDILToMSG( zVIEW vDIL_Msg )
       DeleteEntity( vMSG, "DIL_Msg", zREPOS_PREV );
    }
 
-   GetStringFromAttribute( szMessageName, sizeof( szMessageName ), vDIL_Msg, "DIL_Msg", "Name" );
+   GetStringFromAttribute( szMessageName, zsizeof( szMessageName ), vDIL_Msg, "DIL_Msg", "Name" );
    if ( SetCursorFirstEntityByString( vMSG, "DIL_Msg", "Name",
                                       szMessageName, "" ) == zCURSOR_SET )
    {
@@ -145,7 +145,7 @@ oTZMSDILO_AddDILToMSG( zVIEW vDIL_Msg )
       return( 1 );
    }
 
-   GetStringFromAttribute( szMessageName, sizeof( szMessageName ), vDIL_Msg, "DIL_Msg", "Name" );
+   GetStringFromAttribute( szMessageName, zsizeof( szMessageName ), vDIL_Msg, "DIL_Msg", "Name" );
    if ( SetCursorFirstEntityByString( vMSG, "DIL_Msg", "Name",
                                       szMessageName, "" ) == zCURSOR_SET )
    {

@@ -12,7 +12,7 @@ LoadDataTypes( zVIEW vSubtask )
    zCHAR     szFileName[ zMAX_FILENAME_LTH + 1 ];
 
    GetViewByName( &vTZTEDBLO, "TZTEDBLO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTZTEDBLO,
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTZTEDBLO,
                            "TE_DBMS_Source", "GenerateExecutable" );
    hLibrary = SysLoadLibrary( vSubtask, szFileName );
    if ( hLibrary )

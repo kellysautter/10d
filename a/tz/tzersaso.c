@@ -78,7 +78,7 @@ oTZERSASO_RefreshOneSA_Entity( zVIEW    vSubjectArea,
    }
    else
    {
-      nZRetCode = GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vSubjectArea, "ER_Entity", "Name" );
+      nZRetCode = GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vSubjectArea, "ER_Entity", "Name" );
       nRC = SetCursorFirstEntityByString( vEntpModel_Wrk, "ER_Entity", "Name", szEntityName, "" );
       if ( ( nRC > zCURSOR_UNCHANGED ) )
       {
@@ -225,9 +225,9 @@ oTZERSASO_RemoveOneSA_Entity( zVIEW vTZERSASO )
    GetViewByName( &vSAVIEW, "SAVIEW", vTZERSASO, zLEVEL_TASK ); // Get SAVIEW if wnd open
 
    GetAddrForAttribute( &szName, vTZERSASO, "ER_Entity", "Name" );
-   strcpy_s( szMessage, sizeof( szMessage ), "OK to remove Entity from SA ?\n\n" );
-   strcat_s( szMessage, sizeof( szMessage ), "Entity:  " );
-   strcat_s( szMessage, sizeof( szMessage ), szName );
+   strcpy_s( szMessage, zsizeof( szMessage ), "OK to remove Entity from SA ?\n\n" );
+   strcat_s( szMessage, zsizeof( szMessage ), "Entity: " );
+   strcat_s( szMessage, zsizeof( szMessage ), szName );
    nRC = MessagePrompt( vTZERSASO, "ER00301",
                         "E/R Model Maintainance", szMessage,
                         zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 );
@@ -294,9 +294,9 @@ oTZERSASO_RemoveOneSA_Entity( zVIEW vTZERSASO )
    GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); Get SAVIEW if wnd open
 
    GetAddrForAttribute( &szName, vTZERSASO, "ER_Entity", "Name" );
-   strcpy_s( szMessage, sizeof( szMessage ), "OK to remove Entity from SA ?\n\n" );
-   strcat_s( szMessage, sizeof( szMessage ), "Entity: " );
-   strcat_s( szMessage, sizeof( szMessage ), szName );
+   strcpy_s( szMessage, zsizeof( szMessage ), "OK to remove Entity from SA ?\n\n" );
+   strcat_s( szMessage, zsizeof( szMessage ), "Entity: " );
+   strcat_s( szMessage, zsizeof( szMessage ), szName );
    nRC = MessagePrompt( vTZERSASO,                 "ER00302",
                         "E/R Model Maintainance", szMessage,
                         zBEEP,                    zBUTTONS_YESNO,

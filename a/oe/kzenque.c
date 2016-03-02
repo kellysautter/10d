@@ -109,7 +109,7 @@ EnqueueInstance( zVIEW vInstance, zPCHAR szEntityNames )
 
       // Get timestamp and user information for enqueue
       MiGetDateTimeForOI( szTimestamp, vWkInstance );
-      SysGetUserID( vInstance, szUserID, sizeof( szUserID ), szPassword, sizeof( szPassword ) );
+      SysGetUserID( vInstance, szUserID, zsizeof( szUserID ), szPassword, zsizeof( szPassword ) );
       if ( szUserID[ 0 ] == 0 )
          _fstrcpy( szUserID, "(null)" );
 
@@ -227,7 +227,7 @@ EnqueueInstance( zVIEW vInstance, zPCHAR szEntityNames )
       }
 
       // Report on the enqueue holder
-      GetStringFromAttribute( szKey, sizeof( szKey ), vEnqueueHolder, szlEnqueue, szlUser );
+      GetStringFromAttribute( szKey, zsizeof( szKey ), vEnqueueHolder, szlEnqueue, szlUser );
       GetStringFromAttribute( &szKey[ 30 ],
                               vEnqueueHolder, szlEnqueue, szlObject );
 
@@ -341,9 +341,9 @@ DequeueInstance( zVIEW vInstance, zSHORT nCheckOnly )
       return( zCALL_ERROR );
    }
 
-   SysGetUserID( vInstance, szUserID, sizeof( szUserID ), szPassword, sizeof( szPassword ) );
+   SysGetUserID( vInstance, szUserID, zsizeof( szUserID ), szPassword, zsizeof( szPassword ) );
    if ( szUserID[ 0 ] == 0 )
-      strcpy_s( szUserID, sizeof( szUserID ), "(null)" );
+      strcpy_s( szUserID, zsizeof( szUserID ), "(null)" );
 
    MiGetDateTimeForOI( szTimestamp, vInstance );
    if ( nCheckOnly )

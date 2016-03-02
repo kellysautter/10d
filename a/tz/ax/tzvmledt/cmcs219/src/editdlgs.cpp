@@ -197,7 +197,7 @@ void SaveMRUList( HWND hWndCombo, CFindReplaceData *pData, BOOL bFind )
    _tcscpy( szFindText, szText );
 
    int cb = 0;
-   LPTSTR pszMRU = ( LPTSTR ) malloc( sizeof( TCHAR ) );
+   LPTSTR pszMRU = ( LPTSTR ) malloc( zsizeof( TCHAR ) );
    *pszMRU = _T('\0');
 
    int nItems = SendMessage( hWndCombo, CB_GETCOUNT, 0, 0 );
@@ -215,7 +215,7 @@ void SaveMRUList( HWND hWndCombo, CFindReplaceData *pData, BOOL bFind )
       {
          _tcscat( szText, _T("\n") );
          cb += _tcslen( szText );
-         pszMRU = ( LPTSTR )realloc( pszMRU, ( cb + 1 ) * sizeof( TCHAR ) );
+         pszMRU = ( LPTSTR )realloc( pszMRU, ( cb + 1 ) * zsizeof( TCHAR ) );
          _tcscat( pszMRU, szText );
       }
       nItem++;
@@ -629,7 +629,7 @@ BOOL CALLBACK AboutDlgProc( HWND hWndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
          HWND hWndTitle = GetDlgItem( hWndDlg, IDC_ABOUT_TITLE );
          GetClientRect( hWndTitle, &rcTitle );
          LOGFONT lf;
-         VERIFY( GetObject( ( HFONT ) SendMessage( hWndDlg, WM_GETFONT, 0, 0 ), sizeof( lf ), &lf ) );
+         VERIFY( GetObject( ( HFONT ) SendMessage( hWndDlg, WM_GETFONT, 0, 0 ), zsizeof( lf ), &lf ) );
          lf.lfHeight = rcTitle.bottom;
          lf.lfWidth = 0;
          lf.lfWeight = FW_BOLD;
@@ -638,7 +638,7 @@ BOOL CALLBACK AboutDlgProc( HWND hWndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
          // change the URL font to underline
          HWND hWndURL = GetDlgItem( hWndDlg, IDC_ABOUT_URL );
-         VERIFY( GetObject( ( HFONT ) SendMessage( hWndURL, WM_GETFONT, 0, 0 ), sizeof( lf ), &lf ) );
+         VERIFY( GetObject( ( HFONT ) SendMessage( hWndURL, WM_GETFONT, 0, 0 ), zsizeof( lf ), &lf ) );
          lf.lfUnderline = TRUE;
          hFontURL = CreateFontIndirect( &lf );
          SendMessage( hWndURL, WM_SETFONT, ( WPARAM ) hFontURL, 0 );

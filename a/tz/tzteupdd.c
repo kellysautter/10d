@@ -611,7 +611,7 @@ zwTZTEUPDD_SwitchLPLR( zVIEW vSubtask )
       if ( MiGetUpdateForView( vDTE ) == 1  &&
            ObjectInstanceUpdatedFromFile( vDTE ) == 1 )
       {
-         strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Do you wish to save current Physical Model?" );
+         strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Do you wish to save current Physical Model?" );
          nRC = MessagePrompt( vDTE, "TE00410", "Physical Data Model",
                               szWorkMessage,
                               zBEEP,        zBUTTONS_YESNOCANCEL,
@@ -700,7 +700,7 @@ zwTZTEUPDD_SaveModelDTE( zVIEW  vSubtask )
    nRC = GetViewByName( &vDTE0, "TE_DB_Environ", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Physical Model. "
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Physical Model. "
                 "Model must be opened to Save." );
       MessageSend( vSubtask, "TE00401", "Physical Data Model",
                    szWorkMessage,
@@ -745,7 +745,7 @@ zwTZTEUPDD_SaveModelDTE( zVIEW  vSubtask )
    nRC = GetViewByName( &vTE_Work, "TZTEWRKO", vSubtask, zLEVEL_TASK );
    if ( nRC >= 0 )
    {
-      GetStringFromAttribute( szER_UpdateFlag, sizeof( szER_UpdateFlag ), vTE_Work, "TE_Work", "ER_UpdateFlag" );
+      GetStringFromAttribute( szER_UpdateFlag, zsizeof( szER_UpdateFlag ), vTE_Work, "TE_Work", "ER_UpdateFlag" );
       if ( szER_UpdateFlag[ 0 ] == 'Y' )
       {
          // Get the ERD View
@@ -866,7 +866,7 @@ fnRebuildTables( zVIEW vSubtask,
 
    // Get the SironDB_Type because we only have to rebuild the tables for
    // Siron catalogs
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
 
    // Run through all the tables and columns and delete them.
    // Don't delete the tables for Siron Catalogs
@@ -1076,19 +1076,19 @@ zwTZTEUPDD_RebuildTablesRels( zVIEW vSubtask )
    if ( CountEntitiesForView( vDTE, "TE_DBMS_Source" ) > 1 )
    {
       GetAddrForAttribute( &szDS, vDTE, "TE_DBMS_Source", "Name" );
-      strcpy_s( sz, sizeof( sz ), "Do you want to initialize Data Source '" );
-      strcat_s( sz, sizeof( sz ), szDS );
-      strcat_s( sz, sizeof( sz ), "' with all Entities in the ER Model that:" );
-      strcat_s( sz, sizeof( sz ), "\n\tare NOT in ANY Data Source" );
-      strcat_s( sz, sizeof( sz ), "\n\t\t -- OR -- " );
-      strcat_s( sz, sizeof( sz ), "\n\tare NOT in '" );
-      strcat_s( sz, sizeof( sz ), szDS );
-      strcat_s( sz, sizeof( sz ), "'?" );
-      strcat_s( sz, sizeof( sz ), "\n\n" );
-      strcat_s( sz, sizeof( sz ), "\tNot in Any DS ---- [ YES ]\n" );
-      strcat_s( sz, sizeof( sz ), "\tNot in '" );
-      strcat_s( sz, sizeof( sz ), szDS );
-      strcat_s( sz, sizeof( sz ), "' --- [ NO ]\n" );
+      strcpy_s( sz, zsizeof( sz ), "Do you want to initialize Data Source '" );
+      strcat_s( sz, zsizeof( sz ), szDS );
+      strcat_s( sz, zsizeof( sz ), "' with all Entities in the ER Model that:" );
+      strcat_s( sz, zsizeof( sz ), "\n\tare NOT in ANY Data Source" );
+      strcat_s( sz, zsizeof( sz ), "\n\t\t -- OR -- " );
+      strcat_s( sz, zsizeof( sz ), "\n\tare NOT in '" );
+      strcat_s( sz, zsizeof( sz ), szDS );
+      strcat_s( sz, zsizeof( sz ), "'?" );
+      strcat_s( sz, zsizeof( sz ), "\n\n" );
+      strcat_s( sz, zsizeof( sz ), "\tNot in Any DS ---- [ YES ]\n" );
+      strcat_s( sz, zsizeof( sz ), "\tNot in '" );
+      strcat_s( sz, zsizeof( sz ), szDS );
+      strcat_s( sz, zsizeof( sz ), "' --- [ NO ]\n" );
       nRC = MessagePrompt( vDTE, "TE00411", "Physical Data Model",
                            sz,
                            zBEEP,         zBUTTONS_YESNOCANCEL,
@@ -1145,7 +1145,7 @@ zwTZTEUPDD_GenerateDDL( zVIEW vSubtask )
    if ( !vEMD || !vDTE || !vTZTEDBLO )
       return( 0 );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vDTE, "TE_DBMS_Source", "GenerateExecutable" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vDTE, "TE_DBMS_Source", "GenerateExecutable" );
    hLibrary = SysLoadLibrary( vSubtask, szFileName );
    if ( hLibrary )
    {
@@ -1158,10 +1158,10 @@ zwTZTEUPDD_GenerateDDL( zVIEW vSubtask )
          oTZTENVRO_SortFields( vDTE, vSubtask );
 
          GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-         GetStringFromAttribute( szTempFileName, sizeof( szTempFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
-         SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTempFileName );
+         GetStringFromAttribute( szTempFileName, zsizeof( szTempFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+         SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTempFileName );
          SysAppendcDirSep( szFileName );
-         (*pfn) ( vDTE, vEMD, szFileName, sizeof( szFileName ), vSubtask );
+         (*pfn) ( vDTE, vEMD, szFileName, zsizeof( szFileName ), vSubtask );
       }
       else
          MessageSend( vSubtask, "TE00422", "Physical Data Model",
@@ -1199,7 +1199,7 @@ zwTZTEUPDD_GenerateSyncDDL( zVIEW vSubtask )
    if ( !vEMD || !vDTE || !vTZTEDBLO )
       return( 0 );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ),
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                            vDTE, "TE_DBMS_Source", "GenerateExecutable" );
    hLibrary = SysLoadLibrary( vSubtask, szFileName );
    if ( hLibrary )
@@ -1210,10 +1210,10 @@ zwTZTEUPDD_GenerateSyncDDL( zVIEW vSubtask )
          zVIEW vTaskLPLR;
 
          GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-         GetStringFromAttribute( szTempFileName, sizeof( szTempFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
-         SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTempFileName );
+         GetStringFromAttribute( szTempFileName, zsizeof( szTempFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+         SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTempFileName );
          SysAppendcDirSep( szFileName );
-         (*pfn)( vDTE, vEMD, vTZTEDBLO, szFileName, sizeof( szFileName ), vSubtask );
+         (*pfn)( vDTE, vEMD, vTZTEDBLO, szFileName, zsizeof( szFileName ), vSubtask );
       }
       else
          MessageSend( vSubtask, "TE00422", "Physical Data Model",
@@ -1262,7 +1262,7 @@ zwTZTEUPDD_ImportDB_Data( zVIEW vSubtask )
    if ( !vEMD || !vDTE || !vTZTEDBLO )
       return( 0 );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ),
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                            vDTE, "TE_DBMS_Source", "GenerateExecutable" );
    hLibrary = SysLoadLibrary( vSubtask, szFileName );
    if ( hLibrary )
@@ -1401,12 +1401,12 @@ zwTZTEUPDD_DeleteAllTablRecs( zVIEW    vSubtask )
    }
 
    // We need the DB-Type because Siron Catalogs must be handled in a special way
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
    if ( *szSironDB_Type == zType_VSAM )
       return( zwTZTEUPDD_WindowDeleteVsam (vSubtask, 1));
 
    // No Siron catalogs than any other database
-   strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "OK to delete all Tables/Records "
+   strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "OK to delete all Tables/Records "
              "from the Data Source" );
    nRC = MessagePrompt( vSubtask, "TE00414", "Physical Data Model",
                         szWorkMessage,
@@ -1468,7 +1468,7 @@ zwTZTEUPDD_DataSrcPopup( zVIEW vSubtask )
       }
       else
       {
-         GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+         GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
          if ( *szSironDB_Type == zType_VSAM || *szSironDB_Type == zType_SAP )
             nEnable = 0;
          else
@@ -1517,7 +1517,7 @@ zwTZTEUPDD_ColumnFieldPopup( zVIEW vSubtask )
 
    if ( GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK ) > 0 )
    {
-      GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+      GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
 
       if ( *szSironDB_Type != zType_VSAM &&
            *szSironDB_Type != zType_SAP &&
@@ -1622,8 +1622,8 @@ DisplayDBH_MainDialog( zVIEW vSubtask )
    SetCursorFirstEntityByString( vTZTEDBLO, "DBS_SubDialog", "Type",
                                  "TE_Main", 0 );
 
-   GetStringFromAttribute( szDialogName, sizeof( szDialogName ), vTZTEDBLO, "DBS_SubDialog", "Dialog" );
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vTZTEDBLO, "DBS_SubDialog", "Window" );
+   GetStringFromAttribute( szDialogName, zsizeof( szDialogName ), vTZTEDBLO, "DBS_SubDialog", "Dialog" );
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vTZTEDBLO, "DBS_SubDialog", "Window" );
 
    SetWindowActionBehavior( vSubtask,
                             zWAB_StartModalSubwindow + zWAB_ProcessImmediateAction,
@@ -1660,7 +1660,7 @@ zwTZTEUPDD_DS_TemporaryGraying( zVIEW vSubtask )
    // Check if the DBHandler Typ is Siron Flat Files or SAP. Then we can't
    // change the DBHandler
    nEnable = 0;
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type" );
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type" );
    if ( (*szSironDB_Type != zType_VSAM &&
          *szSironDB_Type != zType_SAP) &&
          ComponentIsCheckedOut( vSubtask, vDTE, zSOURCE_DTE_META ) == 1 )
@@ -1733,7 +1733,7 @@ zwTZTEUPDD_KeyListPostbuild( zVIEW vSubtask )
    zBOOL    nEnable = FALSE;
 
    GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
 
    LB_SetDisplaySelectSet( vSubtask, "TableFieldList", 2 );
    SetAllSelStatesForEntityForSet( vDTE, "TE_FieldDataRel", 1, 2, "");
@@ -1973,7 +1973,7 @@ zwTZTEUPDD_SyncPreBuild( zVIEW vSubtask )
    // max cardinality of ER_RelLink_2 for the Test1 entity is 1.
 
    nRC = SetCursorFirstEntity( vEMD, "ER_RelLink_2", 0 );
-   GetStringFromAttribute( szMaxCardinality, sizeof( szMaxCardinality ),
+   GetStringFromAttribute( szMaxCardinality, zsizeof( szMaxCardinality ),
                            vEMD, "ER_RelLink_2", "CardMax" );
 
    if ( szMaxCardinality[ 0 ] != '1' )
@@ -2038,19 +2038,19 @@ zwTZTEUPDD_SyncInitWorkObject( zVIEW vSubtask,
    // Save the target and source ZKey values, along with the relationship text..
    SetAttributeFromAttribute( vTE_Work, "TE_Work", "TargetER_EntityZKey",
                               vEMD, "ER_Entity_2", "ZKey" );
-   GetStringFromAttribute( szTargetEntityName, sizeof( szTargetEntityName ), vEMD, "ER_Entity_2", "Name" );
+   GetStringFromAttribute( szTargetEntityName, zsizeof( szTargetEntityName ), vEMD, "ER_Entity_2", "Name" );
    CreateViewFromViewForTask( &vEMD2, vEMD, 0 );
    nRC = SetCursorPrevEntity( vEMD2, "ER_RelLink_2", 0 );
    if ( nRC < zCURSOR_SET )
       SetCursorNextEntity( vEMD2, "ER_RelLink_2", 0 );
    SetAttributeFromAttribute( vTE_Work, "TE_Work", "SourceER_EntityZKey",
                               vEMD2, "ER_Entity_2", "ZKey" );
-   GetStringFromAttribute( szRelationshipName, sizeof( szRelationshipName ), vEMD2, "ER_RelLink_2", "Name" );
-   GetStringFromAttribute( szRelationshipText, sizeof( szRelationshipText ), vEMD2, "ER_Entity_2", "Name" );
-   strcat_s( szRelationshipText, sizeof( szRelationshipText ), " - " );
-   strcat_s( szRelationshipText, sizeof( szRelationshipText ), szRelationshipName );
-   strcat_s( szRelationshipText, sizeof( szRelationshipText ), " - " );
-   strcat_s( szRelationshipText, sizeof( szRelationshipText ), szTargetEntityName );
+   GetStringFromAttribute( szRelationshipName, zsizeof( szRelationshipName ), vEMD2, "ER_RelLink_2", "Name" );
+   GetStringFromAttribute( szRelationshipText, zsizeof( szRelationshipText ), vEMD2, "ER_Entity_2", "Name" );
+   strcat_s( szRelationshipText, zsizeof( szRelationshipText ), " - " );
+   strcat_s( szRelationshipText, zsizeof( szRelationshipText ), szRelationshipName );
+   strcat_s( szRelationshipText, zsizeof( szRelationshipText ), " - " );
+   strcat_s( szRelationshipText, zsizeof( szRelationshipText ), szTargetEntityName );
    SetAttributeFromString( vTE_Work, "TE_Work", "RelationshipText",
                            szRelationshipText );
    DropView( vEMD2 );
@@ -2061,7 +2061,7 @@ zwTZTEUPDD_SyncInitWorkObject( zVIEW vSubtask,
    nRC = SetCursorFirstEntity( vDTE2, "TE_FieldDataRel", 0 );
    while( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szFieldType, sizeof( szFieldType ), vDTE2, "TE_FieldDataRel", "DataOrRelfieldOrSet" );
+      GetStringFromAttribute( szFieldType, zsizeof( szFieldType ), vDTE2, "TE_FieldDataRel", "DataOrRelfieldOrSet" );
       if ( szFieldType[ 0 ] == 'R' )
          IncludeSubobjectFromSubobject( vTE_Work, "CandidateTargetKey",
                                         vDTE2,    "TE_FieldDataRel", zPOS_AFTER );
@@ -2451,7 +2451,7 @@ DataTypeSelected( zVIEW vSubtask )
    SetAttributeFromAttribute( vDTE, "TE_FieldDataRel", "DataType",
                               vTZTEDBLO, "DB_DataTypes", "InternalName" );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ),
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                            vDTE, "TE_DBMS_Source", "GenerateExecutable" );
    hLibrary = SysLoadLibrary( vSubtask, szFileName );
    if ( hLibrary )
@@ -2503,7 +2503,7 @@ TableRecord_Postbuild( zVIEW vSubtask )
       SetCtrlState( vSubtask, "DBMS_ID", zCONTROL_STATUS_ENABLED, 0 );
 
    // Disable Keep Physical Information for Siron Catalogs or SAP
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
    if ( *szSironDB_Type == zType_VSAM || *szSironDB_Type == zType_SAP )
    {
       nEnable = 0;
@@ -2612,7 +2612,7 @@ FieldRelLink_Postbuild( zVIEW vSubtask )
    FieldRelLink_SetDB_DataTypes( vSubtask );
 
    // Disable Keep Physical Information for Siron Catalogs and SAP
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
 
    if ( *szSironDB_Type == zType_VSAM || *szSironDB_Type == zType_SAP )
       SetCtrlState( vSubtask, "KeepPhysChar", zCONTROL_STATUS_ENABLED, FALSE );
@@ -2825,8 +2825,8 @@ zwTZTEUPDD_BuildXOD_Init( zVIEW  vSubtask,
 
    // First get the application name and make sure it exists in the
    // zeidon.app object on the server.  If it isn't there, add it.
-   GetStringFromAttribute( szAppName, sizeof( szAppName ), vLPLR, "LPLR", "Name" );
-   strcpy_s( szFileName, sizeof( szFileName ), "zeidon.app" );
+   GetStringFromAttribute( szAppName, zsizeof( szAppName ), vLPLR, "LPLR", "Name" );
+   strcpy_s( szFileName, zsizeof( szFileName ), "zeidon.app" );
    SfCreateSubtask( &vApplSubtask, vSubtask, "Zeidon System" );
    nRC = NetActivateOI_FromFile( 0, szServer, &vAppl, "KZAPPLOO",
                                  vApplSubtask, szFileName, zSINGLE );
@@ -2840,8 +2840,8 @@ zwTZTEUPDD_BuildXOD_Init( zVIEW  vSubtask,
       {
          CreateEntity( vAppl, "APPLICATION", zPOS_LAST );
          SetAttributeFromString( vAppl, "APPLICATION", "APP_NAME", szAppName );
-         strcpy_s( szServerSubDir, sizeof( szServerSubDir ), szAppName );
-         strcat_s( szServerSubDir, sizeof( szServerSubDir ), "/" );
+         strcpy_s( szServerSubDir, zsizeof( szServerSubDir ), szAppName );
+         strcat_s( szServerSubDir, zsizeof( szServerSubDir ), "/" );
          SetAttributeFromString( vAppl, "APPLICATION", "APP_DLL",
                                  szServerSubDir );
          SetAttributeFromString( vAppl, "APPLICATION", "APP_ADOBIN",
@@ -2849,7 +2849,7 @@ zwTZTEUPDD_BuildXOD_Init( zVIEW  vSubtask,
          SetAttributeFromString( vAppl, "APPLICATION", "APP_LOCAL",
                                  szServerSubDir );
          TraceLineS( "*** Committing server file: ", szFileName );
-         strcpy_s( szMsg, sizeof( szMsg ), "Sending ZEIDON.APP: " );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Sending ZEIDON.APP: " );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          // Send OI to server.
@@ -2895,7 +2895,7 @@ zwTZTEUPDD_BuildXODsOnServer( zVIEW vSubtask )
 
    // First make sure the network is started and the application is
    // initialized on the Server.
-   zmemset( szServer, 0, sizeof( szServer ) );
+   zmemset( szServer, 0, zsizeof( szServer ) );
    if ( zwTZTEUPDD_BuildXOD_Init( vSubtask, szServer ) < 0 )
       return( -1 );
 
@@ -2910,15 +2910,15 @@ zwTZTEUPDD_BuildXODsOnServer( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextSelectedEntity( vLOD_List, "W_MetaDef", "" ) )
    {
-      GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ),
+      GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ),
                               vLOD_List, "W_MetaDef", "Name" );
 
       nRC = ActivateMetaOI( vSubtask, &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI );
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Could not Activate LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), ".\nAborting Build" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Could not Activate LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), ".\nAborting Build" );
          MessageSend( vSubtask, "TE00426", "Physical Data Model",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2927,9 +2927,9 @@ zwTZTEUPDD_BuildXODsOnServer( zVIEW vSubtask )
       else
       {
          // Send message that we are building the LOD.
-         strcpy_s( szMsg, sizeof( szMsg ), "Building executable for LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), "." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Building executable for LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), "." );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          // Make sure the TE_SourceZKey attribute is set because it determines
@@ -2945,10 +2945,10 @@ zwTZTEUPDD_BuildXODsOnServer( zVIEW vSubtask )
 
          // Send the XOD to the Server.
          GetViewByName( &vXOD, "TZZOXODO", vSubtask, zLEVEL_TASK );
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "Name" );
-         strcat_s( szFileName, sizeof( szFileName ), "/" );
-         strcat_s( szFileName, sizeof( szFileName ), szLOD_Name );
-         strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "Name" );
+         strcat_s( szFileName, zsizeof( szFileName ), "/" );
+         strcat_s( szFileName, zsizeof( szFileName ), szLOD_Name );
+         strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
          TraceLineS( "*** Committing server file: ", szFileName );
 
          nRC = NetCommitOI_ToFile( 0, szServer, vXOD, szFileName, zASCII );
@@ -2998,14 +2998,14 @@ zwTZTEUPDD_BuildXODsOnLPLR( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextSelectedEntity( vLOD_List, "W_MetaDef", "" ) )
    {
-      GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vLOD_List, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vLOD_List, "W_MetaDef", "Name" );
 
       nRC = ActivateMetaOI( vSubtask, &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI );
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Could not Activate LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), ".\nAborting Build" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Could not Activate LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), ".\nAborting Build" );
          MessageSend( vSubtask, "TE00426", "Physical Data Model",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3014,9 +3014,9 @@ zwTZTEUPDD_BuildXODsOnLPLR( zVIEW vSubtask )
       else
       {
          // Send message that we are building the LOD.
-         strcpy_s( szMsg, sizeof( szMsg ), "Building executable for LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), "." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Building executable for LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), "." );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          // Make sure the TE_SourceZKey attribute is set because it determines what DBMS_Source is used in building the XOD.
@@ -3033,11 +3033,11 @@ zwTZTEUPDD_BuildXODsOnLPLR( zVIEW vSubtask )
          DropObjectInstance( vLOD );
 
          // Commit the XOD to LPLR file.
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vLPLR, "LPLR", "ExecDir" );
-         SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTemp );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vLPLR, "LPLR", "ExecDir" );
+         SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTemp );
          ofnTZCMWKSO_AppendSlash( szFileName );
-         strcat_s( szFileName, sizeof( szFileName ), szLOD_Name );
-         strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+         strcat_s( szFileName, zsizeof( szFileName ), szLOD_Name );
+         strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
          TraceLineS( "*** Committing workstation file: ", szFileName );
       // DisplayObjectInstance( vXOD, "", "" );
          CommitOI_ToFile( vXOD, szFileName, zSINGLE );
@@ -3077,7 +3077,7 @@ zwTZTEUPDD_BuildNetXODsOnLPLR( zVIEW vSubtask )
    //    the DBMS value for positioning on the DB Handler object.
 
    // Save current DBMS value.
-   GetStringFromAttribute( szOrigDBMS_Name, sizeof( szOrigDBMS_Name ), vDTE, "TE_DBMS_Source", "DBMS" );
+   GetStringFromAttribute( szOrigDBMS_Name, zsizeof( szOrigDBMS_Name ), vDTE, "TE_DBMS_Source", "DBMS" );
 
    // Position on corresponding DBMS entry in DB Handler object.
    SetCursorFirstEntityByAttr( vTZTEDBLO, "TE_DBMS_Source", "DBMS", vDTE, "TE_DBMS_Source", "DBMS", 0 );
@@ -3093,7 +3093,7 @@ zwTZTEUPDD_BuildNetXODsOnLPLR( zVIEW vSubtask )
       // Current specification is not Network, get Default Network value from
       // INI and then locate in DB Handler object. Don't use it if it wasn't
       // found in DB Handler object.
-      SysReadZeidonIni( -1, "[Network]", "DefaultNetwork", szNetworkName, sizeof( szNetworkName ) );
+      SysReadZeidonIni( -1, "[Network]", "DefaultNetwork", szNetworkName, zsizeof( szNetworkName ) );
       if ( szNetworkName[ 0 ] != 0 )
       {
          nRC = SetCursorFirstEntityByString( vTZTEDBLO, "TE_DBMS_Source", "Network", szNetworkName, 0 );
@@ -3166,14 +3166,14 @@ zwTZTEUPDD_RebuildLODsOnLPLR( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextSelectedEntity( vLOD_List, "W_MetaDef", "" ) )
    {
-      GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vLOD_List, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vLOD_List, "W_MetaDef", "Name" );
 
       nRC = ActivateMetaOI( vSubtask, &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI );
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Could not Activate LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), ".\nAborting Build" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Could not Activate LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), ".\nAborting Build" );
          MessageSend( vSubtask, "TE00426", "Physical Data Model",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3182,9 +3182,9 @@ zwTZTEUPDD_RebuildLODsOnLPLR( zVIEW vSubtask )
       else
       {
          // Send message that we are building the LOD.
-         strcpy_s( szMsg, sizeof( szMsg ), "Building executable for LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), "." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Building executable for LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), "." );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          // Make sure the TE_SourceZKey attribute is set because it determines what DBMS_Source is used in building the XOD.
@@ -3197,20 +3197,20 @@ zwTZTEUPDD_RebuildLODsOnLPLR( zVIEW vSubtask )
          GetViewByName( &vXOD, "TZZOXODO", vSubtask, zLEVEL_TASK );
 
          // Commit the XOD to LPLR file.
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vLPLR, "LPLR", "ExecDir" );
-         SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTemp );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vLPLR, "LPLR", "ExecDir" );
+         SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTemp );
          ofnTZCMWKSO_AppendSlash( szFileName );
-         strcat_s( szFileName, sizeof( szFileName ), szLOD_Name );
-         strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+         strcat_s( szFileName, zsizeof( szFileName ), szLOD_Name );
+         strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
          TraceLineS( "*** Committing workstation file: ", szFileName );
          CommitOI_ToFile( vXOD, szFileName, zSINGLE );
 
          // Commit the LOD to the LPLR file.
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vLPLR, "LPLR", "MetaSrcDir" );
-         SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTemp );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vLPLR, "LPLR", "MetaSrcDir" );
+         SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTemp );
          ofnTZCMWKSO_AppendSlash( szFileName );
-         strcat_s( szFileName, sizeof( szFileName ), szLOD_Name );
-         strcat_s( szFileName, sizeof( szFileName ), ".LOD" );
+         strcat_s( szFileName, zsizeof( szFileName ), szLOD_Name );
+         strcat_s( szFileName, zsizeof( szFileName ), ".LOD" );
          TraceLineS( "*** Committing workstation file: ", szFileName );
          CommitOI_ToFile( vLOD, szFileName, zSINGLE );
          DropMetaOI( vSubtask, vLOD );
@@ -3231,21 +3231,21 @@ zwTZTEUPDD_BuildXMD_OnServer( zVIEW vSubtask )
    zCHAR  szServer[ 33 ];
 
    // First make sure the network is started and the application is initialized on the Server.
-   zmemset (szServer,0,sizeof(szServer));
+   zmemset (szServer,0,zsizeof(szServer));
    if ( zwTZTEUPDD_BuildXOD_Init( vSubtask, szServer ) < 0 )
       return( -1 );
 
    // Send the XDM itself to the Server.
    GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
-   strcat_s( szFileName, sizeof( szFileName ), "\\ZEIDON.XDM" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\ZEIDON.XDM" );
    TraceLineS( "*** Activating client file: ", szFileName );
    nRC = ActivateOI_FromFile( &vXMD, "TZDMXGPO", vSubtask, szFileName, zSINGLE );
 
    if ( nRC >= 0 )
    {
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "Name" );
-      strcat_s( szFileName, sizeof( szFileName ), "/ZEIDON.XDM" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "Name" );
+      strcat_s( szFileName, zsizeof( szFileName ), "/ZEIDON.XDM" );
       TraceLineS( "*** Committing server file: ", szFileName );
       MB_SetMessage( vSubtask, 1, "Sending XDM" );
 
@@ -3323,12 +3323,12 @@ zwTZTEUPDD_DeleteSelectedEntity( zVIEW vSubtask )
    GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_ANY );
 
    // We need the DB-Type because Siron Catalogs must be handled in a special way
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
    if ( *szSironDB_Type == zType_VSAM )
       return( zwTZTEUPDD_WindowDeleteVsam (vSubtask, 0));
 
    // No Siron catalogs than any other database
-   strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "OK to delete selected Tables/Records "
+   strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "OK to delete selected Tables/Records "
              "from the Data Source" );
    nRC = MessagePrompt( vSubtask, "TE00414", "Physical Data Model",
                         szWorkMessage,
@@ -3482,8 +3482,8 @@ zwTZTEUPDD_ReconstructERForForeignKey( zVIEW vSubtask, zVIEW vDTE, zVIEW vEMD)
          if (CheckExistenceOfEntity (vDTE_Work, "TE_FieldDataRelFK_1") >= zCURSOR_SET)
          {
             // Notice: the catalogname and the attributename to use it later.
-            GetStringFromAttribute( szCatalogName, sizeof( szCatalogName ), vDTE_Work, "TE_TablRec", "Name");
-            GetStringFromAttribute( szAttributeName, sizeof( szAttributeName ), vDTE_Work, "TE_FieldDataRel", "Name");
+            GetStringFromAttribute( szCatalogName, zsizeof( szCatalogName ), vDTE_Work, "TE_TablRec", "Name");
+            GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ), vDTE_Work, "TE_FieldDataRel", "Name");
 
             CreateViewFromViewForTask(&vDTE2, vDTE_Work, 0 );
             SetNameForView(vDTE2, "vDTE2", vDTE_Work, zLEVEL_TASK );
@@ -3593,14 +3593,14 @@ zwTZTEUPDD_SetERAttributeWithDomain( zVIEW  vSubtask,
 
    // Include the Domains
    memset( szDomainName, 0, 256 );
-   GetStringFromAttribute( szDataType, sizeof( szDataType ), vDTE_Work, "TE_FieldDataRel", "DataType");
+   GetStringFromAttribute( szDataType, zsizeof( szDataType ), vDTE_Work, "TE_FieldDataRel", "DataType");
    switch (*szDataType)
    {
-      case 'S': strcpy_s( szDomainName, sizeof( szDomainName ), "Text" );
+      case 'S': strcpy_s( szDomainName, zsizeof( szDomainName ), "Text" );
                 break;
-      case 'L': strcpy_s( szDomainName, sizeof( szDomainName ), "Integer" );
+      case 'L': strcpy_s( szDomainName, zsizeof( szDomainName ), "Integer" );
                 break;
-      case 'M': strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal" );
+      case 'M': strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal" );
                 break;
       default:  break;
    }
@@ -3624,7 +3624,7 @@ zwTZTEUPDD_SetFactType( zVIEW vSubtask, zVIEW vDTE_Work, zVIEW vEMD)
 {
    zCHAR szKeyKen[ 2 ];
 
-   GetStringFromAttribute( szKeyKen, sizeof( szKeyKen ), vDTE_Work, "TE_FieldDataRel", "Key");
+   GetStringFromAttribute( szKeyKen, zsizeof( szKeyKen ), vDTE_Work, "TE_FieldDataRel", "Key");
    if ( *szKeyKen == 'Y' )
    {
       CreateMetaEntity( vSubtask,vEMD, "ER_FactType", zPOS_FIRST );
@@ -3655,19 +3655,19 @@ zwTZTEUPDD_PreBuildDelete( zVIEW vSubtask )
    switch (lDelAllTables)
    {
       case 0: /* Only delete selected table */
-           strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "If you Delete the selected Entity "
+           strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "If you Delete the selected Entity "
                     "from the Data Source, ERD and TE will be changed. "
                     "Do you want to continue ?");
            break;
 
       case 1: /* Delete all Tables */
-           strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "If you Delete all Tables/Records "
+           strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "If you Delete all Tables/Records "
                      "from the Data Source, ERD and TE will be changed. "
                      "Do you want to continue ?");
            break;
 
       case 2: /* Delete the DataSource */
-           strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "If you Delete the DataSource, ERD and TE will "
+           strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "If you Delete the DataSource, ERD and TE will "
                      "be changed. Do you want to continue ?");
            break;
 
@@ -3704,8 +3704,8 @@ zwTZTEUPDD_DeleteVsamTables( zVIEW  vSubtask )
    GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_ANY );
    SetNameForView( vDTE, "vDTE", vSubtask, zLEVEL_TASK );
 
-   strcpy_s( szWindowName, sizeof( szWindowName ), "" );
-   strcpy_s( szEntityName, sizeof( szEntityName ), "" );
+   strcpy_s( szWindowName, zsizeof( szWindowName ), "" );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), "" );
 
    // For Siron Flat Files we have to reconstruct Foreign keys to
    // ER Attributes.  Get the ERD
@@ -3736,9 +3736,9 @@ zwTZTEUPDD_DeleteVsamTables( zVIEW  vSubtask )
             nZRetCode = SetCursorNextSelectedEntity( vDTE, "TE_TablRec", "" );
          }
 
-         strcpy_s( szWindowName, sizeof( szWindowName ), "TableRecord" );
-         strcpy_s( szEntityName, sizeof( szEntityName ), "TE_TablRec" );
-         strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "TE and ERD have been changed. Before using function "
+         strcpy_s( szWindowName, zsizeof( szWindowName ), "TableRecord" );
+         strcpy_s( szEntityName, zsizeof( szEntityName ), "TE_TablRec" );
+         strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "TE and ERD have been changed. Before using function "
                    "'Init Tables' you have to save the TE and the ERD !" );
 
          break;
@@ -3749,7 +3749,7 @@ zwTZTEUPDD_DeleteVsamTables( zVIEW  vSubtask )
            nRC = zwTZTEUPDD_ReconstructER_Attributes( vSubtask, vDTE, vEMD );
            if (nRC != 0)
            {
-              strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "ER Attributes cannot be recontructed from Foreign Keys");
+              strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "ER Attributes cannot be recontructed from Foreign Keys");
               nRC = MessagePrompt( vSubtask, "TE00414", "Physical Data Model",
                                    szWorkMessage, zBEEP, zBUTTONS_OK,
                                    zRESPONSE_OK, zICON_ERROR );
@@ -3764,9 +3764,9 @@ zwTZTEUPDD_DeleteVsamTables( zVIEW  vSubtask )
                nZRetCode = SetCursorFirstEntity( vDTE, "TE_TablRec", "" );
            }
 
-           strcpy_s( szWindowName, sizeof( szWindowName ), "TableRecord" );
-           strcpy_s( szEntityName, sizeof( szEntityName ), "TE_TablRec" );
-           strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "TE and ERD have been changed. Before using function "
+           strcpy_s( szWindowName, zsizeof( szWindowName ), "TableRecord" );
+           strcpy_s( szEntityName, zsizeof( szEntityName ), "TE_TablRec" );
+           strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "TE and ERD have been changed. Before using function "
                      "'Init Tables' you have to save the TE and the ERD !" );
 
            break;
@@ -3777,7 +3777,7 @@ zwTZTEUPDD_DeleteVsamTables( zVIEW  vSubtask )
            nRC = zwTZTEUPDD_ReconstructER_Attributes( vSubtask, vDTE, vEMD );
            if ( nRC )
            {
-              strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "ER Attributes cannot be recontructed from Foreign Keys");
+              strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "ER Attributes cannot be recontructed from Foreign Keys");
               nRC = MessagePrompt( vSubtask, "TE00414", "Physical Data Model",
                                    szWorkMessage, zBEEP, zBUTTONS_OK,
                                    zRESPONSE_OK, zICON_ERROR );
@@ -3786,9 +3786,9 @@ zwTZTEUPDD_DeleteVsamTables( zVIEW  vSubtask )
 
            /* Delete the DataSource */
            nZRetCode = DeleteEntity( vDTE, "TE_DBMS_Source", zREPOS_PREV );
-           strcpy_s( szWindowName, sizeof( szWindowName ), "DataSrc" );
-           strcpy_s( szEntityName, sizeof( szEntityName ), "TE_DBMS_Source" );
-           strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "TE and ERD have been changed. Before using any function "
+           strcpy_s( szWindowName, zsizeof( szWindowName ), "DataSrc" );
+           strcpy_s( szEntityName, zsizeof( szEntityName ), "TE_DBMS_Source" );
+           strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "TE and ERD have been changed. Before using any function "
                      "you have to save the TE and the ERD !" );
 
            break;
@@ -3866,7 +3866,7 @@ zwTZTEUPDD_DeleteDataSource( zVIEW vSubtask )
       nCloseWindow = 1;
 
    // We need the DB-Type because Siron Catalogs must be handled in a special way
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
    if ( *szSironDB_Type == zType_VSAM )
    {
       return( zwTZTEUPDD_WindowDeleteVsam( vSubtask, 2 ) );
@@ -4147,7 +4147,7 @@ zwTZTEUPDD_DeleteSelectedColumn( zVIEW vSubtask )
 
    GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_ANY );
 
-   strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "OK to delete selected Columns/Fields" );
+   strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "OK to delete selected Columns/Fields" );
    nRC = MessagePrompt( vSubtask, "TE00414", "Physical Data Model",
                         szWorkMessage,
                         zBEEP, zBUTTONS_YESNO,
@@ -4188,7 +4188,7 @@ zwTZTEUPDD_DeleteSelectedKeys( zVIEW vSubtask )
 
    GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_ANY );
 
-   strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "OK to delete selected Keys" );
+   strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "OK to delete selected Keys" );
    nRC = MessagePrompt( vSubtask, "TE00414", "Physical Data Model",
                         szWorkMessage,
                         zBEEP, zBUTTONS_YESNO,
@@ -4263,7 +4263,7 @@ zwTZTEUPDD_InitMenuForVSAM( zVIEW  vSubtask,
 
       if ( GetViewByName( &vTE_Work, "TZTEWRKO", vSubtask, zLEVEL_TASK ) >= 0 )
       {
-         GetStringFromAttribute( szER_UpdateFlag, sizeof( szER_UpdateFlag ), vTE_Work, "TE_Work", "ER_UpdateFlag" );
+         GetStringFromAttribute( szER_UpdateFlag, zsizeof( szER_UpdateFlag ), vTE_Work, "TE_Work", "ER_UpdateFlag" );
 
          if ( szER_UpdateFlag[ 0 ] == 'Y' )
          {
@@ -4395,7 +4395,7 @@ zwTZTEUPDD_InitMenu( zVIEW vSubtask )
    nIsCheckedOut = ComponentIsCheckedOut( vSubtask, vDTE, zSOURCE_DTE_META );
 
    if ( CheckExistenceOfEntity( vDTE, "TE_DBMS_Source" ) >= zCURSOR_SET )
-      GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+      GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
    else
       szSironDB_Type[ 0 ] = 0;
 
@@ -4452,7 +4452,7 @@ zwTZTEUPDD_SetForeignKeyCaption( zVIEW vSubtask )
 
    GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+   GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szTableName );
 
    return( 0 );
@@ -4477,11 +4477,11 @@ zwTZTEUPDD_KeepPhysCharField( zVIEW vSubtask )
    // Is was a Bug. Please don't change this code.
    if ( CompareAttributeToString( vDTE, "TE_FieldDataRel", "KeepPhysicalCharacteristicsFlag", "Y" ) == 0 )
    {
-      strcpy_s( szPhysChar, sizeof( szPhysChar ), "Y" );
+      strcpy_s( szPhysChar, zsizeof( szPhysChar ), "Y" );
    }
    else
    {
-      strcpy_s( szPhysChar, sizeof( szPhysChar ), "" );
+      strcpy_s( szPhysChar, zsizeof( szPhysChar ), "" );
    }
 
    // For each selected field, set the KeepPhysChars attribute to Y.
@@ -4514,11 +4514,11 @@ zwTZTEUPDD_KeepPhysCharTable( zVIEW vSubtask )
    // Is was a Bug. Please do'nt changed this code.
    if ( CompareAttributeToString( vDTE, "TE_TablRec", "KeepPhysicalCharacteristicsFlag", "Y" ) == 0 )
    {
-      strcpy_s( szPhysChar, sizeof( szPhysChar ), "Y" );
+      strcpy_s( szPhysChar, zsizeof( szPhysChar ), "Y" );
    }
    else
    {
-      strcpy_s( szPhysChar, sizeof( szPhysChar ), "" );
+      strcpy_s( szPhysChar, zsizeof( szPhysChar ), "" );
    }
 
    // For each selected field, set the KeepPhysChars attribute to Y.
@@ -4545,7 +4545,7 @@ zwTZTEUPDD_ReconstructEntitiesAndForeignKeys( zVIEW vSubtask,
    zSHORT nRC = zwTZTEUPDD_ReconstructSelectedEntity( vSubtask, vDTE, vEMD );
    if ( nRC )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "ER Attributes cannot be recontructed from Foreign Keys");
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "ER Attributes cannot be recontructed from Foreign Keys");
       nRC = MessagePrompt( vSubtask, "TE00414", "Physical Data Model",
                            szWorkMessage, zBEEP, zBUTTONS_OK,
                            zRESPONSE_OK, zICON_ERROR);
@@ -4559,7 +4559,7 @@ zwTZTEUPDD_ReconstructEntitiesAndForeignKeys( zVIEW vSubtask,
       nRC = zwTZTEUPDD_ReconstructERForForeignKey( vSubtask, vDTE, vEMD );
       if ( nRC )
       {
-         strcpy_s( szWorkMessage, sizeof( szWorkMessage ),
+         strcpy_s( szWorkMessage, zsizeof( szWorkMessage ),
                   "ER Attributes cannot be recontructed from Foreign Keys" );
          nRC = MessagePrompt( vSubtask, "TE00414",
                               "Physical Data Model",
@@ -4664,7 +4664,7 @@ zwTZTEUPDD_DeleteTable( zVIEW vSubtask )
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
 
    // We need the DB-Type because Siron Catalogs must be handled in a special way
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
    if ( *szSironDB_Type == zType_VSAM )
    {
       SetAttributeFromString( vProfileXFER, "TE", "Name", "" );
@@ -4744,7 +4744,7 @@ zwTZTEUPDD_DeleteField( zVIEW vSubtask )
 
    GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK );
 
-   strcpy_s( szWorkMessage, sizeof( szWorkMessage ),
+   strcpy_s( szWorkMessage, zsizeof( szWorkMessage ),
             "OK to continue with Delete of Field Date / Relationship ?");
    if ( MessagePrompt( vSubtask, "TE00433", "Physical Data Model",
                        szWorkMessage,
@@ -4848,7 +4848,7 @@ zwTZTEUPDD_LoadPopup( zVIEW  vSubtask,
    if ( GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK ) > 0 )
    {
       nComponentIsCheckedOut = ComponentIsCheckedOut( vSubtask, vDTE, zSOURCE_DTE_META );
-      GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+      GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
 
       if ( CheckExistenceOfEntity( vDTE, szEntityName ) >= zCURSOR_SET )
       {
@@ -5007,13 +5007,13 @@ zwTZTEUPDD_AcceptSubobject( zVIEW  vSubtask,
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
    GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vDTE, szEntityName, "Name" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vDTE, szEntityName, "Name" );
    zGetStringWithoutBlank( szNewName, szNewName );
 
    if ( zstrcmp( szNewName, "") == 0 )
    {
-      strcpy_s( szMessage, sizeof( szMessage ), szMessageText );
-      strcat_s( szMessage, sizeof( szMessage ), " Name is required.");
+      strcpy_s( szMessage, zsizeof( szMessage ), szMessageText );
+      strcat_s( szMessage, zsizeof( szMessage ), " Name is required.");
       if ( CompareAttributeToString( vProfileXFER, "TE", "Name", "Error" ) != 0 )
       {
          MessageSend( vSubtask, "PE00114", "Physical Data Model",
@@ -5040,9 +5040,9 @@ zwTZTEUPDD_AcceptSubobject( zVIEW  vSubtask,
 
       if ( nRC == zCURSOR_SET )
       {
-         strcpy_s( szMessage, sizeof( szMessage ), "A " );
-         strcat_s( szMessage, sizeof( szMessage ), szMessageText );
-         strcat_s( szMessage, sizeof( szMessage ), " already exists by this name!" );
+         strcpy_s( szMessage, zsizeof( szMessage ), "A " );
+         strcat_s( szMessage, zsizeof( szMessage ), szMessageText );
+         strcat_s( szMessage, zsizeof( szMessage ), " already exists by this name!" );
          if ( CompareAttributeToString( vProfileXFER, "TE", "Name", "Error" ) != 0 )
          {
             MessageSend( vSubtask, "TE00433", "Physical Data Model",
@@ -5103,7 +5103,7 @@ zwTZTEUPDD_MainTableRecPopup( zVIEW vSubtask )
    {
       nComponentIsCheckedOut = ComponentIsCheckedOut( vSubtask, vDTE, zSOURCE_DTE_META );
 
-      GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+      GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
 
       if ( CheckExistenceOfEntity( vDTE, "TE_TablRec" ) >= zCURSOR_SET )
       {
@@ -5122,7 +5122,7 @@ zwTZTEUPDD_MainTableRecPopup( zVIEW vSubtask )
 
             if ( GetViewByName( &vTE_Work, "TZTEWRKO", vSubtask, zLEVEL_TASK ) >= 0 )
             {
-               GetStringFromAttribute( szER_UpdateFlag, sizeof( szER_UpdateFlag ), vTE_Work, "TE_Work", "ER_UpdateFlag" );
+               GetStringFromAttribute( szER_UpdateFlag, zsizeof( szER_UpdateFlag ), vTE_Work, "TE_Work", "ER_UpdateFlag" );
                if ( szER_UpdateFlag[ 0 ] == 'Y' )
                {
                   bBuildTablRec = FALSE;
@@ -5652,11 +5652,11 @@ zwTZTEUPDD_KeepPhysCharAllColumn( zVIEW vSubtask )
                                   "KeepPhysCharsFlagForAllColumns",
                                   "Y" ) == 0 )
    {
-      strcpy_s( szPhysChar, sizeof( szPhysChar ), "Y" );
+      strcpy_s( szPhysChar, zsizeof( szPhysChar ), "Y" );
    }
    else
    {
-      strcpy_s( szPhysChar, sizeof( szPhysChar ), "" );
+      strcpy_s( szPhysChar, zsizeof( szPhysChar ), "" );
    }
 
    CreateViewFromViewForTask( &vDTECopy, vDTE, 0 );
@@ -5704,11 +5704,11 @@ zwTZTEUPDD_KeepPhysCharAll( zVIEW vSubtask )
 
    if ( CompareAttributeToString( vDTE, "TE_DBMS_Source", "KeepPhysicalCharacteristicsFlag", "Y" ) == 0 )
    {
-      strcpy_s( szPhysChar, sizeof( szPhysChar ), "Y" );
+      strcpy_s( szPhysChar, zsizeof( szPhysChar ), "Y" );
    }
    else
    {
-      strcpy_s( szPhysChar, sizeof( szPhysChar ), "" );
+      strcpy_s( szPhysChar, zsizeof( szPhysChar ), "" );
    }
 
    CreateViewFromViewForTask( &vDTECopy, vDTE, 0 );

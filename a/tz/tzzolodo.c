@@ -116,7 +116,7 @@ oTZZOLODO_RefreshLOD_FromEMD( zVIEW    vSubtask,
    CreateViewFromViewForTask( &vTZZOLOD1, vLOD, 0 );
    CreateViewFromViewForTask( &vTZEREMD1, vEntpModel, 0 );
 
-   nZRetCode = GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vTZZOLOD1, "LOD", "Name" );
+   nZRetCode = GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vTZZOLOD1, "LOD", "Name" );
    RESULT = SetCursorFirstEntity( vTZZOLOD1, "LOD_EntityParent", "" );
    lTempInteger_0 = CheckExistenceOfEntity( vTZZOLOD1, "ER_EntityRec" );
    if ( lTempInteger_0 == 0 )
@@ -130,7 +130,7 @@ oTZZOLODO_RefreshLOD_FromEMD( zVIEW    vSubtask,
        ZeidonStringCopy( szMsg, 1, 0, "Unable to find Entity in ER.\n\n", 1, 0, 300 );
          ZeidonStringConcat( szMsg, 1, 0, szLOD_Name, 1, 0, 300 );
          ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
-         nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
+         nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
          ZeidonStringConcat( szMsg, 1, 0, szTempString_0, 1, 0, 300 );
          ZeidonStringConcat( szMsg, 1, 0, " \n\n", 1, 0, 300 );
          ZeidonStringConcat( szMsg, 1, 0, "Correct LOD Entity[ YES ] \n", 1, 0, 300 );
@@ -143,7 +143,7 @@ oTZZOLODO_RefreshLOD_FromEMD( zVIEW    vSubtask,
             ZeidonStringCopy( szMsg, 1, 0, "Unable to find Entity in ER.\n\n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, szLOD_Name, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
-            nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
             ZeidonStringConcat( szMsg, 1, 0, szTempString_0, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n\n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, "Delete LOD Entity[ YES ] \n", 1, 0, 300 );
@@ -217,11 +217,11 @@ oTZZOLODO_RefreshLOD_FromEMD( zVIEW    vSubtask,
             ZeidonStringConcat( szMsg, 1, 0, szLOD_Name, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, "Entity:    ", 1, 0, 300 );
-            nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
             ZeidonStringConcat( szMsg, 1, 0, szTempString_0, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, "Attribute: ", 1, 0, 300 );
-            nZRetCode = GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vTZZOLOD1, "ER_AttributeRec", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vTZZOLOD1, "ER_AttributeRec", "Name" );
             ZeidonStringConcat( szMsg, 1, 0, szTempString_1, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n\n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, "Delete LOD Attribute[ YES ] \n", 1, 0, 300 );
@@ -308,7 +308,7 @@ ofnTZZOLODO_RefLODChildEnt( zVIEW    vSubtask,
          ZeidonStringCopy( szMsg, 1, 0, "Unable to find Entity in ER.\n\n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, szLOD_Name, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
-            nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
             ZeidonStringConcat( szMsg, 1, 0, szTempString_0, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n\n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, "Correct LOD Entity[ YES ] \n", 1, 0, 300 );
@@ -321,7 +321,7 @@ ofnTZZOLODO_RefLODChildEnt( zVIEW    vSubtask,
                ZeidonStringCopy( szMsg, 1, 0, "Unable to find Entity in ER.\n\n", 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, szLOD_Name, 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
-               nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
+               nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
                ZeidonStringConcat( szMsg, 1, 0, szTempString_0, 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, " \n\n", 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, "Delete LOD Entity[ YES ] \n", 1, 0, 300 );
@@ -381,15 +381,15 @@ ofnTZZOLODO_RefLODChildEnt( zVIEW    vSubtask,
             ZeidonStringConcat( szMsg, 1, 0, szLOD_Name, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, "Parent Entity: ", 1, 0, 300 );
-            nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTZZOLOD2, "LOD_EntityParent", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTZZOLOD2, "LOD_EntityParent", "Name" );
             ZeidonStringConcat( szMsg, 1, 0, szTempString_0, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, "Relationship:  ", 1, 0, 300 );
-            nZRetCode = GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vTZZOLOD1, "ER_RelLinkRec", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vTZZOLOD1, "ER_RelLinkRec", "Name" );
             ZeidonStringConcat( szMsg, 1, 0, szTempString_1, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, "Child Entity:  ", 1, 0, 300 );
-            nZRetCode = GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
             ZeidonStringConcat( szMsg, 1, 0, szTempString_2, 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, " \n\n", 1, 0, 300 );
             ZeidonStringConcat( szMsg, 1, 0, "Make LOD Entity Derived[ YES ] \n", 1, 0, 300 );
@@ -442,11 +442,11 @@ ofnTZZOLODO_RefLODChildEnt( zVIEW    vSubtask,
                ZeidonStringConcat( szMsg, 1, 0, szLOD_Name, 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, "Entity:    ", 1, 0, 300 );
-               nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
+               nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTZZOLOD1, "LOD_EntityParent", "Name" );
                ZeidonStringConcat( szMsg, 1, 0, szTempString_0, 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, " \n", 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, "Attribute: ", 1, 0, 300 );
-               nZRetCode = GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vTZZOLOD1, "ER_AttributeRec", "Name" );
+               nZRetCode = GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vTZZOLOD1, "ER_AttributeRec", "Name" );
                ZeidonStringConcat( szMsg, 1, 0, szTempString_1, 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, " \n\n", 1, 0, 300 );
                ZeidonStringConcat( szMsg, 1, 0, "Delete LOD Attribute [ YES ] \n", 1, 0, 300 );
@@ -569,14 +569,14 @@ oTZZOLODO_SaveAllLODs( zVIEW vSubtask, zPCHAR szType )
                                zREFER_LOD_META, zSINGLE | zLEVEL_APPLICATION );
       }
 
-      nRC = GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vTZZOLODO, "LOD", "Name" );
+      nRC = GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vTZZOLODO, "LOD", "Name" );
 
       // Send message to active window.
       nRC = GetViewByName( &vWindow, "TE_Window", vSubtask, zLEVEL_TASK );
       if ( nRC >= 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Saving LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Saving LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
          MB_SetMessage( vWindow, 1, szMsg );
       }
 
@@ -587,8 +587,8 @@ oTZZOLODO_SaveAllLODs( zVIEW vSubtask, zPCHAR szType )
       nRC = CheckExistenceOfEntity( vTZZOLODO, "LOD" );
       if ( nRC < zCURSOR_SET )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to Save empty LOD.\n" );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Save empty LOD.\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
          MessageSend( vSubtask, "ZO00208", "Operations",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
@@ -609,8 +609,8 @@ oTZZOLODO_SaveAllLODs( zVIEW vSubtask, zPCHAR szType )
       nRC = GetViewByName( &vTZZOXODO, "TZZOXODO", vSubtask, zLEVEL_TASK );
       if ( nRC < 1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "(oTZZOLODO_SaveAllLODs) Unable to Access XOD.  XOD build error." );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
+         strcpy_s( szMsg, zsizeof( szMsg ), "(oTZZOLODO_SaveAllLODs) Unable to Access XOD. XOD build error." );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
          MessageSend( vSubtask, "ZO00209", "Operations",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
@@ -666,7 +666,7 @@ oTZZOLODO_SaveLOD_WithTE( zVIEW vSubtask,
 
 
    // Build default VOR by Name of LOD if it does not exist
-   GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vTZZOLODO, "LOD", "Name" );
+   GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vTZZOLODO, "LOD", "Name" );
    nRC = ActivateMetaOI_ByName( vSubtask, &vTZWDVORO, 0,
                                 zREFER_VOR_META,
                                 zSINGLE | zLEVEL_APPLICATION,
@@ -738,7 +738,7 @@ oTZZOLODO_AddEntity( zVIEW  vSubtask,
    zLONG  lSrcZKey;
    zLONG  lTgtZKey = -1;
 
-   strcpy_s( szWorkType, sizeof( szWorkType ), szType );
+   strcpy_s( szWorkType, zsizeof( szWorkType ), szType );
 
 //  Don't access ER or SA on Work Entity
    if ( zstrcmp( szWorkType, "W" ) != 0 )
@@ -804,7 +804,7 @@ oTZZOLODO_AddEntity( zVIEW  vSubtask,
    }
 
 //  Set the IndentLvl and IndentName
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLODO, "LOD_EntityChild", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLODO, "LOD_EntityChild", "Name" );
    lIndentLvl = (uLevel - 1) * 3;
    SetAttributeFromInteger( vTZZOLOD1, "LOD_EntityChild", "IndentLvl", lIndentLvl );
    lCount = 0;
@@ -812,7 +812,7 @@ oTZZOLODO_AddEntity( zVIEW  vSubtask,
    {
       szEntityNameIndent[ lCount++ ] = ' ';
    }
-   strcpy_s( szEntityNameIndent + lIndentLvl, sizeof( szEntityNameIndent ) - lIndentLvl, szEntityName );
+   strcpy_s( szEntityNameIndent + lIndentLvl, zsizeof( szEntityNameIndent ) - lIndentLvl, szEntityName );
    SetAttributeFromString( vTZZOLOD1, "LOD_EntityChild", "IndentName", szEntityNameIndent );
 
 
@@ -1081,7 +1081,7 @@ oTZZOLODO_ConstraintRecurs1( zVIEW   vSubtask,
          // Create view looking at parent of current LOD_EntityParent.
          CreateViewFromViewForTask( &vParent, vLOD, 0 );
          ResetViewFromSubobject( vParent );
-         GetStringFromAttribute( szParentLOD_Name, sizeof( szParentLOD_Name ), vLOD, "LOD_EntityParent", "Name" );
+         GetStringFromAttribute( szParentLOD_Name, zsizeof( szParentLOD_Name ), vLOD, "LOD_EntityParent", "Name" );
          SetViewToSubobject( vLOD, "LOD_EntityChild" );
 
          // loop thru all the ER-related Entities
@@ -1114,19 +1114,19 @@ oTZZOLODO_ConstraintRecurs1( zVIEW   vSubtask,
                     (CompareAttributeToString( vLOD, "LOD_EntityParent", "Include", "Y" ) != 0 &&
                      CompareAttributeToString( vLOD, "LOD_EntityParent", "Create", "Y" ) != 0 ) )
                {
-                   strcpy_s( szMsg, sizeof( szMsg ), "A creatable LOD Entity is missing a child (includable or creatable) ");
-                   strcat_s( szMsg, sizeof( szMsg ), " for a related ERD Entity with min cardinality > 0.\n\n" );
-                   strcat_s( szMsg, sizeof( szMsg ), "LOD: \t \t \t" );
+                   strcpy_s( szMsg, zsizeof( szMsg ), "A creatable LOD Entity is missing a child (includable or creatable) ");
+                   strcat_s( szMsg, zsizeof( szMsg ), " for a related ERD Entity with min cardinality > 0.\n\n" );
+                   strcat_s( szMsg, zsizeof( szMsg ), "LOD: \t \t \t" );
 
-                   strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-                   strcat_s( szMsg, sizeof( szMsg ), "\n \nCreateable LOD Entity: \t" );
-                   strcat_s( szMsg, sizeof( szMsg ), szParentLOD_Name );
-                   strcat_s( szMsg, sizeof( szMsg ), "\nrelationship with card > 0: \t" );
-                   GetStringFromAttribute( szRelLinkName, sizeof( szRelLinkName ), vERD, "ER_RelLink", "Name" );
-                   strcat_s( szMsg, sizeof( szMsg ), szRelLinkName );
-                   GetStringFromAttribute( szChildLOD_Name, sizeof( szChildLOD_Name ), vERD, "ER_Entity_Other", "Name" );
-                   strcat_s( szMsg, sizeof( szMsg ), "\nMissing related ERD Entity: \t" );
-                   strcat_s( szMsg, sizeof( szMsg ), szChildLOD_Name );
+                   strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+                   strcat_s( szMsg, zsizeof( szMsg ), "\n \nCreateable LOD Entity: \t" );
+                   strcat_s( szMsg, zsizeof( szMsg ), szParentLOD_Name );
+                   strcat_s( szMsg, zsizeof( szMsg ), "\nrelationship with card > 0: \t" );
+                   GetStringFromAttribute( szRelLinkName, zsizeof( szRelLinkName ), vERD, "ER_RelLink", "Name" );
+                   strcat_s( szMsg, zsizeof( szMsg ), szRelLinkName );
+                   GetStringFromAttribute( szChildLOD_Name, zsizeof( szChildLOD_Name ), vERD, "ER_Entity_Other", "Name" );
+                   strcat_s( szMsg, zsizeof( szMsg ), "\nMissing related ERD Entity: \t" );
+                   strcat_s( szMsg, zsizeof( szMsg ), szChildLOD_Name );
                    MessageSend( vSubtask, "ZO00208", "LOD Constraints",
                                 szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
                }
@@ -1191,7 +1191,7 @@ oTZZOLODO_ConstraintRecurs2( zVIEW   vSubtask,
          //    2) for a key attribute of the child entity (in other words, a
          //       foreign key of the root entity).
 
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vLOD, "LOD_EntityParent", "Name" );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vLOD, "LOD_EntityParent", "Name" );
 
          lMaxPriority = 0;
 
@@ -1274,17 +1274,17 @@ oTZZOLODO_ConstraintRecurs2( zVIEW   vSubtask,
                         else
                         {
                            // This condition then is an error.
-                           strcpy_s( szMsg, sizeof( szMsg ), "The following attribute has a SeqPriority value but is " );
-                           strcat_s( szMsg, sizeof( szMsg ), "not an identifier nor a part of an entity with multiple " );
-                           strcat_s( szMsg, sizeof( szMsg ), "occurrences under its parent.  The SeqPriority value is ignored.\n" );
-                           strcat_s( szMsg, sizeof( szMsg ), "\n\nEntity: \t" );
-                           GetStringFromAttribute( szTempName, sizeof( szTempName ),
+                           strcpy_s( szMsg, zsizeof( szMsg ), "The following attribute has a SeqPriority value but is " );
+                           strcat_s( szMsg, zsizeof( szMsg ), "not an identifier nor a part of an entity with multiple " );
+                           strcat_s( szMsg, zsizeof( szMsg ), "occurrences under its parent. The SeqPriority value is ignored.\n" );
+                           strcat_s( szMsg, zsizeof( szMsg ), "\n\nEntity: \t" );
+                           GetStringFromAttribute( szTempName, zsizeof( szTempName ),
                                                    vLOD, "LOD_EntityParent", "Name" );
-                           strcat_s( szMsg, sizeof( szMsg ), szTempName );
-                           strcat_s( szMsg, sizeof( szMsg ), "\n\nAttribute: \t" );
-                           GetStringFromAttribute( szTempName, sizeof( szTempName ),
+                           strcat_s( szMsg, zsizeof( szMsg ), szTempName );
+                           strcat_s( szMsg, zsizeof( szMsg ), "\n\nAttribute: \t" );
+                           GetStringFromAttribute( szTempName, zsizeof( szTempName ),
                                                    vLOD, "ER_AttributeRec", "Name" );
-                           strcat_s( szMsg, sizeof( szMsg ), szTempName );
+                           strcat_s( szMsg, zsizeof( szMsg ), szTempName );
 
                            MessageSend( vSubtask, "ZO00216", "LOD Constraints",
                                        szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
@@ -1299,34 +1299,34 @@ oTZZOLODO_ConstraintRecurs2( zVIEW   vSubtask,
             ResetViewFromSubobject( vLOD );
          }
 
-         strcpy_s( szAttribList, sizeof( szAttribList ), "" );
+         strcpy_s( szAttribList, zsizeof( szAttribList ), "" );
          nMissingNr = 0;
 
          // Create a formatted String with the SeuqencePriorities and the AttributeNames:
          for ( i = 1; i <= lMaxPriority; i++ )
          {
-            zltoa( i, szAktPriority, sizeof( szAktPriority ) );
-            strcat_s( szAttribList, sizeof( szAttribList ), szAktPriority );
-            strcat_s( szAttribList, sizeof( szAttribList ), " \t" );
+            zltoa( i, szAktPriority, zsizeof( szAktPriority ) );
+            strcat_s( szAttribList, zsizeof( szAttribList ), szAktPriority );
+            strcat_s( szAttribList, zsizeof( szAttribList ), " \t" );
 
             if ( pchAttribList[ i ] != 0 )
-               strcat_s( szAttribList, sizeof( szAttribList ), pchAttribList[ i ] );
+               strcat_s( szAttribList, zsizeof( szAttribList ), pchAttribList[ i ] );
             else
             {
-               strcat_s( szAttribList, sizeof( szAttribList ), "*** missing ***" );
+               strcat_s( szAttribList, zsizeof( szAttribList ), "*** missing ***" );
                nMissingNr = i;
             }
-            strcat_s( szAttribList, sizeof( szAttribList ), " \n" );
+            strcat_s( szAttribList, zsizeof( szAttribList ), " \n" );
          }
 
-         strcpy_s( szMsg, sizeof( szMsg ), "\nEntity: \t" );
-         strcat_s( szMsg, sizeof( szMsg ), szEntityName );
-         strcat_s( szMsg, sizeof( szMsg ), "\n" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "\nEntity: \t" );
+         strcat_s( szMsg, zsizeof( szMsg ), szEntityName );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n" );
          if ( lMaxPriority != 0 )
          {
-            strcat_s( szMsg, sizeof( szMsg ), "\n\nPriority\tAttribute\n" );
-            strcat_s( szMsg, sizeof( szMsg ),     "------------\t--------------\n" );
-            strcat_s( szMsg, sizeof( szMsg ), szAttribList );
+            strcat_s( szMsg, zsizeof( szMsg ), "\n\nPriority\tAttribute\n" );
+            strcat_s( szMsg, zsizeof( szMsg ),    "------------\t--------------\n" );
+            strcat_s( szMsg, zsizeof( szMsg ), szAttribList );
          }
 
 #if 0
@@ -1340,18 +1340,18 @@ oTZZOLODO_ConstraintRecurs2( zVIEW   vSubtask,
                 CompareAttributeToString( vLOD, "ER_RelLinkRec", "CardMax",
                                           "1" ) != 0 ) )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "The SequencePriority chain is broken. " );
-            strcat_s( szMsg, sizeof( szMsg ), "\nPlease change the SequencePriorities of the Attributes of this Entity." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "The SequencePriority chain is broken. " );
+            strcat_s( szMsg, zsizeof( szMsg ), "\nPlease change the SequencePriorities of the Attributes of this Entity." );
 
-            strcat_s( szMsg, sizeof( szMsg ), "\n\nEntity: \t" );
-            strcat_s( szMsg, sizeof( szMsg ), szEntityName );
-            strcat_s( szMsg, sizeof( szMsg ), "\n\nPriority\tAttribute\n" );
-            strcat_s( szMsg, sizeof( szMsg ),     "------------\t--------------\n" );
-            strcat_s( szMsg, sizeof( szMsg ), szAttribList );
+            strcat_s( szMsg, zsizeof( szMsg ), "\n\nEntity: \t" );
+            strcat_s( szMsg, zsizeof( szMsg ), szEntityName );
+            strcat_s( szMsg, zsizeof( szMsg ), "\n\nPriority\tAttribute\n" );
+            strcat_s( szMsg, zsizeof( szMsg ),    "------------\t--------------\n" );
+            strcat_s( szMsg, zsizeof( szMsg ), szAttribList );
 
-            strcat_s( szMsg, sizeof( szMsg ), "\n\n------------------------------------------\nMissing Priority value: " );
-            zltoa( nMissingNr, szAktPriority, sizeof( szAktPriority ) );
-            strcat_s( szMsg, sizeof( szMsg ), szAktPriority );
+            strcat_s( szMsg, zsizeof( szMsg ), "\n\n------------------------------------------\nMissing Priority value: " );
+            zltoa( nMissingNr, szAktPriority, zsizeof( szAktPriority ) );
+            strcat_s( szMsg, zsizeof( szMsg ), szAktPriority );
 
             MessageSend( vSubtask, "ZO00208", "LOD Constraints",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
@@ -1424,7 +1424,7 @@ oTZZOLODO_Constraint( zVIEW   vSubtask,
 
                   // Call the recursive routine that will process all LOD Entities to verify that
                   // any creatable entities have children for all ER Entities with min cardinality > 0.
-                  GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vLOD, "LOD", "Name" );
+                  GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vLOD, "LOD", "Name" );
 
                   nRC = oTZZOLODO_ConstraintRecurs1( vSubtask, vLOD, vERD, szLOD_Name );
                   if ( nRC < 0 )
@@ -1495,7 +1495,7 @@ oTZZOLODO_ConstraintOperACC( zVIEW   vSubtask,
          if ( GetViewByName( &vMetaView, "TZZOLODO", vSubtask, zLEVEL_TASK ) >= 0 &&
               CompareAttributeToString( vIn, "SourceFile", "LanguageType", "V" ) == 0 )
          {
-            GetStringFromAttribute( szOperName, sizeof( szOperName ), vIn, "Operation", "Name" );
+            GetStringFromAttribute( szOperName, zsizeof( szOperName ), vIn, "Operation", "Name" );
             if ( zstrlen( szOperName ) > 22 )
             {
                MessageSend( vSubtask, "ZO00217", "Operations",
@@ -1531,22 +1531,22 @@ oTZZOLODO_DerivedGenName( zVIEW  LODView,
    zCHAR  szTempName2[ 32 ];
    zCHAR  szType[ 4 ];
 
-   GetStringFromAttribute( szType, sizeof( szType ), LODView, "SourceFileForDARec", "Extension" );
+   GetStringFromAttribute( szType, zsizeof( szType ), LODView, "SourceFileForDARec", "Extension" );
    if ( szType[ 0 ] == 'V' )
    {
       szTempName1[ 0 ] = 'o';
       CreateViewFromViewForTask( &vTemp, LODView, 0 );
       ResetView( vTemp );
-      GetStringFromAttribute( szTempName1 + 1, sizeof( szTempName1 ) - 1, vTemp, "LOD", "Name" );
+      GetStringFromAttribute( szTempName1 + 1, zsizeof( szTempName1 ) - 1, vTemp, "LOD", "Name" );
       DropView( vTemp );
-      strcat_s( szTempName1, sizeof( szTempName1 ), "_" );
-      GetStringFromAttribute( szTempName2, sizeof( szTempName2 ), LODView,
+      strcat_s( szTempName1, zsizeof( szTempName1 ), "_" );
+      GetStringFromAttribute( szTempName2, zsizeof( szTempName2 ), LODView,
                               "LOD_AttrDerivationOperRec", "Name" );
-      strcat_s( szTempName1, sizeof( szTempName1 ), szTempName2 );
+      strcat_s( szTempName1, zsizeof( szTempName1 ), szTempName2 );
    }
    else
    {
-      GetStringFromAttribute( szTempName1, sizeof( szTempName1 ), LODView, "LOD_AttrDerivationOperRec", "Name" );
+      GetStringFromAttribute( szTempName1, zsizeof( szTempName1 ), LODView, "LOD_AttrDerivationOperRec", "Name" );
    }
 
    StoreValueInRecord( LODView, EntityStructure, AttributeStructure, szTempName1, 0 );
@@ -1574,20 +1574,20 @@ oTZZOLODO_OCOPERGenName( zVIEW  LODView,
    zCHAR  szTempName2[ 32 ];
    zCHAR  szType[ 4 ];
 
-   GetStringFromAttribute( szType, sizeof( szType ), LODView, "SourceFileForOCOper", "Extension" );
+   GetStringFromAttribute( szType, zsizeof( szType ), LODView, "SourceFileForOCOper", "Extension" );
    if ( szType[ 0 ] == 'V' )
    {
       szTempName1[ 0 ] = 'o';
       CreateViewFromViewForTask( &vTemp, LODView, 0 );
       ResetView( vTemp );
-      GetStringFromAttribute( szTempName1 + 1, sizeof( szTempName1 ) - 1, vTemp, "LOD", "Name" );
+      GetStringFromAttribute( szTempName1 + 1, zsizeof( szTempName1 ) - 1, vTemp, "LOD", "Name" );
       DropView( vTemp );
-      strcat_s( szTempName1, sizeof( szTempName1 ), "_" );
-      GetStringFromAttribute( szTempName2, sizeof( szTempName2 ), LODView, "LOD_ConstraintOper", "Name" );
-      strcat_s( szTempName1, sizeof( szTempName1 ), szTempName2 );
+      strcat_s( szTempName1, zsizeof( szTempName1 ), "_" );
+      GetStringFromAttribute( szTempName2, zsizeof( szTempName2 ), LODView, "LOD_ConstraintOper", "Name" );
+      strcat_s( szTempName1, zsizeof( szTempName1 ), szTempName2 );
    }
    else
-      GetStringFromAttribute( szTempName1, sizeof( szTempName1 ), LODView, "LOD_ConstraintOper", "Name" );
+      GetStringFromAttribute( szTempName1, zsizeof( szTempName1 ), LODView, "LOD_ConstraintOper", "Name" );
 
 
    StoreValueInRecord( LODView, EntityStructure, AttributeStructure, szTempName1, 0 );
@@ -1615,20 +1615,20 @@ oTZZOLODO_ECOPERGenName( zVIEW  LODView,
    zCHAR  szTempName2[ 32 ];
    zCHAR  szType[ 4 ];
 
-   GetStringFromAttribute( szType, sizeof( szType ), LODView, "SourceFileForECOperRec", "Extension" );
+   GetStringFromAttribute( szType, zsizeof( szType ), LODView, "SourceFileForECOperRec", "Extension" );
    if ( szType[ 0 ] == 'V' )
    {
       szTempName1[ 0 ] = 'o';
       CreateViewFromViewForTask( &vTemp, LODView, 0 );
       ResetView( vTemp );
-      GetStringFromAttribute( szTempName1 + 1, sizeof( szTempName1 ) - 1, vTemp, "LOD", "Name" );
+      GetStringFromAttribute( szTempName1 + 1, zsizeof( szTempName1 ) - 1, vTemp, "LOD", "Name" );
       DropView( vTemp );
-      strcat_s( szTempName1, sizeof( szTempName1 ), "_" );
-      GetStringFromAttribute( szTempName2, sizeof( szTempName2 ), LODView, "LOD_EntityConstraintOperRec", "Name" );
-      strcat_s( szTempName1, sizeof( szTempName1 ), szTempName2 );
+      strcat_s( szTempName1, zsizeof( szTempName1 ), "_" );
+      GetStringFromAttribute( szTempName2, zsizeof( szTempName2 ), LODView, "LOD_EntityConstraintOperRec", "Name" );
+      strcat_s( szTempName1, zsizeof( szTempName1 ), szTempName2 );
    }
    else
-      GetStringFromAttribute( szTempName1, sizeof( szTempName1 ), LODView, "LOD_EntityConstraintOperRec", "Name" );
+      GetStringFromAttribute( szTempName1, zsizeof( szTempName1 ), LODView, "LOD_EntityConstraintOperRec", "Name" );
 
 
    StoreValueInRecord( LODView, EntityStructure, AttributeStructure, szTempName1, 0 );
@@ -1647,20 +1647,20 @@ oTZZOLODO_OperationGenName( zVIEW        LODView,
    zCHAR  szTempName2[ 32 ];
    zCHAR  szType[ 4 ];
 
-   GetStringFromAttribute( szType, sizeof( szType ), LODView, "SourceFile", "Extension" );
+   GetStringFromAttribute( szType, zsizeof( szType ), LODView, "SourceFile", "Extension" );
    if ( szType[ 0 ] == 'V' )
    {
       szTempName1[ 0 ] = 'o';
       CreateViewFromViewForTask( &vTemp, LODView, 0 );
       ResetView( vTemp );
-      GetStringFromAttribute( szTempName1 + 1, sizeof( szTempName1 ) - 1, vTemp, "LOD", "Name" );
+      GetStringFromAttribute( szTempName1 + 1, zsizeof( szTempName1 ) - 1, vTemp, "LOD", "Name" );
       DropView( vTemp );
-      strcat_s( szTempName1, sizeof( szTempName1 ), "_" );
-      GetStringFromAttribute( szTempName2, sizeof( szTempName2 ), LODView, "Operation", "Name" );
-      strcat_s( szTempName1, sizeof( szTempName1 ), szTempName2 );
+      strcat_s( szTempName1, zsizeof( szTempName1 ), "_" );
+      GetStringFromAttribute( szTempName2, zsizeof( szTempName2 ), LODView, "Operation", "Name" );
+      strcat_s( szTempName1, zsizeof( szTempName1 ), szTempName2 );
    }
    else
-      GetStringFromAttribute( szTempName1, sizeof( szTempName1 ), LODView, "Operation", "Name" );
+      GetStringFromAttribute( szTempName1, zsizeof( szTempName1 ), LODView, "Operation", "Name" );
 
 
    StoreValueInRecord( LODView, EntityStructure, AttributeStructure, szTempName1, 0 );
@@ -1905,13 +1905,13 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
    static PFNPARSER pfnParser = 0;
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szSourceDirectory, sizeof( szSourceDirectory ), vTaskLPLR, "LPLR", "PgmSrcDir" );
+   GetStringFromAttribute( szSourceDirectory, zsizeof( szSourceDirectory ), vTaskLPLR, "LPLR", "PgmSrcDir" );
 
    // Create a unique temp VML name using the task ID.
-   sprintf_s( szVML, sizeof( szVML ), "zDE%lx", SysGetTaskFromView( GetDefaultViewForActiveTask( ) ) );
+   sprintf_s( szVML, zsizeof( szVML ), "zDE%lx", SysGetTaskFromView( GetDefaultViewForActiveTask( ) ) );
           // SysGetTaskFromView( vTZZOLODO ) );
-   sprintf_s( szFileName, sizeof( szFileName ), "%s\\%s.VML", szSourceDirectory, szVML );
-   sprintf_s( szErrFileName, sizeof( szFileName ), "%s\\%s.ERR", szSourceDirectory, szVML );
+   sprintf_s( szFileName, zsizeof( szFileName ), "%s\\%s.VML", szSourceDirectory, szVML );
+   sprintf_s( szErrFileName, zsizeof( szFileName ), "%s\\%s.ERR", szSourceDirectory, szVML );
 
    // Set the error attributes to null.
    SetAttributeFromString( vTZZOLODO, "ER_Attribute", "GeneratedVML", "" );
@@ -1948,12 +1948,12 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
          else
             GetIntegerFromAttribute( &lLth, vTZZOLODO, "ER_Attribute", "Lth" );
 
-         sprintf_s( szLine, sizeof( szLine ), "   STRING( %ld ) value", lLth );
+         sprintf_s( szLine, zsizeof( szLine ), "  STRING( %ld ) value", lLth );
          SysWriteLine( vTZZOLODO, f, szLine );
          break;
    }
 
-   strcpy_s( szLine, sizeof( szLine ), "   value = " );
+   strcpy_s( szLine, zsizeof( szLine ), "  value = " );
    GetAddrForAttribute( &pchExpr, vTZZOLODO, "ER_Attribute", "DerivedExpression" );
    GetAddrForAttribute( &pchSourceEntityName, vTZZOLODO, "LOD_Entity", "Name" );
    GetAddrForAttribute( &pchSourceAttribName, vTZZOLODO, "ER_Attribute", "Name" );
@@ -2015,7 +2015,7 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
                                    szEntityName, szFuncName, szContextName ) < 0 )
             goto EndOfFunction;
 
-         _strupr_s( szFuncName, sizeof( szFuncName ) );
+         _strupr_s( szFuncName, zsizeof( szFuncName ) );
 
          // =================
          // do some error checking here.
@@ -2028,11 +2028,11 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
          switch ( *pchType )
          {
             case zTYPE_INTEGER:
-               sprintf_s( szLine + idx, sizeof( szLine ) - idx, "zi%s( vView, ", szFuncName );
+               sprintf_s( szLine + idx, zsizeof( szLine ) - idx, "zi%s( vView, ", szFuncName );
                break;
 
             case zTYPE_DECIMAL:
-               sprintf_s( szLine + idx, sizeof( szLine ) - idx, "zd%s( vView, ", szFuncName );
+               sprintf_s( szLine + idx, zsizeof( szLine ) - idx, "zd%s( vView, ", szFuncName );
                break;
          }
 
@@ -2046,7 +2046,7 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
          {
             zCHAR szMsg[ 5000 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Error parsing derived VML for '%s.%s'. "
+            sprintf_s( szMsg, zsizeof( szMsg ), "Error parsing derived VML for '%s.%s'. "
                        "'(' expected after @%s command.", pchSourceEntityName,
                        pchSourceAttribName, szFuncName );
 
@@ -2078,7 +2078,7 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
             {
                zCHAR szMsg[ 5000 ];
 
-               sprintf_s( szMsg, sizeof( szMsg ), "Error parsing derived VML for '%s.%s'. "
+               sprintf_s( szMsg, zsizeof( szMsg ), "Error parsing derived VML for '%s.%s'. "
                           "Incorrect number of arguments specified for %s command.",
                           pchSourceEntityName, pchSourceAttribName, szFuncName );
 
@@ -2093,7 +2093,7 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
             // If only 2 arguments where specified, then we need to add the default scoping entity.
             if ( nArgCount == 2 )
             {
-               strcat_s( szLine, sizeof( szLine ), ", 0 " );
+               strcat_s( szLine, zsizeof( szLine ), ", 0 " );
                idx += zstrlen( szLine + idx );
             }
          }
@@ -2119,7 +2119,7 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
       {
          zCHAR szMsg[ 5000 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Error parsing derived VML for '%s.%s'. "
+         sprintf_s( szMsg, zsizeof( szMsg ), "Error parsing derived VML for '%s.%s'. "
                     "Entity '%s' does not exist.", pchSourceEntityName,
                     pchSourceAttribName, szEntityName );
 
@@ -2137,7 +2137,7 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
       {
          zCHAR szMsg[ 5000 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Error parsing derived VML for '%s.%s'. "
+         sprintf_s( szMsg, zsizeof( szMsg ), "Error parsing derived VML for '%s.%s'. "
                     "Attrib '%s' does not exist.", pchSourceEntityName,
                     pchSourceAttribName, szAttribName );
 
@@ -2156,16 +2156,16 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
       // If the next zCHAR is an open paren, then szAttribName is really a
       // function name.
       if ( *pch == '(' )
-         strcpy_s( szLine + idx, sizeof( szLine ) - idx, szAttribName );
+         strcpy_s( szLine + idx, zsizeof( szLine ) - idx, szAttribName );
       else
       if ( nExpectedToken == TOKEN_CMD )
       {
          // Add the argument to the CMD.
-         sprintf_s( szLine + idx, sizeof( szLine ) - idx, " \"%s\"", szAttribName );
+         sprintf_s( szLine + idx, zsizeof( szLine ) - idx, " \"%s\"", szAttribName );
          nArgCount++;
       }
       else
-         sprintf_s( szLine + idx, sizeof( szLine ) - idx, "vView.%s.%s", szEntityName, szAttribName );
+         sprintf_s( szLine + idx, zsizeof( szLine ) - idx, "vView.%s.%s", szEntityName, szAttribName );
 
       idx += zstrlen( szLine + idx );
 
@@ -2191,10 +2191,10 @@ fnParseDerivedExpression( zVIEW vTZZOLODO )
    else
       SysWriteLine( vTZZOLODO, f, "   StoreValueInDerivedAttribute( vView, " );
 
-   sprintf_s( szLine, sizeof( szLine ), "                                  \"%s\",", pchSourceEntityName );
+   sprintf_s( szLine, zsizeof( szLine ), "                                 \"%s\",", pchSourceEntityName );
    SysWriteLine( vTZZOLODO, f, szLine );
 
-   sprintf_s( szLine, sizeof( szLine ), "                                  \"%s\",", pchSourceAttribName );
+   sprintf_s( szLine, zsizeof( szLine ), "                                 \"%s\",", pchSourceAttribName );
    SysWriteLine( vTZZOLODO, f, szLine );
 
    if ( *pchType == zTYPE_STRING )

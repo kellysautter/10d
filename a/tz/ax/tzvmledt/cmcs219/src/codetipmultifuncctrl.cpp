@@ -83,7 +83,7 @@ CCodeTipMultiFuncCtrl::CCodeTipMultiFuncCtrl( CEdit* pEdit )
 
    // Load the format string ("%d of %d")
    LoadString( hInstance, IDS_FMT_CODETIP_MULTIFUNC, m_szFmt,
-      sizeof(m_szFmt) / sizeof(TCHAR) );
+      zsizeof(m_szFmt) / zsizeof(TCHAR) );
 }
 
 // NotifyUpdate -------------------------------------------------------------

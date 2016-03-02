@@ -318,7 +318,7 @@ zwTZADCDOD_DeleteMaintAttrib( zVIEW vSubtask )
    // Ask the operator if it is ok to delete.
    if ( nRC > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "OK to delete selected Attributes?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete selected Attributes?" );
       if ( MessagePrompt( vSubtask,                 "CM00111",
                           "Delete Confirmation",
                            szMsg,
@@ -367,7 +367,7 @@ zwTZADCDOD_DeleteListAttrib( zVIEW vSubtask )
    if ( nRC > zCURSOR_UNCHANGED )
    {
       // Ask the operator if it is ok to delete.
-      strcpy_s( szMsg, sizeof( szMsg ), "OK to delete selected Attributes?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete selected Attributes?" );
       if ( MessagePrompt( vSubtask,                 "CM00111",
                           "Delete Confirmation",
                            szMsg,
@@ -410,10 +410,10 @@ zwTZADCDOD_DeleteTabAttrib( zVIEW vSubtask )
    while ( nRC > zCURSOR_UNCHANGED )
    {
       // Ask the operator if it is ok to delete.
-      GetStringFromAttribute( szName, sizeof( szName ), vUserSpec, "MT_ER_Attribute", "Name" );
-      strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Attribute '" );
-      strcat_s( szMsg, sizeof( szMsg ), szName );
-      strcat_s( szMsg, sizeof( szMsg ), "' ?" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vUserSpec, "MT_ER_Attribute", "Name" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Attribute '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' ?" );
 
       if ( MessagePrompt( vSubtask,                 "CM00111",
                           "Delete Confirmation",
@@ -567,7 +567,7 @@ zwTZADCDOD_InitStyleDialogue( zVIEW vSubtask )
    // Set LPL Name - Title - Spec Name on Window Title
    nRC = GetViewByName( &vLPL, "TaskLPLR", vSubtask, zLEVEL_TASK );
    if ( nRC > 0 )
-      GetStringFromAttribute( szLPL_Name, sizeof( szLPL_Name ), vLPL, "LPLR", "Name" );
+      GetStringFromAttribute( szLPL_Name, zsizeof( szLPL_Name ), vLPL, "LPLR", "Name" );
    else
       strcpy( szLPL_Name, "" );
     SetWindowCaptionTitle( vSubtask, szLPL_Name,
@@ -705,7 +705,7 @@ zwTZADCDOD_LoadFileList( zVIEW vSubtask )
    {
       if ( CompareAttributeToString( vUserSpec, "UI_Spec", "Name", "" ) != 0  && vFileObj >= 0 )
       {
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vUserSpec,
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vUserSpec,
                                  "UI_Spec", "Name" );
          SetCursorFirstEntityByString( vFileObj, "W_MetaDef",
                                        "Name", szTempString_0, "" );
@@ -746,14 +746,14 @@ zwTZADCDOD_SaveSaveAs( zVIEW vSubtask )
       SetNameForView( vFileSpec, "UI_SpecList", vSubtask, zLEVEL_TASK );
    }
 
-   GetStringFromAttribute( szNewObjectName, sizeof( szNewObjectName ), vNewObj, "UI_Spec", "Name" );
+   GetStringFromAttribute( szNewObjectName, zsizeof( szNewObjectName ), vNewObj, "UI_Spec", "Name" );
 
    nRC = SetCursorFirstEntityByString( vFileSpec, "W_MetaDef",
                                        "Name", szNewObjectName, "" );
    if ( nRC > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), szNewObjectName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " - Style object already exists, Overwrite?" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), szNewObjectName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " - Style object already exists, Overwrite?" );
       nRC = MessagePrompt( vSubtask, "AD10025", "Autodesigner",
                            szWorkString,
                            zBEEP,
@@ -793,8 +793,8 @@ zwTZADCDOD_SaveSaveAs( zVIEW vSubtask )
                             zSOURCE_UIS_META, zSINGLE );
       if ( nRC == -1 )
       {
-         strcpy_s( szWorkString, sizeof( szWorkString ), "Check-out failed on newly created Object - " );
-         strcat_s( szWorkString, sizeof( szWorkString ), szNewObjectName );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), "Check-out failed on newly created Object - " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), szNewObjectName );
          MessageSend( vSubtask, "AD10003", "Autodesigner",
                       szWorkString,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1124,7 +1124,7 @@ zwTZADCDOD_OpenStyleFile( zVIEW vSubtask )
                                    "InitializeOpen", 1 ) == 0 )
    {
 
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vWDWorkObj, "Palette", "UIS_Name" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vWDWorkObj, "Palette", "UIS_Name" );
       lRC = SetCursorFirstEntityByString( vFileObj, "W_MetaDef", "Name",
                                           szWorkString, 0 );
       lRC = ActivateMetaOI( vSubtask, &vUserSpec, vFileObj,
@@ -1134,7 +1134,7 @@ zwTZADCDOD_OpenStyleFile( zVIEW vSubtask )
          return( -1 );
       }
       SetNameForView( vUserSpec, "User_Spec", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vFileObj, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vFileObj, "W_MetaDef", "Name" );
       SetAttributeFromString( vWDWorkObj, "Palette", "UIS_Name", szWorkString );
    }
    else
@@ -1148,7 +1148,7 @@ zwTZADCDOD_OpenStyleFile( zVIEW vSubtask )
       ActivateMetaOI( vSubtask, &vUserSpec, vFileObj,
                       zSOURCE_UIS_META, zSINGLE );
       SetNameForView( vUserSpec, "User_Spec", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vFileObj, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vFileObj, "W_MetaDef", "Name" );
       SetAttributeFromString( vWDWorkObj, "Palette", "UIS_Name", szWorkString );
    }
 
@@ -1156,7 +1156,7 @@ zwTZADCDOD_OpenStyleFile( zVIEW vSubtask )
    CreateViewFromViewForTask( &vUserSpecRoot, vUserSpec, 0 );
    SetNameForView( vUserSpecRoot, "UserSpecRoot", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vUserSpec, "UIS_LOD", "Name" );
+   GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vUserSpec, "UIS_LOD", "Name" );
    GetViewByName( &vFileObj, "AD_LOD_List", vSubtask, zLEVEL_TASK );
    lRC = SetCursorFirstEntityByString( vFileObj, "W_MetaDef",
                                        "Name", szObjectName, "" );
@@ -1170,9 +1170,9 @@ zwTZADCDOD_OpenStyleFile( zVIEW vSubtask )
    SetNameForView( vObjectObj, "LOD_Object", vSubtask, zLEVEL_TASK );
    if ( lRC == -1 )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "Object, " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szObjectName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " Not Found" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "Object, " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szObjectName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " Not Found" );
       MessageSend( vSubtask, "AD10004", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1286,10 +1286,10 @@ zwTZADCDOD_DeleteStyleFile( zVIEW vSubtask )
       return( -1 );
    }
 
-   strcpy_s( szWorkString, sizeof( szWorkString ), "Delete Dialog Spec '" );
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vFileObj, "W_MetaDef", "Name" );
-   strcat_s( szWorkString, sizeof( szWorkString ), szTempString_0 );
-   strcat_s( szWorkString, sizeof( szWorkString ), "' ?" );
+   strcpy_s( szWorkString, zsizeof( szWorkString ), "Delete Dialog Spec '" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vFileObj, "W_MetaDef", "Name" );
+   strcat_s( szWorkString, zsizeof( szWorkString ), szTempString_0 );
+   strcat_s( szWorkString, zsizeof( szWorkString ), "' ?" );
    nRC = MessagePrompt( vSubtask, "AD10026", "Autodesigner",
                         szWorkString, zBEEP,
                         zBUTTONS_YESNO, zRESPONSE_NO, zICON_QUESTION );
@@ -1345,7 +1345,7 @@ zwTZADCDOD_CreateNewStyle( zVIEW vSubtask )
    if ( lRC != -1 )
       DropObjectInstance( vUserSpec );
 
-   GetStringFromAttribute( szStyleName, sizeof( szStyleName ), vSDWorkObj, "ROOT", "STYLE_NAME" );
+   GetStringFromAttribute( szStyleName, zsizeof( szStyleName ), vSDWorkObj, "ROOT", "STYLE_NAME" );
 
    if ( CompareAttributeToString( vFileObj, "W_MetaDef", "Name", "" ) == 0 )
    {
@@ -1367,7 +1367,7 @@ zwTZADCDOD_CreateNewStyle( zVIEW vSubtask )
    /* Check to see if the new style object to be created already exists
       in the directory.  If so, warn the operator and give them a
       chance to load the existing definition for update. */
-   strcpy_s( szWorkString, sizeof( szWorkString ), szStyleName );
+   strcpy_s( szWorkString, zsizeof( szWorkString ), szStyleName );
 
    lRC = GetViewByName( &vFileSpec, "UI_SpecList", vSubtask, zLEVEL_TASK );
    if ( lRC == -1 )
@@ -1379,7 +1379,7 @@ zwTZADCDOD_CreateNewStyle( zVIEW vSubtask )
                                        "Name", szStyleName, "" );
    if ( lRC > zCURSOR_UNCHANGED )
    {
-      strcat_s( szWorkString, sizeof( szWorkString ), " - Dialog Spec Exists, Open existing Dialog Spec?" );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " - Dialog Spec Exists, Open existing Dialog Spec?" );
       lRC = MessagePrompt( vSubtask, "AD10027", "Autodesigner",
                            szWorkString, zBEEP,
                            zBUTTONS_YESNO, zRESPONSE_YES,
@@ -1413,7 +1413,7 @@ zwTZADCDOD_CreateNewStyle( zVIEW vSubtask )
    // We will put in a check to make sure that is true.
    lRC = ActivateMetaOI( vSubtask, &vNewObj, vFileObj, zREFER_LOD_META,
                          zSINGLE | zLEVEL_APPLICATION );
-   GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vNewObj, "LOD", "Name" );
+   GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vNewObj, "LOD", "Name" );
 
    GetViewByName( &vFileObj, "AD_VOR_List", vSubtask, zLEVEL_TASK );
    lRC = SetCursorFirstEntityByString( vFileObj, "W_MetaDef",
@@ -1431,12 +1431,12 @@ zwTZADCDOD_CreateNewStyle( zVIEW vSubtask )
    lRC = ActivateMetaOI( vSubtask, &vVOR_Obj, vFileObj, zREFER_VOR_META,
                          zSINGLE | zLEVEL_APPLICATION );
 
-   strcat_s( szObjectName, sizeof( szObjectName ), ".LOD" );
+   strcat_s( szObjectName, zsizeof( szObjectName ), ".LOD" );
    if ( lRC < 0 )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "The dialog spec object definition - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szObjectName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " - does not exist!" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "The dialog spec object definition - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szObjectName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " - does not exist!" );
       MessageSend( vSubtask, "AD10008", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1986,7 +1986,7 @@ zwTZADCDOD_SelectSubObject( zVIEW  vSubtask, zPCHAR szViewObjEntityName )
    SetCursorFirstEntityByInteger( vLOD_Obj, "LOD_Entity",
                                   "ZKey", lZKey, 0 );
    /*
-   GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
    SetCursorFirstEntityByString( vLOD_Obj, "LOD_Entity",
                                  "Name", szWorkString, "" );
    */
@@ -2203,22 +2203,22 @@ zwTZADCDOD_ProcessCaseForEntity( zVIEW    vUserSpec,
                                     vUS_Parent,  "LOD_Entity", 0 );
 
    // Get values needed for Case evaluation.
-   GetStringFromAttribute( szRootIndicator, sizeof( szRootIndicator ),
+   GetStringFromAttribute( szRootIndicator, zsizeof( szRootIndicator ),
                            vUserSpec, "UIS_Entity", "RootIndicator" );
-   GetStringFromAttribute( szParentRootIndicator, sizeof( szParentRootIndicator ),
+   GetStringFromAttribute( szParentRootIndicator, zsizeof( szParentRootIndicator ),
                            vUS_Parent, "UIS_Entity", "RootIndicator" );
    if ( CheckExistenceOfEntity( vLOD, "ER_RelLink" ) >= zCURSOR_SET )
-      GetStringFromAttribute( szCardMax, sizeof( szCardMax ), vLOD, "ER_RelLink", "CardMax" );
+      GetStringFromAttribute( szCardMax, zsizeof( szCardMax ), vLOD, "ER_RelLink", "CardMax" );
    if ( CheckExistenceOfEntity( vLOD, "ER_Entity" ) >= zCURSOR_SET )
-      GetStringFromAttribute( szPurpose, sizeof( szPurpose ), vLOD, "ER_Entity", "Purpose" );
+      GetStringFromAttribute( szPurpose, zsizeof( szPurpose ), vLOD, "ER_Entity", "Purpose" );
    if ( CheckExistenceOfEntity( vLOD_Parent, "ER_Entity" ) >= zCURSOR_SET )
-      GetStringFromAttribute( szParentPurpose, sizeof( szParentPurpose ), vLOD_Parent, "ER_Entity", "Purpose" );
+      GetStringFromAttribute( szParentPurpose, zsizeof( szParentPurpose ), vLOD_Parent, "ER_Entity", "Purpose" );
 
-   GetStringFromAttribute( szParentInclude, sizeof( szParentInclude ), vLOD_Parent, "LOD_Entity", "Include" );
-   GetStringFromAttribute( szInclude, sizeof( szInclude ), vLOD, "LOD_Entity", "Include" );
-   GetStringFromAttribute( szCreate, sizeof( szCreate ), vLOD, "LOD_Entity", "Create" );
-   GetStringFromAttribute( szUpdate, sizeof( szUpdate ), vLOD, "LOD_Entity", "Update" );
-   GetStringFromAttribute( szDelete, sizeof( szDelete ), vLOD, "LOD_Entity", "Delete" );
+   GetStringFromAttribute( szParentInclude, zsizeof( szParentInclude ), vLOD_Parent, "LOD_Entity", "Include" );
+   GetStringFromAttribute( szInclude, zsizeof( szInclude ), vLOD, "LOD_Entity", "Include" );
+   GetStringFromAttribute( szCreate, zsizeof( szCreate ), vLOD, "LOD_Entity", "Create" );
+   GetStringFromAttribute( szUpdate, zsizeof( szUpdate ), vLOD, "LOD_Entity", "Update" );
+   GetStringFromAttribute( szDelete, zsizeof( szDelete ), vLOD, "LOD_Entity", "Delete" );
 
    // Next set the Case Type for this entity, according to the follow rules:
    //  1. If entity is root, Case 1A.
@@ -2242,51 +2242,51 @@ zwTZADCDOD_ProcessCaseForEntity( zVIEW    vUserSpec,
 
    //  1. If entity is root, Case 1A.
    if ( szRootIndicator[ 0 ] == 'Y' )
-      strcpy_s( szCase, sizeof( szCase ), "1A" );
+      strcpy_s( szCase, zsizeof( szCase ), "1A" );
    else
 
    //  2. If entity is Attrib and parent is the root, Case 1B.
    if ( szPurpose[ 0 ] == 'A' && szParentRootIndicator[ 0 ] == 'Y' )
-      strcpy_s( szCase, sizeof( szCase ), "1B" );
+      strcpy_s( szCase, zsizeof( szCase ), "1B" );
    else
 
    //  3. If entity is Attrib and parent is Attrib, Case 1C.
    if ( szPurpose[ 0 ] == 'A' && szParentPurpose[ 0 ] == 'A' )
-      strcpy_s( szCase, sizeof( szCase ), "1C" );
+      strcpy_s( szCase, zsizeof( szCase ), "1C" );
    else
 
    //  4. If entity is Attrib and not includable and parent is Assoc, Case 1D.
    if ( szPurpose[ 0 ] == 'A' && szInclude[ 0 ] != 'Y' && szParentPurpose[ 0 ] == 'S' )
-      strcpy_s( szCase, sizeof( szCase ), "1D" );
+      strcpy_s( szCase, zsizeof( szCase ), "1D" );
    else
 
    //  5. If entity is Attrib and parent is includable and CardMax is 1, Case none.
    if ( szPurpose[ 0 ] == 'A' && szParentInclude[ 0 ] == 'Y' && szCardMax[ 0 ] == '1' )
-      strcpy_s( szCase, sizeof( szCase ), "N" );
+      strcpy_s( szCase, zsizeof( szCase ), "N" );
    else
 
    //  6. If entity is Attrib and parent is includable and CardMax not 1, Case 1C.
    if ( szPurpose[ 0 ] == 'A' && szParentInclude[ 0 ] == 'Y' && szCardMax[ 0 ] != '1' )
-      strcpy_s( szCase, sizeof( szCase ), "1C" );
+      strcpy_s( szCase, zsizeof( szCase ), "1C" );
    else
 
    //  7. If entity is Assoc and creatable, Case 4.
    if ( szPurpose[ 0 ] == 'S' && szCreate[ 0 ] == 'Y' )
-      strcpy_s( szCase, sizeof( szCase ), "4" );
+      strcpy_s( szCase, zsizeof( szCase ), "4" );
    else
 
    //  8. If entity is Fund and includable and
    //                        parent is not Assoc and CardMax is 1, Case 2.
    if ( szPurpose[ 0 ] == 'F' && szInclude[ 0 ] == 'Y' &&
                              szParentPurpose[ 0 ] != 'S' && szCardMax[ 0 ] == '1' )
-      strcpy_s( szCase, sizeof( szCase ), "2" );
+      strcpy_s( szCase, zsizeof( szCase ), "2" );
    else
 
    //  9. If entity is Fund and includable and
    //                        parent is not Assoc and CardMax not 1, Case 3.
    if ( szPurpose[ 0 ] == 'F' && szInclude[ 0 ] == 'Y' &&
                              szParentPurpose[ 0 ] != 'S' && szCardMax[ 0 ] != '1' )
-      strcpy_s( szCase, sizeof( szCase ), "3" );
+      strcpy_s( szCase, zsizeof( szCase ), "3" );
    else
 
    if ( szInclude[ 0 ] == 'Y' && szParentPurpose[ 0 ] == 'S' )
@@ -2297,7 +2297,7 @@ zwTZADCDOD_ProcessCaseForEntity( zVIEW    vUserSpec,
                                      "Y" ) == 0 )
       {
    // 10. If entity is includable and parent is Assoc and parent is root, Case6.
-         strcpy_s( szCase, sizeof( szCase ), "6" );
+         strcpy_s( szCase, zsizeof( szCase ), "6" );
 
          DropView( vUserSpec2 );
       }
@@ -2310,12 +2310,12 @@ zwTZADCDOD_ProcessCaseForEntity( zVIEW    vUserSpec,
 
    // 11. If entity is includable and parent is Assoc and this entity is the
    //     first entity under the parent, Case 4.
-            strcpy_s( szCase, sizeof( szCase ), "4" );
+            strcpy_s( szCase, zsizeof( szCase ), "4" );
          else
 
    // 12. If entity is includable and parent is Assoc and this entity is not
    //     the first entity under the parent, Case 5.
-            strcpy_s( szCase, sizeof( szCase ), "5" );
+            strcpy_s( szCase, zsizeof( szCase ), "5" );
 
          DropView( vUserSpec2 );
       }
@@ -2324,11 +2324,11 @@ zwTZADCDOD_ProcessCaseForEntity( zVIEW    vUserSpec,
 
    // 13. If entity not includable and parent is Assoc, Case 1D.
    if ( szInclude[ 0 ] == 'N' && szParentPurpose[ 0 ] == 'S' )
-      strcpy_s( szCase, sizeof( szCase ), "1D" );
+      strcpy_s( szCase, zsizeof( szCase ), "1D" );
    else
 
    // 14. If none of the above, Case none.
-      strcpy_s( szCase, sizeof( szCase ), "N" );
+      strcpy_s( szCase, zsizeof( szCase ), "N" );
 
    // Set the value of the case just determined in both UserSpec and
    // UIS_List
@@ -2597,7 +2597,7 @@ zwTZADCDOD_RefreshDialogStyle( zVIEW  vSubtask )
       nRC = SetCursorNextEntity( vUserSpec, "UIS_ViewObjRef", 0 );
    }
 
-   GetStringFromAttribute( szSpecName, sizeof( szSpecName ), vUserSpec, "UI_Spec", "Name" );
+   GetStringFromAttribute( szSpecName, zsizeof( szSpecName ), vUserSpec, "UI_Spec", "Name" );
    if ( CompareAttributeToString( vUserSpec, "UI_Spec", "Type", "R" ) == 0 )
       zwTZADCDOD_CreateReportStyle( vSubtask,
                                     vVOR,
@@ -2954,7 +2954,7 @@ zwTZADCDOD_AcceptCaseX( zVIEW vSubtask )
    // Make sure a UIS_ViewObjRef exists for ListViewObjRef and IncludeViewObjRef.
    if ( CheckExistenceOfEntity( vUserSpec, "ListViewObjRef" ) >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szViewName, sizeof( szViewName ), vUserSpec, "ListViewObjRef", "Name" );
+      GetStringFromAttribute( szViewName, zsizeof( szViewName ), vUserSpec, "ListViewObjRef", "Name" );
       if ( SetCursorFirstEntityByString( vUserSpecRoot, "UIS_ViewObjRef", "Name",
                                          szViewName, 0 ) < zCURSOR_SET )
          IncludeSubobjectFromSubobject( vUserSpecRoot, "UIS_ViewObjRef",
@@ -2962,7 +2962,7 @@ zwTZADCDOD_AcceptCaseX( zVIEW vSubtask )
    }
    if ( CheckExistenceOfEntity( vUserSpec, "IncludeViewObjRef" ) >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szViewName, sizeof( szViewName ), vUserSpec, "IncludeViewObjRef", "Name" );
+      GetStringFromAttribute( szViewName, zsizeof( szViewName ), vUserSpec, "IncludeViewObjRef", "Name" );
       if ( SetCursorFirstEntityByString( vUserSpecRoot, "UIS_ViewObjRef", "Name",
                                          szViewName, 0 ) < zCURSOR_SET )
          IncludeSubobjectFromSubobject( vUserSpecRoot, "UIS_ViewObjRef",
@@ -3298,7 +3298,7 @@ zwTZADCDOD_AcceptCase5( zVIEW vSubtask )
       DropView( vListObject );
 
       // Make sure the ListViewObjRef is also included as UIS_ViewObjRef.
-      GetStringFromAttribute( szViewName, sizeof( szViewName ), vUserSpec, "ListViewObjRef", "Name" );
+      GetStringFromAttribute( szViewName, zsizeof( szViewName ), vUserSpec, "ListViewObjRef", "Name" );
       if ( SetCursorFirstEntityByString( vUserSpecRoot, "UIS_ViewObjRef", "Name",
                                          szViewName, 0 ) < zCURSOR_SET )
          IncludeSubobjectFromSubobject( vUserSpecRoot, "UIS_ViewObjRef",
@@ -3333,7 +3333,7 @@ zwTZADCDOD_Delete_I_LOD_Attrib( zVIEW vSubtask )
    if ( nRC > zCURSOR_UNCHANGED )
    {
       // Ask the operator if it is ok to delete.
-      strcpy_s( szMsg, sizeof( szMsg ), "OK to delete selected Attribute?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete selected Attribute?" );
       if ( MessagePrompt( vSubtask,                 "CM00111",
                           "Configuration Management",
                            szMsg,
@@ -3568,9 +3568,9 @@ zwTZADCDOD_TransferToDefault( zVIEW vSubtask )
    zLONG  lFile;
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ),
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                            vTaskLPLR, "LPLR", "MetaSrcDir" );
-   strcat_s( szFileName, sizeof( szFileName ), "\\Z__DFLT.BAS" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\Z__DFLT.BAS" );
 
    // First find out if the file exists.
    lFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
@@ -3624,9 +3624,9 @@ zwTZADCDOD_DfltWndSpecOK( zVIEW vSubtask )
    if ( CompareAttributeToString( vUserSpec, "UI_Spec", "Name", "Z__DFLT" ) == 0 )
    {
       GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szFileName, sizeof( szFileName ),
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                               vTaskLPLR, "LPLR", "MetaSrcDir" );
-      strcat_s( szFileName, sizeof( szFileName ), "\\Z__DFLT.BAS" );
+      strcat_s( szFileName, zsizeof( szFileName ), "\\Z__DFLT.BAS" );
       CommitOI_ToFile( vUserSpec, szFileName, zSINGLE );
       //SetWindowActionBehavior( vSubtask, zWAB_ReturnToTopWindow, 0, 0 );
    }
@@ -3680,7 +3680,7 @@ zwTZADCDOD_PresentEntityPopup( zVIEW    vSubtask )
    pt.x = pt.y = -1;
 
    GetViewByName( &vUserSpec, "User_Spec", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szType, sizeof( szType ), vUserSpec, "UI_Spec", "Type" );
+   GetStringFromAttribute( szType, zsizeof( szType ), vUserSpec, "UI_Spec", "Type" );
 
    if ( szType[ 0 ] == 'R' )
    {
@@ -3753,7 +3753,7 @@ zwTZADCDOD_GoToCaseDetail( zVIEW    vSubtask )
    if ( CheckExistenceOfEntity( vUserSpec, "WndDesign" ) < zCURSOR_SET )
       CreateMetaEntity( vSubtask, vUserSpec, "WndDesign", zPOS_AFTER );
 
-   GetStringFromAttribute( szCaseType, sizeof( szCaseType ), vUserSpec,
+   GetStringFromAttribute( szCaseType, zsizeof( szCaseType ), vUserSpec,
                            "UIS_Entity", "AutodesignCaseType" );
 
    if ( szCaseType[ 0 ] == '1' &&
@@ -3810,7 +3810,7 @@ zwTZADCDOD_GoToCaseDetail( zVIEW    vSubtask )
                                "TZADCDOD", "Case5Detail" );
       // Make sure we are positioned on the correct entity in the
       // LOD_Object for selecting the attribute to display.
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
       GetViewByName( &vObject, "LOD_Object", vSubtask, zLEVEL_TASK );
       SetCursorFirstEntityByString( vObject, "LOD_Entity", "Name", szEntityName, 0 );
       // Make sure a UIS_Include entity exists
@@ -3949,9 +3949,9 @@ zwTZADCDOD_SelectCase( zVIEW    vSubtask )
 
    DropHierarchicalCursor( vUserSpec );
 
-   GetStringFromAttribute( szOrigCaseType, sizeof( szOrigCaseType ),
+   GetStringFromAttribute( szOrigCaseType, zsizeof( szOrigCaseType ),
                            vUserSpec, "UIS_Entity", "AutodesignCaseType" );
-   GetStringFromAttribute( szNewCaseType, sizeof( szNewCaseType ),
+   GetStringFromAttribute( szNewCaseType, zsizeof( szNewCaseType ),
                            vUIS_List, "W_Entity",   "AutodesignCaseType" );
    SetAttributeFromAttribute( vUserSpec, "UIS_Entity", "AutodesignCaseType",
                               vUIS_List, "W_Entity",   "AutodesignCaseType" );
@@ -4146,7 +4146,7 @@ zwTZADCDOD_IncludeListVOR( zVIEW vSubtask )
    else
    {
       // Retrieve the VOR for the AD_VOR_List entry just selected.
-      GetStringFromAttribute( szVOR_Name, sizeof( szVOR_Name ), vListVOR, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szVOR_Name, zsizeof( szVOR_Name ), vListVOR, "W_MetaDef", "Name" );
       ActivateMetaOI_ByName( vSubtask, &vVOR, 0, zREFER_VOR_META,
                              zSINGLE | zLEVEL_APPLICATION, szVOR_Name, 0 );
 
@@ -4248,9 +4248,9 @@ zwTZADCDOD_NewDialogSpec( zVIEW vSubtask )
    zLONG  lFile;
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ),
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                            vTaskLPLR, "LPLR", "MetaSrcDir" );
-   strcat_s( szFileName, sizeof( szFileName ), "\\Z__DFLT.BAS" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\Z__DFLT.BAS" );
 
    lFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( lFile < 0 )

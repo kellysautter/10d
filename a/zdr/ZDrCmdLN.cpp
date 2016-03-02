@@ -281,7 +281,7 @@ ZModalDlg::OnInitDialog( )
 
    GetAddrForAttribute( (zPCHAR *) &pch, m_pZSubtask->m_vDialog, szlWnd, szlD_Caption );
    if ( *pch )
-      strcpy_s( m_pZSubtask->m_pWndDef->Caption, sizeof( m_pZSubtask->m_pWndDef->Caption ), pch );
+      strcpy_s( m_pZSubtask->m_pWndDef->Caption, zsizeof( m_pZSubtask->m_pWndDef->Caption ), pch );
 
    m_pZSubtask->m_ulSubtaskFlags |= zSUBTASK_NO_MAIN_MENU;
    m_pZSubtask->m_ulSubtaskFlags |= zSUBTASK_DIALOG_BOX; // for with new 3D???
@@ -814,8 +814,8 @@ ZModalDlg::OnProcessHotkey( WPARAM wParam, LPARAM lParam )
    // Get access to hotkey object instance ... it must exist.
    GetViewByName( &vHotkey, szl__HKEY, m_pZSubtask->m_vDialog, zLEVEL_TASK );
    SetEntityCursor( vHotkey, szlHotkey, 0, zPOS_FIRST | zPOS_RELATIVE, 0, 0, 0, (zSHORT) lParam, 0, 0 );
-   GetStringFromAttribute( szDLL_Name, sizeof( szDLL_Name ), vHotkey, szlHotkey, szlDLL );
-   GetStringFromAttribute( szOperName, sizeof( szOperName ), vHotkey, szlHotkey, szlCOP );
+   GetStringFromAttribute( szDLL_Name, zsizeof( szDLL_Name ), vHotkey, szlHotkey, szlDLL );
+   GetStringFromAttribute( szOperName, zsizeof( szOperName ), vHotkey, szlHotkey, szlCOP );
 
    lpfnDynRoutine = (zFARPROC_DRIVER) GetOperationDynamicCallAddress( m_pZSubtask->m_vDialog, (LPLPLIBRARY) &hHotkeyLibrary,
                                                                       szDLL_Name, szOperName, "(drvr hotkey)" );

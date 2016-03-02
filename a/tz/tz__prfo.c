@@ -80,12 +80,12 @@ oTZ__PRFO_GetViewToProfile( zPVIEW pvTZ__PRFO,
    if ( nRScope != zLEVEL_APPLICATION )
    {
       // Load it from a file or create a new one if file is missing.
-      if ( SysGetEnvVar( szPRF_FileName, "ZEIDON", sizeof( szPRF_FileName ) - 1 ) == 0 )
+      if ( SysGetEnvVar( szPRF_FileName, "ZEIDON", zsizeof( szPRF_FileName ) - 1 ) == 0 )
       {
          if ( szPRF_FileName[ zstrlen( szPRF_FileName ) ] != '\\' )
-            strcat_s( szPRF_FileName, sizeof( szPRF_FileName ), "\\" );
+            strcat_s( szPRF_FileName, zsizeof( szPRF_FileName ), "\\" );
 
-         strcat_s( szPRF_FileName, sizeof(szPRF_FileName), "TZTOOLS.PRF" );
+         strcat_s( szPRF_FileName, zsizeof(szPRF_FileName), "TZTOOLS.PRF" );
       }
       else
          return( -2 );
@@ -194,7 +194,7 @@ oTZ__PRFO_GetViewToProfile( zPVIEW pvTZ__PRFO,
       GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
       if ( szToolID[ 0 ] && vLPLR )
       {
-         GetStringFromAttribute( szLPLR, sizeof( szLPLR ), vLPLR, "LPLR", "Name" );
+         GetStringFromAttribute( szLPLR, zsizeof( szLPLR ), vLPLR, "LPLR", "Name" );
          nRC = SetCursorFirstEntityByString( vT, "LPLR_Group",
                                              "Name", szLPLR, "" );
          if ( nRC < zCURSOR_SET )
@@ -304,9 +304,9 @@ oTZ__PRFO_CommitProfile( zVIEW vTZ__PRFO )
    if ( SysGetEnvVar( szPRF_FileName, "ZEIDON", 255 ) == 0 )
    {
       if ( szPRF_FileName[ zstrlen( szPRF_FileName ) ] != '\\' )
-         strcat_s( szPRF_FileName, sizeof( szPRF_FileName ), "\\" );
+         strcat_s( szPRF_FileName, zsizeof( szPRF_FileName ), "\\" );
 
-      strcat_s( szPRF_FileName, sizeof( szPRF_FileName ), "TZTOOLS.PRF" );
+      strcat_s( szPRF_FileName, zsizeof( szPRF_FileName ), "TZTOOLS.PRF" );
    }
    else
       return( -2 );

@@ -620,7 +620,7 @@ SetUpdateFlagInMeta( zVIEW vSubtask )
    if ( SetCursorFirstEntityByInteger( vActiveMetas, "W_MetaDef", "CPLR_ZKey", lMetaZKey, "" ) >= zCURSOR_SET &&
         CompareAttributeToInteger( vActiveMetas, "W_MetaDef", "Status", 1 ) == 0 )
    {
-      GetStringFromAttribute( szUpdateInd, sizeof( szUpdateInd ), vActiveMetas, "W_MetaDef", "UpdateInd" );
+      GetStringFromAttribute( szUpdateInd, zsizeof( szUpdateInd ), vActiveMetas, "W_MetaDef", "UpdateInd" );
 
       if ( CompareAttributeToInteger( vActiveMetas, "W_MetaDef", "UpdateInd", 0 ) == 0 || zstrcmp( szUpdateInd, "" ) == 0 )
       {
@@ -631,7 +631,7 @@ SetUpdateFlagInMeta( zVIEW vSubtask )
 
       if ( CompareAttributeToInteger( vActiveMetas, "W_MetaDef", "UpdateInd", 4 ) == 0 )
       {
-         SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+         SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
          SetAttributeFromString( vActiveMetas, "W_MetaDef", "LastUpdateDate", szTimestamp );
          SetAttributeFromString( vActiveMetas, "W_MetaDef", "LastSyncDate", szTimestamp );
       }
@@ -836,16 +836,16 @@ FileSaveAs( zVIEW vSubtask )
 
    if ( g_bIsFileNew == TRUE )
    {
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
    }
    else
    {
-      GetStringFromAttribute( szExtension, sizeof( szExtension ), vEdWrk, szlBuffer, szlLanguageType);
-      strcpy_s( szFileName, sizeof( szFileName ), "NONAME." );
+      GetStringFromAttribute( szExtension, zsizeof( szExtension ), vEdWrk, szlBuffer, szlLanguageType);
+      strcpy_s( szFileName, zsizeof( szFileName ), "NONAME." );
       if ( zstrcmp( szExtension, szlC_File) != 0 )
-         strcpy_s( szExtension, sizeof( szExtension ), szlVML_FileExtension );
+         strcpy_s( szExtension, zsizeof( szExtension ), szlVML_FileExtension );
 
-      strcat_s( szFileName, sizeof( szFileName ), szExtension );
+      strcat_s( szFileName, zsizeof( szFileName ), szExtension );
    }
 
    ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT | zOFN_SAVEAS;
@@ -860,7 +860,7 @@ FileSaveAs( zVIEW vSubtask )
    oEditor->SaveFile( szFileName, FALSE );
    {
       g_bIsFileNew = FALSE;
-      sprintf_s( szMsg, sizeof( szMsg ), "File saved as '%s'.", szFileName);
+      sprintf_s( szMsg, zsizeof( szMsg ), "File saved as '%s'.", szFileName);
       MB_SetMessage( vSubtask, MAIN_DIL, szMsg );
       SetAttributeFromString( vEdWrk, szlBuffer, szlFileName, szFileName);
       SetWindowCaptionTitle( vSubtask, "Zeidon Editor", szFileName);
@@ -935,8 +935,8 @@ fnCommandCompletion( zVIEW vSubtask )
 // if ( fnCursorInCommentOrQuote( oEditor, lIndex ) )
       return( FALSE );
 
-   zmemset( szBuffer, 0, sizeof( szBuffer ) );
-   //lLth = oEditor->GetActualTextLine( szBuffer, sizeof( szBuffer ) - 1 );
+   zmemset( szBuffer, 0, zsizeof( szBuffer ) );
+   //lLth = oEditor->GetActualTextLine( szBuffer, zsizeof( szBuffer ) - 1 );
 
    // If the previous character to the space that was just entered is also a
    // space then skip command completion.
@@ -1077,14 +1077,14 @@ PostBuild( zVIEW vSubtask )
    if ( InitSession( vSubtask ) == 0 )
    {
       SetAttributeFromInteger( vEdWrk, szlBuffer, "vSubtask", (zLONG) vSubtask );
-      GetStringFromAttribute( sz, sizeof( sz ), vEdWrk, szlBuffer, szlFileName );
+      GetStringFromAttribute( sz, zsizeof( sz ), vEdWrk, szlBuffer, szlFileName );
       // Set checked out state in title
       if ( CompareAttributeToString( vEdWrk, szlBuffer, szlActiveStatus, "N" ) == 0 )
-         strcat_s( sz, sizeof( sz ), " < not checked out >" );
+         strcat_s( sz, zsizeof( sz ), " < not checked out >" );
       else
       if ( CompareAttributeToString( vEdWrk, szlBuffer, szlReadOnly, "Y" ) == 0 )
       {
-         strcat_s( sz, sizeof( sz ), " < Read-Only mode >" );
+         strcat_s( sz, zsizeof( sz ), " < Read-Only mode >" );
       }
 
       SetWindowCaptionTitle( vSubtask, "Zeidon Editor", sz );
@@ -1110,7 +1110,7 @@ PostBuild( zVIEW vSubtask )
 static zSHORT /*LOCAL */
 fnTZEDVMLD_SaveFile( zVIEW    vSubtask,
                      LPVMLWRAPPER oEditor,
-                     zPCHAR   szFileName,
+                     zPCHAR   pchFileName,
                      zSHORT   nAskForParse )
 {
    zULONG  ulZFlags   = 0;
@@ -1120,16 +1120,16 @@ fnTZEDVMLD_SaveFile( zVIEW    vSubtask,
    {
       ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT | zOFN_SAVEAS;
 
-      if ( OperatorPromptForFile( vSubtask, szFileName, zMAX_FILENAME_LTH + 1,
+      if ( OperatorPromptForFile( vSubtask, pchFileName, zMAX_FILENAME_LTH + 1,
                                   "VML files|*.VML|Source Files|*.VML;*.C|"
                                   "All files|*.*||", 0, ulZFlags ) != 1 )
       {
          return( -1 );
       }
 
-      oEditor->SaveFile( szFileName, FALSE );
+      oEditor->SaveFile( pchFileName, FALSE );
       g_bIsFileNew = FALSE;
-      SetWindowCaptionTitle( vSubtask, "Zeidon Editor", szFileName);
+      SetWindowCaptionTitle( vSubtask, "Zeidon Editor", pchFileName);
    }
    else
    {
@@ -1153,8 +1153,8 @@ fnTZEDVMLD_SaveFile( zVIEW    vSubtask,
       {
          CString strMsg;
 
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
-         strMsg.Format("Do you want to parse '%s'?",szFileName);
+         GetStringFromAttribute( pchFileName, zMAX_FILENAME_LTH + 1, vEdWrk, szlBuffer, szlFileName );
+         strMsg.Format("Do you want to parse '%s'?",pchFileName);
          zLONG lRC = OperatorPrompt( vSubtask, szlZeidonEditor, strMsg, TRUE,
                                      zBUTTONS_YESNO, zRESPONSE_YES, zICON_EXCLAMATION );
 
@@ -1187,7 +1187,7 @@ GetOperationPosition( zVIEW    vSubtask,
    *lOpStartIndex  = -1;
    *lOpEndIndex    = -1;
 
-   GetStringFromAttribute( szOperName, sizeof( szOperName ), vDeleteOp, "Operation", "Name" );
+   GetStringFromAttribute( szOperName, zsizeof( szOperName ), vDeleteOp, "Operation", "Name" );
 
    // 1. find begin and end for the requestet operation
    *lOpStartIndex = FindBeginOfOperation( vSubtask, szOperName, oEditor );
@@ -1216,7 +1216,7 @@ TZEDVMLD_OnEditFind( zVIEW vSubtask )
    zLONG lSearchBehavior = 0, lPosition = 0, lLine = 0, lCol = 0, lCharCount = 0;
    FINDREPLACE *pfr = (FINDREPLACE *) GetActionParameters( vSubtask );
 
-   memcpy ( &g_fr, pfr, sizeof( FINDREPLACE ) );
+   memcpy( &g_fr, pfr, sizeof( FINDREPLACE ) );
 
    USE_EDITOR
 
@@ -1323,9 +1323,9 @@ TZEDVMLD_ModifiedChange( zVIEW vSubtask )
 
    zBOOL bChange = (zBOOL)oEditor->GetModified( );
    if ( bChange )
-      strcpy_s( szData, sizeof( szData ), "*" );
+      strcpy_s( szData, zsizeof( szData ), "*" );
    else
-      strcpy_s( szData, sizeof( szData ), "" );
+      strcpy_s( szData, zsizeof( szData ), "" );
 
    MB_SetMessage( vSubtask, FILECHANGED_DIL, szData );
    return( 0 );
@@ -1439,7 +1439,7 @@ Generate( zVIEW vSubtask, zCPCHAR cpcGenLang )
    mGetWorkView( &vEdWrk, vSubtask );
    if ( vEdWrk == 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at _zfGenerateCFile." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at _zfGenerateCFile." );
       SysMessageBox( vSubtask, szlZeidonEditor, sz, 1 );
       return( 0 );
    }
@@ -1467,7 +1467,7 @@ Generate( zVIEW vSubtask, zCPCHAR cpcGenLang )
    }
 
    GetIntegerFromAttribute( &lType, vEdWrk, szlBuffer, szlMetaType );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
 
    // Drop the '.VML' from the file name.
    psz = szFileName + zstrlen( szFileName );
@@ -1484,14 +1484,14 @@ Generate( zVIEW vSubtask, zCPCHAR cpcGenLang )
 
    if ( nRC < 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "Errors in Generate." );
-      strcat_s( sz, sizeof( sz ), "\n\nSee Messages in Error Box" );
+      strcpy_s( sz, zsizeof( sz ), "Errors in Generate." );
+      strcat_s( sz, zsizeof( sz ), "\n\nSee Messages in Error Box" );
       SysMessageBox( vSubtask, szlZeidonEditor, sz, 1 );
       nRC = 1;
    }
    else
    {
-      strcpy_s( sz, sizeof( sz ), "Generate completed successfully." );
+      strcpy_s( sz, zsizeof( sz ), "Generate completed successfully." );
       MessagePrompt( vEdWrk, "ED0003", szlZeidonEditor,
                      sz, 0, 0, 0, zICON_INFORMATION );
       nRC = 0;
@@ -1516,7 +1516,7 @@ zOPER_EXPORT zSHORT OPERATION
 SaveFile( zVIEW vSubtask )
 {
    zBOOL  bChanged;
-   zCHAR  szFileName[ zMAX_FILENAME_LTH + 1];
+   zCHAR  szFileName[ zMAX_FILENAME_LTH + 1 ];
 
    USE_EDITOR
 
@@ -1546,7 +1546,7 @@ zTZEDVMLD_OpenFile( zVIEW vSubtask )
    zULONG ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT;
 
    mGetWorkView( &vEdWrk, vSubtask );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
 
    if ( OperatorPromptForFile( vSubtask, szFileName, zMAX_FILENAME_LTH + 1,
                                "VML files|*.VML|Source Files|*.VML;*.C|"
@@ -1635,14 +1635,14 @@ FileNew( zVIEW vSubtask )
       zCHAR  szExtension[ zMAX_FILENAME_LTH + 1 ];
 
       mGetWorkView( &vEdWrk, vSubtask );
-      GetStringFromAttribute( szExtension, sizeof( szExtension ), vEdWrk, szlBuffer, szlLanguageType );
-      strcpy_s( szFileName, sizeof( szFileName ), "NONAME." );
+      GetStringFromAttribute( szExtension, zsizeof( szExtension ), vEdWrk, szlBuffer, szlLanguageType );
+      strcpy_s( szFileName, zsizeof( szFileName ), "NONAME." );
       if (zstrcmp( szExtension, szlC_File ) != 0)
-         strcpy_s( szExtension, sizeof( szExtension ), szlVML_FileExtension );
+         strcpy_s( szExtension, zsizeof( szExtension ), szlVML_FileExtension );
       else
-         strcpy_s( szExtension, sizeof( szExtension ), szlVML_FileExtension );
+         strcpy_s( szExtension, zsizeof( szExtension ), szlVML_FileExtension );
 
-      strcat_s( szFileName, sizeof( szFileName ), szExtension );
+      strcat_s( szFileName, zsizeof( szFileName ), szExtension );
       SetAttributeFromString( vEdWrk, szlBuffer, szlFileName, szFileName );
       SetWindowCaptionTitle( vSubtask, "Zeidon Editor", szFileName );
    }
@@ -1702,8 +1702,8 @@ CreateFileInfoHeader( LPVMLWRAPPER oEditor,
    zCHAR    szDateFormatted[ 20 ];
    CString csBuffer;
 
-   SysGetDateTime( szDateRaw, sizeof( szDateRaw ) );
-   UfFormatDateTime( szDateFormatted, sizeof( szDateFormatted ), szDateRaw, "DD-MM-YYYY" );
+   SysGetDateTime( szDateRaw, zsizeof( szDateRaw ) );
+   UfFormatDateTime( szDateFormatted, zsizeof( szDateFormatted ), szDateRaw, "DD-MM-YYYY" );
 
    csBuffer =  "/*\r\n";
    csBuffer += "/////////////////////////////////////////////////////////////////////////////\r\n";
@@ -1931,39 +1931,39 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
       GetAddrForAttribute( &szDataType, vSource, "Parameter", "DataType" );
 
       // create prefix for parameter name
-      strcpy_s( szParam, sizeof( szParam ), "");
+      strcpy_s( szParam, zsizeof( szParam ), "");
       if ( bFileC )
       {
          if ( bPointer && *szDataType != 'S' )
-           strcat_s( szParam, sizeof( szParam ), "p");
+           strcat_s( szParam, zsizeof( szParam ), "p");
 
          if ( bUnsigned && *szDataType == 'N' || *szDataType == 'L' )
-            strcat_s( szParam, sizeof( szParam ), "u");
+            strcat_s( szParam, zsizeof( szParam ), "u");
 
          switch ( *szDataType )
          {
             case 'V':
-               strcat_s( szParam, sizeof( szParam ), "v" );
+               strcat_s( szParam, zsizeof( szParam ), "v" );
                break;
 
             case 'N':
-               strcat_s( szParam, sizeof( szParam ), "n" );
+               strcat_s( szParam, zsizeof( szParam ), "n" );
                break;
 
             case 'M':
-               strcat_s( szParam, sizeof( szParam ), "d" );
+               strcat_s( szParam, zsizeof( szParam ), "d" );
                break;
 
             case 'Y':
-               strcat_s( szParam, sizeof( szParam ), "c" );
+               strcat_s( szParam, zsizeof( szParam ), "c" );
                break;
 
             case 'L':
-               strcat_s( szParam, sizeof( szParam ), "l" );
+               strcat_s( szParam, zsizeof( szParam ), "l" );
                break;
 
             case 'I':
-               strcat_s( szParam, sizeof( szParam ), "lpI" );
+               strcat_s( szParam, zsizeof( szParam ), "lpI" );
                break;
 
             case 'O':
@@ -1971,23 +1971,23 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
                break;
 
             default:
-               strcat_s( szParam, sizeof( szParam ), "sz" );
+               strcat_s( szParam, zsizeof( szParam ), "sz" );
          }
       }
 
       // create parameter name
       nLth = (zSHORT) zstrlen( szParam );
-      GetStringFromAttribute( szParam + nLth, sizeof( szParam ) - nLth, vSource, "Parameter", "ShortDesc" );
+      GetStringFromAttribute( szParam + nLth, zsizeof( szParam ) - nLth, vSource, "Parameter", "ShortDesc" );
       UfCompressName( szParam + nLth, szParam + nLth, 32 - nLth, "", "BL", "", "B_", 1 );
 
-      strcpy_s( szLine, sizeof( szLine ), "" );
+      strcpy_s( szLine, zsizeof( szLine ), "" );
       if ( bFileC )
       {
          // create prefix for "C"
-         strcat_s( szLine, sizeof( szLine ), "z" );
+         strcat_s( szLine, zsizeof( szLine ), "z" );
 
          if ( bPointer && *szDataType != 'S' ) // not for String
-           strcat_s( szLine, sizeof( szLine ), "P");
+           strcat_s( szLine, zsizeof( szLine ), "P");
 
          if ( bUnsigned )
          {
@@ -1996,7 +1996,7 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
 //               case 'Y':
                case 'N':
                case 'L':
-                  strcat_s( szLine, sizeof( szLine ), "U");
+                  strcat_s( szLine, zsizeof( szLine ), "U");
                   break;
             }
          }
@@ -2005,8 +2005,8 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
       switch ( *szDataType )
       {
          case 'V':
-            strcat_s( szLine, sizeof( szLine ), "VIEW ");
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            strcat_s( szLine, zsizeof( szLine ), "VIEW ");
+            strcat_s( szLine, zsizeof( szLine ), szParam );
 
             if ( nParam == 1 &&
                  ( *szType == 'A' || *szType == 'E' || *szType == 'T' || *szType == 'C' || *szType == 'O' ) )
@@ -2030,46 +2030,46 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
                }
 
                if ( bFileC )
-                  strcat_s( szLine, sizeof( szLine ), " /* " );
+                  strcat_s( szLine, zsizeof( szLine ), " /* " );
 
-               strcat_s( szLine, sizeof( szLine ), " BASED ON LOD " );
-               strcat_s( szLine, sizeof( szLine ), szLOD );
+               strcat_s( szLine, zsizeof( szLine ), " BASED ON LOD " );
+               strcat_s( szLine, zsizeof( szLine ), szLOD );
                if ( bFileC )
-                  strcat_s( szLine, sizeof( szLine ), " */" );
+                  strcat_s( szLine, zsizeof( szLine ), " */" );
             }
 
             break;
 
          case 'N':
-            strcat_s( szLine, sizeof( szLine ), "SHORT ");
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            strcat_s( szLine, zsizeof( szLine ), "SHORT ");
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
          case 'M':
-            strcat_s( szLine, sizeof( szLine ), "DECIMAL ");
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            strcat_s( szLine, zsizeof( szLine ), "DECIMAL ");
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
 
          case 'Y':
-            strcat_s( szLine, sizeof( szLine ), "CHAR ");
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            strcat_s( szLine, zsizeof( szLine ), "CHAR ");
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
 
          case 'L':
-            bFileC ? strcat_s( szLine, sizeof( szLine ), "LONG " )
-                   : strcat_s( szLine, sizeof( szLine ), "INTEGER " );
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            bFileC ? strcat_s( szLine, zsizeof( szLine ), "LONG " )
+                   : strcat_s( szLine, zsizeof( szLine ), "INTEGER " );
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
 
          case 'O':
-            bFileC ? strcat_s( szLine, sizeof( szLine ), "VOID " )
-                   : strcat_s( szLine, sizeof( szLine ), "VOID " );
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            bFileC ? strcat_s( szLine, zsizeof( szLine ), "VOID " )
+                   : strcat_s( szLine, zsizeof( szLine ), "VOID " );
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
 
          case 'I':
-            bFileC ? strcpy_s( szLine, sizeof( szLine ), "LPDOMAINDATA " )
-                   : strcpy_s( szLine, sizeof( szLine ), "STRING ( 32 ) " );
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            bFileC ? strcpy_s( szLine, zsizeof( szLine ), "LPDOMAINDATA " )
+                   : strcpy_s( szLine, zsizeof( szLine ), "STRING ( 32 ) " );
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
 
          case 'A':
@@ -2078,13 +2078,13 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
             if ( bFileC )
             {
                if ( !bPointer && GetVMLConstChar( ) )
-                  strcat_s( szLine, sizeof( szLine ), "CPCHAR " );
+                  strcat_s( szLine, zsizeof( szLine ), "CPCHAR " );
                else
-                  strcat_s( szLine, sizeof( szLine ), "PCHAR " );
+                  strcat_s( szLine, zsizeof( szLine ), "PCHAR " );
             }
             else
-               strcat_s( szLine, sizeof( szLine ), "STRING ( 32 ) " );
-            strcat_s( szLine, sizeof( szLine ), szParam );
+               strcat_s( szLine, zsizeof( szLine ), "STRING ( 32 ) " );
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
       }
 
@@ -2096,7 +2096,7 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
          case 1:
             if ( *szType == 'M' )
             {
-               strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
+               strcpy_s( szParamCase, zsizeof( szParamCase ), szParam );
             }
 
             break;
@@ -2104,7 +2104,7 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
          case 2:
             if ( *szType == 'C' || *szType == 'O' )
             {
-               strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
+               strcpy_s( szParamCase, zsizeof( szParamCase ), szParam );
             }
 
             break;
@@ -2112,7 +2112,7 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
          case 3:
             if ( *szType == 'E' )
             {
-               strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
+               strcpy_s( szParamCase, zsizeof( szParamCase ), szParam );
             }
 
             break;
@@ -2120,7 +2120,7 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
          case 4:
             if ( *szType == 'A' )
             {
-               strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
+               strcpy_s( szParamCase, zsizeof( szParamCase ), szParam );
             }
 
             break;
@@ -2282,19 +2282,19 @@ OperTemplate( CString &csTarget, zVIEW vSource, zVIEW vSubtask )
 
    if ( bFileC )
    {
-      strcpy_s( szLine, sizeof( szLine ), "{\r\n\r\n\r\n" );
+      strcpy_s( szLine, zsizeof( szLine ), "{\r\n\r\n\r\n" );
       if ( *szReturnDataType == 'O')
-         strcat_s( szLine, sizeof( szLine ), "\treturn;\r\n" );
+         strcat_s( szLine, zsizeof( szLine ), "\treturn;\r\n" );
       else
-         strcat_s( szLine, sizeof( szLine ), "\treturn( 0 );\r\n" );
+         strcat_s( szLine, zsizeof( szLine ), "\treturn( 0 );\r\n" );
 
-      strcat_s( szLine, sizeof( szLine ), "} // ");
-      strcat_s( szLine, sizeof( szLine ), szOperName );
-      strcat_s( szLine, sizeof( szLine ), "\r\n" );
+      strcat_s( szLine, zsizeof( szLine ), "} // ");
+      strcat_s( szLine, zsizeof( szLine ), szOperName );
+      strcat_s( szLine, zsizeof( szLine ), "\r\n" );
    }
    else
    {
-      strcpy_s( szLine, sizeof( szLine ), "\r\nEND\r\n" );
+      strcpy_s( szLine, zsizeof( szLine ), "\r\nEND\r\n" );
    }
 
    csInsertBuffer += szLine;
@@ -2324,21 +2324,21 @@ CreateErrorMessage( zVIEW  vSubtask,
    GetAddrForAttribute( &pszInvokingTool, vProfileXFER, szlED, "InvokingTool" );
 
    if ( zstrcmp( pszInvokingTool, "GO" ) == 0 )
-      strcpy_s( szComponentType, sizeof( szComponentType ), "Global Operation Group" );
+      strcpy_s( szComponentType, zsizeof( szComponentType ), "Global Operation Group" );
    else
    if ( zstrcmp( pszInvokingTool, "DM" ) == 0 )
-      strcpy_s( szComponentType, sizeof( szComponentType ), "Domain Group" );
+      strcpy_s( szComponentType, zsizeof( szComponentType ), "Domain Group" );
    else
    if ( zstrcmp( pszInvokingTool, "ZO" ) == 0 )
-      strcpy_s( szComponentType, sizeof( szComponentType ), "LOD" );
+      strcpy_s( szComponentType, zsizeof( szComponentType ), "LOD" );
    else
-      strcpy_s( szComponentType, sizeof( szComponentType ), "Dialog" );
+      strcpy_s( szComponentType, zsizeof( szComponentType ), "Dialog" );
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Cannot create " );
-   strcat_s( szMsg, sizeof( szMsg ), szMsgText );
-   strcat_s( szMsg, sizeof( szMsg ), ", because " );
-   strcat_s( szMsg, sizeof( szMsg ), szComponentType );
-   strcat_s( szMsg, sizeof( szMsg ), " is not checked out." );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Cannot create " );
+   strcat_s( szMsg, zsizeof( szMsg ), szMsgText );
+   strcat_s( szMsg, zsizeof( szMsg ), ", because " );
+   strcat_s( szMsg, zsizeof( szMsg ), szComponentType );
+   strcat_s( szMsg, zsizeof( szMsg ), " is not checked out." );
 
    MessagePrompt( vSubtask, "ED0003", szlZeidonEditor,
                   szMsg,
@@ -2610,40 +2610,40 @@ GotoCurrentOperation( zVIEW    vSubtask,
 static zSHORT
 SetTargetExecutableName( zVIEW  vSource,
                          zVIEW  vEdWrk,
-                         zPCHAR pszInvokingTool,
-                         zPCHAR szMetaName,
+                         zPCHAR pchInvokingTool,
+                         zPCHAR pchMetaName,
                          zPLONG lMetaType )
 {
    // Global Operations
-   if ( zstrcmp( pszInvokingTool, "GO" ) == 0 )
+   if ( zstrcmp( pchInvokingTool, "GO" ) == 0 )
    {
       SetAttributeFromAttribute( vEdWrk, szlBuffer, "TargetExecutableName",
                                  vSource, "GlobalOperationGroup", "DomainAndGlobalOpGroupName" );
       SetAttributeFromInteger( vEdWrk, szlBuffer, szlMetaType, zREFER_GOPGRP_META );
       *lMetaType = zSOURCE_GOPGRP_META;
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vSource, "GlobalOperationGroup", "Name" );
+      GetStringFromAttribute( pchMetaName, 33, vSource, "GlobalOperationGroup", "Name" );
    }
    else
    // Domains
-   if ( zstrcmp( pszInvokingTool, "DM" ) == 0 )
+   if ( zstrcmp( pchInvokingTool, "DM" ) == 0 )
    {
       SetAttributeFromAttribute( vEdWrk, szlBuffer, "TargetExecutableName",
                                  vSource, "DomainGroup", "DomainAndGlobalOpGroupName" );
       SetAttributeFromInteger( vEdWrk, szlBuffer, szlMetaType, zREFER_DOMAINGRP_META );
       *lMetaType = zSOURCE_DOMAINGRP_META;
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vSource, "DomainGroup", "Name" );
+      GetStringFromAttribute( pchMetaName, 33, vSource, "DomainGroup", "Name" );
    }
    else
    // LOD's
-   if ( zstrcmp( pszInvokingTool, "ZO" ) == 0 )
+   if ( zstrcmp( pchInvokingTool, "ZO" ) == 0 )
    {
       SetAttributeFromAttribute( vEdWrk, szlBuffer, "TargetExecutableName", vSource, "LOD", "DLL_Name" );
       SetAttributeFromInteger( vEdWrk, szlBuffer, szlMetaType, zREFER_LOD_META );
       *lMetaType = zSOURCE_LOD_META;
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vSource, "LOD", "Name" );
+      GetStringFromAttribute( pchMetaName, 33, vSource, "LOD", "Name" );
    }
    else
-   if ( zstrcmp( pszInvokingTool, "WD" ) == 0 || zstrcmp( pszInvokingTool, "PN" ) == 0 )
+   if ( zstrcmp( pchInvokingTool, "WD" ) == 0 || zstrcmp( pchInvokingTool, "PN" ) == 0 )
    {
       SetAttributeFromAttribute( vEdWrk, szlBuffer, szlSourceFileName, vSource, szlSourceFile, szlName );
 
@@ -2658,7 +2658,7 @@ SetTargetExecutableName( zVIEW  vSource,
       }
 
       *lMetaType = zSOURCE_DIALOG_META;
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vSource, "Dialog", "Tag" );
+      GetStringFromAttribute( pchMetaName, 33, vSource, "Dialog", "Tag" );
    }
 
    return( 0 );
@@ -2699,7 +2699,7 @@ CreateFileName( zVIEW   vTaskLPLR,
                 zVIEW   vSource,
                 zPCHAR  pchFileName,
                 zLONG   lMaxLth,
-                zPCHAR  pszInvokingTool,
+                zPCHAR  pchInvokingTool,
                 zPCHAR  pchSourceFileEntityName,
                 zLONG   lEntityNameLth,
                 zPBOOL  pbFileExists )
@@ -2707,10 +2707,10 @@ CreateFileName( zVIEW   vTaskLPLR,
    //
    // Create the name of the file.
    //
-   if ( zstrcmp( pszInvokingTool, "GO" ) == 0 )
+   if ( zstrcmp( pchInvokingTool, "GO" ) == 0 )
       strcpy_s( pchSourceFileEntityName, lEntityNameLth, "GlobalOperationGroup" );
    else
-   if ( zstrcmp( pszInvokingTool, "DM" ) == 0 )
+   if ( zstrcmp( pchInvokingTool, "DM" ) == 0 )
       strcpy_s( pchSourceFileEntityName, lEntityNameLth, "DomainGroup" );
    else
       strcpy_s( pchSourceFileEntityName, lEntityNameLth, szlSourceFile );
@@ -2731,7 +2731,7 @@ CreateFileName( zVIEW   vTaskLPLR,
    // Get the file name and extension.
    GetStringFromAttribute( pchFileName + zstrlen( pchFileName ), lMaxLth - zstrlen( pchFileName ),
                            vSource, pchSourceFileEntityName, szlName );
-   strcat_s( pchFileName, sizeof( pchFileName ), "." );
+   strcat_s( pchFileName, lMaxLth, "." );
    GetStringFromAttribute( pchFileName + zstrlen( pchFileName ), lMaxLth - zstrlen( pchFileName ),
                            vSource, pchSourceFileEntityName, szlExtension );
 
@@ -2786,7 +2786,7 @@ zSHORT
 InitSession( zVIEW  vSubtask )
 {
    zPCHAR     lpszOperName = 0;
-   zPCHAR     pszInvokingTool = 0;
+   zPCHAR     pchInvokingTool = 0;
    zCHAR      szFileName[ zMAX_FILENAME_LTH + 1 ];
    zCHAR      szSourceFileEntityName[ 33 ];
    zLONG      lMetaType = 0;
@@ -2809,7 +2809,7 @@ InitSession( zVIEW  vSubtask )
    mGetWorkView( &vEdWrk, vSubtask );
    mGetProfileView( &vProfileXFER, vSubtask );
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetAddrForAttribute( &pszInvokingTool, vProfileXFER, szlED, "InvokingTool" );
+   GetAddrForAttribute( &pchInvokingTool, vProfileXFER, szlED, "InvokingTool" );
 
    // Retrieve the source file name and open a buffer.
    GetViewByName( &vSource, "METAOPERATIONS", vSubtask, zLEVEL_TASK );
@@ -2817,8 +2817,8 @@ InitSession( zVIEW  vSubtask )
    {
       // Clean up a little by dropping the name.
       DropNameForView( vSource, "METAOPERATIONS", vSubtask, zLEVEL_TASK );
-      if ( CreateFileName( vTaskLPLR, vSource, szFileName, sizeof( szFileName ), pszInvokingTool,
-                           szSourceFileEntityName, sizeof( szSourceFileEntityName ), &bFileExists ) < 0 )
+      if ( CreateFileName( vTaskLPLR, vSource, szFileName, zsizeof( szFileName ), pchInvokingTool,
+                           szSourceFileEntityName, zsizeof( szSourceFileEntityName ), &bFileExists ) < 0 )
       {
          CreateErrorMessage( vSubtask, "Source File" );
          return( -1 );
@@ -2829,7 +2829,7 @@ InitSession( zVIEW  vSubtask )
       // If there is no vSource, the editor is invoked by another editor instance.
       // There is no meta view so we must be opening the current file using
       // the Open/File menu command.  Get the file name.
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlEditor, "OpenFileName" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vEdWrk, szlEditor, "OpenFileName" );
       if ( zstrlen( szFileName ) == 0 )
       {
          if ( OperatorPromptForFile( vSubtask, szFileName, zMAX_FILENAME_LTH + 1,
@@ -2891,7 +2891,7 @@ InitSession( zVIEW  vSubtask )
 
    // Set the target executable name from the source meta.
    // Also set the MetaType and MetaName to be used further on.
-   SetTargetExecutableName( vSource, vEdWrk, pszInvokingTool, szMetaName, &lMetaType );
+   SetTargetExecutableName( vSource, vEdWrk, pchInvokingTool, szMetaName, &lMetaType );
 
    // If the source meta view is not updateable, then make sure that buffer
    // is not updateable. There is a chance that the souce meta properties conflicts
@@ -3180,9 +3180,9 @@ ErrList_GetFocus( zVIEW vSubtask )
    CreateEntity( vEdWrk, "ErrorList", zPOS_LAST );
 
    // Create the error file name.
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
    psz = &szFileName[ zstrlen( szFileName ) - 3 ];
-   strcpy_s( psz, sizeof( szFileName ) - (psz - szFileName ), "ERR" );       // Change ".VML" to ".ERR".
+   strcpy_s( psz, zsizeof( szFileName ) - (psz - szFileName ), "ERR" );      // Change ".VML" to ".ERR".
 
    hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( hFile == -1 )
@@ -3401,19 +3401,19 @@ VOR_PasteName( zVIEW vCurrentSubtask )
    switch ( *szOption )
    {
       case 'N':
-         strcpy_s( sz, sizeof( sz ), pszName );
+         strcpy_s( sz, zsizeof( sz ), pszName );
          break;
 
       case 'R':
-         sprintf_s( sz, sizeof( sz ), "VIEW %s REGISTERED AS %s", pszName, pszName );
+         sprintf_s( sz, zsizeof( sz ), "VIEW %s REGISTERED AS %s", pszName, pszName );
          break;
 
       case 'G':
-         sprintf_s( sz, sizeof( sz ), "GET VIEW %s NAMED \"%s\"", pszName, pszName );
+         sprintf_s( sz, zsizeof( sz ), "GET VIEW %s NAMED \"%s\"", pszName, pszName );
          break;
 
       case 'S':
-         sprintf_s( sz, sizeof( sz ), "NAME VIEW %s \"%s\"", pszName, pszName );
+         sprintf_s( sz, zsizeof( sz ), "NAME VIEW %s \"%s\"", pszName, pszName );
          break;
 
       case 'B':
@@ -3425,7 +3425,7 @@ VOR_PasteName( zVIEW vCurrentSubtask )
                                 zSINGLE | zLEVEL_APPLICATION, pszName, zCURRENT_OI );
 
          GetAddrForAttribute( &pszLOD_Name, vVOR, "LOD", "Name" );
-         sprintf_s( sz, sizeof( sz ), "VIEW %s BASED ON LOD %s", pszName, pszLOD_Name );
+         sprintf_s( sz, zsizeof( sz ), "VIEW %s BASED ON LOD %s", pszName, pszLOD_Name );
 
          DropMetaOI( vSubtask, vVOR );
          break;
@@ -3794,7 +3794,7 @@ fnPasteQualifier( zVIEW  vCurrentSubtask,
 
    if ( vEdWrk == 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at PasteQualifier." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at PasteQualifier." );
       OperatorPrompt( vCurrentSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
    }
@@ -3804,7 +3804,7 @@ fnPasteQualifier( zVIEW  vCurrentSubtask,
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) != 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "Paste only works for VML Files." );
+      strcpy_s( sz, zsizeof( sz ), "Paste only works for VML Files." );
       OperatorPrompt( vCurrentSubtask, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
    }
@@ -3813,7 +3813,7 @@ fnPasteQualifier( zVIEW  vCurrentSubtask,
 
    if ( nPasteCtl & PASTE_VIEW_VARIABLE && CheckExistenceOfEntity( vEdWrk, szlView ) == zCURSOR_SET )
    {
-      GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ),
+      GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ),
                               vEdWrk, szlView, "VariableName" );
    }
 
@@ -3826,21 +3826,21 @@ fnPasteQualifier( zVIEW  vCurrentSubtask,
          if ( *sz )
          {
             if ( bInsertWithQuote )
-               strcat_s( sz, sizeof( sz ), ", " );
+               strcat_s( sz, zsizeof( sz ), ", " );
             else
-               strcat_s( sz, sizeof( sz ), "." );
+               strcat_s( sz, zsizeof( sz ), "." );
          }
 
          if ( bInsertWithQuote )
-            strcat_s( sz, sizeof( sz ), "\"" );
+            strcat_s( sz, zsizeof( sz ), "\"" );
 
          // Get rid of any leading spaces.
          while ( *pszEntityName == ' ' )
             pszEntityName++;
-         strcat_s( sz, sizeof( sz ), pszEntityName );
+         strcat_s( sz, zsizeof( sz ), pszEntityName );
 
          if ( bInsertWithQuote )
-            strcat_s( sz, sizeof( sz ), "\"" );
+            strcat_s( sz, zsizeof( sz ), "\"" );
       }
    }
 
@@ -3852,18 +3852,18 @@ fnPasteQualifier( zVIEW  vCurrentSubtask,
          if ( *sz )
          {
             if ( bInsertWithQuote )
-               strcat_s( sz, sizeof( sz ), ", " );
+               strcat_s( sz, zsizeof( sz ), ", " );
             else
-               strcat_s( sz, sizeof( sz ), "." );
+               strcat_s( sz, zsizeof( sz ), "." );
          }
 
          if ( bInsertWithQuote )
-            strcat_s( sz, sizeof( sz ), "\"" );
+            strcat_s( sz, zsizeof( sz ), "\"" );
 
-         strcat_s( sz, sizeof( sz ), pszAttribName );
+         strcat_s( sz, zsizeof( sz ), pszAttribName );
 
          if ( bInsertWithQuote )
-            strcat_s( sz, sizeof( sz ), "\"" );
+            strcat_s( sz, zsizeof( sz ), "\"" );
       }
    }
 
@@ -3873,7 +3873,7 @@ fnPasteQualifier( zVIEW  vCurrentSubtask,
 
       USE_EDITOR
 
-      strcat_s( sz, sizeof( sz ), " " );
+      strcat_s( sz, zsizeof( sz ), " " );
       strStringToInsert = sz;
       oEditor->ReplaceSel( strStringToInsert );
 
@@ -3921,7 +3921,7 @@ AEQ_ClearViews( zVIEW vSubtask )
 // PURPOSE:    Reads the current line in the current buffer starting at
 //             the current cursor position and returns the first token found.
 zSHORT LOCALOPER
-fnGetNextTokenFromBuffer( LPVMLWRAPPER oEditor, LPSTR szToken, long lIndex)
+fnGetNextTokenFromBuffer( LPVMLWRAPPER oEditor, LPSTR pchToken, long lIndex)
 {
    /*
    CString strLine;
@@ -3931,7 +3931,7 @@ fnGetNextTokenFromBuffer( LPVMLWRAPPER oEditor, LPSTR szToken, long lIndex)
 
    CString strDelimiter = "\t,)( ";
 
-   szToken[ 0 ] = 0;
+   pchToken[ 0 ] = 0;
 
    // Read line from Editor.
    szBuffer = strLine.GetBufferSetLength( lReturnedBuffSize );
@@ -3962,7 +3962,7 @@ fnGetNextTokenFromBuffer( LPVMLWRAPPER oEditor, LPSTR szToken, long lIndex)
       strLine = strLine.Mid( 0, iTokenLength );
    }
 
-   strcpy_s( szToken, sizeof( szToken ), strLine );
+   strcpy_s( pchToken, zsizeof( pchToken ), strLine );
 */
    return( TRUE );
 }
@@ -3997,15 +3997,15 @@ ObjList_AddObjOpersToWorkList( zVIEW vSubtask )
 
    GetViewByName( &vObjList, "TZEDVMLD_TZCMLPLO_List", vSubtask, zLEVEL_TASK );
    ActivateMetaOI( vSubtask, &vLOD, vObjList, zREFER_LOD_META, 0 );
-   GetStringFromAttribute( szOpName, sizeof( szOpName ), vObjList, "W_MetaDef", "Name" );
-   strcat_s( szOpName, sizeof( szOpName ), "." );
+   GetStringFromAttribute( szOpName, zsizeof( szOpName ), vObjList, "W_MetaDef", "Name" );
+   strcat_s( szOpName, zsizeof( szOpName ), "." );
    nLth = (zSHORT) zstrlen( szOpName );
 
    for ( nRC = SetCursorFirstEntity( vLOD, "OperationList", 0 );
          nRC == zCURSOR_SET;
          nRC = SetCursorNextEntity( vLOD, "OperationList", 0 ) )
    {
-      GetStringFromAttribute( szOpName + nLth, sizeof( szOpName ) - nLth, vLOD, "OperationList", "Name" );
+      GetStringFromAttribute( szOpName + nLth, zsizeof( szOpName ) - nLth, vLOD, "OperationList", "Name" );
 
       CreateEntity( vEdWrk, "Oper", zPOS_LAST );
       SetAttributeFromString( vEdWrk, "Oper", "Name", szOpName );
@@ -4055,7 +4055,7 @@ OpIns_StartOperationHelp( zVIEW vSubtask )
 
    // FIND OUT WHAT TYPE OF OPERATION LIST IS CURRENTLY DISPLAYED.
    mGetWorkView( &vEdWrk,vSubtask );
-   GetStringFromAttribute( szOperType, sizeof( szOperType ), vEdWrk, "OperListType", "Type" );
+   GetStringFromAttribute( szOperType, zsizeof( szOperType ), vEdWrk, "OperListType", "Type" );
 
    // IF IT'S NOT A ZEIDON OPER LIST, GET OUT. NO HELP IS AVAILABLE.
    if ( szOperType[ 0 ] != 'Z' )
@@ -4064,7 +4064,7 @@ OpIns_StartOperationHelp( zVIEW vSubtask )
    }
 
    // GET THE OPERATION TAG FOR THE CURRENT CURSOR POSITION.
-   GetStringFromAttribute( szOperName, sizeof( szOperName ), vEdWrk, "Oper", "Name" );
+   GetStringFromAttribute( szOperName, zsizeof( szOperName ), vEdWrk, "Oper", "Name" );
 
    // CALL HELP
    nRC = StartZeidonHelp( vSubtask, szOperName );
@@ -4085,7 +4085,7 @@ OpIns_RefreshSelectButton( zVIEW vSubtask )
    zCHAR  szCurrentType[ 5 ];
 
    mGetWorkView( &vEdWrk, vSubtask );
-   GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ), vEdWrk, "OperListType", "Type" );
+   GetStringFromAttribute( szCurrentType, zsizeof( szCurrentType ), vEdWrk, "OperListType", "Type" );
    if ( zstrcmp( szCurrentType, "Z" ) == 0 )
       MB_SetMessage( vSubtask, 0, "Press F1 for Help on the operation." );
 
@@ -4319,12 +4319,12 @@ OpIns_RebuildOperList( zVIEW vSubtask )
    zVIEW  vEdWrk;
 
    mGetWorkView( &vEdWrk, vSubtask );
-   GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ), vEdWrk, szlBuffer, "OpIns_CurrentType" );
+   GetStringFromAttribute( szCurrentType, zsizeof( szCurrentType ), vEdWrk, szlBuffer, "OpIns_CurrentType" );
 
    // Default of CurrentType is 'Z'...
    if ( *szCurrentType == 0 )
    {
-      strcpy_s( szCurrentType, sizeof( szCurrentType ), "Z" );
+      strcpy_s( szCurrentType, zsizeof( szCurrentType ), "Z" );
       SetAttributeFromString( vEdWrk, szlBuffer, "OpIns_CurrentType", szCurrentType );
    }
 
@@ -4375,8 +4375,8 @@ OpIns_InsertOperation( zVIEW vCurrentSubtask )
 
    mGetWorkView( &vEdWrk, vSubtask );
 
-   //GetStringFromAttribute( szType, sizeof( szType ), vEdWrk, szlOperListType, szlType );
-   GetStringFromAttribute( szType, sizeof( szType ), vEdWrk, szlOper, szlType );
+   //GetStringFromAttribute( szType, zsizeof( szType ), vEdWrk, szlOperListType, szlType );
+   GetStringFromAttribute( szType, zsizeof( szType ), vEdWrk, szlOper, szlType );
 
    switch ( *szType )
    {
@@ -4401,7 +4401,7 @@ OpIns_InsertOperation( zVIEW vCurrentSubtask )
          // User wants to insert a Global operation.  Retrieve the Global
          // Operations Group view that contains the operation.
 
-         GetStringFromAttribute( szOpName, sizeof( szOpName ), vEdWrk, szlOper, szlName );
+         GetStringFromAttribute( szOpName, zsizeof( szOpName ), vEdWrk, szlOper, szlName );
          ActivateMetaOI_ByName( vSubtask, &vOp, 0, zREFER_GO_META,
                                 zSINGLE | zLEVEL_APPLICATION, szOpName, zCURRENT_OI );
          PasteOperation( vSubtask, vOp );
@@ -4447,7 +4447,7 @@ OpIns_InsertOperation( zVIEW vCurrentSubtask )
          zPCHAR psz;
 
          // User wants to insert an Object Operation.
-         GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vEdWrk, szlOper, szlName );
+         GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vEdWrk, szlOper, szlName );
 
          // Look for the period between the Object name and the Oper name.
          for ( psz = szObjectName; *psz && *psz != '.'; psz++ )
@@ -4458,7 +4458,7 @@ OpIns_InsertOperation( zVIEW vCurrentSubtask )
          *psz++ = 0;
 
          // Copy the operation name.
-         strcpy_s( szOperName, sizeof( szOperName ), psz );
+         strcpy_s( szOperName, zsizeof( szOperName ), psz );
 
          // Activate the object meta.
          ActivateMetaOI_ByName( vSubtask, &vObj, 0, zREFER_LOD_META,
@@ -4485,8 +4485,8 @@ OpIns_InsertOperation( zVIEW vCurrentSubtask )
                                 // to be queried from the edit-control
          zBOOL    bVML_File;
 
-         GetStringFromAttribute( szBuffer, sizeof( szBuffer ), vEdWrk, szlOper, szlName );
-         BuildTZEDWRKO( vEdWrk, szBuffer, sizeof( szBuffer ) );
+         GetStringFromAttribute( szBuffer, zsizeof( szBuffer ), vEdWrk, szlOper, szlName );
+         BuildTZEDWRKO( vEdWrk, szBuffer, zsizeof( szBuffer ) );
 
 
 
@@ -4520,7 +4520,7 @@ OpIns_InsertOperation( zVIEW vCurrentSubtask )
          }
 
          if ( bVML_File == FALSE )
-            strcat_s( szBuffer, sizeof( szBuffer ), ";" );
+            strcat_s( szBuffer, zsizeof( szBuffer ), ";" );
 
          strIndent += szBuffer;
 
@@ -4717,32 +4717,32 @@ VML_DisplayList( zVIEW vSubtask )
    // wants shown.
    if ( CompareAttributeToString( vEdWrk, szlBuffer, "VML_ShowDeclarations", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "D" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "D" );
    }
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, "VML_ShowControlStatements", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "C" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "C" );
    }
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, "VML_ShowViewStatements", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "V" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "V" );
    }
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, "VML_ShowEntityStatements", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "E" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "E" );
    }
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, "VML_ShowOperators", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "O" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "O" );
    }
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, "VML_ShowOther", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "?" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "?" );
    }
 
    lEntityCount = 0;
@@ -4758,7 +4758,7 @@ VML_DisplayList( zVIEW vSubtask )
 
       lEntityCount++;
 
-      GetStringFromAttribute( szType, sizeof( szType ), vProfileXFER, "VML_Text", "Type" );
+      GetStringFromAttribute( szType, zsizeof( szType ), vProfileXFER, "VML_Text", "Type" );
       if ( zstrchr( szShowStr, *szType ) )
       {
          SetSelectStateOfEntity( vProfileXFER, "VML_Text", TRUE );
@@ -4772,7 +4772,7 @@ VML_DisplayList( zVIEW vSubtask )
    LB_SetDisplaySelectSet( vSubtask, "TextList", DISP_SELECT_SET );
    LB_SetSelectSelectSet( vSubtask, "TextList", SEL_SELECT_SET );
 
-   sprintf_s( szMsg, sizeof( szMsg ), "Listing %ld of %ld", lSelectedCount, lEntityCount );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Listing %ld of %ld", lSelectedCount, lEntityCount );
    MB_SetMessage( vSubtask, 0, szMsg );
 
    return( 0 );
@@ -4873,19 +4873,19 @@ fnInsertVML_Text( zVIEW      vSubtask,
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlVML_InsertFull, "Y" ) == 0 )
    {
-      GetStringFromAttribute( szInsertString, sizeof( szInsertString ), vProfileXFER,
+      GetStringFromAttribute( szInsertString, zsizeof( szInsertString ), vProfileXFER,
                               szlVML_Text, szlInsertTextFull );
    }
 
    if ( *szInsertString == 0 )
    {
-      GetStringFromAttribute( szInsertString, sizeof( szInsertString ), vProfileXFER,
+      GetStringFromAttribute( szInsertString, zsizeof( szInsertString ), vProfileXFER,
                               szlVML_Text, szlInsertText );
    }
 
    if ( *szInsertString == 0 )
    {
-      GetStringFromAttribute( szInsertString, sizeof( szInsertString ), vProfileXFER,
+      GetStringFromAttribute( szInsertString, zsizeof( szInsertString ), vProfileXFER,
                               szlVML_Text, szlText );
    }
 
@@ -5024,13 +5024,13 @@ OpIns_BuildOperList( zVIEW vSubtask )
    SetAllSelStatesForEntityForSet( vEdWrk, "Oper", FALSE, DISP_SELECT_SET, 0 );
    SetAllSelStatesForEntityForSet( vEdWrk, "Oper", FALSE, SEL_SELECT_SET, 0 );
 
-   GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ), vEdWrk, szlBuffer,
+   GetStringFromAttribute( szCurrentType, zsizeof( szCurrentType ), vEdWrk, szlBuffer,
                            "OpIns_CurrentType" );
 
    // Default of CurrentType is 'Z'...
    if ( *szCurrentType == 0 )
    {
-      strcpy_s( szCurrentType, sizeof( szCurrentType ), "Z" );
+      strcpy_s( szCurrentType, zsizeof( szCurrentType ), "Z" );
       SetAttributeFromString( vEdWrk, szlBuffer, "OpIns_CurrentType", szCurrentType );
    }
 
@@ -5176,7 +5176,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
       SetCtrlState( vSubtask, "ListObjects", zCONTROL_STATUS_ENABLED, FALSE );
 
    // Now set the select states depending on the keyword values.
-   GetStringFromAttribute( szKeyword, sizeof( szKeyword ), vEdWrk, szlBuffer, "OpIns_Keyword" );
+   GetStringFromAttribute( szKeyword, zsizeof( szKeyword ), vEdWrk, szlBuffer, "OpIns_Keyword" );
    if ( *szKeyword && CompareAttributeToString( vEdWrk, szlBuffer, "OpIns_UseKeyword", "Y" ) == 0 )
    {
       zCHAR  szIgnoreCase[ 5 ];
@@ -5188,7 +5188,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
       SetAllSelStatesForEntityForSet( vEdWrk, "Oper", FALSE, DISP_SELECT_SET, 0 );
       SetAllSelStatesForEntityForSet( vEdWrk, "Oper", FALSE, SEL_SELECT_SET, 0 );
 
-      GetStringFromAttribute( szIgnoreCase, sizeof( szIgnoreCase ), vEdWrk, szlBuffer, "OpIns_KeywordIgnoreCase" );
+      GetStringFromAttribute( szIgnoreCase, zsizeof( szIgnoreCase ), vEdWrk, szlBuffer, "OpIns_KeywordIgnoreCase" );
       if ( *szIgnoreCase == 'Y' )
       {
          for ( pszKeyword = szKeyword; *pszKeyword; pszKeyword++ )
@@ -5214,7 +5214,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
       {
          zCHAR  szOperName[ 255 ];
 
-         GetStringFromAttribute( szOperName, sizeof( szOperName ), vEdWrk, "Oper", "Name" );
+         GetStringFromAttribute( szOperName, zsizeof( szOperName ), vEdWrk, "Oper", "Name" );
          if ( *szIgnoreCase == 'Y' )
          {
             zPCHAR pszOperName;
@@ -5276,7 +5276,7 @@ AEQ_SelectView( zVIEW vSubtask )
    {
       zCHAR sz[ 200 ];
 
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at ObjSelAQ_ObjSelView." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at ObjSelAQ_ObjSelView." );
       OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
       return( zCALL_ERROR );
    }
@@ -5307,9 +5307,9 @@ AEQ_SelectView( zVIEW vSubtask )
       zCHAR sz[ 200 ];
 
       DropView( vList );
-      strcpy_s( sz, sizeof( sz ), "LOD " );
-      strcat_s( sz, sizeof( sz ), szLOD_Name );
-      strcat_s( sz, sizeof( sz ), " not found. Possibly wrong LPLR?" );
+      strcpy_s( sz, zsizeof( sz ), "LOD " );
+      strcat_s( sz, zsizeof( sz ), szLOD_Name );
+      strcat_s( sz, zsizeof( sz ), " not found. Possibly wrong LPLR?" );
       OperatorPrompt( vSubtask, "ZeidonEditor", sz, 0, 0, 1, zICON_STOP );
       return( zCALL_ERROR );
    }
@@ -5384,7 +5384,7 @@ InsertComment( CString& csComment, LPSTR szOperName, LPSTR szOperComment )
    CString strBegin( '*', lLineLength - strCommentStart.GetLength( ) - strCommentStop.GetLength( ) );
 #if 0
    if ( GetAppOrWorkstationValue( vSource, "CommentType",
-                                  szCommentType, sizeof( szCommentType ) ) &&
+                                  szCommentType, zsizeof( szCommentType ) ) &&
         szCommentType[ 0 ] == '/' )
    {
       strCommentStart = "//";
@@ -5510,7 +5510,7 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
    mGetWorkView( &vEdWrk, vSubtask );
    if ( vEdWrk == 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at _zfParseFile." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at _zfParseFile." );
       MessagePrompt( vEdWrk, "ED0001", szlZeidonEditor, sz, 1, 0, 0, zICON_EXCLAMATION );
       return( 0 );
    }
@@ -5518,7 +5518,7 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType,
                                   szlVML_File ) != 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "Parse only valid with VML Files." );
+      strcpy_s( sz, zsizeof( sz ), "Parse only valid with VML Files." );
       MessagePrompt( vEdWrk, "ED0002", szlZeidonEditor, sz, 1, 0, 0, zICON_EXCLAMATION );
       nRC = 1;
       return( nRC );
@@ -5543,7 +5543,7 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
       SetUpdateFlagInMeta( vSubtask );
    }
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
 
    // Drop the '.VML' from the file name.
    psz = szFileName + zstrlen( szFileName );
@@ -5594,7 +5594,7 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
       // error file.
       if ( FALSE ) //> performing exit.
       {
-         strcpy_s( sz, sizeof( sz ), "Parse completed with Errors.\n\nSee Error File for list of errors." );
+         strcpy_s( sz, zsizeof( sz ), "Parse completed with Errors.\n\nSee Error File for list of errors." );
          nRC = MessagePrompt( vEdWrk, "ED0002", szlZeidonEditor, sz, 1, 0, 0, zICON_ERROR );
       }
 
@@ -5606,7 +5606,7 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
       if ( GetSubtaskForWindowName( vSubtask, &vWindow, "ErrorList" ) >= 0 )
          SetWindowActionBehavior( vWindow, zWAB_ReturnToParent | zWAB_ProcessImmediateAction | zWAB_ProcessImmediateReturn, 0, 0 );
 
-      strcpy_s( sz, sizeof( sz ), "Parse completed successfully." );
+      strcpy_s( sz, zsizeof( sz ), "Parse completed successfully." );
       MessagePrompt( vEdWrk, "ED0003", szlZeidonEditor, sz, 0, 0, 0, zICON_INFORMATION );
       oEditor->SetHighlightedLine( -1 ); // unhighlight lines
       nRC = 0;
@@ -5706,15 +5706,15 @@ TZEDVMLD_AskForSaveWithParse( zVIEW vSubtask,
    if ( g_bIsFileNew == FALSE)
    {
       // getting current file name
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
    }
    else
    {
       // This is a good name for a new source
-      strcpy_s( szFileName, sizeof( szFileName ), "Noname.vml" );
+      strcpy_s( szFileName, zsizeof( szFileName ), "Noname.vml" );
    }
 
-   sprintf_s( szMsg, sizeof( szMsg ), "File '%s' has changed. Do you want to save it?", szFileName );
+   sprintf_s( szMsg, zsizeof( szMsg ), "File '%s' has changed. Do you want to save it?", szFileName );
    nRC = OperatorPrompt( vSubtask, szlZeidonEditor, szMsg, TRUE,
                          zBUTTONS_YESNOCANCEL, zRESPONSE_YES, zICON_EXCLAMATION );
 

@@ -141,10 +141,10 @@ oTZRPSRCO_AutodesignReport( zVIEW     vReportDef,
    //:GET VIEW vTaskLPLR NAMED "TaskLPLR"
    RESULT = GetViewByName( &vTaskLPLR, "TaskLPLR", vReportDef, zLEVEL_TASK );
    //:szMsg = vTaskLPLR.LPLR.MetaSrcDir + "\Z__DFLT.BAS"  // borrow szMsg for a second
-   GetStringFromAttribute( szMsg, sizeof( szMsg ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTaskLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( szMsg, 1, 0, "\\Z__DFLT.BAS", 1, 0, 258 );
    //:SysConvertEnvironmentString( szFileName, szMsg )
-   SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szMsg );
+   SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szMsg );
    //:lFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ )
    lFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    //:IF lFile < 0
@@ -398,7 +398,7 @@ oTZRPSRCO_AutodesignReport( zVIEW     vReportDef,
          //:INCLUDE vReportDef.ControlDef FROM vPE.ControlDef
          RESULT = IncludeSubobjectFromSubobject( vReportDef, "ControlDef", vPE, "ControlDef", zPOS_AFTER );
          //:lTitleSize = GetStringLength( vReportDef.Control.Text )
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vReportDef, "Control", "Text" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vReportDef, "Control", "Text" );
          lTitleSize = GetStringLength( szTempString_0 );
          //:vReportDef.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
          lTempInteger_4 = lTitleSize * nCharacterWidth * 16;
@@ -584,7 +584,7 @@ oTZRPSRCO_AutodesignReport( zVIEW     vReportDef,
          //:INCLUDE vReportDef.ControlDef FROM vPE.ControlDef
          RESULT = IncludeSubobjectFromSubobject( vReportDef, "ControlDef", vPE, "ControlDef", zPOS_AFTER );
          //:lTitleSize = GetStringLength( vReportDef.Control.Text )
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vReportDef, "Control", "Text" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vReportDef, "Control", "Text" );
          lTitleSize = GetStringLength( szTempString_1 );
          //:vReportDef.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
          lTempInteger_11 = lTitleSize * nCharacterWidth * 16;
@@ -2334,11 +2334,11 @@ oTZRPSRCO_InitReportStructure( zVIEW     vReportDef )
    //:// Get Driving LOD
    //:nRC = ActivateMetaOI_ByName( vReportDef, vDrivingLOD, 0, zREFER_LOD_META,
    //:                             zSINGLE, vReportDef.DrivingLOD.Name, 0 )
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vReportDef, "DrivingLOD", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vReportDef, "DrivingLOD", "Name" );
    nRC = ActivateMetaOI_ByName( vReportDef, &vDrivingLOD, 0, zREFER_LOD_META, zSINGLE, szTempString_0, 0 );
    //:// KJS - WHY DON"T WE JUST USE vDrivingLOD? Can't remember why we need all stored in the report?
    //:TraceLineS("*** Activate DrivingLOD *** ",   vReportDef.DrivingLOD.Name )
-   GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vReportDef, "DrivingLOD", "Name" );
+   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vReportDef, "DrivingLOD", "Name" );
    TraceLineS( "*** Activate DrivingLOD *** ", szTempString_1 );
    //:TraceLineI("*** Activate returncode *** ", nRC )
    TraceLineI( "*** Activate returncode *** ", (zLONG) nRC );
@@ -2832,7 +2832,7 @@ oTZRPSRCO_GenerateXRP( zPVIEW    NewReport,
 
    //:// Write out the XRP to a subdirectory of the LPLR.
    //:SysReadZeidonIni( -1, "[Workstation]", "HTML_Reports", szHTML_DirectoryName )
-   SysReadZeidonIni( -1, "[Workstation]", "HTML_Reports", szHTML_DirectoryName, sizeof( szHTML_DirectoryName ) );
+   SysReadZeidonIni( -1, "[Workstation]", "HTML_Reports", szHTML_DirectoryName, zsizeof( szHTML_DirectoryName ) );
    //:IF szHTML_DirectoryName = ""
    if ( ZeidonStringCompare( szHTML_DirectoryName, 1, 0, "", 1, 0, 257 ) == 0 )
    { 
@@ -2845,7 +2845,7 @@ oTZRPSRCO_GenerateXRP( zPVIEW    NewReport,
    //:GET VIEW vTaskLPLR NAMED "TaskLPLR"
    RESULT = GetViewByName( &vTaskLPLR, "TaskLPLR", DialogWindow, zLEVEL_TASK );
    //:szDirectoryFileName = vTaskLPLR.LPLR.ExecDir + szHTML_DirectoryName + szReportName + ".XRP"
-   GetStringFromAttribute( szDirectoryFileName, sizeof( szDirectoryFileName ), vTaskLPLR, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szDirectoryFileName, zsizeof( szDirectoryFileName ), vTaskLPLR, "LPLR", "ExecDir" );
    ZeidonStringConcat( szDirectoryFileName, 1, 0, szHTML_DirectoryName, 1, 0, 501 );
    ZeidonStringConcat( szDirectoryFileName, 1, 0, szReportName, 1, 0, 501 );
    ZeidonStringConcat( szDirectoryFileName, 1, 0, ".XRP", 1, 0, 501 );
@@ -3177,7 +3177,7 @@ oTZRPSRCO_ChangeRepFileContents( zVIEW     ViewToInstance,
                //:nPosBefore = zSearchSubString( szLine, ","  , "b", nPosStart )
                nPosBefore = zSearchSubString( szLine, ",", "b", nPosStart );
                //:nRC = zReplaceSubString (szLine, nPosBefore+1, nPosStart, CurrentLPLR.LPLR.Name )
-               GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), CurrentLPLR, "LPLR", "Name" );
+               GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), CurrentLPLR, "LPLR", "Name" );
                nRC = zReplaceSubString( szLine, nPosBefore + 1, nPosStart, szTempString_1 );
                //:IF nRC = -1
                if ( nRC == -1 )
@@ -3299,7 +3299,7 @@ oTZRPSRCO_CopyControl( zVIEW     NewR,
 
    //:SET CURSOR FIRST vPE.ControlDef WHERE
    //:                 vPE.ControlDef.Tag = OrigRC.ControlDef.Tag
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigRC, "ControlDef", "Tag" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigRC, "ControlDef", "Tag" );
    RESULT = SetCursorFirstEntityByString( vPE, "ControlDef", "Tag", szTempString_0, "" );
    //:IF RESULT >= 0
    if ( RESULT >= 0 )
@@ -3464,7 +3464,7 @@ oTZRPSRCO_ReportCopy( zPVIEW    NewReport,
       NewDialog = *NewReport;
       //:PositionOnVOR( NewDialog,  OrigReport,
       //:               SourceLPLR, OrigReport.ViewObjRef.Name, vSubtask )
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigReport, "ViewObjRef", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigReport, "ViewObjRef", "Name" );
       oTZWDLGSO_PositionOnVOR( NewDialog, OrigReport, SourceLPLR, szTempString_0, vSubtask );
       RESULT = SetCursorNextEntity( OrigReport, "ViewObjRef", "" );
    } 
@@ -3613,7 +3613,7 @@ oTZRPSRCO_ReportRelinkDelete( zVIEW     vReport,
       { 
          //:nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
          //:                             zSINGLE, vVOR.LOD.Name, 0 )
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vVOR, "LOD", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vVOR, "LOD", "Name" );
          nRC = ActivateMetaOI_ByName( vSubtask, &vLastLOD, 0, zREFER_LOD_META, zSINGLE, szTempString_0, 0 );
          //:IF nRC >= 0
          if ( nRC >= 0 )
@@ -3664,7 +3664,7 @@ oTZRPSRCO_ReportRelinkDelete( zVIEW     vReport,
       { 
          //:nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
          //:                             zSINGLE, vReport.ViewObjRef.Name , 0 )
-         GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), vReport, "ViewObjRef", "Name" );
+         GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), vReport, "ViewObjRef", "Name" );
          nRC = ActivateMetaOI_ByName( vSubtask, &vVOR, 0, zREFER_VOR_META, zSINGLE, szTempString_3, 0 );
          //:IF nRC >= 0
          if ( nRC >= 0 )
@@ -3772,7 +3772,7 @@ oTZRPSRCO_ReportMigrate( zPVIEW    NewReport,
 
    //:// Activate existing source meta OrigReport
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + ReportName + ".PRP"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ReportName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".PRP", 1, 0, 514 );
@@ -3812,12 +3812,12 @@ oTZRPSRCO_ReportMigrate( zPVIEW    NewReport,
 
       //:// Copy REP file.
       //:SourceFileName1 = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName + ".REP"
-      GetStringFromAttribute( SourceFileName1, sizeof( SourceFileName1 ), SourceLPLR, "LPLR", "PgmSrcDir" );
+      GetStringFromAttribute( SourceFileName1, zsizeof( SourceFileName1 ), SourceLPLR, "LPLR", "PgmSrcDir" );
       ZeidonStringConcat( SourceFileName1, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( SourceFileName1, 1, 0, SourceName, 1, 0, 514 );
       ZeidonStringConcat( SourceFileName1, 1, 0, ".REP", 1, 0, 514 );
       //:SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName + ".REP"
-      GetStringFromAttribute( SourceFileName2, sizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
+      GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
       ZeidonStringConcat( SourceFileName2, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( SourceFileName2, 1, 0, SourceName, 1, 0, 514 );
       ZeidonStringConcat( SourceFileName2, 1, 0, ".REP", 1, 0, 514 );
@@ -3825,18 +3825,18 @@ oTZRPSRCO_ReportMigrate( zPVIEW    NewReport,
       SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE );
       //:ChangeRepFileContents( OrigReport, CurrentLPLR, CurrentLPLR.LPLR.PgmSrcDir, CurrentLPLR.LPLR.ExecDir,
       //:                       SourceName, "REP", 0, vSubtask )
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), CurrentLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), CurrentLPLR, "LPLR", "ExecDir" );
       oTZRPSRCO_ChangeRepFileContents( OrigReport, CurrentLPLR, szTempString_0, szTempString_1, SourceName, "REP", 0, vSubtask );
 
       //:// Copy XSQ file.
       //:SourceFileName1 = SourceLPLR.LPLR.ExecDir + "\" + SourceName + ".XSQ"
-      GetStringFromAttribute( SourceFileName1, sizeof( SourceFileName1 ), SourceLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( SourceFileName1, zsizeof( SourceFileName1 ), SourceLPLR, "LPLR", "ExecDir" );
       ZeidonStringConcat( SourceFileName1, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( SourceFileName1, 1, 0, SourceName, 1, 0, 514 );
       ZeidonStringConcat( SourceFileName1, 1, 0, ".XSQ", 1, 0, 514 );
       //:SourceFileName2 = CurrentLPLR.LPLR.ExecDir + "\" + SourceName + ".XSQ"
-      GetStringFromAttribute( SourceFileName2, sizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "ExecDir" );
       ZeidonStringConcat( SourceFileName2, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( SourceFileName2, 1, 0, SourceName, 1, 0, 514 );
       ZeidonStringConcat( SourceFileName2, 1, 0, ".XSQ", 1, 0, 514 );
@@ -3844,8 +3844,8 @@ oTZRPSRCO_ReportMigrate( zPVIEW    NewReport,
       SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE );
       //:ChangeRepFileContents( OrigReport, CurrentLPLR, CurrentLPLR.LPLR.PgmSrcDir, CurrentLPLR.LPLR.ExecDir,
       //:                       SourceName, "XSQ", 0, vSubtask )
-      GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
-      GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), CurrentLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
+      GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), CurrentLPLR, "LPLR", "ExecDir" );
       oTZRPSRCO_ChangeRepFileContents( OrigReport, CurrentLPLR, szTempString_2, szTempString_3, SourceName, "XSQ", 0, vSubtask );
    } 
 
@@ -4420,7 +4420,7 @@ oTZRPSRCO_CreateGrpSetForEntity( zVIEW     vSubtask,
          //:vReportDef.Control.PSDLG_Y = lVerticalPos
          SetAttributeFromInteger( vReportDef, "Control", "PSDLG_Y", lVerticalPos );
          //:lTitleSize                 = GetStringLength( vUserSpec.UIS_Entity.HeaderText )
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vUserSpec, "UIS_Entity", "HeaderText" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vUserSpec, "UIS_Entity", "HeaderText" );
          lTitleSize = GetStringLength( szTempString_1 );
          //:vReportDef.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
          lTempInteger_4 = lTitleSize * nCharacterWidth * 16;
@@ -4600,7 +4600,7 @@ oTZRPSRCO_CreateGrpSetForEntity( zVIEW     vSubtask,
          //:vReportDef.Control.PSDLG_Y = lVerticalPos
          SetAttributeFromInteger( vReportDef, "Control", "PSDLG_Y", lVerticalPos );
          //:lTitleSize = GetStringLength( vUserSpec.UIS_Entity.HeaderText )
-         GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vUserSpec, "UIS_Entity", "HeaderText" );
+         GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vUserSpec, "UIS_Entity", "HeaderText" );
          lTitleSize = GetStringLength( szTempString_4 );
          //:vReportDef.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
          lTempInteger_11 = lTitleSize * nCharacterWidth * 16;
@@ -4724,14 +4724,14 @@ oTZRPSRCO_CreateGrpSetForEntity( zVIEW     vSubtask,
          if ( CompareAttributeToString( vUserSpec, "M_ER_Attribute", "PromptPaintLit", "" ) != 0 )
          { 
             //:lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.PromptPaintLit )
-            GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), vUserSpec, "M_ER_Attribute", "PromptPaintLit" );
+            GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), vUserSpec, "M_ER_Attribute", "PromptPaintLit" );
             lTitleSize = GetStringLength( szTempString_5 );
             //:ELSE
          } 
          else
          { 
             //:lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.Name )
-            GetStringFromAttribute( szTempString_6, sizeof( szTempString_6 ), vUserSpec, "M_ER_Attribute", "Name" );
+            GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), vUserSpec, "M_ER_Attribute", "Name" );
             lTitleSize = GetStringLength( szTempString_6 );
          } 
 
@@ -5139,7 +5139,7 @@ oTZRPSRCO_CreateGrpSetForEntity( zVIEW     vSubtask,
          //:vReportDef.Control.PSDLG_Y = lVerticalPos
          SetAttributeFromInteger( vReportDef, "Control", "PSDLG_Y", lVerticalPos );
          //:lTitleSize = GetStringLength( vUserSpec.UIS_Entity.FooterText )
-         GetStringFromAttribute( szTempString_10, sizeof( szTempString_10 ), vUserSpec, "UIS_Entity", "FooterText" );
+         GetStringFromAttribute( szTempString_10, zsizeof( szTempString_10 ), vUserSpec, "UIS_Entity", "FooterText" );
          lTitleSize = GetStringLength( szTempString_10 );
          //:lTitleSize = nCharacterWidth * lTitleSize
          lTitleSize = nCharacterWidth * lTitleSize;
@@ -5347,14 +5347,14 @@ oTZRPSRCO_GetMaxAttributeSize( zVIEW     vUserSpec,
          if ( CompareAttributeToString( vUserSpec, "M_ER_Attribute", "ListPaintLit", "" ) == 0 )
          { 
             //:lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.Name )
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vUserSpec, "M_ER_Attribute", "Name" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vUserSpec, "M_ER_Attribute", "Name" );
             lTitleSize = GetStringLength( szTempString_0 );
             //:ELSE
          } 
          else
          { 
             //:lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.ListPaintLit )
-            GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vUserSpec, "M_ER_Attribute", "ListPaintLit" );
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vUserSpec, "M_ER_Attribute", "ListPaintLit" );
             lTitleSize = GetStringLength( szTempString_1 );
          } 
 

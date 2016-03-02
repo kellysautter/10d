@@ -205,7 +205,7 @@ fnAppendKeyAttribs( LPWRITEINFO  lpWriteInfo,
 
       if ( lpViewAttrib->cType == zTYPE_BLOB )
       {
-         strcpy_s( szAttribIdent, sizeof( szAttribIdent ), "KEY WAS BLOB - NOT SUPPORTED" );
+         strcpy_s( szAttribIdent, zsizeof( szAttribIdent ), "KEY WAS BLOB - NOT SUPPORTED" );
       }
       else
       if ( lpViewAttrib->cType == zTYPE_STRING )
@@ -332,12 +332,12 @@ fnAppendKeyAttribs( LPWRITEINFO  lpWriteInfo,
                *pch++ = 0;
                ulLth = (zLONG) (pch - pchTempValueBuffer) - 1;
                //pchAttribValue = pchTempValueBuffer;
-               strcpy_s( szAttribIdent, sizeof( szAttribIdent ), pchTempValueBuffer );
+               strcpy_s( szAttribIdent, zsizeof( szAttribIdent ), pchTempValueBuffer );
 
             } // if contains special chars
             else
             {
-               strcpy_s( szAttribIdent, sizeof( szAttribIdent ), pchAttribValue );
+               strcpy_s( szAttribIdent, zsizeof( szAttribIdent ), pchAttribValue );
                ulLth = zstrlen( szAttribIdent );
             }
 
@@ -349,7 +349,7 @@ fnAppendKeyAttribs( LPWRITEINFO  lpWriteInfo,
          // Get attr value.  If return is -1 then the attr is NULL.
          if ( GetStringFromRecord( lpWriteInfo->vTemp, lpViewEntity, lpViewAttrib,
                                    szAttribIdent,
-                                   sizeof( szAttribIdent ) ) == -1 )
+                                   zsizeof( szAttribIdent ) ) == -1 )
          {
             // Attr is NULL.  Skip null attributes if flag is set.
             szAttribIdent[ 0 ] = 0;
@@ -363,7 +363,7 @@ fnAppendKeyAttribs( LPWRITEINFO  lpWriteInfo,
 
       // Append the key attribute name and vaue to entity buffer.
       sprintf_s( lpWriteInfo->szBuffer + zstrlen( lpWriteInfo->szBuffer ),
-                 sizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
+                 zsizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
                  " %s=\"%s\"", lpViewAttrib->szName, szAttribIdent );
 
    } // for each lpViewAttrib...
@@ -424,9 +424,9 @@ fnWriteAttribs( zVIEW        lpTaskView,
          if ( lpViewAttrib->szXML_SimpleName[ 0 ] == 0 )
          {
             if ( lpViewAttrib->szXML_ExternalName[ 0 ] == 0 )
-               sprintf_s( szAttribTag, sizeof( szAttribTag ), "<%s", lpViewAttrib->szName );
+               sprintf_s( szAttribTag, zsizeof( szAttribTag ), "<%s", lpViewAttrib->szName );
             else
-               sprintf_s( szAttribTag, sizeof( szAttribTag ), "<%s", lpViewAttrib->szXML_ExternalName );
+               sprintf_s( szAttribTag, zsizeof( szAttribTag ), "<%s", lpViewAttrib->szXML_ExternalName );
 
             // If the user only wants updated attributes then skip attributes that
             // aren't flagged as updated.
@@ -459,12 +459,12 @@ fnWriteAttribs( zVIEW        lpTaskView,
                // Don't bother writing the incre flags if none are set.
                if ( zstrcmp( szIncreFlags, ".." ) != 0 )
                {
-                  sprintf_s( szAttribTag + zstrlen( szAttribTag ), sizeof( szAttribTag ),
+                  sprintf_s( szAttribTag + zstrlen( szAttribTag ), zsizeof( szAttribTag ),
                              " zIncreFlags=\"%s\"", szIncreFlags );
                }
             }
 
-            strcat_s( szAttribTag, sizeof( szAttribTag ), ">" );
+            strcat_s( szAttribTag, zsizeof( szAttribTag ), ">" );
 
             bCloseCDATA = FALSE;
          }
@@ -495,7 +495,7 @@ fnWriteAttribs( zVIEW        lpTaskView,
          }
          else
          {
-            strcat_s( szAttribTag, sizeof( szAttribTag ), "<![CDATA[" );
+            strcat_s( szAttribTag, zsizeof( szAttribTag ), "<![CDATA[" );
             bCloseCDATA = TRUE;
          }
       }
@@ -654,11 +654,11 @@ fnWriteAttribs( zVIEW        lpTaskView,
       {
          if ( lpViewAttrib->szXML_SimpleName[ 0 ] )
          {
-            sprintf_s( szAttribTag, sizeof( szAttribTag ), " %s=", lpViewAttrib->szXML_SimpleName );
+            sprintf_s( szAttribTag, zsizeof( szAttribTag ), " %s=", lpViewAttrib->szXML_SimpleName );
             if ( pchAttribValue[ 0 ] )
             {
-               sprintf_s( szAttribTag, sizeof( szAttribTag ), " %s=\"%s\"", lpViewAttrib->szXML_SimpleName, pchAttribValue );
-               strcat_s( lpWriteInfo->szBuffer, sizeof( lpWriteInfo->szBuffer ), szAttribTag );
+               sprintf_s( szAttribTag, zsizeof( szAttribTag ), " %s=\"%s\"", lpViewAttrib->szXML_SimpleName, pchAttribValue );
+               strcat_s( lpWriteInfo->szBuffer, zsizeof( lpWriteInfo->szBuffer ), szAttribTag );
             }
          }
       }
@@ -680,13 +680,13 @@ fnWriteAttribs( zVIEW        lpTaskView,
 
          // Close the attribute value.  If necessary close the CDATA section too.
          if ( bCloseCDATA )
-            sprintf_s( szAttribTag, sizeof( szAttribTag ), "]]></%s>", lpViewAttrib->szName );
+            sprintf_s( szAttribTag, zsizeof( szAttribTag ), "]]></%s>", lpViewAttrib->szName );
          else
          {
             if ( lpViewAttrib->szXML_ExternalName[ 0 ] == 0 )
-               sprintf_s( szAttribTag, sizeof( szAttribTag ), "</%s>", lpViewAttrib->szName );
+               sprintf_s( szAttribTag, zsizeof( szAttribTag ), "</%s>", lpViewAttrib->szName );
             else
-               sprintf_s( szAttribTag, sizeof( szAttribTag ), "</%s>", lpViewAttrib->szXML_ExternalName );
+               sprintf_s( szAttribTag, zsizeof( szAttribTag ), "</%s>", lpViewAttrib->szXML_ExternalName );
          }
 
          if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_ENDATTRIB,
@@ -827,7 +827,7 @@ fnWriteEntityStartTag( zVIEW            lpTaskView,
    fnEstablishViewForInstance( lpWriteInfo->vTemp, 0, lpEntityInstance );
 
    // Build Entity tag.
-   sprintf_s( lpWriteInfo->szBuffer, sizeof( lpWriteInfo->szBuffer ), "<%s", pchRealEntityName );
+   sprintf_s( lpWriteInfo->szBuffer, zsizeof( lpWriteInfo->szBuffer ), "<%s", pchRealEntityName );
 
    // Add key attributes as Identifiers of the entity (based on control flag).
    if ( lpWriteInfo->lControl & zXML_KEYATTRIBSASIDENT )
@@ -837,13 +837,13 @@ fnWriteEntityStartTag( zVIEW            lpTaskView,
    if ( lpWriteInfo->lControl & zXML_ZEIDONINFO )
    {
       sprintf_s( lpWriteInfo->szBuffer + zstrlen( lpWriteInfo->szBuffer ),
-                 sizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
+                 zsizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
                  " zLevel=\"%ld\"", (zLONG) lpEntityInstance->nLevel );
 
       // If we have decided that we need the LOD entity name then add it.
       if ( bEntityNameNeeded )
          sprintf_s( lpWriteInfo->szBuffer + zstrlen( lpWriteInfo->szBuffer ),
-                    sizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
+                    zsizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
                     " zEName=\"%s\"", lpViewEntity->szName );
    }
 
@@ -872,7 +872,7 @@ fnWriteEntityStartTag( zVIEW            lpTaskView,
       // Don't bother writing the incre flags if none are set.
       if ( zstrcmp( szIncreFlags, "........" ) != 0 )
          sprintf_s( lpWriteInfo->szBuffer + zstrlen( lpWriteInfo->szBuffer ),
-                    sizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
+                    zsizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
                     " zIncreFlags=\"%s\"", szIncreFlags );
    }
 
@@ -881,7 +881,7 @@ fnWriteEntityStartTag( zVIEW            lpTaskView,
    {
       // Append the entity key.
       sprintf_s( lpWriteInfo->szBuffer + zstrlen( lpWriteInfo->szBuffer ),
-                 sizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
+                 zsizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
                  " zEKey=\"%lx\"", lpEntityInstance->ulKey );
    }
 
@@ -911,7 +911,7 @@ fnWriteEntityStartTag( zVIEW            lpTaskView,
       if ( zGETPTR( lpViewEntityCsr->hEntityInstance ) == lpEntityInstance )
       {
          sprintf_s( lpWriteInfo->szBuffer + zstrlen( lpWriteInfo->szBuffer ),
-                    sizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
+                    zsizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
                     " zCursor=\"Y\"" );
       }
 
@@ -931,7 +931,7 @@ fnWriteEntityStartTag( zVIEW            lpTaskView,
 
          // We have found a selected instance.  Write out the info.
          sprintf_s( lpWriteInfo->szBuffer + zstrlen( lpWriteInfo->szBuffer ),
-                    sizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
+                    zsizeof( lpWriteInfo->szBuffer ) - zstrlen( lpWriteInfo->szBuffer ),
                     " zSelect%d=\"Y\"", lpSrchSelectedInstance->nSelectSet );
       }
    }
@@ -940,7 +940,7 @@ fnWriteEntityStartTag( zVIEW            lpTaskView,
    fnWriteAttribs( lpTaskView, lpWriteInfo,
                    (zSHORT) (lpEntityInstance->nLevel + 1), lpViewEntity, 1 );
 
-   strcat_s( lpWriteInfo->szBuffer, sizeof( lpWriteInfo->szBuffer ), ">" );
+   strcat_s( lpWriteInfo->szBuffer, zsizeof( lpWriteInfo->szBuffer ), ">" );
 
    if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_STARTENTITY,
                                    lpWriteInfo->szBuffer, 0,
@@ -973,7 +973,7 @@ fnWriteAttribEntry( zVIEW        lpTaskView,
    zPCHAR       pchAttribValue;
    zCHAR        chType;
 
-   sprintf_s( szAttribTag, sizeof( szAttribTag ), "<%s>", pchAttribName );
+   sprintf_s( szAttribTag, zsizeof( szAttribTag ), "<%s>", pchAttribName );
 
    // Treat the attribute lpViewAttribValue as the regular attribute and use its value.
    GetValueFromRecord( lpWriteInfo->vOI, lpViewEntity, lpViewAttribValue,
@@ -1113,7 +1113,7 @@ fnWriteAttribEntry( zVIEW        lpTaskView,
    }
 
    // Close the attribute value.
-   sprintf_s( szAttribTag, sizeof( szAttribTag ), "</%s>", pchAttribName );
+   sprintf_s( szAttribTag, zsizeof( szAttribTag ), "</%s>", pchAttribName );
 
    if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_ENDATTRIB,
                                    szAttribTag, 0, nLevel,
@@ -1150,7 +1150,7 @@ fnWriteListEntryValue( zVIEW            lpTaskView,
                        &pchAttribName, &chType, &ulLth );
 
    // Create ListEntryValue line and write to file.
-   sprintf_s( szWriteLine, sizeof( szWriteLine ), "<ListEntryValue Name=\"%s\">", pchAttribName );
+   sprintf_s( szWriteLine, zsizeof( szWriteLine ), "<ListEntryValue Name=\"%s\">", pchAttribName );
    if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_STARTENTITY, szWriteLine,
                                    0, lpEntityInstance->nLevel,
                                    lpWriteInfo->lpPtr ) == zCALL_ERROR )
@@ -1210,7 +1210,7 @@ fnWriteControlEntry( zVIEW            lpTaskView,
                        &pchAttribType, &chType, &ulLth );
 
    // Create Control line and write to file
-   sprintf_s( szWriteLine, sizeof( szWriteLine ), "<Control Name=\"%s\" Type=\"%s\">", pchAttribName, pchAttribType );
+   sprintf_s( szWriteLine, zsizeof( szWriteLine ), "<Control Name=\"%s\" Type=\"%s\">", pchAttribName, pchAttribType );
    if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_STARTENTITY, szWriteLine,
                                    0, lpEntityInstance->nLevel,
                                    lpWriteInfo->lpPtr ) == zCALL_ERROR )
@@ -1264,9 +1264,9 @@ fnWriteControlEntry( zVIEW            lpTaskView,
          }
 
          if ( nFlag == 0 )
-            strcpy_s( szWriteLine, sizeof( szWriteLine ), "<ListEntry>" );
+            strcpy_s( szWriteLine, zsizeof( szWriteLine ), "<ListEntry>" );
          else
-            strcpy_s( szWriteLine, sizeof( szWriteLine ), "<ListEntry zSelect1=\"Y\">" );
+            strcpy_s( szWriteLine, zsizeof( szWriteLine ), "<ListEntry zSelect1=\"Y\">" );
 
          if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_STARTENTITY,
                                          szWriteLine, 0,
@@ -1301,7 +1301,7 @@ fnWriteControlEntry( zVIEW            lpTaskView,
                return( zCALL_ERROR );
          }
 
-         strcpy_s( szWriteLine, sizeof( szWriteLine ), "</ListEntry>" );
+         strcpy_s( szWriteLine, zsizeof( szWriteLine ), "</ListEntry>" );
          fnEstablishViewForInstance( lpWriteInfo->vOI, 0, lpListEntryInstance );
          if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_ENDENTITY, szWriteLine, 0,
                                          lpListEntryInstance->nLevel,
@@ -1347,9 +1347,9 @@ fnWriteControlEntry( zVIEW            lpTaskView,
             nFlag = 1;
          }
          if ( nFlag == 0 )
-            strcpy_s( szWriteLine, sizeof( szWriteLine ), "<ComboValue>" );
+            strcpy_s( szWriteLine, zsizeof( szWriteLine ), "<ComboValue>" );
          else
-            strcpy_s( szWriteLine, sizeof( szWriteLine ), "<ComboValue zSelect1=\"Y\">" );
+            strcpy_s( szWriteLine, zsizeof( szWriteLine ), "<ComboValue zSelect1=\"Y\">" );
 
          if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_STARTENTITY,
                                          szWriteLine, 0,
@@ -1362,7 +1362,7 @@ fnWriteControlEntry( zVIEW            lpTaskView,
          // Write the attribs for the entity.
          fnWriteAttribs( lpTaskView, lpWriteInfo, (zSHORT) (lpComboInstance->nLevel + 1),
                          zGETPTR( lpComboInstance->hViewEntity), 0 );
-         strcpy_s( szWriteLine, sizeof( szWriteLine ), "</ComboValue>" );
+         strcpy_s( szWriteLine, zsizeof( szWriteLine ), "</ComboValue>" );
          fnEstablishViewForInstance( lpWriteInfo->vOI, 0, lpComboInstance );
          if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_ENDENTITY,
                                          szWriteLine, 0,
@@ -1523,7 +1523,7 @@ fnConvertEntity( zVIEW            lpTaskView,
    // If we wrote a start tag for this entity then we need to write an 'end' tag.
    if ( lpWriteInfo->pchEntityName[ lpEntityInstance->nLevel ] != 0 )
    {
-      sprintf_s( lpWriteInfo->szBuffer, sizeof( lpWriteInfo->szBuffer ), "</%s>",
+      sprintf_s( lpWriteInfo->szBuffer, zsizeof( lpWriteInfo->szBuffer ), "</%s>",
                  lpWriteInfo->pchEntityName[ lpEntityInstance->nLevel ] );
 
       if ( (*lpWriteInfo->lpfnWrite)( lpTaskView, zXML_ENDENTITY,
@@ -1645,10 +1645,10 @@ WriteSubobjectToXML( zVIEW         vOI,
       lpApp = zGETPTR( lpViewOD->hApp );
 
       if ( lControl & zXML_INCREFLAGS )
-         sprintf_s( szBuffer, sizeof( szBuffer ), "<zOI zObjectName=\"%s\" zAppName=\"%s\" "
+         sprintf_s( szBuffer, zsizeof( szBuffer ), "<zOI zObjectName=\"%s\" zAppName=\"%s\" "
                     "zIncreFlags=\"Y\">", lpViewOD->szName, lpApp->szName );
       else
-         sprintf_s( szBuffer, sizeof( szBuffer ), "<zOI zObjectName=\"%s\" zAppName=\"%s\">",
+         sprintf_s( szBuffer, zsizeof( szBuffer ), "<zOI zObjectName=\"%s\" zAppName=\"%s\">",
                     lpViewOD->szName, lpApp->szName );
 
       if ( (*lpfnWrite)( vOI, zXML_STARTOI, szBuffer, 0, 0, lpPtr ) == zCALL_ERROR )
@@ -1675,7 +1675,7 @@ WriteSubobjectToXML( zVIEW         vOI,
             continue;
 
          // Entity isn't hidden so write the root tag and break out.
-         strcpy_s( szBuffer, sizeof( szBuffer ), "<zOI>" );
+         strcpy_s( szBuffer, zsizeof( szBuffer ), "<zOI>" );
          if ( (*lpfnWrite)( vOI, zXML_STARTOI, szBuffer, 0, 0, lpPtr ) == zCALL_ERROR )
          {
             fnOperationReturn( iWriteSubobjectToXML, lpCurrentTask );
@@ -1817,10 +1817,10 @@ WriteMultipleOIs_ToXML( zVIEW         vOI[],
       SfGetApplicationForSubtask( &lpApp, vOI[ 0 ] );
 
       if ( lControl & zXML_INCREFLAGS )
-         sprintf_s( szBuffer, sizeof( szBuffer ), "<zOI zObjectName=\"%s\" zAppName=\"%s\" "
+         sprintf_s( szBuffer, zsizeof( szBuffer ), "<zOI zObjectName=\"%s\" zAppName=\"%s\" "
                     "zIncreFlags=\"Y\">", lpViewOD->szName, lpApp->szName );
       else
-         sprintf_s( szBuffer, sizeof( szBuffer ), "<zOI zObjectName=\"%s\" zAppName=\"%s\">",
+         sprintf_s( szBuffer, zsizeof( szBuffer ), "<zOI zObjectName=\"%s\" zAppName=\"%s\">",
                     lpViewOD->szName, lpApp->szName );
 
       if ( (*lpfnWrite)( vOI[ 0 ], zXML_STARTOI, szBuffer, 0, 0, lpPtr ) == zCALL_ERROR )
@@ -1921,7 +1921,7 @@ fnTraceAttributes( zCPCHAR       cpcElementName,
    {
       zCHAR szMsg[ 2000 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "(xml) Attrib %s = %s", ppAtts[ k ], ppAtts[ k + 1 ] );
+      sprintf_s( szMsg, zsizeof( szMsg ), "(xml) Attrib %s = %s", ppAtts[ k ], ppAtts[ k + 1 ] );
       TraceLineS( szMsg, "" );
    }
 }
@@ -1996,7 +1996,7 @@ fnProcessEntityElement( LPPARSERINFO  lpInfo,
    {
       zCHAR  szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "(xml) Parent mismatch (%s != %s) for entity: %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "(xml) Parent mismatch (%s != %s) for entity: %s",
                 lpInfo->lpViewEntity->szName, lpParent->szName, pchEntityName );
       TraceLineS( szMsg, "" );
       SysMessageBox( 0, "XML Parser", szMsg, -1 );
@@ -2172,7 +2172,7 @@ fnProcessAttribElement( LPPARSERINFO  lpInfo,
    {
       zCHAR  szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "(xml) Could not find Entity.Attribute: %s.%s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "(xml) Could not find Entity.Attribute: %s.%s",
                 lpViewEntity->szName, pchAttribName );
       TraceLineS( szMsg, "" );
       SysMessageBox( 0, "XML Parser", szMsg, -1 );
@@ -2676,7 +2676,7 @@ ActivateOI_FromXML( zPVIEW       lppView,
       {
          zCHAR szMsg[ 1000 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "%s at line %d",
+         sprintf_s( szMsg, zsizeof( szMsg ), "%s at line %d",
                    XML_ErrorString( XML_GetErrorCode( parser ) ),
                    XML_GetCurrentLineNumber( parser ) );
          TraceLineS( "(xml) Error txt: ", szMsg );
@@ -2744,8 +2744,8 @@ fnReadXMLData( zVIEW   lpTaskView,
    *ppchReturnBuffer = pInfo->szReadBuffer;
    *pulReturnLth = SysReadFile( lpTaskView, pInfo->hFile,
                                 pInfo->szReadBuffer,
-                                sizeof( pInfo->szReadBuffer ) );
-   if ( *pulReturnLth < sizeof( pInfo->szReadBuffer ) )
+                                zsizeof( pInfo->szReadBuffer ) );
+   if ( *pulReturnLth < zsizeof( pInfo->szReadBuffer ) )
       return( TRUE );   // Nothing more to read.
    else
       return( FALSE );  // Still more info in file.
@@ -2815,7 +2815,7 @@ fnWriteXML_ToFile( zVIEW  lpTaskView,
          zCHAR  szBuffer[ 500 ];
          zSHORT nIndent = nLevel * 3 - 2;
 
-         sprintf_s( szBuffer, sizeof( szBuffer ), "%*s ", nIndent, " " );
+         sprintf_s( szBuffer, zsizeof( szBuffer ), "%*s ", nIndent, " " );
          SysWriteLineLth( lpTaskView, hFile, szBuffer, zstrlen( szBuffer ), FALSE );
       }
    }
@@ -2858,11 +2858,11 @@ CommitOI_ToXML_File( zVIEW   vOI,
 
       fnGetApplicationForSubtask( &lpApp, vOI );
       if ( lpApp )
-         strcpy_s( szOpenFileName, sizeof( szOpenFileName ), lpApp->szObjectDir );
+         strcpy_s( szOpenFileName, zsizeof( szOpenFileName ), lpApp->szObjectDir );
       else
       {
          lpApp = zGETPTR( AnchorBlock->hSystemApp );
-         strcpy_s( szOpenFileName, sizeof( szOpenFileName ), lpApp->szObjectDir );
+         strcpy_s( szOpenFileName, zsizeof( szOpenFileName ), lpApp->szObjectDir );
       }
 
       SysAppendcDirSep( szOpenFileName );
@@ -2870,7 +2870,7 @@ CommitOI_ToXML_File( zVIEW   vOI,
    else
       szOpenFileName[ 0 ] = 0;
 
-   strcat_s( szOpenFileName, sizeof( szOpenFileName ), pchFileName );
+   strcat_s( szOpenFileName, zsizeof( szOpenFileName ), pchFileName );
 
    hFile = SysOpenFile( vOI, szOpenFileName, COREFILE_WRITE );
    if ( hFile == -1 )
@@ -2913,11 +2913,11 @@ CommitSubobjectToXML_File( zVIEW   vOI,
 
       fnGetApplicationForSubtask( &lpApp, vOI );
       if ( lpApp )
-         strcpy_s( szOpenFileName, sizeof( szOpenFileName ), lpApp->szObjectDir );
+         strcpy_s( szOpenFileName, zsizeof( szOpenFileName ), lpApp->szObjectDir );
       else
       {
          lpApp = zGETPTR( AnchorBlock->hSystemApp );
-         strcpy_s( szOpenFileName, sizeof( szOpenFileName ), lpApp->szObjectDir );
+         strcpy_s( szOpenFileName, zsizeof( szOpenFileName ), lpApp->szObjectDir );
       }
 
       SysAppendcDirSep( szOpenFileName );
@@ -2925,7 +2925,7 @@ CommitSubobjectToXML_File( zVIEW   vOI,
    else
       szOpenFileName[ 0 ] = 0;
 
-   strcat_s( szOpenFileName, sizeof( szOpenFileName ), pchFileName );
+   strcat_s( szOpenFileName, zsizeof( szOpenFileName ), pchFileName );
 
    hFile = SysOpenFile( vOI, szOpenFileName, COREFILE_WRITE );
    if ( hFile == -1 )

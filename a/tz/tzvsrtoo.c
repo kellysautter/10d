@@ -72,29 +72,26 @@ GetSetStringValue( zVIEW vStackObject  /*  BASED ON LOD TZVSRTOO  */,
       case qTVIEW:
          nDataLength = 4;
          lTemp = 0;
-         GetBlobFromAttribute( &lTemp, &nDataLength,
-                               vStackObject,"Variable", "Value" );
+         GetBlobFromAttribute( &lTemp, &nDataLength, vStackObject,"Variable", "Value" );
          if ( lDataType == 1045 )
          {
-            strcpy_s( szData, sizeof( szData ), "0x" );
-            zltox( lTemp, szData + 2, sizeof( szData ) - 2 );
+            strcpy_s( szData, zsizeof( szData ), "0x" );
+            zltox( lTemp, szData + 2, zsizeof( szData ) - 2 );
          }
          else
-            zltoa( lTemp, szData, sizeof( szData ) );
+            zltoa( lTemp, szData, zsizeof( szData ) );
          break;
 
       case qTDECIMAL:
          nDataLength = sizeof( ZDecimal );
-         GetBlobFromAttribute( &dTemp, &nDataLength,
-                               vStackObject,"Variable", "Value" );
+         GetBlobFromAttribute( &dTemp, &nDataLength, vStackObject, "Variable", "Value" );
          SysConvertDecimalToString( &dTemp, szData, -1 );
          break;
 
       case qTSTRING:
 
-         nDataLength = sizeof( szData );
-         GetBlobFromAttribute( szData, &nDataLength,
-                               vStackObject,"Variable", "Value" );
+         nDataLength = zsizeof( szData );
+         GetBlobFromAttribute( szData, &nDataLength, vStackObject, "Variable", "Value" );
          szData[ nDataLength ] = 0;
          break;
 
@@ -102,8 +99,7 @@ GetSetStringValue( zVIEW vStackObject  /*  BASED ON LOD TZVSRTOO  */,
          szData[ 0 ] = 0;
       }
 
-      StoreStringInRecord( vStackObject,
-                           lpViewEntity, lpViewAttrib, szData );
+      StoreStringInRecord( vStackObject, lpViewEntity, lpViewAttrib, szData );
 
       break;
    case zDERIVED_SET :
@@ -111,27 +107,23 @@ GetSetStringValue( zVIEW vStackObject  /*  BASED ON LOD TZVSRTOO  */,
          //  set the BLOB value accordingly
 
       szData[ 0 ] = 0;
-      GetStringFromRecord( vStackObject, lpViewEntity, lpViewAttrib,
-                           szData, sizeof(szData) );
+      GetStringFromRecord( vStackObject, lpViewEntity, lpViewAttrib, szData, zsizeof( szData ) );
 
       switch( lDataType )
       {
          case qTINTEGER:
          case qTSHORT:
             lTemp = zatol( szData );
-            SetAttributeFromBlob( vStackObject, "Variable", "Value",
-                                  &lTemp, sizeof( zLONG ) );
+            SetAttributeFromBlob( vStackObject, "Variable", "Value", &lTemp, sizeof( zLONG ) );
             break;
 
          case qTDECIMAL:
             SysConvertStringToDecimal( szData, &dTemp );
-            SetAttributeFromBlob( vStackObject, "Variable", "Value",
-                            &dTemp, sizeof(zDECIMAL) );
+            SetAttributeFromBlob( vStackObject, "Variable", "Value", &dTemp, sizeof(zDECIMAL) );
             break;
 
          case qTSTRING:
-            SetAttributeFromBlob( vStackObject, "Variable", "Value",
-                                  szData, zstrlen( szData ) );
+            SetAttributeFromBlob( vStackObject, "Variable", "Value", szData, zstrlen( szData ) );
             break;
 
          default:

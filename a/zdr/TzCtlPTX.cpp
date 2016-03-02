@@ -371,7 +371,7 @@ TZText::TZText( TZPainterWindow *pPainterWindow,
             m_lBorderColor = ld.lBorderColor;
             m_lEscapement = ld.lEscapement;
             m_lTypeText = ld.lType;
-            strcpy_s( m_szFaceName, sizeof( m_szFaceName ), ld.szFontName );
+            strcpy_s( m_szFaceName, zsizeof( m_szFaceName ), ld.szFontName );
 
             while ( m_lEscapement < 0 )
                m_lEscapement += 3600;
@@ -428,7 +428,7 @@ TZText::TZText( TZPainterWindow *pPainterWindow,
         m_bUnderline == 0 && // m_lSize == 0 &&
         m_lEscapement == 0 && m_szFaceName[ 0 ] == 0 )
    {
-      strcpy_s( m_szFaceName, sizeof( m_szFaceName ),
+      strcpy_s( m_szFaceName, zsizeof( m_szFaceName ),
                m_pPainterWindow->m_pBar->m_szReportFaceName );
       if ( m_lSize == 0 )
       {
@@ -527,7 +527,7 @@ TZText::OnPaint( )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "TZText::OnPaint: %s ====>", m_csTag );
+      sprintf_s( szMsg, zsizeof( szMsg ), "TZText::OnPaint: %s ====>", m_csTag );
       TraceRect( szMsg, m_rectPainter );
    }
 #endif
@@ -985,7 +985,7 @@ TZDayTimer::OnPaint( )
 #if 0 //def DEBUG_ALL lots of messages
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "TZDayTimer::OnPaint: %s ====>", m_csTag );
+   sprintf_s( szMsg, zsizeof( szMsg ), "TZDayTimer::OnPaint: %s ====>", m_csTag );
    TraceRect( szMsg, m_rectPainter );
 #endif
 
@@ -1557,7 +1557,7 @@ TZIcon::TZIcon( TZPainterWindow *pPainterWindow,
             if ( vApp &&
                  SfGetApplicationForSubtask( &pApp, vApp ) == 0 && pApp )
             {
-               SysConvertEnvironmentString( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+               SysConvertEnvironmentString( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
             }
             else
             {
@@ -1566,13 +1566,13 @@ TZIcon::TZIcon( TZPainterWindow *pPainterWindow,
 
                GetViewByName( &vTaskLPLR, "TaskLPLR", pZSubtask->m_vDialog, zLEVEL_TASK );
                GetAddrForAttribute( &pchExecDir, vTaskLPLR, "LPLR", "ExecDir" );
-               SysConvertEnvironmentString( szZeidonPath, sizeof( szZeidonPath ), pchExecDir );
+               SysConvertEnvironmentString( szZeidonPath, zsizeof( szZeidonPath ), pchExecDir );
             }
 
             if ( szZeidonPath[ 0 ] )
             {
                SysAppendcDirSep( szZeidonPath );
-               strcat_s( szZeidonPath, sizeof( szZeidonPath ), pch );
+               strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pch );
                HICON hIcon = ::ExtractIcon( hInst, szZeidonPath, 0 );
                if ( hIcon && hIcon != (HICON) 1 )
                   m_hIcon = hIcon;
@@ -1580,12 +1580,12 @@ TZIcon::TZIcon( TZPainterWindow *pPainterWindow,
 
             if ( m_hIcon == 0 || m_hIcon == (HICON) 1 )
             {
-               SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+               SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
                if ( szZeidonPath[ 0 ] )
                {
                   SysAppendcDirSep( szZeidonPath );
-                  strcat_s( szZeidonPath, sizeof( szZeidonPath ), pch );
-                  SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+                  strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pch );
+                  SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
                   HICON hIcon = ::ExtractIcon( hInst, szWorkString, 0 );
                   if ( hIcon && hIcon != (HICON) 1 )
                      m_hIcon = hIcon;
@@ -1627,7 +1627,7 @@ TZIcon::OnPaint( )
 #if 0 //def DEBUG_ALL lots of messages
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "TZIcon::OnPaint: %s ====>", m_csTag );
+   sprintf_s( szMsg, zsizeof( szMsg ), "TZIcon::OnPaint: %s ====>", m_csTag );
    TraceRect( szMsg, m_rectPainter );
 #endif
 
@@ -1793,12 +1793,12 @@ TZBitmap::OnCreate( LPCREATESTRUCT lpCreateStruct )
       zCHAR  szDir[ 512 ];
 
       GetViewByName( &vTaskLPLR, "TaskLPLR", m_vCtrl, zLEVEL_TASK );
-      GetStringFromAttribute( szDir, sizeof( szDir ), vTaskLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szDir, zsizeof( szDir ), vTaskLPLR, "LPLR", "ExecDir" );
       zULONG  ulLth = zstrlen( szDir );
       if ( ulLth && szDir[ ulLth ] != '\\' )
          szDir[ ulLth++ ] = '\\';
 
-      strcpy_s( szDir + ulLth, sizeof( szDir ) - ulLth, pch );
+      strcpy_s( szDir + ulLth, zsizeof( szDir ) - ulLth, pch );
       hLibrary = SysLoadLibraryWithErrFlag( m_vCtrl, szDir, zLOADLIB_RESOURCES );
       if ( hLibrary == 0 )
       {
@@ -1889,7 +1889,7 @@ TZBitmap::LoadDib( HINSTANCE hInstDLL,
          m_pPainterWindow->m_pBar->CreateAppView( &vApp );
          if ( vApp && SfGetApplicationForSubtask( &pApp, vApp ) == 0 && pApp )
          {
-            SysConvertEnvironmentString( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+            SysConvertEnvironmentString( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
          }
          else
          {
@@ -1898,25 +1898,25 @@ TZBitmap::LoadDib( HINSTANCE hInstDLL,
 
             GetViewByName( &vTaskLPLR, "TaskLPLR", m_vCtrl, zLEVEL_TASK );
             GetAddrForAttribute( &pchExecDir, vTaskLPLR, "LPLR", "ExecDir" );
-            SysConvertEnvironmentString( szZeidonPath, sizeof( szZeidonPath ), pchExecDir );
+            SysConvertEnvironmentString( szZeidonPath, zsizeof( szZeidonPath ), pchExecDir );
          }
 
          if ( szZeidonPath[ 0 ] )
          {
             SysAppendcDirSep( szZeidonPath );
-            strcat_s( szZeidonPath, sizeof( szZeidonPath ), pchSemiColon );
+            strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pchSemiColon );
             if ( m_pDib->Load( szZeidonPath ) )
                return( pchReturn );
 
             TraceLineS( "TZBitmap::LoadDib: Cannot access bitmap file in TaskLPLR ", szZeidonPath );
          }
 
-         SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+         SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
          if ( szZeidonPath[ 0 ] )
          {
             SysAppendcDirSep( szZeidonPath );
-            strcat_s( szZeidonPath, sizeof( szZeidonPath ), pchSemiColon );
-            SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+            strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pchSemiColon );
+            SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
             if ( m_pDib->Load( szWorkString ) )
                return( pchReturn );
 
@@ -2315,7 +2315,7 @@ TZComboBox::OnPaint( )
 #if 0 //def DEBUG_ALL lots of messages
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "TZComboBox::OnPaint: %s ====>", m_csTag );
+   sprintf_s( szMsg, zsizeof( szMsg ), "TZComboBox::OnPaint: %s ====>", m_csTag );
    TraceRect( szMsg, m_rectPainter );
 #endif
 
@@ -2613,7 +2613,7 @@ TZGroupBox::OnPaint( )
 #if 0 //def DEBUG_ALL lots of messages
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "TZGroupBox::OnPaint: %s ====>", m_csTag );
+   sprintf_s( szMsg, zsizeof( szMsg ), "TZGroupBox::OnPaint: %s ====>", m_csTag );
    TraceRect( szMsg, m_rectPainter );
 #endif
 
@@ -3091,7 +3091,7 @@ TZGroupSetRpt::TZGroupSetRpt( TZPainterWindow *pPainterWindow,
    if ( vCtrl )
    {
       GetIntegerFromAttribute( &m_lGrpSetFlags, vCtrl, szlGroup, "Flags" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vCtrl, szlGroupSet, szlType );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vCtrl, szlGroupSet, szlType );
       if ( szTemp[ 0 ] )
          m_chType = toupper( szTemp[ 1 ] );
       else
@@ -3181,7 +3181,7 @@ TZGroupSetRpt::OnCreate( LPCREATESTRUCT lpCreateStruct )
    zCHAR  szTag[ zTAG_LTH ];
    CClientDC dc( this );
 
-   MakeShortString( &dc, szTag, sizeof( szTag ), m_csTag, m_pPainterWindow->m_lLeftMargin - 8, 0 );
+   MakeShortString( &dc, szTag, zsizeof( szTag ), m_csTag, m_pPainterWindow->m_lLeftMargin - 8, 0 );
    SetWindowText( szTag );
 
 // ModifyStyleEx( 0, WS_EX_TRANSPARENT );
@@ -3260,7 +3260,7 @@ TZGroupSetRpt::OnPaint( )
 #if 0 //def DEBUG_ALL lots of messages
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "TZGroupSetRpt::OnPaint: %s ====>", m_csTag );
+   sprintf_s( szMsg, zsizeof( szMsg ), "TZGroupSetRpt::OnPaint: %s ====>", m_csTag );
    TraceRect( szMsg, m_rectPainter );
 #endif
 
@@ -3468,7 +3468,7 @@ TZGroupRpt::TZGroupRpt( TZPainterWindow *pPainterWindow,
    if ( vCtrl )
    {
       GetIntegerFromAttribute( &m_lGrpFlags, vCtrl, szlGroup, "Flags" );
-      GetStringFromAttribute( szType, sizeof( szType ), vCtrl, szlGroup, szlType );
+      GetStringFromAttribute( szType, zsizeof( szType ), vCtrl, szlGroup, szlType );
       m_chType = tolower( szType[ 1 ] );
    }
    else
@@ -3514,7 +3514,7 @@ TZGroupRpt::OnCreate( LPCREATESTRUCT lpCreateStruct )
    zCHAR  szTag[ zTAG_LTH ];
    CClientDC dc( this );
 
-   MakeShortString( &dc, szTag, sizeof( szTag ), m_csTag, m_pPainterWindow->m_lLeftMargin - 8, 0 );
+   MakeShortString( &dc, szTag, zsizeof( szTag ), m_csTag, m_pPainterWindow->m_lLeftMargin - 8, 0 );
    SetWindowText( szTag );
 
 // ModifyStyleEx( 0, WS_EX_TRANSPARENT );
@@ -3604,7 +3604,7 @@ TZGroupRpt::OnPaint( )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "TZGroupRpt::OnPaint: %s ====>", m_csTag );
+      sprintf_s( szMsg, zsizeof( szMsg ), "TZGroupRpt::OnPaint: %s ====>", m_csTag );
       TraceRect( szMsg, m_rectPainter );
    }
 #endif
@@ -3957,7 +3957,7 @@ TZShape::OnPaint( )
 #if 0 //def DEBUG_ALL lots of messages
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "TZShape::OnPaint: %s ====>", m_csTag );
+   sprintf_s( szMsg, zsizeof( szMsg ), "TZShape::OnPaint: %s ====>", m_csTag );
    TraceRect( szMsg, m_rectPainter );
 #endif
 

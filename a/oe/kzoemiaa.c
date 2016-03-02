@@ -872,7 +872,7 @@ MiGetOI_ReleaseForView( zVIEW    lpView,
 
    lpViewCsr = zGETPTR( lpView->hViewCsr );
    lpViewOI  = zGETPTR( lpViewCsr->hViewOI );
-   strcpy_s( pchReturnRelease, sizeof( lpViewOI->szRelease ), lpViewOI->szRelease );
+   strcpy_s( pchReturnRelease, zsizeof( lpViewOI->szRelease ), lpViewOI->szRelease );
    fnOperationReturn( iMiGetOI_ReleaseForView, lpCurrentTask );
    return( 1 );
 }
@@ -913,7 +913,7 @@ MiSetOI_ReleaseForView( zVIEW   lpView,
 
    lpViewCsr = zGETPTR( lpView->hViewCsr );
    lpViewOI  = zGETPTR( lpViewCsr->hViewOI );
-   strncpy_s( lpViewOI->szRelease, sizeof( lpViewOI->szRelease ), cpcNewRelease, 8 );
+   strncpy_s( lpViewOI->szRelease, zsizeof( lpViewOI->szRelease ), cpcNewRelease, 8 );
    lpViewOI->szRelease[ 8 ] = 0;
 
    fnOperationReturn( iMiSetOI_ReleaseForView, lpCurrentTask );
@@ -1173,8 +1173,7 @@ MiValidView( zVIEW lpView )
    if ( lpView == 0 )
       return( FALSE );
 
-   if ( SysValidAddress( (zPVOID) lpView,
-                         (zLONG) sizeof( ViewRecord ), 1 ) )
+   if ( SysValidAddress( (zPVOID) lpView, sizeof( ViewRecord ), 1 ) )
    {
       if ( lpView->nTableID == iView )
          return( TRUE );
@@ -1243,14 +1242,14 @@ MiGetSetViewTaskAppFlags( zVIEW   lpView,
 
       if ( lOption & 0x00000002 ) // Task Title
       {
-         strncpy_s( lpTask->szTaskTitle, sizeof( lpTask->szTaskTitle ), pchTaskInfo, 127 );
+         strncpy_s( lpTask->szTaskTitle, zsizeof( lpTask->szTaskTitle ), pchTaskInfo, 127 );
          lpTask->szTaskTitle[ 127 ] = 0;
       }
    }
    else
    if ( lOption & 0x00000002 ) // Task Title
    {
-      strcpy_s( pchTaskInfo, sizeof( lpTask->szTaskTitle ), lpTask->szTaskTitle );
+      strcpy_s( pchTaskInfo, zsizeof( lpTask->szTaskTitle ), lpTask->szTaskTitle );
    }
 
    fnOperationReturn( iMiGetSetViewTaskAppFlags, lpTask );
@@ -1318,7 +1317,7 @@ MiListOE_Memory( zVIEW lpView, zSHORT nLevel )
       hTask = zGETHNDL( lpTask );
       by = (zBYTE) ((zULONG) hTask >> 24);
       lpApp = zGETPTR( lpTask->hApp );
-      sprintf_s( szMsg, sizeof( szMsg ), " Memory [%x] for Task 0x%08x App: %s Size: %d Status: ",
+      sprintf_s( szMsg, zsizeof( szMsg ), " Memory [%x] for Task 0x%08x App: %s Size: %d Status: ",
                  (zLONG) by, (zULONG) hTask, lpApp ? lpApp->szName : "???", lpTask->ulTrackTaskMemory );
       if ( lpTask->bShutdown )
       {
@@ -1363,11 +1362,11 @@ MiListOE_Memory( zVIEW lpView, zSHORT nLevel )
          while ( szPageTable[ k ] == '.' )
             szPageTable[ k-- ] = 0;
 
-         sprintf_s( szMsg, sizeof( szMsg ), " [%lx] size: %ld; fs ceiling: %ld; total fs: %ld ==> %s",
+         sprintf_s( szMsg, zsizeof( szMsg ), " [%lx] size: %ld; fs ceiling: %ld; total fs: %ld ==> %s",
                     (zLONG) lpDataHeader, lpDataHeader->ulUseableSize,
                     lpDataHeader->ulMaxEmptyBlockSize, ulFreeBytes, szPageTable );
 #else
-         sprintf_s( szMsg, sizeof( szMsg ), " [%lx] size: %ld; fs ceiling: %ld ==> %s",
+         sprintf_s( szMsg, zsizeof( szMsg ), " [%lx] size: %ld; fs ceiling: %ld ==> %s",
                     (zLONG) lpDataHeader, lpDataHeader->lNumberOfEntries,
                     lpDataHeader->ulMaxEmptyBlockSize, szPageTable );
 #endif

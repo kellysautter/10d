@@ -192,7 +192,7 @@ zwTZREPOAD_CompareMeta( zVIEW    vSubtask )
       SetAttributeFromString( vKZDBHQUA, "QualAttrib",
                               "AttributeName", "ZKey" );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-      zltoa( lZKey, szZKey, sizeof( szZKey ) );
+      zltoa( lZKey, szZKey, zsizeof( szZKey ) );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 // OperationCount( 11 );
       ActivateObjectInstance( &vDB_Meta, SRC_CMOD[ lMetaType ].szOD,
@@ -243,11 +243,11 @@ IncrementErrorCount( zVIEW vSubtask, zPSHORT pnError )
 {
    zCHAR szMsg[ 60 ];
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Total errors " );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Total errors " );
    (*pnError)++;
    nTotalErrors++;
-   zltoa( nTotalErrors, szMsg + 50, sizeof( szMsg ) - 50 );
-   strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 50 ] );
+   zltoa( nTotalErrors, szMsg + 50, zsizeof( szMsg ) - 50 );
+   strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 50 ] );
    MB_SetMessage( vSubtask, 2, szMsg );
    TraceLineS("--------------------------- END of ERROR ---------------------","");
 }
@@ -260,8 +260,8 @@ fnRecursLodEntityMarking( zVIEW vLod )
 
    do
    {
-      GetStringFromAttribute( szWork, sizeof( szWork ), vLod, "LOD_EntityParent", "Work" );
-      GetStringFromAttribute( szDerived, sizeof( szDerived ), vLod, "LOD_EntityParent", "Derived" );
+      GetStringFromAttribute( szWork, zsizeof( szWork ), vLod, "LOD_EntityParent", "Work" );
+      GetStringFromAttribute( szDerived, zsizeof( szDerived ), vLod, "LOD_EntityParent", "Derived" );
       if ( szWork[ 0 ] != 'Y' )
       {
          SetIncrementalUpdateFlags( vLod, "ER_EntityRec",
@@ -281,7 +281,7 @@ fnRecursLodEntityMarking( zVIEW vLod )
       {
          do
          {
-            GetStringFromAttribute( szWork, sizeof( szWork ), vLod, "LOD_AttributeRec", "Work" );
+            GetStringFromAttribute( szWork, zsizeof( szWork ), vLod, "LOD_AttributeRec", "Work" );
             if ( szWork[ 0 ] == 'Y' )
             {
                SetIncrementalUpdateFlags( vLod, "DomainRec",
@@ -468,7 +468,7 @@ fnRecursDialogControlValidation( zVIEW vSubtask,
                   TraceLineS("(tzrepoad) Dialog control mapping using VOR not included in Dialog","");
                   DisplayEntityInstancePath( vDialog, "CtrlMapView" );
                   IncrementErrorCount( vSubtask, pnError );
-                  GetStringFromAttribute( szTag, sizeof( szTag ), vDialog,
+                  GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog,
                                           "CtrlMapView", "Name" );
                   if ( SetCursorFirstEntityByString( vDlgWk, "ViewObjRef",
                                                      "Name", szTag, 0 ) >= zCURSOR_SET )
@@ -507,12 +507,12 @@ fnRecursDialogControlValidation( zVIEW vSubtask,
                         DisplayEntityInstance( vDialog, "CtrlMapRelatedEntity" );
                         DisplayEntityInstance( vDlgWk, "LOD" );
                         IncrementErrorCount( vSubtask, pnError );
-                        GetStringFromAttribute( szTag, sizeof( szTag ), vDialog,
+                        GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog,
                            "CtrlMapRelatedEntity", "Name" );
                         if ( SetCursorFirstEntityByString( vLod,
                               "LOD_Entity", "Name", szTag, 0 ) >= zCURSOR_SET )
                         {
-                           GetStringFromAttribute( szTag, sizeof( szTag ), vDialog,
+                           GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog,
                               "CtrlMapER_Attribute", "Name" );
                            if ( SetCursorFirstEntityByString( vLod,
                                  "ER_Attribute", "Name", szTag,
@@ -565,7 +565,7 @@ fnRecursDialogControlValidation( zVIEW vSubtask,
                   TraceLineS("(tzrepoad) Dialog control mapping using VOR not included in Dialog","");
                   DisplayEntityInstancePath( vViewObj, "CtrlMapView" );
                   IncrementErrorCount( vSubtask, pnError );
-                  GetStringFromAttribute( szTag, sizeof( szTag ), vViewObj,
+                  GetStringFromAttribute( szTag, zsizeof( szTag ), vViewObj,
                                           "CtrlMapView", "Name" );
                   if ( SetCursorFirstEntityByString( vDlgWk, "ViewObjRef",
                                                      "Name", szTag, 0 ) >= zCURSOR_SET )
@@ -597,7 +597,7 @@ fnRecursDialogControlValidation( zVIEW vSubtask,
                         DisplayEntityInstancePath( vDialog, "CtrlMapLOD_Entity" );
                         DisplayEntityInstance( vDlgWk, "LOD" );
                         IncrementErrorCount( vSubtask, pnError );
-                        GetStringFromAttribute( szTag, sizeof( szTag ), vDialog,
+                        GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog,
                            "CtrlMapLOD_Entity", "Name" );
                         if ( SetCursorFirstEntityByString( vLod,
                               "LOD_Entity", "Name", szTag, 0 ) >= zCURSOR_SET )
@@ -631,7 +631,7 @@ fnRecursDialogControlValidation( zVIEW vSubtask,
             DisplayEntityInstance( vDialog, "Event" );
             DisplayEntityInstance( vDialog, "EventAct" );
             IncrementErrorCount( vSubtask, pnError );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vDialog, "EventAct", "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog, "EventAct", "Tag" );
             if ( SetCursorFirstEntityByString( vDlgWk, "Action", "Tag",
                                                szTag, 0 ) >= zCURSOR_SET )
             {
@@ -748,7 +748,7 @@ fnRecursDialogOptionValidation( zVIEW vSubtask,
             DisplayEntityInstance( vDialog, "Option" );
             DisplayEntityInstance( vDialog, "OptAct" );
             IncrementErrorCount( vSubtask, pnError );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vDialog, "OptAct", "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog, "OptAct", "Tag" );
             if ( SetCursorFirstEntityByString( vDlgWk, "Action", "Tag",
                                                szTag, 0 ) >= zCURSOR_SET )
             {
@@ -814,12 +814,12 @@ fnRecursDialogOptionValidation( zVIEW vSubtask,
                         DisplayEntityInstance( vDialog, "OptMapRelatedEntity" );
                         DisplayEntityInstance( vDlgWk, "LOD" );
                         IncrementErrorCount( vSubtask, pnError );
-                        GetStringFromAttribute( szTag, sizeof( szTag ), vDialog,
+                        GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog,
                            "OptMapRelatedEntity", "Name" );
                         if ( SetCursorFirstEntityByString( vLod,
                               "LOD_Entity", "Name", szTag, 0 ) >= zCURSOR_SET )
                         {
-                           GetStringFromAttribute( szTag, sizeof( szTag ), vDialog,
+                           GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog,
                               "OptMapER_Attribute", "Name" );
                            if ( SetCursorFirstEntityByString( vLod,
                                  "ER_Attribute", "Name", szTag,
@@ -841,7 +841,7 @@ fnRecursDialogOptionValidation( zVIEW vSubtask,
                   TraceLineS("(tzrepoad) Dialog option mapping using VOR not included in Dialog","");
                   DisplayEntityInstancePath( vDialog, "OptMapView" );
                   IncrementErrorCount( vSubtask, pnError );
-                  GetStringFromAttribute( szTag, sizeof( szTag ), vDialog,
+                  GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog,
                                           "OptMapView", "Name" );
                   if ( SetCursorFirstEntityByString( vDlgWk, "ViewObjRef",
                                                      "Name", szTag, 0 ) >= zCURSOR_SET )
@@ -969,16 +969,16 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          nError = 0;
          nFixes = 0;
          bFirst = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating Domain " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating Domain " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vDomain, vMetaList, zSOURCE_DOMAIN_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Validating Domain " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Validating Domain " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
 
 #if 0   // DKS  undefined vSrcList ... DG ... should this be removed???
@@ -1017,8 +1017,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          if ( nError && PROMPT )
          {
             SetNameForView( vDomain, "ERRORMETA", vSubtask, zLEVEL_TASK );
-            zltoa( nError, szMsg, sizeof( szMsg ) );
-            strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+            zltoa( nError, szMsg, zsizeof( szMsg ) );
+            strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
             nRC = MessagePrompt( vSubtask, "RE00101",
                                  "Laucher",
                                  szMsg,
@@ -1056,16 +1056,16 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
       if ( SetCursorFirstEntity( vMetaList, "W_MetaDef", 0 ) >= zCURSOR_SET )
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating Domain " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating Domain " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vMeta, vDomainList, zSOURCE_DOMAIN_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking Domain " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking Domain " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          SetIncrementalUpdateFlags( vMeta, 0,
                               zSET_INCR_OWNERSHIP | zSET_INCR_CREATED );
@@ -1077,10 +1077,10 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
             ExcludeEntity( vMeta, "Z_MetaDef", zREPOS_NONE );
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting Domain " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting Domain " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                     "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vMeta, zSOURCE_DOMAIN_META );
          }
@@ -1131,8 +1131,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
       if ( nError && PROMPT )
       {
          SetNameForView( vErd, "ERRORMETA", vSubtask, zLEVEL_TASK );
-         zltoa( nError, szMsg, sizeof( szMsg ) );
-         strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+         zltoa( nError, szMsg, zsizeof( szMsg ) );
+         strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
          nRC = MessagePrompt( vSubtask, "RE00102",
                               "Laucher",
                               szMsg,
@@ -1196,15 +1196,15 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          nError = 0;
          nFixes = 0;
          bFirst = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating SA " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating SA " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vSa, vMetaList, zSOURCE_SA_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Validating SA " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Validating SA " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          TraceLineS("(tzrepoad) ", szMsg );
 
@@ -1268,8 +1268,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          if ( nError && PROMPT )
          {
             SetNameForView( vSa, "ERRORMETA", vSubtask, zLEVEL_TASK );
-            zltoa( nError, szMsg, sizeof( szMsg ) );
-            strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+            zltoa( nError, szMsg, zsizeof( szMsg ) );
+            strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
             nRC = MessagePrompt( vSubtask, "RE00103", "Laucher", szMsg,
                                  zBEEP, zBUTTONS_YESNOCANCEL, zRESPONSE_NO,  0 );
             DropMetaOI( vSubtask, vSa );
@@ -1304,10 +1304,10 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
 
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating SA " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating SA " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vMeta, vMetaList, zSOURCE_SA_META, 0 );
 
@@ -1321,9 +1321,9 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
             } while ( SetCursorNextEntity( vMeta, "ER_RelType", "SubjectArea" ) >= zCURSOR_SET );
          }
 
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking SA " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking SA " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          SetIncrementalUpdateFlags( vMeta, 0,
@@ -1337,9 +1337,9 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          SetIncrementalUpdateFlags( vMeta, "EntpER_Model", zSET_INCR_PERSISTENT | zSET_INCR_INCLUDED );
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting SA " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting SA " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vMeta, zSOURCE_SA_META );
          }
@@ -1361,14 +1361,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          nError = 0;
          nFixes = 0;
          bFirst = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating TE " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating TE " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vTe, vMetaList, zSOURCE_DTE_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Validating TE " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Validating TE " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          TraceLineS( "(tzrepoad) ", szMsg );
 
@@ -1451,8 +1451,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          if ( nError && PROMPT )
          {
             SetNameForView( vTe, "ERRORMETA", vSubtask, zLEVEL_TASK );
-            zltoa( nError, szMsg, sizeof( szMsg ) );
-            strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+            zltoa( nError, szMsg, zsizeof( szMsg ) );
+            strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
             nRC = MessagePrompt( vSubtask, "RE00104",
                                  "Laucher",
                                  szMsg,
@@ -1489,14 +1489,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
 
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating TE " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating TE " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vMeta, vMetaList, zSOURCE_DTE_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking TE " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking TE " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          SetIncrementalUpdateFlags( vMeta, 0, zSET_INCR_OWNERSHIP | zSET_INCR_CREATED );
@@ -1518,9 +1518,9 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
 #endif
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting TE " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting TE " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vMeta, zSOURCE_DTE_META );
          }
@@ -1542,14 +1542,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          nError = 0;
          nFixes = 0;
          bFirst = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating LOD " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating LOD " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vLod, vLodList, zSOURCE_LOD_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Validating LOD " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Validating LOD " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          TraceLineS("(tzrepoad) ", szMsg );
 
@@ -1577,7 +1577,7 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          {
             // Retrieve the ZKey of the ER_Entity and look it up in
             // the model
-            GetStringFromAttribute( szWork, sizeof( szWork ), vLod, "LOD_Entity", "Work" );
+            GetStringFromAttribute( szWork, zsizeof( szWork ), vLod, "LOD_Entity", "Work" );
             lZKey = 0;
             if ( CheckExistenceOfEntity( vLod, "ER_Entity" ) == zCURSOR_SET )
             {
@@ -1624,8 +1624,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
 
             // Retrieve the ZKey of the ER_RelLink and look it up in
             // the model
-            GetStringFromAttribute( szWork, sizeof( szWork ), vLod, "LOD_Entity", "Work" );
-            GetStringFromAttribute( szDerived, sizeof( szDerived ), vLod, "LOD_Entity", "Derived" );
+            GetStringFromAttribute( szWork, zsizeof( szWork ), vLod, "LOD_Entity", "Work" );
+            GetStringFromAttribute( szDerived, zsizeof( szDerived ), vLod, "LOD_Entity", "Derived" );
             lZKey = 0;
             if ( CheckExistenceOfEntity( vLod, "ER_RelLink" ) == zCURSOR_SET )
             {
@@ -1686,7 +1686,7 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
             {
                // Retrieve the ZKey of the domain and look it up in
                // the domain meta list
-               GetStringFromAttribute( szWork, sizeof( szWork ), vLod, "LOD_Attribute", "Work" );
+               GetStringFromAttribute( szWork, zsizeof( szWork ), vLod, "LOD_Attribute", "Work" );
                lZKey = 0;
                if ( CheckExistenceOfEntity( vLod, "ER_Attribute" ) == zCURSOR_SET )
                {
@@ -1759,8 +1759,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          if ( nError && PROMPT )
          {
             SetNameForView( vLod, "ERRORMETA", vSubtask, zLEVEL_TASK );
-            zltoa( nError, szMsg, sizeof( szMsg ) );
-            strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+            zltoa( nError, szMsg, zsizeof( szMsg ) );
+            strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
             nRC = MessagePrompt( vSubtask, "RE00105",
                                  "Laucher",
                                  szMsg,
@@ -1794,14 +1794,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
            >= zCURSOR_SET )
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating LOD " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating LOD " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vLod, vLodList, zSOURCE_LOD_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking LOD " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking LOD " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          SetIncrementalUpdateFlags( vLod, 0, zSET_INCR_OWNERSHIP | zSET_INCR_CREATED );
          if ( SetCursorFirstEntity( vLod, "Z_MetaDef", 0 ) == zCURSOR_SET )
@@ -1815,9 +1815,9 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
 
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting LOD " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting LOD " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vLod, zSOURCE_LOD_META );
          }
@@ -1845,14 +1845,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          nError = 0;
          nFixes = 0;
          bFirst = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating UIS " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating UIS " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vUis, vMetaList, zSOURCE_UIS_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Validating UIS " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Validating UIS " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          TraceLineS("(tzrepoad) ", szMsg );
 
@@ -1909,8 +1909,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          if ( nError && PROMPT )
          {
             SetNameForView( vUis, "ERRORMETA", vSubtask, zLEVEL_TASK );
-            zltoa( nError, szMsg, sizeof( szMsg ) );
-            strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+            zltoa( nError, szMsg, zsizeof( szMsg ) );
+            strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
             nRC = MessagePrompt( vSubtask, "RE00106", "Laucher", szMsg, zBEEP,
                                  zBUTTONS_YESNOCANCEL, zRESPONSE_NO,  0 );
             DropMetaOI( vSubtask, vUis );
@@ -1941,14 +1941,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
       if ( SetCursorFirstEntity( vMetaList, "W_MetaDef", 0 ) >= zCURSOR_SET )
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating UIS " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating UIS " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vUis, vMetaList, zSOURCE_UIS_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking UIS " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking UIS " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          // UIS Marking
@@ -1967,9 +1967,9 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
 
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting UIS " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting UIS " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vUis, zSOURCE_UIS_META );
          }
@@ -1993,14 +1993,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
            >= zCURSOR_SET )
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating Presentation Env " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating Presentation Env " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vMeta, vPeList, zSOURCE_PENV_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking Presentation Env " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking Presentation Env " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          SetIncrementalUpdateFlags( vMeta, 0, zSET_INCR_OWNERSHIP | zSET_INCR_CREATED );
          if ( SetCursorFirstEntity( vMeta, "Z_MetaDef", 0 ) == zCURSOR_SET )
@@ -2015,9 +2015,9 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
       // SetIncrementalUpdateFlags( vMeta, "CtrlFont", zSET_INCR_INCLUDED );
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting Presentation Env " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting Presentation Env " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vMeta, zSOURCE_PENV_META );
          }
@@ -2041,17 +2041,17 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          nError = 0;
          nFixes = 0;
          bFirst = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating VOR " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating VOR " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vVor, vMetaList, zREFER_VOR_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Validating VOR " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Validating VOR " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcpy_s( szWork, sizeof( szWork ), &szMsg[ 80 ] );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szWork, zsizeof( szWork ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          TraceLineS("(tzrepoad) ", szMsg );
 
@@ -2106,8 +2106,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          if ( nError && PROMPT )
          {
             SetNameForView( vVor, "ERRORMETA", vSubtask, zLEVEL_TASK );
-            zltoa( nError, szMsg, sizeof( szMsg ) );
-            strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+            zltoa( nError, szMsg, zsizeof( szMsg ) );
+            strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
             nRC = MessagePrompt( vSubtask, "RE00108", "Laucher", szMsg,
                                  zBEEP, zBUTTONS_YESNOCANCEL, zRESPONSE_NO,  0 );
             DropMetaOI( vSubtask, vVor );
@@ -2139,14 +2139,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
            >= zCURSOR_SET )
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating VOR " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating VOR " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vVor, vMetaList, zSOURCE_VOR_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking VOR " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking VOR " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          SetIncrementalUpdateFlags( vVor, 0, zSET_INCR_OWNERSHIP | zSET_INCR_CREATED );
          if ( SetCursorFirstEntity( vVor, "Z_MetaDef", 0 ) == zCURSOR_SET )
@@ -2156,9 +2156,9 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
 
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting VOR " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting VOR " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vVor, zSOURCE_VOR_META );
          }
@@ -2188,17 +2188,17 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          nError = 0;
          nFixes = 0;
          bFirst = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating Dialog " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating Dialog " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vDialog, vMetaList, zSOURCE_DIALOG_META, 0 );
          nFixes = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Validating Dialog " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Validating Dialog " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          TraceLineS("(tzrepoad) ", szMsg );
 
@@ -2211,7 +2211,7 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
             DisplayEntityInstance( vDialog, "Dialog" );
             DisplayEntityInstance( vDialog, "DfltWnd" );
             IncrementErrorCount( vSubtask, &nError );
-            GetStringFromAttribute( szMsg, sizeof( szMsg ), vDialog, "DfltWnd", "Tag" );
+            GetStringFromAttribute( szMsg, zsizeof( szMsg ), vDialog, "DfltWnd", "Tag" );
             if ( SetCursorFirstEntityByString( vDialog, "Window", "Tag",
                                                szMsg, 0 ) >= zCURSOR_SET )
             {
@@ -2242,7 +2242,7 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
                   DisplayEntityInstance( vDialog, "LOD" );
                   IncrementErrorCount( vSubtask, &nError );
                   // See if we can fix the problem
-                  GetStringFromAttribute( szWork, sizeof( szWork ), vDialog,
+                  GetStringFromAttribute( szWork, zsizeof( szWork ), vDialog,
                                           "ViewObjRef", "Name" );
                   if ( SetCursorFirstEntityByString( vVorList, "W_MetaDef",
                                                      "Name", szWork,
@@ -2327,7 +2327,7 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
                                  DisplayEntityInstancePath( vDialog, "ActMapLOD_Entity" );
                                  DisplayEntityInstance( vDialog, "LOD" );
                                  IncrementErrorCount( vSubtask, &nError );
-                                 GetStringFromAttribute( szWork, sizeof( szWork ), vDialog,
+                                 GetStringFromAttribute( szWork, zsizeof( szWork ), vDialog,
                                              "ActMapLOD_Entity", "Name" );
                                  if ( SetCursorFirstEntityByString( vLod,
                                       "LOD_Entity", "Name", szWork, 0 ) >= zCURSOR_SET )
@@ -2350,7 +2350,7 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
                            DisplayEntityInstancePath( vDialog, "ActMapLOD_Entity" );
                            DisplayEntityInstance( vDialog, "ActMapView" );
                            IncrementErrorCount( vSubtask, &nError );
-                           GetStringFromAttribute( szWork, sizeof( szWork ), vDialog,
+                           GetStringFromAttribute( szWork, zsizeof( szWork ), vDialog,
                                                    "ActMapView", "Name" );
                            if ( SetCursorFirstEntityByString( vDialog, "ViewObjRef",
                                                             "Name", szWork, 0 ) >= zCURSOR_SET )
@@ -2548,7 +2548,7 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
                   DisplayEntityInstance( vDialog, "Window" );
                   DisplayEntityInstance( vDialog, "WndStyle" );
                   IncrementErrorCount( vSubtask, &nError );
-                  GetStringFromAttribute( szWork, sizeof( szWork ), vDialog, "WndStyle", "Tag" );
+                  GetStringFromAttribute( szWork, zsizeof( szWork ), vDialog, "WndStyle", "Tag" );
                   if ( SetCursorFirstEntityByString( vPe, "WindowStyle", "Tag",
                                                      szWork, 0 ) >= zCURSOR_SET )
                   {
@@ -2606,8 +2606,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          if ( nError && PROMPT )
          {
             SetNameForView( vDialog, "ERRORMETA", vSubtask, zLEVEL_TASK );
-            zltoa( nError, szMsg, sizeof( szMsg ) );
-            strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+            zltoa( nError, szMsg, zsizeof( szMsg ) );
+            strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
             nRC = MessagePrompt( vSubtask, "RE00109", "Laucher", szMsg,
                                  zBEEP, zBUTTONS_YESNOCANCEL, zRESPONSE_NO,  0 );
             DropMetaOI( vSubtask, vDialog );
@@ -2640,14 +2640,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
            >= zCURSOR_SET )
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating dialog " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating dialog " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vDialog, vMetaList, zSOURCE_DIALOG_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking Dialog " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking Dialog " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          SetIncrementalUpdateFlags( vDialog, 0, zSET_INCR_OWNERSHIP | zSET_INCR_CREATED );
          if ( SetCursorFirstEntity( vDialog, "Z_MetaDef", 0 ) == zCURSOR_SET )
@@ -2703,9 +2703,9 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
 
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting dialog " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting dialog " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vDialog, zSOURCE_DIALOG_META );
          }
@@ -2727,16 +2727,16 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
       if ( SetCursorFirstEntity( vMetaList, "W_MetaDef", 0 ) >= zCURSOR_SET )
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating header " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating header " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vHeader, vMetaList, zSOURCE_HDR_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking Header " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking Header " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          SetIncrementalUpdateFlags( vHeader, 0,
                               zSET_INCR_OWNERSHIP | zSET_INCR_CREATED );
@@ -2744,10 +2744,10 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
             ExcludeEntity( vHeader, "Z_MetaDef", zREPOS_NONE );
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting header " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting header " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                     "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vHeader, zSOURCE_HDR_META );
          }
@@ -2776,14 +2776,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          nError = 0;
          nFixes = 0;
          bFirst = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating Source " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating Source " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vSrc, vMetaList, zSOURCE_SRC_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Validating Source " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Validating Source " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          GetIntegerFromAttribute( &lZKey, vSrc, "SourceFile", "ZKey" );
@@ -2924,8 +2924,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          if ( nError && PROMPT )
          {
             SetNameForView( vSrc, "ERRORMETA", vSubtask, zLEVEL_TASK );
-            zltoa( nError, szMsg, sizeof( szMsg ) );
-            strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+            zltoa( nError, szMsg, zsizeof( szMsg ) );
+            strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
             nRC = MessagePrompt( vSubtask, "RE00110", "Laucher", szMsg,
                                  zBEEP, zBUTTONS_YESNOCANCEL, zRESPONSE_NO,  0 );
             DropMetaOI( vSubtask, vSrc );
@@ -2956,16 +2956,16 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
       if ( SetCursorFirstEntity( vMetaList, "W_MetaDef", 0 ) >= zCURSOR_SET )
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating SourceFile " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating SourceFile " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vSrc, vMetaList, zSOURCE_SRC_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking SourceFile " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking SourceFile " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                  "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          SetIncrementalUpdateFlags( vSrc, 0,
                               zSET_INCR_OWNERSHIP | zSET_INCR_CREATED );
@@ -2981,10 +2981,10 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
                                zSET_INCR_PERSISTENT | zSET_INCR_INCLUDED );
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting SourceFile " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList,
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting SourceFile " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList,
                                     "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vSrc, zSOURCE_SRC_META );
          }
@@ -3008,14 +3008,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          nError = 0;
          nFixes = 0;
          bFirst = 0;
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating Oper " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating Oper " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vOper, vMetaList, zSOURCE_GO_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Validating Oper " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Validating Oper " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
 
 
@@ -3076,8 +3076,8 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          if ( nError && PROMPT )
          {
             SetNameForView( vOper, "ERRORMETA", vSubtask, zLEVEL_TASK );
-            zltoa( nError, szMsg, sizeof( szMsg ) );
-            strcat_s( szMsg, sizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
+            zltoa( nError, szMsg, zsizeof( szMsg ) );
+            strcat_s( szMsg, zsizeof( szMsg ), " Errors were encountered, DeleteMetaOI?" );
             nRC = MessagePrompt( vSubtask, "RE00111", "Laucher", szMsg,
                                  zBEEP, zBUTTONS_YESNOCANCEL, zRESPONSE_NO,  0 );
             DropMetaOI( vSubtask, vOper );
@@ -3108,14 +3108,14 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
       if ( SetCursorFirstEntity( vMetaList, "W_MetaDef", 0 ) >= zCURSOR_SET )
       do
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activating Oper " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activating Oper " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          ActivateMetaOI( vSubtask, &vOper, vMetaList, zSOURCE_GO_META, 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "Marking Oper " );
-         GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Marking Oper " );
+         GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
          MB_SetMessage( vSubtask, 1, szMsg );
          SetIncrementalUpdateFlags( vOper, 0, zSET_INCR_OWNERSHIP | zSET_INCR_CREATED );
          if ( SetCursorFirstEntity( vOper, "Z_MetaDef", 0 ) == zCURSOR_SET )
@@ -3125,9 +3125,9 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
          SetIncrementalUpdateFlags( vOper, "HeaderFile", zSET_INCR_PERSISTENT | zSET_INCR_INCLUDED );
          if ( COMMIT )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commiting Oper " );
-            GetStringFromAttribute( szMsg + 80, sizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 80 ] );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commiting Oper " );
+            GetStringFromAttribute( szMsg + 80, zsizeof( szMsg ) - 80, vMetaList, "W_MetaDef", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 80 ] );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vOper, zSOURCE_GO_META );
          }

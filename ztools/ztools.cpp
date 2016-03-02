@@ -576,7 +576,7 @@ ProcessXWD( zVIEW vSubtask, CFile *fLog,
       nRC = SetCursorFirstEntity( vLPLR, "W_MetaDef", "" );
       while ( nRC >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szDialogName, sizeof( szDialogName ), vLPLR, "W_MetaDef", "Name" );
+         GetStringFromAttribute( szDialogName, zsizeof( szDialogName ), vLPLR, "W_MetaDef", "Name" );
 
          nRC = ActivateMetaOI( vSubtask, &vDialog, vLPLR, zSOURCE_DIALOG_META, zSINGLE );
          if ( nRC < 0 )
@@ -620,14 +620,14 @@ ProcessXWD( zVIEW vSubtask, CFile *fLog,
       {
          // After saving the PWD and XWD files we have to get
          // back the original files with readonly attribute
-         strcpy_s( szOrder, sizeof( szOrder ), "xcopy " );
-         strcat_s( szOrder, sizeof( szOrder ), szTargetPath );
-         strcat_s( szOrder, sizeof( szOrder ), "\\*.pwd " );
-         strcat_s( szOrder, sizeof( szOrder ), szSourcePath );
-         strcat_s( szOrder, sizeof( szOrder ), " /K /Q" );
+         strcpy_s( szOrder, zsizeof( szOrder ), "xcopy " );
+         strcat_s( szOrder, zsizeof( szOrder ), szTargetPath );
+         strcat_s( szOrder, zsizeof( szOrder ), "\\*.pwd " );
+         strcat_s( szOrder, zsizeof( szOrder ), szSourcePath );
+         strcat_s( szOrder, zsizeof( szOrder ), " /K /Q" );
          InvokeSystemCommand( szOrder, fLog );
-         strcpy_s( szOrder, sizeof( szOrder ), "rmdir /S /Q " );
-         strcat_s( szOrder, sizeof( szOrder ), szTargetPath );
+         strcpy_s( szOrder, zsizeof( szOrder ), "rmdir /S /Q " );
+         strcat_s( szOrder, zsizeof( szOrder ), szTargetPath );
          InvokeSystemCommand( szOrder, fLog );
       }
    }
@@ -647,7 +647,7 @@ int InvokeSystemCommand( zCPCHAR pszOrder, CFile *fLog )
       switch (errno)
       {
          case E2BIG:
-              strcpy_s( szMsg, sizeof( szMsg ), "Argument list is too big!\nOrder: " );
+              strcpy_s( szMsg, zsizeof( szMsg ), "Argument list is too big!\nOrder: " );
               strcat( szMsg, pszOrder );
               break;
          case ENOENT:
@@ -666,7 +666,7 @@ int InvokeSystemCommand( zCPCHAR pszOrder, CFile *fLog )
 
       cerr << "Error running command" << szMsg << endl;
 
-      strcat_s( szMsg, sizeof( szMsg ), "\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n" );
       if ( fLog )
          fLog->Write( szMsg, strlen( szMsg ) );
    }
@@ -701,7 +701,7 @@ ProcessXOD( zVIEW vSubtask, zCPCHAR cTE_Name, CFile *fLog, zCPCHAR cNet )
    zCHAR szNetwork[ zMAX_FILESPEC_LTH + 1 ];
 
    memset (szNetwork, 0, zMAX_FILESPEC_LTH+1 );
-   SysReadZeidonIni( -1, "[Zeidon]", "DefaultNetwork", szNetwork, sizeof( szNetwork ) );
+   SysReadZeidonIni( -1, "[Zeidon]", "DefaultNetwork", szNetwork, zsizeof( szNetwork ) );
    if (*szNetwork == 0)
    {
       CString strMsg = "Error generating XOD: No default Network set! Aborting build!";
@@ -812,7 +812,7 @@ ProcessXOD( zVIEW vSubtask, zCPCHAR cTE_Name, CFile *fLog, zCPCHAR cNet )
          nRC = SetCursorNextEntity( vLOD_List, "W_MetaDef", "" ) )
    {
 
-      GetStringFromAttribute( szLODName, sizeof( szLODName ), vLOD_List, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szLODName, zsizeof( szLODName ), vLOD_List, "W_MetaDef", "Name" );
 
       nRC = ActivateMetaOI( vSubtask, &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI );
       if ( nRC < 0 )
@@ -851,10 +851,10 @@ ProcessXOD( zVIEW vSubtask, zCPCHAR cTE_Name, CFile *fLog, zCPCHAR cNet )
 
          // Commit the XOD to LPLR file.
          GetViewByName( &vXOD, "TZZOXODO", 0, zLEVEL_TASK );
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "ExecDir" );
          ofnTZCMWKSO_AppendSlash( szFileName );
-         strcat_s( szFileName, sizeof( szFileName ), szLODName );
-         strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+         strcat_s( szFileName, zsizeof( szFileName ), szLODName );
+         strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
          CommitOI_ToFile( vXOD, szFileName, zSINGLE );
       }
    }
@@ -881,10 +881,10 @@ int ProcessDTE( zVIEW vSubtask, CFile *fLog )
    }
    else
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Error generating dte: Zeidon DTE could not be loaded. Aborting Build!" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Error generating dte: Zeidon DTE could not be loaded. Aborting Build!" );
       cerr << szMsg << endl;
 
-      strcat_s( szMsg, sizeof( szMsg ), "\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n" );
       if ( fLog )
          fLog->Write( szMsg, strlen( szMsg ) );
       return( 1 );
@@ -894,14 +894,14 @@ int ProcessDTE( zVIEW vSubtask, CFile *fLog )
    nRC = SetCursorFirstEntity( vDTE, "TE_DBMS_Source", "" );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szDataSource, sizeof( szDataSource ), vDTE, "TE_DBMS_Source", "Name" );
+      GetStringFromAttribute( szDataSource, zsizeof( szDataSource ), vDTE, "TE_DBMS_Source", "Name" );
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Deleting/Initializing Tables from Datasource: " );
-      strcat_s( szMsg, sizeof( szMsg ), szDataSource );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Deleting/Initializing Tables from Datasource: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szDataSource );
 
       cout << szMsg << endl;
 
-      strcat_s( szMsg, sizeof( szMsg ), "\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n" );
       if ( fLog )
          fLog->Write( szMsg, strlen( szMsg ) );
 
@@ -909,13 +909,13 @@ int ProcessDTE( zVIEW vSubtask, CFile *fLog )
       nRC = SetCursorFirstEntity( vDTE, "TE_TablRec", "" );
       while ( nRC >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Table: " );
-         strcat_s( szMsg, sizeof( szMsg ), szTableName );
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Table: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szTableName );
 
          cout << szMsg << endl;
 
-         strcat_s( szMsg, sizeof( szMsg ), "\n");
+         strcat_s( szMsg, zsizeof( szMsg ), "\n");
          if ( fLog )
             fLog->Write( szMsg, strlen( szMsg ) );
          nRC = DeleteEntity( vDTE, "TE_TablRec", zREPOS_NONE );
@@ -925,11 +925,11 @@ int ProcessDTE( zVIEW vSubtask, CFile *fLog )
       /* InitTables */
       if (CompareAttributeToString( vDTE, "TE_DBMS_Source", "Paradigm", "S") == 0)
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Can't add Table Records or Relationships for Remote Servers" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Can't add Table Records or Relationships for Remote Servers" );
 
          cout << szMsg << endl;
 
-         strcat_s( szMsg, sizeof( szMsg ), "\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n" );
          if ( fLog )
             fLog->Write( szMsg, zstrlen( szMsg ) );
       }
@@ -952,11 +952,11 @@ int ProcessDTE( zVIEW vSubtask, CFile *fLog )
             nRC = CommitMetaOI( vDTE, zSOURCE_DTE_META );
             if ( nRC < 0 )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to save Physical Environment. Aborting Build" );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to save Physical Environment. Aborting Build" );
 
                cout << szMsg << endl;
 
-               strcat_s( szMsg, sizeof( szMsg ), "\n" );
+               strcat_s( szMsg, zsizeof( szMsg ), "\n" );
                if ( fLog )
                   fLog->Write( szMsg, zstrlen( szMsg ) );
                return 2;
@@ -1000,7 +1000,7 @@ ProcessXDM( zVIEW vSubtask, CFile *fLog )
    RESULT = SetCursorFirstEntity( vCM_List, "W_MetaDef", "" );
    while ( RESULT >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szName, sizeof( szName ), vCM_List, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vCM_List, "W_MetaDef", "Name" );
 
       cout << "Processing domain: " <<  szName << endl;;
 
@@ -1078,9 +1078,9 @@ int ProcessXLP( zVIEW vSubtask, CFile *fLog )
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMSLPL, "LPLR", "ZKey" );
    GetIntegerFromAttribute( (zPLONG) &ulCurrentZKey, vTZCMWKSO, "LPLR", "ZKey" );
    nRC = SetCursorFirstEntityByInteger( vTZCMWKSO, "LPLR", "ZKey", ulZKey, "" );
-   GetStringFromAttribute( szLPLR_Name, sizeof( szLPLR_Name ), vTZCMWKSO, "LPLR", "Name" );
+   GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), vTZCMWKSO, "LPLR", "Name" );
    LPLR_Activated = GetViewByName( &LPLR_View, szLPLR_Name, vZeidonCM, zLEVEL_SUBTASK );
-   GetStringFromAttribute( szLPLR_FileSpec, sizeof( szLPLR_FileSpec ), vTZCMWKSO, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szLPLR_FileSpec, zsizeof( szLPLR_FileSpec ), vTZCMWKSO, "LPLR", "ExecDir" );
    ofnTZCMWKSO_AppendSlash( szLPLR_FileSpec );
    zstrncpy( szLPLR_FileName, szLPLR_Name, 9 );
    for ( nRC = 0; nRC < 8; nRC++ )
@@ -1092,8 +1092,8 @@ int ProcessXLP( zVIEW vSubtask, CFile *fLog )
    }
 
    szLPLR_FileName[ nRC ] = 0;
-   strcat_s( szLPLR_FileSpec, sizeof( szLPLR_FileSpec ), szLPLR_FileName );
-   strcat_s( szLPLR_FileSpec, sizeof( szLPLR_FileSpec ), ".XLP" );
+   strcat_s( szLPLR_FileSpec, zsizeof( szLPLR_FileSpec ), szLPLR_FileName );
+   strcat_s( szLPLR_FileSpec, zsizeof( szLPLR_FileSpec ), ".XLP" );
    if ( LPLR_Activated < 1 ) // LPLR currently not activated
    {
       hFile = (HFILE) SysOpenFile( szLPLR_FileSpec, COREFILE_READ );
@@ -1197,7 +1197,7 @@ int ProcessXLP( zVIEW vSubtask, CFile *fLog )
    }
 
    /* Test to see if we are indeed writing the correct O to file */
-   GetStringFromAttribute( szDirectorySpec, sizeof( szDirectorySpec ), LPLR_View, "LPLR", "Name" );
+   GetStringFromAttribute( szDirectorySpec, zsizeof( szDirectorySpec ), LPLR_View, "LPLR", "Name" );
    if ( zstrcmpi( szDirectorySpec, szLPLR_Name ) != 0 )
    {
       CString strHelp = "Error generating XLP: LPLR Name %s doesn't match name of OI file:\n %s\n";
@@ -1229,7 +1229,7 @@ int ProcessXLP( zVIEW vSubtask, CFile *fLog )
    if ( SysGetEnvVar( szDetachSpec, "ZEIDON", zMAX_FILENAME_LTH + 1 ) == 0 )
    {
       ofnTZCMWKSO_AppendSlash( szDetachSpec );
-      strcat_s( szDetachSpec, sizeof( szDetachSpec ), "TZCM.DET" );
+      strcat_s( szDetachSpec, zsizeof( szDetachSpec ), "TZCM.DET" );
       hFile = (HFILE)SysOpenFile( szDetachSpec, COREFILE_DELETE );
    }
    nRC = SetCursorFirstEntityByInteger( vTZCMWKSO, "LPLR", "ZKey", ulCurrentZKey, "" );
@@ -1348,16 +1348,16 @@ int ProcessXPE( zVIEW vSubtask,
       /* After saving of XPE we have to get back the original
       ** files with readonly attribute
       */
-      strcpy_s( szOrder, sizeof( szOrder ), "xcopy " );
-      strcat_s( szOrder, sizeof( szOrder ), szTargetPath );
-      strcat_s( szOrder, sizeof( szOrder ), "\\*.ppe " );
-      strcat_s( szOrder, sizeof( szOrder ), szPPEPath );
-      strcat_s( szOrder, sizeof( szOrder ), " /K /Q" );
+      strcpy_s( szOrder, zsizeof( szOrder ), "xcopy " );
+      strcat_s( szOrder, zsizeof( szOrder ), szTargetPath );
+      strcat_s( szOrder, zsizeof( szOrder ), "\\*.ppe " );
+      strcat_s( szOrder, zsizeof( szOrder ), szPPEPath );
+      strcat_s( szOrder, zsizeof( szOrder ), " /K /Q" );
 
       InvokeSystemCommand( szOrder, fLog );
 
-      strcpy_s( szOrder, sizeof( szOrder ), "rmdir /S /Q " );
-      strcat_s( szOrder, sizeof( szOrder ), szTargetPath );
+      strcpy_s( szOrder, zsizeof( szOrder ), "rmdir /S /Q " );
+      strcat_s( szOrder, zsizeof( szOrder ), szTargetPath );
       InvokeSystemCommand( szOrder, fLog );
    }
    return( 0 );
@@ -1387,35 +1387,35 @@ int ProcessXRP( zVIEW vSubtask, CFile *fLog, zCPCHAR cRemReadOnly)
       */
 
       pszPath = getenv ("KZD");
-      strcpy_s( szTargetPath, sizeof( szTargetPath ), pszPath );
-      strcat_s( szTargetPath, sizeof( szTargetPath ), ":\\" );
+      strcpy_s( szTargetPath, zsizeof( szTargetPath ), pszPath );
+      strcat_s( szTargetPath, zsizeof( szTargetPath ), ":\\" );
       pszPath = getenv( "KZV" );
-      strcat_s( szTargetPath, sizeof( szTargetPath ), pszPath );
-      strcpy_s( szSourcePath, sizeof( szTargetPath ), szTargetPath );
-      strcat_s( szTargetPath, sizeof( szTargetPath ), "\\savexrp" );
-      strcat_s( szSourcePath, sizeof( szTargetPath ), "\\a\\bin\\sys" );
+      strcat_s( szTargetPath, zsizeof( szTargetPath ), pszPath );
+      strcpy_s( szSourcePath, zsizeof( szTargetPath ), szTargetPath );
+      strcat_s( szTargetPath, zsizeof( szTargetPath ), "\\savexrp" );
+      strcat_s( szSourcePath, zsizeof( szTargetPath ), "\\a\\bin\\sys" );
 
-      strcpy_s( szOrder, sizeof( szOrder ), "mkdir " );
-      strcat_s( szOrder, sizeof( szOrder ), szTargetPath );
+      strcpy_s( szOrder, zsizeof( szOrder ), "mkdir " );
+      strcat_s( szOrder, zsizeof( szOrder ), szTargetPath );
 
       if ( InvokeSystemCommand( szOrder, fLog ) == -1)
       {
          return( 1 );
       }
 
-      strcpy_s( szOrder, sizeof( szOrder ), "xcopy " );
-      strcat_s( szOrder, sizeof( szOrder ), szSourcePath );
-      strcat_s( szOrder, sizeof( szOrder ), "\\*.prp " );
-      strcat_s( szOrder, sizeof( szOrder ), szTargetPath );
-      strcat_s( szOrder, sizeof( szOrder ), " /K /Q" );
+      strcpy_s( szOrder, zsizeof( szOrder ), "xcopy " );
+      strcat_s( szOrder, zsizeof( szOrder ), szSourcePath );
+      strcat_s( szOrder, zsizeof( szOrder ), "\\*.prp " );
+      strcat_s( szOrder, zsizeof( szOrder ), szTargetPath );
+      strcat_s( szOrder, zsizeof( szOrder ), " /K /Q" );
       if ( InvokeSystemCommand( szOrder, fLog ) == -1)
       {
          return( 1 );
       }
 
-      strcpy_s( szOrder, sizeof( szOrder ), "attrib -r " );
-      strcat_s( szOrder, sizeof( szOrder ), szSourcePath );
-      strcat_s( szOrder, sizeof( szOrder ), "\\*.prp" );
+      strcpy_s( szOrder, zsizeof( szOrder ), "attrib -r " );
+      strcat_s( szOrder, zsizeof( szOrder ), szSourcePath );
+      strcat_s( szOrder, zsizeof( szOrder ), "\\*.prp" );
       if ( InvokeSystemCommand( szOrder, fLog ) == -1 )
       {
          return( 1 );
@@ -1438,7 +1438,7 @@ int ProcessXRP( zVIEW vSubtask, CFile *fLog, zCPCHAR cRemReadOnly)
    nRC = SetCursorFirstEntity( vLPLR, "W_MetaDef", "" );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szReportName, sizeof( szReportName ), vLPLR, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szReportName, zsizeof( szReportName ), vLPLR, "W_MetaDef", "Name" );
 
       nRC = ActivateMetaOI( vSubtask, &vReport, vLPLR, zSOURCE_REPORT_META, zSINGLE );
       if ( nRC < 0 )
@@ -1515,15 +1515,15 @@ int ProcessXRP( zVIEW vSubtask, CFile *fLog, zCPCHAR cRemReadOnly)
    {
       // After saving the PWD and XWD files we have to get
       // back the original files with readonly attribute
-      strcpy_s( szOrder, sizeof( szOrder ), "xcopy " );
-      strcat_s( szOrder, sizeof( szOrder ), szTargetPath );
-      strcat_s( szOrder, sizeof( szOrder ), "\\*.prp " );
-      strcat_s( szOrder, sizeof( szOrder ), szSourcePath );
-      strcat_s( szOrder, sizeof( szOrder ), " /K /Q" );
+      strcpy_s( szOrder, zsizeof( szOrder ), "xcopy " );
+      strcat_s( szOrder, zsizeof( szOrder ), szTargetPath );
+      strcat_s( szOrder, zsizeof( szOrder ), "\\*.prp " );
+      strcat_s( szOrder, zsizeof( szOrder ), szSourcePath );
+      strcat_s( szOrder, zsizeof( szOrder ), " /K /Q" );
       InvokeSystemCommand( szOrder, fLog );
 
-      strcpy_s( szOrder, sizeof( szOrder ), "rmdir /S /Q " );
-      strcat_s( szOrder, sizeof( szOrder ), szTargetPath );
+      strcpy_s( szOrder, zsizeof( szOrder ), "rmdir /S /Q " );
+      strcat_s( szOrder, zsizeof( szOrder ), szTargetPath );
       InvokeSystemCommand( szOrder, fLog );
    }
 
@@ -1553,7 +1553,7 @@ KillObjectEngineProcess( )
    //
    // Determine what system we're on and do the right thing
    //
-   verInfo.dwOSVersionInfoSize = sizeof( verInfo );
+   verInfo.dwOSVersionInfoSize = zsizeof( verInfo );
    GetVersionEx( &verInfo );
 
    switch ( verInfo.dwPlatformId )

@@ -138,21 +138,21 @@ TraceThisRect( zPCHAR  pchMessage,
       return;
 
    nLth = zstrlen( pchMessage );
-   if ( nLth < sizeof( szBuffer ) )
-      strcpy_s( szBuffer, sizeof( szBuffer ), pchMessage );
+   if ( nLth < zsizeof( szBuffer ) )
+      strcpy_s( szBuffer, zsizeof( szBuffer ), pchMessage );
    else
       nLth = 0;
 
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " X=" );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " X=" );
    _ltoa_s( lpRect->left, szBuffer + nLth + 3 );
    nLth = zstrlen( szBuffer );
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " Y=" );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " Y=" );
    _ltoa_s( lpRect->top, szBuffer + nLth + 3 );
    nLth = zstrlen( szBuffer );
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " W=" );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " W=" );
    _ltoa_s( lpRect->right - lpRect->left, szBuffer + nLth + 3 );
    nLth = zstrlen( szBuffer );
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " H=" );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " H=" );
 // _ltoa_s( lpRect->bottom - lpRect->top, szBuffer + nLth + 3 );
    TraceLineI( szBuffer, lpRect->bottom - lpRect->top );
 }
@@ -317,13 +317,13 @@ SS_MultiSelBlockAddItem( LPSPREADSHEET lpSS,
       if ( lpSS->MultiSelBlock.nItemAllocCnt == 0 )
          lpSS->MultiSelBlock.hItemList = GlobalAlloc( GMEM_MOVEABLE |
                                                       GMEM_ZEROINIT,
-                                          (zLONG) (sizeof( SS_SELBLOCK ) *
+                                          (zLONG) (zsizeof( SS_SELBLOCK ) *
                                            (lpSS->MultiSelBlock.nItemAllocCnt +
                                             SS_MULTISEL_ALLOC_CNT)) );
       else
          lpSS->MultiSelBlock.hItemList = GlobalReAlloc(
                                           lpSS->MultiSelBlock.hItemList,
-                                          (zLONG) (sizeof( SS_SELBLOCK ) *
+                                          (zLONG) (zsizeof( SS_SELBLOCK ) *
                                            (lpSS->MultiSelBlock.nItemAllocCnt +
                                             SS_MULTISEL_ALLOC_CNT)),
                                           GMEM_MOVEABLE | GMEM_ZEROINIT );
@@ -337,9 +337,9 @@ SS_MultiSelBlockAddItem( LPSPREADSHEET lpSS,
    lpItemList = (LPSS_SELBLOCK) GlobalLock( lpSS->MultiSelBlock.hItemList );
 
    zmemcpy( &lpItemList[ lpSS->MultiSelBlock.nItemCnt ].UL, lpUL,
-            sizeof( SS_CELLCOORD ) );
+            zsizeof( SS_CELLCOORD ) );
    zmemcpy( &lpItemList[ lpSS->MultiSelBlock.nItemCnt ].LR, lpLR,
-            sizeof( SS_CELLCOORD ) );
+            zsizeof( SS_CELLCOORD ) );
    lpSS->MultiSelBlock.nItemCnt++;
 
    GlobalUnlock( lpSS->MultiSelBlock.hItemList );
@@ -640,7 +640,7 @@ SS_SelBlockSplitItem( zPCHAR  hList,
                              mMin( LRRow, lpSelBlockOrig->UL.ssRow - 1 ) );
 
       hList = SS_ListAddItem( hList, lpnItemCnt, lpnItemAllocCnt,
-                              &SelBlockTemp, sizeof( SS_SELBLOCK ), 50 );
+                              &SelBlockTemp, zsizeof( SS_SELBLOCK ), 50 );
 
       ULRow = lpSelBlockOrig->UL.ssRow;
    }
@@ -651,7 +651,7 @@ SS_SelBlockSplitItem( zPCHAR  hList,
                              mMin( LRCol, lpSelBlockOrig->UL.ssCol - 1 ), LRRow );
 
       hList = SS_ListAddItem( hList, lpnItemCnt, lpnItemAllocCnt,
-                              &SelBlockTemp, sizeof( SS_SELBLOCK ), 50 );
+                              &SelBlockTemp, zsizeof( SS_SELBLOCK ), 50 );
 
       ULCol = lpSelBlockOrig->UL.ssCol;
    }
@@ -662,7 +662,7 @@ SS_SelBlockSplitItem( zPCHAR  hList,
                              ULRow, LRCol, LRRow );
 
       hList = SS_ListAddItem( hList, lpnItemCnt, lpnItemAllocCnt,
-                              &SelBlockTemp, sizeof( SS_SELBLOCK ), 50 );
+                              &SelBlockTemp, zsizeof( SS_SELBLOCK ), 50 );
 
       LRCol = lpSelBlockOrig->LR.ssCol;
    }
@@ -673,7 +673,7 @@ SS_SelBlockSplitItem( zPCHAR  hList,
                              lpSelBlockOrig->LR.ssRow + 1 ), LRCol, LRRow );
 
       hList = SS_ListAddItem( hList, lpnItemCnt, lpnItemAllocCnt,
-                              &SelBlockTemp, sizeof( SS_SELBLOCK ), 50 );
+                              &SelBlockTemp, zsizeof( SS_SELBLOCK ), 50 );
 
       LRCol = lpSelBlockOrig->LR.ssCol;
    }
@@ -1037,7 +1037,7 @@ SSSetRowCellType( HWND hWnd, LPSPREADSHEET lpSS,
       if ( CellType )
       {
          if ( DrAllocTaskMemory( (zCOREMEM) &lpRow->hCellType,
-                                 (zLONG) sizeof( SS_CELLTYPE ), 1032 ) != 0 )
+                                 (zLONG) zsizeof( SS_CELLTYPE ), 1032 ) != 0 )
          {
 //          SS_UnlockRowItem( lpSS, ssRow );
             return( FALSE );
@@ -1045,7 +1045,7 @@ SSSetRowCellType( HWND hWnd, LPSPREADSHEET lpSS,
 
          CellTypeTemp = (LPSS_CELLTYPE) DrLockTaskMemory( lpRow->hCellType );
          lpRow->hCellType = (zPCHAR) CellTypeTemp;
-         zmemcpy( CellTypeTemp, CellType, sizeof( SS_CELLTYPE ) );
+         zmemcpy( CellTypeTemp, CellType, zsizeof( SS_CELLTYPE ) );
 //       DrUnlockTaskMemory( CellTypeTemp );
       }
 
@@ -2561,7 +2561,7 @@ SS_LeaveCell( HWND          hWnd,
       {
          SS_LEAVEROW  LeaveRow;
 
-         zmemset( &LeaveRow, 0, sizeof( SS_LEAVEROW ) );
+         zmemset( &LeaveRow, 0, zsizeof( SS_LEAVEROW ) );
          LeaveRow.ssRowCurrent = LeaveCell.ssRowCurrent;
          LeaveRow.ssRowNew = LeaveCell.ssRowNew;
          LeaveRow.fCancel = 0;
@@ -5222,7 +5222,7 @@ SSSetTypeComboBox( HWND          hWnd,
    zPCHAR  pch;
    zSHORT  nItemCnt;
 
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType = SS_TYPE_COMBOBOX;
    CellType->lStyle = lStyle;
@@ -5270,7 +5270,7 @@ SSSetTypeEdit( HWND          hWnd,
                zUSHORT       uCase )
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypeEdit" );
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    if ( lStyle & ES_MULTILINE )
       lStyle |= ES_AUTOVSCROLL;
@@ -5291,7 +5291,7 @@ SSSetTypePicture( HWND          hWnd,
                   zPCHAR        PictName )
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypePicture" );
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType = SS_TYPE_PICTURE;
    CellType->lStyle = lStyle;
@@ -5318,7 +5318,7 @@ SSSetTypePictureHandle( HWND          hWnd,
                         zBOOL         fDeleteHandle )
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypePictureHandle" );
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType = SS_TYPE_PICTURE;
    CellType->lStyle = lStyle | VPS_HANDLE;
@@ -5336,7 +5336,7 @@ SSSetTypeStaticText( HWND          hWnd,
                      zSHORT        nTextStyle )
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypeStaticText" );
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType = SS_TYPE_STATICTEXT;
    CellType->lStyle = (zLONG) nTextStyle;
@@ -5471,7 +5471,7 @@ SS_CreateControl( HWND          hWnd,
 #endif
 
       case SS_TYPE_FLOAT:
-         zmemset( Buffer, 0, sizeof( Buffer ) );
+         zmemset( Buffer, 0, zsizeof( Buffer ) );
 
          for ( k = 0; k < CellType->Spec.Float.nLeft; k++ )
             strcat_s( Buffer, "9" );
@@ -6058,7 +6058,7 @@ SS_TypeControlAlloc( zPCHAR  *lphControls,
       }
 
       DrAllocTaskMemory( (zCOREMEM) lphControls,
-                         (zLONG)(sizeof( SS_CONTROL ) *
+                         (zLONG)(zsizeof( SS_CONTROL ) *
                           (*lpControlsAllocCnt + SS_TYPE_ALLOC_CNT)), 1039 );
       if ( *lphControls == 0 )
          return( FALSE );
@@ -6130,7 +6130,7 @@ SSx_RetrieveCellType( LPSPREADSHEET lpSS,
    {
 //    CellTypeTemp = (LPSS_CELLTYPE) DrLockTaskMemory( Cell->m_hCellType );
       CellTypeTemp = (LPSS_CELLTYPE) Cell->m_hCellType;
-      zmemcpy( CellType, CellTypeTemp, sizeof( SS_CELLTYPE ) );
+      zmemcpy( CellType, CellTypeTemp, zsizeof( SS_CELLTYPE ) );
 //    DrUnlockTaskMemory( CellTypeTemp );
    }
    else
@@ -6139,7 +6139,7 @@ SSx_RetrieveCellType( LPSPREADSHEET lpSS,
    {
 //    CellTypeTemp = (LPSS_CELLTYPE) DrLockTaskMemory( lpRow->hCellType );
       CellTypeTemp = (LPSS_CELLTYPE) lpRow->hCellType;
-      zmemcpy( CellType, CellTypeTemp, sizeof( SS_CELLTYPE ) );
+      zmemcpy( CellType, CellTypeTemp, zsizeof( SS_CELLTYPE ) );
 //    DrUnlockTaskMemory( CellTypeTemp );
    }
    else
@@ -6147,7 +6147,7 @@ SSx_RetrieveCellType( LPSPREADSHEET lpSS,
    {
 //    CellTypeTemp = (LPSS_CELLTYPE) DrLockTaskMemory( lpCol->hCellType );
       CellTypeTemp = (LPSS_CELLTYPE) lpCol->hCellType;
-      zmemcpy( CellType, CellTypeTemp, sizeof( SS_CELLTYPE ) );
+      zmemcpy( CellType, CellTypeTemp, zsizeof( SS_CELLTYPE ) );
 //    DrUnlockTaskMemory( CellTypeTemp );
    }
    else
@@ -6155,11 +6155,11 @@ SSx_RetrieveCellType( LPSPREADSHEET lpSS,
    {
 //    CellTypeTemp = (LPSS_CELLTYPE) DrLockTaskMemory( lpRow->hCellType );
       CellTypeTemp = (LPSS_CELLTYPE) lpRow->hCellType;
-      zmemcpy( CellType, CellTypeTemp, sizeof( SS_CELLTYPE ) );
+      zmemcpy( CellType, CellTypeTemp, zsizeof( SS_CELLTYPE ) );
 //    DrUnlockTaskMemory( CellTypeTemp );
    }
    else
-      zmemcpy( CellType, &lpSS->DefaultCellType, sizeof( SS_CELLTYPE ) );
+      zmemcpy( CellType, &lpSS->DefaultCellType, zsizeof( SS_CELLTYPE ) );
 
    if ( fCellLock )
       SSx_UnlockCellItem( lpSS, lpRow, CellCol, CellRow );
@@ -6193,7 +6193,7 @@ SS_UnFormatData( LPSPREADSHEET lpSS,
    zBOOL          bRC = FALSE;
 
    pchTextValue = szTextValueBuffer;
-   zmemset( szTextValueBuffer, 0, sizeof( szTextValueBuffer ) );
+   zmemset( szTextValueBuffer, 0, zsizeof( szTextValueBuffer ) );
 
    switch ( lpCellType->chType )
    {

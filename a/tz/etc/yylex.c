@@ -321,7 +321,7 @@ FILE * fp;
 {
    YY_SAVED * p;
 
-   if ((p = (YY_SAVED *) malloc(sizeof(*p))) == NULL)
+   if ((p = (YY_SAVED *) malloc(zsizeof(*p))) == NULL)
       return p;
 
    p->oldfp = yyin;
@@ -330,9 +330,9 @@ FILE * fp;
    p->oldstart = yy_start;
    p->oldlastc = yy_lastc;
    p->oldleng = yyleng;
-   (void) memcpy(p->savetext, yytext, sizeof yytext);
+   (void) memcpy(p->savetext, yytext, zsizeof yytext);
    (void) memcpy((char *) p->savestate, (char *) yy_sbuf,
-      sizeof yy_sbuf);
+      zsizeof yy_sbuf);
 
    yyin = fp;
    yylineno = 1;
@@ -356,9 +356,9 @@ YY_SAVED * p;
    yy_lastc = p->oldlastc;
    yyleng = p->oldleng;
 
-   (void) memcpy(yytext, p->savetext, sizeof yytext);
+   (void) memcpy(yytext, p->savetext, zsizeof yytext);
    (void) memcpy((char *) yy_sbuf, (char *) p->savestate,
-      sizeof yy_sbuf);
+      zsizeof yy_sbuf);
    free(p);
 }
 /*

@@ -267,9 +267,9 @@ ZWebGridCell::SetValueFromXRA( zVIEW vXRA )
    if ( vXRA == 0 )
       return( bReturn );
 
-   GetStringFromAttribute( szCellChanged, sizeof( szCellChanged ), vXRA, pszGridCell, pszChangeNode );
-   GetStringFromAttribute( szCellInserted, sizeof( szCellInserted ), vXRA, pszGridCell, pszInsertNode );
-   GetStringFromAttribute( szCellDeleted, sizeof( szCellDeleted ), vXRA, pszGridCell, pszDeleteNode );
+   GetStringFromAttribute( szCellChanged, zsizeof( szCellChanged ), vXRA, pszGridCell, pszChangeNode );
+   GetStringFromAttribute( szCellInserted, zsizeof( szCellInserted ), vXRA, pszGridCell, pszInsertNode );
+   GetStringFromAttribute( szCellDeleted, zsizeof( szCellDeleted ), vXRA, pszGridCell, pszDeleteNode );
 
    // check additional cell attributes and do something
    // to get this is almost impossible because there is no way to
@@ -304,7 +304,7 @@ ZWebGridCell::SetValueFromXRA( zVIEW vXRA )
       if ( m_pCol->IsKindOf( RUNTIME_CLASS( ZWebGridColCheckBox ) ) )
       {
          zCHAR szChecked[ 32 ];
-         GetStringFromAttribute( szChecked, sizeof( szChecked ), vXRA, pszGridCell, pszChecked );
+         GetStringFromAttribute( szChecked, zsizeof( szChecked ), vXRA, pszGridCell, pszChecked );
          zBOOL bChecked = ( ::zstrcmpi( szChecked, "y" ) == 0 );
          SetValue( m_pCol->GetChecked( bChecked ) );
       }
@@ -2645,8 +2645,7 @@ ZWebGrid::LoadMapping( zVIEW vDialog )
                {
                   // handle column type specific stuff such a checked & unchecked values
                   LPGRIDCOlRADIOGROUP pGroup = ( LPGRIDCOlRADIOGROUP ) pCol;
-                  if ( CheckExistenceOfEntity( vDialog,
-                                               pszCtrlCtrl ) > zCURSOR_UNCHANGED )
+                  if ( CheckExistenceOfEntity( vDialog, pszCtrlCtrl ) > zCURSOR_UNCHANGED )
                   {
                      SetViewToSubobject (   vDialog,   pszCtrlCtrl );
                      LPGRIDCOLRADIOBUTTON pRB = 0;
@@ -3068,7 +3067,7 @@ ZWebGrid::MapFromRemoteDataset( )
                LPGRIDROW  pSelectedRow = 0;
                LPGRIDCELL pCell = 0;
 
-               strcpy_s( szEntityName, sizeof( szEntityName ), pszGrid );
+               strcpy_s( szEntityName, zsizeof( szEntityName ), pszGrid );
 
                // XRA has a Hierarchical Cursor, so you can't use SetCursorFirst
                nRC = DefineHierarchicalCursor( vXRA, pszGrid );
@@ -3086,11 +3085,11 @@ ZWebGrid::MapFromRemoteDataset( )
                      zCHAR szInserted[ 32 ];
                      zCHAR szDeleteded[ 32 ];
 
-                     GetStringFromAttribute( szChanged, sizeof( szChanged ), vXRA,
+                     GetStringFromAttribute( szChanged, zsizeof( szChanged ), vXRA,
                                              pszGridRow, pszChangeNode );
-                     GetStringFromAttribute( szInserted, sizeof( szInserted ), vXRA,
+                     GetStringFromAttribute( szInserted, zsizeof( szInserted ), vXRA,
                                              pszGridRow, pszInsertNode );
-                     GetStringFromAttribute( szDeleteded, sizeof( szDeleteded ), vXRA,
+                     GetStringFromAttribute( szDeleteded, zsizeof( szDeleteded ), vXRA,
                                              pszGridRow, pszDeleteNode );
 
                      if ( szChanged[ 0 ] == 'Y' || szChanged[ 0 ] == 'y' )

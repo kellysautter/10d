@@ -162,7 +162,7 @@ CEdit::CEdit( HWND hWnd )
 
    m_wCurrCmd = 0;
 
-   ZeroMemory( &m_cmHotKeyPending, sizeof( m_cmHotKeyPending ) );
+   ZeroMemory( &m_cmHotKeyPending, zsizeof( m_cmHotKeyPending ) );
 
    // verify that all commands have an entry in the command array
    #ifdef _DEBUG
@@ -254,7 +254,7 @@ BOOL CEdit::Register()
       // check to see if a fixed size font is installed and set it as the default font.
       // if there are no fixed-size fonts installed, then CodeMax cannot run.
       LOGFONT lfSys;
-      VERIFY( GetObject( GetStockObject( SYSTEM_FIXED_FONT ), sizeof( lfSys ), &lfSys ) );
+      VERIFY( GetObject( GetStockObject( SYSTEM_FIXED_FONT ), zsizeof( lfSys ), &lfSys ) );
       LOGFONT lf;
       ZeroMemory( &lf, sizeof( LOGFONT ) );
       lf.lfCharSet = lfSys.lfCharSet;
@@ -331,7 +331,7 @@ BOOL CEdit::Register()
       wc.style = CS_DBLCLKS | CS_GLOBALCLASS | CS_VREDRAW | CS_HREDRAW;
       wc.lpfnWndProc = ( WNDPROC )EditCtrlWndProc;
       wc.cbClsExtra = 0;
-      wc.cbWndExtra = sizeof( LPVOID );
+      wc.cbWndExtra = zsizeof( LPVOID );
       wc.hInstance = NULL;
       wc.hIcon = NULL;
       wc.hCursor = LoadCursor( NULL, IDC_ARROW );
@@ -1009,7 +1009,7 @@ BOOL CEdit::TranslateHotKey( WPARAM wParam )
       }
       if ( bProcessed )
       {
-         ZeroMemory( &m_cmHotKeyPending, sizeof( m_cmHotKeyPending ) );
+         ZeroMemory( &m_cmHotKeyPending, zsizeof( m_cmHotKeyPending ) );
       }
       else
       {
@@ -1077,7 +1077,7 @@ void CEdit::ExecuteCommand( WORD wCmd, DWORD dwData, BOOL bApplyDefaultParam, BO
             // is essential because the calling cmd proc has effectively hardcoded
             // this information by virtual of it's own code.
             if ( m_nCmdNestLevel == 0 || bForcePersistInMacro )
-               AddMacroData( ( LPBYTE) &wCmd, sizeof( wCmd ) );
+               AddMacroData( ( LPBYTE) &wCmd, zsizeof( wCmd ) );
             break;
          case CMD_RECORDMACRO:
          case CMD_PLAYMACRO1:case CMD_PLAYMACRO2:case CMD_PLAYMACRO3:case CMD_PLAYMACRO4:case CMD_PLAYMACRO5:
@@ -2278,7 +2278,7 @@ void CEdit::SetDisplayFont( HFONT hFont, BOOL bFirstTime )
       DeleteDisplayFonts();
    }
 
-   ZeroMemory( m_font, sizeof( m_font ) );
+   ZeroMemory( m_font, zsizeof( m_font ) );
    m_bOwnFont = FALSE;
    m_hFont = hFont;
 
@@ -2444,7 +2444,7 @@ int CALLBACK FontProc2( ENUMLOGFONT *pelf, NEWTEXTMETRIC * /*pntm*/, int /*nFont
 void CEdit::RemapAnsiFontToKeyboardLocale()
    {
    LOGFONT lf;
-   if ( !GetObject( m_font->hFont, sizeof( lf ), &lf ) )
+   if ( !GetObject( m_font->hFont, zsizeof( lf ), &lf ) )
       return;
 
    WORD wKBLocale = LOWORD( ( DWORD ) GetKeyboardLayout( 0 ) );
@@ -2559,11 +2559,11 @@ void CEdit::RemapAnsiFontToKeyboardLocale()
       _tcscpy( g_szFaceName, lf.lfFaceName );
 
       LOGFONT lf2;
-      ZeroMemory( &lf2, sizeof( lf2 ) );
+      ZeroMemory( &lf2, zsizeof( lf2 ) );
       lf2.lfCharSet = byCharSetNew;
       lf2.lfPitchAndFamily = lf.lfPitchAndFamily;
       LOGFONT lfNew;
-      ZeroMemory( &lfNew, sizeof( lfNew ) );
+      ZeroMemory( &lfNew, zsizeof( lfNew ) );
 
       HDC hDC = GetDC( NULL );
       EnumFontFamiliesEx( hDC, &lf2, ( FONTENUMPROC ) FontProc2, ( LPARAM ) &lfNew, 0 );

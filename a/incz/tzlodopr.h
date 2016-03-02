@@ -1755,9 +1755,6 @@ zOPER_EXPORT zSHORT OPERATION
 zxatol( zPCHAR pchHexString,
         zPLONG plIn );
 zOPER_EXPORT zSHORT OPERATION
-CM_GetTypePrefix( zSHORT nType,
-                  zPCHAR pchPrefix );
-zOPER_EXPORT zSHORT OPERATION
 LoadZeidonPPE( zVIEW  vSubtask,
                zPVIEW pvPPEView,
                zSHORT nType,

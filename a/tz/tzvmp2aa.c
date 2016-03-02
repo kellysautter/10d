@@ -278,11 +278,11 @@ TraceExpressionStruct( sQExprStruct *psExpr, zLONG lExprIdx, zCPCHAR cpcMsg1, zC
    if ( psExpr->lFlags )
       TraceLineX( "Flags: ", psExpr->lFlags );
 
-   fnFindDefine( szElementClass, sizeof( szElementClass ), psExpr->lElementClass );
-   fnFindDefine( szDataClass, sizeof( szDataClass ), psExpr->lDataClass );
-   fnFindDefine( szDataType, sizeof( szDataType ), psExpr->lDataType );
-   fnFindDefine( szOffset, sizeof( szOffset ), psExpr->lOffset );
-   fnFindDefine( szLevel, sizeof( szLevel ), psExpr->lLevel );
+   fnFindDefine( szElementClass, zsizeof( szElementClass ), psExpr->lElementClass );
+   fnFindDefine( szDataClass, zsizeof( szDataClass ), psExpr->lDataClass );
+   fnFindDefine( szDataType, zsizeof( szDataType ), psExpr->lDataType );
+   fnFindDefine( szOffset, zsizeof( szOffset ), psExpr->lOffset );
+   fnFindDefine( szLevel, zsizeof( szLevel ), psExpr->lLevel );
    TraceLine( "Expr ECls:%-24s  DCls:%-24s  DType:%-24s  Offset:%-24s  Lvl:%-20s  Flg:%x  Cnt:%3d  Idx:%4d  %s%s",
               szElementClass, szDataClass, szDataType, szOffset, szLevel, psExpr->lFlags, psExpr->lCount, lExprIdx, cpcMsg1, cpcMsg2 );
 // zsprintf( szMsg, "ExprStruct Element Class: %4d:%16s   Data Class: %4d:%16s   Data Type: %10d:%16s   Offset: %8d:%16s   Level: %4d:%16s   Flags: %x   Idx: %d",
@@ -298,7 +298,7 @@ TraceStatementExpression( zCPCHAR cpcMsg, zCPCHAR cpcExpression, zLONG lExprIdx 
    zSHORT nCnt = 0;
 
    TraceLine( "Beginning TraceStatementExpression: %s   Lth: %d", cpcMsg, lExprIdx );
-   lExprIdx -= (sizeof( sQExprStruct ) - MAXSTRING);  // point to beginning of last ExprStruct
+   lExprIdx -= (sizeof( sQExprStruct ) - MAXSTRING); // point to beginning of last ExprStruct
    while ( lExprIdx >= 0 )
    {
       nCnt++;
@@ -422,8 +422,8 @@ AddOperationEntityToPI( zVIEW  vSubtask,
       if ( g_lParseLimit == zPARSE_LIMIT_SIGNATURES )
       {
          SyntaxError( vSubtask, eQOPERATIONALREADYDEFINED, pchOperationName ); // additional error info
-         strcpy_s( g_szFatalErrorMsg, sizeof( g_szFatalErrorMsg ), "Found operations with duplicate name: " );
-         strcat_s( g_szFatalErrorMsg, sizeof( g_szFatalErrorMsg ), pchOperationName );
+         strcpy_s( g_szFatalErrorMsg, zsizeof( g_szFatalErrorMsg ), "Found operations with duplicate name: " );
+         strcat_s( g_szFatalErrorMsg, zsizeof( g_szFatalErrorMsg ), pchOperationName );
          longjmp( jbFatalError, -1 ); // fatal error exit
       }
       else
@@ -464,7 +464,7 @@ AddOperationEntityToPI( zVIEW  vSubtask,
 
       // Unfortunately old PWD's sometimes have no return data type for dialog operations, so if we have a dialog operation, correct the problem
       // by forcing the return type to be short (N).
-      GetStringFromAttribute( szType, sizeof( szType ), g_vSourceMeta, "Operation", "Type" );
+      GetStringFromAttribute( szType, zsizeof( szType ), g_vSourceMeta, "Operation", "Type" );
       if ( szType[ 0 ] == 'D' )
       {
          // It is a dialog operation ... the return data type MUST be short (N).
@@ -1238,7 +1238,7 @@ AddExprNodeEntityToView( zVIEW  vSubtask,
             zCHAR  szConvertedValue[ 254 ];
 
             // back converting the german umlaut hack
-            GermanUmlautHack( pchEntryValue, szConvertedValue, sizeof( szConvertedValue ), TRUE );
+            GermanUmlautHack( pchEntryValue, szConvertedValue, zsizeof( szConvertedValue ), TRUE );
             SetAttributeFromString( vTargetView, "ExprNode", "Text", szConvertedValue );
          }
          else
@@ -1412,7 +1412,7 @@ AddOperatorToView( zVIEW  vSubtask,
    if ( lOperator == -1 )
    {
 #ifdef DEBUG_PARSEGEN
-      fnFindDefine( szOperator, sizeof( szOperator ), g_nOperStack[ g_nStackPtr ].lOffset );
+      fnFindDefine( szOperator, zsizeof( szOperator ), g_nOperStack[ g_nStackPtr ].lOffset );
       TraceLine( "Start Dumping stack into the expression =========================================="
                  "================================================================================= %d  Operator: %s",
                  g_nStackPtr, szOperator );
@@ -1451,7 +1451,7 @@ AddOperatorToView( zVIEW  vSubtask,
       }
 
 #ifdef DEBUG_PARSEGEN
-      fnFindDefine( szOperator, sizeof( szOperator ), g_nOperStack[ g_nStackPtr ].lOffset );
+      fnFindDefine( szOperator, zsizeof( szOperator ), g_nOperStack[ g_nStackPtr ].lOffset );
       TraceLine( "End Dumping stack into the expression ============================================"
                  "================================================================================= %d  Operator: %s",
                  g_nStackPtr, szOperator );
@@ -1470,7 +1470,7 @@ AddOperatorToView( zVIEW  vSubtask,
       g_nOperStack[ g_nStackPtr ].lLevel = 0;
 
 #ifdef DEBUG_PARSEGEN
-      fnFindDefine( szOperator, sizeof( szOperator ), lOperator );
+      fnFindDefine( szOperator, zsizeof( szOperator ), lOperator );
       TraceLine( "Insert new bottom of stack ======================================================="
                  "================================================================================= %d  Operator: %s",
                  g_nStackPtr, szOperator );
@@ -1493,7 +1493,7 @@ AddOperatorToView( zVIEW  vSubtask,
       {
          g_nStackPtr++;
 #ifdef DEBUG_PARSEGEN
-         fnFindDefine( szOperator, sizeof( szOperator ), lOperator );
+         fnFindDefine( szOperator, zsizeof( szOperator ), lOperator );
          TraceLine( "Incrementing stack 1 ============================================================="
                     "================================================================================= %d  Operator: %s",
                     g_nStackPtr, szOperator );
@@ -1529,7 +1529,7 @@ AddOperatorToView( zVIEW  vSubtask,
 
          g_nStackPtr--;
 #ifdef DEBUG_PARSEGEN
-         fnFindDefine( szOperator, sizeof( szOperator ), lOperator );
+         fnFindDefine( szOperator, zsizeof( szOperator ), lOperator );
          TraceLine( "Decrementing stack 1 ============================================================="
                     "================================================================================= %d  Operator: %s",
                     g_nStackPtr, szOperator );
@@ -1550,7 +1550,7 @@ AddOperatorToView( zVIEW  vSubtask,
             g_nOperStack[ g_nStackPtr ].lLevel = 0;
             g_nStackPtr--;
 #ifdef DEBUG_PARSEGEN
-            fnFindDefine( szOperator, sizeof( szOperator ), lOperator );
+            fnFindDefine( szOperator, zsizeof( szOperator ), lOperator );
             TraceLine( "Decrementing stack 2 ============================================================="
                        "================================================================================= %d  Operator: %s",
                        g_nStackPtr, szOperator );
@@ -1582,7 +1582,7 @@ AddOperatorToView( zVIEW  vSubtask,
       // Increase the stack pointer first.
       g_nStackPtr++;
 #ifdef DEBUG_PARSEGEN
-      fnFindDefine( szOperator, sizeof( szOperator ), lOperator );
+      fnFindDefine( szOperator, zsizeof( szOperator ), lOperator );
       TraceLine( "Incrementing stack 2 ============================================================="
                  "================================================================================= %d  Operator: %s",
                  g_nStackPtr, szOperator );
@@ -1606,7 +1606,7 @@ AddOperatorToView( zVIEW  vSubtask,
 
          g_nStackPtr--;
 #ifdef DEBUG_PARSEGEN
-         fnFindDefine( szOperator, sizeof( szOperator ), lOperator );
+         fnFindDefine( szOperator, zsizeof( szOperator ), lOperator );
          TraceLine( "Decrementing stack 3 ============================================================="
                     "================================================================================= %d  Operator: %s",
                     g_nStackPtr, szOperator );
@@ -1618,7 +1618,7 @@ AddOperatorToView( zVIEW  vSubtask,
       // Now push the incoming operator onto the stack.
       g_nStackPtr++;
 #ifdef DEBUG_PARSEGEN
-      fnFindDefine( szOperator, sizeof( szOperator ), lOperator );
+      fnFindDefine( szOperator, zsizeof( szOperator ), lOperator );
       TraceLine( "Incrementing stack 3 ============================================================="
                  "================================================================================= %d  Operator: %s",
                  g_nStackPtr, szOperator );
@@ -1747,7 +1747,7 @@ CreateConvertZeidonStrOp( zVIEW  vSubtask,
    //    "ZeidonStringConvertFromNumber( szTargetString, lIndex, lMaxLth,"
 
    // The operation is always ZeidonStringConvertFromNumber.
-   strcpy_s( szOperationName, sizeof( szOperationName ), "ZeidonStringConvertFromNumber" );
+   strcpy_s( szOperationName, zsizeof( szOperationName ), "ZeidonStringConvertFromNumber" );
 
    lOperationZKey = GetOperationZKey( vSubtask, qZEIDONOPERATION, szOperationName );
    IncludeCoreHeader( g_lpPIView, "ZDRVROPR" );
@@ -1948,8 +1948,8 @@ AddEntityOperWithScope( zVIEW  vSubtask,
    zLONG lOperZKey;
 // zLONG k;
 
-// zmemset( sParmList, 0, sizeof( sParmList ) );
-// zmemset( sParmListExt, 0, sizeof( sParmListExt ) );
+// zmemset( sParmList, 0, zsizeof( sParmList ) );
+// zmemset( sParmListExt, 0, zsizeof( sParmListExt ) );
 // lParmListIndex = 0;
 
    lLocal2Code = 0;
@@ -2135,7 +2135,7 @@ AddEntityOperWithScope( zVIEW  vSubtask,
          }
 
          ADDCOMMAEXPRESSIONTOSTRING;
-         GermanUmlautHack( pchExtra, szCopy, sizeof( szCopy ), TRUE );
+         GermanUmlautHack( pchExtra, szCopy, zsizeof( szCopy ), TRUE );
 
          //if ( sParmList[ lParmListIndex ] < 0 )
          //   lUseExtra *= -1;
@@ -2237,7 +2237,7 @@ AddEntityOperWithScope( zVIEW  vSubtask,
       {
          // pchExtra might contain special zCHAR combinations created by the german umlaut hack.
          zCHAR szCopy[ 256 ];
-         GermanUmlautHack( pchExtra, szCopy, sizeof( szCopy ), TRUE );
+         GermanUmlautHack( pchExtra, szCopy, zsizeof( szCopy ), TRUE );
 
          //if ( sParmList[ lParmListIndex ] < 0 )
          //   lUseExtra *= -1;
@@ -2314,8 +2314,8 @@ AddJavaWhileWithScope( zVIEW vSubtask, zVIEW vTargetView )
    zLONG lVarDataType;
    zLONG lLoop;
 
-// zmemset( sParmList, 0, sizeof( sParmList ) );
-// zmemset( sParmListExt, 0, sizeof( sParmListExt ) );
+// zmemset( sParmList, 0, zsizeof( sParmList ) );
+// zmemset( sParmListExt, 0, zsizeof( sParmListExt ) );
 // lParmListIndex = 0;
 
    lLocal2Code = 0;
@@ -2479,12 +2479,12 @@ AddJavaWhileWithScope( zVIEW vSubtask, zVIEW vTargetView )
             if ( k == 3 )  // full attribute qualification
             {
                // e.g. mUser.cursor( "User" ).attribute( "UserName" )
-               strcpy_s( szCursorVEA, sizeof( szCursorVEA ), szViewName );
-               strcat_s( szCursorVEA, sizeof( szCursorVEA ), ".cursor( \"" );
-               strcat_s( szCursorVEA, sizeof( szCursorVEA ), szEntityName );
-               strcat_s( szCursorVEA, sizeof( szCursorVEA ), "\" ).getStringFromAttribute( \"" );
-               strcat_s( szCursorVEA, sizeof( szCursorVEA ), szAttributeName );
-               strcat_s( szCursorVEA, sizeof( szCursorVEA ), "\" )" );  // close 6 open
+               strcpy_s( szCursorVEA, zsizeof( szCursorVEA ), szViewName );
+               strcat_s( szCursorVEA, zsizeof( szCursorVEA ), ".cursor( \"" );
+               strcat_s( szCursorVEA, zsizeof( szCursorVEA ), szEntityName );
+               strcat_s( szCursorVEA, zsizeof( szCursorVEA ), "\" ).getStringFromAttribute( \"" );
+               strcat_s( szCursorVEA, zsizeof( szCursorVEA ), szAttributeName );
+               strcat_s( szCursorVEA, zsizeof( szCursorVEA ), "\" )" ); // close 6 open
                ADDEXPRESSIONENTRYTOSTRING( qCONSTANT, qNUMERIC, qTINTEGER, szCursorVEA, 0, 0 );
             }
             else
@@ -2599,8 +2599,8 @@ AddSetEntityCursor( zVIEW  vSubtask,
    zLONG lResultID;
    zLONG lOperZKey;
 
-// zmemset( sParmList, 0, sizeof( sParmList ) );
-// zmemset( sParmListExt, 0, sizeof( sParmListExt ) );
+// zmemset( sParmList, 0, zsizeof( sParmList ) );
+// zmemset( sParmListExt, 0, zsizeof( sParmListExt ) );
 // lParmListIndex = 0;
 
    lLocal2Code = 0;
@@ -2725,7 +2725,7 @@ AddSetEntityCursor( zVIEW  vSubtask,
       ADDCOMMAEXPRESSIONTOSTRING;
 
       // 4. parameter lControl
-      sprintf_s( szNumber, sizeof( szNumber ), "%ld", lControl );
+      sprintf_s( szNumber, zsizeof( szNumber ), "%ld", lControl );
       ADDEXPRESSIONENTRYTOSTRING( qCONSTANT, qNUMERIC, sParmList[ lParmListIndex++ ], szNumber, 0, 0 );
       ADDCOMMAEXPRESSIONTOSTRING;
 
@@ -2793,8 +2793,8 @@ AddSetCursorObjectScope( zVIEW  vSubtask,
    zLONG lResultID;
    zLONG lOperZKey;
 
-// zmemset( sParmList, 0, sizeof( sParmList ) );
-// zmemset( sParmListExt, 0, sizeof( sParmListExt ) );
+// zmemset( sParmList, 0, zsizeof( sParmList ) );
+// zmemset( sParmListExt, 0, zsizeof( sParmListExt ) );
 // lParmListIndex = 0;
 
    lLocal2Code = 0;
@@ -2891,7 +2891,7 @@ AddSetCursorObjectScope( zVIEW  vSubtask,
       {
          // pchExtra might contain special zCHAR combinations created by the german umlaut hack.
          zCHAR szCopy[ 256 ];
-         GermanUmlautHack( pchExtra, szCopy, sizeof( szCopy ), TRUE );
+         GermanUmlautHack( pchExtra, szCopy, zsizeof( szCopy ), TRUE );
 
          //if ( sParmList[ lParmListIndex ] < 0 )
          //   lUseExtra *= -1;
@@ -2975,7 +2975,7 @@ AddSetCursorObjectScope( zVIEW  vSubtask,
       {
          // pchExtra might contain special zCHAR combinations created by the german umlaut hack.
          zCHAR szCopy[ 256 ];
-         GermanUmlautHack( pchExtra, szCopy, sizeof( szCopy ), TRUE );
+         GermanUmlautHack( pchExtra, szCopy, zsizeof( szCopy ), TRUE );
 
          //if ( sParmList[ lParmListIndex ] < 0 )
          //   lUseExtra *= -1;
@@ -3041,7 +3041,7 @@ AddEntityOperWithNoScope( zVIEW  vSubtask,
    zLONG lDefineZKey;
    zLONG lVarReturnType;
 
-// memset( sParmListExt, 0, sizeof( sParmListExt ) );
+// memset( sParmListExt, 0, zsizeof( sParmListExt ) );
 // lParmListIndex = 0;
 
    lLocal2Code = 0;
@@ -3139,8 +3139,8 @@ AddEntityOperWithEntity( zVIEW  vSubtask,
    zLONG lResultID;
    zLONG lOperZKey;
 
-// zmemset( sParmList, 0, sizeof( sParmList ) );
-// zmemset( sParmListExt, 0, sizeof( sParmListExt ) );
+// zmemset( sParmList, 0, zsizeof( sParmList ) );
+// zmemset( sParmListExt, 0, zsizeof( sParmListExt ) );
 // lParmListIndex = 0;
 
    lLocal2Code = 0;
@@ -3243,7 +3243,7 @@ AddEntityOperToViewWithNoScope( zVIEW  vSubtask,
    zLONG lParmListIndex = 0;
    zLONG lOperZKey;
 
-// memset( sParmListExt, 0, sizeof( sParmListExt ) );
+// memset( sParmListExt, 0, zsizeof( sParmListExt ) );
 // lParmListIndex = 0;
 
    lOperZKey = GetOperationZKey( vSubtask, qZEIDONOPERATION, pchOperationName );

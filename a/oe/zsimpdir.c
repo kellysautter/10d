@@ -99,7 +99,7 @@ zServerDirGetAddr( LPTASK  lpTask,
       SetAttributeFromString( vOI, "Key", "Desc", "Current address of the appl server" );
 
       // Read the address from the zeidon ini.
-      sprintf_s( szGroup, sizeof( szGroup ), "[%s]", lpBaseInfo->pszNetworkName );
+      sprintf_s( szGroup, zsizeof( szGroup ), "[%s]", lpBaseInfo->pszNetworkName );
       SysReadZeidonIni( -1, szGroup, "ApplServer", pchReturnAddress, 33 );  // note that this 33 length has not been verified ... dks 2015.11.17
       SetAttributeFromString( vOI, "Key", "Value", pchReturnAddress );
    }

@@ -950,7 +950,7 @@ ReadWindowPlacement( zVIEW    vSubtask,
    zCHAR  szSection[ 80 ];
    zCHAR  szBuffer[ 256 ];
 
-   fnGetLocalPath( vSubtask, szZeidonPath, sizeof( szZeidonPath ), cpcIniID );
+   fnGetLocalPath( vSubtask, szZeidonPath, zsizeof( szZeidonPath ), cpcIniID );
    wsprintf( szSection, "USR:%s.%s", cpcDlgTag, cpcWndTag );
 
    DWORD dw =
@@ -958,12 +958,12 @@ ReadWindowPlacement( zVIEW    vSubtask,
                             szWindowPos,        // key name
                             "",                 // default string
                             szBuffer,           // destination buffer
-                            sizeof( szBuffer ), // size of destination buffer
+                            zsizeof( szBuffer ), // size of destination buffer
                             szZeidonPath );     // ini filename
 
 #ifdef DEBUG_ALL
    zCHAR szMsg[ 512 ];
-   sprintf_s( szMsg, sizeof( szMsg ), "%s %s: %s", szSection,
+   sprintf_s( szMsg, zsizeof( szMsg ), "%s %s: %s", szSection,
                     "ReadWindowPlacement flags,showCmd,minX,minY,maxX,maxY,l,t,r,b: ",
                     szBuffer );
    TraceLineS( szMsg, "" );
@@ -1004,10 +1004,10 @@ WriteWindowPlacement( zVIEW    vSubtask,
    zCHAR  szZeidonPath[ zMAX_FILENAME_LTH + 1 ];
    zCHAR  szSection[ 80 ];
 
-   fnGetLocalPath( vSubtask, szZeidonPath, sizeof( szZeidonPath ), cpcIniID );
+   fnGetLocalPath( vSubtask, szZeidonPath, zsizeof( szZeidonPath ), cpcIniID );
    wsprintf( szSection, "USR:%s.%s", cpcDlgTag, cpcWndTag );
 
-   TCHAR szBuffer[ sizeof( "-2147483647," ) * 10 ];
+   TCHAR szBuffer[ zsizeof( "-2147483647," ) * 10 ];
 
    if ( pwp->showCmd == SW_SHOWMINIMIZED )
       pwp->showCmd = SW_SHOWNORMAL;
@@ -1021,7 +1021,7 @@ WriteWindowPlacement( zVIEW    vSubtask,
 
 #ifdef DEBUG_ALL
    zCHAR szMsg[ 512 ];
-   sprintf_s( szMsg, sizeof( szMsg ), "%s %s: %s", szSection,
+   sprintf_s( szMsg, zsizeof( szMsg ), "%s %s: %s", szSection,
                     "WriteWindowPlacement flags,showCmd,minX,minY,maxX,maxY,l,t,r,b: ",
                     szBuffer );
    TraceLineS( szMsg, "" );
@@ -1067,11 +1067,11 @@ ReadToolBarPlacement( ZSubtask *pZSubtask,
    zCHAR szBuffer[ 256 ];
    zCHAR szCtrlInfo[ 64 ];
 
-   strcpy_s( szCtrlInfo, sizeof( szCtrlInfo ), "CtrlInfo:" );
-   strcpy_s( szCtrlInfo + 9, sizeof( szCtrlInfo ) - 9, cpcBarID );
+   strcpy_s( szCtrlInfo, zsizeof( szCtrlInfo ), "CtrlInfo:" );
+   strcpy_s( szCtrlInfo + 9, zsizeof( szCtrlInfo ) - 9, cpcBarID );
 
    fnGetProfileStr( pZSubtask, cpcIniID, szCtrlInfo,
-                    szBuffer, sizeof( szBuffer ) );
+                    szBuffer, zsizeof( szBuffer ) );
 
    int nRead = _stscanf( szBuffer, szToolBarFormat,
                          &(pCB_Info->m_nBarID),
@@ -1117,10 +1117,10 @@ WriteToolBarPlacement( ZSubtask *pZSubtask,
 //    return( FALSE );
 // }
 
-   strcpy_s( szCtrlInfo, sizeof( szCtrlInfo ), "CtrlInfo:" );
-   strcpy_s( szCtrlInfo + 9, sizeof( szCtrlInfo ) - 9, cpcBarID );
+   strcpy_s( szCtrlInfo, zsizeof( szCtrlInfo ), "CtrlInfo:" );
+   strcpy_s( szCtrlInfo + 9, zsizeof( szCtrlInfo ) - 9, cpcBarID );
 
-   TCHAR szBuffer[ sizeof( "-2147483647," ) * 17 ];
+   TCHAR szBuffer[ zsizeof( "-2147483647," ) * 17 ];
 
    wsprintf( szBuffer, szToolBarFormat,
              pCB_Info->m_nBarID,
@@ -1165,10 +1165,10 @@ GetProfileStr( zVIEW    vDialog,
    if ( vDialog &&
         SfGetApplicationForSubtask( &pApp, vDialog ) == 0 && pApp )
    {
-      strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+      strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
    }
    else
-      SysGetEnvVar( szZeidonPath, "ZEIDON", sizeof( szZeidonPath ) );
+      SysGetEnvVar( szZeidonPath, "ZEIDON", zsizeof( szZeidonPath ) );
 
    SysAppendcDirSep( szZeidonPath );
 
@@ -1206,10 +1206,10 @@ SetProfileStr( zVIEW    vDialog,
    if ( vDialog &&
         SfGetApplicationForSubtask( &pApp, vDialog ) == 0 && pApp )
    {
-      strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+      strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
    }
    else
-      SysGetEnvVar( szZeidonPath, "ZEIDON", sizeof( szZeidonPath ) );
+      SysGetEnvVar( szZeidonPath, "ZEIDON", zsizeof( szZeidonPath ) );
 
    SysAppendcDirSep( szZeidonPath );
 
@@ -1229,11 +1229,11 @@ GetProfileNbr( zVIEW    vDialog,
                zCPCHAR  cpcWndTag,
                zCPCHAR  cpcIntegerKey )
 {
-   TCHAR szBuffer[ sizeof( "-2147483647," ) ];
+   TCHAR szBuffer[ zsizeof( "-2147483647," ) ];
    zLONG lInteger = 0;
 
    GetProfileStr( vDialog, cpcIniID, cpcDlgTag, cpcWndTag,
-                  cpcIntegerKey, szBuffer, sizeof( szBuffer ) );
+                  cpcIntegerKey, szBuffer, zsizeof( szBuffer ) );
    lInteger = zatol( szBuffer );
    return( lInteger );
 }
@@ -1246,7 +1246,7 @@ SetProfileNbr( zVIEW    vDialog,
                zCPCHAR  cpcIntegerKey,
                zLONG    lInteger )
 {
-   TCHAR szBuffer[ sizeof( "-2147483647," ) ];
+   TCHAR szBuffer[ zsizeof( "-2147483647," ) ];
 
    wsprintf( szBuffer, "%ld", lInteger );
    SetProfileStr( vDialog, cpcIniID, cpcDlgTag, cpcWndTag,
@@ -1261,11 +1261,11 @@ fnGetProfileNbr( ZSubtask *pZSubtask,
                  zCPCHAR  cpcIniID,
                  zCPCHAR  cpcIntegerKey )
 {
-   TCHAR szBuffer[ sizeof( "-2147483647," ) ];
+   TCHAR szBuffer[ zsizeof( "-2147483647," ) ];
    zLONG lInteger = 0;
 
    fnGetProfileStr( pZSubtask, cpcIniID, cpcIntegerKey,
-                    szBuffer, sizeof( szBuffer ) );
+                    szBuffer, zsizeof( szBuffer ) );
    lInteger = zatol( szBuffer );
    return( lInteger );
 }
@@ -1276,7 +1276,7 @@ fnSetProfileNbr( ZSubtask *pZSubtask,
                  zCPCHAR  cpcIntegerKey,
                  zLONG    lInteger )
 {
-   TCHAR szBuffer[ sizeof( "-2147483647," ) ];
+   TCHAR szBuffer[ zsizeof( "-2147483647," ) ];
 
    wsprintf( szBuffer, "%ld", lInteger );
    fnSetProfileStr( pZSubtask, cpcIniID, cpcIntegerKey, szBuffer );
@@ -1501,7 +1501,7 @@ TargetOSVersion entries are required.
 
   dwOSVersionInfoSize
        Specifies the size, in bytes, of this data structure. Set this member
-       to sizeof(OSVERSIONINFOEX) before calling the GetVersionEx or
+       to zsizeof(OSVERSIONINFOEX) before calling the GetVersionEx or
        VerifyVersionInfo function.
   dwMajorVersion
        Identifies the major version number of the operating system as follows.
@@ -1698,19 +1698,19 @@ DetermineSystemVersion( zPLONG plMajorVersion,
          // Test for the product.
          if ( osvi.dwMajorVersion == 3 )
          {
-            strcat_s( szVersion, sizeof( szVersion ), "Microsoft Windows NT " );
+            strcat_s( szVersion, zsizeof( szVersion ), "Microsoft Windows NT " );
             nRC = 35;
          }
 
          if ( osvi.dwMajorVersion == 4 )
          {
-            strcat_s( szVersion, sizeof( szVersion ), "Microsoft Windows NT " );
+            strcat_s( szVersion, zsizeof( szVersion ), "Microsoft Windows NT " );
             nRC = 40;
          }
 
          if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
          {
-            strcat_s( szVersion, sizeof( szVersion ), "Microsoft Windows 2000 " );
+            strcat_s( szVersion, zsizeof( szVersion ), "Microsoft Windows 2000 " );
             nRC = 50;
          }
 
@@ -1721,15 +1721,15 @@ DetermineSystemVersion( zPLONG plMajorVersion,
             {
                if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
                {
-                  strcat_s( szVersion, sizeof( szVersion ), "Microsoft Windows XP " );
+                  strcat_s( szVersion, zsizeof( szVersion ), "Microsoft Windows XP " );
                   if ( osvi.wSuiteMask & VER_SUITE_PERSONAL )
                   {
-                     strcat_s( szVersion, sizeof( szVersion ), "Home Edition " );
+                     strcat_s( szVersion, zsizeof( szVersion ), "Home Edition " );
                      nRC = 60;
                   }
                   else
                   {
-                     strcat_s( szVersion, sizeof( szVersion ), "Professional " );
+                     strcat_s( szVersion, zsizeof( szVersion ), "Professional " );
                      nRC = 65;
                   }
                }
@@ -1739,13 +1739,13 @@ DetermineSystemVersion( zPLONG plMajorVersion,
             {
                if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
                {
-                  strcat_s( szVersion, sizeof( szVersion ), "Microsoft Windows .NET " );
+                  strcat_s( szVersion, zsizeof( szVersion ), "Microsoft Windows .NET " );
                   nRC = 180;
                }
 
                if ( osvi.wSuiteMask & VER_SUITE_DATACENTER )
                {
-                  strcat_s( szVersion, sizeof( szVersion ), "DataCenter Server " );
+                  strcat_s( szVersion, zsizeof( szVersion ), "DataCenter Server " );
                   nRC = 120;
                }
                else
@@ -1753,12 +1753,12 @@ DetermineSystemVersion( zPLONG plMajorVersion,
                {
                   if ( osvi.dwMajorVersion == 4 )
                   {
-                     strcat_s( szVersion, sizeof( szVersion ), "Advanced Server " );
+                     strcat_s( szVersion, zsizeof( szVersion ), "Advanced Server " );
                      nRC = 130;
                   }
                   else
                   {
-                     strcat_s( szVersion, sizeof( szVersion ), "Enterprise Server " );
+                     strcat_s( szVersion, zsizeof( szVersion ), "Enterprise Server " );
                      nRC = 140;
                   }
                }
@@ -1766,13 +1766,13 @@ DetermineSystemVersion( zPLONG plMajorVersion,
 #ifdef VER_SUITE_SERVERAPPLIANCE
                if ( osvi.wSuiteMask == VER_SUITE_SERVERAPPLIANCE )
                {
-                  strcat_s( szVersion, sizeof( szVersion ), "Web Server " );
+                  strcat_s( szVersion, zsizeof( szVersion ), "Web Server " );
                   nRC = 150;
                }
                else
 #endif
                {
-                  strcat_s( szVersion, sizeof( szVersion ), "Server " );
+                  strcat_s( szVersion, zsizeof( szVersion ), "Server " );
                   nRC = 100;
                }
             }
@@ -1791,19 +1791,19 @@ DetermineSystemVersion( zPLONG plMajorVersion,
             RegCloseKey( hKey );
             if ( zstricmp( "WINNT", szProductType ) == 0 )
             {
-               strcat_s( szVersion, sizeof( szVersion ), "Professional " );
+               strcat_s( szVersion, zsizeof( szVersion ), "Professional " );
                nRC = 165;
             }
 
             if ( zstricmp( "LANMANNT", szProductType ) == 0 )
             {
-               strcat_s( szVersion, sizeof( szVersion ), "Server " );
+               strcat_s( szVersion, zsizeof( szVersion ), "Server " );
                nRC = 101;
             }
 
             if ( zstricmp( "SERVERNT", szProductType ) == 0 )
             {
-               strcat_s( szVersion, sizeof( szVersion ), "Advanced Server " );
+               strcat_s( szVersion, zsizeof( szVersion ), "Advanced Server " );
                nRC = 131;
             }
          }
@@ -1812,7 +1812,7 @@ DetermineSystemVersion( zPLONG plMajorVersion,
          zLONG lLth = zstrlen( szVersion );
          if ( osvi.dwMajorVersion <= 4 )
          {
-            sprintf_s( szVersion + lLth, sizeof( szVersion ) - lLth,
+            sprintf_s( szVersion + lLth, zsizeof( szVersion ) - lLth,
                       "Version %d.%d %s (Build %d)",
                       osvi.dwMajorVersion,
                       osvi.dwMinorVersion,
@@ -1821,7 +1821,7 @@ DetermineSystemVersion( zPLONG plMajorVersion,
          }
          else
          {
-            sprintf_s( szVersion + lLth, sizeof( szVersion ) - lLth,
+            sprintf_s( szVersion + lLth, zsizeof( szVersion ) - lLth,
                       "%s (Build %d)",
                       osvi.szCSDVersion,
                       osvi.dwBuildNumber & 0xFFFF );
@@ -1835,12 +1835,12 @@ DetermineSystemVersion( zPLONG plMajorVersion,
       {
          if ( osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0 )
          {
-             strcpy_s( szVersion, sizeof( szVersion ), "Microsoft Windows 95 " );
+             strcpy_s( szVersion, zsizeof( szVersion ), "Microsoft Windows 95 " );
              if ( osvi.szCSDVersion[ 1 ] == 'C' ||
                   osvi.szCSDVersion[ 1 ] == 'B' )
              {
                 nRC = 15;
-                strcat_s( szVersion, sizeof( szVersion ), "OSR2 " );
+                strcat_s( szVersion, zsizeof( szVersion ), "OSR2 " );
              }
              else
              {
@@ -1850,10 +1850,10 @@ DetermineSystemVersion( zPLONG plMajorVersion,
 
          if ( osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10 )
          {
-             strcpy_s( szVersion, sizeof( szVersion ), "Microsoft Windows 98 " );
+             strcpy_s( szVersion, zsizeof( szVersion ), "Microsoft Windows 98 " );
              if ( osvi.szCSDVersion[ 1 ] == 'A' )
              {
-                strcat_s( szVersion, sizeof( szVersion ), "SE " );
+                strcat_s( szVersion, zsizeof( szVersion ), "SE " );
                 nRC = 25;
              }
              else
@@ -1864,7 +1864,7 @@ DetermineSystemVersion( zPLONG plMajorVersion,
 
          if ( osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 90 )
          {
-             strcpy_s( szVersion, sizeof( szVersion ), "Microsoft Windows Millennium Edition " );
+             strcpy_s( szVersion, zsizeof( szVersion ), "Microsoft Windows Millennium Edition " );
              nRC = 30;
          }
 
@@ -2579,7 +2579,7 @@ ActiveDirectoryChangePassword( zCPCHAR cpcPathName, zCPCHAR cpcAdminUserName, zC
    //Setting the attibutes needs to be retrieved
    LPWSTR pszAttr[] = { L"AdsPath"};
 
-   DWORD dwCount= sizeof(pszAttr)/sizeof(LPWSTR);
+   DWORD dwCount= zsizeof(pszAttr)/sizeof(LPWSTR);
    ADS_SEARCH_HANDLE hSearch;
 
    // Build a search string based on the passed username.
@@ -2738,7 +2738,7 @@ ActiveDirectorySetPassword( zCPCHAR cpcPathName, zCPCHAR cpcAdminUserName,
    //Setting the attibutes needs to be retrieved
    LPWSTR pszAttr[] = { L"AdsPath"};
 
-   DWORD dwCount= sizeof(pszAttr)/sizeof(LPWSTR);
+   DWORD dwCount= zsizeof(pszAttr)/sizeof(LPWSTR);
    ADS_SEARCH_HANDLE hSearch;
 
    // Build a search string based on the passed username.
@@ -2923,7 +2923,7 @@ ActiveDirectorySetProperty( zCPCHAR cpcPathName,
    //Setting the attibutes needs to be retrieved
    LPWSTR pszAttr[] = { L"AdsPath"};
 
-   DWORD dwCount= sizeof(pszAttr)/sizeof(LPWSTR);
+   DWORD dwCount= zsizeof(pszAttr)/sizeof(LPWSTR);
    ADS_SEARCH_HANDLE hSearch;
 
    // Build a search string based on the passed username.
@@ -4438,7 +4438,7 @@ QuickSortArrayNR( CArray<zPVOID, zPVOID> *pva,
    }
 
    lStackSize <<= 2;     // two entries for each comparison
-   zLONG *plStack = (zLONG *) new char[ lStackSize * sizeof( zLONG) ];
+   zLONG *plStack = (zLONG *) new char[ lStackSize * sizeof( zLONG ) ];
    zLONG lStack = 0;
    zLONG lLeft;
    zLONG lRight;

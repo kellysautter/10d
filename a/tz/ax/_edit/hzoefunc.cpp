@@ -166,9 +166,9 @@ BOOL CTBEditor::ChangeColors( COLORREF *pCR )
 {
     CHOOSECOLOR cc;
 
-   ZeroMemory( &cc, sizeof( CHOOSECOLOR ) );
+   ZeroMemory( &cc, zsizeof( CHOOSECOLOR ) );
 
-    cc.lStructSize = sizeof( CHOOSECOLOR );
+    cc.lStructSize = zsizeof( CHOOSECOLOR );
     cc.hwndOwner = m_hWnd;
     cc.rgbResult = *pCR;
     cc.Flags = CC_RGBINIT | CC_ANYCOLOR;
@@ -220,31 +220,31 @@ void CTBEditor::FindReplace( BOOL fReplace )
 
    /*
    if( ! m_sFindDlg )
-       m_sFindDlg = (FINDREPLACE *)new BYTE[ sizeof(FINDREPLACE) + 2 * 80 * sizeof(TCHAR)];
+       m_sFindDlg = (FINDREPLACE *)new BYTE[ zsizeof(FINDREPLACE) + 2 * 80 * zsizeof(TCHAR)];
 
    if( m_sFindDlg )
    {
-      ZeroMemory( m_sFindDlg, sizeof(FINDREPLACE) + 2 * 80 * sizeof(TCHAR) );
+      ZeroMemory( m_sFindDlg, zsizeof(FINDREPLACE) + 2 * 80 * zsizeof(TCHAR) );
 
       SendMessage( EM_HIDESELECTION, FALSE, TRUE );
 
-      m_sFindDlg->lStructSize = sizeof(FINDREPLACE);
+      m_sFindDlg->lStructSize = zsizeof(FINDREPLACE);
       m_sFindDlg->hwndOwner = this->m_hWnd; //GetSafeHwnd();
       m_sFindDlg->Flags = FR_HIDEWHOLEWORD| FR_DOWN ;//| FR_ENABLEHOOK;
       m_sFindDlg->lpstrFindWhat = lpszFind;
       m_sFindDlg->lpstrReplaceWith = lpszReplace;
       m_sFindDlg->wFindWhatLen = lBuffSize;
       m_sFindDlg->wReplaceWithLen = lBuffSize;
-      //m_sFindDlg->wFindWhatLen = 80 * sizeof(TCHAR);
-      //m_sFindDlg->wReplaceWithLen = 80 * sizeof(TCHAR);
+      //m_sFindDlg->wFindWhatLen = 80 * zsizeof(TCHAR);
+      //m_sFindDlg->wReplaceWithLen = 80 * zsizeof(TCHAR);
       //m_sFindDlg->lpfnHook = FindReplaceHook;
-      //m_sFindDlg->lpstrFindWhat = (LPSTR) (((BYTE *) m_sFindDlg) + sizeof(FINDREPLACE));
+      //m_sFindDlg->lpstrFindWhat = (LPSTR) (((BYTE *) m_sFindDlg) + zsizeof(FINDREPLACE));
       //m_sFindDlg->lpstrReplaceWith = m_sFindDlg->lpstrFindWhat + 80;
 
 
       //Initialisieren des Suchstrings
       if( m_pSearchString )
-          lstrcpyn( m_sFindDlg->lpstrFindWhat, m_pSearchString, 80 * sizeof(TCHAR) );
+          lstrcpyn( m_sFindDlg->lpstrFindWhat, m_pSearchString, 80 * zsizeof(TCHAR) );
 
       // Suche starten
       if( fReplace )
@@ -1055,7 +1055,7 @@ DWORD CALLBACK CTBEditor::ReadCallback( DWORD dwCookie, LPBYTE pbBuff, LONG cb,
    // read byte per byte to replace TABS
    while ( result && lBuffCount < cb && lReadCount > 0)
    {
-      result = ReadFile((HANDLE)dwCookie, &b, sizeof( b ), &lReadCount, NULL);
+      result = ReadFile((HANDLE)dwCookie, &b, zsizeof( b ), &lReadCount, NULL);
       if( result && lReadCount > 0 ) // no EOF so far
       {
          if( b == '\t' )
@@ -1532,8 +1532,8 @@ void CTBEditor::SetTabStops( long lAnz )
     cha.cpMin = 0;  //alles auswaehlen
     cha.cpMax = -1;
 
-    ZeroMemory( &pf, sizeof( PARAFORMAT ) );
-    pf.cbSize = sizeof( PARAFORMAT );
+    ZeroMemory( &pf, zsizeof( PARAFORMAT ) );
+    pf.cbSize = zsizeof( PARAFORMAT );
 
     //Breite der Zeichen bestimmen
    HDC hdc;
@@ -1775,7 +1775,7 @@ int CTBEditor::DialogMeldung( long lID, unsigned int uOptions, const char *pText
     char p[100];
 
 
-    if( ! LoadString( theApp.m_hInstance, lID, p, sizeof( p ) * sizeof(TCHAR) ) )
+    if( ! LoadString( theApp.m_hInstance, lID, p, zsizeof( p ) * zsizeof(TCHAR) ) )
         p[0] = '\0';
 
     if( m_hWndModal ) //gibt es einen nicht-modalen Dialog?
@@ -1964,8 +1964,8 @@ BOOL CTBEditor::BeginInComment( long lLineIndex )
     if( m_enSyntax != ZEIDON_SYNTAX )
         return FALSE;
 
-    ZeroMemory( &cfo, sizeof( CHARFORMAT ) );
-    cfo.cbSize = sizeof( CHARFORMAT );
+    ZeroMemory( &cfo, zsizeof( CHARFORMAT ) );
+    cfo.cbSize = zsizeof( CHARFORMAT );
 
     //Ende des zu untersuchenden Bereichs bestimmen = Anfang der akt. Zeile
     dMerkIndex = ::SendMessage( m_hWnd, EM_LINEINDEX,

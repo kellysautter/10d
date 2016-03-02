@@ -9,7 +9,7 @@
 
 #define FORTIFY_STORAGE              /* storage for public functions   */
 
-#define FORTIFY_ALIGNMENT        sizeof(double) /* Byte alignment of all memory blocks */
+#define FORTIFY_ALIGNMENT        zsizeof(double) /* Byte alignment of all memory blocks */
 
 #define FORTIFY_BEFORE_SIZE      32  /* Bytes to allocate before block */
 #define FORTIFY_BEFORE_VALUE   0xA3  /* Fill value before block        */

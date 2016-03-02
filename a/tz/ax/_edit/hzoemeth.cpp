@@ -968,7 +968,7 @@ void CTBEditor::PrintObject()
    cchText = SendMessage( WM_GETTEXTLENGTH, 0, 0);
 
     // Initialize the PRINTDLG structure.
-    pd.lStructSize = sizeof(PRINTDLG);
+    pd.lStructSize = zsizeof(PRINTDLG);
     pd.hwndOwner = m_hWnd;
     pd.hDevMode = (HANDLE)NULL;
     pd.hDevNames = (HANDLE)NULL;
@@ -990,7 +990,7 @@ void CTBEditor::PrintObject()
 
    BeginWaitCursor();
 
-   di.cbSize = sizeof(DOCINFO);
+   di.cbSize = zsizeof(DOCINFO);
    di.lpszDocName = m_cFileName;
    di.lpszOutput = NULL;
 
@@ -1781,8 +1781,8 @@ BOOL CTBEditor::IsCommentAtIndex(long lIndex)
     SendMessage( EM_EXSETSEL, 0,(LPARAM) &cha );
 
 
-    ZeroMemory( &cfo, sizeof( CHARFORMAT ) );
-    cfo.cbSize = sizeof( CHARFORMAT );
+    ZeroMemory( &cfo, zsizeof( CHARFORMAT ) );
+    cfo.cbSize = zsizeof( CHARFORMAT );
     cfo.crTextColor = m_crForeground;
 
     SendMessage( EM_GETCHARFORMAT, TRUE, (LPARAM) &cfo );

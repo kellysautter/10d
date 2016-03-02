@@ -708,7 +708,7 @@ TZPainterCtrl::PositionOnParentCtrl( zVIEW vDialog )
       lType = m_pCtrlParent->m_lType;
       szText[ 0 ] = 0;
       m_pCtrlParent->m_pWndCtrl->GetWindowText( szText,
-                                                sizeof( szText ) - 1 );
+                                                zsizeof( szText ) - 1 );
       SetAttributeFromString( vDialog, pchEntity, szlTag,
                               m_pCtrlParent->m_csTag );
       SetAttributeFromString( vDialog, pchEntity, szlText, szText );
@@ -725,7 +725,7 @@ TZPainterCtrl::PositionOnParentCtrl( zVIEW vDialog )
          IncludeSubobjectFromSubobject( vDialog, szlControlDef,
                                         vTZPESRCO, szlControlDef,
                                         zPOS_BEFORE );
-         GetStringFromAttribute( szPlaceHolder, sizeof( szPlaceHolder ), vTZPESRCO, szlControlDef, "PlaceHolder" );
+         GetStringFromAttribute( szPlaceHolder, zsizeof( szPlaceHolder ), vTZPESRCO, szlControlDef, "PlaceHolder" );
          bPlaceHolder = (szPlaceHolder[ 0 ] == 'Y') ? TRUE : FALSE;
          m_pPainterWindow->CreateMetaEntity( vDialog, szlCtrlMap,
                                              zPOS_AFTER );
@@ -871,7 +871,7 @@ TZPainterCtrl::PositionOnZeidonCtrl( zVIEW vDialog )
          szText[ 0 ] = 0;
          if ( m_pWndCtrl && mIs_hWnd( m_pWndCtrl->m_hWnd ) )
          {
-            m_pWndCtrl->GetWindowText( szText, sizeof( szText ) - 1 );
+            m_pWndCtrl->GetWindowText( szText, zsizeof( szText ) - 1 );
             SetAttributeFromString( vDialog, pchEntity, szlText, szText );
          }
 
@@ -883,7 +883,7 @@ TZPainterCtrl::PositionOnZeidonCtrl( zVIEW vDialog )
          IncludeSubobjectFromSubobject( vDialog, szlControlDef,
                                         vTZPESRCO, szlControlDef,
                                         zPOS_BEFORE );
-         GetStringFromAttribute( szPlaceHolder, sizeof( szPlaceHolder ), vTZPESRCO, szlControlDef, "PlaceHolder" );
+         GetStringFromAttribute( szPlaceHolder, zsizeof( szPlaceHolder ), vTZPESRCO, szlControlDef, "PlaceHolder" );
          bPlaceHolder = (szPlaceHolder[ 0 ] == 'Y') ? TRUE : FALSE;
          m_pPainterWindow->CreateMetaEntity( vDialog, szlCtrlMap,
                                              zPOS_AFTER );
@@ -1408,9 +1408,9 @@ TZPainterCtrl::Clone( TZPainterCtrl *pParent, CRect& rectNew,
       szNewTag[ 0 ] = 0;
       m_pPainterWindow->GenerateTag( szNewTag, m_lType );
 
-      m_pWndCtrl->GetWindowText( szText, sizeof( szText ) - 1 );
+      m_pWndCtrl->GetWindowText( szText, zsizeof( szText ) - 1 );
       if ( szText[ 0 ] == 0 )
-         strcpy_s( szText, sizeof( szText ), szNewTag );
+         strcpy_s( szText, zsizeof( szText ), szNewTag );
 
       pNewCtrl = m_pPainterWindow->PaintCtrl( pParent, szlControl,
                                               0, m_lType, &rectNew,
@@ -2833,7 +2833,7 @@ TZSelectCover::TrackSelection( UINT uModKeys, CPoint pt,
                   zCHAR szLabel[ 64 ];
                   TZPainterCtrl *pNewCtrl;
 
-                  sprintf_s( szLabel, sizeof( szLabel ), "&xxdo Clone %d item%s\tCtrl+x",
+                  sprintf_s( szLabel, zsizeof( szLabel ), "&xxdo Clone %d item%s\tCtrl+x",
                             pPainterWindow->m_nSelectCnt,
                             pPainterWindow->m_nSelectCnt == 1 ? "" : "s" );
                   CPoint ptScrollPos = pPainterWindow->
@@ -3239,7 +3239,7 @@ TRACK_SELECTION_END_label:
       //      zstrcmp( pCtrl->m_csTag, "ClientActivity" ) == 0 )
          {
       //    pCtrl = pPainterWindow->m_CtrlList[ nPos ];
-            sprintf_s( szMsg, sizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
+            sprintf_s( szMsg, zsizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
                       pCtrl->IsSelected( ) ? "*" : " ",
                       pCtrl->m_pCtrlParent ?
                                     pCtrl->m_pCtrlParent->m_csTag : "<null>",
@@ -3422,7 +3422,7 @@ TZSelectCover::OnPaint( )
 #ifdef DEBUG_ALL // lots of messages
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "TZSelectCover::OnPaint: %s ====>", m_pCtrl->m_csTag );
+   sprintf_s( szMsg, zsizeof( szMsg ), "TZSelectCover::OnPaint: %s ====>", m_pCtrl->m_csTag );
    TraceRect( szMsg, m_pCtrl->m_rectPainter );
 #endif
 

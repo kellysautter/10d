@@ -75,7 +75,7 @@ fnTrace( zSHORT nThreadNumber, char *pchMsg )
    WORD wItemCount;
    char szMsg[ 2000 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "%d: %s", nThreadNumber, pchMsg );
+   sprintf_s( szMsg, zsizeof( szMsg ), "%d: %s", nThreadNumber, pchMsg );
    wItemCount = (WORD) SendMessage( hListWnd, LB_ADDSTRING, 0, (zLONG) szMsg );
    if ( wItemCount > 4000 )
    {
@@ -125,7 +125,7 @@ fnThreadProc2( zPVOID p )
    // SysMutexLock( "KZOECLNT/1", 0, 0 );
    // TRACE( nThreadNumber, "Mutex locked" );
 
-      SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+      SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
       TRACE( nThreadNumber, szDateTime );
 
       nRC = ActivateObjectInstance( &vView, "mUser", vSubtask, 0, zSINGLE );
@@ -134,7 +134,7 @@ fnThreadProc2( zPVOID p )
       else
          TRACE( nThreadNumber, "----- ERROR activating mUser --------- " );
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Thread test #%d, rc = %d", nCount++, nRC );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Thread test #%d, rc = %d", nCount++, nRC );
       TRACE( nThreadNumber, szMsg );
 
    // SysMutexUnlock( "KZOECLNT/1" );
@@ -226,7 +226,7 @@ TimerProc( HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime )
    {
       zCHAR szDateTime[ 30 ];
 
-      SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+      SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
       TRACE( 0, szDateTime );
 
       ActivateObjectInstance( &vView, "mMedCode", vSubtask, 0, zSINGLE );
@@ -235,7 +235,7 @@ TimerProc( HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime )
    }
 
 
-   sprintf_s( szMsg, sizeof( szMsg ), "Done with test %ld", g_lTestCount++ );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Done with test %ld", g_lTestCount++ );
    TRACE( 0, szMsg );
 
    if ( !g_bRunningTest )

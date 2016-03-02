@@ -161,22 +161,22 @@ fnDisplayCtrlError( zVIEW   vSubtask,
    zCHAR  szWork[ 256 ];
    zCHAR  szWork2[ 34 ];
 
-   strcpy_s( szWork, sizeof( szWork ), cpcMsg );
-   GetStringFromAttribute( szWork2, sizeof( szWork2 ), vSrcDialog, szlControl, szlTag );
-   strcat_s( szWork, sizeof( szWork ), szWork2 );
-   strcat_s( szWork, sizeof( szWork ), " ... on window: " );
+   strcpy_s( szWork, zsizeof( szWork ), cpcMsg );
+   GetStringFromAttribute( szWork2, zsizeof( szWork2 ), vSrcDialog, szlControl, szlTag );
+   strcat_s( szWork, zsizeof( szWork ), szWork2 );
+   strcat_s( szWork, zsizeof( szWork ), " ... on window: " );
    CreateViewFromViewForTask( &vWindow, vSrcDialog, vSubtask );
    while ( ResetViewFromSubobject( vWindow ) == 0 )
    {
    }
 
-   GetStringFromAttribute( szWork2, sizeof( szWork2 ), vWindow, szlWindow, szlTag );
+   GetStringFromAttribute( szWork2, zsizeof( szWork2 ), vWindow, szlWindow, szlTag );
    DropView( vWindow );
-   strcat_s( szWork, sizeof( szWork ), szWork2 );
+   strcat_s( szWork, zsizeof( szWork ), szWork2 );
    if ( bDelete )
-      strcat_s( szWork, sizeof( szWork ), "\nhas been deleted from execution." );
+      strcat_s( szWork, zsizeof( szWork ), "\nhas been deleted from execution." );
    else
-      strcat_s( szWork, sizeof( szWork ), "." );
+      strcat_s( szWork, zsizeof( szWork ), "." );
 
    IssueError( vSubtask, 0, 0, szWork );
 }
@@ -262,13 +262,13 @@ fnBuildRC_Filename( zVIEW   vSubtask,
 
    if ( bResourcePath )
    {
-      zCHAR  szTempPath[ sizeof( szResourcePath ) ];
+      zCHAR  szTempPath[ zsizeof( szResourcePath ) ];
       zSHORT nLth;
 
       // Read Zeidon.ini to see if the path is entered here.
       szTempPath[ 0 ] = 0;
-      SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szTempPath, sizeof( szTempPath ) );
-      SysConvertEnvironmentString( szResourcePath, sizeof( szResourcePath ), szTempPath );
+      SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szTempPath, zsizeof( szTempPath ) );
+      SysConvertEnvironmentString( szResourcePath, zsizeof( szResourcePath ), szTempPath );
       nLth = (zSHORT) zstrlen( szResourcePath );
 
       // Set '\' at the end of the path if it is not set.
@@ -330,7 +330,7 @@ fnResetResourceImage( zVIEW   vSubtask,
       zPCHAR pchName = new char[ nLth ];
 
       strcpy_s( pchName, nLth, cpcName );
-      GetStringFromAttribute( szImage, sizeof( szImage ), vApp, "App", "Image" );
+      GetStringFromAttribute( szImage, zsizeof( szImage ), vApp, "App", "Image" );
       if ( szImage[ 0 ] )
       {
          zPCHAR pchBMP;
@@ -347,7 +347,7 @@ fnResetResourceImage( zVIEW   vSubtask,
          delete [] pch;
       }
 
-      GetStringFromAttribute( szImage, sizeof( szImage ), vApp, "App", "ImageURL" );
+      GetStringFromAttribute( szImage, zsizeof( szImage ), vApp, "App", "ImageURL" );
       if ( pchName[ 0 ] )
       {
          if ( szImage[ 0 ] )
@@ -355,7 +355,7 @@ fnResetResourceImage( zVIEW   vSubtask,
             zPCHAR pch = new char[ nLth ];
 
             strcpy_s( pch, nLth, szImage );
-            SysConvertEnvironmentString( szImage, sizeof( szImage ), pch );
+            SysConvertEnvironmentString( szImage, zsizeof( szImage ), pch );
             SysTranslateString( szImage, 'L' );
 
             strcpy_s( pch, nLth, pchName );
@@ -635,16 +635,16 @@ ConvertTab( zVIEW   vSubtask,
             zPSHORT nCtrlID )
 {
    zCHAR  szBlob[ 5 * sizeof( zLONG ) ];
-   zULONG ulLth = sizeof( szBlob );
+   zULONG ulLth = zsizeof( szBlob );
 
    CreateEntity( vTgtRemote, "NoteBook", zPOS_AFTER );
    OrderEntityForView( vSrcDialog, szlCtrlCtrl, "Type A" );
 
    *((zPLONG) szBlob) = 0;
    *((zPLONG) (szBlob + sizeof( zLONG ))) = 0;
-   *((zPLONG) (szBlob + 2 * sizeof( zLONG ))) = 0;  // dflt tabs per row
-   *((zPLONG) (szBlob + 3 * sizeof( zLONG ))) = 0;  // text color
-   *((zPLONG) (szBlob + 4 * sizeof( zLONG ))) = 0;  // tab color
+   *((zPLONG) (szBlob + 2 * sizeof( zLONG ))) = 0; // dflt tabs per row
+   *((zPLONG) (szBlob + 3 * sizeof( zLONG ))) = 0; // text color
+   *((zPLONG) (szBlob + 4 * sizeof( zLONG ))) = 0; // tab color
    GetBlobFromAttribute( szBlob, &ulLth, vSrcDialog, szlControl, szlCtrlBOI );
 
    zLONG lTabStyle = *((zPLONG) (szBlob + sizeof( zLONG ) * 2));
@@ -679,7 +679,7 @@ ConvertTab( zVIEW   vSubtask,
    *((zPLONG) (szBlob + sizeof( zLONG ))) = k;   // set number of tabs
    *((zPLONG) (szBlob + 2 * sizeof( zLONG ))) = lTabStyle;
 
-   ulLth = sizeof( szBlob );
+   ulLth = zsizeof( szBlob );
    SetAttributeFromBlob( vTgtDialog, szlCtrl, szlCtrlBOI, szBlob, ulLth );
 
    if ( k > 0 )
@@ -906,7 +906,7 @@ ConvertListBox( zVIEW   vSubtask,
       {
          zCHAR  szTag[ 34 ];
 
-         GetStringFromAttribute( szTag, sizeof( szTag ), vSrcDialog, szlControl, szlTag );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcDialog, szlControl, szlTag );
          if ( szTag[ 0 ] == '_' && szTag[ 1 ] == '_' &&
               szTag[ 2 ] == 'P' && szTag[ 3 ] == 'r' &&
               szTag[ 4 ] == 'o' && szTag[ 5 ] == 'p' )
@@ -975,7 +975,7 @@ ConvertListBox( zVIEW   vSubtask,
          nRC = SetCursorNextEntity( vSrcDialog, szlControl, 0 );
       }
 
-      *((zPLONG) (pchBuffer + sizeof( zLONG ))) = k;  // set # of tabstops
+      *((zPLONG) (pchBuffer + sizeof( zLONG ))) = k; // set # of tabstops
 
       if ( bButtonHeaders )
       {
@@ -1002,7 +1002,7 @@ ConvertListBox( zVIEW   vSubtask,
             GetAddrForAttribute( (zCOREMEM) &pchCtrlTag, vSrcDialog, szlControl, szlText );
             k = zstrlen( pchCtrlTag );
             szTempString[ 0 ] = '\t';
-            nDIL_Lth = fnGetDIL_Msg( vSrcDialog, szTempString + 1, sizeof( szTempString ) - 1 );
+            nDIL_Lth = fnGetDIL_Msg( vSrcDialog, szTempString + 1, zsizeof( szTempString ) - 1 );
             szTempString[ nDIL_Lth + 1 ] = '\t';
             szTempString[ nDIL_Lth + 2 ] = 0;
             nDIL_Lth = (zSHORT) zstrlen( szTempString ) + 1;
@@ -1155,7 +1155,7 @@ ConvertListBox( zVIEW   vSubtask,
                   {
                      zCHAR szDataType[ 2 ];
 
-                     GetStringFromAttribute( szDataType, sizeof( szDataType ), vLOD, "Domain", "DataType" );
+                     GetStringFromAttribute( szDataType, zsizeof( szDataType ), vLOD, "Domain", "DataType" );
                      if ( szDataType[ 0 ] && szDataType[ 0 ] != 'S' )
                         SetAttributeFromString( vTgtRemote, "ListBoxColumn", "DataType", szDataType );
                   }
@@ -1940,7 +1940,7 @@ ConvertGrid( zVIEW   vSubtask,
                CreateEntity( vSrcDialog, szlControl, zPOS_AFTER );  // doesn't have to be a meta
                SetMatchingAttributesByName( vSrcDialog, szlControl, vTemp, szlControl, zSET_ALL );
                szTag[ 0 ] = '_'; // reset the tag to the tag preceded by an underscore
-               GetStringFromAttribute( szTag + 1, sizeof( szTag ) - 1, vTemp, szlControl, szlTag );
+               GetStringFromAttribute( szTag + 1, zsizeof( szTag ) - 1, vTemp, szlControl, szlTag );
                SetAttributeFromString( vTemp, szlControl, szlTag, szTag );
                IncludeSubobjectFromSubobject( vSrcDialog, szlControlDef, vPE, szlControlDef, zPOS_BEFORE );
 
@@ -1982,17 +1982,17 @@ ConvertGrid( zVIEW   vSubtask,
          {
             // Trick conversion into thinking we have specified a sub-control.
             lKey = zGRID_EDIT_CONTROL;
-            ulSubLth = sizeof( szSubBlob );
+            ulSubLth = zsizeof( szSubBlob );
             GetBlobFromAttribute( szSubBlob, &ulSubLth, vSrcDialog, szlControl, "CtrlBOI" );
-            if ( ulSubLth != sizeof( szSubBlob ) )
+            if ( ulSubLth != zsizeof( szSubBlob ) )
             {
-               zmemset( szSubBlob, 0, sizeof( szSubBlob ) );
-               ulSubLth = sizeof( szSubBlob );
+               zmemset( szSubBlob, 0, zsizeof( szSubBlob ) );
+               ulSubLth = zsizeof( szSubBlob );
             }
 
             if ( CheckExistenceOfEntity( vSrcDialog, szlCtrlCtrl ) == 0 )
             {
-               GetStringFromAttribute( szSubBlob + (3 * sizeof( zLONG )), sizeof( szSubBlob ) - (3 * sizeof(zLONG)), vSrcDialog, szlCtrlCtrl, szlTag );
+               GetStringFromAttribute( szSubBlob + (3 * sizeof( zLONG )), zsizeof( szSubBlob ) - (3 * sizeof( zLONG )), vSrcDialog, szlCtrlCtrl, szlTag );
 
                SetViewToSubobject( vSrcDialog, szlCtrlCtrl );
                if ( MoveSubobject( vTopSrcDialog, szlControl, vSrcDialog, szlControl, zPOS_AFTER, zREPOS_NEXT ) == zCALL_ERROR )
@@ -2004,7 +2004,7 @@ ConvertGrid( zVIEW   vSubtask,
             }
 
             SetAttributeFromBlob( vSrcDialog, szlControl, szlCtrlBOI, szSubBlob, ulSubLth );
-         // zmemcpy( pchBuffer + ulLth, szSubBlob, sizeof( szSubBlob ) );
+         // zmemcpy( pchBuffer + ulLth, szSubBlob, zsizeof( szSubBlob ) );
          // pchBuffer[ ulLth ] = (char) 0xFF;
          // ulLth += ulSubLth;
          }
@@ -2145,11 +2145,11 @@ ConvertGrid( zVIEW   vSubtask,
          lCols++;
 
          // New grid ... put 0xFF in first byte as a flag.
-         ulSubLth = sizeof( szSubBlob );
+         ulSubLth = zsizeof( szSubBlob );
          GetBlobFromAttribute( szSubBlob, &ulSubLth, vSrcDialog, szlControl, "CtrlBOI" );
-         if ( ulSubLth == sizeof( szSubBlob ) )
+         if ( ulSubLth == zsizeof( szSubBlob ) )
          {
-            zmemcpy( pchBuffer + ulLth, szSubBlob, sizeof( szSubBlob ) );
+            zmemcpy( pchBuffer + ulLth, szSubBlob, zsizeof( szSubBlob ) );
             pchBuffer[ ulLth ] = (char) 0xFF;
             ulLth += ulSubLth;
          }
@@ -2163,7 +2163,7 @@ ConvertGrid( zVIEW   vSubtask,
          GetAddrForAttribute( (zCOREMEM) &pchText, vSrcDialog, szlControl, szlText );
 
          k = zstrlen( pchText ) + 1;
-         nDIL_Lth = fnGetDIL_Msg( vSrcDialog, szTempString + 1, sizeof( szTempString ) - 1 );
+         nDIL_Lth = fnGetDIL_Msg( vSrcDialog, szTempString + 1, zsizeof( szTempString ) - 1 );
          if ( nDIL_Lth )
          {
             szTempString[ 0 ] = '\t';
@@ -2263,7 +2263,7 @@ ConvertDIL( zVIEW   vSubtask,
       pStatusItem = (STATUSBAR_ITEM *) (pchBuffer + 2 * sizeof( zLONG ));
       GetIntegerFromAttribute( (zPLONG) &ulIdNbr, vSrcDialog, szlControl, szlSubtype );
       *((zPLONG) pchBuffer) = ulIdNbr;  // nAutoDIL
-      *((zPLONG) (pchBuffer + sizeof( zLONG ))) = nItems;  // nItems
+      *((zPLONG) (pchBuffer + sizeof( zLONG ))) = nItems; // nItems
 
       nItems = 0;
       nRC = SetCursorFirstEntity( vSrcDialog, szlCtrlCtrl, 0 );
@@ -2299,7 +2299,7 @@ ConvertDIL( zVIEW   vSubtask,
    {
       ulLth = sizeof( STATUSBAR_ITEM ) + 2 * sizeof( zLONG );
       *((zPLONG) pchBuffer) = 1;  // nAutoDIL
-      *((zPLONG) (pchBuffer + sizeof( zLONG ))) = 1;  // nItems
+      *((zPLONG) (pchBuffer + sizeof( zLONG ))) = 1; // nItems
       pStatusItem = (STATUSBAR_ITEM *) (pchBuffer + 2 * sizeof( zLONG ));
       pStatusItem->lSeqNbr = 1;
       pStatusItem->lOffset = 4;
@@ -2457,7 +2457,7 @@ ConvertToolBar( zVIEW   vSubtask,
 
          // Set type/tag/text/tip/action/view/entity/attribute/scope labels.
          GetIntegerFromAttribute( &lType, vSrcDialog, szlControl, szlSubtype );
-         GetStringFromAttribute( szTempString, sizeof( szTempString ), vSrcDialog, szlControl, "Underline" );
+         GetStringFromAttribute( szTempString, zsizeof( szTempString ), vSrcDialog, szlControl, "Underline" );
          nRC = SetCursorNextEntity( vSrcDialog, szlControl, 0 );
          if ( nRC >= zCURSOR_SET )
          {
@@ -2746,7 +2746,7 @@ fnBuildTreeItems( zVIEW       vSrcDialog,
    zSHORT     nRC;
 
    OL_Item = (zLPOL_ITEM) (lpBuffer + lOffset);
-   lOffset += sizeof( zTREE_ITEM );
+   lOffset += zsizeof( zTREE_ITEM );
 
    // set the mapping entity name into the OL_Item data structure
    GetStringFromAttribute( OL_Item->szEntityName, vSrcDialog, szlCtrlMapRelatedEntity, szlName );
@@ -2770,7 +2770,7 @@ fnBuildTreeItems( zVIEW       vSrcDialog,
          OL_Item->lAttributeOffset = lOffset;
       }
 
-      GetStringFromAttribute( szTempString, sizeof( szTempString ), vSrcDialog, szlCtrlMap, szlTag );
+      GetStringFromAttribute( szTempString, zsizeof( szTempString ), vSrcDialog, szlCtrlMap, szlTag );
 //    TraceLineS( "Tree CtrlMap Tag ", szTempString );
 
       GetStringFromAttribute( lpBuffer + lOffset, vSrcDialog, szlCtrlMapER_Attribute, szlName );
@@ -2922,7 +2922,7 @@ BuildCtrlBOI_BMP( zCTRLBOI_BMP *pBMP,
    {
       if ( pBMP->lBMPUpOrIconID )
       {
-         _ltoa_s( pBMP->lBMPUpOrIconID, szID, sizeof( szID ), 10 );
+         _ltoa_s( pBMP->lBMPUpOrIconID, szID, zsizeof( szID ), 10 );
          strncat_s( pch, lCtrlBOI_Size - lLth, szID, lCtrlBOI_Size - (lLth + 1) );
          strcat_s( pch, lCtrlBOI_Size - lLth, ";" );
       }
@@ -2938,7 +2938,7 @@ BuildCtrlBOI_BMP( zCTRLBOI_BMP *pBMP,
    {
       if ( pBMP->lBMPDownID )
       {
-         _ltoa_s( pBMP->lBMPDownID, szID, sizeof( szID ), 10 );
+         _ltoa_s( pBMP->lBMPDownID, szID, zsizeof( szID ), 10 );
          strncat_s( pch, lCtrlBOI_Size - lLth, szID, lCtrlBOI_Size - (lLth + 1) );
          strcat_s( pch, lCtrlBOI_Size - lLth, ";" );
       }
@@ -2954,7 +2954,7 @@ BuildCtrlBOI_BMP( zCTRLBOI_BMP *pBMP,
    {
       if ( pBMP->lBMPFocusID )
       {
-         _ltoa_s( pBMP->lBMPFocusID, szID, sizeof( szID ), 10 );
+         _ltoa_s( pBMP->lBMPFocusID, szID, zsizeof( szID ), 10 );
          strncat_s( pch, lCtrlBOI_Size - lLth, szID, lCtrlBOI_Size - (lLth + 1) );
          strcat_s( pch, lCtrlBOI_Size - lLth, ";" );
       }
@@ -2970,7 +2970,7 @@ BuildCtrlBOI_BMP( zCTRLBOI_BMP *pBMP,
    {
       if ( pBMP->lBMPDisabledID )
       {
-         _ltoa_s( pBMP->lBMPDisabledID, szID, sizeof( szID ), 10 );
+         _ltoa_s( pBMP->lBMPDisabledID, szID, zsizeof( szID ), 10 );
          strncat_s( pch, lCtrlBOI_Size - lLth, szID, lCtrlBOI_Size - (lLth + 1) );
          strcat_s( pch, lCtrlBOI_Size - lLth, ";" );
       }
@@ -3547,14 +3547,14 @@ ConvertTrueGrid( zVIEW   vSubtask,
             CreateEntity( vTgtDialog, szlCtrlMap, zPOS_AFTER );
             if ( CheckExistenceOfEntity( vSrcDialog, szlCtrlMapView ) == zCURSOR_SET )
             {
-               GetStringFromAttribute( szViewName, sizeof( szViewName ), vSrcDialog, szlCtrlMapView, szlName );
-               GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vSrcDialog, szlCtrlMapRelatedEntity, szlName );
-               GetStringFromAttribute( szAttributeName, sizeof( szAttributeName ), vSrcDialog, szlCtrlMapER_Attribute, szlName );
+               GetStringFromAttribute( szViewName, zsizeof( szViewName ), vSrcDialog, szlCtrlMapView, szlName );
+               GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vSrcDialog, szlCtrlMapRelatedEntity, szlName );
+               GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ), vSrcDialog, szlCtrlMapER_Attribute, szlName );
             }
 
             if ( CheckExistenceOfEntity( vSrcDialog, szlCtrlMapContext ) == zCURSOR_SET )
             {
-               GetStringFromAttribute( szContextName, sizeof( szContextName ), vSrcDialog, szlCtrlMapContext, szlName );
+               GetStringFromAttribute( szContextName, zsizeof( szContextName ), vSrcDialog, szlCtrlMapContext, szlName );
             }
 
             SetAttributeFromString( vTgtDialog, szlCtrlMap, "VN", szViewName );

@@ -1132,7 +1132,7 @@ SQL_DBH_LOD_EntityChanged( zVIEW     vSubtask )
       { 
          //: TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name +
          //:                                        " JOIN = " + TZZOLODO.POD_Entity.SQL_JoinWithParent
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TZZOLODO, "LOD_EntityParent", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZZOLODO, "LOD_EntityParent", "Name" );
          ZeidonStringConcat( szTempString_0, 1, 0, " JOIN = ", 1, 0, 201 );
          GetVariableFromAttribute( szTempString_1, 0, 'S', 2, TZZOLODO, "POD_Entity", "SQL_JoinWithParent", "", 0 );
          ZeidonStringConcat( szTempString_0, 1, 0, szTempString_1, 1, 0, 201 );
@@ -1142,7 +1142,7 @@ SQL_DBH_LOD_EntityChanged( zVIEW     vSubtask )
       else
       { 
          //: TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name + " JOIN = N"
-         GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), TZZOLODO, "LOD_EntityParent", "Name" );
+         GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), TZZOLODO, "LOD_EntityParent", "Name" );
          ZeidonStringConcat( szTempString_2, 1, 0, " JOIN = N", 1, 0, 201 );
          SetAttributeFromString( TZZOLODO, "LOD_EntityParent", "WorkString", szTempString_2 );
       } 
@@ -1241,7 +1241,7 @@ ODBC_LOD_EntityChanged( zVIEW     vSubtask )
 
             //:// Now set the string being displayed.
             //:TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name + "JOIN = "
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TZZOLODO, "LOD_EntityParent", "Name" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZZOLODO, "LOD_EntityParent", "Name" );
             ZeidonStringConcat( szTempString_0, 1, 0, "JOIN = ", 1, 0, 201 );
             SetAttributeFromString( TZZOLODO, "LOD_EntityParent", "WorkString", szTempString_0 );
             //:ELSE
@@ -1276,7 +1276,7 @@ ODBC_LOD_EntityChanged( zVIEW     vSubtask )
             //:// Now set the string being displayed.
             //:TZZOLODO.LOD_EntityParent.WorkString = TZZOLODO.LOD_EntityParent.Name + "JOIN = " +
             //:                   TZDBHODO.ODBC.JoinWithParent
-            GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TZZOLODO, "LOD_EntityParent", "Name" );
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZZOLODO, "LOD_EntityParent", "Name" );
             ZeidonStringConcat( szTempString_1, 1, 0, "JOIN = ", 1, 0, 201 );
             GetVariableFromAttribute( szTempString_2, 0, 'S', 2, TZDBHODO, "ODBC", "JoinWithParent", "", 0 );
             ZeidonStringConcat( szTempString_1, 1, 0, szTempString_2, 1, 0, 201 );

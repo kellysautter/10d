@@ -455,14 +455,14 @@ void CEdit::ToggleWholeWord()
    BOOL bState;
    if ( IsPlayingMacro() )
    {
-      GetMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+      GetMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
    }
    else
    {
       bState = !g_FindReplaceData.m_bWholeWordOnly;
       if ( IsRecordingMacro() )
       {
-         AddMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+         AddMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
       }
    }
    g_FindReplaceData.m_bWholeWordOnly = bState;
@@ -483,14 +483,14 @@ void CEdit::ToggleRegExp()
    BOOL bState;
    if ( IsPlayingMacro() )
    {
-      GetMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+      GetMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
    }
    else
    {
       bState = !g_FindReplaceData.m_bRegExp;
       if ( IsRecordingMacro() )
       {
-         AddMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+         AddMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
       }
    }
    g_FindReplaceData.m_bRegExp = bState;
@@ -511,14 +511,14 @@ void CEdit::TogglePreserveCase()
    BOOL bState;
    if ( IsPlayingMacro() )
    {
-      GetMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+      GetMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
    }
    else
    {
       bState = !g_FindReplaceData.m_bPreserveCase;
       if ( IsRecordingMacro() )
       {
-         AddMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+         AddMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
       }
    }
    g_FindReplaceData.m_bPreserveCase = bState;
@@ -539,14 +539,14 @@ void CEdit::ToggleCaseSensitive()
    BOOL bState;
    if ( IsPlayingMacro() )
    {
-      GetMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+      GetMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
    }
    else
    {
       bState = !g_FindReplaceData.m_bCaseSensitiveSearch;
       if ( IsRecordingMacro() )
       {
-         AddMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+         AddMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
       }
    }
    g_FindReplaceData.m_bCaseSensitiveSearch = bState;
@@ -568,19 +568,19 @@ void CEdit::SetFindText( LPCTSTR psz )
    if ( IsRecordingMacro() )
    {
       WORD wLen = ( WORD ) ( psz ? _tcslen( psz ) : 0 );
-      AddMacroData( ( LPBYTE ) &wLen, sizeof( wLen ) );
+      AddMacroData( ( LPBYTE ) &wLen, zsizeof( wLen ) );
       if ( wLen )
       {
-         AddMacroData( ( LPBYTE ) psz, wLen * sizeof( TCHAR ) );
+         AddMacroData( ( LPBYTE ) psz, wLen * zsizeof( TCHAR ) );
       }
    }
    else if ( IsPlayingMacro() )
    {
       WORD wLen;
-      GetMacroData( ( LPBYTE ) &wLen, sizeof( wLen ) );
+      GetMacroData( ( LPBYTE ) &wLen, zsizeof( wLen ) );
       if ( wLen )
       {
-         GetMacroData( ( LPBYTE ) szText, wLen  * sizeof( TCHAR ) );
+         GetMacroData( ( LPBYTE ) szText, wLen  * zsizeof( TCHAR ) );
          szText[ wLen ] = _T('\0');
          psz = szText;
       }
@@ -615,19 +615,19 @@ void CEdit::SetReplaceText( LPCTSTR psz )
    if ( IsRecordingMacro() )
    {
       WORD wLen = ( WORD ) ( psz ? _tcslen( psz ) : 0 );
-      AddMacroData( ( LPBYTE ) &wLen, sizeof( wLen ) );
+      AddMacroData( ( LPBYTE ) &wLen, zsizeof( wLen ) );
       if ( wLen )
       {
-         AddMacroData( ( LPBYTE ) psz, wLen  * sizeof( TCHAR ) );
+         AddMacroData( ( LPBYTE ) psz, wLen  * zsizeof( TCHAR ) );
       }
    }
    else if ( IsPlayingMacro() )
    {
       WORD wLen;
-      GetMacroData( ( LPBYTE ) &wLen, sizeof( wLen ) );
+      GetMacroData( ( LPBYTE ) &wLen, zsizeof( wLen ) );
       if ( wLen )
       {
-         GetMacroData( ( LPBYTE ) szText, wLen * sizeof( TCHAR ) );
+         GetMacroData( ( LPBYTE ) szText, wLen * zsizeof( TCHAR ) );
          szText[ wLen ] = _T('\0');
          psz = szText;
       }

@@ -80,12 +80,12 @@ IncludeMapping ( zVIEW    vSubtask,
                                   "X_EntityName", "" ) != 0 )
    {
       nZRetCode = RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
-      nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), NewW,
+      nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), NewW,
                                           "LOD", "Name" );
       RESULT = SetCursorFirstEntityByString( LOD_List, "W_MetaDef",
                                              "Name", szTempString_0, "" );
       nZRetCode = ActivateMetaOI( vSubtask, &vLOD, LOD_List, zREFER_LOD_META, zSINGLE );
-      nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWC,
+      nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWC,
                                           "CtrlMap", "X_EntityName" );
       RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity",
                                              "Name", szTempString_0, "" );
@@ -99,7 +99,7 @@ IncludeMapping ( zVIEW    vSubtask,
          }
          else
          {
-            nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_AttributeName" );
+            nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_AttributeName" );
             RESULT = SetCursorFirstEntityByString( vLOD, "ER_Attribute", "Name", szTempString_0, "LOD_Entity" );
             if ( RESULT >= 0 )
             {
@@ -107,10 +107,10 @@ IncludeMapping ( zVIEW    vSubtask,
                if ( CompareAttributeToString( OrigWC, "CtrlMap", "X_Context", "" ) != 0 )
                {
                   nZRetCode = RetrieveViewForMetaList( vSubtask, &DomainList, zREFER_DOMAIN_META );
-                  nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vLOD, "Domain", "Name" );
+                  nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vLOD, "Domain", "Name" );
                   RESULT = SetCursorFirstEntityByString( DomainList, "W_MetaDef", "Name", szTempString_0, "" );
                   nZRetCode = ActivateMetaOI( vSubtask, &vDomain, DomainList, zREFER_DOMAIN_META, zSINGLE );
-                  nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_Context" );
+                  nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWC, "CtrlMap", "X_Context" );
                   RESULT = SetCursorFirstEntityByString( vDomain, "Context", "Name", szTempString_0, "" );
                   if ( RESULT >= 0 )
                   {
@@ -193,11 +193,11 @@ CloneControlO( zVIEW    OrigW,
       nZRetCode = ResetViewFromSubobject( NewWC );
       RESULT = SetCursorNextEntity( OrigWC, "CtrlCtrl", "" );
    }
-   nZRetCode = GetStringFromAttribute( szViewName, sizeof( szViewName ), OrigWC, "CtrlMap", "X_ViewName" );
+   nZRetCode = GetStringFromAttribute( szViewName, zsizeof( szViewName ), OrigWC, "CtrlMap", "X_ViewName" );
    RESULT = SetCursorFirstEntity( OrigWC, "CtrlMap", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
    {
-      nZRetCode = CloneCtrlMapO( OrigW, OrigWC, NewW, NewWC, szViewName, sizeof( szViewName ), vSubtask );
+      nZRetCode = CloneCtrlMapO( OrigW, OrigWC, NewW, NewWC, szViewName, zsizeof( szViewName ), vSubtask );
       RESULT = SetCursorNextEntity( OrigWC, "CtrlMap", "" );
    }
    RESULT = SetCursorFirstEntity( OrigWC, "Event", "" );
@@ -207,7 +207,7 @@ CloneControlO( zVIEW    OrigW,
       {
          nZRetCode = CreateMetaEntity( vSubtask, NewWC, "Event", zPOS_AFTER );
          nZRetCode = SetMatchingAttributesByName( NewWC, "Event", OrigWC, "Event", zSET_NULL );
-         nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWC, "EventAct", "Tag" );
+         nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWC, "EventAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( NewW, "Action", "Tag", szTempString_0, "" );
          if ( RESULT >= 0 )
          {
@@ -258,7 +258,7 @@ MergeWindowComponentsO( zVIEW    vSubtask,
       {
          nZRetCode = CreateMetaEntity( vSubtask, NewW, "WndEvent", zPOS_AFTER );
          nZRetCode = SetMatchingAttributesByName( NewW, "WndEvent", OrigW, "WndEvent", zSET_NULL );
-         nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigW, "WndAct", "Tag" );
+         nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigW, "WndAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( NewW, "Action", "Tag", szTempString_0, "" );
          if ( RESULT >= 0 )
          {
@@ -318,7 +318,7 @@ PositionOnVOR( zVIEW  OrigW,
          RESULT = SetCursorFirstEntityByString( OrigW, "ViewObjRef", "Name", pchViewName, "" );
          if ( RESULT >= 0 )
          {
-            nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigW, "LOD", "Name" );
+            nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigW, "LOD", "Name" );
             RESULT = SetCursorFirstEntityByString( LOD_List, "W_MetaDef", "Name", szTempString_0, "" );
          }
          else
@@ -400,7 +400,7 @@ CloneMenuAndOptions( zVIEW  OrigW,
    lTemp = CheckExistenceOfEntity( OrigW, "DfltMenu" );
    if ( lTemp == zCURSOR_SET )
    {
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), OrigW, "DfltMenu", "Tag" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), OrigW, "DfltMenu", "Tag" );
       RESULT = SetCursorFirstEntityByString( NewW, "Menu", "Tag",
                                              szTemp, "" );
       IncludeSubobjectFromSubobject( NewW, "DfltMenu", NewW,
@@ -435,11 +435,11 @@ CloneOption( zVIEW    OrigW,
       RESULT = SetCursorNextEntity( OrigWO, "OptOpt", "" );
    }
 
-   GetStringFromAttribute( szViewName, sizeof( szViewName ), OrigWO, "OptMap", "X_ViewName" );
+   GetStringFromAttribute( szViewName, zsizeof( szViewName ), OrigWO, "OptMap", "X_ViewName" );
    RESULT = SetCursorFirstEntity( OrigWO, "OptMap", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
    {
-      CloneOptMap( OrigW, OrigWO, NewW, NewWO, szViewName, sizeof( szViewName ), vSubtask );
+      CloneOptMap( OrigW, OrigWO, NewW, NewWO, szViewName, zsizeof( szViewName ), vSubtask );
       RESULT = SetCursorNextEntity( OrigWO, "OptMap", "" );
    }
 
@@ -448,7 +448,7 @@ CloneOption( zVIEW    OrigW,
    {
       if ( CompareAttributeToString( OrigWO, "OptAct", "Tag", "" ) != 0 )
       {
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), OrigWO, "OptAct", "Tag" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), OrigWO, "OptAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( NewW, "Action", "Tag", szTemp, "" );
          if ( RESULT >= 0 )
          {
@@ -490,14 +490,14 @@ CloneOptMap( zVIEW    OrigW,
          if ( CompareAttributeToString( OrigWO, "OptMap", "X_AttributeName", "" ) != 0 )
          {
             RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
-            GetStringFromAttribute( szTempString, sizeof( szTempString ), NewW, "LOD", "Name" );
+            GetStringFromAttribute( szTempString, zsizeof( szTempString ), NewW, "LOD", "Name" );
             SetCursorFirstEntityByString( LOD_List, "W_MetaDef", "Name", szTempString, "" );
             ActivateMetaOI( vSubtask, &vLOD, LOD_List, zREFER_LOD_META, zSINGLE );
-            GetStringFromAttribute( szTempString, sizeof( szTempString ), OrigWO, "OptMap", "X_EntityName" );
+            GetStringFromAttribute( szTempString, zsizeof( szTempString ), OrigWO, "OptMap", "X_EntityName" );
             RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTempString, "" );
             if ( RESULT >= 0 )
             {
-               nZRetCode = GetStringFromAttribute( szTempString, sizeof( szTempString ), OrigWO, "OptMap", "X_AttributeName" );
+               nZRetCode = GetStringFromAttribute( szTempString, zsizeof( szTempString ), OrigWO, "OptMap", "X_AttributeName" );
                RESULT = SetCursorFirstEntityByString( vLOD, "ER_Attribute", "Name", szTempString, "LOD_Entity" );
                if ( RESULT >= 0 )
                {

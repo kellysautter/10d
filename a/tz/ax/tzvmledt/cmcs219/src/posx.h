@@ -17,7 +17,7 @@ public:
    CPositionX()
    {
       // set all values to zero
-      ZeroMemory( &m_cmPos, sizeof( m_cmPos ) );
+      ZeroMemory( &m_cmPos, zsizeof( m_cmPos ) );
    }
    CM_POSITION m_cmPos;
 

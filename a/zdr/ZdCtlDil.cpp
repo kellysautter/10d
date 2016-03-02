@@ -351,7 +351,7 @@ ZStatus::DrawItem( LPDRAWITEMSTRUCT pDrawItemStruct )
    // TraceLineI( "ZStatus::DrawItem: ", k );
    // TraceRect( cs, rect );
       nLth = cs.GetLength( ) + 1;
-      if ( nLth <= sizeof( szText ) )
+      if ( nLth <= zsizeof( szText ) )
          pchText = szText;
       else
          pchText = new char[ nLth ];
@@ -360,7 +360,7 @@ ZStatus::DrawItem( LPDRAWITEMSTRUCT pDrawItemStruct )
 
       pDC->DrawText( pchText, -1, rect, uFormat );
 
-      if ( nLth >= sizeof( szText ) )
+      if ( nLth >= zsizeof( szText ) )
          delete [] pchText;
    }
 

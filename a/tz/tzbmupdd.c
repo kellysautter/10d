@@ -105,12 +105,12 @@ zwTZBMUPDD_ReturnFromSubWnd( zVIEW vSubtask )
    // Set LPLR Name in Title
    if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) > 0 )
    {
-      GetStringFromAttribute( szLPL_Name, sizeof( szLPL_Name ), vTaskLPLR, "LPLR", "Name" );
+      GetStringFromAttribute( szLPL_Name, zsizeof( szLPL_Name ), vTaskLPLR, "LPLR", "Name" );
       SetWindowCaptionTitle( vSubtask, szLPL_Name, "Bitmap Maintenance" );
    }
 
    // Load Bitmap mit Resource Path
-   SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+   SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
    SetCtrlText( vSubtask, "txtResourcePath", szZeidonPath );
    SetCtrlText( vSubtask, "edNewWithResourcePath", szZeidonPath );
 
@@ -210,7 +210,7 @@ zwTZBMUPDD_SetOldBitmapFileName( zVIEW vSubtask )
    GetCtrlText( vSubtask, "edOld", szFileName, zMAX_FILENAME_LTH );
 
    SysAppendcDirSep( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), "Bitmap.bmp" );
+   strcat_s( szFileName, zsizeof( szFileName ), "Bitmap.bmp" );
 
    SetCtrlText( vSubtask, "txtOld", szFileName );
 
@@ -231,9 +231,9 @@ zwTZBMUPDD_SetNewBitmapFileName( zVIEW vSubtask )
    // set Control Text for New Bitmap
    GetCtrlText( vSubtask, "edNew", szFileName, zMAX_FILENAME_LTH );
 
-   strcpy_s( szZeidonPath, sizeof( szZeidonPath ), szFileName );
+   strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), szFileName );
    SysAppendcDirSep( szZeidonPath );
-   strcat_s( szZeidonPath, sizeof( szZeidonPath ), "Bitmap.bmp" );
+   strcat_s( szZeidonPath, zsizeof( szZeidonPath ), "Bitmap.bmp" );
 
    SetCtrlText( vSubtask, "txtNew", szZeidonPath );
 
@@ -246,9 +246,9 @@ zwTZBMUPDD_SetNewBitmapFileName( zVIEW vSubtask )
    if ( szZeidonPath[zstrlen( szZeidonPath ) - 1] == '\\' )
       szZeidonPath[zstrlen( szZeidonPath ) - 1] = 0;
 
-   strcat_s( szZeidonPath, sizeof( szZeidonPath ), szFileName );
+   strcat_s( szZeidonPath, zsizeof( szZeidonPath ), szFileName );
    SysAppendcDirSep( szZeidonPath );
-   strcat_s( szZeidonPath, sizeof( szZeidonPath ), "Bitmap.bmp" );
+   strcat_s( szZeidonPath, zsizeof( szZeidonPath ), "Bitmap.bmp" );
 
    SetCtrlText( vSubtask, "edNewWithResourcePath", szZeidonPath );
 
@@ -300,11 +300,11 @@ zwfnTZBMUPDD_IsDialogOpenForUpdate( zVIEW vSubtask, zVIEW vMetaList )
 
    // Get the view to the vTaskMetas subtask
 // lTaskID = SysGetTaskFromView( vMetaList );
-// zltoa( lTaskID, szTaskID, sizeof( szTaskID ) );
+// zltoa( lTaskID, szTaskID, zsizeof( szTaskID ) );
    lTaskID = SysGetTaskFromView( vSubtask );
-   sprintf_s( szTaskID, sizeof( szTaskID ), "%08x", lTaskID );
-   strcpy_s( szMetaOI_Name, sizeof( szMetaOI_Name ), "__CM." );
-   strcpy_s( szMetaOI_Name + 5, sizeof( szMetaOI_Name ) - 5, szTaskID );
+   sprintf_s( szTaskID, zsizeof( szTaskID ), "%08x", lTaskID );
+   strcpy_s( szMetaOI_Name, zsizeof( szMetaOI_Name ), "__CM." );
+   strcpy_s( szMetaOI_Name + 5, zsizeof( szMetaOI_Name ) - 5, szTaskID );
 
    GetViewByName( &vTaskMetas, szMetaOI_Name, vZeidonCM, zLEVEL_SUBTASK );
 
@@ -394,13 +394,13 @@ zwfnSearch_Replace( zVIEW vSubtask, zPCHAR szOrigPath,
          // Target is to small, send Error Message
          if ( GetViewByName( &vCM_List, "CM_List", vSubtask, zLEVEL_TASK ) >= 0 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Path replacement for Window '" );
-            GetStringFromAttribute( szTemp, sizeof( szTemp ), vSubtask, "Window", "Tag" );
-            strcat_s( szMsg, sizeof( szMsg ), szTemp );
-            strcat_s( szMsg, sizeof( szMsg ), "', Control '" );
-            GetStringFromAttribute( szTemp, sizeof( szTemp ), vSubtask, "Control", "Tag" );
-            strcat_s( szMsg, sizeof( szMsg ), szTemp );
-            strcat_s( szMsg, sizeof( szMsg ), "' failed. New Path longer than 256 characters. " );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Path replacement for Window '" );
+            GetStringFromAttribute( szTemp, zsizeof( szTemp ), vSubtask, "Window", "Tag" );
+            strcat_s( szMsg, zsizeof( szMsg ), szTemp );
+            strcat_s( szMsg, zsizeof( szMsg ), "', Control '" );
+            GetStringFromAttribute( szTemp, zsizeof( szTemp ), vSubtask, "Control", "Tag" );
+            strcat_s( szMsg, zsizeof( szMsg ), szTemp );
+            strcat_s( szMsg, zsizeof( szMsg ), "' failed. New Path longer than 256 characters. " );
             zwTZERRORD_WriteErrorMsg( vSubtask, vCM_List, "W_MetaDef", "Name", szMsg, 1 );
             return( FALSE );
          }
@@ -458,7 +458,7 @@ zwfnReplacePathRecursive( zVIEW vDialog, zPCHAR szOldPath, zPCHAR szNewPath )
 
                if ( bUp || bDown || bFocus || bDisable )
                {
-                  k = BuildCtrlBOI_BMP( &BMP, szBlob, sizeof( szBlob ) );
+                  k = BuildCtrlBOI_BMP( &BMP, szBlob, zsizeof( szBlob ) );
                   SetAttributeFromBlob( vDialog, "Control", "CtrlBOI", szBlob, k );
                }
             } // endif ( ulLth )
@@ -508,10 +508,10 @@ zwTZBMUPDD_ReplaceBitmapPath( zVIEW vSubtask, zVIEW vMetaList, zPCHAR szOldPath,
    zCHAR   szDialogName[ 33 ];
    zCHAR   szMsg[ 100 ];
 
-   GetStringFromAttribute( szDialogName, sizeof( szDialogName ), vMetaList, "W_MetaDef", "Name" );
-   strcpy_s( szMsg, sizeof( szMsg ), "Replace Bitmap Path in Dialog: '" );
-   strcat_s( szMsg, sizeof( szMsg ), szDialogName );
-   strcat_s( szMsg, sizeof( szMsg ), "'." );
+   GetStringFromAttribute( szDialogName, zsizeof( szDialogName ), vMetaList, "W_MetaDef", "Name" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Replace Bitmap Path in Dialog: '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szDialogName );
+   strcat_s( szMsg, zsizeof( szMsg ), "'." );
    MB_SetMessage( vSubtask, 1, szMsg );
 
    // if Dialog not checked out
@@ -616,8 +616,8 @@ zwTZBMUPDD_ReplaceSelectedDialog( zVIEW vSubtask )
       return( -1 );
 
    // send Message Box for continue
-   strcpy_s( szMsg, sizeof( szMsg ), "All Bitmap Paths for selected Dialogs will be changed." );
-   strcat_s( szMsg, sizeof( szMsg ), "\n\nDo you want to continue?" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "All Bitmap Paths for selected Dialogs will be changed." );
+   strcat_s( szMsg, zsizeof( szMsg ), "\n\nDo you want to continue?" );
    if ( MessagePrompt( vSubtask, "BM00003", "Bitmap Maintenance",
                        szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO,
                        zICON_QUESTION ) == zRESPONSE_NO )
@@ -674,8 +674,8 @@ zwTZBMUPDD_ReplaceAllDialog( zVIEW vSubtask )
       return( -1 );
 
    // send Message Box for continue
-   strcpy_s( szMsg, sizeof( szMsg ), "All Bitmap Paths for all Dialogs will be changed." );
-   strcat_s( szMsg, sizeof( szMsg ), "\n\nDo you want to continue?" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "All Bitmap Paths for all Dialogs will be changed." );
+   strcat_s( szMsg, zsizeof( szMsg ), "\n\nDo you want to continue?" );
    if ( MessagePrompt( vSubtask, "BM00003", "Bitmap Maintenance",
                        szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO,
                        zICON_QUESTION ) == zRESPONSE_NO )
@@ -743,33 +743,33 @@ zwTZBMUPDD_SetCountError( zVIEW vSubtask )
             lCountPath++;
       }
 
-      strcpy_s( szControlText, sizeof( szControlText ), " " );
+      strcpy_s( szControlText, zsizeof( szControlText ), " " );
 
       if ( lCountError > 0 )
       {
-         zltoa( lCountError, szCount, sizeof( szCount ) );
-         strcat_s( szControlText, sizeof( szControlText ), szCount );
-         strcat_s( szControlText, sizeof( szControlText ), " Error(s) " );
-         strcat_s( szControlText, sizeof( szControlText ), ", " );
+         zltoa( lCountError, szCount, zsizeof( szCount ) );
+         strcat_s( szControlText, zsizeof( szControlText ), szCount );
+         strcat_s( szControlText, zsizeof( szControlText ), " Error(s) " );
+         strcat_s( szControlText, zsizeof( szControlText ), ", " );
       }
 
       if ( lCountPath > 0 )
       {
-         zltoa( lCountPath, szCount, sizeof( szCount ) );
-         strcat_s( szControlText, sizeof( szControlText ), szCount );
-         strcat_s( szControlText, sizeof( szControlText ), " Bitmap Path(s) " );
+         zltoa( lCountPath, szCount, zsizeof( szCount ) );
+         strcat_s( szControlText, zsizeof( szControlText ), szCount );
+         strcat_s( szControlText, zsizeof( szControlText ), " Bitmap Path(s) " );
       }
       else
       {
-         strcat_s( szControlText, sizeof( szControlText ), " No Bitmap Paths " );
+         strcat_s( szControlText, zsizeof( szControlText ), " No Bitmap Paths " );
       }
    }
    else
    {
-      strcpy_s( szControlText, sizeof( szControlText ), " No Bitmap Paths " );
+      strcpy_s( szControlText, zsizeof( szControlText ), " No Bitmap Paths " );
    }
 
-   strcat_s( szControlText, sizeof( szControlText ), "found" );
+   strcat_s( szControlText, zsizeof( szControlText ), "found" );
    SetCtrlText( vSubtask, "txtCountError", szControlText );
 
    return( 0 );
@@ -794,25 +794,25 @@ zwTZBMUPDD_CreateNewBitmapRoot( zVIEW vSubtask, zSHORT nForAllDialogs )
       SetNameForView( vTZBMPATH, "TZBMPATH", vSubtask, zLEVEL_TASK );
    }
 
-  SysGetDateTime( szCurrentDateTime, sizeof( szCurrentDateTime ) );
+  SysGetDateTime( szCurrentDateTime, zsizeof( szCurrentDateTime ) );
 
    szTitle[ 0 ] = 0;
-   strncat_s( szTitle, sizeof( szTitle ), szCurrentDateTime + 6, 2 );
-   strcat_s( szTitle, sizeof( szTitle ), "." );
-   strncat_s( szTitle, sizeof( szTitle ), szCurrentDateTime + 4, 2 );
-   strcat_s(  szTitle, sizeof( szTitle ), "." );
-   strncat_s( szTitle, sizeof( szTitle ), szCurrentDateTime, 4 );
-   strcat_s(  szTitle, sizeof( szTitle ), "  " );
-   strncat_s( szTitle, sizeof( szTitle ), szCurrentDateTime + 8, 2 );
-   strcat_s(  szTitle, sizeof( szTitle ), ":" );
-   strncat_s( szTitle, sizeof( szTitle ), szCurrentDateTime + 10, 2 );
-   strcat_s(  szTitle, sizeof( szTitle ), ":" );
-   strncat_s( szTitle, sizeof( szTitle ), szCurrentDateTime + 12, 2 );
+   strncat_s( szTitle, zsizeof( szTitle ), szCurrentDateTime + 6, 2 );
+   strcat_s( szTitle, zsizeof( szTitle ), "." );
+   strncat_s( szTitle, zsizeof( szTitle ), szCurrentDateTime + 4, 2 );
+   strcat_s(  szTitle, zsizeof( szTitle ), "." );
+   strncat_s( szTitle, zsizeof( szTitle ), szCurrentDateTime, 4 );
+   strcat_s(  szTitle, zsizeof( szTitle ), " " );
+   strncat_s( szTitle, zsizeof( szTitle ), szCurrentDateTime + 8, 2 );
+   strcat_s(  szTitle, zsizeof( szTitle ), ":" );
+   strncat_s( szTitle, zsizeof( szTitle ), szCurrentDateTime + 10, 2 );
+   strcat_s(  szTitle, zsizeof( szTitle ), ":" );
+   strncat_s( szTitle, zsizeof( szTitle ), szCurrentDateTime + 12, 2 );
 
    if ( nForAllDialogs )
-      strcat_s( szTitle, sizeof( szTitle ), " for all Dialogs" );
+      strcat_s( szTitle, zsizeof( szTitle ), " for all Dialogs" );
    else
-      strcat_s( szTitle, sizeof( szTitle ), " for selected Dialogs" );
+      strcat_s( szTitle, zsizeof( szTitle ), " for selected Dialogs" );
 
    CreateEntity( vTZBMPATH, "PathList", zPOS_LAST );
    SetAttributeFromString( vTZBMPATH, "PathList", "DateTimeAndDialogs", szTitle );
@@ -860,7 +860,7 @@ zwfnTZBMUPDD_WritePathToList( zVIEW vDialog, zPCHAR szDialog, zPCHAR szWindow,
 {
    zCHAR szControl[ 33 ];
 
-   GetStringFromAttribute( szControl, sizeof( szControl ), vDialog, "Control", "Tag" );
+   GetStringFromAttribute( szControl, zsizeof( szControl ), vDialog, "Control", "Tag" );
 
    if ( BMP.szBMPUpOrIconName[ 0 ] )
    {
@@ -954,13 +954,13 @@ zwfnTZBMUPDD_WriteBitmapPath( zVIEW  vSubtask,
 
    if ( nError == 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "*** Error: " );
-      strcat_s( szMsg, sizeof( szMsg ), szBitmapPath );
-      strcat_s( szMsg, sizeof( szMsg ), " ***" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "*** Error: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szBitmapPath );
+      strcat_s( szMsg, zsizeof( szMsg ), " ***" );
    }
    else
    {
-      strcpy_s( szMsg, sizeof( szMsg ), szBitmapPath );
+      strcpy_s( szMsg, zsizeof( szMsg ), szBitmapPath );
    }
 
    SetAttributeFromString( vTZBMPATH, "BitmapPath", "Dialog", szDialog );
@@ -986,15 +986,15 @@ zwTZBMUPDD_SearchBitmaps( zVIEW vSubtask, zVIEW vCM_List, zPCHAR szMetaSrcDir )
    zCHAR  szFullName[ zMAX_FILESPEC_LTH + 1 ];
    zSHORT nRC;
 
-   GetStringFromAttribute( szDialogName, sizeof( szDialogName ), vCM_List, "W_MetaDef", "Name" );
-   strcpy_s( szMsg, sizeof( szMsg ), "Read Bitmap Path in Dialog: '" );
-   strcat_s( szMsg, sizeof( szMsg ), szDialogName );
-   strcat_s( szMsg, sizeof( szMsg ), "'." );
+   GetStringFromAttribute( szDialogName, zsizeof( szDialogName ), vCM_List, "W_MetaDef", "Name" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Read Bitmap Path in Dialog: '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szDialogName );
+   strcat_s( szMsg, zsizeof( szMsg ), "'." );
    MB_SetMessage( vSubtask, 1, szMsg );
 
-   strcpy_s( szFullName, sizeof( szFullName ), szMetaSrcDir );
-   strcat_s( szFullName, sizeof( szFullName ), szDialogName );
-   strcat_s( szFullName, sizeof( szFullName ), ".pwd" );
+   strcpy_s( szFullName, zsizeof( szFullName ), szMetaSrcDir );
+   strcat_s( szFullName, zsizeof( szFullName ), szDialogName );
+   strcat_s( szFullName, zsizeof( szFullName ), ".pwd" );
 
    // if Activate with Errors
    if ( ActivateOI_FromFile( &vDialog, "TZWDLGSO", vCM_List, szFullName,
@@ -1011,7 +1011,7 @@ zwTZBMUPDD_SearchBitmaps( zVIEW vSubtask, zVIEW vCM_List, zPCHAR szMetaSrcDir )
    {
       if ( SetCursorFirstEntity( vDialog, "Control", 0 ) >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vDialog, "Window", "Tag" );
+         GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vDialog, "Window", "Tag" );
          zwfnSearchPathRecursive( vDialog, szDialogName, szWindowName );
       }
    }
@@ -1051,7 +1051,7 @@ zwTZBMUPDD_UsedBitmaps( zVIEW vSubtask )
    // Create Bitmap Path List
    zwTZBMUPDD_CreateNewBitmapRoot( vSubtask, FALSE );
 
-   GetStringFromAttribute( szMetaSrcDir, sizeof( szMetaSrcDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szMetaSrcDir, zsizeof( szMetaSrcDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
    SysAppendcDirSep( szMetaSrcDir );
 
    for ( nRC = SetCursorFirstSelectedEntity( vCM_List, "W_MetaDef", 0 );
@@ -1092,7 +1092,7 @@ zwTZBMUPDD_UsedBitmapsAll( zVIEW vSubtask )
    // Create Bitmap Path List
    zwTZBMUPDD_CreateNewBitmapRoot( vSubtask, TRUE );
 
-   GetStringFromAttribute( szMetaSrcDir, sizeof( szMetaSrcDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szMetaSrcDir, zsizeof( szMetaSrcDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
    SysAppendcDirSep( szMetaSrcDir );
 
    // replace Bitmap Path in all Dialogs
@@ -1121,27 +1121,27 @@ zwfnTZERRORD_WriteErrorListToFile( zVIEW vTZBMPATH, zLONG  FileHandle )
    zLONG  i;
 
    // write Tool and DateTime
-   strcpy_s( szMsg, sizeof( szMsg ), "Zeidon: Bitmap List from " );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZBMPATH, "PathList", "DateTimeAndDialogs" );
-   strcat_s( szMsg, sizeof( szMsg ), szTemp );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Zeidon: Bitmap List from " );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZBMPATH, "PathList", "DateTimeAndDialogs" );
+   strcat_s( szMsg, zsizeof( szMsg ), szTemp );
    SysWriteLine( vTZBMPATH, FileHandle, szMsg );
    SysWriteLine( vTZBMPATH, FileHandle, "" );
 
    // write LPLR Name
    if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vTZBMPATH, zLEVEL_TASK ) > 0 )
    {
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vTaskLPLR, "LPLR", "Name" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTaskLPLR, "LPLR", "Name" );
       if ( szTemp[ 0 ] )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Project: " );
-         strcat_s( szMsg, sizeof( szMsg ), szTemp );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Project: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szTemp );
          SysWriteLine( vTZBMPATH, FileHandle, szMsg );
          SysWriteLine( vTZBMPATH, FileHandle, "" );
       }
    }
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Dialog: Window:            Control: " );
-   strcat_s( szMsg, sizeof( szMsg ), "       Bitmap:" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Dialog: Window:           Control: " );
+   strcat_s( szMsg, zsizeof( szMsg ), "      Bitmap:" );
    SysWriteLine( vTZBMPATH, FileHandle, szMsg );
 
    // write Error Message
@@ -1149,23 +1149,23 @@ zwfnTZERRORD_WriteErrorListToFile( zVIEW vTZBMPATH, zLONG  FileHandle )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZBMPATH, "BitmapPath", "" ) )
    {
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZBMPATH, "BitmapPath", "Dialog" );
-      strcpy_s( szMsg, sizeof( szMsg ), szTemp );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZBMPATH, "BitmapPath", "Dialog" );
+      strcpy_s( szMsg, zsizeof( szMsg ), szTemp );
       for ( i = zstrlen( szTemp ); i < 11; i++ )
-         strcat_s( szMsg, sizeof( szMsg ), " " );
+         strcat_s( szMsg, zsizeof( szMsg ), " " );
 
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZBMPATH, "BitmapPath", "Window" );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZBMPATH, "BitmapPath", "Window" );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
       for ( i = zstrlen( szTemp ); i < 34; i++ )
-         strcat_s( szMsg, sizeof( szMsg ), " " );
+         strcat_s( szMsg, zsizeof( szMsg ), " " );
 
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZBMPATH, "BitmapPath", "Control" );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZBMPATH, "BitmapPath", "Control" );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
       for ( i = zstrlen( szTemp ); i < 34; i++ )
-         strcat_s( szMsg, sizeof( szMsg ), " " );
+         strcat_s( szMsg, zsizeof( szMsg ), " " );
 
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZBMPATH, "BitmapPath", "BitmapPath" );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZBMPATH, "BitmapPath", "BitmapPath" );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
       SysWriteLine( vTZBMPATH, FileHandle, szMsg );
    }
 
@@ -1193,15 +1193,15 @@ zwTZBMUPDD_BitmapListSaveToFile( zVIEW vSubtask )
    szFileName[ 0 ] = 0;
    ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT | zOFN_SAVEAS | zOFN_HIDEREADONLY;
 
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                "Text Files (*.txt)|*.txt|", "txt", ulZFlags ) == 1 )
    {
       FileHandle = SysOpenFile( vTZBMPATH, szFileName, COREFILE_WRITE );
 
       if ( FileHandle == -1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to open " );
-         strcat_s( szMsg, sizeof( szMsg ), szFileName );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+         strcat_s( szMsg, zsizeof( szMsg ), szFileName );
          MessageSend( vSubtask, "FEH001", "Bitmap Maintenance", szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
          return( -1 );
@@ -1233,7 +1233,7 @@ zwTZBMUPDD_CopyToField( zVIEW vSubtask )
 
    if ( vParentWindow )
    {
-      GetStringFromAttribute( szBitmap, sizeof( szBitmap ), vTZBMPATH, "BitmapPath", "BitmapPath" );
+      GetStringFromAttribute( szBitmap, zsizeof( szBitmap ), vTZBMPATH, "BitmapPath", "BitmapPath" );
       SetCtrlText( vParentWindow, "edOld", szBitmap );
    }
 

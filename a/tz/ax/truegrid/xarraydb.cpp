@@ -47,7 +47,7 @@ HRESULT IXArrayDB::CreateInstanceLic( REFCLSID clsid, LPUNKNOWN pUnkOuter,
    HRESULT hr;
 
    LPCLASSFACTORY2 pClassFactory = NULL;
-   BSTR bstrLKey = ::SysAllocStringLen( LKey, sizeof(LKey)/sizeof(WCHAR));
+   BSTR bstrLKey = ::SysAllocStringLen( LKey, zsizeof(LKey)/sizeof(WCHAR));
 
    if (SUCCEEDED(hr = CoGetClassObject(clsid, dwClsCtx, NULL,
       IID_IClassFactory2, (void**)&pClassFactory)))

@@ -543,13 +543,13 @@ ZSplitterWnd::AddView( zSHORT nRow, zSHORT nCol,
 
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "ZSplitterWnd::AddView(0x%08x) Row: %ld, Col: %ld, "
+   sprintf_s( szMsg, zsizeof( szMsg ), "ZSplitterWnd::AddView(0x%08x) Row: %ld, Col: %ld, "
                     "PaneId: 0x%08x, ViewId: 0x%08x, View: 0x%08x",
              (zULONG) this, (zLONG) nRow, (zLONG) nCol, lPaneId, lViewId, (zULONG) pNewView );
    TraceLineS( szMsg, "" );
-   sprintf_s( szMsg, sizeof( szMsg ), "PaneViews After AddView: 0x%08x", (zULONG) pNewView );
+   sprintf_s( szMsg, zsizeof( szMsg ), "PaneViews After AddView: 0x%08x", (zULONG) pNewView );
    m_mapIdPaneViews.Display( szMsg );
-   sprintf_s( szMsg, sizeof( szMsg ), "CurrentViews After AddView: 0x%08x", (zULONG) pNewView );
+   sprintf_s( szMsg, zsizeof( szMsg ), "CurrentViews After AddView: 0x%08x", (zULONG) pNewView );
    m_mapCurrentViews.Display( szMsg );
    RedrawWindow( );
    return( lViewId );
@@ -608,9 +608,9 @@ ZSplitterWnd::RemoveView( zLONG lViewId )
 
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "PaneViews After RemoveView: 0x%08x", (zULONG) pZView );
+   sprintf_s( szMsg, zsizeof( szMsg ), "PaneViews After RemoveView: 0x%08x", (zULONG) pZView );
    m_mapIdPaneViews.Display( szMsg );
-   sprintf_s( szMsg, sizeof( szMsg ), "CurrentViews After RemoveView: 0x%08x", (zULONG) pZView );
+   sprintf_s( szMsg, zsizeof( szMsg ), "CurrentViews After RemoveView: 0x%08x", (zULONG) pZView );
    m_mapCurrentViews.Display( szMsg );
 
    return( pZView );
@@ -691,7 +691,7 @@ ZSplitterWnd::SetCurrentView( zSHORT nRow, zSHORT nCol, zLONG lViewId )
 
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "ZSplitterWnd::SetCurrentView(0x%08x) Row: %d Col: %d View: 0x%08x",
+   sprintf_s( szMsg, zsizeof( szMsg ), "ZSplitterWnd::SetCurrentView(0x%08x) Row: %d Col: %d View: 0x%08x",
              (zULONG) this, nRow, nCol, (zULONG) pZView );
    TraceLineS( szMsg, "" );
 }
@@ -748,7 +748,7 @@ ZSplitterWnd::SetSubtaskForViewId( zLONG lViewId, ZSubtask *pZSubtask )
       zCHAR szMsg[ 256 ];
 
       CPoint p( pItem->m_lValue2 );
-      sprintf_s( szMsg, sizeof( szMsg ), "ZSplitterWnd::SetSubtaskForViewId Row: %ld, Col: %ld, "
+      sprintf_s( szMsg, zsizeof( szMsg ), "ZSplitterWnd::SetSubtaskForViewId Row: %ld, Col: %ld, "
                        "PaneId: 0x%08x, ViewId: 0x%08x, ZSubtask: 0x%08x  ZView: 0x%08x",
                 p.x, p.y, pItem->m_lValue2, lViewId, (zULONG) pZSubtask,
                 (zULONG) (pZSubtask ? pZSubtask->m_pZView : 0) );
@@ -767,7 +767,7 @@ ZSplitterWnd::SetSubtaskForViewId( zLONG lViewId, ZSubtask *pZSubtask )
          {
             pZSubtask = GetSubtaskForPane( nRow, nCol );
             lPaneId = MAKELONG( nRow, nCol );
-            sprintf_s( szMsg, sizeof( szMsg ), "ZSplitterWnd::DispView(0x%08x) Row: %ld, Col: %ld, "
+            sprintf_s( szMsg, zsizeof( szMsg ), "ZSplitterWnd::DispView(0x%08x) Row: %ld, Col: %ld, "
                              "PaneId: 0x%08x, ViewId: 0x%08x, View: 0x%08x, ZSubtask: 0x%08x",
                       (zULONG) this, (zLONG) nRow, (zLONG) nCol, lPaneId, lViewId,
                   (zULONG) pZView, (zULONG) pZSubtask );

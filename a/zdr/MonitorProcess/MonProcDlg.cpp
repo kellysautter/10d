@@ -87,7 +87,7 @@ CMonProcDlg::OnInitDialog( )
    char szCurrentDir[ 256 + 1 ];
    int  nLth;
 
-   GetCurrentDirectory( sizeof( szCurrentDir ), szCurrentDir );
+   GetCurrentDirectory( zsizeof( szCurrentDir ), szCurrentDir );
    nLth = strlen( szCurrentDir );
    if ( nLth && szCurrentDir[ nLth - 1 ] != '\\' )
       szCurrentDir[ nLth++ ] = '\\';
@@ -98,41 +98,41 @@ CMonProcDlg::OnInitDialog( )
                             "Name",             // key name
                             "java",             // default string
                             szBuffer,           // destination buffer
-                            sizeof( szBuffer ), // size of destination buffer
+                            zsizeof( szBuffer ), // size of destination buffer
                             szCurrentDir );     // ini filename
    m_csProcess = szBuffer;
 
    GetPrivateProfileString( "WriteLog",  "Executable",  "kzoengwa",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_csWriteLog = szBuffer;
    GetPrivateProfileString( "WriteLog",  "Message",  "1025",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_nWriteLogMessage = atoi( szBuffer );
    GetPrivateProfileString( "QueryAlive",  "Message",  "1026",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_nQueryAliveMessage = atoi( szBuffer );
    GetPrivateProfileString( "WriteLog",  "WindowTitle",  "Zeidon Object Services",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_csWindowTitle = szBuffer;
    GetPrivateProfileString( "WriteLog",  "WindowClass",  "KZOENGWAWClass",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_csWindowClass = szBuffer;
 
    GetPrivateProfileString( "KillApp",  "Command",  "C:\\B\\bin\\KillTomcat.cmd",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_csKillApp = szBuffer;
    GetPrivateProfileString( "KillApp",  "Delay",  "2000",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_nKillAppDelay = atoi( szBuffer );
 
    GetPrivateProfileString( "Startup",  "Command",  "C:\\Program Files\\Apache Group\\Tomcat 6.0\\bin\\startup.bat",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_csStartup = szBuffer;
    GetPrivateProfileString( "Shutdown",  "Command",  "C:\\Program Files\\Apache Group\\Tomcat 6.0\\bin\\shutdown.bat",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_csShutdown = szBuffer;
    GetPrivateProfileString( "Startup",  "Delay",  "20000",
-                            szBuffer, sizeof( szBuffer ), szCurrentDir );
+                            szBuffer, zsizeof( szBuffer ), szCurrentDir );
    m_nStartupDelay = atoi( szBuffer );
 
    sprintf( szBuffer, "Using Ini File: %s   Process: %s   Engine: %s   WriteLog Message: WM_USER+%d\n"

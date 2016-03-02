@@ -642,7 +642,7 @@ protected:
    private:
       // TCHAR *m_pcText;
       // Since in most cases we have 1 character here,
-      // we should invent a better way. Note: 2 * sizeof(WORD) <= sizeof(TCHAR*)
+      // we should invent a better way. Note: 2 * zsizeof(WORD) <= zsizeof(TCHAR*)
       //
       // Here we will use the following trick: on Win32 platforms high-order word
       // of any pointer will be != 0. So we can store 1 character strings without

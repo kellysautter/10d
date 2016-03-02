@@ -282,7 +282,7 @@ EvaluateExpression( zPVOID pResultOfExpression,
       // get the expression record out of g_szExprCode
       zmemcpy( (zPCHAR) &sWorkExpr, (zPCHAR) g_szExprCode + lExprIndex, sizeof( sQExprStruct ) - MAXSTRING );
 
-      strcpy_s( g_szOutputString, sizeof( g_szOutputString ), "Found " );
+      strcpy_s( g_szOutputString, zsizeof( g_szOutputString ), "Found " );
       switch( sWorkExpr.lElementClass )
       {
          // Initialize nPtrDataType to 0 so it won't have a value if not
@@ -403,7 +403,7 @@ EvaluateExpression( zPVOID pResultOfExpression,
             {
                if ( sWorkExpr.lDataType == qTDECIMAL )
                {
-                  strcpy_s( szTempNumber, sizeof( szTempNumber ), &pcExprText[ sWorkExpr.lOffset ] );
+                  strcpy_s( szTempNumber, zsizeof( szTempNumber ), &pcExprText[ sWorkExpr.lOffset ] );
 
                // sValueStack[ g_nStackPtr ].ldVal = atof( szTempNumber );
                   SysConvertStringToDecimal( szTempNumber, &sValueStack[ g_nStackPtr ].ldVal );
@@ -986,13 +986,13 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
         sValueStack[ lPosOfOper ].lDataType == qLOCALOPERATION ||
         sValueStack[ lPosOfOper ].lDataType == qOBJECTOPERATION )
    {
-      nRC = GetOperationNameFromZKeyM2( vInterpSubtask, szReturnName, sizeof( szReturnName ), szObjectName, sizeof( szObjectName ),
+      nRC = GetOperationNameFromZKeyM2( vInterpSubtask, szReturnName, zsizeof( szReturnName ), szObjectName, zsizeof( szObjectName ),
                                         sValueStack[ lPosOfOper ].lDataType, sValueStack[ lPosOfOper ].lOffset );
    }
    else
    {
       if ( sValueStack[ lPosOfOper ].lpVal )
-         strcpy_s( szReturnName, sizeof( szReturnName ), (zCPCHAR) sValueStack[ lPosOfOper ].lpVal );
+         strcpy_s( szReturnName, zsizeof( szReturnName ), (zCPCHAR) sValueStack[ lPosOfOper ].lpVal );
 
       sValueStack[ lPosOfOper ].lOffset = 0;
    }
@@ -1000,12 +1000,12 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
    // If the Operation is for an Object, use the Object Name, prefixed by the constant "o", as the prefix for the Operation Name.
    if ( sValueStack[ lPosOfOper ].lDataType == qOBJECTOPERATION )
    {
-      strcpy_s( szCurrentName, sizeof( szCurrentName ), "o" );
-      strcat_s( szCurrentName, sizeof( szCurrentName ), szObjectName );
-      strcat_s( szCurrentName, sizeof( szCurrentName ), "_" );
-      strcat_s( szCurrentName, sizeof( szCurrentName ), szReturnName );
+      strcpy_s( szCurrentName, zsizeof( szCurrentName ), "o" );
+      strcat_s( szCurrentName, zsizeof( szCurrentName ), szObjectName );
+      strcat_s( szCurrentName, zsizeof( szCurrentName ), "_" );
+      strcat_s( szCurrentName, zsizeof( szCurrentName ), szReturnName );
       szCurrentName[ 32 ] = 0;
-      strcpy_s( szReturnName, sizeof( szReturnName ), szCurrentName );
+      strcpy_s( szReturnName, zsizeof( szReturnName ), szCurrentName );
    }
 
    GetOperationModuleName( vInterpSubtask, szModuleName, sValueStack[ lPosOfOper ].lOffset, sValueStack[ lPosOfOper ].lDataType );
@@ -1016,15 +1016,15 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
    GetViewByName( &vAppSubtask, "ApplicationView", vInterpSubtask, zLEVEL_SUBTASK );
 
    if ( sValueStack[ lPosOfOper ].lDataType == qZEIDONOPERATION )
-      strcpy_s( szCurrentName, sizeof( szCurrentName ), "" );
+      strcpy_s( szCurrentName, zsizeof( szCurrentName ), "" );
    else
    if ( sValueStack[ lPosOfOper ].lDataType == qOBJECTOPERATION )
-      strcpy_s( szCurrentName, sizeof( szCurrentName ), "LOD" );
+      strcpy_s( szCurrentName, zsizeof( szCurrentName ), "LOD" );
    else
    if ( sValueStack[ lPosOfOper ].lDataType == qGLOBALOPERATION )
-      strcpy_s( szCurrentName, sizeof( szCurrentName ), "Global" );
+      strcpy_s( szCurrentName, zsizeof( szCurrentName ), "Global" );
    else
-      strcpy_s( szCurrentName, sizeof( szCurrentName ), "Dialog" );
+      strcpy_s( szCurrentName, zsizeof( szCurrentName ), "Dialog" );
 
    if ( sValueStack[ g_nStackPtr ].lDataType == qZEIDONOPERATION )
       lMode = -1;
@@ -1299,7 +1299,7 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
             else
             if ( nDefinedParmList[ nDefinedParmIndex ] == qTDECIMAL )
             {
-               SetAttributeFromBlob( vStackObject, "Variable", "Value", &sValueStack[ g_nStackPtr ].ldVal, sizeof(sValueStack[ g_nStackPtr ].ldVal) );
+               SetAttributeFromBlob( vStackObject, "Variable", "Value", &sValueStack[ g_nStackPtr ].ldVal, sizeof( sValueStack[ g_nStackPtr ].ldVal ) );
 //###blob      SetAttributeFromDecimal( vStackObject, "Variable", "Value", sValueStack[ g_nStackPtr ].ldVal );
                // **HH** 14.10.1998
                //  note, that nParmIndex was incremented by the number of longs which are used to hold a zDECIMAL.
@@ -1313,7 +1313,7 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
             }
             else
             {
-               SetAttributeFromBlob( vStackObject, "Variable", "Value", &nTemp, sizeof ( zLONG ) );
+               SetAttributeFromBlob( vStackObject, "Variable", "Value", &nTemp, sizeof( zLONG ) );
 //###blob      SetAttributeFromInteger( vStackObject, "Variable", "Value", nTemp );
             }
 
@@ -1399,9 +1399,9 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
 
    if ( hLib == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Executable module: " );
-      strcat_s( szMsg, sizeof( szMsg ), szModuleName );
-      strcat_s( szMsg, sizeof( szMsg ), ", \n   was not found." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Executable module: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szModuleName );
+      strcat_s( szMsg, zsizeof( szMsg ), ", \n  was not found." );
       MessageSend( vInterpSubtask, "VM00201", "VML Interpretor", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -1409,11 +1409,11 @@ SetUpOperationCall( zVIEW  vInterpSubtask,
    lf = (FARPROC) SysGetProc( hLib, szReturnName );
    if ( lf == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Operation: " );
-      strcat_s( szMsg, sizeof( szMsg ), szReturnName );
-      strcat_s( szMsg, sizeof( szMsg ), ",\n  was not found in module: " );
-      strcat_s( szMsg, sizeof( szMsg ), szModuleName );
-      strcat_s( szMsg, sizeof( szMsg ), "." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Operation: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szReturnName );
+      strcat_s( szMsg, zsizeof( szMsg ), ",\n was not found in module: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szModuleName );
+      strcat_s( szMsg, zsizeof( szMsg ), "." );
       MessageSend( vInterpSubtask, "VM00202", "VML Interpretor", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -1587,7 +1587,7 @@ GetOperationNameFromZKeyM2( zVIEW  vSubtask,
    // the op name from the XPG.
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
-   strcpy_s( szLookupEName, sizeof( szLookupEName ), "Operation" );
+   strcpy_s( szLookupEName, zsizeof( szLookupEName ), "Operation" );
    switch ( lOperationClass )
    {
       case qLOCALOPERATION:
@@ -1603,7 +1603,7 @@ GetOperationNameFromZKeyM2( zVIEW  vSubtask,
          }
 
          CreateViewFromViewForTask( &vLookupView, g_vXPGView, 0 );
-         strcpy_s( szLookupEName, sizeof( szLookupEName ), "ExternalOperation" );
+         strcpy_s( szLookupEName, zsizeof( szLookupEName ), "ExternalOperation" );
          SetCursorFirstEntityByInteger( vLookupView, szLookupEName, "ZKey", lZKey, "" );
          GetIntegerFromAttribute( &lSourceZKey, vLookupView, "ExternalOperation", "SourceZKey" );
 
@@ -1695,12 +1695,12 @@ GetOperationParmList( zVIEW  vSubtask,
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
    if ( vTaskLPLR == 0 )
    {
-      strcpy_s( szLookupEName, sizeof( szLookupEName ), "ExternalOperation" );
+      strcpy_s( szLookupEName, zsizeof( szLookupEName ), "ExternalOperation" );
       CreateViewFromViewForTask( &vLookupView, g_vXPGView, 0 );
    }
    else
    {
-      strcpy_s( szLookupEName, sizeof( szLookupEName ), "Operation" );
+      strcpy_s( szLookupEName, zsizeof( szLookupEName ), "Operation" );
       switch( lOperationClass )
       {
          case qLOCALOPERATION:
@@ -1745,7 +1745,7 @@ GetOperationParmList( zVIEW  vSubtask,
 
          case qOBJECTOPERATION:
             CreateViewFromViewForTask( &vLookupView, g_vXPGView, 0 );
-            strcpy_s( szLookupEName, sizeof( szLookupEName ), "ExternalOperation" );
+            strcpy_s( szLookupEName, zsizeof( szLookupEName ), "ExternalOperation" );
             break;
 
          case qGLOBALOPERATION:
@@ -1778,10 +1778,10 @@ GetOperationParmList( zVIEW  vSubtask,
       nRC = SetCursorFirstEntity( vLookupView, "Parameter", "" );
       while ( nRC > zCURSOR_UNCHANGED )
       {
-         nRC = GetStringFromAttribute( cZeidonType, sizeof( cZeidonType ), vLookupView, "Parameter", "DataType" );
+         nRC = GetStringFromAttribute( cZeidonType, zsizeof( cZeidonType ), vLookupView, "Parameter", "DataType" );
 
          lParmType = ConvertZeidonTypeToVMLTypeS( cZeidonType[ 0 ] );
-         GetStringFromAttribute( cPtrFlag, sizeof( cPtrFlag ), vLookupView, "Parameter", "PFlag" );
+         GetStringFromAttribute( cPtrFlag, zsizeof( cPtrFlag ), vLookupView, "Parameter", "PFlag" );
          if ( cPtrFlag[ 0 ] == 'Y' )
          {
             if ( lParmType > 0 )
@@ -1808,7 +1808,7 @@ GetOperationParmList( zVIEW  vSubtask,
 
 zOPER_EXPORT zSHORT OPERATION
 GetOperationModuleName( zVIEW  vSubtask,
-                        zPCHAR szModuleName,
+                        zPCHAR pchModuleName,
                         zLONG  lZKey,
                         zLONG  lOperationClass )
 {
@@ -1827,21 +1827,21 @@ GetOperationModuleName( zVIEW  vSubtask,
    {
       // The LPLR is not active so we must be executing the operation at runtime from Core.  Just retrieve the DLL name from the XPG OI.
       // Note that the cursor for ExternalOperation should have been set earlier when we were retrieving the operation name.
-      GetStringFromAttribute( szModuleName, sizeof( szModuleName ), g_vXPGView, "ExternalOperation", "MetaDLL_Name" );
+      GetStringFromAttribute( pchModuleName, 50, g_vXPGView, "ExternalOperation", "MetaDLL_Name" );
       return( 0 );
    }
 
-   strcpy_s( szLookupEName, sizeof( szLookupEName ), "Operation" );
+   strcpy_s( szLookupEName, zsizeof( szLookupEName ), "Operation" );
 
    switch( lOperationClass )
    {
       case qLOCALOPERATION:
-         GetStringFromAttribute( szModuleName, sizeof( szModuleName ), g_vXPGView, "VML_XSource", "Name" );
+         GetStringFromAttribute( pchModuleName, 50, g_vXPGView, "VML_XSource", "Name" );
          return( 0 );
 
       case qOBJECTOPERATION:
          CreateViewFromViewForTask( &vLookupView, g_vXPGView, 0 );
-         strcpy_s( szLookupEName, sizeof( szLookupEName ), "ExternalOperation" );
+         strcpy_s( szLookupEName, zsizeof( szLookupEName ), "ExternalOperation" );
          break;
 
       case qGLOBALOPERATION:
@@ -1859,9 +1859,9 @@ GetOperationModuleName( zVIEW  vSubtask,
          DropView( vTempList );
 
          // The Module Name is the DomainAndGlobalOpGroupName attribute, or if that attribute is null, it is the Name attribute.
-         GetStringFromAttribute( szModuleName, sizeof( szModuleName ), vSrcView, "GlobalOperationGroup", "DomainAndGlobalOpGroupName" );
-         if ( szModuleName[ 0 ] == 0 )
-            GetStringFromAttribute( szModuleName, sizeof( szModuleName ), vSrcView, "GlobalOperationGroup", "Name" );
+         GetStringFromAttribute( pchModuleName, 50, vSrcView, "GlobalOperationGroup", "DomainAndGlobalOpGroupName" );
+         if ( pchModuleName[ 0 ] == 0 )
+            GetStringFromAttribute( pchModuleName, 50, vSrcView, "GlobalOperationGroup", "Name" );
          DropView( vSrcView );
 
          return( 0 );
@@ -1871,24 +1871,24 @@ GetOperationModuleName( zVIEW  vSubtask,
          oTZOPGRPO_GetViewForXGO( vSubtask, &vLookupView, zSYS_CURRENT_OI );
          SetCursorFirstEntityByInteger( vLookupView, szLookupEName, "ZKey", lZKey, "" );
          SetCursorFirstEntityByAttr( vLookupView, "SourceFileOfOperation", "ZKey", vLookupView, "SourceFile", "ZKey", "" );
-         GetStringFromAttribute( szModuleName, sizeof( szModuleName ), vLookupView, "ExecComposite", "Name" );
+         GetStringFromAttribute( pchModuleName, 50, vLookupView, "ExecComposite", "Name" );
 
          DropView( vLookupView );
          return( 0 );
 
       default:
-         szModuleName[ 0 ] = 0;
+         pchModuleName[ 0 ] = 0;
          return( -1 );
    }
 
    SetCursorFirstEntityByInteger( vLookupView, szLookupEName, "ZKey", lZKey, "" );
    if ( lOperationClass == qOBJECTOPERATION )
    {
-      GetStringFromAttribute( szModuleName, sizeof( szModuleName ), vLookupView, szLookupEName, "MetaDLL_Name" );
+      GetStringFromAttribute( pchModuleName, 50, vLookupView, szLookupEName, "MetaDLL_Name" );
    }
    else
    {
-      GetStringFromAttribute( szModuleName, sizeof( szModuleName ), vLookupView, szLookupEName, "DLL_Name" );
+      GetStringFromAttribute( pchModuleName, 50, vLookupView, szLookupEName, "DLL_Name" );
    }
 
    DropView( vLookupView );
@@ -1990,7 +1990,7 @@ GetDefineInternalValue( zVIEW  vSubtask,
    zVIEW vLookupView;
    zCHAR szLookupEName[ 32 ];
 
-   strcpy_s( szLookupEName, sizeof( szLookupEName ), "Operation" );
+   strcpy_s( szLookupEName, zsizeof( szLookupEName ), "Operation" );
 
    CreateViewFromViewForTask( &vLookupView, g_vXPGView, 0 );
 

@@ -53,14 +53,14 @@ oTZWDGRWO_LoadOrInitialize( zPVIEW   pvGRW,
    RESULT = GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
    if ( RESULT > 0 )
    {
-      nZRetCode = GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "MetaSrcDir" );
+      nZRetCode = GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, zMAX_FILESPEC_LTH + 1 );
    }
    else
    {
       ZeidonStringCopy( szFileName, 1, 0, "", 1, 0, zMAX_FILESPEC_LTH + 1 );
    }
-   nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vSubtask, "Dialog", "Tag" );
+   nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vSubtask, "Dialog", "Tag" );
    ZeidonStringConcat( szFileName, 1, 0, szTempString_0, 1, 0, zMAX_FILESPEC_LTH + 1 );
    ZeidonStringConcat( szFileName, 1, 0, ".dgr", 1, 0, zMAX_FILESPEC_LTH + 1 );
    nRC = ActivateOI_FromFile( pvGRW, "TZWDGRWO", vSubtask, szFileName, zNOI_OKAY );
@@ -100,14 +100,14 @@ oTZWDGRWO_Save( zVIEW    vGRW )
    RESULT = GetViewByName( &vLPLR, "TaskLPLR", vGRW, zLEVEL_TASK );
    if ( RESULT > 0 )
    {
-      nZRetCode = GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "MetaSrcDir" );
+      nZRetCode = GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, zMAX_FILESPEC_LTH + 1 );
    }
    else
    {
       ZeidonStringCopy( szFileName, 1, 0, "", 1, 0, zMAX_FILESPEC_LTH + 1 );
    }
-   nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vGRW, "Dialog", "Tag" );
+   nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vGRW, "Dialog", "Tag" );
    ZeidonStringConcat( szFileName, 1, 0, szTempString_0, 1, 0, zMAX_FILESPEC_LTH + 1 );
    ZeidonStringConcat( szFileName, 1, 0, ".dgr", 1, 0, zMAX_FILESPEC_LTH + 1 );
    nRC = CommitOI_ToFile( vGRW, szFileName, zASCII );
@@ -180,21 +180,21 @@ oTZWDGRWO_ReInit( zVIEW    vGRW_in,
                      }
                      else
                      {
-                        nZRetCode = GetStringFromAttribute( szName, sizeof( szName ), vSubtask, "Action", "WindowName" );
+                        nZRetCode = GetStringFromAttribute( szName, zsizeof( szName ), vSubtask, "Action", "WindowName" );
                      }
                   }
                   else
                   {
                      if ( CompareAttributeToString( vSubtask, "Action", "WindowName", "" ) == 0 )
                      {
-                        nZRetCode = GetStringFromAttribute( szName, sizeof( szName ), vSubtask, "Action", "DialogName" );
+                        nZRetCode = GetStringFromAttribute( szName, zsizeof( szName ), vSubtask, "Action", "DialogName" );
                         ZeidonStringConcat( szName, 1, 0, ": 'default'", 1, 0, 63 );
                      }
                      else
                      {
-                        nZRetCode = GetStringFromAttribute( szName, sizeof( szName ), vSubtask, "Action", "DialogName" );
+                        nZRetCode = GetStringFromAttribute( szName, zsizeof( szName ), vSubtask, "Action", "DialogName" );
                         ZeidonStringConcat( szName, 1, 0, ":", 1, 0, 63 );
-                        nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vSubtask, "Action", "WindowName" );
+                        nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vSubtask, "Action", "WindowName" );
                         ZeidonStringConcat( szName, 1, 0, szTempString_0, 1, 0, 63 );
                      }
                   }
@@ -265,17 +265,17 @@ oTZWDGRWO_NodeWindowSync( zVIEW    vGRW,
       SetAttributeFromAttribute( vGRW, "ER_Entity", "ZKey", vSubtask, "Window", "ZKey" );
    }
    SetAttributeFromAttribute( vGRW, "ER_Entity", "Name", vSubtask, "Window", "Tag" );
-   nZRetCode = GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vSubtask, "Dialog", "Tag" );
+   nZRetCode = GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vSubtask, "Dialog", "Tag" );
    ZeidonStringCopy( szTempString_0, 1, 0, "Window -- ", 1, 0, 254 );
    ZeidonStringConcat( szTempString_0, 1, 0, szTempString_1, 1, 0, 254 );
    ZeidonStringConcat( szTempString_0, 1, 0, ":", 1, 0, 254 );
-   nZRetCode = GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vSubtask, "Window", "Tag" );
+   nZRetCode = GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vSubtask, "Window", "Tag" );
    ZeidonStringConcat( szTempString_0, 1, 0, szTempString_2, 1, 0, 254 );
    nZRetCode = SetAttributeFromString( vGRW, "ER_Entity", "Desc", szTempString_0 );
    nZRetCode = SetAttributeFromString( vGRW, "ER_Entity", "Purpose", "F" );
    if ( CompareAttributeToAttribute( vSubtask, "DfltWnd", "ZKey", vSubtask, "Window", "ZKey" ) == 0 )
    {
-      nZRetCode = GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vSubtask, "Window", "Tag" );
+      nZRetCode = GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vSubtask, "Window", "Tag" );
       ZeidonStringCopy( szTempString_3, 1, 0, "$dlft:", 1, 0, 32 );
       ZeidonStringConcat( szTempString_3, 1, 0, szTempString_4, 1, 0, 32 );
       nZRetCode = SetAttributeFromString( vGRW, "ER_Entity", "OwningArea", szTempString_3 );
@@ -319,16 +319,16 @@ oTZWDGRWO_NodeActionSync( zVIEW    vGRW,
       SetAttributeFromAttribute( vGRW, "ER_Entity", "ZKey", vSubtask, "Action", "ZKey" );
    }
    SetAttributeFromAttribute( vGRW, "ER_Entity", "Name", vSubtask, "Action", "Tag" );
-   nZRetCode = GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vSubtask, "Window", "Tag" );
+   nZRetCode = GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vSubtask, "Window", "Tag" );
    ZeidonStringCopy( szTempString_0, 1, 0, "Action -- ", 1, 0, 254 );
    ZeidonStringConcat( szTempString_0, 1, 0, szTempString_1, 1, 0, 254 );
    ZeidonStringConcat( szTempString_0, 1, 0, ":", 1, 0, 254 );
-   nZRetCode = GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vSubtask, "Action", "Tag" );
+   nZRetCode = GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vSubtask, "Action", "Tag" );
    ZeidonStringConcat( szTempString_0, 1, 0, szTempString_2, 1, 0, 254 );
    nZRetCode = SetAttributeFromString( vGRW, "ER_Entity", "Desc", szTempString_0 );
    if ( CompareAttributeToAttribute( vSubtask, "DfltWnd", "ZKey", vSubtask, "Window", "ZKey" ) == 0 )
    {
-      nZRetCode = GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vSubtask, "Window", "Tag" );
+      nZRetCode = GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vSubtask, "Window", "Tag" );
       ZeidonStringCopy( szTempString_3, 1, 0, "$dlft:", 1, 0, 32 );
       ZeidonStringConcat( szTempString_3, 1, 0, szTempString_4, 1, 0, 32 );
       nZRetCode = SetAttributeFromString( vGRW, "ER_Entity", "OwningArea", szTempString_3 );
@@ -355,21 +355,21 @@ oTZWDGRWO_NodeActionSync( zVIEW    vGRW,
          }
          else
          {
-            nZRetCode = GetStringFromAttribute( szName, sizeof( szName ), vSubtask, "Action", "WindowName" );
+            nZRetCode = GetStringFromAttribute( szName, zsizeof( szName ), vSubtask, "Action", "WindowName" );
          }
       }
       else
       {
          if ( CompareAttributeToString( vSubtask, "Action", "WindowName", "" ) == 0 )
          {
-            nZRetCode = GetStringFromAttribute( szName, sizeof( szName ), vSubtask, "Action", "DialogName" );
+            nZRetCode = GetStringFromAttribute( szName, zsizeof( szName ), vSubtask, "Action", "DialogName" );
             ZeidonStringConcat( szName, 1, 0, ": 'default'", 1, 0, 32 );
          }
          else
          {
-            nZRetCode = GetStringFromAttribute( szName, sizeof( szName ), vSubtask, "Action", "DialogName" );
+            nZRetCode = GetStringFromAttribute( szName, zsizeof( szName ), vSubtask, "Action", "DialogName" );
             ZeidonStringConcat( szName, 1, 0, ":", 1, 0, 32 );
-            nZRetCode = GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), vSubtask, "Action", "WindowName" );
+            nZRetCode = GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), vSubtask, "Action", "WindowName" );
             ZeidonStringConcat( szName, 1, 0, szTempString_5, 1, 0, 32 );
          }
       }
@@ -384,7 +384,7 @@ oTZWDGRWO_NodeActionSync( zVIEW    vGRW,
          nZRetCode = SetAttributeFromString( vGRW_Win, "ER_Entity", "Purpose", "A" );
          if ( CompareAttributeToAttribute( vSubtask, "DfltWnd", "ZKey", vSubtask, "Window", "ZKey" ) == 0 )
          {
-            nZRetCode = GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), vSubtask, "Window", "Tag" );
+            nZRetCode = GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), vSubtask, "Window", "Tag" );
             ZeidonStringCopy( szTempString_7, 1, 0, "$dlft:", 1, 0, 32 );
             ZeidonStringConcat( szTempString_7, 1, 0, szTempString_8, 1, 0, 32 );
             nZRetCode = SetAttributeFromString( vGRW_Win, "ER_Entity", "OwningArea", szTempString_7 );
@@ -398,7 +398,7 @@ oTZWDGRWO_NodeActionSync( zVIEW    vGRW,
       nZRetCode = oTZWDGRWO_ArcActionWindow( vGRW, vGRW_Win, vSubtask );
    }
    nEvents = 0;
-   nZRetCode = GetStringFromAttribute( szName, sizeof( szName ), vSubtask, "Window", "Tag" );
+   nZRetCode = GetStringFromAttribute( szName, zsizeof( szName ), vSubtask, "Window", "Tag" );
    RESULT = SetCursorFirstEntityByString( vGRW_Win, "ER_Entity", "Name", szName, "" );
    RESULT = SetCursorFirstEntity( vSubtask, "ActWndEvent", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
@@ -430,9 +430,9 @@ oTZWDGRWO_NodeActionSync( zVIEW    vGRW,
    }
    if ( nEvents == 0 )
    {
-      nZRetCode = GetStringFromAttribute( szTempString_9, sizeof( szTempString_9 ), vSubtask, "Window", "Tag" );
+      nZRetCode = GetStringFromAttribute( szTempString_9, zsizeof( szTempString_9 ), vSubtask, "Window", "Tag" );
       ZeidonStringConcat( szTempString_9, 1, 0, ":", 1, 0, 32 );
-      nZRetCode = GetStringFromAttribute( szTempString_10, sizeof( szTempString_10 ), vSubtask, "Action", "Tag" );
+      nZRetCode = GetStringFromAttribute( szTempString_10, zsizeof( szTempString_10 ), vSubtask, "Action", "Tag" );
       ZeidonStringConcat( szTempString_9, 1, 0, szTempString_10, 1, 0, 32 );
       nZRetCode = SetAttributeFromString( vGRW, "ER_Entity", "Name", szTempString_9 );
    }
@@ -506,10 +506,10 @@ oTZWDGRWO_ArcWindowAction( zVIEW    vGRW_Window,
    {
       case 1  :
          ZeidonStringCopy( szToName, 1, 0, "(Window)", 1, 0, zMAX_FILESPEC_LTH + 1 );
-         nZRetCode = GetStringFromAttribute( szFromName, sizeof( szFromName ), vSubtask, "ActWndEvent", "EventName" );
+         nZRetCode = GetStringFromAttribute( szFromName, zsizeof( szFromName ), vSubtask, "ActWndEvent", "EventName" );
          break;
       case 2  :
-         nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vSubtask, "ActCtrl", "Tag" );
+         nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vSubtask, "ActCtrl", "Tag" );
          ZeidonStringCopy( szToName, 1, 0, "(Ctrl) ", 1, 0, zMAX_FILESPEC_LTH + 1 );
          ZeidonStringConcat( szToName, 1, 0, szTempString_0, 1, 0, zMAX_FILESPEC_LTH + 1 );
          nZRetCode = CreateViewFromViewForTask( &vSubtask2, vSubtask, 0 );
@@ -518,7 +518,7 @@ oTZWDGRWO_ArcWindowAction( zVIEW    vGRW_Window,
          nRC = SetEntityCursor( vSubtask2, "Event", "ZKey", zControl, vSubtask, "ActEvent", "ZKey", 0, "Window", "" );
          if ( nRC > zCURSOR_UNCHANGED )
          {
-            nZRetCode = GetStringFromAttribute( szFromName, sizeof( szFromName ), vSubtask2, "ControlDef", "Tag" );
+            nZRetCode = GetStringFromAttribute( szFromName, zsizeof( szFromName ), vSubtask2, "ControlDef", "Tag" );
          }
          else
          {
@@ -527,13 +527,13 @@ oTZWDGRWO_ArcWindowAction( zVIEW    vGRW_Window,
          nZRetCode = DropView( vSubtask2 );
          break;
       case 3  :
-         nZRetCode = GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vSubtask, "ActOpt", "Text" );
+         nZRetCode = GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vSubtask, "ActOpt", "Text" );
          ZeidonStringCopy( szToName, 1, 0, "(Opt) ", 1, 0, zMAX_FILESPEC_LTH + 1 );
          ZeidonStringConcat( szToName, 1, 0, szTempString_1, 1, 0, zMAX_FILESPEC_LTH + 1 );
          ZeidonStringCopy( szFromName, 1, 0, "option select", 1, 0, zMAX_FILESPEC_LTH + 1 );
          break;
       case 4  :
-         nZRetCode = GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vSubtask, "ActHot", "Tag" );
+         nZRetCode = GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vSubtask, "ActHot", "Tag" );
          ZeidonStringCopy( szToName, 1, 0, "(Shortcut Key) ", 1, 0, zMAX_FILESPEC_LTH + 1 );
          ZeidonStringConcat( szToName, 1, 0, szTempString_2, 1, 0, zMAX_FILESPEC_LTH + 1 );
          ZeidonStringCopy( szFromName, 1, 0, "keyed", 1, 0, zMAX_FILESPEC_LTH + 1 );
@@ -602,9 +602,9 @@ oTZWDGRWO_ArcGroupEvents( zVIEW    vGRW_Win,
       {
          nZRetCode = SetViewFromView( vGRW_Tmp, vGRW_Act );
          RESULT = SetCursorFirstEntity( vGRW_Tmp, "ER_RelLink_2", "" );
-         nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vGRW_Win, "ER_RelType", "Fact" );
+         nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vGRW_Win, "ER_RelType", "Fact" );
          ZeidonStringConcat( szTempString_0, 1, 0, " | ", 1, 0, 254 );
-         nZRetCode = GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vGRW_Tmp, "ER_RelLink_2", "Name" );
+         nZRetCode = GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vGRW_Tmp, "ER_RelLink_2", "Name" );
          ZeidonStringConcat( szTempString_0, 1, 0, szTempString_1, 1, 0, 254 );
          nZRetCode = SetAttributeFromString( vGRW_Win, "ER_RelType", "Fact", szTempString_0 );
       }
@@ -640,7 +640,7 @@ oTZWDGRWO_NodeEntitySync( zVIEW    vGRW,
    {
       if ( CompareAttributeToAttribute( vSubtask, "DfltWnd", "ZKey", vSubtask, "Window", "ZKey" ) == 0 )
       {
-         nZRetCode = GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vSubtask, "Window", "Tag" );
+         nZRetCode = GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vSubtask, "Window", "Tag" );
          ZeidonStringCopy( szTempString_0, 1, 0, "$dlft:", 1, 0, 32 );
          ZeidonStringConcat( szTempString_0, 1, 0, szTempString_1, 1, 0, 32 );
          nZRetCode = SetAttributeFromString( vGRW, "ER_Entity", "OwningArea", szTempString_0 );

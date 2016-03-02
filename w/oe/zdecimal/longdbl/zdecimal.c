@@ -50,12 +50,12 @@ zDecimalOperation( void  *pvReturn,
    {
       case zDEC_CMD_ASSIGNDEC:
          // Copy from 1 decimal to another.
-         memcpy( pvReturn, pvDecimal, sizeof( long double ) );
+         memcpy( pvReturn, pvDecimal, zsizeof( long double ) );
          return( 0 )
 
       case zDEC_CMD_ASSIGNNULL:
          // Assign NULL to a decimal.
-         memcpy( pvReturn, &g_dNull, sizeof( long double ) );
+         memcpy( pvReturn, &g_dNull, zsizeof( long double ) );
          return( 0 )
 
       case zDEC_CMD_DECTOSTRING:
@@ -63,7 +63,7 @@ zDecimalOperation( void  *pvReturn,
          short nPrecision = * (short *) pvInfo;
 
          // Convert double to string.
-         memcpy( &dDecimal, pvDecimal, sizeof( long double ) );
+         memcpy( &dDecimal, pvDecimal, zsizeof( long double ) );
          if ( nPrecision > 0 )
             sprintf( (char *) pvReturn, "%.*Lf", nPrecision, dDecimal );
          else
@@ -79,34 +79,34 @@ zDecimalOperation( void  *pvReturn,
       case zDEC_CMD_STRINGTODEC:
          // Convert string to double.
          dReturn = zatold( (char *) pvInfo );
-         memcpy( pvReturn, &dReturn, sizeof( long double ) );
+         memcpy( pvReturn, &dReturn, zsizeof( long double ) );
          return( 0 )
 
       case zDEC_CMD_DECTOLONG:
          // Convert double to long.
-         memcpy( &dDecimal, pvDecimal, sizeof( long double ) );
+         memcpy( &dDecimal, pvDecimal, zsizeof( long double ) );
          * (long *) pvReturn = (zLONG) dDecimal;
          return( 0 )
 
       case zDEC_CMD_LONGTODEC:
          dReturn = (long double) * (long *) pvInfo;
-         memcpy( pvReturn, &dReturn, sizeof( long double ) );
+         memcpy( pvReturn, &dReturn, zsizeof( long double ) );
          return( 0 )
 
       case zDEC_CMD_DECTODOUBLE:
          // Convert long double to double.
-         memcpy( &dDecimal, pvDecimal, sizeof( long double ) );
+         memcpy( &dDecimal, pvDecimal, zsizeof( long double ) );
          * (double *) pvReturn = (double) dDecimal;
          return( 0 )
 
       case zDEC_CMD_DOUBLETODEC:
          // Convert double to long double.
          dReturn = (long double) * (double *) pvInfo;
-         memcpy( pvReturn, &dReturn, sizeof( long double ) );
+         memcpy( pvReturn, &dReturn, zsizeof( long double ) );
          return( 0 )
 
       case zDEC_CMD_COMPARENULL:
-         memcpy( &dDecimal, pvDecimal, sizeof( long double ) );
+         memcpy( &dDecimal, pvDecimal, zsizeof( long double ) );
          if ( dDecimal == g_dNull )
             return( 0 )
          else
@@ -116,7 +116,7 @@ zDecimalOperation( void  *pvReturn,
       {
          double d = * (double *) pvInfo;
 
-         memcpy( &dDecimal, pvDecimal, sizeof( long double ) );
+         memcpy( &dDecimal, pvDecimal, zsizeof( long double ) );
          if ( dDecimal < (long double) d )
             return( -1 )
          else
@@ -131,8 +131,8 @@ zDecimalOperation( void  *pvReturn,
       case zDEC_CMD_SUBDEC:
       case zDEC_CMD_ADDDEC:
       case zDEC_CMD_COMPAREDEC:
-         memcpy( &dDecimal, pvDecimal, sizeof( long double ) );
-         memcpy( &dInfo, pvInfo, sizeof( long double ) );
+         memcpy( &dDecimal, pvDecimal, zsizeof( long double ) );
+         memcpy( &dInfo, pvInfo, zsizeof( long double ) );
 
          switch ( lCommand )
          {
@@ -162,7 +162,7 @@ zDecimalOperation( void  *pvReturn,
                   return( 0 )
          }
 
-         memcpy( pvReturn, &dReturn, sizeof( long double ) );
+         memcpy( pvReturn, &dReturn, zsizeof( long double ) );
          return( 0 )
 
       case zDEC_CMD_ROUND:
@@ -326,7 +326,7 @@ BOOL WINAPI DllMain( HINSTANCE hDLL, DWORD dwReason, LPVOID lpReserved )
          TraceLineS( "(ZDecimal) ",
                      "Using 'long double' version of ZDecimal.DLL version 1.0" );
          TraceLineI( "(ZDecimal) Precision (in bits) = ",
-                     (zLONG) ( sizeof( long double ) * 8 ) );
+                     (zLONG) ( zsizeof( long double ) * 8 ) );
          break;
 
       case DLL_THREAD_ATTACH:

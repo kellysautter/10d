@@ -86,7 +86,7 @@ ZTwain::InitTwain( CFrameWnd *pZFWnd )
    }
 
    zmemset( &m_AppId, 0, sizeof( m_AppId ) );
-   strcpy_s( szTwainLibName, sizeof( szTwainLibName ), "TWAIN_32.DLL" );
+   strcpy_s( szTwainLibName, zsizeof( szTwainLibName ), "TWAIN_32.DLL" );
 
    m_hTwainDLL = ::LoadLibrary( szTwainLibName );
    if ( m_hTwainDLL )
@@ -181,13 +181,13 @@ ZTwain::GetIdentity( )
    m_AppId.Version.MinorNum = 5;
    m_AppId.Version.Language = TWLG_USA;
    m_AppId.Version.Country = TWCY_USA;
-   strcpy_s( m_AppId.Version.Info, sizeof( m_AppId.Version.Info ), "3.5" );
+   strcpy_s( m_AppId.Version.Info, zsizeof( m_AppId.Version.Info ), "3.5" );
    m_AppId.ProtocolMajor = TWON_PROTOCOLMAJOR;
    m_AppId.ProtocolMinor = TWON_PROTOCOLMINOR;
    m_AppId.SupportedGroups = DG_IMAGE | DG_CONTROL;
-   strcpy_s( m_AppId.Manufacturer, sizeof( m_AppId.Manufacturer ), "MICSS" );
-   strcpy_s( m_AppId.ProductFamily, sizeof( m_AppId.ProductFamily ), "Generic" );
-   strcpy_s( m_AppId.ProductName, sizeof( m_AppId.ProductName ), "Zeidon" );
+   strcpy_s( m_AppId.Manufacturer, zsizeof( m_AppId.Manufacturer ), "MICSS" );
+   strcpy_s( m_AppId.ProductFamily, zsizeof( m_AppId.ProductFamily ), "Generic" );
+   strcpy_s( m_AppId.ProductName, zsizeof( m_AppId.ProductName ), "Zeidon" );
 }
 
 // Called to display a dialog box to select the Twain source to use.

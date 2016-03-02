@@ -229,8 +229,7 @@ ZRadioBtnGroup::OnCreate( LPCREATESTRUCT lpCreateStruct )
 
    mDeleteInit( m_pFont );
    m_pFont = new CFont;
-   ::GetObject( (HFONT) GetStockObject( DEFAULT_GUI_FONT ),
-                                        sizeof( lf ), &lf );
+   ::GetObject( (HFONT) GetStockObject( DEFAULT_GUI_FONT ), sizeof( lf ), &lf );
    m_pFont->CreateFontIndirect( &lf );
    SetFontOverride( );
    return( nRC );
@@ -239,8 +238,7 @@ ZRadioBtnGroup::OnCreate( LPCREATESTRUCT lpCreateStruct )
 BOOL
 ZRadioBtnGroup::DestroyWindow( )
 {
-   m_ulMapActFlag2 &= ~(zMAPACT_MAPPED_FROM_OI |
-                        zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED);
+   m_ulMapActFlag2 &= ~(zMAPACT_MAPPED_FROM_OI | zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED);
    return( CButton::DestroyWindow( ) );
 }
 
@@ -273,8 +271,7 @@ ZRadioBtnGroup::MapFromOI( WPARAM wFlag )
    {
       zVIEW vApp;
 
-      m_uMapState = GetMappingAutoGray( &vApp, *m_pzsVName,
-                                        *m_pzsEName, *m_pzsAName );
+      m_uMapState = GetMappingAutoGray( &vApp, *m_pzsVName, *m_pzsEName, *m_pzsAName );
    }
 
    return( 0 );
@@ -292,18 +289,15 @@ ZRadioBtnGroup::MapToOI( zLONG lFlag )
       ZRadioBtn *pZRadioBtn = m_pZCurrRB ? m_pZCurrRB : m_pZDfltRB;
       if ( pZRadioBtn )
       {
-         return( SetAttributeFromVariable( vApp, *m_pzsEName,
-                                           *m_pzsAName,
+         return( SetAttributeFromVariable( vApp, *m_pzsEName, *m_pzsAName,
                                            *(pZRadioBtn->m_pzsValueOn),
                                            zTYPE_STRING, 0, *m_pzsContext,
                                            (zSHORT) lFlag ) );
       }
       else
       {
-         return( SetAttributeFromVariable( vApp, *m_pzsEName,
-                                           *m_pzsAName, "",
-                                           zTYPE_STRING, 0,
-                                           *m_pzsContext, (zSHORT) lFlag ) );
+         return( SetAttributeFromVariable( vApp, *m_pzsEName, *m_pzsAName, "",
+                                           zTYPE_STRING, 0, *m_pzsContext, (zSHORT) lFlag ) );
       }
    }
 
@@ -696,8 +690,7 @@ ZRadioBtn::OnCreate( LPCREATESTRUCT lpCreateStruct )
 
    mDeleteInit( m_pFont );
    m_pFont = new CFont;
-   ::GetObject( (HFONT) GetStockObject( DEFAULT_GUI_FONT ),
-                                        sizeof( lf ), &lf );
+   ::GetObject( (HFONT) GetStockObject( DEFAULT_GUI_FONT ), sizeof( lf ), &lf );
    m_pFont->CreateFontIndirect( &lf );
    SetFontOverride( );
    return( nRC );
@@ -706,8 +699,7 @@ ZRadioBtn::OnCreate( LPCREATESTRUCT lpCreateStruct )
 BOOL
 ZRadioBtn::DestroyWindow( )
 {
-   m_ulMapActFlag2 &= ~(zMAPACT_MAPPED_FROM_OI |
-                        zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED);
+   m_ulMapActFlag2 &= ~(zMAPACT_MAPPED_FROM_OI | zMAPACT_CREATE_CHILDREN | zMAPACT_CREATED);
    return( CButton::DestroyWindow( ) );
 }
 
@@ -721,8 +713,7 @@ ZRadioBtn::MapFromOI( WPARAM wFlag )
 #endif
 
    // If the control is not Visible, do not do mapping
-   if ( (m_ulMapActFlags & zMAPACT_VISIBLE) == 0 ||
-        (m_ulMapActFlag2 & zMAPACT_CREATED) == 0 )
+   if ( (m_ulMapActFlags & zMAPACT_VISIBLE) == 0 || (m_ulMapActFlag2 & zMAPACT_CREATED) == 0 )
    {
       return( 0 );
    }
@@ -735,12 +726,10 @@ ZRadioBtn::MapFromOI( WPARAM wFlag )
       zULONG ulLth;
       zCHAR  szMap[ zMAP_SIZE ];
       zVIEW  vApp;
-      ZRadioBtnGroup *pRadioBtnGroup =
-           DYNAMIC_DOWNCAST( ZRadioBtnGroup, m_pzmaComposite->m_pCtrl );
+      ZRadioBtnGroup *pRadioBtnGroup = DYNAMIC_DOWNCAST( ZRadioBtnGroup, m_pzmaComposite->m_pCtrl );
 
       zUSHORT uMapState = pRadioBtnGroup->m_uMapState;
-      GetViewByName( &vApp, *(m_pzmaComposite->m_pzsVName),
-                     m_pZSubtask->m_vDialog, zLEVEL_ANY );
+      GetViewByName( &vApp, *(m_pzmaComposite->m_pzsVName), m_pZSubtask->m_vDialog, zLEVEL_ANY );
 //    zUSHORT uMapState = GetMappingAutoGray( &vApp,
 //                                            *(m_pzmaComposite->m_pzsVName),
 //                                            *(m_pzmaComposite->m_pzsEName),
@@ -750,16 +739,14 @@ ZRadioBtn::MapFromOI( WPARAM wFlag )
          GetAttributeLength( &ulLth, vApp,
                              *(m_pzmaComposite->m_pzsEName),
                              *(m_pzmaComposite->m_pzsAName) );
-         if ( ulLth > sizeof( szMap ) - 1 )
+         if ( ulLth > zsizeof( szMap ) - 1 )
          {
-            GetAddrForAttribute( (zPCHAR *) &pch, vApp,
-                                 *(m_pzmaComposite->m_pzsEName),
-                                 *(m_pzmaComposite->m_pzsAName) );
+            GetAddrForAttribute( (zPCHAR *) &pch, vApp, *(m_pzmaComposite->m_pzsEName), *(m_pzmaComposite->m_pzsAName) );
          }
          else
          {
             GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                      sizeof( szMap ) - 1, vApp,
+                                      zsizeof( szMap ) - 1, vApp,
                                       *(m_pzmaComposite->m_pzsEName),
                                       *(m_pzmaComposite->m_pzsAName),
                                       *(m_pzmaComposite->m_pzsContext), 0 );
@@ -1222,7 +1209,7 @@ ZRadioBtn::GetCheck( )
    zCHAR  szYN[ 2 ];
 
    if ( GetRemoteZCtrlAttribute( this, m_csERemote,
-                                 "Checked", szYN, sizeof( szYN ) ) >= 0 )
+                                 "Checked", szYN, zsizeof( szYN ) ) >= 0 )
    {
       if ( *szYN == 'Y' || *szYN == 'y' )
          bRC = TRUE;

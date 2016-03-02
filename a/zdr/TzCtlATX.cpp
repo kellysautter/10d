@@ -713,7 +713,7 @@ void TZActiveX::BuildLicKeyString()
    // Get a pointer to the beginning of the key data.
    pKeyWCHARData = m_bstrLicenseKey;
 
-   // Get the sizeof the license key data in bytes.
+   // Get the zsizeof the license key data in bytes.
    nByteCount = SysStringByteLen(m_bstrLicenseKey);
 
    // Get the size of the license key data in WCHAR's.

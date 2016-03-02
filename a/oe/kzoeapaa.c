@@ -364,7 +364,7 @@ fnParseAppString( zPCHAR  pchReturnApp,
    pchCmdPtr   = 0;
 
    // Relocate the application string so we can edit it
-   strcpy_s( szWorkAppString, sizeof( szWorkAppString ), cpcAppString );
+   strcpy_s( szWorkAppString, zsizeof( szWorkAppString ), cpcAppString );
 
    // Get Pointers to Application Name and the Dialog Name
    pchParsePtr = szWorkAppString;
@@ -627,8 +627,8 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
       }
 
       // Next see if application is defined to system.
-      strcpy_s( szWorkString, sizeof( szWorkString ), AnchorBlock->szZeidonLocal );
-      strcat_s( szWorkString, sizeof( szWorkString ), szlAppFile );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), AnchorBlock->szZeidonLocal );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szlAppFile );
 
       // Open Application definition file.
       bFound = FALSE;
@@ -651,7 +651,7 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
             {
                if ( zstrncmp( pchLine + 1, szlAPP_NAME, 8 ) == 0 )
                {
-                  SysParseLine( szWorkString, sizeof( szWorkString ), &pchLine, pchLine + 1 );
+                  SysParseLine( szWorkString, zsizeof( szWorkString ), &pchLine, pchLine + 1 );
                   if ( zstrcmpi( pchLine, cpcAppName ) == 0  )
                      bFound = TRUE;  //  Set found flag
 
@@ -690,7 +690,7 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
          TraceLine( "(APP) About to create app (0x%08x): %s (%s)  for Task: 0x%08x   Process: %d",
                     hApp, cpcAppName, pchLine, zGETHNDL( lpTask ), SysGetProcessID( 0 ) );
 
-      strcpy_s( lpApp->szName, sizeof( lpApp->szName ), pchLine );
+      strcpy_s( lpApp->szName, zsizeof( lpApp->szName ), pchLine );
 
       // Load up libraries for application.
       nEOF = fnSysReadLine( lpTask, &pchLine, hFile, &pvFile );
@@ -717,7 +717,7 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
 
          if ( pchLine[ 0 ] == 'a' )
          {
-            SysParseLine( szWorkString, sizeof( szWorkString ), &pchLine, pchLine + 1 );
+            SysParseLine( szWorkString, zsizeof( szWorkString ), &pchLine, pchLine + 1 );
 
             // Get rid of leading spaces in pchLine.
             while ( *pchLine && *pchLine == ' ' )
@@ -736,73 +736,73 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
                      lpLName->nType = (zSHORT) zatol( pchLine );
                   else
                   if ( zstrcmp( szWorkString, szlLNAME ) == 0 )
-                     strcpy_s( lpLName->szLName, sizeof( lpLName->szLName ), pchLine );
+                     strcpy_s( lpLName->szLName, zsizeof( lpLName->szLName ), pchLine );
                   else
                   if ( zstrcmp( szWorkString, szlPNAME ) == 0 )
-                     strcpy_s( lpLName->szPName, sizeof( lpLName->szPName ), pchLine );
+                     strcpy_s( lpLName->szPName, zsizeof( lpLName->szPName ), pchLine );
                }
             }
             else
             if ( zstrcmp( szWorkString, szlAPP_DFLT_Dialog ) == 0 &&
                  lpApp->szDefaultDialog[ 0 ] == 0 )
             {
-               strcpy_s( lpApp->szDefaultDialog, sizeof( lpApp->szDefaultDialog ), pchLine );
+               strcpy_s( lpApp->szDefaultDialog, zsizeof( lpApp->szDefaultDialog ), pchLine );
             }
             else
             if ( zstrcmp( szWorkString, szlAPP_DLL ) == 0 &&
                  lpApp->szLibraryDir[ 0 ] == 0 )
             {
                SysAppendcDirSep( pchLine );
-               fnConvertEnvironmentString( szWorkString2, sizeof( szWorkString2 ), pchLine );
-               strcpy_s( lpApp->szLibraryDir, sizeof( lpApp->szLibraryDir ), szWorkString2 );
+               fnConvertEnvironmentString( szWorkString2, zsizeof( szWorkString2 ), pchLine );
+               strcpy_s( lpApp->szLibraryDir, zsizeof( lpApp->szLibraryDir ), szWorkString2 );
             }
             else
             if ( zstrcmp( szWorkString, szlAPP_ADOBIN ) == 0 &&
                  lpApp->szObjectDir[ 0 ] == 0 )
             {
                SysAppendcDirSep( pchLine );
-               fnConvertEnvironmentString( szWorkString2, sizeof( szWorkString2 ), pchLine );
-               strcpy_s( lpApp->szObjectDir, sizeof( lpApp->szObjectDir ), szWorkString2 );
+               fnConvertEnvironmentString( szWorkString2, zsizeof( szWorkString2 ), pchLine );
+               strcpy_s( lpApp->szObjectDir, zsizeof( lpApp->szObjectDir ), szWorkString2 );
             }
             else
             if ( zstrcmp( szWorkString, szlAPP_LOCAL ) == 0 &&
                  lpApp->szLocalDir[ 0 ] == 0 )
             {
                SysAppendcDirSep( pchLine );
-               fnConvertEnvironmentString( szWorkString2, sizeof( szWorkString2 ), pchLine );
-               strcpy_s( lpApp->szLocalDir, sizeof( lpApp->szLocalDir ), szWorkString2 );
+               fnConvertEnvironmentString( szWorkString2, zsizeof( szWorkString2 ), pchLine );
+               strcpy_s( lpApp->szLocalDir, zsizeof( lpApp->szLocalDir ), szWorkString2 );
             }
             else
             if ( zstrcmp( szWorkString, szlAPP_SHARED ) == 0 &&
                  lpApp->szSharedDir[ 0 ] == 0 )
             {
                SysAppendcDirSep( pchLine );
-               fnConvertEnvironmentString( szWorkString2, sizeof( szWorkString2 ), pchLine );
-               strcpy_s( lpApp->szSharedDir, sizeof( lpApp->szSharedDir ), szWorkString2 );
+               fnConvertEnvironmentString( szWorkString2, zsizeof( szWorkString2 ), pchLine );
+               strcpy_s( lpApp->szSharedDir, zsizeof( lpApp->szSharedDir ), szWorkString2 );
             }
             else
             if ( zstrcmp( szWorkString, szlAPP_QLPLR ) == 0 &&
                  lpApp->szQLPLR_Dir[ 0 ] == 0 )
             {
                SysAppendcDirSep( pchLine );
-               fnConvertEnvironmentString( szWorkString2, sizeof( szWorkString2 ), pchLine );
-               strcpy_s( lpApp->szQLPLR_Dir, sizeof( lpApp->szQLPLR_Dir ), szWorkString2 );
+               fnConvertEnvironmentString( szWorkString2, zsizeof( szWorkString2 ), pchLine );
+               strcpy_s( lpApp->szQLPLR_Dir, zsizeof( lpApp->szQLPLR_Dir ), szWorkString2 );
             }
             else
             if ( zstrcmp( szWorkString, szlAPP_QXODS ) == 0 &&
                  lpApp->szQXODS_Dir[ 0 ] == 0 )
             {
                SysAppendcDirSep( pchLine );
-               fnConvertEnvironmentString( szWorkString2, sizeof( szWorkString2 ), pchLine );
-               strcpy_s( lpApp->szQXODS_Dir, sizeof( lpApp->szQXODS_Dir ), szWorkString2 );
+               fnConvertEnvironmentString( szWorkString2, zsizeof( szWorkString2 ), pchLine );
+               strcpy_s( lpApp->szQXODS_Dir, zsizeof( lpApp->szQXODS_Dir ), szWorkString2 );
             }
             else
             if ( zstrcmp( szWorkString, szlAPP_SOURCE ) == 0 &&
                  lpApp->szSourceDir[ 0 ] == 0 )
             {
                SysAppendcDirSep( pchLine );
-               fnConvertEnvironmentString( szWorkString2, sizeof( szWorkString2 ), pchLine );
-               strcpy_s( lpApp->szSourceDir, sizeof( lpApp->szSourceDir ), szWorkString2 );
+               fnConvertEnvironmentString( szWorkString2, zsizeof( szWorkString2 ), pchLine );
+               strcpy_s( lpApp->szSourceDir, zsizeof( lpApp->szSourceDir ), szWorkString2 );
             }
          }
 
@@ -814,11 +814,11 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
       if ( AnchorBlock->TraceFlags.bTaskMsgs )
          TraceLineS( "(APP) About to create app = ", "Zeidon System" );
 
-      strcpy_s( lpApp->szName, sizeof( lpApp->szName ), "Zeidon System" );
-      strcpy_s( lpApp->szObjectDir, sizeof( lpApp->szObjectDir ), AnchorBlock->szZeidonSys );
-      strcpy_s( lpApp->szLibraryDir, sizeof( lpApp->szLibraryDir ), AnchorBlock->szZeidonBin );
-      strcpy_s( lpApp->szLocalDir, sizeof( lpApp->szLocalDir ), AnchorBlock->szZeidonLoc );
-      strcpy_s( lpApp->szSharedDir, sizeof( lpApp->szSharedDir ), AnchorBlock->szZeidonShr );
+      strcpy_s( lpApp->szName, zsizeof( lpApp->szName ), "Zeidon System" );
+      strcpy_s( lpApp->szObjectDir, zsizeof( lpApp->szObjectDir ), AnchorBlock->szZeidonSys );
+      strcpy_s( lpApp->szLibraryDir, zsizeof( lpApp->szLibraryDir ), AnchorBlock->szZeidonBin );
+      strcpy_s( lpApp->szLocalDir, zsizeof( lpApp->szLocalDir ), AnchorBlock->szZeidonLoc );
+      strcpy_s( lpApp->szSharedDir, zsizeof( lpApp->szSharedDir ), AnchorBlock->szZeidonShr );
    }
 
    if ( cpcAppName )              // if not creating the system app
@@ -826,13 +826,13 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
 
    // Now that the application has been loaded, load the domains
    // for the application
-   strcpy_s( szWorkString, sizeof( szWorkString ), "[App." );
-   strcpy_s( szWorkString + 5, sizeof( szWorkString ) - 5, lpApp->szName );
-   strcat_s( szWorkString, sizeof( szWorkString ), "]" );
+   strcpy_s( szWorkString, zsizeof( szWorkString ), "[App." );
+   strcpy_s( szWorkString + 5, zsizeof( szWorkString ) - 5, lpApp->szName );
+   strcat_s( szWorkString, zsizeof( szWorkString ), "]" );
    szWorkString2[ 0 ] = 0;
 
    // Check to see if we should keep the app running at all times.
-   SysReadZeidonIni( -1, szWorkString, "KeepAlive", szWorkString2, sizeof( szWorkString2 ) );
+   SysReadZeidonIni( -1, szWorkString, "KeepAlive", szWorkString2, zsizeof( szWorkString2 ) );
    if ( szWorkString2[ 0 ] == 'Y' )
    {
       lpApp->bKeepAlive = TRUE;
@@ -851,32 +851,32 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
       }
    }
 
-   SysReadZeidonIni( -1, szWorkString, "Domains", szWorkString2, sizeof( szWorkString2 ) );
+   SysReadZeidonIni( -1, szWorkString, "Domains", szWorkString2, zsizeof( szWorkString2 ) );
 
    // If there is directory separator then assume a path name is specified,
    // otherwise, it hopefully is just a filename.ext.
    if ( szWorkString2[ 0 ] )
    {
       if ( zstrchr( szWorkString2, cDirSep ) )
-         strcpy_s( szWorkString, sizeof( szWorkString ), szWorkString2 );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), szWorkString2 );
       else
       {
-         strcpy_s( szWorkString, sizeof( szWorkString ), lpApp->szObjectDir );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), lpApp->szObjectDir );
          SysAppendcDirSep( szWorkString );
-         strcat_s( szWorkString, sizeof( szWorkString ), szWorkString2 );
+         strcat_s( szWorkString, zsizeof( szWorkString ), szWorkString2 );
       }
    }
    else
    {
       // Build the file name for the application domains.
-      strcpy_s( szWorkString, sizeof( szWorkString ), lpApp->szObjectDir );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), lpApp->szObjectDir );
       SysAppendcDirSep( szWorkString );
-      strcat_s( szWorkString, sizeof( szWorkString ), szlDomainFile );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szlDomainFile );
 #if 0 // DGC Removed 09/05/2002
       if ( cpcAppName )
-         strcat_s( szWorkString, sizeof( szWorkString ), szlDomainFile );
+         strcat_s( szWorkString, zsizeof( szWorkString ), szlDomainFile );
       else
-         strcat_s( szWorkString, sizeof( szWorkString ), szlSystemDomainFile );
+         strcat_s( szWorkString, zsizeof( szWorkString ), szlSystemDomainFile );
 #endif
    }
 
@@ -927,7 +927,7 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
       nLineNbr++;
       if ( pchLine[ 0 ] == 'e' )
       {
-         SysParseLine( szEntityName, sizeof( szEntityName ), &pchLine, pchLine + 1 );
+         SysParseLine( szEntityName, zsizeof( szEntityName ), &pchLine, pchLine + 1 );
          nCurrState = 1;      // entity line item
       }
       else
@@ -1107,8 +1107,7 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
                   {
                      lpRegExpression = zGETPTR( hTemp );
                      lpRegExpression->hContext = hContext;
-                     lpRegExpression->hNextRegExpression =
-                                                lpContext->hFirstRegExpression;
+                     lpRegExpression->hNextRegExpression = lpContext->hFirstRegExpression;
                      lpContext->hFirstRegExpression = hTemp;
 
                      lpTableEntry = 0;
@@ -1185,7 +1184,7 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
                         }
                         else
                         if ( zstrcmpi( szAttrName, szlDLL_NAME ) == 0 )
-                           strcpy_s( lpDomain->szLibraryName, sizeof( lpDomain->szLibraryName ), pchLine );
+                           strcpy_s( lpDomain->szLibraryName, zsizeof( lpDomain->szLibraryName ), pchLine );
 
                         break;
 
@@ -1208,13 +1207,13 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
 
                      case 'N':
                         if ( zstrcmpi( szAttrName, szlNAME ) == 0 )
-                           strcpy_s( lpDomain->szName, sizeof( lpDomain->szName ), pchLine );
+                           strcpy_s( lpDomain->szName, zsizeof( lpDomain->szName ), pchLine );
 
                         break;
 
                      case 'O':
                         if ( zstrcmpi( szAttrName, "OPERNAME" ) == 0 )
-                           strcpy_s( lpDomain->szDomainOper, sizeof( lpDomain->szDomainOper ), pchLine );
+                           strcpy_s( lpDomain->szDomainOper, zsizeof( lpDomain->szDomainOper ), pchLine );
                         else
                         if ( zstrcmpi( szAttrName, "OPERNUMBER" ) == 0 )
                            lpDomain->uOperNumber = (zUSHORT) zatol( pchLine );
@@ -1276,7 +1275,7 @@ fnCreateApp( LPTASK lpTask, zCPCHAR cpcAppName )
 
                      case 'N':
                         if ( zstrcmpi( szAttrName, szlNAME ) == 0 )
-                             strcpy_s( lpContext->szName, sizeof( lpContext->szName ), pchLine );
+                             strcpy_s( lpContext->szName, zsizeof( lpContext->szName ), pchLine );
 
                         break;
 

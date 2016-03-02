@@ -124,7 +124,7 @@ LPTSTR McbLoadFile(LPCTSTR lpszFile)
 
       if (cbFile)
       {
-         lpszResult = malloc((cbFile+1) * sizeof(TCHAR));
+         lpszResult = malloc((cbFile+1) * zsizeof(TCHAR));
          lpszResult[cbFile] = 0;
 
          if (!ReadFile(hFile, lpszResult, cbFile, &cbRead, NULL) ||
@@ -216,13 +216,13 @@ LPTSTR McbAddQuotes(LPCTSTR lpszData)
 
    if (!lpszData || !(*lpszData))
    {
-      lpszResult = malloc(3 * sizeof(TCHAR));
+      lpszResult = malloc(3 * zsizeof(TCHAR));
       _tcscpy(lpszResult, _T("\"\""));
    }
    else
    {
       cbData = _tcslen(lpszData);
-      lpszResult = malloc((cbData + 3)* sizeof(TCHAR));
+      lpszResult = malloc((cbData + 3)* zsizeof(TCHAR));
 
       *lpszResult = _T('\"');
       _tcscpy(lpszResult+1, lpszData);
@@ -277,7 +277,7 @@ LPTSTR McbRemoveQuotes(LPCTSTR lpszData)
 
       if (cbTemp)
       {
-         lpszResult = malloc((cbTemp + 1) *sizeof(TCHAR));
+         lpszResult = malloc((cbTemp + 1) *zsizeof(TCHAR));
          _tcsncpy(lpszResult, lpszMarker, cbTemp);
          lpszResult[cbTemp] = 0;
       }
@@ -386,7 +386,7 @@ int McbArchiveOptions(LPCTSTR lpszFile, McbOptions * pOptions, int nStore)
                     *********************************************************
                     */
                lpszName = McbStrdup(_T("FilterIndex"), 0);
-               lpszValue = malloc(10 * sizeof(TCHAR));
+               lpszValue = malloc(10 * zsizeof(TCHAR));
                _ltot(pOptions->nFilterIndex, lpszValue, 10);
 
                McbAddAttribute(pChild, lpszName, lpszValue, 5);
@@ -431,7 +431,7 @@ int McbArchiveOptions(LPCTSTR lpszFile, McbOptions * pOptions, int nStore)
         * Initialise the options structure.
         *********************************************************************
         */
-      memset(pOptions, 0, sizeof(McbOptions));
+      memset(pOptions, 0, zsizeof(McbOptions));
 
        /*
         *********************************************************************
@@ -809,7 +809,7 @@ void McbBuildTree(HWND hWndTree, McbXMLNode *pNode, HTREEITEM hParent)
 
             if (cbValue) cbText += 3;
 
-            lpszText = malloc((cbText+1) * sizeof(TCHAR));
+            lpszText = malloc((cbText+1) * zsizeof(TCHAR));
             lpszMarker = lpszText;
 
             if (cbName)
@@ -864,7 +864,7 @@ void McbBuildTree(HWND hWndTree, McbXMLNode *pNode, HTREEITEM hParent)
          insert.item.iSelectedImage = McbTEXTBMP;
 
          cbText = _tcslen(pChild->node.pText->lpszValue);
-         lpszText = malloc((cbText+1) * sizeof(TCHAR));
+         lpszText = malloc((cbText+1) * zsizeof(TCHAR));
 
          insert.item.lParam = (LPARAM)MAKELONG((WORD)
             pChild->nStringOffset, (WORD)cbText);
@@ -913,7 +913,7 @@ void McbBuildTree(HWND hWndTree, McbXMLNode *pNode, HTREEITEM hParent)
 
          assert(cbText);
 
-         lpszText = malloc((cbText+1) * sizeof(TCHAR));
+         lpszText = malloc((cbText+1) * zsizeof(TCHAR));
          lpszMarker = lpszText;
 
          if (cbName)
@@ -984,7 +984,7 @@ LPTSTR McbGetWindowText(HWND hWnd)
 
    if (cbText)
    {
-      lpszResult = malloc((cbText+1) * sizeof(TCHAR));
+      lpszResult = malloc((cbText+1) * zsizeof(TCHAR));
 
       cbText = SendMessage(hWnd, WM_GETTEXT, (WPARAM)cbText+1,
          (LPARAM)lpszResult);
@@ -1256,7 +1256,7 @@ int McbGetFileNameAndLoadXML(HWND hWnd, HWND hWndRich, HWND hWndStatus,
 
    OPENFILENAME openName;
 
-   openName.lStructSize = sizeof(OPENFILENAME);
+   openName.lStructSize = zsizeof(OPENFILENAME);
    openName.hwndOwner = hWnd;
    openName.hInstance = g_hInst;
 
@@ -1382,7 +1382,7 @@ int McbGetFileNameAndSaveXML(LPTSTR lpszXML, HWND hWnd, HWND hWndRich,
 
    if (lpszXML)
    {
-        openName.lStructSize = sizeof(OPENFILENAME);
+        openName.lStructSize = zsizeof(OPENFILENAME);
         openName.hwndOwner = hWnd;
         openName.hInstance = g_hInst;
 
@@ -1785,7 +1785,7 @@ LRESULT CALLBACK McbWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 
                if (cch)
                {
-                  lpszFile = malloc((cch+1) + sizeof(TCHAR));
+                  lpszFile = malloc((cch+1) + zsizeof(TCHAR));
 
                   cch = DragQueryFile(hDrop, 0, lpszFile, cch+1);
 
@@ -2120,7 +2120,7 @@ ATOM McbRegisterClass(HINSTANCE hInstance)
 {
    WNDCLASSEX wcex;
 
-   wcex.cbSize = sizeof(WNDCLASSEX);
+   wcex.cbSize = zsizeof(WNDCLASSEX);
 
    wcex.style        = CS_HREDRAW | CS_VREDRAW;
    wcex.lpfnWndProc  = (WNDPROC)McbWndProc;

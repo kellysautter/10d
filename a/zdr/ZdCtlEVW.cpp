@@ -258,7 +258,7 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
                            pCtrlDef,
                            "Editor" )
 {
-// AFX_ZERO_INIT_OBJECT(ZCrystalEditView); ==>   memset(&object, 0, sizeof(ZCrystalEditView));
+// AFX_ZERO_INIT_OBJECT(ZCrystalEditView); ==>   memset(&object, 0, zsizeof(ZCrystalEditView));
    m_pTextBuffer = NULL;
    m_bAutoIndent = TRUE;
    m_pOleDropTarget = NULL;
@@ -274,7 +274,7 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
 
    m_bDisableBSAtSOL = FALSE;
 
-   // AFX_ZERO_INIT_OBJECT(CView);  ==>  memset (&object, 0, sizeof(object));
+   // AFX_ZERO_INIT_OBJECT(CView);  ==>  memset (&object, 0, zsizeof(object));
 
    int k;
 
@@ -2626,8 +2626,8 @@ void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rc, int nLineIndex)
       pdc->SetTextColor(GetColor(COLORINDEX_PREPROCESSOR));
       if ( nLineIndex >= 0 )
       {
-         _ltoa_s( nLineIndex + 1, szLineNbr, sizeof( szLineNbr ), 10 );
-         sprintf_s( szMsg, sizeof( szMsg ), "%7s", szLineNbr );
+         _ltoa_s( nLineIndex + 1, szLineNbr, zsizeof( szLineNbr ), 10 );
+         sprintf_s( szMsg, zsizeof( szMsg ), "%7s", szLineNbr );
       }
       else
       {
@@ -2663,7 +2663,7 @@ void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rc, int nLineIndex)
          LF_INVALID_BREAKPOINT
       };
       int k;
-      for (k = 0; k <= sizeof(adwFlags) / sizeof(adwFlags[0]); k++)
+      for (k = 0; k <= zsizeof(adwFlags) / sizeof(adwFlags[0]); k++)
       {
          if ((dwLineFlags & adwFlags[k]) != 0)
          {
@@ -2858,11 +2858,11 @@ void ZCrystalEditView::UpdateCaret()
       SetCaretPos(TextToClient(m_ptCursorPos));
       ShowCaret();
       char szWork[ 16 ];
-      _itoa_s( m_ptCursorPos.y + 1, szWork, sizeof( szWork ), 10 );
+      _itoa_s( m_ptCursorPos.y + 1, szWork, zsizeof( szWork ), 10 );
       CString csPos = "(Line: ";
       csPos += szWork;
       csPos += " , Col: ";
-      _itoa_s( m_ptCursorPos.x + 1, szWork, sizeof( szWork ), 10 );
+      _itoa_s( m_ptCursorPos.x + 1, szWork, zsizeof( szWork ), 10 );
       csPos += szWork;
       csPos += ")";
       m_pZSubtask->SetStatusBarText( csPos, 3 );
@@ -2931,7 +2931,7 @@ CFont *ZCrystalEditView::GetFont(CDC *pdc, BOOL bItalic /*= FALSE*/, BOOL bBold 
       m_apFonts[nIndex] = new CFont;
       m_lfBaseFont.lfWeight = bBold ? FW_BOLD : FW_NORMAL;
       m_lfBaseFont.lfItalic = (BYTE) bItalic;
-      strcpy_s( m_lfBaseFont.lfFaceName, sizeof( m_lfBaseFont.lfFaceName ), "Consolas" );
+      strcpy_s( m_lfBaseFont.lfFaceName, zsizeof( m_lfBaseFont.lfFaceName ), "Consolas" );
       m_lfBaseFont.lfHeight = GetFontSize( pdc, 14 );
    // m_lfBaseFont.lfWidth = 7;
       if (! m_apFonts[nIndex]->CreateFontIndirect(&m_lfBaseFont))
@@ -6554,8 +6554,7 @@ BOOL ZCrystalTextBuffer::InternalDeleteText(ZCrystalEditView *pSource, int nStar
       SLineInfo &li = m_aLines[nStartLine];
       if (nEndChar < li.m_nLength)
       {
-         memcpy(li.m_pcLine + nStartChar, li.m_pcLine + nEndChar,
-            sizeof(TCHAR) * (li.m_nLength - nEndChar));
+         memcpy(li.m_pcLine + nStartChar, li.m_pcLine + nEndChar, sizeof(TCHAR) * (li.m_nLength - nEndChar));
       }
       li.m_nLength -= (nEndChar - nStartChar);
 
@@ -7563,7 +7562,7 @@ static LPTSTR s_apszCppKeywordList[] =
    _T("virtual"),
    _T("dllexport"),
    _T("__int16"),
-   _T("sizeof"),
+   _T("zsizeof"),
    _T("void"),
    _T("dllimport"),
    _T("__int32"),

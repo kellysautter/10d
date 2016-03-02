@@ -125,13 +125,13 @@ ofnTZWDLGSO_CreateListBox( zVIEW    vSubtask,
    // Set up variables to either I_LOD listbox or L_LOD listbox.
    if ( szListType[ 0 ] == 'I' )
    {
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "I_ER_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "I_ER_Attribute" );
    }
    else
    {
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "L_ER_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "L_ER_Attribute" );
    }
 
    lCC = 5;
@@ -182,19 +182,19 @@ ofnTZWDLGSO_CreateListBox( zVIEW    vSubtask,
       if ( lAttribLth < 5 )
          lAttribLth = 5;
 
-      GetStringFromAttribute( szPaintStr, sizeof( szPaintStr ), vUserSpec,
+      GetStringFromAttribute( szPaintStr, zsizeof( szPaintStr ), vUserSpec,
                               X_ER_Attribute, "ListPaintLit" );
       if ( szPaintStr[ 0 ] == 0 )
       {
-         GetStringFromAttribute( szPaintStr, sizeof( szPaintStr ), vUserSpec,
+         GetStringFromAttribute( szPaintStr, zsizeof( szPaintStr ), vUserSpec,
                                  X_ER_Attribute, "PromptPaintLit" );
       }
       if ( szPaintStr[ 0 ] == 0 )
       {
-         GetStringFromAttribute( szPaintStr, sizeof( szPaintStr ), vUserSpec,
+         GetStringFromAttribute( szPaintStr, zsizeof( szPaintStr ), vUserSpec,
                                  X_ER_Attribute, "Name" );
          /* Add a ':' to the end. */
-         strcat_s( szPaintStr, sizeof( szPaintStr ), ":" );
+         strcat_s( szPaintStr, zsizeof( szPaintStr ), ":" );
          /* Add spaces before any capital letters. */
          AddSpacesToString( szPaintStr );
       }

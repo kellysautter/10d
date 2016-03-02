@@ -576,7 +576,7 @@ fnAttrValueMatchesAttrValue( zVIEW            vAttrView,
       nRC = fnGetVariableFromAttribute( (zPVOID) szWorkString,
                                         &ulTossOut,
                                         zTYPE_STRING,
-                                        sizeof( szWorkString ),
+                                        zsizeof( szWorkString ),
                                         vAttrView,
                                         lpViewEntityCsrForDomain,
                                         lpSrcViewAttrib,
@@ -588,7 +588,7 @@ fnAttrValueMatchesAttrValue( zVIEW            vAttrView,
          LPVIEWCSR lpViewCsr = zGETPTR( lpSearchViewEntityCsr->hViewCsr );
 
          if ( lpDomain )
-            strcpy_s( szContext, sizeof( szContext ), lpDomain->szName );
+            strcpy_s( szContext, zsizeof( szContext ), lpDomain->szName );
          else
             szContext[ 0 ] = 0;
 
@@ -678,8 +678,8 @@ SetCursorFirstEntityByString( zVIEW    lpView,
 
             // "KZOEE263 - Input Qualifier cannot be converted to
             //  internal attribute data type"
-            strcpy_s( sz, sizeof( sz ), "(S->DT), " );
-            strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
+            strcpy_s( sz, zsizeof( sz ), "(S->DT), " );
+            strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
             fnIssueCoreError( lpCurrentTask, lpView, 8, 263, 0, sz, lpViewAttrib->szName );
 
             fnOperationReturn( iSetCursorFirstEntityByString, lpCurrentTask );
@@ -719,15 +719,15 @@ SetCursorFirstEntityByString( zVIEW    lpView,
          zCHAR    sz[ 512 ];
          LPVIEWOD lpViewOD = zGETPTR( lpView->hViewOD );
 
-         strcpy_s( sz, sizeof( sz ), "Failure during standard call, but would have been "
+         strcpy_s( sz, zsizeof( sz ), "Failure during standard call, but would have been "
                       "successful if the default context was used.\n"
                       "Probable User Error." );
-         strcat_s( sz, sizeof( sz ), "\nObject Def: " );
-         strcat_s( sz, sizeof( sz ), lpViewOD->szName );
-         strcat_s( sz, sizeof( sz ), "\nEntity: " );
-         strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
-         strcat_s( sz, sizeof( sz ), "\nAttribute: " );
-         strcat_s( sz, sizeof( sz ), lpViewAttrib->szName );
+         strcat_s( sz, zsizeof( sz ), "\nObject Def: " );
+         strcat_s( sz, zsizeof( sz ), lpViewOD->szName );
+         strcat_s( sz, zsizeof( sz ), "\nEntity: " );
+         strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
+         strcat_s( sz, zsizeof( sz ), "\nAttribute: " );
+         strcat_s( sz, zsizeof( sz ), lpViewAttrib->szName );
          SysMessageBox( lpView, "SetCursorFirstEntityByString", sz, 1 );
       }
    }
@@ -808,8 +808,8 @@ SetCursorNextEntityByString( zVIEW    lpView,
 
             // "KZOEE263 - Input Qualifier cannot be converted to
             //  internal attribute data type"
-            strcpy_s( sz, sizeof( sz ), "(S->DT), " );
-            strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
+            strcpy_s( sz, zsizeof( sz ), "(S->DT), " );
+            strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
             fnIssueCoreError( lpCurrentTask, lpView, 8, 263, 0, sz, lpViewAttrib->szName );
 
             fnOperationReturn( iSetCursorFirstEntityByString, lpCurrentTask );
@@ -849,15 +849,15 @@ SetCursorNextEntityByString( zVIEW    lpView,
          zCHAR    sz[ 512 ];
          LPVIEWOD lpViewOD = zGETPTR( lpView->hViewOD );
 
-         strcpy_s( sz, sizeof( sz ), "Failure during standard call, but would have been "
+         strcpy_s( sz, zsizeof( sz ), "Failure during standard call, but would have been "
                       "successful if the default context was used.\n"
                       "Probable User Error." );
-         strcat_s( sz, sizeof( sz ), "\nObject Def: " );
-         strcat_s( sz, sizeof( sz ), lpViewOD->szName );
-         strcat_s( sz, sizeof( sz ), "\nEntity: " );
-         strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
-         strcat_s( sz, sizeof( sz ), "\nAttribute: " );
-         strcat_s( sz, sizeof( sz ), lpViewAttrib->szName );
+         strcat_s( sz, zsizeof( sz ), "\nObject Def: " );
+         strcat_s( sz, zsizeof( sz ), lpViewOD->szName );
+         strcat_s( sz, zsizeof( sz ), "\nEntity: " );
+         strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
+         strcat_s( sz, zsizeof( sz ), "\nAttribute: " );
+         strcat_s( sz, zsizeof( sz ), lpViewAttrib->szName );
          SysMessageBox( lpView, "SetCursorNextEntityByString", sz, 1 );
       }
    }
@@ -3750,7 +3750,7 @@ fnSetEntityCursor( zVIEW            lpView,
             nRC = fnGetVariableFromAttribute( (zPVOID) &unTemp,
                                               &ulTossout,
                                               zTYPE_STRING,
-                                              sizeof( unTemp.szString ),
+                                              zsizeof( unTemp.szString ),
                                               (zVIEW) pQualValue,
                                               lpSrcViewEntityCsr,
                                               lpSrcViewEntityAttrib,
@@ -3763,12 +3763,12 @@ fnSetEntityCursor( zVIEW            lpView,
 
                szContext[ 0 ] = 0;
                if ( cpcContextName && *cpcContextName )
-                  strcpy_s( szContext, sizeof( szContext ), cpcContextName );
+                  strcpy_s( szContext, zsizeof( szContext ), cpcContextName );
                else
                if ( lpSrcViewEntityAttrib->hDomain )
                {
                   lpDomain = zGETPTR( lpSrcViewEntityAttrib->hDomain );
-                  strcpy_s( szContext, sizeof( szContext ), lpDomain->szName );
+                  strcpy_s( szContext, zsizeof( szContext ), lpDomain->szName );
                }
 
                cDomainType =
@@ -3805,7 +3805,7 @@ fnSetEntityCursor( zVIEW            lpView,
                      {
                         zCHAR szMsg[ 500 ];
 
-                        sprintf_s( szMsg, sizeof( szMsg ), "Operation '%s' does not handle an Entry "
+                        sprintf_s( szMsg, zsizeof( szMsg ), "Operation '%s' does not handle an Entry "
                                    "Type of %ld for domain '%s'", lpDomain->szDomainOper,
                                    zDME_GET_COMPARE_VALUE, lpDomain->szName );
                         MessageSend( lpView, "TZDMD101", "System Error",
@@ -3855,10 +3855,10 @@ fnSetEntityCursor( zVIEW            lpView,
                         if ( cDomainType == zDM_TYPE_TABLE && (lControl & zIGNORE_ERROR_358) == 0 )
                         {
                            lpDomain = zGETPTR( lpTaskDomain->hDomain );
-                           strcat_s( unTemp.szString, sizeof( unTemp.szString ), ", " );
-                           strcat_s( unTemp.szString, sizeof( unTemp.szString ), lpDomain->szName );
-                           strcat_s( unTemp.szString, sizeof( unTemp.szString ), ", " );
-                           strcat_s( unTemp.szString, sizeof( unTemp.szString ), lpViewEntity->szName );
+                           strcat_s( unTemp.szString, zsizeof( unTemp.szString ), ", " );
+                           strcat_s( unTemp.szString, zsizeof( unTemp.szString ), lpDomain->szName );
+                           strcat_s( unTemp.szString, zsizeof( unTemp.szString ), ", " );
+                           strcat_s( unTemp.szString, zsizeof( unTemp.szString ), lpViewEntity->szName );
                            // "KZOEE358 - Value not in Context for Domain "
                            fnIssueCoreError( lpCurrentTask, lpView, 0, 358, 0,
                                              unTemp.szString,
@@ -3897,7 +3897,7 @@ fnSetEntityCursor( zVIEW            lpView,
             break;
 
          case zQUAL_STRING:
-            strcpy_s( unTemp.szString, sizeof( unTemp.szString ), (zPCHAR) pQualValue );
+            strcpy_s( unTemp.szString, zsizeof( unTemp.szString ), (zPCHAR) pQualValue );
             cVariableType = zTYPE_STRING;
             break;
 
@@ -3953,7 +3953,7 @@ fnSetEntityCursor( zVIEW            lpView,
                {
                   zCHAR szMsg[ 500 ];
 
-                  sprintf_s( szMsg, sizeof( szMsg ), "Operation '%s' does not handle an Entry "
+                  sprintf_s( szMsg, zsizeof( szMsg ), "Operation '%s' does not handle an Entry "
                              "Type of %ld for domain '%s'", lpDomain->szDomainOper,
                              zDME_GET_COMPARE_VALUE, lpDomain->szName );
                   MessageSend( lpView, "TZDMD101", "System Error",
@@ -4015,11 +4015,11 @@ fnSetEntityCursor( zVIEW            lpView,
                      switch ( lQualRequest )
                      {
                         case zQUAL_STRING:
-                           strcpy_s( unTemp.szString, sizeof( unTemp.szString ), (zPCHAR) pQualValue );
+                           strcpy_s( unTemp.szString, zsizeof( unTemp.szString ), (zPCHAR) pQualValue );
                            break;
 
                         case zQUAL_INTEGER:
-                           zltoa( *((zPLONG) pQualValue), unTemp.szString, sizeof( unTemp.szString ) );
+                           zltoa( *((zPLONG) pQualValue), unTemp.szString, zsizeof( unTemp.szString ) );
                            break;
 
                         case zQUAL_DECIMAL:
@@ -4031,10 +4031,10 @@ fnSetEntityCursor( zVIEW            lpView,
 
                      lpDomain = zGETPTR( lpTaskDomain->hDomain );
 
-                     strcat_s( unTemp.szString, sizeof( unTemp.szString ), ", " );
-                     strcat_s( unTemp.szString, sizeof( unTemp.szString ), lpDomain->szName );
-                     strcat_s( unTemp.szString, sizeof( unTemp.szString ), ", " );
-                     strcat_s( unTemp.szString, sizeof( unTemp.szString ), lpViewEntity->szName );
+                     strcat_s( unTemp.szString, zsizeof( unTemp.szString ), ", " );
+                     strcat_s( unTemp.szString, zsizeof( unTemp.szString ), lpDomain->szName );
+                     strcat_s( unTemp.szString, zsizeof( unTemp.szString ), ", " );
+                     strcat_s( unTemp.szString, zsizeof( unTemp.szString ), lpViewEntity->szName );
                      // "KZOEE358 - Value not in Context for Domain "
                      fnIssueCoreError( lpCurrentTask, lpView, 0, 358, 0,
                                        unTemp.szString,
@@ -4084,7 +4084,7 @@ fnSetEntityCursor( zVIEW            lpView,
             {
                case zTYPE_STRING:
                   // convert integer qualifier to a string
-                  zltoa( *((zPLONG) pQualValue), unTemp.szString, sizeof( unTemp.szString ) );
+                  zltoa( *((zPLONG) pQualValue), unTemp.szString, zsizeof( unTemp.szString ) );
                   lQualRequest = zQUAL_STRING;
                   pQualValue = &unTemp;
                   break;
@@ -4104,12 +4104,12 @@ fnSetEntityCursor( zVIEW            lpView,
 
                   // "KZOEE263 - Input Qualifier cannot be converted to
                   //  internal attribute data type"
-                  strcpy_s( sz, sizeof( sz ), "(L->" );
+                  strcpy_s( sz, zsizeof( sz ), "(L->" );
                   n = zstrlen( sz );
                   *( sz + n++ ) = lpViewEntityAttrib->cType;
                   *( sz + n++ ) = 0;
-                  strcat_s( sz, sizeof( sz ), "), " );
-                  strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
+                  strcat_s( sz, zsizeof( sz ), "), " );
+                  strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
                   fnIssueCoreError( lpCurrentTask, lpView, 8, 263, 0, sz,
                                     lpViewEntityAttrib->szName );
                   return( zCALL_ERROR );
@@ -4127,8 +4127,8 @@ fnSetEntityCursor( zVIEW            lpView,
 
             // "KZOEE263 - Input Qualifier cannot be converted to
             //  internal attribute data type"
-            strcpy_s( sz, sizeof( sz ), "(?->DT), " );
-            strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
+            strcpy_s( sz, zsizeof( sz ), "(?->DT), " );
+            strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
             fnIssueCoreError( lpCurrentTask, lpView, 8, 263, 0, sz,
                               lpViewEntityAttrib->szName );
             return( zCALL_ERROR );
@@ -4160,8 +4160,8 @@ fnSetEntityCursor( zVIEW            lpView,
                      zCHAR    sz[ 256 ];
                      // "KZOEE263 - Input Qualifier cannot be converted to
                      //  internal attribute data type"
-                     strcpy_s( sz, sizeof( sz ), "(S->L), " );
-                     strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
+                     strcpy_s( sz, zsizeof( sz ), "(S->L), " );
+                     strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
                      fnIssueCoreError( lpCurrentTask, lpView, 8, 263, 0, sz,
                                        lpViewEntityAttrib->szName );
                      return( zCALL_ERROR );
@@ -4190,8 +4190,8 @@ fnSetEntityCursor( zVIEW            lpView,
 
                      // "KZOEE263 - Input Qualifier cannot be converted to
                      //  internal attribute data type"
-                     strcpy_s( sz, sizeof( sz ), "(S->M), " );
-                     strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
+                     strcpy_s( sz, zsizeof( sz ), "(S->M), " );
+                     strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
                      fnIssueCoreError( lpCurrentTask, lpView, 8, 263, 0, sz,
                                        lpViewEntityAttrib->szName );
                      return( zCALL_ERROR );
@@ -4206,12 +4206,12 @@ fnSetEntityCursor( zVIEW            lpView,
 
                   // "KZOEE263 - Input Qualifier cannot be converted to
                   //  internal attribute data type"
-                  strcpy_s( sz, sizeof( sz ), "(S->" );
+                  strcpy_s( sz, zsizeof( sz ), "(S->" );
                   n = zstrlen( sz );
                   *( sz + n++ ) = lpViewEntityAttrib->cType;
                   *( sz + n++ ) = 0;
-                  strcat_s( sz, sizeof( sz ), "), " );
-                  strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
+                  strcat_s( sz, zsizeof( sz ), "), " );
+                  strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
                   fnIssueCoreError( lpCurrentTask, lpView, 8, 263, 0, sz,
                                     lpViewEntityAttrib->szName );
                   return( zCALL_ERROR );
@@ -4249,12 +4249,12 @@ fnSetEntityCursor( zVIEW            lpView,
 
                   // "KZOEE263 - Input Qualifier cannot be converted to
                   //  internal attribute data type"
-                  strcpy_s( sz, sizeof( sz ), "(M->" );
+                  strcpy_s( sz, zsizeof( sz ), "(M->" );
                   n = zstrlen( sz );
                   *(sz + n++) = lpViewEntityAttrib->cType;
                   *(sz + n++) = 0;
-                  strcat_s( sz, sizeof( sz ), "), " );
-                  strcat_s( sz, sizeof( sz ), lpViewEntity->szName );
+                  strcat_s( sz, zsizeof( sz ), "), " );
+                  strcat_s( sz, zsizeof( sz ), lpViewEntity->szName );
                   fnIssueCoreError( lpCurrentTask, lpView, 8, 263, 0, sz,
                                     lpViewEntityAttrib->szName );
                   return( zCALL_ERROR );

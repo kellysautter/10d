@@ -12,7 +12,7 @@ Smtp::Smtp( )
    m_iCount = 1;
    m_bEhloNotSent = TRUE;
    WSAStartup( wVersionRequested, &wsaData );
-   memset( m_tcBuffer, 0, sizeof( m_tcBuffer ) );
+   memset( m_tcBuffer, 0, zsizeof( m_tcBuffer ) );
 }
 
 // Default destructor
@@ -29,7 +29,7 @@ Smtp::~Smtp( )
 
      for ( ; ; )
     {
-        INT iRC = recv( m_SA, cBuffer, sizeof( cBuffer ), 0 );
+        INT iRC = recv( m_SA, cBuffer, zsizeof( cBuffer ), 0 );
         if ( iRC == 0 || iRC == SOCKET_ERROR )
            break;
     }
@@ -67,7 +67,7 @@ Smtp::CreateSmtpConnection( CHAR *cpSmtpServer )
    INT err;
    for ( INT iRetry = 0; iRetry < 5; iRetry++ )
    {
-      err = connect( m_SA, (struct sockaddr*)&sockaddrSend, sizeof( sockaddr_in  ) );
+      err = connect( m_SA, (struct sockaddr*)&sockaddrSend, zsizeof( sockaddr_in ) );
       if ( err != SOCKET_ERROR )
      {
          break;
@@ -341,8 +341,8 @@ BOOL Smtp::SendRecv( _TCHAR *cp1 )
         return( FALSE );
  }
 
-    memset( m_tcBuffer, 0, sizeof( m_tcBuffer ) );
-    if ( recv( m_SA, m_tcBuffer, sizeof( m_tcBuffer ), 0 ) ==
+    memset( m_tcBuffer, 0, zsizeof( m_tcBuffer ) );
+    if ( recv( m_SA, m_tcBuffer, zsizeof( m_tcBuffer ), 0 ) ==
 SOCKET_ERROR )
  {
   INT err = WSAGetLastError();
@@ -366,8 +366,8 @@ SOCKET_ERROR )
         return( FALSE );
  }
 
-    memset( m_tcBuffer, 0, sizeof( m_tcBuffer ) );
-    if ( recv( m_SA, m_tcBuffer, sizeof( m_tcBuffer ), 0 ) ==
+    memset( m_tcBuffer, 0, zsizeof( m_tcBuffer ) );
+    if ( recv( m_SA, m_tcBuffer, zsizeof( m_tcBuffer ), 0 ) ==
 SOCKET_ERROR  )
  {
   INT err = WSAGetLastError();
@@ -395,8 +395,8 @@ BOOL Smtp::SendRecv( _TCHAR *cp1, _TCHAR *cp2, _TCHAR *cp3 )
 //        return( FALSE );
  }
 
-    memset( m_tcBuffer, 0, sizeof( m_tcBuffer ) );
-    if ( recv( m_SA, m_tcBuffer, sizeof( m_tcBuffer ), 0 ) ==
+    memset( m_tcBuffer, 0, zsizeof( m_tcBuffer ) );
+    if ( recv( m_SA, m_tcBuffer, zsizeof( m_tcBuffer ), 0 ) ==
 SOCKET_ERROR )
  {
   INT err = WSAGetLastError();
@@ -423,8 +423,8 @@ SOCKET_ERROR )
         return( FALSE );
  }
 
-    memset( m_tcBuffer, 0, sizeof( m_tcBuffer ) );
-    if ( recv( m_SA, m_tcBuffer, sizeof( m_tcBuffer ), 0 ) ==
+    memset( m_tcBuffer, 0, zsizeof( m_tcBuffer ) );
+    if ( recv( m_SA, m_tcBuffer, zsizeof( m_tcBuffer ), 0 ) ==
 SOCKET_ERROR )
  {
   INT err = WSAGetLastError();

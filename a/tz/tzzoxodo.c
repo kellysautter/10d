@@ -303,13 +303,13 @@ oTZZOXODO_SaveXOD( zVIEW vSubtask, zVIEW vTZZOLODO )
    {
       zCHAR  szXMD_FileTemp[ zMAX_FILESPEC_LTH + 1 ];
 
-      GetStringFromAttribute( szXMD_FileTemp, sizeof( szXMD_FileTemp ), vTaskLPLR, "LPLR", "ExecDir" );
-      strcat_s( szXMD_FileTemp, sizeof( szXMD_FileTemp ), "\\ZEIDON.XMD" );
-      SysConvertEnvironmentString( szXMD_FileSpec, sizeof( szXMD_FileSpec ), szXMD_FileTemp );
+      GetStringFromAttribute( szXMD_FileTemp, zsizeof( szXMD_FileTemp ), vTaskLPLR, "LPLR", "ExecDir" );
+      strcat_s( szXMD_FileTemp, zsizeof( szXMD_FileTemp ), "\\ZEIDON.XMD" );
+      SysConvertEnvironmentString( szXMD_FileSpec, zsizeof( szXMD_FileSpec ), szXMD_FileTemp );
       hXMD_File = SysOpenFile( vTaskLPLR, szXMD_FileSpec, COREFILE_READ );
       if ( hXMD_File >= 0 )
       {
-         SysGetFileDateTime( hXMD_File, szXMD_DateTime, sizeof( szXMD_DateTime ) );
+         SysGetFileDateTime( hXMD_File, szXMD_DateTime, zsizeof( szXMD_DateTime ) );
          SysCloseFile( vTaskLPLR, hXMD_File, 0 );
       }
       else
@@ -317,11 +317,11 @@ oTZZOXODO_SaveXOD( zVIEW vSubtask, zVIEW vTZZOLODO )
 
       if ( vTZEREMDO_REF )
       {
-         GetStringFromAttribute( szEMD_DateTime, sizeof( szEMD_DateTime ), vTZEREMDO_REF, "EntpER_Model", "LastSyncDate" );
+         GetStringFromAttribute( szEMD_DateTime, zsizeof( szEMD_DateTime ), vTZEREMDO_REF, "EntpER_Model", "LastSyncDate" );
          if ( szEMD_DateTime[ 0 ] == 0 )
          {
             RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
-            GetStringFromAttribute( szEMD_DateTime, sizeof( szEMD_DateTime ), vT, "W_MetaDef", "LastUpdateDate" );
+            GetStringFromAttribute( szEMD_DateTime, zsizeof( szEMD_DateTime ), vT, "W_MetaDef", "LastUpdateDate" );
             DropView( vT );
          }
       }
@@ -332,7 +332,7 @@ oTZZOXODO_SaveXOD( zVIEW vSubtask, zVIEW vTZZOLODO )
       {
          RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );
          SetCursorFirstEntityByInteger( vT, "W_MetaDef", "CPLR_ZKey", lTE_ZKey, "" );
-         GetStringFromAttribute( szDTE_DateTime, sizeof( szDTE_DateTime ), vT, "W_MetaDef", "LastUpdateDate" );
+         GetStringFromAttribute( szDTE_DateTime, zsizeof( szDTE_DateTime ), vT, "W_MetaDef", "LastUpdateDate" );
          DropView( vT );
       }
 
@@ -349,7 +349,7 @@ oTZZOXODO_SaveXOD( zVIEW vSubtask, zVIEW vTZZOLODO )
       SetAttributeFromString( vTZZOXODO, "OBJECT", "ER_DATE", szEMD_DateTime );
    }
 
-   GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vTZZOLODO, "LOD", "Name" );
+   GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vTZZOLODO, "LOD", "Name" );
 
    SetAttributeFromString( vTZZOXODO, "OBJECT", "NAME", szLOD_Name );
    SetAttributeFromAttribute( vTZZOXODO, "OBJECT", "ZKey", vTZZOLODO, "LOD", "ZKey" );
@@ -364,14 +364,14 @@ oTZZOXODO_SaveXOD( zVIEW vSubtask, zVIEW vTZZOLODO )
       // KJS 10/15/14 - Set the SourceFile Name, Extension.
       SetAttributeFromAttribute( vTZZOXODO, "OBJECT", "OCSRCTYPE", vTZZOLODO, "SourceFileForOCOper", "Extension" );
 
-      GetStringFromAttribute( szType, sizeof( szType ), vTZZOLODO, "SourceFileForOCOper", "Extension" );
+      GetStringFromAttribute( szType, zsizeof( szType ), vTZZOLODO, "SourceFileForOCOper", "Extension" );
 
       // If the source file is VML or Java, then we want to get the JavaPackageName.
       if ( vTaskLPLR && ( szType[ 0 ] == 'V' || szType[ 0 ] == 'J' ) )
       {
          zPCHAR pchSlash;
 
-         GetStringFromAttribute( szTempName, sizeof( szTempName ), vTaskLPLR, "LPLR", "JavaPackageName" );
+         GetStringFromAttribute( szTempName, zsizeof( szTempName ), vTaskLPLR, "LPLR", "JavaPackageName" );
          while ( (pchSlash = zstrchr( szTempName, '\\' )) != 0 )
             *pchSlash = '.';
       }
@@ -380,11 +380,11 @@ oTZZOXODO_SaveXOD( zVIEW vSubtask, zVIEW vTZZOLODO )
       if ( lLth > 0 )
          szTempName[ lLth++ ] = '.';
 
-      GetStringFromAttribute( szTempName + lLth, sizeof( szTempName ) - lLth, vTZZOLODO, "SourceFileForOCOper", "Name" );
+      GetStringFromAttribute( szTempName + lLth, zsizeof( szTempName ) - lLth, vTZZOLODO, "SourceFileForOCOper", "Name" );
 
       // We only want the _Object extension, if this is VML that we are converting into java.
       if ( szType[ 0 ] == 'V' )
-         strcat_s( szTempName, sizeof( szTempName ), "_Object" );
+         strcat_s( szTempName, zsizeof( szTempName ), "_Object" );
 
       SetAttributeFromString( vTZZOXODO, "OBJECT", "OCSRCFILE", szTempName );
    //                         vTZZOLODO, "SourceFileForOCOper", "Name" );
@@ -453,8 +453,8 @@ oTZZOXODO_SaveXOD( zVIEW vSubtask, zVIEW vTZZOLODO )
          {
             zCHAR  szMsg[ 256 ];
 
-            strcpy_s( szMsg, sizeof( szMsg ), "Couldn't find BuildHook operation - PostXOD_BuildHook in " );
-            strcat_s( szMsg, sizeof( szMsg ), pszExecutable );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Couldn't find BuildHook operation - PostXOD_BuildHook in " );
+            strcat_s( szMsg, zsizeof( szMsg ), pszExecutable );
             SysMessageBox( vTZZOLODO, "Build XOD Error", szMsg, 1 );
          }
          else
@@ -481,7 +481,7 @@ oTZZOXODO_SaveXOD( zVIEW vSubtask, zVIEW vTZZOLODO )
    // then we are doing a migrate and we don't want to drop the view object because we get errors.
    if ( GetViewByName( &vT, "TargetLPLR", vSubtask, zLEVEL_TASK ) < 0 && GetViewByName( &vT, "SourceLPLR", vSubtask, zLEVEL_TASK ) <= 0 )
    {
-      GetStringFromAttribute( szAppName, sizeof( szAppName ), vTaskLPLR, "LPLR", "Name" );
+      GetStringFromAttribute( szAppName, zsizeof( szAppName ), vTaskLPLR, "LPLR", "Name" );
       SfCreateSubtask( &vSubtask, vSubtask, szAppName );
       DropViewObject( vSubtask, szLOD_Name, FALSE );
       SfDropSubtask( vSubtask, 0 );
@@ -537,7 +537,7 @@ fnResetSequenceAttributes( zVIEW vXOD )
       if ( zstrcmp( szEntityName, "ENTITY" ) != 0 )
          continue;
 
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vXOD, "ENTITY", "NAME" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vXOD, "ENTITY", "NAME" );
 
       // Do a reset view from parent so we can access the CARDMAX attribute.
       ResetViewFromSubobject( vXOD );
@@ -757,7 +757,7 @@ ofnTZZOXODO_BldXOD( zVIEW vSubtask, zVIEW vTZZOXODO_Root,
       }
    }
 
-   SysReadZeidonIni( -1, "[Debug]", "DEBUGCHG", szDEBUGCHG, sizeof( szDEBUGCHG ) );  // currently Java Debug only
+   SysReadZeidonIni( -1, "[Debug]", "DEBUGCHG", szDEBUGCHG, zsizeof( szDEBUGCHG ) ); // currently Java Debug only
 
    CreateViewFromViewForTask( &vTZZOLOD1, vTZZOLODO, 0 );
 
@@ -778,10 +778,10 @@ ofnTZZOXODO_BldXOD( zVIEW vSubtask, zVIEW vTZZOXODO_Root,
          zCHAR    szMsg[ 500 ];
          zPCHAR   pchMsgName;
 
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Entity in TE Data Source.\n\nEntity Name = " );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Entity in TE Data Source.\n\nEntity Name = " );
          GetAddrForAttribute( &pchMsgName, vTZZOLOD1, "ER_EntityRec", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-         strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
+         strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
          MessageSend( vSubtask, "ZO00305", "Operations", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          return( 0 );
       }
@@ -829,13 +829,13 @@ ofnTZZOXODO_BldXOD( zVIEW vSubtask, zVIEW vTZZOXODO_Root,
                zCHAR    szMsg[500];
                zPCHAR   pchMsgName;
 
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Attribute in TE.\n\nAttr Name = " );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Attribute in TE.\n\nAttr Name = " );
                GetAddrForAttribute( &pchMsgName, vTZZOLOD1, "ER_AttributeRec", "Name" );
-               strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-               strcat_s( szMsg, sizeof( szMsg ), "\nfor entity: " );
+               strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), "\nfor entity: " );
                GetAddrForAttribute( &pchMsgName, vTZZOLOD1, "ER_EntityRec", "Name" );
-               strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-               strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
                MessageSend( vSubtask, "ZO00306", "Operations",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
                break;
@@ -902,13 +902,13 @@ ofnTZZOXODO_BldXOD( zVIEW vSubtask, zVIEW vTZZOXODO_Root,
                zCHAR    szMsg[ 500 ];
                zPCHAR   pchMsgName;
 
-               strcpy_s( szMsg, sizeof(szMsg), "Unable to Find Attribute in TE.\n\nAttr Name = " );
+               strcpy_s( szMsg, zsizeof(szMsg), "Unable to Find Attribute in TE.\n\nAttr Name = " );
                GetAddrForAttribute( &pchMsgName, vTZTENVRO_REF, "ER_Attribute", "Name" );
-               strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-               strcat_s( szMsg, sizeof( szMsg ), "\nfor entity: " );
+               strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), "\nfor entity: " );
                GetAddrForAttribute( &pchMsgName, vTZZOLOD1, "ER_EntityRec", "Name" );
-               strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-               strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
                MessageSend( vSubtask, "ZO00307", "Operations",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
                break;
@@ -1111,10 +1111,10 @@ ofnTZZOXODO_BldXODChildEnt( zVIEW  vSubtask, zVIEW  vTZZOXODO_Root,
             zCHAR    szMsg[500];
             zPCHAR   pchMsgName;
 
-            strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Entity in TE Data Source with same DBMS.\n\nEntity Name = " );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Entity in TE Data Source with same DBMS.\n\nEntity Name = " );
             GetAddrForAttribute( &pchMsgName, vTZZOLOD1, "ER_EntityRec", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-            strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
+            strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+            strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
             MessageSend( vSubtask, "ZO00308", "Operations",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             DropView( vTZTENVRO_Parent );
@@ -1158,13 +1158,13 @@ ofnTZZOXODO_BldXODChildEnt( zVIEW  vSubtask, zVIEW  vTZZOXODO_Root,
                   zCHAR    szMsg[500];
                   zPCHAR   pchMsgName;
 
-                  strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Attribute in TE.\n\nAttr Name = " );
+                  strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Attribute in TE.\n\nAttr Name = " );
                   GetAddrForAttribute( &pchMsgName, vTZZOLOD1, "ER_AttributeRec", "Name" );
-                  strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-                  strcat_s( szMsg, sizeof( szMsg ), "\nfor entity: " );
+                  strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+                  strcat_s( szMsg, zsizeof( szMsg ), "\nfor entity: " );
                   GetAddrForAttribute( &pchMsgName, vTZZOLOD1, "ER_EntityRec", "Name" );
-                  strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-                  strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
+                  strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+                  strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
                   MessageSend( vSubtask, "ZO00309", "Operations",
                                szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
                }
@@ -1226,13 +1226,13 @@ ofnTZZOXODO_BldXODChildEnt( zVIEW  vSubtask, zVIEW  vTZZOXODO_Root,
                   zCHAR    szMsg[ 500 ];
                   zPCHAR   pchMsgName;
 
-                  strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Attribute in TE.\n\nAttr Name = " );
+                  strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Attribute in TE.\n\nAttr Name = " );
                   GetAddrForAttribute( &pchMsgName, vTZEREMDO_REF, "ER_Attribute", "Name" );
-                  strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-                  strcat_s( szMsg, sizeof( szMsg ), "\nfor entity: " );
+                  strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+                  strcat_s( szMsg, zsizeof( szMsg ), "\nfor entity: " );
                   GetAddrForAttribute( &pchMsgName, vTZZOLOD1, "ER_EntityRec", "Name" );
-                  strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-                  strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
+                  strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+                  strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
 
                   MessageSend( vSubtask, "ZO00310", "Operations",
                                szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1494,7 +1494,7 @@ ofnTZZOXODO_BldXODEntity( zVIEW vSubtask, zVIEW vTZZOXODO, zVIEW vTZZOLOD1 )
    zLONG  lIndentLvl;
    zSHORT nRC;
 
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLOD1, "LOD_EntityParent", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLOD1, "LOD_EntityParent", "Name" );
    SetAttributeFromAttribute( vTZZOXODO, "ENTITY", "NAME", vTZZOLOD1, "LOD_EntityParent", "Name" );
    SetAttributeFromAttribute( vTZZOXODO, "ENTITY", "LOCK", vTZZOLOD1, "LOD_EntityParent", "DataLocking" );
    SetAttributeFromAttribute( vTZZOXODO, "ENTITY", "ACT_LIMIT", vTZZOLOD1, "LOD_EntityParent", "MultipleChildLimit" );
@@ -1558,7 +1558,7 @@ ofnTZZOXODO_BldXODEntity( zVIEW vSubtask, zVIEW vTZZOXODO, zVIEW vTZZOLOD1 )
    if ( (CompareAttributeToString( vTZZOLOD1, "LOD_EntityParent", "SeqType", "R" ) == 0) ||
         (CompareAttributeToString( vTZZOLOD1, "LOD_EntityParent", "SeqType", "A" ) == 0) )
    {
-      GetStringFromAttribute( szInd, sizeof( szInd ), vTZZOLOD1, "LOD_EntityParent", "SeqType" );
+      GetStringFromAttribute( szInd, zsizeof( szInd ), vTZZOLOD1, "LOD_EntityParent", "SeqType" );
       SetAttributeFromString( vTZZOXODO, "ENTITY", "SEQTYPE", szInd );
    }
 
@@ -1581,7 +1581,7 @@ ofnTZZOXODO_BldXODEntity( zVIEW vSubtask, zVIEW vTZZOXODO, zVIEW vTZZOLOD1 )
         (CompareAttributeToString( vTZZOLOD1, "LOD_EntityParent", "ParentDeleteBehave", "E" ) == 0) ||
         (CompareAttributeToString( vTZZOLOD1, "LOD_EntityParent", "ParentDeleteBehave", "R" ) == 0) )
    {
-      GetStringFromAttribute( szInd, sizeof( szInd ), vTZZOLOD1, "LOD_EntityParent", "ParentDeleteBehave" );
+      GetStringFromAttribute( szInd, zsizeof( szInd ), vTZZOLOD1, "LOD_EntityParent", "ParentDeleteBehave" );
       SetAttributeFromString( vTZZOXODO, "ENTITY", "PDELETE", szInd );
    }
 
@@ -1610,7 +1610,7 @@ ofnTZZOXODO_BldXODEntity( zVIEW vSubtask, zVIEW vTZZOXODO, zVIEW vTZZOLOD1 )
 
       // KJS 10/15/14 - Add Name and Extension for Entity Constraint.
       SetAttributeFromAttribute( vTZZOXODO, "ENTITY", "ECESRCTYPE", vTZZOLOD1, "SourceFileForECOperRec", "Extension" );
-      GetStringFromAttribute( szType, sizeof( szType ), vTZZOLOD1, "SourceFileForECOperRec", "Extension" );
+      GetStringFromAttribute( szType, zsizeof( szType ), vTZZOLOD1, "SourceFileForECOperRec", "Extension" );
 
       GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
@@ -1619,7 +1619,7 @@ ofnTZZOXODO_BldXODEntity( zVIEW vSubtask, zVIEW vTZZOXODO, zVIEW vTZZOLOD1 )
       {
          zPCHAR pchSlash;
 
-         GetStringFromAttribute( szTempName, sizeof( szTempName ), vTaskLPLR, "LPLR", "JavaPackageName" );
+         GetStringFromAttribute( szTempName, zsizeof( szTempName ), vTaskLPLR, "LPLR", "JavaPackageName" );
          while ( (pchSlash = zstrchr( szTempName, '\\' )) != 0 )
             *pchSlash = '.';
 
@@ -1629,11 +1629,11 @@ ofnTZZOXODO_BldXODEntity( zVIEW vSubtask, zVIEW vTZZOXODO, zVIEW vTZZOLOD1 )
       if ( lLth > 0 )
          szTempName[ lLth++ ] = '.';
 
-      GetStringFromAttribute( szTempName + lLth, sizeof( szTempName ) - lLth, vTZZOLOD1, "SourceFileForECOperRec", "Name" );
+      GetStringFromAttribute( szTempName + lLth, zsizeof( szTempName ) - lLth, vTZZOLOD1, "SourceFileForECOperRec", "Name" );
 
       // We only want the _Object extension, if this is VML that we are converting into java.
       if ( szType[ 0 ] == 'V' )
-         strcat_s( szTempName, sizeof( szTempName ), "_Object" );
+         strcat_s( szTempName, zsizeof( szTempName ), "_Object" );
 
       SetAttributeFromString( vTZZOXODO, "ENTITY", "ECESRCFILE", szTempName );
    //                         vTZZOLOD1, "SourceFileForECOperRec", "Name" );
@@ -1702,13 +1702,13 @@ ofnTZZOXODO_BldXODAttrib( zVIEW vSubtask, zVIEW vTZZOXODO,
    zPCHAR pchType;
    zSHORT nRC;
 
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOXODO, "ENTITY", "NAME" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOXODO, "ENTITY", "NAME" );
 
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "NAME", vTZZOLOD1, "ER_AttributeRec", "Name" );
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "XML_SIMPLE_NAME", vTZZOLOD1, "ER_AttributeRec", "XML_SimpleName" );
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "XML_NAME_EXTERNAL", vTZZOLOD1, "ER_AttributeRec", "XML_NameExternal" );
 
-   GetStringFromAttribute( szAttribName, sizeof( szAttribName ), vTZZOXODO, "ATTRIB", "NAME" );
+   GetStringFromAttribute( szAttribName, zsizeof( szAttribName ), vTZZOXODO, "ATTRIB", "NAME" );
    if ( cpcDEBUGCHG && cpcDEBUGCHG[ 0 ] && zstrcmp( szAttribName, cpcDEBUGCHG ) == 0 )
       SetAttributeFromString( vTZZOXODO, "ATTRIB", "DEBUGCHG", "Y" );
 
@@ -1747,7 +1747,7 @@ ofnTZZOXODO_BldXODAttrib( zVIEW vSubtask, zVIEW vTZZOXODO,
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "APDM_TOK", vTZZOLOD1, "DomainRec", "ZKey" );
 
    // If Domain.DataType is "Date" or "Time", set ATTRIB.TYPE to "T".
-   GetStringFromAttribute( szDataType, sizeof( szDataType ), vTZZOLOD1, "DomainRec", "DataType" );
+   GetStringFromAttribute( szDataType, zsizeof( szDataType ), vTZZOLOD1, "DomainRec", "DataType" );
    if ( *szDataType == 'D' || *szDataType == 'I' )
       SetAttributeFromString( vTZZOXODO, "ATTRIB", "TYPE", "T" );
    else
@@ -1833,14 +1833,14 @@ ofnTZZOXODO_BldXODAttrib( zVIEW vSubtask, zVIEW vTZZOXODO,
       //          and aDERIVEDC  com.quinsoft.zencas.wWebXfer_Object
       GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
-      GetStringFromAttribute( szType, sizeof( szType ), vTZZOLOD1, "SourceFileForDARec", "Extension" );
+      GetStringFromAttribute( szType, zsizeof( szType ), vTZZOLOD1, "SourceFileForDARec", "Extension" );
 
       // If the source file is VML or Java, then we want to get the JavaPackageName.
       if ( vTaskLPLR && ( szType[ 0 ] == 'V' || szType[ 0 ] == 'J' ) )
       {
          zPCHAR pchSlash;
 
-         GetStringFromAttribute( szTempName, sizeof( szTempName ), vTaskLPLR, "LPLR", "JavaPackageName" );
+         GetStringFromAttribute( szTempName, zsizeof( szTempName ), vTaskLPLR, "LPLR", "JavaPackageName" );
          while ( (pchSlash = zstrchr( szTempName, '\\' )) != 0 )
             *pchSlash = '.';
 
@@ -1849,11 +1849,11 @@ ofnTZZOXODO_BldXODAttrib( zVIEW vSubtask, zVIEW vTZZOXODO,
       if ( lLth > 0 )
             szTempName[ lLth++ ] = '.';
 
-         GetStringFromAttribute( szTempName + lLth, sizeof( szTempName ) - lLth, vTZZOLOD1, "SourceFileForDARec", "Name" );
+         GetStringFromAttribute( szTempName + lLth, zsizeof( szTempName ) - lLth, vTZZOLOD1, "SourceFileForDARec", "Name" );
 
       // We only want the _Object extension, if this is VML that we are converting into java.
       if ( szType[ 0 ] == 'V' )
-         strcat_s( szTempName, sizeof( szTempName ), "_Object" );
+         strcat_s( szTempName, zsizeof( szTempName ), "_Object" );
 
       SetAttributeFromString( vTZZOXODO, "ATTRIB", "DERIVEDC", szTempName );
    }
@@ -1910,11 +1910,11 @@ ofnTZZOXODO_BldXODAttribHidden( zVIEW vSubtask, zVIEW vTZZOXODO,
    zCHAR  szDataType[ 2 ];
    zPCHAR pchType;
 
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOXODO, "ENTITY", "NAME" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOXODO, "ENTITY", "NAME" );
 
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "NAME", vTZEREMDO_REF, "ER_Attribute", "Name" );
 
-   GetStringFromAttribute( szAttribName, sizeof( szAttribName ), vTZZOXODO, "ATTRIB", "NAME" );
+   GetStringFromAttribute( szAttribName, zsizeof( szAttribName ), vTZZOXODO, "ATTRIB", "NAME" );
 
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "ERATT_TOK", vTZEREMDO_REF, "ER_Attribute", "ZKey" );
    if ( CompareAttributeToString( vTZEREMDO_REF, "ER_Attribute", "ParticipatesInKey", "Y" ) == 0 )
@@ -1936,7 +1936,7 @@ ofnTZZOXODO_BldXODAttribHidden( zVIEW vSubtask, zVIEW vTZZOXODO,
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "APDM_TOK", vTZEREMDO_REF, "Domain", "ZKey" );
 
    // If Domain.DataType is "Date" or "Time", set ATTRIB.TYPE to "T".
-   GetStringFromAttribute( szDataType, sizeof( szDataType ), vTZEREMDO_REF, "Domain", "DataType" );
+   GetStringFromAttribute( szDataType, zsizeof( szDataType ), vTZEREMDO_REF, "Domain", "DataType" );
    if ( *(zPCHAR)szDataType == 'D' || *(zPCHAR)szDataType == 'I' )
       SetAttributeFromString( vTZZOXODO, "ATTRIB", "TYPE", "T" );
    else
@@ -2024,26 +2024,26 @@ ofnTZZOXODO_BldXODDataRec( zVIEW vSubtask, zVIEW vTZZOXODO,
 
    // RECNAME is the name of the record or SQL table.  If SQL_TableOwner is specified, then prefix RECNAME with the owner name followed by a '.'.
    // First we have to check if the Entityname includes the tableowner.
-   GetStringFromAttribute( szRecName, sizeof( szRecName ), vTZTENVRO_REF, "TE_TablRec", "Name" );
+   GetStringFromAttribute( szRecName, zsizeof( szRecName ), vTZTENVRO_REF, "TE_TablRec", "Name" );
 
    // If we find a '.' the entityname includes the ownername and we may not check the SQL_TableOwner and the Defaultownwer
    pchDot = strchr( szRecName, '.' );
    if ( pchDot == 0 )
    {
-      GetStringFromAttribute( szRecName, sizeof( szRecName ), vTZTENVRO_REF, "TE_TablRec", "SQL_TableOwner" );
+      GetStringFromAttribute( szRecName, zsizeof( szRecName ), vTZTENVRO_REF, "TE_TablRec", "SQL_TableOwner" );
       if ( szRecName[ 0 ] == 0 )
       {
-         GetStringFromAttribute( szRecName, sizeof( szRecName ), vTZTENVRO_REF, "TE_DBMS_Source", "DefaultOwner" );
+         GetStringFromAttribute( szRecName, zsizeof( szRecName ), vTZTENVRO_REF, "TE_DBMS_Source", "DefaultOwner" );
       }
 
       if ( szRecName[ 0 ] )
       {
-         strcat_s( szRecName, sizeof( szRecName ), "." );
-         GetStringFromAttribute( szRecName + zstrlen( szRecName ), sizeof( szRecName ) - zstrlen( szRecName ),
+         strcat_s( szRecName, zsizeof( szRecName ), "." );
+         GetStringFromAttribute( szRecName + zstrlen( szRecName ), zsizeof( szRecName ) - zstrlen( szRecName ),
                                  vTZTENVRO_REF, "TE_TablRec", "Name" );
       }
       else
-         GetStringFromAttribute( szRecName, sizeof( szRecName ), vTZTENVRO_REF, "TE_TablRec", "Name" );
+         GetStringFromAttribute( szRecName, zsizeof( szRecName ), vTZTENVRO_REF, "TE_TablRec", "Name" );
    }
 
    SetAttributeFromString( vTZZOXODO, "DATARECORD", "RECNAME", szRecName );
@@ -2192,8 +2192,8 @@ ofnTZZOXODO_BldAttribFK( zVIEW vTZZOXODO,
    zCHAR  szDataType[ 2 ];
    zSHORT nRC;
 
-   GetStringFromAttribute( szEntName, sizeof( szEntName ), vTZTENVRO_REF, "TE_TablRec", "Name" );
-   GetStringFromAttribute( szAttName, sizeof( szAttName ), vTZTENVRO_REF, "TE_FieldDataRel", "Name" );
+   GetStringFromAttribute( szEntName, zsizeof( szEntName ), vTZTENVRO_REF, "TE_TablRec", "Name" );
+   GetStringFromAttribute( szAttName, zsizeof( szAttName ), vTZTENVRO_REF, "TE_FieldDataRel", "Name" );
 
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "NAME", vTZTENVRO_REF, "TE_FieldDataRel", "Name" );
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "ERATT_TOK", vTZTENVRO_REF, "TE_FieldDataRel", "ZKey" );
@@ -2218,7 +2218,7 @@ ofnTZZOXODO_BldAttribFK( zVIEW vTZZOXODO,
    if ( CheckExistenceOfEntity( vTZTENVR1, "ER_Attribute" ) >= zCURSOR_SET )
    {
       // If Domain.DataType is "Date" or "Time", set ATTRIB.TYPE to "T".
-      GetStringFromAttribute( szDataType, sizeof( szDataType ),vTZTENVR1, "Domain", "DataType" );
+      GetStringFromAttribute( szDataType, zsizeof( szDataType ),vTZTENVR1, "Domain", "DataType" );
       if ( szDataType[ 0 ] == 'D' || szDataType[ 0 ] == 'I' )
          SetAttributeFromString( vTZZOXODO, "ATTRIB", "TYPE", "T" );
       else
@@ -2337,8 +2337,8 @@ ofnTZZOXODO_BldAttribGK( zVIEW vTZZOXODO, zVIEW vTZTENVRO_REF )
    zCHAR  szEntName[ 33 ];
    zCHAR  szAttName[ 33 ];
 
-   GetStringFromAttribute( szEntName, sizeof( szEntName ), vTZTENVRO_REF, "TE_TablRec", "Name" );
-   GetStringFromAttribute( szAttName, sizeof( szAttName ), vTZTENVRO_REF, "TE_FieldDataRel", "Name" );
+   GetStringFromAttribute( szEntName, zsizeof( szEntName ), vTZTENVRO_REF, "TE_TablRec", "Name" );
+   GetStringFromAttribute( szAttName, zsizeof( szAttName ), vTZTENVRO_REF, "TE_FieldDataRel", "Name" );
 
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "NAME", vTZTENVRO_REF, "TE_FieldDataRel", "Name" );
    SetAttributeFromAttribute( vTZZOXODO, "ATTRIB", "ERATT_TOK", vTZTENVRO_REF, "TE_FieldDataRel", "ZKey" );
@@ -2541,18 +2541,18 @@ ofnTZZOXODO_BldXODRelRec( zVIEW vSubtask, zVIEW  vTZZOXODO,
          SetAttributeFromString( vTZZOXODO, "RELRECORD", "OWNER_MEMB", "2" );
 
          // RECNAME is the name of the record or SQL table.  If SQL_TableOwner is specified, then prefix RECNAME with the owner name followed by a '.'.
-         GetStringFromAttribute( szRecName, sizeof( szRecName ), vTZTENVR1, "TE_TablRec", "SQL_TableOwner" );
+         GetStringFromAttribute( szRecName, zsizeof( szRecName ), vTZTENVR1, "TE_TablRec", "SQL_TableOwner" );
          if ( *szRecName == 0 )
          {
-            GetStringFromAttribute( szRecName, sizeof( szRecName ), vTZTENVR1, "TE_DBMS_Source", "DefaultOwner" );
+            GetStringFromAttribute( szRecName, zsizeof( szRecName ), vTZTENVR1, "TE_DBMS_Source", "DefaultOwner" );
          }
          if ( *szRecName != 0 )
          {
-            strcat_s( szRecName, sizeof( szRecName ), "." );
-            GetStringFromAttribute( szRecName + zstrlen( szRecName ), sizeof( szRecName ) - zstrlen( szRecName ), vTZTENVR1, "TE_TablRec", "Name" );
+            strcat_s( szRecName, zsizeof( szRecName ), "." );
+            GetStringFromAttribute( szRecName + zstrlen( szRecName ), zsizeof( szRecName ) - zstrlen( szRecName ), vTZTENVR1, "TE_TablRec", "Name" );
          }
          else
-            GetStringFromAttribute( szRecName, sizeof( szRecName ), vTZTENVR1, "TE_TablRec", "Name" );
+            GetStringFromAttribute( szRecName, zsizeof( szRecName ), vTZTENVR1, "TE_TablRec", "Name" );
 
          SetAttributeFromString( vTZZOXODO, "RELRECORD", "RECNAME", szRecName );
 
@@ -2606,7 +2606,7 @@ ofnTZZOXODO_BldXODRelRec( zVIEW vSubtask, zVIEW  vTZZOXODO,
       }
       else
       {
-         GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vTZTENVR1, "TE_DBMS_Source", "SironDB_Type");
+         GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vTZTENVR1, "TE_DBMS_Source", "SironDB_Type");
          if ( szSironDB_Type[ 0 ] != 'F' )
          {
             // For databases we have an error, when we get here.
@@ -2617,7 +2617,7 @@ ofnTZZOXODO_BldXODRelRec( zVIEW vSubtask, zVIEW  vTZZOXODO,
             // If the target entity for the relationship is a SironGroup, without a Katalog (meaning it is a subordinate Siron Group),
             // then it is valid to get here.
             // We know that it is a subordinate Siron Group if there is a relationship in the ERD and the entity has no key.
-            GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLOD1, "ER_EntityRec", "Name" );
+            GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLOD1, "ER_EntityRec", "Name" );
 
             //  Get access to ER Object
             nRC = GetViewByName( &vERD, "TZEREMDO_REF", vSubtask, zLEVEL_TASK );
@@ -2667,29 +2667,29 @@ ofnTZZOXODO_BldXODRelRec( zVIEW vSubtask, zVIEW  vTZZOXODO,
             SetNameForView( vTZZOLOD1, "vTZZOLOD1", vSubtask, zLEVEL_TASK );
 
             //------------------------------------------------------------------------
-            strcpy_s( szRelName, sizeof( szRelName ), "Relationship: '" );
-            GetStringFromAttribute( szSrcEntity, sizeof( szSrcEntity ), vTZZOXOD1, "ENTITY", "NAME" );
+            strcpy_s( szRelName, zsizeof( szRelName ), "Relationship: '" );
+            GetStringFromAttribute( szSrcEntity, zsizeof( szSrcEntity ), vTZZOXOD1, "ENTITY", "NAME" );
 
-            strcat_s( szRelName, sizeof( szRelName ), szSrcEntity );
-            strcat_s( szRelName, sizeof( szRelName ), " (" );
+            strcat_s( szRelName, zsizeof( szRelName ), szSrcEntity );
+            strcat_s( szRelName, zsizeof( szRelName ), " (" );
 
-            GetStringFromAttribute( szSrcRelLink, sizeof( szSrcRelLink ), vTZZOLOD1, "ER_RelLinkRec", "Name" );
+            GetStringFromAttribute( szSrcRelLink, zsizeof( szSrcRelLink ), vTZZOLOD1, "ER_RelLinkRec", "Name" );
 
-            strcat_s( szRelName, sizeof( szRelName ), szSrcRelLink );
-            strcat_s( szRelName, sizeof( szRelName ), ") " );
-            GetStringFromAttribute( szTgtEntity, sizeof( szTgtEntity ), vTZZOLOD1, "LOD_EntityParent", "Name" );
-            strcat_s( szRelName, sizeof( szRelName ), szTgtEntity );
-            strcat_s( szRelName, sizeof( szRelName ), "'" );
+            strcat_s( szRelName, zsizeof( szRelName ), szSrcRelLink );
+            strcat_s( szRelName, zsizeof( szRelName ), ") " );
+            GetStringFromAttribute( szTgtEntity, zsizeof( szTgtEntity ), vTZZOLOD1, "LOD_EntityParent", "Name" );
+            strcat_s( szRelName, zsizeof( szRelName ), szTgtEntity );
+            strcat_s( szRelName, zsizeof( szRelName ), "'" );
             //------------------------------------------------------------------------
 
-            strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Relationship in TE.\n\n" );
-            strcat_s( szMsg, sizeof( szMsg ), szRelName );
-            strcat_s( szMsg, sizeof( szMsg ), "\n\nA relationship may have been deleted and recreated with " );
-            strcat_s( szMsg, sizeof( szMsg ), "a new name or your ER may be out of sync with your TE. " );
-            strcat_s( szMsg, sizeof( szMsg ), "\nIf you recreated a relationship with a new name, you must delete" );
-            strcat_s( szMsg, sizeof( szMsg ), " and recreate the subobject in the LOD." );
-            strcat_s( szMsg, sizeof( szMsg ), "\nIf your ER is out of sync with the TE, you must delete and recreate your " );
-            strcat_s( szMsg, sizeof( szMsg ), "tables and relationships in the TE." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Relationship in TE.\n\n" );
+            strcat_s( szMsg, zsizeof( szMsg ), szRelName );
+            strcat_s( szMsg, zsizeof( szMsg ), "\n\nA relationship may have been deleted and recreated with " );
+            strcat_s( szMsg, zsizeof( szMsg ), "a new name or your ER may be out of sync with your TE. " );
+            strcat_s( szMsg, zsizeof( szMsg ), "\nIf you recreated a relationship with a new name, you must delete" );
+            strcat_s( szMsg, zsizeof( szMsg ), " and recreate the subobject in the LOD." );
+            strcat_s( szMsg, zsizeof( szMsg ), "\nIf your ER is out of sync with the TE, you must delete and recreate your " );
+            strcat_s( szMsg, zsizeof( szMsg ), "tables and relationships in the TE." );
             MessageSend( vSubtask, "ZO00305", "Operations", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          }
       }
@@ -2762,10 +2762,10 @@ ofnTZZOXODO_BldRelFieldFK( zVIEW vTZZOXODO, zVIEW vTZTENVRO_REF,
                zCHAR    szMsg[ 500 ];
                zPCHAR   pchMsgName;
 
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Entity for Bld FK in TE.\n\nEntity Name = " );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Entity for Bld FK in TE.\n\nEntity Name = " );
                GetAddrForAttribute( &pchMsgName, vTZZOXOD1, "ENTITY", "NAME" );
-               strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-               strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities and relationships with ER Model" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities and relationships with ER Model" );
 
                MessageSend( vTZZOXOD1, "ZO00312", "Operations",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2827,10 +2827,10 @@ ofnTZZOXODO_BldRelFieldFK( zVIEW vTZZOXODO, zVIEW vTZTENVRO_REF,
                zCHAR    szMsg[500];
                zPCHAR   pchMsgName;
 
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Parent Entity for Bld FK in TE.\n\nEntity Name = " );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Parent Entity for Bld FK in TE.\n\nEntity Name = " );
                GetAddrForAttribute( &pchMsgName, vTZZOXOD1, "ENTITY", "NAME" );
-               strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-               strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities and relationships with ER Model" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities and relationships with ER Model" );
                MessageSend( vTZZOXOD1, "ZO00313", "Operations",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
                return( 0 );
@@ -3017,10 +3017,10 @@ ofnTZZOXODO_PosOnBaseField( zVIEW vTZZOXODO,
          zCHAR    szMsg[500];
          zPCHAR   pchMsgName;
 
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Entity for Base Field in TE.\n\nEntity Name = " );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Entity for Base Field in TE.\n\nEntity Name = " );
          GetAddrForAttribute( &pchMsgName, vTZZOXODO, "ENTITY", "NAME" );
-         strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-         strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
+         strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
          MessageSend( vTZZOXODO, "ZO00314", "Operations",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          return( 0 );
@@ -3038,10 +3038,10 @@ ofnTZZOXODO_PosOnBaseField( zVIEW vTZZOXODO,
       zCHAR    szMsg[500];
       zPCHAR   pchMsgName;
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Base Field in TE.\n\nEntity Name = " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Base Field in TE.\n\nEntity Name = " );
       GetAddrForAttribute( &pchMsgName, vTZZOXODO, "ENTITY", "NAME" );
-      strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-      strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
+      strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
 
       MessageSend( vTZZOXODO, "ZO00315", "Operations",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3176,13 +3176,13 @@ ofnTZZOXODO_ProcDupEntity( zVIEW vSubtask, zVIEW vTZZOXODO,
                zCHAR    szMsg[500];
                zPCHAR   pchMsgName;
 
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Attribute in TE.\n\nAttr Name = " );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Attribute in TE.\n\nAttr Name = " );
                GetAddrForAttribute( &pchMsgName, vLOD2, "ER_Attribute", "Name" );
-               strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-               strcat_s( szMsg, sizeof( szMsg ), "\nfor entity: " );
+               strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), "\nfor entity: " );
                GetAddrForAttribute( &pchMsgName, vLOD2, "ER_Entity", "Name" );
-               strcat_s( szMsg, sizeof( szMsg ), pchMsgName );
-               strcat_s( szMsg, sizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), "\n\n Please re-synchronize the TE entities with ER Model" );
                MessageSend( vSubtask, "ZO00306", "Operations",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
                break;

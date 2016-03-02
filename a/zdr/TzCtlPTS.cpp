@@ -1879,7 +1879,7 @@ fnCompareCtrlPosition( CArray<TZPainterCtrl *, TZPainterCtrl *> *pca,
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Ctrl1: %s @Y:%ld Ctrl2: %s @Y:%ld RC = %ld",
+      sprintf_s( szMsg, zsizeof( szMsg ), "Ctrl1: %s @Y:%ld Ctrl2: %s @Y:%ld RC = %ld",
                 pCtrl1->m_csTag, lTop1, pCtrl2->m_csTag, lTop2, nRC );
       TraceLineS( szMsg, "" );
    }
@@ -1930,7 +1930,7 @@ TZPainterClient::AdjustGroupSets( )
    zCHAR szMsg[ 64 ];
 
    //               0123456789012345678
-   strcpy_s( szMsg, sizeof( szMsg ), "Prior to Adjust - x " );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Prior to Adjust - x " );
    for ( nPos = 0; nPos < m_pPainterWindow->m_nCtrlCnt; nPos++ )
    {
       pCtrl = m_pPainterWindow->m_CtrlList[ nPos ];
@@ -1943,7 +1943,7 @@ TZPainterClient::AdjustGroupSets( )
       else
          szMsg[ 18 ] = 'x';
 
-      strcpy_s( szMsg + 20, sizeof( szMsg ) - 20, pCtrl->m_csTag );
+      strcpy_s( szMsg + 20, zsizeof( szMsg ) - 20, pCtrl->m_csTag );
       TraceRect( szMsg, pCtrl->m_rectCtrl );
    }
 #endif
@@ -1956,7 +1956,7 @@ TZPainterClient::AdjustGroupSets( )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
+         sprintf_s( szMsg, zsizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
                     pCtrl->m_rectCtrl.left, pCtrl->m_rectCtrl.top,
                     pCtrl->m_rectCtrl.right - pCtrl->m_rectCtrl.left,
                     pCtrl->m_rectCtrl.bottom - pCtrl->m_rectCtrl.top );
@@ -2026,7 +2026,7 @@ TZPainterClient::AdjustGroupSets( )
       zCHAR szMsg[ 256 ];
 
       pCtrl = m_pPainterWindow->m_CtrlList[ nPos ];
-      sprintf_s( szMsg, sizeof( szMsg ), " %s PX %ld PY %ld SX %ld SY %ld", pCtrl->m_csTag,
+      sprintf_s( szMsg, zsizeof( szMsg ), " %s PX %ld PY %ld SX %ld SY %ld", pCtrl->m_csTag,
                 pCtrl->m_rectCtrl.left, pCtrl->m_rectCtrl.top,
                 pCtrl->m_rectCtrl.right - pCtrl->m_rectCtrl.left,
                 pCtrl->m_rectCtrl.bottom - pCtrl->m_rectCtrl.top );
@@ -2344,7 +2344,7 @@ TZPainterClient::AdjustGroupSets( )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
+         sprintf_s( szMsg, zsizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
                    pCtrl->m_rectCtrl.left, pCtrl->m_rectCtrl.top,
                    pCtrl->m_rectCtrl.right - pCtrl->m_rectCtrl.left,
                    pCtrl->m_rectCtrl.bottom - pCtrl->m_rectCtrl.top );
@@ -2358,7 +2358,7 @@ TZPainterClient::AdjustGroupSets( )
    {
 #ifdef zDEBUG_ADJUST
       //               0123456789012345678
-      strcpy_s( szMsg, sizeof( szMsg ), "==>After Adjust - x" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "==>After Adjust - x" );
 
       // Move all covering windows.
       for ( nPos = 0; nPos < m_pPainterWindow->m_nCtrlCnt; nPos++ )
@@ -2563,7 +2563,7 @@ TZPainterClient::AdjustGroupSets( )
          zCHAR szMsg[ 256 ];
 
          pCtrl = m_pPainterWindow->m_CtrlList[ nPos ];
-         sprintf_s( szMsg, sizeof( szMsg ), " %s PX %ld PY %ld SX %ld SY %ld RX %ld RY %ld",
+         sprintf_s( szMsg, zsizeof( szMsg ), " %s PX %ld PY %ld SX %ld SY %ld RX %ld RY %ld",
                    pCtrl->m_csTag,
                    pCtrl->m_rectCtrl.left, pCtrl->m_rectCtrl.top,
                    pCtrl->m_rectCtrl.right - pCtrl->m_rectCtrl.left,
@@ -2811,7 +2811,7 @@ TZPainterClient::MoveOtherSelected( TZPainterCtrl *pCtrlSelect,
 
    if ( bCtrlKey && nIdNbr )
    {
-      sprintf_s( szLabel, sizeof( szLabel ), "&xxdo Clone %d item%s\tCtrl+x",
+      sprintf_s( szLabel, zsizeof( szLabel ), "&xxdo Clone %d item%s\tCtrl+x",
                 m_pPainterWindow->m_nSelectCnt,
                 m_pPainterWindow->m_nSelectCnt == 1 ? "" : "s" );
    }

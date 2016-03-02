@@ -403,7 +403,7 @@ void TreeCtrlPrint::DrawTreeItem(const CTreeCtrl& treeCtrl, HTREEITEM hPrintItem
             0,
             pBMI->biWidth,
             pBMI->biHeight,
-            (LPBYTE)pBMI + (pBMI->biSize + (nColors * sizeof(RGBQUAD))),
+            (LPBYTE)pBMI + (pBMI->biSize + (nColors * zsizeof(RGBQUAD))),
             (BITMAPINFO*)pBMI,
             DIB_RGB_COLORS,
             SRCCOPY);
@@ -472,7 +472,7 @@ HANDLE TreeCtrlPrint::ImageToDIB(CImageList* pImageList, int iImageNumber, CWnd*
     // Create logical palette if device support a palette
     if(dc.GetDeviceCaps(RASTERCAPS) & RC_PALETTE)
    {
-      UINT        nSize   = sizeof(LOGPALETTE) + (sizeof(PALETTEENTRY) * 256);
+      UINT        nSize   = zsizeof(LOGPALETTE) + (zsizeof(PALETTEENTRY) * 256);
       LOGPALETTE* pLP     = (LOGPALETTE*)new BYTE[nSize];
       pLP->palVersion     = 0x300;
       pLP->palNumEntries = (unsigned short)GetSystemPaletteEntries(dc, 0, 255,
@@ -522,10 +522,10 @@ HANDLE TreeCtrlPrint::DDBToDIB(CBitmap& bitmap, DWORD dwCompression, CPalette* p
       hPal = (HPALETTE) GetStockObject(DEFAULT_PALETTE);
 
    // Get bitmap information
-   bitmap.GetObject(sizeof(bm),(LPSTR)&bm);
+   bitmap.GetObject(zsizeof(bm),(LPSTR)&bm);
 
    // Initialize the bitmapinfoheader
-   bi.biSize      = sizeof(BITMAPINFOHEADER);
+   bi.biSize      = zsizeof(BITMAPINFOHEADER);
    bi.biWidth     = bm.bmWidth;
    bi.biHeight       = bm.bmHeight;
    bi.biPlanes       = 1;
@@ -543,7 +543,7 @@ HANDLE TreeCtrlPrint::DDBToDIB(CBitmap& bitmap, DWORD dwCompression, CPalette* p
    {
       nColors = (1 << bi.biBitCount);
    }
-   dwLen  = bi.biSize + nColors * sizeof(RGBQUAD);
+   dwLen  = bi.biSize + nColors * zsizeof(RGBQUAD);
 
    // We need a device context to get the DIB from
    hDC = ::GetDC(NULL);
@@ -605,7 +605,7 @@ HANDLE TreeCtrlPrint::DDBToDIB(CBitmap& bitmap, DWORD dwCompression, CPalette* p
       0L,            // Start scan line
       (DWORD)bi.biHeight,     // # of scan lines
       (LPBYTE)lpbi         // address for bitmap bits
-      + (bi.biSize + nColors * sizeof(RGBQUAD)),
+      + (bi.biSize + nColors * zsizeof(RGBQUAD)),
       (LPBITMAPINFO)lpbi,     // address of bitmapinfo
       (DWORD)DIB_RGB_COLORS);    // Use RGB for color table
 

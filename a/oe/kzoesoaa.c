@@ -989,8 +989,8 @@ fnValidateCardinality( zVIEW              lpView,
                            "instance has the error.  Entity name = ",
                            lpViewEntity->szName );
 
-               strcpy_s( szRel, sizeof( szRel ), "\nEntity: \t" );
-               strcat_s( szRel, sizeof( szRel ), lpScanViewEntity->szName );
+               strcpy_s( szRel, zsizeof( szRel ), "\nEntity: \t" );
+               strcat_s( szRel, zsizeof( szRel ), lpScanViewEntity->szName );
 
                // "KZOEE106 - Rules violation"
                IssueOE_Error( lpView, 8, 106,
@@ -1007,8 +1007,8 @@ fnValidateCardinality( zVIEW              lpView,
             lpScanViewEntity = zGETPTR( lpScanViewEntity->hNextHier );
          }
 
-         strcpy_s( szRel, sizeof( szRel ), "\nEntity: \t" );
-         strcat_s( szRel, sizeof( szRel ), lpViewEntity->szName );
+         strcpy_s( szRel, zsizeof( szRel ), "\nEntity: \t" );
+         strcat_s( szRel, zsizeof( szRel ), lpViewEntity->szName );
 
          CreateViewFromViewForTask( &vErrView, lpView, 0 );
          fnEstablishViewForInstance( vErrView, 0, lpEntityInstance );
@@ -1108,10 +1108,10 @@ fnCheckChildEntities( zVIEW            lpView,
                     lpWrkViewEntity2->uCardMin )
                {
                   // create a string which describes the relationship:
-                  strcpy_s( szRel, sizeof( szRel ), "\nRelationship: \t" );
-                  strcat_s( szRel, sizeof( szRel ), lpWrkViewEntity1->szName );
-                  strcat_s( szRel, sizeof( szRel ), " <--> " );
-                  strcat_s( szRel, sizeof( szRel ), lpWrkViewEntity2->szName );
+                  strcpy_s( szRel, zsizeof( szRel ), "\nRelationship: \t" );
+                  strcat_s( szRel, zsizeof( szRel ), lpWrkViewEntity1->szName );
+                  strcat_s( szRel, zsizeof( szRel ), " <--> " );
+                  strcat_s( szRel, zsizeof( szRel ), lpWrkViewEntity2->szName );
 
                   // "KZOEE106 - Rules violation"
 
@@ -1148,8 +1148,8 @@ fnCheckChildEntities( zVIEW            lpView,
             if ( nCardinalityViolation != -2 )
             {
 
-               strcpy_s( szRel, sizeof( szRel ), "\nEntity: \t" );
-               strcat_s( szRel, sizeof( szRel ), lpViewEntity->szName );
+               strcpy_s( szRel, zsizeof( szRel ), "\nEntity: \t" );
+               strcat_s( szRel, zsizeof( szRel ), lpViewEntity->szName );
 
                IssueOE_Error( lpView, 8, 106, 0,
                               zMSGQ_OBJECT_CONSTRAINT_ERROR,
@@ -1202,10 +1202,10 @@ fnCheckChildEntities( zVIEW            lpView,
               lpWrkViewEntity2->uCardMin )
          {
             // Create a string which describes the relationship.
-            strcpy_s( szRel, sizeof( szRel ), "\nRelationship: \t" );
-            strcat_s( szRel, sizeof( szRel ), lpWrkViewEntity1->szName);
-            strcat_s( szRel, sizeof( szRel ), " <--> " );
-            strcat_s( szRel, sizeof( szRel ), lpWrkViewEntity2->szName);
+            strcpy_s( szRel, zsizeof( szRel ), "\nRelationship: \t" );
+            strcat_s( szRel, zsizeof( szRel ), lpWrkViewEntity1->szName);
+            strcat_s( szRel, zsizeof( szRel ), " <--> " );
+            strcat_s( szRel, zsizeof( szRel ), lpWrkViewEntity2->szName);
 
             // "KZOEE106 - Rules violation"
             IssueOE_Error( lpView, 8, 106, 0,
@@ -2703,8 +2703,8 @@ IncludeSubobjectFromSubobject( zVIEW  lpTgtView,
    // Make sure entity can be included.
    if ( lpSrcViewEntity->bInclSrc == FALSE )
    {
-      strcpy_s( szEntityString, sizeof( szEntityString ), "\nEntity: \t" );
-      strcat_s( szEntityString, sizeof( szEntityString ), lpSrcViewEntity->szName );
+      strcpy_s( szEntityString, zsizeof( szEntityString ), "\nEntity: \t" );
+      strcat_s( szEntityString, zsizeof( szEntityString ), lpSrcViewEntity->szName );
 
       // "KZOEE106 - Rules violation"
       fnIssueCoreError( lpCurrentTask, lpSrcView, 8, 106, 0,
@@ -2717,8 +2717,8 @@ IncludeSubobjectFromSubobject( zVIEW  lpTgtView,
    // Make sure entity can be included.
    if ( lpTgtViewEntity->hParent && lpTgtViewEntity->bInclude == FALSE )
    {
-      strcpy_s( szEntityString, sizeof( szEntityString ), "\nEntity: \t" );
-      strcat_s( szEntityString, sizeof( szEntityString ), lpTgtViewEntity->szName );
+      strcpy_s( szEntityString, zsizeof( szEntityString ), "\nEntity: \t" );
+      strcat_s( szEntityString, zsizeof( szEntityString ), lpTgtViewEntity->szName );
 
       // "KZOEE106 - Rules violation"
       fnIssueCoreError( lpCurrentTask, lpSrcView, 8, 106, 0,
@@ -2741,11 +2741,11 @@ IncludeSubobjectFromSubobject( zVIEW  lpTgtView,
 
       TraceLineS( "ERROR: ", "The following LODs are out of sync and should be re-built" );
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Out-of-sync error. Target LOD = %s, date = %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "Out-of-sync error. Target LOD = %s, date = %s",
                  lpTgtViewOD->szName, lpTgtViewOD->szER_Date );
       TraceLineS( "ERROR: ", szMsg );
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Out-of-sync error. Source LOD = %s, date = %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "Out-of-sync error. Source LOD = %s, date = %s",
                  lpSrcViewOD->szName, lpSrcViewOD->szER_Date );
       TraceLineS( "ERROR: ", szMsg );
 
@@ -2771,11 +2771,11 @@ IncludeSubobjectFromSubobject( zVIEW  lpTgtView,
       TraceLineS( "Rules violation: physical mapping mismatch", "" );
 
       lpViewOD = zGETPTR( lpTgtView->hViewOD );
-      sprintf_s( szMsg, sizeof( szMsg ), "%s.%s", lpViewOD->szName, lpTgtViewEntity->szName );
+      sprintf_s( szMsg, zsizeof( szMsg ), "%s.%s", lpViewOD->szName, lpTgtViewEntity->szName );
       TraceLineS( "   Target entity = ", szMsg );
 
       lpViewOD = zGETPTR( lpSrcView->hViewOD );
-      sprintf_s( szMsg, sizeof( szMsg ), "%s.%s", lpViewOD->szName, lpSrcViewEntity->szName );
+      sprintf_s( szMsg, zsizeof( szMsg ), "%s.%s", lpViewOD->szName, lpSrcViewEntity->szName );
       TraceLineS( "   Source entity = ", szMsg );
 
       // "KZOEE106 - Rules violation"
@@ -2812,7 +2812,7 @@ IncludeSubobjectFromSubobject( zVIEW  lpTgtView,
       zCHAR szDebug[ 2 ];
 
       if ( k == 0 )
-         SysReadZeidonIni( -1, "[Debug]", "BombZDr", szDebug, sizeof( szDebug ) );
+         SysReadZeidonIni( -1, "[Debug]", "BombZDr", szDebug, zsizeof( szDebug ) );
 
       if ( k == 0 && szDebug[ 0 ] == 'Y' )
       {
@@ -2898,7 +2898,7 @@ IncludeSubobjectFromSubobject( zVIEW  lpTgtView,
             {
                lpViewOD = (LPVIEWOD) zGETPTR( lpSrcView->hViewOD );
 
-               sprintf_s( szMsg, sizeof( szMsg ), "%s.%s.%s Offset = %d",
+               sprintf_s( szMsg, zsizeof( szMsg ), "%s.%s.%s Offset = %d",
                           lpViewOD->szName,
                           lpSrcViewEntity->szName,
                           lpSrcAttrib->szName,
@@ -2909,15 +2909,15 @@ IncludeSubobjectFromSubobject( zVIEW  lpTgtView,
                TraceLineS( "(so) No matching Src Attrib", "" );
 
             lpViewOD = (LPVIEWOD) zGETPTR( lpTgtView->hViewOD );
-            sprintf_s( szMsg, sizeof( szMsg ), "%s.%s.%s Offset = %d",
+            sprintf_s( szMsg, zsizeof( szMsg ), "%s.%s.%s Offset = %d",
                        lpViewOD->szName,
                        lpTgtViewEntity->szName,
                        lpTgtAttrib->szName,
                        lpTgtAttrib->ulRecordOffset );
             TraceLineS( "(so) IncludeSubobject Tgt ", szMsg );
 
-            strcpy_s( szEntityString, sizeof( szEntityString ), "\nEntity: \t" );
-            strcat_s( szEntityString, sizeof( szEntityString ), lpTgtViewEntity->szName );
+            strcpy_s( szEntityString, zsizeof( szEntityString ), "\nEntity: \t" );
+            strcat_s( szEntityString, zsizeof( szEntityString ), lpTgtViewEntity->szName );
 
             // "KZOEE106 - Rules violation"
             fnIssueCoreError( lpCurrentTask, lpSrcView, 8, 106, 0,
@@ -3294,8 +3294,8 @@ fnMoveSubobjectUnderNewParent( LPENTITYINSTANCE lpWkEntityInstance,
    {
       zCHAR szEntityString[ 100 ];
 
-      strcpy_s( szEntityString, sizeof( szEntityString ), "\nEntity: \t" );
-      strcat_s( szEntityString, sizeof( szEntityString ), lpSrcViewEntity->szName );
+      strcpy_s( szEntityString, zsizeof( szEntityString ), "\nEntity: \t" );
+      strcat_s( szEntityString, zsizeof( szEntityString ), lpSrcViewEntity->szName );
 
       // "KZOEE106 - Rules violation"
       fnIssueCoreError( lpCurrentTask, lpSrcView, 8, 106, 0,
@@ -3310,8 +3310,8 @@ fnMoveSubobjectUnderNewParent( LPENTITYINSTANCE lpWkEntityInstance,
    {
       zCHAR szEntityString[ 100 ];
 
-      strcpy_s( szEntityString, sizeof( szEntityString ), "\nEntity: \t" );
-      strcat_s( szEntityString, sizeof( szEntityString ), lpTgtViewEntity->szName );
+      strcpy_s( szEntityString, zsizeof( szEntityString ), "\nEntity: \t" );
+      strcat_s( szEntityString, zsizeof( szEntityString ), lpTgtViewEntity->szName );
 
       // "KZOEE106 - Rules violation"
       fnIssueCoreError( lpCurrentTask, lpSrcView, 8, 106, 0,
@@ -4229,8 +4229,8 @@ RelinkAllSubobjectsForOI( zVIEW    lpTgtView,
    // Make sure entity can be included.
    if ( lpSrcViewEntity->bInclSrc == FALSE )
    {
-      strcpy_s( szEntityString, sizeof( szEntityString ), "\nEntity: \t" );
-      strcat_s( szEntityString, sizeof( szEntityString ), lpSrcViewEntity->szName );
+      strcpy_s( szEntityString, zsizeof( szEntityString ), "\nEntity: \t" );
+      strcat_s( szEntityString, zsizeof( szEntityString ), lpSrcViewEntity->szName );
 
       // "KZOEE106 - Rules violation"
       fnIssueCoreError( lpCurrentTask, lpSrcView, 8, 106, 0,
@@ -4271,11 +4271,11 @@ RelinkAllSubobjectsForOI( zVIEW    lpTgtView,
       TraceLineS( "ERROR: The following LODs are out of sync",
                   " and should be re-built" );
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Out-of-sync error. Target LOD = %s, date = %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "Out-of-sync error. Target LOD = %s, date = %s",
                 lpTgtViewOD->szName, lpTgtViewOD->szER_Date );
       TraceLineS( "ERROR: ", szMsg );
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Out-of-sync error. Source LOD = %s, date = %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "Out-of-sync error. Source LOD = %s, date = %s",
                 lpSrcViewOD->szName, lpSrcViewOD->szER_Date );
       TraceLineS( "ERROR: ", szMsg );
 
@@ -4417,8 +4417,8 @@ RelinkAllSubobjectsForOI( zVIEW    lpTgtView,
    if ( lpTgtViewEntity->hParent && lpTgtViewEntity->bInclude == FALSE &&
         bLeafNode == FALSE )
    {
-      strcpy_s( szEntityString, sizeof( szEntityString ), "\nEntity: \t" );
-      strcat_s( szEntityString, sizeof( szEntityString ), lpTgtViewEntity->szName );
+      strcpy_s( szEntityString, zsizeof( szEntityString ), "\nEntity: \t" );
+      strcat_s( szEntityString, zsizeof( szEntityString ), lpTgtViewEntity->szName );
 
       // "KZOEE106 - Rules violation"
       fnIssueCoreError( lpCurrentTask, lpSrcView, 8, 106, 0,
@@ -5548,7 +5548,7 @@ fnIncludeSubobjectFromSubobject( zVIEW          lpTgtView,
             // "KZOEE129 - "KZOEE129 - Trying to create a relationship (via "
             //             Include, possibly as part of a spawn) that already "
             //             exists.  See trace for more."
-            sprintf_s( szMsg, sizeof( szMsg ), "Source view entity = %s, Target view entity = %s",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Source view entity = %s, Target view entity = %s",
                       lpSrcViewEntity->szName, lpTgtViewEntity->szName );
             fnIssueCoreError( lpTask, lpSrcView, 8, 129, 0, szMsg, 0 );
             return( zCALL_ERROR );

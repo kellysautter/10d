@@ -258,7 +258,7 @@ yyEncore:
 #endif
    }
 #endif
-   if (yystate >= sizeof yypact/sizeof yypact[0])  /* simple state */
+   if (yystate >= zsizeof yypact/zsizeof yypact[0]) /* simple state */
       yyi = yystate - YYDELTA;   /* reduce in any case */
    else {
       if(*(yyp = &yyact[yypact[yystate]]) >= 0) {
@@ -298,7 +298,7 @@ yyEncore:
        * Fell through - take default action
        */
 
-      if (yystate >= sizeof yydef /sizeof yydef[0])
+      if (yystate >= zsizeof yydef /zsizeof yydef[0])
          goto yyError;
       if ((yyi = yydef[yystate]) < 0)   { /* default == reduce? */
 
@@ -400,7 +400,7 @@ yyError:
                , yytp--
 #endif
       ) {
-         if (*yyps >= sizeof yypact/sizeof yypact[0])
+         if (*yyps >= zsizeof yypact/zsizeof yypact[0])
             continue;
          yyp = &yyact[yypact[*yyps]];
          yyq = yyp;

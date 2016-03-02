@@ -147,7 +147,7 @@ BOOL InitApplication (HANDLE hInstance)
 {
    WNDCLASS  wc;
 
-   ZeroMemory( &wc, sizeof( WNDCLASS ) );
+   ZeroMemory( &wc, zsizeof( WNDCLASS ) );
 
    /*
     * Fill in window class structure with parameters that describe the
@@ -323,13 +323,13 @@ void RunAppl( HWND hWnd )
          case 'p':
             // Application name
             ++pc;
-            pc = extract_name( pc, cApplication, sizeof( cApplication ) );
+            pc = extract_name( pc, cApplication, zsizeof( cApplication ) );
             break;
 
          case 'l':
             // Log file
             ++pc;
-            pc = extract_name( pc, cLogFile, sizeof( cLogFile ) );
+            pc = extract_name( pc, cLogFile, zsizeof( cLogFile ) );
             break;
 
          case 'r':
@@ -438,22 +438,22 @@ static void ProcessXwds( HWND hWnd, zVIEW vSubtask, zCHAR *cLogFile,
    nRC = SetCursorFirstEntity( vLPLR, "W_MetaDef", "" );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szDialogName, sizeof( szDialogName ),
+      GetStringFromAttribute( szDialogName, zsizeof( szDialogName ),
                               vLPLR, "W_MetaDef", "Name" );
 
       nRC = ActivateMetaOI( &vDialog, vLPLR, zSOURCE_DIALOG_META, zSINGLE );
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Could not Activate Dialog: " );
-         strcat_s( szMsg, sizeof( szMsg ), szDialogName );
-         strcat_s( szMsg, sizeof( szMsg ), ".\nAborting Build" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Could not Activate Dialog: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szDialogName );
+         strcat_s( szMsg, zsizeof( szMsg ), ".\nAborting Build" );
 
          MessageBox( hWnd,
                   szMsg,
                   "Error Running xwdgen",
                   MB_OK | MB_ICONSTOP | MB_APPLMODAL );
 
-         strcat_s( szMsg, sizeof( szMsg ), "\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n" );
          if ( fLog )
          {
             fputs( szMsg,fLog );
@@ -485,7 +485,7 @@ static void ProcessXwds( HWND hWnd, zVIEW vSubtask, zCHAR *cLogFile,
 
             if ( fLog )
             {
-               strcat_s( szMsg, sizeof( szMsg ), "\n" );
+               strcat_s( szMsg, zsizeof( szMsg ), "\n" );
                fputs( szMsg,fLog );
             }
             else
@@ -595,7 +595,7 @@ static int RunSystem (char *pszOrder, HWND hWnd, FILE *fLog)
       MessageBox( hWnd, szMsg,
                   "Error Running xwdgen",
                   MB_OK | MB_ICONSTOP | MB_APPLMODAL );
-      strcat_s( szMsg, sizeof( szMsg ), "\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n" );
       if ( fLog )
          fputs( szMsg,fLog );
    }

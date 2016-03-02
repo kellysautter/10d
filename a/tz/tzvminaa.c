@@ -262,7 +262,7 @@ GetExecMode( zVIEW  lpInterpSubtask,
       if ( CM_List == 0 )
          return( -1 );
 
-      GetStringFromAttribute( szExecDir, sizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szExecDir, zsizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
       ZeidonStringConcat( szExecDir, 1, 0, "\\TZVSXC01.POR", 1, 0, zMAX_FILESPEC_LTH+1 );
       nRC = ActivateOI_FromFile( &vXChecker, "TZVSXCOO",
                                  lpAppSubtask, szExecDir,
@@ -274,25 +274,25 @@ GetExecMode( zVIEW  lpInterpSubtask,
    // set up the Operation Meta Name
    if ( zstrcmp( szMetaType, "Dialog" ) == 0 )
    {
-      strcpy_s( szSourceFileMeta1, sizeof( szSourceFileMeta1 ), "DialogSourceFile" );
-      strcpy_s( szSourceFileMeta2, sizeof( szSourceFileMeta2 ), "Dialog" );
-      strcpy_s( szOperationMeta, sizeof( szOperationMeta ), "DialogOperation" );
-      strcpy_s( szScopeMeta, sizeof( szScopeMeta), "Dialogs" );
+      strcpy_s( szSourceFileMeta1, zsizeof( szSourceFileMeta1 ), "DialogSourceFile" );
+      strcpy_s( szSourceFileMeta2, zsizeof( szSourceFileMeta2 ), "Dialog" );
+      strcpy_s( szOperationMeta, zsizeof( szOperationMeta ), "DialogOperation" );
+      strcpy_s( szScopeMeta, zsizeof( szScopeMeta), "Dialogs" );
    }
    else
    if ( zstrcmp( szMetaType, "LOD" ) == 0 )
    {
-      strcpy_s( szSourceFileMeta1, sizeof( szSourceFileMeta1 ), "LODSourceFile" );
-      strcpy_s( szSourceFileMeta2, sizeof( szSourceFileMeta2 ), "LOD" );
-      strcpy_s( szOperationMeta, sizeof( szOperationMeta ), "LOD_Operation" );
-      strcpy_s( szScopeMeta, sizeof( szScopeMeta), "LODs" );
+      strcpy_s( szSourceFileMeta1, zsizeof( szSourceFileMeta1 ), "LODSourceFile" );
+      strcpy_s( szSourceFileMeta2, zsizeof( szSourceFileMeta2 ), "LOD" );
+      strcpy_s( szOperationMeta, zsizeof( szOperationMeta ), "LOD_Operation" );
+      strcpy_s( szScopeMeta, zsizeof( szScopeMeta), "LODs" );
    }
    else
    {
-      strcpy_s( szSourceFileMeta1, sizeof( szSourceFileMeta1 ), "GlobalSourceFile" );
-      strcpy_s( szSourceFileMeta2, sizeof( szSourceFileMeta2 ), "GlobalOperation" );
-      strcpy_s( szOperationMeta, sizeof( szOperationMeta ), "Operation" );
-      strcpy_s( szScopeMeta, sizeof( szScopeMeta), "GlobalOperations" );
+      strcpy_s( szSourceFileMeta1, zsizeof( szSourceFileMeta1 ), "GlobalSourceFile" );
+      strcpy_s( szSourceFileMeta2, zsizeof( szSourceFileMeta2 ), "GlobalOperation" );
+      strcpy_s( szOperationMeta, zsizeof( szOperationMeta ), "Operation" );
+      strcpy_s( szScopeMeta, zsizeof( szScopeMeta), "GlobalOperations" );
    }
 
    nRC = SetCursorFirstEntityByString( vXChecker, szSourceFileMeta1,
@@ -347,7 +347,7 @@ GetExecModeByZKey( zVIEW  lpInterpSubtask,
    {
       nRC = GetViewByName( &CM_List, "TZCMWKSO", lpInterpSubtask, zLEVEL_APPLICATION );
 
-      nRC = GetStringFromAttribute( szExecDir, sizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
+      nRC = GetStringFromAttribute( szExecDir, zsizeof( szExecDir ), CM_List, "LPLR", "ExecDir" );
 
       ZeidonStringConcat( szExecDir, 1, 0, "\\TZVSXC01.POR", 1, 0, zMAX_FILESPEC_LTH + 1 );
       nRC = ActivateOI_FromFile( &vXChecker, "TZVSXCOO", lpAppSubtask, szExecDir, zSINGLE | zIGNORE_ATTRIB_ERRORS );
@@ -434,7 +434,7 @@ Exec_StepOnce( zVIEW vSubtask )
       {
          GetViewByName( &vZ_View, "ZeidonVML", vSubtask, zLEVEL_TASK );
          GetViewByName( &vS_View, "XPG", vZ_View, zLEVEL_SUBTASK );
-         GetStringFromAttribute( szDebugFlag, sizeof( szDebugFlag ), vS_View, "Operation", "CurrentDebugFlag" );
+         GetStringFromAttribute( szDebugFlag, zsizeof( szDebugFlag ), vS_View, "Operation", "CurrentDebugFlag" );
       }
    }
 
@@ -604,8 +604,8 @@ InvokeInterp( zVIEW  lpInterpSubtask,                // Interpretor's subtask
       aInterpreterSave[ lMultiple -1 ].nStackPtr = g_nStackPtr;
       g_nStackPtr = 0;
       memcpy( aInterpreterSave[ lMultiple -1 ].nCallStack,
-              g_nCallStack, sizeof( g_nCallStack ) );
-      memset( g_nCallStack, 0, sizeof( g_nCallStack ) );
+              g_nCallStack, zsizeof( g_nCallStack ) );
+      memset( g_nCallStack, 0, zsizeof( g_nCallStack ) );
 
       aInterpreterSave[ lMultiple -1 ].vXPGView = g_vXPGView;
       g_vXPGView = 0;
@@ -621,8 +621,8 @@ InvokeInterp( zVIEW  lpInterpSubtask,                // Interpretor's subtask
       aInterpreterSave[ lMultiple -1 ].vStackObject = vSO;
 
       memcpy( aInterpreterSave[ lMultiple -1 ].sValueStack,
-              sValueStack, sizeof( sValueStack ) );
-      memset( sValueStack, 0, sizeof( sValueStack ) );
+              sValueStack, zsizeof( sValueStack ) );
+      memset( sValueStack, 0, zsizeof( sValueStack ) );
    }
 
    lMultiple++;
@@ -695,19 +695,14 @@ InvokeInterp( zVIEW  lpInterpSubtask,                // Interpretor's subtask
                   zLEVEL_SUBTASK );
 // ###blob  SetAttributeFromInteger( vStackObject,
 //                            "Variable", "Value", (zLONG)lpAppSubtask );
-   SetAttributeFromBlob( vStackObject, "Variable", "Value",
-                         &lpAppSubtask, sizeof( void * ) );
-   SetNameForView( g_vStatementView, "StatementView",
-                   lpInterpSubtask, zLEVEL_SUBTASK );
-   SetNameForView( lpAppSubtask, "ApplicationView",
-                   lpInterpSubtask, zLEVEL_SUBTASK );
+   SetAttributeFromBlob( vStackObject, "Variable", "Value", &lpAppSubtask, sizeof( void * ) );
+   SetNameForView( g_vStatementView, "StatementView", lpInterpSubtask, zLEVEL_SUBTASK );
+   SetNameForView( lpAppSubtask, "ApplicationView", lpInterpSubtask, zLEVEL_SUBTASK );
 
-   GetViewByName( &vXChecker, "TZVSXCOO",
-                  lpInterpSubtask, zLEVEL_APPLICATION );
+   GetViewByName( &vXChecker, "TZVSXCOO", lpInterpSubtask, zLEVEL_APPLICATION );
    if ( vXChecker != 0 )
    {
-      nRC = SetCursorFirstEntityByString( vXChecker, "DialogOperation",
-                                          "Name", szOperationName, "" );
+      nRC = SetCursorFirstEntityByString( vXChecker, "DialogOperation", "Name", szOperationName, "" );
 
       if ( nRC == zCURSOR_SET )
       {
@@ -740,20 +735,17 @@ EndOfInvokeInterp:
 
       // restore the global variables
       g_nStackPtr = aInterpreterSave[ lMultiple - 1 ].nStackPtr;
-      memcpy( g_nCallStack, aInterpreterSave[ lMultiple -1 ].nCallStack,
-              sizeof( g_nCallStack ) );
+      memcpy( g_nCallStack, aInterpreterSave[ lMultiple -1 ].nCallStack, zsizeof( g_nCallStack ) );
 
       g_vXPGView = aInterpreterSave[ lMultiple - 1 ].vXPGView;
       SetNameForView( g_vXPGView, "XPG", vSubtask, zLEVEL_SUBTASK );
       g_vStatementView = aInterpreterSave[ lMultiple - 1 ].vStatementView;
-      SetNameForView( g_vStatementView, "StatementView",
-                      vSubtask, zLEVEL_SUBTASK );
+      SetNameForView( g_vStatementView, "StatementView", vSubtask, zLEVEL_SUBTASK );
 
       vSO = aInterpreterSave[ lMultiple - 1 ].vStackObject;
       SetNameForView( vSO, "StackObject", vSubtask, zLEVEL_SUBTASK );
 
-      memcpy( sValueStack, aInterpreterSave[ lMultiple - 1 ].sValueStack,
-              sizeof( sValueStack ) );
+      memcpy( sValueStack, aInterpreterSave[ lMultiple - 1 ].sValueStack, zsizeof( sValueStack ) );
    }
 
    return( lStepRC );
@@ -781,20 +773,16 @@ InitInterp( zVIEW  lpInterpSubtask,
    if ( nRC != 0 ) //  failed
       return( -1 );
 
-   if ( GetViewByName( &vStackObject, "StackObject",
-                       lpInterpSubtask, zLEVEL_SUBTASK ) != zLEVEL_SUBTASK )
+   if ( GetViewByName( &vStackObject, "StackObject", lpInterpSubtask, zLEVEL_SUBTASK ) != zLEVEL_SUBTASK )
    {
       // activate an empty stack object.
-      ActivateEmptyObjectInstance( &vStackObject,
-                                   "TZVSRTOO",
-                                   lpInterpSubtask,
-                                   zSINGLE );
+      ActivateEmptyObjectInstance( &vStackObject, "TZVSRTOO", lpInterpSubtask, zSINGLE );
+
       // create the root of the stack object.
       CreateEntity( vStackObject, "StackObject", zPOS_AFTER );
 
       // Name the Stack Object
-      SetNameForView( vStackObject, "StackObject", lpInterpSubtask,
-                      zLEVEL_SUBTASK );
+      SetNameForView( vStackObject, "StackObject", lpInterpSubtask, zLEVEL_SUBTASK );
    }
 
 #if 0 // DGC  The following to OIs do not appear to be used anywhere so I'm
@@ -809,23 +797,20 @@ InitInterp( zVIEW  lpInterpSubtask,
       return( -1 );
 #endif
 
-   if ( GetViewByName( &vTZOPGRPO, "TZOPSIGK.Interp", lpInterpSubtask,
-                       zLEVEL_TASK ) != zLEVEL_TASK )
+   if ( GetViewByName( &vTZOPGRPO, "TZOPSIGK.Interp", lpInterpSubtask, zLEVEL_TASK ) != zLEVEL_TASK )
    {
       // get the exec directory
       zgGetZeidonToolsDir( lpAppSubtask, szExecDir, zAPPL_DIR_OBJECT );
 
       // concat the name. and the .XGO extention
-      strcat_s( szExecDir, sizeof( szExecDir ), "TZOPSIGK.XGO" );
+      strcat_s( szExecDir, zsizeof( szExecDir ), "TZOPSIGK.XGO" );
 
-      nRC = ActivateOI_FromFile( &vTZOPGRPO, "TZOPGRPO", lpInterpSubtask,
-                                 szExecDir, zSINGLE );
+      nRC = ActivateOI_FromFile( &vTZOPGRPO, "TZOPGRPO", lpInterpSubtask, szExecDir, zSINGLE );
 
       if ( nRC < 0 ) //  failed
          vTZOPGRPO = 0;
       else
-         SetNameForView( vTZOPGRPO, "TZOPSIGK.Interp", lpInterpSubtask,
-                         zLEVEL_TASK );
+         SetNameForView( vTZOPGRPO, "TZOPSIGK.Interp", lpInterpSubtask, zLEVEL_TASK );
    }
 
    g_nStackPtr = 0;
@@ -867,7 +852,7 @@ LoadXPG( zVIEW  lpInterpSubtask,                      // interpretor subtask
    }
 
    // get the exec directory
-   GetStringFromAttribute( szExecDir, sizeof( szExecDir ), vViewObject, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szExecDir, zsizeof( szExecDir ), vViewObject, "LPLR", "ExecDir" );
 
    // be sure it was terminated with a '\'
    nLth = (zSHORT) zstrlen( szExecDir );
@@ -878,11 +863,11 @@ LoadXPG( zVIEW  lpInterpSubtask,                      // interpretor subtask
    }
 
    // concat the name. and the .XPG extention
-   strcat_s( szExecDir, sizeof( szExecDir ), szSrcDLLName );
+   strcat_s( szExecDir, zsizeof( szExecDir ), szSrcDLLName );
    if ( cpcGenLang[ 0 ] == 'J' )
-      strcat_s( szExecDir, sizeof( szExecDir ), ".XPJ" );
+      strcat_s( szExecDir, zsizeof( szExecDir ), ".XPJ" );
    else
-      strcat_s( szExecDir, sizeof( szExecDir ), ".XPG" );
+      strcat_s( szExecDir, zsizeof( szExecDir ), ".XPG" );
 
    // activate the file
    nRC = ActivateOI_FromFile( &g_vXPGView,
@@ -894,9 +879,9 @@ LoadXPG( zVIEW  lpInterpSubtask,                      // interpretor subtask
 
    if ( nRC != 0 ) //  failed
    {
-      strcpy_s( szMessage, sizeof( szMessage ), "Source VML :" );
-      strcat_s( szMessage, sizeof( szMessage ), szSrcDLLName );
-      strcat_s( szMessage, sizeof( szMessage ), " must be parsed prior to execution" );
+      strcpy_s( szMessage, zsizeof( szMessage ), "Source VML :" );
+      strcat_s( szMessage, zsizeof( szMessage ), szSrcDLLName );
+      strcat_s( szMessage, zsizeof( szMessage ), " must be parsed prior to execution" );
       MessageSend( lpInterpSubtask, "VM03002", "VML Interpretor",
                    szMessage,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -911,9 +896,9 @@ LoadXPG( zVIEW  lpInterpSubtask,                      // interpretor subtask
    {
       // the XPG is too old, and not compatible with the current
       //  interpreter.
-      strcpy_s( szMessage, sizeof( szMessage ), "Source VML :" );
-      strcat_s( szMessage, sizeof( szMessage ), szSrcDLLName );
-      strcat_s( szMessage, sizeof( szMessage ),
+      strcpy_s( szMessage, zsizeof( szMessage ), "Source VML :" );
+      strcat_s( szMessage, zsizeof( szMessage ), szSrcDLLName );
+      strcat_s( szMessage, zsizeof( szMessage ),
          " is outdated and must be re-parsed prior to execution" );
       MessageSend( lpInterpSubtask, "VM03002", "VML Interpretor",
                    szMessage,

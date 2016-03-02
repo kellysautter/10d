@@ -197,7 +197,7 @@ BOOL CEdit::RegisterCommand( WORD wCmd, LPCTSTR pszName, LPCTSTR pszDesc )
 
    if ( !g_pRegCmds )
    {
-      g_pRegCmds = ( CRegCmd * ) malloc( REGCMD_BLOCKSIZE * sizeof( CRegCmd ) );
+      g_pRegCmds = ( CRegCmd * ) malloc( REGCMD_BLOCKSIZE * zsizeof( CRegCmd ) );
       if ( !g_pRegCmds )
       {
          return FALSE;
@@ -208,7 +208,7 @@ BOOL CEdit::RegisterCommand( WORD wCmd, LPCTSTR pszName, LPCTSTR pszDesc )
    if ( g_nRegCmdCount + 1 > g_nRegCmdAllocCount )
    {
       g_nRegCmdAllocCount += REGCMD_BLOCKSIZE;
-      CRegCmd *pNew = ( CRegCmd * )realloc( g_pRegCmds, sizeof( CRegCmd ) * g_nRegCmdAllocCount );
+      CRegCmd *pNew = ( CRegCmd * )realloc( g_pRegCmds, zsizeof( CRegCmd ) * g_nRegCmdAllocCount );
       if ( pNew )
       {
          g_pRegCmds = pNew;
@@ -221,7 +221,7 @@ BOOL CEdit::RegisterCommand( WORD wCmd, LPCTSTR pszName, LPCTSTR pszDesc )
 
    if ( g_nRegCmdCount )
    {
-      memmove( g_pRegCmds + nInsertAt + 1, g_pRegCmds + nInsertAt, sizeof( CRegCmd ) * ( g_nRegCmdCount - nInsertAt ) );
+      memmove( g_pRegCmds + nInsertAt + 1, g_pRegCmds + nInsertAt, zsizeof( CRegCmd ) * ( g_nRegCmdCount - nInsertAt ) );
    }
    g_nRegCmdCount++;
 
@@ -253,7 +253,7 @@ BOOL CEdit::UnregisterCommand( WORD wCmd )
    // shrink the array
    memmove( g_pRegCmds + nFoundAt,
            g_pRegCmds + nFoundAt + 1,
-           ( g_nRegCmdCount - nFoundAt - 1 ) * sizeof( CRegCmd ) );
+           ( g_nRegCmdCount - nFoundAt - 1 ) * zsizeof( CRegCmd ) );
    g_nRegCmdCount--;
    ASSERT( g_nRegCmdCount >= 0 );
 

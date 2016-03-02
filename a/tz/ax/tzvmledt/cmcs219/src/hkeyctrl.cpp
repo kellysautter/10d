@@ -187,7 +187,7 @@ LRESULT PASCAL HotKeyWndProc(HWND hWnd, register UINT uMsg, register WPARAM wPar
       case WM_CREATE:
          {
             CM_HOTKEY *pHotKey = new CM_HOTKEY;
-            ZeroMemory( pHotKey, sizeof( CM_HOTKEY ) );
+            ZeroMemory( pHotKey, zsizeof( CM_HOTKEY ) );
             SetProp( hWnd, _T("HOTKEY"), pHotKey );
             SetWindowLong( hWnd, GWL_EXSTYLE, GetWindowLong( hWnd, GWL_EXSTYLE ) | WS_EX_CLIENTEDGE );
             SetWindowPos( hWnd, NULL, -1, -1, -1, -1, SWP_NOZORDER | SWP_NOSIZE | SWP_NOMOVE | SWP_DRAWFRAME );

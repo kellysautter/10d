@@ -369,7 +369,7 @@ ProcessAction( ZSubtask *pZSubtask,
 #ifdef DEBUG_ALL
    if ( pZSubtask == 0 || pZSubtask->m_pZTask->m_nTraceAction )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), "ProcessAction Name: %s Subtask: %ld Type: %ld",
+      sprintf_s( szMsg, zsizeof( szMsg ), "ProcessAction Name: %s Subtask: %ld Type: %ld",
                  cpcActionName, pZSubtask->m_ulIdNbr, pAction->m_lActType );
       TraceLineS( szMsg, "" );
 #ifdef DEBUG_LISTWND
@@ -448,39 +448,39 @@ ProcessAction( ZSubtask *pZSubtask,
 
       if ( pZTask->m_nTraceAction )
       {
-      // sprintf_s( szMessage, sizeof( szMessage ), "(drvr[%ld", pZSubtask->m_ulIdNbr );
-         sprintf_s( szMessage, sizeof( szMessage ), "(drvr[0x%08x.%ld", (zULONG) (v ? v->hTask : 0), pZSubtask->m_ulSubtaskIdNbr );
-      // strcpy_s( szMessage, sizeof( szMessage ), "(drvr[" );
+      // sprintf_s( szMessage, zsizeof( szMessage ), "(drvr[%ld", pZSubtask->m_ulIdNbr );
+         sprintf_s( szMessage, zsizeof( szMessage ), "(drvr[0x%08x.%ld", (zULONG) (v ? v->hTask : 0), pZSubtask->m_ulSubtaskIdNbr );
+      // strcpy_s( szMessage, zsizeof( szMessage ), "(drvr[" );
       // _ltoa_s( (zLONG) pZSubtask, szMessage + 6 );
 
          if ( pAction && pAction->m_szActDlg[ 0 ] )
          {
-            strcat_s( szMessage, sizeof( szMessage ), "." );
-            strcat_s( szMessage, sizeof( szMessage ), pAction->m_szActDlg );
-            strcat_s( szMessage, sizeof( szMessage ), "." );
-            strcat_s( szMessage, sizeof( szMessage ), pAction->m_szActWnd );
+            strcat_s( szMessage, zsizeof( szMessage ), "." );
+            strcat_s( szMessage, zsizeof( szMessage ), pAction->m_szActDlg );
+            strcat_s( szMessage, zsizeof( szMessage ), "." );
+            strcat_s( szMessage, zsizeof( szMessage ), pAction->m_szActWnd );
          }
          else
          if ( pZSubtask )
          {
-            strcat_s( szMessage, sizeof( szMessage ), "." );
-            strcat_s( szMessage, sizeof( szMessage ), *(pZSubtask->m_pzsDlgTag) );
-            strcat_s( szMessage, sizeof( szMessage ), "." );
-            strcat_s( szMessage, sizeof( szMessage ), *(pZSubtask->m_pzsWndTag) );
+            strcat_s( szMessage, zsizeof( szMessage ), "." );
+            strcat_s( szMessage, zsizeof( szMessage ), *(pZSubtask->m_pzsDlgTag) );
+            strcat_s( szMessage, zsizeof( szMessage ), "." );
+            strcat_s( szMessage, zsizeof( szMessage ), *(pZSubtask->m_pzsWndTag) );
          }
 
-         strcat_s( szMessage, sizeof( szMessage ), "]) Action=>" );
+         strcat_s( szMessage, zsizeof( szMessage ), "]) Action=>" );
 
          // Localize Action name so it can be modified.
          if ( cpcActionName )
          {
-            strcpy_s( szActionName, sizeof( szActionName ), cpcActionName );
-            strcat_s( szMessage, sizeof( szMessage ), szActionName );
+            strcpy_s( szActionName, zsizeof( szActionName ), cpcActionName );
+            strcat_s( szMessage, zsizeof( szMessage ), szActionName );
          }
          else
          {
             szActionName[ 0 ] = 0;
-            strcat_s( szMessage, sizeof( szMessage ), "(code)" );
+            strcat_s( szMessage, zsizeof( szMessage ), "(code)" );
          }
       }
       else
@@ -490,7 +490,7 @@ ProcessAction( ZSubtask *pZSubtask,
 
          // Localize Action name so it can be modified.
          if ( cpcActionName )
-            strcpy_s( szActionName, sizeof( szActionName ), cpcActionName );
+            strcpy_s( szActionName, zsizeof( szActionName ), cpcActionName );
          else
             szActionName[ 0 ] = 0;
       }
@@ -506,8 +506,8 @@ ProcessAction( ZSubtask *pZSubtask,
          ASSERT( ((ActDef.Type & ~zWAB_ProcessImmediateReturn) >= 0 && (ActDef.Type & ~zWAB_ProcessImmediateReturn) < 100) ||
                   (ActDef.Type & ~zWAB_ProcessImmediateReturn) == zWAB_TerminateActionForError || ActDef.Type == -1 );
          pAction->m_lActType = 0;
-         strcpy_s( ActDef.DlgN, sizeof( ActDef.DlgN ), pAction->m_szActDlg );
-         strcpy_s( ActDef.WndN, sizeof( ActDef.WndN ), pAction->m_szActWnd );
+         strcpy_s( ActDef.DlgN, zsizeof( ActDef.DlgN ), pAction->m_szActDlg );
+         strcpy_s( ActDef.WndN, zsizeof( ActDef.WndN ), pAction->m_szActWnd );
       }
       else
       if ( SetCursorFirstEntityByString( pZSubtask->m_vDialog, szlAct, szlTag, szActionName, 0 ) > zCURSOR_UNCHANGED )
@@ -530,11 +530,11 @@ ProcessAction( ZSubtask *pZSubtask,
          {
             if ( pZTask->m_nTraceAction > 1 )
             {
-            // strcat_s( szMessage, sizeof( szMessage ), ActDef.Tag );
+            // strcat_s( szMessage, zsizeof( szMessage ), ActDef.Tag );
                if ( nEnabled < 0 )
-                  strcat_s( szMessage, sizeof( szMessage ), " (auto)" );
+                  strcat_s( szMessage, zsizeof( szMessage ), " (auto)" );
 
-               strcat_s( szMessage, sizeof( szMessage ), " disabled at index: " );
+               strcat_s( szMessage, zsizeof( szMessage ), " disabled at index: " );
                TraceLineI( szMessage, ActDef.SyncIdx );
             }
 
@@ -553,22 +553,22 @@ ProcessAction( ZSubtask *pZSubtask,
          goto CLEANUP_ACT_label;
       }
 
-      strcpy_s( pZSubtask->m_szActionName, sizeof( pZSubtask->m_szActionName ), szActionName ); // dks conversational fix
+      strcpy_s( pZSubtask->m_szActionName, zsizeof( pZSubtask->m_szActionName ), szActionName ); // dks conversational fix
       if ( pZTask->m_nTraceAction )
       {
          nLth = (zSHORT) zstrlen( szMessage );
-         strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " Event=>" );
-         strcpy_s( szMessage + nLth + 9, sizeof( szMessage ) - nLth - 9, cpcEvent );
+         strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " Event=>" );
+         strcpy_s( szMessage + nLth + 9, zsizeof( szMessage ) - nLth - 9, cpcEvent );
          if ( ActDef.DO[ 0 ] )
          {
-            strcat_s( szMessage, sizeof( szMessage ), " Operation=>" );
-            strcat_s( szMessage, sizeof( szMessage ), ActDef.DO );
+            strcat_s( szMessage, zsizeof( szMessage ), " Operation=>" );
+            strcat_s( szMessage, zsizeof( szMessage ), ActDef.DO );
          }
          else
          {
             if ( ActDef.Type == zWAB_SwitchToAction )
             {
-               strcat_s( szMessage, sizeof( szMessage ), " (no code) WAB=>" );
+               strcat_s( szMessage, zsizeof( szMessage ), " (no code) WAB=>" );
                TraceLineS( szMessage, "SwitchToAction" );
             }
             else
@@ -598,13 +598,13 @@ ProcessAction( ZSubtask *pZSubtask,
             // If Dialog Operation code exists for this action, execute it.
             if ( pZTask->m_nTraceAction )
             {
-               strcat_s( szMessage, sizeof( szMessage ), " (code only)" );
+               strcat_s( szMessage, zsizeof( szMessage ), " (code only)" );
                nLth = -1;   // flag that message is fully loaded
             }
 
             if ( szActionName[ 0 ] && ActDef.DO[ 0 ] )
             {
-            // strcpy_s( pZSubtask->m_szActionName, sizeof( pZSubtask->m_szActionName ), szActionName ); // dks conversational fix
+            // strcpy_s( pZSubtask->m_szActionName, zsizeof( pZSubtask->m_szActionName ), szActionName ); // dks conversational fix
                lRC = fnProcessDialogOperationCode( pZSubtask, ActDef.DLL, ActDef.DO );
                ulSubtaskState = ZSubtask::GetSubtaskState( pZSubtask );
                if ( lRC == zNO_APPLICATION_EVENT || (ulSubtaskState & zSUBTASK_STATE_DELETED) == zSUBTASK_STATE_DELETED )
@@ -626,7 +626,7 @@ ProcessAction( ZSubtask *pZSubtask,
 
             if ( pAction->m_lActType == zWAB_SwitchToAction )
             {
-               strcpy_s( szActionName, sizeof( szActionName ), pAction->m_szAction );
+               strcpy_s( szActionName, zsizeof( szActionName ), pAction->m_szAction );
                cpcActionName = szActionName;
 
                if ( nLth && pZTask->m_nTraceAction )
@@ -754,31 +754,31 @@ ProcessAction( ZSubtask *pZSubtask,
                if ( ActDef.Prompt[ 0 ] == 0 )
                {
                   if ( ActDef.SB & zTEMPORAL_SUBOBJECT_DELETE )
-                     strcpy_s( szBehavior, sizeof( szBehavior ), "Delete " );
+                     strcpy_s( szBehavior, zsizeof( szBehavior ), "Delete " );
                   else
                   if ( ActDef.SB & zTEMPORAL_SUBOBJECT_EXCLUDE )
-                     strcpy_s( szBehavior, sizeof( szBehavior ), "Exclude " );
+                     strcpy_s( szBehavior, zsizeof( szBehavior ), "Exclude " );
                   else
                   if ( ActDef.SB & zTEMPORAL_SUBOBJECT_ACCEPT )
-                     strcpy_s( szBehavior, sizeof( szBehavior ), "Accept " );
+                     strcpy_s( szBehavior, zsizeof( szBehavior ), "Accept " );
                   else
                   if ( ActDef.SB & zTEMPORAL_SUBOBJECT_CANCEL )
-                     strcpy_s( szBehavior, sizeof( szBehavior ), "Cancel " );
+                     strcpy_s( szBehavior, zsizeof( szBehavior ), "Cancel " );
 
-                  strcpy_s( szTitle, sizeof( szTitle ), szBehavior );
-                  strcat_s( szTitle, sizeof( szTitle ), "Confirmation " );
+                  strcpy_s( szTitle, zsizeof( szTitle ), szBehavior );
+                  strcat_s( szTitle, zsizeof( szTitle ), "Confirmation " );
 
-                  strcpy_s( szText, sizeof( szText ), "OK to continue with " );
-                  strcat_s( szText, sizeof( szText ), szBehavior );
+                  strcpy_s( szText, zsizeof( szText ), "OK to continue with " );
+                  strcat_s( szText, zsizeof( szText ), szBehavior );
 
-                  strcat_s( szText, sizeof( szText ), "of " );
-                  strcat_s( szText, sizeof( szText ), ActDef.EN );
-                  strcat_s( szText, sizeof( szText ), "?" );
+                  strcat_s( szText, zsizeof( szText ), "of " );
+                  strcat_s( szText, zsizeof( szText ), ActDef.EN );
+                  strcat_s( szText, zsizeof( szText ), "?" );
                }
                else
                {
-                  strcpy_s( szTitle, sizeof( szTitle ), "Confirmation " );
-                  strcpy_s( szText, sizeof( szText ), ActDef.Prompt );
+                  strcpy_s( szTitle, zsizeof( szTitle ), "Confirmation " );
+                  strcpy_s( szText, zsizeof( szText ), ActDef.Prompt );
                }
 
                if ( MessagePrompt( vApp, 0, szTitle, szText, FALSE, zBUTTONS_YESNO,
@@ -900,7 +900,7 @@ ProcessAction( ZSubtask *pZSubtask,
             // If the debugger gets turned on ...
             //    - disable the current application
             //    - start the debugger
-         // strcpy_s( pZSubtask->m_szActionName, sizeof( pZSubtask->m_szActionName ), szActionName ); // dks conversational fix
+         // strcpy_s( pZSubtask->m_szActionName, zsizeof( pZSubtask->m_szActionName ), szActionName ); // dks conversational fix
             lRC = fnProcessDialogOperationCode( pZSubtask, ActDef.DLL, ActDef.DO );
             ulSubtaskState = ZSubtask::GetSubtaskState( pZSubtask );
             if ( lRC == zNO_APPLICATION_EVENT || (ulSubtaskState & zSUBTASK_STATE_DELETED) == zSUBTASK_STATE_DELETED )
@@ -986,12 +986,12 @@ ProcessAction( ZSubtask *pZSubtask,
          ASSERT( ((ActDef.Type & ~zWAB_ProcessImmediateReturn) >= 0 && (ActDef.Type & ~zWAB_ProcessImmediateReturn) < 100) ||
                  (ActDef.Type & ~zWAB_ProcessImmediateReturn) == zWAB_TerminateActionForError || ActDef.Type == -1 );
          pAction->m_lActType = 0;
-         strcpy_s( ActDef.DlgN, sizeof( ActDef.DlgN ), pAction->m_szActDlg );
-         strcpy_s( ActDef.WndN, sizeof( ActDef.WndN ), pAction->m_szActWnd );
+         strcpy_s( ActDef.DlgN, zsizeof( ActDef.DlgN ), pAction->m_szActDlg );
+         strcpy_s( ActDef.WndN, zsizeof( ActDef.WndN ), pAction->m_szActWnd );
 
          if ( ActDef.Type == zWAB_SwitchToAction )
          {
-            strcpy_s( szActionName, sizeof( szActionName ), pAction->m_szAction );
+            strcpy_s( szActionName, zsizeof( szActionName ), pAction->m_szAction );
             cpcActionName = szActionName;
 
             // This is against all structured programming rules and as such is clearly indefensible, but here goes anyway ...
@@ -1043,24 +1043,24 @@ SKIP_TO_ACTION_label:
       {
          if ( ActDef.DO[ 0 ] )
          {
-            strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " Operation=>" );
+            strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " Operation=>" );
             nLth += 13;
-            strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, ActDef.DO );
+            strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, ActDef.DO );
             nLth += (zSHORT) zstrlen( szMessage + nLth );
          }
 
-         strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " WAB=>" );
+         strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " WAB=>" );
          nLth += 7;
          if ( ActDef.Type < 100 )
-            strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, g_Actions[ ActDef.Type ] );
+            strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, g_Actions[ ActDef.Type ] );
          else
-            _ltoa_s( ActDef.Type, szMessage + nLth, sizeof( szMessage ) - nLth, 10 );
+            _ltoa_s( ActDef.Type, szMessage + nLth, zsizeof( szMessage ) - nLth, 10 );
       }
 
       double dTime = ((double) (SysGetTickCount( ) - ulTime)) / zTICKS_PER_SECOND;
 
       nLth = (zSHORT) zstrlen( szMessage );
-      sprintf_s( szMessage + nLth, sizeof( szMessage ) - nLth, " [%1.3f sec] %s.%s", dTime, ActDef.DlgN, ActDef.WndN );
+      sprintf_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " [%1.3f sec] %s.%s", dTime, ActDef.DlgN, ActDef.WndN );
       TraceLineS( szMessage, "" );
    }
 
@@ -1449,10 +1449,10 @@ SKIP_TO_ACTION_label:
             zCHAR szCmdLine[ 128 ];
             ZSubtask *pZSubtaskParent;
 
-            strcpy_s( szCmdLine, sizeof( szCmdLine ), "zdr.exe ~~" );
-            strcat_s( szCmdLine, sizeof( szCmdLine ), pApp->szName );
-            strcat_s( szCmdLine, sizeof( szCmdLine ), "~" );
-            strcat_s( szCmdLine, sizeof( szCmdLine ), ActDef.DlgN );
+            strcpy_s( szCmdLine, zsizeof( szCmdLine ), "zdr.exe ~~" );
+            strcat_s( szCmdLine, zsizeof( szCmdLine ), pApp->szName );
+            strcat_s( szCmdLine, zsizeof( szCmdLine ), "~" );
+            strcat_s( szCmdLine, zsizeof( szCmdLine ), ActDef.DlgN );
             StartTask( pZSubtask->m_vDialog, szCmdLine, SW_SHOW );
 
             // Try to make this subtask the top subtask of the newly
@@ -1591,7 +1591,7 @@ SKIP_TO_ACTION_label:
 
    catch( CException *e )
    {
-      e->GetErrorMessage( szMsg, sizeof( szMsg ) );
+      e->GetErrorMessage( szMsg, zsizeof( szMsg ) );
       TraceLineS( "(drvr) Action Exception ====> ", szMsg );
    // ::MessageBox( 0, szMsg, "Action New Exception", MB_OK );
       ActDef.Type = zWAB_ExitDialogTask | zWAB_ProcessImmediateReturn;
@@ -1665,7 +1665,7 @@ fnProcessReturn( ZSubtask *pZSubtask,
       pZSubtask->m_pZSocketTask->m_lSocketState = -1;
 
 #ifdef DEBUG_ALL
-      sprintf_s( szMsg, sizeof( szMsg ),
+      sprintf_s( szMsg, zsizeof( szMsg ),
                 "[S%ld.T%ld.t%ld.s%ld] fnProcessReturn (ExitDialog) pZSubtask: ",
                 pZSubtask->m_pZSocketTask,
                 AfxGetThread( ),
@@ -1741,7 +1741,7 @@ fnProcessReturn( ZSubtask *pZSubtask,
       }
 
 #ifdef DEBUG_ALL
-      sprintf_s( szMsg, sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] fnProcessReturn (to Top) pZSubtask: ",
+      sprintf_s( szMsg, zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] fnProcessReturn (to Top) pZSubtask: ",
                 pZSubtask->m_pZSocketTask,
                 AfxGetThread( ),
                 pZSubtask->m_pZSocketTask->m_pWinThread,
@@ -1788,7 +1788,7 @@ fnProcessReturn( ZSubtask *pZSubtask,
 
 #ifdef zREMOTE_SERVER
 #ifdef DEBUG_ALL
-         sprintf_s( szMsg, sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] fnProcessReturn pZSubtask: ",
+         sprintf_s( szMsg, zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] fnProcessReturn pZSubtask: ",
                    pZSubtask->m_pZSocketTask,
                    AfxGetThread( ),
                    pZSubtask->m_pZSocketTask->m_pWinThread,
@@ -1841,7 +1841,7 @@ fnProcessReturn( ZSubtask *pZSubtask,
 #ifdef zREMOTE_SERVER
       SetRemoteWndAttribute( pZSubtask->m_vDialog, "Active", "Y" );
       if ( pZSubtask->m_pZSocketTask )
-         strcpy_s( pZSubtask->m_pZSocketTask->m_szRemoteWndTag, sizeof( pZSubtask->m_pZSocketTask->m_szRemoteWndTag ), *(pZSubtask->m_pzsRemoteWndTag) );
+         strcpy_s( pZSubtask->m_pZSocketTask->m_szRemoteWndTag, zsizeof( pZSubtask->m_pZSocketTask->m_szRemoteWndTag ), *(pZSubtask->m_pzsRemoteWndTag) );
 #endif
       if ( (pZSubtask->m_ulSubtaskFlags & zSUBTASK_SUBWND_SPLITTER_PANE) )
       {
@@ -2080,7 +2080,7 @@ fnProcessDialogOperationCode( ZSubtask *pZSubtask,
          zCHAR szMsg[ 256 ];
          zCHAR szOperMsg[ 512 ];
 
-         e->GetErrorMessage( szMsg, sizeof( szMsg ) );
+         e->GetErrorMessage( szMsg, zsizeof( szMsg ) );
          sprintf_s( szOperMsg, "(drvr) Operation [%s] Exception ====> ", cpcCodeName );
          TraceLineS( szOperMsg, szMsg );
       // pZApp->ExitInstance( );

@@ -209,8 +209,8 @@ ZHD_Diagram::OnCreate( LPCREATESTRUCT lpCreateStruct )
    zPCHAR pchComma;
    zSHORT nValues;
 
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    GetWindowPreferenceString( m_pZSubtask->m_vDialog,
                               szBuffer, pchBuffer, nLth );
 
@@ -290,7 +290,7 @@ ZHD_Diagram::DestroyWindow( )
    ZHD_Node *pNode;
 
    zCHAR szBuffer[ 40 ]; // tag length + 7
-   zLONG lMaxLth = sizeof( "-2147483647," ) * 7;
+   zLONG lMaxLth = zsizeof( "-2147483647," ) * 7;
    zPCHAR pch = new char[ lMaxLth ];
    zSHORT nLth = 0;
 
@@ -316,8 +316,8 @@ ZHD_Diagram::DestroyWindow( )
    nLth++;
    _ltoa_s( m_lScale, pch + nLth, lMaxLth - nLth, 10 );
 
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    SetWindowPreferenceString( m_pZSubtask->m_vDialog, szBuffer, pch );
 
    mDeleteInitA( pch );
@@ -828,22 +828,22 @@ ZHD_Diagram::PrintDiagram( zSHORT nPercent, zSHORT nOptions )
                                    ptDiagramSize, ptPageSizeWork );
          }
 
-         strcpy_s( szMessage, sizeof( szMessage ), "Print Analysis\r\n\r\n" );
-         strcat_s( szMessage, sizeof( szMessage ), " Size: " );
-         _ltoa_s( m_lScale + 100, szMessage + 240, sizeof( szMessage ) - 240, 10 );
-         strcat_s( szMessage, sizeof( szMessage ), &szMessage[ 240 ] );
-         strcat_s( szMessage, sizeof( szMessage ), "%\r\n" );
-         strcat_s( szMessage, sizeof( szMessage ), " Orientation: " );
+         strcpy_s( szMessage, zsizeof( szMessage ), "Print Analysis\r\n\r\n" );
+         strcat_s( szMessage, zsizeof( szMessage ), " Size: " );
+         _ltoa_s( m_lScale + 100, szMessage + 240, zsizeof( szMessage ) - 240, 10 );
+         strcat_s( szMessage, zsizeof( szMessage ), &szMessage[ 240 ] );
+         strcat_s( szMessage, zsizeof( szMessage ), "%\r\n" );
+         strcat_s( szMessage, zsizeof( szMessage ), " Orientation: " );
          if ( nOptions & zPRINT_PORTRAIT )
-            strcat_s( szMessage, sizeof( szMessage ), "Portrait\r\n" );
+            strcat_s( szMessage, zsizeof( szMessage ), "Portrait\r\n" );
          else
-            strcat_s( szMessage, sizeof( szMessage ), "Landscape\r\n" );
+            strcat_s( szMessage, zsizeof( szMessage ), "Landscape\r\n" );
 
-         strcat_s( szMessage, sizeof( szMessage ), " Pages: " );
-         _ltoa_s( lPages, szMessage + 240, sizeof( szMessage ) - 240, 10 );
-         strcat_s( szMessage, sizeof( szMessage ), &szMessage[ 240 ] );
-         strcat_s( szMessage, sizeof( szMessage ), "\r\n\r\n" );
-         strcat_s( szMessage, sizeof( szMessage ), "Continue with printing?" );
+         strcat_s( szMessage, zsizeof( szMessage ), " Pages: " );
+         _ltoa_s( lPages, szMessage + 240, zsizeof( szMessage ) - 240, 10 );
+         strcat_s( szMessage, zsizeof( szMessage ), &szMessage[ 240 ] );
+         strcat_s( szMessage, zsizeof( szMessage ), "\r\n\r\n" );
+         strcat_s( szMessage, zsizeof( szMessage ), "Continue with printing?" );
 
          // Reset the drawing stuff so a window paint can occur
          // while we are prompting the operator.
@@ -929,7 +929,7 @@ ZHD_Diagram::PrintDiagram( zSHORT nPercent, zSHORT nOptions )
                   {
                      zCHAR szPage[ 4 ];
 
-                     _ltoa_s( lPage, szPage, sizeof( szPage ), 10 );
+                     _ltoa_s( lPage, szPage, zsizeof( szPage ), 10 );
                      pPrintDC->TextOut( 0, 0, szPage, zstrlen( szPage ) );
                   }
 
@@ -939,7 +939,7 @@ ZHD_Diagram::PrintDiagram( zSHORT nPercent, zSHORT nOptions )
 
                      if ( pchPrintTitle && *pchPrintTitle )
                      {
-                        strcpy_s( szMessage, sizeof( szMessage ), pchPrintTitle );
+                        strcpy_s( szMessage, zsizeof( szMessage ), pchPrintTitle );
                         lPos = zstrlen( szMessage );
                         szMessage[ lPos++ ] = ' ';
                         szMessage[ lPos++ ] = '[';
@@ -950,8 +950,8 @@ ZHD_Diagram::PrintDiagram( zSHORT nPercent, zSHORT nOptions )
                         lPos = 0;
                      }
 
-                     SysGetDateTime( szMessage + 200, sizeof( szMessage ) - 200 );
-                     UfFormatDateTime( szMessage + lPos, sizeof( szMessage ) - lPos, szMessage + 200, "YYYY/MM/DD HH:MI:SS" );
+                     SysGetDateTime( szMessage + 200, zsizeof( szMessage ) - 200 );
+                     UfFormatDateTime( szMessage + lPos, zsizeof( szMessage ) - lPos, szMessage + 200, "YYYY/MM/DD HH:MI:SS" );
                      lPos = zstrlen( szMessage ) - 3; // drop the seconds
                      szMessage[ lPos++ ] = ']';
                      szMessage[ lPos++ ] = ' ';

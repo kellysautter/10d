@@ -337,7 +337,7 @@ ZSubtask::ZSubtask( ZTask    *pZTask,      // Dr task object
          zCHAR  szAppName[ zZEIDON_NAME_LTH + 1 ];
 
          GetApplDirectoryFromView( szAppName, vNewSubtask,
-                                   zAPPL_NAME, sizeof( szAppName ) );
+                                   zAPPL_NAME, zsizeof( szAppName ) );
          m_pzsAppTag = new CString( szAppName );
       }
       else
@@ -502,16 +502,16 @@ ZSubtask::ZSubtask( ZTask    *pZTask,      // Dr task object
       zCHAR szMessage[ 256 ];
       zCHAR szWindowName[ zTAG_LTH ];
 
-      strcpy_s( szMessage, sizeof( szMessage ), "(drvr) Window name not found in Dialog: " );
+      strcpy_s( szMessage, zsizeof( szMessage ), "(drvr) Window name not found in Dialog: " );
       if ( cpcDlgTag )
-         strcat_s( szMessage, sizeof( szMessage ), cpcDlgTag );
+         strcat_s( szMessage, zsizeof( szMessage ), cpcDlgTag );
       else
-         strcat_s( szMessage, sizeof( szMessage ), "<nul>" );
+         strcat_s( szMessage, zsizeof( szMessage ), "<nul>" );
 
       if ( cpcWndTag && cpcWndTag[ 0 ] )
-         strcpy_s( szWindowName, sizeof( szWindowName ), cpcWndTag );
+         strcpy_s( szWindowName, zsizeof( szWindowName ), cpcWndTag );
       else
-         GetStringFromAttribute( szWindowName, sizeof( szWindowName ), m_vDialog, szlDlg, szlDfltWnd );
+         GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), m_vDialog, szlDlg, szlDfltWnd );
 
       ZSubtask *pParent;
       if ( pZParent == 0 )
@@ -520,13 +520,13 @@ ZSubtask::ZSubtask( ZTask    *pZTask,      // Dr task object
          pParent = pZParent;
 
       if ( m_pzsWndTag == 0 || **m_pzsWndTag == 0 )
-         strcat_s( szMessage, sizeof( szMessage ), "\n Enter valid window name " );
+         strcat_s( szMessage, zsizeof( szMessage ), "\n Enter valid window name " );
 
       zLONG lFlags = 0x01000000;
       while ( m_pzsWndTag == 0 || **m_pzsWndTag == 0 )
       {
          if ( ConstructZeidonPrompt( pParent->m_vDialog, "Valid Window", szMessage,
-                                     szWindowName, sizeof( szWindowName ), &lFlags, "Window:", 0, 0 ) == IDOK )
+                                     szWindowName, zsizeof( szWindowName ), &lFlags, "Window:", 0, 0 ) == IDOK )
          {
             if ( SetCursorFirstEntityByString( m_vDialog, szlWnd, szlTag, szWindowName, 0 ) > zCURSOR_UNCHANGED )
             {
@@ -634,7 +634,7 @@ ZSubtask::ZSubtask( ZTask    *pZTask,      // Dr task object
 
    GetAddrForAttribute( (zPCHAR *) &pch, m_vDialog, szlWnd, szlD_Caption );
    if ( *pch )
-      strcpy_s( m_pWndDef->Caption, sizeof( m_pWndDef->Caption ), pch );
+      strcpy_s( m_pWndDef->Caption, zsizeof( m_pWndDef->Caption ), pch );
 
    if ( m_pWndDef->GeneralFlag & 0x00000001 )
       m_ulSubtaskFlags |= zSUBTASK_SCROLLBARS;
@@ -1114,9 +1114,9 @@ fnDeleteCtrls( ZMultiIdxSet *pZMIXCtrl, ZMapAct *pzmaComposite )
          pzma = (ZMapAct *) *(pZMIXCtrl->pvNode + k);
          if ( pzma->m_pzmaComposite )
          {
-            strcpy_s( szBuffer, sizeof( szBuffer ), "Delete ctrl " );
-            strcat_s( szBuffer, sizeof( szBuffer ), *(pzma->m_pzsTag) );
-            strcat_s( szBuffer, sizeof( szBuffer ), " with composite " );
+            strcpy_s( szBuffer, zsizeof( szBuffer ), "Delete ctrl " );
+            strcat_s( szBuffer, zsizeof( szBuffer ), *(pzma->m_pzsTag) );
+            strcat_s( szBuffer, zsizeof( szBuffer ), " with composite " );
             TraceLineS( szBuffer, *(pzma->m_pzmaComposite->m_pzsTag) );
          }
          else
@@ -1163,7 +1163,7 @@ ZSubtask::~ZSubtask( )
    zCHAR szMsg[ 128 ];
    if ( m_pZTask && (m_pZTask->m_nTraceAction & 0x72) == 0x72 )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSubtask::dtor #$# "
+      sprintf_s( szMsg, zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSubtask::dtor #$# "
                        "state: %#06hx   Subtask: ",
                 m_pZSocketTask,
                 AfxGetThread( ),
@@ -1212,7 +1212,7 @@ ZSubtask::~ZSubtask( )
    if ( m_pZSocketTask && m_pZSocketTask->m_pCacheWndList )
    {
       SetRemoteWndAttribute( m_vDialog, "Closed", "Y" );
-      sprintf_s( szMsg, sizeof( szMsg ), "ZSubtask::dtor %s", *m_pzsRemoteWndTag );
+      sprintf_s( szMsg, zsizeof( szMsg ), "ZSubtask::dtor %s", *m_pzsRemoteWndTag );
       ZXRA_Item *pXRA = m_pZSocketTask->m_pCacheWndList->Find( *m_pzsRemoteWndTag, this, szMsg );
       if ( pXRA )
       {
@@ -1790,7 +1790,7 @@ ZSubtask::~ZSubtask( )
    m_pZSocketTask->LockMutex( ?, FALSE, "ZSubtask::dtor" );
    if ( m_pZTask && (m_pZTask->m_nTraceAction & 0x72) == 0x72 )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSubtask::dtor Termination: ",
+      sprintf_s( szMsg, zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSubtask::dtor Termination: ",
                 m_pZSocketTask,
                 AfxGetThread( ),
                 m_pZSocketTask->m_pWinThread,
@@ -1829,7 +1829,7 @@ ZSubtask::RestartBuildWindow( zVIEW vAppSubtask )
    {
       zCHAR   szMsg[ 128 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSubtask::RestartBuildWindow state: %#06hx   Subtask: ",
+      sprintf_s( szMsg, zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSubtask::RestartBuildWindow state: %#06hx  Subtask: ",
                  m_pZSocketTask, AfxGetThread( ), m_pZSocketTask->m_pWinThread, m_pZSocketTask->m_sock, ulSubtaskState );
       TraceLineI( szMsg, (zLONG) this );
    }
@@ -2287,7 +2287,7 @@ ZSubtask::DoPlacement( ZTask *pZTask )
    }
 
    zCHAR szAppName[ zZEIDON_NAME_LTH + 1 ];
-   GetApplDirectoryFromView( szAppName, m_vDialog, zAPPL_NAME, sizeof( szAppName ) );
+   GetApplDirectoryFromView( szAppName, m_vDialog, zAPPL_NAME, zsizeof( szAppName ) );
    CString csProfile( szAppName );
    csProfile += ".";
    csProfile += *m_pzsDlgTag;
@@ -3299,7 +3299,7 @@ ZSubtask::SaveBarState( )
    if ( ZSubtask::GetSubtaskState( this ) & zSUBTASK_STATE_WELL_FORMED )
    {
       zCHAR szAppName[ zZEIDON_NAME_LTH + 1 ];
-      GetApplDirectoryFromView( szAppName, m_vDialog, zAPPL_NAME, sizeof( szAppName ) );
+      GetApplDirectoryFromView( szAppName, m_vDialog, zAPPL_NAME, zsizeof( szAppName ) );
       CString csProfile( szAppName );
       csProfile += ".";
       csProfile += *m_pzsDlgTag;
@@ -3454,7 +3454,7 @@ ZSubtask::PostClose( WPARAM wParam )
 
       // TraceLineI( "============ hWnd = ", (zLONG) pZSubtask->m_pZFWnd->m_hWnd );
 
-      //xstrcpy_s( szWndTag, sizeof( szWndTag ), *m_pzsWndTag );
+      //xstrcpy_s( szWndTag, zsizeof( szWndTag ), *m_pzsWndTag );
       //xszWndTag[ 0 ] = '.';
       //xdelete( m_pzsWndTag );
       //xm_pzsWndTag = new CString( szWndTag );
@@ -3773,8 +3773,8 @@ ZSubtask::HandleEvent( zLONG lEvent )
 
                   // Get access to hotkey object instance ... it must exist.
                   SetEntityCursor( vHotkey, szlHotkey, 0, zPOS_FIRST | zPOS_RELATIVE, 0, 0, 0, lpAT->nID, 0, 0 );
-                  GetStringFromAttribute( szDLL_Name, sizeof( szDLL_Name ), vHotkey, szlHotkey, szlDLL );
-                  GetStringFromAttribute( szOperName, sizeof( szOperName ), vHotkey, szlHotkey, szlCOP );
+                  GetStringFromAttribute( szDLL_Name, zsizeof( szDLL_Name ), vHotkey, szlHotkey, szlDLL );
+                  GetStringFromAttribute( szOperName, zsizeof( szOperName ), vHotkey, szlHotkey, szlCOP );
 
                   lpfnDynRoutine = (zFARPROC_DRIVER) GetOperationDynamicCallAddress( m_vDialog, (LPLPLIBRARY) &hHotkeyLibrary,
                                                                                      szDLL_Name, szOperName, "(drvr hotkey)" );
@@ -3937,7 +3937,7 @@ ZSubtask::CreateDefaultFont( )
    zLONG  lFontSize;
    zSHORT nFont;
 
-   GetWorkstationApplicationValues( m_vDialog, "Font", szFaceName, sizeof( szFaceName ), &lFontSize, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
+   GetWorkstationApplicationValues( m_vDialog, "Font", szFaceName, zsizeof( szFaceName ), &lFontSize, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
    if ( szFaceName[ 0 ] == 'Z' && (zstrcmp( szFaceName, "ZeidonOld" ) == 0 || zstrcmp( szFaceName, "ZeidonSize" ) == 0) )
    {
       if ( szFaceName[ 6 ] == 'S' )    // "ZeidonSize"
@@ -3956,7 +3956,7 @@ ZSubtask::CreateDefaultFont( )
       zmemset( &logFont, 0, sizeof( LOGFONT ) );
       logFont.lfCharSet = DEFAULT_CHARSET;
       logFont.lfHeight = lFontSize;
-      strcpy_s( logFont.lfFaceName, sizeof( logFont.lfFaceName ), szFaceName );
+      strcpy_s( logFont.lfFaceName, zsizeof( logFont.lfFaceName ), szFaceName );
       HDC hDC = ::GetDC( NULL );
 
       ::ReleaseDC( NULL, hDC );
@@ -3973,7 +3973,7 @@ ZSubtask::CreateDefaultFont( )
       m_pFontWS = 0;
    }
 
-   GetWorkstationApplicationValues( m_vDialog, "FontCtrl", szFaceName, sizeof( szFaceName ), &lFontSize, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
+   GetWorkstationApplicationValues( m_vDialog, "FontCtrl", szFaceName, zsizeof( szFaceName ), &lFontSize, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
    mDeleteInit( m_pFontCtrl );
    m_pFontCtrl = new CFont;  // font override for controls
    if ( szFaceName[ 0 ] && lFontSize )
@@ -4215,7 +4215,7 @@ ZSubtask::InitializeSubtaskState( ZSubtask *pZSubtask, HWND hWnd )
    {
       zCHAR  szMsg[ 128 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "ZSubtask::ctor %s.%s ItemCnt before attach: ",
+      sprintf_s( szMsg, zsizeof( szMsg ), "ZSubtask::ctor %s.%s ItemCnt before attach: ",
                  (*(pZSubtask->m_pzsDlgTag)).GetString(), (*(pZSubtask->m_pzsWndTag)).GetString() );
       TraceLineI( szMsg, ZSubtask::GetSubtaskCount( 0 ) );
 
@@ -4225,7 +4225,7 @@ ZSubtask::InitializeSubtaskState( ZSubtask *pZSubtask, HWND hWnd )
          if ( g_pSubtaskList[ lItemCnt ].pZSubtask )
          {
 #ifdef zREMOTE_SERVER
-            sprintf_s( szMsg, sizeof( szMsg ), " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx   Subtask: ",
+            sprintf_s( szMsg, zsizeof( szMsg ), " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx  Subtask: ",
                       g_pSubtaskList[ lItemCnt ].pZSubtask->m_pZSocketTask, AfxGetThread( ),
                       g_pSubtaskList[ lItemCnt ].pZSubtask->m_pZSocketTask->m_pWinThread,
                       g_pSubtaskList[ lItemCnt ].pZSubtask->m_pZSocketTask->m_sock,
@@ -4233,7 +4233,7 @@ ZSubtask::InitializeSubtaskState( ZSubtask *pZSubtask, HWND hWnd )
                       g_pSubtaskList[ lItemCnt ].WndN,
                       g_pSubtaskList[ lItemCnt ].pvDialog );
 #else
-            sprintf_s( szMsg, sizeof( szMsg ), " Dlg: %s Wnd: %s vSubtask: %#010hx   Subtask: ",
+            sprintf_s( szMsg, zsizeof( szMsg ), " Dlg: %s Wnd: %s vSubtask: %#010hx  Subtask: ",
                       g_pSubtaskList[ lItemCnt ].DlgN,
                       g_pSubtaskList[ lItemCnt ].WndN,
                       (zULONG) g_pSubtaskList[ lItemCnt ].pvDialog );
@@ -4281,8 +4281,8 @@ ZSubtask::InitializeSubtaskState( ZSubtask *pZSubtask, HWND hWnd )
    g_pSubtaskList[ lPos ].lTID = SysGetTaskFromView( pZSubtask->m_vDialog );
 #endif
    g_pSubtaskList[ lPos ].lTID = pZSubtask->m_lTID;
-   strcpy_s( g_pSubtaskList[ lPos ].DlgN, sizeof( g_pSubtaskList[ lPos ].DlgN ), *(pZSubtask->m_pzsDlgTag) );
-   strcpy_s( g_pSubtaskList[ lPos ].WndN, sizeof( g_pSubtaskList[ lPos ].WndN ), *(pZSubtask->m_pzsWndTag) );
+   strcpy_s( g_pSubtaskList[ lPos ].DlgN, zsizeof( g_pSubtaskList[ lPos ].DlgN ), *(pZSubtask->m_pzsDlgTag) );
+   strcpy_s( g_pSubtaskList[ lPos ].WndN, zsizeof( g_pSubtaskList[ lPos ].WndN ), *(pZSubtask->m_pzsWndTag) );
 
 // TraceLineS( "ZSubtask::ctor Lock Mutex ZDrSS", "" );
 
@@ -4302,7 +4302,7 @@ ZSubtask::InitializeSubtaskState( ZSubtask *pZSubtask, HWND hWnd )
         (pZSubtask->m_pZTask->m_nTraceAction & 0x72) == 0x72 )
    {
       zCHAR  szMsg[ 256 ];
-      sprintf_s( szMsg, sizeof( szMsg ), "ZSubtask::ctor %s.%s ItemCnt: after attach: ",
+      sprintf_s( szMsg, zsizeof( szMsg ), "ZSubtask::ctor %s.%s ItemCnt: after attach: ",
                  (*(pZSubtask->m_pzsDlgTag)).GetString(), (*(pZSubtask->m_pzsWndTag)).GetString() );
       TraceLineI( szMsg, ZSubtask::GetSubtaskCount( 0 ) );
       lItemCnt = (zLONG) g_pSubtaskList[ 0 ].pZSubtask;
@@ -4311,14 +4311,14 @@ ZSubtask::InitializeSubtaskState( ZSubtask *pZSubtask, HWND hWnd )
          if ( g_pSubtaskList[ lItemCnt ].pZSubtask )
          {
 #ifdef zREMOTE_SERVER
-            sprintf_s( szMsg, sizeof( szMsg ), " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx   Subtask: ",
+            sprintf_s( szMsg, zsizeof( szMsg ), " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx  Subtask: ",
                        g_pSubtaskList[ lItemCnt ].pZSubtask->m_pZSocketTask, AfxGetThread( ),
                        g_pSubtaskList[ lItemCnt ].pZSubtask->m_pZSocketTask->m_pWinThread,
                        g_pSubtaskList[ lItemCnt ].pZSubtask->m_pZSocketTask->m_sock,
                        g_pSubtaskList[ lItemCnt ].DlgN, g_pSubtaskList[ lItemCnt ].WndN,
                        g_pSubtaskList[ lItemCnt ].pvDialog );
 #else
-            sprintf_s( szMsg, sizeof( szMsg ), " Dlg: %s Wnd: %s vSubtask: %#010hx   Subtask: ",
+            sprintf_s( szMsg, zsizeof( szMsg ), " Dlg: %s Wnd: %s vSubtask: %#010hx  Subtask: ",
                        g_pSubtaskList[ lItemCnt ].DlgN, g_pSubtaskList[ lItemCnt ].WndN,
                        (zULONG) g_pSubtaskList[ lItemCnt ].pvDialog );
 #endif
@@ -4424,7 +4424,7 @@ ZSubtask::TerminateSubtaskState( ZSubtask *pZSubtask )
          {
             if ( g_pSubtaskList[ lTemp ].pZSubtask )
             {
-               sprintf_s( szMsg, sizeof( szMsg ), " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx   Subtask: ",
+               sprintf_s( szMsg, zsizeof( szMsg ), " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx  Subtask: ",
                          g_pSubtaskList[ lTemp ].pZSubtask->m_pZSocketTask, AfxGetThread( ),
                          g_pSubtaskList[ lTemp ].pZSubtask->m_pZSocketTask->m_pWinThread,
                          g_pSubtaskList[ lTemp ].pZSubtask->m_pZSocketTask->m_sock,
@@ -4472,7 +4472,7 @@ ZSubtask::TerminateSubtaskState( ZSubtask *pZSubtask )
          {
             if ( g_pSubtaskList[ lTemp ].pZSubtask )
             {
-               sprintf_s( szMsg, sizeof( szMsg ), " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx   Subtask: ",
+               sprintf_s( szMsg, zsizeof( szMsg ), " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx  Subtask: ",
                          g_pSubtaskList[ lTemp ].pZSubtask->m_pZSocketTask, AfxGetThread( ),
                          g_pSubtaskList[ lTemp ].pZSubtask->m_pZSocketTask->m_pWinThread,
                          g_pSubtaskList[ lTemp ].pZSubtask->m_pZSocketTask->m_sock,

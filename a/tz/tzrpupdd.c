@@ -306,31 +306,31 @@ ReportDetailOK( zVIEW vSubtask )
 
       SetAttributeFromInteger( vReport, "Report", "PrintFlags", lPrintFlags );
 
-      GetCtrlText( vSubtask, "ReportTextSize", szSize, sizeof( szSize ) );
+      GetCtrlText( vSubtask, "ReportTextSize", szSize, zsizeof( szSize ) );
       lSize = fnGetSize( szSize, 10 );
       SetAttributeFromInteger( vReport, "Report", "ReportTextSize", lSize );
 
-      GetCtrlText( vSubtask, "Height", szSize, sizeof( szSize ) );
+      GetCtrlText( vSubtask, "Height", szSize, zsizeof( szSize ) );
       lSize = fnGetSize( szSize, 256 );
       SetAttributeFromInteger( vReport, "Page", "SizeY", lSize );
 
-      GetCtrlText( vSubtask, "Width", szSize, sizeof( szSize ) );
+      GetCtrlText( vSubtask, "Width", szSize, zsizeof( szSize ) );
       lSize = fnGetSize( szSize, 256 );
       SetAttributeFromInteger( vReport, "Page", "SizeX", lSize );
 
-      GetCtrlText( vSubtask, "Top", szSize, sizeof( szSize ) );
+      GetCtrlText( vSubtask, "Top", szSize, zsizeof( szSize ) );
       lSize = fnGetSize( szSize, 256 );
       SetAttributeFromInteger( vReport, "Report", "MarginTop", lSize );
 
-      GetCtrlText( vSubtask, "Left", szSize, sizeof( szSize ) );
+      GetCtrlText( vSubtask, "Left", szSize, zsizeof( szSize ) );
       lSize = fnGetSize( szSize, 256 );
       SetAttributeFromInteger( vReport, "Report", "MarginLeft", lSize );
 
-      GetCtrlText( vSubtask, "Bottom", szSize, sizeof( szSize ) );
+      GetCtrlText( vSubtask, "Bottom", szSize, zsizeof( szSize ) );
       lSize = fnGetSize( szSize, 256 );
       SetAttributeFromInteger( vReport, "Report", "MarginBottom", lSize );
 
-      GetCtrlText( vSubtask, "Right", szSize, sizeof( szSize ) );
+      GetCtrlText( vSubtask, "Right", szSize, zsizeof( szSize ) );
       lSize = fnGetSize( szSize, 256 );
       SetAttributeFromInteger( vReport, "Report", "MarginRight", lSize );
 
@@ -580,9 +580,9 @@ FontColor( zVIEW vSubtask )
 
    GetLastCommandTag( vSubtask, szCommandTag );
    if ( zstrcmp( szCommandTag, "UpdateBorderColor" ) == 0 )
-      GetCtrlText( vSubtask, "BorderColor", szColor, sizeof( szColor ) );
+      GetCtrlText( vSubtask, "BorderColor", szColor, zsizeof( szColor ) );
    else
-      GetCtrlText( vSubtask, "Color", szColor, sizeof( szColor ) );
+      GetCtrlText( vSubtask, "Color", szColor, zsizeof( szColor ) );
 
    clr = atol( szColor );
 // TraceLineI( "FontColor colorref = ", (zLONG) clr );
@@ -593,7 +593,7 @@ FontColor( zVIEW vSubtask )
       GetViewByName( &vReport, "TZWINDOW", vSubtask, zLEVEL_TASK );
       if ( ComponentIsCheckedOut( vSubtask, vReport, zSOURCE_REPORT_META ))
       {
-         zltoa( clr, szColor, sizeof( szColor ) );
+         zltoa( clr, szColor, zsizeof( szColor ) );
          if ( zstrcmp( szCommandTag, "UpdateBorderColor" ) == 0 )
             SetCtrlText( vSubtask, "BorderColor", szColor );
          else
@@ -644,14 +644,14 @@ FontSpecs( zVIEW vSubtask )
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
 
-   GetCtrlText( vSubtask, "Color", szColor, sizeof( szColor ) );
+   GetCtrlText( vSubtask, "Color", szColor, zsizeof( szColor ) );
    clr = atol( szColor );
-   GetCtrlText( vSubtask, "Size", szColor, sizeof( szColor ) );
+   GetCtrlText( vSubtask, "Size", szColor, zsizeof( szColor ) );
    lSize = fnGetSize( szColor, 10 ) / 10;
-   GetCtrlText( vSubtask, "Escapement", szColor, sizeof( szColor ) );
+   GetCtrlText( vSubtask, "Escapement", szColor, zsizeof( szColor ) );
    lEscapement = atol( szColor );
    lf.lfHeight = lSize;
-   GetCtrlText( vSubtask, "FontFace", lf.lfFaceName, sizeof( lf.lfFaceName ) );
+   GetCtrlText( vSubtask, "FontFace", lf.lfFaceName, zsizeof( lf.lfFaceName ) );
 
    if ( GetCtrlState( vSubtask, "Bold", zCONTROL_STATUS_CHECKED ) )
       lf.lfWeight = 700;
@@ -679,11 +679,11 @@ FontSpecs( zVIEW vSubtask )
       GetViewByName( &vReport, "TZWINDOW", vSubtask, zLEVEL_TASK );
       if ( ComponentIsCheckedOut( vSubtask, vReport, zSOURCE_REPORT_META ))
       {
-         zltoa( clr, szColor, sizeof( szColor ) );
+         zltoa( clr, szColor, zsizeof( szColor ) );
          SetCtrlText( vSubtask, "Color", szColor );
          fnSetSize( szColor, lSize * 10, 10 );
          SetCtrlText( vSubtask, "Size", szColor );
-//       zltoa( lf.lfEscapement, szColor, sizeof( szColor ) );
+//       zltoa( lf.lfEscapement, szColor, zsizeof( szColor ) );
 //       SetCtrlText( vSubtask, "Escapement", szColor );
          SetCtrlText( vSubtask, "FontFace", lf.lfFaceName );
 
@@ -715,17 +715,17 @@ fnRecurseChangeRptTags( zVIEW vReport )
    nRC = SetCursorFirstEntity( vReport, "Control", 0 );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vReport, "Control", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vReport, "Control", "Tag" );
       if ( szTag[ 0 ] == 'R' &&
            szTag[ 1 ] == 'p' &&
            szTag[ 2 ] == 't' &&
            szTag[ 3 ] == '_' )
       {
-         GetStringFromAttribute( szText, sizeof( szText ), vReport, "Control", "Text" );
+         GetStringFromAttribute( szText, zsizeof( szText ), vReport, "Control", "Text" );
          if ( szText[ 0 ] )
          {
             szText[ 32 ] = 0;
-            strcpy_s( szTag, sizeof( szTag ), szText );
+            strcpy_s( szTag, zsizeof( szTag ), szText );
          }
          else
          {
@@ -734,7 +734,7 @@ fnRecurseChangeRptTags( zVIEW vReport )
                  CheckExistenceOfEntity( vReport, "CtrlMapLOD_Attribute" ) == 0 &&
                  CheckExistenceOfEntity( vReport, "CtrlMapER_Attribute" ) == 0 )
             {
-               GetStringFromAttribute( szText, sizeof( szText ), vReport, "CtrlMapER_Attribute", "Name" );
+               GetStringFromAttribute( szText, zsizeof( szText ), vReport, "CtrlMapER_Attribute", "Name" );
             }
          }
 
@@ -821,7 +821,7 @@ fnRecurseMultiChangeRptTextCtrls( zVIEW vMultiChange, zVIEW vReport,
       if ( lType == lCtrlType )
       {
          ulLth = 84; // for reports
-         GetStringFromAttribute( szTag, sizeof( szTag ), vReport, "Control", "Tag" );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vReport, "Control", "Tag" );
          if ( bCreate )
          {
             CreateEntity( vMultiChange, "ErrorMsg", zPOS_AFTER );
@@ -1057,7 +1057,7 @@ UPD_TEXT_PostBuild( zVIEW vSubtask )
             SetCtrlText( vSubtask, "__Font", ld.szFontName );
 
             ld.lBorderStyle >>= 24;
-            zltoa( ld.lBorderStyle, szWork, sizeof( szWork ) );
+            zltoa( ld.lBorderStyle, szWork, zsizeof( szWork ) );
             SetCtrlText( vSubtask, "LineWidth", szWork );
          }
       }
@@ -1066,9 +1066,9 @@ UPD_TEXT_PostBuild( zVIEW vSubtask )
 
       fnSetSize( szWork, ld.lPointSize, 10 );
       SetCtrlText( vSubtask, "Size", szWork );
-      zltoa( ld.lBorderColor, szWork, sizeof( szWork ) );
+      zltoa( ld.lBorderColor, szWork, zsizeof( szWork ) );
       SetCtrlText( vSubtask, "BorderColor", szWork );
-      zltoa( ld.lEscapement, szWork, sizeof( szWork ) );
+      zltoa( ld.lEscapement, szWork, zsizeof( szWork ) );
       SetCtrlText( vSubtask, "Escapement", szWork );
    }
 
@@ -1148,7 +1148,7 @@ UPD_TEXT_OK( zVIEW vSubtask )
    ld.chUnderline = (char) GetCtrlState( vSubtask, "Underline",
                                          zCONTROL_STATUS_CHECKED );
 
-   CB_GetSelectedString( vSubtask, "Horizontal", szWork, sizeof( szWork ) );
+   CB_GetSelectedString( vSubtask, "Horizontal", szWork, zsizeof( szWork ) );
    //SetAttributeFromString( vControl, "Control", "TextAlignHorizontal", szWork );
 
    if ( zstrcmp( szWork, "Center" ) == 0 )
@@ -1175,7 +1175,7 @@ UPD_TEXT_OK( zVIEW vSubtask )
       SetAttributeFromString( vControl, "Control", "TextAlignHorizontal", "left" );
    }
 
-   CB_GetSelectedString( vSubtask, "Vertical", szWork, sizeof( szWork ) );
+   CB_GetSelectedString( vSubtask, "Vertical", szWork, zsizeof( szWork ) );
    if ( zstrcmp( szWork, "Center" ) == 0 )
       ld.chCenter |= 2;
    else
@@ -1191,10 +1191,10 @@ UPD_TEXT_OK( zVIEW vSubtask )
          ld.chBottomRight |= 2;
    }
 
-   GetCtrlText( vSubtask, "BorderColor", szWork, sizeof( szWork ) );
+   GetCtrlText( vSubtask, "BorderColor", szWork, zsizeof( szWork ) );
    ld.lBorderColor = atol( szWork );
 
-   GetCtrlText( vSubtask, "LineWidth", szWork, sizeof( szWork ) );
+   GetCtrlText( vSubtask, "LineWidth", szWork, zsizeof( szWork ) );
    ld.lBorderStyle = atol( szWork );
    ld.lBorderStyle <<= 24;  // push the pen width to the high-order byte.
 
@@ -1230,7 +1230,7 @@ UPD_TEXT_OK( zVIEW vSubtask )
    if ( GetCtrlState( vSubtask, "DashDotDot", zCONTROL_STATUS_CHECKED ) )
       ld.lBorderStyle |= 0x00000004;
 
-   GetCtrlText( vSubtask, "Size", szWork, sizeof( szWork ) );
+   GetCtrlText( vSubtask, "Size", szWork, zsizeof( szWork ) );
    ld.lPointSize = fnGetSize( szWork, 10 );
    GetCtrlProperty( vSubtask, "__ColorText",
                     zCONTROL_PROPERTY_INTEGER_DATA,
@@ -1240,8 +1240,8 @@ UPD_TEXT_OK( zVIEW vSubtask )
                     (zPULONG) &ld.lTextBkColor, 0, 0 );
    ulLth = LF_FACESIZE;
    GetCtrlProperty( vSubtask, "__Font", zCONTROL_PROPERTY_STRING_DATA,
-                    &ulLth, ld.szFontName, sizeof( ld.szFontName ) );
-   GetCtrlText( vSubtask, "Escapement", szWork, sizeof( szWork ) );
+                    &ulLth, ld.szFontName, zsizeof( ld.szFontName ) );
+   GetCtrlText( vSubtask, "Escapement", szWork, zsizeof( szWork ) );
    ld.lEscapement = atol( szWork );
 
    if ( ld.chMultiLine || ld.chBold || ld.chItalic || ld.chStrikeout ||
@@ -1337,16 +1337,16 @@ UPD_TEXT_OK( zVIEW vSubtask )
                   {
                      if ( *pchUpdate == '[' &&
                           (pch = zstrchr( pchUpdate, ']' )) != 0 &&
-                          (pch - pchUpdate) < sizeof( szEntity ) )
+                          (pch - pchUpdate) < zsizeof( szEntity ) )
                      {
-                        strncpy_s( szEntity, sizeof( szEntity ), pchUpdate + 1, pch - pchUpdate );
+                        strncpy_s( szEntity, zsizeof( szEntity ), pchUpdate + 1, pch - pchUpdate );
                         szEntity[ pch - (pchUpdate + 1) ] = 0;
                         if ( CheckExistenceOfEntity( vTemp, szEntity ) )
                            szEntity[ 0 ] = 0;
                      }
                      else
                      {
-                        strcpy_s( szEntity, sizeof( szEntity ), "Control" );
+                        strcpy_s( szEntity, zsizeof( szEntity ), "Control" );
                      }
 
                      if ( szEntity[ 0 ] )
@@ -1573,7 +1573,7 @@ ShapePostBuild( zVIEW vSubtask )
    zLONG   lSubtype;
    zULONG  ulPenColor = 0xFF000000;
    zULONG  ulShapeColor = 0xFF000000;
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
 
@@ -1584,9 +1584,9 @@ ShapePostBuild( zVIEW vSubtask )
    zmemset( szBlob, 0, ulLth );
    GetBlobFromAttribute( szBlob, &ulLth, vControl, "Control", "CtrlBOI" );
 // TraceLineI( "Shape control blob lth = ", ulLth );
-   if ( ulLth == sizeof( szBlob ) ||
-        ulLth == sizeof( szBlob ) - (1 * sizeof( zLONG )) || // remove this soon
-        ulLth == sizeof( szBlob ) - (2 * sizeof( zLONG )) )
+   if ( ulLth == zsizeof( szBlob ) ||
+        ulLth == zsizeof( szBlob ) - (1 * sizeof( zLONG )) || // remove this soon
+        ulLth == zsizeof( szBlob ) - (2 * sizeof( zLONG )) )
    {
       zLONG   lPenWidth;
       zLONG   lPenType;
@@ -1614,7 +1614,7 @@ ShapePostBuild( zVIEW vSubtask )
       lPenType = *((zPLONG) (szBlob + 8 + sizeof( zLONG )));
       ulPenColor = *((zPLONG) (szBlob + 8 + (2 * sizeof( zLONG ))));
       lRoundValue = *((zPLONG) (szBlob + 8 + (3 * sizeof( zLONG ))));
-      if ( ulLth == sizeof( szBlob ) )
+      if ( ulLth == zsizeof( szBlob ) )
       {
          ulShapeColor = *((zPULONG) (szBlob + 8 + (4 * sizeof( zLONG ))));
          lFlags = *((zPLONG) (szBlob + 8 + (5 * sizeof( zLONG ))));
@@ -1623,9 +1623,9 @@ ShapePostBuild( zVIEW vSubtask )
       SetCtrlState( vSubtask, "FullSize", zCONTROL_STATUS_CHECKED,
                     (lFlags & 0x00000001) ? TRUE : FALSE );
 
-      zltoa( lPenWidth, szBlob, sizeof( szBlob ) );
+      zltoa( lPenWidth, szBlob, zsizeof( szBlob ) );
       SetCtrlText( vSubtask, "PenWidth", szBlob );
-      zltoa( lPenType, szBlob, sizeof( szBlob ) );
+      zltoa( lPenType, szBlob, zsizeof( szBlob ) );
       switch ( lPenType )
       {
          case 1:
@@ -1656,7 +1656,7 @@ ShapePostBuild( zVIEW vSubtask )
 
    // SetCtrlText( vSubtask, "LineType", szBlob );
 
-      zltoa( lRoundValue, szBlob, sizeof( szBlob ) );
+      zltoa( lRoundValue, szBlob, zsizeof( szBlob ) );
       SetCtrlText( vSubtask, "RoundValue", szBlob );
    }
    else
@@ -1756,7 +1756,7 @@ ShapeOK( zVIEW vSubtask )
    if ( GetCtrlState( vSubtask, "FullSize", zCONTROL_STATUS_CHECKED ) )
       lFlags |= 0x00000001;
 
-   GetCtrlText( vSubtask, "PenWidth", szBlob, sizeof( szBlob ) );
+   GetCtrlText( vSubtask, "PenWidth", szBlob, zsizeof( szBlob ) );
    lPenWidth = atol( szBlob );
    pch = (zPCHAR) GetCtrlState( vSubtask, "LineType", zCONTROL_STATUS_CHECKED );
    if ( pch && pch != (zPCHAR) -1 )
@@ -1766,7 +1766,7 @@ ShapeOK( zVIEW vSubtask )
 
    GetCtrlProperty( vSubtask, "__ColorLine",
                     zCONTROL_PROPERTY_INTEGER_DATA, &ulPenColor, 0, 0 );
-   GetCtrlText( vSubtask, "RoundValue", szBlob, sizeof( szBlob ) );
+   GetCtrlText( vSubtask, "RoundValue", szBlob, zsizeof( szBlob ) );
    lRoundValue = atol( szBlob );
    GetCtrlProperty( vSubtask, "__ColorShape", zCONTROL_PROPERTY_INTEGER_DATA, &ulShapeColor, 0, 0 );
 
@@ -1777,8 +1777,8 @@ ShapeOK( zVIEW vSubtask )
       zPLONG lpLong;
 
       // initialize the blob
-      zmemset( szBlob, 0, sizeof( szBlob ) );
-      ulLth = sizeof( szBlob );
+      zmemset( szBlob, 0, zsizeof( szBlob ) );
+      ulLth = zsizeof( szBlob );
 
       szBlob[ 0 ] = bRectangle;
       szBlob[ 1 ] = bRoundRect;
@@ -1830,7 +1830,7 @@ ShapeUpdateColor( zVIEW vSubtask )
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
 
-   GetCtrlText( vSubtask, "PenColor", szColor, sizeof( szColor ) );
+   GetCtrlText( vSubtask, "PenColor", szColor, zsizeof( szColor ) );
    clr = atol( szColor );
 // TraceLineI( "FontColor colorref = ", (zLONG) clr );
 
@@ -1841,7 +1841,7 @@ ShapeUpdateColor( zVIEW vSubtask )
       GetViewByName( &vReport, "TZWINDOW", vSubtask, zLEVEL_TASK );
       if ( ComponentIsCheckedOut( vSubtask, vReport, zSOURCE_REPORT_META ))
       {
-         zltoa( clr, szColor, sizeof( szColor ) );
+         zltoa( clr, szColor, zsizeof( szColor ) );
          SetCtrlText( vSubtask, "PenColor", szColor );
       }
    }
@@ -1866,8 +1866,8 @@ RefreshPropertyAttribute( zVIEW vSubtask )
 
    if ( CheckExistenceOfEntity( vControl, "CtrlProperty" ) == 0 )
    {
-      GetStringFromAttribute( szProperty, sizeof( szProperty ), vControl, "CtrlProperty", "Name" );
-      GetStringFromAttribute( szPropertyValue, sizeof( szPropertyValue ), vControl, "CtrlProperty", "Value" );
+      GetStringFromAttribute( szProperty, zsizeof( szProperty ), vControl, "CtrlProperty", "Name" );
+      GetStringFromAttribute( szPropertyValue, zsizeof( szPropertyValue ), vControl, "CtrlProperty", "Value" );
       TraceLineS( "RefreshPropertyAttribute Name: ", szProperty );
       TraceLineS( "RefreshPropertyAttribute Value: ", szPropertyValue );
 
@@ -1992,9 +1992,9 @@ AddBlockAttribute( zVIEW vSubtask )
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
 
    CreateMetaEntity( vSubtask, vControl, "CtrlProperty", zPOS_AFTER );
-   CB_GetSelectedString( vSubtask, "BlockProperty", szProperty, sizeof( szProperty ) );
-// GetCtrlText( vSubtask, "BlockProperty", szPropertyValue, sizeof( szProperty ) );
-   GetCtrlText( vSubtask, "BlockPropertyValue", szPropertyValue, sizeof( szPropertyValue ) );
+   CB_GetSelectedString( vSubtask, "BlockProperty", szProperty, zsizeof( szProperty ) );
+// GetCtrlText( vSubtask, "BlockProperty", szPropertyValue, zsizeof( szProperty ) );
+   GetCtrlText( vSubtask, "BlockPropertyValue", szPropertyValue, zsizeof( szPropertyValue ) );
 
    SetAttributeFromString( vControl, "CtrlProperty", "Name", szProperty );
    SetAttributeFromString( vControl, "CtrlProperty", "Value", szPropertyValue );
@@ -2021,9 +2021,9 @@ UpdateBlockAttribute( zVIEW vSubtask )
 
    if ( CheckExistenceOfEntity( vControl, "CtrlProperty" ) == 0 )
    {
-      CB_GetSelectedString( vSubtask, "BlockProperty", szProperty, sizeof( szProperty ) );
-   // GetCtrlText( vSubtask, "BlockProperty", szPropertyValue, sizeof( szProperty ) );
-      GetCtrlText( vSubtask, "BlockPropertyValue", szPropertyValue, sizeof( szPropertyValue ) );
+      CB_GetSelectedString( vSubtask, "BlockProperty", szProperty, zsizeof( szProperty ) );
+   // GetCtrlText( vSubtask, "BlockProperty", szPropertyValue, zsizeof( szProperty ) );
+      GetCtrlText( vSubtask, "BlockPropertyValue", szPropertyValue, zsizeof( szPropertyValue ) );
 
       SetAttributeFromString( vControl, "CtrlProperty", "Name", szProperty );
       SetAttributeFromString( vControl, "CtrlProperty", "Value", szPropertyValue );
@@ -2067,7 +2067,7 @@ BlockUpdateColor( zVIEW vSubtask )
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
 
-// GetCtrlText( vSubtask, "PenColor", szColor, sizeof( szColor ) );
+// GetCtrlText( vSubtask, "PenColor", szColor, zsizeof( szColor ) );
    clr = atol( szColor );
 // TraceLineI( "FontColor colorref = ", (zLONG) clr );
 
@@ -2078,7 +2078,7 @@ BlockUpdateColor( zVIEW vSubtask )
       GetViewByName( &vReport, "TZWINDOW", vSubtask, zLEVEL_TASK );
       if ( ComponentIsCheckedOut( vSubtask, vReport, zSOURCE_REPORT_META ))
       {
-         zltoa( clr, szColor, sizeof( szColor ) );
+         zltoa( clr, szColor, zsizeof( szColor ) );
       // SetCtrlText( vSubtask, "PenColor", szColor );
       }
    }
@@ -2179,10 +2179,10 @@ UPD_BmpCtlOK( zVIEW vSubtask )
    SplitCtrlBOI_BMP( pCtrlBOI, ulLth, &BMP );
 
    // set new CtrlBOI
-   GetCtrlText( vSubtask, "DLL_Name", BMP.szDLLName, sizeof( BMP.szDLLName ) );
+   GetCtrlText( vSubtask, "DLL_Name", BMP.szDLLName, zsizeof( BMP.szDLLName ) );
 
    // if there is input for file name
-   GetCtrlText( vSubtask, "FileName", szName, sizeof( szName ) );
+   GetCtrlText( vSubtask, "FileName", szName, zsizeof( szName ) );
    if ( szName[ 0 ] )
    {
       // has the line an ID separated by ';'
@@ -2199,12 +2199,12 @@ UPD_BmpCtlOK( zVIEW vSubtask )
             BMP.lBMPUpOrIconID = 0;
          }
 
-         strcpy_s( BMP.szBMPUpOrIconName, sizeof( BMP.szBMPUpOrIconName ), szName );
+         strcpy_s( BMP.szBMPUpOrIconName, zsizeof( BMP.szBMPUpOrIconName ), szName );
       }
       else
       {
          // if ID exists, take it
-         strcpy_s( BMP.szBMPUpOrIconName, sizeof( BMP.szBMPUpOrIconName ), ++pszBMPName );
+         strcpy_s( BMP.szBMPUpOrIconName, zsizeof( BMP.szBMPUpOrIconName ), ++pszBMPName );
          BMP.lBMPUpOrIconID = zatol( szName );
       }
    }
@@ -2214,7 +2214,7 @@ UPD_BmpCtlOK( zVIEW vSubtask )
       BMP.lBMPUpOrIconID = 0;
    }
 
-   k = BuildCtrlBOI_BMP( &BMP, szBlob, sizeof( szBlob ) );
+   k = BuildCtrlBOI_BMP( &BMP, szBlob, zsizeof( szBlob ) );
    SetAttributeFromBlob( vControl, "Control", "CtrlBOI", szBlob, k );
 
    // For the Common Detail stuff, we want to hold on to the low order bits,
@@ -2256,7 +2256,7 @@ UPD_BmpCtlBrowseFileName( zVIEW vSubtask )
    zCHAR   szFileName[ zMAX_FILENAME_LTH + 1 ];
 
    szFileName[ 0 ] = 0;
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                "Bitmap Files (*.BMP)|*.bmp|",
                                "BMP",
                                zOFN_HIDEREADONLY | zOFN_NOCHANGEDIR |
@@ -2848,7 +2848,7 @@ ChangeSelectedViewMapping( zVIEW vSubtask )
    {
       zCHAR szVEA[ 3 * 33 ];
 
-      GetStringFromAttribute( szVEA, sizeof( szVEA ), vTZZOVEAO, "ViewObjRef", "Name" );
+      GetStringFromAttribute( szVEA, zsizeof( szVEA ), vTZZOVEAO, "ViewObjRef", "Name" );
 
       lRC = CallPainterForSelectedControls( vSubtask, "tzrpupdd",
                                             "PainterSelectedCallback",
@@ -2913,7 +2913,7 @@ SetSelectedEntityMapping( zVIEW vSubtask )
       zVIEW vLOD;
       zCHAR szVEA[ 3 * 33 ];
 
-      if ( fnGetCM_ListAndLOD( vSubtask, &vCM_List, &vLOD, vTZZOVEAO, szVEA, sizeof( szVEA ), FALSE ) )
+      if ( fnGetCM_ListAndLOD( vSubtask, &vCM_List, &vLOD, vTZZOVEAO, szVEA, zsizeof( szVEA ), FALSE ) )
       {
          lRC = CallPainterForSelectedControls( vSubtask, "tzrpupdd", "PainterSelectedCallback",
                                                vReport, vLOD, 3, szVEA, 0 );
@@ -2940,7 +2940,7 @@ SetSelectedAttributeMapping( zVIEW vSubtask )
       zVIEW vLOD;
       zCHAR szVEA[ 3 * 33 ];
 
-      if ( fnGetCM_ListAndLOD( vSubtask, &vCM_List, &vLOD, vTZZOVEAO, szVEA, sizeof( szVEA ), TRUE ) )
+      if ( fnGetCM_ListAndLOD( vSubtask, &vCM_List, &vLOD, vTZZOVEAO, szVEA, zsizeof( szVEA ), TRUE ) )
       {
          lRC = CallPainterForSelectedControls( vSubtask, "tzrpupdd", "PainterSelectedCallback",
                                                vReport, vLOD, 7, szVEA, 0 );
@@ -2970,7 +2970,7 @@ CtrlListChangeMappingViewGS( zVIEW vSubtask )
 
    GetViewByName( &vPAGECTRL, "PAGECTRL", vSubtask, zLEVEL_TASK );
    GetViewByName( &vReport, "vReport", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szGroupSetName, sizeof( szGroupSetName ), vPAGECTRL, "GroupSet", "Tag" );
+   GetStringFromAttribute( szGroupSetName, zsizeof( szGroupSetName ), vPAGECTRL, "GroupSet", "Tag" );
    if ( SetCursorFirstEntityByString( vReport, "GroupSet", "Tag",
                                       szGroupSetName, "Report" ) < zCURSOR_SET )
    {
@@ -3092,7 +3092,7 @@ CreateEntityGroupSet( zVIEW vSubtask, zBOOL bHorizontal )
       zVIEW vLOD;
       zCHAR szVEA[ 3 * 33 ];
 
-      if ( fnGetCM_ListAndLOD( vSubtask, &vCM_List, &vLOD, vTZZOVEAO, szVEA, sizeof( szVEA ), FALSE ) )
+      if ( fnGetCM_ListAndLOD( vSubtask, &vCM_List, &vLOD, vTZZOVEAO, szVEA, zsizeof( szVEA ), FALSE ) )
       {
          zVIEW  vReportHeader;
          zVIEW  vReportDetail;
@@ -3110,8 +3110,8 @@ CreateEntityGroupSet( zVIEW vSubtask, zBOOL bHorizontal )
 
          szVEA[ nLth++ ] = '.';
 
-         GetStringFromAttribute( szViewName, sizeof( szViewName ), vTZZOVEAO, "ViewObjRef", "Name" );
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOVEAO, "LOD_Entity", "Name" );
+         GetStringFromAttribute( szViewName, zsizeof( szViewName ), vTZZOVEAO, "ViewObjRef", "Name" );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOVEAO, "LOD_Entity", "Name" );
          GetIntegerFromAttribute( &lPageSizeX, vReport, "Page", "SizeX" );
          if ( lPageSizeX == 0 )
             lPageSizeX = 2176;  // 8 1/2
@@ -3120,7 +3120,7 @@ CreateEntityGroupSet( zVIEW vSubtask, zBOOL bHorizontal )
          TraceLineS( "=====> EntityName: ", szEntityName );
          TraceLineI( "=====> PageSizeX: ", lPageSizeX );
 
-         strcpy_s( szEntityTemp, sizeof( szEntityTemp ), szEntityName );
+         strcpy_s( szEntityTemp, zsizeof( szEntityTemp ), szEntityName );
          CreateViewFromViewForTask( &vTemp, vTZZOVEAO, vSubtask );
 
          while ( SetCursorFirstEntityByString( vReport, "GroupSet", "Tag",
@@ -3130,10 +3130,10 @@ CreateEntityGroupSet( zVIEW vSubtask, zBOOL bHorizontal )
             if ( nRC != zCURSOR_SET )
                break;
 
-            GetStringFromAttribute( szEntityTemp, sizeof( szEntityTemp ), vTemp, "LOD_Entity", "Name" );
+            GetStringFromAttribute( szEntityTemp, zsizeof( szEntityTemp ), vTemp, "LOD_Entity", "Name" );
          }
 
-         strcpy_s( szEntityTemp, sizeof( szEntityTemp ), szEntityName );
+         strcpy_s( szEntityTemp, zsizeof( szEntityTemp ), szEntityName );
          SetViewFromView( vTemp, vTZZOVEAO );
          if ( nRC != zCURSOR_SET )
             SetCursorFirstEntity( vReport, "GroupSet", 0 );
@@ -3147,7 +3147,7 @@ CreateEntityGroupSet( zVIEW vSubtask, zBOOL bHorizontal )
          SetAttributeFromInteger( vReport, "GroupSet", "SZDLG_Y", 320 );
          SetAttributeFromInteger( vReport, "GroupSet", "PPE_Type", 3000 );
 
-         strcpy_s( szEntityTemp + lCnt, sizeof( szEntityTemp ) - lCnt, "Header" );
+         strcpy_s( szEntityTemp + lCnt, zsizeof( szEntityTemp ) - lCnt, "Header" );
          CreateMetaEntity( vSubtask, vReport, "Group", zPOS_AFTER );
          CreateViewFromView( &vReportHeader, vReport );
          SetAttributeFromString( vReport, "Group", "Tag", szEntityTemp );
@@ -3159,7 +3159,7 @@ CreateEntityGroupSet( zVIEW vSubtask, zBOOL bHorizontal )
          SetAttributeFromInteger( vReport, "Group", "SZDLG_Y", 200 );
          SetAttributeFromInteger( vReport, "Group", "PPE_Type", 3010 );
 
-         strcpy_s( szEntityTemp + lCnt, sizeof( szEntityTemp ) - lCnt, "Detail" );
+         strcpy_s( szEntityTemp + lCnt, zsizeof( szEntityTemp ) - lCnt, "Detail" );
          CreateMetaEntity( vSubtask, vReport, "Group", zPOS_AFTER );
          CreateViewFromView( &vReportDetail, vReport );
          SetAttributeFromString( vReport, "Group", "Tag", szEntityTemp );
@@ -3180,8 +3180,8 @@ CreateEntityGroupSet( zVIEW vSubtask, zBOOL bHorizontal )
          nRC = SetCursorFirstEntity( vTemp, "LOD_Attribute", 0 );
          while ( nRC == zCURSOR_SET )
          {
-            GetStringFromAttribute( szAttribName, sizeof( szAttribName ), vTemp, "ER_Attribute", "Name" );
-            strcpy_s( szVEA + nLth, sizeof( szVEA ) - nLth, szAttribName );
+            GetStringFromAttribute( szAttribName, zsizeof( szAttribName ), vTemp, "ER_Attribute", "Name" );
+            strcpy_s( szVEA + nLth, zsizeof( szVEA ) - nLth, szAttribName );
             TraceLineS( "CreateEntityGroupSet creating control for attribute: ", szVEA );
 
             CreateMetaEntity( vSubtask, vReportHeader, "Control", zPOS_AFTER );
@@ -3197,7 +3197,7 @@ CreateEntityGroupSet( zVIEW vSubtask, zBOOL bHorizontal )
             if ( bHorizontal )
                SetAttributeFromString( vReportHeader, "Control", "Text", szAttribName );
 
-            strcat_s( szAttribName, sizeof( szAttribName ), ":" );  // to differentiate tags
+            strcat_s( szAttribName, zsizeof( szAttribName ), ":" ); // to differentiate tags
             if ( bHorizontal == FALSE )
                SetAttributeFromString( vReportHeader, "Control", "Text", szAttribName );
 
@@ -3254,7 +3254,7 @@ CreateEntityGroupSet( zVIEW vSubtask, zBOOL bHorizontal )
          lPosY += 100;
          SetAttributeFromInteger( vReport, "Group", "SZDLG_Y", lPosY );
 
-         strcpy_s( szEntityTemp + lCnt, sizeof( szEntityTemp ) - lCnt, "Footer" );
+         strcpy_s( szEntityTemp + lCnt, zsizeof( szEntityTemp ) - lCnt, "Footer" );
          CreateMetaEntity( vSubtask, vReport, "Group", zPOS_AFTER );
          SetAttributeFromString( vReport, "Group", "Tag", szEntityTemp );
          SetAttributeFromString( vReport, "Group", "Type", "gf" );
@@ -3354,9 +3354,9 @@ ShowCtrlListForUnknownEntity( zVIEW  vSubtask,
 {
    zCHAR szTitle[ 50 ];
 
-   strcpy_s( szTitle, sizeof( szTitle ), " " );
-   strcat_s( szTitle, sizeof( szTitle ), szEntityName );
-   strcat_s( szTitle, sizeof( szTitle ), " Detail" );
+   strcpy_s( szTitle, zsizeof( szTitle ), " " );
+   strcat_s( szTitle, zsizeof( szTitle ), szEntityName );
+   strcat_s( szTitle, zsizeof( szTitle ), " Detail" );
 
    SetCtrlText( vSubtask, "txtTitle", szTitle );
 
@@ -3463,7 +3463,7 @@ SaveCtrlList_CheckControlValues( zVIEW vSubtask )
       {
          zCHAR szTag[ 33 ];
 
-         if ( GetCtrlText( vSubtask, "Tag", szTag, sizeof( szTag ) ) == 0 )
+         if ( GetCtrlText( vSubtask, "Tag", szTag, zsizeof( szTag ) ) == 0 )
             OL_SetTextForCurrentItem( vSubtask, "CtrlList", szTag );
       }
    }
@@ -3497,7 +3497,7 @@ SaveCtrlList( zVIEW vSubtask )
          {
             zCHAR szTag[ 33 ];
 
-            if ( GetCtrlText( vSubtask, "GroupTag", szTag, sizeof( szTag ) ) == 0 )
+            if ( GetCtrlText( vSubtask, "GroupTag", szTag, zsizeof( szTag ) ) == 0 )
                OL_SetTextForCurrentItem( vSubtask, "CtrlList", szTag );
          }
       }
@@ -3796,12 +3796,12 @@ ChgCtrlPostbuild( zVIEW vSubtask )
       zSHORT nPrevSelSet;
       zSHORT nRC;
 
-      GetStringFromAttribute( szTag, sizeof( szTag ), vPE, "ControlDef", "Tag" );
-      GetStringFromAttribute( szAcceptsAllParents, sizeof( szAcceptsAllParents ), vPE,
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vPE, "ControlDef", "Tag" );
+      GetStringFromAttribute( szAcceptsAllParents, zsizeof( szAcceptsAllParents ), vPE,
                               "ControlDef", "AcceptsAllParents" );
-      GetStringFromAttribute( szAcceptsAllChildren, sizeof( szAcceptsAllChildren ), vPE,
+      GetStringFromAttribute( szAcceptsAllChildren, zsizeof( szAcceptsAllChildren ), vPE,
                               "ControlDef", "AcceptsAllChildren" );
-      GetStringFromAttribute( szRequiresParent, sizeof( szRequiresParent ), vPE,
+      GetStringFromAttribute( szRequiresParent, zsizeof( szRequiresParent ), vPE,
                               "ControlDef", "RequiresParent" );
       GetIntegerFromAttribute( &lKey, vPE,
                                "ControlDef", "Key" );
@@ -3827,12 +3827,12 @@ ChgCtrlPostbuild( zVIEW vSubtask )
                                   "ControlDef", "Key" );
          if ( lCurrKey != lKey )
          {
-            GetStringFromAttribute( szCurrTag, sizeof( szCurrTag ), vPE, "ControlDef", "Tag" );
-            GetStringFromAttribute( szCurrAcceptsAllParents, sizeof( szCurrAcceptsAllParents ), vPE,
+            GetStringFromAttribute( szCurrTag, zsizeof( szCurrTag ), vPE, "ControlDef", "Tag" );
+            GetStringFromAttribute( szCurrAcceptsAllParents, zsizeof( szCurrAcceptsAllParents ), vPE,
                                     "ControlDef", "AcceptsAllParents" );
-            GetStringFromAttribute( szCurrAcceptsAllChildren, sizeof( szCurrAcceptsAllChildren ), vPE,
+            GetStringFromAttribute( szCurrAcceptsAllChildren, zsizeof( szCurrAcceptsAllChildren ), vPE,
                                     "ControlDef", "AcceptsAllChildren" );
-            GetStringFromAttribute( szCurrRequiresParent, sizeof( szCurrRequiresParent ), vPE,
+            GetStringFromAttribute( szCurrRequiresParent, zsizeof( szCurrRequiresParent ), vPE,
                                     "ControlDef", "RequiresParent" );
             GetIntegerFromAttribute( &lCurrInvisible, vPE,
                                      "ControlDef", "Invisible" );
@@ -3934,14 +3934,14 @@ ChgCtrlChangeType( zVIEW vSubtask )
       zCHAR  szMsg[ 512 ];
       zSHORT nPrevSelSet;
 
-      GetStringFromAttribute( szTag, sizeof( szTag ), vPE, "ControlDef", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vPE, "ControlDef", "Tag" );
 
       nPrevSelSet = SetSelectSetForView( vPE, 4 );
       SetCursorFirstSelectedEntity( vPE, "ControlDef", 0 );
-      GetStringFromAttribute( szNewTag, sizeof( szNewTag ), vPE, "ControlDef", "Tag" );
+      GetStringFromAttribute( szNewTag, zsizeof( szNewTag ), vPE, "ControlDef", "Tag" );
       SetSelectSetForView( vPE, nPrevSelSet );
 
-      sprintf_s( szMsg, sizeof( szMsg ),
+      sprintf_s( szMsg, zsizeof( szMsg ),
                 "OK to change control type from: \"%s\" to \"%s\"?\n"
                 "N.B.  This is a provisional implementation and the\n"
                 "integrity of the changed control cannot be guaranteed\n"
@@ -4155,10 +4155,10 @@ CtrlListDeleteCtrl( zVIEW vSubtask )
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
    if ( vControl )
    {
-      GetStringFromAttribute( szControlTag, sizeof( szControlTag ), vControl, "Control", "Tag" );
-      strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Control '" );
-      strcat_s( szMsg, sizeof( szMsg ), szControlTag );
-      strcat_s( szMsg, sizeof( szMsg ), "'?" );
+      GetStringFromAttribute( szControlTag, zsizeof( szControlTag ), vControl, "Control", "Tag" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Control '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szControlTag );
+      strcat_s( szMsg, zsizeof( szMsg ), "'?" );
       if ( MessagePrompt( vSubtask, "PE002",
                           "Dialog Maintenance",
                           szMsg, zBEEP, zBUTTONS_YESNO,
@@ -4250,7 +4250,7 @@ InitMenu( zVIEW vSubtask )
       SetOptionState( vSubtask, "AutodesignReport", zOPTION_STATUS_ENABLED, 1 );
    }
 
-   if ( fnPainterCall( zMSG_UNDO, vSubtask, 0, szLabel, sizeof( szLabel ) ) == 0 )
+   if ( fnPainterCall( zMSG_UNDO, vSubtask, 0, szLabel, zsizeof( szLabel ) ) == 0 )
    {
       SetOptionState( vSubtask, "Undo", zOPTION_STATUS_TEXT, (zULONG) szLabel );
       SetOptionState( vSubtask, "Undo", zOPTION_STATUS_ENABLED, 1 );
@@ -4261,7 +4261,7 @@ InitMenu( zVIEW vSubtask )
       SetOptionState( vSubtask, "Undo", zOPTION_STATUS_ENABLED, 0 );
    }
 
-   if ( fnPainterCall( zMSG_REDO, vSubtask, 0, szLabel, sizeof( szLabel ) ) == 0 )
+   if ( fnPainterCall( zMSG_REDO, vSubtask, 0, szLabel, zsizeof( szLabel ) ) == 0 )
    {
       SetOptionState( vSubtask, "Redo", zOPTION_STATUS_TEXT, (zULONG) szLabel );
       SetOptionState( vSubtask, "Redo", zOPTION_STATUS_ENABLED, 1 );
@@ -4272,7 +4272,7 @@ InitMenu( zVIEW vSubtask )
       SetOptionState( vSubtask, "Redo", zOPTION_STATUS_ENABLED, 0 );
    }
 
-   if ( fnPainterCall( zMSG_CLIPBOARD_COPY, vSubtask, 0, szLabel, sizeof( szLabel ) ) == 0 )
+   if ( fnPainterCall( zMSG_CLIPBOARD_COPY, vSubtask, 0, szLabel, zsizeof( szLabel ) ) == 0 )
       nEnable = 1;
    else
       nEnable = 0;
@@ -4291,7 +4291,7 @@ InitMenu( zVIEW vSubtask )
    SetOptionState( vSubtask, "AbutVertical", zOPTION_STATUS_ENABLED, nEnable );
    SetOptionState( vSubtask, "AbutHorizontal", zOPTION_STATUS_ENABLED, nEnable );
 
-   if ( fnPainterCall( zMSG_CLIPBOARD_PASTE, vSubtask, 0, szLabel, sizeof( szLabel ) ) == 0 )
+   if ( fnPainterCall( zMSG_CLIPBOARD_PASTE, vSubtask, 0, szLabel, zsizeof( szLabel ) ) == 0 )
    {
       SetOptionState( vSubtask, "Paste", zOPTION_STATUS_ENABLED, 1 );
    }
@@ -4320,7 +4320,7 @@ InitPopup( zVIEW vSubtask )
 
    SetDrawMenuBar( vSubtask, FALSE );
 
-// strcpy_s( szUnknown, sizeof( szUnknown ), "__Unknown" );
+// strcpy_s( szUnknown, zsizeof( szUnknown ), "__Unknown" );
    szCurrentCtrl[ 0 ] = 0;
    while ( (nPos = GetNextCtrlAtPoint( vSubtask, nPos, szCurrentCtrl, 1 )) >= 0 )
    {
@@ -4335,12 +4335,12 @@ InitPopup( zVIEW vSubtask )
          else
             lFlag = 4;
 
-         strcpy_s( szOptionTag, sizeof( szOptionTag ), szCurrentCtrl );
-         strcat_s( szOptionTag, sizeof( szOptionTag ), "." );
-         strcat_s( szOptionTag, sizeof( szOptionTag ), cpcOptionTags[ k ] );
-         strcpy_s( szActionTag, sizeof( szActionTag ), "Update" );
-         strcat_s( szActionTag, sizeof( szActionTag ), cpcOptionTags[ k ] );
-         strcat_s( szActionTag, sizeof( szActionTag ), "InPlace" );
+         strcpy_s( szOptionTag, zsizeof( szOptionTag ), szCurrentCtrl );
+         strcat_s( szOptionTag, zsizeof( szOptionTag ), "." );
+         strcat_s( szOptionTag, zsizeof( szOptionTag ), cpcOptionTags[ k ] );
+         strcpy_s( szActionTag, zsizeof( szActionTag ), "Update" );
+         strcat_s( szActionTag, zsizeof( szActionTag ), cpcOptionTags[ k ] );
+         strcat_s( szActionTag, zsizeof( szActionTag ), "InPlace" );
          AddOptionToPopupMenu( vSubtask, cpcOptionTags[ k ], 0, szOptionTag,
                                szCurrentCtrl, szActionTag, lFlag );
       }
@@ -4641,7 +4641,7 @@ MigrateReports( zVIEW vSubtask )
               ((lCheckFlags & zCHECK_TIMESTAMP_ONLY) == 0 ||
                (lCheckFlags & zCHECK_POSITION_ONLY) != 0) )
          {
-            sprintf_s( szMsg, sizeof( szMsg ), "Checking Report: %s for Migration", pch );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Checking Report: %s for Migration", pch );
             TraceLineS( szMsg, "" );
             MB_SetMessage( vSubtask, 1, szMsg );
             nRC = SetCursorFirstEntity( vReport, "Page", 0 );
@@ -4676,7 +4676,7 @@ MigrateReports( zVIEW vSubtask )
          else
          if ( bSaveAll )
          {
-            sprintf_s( szMsg, sizeof( szMsg ), "Saving Report: %s", pch );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Saving Report: %s", pch );
             MB_SetMessage( vSubtask, 1, szMsg );
             TraceLineS( "MigrateReports (all) report: ", pch );
             CommitMetaOI( vSubtask, vReport, zSOURCE_REPORT_META );
@@ -4691,29 +4691,29 @@ MigrateReports( zVIEW vSubtask )
             zLONG  lFileXRP = -1;
             zSHORT nLth;
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Checking Report: %s for synchronization", pch );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Checking Report: %s for synchronization", pch );
             TraceLineS( szMsg, "" );
             MB_SetMessage( vSubtask, 1, szMsg );
-            GetStringFromAttribute( szFileSpec2, sizeof( szFileSpec2 ), vTaskLPLR, "LPLR", "ExecDir" );
+            GetStringFromAttribute( szFileSpec2, zsizeof( szFileSpec2 ), vTaskLPLR, "LPLR", "ExecDir" );
             nLth = (zSHORT) zstrlen( szFileSpec2 );
             if ( nLth && szFileSpec2[ nLth - 1 ] != '\\' )
                szFileSpec2[ nLth++ ] = '\\';
 
-            strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, pch );
-            strcat_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".xwd" );
+            strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, pch );
+            strcat_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".xwd" );
 
-            GetStringFromAttribute( szFileSpec1, sizeof( szFileSpec1 ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+            GetStringFromAttribute( szFileSpec1, zsizeof( szFileSpec1 ), vTaskLPLR, "LPLR", "MetaSrcDir" );
             nLth = (zSHORT) zstrlen( szFileSpec1 );
             if ( nLth && szFileSpec1[ nLth - 1 ] != '\\' )
                szFileSpec1[ nLth++ ] = '\\';
 
-            strcpy_s( szFileSpec1 + nLth, sizeof( szFileSpec1 ) - nLth, pch );
+            strcpy_s( szFileSpec1 + nLth, zsizeof( szFileSpec1 ) - nLth, pch );
             nLth += (zSHORT) zstrlen( pch );
-            strcpy_s( szFileSpec1 + nLth, sizeof( szFileSpec1 ) - nLth, ".prd" );
+            strcpy_s( szFileSpec1 + nLth, zsizeof( szFileSpec1 ) - nLth, ".prd" );
             lFilePRP = SysOpenFile( vSubtask, szFileSpec1, COREFILE_READ );
             lFileXRP = SysOpenFile( vSubtask, szFileSpec2, COREFILE_READ );
-            strcpy_s( szFileSpec2, sizeof( szFileSpec2 ), szFileSpec1 );
-            strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".tmp" );
+            strcpy_s( szFileSpec2, zsizeof( szFileSpec2 ), szFileSpec1 );
+            strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".tmp" );
             if ( lFilePRP >= 0 &&
                  (lFileXRP < 0 ||
                   (lFileXRP >= 0 &&
@@ -4731,14 +4731,14 @@ MigrateReports( zVIEW vSubtask )
 
                lFileXRP = -1;
 
-               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".pr~" );
+               strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".pr~" );
                SysRenameFile( vSubtask, szFileSpec1, szFileSpec2, TRUE );
-               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".tmp" );
+               strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".tmp" );
                SysRenameFile( vSubtask, szFileSpec2, szFileSpec1, TRUE );
 
                TraceLineS( "MigrateReports synchronize report: ", pch );
                CommitMetaOI( vSubtask, vReport, zSOURCE_REPORT_META );
-               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".pr~" );
+               strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".pr~" );
                SysRenameFile( vSubtask, szFileSpec2, szFileSpec1, TRUE );
             }
             else

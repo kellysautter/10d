@@ -96,7 +96,7 @@ oTZRPSRCO_GenerateXSLT_XML( zVIEW     vSourceOI,
 
    //:// First we need to activate the report def...
    //:SysReadZeidonIni( -1, "[WorkStation]", "ResourcePath", szFileName )
-   SysReadZeidonIni( -1, "[WorkStation]", "ResourcePath", szFileName, sizeof( szFileName ) );
+   SysReadZeidonIni( -1, "[WorkStation]", "ResourcePath", szFileName, zsizeof( szFileName ) );
    //://szFileName = "c:\lplr\zencas\bin\"
    //:szFileName = szFileName + szReportName + ".xrp"
    ZeidonStringConcat( szFileName, 1, 0, szReportName, 1, 0, 201 );
@@ -128,7 +128,7 @@ oTZRPSRCO_GenerateXSLT_XML( zVIEW     vSourceOI,
 
    //:// Open XML output file.
    //:SysReadZeidonIni( -1, "[Workstation]", "XSLTDirectory", szFileName )
-   SysReadZeidonIni( -1, "[Workstation]", "XSLTDirectory", szFileName, sizeof( szFileName ) );
+   SysReadZeidonIni( -1, "[Workstation]", "XSLTDirectory", szFileName, zsizeof( szFileName ) );
    //:szFileName = szFileName + szXMLFileName + ".xml"
    ZeidonStringConcat( szFileName, 1, 0, szXMLFileName, 1, 0, 201 );
    ZeidonStringConcat( szFileName, 1, 0, ".xml", 1, 0, 201 );

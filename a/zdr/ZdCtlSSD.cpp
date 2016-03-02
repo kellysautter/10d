@@ -151,7 +151,7 @@ SS_AddColor( LPSPREADSHEET lpSS,
    if ( g_nColorTableCnt >= g_nColorTableAllocCnt )
       g_hColorTable = SS_ColorAllocItem( g_hColorTable,
                                          &g_nColorTableAllocCnt,
-                                         sizeof( SS_CLRTBLITEM ) );
+                                         zsizeof( SS_CLRTBLITEM ) );
 
    if ( g_hColorTable == 0 )
       return( -1 );
@@ -197,7 +197,7 @@ SS_BtnDraw( HWND          hWnd,
    zBOOL         fSetBtnUp = FALSE;
    zBOOL         fSetBtnDown = FALSE;
 
-   zmemset( &SuperBtn, 0, sizeof( SUPERBTN ) );
+   zmemset( &SuperBtn, 0, zsizeof( SUPERBTN ) );
 
    SuperBtn.hText           = lpCellType->Spec.Button.hText;
    SuperBtn.hBrushFocus     = 0;
@@ -256,7 +256,7 @@ SS_BtnDraw( HWND          hWnd,
    }
 
    zmemcpy( &SuperBtn.Color, &lpCellType->Spec.Button.Color,
-            sizeof( SUPERBTNCOLOR ) );
+            zsizeof( SUPERBTNCOLOR ) );
    SuperBtnPaint( hWnd, &SuperBtn, hDC, lpRect, TRUE, FALSE,
                   fRoundCorners, fUseDib, lpRectOrig );
    if ( fSetBtnUp )
@@ -1115,7 +1115,7 @@ SS_Draw( HWND              hWnd,
          if ( lpRow )
             SS_UnlockRowItem( lpSS, TempRowAt );
 
-         zmemset( &VQueryData, 0, sizeof( SS_VQUERYDATA ) );
+         zmemset( &VQueryData, 0, zsizeof( SS_VQUERYDATA ) );
          VQueryData.ssRow = TempRowAt;
          VQueryData.wDirection = SS_VDOWN;
          VQueryData.ssRowsNeeded = 1;
@@ -1660,19 +1660,19 @@ SSx_GetBorder( HWND hWnd, LPSPREADSHEET lpSS, LPSS_COL lpCol,
    if ( lpSS->Border.bType )
    {
       fRet = TRUE;
-      zmemcpy( &Border, &lpSS->Border, sizeof( SS_BORDER ) );
+      zmemcpy( &Border, &lpSS->Border, zsizeof( SS_BORDER ) );
    }
 
    if ( ssCol != SS_ALLCOLS && lpCol && lpCol->Border.bType )
    {
       fRet = TRUE;
-      zmemcpy( &Border, &lpCol->Border, sizeof( SS_BORDER ) );
+      zmemcpy( &Border, &lpCol->Border, zsizeof( SS_BORDER ) );
    }
 
    if ( ssRow != SS_ALLROWS && lpRow && lpRow->Border.bType )
    {
       fRet = TRUE;
-      zmemcpy( &Border, &lpRow->Border, sizeof( SS_BORDER ) );
+      zmemcpy( &Border, &lpRow->Border, zsizeof( SS_BORDER ) );
    }
 
    if ( ssRow != SS_ALLROWS && ssCol != SS_ALLCOLS &&
@@ -1680,7 +1680,7 @@ SSx_GetBorder( HWND hWnd, LPSPREADSHEET lpSS, LPSS_COL lpCol,
         lpCell->m_Border.bType )
    {
       fRet = TRUE;
-      zmemcpy( &Border, &lpCell->m_Border, sizeof( SS_BORDER ) );
+      zmemcpy( &Border, &lpCell->m_Border, zsizeof( SS_BORDER ) );
    }
 
    if ( lpCell && lpCellOrig == 0 )
@@ -1745,7 +1745,7 @@ SS_SetBorder( HWND          hWnd,
       {
          if ( (lpCell = SS_LockCellItem( lpSS, ssCol, ss )) != 0 )
          {
-            zmemset( &lpCell->m_Border, 0, sizeof( SS_BORDER ) );
+            zmemset( &lpCell->m_Border, 0, zsizeof( SS_BORDER ) );
             SS_UnlockCellItem( lpSS, ssCol, ss );
          }
       }
@@ -1767,7 +1767,7 @@ SS_SetBorder( HWND          hWnd,
       {
          if ( (lpCell = SS_LockCellItem( lpSS, ss, ssRow )) != 0 )
          {
-            zmemset( &lpCell->m_Border, 0, sizeof( SS_BORDER ) );
+            zmemset( &lpCell->m_Border, 0, zsizeof( SS_BORDER ) );
             SS_UnlockCellItem( lpSS, ss, ssRow );
          }
       }
@@ -1789,13 +1789,13 @@ SS_SetBorder( HWND          hWnd,
       {
          if ( (lpRow = SS_LockRowItem( lpSS, ss )) != 0 )
          {
-            zmemset( &lpRow->Border, 0, sizeof( SS_BORDER ) );
+            zmemset( &lpRow->Border, 0, zsizeof( SS_BORDER ) );
 
             for ( j = 1; j < lpSS->Col.AllocCnt; j++ )
             {
                if ( (lpCell = SSx_LockCellItem( lpSS, lpRow, j, ss )) != 0 )
                {
-                  zmemset( &lpCell->m_Border, 0, sizeof( SS_BORDER ) );
+                  zmemset( &lpCell->m_Border, 0, zsizeof( SS_BORDER ) );
                   SS_UnlockCellItem( lpSS, j, ss );
                }
             }
@@ -1806,7 +1806,7 @@ SS_SetBorder( HWND          hWnd,
       {
          if ( (lpCol = SS_LockColItem( lpSS, ss )) != 0 )
          {
-            zmemset( &lpCol->Border, 0, sizeof( SS_BORDER ) );
+            zmemset( &lpCol->Border, 0, zsizeof( SS_BORDER ) );
             SS_UnlockColItem( lpSS, ss );
          }
       }
@@ -2604,7 +2604,7 @@ SS_DrawText( HDC               hDC,
             if ( lpPFormat == 0 || lpPFormat->pf.fDrawColors )
                clrTextOld = SetTxColor( hDC, ClrTblItemFore.Color );
 
-            zmemcpy( &rectTemp, rect, sizeof( RECT ) );
+            zmemcpy( &rectTemp, rect, zsizeof( RECT ) );
 
             rectTemp.right -= lpSS->nComboButtonBitmapWidth - 1;
             rectTemp.left += lpSS->nMarginX;
@@ -2758,7 +2758,7 @@ SS_DrawText( HDC               hDC,
 
             if ( SSData.m_DataType == SS_TYPE_FLOAT )
             {
-               zmemset( szBuffer, 0, sizeof( szBuffer ) );
+               zmemset( szBuffer, 0, zsizeof( szBuffer ) );
                SS_FloatFormat( lpSS, CellType, SSData.m_Data.dxValue,
                                szBuffer, FALSE );
                pchData = szBuffer;
@@ -2768,7 +2768,7 @@ SS_DrawText( HDC               hDC,
             {
                if ( *pchData )
                {
-                  zmemset( szBuffer, 0, sizeof( szBuffer ) );
+                  zmemset( szBuffer, 0, zsizeof( szBuffer ) );
                   dxValue = ZDecimal( pchData );
                // StringToFloat( pchData, &dxValue ),
                   SS_FloatFormat( lpSS, CellType, dxValue, szBuffer, FALSE );
@@ -3281,13 +3281,13 @@ SSx_GetClrTblItem( HWND                hWnd,
 
    if ( BackClrTblItem )
    {
-      zmemset( BackClrTblItem, 0, sizeof( SS_CLRTBLITEM ) );
+      zmemset( BackClrTblItem, 0, zsizeof( SS_CLRTBLITEM ) );
       SS_GetColorItem( lpSS, BackClrTblItem, BackgroundId );
    }
 
    if ( ForeClrTblItem )
    {
-      zmemset( ForeClrTblItem, 0, sizeof( SS_CLRTBLITEM ) );
+      zmemset( ForeClrTblItem, 0, zsizeof( SS_CLRTBLITEM ) );
       SS_GetColorItem( lpSS, ForeClrTblItem, ForegroundId );
    }
 
@@ -3340,7 +3340,7 @@ SS_GetColorItem( LPSPREADSHEET     lpSS,
 //    lpColorTable = (LPSS_CLRTBLITEM) DrLockTaskMemory( g_hColorTable );
       lpColorTable = (LPSS_CLRTBLITEM) g_hColorTable;
       zmemcpy( ClrTblItem, &lpColorTable[ ColorId - 1 ],
-               sizeof( SS_CLRTBLITEM ) );
+               zsizeof( SS_CLRTBLITEM ) );
 //    DrUnlockTaskMemory( lpColorTable );
       return( ClrTblItem );
    }
@@ -4719,7 +4719,7 @@ SS_CheckBoxDraw( HWND          hWnd,
    if ( lpCheckBox == 0 )
       return;
 
-   zmemset( &CheckBox, 0, sizeof( CHECKBOX ) );
+   zmemset( &CheckBox, 0, zsizeof( CHECKBOX ) );
 
    CheckBox.hText          = lpCellType->Spec.CheckBox.hText;
    CheckBox.hBrushFocus    = lpCheckBox->hBrushFocus;

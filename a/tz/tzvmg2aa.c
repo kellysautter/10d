@@ -428,11 +428,11 @@ TraceExpressionStruct( sQExprStruct *psExpr, zLONG lExprIdx, zCPCHAR cpcMsg1, zC
    zCHAR   szOffset[ 32 ];
    zCHAR   szLevel[ 32 ];
 
-   fnFindDefine( szElementClass, sizeof( szElementClass ), psExpr->lElementClass );
-   fnFindDefine( szDataClass, sizeof( szDataClass ), psExpr->lDataClass );
-   fnFindDefine( szDataType, sizeof( szDataType ), psExpr->lDataType );
-   fnFindDefine( szOffset, sizeof( szOffset ), psExpr->lOffset );
-   fnFindDefine( szLevel, sizeof( szLevel ), psExpr->lLevel );
+   fnFindDefine( szElementClass, zsizeof( szElementClass ), psExpr->lElementClass );
+   fnFindDefine( szDataClass, zsizeof( szDataClass ), psExpr->lDataClass );
+   fnFindDefine( szDataType, zsizeof( szDataType ), psExpr->lDataType );
+   fnFindDefine( szOffset, zsizeof( szOffset ), psExpr->lOffset );
+   fnFindDefine( szLevel, zsizeof( szLevel ), psExpr->lLevel );
    TraceLine( "Expr ECls:%4d:%-16s  DCls:%4d:%-16s  DType:%10d:%-16s  Offset:%8d:%-16s  Lvl:%4d:%-16s  Flg:%x  Cnt:%3d  Idx:%3d  %s%s",
               psExpr->lElementClass, szElementClass, psExpr->lDataClass, szDataClass,
               psExpr->lDataType, szDataType, psExpr->lOffset, szOffset, psExpr->lLevel, szLevel, psExpr->lFlags, psExpr->lCount, lExprIdx, cpcMsg1, cpcMsg2 );
@@ -448,8 +448,8 @@ fnAddView( zVIEW vSubtask, zPCHAR pchViewName, zLONG lMaxLth, sQExprStruct *psEx
    zCHAR  szTemp[ 64 ];
    zSHORT k;
 
-   szTemp[ sizeof( szTemp ) - 1 ] = 0;
-   k = AddExprEntryToString( vSubtask, psExpr, szTemp, pchPFlag, lFlagLth, sizeof( szTemp ) - 2, pchExprText, 0 ); // get view variable
+   szTemp[ zsizeof( szTemp ) - 1 ] = 0;
+   k = AddExprEntryToString( vSubtask, psExpr, szTemp, pchPFlag, lFlagLth, zsizeof( szTemp ) - 2, pchExprText, 0 ); // get view variable
 
    pchViewName[ 0 ] = '(';
    pchViewName[ 1 ] = ' ';
@@ -577,7 +577,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
    }
 #else
    nCnt = nExprIdx / (sizeof( sQExprStruct ) - MAXSTRING);
-   nExprIdx -= (sizeof( sQExprStruct ) - MAXSTRING);  // now point to beginning of last ExprStruct
+   nExprIdx -= (sizeof( sQExprStruct ) - MAXSTRING); // now point to beginning of last ExprStruct
    nHoldExprIdx = nExprIdx;
 #endif
 
@@ -608,11 +608,11 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
          {
              bOperation = TRUE;  // done here for special case, but will be repeated in next loop
              if ( psExpr->lOffset > MAXSTRING )
-               GetOperationNameFromZKey( vSubtask, szOperationName, sizeof( szOperationName ), szHeaderName, sizeof( szHeaderName ),
-                                         szThrowsException, sizeof( szThrowsException ), szThrowsExceptionCatchCode, sizeof( szThrowsExceptionCatchCode ),
-                                         szOperationGroup, sizeof( szOperationGroup ), psExpr->lDataClass, psExpr->lOffset );
+               GetOperationNameFromZKey( vSubtask, szOperationName, zsizeof( szOperationName ), szHeaderName, zsizeof( szHeaderName ),
+                                         szThrowsException, zsizeof( szThrowsException ), szThrowsExceptionCatchCode, zsizeof( szThrowsExceptionCatchCode ),
+                                         szOperationGroup, zsizeof( szOperationGroup ), psExpr->lDataClass, psExpr->lOffset );
             else
-               strcpy_s( szOperationName, sizeof( szOperationName ), szExprText + psExpr->lOffset );
+               strcpy_s( szOperationName, zsizeof( szOperationName ), szExprText + psExpr->lOffset );
 
             lRightVarType = -1;
             lLeftVarType = -1;
@@ -768,13 +768,13 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
 
          if ( psExpr1 && psExpr2 )
          {
-            szStringBuilder2[ sizeof( szStringBuilder2 ) - 1 ] = 0;
-            k = AddExprEntryToString( vSubtask, psExpr2, szStringBuilder2, szPFlag2, sizeof( szPFlag2 ), sizeof( szStringBuilder2 ) - 2, szExprText, 0 ); // get variable
-            strcpy_s( szStringBuilder2, sizeof( szStringBuilder2 ), szStringBuilder2 + k + 1 );
+            szStringBuilder2[ zsizeof( szStringBuilder2 ) - 1 ] = 0;
+            k = AddExprEntryToString( vSubtask, psExpr2, szStringBuilder2, szPFlag2, zsizeof( szPFlag2 ), zsizeof( szStringBuilder2 ) - 2, szExprText, 0 ); // get variable
+            strcpy_s( szStringBuilder2, zsizeof( szStringBuilder2 ), szStringBuilder2 + k + 1 );
 
-            szStringBuilder1[ sizeof( szStringBuilder1 ) - 1 ] = 0;
-            k = AddExprEntryToString( vSubtask, psExpr1, szStringBuilder1, szPFlag1, sizeof( szPFlag1 ), sizeof( szStringBuilder1 ) - 2, szExprText, 0 ); // get variable
-            strcpy_s( szStringBuilder1, sizeof( szStringBuilder1 ), szStringBuilder1 + k + 1 );
+            szStringBuilder1[ zsizeof( szStringBuilder1 ) - 1 ] = 0;
+            k = AddExprEntryToString( vSubtask, psExpr1, szStringBuilder1, szPFlag1, zsizeof( szPFlag1 ), zsizeof( szStringBuilder1 ) - 2, szExprText, 0 ); // get variable
+            strcpy_s( szStringBuilder1, zsizeof( szStringBuilder1 ), szStringBuilder1 + k + 1 );
 
             if ( (pch = zstrstr( szStringBuilder1, ".intValue( )" )) ||
                  (pch = zstrstr( szStringBuilder1, ".doubleValue( )" )) ||
@@ -819,9 +819,9 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                if ( nParmCnt == 3 )
                {
                   psExpr = (sQExprStruct *) ((zPCHAR) szExprCode + nParmIdx[ 2 ]);
-                  szVarName[ sizeof( szVarName ) - 1 ] = 0;
-                  k = AddExprEntryToString( vSubtask, psExpr, szVarName, szPFlag, sizeof( szPFlag ), sizeof( szVarName ) - 2, szExprText, 0 ); // get variable
-                  strcpy_s( szVarName, sizeof( szVarName ), szVarName + k + 1 );
+                  szVarName[ zsizeof( szVarName ) - 1 ] = 0;
+                  k = AddExprEntryToString( vSubtask, psExpr, szVarName, szPFlag, zsizeof( szPFlag ), zsizeof( szVarName ) - 2, szExprText, 0 ); // get variable
+                  strcpy_s( szVarName, zsizeof( szVarName ), szVarName + k + 1 );
                   if ( szPFlag[ 0 ] == 'Y' && psExpr->lDataType == qTDECIMAL )
                      bDouble = TRUE;
                }
@@ -1063,8 +1063,8 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
 
       // If we have an operation call and the return code has been replaced by a return variable, we have to call
       // GetJOE_ReturnCode to get the real return code.  No longer true ... now honoring multiple return parms.  dks 2010.07.15
-      zmemset( szStringBuilder1, '*', sizeof( szStringBuilder1 ) );  // only for debugging
-      zmemset( szStringBuilder2, '*', sizeof( szStringBuilder2 ) );  // only for debugging
+      zmemset( szStringBuilder1, '*', zsizeof( szStringBuilder1 ) ); // only for debugging
+      zmemset( szStringBuilder2, '*', zsizeof( szStringBuilder2 ) ); // only for debugging
       szStringBuilder1[ 0 ] = 0;
       szStringBuilder2[ 0 ] = 0;
       if ( bOperation )
@@ -1077,7 +1077,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
 
             // Borrow szStringBuilder1 for a sec ...
             zmemset( szStringBuilder1, ' ', nIndent + 3 );
-            strcpy_s( szStringBuilder1 + nIndent + 3, sizeof( szStringBuilder1 ) - (nIndent + 3), "throw ZeidonException.wrapException( e );\n" );
+            strcpy_s( szStringBuilder1 + nIndent + 3, zsizeof( szStringBuilder1 ) - (nIndent + 3), "throw ZeidonException.wrapException( e );\n" );
             nLth = (zSHORT) zstrlen( szStringBuilder1 );
             nOutputIdx -= nLth;
             zmemcpy( g_pchOutputExprStr + nOutputIdx + 1, szStringBuilder1, nLth );
@@ -1097,7 +1097,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
             nOutputIdx -= nIndent;
             zmemset( g_pchOutputExprStr + nOutputIdx + 1, ' ', nIndent );
             zmemset( szStringBuilder1, ' ', nIndent );
-            strcpy_s( szStringBuilder1 + nIndent, sizeof( szStringBuilder1 ) - nIndent, "catch ( Exception e )\n" );
+            strcpy_s( szStringBuilder1 + nIndent, zsizeof( szStringBuilder1 ) - nIndent, "catch ( Exception e )\n" );
             nLth = (zSHORT) zstrlen( szStringBuilder1 );
             nOutputIdx -= nLth;
             zmemcpy( g_pchOutputExprStr + nOutputIdx + 1, szStringBuilder1, nLth );
@@ -1115,7 +1115,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
             g_pchOutputExprStr[ nOutputIdx-- ] = ';';
 
             // g_pchOutputExprStr[ nOutputIdx + nIndent + 1 ] = '}'; // reset the brace that was obliterated
-            zmemset( szStringBuilder1, '*', sizeof( szStringBuilder1 ) );  // only for debugging
+            zmemset( szStringBuilder1, '*', zsizeof( szStringBuilder1 ) ); // only for debugging
             szStringBuilder1[ 0 ] = 0;
          }
 
@@ -1134,8 +1134,8 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
             szStringBuilder1[ nIndent + 5 ] = ' ';
             szStringBuilder1[ nIndent + 6 ] = 'm';
             szStringBuilder1[ nIndent + 7 ] = '_';
-            strcpy_s( szStringBuilder1 + nIndent + 8, sizeof( szStringBuilder1 ) - (nIndent + 8), szOperationGroup );
-            strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), " = null;  // permit gc  (unnecessary)\n" );
+            strcpy_s( szStringBuilder1 + nIndent + 8, zsizeof( szStringBuilder1 ) - (nIndent + 8), szOperationGroup );
+            strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), " = null; // permit gc  (unnecessary)\n" );
             nLth = (zSHORT) zstrlen( szStringBuilder1 );
             zmemset( szStringBuilder1 + nLth, ' ', nIndent );
             nLth += nIndent;
@@ -1149,17 +1149,17 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
             szNewOperationClassStatement[ 0 ] = '{';
             szNewOperationClassStatement[ 1 ] = '\n';
             zmemset( szNewOperationClassStatement + 2, ' ', nIndent + 1 );
-            strcpy_s( szNewOperationClassStatement + nIndent + 3, sizeof( szNewOperationClassStatement ) - (nIndent + 3), szOperationGroup );
-            strcat_s( szNewOperationClassStatement, sizeof( szNewOperationClassStatement ), " m_" );
-            strcat_s( szNewOperationClassStatement, sizeof( szNewOperationClassStatement ), szOperationGroup );
-            strcat_s( szNewOperationClassStatement, sizeof( szNewOperationClassStatement ), " = new " );
-            strcat_s( szNewOperationClassStatement, sizeof( szNewOperationClassStatement ), szOperationGroup );
+            strcpy_s( szNewOperationClassStatement + nIndent + 3, zsizeof( szNewOperationClassStatement ) - (nIndent + 3), szOperationGroup );
+            strcat_s( szNewOperationClassStatement, zsizeof( szNewOperationClassStatement ), " m_" );
+            strcat_s( szNewOperationClassStatement, zsizeof( szNewOperationClassStatement ), szOperationGroup );
+            strcat_s( szNewOperationClassStatement, zsizeof( szNewOperationClassStatement ), " = new " );
+            strcat_s( szNewOperationClassStatement, zsizeof( szNewOperationClassStatement ), szOperationGroup );
 
             if ( nFirstViewIdx >= 0 )
             {
                fnAddView( vSubtask, szNewOperationClassStatement + zstrlen( szNewOperationClassStatement ),
                           MAXSTRING - zstrlen( szNewOperationClassStatement ),
-                          (sQExprStruct *) ((zPCHAR) szExprCode + nFirstViewIdx), szPFlag, sizeof( szPFlag ), szExprText );
+                          (sQExprStruct *) ((zPCHAR) szExprCode + nFirstViewIdx), szPFlag, zsizeof( szPFlag ), szExprText );
             }
             else
             {
@@ -1177,10 +1177,10 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                   GetIntegerFromAttribute( &lDataType, g_lpPIView, "Variable", "DataType" );
                   if ( lDataType == qTVIEW )
                   {
-                     GetStringFromAttribute( szPFlag, sizeof( szPFlag ), g_lpPIView, "Variable", "PFlag" );
+                     GetStringFromAttribute( szPFlag, zsizeof( szPFlag ), g_lpPIView, "Variable", "PFlag" );
                      if ( szPFlag[ 0 ] != 'Y' ) // don't want a return view
                      {
-                        GetStringFromAttribute( szName, sizeof( szName ), g_lpPIView, "Variable", "Name" );
+                        GetStringFromAttribute( szName, zsizeof( szName ), g_lpPIView, "Variable", "Name" );
                         break;
                      }
                   }
@@ -1190,12 +1190,12 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
 
                if ( szName[ 0 ] )
                {
-                  strcat_s( szNewOperationClassStatement, sizeof( szNewOperationClassStatement ), "( " );
-                  strcat_s( szNewOperationClassStatement, sizeof( szNewOperationClassStatement ), szName );
-                  strcat_s( szNewOperationClassStatement, sizeof( szNewOperationClassStatement ), " );\n" );
+                  strcat_s( szNewOperationClassStatement, zsizeof( szNewOperationClassStatement ), "( " );
+                  strcat_s( szNewOperationClassStatement, zsizeof( szNewOperationClassStatement ), szName );
+                  strcat_s( szNewOperationClassStatement, zsizeof( szNewOperationClassStatement ), " );\n" );
                }
                else
-                  strcat_s( szNewOperationClassStatement, sizeof( szNewOperationClassStatement ), "( task );\n" );  // punt
+                  strcat_s( szNewOperationClassStatement, zsizeof( szNewOperationClassStatement ), "( task );\n" ); // punt
             }
 
             nLth = (zSHORT) zstrlen( szNewOperationClassStatement );
@@ -1216,8 +1216,8 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                {
                   nExprIdx = nReturnParmIdx[ nIdx ];
                   psExpr = (sQExprStruct *) ((zPCHAR) szExprCode + nExprIdx);
-                  szVarName[ sizeof( szVarName ) - 1 ] = 0;
-                  k = AddExprEntryToString( vSubtask, psExpr, szVarName, szPFlag, sizeof( szPFlag ), sizeof( szVarName ) - 2, szExprText, 0 ); // get return variable
+                  szVarName[ zsizeof( szVarName ) - 1 ] = 0;
+                  k = AddExprEntryToString( vSubtask, psExpr, szVarName, szPFlag, zsizeof( szPFlag ), zsizeof( szVarName ) - 2, szExprText, 0 ); // get return variable
                   while ( TRUE )  // purist's goto
                   {
                      if ( szPFlag[ 0 ] == 'Y' )
@@ -1256,52 +1256,52 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
 
                      if ( lReturnParmType[ nIdx ] == qTSTRING )
                      {
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), "StringBuilder sb_" );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), szVarName + k );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), ";\n" );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), "StringBuilder sb_" );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), szVarName + k );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), ";\n" );
                         nLth = (zSHORT) zstrlen( szStringBuilder1 );
                         zmemset( szStringBuilder1 + nLth, ' ', nIndent );
                         nLth += nIndent;
                         szStringBuilder1[ nLth ] = 0;
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), "if ( " );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), szVarName + k );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), " == null )\n" );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), "if ( " );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), szVarName + k );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), " == null )\n" );
                         nLth = (zSHORT) zstrlen( szStringBuilder1 );
                         zmemset( szStringBuilder1 + nLth, ' ', nIndent + 3 );
                         nLth += nIndent + 3;
                         szStringBuilder1[ nLth ] = 0;
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), "sb_" );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), szVarName + k );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), " = new StringBuilder( 32 );\n" );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), "sb_" );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), szVarName + k );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), " = new StringBuilder( 32 );\n" );
                         nLth = (zSHORT) zstrlen( szStringBuilder1 );
                         zmemset( szStringBuilder1 + nLth, ' ', nIndent );
                         nLth += nIndent;
                         szStringBuilder1[ nLth ] = 0;
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), "else\n" );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), "else\n" );
                         nLth = (zSHORT) zstrlen( szStringBuilder1 );
                         zmemset( szStringBuilder1 + nLth, ' ', nIndent + 3 );
                         nLth += nIndent + 3;
                         szStringBuilder1[ nLth ] = 0;
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), "sb_" );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), szVarName + k );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), " = new StringBuilder( " );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), "sb_" );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), szVarName + k );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), " = new StringBuilder( " );
                      }
                      else
                      if ( lReturnParmType[ nIdx ] == qTDECIMAL )
                      {
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), "MutableDouble md_" );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), szVarName + k );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), " = new MutableDouble( " );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), "MutableDouble md_" );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), szVarName + k );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), " = new MutableDouble( " );
                      }
                      else
                      {
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), "MutableInt mi_" );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), szVarName + k );
-                        strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), " = new MutableInt( " );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), "MutableInt mi_" );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), szVarName + k );
+                        strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), " = new MutableInt( " );
                      }
 
-                     strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), szVarName + k );
-                     strcat_s( szStringBuilder1, sizeof( szStringBuilder1 ), " );\n" );
+                     strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), szVarName + k );
+                     strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), " );\n" );
                      nLth = (zSHORT) zstrlen( szStringBuilder1 );
                      zmemset( szStringBuilder1 + nLth, ' ', nIndent );
                      nLth += nIndent;
@@ -1309,23 +1309,23 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
 
                      nLth = (zSHORT) zstrlen( szStringBuilder2 );
                      zmemset( szStringBuilder2 + nLth, ' ', nIndent );
-                     strcpy_s( szStringBuilder2 + nLth + nIndent, sizeof( szStringBuilder2 ) - (nLth + nIndent), szVarName + k );
+                     strcpy_s( szStringBuilder2 + nLth + nIndent, zsizeof( szStringBuilder2 ) - (nLth + nIndent), szVarName + k );
                      if ( lReturnParmType[ nIdx ] == qTSTRING )
-                        strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), " = sb_" );
+                        strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), " = sb_" );
                      else
                      if ( lReturnParmType[ nIdx ] == qTDECIMAL )
-                        strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), " = md_" );
+                        strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), " = md_" );
                      else
-                        strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), " = mi_" );
+                        strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), " = mi_" );
 
-                     strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), szVarName + k );
+                     strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), szVarName + k );
                      if ( lReturnParmType[ nIdx ] == qTSTRING )
-                        strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), ".toString( )" );
+                        strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), ".toString( )" );
                      else
                      if ( lReturnParmType[ nIdx ] == qTDECIMAL )
-                        strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), ".doubleValue( )" );
+                        strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), ".doubleValue( )" );
                      else
-                        strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), ".intValue( )" );
+                        strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), ".intValue( )" );
 
                      nLth = (zSHORT) zstrlen( szStringBuilder2 );
                      nIdx++;
@@ -1357,11 +1357,11 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
             }
 
  #if 0  // this is no longer true with the RESULT implementation
-            nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+            nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
 
             zCHAR  szJavaRC[ ] = " = GetJOE_ReturnCode( )";
 
-            nLth = sizeof( szJavaRC ) + 1;
+            nLth = zsizeof( szJavaRC ) + 1;
 
             nOutputIdx = VM_MAX_STRING_SIZE - nLth;
             strcpy_s( g_pchOutputExprStr + nOutputIdx + 1, szJavaRC );
@@ -1388,13 +1388,13 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
          {
             if ( psExpr->lOffset > MAXSTRING )
             {
-               GetOperationNameFromZKey( vSubtask, szOperationName, sizeof( szOperationName ), szHeaderName, sizeof( szHeaderName ),
-                                         szThrowsException, sizeof( szThrowsException ), szThrowsExceptionCatchCode, sizeof( szThrowsExceptionCatchCode ),
-                                         szOperationGroup, sizeof( szOperationGroup ), psExpr->lDataClass, psExpr->lOffset );
+               GetOperationNameFromZKey( vSubtask, szOperationName, zsizeof( szOperationName ), szHeaderName, zsizeof( szHeaderName ),
+                                         szThrowsException, zsizeof( szThrowsException ), szThrowsExceptionCatchCode, zsizeof( szThrowsExceptionCatchCode ),
+                                         szOperationGroup, zsizeof( szOperationGroup ), psExpr->lDataClass, psExpr->lOffset );
             }
             else
             {
-               strcpy_s( szOperationName, sizeof( szOperationName ), szExprText + psExpr->lOffset );
+               strcpy_s( szOperationName, zsizeof( szOperationName ), szExprText + psExpr->lOffset );
             }
          }
          else
@@ -1431,13 +1431,13 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
             {
                if ( psExpr->lOffset > MAXSTRING )
                {
-                  GetOperationNameFromZKey( vSubtask, szOperationName, sizeof( szOperationName ), szHeaderName, sizeof( szHeaderName ),
-                                            szThrowsException, sizeof( szThrowsException ), szThrowsExceptionCatchCode, sizeof( szThrowsExceptionCatchCode ),
-                                            szOperationGroup, sizeof( szOperationGroup ), psExpr->lDataClass, psExpr->lOffset );
+                  GetOperationNameFromZKey( vSubtask, szOperationName, zsizeof( szOperationName ), szHeaderName, zsizeof( szHeaderName ),
+                                            szThrowsException, zsizeof( szThrowsException ), szThrowsExceptionCatchCode, zsizeof( szThrowsExceptionCatchCode ),
+                                            szOperationGroup, zsizeof( szOperationGroup ), psExpr->lDataClass, psExpr->lOffset );
                }
                else
                {
-                  strcpy_s( szOperationName, sizeof( szOperationName ), szExprText + psExpr->lOffset );
+                  strcpy_s( szOperationName, zsizeof( szOperationName ), szExprText + psExpr->lOffset );
                }
 
                if ( zstrcmp( szOperationName, "SetCursorNextEntityHierarchical" ) == 0 )
@@ -1493,7 +1493,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                   if ( sCurrExpr.lOffset == qPERIOD && g_pchOutputExprStr[ nOutputIdx + 1 ] == ' ' )
                      nOutputIdx++; // eliminate space after period
 
-                  nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                  nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
 
                   if ( sCurrExpr.lOffset != qOPENOPER && sCurrExpr.lOffset != qCOMMA && sCurrExpr.lOffset != qPERIOD )
                   {
@@ -1517,7 +1517,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                               bUnaryContinue = FALSE;
                            }
 
-                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                            g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
                         }
 
@@ -1566,7 +1566,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                {
                   if ( bDirectOutput )
                   {
-                     nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                     nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                      g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
                   }
                   else
@@ -1605,7 +1605,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                         if ( psExpr->lElementClass == qOPERATOR && psExpr->lOffset == qEQUAL )
                         {
                            psExpr->lFlags |= SKIP_BIT;
-                           nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                           nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                            g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
                         }
                         else
@@ -1635,7 +1635,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                            g_pchOutputExprStr[ nOutputIdx-- ] = 'e';
                            g_pchOutputExprStr[ nOutputIdx-- ] = 'g';
                            g_pchOutputExprStr[ nOutputIdx-- ] = '.';
-                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                            g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
                            if ( re == 0 )
                            {
@@ -1661,12 +1661,12 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                               g_pchOutputExprStr[ nOutputIdx-- ] = '!';
 
                            g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
-                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
 #else
                            // Generate: getView( view ) != null
                            g_pchOutputExprStr[ nOutputIdx-- ] = ')';
                            g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
-                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                            g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
                            g_pchOutputExprStr[ nOutputIdx-- ] = '(';
                            g_pchOutputExprStr[ nOutputIdx-- ] = 'w';
@@ -1680,13 +1680,13 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                         }
                         else
                         {
-                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                           nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                         }
 
                      }
                      else
                      {
-                        nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                        nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                      }
 
                      if ( g_szGenLang[ 0 ] == 'J' && sCurrExpr.lDataType == qTVIEW &&
@@ -1750,7 +1750,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                      g_pchOutputExprStr[ nOutputIdx-- ] = '.';
 
                      psExpr = (sQExprStruct *) ((zPCHAR) szExprCode + nQualViewIdx);
-                     nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                     nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                   } */
 
                   if ( sCurrExpr.lElementClass == qOPERATIONCALL && g_szGenLang[ 0 ] == 'J' )
@@ -1788,7 +1788,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                               g_pchOutputExprStr[ nOutputIdx-- ] = '=';
                               g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
                               psExpr = (sQExprStruct *) ((zPCHAR) szExprCode + nReturnVarIdx);
-                              nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, 0 );
+                              nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, 0 );
                            }
                            else
                            {
@@ -1842,17 +1842,17 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                         if ( g_szGenLang[ 0 ] == 'J' && nExprIdx - (sizeof( sQExprStruct ) - MAXSTRING) == 0 && bOperation == FALSE )
                         {
                            psExpr = (sQExprStruct *) ((zPCHAR) szExprCode + 0);
-                           szStringBuilder2[ sizeof( szStringBuilder2 ) - 1 ] = 0;
-                           k = AddExprEntryToString( vSubtask, psExpr, szStringBuilder2, szPFlag, sizeof( szPFlag ), sizeof( szStringBuilder2 ) - 2, szExprText, 0 ); // get return variable
+                           szStringBuilder2[ zsizeof( szStringBuilder2 ) - 1 ] = 0;
+                           k = AddExprEntryToString( vSubtask, psExpr, szStringBuilder2, szPFlag, zsizeof( szPFlag ), zsizeof( szStringBuilder2 ) - 2, szExprText, 0 ); // get return variable
                            if ( (psExpr->lDataType == qTINTEGER || psExpr->lDataType == qTSHORT) && szPFlag[ 0 ] == 'Y' )  // 1040 || 1041
                            {
-                              strcpy_s( szStringBuilder2, sizeof( szStringBuilder2 ), szStringBuilder2 + k + 1 );
+                              strcpy_s( szStringBuilder2, zsizeof( szStringBuilder2 ), szStringBuilder2 + k + 1 );
                               k = (zSHORT) zstrlen( g_pchOutputExprStr + nOutputIdx + 1 );
-                              if ( k < sizeof( szStringBuilder2 ) - 36 )
+                              if ( k < zsizeof( szStringBuilder2 ) - 36 )
                               {
-                                 strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), ".setValue(" );
-                                 strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), g_pchOutputExprStr + nOutputIdx + 1 );
-                                 strcat_s( szStringBuilder2, sizeof( szStringBuilder2 ), " )" );
+                                 strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), ".setValue(" );
+                                 strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), g_pchOutputExprStr + nOutputIdx + 1 );
+                                 strcat_s( szStringBuilder2, zsizeof( szStringBuilder2 ), " )" );
                                  nOutputIdx -= (zSHORT) zstrlen( szStringBuilder2 ) - k; // for the setValue and parens
                                  strcpy_s( g_pchOutputExprStr + nOutputIdx + 1, VM_MAX_STRING_SIZE - (nOutputIdx + 1), szStringBuilder2 );
                                  nExprIdx = 0;
@@ -1863,7 +1863,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                         }
 
                         // Add the equal sign.
-                        nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                        nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                         g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
                      }
 
@@ -1872,14 +1872,14 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                         if ( nReturnVarIdx >= 0 && nReturnParmCnt <= 0  )
                         {
                            psExpr = (sQExprStruct *) ((zPCHAR) szExprCode + nReturnVarIdx);
-                           nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                           nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                            g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
                         }
                         else
                         if ( nReturnCodeIdx >= 0 )
                         {
                            psExpr = (sQExprStruct *) ((zPCHAR) szExprCode + nReturnCodeIdx);
-                           nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+                           nOutputIdx = AddExprEntryToString( vSubtask, psExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
                            g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
                         }
 
@@ -1935,7 +1935,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
       {
          // Get the expression record out of szExprCode.
          zmemcpy( &sCurrExpr, szExprCode + nTopOfStack, sizeof( sQExprStruct ) - MAXSTRING);
-         nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, sizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
+         nOutputIdx = AddExprEntryToString( vSubtask, &sCurrExpr, g_pchOutputExprStr, szPFlag, zsizeof( szPFlag ), nOutputIdx, szExprText, lFlag );
          g_pchOutputExprStr[ nOutputIdx-- ] = ' ';
       }
    }
@@ -1970,14 +1970,14 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
 
    if ( bReturn && g_szGenLang[ 0 ] == 'J' )
    {
-      strcpy_s( szStringBuilder1, sizeof( szStringBuilder1 ), pchOutputString + nIndent );
+      strcpy_s( szStringBuilder1, zsizeof( szStringBuilder1 ), pchOutputString + nIndent );
       strcpy_s( pchOutputString + nIndent, VM_MAX_STRING_SIZE - nIndent, "if(8==8)" );
       strcat_s( pchOutputString, VM_MAX_STRING_SIZE, szStringBuilder1 );
       if ( (pch = zstrstr( szStringBuilder1, "( " )) != 0 && zstrstr( pch + 2, " )" ) != 0 )
       {
-         strcpy_s( pch, sizeof( szStringBuilder1 ) - (pch - szStringBuilder1), pch + 1 );
+         strcpy_s( pch, zsizeof( szStringBuilder1 ) - (pch - szStringBuilder1), pch + 1 );
          pch = zstrstr( pch + 2, " )" );
-         strcpy_s( pch, sizeof( szStringBuilder1 ) - (pch - szStringBuilder1), pch + 2 );
+         strcpy_s( pch, zsizeof( szStringBuilder1 ) - (pch - szStringBuilder1), pch + 2 );
       }
    }
 
@@ -1987,9 +1987,9 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
    {
       if ( (pch = zstrstr( pchOutputString, " > null" )) != 0 || (pch = zstrstr( pchOutputString, " < null" )) != 0 )
       {
-         if ( zstrlen( pch + 2 ) < sizeof( szStringBuilder1 ) )
+         if ( zstrlen( pch + 2 ) < zsizeof( szStringBuilder1 ) )
          {
-            strcpy_s( szStringBuilder1, sizeof( szStringBuilder1 ), pch + 2 );
+            strcpy_s( szStringBuilder1, zsizeof( szStringBuilder1 ), pch + 2 );
             pch++;
             *pch = '!';
             pch++;
@@ -2165,7 +2165,7 @@ FormatString( zPCHAR pchOutputString )
 
       // Now look for a position where a line break can be inserted.  First, change everything inside quotes or apostrophes to 'xff' so we
       // don't find our special break characters within quotes or apostrophes.
-      strcpy_s( szTemp, sizeof( szTemp ), pch ); // create temporary copy for changing everything inside "" and ''.
+      strcpy_s( szTemp, zsizeof( szTemp ), pch ); // create temporary copy for changing everything inside "" and ''.
       paired_overwrite( szTemp, '\"', '\xff'); // change everything inside quotes to 'xff'
       paired_overwrite( szTemp, '\'', '\xff'); // change everything inside apostrophes to 'xff'
 
@@ -2265,7 +2265,7 @@ FormatString( zPCHAR pchOutputString )
             while ( szTemp[ 253 + n255 ] == '\xff' )
                n255++;
 
-            strcpy_s( szTemp, sizeof( szTemp ), pch + 253 );
+            strcpy_s( szTemp, zsizeof( szTemp ), pch + 253 );
             *(pch + 253) = '\\';
             *(pch + 254) = '\n';
             strcpy_s( pch + 255, pch - pchOutputString - 255, szTemp );
@@ -2273,7 +2273,7 @@ FormatString( zPCHAR pchOutputString )
 
             while ( n255 > 254 )
             {
-               strcpy_s( szTemp, sizeof( szTemp ), pch + 253 );
+               strcpy_s( szTemp, zsizeof( szTemp ), pch + 253 );
                *(pch + 253) = '\\';
                *(pch + 254) = '\n';
                strcpy_s( pch + 255, pch - pchOutputString - 255, szTemp );
@@ -2284,7 +2284,7 @@ FormatString( zPCHAR pchOutputString )
             while ( szTemp[ 253 + n255 ] == '\xff' )
                n255++;
 
-            strcpy_s( szTemp, sizeof( szTemp ), pch + 253 );
+            strcpy_s( szTemp, zsizeof( szTemp ), pch + 253 );
             *(pch + 253) = '"';
             for ( k = 0; k <= nMargin; k++ )
                pch[ 254 + k ] = ' ';
@@ -2296,7 +2296,7 @@ FormatString( zPCHAR pchOutputString )
 
             while ( n255 > 254 )
             {
-               strcpy_s( szTemp, sizeof( szTemp ), pch + 253 );
+               strcpy_s( szTemp, zsizeof( szTemp ), pch + 253 );
                *(pch + 253) = '"';
                *(pch + 254) = '"';
 
@@ -2474,18 +2474,18 @@ AddSizeofToOperation( zPCHAR pchOutputExprStr, zSHORT nOutputIdx, zSHORT nParmPo
       {
          zSHORT nLth = pchComma - pchParm;  // no null terminator
 
-         strncpy_s( szVarSave, sizeof( szVarSave ), pchParm, nLth );  // hold on to the variable name
+         strncpy_s( szVarSave, zsizeof( szVarSave ), pchParm, nLth ); // hold on to the variable name
       // nLth++;  // add for null terminator ... commented out since we do not null terminate
 
          if ( bComma )  // not the last parameter
          {
-            // now back off nOutputIdx by the length of the variable + 12 bytes for the addition of "sizeof(  ), "
+            // now back off nOutputIdx by the length of the variable + 12 bytes for the addition of "zsizeof( ), "
             nLth += 12;
             nOutputIdx -= nLth;
             pchComma += 2;
             zmemcpy( pchOutputExprStr + nOutputIdx + 1, pchStart, pchComma - pchStart );  // get the var + comma + space
             pchStart += (pchComma - pchStart) - nLth;  // start has been moved
-            strcpy_s( pchStart, nLth, "sizeof( " );  // shoehorn in ==> sizeof( var ), ...
+            strcpy_s( pchStart, nLth, "zsizeof( " ); // shoehorn in ==> zsizeof( var ), ...
             strcat_s( pchStart, nLth, szVarSave );
             nLth = (zSHORT) zstrlen( pchStart );
             pchStart[ nLth++ ] = ' ';
@@ -2495,12 +2495,12 @@ AddSizeofToOperation( zPCHAR pchOutputExprStr, zSHORT nOutputIdx, zSHORT nParmPo
          }
          else  // otherwise, we are looking at the last parameter, so a close-paren rather than a comma
          {
-            // now back off nOutputIdx by the length of the variable + 12 bytes for the addition of ", sizeof(  )"
+            // now back off nOutputIdx by the length of the variable + 12 bytes for the addition of ", zsizeof( )"
             nLth += 12;
             nOutputIdx -= nLth;
             zmemcpy( pchOutputExprStr + nOutputIdx + 1, pchStart, pchComma - pchStart );  // get the parameters up to where the comma will go
             pchStart += (pchComma - pchStart) - nLth;  // start has been moved
-            strcpy_s( pchStart, nLth, ", sizeof( " );  // shoehorn in ==> sizeof( var ) ...
+            strcpy_s( pchStart, nLth, ", zsizeof( " ); // shoehorn in ==> zsizeof( var ) ...
             strcat_s( pchStart, nLth, szVarSave );
             nLth = (zSHORT) zstrlen( pchStart );
             pchStart[ nLth++ ] = ' ';
@@ -2575,7 +2575,7 @@ AddExprEntryToString( zVIEW          vSubtask,
             }
          }
 
-         GetStringFromAttribute( szVarName + nVarIndex, sizeof( szVarName ) - nVarIndex, g_lpPIView, "Variable", "Name" );
+         GetStringFromAttribute( szVarName + nVarIndex, zsizeof( szVarName ) - nVarIndex, g_lpPIView, "Variable", "Name" );
          GetStringFromAttribute( pchPFlag, lFlagLth, g_lpPIView, "Variable", "PFlag" );
       // if ( 0 )
       // {
@@ -2591,17 +2591,17 @@ AddExprEntryToString( zVIEW          vSubtask,
             {
                if ( psExpr->lDataType == qTSTRING )
                {
-                  strcat_s( szVarName + nVarIndex, sizeof( szVarName ) - nVarIndex, ".toString( )" );
+                  strcat_s( szVarName + nVarIndex, zsizeof( szVarName ) - nVarIndex, ".toString( )" );
                }
                else
                if ( psExpr->lDataType == qTINTEGER || psExpr->lDataType == qTSHORT )
                {
-                  strcat_s( szVarName + nVarIndex, sizeof( szVarName ) - nVarIndex, ".intValue( )" );
+                  strcat_s( szVarName + nVarIndex, zsizeof( szVarName ) - nVarIndex, ".intValue( )" );
                }
                else
                if ( psExpr->lDataType == qTDECIMAL )
                {
-                  strcat_s( szVarName + nVarIndex, sizeof( szVarName ) - nVarIndex, ".doubleValue( )" );
+                  strcat_s( szVarName + nVarIndex, zsizeof( szVarName ) - nVarIndex, ".doubleValue( )" );
                }
             }
          }
@@ -2610,23 +2610,23 @@ AddExprEntryToString( zVIEW          vSubtask,
             if ( psExpr->lDataType == qTCHARACTER )
             {
                if ( g_nInParmList != 1 )
-                  strcat_s( szVarName, sizeof( szVarName ), "[ 0 ]" );
+                  strcat_s( szVarName, zsizeof( szVarName ), "[ 0 ]" );
             }
 
             if ( psExpr->lDataType == qTINTEGER && (lFlag & zOPERATION_ARGUMENTS) && bPointer && (psExpr->lFlags & UNSIGNED_BIT) )
             {
                // We are generating a pointer to a long in an operation call.  As the definition is "unsigned" we have to add a "(zPULONG)" cast.  HH,16.7.1998
-               strcpy_s( szVarSave, sizeof( szVarSave ), szVarName );
-               strcpy_s( szVarName, sizeof( szVarName ), "(zPULONG) ");
-               strcat_s( szVarName, sizeof( szVarName ), szVarSave );
+               strcpy_s( szVarSave, zsizeof( szVarSave ), szVarName );
+               strcpy_s( szVarName, zsizeof( szVarName ), "(zPULONG) ");
+               strcat_s( szVarName, zsizeof( szVarName ), szVarSave );
             }
 
             if ( psExpr->lDataType == qTSHORT && (lFlag & zOPERATION_ARGUMENTS) && bPointer && (psExpr->lFlags & UNSIGNED_BIT) )
             {
                // We are generating a pointer to a short in an operation call.  As the definition is "unsigned" we have to add a "(zPUSHORT)" cast.  RG,03.2.1999
-               strcpy_s( szVarSave, sizeof( szVarSave ), szVarName );
-               strcpy_s( szVarName, sizeof( szVarName ), "(zPUSHORT) ");
-               strcat_s( szVarName, sizeof( szVarName ), szVarSave );
+               strcpy_s( szVarSave, zsizeof( szVarSave ), szVarName );
+               strcpy_s( szVarName, zsizeof( szVarName ), "(zPUSHORT) ");
+               strcat_s( szVarName, zsizeof( szVarName ), szVarSave );
             }
          }
 
@@ -2641,13 +2641,13 @@ AddExprEntryToString( zVIEW          vSubtask,
             {
                if ( g_szGenLang[ 0 ] != 'J' )  // don't do any of this if generating Java
                {
-                  strcpy_s( szVarSave, sizeof( szVarSave ), szVarName );
+                  strcpy_s( szVarSave, zsizeof( szVarSave ), szVarName );
                   if ( bPointer )
-                     strcpy_s( szVarName, sizeof( szVarName ), "(zLONG *) ");
+                     strcpy_s( szVarName, zsizeof( szVarName ), "(zLONG *) ");
                   else
-                     strcpy_s( szVarName, sizeof( szVarName ), "(zLONG) ");
+                     strcpy_s( szVarName, zsizeof( szVarName ), "(zLONG) ");
 
-                  strcat_s( szVarName, sizeof( szVarName ), szVarSave );
+                  strcat_s( szVarName, zsizeof( szVarName ), szVarSave );
                }
             }
 
@@ -2656,13 +2656,13 @@ AddExprEntryToString( zVIEW          vSubtask,
                  (psExpr->lFlags & NPARM_TYPE_MASK) == NPARM_TYPE_DECIMAL && bPointer == FALSE )
             {
                // Parameter type is decimal, but variable type is not ... generate cast to ZDecimal.
-               strcpy_s( szVarSave, sizeof( szVarSave ), szVarName );
+               strcpy_s( szVarSave, zsizeof( szVarSave ), szVarName );
                if ( g_szGenLang[ 0 ] == 'J' )
-                  strcpy_s( szVarName, sizeof( szVarName ), "(double) ");
+                  strcpy_s( szVarName, zsizeof( szVarName ), "(double) ");
                else
-                  strcpy_s( szVarName, sizeof( szVarName ), "(ZDecimal) ");
+                  strcpy_s( szVarName, zsizeof( szVarName ), "(ZDecimal) ");
 
-               strcat_s( szVarName, sizeof( szVarName ), szVarSave );
+               strcat_s( szVarName, zsizeof( szVarName ), szVarSave );
             }
          }
 
@@ -2693,9 +2693,9 @@ AddExprEntryToString( zVIEW          vSubtask,
                nOutputIdx--;
                pchOutputExprStr[ nOutputIdx-- ] = '('; // opening paren
                if ( g_szGenLang[ 0 ] == 'J' )
-                  strcat_s( szVarName, sizeof( szVarName ), " = (double)");
+                  strcat_s( szVarName, zsizeof( szVarName ), " = (double)");
                else
-                  strcat_s( szVarName, sizeof( szVarName ), " = (ZDecimal)" );
+                  strcat_s( szVarName, zsizeof( szVarName ), " = (ZDecimal)" );
             }
             else
                nOutputIdx = nOutputIdxSave;
@@ -2704,19 +2704,19 @@ AddExprEntryToString( zVIEW          vSubtask,
          break;
 
       case qDEFINE:  // 1060
-         GetDefineExternalValue( szVarName, sizeof( szVarName ), psExpr->lDataClass, psExpr->lOffset );
+         GetDefineExternalValue( szVarName, zsizeof( szVarName ), psExpr->lDataClass, psExpr->lOffset );
          break;
 
       case qOPERATIONCALL:  // 2008
          if ( psExpr->lOffset > MAXSTRING )
          {
-            GetOperationNameFromZKey( vSubtask, szVarName, sizeof( szVarName ), szVarSave, sizeof( szVarSave ),
-                                      szThrowsException, sizeof( szThrowsException ), szThrowsExceptionCatchCode, sizeof( szThrowsExceptionCatchCode ),
-                                      szOperationGroup, sizeof( szOperationGroup ), psExpr->lDataClass, psExpr->lOffset );
+            GetOperationNameFromZKey( vSubtask, szVarName, zsizeof( szVarName ), szVarSave, zsizeof( szVarSave ),
+                                      szThrowsException, zsizeof( szThrowsException ), szThrowsExceptionCatchCode, zsizeof( szThrowsExceptionCatchCode ),
+                                      szOperationGroup, zsizeof( szOperationGroup ), psExpr->lDataClass, psExpr->lOffset );
          }
          else
          {
-            strcpy_s( szVarName, sizeof( szVarName ), pchExprText + psExpr->lOffset );
+            strcpy_s( szVarName, zsizeof( szVarName ), pchExprText + psExpr->lOffset );
          }
 
          lCast = 0;
@@ -2769,21 +2769,21 @@ AddExprEntryToString( zVIEW          vSubtask,
             switch ( lCast )
             {
                case qTDECIMAL:
-                  strcpy_s( szVarSave, sizeof( szVarSave ), szVarName );
-                  strcpy_s( szVarName, sizeof( szVarName ), "(ZDecimal) " );
-                  strcat_s( szVarName, sizeof( szVarName ), szVarSave );
+                  strcpy_s( szVarSave, zsizeof( szVarSave ), szVarName );
+                  strcpy_s( szVarName, zsizeof( szVarName ), "(ZDecimal) " );
+                  strcat_s( szVarName, zsizeof( szVarName ), szVarSave );
                   break;
 
                case qTINTEGER:
-                  strcpy_s( szVarSave, sizeof( szVarSave ), szVarName );
-                  strcpy_s( szVarName, sizeof( szVarName ), "(zLONG) " );
-                  strcat_s( szVarName, sizeof( szVarName ), szVarSave );
+                  strcpy_s( szVarSave, zsizeof( szVarSave ), szVarName );
+                  strcpy_s( szVarName, zsizeof( szVarName ), "(zLONG) " );
+                  strcat_s( szVarName, zsizeof( szVarName ), szVarSave );
                   break;
 
                case qTSHORT:
-                  strcpy_s( szVarSave, sizeof( szVarSave ), szVarName );
-                  strcpy_s( szVarName, sizeof( szVarName ), "(zSHORT) " );
-                  strcat_s( szVarName, sizeof( szVarName ), szVarSave );
+                  strcpy_s( szVarSave, zsizeof( szVarSave ), szVarName );
+                  strcpy_s( szVarName, zsizeof( szVarName ), "(zSHORT) " );
+                  strcat_s( szVarName, zsizeof( szVarName ), szVarSave );
                   break;
             }
          }
@@ -2797,15 +2797,15 @@ AddExprEntryToString( zVIEW          vSubtask,
          //      psExpr->lDataType != qTCHARACTER )
             if ( psExpr->lDataType != qTCHARACTER )
             {
-               strcpy_s( szVarName, sizeof( szVarName ), "\"" );
+               strcpy_s( szVarName, zsizeof( szVarName ), "\"" );
                StrConcatAndMassage( szVarName, pchExprText + psExpr->lOffset );
-               strcat_s( szVarName, sizeof( szVarName ), "\"" );
+               strcat_s( szVarName, zsizeof( szVarName ), "\"" );
             }
             else
             {
-               strcpy_s( szVarName, sizeof( szVarName ), "\'" );
+               strcpy_s( szVarName, zsizeof( szVarName ), "\'" );
                StrConcatAndMassage( szVarName, pchExprText + psExpr->lOffset );
-               strcat_s( szVarName, sizeof( szVarName ), "\'" );
+               strcat_s( szVarName, zsizeof( szVarName ), "\'" );
             }
          }
          else
@@ -2816,9 +2816,9 @@ AddExprEntryToString( zVIEW          vSubtask,
                // We are generating a decimal constant in an operation call.  The function prototype normally has a zDECIMAL at the
                // corresponding place. We need a cast to ZDecimal to get working C code.  HH,16.6.1998
                if ( g_szGenLang[ 0 ] == 'J' )
-                  strcat_s( szVarName, sizeof( szVarName ), "(double) ");
+                  strcat_s( szVarName, zsizeof( szVarName ), "(double) ");
                else
-                  strcat_s( szVarName, sizeof( szVarName ), "(ZDecimal) ");
+                  strcat_s( szVarName, zsizeof( szVarName ), "(ZDecimal) ");
             }
             else
             if ( psExpr->lDataType != qTDECIMAL &&
@@ -2829,19 +2829,19 @@ AddExprEntryToString( zVIEW          vSubtask,
                {
                   // We are generating a non-decimal constant in an operation call, where the target argument is decimal.  Generate a cast to ZDecimal.
                   if ( g_szGenLang[ 0 ] == 'J' )
-                     strcat_s( szVarName, sizeof( szVarName ), "(double) ");
+                     strcat_s( szVarName, zsizeof( szVarName ), "(double) ");
                   else
-                     strcat_s( szVarName, sizeof( szVarName ), "(ZDecimal) ");
+                     strcat_s( szVarName, zsizeof( szVarName ), "(ZDecimal) ");
                }
             }
 
-            strcat_s( szVarName, sizeof( szVarName ), pchExprText + psExpr->lOffset );
+            strcat_s( szVarName, zsizeof( szVarName ), pchExprText + psExpr->lOffset );
          }
 
          break;
 
       case qATTRIBUTEQUALIFIER:  // 2001
-         strcpy_s( szVarName, sizeof( szVarName ), pchExprText + psExpr->lOffset );
+         strcpy_s( szVarName, zsizeof( szVarName ), pchExprText + psExpr->lOffset );
          break;
 
       case qOPERATOR: // 1034
@@ -2867,68 +2867,68 @@ GetStringForOperator( zPCHAR szOperString,
    {
       case qLPAREN:
       case qOPENOPER:
-         strcpy_s( szOperString, sizeof( szOperString ), "(" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "(" );
          break;
       case qRPAREN:
       case qCLOSEOPER:
-         strcpy_s( szOperString, sizeof( szOperString ), ")" );
+         strcpy_s( szOperString, zsizeof( szOperString ), ")" );
          break;
       case qGREATERTHANEQUAL:
-         strcpy_s( szOperString, sizeof( szOperString ), ">=" );
+         strcpy_s( szOperString, zsizeof( szOperString ), ">=" );
          break;
       case qLESSTHANEQUAL:
-         strcpy_s( szOperString, sizeof( szOperString ), "<=" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "<=" );
          break;
       case qGREATERTHAN:
-         strcpy_s( szOperString, sizeof( szOperString ), ">" );
+         strcpy_s( szOperString, zsizeof( szOperString ), ">" );
          break;
       case qLESSTHAN:
-         strcpy_s( szOperString, sizeof( szOperString ), "<" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "<" );
          break;
       case qMINUS:
-         strcpy_s( szOperString, sizeof( szOperString ), "-" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "-" );
          break;
       case qADDITION:
-         strcpy_s( szOperString, sizeof( szOperString ), "+" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "+" );
          break;
       case qMULTIPLICATION:
-         strcpy_s( szOperString, sizeof( szOperString ), "*" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "*" );
          break;
       case qDIVISION:
-         strcpy_s( szOperString, sizeof( szOperString ), "/" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "/" );
          break;
       case qEQUAL:
-         strcpy_s( szOperString, sizeof( szOperString ), "=" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "=" );
          break;
       case qNOTEQUAL:
-         strcpy_s( szOperString, sizeof( szOperString ), "!=" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "!=" );
          break;
       case qCONDEQUAL:
-         strcpy_s( szOperString, sizeof( szOperString ), "==" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "==" );
          break;
       case qOR:
-         strcpy_s( szOperString, sizeof( szOperString ), "||" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "||" );
          break;
       case qAND:
-         strcpy_s( szOperString, sizeof( szOperString ), "&&" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "&&" );
          break;
       case qNOT:
-         strcpy_s( szOperString, sizeof( szOperString ), "!" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "!" );
          break;
       case qCOMMA:
-         strcpy_s( szOperString, sizeof( szOperString ), "," );
+         strcpy_s( szOperString, zsizeof( szOperString ), "," );
          break;
       case qPERIOD:
-         strcpy_s( szOperString, sizeof( szOperString ), "." );
+         strcpy_s( szOperString, zsizeof( szOperString ), "." );
          break;
       case qSEMICOLON:
-         strcpy_s( szOperString, sizeof( szOperString ), ";" );
+         strcpy_s( szOperString, zsizeof( szOperString ), ";" );
          break;
       case qUNARYMINUS:
-         strcpy_s( szOperString, sizeof( szOperString ), "-" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "-" );
          break;
       default:
-         strcpy_s( szOperString, sizeof( szOperString ), "@........" );
+         strcpy_s( szOperString, zsizeof( szOperString ), "@........" );
          TraceLineI( szOperString, nOperator );
          break;
    }
@@ -2991,7 +2991,7 @@ GetOperationNameFromZKey( zVIEW   vSubtask,
          {
             // If it is a C operation, just return the name.  Otherwise, go to the XPG object and get the "C generated" name.
          // szType[ 0 ] = 0;
-            GetStringFromAttribute( szType, sizeof( szType ), vLookupView, "SourceFile", "LanguageType" );
+            GetStringFromAttribute( szType, zsizeof( szType ), vLookupView, "SourceFile", "LanguageType" );
 
             if ( szType[ 0 ] == 'C' )
             {

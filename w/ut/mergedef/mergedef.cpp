@@ -219,13 +219,13 @@ main( int  argc,
       return( 1 );
    }
 
-   _fullpath( szDefFileSpec, argv[ nDef ], sizeof( szDefFileSpec ) );
-   _fullpath( szDumpbinFileSpec, argv[ nDumpbin ], sizeof( szDumpbinFileSpec ) );
+   _fullpath( szDefFileSpec, argv[ nDef ], zsizeof( szDefFileSpec ) );
+   _fullpath( szDumpbinFileSpec, argv[ nDumpbin ], zsizeof( szDumpbinFileSpec ) );
    cout << "MergeDef " << PGM_VERSION << " - Merging .DEF file: "
         << szDefFileSpec << "  with dumpbin file: " << szDumpbinFileSpec
         << endl;
 
-   strcpy_s( szBakFileSpec, sizeof( szBakFileSpec ), szDefFileSpec );
+   strcpy_s( szBakFileSpec, zsizeof( szBakFileSpec ), szDefFileSpec );
    pch = strrchr( szBakFileSpec, '\\' );
    if ( pch == 0 )
       pch = szBakFileSpec;
@@ -234,7 +234,7 @@ main( int  argc,
    if ( pchDot == 0 )
       pchDot = szBakFileSpec + strlen( szBakFileSpec );
 
-   strcpy_s( pchDot, sizeof( szBakFileSpec ) - (pchDot - szBakFileSpec), ".tmp" );
+   strcpy_s( pchDot, zsizeof( szBakFileSpec ) - (pchDot - szBakFileSpec), ".tmp" );
 
 #define LOOKING               'L'
 #define EXPORTS               'E'
@@ -259,7 +259,7 @@ main( int  argc,
 
    // look thru the original .DEF file and build a list of exported functions
    chCase = LOOKING;
-   while ( fgets( szBuffer, sizeof( szBuffer ), pDefFileIn ) )
+   while ( fgets( szBuffer, zsizeof( szBuffer ), pDefFileIn ) )
    {
       pch = strchr( szBuffer, ';' );
       if ( pch )
@@ -268,7 +268,7 @@ main( int  argc,
       if ( strstr( szBuffer, "EXPORTS" ) )
       {
          chCase = EXPORTS;
-         while ( fgets( szBuffer, sizeof( szBuffer ), pDefFileIn ) )
+         while ( fgets( szBuffer, zsizeof( szBuffer ), pDefFileIn ) )
          {
             pch = strchr( szBuffer, ';' );
             if ( pch )
@@ -357,7 +357,7 @@ main( int  argc,
 
    // Look thru the dumpbin output file to mark old exports and to locate new exports.
    chCase = LOOKING;
-   while ( fgets( szBuffer, sizeof( szBuffer ), pDumpbinFileIn ) )
+   while ( fgets( szBuffer, zsizeof( szBuffer ), pDumpbinFileIn ) )
    {
       if ( strstr( szBuffer, " ordinal" ) &&
            strstr( szBuffer, " hint" ) &&
@@ -373,7 +373,7 @@ main( int  argc,
          //       1    0 00011532 _ActivateWorkStation@12 = @ILT+1325(_ActivateWorkStation@12)
          // and this is what we want:
          //    ActivateWorkStation=_ActivateWorkStation@12                         @1  ;; added by mergedef
-         while ( fgets( szBuffer, sizeof( szBuffer ), pDumpbinFileIn ) )
+         while ( fgets( szBuffer, zsizeof( szBuffer ), pDumpbinFileIn ) )
          {
             pch = szBuffer;
             while ( *pch && isspace( *pch ) )    // skip leading space
@@ -481,9 +481,9 @@ main( int  argc,
    char *pchSemi;
    pDefFileIn = fnOpenFile( szDefFileSpec, READFILE );
    chCase = LOOKING;
-   while ( fgets( szBuffer, sizeof( szBuffer ), pDefFileIn ) )
+   while ( fgets( szBuffer, zsizeof( szBuffer ), pDefFileIn ) )
    {
-      strcpy_s( szBufferTemp, sizeof( szBufferTemp ), szBuffer );
+      strcpy_s( szBufferTemp, zsizeof( szBufferTemp ), szBuffer );
       pchSemi = strchr( szBuffer, ';' );
       if ( pchSemi )
          *pchSemi = 0;
@@ -493,9 +493,9 @@ main( int  argc,
          fputs( szBufferTemp, pTmpFileOut );
 
          chCase = EXPORTS;
-         while ( fgets( szBuffer, sizeof( szBuffer ), pDefFileIn ) )
+         while ( fgets( szBuffer, zsizeof( szBuffer ), pDefFileIn ) )
          {
-            strcpy_s( szBufferTemp, sizeof( szBufferTemp ), szBuffer );
+            strcpy_s( szBufferTemp, zsizeof( szBufferTemp ), szBuffer );
             pchSemi = strchr( szBuffer, ';' );
             if ( pchSemi )
                *pchSemi = 0;
@@ -568,9 +568,9 @@ main( int  argc,
                   while ( isspace( *pch ) )   // find ordinal or whatever
                      pch++;
 
-                  strcpy_s( szBuffer + k, sizeof( szBuffer ) - k, pXData->m_pchExport );
-                  strcat_s( szBuffer, sizeof( szBuffer ), "=" );
-                  strcat_s( szBuffer, sizeof( szBuffer ), pXData->m_pchExportAlt );
+                  strcpy_s( szBuffer + k, zsizeof( szBuffer ) - k, pXData->m_pchExport );
+                  strcat_s( szBuffer, zsizeof( szBuffer ), "=" );
+                  strcat_s( szBuffer, zsizeof( szBuffer ), pXData->m_pchExportAlt );
                   k = strlen( szBuffer );
                   do
                   {
@@ -578,14 +578,14 @@ main( int  argc,
 
                   } while ( k < nBytesToOrd );
 
-                  strcat_s( szBuffer, sizeof( szBuffer ), pch );  // retain old ordinal or comment
+                  strcat_s( szBuffer, zsizeof( szBuffer ), pch ); // retain old ordinal or comment
                }
             }
             else
             if ( pXData->m_bExist == 'n' )
             {
-               strcpy_s( szBuffer, sizeof( szBuffer ), ";; remove ==>" );
-               strcat_s( szBuffer, sizeof( szBuffer ), szBufferTemp );
+               strcpy_s( szBuffer, zsizeof( szBuffer ), ";; remove ==>" );
+               strcat_s( szBuffer, zsizeof( szBuffer ), szBufferTemp );
                fputs( szBuffer, pTmpFileOut );
             }
             else
@@ -610,11 +610,11 @@ main( int  argc,
       if ( pXData->m_bExist == 'x' )
       {
          szBuffer[ 0 ] = szBuffer[ 1 ] = szBuffer[ 2 ] = ' ';
-         strcpy_s( szBuffer + 3, sizeof( szBuffer ) - 3, pXData->m_pchExport );
+         strcpy_s( szBuffer + 3, zsizeof( szBuffer ) - 3, pXData->m_pchExport );
          if ( pXData->m_pchExportAlt )
          {
-            strcat_s( szBuffer, sizeof( szBuffer ), "=" );
-            strcat_s( szBuffer, sizeof( szBuffer ), pXData->m_pchExportAlt );
+            strcat_s( szBuffer, zsizeof( szBuffer ), "=" );
+            strcat_s( szBuffer, zsizeof( szBuffer ), pXData->m_pchExportAlt );
          }
 
          k = strlen( szBuffer );
@@ -625,12 +625,12 @@ main( int  argc,
 
          } while ( k < nBytesToOrd );
 
-         strcpy_s( szBuffer + k, sizeof( szBuffer ) - k, "   @" );
+         strcpy_s( szBuffer + k, zsizeof( szBuffer ) - k, "  @" );
          k += 4;
 
          nMaxOrd++;
-         _ltoa_s( nMaxOrd, szBuffer + k, sizeof( szBuffer ) - k, 10 );
-         strcat_s( szBuffer, sizeof( szBuffer ), "  ;; added by mergedef\n" );
+         _ltoa_s( nMaxOrd, szBuffer + k, zsizeof( szBuffer ) - k, 10 );
+         strcat_s( szBuffer, zsizeof( szBuffer ), " ;; added by mergedef\n" );
          if ( bFirst == 'y' )
          {
             bFirst = 'n';
@@ -649,7 +649,7 @@ main( int  argc,
    fclose( pTmpFileOut );
 
    cerr << "Mergedef successfully merged: " << szDefFileSpec << "   with: " << szDumpbinFileSpec << endl;
-   strcpy_s( pchDot, sizeof( szBakFileSpec ) - (pchDot - szBakFileSpec), ".tmp" );
+   strcpy_s( pchDot, zsizeof( szBakFileSpec ) - (pchDot - szBakFileSpec), ".tmp" );
    cerr << "Merged file: " << szBakFileSpec << endl;
 // cerr << "Original .DEF file renamed to: " << szBakFileSpec << endl;
 

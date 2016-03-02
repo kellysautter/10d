@@ -79,10 +79,10 @@ oTZWDLGSO_AutoDsgnIntoExistWnd( zVIEW vSubtask )
    GetViewByName( &vWindow, "TZWINDOW", vSubtask, zLEVEL_ANY );
    CreateViewFromViewForTask( &vNewDialog, vWindow, 0 );
 
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vAutoDesWk,
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vAutoDesWk,
                            "AutoDesignWork", "ObjectEntityName" );
    if ( szWindowName[ 0 ] == 0 )
-      GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vNewDialog, "Window", "Tag" );
+      GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vNewDialog, "Window", "Tag" );
 
    if ( zstrcmp( szWindowName, "" ) == 0 )
    {
@@ -93,7 +93,7 @@ oTZWDLGSO_AutoDsgnIntoExistWnd( zVIEW vSubtask )
       return( 1 );
    }
 
-   GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vAutoDesWk,
+   GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vAutoDesWk,
                            "AutoDesignWork", "ObjectName" );
    if ( zstrcmp( szObjectName, "" ) == 0 )
    {
@@ -135,11 +135,11 @@ oTZWDLGSO_AutoDsgnIntoExistWnd( zVIEW vSubtask )
    // Include any VORs from vUserSpec to vNewDialog.
    ofnTZWDLGSO_AddDialogVORs( vSubtask, vUserSpec, vNewDialog, "UIS_ViewObjRef" );
 
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vNewDialog, "Window", "Tag" );
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vNewDialog, "Window", "Tag" );
    fnPainterCall( zMSG_DELETECURRENTPAINTERWINDOW, vWindow, 0, 0, 0 );
    lRC = ofnTZWDLGSO_AutoDesignWindow( vSubtask, vUserSpec,
                                        vNewDialog, vAutoDesWk );
-   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, sizeof( szWindowName ) );
+   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, zsizeof( szWindowName ) );
    DropView( vNewDialog );
 
    oTZWDLGSO_TerminateAutoDesign( vWindow );
@@ -182,7 +182,7 @@ oTZWDLGSO_AutoDsgnWndWOStyle( zVIEW vSubtask )
    GetViewByName( &vWindow, "TZWINDOW", vSubtask, zLEVEL_ANY );
    CreateViewFromViewForTask( &vNewDialog, vWindow, 0 );
 
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vAutoDesWk,
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vAutoDesWk,
                            "AutoDesignWork", "ObjectEntityName" );
    if ( zstrcmp( szWindowName, "" ) == 0 )
    {
@@ -193,7 +193,7 @@ oTZWDLGSO_AutoDsgnWndWOStyle( zVIEW vSubtask )
       return( 1 );
    }
 
-   GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vAutoDesWk,
+   GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vAutoDesWk,
                            "AutoDesignWork", "ObjectName" );
    if ( CompareAttributeToString( vAutoDesWk, "AutoDesignWork",
                                   "ObjectName", "" ) == 0 )
@@ -232,14 +232,14 @@ oTZWDLGSO_AutoDsgnWndWOStyle( zVIEW vSubtask )
    ofnTZWDLGSO_AddDialogVORs( vSubtask, vUserSpec, vNewDialog, "UIS_ViewObjRef" );
 
    SetAttributeFromString( vAutoDesWk, "AutoDesignWork", "AutoDesignNewWnd", "Y" );
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vNewDialog, "Window", "Tag" );
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vNewDialog, "Window", "Tag" );
    fnPainterCall( zMSG_DELETECURRENTPAINTERWINDOW, vWindow, 0, 0, 0 );
    lRC = ofnTZWDLGSO_AutoDesignWindow( vSubtask, vUserSpec, vNewDialog, vAutoDesWk );
 
    // Set the size of the window.
    ofnTZWDLGSO_CalculateWindowSize( vNewDialog, &lLastLine, &lMaxLength );
    lMaxLength = lMaxLength + 5 * lCC;
-   GetStringFromAttribute( cFullSize, sizeof( cFullSize ), vUserSpec, "WndDesign", "FullWnd" );
+   GetStringFromAttribute( cFullSize, zsizeof( cFullSize ), vUserSpec, "WndDesign", "FullWnd" );
 
    lRC = SetCursorFirstEntityByString( vNewDialog, "Control", "Tag", "DIL1", 0 );
    // If there is a DIL message, then set it to the size of the window.
@@ -273,7 +273,7 @@ oTZWDLGSO_AutoDsgnWndWOStyle( zVIEW vSubtask )
       SetAttributeFromInteger( vNewDialog, "Window", "SZDLG_X", 320 );
    }
 
-   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, sizeof( szWindowName ) );
+   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, zsizeof( szWindowName ) );
    DropView( vNewDialog );
 
    oTZWDLGSO_TerminateAutoDesign( vWindow );
@@ -335,7 +335,7 @@ oTZWDLGSO_AutoDsgnWndWStyle( zVIEW vSubtask )
    // Set the size of the window.
    ofnTZWDLGSO_CalculateWindowSize( vNewDialog, &lLastLine, &lMaxLength );
    lMaxLength = lMaxLength + 5 * lCC;
-   GetStringFromAttribute( cFullSize, sizeof( cFullSize ), vUserSpec, "WndDesign", "FullWnd" );
+   GetStringFromAttribute( cFullSize, zsizeof( cFullSize ), vUserSpec, "WndDesign", "FullWnd" );
 
    lRC = SetCursorFirstEntityByString( vNewDialog, "Control", "Tag", "DIL1", 0 );
 
@@ -372,8 +372,8 @@ oTZWDLGSO_AutoDsgnWndWStyle( zVIEW vSubtask )
       SetAttributeFromInteger( vNewDialog, "Window", "SZDLG_X", 320 );
    }
 
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vNewDialog, "Window", "Tag" );
-   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, sizeof( szWindowName ) );
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vNewDialog, "Window", "Tag" );
+   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, zsizeof( szWindowName ) );
    DropView( vNewDialog );
 
    oTZWDLGSO_TerminateAutoDesign( vWindow );
@@ -422,8 +422,8 @@ oTZWDLGSO_AutoDsgnListWnd( zVIEW vSubtask )
    fnPainterCall( zMSG_DELETECURRENTPAINTERWINDOW, vWindow, 0, 0, 0 );
 // nRC = ofnTZWDLGSO_AutoDsgnWndWLists( vWindow, vUserSpec, vNewDialog );
 
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vNewDialog, "Window", "Tag" );
-   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, sizeof( szWindowName ) );
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vNewDialog, "Window", "Tag" );
+   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, zsizeof( szWindowName ) );
    DropView( vNewDialog );
 
    oTZWDLGSO_TerminateAutoDesign( vWindow );
@@ -458,7 +458,7 @@ oTZWDLGSO_AutoDsgnSubordinates( zVIEW vSubtask )
    GetViewByName( &vAutoDesWk, "TZADWWKO", vSubtask, zLEVEL_ANY );
    GetViewByName( &vWindow, "TZWINDOW", vSubtask, zLEVEL_ANY );
    CreateViewFromViewForTask( &vNewDialog, vSubtask, 0 );
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vNewDialog, "Window", "Tag" );
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vNewDialog, "Window", "Tag" );
 
    nRC = ofnTZWDLGSO_LoadStyleInfo( vSubtask, vUserSpec, vNewDialog );
    if ( nRC == -1 )
@@ -482,7 +482,7 @@ oTZWDLGSO_AutoDsgnSubordinates( zVIEW vSubtask )
    fnPainterCall( zMSG_DELETECURRENTPAINTERWINDOW, vSubtask, 0, 0, 0 );
    nRC = ofnTZWDLGSO_AutoDsgnWndAndSubs( vSubtask, vUserSpec, vNewDialog, vAutoDesWk );
 
-   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, szWindowName, sizeof( szWindowName ) );
+   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, szWindowName, zsizeof( szWindowName ) );
 
    // Refresh the window list in the event the window name has changed
    if ( GetViewByName( &vWindowList, "TZWND_LIST", vSubtask, zLEVEL_TASK ) > 0 )
@@ -556,7 +556,7 @@ oTZWDLGSO_AutoDesignDialog( zVIEW vSubtask )
    // the current Dialog.  The TZDIALOGS view is already positioned on the
    // zREFER_DIALOG_META entry of the current Dialog.
    GetViewByName( &vT1, "TZWINDOWL", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szDialogName, sizeof( szDialogName ),
+   GetStringFromAttribute( szDialogName, zsizeof( szDialogName ),
                            vT1, "Dialog", "Tag" );
    GetViewByName( &vT1, "TZDIALOGS", vSubtask, zLEVEL_TASK );
    if ( CheckExistenceOfEntity( vT1, "W_MetaDef" ) == zCURSOR_SET &&
@@ -601,13 +601,13 @@ oTZWDLGSO_AutoDesignDialog( zVIEW vSubtask )
    SetAttributeFromInteger( vAutoDesWk, "AutoDesignWork", "AutoDesignSubords", 1 ); /* TRUE */
    SetAttributeFromString( vAutoDesWk, "AutoDesignWork", "AutoDesignWDOD", "Y" );
    SetAttributeFromInteger( vAutoDesWk, "AutoDesignWork", "FirstWindow", 1 ); /* TRUE */
-   GetStringFromAttribute( cDialogStyle, sizeof( cDialogStyle ), vAutoDesWk, "AutoDesignWork", "WDOD_Style" );
+   GetStringFromAttribute( cDialogStyle, zsizeof( cDialogStyle ), vAutoDesWk, "AutoDesignWork", "WDOD_Style" );
 
    // Activate the Defaults object that will be used in autodesigning
    // windows.
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
-   strcat_s( szFileName, sizeof( szFileName ), "\\Z__DFLT.BAS" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\Z__DFLT.BAS" );
    lFile = SysOpenFile( vWindow, szFileName, COREFILE_READ );
    if ( lFile < 0 )
    {
@@ -664,12 +664,12 @@ oTZWDLGSO_AutoDesignDialog( zVIEW vSubtask )
    // Autodesign the Dialog without overlaying the file.
    // Code above has already retrieved the Dialog name.
    GetViewByName( &vT1, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vT1, "LPLR", "PgmSrcDir" );
-   SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szFileSpec );
+   GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vT1, "LPLR", "PgmSrcDir" );
+   SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szFileSpec );
 
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), szDialogName );
-   strcat_s( szFileName, sizeof( szFileName ), ".VML" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), szDialogName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".VML" );
    hSourceFlag = SysOpenFile( vSubtask, szFileName, COREFILE_EXIST );
    if ( hSourceFlag >= 0 )
    {
@@ -777,13 +777,13 @@ oTZWDLGSO_AutoDesignDialog( zVIEW vSubtask )
          GetViewByName( &vCM_Obj, "ZeidonCM", vSubtask, zLEVEL_APPLICATION );
          GetViewByName( &vTempObj, "TZCMWKSO", vCM_Obj, zLEVEL_SUBTASK );
 
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vTempObj, "LPLR", "PgmSrcDir" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTempObj, "LPLR", "PgmSrcDir" );
          if ( szFileName[ 0 ] == 0 )
          {
-            GetStringFromAttribute( szFileName, sizeof( szFileName ), vTempObj, "LPLR", "MetaSrcDir" );
+            GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTempObj, "LPLR", "MetaSrcDir" );
          }
 
-         SysConvertEnvironmentString( szFileSpec, sizeof( szFileSpec ), szFileName );
+         SysConvertEnvironmentString( szFileSpec, zsizeof( szFileSpec ), szFileName );
          nLth = (zSHORT) zstrlen( szFileSpec );
          if ( nLth > 0 )
          {
@@ -795,15 +795,15 @@ oTZWDLGSO_AutoDesignDialog( zVIEW vSubtask )
          }
 
          // Get the file name and open the file.
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vNewDialog, "Dialog", "DLL_Name" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vNewDialog, "Dialog", "DLL_Name" );
 
          // If the name is null, then use the Dialog name.
          if ( szFileName[ 0 ] == 0 )
-            GetStringFromAttribute( szFileName, sizeof( szFileName ), vNewDialog, "Dialog", "Tag" );
+            GetStringFromAttribute( szFileName, zsizeof( szFileName ), vNewDialog, "Dialog", "Tag" );
 
-         strcat_s( szFileName, sizeof( szFileName ), ".VML" );
+         strcat_s( szFileName, zsizeof( szFileName ), ".VML" );
 
-         strcat_s( szFileSpec, sizeof( szFileSpec ), szFileName );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), szFileName );
 
          fh = SysOpenFile( vSubtask, szFileSpec, COREFILE_UPDATE );
 
@@ -847,23 +847,23 @@ oTZWDLGSO_AutoDesignDialog( zVIEW vSubtask )
 
    if ( cDialogStyle[ 0 ] == 'G' )
    {
-      GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vUserSpec, "WndDesign", "WndName" );
+      GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vUserSpec, "WndDesign", "WndName" );
       if ( szWindowName[ 0 ] == 0 )
-         GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vUserSpec, "LOD_Entity", "Name" );
+         GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vUserSpec, "LOD_Entity", "Name" );
    }
    else
    {
       // The list window name (formerly AutoDsgnLoadWindow) is the Entity
       // name, followed by the characters "_List".
-      GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vUserSpec, "LOD_Entity", "Name" );
-      strcat_s( szWindowName, sizeof( szWindowName ), "_List" );
+      GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vUserSpec, "LOD_Entity", "Name" );
+      strcat_s( szWindowName, zsizeof( szWindowName ), "_List" );
    }
 
    // Refresh the window list in the event the window name has changed
    if ( GetViewByName( &vWindowList, "TZWND_LIST", vSubtask, zLEVEL_TASK ) > 0 )
       RefreshCtrl( vWindowList, "ListBox1" );
 
-   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, sizeof( szWindowName ) );
+   fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vWindow, 0, szWindowName, zsizeof( szWindowName ) );
 
    // Make sure that the SourceFile entity indicates VML.
    SetAttributeFromString( vWindow, "SourceFile", "LanguageType", "V" );
@@ -872,7 +872,7 @@ oTZWDLGSO_AutoDesignDialog( zVIEW vSubtask )
    // Parse the VML code, if it was generated.
    if ( hSourceFlag < 0 )
    {
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vWindow, "SourceFile", "Name" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vWindow, "SourceFile", "Name" );
 
       // Create a temporary view of the dialog because the parser will drop it.
       CreateViewFromViewForTask( &vTempWindow, vWindow, 0 );
@@ -960,7 +960,7 @@ oTZWDLGSO_GetObjectEntities( zVIEW vSubtask )
    zSHORT   nRC;
 
    GetViewByName( &vAutoDesWk, "TZADWWKO", vSubtask, zLEVEL_ANY );
-   GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vAutoDesWk,
+   GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vAutoDesWk,
                            "AutoDesignWork", "ObjectName" );
 
    if ( szObjectName[ 0 ] == 0 )
@@ -977,8 +977,8 @@ oTZWDLGSO_GetObjectEntities( zVIEW vSubtask )
                                               "Name", szObjectName, "" );
    if ( nRC <= zCURSOR_UNCHANGED )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "There is no VOR with the name " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szObjectName );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "There is no VOR with the name " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szObjectName );
       MessageSend( vSubtask, "AD10607", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -987,7 +987,7 @@ oTZWDLGSO_GetObjectEntities( zVIEW vSubtask )
    }
 
    nRC = ActivateMetaOI( vSubtask, &vVOR, vFileObj, zREFER_VOR_META, zSINGLE );
-   GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vVOR, "LOD", "Name" );
+   GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vVOR, "LOD", "Name" );
 
    nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_LOD_META );
    nRC = SetCursorFirstEntityByString( vFileObj, "W_MetaDef",
@@ -995,8 +995,8 @@ oTZWDLGSO_GetObjectEntities( zVIEW vSubtask )
    nRC = ActivateMetaOI( vSubtask, &vObject, vFileObj, zREFER_LOD_META, zSINGLE );
    if ( nRC == -1 )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "Check-out failed on object - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szObjectName );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "Check-out failed on object - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szObjectName );
       MessageSend( vSubtask, "AD10608", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1051,7 +1051,7 @@ oTZWDLGSO_GetStyleEntities( zVIEW  vSubtask )
 
    GetViewByName( &vWorkObj, "TZPNTROO", vSubtask, zLEVEL_ANY );
 
-   nRC = GetStringFromAttribute( szStyleName, sizeof( szStyleName ), vWorkObj,
+   nRC = GetStringFromAttribute( szStyleName, zsizeof( szStyleName ), vWorkObj,
                                         "Palette", "UIS_Name" );
 
    if ( szStyleName[ 0 ] == 0 )
@@ -1068,8 +1068,8 @@ oTZWDLGSO_GetStyleEntities( zVIEW  vSubtask )
    nRC = ActivateMetaOI( vSubtask, &vUserSpec, vFileObj, zSOURCE_UIS_META, zSINGLE );
    if ( nRC == -1 )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "Check-out failed on dialog spec - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szStyleName );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "Check-out failed on dialog spec - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szStyleName );
       MessageSend( vSubtask, "AD10610", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1098,7 +1098,7 @@ oTZWDLGSO_GetStyleEntities( zVIEW  vSubtask )
            zstrcmp( szEntity, "UIS_ChildEntity" ) == 0 )
       {
          CreateEntity( vStructObj, "W_Entity", zPOS_AFTER );
-         GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec,
+         GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec,
                                  "LOD_Entity", "Name" );
          SetAttributeFromAttribute( vStructObj, "W_Entity", "Name",
                                     vUserSpec, "LOD_Entity", "Name" );
@@ -1239,7 +1239,7 @@ oTZWDLGSO_AutoPaintWindow( zVIEW vSubtask )
    GetViewByName( &vAutoDesWk, "TZADWWKO", vSubtask, zLEVEL_TASK );
    GetViewByName( &vWindow, "TZWINDOW", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vAutoDesWk,
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vAutoDesWk,
                            "AutoDesignWork", "ObjectName" );
    TraceLineS( "AutoPaintWindow ObjectName: ", szFileName );
 
@@ -1260,9 +1260,9 @@ oTZWDLGSO_AutoPaintWindow( zVIEW vSubtask )
    // Activate the Defaults object that will be used in autodesigning
    // subwindows.
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vTaskLPLR, "LPLR", "MetaSrcDir" );
-   strcat_s( szTemp, sizeof( szTemp ), "\\Z__DFLT.BAS" );
-   SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTemp );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   strcat_s( szTemp, zsizeof( szTemp ), "\\Z__DFLT.BAS" );
+   SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTemp );
    lFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( lFile < 0 )
    {
@@ -1321,7 +1321,7 @@ oTZWDLGSO_GetWindowAttributes( zVIEW vSubtask )
    GetViewByName( &vWindow, "TZWINDOW", vSubtask, zLEVEL_ANY );
 
    // Verify that an object was selected.
-   GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vAutoDesWk,
+   GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vAutoDesWk,
                            "AutoDesignWork", "ObjectName" );
    if ( zstrcmp( szObjectName, "" ) == 0 )
    {
@@ -1338,7 +1338,7 @@ oTZWDLGSO_GetWindowAttributes( zVIEW vSubtask )
    CreateEntity( vStructObj, "W_EntityList", zPOS_AFTER );
 
    // Activate the LOD selected.
-   GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vWindow, "LOD", "Name" );
+   GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vWindow, "LOD", "Name" );
    ActivateMetaOI_ByName( vSubtask, &vObjectObj, 0,
                           zREFER_LOD_META,
                           zSINGLE | zLEVEL_APPLICATION,
@@ -1417,8 +1417,8 @@ oTZWDLGSO_InitializeAutoPaint( zVIEW vSubtask )
    ActivateEmptyObjectInstance( &vAutoDesWk, "TZADWWKO", vSubtask, zSINGLE );
    SetNameForView( vAutoDesWk, "TZADWWKO", vSubtask, zLEVEL_TASK );
    CreateEntity( vAutoDesWk, "AutoDesignWork", zPOS_AFTER );
-   strcpy_s( szParentName, sizeof( szParentName ), "Window" );
-   strcpy_s( szTag, sizeof( szTag ), "Tag" );
+   strcpy_s( szParentName, zsizeof( szParentName ), "Window" );
+   strcpy_s( szTag, zsizeof( szTag ), "Tag" );
    SetAttributeFromAttribute( vAutoDesWk, "AutoDesignWork",
                                "ObjectEntityName",
                                vNewDialog, "Window", "Tag" );
@@ -1469,7 +1469,7 @@ oTZWDLGSO_GetWindowActions( zVIEW vSubtask )
 
    GetViewByName( &vUserSpec, "User_Spec", vSubtask, zLEVEL_ANY );
    GetViewByName( &vAutoDesWk, "TZADWWKO", vSubtask, zLEVEL_ANY );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vAutoDesWk,
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vAutoDesWk,
                             "AutoDesignWork", "ObjectEntityName" );
    if ( zstrcmp( szEntityName, "" ) == 0 )
    {
@@ -1480,7 +1480,7 @@ oTZWDLGSO_GetWindowActions( zVIEW vSubtask )
       return( 1 );
    }
 
-   GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vAutoDesWk,
+   GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vAutoDesWk,
                             "AutoDesignWork", "ObjectName" );
    if ( zstrcmp( szObjectName, "" ) == 0 )
    {
@@ -1552,14 +1552,14 @@ oTZWDLGSO_LoadAutoDesignObject( zVIEW vSubtask )
    GetViewByName( &vAutoDesWk, "TZADWWKO", vSubtask, zLEVEL_ANY );
    GetViewByName( &vVOR_List, "AD_VOR_List", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szVOR, sizeof( szVOR ), vAutoDesWk, "AutoDesignWork", "ObjectName" );
+   GetStringFromAttribute( szVOR, zsizeof( szVOR ), vAutoDesWk, "AutoDesignWork", "ObjectName" );
    nRC = SetCursorFirstEntityByString( vVOR_List, "W_MetaDef",
                                        "Name", szVOR, "" );
    nRC = ActivateMetaOI( vSubtask, &vVOR, vVOR_List, zREFER_VOR_META, zSINGLE );
    if ( nRC < zCURSOR_SET )
       return( 1 );
 
-   GetStringFromAttribute( szLOD, sizeof( szLOD ), vVOR, "LOD", "Name" );
+   GetStringFromAttribute( szLOD, zsizeof( szLOD ), vVOR, "LOD", "Name" );
 
    RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
    nRC = SetCursorFirstEntityByString( vLOD_List, "W_MetaDef",
@@ -1715,8 +1715,8 @@ oTZWDLGSO_InitializeAutoDesign( zVIEW vSubtask )
    ActivateEmptyObjectInstance( &vAutoDesWk, "TZADWWKO", vSubtask, zSINGLE );
    SetNameForView( vAutoDesWk, "TZADWWKO", vSubtask, zLEVEL_TASK );
    CreateEntity( vAutoDesWk, "AutoDesignWork", zPOS_AFTER );
-   strcpy_s( szParentName, sizeof( szParentName ), "Window" );
-   strcpy_s( szTag, sizeof( szTag ), "Tag" );
+   strcpy_s( szParentName, zsizeof( szParentName ), "Window" );
+   strcpy_s( szTag, zsizeof( szTag ), "Tag" );
    SetAttributeFromAttribute( vAutoDesWk, "AutoDesignWork",
                                "ObjectEntityName",
                                vNewDialog, "Window", "Tag" );
@@ -1937,7 +1937,7 @@ zwTZADWIAW_GrayMenuItems( zVIEW vSubtask )
 
    GetViewByName( &vUserSpec, "User_Spec", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( cActionType, sizeof( cActionType ), vUserSpec, "WndDesign", "ActionType" );
+   GetStringFromAttribute( cActionType, zsizeof( cActionType ), vUserSpec, "WndDesign", "ActionType" );
 
    if ( cActionType[ 0 ] == 'O' )
    {

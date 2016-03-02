@@ -306,8 +306,8 @@ fnOrderedCtrls( const ZMapAct *pzma,
                 LPARAM lParam )
 {
    zCHAR szBuffer[ 64 ];
-   strcpy_s( szBuffer, sizeof( szBuffer ), *(pzma->m_pzsTag) );
-   strcat_s( szBuffer, sizeof( szBuffer ), ": " );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), *(pzma->m_pzsTag) );
+   strcat_s( szBuffer, zsizeof( szBuffer ), ": " );
    TraceLineI( szBuffer, pzma->m_nIdNbr );
 }
 

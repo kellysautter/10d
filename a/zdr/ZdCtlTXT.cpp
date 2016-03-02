@@ -273,7 +273,7 @@ ZText::ZText( ZSubtask *pZSubtask,
             m_ulAlignment |= VERT_TOP;
 
          m_lEscapement = ld.lEscapement;
-         strcpy_s( m_szFaceName, sizeof( m_szFaceName ), ld.szFontName );
+         strcpy_s( m_szFaceName, zsizeof( m_szFaceName ), ld.szFontName );
 
          while ( m_lEscapement < 0 )
             m_lEscapement += 3600;
@@ -477,13 +477,13 @@ ZText::MapFromOI( WPARAM wFlag )
 
             GetAttributeDisplayLength( &ulLth, vApp, *m_pzsEName,
                                        *m_pzsAName, *m_pzsContext );
-            if ( ulLth > sizeof( szMap ) - 1 )
+            if ( ulLth > zsizeof( szMap ) - 1 )
             {
                GetAddrForAttribute( &pch, vApp, *m_pzsEName, *m_pzsAName );
             }
             else
             {
-               zSHORT nRC = GetVariableFromAttribute( szMap, 0, zTYPE_STRING, sizeof( szMap ) - 1, vApp,
+               zSHORT nRC = GetVariableFromAttribute( szMap, 0, zTYPE_STRING, zsizeof( szMap ) - 1, vApp,
                                                       *m_pzsEName, *m_pzsAName, *m_pzsContext,
                                                       m_pzsContext->IsEmpty( ) ?
                                                         zACCEPT_NULL_ENTITY | zUSE_DEFAULT_CONTEXT : zACCEPT_NULL_ENTITY );
@@ -1440,7 +1440,7 @@ ZText::SetFontItalic( zBOOL bItalic )
 ZText&
 ZText::SetFontName( zCPCHAR cpcFaceName )
 {
-   strcpy_s( m_lf.lfFaceName, sizeof( m_lf.lfFaceName ), cpcFaceName );
+   strcpy_s( m_lf.lfFaceName, zsizeof( m_lf.lfFaceName ), cpcFaceName );
    ReconstructFont( );
    return( *this );
 }
@@ -2428,7 +2428,7 @@ ZClrPicker::ZClrPicker( ZSubtask *pZSubtask,
    TraceLineS( "ZClrPicker::ctor ", *m_pzsTag );
 #endif
 
-   m_nNbrColors = sizeof( g_clrColors ) / sizeof( ColorTableEntry );
+   m_nNbrColors = zsizeof( g_clrColors ) / sizeof( ColorTableEntry );
    ASSERT( m_nNbrColors <= MAX_COLORS );
    if ( m_nNbrColors > MAX_COLORS )
       m_nNbrColors = MAX_COLORS;
@@ -3028,7 +3028,7 @@ ZClrPopup::ZClrPopup( CPoint p, COLORREF clrColor, CWnd *pParentWnd,
 void
 ZClrPopup::Initialize( )
 {
-   m_nNbrColors = sizeof( g_clrColors ) / sizeof( ColorTableEntry );
+   m_nNbrColors = zsizeof( g_clrColors ) / sizeof( ColorTableEntry );
    ASSERT( m_nNbrColors <= MAX_COLORS );
    if ( m_nNbrColors > MAX_COLORS )
       m_nNbrColors = MAX_COLORS;
@@ -4269,7 +4269,7 @@ ZTextRotator::BitBltText( HDC hRotatedMemDC, CRect rectSrc, zULONG ulAngle )
 //    RECT rect = m_rectRotated;
 //
 //    if ( pRect )
-//       zmemcpy( pRect, &rect, sizeof( RECT ) );
+//       zmemcpy( pRect, &rect, zsizeof( RECT ) );
 // }
 
 //
@@ -4644,7 +4644,7 @@ CControlToolTip::GetMultiLineTextExtent( CClientDC *pDC,
    zCHAR  szTemp[ 1024 ];
    CSize size;
 
-   strcpy_s( szTemp, sizeof( szTemp ), cpcText );
+   strcpy_s( szTemp, zsizeof( szTemp ), cpcText );
    zPCHAR pch = strtok( szTemp, "\n" );
 
    while ( pch )
@@ -5107,7 +5107,7 @@ TX_SetTextProperties( zVIEW      vSubtask,
 
          if ( zstrcmp( pText->m_szFaceName, pLD->szFontName ) )
          {
-            strcpy_s( pText->m_szFaceName, sizeof( pText->m_szFaceName ), pLD->szFontName );
+            strcpy_s( pText->m_szFaceName, zsizeof( pText->m_szFaceName ), pLD->szFontName );
             pText->SetFontName( pText->m_szFaceName );
          }
 
@@ -5475,7 +5475,7 @@ TX_SetTextRptCtrlBOI( zVIEW   vCtrl,
       ld.lEscapement = lEscapement;
       ld.lType = lType;
       if ( cpcFaceName && *cpcFaceName )
-         strcpy_s( ld.szFontName, sizeof( ld.szFontName ), cpcFaceName );
+         strcpy_s( ld.szFontName, zsizeof( ld.szFontName ), cpcFaceName );
       else
          ld.szFontName[ 0 ] = 0;
    }

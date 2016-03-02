@@ -76,8 +76,8 @@ oTZEREMXO_BuildExecutableModel( zVIEW  vSubtask, zPVIEW vpReturnExecModel,
    if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vModel, zLEVEL_TASK ) < 1 )
       return( 0 );
 
-   GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vTaskLPLR, "LPLR", "ExecDir" );
-   strcat_s( szFileSpec, sizeof( szFileSpec ), "\\ZEIDON.XMD" );
+   GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vTaskLPLR, "LPLR", "ExecDir" );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), "\\ZEIDON.XMD" );
 
    // If the Model has no entities, return an Error.
    if ( SetCursorFirstEntity( vModel, "ER_Entity", 0 ) < zCURSOR_SET )

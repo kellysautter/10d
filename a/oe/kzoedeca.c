@@ -2590,7 +2590,7 @@ ARACrypt::ARACrypt( ) :
           m_Rot1_B( 0xC0000000 ),
           m_Rot1_C( 0xF0000000 )
 {
-   strcpy_s( m_szKey, sizeof( m_szKey ), "Don2Cam9Pas1Gig3Dks5Dgc8Kat2Mik3Jab1Mat2" );
+   strcpy_s( m_szKey, zsizeof( m_szKey ), "Don2Cam9Pas1Gig3Dks5Dgc8Kat2Mik3Jab1Mat2" );
 }
 
 // Everything is on the frame.
@@ -2606,7 +2606,7 @@ ARACrypt::SetKey( zCPCHAR cpcKey )
 {
    zCHAR szSeed[ zMAXEL + 1 ];
 
-   strcpy_s( m_szKey, sizeof( m_szKey ), cpcKey );
+   strcpy_s( m_szKey, zsizeof( m_szKey ), cpcKey );
 
    if ( m_szKey[ 0 ] == 0 )
    {
@@ -2618,7 +2618,7 @@ ARACrypt::SetKey( zCPCHAR cpcKey )
    }
    else
    {
-      strcpy_s( szSeed, sizeof( szSeed ), m_szKey );
+      strcpy_s( szSeed, zsizeof( szSeed ), m_szKey );
    }
 
    // Make sure seed is at least 12 bytes long.
@@ -2936,7 +2936,7 @@ UfEncryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
 // if ( uLth == 20 )
 //    return( UfEncryptString( pchOut, pchIn, uLth ) );
 
-// sprintf_s( szMsg, sizeof( szMsg ), "UfEncryptStringUL Length: %d In: \"%s\"", uLth, pchIn );
+// sprintf_s( szMsg, zsizeof( szMsg ), "UfEncryptStringUL Length: %d In: \"%s\"", uLth, pchIn );
 // TraceLineS( szMsg, "" );
 
    // Set up the encryption key.
@@ -2946,19 +2946,19 @@ UfEncryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
       zCHAR  szNewKey[ 65 ];
       zLONG  lKeyLth;
 
-      strncpy_s( szNewKey, pchKey, sizeof( szNewKey ) - 1 );
-      szNewKey[ sizeof( szNewKey ) - 1 ] = 0;  // force null terminator
+      strncpy_s( szNewKey, pchKey, zsizeof( szNewKey ) - 1 );
+      szNewKey[ zsizeof( szNewKey ) - 1 ] = 0; // force null terminator
       lInLth = zstrlen( szNewKey );
 
-      crypt.GetKey( szKey, sizeof( szKey ) );
+      crypt.GetKey( szKey, zsizeof( szKey ) );
       lKeyLth = zstrlen( szKey );
-      if ( lKeyLth + lInLth > sizeof( szKey ) - 1 )
-         lKeyLth = sizeof( szKey ) - 1 - lInLth;
+      if ( lKeyLth + lInLth > zsizeof( szKey ) - 1 )
+         lKeyLth = zsizeof( szKey ) - 1 - lInLth;
 
       if ( lKeyLth > 0 )
       {
          strncpy_s( szNewKey + lInLth, pchKey, lKeyLth );
-         szNewKey[ sizeof( szKey ) - 1 ] = 0;  // force null terminator
+         szNewKey[ zsizeof( szKey ) - 1 ] = 0; // force null terminator
          crypt.SetKey( szNewKey );
       }
    }
@@ -2981,12 +2981,12 @@ UfEncryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
 
    // Seed the random-number generator with the same data so that
    // the numbers will be same every time we run with the same data.
-   if ( lInLth > sizeof( unsigned ) )
-      k = lInLth - sizeof( unsigned );
+   if ( lInLth > zsizeof( unsigned ) )
+      k = lInLth - zsizeof( unsigned );
    else
    {
       k = lInLth + 1;
-      while ( k < sizeof( unsigned ) )
+      while ( k < zsizeof( unsigned ) )
          pch[ k++ ] = 0;
 
       k = 0;
@@ -3014,7 +3014,7 @@ UfEncryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
       lInLth -= uLth;
 
    pchOut[ EncryptB[ nOrderIdx ] ] = EncryptA[ lInLth ] + 'a';
-// sprintf_s( szMsg, sizeof( szMsg ), "UfEncryptStringUL Idx: %d EncryptIdx: %d Value: %2x",
+// sprintf_s( szMsg, zsizeof( szMsg ), "UfEncryptStringUL Idx: %d EncryptIdx: %d Value: %2x",
 //           nOrderIdx, EncryptB[ nOrderIdx ], pchOut[ EncryptB[ nOrderIdx ] ] );
 // TraceLineS( szMsg, "" );
    nOrderIdx++;
@@ -3025,7 +3025,7 @@ UfEncryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
 
       uCrypt = pch[ uChar ];
       pchOut[ EncryptB[ nOrderIdx ] ] = uCrypt;
-   // sprintf_s( szMsg, sizeof( szMsg ), "UfEncryptStringUL Idx: %d EncryptIdx: %d Value: %2x",
+   // sprintf_s( szMsg, zsizeof( szMsg ), "UfEncryptStringUL Idx: %d EncryptIdx: %d Value: %2x",
    //            nOrderIdx, EncryptB[ nOrderIdx ], pchOut[ EncryptB[ nOrderIdx ] ] );
    // TraceLineS( szMsg, "" );
 
@@ -3040,7 +3040,7 @@ UfEncryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
       return( zCALL_ERROR );
    }
 
-// sprintf_s( szMsg, sizeof( szMsg ), "UfEncryptStringUL Out: \"%s\"", pchOut );
+// sprintf_s( szMsg, zsizeof( szMsg ), "UfEncryptStringUL Out: \"%s\"", pchOut );
 // TraceLineS( szMsg, "" );
 
 // UfDecryptStringUL( pch, pchOut, uLth );
@@ -3080,7 +3080,7 @@ UfDecryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
 // if ( uLth == 20 )
 //    return( UfDecryptString( pchOut, pchIn, uLth ) );
 
-// sprintf_s( szMsg, sizeof( szMsg ), "UfDecryptStringUL Length: %d In: \"%s\"", uLth, pchIn );
+// sprintf_s( szMsg, zsizeof( szMsg ), "UfDecryptStringUL Length: %d In: \"%s\"", uLth, pchIn );
 // TraceLineS( szMsg, "" );
 
    if ( *pchIn == 0 )
@@ -3096,19 +3096,19 @@ UfDecryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
       zCHAR  szNewKey[ 65 ];
       zLONG  lKeyLth;
 
-      strncpy_s( szNewKey, sizeof( szNewKey ), pchKey, sizeof( szNewKey ) - 1 );
-      szNewKey[ sizeof( szNewKey ) - 1 ] = 0;  // force null terminator
+      strncpy_s( szNewKey, zsizeof( szNewKey ), pchKey, zsizeof( szNewKey ) - 1 );
+      szNewKey[ zsizeof( szNewKey ) - 1 ] = 0; // force null terminator
       lInLth = zstrlen( szNewKey );
 
-      crypt.GetKey( szKey, sizeof( szKey ) );
+      crypt.GetKey( szKey, zsizeof( szKey ) );
       lKeyLth = zstrlen( szKey );
-      if ( lKeyLth + lInLth > sizeof( szKey ) - 1 )
-         lKeyLth = sizeof( szKey ) - 1 - lInLth;
+      if ( lKeyLth + lInLth > zsizeof( szKey ) - 1 )
+         lKeyLth = zsizeof( szKey ) - 1 - lInLth;
 
       if ( lKeyLth > 0 )
       {
          strncpy_s( szNewKey + lInLth, pchKey, lKeyLth );
-         szNewKey[ sizeof( szKey ) - 1 ] = 0;  // force null terminator
+         szNewKey[ zsizeof( szKey ) - 1 ] = 0; // force null terminator
          crypt.SetKey( szNewKey );
       }
    }
@@ -3121,7 +3121,7 @@ UfDecryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
    lInLth = (zSHORT) (((zUCHAR) pchIn[ EncryptB[ nOrderIdx ] ]) - 'a');
    if ( uLth > zMAXEL || lInLth >= uLth || lInLth < 0 )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), "Length Error Decrypting String: (%d:%d) \"%s\"", uLth, lInLth, pchIn );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Length Error Decrypting String: (%d:%d) \"%s\"", uLth, lInLth, pchIn );
       SysMessageBox( 0, "Zeidon Internal Error", szMsg, 0 );
       return( zCALL_ERROR );
    }
@@ -3148,7 +3148,7 @@ UfDecryptStringUL( zPCHAR pchOut, zPCHAR pchIn, zPCHAR pchKey, zUSHORT uLth )
    pchOut[ uLth ] = 0;
    crypt.TransformString( pchOut );
    pchOut[ uChar ] = 0;
-// sprintf_s( szMsg, sizeof( szMsg ), "UfDecryptStringUL Out: \"%s\"", pchOut );
+// sprintf_s( szMsg, zsizeof( szMsg ), "UfDecryptStringUL Out: \"%s\"", pchOut );
 // TraceLineS( szMsg, "" );
    return( nReturnLth );
 }
@@ -3254,7 +3254,7 @@ fnCallDecOper( zPVOID    pvReturn,
       // command to take place so we can write any pertinent info to trace.
       if ( lpLibrary == 0 )
       {
-         SysReadZeidonIni( -1, "[Zeidon]", "DefaultDecimalOK", szValue, sizeof( szValue ) );
+         SysReadZeidonIni( -1, "[Zeidon]", "DefaultDecimalOK", szValue, zsizeof( szValue ) );
          zstrupper( szValue );
 
          if ( szValue[ 0 ] != 'Y' &&

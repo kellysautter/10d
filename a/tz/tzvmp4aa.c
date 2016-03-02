@@ -312,7 +312,7 @@ GetDefineZKey( zVIEW  vSubtask,
             DropMetaOI( vSubtask, vHdr );
             //////////////////////////
                lRC = GetIntegerFromAttribute( &lDefineZKey, g_lpSGView, "DefinedItem", "ZKey" );
-               lRC = GetStringFromAttribute( cZeidonType, sizeof( cZeidonType ), g_lpSGView, "DefinedItem", "DataType" );
+               lRC = GetStringFromAttribute( cZeidonType, zsizeof( cZeidonType ), g_lpSGView, "DefinedItem", "DataType" );
                *plDataType = ConvertZeidonTypeToVMLType( cZeidonType[ 0 ] );
                return( lDefineZKey );
             //////////////////////////
@@ -359,7 +359,7 @@ GetDefineZKey( zVIEW  vSubtask,
    if ( lRC >= zCURSOR_SET && CheckExistenceOfEntity( g_lpSGView, "DefinedItem" ) >= zCURSOR_SET )
    {
       lRC = GetIntegerFromAttribute( &lDefineZKey, g_lpSGView, "DefinedItem", "ZKey" );
-      lRC = GetStringFromAttribute( cZeidonType, sizeof( cZeidonType ), g_lpSGView, "DefinedItem", "DataType" );
+      lRC = GetStringFromAttribute( cZeidonType, zsizeof( cZeidonType ), g_lpSGView, "DefinedItem", "DataType" );
       *plDataType = ConvertZeidonTypeToVMLType( cZeidonType[ 0 ] );
 
       return( lDefineZKey );
@@ -455,7 +455,7 @@ GetVariableLength( zPCHAR pchVarLth, zLONG lMaxLth, zLONG lID )
 
    if ( pchVarLth != 0 )
    {
-      //lRC = GetStringFromAttribute( szLen, sizeof( szLen ), g_lpSGView, "Variable", "NElements" );
+      //lRC = GetStringFromAttribute( szLen, zsizeof( szLen ), g_lpSGView, "Variable", "NElements" );
       lRC = GetIntegerFromAttribute( &lDataType, g_lpSGView, "Variable", "DataType" );
       if ( lDataType == qTCHARACTER )
       {
@@ -1127,13 +1127,13 @@ GetOperationParmListPM( zVIEW vSubtask,
       lRC = SetCursorFirstEntity( vLookupView, "Parameter", "" );
       while ( lRC > zCURSOR_UNCHANGED )
       {
-         GetStringFromAttribute( cZeidonType, sizeof( cZeidonType ), vLookupView, "Parameter", "DataType" );
+         GetStringFromAttribute( cZeidonType, zsizeof( cZeidonType ), vLookupView, "Parameter", "DataType" );
 
          lParmType = ConvertZeidonTypeToVMLType( cZeidonType[ 0 ] );
 
          sParmListExt[ lCheckParms ] |= remember_type( lParmType );
 
-         GetStringFromAttribute( cPtrFlag, sizeof( cPtrFlag ), vLookupView, "Parameter", "PFlag" );
+         GetStringFromAttribute( cPtrFlag, zsizeof( cPtrFlag ), vLookupView, "Parameter", "PFlag" );
          if ( cPtrFlag[ 0 ] == 'Y' )
          {
             if ( lParmType > 0 )
@@ -1234,13 +1234,13 @@ GetOperationParmListFromSource( zLONG sParmList[],
    lRC = SetCursorFirstEntity( vLookupView, "Parameter", "" );
    while ( lRC > zCURSOR_UNCHANGED )
    {
-      GetStringFromAttribute( cZeidonType, sizeof( cZeidonType ), vLookupView, "Parameter", "DataType" );
+      GetStringFromAttribute( cZeidonType, zsizeof( cZeidonType ), vLookupView, "Parameter", "DataType" );
 
       lParmType = ConvertZeidonTypeToVMLType( cZeidonType[ 0 ] );
 
       sParmListExt[ lCheckParms ] |= remember_type( lParmType );
 
-      GetStringFromAttribute( cPtrFlag, sizeof( cPtrFlag ), vLookupView, "Parameter", "PFlag" );
+      GetStringFromAttribute( cPtrFlag, zsizeof( cPtrFlag ), vLookupView, "Parameter", "PFlag" );
       if ( cPtrFlag[ 0 ] == 'Y' )
       {
          if ( g_szGenLang[ 0 ] == 'J' )
@@ -1550,7 +1550,7 @@ VerifyQualifier( zVIEW  vSubtask,
 
          // Check for case sensitive match
          if ( lRC >= zCURSOR_SET )
-            GetStringFromAttribute( szRealEntityName, sizeof( szRealEntityName ), lpViewOfView, "LOD_Entity", "Name" );
+            GetStringFromAttribute( szRealEntityName, zsizeof( szRealEntityName ), lpViewOfView, "LOD_Entity", "Name" );
 
          if ( lRC < zCURSOR_SET ||
               zstrcmp( pchEntityName, szRealEntityName ) != 0 )
@@ -1600,7 +1600,7 @@ VerifyQualifier( zVIEW  vSubtask,
             lRC = SetCursorFirstEntityByString( lpViewOfView, "ER_Attribute", "Name", pchAttributeName, "LOD_Entity" );
             // Check for case sensitive match
             if ( lRC >= zCURSOR_SET )
-               GetStringFromAttribute( szRealAttrName, sizeof( szRealAttrName ), lpViewOfView, "ER_Attribute", "Name" );
+               GetStringFromAttribute( szRealAttrName, zsizeof( szRealAttrName ), lpViewOfView, "ER_Attribute", "Name" );
 
             if ( lRC < zCURSOR_SET || zstrcmp( pchAttributeName, szRealAttrName ) != 0 )
             {
@@ -1625,7 +1625,7 @@ VerifyQualifier( zVIEW  vSubtask,
 
                // if it is a known valid attribute, put the type in
                // the pointer to the attributeID
-               lRC = GetStringFromAttribute( cType, sizeof( cType ), lpViewOfView, "Domain", "DerivedDataType" );
+               lRC = GetStringFromAttribute( cType, zsizeof( cType ), lpViewOfView, "Domain", "DerivedDataType" );
 
                *lpAttributeID = ConvertZeidonTypeToVMLType( cType[ 0 ] );
 
@@ -1664,7 +1664,7 @@ GetLengthFromAttribute( zLONG  lViewID,
    // unknown object definition and all of the parts must be unknown that
    // is they must be variables.
 
-   GetVariableName( lViewID, g_szViewName, sizeof( g_szViewName ) );
+   GetVariableName( lViewID, g_szViewName, zsizeof( g_szViewName ) );
 
    GetIntegerFromAttribute( (zPLONG) &lpViewOfView, g_lpSGView, "Variable", "Value" );
 
@@ -1696,7 +1696,7 @@ GetLengthFromAttribute( zLONG  lViewID,
       // well as the override length in ZKeys.  This should be corrected
       // over time, but I was afraid to change it as I didn't know the
       // impact on other parts of the system.
-      GetStringFromAttribute( szDataType, sizeof( szDataType ), lpViewOfView, "Domain", "DerivedDataType" );
+      GetStringFromAttribute( szDataType, zsizeof( szDataType ), lpViewOfView, "Domain", "DerivedDataType" );
       if ( szDataType[ 0 ] == 'L' )
       {
          return( 9 );
@@ -1798,30 +1798,30 @@ NewGenerateTempVariable( zVIEW  vSubtask,
          lReturnDataType = qTSTRING;
 
       case qTSTRING:
-         strcpy_s( szHold, sizeof( szHold ), "szTempString_" );
+         strcpy_s( szHold, zsizeof( szHold ), "szTempString_" );
          lDataLength += 1;
          break;
 
       case qTCHARACTER:
-         strcpy_s( szHold, sizeof( szHold ), "cTempCharact_" );
+         strcpy_s( szHold, zsizeof( szHold ), "cTempCharact_" );
          lDataLength = 2;
          break;
 
       case qTINTEGER:
       case qTSHORT:
-         strcpy_s( szHold, sizeof( szHold ), "lTempInteger_" );
+         strcpy_s( szHold, zsizeof( szHold ), "lTempInteger_" );
          break;
 
       case qTDECIMAL:
-         strcpy_s( szHold, sizeof( szHold ), "dTempDecimal_" );
+         strcpy_s( szHold, zsizeof( szHold ), "dTempDecimal_" );
          break;
 
       case qTVIEW:
-         strcpy_s( szHold, sizeof( szHold ), "vTempViewVar_" );
+         strcpy_s( szHold, zsizeof( szHold ), "vTempViewVar_" );
          break;
 
       default:
-         strcpy_s( szHold, sizeof( szHold ), "kTempVariable" );
+         strcpy_s( szHold, zsizeof( szHold ), "kTempVariable" );
          break;
    }
 
@@ -1829,7 +1829,7 @@ NewGenerateTempVariable( zVIEW  vSubtask,
    lSeq = 0;
    do
    {
-      zltoa( lSeq, szHold + 13, sizeof( szHold ) - 13 );
+      zltoa( lSeq, szHold + 13, zsizeof( szHold ) - 13 );
 
       lRC = GetVariableID( &lID, szHold );
 
@@ -2161,7 +2161,7 @@ parameter_is_unsigned( zVIEW vLookupView )
 {
    zCHAR cUnsignedFlag[ 2 ];
 
-   GetStringFromAttribute( cUnsignedFlag, sizeof( cUnsignedFlag ), vLookupView, "Parameter", "UFlag" );
+   GetStringFromAttribute( cUnsignedFlag, zsizeof( cUnsignedFlag ), vLookupView, "Parameter", "UFlag" );
    if ( cUnsignedFlag[ 0 ] == 'Y' )
    {
       return( 1 ); // the parameter is unsigned

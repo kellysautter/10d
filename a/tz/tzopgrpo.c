@@ -65,31 +65,31 @@ oTZOPGRPO_GetViewForXGO( zVIEW  vSubtask,
 // Set up the XGO File Name and the View Name
    if ( nCurrentOrReload == zCURRENT_OI || nCurrentOrReload == zFORCE_RELOAD )
    {
-      strcpy_s( szAppViewName, sizeof( szAppViewName ), "xoOPERSIGS." );
+      strcpy_s( szAppViewName, zsizeof( szAppViewName ), "xoOPERSIGS." );
       nRC = GetViewByName( &vT, "TaskLPLR", vSubtask, zLEVEL_TASK );
-      nRC = GetStringFromAttribute( szXGO_FileName, sizeof( szXGO_FileName ), vT, "LPLR", "ExecDir" );
+      nRC = GetStringFromAttribute( szXGO_FileName, zsizeof( szXGO_FileName ), vT, "LPLR", "ExecDir" );
       if ( szXGO_FileName[ zstrlen( szXGO_FileName ) - 1 ] != '\\' )
-          strcat_s( szXGO_FileName, sizeof( szXGO_FileName ), "\\" );
+          strcat_s( szXGO_FileName, zsizeof( szXGO_FileName ), "\\" );
 
-      strcat_s( szXGO_FileName, sizeof( szXGO_FileName ), "opersigs.xgo" );
+      strcat_s( szXGO_FileName, zsizeof( szXGO_FileName ), "opersigs.xgo" );
    }
    else
    {
-      strcpy_s( szAppViewName, sizeof( szAppViewName ), "xoTZOPSIGK." );
+      strcpy_s( szAppViewName, zsizeof( szAppViewName ), "xoTZOPSIGK." );
       nRC = SfCreateSubtask( &vT, vSubtask, "Zeidon System" );
       if ( nRC == zCALL_ERROR )
          return( zCALL_ERROR );
 
       nRC = GetApplDirectoryFromView( szXGO_FileName, vT, zAPPL_DIR_OBJECT, zMAX_FILENAME_LTH + 1 );
       nRC = SfDropSubtask( vT, 0 );
-      strcat_s( szXGO_FileName, sizeof( szXGO_FileName ), "tzopsigk.xgo" );
+      strcat_s( szXGO_FileName, zsizeof( szXGO_FileName ), "tzopsigk.xgo" );
    }
 
 // See if XGO View is at the Application level
    nRC = GetViewByName( &vTask, "TaskLPLR", vSubtask, zLEVEL_TASK );
    if ( vTask )
    {
-      GetStringFromAttribute( szAppViewName + 11, sizeof( szAppViewName ) - 11, vTask, "LPLR", "Name" );
+      GetStringFromAttribute( szAppViewName + 11, zsizeof( szAppViewName ) - 11, vTask, "LPLR", "Name" );
       nRScope = GetViewByName( &vT, szAppViewName, vTask, zLEVEL_APPLICATION );
       if ( nRScope == zCALL_ERROR )
          return( nRScope );
@@ -133,7 +133,7 @@ oTZOPGRPO_GetViewForXGO( zVIEW  vSubtask,
          while ( nRC >= zCURSOR_SET )
          {
             szOpGenType[ 0 ] = 0;
-            GetStringFromAttribute( szOpGenType, sizeof( szOpGenType ), vT, "Operation", "GenerationType" );
+            GetStringFromAttribute( szOpGenType, zsizeof( szOpGenType ), vT, "Operation", "GenerationType" );
            if ( szOpGenType[0] == 'J' )
            {
               DropEntity( vT, "Operation", zREPOS_NONE );
@@ -167,24 +167,24 @@ oTZOPGRPO_CommitXGO( zVIEW vTZOPGRPO )
 // Set up the XGO File Name
 
    GetViewByName( &vT, "TaskLPLR", vTZOPGRPO, zLEVEL_TASK );
-   GetStringFromAttribute( szXGO_FileName, sizeof( szXGO_FileName ), vT, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szXGO_FileName, zsizeof( szXGO_FileName ), vT, "LPLR", "ExecDir" );
 
    GetApplDirectoryFromView( szApplExecDir, vT, 2, zMAX_FILESPEC_LTH + 1 );
    szApplExecDir[ zstrlen( szApplExecDir ) - 1 ] = 0;
    if ( zstrcmpi( szApplExecDir, szXGO_FileName ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "The Executable version of the Operation is about to "
+      strcpy_s( szMsg, zsizeof( szMsg ), "The Executable version of the Operation is about to "
                       "stored in the executable directory of your currently "
                       "executing Application.\n\n\t" );
-      strcat_s( szMsg, sizeof( szMsg ), szApplExecDir );
-      strcat_s( szMsg, sizeof( szMsg ), "\n\nDo you wish to continue?" );
+      strcat_s( szMsg, zsizeof( szMsg ), szApplExecDir );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n\nDo you wish to continue?" );
       nRC = MessagePrompt( vT, "OP01001", "Operations", szMsg,
                            zBEEP, zBUTTONS_YESNO, zRESPONSE_NO,  0 );
       if ( nRC == zRESPONSE_NO )
          return( -1 );
    }
 
-   strcat_s( szXGO_FileName, sizeof( szXGO_FileName ), "\\opersigs.xgo" );
+   strcat_s( szXGO_FileName, zsizeof( szXGO_FileName ), "\\opersigs.xgo" );
    nRC = CommitOI_ToFile( vTZOPGRPO, szXGO_FileName, zASCII );
    return( nRC );
 }

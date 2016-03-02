@@ -150,7 +150,7 @@ KZHSQLBA_DBH_MsgProc( LPTASK       hTask,
       {
          // Allocate a buffer to contain the Connection information and
          // initialize.
-         *((zPVOID *) lpWorkPtr) = malloc( sizeof( ConnectionRecord ) );
+         *((zPVOID *) lpWorkPtr) = malloc( zsizeof( ConnectionRecord ) );
          lpConnection = *((LPCONNECTION *) lpWorkPtr);
          lpConnection->lpFirstQualEntity = 0;
 
@@ -643,7 +643,7 @@ Load( LPVIEWENTITY lpViewEntity,
    // Fetch first row from the table.
    nRowCount = 0;
    //zmemset( lpConnection->szGlobalTableBuffer, 0,
-   //         sizeof( szGlobalTableBuffer ) );
+   //         zsizeof( szGlobalTableBuffer ) );
    nRC = sqlfet( lpConnection->hSqlCsr );
    SQL_RC( "sqlfet", nRC, 0, 0, 2 );
    if ( nRC < 0 )
@@ -679,7 +679,7 @@ Load( LPVIEWENTITY lpViewEntity,
             {
                // Get length from long varchar.
                nRC = sqlrlo( lpConnection->hSqlCsr, (SQLTSLC) nColumnCount,
-                             (SQLTDAP) &uLth, (SQLTDAL) sizeof( uLth ),
+                             (SQLTDAP) &uLth, (SQLTDAL) zsizeof( uLth ),
                              (SQLTDAL PTR) &lLth );
                SQL_RC( "sqlrlo", nRC, "Col name = ",
                        lpDataField->lpFldName, 3 );
@@ -1316,7 +1316,7 @@ SQLBase_RC( zPCHAR       pchRoutine,
    if ( nRC )
    {
       if ( nRC == zDUPLICATE_ROOT )
-         strcpy_s( szText, sizeof( szText ), "Attempt to add duplicate root." );
+         strcpy_s( szText, zsizeof( szText ), "Attempt to add duplicate root." );
       else
          sqlerr( nRC, szText );
       TraceLineS( "Error message: ", szText );
@@ -1324,10 +1324,10 @@ SQLBase_RC( zPCHAR       pchRoutine,
 
    if ( nRC >= 100 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "SQL Base Run-time error performing " );
-      strcat_s( szMsg, sizeof( szMsg ), pchRoutine );
-      strcat_s( szMsg, sizeof( szMsg ), ":\n" );
-      strcat_s( szMsg, sizeof( szMsg ), szText );
+      strcpy_s( szMsg, zsizeof( szMsg ), "SQL Base Run-time error performing " );
+      strcat_s( szMsg, zsizeof( szMsg ), pchRoutine );
+      strcat_s( szMsg, zsizeof( szMsg ), ":\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), szText );
       MessageSend( lpConnection->lpAppView, "KZH0103", "SQLBase DBH Error",
                    szMsg,
                    zMSGQ_SYSTEM_ERROR, 0 );
@@ -1380,7 +1380,7 @@ WriteLongChar( zVIEW        lpView,
 
          // Write length.
          nRC = sqlwlo( lpConnection->hSqlCsr, (SQLTDAP) &uLth,
-                       (SQLTDAL) sizeof( uLth ) );
+                       (SQLTDAL) zsizeof( uLth ) );
          SQL_RC( "sqlwlo", nRC, "Writing length", 0, 3 );
          if ( nRC )
             return( zCALL_ERROR );

@@ -130,8 +130,8 @@ zwTZHLPCXD_ActivateHlpMapFile( zVIEW vSubtask )
    nRC = SysGetLocalDirectory( szFileName );
    if ( nRC < 0 )
    {
-      strcpy_s( szBuffer, sizeof( szBuffer ), "Unable to get current system directory" );
-      strcat_s( szBuffer, sizeof( szBuffer ), szFileName );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), "Unable to get current system directory" );
+      strcat_s( szBuffer, zsizeof( szBuffer ), szFileName );
       zwTZHLPCXD_ErrMsg( vSubtask, "zwTZHLPCXD_ActivateHlpMapFile",
                          "SysGetLocalDirectory", szBuffer,
                          zMSGQ_SYSTEM_ERROR, nRC );
@@ -363,9 +363,9 @@ zwTZHLPCXD_ImportHlpMapInfo( zVIEW vSubtask )
                                           pHelpMapInfo->pszHelpFileName, 0 );
       if ( nRC == zCURSOR_SET )
       {
-         strcpy_s( szBuffer, sizeof( szBuffer ), "Manual already exists. Please delete manual " );
-         strcat_s( szBuffer, sizeof( szBuffer ), pHelpMapInfo->pszHelpFileName );
-         strcat_s( szBuffer, sizeof( szBuffer ), " first, before you recreate it." );
+         strcpy_s( szBuffer, zsizeof( szBuffer ), "Manual already exists. Please delete manual " );
+         strcat_s( szBuffer, zsizeof( szBuffer ), pHelpMapInfo->pszHelpFileName );
+         strcat_s( szBuffer, zsizeof( szBuffer ), " first, before you recreate it." );
          zwTZHLPCXD_ErrMsg( vSubtask, "zwTZHLPCXD_ImportHlpMapInfo",
                             "SetCursorFirstEntityByString", szBuffer,
                             zMSGQ_OBJECT_CONSTRAINT_ERROR, nRC );
@@ -393,14 +393,14 @@ zwTZHLPCXD_ImportHlpMapInfo( zVIEW vSubtask )
                                     pHelpFcts->pszTag );
       if (nRC < 0 )
       {
-         strcpy_s( szBuffer, sizeof( szBuffer ), "Unable to set Attribute 'Tag'");
+         strcpy_s( szBuffer, zsizeof( szBuffer ), "Unable to set Attribute 'Tag'");
       }
       else
       {
          nRC = SetAttributeFromString( vTZHLPCXO, "Context", "Number", pHelpFcts->pszNumber );
          if ( nRC < 0 )
          {
-            strcpy_s( szBuffer, sizeof( szBuffer ), "Unable to set attribute Number" );
+            strcpy_s( szBuffer, zsizeof( szBuffer ), "Unable to set attribute Number" );
          }
          else
          {
@@ -408,7 +408,7 @@ zwTZHLPCXD_ImportHlpMapInfo( zVIEW vSubtask )
                                           pHelpMapInfo->pszHelpFileName );
             if ( nRC < 0 )
             {
-               strcpy_s( szBuffer, sizeof( szBuffer ), "Unable to set attribute FileName" );
+               strcpy_s( szBuffer, zsizeof( szBuffer ), "Unable to set attribute FileName" );
             }
          }
       }
@@ -428,8 +428,8 @@ zwTZHLPCXD_ImportHlpMapInfo( zVIEW vSubtask )
    // Create Warning message for Progref-Manual.
    if ( !zstrcmp( pHelpMapInfo->pszHelpFileName, "Progref") )
    {
-      strcpy_s( szBuffer, sizeof( szBuffer ), "File tzhlpcxd.phl has to be changed by hand! " );
-      strcat_s( szBuffer, sizeof( szBuffer ), "Topic Names for Progref are different in Zeidon and Robohelp" );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), "File tzhlpcxd.phl has to be changed by hand! " );
+      strcat_s( szBuffer, zsizeof( szBuffer ), "Topic Names for Progref are different in Zeidon and Robohelp" );
       nRC = MessageSend( vSubtask, "HL00001",
                          "I M P O R T A N T             I N F O R M A T I O N",
                          szBuffer, zMSGQ_OBJECT_CONSTRAINT_INFORMATION, FALSE );
@@ -678,7 +678,7 @@ zwTZHLPCXD_ReadRobhelpFile( zVIEW vSubtask, zHelpMapInfo **pHelpInfo )
    }
 
    // Get the name of the robohelp report file (= import file) from zeidon object.
-   nRC = GetStringFromAttribute( szSourceFileName, sizeof( szSourceFileName ), vTZHLPCXO, "Root", "ImportFile" );
+   nRC = GetStringFromAttribute( szSourceFileName, zsizeof( szSourceFileName ), vTZHLPCXO, "Root", "ImportFile" );
    if ( nRC < 0 )
    {
       zwTZHLPCXD_ErrMsg( vSubtask, "zwTZHLPCXD_ReadRobhelpFile",
@@ -693,8 +693,8 @@ zwTZHLPCXD_ReadRobhelpFile( zVIEW vSubtask, zHelpMapInfo **pHelpInfo )
    hFile = SysOpenFile( vSubtask, szSourceFileName, COREFILE_READ );
    if ( hFile == -1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Cannot find Robohelp file: " );
-      strcat_s( szMsg, sizeof( szMsg ), szSourceFileName);
+      strcpy_s( szMsg, zsizeof( szMsg ), "Cannot find Robohelp file: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szSourceFileName);
       zwTZHLPCXD_ErrMsg( vSubtask, "zwTZHLPCXD_ReadRobhelpFile",
                          "SysOpenFile", szMsg, zMSGQ_REQUIRED_DATA_ITEM_ERROR, nRC );
       nRC = zCALL_ERROR;
@@ -703,7 +703,7 @@ zwTZHLPCXD_ReadRobhelpFile( zVIEW vSubtask, zHelpMapInfo **pHelpInfo )
    }
 
    // Create structure to take the help mapping information and initialize it.
-   pHelpMapInfo = (zHelpMapInfo *) malloc( sizeof (zHelpMapInfo) );
+   pHelpMapInfo = (zHelpMapInfo *) malloc( zsizeof (zHelpMapInfo) );
    if ( pHelpMapInfo  == 0 )
    {
       zwTZHLPCXD_ErrMsg( vSubtask, "zwTZHLPCXD_ReadRobhelpFile",
@@ -715,7 +715,7 @@ zwTZHLPCXD_ReadRobhelpFile( zVIEW vSubtask, zHelpMapInfo **pHelpInfo )
    }
 
    // We only have one Manual called "Zeidon".
-   pFctFilename = (zPCHAR) malloc( sizeof( "Zeidon" ) );
+   pFctFilename = (zPCHAR) malloc( zsizeof( "Zeidon" ) );
    if ( pFctFilename == 0 )
    {
       zwTZHLPCXD_ErrMsg( vSubtask, "zwTZHLPCXD_ReadRobhelpFile",
@@ -726,7 +726,7 @@ zwTZHLPCXD_ReadRobhelpFile( zVIEW vSubtask, zHelpMapInfo **pHelpInfo )
       return( zCALL_ERROR );
    }
 
-   strcpy_s( pFctFilename, sizeof( "Zeidon" ), "Zeidon" );
+   strcpy_s( pFctFilename, zsizeof( "Zeidon" ), "Zeidon" );
    pHelpMapInfo->pszHelpFileName = pFctFilename;
    pHelpMapInfo->szHelpFcts = 0;
 
@@ -758,7 +758,7 @@ zwTZHLPCXD_ReadRobhelpFile( zVIEW vSubtask, zHelpMapInfo **pHelpInfo )
          else
          {
             // Allocate memory for topic.
-            pFctID = (zPCHAR) malloc( lLth * sizeof( char ) + 1 );
+            pFctID = (zPCHAR) malloc( lLth * zsizeof( char ) + 1 );
             if ( pFctID == 0 )
             {
                zwTZHLPCXD_ErrMsg( vSubtask, "zwTZHLPCXD_ReadRobhelpFile",
@@ -769,7 +769,7 @@ zwTZHLPCXD_ReadRobhelpFile( zVIEW vSubtask, zHelpMapInfo **pHelpInfo )
             else
             {
                // Copy Topic into structure
-               strncpy_s( pFctID, lLth * sizeof( char ) + 1, pchLine, lLth );
+               strncpy_s( pFctID, lLth * zsizeof( char ) + 1, pchLine, lLth );
                pFctID[ lLth ] = 0;
             }
          }
@@ -784,7 +784,7 @@ zwTZHLPCXD_ReadRobhelpFile( zVIEW vSubtask, zHelpMapInfo **pHelpInfo )
          // then allocate memory for a new structure and assign information
          if ( nRC != zCALL_ERROR )
          {
-            pTmpHelpFcts = (zHelpFct *) malloc( sizeof( zHelpFct ) );
+            pTmpHelpFcts = (zHelpFct *) malloc( zsizeof( zHelpFct ) );
             if ( pTmpHelpFcts  == 0 )
             {
                zwTZHLPCXD_ErrMsg( vSubtask, "zwTZHLPCXD_ReadRobhelpFile",
@@ -909,7 +909,7 @@ zwTZHLPCXD_ExtractLastWord( zVIEW vSubtask, zPCHAR *ppDestStr,
          return( nRC );
       }
 
-      strncpy_s( pDestStr, lLth * sizeof( zCHAR ), (pChr + 1), (lLth * sizeof( char ) - 1 ) );
+      strncpy_s( pDestStr, lLth * sizeof( zCHAR ), (pChr + 1), (lLth * zsizeof( char ) - 1 ) );
       *ppDestStr = pDestStr;
    }
 
@@ -1025,7 +1025,7 @@ zwTZHLPCXD_ExitDialog( zVIEW vSubtask )
 
    if ( nRC == 1 )
    {
-      strcpy_s( szBuffer, sizeof( szBuffer ),
+      strcpy_s( szBuffer, zsizeof( szBuffer ),
                "Object has been modified. \n\nWould you like to save it ?" );
       nRC = MessagePrompt( vSubtask, "HL00011", "Help Context Mapping",
                            szBuffer, 0, zBUTTONS_YESNOCANCEL,
@@ -1090,28 +1090,28 @@ zwTZHLPCXD_ErrMsg( zVIEW  vSubtask, zPCHAR cpcFct, zPCHAR cpcErrObj,
    // Check parameters.
    if ( vSubtask == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "zwTZHLPCXD_ErrMsg | " );
-      strcat_s( szMsg, sizeof( szMsg ), "zMSGQ_OBJECT_CONSTRAINT_ERROR | " );
-      strcat_s( szMsg, sizeof( szMsg ), "Parameter Checking: " );
-      strcat_s( szMsg, sizeof( szMsg ), "Parameter vSubtask is null. |" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "zwTZHLPCXD_ErrMsg | " );
+      strcat_s( szMsg, zsizeof( szMsg ), "zMSGQ_OBJECT_CONSTRAINT_ERROR | " );
+      strcat_s( szMsg, zsizeof( szMsg ), "Parameter Checking: " );
+      strcat_s( szMsg, zsizeof( szMsg ), "Parameter vSubtask is null. |" );
       TraceLineI( szMsg, nRC );
    }
 
-   strcpy_s( szMsg, sizeof( szMsg ), cpcErrObj );
-   strcat_s( szMsg, sizeof( szMsg ), "\nReturn code = " );
+   strcpy_s( szMsg, zsizeof( szMsg ), cpcErrObj );
+   strcat_s( szMsg, zsizeof( szMsg ), "\nReturn code = " );
    zltoa( returnCode, rcStr );
-   strcat_s( szMsg, sizeof( szMsg ), rcStr );
-   strcat_s( szMsg, sizeof( szMsg ), "\n" );
-   strcat_s( szMsg, sizeof( szMsg ), cpcMsgText );
+   strcat_s( szMsg, zsizeof( szMsg ), rcStr );
+   strcat_s( szMsg, zsizeof( szMsg ), "\n" );
+   strcat_s( szMsg, zsizeof( szMsg ), cpcMsgText );
 
    // Open Error Message Box and view error message.
    nRC = MessageSend( vSubtask, "HL00001", cpcFct, szMsg, lMsgType, FALSE );
    if ( nRC < 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "HL00001 | zwTZHLPCXD_ErrMsg | " );
-      strcat_s( szMsg, sizeof( szMsg ), "zMSGQ_OBJECT_CONSTRAINT_ERROR | " );
-      strcat_s( szMsg, sizeof( szMsg ), "MessageSend: " );
-      strcat_s( szMsg, sizeof( szMsg ), "Error processing error message." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "HL00001 | zwTZHLPCXD_ErrMsg | " );
+      strcat_s( szMsg, zsizeof( szMsg ), "zMSGQ_OBJECT_CONSTRAINT_ERROR | " );
+      strcat_s( szMsg, zsizeof( szMsg ), "MessageSend: " );
+      strcat_s( szMsg, zsizeof( szMsg ), "Error processing error message." );
       TraceLineI( szMsg, nRC );
    }
 
@@ -1120,13 +1120,13 @@ zwTZHLPCXD_ErrMsg( zVIEW  vSubtask, zPCHAR cpcFct, zPCHAR cpcErrObj,
    nRC = (zSHORT) GetEnvironmentVariable( "HLP_TRACE_ON", vTrace, 2 );
    if ( !zstrcmp( vTrace, "1" ) && nRC > 0 )
    {
-      strcat_s( szMsg, sizeof( szMsg ), cpcFct );
-      strcat_s( szMsg, sizeof( szMsg ), " | " );
+      strcat_s( szMsg, zsizeof( szMsg ), cpcFct );
+      strcat_s( szMsg, zsizeof( szMsg ), " | " );
       zltoa( lMsgType, rcStr );
-      strcat_s( szMsg, sizeof( szMsg ), rcStr );
-      strcat_s( szMsg, sizeof( szMsg ), " | " );
-      strcat_s( szMsg, sizeof( szMsg ), szMsg );
-      strcat_s( szMsg, sizeof( szMsg ), ": " );
+      strcat_s( szMsg, zsizeof( szMsg ), rcStr );
+      strcat_s( szMsg, zsizeof( szMsg ), " | " );
+      strcat_s( szMsg, zsizeof( szMsg ), szMsg );
+      strcat_s( szMsg, zsizeof( szMsg ), ": " );
       TraceLineI( szMsg, returnCode );
    }
 

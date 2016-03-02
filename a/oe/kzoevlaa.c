@@ -110,7 +110,7 @@ fnAddEntityToDebugChange( LPENTITYINSTANCE lpEntityInstance )
 
       lpViewEntity = zGETPTR( lpViewAttrib->hViewEntity );
       lpViewOD     = zGETPTR( lpDbgChg->hViewOD );
-      sprintf_s( szMsg, sizeof( szMsg ), "%s.%s.%s", lpViewOD->szName,
+      sprintf_s( szMsg, zsizeof( szMsg ), "%s.%s.%s", lpViewOD->szName,
                 lpViewEntity->szName, lpViewAttrib->szName );
       TraceLineS( "Created DebugChange element for ", szMsg );
    }
@@ -224,7 +224,7 @@ fnPrintDebugFromSameInstance( LPDEBUGCHANGE lpDbgChg )
       lpViewEntity = zGETPTR( lpEntityInstance->hViewEntity );
       lpViewOI     = zGETPTR( lpEntityInstance->hViewOI );
       lpViewOD     = zGETPTR( lpViewOI->hViewOD );
-      sprintf_s( szMsg, sizeof( szMsg ), "%s.%s.%s", lpViewOD->szName,
+      sprintf_s( szMsg, zsizeof( szMsg ), "%s.%s.%s", lpViewOD->szName,
                 lpViewEntity->szName, lpViewAttrib->szName );
       TraceLineS( "Attribute = ", szMsg );
 
@@ -503,7 +503,7 @@ fnCompareDebugChange( zBOOL bOperationCall, LPTASK lpTask )
 
          fnPrintDebugFromSameInstance( lpDbgChg );
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Operation%s: Core detected a change in the attribute "
+         sprintf_s( szMsg, zsizeof( szMsg ), "Operation%s: Core detected a change in the attribute "
                    "%s.%s.%s.  See Trace for old and new values.",
                    bOperationCall ? "Start" : "Exit", lpViewOD->szName,
                    lpViewEntity->szName, lpViewAttrib->szName );
@@ -873,7 +873,7 @@ fnOperationCall( zSHORT    nOperationID,
       TraceLine( "KZOEE101 - Invalid view 0x%08x for Task: 0x%08x",
                  lpTaskView, lpTaskView ? lpTaskView->hTask : 0 );
 
-      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
       if ( szMessage[ 0 ] == 'Y' )
       {
          int k = 0;
@@ -1107,7 +1107,7 @@ fnValidView( LPTASK lpTask, zVIEW lpView )
       if ( lpTask && lpTask->bDebug )   // Debug level validation
       {
 #if 1
-         if ( SysValidAddress( (zPVOID) lpView, (zLONG) sizeof( ViewRecord ), 1 ) )
+         if ( SysValidAddress( (zPVOID) lpView, sizeof( ViewRecord ), 1 ) )
          {
             if ( lpView->nTableID == iView )
                return( 1 );
@@ -1229,7 +1229,7 @@ fnValidView( LPTASK lpTask, zVIEW lpView )
       zCHAR szMessage[ 32 ];
 
       TraceLine( "CheckValidView found Invalid view: 0x%08x", lpView );
-      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
       if ( szMessage[ 0 ] == 'Y' )
       {
          int k = 0;
@@ -1500,7 +1500,7 @@ fnValidViewAttrib( zVIEW         lpView,
       LPVIEWOD lpViewOD = zGETPTR( lpView->hViewOD );
 
       //  "KZOEE104 - Invalid Attribute name for LOD Entity"
-      sprintf_s( szLOD_Entity_Attribute, sizeof( szLOD_Entity_Attribute ), "[View: 0x%08x] %s.%s.%s",
+      sprintf_s( szLOD_Entity_Attribute, zsizeof( szLOD_Entity_Attribute ), "[View: 0x%08x] %s.%s.%s",
                  (zULONG) lpView, lpViewOD->szName, lpViewEntity->szName,
                  TrueName( cpcAttribName, zSHOW_ZKEY ) );
       TraceLineS( "fnValidViewAttrib error: ", szLOD_Entity_Attribute );
@@ -1547,9 +1547,9 @@ TrueName( zCPCHAR cpcName, zSHORT nControl )
    lZKey = *((zPLONG) (cpcName + 1) );
    if ( NameForZKey( szWorkString, lZKey ) && nControl & zSHOW_ZKEY )
    {
-      strcat_s( szWorkString, sizeof( szWorkString ), " (" );
-      zltoa( lZKey, szWorkString + zstrlen( szWorkString ), sizeof( szWorkString ) - zstrlen( szWorkString ) );
-      strcat_s( szWorkString, sizeof( szWorkString ), ")" );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " (" );
+      zltoa( lZKey, szWorkString + zstrlen( szWorkString ), zsizeof( szWorkString ) - zstrlen( szWorkString ) );
+      strcat_s( szWorkString, zsizeof( szWorkString ), ")" );
    }
 
    return( szWorkString );

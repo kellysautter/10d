@@ -432,7 +432,7 @@ oTZCMLPLO_GenerateCallHeader( zVIEW     vLPLR,
    { 
       //:SET CURSOR FIRST vWk.Executable
       //:    WHERE vWk.Executable.Name = vXDM.Domain.DLL_Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vXDM, "Domain", "DLL_Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vXDM, "Domain", "DLL_Name" );
       RESULT = SetCursorFirstEntityByString( vWk, "Executable", "Name", szTempString_0, "" );
 
       //:IF RESULT < zCURSOR_SET
@@ -491,7 +491,7 @@ oTZCMLPLO_GenerateCallHeader( zVIEW     vLPLR,
       { 
          //:SET CURSOR FIRST vWk.Executable
          //:    WHERE vWk.Executable.Name = vXOD.OBJECT.OPER_LIBNM
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vXOD, "OBJECT", "OPER_LIBNM" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vXOD, "OBJECT", "OPER_LIBNM" );
          RESULT = SetCursorFirstEntityByString( vWk, "Executable", "Name", szTempString_1, "" );
 
          //:IF RESULT < zCURSOR_SET
@@ -522,7 +522,7 @@ oTZCMLPLO_GenerateCallHeader( zVIEW     vLPLR,
          //:END
 
          //:AnalyzeEntity( vXOD, vWk, vXOD.OBJECT.NAME )
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vXOD, "OBJECT", "NAME" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vXOD, "OBJECT", "NAME" );
          oTZCMLPLO_AnalyzeEntity( vXOD, vWk, szTempString_1 );
       } 
 
@@ -556,7 +556,7 @@ oTZCMLPLO_GenerateCallHeader( zVIEW     vLPLR,
             //:wl( f, "zPVOID " )
             oTZCMLPLO_wl( f, "zPVOID " );
             //:Sl = vWk.Executable.Name + "( zPCHAR pszFunctionName )"
-            GetStringFromAttribute( Sl, sizeof( Sl ), vWk, "Executable", "Name" );
+            GetStringFromAttribute( Sl, zsizeof( Sl ), vWk, "Executable", "Name" );
             ZeidonStringConcat( Sl, 1, 0, "( zPCHAR pszFunctionName )", 1, 0, 255 );
             //:wl( f, Sl )
             oTZCMLPLO_wl( f, Sl );

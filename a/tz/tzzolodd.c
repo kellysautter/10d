@@ -362,8 +362,8 @@ zwfnTZZOLODD_SaveAsCopyFiles( zVIEW    vSubtask,
 static zSHORT
 zwfnTZZOLODD_SaveAsGetFileName( zVIEW  vTaskLPLR,
                                 zVIEW  vView,
-                                zPCHAR szAttribute,
-                                zPCHAR szSourceFileName );
+                                zPCHAR pchAttribute,
+                                zPCHAR pchSourceFileName );
 
 static zSHORT
 zwfnTZZOLODD_SaveAsSourceFiles( zVIEW   vSubtask,
@@ -531,7 +531,7 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
    if ( CompareAttributeToString( vLOD, "LOD_EntityParent", "Create", "Y" )
                                                                      == 0 )
    {
-      strcpy_s( szOutText, sizeof( szOutText ), "cr" );
+      strcpy_s( szOutText, zsizeof( szOutText ), "cr" );
       nTok++;
    }
 
@@ -539,9 +539,9 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
                                   "Update", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "up" );
+      strcat_s( szOutText, zsizeof( szOutText ), "up" );
       nTok++;
    }
 
@@ -549,9 +549,9 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
                                   "Delete", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "de" );
+      strcat_s( szOutText, zsizeof( szOutText ), "de" );
       nTok++;
    }
 
@@ -570,7 +570,7 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
    if ( CompareAttributeToString( vLOD, "LOD_EntityParent",
                                   "Include", "Y" ) == 0 )
    {
-      strcpy_s( szOutText, sizeof( szOutText ), "inc" );
+      strcpy_s( szOutText, zsizeof( szOutText ), "inc" );
       nTok++;
    }
 
@@ -578,9 +578,9 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
                                   "Exclude", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "exc" );
+      strcat_s( szOutText, zsizeof( szOutText ), "exc" );
       nTok++;
    }
 
@@ -588,9 +588,9 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
 //                                "InclSrc", "Y" ) == 0 )
 // {
 //    if ( nTok )
-//       strcat_s( szOutText, sizeof( szOutText ), "," );
+//       strcat_s( szOutText, zsizeof( szOutText ), "," );
 //
-//    strcat_s( szOutText, sizeof( szOutText ), "isrc" );
+//    strcat_s( szOutText, zsizeof( szOutText ), "isrc" );
 //    nTok++;
 // }
 
@@ -612,17 +612,17 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
       if ( CompareAttributeToString( vLOD, "LOD_EntityParent",
                                     "ParentDeleteBehave", "D" ) == 0 )
       {
-         strcpy_s( szOutText, sizeof( szOutText ), "pdel" );
+         strcpy_s( szOutText, zsizeof( szOutText ), "pdel" );
       }
       else
       if ( CompareAttributeToString( vLOD, "LOD_EntityParent",
                                     "ParentDeleteBehave", "E" ) == 0 )
       {
-         strcpy_s( szOutText, sizeof( szOutText ), "pexc" );
+         strcpy_s( szOutText, zsizeof( szOutText ), "pexc" );
       }
       else
       {
-         strcpy_s( szOutText, sizeof( szOutText ), "pres" );
+         strcpy_s( szOutText, zsizeof( szOutText ), "pres" );
       }
 
       if ( nOutText == 1 )
@@ -641,7 +641,7 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
    if ( CompareAttributeToString( vLOD, "LOD_EntityParent",
                                   "CreateConstraint", "Y" ) == 0 )
    {
-      strcpy_s( szOutText, sizeof( szOutText ), "c" );
+      strcpy_s( szOutText, zsizeof( szOutText ), "c" );
       nTok++;
    }
 
@@ -649,9 +649,9 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
                                   "DeleteConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "d" );
+      strcat_s( szOutText, zsizeof( szOutText ), "d" );
       nTok++;
    }
 
@@ -659,9 +659,9 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
                                   "IncludeConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "i" );
+      strcat_s( szOutText, zsizeof( szOutText ), "i" );
       nTok++;
    }
 
@@ -669,9 +669,9 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
                                   "ExcludeConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "x" );
+      strcat_s( szOutText, zsizeof( szOutText ), "x" );
       nTok++;
    }
 
@@ -679,9 +679,9 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
                                   "AcceptConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "a" );
+      strcat_s( szOutText, zsizeof( szOutText ), "a" );
       nTok++;
    }
 
@@ -689,9 +689,9 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
                                   "CancelConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "n" );
+      strcat_s( szOutText, zsizeof( szOutText ), "n" );
       nTok++;
    }
 
@@ -729,14 +729,14 @@ oTZZOHDGO_CreateNode( zVIEW  vHDG,
                                   "Work", "Y" ) != 0 &&
         SetCursorFirstEntity( vLOD, "ER_RelLinkRec", 0 ) == zCURSOR_SET )
    {
-      GetStringFromAttribute( szMsg, sizeof( szMsg ), vLOD, "ER_RelLinkRec", "Name" );
-      strcat_s( szMsg, sizeof( szMsg ), " (" );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+      GetStringFromAttribute( szMsg, zsizeof( szMsg ), vLOD, "ER_RelLinkRec", "Name" );
+      strcat_s( szMsg, zsizeof( szMsg ), " (" );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                               vLOD, "ER_RelLinkRec", "CardMin" );
-      strcat_s( szMsg, sizeof( szMsg ), "," );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+      strcat_s( szMsg, zsizeof( szMsg ), "," );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                               vLOD, "ER_RelLinkRec", "CardMax" );
-      strcat_s( szMsg, sizeof( szMsg ), ")" );
+      strcat_s( szMsg, zsizeof( szMsg ), ")" );
       SetAttributeFromString( vHDG, "HD_Node", "Title", szMsg );
    }
 
@@ -1608,7 +1608,7 @@ zwTZZOLODD_PostBuildER_ENTVIEW( zVIEW vSubtask )
    }
 
    //  Set Window Caption with Entity Name
-   GetStringFromAttribute( szName, sizeof( szName ), vTZZOLODO, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZZOLODO, "LOD_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szName );
 
    return( 0 );
@@ -1682,11 +1682,11 @@ zwfnTZZOLODD_AskForSave( zVIEW vSubtask )
       if ( !ComponentIsCheckedOut( vSubtask, vTZZOLODO, zSOURCE_LOD_META ) )
       {
          nSaveAs = TRUE;
-         GetStringFromAttribute( szLodName, sizeof( szLodName ), vTZZOLODO, "LOD", "Name" );
-         strcpy_s( szMsg, sizeof( szMsg ), "LOD is not checked out, but LOD '" );
-         strcat_s( szMsg, sizeof( szMsg ), szLodName );
-         strcat_s( szMsg, sizeof( szMsg ), "' has been modified. \n\nWould you like to " );
-         strcat_s( szMsg, sizeof( szMsg ), "save it with differend name?" );
+         GetStringFromAttribute( szLodName, zsizeof( szLodName ), vTZZOLODO, "LOD", "Name" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "LOD is not checked out, but LOD '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szLodName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' has been modified. \n\nWould you like to " );
+         strcat_s( szMsg, zsizeof( szMsg ), "save it with differend name?" );
          nRC = MessagePrompt( vSubtask, "DM00115", "Zeidon Objects Maintenance",
                               szMsg, zBEEP, zBUTTONS_YESNOCANCEL,
                               zRESPONSE_YES, zICON_QUESTION );
@@ -1764,7 +1764,7 @@ zwTZZOLODD_DisplaySaveStatus( zVIEW vSubtask )
                                         "TE_DB_Environ" );
       if ( nRC >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szTE_Name, sizeof( szTE_Name ), vTZZOLODO, "TE_DBMS_Source", "Name");
+         GetStringFromAttribute( szTE_Name, zsizeof( szTE_Name ), vTZZOLODO, "TE_DBMS_Source", "Name");
          strcat( szMsg, szTE_Name );
       }
       else
@@ -1847,7 +1847,7 @@ zwTZZOLODD_OpenLOD( zVIEW vSubtask )
    nRC = GetViewByName( &vTZZOLFLO, "TZZOLFLO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "OpenLOD unable to access LOD file list. Open aborted." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OpenLOD unable to access LOD file list. Open aborted." );
       MessageSend( vSubtask, "ZO00106", "Zeidon Object Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
@@ -1873,7 +1873,7 @@ zwTZZOLODD_OpenLOD( zVIEW vSubtask )
    {
       SetNameForView( vHierDiag, "TZZOHDGO", vSubtask, zLEVEL_TASK );
       lLevel = 0;
-      zmemset( (zPCHAR) &nMaxNodeEdge[ 0 ], 0, sizeof( nMaxNodeEdge ) );
+      zmemset( (zPCHAR) &nMaxNodeEdge[ 0 ], 0, zsizeof( nMaxNodeEdge ) );
       zwfnTZZOLODD_PositionNode( vHierDiag, "HD_Node",
                                  "HD_ChildNode", ORIENT );
    }
@@ -1930,13 +1930,13 @@ zwTZZOLODD_CreateNewLOD( zVIEW vSubtask )
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
 
    // Validate LOD Name is OK
-   GetStringFromAttribute( szInName, sizeof( szInName ), vProfileXFER, "TZ", "Name" );
+   GetStringFromAttribute( szInName, zsizeof( szInName ), vProfileXFER, "TZ", "Name" );
    UfCompressName( szInName, szOutName, 32, "", "", "", "", 0 );
    SetAttributeFromString( vProfileXFER, "TZ", "Name", szOutName );
 
    if ( CompareAttributeToString( vProfileXFER, "TZ", "Name", "" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "LOD Name is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "LOD Name is required." );
       MessageSend( vSubtask, "ZO00107", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1954,7 +1954,7 @@ zwTZZOLODD_CreateNewLOD( zVIEW vSubtask )
                                       "W_MetaDef", "Name",
                                       szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "A LOD by the same name already exists." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "A LOD by the same name already exists." );
       MessageSend( vSubtask, "ZO00108", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1968,7 +1968,7 @@ zwTZZOLODD_CreateNewLOD( zVIEW vSubtask )
                                       "W_MetaDef", "Name",
                                       szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "A Dialog with the same name exists." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "A Dialog with the same name exists." );
       MessageSend( vSubtask, "ZO00165", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1981,7 +1981,7 @@ zwTZZOLODD_CreateNewLOD( zVIEW vSubtask )
                               zSINGLE | zLEVEL_APPLICATION );
    if ( nRC < 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "(zwTZZOLODD_CreateNewLOD) Unable to Access LOD. LOD must be opened." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_CreateNewLOD) Unable to Access LOD. LOD must be opened." );
       MessageSend( vSubtask, "ZO00109", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2074,7 +2074,7 @@ zwTZZOLODD_OkNewLOD( zVIEW vSubtask )
    nRC = GetViewByName( &vTZZOLODO, "TZZOLODO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "(zwTZZOLODD_OkNewLOD) Unable to Access LOD. LOD must be opened." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_OkNewLOD) Unable to Access LOD. LOD must be opened." );
       MessageSend( vSubtask, "ZO00110", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2085,7 +2085,7 @@ zwTZZOLODD_OkNewLOD( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO_REF, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Access ER Model. ER must be opened." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access ER Model. ER must be opened." );
       MessageSend( vSubtask, "ZO00111", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2096,7 +2096,7 @@ zwTZZOLODD_OkNewLOD( zVIEW vSubtask )
    // If this is an ER LOD, continue processing.  We check the type from the
    // ProfileXFER object.
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szLOD_Type, sizeof( szLOD_Type ), vProfileXFER, "ZO", "LOD_Type" );
+   GetStringFromAttribute( szLOD_Type, zsizeof( szLOD_Type ), vProfileXFER, "ZO", "LOD_Type" );
    if ( zstrcmp( szLOD_Type, "Work" ) == 0 )
    {
       GetViewByName( &vTZZOHDGO, "TZZOHDGO", vSubtask, zLEVEL_TASK );
@@ -2241,7 +2241,7 @@ zwTZZOLODD_SaveLOD( zVIEW vSubtask )
    nRC = GetViewByName( &vLOD, "TZZOLODO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "(zwTZZOLODD_SaveLOD) Unable to Access LOD. LOD must be opened." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLOD) Unable to Access LOD. LOD must be opened." );
       MessageSend( vSubtask, "ZO00116", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2264,7 +2264,7 @@ zwTZZOLODD_SaveLOD( zVIEW vSubtask )
       nRC = GetViewByName( &vTZZOLFLO, "TZZOLFLO", vSubtask, zLEVEL_TASK );
       if ( nRC < 1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to Access LOD List. LOD List must be opened." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access LOD List. LOD List must be opened." );
          MessageSend( vSubtask, "ZO00117", "Zeidon Object Maintenance",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          return( -1 );
@@ -2274,7 +2274,7 @@ zwTZZOLODD_SaveLOD( zVIEW vSubtask )
    nRC = CheckExistenceOfEntity( vLOD, "LOD" );
    if ( nRC < zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Save empty LOD." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Save empty LOD." );
       MessageSend( vSubtask, "ZO00119", "Zeidon Object Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
@@ -2329,8 +2329,8 @@ zwTZZOLODD_SaveLOD( zVIEW vSubtask )
          if ( bError )
          {
             // Tell the operator to use Utilities/TE.
-            strcpy_s( szMsg, sizeof( szMsg ), "The LOD has not yet been saved \n" );
-            strcat_s( szMsg, sizeof( szMsg ), "to an existing TE Data Source." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "The LOD has not yet been saved \n" );
+            strcat_s( szMsg, zsizeof( szMsg ), "to an existing TE Data Source." );
             MessageSend( vSubtask, "ZO00176", "Zeidon Object Maintenance",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -2346,7 +2346,7 @@ zwTZZOLODD_SaveLOD( zVIEW vSubtask )
       SetCursorFirstEntityByAttr( vLOD, "TE_DBMS_Source", "ZKey",
                                   vLOD, "POD", "TE_SourceZKey",
                                   "TE_DB_Environ" );
-      GetStringFromAttribute( szTE_Name, sizeof( szTE_Name ), vLOD, "TE_DBMS_Source", "Name");
+      GetStringFromAttribute( szTE_Name, zsizeof( szTE_Name ), vLOD, "TE_DBMS_Source", "Name");
       strcat( szMsg, szTE_Name );
       MB_SetMessage( vSubtask, 1, szMsg );
    }
@@ -2449,16 +2449,16 @@ zwTZZOLODD_SaveLOD( zVIEW vSubtask )
                // It is no error if the ZKeys match, but a WARNING !!!
                if ( nRC == 0 )
                {
-                  strcpy_s( szMsg, sizeof( szMsg ), "LOD Entity, " );
-                  GetStringFromAttribute( szHierEntityName, sizeof( szHierEntityName ), vTZZOLOD2,
+                  strcpy_s( szMsg, zsizeof( szMsg ), "LOD Entity, " );
+                  GetStringFromAttribute( szHierEntityName, zsizeof( szHierEntityName ), vTZZOLOD2,
                                           "LOD_EntityChild", "Name" );
-                  strcat_s( szMsg, sizeof( szMsg ), szHierEntityName );
-                  strcat_s( szMsg, sizeof( szMsg ),
+                  strcat_s( szMsg, zsizeof( szMsg ), szHierEntityName );
+                  strcat_s( szMsg, zsizeof( szMsg ),
                            ", is for the same relationship as its parent, " );
-                  GetStringFromAttribute( szHierEntityName, sizeof( szHierEntityName ), vTZZOLOD2,
+                  GetStringFromAttribute( szHierEntityName, zsizeof( szHierEntityName ), vTZZOLOD2,
                                           "LOD_EntityParent", "Name" );
-                  strcat_s( szMsg, sizeof( szMsg ), szHierEntityName );
-                  strcat_s( szMsg, sizeof( szMsg ), "." );
+                  strcat_s( szMsg, zsizeof( szMsg ), szHierEntityName );
+                  strcat_s( szMsg, zsizeof( szMsg ), "." );
                   MessageSend( vSubtask, "ZO00171",
                                "Zeidon Object Maintenance", szMsg,
                                zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
@@ -2506,7 +2506,7 @@ zwTZZOLODD_SaveLOD( zVIEW vSubtask )
    SetAttributeFromAttribute( vTZZOLFLO, "W_MetaDef", "DoNotMergeFlag", vLOD, "LOD", "DoNotMergeFlag" );
 
    // Build default VOR by Name of LOD if it does not exist
-   GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vLOD, "LOD", "Name" );
+   GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vLOD, "LOD", "Name" );
    nRC = ActivateMetaOI_ByName( vSubtask, &vTZWDVORO, 0,
                                 zREFER_VOR_META,
                                 zSINGLE | zLEVEL_APPLICATION,
@@ -2525,7 +2525,7 @@ zwTZZOLODD_SaveLOD( zVIEW vSubtask )
       nRC = CommitMetaOI( vSubtask, vTZWDVORO, zSOURCE_VOR_META );
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to Save VOR to LPLR." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Save VOR to LPLR." );
          MessageSend( vSubtask, "ZO00121", "Zeidon Object Maintenance",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
@@ -2564,7 +2564,7 @@ zwTZZOLODD_SaveLODForTE( zVIEW vSubtask )
    nRC = GetViewByName( &vTZZOLODO, "TZZOLODO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "(zwTZZOLODD_SaveLODForTE) Unable to Access LOD. LOD must be opened." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODForTE) Unable to Access LOD. LOD must be opened." );
       MessageSend( vSubtask, "ZO00122", "Zeidon Object Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
@@ -2577,7 +2577,7 @@ zwTZZOLODD_SaveLODForTE( zVIEW vSubtask )
 
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Access Technical Env. TE must be opened." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access Technical Env. TE must be opened." );
       MessageSend( vSubtask, "ZO00123", "Zeidon Object Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
@@ -2587,7 +2587,7 @@ zwTZZOLODD_SaveLODForTE( zVIEW vSubtask )
    nRC = CheckExistenceOfEntity( vTZZOLODO, "LOD" );
    if ( nRC < zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Save empty LOD." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Save empty LOD." );
       MessageSend( vSubtask, "ZO00124", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2640,7 +2640,7 @@ zwTZZOLODD_SaveLODWithoutTE( zVIEW vSubtask )
    nRC = GetViewByName( &vTZZOLODO, "TZZOLODO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "(zwTZZOLODD_SaveLODWithoutTE) Unable to Access LOD. LOD must be opened." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODWithoutTE) Unable to Access LOD. LOD must be opened." );
       MessageSend( vSubtask, "ZO00127", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2657,7 +2657,7 @@ zwTZZOLODD_SaveLODWithoutTE( zVIEW vSubtask )
    nRC = CheckExistenceOfEntity( vTZZOLODO, "LOD" );
    if ( nRC < zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Save empty LOD." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Save empty LOD." );
       MessageSend( vSubtask, "ZO00128", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2680,7 +2680,7 @@ zwTZZOLODD_SaveLODWithoutTE( zVIEW vSubtask )
    nRC = CommitMetaOI( vSubtask, vTZZOLODO, zSOURCE_LOD_META );
    if ( nRC < 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Save LOD to LPLR." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Save LOD to LPLR." );
       MessageSend( vSubtask, "ZO00129", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2739,7 +2739,7 @@ zwTZZOLODD_SaveLODForNetwork( zVIEW vSubtask )
    }
 
    // Save current DBMS value.
-   GetStringFromAttribute( szOrigDBMS_Name, sizeof( szOrigDBMS_Name ), vDTE, "TE_DBMS_Source", "DBMS" );
+   GetStringFromAttribute( szOrigDBMS_Name, zsizeof( szOrigDBMS_Name ), vDTE, "TE_DBMS_Source", "DBMS" );
 
    // Position on corresponding DBMS entry in DB Handler object.
    SetCursorFirstEntityByAttr( vTZTEDBLO, "TE_DBMS_Source", "DBMS",
@@ -2758,7 +2758,7 @@ zwTZZOLODD_SaveLODForNetwork( zVIEW vSubtask )
       // Current specification is not Network, get Default Network value from
       // INI and then locate in DB Handler object. Don't use it if it wasn't
       // found in DB Handler object.
-      SysReadZeidonIni( -1, "[Network]", "DefaultNetwork", szNetworkName, sizeof( szNetworkName ) );
+      SysReadZeidonIni( -1, "[Network]", "DefaultNetwork", szNetworkName, zsizeof( szNetworkName ) );
       if ( szNetworkName[ 0 ] != 0 )
       {
          nRC = SetCursorFirstEntityByString( vTZTEDBLO, "TE_DBMS_Source", "Network",
@@ -2789,14 +2789,14 @@ zwTZZOLODD_SaveLODForNetwork( zVIEW vSubtask )
       oTZZOXODO_SaveXOD( vSubtask, vTZZOLODO );
 
       // Commit the XOD to LPLR file.
-      GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ),
+      GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ),
                               vLPLR, "W_MetaDef", "Name" );
       GetViewByName( &vXOD, "TZZOXODO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szFileName, sizeof( szFileName ),
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                               vLPLR, "LPLR", "ExecDir" );
       ofnTZCMWKSO_AppendSlash( szFileName );
-      strcat_s( szFileName, sizeof( szFileName ), szLOD_Name );
-      strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+      strcat_s( szFileName, zsizeof( szFileName ), szLOD_Name );
+      strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
       CommitOI_ToFile( vXOD, szFileName, zSINGLE );
 
       // Reset values back to what they were.
@@ -2916,34 +2916,34 @@ zwTZZOLODD_ReportLOD( zVIEW vSubtask )
    nRC = GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
    if ( nRC > 0 )
    {
-      GetStringFromAttribute( szReportFileName, sizeof( szReportFileName ), vLPLR, "LPLR", "MetaSrcDir" );
-      strcat_s( szReportFileName, sizeof( szReportFileName ), "\\" );
+      GetStringFromAttribute( szReportFileName, zsizeof( szReportFileName ), vLPLR, "LPLR", "MetaSrcDir" );
+      strcat_s( szReportFileName, zsizeof( szReportFileName ), "\\" );
    }
    else
    {
       szReportFileName[ 0 ] = 0;
    }
    GetAddrForAttribute( &szName, vTZZOLODO, "LOD", "Name" );
-   strcat_s( szReportFileName, sizeof( szReportFileName ), szName );
-   strcat_s( szReportFileName, sizeof( szReportFileName ), ".RPT" );
+   strcat_s( szReportFileName, zsizeof( szReportFileName ), szName );
+   strcat_s( szReportFileName, zsizeof( szReportFileName ), ".RPT" );
 
    // Procuce Report file from LOD instance
    nRC = oTZZOLODO_SummaryReport( vTZZOLODO, szReportFileName );
 
    if ( nRC >= 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "LOD Report produced to file:\n\t\'" );
-      strcat_s( szMsg, sizeof( szMsg ), szReportFileName );
-      strcat_s( szMsg, sizeof( szMsg ), "\'." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "LOD Report produced to file:\n\t\'" );
+      strcat_s( szMsg, zsizeof( szMsg ), szReportFileName );
+      strcat_s( szMsg, zsizeof( szMsg ), "\'." );
       MessageSend( vSubtask, "ZO00133", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
    }
    else
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Error opening file \'" );
-      strcat_s( szMsg, sizeof( szMsg ), szReportFileName );
-      strcat_s( szMsg, sizeof( szMsg ), "\' for output." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Error opening file \'" );
+      strcat_s( szMsg, zsizeof( szMsg ), szReportFileName );
+      strcat_s( szMsg, zsizeof( szMsg ), "\' for output." );
       MessageSend( vSubtask, "ZO00134", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3049,7 +3049,7 @@ zwTZZOLODD_DeleteLOD( zVIEW vSubtask )
    nRC = GetViewByName( &vTZZOLFLO, "TZZOLFLO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Access LOD File List. Delete aborted." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access LOD File List. Delete aborted." );
       MessageSend( vSubtask, "ZO00135", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3640,7 +3640,7 @@ zwTZZOLODD_DeleteEntity( zVIEW vSubtask )
    if ( (CompareAttributeToInteger( vTZZOLODO, "LOD_Entity", "IndentLvl", 0 ) == 0) ||
         (CompareAttributeToString( vTZZOLODO, "LOD_Entity", "IndentLvl", "" ) == 0) )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Delete Root Entity in Logical Object." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Delete Root Entity in Logical Object." );
       MessageSend( vSubtask, "ZO00146", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3821,7 +3821,7 @@ zwTZZOLODD_ReusOKEntity( zVIEW vSubtask )
 
    // Make sure that the entity name is unique within the LOD.
    nRC = CreateViewFromViewForTask( &vTZZOLOD1, vTZZOLODO, 0 );
-   nRC = GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
+   nRC = GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
 
    while ( szEntityName[ 0 ] == 0 ||
            SetCursorFirstEntityByString( vTZZOLOD1, "LOD_Entity",
@@ -3831,7 +3831,7 @@ zwTZZOLODD_ReusOKEntity( zVIEW vSubtask )
                                         "Name", szEntityName,"" )
                                                            >= zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "A Object Entity by the same name already exists." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "A Object Entity by the same name already exists." );
       MessageSend( vSubtask, "ZO00167", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3848,7 +3848,7 @@ zwTZZOLODD_ReusOKEntity( zVIEW vSubtask )
         CompareAttributeToString( vTZZOLODO, "LOD_Entity", "ParentDeleteBehave",
                                   "R" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Parent Delete Behavior of Restrict not allowed for root entity. " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Parent Delete Behavior of Restrict not allowed for root entity. " );
       MessageSend( vSubtask, "ZO00168", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3867,7 +3867,7 @@ zwTZZOLODD_ReusOKEntity( zVIEW vSubtask )
    // If the Parent Delete Behavior is not Restrict, we will process each
    // parent entity to make sure that no parent is Restrict.
 
-   GetStringFromAttribute( szRestrictEntityName, sizeof( szRestrictEntityName ),
+   GetStringFromAttribute( szRestrictEntityName, zsizeof( szRestrictEntityName ),
                            vTZZOLODO, "LOD_Entity", "Name" );
    DefineHierarchicalCursor( vTZZOLOD1, "LOD" );
 
@@ -3879,7 +3879,7 @@ zwTZZOLODD_ReusOKEntity( zVIEW vSubtask )
       if ( zstrcmp( szHierEntityName, "LOD_EntityChild" ) == 0 )
       {
          SetViewToSubobject( vTZZOLOD1, "LOD_EntityChild" );
-         GetStringFromAttribute( szHierEntityName, sizeof( szHierEntityName ),
+         GetStringFromAttribute( szHierEntityName, zsizeof( szHierEntityName ),
                                  vTZZOLOD1, "LOD_EntityParent", "Name" );
          if ( zstrcmp( szHierEntityName, szRestrictEntityName ) == 0 )
             break;
@@ -3902,14 +3902,14 @@ zwTZZOLODD_ReusOKEntity( zVIEW vSubtask )
          if ( zstrcmp( szHierEntityName, "LOD_EntityChild" ) == 0 )
          {
             SetViewToSubobject( vTZZOLOD1, "LOD_EntityChild" );
-            GetStringFromAttribute( szHierEntityName, sizeof( szHierEntityName ),
+            GetStringFromAttribute( szHierEntityName, zsizeof( szHierEntityName ),
                                     vTZZOLOD1, "LOD_EntityParent", "Name" );
             if ( CompareAttributeToString( vTZZOLOD1, "LOD_EntityParent", "ParentDeleteBehave",
                                            "R" ) != 0 )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Parent Delete Behavior of Restrict is not allowed\n " );
-               strcat_s( szMsg, sizeof( szMsg ), "if any child of the entity does not also have a\n" );
-               strcat_s( szMsg, sizeof( szMsg ), "Parent Delete Behavior of Restrict." );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Parent Delete Behavior of Restrict is not allowed\n " );
+               strcat_s( szMsg, zsizeof( szMsg ), "if any child of the entity does not also have a\n" );
+               strcat_s( szMsg, zsizeof( szMsg ), "Parent Delete Behavior of Restrict." );
                MessageSend( vSubtask, "ZO00169", "Zeidon Object Maintenance",
                             szMsg,
                             zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3933,9 +3933,9 @@ zwTZZOLODD_ReusOKEntity( zVIEW vSubtask )
          if ( CompareAttributeToString( vTZZOLOD2, "LOD_EntityParent", "ParentDeleteBehave",
                                         "R" ) == 0 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Parent Delete Behavior must be Restrict because a \n " );
-            strcat_s( szMsg, sizeof( szMsg ), "parent of this entity has Parent Delete Behavior\n" );
-            strcat_s( szMsg, sizeof( szMsg ), "of Restrict." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Parent Delete Behavior must be Restrict because a \n " );
+            strcat_s( szMsg, zsizeof( szMsg ), "parent of this entity has Parent Delete Behavior\n" );
+            strcat_s( szMsg, zsizeof( szMsg ), "of Restrict." );
             MessageSend( vSubtask, "ZO00170", "Zeidon Object Maintenance",
                          szMsg,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3953,7 +3953,7 @@ zwTZZOLODD_ReusOKEntity( zVIEW vSubtask )
    SetAttributeFromString( vTZZOLODO, "LOD_Entity", "Name", szEntityName );
 
    // Reset Ident Name
-   nRC = GetStringFromAttribute( szEntityNameIndent, sizeof( szEntityNameIndent ), vTZZOLODO, "LOD_Entity", "IndentName" );
+   nRC = GetStringFromAttribute( szEntityNameIndent, zsizeof( szEntityNameIndent ), vTZZOLODO, "LOD_Entity", "IndentName" );
    nRC = GetIntegerFromAttribute( &lIndentLvl, vTZZOLODO, "LOD_Entity", "IndentLvl" );
    if ( lIndentLvl > 0 )
    {
@@ -3967,10 +3967,10 @@ zwTZZOLODD_ReusOKEntity( zVIEW vSubtask )
       }
 
       szEntityNameIndent[ k ] = 0;
-      strcat_s( szEntityNameIndent, sizeof( szEntityNameIndent ), szEntityName );
+      strcat_s( szEntityNameIndent, zsizeof( szEntityNameIndent ), szEntityName );
    }
    else
-      strcpy_s( szEntityNameIndent, sizeof( szEntityNameIndent ), szEntityName );
+      strcpy_s( szEntityNameIndent, zsizeof( szEntityNameIndent ), szEntityName );
 
    nRC = SetAttributeFromString( vTZZOLODO, "LOD_Entity", "IndentName", szEntityNameIndent );
 
@@ -4066,14 +4066,14 @@ zwTZZOLODD_OK_NewEntity( zVIEW vSubtask )
    AcceptSubobject( vTZZOLODO, "LOD_Entity" );
 
    // Reset Indent Name in the case of a renamed Entity
-   nRC = GetStringFromAttribute( szEntityName, sizeof( szEntityName ),
+   nRC = GetStringFromAttribute( szEntityName, zsizeof( szEntityName ),
                                  vTZZOLODO, "LOD_Entity", "Name" );
 
    // Make the operator specify a unique Entity name, if the entity name
    // selected is not unique already.
 
    nRC = CreateViewFromViewForTask( &vTZZOLOD1, vTZZOLODO, 0 );
-   nRC = GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
+   nRC = GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
    if ( szEntityName[ 0 ] )
    {
       nRC = SetCursorFirstEntityByString( vTZZOLOD1, "LOD_Entity", "Name",
@@ -4084,7 +4084,7 @@ zwTZZOLODD_OK_NewEntity( zVIEW vSubtask )
                                             szEntityName,"" );
       while ( nRC >= zCURSOR_SET )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Object Entity Name is not unique. Please reenter: " );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Object Entity Name is not unique. Please reenter: " );
          nRC = MessagePromptForInput( vSubtask, "ZO00149",
                                       "Zeidon Object Definition Maintenance",
                                       szMsg, zBEEP,
@@ -4105,10 +4105,10 @@ zwTZZOLODD_OK_NewEntity( zVIEW vSubtask )
    DropView ( vTZZOLOD1 );
 
    // Reset Ident Name
-   nRC = GetStringFromAttribute( szEntityNameIndent, sizeof( szEntityNameIndent ),
+   nRC = GetStringFromAttribute( szEntityNameIndent, zsizeof( szEntityNameIndent ),
                                  vTZZOLODO, "LOD_Entity", "IndentName" );
    nRC = GetIntegerFromAttribute( &lIndentLvl, vTZZOLODO, "LOD_Entity", "IndentLvl" );
-   strcpy_s( szEntityNameIndent + lIndentLvl, sizeof( szEntityNameIndent ) - lIndentLvl, szEntityName );
+   strcpy_s( szEntityNameIndent + lIndentLvl, zsizeof( szEntityNameIndent ) - lIndentLvl, szEntityName );
    nRC = SetAttributeFromString( vTZZOLODO, "LOD_Entity", "IndentName", szEntityNameIndent );
 
    if ( GetViewByName( &vTZZOHDGO, "TZZOHDGO", vSubtask, zLEVEL_TASK ) == zLEVEL_TASK )
@@ -4236,7 +4236,7 @@ zwTZZOLODD_PostBuildATTVIEW( zVIEW vSubtask )
    // Get Access to LOD Object
    GetViewByName( &vTZZOLODO, "TZZOLODO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szEntityName );
 
    return( 0 );
@@ -4428,7 +4428,7 @@ zwTZZOLODD_PostBuildATTMAINT( zVIEW vSubtask )
    zwTZZOLODD_SelectAttrDerOper( vSubtask );
 
    //  Set Entity Name on caption
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szEntityName );
 
    return( 0 );
@@ -5008,7 +5008,7 @@ zwTZZOLODD_IncludeDomain( zVIEW vSubtask )
    nRC = GetViewByName( &vLOD, "TZZOLODO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Access LOD Object." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access LOD Object." );
       MessageSend( vSubtask, "ZO00161", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -5019,7 +5019,7 @@ zwTZZOLODD_IncludeDomain( zVIEW vSubtask )
    nRC = GetViewByName( &vDomainList, "DomainList", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Access Domain List." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access Domain List." );
       MessageSend( vSubtask, "ZO00162", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -5035,7 +5035,7 @@ zwTZZOLODD_IncludeDomain( zVIEW vSubtask )
    DropView( vTempList );
    if ( nRC < 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to Access Domain to be included." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access Domain to be included." );
       MessageSend( vSubtask, "ZO00163", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -5621,14 +5621,14 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                                                                != 0 &&
         SetCursorFirstEntity( vTZZOLODO, "ER_RelLinkRec", 0 ) == zCURSOR_SET )
    {
-      GetStringFromAttribute( szMsg, sizeof( szMsg ), vTZZOLODO, "ER_RelLinkRec", "Name" );
-      strcat_s( szMsg, sizeof( szMsg ), " (" );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+      GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTZZOLODO, "ER_RelLinkRec", "Name" );
+      strcat_s( szMsg, zsizeof( szMsg ), " (" );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                               vTZZOLODO, "ER_RelLinkRec", "CardMin" );
-      strcat_s( szMsg, sizeof( szMsg ), "," );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+      strcat_s( szMsg, zsizeof( szMsg ), "," );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                               vTZZOLODO, "ER_RelLinkRec", "CardMax" );
-      strcat_s( szMsg, sizeof( szMsg ), ")" );
+      strcat_s( szMsg, zsizeof( szMsg ), ")" );
       SetAttributeFromString( vTZZOHDGO, "HD_Node", "Title", szMsg );
    }
 
@@ -5660,7 +5660,7 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
    if ( CompareAttributeToString( vTZZOLODO, "LOD_EntityParent", "Create", "Y" )
                                                                      == 0 )
    {
-      strcpy_s( szOutText, sizeof( szOutText ), "cr" );
+      strcpy_s( szOutText, zsizeof( szOutText ), "cr" );
       nTok++;
    }
 
@@ -5668,9 +5668,9 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                                                                      == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "up" );
+      strcat_s( szOutText, zsizeof( szOutText ), "up" );
       nTok++;
    }
 
@@ -5678,9 +5678,9 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                                                                      == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "de" );
+      strcat_s( szOutText, zsizeof( szOutText ), "de" );
       nTok++;
    }
 
@@ -5699,7 +5699,7 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
    if ( CompareAttributeToString( vTZZOLODO, "LOD_EntityParent", "Include", "Y" )
                                                                      == 0 )
    {
-      strcpy_s( szOutText, sizeof( szOutText ), "inc" );
+      strcpy_s( szOutText, zsizeof( szOutText ), "inc" );
       nTok++;
    }
 
@@ -5707,9 +5707,9 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                                                                      == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "exc" );
+      strcat_s( szOutText, zsizeof( szOutText ), "exc" );
       nTok++;
    }
 
@@ -5717,9 +5717,9 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
 //                                                                   == 0 )
 // {
 //    if ( nTok )
-//       strcat_s( szOutText, sizeof( szOutText ), "," );
+//       strcat_s( szOutText, zsizeof( szOutText ), "," );
 //
-//    strcat_s( szOutText, sizeof( szOutText ), "isrc" );
+//    strcat_s( szOutText, zsizeof( szOutText ), "isrc" );
 //    nTok++;
 // }
 
@@ -5741,17 +5741,17 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
       if ( CompareAttributeToString( vTZZOLODO, "LOD_EntityParent",
                                     "ParentDeleteBehave", "D" ) == 0 )
       {
-         strcpy_s( szOutText, sizeof( szOutText ), "pdel" );
+         strcpy_s( szOutText, zsizeof( szOutText ), "pdel" );
       }
       else
       if ( CompareAttributeToString( vTZZOLODO, "LOD_EntityParent",
                                     "ParentDeleteBehave", "E" ) == 0 )
       {
-         strcpy_s( szOutText, sizeof( szOutText ), "pexc" );
+         strcpy_s( szOutText, zsizeof( szOutText ), "pexc" );
       }
       else
       {
-         strcpy_s( szOutText, sizeof( szOutText ), "pres" );
+         strcpy_s( szOutText, zsizeof( szOutText ), "pres" );
       }
 
       if ( nOutText == 1 )
@@ -5770,7 +5770,7 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
    if ( CompareAttributeToString( vTZZOLODO, "LOD_EntityParent",
                                   "CreateConstraint", "Y" ) == 0 )
    {
-      strcpy_s( szOutText, sizeof( szOutText ), "c" );
+      strcpy_s( szOutText, zsizeof( szOutText ), "c" );
       nTok++;
    }
 
@@ -5778,9 +5778,9 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                                   "DeleteConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "d" );
+      strcat_s( szOutText, zsizeof( szOutText ), "d" );
       nTok++;
    }
 
@@ -5788,9 +5788,9 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                                   "IncludeConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "i" );
+      strcat_s( szOutText, zsizeof( szOutText ), "i" );
       nTok++;
    }
 
@@ -5798,9 +5798,9 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                                   "ExcludeConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "x" );
+      strcat_s( szOutText, zsizeof( szOutText ), "x" );
       nTok++;
    }
 
@@ -5808,9 +5808,9 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                                   "AcceptConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "a" );
+      strcat_s( szOutText, zsizeof( szOutText ), "a" );
       nTok++;
    }
 
@@ -5818,9 +5818,9 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                                   "CancelConstraint", "Y" ) == 0 )
    {
       if ( nTok )
-         strcat_s( szOutText, sizeof( szOutText ), "," );
+         strcat_s( szOutText, zsizeof( szOutText ), "," );
 
-      strcat_s( szOutText, sizeof( szOutText ), "n" );
+      strcat_s( szOutText, zsizeof( szOutText ), "n" );
       nTok++;
    }
 
@@ -5963,7 +5963,7 @@ zwTZZOLODD_PostBuildENTVIEW( zVIEW vSubtask )
 
    // Set Caption for Entity name
    GetViewByName( &vTZZOLODO, "TZZOLODO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szEntityName );
 
    // Set Entity Selection in Graph Control
@@ -6251,7 +6251,7 @@ zwTZZOLODD_PostBuildSARELVIEW( zVIEW vSubtask )
 
    GetViewByName( &vTZZOLODO, "TZZOLODO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szName, sizeof( szName ), vTZZOLODO, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZZOLODO, "LOD_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szName );
 
    return( 0 );
@@ -6358,7 +6358,7 @@ zwTZZOLODD_InvokeEditor( zVIEW vSubtask )
    // is either LOD or Dialog.
 
    GetViewByName( &vSOURCE, "TZZOLODO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "LOD_ConstraintOper", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "LOD_ConstraintOper", "Name" );
 
    if ( GetViewByName( &vDialog, "TZWINDOW", vSubtask, zLEVEL_TASK ) > 0 )
       SetCursorFirstEntityByString( vSOURCE, "Operation", "Name", szName,
@@ -6384,7 +6384,7 @@ zwTZZOLODD_InvokeEditor2( zVIEW vSubtask )
    // is either LOD or Dialog.
 
    GetViewByName( &vSOURCE, "TZZOLODO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "LOD_AttrDerivationOper", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "LOD_AttrDerivationOper", "Name" );
 
    if ( GetViewByName( &vDialog, "TZWINDOW", vSubtask, zLEVEL_TASK ) > 0 )
       SetCursorFirstEntityByString( vSOURCE, "Operation", "Name", szName,
@@ -6410,7 +6410,7 @@ zwTZZOLODD_InvokeEditor3( zVIEW vSubtask )
    // is either LOD or Dialog.
 
    GetViewByName( &vSOURCE, "TZZOLODO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "LOD_EntityConstraintOper", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "LOD_EntityConstraintOper", "Name" );
 
    if ( GetViewByName( &vDialog, "TZWINDOW", vSubtask, zLEVEL_TASK ) > 0 )
       SetCursorFirstEntityByString( vSOURCE, "Operation", "Name", szName,
@@ -6533,9 +6533,9 @@ zwfnTZZOLODD_PriorityListGetLen( zVIEW   vWork,
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vWork, "SelectedAttribute", 0 ) )
    {
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ),
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ),
                               vWork, "SelectedAttribute", "EntityName" );
-      GetStringFromAttribute( szAttributeName, sizeof( szAttributeName ),
+      GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ),
                               vWork, "SelectedAttribute", "AttributeName" );
       lEntityNameLen    = zstrlen( szEntityName );
       lAttributeNameLen = zstrlen( szAttributeName );
@@ -6576,7 +6576,7 @@ zwfnTZZOLODD_PrintPriorityList( zVIEW vSubtask,
    CString  cstrMsg;
 
    cstrMsg = "\nEntity: \t";
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vLOD, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vLOD, "LOD_Entity", "Name" );
    cstrMsg += szEntityName;
    cstrMsg += "\n";
 
@@ -6603,13 +6603,13 @@ zwfnTZZOLODD_PrintPriorityList( zVIEW vSubtask,
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vWork, "SelectedAttribute", 0 ) )
       {
-         GetStringFromAttribute( szPrioritySequence, sizeof( szPrioritySequence ),
+         GetStringFromAttribute( szPrioritySequence, zsizeof( szPrioritySequence ),
                                  vWork, "SelectedAttribute", "PrioritySequence" );
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ),
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ),
                                  vWork, "SelectedAttribute", "EntityName" );
-         GetStringFromAttribute( szAttributeName, sizeof( szAttributeName ),
+         GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ),
                                  vWork, "SelectedAttribute", "AttributeName" );
-         GetStringFromAttribute( szSequenceType, sizeof( szSequenceType ),
+         GetStringFromAttribute( szSequenceType, zsizeof( szSequenceType ),
                                  vWork, "SelectedAttribute", "OrderFlag" );
          lEntityNameLen    = zstrlen( szEntityName );
          lAttributeNameLen = zstrlen( szAttributeName );
@@ -7517,7 +7517,7 @@ zwTZZOLODD_PasteAttributes( zVIEW vSubtask )
       oTZZOLODO_NewAttributeSequence( vLOD );
       if ( ActivateMetaOI_ByZKey( vSubtask, &vDomain, 0, zREFER_DOMAIN_META, zSINGLE, lZKey, 0 ) < 0 )
       {
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vWork, "DomainCopy", "Name" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vWork, "DomainCopy", "Name" );
          ActivateMetaOI_ByName( vSubtask, &vDomain, 0, zREFER_DOMAIN_META, zSINGLE, szTemp, 0 );
       }
 
@@ -7528,13 +7528,13 @@ zwTZZOLODD_PasteAttributes( zVIEW vSubtask )
       }
       else
       {
-         strcpy_s( szErrorMsg, sizeof( szErrorMsg ), "Attribute '" );
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vWork, "ER_AttributeCopy", "Name" );
-         strcat_s( szErrorMsg, sizeof( szErrorMsg ), szTemp );
-         strcat_s( szErrorMsg, sizeof( szErrorMsg ), "' cannot be created, because \nDomain ' " );
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vWork, "DomainCopy", "Name" );
-         strcat_s( szErrorMsg, sizeof( szErrorMsg ), szTemp );
-         strcat_s( szErrorMsg, sizeof( szErrorMsg ), "' does not exist." );
+         strcpy_s( szErrorMsg, zsizeof( szErrorMsg ), "Attribute '" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vWork, "ER_AttributeCopy", "Name" );
+         strcat_s( szErrorMsg, zsizeof( szErrorMsg ), szTemp );
+         strcat_s( szErrorMsg, zsizeof( szErrorMsg ), "' cannot be created, because \nDomain ' " );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vWork, "DomainCopy", "Name" );
+         strcat_s( szErrorMsg, zsizeof( szErrorMsg ), szTemp );
+         strcat_s( szErrorMsg, zsizeof( szErrorMsg ), "' does not exist." );
          MessageSend( vSubtask, "ZO00137", "LOD Maintenance", szErrorMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
@@ -7821,8 +7821,8 @@ zwTZZOLODD_AcceptLOD_Detail( zVIEW vSubtask )
    GetViewByName( &vTZZOLODO, "TZZOLODO", vSubtask, zLEVEL_TASK );
 
    // Don't allow the selection of DoNotMergeOperationsFlag without the selection of DoNotMergeFlag.
-   GetStringFromAttribute( szDoNotMergeOperationsFlag, sizeof( szDoNotMergeOperationsFlag ), vTZZOLODO, "LOD", "DoNotMergeOperationsFlag" );
-   GetStringFromAttribute( szDoNotMergeFlag, sizeof( szDoNotMergeFlag ), vTZZOLODO, "LOD", "DoNotMergeFlag" );
+   GetStringFromAttribute( szDoNotMergeOperationsFlag, zsizeof( szDoNotMergeOperationsFlag ), vTZZOLODO, "LOD", "DoNotMergeOperationsFlag" );
+   GetStringFromAttribute( szDoNotMergeFlag, zsizeof( szDoNotMergeFlag ), vTZZOLODO, "LOD", "DoNotMergeFlag" );
    if ( *szDoNotMergeFlag == 0 && *szDoNotMergeOperationsFlag == 'Y' )
    {
       MessageSend( vSubtask, "", "LOD Maintenance",
@@ -7902,7 +7902,7 @@ zwfnTZZOLODD_SaveAsSetSourceName( zVIEW   vSubtask,
    do
    {
       nIndex++;
-      GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS",
+      GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS",
                               "SaveAsName8" );
       if ( nIndex > 0 )
       {
@@ -7910,18 +7910,18 @@ zwfnTZZOLODD_SaveAsSetSourceName( zVIEW   vSubtask,
          if ( nPosition > 6 )
             nPosition = 6;
 
-         zltoa( nIndex, szIndex, sizeof( szIndex ) );
+         zltoa( nIndex, szIndex, zsizeof( szIndex ) );
          if ( nIndex < 10 )
          {
-            strncpy_s( szNewName + nPosition, sizeof( szNewName ) - nPosition, "_", 1 );
-            strncpy_s( szNewName + 1 + nPosition, sizeof( szNewName ) - 1 - nPosition, szIndex, 2 );
+            strncpy_s( szNewName + nPosition, zsizeof( szNewName ) - nPosition, "_", 1 );
+            strncpy_s( szNewName + 1 + nPosition, zsizeof( szNewName ) - 1 - nPosition, szIndex, 2 );
          }
          else
          {
             if ( nPosition == 6 )
                nPosition--;
-            strncpy_s( szNewName + nPosition, sizeof( szNewName ) - nPosition, "_", 1 );
-            strncpy_s( szNewName + 1 + nPosition, sizeof( szNewName ) - 1 - nPosition, szIndex, 3 );
+            strncpy_s( szNewName + nPosition, zsizeof( szNewName ) - nPosition, "_", 1 );
+            strncpy_s( szNewName + 1 + nPosition, zsizeof( szNewName ) - 1 - nPosition, szIndex, 3 );
          }
       }
       nRC = -1;
@@ -8039,7 +8039,7 @@ zwfnTZZOLODD_SaveAsCheckFileName( zVIEW    vSubtask,
          nRC = SetCursorNextEntity( vSaveAs, "SourceFile", "" ) )
    {
       // Source File Name is required
-      GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "SourceFile", "SaveAsName" );
+      GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "SourceFile", "SaveAsName" );
       UfCompressName( szNewName, szFileName, 32, "", "", "", "", 0 );
       if ( zstrcmp( szFileName, "" ) == 0 )
       {
@@ -8055,9 +8055,9 @@ zwfnTZZOLODD_SaveAsCheckFileName( zVIEW    vSubtask,
       SetCursorFirstEntityByString( vSaveAsCopy, "SourceFile", "SaveAsName", szNewName, "" );
       if ( SetCursorNextEntityByString( vSaveAsCopy, "SourceFile", "SaveAsName", szNewName, "" ) >= zCURSOR_SET )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Source File Name '" );
-         strcat_s( szMsg, sizeof( szMsg ), szNewName );
-         strcat_s( szMsg, sizeof( szMsg ), "' is not unique." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Source File Name '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szNewName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' is not unique." );
          MessageSend( vSubtask, "ZO00137", "LOD Maintenance",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -8092,7 +8092,7 @@ zwfnTZZOLODD_SaveAsCheckName( zVIEW    vSubtask,
    //Name is required
    if ( zstrcmp( szOutName, "" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "LOD Name is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "LOD Name is required." );
       MessageSend( vSubtask, "ZO00137", "Zeidon Objects Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -8101,12 +8101,12 @@ zwfnTZZOLODD_SaveAsCheckName( zVIEW    vSubtask,
    }
 
    // DLL Name is required
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "DLL_Name" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "DLL_Name" );
    UfCompressName( szNewName, szDLLName, 32, "", "", "", "", 0 );
    if ( zstrcmp( szDLLName, "" ) == 0 &&
         CheckExistenceOfEntity( vTZZOLODO, "SourceFile" ) >= zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Source File exists and DLL Name is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Source File exists and DLL Name is required." );
       MessageSend( vSubtask, "ZO00137", "LOD Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -8152,9 +8152,9 @@ zwfnTZZOLODD_SaveAsCheckStatus( zVIEW    vSubtask,
    if ( CompareAttributeToInteger( vTZZOLFLO, "W_MetaDef",
                                    "Status", 1 ) != 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "LOD '" );
-      strcat_s( szMsg, sizeof( szMsg ), szOutName );
-      strcat_s( szMsg, sizeof( szMsg ), "' is not checked out." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "LOD '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szOutName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' is not checked out." );
       MessageSend( vSubtask, "ZO00137", "Zeidon Objects Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -8175,24 +8175,24 @@ zwfnTZZOLODD_SaveAsCheckStatus( zVIEW    vSubtask,
 static zSHORT
 zwfnTZZOLODD_SaveAsGetFileName( zVIEW  vTaskLPLR,
                                 zVIEW  vView,
-                                zPCHAR szAttribute,
-                                zPCHAR szSourceFileName )
+                                zPCHAR pchAttribute,
+                                zPCHAR pchSourceFileName )
 {
    zCHAR    szExtension[ zMAX_EXTENSION_LTH + 1 ];
    zCHAR    szNewName[ 33 ];
    zCHAR    szFileName[ 33 ];
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vView, "SourceFile", szAttribute );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vView, "SourceFile", pchAttribute );
    UfCompressName( szNewName, szFileName, 32, "", "", "", "", 0 );
 
-   GetStringFromAttribute( szSourceFileName, sizeof( szSourceFileName ), vTaskLPLR, "LPLR", "PgmSrcDir" );
+   GetStringFromAttribute( pchSourceFileName, zMAX_FILESPEC_LTH + 1, vTaskLPLR, "LPLR", "PgmSrcDir" );
    GetStringFromAttributeByContext( szExtension, vView, "SourceFile",
                                     "LanguageType", "LanguageType", zMAX_EXTENSION_LTH );
 
-   ofnTZCMWKSO_AppendSlash( szSourceFileName );
-   strcat_s( szSourceFileName, sizeof( szSourceFileName ), szFileName );
-   strcat_s( szSourceFileName, sizeof( szSourceFileName ), "." );
-   strcat_s( szSourceFileName, sizeof( szSourceFileName ), szExtension );
+   ofnTZCMWKSO_AppendSlash( pchSourceFileName );
+   strcat_s( pchSourceFileName, zMAX_FILESPEC_LTH + 1, szFileName );
+   strcat_s( pchSourceFileName, zMAX_FILESPEC_LTH + 1, "." );
+   strcat_s( pchSourceFileName, zMAX_FILESPEC_LTH + 1, szExtension );
 
    return( 0 );
 } // zwfnTZZOLODD_SaveAsGetFileName
@@ -8216,23 +8216,22 @@ zwfnTZZOLODD_SaveAsCopyFiles( zVIEW    vSubtask,
    zCHAR    szNewFileName[ zMAX_FILESPEC_LTH + 1 ];
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   strcpy_s( szSourceFileName, sizeof( szSourceFileName ), "" );
+   strcpy_s( szSourceFileName, zsizeof( szSourceFileName ), "" );
 
    // Source File Name already exists
    for ( nRC = SetCursorFirstEntity( vSaveAs, "SourceFile", "" );
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vSaveAs, "SourceFile", "" ) )
    {
-      zwfnTZZOLODD_SaveAsGetFileName( vTaskLPLR, vSaveAs, "SaveAsName",
-                                      szNewFileName );
+      zwfnTZZOLODD_SaveAsGetFileName( vTaskLPLR, vSaveAs, "SaveAsName", szNewFileName );
       SetAttributeFromInteger( vSaveAs, "SourceFile", "ReplaceFile", 1 );
 
       hFile = SysOpenFile( vSubtask, szNewFileName, COREFILE_EXIST );
       if ( hFile == 1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Source File '" );
-         strcat_s( szMsg, sizeof( szMsg ), szNewFileName );
-         strcat_s( szMsg, sizeof( szMsg ), "' already exists. Replace existing File?" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Source File '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szNewFileName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' already exists. Replace existing File?" );
          nRC = MessagePrompt( vSubtask, "ZO00138", "LOD Maintenance",
                               szMsg, zBEEP, zBUTTONS_YESNOCANCEL,
                               zRESPONSE_YES, zICON_QUESTION );
@@ -8316,7 +8315,7 @@ zwTZZOLODD_SaveAsLOD( zVIEW vSubtask )
    TraceLineS( "*** Trace 1", "" );
 
    // Validate LOD Name is OK
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
    UfCompressName( szNewName, szOutName, 32, "", "", "", "", 0 );
 
    //Name is required
@@ -8329,7 +8328,7 @@ zwTZZOLODD_SaveAsLOD( zVIEW vSubtask )
    // Name already exists
    if ( SetCursorFirstEntityByString( vTZZOLFLO, "W_MetaDef", "Name", szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "LOD already exists. Replace existing LOD?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "LOD already exists. Replace existing LOD?" );
       nRC = MessagePrompt( vSubtask, "ZO00138", "Zeidon Objects Maintenance",
                            szMsg, zBEEP, zBUTTONS_YESNO,
                            zRESPONSE_NO, zICON_QUESTION );
@@ -8556,7 +8555,7 @@ zwfnTZZOLODD_SaveAsLOD( zVIEW  vSubtask,
    RetrieveViewForMetaList( vSubtask, &vDialogLPLR, zREFER_DIALOG_META );
    if ( SetCursorFirstEntityByString( vDialogLPLR, "W_MetaDef", "Name", szLOD_Name, 0 ) > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "A Dialog with the same name exists." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "A Dialog with the same name exists." );
       MessageSend( vSubtask, "ZO00165", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -8570,7 +8569,7 @@ zwfnTZZOLODD_SaveAsLOD( zVIEW  vSubtask,
    nRC = ActivateEmptyMetaOI( vSubtask, &vLOD_Target, zSOURCE_LOD_META, zSINGLE | zLEVEL_APPLICATION );
    if ( nRC < 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "(zwfnTZZOLODD_SaveAsLOD) Unable to Access LOD. LOD must be opened." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "(zwfnTZZOLODD_SaveAsLOD) Unable to Access LOD. LOD must be opened." );
       MessageSend( vSubtask, "ZO00109", "Zeidon Object Maintenance",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -8748,7 +8747,7 @@ zwTZZOLODD_AddParentEntity( zVIEW vSubtask )
    nRC = ActivateEmptyMetaOI( vSubtask, &vLOD_Tgt, zSOURCE_LOD_META, zSINGLE | zLEVEL_APPLICATION );
    if ( nRC < 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "(zwTZZOLODD_AddParentEntity) Unable to Access LOD. LOD must be opened." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_AddParentEntity) Unable to Access LOD. LOD must be opened." );
       MessageSend( vSubtask, "ZO00109", "Zeidon Object Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -2 );
@@ -8954,29 +8953,29 @@ MigrateLODs( zVIEW vSubtask )
             zLONG  lFileXOD = -1;
             zSHORT nLth;
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Checking LOD: %s for synchronization", pch );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Checking LOD: %s for synchronization", pch );
             TraceLineS( szMsg, "" );
             MB_SetMessage( vSubtask, 1, szMsg );
-            GetStringFromAttribute( szFileSpec2, sizeof( szFileSpec2 ), vTaskLPLR, "LPLR", "ExecDir" );
+            GetStringFromAttribute( szFileSpec2, zsizeof( szFileSpec2 ), vTaskLPLR, "LPLR", "ExecDir" );
             nLth = (zSHORT) zstrlen( szFileSpec2 );
             if ( nLth && szFileSpec2[ nLth - 1 ] != '\\' )
                szFileSpec2[ nLth++ ] = '\\';
 
-            strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, pch );
-            strcat_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".xod" );
+            strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, pch );
+            strcat_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".xod" );
 
-            GetStringFromAttribute( szFileSpec1, sizeof( szFileSpec1 ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+            GetStringFromAttribute( szFileSpec1, zsizeof( szFileSpec1 ), vTaskLPLR, "LPLR", "MetaSrcDir" );
             nLth = (zSHORT) zstrlen( szFileSpec1 );
             if ( nLth && szFileSpec1[ nLth - 1 ] != '\\' )
                szFileSpec1[ nLth++ ] = '\\';
 
-            strcpy_s( szFileSpec1 + nLth, sizeof( szFileSpec1 ) - nLth, pch );
+            strcpy_s( szFileSpec1 + nLth, zsizeof( szFileSpec1 ) - nLth, pch );
             nLth += (zSHORT) zstrlen( pch );
-            strcpy_s( szFileSpec1 + nLth, sizeof( szFileSpec1 ) - nLth, ".lod" );
+            strcpy_s( szFileSpec1 + nLth, zsizeof( szFileSpec1 ) - nLth, ".lod" );
             lFileLOD = SysOpenFile( vSubtask, szFileSpec1, COREFILE_READ );
             lFileXOD = SysOpenFile( vSubtask, szFileSpec2, COREFILE_READ );
-            strcpy_s( szFileSpec2, sizeof( szFileSpec2 ), szFileSpec1 );
-            strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".tmp" );
+            strcpy_s( szFileSpec2, zsizeof( szFileSpec2 ), szFileSpec1 );
+            strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".tmp" );
             if ( lFileLOD >= 0 &&
                  (lFileXOD < 0 ||
                   (lFileXOD >= 0 &&
@@ -8994,14 +8993,14 @@ MigrateLODs( zVIEW vSubtask )
 
                lFileXOD = -1;
 
-               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".lo~" );
+               strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".lo~" );
                SysRenameFile( vSubtask, szFileSpec1, szFileSpec2, TRUE );
-               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".tmp" );
+               strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".tmp" );
                SysRenameFile( vSubtask, szFileSpec2, szFileSpec1, TRUE );
 
                TraceLineS( "MigrateLODs synchronize LOD: ", pch );
                CommitMetaOI( vSubtask, vLOD, zSOURCE_LOD_META );
-               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".lo~" );
+               strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".lo~" );
                SysRenameFile( vSubtask, szFileSpec2, szFileSpec1, TRUE );
             }
             else
@@ -9019,7 +9018,7 @@ MigrateLODs( zVIEW vSubtask )
          if ( bSaveAll )
          {
             TraceLineS( "MigrateLODs (all) LOD: ", pch );
-            sprintf_s( szMsg, sizeof( szMsg ), "Saving LOD: %s", pch );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Saving LOD: %s", pch );
             MB_SetMessage( vSubtask, 1, szMsg );
             CommitMetaOI( vSubtask, vLOD, zSOURCE_LOD_META );
          }
@@ -9336,7 +9335,7 @@ fnTZZOLODD_MoveEntity( zVIEW vSubtask, zCHAR cType )
    // is already the left-most or right-most entity.
 
    CreateViewFromViewForTask( &vTZZOLOD1, vTZZOLODO, 0 );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
    DefineHierarchicalCursor( vTZZOLOD1, "LOD" );
 
    // First loop to find the selected entity in the recursive side.
@@ -9346,7 +9345,7 @@ fnTZZOLODD_MoveEntity( zVIEW vSubtask, zCHAR cType )
       if ( zstrcmp( szHierEntityName, "LOD_EntityChild" ) == 0 )
       {
          SetViewToSubobject( vTZZOLOD1, "LOD_EntityChild" );
-         GetStringFromAttribute( szHierEntityName, sizeof( szHierEntityName ),
+         GetStringFromAttribute( szHierEntityName, zsizeof( szHierEntityName ),
                                  vTZZOLOD1, "LOD_EntityParent", "Name" );
          if ( zstrcmp( szHierEntityName, szEntityName ) == 0 )
             break;
@@ -9439,7 +9438,7 @@ zwTZZOLODD_SaveAsSetDefaults( zVIEW vSubtask )
    CreateViewFromViewForTask( &vTZLodList, vTZZOLFLO, 0 );
 
    // if LOD Name not required, set default value
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
    UfCompressName( szNewName, szOutName, 32, "", "", "", "", 0 );
 
    //Name is required
@@ -9754,16 +9753,16 @@ zwTZZOLODD_WarningForWorkEntity( zVIEW vSubtask )
 
       if ( zwfnTZZOLODD_IfPOD_Entity( vTZZOLODO, ulZKey, FALSE ) == 1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Setting the Entity Type to 'Work' will cause all \n" );
-         strcat_s( szMsg, sizeof( szMsg ), "Attributes to be turned to Type 'Work' and \n" );
-         strcat_s( szMsg, sizeof( szMsg ), "all Properites for Join Definition will be deleted.\n\n" );
-         strcat_s( szMsg, sizeof( szMsg ), "If you accept the change, it will be irreverible!" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Setting the Entity Type to 'Work' will cause all \n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "Attributes to be turned to Type 'Work' and \n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "all Properites for Join Definition will be deleted.\n\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "If you accept the change, it will be irreverible!" );
       }
       else
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Setting the Entity Type to 'Work' will cause all \n" );
-         strcat_s( szMsg, sizeof( szMsg ), "Attributes to be turned to Type 'Work'.\n\n" );
-         strcat_s( szMsg, sizeof( szMsg ), "If you accept the change, it will be irreverible!" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Setting the Entity Type to 'Work' will cause all \n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "Attributes to be turned to Type 'Work'.\n\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "If you accept the change, it will be irreverible!" );
       }
 
       MessagePrompt( vSubtask, "ZO00181", "Zeidon Objects Maintenance",
@@ -9894,8 +9893,8 @@ zwTZZOLODD_TransferToSetDBH( zVIEW vSubtask )
 
    GetViewByName( &vTZTEDBLO, "TZTEDBLO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szDialogName, sizeof( szDialogName ), vTZTEDBLO, "DBS_SubDialog", "Dialog" );
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vTZTEDBLO, "DBS_SubDialog", "Window" );
+   GetStringFromAttribute( szDialogName, zsizeof( szDialogName ), vTZTEDBLO, "DBS_SubDialog", "Dialog" );
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vTZTEDBLO, "DBS_SubDialog", "Window" );
 
    SetWindowActionBehavior( vSubtask, zWAB_StartModalSubwindow + zWAB_ProcessImmediateAction, szDialogName, szWindowName );
 
@@ -9924,9 +9923,9 @@ zwTZZOLODD_WarningForDerivEntity( zVIEW vSubtask )
 
       if ( zwfnTZZOLODD_IfPOD_Entity( vTZZOLODO, ulZKey, FALSE ) == 1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Setting the Entity Type to 'Derived' will delete all \n" );
-         strcat_s( szMsg, sizeof( szMsg ), "Properties for Join Definition.\n\n" );
-         strcat_s( szMsg, sizeof( szMsg ), "If you accept the change, it will be irreverible!" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Setting the Entity Type to 'Derived' will delete all \n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "Properties for Join Definition.\n\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "If you accept the change, it will be irreverible!" );
          MessagePrompt( vSubtask, "ZO00182", "Zeidon Objects Maintenance",
                         szMsg, zBEEP, zBUTTONS_OK, zRESPONSE_OK, zICON_EXCLAMATION );
       }
@@ -10097,11 +10096,11 @@ zwTZZOLODD_CompareLODs( zVIEW vSubtask )
 
    // Activate Source view.
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "wFullyQualifiedFileName" );
-   GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vTargetLOD, "LOD", "Name" );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), szLOD_Name );
-   strcat_s( szFileName, sizeof( szFileName ), ".LOD" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "wFullyQualifiedFileName" );
+   GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vTargetLOD, "LOD", "Name" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), szLOD_Name );
+   strcat_s( szFileName, zsizeof( szFileName ), ".LOD" );
    TraceLineS( "Source File Name: ", szFileName );
    nRC = ActivateOI_FromFile( &vSourceLOD, "TZZOLODO", vSubtask, szFileName, zSINGLE );
    if ( nRC < 0 )
@@ -10145,11 +10144,11 @@ zwTZZOLODD_SelectCompEntries( zVIEW vSubtask )
       if ( nRC == 1 )
       {
          // Don't select an entry if it is either a Target Entity or Attribute that isn't in the Source.
-         GetStringFromAttribute( szType, sizeof( szType ), vTargetLOD, "DisplayCompareResult", "EntityAttributeType" );
+         GetStringFromAttribute( szType, zsizeof( szType ), vTargetLOD, "DisplayCompareResult", "EntityAttributeType" );
          if ( szType[ 0 ] == 'A' )
          {
             // Type is Attribute. Give error is this is a Target Attribute without a Source Attribute.
-            GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vTargetLOD, "DisplayCompareResult", "SourceAttributeName" );
+            GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vTargetLOD, "DisplayCompareResult", "SourceAttributeName" );
             if ( szMetaName[ 0 ] == 0 )
                nErrorFlag = 1;     // Indicate there's been a selection error.
             else
@@ -10158,7 +10157,7 @@ zwTZZOLODD_SelectCompEntries( zVIEW vSubtask )
          else
          {
             // Type is Entity. Give error is this is a Target Entity without a Source Entity.
-            GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vTargetLOD, "DisplayCompareResult", "SourceEntityName" );
+            GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vTargetLOD, "DisplayCompareResult", "SourceEntityName" );
             if ( szMetaName[ 0 ] == 0 )
                nErrorFlag = 1;     // Indicate there's been a selection error.
             else

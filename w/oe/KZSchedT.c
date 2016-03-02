@@ -105,7 +105,7 @@ fnThreadProc2( zPVOID p )
    // SysMutexLock( "KZSCHEDT/1", 0, 0 );
    // TraceLineI( "Mutex locked", nThreadNumber );
 
-      SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+      SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
       TraceLineI( szDateTime, nThreadNumber );
 
       nRC = ActivateObjectInstance( &vView, "mUser", vSubtask, 0, zSINGLE );
@@ -114,7 +114,7 @@ fnThreadProc2( zPVOID p )
       else
          TraceLineI( "----- ERROR activating mUser --------- ", nThreadNumber );
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Thread test #%d, rc = %d", nCount++, nRC );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Thread test #%d, rc = %d", nCount++, nRC );
       TraceLineI( szMsg, nThreadNumber );
 
    // SysMutexUnlock( "KZSCHEDT/1" );
@@ -157,7 +157,7 @@ TrayMessage( DWORD dwMessage, UINT uID, HICON hIcon, LPCSTR pszTip )
    tnd.hIcon      = hIcon;
    if ( pszTip )
    {
-      strncpy_s( tnd.szTip, sizeof( tnd.szTip ), pszTip, sizeof( tnd.szTip ) - 1 );
+      strncpy_s( tnd.szTip, zsizeof( tnd.szTip ), pszTip, zsizeof( tnd.szTip ) - 1 );
    }
    else
    {
@@ -359,7 +359,7 @@ TimerProc( HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime )
    {
       zCHAR szDateTime[ 30 ];
 
-      SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+      SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
       TraceLineI( szDateTime, 0 );
 
       ActivateObjectInstance( &vView, "mMedCode", vLocalSubtask, 0, zSINGLE );
@@ -371,7 +371,7 @@ TimerProc( HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime )
    // DoWork( vSubtask );
    g_ulTestCount++;
 
-   sprintf_s( szMsg, sizeof( szMsg ), "Done with test %u", g_ulTestCount );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Done with test %u", g_ulTestCount );
    TraceLineS( szMsg, "" );
 }
 

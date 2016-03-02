@@ -280,17 +280,17 @@ oTZADCSDO_CreateButtonActOper( zVIEW    vSubtask,
    zCHAR  szActionName[ 33 ];
 
    // Button Tag is concatenation of Entity Name and Button Text.
-   GetStringFromAttribute( szButtonTag, sizeof( szButtonTag ), vUserSpec, "LOD_Entity", "Name" );
-   strcat_s( szButtonTag, sizeof( szButtonText ), szButtonText );
+   GetStringFromAttribute( szButtonTag, zsizeof( szButtonTag ), vUserSpec, "LOD_Entity", "Name" );
+   strcat_s( szButtonTag, zsizeof( szButtonText ), szButtonText );
    fnRemoveAmpersand( szButtonTag );
    szButtonTag[ 32 ] = 0;   // Make sure it's max of 32 characters
 
    // If the Action name is not set by the caller, it is the same as the
    // Button Tag. Otherwise it is the passed ActionText.
    if ( szActionText == 0 || szActionText[ 0 ] == 0 )
-      strcpy_s( szActionName, sizeof( szActionName ), szButtonTag );
+      strcpy_s( szActionName, zsizeof( szActionName ), szButtonTag );
    else
-      strcpy_s( szActionName, sizeof( szActionName ), szActionText );
+      strcpy_s( szActionName, zsizeof( szActionName ), szActionText );
 
    // Create the basic button.
    CreateViewFromViewForTask( &vButton, vNewDialog, 0 );
@@ -365,17 +365,17 @@ oTZADCSDO_CreateButtonActObject( zVIEW    vSubtask,
    zCHAR  szActionName[ 33 ];
 
    // Button Tag is concatenation of Entity Name and Button Text.
-   GetStringFromAttribute( szButtonTag, sizeof( szButtonTag ), vUserSpec, "LOD_Entity", "Name" );
-   strcat_s( szButtonTag, sizeof( szButtonTag ), szButtonText );
+   GetStringFromAttribute( szButtonTag, zsizeof( szButtonTag ), vUserSpec, "LOD_Entity", "Name" );
+   strcat_s( szButtonTag, zsizeof( szButtonTag ), szButtonText );
    fnRemoveAmpersand( szButtonTag );
    szButtonTag[ 32 ] = 0;   // Make sure it's max of 32 characters
 
    // If the Action name is not set by the caller, it is the same as the
    // Button Tag. Otherwise it is the passed ActionText.
    if ( szActionText == 0 || szActionText[ 0 ] == 0 )
-      strcpy_s( szActionName, sizeof( szActionName ), szButtonTag );
+      strcpy_s( szActionName, zsizeof( szActionName ), szButtonTag );
    else
-      strcpy_s( szActionName, sizeof( szActionName ), szActionText );
+      strcpy_s( szActionName, zsizeof( szActionName ), szActionText );
 
    // Create the basic button.
    CreateViewFromViewForTask( &vButton, vNewDialog, 0 );
@@ -397,10 +397,10 @@ oTZADCSDO_CreateButtonActObject( zVIEW    vSubtask,
 
    // Position on the correct ViewObjRef entity and LOD_Entity and
    // create ActMap subobject.
-   GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vObject, "LOD", "Name" );
+   GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vObject, "LOD", "Name" );
    SetCursorFirstEntityByString( vNewDialogRoot, "ViewObjRef", "Name", szLOD_Name, 0 );
 
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
    SetCursorFirstEntityByString( vObject, "LOD_Entity", "Name", szEntityName, 0 );
 
    CreateMetaEntity( vSubtask, vNewDialogRoot, "ActMap", zPOS_AFTER );
@@ -529,15 +529,15 @@ oTZWDLGSO_CreateGroupbox( zVIEW    vSubtask,
    lGroupNbr++;
 
    // set up the name for the Group to make it unique.
-   zltoa( lGroupNbr, szSuffix, sizeof( szSuffix ) );
-   strcat_s( szGroupName, sizeof( szGroupName ), szSuffix );
+   zltoa( lGroupNbr, szSuffix, zsizeof( szSuffix ) );
+   strcat_s( szGroupName, zsizeof( szGroupName ), szSuffix );
    if ( CheckExistenceOfEntity( vUSSubEnt, "LOD_Entity" ) >= zCURSOR_SET )
-      GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vUSSubEnt, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vUSSubEnt, "LOD_Entity", "Name" );
    else
-      strcpy_s( szGroupName, sizeof( szGroupName ), "Group" );
+      strcpy_s( szGroupName, zsizeof( szGroupName ), "Group" );
 
-   zltoa( lGroupNbr, szSuffix, sizeof( szSuffix ) );
-   strcat_s( szGroupName, sizeof( szGroupName ), szSuffix );
+   zltoa( lGroupNbr, szSuffix, zsizeof( szSuffix ) );
+   strcat_s( szGroupName, zsizeof( szGroupName ), szSuffix );
 
    // Determine the position by searching any existing Controls and setting
    // the new position at the largest (PosY + SizeY) value + 5.
@@ -784,17 +784,17 @@ oTZWDLGSO_AutoDesignGroupboxL( zVIEW    vSubtask,
    cRootOnlyFlag = 'Y';
    if ( cListType[ 0 ] == 'L' )
    {
-      strcpy_s( szLOD_EntityName, sizeof( szLOD_EntityName ), "L_LOD_Entity" );
+      strcpy_s( szLOD_EntityName, zsizeof( szLOD_EntityName ), "L_LOD_Entity" );
       // LOD_Entity is in USSubEnt for regular list.
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUSSubEnt, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUSSubEnt, "LOD_Entity", "Name" );
    }
    else
    {
-      strcpy_s( szLOD_EntityName, sizeof( szLOD_EntityName ), "I_LOD_Entity" );
+      strcpy_s( szLOD_EntityName, zsizeof( szLOD_EntityName ), "I_LOD_Entity" );
       // LOD_Entity must be retrieved from root of LOD for include list.
-      GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vUSSubEnt, "ListSubObjLOD", "Name" );
+      GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vUSSubEnt, "ListSubObjLOD", "Name" );
       ActivateMetaOI_ByName( vSubtask, &vIncludeLOD, 0, zREFER_LOD_META, zSINGLE, szLOD_Name, 0 );
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vIncludeLOD, "LOD_EntityParent", "Name" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vIncludeLOD, "LOD_EntityParent", "Name" );
       DropView( vIncludeLOD );
 
    }
@@ -843,9 +843,9 @@ oTZWDLGSO_AutoDesignGroupboxMT( zVIEW    vSubtask,
    zCHAR    szGroupName[ 36 ];
 
    // The GroupName is the TabName.
-   strcpy_s( szGroupName, sizeof( szGroupName ), "G" );
-   strcat_s( szGroupName, sizeof( szGroupName ), szTabNo );
-   strcat_s( szGroupName, sizeof( szGroupName ), szTabName );
+   strcpy_s( szGroupName, zsizeof( szGroupName ), "G" );
+   strcat_s( szGroupName, zsizeof( szGroupName ), szTabNo );
+   strcat_s( szGroupName, zsizeof( szGroupName ), szTabName );
 
    GetViewByName( &vPE, "TZPESRCO", vUSSubEnt, zLEVEL_TASK );
 
@@ -959,7 +959,7 @@ ofnTZWDLGSO_AutoDesignListbox( zVIEW    vSubtask,
       IncludeSubobjectFromSubobject( vNewDialog, "CtrlMapLOD_Entity",
                                      vUserSpec, "I_LOD_Entity", zPOS_AFTER );
       // Make sure the ViewObjRef is in the Dialog.
-      GetStringFromAttribute( szViewObjName, sizeof( szViewObjName ), vUserSpec, "ListViewObjRef", "Name" );
+      GetStringFromAttribute( szViewObjName, zsizeof( szViewObjName ), vUserSpec, "ListViewObjRef", "Name" );
       CreateViewFromViewForTask( &vTopDialog, vNewDialog, 0 );
       ResetView( vTopDialog );
       if ( SetCursorFirstEntityByString( vTopDialog, "ViewObjRef", "Name",
@@ -1258,7 +1258,7 @@ oTZADCSDO_AutoDesignAssocDep( zVIEW  vSubtask,
       // The processing depends on the various Case Types: 1, 4
       ////////////////////////////////////////////////////////////
 
-      GetStringFromAttribute( szCase, sizeof( szCase ), vUSSubEnt, "UIS_Entity", "AutodesignCaseType" );
+      GetStringFromAttribute( szCase, zsizeof( szCase ), vUSSubEnt, "UIS_Entity", "AutodesignCaseType" );
       if ( szCase[ 0 ] == '1' )
       {
          ////////
@@ -1342,9 +1342,9 @@ oTZADCSDO_BuildAutoInclCombobox( zVIEW  vSubtask,
                             zCONTROL_BORDEROFF | zCONTROL_NOTABSTOP );
 
    // Prompt is either ListGroupboxText (the prompt value entered) or the entity name.
-   GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUSSubEnt, "WndDesign", "ListGroupboxText" );
+   GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUSSubEnt, "WndDesign", "ListGroupboxText" );
    if ( szWorkString[ 0 ] == 0 )
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUSSubEnt, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUSSubEnt, "LOD_Entity", "Name" );
    SetAttributeFromString( vNewDialog, "Control", "Text", szWorkString );
    SetAttributeFromString( vNewDialog, "Control", "Tag",  szWorkString );
    lTextLength = zstrlen( szWorkString ) * lCharWidth;
@@ -1361,9 +1361,9 @@ oTZADCSDO_BuildAutoInclCombobox( zVIEW  vSubtask,
    //////////////
 
    CreateMetaEntity( vSubtask, vNewDialog, "Control", zPOS_AFTER );
-   strcpy_s( szControlName, sizeof( szControlName ), "Combo" );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUSSubEnt, "LOD_Entity", "Name" );
-   strcat_s( szControlName, sizeof( szControlName ), szEntityName );
+   strcpy_s( szControlName, zsizeof( szControlName ), "Combo" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUSSubEnt, "LOD_Entity", "Name" );
+   strcat_s( szControlName, zsizeof( szControlName ), szEntityName );
    szControlName[ 33 ] = 0;
    SetAttributeFromString( vNewDialog, "Control", "Tag", szControlName );
 
@@ -1557,12 +1557,12 @@ SetNameForView( vNewDialog, "***NewDialog", vSubtask, zLEVEL_TASK );
    nRC = SetCursorFirstEntity( vUSSubEnt, "UIS_Entity", "" );
    while ( nRC > zCURSOR_UNCHANGED )
    {
-      GetStringFromAttribute( szEntityCase, sizeof( szEntityCase ), vUSSubEnt, "UIS_Entity", "AutodesignCaseType" );
+      GetStringFromAttribute( szEntityCase, zsizeof( szEntityCase ), vUSSubEnt, "UIS_Entity", "AutodesignCaseType" );
       if ( szEntityCase[ 0 ] == szCase[ 0 ] )
       {
-         GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUSSubEnt, "WndDesign", "ListGroupboxText" );
+         GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUSSubEnt, "WndDesign", "ListGroupboxText" );
          if ( szWorkString[ 0 ] == 0 )
-            GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUSSubEnt, "LOD_Entity", "Name" );
+            GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUSSubEnt, "LOD_Entity", "Name" );
          if ( lMaxLth < ( zLONG )zstrlen( szWorkString ) )
             lMaxLth = zstrlen( szWorkString );
       }
@@ -1595,7 +1595,7 @@ SetNameForView( vNewDialog, "***NewDialog", vSubtask, zLEVEL_TASK );
       // Build an AutoInclude Combo box for each Case 5/6 UIS_Entity.
       ///////////////////////////////////////////////////////////////
 
-      GetStringFromAttribute( szEntityCase, sizeof( szEntityCase ),
+      GetStringFromAttribute( szEntityCase, zsizeof( szEntityCase ),
                               vUSSubEnt, "UIS_Entity", "AutodesignCaseType" );
       if ( szEntityCase[ 0 ] == szCase[ 0 ] )
       {
@@ -1636,9 +1636,9 @@ SetNameForView( vNewDialog, "***NewDialog", vSubtask, zLEVEL_TASK );
 
    // vUSSubEntParent is now positioned on Associative entity.
    // Set up the operation name.
-   strcpy_s( szWorkString, sizeof( szWorkString ), "ListSub" );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUSSubEntParent, "LOD_Entity", "Name" );
-   strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
+   strcpy_s( szWorkString, zsizeof( szWorkString ), "ListSub" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUSSubEntParent, "LOD_Entity", "Name" );
+   strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
    szWorkString[ 33 ] = 0;
 
    // Create Action.
@@ -1699,14 +1699,14 @@ oTZWDLGSO_CreateListViewLST( zVIEW    vSubtask,
 // zSHORT   nLth;
    zSHORT   nRC;
 
-   GetStringFromAttribute( szListViewName, sizeof( szListViewName ), vUserSpec, "UIS_LOD", "Name" );
+   GetStringFromAttribute( szListViewName, zsizeof( szListViewName ), vUserSpec, "UIS_LOD", "Name" );
 // nLth = zstrlen( szListViewName );
    // The length can't be greater than 32 with LST extention.
 // if ( nLth + 3 > 32 )
 // {
       szListViewName[ 29 ] = 0;
 // }
-   strcat_s( szListViewName, sizeof( szListViewName ), "LST" );
+   strcat_s( szListViewName, zsizeof( szListViewName ), "LST" );
 
    // If the ListVOR entity does not already exist in the UserSpec, add it.
    if ( CheckExistenceOfEntity( vUserSpec, "ListVOR" ) < zCURSOR_SET )
@@ -1785,8 +1785,8 @@ oTZADCSDO_AutoDesignListWindow( zVIEW  vSubtask,
 
    // The list window name is the Entity name, followed by the characters
    // "_List".
-   GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
-   strcat_s( szWorkString, sizeof( szWorkString ), "_List" );
+   GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
+   strcat_s( szWorkString, zsizeof( szWorkString ), "_List" );
    SetAttributeFromString( vNewDialog, "Window", "Tag", szWorkString );
 
    // Go add the list view VOR to the User Spec and set the name of the
@@ -1817,7 +1817,7 @@ oTZADCSDO_AutoDesignListWindow( zVIEW  vSubtask,
    // was included.  If it wasn't, we will have to exclude the current
    // entity and include the correct one out of the list LOD.
 
-   GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "ListLOD", "Name" );
+   GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "ListLOD", "Name" );
    nRC = ActivateMetaOI_ByName( vSubtask, &vTempLOD, 0, zREFER_LOD_META,
                                 zSINGLE, szWorkString, 0 );
    if ( nRC < 0 )
@@ -1840,7 +1840,7 @@ oTZADCSDO_AutoDesignListWindow( zVIEW  vSubtask,
    nRC = SetCursorFirstEntity( vUserSpec, "L_LOD_Attribute", 0 );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "L_LOD_Entity", "Name" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "L_LOD_Entity", "Name" );
       nRC = SetCursorFirstEntityByString( vTempLOD, "LOD_Entity", "Name", szWorkString, 0 );
       if ( nRC < zCURSOR_SET )
       {
@@ -1849,7 +1849,7 @@ oTZADCSDO_AutoDesignListWindow( zVIEW  vSubtask,
                      zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          return( -1 );
       }
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "L_ER_Attribute", "Name" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "L_ER_Attribute", "Name" );
       nRC = SetCursorFirstEntityByString( vTempLOD, "ER_Attribute", "Name", szWorkString, "LOD_Entity" );
       if ( nRC < zCURSOR_SET )
       {
@@ -1880,7 +1880,7 @@ oTZADCSDO_AutoDesignListWindow( zVIEW  vSubtask,
    if ( CompareAttributeToAttribute( vUserSpec,  "LOD_Entity",        "Name",
                                      vNewDialog, "CtrlMapLOD_Entity", "Name" ) !=  0 )
    {
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
       SetCursorFirstEntityByString( vObject, "LOD_Entity", "Name", szWorkString, 0 );
       ExcludeEntity( vNewDialog, "CtrlMapLOD_Entity", zREPOS_NONE );
       IncludeSubobjectFromSubobject( vNewDialog, "CtrlMapLOD_Entity", vObject, "LOD_Entity", zPOS_AFTER );
@@ -1897,8 +1897,8 @@ oTZADCSDO_AutoDesignListWindow( zVIEW  vSubtask,
                                  vUserSpec,  "WndDesign", "ListGroupboxText" );
    else
    {
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "UIS_LOD", "Name" );
-      strcat_s( szWorkString, sizeof( szWorkString ), " List" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "UIS_LOD", "Name" );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " List" );
       SetAttributeFromString( vNewDialog, "Window", "Caption", szWorkString );
    }
    SetAttributeFromString( vNewDialog, "Control",   "Text", "" );
@@ -1906,7 +1906,7 @@ oTZADCSDO_AutoDesignListWindow( zVIEW  vSubtask,
    // Add the new,etc. buttons as necessary.  The routine to do this requires
    // the name of the subwindow, which in this case, is the name of the
    // LOD_Entity for the first UIS_Entity.
-   GetStringFromAttribute( szSubWindowTag, sizeof( szSubWindowTag ),
+   GetStringFromAttribute( szSubWindowTag, zsizeof( szSubWindowTag ),
                            vUserSpec, "LOD_Entity", "Name" );
    oTZADCSDO_CreateCase1Buttons( vSubtask, vUserSpec, vUserSpec, vNewDialog, vNewDialog,
                                  vDefaults, vObject, szSubWindowTag, "MainWindow" );
@@ -1932,7 +1932,7 @@ oTZADCSDO_AutoDesignListWindow( zVIEW  vSubtask,
    lPosX = lPosX + lGroupboxWidth + lButtonIncrementX;
 
    // Go create the button.
-   GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "Exit" );
+   GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "Exit" );
    oTZADCSDO_CreateButton( vSubtask, vUserSpec, vNewDialog, vNewDialog,
                            vDefaults, szButtonText, 1, "" );
    SetAttributeFromString( vNewDialog, "Control", "Tag", "Exit" );
@@ -1971,13 +1971,13 @@ oTZADCSDO_AutoDesignListWindow( zVIEW  vSubtask,
 
       // Create Button to transfer to ListQual window.
 #if 0
-      GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "WndDesign", "ListQualWndButtonText" );
+      GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "WndDesign", "ListQualWndButtonText" );
       if ( szButtonText[ 0 ] == 0 )
-         GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "DfltWndDesign", "ListQualWndButtonText" );
+         GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "DfltWndDesign", "ListQualWndButtonText" );
 #endif
-      GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "DfltWndDesign", "ListQualWndButtonText" );
+      GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "DfltWndDesign", "ListQualWndButtonText" );
       if ( szButtonText[ 0 ] == 0 )
-         strcpy_s( szButtonText, sizeof( szButtonText ), "ListQualNew" );
+         strcpy_s( szButtonText, zsizeof( szButtonText ), "ListQualNew" );
 
       oTZADCSDO_CreateButton( vSubtask, vUserSpec, vNewDialog, vNewDialog,
                               vDefaults, szButtonText, 1, "" );
@@ -2119,7 +2119,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
    CreateViewFromViewForTask( &vNewDialog, vNewDialogOrig, 0 );
 
    SetAttributeFromString( vAutoDesWk, "AutoDesignWork", "AutoDesignWDOD", "Y" );
-   GetStringFromAttribute( szCase, sizeof( szCase ), vUSSubEnt, "UIS_Entity", "AutodesignCaseType" );
+   GetStringFromAttribute( szCase, zsizeof( szCase ), vUSSubEnt, "UIS_Entity", "AutodesignCaseType" );
 
 // if ( szCase[ 0 ] == '1' )
    ofnTZWDLGSO_CreateNewWindowInfo( vSubtask, vUSSubEnt, vNewDialog, vAutoDesWk );
@@ -2131,7 +2131,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
    CreateViewFromViewForTask( &vNewDialogRoot, vNewDialog, 0 );
 
    // Tab Control Processing
-   strcpy_s( szParentCase, sizeof( szParentCase ), szCase );
+   strcpy_s( szParentCase, zsizeof( szParentCase ), szCase );
    if ( szCase[ 1 ] == 'F' || szCase[ 1 ] == 'G' )
    {
       // If the Case for this window is 1F or 1G (which means each Groupbox
@@ -2154,10 +2154,10 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       if ( nRC < zCURSOR_SET )
       {
          // Currently, it is an error if there is no UIS_Tab entry.
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUSSubEnt, "ER_Entity", "Name" );
-         strcpy_s( szMsg, sizeof( szMsg ), "A Tab dialog is requested but no Main Tab is defined for Entity: " );
-         strcat_s( szMsg, sizeof( szMsg ), szEntityName );
-         strcat_s( szMsg, sizeof( szMsg ), "." );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUSSubEnt, "ER_Entity", "Name" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "A Tab dialog is requested but no Main Tab is defined for Entity: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szEntityName );
+         strcat_s( szMsg, zsizeof( szMsg ), "." );
          MessageSend( vSubtask, "AD10214", "Autodesigner",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2170,9 +2170,9 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
          SetCursorFirstEntityByString( vPE, "ControlDef", "Tag", "TabCtl", "" );
          IncludeSubobjectFromSubobject( vNewDialog, "ControlDef", vPE, "ControlDef", zPOS_AFTER );
          lTabCnt++;
-         zltoa( lTabCnt, szTabCount, sizeof( szTabCount ) );
-         strcpy_s( szButtonText, sizeof( szButtonText ), "TabCtl" );
-         strcat_s( szButtonText, sizeof( szButtonText ), szTabCount );
+         zltoa( lTabCnt, szTabCount, zsizeof( szTabCount ) );
+         strcpy_s( szButtonText, zsizeof( szButtonText ), "TabCtl" );
+         strcat_s( szButtonText, zsizeof( szButtonText ), szTabCount );
          SetAttributeFromString( vNewDialog, "Control", "Tag",  szButtonText );
          if ( CompareAttributeToString( vUSSubEnt, "UIS_Tab", "Title", "" ) != 0 )
             SetAttributeFromAttribute( vNewDialog, "Control", "Text", vUSSubEnt,  "UIS_Tab", "Title" );
@@ -2253,7 +2253,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       ////////
 
       lButtonNbr++;
-      GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "OK" );
+      GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "OK" );
 
       // If this is a qualified list, the OK function transfers to the
       // MainListQual window. Otherwise it returns to parent.
@@ -2288,7 +2288,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       ////////
 
       lButtonNbr++;
-      GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "Cancel" );
+      GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "Cancel" );
       oTZADCSDO_CreateButtonActOper( vSubtask, vUSSubEnt, vNewDialog,
                                      vNewDialogRoot, vDefaults,
                                      szButtonText, "ESC",
@@ -2306,7 +2306,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       if ( CompareAttributeToString( vUSSubEnt, "WndDesign", "UpdateCreateAction", "Y" ) == 0 )
       {
          lButtonNbr++;
-         GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "New" );
+         GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "New" );
          oTZADCSDO_CreateButtonActOper( vSubtask, vUSSubEnt, vNewDialog,
                                         vNewDialogRoot, vDefaults,
                                         szButtonText, 0,
@@ -2323,7 +2323,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       if ( CompareAttributeToString( vUSSubEnt, "WndDesign", "UpdateDeleteAction", "Y" ) == 0 )
       {
          lButtonNbr++;
-         GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "Delete" );
+         GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "Delete" );
          oTZADCSDO_CreateButtonActOper( vSubtask, vUSSubEnt, vNewDialog,
                                         vNewDialogRoot, vDefaults,
                                         szButtonText, 0,
@@ -2342,7 +2342,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
            CompareAttributeToString( vAutoDesWk, "AutoDesignWork", "WDOD_Style", "L" ) == 0 )
       {
          lButtonNbr++;
-         GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "Next" );
+         GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "Next" );
          oTZADCSDO_CreateButtonActOper( vSubtask, vUSSubEnt, vNewDialog,
                                         vNewDialogRoot, vDefaults,
                                         szButtonText, 0,
@@ -2365,7 +2365,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
            CompareAttributeToString( vAutoDesWk, "AutoDesignWork", "WDOD_Style", "L" ) == 0 )
       {
          lButtonNbr++;
-         GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "Previous" );
+         GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "Previous" );
          oTZADCSDO_CreateButtonActOper( vSubtask, vUSSubEnt, vNewDialog,
                                         vNewDialogRoot, vDefaults,
                                         szButtonText, 0,
@@ -2389,7 +2389,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       ////////
 
       lButtonNbr++;
-      GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "OK" );
+      GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "OK" );
       oTZADCSDO_CreateButtonActObject( vSubtask, vUSSubEnt, vNewDialog,
                                        vNewDialogRoot, vDefaults, vObject,
                                        szButtonText, "Alt-F4", lButtonNbr, "S",
@@ -2401,7 +2401,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       ////////
 
       lButtonNbr++;
-      GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "Cancel" );
+      GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "Cancel" );
       oTZADCSDO_CreateButtonActObject( vSubtask, vUSSubEnt, vNewDialog,
                                        vNewDialogRoot, vDefaults, vObject,
                                        szButtonText, "ESC", lButtonNbr, "S",
@@ -2417,7 +2417,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       if ( CompareAttributeToString( vUSSubEnt, "WndDesign", "UpdateCreateAction", "Y" ) == 0 )
       {
          lButtonNbr++;
-         GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "New" );
+         GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "New" );
          // 33 is CreateNewTemporalEntityAfterAccept
          oTZADCSDO_CreateButtonActObject( vSubtask, vUSSubEnt, vNewDialog,
                                           vNewDialogRoot, vDefaults, vObject,
@@ -2432,7 +2432,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       if ( CompareAttributeToString( vUSSubEnt, "WndDesign", "UpdateDeleteAction", "Y" ) == 0 )
       {
          lButtonNbr++;
-         GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "Delete" );
+         GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "Delete" );
          // 268435460 is Delete with confirmation
          oTZADCSDO_CreateButtonActObject( vSubtask, vUSSubEnt, vNewDialog,
                                           vNewDialogRoot, vDefaults, vObject,
@@ -2449,7 +2449,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       if ( CompareAttributeToString( vUSSubEnt, "WndDesign", "UpdateNextAction", "Y" ) == 0 )
       {
          lButtonNbr++;
-         GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "Next" );
+         GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "Next" );
          oTZADCSDO_CreateButtonActObject( vSubtask, vUSSubEnt, vNewDialog,
                                           vNewDialogRoot, vDefaults, vObject,
                                           szButtonText, 0, lButtonNbr, "S",
@@ -2464,7 +2464,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       if ( CompareAttributeToString( vUSSubEnt, "WndDesign", "UpdatePrevAction", "Y" ) == 0 )
       {
          lButtonNbr++;
-         GetStringFromAttribute( szButtonText, sizeof( szButtonText ), vDefaults, "InitValues", "Previous" );
+         GetStringFromAttribute( szButtonText, zsizeof( szButtonText ), vDefaults, "InitValues", "Previous" );
          oTZADCSDO_CreateButtonActObject( vSubtask, vUSSubEnt, vNewDialog,
                                           vNewDialogRoot, vDefaults, vObject,
                                           szButtonText, 0, lButtonNbr, "S",
@@ -2510,7 +2510,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
       // The processing depends on the various Case Types: 1, 2, 3, 4
       ///////////////////////////////////////////////////////////////
 
-      GetStringFromAttribute( szCase, sizeof( szCase ), vUSSubEnt, "UIS_Entity", "AutodesignCaseType" );
+      GetStringFromAttribute( szCase, zsizeof( szCase ), vUSSubEnt, "UIS_Entity", "AutodesignCaseType" );
 
       // Add Tab Control if necessary.
       if ( (szParentCase[ 1 ] == 'F' || szParentCase[ 1 ] == 'G') &&
@@ -2522,9 +2522,9 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
          IncludeSubobjectFromSubobject( vNewDialog, "ControlDef",
                                         vPE,        "ControlDef", zPOS_AFTER );
          lTabCnt++;
-         zltoa( lTabCnt, szTabCount, sizeof( szTabCount ) );
-         strcpy_s( szButtonText, sizeof( szButtonText ), "TabCtl" );
-         strcat_s( szButtonText, sizeof( szButtonText ), szTabCount );
+         zltoa( lTabCnt, szTabCount, zsizeof( szTabCount ) );
+         strcpy_s( szButtonText, zsizeof( szButtonText ), "TabCtl" );
+         strcat_s( szButtonText, zsizeof( szButtonText ), szTabCount );
          SetAttributeFromString( vNewDialog, "Control", "Tag",  szButtonText );
 
          // We will initially set the Tab Text to the name of the entity.
@@ -2738,7 +2738,7 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
          while ( nRC >= zCURSOR_SET )
          {
             lTabIndex++;
-            zltoa( lTabIndex, szButtonSuffix, sizeof( szButtonSuffix ) );
+            zltoa( lTabIndex, szButtonSuffix, zsizeof( szButtonSuffix ) );
             SetViewToSubobject( vTgtButtonView, "CtrlCtrl" );  // View on Group
             // FOR EACH Button entity
             nRC = SetCursorFirstEntity( vSrcButtonView, "Control", "" );
@@ -2750,9 +2750,9 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
                   SetAttributeFromInteger( vTgtButtonView, "Control", "PSDLG_X", lMaxSizeX + 10 );
                   // We must add a suffix to make the Button Tags unique.
                   // Make sure the Tag is max 29 chars to make room for the suffix.
-                  GetStringFromAttribute( szButtonTag, sizeof( szButtonTag ), vTgtButtonView, "Control", "Tag" );
+                  GetStringFromAttribute( szButtonTag, zsizeof( szButtonTag ), vTgtButtonView, "Control", "Tag" );
                   szButtonTag[ 29 ] = 0;
-                  strcat_s( szButtonTag, sizeof( szButtonTag ), szButtonSuffix );
+                  strcat_s( szButtonTag, zsizeof( szButtonTag ), szButtonSuffix );
                   SetAttributeFromString( vTgtButtonView, "Control", "Tag", szButtonTag );
                }
 
@@ -2932,7 +2932,7 @@ ofnTZWDLGSO_LoadStyleInfo( zVIEW vSubtask, zVIEW vUserSpec,
 // TraceLineS("IN", "LoadStyleInfo" );
    GetViewByName( &vPainterObj, "TZPNTROO", vSubtask, zLEVEL_TASK );
    GetViewByName( &vAutoDesWk, "TZADWWKO", vSubtask, zLEVEL_TASK );
-   nZRetCode = GetStringFromAttribute( szStyleName, sizeof( szStyleName ), vPainterObj, "Palette", "UIS_Name" );
+   nZRetCode = GetStringFromAttribute( szStyleName, zsizeof( szStyleName ), vPainterObj, "Palette", "UIS_Name" );
    if ( szStyleName[ 0 ] == 0 )
    {
       MessageSend( vSubtask, "AD10201", "Autodesigner",
@@ -2948,9 +2948,9 @@ ofnTZWDLGSO_LoadStyleInfo( zVIEW vSubtask, zVIEW vUserSpec,
    nRC = SetCursorFirstEntityByString( vFileObj, "W_MetaDef", "Name", szStyleName, "" );
    if ( nRC <= zCURSOR_UNCHANGED )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "The user spec definition - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szStyleName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " does not exist!" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "The user spec definition - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szStyleName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " does not exist!" );
       MessageSend( vSubtask, "AD10202", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2963,8 +2963,8 @@ ofnTZWDLGSO_LoadStyleInfo( zVIEW vSubtask, zVIEW vUserSpec,
    nRC = ActivateMetaOI( vSubtask, &vUserSpec, vFileObj, zSOURCE_UIS_META, zSINGLE );
    if ( nRC == -1 )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "Check-out failed on dialog spec - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szStyleName );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "Check-out failed on dialog spec - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szStyleName );
       MessageSend( vSubtask, "AD10203", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2972,15 +2972,15 @@ ofnTZWDLGSO_LoadStyleInfo( zVIEW vSubtask, zVIEW vUserSpec,
    }
 
    SetNameForView( vUserSpec, "User_Spec", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szStyleName, sizeof( szStyleName ), vUserSpec, "UIS_LOD", "Name" );
+   GetStringFromAttribute( szStyleName, zsizeof( szStyleName ), vUserSpec, "UIS_LOD", "Name" );
    nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_LOD_META );
    nRC = SetCursorFirstEntityByString( vFileObj, "W_MetaDef",
                                        "Name", szStyleName, "" );
    if ( nRC <= zCURSOR_UNCHANGED )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "The object definition - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szStyleName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " does not exist!" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "The object definition - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szStyleName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " does not exist!" );
       MessageSend( vSubtask, "AD10204", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2991,8 +2991,8 @@ ofnTZWDLGSO_LoadStyleInfo( zVIEW vSubtask, zVIEW vUserSpec,
                          zSINGLE | zLEVEL_APPLICATION );
    if ( nRC == -1 )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "Check-out failed on Object - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szStyleName );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "Check-out failed on Object - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szStyleName );
       MessageSend( vSubtask, "AD10205", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3001,10 +3001,10 @@ ofnTZWDLGSO_LoadStyleInfo( zVIEW vSubtask, zVIEW vUserSpec,
 
    SetNameForView( vObjectObj, "LOD_Object", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vAutoDesWk, "AutoDesignWork", "ObjectEntityName" );
+   GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vAutoDesWk, "AutoDesignWork", "ObjectEntityName" );
    if ( zstrcmp( "", szWindowName ) == 0 )
    {
-      GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vNewDialog, "Window", "Tag" );
+      GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vNewDialog, "Window", "Tag" );
    }
 
    ResetView( vUserSpec );
@@ -3015,7 +3015,7 @@ ofnTZWDLGSO_LoadStyleInfo( zVIEW vSubtask, zVIEW vUserSpec,
    }
 
    ResetView( vUserSpec );
-   strcat_s( szEntityName, sizeof( szEntityName ), "" );
+   strcat_s( szEntityName, zsizeof( szEntityName ), "" );
    DefineHierarchicalCursor( vUserSpec, "UI_Spec" );
    if ( CompareAttributeToString( vAutoDesWk, "AutoDesignWork", "AutoDesignWDOD", "Y" ) == 0 )
    {
@@ -3037,7 +3037,7 @@ ofnTZWDLGSO_LoadStyleInfo( zVIEW vSubtask, zVIEW vUserSpec,
       if ( zstrcmp ( "UIS_Entity", szEntityName ) == 0 ||
            zstrcmp( "UIS_ChildEntity", szEntityName ) == 0 )
       {
-         GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
+         GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
          if ( zstrcmp( szWindowName, szWorkString ) == 0 )
          {
             bKeepLooping = 0;
@@ -3051,9 +3051,9 @@ ofnTZWDLGSO_LoadStyleInfo( zVIEW vSubtask, zVIEW vUserSpec,
    }
    if ( bKeepLooping == 1 )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "There is no entity in the user spec with the name " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szWindowName );
-      strcat_s( szWorkString, sizeof( szWorkString ), ".  Enter an existing name." );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "There is no entity in the user spec with the name " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szWindowName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), ". Enter an existing name." );
       MessageSend( vSubtask, "AD10206", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3353,8 +3353,8 @@ ofnTZWDLGSO_AddNewEntityToStyle( zVIEW   vSubtask,
    nRC = SetCursorFirstEntityByString( vFileObj, "W_MetaDef", "Name", szObjectName, "" );
    if ( nRC <= zCURSOR_UNCHANGED )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "There is no VOR with the name " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szObjectName );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "There is no VOR with the name " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szObjectName );
       MessageSend( vSubtask, "AD10207", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3369,9 +3369,9 @@ ofnTZWDLGSO_AddNewEntityToStyle( zVIEW   vSubtask,
    nRC = SetCursorFirstEntityByInteger( vFileObj, "W_MetaDef", "CPLR_ZKey", lZKey, "" );
    if ( nRC <= zCURSOR_UNCHANGED )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "The object definition - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szObjectName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " does not exist!" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "The object definition - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szObjectName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " does not exist!" );
       MessageSend( vSubtask, "AD10208", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3382,8 +3382,8 @@ ofnTZWDLGSO_AddNewEntityToStyle( zVIEW   vSubtask,
                                zSINGLE | zLEVEL_APPLICATION );
    if ( nRC == -1 )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "Check-out failed on object definition - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szObjectName );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "Check-out failed on object definition - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szObjectName );
       MessageSend( vSubtask, "AD10209", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3396,9 +3396,9 @@ ofnTZWDLGSO_AddNewEntityToStyle( zVIEW   vSubtask,
    nRC = SetCursorFirstEntityByString( vObjectObj, "LOD_Entity", "Name", szEntityName, "" );
    if ( nRC <= zCURSOR_UNCHANGED )
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "The entity name - " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " does not exist!" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "The entity name - " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " does not exist!" );
       MessageSend( vSubtask, "AD10210", "Autodesigner",
                    szWorkString,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );

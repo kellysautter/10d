@@ -455,11 +455,11 @@ AskForSave( zVIEW vSubtask )
       if ( !ComponentIsCheckedOut( vSubtask, vXSLT, zSOURCE_XSLT_META ) )
       {
          bSaveAs = TRUE;
-         GetStringFromAttribute( szXSLTName, sizeof( szXSLTName ), vXSLT, "XSLT", "Tag" );
-         strcpy_s( szMessageText, sizeof( szMessageText ), "XSLT is not checked out, but XSLT '" );
-         strcat_s( szMessageText, sizeof( szMessageText ), szXSLTName );
-         strcat_s( szMessageText, sizeof( szMessageText ), "' has been modified. \n\nWould you like to " );
-         strcat_s( szMessageText, sizeof( szMessageText ), "save it with differend name?" );
+         GetStringFromAttribute( szXSLTName, zsizeof( szXSLTName ), vXSLT, "XSLT", "Tag" );
+         strcpy_s( szMessageText, zsizeof( szMessageText ), "XSLT is not checked out, but XSLT '" );
+         strcat_s( szMessageText, zsizeof( szMessageText ), szXSLTName );
+         strcat_s( szMessageText, zsizeof( szMessageText ), "' has been modified. \n\nWould you like to " );
+         strcat_s( szMessageText, zsizeof( szMessageText ), "save it with differend name?" );
          nRC = MessagePrompt( vSubtask, "DM00115", "XSLT Maintenance",
                               szMessageText, zBEEP, zBUTTONS_YESNOCANCEL,
                               zRESPONSE_YES, zICON_QUESTION );
@@ -720,7 +720,7 @@ SystemActivate( zVIEW vSubtask )
       if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) > 0 )
       {
          GetApplDirectoryFromView( szWorkString, vKZWDLGXO, zAPPL_NAME,
-                                   sizeof( szWorkString ) - 1 );
+                                   zsizeof( szWorkString ) - 1 );
          if ( CompareAttributeToString( vTaskLPLR, "LPLR", "Name",
                                         szWorkString ) == 0 )
          {
@@ -735,13 +735,13 @@ SystemActivate( zVIEW vSubtask )
                                   vSubtask, zLEVEL_TASK );
                   DropNameForView( vSubtask, "__SysIdlePainter",
                                    0, zLEVEL_SYSTEM );
-                  GetStringFromAttribute( szWorkString, sizeof( szWorkString ),
+                  GetStringFromAttribute( szWorkString, zsizeof( szWorkString ),
                                           vKZWDLGXO, "Wnd", "Tag" );
                   GetViewByName( &vWindowList, "TZXSLTL", vSubtask, zLEVEL_TASK );
                   if ( SetCursorFirstEntityByString( vWindowList,
                        "Window", "Tag", szWorkString, 0 ) >= zCURSOR_SET )
                   {
-                     fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, szWorkString, sizeof( szWorkString ) );
+                     fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, szWorkString, zsizeof( szWorkString ) );
 //                   UpdateWindowFromList( vSubtask );
                   }
 
@@ -924,7 +924,7 @@ ValidateCtrlAndActionTags( zVIEW vSubtask, zVIEW vXSLT )
                       "(tzcmcvto) Duplicate control/action tags found in XSLT.Window: %s.%s",
                       pchDlg, pchWnd );
             TraceLineS( szTempString, "" );
-            strcat_s( szTempString, sizeof( szTempString ), "\n(see Zeidon trace for details)" );
+            strcat_s( szTempString, zsizeof( szTempString ), "\n(see Zeidon trace for details)" );
             MessageSend( vSubtask, "CM00815", "JSP Generation",
                          szTempString, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             return( TRUE );  // duplicates found
@@ -1008,18 +1008,18 @@ fnRecurseChangeDlgTags( zVIEW vXSLT )
    nRC = SetCursorFirstEntity( vXSLT, "Control", 0 );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vXSLT, "Control", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vXSLT, "Control", "Tag" );
       if ( szTag[ 0 ] == 0   ||
           (szTag[ 0 ] == 'T' &&
            szTag[ 1 ] == 'e' &&
            szTag[ 2 ] == 'x' &&
            szTag[ 3 ] == 't') )
       {
-         GetStringFromAttribute( szText, sizeof( szText ), vXSLT, "Control", "Text" );
+         GetStringFromAttribute( szText, zsizeof( szText ), vXSLT, "Control", "Text" );
          if ( szText[ 0 ] )
          {
             szText[ 32 ] = 0;
-            strcpy_s( szTag, sizeof( szTag ), szText );
+            strcpy_s( szTag, zsizeof( szTag ), szText );
          }
          else
          {
@@ -1028,7 +1028,7 @@ fnRecurseChangeDlgTags( zVIEW vXSLT )
                  CheckExistenceOfEntity( vXSLT, "CtrlMapLOD_Attribute" ) == 0 &&
                  CheckExistenceOfEntity( vXSLT, "CtrlMapER_Attribute" ) == 0 )
             {
-               GetStringFromAttribute( szText, sizeof( szText ), vXSLT,
+               GetStringFromAttribute( szText, zsizeof( szText ), vXSLT,
                                        "CtrlMapER_Attribute", "Name" );
             }
          }
@@ -1040,12 +1040,12 @@ fnRecurseChangeDlgTags( zVIEW vXSLT )
          if ( szText[ 0 ] )
          {
             // Give the tag a prefix.
-            GetStringFromAttribute( szTag, sizeof( szTag ), vXSLT, "ControlDef", "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vXSLT, "ControlDef", "Tag" );
             nCnt = fnGetTagPrefix( szTag );
             if ( nCnt )
                szText[ 32 - nCnt ] = 0;
 
-            strcpy_s( szTag + nCnt, sizeof( szTag + nCnt ), szText );
+            strcpy_s( szTag + nCnt, zsizeof( szTag + nCnt ), szText );
             SetAttributeFromString( vXSLT, "Control", "Tag", szTag );
          }
       }
@@ -1560,7 +1560,7 @@ InitMenu( zVIEW vSubtask )
       return( -1 );
    }
 
-   if ( fnPainterCall( zMSG_UNDO, vSubtask, 0, szLabel, sizeof( szLabel ) ) == 0 )
+   if ( fnPainterCall( zMSG_UNDO, vSubtask, 0, szLabel, zsizeof( szLabel ) ) == 0 )
    {
       SetOptionState( vSubtask, "Undo", zOPTION_STATUS_TEXT, (zULONG) szLabel );
       SetOptionState( vSubtask, "Undo", zOPTION_STATUS_ENABLED, 1 );
@@ -1571,7 +1571,7 @@ InitMenu( zVIEW vSubtask )
       SetOptionState( vSubtask, "Undo", zOPTION_STATUS_ENABLED, 0 );
    }
 
-   if ( fnPainterCall( zMSG_REDO, vSubtask, 0, szLabel, sizeof( szLabel ) ) == 0 )
+   if ( fnPainterCall( zMSG_REDO, vSubtask, 0, szLabel, zsizeof( szLabel ) ) == 0 )
    {
       SetOptionState( vSubtask, "Redo", zOPTION_STATUS_TEXT, (zULONG) szLabel );
       SetOptionState( vSubtask, "Redo", zOPTION_STATUS_ENABLED, 1 );
@@ -1604,17 +1604,17 @@ InitMenu( zVIEW vSubtask )
    SetOptionState( vSubtask, "AbutVertical", zOPTION_STATUS_ENABLED, 1 );
    SetOptionState( vSubtask, "AbutHorizontal", zOPTION_STATUS_ENABLED, 1 );
 
-   if ( fnPainterCall( zMSG_CLIPBOARD_COPY, vSubtask, 0, szLabel, sizeof( szLabel ) ) == 0 )
+   if ( fnPainterCall( zMSG_CLIPBOARD_COPY, vSubtask, 0, szLabel, zsizeof( szLabel ) ) == 0 )
       SetOptionState( vSubtask, "Copy", zOPTION_STATUS_ENABLED, 1 );
    else
       SetOptionState( vSubtask, "Copy", zOPTION_STATUS_ENABLED, 0 );
 
-   if ( fnPainterCall( zMSG_CLIPBOARD_PASTE, vSubtask, 0, szLabel, sizeof( szLabel ) ) == 0 )
+   if ( fnPainterCall( zMSG_CLIPBOARD_PASTE, vSubtask, 0, szLabel, zsizeof( szLabel ) ) == 0 )
       SetOptionState( vSubtask, "Paste", zOPTION_STATUS_ENABLED, 1 );
    else
       SetOptionState( vSubtask, "Paste", zOPTION_STATUS_ENABLED, 0 );
 
-   if ( fnPainterCall( zMSG_CLIPBOARD_PASTE_MENU, vSubtask, 0, szLabel, sizeof( szLabel ) ) == 0 )
+   if ( fnPainterCall( zMSG_CLIPBOARD_PASTE_MENU, vSubtask, 0, szLabel, zsizeof( szLabel ) ) == 0 )
       SetOptionState( vSubtask, "PasteMenu", zOPTION_STATUS_ENABLED, 1 );
    else
       SetOptionState( vSubtask, "PasteMenu", zOPTION_STATUS_ENABLED, 0 );
@@ -1901,9 +1901,9 @@ TZXSLTDD_CreatePanelList( zVIEW vSubtask,
       zCHAR  szDlgTag[ 33 ];
       zCHAR  szWndTag[ 33 ];
 
-      GetStringFromAttribute( szDlgTag, sizeof( szDlgTag ), vNewXSLT, "XSLT", "Tag" );
+      GetStringFromAttribute( szDlgTag, zsizeof( szDlgTag ), vNewXSLT, "XSLT", "Tag" );
       GetProfileStr( vSubtask, "Design", szDlgTag, "..Start",
-                     "Panel", szWndTag, sizeof( szWndTag ) );
+                     "Panel", szWndTag, zsizeof( szWndTag ) );
       if ( szWndTag[ 0 ] &&
            SetCursorFirstEntityByString( vNewXSLTL, "Panel", "Tag",
                                          szWndTag, "" ) == zCURSOR_SET )
@@ -1941,9 +1941,9 @@ TZXSLTDD_GenerateXSLT( zVIEW vSubtask )
    if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) < 0 )
       return( -1 );
 
-   SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemotePath", szRemotePath, sizeof( szRemotePath ) );
+   SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemotePath", szRemotePath, zsizeof( szRemotePath ) );
    if ( szRemotePath[ 0 ] == 0 )
-      GetStringFromAttribute( szRemotePath, sizeof( szRemotePath ), vTaskLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szRemotePath, zsizeof( szRemotePath ), vTaskLPLR, "LPLR", "ExecDir" );
 
    ofnTZCMWKSO_AppendSlash( szRemotePath );
 
@@ -1954,27 +1954,27 @@ TZXSLTDD_GenerateXSLT( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vMetaList, "W_MetaDef", "" ) )
    {
-      GetStringFromAttribute( szXSLTName, sizeof( szXSLTName ), vMetaList, "W_MetaDef", "Name" );
-      strcpy_s( szMsg, sizeof( szMsg ), "Generate XSLT for: '" );
-      strcat_s( szMsg, sizeof( szMsg ), szXSLTName );
-      strcat_s( szMsg, sizeof( szMsg ), "'." );
+      GetStringFromAttribute( szXSLTName, zsizeof( szXSLTName ), vMetaList, "W_MetaDef", "Name" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Generate XSLT for: '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szXSLTName );
+      strcat_s( szMsg, zsizeof( szMsg ), "'." );
       MB_SetMessage( vSubtask, 1, szMsg );
 
       if ( ActivateMetaOI( vSubtask, &vXSLT, vMetaList,
                            zREFER_XSLT_META, zSINGLE | zLEVEL_TASK ) != 1 )
 
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Could not load XSLT '" );
-         strcat_s( szMsg, sizeof( szMsg ), szXSLTName );
-         strcat_s( szMsg, sizeof( szMsg ), "'." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Could not load XSLT '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szXSLTName );
+         strcat_s( szMsg, zsizeof( szMsg ), "'." );
          MessageSend( vSubtask, "PN00219", "XSLT Maintenance", szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
       else
       {
-         strcpy_s( szFileSpec, sizeof( szFileSpec ), szRemotePath );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), szXSLTName );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), ".XRA" );
+         strcpy_s( szFileSpec, zsizeof( szFileSpec ), szRemotePath );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), szXSLTName );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XRA" );
 
       //xConvertXSLT( vMetaList, vXSLT, "", &vXRA );
 
@@ -1982,9 +1982,9 @@ TZXSLTDD_GenerateXSLT( zVIEW vSubtask )
          {
             if ( CommitOI_ToFile( vXRA, szFileSpec, zSINGLE ) != 0 )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to save XRA '" );
-               strcat_s( szMsg, sizeof( szMsg ), szRemotePath );
-               strcat_s( szMsg, sizeof( szMsg ), "'." );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to save XRA '" );
+               strcat_s( szMsg, zsizeof( szMsg ), szRemotePath );
+               strcat_s( szMsg, zsizeof( szMsg ), "'." );
                MessageSend( vSubtask, "CM00428", "XSLT Maintenance",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             }
@@ -2101,11 +2101,11 @@ UpdatePanelFromList( zVIEW vSubtask )
 
    // Get Address of window tag and see if there is an active painter
    // for the window
-   fnPainterCall( zMSG_GETACTIVEWINDOWNAME, vSubtask, 0, szTag, sizeof( szTag ) );
+   fnPainterCall( zMSG_GETACTIVEWINDOWNAME, vSubtask, 0, szTag, zsizeof( szTag ) );
    if ( szTag[ 0 ] == 0 )
       return( -1 );
 
-   nRC = (zSHORT) fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, szTag, sizeof( szTag ) );
+   nRC = (zSHORT) fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, szTag, zsizeof( szTag ) );
    return( 0 );
 }
 
@@ -2170,10 +2170,10 @@ NewPanel( zVIEW vSubtask )
    if ( (nCursor = CheckExistenceOfEntity( vXSLT, "Panel" )) !=
                                                             zCURSOR_NULL )
    {
-      strcpy_s( szTag, sizeof( szTag ), "Panel" );
+      strcpy_s( szTag, zsizeof( szTag ), "Panel" );
       for ( nIdx = 1; nIdx < 1000; nIdx++ )
       {
-         zltoa( (zLONG) nIdx, szTag + 6, sizeof( szTag ) - 6, 10 );
+         zltoa( (zLONG) nIdx, szTag + 6, zsizeof( szTag ) - 6, 10 );
          if ( SetCursorFirstEntityByString( vXSLT, "Panel", "Tag",
                                             szTag, 0 ) < zCURSOR_SET )
          {
@@ -2183,7 +2183,7 @@ NewPanel( zVIEW vSubtask )
    }
    else
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vXSLT, "XSLT", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vXSLT, "XSLT", "Tag" );
    }
 
    // If a dialog is currently being processed by the painter, update
@@ -2443,10 +2443,10 @@ DlgCloneWindow( zVIEW vSubtask )
    oTZWDLGSO_CloneWindow( vXSLT, vPanelList, vSubtask, vSubtask );
 
    // Generate a name for the new window
-   strcpy_s( szTag, sizeof( szTag ), "Window" );
+   strcpy_s( szTag, zsizeof( szTag ), "Window" );
    for ( nIdx = 1; nIdx < 1000; nIdx++ )
    {
-      zltoa((zLONG) nIdx, szTag + 6, sizeof( szTag ) - 6, 10 );
+      zltoa((zLONG) nIdx, szTag + 6, zsizeof( szTag ) - 6, 10 );
       if ( SetCursorFirstEntityByString( vPanelList, "Window", "Tag",
                                          szTag, 0 ) < zCURSOR_SET )
       {
@@ -2460,7 +2460,7 @@ DlgCloneWindow( zVIEW vSubtask )
       RefreshCtrl( vPanelList, "ListBox1" );
 #endif
 
-   return( (zSHORT) fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, szTag, sizeof( szTag ) ) );
+   return( (zSHORT) fnPainterCall( zMSG_UPDATEWINDOWBYNAME, vSubtask, 0, szTag, zsizeof( szTag ) ) );
 }
 #endif
 
@@ -2489,9 +2489,9 @@ CleanupActions( zVIEW vSubtask )
       zSHORT nLth2;
       zSHORT nRC;
 
-      strcpy_s( szTempString, sizeof( szTempString ), "Action unreferenced XSLT.Window.Action: " );
+      strcpy_s( szTempString, zsizeof( szTempString ), "Action unreferenced XSLT.Window.Action: " );
       nLth1 = (zSHORT) zstrlen( szTempString );
-      GetStringFromAttribute( szTempString + nLth1, sizeof( szTempString ) - nLth1,
+      GetStringFromAttribute( szTempString + nLth1, zsizeof( szTempString ) - nLth1,
                               vXSLT, "XSLT", "Tag" );
       nLth1 += (zSHORT) zstrlen( szTempString + nLth1 );
       szTempString[ nLth1++ ] = '.';
@@ -2509,13 +2509,13 @@ CleanupActions( zVIEW vSubtask )
             continue;
          }
 
-         GetStringFromAttribute( szTempString + nLth1, sizeof( szTempString ) - nLth1,
+         GetStringFromAttribute( szTempString + nLth1, zsizeof( szTempString ) - nLth1,
                                  vXSLT, "Window", "Tag" );
          nLth2 = (zSHORT) zstrlen( szTempString + nLth1 );
          szTempString[ nLth1 + nLth2++ ] = '.';
-         GetStringFromAttribute( szTempString + nLth1 + nLth2, sizeof( szTempString ) - nLth1 + nLth2,
+         GetStringFromAttribute( szTempString + nLth1 + nLth2, zsizeof( szTempString ) - nLth1 + nLth2,
                                  vXSLT, "Action", "Tag" );
-         strcat_s( szTempString + nLth1 + nLth2, sizeof( szTempString ) - nLth1 - nLth2, "\n Delete this action?" );
+         strcat_s( szTempString + nLth1 + nLth2, zsizeof( szTempString ) - nLth1 - nLth2, "\n Delete this action?" );
          nRC = MessagePrompt( vSubtask, "PE002",
                               "XSLT Maintenance",
                               szTempString,
@@ -2566,7 +2566,7 @@ CleanupOperations( zVIEW vSubtask )
       zSHORT nLth2;
       zSHORT nRC;
 
-      strcpy_s( szTempString, sizeof( szTempString ), "Operation unreferenced in XSLT - " );
+      strcpy_s( szTempString, zsizeof( szTempString ), "Operation unreferenced in XSLT - " );
       nLth = (zSHORT) zstrlen( szTempString );
       CreateViewFromViewForTask( &vXSLT, vXSLT, 0 );
       nRC = SetCursorFirstEntity( vXSLT, "Operation", "XSLT" );
@@ -2580,13 +2580,13 @@ CleanupOperations( zVIEW vSubtask )
             continue;
          }
 
-         GetStringFromAttribute( szTempString + nLth, sizeof( szTempString ) - nLth,
+         GetStringFromAttribute( szTempString + nLth, zsizeof( szTempString ) - nLth,
                                  vXSLT, "Window", "Tag" );
          nLth2 = (zSHORT) zstrlen( szTempString + nLth );
-         strcpy_s( szTempString + nLth + nLth2, sizeof( szTempString ) - nLth - nLth2, " - " );
+         strcpy_s( szTempString + nLth + nLth2, zsizeof( szTempString ) - nLth - nLth2, " - " );
          nLth2 += 3;
-         GetStringFromAttribute( szTempString + nLth + nLth2, sizeof( szTempString ) - nLth + nLth2, vXSLT, "Operation", "Name" );
-         strcat_s( szTempString + nLth + nLth2, sizeof( szTempString ) - nLth - nLth2, "\n Delete this operation?" );
+         GetStringFromAttribute( szTempString + nLth + nLth2, zsizeof( szTempString ) - nLth + nLth2, vXSLT, "Operation", "Name" );
+         strcat_s( szTempString + nLth + nLth2, zsizeof( szTempString ) - nLth - nLth2, "\n Delete this operation?" );
          if ( MessagePrompt( vSubtask, "PE002",
                              "XSLT Maintenance",
                              szTempString,
@@ -2653,7 +2653,7 @@ TZXSLTDD_CheckXSLTName( zVIEW   vSubtask,
    zVIEW   vMetaList;
    zVIEW   vLOD_LPLR;
 
-   GetStringFromAttribute( szXSLTName, sizeof( szXSLTName ), vPainter, "Palette", "NewFile" );
+   GetStringFromAttribute( szXSLTName, zsizeof( szXSLTName ), vPainter, "Palette", "NewFile" );
    if ( szXSLTName[ 0 ] == 0 )
    {
       MessageSend( vSubtask, "PN00202", "XSLT Maintenance",
@@ -2800,7 +2800,7 @@ DeleteWindow( zVIEW vSubtask )
    zCHAR  szTag[ 33 ];
    zCHAR  szMessage[ 100 ];
 
-   fnPainterCall( zMSG_GETACTIVEWINDOWNAME, vSubtask, 0, szTag, sizeof( szTag ) );
+   fnPainterCall( zMSG_GETACTIVEWINDOWNAME, vSubtask, 0, szTag, zsizeof( szTag ) );
    if ( szTag[ 0 ] == 0 )
       return( -1 );
 
@@ -2817,9 +2817,9 @@ DeleteWindow( zVIEW vSubtask )
    CreateViewFromViewForTask( &vXSLT2, vXSLT, 0 );
 
    // Make operator confirm the delete
-   strcpy_s( szMessage, sizeof( szMessage ), "OK to delete Window '" );
-   strcat_s( szMessage, sizeof( szMessage ), szTag );
-   strcat_s( szMessage, sizeof( szMessage ), "'?" );
+   strcpy_s( szMessage, zsizeof( szMessage ), "OK to delete Window '" );
+   strcat_s( szMessage, zsizeof( szMessage ), szTag );
+   strcat_s( szMessage, zsizeof( szMessage ), "'?" );
 
    if ( MessagePrompt( vSubtask, "PE002",
                        "XSLT Maintenance",
@@ -3078,7 +3078,7 @@ SortWindows( zVIEW vSubtask )
    zCHAR szSelected[ 34 ];
 
    GetViewByName( &vXSLT, "TZXSLTL", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szSelected, sizeof( szSelected ), vXSLT, "Window", "Tag" );
+   GetStringFromAttribute( szSelected, zsizeof( szSelected ), vXSLT, "Window", "Tag" );
    zgSortEntityWithinParent( zASCENDING, vXSLT, "Window", "Tag", "" );
    SetCursorFirstEntityByString( vXSLT, "Window", "Tag", szSelected, 0 );
    SetAllSelStatesForEntityForSet( vXSLT, "Window", 0, 1, 0 );
@@ -3103,7 +3103,7 @@ SortActionsForWindow( zVIEW vSubtask )
    zCHAR szSelected[ 34 ];
 
    GetViewByName( &vXSLT, "TZXSLT", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szSelected, sizeof( szSelected ), vXSLT, "Action", "Tag" );
+   GetStringFromAttribute( szSelected, zsizeof( szSelected ), vXSLT, "Action", "Tag" );
    zgSortEntityWithinParent( zASCENDING, vXSLT,
                              "Action", "Tag", "" );
    SetCursorFirstEntityByString( vXSLT, "Action", "Tag", szSelected, 0 );
@@ -3210,8 +3210,8 @@ fnBuildRecursSubOptions( zVIEW vSubtask, zVIEW vXSLT, zVIEW vOptionList,
          for ( nIdx = 0; nIdx <( 3 *(nLevel - 1) ); nIdx++ )
             szDisplayText[ nIdx ] = '.';
          szDisplayText[ nIdx ] = 0;
-         GetStringFromAttribute( szText, sizeof( szText ), vXSLT, "Option", "Text" );
-         strcat_s( szDisplayText, sizeof( szDisplayText ), szText );
+         GetStringFromAttribute( szText, zsizeof( szText ), vXSLT, "Option", "Text" );
+         strcat_s( szDisplayText, zsizeof( szDisplayText ), szText );
          CreateEntity( vOptionList, "Option", zPOS_AFTER );
          SetAttributeFromAttribute( vOptionList, "Option", "ZKey",
                                     vXSLT, "Option", "ZKey" );
@@ -3393,7 +3393,7 @@ LIST_MENU_Prebuild( zVIEW vSubtask )
    // Set the caption for the window
    if ( GetViewByName( &vXSLT, "TZXSLT", vSubtask, zLEVEL_TASK ) > 0 )
    {
-      GetStringFromAttribute( szTempString, sizeof( szTempString ), vXSLT, "Window", "Tag");
+      GetStringFromAttribute( szTempString, zsizeof( szTempString ), vXSLT, "Window", "Tag");
       SetWindowCaptionTitle( vSubtask, 0, szTempString );
    }
    else
@@ -3419,10 +3419,10 @@ LIST_MENU_OK( zVIEW vSubtask )
       {
          if ( CheckExistenceOfEntity( vXSLT, "Option" ) < zCURSOR_SET )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Menu item, " );
-            GetStringFromAttribute( szMenuName, sizeof( szMenuName ), vXSLT, "Menu", "Tag" );
-            strcat_s( szMsg, sizeof( szMsg ), szMenuName );
-            strcat_s( szMsg, sizeof( szMsg ), ", must have at least one Option" );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Menu item, " );
+            GetStringFromAttribute( szMenuName, zsizeof( szMenuName ), vXSLT, "Menu", "Tag" );
+            strcat_s( szMsg, zsizeof( szMsg ), szMenuName );
+            strcat_s( szMsg, zsizeof( szMsg ), ", must have at least one Option" );
             MessageSend( vSubtask, "PN00222", "XSLT Maintenance",
                          szMsg,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
@@ -3469,7 +3469,7 @@ UPD_MENU_Prebuild( zVIEW vSubtask )
    fnPositionOnZeidonOption( vOptions, vOptionList, vSubtask );
 
    // Set the caption for the window
-   GetStringFromAttribute( szTempString, sizeof( szTempString ), vXSLT, "Window", "Tag");
+   GetStringFromAttribute( szTempString, zsizeof( szTempString ), vXSLT, "Window", "Tag");
    SetWindowCaptionTitle( vSubtask, 0, szTempString );
 
    return( 0 );
@@ -3840,7 +3840,7 @@ oTZXSLTDD_CloneOption( zVIEW    NewWO,
    {
       if ( CompareAttributeToString( OrigWO, "OptAct", "Tag", "" ) != 0 )
       {
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OrigWO, "OptAct", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OrigWO, "OptAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( NewW, "Action", "Tag", szTempString_0, "" );
          if ( RESULT >= 0 )
          {
@@ -4091,10 +4091,10 @@ UPD_MENU_OptionAdd( zVIEW vSubtask )
 
    for ( nWork = 1; nWork < 1000; nWork++ )
    {
-      zltoa( nWork, szWork, sizeof( szWork ), 10 );
+      zltoa( nWork, szWork, zsizeof( szWork ), 10 );
 
-      strcpy_s( szTag, sizeof( szTag ), "New" );
-      strcat_s( szTag, sizeof( szTag ), szWork );
+      strcpy_s( szTag, zsizeof( szTag ), "New" );
+      strcat_s( szTag, zsizeof( szTag ), szWork );
 
       SetViewFromView( vRecursOptions, vTmpOptions );
       // Now make sure that the tag is unique
@@ -4310,15 +4310,15 @@ UPD_MENU_OptionDelete( zVIEW vSubtask )
    GetViewByName( &vOptions, "TZXSLTOPT", vSubtask, zLEVEL_TASK );
    GetViewByName( &vXSLT, "TZXSLT", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szMenuItem, sizeof( szMenuItem ), vOptions, "Option", "Text" );
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Menu Item '" );
-   strcat_s( szMsg, sizeof( szMsg ), szMenuItem );
-   strcat_s( szMsg, sizeof( szMsg ), "'" );
+   GetStringFromAttribute( szMenuItem, zsizeof( szMenuItem ), vOptions, "Option", "Text" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Menu Item '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szMenuItem );
+   strcat_s( szMsg, zsizeof( szMsg ), "'" );
    // check SubItems
    if ( CheckExistenceOfEntity( vOptions, "OptOpt" ) >= zCURSOR_SET )
-      strcat_s( szMsg, sizeof( szMsg ), " with all Subitems?" );
+      strcat_s( szMsg, zsizeof( szMsg ), " with all Subitems?" );
    else
-      strcat_s( szMsg, sizeof( szMsg ), "?" );
+      strcat_s( szMsg, zsizeof( szMsg ), "?" );
 
    if ( MessagePrompt( vSubtask, "", "XSLT Maintenance",
                        szMsg, 0, zBUTTONS_YESNO, zRESPONSE_NO,
@@ -4379,7 +4379,7 @@ UPD_MENU_OK( zVIEW vSubtask )
    }
 
    CreateViewFromViewForTask( &vXSLTCopy, vXSLT, 0 );
-   GetStringFromAttribute( szTag, sizeof( szTag ), vXSLT, "Menu", "Tag" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vXSLT, "Menu", "Tag" );
    nRC = SetCursorFirstEntityByString( vXSLTCopy, "Menu", "Tag", szTag, "" );
    nRC = SetCursorNextEntityByString( vXSLTCopy, "Menu", "Tag", szTag, "" );
    DropView( vXSLTCopy );
@@ -4489,7 +4489,7 @@ LIST_HK_Prebuild( zVIEW vSubtask )
    // Set the caption for the window
    if ( GetViewByName( &vXSLT, "TZXSLT", vSubtask, zLEVEL_TASK ) > 0 )
    {
-      GetStringFromAttribute( szTempString, sizeof( szTempString ), vXSLT, "Window", "Tag" );
+      GetStringFromAttribute( szTempString, zsizeof( szTempString ), vXSLT, "Window", "Tag" );
       SetWindowCaptionTitle( vSubtask, 0, szTempString );
    }
    else
@@ -4644,7 +4644,7 @@ InitVkey( zVIEW vSubtask )
    SetAttributeFromInteger( vXSLT, "Hotkey", "VKey", ac.uVK );
 
    // Put the window name in the caption.
-   GetStringFromAttribute( szTempString, sizeof( szTempString ), vXSLT, "Window", "Tag");
+   GetStringFromAttribute( szTempString, zsizeof( szTempString ), vXSLT, "Window", "Tag");
    SetWindowCaptionTitle( vSubtask, 0, szTempString );
 
    return( 0 );
@@ -5604,7 +5604,7 @@ fnWndUpdate( zVIEW vSubtask, zBOOL bStayOnWindow )
    // If the window name was changed, set the appropriate new name in
    // the painter's active list UNLESS a duplicate name was created, if
    // a duplicate name is created, issue an ERROR.
-   GetStringFromAttribute( szNewTag, sizeof( szNewTag ), vXSLT, "Window", "Tag" );
+   GetStringFromAttribute( szNewTag, zsizeof( szNewTag ), vXSLT, "Window", "Tag" );
    if ( szNewTag[ 0 ] == 0 ||
         (SetCursorFirstEntityByString( vXSLTL, "Window", "Tag",
                                        szNewTag, 0 ) == zCURSOR_SET &&
@@ -5650,7 +5650,7 @@ fnWndUpdate( zVIEW vSubtask, zBOOL bStayOnWindow )
       SetViewReadOnly( vXSLT );
 
    // Tell the painter to update the window name if appropriate
-   fnPainterCall( zMSG_UPDATEACTIVEWINDOWNAME, vSubtask, 0, szNewTag, sizeof( szNewTag ) );
+   fnPainterCall( zMSG_UPDATEACTIVEWINDOWNAME, vSubtask, 0, szNewTag, zsizeof( szNewTag ) );
 
 #ifndef __WIN32__
    // Refresh the window list in the event the window name has changed
@@ -5808,12 +5808,12 @@ WND_UPD_OperationEdit( zVIEW vSubtask )
    if ( CheckExistenceOfEntity( vWork, "EventAct" ) == zCURSOR_SET &&
         CompareAttributeToString( vWork, "EventAct", "Tag", "" ) != 0 )
    {
-      GetStringFromAttribute( sTag, sizeof( sTag ), vWork, "EventAct", "Tag" );
+      GetStringFromAttribute( sTag, zsizeof( sTag ), vWork, "EventAct", "Tag" );
       SetCursorFirstEntityByString( vXSLTW, "Action", "Tag", sTag, "" );
 
       if ( CheckExistenceOfEntity( vXSLTW, "ActOper" ) >= zCURSOR_SET )
       {
-         GetStringFromAttribute( sTag, sizeof( sTag ), vXSLTW, "ActOper", "Name" );
+         GetStringFromAttribute( sTag, zsizeof( sTag ), vXSLTW, "ActOper", "Name" );
          SetCursorFirstEntityByString( vXSLTW, "Operation", "Name", sTag, "XSLT" );
          TransferToEditor( vSubtask, vXSLTW, "PN", 0 );
       }
@@ -5860,7 +5860,7 @@ WND_UPD_UpdateAction( zVIEW vSubtask )
    if ( (CheckExistenceOfEntity( vWork, "EventAct" ) == zCURSOR_SET) &&
         (CompareAttributeToString( vWork, "EventAct", "Tag", "" ) != 0) )
    {
-      GetStringFromAttribute( sTag, sizeof( sTag ), vWork, "EventAct", "Tag" );
+      GetStringFromAttribute( sTag, zsizeof( sTag ), vWork, "EventAct", "Tag" );
       SetCursorFirstEntityByString( vXSLTW, "Action", "Tag", sTag, "" );
       CreateTemporalSubobjectVersion( vXSLTW, "Action" );
    }
@@ -5971,10 +5971,10 @@ OPT_UPD_OK( zVIEW vSubtask )
    zCHAR   szEntityName[ 33 ];
 
    GetViewByName( &vXSLTO, "TZXSLTOPT", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szTag, sizeof( szTag ), vXSLTO, "Option", "NLS_Text" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vXSLTO, "Option", "NLS_Text" );
 
    // Make sure that the option tag is unique
-   GetStringFromAttribute( szTag, sizeof( szTag ), vXSLTO, "Option", "Tag" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vXSLTO, "Option", "Tag" );
    CreateViewFromViewForTask( &vTmpOptions, vXSLTO, 0 );
    while ( ResetViewFromSubobject( vTmpOptions ) == 0 )
    {
@@ -6202,7 +6202,7 @@ OPT_UPD_OperationEdit( zVIEW vSubtask )
    if ( CheckExistenceOfEntity( vXSLTC, "EventAct" ) == zCURSOR_SET &&
         CompareAttributeToString( vXSLTC, "EventAct", "Tag", "" ) != 0 )
    {
-      GetStringFromAttribute( sTag, sizeof( sTag ), vXSLTC, "EventAct", "Tag" );
+      GetStringFromAttribute( sTag, zsizeof( sTag ), vXSLTC, "EventAct", "Tag" );
       SetCursorFirstEntityByString( vXSLTW, "Action", "Tag", sTag, "" );
 
       if ( CheckExistenceOfEntity( vXSLTW, "ActOper" ) == zCURSOR_SET )
@@ -7436,7 +7436,7 @@ fnResetTagsR( zVIEW vXSLT )
    nRC = SetCursorFirstEntity( vXSLT, "Control", "" );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vXSLT, "Control", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vXSLT, "Control", "Tag" );
       nLth = (zSHORT) zstrlen( szTag );
       if ( nLth > 0 && szTag[ nLth - 1 ] >= '0' && szTag[ nLth - 1 ] <= '9' )
          nLth--;
@@ -7606,7 +7606,7 @@ SaveCtrlList( zVIEW vSubtask )
       {
          zCHAR szTag[ 33 ];
 
-         if ( GetCtrlText( vSubtask, "Tag", szTag, sizeof( szTag ) ) == 0 )
+         if ( GetCtrlText( vSubtask, "Tag", szTag, zsizeof( szTag ) ) == 0 )
             OL_SetTextForCurrentItem( vSubtask, "CtrlList", szTag );
 
          CtrlListSaveStyleFlags( vSubtask, vControl );
@@ -7966,7 +7966,7 @@ CtrlListUpdateAction( zVIEW vSubtask )
    if ( (CheckExistenceOfEntity( vWork, "EventAct" ) == zCURSOR_SET) &&
         (CompareAttributeToString( vWork, "EventAct", "Tag", "" ) != 0) )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vWork, "EventAct", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vWork, "EventAct", "Tag" );
       SetCursorFirstEntityByString( vXSLTW, "Action", "Tag", szTag, "" );
       CreateTemporalSubobjectVersion( vXSLTW, "Action" );
    }
@@ -8240,12 +8240,12 @@ ChgCtrlPostbuild( zVIEW vSubtask )
       zSHORT nPrevSelSet;
       zSHORT nRC;
 
-      GetStringFromAttribute( szTag, sizeof( szTag ), vPE, "ControlDef", "Tag" );
-      GetStringFromAttribute( szAcceptsAllParents, sizeof( szAcceptsAllParents ), vPE,
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vPE, "ControlDef", "Tag" );
+      GetStringFromAttribute( szAcceptsAllParents, zsizeof( szAcceptsAllParents ), vPE,
                               "ControlDef", "AcceptsAllParents" );
-      GetStringFromAttribute( szAcceptsAllChildren, sizeof( szAcceptsAllChildren ), vPE,
+      GetStringFromAttribute( szAcceptsAllChildren, zsizeof( szAcceptsAllChildren ), vPE,
                               "ControlDef", "AcceptsAllChildren" );
-      GetStringFromAttribute( szRequiresParent, sizeof( szRequiresParent ), vPE,
+      GetStringFromAttribute( szRequiresParent, zsizeof( szRequiresParent ), vPE,
                               "ControlDef", "RequiresParent" );
       GetIntegerFromAttribute( &lKey, vPE,
                                "ControlDef", "Key" );
@@ -8271,12 +8271,12 @@ ChgCtrlPostbuild( zVIEW vSubtask )
                                   "ControlDef", "Key" );
          if ( lCurrKey != lKey )
          {
-            GetStringFromAttribute( szCurrTag, sizeof( szCurrTag ), vPE, "ControlDef", "Tag" );
-            GetStringFromAttribute( szCurrAcceptsAllParents, sizeof( szCurrAcceptsAllParents ), vPE,
+            GetStringFromAttribute( szCurrTag, zsizeof( szCurrTag ), vPE, "ControlDef", "Tag" );
+            GetStringFromAttribute( szCurrAcceptsAllParents, zsizeof( szCurrAcceptsAllParents ), vPE,
                                     "ControlDef", "AcceptsAllParents" );
-            GetStringFromAttribute( szCurrAcceptsAllChildren, sizeof( szCurrAcceptsAllChildren ), vPE,
+            GetStringFromAttribute( szCurrAcceptsAllChildren, zsizeof( szCurrAcceptsAllChildren ), vPE,
                                     "ControlDef", "AcceptsAllChildren" );
-            GetStringFromAttribute( szCurrRequiresParent, sizeof( szCurrRequiresParent ), vPE,
+            GetStringFromAttribute( szCurrRequiresParent, zsizeof( szCurrRequiresParent ), vPE,
                                     "ControlDef", "RequiresParent" );
             GetIntegerFromAttribute( &lCurrInvisible, vPE,
                                      "ControlDef", "Invisible" );
@@ -8378,14 +8378,14 @@ ChgCtrlChangeType( zVIEW vSubtask )
       zCHAR  szMsg[ 512 ];
       zSHORT nPrevSelSet;
 
-      GetStringFromAttribute( szTag, sizeof( szTag ), vPE, "ControlDef", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vPE, "ControlDef", "Tag" );
 
       nPrevSelSet = SetSelectSetForView( vPE, 4 );
       SetCursorFirstSelectedEntity( vPE, "ControlDef", 0 );
-      GetStringFromAttribute( szNewTag, sizeof( szNewTag ), vPE, "ControlDef", "Tag" );
+      GetStringFromAttribute( szNewTag, zsizeof( szNewTag ), vPE, "ControlDef", "Tag" );
       SetSelectSetForView( vPE, nPrevSelSet );
 
-      sprintf_s( szMsg, sizeof( szMsg ),
+      sprintf_s( szMsg, zsizeof( szMsg ),
                 "OK to change control type from: \"%s\" to \"%s\"?\n"
                 "N.B.  This is a provisional implementation and the\n"
                 "integrity of the changed control cannot be guaranteed\n"
@@ -8642,10 +8642,10 @@ CtrlListDeleteCtrl( zVIEW vSubtask )
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
    if ( vControl )
    {
-      GetStringFromAttribute( szCtrlTag, sizeof( szCtrlTag ), vControl, "Control", "Tag" );
-      strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Control '" );
-      strcat_s( szMsg, sizeof( szMsg ), szCtrlTag );
-      strcat_s( szMsg, sizeof( szMsg ), "'?" );
+      GetStringFromAttribute( szCtrlTag, zsizeof( szCtrlTag ), vControl, "Control", "Tag" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Control '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szCtrlTag );
+      strcat_s( szMsg, zsizeof( szMsg ), "'?" );
       if ( MessagePrompt( vSubtask, "PE002",
                           "XSLT Maintenance",
                           szMsg, zBEEP, zBUTTONS_YESNO,
@@ -8744,8 +8744,8 @@ fnPositionOnVOR( zVIEW     vTgt,
                                              "Name", pchViewName, 0 );
          if ( nRC < 0 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Window has mapping with no VOR: " );
-            strcat_s( szMsg, sizeof( szMsg ), pchViewName );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Window has mapping with no VOR: " );
+            strcat_s( szMsg, zsizeof( szMsg ), pchViewName );
             MessageSend( vSubtask, "WD00207", "Named View Clone", szMsg,
                          zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
             DropView( vVOR_List );
@@ -8753,7 +8753,7 @@ fnPositionOnVOR( zVIEW     vTgt,
             return( -1 );
          }
 
-         GetStringFromAttribute( szName, sizeof( szName ), vSrc, "LOD", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vSrc, "LOD", "Name" );
          nRC = SetCursorFirstEntityByString( vLOD_List, "W_MetaDef",
                                              "Name", szName, 0 );
          if ( nRC >= 0 )
@@ -8774,8 +8774,8 @@ fnPositionOnVOR( zVIEW     vTgt,
          {
             GetVariableFromAttribute( szName, 0, 'S', 33,
                                       vSrc, "LOD", "Name", "", 0 );
-            strcpy_s( szMsg, sizeof( szMsg ), "Non-existent LOD: " );
-            strcat_s( szMsg, sizeof( szMsg ), szName );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Non-existent LOD: " );
+            strcat_s( szMsg, zsizeof( szMsg ), szName );
             MessageSend( vSubtask, "WD00208", "Named View Clone",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
             DropView( vVOR_List );
@@ -8809,7 +8809,7 @@ fnCloneActMap( zVIEW     vSrcLPLR,
    SetMatchingAttributesByName( vTgt, "ActMap", vSrc, "ActMap", zSET_NULL );
    if ( CheckExistenceOfEntity( vSrc, "ActMapView" ) >= 0 )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vSrc, "ActMapView", "Name" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vSrc, "ActMapView", "Name" );
       if ( fnPositionOnVOR( vTgt, vSrc, vSrcLPLR, szTag, vSubtask ) >= 0 )
       {
          IncludeSubobjectFromSubobject( vTgt, "ActMapView",
@@ -8821,7 +8821,7 @@ fnCloneActMap( zVIEW     vSrcLPLR,
       }
 
       RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
-      GetStringFromAttribute( szTag, sizeof( szTag ), vTgt, "LOD", "Name" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vTgt, "LOD", "Name" );
       nRC = SetCursorFirstEntityByString( vLOD_List, "W_MetaDef",
                                           "Name", szTag, 0 );
       if ( GetViewByName( &vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK ) > 0 )
@@ -8832,7 +8832,7 @@ fnCloneActMap( zVIEW     vSrcLPLR,
       DropView( vLOD_List );
       if ( CheckExistenceOfEntity( vSrc, "ActMapLOD_Entity" ) >= 0 )
       {
-         GetStringFromAttribute( szTag, sizeof( szTag ), vSrc, "ActMapLOD_Entity", "Name" );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vSrc, "ActMapLOD_Entity", "Name" );
          nRC = SetCursorFirstEntityByString( vLOD, "LOD_Entity",
                                              "Name", szTag, 0 );
          if ( nRC >= 0 )
@@ -8844,8 +8844,8 @@ fnCloneActMap( zVIEW     vSrcLPLR,
          {
             GetVariableFromAttribute( szTag, 0, 'S', 33, vSrc,
                                       "ActMapLOD_Entity", "Name", "", 0 );
-            strcpy_s( szMsg, sizeof( szMsg ), "LOD_Entity doesn't exist: " );
-            strcat_s( szMsg, sizeof( szMsg ), szTag );
+            strcpy_s( szMsg, zsizeof( szMsg ), "LOD_Entity doesn't exist: " );
+            strcat_s( szMsg, zsizeof( szMsg ), szTag );
             MessageSend( vSubtask, "WD00214", "XSLT Clone", szMsg,
                          zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
          }
@@ -8871,7 +8871,7 @@ fnCloneAction( zVIEW     vSrcLPLR,
    zCHAR     szTag[ 33 ];
    zSHORT    nRC;
 
-   GetStringFromAttribute( szTag, sizeof( szTag ), vSrc, "Action", "Tag" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vSrc, "Action", "Tag" );
    nRC = SetCursorFirstEntityByString( vTgt, "Action", "Tag", szTag, 0 );
    if ( nRC >= zCURSOR_SET )
    {
@@ -8895,7 +8895,7 @@ fnCloneAction( zVIEW     vSrcLPLR,
 
    if ( CheckExistenceOfEntity( vSrc, "ActOper" ) == 0 )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vSrc, "ActOper", "Name" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vSrc, "ActOper", "Name" );
       nRC = SetCursorFirstEntityByString( vTgt, "Operation", "Name",
                                           szTag, "XSLT" );
       if ( nRC < zCURSOR_SET )
@@ -8916,10 +8916,10 @@ fnCloneAction( zVIEW     vSrcLPLR,
                lLth = zstrlen( szSourceName );
                if ( lLth >= 8 )
                {
-                  strcpy_s( szSourceName, sizeof( szSourceName ), szSourceName );
+                  strcpy_s( szSourceName, zsizeof( szSourceName ), szSourceName );
                }
 
-               strcat_s( szSourceName, sizeof( szSourceName ), szLanguageType );
+               strcat_s( szSourceName, zsizeof( szSourceName ), szLanguageType );
             }
 
             CreateMetaEntity( vSubtask, vTgt, "SourceFile", zPOS_AFTER );
@@ -8939,7 +8939,7 @@ fnCloneAction( zVIEW     vSrcLPLR,
             }
          }
 
-         GetStringFromAttribute( szTag, sizeof( szTag ), vSrc, "ActOper", "Name" );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vSrc, "ActOper", "Name" );
          nRC = SetCursorFirstEntityByString( vSrc, "Operation",
                                              "Name", szTag, "XSLT" );
          CreateMetaEntity( vSubtask, vTgt, "Operation", zPOS_AFTER );
@@ -8976,7 +8976,7 @@ fnCtrlAttributeMapping( zVIEW  vSubtask,
    zLONG     lZKey;
    zSHORT    nRC;
 
-   GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "CtrlMapER_Attribute", "Name" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlMapER_Attribute", "Name" );
    nRC = SetCursorFirstEntityByString( vLOD, "ER_Attribute", "Name",
                                        szTag, "LOD_Entity" );
    if ( nRC >= 0 )
@@ -8991,14 +8991,14 @@ fnCtrlAttributeMapping( zVIEW  vSubtask,
          nRC = SetCursorFirstEntityByInteger( vSrcLPLR, "W_MetaDef",
                                               "CPLR_ZKey", lZKey, 0 );
          RetrieveViewForMetaList( vSubtask, &vDomainList, zREFER_DOMAIN_META );
-         GetStringFromAttribute( szTag, sizeof( szTag ), vSrcLPLR, "W_MetaDef", "Name" );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcLPLR, "W_MetaDef", "Name" );
          nRC = SetCursorFirstEntityByString( vDomainList, "W_MetaDef",
                                              "Name", szTag, 0 );
          if ( nRC >= 0 )
          {
             ActivateMetaOI( vSubtask, &vDomain, vDomainList,
                             zREFER_DOMAIN_META, zSINGLE );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "CtrlMapContext", "Name" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlMapContext", "Name" );
             nRC = SetCursorFirstEntityByString( vDomain, "Context", "Name",
                                                 szTag, 0 );
             if ( nRC >= 0 )
@@ -9010,13 +9010,13 @@ fnCtrlAttributeMapping( zVIEW  vSubtask,
             {
                GetVariableFromAttribute( szTag, 0, 'S', 33, vSrcC,
                                          "CtrlMapContext", "Name", "", 0 );
-               strcpy_s( szMsg, sizeof( szMsg ), "Context doesn't exist within Domain: " );
-               strcat_s( szMsg, sizeof( szMsg ), szTag );
-               strcat_s( szMsg, sizeof( szMsg ), ", " );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Context doesn't exist within Domain: " );
+               strcat_s( szMsg, zsizeof( szMsg ), szTag );
+               strcat_s( szMsg, zsizeof( szMsg ), ", " );
                GetVariableFromAttribute( szTag, 0, 'S', 33,
                                          vSrcLPLR, "W_MetaDef",
                                          "Name", "", 0 );
-               strcat_s( szMsg, sizeof( szMsg ), szTag );
+               strcat_s( szMsg, zsizeof( szMsg ), szTag );
                MessageSend( vSubtask, "WD00211", "XSLT Clone",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
             }
@@ -9027,8 +9027,8 @@ fnCtrlAttributeMapping( zVIEW  vSubtask,
          {
             GetVariableFromAttribute( szTag, 0, 'S', 33, vSrcLPLR,
                                       "W_MetaDef", "Name", "", 0 );
-            strcpy_s( szMsg, sizeof( szMsg ), "Domain doesn't exist: " );
-            strcat_s( szMsg, sizeof( szMsg ), szTag );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Domain doesn't exist: " );
+            strcat_s( szMsg, zsizeof( szMsg ), szTag );
             MessageSend( vSubtask, "WD00212", "XSLT Clone",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
          }
@@ -9040,8 +9040,8 @@ fnCtrlAttributeMapping( zVIEW  vSubtask,
    {
       GetVariableFromAttribute( szTag, 0, 'S', 33, vSrcC,
                                 "CtrlMapER_Attribute", "Name", "", 0 );
-      strcpy_s( szMsg, sizeof( szMsg ), "ER_Attribute doesn't exist: " );
-      strcat_s( szMsg, sizeof( szMsg ), szTag );
+      strcpy_s( szMsg, zsizeof( szMsg ), "ER_Attribute doesn't exist: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szTag );
       MessageSend( vSubtask, "WD00213", "XSLT Clone", szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
    }
@@ -9068,7 +9068,7 @@ fnCloneCtrlMap( zVIEW     vTgt,
                                 vSrcC, "CtrlMap", zSET_NULL );
    if ( CheckExistenceOfEntity( vSrcC, "CtrlMapView" ) >= 0 )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "CtrlMapView", "Name" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlMapView", "Name" );
       if ( fnPositionOnVOR( vTgt, vSrc, vSrcLPLR, szTag, vSubtask ) >= 0 )
       {
          IncludeSubobjectFromSubobject( vTgtC, "CtrlMapView",
@@ -9080,7 +9080,7 @@ fnCloneCtrlMap( zVIEW     vTgt,
       }
 
       RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
-      GetStringFromAttribute( szTag, sizeof( szTag ), vTgt, "LOD", "Name" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vTgt, "LOD", "Name" );
       nRC = SetCursorFirstEntityByString( vLOD_List, "W_MetaDef",
                                           "Name", szTag, 0 );
       if ( GetViewByName( &vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK ) > 0 )
@@ -9094,7 +9094,7 @@ fnCloneCtrlMap( zVIEW     vTgt,
    if ( CheckExistenceOfEntity( vSrcC, "CtrlMapLOD_Entity" ) >= 0 )
    {
       GetViewByName( &vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "CtrlMapLOD_Entity", "Name" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlMapLOD_Entity", "Name" );
       nRC = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name",
                                           szTag, 0 );
       if ( nRC >= 0 )
@@ -9106,8 +9106,8 @@ fnCloneCtrlMap( zVIEW     vTgt,
       {
          GetVariableFromAttribute( szTag, 0, 'S', 33, vSrcC,
                                    "CtrlMapLOD_Entity", "Name", "", 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "LOD_Entity doesn't exist: " );
-         strcat_s( szMsg, sizeof( szMsg ), szTag );
+         strcpy_s( szMsg, zsizeof( szMsg ), "LOD_Entity doesn't exist: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szTag );
          MessageSend( vSubtask, "WD00209", "Control Clone",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
       }
@@ -9115,7 +9115,7 @@ fnCloneCtrlMap( zVIEW     vTgt,
 
    if ( CheckExistenceOfEntity( vSrcC, "CtrlMapLOD_Attribute" ) >= 0 )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "CtrlMapRelatedEntity", "Name" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlMapRelatedEntity", "Name" );
       nRC = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name",
                                           szTag, 0 );
       if ( nRC >= 0 )
@@ -9126,8 +9126,8 @@ fnCloneCtrlMap( zVIEW     vTgt,
       {
          GetVariableFromAttribute( szTag, 0, 'S', 33, vSrcC,
                                    "CtrlMapRelatedEntity", "Name", "", 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "LOD_Entity doesn't exist: " );
-         strcat_s( szMsg, sizeof( szMsg ), szTag );
+         strcpy_s( szMsg, zsizeof( szMsg ), "LOD_Entity doesn't exist: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szTag );
          MessageSend( vSubtask, "WD00210", "Control Clone",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
       }
@@ -9217,8 +9217,8 @@ fnCloneControl( zVIEW     vSrcLPLR,
 
    // Reset the current control's tag so we won't find it by Tag while we
    // ensure that the tag is unique.
-   GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "Control", "Tag" );
-   strcpy_s( szMsg, sizeof( szMsg ), szTag ); // hold onto original tag
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "Control", "Tag" );
+   strcpy_s( szMsg, zsizeof( szMsg ), szTag ); // hold onto original tag
    SetAttributeFromString( vSrcC, "Control", "Tag",
                            "__&&&__^^^__Clone__@@@__%%%__" );
 
@@ -9237,14 +9237,14 @@ fnCloneControl( zVIEW     vSrcLPLR,
       lUniqueId = zatol( szTag + nLth );
       if ( nLth == 0 )
       {
-         strcpy_s( szTag, sizeof( szTag ), "Tag" );
+         strcpy_s( szTag, zsizeof( szTag ), "Tag" );
          nLth = 3;
       }
 
       while ( fnEnsureUniqueCtrlTag( vXSLT, szTag ) )
       {
          lUniqueId++;
-         zltoa( lUniqueId, szTag + nLth, sizeof( szTag ) - nLth, 10 );
+         zltoa( lUniqueId, szTag + nLth, zsizeof( szTag ) - nLth, 10 );
       }
    }
 
@@ -9273,8 +9273,8 @@ fnCloneControl( zVIEW     vSrcLPLR,
       {
          GetVariableFromAttribute( szTag, 0, 'S', 33,
                                    vSrcC, "ControlDef", "Tag", "", 0 );
-         strcpy_s( szMsg, sizeof( szMsg ), "ControlDef doesn't exist: " );
-         strcat_s( szMsg, sizeof( szMsg ), szTag );
+         strcpy_s( szMsg, zsizeof( szMsg ), "ControlDef doesn't exist: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szTag );
          MessageSend( vSubtask, "WD00204", "XSLT Clone",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
       }
@@ -9286,7 +9286,7 @@ fnCloneControl( zVIEW     vSrcLPLR,
       nRC = SetCursorFirstEntity( vSrcC, "CtrlClrOverride", 0 );
       while ( nRC > zCURSOR_UNCHANGED )
       {
-         GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC,
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC,
             "CtrlColorDef", "Tag" );
          nRC = SetCursorFirstEntityByString( vPE, "CtrlColorDef", "Tag",
                                              szTag, 0 );
@@ -9295,7 +9295,7 @@ fnCloneControl( zVIEW     vSrcLPLR,
             CreateMetaEntity( vSubtask, vTgtC, "CtrlClrOverride", zPOS_AFTER );
             IncludeSubobjectFromSubobject( vTgtC, "CtrlColorDef",
                                            vPE, "CtrlColorDef", zPOS_AFTER );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "CtrlColor", "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlColor", "Tag" );
             nRC = SetCursorFirstEntityByString( vPE, "Color", "Tag", szTag, 0 );
             if ( nRC >= 0 )
             {
@@ -9312,8 +9312,8 @@ fnCloneControl( zVIEW     vSrcLPLR,
          {
             GetVariableFromAttribute( szTag, 0, 'S', 33, vSrcC,
                                       "CtrlColorDef", "Tag", "", 0 );
-            strcpy_s( szMsg, sizeof( szMsg ), "Color Definition doesn't exist: " );
-            strcat_s( szMsg, sizeof( szMsg ), szTag );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Color Definition doesn't exist: " );
+            strcat_s( szMsg, zsizeof( szMsg ), szTag );
             MessageSend( vSubtask, "WD00205", "XSLT Clone",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
          }
@@ -9324,7 +9324,7 @@ fnCloneControl( zVIEW     vSrcLPLR,
       nRC = SetCursorFirstEntity( vSrcC, "CtrlFontOverride", 0 );
       while ( nRC > zCURSOR_UNCHANGED )
       {
-         GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "CtrlFontDef", "Tag" );
+         GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlFontDef", "Tag" );
          nRC = SetCursorFirstEntityByString( vPE, "CtrlFontDef", "Tag",
                                              szTag, 0 );
          if ( nRC >= 0 )
@@ -9332,7 +9332,7 @@ fnCloneControl( zVIEW     vSrcLPLR,
             CreateMetaEntity( vSubtask, vTgtC, "CtrlFontOverride", zPOS_AFTER );
             IncludeSubobjectFromSubobject( vTgtC, "CtrlFontDef", vPE,
                                            "CtrlFontDef", zPOS_AFTER );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "CtrlFont", "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlFont", "Tag" );
             nRC = SetCursorFirstEntityByString( vPE, "Font", "Tag", szTag, 0 );
             if ( nRC >= 0 )
             {
@@ -9349,8 +9349,8 @@ fnCloneControl( zVIEW     vSrcLPLR,
          {
             GetVariableFromAttribute( szTag, 0, 'S', 33,
                vSrcC, "CtrlFontDef", "Tag", "", 0 );
-            strcpy_s( szMsg, sizeof( szMsg ), "Font Definition doesn't exist: " );
-            strcat_s( szMsg, sizeof( szMsg ), szTag );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Font Definition doesn't exist: " );
+            strcat_s( szMsg, zsizeof( szMsg ), szTag );
             MessageSend( vSubtask, "WD00206", "XSLT Clone",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
          }
@@ -9394,7 +9394,7 @@ fnCloneControl( zVIEW     vSrcLPLR,
             CreateMetaEntity( vSubtask, vTgtC, "Event", zPOS_AFTER );
             SetMatchingAttributesByName( vTgtC, "Event",
                                          vSrcC, "Event", zSET_NULL );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "EventAct", "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "EventAct", "Tag" );
             nRC = SetCursorFirstEntityByString( vTgt, "Action", "Tag", szTag, 0 );
             if ( nRC >= 0 )
             {
@@ -9575,7 +9575,7 @@ TZXSLTDD_InitMenuItems( zVIEW vSubtask )
    TZXSLTDD_DisableAllMenuItems( vSubtask );
 
    // Generate XSLT's
-   SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemote", szExecutableRemote, sizeof( szExecutableRemote ) );
+   SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemote", szExecutableRemote, zsizeof( szExecutableRemote ) );
    if ( szExecutableRemote[ 0 ] )
       SetOptionState( vSubtask, "GenerateXSLT", zOPTION_STATUS_ENABLED, 1 );
 
@@ -9734,11 +9734,11 @@ TZXSLTDD_DeleteAllMenus( zVIEW vSubtask )
 
    GetViewByName( &vXSLT, "TZXSLTL", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szTag, sizeof( szTag ), vXSLT, "Window", "Tag" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vXSLT, "Window", "Tag" );
 
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete all Menus from Window '" );
-   strcat_s( szMsg, sizeof( szMsg ), szTag );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete all Menus from Window '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szTag );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
    nRC = MessagePrompt( vSubtask, "PE002",
                         "XSLT Maintenance",
                         szMsg,
@@ -9780,7 +9780,7 @@ TZXSLTDD_DeleteAllHotkeys( zVIEW vSubtask )
 
    GetViewByName( &vXSLT, "TZXSLTL", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szTag, sizeof( szTag ), vXSLT, "Window", "Tag" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vXSLT, "Window", "Tag" );
 
    strcpy( szMsg, "OK to delete all Shortcut Keys from Window '" );
    strcat( szMsg, szTag);
@@ -10487,7 +10487,7 @@ TZXSLTDD_SaveAsSetDefaults( zVIEW vSubtask )
    CreateViewFromViewForTask( &vTZXSLTCopy, vTZXSLTS, 0 );
 
    // if XSLT Name not required, set default value
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
    UfCompressName( szNewName, szOutName, 8, "", "", "", "", 0 );
 
    //Name is not required, create Source File Names
@@ -10541,7 +10541,7 @@ zwfnTZXSLTDD_SaveAsSetSourceName( zVIEW   vSubtask,
    do
    {
       nIndex++;
-      GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS",
+      GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS",
                               "SaveAsName8" );
       if ( nIndex > 0 )
       {
@@ -10549,18 +10549,18 @@ zwfnTZXSLTDD_SaveAsSetSourceName( zVIEW   vSubtask,
          if ( nPosition > 6 )
             nPosition = 6;
 
-         zltoa( nIndex, szIndex, sizeof( szIndex ), 10 );
+         zltoa( nIndex, szIndex, zsizeof( szIndex ), 10 );
          if ( nIndex < 10 )
          {
-            strncpy_s( szNewName + nPosition, sizeof( szNewName ) - nPosition, "_", 1 );
-            strncpy_s( szNewName + 1 + nPosition, sizeof( szNewName ) - 1 - nPosition, szIndex, 2 );
+            strncpy_s( szNewName + nPosition, zsizeof( szNewName ) - nPosition, "_", 1 );
+            strncpy_s( szNewName + 1 + nPosition, zsizeof( szNewName ) - 1 - nPosition, szIndex, 2 );
          }
          else
          {
             if ( nPosition == 6 )
                nPosition--;
-            strncpy_s( szNewName + nPosition, sizeof( szNewName ) - nPosition, "_", 1 );
-            strncpy_s( szNewName + 1 + nPosition, sizeof( szNewName ) - 1 - nPosition, szIndex, 3 );
+            strncpy_s( szNewName + nPosition, zsizeof( szNewName ) - nPosition, "_", 1 );
+            strncpy_s( szNewName + 1 + nPosition, zsizeof( szNewName ) - 1 - nPosition, szIndex, 3 );
          }
       }
       nRC = -1;
@@ -10723,7 +10723,7 @@ zwfnTZXSLTDD_SaveAsCheckFileName( zVIEW    vSubtask,
          nRC = SetCursorNextEntity( vSaveAs, "SourceFile", "" ) )
    {
       // Source File Name is required
-      GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "SourceFile", "SaveAsName" );
+      GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "SourceFile", "SaveAsName" );
       UfCompressName( szNewName, szFileName, 8, "", "", "", "", 0 );
       if ( zstrcmp( szFileName, "" ) == 0 )
       {
@@ -10742,9 +10742,9 @@ zwfnTZXSLTDD_SaveAsCheckFileName( zVIEW    vSubtask,
       if ( SetCursorNextEntityByString( vSaveAsCopy, "SourceFile", "SaveAsName",
                                         szNewName, "" ) >= zCURSOR_SET )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Source File Name '" );
-         strcat_s( szMsg, sizeof( szMsg ), szNewName );
-         strcat_s( szMsg, sizeof( szMsg ), "' is not unique." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Source File Name '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szNewName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' is not unique." );
          MessageSend( vSubtask, "ZO00137", "XSLT Maintenance",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -10779,7 +10779,7 @@ zwfnTZXSLTDD_SaveAsCheckName( zVIEW    vSubtask,
    // XSLT Name is required
    if ( zstrcmp( szOutName, "" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "XSLT Name is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "XSLT Name is required." );
       MessageSend( vSubtask, "ZO00137", "XSLT Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -10788,11 +10788,11 @@ zwfnTZXSLTDD_SaveAsCheckName( zVIEW    vSubtask,
    }
 
    // DLL Name is required
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "DLL_Name" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "DLL_Name" );
    UfCompressName( szNewName, szDLLName, 8, "", "", "", "", 0 );
    if ( zstrcmp( szDLLName, "" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "DLL Name is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "DLL Name is required." );
       MessageSend( vSubtask, "ZO00137", "XSLT Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -10839,9 +10839,9 @@ zwfnTZXSLTDD_SaveAsCheckStatus( zVIEW    vSubtask,
    if ( CompareAttributeToInteger( vTZXSLTS, "W_MetaDef",
                                    "Status", 1 ) != 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "XSLT '" );
-      strcat_s( szMsg, sizeof( szMsg ), szOutName );
-      strcat_s( szMsg, sizeof( szMsg ), "' is not checked out." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "XSLT '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szOutName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' is not checked out." );
       MessageSend( vSubtask, "ZO00137", "XSLT Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -10871,17 +10871,17 @@ zwfnTZXSLTDD_SaveAsGetFileName( zVIEW  vTaskLPLR,
    zCHAR    szNewName[ 33 ];
    zCHAR    szFileName[ 33 ];
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vView, "SourceFile", szAttribute );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vView, "SourceFile", szAttribute );
    UfCompressName( szNewName, szFileName, 8, "", "", "", "", 0 );
 
-   GetStringFromAttribute( szSourceFileName, sizeof( szSourceFileName ), vTaskLPLR, "LPLR", "PgmSrcDir" );
+   GetStringFromAttribute( szSourceFileName, zsizeof( szSourceFileName ), vTaskLPLR, "LPLR", "PgmSrcDir" );
    GetStringFromAttributeByContext(   szExtension, vView, "SourceFile",
                                     "LanguageType", "LanguageType", zMAX_EXTENSION_LTH );
 
    ofnTZCMWKSO_AppendSlash( szSourceFileName );
-   strcat_s( szSourceFileName, sizeof( szSourceFileName ), szFileName );
-   strcat_s( szSourceFileName, sizeof( szSourceFileName ), "." );
-   strcat_s( szSourceFileName, sizeof( szSourceFileName ), szExtension );
+   strcat_s( szSourceFileName, zsizeof( szSourceFileName ), szFileName );
+   strcat_s( szSourceFileName, zsizeof( szSourceFileName ), "." );
+   strcat_s( szSourceFileName, zsizeof( szSourceFileName ), szExtension );
 
    return( 0 );
 }
@@ -10906,7 +10906,7 @@ zwfnTZXSLTDD_SaveAsCopyFiles( zVIEW    vSubtask,
    zCHAR    szNewFileName[ zMAX_FILESPEC_LTH + 1 ];
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   strcpy_s( szSourceFileName, sizeof( szSourceFileName ), "" );
+   strcpy_s( szSourceFileName, zsizeof( szSourceFileName ), "" );
 
    // Source File Name already exists
    for ( nRC = SetCursorFirstEntity( vSaveAs, "SourceFile", "" );
@@ -10920,9 +10920,9 @@ zwfnTZXSLTDD_SaveAsCopyFiles( zVIEW    vSubtask,
       hFile = SysOpenFile( vSubtask, szNewFileName, COREFILE_EXIST );
       if ( hFile == 1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Source File '" );
-         strcat_s( szMsg, sizeof( szMsg ), szNewFileName );
-         strcat_s( szMsg, sizeof( szMsg ), "' already exists. Replace existing File?" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Source File '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szNewFileName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' already exists. Replace existing File?" );
          nRC = MessagePrompt( vSubtask, "ZO00138", "XSLT Maintenance",
                               szMsg, zBEEP, zBUTTONS_YESNOCANCEL,
                               zRESPONSE_YES, zICON_QUESTION );
@@ -11007,7 +11007,7 @@ TZXSLTDD_SaveAsXSLT( zVIEW vSubtask )
    GetViewByName( &vTZXSLTL, "TZXSLTL", vSubtask, zLEVEL_TASK );
 
    // Validate XSLT Name is OK
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
    UfCompressName( szNewName, szOutName, 8, "", "", "", "", 0 );
 
    //Name is required
@@ -11018,7 +11018,7 @@ TZXSLTDD_SaveAsXSLT( zVIEW vSubtask )
    if ( SetCursorFirstEntityByString( vTZXSLTS, "W_MetaDef", "Name",
                                       szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "XSLT already exists. Replace existing XSLT?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "XSLT already exists. Replace existing XSLT?" );
       nRC = MessagePrompt( vSubtask, "ZO00138", "XSLT Maintenance",
                            szMsg, zBEEP, zBUTTONS_YESNO,
                            zRESPONSE_NO, zICON_QUESTION );
@@ -11155,7 +11155,7 @@ TZXSLTDD_SaveAs( zVIEW   vSubtask,
    nRC = SetCursorFirstEntity( vOldXSLT, "ViewObjRef", "" );
    while ( nRC > zCURSOR_UNCHANGED )
    {
-      GetStringFromAttribute( szViewObjRefName, sizeof( szViewObjRefName ), vOldXSLT, "ViewObjRef", "Name" );
+      GetStringFromAttribute( szViewObjRefName, zsizeof( szViewObjRefName ), vOldXSLT, "ViewObjRef", "Name" );
       oTZWDLGSO_PositionOnVOR( vNewXSLT, vOldXSLT, vLPLR2,
                                szViewObjRefName, vSubtask );
       nRC = SetCursorNextEntity( vOldXSLT, "ViewObjRef", "" );
@@ -11165,7 +11165,7 @@ TZXSLTDD_SaveAs( zVIEW   vSubtask,
    zwfnTZXSLTDD_SaveAsSourceFiles( vSubtask, vNewXSLT, vOldXSLT );
 
    // Copy Windows
-   GetStringFromAttribute( szOldXSLTName, sizeof( szOldXSLTName ), vOldXSLT, "XSLT", "Tag" );
+   GetStringFromAttribute( szOldXSLTName, zsizeof( szOldXSLTName ), vOldXSLT, "XSLT", "Tag" );
    nRC = SetCursorFirstEntity( vOldXSLT, "Window", "" );
    while ( nRC > zCURSOR_UNCHANGED )
    {
@@ -11189,7 +11189,7 @@ TZXSLTDD_SaveAs( zVIEW   vSubtask,
    // Now include the Primary Window.
    if ( SetCursorFirstEntity( vOldXSLT, "DfltWnd", 0 ) == zCURSOR_SET )
    {
-      GetStringFromAttribute( szDfltWnd, sizeof( szDfltWnd ), vOldXSLT, "DfltWnd", "Tag" );
+      GetStringFromAttribute( szDfltWnd, zsizeof( szDfltWnd ), vOldXSLT, "DfltWnd", "Tag" );
       SetCursorFirstEntityByString( vNewXSLT, "Window", "Tag", szDfltWnd, "" );
       IncludeSubobjectFromSubobject( vNewXSLT, "DfltWnd",
                                      vNewXSLT, "Window", zPOS_AFTER );
@@ -11481,7 +11481,7 @@ fnCloneOptions( zVIEW  vTgt,
             CreateMetaEntity( vSubtask, vTgtC, "Event", zPOS_AFTER );
             SetMatchingAttributesByName( vTgtC, "Event",
                                          vSrcC, "Event", zSET_NULL );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vSrcC, "EventAct", "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "EventAct", "Tag" );
             nRC = SetCursorFirstEntityByString( vTgt, "Action", "Tag", szTag, 0 );
             if ( nRC >= 0 )
             {
@@ -11511,7 +11511,7 @@ fnCloneOptions( zVIEW  vTgt,
          {
             CreateMetaEntity( vSubtask, vTgtO, "Event", zPOS_AFTER );
             SetMatchingAttributesByName( vTgtO, "Event", vSrcO, "Event", zSET_NULL );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vSrcO, "EventAct", "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcO, "EventAct", "Tag" );
             nRC = SetCursorFirstEntityByString( vTgt, "Action", "Tag", szTag, 0 );
             if ( nRC >= 0 )
             {
@@ -11542,7 +11542,7 @@ fnCloneOptions( zVIEW  vTgt,
          {
             CreateMetaEntity( vSubtask, vTgtO, "Event", zPOS_AFTER );
             SetMatchingAttributesByName( vTgtO, "Event", vSrcO, "Event", zSET_NULL );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vSrcO, "EventAct", "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcO, "EventAct", "Tag" );
             nRC = SetCursorFirstEntityByString( vTgt, "Action", "Tag", szTag, 0 );
             if ( nRC >= 0 )
             {
@@ -11630,8 +11630,8 @@ MergeMenu( zVIEW  vSubtask,
    // Force unique MenuTag here.
    // Reset the current menu's tag so we won't find it by Tag while we
    // ensure that the tag is unique.
-   GetStringFromAttribute( szTag, sizeof( szTag ), vSrcO, "Menu", "Tag" );
-   strcpy_s( szMsg, sizeof( szMsg ), szTag ); // hold onto original tag
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcO, "Menu", "Tag" );
+   strcpy_s( szMsg, zsizeof( szMsg ), szTag ); // hold onto original tag
    SetAttributeFromString( vTgtO, "Menu", "Tag",
                            "__&&&__^^^__Clone__@@@__%%%__" );
 
@@ -11644,7 +11644,7 @@ MergeMenu( zVIEW  vSubtask,
    lUniqueId = zatol( szTag + nLth );
    if ( nLth == 0 )
    {
-      strcpy_s( szTag, sizeof( szTag ), "Tag" );
+      strcpy_s( szTag, zsizeof( szTag ), "Tag" );
       nLth = 3;
    }
 
@@ -11652,7 +11652,7 @@ MergeMenu( zVIEW  vSubtask,
                                          szTag, 0 ) == 0 )
    {
       lUniqueId++;
-      zltoa( lUniqueId, szTag + nLth, sizeof( szTag ) - nLth, 10 );
+      zltoa( lUniqueId, szTag + nLth, zsizeof( szTag ) - nLth, 10 );
    }
 
 // MessageBox( 0, "Text", "Title", MB_OK );
@@ -11791,7 +11791,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
    nRC = SetCursorFirstEntity( vXSLT, "Control", 0 );
    while ( nRC == zCURSOR_SET )
    {
-      GetStringFromAttribute( szCtrlTag, sizeof( szCtrlTag ), vXSLT, "Control", "Tag" );
+      GetStringFromAttribute( szCtrlTag, zsizeof( szCtrlTag ), vXSLT, "Control", "Tag" );
 
       if ( lCheckFlags & zCHECK_READONLY_ALL_CTRLS )
       {
@@ -11831,8 +11831,8 @@ CheckMigrateCtrls( zVIEW vXSLT,
             {
                GetAddrForAttribute( &pchAction, vAct, "Action", "Tag" );
                GetIntegerFromAttribute( &lActType, vAct, "Action", "Type" );
-               GetStringFromAttribute( szDlgTag, sizeof( szDlgTag ), vAct, "Action", "XSLTName" );
-               GetStringFromAttribute( szWndTag, sizeof( szWndTag ), vAct, "Action", "WindowName" );
+               GetStringFromAttribute( szDlgTag, zsizeof( szDlgTag ), vAct, "Action", "XSLTName" );
+               GetStringFromAttribute( szWndTag, zsizeof( szWndTag ), vAct, "Action", "WindowName" );
                if ( CheckExistenceOfEntity( vAct, "ActOper" ) == 0 )
                   GetAddrForAttribute( &pchOperation, vAct, "ActOper", "Name" );
             }
@@ -11848,7 +11848,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
             TraceLine( "                             WAB: %s", GetActionString( lActType ) );
             TraceLine( "                             Oper: %s", pchOperation );
             TraceLine( "                             ====> %s.%s", szDlgTag, szWndTag );
-         // sprintf_s( szMsg, sizeof( szMsg ), "Dlg.Wnd.Ctrl: %s.%s.%s Action: %s WAB: %s (%s.%s) Operation: %s",
+         // sprintf_s( szMsg, zsizeof( szMsg ), "Dlg.Wnd.Ctrl: %s.%s.%s Action: %s WAB: %s (%s.%s) Operation: %s",
          //           cpcDlgTag, cpcWndTag, szCtrlTag, pchAction,
          //           GetActionString( lActType ), szDlgTag, szWndTag, pchOperation );
          // TraceLine( "Event Type: 0x%08x  %s", lType, szMsg );
@@ -11977,7 +11977,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
          {
             TraceLineS( "CreateSubSections -->", "" );
             TraceLineS( "CreateSubSections -->", "" );
-            GetStringFromAttribute( szCtrlTag, sizeof( szCtrlTag ), vXSLT, "Control", "Tag" );
+            GetStringFromAttribute( szCtrlTag, zsizeof( szCtrlTag ), vXSLT, "Control", "Tag" );
             TraceLine( "CreateSubSections -->   // %s.%s.%s",
                        cpcDlgTag, cpcWndTag, szCtrlTag );
             TraceLine( "CreateSubSections -->   IF mSecTmpl.SecuritySection.SectionName = \"%s\"",
@@ -11988,7 +11988,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
                TraceLineS( "CreateSubSections -->",
                            "      CREATE ENTITY  mSecTmpl.SecuritySubSection" );
 
-               GetStringFromAttribute( szCtrlTag, sizeof( szCtrlTag ), vXSLT, "CtrlCtrl", "Tag" );
+               GetStringFromAttribute( szCtrlTag, zsizeof( szCtrlTag ), vXSLT, "CtrlCtrl", "Tag" );
                TraceLine( "CreateSubSections -->      mSecTmpl.SecuritySubSection.SubSectionName = \"%s\"",
                           szCtrlTag );
                TraceLineS( "CreateSubSections -->",
@@ -12023,7 +12023,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
                      if ( CompareAttributeToString( vAct, "Action",
                                                     "NoMap", "Y" ) != 0 )
                      {
-                        GetStringFromAttribute( szTag, sizeof( szTag ), vAct, "Action", "Tag" );
+                        GetStringFromAttribute( szTag, zsizeof( szTag ), vAct, "Action", "Tag" );
                         TraceLineS( "Edit Change Event found for Action: ",
                                     szTag );
                         TraceLineS( "   with Mapping not forced off in Window: ",
@@ -12050,7 +12050,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
                      if ( CompareAttributeToString( vAct, "Action",
                                                     "NoMap", "Y" ) != 0 )
                      {
-                        GetStringFromAttribute( szTag, sizeof( szTag ), vAct, "Action", "Tag" );
+                        GetStringFromAttribute( szTag, zsizeof( szTag ), vAct, "Action", "Tag" );
                         TraceLineS( "Combo Change Event 1 found for Action: ",
                                     szTag );
                         TraceLineS( "   with Mapping not forced off in Window: ",
@@ -12074,7 +12074,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
                      if ( CompareAttributeToString( vAct, "Action",
                                                     "NoMap", "Y" ) != 0 )
                      {
-                        GetStringFromAttribute( szTag, sizeof( szTag ), vAct, "Action", "Tag" );
+                        GetStringFromAttribute( szTag, zsizeof( szTag ), vAct, "Action", "Tag" );
                         TraceLineS( "Combo Change Event 5 found for Action: ",
                                     szTag );
                         TraceLineS( "   with Mapping not forced off in Window: ",
@@ -12101,7 +12101,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
                      if ( CompareAttributeToString( vAct, "Action",
                                                     "NoMap", "Y" ) != 0 )
                      {
-                        GetStringFromAttribute( szTag, sizeof( szTag ), vAct, "Action", "Tag" );
+                        GetStringFromAttribute( szTag, zsizeof( szTag ), vAct, "Action", "Tag" );
                         TraceLineS( "Calendar Change Event found for Action: ",
                                     szTag );
                         TraceLineS( "   with Mapping not forced off in Window: ",
@@ -12357,7 +12357,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
                zCHAR szMsg[ 256 ];
 
                GetAddrForAttribute( &pch, vXSLT, "Control", "Tag" );
-               sprintf_s( szMsg, sizeof( szMsg ), "(%s) Type for ctrl: \"%s\" is: ",
+               sprintf_s( szMsg, zsizeof( szMsg ), "(%s) Type for ctrl: \"%s\" is: ",
                          cpcWndTag, pch );
                TraceLineX( szMsg, lSubtype );
             }
@@ -12372,7 +12372,7 @@ CheckMigrateCtrls( zVIEW vXSLT,
                zCHAR szMsg[ 256 ];
 
                GetAddrForAttribute( &pch, vXSLT, "Control", "Tag" );
-               sprintf_s( szMsg, sizeof( szMsg ), "(%s) ComboBox No Null for ctrl: \"%s\"",
+               sprintf_s( szMsg, zsizeof( szMsg ), "(%s) ComboBox No Null for ctrl: \"%s\"",
                          cpcWndTag, pch );
                TraceLineS( szMsg, "" );
             }
@@ -12545,10 +12545,10 @@ ProportionallyResizeWindow( zVIEW vXSLT, zLONG lCheckFlags, zLONG lIncr,
       zCHAR   szWindowTag[ 34 ];
       zCHAR   szMsg[ 512 ];
 
-      GetStringFromAttribute( szWindowTag, sizeof( szWindowTag ), vXSLT, "Window", "Tag" );
-      strcpy_s( szMsg, sizeof( szMsg ), "Window size became equal to zero; Window: " );
-      strcat_s( szMsg, sizeof( szMsg ), szWindowTag) ;
-      strcat_s( szMsg, sizeof( szMsg ), "\nDo you wish to abort the resize?" );
+      GetStringFromAttribute( szWindowTag, zsizeof( szWindowTag ), vXSLT, "Window", "Tag" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Window size became equal to zero; Window: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szWindowTag) ;
+      strcat_s( szMsg, zsizeof( szMsg ), "\nDo you wish to abort the resize?" );
 
       if ( MessagePrompt( vXSLT, "PE002", "XSLT Maintenance",
                           szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO,  0 ) != zRESPONSE_YES )
@@ -12659,7 +12659,7 @@ MigrateXSLTs( zVIEW vSubtask )
    // if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
    //                              "Specify the Change From JavaScript",
    //                              FALSE, g_szChangeFrom,
-   //                              sizeof( g_szChangeFrom ) ) == IDOK )
+   //                              zsizeof( g_szChangeFrom ) ) == IDOK )
 
       OperatorPromptForFile( vSubtask, g_szChangeFrom, 256,
                              "POR Files (*.POR)|*.por|",
@@ -12744,10 +12744,10 @@ MigrateXSLTs( zVIEW vSubtask )
       while ( g_szDlgTag[ 0 ] == 0 )
       {
          OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter XSLT", 0,
-                                 g_szDlgTag, sizeof( g_szDlgTag ) - 1 );
+                                 g_szDlgTag, zsizeof( g_szDlgTag ) - 1 );
       }
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Are you sure you want to change mapping for XSLT: %s", g_szDlgTag );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Are you sure you want to change mapping for XSLT: %s", g_szDlgTag );
       if ( OperatorPrompt( vSubtask, "XSLT Migration", szMsg, 0,
                            zBUTTONS_OKCANCEL, 0, 0 ) != zRESPONSE_OK )
       {
@@ -12769,12 +12769,12 @@ MigrateXSLTs( zVIEW vSubtask )
       while ( g_szGroupBox[ 0 ] == 0 || g_szDlgTag[ 0 ] == 0 )
       {
          OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter XSLT", 0,
-                                 g_szDlgTag, sizeof( g_szDlgTag ) - 1 );
+                                 g_szDlgTag, zsizeof( g_szDlgTag ) - 1 );
          OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter GroupBox", 0,
-                                 g_szGroupBox, sizeof( g_szGroupBox ) - 1 );
+                                 g_szGroupBox, zsizeof( g_szGroupBox ) - 1 );
       }
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Are you sure you want to add a GroupBox after specified GroupBox: %s\n"
+      sprintf_s( szMsg, zsizeof( szMsg ), "Are you sure you want to add a GroupBox after specified GroupBox: %s\n"
                        "  to XSLT: %s?", g_szGroupBox, g_szDlgTag );
       if ( OperatorPrompt( vSubtask, "XSLT Migration", szMsg, 0,
                            zBUTTONS_OKCANCEL, 0, 0 ) != zRESPONSE_OK )
@@ -12804,10 +12804,10 @@ MigrateXSLTs( zVIEW vSubtask )
       while ( g_lFromWAB < 0 || g_lFromWAB > 99 || g_lToWAB < 0 || g_lToWAB > 99 )
       {
          OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter 'From' WAB", 0,
-                                 szWAB, sizeof( szWAB ) - 1 );
+                                 szWAB, zsizeof( szWAB ) - 1 );
          g_lFromWAB = zatol( szWAB );
          OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter 'To' WAB", 0,
-                                 szWAB, sizeof( szWAB ) - 1 );
+                                 szWAB, zsizeof( szWAB ) - 1 );
          g_lToWAB = zatol( szWAB );
       }
 
@@ -12866,7 +12866,7 @@ MigrateXSLTs( zVIEW vSubtask )
                                    "Specify the percentage X increment(+)"
                                      "/decrement(-) ... 0 for no X resize",
                                    FALSE, szBuffer,
-                                   sizeof( szBuffer ) ) == IDOK )
+                                   zsizeof( szBuffer ) ) == IDOK )
       {
          lIncrX = atol( szBuffer );
       }
@@ -12877,7 +12877,7 @@ MigrateXSLTs( zVIEW vSubtask )
                                    "Specify the percentage Y increment(+)"
                                      "/decrement(-) ... 0 for no Y resize",
                                    FALSE, szBuffer,
-                                   sizeof( szBuffer ) ) == IDOK )
+                                   zsizeof( szBuffer ) ) == IDOK )
       {
          lIncrY = atol( szBuffer );
       }
@@ -12981,11 +12981,11 @@ MigrateXSLTs( zVIEW vSubtask )
          lCheckFlags |= zCHECK_RESIZE_EDIT_CTRLS;
          szHeight[ 0 ] = 0;
          OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter 'From' height (0 for all)", 0,
-                                 szHeight, sizeof( szHeight ) - 1 );
+                                 szHeight, zsizeof( szHeight ) - 1 );
          g_lFromHeight = zatol( szHeight );
          szHeight[ 0 ] = 0;
          OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter 'To' height", 0,
-                                 szHeight, sizeof( szHeight ) - 1 );
+                                 szHeight, zsizeof( szHeight ) - 1 );
          g_lToHeight = zatol( szHeight );
       }
 
@@ -13201,9 +13201,9 @@ MigrateXSLTs( zVIEW vSubtask )
          {
             if ( !ComponentIsCheckedOut( vSubtask, vXSLT, zSOURCE_XSLT_META ) )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to save XSLT '" );
-               strcat_s( szMsg, sizeof( szMsg ), pchDlgTag );
-               strcat_s( szMsg, sizeof( szMsg ), "' because it is not checked out" );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to save XSLT '" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchDlgTag );
+               strcat_s( szMsg, zsizeof( szMsg ), "' because it is not checked out" );
                MessageSend( vSubtask, "PN00202", "XSLT Maintenance",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
             }
@@ -13226,15 +13226,15 @@ MigrateXSLTs( zVIEW vSubtask )
          {
             if ( !ComponentIsCheckedOut( vSubtask, vXSLT, zSOURCE_XSLT_META ) )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to save XSLT '" );
-               strcat_s( szMsg, sizeof( szMsg ), pchDlgTag );
-               strcat_s( szMsg, sizeof( szMsg ), "' because it is not checked out" );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to save XSLT '" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchDlgTag );
+               strcat_s( szMsg, zsizeof( szMsg ), "' because it is not checked out" );
                MessageSend( vSubtask, "PN00202", "XSLT Maintenance",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
             }
             else
             {
-               sprintf_s( szMsg, sizeof( szMsg ), "Checking XSLT: %s for Migration", pchDlgTag );
+               sprintf_s( szMsg, zsizeof( szMsg ), "Checking XSLT: %s for Migration", pchDlgTag );
                nRC = SetCursorFirstEntity( vXSLT, "Window", 0 );
                while ( nRC == 0 )
                {
@@ -13247,8 +13247,8 @@ MigrateXSLTs( zVIEW vSubtask )
 
                   CreateViewFromViewForTask( &vOldViewName, vXSLT, 0 );
                   CreateViewFromViewForTask( &vNewViewName, vXSLT, 0 );
-                  strcpy_s( szOldViewName, sizeof( szOldViewName ), "mSubLC" );
-                  strcpy_s( szNewViewName, sizeof( szNewViewName ), "mSPLDef" );
+                  strcpy_s( szOldViewName, zsizeof( szOldViewName ), "mSubLC" );
+                  strcpy_s( szNewViewName, zsizeof( szNewViewName ), "mSPLDef" );
                   if ( SetCursorFirstEntityByString( vOldViewName, "ViewObjRef", "Name",
                                                      szOldViewName, 0 ) < zCURSOR_SET )
                   {
@@ -13306,9 +13306,9 @@ MigrateXSLTs( zVIEW vSubtask )
          {
             if ( !ComponentIsCheckedOut( vSubtask, vXSLT, zSOURCE_XSLT_META ) )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to save XSLT '" );
-               strcat_s( szMsg, sizeof( szMsg ), pchDlgTag );
-               strcat_s( szMsg, sizeof( szMsg ), "' because it is not checked out" );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to save XSLT '" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchDlgTag );
+               strcat_s( szMsg, zsizeof( szMsg ), "' because it is not checked out" );
                MessageSend( vSubtask, "PN00202", "XSLT Maintenance",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
             }
@@ -13316,7 +13316,7 @@ MigrateXSLTs( zVIEW vSubtask )
             {
                zPCHAR pchCtrlTag;
 
-               sprintf_s( szMsg, sizeof( szMsg ), "Checking XSLT: %s for Migration", pchDlgTag );
+               sprintf_s( szMsg, zsizeof( szMsg ), "Checking XSLT: %s for Migration", pchDlgTag );
                nRC = SetCursorFirstEntity( vXSLT, "Window", 0 );
                while ( nRC == 0 )
                {
@@ -13341,11 +13341,11 @@ MigrateXSLTs( zVIEW vSubtask )
                         CreateViewFromView( &vNextControl, vXSLT );
 
                         CreateMetaEntity( vSubtask, vGroupBox, "Control", zPOS_AFTER );
-                        strcpy_s( szCtrlTag, sizeof( szCtrlTag ), pchWndTag );
-                        strcat_s( szCtrlTag, sizeof( szCtrlTag ), "Section" );
+                        strcpy_s( szCtrlTag, zsizeof( szCtrlTag ), pchWndTag );
+                        strcat_s( szCtrlTag, zsizeof( szCtrlTag ), "Section" );
                         SetAttributeFromString( vGroupBox, "Control", "Tag", szCtrlTag );
-                        strcpy_s( szCtrlTag, sizeof( szCtrlTag ), pchWndTag );
-                        strcat_s( szCtrlTag, sizeof( szCtrlTag ), " Section" );
+                        strcpy_s( szCtrlTag, zsizeof( szCtrlTag ), pchWndTag );
+                        strcat_s( szCtrlTag, zsizeof( szCtrlTag ), " Section" );
                         SetAttributeFromString( vGroupBox, "Control", "Text", szCtrlTag );
                         SetMatchingAttributesByName( vGroupBox, "Control",
                                                      vXSLT, "Control", zSET_NULL );
@@ -13415,16 +13415,16 @@ MigrateXSLTs( zVIEW vSubtask )
          {
             if ( !ComponentIsCheckedOut( vSubtask, vXSLT, zSOURCE_XSLT_META ) )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to save XSLT '" );
-               strcat_s( szMsg, sizeof( szMsg ), pchDlgTag );
-               strcat_s( szMsg, sizeof( szMsg ), "' because it is not checked out" );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to save XSLT '" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchDlgTag );
+               strcat_s( szMsg, zsizeof( szMsg ), "' because it is not checked out" );
                MessageSend( vSubtask, "PN00202", "XSLT Maintenance",
                             szMsg,
                             zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
             }
             else
             {
-               sprintf_s( szMsg, sizeof( szMsg ), "Checking XSLT: %s for Migration", pchDlgTag );
+               sprintf_s( szMsg, zsizeof( szMsg ), "Checking XSLT: %s for Migration", pchDlgTag );
                TraceLineS( szMsg, "" );
                MB_SetMessage( vSubtask, 1, szMsg );
                OrderEntityForView( vXSLT, "Window", "Tag A" );
@@ -13470,16 +13470,16 @@ MigrateXSLTs( zVIEW vSubtask )
          {
             if ( !ComponentIsCheckedOut( vSubtask, vXSLT, zSOURCE_XSLT_META ) )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to save XSLT '" );
-               strcat_s( szMsg, sizeof( szMsg ), pchDlgTag );
-               strcat_s( szMsg, sizeof( szMsg ), "' because it is not checked out" );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to save XSLT '" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchDlgTag );
+               strcat_s( szMsg, zsizeof( szMsg ), "' because it is not checked out" );
                MessageSend( vSubtask, "PN00202", "XSLT Maintenance",
                             szMsg,
                             zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
             }
             else
             {
-               sprintf_s( szMsg, sizeof( szMsg ), "Saving XSLT: %s", pchDlgTag );
+               sprintf_s( szMsg, zsizeof( szMsg ), "Saving XSLT: %s", pchDlgTag );
                MB_SetMessage( vSubtask, 1, szMsg );
                TraceLineS( "MigrateXSLTs (all) dialog: ", pchDlgTag );
                CommitMetaOI( vSubtask, vXSLT, zSOURCE_XSLT_META );
@@ -13489,9 +13489,9 @@ MigrateXSLTs( zVIEW vSubtask )
          {
             if ( !ComponentIsCheckedOut( vSubtask, vXSLT, zSOURCE_XSLT_META ) )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to save XSLT '" );
-               strcat_s( szMsg, sizeof( szMsg ), pchDlgTag );
-               strcat_s( szMsg, sizeof( szMsg ), "' because it is not checked out" );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to save XSLT '" );
+               strcat_s( szMsg, zsizeof( szMsg ), pchDlgTag );
+               strcat_s( szMsg, zsizeof( szMsg ), "' because it is not checked out" );
                MessageSend( vSubtask, "PN00202", "XSLT Maintenance",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
             }
@@ -13505,19 +13505,19 @@ MigrateXSLTs( zVIEW vSubtask )
                zLONG  lFileXWD = -1;
                zSHORT nLth;
 
-               sprintf_s( szMsg, sizeof( szMsg ), "Checking XSLT: %s for synchronization", pchDlgTag );
+               sprintf_s( szMsg, zsizeof( szMsg ), "Checking XSLT: %s for synchronization", pchDlgTag );
                TraceLineS( szMsg, "" );
                MB_SetMessage( vSubtask, 1, szMsg );
-               GetStringFromAttribute( szFileSpec2, sizeof( szFileSpec2 ), vTaskLPLR,
+               GetStringFromAttribute( szFileSpec2, zsizeof( szFileSpec2 ), vTaskLPLR,
                                        "LPLR", "ExecDir" );
                nLth = (zSHORT) zstrlen( szFileSpec2 );
                if ( nLth && szFileSpec2[ nLth - 1 ] != '\\' )
                   szFileSpec2[ nLth++ ] = '\\';
 
-               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, pchDlgTag );
-               strcat_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".xwd" );
+               strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, pchDlgTag );
+               strcat_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".xwd" );
 
-               GetStringFromAttribute( szFileSpec1, sizeof( szFileSpec1 ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+               GetStringFromAttribute( szFileSpec1, zsizeof( szFileSpec1 ), vTaskLPLR, "LPLR", "MetaSrcDir" );
                nLth = (zSHORT) zstrlen( szFileSpec1 );
                if ( nLth && szFileSpec1[ nLth - 1 ] != '\\' )
                   szFileSpec1[ nLth++ ] = '\\';
@@ -13527,8 +13527,8 @@ MigrateXSLTs( zVIEW vSubtask )
                strcpy_s( szFileSpec1 + nLth, ".pwd" );
                lFilePWD = SysOpenFile( vSubtask, szFileSpec1, COREFILE_READ );
                lFileXWD = SysOpenFile( vSubtask, szFileSpec2, COREFILE_READ );
-               strcpy_s( szFileSpec2, sizeof( szFileSpec2 ), szFileSpec1 );
-               strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".tmp" );
+               strcpy_s( szFileSpec2, zsizeof( szFileSpec2 ), szFileSpec1 );
+               strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".tmp" );
                if ( lFilePWD >= 0 &&
                     (lFileXWD < 0 ||
                      (lFileXWD >= 0 &&
@@ -13546,14 +13546,14 @@ MigrateXSLTs( zVIEW vSubtask )
 
                   lFileXWD = -1;
 
-                  strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".pw~" );
+                  strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".pw~" );
                   SysRenameFile( vSubtask, szFileSpec1, szFileSpec2, TRUE );
-                  strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".tmp" );
+                  strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".tmp" );
                   SysRenameFile( vSubtask, szFileSpec2, szFileSpec1, TRUE );
 
                   TraceLineS( "MigrateXSLTs synchronize dialog: ", pchDlgTag );
                   CommitMetaOI( vSubtask, vXSLT, zSOURCE_XSLT_META );
-                  strcpy_s( szFileSpec2 + nLth, sizeof( szFileSpec2 ) - nLth, ".pw~" );
+                  strcpy_s( szFileSpec2 + nLth, zsizeof( szFileSpec2 ) - nLth, ".pw~" );
                   SysRenameFile( vSubtask, szFileSpec2, szFileSpec1, TRUE );
                }
                else
@@ -13603,7 +13603,7 @@ ProportionallyResizeWndIncrement( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the percentage increment "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13612,7 +13612,7 @@ ProportionallyResizeWndIncrement( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the percentage increment "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13652,7 +13652,7 @@ ProportionallyResizeWndIncrX( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the X percentage increment "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13692,7 +13692,7 @@ ProportionallyResizeWndIncrY( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the Y percentage increment "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13734,7 +13734,7 @@ ProportionallyResizeWndDecrement( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the percentage decrement "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13743,7 +13743,7 @@ ProportionallyResizeWndDecrement( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the percentage decrement "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13783,7 +13783,7 @@ ProportionallyResizeWndDecrX( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the X percentage decrement "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13823,7 +13823,7 @@ ProportionallyResizeWndDecrY( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the Y percentage decrement "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13865,7 +13865,7 @@ ProportionallyResizeDlgIncrement( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the percentage increment "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13874,7 +13874,7 @@ ProportionallyResizeDlgIncrement( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the percentage increment "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13923,7 +13923,7 @@ ProportionallyResizeDlgIncrX( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the X percentage increment "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -13973,7 +13973,7 @@ ProportionallyResizeDlgIncrY( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the Y percentage increment "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -14024,7 +14024,7 @@ ProportionallyResizeDlgDecrement( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the X percentage decrement "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -14033,7 +14033,7 @@ ProportionallyResizeDlgDecrement( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the Y percentage decrement "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -14081,7 +14081,7 @@ ProportionallyResizeDlgDecrX( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the X percentage decrement "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -14130,7 +14130,7 @@ ProportionallyResizeDlgDecrY( zVIEW vSubtask )
       if ( OperatorPromptForInput( vSubtask, "XSLT Migration",
                                    "Specify the Y percentage decrement "
                                       "... 0 to stop resize", FALSE,
-                                   szBuffer, sizeof( szBuffer ) ) != IDOK )
+                                   szBuffer, zsizeof( szBuffer ) ) != IDOK )
       {
          return( 0 );
       }
@@ -14678,7 +14678,7 @@ SetCtrlSizPosClasToSelectThruDlg( zVIEW vSubtask )
    {
       // Prompt operator to ensure ALL windows are to be generated.
       GetAddrForAttribute( &pchDlg, vXSLT, "XSLT", "Tag" );
-      sprintf_s( szMsg, sizeof( szMsg ), "Reset Control Pos/Size/Class for ALL Windows in XSLT: %s?", pchDlg );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Reset Control Pos/Size/Class for ALL Windows in XSLT: %s?", pchDlg );
       if ( OperatorPrompt( vSubtask, "Reset Pos/Size/Class",
                            szMsg, 1, zBUTTONS_YESNO,
                            zRESPONSE_YES, zICON_QUESTION ) == zRESPONSE_NO )
@@ -14868,7 +14868,7 @@ ChangeSelectedViewMapping( zVIEW vSubtask )
    {
       zCHAR szVEA[ 3 * 33 ];
 
-      GetStringFromAttribute( szVEA, sizeof( szVEA ), vTZZOVEAO, "ViewObjRef", "Name" );
+      GetStringFromAttribute( szVEA, zsizeof( szVEA ), vTZZOVEAO, "ViewObjRef", "Name" );
 
       lRC = CallPainterForSelectedControls( vSubtask, "tzxsltdd",
                                             "PainterSelectedCallback",
@@ -14895,10 +14895,10 @@ SetSelectedEntityMapping( zVIEW vSubtask )
       zCHAR szVEA[ 3 * 33 ];
       zSHORT nLth;
 
-      GetStringFromAttribute( szVEA, sizeof( szVEA ), vTZZOVEAO, "ViewObjRef", "Name" );
+      GetStringFromAttribute( szVEA, zsizeof( szVEA ), vTZZOVEAO, "ViewObjRef", "Name" );
       nLth = (zSHORT) zstrlen( szVEA );
       szVEA[ nLth++ ] = '.';
-      GetStringFromAttribute( szVEA + nLth, sizeof( szVEA ) - nLth, vTZZOVEAO, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szVEA + nLth, zsizeof( szVEA ) - nLth, vTZZOVEAO, "LOD_Entity", "Name" );
       GetIntegerFromAttribute( &lZKey, vTZZOVEAO, "LOD", "ZKey" );
       RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
       SetCursorFirstEntityByInteger( vCM_List, "W_MetaDef", "CPLR_ZKey", lZKey, "" );
@@ -14936,13 +14936,13 @@ SetSelectedAttributeMapping( zVIEW vSubtask )
       zCHAR szVEA[ 3 * 33 ];
       zSHORT nLth;
 
-      GetStringFromAttribute( szVEA, sizeof( szVEA ), vTZZOVEAO, "ViewObjRef", "Name" );
+      GetStringFromAttribute( szVEA, zsizeof( szVEA ), vTZZOVEAO, "ViewObjRef", "Name" );
       nLth = (zSHORT) zstrlen( szVEA );
       szVEA[ nLth++ ] = '.';
-      GetStringFromAttribute( szVEA + nLth, sizeof( szVEA ) - nLth, vTZZOVEAO, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szVEA + nLth, zsizeof( szVEA ) - nLth, vTZZOVEAO, "LOD_Entity", "Name" );
       nLth = (zSHORT) zstrlen( szVEA );
       szVEA[ nLth++ ] = '.';
-      GetStringFromAttribute( szVEA + nLth, sizeof( szVEA ) - nLth, vTZZOVEAO, "ER_Attribute", "Name" );
+      GetStringFromAttribute( szVEA + nLth, zsizeof( szVEA ) - nLth, vTZZOVEAO, "ER_Attribute", "Name" );
       GetIntegerFromAttribute( &lZKey, vTZZOVEAO, "LOD", "ZKey" );
       RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
       SetCursorFirstEntityByInteger( vCM_List, "W_MetaDef", "CPLR_ZKey", lZKey, "" );
@@ -15036,7 +15036,7 @@ fnChangeMappingViewChildren( zVIEW vSubtask, zBOOL bAtLevel )
 
    GetViewByName( &vXSLT, "TZXSLT", vSubtask, zLEVEL_TASK );
    GetViewByName( &vTZXSLTL, "TZXSLTL", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szCtrlTag, sizeof( szCtrlTag ), vTZXSLTL, "Control", "Tag" );
+   GetStringFromAttribute( szCtrlTag, zsizeof( szCtrlTag ), vTZXSLTL, "Control", "Tag" );
 
    CreateViewFromViewForTask( &vOldViewName, vTZXSLTL, 0 );
    CreateViewFromViewForTask( &vNewViewName, vTZXSLTL, 0 );
@@ -15348,7 +15348,7 @@ GenerateAllXSLT( zVIEW vSubtask )
 
    // Prompt operator to ensure ALL windows are to be generated.
    GetAddrForAttribute( &pchDlg, vTZXSLTL, "XSLT", "Tag" );
-   sprintf_s( szMsg, sizeof( szMsg ), "Generate XSLT for ALL Panels in: %s?", pchDlg );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Generate XSLT for ALL Panels in: %s?", pchDlg );
    if ( g_bSkipPrompt == FALSE )
    {
       if ( OperatorPrompt( vSubtask, "Generate XSLT",
@@ -15365,7 +15365,7 @@ GenerateAllXSLT( zVIEW vSubtask )
    while ( nRC == zCURSOR_SET )
    {
       GetAddrForAttribute( &pchWnd, vTZXSLTL, "Window", "Tag" );
-      sprintf_s( szMsg, sizeof( szMsg ), "Generating JSP: %s.%s", pchDlg, pchWnd );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Generating JSP: %s.%s", pchDlg, pchWnd );
       MB_SetMessage( vSubtask, 1, szMsg );
       SetViewFromView( vValidate, vTZXSLT );
       ValidateCtrlAndActionTags( vSubtask, vValidate );
@@ -15407,7 +15407,7 @@ GenerateAllXSLT_Java( zVIEW vSubtask )
 
    // Prompt operator to ensure ALL windows are to be generated.
    GetAddrForAttribute( &pchDlg, vTZXSLTL, "XSLT", "Tag" );
-   sprintf_s( szMsg, sizeof( szMsg ), "Generate XSLT for ALL Panels in: %s?", pchDlg );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Generate XSLT for ALL Panels in: %s?", pchDlg );
    if ( g_bSkipPrompt == FALSE )
    {
       if ( OperatorPrompt( vSubtask, "Generate Java XSLT",
@@ -15423,7 +15423,7 @@ GenerateAllXSLT_Java( zVIEW vSubtask )
    while ( nRC == zCURSOR_SET )
    {
       GetAddrForAttribute( &pchWnd, vTZXSLTL, "Window", "Tag" );
-      sprintf_s( szMsg, sizeof( szMsg ), "Generating JSP Java: %s.%s", pchDlg, pchWnd );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Generating JSP Java: %s.%s", pchDlg, pchWnd );
       MB_SetMessage( vSubtask, 1, szMsg );
       SetViewFromView( vValidate, vTZXSLT );
       ValidateCtrlAndActionTags( vSubtask, vValidate );
@@ -15529,13 +15529,13 @@ SetResizeCurrentWindow( zVIEW vSubtask )
 
    szHeight[ 0 ] = 0;
    nRC = OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter 'From' height (0 for all)", 0,
-                                 szHeight, sizeof( szHeight ) - 1 );
+                                 szHeight, zsizeof( szHeight ) - 1 );
    g_lFromHeight = zatol( szHeight );
    if ( nRC == zRESPONSE_OK && g_lFromHeight >= 0 )
    {
       szHeight[ 0 ] = 0;
       nRC = OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter 'To' height", 0,
-                                    szHeight, sizeof( szHeight ) - 1 );
+                                    szHeight, zsizeof( szHeight ) - 1 );
       g_lToHeight = zatol( szHeight );
 
       if ( nRC == zRESPONSE_OK && g_lToHeight > 0 )
@@ -15568,13 +15568,13 @@ SetResizeEntireXSLT( zVIEW vSubtask )
 
    szHeight[ 0 ] = 0;
    nRC = OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter 'From' height (0 for all)", 0,
-                                 szHeight, sizeof( szHeight ) - 1 );
+                                 szHeight, zsizeof( szHeight ) - 1 );
    g_lFromHeight = zatol( szHeight );
    if ( nRC == zRESPONSE_OK && g_lFromHeight >= 0 )
    {
       szHeight[ 0 ] = 0;
       nRC = OperatorPromptForInput( vSubtask, "XSLT Migration", "Enter 'To' height", 0,
-                                    szHeight, sizeof( szHeight ) - 1 );
+                                    szHeight, zsizeof( szHeight ) - 1 );
       g_lToHeight = zatol( szHeight );
 
       if ( nRC == zRESPONSE_OK && g_lFromHeight >= 0 )
@@ -15614,7 +15614,7 @@ FindCtrl( zVIEW vSubtask )
       return( -1 );
    }
 
-   GetCtrlText( vSubtask, "FindText", szText, sizeof( szText ) );
+   GetCtrlText( vSubtask, "FindText", szText, zsizeof( szText ) );
    if ( szText[ 0 ] )
    {
       zCHAR  szAttrib[ 256 ];
@@ -15622,14 +15622,14 @@ FindCtrl( zVIEW vSubtask )
       zLONG  lRC = 0;
 
       SaveCtrlList( vSubtask );
-      GetCtrlText( vSubtask, "InvisibleForFind", szAttrib, sizeof( szAttrib ) );
+      GetCtrlText( vSubtask, "InvisibleForFind", szAttrib, zsizeof( szAttrib ) );
       if ( szAttrib[ 0 ] )
          lRC = zatol( szAttrib );
 
       szAttrib[ 0 ] = 0;
 
       if ( GetCtrlState( vSubtask, "FindByTag", zCONTROL_STATUS_CHECKED ) )
-         strcpy_s( szAttrib, sizeof( szAttrib ), "Tag" );
+         strcpy_s( szAttrib, zsizeof( szAttrib ), "Tag" );
 
       if ( GetCtrlState( vSubtask, "FindByText", zCONTROL_STATUS_CHECKED ) )
       {
@@ -15637,7 +15637,7 @@ FindCtrl( zVIEW vSubtask )
          if ( nLth > 0 )
             szAttrib[ nLth++ ] = ',';
 
-         strcpy_s( szAttrib + nLth, sizeof( szAttrib ) - nLth, "Text" );
+         strcpy_s( szAttrib + nLth, zsizeof( szAttrib ) - nLth, "Text" );
       }
 
       lRC = OL_FindItemByAttribute( vSubtask, "CtrlList", "Control",
@@ -15645,7 +15645,7 @@ FindCtrl( zVIEW vSubtask )
       if ( lRC && lRC != -1 )
       {
          TraceLineI( "FindCtrl RC: ", lRC );
-         zltoa( lRC, szAttrib, sizeof( szAttrib ), 10 );
+         zltoa( lRC, szAttrib, zsizeof( szAttrib ), 10 );
          SetCtrlText( vSubtask, "InvisibleForFind", szAttrib );
       // RefreshCtrl( vSubtask, "Mapping" );
       // RefreshCtrl( vSubtask, "EventAction" );
@@ -15659,8 +15659,8 @@ FindCtrl( zVIEW vSubtask )
             OL_SelectItemAtPosForEntity( vSubtask, "CtrlList", "Control", 2 + 4 + 16 );
          }
 
-         GetStringFromAttribute( szText, sizeof( szText ), vTZXSLT, "Control", "Tag" );
-         strcat_s( szText, sizeof( szText ), " - Control found" );
+         GetStringFromAttribute( szText, zsizeof( szText ), vTZXSLT, "Control", "Tag" );
+         strcat_s( szText, zsizeof( szText ), " - Control found" );
          SysMessageBox( 0, szText, "Please click on Ctrl to Show Information Properly", -1 );
       }
       else
@@ -15689,12 +15689,12 @@ fnSetTagType( zVIEW vFlow )
    zCHAR  szType[ 32 ];
 
    // Get Tag and Type of widget (Control/MenuOptio/Hotkey) that invokes the event
-   GetStringFromAttribute( szText, sizeof( szText ), vFlow, "Widget", "Tag" );
-   GetStringFromAttribute( szType, sizeof( szType ), vFlow, "Widget", "Type" );
+   GetStringFromAttribute( szText, zsizeof( szText ), vFlow, "Widget", "Tag" );
+   GetStringFromAttribute( szType, zsizeof( szType ), vFlow, "Widget", "Type" );
    if ( szType[ 0 ] )
    {
-      strcat_s( szText, sizeof( szText ), " - " );
-      strcat_s( szText, sizeof( szText ), szType );
+      strcat_s( szText, zsizeof( szText ), " - " );
+      strcat_s( szText, zsizeof( szText ), szType );
    }
 
    SetAttributeFromString( vFlow, "Widget", "TagType", szText );
@@ -15730,15 +15730,15 @@ BuildXSLTFlow( zVIEW vSubtask )
 
       SetAttributeFromAttribute( vFlow, "TZFLOW", "Tag", vXSLT, "XSLT", "Tag" );
       SetAttributeFromAttribute( vFlow, "TZFLOW", "Name", vXSLT, "XSLT", "Desc" );
-      GetStringFromAttribute( szText, sizeof( szText ), vFlow, "TZFLOW", "Tag" );
-      GetStringFromAttribute( szWork, sizeof( szWork ), vFlow, "TZFLOW", "Name" );
+      GetStringFromAttribute( szText, zsizeof( szText ), vFlow, "TZFLOW", "Tag" );
+      GetStringFromAttribute( szWork, zsizeof( szWork ), vFlow, "TZFLOW", "Name" );
       if ( szWork[ 0 ] )
       {
          nLth = (zSHORT) zstrlen( szText );
          szText[ nLth++ ] = ' ';
          szText[ nLth++ ] = '-';
          szText[ nLth++ ] = ' ';
-         strcpy_s( szText + nLth, sizeof( szText ) - nLth, szWork );
+         strcpy_s( szText + nLth, zsizeof( szText ) - nLth, szWork );
       }
 
       SetAttributeFromString( vFlow, "TZFLOW", "Name", szText );
@@ -15748,12 +15748,12 @@ BuildXSLTFlow( zVIEW vSubtask )
          CreateEntity( vFlow, "Window", zPOS_NEXT );
          SetAttributeFromAttribute( vFlow, "Window", "Tag", vXSLT, "Window", "Tag" );
          SetAttributeFromAttribute( vFlow, "Window", "Caption", vXSLT, "Window", "Caption" );
-         GetStringFromAttribute( szText, sizeof( szText ), vFlow, "Window", "Tag" );
+         GetStringFromAttribute( szText, zsizeof( szText ), vFlow, "Window", "Tag" );
          nLth = (zSHORT) zstrlen( szText );
          szText[ nLth++ ] = ' ';
          szText[ nLth++ ] = '-';
          szText[ nLth++ ] = ' ';
-         GetStringFromAttribute( szText + nLth, sizeof( szText ) - nLth, vFlow, "Window", "Caption" );
+         GetStringFromAttribute( szText + nLth, zsizeof( szText ) - nLth, vFlow, "Window", "Caption" );
          SetAttributeFromString( vFlow, "Window", "TagCaption", szText );
          nRC = SetCursorFirstEntity( vXSLT, "Action", 0 );
          while ( nRC == zCURSOR_SET )
@@ -15767,18 +15767,18 @@ BuildXSLTFlow( zVIEW vSubtask )
                SetAttributeFromString( vFlow, "Action", "Operation", "n/a" );
 
             GetIntegerFromAttribute( &lActType, vXSLT, "Action", "Type" );
-            GetStringFromAttribute( szTag, sizeof( szTag ), vFlow, "Action", "Tag" );
-            GetStringFromAttribute( szOper, sizeof( szOper ), vFlow, "Action", "Operation" );
-            GetStringFromAttribute( szDlgTag, sizeof( szDlgTag ), vXSLT, "Action", "XSLTName" );
-            GetStringFromAttribute( szWndTag, sizeof( szWndTag ), vXSLT, "Action", "WindowName" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vFlow, "Action", "Tag" );
+            GetStringFromAttribute( szOper, zsizeof( szOper ), vFlow, "Action", "Operation" );
+            GetStringFromAttribute( szDlgTag, zsizeof( szDlgTag ), vXSLT, "Action", "XSLTName" );
+            GetStringFromAttribute( szWndTag, zsizeof( szWndTag ), vXSLT, "Action", "WindowName" );
             if ( szWndTag[ 0 ] )
             {
-               sprintf_s( szText, sizeof( szText ), "Tag: %s   Oper: %s   WAB: %s   ====> %s.%s",
+               sprintf_s( szText, zsizeof( szText ), "Tag: %s  Oper: %s   WAB: %s   ====> %s.%s",
                           szTag, szOper, GetActionString( lActType ), szDlgTag, szWndTag );
             }
             else
             {
-               sprintf_s( szText, sizeof( szText ), "Tag: %s   Oper: %s   WAB: %s",
+               sprintf_s( szText, zsizeof( szText ), "Tag: %s  Oper: %s   WAB: %s",
                           szTag, szOper, GetActionString( lActType ) );
             }
 
@@ -15806,12 +15806,12 @@ BuildXSLTFlow( zVIEW vSubtask )
                   {
                      CreateEntity( vFlow, "Widget", zPOS_NEXT );
 
-                     GetStringFromAttribute( szText, sizeof( szText ), vXSLT, "ActCtrl", "Tag" );
+                     GetStringFromAttribute( szText, zsizeof( szText ), vXSLT, "ActCtrl", "Tag" );
                      nLth = (zSHORT) zstrlen( szText );
                      szText[ nLth++ ] = ' ';
                      szText[ nLth++ ] = '-';
                      szText[ nLth++ ] = ' ';
-                     GetStringFromAttribute( szText + nLth, sizeof( szText ) - nLth, vXSLT, "ActCtrl", "Text" );
+                     GetStringFromAttribute( szText + nLth, zsizeof( szText ) - nLth, vXSLT, "ActCtrl", "Text" );
 
                      SetAttributeFromString( vFlow, "Widget", "Tag", szText );
                      SetAttributeFromString( vFlow, "Widget", "Type", "Control" );

@@ -118,8 +118,8 @@ fnEditFormatDecimalString( zPCHAR pchDecString,
                            zPCHAR pchDecPt );
 zSHORT
 fnGetDecimalFmtStrings( zLPCONTEXT  lpContext,
-                        zPCHAR      szReturnThou,
-                        zPCHAR      szReturnDecPt,
+                        zPCHAR      pchReturnThou,
+                        zPCHAR      pchReturnDecPt,
                         zPLONG      lplPrecision );
 zSHORT
 fnStrToDec( zPCHAR         sz,
@@ -402,8 +402,8 @@ fnSetDecimalAttribute( LPDOMAINDATA lpDomainData,
    {
       *sz = lpDomainData->lpViewAttribute->cType;
       *(sz + 1) = 0;
-      strcat_s( sz, sizeof( sz ), ", " );
-      strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+      strcat_s( sz, zsizeof( sz ), ", " );
+      strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
       // "TZDME003 - Attribute Type invalid for this Domain"
       SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0, sz, lpDomainData->lpViewAttribute->szName );
       return( zCALL_ERROR );
@@ -422,8 +422,8 @@ fnSetDecimalAttribute( LPDOMAINDATA lpDomainData,
             SysAssignDecimalFromNull( &d );
          else
          {
-            strncpy_s( sz, sizeof( sz ), psz, sizeof( sz ) - 1 );
-            sz[ sizeof( sz ) - 1 ] = 0;
+            strncpy_s( sz, zsizeof( sz ), psz, zsizeof( sz ) - 1 );
+            sz[ zsizeof( sz ) - 1 ] = 0;
             nRC = fnStrToDec( sz, lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute,
                               lpDomain, lpDomainData->pszContextName, &d, bValidationOnly );
             if ( nRC == zCALL_ERROR )
@@ -459,8 +459,8 @@ fnSetDecimalAttribute( LPDOMAINDATA lpDomainData,
       default:
          *sz = lpDomainData->cType;
          *(sz + 1) = 0;
-         strcat_s( sz, sizeof( sz ), ", " );
-         strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+         strcat_s( sz, zsizeof( sz ), ", " );
+         strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
          // "TZDME001 - Invalid Input Data Type"
          SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0, sz, lpDomainData->lpViewAttribute->szName );
          return( zCALL_ERROR );
@@ -474,7 +474,7 @@ fnSetDecimalAttribute( LPDOMAINDATA lpDomainData,
    {
       zCHAR  szEditString[ zMAX_DECIMAL_STRING ];
 
-      strcpy_s( szEditString, sizeof( szEditString ), (zPCHAR) SysGetPointerFromHandle( lpContext->hEditString ) );
+      strcpy_s( szEditString, zsizeof( szEditString ), (zPCHAR) SysGetPointerFromHandle( lpContext->hEditString ) );
 
       // Loop for each range check in EditString.
       // At each pass of loop, copy the range check to sz.
@@ -486,7 +486,7 @@ fnSetDecimalAttribute( LPDOMAINDATA lpDomainData,
 
       for ( ; ; ) // loop until colon is found
       {
-         strncpy_s( sz, sizeof( sz ), szEditString + nStart, k - nStart );
+         strncpy_s( sz, zsizeof( sz ), szEditString + nStart, k - nStart );
          sz[ k - nStart ] = 0;
 
          if ( sz[ 0 ] == '>' || sz[ 0 ] == '<' || sz[ 0 ] == '=' )
@@ -534,8 +534,8 @@ fnSetDecimalAttribute( LPDOMAINDATA lpDomainData,
             {
                // Precision is 0 and it doesn't matter what szThou etc. is.
                lPrecision = 0;
-               strcpy_s( szDecPt, sizeof( szDecPt ), "," );
-               strcpy_s( szThou, sizeof( szThou ), "." );
+               strcpy_s( szDecPt, zsizeof( szDecPt ), "," );
+               strcpy_s( szThou, zsizeof( szThou ), "." );
             }
 
             fnEditFormatDecimalString( psz, szThou, szDecPt );
@@ -568,8 +568,8 @@ fnSetDecimalAttribute( LPDOMAINDATA lpDomainData,
             {
                *sz = lpDomainData->cType;
                *(sz + 1) = 0;
-               strcat_s( sz, sizeof( sz ), ", " );
-               strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+               strcat_s( sz, zsizeof( sz ), ", " );
+               strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
                // "TZDME023 - Value out of valid range"
                SendDomainError( lpDomainData->zView, lpDomain, 8, 23, 0, sz, lpDomainData->lpViewAttribute->szName );
                return( zCALL_ERROR );
@@ -631,8 +631,8 @@ fnGetDecimalAttribute( LPDOMAINDATA lpDomainData )
    {
       *sz = lpDomainData->lpViewAttribute->cType;
       *(sz + 1) = 0;
-      strcat_s( sz, sizeof( sz ), ", " );
-      strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+      strcat_s( sz, zsizeof( sz ), ", " );
+      strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
       // "TZDME003 - Attribute Type invalid for this Domain"
       SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0, sz, lpDomainData->lpViewAttribute->szName );
       return( zCALL_ERROR );
@@ -674,7 +674,7 @@ fnGetDecimalAttribute( LPDOMAINDATA lpDomainData )
 
                // Check if the Context is one of the DecimalKeyx values.
                // If so, there will be no thousands value.
-               strcpy_s( szWorkName, sizeof( szWorkName ), lpDomainData->pszContextName );
+               strcpy_s( szWorkName, zsizeof( szWorkName ), lpDomainData->pszContextName );
                szWorkName[ 10 ] = 0;
                if ( zstrcmp( szWorkName, "DecimalKey" ) == 0 )
                {
@@ -687,11 +687,11 @@ fnGetDecimalAttribute( LPDOMAINDATA lpDomainData )
                   {
                      zCHAR  sz2[ zMAX_DECIMAL_STRING ];
 
-                     strcpy_s( sz, sizeof( sz ), lpContext->szName );
-                     strcat_s( sz, sizeof( sz ), "/S" );
-                     strcpy_s( sz2, sizeof( sz2 ), lpDomainData->lpViewEntity->szName );
-                     strcat_s( sz2, sizeof( sz2 ), ", " );
-                     strcat_s( sz2, sizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
+                     strcpy_s( sz, zsizeof( sz ), lpContext->szName );
+                     strcat_s( sz, zsizeof( sz ), "/S" );
+                     strcpy_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewEntity->szName );
+                     strcat_s( sz2, zsizeof( sz2 ), ", " );
+                     strcat_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
                      // "TZDME013 - Context/cType Combination is invalid "
                      SendDomainError( lpDomainData->zView, lpDomain, 8, 13, 0, sz, sz2 );
                      return( zCALL_ERROR );
@@ -715,7 +715,7 @@ fnGetDecimalAttribute( LPDOMAINDATA lpDomainData )
          if ( SysCompareDecimalToNull( (zPDECIMAL) lpAttrValue ) == 0 )
          {
             *((zPCHAR) lpDomainData->lpData) = 0;
-            strcpy_s( sz, sizeof( sz ), "0.0" );
+            strcpy_s( sz, zsizeof( sz ), "0.0" );
             bWasNull = TRUE;
          }
          else
@@ -790,11 +790,11 @@ fnGetDecimalAttribute( LPDOMAINDATA lpDomainData )
                {
                   zCHAR    sz2[ zMAX_DECIMAL_STRING ];
 
-                  strcpy_s( sz, sizeof( sz ), lpDomainData->pszContextName );
-                  strcat_s( sz, sizeof( sz ), "/L" );
-                  strcpy_s( sz2, sizeof( sz2 ), lpDomainData->lpViewEntity->szName );
-                  strcat_s( sz2, sizeof( sz2 ), ", " );
-                  strcat_s( sz2, sizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
+                  strcpy_s( sz, zsizeof( sz ), lpDomainData->pszContextName );
+                  strcat_s( sz, zsizeof( sz ), "/L" );
+                  strcpy_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( sz2, zsizeof( sz2 ), ", " );
+                  strcat_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
                   // "TZDME013 - Context/cType Combination is invalid "
                   SendDomainError( lpDomainData->zView, lpDomain, 8, 13, 0, sz, sz2 );
                   return( zCALL_ERROR );
@@ -919,8 +919,8 @@ fnGetDecimalAttribute( LPDOMAINDATA lpDomainData )
       default:
          *sz = lpDomainData->cType;
          *(sz + 1) = 0;
-         strcat_s( sz, sizeof( sz ), ", " );
-         strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+         strcat_s( sz, zsizeof( sz ), ", " );
+         strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
          // "TZDME001 - Invalid Input Data Type"
          SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0, sz, lpDomainData->lpViewAttribute->szName );
          return( zCALL_ERROR );
@@ -951,8 +951,8 @@ fnAddToDecimalAttribute( LPDOMAINDATA lpDomainData )
    {
       *sz = lpDomainData->lpViewAttribute->cType;
       *(sz + 1) = 0;
-      strcat_s( sz, sizeof( sz ), ", " );
-      strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+      strcat_s( sz, zsizeof( sz ), ", " );
+      strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
       // "TZDME003 - Attribute Type invalid for this Domain"
       SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0, sz, lpDomainData->lpViewAttribute->szName );
       return( zCALL_ERROR );
@@ -1013,7 +1013,7 @@ fnAddToDecimalAttribute( LPDOMAINDATA lpDomainData )
    {
     case zTYPE_STRING:
       // string to decimal
-      strcpy_s( sz, sizeof( sz ), (zPCHAR) lpDomainData->lpData );
+      strcpy_s( sz, zsizeof( sz ), (zPCHAR) lpDomainData->lpData );
       nRC = fnStrToDec( sz, lpDomainData->zView, lpDomainData->lpViewEntity,
                         lpDomainData->lpViewAttribute,
                         lpDomain, lpDomainData->pszContextName, &d, FALSE );
@@ -1031,11 +1031,11 @@ fnAddToDecimalAttribute( LPDOMAINDATA lpDomainData )
          {
             zCHAR sz2[ zMAX_DECIMAL_STRING ];
 
-            strcpy_s( sz, sizeof( sz ), lpDomainData->pszContextName );
-            strcat_s( sz, sizeof( sz ), "/L" );
-            strcpy_s( sz2, sizeof( sz2 ), lpDomainData->lpViewEntity->szName );
-            strcat_s( sz2, sizeof( sz2 ), ", " );
-            strcat_s( sz2, sizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
+            strcpy_s( sz, zsizeof( sz ), lpDomainData->pszContextName );
+            strcat_s( sz, zsizeof( sz ), "/L" );
+            strcpy_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz2, zsizeof( sz2 ), ", " );
+            strcat_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
             // "TZDME013 - Context/cType Combination is invalid "
             SendDomainError( lpDomainData->zView, lpDomain, 8, 13, 0, sz, sz2 );
             return( zCALL_ERROR );
@@ -1044,9 +1044,9 @@ fnAddToDecimalAttribute( LPDOMAINDATA lpDomainData )
          if ( zstrcmp( lpDomainData->pszContextName,
                        szlDecimalIntegerRounded ) == 0 )
          {
-            strcpy_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
-            strcat_s( sz, sizeof( sz ), ", " );
-            strcat_s( sz, sizeof( sz ), lpDomainData->lpViewAttribute->szName );
+            strcpy_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz, zsizeof( sz ), ", " );
+            strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewAttribute->szName );
             // "TZDME014 - Context is for retrieval only "
             SendDomainError( lpDomainData->zView, lpDomain, 8, 14, 0,
                              lpDomainData->pszContextName, sz );
@@ -1089,9 +1089,9 @@ fnAddToDecimalAttribute( LPDOMAINDATA lpDomainData )
          if ( zstrcmp( lpDomainData->pszContextName,
                        szlDecimalIntegerRounded ) == 0 )
          {
-            strcpy_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
-            strcat_s( sz, sizeof( sz ), ", " );
-            strcat_s( sz, sizeof( sz ), lpDomainData->lpViewAttribute->szName );
+            strcpy_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz, zsizeof( sz ), ", " );
+            strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewAttribute->szName );
             // "TZDME014 - Context is for retrieval only "
             SendDomainError( lpDomainData->zView, lpDomain, 8, 14, 0, lpDomainData->pszContextName, sz );
             return( zCALL_ERROR );
@@ -1110,8 +1110,8 @@ fnAddToDecimalAttribute( LPDOMAINDATA lpDomainData )
     default:
       *sz = lpDomainData->cType;
       *(sz + 1) = 0;
-      strcat_s( sz, sizeof( sz ), ", " );
-      strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+      strcat_s( sz, zsizeof( sz ), ", " );
+      strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
       // "TZDME001 - Invalid Input Data Type"
       SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0, sz, lpDomainData->lpViewAttribute->szName );
       return( zCALL_ERROR );
@@ -1145,8 +1145,8 @@ fnCompareDecimalAttribute( LPDOMAINDATA lpDomainData )
    {
       *sz = lpDomainData->lpViewAttribute->cType;
       *(sz + 1) = 0;
-      strcat_s( sz, sizeof( sz ), ", " );
-      strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+      strcat_s( sz, zsizeof( sz ), ", " );
+      strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
       // "TZDME003 - Attribute Type invalid for this Domain"
       SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0, sz, lpDomainData->lpViewAttribute->szName );
       return( zCALL_ERROR );
@@ -1216,7 +1216,7 @@ fnCompareDecimalAttribute( LPDOMAINDATA lpDomainData )
          // string to decimal
          if ( lpDomainData->lpData && *((zPCHAR) lpDomainData->lpData) )
          {
-            strcpy_s( sz, sizeof( sz ), (zPCHAR) lpDomainData->lpData );
+            strcpy_s( sz, zsizeof( sz ), (zPCHAR) lpDomainData->lpData );
             nRC = fnStrToDec( sz, lpDomainData->zView, lpDomainData->lpViewEntity,
                               lpDomainData->lpViewAttribute, lpDomain, lpDomainData->pszContextName, &d, FALSE );
             if ( nRC == zCALL_ERROR )
@@ -1251,11 +1251,11 @@ fnCompareDecimalAttribute( LPDOMAINDATA lpDomainData )
          {
             zCHAR    sz2[ zMAX_DECIMAL_STRING ];
 
-            strcpy_s( sz, sizeof( sz ), lpDomainData->pszContextName );
-            strcat_s( sz, sizeof( sz ), "/L" );
-            strcpy_s( sz2, sizeof( sz2 ), lpDomainData->lpViewEntity->szName );
-            strcat_s( sz2, sizeof( sz2 ), ", " );
-            strcat_s( sz2, sizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
+            strcpy_s( sz, zsizeof( sz ), lpDomainData->pszContextName );
+            strcat_s( sz, zsizeof( sz ), "/L" );
+            strcpy_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz2, zsizeof( sz2 ), ", " );
+            strcat_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
 
             // "TZDME013 - Context/cType Combination is invalid "
             SendDomainError( lpDomainData->zView, lpDomain, 8, 13, 0, sz, sz2 );
@@ -1324,8 +1324,8 @@ fnCompareDecimalAttribute( LPDOMAINDATA lpDomainData )
       default:
          *sz = lpDomainData->cType;
          *(sz + 1) = 0;
-         strcat_s( sz, sizeof( sz ), ", " );
-         strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+         strcat_s( sz, zsizeof( sz ), ", " );
+         strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
          // "TZDME001 - Invalid Input Data Type"
          SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0, sz, lpDomainData->lpViewAttribute->szName );
          return( zCALL_ERROR );
@@ -1366,7 +1366,7 @@ fnGetCompValDecimalAttribute( LPDOMAINDATA lpDomainData )
       case zTYPE_STRING:
          if ( lpDomainData->lpData && *((zPCHAR) lpDomainData->lpData) )
          {
-            strcpy_s( sz, sizeof( sz ), (zPCHAR) lpDomainData->lpData );
+            strcpy_s( sz, zsizeof( sz ), (zPCHAR) lpDomainData->lpData );
             nRC = fnStrToDec( sz, lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute,
                               lpDomain, lpDomainData->pszContextName, &d, FALSE );
             if ( nRC == zCALL_ERROR )
@@ -1390,8 +1390,8 @@ fnGetCompValDecimalAttribute( LPDOMAINDATA lpDomainData )
       default:
          sz[ 0 ] = lpDomainData->cType;
          sz[ 1 ] = 0;
-         strcat_s( sz, sizeof( sz ), ", " );
-         strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+         strcat_s( sz, zsizeof( sz ), ", " );
+         strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
          // "TZDME001 - Invalid Input Data Type"
          SendDomainError( lpDomainData->zView, (LPDOMAIN) SysGetPointerFromHandle( lpDomainData->lpViewAttribute->hDomain ),
                           8, 1, 0, sz, lpDomainData->lpViewAttribute->szName );
@@ -1747,8 +1747,8 @@ fnEditFormatDecimalString( zPCHAR pchDecString,
 //./ END + 5
 zSHORT
 fnGetDecimalFmtStrings( zLPCONTEXT  lpContext,
-                        zPCHAR      szReturnThou,
-                        zPCHAR      szReturnDecPt,
+                        zPCHAR      pchReturnThou,
+                        zPCHAR      pchReturnDecPt,
                         zPLONG      lplPrecision )
 {
    zPCHAR   pszName;    // context name
@@ -1757,19 +1757,19 @@ fnGetDecimalFmtStrings( zLPCONTEXT  lpContext,
 
    // First check for Windows setting.  If so, use all international settings, including precision.
    if ( zstrcmp( pszName, "MSWindowsSetting" ) == 0 )
-      SysGetNumberFormat( szReturnThou, szReturnDecPt, lplPrecision );
+      SysGetNumberFormat( pchReturnThou, pchReturnDecPt, lplPrecision );
    else
    if ( zstrcmp( pszName, "CurrencyText" ) == 0 )
    {
-      SysGetNumberFormat( szReturnThou, szReturnDecPt, lplPrecision );
+      SysGetNumberFormat( pchReturnThou, pchReturnDecPt, lplPrecision );
       *lplPrecision = 2;
    }
    else
    if ( zstrncmp( pszName, "DECIMAL", 7 ) == 0 )  // check for DECIMALx
    {
-      // Use the international settings for szReturnThou and szReturnDecPt,
+      // Use the international settings for pchReturnThou and pchReturnDecPt,
       // but use the x value, if it exists, for lplPrecision.
-      SysGetNumberFormat( szReturnThou, szReturnDecPt, lplPrecision );
+      SysGetNumberFormat( pchReturnThou, pchReturnDecPt, lplPrecision );
       if ( pszName[ 7 ] == '4' || pszName[ 7 ] == '3' ||
            pszName[ 7 ] == '2' || pszName[ 7 ] == '1' ||
            pszName[ 7 ] == '0' )
@@ -1783,8 +1783,8 @@ fnGetDecimalFmtStrings( zLPCONTEXT  lpContext,
    if ( zstrncmp( pszName, "DecimalPoint", 12 ) == 0 )
    {
       // Use the comma or point as appropriate.  Use the x value, if it exists, for lplPrecision.
-      strcpy_s( szReturnThou, sizeof( szReturnThou ), "," );
-      strcpy_s( szReturnDecPt, sizeof( szReturnDecPt ), "." );
+      strcpy_s( pchReturnThou, 10, "," );
+      strcpy_s( pchReturnDecPt, 10, "." );
       if ( pszName[ 12 ] == '4' || pszName[ 12 ] == '3' ||
            pszName[ 12 ] == '2' || pszName[ 12 ] == '1' || pszName[ 12 ] == '0' )
       {
@@ -1796,8 +1796,8 @@ fnGetDecimalFmtStrings( zLPCONTEXT  lpContext,
    else
    if ( zstrncmp( pszName, "DecimalComma", 12 ) == 0 )
    {
-      strcpy_s( szReturnThou, sizeof( szReturnThou ), "." );
-      strcpy_s( szReturnDecPt, sizeof( szReturnDecPt ), "," );
+      strcpy_s( pchReturnThou, 10, "." );
+      strcpy_s( pchReturnDecPt, 10, "," );
       if ( pszName[ 12 ] == '4' || pszName[ 12 ] == '3' ||
            pszName[ 12 ] == '2' || pszName[ 12 ] == '1' || pszName[ 12 ] == '0' )
       {
@@ -1808,9 +1808,9 @@ fnGetDecimalFmtStrings( zLPCONTEXT  lpContext,
    }
    else  // if it is anything else
    {
-      // Use the international settings for szReturnThou and szReturnDecPt,
+      // Use the international settings for pchReturnThou and pchReturnDecPt,
       // but use the context value for lplPrecision.
-      SysGetNumberFormat( szReturnThou, szReturnDecPt, lplPrecision );
+      SysGetNumberFormat( pchReturnThou, pchReturnDecPt, lplPrecision );
       *lplPrecision = lpContext->lDecimalFormat;
    }
 
@@ -1879,11 +1879,11 @@ fnStrToDec( zPCHAR         sz,
       {
          zCHAR    sz2[ 70 ];
 
-         strcpy_s( sz1, sizeof( sz1 ), lpContext->szName );
-         strcat_s( sz1, sizeof( sz1 ), "/S" );
-         strcpy_s( sz2, sizeof( sz2 ), lpViewEntity->szName );
-         strcat_s( sz2, sizeof( sz2 ), ", " );
-         strcat_s( sz2, sizeof( sz2 ), lpViewAttribute->szName );
+         strcpy_s( sz1, zsizeof( sz1 ), lpContext->szName );
+         strcat_s( sz1, zsizeof( sz1 ), "/S" );
+         strcpy_s( sz2, zsizeof( sz2 ), lpViewEntity->szName );
+         strcat_s( sz2, zsizeof( sz2 ), ", " );
+         strcat_s( sz2, zsizeof( sz2 ), lpViewAttribute->szName );
 
          // "TZDME013 - Context/cType Combination is invalid "
          SendDomainError( zView, lpDomain, 8, 13, 0, sz, sz2 );
@@ -1908,9 +1908,9 @@ fnStrToDec( zPCHAR         sz,
          else
             nSeverity = 0;
 
-         strcpy_s( sz2, sizeof( sz2 ), lpViewEntity->szName );
-         strcat_s( sz2, sizeof( sz2 ), ", " );
-         strcat_s( sz2, sizeof( sz2 ), lpViewAttribute->szName );
+         strcpy_s( sz2, zsizeof( sz2 ), lpViewEntity->szName );
+         strcat_s( sz2, zsizeof( sz2 ), ", " );
+         strcat_s( sz2, zsizeof( sz2 ), lpViewAttribute->szName );
          // "TZDME020 - Invalid decimal string "
          SendDomainError( zView, lpDomain, nSeverity, 20, 0, sz, sz2 );
          return( zCALL_ERROR );
@@ -1928,7 +1928,7 @@ fnStrToDec( zPCHAR         sz,
       return( zCALL_ERROR );
    }
 
-   strcpy_s( szDec, sizeof( szDec ), sz );
+   strcpy_s( szDec, zsizeof( szDec ), sz );
 
    // Locate the decimal point in the string and then the number of digits after the decimal point.
    for ( k = 0; szDec[ k ] && szDec[ k ] != '.'; k++ )
@@ -1958,9 +1958,9 @@ fnStrToDec( zPCHAR         sz,
    {
       zCHAR sz2[ 70 ];
 
-      strcpy_s( sz2, sizeof( sz2 ), lpViewEntity->szName );
-      strcat_s( sz2, sizeof( sz2 ), ", " );
-      strcat_s( sz2, sizeof( sz2 ), lpViewAttribute->szName );
+      strcpy_s( sz2, zsizeof( sz2 ), lpViewEntity->szName );
+      strcat_s( sz2, zsizeof( sz2 ), ", " );
+      strcat_s( sz2, zsizeof( sz2 ), lpViewAttribute->szName );
       // "TZDME020 - Invalid decimal string "
       SendDomainError( zView, lpDomain, 0, 20, 0, szDec, sz2 );
       return( zCALL_ERROR );

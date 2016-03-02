@@ -36,7 +36,7 @@ CHANGE LOG
    could handle a larger number of expressions within the IF.
 
 18.08.1998  HH
-   Corrected MoveViewToStringExpr, because sizeof sQExprStruct was changed.
+   Corrected MoveViewToStringExpr, because zsizeof sQExprStruct was changed.
 
 */
 
@@ -121,7 +121,7 @@ MoveViewToStringExpr( zVIEW  vSubtask,
                   if ( sWorkExpr.lElementClass == qCONSTANT || sWorkExpr.lElementClass == qATTRIBUTEQUALIFIER )
          {
             sWorkExpr.lOffset = lExprText;
-            GetStringFromAttribute( sWorkExpr.szText, sizeof( sWorkExpr.szText ), vSourceView, "ExprNode", "Text" );  // was szText ... dks 2009.12.28
+            GetStringFromAttribute( sWorkExpr.szText, zsizeof( sWorkExpr.szText ), vSourceView, "ExprNode", "Text" ); // was szText ... dks 2009.12.28
 
             strcpy_s( (zPCHAR) pchExprText + sWorkExpr.lOffset, EXPRTEXT_MAXSTRING - sWorkExpr.lOffset, sWorkExpr.szText );
             lExprText += zstrlen( sWorkExpr.szText ) + 1;  // was szText ... dks 2009.12.28
@@ -130,7 +130,7 @@ MoveViewToStringExpr( zVIEW  vSubtask,
          if ( sWorkExpr.lElementClass == qOPERATIONCALL && sWorkExpr.lOffset <= 1024 ) // a zkey would be larger
          {
             sWorkExpr.lOffset = lExprText;
-            GetStringFromAttribute( sWorkExpr.szText, sizeof( sWorkExpr.szText ), vSourceView, "ExprNode", "Text" );  // was szText ... dks 2009.12.28
+            GetStringFromAttribute( sWorkExpr.szText, zsizeof( sWorkExpr.szText ), vSourceView, "ExprNode", "Text" ); // was szText ... dks 2009.12.28
 
             strcpy_s( (zPCHAR) pchExprText + sWorkExpr.lOffset, EXPRTEXT_MAXSTRING - sWorkExpr.lOffset, sWorkExpr.szText );
             lExprText += zstrlen( sWorkExpr.szText ) + 1;  // was szText ... dks 2009.12.28

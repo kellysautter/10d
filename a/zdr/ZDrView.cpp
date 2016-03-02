@@ -246,12 +246,12 @@ ZDrView::ZDrView( ZSubtask *pZSubtask ) :
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "ZDrView::ctor (0x%08x): %d Subtask: (%s) %d View: %d",
+         sprintf_s( szMsg, zsizeof( szMsg ), "ZDrView::ctor (0x%08x): %d Subtask: (%s) %d View: %d",
                     (zULONG) this, m_ulViewIdNbr, (zPCHAR) (*(m_pZSubtask->m_pzsWndTag)).GetString(),
                     pZSubtask->m_ulSubtaskIdNbr, pZSubtask->m_pZView ? pZSubtask->m_pZView->m_ulViewIdNbr : 0 );
          if ( pZSubtask->m_pZView )
          {
-            strcat_s( szMsg, sizeof( szMsg ), " ##### Original view: " );
+            strcat_s( szMsg, zsizeof( szMsg ), " ##### Original view: " );
             TraceLineI( szMsg, pZSubtask->m_pZView->m_ulViewIdNbr );
          }
          else
@@ -633,19 +633,15 @@ ZDrView::OnPreparePrinting( CPrintInfo *pPrintInfo )
 // PRINTDLG pd;
 // pd.lStructSize = (DWORD) sizeof( PRINTDLG );
    pPrintInfo->m_pPD->m_pd.lStructSize = (DWORD) sizeof( PRINTDLG );
-   if ( m_pZSubtask->m_pZTask->m_pZDrApp->
-                     GetPrinterDeviceDefaults( &(pPrintInfo->m_pPD->m_pd) ) )
+   if ( m_pZSubtask->m_pZTask->m_pZDrApp->GetPrinterDeviceDefaults( &(pPrintInfo->m_pPD->m_pd) ) )
    {
    // zCHAR szDeviceName[ CCHDEVICENAME + 1 ];
 
       // Protect memory handle with ::GlobalLock and ::GlobalUnlock.
-      LPDEVMODE pDevMode = (LPDEVMODE)
-         ::GlobalLock( m_pZSubtask->m_pZTask->m_pZDrApp->m_hDevMode );
+      LPDEVMODE pDevMode = (LPDEVMODE) ::GlobalLock( m_pZSubtask->m_pZTask->m_pZDrApp->m_hDevMode );
 
       // Set orientation to landscape.
-      pDevMode->dmOrientation =
-            (m_pZSubtask->m_pZPrintout->m_bLandscape) ? DMORIENT_LANDSCAPE :
-                                                        DMORIENT_PORTRAIT;
+      pDevMode->dmOrientation = (m_pZSubtask->m_pZPrintout->m_bLandscape) ? DMORIENT_LANDSCAPE : DMORIENT_PORTRAIT;
       ::GlobalUnlock( m_pZSubtask->m_pZTask->m_pZDrApp->m_hDevMode );
    }
 
@@ -695,8 +691,7 @@ ZDrView::OnBeginPrinting( CDC *pDC, CPrintInfo *pPrintInfo )
 // PRINTDLG pd;
 // pd.lStructSize = (DWORD) sizeof( PRINTDLG );
    pPrintInfo->m_pPD->m_pd.lStructSize = (DWORD) sizeof( PRINTDLG );
-   if ( m_pZSubtask->m_pZTask->m_pZDrApp->
-                     GetPrinterDeviceDefaults( &(pPrintInfo->m_pPD->m_pd) ) )
+   if ( m_pZSubtask->m_pZTask->m_pZDrApp->GetPrinterDeviceDefaults( &(pPrintInfo->m_pPD->m_pd) ) )
    {
    // zCHAR szDeviceName[ CCHDEVICENAME + 1 ];
       zCHAR szYN[ 2 ];
@@ -706,9 +701,8 @@ ZDrView::OnBeginPrinting( CDC *pDC, CPrintInfo *pPrintInfo )
          ::GlobalLock( m_pZSubtask->m_pZTask->m_pZDrApp->m_hDevMode );
 
       // Set the way we rotate text by getting INI setting for printer.
-      GetWorkstationAppValue( m_pZSubtask->m_vDialog,
-                              (zPCHAR) pDevMode->dmDeviceName,
-                              "NegateEscapement", szYN, sizeof( szYN ) );
+      GetWorkstationAppValue( m_pZSubtask->m_vDialog, (zPCHAR) pDevMode->dmDeviceName,
+                              "NegateEscapement", szYN, zsizeof( szYN ) );
       if ( szYN[ 0 ] == 'y' || szYN[ 0 ] == 'Y' )
       {
          if ( m_pZSubtask->m_pZTask->m_nTraceAction > 2 )
@@ -733,7 +727,7 @@ ZDrView::OnBeginPrinting( CDC *pDC, CPrintInfo *pPrintInfo )
       GetWorkstationAppValue( m_pZSubtask->m_vDialog,
                               (zPCHAR) pDevMode->dmDeviceName,
                               "FontScale", szFontScale,
-                              sizeof( szFontScale ) );
+                              zsizeof( szFontScale ) );
       if ( szFontScale[ 0 ] )
       {
          m_pZSubtask->m_pZPrintout->m_dHeight = atof( szFontScale );
@@ -766,53 +760,35 @@ ZDrView::OnBeginPrinting( CDC *pDC, CPrintInfo *pPrintInfo )
 
       m_pZSubtask->m_pZPrintout->m_lHorzRes = dc.GetDeviceCaps( HORZRES );
       m_pZSubtask->m_pZPrintout->m_lVertRes = dc.GetDeviceCaps( VERTRES );
-      m_pZSubtask->m_pZPrintout->m_nPixelsPerInchX =
-                                          dc.GetDeviceCaps( LOGPIXELSX );
-      m_pZSubtask->m_pZPrintout->m_nPixelsPerInchY =
-                                          dc.GetDeviceCaps( LOGPIXELSY );
-      m_pZSubtask->m_pZPrintout->m_nPixelsOffsetX =
-                                          dc.GetDeviceCaps( PHYSICALOFFSETX );
-      m_pZSubtask->m_pZPrintout->m_nPixelsOffsetY =
-                                          dc.GetDeviceCaps( PHYSICALOFFSETY );
+      m_pZSubtask->m_pZPrintout->m_nPixelsPerInchX = dc.GetDeviceCaps( LOGPIXELSX );
+      m_pZSubtask->m_pZPrintout->m_nPixelsPerInchY = dc.GetDeviceCaps( LOGPIXELSY );
+      m_pZSubtask->m_pZPrintout->m_nPixelsOffsetX = dc.GetDeviceCaps( PHYSICALOFFSETX );
+      m_pZSubtask->m_pZPrintout->m_nPixelsOffsetY = dc.GetDeviceCaps( PHYSICALOFFSETY );
    }
    else
    {
       // Determine the page extent in 16ths of an inch.
       m_pZSubtask->m_pZPrintout->m_lHorzRes = pDC->GetDeviceCaps( HORZRES );
       m_pZSubtask->m_pZPrintout->m_lVertRes = pDC->GetDeviceCaps( VERTRES );
-      m_pZSubtask->m_pZPrintout->m_nPixelsPerInchX =
-                                       pDC->GetDeviceCaps( LOGPIXELSX );
-      m_pZSubtask->m_pZPrintout->m_nPixelsPerInchY =
-                                       pDC->GetDeviceCaps( LOGPIXELSY );
-      m_pZSubtask->m_pZPrintout->m_nPixelsOffsetX =
-                                       pDC->GetDeviceCaps( PHYSICALOFFSETX );
-      m_pZSubtask->m_pZPrintout->m_nPixelsOffsetY =
-                                       pDC->GetDeviceCaps( PHYSICALOFFSETY );
+      m_pZSubtask->m_pZPrintout->m_nPixelsPerInchX = pDC->GetDeviceCaps( LOGPIXELSX );
+      m_pZSubtask->m_pZPrintout->m_nPixelsPerInchY = pDC->GetDeviceCaps( LOGPIXELSY );
+      m_pZSubtask->m_pZPrintout->m_nPixelsOffsetX = pDC->GetDeviceCaps( PHYSICALOFFSETX );
+      m_pZSubtask->m_pZPrintout->m_nPixelsOffsetY = pDC->GetDeviceCaps( PHYSICALOFFSETY );
    }
 
    if ( m_pZSubtask && (m_pZSubtask->m_pZTask->m_nTraceAction & 0x74) == 0x74 )
    {
       TraceLineS( "=====================", "" );
-      TraceLineI( "DeviceCaps LOGPIXELSX ",
-                  m_pZSubtask->m_pZPrintout->m_nPixelsPerInchX );
-      TraceLineI( "DeviceCaps LOGPIXELSY ",
-                  m_pZSubtask->m_pZPrintout->m_nPixelsPerInchY );
-      TraceLineI( "DeviceCaps HORZRES ",
-                  m_pZSubtask->m_pZPrintout->m_lHorzRes );
-      TraceLineI( "DeviceCaps VERTRES ",
-                  m_pZSubtask->m_pZPrintout->m_lVertRes );
-      TraceLineI( "DeviceCaps PHYSICALWIDTH ",
-                  pDC->GetDeviceCaps( PHYSICALWIDTH ) );
-      TraceLineI( "DeviceCaps PHYSICALHEIGHT ",
-                  pDC->GetDeviceCaps( PHYSICALHEIGHT ) );
-      TraceLineI( "DeviceCaps PHYSICALOFFSETX ",
-                  m_pZSubtask->m_pZPrintout->m_nPixelsOffsetX );
-      TraceLineI( "DeviceCaps PHYSICALOFFSETY ",
-                  m_pZSubtask->m_pZPrintout->m_nPixelsOffsetY );
-      TraceLineI( "m_pZSubtask->m_pZPrintout->m_lHorzRes = ",
-                  m_pZSubtask->m_pZPrintout->m_lHorzRes );
-      TraceLineI( "m_pZSubtask->m_pZPrintout->m_lVertRes = ",
-                  m_pZSubtask->m_pZPrintout->m_lVertRes );
+      TraceLineI( "DeviceCaps LOGPIXELSX ", m_pZSubtask->m_pZPrintout->m_nPixelsPerInchX );
+      TraceLineI( "DeviceCaps LOGPIXELSY ", m_pZSubtask->m_pZPrintout->m_nPixelsPerInchY );
+      TraceLineI( "DeviceCaps HORZRES ", m_pZSubtask->m_pZPrintout->m_lHorzRes );
+      TraceLineI( "DeviceCaps VERTRES ", m_pZSubtask->m_pZPrintout->m_lVertRes );
+      TraceLineI( "DeviceCaps PHYSICALWIDTH ", pDC->GetDeviceCaps( PHYSICALWIDTH ) );
+      TraceLineI( "DeviceCaps PHYSICALHEIGHT ", pDC->GetDeviceCaps( PHYSICALHEIGHT ) );
+      TraceLineI( "DeviceCaps PHYSICALOFFSETX ", m_pZSubtask->m_pZPrintout->m_nPixelsOffsetX );
+      TraceLineI( "DeviceCaps PHYSICALOFFSETY ", m_pZSubtask->m_pZPrintout->m_nPixelsOffsetY );
+      TraceLineI( "m_pZSubtask->m_pZPrintout->m_lHorzRes = ", m_pZSubtask->m_pZPrintout->m_lHorzRes );
+      TraceLineI( "m_pZSubtask->m_pZPrintout->m_lVertRes = ", m_pZSubtask->m_pZPrintout->m_lVertRes );
       TraceLineS( "--------------------", "" );
       TraceLineI( "DeviceCaps DRIVERVERSION ", pDC->GetDeviceCaps( DRIVERVERSION ) );
       TraceLineI( "DeviceCaps TECHNOLOGY ", pDC->GetDeviceCaps( TECHNOLOGY ) );
@@ -827,17 +803,14 @@ ZDrView::OnBeginPrinting( CDC *pDC, CPrintInfo *pPrintInfo )
    }
 
    m_pZSubtask->m_pZPrintout->m_lHorzSize256ths =
-         (m_pZSubtask->m_pZPrintout->m_lHorzRes * 256) /
-                                m_pZSubtask->m_pZPrintout->m_nPixelsPerInchX;
+         (m_pZSubtask->m_pZPrintout->m_lHorzRes * 256) / m_pZSubtask->m_pZPrintout->m_nPixelsPerInchX;
    m_pZSubtask->m_pZPrintout->m_lVertSize256ths =
-         (m_pZSubtask->m_pZPrintout->m_lVertRes * 256) /
-                                m_pZSubtask->m_pZPrintout->m_nPixelsPerInchY;
+         (m_pZSubtask->m_pZPrintout->m_lVertRes * 256) / m_pZSubtask->m_pZPrintout->m_nPixelsPerInchY;
 
    // Reset the mapping mode.
    pDC->SetMapMode( nOldMapMode );
 
-   if ( m_pZSubtask && m_pZSubtask->m_pZPrintout &&
-        m_pZSubtask->m_pZPrintout->m_lpfnPrintPageRoutine )
+   if ( m_pZSubtask && m_pZSubtask->m_pZPrintout && m_pZSubtask->m_pZPrintout->m_lpfnPrintPageRoutine )
    {
       (*(m_pZSubtask->m_pZPrintout->m_lpfnPrintPageRoutine))
                    ( m_pZSubtask->m_vDialog,
@@ -857,11 +830,9 @@ ZDrView::OnPrepareDC( CDC *pDC, CPrintInfo *pPrintInfo )
    if ( pPrintInfo )
    {
       if ( m_pZSubtask && (m_pZSubtask->m_pZTask->m_nTraceAction & 0x74) == 0x74 )
-         TraceLineI( "ZDrView::OnPrepareDC NumPreviewPages: ",
-                     pPrintInfo->m_nNumPreviewPages );
+         TraceLineI( "ZDrView::OnPrepareDC NumPreviewPages: ", pPrintInfo->m_nNumPreviewPages );
 
-      if ( m_pZSubtask && m_pZSubtask->m_pZPrintout &&
-           m_pZSubtask->m_pZPrintout->m_uMaxPageNbr >= pPrintInfo->m_nCurPage )
+      if ( m_pZSubtask && m_pZSubtask->m_pZPrintout && m_pZSubtask->m_pZPrintout->m_uMaxPageNbr >= pPrintInfo->m_nCurPage )
       {
          pPrintInfo->m_bContinuePrinting = TRUE;
       }
@@ -948,8 +919,7 @@ ZDrView::OnPrint( CDC *pDC, CPrintInfo *pPrintInfo )
          m_pZSubtask->m_pZPrintout->m_uMaxPageNbr = pPrintInfo->m_nCurPage;
       }
 
-      if ( nRC <= 0 ||
-           pPrintInfo->GetMaxPage( ) < m_pZSubtask->m_pZPrintout->m_uMaxPageNbr )
+      if ( nRC <= 0 || pPrintInfo->GetMaxPage( ) < m_pZSubtask->m_pZPrintout->m_uMaxPageNbr )
       {
          pPrintInfo->SetMaxPage( m_pZSubtask->m_pZPrintout->m_uMaxPageNbr );
       }
@@ -2430,7 +2400,7 @@ ZDrView::InitAmbientProperties( )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "ZDrView::InitAmbientProperties (0x%08x) PropertyCnt: ", (zULONG) this );
+      sprintf_s( szMsg, zsizeof( szMsg ), "ZDrView::InitAmbientProperties (0x%08x) PropertyCnt: ", (zULONG) this );
       TraceLineI( szMsg, m_apList.GetSize( ) );
    }
 }
@@ -2768,7 +2738,7 @@ ZDrPreviewView::ZDrPreviewView( )
 //#ifndef QUINSOFT
    zCHAR szEnableZooming[ MAX_PATH ];
 
-   SysReadZeidonIni( -1, "[Debug]", "UseReportFixZooming", szEnableZooming, sizeof( szEnableZooming ) );
+   SysReadZeidonIni( -1, "[Debug]", "UseReportFixZooming", szEnableZooming, zsizeof( szEnableZooming ) );
    if ( szEnableZooming[ 0 ] == 'Y' || szEnableZooming[ 0 ] == 'y' )
    {
       m_bEnableZooming = FALSE;

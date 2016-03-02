@@ -461,7 +461,7 @@ ZEdit::MapFromOI( WPARAM wFlag )
                                          m_lFormatPicLth + 1 : m_ulLth );
          }
 
-         if ( m_ulLth + m_lSpecialCnt > sizeof( szMap ) - 1 )
+         if ( m_ulLth + m_lSpecialCnt > zsizeof( szMap ) - 1 )
          {
             GetAddrForAttribute( (zPCHAR *) &pch, vApp,
                                  *m_pzsEName, *m_pzsAName );
@@ -470,7 +470,7 @@ ZEdit::MapFromOI( WPARAM wFlag )
          {
             zSHORT nRC =
             GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                      sizeof( szMap ) - 1, vApp,
+                                      zsizeof( szMap ) - 1, vApp,
                                       *m_pzsEName,
                                       *m_pzsAName,
                                       *m_pzsContext,
@@ -493,7 +493,7 @@ ZEdit::MapFromOI( WPARAM wFlag )
          pch = szMap;
       }
 
-      TranslateValue( pch, sizeof( szMap ), TRUE, 1 );
+      TranslateValue( pch, zsizeof( szMap ), TRUE, 1 );
       SetZCtrlText( this, pch );
       if ( GetFocus( ) == this )
          SetSel( 0, -1 );
@@ -691,9 +691,9 @@ ZEdit::MapToOI( zLONG lFlag )
       zSHORT  nRC;
       zCHAR   szMap[ 65534 ];
 
-      GetZCtrlText( this, szMap, sizeof( szMap ) );
-   // GetText( szMap, sizeof( szMap ) );
-      TranslateValue( szMap, sizeof( szMap ), FALSE );
+      GetZCtrlText( this, szMap, zsizeof( szMap ) );
+   // GetText( szMap, zsizeof( szMap ) );
+      TranslateValue( szMap, zsizeof( szMap ), FALSE );
 
 #if 0
       if ( zstrcmp( *m_pzsAName, "Tag" ) == 0 &&

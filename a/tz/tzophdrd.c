@@ -133,7 +133,7 @@ zwTZOPHDRD_PostBHeaderFileList( zVIEW vSubtask )
    nRC = GetViewByName( &vLPL, "TaskLPLR", vSubtask, zLEVEL_TASK );
    if ( nRC > 0 )
    {
-      GetStringFromAttribute( szLPL_Name, sizeof( szLPL_Name ), vLPL, "LPLR", "Name" );
+      GetStringFromAttribute( szLPL_Name, zsizeof( szLPL_Name ), vLPL, "LPLR", "Name" );
       SetWindowCaptionTitle( vSubtask, szLPL_Name,
                              "Header File Definition - [Untitled]" );
    }
@@ -167,13 +167,13 @@ zwTZOPHDRD_MainRtnFromSubWnd( zVIEW vSubtask )
    SetNameForView( vCMLIST, "HEADERCM", vSubtask, zLEVEL_TASK );
 
    nRC = GetViewByName( &vLPL, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   strcpy_s( szTitle, sizeof( szTitle ), "[Untitled]" );
+   strcpy_s( szTitle, zsizeof( szTitle ), "[Untitled]" );
    if ( nRC > 0 )
    {
-      GetStringFromAttribute( szLPL_Name, sizeof( szLPL_Name ), vLPL, "LPLR", "Name" );
-      strcat_s( szLPL_Name, sizeof( szLPL_Name ), " - Header File Definition" );
+      GetStringFromAttribute( szLPL_Name, zsizeof( szLPL_Name ), vLPL, "LPLR", "Name" );
+      strcat_s( szLPL_Name, zsizeof( szLPL_Name ), " - Header File Definition" );
       if ( GetViewByName( &vHEADERMETA, "HEADERMETA", vSubtask, zLEVEL_TASK ) > 0 )
-         GetStringFromAttribute( szTitle, sizeof( szTitle ), vHEADERMETA, "HeaderFile", "Name" );
+         GetStringFromAttribute( szTitle, zsizeof( szTitle ), vHEADERMETA, "HeaderFile", "Name" );
       SetWindowCaptionTitle( vSubtask, szLPL_Name, szTitle );
    }
 
@@ -223,11 +223,11 @@ zCHAR szMsg[ 100 ];
    GetViewByName( &vHEADERLIST, "HEADERCM", vSubtask, zLEVEL_TASK );
    if ( GetSelectStateOfEntityForSet( vHEADERLIST, "W_MetaDef", 1 ) )
    {
-      GetStringFromAttribute( szMsg + 50, sizeof( szMsg ) - 50, vHEADERLIST,
+      GetStringFromAttribute( szMsg + 50, zsizeof( szMsg ) - 50, vHEADERLIST,
                               "W_MetaDef", "Name" );
-      strcpy_s( szMsg, sizeof( szMsg ), "OK to delete header " );
-      strcat_s( szMsg, sizeof( szMsg ), &szMsg[ 50 ] );
-      strcat_s( szMsg, sizeof( szMsg ), "?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete header " );
+      strcat_s( szMsg, zsizeof( szMsg ), &szMsg[ 50 ] );
+      strcat_s( szMsg, zsizeof( szMsg ), "?" );
       if ( MessagePrompt( vSubtask, "OP00101",
                           "Domain Management",
                           szMsg,
@@ -369,11 +369,11 @@ fnCommitMetaOI( zVIEW vSubtask, zVIEW vWindow )
       if ( nRC != 1 )
       {
          nRC =
-            GetStringFromAttribute( szName, sizeof( szName ), vHEADERMETA, "HeaderFile", "Name" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vHEADERMETA, "HeaderFile", "Name" );
 
-         strcpy_s( szMessage, sizeof( szMessage ), "Commit failed for Header File " );
-         strcat_s( szMessage, sizeof( szMessage ), szName );
-         strcat_s( szMessage, sizeof( szMessage ), "." );
+         strcpy_s( szMessage, zsizeof( szMessage ), "Commit failed for Header File " );
+         strcat_s( szMessage, zsizeof( szMessage ), szName );
+         strcat_s( szMessage, zsizeof( szMessage ), "." );
 
          MessageSend( vSubtask, "OP00103", "Operations",
                       szMessage,
@@ -407,7 +407,7 @@ zwTZOPHDRD_SelectHeaderFile( zVIEW vSubtask )
    if ( nRC != zLEVEL_TASK )
       return( 0 );
 
-   nRC = GetStringFromAttribute( szSrcType, sizeof( szSrcType ), vSOURCEMETA,
+   nRC = GetStringFromAttribute( szSrcType, zsizeof( szSrcType ), vSOURCEMETA,
                                  "SourceFile", "OwnerType" );
    if ( szSrcType[ 0 ] == 'G' )
    {
@@ -546,11 +546,11 @@ zwTZOPHDRD_HeaderFileDelete( zVIEW vSubtask )
       nRC = fnActivateHeader( vSubtask, &vHEADERMETA, zSOURCE_HDR_META );
       if ( nRC != 1 )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vHEADERMETA, "HeaderFile", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vHEADERMETA, "HeaderFile", "Name" );
 
-         strcpy_s( szMessage, sizeof( szMessage ), "Header File " );
-         strcat_s( szMessage, sizeof( szMessage ), szName );
-         strcat_s( szMessage, sizeof( szMessage ), " cannot be deleted." );
+         strcpy_s( szMessage, zsizeof( szMessage ), "Header File " );
+         strcat_s( szMessage, zsizeof( szMessage ), szName );
+         strcat_s( szMessage, zsizeof( szMessage ), " cannot be deleted." );
 
          MessageSend( vSubtask, "OP00104", "Operations",
                       szMessage,
@@ -561,11 +561,11 @@ zwTZOPHDRD_HeaderFileDelete( zVIEW vSubtask )
       }
    }
 
-   nRC = GetStringFromAttribute( szName, sizeof( szName ), vHEADERMETA, "HeaderFile", "Name" );
+   nRC = GetStringFromAttribute( szName, zsizeof( szName ), vHEADERMETA, "HeaderFile", "Name" );
 
-   strcpy_s( szMessage, sizeof( szMessage ), "Delete Header File " );
-   strcat_s( szMessage, sizeof( szMessage ), szName );
-   strcat_s( szMessage, sizeof( szMessage ), " from LPLR ?" );
+   strcpy_s( szMessage, zsizeof( szMessage ), "Delete Header File " );
+   strcat_s( szMessage, zsizeof( szMessage ), szName );
+   strcat_s( szMessage, zsizeof( szMessage ), " from LPLR ?" );
 
    nRC = MessagePrompt( vSubtask, "OP00105",
                         "Domain Management",
@@ -611,7 +611,7 @@ zwTZOPHDRD_HDR_Set_Caption( zVIEW    vSubtask )
    zCHAR    szWrk[ 256 ];
 
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
-   GetStringFromAttribute( szWrk, sizeof( szWrk ), vProfileXFER, "OP", "Title" );
+   GetStringFromAttribute( szWrk, zsizeof( szWrk ), vProfileXFER, "OP", "Title" );
    SetWindowCaptionTitle( vSubtask, 0, szWrk );
 
    return( 0 );
@@ -628,7 +628,7 @@ zwTZOPHDRD_HDR_AddNew( zVIEW    vSubtask )
    zSHORT   nZRetCode;
 
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
-   nZRetCode = GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ),
+   nZRetCode = GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ),
                                         vProfileXFER, "OP", "HeaderFileName" );
    if ( !szTempString_0[ 0 ] )
    {
@@ -679,12 +679,12 @@ zwTZOPHDRD_HDR_ExcludeEntity( zVIEW    vSubtask )
 
 // get the passed ViewName and EntityName of the target of the include
 //     ( szHdr_TgtEntity used as temp string to save stack space )
-   GetStringFromAttribute( szHdr_TgtEntity, sizeof( szHdr_TgtEntity ),
+   GetStringFromAttribute( szHdr_TgtEntity, zsizeof( szHdr_TgtEntity ),
                              vProfileXFER, "OP", "PassedViewName" );
    GetViewByName( &vPassedInByName, szHdr_TgtEntity,  vSubtask, zLEVEL_ANY );
 
 // Now we can Exclude it, if it exists
-   GetStringFromAttribute( szHdr_TgtEntity, sizeof( szHdr_TgtEntity ),
+   GetStringFromAttribute( szHdr_TgtEntity, zsizeof( szHdr_TgtEntity ),
                             vProfileXFER, "OP", "PassedEntityName" );
    if ( CheckExistenceOfEntity( vPassedInByName, szHdr_TgtEntity )
         == zCURSOR_SET )
@@ -713,16 +713,16 @@ zwTZOPHDRD_HDR_IncludeEntity( zVIEW    vSubtask )
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
 
 // get the passed ViewName and EntityName of the target of the include
-   GetStringFromAttribute( szViewName, sizeof( szViewName ),
+   GetStringFromAttribute( szViewName, zsizeof( szViewName ),
                              vProfileXFER, "OP", "PassedViewName" );
 //jGetViewByName( &vPassedInByName, szViewName,  vSubtask, zLEVEL_ANY );
    GetViewByName( &vPassedInByName, "OPERATION", vSubtask, zLEVEL_TASK );
 
 // Now Exclude it, if it exists prior to including
-//jGetStringFromAttribute( szHdr_TgtEntity, sizeof( szHdr_TgtEntity ),
+//jGetStringFromAttribute( szHdr_TgtEntity, zsizeof( szHdr_TgtEntity ),
 //j                         vProfileXFER, "OP", "PassedEntityName" );
 //j   if ( CheckExistenceOfEntity( vPassedInByName, szHdr_TgtEntity ) == zCURSOR_SET )
-   strcpy_s( szHdr_TgtEntity, sizeof( szHdr_TgtEntity ), "HeaderFile" );
+   strcpy_s( szHdr_TgtEntity, zsizeof( szHdr_TgtEntity ), "HeaderFile" );
 
    if ( CheckExistenceOfEntity( vPassedInByName, szHdr_TgtEntity ) == zCURSOR_SET )
    {
@@ -907,8 +907,8 @@ zwTZOPHDRD_HDR_UpdateDelete( zVIEW    vSubtask )
    GetViewByName( &vHDR_Upd, "HDR", vSubtask, zLEVEL_ANY );
 
 // Prompt to confirm Delete
-   strcpy_s( szWork, sizeof( szWork ), "Delete Header File\n\n" );
-   GetStringFromAttribute( szWork + zstrlen( szWork ), sizeof( szWork ) - zstrlen( szWork ), vHDR_Upd, "HeaderFile", "Name" );
+   strcpy_s( szWork, zsizeof( szWork ), "Delete Header File\n\n" );
+   GetStringFromAttribute( szWork + zstrlen( szWork ), zsizeof( szWork ) - zstrlen( szWork ), vHDR_Upd, "HeaderFile", "Name" );
    if ( MessagePrompt( vSubtask, "OP00111",
                        "Domain Management",
                        szWork,
@@ -963,7 +963,7 @@ zwTZOPHDRD_HDR_CreateByCopy( zVIEW    vSubtask )
    GetViewByName( &vHEADERCM, "HEADERCM", vSubtask, zLEVEL_TASK );
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szHdrName, sizeof( szHdrName ),
+   GetStringFromAttribute( szHdrName, zsizeof( szHdrName ),
                            vProfileXFER, "OP", "HeaderFileName" );
    nRC = CheckExistenceOfMetaOI( vSubtask, szHdrName, zREFER_HDR_META );
    if ( nRC == 1 )
@@ -1065,8 +1065,8 @@ zwTZOPHDRD_HDR_DefUpdateDelete( zVIEW    vSubtask )
    GetViewByName( &vHDR_Upd, "HDR", vSubtask, zLEVEL_ANY );
 
 // Prompt to confirm Delete
-   strcpy_s( szWork, sizeof( szWork ), "Delete Defined Item\n\n" );
-   GetStringFromAttribute( szWork + zstrlen( szWork ), sizeof( szWork ) - zstrlen( szWork ), vHDR_Upd, "DefinedItem", "ExternalValue" );
+   strcpy_s( szWork, zsizeof( szWork ), "Delete Defined Item\n\n" );
+   GetStringFromAttribute( szWork + zstrlen( szWork ), zsizeof( szWork ) - zstrlen( szWork ), vHDR_Upd, "DefinedItem", "ExternalValue" );
    if ( MessagePrompt( vSubtask, "OP00113", "Domain Management", szWork,
                        zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 )  == zRESPONSE_NO )
    {

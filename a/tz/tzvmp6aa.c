@@ -228,7 +228,7 @@ InsertSetCursorWithWhere( zVIEW vSubtask )  // java???
             lRightAttributeID = 0;
 
          // create the get an then put a get at the end...
-         strcpy_s( szOperationName, sizeof( szOperationName ), "Get" );
+         strcpy_s( szOperationName, zsizeof( szOperationName ), "Get" );
 
          if ( g_sWhereRight[ lUseFirst ].lDataType == qTUNKNOWN )
               g_sWhereRight[ lUseFirst ].lDataType = g_sWhereLeft[ lUseFirst ].lDataType;
@@ -237,18 +237,18 @@ InsertSetCursorWithWhere( zVIEW vSubtask )  // java???
          {
             case qTDECIMAL:
                g_sWhereRight[ lUseFirst ].lDataClass = qNUMERIC;
-               strcat_s( szOperationName, sizeof( szOperationName ), "DecimalFromAttribute" );
+               strcat_s( szOperationName, zsizeof( szOperationName ), "DecimalFromAttribute" );
                break;
 
             case qTINTEGER:
                case qTSHORT:
                g_sWhereRight[ lUseFirst ].lDataClass = qNUMERIC;
-               strcat_s( szOperationName, sizeof( szOperationName ), "IntegerFromAttribute" );
+               strcat_s( szOperationName, zsizeof( szOperationName ), "IntegerFromAttribute" );
                break;
 
             default:
                g_sWhereRight[ lUseFirst ].lDataClass = qTEXT;
-               strcat_s( szOperationName, sizeof( szOperationName ), "StringFromAttribute" );
+               strcat_s( szOperationName, zsizeof( szOperationName ), "StringFromAttribute" );
                break;
          }
 
@@ -286,27 +286,27 @@ InsertSetCursorWithWhere( zVIEW vSubtask )  // java???
       if ( g_szGenLang[ 0 ] == 'J' )
       {
          if ( g_lSetFNPL == qFIRST )
-            strcpy_s( szOperationName, sizeof( szOperationName ), "setFirst" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "setFirst" );
          else
          if ( g_lSetFNPL == qNEXT )
          {
             bSetNextJava = TRUE;
-            strcpy_s( szOperationName, sizeof( szOperationName ), "setNextContinue" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "setNextContinue" );
          }
          else
-            strcpy_s( szOperationName, sizeof( szOperationName ), "setLast" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "setLast" );
 #if 0
          switch ( g_sWhereRight[ lUseFirst ].lDataClass )
          {
             case qNUMERIC:
                if ( g_sWhereRight[ lUseFirst ].lDataType == qTDECIMAL )
-                  strcat_s( szOperationName, sizeof( szOperationName ), "ByDecimal" );
+                  strcat_s( szOperationName, zsizeof( szOperationName ), "ByDecimal" );
                else
-                  strcat_s( szOperationName, sizeof( szOperationName ), "ByInteger" );
+                  strcat_s( szOperationName, zsizeof( szOperationName ), "ByInteger" );
                break;
 
             case qTEXT:
-               strcat_s( szOperationName, sizeof( szOperationName ), "ByString" );
+               strcat_s( szOperationName, zsizeof( szOperationName ), "ByString" );
                break;
 
             default:
@@ -322,24 +322,24 @@ InsertSetCursorWithWhere( zVIEW vSubtask )  // java???
       {
      */
          if ( g_lSetFNPL == qFIRST )
-            strcpy_s( szOperationName, sizeof( szOperationName ), "SetCursorFirstEntity" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "SetCursorFirstEntity" );
          else
          if ( g_lSetFNPL == qNEXT )
-            strcpy_s( szOperationName, sizeof( szOperationName ), "SetCursorNextEntity" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "SetCursorNextEntity" );
          else
-            strcpy_s( szOperationName, sizeof( szOperationName ), "SetCursorLastEntity" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "SetCursorLastEntity" );
 
          switch ( g_sWhereRight[ lUseFirst ].lDataClass )
          {
             case qNUMERIC:
                if ( g_sWhereRight[ lUseFirst ].lDataType == qTDECIMAL )
-                  strcat_s( szOperationName, sizeof( szOperationName ), "ByDecimal" );
+                  strcat_s( szOperationName, zsizeof( szOperationName ), "ByDecimal" );
                else
-                  strcat_s( szOperationName, sizeof( szOperationName ), "ByInteger" );
+                  strcat_s( szOperationName, zsizeof( szOperationName ), "ByInteger" );
                break;
 
             case qTEXT:
-               strcat_s( szOperationName, sizeof( szOperationName ), "ByString" );
+               strcat_s( szOperationName, zsizeof( szOperationName ), "ByString" );
                break;
 
             default:
@@ -394,11 +394,11 @@ InsertSetCursorWithWhere( zVIEW vSubtask )  // java???
          // A compare to zero will be added based on the datatype of the attribute or value that was
          // given. This is stored in cWLiteralType at this loop counter. First, however, we need to
          // change the operator to the opposite since we are doing the "other" comparison.
-         strcpy_s( szOperationName, sizeof( szOperationName ), "CompareAttributeTo" );
+         strcpy_s( szOperationName, zsizeof( szOperationName ), "CompareAttributeTo" );
 
          if ( g_sWhereRight[ lLoop ].lElementClass == qATTRIBUTEQUALIFIER )
          {
-            strcat_s( szOperationName, sizeof( szOperationName ), "Attribute" );
+            strcat_s( szOperationName, zsizeof( szOperationName ), "Attribute" );
          }
          else
          {
@@ -409,18 +409,18 @@ InsertSetCursorWithWhere( zVIEW vSubtask )  // java???
                case qTATTRIBUTENAME:
                case qTSTRING:
                case qTCHARACTER:
-                  strcat_s( szOperationName, sizeof( szOperationName ), "String" );
+                  strcat_s( szOperationName, zsizeof( szOperationName ), "String" );
                   break;
 
                // if the data type was Integer
                case qTINTEGER:
                case qTSHORT:
-                  strcat_s( szOperationName, sizeof( szOperationName ), "Integer" );
+                  strcat_s( szOperationName, zsizeof( szOperationName ), "Integer" );
                   break;
 
                // if the data type was Decimal
                case qTDECIMAL:
-                  strcat_s( szOperationName, sizeof( szOperationName ), "Decimal" );
+                  strcat_s( szOperationName, zsizeof( szOperationName ), "Decimal" );
                   break;
 
                default:
@@ -462,31 +462,31 @@ InsertSetCursorWithWhere( zVIEW vSubtask )  // java???
       {
          bSetNextJava = TRUE;
          if ( g_lSetFNPL == qFIRST || g_lSetFNPL == qNEXT )
-            strcpy_s( szOperationName, sizeof( szOperationName ), "setNextContinue" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "setNextContinue" );
          else
-            strcpy_s( szOperationName, sizeof( szOperationName ), "setPrevContinue" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "setPrevContinue" );
       }
       else
       {
      */
          bSetNextJava = FALSE;
          if ( g_lSetFNPL == qFIRST || g_lSetFNPL == qNEXT )
-            strcpy_s( szOperationName, sizeof( szOperationName ), "SetCursorNextEntity" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "SetCursorNextEntity" );
          else
-            strcpy_s( szOperationName, sizeof( szOperationName ), "SetCursorPrevEntity" );
+            strcpy_s( szOperationName, zsizeof( szOperationName ), "SetCursorPrevEntity" );
 
          switch ( g_sWhereRight[ lUseFirst ].lDataClass )
          {
             case qNUMERIC:
                if ( g_sWhereRight[ lUseFirst ].lDataType == qTDECIMAL )
-                  strcat_s( szOperationName, sizeof( szOperationName ), "ByDecimal" );
+                  strcat_s( szOperationName, zsizeof( szOperationName ), "ByDecimal" );
                else
-                  strcat_s( szOperationName, sizeof( szOperationName ), "ByInteger" );
+                  strcat_s( szOperationName, zsizeof( szOperationName ), "ByInteger" );
 
                break;
 
             case qTEXT:
-               strcat_s( szOperationName, sizeof( szOperationName ), "ByString" );
+               strcat_s( szOperationName, zsizeof( szOperationName ), "ByString" );
                break;
          }
       //}
@@ -677,11 +677,11 @@ SetCursorWhereNoOpt( zVIEW vSubtask, zVIEW vTargetView )  // java???
          // A compare to zero will be added based on the datatype of the attribute or value that was
          // given. This is stored in .DataType at this loop counter.  First, however, we need to
          // change the operator to the opposite since we are doing the "other" comparison.
-         strcpy_s( g_szOperationName, sizeof( g_szOperationName ), "CompareAttributeTo" );
+         strcpy_s( g_szOperationName, zsizeof( g_szOperationName ), "CompareAttributeTo" );
 
          if ( g_sWhereRight[ lLoop ].lElementClass == qATTRIBUTEQUALIFIER )
          {
-            strcat_s( g_szOperationName, sizeof( g_szOperationName ), "Attribute" );
+            strcat_s( g_szOperationName, zsizeof( g_szOperationName ), "Attribute" );
          }
          else
          {
@@ -695,18 +695,18 @@ SetCursorWhereNoOpt( zVIEW vSubtask, zVIEW vTargetView )  // java???
                case qTATTRIBUTENAME:
                case qTSTRING:
                case qTCHARACTER:
-                  strcat_s( g_szOperationName, sizeof( g_szOperationName ), "String" );
+                  strcat_s( g_szOperationName, zsizeof( g_szOperationName ), "String" );
                   break;
 
                // if the data type was Integer
                case qTINTEGER:
                case qTSHORT:
-                  strcat_s( g_szOperationName, sizeof( g_szOperationName ), "Integer" );
+                  strcat_s( g_szOperationName, zsizeof( g_szOperationName ), "Integer" );
                   break;
 
                // if the data type was Decimal
                case qTDECIMAL:
-                  strcat_s( g_szOperationName, sizeof( g_szOperationName ), "Decimal" );
+                  strcat_s( g_szOperationName, zsizeof( g_szOperationName ), "Decimal" );
                   break;
 
                default:

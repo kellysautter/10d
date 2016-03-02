@@ -355,7 +355,7 @@ zwTZOBRWAD_CheckShowDesc( zVIEW vSubtask )
    // GetViewByName( &vProfile, "ProfileXFER", vSubtask, zLEVEL_SYSTEM )
    if ( CheckExistenceOfEntity( vProfile, "OBR" ) >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szFlag, sizeof( szFlag ), vProfile, "OBR", "ShowDesc" );
+      GetStringFromAttribute( szFlag, zsizeof( szFlag ), vProfile, "OBR", "ShowDesc" );
       if ( szFlag[ 0 ] == 'Y' )
          SetOptionState( vSubtask, "ShowDesc", zCONTROL_STATUS_CHECKED, 1 );
       else
@@ -438,7 +438,7 @@ BuildTaskList( zVIEW vSubtask )
          szFileName[ nLth ] = 0;
       }
 
-      strcat_s( szFileName, sizeof( szFileName ), "zeidon.app" );
+      strcat_s( szFileName, zsizeof( szFileName ), "zeidon.app" );
       SfActivateSysOI_FromFile( &vKZAPPLOO, szlKZAPPLOO, vSubtask,
                                 szFileName, zSINGLE );
       SetNameForView( vKZAPPLOO, szlKZAPPLOO, vSubtask, zLEVEL_TASK );
@@ -495,7 +495,7 @@ BuildTaskList( zVIEW vSubtask )
          HWND   hWndMain = (HWND) lpTask->hMainWnd;
 
          // Get Title of task.
-         GetWindowText( hWndMain, szTaskTitle, sizeof( szTaskTitle ) - 1 );
+         GetWindowText( hWndMain, szTaskTitle, zsizeof( szTaskTitle ) - 1 );
          SetAttributeFromString( vBrowser, szlTask, szlName, szTaskTitle );
          if ( szTaskTitle[ 0 ] )
             bTitle = TRUE;
@@ -514,10 +514,10 @@ BuildTaskList( zVIEW vSubtask )
          zCHAR  szTaskTitle[ 128 ];
 
          if ( lpTask->szTaskTitle[ 0 ] )
-            strcpy_s( szTaskTitle, sizeof( szTaskTitle ), lpTask->szTaskTitle );
+            strcpy_s( szTaskTitle, zsizeof( szTaskTitle ), lpTask->szTaskTitle );
          else
          {
-            sprintf_s( szTaskTitle, sizeof( szTaskTitle ), "<Task 0x%08x, %s>",
+            sprintf_s( szTaskTitle, zsizeof( szTaskTitle ), "<Task 0x%08x, %s>",
                        (zULONG) SysGetHandleFromPointer( lpTask ),
                        ((LPAPP) SysGetPointerFromHandle( lpTask->hApp ))->szName );
          }
@@ -835,7 +835,7 @@ fnBuildObjectInstanceForView( zVIEW vSubtask, zBOOL bShare )
             lpViewEntity = (LPVIEWENTITY) SysGetPointerFromHandle( lpEntityInstance->hViewEntity );
 
             szAttrib[ nIdx ] = 0;
-            strcat_s( szAttrib, sizeof( szAttrib ), lpViewEntity->szName );
+            strcat_s( szAttrib, zsizeof( szAttrib ), lpViewEntity->szName );
 
             SetAttributeFromString( vInstance, szlEntity, szlName, szAttrib );
             SetAttributeFromInteger( vInstance, szlEntity, szlLevel,
@@ -951,7 +951,7 @@ BuildObjectInstanceForView( zVIEW vSubtask )
 
    // First, get the handle to the browser object
    GetViewByName( &vBrowser, szlTZOBRWOO, vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szID, sizeof( szID ), vBrowser,
+   GetStringFromAttribute( szID, zsizeof( szID ), vBrowser,
                            szlName, szlObjectInstanceID );
    if ( GetViewByName( &vInstance, szID, vSubtask, zLEVEL_TASK ) > 0 )
    {
@@ -1004,7 +1004,7 @@ CommitOI( zVIEW vSubtask )
                                szlCommitBinary );
       GetIntegerFromAttribute( &lCommitIncremental, vBrowser, szlRoot,
                                szlCommitIncremental );
-      GetStringFromAttribute( szFileType, sizeof( szFileType ), vBrowser, szlRoot, "FileType" );
+      GetStringFromAttribute( szFileType, zsizeof( szFileType ), vBrowser, szlRoot, "FileType" );
       TraceLineS( "*** FileType: ", szFileType );
       lControl = 0;
       if ( szFileType[ 0 ] == 'Z' )
@@ -1027,8 +1027,8 @@ CommitOI( zVIEW vSubtask )
       }
       else
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "ObjectInstance successfully written to File: " );
-         strcat_s( szMsg, sizeof( szMsg ), pchFileName );
+         strcpy_s( szMsg, zsizeof( szMsg ), "ObjectInstance successfully written to File: " );
+         strcat_s( szMsg, zsizeof( szMsg ), pchFileName );
 
          MessageSend( vSubtask, "CM00107", "Object Browser", szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_INFORMATION, zBEEP );
@@ -1331,10 +1331,10 @@ fnGetAttributesForEntityInstance( zVIEW vSubtask,
                   GetAttributeLength( &uLth, vWorkObject,
                                       lpViewEntity->szName,
                                       lpViewAttrib->szName );
-                  strcpy_s( szAttrib, sizeof( szAttrib ), "(Blob, lth=" );
-                  zltoa( uLth, szAttrib + 50, sizeof( szAttrib ) - 50 );
-                  strcat_s( szAttrib, sizeof( szAttrib ), szAttrib + 50 );
-                  strcat_s( szAttrib, sizeof( szAttrib ), ")" );
+                  strcpy_s( szAttrib, zsizeof( szAttrib ), "(Blob, lth=" );
+                  zltoa( uLth, szAttrib + 50, zsizeof( szAttrib ) - 50 );
+                  strcat_s( szAttrib, zsizeof( szAttrib ), szAttrib + 50 );
+                  strcat_s( szAttrib, zsizeof( szAttrib ), ")" );
                }
                SetAttributeFromString( vInstance, szlAttrib, szlValue, szAttrib );
                if ( (lpViewAttrib->szDerivedOper[ 0 ] == 0 || lShowDerived) &&
@@ -1356,7 +1356,7 @@ fnGetAttributesForEntityInstance( zVIEW vSubtask,
 
          } // while ( nRC == 0 && lpViewAttrib )...
 
-         sprintf_s( szAttrib, sizeof( szAttrib ), "0x%8lx", (zLONG) lpEntityInstance );
+         sprintf_s( szAttrib, zsizeof( szAttrib ), "0x%8lx", (zLONG) lpEntityInstance );
          SetAttributeFromString( vInstance, szlEntity, szlInstancePointer, szAttrib );
 
          if ( lpEntityInstance->u.nInd.bCreated )
@@ -1554,7 +1554,7 @@ ViewOI_Prebuild( zVIEW vSubtask )
    GetViewByName( &vInstance, szlTZOBOIOO, vSubtask, zLEVEL_TASK );
    DropNameForView( vInstance, szlTZOBOIOO, vSubtask, zLEVEL_TASK );
    SetNameForView( vInstance, szlTZOBOIOO, vSubtask, zLEVEL_SUBTASK );
-   GetStringFromAttribute( szInstanceID, sizeof( szInstanceID ), vBrowser, szlName, szlObjectInstanceID );
+   GetStringFromAttribute( szInstanceID, zsizeof( szInstanceID ), vBrowser, szlName, szlObjectInstanceID );
    SetNameForView( vSubtask, szInstanceID, vSubtask, zLEVEL_TASK );
    return( 0 );
 
@@ -1844,7 +1844,7 @@ CreateEntityInstance( zVIEW vSubtask )
    GetViewByName( &vInstance, szlTZOBOIOO, vSubtask, zLEVEL_SUBTASK );
    GetIntegerFromAttribute( (zPLONG) &vID, vInstance, szlName, szlID );
    vID = (zVIEW) SysGetPointerFromHandle( vID );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vInstance, szlWkEntity, szlName );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vInstance, szlWkEntity, szlName );
    CreateViewFromViewForTask( &vWork, vID, vSubtask );
    // Find the entity and the attrib in the view object
    GetIntegerFromAttribute( (zPLONG) &lpEntityInstance, vInstance, szlEntity, szlPointer );
@@ -1899,7 +1899,7 @@ UpdateIndicators( zVIEW vSubtask )
    GetIntegerFromAttribute( (zPLONG) &lpEntityInstance, vInstance,
                             szlEntity, szlPointer );
 
-   sprintf_s( szPtr, sizeof( szPtr ), "0x%8lx", (zLONG) lpEntityInstance );
+   sprintf_s( szPtr, zsizeof( szPtr ), "0x%8lx", (zLONG) lpEntityInstance );
    SetAttributeFromString( vInstance, szlEntity, szlInstancePointer, szPtr );
 
    GetIntegerFromAttribute( &lFlag, vInstance, szlEntity, szlCreatedFlag );
@@ -2392,10 +2392,10 @@ zwTZOBRWAD_BuildTextForGraph( zVIEW   vSubtask,
             }
             else
             {
-               zltoa( lPrevTwins + 1, szMsg, sizeof( szMsg ) );
-               strcat_s( szMsg, sizeof( szMsg ), " of " );
-               zltoa( lPrevTwins + 1 + lNextTwins, szMsg + 20, sizeof( szMsg ) - 20 );
-               strcat_s( szMsg, sizeof( szMsg ), szMsg + 20 );
+               zltoa( lPrevTwins + 1, szMsg, zsizeof( szMsg ) );
+               strcat_s( szMsg, zsizeof( szMsg ), " of " );
+               zltoa( lPrevTwins + 1 + lNextTwins, szMsg + 20, zsizeof( szMsg ) - 20 );
+               strcat_s( szMsg, zsizeof( szMsg ), szMsg + 20 );
                SetAttributeFromString( vTZZOHDGO, szlHD_Node, szlTitle, szMsg );
 
                zLONG lAbsolutePos = 0;
@@ -2569,7 +2569,7 @@ zwTZOBRWAD_OpenDescDisp( zVIEW vBrowser, zVIEW lpView )
    if (CheckExistenceOfEntity( lpView, "Application" ) == 0)
    {
       SetCursorFirstEntityByAttr( lpView, "Application", "Name", lpView, "Name", "ApplicationName", "" );
-      GetStringFromAttribute( szAppName, sizeof( szAppName ), lpView, "Application", "Name" );
+      GetStringFromAttribute( szAppName, zsizeof( szAppName ), lpView, "Application", "Name" );
 
    }
    else
@@ -2578,10 +2578,10 @@ zwTZOBRWAD_OpenDescDisp( zVIEW vBrowser, zVIEW lpView )
       if ( nRC < 0 )
          return( -1 );
 
-      GetStringFromAttribute( szAppName, sizeof( szAppName ), vTZCMLPLO, "LPLR", "Name" );
+      GetStringFromAttribute( szAppName, zsizeof( szAppName ), vTZCMLPLO, "LPLR", "Name" );
    }
 
-   GetStringFromAttribute( szObject, sizeof( szObject ), lpView, "Name", "ObjectType" );
+   GetStringFromAttribute( szObject, zsizeof( szObject ), lpView, "Name", "ObjectType" );
 
    if ( ActivateWorkStation( &vTZCMWKSO, vBrowser, zLEVEL_TASK ) < 0 )
    {
@@ -2597,7 +2597,7 @@ zwTZOBRWAD_OpenDescDisp( zVIEW vBrowser, zVIEW lpView )
       nRC_cmp = 0;
       while ( nRC >= zCURSOR_SET && nRC_cmp == 0 )
       {
-         GetStringFromAttribute( szAppName2, sizeof( szAppName2 ), vTZCMWKSO, "LPLR", "Name" );
+         GetStringFromAttribute( szAppName2, zsizeof( szAppName2 ), vTZCMWKSO, "LPLR", "Name" );
          nRC_cmp = ((zstrncmp( szAppName2, "Zeid", 4 ) == 0) ||
                     (zstrncmp( szAppName2, "zeid", 4 ) == 0) ||
                     (zstrncmp( szAppName2, "ZEID", 4 ) == 0));
@@ -2615,25 +2615,25 @@ zwTZOBRWAD_OpenDescDisp( zVIEW vBrowser, zVIEW lpView )
    // nRC_cmp >= 0 --> found a match.
    if ( nRC_cmp < zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Descriptions of OI cannot be shown because " );
-      strcat_s( szMsg, sizeof( szMsg ), "Local workstation does not have application source (Appl: " );
-      strcat_s( szMsg, sizeof( szMsg ), szAppName );
-      strcat_s( szMsg, sizeof( szMsg ), ")." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Descriptions of OI cannot be shown because " );
+      strcat_s( szMsg, zsizeof( szMsg ), "Local workstation does not have application source (Appl: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szAppName );
+      strcat_s( szMsg, zsizeof( szMsg ), ")." );
       MessageSend( vBrowser, "CM00107", "Object Browser", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
       return( -1 );
    }
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTZCMWKSO, "LPLR", "MetaSrcDir");
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTZCMWKSO, "LPLR", "MetaSrcDir");
 
    DropView( vTZCMWKSO );
    AppendSlash( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), szObject );
-   strcat_s( szFileName, sizeof( szFileName ), ".LOD" );
+   strcat_s( szFileName, zsizeof( szFileName ), szObject );
+   strcat_s( szFileName, zsizeof( szFileName ), ".LOD" );
 
    if ( SysOpenFile( vBrowser, szFileName, COREFILE_EXIST ) == -1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "The LOD-File with Descriptions does not exist: " );
-      strcat_s( szMsg, sizeof( szMsg ), szFileName );
+      strcpy_s( szMsg, zsizeof( szMsg ), "The LOD-File with Descriptions does not exist: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szFileName );
       MessageSend( vBrowser, "CM00107", "Object Browser", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
       return( -1 );
    }
@@ -2767,7 +2767,7 @@ zwTZOBRWAD_PreBuildOIDisplay( zVIEW vSubtask )
    CreateViewFromViewForTask( &vTZZOHDGV_S, vTZZOHDGV, vSubtask );
    SetNameForView( vTZZOHDGV_S, szlTZZOHDGV_S, vSubtask, zLEVEL_SUBTASK );
    GetViewByName( &vTZOBRWOO, szlTZOBRWOO, vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szInstanceID, sizeof( szInstanceID ), vTZOBRWOO, szlName, szlObjectInstanceID );
+   GetStringFromAttribute( szInstanceID, zsizeof( szInstanceID ), vTZOBRWOO, szlName, szlObjectInstanceID );
    SetNameForView( vSubtask, szInstanceID, vSubtask, zLEVEL_TASK );
    zwTZOBRWAD_BuildTextForGraph( vSubtask );
 
@@ -2797,7 +2797,7 @@ fnSetModeEntities( zVIEW vSubtask )
 
    if ( GetViewByName( &vTZOBOIOO, szlTZOBOIOO, vSubtask, zLEVEL_SUBTASK ) > 0 )
    {
-      GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+      GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
       if ( szMode[ 0 ] == 'E' )
          return( 0 );
    }
@@ -2877,7 +2877,7 @@ zwTZOBRWAD_RefreshDescDisp( zVIEW vSubtask )
    if ( GetViewByName( &vTZOBOIOO, szlTZOBOIOO, vSubtask, zLEVEL_SUBTASK ) < 0 )
       return( -1 );
 
-   GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+   GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
    GetViewByName( &vTZZOHDGO, szlTZZOHDGO, vSubtask, zLEVEL_SUBTASK );
    GetAddrForAttribute( &pchGraphEntity, vTZZOHDGO, szlHD_Node, "DIL" );
 
@@ -2978,7 +2978,7 @@ BuildAttrsForGraph( zVIEW vSubtask, zCPCHAR cpcTag )
 
       if ( GetViewByName( &vTZOBOIOO, szlTZOBOIOO, vSubtask, zLEVEL_ANY ) > 0 )
       {
-         GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+         GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
          DropObjectInstance( vTZOBOIOO );
       }
       else
@@ -3059,8 +3059,8 @@ BuildAttrsForGraph( zVIEW vSubtask, zCPCHAR cpcTag )
       if ( szMode[ 0 ] == 'E' )
       {
          CreateEntity( vTZOBOIOO, szlAttrib, zPOS_AFTER );
-         strcpy_s( szAttribute, sizeof( szAttribute ), "                              " );
-         strcpy_s( szAttribute + (2 * (lpViewEntity->nLevel - 1)), sizeof( szAttribute ) - (2 * (lpViewEntity->nLevel - 1)), lpViewEntity->szName );
+         strcpy_s( szAttribute, zsizeof( szAttribute ), "                             " );
+         strcpy_s( szAttribute + (2 * (lpViewEntity->nLevel - 1)), zsizeof( szAttribute ) - (2 * (lpViewEntity->nLevel - 1)), lpViewEntity->szName );
          SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szAttribute );
          SetAttributeFromString( vTZOBOIOO, szlAttrib, szlValue, lpViewEntity->szName );
          if ( GetSelectStateOfEntity( vTZZOHDGO, szlHD_Node ) &&
@@ -3122,13 +3122,13 @@ BuildAttrsForGraph( zVIEW vSubtask, zCPCHAR cpcTag )
          }
 
          CreateEntity( vTZOBOIOO, szlAttrib, zPOS_AFTER );
-         sprintf_s( szAttribute, sizeof( szAttribute ), "Instance Ptr 0x%8lx  Key %d", (zULONG) lpEntityInstance, lpEntityInstance->ulKey );
+         sprintf_s( szAttribute, zsizeof( szAttribute ), "Instance Ptr 0x%8lx Key %d", (zULONG) lpEntityInstance, lpEntityInstance->ulKey );
          SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szAttribute );
 
          if ( lpSelectedInstance && lpSelectedInstance->nSelectSet )
          {
             CreateEntity( vTZOBOIOO, szlAttrib, zPOS_AFTER );
-            strcpy_s( szAttribute, sizeof( szAttribute ), "Selected(" );
+            strcpy_s( szAttribute, zsizeof( szAttribute ), "Selected(" );
             nWk1 = 0;
             nWk2 = 0x0001;
             for ( nWk3 = 1; nWk3 < 17; nWk3++ )
@@ -3136,17 +3136,17 @@ BuildAttrsForGraph( zVIEW vSubtask, zCPCHAR cpcTag )
                if ( lpSelectedInstance->nSelectSet & nWk2 )
                {
                   if ( nWk1 )
-                     strcat_s( szAttribute, sizeof( szAttribute ), "," );
+                     strcat_s( szAttribute, zsizeof( szAttribute ), "," );
 
-                  zltoa( (zLONG) nWk3, szAttribute + 250, sizeof( szAttribute ) - 250 );
-                  strcat_s( szAttribute, sizeof( szAttribute ), &szAttribute[ 250 ] );
+                  zltoa( (zLONG) nWk3, szAttribute + 250, zsizeof( szAttribute ) - 250 );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), &szAttribute[ 250 ] );
                   nWk1++;
                }
 
                nWk2 <<= 1;
             }
 
-            strcat_s( szAttribute, sizeof( szAttribute ), ")" );
+            strcat_s( szAttribute, zsizeof( szAttribute ), ")" );
             SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szAttribute );
          }
 
@@ -3207,8 +3207,8 @@ BuildAttrsForGraph( zVIEW vSubtask, zCPCHAR cpcTag )
                }
 
                lpViewEntity = (LPVIEWENTITY) SysGetPointerFromHandle( lpLinkInstance->hViewEntity );
-               strcpy_s( szAttribute, sizeof( szAttribute ), "Versioned by " );
-               strcat_s( szAttribute, sizeof( szAttribute ), lpViewEntity->szName );
+               strcpy_s( szAttribute, zsizeof( szAttribute ), "Versioned by " );
+               strcat_s( szAttribute, zsizeof( szAttribute ), lpViewEntity->szName );
                SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szAttribute );
             }
             else
@@ -3254,18 +3254,18 @@ BuildAttrsForGraph( zVIEW vSubtask, zCPCHAR cpcTag )
 
                if ( lpLinkInstance->hViewOI == lpEntityInstance->hViewOI )
                {
-                  strcpy_s( szAttribute, sizeof( szAttribute ), "Internal Link to " );
-                  strcat_s( szAttribute, sizeof( szAttribute ), lpLinkViewEntity->szName );
+                  strcpy_s( szAttribute, zsizeof( szAttribute ), "Internal Link to " );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), lpLinkViewEntity->szName );
                }
                else
                {
                   LPVIEWOI lpViewOI = (LPVIEWOI) SysGetPointerFromHandle( lpLinkInstance->hViewOI );
                   LPVIEWOD lpViewOD = (LPVIEWOD) SysGetPointerFromHandle( lpViewOI->hViewOD );
 
-                  strcpy_s( szAttribute, sizeof( szAttribute ), "External Link to " );
-                  strcat_s( szAttribute, sizeof( szAttribute ), lpViewOD->szName );
-                  strcat_s( szAttribute, sizeof( szAttribute ), "." );
-                  strcat_s( szAttribute, sizeof( szAttribute ), lpLinkViewEntity->szName );
+                  strcpy_s( szAttribute, zsizeof( szAttribute ), "External Link to " );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), lpViewOD->szName );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), "." );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), lpLinkViewEntity->szName );
                }
 
                bDup = 0;
@@ -3288,9 +3288,9 @@ BuildAttrsForGraph( zVIEW vSubtask, zCPCHAR cpcTag )
          if ( lLinks )
          {
             CreateEntity( vTZOBOIOO, szlAttrib, zPOS_AFTER );
-            strcpy_s( szAttribute, sizeof( szAttribute ), "Number of links is " );
-            zltoa( lLinks, szAttribute + 250, sizeof( szAttribute ) - 250 );
-            strcat_s( szAttribute, sizeof( szAttribute ), &szAttribute[ 250 ] );
+            strcpy_s( szAttribute, zsizeof( szAttribute ), "Number of links is " );
+            zltoa( lLinks, szAttribute + 250, zsizeof( szAttribute ) - 250 );
+            strcat_s( szAttribute, zsizeof( szAttribute ), &szAttribute[ 250 ] );
             SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szAttribute );
          }
 
@@ -3326,17 +3326,17 @@ BuildAttrsForGraph( zVIEW vSubtask, zCPCHAR cpcTag )
 
                   if ( uLth > 60 || uLth == 0 )
                   {
-                     strcpy_s( szAttribute, sizeof( szAttribute ), "(Blob, lth=" );
-                     zltoa( uLth, szAttribute + 50, sizeof( szAttribute ) - 50 );
-                     strcat_s( szAttribute, sizeof( szAttribute ), szAttribute + 50 );
-                     strcat_s( szAttribute, sizeof( szAttribute ), ")" );
+                     strcpy_s( szAttribute, zsizeof( szAttribute ), "(Blob, lth=" );
+                     zltoa( uLth, szAttribute + 50, zsizeof( szAttribute ) - 50 );
+                     strcat_s( szAttribute, zsizeof( szAttribute ), szAttribute + 50 );
+                     strcat_s( szAttribute, zsizeof( szAttribute ), ")" );
                   }
                   else
                   {
                      GetAddrForAttribute( &pchBlob, vTZZOHDGV,
                                           pchEntityName, lpViewAttrib->szName );
                      nWk1 = 2;
-                     strcpy_s( szAttribute, sizeof( szAttribute ), "x'" );
+                     strcpy_s( szAttribute, zsizeof( szAttribute ), "x'" );
                      for ( nWk2 = 0; nWk2 < (zSHORT) uLth; nWk2++ )
                      {
                         ucWk = pchBlob[ nWk2 ];
@@ -3378,10 +3378,10 @@ BuildAttrsForGraph( zVIEW vSubtask, zCPCHAR cpcTag )
                if ( lpViewAttrib->bHidden )
                {
                   szHiddenAttribute[ 0 ] = '*';
-                  strcpy_s( szHiddenAttribute + 1, sizeof( szHiddenAttribute ) - 1, lpViewAttrib->szName );
+                  strcpy_s( szHiddenAttribute + 1, zsizeof( szHiddenAttribute ) - 1, lpViewAttrib->szName );
                }
                else
-                  strcpy_s( szHiddenAttribute, sizeof( szHiddenAttribute ), lpViewAttrib->szName );
+                  strcpy_s( szHiddenAttribute, zsizeof( szHiddenAttribute ), lpViewAttrib->szName );
 
                SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szHiddenAttribute );
 
@@ -3493,7 +3493,7 @@ zwTZOBRWAD_ActivateOIDisplay( zVIEW vSubtask )
 
    // First, get the handle to the browser object
    GetViewByName( &vBrowser, szlTZOBRWOO, vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szID, sizeof( szID ), vBrowser, szlName, szlObjectInstanceID );
+   GetStringFromAttribute( szID, zsizeof( szID ), vBrowser, szlName, szlObjectInstanceID );
 // TraceLineS( "ActivateOIDisplay ID: ", szID );
 // DisplayObjectInstance( vBrowser, 0, 0 );
    if ( szID[ 0 ] && GetViewByName( &vInstance, szID, vSubtask, zLEVEL_TASK ) > 0 )
@@ -4434,7 +4434,7 @@ zwTZOBRWAD_DisplayLB_Click( zVIEW vSubtask )
          return( 0 );
       }
 
-      GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+      GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
       if ( szMode[ 0 ] == 'A' )
       {
          SetAttributeFromAttribute( vTZOBOIOO, szlEntity, szlUpdateAttr,
@@ -4480,7 +4480,7 @@ zwTZOBRWAD_DisplayLB_Click( zVIEW vSubtask )
       }
    }
 
-   GetStringFromAttribute( szAttribute, sizeof( szAttribute ), vTZOBOIOO, "Attrib", "Name" );
+   GetStringFromAttribute( szAttribute, zsizeof( szAttribute ), vTZOBOIOO, "Attrib", "Name" );
    zwTZOBRWAD_RefreshDescDisp( vSubtask );
 
    return( 0 );
@@ -4504,7 +4504,7 @@ zwTZOBRWAD_ChangeAttribute( zVIEW vSubtask )
         GetViewByName( &vTZZOHDGO, szlTZZOHDGO, vSubtask, zLEVEL_SUBTASK ) > 0 &&
         GetViewByName( &vTZZOHDGV, szlTZZOHDGV, vSubtask, zLEVEL_SUBTASK ) > 0 )
    {
-      GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+      GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
       if ( szMode[ 0 ] == 'A' &&
            SetCursorFirstSelectedEntity( vTZOBOIOO, szlAttrib, 0 ) >= zCURSOR_SET )
       {
@@ -4513,7 +4513,7 @@ zwTZOBRWAD_ChangeAttribute( zVIEW vSubtask )
          if ( szLockEntity[ 0 ] )
             pchEntityName = szLockEntity;
 
-         GetStringFromAttribute( szAttribName, sizeof( szAttribName ), vTZOBOIOO, szlAttrib, szlName );
+         GetStringFromAttribute( szAttribName, zsizeof( szAttribName ), vTZOBOIOO, szlAttrib, szlName );
          // Now that we have the entity and the attribute, make sure the attribute is not a blob
          lpViewOD     = (LPVIEWOD) SysGetPointerFromHandle( vTZZOHDGV->hViewOD );
          lpViewEntity = (LPVIEWENTITY) SysGetPointerFromHandle( lpViewOD->hFirstOD_Entity );
@@ -4604,8 +4604,8 @@ zwTZOBRWAD_CommitToFile( zVIEW vSubtask )
    if ( pchFileName[ 0 ] &&
         CommitOI_ToFile( vTZZOHDGV, pchFileName, lControl ) >= 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "ObjectInstance successfully written to File: " );
-      strcat_s( szMsg, sizeof( szMsg ), pchFileName );
+      strcpy_s( szMsg, zsizeof( szMsg ), "ObjectInstance successfully written to File: " );
+      strcat_s( szMsg, zsizeof( szMsg ), pchFileName );
 
       MessageSend( vSubtask, "CM00107", "Object Browser", szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_INFORMATION, zBEEP );
@@ -4816,7 +4816,7 @@ zwTZOBRWAD_ActivateObject( zVIEW vSubtask )
    zSHORT nRC = -2;
 
    GetViewByName( &vKZAPPLOO, szlKZAPPLOO, vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szAppName, sizeof( szAppName ), vKZAPPLOO,
+   GetStringFromAttribute( szAppName, zsizeof( szAppName ), vKZAPPLOO,
                            "APPLICATION", "APP_NAME" );
    GetCtrlText( vSubtask, "Object", szObject, 9 );
    GetCtrlText( vSubtask, "Name", szName, 20 );
@@ -4925,8 +4925,8 @@ zwTZOBRWAD_ShowSelectSet( zVIEW vSubtask )
       nSet = SetSelectSetForView( vTZZOHDGV, 1 );
       SetSelectSetForView( vTZZOHDGV, nSet );
       strcpy_s( szMsg, "Select set is currently " );
-      zltoa( nSet, szMsg + 90, sizeof( szMsg ) - 90 );
-      strcat_s( szMsg, sizeof( szMsg ), szMsg + 90 );
+      zltoa( nSet, szMsg + 90, zsizeof( szMsg ) - 90 );
+      strcat_s( szMsg, zsizeof( szMsg ), szMsg + 90 );
       OperatorPrompt( vSubtask, "Select Set Display", szMsg, 0, 0, 0, zICON_INFORMATION );
    }
 
@@ -4948,8 +4948,8 @@ zwTZOBRWAD_NextSelectSet( zVIEW vSubtask )
 
       SetSelectSetForView( vTZZOHDGV, nSet );
       strcpy_s( szMsg, "Select set is now " );
-      zltoa( nSet, szMsg + 90, sizeof( szMsg ) - 90 );
-      strcat_s( szMsg, sizeof ( szMsg ), szMsg + 90 );
+      zltoa( nSet, szMsg + 90, zsizeof( szMsg ) - 90 );
+      strcat_s( szMsg, zsizeof ( szMsg ), szMsg + 90 );
       OperatorPrompt( vSubtask, "Select Set Display", szMsg, 0, 0, 0, zICON_INFORMATION );
    }
 
@@ -4971,8 +4971,8 @@ zwTZOBRWAD_PrevSelectSet( zVIEW vSubtask )
 
       SetSelectSetForView( vTZZOHDGV, nSet );
       strcpy_s( szMsg, "Select set is now " );
-      zltoa( nSet, szMsg + 90, sizeof( szMsg ) - 90 );
-      strcat_s( szMsg, sizeof( szMsg ), szMsg + 90 );
+      zltoa( nSet, szMsg + 90, zsizeof( szMsg ) - 90 );
+      strcat_s( szMsg, zsizeof( szMsg ), szMsg + 90 );
       OperatorPrompt( vSubtask, "Select Set Display", szMsg, 0, 0, 0, zICON_INFORMATION );
    }
 
@@ -5294,7 +5294,7 @@ BuildOutlinerOI_ForView( zVIEW vSubtask )
 
    /* first, get the handle to the browser object */
    GetViewByName( &vBrowser, szlTZOBRWOO, vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szID, sizeof( szID ), vBrowser, szlName, szlObjectInstanceID );
+   GetStringFromAttribute( szID, zsizeof( szID ), vBrowser, szlName, szlObjectInstanceID );
    if ( GetViewByName( &vInstance, szID, vSubtask, zLEVEL_TASK ) > 0 )
    {
       ActivateWindow( vInstance );
@@ -5334,7 +5334,7 @@ zwTZOBRWAD_BuildOutlinerAttrs( zVIEW vSubtask )
    szMode[ 1 ] = 0;
    if ( GetViewByName( &vTZOBOIOO, szlTZOBOIOO, vSubtask, zLEVEL_SUBTASK ) > 0 )
    {
-      GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+      GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
       DropObjectInstance( vTZOBOIOO );
    }
 
@@ -5404,16 +5404,16 @@ zwTZOBRWAD_BuildOutlinerAttrs( zVIEW vSubtask )
                GetAttributeLength( &uLth, vObject, lpViewEntity->szName, lpViewAttrib->szName );
                if ( uLth > 60 || uLth == 0 )
                {
-                  strcpy_s( szAttribute, sizeof( szAttribute ), "(Blob, lth=" );
-                  zltoa( uLth, szAttribute + 50, sizeof( szAttribute ) - 50 );
-                  strcat_s( szAttribute, sizeof( szAttribute ), szAttribute + 50 );
-                  strcat_s( szAttribute, sizeof( szAttribute ), ")" );
+                  strcpy_s( szAttribute, zsizeof( szAttribute ), "(Blob, lth=" );
+                  zltoa( uLth, szAttribute + 50, zsizeof( szAttribute ) - 50 );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), szAttribute + 50 );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), ")" );
                }
                else
                {
                   GetAddrForAttribute( &pchBlob, vObject, lpViewEntity->szName, lpViewAttrib->szName );
                   nWk1 = 2;
-                  strcpy_s( szAttribute, sizeof( szAttribute ), "x'" );
+                  strcpy_s( szAttribute, zsizeof( szAttribute ), "x'" );
                   for ( nWk2 = 0; nWk2 < (zSHORT) uLth; nWk2++ )
                   {
                      ucWk = pchBlob[ nWk2 ];
@@ -5510,13 +5510,13 @@ zwTZOBRWAD_BuildOutlinerAttrs( zVIEW vSubtask )
 
 
          CreateEntity( vTZOBOIOO, szlAttrib, zPOS_AFTER );
-         sprintf_s( szAttribute, sizeof( szAttribute ), "Instance Ptr 0x%8lx  Key %d", (zULONG) lpEntityInstance, lpEntityInstance->ulKey );
+         sprintf_s( szAttribute, zsizeof( szAttribute ), "Instance Ptr 0x%8lx Key %d", (zULONG) lpEntityInstance, lpEntityInstance->ulKey );
          SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szAttribute );
 
          if ( lpSelectedInstance && lpSelectedInstance->nSelectSet )
          {
             CreateEntity( vTZOBOIOO, szlAttrib, zPOS_AFTER );
-            strcpy_s( szAttribute, sizeof( szAttribute ), "Selected(" );
+            strcpy_s( szAttribute, zsizeof( szAttribute ), "Selected(" );
             nWk1 = 0;
             nWk2 = 0x0001;
             for ( nWk3 = 1; nWk3 < 17; nWk3++ )
@@ -5524,16 +5524,16 @@ zwTZOBRWAD_BuildOutlinerAttrs( zVIEW vSubtask )
                if ( lpSelectedInstance->nSelectSet & nWk2 )
                {
                   if ( nWk1 )
-                     strcat_s( szAttribute, sizeof( szAttribute ), "," );
+                     strcat_s( szAttribute, zsizeof( szAttribute ), "," );
 
-                  zltoa( nWk3, szAttribute + 250, sizeof( szAttribute ) - 250 );
-                  strcat_s( szAttribute, sizeof( szAttribute ), szAttribute + 250 );
+                  zltoa( nWk3, szAttribute + 250, zsizeof( szAttribute ) - 250 );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), szAttribute + 250 );
                   nWk1++;
                }
                nWk2 <<= 1;
             }
 
-            strcat_s( szAttribute, sizeof( szAttribute ), ")" );
+            strcat_s( szAttribute, zsizeof( szAttribute ), ")" );
             SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szAttribute );
          }
 
@@ -5577,8 +5577,8 @@ zwTZOBRWAD_BuildOutlinerAttrs( zVIEW vSubtask )
                }
 
                lpLinkViewEntity = (LPVIEWENTITY)  SysGetPointerFromHandle( lpLinkInstance->hViewEntity );
-               strcpy_s( szAttribute, sizeof( szAttribute ), "Versioned by " );
-               strcat_s( szAttribute, sizeof( szAttribute ), lpLinkViewEntity->szName );
+               strcpy_s( szAttribute, zsizeof( szAttribute ), "Versioned by " );
+               strcat_s( szAttribute, zsizeof( szAttribute ), lpLinkViewEntity->szName );
                SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szAttribute );
             }
             else
@@ -5623,8 +5623,8 @@ zwTZOBRWAD_BuildOutlinerAttrs( zVIEW vSubtask )
 
                if ( lpLinkInstance->hViewOI == lpEntityInstance->hViewOI )
                {
-                  strcpy_s( szAttribute, sizeof( szAttribute ), "Internal Link to " );
-                  strcat_s( szAttribute, sizeof( szAttribute ), lpLinkViewEntity->szName );
+                  strcpy_s( szAttribute, zsizeof( szAttribute ), "Internal Link to " );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), lpLinkViewEntity->szName );
                }
                else
                {
@@ -5632,10 +5632,10 @@ zwTZOBRWAD_BuildOutlinerAttrs( zVIEW vSubtask )
                   LPVIEWOD lpLinkOD = (LPVIEWOD) SysGetPointerFromHandle( lpLinkOI->hViewOD );
                   LPVIEWENTITY lpLinkEntity = (LPVIEWENTITY) SysGetPointerFromHandle( lpLinkInstance->hViewEntity );
 
-                  strcpy_s( szAttribute, sizeof( szAttribute ), "External Link to " );
-                  strcat_s( szAttribute, sizeof( szAttribute ), lpLinkOD->szName );
-                  strcat_s( szAttribute, sizeof( szAttribute ), "." );
-                  strcat_s( szAttribute, sizeof( szAttribute ), lpLinkViewEntity->szName );
+                  strcpy_s( szAttribute, zsizeof( szAttribute ), "External Link to " );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), lpLinkOD->szName );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), "." );
+                  strcat_s( szAttribute, zsizeof( szAttribute ), lpLinkViewEntity->szName );
                }
 
                bDup = 0;
@@ -5659,9 +5659,9 @@ zwTZOBRWAD_BuildOutlinerAttrs( zVIEW vSubtask )
          if ( lLinks )
          {
             CreateEntity( vTZOBOIOO, szlAttrib, zPOS_AFTER );
-            strcpy_s( szAttribute, sizeof( szAttribute ), "Number of links is " );
-            zltoa( lLinks, szAttribute + 250, sizeof( szAttribute ) - 250 );
-            strcat_s( szAttribute, sizeof( szAttribute ), szAttribute + 250 );
+            strcpy_s( szAttribute, zsizeof( szAttribute ), "Number of links is " );
+            zltoa( lLinks, szAttribute + 250, zsizeof( szAttribute ) - 250 );
+            strcat_s( szAttribute, zsizeof( szAttribute ), szAttribute + 250 );
             SetAttributeFromString( vTZOBOIOO, szlAttrib, szlName, szAttribute );
          }
 
@@ -5684,16 +5684,16 @@ zwTZOBRWAD_BuildOutlinerAttrs( zVIEW vSubtask )
                      GetAttributeLength( &uLth, vTZOLOBWO, pchEntityName, lpViewAttrib->szName );
                      if ( uLth > 60 || uLth == 0 )
                      {
-                        strcpy_s( szAttribute, sizeof( szAttribute ), "(Blob, lth=" );
-                        zltoa( uLth, szAttribute + 50, sizeof( szAttribute ) - 50 );
-                        strcat_s( szAttribute, sizeof( szAttribute ), szAttribute + 50 );
-                        strcat_s( szAttribute, sizeof( szAttribute ), ")" );
+                        strcpy_s( szAttribute, zsizeof( szAttribute ), "(Blob, lth=" );
+                        zltoa( uLth, szAttribute + 50, zsizeof( szAttribute ) - 50 );
+                        strcat_s( szAttribute, zsizeof( szAttribute ), szAttribute + 50 );
+                        strcat_s( szAttribute, zsizeof( szAttribute ), ")" );
                      }
                      else
                      {
                         GetAddrForAttribute( &pchBlob, vTZOLOBWO, pchEntityName, lpViewAttrib->szName );
                         nWk1 = 2;
-                        strcpy_s( szAttribute, sizeof( szAttribute ), "x'" );
+                        strcpy_s( szAttribute, zsizeof( szAttribute ), "x'" );
                         for ( nWk2 = 0; nWk2 < (zSHORT) uLth; nWk2++ )
                         {
                            ucWk = pchBlob[ nWk2 ];
@@ -5823,7 +5823,7 @@ zwTZOBRWAD_SetModeEntities( zVIEW vSubtask )
 
    if ( GetViewByName( &vTZOBOIOO, szlTZOBOIOO, vSubtask, zLEVEL_SUBTASK ) > 0 )
    {
-      GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+      GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
       if ( szMode[ 0 ] == 'E' )
          return( 0 );
    }
@@ -5861,7 +5861,7 @@ zwTZOBRWAD_SetModeMarkings( zVIEW vSubtask )
 
    if ( GetViewByName( &vTZOBOIOO, szlTZOBOIOO, vSubtask, zLEVEL_SUBTASK ) > 0 )
    {
-      GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+      GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
       if ( szMode[ 0 ] == 'M' )
          return( 0 );
    }
@@ -5899,7 +5899,7 @@ zwTZOBRWAD_SetModeAttributes( zVIEW vSubtask )
 
    if ( GetViewByName( &vTZOBOIOO, szlTZOBOIOO, vSubtask, zLEVEL_SUBTASK ) > 0 )
    {
-      GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+      GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
       if ( szMode[ 0 ] == 'A' )
          return( 0 );
    }
@@ -5937,7 +5937,7 @@ zwTZOBRWAD_SetModeTwins( zVIEW vSubtask )
 
    if ( GetViewByName( &vTZOBOIOO, szlTZOBOIOO, vSubtask, zLEVEL_SUBTASK ) > 0 )
    {
-      GetStringFromAttribute( szMode, sizeof( szMode ), vTZOBOIOO, szlName, szlMode );
+      GetStringFromAttribute( szMode, zsizeof( szMode ), vTZOBOIOO, szlName, szlMode );
       if ( szMode[ 0 ] == 'T' )
          return( 0 );
    }
@@ -6112,7 +6112,7 @@ zwTZOBRWAD_FlagView( zVIEW vSubtask )
 
    // First, get the handle to the browser object
    GetViewByName( &vBrowser, szlTZOBRWOO, vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( sz, sizeof( sz ), vBrowser, szlName, szlID );
+   GetStringFromAttribute( sz, zsizeof( sz ), vBrowser, szlName, szlID );
    lpView = (zVIEW) zatol( sz );
 
    lpView->bFlagDropView = !lpView->bFlagDropView;
@@ -6461,7 +6461,7 @@ CompareExcludingAttributes( zVIEW vSubtask )
    OperatorPromptForInput( vSubtask, "Object Compare",
                            "Enter list of attributes to exclude for compare",
                            FALSE, g_szIgnoreAttrList,
-                           sizeof( g_szIgnoreAttrList ) );
+                           zsizeof( g_szIgnoreAttrList ) );
    return( BuildCompareViews( vSubtask ) );
 }
 
@@ -6590,7 +6590,7 @@ CompareSelectNode( zVIEW vSubtask, zVIEW vCompare, zVIEW vFlatCompare,
    zUSHORT uReturnLevel;
    zSHORT  nRC;
 
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vFlatCompare, szlHD_Node, szlDIL );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vFlatCompare, szlHD_Node, szlDIL );
    GetIntegerFromAttribute( &lAbsolutePos, vFlatCompare, szlHD_Node, szlZKey );
    SetCursorAbsolutePosition( szHD_EntityName, vCompare, lAbsolutePos );
 
@@ -6603,7 +6603,7 @@ CompareSelectNode( zVIEW vSubtask, zVIEW vCompare, zVIEW vFlatCompare,
       if ( nRC == zCURSOR_SET_RECURSIVECHILD )
          SetViewToSubobject( vHD_Compare, szlHD_ChildNode );
 
-      GetStringFromAttribute( szTempEntityName, sizeof( szTempEntityName ), vHD_Compare, szlHD_Node, szlDIL );
+      GetStringFromAttribute( szTempEntityName, zsizeof( szTempEntityName ), vHD_Compare, szlHD_Node, szlDIL );
       if ( zstrcmp( szTempEntityName, szEntityName ) == 0 )
       {
          GetAbsolutePositionForEntity( &lAbsolutePos, vHD_Compare, szlHD_Node );
@@ -7230,7 +7230,7 @@ CompareObjects( zVIEW vSubtask )
    zVIEW_DATA inf[ 2 ];
    zSHORT nRC;
 
-   mInitZero( inf, sizeof( inf ) );
+   mInitZero( inf, zsizeof( inf ) );
 
    SetNameForView( vSubtask, "__SystemCompare", vSubtask, zLEVEL_TASK );
    inf[ 0 ].cpcViewName = "__Compare1";
@@ -7258,7 +7258,7 @@ CompareObjects( zVIEW vSubtask )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Object Instances: %s and %s are identical",
+      sprintf_s( szMsg, zsizeof( szMsg ), "Object Instances: %s and %s are identical",
                  inf[ 0 ].cpcViewName, inf[ 1 ].cpcViewName );
       TraceLineS( szMsg, "" );
    }
@@ -7266,7 +7266,7 @@ CompareObjects( zVIEW vSubtask )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Object Instances: %s and %s are different",
+      sprintf_s( szMsg, zsizeof( szMsg ), "Object Instances: %s and %s are different",
                  inf[ 0 ].cpcViewName, inf[ 1 ].cpcViewName );
       TraceLineS( szMsg, "" );
    }

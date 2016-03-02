@@ -40,7 +40,7 @@ oTZOGSRCO_GlobalOperGrpMigrate( zVIEW     NewOperGrp,
 
    //:// Activate existing source meta OldOperGroup
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + OperGroupMetaName + ".POG"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, OperGroupMetaName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".POG", 1, 0, 514 );
@@ -92,11 +92,11 @@ oTZOGSRCO_GlobalOperGrpMigrate( zVIEW     NewOperGrp,
 
          //:END
          //:SourceFileName = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName
-         GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
+         GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
          ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
          ZeidonStringConcat( SourceFileName, 1, 0, SourceName, 1, 0, 514 );
          //:SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName
-         GetStringFromAttribute( SourceFileName2, sizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
+         GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
          ZeidonStringConcat( SourceFileName2, 1, 0, "\\", 1, 0, 514 );
          ZeidonStringConcat( SourceFileName2, 1, 0, SourceName, 1, 0, 514 );
          //:SysCopyFile( vSubtask, SourceFileName, SourceFileName2, TRUE )
@@ -160,7 +160,7 @@ oTZOGSRCO_GlobalOperGrpMigrate( zVIEW     NewOperGrp,
       { 
 
          //:SET CURSOR FIRST NewOperGrp.Operation WHERE NewOperGrp.Operation.Name = OldOperGrp.Operation.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldOperGrp, "Operation", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldOperGrp, "Operation", "Name" );
          RESULT = SetCursorFirstEntityByString( NewOperGrp, "Operation", "Name", szTempString_0, "" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -241,7 +241,7 @@ oTZOGSRCO_GlobalOperGrpMigrate( zVIEW     NewOperGrp,
    //:                       NewOperGrp.GlobalOperationGroup.Name,
    //:                       "GlobalOperationGroup",
    //:                       CurrentLPLR )
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), NewOperGrp, "GlobalOperationGroup", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), NewOperGrp, "GlobalOperationGroup", "Name" );
    MergeGlobalPrototypes( NewOperGrp, szTempString_0, "GlobalOperationGroup", CurrentLPLR );
    //:DropMetaOI( vSubtask, CurrentLPLR )
    DropMetaOI( vSubtask, CurrentLPLR );
@@ -348,7 +348,7 @@ oTZOGSRCO_GenerateXOG( zVIEW     OperationGroup )
    //:GET VIEW CurrentLPLR NAMED "TaskLPLR"
    RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", OperationGroup, zLEVEL_TASK );
    //:XOG_FileName = CurrentLPLR.LPLR.ExecDir + "\" + CurrentLPLR.LPLR.Name + ".XOG"
-   GetStringFromAttribute( XOG_FileName, sizeof( XOG_FileName ), CurrentLPLR, "LPLR", "ExecDir" );
+   GetStringFromAttribute( XOG_FileName, zsizeof( XOG_FileName ), CurrentLPLR, "LPLR", "ExecDir" );
    ZeidonStringConcat( XOG_FileName, 1, 0, "\\", 1, 0, 514 );
    GetVariableFromAttribute( szTempString_0, 0, 'S', 33, CurrentLPLR, "LPLR", "Name", "", 0 );
    ZeidonStringConcat( XOG_FileName, 1, 0, szTempString_0, 1, 0, 514 );
@@ -400,7 +400,7 @@ oTZOGSRCO_GenerateXOG( zVIEW     OperationGroup )
    while ( RESULT > zCURSOR_UNCHANGED )
    { 
       //:POG_FileName = CurrentLPLR.LPLR.MetaSrcDir + "\" + CurrentLPLR.W_MetaDef.Name + ".POG"
-      GetStringFromAttribute( POG_FileName, sizeof( POG_FileName ), CurrentLPLR, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( POG_FileName, zsizeof( POG_FileName ), CurrentLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( POG_FileName, 1, 0, "\\", 1, 0, 514 );
       GetVariableFromAttribute( szTempString_1, 0, 'S', 33, CurrentLPLR, "W_MetaDef", "Name", "", 0 );
       ZeidonStringConcat( POG_FileName, 1, 0, szTempString_1, 1, 0, 514 );

@@ -62,7 +62,7 @@ class SyntaxColoring
 public:
     SyntaxColoring( CTBEditor *pT, char *pData, HWND hWnd )
         {   m_pT = pT;     m_pData = pData;     m_hWnd = hWnd;
-            m_cfo.cbSize = sizeof( CHARFORMAT );
+            m_cfo.cbSize = zsizeof( CHARFORMAT );
         };
 
     virtual ~SyntaxColoring() {};

@@ -188,19 +188,19 @@ ZAction::ZAction( zLONG lActType, zCPCHAR cpcAction,
 
    // data for requested action (e.g.  Y, 1, 2 ...)
    if ( cpcAction && cpcAction[ 0 ] )
-      strcpy_s( m_szAction, sizeof( m_szAction ), cpcAction );
+      strcpy_s( m_szAction, zsizeof( m_szAction ), cpcAction );
    else
       m_szAction[ 0 ] = 0;
 
    // name of dialog for the action type
    if ( cpcActDlg && cpcActDlg[ 0 ] )
-      strcpy_s( m_szActDlg, sizeof( m_szActDlg ), cpcActDlg );
+      strcpy_s( m_szActDlg, zsizeof( m_szActDlg ), cpcActDlg );
    else
       m_szActDlg[ 0 ] = 0;
 
    // name of window for the action type
    if ( cpcActWnd && cpcActWnd[ 0 ] )
-      strcpy_s( m_szActWnd, sizeof( m_szActWnd ), cpcActWnd );
+      strcpy_s( m_szActWnd, zsizeof( m_szActWnd ), cpcActWnd );
    else
       m_szActWnd[ 0 ] = 0;
 

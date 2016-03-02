@@ -347,8 +347,7 @@ TZPainterBar::TZPainterBar( ZSubtask *pZSubtask,
 
    // Create a palette button for each painter control
    m_wndPaletteBar.Create( m_pZSubtask->m_pZFWnd,
-                           WS_CHILD | WS_VISIBLE | CBRS_TOP |
-                             CBRS_SIZE_DYNAMIC | CBRS_TOOLTIPS | CBRS_FLYBY,
+                           WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_SIZE_DYNAMIC | CBRS_TOOLTIPS | CBRS_FLYBY,
                            IDW_PAINTER_PALETTE );
 // TraceLineX( "PaletteBar ", (zLONG) m_wndPaletteBar.m_hWnd );
 
@@ -365,8 +364,7 @@ TZPainterBar::TZPainterBar( ZSubtask *pZSubtask,
    CreateEntity( vTZPNTROO, szlPalette, zPOS_AFTER );
 
    TZPainterBar *pPainterBar = this;
-   SetAttributeFromBlob( vTZPNTROO, szlPalette, szlPointer,
-                         &pPainterBar, sizeof( TZPainterBar * ) );
+   SetAttributeFromBlob( vTZPNTROO, szlPalette, szlPointer, &pPainterBar, sizeof( TZPainterBar * ) );
    SetNameForView( vTZPNTROO, szlTZPNTROO, 0, zLEVEL_TASK );
 
 }  // end of:  TZPainterBar ctor
@@ -494,7 +492,7 @@ TZPainterBar::Initialization( )
       CreateAppView( &vApp );
       GetWorkstationApplicationValues( vApp, "ReportFont",
                                        m_szReportFaceName,
-                                       sizeof( m_szReportFaceName ),
+                                       zsizeof( m_szReportFaceName ),
                                        &m_lReportFontSize,
                                        0, 0, 0, 0, 0, 0, 0, 0, 0 );
 
@@ -1187,7 +1185,7 @@ TZPainterBar::OnCmdMsg( UINT uId, int nCode, void *pExtra,
          if ( nIdx >= 0 )
             m_wndListWindows.GetLBText( nIdx, szTag );
          else
-            m_wndListWindows.GetWindowText( szTag, sizeof( szTag ) - 1 );
+            m_wndListWindows.GetWindowText( szTag, zsizeof( szTag ) - 1 );
 
          if ( m_fState & (zTZCB_REPORT | zTZCB_XSLT) )
          {
@@ -1207,7 +1205,7 @@ TZPainterBar::OnCmdMsg( UINT uId, int nCode, void *pExtra,
                                             szTag, 0 ) == zCURSOR_SET )
          {
             GetViewByName( &vTZPNTROO, "TZPNTROO", m_vSubtask, zLEVEL_TASK );
-            PainterCall( zMSG_UPDATEWINDOWBYNAME, vTZPNTROO, this, vDialogList, szTag, sizeof( szTag ) );
+            PainterCall( zMSG_UPDATEWINDOWBYNAME, vTZPNTROO, this, vDialogList, szTag, zsizeof( szTag ) );
          }
 
          return( TRUE );
@@ -1229,7 +1227,7 @@ TZPainterBar::OnCmdMsg( UINT uId, int nCode, void *pExtra,
             m_wndListWindows.GetLBText( nIdx, szWndTag );
          else
             m_wndListWindows.GetWindowText( szWndTag,
-                                            sizeof( szWndTag ) - 1 );
+                                            zsizeof( szWndTag ) - 1 );
 
          if ( szWndTag[ 0 ] &&
               GetViewByName( &vList, "TZWINDOW", m_vSubtask, zLEVEL_TASK ) > 0 )
@@ -1242,7 +1240,7 @@ TZPainterBar::OnCmdMsg( UINT uId, int nCode, void *pExtra,
                   m_wndListActions.GetLBText( nIdx, szActTag );
                else
                   m_wndListActions.GetWindowText( szActTag,
-                                                  sizeof( szActTag ) - 1 );
+                                                  zsizeof( szActTag ) - 1 );
 
                if ( szActTag[ 0 ] &&
                     SetCursorFirstEntityByString( vList, szlAction,
@@ -1288,7 +1286,7 @@ TZPainterBar::OnCmdMsg( UINT uId, int nCode, void *pExtra,
             m_wndListOperations.GetLBText( nIdx, szOperTag );
          else
             m_wndListOperations.GetWindowText( szOperTag,
-                                               sizeof( szOperTag ) - 1 );
+                                               zsizeof( szOperTag ) - 1 );
 
          // Get the view to the window list.
          if ( szOperTag[ 0 ] &&
@@ -1407,7 +1405,7 @@ TZPainterBar::EnablePainterWindows( zBOOL bEnable )
          pCtrl = m_pActivePainterWindow->m_CtrlList[ nPos ];
          if ( pCtrl->m_lType == 2090 || pCtrl->m_lType == 2091 )
          {
-            sprintf_s( szMsg, sizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
+            sprintf_s( szMsg, zsizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
                       pCtrl->IsSelected( ) ? "*" : " ",
                       pCtrl->m_pCtrlParent ?
                                     pCtrl->m_pCtrlParent->m_csTag : "<null>",
@@ -1630,7 +1628,7 @@ TZPainterBar::CreatePaletteButtons( )
    SetCursorFirstEntity( vTZPESRCO, szlControlDef, 0 );
    do    // we've guaranteed position on first entity.
    {
-      GetStringFromAttribute( szBitmap, sizeof( szBitmap ), vTZPESRCO, szlControlDef, szlPainterBitmap );
+      GetStringFromAttribute( szBitmap, zsizeof( szBitmap ), vTZPESRCO, szlControlDef, szlPainterBitmap );
       GetIntegerFromAttribute( &lVisible, vTZPESRCO, szlControlDef, "Invisible" );
 
       // There is no Bitmap or the Control is invisible (deleted).
@@ -1651,7 +1649,7 @@ TZPainterBar::CreatePaletteButtons( )
          if ( zstrcmp( pch, szDLL_Name ) != 0 )
          {
             hInst = 0;
-            strcpy_s( szDLL_Name, sizeof( szDLL_Name ), pch );
+            strcpy_s( szDLL_Name, zsizeof( szDLL_Name ), pch );
             hLibrary = SysLoadLibraryWithErrFlag( m_pZSubtask->m_vDialog, pch, zLOADLIB_RESOURCES );
             hInst = (HINSTANCE) SysGetInstance( hLibrary );
             if ( hInst )
@@ -1675,7 +1673,7 @@ TZPainterBar::CreatePaletteButtons( )
                m_pZSubtask->m_ulNextBarTipCmd++;
 
                GetAddrForAttribute( &pchTag, vTZPESRCO, szlControlDef, szlTag );
-               strcpy_s( m_PaletteBarItems[ uButtonCnt ].szTag, sizeof( m_PaletteBarItems[ uButtonCnt ].szTag ), pchTag );
+               strcpy_s( m_PaletteBarItems[ uButtonCnt ].szTag, zsizeof( m_PaletteBarItems[ uButtonCnt ].szTag ), pchTag );
             }
          }
       }
@@ -1716,7 +1714,7 @@ TZPainterBar::CreatePaletteButtons( )
                             vTZ__PRFO, szlControlDef, szlTag,
                             0, 0, 0 ) >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szBitmap, sizeof( szBitmap ), vTZPESRCO, szlControlDef, szlPainterBitmap );
+         GetStringFromAttribute( szBitmap, zsizeof( szBitmap ), vTZPESRCO, szlControlDef, szlPainterBitmap );
          GetIntegerFromAttribute( &lVisible, vTZPESRCO, szlControlDef, "Invisible" );
 
          if ( szBitmap[ 0 ] && lVisible <= 0 &&
@@ -1792,7 +1790,7 @@ TZPainterBar::CreatePaletteButtons( )
                m_PaletteBarItems[ uButtonCnt ].lKey = pAX_Ctrl->GetKey( );
                m_PaletteBarItems[ uButtonCnt ].uCmdId =
                                                m_pZSubtask->m_ulNextBarTipCmd;
-               strcpy_s( m_PaletteBarItems[ uButtonCnt ].szTag, sizeof( m_PaletteBarItems[ uButtonCnt ].szTag ),
+               strcpy_s( m_PaletteBarItems[ uButtonCnt ].szTag, zsizeof( m_PaletteBarItems[ uButtonCnt ].szTag ),
                          pAX_Ctrl->GetDescription( ) );
                m_PaletteBarItems[ uButtonCnt ].chState = 'Y';                     //?
                m_pZSubtask->m_ulNextBarTipCmd++;
@@ -2143,7 +2141,7 @@ TZPainterBar::PaintToolBoxCtrl( TZPainterWindow *pPainterWindow,
                   nIdNbr = 1;
 
                pPainterWindow->GenerateTag( szTag, lNewType, FALSE );
-               sprintf_s( szLabel, sizeof( szLabel ), "&xxdo Create %s control\tCtrl+x", szTag );
+               sprintf_s( szLabel, zsizeof( szLabel ), "&xxdo Create %s control\tCtrl+x", szTag );
                pPainterWindow->AddToUndo( pCtrl, nIdNbr, nPos, FALSE,
                                           TZUndoRedo::eCreate, szLabel );
                break;
@@ -2224,7 +2222,7 @@ TZPainterBar::CreateDefaultFont( )
 
    CreateAppView( &vTaskLPLR );
    GetWorkstationApplicationValues( vTaskLPLR, "Font", szFaceName,
-                                    sizeof( szFaceName ), &lFontSize,
+                                    zsizeof( szFaceName ), &lFontSize,
                                     0, 0, 0, 0, 0, 0, 0, 0, 0 );
    if ( szFaceName[ 0 ] == 'Z' &&
         (zstrcmp( szFaceName, "ZeidonOld" ) == 0 || zstrcmp( szFaceName, "ZeidonSize" ) == 0) )
@@ -2245,7 +2243,7 @@ TZPainterBar::CreateDefaultFont( )
       zmemset( &logFont, 0, sizeof( LOGFONT ) );
       logFont.lfCharSet = DEFAULT_CHARSET;
       logFont.lfHeight = lFontSize;
-      strcpy_s( logFont.lfFaceName, sizeof( logFont.lfFaceName ), szFaceName );
+      strcpy_s( logFont.lfFaceName, zsizeof( logFont.lfFaceName ), szFaceName );
       HDC hDC = ::GetDC( 0 );
 
       ::ReleaseDC( 0, hDC );
@@ -2263,7 +2261,7 @@ TZPainterBar::CreateDefaultFont( )
    }
 
    GetWorkstationApplicationValues( vTaskLPLR, "FontCtrl", szFaceName,
-                                    sizeof( szFaceName ), &lFontSize,
+                                    zsizeof( szFaceName ), &lFontSize,
                                     0, 0, 0, 0, 0, 0, 0, 0, 0 );
    m_pFontCtrl = new CFont;  // font override for controls
    if ( szFaceName[ 0 ] && lFontSize )

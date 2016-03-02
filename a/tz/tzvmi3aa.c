@@ -222,7 +222,7 @@ Copy( zVIEW  vSubtask )
 
    // set up the Source meta directory first,
    lRC =
-      GetStringFromAttribute( szSourceMetaDirectory, sizeof( szSourceMetaDirectory ),
+      GetStringFromAttribute( szSourceMetaDirectory, zsizeof( szSourceMetaDirectory ),
                               vTZVSINIT, "ROOT", "SourceOfSourceCopy" );
 
    lLth = zstrlen( szSourceMetaDirectory );
@@ -234,7 +234,7 @@ Copy( zVIEW  vSubtask )
    lLth = 0;
    // set up the target meta directory
    lRC =
-      GetStringFromAttribute( szTargetMetaDirectory, sizeof( szTargetMetaDirectory ),
+      GetStringFromAttribute( szTargetMetaDirectory, zsizeof( szTargetMetaDirectory ),
                               vTZVSINIT, "ROOT", "TargetOfSourceCopy" );
 
    lLth = zstrlen( szTargetMetaDirectory );
@@ -247,7 +247,7 @@ Copy( zVIEW  vSubtask )
 
    // set up the Source exec directory,
    lRC =
-      GetStringFromAttribute( szSourceExeDirectory, sizeof( szSourceExeDirectory ),
+      GetStringFromAttribute( szSourceExeDirectory, zsizeof( szSourceExeDirectory ),
                               vTZVSINIT, "ROOT", "SourceOfExeCopy" );
 
    lLth = zstrlen( szSourceExeDirectory );
@@ -259,7 +259,7 @@ Copy( zVIEW  vSubtask )
    lLth = 0;
    // set up the Target exec directory,
    lRC =
-      GetStringFromAttribute( szTargetExeDirectory, sizeof( szTargetExeDirectory ),
+      GetStringFromAttribute( szTargetExeDirectory, zsizeof( szTargetExeDirectory ),
                               vTZVSINIT, "ROOT", "TargetOfExeCopy" );
 
    lLth = zstrlen( szTargetExeDirectory );
@@ -288,8 +288,8 @@ Copy( zVIEW  vSubtask )
 
       while ( k < NBR_DOMAINS )
       {
-         strcpy_s( szSourceMetaDirectory + lSourceMetaLen, sizeof( szSourceMetaDirectory ) - lSourceMetaLen, szDomainFiles[ k ] );
-         strcpy_s( szTargetMetaDirectory + lTargetMetaLen, sizeof( szTargetMetaDirectory ) - lTargetMetaLen, szDomainFiles[ k ] );
+         strcpy_s( szSourceMetaDirectory + lSourceMetaLen, zsizeof( szSourceMetaDirectory ) - lSourceMetaLen, szDomainFiles[ k ] );
+         strcpy_s( szTargetMetaDirectory + lTargetMetaLen, zsizeof( szTargetMetaDirectory ) - lTargetMetaLen, szDomainFiles[ k ] );
          SourceFileHandle = SysOpenFile( vSubtask, szSourceMetaDirectory,COREFILE_READ );
          if ( SourceFileHandle == -1 )
             TraceLineS( "ERROR Could not open: ", szSourceMetaDirectory );
@@ -308,8 +308,8 @@ Copy( zVIEW  vSubtask )
          k++;
       }
 
-      strcpy_s( szSourceExeDirectory + lSourceExeLen, sizeof( szSourceExeDirectory ) - lSourceExeLen, "DOMAINS.IDM" );
-      strcpy_s( szTargetExeDirectory + lTargetExeLen, sizeof( szTargetExeDirectory ) - lTargetExeLen, "ZEIDON.XDM" );
+      strcpy_s( szSourceExeDirectory + lSourceExeLen, zsizeof( szSourceExeDirectory ) - lSourceExeLen, "DOMAINS.IDM" );
+      strcpy_s( szTargetExeDirectory + lTargetExeLen, zsizeof( szTargetExeDirectory ) - lTargetExeLen, "ZEIDON.XDM" );
 
       SourceFileHandle = SysOpenFile( vSubtask, szSourceExeDirectory, COREFILE_READ );
 
@@ -331,8 +331,8 @@ Copy( zVIEW  vSubtask )
    // PPE
    if ( CompareAttributeToInteger( vTZVSINIT, "ROOT", "IncludePPE", 1 ) == 0 )
    {
-      strcpy_s( szSourceMetaDirectory + lSourceMetaLen, sizeof( szSourceMetaDirectory ) - lSourceMetaLen, "ZEIDON.PPE" );
-      strcpy_s( szTargetMetaDirectory + lTargetMetaLen, sizeof( szTargetMetaDirectory ) - lTargetMetaLen, "ZEIDON.PPE" );
+      strcpy_s( szSourceMetaDirectory + lSourceMetaLen, zsizeof( szSourceMetaDirectory ) - lSourceMetaLen, "ZEIDON.PPE" );
+      strcpy_s( szTargetMetaDirectory + lTargetMetaLen, zsizeof( szTargetMetaDirectory ) - lTargetMetaLen, "ZEIDON.PPE" );
 
       SourceFileHandle = SysOpenFile( vSubtask, szSourceMetaDirectory,COREFILE_READ );
 
@@ -349,8 +349,8 @@ Copy( zVIEW  vSubtask )
       SysCloseFile( vSubtask, SourceFileHandle, 0 );
       SysCloseFile( vSubtask, TargetFileHandle, 0 );
 
-      strcpy_s( szSourceExeDirectory + lSourceExeLen, sizeof( szSourceExeDirectory ) - lSourceExeLen, "ZEIDON.XPE" );
-      strcpy_s( szTargetExeDirectory + lTargetExeLen, sizeof( szTargetExeDirectory ) - lTargetExeLen, "ZEIDON.XPE" );
+      strcpy_s( szSourceExeDirectory + lSourceExeLen, zsizeof( szSourceExeDirectory ) - lSourceExeLen, "ZEIDON.XPE" );
+      strcpy_s( szTargetExeDirectory + lTargetExeLen, zsizeof( szTargetExeDirectory ) - lTargetExeLen, "ZEIDON.XPE" );
 
       SourceFileHandle = SysOpenFile( vSubtask, szSourceExeDirectory,
                                       COREFILE_READ );

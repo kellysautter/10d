@@ -163,7 +163,7 @@ McbXMLElement * McbCreateRoot()
 {
    McbXMLElement * pElement;
 
-   pElement = (McbXMLElement*)malloc(sizeof(McbXMLElement));
+   pElement = (McbXMLElement*)malloc(zsizeof(McbXMLElement));
    McbInitElement(pElement, NULL, 0, FALSE);
 
    return pElement;
@@ -380,11 +380,11 @@ LPTSTR McbStrdup(LPCTSTR lpszData, int cbData)
 
    if (cbData == 0) cbData = _tcslen(lpszData);
 
-   lpszNew = malloc((cbData+1) * sizeof(TCHAR));
+   lpszNew = malloc((cbData+1) * zsizeof(TCHAR));
 
    if (lpszNew)
    {
-      memcpy(lpszNew, lpszData, (cbData) * sizeof(TCHAR));
+      memcpy(lpszNew, lpszData, (cbData) * zsizeof(TCHAR));
       lpszNew[cbData] = (TCHAR)NULL;
    }
 
@@ -1112,7 +1112,7 @@ void McbAllocNodes(McbXMLElement *pEntry, int nGrowBy)
     *************************************************************************
     */
     nMax = pEntry->nMax += nGrowBy;
-    pNew = malloc(sizeof(McbXMLNode) * nMax);
+    pNew = malloc(zsizeof(McbXMLNode) * nMax);
 
    /*
     *************************************************************************
@@ -1178,7 +1178,7 @@ McbXMLElement * McbAddElement(McbXMLElement *pEntry, LPTSTR lpszName,
    pNode = &pEntry->pEntries[pEntry->nSize];
    pNode->type = eNodeElement;
 
-   pElement = malloc(sizeof(McbXMLElement));
+   pElement = malloc(zsizeof(McbXMLElement));
    pNode->node.pElement = pElement;
 
    McbInitElement(pElement, pEntry, lpszName, nIsDeclaration);
@@ -1247,7 +1247,7 @@ McbXMLAttribute * McbAddAttribute(McbXMLElement *pEntry, LPTSTR lpszName,
    pNode = &pEntry->pEntries[pEntry->nSize];
    pNode->type = eNodeAttribute;
 
-   pAttr = malloc(sizeof(McbXMLAttribute));
+   pAttr = malloc(zsizeof(McbXMLAttribute));
    pNode->node.pAttrib = pAttr;
 
    pAttr->lpszName = lpszName;
@@ -1315,7 +1315,7 @@ McbXMLText * McbAddText(McbXMLElement *pEntry, LPTSTR lpszValue, int nGrowBy)
    pNode = &pEntry->pEntries[pEntry->nSize];
    pNode->type = eNodeText;
 
-   pText = malloc(sizeof(McbXMLText));
+   pText = malloc(zsizeof(McbXMLText));
    pNode->node.pText = pText;
    pText->lpszValue = lpszValue;
 
@@ -1382,7 +1382,7 @@ McbXMLClear * McbAddClear(McbXMLElement *pEntry, LPTSTR lpszValue,
    pNode = &pEntry->pEntries[pEntry->nSize];
    pNode->type = eNodeClear;
 
-   pNewClear = malloc(sizeof(McbXMLClear));
+   pNewClear = malloc(zsizeof(McbXMLClear));
    pNode->node.pClear = pNewClear;
    pNewClear->lpszValue = lpszValue;
    pNewClear->lpszOpenTag = pClear->lpszOpen;
@@ -2996,7 +2996,7 @@ int McbCreateXMLStringR(McbXMLElement * pEntry, LPTSTR lpszMarker, int nFormat)
         {
             if (cb)
             {
-                memset(lpszMarker, McbINDENTCHAR, sizeof(TCHAR)*cb);
+                memset(lpszMarker, McbINDENTCHAR, zsizeof(TCHAR)*cb);
             }
 
             nResult = cb;
@@ -3169,7 +3169,7 @@ int McbCreateXMLStringR(McbXMLElement * pEntry, LPTSTR lpszMarker, int nFormat)
                         if (lpszMarker)
                         {
                             memset(&lpszMarker[nResult], McbINDENTCHAR,
-                                    sizeof(TCHAR)*(nFormat + 1));
+                                    zsizeof(TCHAR)*(nFormat + 1));
 
                             _tcscpy(&lpszMarker[nResult + nFormat + 1],
                                 pChild->node.pText->lpszValue);
@@ -3215,7 +3215,7 @@ int McbCreateXMLStringR(McbXMLElement * pEntry, LPTSTR lpszMarker, int nFormat)
                         if (lpszMarker)
                         {
                             memset(&lpszMarker[nResult], McbINDENTCHAR,
-                                    sizeof(TCHAR)*(nFormat + 1));
+                                    zsizeof(TCHAR)*(nFormat + 1));
 
                             _tcscpy(&lpszMarker[nResult + nFormat + 1],
                                 pChild->node.pClear->lpszOpenTag);
@@ -3327,7 +3327,7 @@ int McbCreateXMLStringR(McbXMLElement * pEntry, LPTSTR lpszMarker, int nFormat)
                     if (nFormat)
                     {
                         memset(&lpszMarker[nResult], McbINDENTCHAR,
-                            sizeof(TCHAR)*nFormat);
+                            zsizeof(TCHAR)*nFormat);
 
                         nResult+=nFormat;
                     }

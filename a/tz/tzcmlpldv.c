@@ -345,7 +345,7 @@ INITIALIZE_UserStartingGenZKey( zVIEW     ViewToWindow )
          while ( RESULT > zCURSOR_UNCHANGED )
          {
             //:szFullFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.W_MetaDef.Name + "." + szSuffix
-            GetStringFromAttribute( szFullFileName, sizeof( szFullFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+            GetStringFromAttribute( szFullFileName, zsizeof( szFullFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
             ZeidonStringConcat( szFullFileName, 1, 0, "\\", 1, 0, 256 );
             GetVariableFromAttribute( szTempString_0, 0, 'S', 33, TZCMLPLO, "W_MetaDef", "Name", "", 0 );
             ZeidonStringConcat( szFullFileName, 1, 0, szTempString_0, 1, 0, 256 );
@@ -542,7 +542,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
 
    //:// Set the executable directory. Create it if it doesn't exist and also copy the zeidon.hky if it doesn't exist.
    //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
    GetVariableFromAttribute( szTempString_0, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
    ZeidonStringConcat( szFileName, 1, 0, szTempString_0, 1, 0, 514 );
@@ -579,7 +579,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    //:// If we are creating a new lplr...
    //:// Now check kzmsgqoo, and tzzolodo if the directory "NewLPLR" exists under zeidon executable directory.
    //:szFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS + "\NewLPLR"
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), KZAPPLOO, "ZEIDON", "ZEIDON_SYS" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), KZAPPLOO, "ZEIDON", "ZEIDON_SYS" );
    ZeidonStringConcat( szFileName, 1, 0, "\\NewLPLR", 1, 0, 514 );
    //:IF TZCMLPLO.LPLR.LPLR_Type = "2" AND SysValidDirOrFile( szFileName, TRUE, FALSE, 512 ) > 0
    lTempInteger_2 = SysValidDirOrFile( szFileName, TRUE, FALSE, 512 );
@@ -602,7 +602,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
          //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
          SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
          //:szFileName = TZCMLPLO.LPLR.ExecDir + "\KZMSGQOO.XOD"
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), TZCMLPLO, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "ExecDir" );
          ZeidonStringConcat( szFileName, 1, 0, "\\KZMSGQOO.XOD", 1, 0, 514 );
          //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
          GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
@@ -629,7 +629,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
          //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
          SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
          //:szFileName = TZCMLPLO.LPLR.ExecDir + "\TZZOLFLO.XOD"
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), TZCMLPLO, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "ExecDir" );
          ZeidonStringConcat( szFileName, 1, 0, "\\TZZOLFLO.XOD", 1, 0, 514 );
          //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
          GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
@@ -696,7 +696,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
       //:END
 
       //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\KZMSGQOO_Object.java"
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szFileName, 1, 0, "\\KZMSGQOO_Object.java", 1, 0, 514 );
       //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
       GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
@@ -716,7 +716,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    //:// TZCMWKSO
    //:// Make sure that the LPLR object exists in TZCMWKSO.
    //:SET CURSOR FIRST TZCMWKSO.LPLR WHERE TZCMWKSO.LPLR.Name = TZCMLPLO.LPLR.Name
-   GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TZCMLPLO, "LPLR", "Name" );
+   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZCMLPLO, "LPLR", "Name" );
    RESULT = SetCursorFirstEntityByString( TZCMWKSO, "LPLR", "Name", szTempString_1, "" );
    //:IF RESULT < zCURSOR_SET
    if ( RESULT < zCURSOR_SET )
@@ -739,7 +739,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    //:TZCMWKSO.LPLR.PgmSrcDir  = TZCMLPLO.LPLR.MetaSrcDir
    SetAttributeFromAttribute( TZCMWKSO, "LPLR", "PgmSrcDir", TZCMLPLO, "LPLR", "MetaSrcDir" );
    //:TZCMWKSO.LPLR.ExecDir    = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
-   GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), TZCMLPLO, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( szTempString_2, 1, 0, "\\", 1, 0, 255 );
    GetVariableFromAttribute( szTempString_3, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
    ZeidonStringConcat( szTempString_2, 1, 0, szTempString_3, 1, 0, 255 );
@@ -775,7 +775,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    if ( CompareAttributeToString( TZCMLPLO, "LPLR", "wExecutableSubDirectory", "" ) == 0 )
    {
       //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szLPLRName + ".XLP"
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( szFileName, 1, 0, szLPLRName, 1, 0, 514 );
       ZeidonStringConcat( szFileName, 1, 0, ".XLP", 1, 0, 514 );
@@ -784,7 +784,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    else
    {
       //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory + "\" + szLPLRName + ".XLP"
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
       GetVariableFromAttribute( szTempString_4, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
       ZeidonStringConcat( szFileName, 1, 0, szTempString_4, 1, 0, 514 );
@@ -817,7 +817,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    //:CommitOI_ToFile( TZCMLPLO, szFileName, zSINGLE )
    CommitOI_ToFile( TZCMLPLO, szFileName, zSINGLE );
    //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szLPLRName + ".LLP"
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( szFileName, 1, 0, szLPLRName, 1, 0, 514 );
    ZeidonStringConcat( szFileName, 1, 0, ".LLP", 1, 0, 514 );
@@ -826,7 +826,7 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
 
    //:// Make sure the APPLICATION entry exists and is correct.
    //:SET CURSOR FIRST KZAPPLOO.APPLICATION WHERE KZAPPLOO.APPLICATION.APP_NAME = TZCMLPLO.LPLR.Name
-   GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TZCMLPLO, "LPLR", "Name" );
+   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZCMLPLO, "LPLR", "Name" );
    RESULT = SetCursorFirstEntityByString( KZAPPLOO, "APPLICATION", "APP_NAME", szTempString_1, "" );
    //:IF RESULT < zCURSOR_SET
    if ( RESULT < zCURSOR_SET )
@@ -1200,7 +1200,7 @@ o_INITIALIZE_NextZKeyForObject( zVIEW     vMetaOI,
 
 
    //:SysGetDateTime( szDateTimeStamp )
-   SysGetDateTime( szDateTimeStamp, sizeof( szDateTimeStamp ) );
+   SysGetDateTime( szDateTimeStamp, zsizeof( szDateTimeStamp ) );
    //:TraceLineS( "*** szDateTimeStamp: ", szDateTimeStamp )
    TraceLineS( "*** szDateTimeStamp: ", szDateTimeStamp );
 
@@ -1280,7 +1280,7 @@ o_INITIALIZE_NextZKeyForObject( zVIEW     vMetaOI,
       //:// DateTimeStamp is of form YYYYMMDDHHMMSSTTT.
       //:// We will use 9 middle digits, DDHHMMSST, forming DDH,HMM,SST, which would generate a key up to 312,459,599.
       //:SysGetDateTime( szDateTimeStamp )
-      SysGetDateTime( szDateTimeStamp, sizeof( szDateTimeStamp ) );
+      SysGetDateTime( szDateTimeStamp, zsizeof( szDateTimeStamp ) );
       //:szGeneratedKey = szDateTimeStamp[6:9]
       ZeidonStringCopy( szGeneratedKey, 1, 0, szDateTimeStamp, 6, 9, 21 );
       //:lGeneratedKey = zStringToInteger( szGeneratedKey )

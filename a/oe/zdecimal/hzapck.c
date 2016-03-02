@@ -1500,7 +1500,7 @@ short  pck_to_fux (
   if (rc)
     return rc;
 
-  decari_to_string( temp, sizeof( temp ), &decari, fux->nk, ' ');
+  decari_to_string( temp, zsizeof( temp ), &decari, fux->nk, ' ');
 
   if (fux->nk > 0)
   {
@@ -1920,7 +1920,7 @@ short decari_to_fux
   if (fux->nk > 0)
     stz ++;
 
-  decari_to_string( temp, sizeof( temp ), (tDec *)pd, fux->nk, ' ');
+  decari_to_string( temp, zsizeof( temp ), (tDec *)pd, fux->nk, ' ');
 
   if (fux->nk > 0)
   {
@@ -2101,11 +2101,11 @@ short decari_from_dlong
   long          fak = 1;
 
 #ifdef TB_SWAP
-  memcpy (&hi, dword + sizeof (zLONG), sizeof (zLONG));
-  memcpy (&lo, dword, sizeof (unsigned long));
+  memcpy (&hi, dword + zsizeof (zLONG), zsizeof (zLONG));
+  memcpy (&lo, dword, zsizeof (unsigned long));
 #else
-  memcpy (&hi, dword, sizeof (zLONG));
-  memcpy (&lo, dword + sizeof (unsigned long), sizeof (unsigned long));
+  memcpy (&hi, dword, zsizeof (zLONG));
+  memcpy (&lo, dword + zsizeof (unsigned long), zsizeof (unsigned long));
 #endif
 
   if (hi < 0)

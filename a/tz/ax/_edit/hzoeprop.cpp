@@ -107,8 +107,8 @@ void CPropertyDlg::OnFont()
 
     //Vorbelegung der CHOOSEFONT und LOGFONT-Strukturen fuer
     //ChooseFont-Dialog
-    ZeroMemory( &m_cf, sizeof( CHARFORMAT ) );
-    m_cf.cbSize = sizeof(CHARFORMAT);
+    ZeroMemory( &m_cf, zsizeof( CHARFORMAT ) );
+    m_cf.cbSize = zsizeof(CHARFORMAT);
     ZeroMemory( &m_lf, sizeof( LOGFONT ) );
 
     hdc = ::GetDC( m_pParent->m_hWnd );
@@ -118,7 +118,7 @@ void CPropertyDlg::OnFont()
     ::SendMessage( m_pParent->m_hWnd, EM_GETCHARFORMAT, (WPARAM) TRUE,
                    (LPARAM) &m_cf);
 
-    csf.lStructSize = sizeof(csf);
+    csf.lStructSize = zsizeof(csf);
     csf.hwndOwner = m_pParent->m_hWnd;
     csf.hDC = 0;
     csf.lpLogFont = &m_lf;
@@ -147,8 +147,8 @@ void CPropertyDlg::OnFont()
 
     if( ChooseFont( &csf ) )
     {
-        ZeroMemory( &m_cf, sizeof(CHARFORMAT) );
-        m_cf.cbSize = sizeof(CHARFORMAT);
+        ZeroMemory( &m_cf, zsizeof(CHARFORMAT) );
+        m_cf.cbSize = zsizeof(CHARFORMAT);
         m_cf.dwMask = CFM_EFFECTS | CFM_FACE | CFM_SIZE | CFM_CHARSET;
         m_cf.yHeight = (LONG) csf.iPointSize * 2;
         lstrcpy(m_cf.szFaceName, m_lf.lfFaceName);
@@ -205,7 +205,7 @@ BOOL CPropertyDlg::OnInitDialog()
     m_Background.SetCustomText( (LPCTSTR)sMore );
 
     char cHilf[100];
-    _ltoa_s( m_lTabStop, cHilf, sizeof( cHilf ), 10 );
+    _ltoa_s( m_lTabStop, cHilf, zsizeof( cHilf ), 10 );
     GetDlgItem( IDC_TABSTOP )-> SetWindowText( cHilf );
 
     return TRUE;  // return TRUE unless you set the focus to a control

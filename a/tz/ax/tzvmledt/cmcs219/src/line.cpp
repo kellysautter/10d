@@ -31,7 +31,7 @@ int CLine::AddChars( int nIndexBefore, LPCTSTR pszText, int cbText )
    // make room for the new chars
    memmove( m_pszText + nIndexBefore + cbText,
             m_pszText + nIndexBefore,
-            ( m_nLength - nIndexBefore ) * sizeof( TCHAR ) );
+            ( m_nLength - nIndexBefore ) * zsizeof( TCHAR ) );
    // copy in the new chars
    _tcsncpy( m_pszText + nIndexBefore, pszText, cbText );
    m_nLength = m_nLength + cbText;
@@ -57,7 +57,7 @@ int CLine::RemoveChars( int nIndexStart, int nChars )
       // shift the text
       memmove( pszAt,
              pszAt + nChars,
-             ( m_nLength - nIndexStart - nChars + 1 ) * sizeof( TCHAR ) );
+             ( m_nLength - nIndexStart - nChars + 1 ) * zsizeof( TCHAR ) );
       m_nLength -= nChars;
    }
 
@@ -69,7 +69,7 @@ void CLine::EnsureTextSize( int nCharsRequired )
    if ( nCharsRequired > m_nLengthAllocated )
    {
       m_nLengthAllocated = ( nCharsRequired + GROWBY );
-      int cbNewSize = m_nLengthAllocated * sizeof( TCHAR );
+      int cbNewSize = m_nLengthAllocated * zsizeof( TCHAR );
       // need to realloc
       m_pszText = ( m_pszText ?
                   ( LPTSTR )realloc( m_pszText, cbNewSize ) :

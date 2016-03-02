@@ -11,7 +11,7 @@
 
 CLanguageX::CLanguageX()
 {
-   ZeroMemory( &m_cmLang, sizeof( m_cmLang ) );
+   ZeroMemory( &m_cmLang, zsizeof( m_cmLang ) );
 }
 
 CLanguageX::~CLanguageX()
@@ -25,7 +25,7 @@ STDMETHODIMP CLanguageX::InterfaceSupportsErrorInfo(REFIID riid)
    {
       &IID_ILanguage,
    };
-   for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
+   for (int i=0;i<zsizeof(arr)/zsizeof(arr[0]);i++)
    {
       if (CMIsEqualGUID(*arr[i],riid))
          return S_OK;
@@ -73,7 +73,7 @@ void CLanguageX::DeleteMembers()
     delete ( void * ) m_cmLang.pszTagElementNames;
     delete ( void * ) m_cmLang.pszTagAttributeNames;
     delete ( void * ) m_cmLang.pszTagEntities;
-   ZeroMemory( &m_cmLang, sizeof( m_cmLang ) );
+   ZeroMemory( &m_cmLang, zsizeof( m_cmLang ) );
 }
 
 HRESULT STDMETHODCALLTYPE CLanguageX::put_CaseSensitive(VARIANT_BOOL bVal)

@@ -1052,7 +1052,7 @@ TZPainterWindow::SetOverlapVisibility( )
       //      zstrcmp( pCtrl1->m_csTag, "ClientActivity" ) == 0 )
          {
       //    pCtrl1 = m_CtrlList[ nPos ];
-            sprintf_s( szMsg, sizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
+            sprintf_s( szMsg, zsizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
                       pCtrl1->IsSelected( ) ? "*" : " ",
                       pCtrl1->m_pCtrlParent ?
                                     pCtrl1->m_pCtrlParent->m_csTag : "<null>",
@@ -1143,7 +1143,7 @@ TZPainterWindow::GenerateTag( zPCHAR pchTagReturn,
       zBOOL bTagFound = FALSE;
       for ( nWork = 1; nWork < 1000; nWork++ )
       {
-         _ltoa_s( nWork, szWork, sizeof( szWork ), 10 );
+         _ltoa_s( nWork, szWork, zsizeof( szWork ), 10 );
          csTag = pchTagReturn;
          csTag += szWork;
 
@@ -1324,12 +1324,12 @@ PaintRecurseSubOptions( zVIEW vSubMeta,
    // Note that existence of the Option entity has already been determined.
    while ( nRC > zCURSOR_UNCHANGED )        // Loop for each Option entity
    {
-      GetStringFromAttribute( szSeparator, sizeof( szSeparator ), vSubMeta,
+      GetStringFromAttribute( szSeparator, zsizeof( szSeparator ), vSubMeta,
                               szlOption, szlSeparator );
       if ( szSeparator[ 0 ] == 'Y' )
          pMenu->AppendMenu( MF_SEPARATOR );
 
-      GetStringFromAttribute( szOptionText, sizeof( szOptionText ), vSubMeta, szlOption, szlText );
+      GetStringFromAttribute( szOptionText, zsizeof( szOptionText ), vSubMeta, szlOption, szlText );
       if ( CheckExistenceOfEntity( vSubMeta, szlOptOpt ) > zCURSOR_UNCHANGED )
       {
          pSubMenu = new CMenu( );
@@ -1587,7 +1587,7 @@ TZPainterWindow::PaintCtrl( TZPainterCtrl *pCtrlParent,
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
+         sprintf_s( szMsg, zsizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
                    lPosX, lPosY, lSizeX, lSizeY );
          TraceLineS( "TZPainterWindow::PaintCtrl: FinancialAcctTransaction",
                      szMsg );
@@ -1604,8 +1604,8 @@ TZPainterWindow::PaintCtrl( TZPainterCtrl *pCtrlParent,
 #ifdef DEBUG_ALL
       zCHAR szBuffer[ 256 ];
       CRect rect( lPosX, lPosY, lPosX + lSizeX, lPosY + lSizeY );
-      strcpy_s( szBuffer, sizeof( szBuffer ), "TZPainterWindow::PaintCtrl " );
-      strcat_s( szBuffer, sizeof( szBuffer ), pchTag );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), "TZPainterWindow::PaintCtrl " );
+      strcat_s( szBuffer, zsizeof( szBuffer ), pchTag );
       TraceRect( szBuffer, rect );
 #endif
 
@@ -1632,7 +1632,7 @@ TZPainterWindow::PaintCtrl( TZPainterCtrl *pCtrlParent,
          {
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
+            sprintf_s( szMsg, zsizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
                       lPosX, lPosY, lSizeX, lSizeY );
             TraceLineS( "TZPainterWindow::PaintCtrl2 FinancialAcctTransaction",
                         szMsg );
@@ -1765,7 +1765,7 @@ TZPainterWindow::PaintCtrl( TZPainterCtrl *pCtrlParent,
 
    GetViewByName( &vTZPESRCO, szlTZPESRCO, m_vDialog, /* vCtrl, */ zLEVEL_TASK );
    SetCursorFirstEntityByInteger( vTZPESRCO, szlControlDef, szlKey, lType, 0 );
-   GetStringFromAttribute( szPlaceHolder, sizeof( szPlaceHolder ), vTZPESRCO, szlControlDef, "PlaceHolder" );
+   GetStringFromAttribute( szPlaceHolder, zsizeof( szPlaceHolder ), vTZPESRCO, szlControlDef, "PlaceHolder" );
    bPlaceHolder = (szPlaceHolder[ 0 ] == 'Y') ? TRUE : FALSE;
 
    zBOOL bFirstTime = TRUE;
@@ -1839,7 +1839,7 @@ TZPainterWindow::PaintCtrl( TZPainterCtrl *pCtrlParent,
          {
             zCHAR szMsg[ 256 ];
 
-            e->GetErrorMessage( szMsg, sizeof( szMsg ) );
+            e->GetErrorMessage( szMsg, zsizeof( szMsg ) );
             MessageSend( m_pBar->m_vSubtask, 0,
                          "Zeidon Dialog", szMsg,
                          zMSGQ_MODAL_ERROR, FALSE );
@@ -1857,7 +1857,7 @@ TZPainterWindow::PaintCtrl( TZPainterCtrl *pCtrlParent,
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
+         sprintf_s( szMsg, zsizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
                    pCtrl->m_rectCtrl.left, pCtrl->m_rectCtrl.top,
                    pCtrl->m_rectCtrl.right - pCtrl->m_rectCtrl.left,
                    pCtrl->m_rectCtrl.bottom - pCtrl->m_rectCtrl.top );
@@ -2234,8 +2234,8 @@ TZPainterWindow::PaintZeidonWindow( zBOOL bReset )
    m_fWndState &= ~zTZPW_INITIALIZING;
 
 // zCHAR szBuffer[ 64 ];
-// strcpy_s( szBuffer, sizeof( szBuffer ), m_csWndTag );
-// strcat_s( szBuffer, sizeof( szBuffer ), " lSizeY: " );
+// strcpy_s( szBuffer, zsizeof( szBuffer ), m_csWndTag );
+// strcat_s( szBuffer, zsizeof( szBuffer ), " lSizeY: " );
 // TraceLineI( "TZPainterWindow::PaintZeidonWindow lSizeX: ", lSizeX );
 // TraceLineI( szBuffer, lSizeY );
    SetWindowPos( 0, lPosX, lPosY, lSizeX, lSizeY, SWP_NOMOVE | SWP_NOZORDER );
@@ -2244,8 +2244,8 @@ TZPainterWindow::PaintZeidonWindow( zBOOL bReset )
    {
       zCHAR szCaption[ 256 ];
 
-      strcpy_s( szCaption, sizeof( szCaption ), "Report - " );
-      GetStringFromAttribute( szCaption + 9, sizeof( szCaption ) - 9, m_vDialog, pchWindowPage, szlTag );
+      strcpy_s( szCaption, zsizeof( szCaption ), "Report - " );
+      GetStringFromAttribute( szCaption + 9, zsizeof( szCaption ) - 9, m_vDialog, pchWindowPage, szlTag );
       SetWindowText( szCaption );
       GetIntegerFromAttribute( &m_lReportTextSize, m_vDialog, "Report", "ReportTextSize" );
       if ( m_lUnit == 0 )
@@ -2256,10 +2256,10 @@ TZPainterWindow::PaintZeidonWindow( zBOOL bReset )
       zCHAR szCaption[ 256 ];
 
       // Set the Caption for the window.
-      GetStringFromAttribute( szCaption, sizeof( szCaption ), m_vDialog, pchWindowPage, szlTag );
-      strcat_s( szCaption, sizeof( szCaption ), " - " );
-      GetStringFromAttribute( szCaption + 64, sizeof( szCaption ) - 64, m_vDialog, pchWindowPage, szlCaption );
-      strcat_s( szCaption, sizeof( szCaption ), szCaption + 64 );
+      GetStringFromAttribute( szCaption, zsizeof( szCaption ), m_vDialog, pchWindowPage, szlTag );
+      strcat_s( szCaption, zsizeof( szCaption ), " - " );
+      GetStringFromAttribute( szCaption + 64, zsizeof( szCaption ) - 64, m_vDialog, pchWindowPage, szlCaption );
+      strcat_s( szCaption, zsizeof( szCaption ), szCaption + 64 );
       SetWindowText( szCaption );
 
       // Now that sizing and positioning are out of the way, paint the action bar for the window.
@@ -2454,7 +2454,7 @@ TZPainterWindow::UpdateZeidonWindow( )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
+         sprintf_s( szMsg, zsizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
                    lPosX, lPosY, lSizeX, lSizeY );
          TraceLineS( "TZPainterWindow::UpdateZeidonWindow: FinancialAcctTransaction",
                      szMsg );
@@ -2545,8 +2545,8 @@ TZPainterWindow::UpdateZeidonWindow( )
 #ifdef DEBUG_ALL
       zCHAR szBuffer[ 256 ];
       CRect rect( lPosX, lPosY, lPosX + lSizeX, lPosY + lSizeY );
-      strcpy_s( szBuffer, sizeof( szBuffer ), "TZPainterWindow::UpdateZeidonWindow " );
-      strcat_s( szBuffer, sizeof( szBuffer ), pCtrl->m_csTag );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), "TZPainterWindow::UpdateZeidonWindow " );
+      strcat_s( szBuffer, zsizeof( szBuffer ), pCtrl->m_csTag );
       TraceRect( szBuffer, rect );
       TraceLineI( "TZPainterWindow::UpdateZeidonWindow top: ",
                   pCtrl->m_rectCtrl.top );
@@ -2556,7 +2556,7 @@ TZPainterWindow::UpdateZeidonWindow( )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
+         sprintf_s( szMsg, zsizeof( szMsg ), " PX %ld PY %ld SX %ld SY %ld",
                    lPosX, lPosY, lSizeX, lSizeY );
          TraceLineS( "TZPainterWindow::UpdateZeidonWindow2 FinancialAcctTransaction",
                      szMsg );
@@ -2748,17 +2748,17 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
 
       if ( bPosOnly == FALSE )
       {
-         strcpy_s( szDilMsg, sizeof( szDilMsg ), pchEntity );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), ": " );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), pCtrl->m_csTag );
+         strcpy_s( szDilMsg, zsizeof( szDilMsg ), pchEntity );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), ": " );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), pCtrl->m_csTag );
       // if ( pCtrl->m_lZKey && pCtrl->PositionOnZeidonCtrl( vDialog ) )
          if ( vDialog )
          {
             GetAddrForAttribute( &pchAttr, vDialog, pchEntity, szlText );
             if ( pchAttr[ 0 ] )
             {
-               strcat_s( szDilMsg, sizeof( szDilMsg ), ".." );
-               strcat_s( szDilMsg, sizeof( szDilMsg ), pchAttr );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), ".." );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), pchAttr );
             }
 
             if ( pCtrl->m_chEntity == 'C' )
@@ -2769,18 +2769,18 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
                   nLth = (zSHORT) zstrlen( szDilMsg );
                   szDilMsg[ nLth++ ] = ' ';
                   szDilMsg[ nLth++ ] = '[';
-                  GetStringFromAttribute( szDilMsg + nLth, sizeof( szDilMsg ) - nLth, vDialog, "EventAct", "Tag" );
+                  GetStringFromAttribute( szDilMsg + nLth, zsizeof( szDilMsg ) - nLth, vDialog, "EventAct", "Tag" );
                   nLth = (zSHORT) zstrlen( szDilMsg );
                   szDilMsg[ nLth++ ] = ']';
                   szDilMsg[ nLth++ ] = ' ';
-                  strcpy_s( szDilMsg + nLth, sizeof( szDilMsg ) - nLth, GetActionString( lWork ) );
+                  strcpy_s( szDilMsg + nLth, zsizeof( szDilMsg ) - nLth, GetActionString( lWork ) );
 
                   GetAddrForAttribute( &pchAttr, vDialog, "EventAct", "DialogName" );    // borrow pointers for
                   GetAddrForAttribute( &pchEntity, vDialog, "EventAct", "WindowName" );  // Dialog and Window
                   if ( pchEntity[ 0 ] )  // Window
                   {
                      nLth = (zSHORT) zstrlen( szDilMsg );
-                     sprintf_s( szDilMsg + nLth, sizeof( szDilMsg ) - nLth, " ==> %s.%s", pchAttr, pchEntity );
+                     sprintf_s( szDilMsg + nLth, zsizeof( szDilMsg ) - nLth, " ==> %s.%s", pchAttr, pchEntity );
                   }
                }
             }
@@ -2790,7 +2790,7 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
       }
 
    // TraceRect( "TZPainterWindow::SetDIL_Text rect", pCtrl->m_rectCtrl );
-      strcpy_s( szDilMsg, sizeof( szDilMsg ), "Pos(" );
+      strcpy_s( szDilMsg, zsizeof( szDilMsg ), "Pos(" );
 
       if ( m_pBar->m_fState & (zTZCB_REPORT | zTZCB_XSLT) )
       {
@@ -2799,21 +2799,21 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
             lWork -= mConvertPixelTo256thInchX( m_lLeftMargin - 8 );   // 8 for GroupSet + Group indent
 
          ltoa( lWork, szDilMsg + 90, 10 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), "," );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), "," );
          lWork = mConvertPixelTo256thInchY( pCtrl->m_rectCtrl.top );
          ltoa( lWork, szDilMsg + 90, 10 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
 
-         strcat_s( szDilMsg, sizeof( szDilMsg ), "), Size(" );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), "), Size(" );
          lWork = mConvertPixelTo256thInchX( (pCtrl->m_rectCtrl.right -
                                              pCtrl->m_rectCtrl.left) );
          ltoa( lWork, szDilMsg + 90, 10 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), "," );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), "," );
          lWork = mConvertPixelTo256thInchY( (pCtrl->m_rectCtrl.bottom - pCtrl->m_rectCtrl.top) );
          ltoa( lWork, szDilMsg + 90, 10 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
       }
       else
       {
@@ -2823,39 +2823,39 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
             lWork = mConvertPixelToDlgUnitX( pCtrl->m_rectCtrl.left );
 
          ltoa( lWork, szDilMsg + 90, 10 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), "," );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), "," );
          if ( m_pBar->m_bUseMapDlgUnits )
             lWork = mConvertPixelToMapDlgY( pCtrl->m_rectCtrl.top );
          else
             lWork = mConvertPixelToDlgUnitY( pCtrl->m_rectCtrl.top );
 
          ltoa( lWork, szDilMsg + 90, 10 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), "), Size(" );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), "), Size(" );
          if ( m_pBar->m_bUseMapDlgUnits )
             lWork = mConvertPixelToMapDlgX( (pCtrl->m_rectCtrl.right - pCtrl->m_rectCtrl.left) );
          else
             lWork = mConvertPixelToDlgUnitX( (pCtrl->m_rectCtrl.right - pCtrl->m_rectCtrl.left) );
 
          ltoa( lWork, szDilMsg + 90, 10 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), "," );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), "," );
          if ( m_pBar->m_bUseMapDlgUnits )
             lWork = mConvertPixelToMapDlgY( (pCtrl->m_rectCtrl.bottom - pCtrl->m_rectCtrl.top) );
          else
             lWork = mConvertPixelToDlgUnitY( (pCtrl->m_rectCtrl.bottom - pCtrl->m_rectCtrl.top) );
 
          ltoa( lWork, szDilMsg + 90, 10 );
-         strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
+         strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
       }
 
    // TraceLineS( "TZPainterWindow::SetDIL_Text msg: ", szDilMsg );
-      strcat_s( szDilMsg, sizeof( szDilMsg ), ")" );
+      strcat_s( szDilMsg, zsizeof( szDilMsg ), ")" );
       MB_SetMessage( m_pBar->m_vSubtask, 2, szDilMsg );
       if ( bPosOnly == FALSE && pCtrl->m_chEntity == 'C' )
       {
-         strcpy_s( szDilMsg, sizeof( szDilMsg ), "Map(" );
+         strcpy_s( szDilMsg, zsizeof( szDilMsg ), "Map(" );
       // if ( pCtrl->m_lZKey )
          if ( vDialog )
          {
@@ -2863,23 +2863,23 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
             {
                GetAddrForAttribute( &pchAttr, vDialog, szlCtrlMapView, szlName );
                if ( pchAttr == 0 || pchAttr[ 0 ] == 0 )
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), szlNULL );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), szlNULL );
                else
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), pchAttr );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), pchAttr );
 
-               strcat_s( szDilMsg, sizeof( szDilMsg ), "." );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), "." );
                GetAddrForAttribute( &pchAttr, vDialog, szlCtrlMapRelatedEntity, szlName );
                if ( pchAttr == 0 || pchAttr[ 0 ] == 0 )
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), szlNULL );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), szlNULL );
                else
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), pchAttr );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), pchAttr );
 
-               strcat_s( szDilMsg, sizeof( szDilMsg ), "." );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), "." );
                GetAddrForAttribute( &pchAttr, vDialog, szlCtrlMapER_Attribute, szlName );
                if ( pchAttr == 0 || pchAttr[ 0 ] == 0 )
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), szlNULL );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), szlNULL );
                else
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), pchAttr );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), pchAttr );
             }
             else
             if ( CheckExistenceOfEntity( vDialog, szlCtrlMapLOD_Entity ) == zCURSOR_SET &&
@@ -2887,23 +2887,23 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
             {
                GetAddrForAttribute( &pchAttr, vDialog, szlCtrlMapView, szlName );
                if ( pchAttr == 0 || pchAttr[ 0 ] == 0 )
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), szlNULL );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), szlNULL );
                else
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), pchAttr );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), pchAttr );
 
-               strcat_s( szDilMsg, sizeof( szDilMsg ), "," );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), "," );
                GetAddrForAttribute( &pchAttr, vDialog, szlCtrlMapLOD_Entity, szlName );
                if ( pchAttr == 0 || pchAttr[ 0 ] == 0 )
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), szlNULL );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), szlNULL );
                else
-                  strcat_s( szDilMsg, sizeof( szDilMsg ), pchAttr );
+                  strcat_s( szDilMsg, zsizeof( szDilMsg ), pchAttr );
 
-               strcat_s( szDilMsg, sizeof( szDilMsg ), "," );
-               strcat_s( szDilMsg, sizeof( szDilMsg ), szlNULL );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), "," );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), szlNULL );
             }
             else
             {
-               strcat_s( szDilMsg, sizeof( szDilMsg ), "Null,Null,Null" );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), "Null,Null,Null" );
             }
 
             // Reset the view
@@ -2911,11 +2911,11 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
          // {
          // }
 
-            strcat_s( szDilMsg, sizeof( szDilMsg ), ")" );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), ")" );
          }
          else
          {
-            strcat_s( szDilMsg, sizeof( szDilMsg ), "Null,Null,Null)" );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), "Null,Null,Null)" );
          }
       }
       else
@@ -2950,37 +2950,37 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
 
          if ( CheckEntityInView( m_vDialog, pchWindowPage ) == 0 )
          {
-            strcpy_s( szDilMsg, sizeof( szDilMsg ), "Window:" );
+            strcpy_s( szDilMsg, zsizeof( szDilMsg ), "Window:" );
             GetAddrForAttribute( &pchAttr, m_vDialog, pchWindowPage, szlTag );
-            strcat_s( szDilMsg, sizeof( szDilMsg ), pchAttr );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), pchAttr );
             GetAddrForAttribute( &pchAttr, m_vDialog, pchWindowPage, szlCaption );
             if ( pchAttr[ 0 ] )
             {
-               strcat_s( szDilMsg, sizeof( szDilMsg ), "," );
-               strcat_s( szDilMsg, sizeof( szDilMsg ), pchAttr );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), "," );
+               strcat_s( szDilMsg, zsizeof( szDilMsg ), pchAttr );
             }
 
             MB_SetMessage( m_pBar->m_vSubtask, 1, szDilMsg );
-            strcpy_s( szDilMsg, sizeof( szDilMsg ), "Pos(" );
+            strcpy_s( szDilMsg, zsizeof( szDilMsg ), "Pos(" );
             GetIntegerFromAttribute( &lWork, m_vDialog, pchWindowPage, szlPSDLG_X );
             itoa( (zSHORT) lWork, szDilMsg + 90, 10 );
-            strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
-            strcat_s( szDilMsg, sizeof( szDilMsg ), "," );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), "," );
             GetIntegerFromAttribute( &lWork, m_vDialog, pchWindowPage, szlPSDLG_Y );
             itoa( (zSHORT) lWork, szDilMsg + 90, 10 );
-            strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
-            strcat_s( szDilMsg, sizeof( szDilMsg ), "), Size(" );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), "), Size(" );
             GetIntegerFromAttribute( &lWork, m_vDialog, pchWindowPage, szlSZDLG_X );
             itoa( (zSHORT) lWork, szDilMsg + 90, 10 );
-            strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
-            strcat_s( szDilMsg, sizeof( szDilMsg ), "," );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), "," );
             GetIntegerFromAttribute( &lWork, m_vDialog, pchWindowPage, szlSZDLG_Y );
             itoa( (zSHORT) lWork, szDilMsg + 90, 10 );
-            strcat_s( szDilMsg, sizeof( szDilMsg ), szDilMsg + 90 );
-            strcat_s( szDilMsg, sizeof( szDilMsg ), ")" );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), szDilMsg + 90 );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), ")" );
             MB_SetMessage( m_pBar->m_vSubtask, 2, szDilMsg );
 
-            strcpy_s( szDilMsg, sizeof( szDilMsg ), "Dialog Desc:" );
+            strcpy_s( szDilMsg, zsizeof( szDilMsg ), "Dialog Desc:" );
             if ( m_pBar->m_fState & zTZCB_XSLT )
                GetAddrForAttribute( &pchAttr, m_vDialog, szlXSLT, szlDesc );
             else
@@ -2989,7 +2989,7 @@ TZPainterWindow::SetDIL_Text( TZPainterCtrl *pCtrl,
             else
                GetAddrForAttribute( &pchAttr, m_vDialog, szlDialog, szlDesc );
 
-            strcat_s( szDilMsg, sizeof( szDilMsg ), pchAttr );
+            strcat_s( szDilMsg, zsizeof( szDilMsg ), pchAttr );
             MB_SetMessage( m_pBar->m_vSubtask, 3, szDilMsg );
          }
       }
@@ -3599,7 +3599,7 @@ TZPainterWindow::DeleteCtrl( TZPainterCtrl *pCtrlParent,
                m_nCtrlCnt--;
                nTotalDeleteCnt++;
                nDeleteCnt++;
-               sprintf_s( szLabel, sizeof( szLabel ), "&xxdo Delete %d item%s\tCtrl+x",
+               sprintf_s( szLabel, zsizeof( szLabel ), "&xxdo Delete %d item%s\tCtrl+x",
                          nTotalDeleteCnt,
                          nTotalDeleteCnt == 1 ? "" : "s" );
                AddToUndo( pCtrl, nIdNbr, nPos, bSelected,
@@ -4202,9 +4202,9 @@ TZPainterWindow::ValidateCtrlTags( )
 //       if ( pCtrl->m_csTag == pCtrl2->csTag )
          if ( zstrcmp( pCtrl->m_csTag.GetString(), pCtrl2->m_csTag.GetString() ) == 0 )
          {
-            strcpy_s( szMessage, sizeof( szMessage ), "Duplicate tag '" );
-            strcat_s( szMessage, sizeof( szMessage ), pCtrl->m_csTag );
-            strcat_s( szMessage, sizeof( szMessage ), "' found!" );
+            strcpy_s( szMessage, zsizeof( szMessage ), "Duplicate tag '" );
+            strcat_s( szMessage, zsizeof( szMessage ), pCtrl->m_csTag );
+            strcat_s( szMessage, zsizeof( szMessage ), "' found!" );
             SysMessageBox( m_pBar->m_pZSubtask->m_vDialog, "Error", szMessage, 1 );
          }
       }

@@ -954,10 +954,10 @@ Java_zeidon_zView_GetTableListForAttribute
    {
 
       // Call OE to get list of table entries.
-      for ( nRC = GetFirstTableEntryForAttribute( szTableEntry,  sizeof( szTableEntry ), vView, cpcEntityName,
+      for ( nRC = GetFirstTableEntryForAttribute( szTableEntry,  zsizeof( szTableEntry ), vView, cpcEntityName,
                                                   cpcAttribName, cpcContextName, &pv );
             nRC >= 0;
-            nRC = GetNextTableEntryForAttribute( szTableEntry, sizeof( szTableEntry ), vView, cpcEntityName,
+            nRC = GetNextTableEntryForAttribute( szTableEntry, zsizeof( szTableEntry ), vView, cpcEntityName,
                                                  cpcAttribName, cpcContextName, &pv ) )
       {
          // Convert the string returned from OE to a java string.
@@ -1577,7 +1577,7 @@ Java_zeidon_zView_niSetOIFromBlob
       // I really don't care what the target lod name is (it's usually zero) I am simply creating a regular
       // string and not expecting to get something back.  Now the code compiles.
       // Look at kzoeataa.c.
-      strcpy_s( szTgtLodName, sizeof( szTgtLodName ), cpcTgtLodName );
+      strcpy_s( szTgtLodName, zsizeof( szTgtLodName ), cpcTgtLodName );
       nRC = SetOI_FromBlob( &vTgtView, szTgtLodName,
                             vSubtask, vSrcView, cpcSrcEntityName, cpcSrcAttrName, jiNbr );
       SetTransientTaskProcess( cpcSessionId, vSubtask /*vSrcView*/, FALSE, "SetOI_FromBlob" );
@@ -2973,7 +2973,7 @@ Java_zeidon_zView_niGetString
 
    if ( SetTransientTaskProcess( cpcSessionId, vView, TRUE, "GetStringFromAttribute" ) == 0 )
    {
-      nRC = GetStringFromAttribute( szTemp, sizeof( szTemp ), vView,
+      nRC = GetStringFromAttribute( szTemp, zsizeof( szTemp ), vView,
                                     cpcEntityName, cpcAttributeName );
       SetTransientTaskProcess( cpcSessionId, vView, FALSE, "GetStringFromAttribute" );
    }
@@ -3027,15 +3027,15 @@ Java_zeidon_zView_niGetStringFromAttributeByContext
    cpcContextName   = GETSTRING( jstrContextName );
    cpcSessionId = GETSTRING( jstrSessionId );
 
-   if ( jiMaxStringLth >= sizeof( szTemp ) )
+   if ( jiMaxStringLth >= zsizeof( szTemp ) )
    {
-   // strcpy_s( szTemp, sizeof( szTemp ), "GetStringFromAttributeByContext Entity: " );
-   // strcat_s( szTemp, sizeof( szTemp ), cpcEntityName );
-   // strcat_s( szTemp, sizeof( szTemp ), " Attribute: " );
-   // strcat_s( szTemp, sizeof( szTemp ), cpcAttributeName );
-   // strcat_s( szTemp, sizeof( szTemp ), " Context: " );
-   // strcat_s( szTemp, sizeof( szTemp ), cpcContextName );
-   // strcat_s( szTemp, sizeof( szTemp ), " reallocating ... buffer size (1024) exceeded by maximum size of attribute: " );
+   // strcpy_s( szTemp, zsizeof( szTemp ), "GetStringFromAttributeByContext Entity: " );
+   // strcat_s( szTemp, zsizeof( szTemp ), cpcEntityName );
+   // strcat_s( szTemp, zsizeof( szTemp ), " Attribute: " );
+   // strcat_s( szTemp, zsizeof( szTemp ), cpcAttributeName );
+   // strcat_s( szTemp, zsizeof( szTemp ), " Context: " );
+   // strcat_s( szTemp, zsizeof( szTemp ), cpcContextName );
+   // strcat_s( szTemp, zsizeof( szTemp ), " reallocating ... buffer size (1024) exceeded by maximum size of attribute: " );
    // TraceLineI( szTemp, jiMaxStringLth );
       pchTemp = (zPCHAR) malloc( jiMaxStringLth + 1 );
    }
@@ -3324,7 +3324,7 @@ Java_zeidon_zView_niMakeWebFileName
 
    if ( SetTransientTaskProcess( cpcSessionId, vSubtask, TRUE, "SysMakeWebFileName" ) == 0 )
    {
-      nRC = SysMakeWebFileName( szTemp, sizeof( szTemp ), vSubtask, jiFlags );
+      nRC = SysMakeWebFileName( szTemp, zsizeof( szTemp ), vSubtask, jiFlags );
       SetTransientTaskProcess( cpcSessionId, vSubtask, FALSE, "SysMakeWebFileName" );
    }
    else
@@ -3502,9 +3502,9 @@ Java_zeidon_zView_niGetWebRedirection
       SetTransientTaskProcess( cpcSessionId, vSubtask, FALSE, "GetWebRedirection" );
       if ( szDlgTag[ 0 ] && szWndTag[ 0 ] )
       {
-         strcpy_s( szNextJSP, sizeof( szNextJSP ), szDlgTag );
-         strcat_s( szNextJSP, sizeof( szNextJSP ), szWndTag );
-         strcat_s( szNextJSP, sizeof( szNextJSP ), ".jsp" );
+         strcpy_s( szNextJSP, zsizeof( szNextJSP ), szDlgTag );
+         strcat_s( szNextJSP, zsizeof( szNextJSP ), szWndTag );
+         strcat_s( szNextJSP, zsizeof( szNextJSP ), ".jsp" );
       }
    }
 
@@ -3554,21 +3554,21 @@ Java_zeidon_zView_niSetWebRedirection
       GetViewByName( &vKZXMLPGO, "KZXMLPGO", vSubtask, zLEVEL_TASK );
       if ( vKZXMLPGO && CheckExistenceOfEntity( vKZXMLPGO, "NextDialogWindow" ) == 0 )
       {
-         GetStringFromAttribute( szDlgTag, sizeof( szDlgTag ), vKZXMLPGO, "NextDialogWindow", "DialogName" );
-         GetStringFromAttribute( szWndTag, sizeof( szWndTag ), vKZXMLPGO, "NextDialogWindow", "WindowName" );
+         GetStringFromAttribute( szDlgTag, zsizeof( szDlgTag ), vKZXMLPGO, "NextDialogWindow", "DialogName" );
+         GetStringFromAttribute( szWndTag, zsizeof( szWndTag ), vKZXMLPGO, "NextDialogWindow", "WindowName" );
       }
 
       if ( szDlgTag[ 0 ] == 0 || szWndTag[ 0 ] == 0 )
       {
-         strcpy_s( szDlgTag, sizeof( szDlgTag ), cpcDlgTag );
-         strcpy_s( szWndTag, sizeof( szWndTag ), cpcWndTag );
+         strcpy_s( szDlgTag, zsizeof( szDlgTag ), cpcDlgTag );
+         strcpy_s( szWndTag, zsizeof( szWndTag ), cpcWndTag );
       }
 
       if ( szDlgTag[ 0 ] && szWndTag[ 0 ] )
       {
-         strcpy_s( szNextJSP, sizeof( szNextJSP ), szDlgTag );
-         strcat_s( szNextJSP, sizeof( szNextJSP ), szWndTag );
-         strcat_s( szNextJSP, sizeof( szNextJSP ), ".jsp" );
+         strcpy_s( szNextJSP, zsizeof( szNextJSP ), szDlgTag );
+         strcat_s( szNextJSP, zsizeof( szNextJSP ), szWndTag );
+         strcat_s( szNextJSP, zsizeof( szNextJSP ), ".jsp" );
       }
    }
    else
@@ -3673,7 +3673,7 @@ Java_zeidon_zView_niPrintReportToHTML
    cpcReportName = GETSTRING( jstrReportName );
    cpcSessionId = GETSTRING( jstrSessionId );
 
-   strcpy_s( szTemp, sizeof( szTemp ), cpcReportName );
+   strcpy_s( szTemp, zsizeof( szTemp ), cpcReportName );
    if ( SetTransientTaskProcess( cpcSessionId, vSubtask, TRUE, "PrintReportToHTML" ) == 0 )
    {
       lRC = PrintReportToHTML( vSubtask, vSourceOI, cpcSubobjectEntityName,
@@ -3848,7 +3848,7 @@ Java_zeidon_zView_niGetFocusCtrl
         SetCursorFirstEntityByString( vKZXMLPGO, "Dialog", "DialogName", cpcDialog, "" ) == 0 &&
         SetCursorFirstEntityByString( vKZXMLPGO, "Window", "WindowName", cpcWindow, "" ) == 0 )
    {
-      GetStringFromAttribute( szFocusCtrl, sizeof( szFocusCtrl ), vKZXMLPGO, "Window", "FocusCtrl" );
+      GetStringFromAttribute( szFocusCtrl, zsizeof( szFocusCtrl ), vKZXMLPGO, "Window", "FocusCtrl" );
    }
    else
    {
@@ -3899,8 +3899,8 @@ Java_zeidon_zView_niFindOpenFile
    // call that code because we want to drop the view for that name (gets created for both html and pdf).
    szPDFfile[ 0 ] = 0;
    GetViewByName( &vKZXMLPGO, "KZXMLPGO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szPDFfile, sizeof( szPDFfile ), vKZXMLPGO, "Session", "PrintFileName" );
-   GetStringFromAttribute( szFileExt, sizeof( szFileExt ), vKZXMLPGO, "Session", "PrintFileType" );
+   GetStringFromAttribute( szPDFfile, zsizeof( szPDFfile ), vKZXMLPGO, "Session", "PrintFileName" );
+   GetStringFromAttribute( szFileExt, zsizeof( szFileExt ), vKZXMLPGO, "Session", "PrintFileType" );
    if ( szPDFfile[ 0 ] != 0 )
    {
       strcat( szPDFfile, "." );
@@ -3913,7 +3913,7 @@ Java_zeidon_zView_niFindOpenFile
 
    if ( SetTransientTaskProcess( cpcSessionId, vSubtask, TRUE, "FindOpenFile" ) == 0 )
    {
-      nRC = SysMakeWebFileName( szTemp, sizeof( szTemp ), vSubtask, 0 );
+      nRC = SysMakeWebFileName( szTemp, zsizeof( szTemp ), vSubtask, 0 );
       strcat( szTemp, ".html" );
       nRC = GetViewByName( &vTemp, szTemp, vSubtask, zLEVEL_TASK );
       if ( vTemp )
@@ -3931,7 +3931,7 @@ Java_zeidon_zView_niFindOpenFile
    // If there had been a filename for a pdf file, then we are going to use
    // that instead of the html name that would be used for generating to html.
    if ( szPDFfile[ 0 ] != 0 )
-      strcpy_s( szTemp, sizeof( szTemp ), szPDFfile );
+      strcpy_s( szTemp, zsizeof( szTemp ), szPDFfile );
 
    RELEASESTRING( jstrSessionId, cpcSessionId );
 
@@ -3993,7 +3993,7 @@ Java_zeidon_zView_niFindErrorFields
                GetStringFromAttribute( szError + 2, vMsgQ, "QMsg", "Title" );
                if ( szError[ 2 ] == 'D' && szError[ 3 ] == '\t' )
                {
-                  strcpy_s( szError, sizeof( szError ), szError + 2 );
+                  strcpy_s( szError, zsizeof( szError ), szError + 2 );
                }
                else
                {
@@ -4150,7 +4150,7 @@ Java_zeidon_zView_niSaveFeedback
 
    if ( CheckExistenceOfEntity( v, "Feedback" ) == 0 )
    {
-      GetStringFromAttribute( szUserId, sizeof( szUserId ), v, "Feedback", "UserId" );
+      GetStringFromAttribute( szUserId, zsizeof( szUserId ), v, "Feedback", "UserId" );
       if ( szUserId[ 0 ] == 0 )
       {
          SfGetUserIdForTask( vSubtask, szUserId );
@@ -4246,20 +4246,20 @@ GetOperationDynamicCallAddress( zVIEW       vSubtask,
       zSHORT nLth = zstrlen( cpcErrorMessagePrefix );
       zCHAR  sz[ 256 ];
 
-      strcpy_s( sz, sizeof( sz ), cpcErrorMessagePrefix );
+      strcpy_s( sz, zsizeof( sz ), cpcErrorMessagePrefix );
       if ( *lpLibrary == 0 )
       {
-         strcat_s( sz, sizeof( sz ), " Unable to load\n application DLL - " );
-         strcat_s( sz, sizeof( sz ), cpcDLL_Name );
-         strcat_s( sz, sizeof( sz ), "\n for operation - " );
-         strcat_s( sz, sizeof( sz ), cpcOperationName );
+         strcat_s( sz, zsizeof( sz ), " Unable to load\n application DLL - " );
+         strcat_s( sz, zsizeof( sz ), cpcDLL_Name );
+         strcat_s( sz, zsizeof( sz ), "\n for operation - " );
+         strcat_s( sz, zsizeof( sz ), cpcOperationName );
       }
       else
       {
-         strcat_s( sz, sizeof( sz ), " " );
-         strcat_s( sz, sizeof( sz ), cpcOperationName );
-         strcat_s( sz, sizeof( sz ), " Operation Code not found\n in DLL - " );
-         strcat_s( sz, sizeof( sz ), cpcDLL_Name );
+         strcat_s( sz, zsizeof( sz ), " " );
+         strcat_s( sz, zsizeof( sz ), cpcOperationName );
+         strcat_s( sz, zsizeof( sz ), " Operation Code not found\n in DLL - " );
+         strcat_s( sz, zsizeof( sz ), cpcDLL_Name );
       }
 
       TraceLineS( sz, "" );

@@ -185,7 +185,7 @@ ZNoteBook::ZNoteBook( ZSubtask *pZSubtask,
       return;
 
    zCHAR   szBlob[ 5 * sizeof( zLONG ) ];
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
    GetBlobFromAttribute( szBlob, &ulLth, vDialog, "Ctrl", "CtrlBOI" );
    m_nPageCnt  = (zSHORT) *((zPLONG) (szBlob + sizeof( zLONG )));
    m_lTabStyle = *((zPLONG) (szBlob + sizeof( zLONG ) * 2));
@@ -194,7 +194,7 @@ ZNoteBook::ZNoteBook( ZSubtask *pZSubtask,
    m_clrSelectedTab = 0;
    m_pBrushSelectedTab = 0;
 
-   if ( ulLth == sizeof( szBlob ) )
+   if ( ulLth == zsizeof( szBlob ) )
    {
       m_clrSelectedText = *((COLORREF *) (szBlob + sizeof( zLONG ) * 3));
       m_clrSelectedTab = *((COLORREF *) (szBlob + sizeof( zLONG ) * 4));
@@ -1254,11 +1254,11 @@ ZNoteBook::DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct )
    COLORREF clrBkSave = CLR_INVALID;
    CRect    rect( lpDrawItemStruct->rcItem );
    zCHAR    szTabText[ 256 ];
-   zmemset( szTabText, 0, sizeof( szTabText ) );
+   zmemset( szTabText, 0, zsizeof( szTabText ) );
 
    tci.mask = TCIF_TEXT;
    tci.pszText = szTabText;
-   tci.cchTextMax = sizeof( szTabText ) - 1;
+   tci.cchTextMax = zsizeof( szTabText ) - 1;
    GetItem( lpDrawItemStruct->itemID, &tci );
 
 // ZNotePage *pNotePage = GetPage( lpDrawItemStruct->itemID + 1 );
@@ -1655,14 +1655,14 @@ ZNotePage::ZNotePage( ZSubtask *pZSubtask,
 
 #ifndef zREMOTE_SERVER
    zCHAR   szBlob[ 2 * sizeof( zLONG ) ];
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
    GetBlobFromAttribute( szBlob, &ulLth, vDialog, "Ctrl", "CtrlBOI" );
 
    m_clrText = 0;
    m_clrTab = 0;
    m_pBrushTab = 0;
 
-   if ( ulLth == sizeof( szBlob ) )
+   if ( ulLth == zsizeof( szBlob ) )
    {
       m_clrText = *((COLORREF *) (szBlob + sizeof( zLONG ) * 0));
       m_clrTab = *((COLORREF *) (szBlob + sizeof( zLONG ) * 1));

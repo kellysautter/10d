@@ -187,9 +187,9 @@ OpenRemoteReportFromClient( zVIEW   vSubtask,
 
    // Check to see if the local machine is the server.
    szGroup[ 0 ] = '[';
-   SysReadZeidonIni( -1, "[Network]", "DefaultNetwork", szGroup + 1, sizeof( szGroup ) - 1 );
-   strcat_s( szGroup + 1, sizeof( szGroup ) - 1, "]" );
-   SysReadZeidonIni( -1, szGroup, "ApplServer", szApplServer, sizeof( szApplServer ) );
+   SysReadZeidonIni( -1, "[Network]", "DefaultNetwork", szGroup + 1, zsizeof( szGroup ) - 1 );
+   strcat_s( szGroup + 1, zsizeof( szGroup ) - 1, "]" );
+   SysReadZeidonIni( -1, szGroup, "ApplServer", szApplServer, zsizeof( szApplServer ) );
    NetGetLocalHostAddress( vSubtask, 0, szLocalAddress );
    if ( zstrcmp( szLocalAddress, szApplServer ) == 0 )
    {
@@ -200,7 +200,7 @@ OpenRemoteReportFromClient( zVIEW   vSubtask,
       zCHAR  szAppName[ zZEIDON_NAME_LTH + 1 ];
       zVIEW  vZeidonTools;
 
-      GetApplDirectoryFromView( szAppName, vSubtask, zAPPL_NAME, sizeof( szAppName ) );
+      GetApplDirectoryFromView( szAppName, vSubtask, zAPPL_NAME, zsizeof( szAppName ) );
       SfCreateSubtask( &vZeidonTools, 0, "Zeidon_Tools" );
 
       // Skeleton operation:
@@ -638,15 +638,15 @@ DrawTextToReport( zVIEW   vSubtask,
 
       // Load up the work string.
       lCopyLength = zstrlen( cpcText ) + 1;
-      if ( lCopyLength > sizeof( szWorkString ) - 2 )
+      if ( lCopyLength > zsizeof( szWorkString ) - 2 )
       {
-         lCopyLength = sizeof( szWorkString ) - 2;
+         lCopyLength = zsizeof( szWorkString ) - 2;
          zmemcpy( szWorkString, cpcText, lCopyLength );
          szWorkString[ lCopyLength ] = 0;
       }
       else
       {
-         strcpy_s( szWorkString, sizeof( szWorkString ), cpcText );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), cpcText );
       // if ( zstrcmp( szWorkString, cpcText ) )
       //    TraceLineS( "Huh?", "" );
       }
@@ -662,7 +662,7 @@ DrawTextToReport( zVIEW   vSubtask,
             if ( *(pchText + 1) == '\\' )
             {
                // Convert to one backslash.
-               strcpy_s( pchText, sizeof( szWorkString ) - (pchText - szWorkString), pchText + 1 );
+               strcpy_s( pchText, zsizeof( szWorkString ) - (pchText - szWorkString), pchText + 1 );
                pchText--;  // back up so skip only one
             }
             else
@@ -1232,11 +1232,11 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
 
       // If "static" text, check for newline ("\n") ... translate if found.
       if ( (lType & 0x00000001) &&
-           lMaxTextLth < sizeof( szPrint ) - 1 )
+           lMaxTextLth < zsizeof( szPrint ) - 1 )
       {
          zPCHAR pch = szPrint;
 
-         strcpy_s( szPrint, sizeof( szPrint ), cpcText );
+         strcpy_s( szPrint, zsizeof( szPrint ), cpcText );
          while ( (pchText = zstrchr( pch, '\\' )) != 0 )
          {
             if ( *(pchText + 1) == 'n' )
@@ -1263,7 +1263,7 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
    //    lTabStopExtent = -1;
 
       pchText = 0;   // initialize for allocation test
-      if ( lMaxTextLth >= sizeof( szWork ) )
+      if ( lMaxTextLth >= zsizeof( szWork ) )
       {
          DrAllocTaskMemory( &pchText, lMaxTextLth + 1 );
          strncpy_s( pchText, lMaxTextLth + 1, cpcText, lMaxTextLth );
@@ -1271,7 +1271,7 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
       }
       else
       {
-         strncpy_s( szWork, sizeof( szWork ), cpcText, lMaxTextLth );
+         strncpy_s( szWork, zsizeof( szWork ), cpcText, lMaxTextLth );
          szWork[ lMaxTextLth ] = 0;
          cpcText = szWork;
       }
@@ -1373,14 +1373,14 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
                else  // the line is not empty and we found a real 'word'
                      // k != j or tab or blank
                {
-                  if ( k - lStart >= sizeof( szPrint ) )
+                  if ( k - lStart >= zsizeof( szPrint ) )
                   {
                      TraceLineI( "Cannot handle extremely long multi-line text length: ", k - lStart );
                      break;
                   }
 
                   // Check length of current line.
-                  strncpy_s( szPrint, sizeof( szPrint ), cpcText + lStart, k - lStart );
+                  strncpy_s( szPrint, zsizeof( szPrint ), cpcText + lStart, k - lStart );
                   szPrint[ k - lStart ] = 0;
                   GetTextExtentPoint32( pZSubtask->m_pZPrintout->m_pDC->m_hDC, szPrint, k - lStart, &size );
                   if ( cpcText[ k ] == '\t' )
@@ -1417,7 +1417,7 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
                      {
 #if 0
                         // Load up the line to be printed.
-                        strncpy_s( szPrint, sizeof( szPrint ), cpcText + lStart, j - lStart + 1 );
+                        strncpy_s( szPrint, zsizeof( szPrint ), cpcText + lStart, j - lStart + 1 );
                         szPrint[ j - lStart + 1 ] = 0;
                         bLineFull = TRUE;
 
@@ -1440,7 +1440,7 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
                            while ( cpcText[ j ] == ' ')
                              j++;
 
-                           strncpy_s( szPrint, sizeof( szPrint ), cpcText + lStart, j - lStart );
+                           strncpy_s( szPrint, zsizeof( szPrint ), cpcText + lStart, j - lStart );
                            szPrint[ j - lStart ] = 0;
                            lStart = j;
                            k = j;
@@ -1465,7 +1465,7 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
                            // algorithm prints as many characters to a line
                            // as will fit. The remaining characters of a
                            // word are then printed to the next line(s).
-                           strncpy_s( szPrint, sizeof( szPrint ), cpcText + lStart, j - lStart + 1 );
+                           strncpy_s( szPrint, zsizeof( szPrint ), cpcText + lStart, j - lStart + 1 );
                            szPrint[ j - lStart + 1 ] = 0;
                            GetTextExtentPoint32( pZSubtask->m_pZPrintout->m_pDC->m_hDC,
                                                  szPrint, j - lStart + 1, &size );
@@ -1479,7 +1479,7 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
                                    size.cx < rect.right - rect.left )
                            {
                               k++;
-                              strncpy_s( szPrint, sizeof( szPrint ), cpcText + lStart, k - lStart );
+                              strncpy_s( szPrint, zsizeof( szPrint ), cpcText + lStart, k - lStart );
                               szPrint[ k - lStart ] = 0;
                               GetTextExtentPoint32( pZSubtask->m_pZPrintout->m_pDC->m_hDC, szPrint, k - lStart, &size );
                            }
@@ -1487,7 +1487,7 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
                            if ( k != lStart )
                            {
                               k--;
-                              strncpy_s( szPrint, sizeof( szPrint ), cpcText + lStart, k - lStart );
+                              strncpy_s( szPrint, zsizeof( szPrint ), cpcText + lStart, k - lStart );
                               szPrint[ k - lStart ] = 0;
                               lStart = k;
                               j = k;
@@ -1627,7 +1627,7 @@ DrawMultiLineTextToReport( zVIEW   vSubtask,
                if ( lLth2 )
                   szPrint2[ lLth2++ ] = '\n';
 
-               strcpy_s( szPrint2 + lLth2, sizeof( szPrint2 ) - lLth2, szPrint );
+               strcpy_s( szPrint2 + lLth2, zsizeof( szPrint2 ) - lLth2, szPrint );
                lLth2 = zstrlen( szPrint2 );
             }
 
@@ -2271,7 +2271,7 @@ DrawBitmapToReport( zVIEW   vSubtask,
       if ( pchBitmapName && *pchBitmapName == 0 &&
            *(pchBitmapName + 1) == '@' ) // V.E.A.P.X reference
       {
-         GetVEAPX_Reference( vSubtask, vAppOI, pchBitmapName + 1, szFileName, sizeof( szFileName ) );
+         GetVEAPX_Reference( vSubtask, vAppOI, pchBitmapName + 1, szFileName, zsizeof( szFileName ) );
          if ( *szFileName )
          {
             zPCHAR pchExt = zstrrchr( szFileName, '.' );
@@ -2370,12 +2370,12 @@ DrawBitmapToReport( zVIEW   vSubtask,
                if ( SfGetApplicationForSubtask( &pApp, vSubtask ) == 0 &&
                     pApp )
                {
-                  strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+                  strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
 
                   if ( szZeidonPath[ 0 ] )
                   {
                      SysAppendcDirSep( szZeidonPath );
-                     strcat_s( szZeidonPath, sizeof( szZeidonPath ), pchSemiColon );
+                     strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pchSemiColon );
                      if ( dib.Load( szZeidonPath ) )
                         break;
 
@@ -2387,11 +2387,11 @@ DrawBitmapToReport( zVIEW   vSubtask,
                   }
                }
 
-               SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+               SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
                if ( szZeidonPath[ 0 ] )
                {
                   SysAppendcDirSep( szZeidonPath );
-                  strcat_s( szZeidonPath, sizeof( szZeidonPath ), pchSemiColon );
+                  strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pchSemiColon );
                   if ( dib.Load( szZeidonPath ) )
                      break;
 
@@ -3337,7 +3337,7 @@ GetCtrlPrintStatus( zVIEW    vSubtask,
                GetIntegerFromAttribute( &lPageNbr, vReport, "Control", "wLastPrintPage" );
                GetIntegerFromAttribute( &lPageX, vReport, "Control", "wLastPrintPosX" );
                GetIntegerFromAttribute( &lPageY, vReport, "Control", "wLastPrintPosY" );
-               sprintf_s( szMsg, sizeof( szMsg ), "RPT CTL Dump: %-32s - Status=%d; Page=%d; X=%d; Y=%d; Text=%s",
+               sprintf_s( szMsg, zsizeof( szMsg ), "RPT CTL Dump: %-32s - Status=%d; Page=%d; X=%d; Y=%d; Text=%s",
                           szCtrl, lStatus, lPageNbr, lPageX, lPageY, szText );
                TraceLineS( szMsg, "" );
             }

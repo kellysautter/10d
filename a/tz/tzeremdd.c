@@ -1374,7 +1374,7 @@ zwTZEREMDD_CreateNewModel( zVIEW vSubtask )
    nRC = ActivateEmptyMetaOI( vSubtask, &vTZEREMDO, zSOURCE_ERD_META, zSINGLE | zLEVEL_APPLICATION );
    if ( nRC < 0 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Activate empty Data Model." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Activate empty Data Model." );
       MessageSend( vSubtask, "ER00101", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -1416,7 +1416,7 @@ zwTZEREMDD_CancelNewModel( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "newTZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access new Data Model. Model must be opened to Cancel New." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access new Data Model. Model must be opened to Cancel New." );
       MessageSend( vSubtask, "ER00102", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -1452,7 +1452,7 @@ zwTZEREMDD_OKNewModel( zVIEW vSubtask )
    GetViewByName( &vTZEREMDO, "newTZEREMDO", vSubtask, zLEVEL_TASK );
    if ( !vTZEREMDO )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access new Data Model. Model must be opened to Cancel New." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access new Data Model. Model must be opened to Cancel New." );
       MessageSend( vSubtask, "ER00103", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -1497,12 +1497,12 @@ zwTZEREMDD_WriteErrorMsg( zVIEW  vSubtask, zVIEW  vERD, zPCHAR szErrorMsg, zSHOR
    CreateEntity( vTZERDERR, "ErrorMsg", zPOS_LAST );
    SetAttributeFromAttribute( vTZERDERR, "ErrorMsg", "EntityName", vERD, "ER_Entity", "Name" );
    if ( nError == 1 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Error: " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Error: " );
    else
    if ( nError == 0 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Warning: " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Warning: " );
 
-   strcat_s( szMsg, sizeof( szMsg ), szErrorMsg );
+   strcat_s( szMsg, zsizeof( szMsg ), szErrorMsg );
 
    SetAttributeFromString( vTZERDERR, "ErrorMsg", "ErrorText", szMsg );
    SetAttributeFromInteger( vTZERDERR, "ErrorMsg", "Error", nError );
@@ -1521,10 +1521,10 @@ zwfnTZEREMDD_CheckRelLinkIdentifier( zVIEW vSubtask, zVIEW vERD2 )
    {
       if ( CheckExistenceOfEntity( vERD2, "ER_FactType" ) < zCURSOR_SET )
       {
-         strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Identifier '" );
-         GetStringFromAttribute( szName, sizeof( szName ), vERD2, "ER_EntIdentifier", "Name" );
-         strcat_s( szWorkMessage, sizeof( szWorkMessage ), szName );
-         strcat_s( szWorkMessage, sizeof( szWorkMessage ), "' does not have an Attribute or Relationship assigned. " );
+         strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Identifier '" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vERD2, "ER_EntIdentifier", "Name" );
+         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), szName );
+         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), "' does not have an Attribute or Relationship assigned. " );
          zwTZEREMDD_WriteErrorMsg( vSubtask, vERD2, szWorkMessage, 0 );
       }
       else
@@ -1579,10 +1579,10 @@ zwfnTZEREMDD_CheckDomains( zVIEW vSubtask, zVIEW vERD2 )
    {
       if ( CheckExistenceOfEntity( vERD2, "Domain" ) < zCURSOR_SET )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vERD2, "ER_Attribute", "Name" );
-         strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Attribute '" );
-         strcat_s( szWorkMessage, sizeof( szWorkMessage ), szName );
-         strcat_s( szWorkMessage, sizeof( szWorkMessage ), "' does not have Domain assigned." );
+         GetStringFromAttribute( szName, zsizeof( szName ), vERD2, "ER_Attribute", "Name" );
+         strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Attribute '" );
+         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), szName );
+         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), "' does not have Domain assigned." );
          zwTZEREMDD_WriteErrorMsg( vSubtask, vERD2, szWorkMessage, 1 );
       }
       nRC= SetCursorNextEntity( vERD2, "ER_Attribute", "EntpER_Model" );
@@ -1624,19 +1624,19 @@ zwfnTZEREMDD_CheckRelationships( zVIEW vSubtask, zVIEW vERD2 )
                  (CompareAttributeToString( vERD3, "ER_RelLink_Other", "Name", pchRelName2 ) == 0) &&
                  (CompareAttributeToString( vERD3, "ER_Entity_Other", "Name", pchEntityName2) == 0) )
             {
-               strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Duplicate Relationship: '" );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), pchEntityName1 );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), " " );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), pchRelName1 );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), " " );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), pchEntityName2 );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), "', '" );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), pchEntityName2 );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), " " );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), pchRelName2 );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), " " );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), pchEntityName1 );
-               strcat_s( szWorkMessage, sizeof( szWorkMessage ), "'." );
+               strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Duplicate Relationship: '" );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), pchEntityName1 );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), " " );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), pchRelName1 );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), " " );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), pchEntityName2 );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), "', '" );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), pchEntityName2 );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), " " );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), pchRelName2 );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), " " );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), pchEntityName1 );
+               strcat_s( szWorkMessage, zsizeof( szWorkMessage ), "'." );
                zwTZEREMDD_WriteErrorMsg( vSubtask, vERD2, szWorkMessage, 1 );
             }
 
@@ -1690,7 +1690,7 @@ zwfnTZEREMDD_CommitERD( zVIEW vSubtask, zVIEW vTZEREMDO )
 
    if ( CommitMetaOI( vSubtask, vTZEREMDO, zSOURCE_ERD_META ) <= 0 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to save Data Model." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to save Data Model." );
       MessageSend( vSubtask, "ER00107", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
    }
@@ -1704,7 +1704,7 @@ zwfnTZEREMDD_CommitERD( zVIEW vSubtask, zVIEW vTZEREMDO )
 
          if ( !vDTE )
          {
-            strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Activate empty Physical Model." );
+            strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Activate empty Physical Model." );
             MessageSend( vSubtask, "ER00108", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             return( -2 );
          }
@@ -1742,7 +1742,7 @@ zwTZEREMDD_SaveModel( zVIEW vSubtask )
    // Make sure object is not empty
    if ( CheckExistenceOfEntity( vTZEREMDO, "EntpER_Model" ) < zCURSOR_SET )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Data Model is empty and cannot be Saved." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Data Model is empty and cannot be Saved." );
       MessageSend( vSubtask, "ER00106", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -1776,7 +1776,7 @@ zwTZEREMDD_SaveModel( zVIEW vSubtask )
       zwfnTZEREMDD_PositionNonPosEnts( vSubtask, vTZEREMDO );
 
    // Set LastSyncDate for Data Model.
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
    SetAttributeFromString( vTZEREMDO, "EntpER_Model", "LastSyncDate", szTimestamp );
 
    // Sort Attributes in original sequence
@@ -2077,15 +2077,15 @@ zwTZEREMDD_DeleteModel( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERMFLO, "TZERMFLO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model List. Model list must be opened to Delete." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model List. Model list must be opened to Delete." );
       MessageSend( vSubtask, "ER00110", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
 
    // Prompt to confirm Delete
-   GetStringFromAttribute( sz, sizeof( sz ), vTZERMFLO, "W_MetaDef", "Name" );
-   strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Delete Data Model\n\n" );
-   strcat_s( szWorkMessage, sizeof( szWorkMessage ), sz );
+   GetStringFromAttribute( sz, zsizeof( sz ), vTZERMFLO, "W_MetaDef", "Name" );
+   strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Delete Data Model\n\n" );
+   strcat_s( szWorkMessage, zsizeof( szWorkMessage ), sz );
    nRC = MessagePrompt( vSubtask, "ER10011", "ER Data Model Maintenance",
                         szWorkMessage, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 );
 
@@ -2287,7 +2287,7 @@ zwTZEREMDD_SaveAsModel( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened to Save As." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened to Save As." );
       MessageSend( vSubtask, "ER00112", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -2562,8 +2562,8 @@ zwTZEREMDD_ERD_HighliteEntity( zVIEW vSubtask )
       GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
       GetAddrForAttribute( &szName, vTZEREMDO, "ER_Entity", "Name" );
 
-      strcpy_s( szMsg, sizeof( szMsg ), szName);
-      strcat_s( szMsg, sizeof( szMsg ), " : " );
+      strcpy_s( szMsg, zsizeof( szMsg ), szName);
+      strcat_s( szMsg, zsizeof( szMsg ), " : " );
 
       GetAddrForAttribute( &pDesc, vTZEREMDO, "ER_Entity", "Desc" );
 
@@ -2704,7 +2704,7 @@ zwTZEREMDD_RefreshEntWnd( zVIEW vSubtask )
       GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
       if ( CheckExistenceOfEntity ( vTZEREMDO, "ER_Entity" ) == zCURSOR_SET )
       {
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
          SetWindowCaptionTitle( vW, 0, szEntityName );
       }
       else
@@ -2747,7 +2747,7 @@ zwTZEREMDD_RefreshAttWnd( zVIEW vSubtask )
    {
       RefreshWindow( vW );
       GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
       SetWindowCaptionTitle( vW, 0, szEntityName );
    }
 
@@ -2778,7 +2778,7 @@ zwTZEREMDD_RefreshIdWnd( zVIEW vSubtask )
    {
       RefreshWindow( vW );
       GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
       SetWindowCaptionTitle( vW, 0, szEntityName );
    }
 
@@ -2804,7 +2804,7 @@ zwTZEREMDD_RefreshRllWnd( zVIEW vSubtask )
    {
       RefreshWindow( vW );
       GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
       SetWindowCaptionTitle( vW, 0, szEntityName );
    }
 
@@ -2935,7 +2935,7 @@ zwTZEREMDD_PostBuildENTVIEW( zVIEW vSubtask )
 
    // Set Caption for Entity name
    GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szEntityName );
 
    // Size the window appropriateley
@@ -3109,7 +3109,7 @@ zwTZEREMDD_PostBuildENT( zVIEW vSubtask )
    }
 
    // only enable dimension hierarchy button for dimensions
-   GetStringFromAttribute( szEntityPurpose, sizeof( szEntityPurpose ), vTZEREMDO, "ER_Entity", "Purpose" );
+   GetStringFromAttribute( szEntityPurpose, zsizeof( szEntityPurpose ), vTZEREMDO, "ER_Entity", "Purpose" );
    if ( *szEntityPurpose == '2' )
       SetCtrlState( vSubtask, "DimHierBtn",  zCONTROL_STATUS_ENABLED, 1 );
    else
@@ -3149,7 +3149,7 @@ zwTZEREMDD_ValidateEntity( zVIEW vSubtask )
    // Check that the entity name is unique.
    GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
    if ( CheckDuplicateEntityByString( vTZEREMDO, "ER_Entity", "Name", szEntityName, 0 ) < 0 )
    {
       MessageSend( vSubtask, "ER00179", "ER Data Model Maintenance", "Duplicate Entity Name in Data Model.", zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3159,7 +3159,7 @@ zwTZEREMDD_ValidateEntity( zVIEW vSubtask )
    }
 
    // Check TE Table Name
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "TE_TableName" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "TE_TableName" );
    //UfCompressName( szEntityName, szOutName, 32, "", "", "", "", 0 );
 
    //if ( zstrcmp( szOutName, "" ) == 0 )
@@ -3174,10 +3174,10 @@ zwTZEREMDD_ValidateEntity( zVIEW vSubtask )
    {
       if ( CheckDuplicateEntityByString( vTZEREMDO, "ER_Entity", "TE_TableName", szEntityName, 0 ) < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Duplicate TE Table Name in Data Model. Entity/TE Table: ");
-         strcat_s( szMsg, sizeof( szMsg ), szEntityName );
-         strcat_s( szMsg, sizeof( szMsg ), NEW_LINE );
-         strcat_s( szMsg, sizeof( szMsg ), "Do you want to keep the duplicate names?" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Duplicate TE Table Name in Data Model. Entity/TE Table: ");
+         strcat_s( szMsg, zsizeof( szMsg ), szEntityName );
+         strcat_s( szMsg, zsizeof( szMsg ), NEW_LINE );
+         strcat_s( szMsg, zsizeof( szMsg ), "Do you want to keep the duplicate names?" );
          nRC = MessagePrompt( vSubtask, "ER00179", "ER Data Model Maintenance", szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 );
 
          if ( nRC != zRESPONSE_YES )
@@ -3430,7 +3430,7 @@ zwfnTZEREMDD_AddEntity( zVIEW vSubtask, zVIEW vTZEREMDO )
    nRC = CreateMetaEntity( vSubtask, vTZEREMDO, "ER_Entity", zPOS_AFTER );
 #if( 0 )
    GetIntegerFromAttribute( &lZKey, vTZEREMDO, "ER_Entity", "ZKey" );
-   strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "New_" );
+   strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "New_" );
    zltoxa( lZKey, &szWorkMessage[ 4 ] );
    nRC = SetAttributeFromString( vTZEREMDO, "ER_Entity", "Name", szWorkMessage );
 #endif
@@ -3517,8 +3517,8 @@ zwTZEREMDD_CopyEntity( zVIEW vSubtask )
    zwfnTZEREMDD_PositionNonPosEnts( vW, vTZEREMD1 );
    SetMatchingAttributesByName( vTZEREMD1, "ER_Entity", vTZEREMDO, "ER_Entity", zSET_NULL );
    SetAttributeFromInteger( vTZEREMD1, "ER_Entity", "SAP_Entity", 0 );
-   strcpy_s( szEntityName, sizeof( szEntityName ), "new_" );
-   GetStringFromAttribute( szEntityName + 4, sizeof( szEntityName ) - 4, vTZEREMDO, "ER_Entity", "Name" );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), "new_" );
+   GetStringFromAttribute( szEntityName + 4, zsizeof( szEntityName ) - 4, vTZEREMDO, "ER_Entity", "Name" );
    SetAttributeFromString( vTZEREMD1, "ER_Entity", "Name", szEntityName );
    nRC = SetCursorFirstEntity( vTZEREMDO, "ER_Attribute", "" );
    while ( nRC >= zCURSOR_SET )
@@ -3544,7 +3544,7 @@ zwTZEREMDD_CopyEntity( zVIEW vSubtask )
          {
             CreateMetaEntity( vSubtask, vTZEREMD1, "ER_FactType", zPOS_LAST );
             SetMatchingAttributesByName( vTZEREMD1, "ER_FactType", vTZEREMDO, "ER_FactType", zSET_NULL | zSET_NOTNULL );
-            GetStringFromAttribute( szName, sizeof( szName ), vTZEREMDO, "ER_AttributeIdentifier", "Name" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vTZEREMDO, "ER_AttributeIdentifier", "Name" );
             SetCursorFirstEntityByString( vTZEREMD1, "ER_Attribute", "Name", szName, 0 );
             IncludeSubobjectFromSubobject( vTZEREMD1, "ER_AttributeIdentifier", vTZEREMD1, "ER_Attribute", zPOS_AFTER );
          }
@@ -3679,7 +3679,7 @@ zwTZEREMDD_DeleteEntity( zVIEW vSubtask )
 
    if ( CountEntitiesForView( vTZEREMDO, "ER_Entity" ) == 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Delete Bypassed. Data Model must have at least one Entity." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Delete Bypassed. Data Model must have at least one Entity." );
       MessageSend( vSubtask, "ER00116", "ER Data Model Maintenance", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
       return( 0 );
    }
@@ -3750,7 +3750,7 @@ zwTZEREMDD_DeleteSelectedEnts( zVIEW vSubtask )
       {
          if ( CountEntitiesForView( vTZEREMDO1, "ER_Entity" ) == 1 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Delete bypassed. Data Model must have at least one Entity." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Delete bypassed. Data Model must have at least one Entity." );
             MessageSend( vSubtask, "ER00119", "ER Data Model Maintenance", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
             break;
          }
@@ -3971,7 +3971,7 @@ zwTZEREMDD_PostBuildATTVIEW( zVIEW vSubtask )
 
    // Set Caption for Entity name
    GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szEntityName );
 
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
@@ -4385,7 +4385,7 @@ zwTZEREMDD_PostBuildRLLVIEW( zVIEW vSubtask )
 
    // Set Caption for Entity name
    GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szEntityName );
 
    // Size the window appropriateley
@@ -4451,7 +4451,7 @@ zwTZEREMDD_IsRelToSapEntity( zVIEW vSubtask, zVIEW vTZEREMDO )
    // Do not create a Relationship to a SAP Entity
    if ( CompareAttributeToInteger( vTZEREMDO, "ER_Entity", "SAP_Entity", 1 ) != 0 )
    {
-      GetCtrlText( vSubtask, "EntOther", szEntity_Other, sizeof( szEntity_Other ) );
+      GetCtrlText( vSubtask, "EntOther", szEntity_Other, zsizeof( szEntity_Other ) );
       CreateViewFromViewForTask( &vERD, vTZEREMDO, 0 );
       if ( SetCursorFirstEntityByString( vERD, "ER_Entity", "Name", szEntity_Other, "" ) >= zCURSOR_SET && CompareAttributeToInteger( vERD, "ER_Entity", "SAP_Entity", 1 ) == 0 )
       {
@@ -4968,10 +4968,10 @@ zwTZEREMDD_DeleteRelLink( zVIEW vSubtask )
 
    GetSubtaskForWindowName( vSubtask, &vWindow, "ENTMAINT" );
    if ( vSubtask )
-      strcpy_s( szEntityName, sizeof( szEntityName ), "ER_RelLink" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "ER_RelLink" );
    else
    {
-      strcpy_s( szEntityName, sizeof( szEntityName ), "ER_RelType" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "ER_RelType" );
       nRelType = 1;
    }
 
@@ -4982,13 +4982,13 @@ zwTZEREMDD_DeleteRelLink( zVIEW vSubtask )
       //Prompt to confirm Delete
       szMessage[ 0 ] = 0;
       GetAddrForAttribute( &sz, vTZEREMDO, "ER_Entity", "Name" );
-      strcat_s( szMessage, sizeof( szMessage ), sz );
-      strcat_s( szMessage, sizeof( szMessage ), " " );
+      strcat_s( szMessage, zsizeof( szMessage ), sz );
+      strcat_s( szMessage, zsizeof( szMessage ), " " );
       GetAddrForAttribute( &sz, vTZEREMDO, "ER_RelLink", "Name" );
-      strcat_s( szMessage, sizeof( szMessage ), sz );
-      strcat_s( szMessage, sizeof( szMessage ), " " );
+      strcat_s( szMessage, zsizeof( szMessage ), sz );
+      strcat_s( szMessage, zsizeof( szMessage ), " " );
       GetAddrForAttribute( &sz, vTZEREMDO, "ER_Entity_Other", "Name" );
-      strcat_s( szMessage, sizeof( szMessage ), sz );
+      strcat_s( szMessage, zsizeof( szMessage ), sz );
 
       nRC = IssueToolMsg( vSubtask, zTOOLMSG_DELETE, zTOOL_ERD, zENAME_ER_RELATIONSHIP, 0, 0, szMessage, 0 );
       SetSelectStateOfEntity( vTZEREMDO, szEntityName, 1 );
@@ -5135,7 +5135,7 @@ zwfnTZEREMDD_RedirectRelationship( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00129", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -5143,7 +5143,7 @@ zwfnTZEREMDD_RedirectRelationship( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERENLO, "TZERENLO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Entity List for changing Target of Relationship." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Entity List for changing Target of Relationship." );
       MessageSend( vSubtask, "ER00130", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -5156,12 +5156,12 @@ zwfnTZEREMDD_RedirectRelationship( zVIEW vSubtask )
    }
 
    // Capture Relationship settings prior to Delete
-   GetStringFromAttribute( szRelNameFwd, sizeof( szRelNameFwd ), vTZEREMDO, "ER_RelLink", "Name" );
-   GetStringFromAttribute( szMinCardFwd, sizeof( szMinCardFwd ), vTZEREMDO, "ER_RelLink", "CardMin" );
-   GetStringFromAttribute( szMaxCardFwd, sizeof( szMaxCardFwd ), vTZEREMDO, "ER_RelLink", "CardMax" );
-   GetStringFromAttribute( szRelNameInv, sizeof( szRelNameInv ), vTZEREMDO, "ER_RelLink_Other", "Name" );
-   GetStringFromAttribute( szMinCardInv, sizeof( szMinCardInv ), vTZEREMDO, "ER_RelLink_Other", "CardMin" );
-   GetStringFromAttribute( szMaxCardInv, sizeof( szMaxCardInv ), vTZEREMDO, "ER_RelLink_Other", "CardMax" );
+   GetStringFromAttribute( szRelNameFwd, zsizeof( szRelNameFwd ), vTZEREMDO, "ER_RelLink", "Name" );
+   GetStringFromAttribute( szMinCardFwd, zsizeof( szMinCardFwd ), vTZEREMDO, "ER_RelLink", "CardMin" );
+   GetStringFromAttribute( szMaxCardFwd, zsizeof( szMaxCardFwd ), vTZEREMDO, "ER_RelLink", "CardMax" );
+   GetStringFromAttribute( szRelNameInv, zsizeof( szRelNameInv ), vTZEREMDO, "ER_RelLink_Other", "Name" );
+   GetStringFromAttribute( szMinCardInv, zsizeof( szMinCardInv ), vTZEREMDO, "ER_RelLink_Other", "CardMin" );
+   GetStringFromAttribute( szMaxCardInv, zsizeof( szMaxCardInv ), vTZEREMDO, "ER_RelLink_Other", "CardMax" );
    GetIntegerFromAttribute( &lZKey, vTZEREMDO, "ER_Entity", "ZKey" );
 
    // Invoke Object Operation to delete the relationship
@@ -5324,7 +5324,7 @@ zwTZEREMDD_IncludeDomain( zVIEW vSubtask )
    nRC = GetViewByName( &vER, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access ER Object." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access ER Object." );
       MessageSend( vSubtask, "ER00132", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -5333,7 +5333,7 @@ zwTZEREMDD_IncludeDomain( zVIEW vSubtask )
    nRC = GetViewByName( &vDomainList, "DomainList", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Domain List." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Domain List." );
       MessageSend( vSubtask, "ER00133", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -5344,7 +5344,7 @@ zwTZEREMDD_IncludeDomain( zVIEW vSubtask )
    DropView( vTempDomainList );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Domain to be included." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Domain to be included." );
       MessageSend( vSubtask, "ER00134", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -5356,7 +5356,7 @@ zwTZEREMDD_IncludeDomain( zVIEW vSubtask )
    nRC = IncludeSubobjectFromSubobject( vER, "Domain", vDomain, "Domain", zPOS_AFTER );
 
    // If the AttributeName is spaces, initialize it with the DomainName.
-   GetCtrlText( vSubtask, "Name", szAttributeName, sizeof( szAttributeName ) );
+   GetCtrlText( vSubtask, "Name", szAttributeName, zsizeof( szAttributeName ) );
    if ( szAttributeName[ 0 ] == 0 )
    {
       SetAttributeFromAttribute( vER, "ER_Attribute", "Name", vER, "Domain", "Name" );
@@ -5432,7 +5432,7 @@ zwTZEREMDD_SaveSA( zVIEW vSubtask )
    // Make sure current SA is not empty
    if ( vTZERSASO == 0 || CheckExistenceOfEntity( vTZERSASO, "SubjectArea" ) < zCURSOR_SET )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to save empty Subject Area." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to save empty Subject Area." );
       MessageSend( vSubtask, "ER00172", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -5493,10 +5493,10 @@ zwTZEREMDD_SA_AskForSave( zVIEW vSubtask )
 
    if ( nRC > 0 && MiGetUpdateForView( vTZERSASO ) == 1 && ObjectInstanceUpdatedFromFile( vTZERSASO ) == 1 )
    {
-      GetStringFromAttribute( szName, sizeof( szName ), vTZERSASO, "SubjectArea", "Name" );
-      strcpy_s( szMsg, sizeof( szMsg ), "Subject Area '" );
-      strcat_s( szMsg, sizeof( szMsg ), szName );
-      strcat_s( szMsg, sizeof( szMsg ), "' has been modified, save it with Data Model?" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTZERSASO, "SubjectArea", "Name" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Subject Area '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' has been modified, save it with Data Model?" );
       nRC = MessagePrompt( vSubtask, "", "Data Model Maintenance", szMsg, 0, zBUTTONS_YESNOCANCEL, zRESPONSE_YES, zICON_QUESTION );
 
       if ( nRC == zRESPONSE_CANCEL )
@@ -5541,7 +5541,7 @@ zwTZEREMDD_OpenSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSFLO, "TZERSFLO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
       MessageSend( vSubtask, "ER00173", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -5560,7 +5560,7 @@ zwTZEREMDD_OpenSA( zVIEW vSubtask )
    }
    else
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Open Subject Area." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Open Subject Area." );
       MessageSend( vSubtask, "ER00136", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -5611,19 +5611,19 @@ zwTZEREMDD_CreateNewSA( zVIEW vSubtask )
 
    if (CompareAttributeToString ( vProfileXFER, "TZ", "Name", "") == 0 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Subject Area Name is required." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Subject Area Name is required." );
       MessageSend( vSubtask, "ER00137", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -2 );
    }
 
-   GetStringFromAttribute( szInName, sizeof( szInName ), vProfileXFER, "TZ", "Name" );
+   GetStringFromAttribute( szInName, zsizeof( szInName ), vProfileXFER, "TZ", "Name" );
    UfCompressName( szInName, szOutName, 8, "", "", "", "", 0 );
    SetAttributeFromString( vProfileXFER, "TZ", "Name", szOutName );
 
    nRC = GetViewByName( &vTZERSFLO, "TZERSFLO", vSubtask, zLEVEL_TASK );
    if ( nRC > 0 && SetCursorFirstEntityByString( vTZERSFLO, "W_MetaDef", "Name", szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Subject Area already exists." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Subject Area already exists." );
       MessageSend( vSubtask, "ER00138", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -2 );
    }
@@ -5642,7 +5642,7 @@ zwTZEREMDD_CreateNewSA( zVIEW vSubtask )
    }
    else
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Open Subject Area." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Open Subject Area." );
       MessageSend( vSubtask, "ER00139", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -5727,7 +5727,7 @@ zwTZEREMDD_ExitSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
       MessageSend( vSubtask, "ER00140", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -5792,7 +5792,7 @@ zwTZEREMDD_SaveAsSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
       MessageSend( vSubtask, "ER00141", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -5826,7 +5826,7 @@ zwTZEREMDD_AddAllEntitiesToSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00142", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -5836,7 +5836,7 @@ zwTZEREMDD_AddAllEntitiesToSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
       MessageSend( vSubtask, "ER00143", "ER Data Model Maintenance", "Unable to Access Subject Area.  SA must be opened.", zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -5890,7 +5890,7 @@ zwTZEREMDD_AddSelectedEntsToSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00144", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -5900,7 +5900,7 @@ zwTZEREMDD_AddSelectedEntsToSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
       MessageSend( vSubtask, "ER00145", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -5950,7 +5950,7 @@ zwTZEREMDD_AddOneEntityToSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00146", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -5960,7 +5960,7 @@ zwTZEREMDD_AddOneEntityToSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
       MessageSend( vSubtask, "ER00147", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -6008,7 +6008,7 @@ zwTZEREMDD_ExcludeOneEntityFrSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00148", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -6018,7 +6018,7 @@ zwTZEREMDD_ExcludeOneEntityFrSA( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
       MessageSend( vSubtask, "ER00149", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -6075,7 +6075,7 @@ zwTZEREMDD_AddAllEntsViaRels( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00150", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -6086,7 +6086,7 @@ zwTZEREMDD_AddAllEntsViaRels( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
       MessageSend( vSubtask, "ER00151", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -6149,7 +6149,7 @@ zwTZEREMDD_AddOneEntViaRel( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00152", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -6161,7 +6161,7 @@ zwTZEREMDD_AddOneEntViaRel( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
       MessageSend( vSubtask, "ER00154", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -6354,7 +6354,7 @@ zwTZEREMDD_PostBuildIDVIEW( zVIEW vSubtask )
 
    // Set Caption for Entity name
    GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szEntityName );
 
    // Size the window appropriateley
@@ -6725,7 +6725,7 @@ zwTZEREMDD_AddAttrToIdentifier( zVIEW vSubtask )
    nRC = DeleteEntity( vTZERATLO, "ER_Attribute", zREPOS_NEXT );
 
    // Set Name if it is null from attribute just selected
-   GetCtrlText( vSubtask, "Name", szValue, sizeof( szValue ) );
+   GetCtrlText( vSubtask, "Name", szValue, zsizeof( szValue ) );
    if (szValue[ 0 ] == 0 )
    {
       GetAddrForAttribute( &szName, vTZEREMDO, "ER_AttributeIdentifier", "Name" );
@@ -6784,7 +6784,7 @@ zwTZEREMDD_AddIdViaAttr( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00159", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -6815,7 +6815,7 @@ zwTZEREMDD_DfltAddIdViaAttr( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00160", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -6824,8 +6824,8 @@ zwTZEREMDD_DfltAddIdViaAttr( zVIEW vSubtask )
    while ( nRC >= zCURSOR_SET )
    {
       //  Setup Name for Default Identifier
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "ID_" );
-      GetStringFromAttribute( szWorkMessage + 3, sizeof( szWorkMessage ) - 3, vTZEREMDO, "ER_Entity", "Name" );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "ID_" );
+      GetStringFromAttribute( szWorkMessage + 3, zsizeof( szWorkMessage ) - 3, vTZEREMDO, "ER_Entity", "Name" );
       UfCompressName( szWorkMessage, szWorkMessage, 32, "_", "", "B", "A_", 0 );
 
       nRC = SetCursorFirstEntityByString( vTZEREMDO, "ER_Attribute", "Key", "Y", "" );
@@ -6839,7 +6839,7 @@ zwTZEREMDD_DfltAddIdViaAttr( zVIEW vSubtask )
                SetAttributeFromString( vTZEREMDO, "ER_EntIdentifier", "Name", szWorkMessage );
             }
             // check to see if Attribute exists( handle multi-part keys )
-            GetStringFromAttribute( szWorkMessage + 64, sizeof( szWorkMessage ) - 64, vTZEREMDO, "ER_Attribute", "Name" );
+            GetStringFromAttribute( szWorkMessage + 64, zsizeof( szWorkMessage ) - 64, vTZEREMDO, "ER_Attribute", "Name" );
             if ( SetCursorFirstEntityByString( vTZEREMDO, "ER_AttributeIdentifier", "Name", szWorkMessage + 64, "" ) <    zCURSOR_SET )
             {
                CreateMetaEntity( vSubtask, vTZEREMDO, "ER_FactType", zPOS_AFTER );
@@ -6947,7 +6947,7 @@ zwTZEREMDD_AddIdViaRel( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00161", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -6955,9 +6955,9 @@ zwTZEREMDD_AddIdViaRel( zVIEW vSubtask )
    // Make sure relationship is valid relationship.
    if ( CompareAttributeToString( vTZEREMDO, "ER_RelLink", "CardMax", "1" ) == 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Relationship being added has a Max Cardinality\n" );
-      strcat_s( szWorkMessage, sizeof( szWorkMessage ), "on the inverse side that is not equal to 1.\n\n" );
-      strcat_s( szWorkMessage, sizeof( szWorkMessage ), "Select another Relationship." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Relationship being added has a Max Cardinality\n" );
+      strcat_s( szWorkMessage, zsizeof( szWorkMessage ), "on the inverse side that is not equal to 1.\n\n" );
+      strcat_s( szWorkMessage, zsizeof( szWorkMessage ), "Select another Relationship." );
       MessageSend( vSubtask, "ER00162", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( 0 );
@@ -7052,7 +7052,7 @@ zwTZEREMDD_DeleteAllIdentifiers( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00163", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
@@ -7409,7 +7409,7 @@ zwTZEREMDD_OpenModel( zVIEW vSubtask )
          nRC = ActivateEmptyMetaOI( vSubtask, &vTZERSASO, zSOURCE_SA_META, zSINGLE | zLEVEL_APPLICATION );
          if ( nRC < 0 )
          {
-            strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Activate empty Subject Area." );
+            strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Activate empty Subject Area." );
             MessageSend( vSubtask, "ER00164", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             return( 0 );
          }
@@ -7449,7 +7449,7 @@ zwTZEREMDD_PreBuildSAVIEW( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
       MessageSend( vSubtask, "ER00165", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_ReturnToTopWindow, "TZEREMDD", "TZEREMDD" );
       return( 0 );
@@ -7459,7 +7459,7 @@ zwTZEREMDD_PreBuildSAVIEW( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. Subject Area must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. Subject Area must be opened." );
       MessageSend( vSubtask, "ER00166", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_ReturnToTopWindow, "TZEREMDD", "TZEREMDD" );
       return( 0 );
@@ -7469,7 +7469,7 @@ zwTZEREMDD_PreBuildSAVIEW( zVIEW vSubtask )
    nRC = GetViewByName( &vTZEREMDD, "TZEREMDD", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access ER Dialog." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access ER Dialog." );
       MessageSend( vSubtask, "ER00168", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_ReturnToTopWindow, "TZEREMDD", "TZEREMDD" );
       return( 0 );
@@ -7505,13 +7505,13 @@ zwTZEREMDD_PostBuildSAVIEW( zVIEW vSubtask )
    nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Unable to Access Subject Area. Subject Area must be opened." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. Subject Area must be opened." );
       MessageSend( vSubtask, "ER00169", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_ReturnToTopWindow, "TZEREMDD", "TZEREMDD" );
       return( 0 );
    }
 
-   GetStringFromAttribute( szSAName, sizeof( szSAName ), vTZERSASO, "SubjectArea", "Name" );
+   GetStringFromAttribute( szSAName, zsizeof( szSAName ), vTZERSASO, "SubjectArea", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szSAName );
 
    return( 0 );
@@ -7535,8 +7535,8 @@ zwTZEREMDD_ADW_OK( zVIEW vSubtask )
    GetViewByName( &vADW_Work, "TZERADWO", vSubtask, zLEVEL_TASK );
 
    // Retrieve base for file names.
-   GetStringFromAttribute( szDirectory, sizeof( szDirectory ), vADW_Work, "ADW_Work", "Directory" );
-   GetStringFromAttribute( szPrefix, sizeof( szPrefix ), vADW_Work, "ADW_Work", "ExportPrefix" );
+   GetStringFromAttribute( szDirectory, zsizeof( szDirectory ), vADW_Work, "ADW_Work", "Directory" );
+   GetStringFromAttribute( szPrefix, zsizeof( szPrefix ), vADW_Work, "ADW_Work", "ExportPrefix" );
 
    if ( zstrcmp( szDirectory, "" ) == 0 )
    {
@@ -7559,10 +7559,10 @@ zwTZEREMDD_ADW_OK( zVIEW vSubtask )
 
    // Look to see if a work file has been saved using the Directory and Prefix entered.  If so, activate it and copy
    // over the InfoTypeDef entries.  Import may want to use the InfoType information saved in the work object.
-   strcpy_s( szFileName, sizeof( szFileName ), szDirectory );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), szPrefix );
-   strcat_s( szFileName, sizeof( szFileName ), ".ADW" );
+   strcpy_s( szFileName, zsizeof( szFileName ), szDirectory );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), szPrefix );
+   strcat_s( szFileName, zsizeof( szFileName ), ".ADW" );
    hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( hFile >= 0 )
    {
@@ -7635,14 +7635,14 @@ zwTZEREMDD_ADW_BuildWorkOI( zVIEW vSubtask, zVIEW vADW_Work )
    zLONG  lType;
 
    // Retrieve base for file names.
-   GetStringFromAttribute( szDirectory, sizeof( szDirectory ), vADW_Work, "ADW_Work", "Directory" );
-   GetStringFromAttribute( szPrefix, sizeof( szPrefix ), vADW_Work, "ADW_Work", "ExportPrefix" );
+   GetStringFromAttribute( szDirectory, zsizeof( szDirectory ), vADW_Work, "ADW_Work", "Directory" );
+   GetStringFromAttribute( szPrefix, zsizeof( szPrefix ), vADW_Work, "ADW_Work", "ExportPrefix" );
 
    // Process OI file.
-   strcpy_s( szFileName, sizeof( szFileName ), szDirectory );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), szPrefix );
-   strcat_s( szFileName, sizeof( szFileName ), "OI.EXP" );
+   strcpy_s( szFileName, zsizeof( szFileName ), szDirectory );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), szPrefix );
+   strcat_s( szFileName, zsizeof( szFileName ), "OI.EXP" );
    hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( hFile == -1 )
    {
@@ -7697,10 +7697,10 @@ zwTZEREMDD_ADW_BuildWorkOI( zVIEW vSubtask, zVIEW vADW_Work )
    } // if ( lpszFileName && *lpszFileName )...
 
    // Process AI file.
-   strcpy_s( szFileName, sizeof( szFileName ), szDirectory );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), szPrefix );
-   strcat_s( szFileName, sizeof( szFileName ), "AI.EXP" );
+   strcpy_s( szFileName, zsizeof( szFileName ), szDirectory );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), szPrefix );
+   strcat_s( szFileName, zsizeof( szFileName ), "AI.EXP" );
    hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( hFile == -1 )
 
@@ -7749,10 +7749,10 @@ zwTZEREMDD_ADW_BuildWorkOI( zVIEW vSubtask, zVIEW vADW_Work )
    } // if ( lpszFileName && *lpszFileName )...
 
    // Process TI file.
-   strcpy_s( szFileName, sizeof( szFileName ), szDirectory );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), szPrefix );
-   strcat_s( szFileName, sizeof( szFileName ), "TI.EXP" );
+   strcpy_s( szFileName, zsizeof( szFileName ), szDirectory );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), szPrefix );
+   strcat_s( szFileName, zsizeof( szFileName ), "TI.EXP" );
    hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( hFile == -1 )
    {
@@ -7812,10 +7812,10 @@ zwTZEREMDD_ADW_BuildWorkOI( zVIEW vSubtask, zVIEW vADW_Work )
    } // if ( lpszFileName && *lpszFileName )...
 
    // Process PI file.
-   strcpy_s( szFileName, sizeof( szFileName ), szDirectory );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), szPrefix );
-   strcat_s( szFileName, sizeof( szFileName ), "PI.EXP" );
+   strcpy_s( szFileName, zsizeof( szFileName ), szDirectory );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), szPrefix );
+   strcat_s( szFileName, zsizeof( szFileName ), "PI.EXP" );
    hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( hFile == -1 )
    {
@@ -7893,10 +7893,10 @@ zwTZEREMDD_ADW_InfoTypeInit( zVIEW vSubtask )
 
    // Look to see if a work file has been saved using the Directory and Prefix entered.  If so, Activate it
    // and proceed.  If not, initialize the current work object with InfoTypes from the Export files.
-   strcpy_s( szFileName, sizeof( szFileName ), lpszDirectory );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), lpszPrefix );
-   strcat_s( szFileName, sizeof( szFileName ), ".ADW" );
+   strcpy_s( szFileName, zsizeof( szFileName ), lpszDirectory );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), lpszPrefix );
+   strcat_s( szFileName, zsizeof( szFileName ), ".ADW" );
    hFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
    if ( hFile >= 0 )
    {
@@ -7954,10 +7954,10 @@ zwTZEREMDD_ADW_InfoTypeOK( zVIEW vSubtask )
 
    // Look to see if a work file has been saved using the Directory and Prefix entered.
    // If so, Activate it and proceed.  If not, return with an error.
-   strcpy_s( szFileName, sizeof( szFileName ), lpszDirectory );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), lpszPrefix );
-   strcat_s( szFileName, sizeof( szFileName ), ".ADW" );
+   strcpy_s( szFileName, zsizeof( szFileName ), lpszDirectory );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), lpszPrefix );
+   strcat_s( szFileName, zsizeof( szFileName ), ".ADW" );
    CommitOI_ToFile( vADW_Work, szFileName, zSINGLE );
 
    return( 0 );
@@ -8808,8 +8808,8 @@ zwTZEREMDD_DomainAttributeList( zVIEW vSubtask )
    nRC = SetCursorFirstEntity( vERD, "Domain", "EntpER_Model" );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vERD, "Domain", "Name" );
-      GetStringFromAttribute( szAttributeName, sizeof( szAttributeName ), vERD, "ER_Attribute", "Name" );
+      GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vERD, "Domain", "Name" );
+      GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ), vERD, "ER_Attribute", "Name" );
       nRC = SetCursorFirstEntityByString( vDomainList, "Domain", "Name", szDomainName, 0 );
       if ( nRC < zCURSOR_SET )
       {
@@ -8954,15 +8954,15 @@ zwTZEREMDD_SetDIL_Message( zVIEW vSubtask )
 
    if ( zstrcmp( szReturnCtrlTag, "AutoSeq" ) == 0 )
    {
-      GetStringFromAttribute( szChildEntityName, sizeof( szChildEntityName ), vERD, "ER_Entity", "Name" );
-      GetStringFromAttribute( szParentEntityName, sizeof( szParentEntityName ), vERD, "ER_Entity_Other", "Name" );
+      GetStringFromAttribute( szChildEntityName, zsizeof( szChildEntityName ), vERD, "ER_Entity", "Name" );
+      GetStringFromAttribute( szParentEntityName, zsizeof( szParentEntityName ), vERD, "ER_Entity_Other", "Name" );
    }
    else
       if ( zstrcmp( szReturnCtrlTag, "AutoSeq_Other" ) == 0 )
 
       {
-         GetStringFromAttribute( szParentEntityName, sizeof( szParentEntityName ), vERD, "ER_Entity", "Name" );
-         GetStringFromAttribute( szChildEntityName, sizeof( szChildEntityName ), vERD, "ER_Entity_Other", "Name" );
+         GetStringFromAttribute( szParentEntityName, zsizeof( szParentEntityName ), vERD, "ER_Entity", "Name" );
+         GetStringFromAttribute( szChildEntityName, zsizeof( szChildEntityName ), vERD, "ER_Entity_Other", "Name" );
       }
 
    if ( zstrcmp( szReturnCtrlTag, "AutoSeq" ) == 0 || zstrcmp( szReturnCtrlTag, "AutoSeq_Other" ) == 0 )
@@ -8993,7 +8993,7 @@ PrintERD_Report( zVIEW vSubtask )
    GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
    // Set up current DateTime for report.
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
    SetAttributeFromString( vLPLR, "LPLR", "CurrentDateTime", szTimestamp );
 
    FormatSubobjectOnDoc( vERD, "EntpER_Model", vSubtask, "ERDRPT1", 0 );
@@ -9015,7 +9015,7 @@ zwTZEREMDD_PrintSAReport( zVIEW vSubtask )
    GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
    // Set up current DateTime for report.
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
    SetAttributeFromString( vLPLR, "LPLR", "CurrentDateTime", szTimestamp );
 
    FormatSubobjectOnDoc( vSA, "SubjectArea", vSubtask, "ERSARPT", 0 );
@@ -9039,7 +9039,7 @@ zwTZEREMDD_PrintSelectedDomains( zVIEW vSubtask )
    GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
    // Set up current DateTime for report.
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
    SetAttributeFromString( vLPLR, "LPLR", "CurrentDateTime", szTimestamp );
 
    // Set up a work object with only selected Domain entries.
@@ -9082,7 +9082,7 @@ PrintERD_PartialReport( zVIEW vSubtask )
    GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
    // Set up current DateTime for report.
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
    SetAttributeFromString( vLPLR, "LPLR", "CurrentDateTime", szTimestamp );
 
    FormatSubobjectOnDoc( vERD, "EntpER_Model", vSubtask, "ERDPART", 0 );
@@ -9338,7 +9338,7 @@ zwTZEREMDD_RefreshAttributeWnd( zVIEW vSubtask )
    {
       RefreshWindow( vW );
       GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
       SetWindowCaptionTitle( vW, 0, szEntityName );
    }
 
@@ -9362,7 +9362,7 @@ zwTZEREMDD_RefreshRelatshipWnd( zVIEW vSubtask )
    {
       RefreshWindow( vW );
       GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZEREMDO, "ER_Entity", "Name" );
       SetWindowCaptionTitle( vW, 0, szEntityName );
    }
 
@@ -9606,13 +9606,13 @@ zwTZEREMDD_SA_SetNewName( zVIEW vSubtask )
    GetViewByName( &vTZERSFLO, "TZERSFLO", vSubtask, zLEVEL_TASK );
    GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szSAName, sizeof( szSAName ), vTZERSFLO, "W_MetaDef", "Name" );
+   GetStringFromAttribute( szSAName, zsizeof( szSAName ), vTZERSFLO, "W_MetaDef", "Name" );
    SetAttributeFromString( vTZERSASO, "SubjectArea", "SaveAsName", szSAName );
 
    // set Description
    if ( GetCtrlState( vSubtask, "cbKeepCurrentDesc", zCONTROL_STATUS_CHECKED ) != 1 )
    {
-      GetStringFromAttribute( szDescription, sizeof( szDescription ), vTZERSFLO, "W_MetaDef", "Desc" );
+      GetStringFromAttribute( szDescription, zsizeof( szDescription ), vTZERSFLO, "W_MetaDef", "Desc" );
       SetCtrlText( vSubtask, "edDesc", szDescription );
       RefreshCtrl( vSubtask, "edDesc" );
    }
@@ -9648,7 +9648,7 @@ zwTZEREMDD_SA_LoadListForSaveAs( zVIEW vSubtask )
       SetSelectStateOfEntity( vTZERSFLO, "W_MetaDef", 0 );
 
    //set current Description
-   GetStringFromAttribute( szDescription, sizeof( szDescription ), vTZERSASO, "SubjectArea", "Desc" );
+   GetStringFromAttribute( szDescription, zsizeof( szDescription ), vTZERSASO, "SubjectArea", "Desc" );
    SetCtrlText( vSubtask, "edDesc", szDescription );
 
    return( 0 );
@@ -9680,13 +9680,13 @@ zwTZEREMDD_SA_SaveAs( zVIEW vSubtask )
 
    GetCtrlText( vSubtask, "edDesc", szDescription, 32000 );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vTZERSASO, "SubjectArea", "SaveAsName" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vTZERSASO, "SubjectArea", "SaveAsName" );
    UfCompressName( szNewName, szOutName, 8, "", "", "", "", 0 );
 
    //Name is required
    if ( zstrcmp( szOutName, "" ) == 0 )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Subject Area Name is required." );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Subject Area Name is required." );
       MessageSend( vSubtask, "ER00137", "ER Data Model Maintenance", szWorkMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       SetFocusToCtrl( vSubtask, "edNewName" );
@@ -9696,7 +9696,7 @@ zwTZEREMDD_SA_SaveAs( zVIEW vSubtask )
    //Name already exists
    if ( SetCursorFirstEntityByString( vTZERSFLO, "W_MetaDef", "Name", szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
-      strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Subject Area already exists. Replace existing Subject Area?" );
+      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Subject Area already exists. Replace existing Subject Area?" );
       nRC = MessagePrompt( vSubtask, "ER00138", "ER Data Model Maintenance", szWorkMessage, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, zICON_QUESTION );
 
       if ( nRC == zRESPONSE_NO )
@@ -9957,11 +9957,11 @@ zwTZEREMDD_ADW_Set_Dir_Prefix( zVIEW vSubtask, zPCHAR szFileName, zLONG  Suffix 
 
    if ( Backslash )
    {
-      strncpy_s( szDirectory, sizeof( szDirectory ), szFileName, lIndex );
+      strncpy_s( szDirectory, zsizeof( szDirectory ), szFileName, lIndex );
       szDirectory[ lIndex ] = 0;
-      strncpy_s( szPrefix, sizeof( szPrefix ), szFileName + 1 + lIndex, lStringLen - 4 - 1 - Suffix - lIndex );
+      strncpy_s( szPrefix, zsizeof( szPrefix ), szFileName + 1 + lIndex, lStringLen - 4 - 1 - Suffix - lIndex );
       szPrefix[ lStringLen - 4 - 1 - Suffix - lIndex ] = 0;
-      strncpy_s( szExtention, sizeof( szExtention ), szFileName + lStringLen - 3, 3 );
+      strncpy_s( szExtention, zsizeof( szExtention ), szFileName + lStringLen - 3, 3 );
       szExtention[ 3 ] = 0;
    }
 
@@ -9985,7 +9985,7 @@ zwTZEREMDD_ADW_Browse( zVIEW vSubtask )
    zCHAR   szFileName[512];
 
    szFileName[ 0 ] = 0;
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ), "Import Files (*.EXP)|*.exp|", "EXP", zOFN_HIDEREADONLY | zOFN_FILEMUSTEXIST ) == 1 )
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ), "Import Files (*.EXP)|*.exp|", "EXP", zOFN_HIDEREADONLY | zOFN_FILEMUSTEXIST ) == 1 )
 
    {
       zwTZEREMDD_ADW_Set_Dir_Prefix( vSubtask, szFileName, 2 );
@@ -10009,7 +10009,7 @@ zwTZEREMDD_ADW_Exp_Browse( zVIEW vSubtask )
    zLONG   lFileHandle = 0;
 
    szFileName[ 0 ] = 0;
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ), "Export Files (*.EXP)|*.exp|", "EXP", zOFN_CREATEPROMPT | zOFN_SAVEAS ) == 1 )
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ), "Export Files (*.EXP)|*.exp|", "EXP", zOFN_CREATEPROMPT | zOFN_SAVEAS ) == 1 )
 
    {
       // File exists, do not show the suffix (AI, OI, TI or PI).
@@ -10037,7 +10037,7 @@ zwTZEREMDD_ADW_Exp_OK( zVIEW vSubtask )
    zSHORT nRC;
    GetViewByName( &vTZERADWE, "TZERADWE", vSubtask, zLEVEL_TASK );
    GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szDirectory, sizeof( szDirectory ), vTZERADWE, "ADW_Work_Export", "Directory" );
+   GetStringFromAttribute( szDirectory, zsizeof( szDirectory ), vTZERADWE, "ADW_Work_Export", "Directory" );
    if ( zstrcmp( szDirectory, "" ) == 0 )
    {
       MessageSend( vSubtask, "ER00193", "ADW Export",
@@ -10120,7 +10120,7 @@ zwTZEREMDD_SaveAsKeepCurrentDesc( zVIEW vSubtask )
 
    if ( GetCtrlState( vSubtask, "cbKeepCurrentDesc", zCONTROL_STATUS_CHECKED ) == 1 )
    {
-      GetStringFromAttribute( szDescription, sizeof( szDescription ), vTZERSASO, "SubjectArea", "Desc" );
+      GetStringFromAttribute( szDescription, zsizeof( szDescription ), vTZERSASO, "SubjectArea", "Desc" );
       SetCtrlText( vSubtask, "edDesc", szDescription );
       RefreshCtrl( vSubtask, "edDesc" );
    }
@@ -10372,12 +10372,12 @@ zwTZEREMDD_AcceptSubobject( zVIEW  vSubtask, zPCHAR szEntityName, zPCHAR szMessa
    // Check that the attribute name is unique.
    GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szName, sizeof( szName ), vTZEREMDO, szEntityName, "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZEREMDO, szEntityName, "Name" );
    if ( CheckDuplicateEntityByString( vTZEREMDO, szEntityName, "Name", szName, 0 ) < 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Duplicate " );
-      strcat_s( szMsg, sizeof( szMsg ), szMessageText );
-      strcat_s( szMsg, sizeof( szMsg ), " Name for this Entity." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Duplicate " );
+      strcat_s( szMsg, zsizeof( szMsg ), szMessageText );
+      strcat_s( szMsg, zsizeof( szMsg ), " Name for this Entity." );
       MessageSend( vSubtask, "ER00180", "ER Data Model Maintenance", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
 
       SetFocusToCtrl( vSubtask, "Name" );
@@ -10386,7 +10386,7 @@ zwTZEREMDD_AcceptSubobject( zVIEW  vSubtask, zPCHAR szEntityName, zPCHAR szMessa
    }
 
    // Check TE Column Name for Attribute / TE Index Name
-   GetStringFromAttribute( szName, sizeof( szName ), vTZEREMDO, szEntityName, szTE_Attribute );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZEREMDO, szEntityName, szTE_Attribute );
    UfCompressName( szName, szOutName, 32, "", "", "", "", 0 );
 
    if ( zstrcmp( szOutName, "" ) == 0 )
@@ -10398,9 +10398,9 @@ zwTZEREMDD_AcceptSubobject( zVIEW  vSubtask, zPCHAR szEntityName, zPCHAR szMessa
    {
       if ( CheckDuplicateEntityByString( vTZEREMDO, szEntityName, szTE_Attribute, szName, 0 ) < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Duplicate " );
-         strcat_s( szMsg, sizeof( szMsg ), szTE_MessText );
-         strcat_s( szMsg, sizeof( szMsg ), " for this Entity." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Duplicate " );
+         strcat_s( szMsg, zsizeof( szMsg ), szTE_MessText );
+         strcat_s( szMsg, zsizeof( szMsg ), " for this Entity." );
          MessageSend( vSubtask, "ER00180", "ER Data Model Maintenance", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
 
          if ( zstrcmp( szTE_Attribute, "TE_ColumnName" ) == 0 )
@@ -10573,24 +10573,24 @@ zwTZEREMDD_SetCountError( zVIEW vSubtask )
             lCountWarning++;
       }
 
-      zltoa( lCountError, szCount, sizeof( szCount ) );
-      strcpy_s( szControlText, sizeof( szControlText ), " " );
-      strcat_s( szControlText, sizeof( szControlText ), szCount );
-      strcat_s( szControlText, sizeof( szControlText ), " Error(s) " );
+      zltoa( lCountError, szCount, zsizeof( szCount ) );
+      strcpy_s( szControlText, zsizeof( szControlText ), " " );
+      strcat_s( szControlText, zsizeof( szControlText ), szCount );
+      strcat_s( szControlText, zsizeof( szControlText ), " Error(s) " );
 
       if ( lCountWarning > 0 )
       {
-         zltoa( lCountWarning, szCount, sizeof( szCount ) );
-         strcat_s( szControlText, sizeof( szControlText ), ", " );
-         strcat_s( szControlText, sizeof( szControlText ), szCount );
-         strcat_s( szControlText, sizeof( szControlText ), " Warning(s) " );
+         zltoa( lCountWarning, szCount, zsizeof( szCount ) );
+         strcat_s( szControlText, zsizeof( szControlText ), ", " );
+         strcat_s( szControlText, zsizeof( szControlText ), szCount );
+         strcat_s( szControlText, zsizeof( szControlText ), " Warning(s) " );
       }
 
-      strcat_s( szControlText, sizeof( szControlText ), "found" );
+      strcat_s( szControlText, zsizeof( szControlText ), "found" );
    }
    else
    {
-      strcpy_s( szControlText, sizeof( szControlText ), " No Errors" );
+      strcpy_s( szControlText, zsizeof( szControlText ), " No Errors" );
    }
 
    SetCtrlText( vSubtask, "txtCountError", szControlText );
@@ -10661,7 +10661,7 @@ zwTZEREMDD_CreateNewErrorRoot( zVIEW vSubtask )
       GetViewByName( &vTZERDERR, "TZERDERR", vSubtask, zLEVEL_TASK );
    }
 
-   SysGetDateTime( szCurrentDateTime, sizeof( szCurrentDateTime ) );
+   SysGetDateTime( szCurrentDateTime, zsizeof( szCurrentDateTime ) );
    CreateEntity( vTZERDERR, "Import", zPOS_LAST );
    SetAttributeFromString( vTZERDERR, "Import", "SearchDateTime", szCurrentDateTime );
 
@@ -10720,21 +10720,21 @@ zwTZEREMDD_ErrorListSaveToFile( zVIEW vSubtask )
    ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT |
               zOFN_SAVEAS | zOFN_HIDEREADONLY;
 
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ), "Text Files (*.txt)|*.txt|", "txt", ulZFlags ) == 1 )
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ), "Text Files (*.txt)|*.txt|", "txt", ulZFlags ) == 1 )
    {
       FileHandle = SysOpenFile( vSubtask, szFileName, COREFILE_WRITE );
 
       if ( FileHandle == -1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to open " );
-         strcat_s( szMsg, sizeof( szMsg ), szFileName );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+         strcat_s( szMsg, zsizeof( szMsg ), szFileName );
          MessageSend( vSubtask, "FEH001", "SAP Import", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
          return( -1 );
       }
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Zeidon: Data Model Error List from " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Zeidon: Data Model Error List from " );
       GetStringFromAttributeByContext( szTemp, vTZERDERR, "Import", "SearchDateTime", "DD.MM.YYYY HH:MM:SS", 20 );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
       SysWriteLine( vSubtask, FileHandle, szMsg );
       SysWriteLine( vSubtask, FileHandle, "" );
 
@@ -10742,16 +10742,16 @@ zwTZEREMDD_ErrorListSaveToFile( zVIEW vSubtask )
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTZERDERR, "ErrorMsg", "" ) )
       {
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZERDERR, "ErrorMsg", "EntityName" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZERDERR, "ErrorMsg", "EntityName" );
          if ( zstrcmp( szTemp, "" ) != 0 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Entity: " );
-            strcat_s( szMsg, sizeof( szMsg ), szTemp );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Entity: " );
+            strcat_s( szMsg, zsizeof( szMsg ), szTemp );
          }
 
-         strcat_s( szMsg, sizeof( szMsg ), "\t" );
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZERDERR, "ErrorMsg", "ErrorText" );
-         strcat_s( szMsg, sizeof( szMsg ), szTemp );
+         strcat_s( szMsg, zsizeof( szMsg ), "\t" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZERDERR, "ErrorMsg", "ErrorText" );
+         strcat_s( szMsg, zsizeof( szMsg ), szTemp );
          SysWriteLine( vSubtask, FileHandle, szMsg );
       }
 
@@ -10779,7 +10779,7 @@ EntityPurposeChange( zVIEW vSubtask )
       return( -1 );
 
    // only enable dimension hierarchy button for dimensions
-   GetStringFromAttribute( szEntityPurpose, sizeof( szEntityPurpose ), vERD, "ER_Entity", "Purpose" );
+   GetStringFromAttribute( szEntityPurpose, zsizeof( szEntityPurpose ), vERD, "ER_Entity", "Purpose" );
    if ( *szEntityPurpose == '2' )
       SetCtrlState( vSubtask, "DimHierBtn",  zCONTROL_STATUS_ENABLED, 1 );
    else
@@ -10944,11 +10944,11 @@ DimLevelsOutlinePopup( zVIEW vSubtask )
    OL_GetCurrentEntityName( vSubtask, "DimLevelsOutline", &vWork, szEntityName );
 
    TraceLineS( "DimLevelsOutlinePopup EntityName=", szEntityName );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "Name" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "Name" );
    TraceLineS( "DimLevelsOutlinePopup Name=", sz );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "ZKey" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "ZKey" );
    TraceLineS( "DimLevelsOutlinePopup ZKey=", sz );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "Desc" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "Desc" );
    TraceLineS( "DimLevelsOutlinePopup Desc=", sz );
 
    //IssueError( vSubtask, 0, 0, "DimLevelsOutlinePopup" );
@@ -10974,11 +10974,11 @@ DimLevelsOutlinePreSelect( zVIEW vSubtask )
    OL_GetCurrentEntityName( vSubtask, "DimLevelsOutline", &vWork, szEntityName );
 
    TraceLineS( "DimLevelsOutlinePreSelect EntityName=", szEntityName );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "Name" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "Name" );
    TraceLineS( "DimLevelsOutlinePreSelect Name=", sz );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "ZKey" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "ZKey" );
    TraceLineS( "DimLevelsOutlinePreSelect ZKey=", sz );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "Desc" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "Desc" );
    TraceLineS( "DimLevelsOutlinePreSelect Desc=", sz );
 
    //IssueError( vSubtask, 0, 0, "DimLevelsOutlinePreSelect" );
@@ -11003,11 +11003,11 @@ DimLevelsOutlineSelect( zVIEW vSubtask )
    OL_GetCurrentEntityName( vSubtask, "DimLevelsOutline", &vWork, szEntityName );
 
    TraceLineS( "DimLevelsOutlineSelect EntityName=", szEntityName );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "Name" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "Name" );
    TraceLineS( "DimLevelsOutlineSelect Name=", sz );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "ZKey" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "ZKey" );
    TraceLineS( "DimLevelsOutlineSelect ZKey=", sz );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "Desc" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "Desc" );
    TraceLineS( "DimLevelsOutlineSelect Desc=", sz );
 
    // set recursive and flat views to current selection
@@ -11213,7 +11213,7 @@ DimOutlinePopupInit( zVIEW vSubtask )
    TraceLineS( "Test Action=", sz );
 
    lRC = RemoveOptionFromMenu( vSubtask, "Opt1");
-   strcpy_s( sz, sizeof( sz ), "Move Up One Level" );
+   strcpy_s( sz, zsizeof( sz ), "Move Up One Level" );
    lRC = SetOptionState( vSubtask, "Opt2", zOPTION_STATUS_TEXT, (zULONG) sz );
    lRC = AddOptionToMenu( vSubtask, "", "", "OptMoveUp", "Move To &Top", "DIMTEST_Move", 514 );
    lRC = AddOptionToMenu( vSubtask, "", "", "OptMoveUp2", "Move 2 &Top", "DIMTEST_Move", 2 );
@@ -11237,11 +11237,11 @@ DimTargetOutlineSelect( zVIEW vSubtask )
    OL_GetCurrentEntityName( vSubtask, "DimTargetOutline", &vWork, szEntityName );
 
    TraceLineS( "DimTargetOutlineSelect EntityName=", szEntityName );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "Name" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "Name" );
    TraceLineS( "DimTargetOutlineSelect Name=", sz );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "ZKey" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "ZKey" );
    TraceLineS( "DimTargetOutlineSelect ZKey=", sz );
-   GetStringFromAttribute( sz, sizeof( sz ), vWork, szEntityName, "Desc" );
+   GetStringFromAttribute( sz, zsizeof( sz ), vWork, szEntityName, "Desc" );
    TraceLineS( "DimTargetOutlineSelect Desc=", sz );
 
    // set recursive and flat views to current selection
@@ -11521,20 +11521,20 @@ zwTZEREMDD_CompareERDs( zVIEW vSubtask )
 
    // Get the Source ERD Name. If a Source LPLR name is specified, then that is the name of the ERD.
    // Otherwise, the ERD Name for the Source is considered to be the same as in the Target.
-   GetStringFromAttribute( szSourceLPLR_Name, sizeof( szSourceLPLR_Name ), vTaskLPLR, "LPLR", "wMergeSourceLPLR_Name" );
+   GetStringFromAttribute( szSourceLPLR_Name, zsizeof( szSourceLPLR_Name ), vTaskLPLR, "LPLR", "wMergeSourceLPLR_Name" );
    if ( zstrcmp( szSourceLPLR_Name, "" ) != 0 )
-      strcpy_s( szERD_Name, sizeof( szERD_Name ), szSourceLPLR_Name );
+      strcpy_s( szERD_Name, zsizeof( szERD_Name ), szSourceLPLR_Name );
    else
    {
       SetCursorFirstEntityByInteger( vTaskLPLR, "W_MetaType", "Type", 4, "" );     // 4 is ERD Meta Type
-      GetStringFromAttribute( szERD_Name, sizeof( szERD_Name ), vTaskLPLR, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vTaskLPLR, "W_MetaDef", "Name" );
    }
 
    // Activate Source view. We are not necessarily positioned on the ER meta entry.
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "wFullyQualifiedFileName" );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   strcat_s( szFileName, sizeof( szFileName ), szERD_Name );
-   strcat_s( szFileName, sizeof( szFileName ), ".PMD" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "wFullyQualifiedFileName" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), szERD_Name );
+   strcat_s( szFileName, zsizeof( szFileName ), ".PMD" );
    TraceLineS( "Source File Name: ", szFileName );
    nRC = ActivateOI_FromFile( &vSourceERD, "TZEREMDO", vSubtask, szFileName, zSINGLE );
    if ( nRC < 0 )
@@ -11742,7 +11742,7 @@ fnRebuildTables( zVIEW vSubtask,
    CreateViewFromViewForTask( &vDTE_NewTemp, vDTE, 0 );
 
    // Get the SironDB_Type because we only have to rebuild the tables for Siron catalogs
-   GetStringFromAttribute( szSironDB_Type, sizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
+   GetStringFromAttribute( szSironDB_Type, zsizeof( szSironDB_Type ), vDTE, "TE_DBMS_Source", "SironDB_Type");
 
    // Run through all the tables and columns and delete them.  Don't delete the tables for Siron Catalogs
    if ( *szSironDB_Type != 'F' )
@@ -11964,7 +11964,7 @@ zwTZEREMDD_RebuildTablesRels( zVIEW vSubtask )
       nRC = GetViewByName( &vTE_Work, "TZTEWRKO", vSubtask, zLEVEL_TASK );
       if ( nRC >= 0 )
       {
-         GetStringFromAttribute( szER_UpdateFlag, sizeof( szER_UpdateFlag ), vTE_Work, "TE_Work", "ER_UpdateFlag" );
+         GetStringFromAttribute( szER_UpdateFlag, zsizeof( szER_UpdateFlag ), vTE_Work, "TE_Work", "ER_UpdateFlag" );
          if ( szER_UpdateFlag[ 0 ] == 'Y' )
          {
             // Get the ERD View

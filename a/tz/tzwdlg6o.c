@@ -352,9 +352,9 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:szDirectoryName = ""
    ZeidonStringCopy( szDirectoryName, 1, 0, "", 1, 0, 1025 );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebDirectory", szFileName )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebDirectory", szFileName, sizeof( szFileName ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebDirectory", szFileName, zsizeof( szFileName ) );
    //:SysConvertEnvironmentString( szDirectoryName, szFileName )
-   SysConvertEnvironmentString( szDirectoryName, sizeof( szDirectoryName ), szFileName );
+   SysConvertEnvironmentString( szDirectoryName, zsizeof( szDirectoryName ), szFileName );
    //:IF szDirectoryName = ""
    if ( ZeidonStringCompare( szDirectoryName, 1, 0, "", 1, 0, 1025 ) == 0 )
    {
@@ -372,7 +372,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:END
 
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebRedirection", szWebRedirection )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebRedirection", szWebRedirection, sizeof( szWebRedirection ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebRedirection", szWebRedirection, zsizeof( szWebRedirection ) );
    //:szJavaPackage = vLPLR.LPLR.JavaPackageName
    GetVariableFromAttribute( szJavaPackage, 0, 'S', 101, vLPLR, "LPLR", "JavaPackageName", "", 0 );
    //:zSearchAndReplace( szJavaPackage, 100, "\", "." )
@@ -383,17 +383,17 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //://szAppImport = "," + vLPLR.LPLR.JavaPackageName + ".*"
 
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebDebugView", szWebDebugView )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebDebugView", szWebDebugView, sizeof( szWebDebugView ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebDebugView", szWebDebugView, zsizeof( szWebDebugView ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole, sizeof( szKeyRole ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole, zsizeof( szKeyRole ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace )
-   SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace, sizeof( szTrace ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace, zsizeof( szTrace ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "DOCTYPE", szDOCTYPE )
-   SysReadZeidonIni( -1, szSystemIniApplName, "DOCTYPE", szDOCTYPE, sizeof( szDOCTYPE ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "DOCTYPE", szDOCTYPE, zsizeof( szDOCTYPE ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonTaskTimeout", szZeidonTaskTimeout )
-   SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonTaskTimeout", szZeidonTaskTimeout, sizeof( szZeidonTaskTimeout ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonTaskTimeout", szZeidonTaskTimeout, zsizeof( szZeidonTaskTimeout ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "NoMonitorTaskLogout", szNoMonitorTaskLogout )
-   SysReadZeidonIni( -1, szSystemIniApplName, "NoMonitorTaskLogout", szNoMonitorTaskLogout, sizeof( szNoMonitorTaskLogout ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "NoMonitorTaskLogout", szNoMonitorTaskLogout, zsizeof( szNoMonitorTaskLogout ) );
    //:TraceLineS("** TraceLevel ** ", szTrace)
    TraceLineS( "** TraceLevel ** ", szTrace );
    //:IF  szTrace = "1"
@@ -2027,7 +2027,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       else
       {
          //:ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
-         GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vDialog, "ReusableSideDialog", "Tag" );
+         GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vDialog, "ReusableSideDialog", "Tag" );
          ActivateMetaOI_ByName( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, szTempString_4, 0 );
          //:// plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0, 0,
          //://                                         0, plListHandle )
@@ -2828,7 +2828,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:// DKS 2015.06.19 - Get the InsertPrebuildJavascriptInlineFlag.
    //:SysReadZeidonIni( -1, szSystemIniApplName, "InsertPrebuildJavascriptInlineFlag", szInsertPrebuildJavascriptInline )
-   SysReadZeidonIni( -1, szSystemIniApplName, "InsertPrebuildJavascriptInlineFlag", szInsertPrebuildJavascriptInline, sizeof( szInsertPrebuildJavascriptInline ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "InsertPrebuildJavascriptInlineFlag", szInsertPrebuildJavascriptInline, zsizeof( szInsertPrebuildJavascriptInline ) );
 
    //:szJavaScript = ""
    ZeidonStringCopy( szJavaScript, 1, 0, "", 1, 0, 10001 );
@@ -3292,7 +3292,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       //:szJS_FileName = ""
       ZeidonStringCopy( szJS_FileName, 1, 0, "", 1, 0, 1025 );
       //:SysReadZeidonIni( -1, szSystemIniApplName, "TinyMCEJavaScript", szJS_FileName )
-      SysReadZeidonIni( -1, szSystemIniApplName, "TinyMCEJavaScript", szJS_FileName, sizeof( szJS_FileName ) );
+      SysReadZeidonIni( -1, szSystemIniApplName, "TinyMCEJavaScript", szJS_FileName, zsizeof( szJS_FileName ) );
       //:IF szJS_FileName = ""
       if ( ZeidonStringCompare( szJS_FileName, 1, 0, "", 1, 0, 1025 ) == 0 )
       {
@@ -4024,7 +4024,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       lControl = zQUAL_STRING + zPOS_FIRST + zRECURS;
       //:nRC = SetEntityCursor( vDialogTemp, "Control", "Tag", lControl,
       //:                       vDialog.Window.DfltButton, "", "", 0, "Window", "" )
-      GetStringFromAttribute( szTempString_14, sizeof( szTempString_14 ), vDialog, "Window", "DfltButton" );
+      GetStringFromAttribute( szTempString_14, zsizeof( szTempString_14 ), vDialog, "Window", "DfltButton" );
       nRC = SetEntityCursor( vDialogTemp, "Control", "Tag", lControl, szTempString_14, "", "", 0, "Window", "" );
       //:IF nRC >= zCURSOR_SET
       if ( nRC >= zCURSOR_SET )
@@ -4669,7 +4669,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:// DKS 2015.06.18 - See if there is any "global" javascript ... insert it here if there is.
    //:// do not mess with szJavaScript here
    //:SysReadZeidonIni( -1, szSystemIniApplName, "GlobalAfterPageLoadJavascript", szWriteBuffer )
-   SysReadZeidonIni( -1, szSystemIniApplName, "GlobalAfterPageLoadJavascript", szWriteBuffer, sizeof( szWriteBuffer ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "GlobalAfterPageLoadJavascript", szWriteBuffer, zsizeof( szWriteBuffer ) );
    //:IF szWriteBuffer != ""
    if ( ZeidonStringCompare( szWriteBuffer, 1, 0, "", 1, 0, 10001 ) != 0 )
    {
@@ -5309,7 +5309,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                         //:CreateViewFromView( vDialogTemp2, vDialogRoot )
                         CreateViewFromView( &vDialogTemp2, vDialogRoot );
                         //:SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.Tag = vDialog.Action.WindowName
-                        GetStringFromAttribute( szTempString_18, sizeof( szTempString_18 ), vDialog, "Action", "WindowName" );
+                        GetStringFromAttribute( szTempString_18, zsizeof( szTempString_18 ), vDialog, "Action", "WindowName" );
                         RESULT = SetCursorFirstEntityByString( vDialogTemp2, "Window", "Tag", szTempString_18, "" );
 
                         //:IF RESULT >= zCURSOR_SET
@@ -5521,7 +5521,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       else
       {
          //:ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
-         GetStringFromAttribute( szTempString_19, sizeof( szTempString_19 ), vDialog, "ReusableSideDialog", "Tag" );
+         GetStringFromAttribute( szTempString_19, zsizeof( szTempString_19 ), vDialog, "ReusableSideDialog", "Tag" );
          ActivateMetaOI_ByName( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, szTempString_19, 0 );
          //:// plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0, 0,
          //://                                         0, plListHandle )
@@ -6055,7 +6055,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       else
       {
          //:ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META,  zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
-         GetStringFromAttribute( szTempString_21, sizeof( szTempString_21 ), vDialog, "ReusableSideDialog", "Tag" );
+         GetStringFromAttribute( szTempString_21, zsizeof( szTempString_21 ), vDialog, "ReusableSideDialog", "Tag" );
          ActivateMetaOI_ByName( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, szTempString_21, 0 );
          //:// plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0, 0,
          //://                                         0, plListHandle )
@@ -6795,7 +6795,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:szWriteBuffer = "   //strDateFormat = task.GetDateDefaultContextFormat();"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   //strDateFormat = task.GetDateDefaultContextFormat();", 1, 0, 10001 );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebDateFormat", szDateFormat )
-   SysReadZeidonIni( -1, szSystemIniApplName, "WebDateFormat", szDateFormat, sizeof( szDateFormat ) );
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebDateFormat", szDateFormat, zsizeof( szDateFormat ) );
    //:IF szDateFormat = ""
    if ( ZeidonStringCompare( szDateFormat, 1, 0, "", 1, 0, 33 ) == 0 )
    {

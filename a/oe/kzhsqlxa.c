@@ -633,9 +633,9 @@ fnAddOD( LPVIEWOD lpViewOD, LPCONNECTION lpConnection )
    zLONG     hMem;
    LPOD_LIST lpOD;
 
-   hMem = SysAllocMemory( (zCOREMEM) &lpOD, sizeof( OD_ListRecord ), 0,
+   hMem = SysAllocMemory( (zCOREMEM) &lpOD, zsizeof( OD_ListRecord ), 0,
                           zCOREMEM_ALLOC, 0 );
-   zmemset( lpOD, 0, sizeof( OD_ListRecord ) );
+   zmemset( lpOD, 0, zsizeof( OD_ListRecord ) );
    lpOD->lpViewOD = lpViewOD;
    lpOD->hMem     = hMem;
    strcpy_s( lpOD->szOD_Name, lpViewOD->szName );
@@ -804,7 +804,7 @@ InitDatabase( zVIEW lpView )
          zCHAR            szValue[ 256 ] = "";
          ODBC_SYSTEM_INFO OdbcSystemInfo = { 0 };
 
-         SysReadZeidonIni( -1, "[kzhsqloa]", "CommitLatency", szValue, sizeof( szValue ) );
+         SysReadZeidonIni( -1, "[kzhsqloa]", "CommitLatency", szValue, zsizeof( szValue ) );
          OdbcSystemInfo.lCommitLatency = (zULONG) zatol( szValue );
 
          SetAttributeFromBlob( vDbhWork, "Type", "TypeEnvBlob",
@@ -822,7 +822,7 @@ InitDatabase( zVIEW lpView )
    {
       zCHAR szValue[ 256 ] = "";
 
-      SysReadZeidonIni( -1, "[kzhsqloa]", "HoldStmtHandles", szValue, sizeof( szValue ) );
+      SysReadZeidonIni( -1, "[kzhsqloa]", "HoldStmtHandles", szValue, zsizeof( szValue ) );
       switch ( ztoupper( szValue[ 0 ] ) )
       {
          case 'F':
@@ -909,7 +909,7 @@ CloseDatabase( zVIEW lpView, int Indicators )
       zCHAR szMsg[ 256 ];
 
       SysMutexUnlock( lpView, "Zeidon DBH", 0 );
-      sprintf_s( szMsg, sizeof( szMsg ),
+      sprintf_s( szMsg, zsizeof( szMsg ),
                  "Internal error -- cannot find DB Base type (%s) in db-handler work object.",
                  szStr );
       DBH_Error( vDbhWork, szMsg, 0, 0 );
@@ -918,7 +918,7 @@ CloseDatabase( zVIEW lpView, int Indicators )
    }
 
    hTask = (LPTASK) SysGetTaskFromView( lpView );
-   sprintf_s( szLogicalName, sizeof( szLogicalName ), "0x%08x:%08x", (zULONG) hTask, SysGetProcessID( 0 ) );
+   sprintf_s( szLogicalName, zsizeof( szLogicalName ), "0x%08x:%08x", (zULONG) hTask, SysGetProcessID( 0 ) );
    nRC = SetCursorFirstEntityByString( vDbhWork, "Connection",
                                        "LogicalUserName", szLogicalName, "" );
    if ( nRC != zCURSOR_SET )
@@ -942,7 +942,7 @@ CloseDatabase( zVIEW lpView, int Indicators )
       zCHAR szMsg[ 256 ];
 
       SysMutexUnlock( lpView, "Zeidon DBH", 0 );
-      sprintf_s( szMsg, sizeof( szMsg ),
+      sprintf_s( szMsg, zsizeof( szMsg ),
                  "TaskID not found for Task:TaskID %s",
                  szLogicalName );
 
@@ -1030,7 +1030,7 @@ CloseDatabase( zVIEW lpView, int Indicators )
             zSHORT (POPERATION pfnClose)( zSHORT );
             zCHAR  szFuncName[ 200 ];
 
-            sprintf_s( szFuncName, sizeof( szFuncName ), "%s_CloseConnection", lpOD->szOD_Name );
+            sprintf_s( szFuncName, zsizeof( szFuncName ), "%s_CloseConnection", lpOD->szOD_Name );
             pfnClose = SysGetProc( lpOD->hStaticLibrary, szFuncName );
             nRC = (*pfnClose) ( lpConnection->nTraceLevel );
 #endif
@@ -1138,7 +1138,7 @@ BeginTransaction( int          Indicators,
       zCHAR szValue[ 256 ] ;
 
       szValue[ 0 ] = 0;
-      SysReadZeidonIni( -1, "[Zeidon]", "DB2COMMA", szValue, sizeof( szValue ) );
+      SysReadZeidonIni( -1, "[Zeidon]", "DB2COMMA", szValue, zsizeof( szValue ) );
       if( szValue[ 0 ] == 'Y' || szValue[ 0 ] == 'y' ||
           szValue[ 0 ] == 'J' || szValue[ 0 ] == 'j' )
          g_ucDB2_Comma = 2;
@@ -1261,7 +1261,7 @@ CommitTransaction( zVIEW        lpView,
       {
          zCHAR szProcName[ 100 ];
 
-         sprintf_s( szProcName, sizeof( szProcName ), "%s_Commit", lpOD->lpViewOD->szName );
+         sprintf_s( szProcName, zsizeof( szProcName ), "%s_Commit", lpOD->lpViewOD->szName );
          lpOD->pfnCommit = SysGetProc( lpOD->hStaticLibrary, szProcName );
       }
 
@@ -1364,7 +1364,7 @@ RollbackTransaction( int Indicators, LPCONNECTION lpConnection )
       {
          zCHAR szProcName[ 100 ];
 
-         sprintf_s( szProcName, sizeof( szProcName ), "%s_Rollback", lpOD->lpViewOD->szName );
+         sprintf_s( szProcName, zsizeof( szProcName ), "%s_Rollback", lpOD->lpViewOD->szName );
          lpOD->pfnRollback = SysGetProc( lpOD->hStaticLibrary, szProcName );
       }
 
@@ -1663,7 +1663,7 @@ fnCreateKeyList( zLONG        hTask,
             return( zCALL_ERROR );
       }
 
-      sprintf_s( szCmd, sizeof( szCmd ),
+      sprintf_s( szCmd, zsizeof( szCmd ),
                 "INSERT INTO ZEIDONKEYLIST ( TASKID, INTVALUE ) VALUES ( %ld, ? )",
                 hTask );
       nRC = SQLPrepare( hstmt, szCmd, SQL_NTS );
@@ -1934,7 +1934,7 @@ fnSetEntityByKeys( zVIEW        lpView,
             // This will cause the Format routines to be called so that
             // the decimal gets rounded/truncated correctly.
             GetStringFromRecord( lpView, lpLoadEntity, lpViewAttrib,
-                                 szDecimal, sizeof( szDecimal ) );
+                                 szDecimal, zsizeof( szDecimal ) );
             StoreStringInRecord( lpView, lpLoadEntity, lpViewAttrib,
                                  szDecimal );
 
@@ -2107,7 +2107,7 @@ Load( LPVIEWENTITY lpViewEntity,
    {
       zCHAR szMsg[ 500 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "XOD '%s' needs to be saved with new JOIN code. "
+      sprintf_s( szMsg, zsizeof( szMsg ), "XOD '%s' needs to be saved with new JOIN code. "
                  "Keys must be first for entity: %s.",
                  lpViewOD->szName, lpViewEntity->szName );
       SysMessageBox( lpView, "DBHandler Warning", szMsg, 0 );
@@ -2221,7 +2221,7 @@ Load( LPVIEWENTITY lpViewEntity,
          lpOD->bNeedsCommit = TRUE;
 
          // We have static binding so call the static function.
-         sprintf_s( szFuncName, sizeof( szFuncName ), "SQL_%s_%s_Select", lpOD->lpViewOD->szName,
+         sprintf_s( szFuncName, zsizeof( szFuncName ), "SQL_%s_%s_Select", lpOD->lpViewOD->szName,
                    lpViewEntity->szName );
          pfnFunc = SysGetProc( lpOD->hStaticLibrary, szFuncName );
 
@@ -2241,7 +2241,7 @@ Load( LPVIEWENTITY lpViewEntity,
          lpOD->bNeedsCommit = TRUE;
 
          // We have static binding so call the static function.
-         sprintf_s( szFuncName, sizeof( szFuncName ), "SQL_%s_%s_SelectUnique", lpOD->lpViewOD->szName,
+         sprintf_s( szFuncName, zsizeof( szFuncName ), "SQL_%s_%s_SelectUnique", lpOD->lpViewOD->szName,
                     lpViewEntity->szName );
          pfnFunc = SysGetProc( lpOD->hStaticLibrary, szFuncName );
 
@@ -2536,7 +2536,7 @@ Load( LPVIEWENTITY lpViewEntity,
                case 'V':
 #if defined( DB2 )
                   fSqlType = SQL_C_CLOB_LOCATOR;
-                  ulLth = sizeof( SQLINTEGER );
+                  ulLth = zsizeof( SQLINTEGER );
 #else
                   // We don't want to bind varchar because we are going to use
                   // SQLGetData( ) to retrieve the data.
@@ -2680,7 +2680,7 @@ Load( LPVIEWENTITY lpViewEntity,
                case 'V':
 #if defined( DB2 )
                   fSqlType = SQL_C_CLOB_LOCATOR;
-                  ulLth = sizeof( SQLINTEGER );
+                  ulLth = zsizeof( SQLINTEGER );
 #else
                   // We don't want to bind varchar because we are going to use SQLGetData( ) to retrieve the data.
                   continue;
@@ -3011,7 +3011,7 @@ StartOfFetches:
       zBOOL bEntityCreatedList[ 500 ];
 
       // Reset all the flags to not-created.
-      zmemset( bEntityCreatedList, 0, sizeof( bEntityCreatedList ) );
+      zmemset( bEntityCreatedList, 0, zsizeof( bEntityCreatedList ) );
 
       nReturnCode = 0;
 
@@ -3348,29 +3348,29 @@ StartOfFetches:
 #ifdef DB2
                   if ( lpDataField->cFldType == zTYPE_TIME )
                      // lpPtr points to "HH:MM:SS".  Prefix dummy date.
-                     strcpy_s( szDateTime, sizeof( szDateTime ), "1900-01-01 " );
+                     strcpy_s( szDateTime, zsizeof( szDateTime ), "1900-01-01 " );
 #endif
 
-                  strcat_s( szDateTime, sizeof( szDateTime), lpPtr );
+                  strcat_s( szDateTime, zsizeof( szDateTime), lpPtr );
 
 #ifdef DB2
                   if ( lpDataField->cFldType == zTYPE_DATE )
                      // lpPtr points to "YYYY-MM-DD".  Postfix dummy time
-                     strcat_s( szDateTime, sizeof( szDateTime ), " 00:00:00" );
+                     strcat_s( szDateTime, zsizeof( szDateTime ), " 00:00:00" );
 #endif
 
                   // Convert datetime to YYYYMMDDHHmmSS.
-                  if ( UfEditFormatDateTime( szDateTime, sizeof( szDateTime ), "YYYY-MM-DD HH:MI:SS" ) == 0 )
+                  if ( UfEditFormatDateTime( szDateTime, zsizeof( szDateTime ), "YYYY-MM-DD HH:MI:SS" ) == 0 )
                      ; // Do nothing...szDateTime converted OK.
                   else
-                  if ( UfEditFormatDateTime( szDateTime, sizeof( szDateTime ), "M/D/YYYY H:MI:SS AM" ) == 0 )
+                  if ( UfEditFormatDateTime( szDateTime, zsizeof( szDateTime ), "M/D/YYYY H:MI:SS AM" ) == 0 )
                      ; // Do nothing...szDateTime converted OK.
 
                   // For date and time formats we need to change unused part to 0's.
                   switch ( lpDataField->cFldType )
                   {
                      case zTYPE_DATE:
-                        strcpy_s( szDateTime + 8, sizeof( szDateTime ) - 8, "000000000" );
+                        strcpy_s( szDateTime + 8, zsizeof( szDateTime ) - 8, "000000000" );
                         break;
 
                      case zTYPE_TIME:
@@ -3379,7 +3379,7 @@ StartOfFetches:
                   }
 
                   // Copy szDateTime back into the buffer.
-                  strcpy_s( lpPtr, sizeof( szDateTime ), szDateTime );  // this should always be safe even though we don't know the size of lpPtr at this point
+                  strcpy_s( lpPtr, zsizeof( szDateTime ), szDateTime ); // this should always be safe even though we don't know the size of lpPtr at this point
                }
 #ifdef DB2
                else
@@ -3429,7 +3429,7 @@ StartOfFetches:
                      // This will cause the Format routines to be called so that
                      // the decimal gets rounded/truncated correctly.
                      // Use szDateTime as a dummy buffer.
-                     GetStringFromRecord( lpView, lpLoadEntity, lpViewAttrib, szDateTime, sizeof( szDateTime ) );
+                     GetStringFromRecord( lpView, lpLoadEntity, lpViewAttrib, szDateTime, zsizeof( szDateTime ) );
                      StoreStringInRecord( lpView, lpLoadEntity, lpViewAttrib, szDateTime );
                      break;
 
@@ -3481,7 +3481,7 @@ StartOfFetches:
                {
                   zCHAR szTemp[ 30 ];
 
-                  sprintf_s( szTemp, sizeof( szTemp ), "TempString%ld", lpConnection->lStringCount++ );
+                  sprintf_s( szTemp, zsizeof( szTemp ), "TempString%ld", lpConnection->lStringCount++ );
                   StoreValueInRecord( lpView, lpLoadEntity, lpViewAttrib, (zPVOID) szTemp, 0 );
                   break;
                }
@@ -3499,7 +3499,7 @@ StartOfFetches:
                {
                   zCHAR szDateTime[ 20 ];
 
-                  SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+                  SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
                   StoreStringInRecord( lpView, lpLoadEntity, lpViewAttrib, szDateTime );
                   break;
                }
@@ -3519,7 +3519,7 @@ StartOfFetches:
 
          // Since we're about to fetch a new row, reset all the flags to
          // not-created.
-         zmemset( bEntityCreatedList, 0, sizeof( bEntityCreatedList ) );
+         zmemset( bEntityCreatedList, 0, zsizeof( bEntityCreatedList ) );
 
 #if defined( DB2 ) || defined( ODBC )
 
@@ -3616,7 +3616,7 @@ EndOfFunction:
    {
       zCHAR szDeleteCmd[ 300 ];
 
-      sprintf_s( szDeleteCmd, sizeof( szDeleteCmd ),
+      sprintf_s( szDeleteCmd, zsizeof( szDeleteCmd ),
                  "DELETE FROM ZEIDONKEYLIST WHERE TASKID = %ld",
                  SysGetTaskFromView( lpView ) );
 
@@ -3643,7 +3643,7 @@ EndOfFunction:
    {
       zCHAR szDeleteCmd[ 300 ];
 
-      sprintf_s( szDeleteCmd, sizeof( szDeleteCmd ),
+      sprintf_s( szDeleteCmd, zsizeof( szDeleteCmd ),
                  "DELETE FROM ZEIDONKEYLIST WHERE TASKID = %ld",
                  SysGetTaskFromView( lpView ) );
 
@@ -4301,43 +4301,43 @@ fnRC_Text( zSHORT nRC )
    switch ( nRC )
    {
       case SQL_SUCCESS:
-         sprintf_s( szReturn, sizeof( szReturn ), "%d (SQL_SUCCESS)", nRC );
+         sprintf_s( szReturn, zsizeof( szReturn ), "%d (SQL_SUCCESS)", nRC );
          break;
 
       case SQL_SUCCESS_WITH_INFO:
-         sprintf_s( szReturn, sizeof( szReturn ), "%d (SQL_SUCCESS_WITH_INFO)", nRC );
+         sprintf_s( szReturn, zsizeof( szReturn ), "%d (SQL_SUCCESS_WITH_INFO)", nRC );
          break;
 
       case SQL_ERROR:
-         sprintf_s( szReturn, sizeof( szReturn ), "%d (SQL_ERROR)", nRC );
+         sprintf_s( szReturn, zsizeof( szReturn ), "%d (SQL_ERROR)", nRC );
          break;
 
       case SQL_INVALID_HANDLE:
-         sprintf_s( szReturn, sizeof( szReturn ), "%d (SQL_INVALID_HANDLE)", nRC );
+         sprintf_s( szReturn, zsizeof( szReturn ), "%d (SQL_INVALID_HANDLE)", nRC );
          break;
 
       case SQL_NEED_DATA:
-         sprintf_s( szReturn, sizeof( szReturn ), "%d (SQL_NEED_DATA)", nRC );
+         sprintf_s( szReturn, zsizeof( szReturn ), "%d (SQL_NEED_DATA)", nRC );
          break;
 
 #ifdef DB2
       case SQL_NO_DATA_FOUND:
-         sprintf_s( szReturn, sizeof( szReturn ), "%d (SQL_NO_DATA_FOUND)", nRC );
+         sprintf_s( szReturn, zsizeof( szReturn ), "%d (SQL_NO_DATA_FOUND)", nRC );
          break;
 #else
       #if (ODBCVER >= 0x0300)
          case SQL_NO_DATA:
-            sprintf_s( szReturn, sizeof( szReturn ), "%d (SQL_NO_DATA)", nRC );
+            sprintf_s( szReturn, zsizeof( szReturn ), "%d (SQL_NO_DATA)", nRC );
             break;
 #endif
 
       case SQL_STILL_EXECUTING:
-         sprintf_s( szReturn, sizeof( szReturn ), "%d (SQL_STILL_EXECUTING)", nRC );
+         sprintf_s( szReturn, zsizeof( szReturn ), "%d (SQL_STILL_EXECUTING)", nRC );
          break;
 #endif
 
       default:
-         sprintf_s( szReturn, sizeof( szReturn ), "%d (unknown)", nRC );
+         sprintf_s( szReturn, zsizeof( szReturn ), "%d (unknown)", nRC );
          break;
    }
 
@@ -4514,8 +4514,8 @@ DisplayCommand( zPCHAR       pchRoutine,
       for ( k = 1; k <= sdNumRecs && k < 5; k++ )
       {
          SQLGetDiagRec( iHandleType, hSql, k, szSQLState, &sdNativeError,
-                        szText, sizeof( szText ), &nTextLength );
-         sprintf_s( szText2, sizeof( szText2 ), "[ODBC] SQLState = %s, Err=", szSQLState );
+                        szText, zsizeof( szText ), &nTextLength );
+         sprintf_s( szText2, zsizeof( szText2 ), "[ODBC] SQLState = %s, Err=", szSQLState );
          TraceLineS( szText2, szText );
 
          MessageSend( lpConnection->lpAppView, "KZH0102", "ODBC DBH Error",
@@ -4611,7 +4611,7 @@ fnOpenDatabaseConnection( zVIEW        lpView,
          strcpy_s( lpConnection->DBConnection[ k ].szDatabaseName, 64, lpDBName );
       }
 
-      SysGetDB_UserID( lpView, szUserID, sizeof( szUserID ), szPassword, sizeof( szPassword ) );
+      SysGetDB_UserID( lpView, szUserID, zsizeof( szUserID ), szPassword, zsizeof( szPassword ) );
 
       //==============================================================
       // Open database.
@@ -4631,7 +4631,7 @@ fnOpenDatabaseConnection( zVIEW        lpView,
       {
          zCHAR szText[ 200 ];
 
-         sprintf_s( szText, sizeof( szText ), "Error connecting to DB %s", lpDBName );
+         sprintf_s( szText, zsizeof( szText ), "Error connecting to DB %s", lpDBName );
          MessageSend( lpConnection->lpAppView, "KZH0102", "ODBC DBH Error",
                       szText, zMSGQ_SYSTEM_ERROR, 0 );
 
@@ -4746,9 +4746,9 @@ GetWorkObjectView( LPTASK       hTask,
 
       lProcessID = SysGetProcessID( 0 );
    // zltoa( (zLONG) hTask, szLogicalName );
-      sprintf_s( szLogicalName, sizeof( szLogicalName ), "0x%08x:%08x", (zULONG) hTask, lProcessID );
+      sprintf_s( szLogicalName, zsizeof( szLogicalName ), "0x%08x:%08x", (zULONG) hTask, lProcessID );
 
-   // sprintf_s( szLogicalName, sizeof( szLogicalName ), "0x%08x", (zULONG) SysGetTaskFromView( lpView ) );
+   // sprintf_s( szLogicalName, zsizeof( szLogicalName ), "0x%08x", (zULONG) SysGetTaskFromView( lpView ) );
 
       nRC = SetCursorFirstEntityByString( vDbhWork, "Connection",
                                           "LogicalUserName", szLogicalName, "" );
@@ -4814,7 +4814,7 @@ GetWorkObjectView( LPTASK       hTask,
          zCHAR  szStr[ 20 ];
 
          // Get the default trace level from the INI file.
-         SysReadZeidonIni( -1, "[" DBHANDLER_NAME "]", "TraceLevel", szStr, sizeof( szStr ) );
+         SysReadZeidonIni( -1, "[" DBHANDLER_NAME "]", "TraceLevel", szStr, zsizeof( szStr ) );
          if ( szStr[ 0 ] )
             nTraceLevel = (zSHORT) zatol( szStr );
       }
@@ -5011,8 +5011,8 @@ fnSqlRC( zPCHAR       pchRoutine,
       for ( k = 1; k <= sdNumRecs && k < 5; k++ )
       {
          SQLGetDiagRec( iHandleType, hSql, k, szSQLState, &sdNativeError,
-                        szText, sizeof( szText ), &nTextLength );
-         sprintf_s( szText2, sizeof( szText2 ), "[ODBC] SQLState = %s, Err=", szSQLState );
+                        szText, zsizeof( szText ), &nTextLength );
+         sprintf_s( szText2, zsizeof( szText2 ), "[ODBC] SQLState = %s, Err=", szSQLState );
          TraceLineS( szText2, szText );
 
          fnSetDBHandlerError( lpConnection->lpAppView, (zLONG) sdNativeError,
@@ -5579,7 +5579,7 @@ fnDBH_Callback( zULONG      nCommand,
 
             // Get date-time from szSource as an unformatted string --
             // yyyymmddhhmmsss.
-            strcpy_s( szDateTime1, sizeof( szDateTime1 ), (zPCHAR) pInfo );
+            strcpy_s( szDateTime1, zsizeof( szDateTime1 ), (zPCHAR) pInfo );
 
             // Make sure that the DateTime doesn't contain any spaces.
             pch = szDateTime1;
@@ -5596,16 +5596,16 @@ fnDBH_Callback( zULONG      nCommand,
             switch ( lpDataField->cFldType )
             {
                case zTYPE_TIME:
-                  UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "HH.MI.SS" );
+                  UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "HH.MI.SS" );
                   break;
 
                case zTYPE_DATE:
-                  UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD" );
+                  UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD" );
 
                   break;
 
                default:
-                  UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD-HH.MI.SS.999" );
+                  UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD-HH.MI.SS.999" );
             }
 
             // Date string must start with a quote.
@@ -5633,7 +5633,7 @@ fnDBH_Callback( zULONG      nCommand,
 
             // Get date-time from szSource as an unformatted string --
             // yyyymmddhhmmsss.
-            strcpy_s( szDateTime1, sizeof( szDateTime1 ), (zPCHAR) pInfo );
+            strcpy_s( szDateTime1, zsizeof( szDateTime1 ), (zPCHAR) pInfo );
 
             // Make sure that the DateTime doesn't contain any spaces.
             pch = szDateTime1;
@@ -5653,12 +5653,12 @@ fnDBH_Callback( zULONG      nCommand,
             {
                case zTYPE_TIME:
                   if ( lpObjectData->bStoreTimestampAsString )
-                     UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "HHMISS" );
+                     UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "HHMISS" );
                   else
                   {
                      bAddEscapeSequence = TRUE;
-                     strcpy_s( szEscapeCode, sizeof( szEscapeCode ), "t" );
-                     UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "HH:MI:SS" );
+                     strcpy_s( szEscapeCode, zsizeof( szEscapeCode ), "t" );
+                     UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "HH:MI:SS" );
                   }
 
                   break;
@@ -5666,13 +5666,13 @@ fnDBH_Callback( zULONG      nCommand,
                case zTYPE_DATE:
 #if 0  // Dates are always stored as date/time columns.
                   if ( lpObjectData->bStoreTimestampAsString )
-                     UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "YYYYmmDD" );
+                     UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "YYYYmmDD" );
                   else
 #endif
                   {
                      bAddEscapeSequence = TRUE;
-                     strcpy_s( szEscapeCode, sizeof( szEscapeCode ), "d" );
-                     UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD" );
+                     strcpy_s( szEscapeCode, zsizeof( szEscapeCode ), "d" );
+                     UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD" );
                   }
 
                   break;
@@ -5681,7 +5681,7 @@ fnDBH_Callback( zULONG      nCommand,
                   if ( lpObjectData->bStoreTimestampAsString == FALSE )
                   {
                      bAddEscapeSequence = TRUE;
-                     strcpy_s( szEscapeCode, sizeof( szEscapeCode ), "ts" );
+                     strcpy_s( szEscapeCode, zsizeof( szEscapeCode ), "ts" );
                   }
 
                   // The precision of timestamps has been given to us.  Format
@@ -5690,9 +5690,9 @@ fnDBH_Callback( zULONG      nCommand,
                   if ( lpObjectData->nTimestampPrecision == 0 )
                   {
                      if ( lpObjectData->bStoreTimestampAsString )
-                        UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "YYYYmmDDHHMISS" );
+                        UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "YYYYmmDDHHMISS" );
                      else
-                        UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD HH:MI:SS" );
+                        UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD HH:MI:SS" );
                   }
                   else
                   {
@@ -5717,7 +5717,7 @@ fnDBH_Callback( zULONG      nCommand,
                      // First turn one of the 9's into a null-terminator.
                      pchFormat[ idx + lpObjectData->nTimestampPrecision ] = 0;
 
-                     UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, pchFormat );
+                     UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, pchFormat );
 
                      // Now change the null-terminator back to a 9.
                      pchFormat[ idx + lpObjectData->nTimestampPrecision ] = '9';
@@ -5732,7 +5732,7 @@ fnDBH_Callback( zULONG      nCommand,
                // Add escape sequence.
                *pchTarget++ = '{';
 
-               strcpy_s( pchTarget, sizeof( szEscapeCode ), szEscapeCode );  // this should always be safe even though we don't know the size of pchTarget at this point
+               strcpy_s( pchTarget, zsizeof( szEscapeCode ), szEscapeCode ); // this should always be safe even though we don't know the size of pchTarget at this point
                pchTarget += zstrlen( szEscapeCode );
 
                *pchTarget++ = ' ';
@@ -5742,7 +5742,7 @@ fnDBH_Callback( zULONG      nCommand,
             *pchTarget++ = '\'';
 
             // Copy formatted date-time string to szTarget and terminate with a quote.
-            strcpy_s( pchTarget, sizeof( szDateTime2 ), szDateTime2 );  // this should always be safe even though we don't know the size of pchTarget at this point
+            strcpy_s( pchTarget, zsizeof( szDateTime2 ), szDateTime2 ); // this should always be safe even though we don't know the size of pchTarget at this point
             strcat_s( pchTarget, 2, "'" );  // this should always be safe even though we don't know the size of pchTarget at this point
 
             if ( bAddEscapeSequence )
@@ -5887,7 +5887,7 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
    // Get the database name.
    GetAddrForAttribute( &pchDBName, vDTE, "TE_DBMS_Source", "Name" );
 
-   SysGetDB_UserID( vDTE, szUserID, sizeof( szUserID ), szPassword, sizeof( szPassword ) );
+   SysGetDB_UserID( vDTE, szUserID, zsizeof( szUserID ), szPassword, zsizeof( szPassword ) );
 
    //==============================================================
    // Open database.
@@ -5912,7 +5912,7 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
    {
       zCHAR szText[ 200 ];
 
-      sprintf_s( szText, sizeof( szText ), "Error connecting to DB %s", pchDBName );
+      sprintf_s( szText, zsizeof( szText ), "Error connecting to DB %s", pchDBName );
       MessageSend( lpConnection->lpAppView, "KZH0102", "ODBC DBH Error",
                    szText, zMSGQ_SYSTEM_ERROR, 0 );
 
@@ -5985,7 +5985,7 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vDB, "TE_TablRec", 0 ) )
    {
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vDB, "TE_TablRec", "Name" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDB, "TE_TablRec", "Name" );
 
 #if defined( DB2 ) || defined( ODBC )
       nRC = SQLColumns( lpConnection->hstmt, 0, 0, 0, 0, szTableName,
@@ -6110,7 +6110,7 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vDB, "TE_TablRec", 0 ) )
    {
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vDB, "TE_TablRec", "Name" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDB, "TE_TablRec", "Name" );
 
 #if defined( DB2 ) || defined( ODBC )
       nRC = SQLStatistics( lpConnection->hstmt, 0, 0, 0, 0, szTableName,

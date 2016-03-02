@@ -245,8 +245,8 @@ zLONG lLocal7Text;
 //    really wanted was A = "YYY" + "XXX" or "YYYXXX". This function
 //    therefore creates the following three expressions for A = B + A
 //
-//    1: strcpy_s( szTemp, sizeof( szTemp ), B ); A is "XXX" B is "YYY" szTemp is "YYY"
-//    2: strcat_s( szTemp, sizeof( szTemp ), A ); A is "XXX" B is "YYY" szTemp is "YYYXXX"
+//    1: strcpy_s( szTemp, zsizeof( szTemp ), B ); A is "XXX" B is "YYY" szTemp is "YYY"
+//    2: strcat_s( szTemp, zsizeof( szTemp ), A ); A is "XXX" B is "YYY" szTemp is "YYYXXX"
 //    3: strcpy_s( A, szTemp ); A is "YYYXXX" B is "YYY" szTemp is "YYYXXX
 //
 //    If during the scan it is discovered that the target is not reused,
@@ -547,7 +547,7 @@ OptimizeExpression( zVIEW vSubtask,
          {
             if ( sGExprStruct.lElementClass == qVARIABLE )
             {
-               lLth = GetVariableLength( szGlobalTempNumber, sizeof( szGlobalTempNumber ), sGExprStruct.lOffset );
+               lLth = GetVariableLength( szGlobalTempNumber, zsizeof( szGlobalTempNumber ), sGExprStruct.lOffset );
                CreateViewFromViewForTask( &vGlobalView, vSrc, 0 );
                lGlobalTempID = GenerateTempVariable( vSubtask, qTSTRING, lLth );
             }
@@ -564,7 +564,7 @@ OptimizeExpression( zVIEW vSubtask,
                   lLth = 1024;
 
                lGlobalTempID = GenerateTempVariable( vSubtask, qTSTRING, lLth );
-               lLth = GetVariableLength( szGlobalTempNumber, sizeof( szGlobalTempNumber ), lGlobalTempID );
+               lLth = GetVariableLength( szGlobalTempNumber, zsizeof( szGlobalTempNumber ), lGlobalTempID );
             }
 
             lRC = fnOptimizeComplexExpression( vSubtask, vTgt, vSrc, 0 );
@@ -584,7 +584,7 @@ OptimizeExpression( zVIEW vSubtask,
             {
                zLONG lLth;
                lGlobalTempID = sGExprStruct.lOffset;
-               lLth = GetVariableLength( szGlobalTempNumber, sizeof( szGlobalTempNumber ), sGExprStruct.lOffset );
+               lLth = GetVariableLength( szGlobalTempNumber, zsizeof( szGlobalTempNumber ), sGExprStruct.lOffset );
                CreateViewFromViewForTask( &vGlobalView, vSrc, 0 );
             }
             else
@@ -600,7 +600,7 @@ OptimizeExpression( zVIEW vSubtask,
                   lLth = 1024;
 
                lGlobalTempID = GenerateTempVariable( vSubtask, qTSTRING, lLth );
-               lLth = GetVariableLength( szGlobalTempNumber, sizeof( szGlobalTempNumber ), lGlobalTempID );
+               lLth = GetVariableLength( szGlobalTempNumber, zsizeof( szGlobalTempNumber ), lGlobalTempID );
             }
 
             lRC = fnOptimizeComplexExpression( vSubtask, vTgt, vSrc, 0 );
@@ -640,7 +640,7 @@ OptimizeExpression( zVIEW vSubtask,
             {
                zLONG lLth;
                lGlobalTempID = sGExprStruct.lOffset;
-               lLth = GetVariableLength( szGlobalTempNumber, sizeof( szGlobalTempNumber ), sGExprStruct.lOffset );
+               lLth = GetVariableLength( szGlobalTempNumber, zsizeof( szGlobalTempNumber ), sGExprStruct.lOffset );
                CreateViewFromViewForTask( &vGlobalView, vSrc, 0 );
             }
             else
@@ -656,7 +656,7 @@ OptimizeExpression( zVIEW vSubtask,
                   lLth = 1024;
 
                lGlobalTempID = GenerateTempVariable( vSubtask, qTSTRING, lLth );
-               lLth = GetVariableLength( szGlobalTempNumber, sizeof( szGlobalTempNumber ), lGlobalTempID );
+               lLth = GetVariableLength( szGlobalTempNumber, zsizeof( szGlobalTempNumber ), lGlobalTempID );
             }
 
             lRC = fnOptimizeComplexExpression( vSubtask, vTgt, vSrc, 0 );
@@ -744,7 +744,7 @@ fnAnalyzeAssignmentStatement( zPLONG lpTargetDataClass,
       if ( sGExprStruct.lElementClass == qATTRIBUTEQUALIFIER )
       {
          *lpTargetDataClass = GetClassBasedOnType( sGExprStruct.lDataType );
-         strcpy_s( szTargetString, sizeof( szTargetString ), sGExprStruct.szText );
+         strcpy_s( szTargetString, zsizeof( szTargetString ), sGExprStruct.szText );
       }
 
       // count the number of entities that are NOT operators
@@ -1589,12 +1589,12 @@ fnCopyExprWithExtract( zVIEW vSubtask, zVIEW vTgt, zVIEW vLeftView )
          {
             case qTDECIMAL:
                lTempID = GenerateTempVariable( vSubtask, qTDECIMAL, 10 );
-               strcpy_s( szOperName, sizeof( szOperName ), "GetDecimalFromAttribute" );
+               strcpy_s( szOperName, zsizeof( szOperName ), "GetDecimalFromAttribute" );
                break;
 
             case qTINTEGER:
                lTempID = GenerateTempVariable( vSubtask, qTINTEGER, 4 );
-               strcpy_s( szOperName, sizeof( szOperName ), "GetIntegerFromAttribute" );
+               strcpy_s( szOperName, zsizeof( szOperName ), "GetIntegerFromAttribute" );
                break;
 
             case qTSTRING: // not yet tested
@@ -1603,12 +1603,12 @@ fnCopyExprWithExtract( zVIEW vSubtask, zVIEW vTgt, zVIEW vLeftView )
                   lLth = 1024;
 
                lTempID = GenerateTempVariable( vSubtask, qTSTRING, lLth );
-               strcpy_s( szOperName, sizeof( szOperName ), "GetStringFromAttribute" );
+               strcpy_s( szOperName, zsizeof( szOperName ), "GetStringFromAttribute" );
                break;
 
             case qTDATE: // not yet tested
                lTempID = GenerateTempVariable( vSubtask, qTSTRING, 18 );
-               strcpy_s( szOperName, sizeof( szOperName ), "GetStringFromAttribute" );
+               strcpy_s( szOperName, zsizeof( szOperName ), "GetStringFromAttribute" );
                break;
 
             default:
@@ -1927,7 +1927,7 @@ fnGenVarAttr( zVIEW vSubtask, zVIEW vRightView, zVIEW vLeftView,
    // see if if is an assignment or a condition.
    if ( sOperatorStruct.lOffset == qEQUAL )
    {
-      strcpy_s( szOperName, sizeof( szOperName ), "GetIntegerFromAttribute" );
+      strcpy_s( szOperName, zsizeof( szOperName ), "GetIntegerFromAttribute" );
       if ( sLeftStruct.lDataType == qTSTRING && sLeftStruct.lElementClass == qVARIABLE )
       {
          if ( g_szGenLang[ 0 ] == 'J' )
@@ -1935,7 +1935,7 @@ fnGenVarAttr( zVIEW vSubtask, zVIEW vRightView, zVIEW vLeftView,
          else
             lReturnLthID = 0;
 
-         strcpy_s( szOperName, sizeof( szOperName ), "GetVariableFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetVariableFromAttribute" );
          AddGetVariableFromAttribute( vSubtask, szOperName, lViewID, lReturnLthID, 0,
                                       sLeftStruct.lDataType, sLeftStruct.lOffset,
                                       szEName, lEntityID, szAName, lAttributeID, 0, "", 0 );
@@ -1944,9 +1944,9 @@ fnGenVarAttr( zVIEW vSubtask, zVIEW vRightView, zVIEW vLeftView,
       }
       else
       if ( sLeftStruct.lDataType == qTDECIMAL )
-         strcpy_s( szOperName, sizeof( szOperName ), "GetDecimalFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetDecimalFromAttribute" );
       else
-         strcpy_s( szOperName, sizeof( szOperName ), "GetIntegerFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetIntegerFromAttribute" );
 
       // On 16.05.1998 DonC changed the sRightStruct parm below to sLeftStruct.
       // This was to make the following VML statements work:
@@ -1966,9 +1966,9 @@ fnGenVarAttr( zVIEW vSubtask, zVIEW vRightView, zVIEW vLeftView,
       // We need to do a compare. Create the compare operation and put out the
       // opposite operator and 0.
       if ( sLeftStruct.lDataType == qTDECIMAL )
-         strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToDecimal" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToDecimal" );
       else
-         strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToInteger" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToInteger" );
 
       // On 31.07.1998 DonC changed the following function call to use the sLeftStruct.lDataType
       // instead of the sRightStruct.lDataType because in a statement such as VIP.VIP.NUM = lNumber,
@@ -1998,12 +1998,12 @@ fnGenVarAttr( zVIEW vSubtask, zVIEW vRightView, zVIEW vLeftView,
       if ( sRightStruct.lDataType == qTDECIMAL )
       {
          lTempID = GenerateTempVariable( vSubtask, qTDECIMAL, 10 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetDecimalFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetDecimalFromAttribute" );
       }
       else
       {
          lTempID = GenerateTempVariable( vSubtask, qTINTEGER, 4 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetIntegerFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetIntegerFromAttribute" );
       }
 
       AddGetOrSetAttributeWithString( vSubtask, szOperName, lViewID, 0,
@@ -2061,9 +2061,9 @@ fnGenConstAttr( zVIEW  vSubtask,
    if ( IsCondOperator( sOperatorStruct.lOffset ) == 0 )
    {
       if ( sLeftStruct.lDataType == qTDECIMAL )
-         strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToDecimal" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToDecimal" );
       else
-         strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToInteger" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToInteger" );
 
       if ( sLeftStruct.lElementClass == qDEFINE )
          CreateOperationCallUsingAQ( vSubtask, vTgt, szOperName, lViewID, -1,
@@ -2096,12 +2096,12 @@ fnGenConstAttr( zVIEW  vSubtask,
       if ( sRightStruct.lDataType == qTDECIMAL )
       {
          lTempID = GenerateTempVariable( vSubtask, qTDECIMAL, 10 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetDecimalFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetDecimalFromAttribute" );
       }
       else
       {
          lTempID = GenerateTempVariable( vSubtask, qTINTEGER, 4 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetIntegerFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetIntegerFromAttribute" );
       }
 
       AddGetOrSetAttributeWithString( vSubtask, szOperName, lViewID, 0, sRightStruct.lDataType,
@@ -2181,9 +2181,9 @@ fnGenAttrVar( zVIEW  vSubtask,
       AddStatementEntityToPI( vSubtask, qEXPRESSION, qqlineno, vTgt, zPOS_AFTER );
 
       if ( sLeftStruct.lDataType == qTDECIMAL )
-         strcpy_s( szOperName, sizeof( szOperName ), "SetAttributeFromDecimal" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "SetAttributeFromDecimal" );
       else
-         strcpy_s( szOperName, sizeof( szOperName ), "SetAttributeFromInteger" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "SetAttributeFromInteger" );
 
       AddGetOrSetAttributeWithString( vSubtask, szOperName, lViewID, 1, sLeftStruct.lDataType,
                                       lID, szEName, lEntityID, szAName,lAttributeID, 0, "", 0, 0 );
@@ -2193,12 +2193,12 @@ fnGenAttrVar( zVIEW  vSubtask,
    if ( sOperatorStruct.lOffset == qEQUAL )
    {
       if ( sRightStruct.lDataType == qTDECIMAL )
-         strcpy_s( szOperName, sizeof( szOperName ), "SetAttributeFromDecimal" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "SetAttributeFromDecimal" );
       else
       if ( sRightStruct.lDataType == qTSTRING )
-         strcpy_s( szOperName, sizeof( szOperName ), "SetAttributeFromString" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "SetAttributeFromString" );
       else
-         strcpy_s( szOperName, sizeof( szOperName ), "SetAttributeFromInteger" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "SetAttributeFromInteger" );
 
       if ( sRightStruct.lElementClass == qVARIABLE )
       {
@@ -2227,9 +2227,9 @@ fnGenAttrVar( zVIEW  vSubtask,
    if ( IsCondOperator( sOperatorStruct.lOffset ) == 0 )
    {
       if ( sRightStruct.lDataType == qTDECIMAL )
-         strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToDecimal" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToDecimal" );
       else
-         strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToInteger" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToInteger" );
 
       if ( sRightStruct.lElementClass == qVARIABLE )
          CreateOperationCallUsingAQ( vSubtask, vTgt, szOperName, lViewID, 1,
@@ -2257,12 +2257,12 @@ fnGenAttrVar( zVIEW  vSubtask,
       if ( sLeftStruct.lDataType == qTDECIMAL )
       {
          lTempID = GenerateTempVariable( vSubtask, qTDECIMAL, 10 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetDecimalFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetDecimalFromAttribute" );
       }
       else
       {
          lTempID = GenerateTempVariable( vSubtask, qTINTEGER, 4 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetIntegerFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetIntegerFromAttribute" );
       }
 
       if ( lGlobalTempID == -1 )
@@ -2302,14 +2302,14 @@ fnGenAttrAttr( zVIEW  vSubtask,
    {
       if ( sOperatorStruct.lOffset == qEQUAL )
       {
-         strcpy_s( szOperName, sizeof( szOperName ), "SetAttributeFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "SetAttributeFromAttribute" );
          AddCompareToView( vSubtask, vTgt, szOperName, &sLeftStruct, sLeftStruct.szText,
                            &sRightStruct, sRightStruct.szText, 0 );
          SetCursorPrevEntity( vLeftView, "ExprNode", "" );
       }
       else
       {
-         strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToAttribute" );
          AddCompareToView( vSubtask, vTgt, szOperName, &sLeftStruct, sLeftStruct.szText,
                            &sRightStruct, sRightStruct.szText, 0 );
          InsertExprNodeValuesToEntity( vTgt, qCONSTANT, qNUMERIC, qTINTEGER, 0, 0, "0", 0, zPOS_AFTER );
@@ -2323,12 +2323,12 @@ fnGenAttrAttr( zVIEW  vSubtask,
       if ( sLeftStruct.lDataType == qTDECIMAL )
       {
          lTempID = GenerateTempVariable( vSubtask, qTDECIMAL, 10 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetDecimalFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetDecimalFromAttribute" );
       }
       else
       {
          lTempID = GenerateTempVariable( vSubtask, qTINTEGER, 4 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetIntegerFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetIntegerFromAttribute" );
       }
 
       AddGetOrSetAttributeWithString( vSubtask, szOperName, lViewID, 0, sLeftStruct.lDataType,
@@ -2345,12 +2345,12 @@ fnGenAttrAttr( zVIEW  vSubtask,
       if ( sRightStruct.lDataType == qTDECIMAL )
       {
          lTempID = GenerateTempVariable( vSubtask, qTDECIMAL, 10 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetDecimalFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetDecimalFromAttribute" );
       }
       else
       {
          lTempID = GenerateTempVariable( vSubtask, qTINTEGER, 4 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetIntegerFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetIntegerFromAttribute" );
       }
 
       AddGetOrSetAttributeWithString( vSubtask, szOperName, lViewID, 0, sRightStruct.lDataType,
@@ -2407,9 +2407,9 @@ fnGenOpCallAttr( zVIEW  vSubtask,
       // We need to do a compare. Create the compare operation and put out the opposite
       // operator and 0.
       if ( sRightStruct.lDataType == qTDECIMAL )
-         strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToDecimal" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToDecimal" );
       else
-         strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToInteger" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToInteger" );
 
       CreateOperationCallUsingAQ( vSubtask, vTgt, szOperName, lViewID, 1,
                                   sRightStruct.lDataType, sLeftStruct.lOffset,
@@ -2432,12 +2432,12 @@ fnGenOpCallAttr( zVIEW  vSubtask,
       if ( sRightStruct.lDataType == qTDECIMAL )
       {
          lTempID = GenerateTempVariable( vSubtask, qTDECIMAL, 10 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetDecimalFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetDecimalFromAttribute" );
       }
       else
       {
          lTempID = GenerateTempVariable( vSubtask, qTINTEGER, 4 );
-         strcpy_s( szOperName, sizeof( szOperName ), "GetIntegerFromAttribute" );
+         strcpy_s( szOperName, zsizeof( szOperName ), "GetIntegerFromAttribute" );
       }
 
       AddGetOrSetAttributeWithString( vSubtask, szOperName, lViewID, 0, sRightStruct.lDataType,
@@ -2564,7 +2564,7 @@ OptimizeSimpleTextExpression( zVIEW  vSubtask, zVIEW  vTgt, zVIEW  vSrc,
         (lTargetElementClass == qATTRIBUTEQUALIFIER && lRightIndexed == 1) )
    {
       if ( lTargetElementClass == qVARIABLE )
-         lLth = GetVariableLength( szGlobalTempNumber, sizeof( szGlobalTempNumber ), lTargetID );
+         lLth = GetVariableLength( szGlobalTempNumber, zsizeof( szGlobalTempNumber ), lTargetID );
       else
          lLth = -1;
 
@@ -2651,7 +2651,7 @@ fnOptTextExpr( zVIEW  vSubtask,
 
          // 2/18/sLeftStruct.lOffset = lGlobalRightID;
          // the global length just so we ain't gotta get it all the time.
-         strcpy_s( szTempNumber, sizeof( szTempNumber ), szGlobalTempNumber );
+         strcpy_s( szTempNumber, zsizeof( szTempNumber ), szGlobalTempNumber );
       }
    }
 
@@ -2711,14 +2711,14 @@ fnOptTextExpr( zVIEW  vSubtask,
                      lLth = 1024;
 
                   lTempID = GenerateTempVariable( vSubtask, qTSTRING, lLth );
-                  lLth = GetVariableLength( szTempNumber, sizeof( szTempNumber ), lTempID );
+                  lLth = GetVariableLength( szTempNumber, zsizeof( szTempNumber ), lTempID );
                   if ( g_szGenLang[ 0 ] == 'J' )
                      lReturnLthID = GenerateTempVariable( vSubtask, qTINTEGER, 4 );
                   else
                      lReturnLthID = 0;
 
                   // if the target is indexed we need to work with a temp
-                  strcpy_s( szOperName, sizeof( szOperName ), "GetVariableFromAttribute" );
+                  strcpy_s( szOperName, zsizeof( szOperName ), "GetVariableFromAttribute" );
 
                   // add the get string. If it was left indexed, then lTempID will hold the temp generated to hold the left. If it was
                   // concatenate then lTempID will hold the temp for the GetfromAQ. either way we want to get into lTempid
@@ -2761,11 +2761,11 @@ fnOptTextExpr( zVIEW  vSubtask,
                      if ( vLeftView )
                      {
                         // copy the left into it
-                        CreateSourceZeidonStrOpS( vSubtask, vLeftView, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, szGlobalTempNumber, sizeof( szGlobalTempNumber ) );
+                        CreateSourceZeidonStrOpS( vSubtask, vLeftView, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, szGlobalTempNumber, zsizeof( szGlobalTempNumber ) );
                      }
                      else
                      {
-                        CreateSourceZeidonStrOpSWithID( vSubtask, sLeftStruct.lOffset, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, szGlobalTempNumber, sizeof( szGlobalTempNumber ) );
+                        CreateSourceZeidonStrOpSWithID( vSubtask, sLeftStruct.lOffset, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, szGlobalTempNumber, zsizeof( szGlobalTempNumber ) );
                      }
 
                      // Finally add the statement from the stack.
@@ -2777,19 +2777,19 @@ fnOptTextExpr( zVIEW  vSubtask,
                   // GlobalID is either a global variable generated as a temp or is the left itself.
                   CreateTargetZeidonStrOpWithID( vSubtask, lGlobalTempID, vTgt, "ZeidonStringConcat" );
 
-                  GetVariableLength( szGlobalTempNumber, sizeof( szGlobalTempNumber ), lGlobalTempID );
+                  GetVariableLength( szGlobalTempNumber, zsizeof( szGlobalTempNumber ), lGlobalTempID );
 
                   // concatenate the right element (the c in b c +)
                   if ( sRightStruct.lElementClass == qATTRIBUTEQUALIFIER )
                   {
-                     CreateSourceZeidonStrOpWithID( vSubtask, lTempID, vTgt, szGlobalTempNumber, sizeof( szGlobalTempNumber ) );
+                     CreateSourceZeidonStrOpWithID( vSubtask, lTempID, vTgt, szGlobalTempNumber, zsizeof( szGlobalTempNumber ) );
                   }
                   else
                   {
                      if ( vRightView != 0 )
-                        CreateSourceZeidonStrOp( vSubtask, vRightView, vTgt, szGlobalTempNumber, sizeof( szGlobalTempNumber ) );
+                        CreateSourceZeidonStrOp( vSubtask, vRightView, vTgt, szGlobalTempNumber, zsizeof( szGlobalTempNumber ) );
                      else
-                        CreateSourceZeidonStrOpWithID( vSubtask, sRightStruct.lOffset, vTgt, szGlobalTempNumber, sizeof( szGlobalTempNumber ) );
+                        CreateSourceZeidonStrOpWithID( vSubtask, sRightStruct.lOffset, vTgt, szGlobalTempNumber, zsizeof( szGlobalTempNumber ) );
                   }
                }
                // else it is not a +. Since we are dealing exclusively with strings in this operation,
@@ -2797,20 +2797,20 @@ fnOptTextExpr( zVIEW  vSubtask,
                else
                {
                   if ( sLeftStruct.lElementClass == qVARIABLE )
-                     lLth = GetVariableLength( szTempNumber, sizeof( szTempNumber ), sLeftStruct.lOffset );
+                     lLth = GetVariableLength( szTempNumber, zsizeof( szTempNumber ), sLeftStruct.lOffset );
                   else
                   {
                      lLth = zstrlen( sLeftStruct.szText );
-                     zltoa( lLth, szTempNumber, sizeof( szTempNumber ) );
+                     zltoa( lLth, szTempNumber, zsizeof( szTempNumber ) );
                   }
 
                   if ( sRightStruct.lElementClass != qATTRIBUTEQUALIFIER )
                   {
                      // if it is an equal we need to do a string copy
                      if ( sOperatorStruct.lOffset == qEQUAL )
-                        strcpy_s( szOperName, sizeof( szOperName ), "ZeidonStringCopy" );
+                        strcpy_s( szOperName, zsizeof( szOperName ), "ZeidonStringCopy" );
                      else // is cond operator
-                        strcpy_s( szOperName, sizeof( szOperName ), "ZeidonStringCompare" );
+                        strcpy_s( szOperName, zsizeof( szOperName ), "ZeidonStringCompare" );
 
                      if ( vLeftView != 0 )       //
                      {
@@ -2851,12 +2851,12 @@ fnOptTextExpr( zVIEW  vSubtask,
                         // if the right view exists,
                         if ( vRightView != 0 )
                         {
-                           CreateSourceZeidonStrOp( vSubtask, vRightView, vTgt, szTempNumber, sizeof( szTempNumber ) );
+                           CreateSourceZeidonStrOp( vSubtask, vRightView, vTgt, szTempNumber, zsizeof( szTempNumber ) );
                         }
                         // else, avoid errors by just using the id
                         else
                         {
-                           CreateSourceZeidonStrOpWithID( vSubtask, sRightStruct.lOffset, vTgt, szTempNumber, sizeof( szTempNumber ) );
+                           CreateSourceZeidonStrOpWithID( vSubtask, sRightStruct.lOffset, vTgt, szTempNumber, zsizeof( szTempNumber ) );
                         }
                      }
 
@@ -2882,14 +2882,14 @@ fnOptTextExpr( zVIEW  vSubtask,
                         else
                            lReturnLthID = 0;
 
-                        strcpy_s( szOperName, sizeof( szOperName ), "GetVariableFromAttribute" );
+                        strcpy_s( szOperName, zsizeof( szOperName ), "GetVariableFromAttribute" );
                         AddGetVariableFromAttribute( vSubtask, szOperName, lViewID, lReturnLthID, 0, sLeftStruct.lDataType, sLeftStruct.lOffset,
                                                      szEName, lEntityID, szAName, lAttributeID, 0, "", 0 );
                         break;
                      }
                      else // is cond operator
                      {
-                        strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToString" );
+                        strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToString" );
                         if ( sLeftStruct.lElementClass == qVARIABLE )
                         {
                            // If the sRightStruct.lDataType value is 0, then the type is unknown and we
@@ -2979,8 +2979,8 @@ fnOptTextExpr( zVIEW  vSubtask,
                if ( sOperatorStruct.lOffset == qADDITION )
                {
                   CreateTargetZeidonStrOpSWithID( vSubtask, lTempID, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, "ZeidonStringConcat" );
-                  GetVariableLength( szTempNumber, sizeof( szTempNumber ), lTempID );
-                  CreateSourceZeidonStrOpS( vSubtask, vRightView, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, szTempNumber, sizeof( szTempNumber ) );
+                  GetVariableLength( szTempNumber, zsizeof( szTempNumber ), lTempID );
+                  CreateSourceZeidonStrOpS( vSubtask, vRightView, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, szTempNumber, zsizeof( szTempNumber ) );
 
                   // Dump the statement from the stack.
                   AddOperatorToView( vSubtask, 0, -1 );
@@ -2995,7 +2995,7 @@ fnOptTextExpr( zVIEW  vSubtask,
                {
                   // We need to do a compare. Create the compare operation and put out
                   // the operator and 0
-                  strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToString" );
+                  strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToString" );
 
                   if ( sRightStruct.lElementClass == qCONSTANT )
                   {
@@ -3080,15 +3080,15 @@ fnOptTextExpr( zVIEW  vSubtask,
 /*  DonC change 1999.06.11   Old code used lTempIDR for length, which
     was for source variable. New code uses lTempID for length, which is
     for target variable.
-                  lLth = GetVariableLength( szTempNumber, sizeof( szTempNumber ), lTempIDR );
+                  lLth = GetVariableLength( szTempNumber, zsizeof( szTempNumber ), lTempIDR );
 */
-                  lLth = GetVariableLength( szTempNumber, sizeof( szTempNumber ), lTempID );
+                  lLth = GetVariableLength( szTempNumber, zsizeof( szTempNumber ), lTempID );
 
                   // add a get then a string concat
                   AddGetOrSetAttribute( vSubtask, "GetStringFromAttribute", lViewIDR, 0, sRightStruct.lDataType, lTempIDR, szEntityNameR, lEntityIDR,
                                         szAttributeNameR, lAttributeIDR, 0, "", 0, 0 );
                   CreateTargetZeidonStrOpSWithID( vSubtask, lTempID, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, "ZeidonStringConcat" );
-                  CreateSourceZeidonStrOpSWithID( vSubtask, lTempIDR, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, szTempNumber, sizeof( szTempNumber ) );
+                  CreateSourceZeidonStrOpSWithID( vSubtask, lTempIDR, szLocal7Code, &lLocal7Code, szLocal7Text, &lLocal7Text, szTempNumber, zsizeof( szTempNumber ) );
 
                   // Dump the expression from the stack.
                   AddOperatorToView( vSubtask, 0, -1 );
@@ -3103,12 +3103,12 @@ fnOptTextExpr( zVIEW  vSubtask,
                   {
                      if ( sOperatorStruct.lOffset == qEQUAL )
                      {
-                        strcpy_s( szOperName, sizeof( szOperName ), "SetAttributeFromAttribute" );
+                        strcpy_s( szOperName, zsizeof( szOperName ), "SetAttributeFromAttribute" );
                         AddCompareToView( vSubtask, vTgt, szOperName, &sLeftStruct, sLeftStruct.szText, &sRightStruct, sRightStruct.szText, 0 );
                      }
                      else
                      {
-                        strcpy_s( szOperName, sizeof( szOperName ), "CompareAttributeToAttribute" );
+                        strcpy_s( szOperName, zsizeof( szOperName ), "CompareAttributeToAttribute" );
                         AddCompareToView( vSubtask, vTgt, szOperName, &sLeftStruct, sLeftStruct.szText, &sRightStruct, sRightStruct.szText, 0 );
                         InsertExprNodeValuesToEntity( vTgt, qCONSTANT, qNUMERIC, qTINTEGER, 0, 0, "0", 0, zPOS_AFTER );
 
@@ -3932,7 +3932,7 @@ ExtractOperationCallWithView( zVIEW  vSubtask,
          else
          {
             // we got an attribute parameter
-            GetStringFromAttribute( szText, sizeof( szText ), vSrc, "ExprNode", "Text" );
+            GetStringFromAttribute( szText, zsizeof( szText ), vSrc, "ExprNode", "Text" );
 
             // split the parts out
             SplitQualifier( szText, g_szViewName, szEntityName, szAttributeName );
@@ -3972,20 +3972,20 @@ ExtractOperationCallWithView( zVIEW  vSubtask,
                   lLth = 1024;
 
                lVariableID = GenerateTempVariable( vSubtask, qTSTRING, lLth );
-               strcpy_s( szOperationName, sizeof( szOperationName ), "GetStringFromAttribute" );
+               strcpy_s( szOperationName, zsizeof( szOperationName ), "GetStringFromAttribute" );
             }
             else
             if ( lDataType == qTDECIMAL )
             {
                lVariableID = GenerateTempVariable( vSubtask, qTDECIMAL, 4 );
-               strcpy_s( szOperationName, sizeof( szOperationName ), "GetDecimalFromAttribute" );
+               strcpy_s( szOperationName, zsizeof( szOperationName ), "GetDecimalFromAttribute" );
             }
             else
             if ( lDataType == qTCHARACTER )
             {
                lLth = 2;
                lVariableID = GenerateTempVariable( vSubtask, qTCHARACTER, lLth );
-               strcpy_s( szOperationName, sizeof( szOperationName ), "GetStringFromAttribute" );
+               strcpy_s( szOperationName, zsizeof( szOperationName ), "GetStringFromAttribute" );
             }
             else
             if ( lDataType == qTDATE )
@@ -3994,7 +3994,7 @@ ExtractOperationCallWithView( zVIEW  vSubtask,
                // A datetime string has a maximum of 17 chars.
                lLth = 18;
                lVariableID = GenerateTempVariable( vSubtask, qTSTRING, lLth );
-               strcpy_s( szOperationName, sizeof( szOperationName ), "GetStringFromAttribute" );
+               strcpy_s( szOperationName, zsizeof( szOperationName ), "GetStringFromAttribute" );
 
                // reset data type to character ... date is not handled correctly by the
                // interpreter or the C generator
@@ -4003,7 +4003,7 @@ ExtractOperationCallWithView( zVIEW  vSubtask,
             else
             {
                lVariableID = GenerateTempVariable( vSubtask, qTINTEGER, 4 );
-               strcpy_s( szOperationName, sizeof( szOperationName ), "GetIntegerFromAttribute" );
+               strcpy_s( szOperationName, zsizeof( szOperationName ), "GetIntegerFromAttribute" );
             }
 
             AddGetOrSetAttributeWithString( vSubtask, szOperationName, lViewID, 0, lDataType,

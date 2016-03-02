@@ -124,7 +124,7 @@ void MSJExceptionHandler::GenerateExceptionReport(
     DWORD section, offset;
     GetLogicalAddress(  pExceptionRecord->ExceptionAddress,
                         szFaultingModule,
-                        sizeof( szFaultingModule ),
+                        zsizeof( szFaultingModule ),
                         section, offset );
 
     _tprintf( _T("Fault address:  %08X %02X:%08X %s\n"),
@@ -209,7 +209,7 @@ LPTSTR MSJExceptionHandler::GetExceptionString( DWORD dwCode )
 
     FormatMessage(  FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_HMODULE,
                     GetModuleHandle( _T("NTDLL.DLL") ),
-                    dwCode, 0, szBuffer, sizeof( szBuffer ), 0 );
+                    dwCode, 0, szBuffer, zsizeof( szBuffer ), 0 );
 
     return szBuffer;
 }
@@ -226,7 +226,7 @@ BOOL MSJExceptionHandler::GetLogicalAddress(
 {
     MEMORY_BASIC_INFORMATION mbi;
 
-    if ( !VirtualQuery( addr, &mbi, sizeof(mbi) ) )
+    if ( !VirtualQuery( addr, &mbi, zsizeof(mbi) ) )
         return FALSE;
 
     DWORD hMod = (DWORD)mbi.AllocationBase;
@@ -288,7 +288,7 @@ void MSJExceptionHandler::IntelStackWalk( PCONTEXT pContext )
         TCHAR szModule[MAX_PATH] = _T("");
         DWORD section = 0, offset = 0;
 
-        GetLogicalAddress((PVOID)pc, szModule,sizeof(szModule),section,offset );
+        GetLogicalAddress((PVOID)pc, szModule,zsizeof(szModule),section,offset );
 
         _tprintf( _T("%08X  %08X  %04X:%08X %s\n"),
                     pc, pFrame, section, offset, szModule );
@@ -306,7 +306,7 @@ void MSJExceptionHandler::IntelStackWalk( PCONTEXT pContext )
             break;
 
         // Can two DWORDs be read from the supposed frame address?
-        if ( IsBadWritePtr(pFrame, sizeof(PVOID)*2) )
+        if ( IsBadWritePtr(pFrame, zsizeof(PVOID)*2) )
             break;
 
     } while ( 1 );
@@ -324,7 +324,7 @@ void MSJExceptionHandler::ImagehlpStackWalk( PCONTEXT pContext )
     // Could use SymSetOptions here to add the SYMOPT_DEFERRED_LOADS flag
 
     STACKFRAME sf;
-    memset( &sf, 0, sizeof(sf) );
+    memset( &sf, 0, zsizeof(sf) );
 
     // Initialize the STACKFRAME structure for the first call.  This is only
     // necessary for Intel CPUs, and isn't mentioned in the documentation.
@@ -356,14 +356,14 @@ void MSJExceptionHandler::ImagehlpStackWalk( PCONTEXT pContext )
         // IMAGEHLP is wacky, and requires you to pass in a pointer to a
         // IMAGEHLP_SYMBOL structure.  The problem is that this structure is
         // variable length.  That is, you determine how big the structure is
-        // at runtime.  This means that you can't use sizeof(struct).
+        // at runtime.  This means that you can't use zsizeof(struct).
         // So...make a buffer that's big enough, and make a pointer
         // to the buffer.  We also need to initialize not one, but TWO
         // members of the structure before it can be used.
 
-        BYTE symbolBuffer[ sizeof(IMAGEHLP_SYMBOL) + 512 ];
+        BYTE symbolBuffer[ zsizeof(IMAGEHLP_SYMBOL) + 512 ];
         PIMAGEHLP_SYMBOL pSymbol = (PIMAGEHLP_SYMBOL)symbolBuffer;
-        pSymbol->SizeOfStruct = sizeof(symbolBuffer);
+        pSymbol->SizeOfStruct = zsizeof(symbolBuffer);
         pSymbol->MaxNameLength = 512;
 
         DWORD symDisplacement = 0;  // Displacement of the input address,
@@ -381,7 +381,7 @@ void MSJExceptionHandler::ImagehlpStackWalk( PCONTEXT pContext )
             DWORD section = 0, offset = 0;
 
             GetLogicalAddress(  (PVOID)sf.AddrPC.Offset,
-                                szModule, sizeof(szModule), section, offset );
+                                szModule, zsizeof(szModule), section, offset );
 
             _tprintf( _T("%04X:%08X %s\n"),
                         section, offset, szModule );
@@ -405,7 +405,7 @@ int __cdecl MSJExceptionHandler::_tprintf(const TCHAR * format, ...)
     retValue = wvsprintf( szBuff, format, argptr );
     va_end( argptr );
 
-    WriteFile( m_hReportFile, szBuff, retValue * sizeof(TCHAR), &cbWritten, 0 );
+    WriteFile( m_hReportFile, szBuff, retValue * zsizeof(TCHAR), &cbWritten, 0 );
 
     return retValue;
 }

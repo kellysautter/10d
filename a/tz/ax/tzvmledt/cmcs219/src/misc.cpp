@@ -36,7 +36,7 @@ BOOL RegisterLineToolTip()
     wc.style = 0;
     wc.lpfnWndProc = ( WNDPROC )LineToolTipWndProc;
     wc.cbClsExtra = 0;
-    wc.cbWndExtra = sizeof( LPVOID );
+    wc.cbWndExtra = zsizeof( LPVOID );
     wc.hInstance = hInstance;
     wc.hIcon = NULL;
     wc.hCursor = NULL;
@@ -134,7 +134,7 @@ LRESULT PASCAL LineToolTipWndProc(HWND hWnd, register UINT uMsg, register WPARAM
          DeleteObject( hbr );
          SetBkMode( ps.hdc, TRANSPARENT );
          LOGFONT lf;
-         VERIFY( GetObject( GetStockObject( DEFAULT_GUI_FONT ), sizeof( lf ), &lf ) );
+         VERIFY( GetObject( GetStockObject( DEFAULT_GUI_FONT ), zsizeof( lf ), &lf ) );
          lf.lfHeight = -MulDiv( 8, GetDeviceCaps( ps.hdc, LOGPIXELSY ), 72 );
          lf.lfWidth = 0;
          HFONT hFont = CreateFontIndirect( &lf );
@@ -534,7 +534,7 @@ LPTSTR BSTR2TSTR( BSTR str )
 #ifdef _UNICODE
    LPTSTR psz = new TCHAR[ nLen + 1 ];
    ASSERT( psz );
-   memcpy( psz, bstr, nLen * sizeof( TCHAR ) );
+   memcpy( psz, bstr, nLen * zsizeof( TCHAR ) );
    psz[ nLen ] = _T('\0');
 #else
    int nBytes = WideCharToMultiByte( CP_ACP, 0, str, nLen, NULL, NULL, NULL,NULL );
@@ -1129,7 +1129,7 @@ inline BOOL HasFont(const DLGTEMPLATE* pTemplate)
 
 inline int FontAttrSize(BOOL bDialogEx)
 {
-   return sizeof(WORD) * (bDialogEx ? 3 : 1);
+   return zsizeof(WORD) * (bDialogEx ? 3 : 1);
 }
 CDialogTemplate::CDialogTemplate(const DLGTEMPLATE* pTemplate)
 {
@@ -1246,20 +1246,20 @@ UINT __cdecl CDialogTemplate::GetTemplateSize(const DLGTEMPLATE* pTemplate)
    {
       pb = (BYTE*)(((DWORD)pb + 3) & ~3); // DWORD align
 
-      pb += (bDialogEx ? sizeof(DLGITEMTEMPLATEEX) : sizeof(DLGITEMTEMPLATE));
+      pb += (bDialogEx ? zsizeof(DLGITEMTEMPLATEEX) : zsizeof(DLGITEMTEMPLATE));
 
       if (*(WORD*)pb == (WORD)-1)     // Skip class name string or ordinal
-         pb += 2 * sizeof(WORD);
+         pb += 2 * zsizeof(WORD);
       else
          pb = (BYTE*)_SkipString((WCHAR*)pb);
 
       if (*(WORD*)pb == (WORD)-1)     // Skip text string or ordinal
-         pb += 2 * sizeof(WORD);
+         pb += 2 * zsizeof(WORD);
       else
          pb = (BYTE*)_SkipString((WCHAR*)pb);
 
       WORD cbExtra = *(WORD*)pb;      // Skip extra data
-      pb += sizeof(WORD) + cbExtra;
+      pb += zsizeof(WORD) + cbExtra;
       --nCtrl;
    }
 
@@ -1285,7 +1285,7 @@ BOOL CDialogTemplate::SetFont(LPCTSTR lpFaceName, WORD nFontSize)
       pTemplate->style |= DS_SETFONT;
 
 #ifdef _UNICODE
-   int cbNew = cbFontAttr + ((_tcslen(lpFaceName) + 1) * sizeof(TCHAR));
+   int cbNew = cbFontAttr + ((_tcslen(lpFaceName) + 1) * zsizeof(TCHAR));
    BYTE* pbNew = (BYTE*)lpFaceName;
 #else
    WCHAR wszFaceName [LF_FACESIZE];
@@ -1325,7 +1325,7 @@ BOOL CDialogTemplate::SetSystemFont(WORD wSize)
    LOGFONT lf;
    if (hFont != NULL)
    {
-      if (::GetObject(hFont, sizeof(LOGFONT), &lf) != 0)
+      if (::GetObject(hFont, zsizeof(LOGFONT), &lf) != 0)
       {
          pszFace = lf.lfFaceName;
          HDC hDC = ::GetDC(NULL);

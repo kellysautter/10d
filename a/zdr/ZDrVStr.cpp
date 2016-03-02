@@ -2181,26 +2181,26 @@ main( )
    szStr3[ 0 ] = 0;
    lRC = ZeidonStringCopy( szStr1, 1, 0, szStr4, 1, 8, 8 );
    TraceLineS( "Zeidon_Tools .9a", szStr1 );
-   lRC = ZeidonStringCopy( szStr1, 1, 0, szStr4, 1, 0, sizeof( szStr1 ) );
-   lRC = ZeidonStringCopy( szStr1, 1, 0, "A", 1, 0, sizeof( szStr1 ) );
+   lRC = ZeidonStringCopy( szStr1, 1, 0, szStr4, 1, 0, zsizeof( szStr1 ) );
+   lRC = ZeidonStringCopy( szStr1, 1, 0, "A", 1, 0, zsizeof( szStr1 ) );
    lRC = ZeidonStringCopy( szStr2, 1, 0,
                            "1234567890abcdefghijklmnopqrstuvwxyz",
-                           1, 0, sizeof( szStr2 ) );
-   lRC = ZeidonStringCopy( szStr2, 1, 0, szStr5, 1, 0, sizeof( szStr2 ) );
+                           1, 0, zsizeof( szStr2 ) );
+   lRC = ZeidonStringCopy( szStr2, 1, 0, szStr5, 1, 0, zsizeof( szStr2 ) );
 
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "A", 1, 0, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "A", 1, 0, zsizeof( szStr1 ) );
    TraceLineI( "String Compare Returned (0)", lRC );
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "B", 1, 0, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "B", 1, 0, zsizeof( szStr1 ) );
    TraceLineI( "String Compare Returned (!0)", lRC );
 
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "AAA", 1, 0, sizeof( szStr1 ) );
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "AxA", 1, 0, sizeof( szStr1 ) );
-   lRC = ZeidonStringCompare( "", 1, 0, "AxA", 1, 0, sizeof( szStr1 ) );
-   lRC = ZeidonStringCompare( "", 1, 0, "", 1, 0, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "AAA", 1, 0, zsizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "AxA", 1, 0, zsizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( "", 1, 0, "AxA", 1, 0, zsizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( "", 1, 0, "", 1, 0, zsizeof( szStr1 ) );
    lRC = ZeidonStringCompare( "WWWW", 1, 0, "", 1, 0, 100 );
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "AABxA", 1, 2, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "AABxA", 1, 2, zsizeof( szStr1 ) );
 
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "ABAxA", 1, 2, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "ABAxA", 1, 2, zsizeof( szStr1 ) );
 
    return( 0 );
 }

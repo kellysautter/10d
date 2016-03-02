@@ -271,17 +271,17 @@ fnAllowBinaryDataInSourceMetaFiles( zVIEW lpTaskView )
    zCHAR szBuffer[ 256 ];
 
    szBuffer[ 0 ] = 0;
-   SysReadZeidonIni( -1, "[Workstation]", "LocalDir", szFileName, sizeof( szFileName ) );
+   SysReadZeidonIni( -1, "[Workstation]", "LocalDir", szFileName, zsizeof( szFileName ) );
    if ( szFileName[ 0 ] )
    {
       SysAppendcDirSep( szFileName );
-      strcat_s( szFileName, sizeof( szFileName ), "ZeidonRT.ini" );
-      GetPrivateProfileString( "ZeidonTools", "AllowBinaryDataInSourceMetaFiles", "", szBuffer, sizeof( szBuffer ), szFileName );
+      strcat_s( szFileName, zsizeof( szFileName ), "ZeidonRT.ini" );
+      GetPrivateProfileString( "ZeidonTools", "AllowBinaryDataInSourceMetaFiles", "", szBuffer, zsizeof( szBuffer ), szFileName );
    }
 
    if ( szBuffer[ 0 ] == 0 )
    {
-      SysReadZeidonIni( -1, "[ZeidonTools]", "AllowBinaryDataInSourceMetaFiles", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ZeidonTools]", "AllowBinaryDataInSourceMetaFiles", szBuffer, zsizeof( szBuffer ) );
    }
 
    if ( szBuffer[ 0 ] == 'N' || szBuffer[ 0 ] == 'n' )
@@ -314,7 +314,7 @@ fnGetDirectorySpec( zVIEW vSubtask, zPCHAR pchDirectorySpec, zLONG lMaxLth, zLON
       return( -1 );
    }
 
-   GetStringFromAttribute( szWork, sizeof( szWork ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szWork, zsizeof( szWork ), vTaskLPLR, "LPLR", "MetaSrcDir" );
    if ( bConvertEnvironment )
       SysConvertEnvironmentString( pchDirectorySpec, lMaxLth, szWork );
    else
@@ -398,7 +398,7 @@ InitializeLPLR( zVIEW  vSubtask,
       zCHAR szDialogName[ 200 ];
 
       // Retrieve name of the task.
-      SfGetTaskInfo( szDialogName, sizeof( szDialogName ), zTASK_DIALOG, lpTask );
+      SfGetTaskInfo( szDialogName, zsizeof( szDialogName ), zTASK_DIALOG, lpTask );
 
       // We don't allow the Workstation Admin tool, TZCMLPLD, to be running,
       // unless it is the current task.
@@ -433,7 +433,7 @@ InitializeLPLR( zVIEW  vSubtask,
       SetNameForView( vActiveMetas, "OpenCM_Metas", vZeidonCM, zLEVEL_SUBTASK );
    }
 
-   fnGetTaskOI_ListName( vSubtask, szLPLR_Name, sizeof( szLPLR_Name ) );
+   fnGetTaskOI_ListName( vSubtask, szLPLR_Name, zsizeof( szLPLR_Name ) );
    GetViewByName( &vTaskMetas, szLPLR_Name, vZeidonCM, zLEVEL_SUBTASK );
    if ( vTaskMetas == 0 )
    {
@@ -446,21 +446,21 @@ InitializeLPLR( zVIEW  vSubtask,
    {
       if ( oTZCMWKSO_ActivateWorkStation( &WKS_View, vZeidonCM, zSINGLE | zLEVEL_APPLICATION | zIGNORE_ATTRIB_ERRORS ) != 0 )
       {
-         strcpy_s( szErrMsg, sizeof( szErrMsg ), "Unable to open the RepositoryClient File - " );
-         GetStringFromAttribute( szErrMsg + zstrlen( szErrMsg ), sizeof( szErrMsg ) - zstrlen( szErrMsg ), WKS_View, "LPLR", "Name" );
+         strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Unable to open the RepositoryClient File - " );
+         GetStringFromAttribute( szErrMsg + zstrlen( szErrMsg ), zsizeof( szErrMsg ) - zstrlen( szErrMsg ), WKS_View, "LPLR", "Name" );
          MessageSend( vSubtask, "CM00402", "Configuration Management",
                       szErrMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
-         strcpy_s( szErrMsg, sizeof( szErrMsg ), "If you are a new user use the LPLR Dialog" );
-         strcat_s( szErrMsg, sizeof( szErrMsg ),
+         strcpy_s( szErrMsg, zsizeof( szErrMsg ), "If you are a new user use the LPLR Dialog" );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ),
                   "\nto initialize the Repository Client. Otherwise," );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), "\npossible reasons for your being unable to open" );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), "\nthe Repository Client are:\n" );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), "\n1: The Repository Client File exists but" );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), "\n   cannot be activated." );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), "\n2: The Repository Client File exists but" );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), "\n   is not in the directory identified by the" );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), "\n      ZEIDON environment variable." );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\npossible reasons for your being unable to open" );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\nthe Repository Client are:\n" );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\n1: The Repository Client File exists but" );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\n  cannot be activated." );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\n2: The Repository Client File exists but" );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\n  is not in the directory identified by the" );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\n     ZEIDON environment variable." );
          MessageSend( vSubtask, "CM00403", "Configuration Management",
                       szErrMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -492,13 +492,13 @@ InitializeLPLR( zVIEW  vSubtask,
          }
          else
          {
-            //strcpy_s( szErrMsg, sizeof( szErrMsg ), "Unable to ActivateDefaultLPL because" );
-            //strcat_s( szErrMsg, sizeof( szErrMsg ), " no LPL Releases defined for Client." );
-            //strcat_s( szErrMsg, sizeof( szErrMsg ), "\nUse LPLR Dialog to define LPLR's" );
+            //strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Unable to ActivateDefaultLPL because" );
+            //strcat_s( szErrMsg, zsizeof( szErrMsg ), " no LPL Releases defined for Client." );
+            //strcat_s( szErrMsg, zsizeof( szErrMsg ), "\nUse LPLR Dialog to define LPLR's" );
             // KJS 03/27/13 - I don't feel that the above message makes much sense to a new
             // zeidon user so I am changing it.
-            strcpy_s( szErrMsg, sizeof( szErrMsg ), "Unable to activate a default project because no projects exist.\n" );
-            strcat_s( szErrMsg, sizeof( szErrMsg ), "Please create a new project." );
+            strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Unable to activate a default project because no projects exist.\n" );
+            strcat_s( szErrMsg, zsizeof( szErrMsg ), "Please create a new project." );
             MessageSend( vSubtask, "CM00406", "Configuration Management",
                          szErrMsg,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -507,14 +507,14 @@ InitializeLPLR( zVIEW  vSubtask,
       }
    }
 
-   GetStringFromAttribute( szLPLR_Name, sizeof( szLPLR_Name ), WKS_View, "LPLR", "Name" );
-   GetStringFromAttribute( szErrMsg, sizeof( szErrMsg ), WKS_View, "LPLR", "ExecDir" ); // borrow szErrMsg for a sec...
-   SysConvertEnvironmentString( szLPLR_Spec, sizeof( szLPLR_Spec ), szErrMsg );
+   GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), WKS_View, "LPLR", "Name" );
+   GetStringFromAttribute( szErrMsg, zsizeof( szErrMsg ), WKS_View, "LPLR", "ExecDir" ); // borrow szErrMsg for a sec...
+   SysConvertEnvironmentString( szLPLR_Spec, zsizeof( szLPLR_Spec ), szErrMsg );
    ofnTZCMWKSO_AppendSlash( szLPLR_Spec );
-   strncpy_s( szLPLR_FileName, sizeof( szLPLR_FileName ), szLPLR_Name, sizeof( szLPLR_FileName ) - 1 );
+   strncpy_s( szLPLR_FileName, zsizeof( szLPLR_FileName ), szLPLR_Name, zsizeof( szLPLR_FileName ) - 1 );
    //TruncateName8( szLPLR_FileName );
-   strcat_s( szLPLR_Spec, sizeof( szLPLR_Spec ), szLPLR_FileName );
-   strcat_s( szLPLR_Spec, sizeof( szLPLR_Spec ), ".XLP" );
+   strcat_s( szLPLR_Spec, zsizeof( szLPLR_Spec ), szLPLR_FileName );
+   strcat_s( szLPLR_Spec, zsizeof( szLPLR_Spec ), ".XLP" );
    nRC = GetViewByName( &vLPLR, szLPLR_Name, vZeidonCM, zLEVEL_SUBTASK );
    if ( vLPLR == 0 )  // view isn't there
    {
@@ -573,9 +573,9 @@ InitializeLPLR( zVIEW  vSubtask,
          SetNameForView( vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
       else
       {
-         strcpy_s( szErrMsg, sizeof( szErrMsg ), "The default Project File " );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), szLPLR_Spec );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), "\nwas not found! Please check the Project Information." );
+         strcpy_s( szErrMsg, zsizeof( szErrMsg ), "The default Project File " );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), szLPLR_Spec );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\nwas not found! Please check the Project Information." );
          MessageSend( vSubtask, "CM00406", "Configuration Management",
                       szErrMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -692,15 +692,15 @@ TerminateLPLR( zVIEW vSubtask )
    }
 
    GetViewByName( &vActiveMetas, "OpenCM_Metas", vZeidonCM, zLEVEL_SUBTASK );
-   GetStringFromAttribute( szViewName, sizeof( szViewName ), vLPLR, "LPLR", "Name" );
+   GetStringFromAttribute( szViewName, zsizeof( szViewName ), vLPLR, "LPLR", "Name" );
    if ( SetCursorFirstEntityByString( vActiveMetas, "LPLR", "Name", szViewName, "" ) < zCURSOR_SET )
    {
       zCHAR  szMsg[ 512 ];
 
       // It is possible that this problem occurs because the ZKey in TZCMWKS8.POR for the specified LPLR does not match
       // the ZKey in the .XLP for the LPLR.  If that's the case, fix the ZKey in TZCMWKS8.POR!
-      strcpy_s( szMsg, sizeof( szMsg ), "Unable to locate Project in CM ACTIVE view: " );
-      strcat_s( szMsg, sizeof( szMsg ), szViewName );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to locate Project in CM ACTIVE view: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szViewName );
       MessageSend( vSubtask, "CM00411", "Configuration Management",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -711,14 +711,14 @@ TerminateLPLR( zVIEW vSubtask )
    nRC = SetCursorFirstEntityByInteger( vActiveMetas, "W_MetaDef", "TaskID", lTaskID, "LPLR" );
    while ( (nRC == zCURSOR_SET) || (nRC == zCURSOR_SET_NEWPARENT) )
    {
-      GetStringFromAttribute( szViewName, sizeof( szViewName ), vActiveMetas,
+      GetStringFromAttribute( szViewName, zsizeof( szViewName ), vActiveMetas,
                               "W_MetaDef", "CM_ViewName" );
-      strcat_s( szViewName, sizeof( szViewName ), ".u" );
+      strcat_s( szViewName, zsizeof( szViewName ), ".u" );
       GetViewByName( &WorkView, szViewName, vZeidonCM, zLEVEL_SUBTASK );
       if ( WorkView )
          DropObjectInstance( WorkView );
 
-      strcpy_s( szViewName + zstrlen( szViewName ) - 2, sizeof( szViewName ) - zstrlen( szViewName ) + 2, ".r" );
+      strcpy_s( szViewName + zstrlen( szViewName ) - 2, zsizeof( szViewName ) - zstrlen( szViewName ) + 2, ".r" );
       if ( GetViewByName( &WorkView, szViewName, vZeidonCM, zLEVEL_SUBTASK ) > 0 )
       {
          SetAttributeFromString( vActiveMetas, "W_MetaDef", "TaskID", "" );
@@ -731,7 +731,7 @@ TerminateLPLR( zVIEW vSubtask )
       nRC = SetCursorNextEntityByInteger( vActiveMetas, "W_MetaDef", "TaskID", lTaskID, "LPLR" );
    }
 
-   fnGetTaskOI_ListName( vSubtask, szViewName, sizeof( szViewName ) );
+   fnGetTaskOI_ListName( vSubtask, szViewName, zsizeof( szViewName ) );
    GetViewByName( &vTaskMetas, szViewName, vZeidonCM, zLEVEL_SUBTASK );
    if ( vTaskMetas )
    {
@@ -756,8 +756,8 @@ TerminateLPLR( zVIEW vSubtask )
       nRC = SetCursorFirstEntity( vActiveMetas, "W_MetaDef", "LPLR" );
       while ( nRC == zCURSOR_SET )
       {
-         GetStringFromAttribute( szViewName, sizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-         strcat_s( szViewName, sizeof( szViewName ), ".u" );
+         GetStringFromAttribute( szViewName, zsizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+         strcat_s( szViewName, zsizeof( szViewName ), ".u" );
          if ( GetViewByName( &WorkView, szViewName, vZeidonCM, zLEVEL_SUBTASK ) > 0 )
          {
             DropObjectInstance( WorkView );
@@ -835,7 +835,7 @@ RetrieveViewForMetaList( zVIEW  vSubtask,
          return( -1 );
       }
 
-      fnGetTaskOI_ListName( vSubtask, szName, sizeof( szName ) ); // __CM.800013b8
+      fnGetTaskOI_ListName( vSubtask, szName, zsizeof( szName ) ); // __CM.800013b8
       GetViewByName( &vTaskMetas, szName, vZeidonCM, zLEVEL_SUBTASK );
       if ( vTaskMetas == 0 )
       {
@@ -854,7 +854,7 @@ RetrieveViewForMetaList( zVIEW  vSubtask,
 
          SetViewToSubobject( *lpListView, "W_MetaType" );
          szName[ 0 ] = 'l';
-         zltoa( *((zPLONG) lpListView), szName + 1, sizeof( szName ) - 1 );
+         zltoa( *((zPLONG) lpListView), szName + 1, zsizeof( szName ) - 1 );
          SetNameForView( *lpListView, szName, vTaskMetas, zLEVEL_SUBTASK | zNAME_AUTODROP );
          return( 1 );
       }
@@ -958,7 +958,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
    // I need the view to the TaskLPLR to get the name of the root LPLR in the ActiveMeta OI.
    // It is also needed to properly qualify the task for vWkListView.
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szLPLR_Name, sizeof( szLPLR_Name ), vTaskLPLR, "LPLR", "Name" ); // e.g. Zeidon
+   GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), vTaskLPLR, "LPLR", "Name" ); // e.g. Zeidon
 
    // The following code changes the Type for Domain and Global Operation
    // Activates into Domain Group and Global Operation Group Activates.
@@ -991,7 +991,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
 
       // Then position on the correct Domain within the group type.
    // SetCursorFirstEntityByAttr( vWkListView, "W_MetaDef", "Name", vListView, "W_MetaDef", "GroupName", "" );
-      GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vListView, "W_MetaDef", "GroupName" );
+      GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vListView, "W_MetaDef", "GroupName" );
       SetCursorFirstEntityByString( vWkListView, "W_MetaDef", "Name", szGroupName, "" );
    }
 
@@ -1010,7 +1010,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
 
       // Then position on the correct Operation within the group type.
    // SetCursorFirstEntityByAttr( vWkListView, "W_MetaDef", "Name", vListView, "W_MetaDef", "GroupName", "" );
-      GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vListView, "W_MetaDef", "GroupName" );
+      GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vListView, "W_MetaDef", "GroupName" );
       SetCursorFirstEntityByString( vWkListView, "W_MetaDef", "Name", szGroupName, "" );
    }
 
@@ -1045,7 +1045,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
    GetViewByName( &vZeidonCM, "ZeidonCM", vSubtask, zLEVEL_APPLICATION );
 
    // Get the view to the vTaskMetas subtask.
-   fnGetTaskOI_ListName( vSubtask, szMetaOI_Name, sizeof( szMetaOI_Name ) );
+   fnGetTaskOI_ListName( vSubtask, szMetaOI_Name, zsizeof( szMetaOI_Name ) );
    GetViewByName( &vTaskMetas, szMetaOI_Name, vZeidonCM, zLEVEL_SUBTASK );
 
    // Get the view to the ActiveMeta OI.
@@ -1067,11 +1067,11 @@ fnActivateMetaOI( zVIEW   vSubtask,
    if ( nRC == zCURSOR_SET )
    {
       // It is in the Active List, now check if it's really still active.
-      GetStringFromAttribute( szCM_ViewName, sizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+      GetStringFromAttribute( szCM_ViewName, zsizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
       GetIntegerFromAttribute( &lTaskID, vActiveMetas, "W_MetaDef", "TaskID" );
       if ( nEntityType == CM_REFER_TYPE )
       {
-         strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".r" );
+         strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".r" );
          if ( GetViewByName( &CM_View, szCM_ViewName, vZeidonCM, zLEVEL_SUBTASK ) < 1 )
          {
             // It's in vActiveMetas but it's not loaded for REFER.
@@ -1094,7 +1094,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
       else
       {
          // Requesting an Update View.
-         strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".u" );
+         strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".u" );
          if ( GetViewByName( &CM_View, szCM_ViewName, vZeidonCM, zLEVEL_SUBTASK ) < 1 )
          {
             // It's in vActiveMetas but it's not loaded for UPDATE.
@@ -1162,8 +1162,8 @@ fnActivateMetaOI( zVIEW   vSubtask,
       if ( nEntityType == CM_REFER_TYPE )
       {
          // The view may still be hanging around if Zeidon was still open.
-         GetStringFromAttribute( szCM_ViewName, sizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-         strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".r" );
+         GetStringFromAttribute( szCM_ViewName, zsizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+         strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".r" );
          if ( GetViewByName( &CM_View, szCM_ViewName, vZeidonCM, zLEVEL_SUBTASK ) > 0 )
          {
             // It's loaded for REFER so set the flag so it's not reactivated.
@@ -1179,7 +1179,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
       ResetView( *pvMOI );
 
       szCM_ViewName[ 0 ] = 'r';
-      zltoa( *((zPLONG) pvMOI), szCM_ViewName + 1, sizeof( szCM_ViewName ) - 1 );
+      zltoa( *((zPLONG) pvMOI), szCM_ViewName + 1, zsizeof( szCM_ViewName ) - 1 );
       SetNameForView( *pvMOI, szCM_ViewName, vTaskMetas, zLEVEL_SUBTASK | zNAME_AUTODROP );
 
 #if 0
@@ -1260,9 +1260,9 @@ fnActivateMetaOI( zVIEW   vSubtask,
       // Retrieve the name of the LOD for meta type we are activating.  Note
       // that the LOD name may be changed in the following 'switch' code.
       if ( nEntityType == CM_ACTIVE_TYPE )
-         strcpy_s( szMetaOI_Def, sizeof( szMetaOI_Def ), SRC_CMOD[ nType ].szOD );
+         strcpy_s( szMetaOI_Def, zsizeof( szMetaOI_Def ), SRC_CMOD[ nType ].szOD );
       else
-         strcpy_s( szMetaOI_Def, sizeof( szMetaOI_Def ), REFER_CMOD[ nType - 2000 ].szOD );
+         strcpy_s( szMetaOI_Def, zsizeof( szMetaOI_Def ), REFER_CMOD[ nType - 2000 ].szOD );
 
       // Find the name of the portable file containing the OI.
       switch ( nActiveType )
@@ -1273,7 +1273,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
             break;
 
          default:
-            GetStringFromAttribute( szMetaOI_Name, sizeof( szMetaOI_Name ), vWkListView, "W_MetaDef", "Name" );
+            GetStringFromAttribute( szMetaOI_Name, zsizeof( szMetaOI_Name ), vWkListView, "W_MetaDef", "Name" );
             //TruncateName8( szMetaOI_Name );
             break;
 
@@ -1282,20 +1282,20 @@ fnActivateMetaOI( zVIEW   vSubtask,
       //BL, 2000.01.13 Load PPE from LPLR, not from system directory
       //               if PPE does not exist in LPLR, then we call the
       //               Function ActivateOI_FromFile, not ActivateMetaOI
-      fnGetDirectorySpec( vSubtask, szTempSpec, sizeof( szTempSpec ), nType, FALSE ); // for CompilerSpec, needed to use vSubtask
+      fnGetDirectorySpec( vSubtask, szTempSpec, zsizeof( szTempSpec ), nType, FALSE ); // for CompilerSpec, needed to use vSubtask
 #if 0
       // We will get PEs from the system directory and others from the LPLR.
       if ( nActiveType == zSOURCE_PENV_META )
          zgGetZeidonToolsDir( vSubtask, szTempSpec, zAPPL_DIR_OBJECT );
       else
-         fnGetDirectorySpec( szTempSpec, sizeof( szTempSpec ), nType, TRUE );
+         fnGetDirectorySpec( szTempSpec, zsizeof( szTempSpec ), nType, TRUE );
 #endif
-      SysConvertEnvironmentString( szFileSpec, sizeof( szFileSpec ), szTempSpec );
-      strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_Name );
+      SysConvertEnvironmentString( szFileSpec, zsizeof( szFileSpec ), szTempSpec );
+      strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_Name );
       if ( nEntityType == CM_ACTIVE_TYPE )
-         strcat_s( szFileSpec, sizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
       else
-         strcat_s( szFileSpec, sizeof( szFileSpec ), REFER_CMOD[ nType - 2000 ].szOD_EXT );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), REFER_CMOD[ nType - 2000 ].szOD_EXT );
 
       // DGC 10/4/95  Added zIGNORE_ERRORS to ignore activation errors (we
       // wanted to ignore a known error). This should be removed at some point.
@@ -1308,7 +1308,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
       {
          zCHAR szMsg[ zLONG_MESSAGE_LTH + 1 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Error activating OI from file: %s", szFileSpec );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Error activating OI from file: %s", szFileSpec );
          MessageSend( vSubtask, "CM00420", "Configuration Management",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1319,16 +1319,16 @@ fnActivateMetaOI( zVIEW   vSubtask,
    // Recreate the view name either for read-only or update.  nPhaseCtl is used
    // by the PostActivate code--it indicates whether we are activating the meta
    // for read-only or update.
-   GetStringFromAttribute( szCM_ViewName, sizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+   GetStringFromAttribute( szCM_ViewName, zsizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
    if ( nEntityType == CM_REFER_TYPE )
    {
       nPhaseCtl = 1;
-      strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".r" );
+      strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".r" );
    }
    else
    {
       nPhaseCtl = 0;
-      strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".u" );
+      strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".u" );
    }
 
    // Name the new view.  The view is for the Zeidon system.
@@ -1357,7 +1357,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
             nRC = SetCursorNextEntity( vTempLOD, "LOD_Entity", 0 ) )
       {
          GetIntegerFromAttribute( &lLevel, vTempLOD, "LOD_Entity", "IndentLvl" );
-         GetStringFromAttribute( szIndentName, sizeof( szIndentName ), vTempLOD, "LOD_Entity", "IndentName" );
+         GetStringFromAttribute( szIndentName, zsizeof( szIndentName ), vTempLOD, "LOD_Entity", "IndentName" );
          if ( (lLevel > 0 && szIndentName[ 0 ] != ' ') || (szIndentName[ 0 ] == 0) )
          {
             // There is an indentation level but the IndentName is not
@@ -1374,8 +1374,8 @@ fnActivateMetaOI( zVIEW   vSubtask,
 
             szIndentName[ k ] = 0;
 
-            GetStringFromAttribute( szName, sizeof( szName ), vTempLOD, "LOD_Entity", "Name" );
-            strcat_s( szIndentName, sizeof( szIndentName ), szName );
+            GetStringFromAttribute( szName, zsizeof( szName ), vTempLOD, "LOD_Entity", "Name" );
+            strcat_s( szIndentName, zsizeof( szIndentName ), szName );
             SetAttributeFromString( vTempLOD, "LOD_Entity", "IndentName", szIndentName );
          }
       }
@@ -1429,7 +1429,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
    else
       szCM_ViewName[ 0 ] = 'r';
 
-   zltoa( *((zPLONG) pvMOI), szCM_ViewName + 1, sizeof( szCM_ViewName ) - 1 );
+   zltoa( *((zPLONG) pvMOI), szCM_ViewName + 1, zsizeof( szCM_ViewName ) - 1 );
    SetNameForView( *pvMOI, szCM_ViewName, vTaskMetas, zLEVEL_SUBTASK | zNAME_AUTODROP );
 
    // We no longer set refer views as read-only.  Instead, we check in fnCommitObjectInstance and don't allow commits for REFER views.
@@ -1803,7 +1803,7 @@ fnRemoveCreateFlag( zVIEW  pvMOI )
    CreateViewFromViewForTask( &vMOI, pvMOI, 0 );
 
    // Root-Entity.
-   strcpy_s( szEntityName, sizeof( szEntityName ), "" );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), "" );
    zGetFirstEntityNameForView( vMOI, szEntityName );
 
    DefineHierarchicalCursor( vMOI, szEntityName );
@@ -1873,15 +1873,15 @@ fnCommitMetaOI( zVIEW  vSubtask,
    if ( nEntityType < 0 )
       return( -1 );
 
-   GetStringFromAttribute( szMetaOI_Name, sizeof( szMetaOI_Name ), vMOI, SRC_CMOD[ nType ].szOD_ROOT, SRC_CMOD[ nType ].szOD_NAME );
+   GetStringFromAttribute( szMetaOI_Name, zsizeof( szMetaOI_Name ), vMOI, SRC_CMOD[ nType ].szOD_ROOT, SRC_CMOD[ nType ].szOD_NAME );
 
    // If the view is read-only, then we can't commit it.
    nRC = MiGetUpdateForView( vMOI );
    if ( (nEntityType == CM_REFER_TYPE) || (nRC == 0) )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "The meta passed to CommitMetaOI, " );
-      strcat_s( szMsg, sizeof( szMsg ), szMetaOI_Name );
-      strcat_s( szMsg, sizeof( szMsg ), "is not an Active Meta. See Trace" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "The meta passed to CommitMetaOI, " );
+      strcat_s( szMsg, zsizeof( szMsg ), szMetaOI_Name );
+      strcat_s( szMsg, zsizeof( szMsg ), "is not an Active Meta. See Trace" );
       TraceLineS( "Zeidon Configuration Management", szMsg );
       TraceLineI( "   Type passed is: ", nType );
       MessageSend( vSubtask, "CM00422", "Configuration Management",
@@ -1957,7 +1957,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
 
    if ( nRC == 1 ) // duplicate found and renamed
    {
-      GetStringFromAttribute( szMetaOI_Name, sizeof( szMetaOI_Name ), vMOI, SRC_CMOD[ nType ].szOD_ROOT, SRC_CMOD[ nType ].szOD_NAME );
+      GetStringFromAttribute( szMetaOI_Name, zsizeof( szMetaOI_Name ), vMOI, SRC_CMOD[ nType ].szOD_ROOT, SRC_CMOD[ nType ].szOD_NAME );
    }
 
    if ( nType == zSOURCE_DOMAINGRP_META || nType == zSOURCE_GOPGRP_META )
@@ -1966,12 +1966,12 @@ fnCommitMetaOI( zVIEW  vSubtask,
       // Domain within the Group to make sure there are no duplicates.
       if ( nType == zSOURCE_DOMAINGRP_META )
       {
-         strcpy_s( szSubEntityName, sizeof( szSubEntityName ), "Domain" );
+         strcpy_s( szSubEntityName, zsizeof( szSubEntityName ), "Domain" );
          SubType = zSOURCE_DOMAIN_META;
       }
       else
       {
-         strcpy_s( szSubEntityName, sizeof( szSubEntityName ), "Operation" );
+         strcpy_s( szSubEntityName, zsizeof( szSubEntityName ), "Operation" );
          SubType = zSOURCE_GO_META;
       }
 
@@ -1980,7 +1980,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
       nRC = SetCursorFirstEntity( vMOI, szSubEntityName, 0 );
       while ( nRC >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szSubOI_Name, sizeof( szSubOI_Name ), vMOI, szSubEntityName, "Name" );
+         GetStringFromAttribute( szSubOI_Name, zsizeof( szSubOI_Name ), vMOI, szSubEntityName, "Name" );
          GetIntegerFromAttribute( &lSubOI_ZKey, vMOI, szSubEntityName, "ZKey" );
          nRC = fnCheckForDuplicateName( vMOI, vTempLPLR, szSubOI_Name, lSubOI_ZKey, 0 );
          if ( nRC == -1 )
@@ -1995,7 +1995,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vMOI, szSubEntityName, 0 ) )
       {
-         GetStringFromAttribute( szSubOI_Name, sizeof( szSubOI_Name ), vMOI, szSubEntityName, "Name" );
+         GetStringFromAttribute( szSubOI_Name, zsizeof( szSubOI_Name ), vMOI, szSubEntityName, "Name" );
          GetIntegerFromAttribute( &lSubOI_ZKey, vMOI, szSubEntityName, "ZKey" );
 
          // zSOURCE type
@@ -2026,8 +2026,8 @@ fnCommitMetaOI( zVIEW  vSubtask,
 // PETTIT  I think the MetaDef should always exist after the change to ActivateEmptyMetaOIis made
 
       nRC = IncludeSubobjectFromSubobject( vActiveMetas, "W_MetaDef", vLPLR, "W_MetaDef", zPOS_AFTER );
-      GetStringFromAttribute( szCM_ViewName, sizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-      strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".u" );
+      GetStringFromAttribute( szCM_ViewName, zsizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+      strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".u" );
       CreateViewFromViewForTask( &CM_View, vMOI, vSubtask );
       SetNameForView( CM_View, szCM_ViewName, vZeidonCM, zLEVEL_SUBTASK );
       SetAttributeFromInteger( vActiveMetas, "W_MetaDef", "TaskID", lTaskID );
@@ -2037,8 +2037,8 @@ fnCommitMetaOI( zVIEW  vSubtask,
    {
       // a W_MetaDef exists for this OI in the CM Active list
       bNewMeta = FALSE;
-      GetStringFromAttribute( szCM_ViewName, sizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-      strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".u" );
+      GetStringFromAttribute( szCM_ViewName, zsizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+      strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".u" );
       if ( GetViewByName( &CM_View, szCM_ViewName, vZeidonCM, zLEVEL_SUBTASK ) < 0 )
       {
          // If such a named view was not found, then the meta was not opened for update.
@@ -2063,7 +2063,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
          {
             if ( MiGetInstanceID_ForView( vMOI ) != lMOI_InstanceID )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "The View to the Meta passed to CommitMetaOI\nis not to the the same Object Instance for\n"
+               strcpy_s( szMsg, zsizeof( szMsg ), "The View to the Meta passed to CommitMetaOI\nis not to the the same Object Instance for\n"
                                                  "which the view was originally opened." );
                MessageSend( vSubtask, "CM00427", "Configuration Management",
                             szMsg,
@@ -2119,13 +2119,13 @@ fnCommitMetaOI( zVIEW  vSubtask,
       return( -1 );
    }
 
-   nRC = fnGetDirectorySpec( vMOI, szFileSpec, sizeof( szFileSpec ), nType, TRUE );
+   nRC = fnGetDirectorySpec( vMOI, szFileSpec, zsizeof( szFileSpec ), nType, TRUE );
 
    switch ( nType )
    {
       case zSOURCE_VOR_META:
          zltoxa( lMetaOI_ZKey, szMetaOI_File );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_File );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_File );
          break;
 
       default:
@@ -2134,38 +2134,38 @@ fnCommitMetaOI( zVIEW  vSubtask,
          {
             // FileName change
             nRC = (zSHORT) zstrlen( szFileSpec );
-            GetStringFromAttribute( szFileSpec + nRC, sizeof( szFileSpec ) - nRC, vActiveMetas, "W_MetaDef", "Name" );
+            GetStringFromAttribute( szFileSpec + nRC, zsizeof( szFileSpec ) - nRC, vActiveMetas, "W_MetaDef", "Name" );
             //TruncateName8( &szFileSpec[ nRC ] );
-            strcat_s( szFileSpec, sizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
+            strcat_s( szFileSpec, zsizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
             SysOpenFile( vLPLR, szFileSpec, COREFILE_DELETE );
             if ( nType == zSOURCE_DIALOG_META || nType == zSOURCE_LOD_META )
             {
-               GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
+               GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
                ofnTZCMWKSO_AppendSlash( szFileSpec );
                nRC = (zSHORT) zstrlen( szFileSpec );
-               GetStringFromAttribute( szFileSpec + nRC, sizeof( szFileSpec ) - nRC, vActiveMetas, "W_MetaDef", "Name" );
+               GetStringFromAttribute( szFileSpec + nRC, zsizeof( szFileSpec ) - nRC, vActiveMetas, "W_MetaDef", "Name" );
                //TruncateName8( &szFileSpec[ nRC ] );
 
                if ( nType == zSOURCE_LOD_META )
-                  strcat_s( szFileSpec, sizeof( szFileSpec ), ".XOD" );
+                  strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XOD" );
                else
-                  strcat_s( szFileSpec, sizeof( szFileSpec ), ".XWD" );
+                  strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XWD" );
 
                SysOpenFile( vLPLR, szFileSpec, COREFILE_DELETE );
             }
 
-            nRC = fnGetDirectorySpec( vLPLR, szFileSpec, sizeof( szFileSpec ), nType, TRUE );
+            nRC = fnGetDirectorySpec( vLPLR, szFileSpec, zsizeof( szFileSpec ), nType, TRUE );
          }
 
-         strcpy_s( szMetaOI_File, sizeof( szMetaOI_File ), szMetaOI_Name );
+         strcpy_s( szMetaOI_File, zsizeof( szMetaOI_File ), szMetaOI_Name );
          //TruncateName8( szMetaOI_File );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_File );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_File );
 
          break; // default.
 
    } // switch ( nType )...
 
-   strcat_s( szFileSpec, sizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
    GetVariableFromAttribute( szDesc, 0, zTYPE_STRING, 255, vMOI, SRC_CMOD[ nType ].szOD_ROOT, "Desc", "", 0 );
 
    // Commit the XWD/XRA if a Dialog Meta.
@@ -2173,9 +2173,9 @@ fnCommitMetaOI( zVIEW  vSubtask,
    {
       zVIEW vDialogSubtask;
 
-      GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
       ofnTZCMWKSO_AppendSlash( szFileSpec );
-      strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_File );
+      strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_File );
 
       GetViewByName( &vDialogSubtask, "TZCM_DialogSubtask", vSubtask, zLEVEL_TASK );
 //    MOI_ExecView = ConvertDialog( vDialogSubtask, vMOI, "" );
@@ -2188,27 +2188,27 @@ fnCommitMetaOI( zVIEW  vSubtask,
          nLth = (zSHORT) zstrlen( szFileSpec );
          MOI_ExecView = ConvertDialog( vSubtask, vMOI, "", &vXRA );
 
-         SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemote", szRemotePath, sizeof( szRemotePath ) );
+         SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemote", szRemotePath, zsizeof( szRemotePath ) );
          if ( szRemotePath[ 0 ] )
          {
-            SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemotePath", szRemotePath, sizeof( szRemotePath ) );
+            SysReadZeidonIni( -1, "[Workstation]", "ExecutableRemotePath", szRemotePath, zsizeof( szRemotePath ) );
             if ( szRemotePath[ 0 ] )
             {
                ofnTZCMWKSO_AppendSlash( szRemotePath );
-               strcat_s( szRemotePath, sizeof( szRemotePath ), szMetaOI_File );
-               strcat_s( szRemotePath, sizeof( szRemotePath ), ".XRA" );
+               strcat_s( szRemotePath, zsizeof( szRemotePath ), szMetaOI_File );
+               strcat_s( szRemotePath, zsizeof( szRemotePath ), ".XRA" );
             }
             else
             {
-               strcpy_s( szRemotePath, sizeof( szRemotePath ), szFileSpec );
-               strcpy_s( szRemotePath + nLth, sizeof( szRemotePath ) - nLth, ".XRA" );
+               strcpy_s( szRemotePath, zsizeof( szRemotePath ), szFileSpec );
+               strcpy_s( szRemotePath + nLth, zsizeof( szRemotePath ) - nLth, ".XRA" );
             }
 
             nRC = CommitOI_ToFile( vXRA, szRemotePath, zSINGLE );
             if ( nRC )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "CommitMetaOI failed trying to save " );
-               strcat_s( szMsg, sizeof( szMsg ), szRemotePath );
+               strcpy_s( szMsg, zsizeof( szMsg ), "CommitMetaOI failed trying to save " );
+               strcat_s( szMsg, zsizeof( szMsg ), szRemotePath );
                MessageSend( vSubtask, "CM00428", "Configuration Management",
                             szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             }
@@ -2216,7 +2216,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
             DropObjectInstance( vXRA );
          }
 
-         strcpy_s( szFileSpec + nLth, sizeof( szFileSpec ) - nLth, ".XWD" );
+         strcpy_s( szFileSpec + nLth, zsizeof( szFileSpec ) - nLth, ".XWD" );
       }
       else
       if ( nType == zSOURCE_REPORT_META )
@@ -2228,24 +2228,24 @@ fnCommitMetaOI( zVIEW  vSubtask,
          // entities directly under the appropriate Group entities as Control
          // entities ... no recursive relationships).
 #if 0
-         fnGetDirectorySpec( szFileSpec, sizeof( szFileSpec ), nType, TRUE );
-         strcpy_s( szMetaOI_File, sizeof( szMetaOI_File ), szMetaOI_Name );
+         fnGetDirectorySpec( szFileSpec, zsizeof( szFileSpec ), nType, TRUE );
+         strcpy_s( szMetaOI_File, zsizeof( szMetaOI_File ), szMetaOI_Name );
          //TruncateName8( szMetaOI_File );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_File );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_File );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
 
          GetViewByName( &vTempLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-         GetStringFromAttribute( szFileSpecExec, sizeof( szFileSpecExec ),
+         GetStringFromAttribute( szFileSpecExec, zsizeof( szFileSpecExec ),
                                  vTempLPLR, "LPLR", "ExecDir" );
          ofnTZCMWKSO_AppendSlash( szFileSpecExec );
-         strcat_s( szFileSpecExec, sizeof( szFileSpecExec ), szMetaOI_File );
-         strcat_s( szFileSpecExec, sizeof( szFileSpecExec ), ".XRP" );
+         strcat_s( szFileSpecExec, zsizeof( szFileSpecExec ), szMetaOI_File );
+         strcat_s( szFileSpecExec, zsizeof( szFileSpecExec ), ".XRP" );
          SysCopyFile( szFileSpec, szFileSpecExec, TRUE );
          break;
 #endif
 
          MOI_ExecView = ConvertReport( vLPLR, vMOI, "" );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), ".XRP" );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XRP" );
       }
       else
       {
@@ -2257,23 +2257,23 @@ fnCommitMetaOI( zVIEW  vSubtask,
          // entities ... no recursive relationships).
 
          MOI_ExecView = ConvertXSLT( vLPLR, vMOI, "" );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), ".XSL" );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XSL" );
       }
 
       nRC = CommitOI_ToFile( MOI_ExecView, szFileSpec, zSINGLE );
       if ( nRC )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "CommitMetaOI failed trying to save " );
-         strcat_s( szMsg, sizeof( szMsg ), szFileSpec );
+         strcpy_s( szMsg, zsizeof( szMsg ), "CommitMetaOI failed trying to save " );
+         strcat_s( szMsg, zsizeof( szMsg ), szFileSpec );
          MessageSend( vSubtask, "CM00428", "Configuration Management",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          return( -1 );
       }
 
       DropObjectInstance( MOI_ExecView );
-      fnGetDirectorySpec( vMOI, szFileSpec, sizeof( szFileSpec ), nType, TRUE );
-      strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_File );
-      strcat_s( szFileSpec, sizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
+      fnGetDirectorySpec( vMOI, szFileSpec, zsizeof( szFileSpec ), nType, TRUE );
+      strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_File );
+      strcat_s( szFileSpec, zsizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
    }
 
    // Decide what control flags should be used based on the current file
@@ -2311,8 +2311,8 @@ fnCommitMetaOI( zVIEW  vSubtask,
 
    if ( nRC )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "CommitMetaOI failed trying to save " );
-      strcat_s( szMsg, sizeof( szMsg ), szFileSpec );
+      strcpy_s( szMsg, zsizeof( szMsg ), "CommitMetaOI failed trying to save " );
+      strcat_s( szMsg, zsizeof( szMsg ), szFileSpec );
       MessageSend( vSubtask, "CM00429", "Configuration Management",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
@@ -2386,7 +2386,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
    }
 
    SetAttributeFromString( vLPLR, "W_MetaDef", "Name", szMetaOI_Name );
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
    SetAttributeFromString( vLPLR, "W_MetaDef", "LastUpdateDate", szTimestamp );
    SetAttributeFromString( vLPLR, "W_MetaDef", "LastSyncDate", szTimestamp );
    SetAttributeFromInteger( vLPLR, "W_MetaDef", "UpdateInd", 2 );
@@ -2416,8 +2416,8 @@ fnCommitMetaOI( zVIEW  vSubtask,
                                               zPOS_AFTER );
       }
 
-      GetStringFromAttribute( szCM_ViewName, sizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-      strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".u" );
+      GetStringFromAttribute( szCM_ViewName, zsizeof( szCM_ViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+      strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".u" );
       CreateViewFromViewForTask( &CM_View, vMOI, vSubtask );
       SetNameForView( CM_View, szCM_ViewName, vZeidonCM, zLEVEL_SUBTASK );
       SetAttributeFromInteger( vActiveMetas, "W_MetaDef", "TaskID", lTaskID );
@@ -2437,8 +2437,8 @@ fnCommitMetaOI( zVIEW  vSubtask,
                   nRC >= zCURSOR_SET;
                   nRC =  SetCursorNextEntity( vActiveMetas, "W_MetaDef", 0 ) )
             {
-               GetStringFromAttribute( szNamedView, sizeof( szNamedView ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-               strcat_s( szNamedView, sizeof( szNamedView ), ".r" );
+               GetStringFromAttribute( szNamedView, zsizeof( szNamedView ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+               strcat_s( szNamedView, zsizeof( szNamedView ), ".r" );
                if ( GetViewByName( &CM_View, szNamedView, vZeidonCM, zLEVEL_SUBTASK ) > 0 )
                {
                   DropObjectInstance( CM_View );
@@ -2457,20 +2457,20 @@ fnCommitMetaOI( zVIEW  vSubtask,
          // Get access to the newly built XOD.
          if ( GetViewByName( &MOI_ExecView, "TZZOXODO", vSubtask, zLEVEL_TASK ) < 1 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "(fnCommitMetaOI) Unable to Access XOD. XOD must be opened." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "(fnCommitMetaOI) Unable to Access XOD. XOD must be opened." );
             MessageSend( vSubtask, "CM00430", "Configuration Management",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             return( -1 );
          }
 
          // Save the XOD to a file.
-         GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
          ofnTZCMWKSO_AppendSlash( szFileSpec );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_File );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), ".XOD" );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_File );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XOD" );
          if ( CommitOI_ToFile( MOI_ExecView, szFileSpec, zSINGLE ) != 0 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commit of XOD failed." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commit of XOD failed." );
             MessageSend( vSubtask, "CM00431", "Configuration Management",
                          szMsg,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2481,14 +2481,14 @@ fnCommitMetaOI( zVIEW  vSubtask,
 
       case zSOURCE_PENV_META:
          MOI_ExecView = CreatePE_ExecVersion( vLPLR, vMOI );
-         GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
          ofnTZCMWKSO_AppendSlash( szFileSpec );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), "ZEIDON.XPE" );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), "ZEIDON.XPE" );
          if ( CommitOI_ToFile( MOI_ExecView, szFileSpec, zSINGLE ) != 0 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Commit of Executable Presentation Environment -\n" );
-            strcpy_s( szMsg, sizeof( szMsg ), szFileSpec );
-            strcpy_s( szMsg, sizeof( szMsg ), " failed." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Commit of Executable Presentation Environment -\n" );
+            strcpy_s( szMsg, zsizeof( szMsg ), szFileSpec );
+            strcpy_s( szMsg, zsizeof( szMsg ), " failed." );
             MessageSend( vSubtask, "CM00432", "Configuration Management",
                          szMsg,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2714,10 +2714,10 @@ CommitMetaOI( zVIEW  vSubtask,
 
       GetVariableFromAttribute( szMsg, 0, zTYPE_STRING, 125, vActiveMetas,
                                 "W_MetaType", "Type", "CM_Type", 0 );
-      strcat_s( szMsg, sizeof( szMsg ), " " );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+      strcat_s( szMsg, zsizeof( szMsg ), " " );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                               vActiveMetas, "W_MetaDef", "Name" );
-      strcat_s( szMsg, sizeof( szMsg ), " is in use by another tool.\n"
+      strcat_s( szMsg, zsizeof( szMsg ), " is in use by another tool.\n"
                       "To complete save, close the Zeidon Tool(s) and\n"
                       "retry the save.  If all else fails, check OpenCM_Metas" );
       if ( MessagePrompt( vMOI, "CM00436", "Configuration Management",
@@ -2810,11 +2810,11 @@ CommitDependentOI( zVIEW  vSubtask,
       return( -1 );
    }
 
-   nRC = fnGetDirectorySpec( vMOI, szFileSpec, sizeof( szFileSpec ), nType, TRUE );
+   nRC = fnGetDirectorySpec( vMOI, szFileSpec, zsizeof( szFileSpec ), nType, TRUE );
 
    GetIntegerFromAttribute( &lMetaOI_ZKey, vMOI,
                             REFER_CMOD[ nType - 2000 ].szOD_ROOT, "ZKey" );
-   GetStringFromAttribute( szMetaOI_Name, sizeof( szMetaOI_Name ), vMOI,
+   GetStringFromAttribute( szMetaOI_Name, zsizeof( szMetaOI_Name ), vMOI,
                            REFER_CMOD[ nType - 2000 ].szOD_ROOT,
                            REFER_CMOD[ nType - 2000 ].szOD_NAME );
    if ( nType == zREFER_VOR_META )
@@ -2823,19 +2823,19 @@ CommitDependentOI( zVIEW  vSubtask,
    }
    else
    {
-      strcpy_s( szMetaOI_File, sizeof( szMetaOI_File ), szMetaOI_Name );
+      strcpy_s( szMetaOI_File, zsizeof( szMetaOI_File ), szMetaOI_Name );
       //TruncateName8( szMetaOI_File );
    }
 
-   strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_File );
-   strcat_s( szFileSpec, sizeof( szFileSpec ), REFER_CMOD[ nType - 2000 ].szOD_EXT );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_File );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), REFER_CMOD[ nType - 2000 ].szOD_EXT );
    if ( SetCursorFirstEntityByInteger( vTaskLPLR, "W_MetaDef",
                                        "CPLR_ZKey", lMetaOI_ZKey,
                                        "" ) != zCURSOR_SET )   // Not Found
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Meta passed to CommitDependentOI - " );
-      strcat_s( szMsg, sizeof( szMsg ), szMetaOI_Name );
-      strcat_s( szMsg, sizeof( szMsg ), " Not found in LPLR!" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Meta passed to CommitDependentOI - " );
+      strcat_s( szMsg, zsizeof( szMsg ), szMetaOI_Name );
+      strcat_s( szMsg, zsizeof( szMsg ), " Not found in LPLR!" );
       MessageSend( vSubtask, "CM00440", "Configuration Management",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2863,20 +2863,20 @@ CommitDependentOI( zVIEW  vSubtask,
 
 ///// All this just to get an updatable Meta  //////////////////////////
    /* Get the view to the vTaskMetas subtask - remove if not needed
-   fnGetTaskOI_ListName( vSubtask, szMetaOI_Name, sizeof( szMetaOI_Name ) );
+   fnGetTaskOI_ListName( vSubtask, szMetaOI_Name, zsizeof( szMetaOI_Name ) );
    nRC = GetViewByName( &vTaskMetas, szMetaOI_Name, vZeidonCM, zLEVEL_SUBTASK );
    */
    // Get the view to the ActiveMeta OI
    nRC = GetViewByName( &vActiveMetas, "OpenCM_Metas", vZeidonCM, zLEVEL_SUBTASK );
    // Need the name of the TaskLPLR to get to the root LPLR in the ActiveMeta OI
-   nRC = GetStringFromAttribute( szMsg, sizeof( szMsg ), vTaskLPLR, "LPLR", "Name" );
+   nRC = GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTaskLPLR, "LPLR", "Name" );
    nRC = SetCursorFirstEntityByString( vActiveMetas, "LPLR", "Name", szMsg, "" );
 
    if ( SetCursorFirstEntityByInteger( vActiveMetas, "W_MetaType", "Type",
                                        nType - 2000, "" ) != zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Meta Type not found in ActiveMeta List.\nType is " );
-      zltoa( nType - 2000, szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ) );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Meta Type not found in ActiveMeta List.\nType is " );
+      zltoa( nType - 2000, szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ) );
       MessageSend( vSubtask, "CM00442", "Configuration Management",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2884,21 +2884,21 @@ CommitDependentOI( zVIEW  vSubtask,
    }
    if ( SetCursorFirstEntityByInteger( vActiveMetas, "W_MetaDef", "CPLR_ZKey", lMetaOI_ZKey, "" ) != zCURSOR_SET )   // Not in the Active List
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Meta not found in ActiveMeta List.\nType is " );
-      strcat_s( szMsg, sizeof( szMsg ), szMetaOI_Name );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Meta not found in ActiveMeta List.\nType is " );
+      strcat_s( szMsg, zsizeof( szMsg ), szMetaOI_Name );
       MessageSend( vSubtask, "CM00443", "Configuration Management",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
    }
 
-   GetStringFromAttribute( szMsg, sizeof( szMsg ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-   strcat_s( szMsg, sizeof( szMsg ), ".r" );
+   GetStringFromAttribute( szMsg, zsizeof( szMsg ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+   strcat_s( szMsg, zsizeof( szMsg ), ".r" );
    if ( GetViewByName( &CM_View, szMsg, vZeidonCM, zLEVEL_SUBTASK ) < 1 )
    {
       // vActiveMetas has him but it's not still active
-      strcpy_s( szMsg, sizeof( szMsg ), "Meta not found in ActiveMeta List.\nName is " );
-      strcat_s( szMsg, sizeof( szMsg ), szMetaOI_Name );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Meta not found in ActiveMeta List.\nName is " );
+      strcat_s( szMsg, zsizeof( szMsg ), szMetaOI_Name );
       MessageSend( vSubtask, "CM00444", "Configuration Management",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2939,15 +2939,15 @@ CommitDependentOI( zVIEW  vSubtask,
 
    if ( nRC )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "CommitDependentOI failed trying to save " );
-      strcat_s( szMsg, sizeof( szMsg ), szFileSpec );
+      strcpy_s( szMsg, zsizeof( szMsg ), "CommitDependentOI failed trying to save " );
+      strcat_s( szMsg, zsizeof( szMsg ), szFileSpec );
       MessageSend( vSubtask, "CM00445", "Configuration Management",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
    }
 
    SetAttributeFromString( vTaskLPLR, "W_MetaDef", "Name", szMetaOI_Name );
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
    SetAttributeFromString( vTaskLPLR, "W_MetaDef", "LastSyncDate", szTimestamp );
    SetAttributeFromInteger( vTaskLPLR, "W_MetaDef", "UpdateInd", 1 );
 
@@ -2960,23 +2960,23 @@ CommitDependentOI( zVIEW  vSubtask,
       // Get access to the newly built XOD
       if ( GetViewByName( &MOI_ExecView, "TZZOXODO", vSubtask, zLEVEL_TASK ) < 1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "(CommitDependentOI) Unable to Access XOD. XOD must be opened." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "(CommitDependentOI) Unable to Access XOD. XOD must be opened." );
          MessageSend( vSubtask, "CM00446", "Configuration Management",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          return( 0 );
       }
 
       // Save the XOD to a file
-      GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vTaskLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vTaskLPLR, "LPLR", "ExecDir" );
       ofnTZCMWKSO_AppendSlash( szFileSpec );
-      strcpy_s( szMetaOI_File, sizeof( szMetaOI_File ), szMetaOI_Name );
+      strcpy_s( szMetaOI_File, zsizeof( szMetaOI_File ), szMetaOI_Name );
    // TruncateName8( szMetaOI_File );
-      strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_File );
-      strcat_s( szFileSpec, sizeof( szFileSpec ), ".XOD" );
+      strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_File );
+      strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XOD" );
       lFlags = zSINGLE;
       if ( CommitOI_ToFile( MOI_ExecView, szFileSpec, lFlags ) != 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Commit of XOD failed." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Commit of XOD failed." );
          MessageSend( vSubtask, "CM00447", "Configuration Management",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
@@ -3040,15 +3040,15 @@ ActivateEmptyMetaOI( zVIEW  vSubtask,
 
    if ( nEntityType == CM_ACTIVE_TYPE )
    {
-      strcpy_s( szWorkName, sizeof( szWorkName ), SRC_CMOD[ nType ].szOD );
-      strcpy_s( szOD_RootName, sizeof( szOD_RootName ), SRC_CMOD[ nType ].szOD_ROOT );
+      strcpy_s( szWorkName, zsizeof( szWorkName ), SRC_CMOD[ nType ].szOD );
+      strcpy_s( szOD_RootName, zsizeof( szOD_RootName ), SRC_CMOD[ nType ].szOD_ROOT );
       lControl = zLEVEL_APPLICATION;
 //    lControl = zLEVEL_TASK;
    }
    else
    {
-      strcpy_s( szWorkName, sizeof( szWorkName ), REFER_CMOD[ nType - 2000 ].szOD );
-      strcpy_s( szOD_RootName, sizeof( szOD_RootName ), REFER_CMOD[ nType - 2000 ].szOD_ROOT );
+      strcpy_s( szWorkName, zsizeof( szWorkName ), REFER_CMOD[ nType - 2000 ].szOD );
+      strcpy_s( szOD_RootName, zsizeof( szOD_RootName ), REFER_CMOD[ nType - 2000 ].szOD_ROOT );
       lControl = zLEVEL_APPLICATION;
    }
 #if 0
@@ -3065,12 +3065,12 @@ ActivateEmptyMetaOI( zVIEW  vSubtask,
    GetViewByName( &vZeidonCM, "ZeidonCM", vSubtask, zLEVEL_APPLICATION );
 
    // Get the view to the vTaskMetas subtask.
-   fnGetTaskOI_ListName( vSubtask, szWorkName, sizeof( szWorkName ) );
+   fnGetTaskOI_ListName( vSubtask, szWorkName, zsizeof( szWorkName ) );
    GetViewByName( &vTaskMetas, szWorkName, vZeidonCM, zLEVEL_SUBTASK );
 
    // Get the view to the ActiveMeta OI.
    GetViewByName( &vActiveMetas, "OpenCM_Metas", vZeidonCM, zLEVEL_SUBTASK );
-   nRC = GetStringFromAttribute( szWorkName, sizeof( szWorkName ), vTaskLPLR, "LPLR", "Name" );
+   nRC = GetStringFromAttribute( szWorkName, zsizeof( szWorkName ), vTaskLPLR, "LPLR", "Name" );
    nRC = SetCursorFirstEntityByString( vActiveMetas, "LPLR", "Name",
                                                      szWorkName, "" );
    if ( SetCursorFirstEntityByInteger( vActiveMetas, "W_MetaType", "Type",
@@ -3084,7 +3084,7 @@ ActivateEmptyMetaOI( zVIEW  vSubtask,
    nRC = CreateMetaEntity( vSubtask, *pvMOI, szOD_RootName, zPOS_AFTER );
    CreateEntity( vActiveMetas, "W_MetaDef", zPOS_AFTER );
    SetAttributeFromAttribute( vActiveMetas, "W_MetaDef", "CPLR_ZKey", *pvMOI, szOD_RootName, "ZKey" );
-   GetStringFromAttribute( szWorkName, sizeof( szWorkName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+   GetStringFromAttribute( szWorkName, zsizeof( szWorkName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
    if ( nEntityType == CM_ACTIVE_TYPE )
    {
       SetAttributeFromInteger( vActiveMetas, "W_MetaDef", "TaskID", SysGetTaskFromView( vSubtask ) );
@@ -3104,7 +3104,7 @@ ActivateEmptyMetaOI( zVIEW  vSubtask,
    else
       szWorkName[ 0 ] = 'r';
 
-   zltoa( *((zPLONG) pvMOI), szWorkName + 1, sizeof( szWorkName ) - 1 );
+   zltoa( *((zPLONG) pvMOI), szWorkName + 1, zsizeof( szWorkName ) - 1 );
    SetNameForView( *pvMOI, szWorkName, vTaskMetas, zLEVEL_SUBTASK | zNAME_AUTODROP );
    return( 1 );
 }
@@ -3143,9 +3143,9 @@ DropMetaOI( zVIEW vSubtask, zVIEW vMOI )
    GetViewByName( &vZeidonCM, "ZeidonCM", vSubtask, zLEVEL_APPLICATION );
 
    // Get the view to the vTaskMetas subtask.
-   fnGetTaskOI_ListName( vSubtask, szViewName, sizeof( szViewName ) );
+   fnGetTaskOI_ListName( vSubtask, szViewName, zsizeof( szViewName ) );
    GetViewByName( &vTaskMetas, szViewName, vZeidonCM, zLEVEL_SUBTASK );
-   zltoa( (zLONG) vMOI, szViewName + 1, sizeof( szViewName ) - 1 );
+   zltoa( (zLONG) vMOI, szViewName + 1, zsizeof( szViewName ) - 1 );
    szViewName[ 0 ] = 'r';
    if ( GetViewByName( &RU_View, szViewName, vTaskMetas, zLEVEL_SUBTASK ) > 0 )
    {
@@ -3171,15 +3171,15 @@ DropMetaOI( zVIEW vSubtask, zVIEW vMOI )
    // I need the view to the TaskLPLR to get the name of the root LPLR
    // in the ActiveMeta OI.
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szLPLR_Name, sizeof( szLPLR_Name ), vTaskLPLR, "LPLR", "Name" );
+   GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), vTaskLPLR, "LPLR", "Name" );
    SetCursorFirstEntityByString( vActiveMetas, "LPLR", "Name", szLPLR_Name, "" );
    if ( fnCheckCM_ForActiveMetaByTask( vSubtask, lMOI_InstanceID ) == 1 )
    {
       // Found!
       SetAttributeFromInteger( vActiveMetas, "W_MetaDef", "TaskID", 0 );
       DropObjectInstance( vMOI );
-      GetStringFromAttribute( szViewName, sizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-      strcat_s( szViewName, sizeof( szViewName ), ".r" );
+      GetStringFromAttribute( szViewName, zsizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+      strcat_s( szViewName, zsizeof( szViewName ), ".r" );
       if ( GetViewByName( &RU_View, szViewName, vZeidonCM, zLEVEL_SUBTASK ) < 0 )
       {
          ExcludeEntity( vActiveMetas, "W_MetaDef", zREPOS_NONE );
@@ -3275,12 +3275,12 @@ DeleteMetaOI( zVIEW  vSubtask,
       nWorkType = nType - 2000;
 
    GetIntegerFromAttribute( &lMetaOI_ZKey, vListView, "W_MetaDef", "CPLR_ZKey" );
-   GetStringFromAttribute( szMetaOI_Name, sizeof( szMetaOI_Name ), vListView, "W_MetaDef", "Name" );
+   GetStringFromAttribute( szMetaOI_Name, zsizeof( szMetaOI_Name ), vListView, "W_MetaDef", "Name" );
    nRC = SetCursorFirstEntityByInteger( vLPLR, "W_MetaDef",
                                         "CPLR_ZKey", lMetaOI_ZKey, "LPLR" );
    if ( nRC < zCURSOR_SET )
    {
-      strcpy_s( szErrMsg, sizeof( szErrMsg ), "Component to be Deleted not found in the LPLR." );
+      strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Component to be Deleted not found in the LPLR." );
       MessageSend( vSubtask, "CM00450", "Configuration Management",
                    szErrMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3289,7 +3289,7 @@ DeleteMetaOI( zVIEW  vSubtask,
 
    if ( CompareAttributeToInteger( vLPLR, "W_MetaType", "Type", nWorkType ) != 0 )
    {
-      strcpy_s( szErrMsg, sizeof( szErrMsg ), "Component to be Deleted not active in the LPLR." );
+      strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Component to be Deleted not active in the LPLR." );
       MessageSend( vSubtask, "CM00451", "Configuration Management",
                    szErrMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3298,7 +3298,7 @@ DeleteMetaOI( zVIEW  vSubtask,
 
    if ( CompareAttributeToString( vLPLR, "W_MetaDef", "Name", szMetaOI_Name ) != 0 )
    {
-      strcpy_s( szErrMsg, sizeof( szErrMsg ),
+      strcpy_s( szErrMsg, zsizeof( szErrMsg ),
                "Component to be Deleted found in the LPLR under a different name" );
       MessageSend( vSubtask, "CM00452", "Configuration Management",
                    szErrMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3312,13 +3312,13 @@ DeleteMetaOI( zVIEW  vSubtask,
       GetIntegerFromAttribute( &lTaskID, vActiveList, "W_MetaDef", "TaskID" );
       if ( lTaskID )
       {
-         GetStringFromAttribute( szCM_ViewName, sizeof( szCM_ViewName ), vActiveList,
+         GetStringFromAttribute( szCM_ViewName, zsizeof( szCM_ViewName ), vActiveList,
                                  "W_MetaDef", "CM_ViewName" );
-         strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".u" );
+         strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".u" );
          if ( GetViewByName( &CM_View, szCM_ViewName,
                              vZeidonCM, zLEVEL_SUBTASK ) > 0 )
          {
-            strcpy_s( szErrMsg, sizeof( szErrMsg ),
+            strcpy_s( szErrMsg, zsizeof( szErrMsg ),
                      "Component to be Deleted is currently opened for update." );
             MessageSend( vSubtask, "CM00453", "Configuration Management",
                          szErrMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3329,9 +3329,9 @@ DeleteMetaOI( zVIEW  vSubtask,
 
    if ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szCM_ViewName, sizeof( szCM_ViewName ), vActiveList,
+      GetStringFromAttribute( szCM_ViewName, zsizeof( szCM_ViewName ), vActiveList,
                               "W_MetaDef", "CM_ViewName" );
-      strcat_s( szCM_ViewName, sizeof( szCM_ViewName ), ".r" );
+      strcat_s( szCM_ViewName, zsizeof( szCM_ViewName ), ".r" );
       nReferOI_Active = 0;
       if ( GetViewByName( &CM_View, szCM_ViewName,
                           vZeidonCM, zLEVEL_SUBTASK ) > 0 )
@@ -3366,15 +3366,15 @@ DeleteMetaOI( zVIEW  vSubtask,
 
             if ( nReferViewsActive == 1 )
             {
-               strcpy_s( szErrMsg, sizeof( szErrMsg ),
+               strcpy_s( szErrMsg, zsizeof( szErrMsg ),
                         "The Meta you are trying to delete,\n" );
-               GetStringFromAttribute( szErrMsg + zstrlen( szErrMsg ), sizeof( szErrMsg ) - zstrlen( szErrMsg ),
+               GetStringFromAttribute( szErrMsg + zstrlen( szErrMsg ), zsizeof( szErrMsg ) - zstrlen( szErrMsg ),
                                        vActiveMetas, "W_MetaDef", "Name" );
-               strcat_s( szErrMsg, sizeof( szErrMsg ), ", Type " );
+               strcat_s( szErrMsg, zsizeof( szErrMsg ), ", Type " );
                GetVariableFromAttribute( szErrMsg + zstrlen( szErrMsg ),
                                          0, zTYPE_STRING, 125, vActiveMetas,
                                          "W_MetaType", "Type", "CM_Type", 0 );
-               strcat_s( szErrMsg, sizeof( szErrMsg ),
+               strcat_s( szErrMsg, zsizeof( szErrMsg ),
                   ",\nis being referenced by a Zeidon Tool.\n"
                   "To delete this meta close the other Zeidon Tool.\n" );
                MessageSend( vSubtask, "CM00454", "Configuration Management",
@@ -3396,20 +3396,20 @@ DeleteMetaOI( zVIEW  vSubtask,
       DropView( CM_View );
 
    // Determine fully contatenated file name for delete.
-   nRC = fnGetDirectorySpec( vListView, szFileSpec, sizeof( szFileSpec ), nType, TRUE );
+   nRC = fnGetDirectorySpec( vListView, szFileSpec, zsizeof( szFileSpec ), nType, TRUE );
    if ( nWorkType == zSOURCE_VOR_META )
    {
       zltoxa( lMetaOI_ZKey, szMetaOI_Name );
    }
-   strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_Name );
-   strcat_s( szFileSpec, sizeof( szFileSpec ), SRC_CMOD[ nWorkType ].szOD_EXT );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_Name );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), SRC_CMOD[ nWorkType ].szOD_EXT );
 
    nRC = ActivateMetaOI_ByZKey( vSubtask, &vMeta, vListView, nWorkType,
                                 zSINGLE | zLEVEL_APPLICATION,
                                 lMetaOI_ZKey, zCURRENT_OI );
    if ( nRC < 0 )
    {
-      strcpy_s( szErrMsg, sizeof( szErrMsg ),
+      strcpy_s( szErrMsg, zsizeof( szErrMsg ),
                "Removing meta without deleting file." );
       MessageSend( vSubtask, "CM00455", "Configuration Management",
                    szErrMsg,
@@ -3423,7 +3423,7 @@ DeleteMetaOI( zVIEW  vSubtask,
       if ( CompareAttributeToInteger( vLPLR, "W_MetaDef",
                                       "UpdateInd", 3 ) == 0 )
       {
-         strcpy_s( szErrMsg, sizeof( szErrMsg ),
+         strcpy_s( szErrMsg, zsizeof( szErrMsg ),
                   "Component to be Deleted has already been deleted." );
          MessageSend( vSubtask, "CM00456", "Configuration Management",
                       szErrMsg,
@@ -3457,9 +3457,9 @@ DeleteMetaOI( zVIEW  vSubtask,
    {
       if ( SysOpenFile( vLPLR, szFileSpec, COREFILE_DELETE ) < 0 )
       {
-         strcpy_s( szErrMsg, sizeof( szErrMsg ), "File " );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), szFileSpec );
-         strcat_s( szErrMsg, sizeof( szErrMsg ), "\nNot found - deleting entry from CM List" );
+         strcpy_s( szErrMsg, zsizeof( szErrMsg ), "File " );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), szFileSpec );
+         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\nNot found - deleting entry from CM List" );
          MessageSend( vSubtask, "CM00457", "Configuration Management",
                       szErrMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3475,14 +3475,14 @@ DeleteMetaOI( zVIEW  vSubtask,
       nRC = DeleteEntity( vLPLR, "W_MetaDef", zREPOS_PREV );
       if ( nWorkType == zSOURCE_DIALOG_META || nWorkType == zSOURCE_LOD_META )
       {
-         GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
          ofnTZCMWKSO_AppendSlash( szFileSpec );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_Name );
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_Name );
          if ( nWorkType == zSOURCE_DIALOG_META )
-            strcat_s( szFileSpec, sizeof( szFileSpec ), ".XWD" );
+            strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XWD" );
          else
          {
-            strcat_s( szFileSpec, sizeof( szFileSpec ), ".XOD" );
+            strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XOD" );
             // For LOD, also delete all the related VORs.  This has to be
             // done by activating every VOR to see if it is for the deleted LOD.
             RetrieveViewForMetaList( vSubtask, &vVOR_LPLR, zSOURCE_VOR_META );
@@ -3515,9 +3515,9 @@ DeleteMetaOI( zVIEW  vSubtask,
 
          if ( SysOpenFile( vVOR_LPLR, szFileSpec, COREFILE_DELETE ) < 0 )
          {
-            strcpy_s( szErrMsg, sizeof( szErrMsg ), "Corresponding Executable File " );
-            strcat_s( szErrMsg, sizeof( szErrMsg ), szFileSpec );
-            strcat_s( szErrMsg, sizeof( szErrMsg ), " Not found." );
+            strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Corresponding Executable File " );
+            strcat_s( szErrMsg, zsizeof( szErrMsg ), szFileSpec );
+            strcat_s( szErrMsg, zsizeof( szErrMsg ), " Not found." );
             MessageSend( vSubtask, "CM00458", "Configuration Management",
                          szErrMsg,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3530,22 +3530,22 @@ DeleteMetaOI( zVIEW  vSubtask,
            nWorkType == zSOURCE_XSLT_META || nWorkType == zREFER_XSLT_META )
       {
          zCHAR szReportFile[ zMAX_FILESPEC_LTH + 1 ];
-         GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vLPLR, "LPLR", "ExecDir" );
          ofnTZCMWKSO_AppendSlash( szFileSpec );
-         strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_Name );
-         strcpy_s( szReportFile, sizeof( szReportFile ), szFileSpec ); // Save the name without extension
+         strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_Name );
+         strcpy_s( szReportFile, zsizeof( szReportFile ), szFileSpec ); // Save the name without extension
                                                   // because we have to delete XSQ too
                                                   // for  SironReports
          if ( nWorkType == zSOURCE_REPORT_META || nWorkType == zREFER_REPORT_META )
-            strcat_s( szFileSpec, sizeof( szFileSpec ), ".XRP" );
+            strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XRP" );
          else
-            strcat_s( szFileSpec, sizeof( szFileSpec ), ".XSL" );
+            strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XSL" );
 
          if ( SysOpenFile( vLPLR, szFileSpec, COREFILE_DELETE ) < 0 )
          {
-            strcpy_s( szErrMsg, sizeof( szErrMsg ), "Corresponding Executable File " );
-            strcat_s( szErrMsg, sizeof( szErrMsg ), szFileSpec );
-            strcat_s( szErrMsg, sizeof( szErrMsg ), " Not found." );
+            strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Corresponding Executable File " );
+            strcat_s( szErrMsg, zsizeof( szErrMsg ), szFileSpec );
+            strcat_s( szErrMsg, zsizeof( szErrMsg ), " Not found." );
             MessageSend( vSubtask, "CM00458", "Configuration Management",
                          szErrMsg,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3554,18 +3554,18 @@ DeleteMetaOI( zVIEW  vSubtask,
          if ( nWorkType == zSOURCE_REPORT_META || nWorkType == zREFER_REPORT_META )
          {
              // Try to delete the XSQ file
-             strcpy_s( szFileSpec, sizeof( szFileSpec ), szReportFile );
-             strcat_s( szFileSpec, sizeof( szFileSpec ), ".XSQ" );
+             strcpy_s( szFileSpec, zsizeof( szFileSpec ), szReportFile );
+             strcat_s( szFileSpec, zsizeof( szFileSpec ), ".XSQ" );
              SysOpenFile( vLPLR, szFileSpec,
                      COREFILE_DELETE ); // We don't test the Returncode of
                                              // SysOpenFile, because we get an error
                                              // if the report is a zeidon report.
              // Try to delete the REP file
              // We first get the directory where we'll find the REP file if it exists
-             GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vLPLR, "LPLR", "PgmSrcDir" );
+             GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vLPLR, "LPLR", "PgmSrcDir" );
              ofnTZCMWKSO_AppendSlash( szFileSpec );
-             strcat_s( szFileSpec, sizeof( szFileSpec ), szMetaOI_Name );
-             strcat_s( szFileSpec, sizeof( szFileSpec ), ".REP" );
+             strcat_s( szFileSpec, zsizeof( szFileSpec ), szMetaOI_Name );
+             strcat_s( szFileSpec, zsizeof( szFileSpec ), ".REP" );
              SysOpenFile( vLPLR, szFileSpec,
                      COREFILE_DELETE ); // We don't test the Returncode of
                                              // SysOpenFile, because we get an error
@@ -3647,7 +3647,7 @@ DeleteMetaOI( zVIEW  vSubtask,
 
    if ( CheckExistenceOfEntity( vMeta, "Z_MetaDef" ) >= zCURSOR_SET )
    {
-      strcpy_s( szEntityName, sizeof( szEntityName ), SRC_CMOD[ nWorkType ].szOD_ROOT );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), SRC_CMOD[ nWorkType ].szOD_ROOT );
       DeleteEntity( vMeta, szEntityName, zREPOS_NONE );
       CommitOI_ToFile( vMeta, szFileSpec, zASCII | zINCREMENTAL );
    }
@@ -3688,9 +3688,9 @@ CreatePE_ExecVersion( zVIEW vSubtask, zVIEW vPresEnv )
 
    TraceLineS( "CreatePE_ExecVersion", "================================" );
 
-   GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vSubtask, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vSubtask, "LPLR", "ExecDir" );
    ofnTZCMWKSO_AppendSlash( szWorkString );
-   strcat_s( szWorkString, sizeof( szWorkString ), "ZEIDON.XPE" );
+   strcat_s( szWorkString, zsizeof( szWorkString ), "ZEIDON.XPE" );
 
    //BL, 2000.01.30 XPE does not exists, then no error message
    if ( SfActivateSysOI_FromFile( &vTmpExe,
@@ -3724,9 +3724,9 @@ CreatePE_ExecVersion( zVIEW vSubtask, zVIEW vPresEnv )
    while ( nRC > zCURSOR_UNCHANGED )
    {
       GetIntegerFromAttribute( &lIdNbr, vPresEnv, "ControlDef", "Id" );
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vPresEnv,
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vPresEnv,
                               "ControlDef", "RT_OperationName" );
-      GetStringFromAttribute( szGUID, sizeof( szGUID ), vPresEnv,
+      GetStringFromAttribute( szGUID, zsizeof( szGUID ), vPresEnv,
                               "ControlDef", "GUID" );
 
       // Don't put any control in the XPE that doesn't have both an Id Number
@@ -4065,7 +4065,7 @@ InitializeNextZKeyForObject( zVIEW  vMetaRootView,
       // for generating the ZKey of the root entity and set the NextZKeyToAssign to 1000.
       // DateTimeStamp is of form YYYYMMDDHHMMSSTTT.
       // We will use 9 middle digits, DDHHMMSST, forming DDH,HMM,SST, which would generate a key up to 312,459,599.
-      SysGetDateTime( szDateTimeStamp, sizeof( szDateTimeStamp ) );
+      SysGetDateTime( szDateTimeStamp, zsizeof( szDateTimeStamp ) );
       ZeidonStringCopy( szGeneratedKey, 1, 0, szDateTimeStamp, 6, 9, 21 );
       lMaxZKey = zStringToInteger( szGeneratedKey );
    }
@@ -4340,37 +4340,37 @@ CreateFileNameFromZKey( zPCHAR pchFileName,
       pchFileName[ 0 ] = ( zCHAR )lWKS_Id;
       if ( lNumZKey < 10 )
       {
-         strcpy_s( pchFileName + 1, sizeof( pchFileName ) - 1, "000000" );
+         strcpy_s( pchFileName + 1, zsizeof( pchFileName ) - 1, "000000" );
          zltoa( lNumZKey, pchFileName + 7, lMaxLth - 7 );
       }
       else
       if ( lNumZKey < 100 )
       {
-         strcpy_s( pchFileName + 1, sizeof( pchFileName ) - 1, "00000" );
+         strcpy_s( pchFileName + 1, zsizeof( pchFileName ) - 1, "00000" );
          zltoa( lNumZKey, pchFileName + 6, lMaxLth - 6 );
       }
       else
       if ( lNumZKey < 1000 )
       {
-         strcpy_s( pchFileName + 1, sizeof( pchFileName ) - 1, "0000" );
+         strcpy_s( pchFileName + 1, zsizeof( pchFileName ) - 1, "0000" );
          zltoa( lNumZKey, pchFileName + 5, lMaxLth - 5 );
       }
       else
       if ( lNumZKey < 10000 )
       {
-         strcpy_s( pchFileName + 1, sizeof( pchFileName ) - 1, "000" );
+         strcpy_s( pchFileName + 1, zsizeof( pchFileName ) - 1, "000" );
          zltoa( lNumZKey, pchFileName + 4, lMaxLth - 4 );
       }
       else
       if ( lNumZKey < 100000 )
       {
-         strcpy_s( pchFileName + 1, sizeof( pchFileName ) - 1, "00" );
+         strcpy_s( pchFileName + 1, zsizeof( pchFileName ) - 1, "00" );
          zltoa( lNumZKey, pchFileName + 3, lMaxLth - 3 );
       }
       else
       if ( lNumZKey < 1000000 )
       {
-         strcpy_s( pchFileName + 1, sizeof( pchFileName ) - 1, "0" );
+         strcpy_s( pchFileName + 1, zsizeof( pchFileName ) - 1, "0" );
          zltoa( lNumZKey, pchFileName + 2, lMaxLth - 2 );
       }
       else
@@ -4521,7 +4521,7 @@ AssignZKeyToMetaOI( zVIEW  vSubtask,
       return( -1 );
    if ( nEntityType == CM_ACTIVE_TYPE )
    {
-      strcpy_s( szEntityName, sizeof( szEntityName ), SRC_CMOD[ nType ].szOD_ROOT );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), SRC_CMOD[ nType ].szOD_ROOT );
       if ( DefineHierarchicalCursor( OI_View, SRC_CMOD[ nType ].szOD_ROOT ) != 0 )
       {
          return( -1 );
@@ -4530,7 +4530,7 @@ AssignZKeyToMetaOI( zVIEW  vSubtask,
    else
    if ( nEntityType == CM_REFER_TYPE )
    {
-      strcpy_s( szEntityName, sizeof( szEntityName ), REFER_CMOD[ nType - 10000 ].szOD_ROOT );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), REFER_CMOD[ nType - 10000 ].szOD_ROOT );
       if ( DefineHierarchicalCursor( OI_View, REFER_CMOD[ nType - 2000 ].szOD_ROOT ) != 0 )
       {
          return( -1 );
@@ -4546,12 +4546,12 @@ AssignZKeyToMetaOI( zVIEW  vSubtask,
          if ( SetZKeyToNextZKey( vSubtask, OI_View, szEntityName ) < 0 )
          {
             TraceLineS( "Configuration Management", "Assign of ZKey Failed!!!" );
-            strcpy_s( szErrMsg, sizeof( szErrMsg ), "Entity is: " );
-            strcpy_s( szErrMsg, sizeof( szErrMsg ), szEntityName );
+            strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Entity is: " );
+            strcpy_s( szErrMsg, zsizeof( szErrMsg ), szEntityName );
             TraceLineS( "Configuration Management", szErrMsg );
             DisplayEntityInstance( OI_View, szEntityName );
-            strcpy_s( szErrMsg, sizeof( szErrMsg ), "Root Entity is: " );
-            strcpy_s( szErrMsg, sizeof( szErrMsg ), SRC_CMOD[ nType ].szOD_ROOT );
+            strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Root Entity is: " );
+            strcpy_s( szErrMsg, zsizeof( szErrMsg ), SRC_CMOD[ nType ].szOD_ROOT );
             TraceLineS( "Configuration Management", szErrMsg );
             return( -1 );
          }
@@ -4659,22 +4659,6 @@ SetZKeyToNextZKey( zVIEW  vSubtask,
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT OPERATION
-CM_GetTypePrefix( zSHORT nType,
-                  zPCHAR szPrefix )
-{
-   if ( nType <= zSOURCE_MAX_META )
-   {
-      strcpy_s( szPrefix, sizeof( szPrefix ), SRC_CMOD[ nType ].szOD_PREFIX );
-      return( 0 );
-   }
-
-   strcpy_s( szPrefix, sizeof( szPrefix ), REFER_CMOD[ nType - 2000 ].szOD_PREFIX );
-   return( 2 );
-}
-
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
 zSHORT
 fnSetCPLR_ZKey( zVIEW vSubtask, zVIEW vTaskLPLR, zPCHAR szEntityName )
 {
@@ -4773,11 +4757,11 @@ BuildLPLR_MetaTypes( zVIEW vSubtask, zVIEW vLPLR, zSHORT BuildMetas )
       {
          zCHAR  szTempSpec[ zMAX_FILESPEC_LTH + 1 ];
 
-         GetStringFromAttribute( szTempSpec, sizeof( szTempSpec ), vLPLR, "LPLR", "MetaSrcDir" );
-         SysConvertEnvironmentString( szDirectorySpec, sizeof( szDirectorySpec ), szTempSpec );
+         GetStringFromAttribute( szTempSpec, zsizeof( szTempSpec ), vLPLR, "LPLR", "MetaSrcDir" );
+         SysConvertEnvironmentString( szDirectorySpec, zsizeof( szDirectorySpec ), szTempSpec );
          ofnTZCMWKSO_AppendSlash( szDirectorySpec );
-         strcat_s( szDirectorySpec, sizeof( szDirectorySpec ), "*" );
-         strcat_s( szDirectorySpec, sizeof( szDirectorySpec ), SRC_CMOD[ nType - 2000 ].szOD_EXT );
+         strcat_s( szDirectorySpec, zsizeof( szDirectorySpec ), "*" );
+         strcat_s( szDirectorySpec, zsizeof( szDirectorySpec ), SRC_CMOD[ nType - 2000 ].szOD_EXT );
          fnBuildMetas( vSubtask, vLPLR, szDirectorySpec, CM_REFER_TYPE );
       }
    }
@@ -4857,8 +4841,8 @@ LoadZeidonPPE( zVIEW  vSubtask,
       }
 
       zgGetZeidonToolsDir( vSubtask, szSystem_Phat, zAPPL_DIR_OBJECT );
-      strcpy_s( szFileName, sizeof( szFileName ), szSystem_Phat );
-      strcat_s( szFileName, sizeof( szFileName ), "ZEIDON.PPE" );
+      strcpy_s( szFileName, zsizeof( szFileName ), szSystem_Phat );
+      strcat_s( szFileName, zsizeof( szFileName ), "ZEIDON.PPE" );
 
       // zLEVEL_APPLICATION is required, so that the view
       //  would belong to the main task. Strange ...
@@ -4867,17 +4851,17 @@ LoadZeidonPPE( zVIEW  vSubtask,
       {
          if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) > 0 )
          {
-            GetStringFromAttribute( szLPLR_Phat, sizeof( szLPLR_Phat ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+            GetStringFromAttribute( szLPLR_Phat, zsizeof( szLPLR_Phat ), vTaskLPLR, "LPLR", "MetaSrcDir" );
          }
          else
-            strcpy_s( szSystem_Phat, sizeof( szSystem_Phat ), "" );
+            strcpy_s( szSystem_Phat, zsizeof( szSystem_Phat ), "" );
 
-         strcpy_s( szMessage, sizeof( szMessage ), "Presentation Environment was not found in directories\n" );
-         strcat_s( szMessage, sizeof( szMessage ), szLPLR_Phat );
-         strcat_s( szMessage, sizeof( szMessage ), " and " );
-         strcat_s( szMessage, sizeof( szMessage ), szSystem_Phat );
-         strcat_s( szMessage, sizeof( szMessage ), ".\n\n" );
-         strcat_s( szMessage, sizeof( szMessage ), pchMessageText );
+         strcpy_s( szMessage, zsizeof( szMessage ), "Presentation Environment was not found in directories\n" );
+         strcat_s( szMessage, zsizeof( szMessage ), szLPLR_Phat );
+         strcat_s( szMessage, zsizeof( szMessage ), " and " );
+         strcat_s( szMessage, zsizeof( szMessage ), szSystem_Phat );
+         strcat_s( szMessage, zsizeof( szMessage ), ".\n\n" );
+         strcat_s( szMessage, zsizeof( szMessage ), pchMessageText );
          SysMessageBox( vTaskLPLR, pchMessageTitle, szMessage, zBEEP );
          return( -1 );
       }
@@ -4947,13 +4931,13 @@ ComponentIsCheckedOut( zVIEW  vSubtask,
    CreateViewFromViewForTask( &vComponent, vComponentView, vSubtask );
    ResetView( vComponent );
 
-   szEntityName[ 0 ] = 0;  // strcpy_s( szEntityName, sizeof( szEntityName ), "" );
+   szEntityName[ 0 ] = 0;  // strcpy_s( szEntityName, zsizeof( szEntityName ), "" );
    zGetFirstEntityNameForView( vComponent, szEntityName );
 
    if ( lType == zSOURCE_DIALOG_META || lType == zSOURCE_REPORT_META || lType == zSOURCE_XSLT_META )
-      strcpy_s( szAttributeName, sizeof( szAttributeName ), "Tag" );
+      strcpy_s( szAttributeName, zsizeof( szAttributeName ), "Tag" );
    else
-      strcpy_s( szAttributeName, sizeof( szAttributeName ), "Name" );
+      strcpy_s( szAttributeName, zsizeof( szAttributeName ), "Name" );
 
    // Position on the correct Component within the type.
    if ( SetCursorFirstEntityByAttr( vActiveMetas, "W_MetaDef", "Name", vComponent, szEntityName, szAttributeName, "" ) == zCURSOR_SET &&
@@ -4974,7 +4958,7 @@ zOPER_EXPORT zSHORT OPERATION
 CheckDuplicateComponents( zVIEW   vTZCMLPLO,       // LPLR View
                           zVIEW   vTZCMCPRO,       // CPLR View
                           zLONG   lComponentType,  // Component type
-                          zPCHAR  szName )        // Name for duplicate Component
+                          zPCHAR  pchName )        // Name for duplicate Component
 {
    zVIEW   vTZCMLPLO_Copy;
    zVIEW   vTZCMCPRO_Copy;
@@ -4987,7 +4971,7 @@ CheckDuplicateComponents( zVIEW   vTZCMLPLO,       // LPLR View
    CreateViewFromViewForTask( &vTZCMCPRO_Copy, vTZCMCPRO, 0 );
 
    nRC = 0;
-   strcpy_s( szName, sizeof( szName ), "" );
+   strcpy_s( pchName, 33, "" );
 
    if ( CheckExistenceOfEntity( vTZCMCPRO_Copy, "Z_MetaDef" ) >= zCURSOR_SET  &&
         SetCursorFirstEntityByInteger( vTZCMCPRO_Copy, "Z_MetaDef", "Type", lComponentType, "" ) == zCURSOR_SET    &&
@@ -5005,7 +4989,7 @@ CheckDuplicateComponents( zVIEW   vTZCMLPLO,       // LPLR View
          if ( ulZKeyLPLR != ulZKeyCPRO )
          {
             // duplicate component
-            GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPRO_Copy, "Z_MetaDef", "Name" );
+            GetStringFromAttribute( pchName, 33, vTZCMCPRO_Copy, "Z_MetaDef", "Name" );
             nRC = 1;
             return( -1 );
          }
@@ -5025,9 +5009,9 @@ CheckDuplicateComponents( zVIEW   vTZCMLPLO,       // LPLR View
 zOPER_EXPORT zSHORT OPERATION
 CheckAllDuplicateName( zVIEW   vTZCMLPLO,   // LPLR View
                        zVIEW   vTZCMCPRO,   // CPLR View
-                       zPCHAR  szTypeCPLR,  // Return Type for duplicate Name
-                       zPCHAR  szTypeLPLR,  // Return Type for duplicate Name
-                       zPCHAR  szName )     // Return Name for duplicate Component
+                       zPCHAR  pchTypeCPLR,  // Return Type for duplicate Name
+                       zPCHAR  pchTypeLPLR,  // Return Type for duplicate Name
+                       zPCHAR  pchName )     // Return Name for duplicate Component
 {
    zVIEW   vTZCMLPLO_Copy;
    zSHORT  nRC;
@@ -5040,7 +5024,7 @@ CheckAllDuplicateName( zVIEW   vTZCMLPLO,   // LPLR View
    nRC = SetCursorFirstEntity( vTZCMLPLO_Copy, "W_MetaDef", "LPLR" );
    while ( nRC >= zCURSOR_SET )
    {
-      nRC = CheckDuplicateName( vTZCMLPLO_Copy,  vTZCMCPRO, szTypeCPLR, szTypeLPLR, szName );
+      nRC = CheckDuplicateName( vTZCMLPLO_Copy,  vTZCMCPRO, pchTypeCPLR, pchTypeLPLR, pchName );
       if ( nRC < 0 )
       {
          DropView( vTZCMLPLO_Copy );
@@ -5062,9 +5046,9 @@ CheckAllDuplicateName( zVIEW   vTZCMLPLO,   // LPLR View
 zOPER_EXPORT zSHORT OPERATION
 CheckDuplicateName( zVIEW   vTZCMLPLO,       // LPLR View
                     zVIEW   vTZCMCPRO,       // CPLR View
-                    zPCHAR  szTypeCPLR,      // Return Type for duplicate Name
-                    zPCHAR  szTypeLPLR,      // Return Type for duplicate Name
-                    zPCHAR  szName )         // Return Name for duplicate Component
+                    zPCHAR  pchTypeCPLR,      // Return Type for duplicate Name
+                    zPCHAR  pchTypeLPLR,      // Return Type for duplicate Name
+                    zPCHAR  pchName )         // Return Name for duplicate Component
 {
    zVIEW   vTZCMCPRO_Copy;
    zULONG  ulZKeyLPLR;
@@ -5075,9 +5059,9 @@ CheckDuplicateName( zVIEW   vTZCMLPLO,       // LPLR View
 
    CreateViewFromViewForTask( &vTZCMCPRO_Copy, vTZCMCPRO, 0 );
 
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMLPLO, "W_MetaDef", "Name" );
+   GetStringFromAttribute( pchName, 33, vTZCMLPLO, "W_MetaDef", "Name" );
    //exists a component with this name, then check the Key
-   if ( SetCursorFirstEntityByString( vTZCMCPRO_Copy, "Z_MetaDef", "Name", szName, "" ) >= zCURSOR_SET )
+   if ( SetCursorFirstEntityByString( vTZCMCPRO_Copy, "Z_MetaDef", "Name", pchName, "" ) >= zCURSOR_SET )
    {
       GetIntegerFromAttribute( (zPLONG) &ulZKeyLPLR, vTZCMLPLO, "W_MetaDef", "CPLR_ZKey" );
       do
@@ -5106,14 +5090,14 @@ CheckDuplicateName( zVIEW   vTZCMLPLO,       // LPLR View
 
             if ( nRC < 0 )
             {
-               GetVariableFromAttribute( szTypeCPLR, 0, zTYPE_STRING, 125, vTZCMCPRO_Copy, "Z_MetaDef", "Type", "CM_Type", 0 );
-               GetVariableFromAttribute( szTypeLPLR, 0, zTYPE_STRING, 125, vTZCMLPLO, "W_MetaType", "Type", "CM_Type", 0 );
+               GetVariableFromAttribute( pchTypeCPLR, 0, zTYPE_STRING, 125, vTZCMCPRO_Copy, "Z_MetaDef", "Type", "CM_Type", 0 );
+               GetVariableFromAttribute( pchTypeLPLR, 0, zTYPE_STRING, 125, vTZCMLPLO, "W_MetaType", "Type", "CM_Type", 0 );
                DropView( vTZCMCPRO_Copy );
                return( nRC );
             }
          } //endif ( ulZKeyLPLR != ulZKeyCPRO )
       }
-      while ( SetCursorNextEntityByString( vTZCMCPRO_Copy, "Z_MetaDef", "Name", szName, "" ) >= zCURSOR_SET );
+      while ( SetCursorNextEntityByString( vTZCMCPRO_Copy, "Z_MetaDef", "Name", pchName, "" ) >= zCURSOR_SET );
    } //endif ( SetCursorFirstEntityByString( vTZCMCPRO_Copy, "Z_MetaDef"...
 
    DropView( vTZCMCPRO_Copy );
@@ -5128,24 +5112,24 @@ CheckDuplicateName( zVIEW   vTZCMLPLO,       // LPLR View
 zOPER_EXPORT zSHORT OPERATION
 CheckDuplicateNameForRefresh( zVIEW    vTZCMLPLO,   // LPLR View
                               zVIEW    vTZCMCPRO,   // CPLR View
-                              zPCHAR   szTypeCPLR,  // ReturnType for duplicate Name
-                              zPCHAR   szTypeLPLR,  // ReturnType for duplicate Name
-                              zPCHAR   szName,      // ReturnName for duplicate Comp
+                              zPCHAR   pchTypeCPLR,  // ReturnType for duplicate Name
+                              zPCHAR   pchTypeLPLR,  // ReturnType for duplicate Name
+                              zPCHAR   pchName,      // ReturnName for duplicate Comp
                               zPULONG  pulZKeyLPLR )// ReturnZKey for duplicate Comp
 {
-   zVIEW         vTZCMLPLO_Copy;
-   zULONG ulZKeyCPRO;
-   zLONG         lTypeCPRO;
-   zLONG         lTypeLPLR;
-   zSHORT        nRC;
+   zVIEW   vTZCMLPLO_Copy;
+   zULONG  ulZKeyCPRO;
+   zLONG   lTypeCPRO;
+   zLONG   lTypeLPLR;
+   zSHORT  nRC;
 
    *pulZKeyLPLR = 0;
    CreateViewFromViewForTask( &vTZCMLPLO_Copy, vTZCMLPLO, 0 );
 
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPRO, "Z_MetaDef", "Name" );
+   GetStringFromAttribute( pchName, 33, vTZCMCPRO, "Z_MetaDef", "Name" );
 
    // If a component exists with this name, then check the Key.
-   if ( SetCursorFirstEntityByString( vTZCMLPLO_Copy, "W_MetaDef", "Name", szName, "LPLR" ) >= zCURSOR_SET )
+   if ( SetCursorFirstEntityByString( vTZCMLPLO_Copy, "W_MetaDef", "Name", pchName, "LPLR" ) >= zCURSOR_SET )
    {
       GetIntegerFromAttribute( (zPLONG) &ulZKeyCPRO, vTZCMCPRO, "Z_MetaDef", "ZKey" );
       do
@@ -5177,14 +5161,14 @@ CheckDuplicateNameForRefresh( zVIEW    vTZCMLPLO,   // LPLR View
 
             if ( nRC < 0 )
             {
-               GetVariableFromAttribute( szTypeLPLR, 0, zTYPE_STRING, 125, vTZCMLPLO_Copy, "W_MetaType", "Type", "CM_Type", 0 );
-               GetVariableFromAttribute( szTypeCPLR, 0, zTYPE_STRING, 125, vTZCMCPRO, "Z_MetaDef", "Type", "CM_Type", 0 );
+               GetVariableFromAttribute( pchTypeLPLR, 0, zTYPE_STRING, 125, vTZCMLPLO_Copy, "W_MetaType", "Type", "CM_Type", 0 );
+               GetVariableFromAttribute( pchTypeCPLR, 0, zTYPE_STRING, 125, vTZCMCPRO, "Z_MetaDef", "Type", "CM_Type", 0 );
                DropView( vTZCMLPLO_Copy );
                return( nRC );
             }
          } //endif ( ulZKeyLPLR != ulZKeyCPRO )
       }
-      while ( SetCursorNextEntityByString( vTZCMLPLO_Copy, "W_MetaDef", "Name", szName, "LPLR" ) >= zCURSOR_SET );
+      while ( SetCursorNextEntityByString( vTZCMLPLO_Copy, "W_MetaDef", "Name", pchName, "LPLR" ) >= zCURSOR_SET );
    } //endif ( SetCursorFirstEntityByString( vTZCMLPLO_Copy, "W_MetaDef"...
 
    DropView( vTZCMLPLO_Copy );
@@ -5198,10 +5182,10 @@ CheckDuplicateNameForRefresh( zVIEW    vTZCMLPLO,   // LPLR View
 //                            = 0   - no error
 zOPER_EXPORT zSHORT OPERATION
 SetTitleWithCheckOutState( zVIEW    vSubtask,
-                            zPCHAR  szToolname,
-                            zPCHAR  szLodname,
+                            zPCHAR  pchToolName,
+                            zPCHAR  pchLodName,
                             zVIEW   vToolView,
-                            zPCHAR  szEntityname,
+                            zPCHAR  pchEntityName,
                             zLONG   lType )
 {
    zVIEW  vTaskLPLR;
@@ -5213,38 +5197,38 @@ SetTitleWithCheckOutState( zVIEW    vSubtask,
 
    if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) < 0 )
    {
-      SetWindowCaptionTitle( vSubtask, szToolname, "" );
+      SetWindowCaptionTitle( vSubtask, pchToolName, "" );
       return( -1 );
    }
 
    if ( lType == zSOURCE_DIALOG_META || lType == zSOURCE_REPORT_META || lType == zSOURCE_XSLT_META )
-      strcpy_s( szAttributename, sizeof( szAttributename ), "Tag" );
+      strcpy_s( szAttributename, zsizeof( szAttributename ), "Tag" );
    else
-      strcpy_s( szAttributename, sizeof( szAttributename ), "Name" );
+      strcpy_s( szAttributename, zsizeof( szAttributename ), "Name" );
 
-   GetStringFromAttribute( szLPL_Name, sizeof( szLPL_Name ), vTaskLPLR, "LPLR", "Name" );
+   GetStringFromAttribute( szLPL_Name, zsizeof( szLPL_Name ), vTaskLPLR, "LPLR", "Name" );
 
-   if ( GetViewByName( &vToolView, szLodname, vSubtask, zLEVEL_TASK ) >= 0 )
+   if ( GetViewByName( &vToolView, pchLodName, vSubtask, zLEVEL_TASK ) >= 0 )
    {
-      GetStringFromAttribute( szComponentname, sizeof( szComponentname ), vToolView,
-                              szEntityname, szAttributename );
+      GetStringFromAttribute( szComponentname, zsizeof( szComponentname ), vToolView,
+                              pchEntityName, szAttributename );
       // if component not checked out, then set new Title
       if ( ComponentIsCheckedOut( vSubtask, vToolView, lType ) )
-         strcpy_s( szCheckedOut, sizeof( szCheckedOut ), "" );
+         strcpy_s( szCheckedOut, zsizeof( szCheckedOut ), "" );
       else
-         strcpy_s( szCheckedOut, sizeof( szCheckedOut ), " < not checked out >" );
+         strcpy_s( szCheckedOut, zsizeof( szCheckedOut ), " < not checked out >" );
    }
    else
    {
-      strcpy_s( szComponentname, sizeof( szComponentname ), "[Untitled]" );
-      strcpy_s( szCheckedOut, sizeof( szCheckedOut ), "" );
+      strcpy_s( szComponentname, zsizeof( szComponentname ), "[Untitled]" );
+      strcpy_s( szCheckedOut, zsizeof( szCheckedOut ), "" );
    }
 
-   strcpy_s( szTitle, sizeof( szTitle ), szToolname );
-   strcat_s( szTitle, sizeof( szTitle ), " - " );
-   strcat_s( szTitle, sizeof( szTitle ), szComponentname );
+   strcpy_s( szTitle, zsizeof( szTitle ), pchToolName );
+   strcat_s( szTitle, zsizeof( szTitle ), " - " );
+   strcat_s( szTitle, zsizeof( szTitle ), szComponentname );
 
-   strcat_s( szTitle, sizeof( szTitle ), szCheckedOut );
+   strcat_s( szTitle, zsizeof( szTitle ), szCheckedOut );
    SetWindowCaptionTitle( vSubtask, szLPL_Name, szTitle );
 
    return( 0 );
@@ -5267,7 +5251,7 @@ CheckOutStateForCurrentWindow( zVIEW   vSubtask,
    GetWindowHandle( (zPULONG) &hWnd, 0, vSubtask, 0 );
    GetWindowText( hWnd, szTitle, 249 );
 
-   strcpy_s( szNotCheckedOut, sizeof( szNotCheckedOut ), " < not checked out >" );
+   strcpy_s( szNotCheckedOut, zsizeof( szNotCheckedOut ), " < not checked out >" );
    zSearchAndReplace( szTitle, 249, szNotCheckedOut, "" );
 
    if ( CheckExistenceOfEntity( vToolView, "W_MetaDef" ) >= zCURSOR_UNDEFINED )
@@ -5280,9 +5264,9 @@ CheckOutStateForCurrentWindow( zVIEW   vSubtask,
 
       // if component not checked out
       if ( nCheckOut )
-         strcat_s( szTitle, sizeof( szTitle ), "" );
+         strcat_s( szTitle, zsizeof( szTitle ), "" );
       else
-         strcat_s( szTitle, sizeof( szTitle ), szNotCheckedOut );
+         strcat_s( szTitle, zsizeof( szTitle ), szNotCheckedOut );
 
       SetWindowCaptionTitle( vSubtask, szTitle, "" );
    }
@@ -5316,9 +5300,9 @@ SaveSortOrder( zVIEW vSubtask,
    else
    {
       if ( lType == zREFER_DOMAIN_META || lType == zREFER_GO_META )
-         strcpy_s( szAttributeName, sizeof( szAttributeName ), "GroupName" );
+         strcpy_s( szAttributeName, zsizeof( szAttributeName ), "GroupName" );
       else
-         strcpy_s( szAttributeName, sizeof( szAttributeName ), "Description" );
+         strcpy_s( szAttributeName, zsizeof( szAttributeName ), "Description" );
 
       if ( zstrcmp( pchListCtrl, szAttributeName ) == 0 )
          SetAttributeFromInteger( vCM_List, "W_MetaType", "SortOrder", 3 );
@@ -5350,23 +5334,23 @@ SortComponents( zPVIEW vCM_List )
    switch( lSortOrder )
    {
       case 0:        // no sort order
-         strcpy_s( szOrderKeys, sizeof( szOrderKeys ), "LastUpdateDate D Name A" );
+         strcpy_s( szOrderKeys, zsizeof( szOrderKeys ), "LastUpdateDate D Name A" );
          break;
 
       case 1:        // sort by name
-         strcpy_s( szOrderKeys, sizeof( szOrderKeys ), "Name A LastUpdateDate D" );
+         strcpy_s( szOrderKeys, zsizeof( szOrderKeys ), "Name A LastUpdateDate D" );
          break;
 
       case 2:        // sort by last update date
-         strcpy_s( szOrderKeys, sizeof( szOrderKeys ), "LastUpdateDate D Name A" );
+         strcpy_s( szOrderKeys, zsizeof( szOrderKeys ), "LastUpdateDate D Name A" );
          break;
 
       case 3:        // sort by Group or Description
          if ( lType == zSOURCE_DOMAIN_META || lType == zSOURCE_GO_META ||
               lType == zREFER_DOMAIN_META  || lType == zREFER_GO_META )
-            strcpy_s( szOrderKeys, sizeof( szOrderKeys ), "GroupName A Name A" );
+            strcpy_s( szOrderKeys, zsizeof( szOrderKeys ), "GroupName A Name A" );
          else
-            strcpy_s( szOrderKeys, sizeof( szOrderKeys ), "Desc A Name A" );
+            strcpy_s( szOrderKeys, zsizeof( szOrderKeys ), "Desc A Name A" );
          break;
    }
 
@@ -5453,7 +5437,7 @@ SetCompSpecPaths( zVIEW  vTarget,
             // The Component Source Directory is part of the pathname
             // Take the new component Source directory and add the end of
             // the original pathname
-            GetStringFromAttribute( szBaseDir, sizeof( szBaseDir ), vTarget, "LPLR", "MetaSrcDir" );
+            GetStringFromAttribute( szBaseDir, zsizeof( szBaseDir ), vTarget, "LPLR", "MetaSrcDir" );
             nAktLth = (zSHORT) zstrlen( szAktDirUpper );
             nBaseLth = (zSHORT) zstrlen( szBaseDirUpper );
             nAnzahl = nAktLth - nBaseLth;
@@ -5476,7 +5460,7 @@ SetCompSpecPaths( zVIEW  vTarget,
             else
             {
                // LPLR-Name is part of the pathname. Replace the old LPLR-Name with the new one.
-               GetStringFromAttribute( szAktLPLRName, sizeof( szAktLPLRName ), vTarget, "LPLR", "Name" );
+               GetStringFromAttribute( szAktLPLRName, zsizeof( szAktLPLRName ), vTarget, "LPLR", "Name" );
                zSearchAndReplace(pchSourceAktDir, 255, pchSourceLPLRName, szAktLPLRName);
                nZRetCode = SetAttributeFromString( vTarget, pchEntityName, pchAttributeName, pchSourceAktDir );
             }
@@ -5587,12 +5571,12 @@ RebuildMetaLists( zVIEW   vSubtask )
       GetIntegerFromAttribute( &lCurrentZKey, vTZCMWKSO, "LPLR", "ZKey" );
       nRC = SetCursorFirstEntityByInteger( vTZCMWKSO, "LPLR", "ZKey", lZKey, "" );
    }
-   GetStringFromAttribute( szLPLR_Name, sizeof( szLPLR_Name ), vTZCMWKSO, "LPLR", "Name" );
+   GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), vTZCMWKSO, "LPLR", "Name" );
    nLPLR_Activated = GetViewByName( &LPLR_View, szLPLR_Name, vZeidonCM, zLEVEL_SUBTASK );
-   GetStringFromAttribute( szDirectorySpec, sizeof( szDirectorySpec ), vTZCMWKSO, "LPLR", "ExecDir" ); // borrow szDirectorySpec for a second
-   SysConvertEnvironmentString( szLPLR_FileSpec, sizeof( szLPLR_FileSpec ), szDirectorySpec );
+   GetStringFromAttribute( szDirectorySpec, zsizeof( szDirectorySpec ), vTZCMWKSO, "LPLR", "ExecDir" ); // borrow szDirectorySpec for a second
+   SysConvertEnvironmentString( szLPLR_FileSpec, zsizeof( szLPLR_FileSpec ), szDirectorySpec );
    ofnTZCMWKSO_AppendSlash( szLPLR_FileSpec );
-   strncpy_s( szLPLR_FileName, sizeof( szLPLR_FileName ), szLPLR_Name, sizeof( szLPLR_FileName ) - 1 );
+   strncpy_s( szLPLR_FileName, zsizeof( szLPLR_FileName ), szLPLR_Name, zsizeof( szLPLR_FileName ) - 1 );
    for ( nRC = 0; nRC < 32; nRC++ )
    {
       if ( szLPLR_FileName[ nRC ] == 0 )
@@ -5603,8 +5587,8 @@ RebuildMetaLists( zVIEW   vSubtask )
    }
 
    szLPLR_FileName[ nRC ] = 0;
-   strcat_s( szLPLR_FileSpec, sizeof( szLPLR_FileSpec ), szLPLR_FileName );
-   strcat_s( szLPLR_FileSpec, sizeof( szLPLR_FileSpec ), ".XLP" );
+   strcat_s( szLPLR_FileSpec, zsizeof( szLPLR_FileSpec ), szLPLR_FileName );
+   strcat_s( szLPLR_FileSpec, zsizeof( szLPLR_FileSpec ), ".XLP" );
    if ( nLPLR_Activated < 1 ) // LPLR currently not activated
    {
       hFile = (HFILE) SysOpenFile( vSubtask, szLPLR_FileSpec, COREFILE_READ );
@@ -5636,9 +5620,9 @@ RebuildMetaLists( zVIEW   vSubtask )
    {
       if ( lZKey != lCurrentZKey )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Project is currently active in another task.\n" );
-         strcat_s( szMsg, sizeof( szMsg ), "Rebuilding the Project may corrupt the meta list.\n" );
-         strcat_s( szMsg, sizeof( szMsg ), "Rebuilding of the Project is therefore cancelled!" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Project is currently active in another task.\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "Rebuilding the Project may corrupt the meta list.\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "Rebuilding of the Project is therefore cancelled!" );
          MessageSend( vSubtask, "CM00605", "Configuration Management",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
@@ -5649,9 +5633,9 @@ RebuildMetaLists( zVIEW   vSubtask )
          GetIntegerFromAttribute( &lTaskUseCnt, LPLR_View, "LPLR", "TaskUseCount" );
          if ( lTaskUseCnt > 1 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Project is currently active in more than one task.\n" );
-            strcat_s( szMsg, sizeof( szMsg ), "Rebuilding the Project may corrupt the meta list.\n" );
-            strcat_s( szMsg, sizeof( szMsg ), "Rebuilding of the Project is therefore cancelled!" );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Project is currently active in more than one task.\n" );
+            strcat_s( szMsg, zsizeof( szMsg ), "Rebuilding the Project may corrupt the meta list.\n" );
+            strcat_s( szMsg, zsizeof( szMsg ), "Rebuilding of the Project is therefore cancelled!" );
             MessageSend( vSubtask, "CM00606", "Configuration Management",
                          szMsg,
                          zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
@@ -5666,15 +5650,15 @@ RebuildMetaLists( zVIEW   vSubtask )
       return( -1 );
 
    // Test to see if we are indeed writing the correct O to file.
-   GetStringFromAttribute( szDirectorySpec, sizeof( szDirectorySpec ), LPLR_View, "LPLR", "Name" );
+   GetStringFromAttribute( szDirectorySpec, zsizeof( szDirectorySpec ), LPLR_View, "LPLR", "Name" );
    if ( zstrcmpi( szDirectorySpec, szLPLR_Name ) != 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Project Name " );
-      strcat_s( szMsg, sizeof( szMsg ), szLPLR_Name );
-      strcat_s( szMsg, sizeof( szMsg ), " doesn't match name \nof OI file\n" );
-      strcat_s( szMsg, sizeof( szMsg ), szLPLR_FileSpec );
-      strcat_s( szMsg, sizeof( szMsg ), "\nCommit of Project aborted!\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "Please notify Bill of error" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Project Name " );
+      strcat_s( szMsg, zsizeof( szMsg ), szLPLR_Name );
+      strcat_s( szMsg, zsizeof( szMsg ), " doesn't match name \nof OI file\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), szLPLR_FileSpec );
+      strcat_s( szMsg, zsizeof( szMsg ), "\nCommit of Project aborted!\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "Please notify Bill of error" );
       MessageSend( vSubtask, "CM00607", "Configuration Management",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -5691,32 +5675,32 @@ RebuildMetaLists( zVIEW   vSubtask )
 
    // Added LastBuildDate so that we could then compare the LLP and XLP so see if they should be rebuild because they are out
    // of sync.
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
    SetAttributeFromString( LPLR_View, "LPLR", "LastBuildDate", szTimestamp );
 
    if ( CommitOI_ToFile( LPLR_View, szLPLR_FileSpec, zSINGLE ) != 0 ) // zBINARY | zSINGLE ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Project " );
-      strcat_s( szMsg, sizeof( szMsg ), szLPLR_Name );
-      strcat_s( szMsg, sizeof( szMsg ), " XLP could not be committed in\n" );
-      strcat_s( szMsg, sizeof( szMsg ), szLPLR_FileSpec );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Project " );
+      strcat_s( szMsg, zsizeof( szMsg ), szLPLR_Name );
+      strcat_s( szMsg, zsizeof( szMsg ), " XLP could not be committed in\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), szLPLR_FileSpec );
       MessageSend( vSubtask, "CM00608", "Configuration Management",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_INFORMATION, zBEEP );
       return( -1 );
    }
-   GetStringFromAttribute( szDirectorySpec, sizeof( szDirectorySpec ), vTZCMWKSO, "LPLR", "MetaSrcDir" ); // borrow szDirectorySpec for a second
-   SysConvertEnvironmentString( szLPLR_FileSpec, sizeof( szLPLR_FileSpec ), szDirectorySpec );
+   GetStringFromAttribute( szDirectorySpec, zsizeof( szDirectorySpec ), vTZCMWKSO, "LPLR", "MetaSrcDir" ); // borrow szDirectorySpec for a second
+   SysConvertEnvironmentString( szLPLR_FileSpec, zsizeof( szLPLR_FileSpec ), szDirectorySpec );
    ofnTZCMWKSO_AppendSlash( szLPLR_FileSpec );
-   strncpy_s( szLPLR_FileName, sizeof( szLPLR_FileName ), szLPLR_Name, sizeof( szLPLR_FileName ) - 1 );
-   strcat_s( szLPLR_FileSpec, sizeof( szLPLR_FileSpec ), szLPLR_FileName );
-   strcat_s( szLPLR_FileSpec, sizeof( szLPLR_FileSpec ), ".LLP" );
+   strncpy_s( szLPLR_FileName, zsizeof( szLPLR_FileName ), szLPLR_Name, zsizeof( szLPLR_FileName ) - 1 );
+   strcat_s( szLPLR_FileSpec, zsizeof( szLPLR_FileSpec ), szLPLR_FileName );
+   strcat_s( szLPLR_FileSpec, zsizeof( szLPLR_FileSpec ), ".LLP" );
    if ( CommitOI_ToFile( LPLR_View, szLPLR_FileSpec, zSINGLE ) != 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Project " );
-      strcat_s( szMsg, sizeof( szMsg ), szLPLR_Name );
-      strcat_s( szMsg, sizeof( szMsg ), " LLP could not be committed in\n" );
-      strcat_s( szMsg, sizeof( szMsg ), szLPLR_FileSpec );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Project " );
+      strcat_s( szMsg, zsizeof( szMsg ), szLPLR_Name );
+      strcat_s( szMsg, zsizeof( szMsg ), " LLP could not be committed in\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), szLPLR_FileSpec );
       MessageSend( vSubtask, "CM00608", "Configuration Management",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_INFORMATION, zBEEP );
@@ -5734,7 +5718,7 @@ RebuildMetaLists( zVIEW   vSubtask )
    if ( SysGetEnvVar( szDetachSpec, "ZEIDON", zMAX_FILENAME_LTH + 1 ) == 0 )
    {
       ofnTZCMWKSO_AppendSlash( szDetachSpec );
-      strcat_s( szDetachSpec, sizeof( szDetachSpec ), "TZCM.DET" );
+      strcat_s( szDetachSpec, zsizeof( szDetachSpec ), "TZCM.DET" );
       hFile = (HFILE) SysOpenFile( vSubtask, szDetachSpec, COREFILE_DELETE );
    }
 
@@ -5779,14 +5763,14 @@ RebuildXODs( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vLOD_List, "W_MetaDef", "" ) )
    {
-      GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vLOD_List, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vLOD_List, "W_MetaDef", "Name" );
 
       nRC = ActivateMetaOI( vSubtask, &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI );
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Could not Activate LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), ".\nAborting Build" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Could not Activate LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), ".\nAborting Build" );
          MessageSend( vSubtask, "TE00426", "Physical Data Model",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -5795,9 +5779,9 @@ RebuildXODs( zVIEW vSubtask )
       else
       {
          // Send message that we are building the LOD.
-         strcpy_s( szMsg, sizeof( szMsg ), "Building executable for LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), "." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Building executable for LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), "." );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          // Make sure the TE_SourceZKey attribute is set because it determines
@@ -5812,11 +5796,11 @@ RebuildXODs( zVIEW vSubtask )
          DropMetaOI( vSubtask, vLOD );
 
          // Commit the XOD to LPLR file.
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vLPLR, "LPLR", "ExecDir" );
-         SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTemp );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vLPLR, "LPLR", "ExecDir" );
+         SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTemp );
          ofnTZCMWKSO_AppendSlash( szFileName );
-         strcat_s( szFileName, sizeof( szFileName ), szLOD_Name );
-         strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+         strcat_s( szFileName, zsizeof( szFileName ), szLOD_Name );
+         strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
          TraceLineS( "*** Committing workstation file: ", szFileName );
          CommitOI_ToFile( vXOD, szFileName, zSINGLE );
       }

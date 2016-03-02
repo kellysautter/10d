@@ -619,7 +619,7 @@ ExternalTargetCreateList( zVIEW     vSubtask )
       //: // Copy only, if not existing
       //: SET CURSOR FIRST vTaskLPLR.ExternalTarget
       //:            WHERE vTaskLPLR.ExternalTarget.Name = vTaskLPLR.TargetExecutable.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTaskLPLR, "TargetExecutable", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTaskLPLR, "TargetExecutable", "Name" );
       RESULT = SetCursorFirstEntityByString( vTaskLPLR, "ExternalTarget", "Name", szTempString_0, "" );
       //: IF RESULT != zCURSOR_SET
       if ( RESULT != zCURSOR_SET )
@@ -714,7 +714,7 @@ CopyCompilerSpec( zVIEW     vSubtask )
       //:  nNumber = nNumber + 1
       nNumber = nNumber + 1;
       //:  zltoa( nNumber, szNumber )
-      zltoa( nNumber, szNumber, sizeof( szNumber ) );
+      zltoa( nNumber, szNumber, zsizeof( szNumber ) );
       //:  szName = "New" + szNumber
       ZeidonStringCopy( szName, 1, 0, "New", 1, 0, 33 );
       ZeidonStringConcat( szName, 1, 0, szNumber, 1, 0, 33 );
@@ -834,7 +834,7 @@ RetrieveCurrentCompileSpec( zVIEW     vSubtask )
 
    //:SET CURSOR FIRST vTaskLPLR.Compiler
    //:    WHERE vTaskLPLR.Compiler.Name = vTaskLPLR.LPLR.CurrentCompilerSpec
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTaskLPLR, "LPLR", "CurrentCompilerSpec" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTaskLPLR, "LPLR", "CurrentCompilerSpec" );
    RESULT = SetCursorFirstEntityByString( vTaskLPLR, "Compiler", "Name", szTempString_0, "" );
 
    //:szName = vTaskLPLR.LPLR.Name
@@ -919,7 +919,7 @@ RebuildTargetList( zVIEW     vSubtask )
       MB_SetMessage( vSubtask, 0, szMsg );
 
       //: szName = vTaskLPLR.LPLR.MetaSrcDir + "\" + vMetaList.W_MetaDef.Name + ".POG"
-      GetStringFromAttribute( szName, sizeof( szName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szName, 1, 0, "\\", 1, 0, 514 );
       GetVariableFromAttribute( szTempString_1, 0, 'S', 33, vMetaList, "W_MetaDef", "Name", "", 0 );
       ZeidonStringConcat( szName, 1, 0, szTempString_1, 1, 0, 514 );
@@ -1006,7 +1006,7 @@ RebuildTargetList( zVIEW     vSubtask )
       MB_SetMessage( vSubtask, 0, szMsg );
 
       //: szName = vTaskLPLR.LPLR.MetaSrcDir + "\" + vMetaList.W_MetaDef.Name + ".PWD"
-      GetStringFromAttribute( szName, sizeof( szName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szName, 1, 0, "\\", 1, 0, 514 );
       GetVariableFromAttribute( szTempString_3, 0, 'S', 33, vMetaList, "W_MetaDef", "Name", "", 0 );
       ZeidonStringConcat( szName, 1, 0, szTempString_3, 1, 0, 514 );
@@ -1095,7 +1095,7 @@ RebuildTargetList( zVIEW     vSubtask )
          MB_SetMessage( vSubtask, 0, szMsg );
 
          //: szName = vTaskLPLR.LPLR.MetaSrcDir + "\" + vMetaList.W_MetaDef.Name + ".LOD"
-         GetStringFromAttribute( szName, sizeof( szName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
          ZeidonStringConcat( szName, 1, 0, "\\", 1, 0, 514 );
          GetVariableFromAttribute( szTempString_5, 0, 'S', 33, vMetaList, "W_MetaDef", "Name", "", 0 );
          ZeidonStringConcat( szName, 1, 0, szTempString_5, 1, 0, 514 );
@@ -1195,7 +1195,7 @@ RebuildTargetList( zVIEW     vSubtask )
       MB_SetMessage( vSubtask, 0, szMsg );
 
       //: szName = vTaskLPLR.LPLR.MetaSrcDir + "\" + vMetaList.W_MetaDef.Name + ".PDG"
-      GetStringFromAttribute( szName, sizeof( szName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szName, 1, 0, "\\", 1, 0, 514 );
       GetVariableFromAttribute( szTempString_7, 0, 'S', 33, vMetaList, "W_MetaDef", "Name", "", 0 );
       ZeidonStringConcat( szName, 1, 0, szTempString_7, 1, 0, 514 );

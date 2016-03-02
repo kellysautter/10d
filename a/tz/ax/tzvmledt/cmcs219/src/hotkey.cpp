@@ -195,7 +195,7 @@ BOOL CEdit::RegisterHotKey( CM_HOTKEY &cmHotKey, WORD wCmd )
       // not a reassignment -- will need to make room
       if ( !g_pHotKeys )
       {
-         g_pHotKeys = ( CHotKey * ) malloc( HOTKEY_BLOCKSIZE * sizeof( CHotKey ) );
+         g_pHotKeys = ( CHotKey * ) malloc( HOTKEY_BLOCKSIZE * zsizeof( CHotKey ) );
          if ( !g_pHotKeys )
          {
             return FALSE;
@@ -206,7 +206,7 @@ BOOL CEdit::RegisterHotKey( CM_HOTKEY &cmHotKey, WORD wCmd )
       if ( g_nHotKeyCount + 1 > g_nHotKeyAllocCount )
       {
          g_nHotKeyAllocCount += HOTKEY_BLOCKSIZE;
-         CHotKey *pNew = ( CHotKey * )realloc( g_pHotKeys, sizeof( CHotKey ) * g_nHotKeyAllocCount );
+         CHotKey *pNew = ( CHotKey * )realloc( g_pHotKeys, zsizeof( CHotKey ) * g_nHotKeyAllocCount );
          if ( pNew )
          {
             g_pHotKeys = pNew;
@@ -219,7 +219,7 @@ BOOL CEdit::RegisterHotKey( CM_HOTKEY &cmHotKey, WORD wCmd )
 
       if ( g_nHotKeyCount )
       {
-         memmove( g_pHotKeys + nInsertAt + 1, g_pHotKeys + nInsertAt, sizeof( CHotKey ) * ( g_nHotKeyCount - nInsertAt ) );
+         memmove( g_pHotKeys + nInsertAt + 1, g_pHotKeys + nInsertAt, zsizeof( CHotKey ) * ( g_nHotKeyCount - nInsertAt ) );
       }
       g_nHotKeyCount++;
    }
@@ -246,7 +246,7 @@ BOOL CEdit::UnregisterHotKey( CM_HOTKEY &cmHotKey )
       // shrink the array
       memmove( g_pHotKeys + nInsertAt,
                g_pHotKeys + nInsertAt + 1,
-               ( g_nHotKeyCount - nInsertAt - 1 ) * sizeof( CHotKey ) );
+               ( g_nHotKeyCount - nInsertAt - 1 ) * zsizeof( CHotKey ) );
       g_nHotKeyCount--;
       ASSERT( g_nHotKeyCount >= 0 );
 
@@ -268,20 +268,20 @@ BOOL CEdit::UnregisterHotKey( CM_HOTKEY &cmHotKey )
 int CEdit::GetHotKeys( LPBYTE pBuff )
 {
    // buff is version stamp, hotkey count, and hotkeys
-   int cbBuff = sizeof( BYTE ) + sizeof( DWORD ) + CEdit::g_nHotKeyCount * ( sizeof( CM_HOTKEY ) + sizeof( WORD ) );
+   int cbBuff = zsizeof( BYTE ) + zsizeof( DWORD ) + CEdit::g_nHotKeyCount * ( zsizeof( CM_HOTKEY ) + zsizeof( WORD ) );
 
    if ( pBuff )
    {
       *pBuff++ = 1;   // version
       *( DWORD * ) pBuff = CEdit::g_nHotKeyCount;
-      pBuff += sizeof( DWORD );
+      pBuff += zsizeof( DWORD );
       for ( int i = 0; i < CEdit::g_nHotKeyCount; i++ )
       {
          CHotKey *pHotKey = &CEdit::g_pHotKeys[ i ];
          *( WORD * ) pBuff = pHotKey->wCmd;
-         pBuff += sizeof( WORD );
+         pBuff += zsizeof( WORD );
          *( CM_HOTKEY * ) pBuff = pHotKey->cmHotKey;
-         pBuff += sizeof( CM_HOTKEY );
+         pBuff += zsizeof( CM_HOTKEY );
       }
    }
 
@@ -301,7 +301,7 @@ BOOL CEdit::SetHotKeys( const LPBYTE pHotKeys )
    BYTE byVer = *pBuff;
    pBuff++;
    int nCount = ( int ) ( *( DWORD * ) pBuff ); // count
-   pBuff += sizeof( DWORD );
+   pBuff += zsizeof( DWORD );
 
    if ( nCount )
    {
@@ -310,14 +310,14 @@ BOOL CEdit::SetHotKeys( const LPBYTE pHotKeys )
          for ( int i = 0; i < nCount; i++ )
          {
             WORD wCmd = *( WORD * )pBuff;
-            pBuff += sizeof( WORD );
+            pBuff += zsizeof( WORD );
             DWORD dwHotKey = *( DWORD * )pBuff;
             // convert to new format
             CM_HOTKEY cmHotKey = { ( BYTE  ) ( ( dwHotKey & 0x0000FF00 ) >> 8 ),
                                    ( TCHAR ) (   dwHotKey & 0x000000FF ),
                                    ( BYTE  ) ( ( dwHotKey & 0xFF000000 ) >> 24 ),
                                    ( TCHAR ) ( ( dwHotKey & 0x00FF0000 ) >> 16 ) };
-            pBuff += sizeof( DWORD );
+            pBuff += zsizeof( DWORD );
             RegisterHotKey( cmHotKey, wCmd );
          }
       }
@@ -327,9 +327,9 @@ BOOL CEdit::SetHotKeys( const LPBYTE pHotKeys )
          for ( int i = 0; i < nCount; i++ )
          {
             WORD wCmd = *( WORD * )pBuff;
-            pBuff += sizeof( WORD );
+            pBuff += zsizeof( WORD );
             CM_HOTKEY cmHotKey = *( CM_HOTKEY * )pBuff;
-            pBuff += sizeof( CM_HOTKEY );
+            pBuff += zsizeof( CM_HOTKEY );
             RegisterHotKey( cmHotKey, wCmd );
          }
       }

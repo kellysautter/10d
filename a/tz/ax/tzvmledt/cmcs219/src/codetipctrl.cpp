@@ -129,7 +129,7 @@ void CCodeTipCtrl::AutoSizeControl()
       LOGFONT lf = {0};
       HDC hdc = ::GetDC( hEdit );
 
-      GetObject( hFont, sizeof(LOGFONT), &lf );
+      GetObject( hFont, zsizeof(LOGFONT), &lf );
       y = -MulDiv( lf.lfHeight, GetDeviceCaps( hdc, LOGPIXELSY ), 72 );
       ::ReleaseDC( hEdit, hdc );
    }
@@ -262,7 +262,7 @@ LPCTSTR CCodeTipCtrl::GetTipText()
       delete [] m_lpszText;
 
    VERIFY( m_lpszText = new TCHAR[ iLen ] );
-   ZeroMemory( m_lpszText, sizeof( TCHAR ) * iLen );
+   ZeroMemory( m_lpszText, zsizeof( TCHAR ) * iLen );
 
    VERIFY( iLen - 1 == GetWindowText( m_lpszText, iLen ) );
 

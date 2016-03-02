@@ -63,7 +63,7 @@ MapPointStart( )
          CString csMapName;
          HKEY hKey;
          zCHAR szMapPointPath[ 256 ];
-         DWORD dwBufLen = sizeof( szMapPointPath );
+         DWORD dwBufLen = zsizeof( szMapPointPath );
 
          if ( RegOpenKeyEx( HKEY_LOCAL_MACHINE,
                             "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\"

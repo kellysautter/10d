@@ -65,15 +65,15 @@ PrintActiveWindow( zVIEW vSubtask )
       zCHAR szMessage[ 1024 ];
       zCHAR szTitle[ 512 ];
 
-      pZSubtask->m_pZFWnd->GetWindowText( szTitle, sizeof( szTitle ) - 1 );
+      pZSubtask->m_pZFWnd->GetWindowText( szTitle, zsizeof( szTitle ) - 1 );
       if ( pZSubtask->m_pzmaWithFocus &&
            pZSubtask->m_pzmaWithFocus->PrintZCtrl( TRUE ) )
       {
          zCHAR szCaption[ 256 ];
 
-         sprintf_s( szCaption, sizeof( szCaption ), "Print Window or %s",
+         sprintf_s( szCaption, zsizeof( szCaption ), "Print Window or %s",
                    pZSubtask->m_pzmaWithFocus->m_csERemote.GetString());
-         sprintf_s( szMessage, sizeof( szMessage ), "OK to print %s control:\n"
+         sprintf_s( szMessage, zsizeof( szMessage ), "OK to print %s control:\n"
                               "for Dialog: %s.%s.%s\n"
                               "for Window: %s?",
                    pZSubtask->m_pzmaWithFocus->m_csERemote.GetString(),
@@ -85,7 +85,7 @@ PrintActiveWindow( zVIEW vSubtask )
 
          nRC = ConstructZeidonPrompt( vSubtask, szCaption,
                                       szMessage, szTitle,
-                                      sizeof( szTitle ), &lFlags,
+                                      zsizeof( szTitle ), &lFlags,
                                       "Report Title:;"
                                         "Print Control;"
                                         "Print Window;"
@@ -103,9 +103,9 @@ PrintActiveWindow( zVIEW vSubtask )
          if ( nRC == IDNO )
          {
             PumpMessages( vSubtask );  // let repainting occur to remove prompt
-            strcpy_s( szMessage, sizeof( szMessage ), *(pZSubtask->m_pzsDlgTag) );
-            strcat_s( szMessage, sizeof( szMessage ), "." );
-            strcat_s( szMessage, sizeof( szMessage ), *(pZSubtask->m_pzsWndTag) );
+            strcpy_s( szMessage, zsizeof( szMessage ), *(pZSubtask->m_pzsDlgTag) );
+            strcat_s( szMessage, zsizeof( szMessage ), "." );
+            strcat_s( szMessage, zsizeof( szMessage ), *(pZSubtask->m_pzsWndTag) );
             return( PrintWnd( vSubtask, szMessage ) );
          }
       }
@@ -113,11 +113,11 @@ PrintActiveWindow( zVIEW vSubtask )
       {
          zSHORT nButtons = zBUTTONS_YESNO;
 #ifdef _DEBUG
-         SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+         SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
          if ( szMessage[ 0 ] == 'Y' )
             nButtons = zBUTTONS_YESNOCANCEL;
 #endif
-         sprintf_s( szMessage, sizeof( szMessage ), "OK to print Window: %s (%s.%s)?",
+         sprintf_s( szMessage, zsizeof( szMessage ), "OK to print Window: %s (%s.%s)?",
                     szTitle, (*(pZSubtask->m_pzsDlgTag)).GetString(),
                     (*(pZSubtask->m_pzsWndTag)).GetString() );
          nRC = OperatorPrompt( vSubtask, "Print Window", szMessage, 0, nButtons, zRESPONSE_YES, 0 );
@@ -173,14 +173,14 @@ SaveActiveCtrlToCSV( zVIEW vSubtask )
       zCHAR szFileName[ zMAX_FILESPEC_LTH + 1 ];
       zLONG lFlags = 0x00000000;
 
-      pZSubtask->m_pZFWnd->GetWindowText( szTitle, sizeof( szTitle ) - 1 );
+      pZSubtask->m_pZFWnd->GetWindowText( szTitle, zsizeof( szTitle ) - 1 );
       if ( pZSubtask->m_pzmaWithFocus &&
            pZSubtask->m_pzmaWithFocus->PrintZCtrl( TRUE ) )
       {
          zCHAR szCaption[ 256 ];
 
-         sprintf_s( szCaption, sizeof( szCaption ), "Create CSV" );
-         sprintf_s( szMessage, sizeof( szMessage ), "OK to create CSV file for %s control:\n"
+         sprintf_s( szCaption, zsizeof( szCaption ), "Create CSV" );
+         sprintf_s( szMessage, zsizeof( szMessage ), "OK to create CSV file for %s control:\n"
                                "for Dialog: %s.%s.%s\n"
                                "for Window: %s?",
                     pZSubtask->m_pzmaWithFocus->m_csERemote.GetString(),
@@ -189,26 +189,26 @@ SaveActiveCtrlToCSV( zVIEW vSubtask )
 
          // USERPROFILE=C:\Documents and Settings\Doug Sorensen
          szFileName[ 0 ] = 0;
-         if ( SysGetEnvVar( szFileName, "USERPROFILE", sizeof( szFileName ) - 8 ) == 0 )
+         if ( SysGetEnvVar( szFileName, "USERPROFILE", zsizeof( szFileName ) - 8 ) == 0 )
          {
-            strcat_s( szFileName, sizeof( szFileName ), "\\desktop\\" );
+            strcat_s( szFileName, zsizeof( szFileName ), "\\desktop\\" );
          }
          else
          {
             SfGetApplicationForSubtask( &lpApp, pZSubtask->m_vDialog );
             if ( lpApp )
             {
-               strcpy_s( szFileName, sizeof( szFileName ), lpApp->szLocalDir );
+               strcpy_s( szFileName, zsizeof( szFileName ), lpApp->szLocalDir );
             }
          }
 
-         strcat_s( szFileName, sizeof( szFileName ), *(pZSubtask->m_pzmaWithFocus->m_pzsTag) );
-         strcat_s( szFileName, sizeof( szFileName ), ".csv" );
+         strcat_s( szFileName, zsizeof( szFileName ), *(pZSubtask->m_pzmaWithFocus->m_pzsTag) );
+         strcat_s( szFileName, zsizeof( szFileName ), ".csv" );
          zstrlower( szFileName );
 
          nRC = ConstructZeidonPrompt( vSubtask, szCaption,
                                       szMessage, szFileName,
-                                      sizeof( szTitle ), &lFlags,
+                                      zsizeof( szTitle ), &lFlags,
                                       "CSV File Name:;"
                                         "Create CSV;"
                                         "Create CSV As...",
@@ -217,7 +217,7 @@ SaveActiveCtrlToCSV( zVIEW vSubtask )
          {
             if ( nRC == IDNO )  // Create CSV As...
             {
-               if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+               if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                            "CSV Files (*.csv)|*.csv|", "csv",
                                            zOFN_OVERWRITEPROMPT ) != 1 )
                {
@@ -243,11 +243,11 @@ SaveActiveCtrlToCSV( zVIEW vSubtask )
       {
          zSHORT nButtons = zBUTTONS_YESNO;
 #ifdef _DEBUG
-         SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+         SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
          if ( szMessage[ 0 ] == 'Y' )
             nButtons = zBUTTONS_YESNOCANCEL;
 #endif
-         sprintf_s( szMessage, sizeof( szMessage ), "OK to print Window: %s (%s.%s)?",
+         sprintf_s( szMessage, zsizeof( szMessage ), "OK to print Window: %s (%s.%s)?",
                     szTitle, (*(pZSubtask->m_pzsDlgTag)).GetString(),
                     (*(pZSubtask->m_pzsWndTag)).GetString() );
          nRC = OperatorPrompt( vSubtask, "Print Window", szMessage, 0, nButtons, zRESPONSE_YES, 0 );
@@ -1819,7 +1819,7 @@ PrintWnd( zVIEW   vSubtask,
 #if 0
    DEVMODE DevMode;
 
-   DevMode.dmSize = sizeof( DEVMODE );
+   DevMode.dmSize = zsizeof( DEVMODE );
    DevMode.dmDriverExtra = 0;
    DevMode.dmFields = DM_ORIENTATION;
    DevMode.dmOrientation = DMORIENT_LANDSCAPE; // or ...
@@ -1831,8 +1831,8 @@ PrintWnd( zVIEW   vSubtask,
    if ( hdcPrinter == 0 )
        return( FALSE );
 
-   zmemset( &DocInfo, 0, sizeof( DOCINFO ) );
-   DocInfo.cbSize = sizeof( DOCINFO );
+   zmemset( &DocInfo, 0, zsizeof( DOCINFO ) );
+   DocInfo.cbSize = zsizeof( DOCINFO );
    DocInfo.lpszDocName = pPrtData->info.CaptionBarText;
    DocInfo.lpszOutput = NULL;
    StartDoc( hdcPrinter, &DocInfo );

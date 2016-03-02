@@ -93,44 +93,44 @@ TraceCtrl( zCPCHAR pchText,
    zCHAR szMessage[ 512 ];
    short nLth = 0;
 
-   strcpy_s( szMessage, sizeof( szMessage ), pchText );
+   strcpy_s( szMessage, zsizeof( szMessage ), pchText );
    nLth = (zSHORT) zstrlen( szMessage );
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " Tag:" );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " Tag:" );
    nLth += 5;
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, pCtrl->m_csTag );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, pCtrl->m_csTag );
    if ( pCtrl->m_pCtrlParent )
    {
-      strcat_s( szMessage + nLth, sizeof( szMessage ) - nLth, " Parent:" );
-      strcat_s( szMessage + nLth, sizeof( szMessage ) - nLth, pCtrl->m_pCtrlParent->m_csTag );
+      strcat_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " Parent:" );
+      strcat_s( szMessage + nLth, zsizeof( szMessage ) - nLth, pCtrl->m_pCtrlParent->m_csTag );
    }
 
-   strcat_s( szMessage + nLth, sizeof( szMessage ) - nLth, " Type:" );
+   strcat_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " Type:" );
    nLth = (zSHORT) zstrlen( szMessage );
-   _ltoa_s( pCtrl->m_lType, szMessage + nLth, sizeof( szMessage ) - nLth, 10 );
+   _ltoa_s( pCtrl->m_lType, szMessage + nLth, zsizeof( szMessage ) - nLth, 10 );
 
    nLth = (zSHORT) zstrlen( szMessage );
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " X:" );
-   _ltoa_s( pCtrl->m_rectPainter.left, szMessage + nLth + 4, sizeof( szMessage ) - nLth - 4, 10 );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " X:" );
+   _ltoa_s( pCtrl->m_rectPainter.left, szMessage + nLth + 4, zsizeof( szMessage ) - nLth - 4, 10 );
    nLth = (zSHORT) zstrlen( szMessage );
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " Y:" );
-   _ltoa_s( pCtrl->m_rectPainter.top, szMessage + nLth + 3, sizeof( szMessage ) - nLth - 3, 10 );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " Y:" );
+   _ltoa_s( pCtrl->m_rectPainter.top, szMessage + nLth + 3, zsizeof( szMessage ) - nLth - 3, 10 );
    nLth = (zSHORT) zstrlen( szMessage );
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " W:" );
-   _ltoa_s( pCtrl->m_rectPainter.right - pCtrl->m_rectPainter.left, szMessage + nLth + 3, sizeof( szMessage ) - nLth - 3, 10 );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " W:" );
+   _ltoa_s( pCtrl->m_rectPainter.right - pCtrl->m_rectPainter.left, szMessage + nLth + 3, zsizeof( szMessage ) - nLth - 3, 10 );
    nLth = (zSHORT) zstrlen( szMessage );
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " H:" );
-   _ltoa_s( pCtrl->m_rectPainter.bottom - pCtrl->m_rectPainter.top, szMessage + nLth + 3, sizeof( szMessage ) - nLth - 3, 10 );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " H:" );
+   _ltoa_s( pCtrl->m_rectPainter.bottom - pCtrl->m_rectPainter.top, szMessage + nLth + 3, zsizeof( szMessage ) - nLth - 3, 10 );
    nLth = (zSHORT) zstrlen( szMessage );
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " Ctrl X:" );
-   _ltoa_s( pCtrl->m_rectCtrl.left, szMessage + nLth + 9, sizeof( szMessage ) - nLth - 9, 10 );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " Ctrl X:" );
+   _ltoa_s( pCtrl->m_rectCtrl.left, szMessage + nLth + 9, zsizeof( szMessage ) - nLth - 9, 10 );
    nLth = (zSHORT) zstrlen( szMessage );
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " Y:" );
-   _ltoa_s( pCtrl->m_rectCtrl.top, szMessage + nLth + 3, sizeof( szMessage ) - nLth - 3, 10 );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " Y:" );
+   _ltoa_s( pCtrl->m_rectCtrl.top, szMessage + nLth + 3, zsizeof( szMessage ) - nLth - 3, 10 );
    nLth = (zSHORT) zstrlen( szMessage );
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " W:" );
-   _ltoa_s( pCtrl->m_rectCtrl.right - pCtrl->m_rectCtrl.left, szMessage + nLth + 3, sizeof( szMessage ) - nLth - 3, 10 );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " W:" );
+   _ltoa_s( pCtrl->m_rectCtrl.right - pCtrl->m_rectCtrl.left, szMessage + nLth + 3, zsizeof( szMessage ) - nLth - 3, 10 );
    nLth = (zSHORT) zstrlen( szMessage );
-   strcpy_s( szMessage + nLth, sizeof( szMessage ) - nLth, " H:" );
+   strcpy_s( szMessage + nLth, zsizeof( szMessage ) - nLth, " H:" );
 // _ltoa_s( pCtrl->m_rectCtrl.bottom - pCtrl->m_rectCtrl.top,
 //        szMessage + nLth + 3 );
    TraceLineI( szMessage, pCtrl->m_rectCtrl.bottom - pCtrl->m_rectCtrl.top );
@@ -511,7 +511,7 @@ TZCtrlCover::OnLButtonDown( UINT uModKeys, CPoint pt )
       //      zstrcmp( pCtrl->m_csTag, "ClientActivity" ) == 0 )
          {
       //    pCtrl = pPainterWindow->m_CtrlList[ nPos ];
-            sprintf_s( szMsg, sizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
+            sprintf_s( szMsg, zsizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
                       pCtrl->IsSelected( ) ? "*" : " ",
                       pCtrl->m_pCtrlParent ?
                                     pCtrl->m_pCtrlParent->m_csTag : "<null>",
@@ -869,7 +869,7 @@ TZCtrlCover::OnPaint( )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "TZCtrlCover::OnPaint: %s ====>", m_pCtrl->m_csTag );
+      sprintf_s( szMsg, zsizeof( szMsg ), "TZCtrlCover::OnPaint: %s ====>", m_pCtrl->m_csTag );
       TraceRect( szMsg, m_pCtrl->m_rectPainter );
    }
    else
@@ -915,7 +915,7 @@ TZCtrlCover::OnPaint( )
       COLORREF clrBkSave = dcClient.SetBkColor( clrBk );
 
       if ( m_pCtrl->m_nTabStopNbr > 0 && m_pCtrl->m_nTabStopNbr < 9999 )
-         _ltoa_s( m_pCtrl->m_nTabStopNbr, szTab, sizeof( szTab ), 10 );
+         _ltoa_s( m_pCtrl->m_nTabStopNbr, szTab, zsizeof( szTab ), 10 );
       else
          szTab[ 0 ] = '0', szTab[ 1 ] = 0;
 
@@ -1080,9 +1080,9 @@ TZCtrlCover::MoveCtrl( CRect& rectNew,  // in painter coordinates
            rectNew.left == m_pCtrl->m_rectPainter.left )
       {
          if ( cpcLabel )
-            strcpy_s( szLabel, sizeof( szLabel ), cpcLabel );
+            strcpy_s( szLabel, zsizeof( szLabel ), cpcLabel );
          else
-            sprintf_s( szLabel, sizeof( szLabel ), "&xxdo Size %d item%s\tCtrl+x",
+            sprintf_s( szLabel, zsizeof( szLabel ), "&xxdo Size %d item%s\tCtrl+x",
                       nSelectCnt, nSelectCnt == 1 ? "" : "s" );
 
          m_pPainterWindow->AddToUndo( m_pCtrl, nIdNbr, -1, bSelected,
@@ -1091,9 +1091,9 @@ TZCtrlCover::MoveCtrl( CRect& rectNew,  // in painter coordinates
       else
       {
          if ( cpcLabel )
-            strcpy_s( szLabel, sizeof( szLabel ), cpcLabel );
+            strcpy_s( szLabel, zsizeof( szLabel ), cpcLabel );
          else
-            sprintf_s( szLabel, sizeof( szLabel ), "&xxdo Move %d item%s\tCtrl+x",
+            sprintf_s( szLabel, zsizeof( szLabel ), "&xxdo Move %d item%s\tCtrl+x",
                       nSelectCnt, nSelectCnt == 1 ? "" : "s" );
 
          m_pPainterWindow->AddToUndo( m_pCtrl, nIdNbr, -1, bSelected,
@@ -1542,7 +1542,7 @@ TZUndoRedo::TZUndoRedo( TZPainterCtrl *pCtrl, zSHORT nIdNbr,
    m_nArrayPos = nArrayPos;
    m_eType = eType;
    if ( cpcLabel )
-      strcpy_s( m_szLabel, sizeof( m_szLabel ), cpcLabel );
+      strcpy_s( m_szLabel, zsizeof( m_szLabel ), cpcLabel );
    else
       m_szLabel[ 0 ] = 0;
 
@@ -1619,7 +1619,7 @@ TZPainterBar::CreateFlatCtrl( zVIEW vDialog, CRect& rectParent,
    while ( nRC >= zCURSOR_SET )
    {
       GetIntegerFromAttribute( &lType, vDialog, szlControlDef, szlKey );
-      GetStringFromAttribute( szTag, sizeof( szTag ), vDialog, szlControl, "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vDialog, szlControl, "Tag" );
       GetIntegerFromAttribute( &lPosX, vDialog, szlControl, szlPSDLG_X );
       GetIntegerFromAttribute( &lPosY, vDialog, szlControl, szlPSDLG_Y );
       GetIntegerFromAttribute( &lSizeX, vDialog, szlControl, szlSZDLG_X );

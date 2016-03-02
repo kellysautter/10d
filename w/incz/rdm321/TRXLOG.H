@@ -33,10 +33,10 @@
 /* (BITS(unsigned int)) */
 #define BUI 16
 
-/* ((((256*sizeof(F_ADDR))+D_BLKSZ-1) / D_BLKSZ)*D_BLKSZ) */
+/* ((((256*zsizeof(F_ADDR))+D_BLKSZ-1) / D_BLKSZ)*D_BLKSZ) */
 #define IX_PAGESIZE 1024
 
-/* (IX_PAGESIZE / sizeof(F_ADDR)) */
+/* (IX_PAGESIZE / zsizeof(F_ADDR)) */
 #define IX_EPP 256
 
 #define RI_BITMAP_SIZE(pcnt) ((int)((IX_SIZE(pcnt)+(BUI-1)) / BUI))
@@ -46,7 +46,7 @@
 /* Next define the base file offsets for entries in the overflow file */
 
 #define BM_BASE( file ) ( root_ix[file].base )
-#define IX_BASE(file, pcnt) ((long)(BM_BASE(file) + (RI_BITMAP_SIZE(pcnt)*sizeof(unsigned int))))
+#define IX_BASE(file, pcnt) ((long)(BM_BASE(file) + (RI_BITMAP_SIZE(pcnt)*zsizeof(unsigned int))))
 #define PZ_BASE(file, pcnt) ((long)(IX_BASE(file, pcnt) + (IX_SIZE(pcnt)*IX_PAGESIZE)))
 
 /*
@@ -67,14 +67,14 @@ typedef struct RI_ENTRY_S
 }  RI_ENTRY;
 
 #define ri_bitmap Ri_bitmap.ptr
-#define RI_ENTRY_IOSIZE (sizeof(RI_ENTRY)-sizeof(INT_P)+sizeof(DB_SHORT *))
+#define RI_ENTRY_IOSIZE (zsizeof(RI_ENTRY)-zsizeof(INT_P)+zsizeof(DB_SHORT *))
 
 /*
 ==========================================================================
 */
 
 /* page zero table entry */
-#define PGZEROSZ (2*sizeof(F_ADDR)+sizeof(DB_ULONG))
+#define PGZEROSZ (2*zsizeof(F_ADDR)+zsizeof(DB_ULONG))
 typedef struct PGZERO_S
 {
    F_ADDR pz_dchain;                   /* delete chain pointer */

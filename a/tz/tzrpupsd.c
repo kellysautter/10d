@@ -317,7 +317,7 @@ TZRPUPSD_CreateTZPNTROO( zVIEW vSubtask )
       ActivateEmptyObjectInstance( &vTZPNTROO, "TZPNTROO", vTZPESRCO, zSINGLE );
       CreateEntity( vTZPNTROO, "Palette", zPOS_AFTER );
       SetAttributeFromBlob( vTZPNTROO, "Palette", "Pointer",
-                            &vTZPESRCO, sizeof( void * ) );
+                            &vTZPESRCO, zsizeof( void * ) );
       SetNameForView( vTZPNTROO, "TZPNTROO", vSubtask, zLEVEL_TASK );
    }
 
@@ -423,7 +423,7 @@ TZRPUPSD_OpenReportFile( zVIEW vSubtask )
    }
 
    //RG: If attribute SironName is empty, it's a ZeidonReport
-   GetStringFromAttribute( szSironName, sizeof( szSironName ), vNewReport, "Report", "SironName");
+   GetStringFromAttribute( szSironName, zsizeof( szSironName ), vNewReport, "Report", "SironName");
    if (zstrcmp (szSironName, "") == 0)
    {
       // The Report is a ZeidonReport
@@ -644,11 +644,11 @@ TZRPUPSD_AskForSave( zVIEW vSubtask )
       if ( !ComponentIsCheckedOut( vSubtask, vReport, zSOURCE_REPORT_META ) )
       {
          nSaveAs = TRUE;
-         GetStringFromAttribute( szReportName, sizeof( szReportName ), vReport, "Report", "Tag" );
-         strcpy_s( szMessageText, sizeof( szMessageText ), "Report is not checked out, but Report '" );
-         strcat_s( szMessageText, sizeof( szMessageText ), szReportName );
-         strcat_s( szMessageText, sizeof( szMessageText ), "' has been modified. \n\nWould you like to " );
-         strcat_s( szMessageText, sizeof( szMessageText ), "save it with differend name?" );
+         GetStringFromAttribute( szReportName, zsizeof( szReportName ), vReport, "Report", "Tag" );
+         strcpy_s( szMessageText, zsizeof( szMessageText ), "Report is not checked out, but Report '" );
+         strcat_s( szMessageText, zsizeof( szMessageText ), szReportName );
+         strcat_s( szMessageText, zsizeof( szMessageText ), "' has been modified. \n\nWould you like to " );
+         strcat_s( szMessageText, zsizeof( szMessageText ), "save it with differend name?" );
          nRC = MessagePrompt( vSubtask, "DM00115", "Report Maintenance",
                               szMessageText, zBEEP, zBUTTONS_YESNOCANCEL,
                               zRESPONSE_YES, zICON_QUESTION );
@@ -809,10 +809,10 @@ TZRPUPSD_NewPage( zVIEW vSubtask )
    if ((nCursor = CheckExistenceOfEntity( vReport, "Page" )) !=
                                                             zCURSOR_NULL )
    {
-      strcpy_s( szTag, sizeof( szTag ), "Page" );
+      strcpy_s( szTag, zsizeof( szTag ), "Page" );
       for ( nIdx = 1; nIdx < 1000; nIdx++ )
       {
-         zltoa((zLONG) nIdx, szTag + 6, sizeof( szTag ) - 6, 10 );
+         zltoa((zLONG) nIdx, szTag + 6, zsizeof( szTag ) - 6, 10 );
          if ( SetCursorFirstEntityByString( vReport, "Page", "Tag", szTag, 0 ) < zCURSOR_SET )
          {
             break;
@@ -821,7 +821,7 @@ TZRPUPSD_NewPage( zVIEW vSubtask )
    }
    else
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vReport, "Report", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vReport, "Report", "Tag" );
    }
 
    // If a report is currently being processed by the painter, update
@@ -853,7 +853,7 @@ TZRPUPSD_NewReportFile( zVIEW vSubtask )
    // get the C++ class pointer to the painter object from the
    // zeidon control object
    GetViewByName( &vPainter, "TZPNTROO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vPainter, "Palette", "NewFile" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vPainter, "Palette", "NewFile" );
    if ( !szFileName[ 0 ] )
    {
       MessageSend( vSubtask, "RP00004", "Report Maintenance",
@@ -902,7 +902,7 @@ TZRPUPSD_NewReportFile( zVIEW vSubtask )
       return( -2 );
    }
 
-   strcpy_s( szReportName, sizeof( szReportName ) szFileName );
+   strcpy_s( szReportName, zsizeof( szReportName ) szFileName );
 
    // Declare a view to the appropriate source report object type
    ActivateEmptyMetaOI( vSubtask, &vNewReport, zSOURCE_REPORT_META,
@@ -952,10 +952,10 @@ TZRPUPSD_DeletePage( zVIEW vSubtask )
       return( -1 );
 
    // Make operator confirm the delete
-   strcpy_s( szMessage, sizeof( szMessage ), "OK to delete Page '" );
+   strcpy_s( szMessage, zsizeof( szMessage ), "OK to delete Page '" );
    GetAddrForAttribute( &szTag, vReport, "Page", "Tag" );
-   strcat_s( szMessage, sizeof( szMessage ), szTag );
-   strcat_s( szMessage, sizeof( szMessage ), "'?" );
+   strcat_s( szMessage, zsizeof( szMessage ), szTag );
+   strcat_s( szMessage, zsizeof( szMessage ), "'?" );
 
    if ( MessagePrompt( vSubtask, "RP00007",
                        "Report Maintenance",
@@ -1714,9 +1714,9 @@ fnTZRPUPSD_SaveAsCheckStatus( zVIEW    vSubtask,
    if ( CompareAttributeToInteger( vCM_List, "W_MetaDef",
                                    "Status", 1 ) != 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Report '" );
-      strcat_s( szMsg, sizeof( szMsg ), szOutName );
-      strcat_s( szMsg, sizeof( szMsg ), "' is not checked out." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Report '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szOutName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' is not checked out." );
       MessageSend( vSubtask, "ZO00137", "Report Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -1752,7 +1752,7 @@ fnTZRPUPSD_SaveAsCheckName( zVIEW  vSubtask,
    }
 
    // Source Name is required
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SironName" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SironName" );
    UfCompressName( szNewName, szSourceName, 8, "", "", "", "", 0 );
    if ( zstrcmp( szSourceName, "" ) == 0 )
    {
@@ -1818,18 +1818,18 @@ fnTZRPUPSD_SaveAsGetFileName( zVIEW  vView,
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vView, szEntity, szAttribute );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vView, szEntity, szAttribute );
    UfCompressName( szNewName, szFileName, 8, "", "", "", "", 0 );
 
    if (szExtension == "REP")
-      GetStringFromAttribute( szSourceFileName, sizeof( szSourceFileName ), vTaskLPLR, "LPLR", "PgmSrcDir" );
+      GetStringFromAttribute( szSourceFileName, zsizeof( szSourceFileName ), vTaskLPLR, "LPLR", "PgmSrcDir" );
    else
-      GetStringFromAttribute( szSourceFileName, sizeof( szSourceFileName ), vTaskLPLR, "LPLR", "ExecDir" );
+      GetStringFromAttribute( szSourceFileName, zsizeof( szSourceFileName ), vTaskLPLR, "LPLR", "ExecDir" );
    ofnTZCMWKSO_AppendSlash( szSourceFileName );
 
-   strcat_s( szSourceFileName, sizeof( szSourceFileName ) szFileName );
-   strcat_s( szSourceFileName, sizeof( szSourceFileName ) "." );
-   strcat_s( szSourceFileName, sizeof( szSourceFileName ) szExtension );
+   strcat_s( szSourceFileName, zsizeof( szSourceFileName ) szFileName );
+   strcat_s( szSourceFileName, zsizeof( szSourceFileName ) "." );
+   strcat_s( szSourceFileName, zsizeof( szSourceFileName ) szExtension );
 
    return( 0 );
 } // fnTZRPUPSD_SaveAsGetFileName
@@ -1878,9 +1878,9 @@ fnTZRPUPSD_SaveAsCheckSironFiles( zVIEW    vSubtask,
 
       if ( nFilesExists == 1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "RDT Source Files '" );
-         strcat_s( szMsg, sizeof( szMsg ), szSironFile );
-         strcat_s( szMsg, sizeof( szMsg ), "' already exists. Replace existing File?" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "RDT Source Files '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szSironFile );
+         strcat_s( szMsg, zsizeof( szMsg ), "' already exists. Replace existing File?" );
          nRC = MessagePrompt( vSubtask, "ZO00138", "Dialog Maintenance",
                               szMsg, zBEEP, zBUTTONS_YESNOCANCEL,
                               zRESPONSE_YES, zICON_QUESTION );
@@ -1948,7 +1948,7 @@ TZRPUPSD_SaveAsReport( zVIEW vSubtask )
    GetViewByName( &vSaveAs, "TZSAVEAS", vSubtask, zLEVEL_TASK );
 
    // Validate Report Name is OK
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
    UfCompressName( szNewName, szOutName, 8, "", "", "", "", 0 );
 
    // check Save as Name
@@ -1999,14 +1999,14 @@ TZRPUPSD_SaveAsReport( zVIEW vSubtask )
    // We have to change the filename in file *.REP if it exists
    // First get the pathname from the LPLR
    // Validate Report Name is OK
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SironName" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SironName" );
    UfCompressName( szNewName, szOutName, 8, "", "", "", "", 0 );
 
    CreateViewFromViewForTask( &vSourceLPLR, vTaskLPLR, 0 );
    memset (szPathNameREP, 0,  zMAX_FILESPEC_LTH+1);
    memset (szPathNameXSQ, 0,  zMAX_FILESPEC_LTH+1);
-   GetStringFromAttribute( szPathNameREP, sizeof( szPathNameREP ), vSourceLPLR, "LPLR", "PgmSrcDir" );
-   GetStringFromAttribute( szPathNameXSQ, sizeof( szPathNameXSQ ), vSourceLPLR, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szPathNameREP, zsizeof( szPathNameREP ), vSourceLPLR, "LPLR", "PgmSrcDir" );
+   GetStringFromAttribute( szPathNameXSQ, zsizeof( szPathNameXSQ ), vSourceLPLR, "LPLR", "ExecDir" );
    oTZRPSRCO_ChangeRepFileContents( vSubtask, vSourceLPLR, szPathNameREP, szPathNameXSQ,
                                     szOutName, "REP", zCHANGE_REP_SAVEAS );
    DropView (vSourceLPLR);
@@ -2390,7 +2390,7 @@ TZRPUPSD_SaveAsSetDefaults( zVIEW vSubtask )
    GetViewByName( &vSaveAs, "TZSAVEAS", vSubtask, zLEVEL_TASK );
 
    // if Dialog Name not required, set default value
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vSaveAs, "ActionAfterSaveAS", "SaveAsName8" );
    UfCompressName( szNewName, szOutName, 8, "", "", "", "", 0 );
 
    //Name is required

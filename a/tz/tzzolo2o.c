@@ -495,7 +495,7 @@ oTZZOLODO_LOD_EntityCopy( zVIEW     NewMainLOD,
 
       //:// Whether we added the RelLink or it was already there, include it in the LOD.
       //:SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
-      GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), OldRecursiveLOD, "ER_EntityRec", "Name" );
+      GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), OldRecursiveLOD, "ER_EntityRec", "Name" );
       RESULT = SetCursorFirstEntityByString( NewERD, "ER_Entity", "Name", szTempString_3, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -518,7 +518,7 @@ oTZZOLODO_LOD_EntityCopy( zVIEW     NewMainLOD,
          //:// Thus, we'll first position on the RelType in the Source ERD, and then position on the Target ERD by
          //:// RelLink Name and other ER_Entity Name.
          //:SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
-         GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), OldRecursiveLOD, "ER_EntityRec", "Name" );
+         GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), OldRecursiveLOD, "ER_EntityRec", "Name" );
          RESULT = SetCursorFirstEntityByString( SourceERD, "ER_Entity", "Name", szTempString_3, "" );
          //:SET CURSOR FIRST SourceERD.ER_RelType_1 WITHIN SourceERD.ER_Entity
          //:           WHERE SourceERD.ER_RelType_1.ZKey = OldRecursiveLOD.ER_RelTypeRec.ZKey
@@ -592,7 +592,7 @@ oTZZOLODO_LOD_EntityCopy( zVIEW     NewMainLOD,
             if ( lTempInteger_5 == 0 )
             { 
                //:SET CURSOR FIRST NewERD.ER_Attribute WHERE NewERD.ER_Attribute.Name = SourceERD.ER_AttributeIdentifier.Name
-               GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), SourceERD, "ER_AttributeIdentifier", "Name" );
+               GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), SourceERD, "ER_AttributeIdentifier", "Name" );
                RESULT = SetCursorFirstEntityByString( NewERD, "ER_Attribute", "Name", szTempString_3, "" );
                //:IF RESULT < zCURSOR_SET
                if ( RESULT < zCURSOR_SET )
@@ -708,7 +708,7 @@ oTZZOLODO_LOD_EntityCopy( zVIEW     NewMainLOD,
       if ( lTempInteger_8 != 0 )
       { 
          //:SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
-         GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), OldRecursiveLOD, "ER_EntityRec", "Name" );
+         GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), OldRecursiveLOD, "ER_EntityRec", "Name" );
          RESULT = SetCursorFirstEntityByString( NewERD, "ER_Entity", "Name", szTempString_8, "" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -731,7 +731,7 @@ oTZZOLODO_LOD_EntityCopy( zVIEW     NewMainLOD,
             //:// Thus, we'll first position on the RelType in the Source ERD, and then position on the Target ERD by
             //:// RelLink Name and other ER_Entity Name.
             //:SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
-            GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), OldRecursiveLOD, "ER_EntityRec", "Name" );
+            GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), OldRecursiveLOD, "ER_EntityRec", "Name" );
             RESULT = SetCursorFirstEntityByString( SourceERD, "ER_Entity", "Name", szTempString_8, "" );
             //:SET CURSOR FIRST SourceERD.ER_RelType_1 WITHIN SourceERD.ER_Entity
             //:           WHERE SourceERD.ER_RelType_1.ZKey = OldRecursiveLOD.ER_RelTypeRec.ZKey
@@ -817,11 +817,11 @@ oTZZOLODO_LOD_EntityCopy( zVIEW     NewMainLOD,
          CreateViewFromViewForTask( &TempLOD, NewRecursiveLOD, 0 );
          //:SET CURSOR FIRST NewRecursiveLOD.ER_AttributeRec WITHIN NewRecursiveLOD.LOD_EntityParent WHERE
          //:     NewRecursiveLOD.ER_AttributeRec.Name = OldRecursiveLOD.ER_AttributeRec.Name
-         GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), OldRecursiveLOD, "ER_AttributeRec", "Name" );
+         GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), OldRecursiveLOD, "ER_AttributeRec", "Name" );
          RESULT = SetCursorFirstEntityByString( NewRecursiveLOD, "ER_AttributeRec", "Name", szTempString_8, "LOD_EntityParent" );
          //:SET CURSOR FIRST TempLOD.ER_AttributeRec WITHIN TempLOD.LOD_EntityParent WHERE
          //:     TempLOD.ER_AttributeRec.Name = OldRecursiveLOD.DB_ER_AttributeRec.Name
-         GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), OldRecursiveLOD, "DB_ER_AttributeRec", "Name" );
+         GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), OldRecursiveLOD, "DB_ER_AttributeRec", "Name" );
          RESULT = SetCursorFirstEntityByString( TempLOD, "ER_AttributeRec", "Name", szTempString_8, "LOD_EntityParent" );
          //:INCLUDE NewRecursiveLOD.DB_ER_AttributeRec FROM TempLOD.ER_AttributeRec
          RESULT = IncludeSubobjectFromSubobject( NewRecursiveLOD, "DB_ER_AttributeRec", TempLOD, "ER_AttributeRec", zPOS_AFTER );
@@ -844,7 +844,7 @@ oTZZOLODO_LOD_EntityCopy( zVIEW     NewMainLOD,
    { 
       //:SET CURSOR FIRST NewMainLOD.Operation WITHIN NewMainLOD.LOD WHERE
       //:                 NewMainLOD.Operation.Name = OldRecursiveLOD.LOD_EntityConstraintOperRec.Name
-      GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), OldRecursiveLOD, "LOD_EntityConstraintOperRec", "Name" );
+      GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), OldRecursiveLOD, "LOD_EntityConstraintOperRec", "Name" );
       RESULT = SetCursorFirstEntityByString( NewMainLOD, "Operation", "Name", szTempString_8, "LOD" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
@@ -965,7 +965,7 @@ oTZZOLODO_LOD_CreateER_Attribute( zVIEW     OldRecursiveLOD,
 
    //:// First make sure that the Domain exists.
    //:nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, OldRecursiveLOD.DomainRec.Name, 0 )
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldRecursiveLOD, "DomainRec", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldRecursiveLOD, "DomainRec", "Name" );
    nRC = ActivateMetaOI_ByName( vSubtask, &NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, szTempString_0, 0 );
    //:IF nRC < 0
    if ( nRC < 0 )
@@ -978,8 +978,8 @@ oTZZOLODO_LOD_CreateER_Attribute( zVIEW     OldRecursiveLOD,
          //:DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
          //:                   CurrentLPLR.LPLR.wFullyQualifiedFileName,
          //:                   OldRecursiveLOD.DomainRec.Name, vSubtask )
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
-         GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), OldRecursiveLOD, "DomainRec", "Name" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+         GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), OldRecursiveLOD, "DomainRec", "Name" );
          oTZDGSRCO_DomainAddForMerge( &NewDomain, SourceLPLR, CurrentLPLR, szTempString_1, szTempString_2, vSubtask );
          //:IF nRC < 0
          if ( nRC < 0 )
@@ -1209,7 +1209,7 @@ oTZZOLODO_LOD_AttributeCopy( zVIEW     vSubtask,
                   //:DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
                   //:                   CurrentLPLR.LPLR.wFullyQualifiedFileName,
                   //:                   DomainName, vSubtask )
-                  GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+                  GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
                   oTZDGSRCO_DomainAddForMerge( &NewDomain, SourceLPLR, CurrentLPLR, szTempString_0, DomainName, vSubtask );
                   //:ELSE
                } 
@@ -1253,7 +1253,7 @@ oTZZOLODO_LOD_AttributeCopy( zVIEW     vSubtask,
          n = 0;
          //:SET CURSOR FIRST NewERD.ER_Attribute
          //:           WHERE NewERD.ER_Attribute.Name = OldRecursiveLOD.ER_AttributeRec.Name
-         GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), OldRecursiveLOD, "ER_AttributeRec", "Name" );
+         GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), OldRecursiveLOD, "ER_AttributeRec", "Name" );
          RESULT = SetCursorFirstEntityByString( NewERD, "ER_Attribute", "Name", szTempString_2, "" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -1357,7 +1357,7 @@ oTZZOLODO_LOD_AttributeCopy( zVIEW     vSubtask,
 
       //:SET CURSOR FIRST NewMainLOD.Operation WITHIN NewMainLOD.LOD WHERE
       //:                 NewMainLOD.Operation.Name = OldRecursiveLOD.LOD_AttrDerivationOperRec.Name
-      GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), OldRecursiveLOD, "LOD_AttrDerivationOperRec", "Name" );
+      GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), OldRecursiveLOD, "LOD_AttrDerivationOperRec", "Name" );
       RESULT = SetCursorFirstEntityByString( NewMainLOD, "Operation", "Name", szTempString_2, "LOD" );
       //:IF RESULT >= 0
       if ( RESULT >= 0 )
@@ -1490,11 +1490,11 @@ oTZZOLODO_LOD_OperationCopy( zVIEW     vSubtask,
 
       //:END
       //:SourceFileName1 = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName
-      GetStringFromAttribute( SourceFileName1, sizeof( SourceFileName1 ), SourceLPLR, "LPLR", "PgmSrcDir" );
+      GetStringFromAttribute( SourceFileName1, zsizeof( SourceFileName1 ), SourceLPLR, "LPLR", "PgmSrcDir" );
       ZeidonStringConcat( SourceFileName1, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( SourceFileName1, 1, 0, SourceName, 1, 0, 514 );
       //:SourceFileName2 = DirLPLR.LPLR.PgmSrcDir + "\" + SourceName
-      GetStringFromAttribute( SourceFileName2, sizeof( SourceFileName2 ), DirLPLR, "LPLR", "PgmSrcDir" );
+      GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), DirLPLR, "LPLR", "PgmSrcDir" );
       ZeidonStringConcat( SourceFileName2, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( SourceFileName2, 1, 0, SourceName, 1, 0, 514 );
       //:SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE )
@@ -1510,7 +1510,7 @@ oTZZOLODO_LOD_OperationCopy( zVIEW     vSubtask,
 
          //:SET CURSOR FIRST NewMainLOD.Operation WHERE
          //:       NewMainLOD.Operation.Name = OldMainLOD.LOD_ConstraintOper.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldMainLOD, "LOD_ConstraintOper", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldMainLOD, "LOD_ConstraintOper", "Name" );
          RESULT = SetCursorFirstEntityByString( NewMainLOD, "Operation", "Name", szTempString_0, "" );
 
          //:INCLUDE NewMainLOD.LOD_ConstraintOper FROM NewMainLOD.Operation
@@ -1559,7 +1559,7 @@ oTZZOLODO_AttributeConstraints( zVIEW     vLOD,
 
          //:// Validate that there are no two attributes with the same name.
          //:GetStringFromAttribute ( szValue, vLOD, "ER_Attribute", "Name" )
-         GetStringFromAttribute( szValue, sizeof( szValue ), vLOD, "ER_Attribute", "Name" );
+         GetStringFromAttribute( szValue, zsizeof( szValue ), vLOD, "ER_Attribute", "Name" );
          //:nRC = CheckDuplicateEntityByString( vLOD, "ER_Attribute", "Name", szValue, "LOD_Entity" )
          nRC = CheckDuplicateEntityByString( vLOD, "ER_Attribute", "Name", szValue, "LOD_Entity" );
          //:IF nRC < 0
@@ -1686,7 +1686,7 @@ oTZZOLODO_fnRelinkWorkAttrib( zVIEW     vLOD,
       { 
          //:SET CURSOR FIRST DomainLPLR.W_MetaDef WHERE
          //:    DomainLPLR.W_MetaDef.Name = vLOD.Domain.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vLOD, "Domain", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vLOD, "Domain", "Name" );
          RESULT = SetCursorFirstEntityByString( DomainLPLR, "W_MetaDef", "Name", szTempString_0, "" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -1934,7 +1934,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
 
    //:// Activate existing source meta OldMainLOD
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + LOD_Name + ".LOD"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, LOD_Name, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".LOD", 1, 0, 514 );
@@ -1946,7 +1946,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
 
    //:// Activate existing source ERD.
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + SourceLPLR.LPLR.Name + ".PMD"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    GetVariableFromAttribute( szTempString_0, 0, 'S', 33, SourceLPLR, "LPLR", "Name", "", 0 );
    ZeidonStringConcat( SourceFileName, 1, 0, szTempString_0, 1, 0, 514 );
@@ -2109,7 +2109,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
             if ( lTempInteger_4 == 0 )
             { 
                //:SourceFileName = SourceLPLR2.LPLR.MetaSrcDir + "\" + SourceLPLR2.W_MetaDef.Name + ".DTE"
-               GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR2, "LPLR", "MetaSrcDir" );
+               GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR2, "LPLR", "MetaSrcDir" );
                ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
                GetVariableFromAttribute( szTempString_1, 0, 'S', 33, SourceLPLR2, "W_MetaDef", "Name", "", 0 );
                ZeidonStringConcat( SourceFileName, 1, 0, szTempString_1, 1, 0, 514 );
@@ -2172,7 +2172,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
          RESULT = SetCursorFirstEntityByInteger( OldTE, "TE_DBMS_Source", "ZKey", lTempInteger_7, "" );
          //:SET CURSOR FIRST ReturnedTE.TE_DBMS_Source WHERE
          //:           ReturnedTE.TE_DBMS_Source.Name = OldTE.TE_DBMS_Source.Name
-         GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), OldTE, "TE_DBMS_Source", "Name" );
+         GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), OldTE, "TE_DBMS_Source", "Name" );
          RESULT = SetCursorFirstEntityByString( ReturnedTE, "TE_DBMS_Source", "Name", szTempString_2, "" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -2254,7 +2254,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
 
          //:// Initialize SourceFile.
          //:SET CURSOR FIRST NewMainLOD.SourceFile WHERE NewMainLOD.SourceFile.Name = OldMainLOD.SourceFile.Name
-         GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), OldMainLOD, "SourceFile", "Name" );
+         GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), OldMainLOD, "SourceFile", "Name" );
          RESULT = SetCursorFirstEntityByString( NewMainLOD, "SourceFile", "Name", szTempString_2, "" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -2269,14 +2269,14 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
             //:ExtensionName = OldMainLOD.SourceFile.Extension
             GetVariableFromAttribute( ExtensionName, 0, 'S', 10, OldMainLOD, "SourceFile", "Extension", "", 0 );
             //:SourceFileName = SourceLPLR.LPLR.PgmSrcDir + "\" + OldMainLOD.SourceFile.Name + "." + ExtensionName
-            GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
+            GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
             ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
             GetVariableFromAttribute( szTempString_2, 0, 'S', 33, OldMainLOD, "SourceFile", "Name", "", 0 );
             ZeidonStringConcat( SourceFileName, 1, 0, szTempString_2, 1, 0, 514 );
             ZeidonStringConcat( SourceFileName, 1, 0, ".", 1, 0, 514 );
             ZeidonStringConcat( SourceFileName, 1, 0, ExtensionName, 1, 0, 514 );
             //:TargetFileName = CurrentLPLR.LPLR.PgmSrcDir + "\" + NewMainLOD.SourceFile.Name + "." + ExtensionName
-            GetStringFromAttribute( TargetFileName, sizeof( TargetFileName ), CurrentLPLR, "LPLR", "PgmSrcDir" );
+            GetStringFromAttribute( TargetFileName, zsizeof( TargetFileName ), CurrentLPLR, "LPLR", "PgmSrcDir" );
             ZeidonStringConcat( TargetFileName, 1, 0, "\\", 1, 0, 514 );
             GetVariableFromAttribute( szTempString_3, 0, 'S', 33, NewMainLOD, "SourceFile", "Name", "", 0 );
             ZeidonStringConcat( TargetFileName, 1, 0, szTempString_3, 1, 0, 514 );
@@ -2303,13 +2303,13 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
             if ( ZeidonStringCompare( ExtensionName, 1, 0, "VML", 1, 0, 10 ) == 0 )
             { 
                //:SourceFileName = SourceLPLR.LPLR.PgmSrcDir + "\" + OldMainLOD.SourceFile.Name + ".VML"
-               GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
+               GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
                ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
                GetVariableFromAttribute( szTempString_4, 0, 'S', 33, OldMainLOD, "SourceFile", "Name", "", 0 );
                ZeidonStringConcat( SourceFileName, 1, 0, szTempString_4, 1, 0, 514 );
                ZeidonStringConcat( SourceFileName, 1, 0, ".VML", 1, 0, 514 );
                //:TargetFileName = CurrentLPLR.LPLR.PgmSrcDir + "\" + NewMainLOD.SourceFile.Name + ".VML"
-               GetStringFromAttribute( TargetFileName, sizeof( TargetFileName ), CurrentLPLR, "LPLR", "PgmSrcDir" );
+               GetStringFromAttribute( TargetFileName, zsizeof( TargetFileName ), CurrentLPLR, "LPLR", "PgmSrcDir" );
                ZeidonStringConcat( TargetFileName, 1, 0, "\\", 1, 0, 514 );
                GetVariableFromAttribute( szTempString_5, 0, 'S', 33, NewMainLOD, "SourceFile", "Name", "", 0 );
                ZeidonStringConcat( TargetFileName, 1, 0, szTempString_5, 1, 0, 514 );
@@ -2346,7 +2346,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
             //:ModifyFlag = "Y"
             ZeidonStringCopy( ModifyFlag, 1, 0, "Y", 1, 0, 2 );
             //:SET CURSOR FIRST NewMainLOD.Operation WHERE NewMainLOD.Operation.Name = OldMainLOD.Operation.Name
-            GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), OldMainLOD, "Operation", "Name" );
+            GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), OldMainLOD, "Operation", "Name" );
             RESULT = SetCursorFirstEntityByString( NewMainLOD, "Operation", "Name", szTempString_7, "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
@@ -2393,7 +2393,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
                if ( ZeidonStringCompare( MergeOperationsFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
                { 
                   //:CopyOperationCode( NewMainLOD, TargetFileName, SourceFileName, NewMainLOD.Operation.Name )
-                  GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), NewMainLOD, "Operation", "Name" );
+                  GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), NewMainLOD, "Operation", "Name" );
                   CopyOperationCode( NewMainLOD, TargetFileName, SourceFileName, szTempString_7 );
                } 
 
@@ -2426,7 +2426,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
          //:END
          //:SET CURSOR FIRST NewMainLOD.Operation WITHIN OldMainLOD.LOD
          //:           WHERE NewMainLOD.Operation.Name = OldMainLOD.LOD_ConstraintOper.Name
-         GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), OldMainLOD, "LOD_ConstraintOper", "Name" );
+         GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), OldMainLOD, "LOD_ConstraintOper", "Name" );
          RESULT = SetCursorFirstEntityByString( NewMainLOD, "Operation", "Name", szTempString_8, "LOD" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -2501,7 +2501,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
          //:// and will commit it here.
          //:szFileName = CurrentLPLR.LPLR.MetaSrcDir + "\" +
          //:             CurrentLPLR.LPLR.Name + ".PMD"
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), CurrentLPLR, "LPLR", "MetaSrcDir" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), CurrentLPLR, "LPLR", "MetaSrcDir" );
          ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 201 );
          GetVariableFromAttribute( szTempString_9, 0, 'S', 33, CurrentLPLR, "LPLR", "Name", "", 0 );
          ZeidonStringConcat( szFileName, 1, 0, szTempString_9, 1, 0, 201 );
@@ -2585,7 +2585,7 @@ oTZZOLODO_LOD_Migrate( zVIEW     NewMainLOD,
       if ( CompareAttributeToString( SourceVOR_LPLR, "W_MetaDef", "MigrateWorkName", SourceName ) == 0 )
       { 
          //:SET CURSOR FIRST TargetVOR_LPLR.W_MetaDef WHERE TargetVOR_LPLR.W_MetaDef.Name = SourceVOR_LPLR.W_MetaDef.Name
-         GetStringFromAttribute( szTempString_10, sizeof( szTempString_10 ), SourceVOR_LPLR, "W_MetaDef", "Name" );
+         GetStringFromAttribute( szTempString_10, zsizeof( szTempString_10 ), SourceVOR_LPLR, "W_MetaDef", "Name" );
          RESULT = SetCursorFirstEntityByString( TargetVOR_LPLR, "W_MetaDef", "Name", szTempString_10, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -2782,7 +2782,7 @@ oTZZOLODO_LOD_RelinkDelete( zVIEW     vLOD,
                //:// and recreated.
                //:SET CURSOR FIRST vERD.ER_Entity WHERE
                //:                 vERD.ER_Entity.Name = vLOD.ER_Entity.Name
-               GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vLOD, "ER_Entity", "Name" );
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vLOD, "ER_Entity", "Name" );
                RESULT = SetCursorFirstEntityByString( vERD, "ER_Entity", "Name", szTempString_0, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -3132,14 +3132,14 @@ oTZZOLODO_fnRelinkAttributes( zVIEW     vSubtask,
                //:// and recreated.  In this case, re-include the Attribute.
                //:SET CURSOR FIRST vERD.ER_Entity WHERE
                //:                 vERD.ER_Entity.Name = vLOD.ER_Entity.Name
-               GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vLOD, "ER_Entity", "Name" );
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vLOD, "ER_Entity", "Name" );
                RESULT = SetCursorFirstEntityByString( vERD, "ER_Entity", "Name", szTempString_0, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
                { 
                   //:SET CURSOR FIRST vERD.ER_Attribute WHERE
                   //:                 vERD.ER_Attribute.Name = vLOD.ER_Attribute.Name
-                  GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vLOD, "ER_Attribute", "Name" );
+                  GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vLOD, "ER_Attribute", "Name" );
                   RESULT = SetCursorFirstEntityByString( vERD, "ER_Attribute", "Name", szTempString_0, "" );
                   //:IF RESULT >= zCURSOR_SET
                   if ( RESULT >= zCURSOR_SET )
@@ -3638,7 +3638,7 @@ oTZZOLODO_GetRelationshipName( zVIEW     SourceLPLR,
    //:END
 
    //:SourceFileName = SourceLPLR2.LPLR.MetaSrcDir + "\" + SourceLPLR2.W_MetaDef.Name + ".PMD"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR2, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR2, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    GetVariableFromAttribute( szTempString_0, 0, 'S', 33, SourceLPLR2, "W_MetaDef", "Name", "", 0 );
    ZeidonStringConcat( SourceFileName, 1, 0, szTempString_0, 1, 0, 514 );
@@ -3722,7 +3722,7 @@ oTZZOLODO_GetERAttributeName( zVIEW     SourceLPLR,
    //:END
 
    //:SourceFileName = SourceLPLR2.LPLR.MetaSrcDir + "\" + SourceLPLR2.W_MetaDef.Name + ".PMD"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR2, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR2, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    GetVariableFromAttribute( szTempString_0, 0, 'S', 33, SourceLPLR2, "W_MetaDef", "Name", "", 0 );
    ZeidonStringConcat( SourceFileName, 1, 0, szTempString_0, 1, 0, 514 );
@@ -3818,7 +3818,7 @@ oTZZOLODO_fnCopyPOD_Entity( zVIEW     vSubtask,
          { 
             //: SET CURSOR FIRST NewDTE.TE_DBMS_Source
             //:            WHERE NewDTE.TE_DBMS_Source.Name = OldLOD.TE_DBMS_SourceForEntity.Name
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldLOD, "TE_DBMS_SourceForEntity", "Name" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldLOD, "TE_DBMS_SourceForEntity", "Name" );
             RESULT = SetCursorFirstEntityByString( NewDTE, "TE_DBMS_Source", "Name", szTempString_0, "" );
 
             //: LOOP WHILE RESULT >= zCURSOR_SET AND nFoundDataSource = 0
@@ -3836,7 +3836,7 @@ oTZZOLODO_fnCopyPOD_Entity( zVIEW     vSubtask,
                { 
                   //:   SET CURSOR NEXT  NewDTE.TE_DBMS_Source
                   //:              WHERE NewDTE.TE_DBMS_Source.Name = OldLOD.TE_DBMS_SourceForEntity.Name
-                  GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldLOD, "TE_DBMS_SourceForEntity", "Name" );
+                  GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldLOD, "TE_DBMS_SourceForEntity", "Name" );
                   RESULT = SetCursorNextEntityByString( NewDTE, "TE_DBMS_Source", "Name", szTempString_0, "" );
                } 
 
@@ -4459,7 +4459,7 @@ oTZZOLODO_LOD_CompareReus( zVIEW     TargetLOD,
          //:// This is a work entity so just do set cursor on LOD Entity Name.
          //:SET CURSOR FIRST TargetLOD.LOD_EntityParent
          //:           WHERE TargetLOD.LOD_EntityParent.Name = SourceLOD.LOD_EntityParent.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), SourceLOD, "LOD_EntityParent", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), SourceLOD, "LOD_EntityParent", "Name" );
          RESULT = SetCursorFirstEntityByString( TargetLOD, "LOD_EntityParent", "Name", szTempString_0, "" );
          //:// We don't use szSourceEntityName or szTargetEntityName in this case, so just null them.
          //:szSourceEntityName = ""
@@ -4604,7 +4604,7 @@ oTZZOLODO_LOD_CompareReus( zVIEW     TargetLOD,
          //:// This is a work entity so just do set cursor on LOD Entity Name.
          //:SET CURSOR FIRST SourceLOD.LOD_EntityParent
          //:           WHERE SourceLOD.LOD_EntityParent.Name = TargetLOD.LOD_EntityParent.Name
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TargetLOD, "LOD_EntityParent", "Name" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TargetLOD, "LOD_EntityParent", "Name" );
          RESULT = SetCursorFirstEntityByString( SourceLOD, "LOD_EntityParent", "Name", szTempString_1, "" );
       } 
 
@@ -4666,7 +4666,7 @@ oTZZOLODO_LOD_CompareOperations( zVIEW     TargetLOD,
 
          //:SET CURSOR FIRST TargetLOD.Operation WITHIN TargetLOD.LOD
          //:           WHERE TargetLOD.Operation.Name = SourceLOD.Operation.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), SourceLOD, "Operation", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), SourceLOD, "Operation", "Name" );
          RESULT = SetCursorFirstEntityByString( TargetLOD, "Operation", "Name", szTempString_0, "LOD" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -4678,7 +4678,7 @@ oTZZOLODO_LOD_CompareOperations( zVIEW     TargetLOD,
             while ( RESULT > zCURSOR_UNCHANGED )
             { 
                //:SET CURSOR FIRST TargetLOD.Parameter WHERE TargetLOD.Parameter.ShortDesc = SourceLOD.Parameter.ShortDesc
-               GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), SourceLOD, "Parameter", "ShortDesc" );
+               GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), SourceLOD, "Parameter", "ShortDesc" );
                RESULT = SetCursorFirstEntityByString( TargetLOD, "Parameter", "ShortDesc", szTempString_1, "" );
                //:IF RESULT < zCURSOR_SET
                if ( RESULT < zCURSOR_SET )
@@ -4703,7 +4703,7 @@ oTZZOLODO_LOD_CompareOperations( zVIEW     TargetLOD,
             while ( RESULT > zCURSOR_UNCHANGED )
             { 
                //:SET CURSOR FIRST SourceLOD.Parameter WHERE SourceLOD.Parameter.ShortDesc = TargetLOD.Parameter.ShortDesc
-               GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TargetLOD, "Parameter", "ShortDesc" );
+               GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TargetLOD, "Parameter", "ShortDesc" );
                RESULT = SetCursorFirstEntityByString( SourceLOD, "Parameter", "ShortDesc", szTempString_1, "" );
                //:IF RESULT < zCURSOR_SET
                if ( RESULT < zCURSOR_SET )
@@ -4766,7 +4766,7 @@ oTZZOLODO_LOD_CompareOperations( zVIEW     TargetLOD,
       { 
          //:SET CURSOR FIRST SourceLOD.Operation WITHIN SourceLOD.LOD
          //:           WHERE SourceLOD.Operation.Name = TargetLOD.Operation.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TargetLOD, "Operation", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TargetLOD, "Operation", "Name" );
          RESULT = SetCursorFirstEntityByString( SourceLOD, "Operation", "Name", szTempString_0, "LOD" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -5354,7 +5354,7 @@ oTZZOLODO_LOD_Merge( zVIEW     TargetLOD,
    { 
       //:szFileName = CurrentLPLR.LPLR.wFullyQualifiedFileName + "\bin\" +
       //:             CurrentLPLR.LPLR.wMergeSourceLPLR_Name + ".XLP"
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
       ZeidonStringConcat( szFileName, 1, 0, "\\bin\\", 1, 0, 201 );
       GetVariableFromAttribute( szTempString_0, 0, 'S', 255, CurrentLPLR, "LPLR", "wMergeSourceLPLR_Name", "", 0 );
       ZeidonStringConcat( szFileName, 1, 0, szTempString_0, 1, 0, 201 );
@@ -5370,7 +5370,7 @@ oTZZOLODO_LOD_Merge( zVIEW     TargetLOD,
          //:// Activate Source ERD.
          //:szFileName = CurrentLPLR.LPLR.wFullyQualifiedFileName + "\" +
          //:             CurrentLPLR.LPLR.wMergeSourceLPLR_Name + ".PMD"
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
          ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 201 );
          GetVariableFromAttribute( szTempString_1, 0, 'S', 255, CurrentLPLR, "LPLR", "wMergeSourceLPLR_Name", "", 0 );
          ZeidonStringConcat( szFileName, 1, 0, szTempString_1, 1, 0, 201 );
@@ -5486,7 +5486,7 @@ oTZZOLODO_LOD_Merge( zVIEW     TargetLOD,
          //:// and will commit it here.
          //:szFileName = CurrentLPLR.LPLR.MetaSrcDir + "\" +
          //:             CurrentLPLR.LPLR.Name + ".PMD"
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), CurrentLPLR, "LPLR", "MetaSrcDir" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), CurrentLPLR, "LPLR", "MetaSrcDir" );
          ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 201 );
          GetVariableFromAttribute( szTempString_2, 0, 'S', 33, CurrentLPLR, "LPLR", "Name", "", 0 );
          ZeidonStringConcat( szFileName, 1, 0, szTempString_2, 1, 0, 201 );
@@ -5634,7 +5634,7 @@ oTZZOLODO_LOD_MergeEntity( zVIEW     TargetLOD,
       //:// This is a work entity or the root of the LOD, so just do set cursor on LOD Entity Name.
       //:SET CURSOR FIRST TargetLOD.LOD_EntityParent
       //:           WHERE TargetLOD.LOD_EntityParent.Name = SourceLOD.LOD_EntityParent.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), SourceLOD, "LOD_EntityParent", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), SourceLOD, "LOD_EntityParent", "Name" );
       RESULT = SetCursorFirstEntityByString( TargetLOD, "LOD_EntityParent", "Name", szTempString_0, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
@@ -5781,7 +5781,7 @@ oTZZOLODO_LOD_MergeEntity( zVIEW     TargetLOD,
       { 
          //:SET CURSOR FIRST TargetLOD.ER_AttributeRec WITHIN TargetLOD.LOD_EntityParent
          //:           WHERE TargetLOD.ER_AttributeRec.Name = SourceLOD.ER_AttributeRec.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), SourceLOD, "ER_AttributeRec", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), SourceLOD, "ER_AttributeRec", "Name" );
          RESULT = SetCursorFirstEntityByString( TargetLOD, "ER_AttributeRec", "Name", szTempString_0, "LOD_EntityParent" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )

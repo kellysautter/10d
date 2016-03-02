@@ -131,7 +131,7 @@ oTZCMCPRO_ActivateCPLR( zPVIEW vTZCMCPRO,
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "CPLR" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-   zltoa( lZKey, szZKeyValue, sizeof( szZKeyValue ) );
+   zltoa( lZKey, szZKeyValue, zsizeof( szZKeyValue ) );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKeyValue );
 
    nRC = ActivateObjectInstance( vTZCMCPRO, "TZCMCPRO", vSubtask,
@@ -225,11 +225,11 @@ oTZCMCRWO_DeriveCPL_CPLR_Name( zVIEW            vMeta,
    zCHAR   szWorkString[ 70 ];
    zCHAR   szCPLR_Name[ 33 ];
 
-   GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vMeta, "CPL", "Name" );
+   GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vMeta, "CPL", "Name" );
    zstrblank( szWorkString, 20, 1 );
-   strcat_s( szWorkString, sizeof( szWorkString ), " - " );
-   GetStringFromAttribute( szCPLR_Name, sizeof( szCPLR_Name ), vMeta, "CPLR", "Name" );
-   strcat_s( szWorkString, sizeof( szWorkString ), szCPLR_Name );
+   strcat_s( szWorkString, zsizeof( szWorkString ), " - " );
+   GetStringFromAttribute( szCPLR_Name, zsizeof( szCPLR_Name ), vMeta, "CPLR", "Name" );
+   strcat_s( szWorkString, zsizeof( szWorkString ), szCPLR_Name );
 
    StoreValueInRecord( vMeta, lpViewEntity, lpViewAttrib, szWorkString, 0 );
    return( 0 );
@@ -304,39 +304,39 @@ oTZCMCPRO_TestCPLR( zULONG lCPLR_ZKey,
          // the found CPLR-Enqueue is caused by another user.
          //  also if it is the same user name, but a different workstation
 
-         GetStringFromAttribute( UserName, sizeof( UserName ), vTZCMWIPO, "ROOT", "UserName" );
-         strcpy_s( szMsg, sizeof( szMsg ), "The CPLR '" );
-         strcat_s( szMsg, sizeof( szMsg ), pszCPLR_Name );
-         strcat_s( szMsg, sizeof( szMsg ), "' is at this time enqueued \n\n by\t" );
-         GetStringFromAttribute( szUserName_Queue, sizeof( szUserName_Queue ), *vTZCMQCPO_List, "CPLR_Enqueue", "UserName" );
-         strcat_s( szMsg, sizeof( szMsg ), szUserName_Queue );
-         GetStringFromAttribute( szUserDesc_Queue, sizeof( szUserDesc_Queue ), *vTZCMQCPO_List, "CPLR_Enqueue", "UserDesc" );
+         GetStringFromAttribute( UserName, zsizeof( UserName ), vTZCMWIPO, "ROOT", "UserName" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "The CPLR '" );
+         strcat_s( szMsg, zsizeof( szMsg ), pszCPLR_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), "' is at this time enqueued \n\n by\t" );
+         GetStringFromAttribute( szUserName_Queue, zsizeof( szUserName_Queue ), *vTZCMQCPO_List, "CPLR_Enqueue", "UserName" );
+         strcat_s( szMsg, zsizeof( szMsg ), szUserName_Queue );
+         GetStringFromAttribute( szUserDesc_Queue, zsizeof( szUserDesc_Queue ), *vTZCMQCPO_List, "CPLR_Enqueue", "UserDesc" );
          if ( szUserDesc_Queue[ 0 ] != 0 )
          {
-            strcat_s( szMsg, sizeof( szMsg ), " (" );
+            strcat_s( szMsg, zsizeof( szMsg ), " (" );
 
-            strcat_s( szMsg, sizeof( szMsg ), szUserDesc_Queue );
-            strcat_s( szMsg, sizeof( szMsg ), ")" );
+            strcat_s( szMsg, zsizeof( szMsg ), szUserDesc_Queue );
+            strcat_s( szMsg, zsizeof( szMsg ), ")" );
          }
-         strcat_s( szMsg, sizeof( szMsg ), "\n on\t" );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n on\t" );
          GetStringFromAttributeByContext( szDate_Queue, *vTZCMQCPO_List, "CPLR_Enqueue", "TimeStamp",
                                           "DD.MM.YYYY HH:MM:SS", 19 );
-         strcat_s( szMsg, sizeof( szMsg ), szDate_Queue );
+         strcat_s( szMsg, zsizeof( szMsg ), szDate_Queue );
 
          GetIntegerFromAttribute( (zPLONG) &EnqueueType_Queue, *vTZCMQCPO_List, "CPLR_Enqueue", "EnqueueType" );
-         strcat_s( szMsg, sizeof( szMsg ), "\n for\t" );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n for\t" );
 
          switch( EnqueueType_Queue )
          {
-            case zCPLR_ENQUEUE_FOR_REFRESH:   strcat_s( szMsg, sizeof( szMsg ), "Refresh." );
+            case zCPLR_ENQUEUE_FOR_REFRESH:   strcat_s( szMsg, zsizeof( szMsg ), "Refresh." );
                                               break;
-            case zCPLR_ENQUEUE_FOR_CHECK_IN:  strcat_s( szMsg, sizeof( szMsg ), "CheckIn." );
+            case zCPLR_ENQUEUE_FOR_CHECK_IN:  strcat_s( szMsg, zsizeof( szMsg ), "CheckIn." );
                                               break;
-            case zCPLR_ENQUEUE_FOR_CHECK_OUT: strcat_s( szMsg, sizeof( szMsg ), "CheckOut." );
+            case zCPLR_ENQUEUE_FOR_CHECK_OUT: strcat_s( szMsg, zsizeof( szMsg ), "CheckOut." );
                                               break;
-            case zCPLR_ENQUEUE_BY_SYSADM:     strcat_s( szMsg, sizeof( szMsg ), "Maintenance." );
+            case zCPLR_ENQUEUE_BY_SYSADM:     strcat_s( szMsg, zsizeof( szMsg ), "Maintenance." );
                                               break;
-            default:strcat_s( szMsg, sizeof( szMsg ), "unknown EnqueueType (!)" );
+            default:strcat_s( szMsg, zsizeof( szMsg ), "unknown EnqueueType (!)" );
 
          }
 
@@ -345,7 +345,7 @@ oTZCMCPRO_TestCPLR( zULONG lCPLR_ZKey,
          if ( EnqueueType < zCPLR_ENQUEUE_BY_SYSADM )
          {
             // cannot do anything about this Enqueue
-            strcat_s( szMsg, sizeof( szMsg ), "\n\nPlease try later or resolve the problem with the SystemAdministrator." );
+            strcat_s( szMsg, zsizeof( szMsg ), "\n\nPlease try later or resolve the problem with the SystemAdministrator." );
 
             MessageSend( vSubtask, "CM00503", "Configuration Management",
                          szMsg,
@@ -359,11 +359,11 @@ oTZCMCPRO_TestCPLR( zULONG lCPLR_ZKey,
          else
          // the SystemAdmin has the authority to cancel the Enqueue !!!
          {
-            strcat_s( szMsg, sizeof( szMsg ), "\n\nSince YOU are the System Administrator, " );
-            strcat_s( szMsg, sizeof( szMsg ), "you have the authority to cancel this user action." );
-            strcat_s( szMsg, sizeof( szMsg ), "\n\nDo you want to do so (please contact " );
-            strcat_s( szMsg, sizeof( szMsg ), szUserName_Queue );
-            strcat_s( szMsg, sizeof( szMsg ), " first) ?" );
+            strcat_s( szMsg, zsizeof( szMsg ), "\n\nSince YOU are the System Administrator, " );
+            strcat_s( szMsg, zsizeof( szMsg ), "you have the authority to cancel this user action." );
+            strcat_s( szMsg, zsizeof( szMsg ), "\n\nDo you want to do so (please contact " );
+            strcat_s( szMsg, zsizeof( szMsg ), szUserName_Queue );
+            strcat_s( szMsg, zsizeof( szMsg ), " first) ?" );
 
             if ( OperatorPrompt( vSubtask, "Confirmation", szMsg, 1, zBUTTONS_YESNO,
                                 zRESPONSE_NO, zICON_QUESTION ) == zRESPONSE_YES )
@@ -397,8 +397,8 @@ oTZCMCPRO_TestCPLR( zULONG lCPLR_ZKey,
    else
    {
       // no enqueue found with conflicts
-      strcpy_s( szMsg, sizeof( szMsg ), "OK, no enqueue conflict for CPLR: " );
-      strcat_s( szMsg, sizeof( szMsg ), pszCPLR_Name );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK, no enqueue conflict for CPLR: " );
+      strcat_s( szMsg, zsizeof( szMsg ), pszCPLR_Name );
 
       MB_SetMessage( vSubtask, 1, szMsg );
    }
@@ -420,7 +420,7 @@ oTZCMCPRO_WriteEnqueue( zVIEW  vTZCMCPRO,
                                       vTZCMCPRO, zSINGLE );
    CreateEntity( *vTZCMQCPO, "CPLR_Enqueue", zPOS_AFTER );
 
-   SysGetDateTime( szTimestamp, sizeof( szTimestamp ) );
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
    SetAttributeFromString( *vTZCMQCPO, "CPLR_Enqueue", "TimeStamp", szTimestamp );
    SetAttributeFromInteger( *vTZCMQCPO, "CPLR_Enqueue", "EnqueueType", EnqueueType );
 
@@ -485,8 +485,8 @@ oTZCMCPRO_CPLR_Enqueue( zVIEW  vTZCMCPRO,
    zCHAR    szMsg[500];
 
    // Temporary trace to identify who and when for enqueues.
-   GetStringFromAttribute( szMsg, sizeof( szMsg ), vTZCMCPRO, "CPLR", "Name" );
-   strcat_s( szMsg, sizeof( szMsg ), ", CPLR Enqueue: " );
+   GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTZCMCPRO, "CPLR", "Name" );
+   strcat_s( szMsg, zsizeof( szMsg ), ", CPLR Enqueue: " );
    TraceLineI( szMsg, EnqueueType );
 
    if ( EnqueueType > 0 )
@@ -504,7 +504,7 @@ oTZCMCPRO_CPLR_Enqueue( zVIEW  vTZCMCPRO,
          // if the first Enqueue wasn't successfull, give an OperatorMessage
          // (thru oTZCMCPRO_TestCPLR) and then try one more time
          GetIntegerFromAttribute( &lCPLR_ZKey, vTZCMCPRO, "CPLR", "ZKey" );
-         GetStringFromAttribute( szCPLR_Name, sizeof( szCPLR_Name ), vTZCMCPRO, "CPLR", "Name" );
+         GetStringFromAttribute( szCPLR_Name, zsizeof( szCPLR_Name ), vTZCMCPRO, "CPLR", "Name" );
          TestRC = oTZCMCPRO_TestCPLR( lCPLR_ZKey, szCPLR_Name, &vTZCMQCPO_List, vSubtask, vTZCMWIPO, EnqueueType);
          if ( TestRC < 0 )
          {
@@ -552,7 +552,7 @@ oTZCMCPRO_CPLR_Enqueue( zVIEW  vTZCMCPRO,
       SetNameForView( vTZCMQCPO, "TZCMQCPO", vSubtask, zLEVEL_TASK );
 
       GetIntegerFromAttribute( &lCPLR_ZKey, vTZCMCPRO, "CPLR", "ZKey" );
-      GetStringFromAttribute( szCPLR_Name, sizeof( szCPLR_Name ), vTZCMCPRO, "CPLR", "Name" );
+      GetStringFromAttribute( szCPLR_Name, zsizeof( szCPLR_Name ), vTZCMCPRO, "CPLR", "Name" );
 
       // now, loop through all reusable CPLRs:
       TestRC = 0;
@@ -561,7 +561,7 @@ oTZCMCPRO_CPLR_Enqueue( zVIEW  vTZCMCPRO,
             nRC = SetCursorNextEntity( vTZCMCPRO, "ReusableCPLR", 0 ) )
       {
          GetIntegerFromAttribute( &lCPLR_ZKey, vTZCMCPRO, "ReusableCPLR", "ZKey" );
-         GetStringFromAttribute( szCPLR_Name, sizeof( szCPLR_Name ), vTZCMCPRO, "ReusableCPLR", "Name" );
+         GetStringFromAttribute( szCPLR_Name, zsizeof( szCPLR_Name ), vTZCMCPRO, "ReusableCPLR", "Name" );
          // test with oTZCMCPRO_TestCPLR whether the ReusableCPLR ist currently enqueued
          TestRC = oTZCMCPRO_TestCPLR( lCPLR_ZKey, szCPLR_Name,
                                       &vTZCMQCPO_List, vSubtask,
@@ -664,7 +664,7 @@ oTZCMCPRO_DeleteFileWithCluster( zVIEW  vSubtask,
 
    if ( nRC >= 0 )
    {
-      sprintf_s( szViewName, sizeof( szViewName ), "TZCMFILO_%p", vFile );
+      sprintf_s( szViewName, zsizeof( szViewName ), "TZCMFILO_%p", vFile );
       SetNameForView( vFile, szViewName, vSubtask, zLEVEL_TASK );
 
       AddToViewCluster( lFile_ViewCluster, vFile, zCOMMIT_DROPOBJECTINSTANCE );
@@ -674,7 +674,7 @@ oTZCMCPRO_DeleteFileWithCluster( zVIEW  vSubtask,
    }
    else
    {
-      sprintf_s( szMsg, sizeof( szMsg ), "File '%s.%s' not found.", szName, szExtension );
+      sprintf_s( szMsg, zsizeof( szMsg ), "File '%s.%s' not found.", szName, szExtension );
       MessageSend( vSubtask, "CM00299", "Configuration Management",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_INFORMATION, zBEEP );
    }
@@ -710,15 +710,15 @@ oTZCMCPRO_DeleteDependentsWithCluster( zVIEW vTZCMCPLR,
    {
       case zSOURCE_PENV_META:
 
-         GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "PresEnvDef", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "PresEnvDef", "Name" );
          nRC = oTZCMCPRO_DeleteFileWithCluster( vSubtask, vTZCMFILE, szName, "XPE" );
 
          break;
       case zSOURCE_GOPGRP_META:
 
          // A Global Operation Group needs to delete the associated source file.
-         GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "GlobalOperationGroup", "Name" );
-         GetStringFromAttribute( szExtension, sizeof( szExtension ), vMetaOI, "GlobalOperationGroup", "Extension" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "GlobalOperationGroup", "Name" );
+         GetStringFromAttribute( szExtension, zsizeof( szExtension ), vMetaOI, "GlobalOperationGroup", "Extension" );
          nRC = oTZCMCPRO_DeleteFileWithCluster( vSubtask, vTZCMFILE, szName, szExtension );
 
          break;
@@ -730,12 +730,12 @@ oTZCMCPRO_DeleteDependentsWithCluster( zVIEW vTZCMCPLR,
                nRC >= zCURSOR_SET;
                nRC = SetCursorNextEntity( vMetaOI, "SourceFile", 0 ) )
          {
-            GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "SourceFile", "Name" );
-            GetStringFromAttribute( szExtension, sizeof( szExtension ), vMetaOI, "SourceFile", "Extension" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "SourceFile", "Name" );
+            GetStringFromAttribute( szExtension, zsizeof( szExtension ), vMetaOI, "SourceFile", "Extension" );
             nRC = oTZCMCPRO_DeleteFileWithCluster( vSubtask, vTZCMFILE, szName, szExtension );
          }
 
-         GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "Dialog", "Tag" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "Dialog", "Tag" );
          nRC = oTZCMCPRO_DeleteFileWithCluster( vSubtask, vTZCMFILE, szName, "XWD" );
 
          break;
@@ -750,12 +750,12 @@ oTZCMCPRO_DeleteDependentsWithCluster( zVIEW vTZCMCPLR,
                nRC >= zCURSOR_SET;
                nRC = SetCursorNextEntity( vMetaOI, "SourceFile", 0 ) )
          {
-            GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "SourceFile", "Name" );
-            GetStringFromAttribute( szExtension, sizeof( szExtension ), vMetaOI, "SourceFile", "Extension" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "SourceFile", "Name" );
+            GetStringFromAttribute( szExtension, zsizeof( szExtension ), vMetaOI, "SourceFile", "Extension" );
             nRC = oTZCMCPRO_DeleteFileWithCluster( vSubtask, vTZCMFILE, szName, szExtension );
          }
 
-         GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "LOD", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "LOD", "Name" );
          nRC = oTZCMCPRO_DeleteFileWithCluster( vSubtask, vTZCMFILE, szName, "XOD" );
 
          // To delete associated VORs, we will have to activate every VOR and check its LOD for a match on name.
@@ -816,8 +816,8 @@ oTZCMCPRO_DeleteDependentsWithCluster( zVIEW vTZCMCPLR,
       case zSOURCE_DOMAINGRP_META:
 
          // A Domain Group needs to delete the associated source file.
-         GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "DomainGroup", "Name" );
-         GetStringFromAttribute( szExtension, sizeof( szExtension ), vMetaOI, "DomainGroup", "Extension" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "DomainGroup", "Name" );
+         GetStringFromAttribute( szExtension, zsizeof( szExtension ), vMetaOI, "DomainGroup", "Extension" );
          if ( szExtension[ 0 ] )
             nRC = oTZCMCPRO_DeleteFileWithCluster( vSubtask, vTZCMFILE, szName, szExtension );
 
@@ -847,51 +847,51 @@ oTZCMCPRO_DeleteMetaWithCluster( zVIEW vTZCMCPLR,
 
    GetIntegerFromAttribute( &lType, vTempCPLR, "Z_MetaDef", "Type" );
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vTempCPLR, "Z_MetaDef", "ZKey" );
-   GetStringFromAttribute( szName, sizeof( szName ), vTempCPLR, "Z_MetaDef", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTempCPLR, "Z_MetaDef", "Name" );
 
    if ( ( lType >= 0 ) && ( lType <=  zSOURCE_MAX_META ) )
    {
       // Issue a Message, which component is being deleted.
-      strcpy_s( szMsg, sizeof( szMsg ), "Processing delete of " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Processing delete of " );
 
       switch ( lType )
       {
          case zSOURCE_GOPGRP_META:
-            strcat_s( szMsg, sizeof( szMsg ), "GlobalOperationGroup" );
+            strcat_s( szMsg, zsizeof( szMsg ), "GlobalOperationGroup" );
             break;
 
          case zSOURCE_DIALOG_META:
-            strcat_s( szMsg, sizeof( szMsg ), "Dialog" );
+            strcat_s( szMsg, zsizeof( szMsg ), "Dialog" );
             break;
 
          case zSOURCE_VOR_META:
-            strcat_s( szMsg, sizeof( szMsg ), "Registered View" );
+            strcat_s( szMsg, zsizeof( szMsg ), "Registered View" );
             break;
 
          case zSOURCE_LOD_META:
-            strcat_s( szMsg, sizeof( szMsg ), "LOD" );
+            strcat_s( szMsg, zsizeof( szMsg ), "LOD" );
             break;
 
          case zSOURCE_SA_META:
-            strcat_s( szMsg, sizeof( szMsg ), "SA" );
+            strcat_s( szMsg, zsizeof( szMsg ), "SA" );
             break;
 
          case zSOURCE_ERD_META:
-            strcat_s( szMsg, sizeof( szMsg ), "ERD" );
+            strcat_s( szMsg, zsizeof( szMsg ), "ERD" );
             break;
 
          case zSOURCE_DTE_META:
-            strcat_s( szMsg, sizeof( szMsg ), "TE" );
+            strcat_s( szMsg, zsizeof( szMsg ), "TE" );
             break;
 
          case zSOURCE_DOMAINGRP_META:
-            strcat_s( szMsg, sizeof( szMsg ), "DomainGroup" );
+            strcat_s( szMsg, zsizeof( szMsg ), "DomainGroup" );
             break;
 
       }
 
-      strcat_s( szMsg, sizeof( szMsg ), " " );
-      strcat_s( szMsg, sizeof( szMsg ), szName );
+      strcat_s( szMsg, zsizeof( szMsg ), " " );
+      strcat_s( szMsg, zsizeof( szMsg ), szName );
 
       MB_SetMessage( vSubtask, 1, szMsg );
 
@@ -904,10 +904,10 @@ oTZCMCPRO_DeleteMetaWithCluster( zVIEW vTZCMCPLR,
 
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activate failed on load of " );
-         strcat_s( szMsg, sizeof( szMsg ), szName );
-         strcat_s( szMsg, sizeof( szMsg ), ", OD type " );
-         strcat_s( szMsg, sizeof( szMsg ), SRC_CMOD[ lType ].szOD );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activate failed on load of " );
+         strcat_s( szMsg, zsizeof( szMsg ), szName );
+         strcat_s( szMsg, zsizeof( szMsg ), ", OD type " );
+         strcat_s( szMsg, zsizeof( szMsg ), SRC_CMOD[ lType ].szOD );
          MessageSend( vSubtask, "CM00141", "Configuration Management",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -950,49 +950,49 @@ oTZCMCPRO_DeleteMeta( zVIEW vTZCMCPRO,
 
    GetIntegerFromAttribute( &lType, vTempCPLR, "Z_MetaDef", "Type" );
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vTempCPLR, "Z_MetaDef", "ZKey" );
-   GetStringFromAttribute( szName, sizeof( szName ), vTempCPLR, "Z_MetaDef", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTempCPLR, "Z_MetaDef", "Name" );
 
    if ( (lType >= 0) && (lType <=  zSOURCE_MAX_META) )
    {
       // Issue a Message, which component is being deleted.
-      strcpy_s( szMsg, sizeof( szMsg ), "Processing delete of " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Processing delete of " );
       switch ( lType )
       {
          case zSOURCE_GOPGRP_META:
-            strcat_s( szMsg, sizeof( szMsg ), "GlobalOperationGroup" );
+            strcat_s( szMsg, zsizeof( szMsg ), "GlobalOperationGroup" );
             break;
 
          case zSOURCE_DIALOG_META:
-            strcat_s( szMsg, sizeof( szMsg ), "Dialog" );
+            strcat_s( szMsg, zsizeof( szMsg ), "Dialog" );
             break;
 
          case zSOURCE_VOR_META:
-            strcat_s( szMsg, sizeof( szMsg ), "Registered View" );
+            strcat_s( szMsg, zsizeof( szMsg ), "Registered View" );
             break;
 
          case zSOURCE_LOD_META:
-            strcat_s( szMsg, sizeof( szMsg ), "LOD" );
+            strcat_s( szMsg, zsizeof( szMsg ), "LOD" );
             break;
 
          case zSOURCE_SA_META:
-            strcat_s( szMsg, sizeof( szMsg ), "SA" );
+            strcat_s( szMsg, zsizeof( szMsg ), "SA" );
             break;
 
          case zSOURCE_ERD_META:
-            strcat_s( szMsg, sizeof( szMsg ), "ERD" );
+            strcat_s( szMsg, zsizeof( szMsg ), "ERD" );
             break;
 
          case zSOURCE_DTE_META:
-            strcat_s( szMsg, sizeof( szMsg ), "TE" );
+            strcat_s( szMsg, zsizeof( szMsg ), "TE" );
             break;
 
          case zSOURCE_DOMAINGRP_META:
-            strcat_s( szMsg, sizeof( szMsg ), "DomainGroup" );
+            strcat_s( szMsg, zsizeof( szMsg ), "DomainGroup" );
             break;
       }
 
-      strcat_s( szMsg, sizeof( szMsg ), " " );
-      strcat_s( szMsg, sizeof( szMsg ), szName );
+      strcat_s( szMsg, zsizeof( szMsg ), " " );
+      strcat_s( szMsg, zsizeof( szMsg ), szName );
 
       MB_SetMessage( vSubtask, 1, szMsg );
 
@@ -1006,10 +1006,10 @@ oTZCMCPRO_DeleteMeta( zVIEW vTZCMCPRO,
 
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Activate failed on load of " );
-         strcat_s( szMsg, sizeof( szMsg ), szName );
-         strcat_s( szMsg, sizeof( szMsg ), ", OD type " );
-         strcat_s( szMsg, sizeof( szMsg ), SRC_CMOD[ lType ].szOD );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Activate failed on load of " );
+         strcat_s( szMsg, zsizeof( szMsg ), szName );
+         strcat_s( szMsg, zsizeof( szMsg ), ", OD type " );
+         strcat_s( szMsg, zsizeof( szMsg ), SRC_CMOD[ lType ].szOD );
          MessageSend( vSubtask, "CM00141", "Configuration Management",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1063,7 +1063,7 @@ oTZCMCPRO_DeleteDependents( zVIEW vTZCMCPRO,
    {
       case zSOURCE_PENV_META:
 
-         GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "PresEnvDef", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "PresEnvDef", "Name" );
          nRC = oTZCMCPRO_DeleteServerFile( vTempCPLR, szName, "XPE" );
 
          break;
@@ -1073,8 +1073,8 @@ oTZCMCPRO_DeleteDependents( zVIEW vTZCMCPRO,
          // A Global Operation Group needs to delete the associated source
          // file.
 
-         GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "GlobalOperationGroup", "Name" );
-         GetStringFromAttribute( szExtension, sizeof( szExtension ), vMetaOI, "GlobalOperationGroup", "Extension" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "GlobalOperationGroup", "Name" );
+         GetStringFromAttribute( szExtension, zsizeof( szExtension ), vMetaOI, "GlobalOperationGroup", "Extension" );
          nRC = oTZCMCPRO_DeleteServerFile( vTempCPLR, szName, szExtension );
 
          break;
@@ -1087,12 +1087,12 @@ oTZCMCPRO_DeleteDependents( zVIEW vTZCMCPRO,
                nRC >= zCURSOR_SET;
                nRC = SetCursorNextEntity( vMetaOI, "SourceFile", 0 ) )
          {
-            GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "SourceFile", "Name" );
-            GetStringFromAttribute( szExtension, sizeof( szExtension ), vMetaOI, "SourceFile", "Extension" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "SourceFile", "Name" );
+            GetStringFromAttribute( szExtension, zsizeof( szExtension ), vMetaOI, "SourceFile", "Extension" );
             nRC = oTZCMCPRO_DeleteServerFile( vTempCPLR, szName, szExtension );
          }
 
-         GetStringFromAttribute( szName, sizeof( szName ),vMetaOI, "Dialog", "Tag" );
+         GetStringFromAttribute( szName, zsizeof( szName ),vMetaOI, "Dialog", "Tag" );
          nRC = oTZCMCPRO_DeleteServerFile( vTempCPLR, szName, "XWD" );
 
          break;
@@ -1109,12 +1109,12 @@ oTZCMCPRO_DeleteDependents( zVIEW vTZCMCPRO,
                nRC >= zCURSOR_SET;
                nRC = SetCursorNextEntity( vMetaOI, "SourceFile", 0 ) )
          {
-            GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "SourceFile", "Name" );
-            GetStringFromAttribute( szExtension, sizeof( szExtension ), vMetaOI, "SourceFile", "Extension" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "SourceFile", "Name" );
+            GetStringFromAttribute( szExtension, zsizeof( szExtension ), vMetaOI, "SourceFile", "Extension" );
             nRC = oTZCMCPRO_DeleteServerFile( vTempCPLR, szName, szExtension );
          }
 
-         GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "LOD", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "LOD", "Name" );
          nRC = oTZCMCPRO_DeleteServerFile( vTempCPLR, szName, "XOD" );
 
          // To delete associated VORs, we will have to activate every VOR
@@ -1182,8 +1182,8 @@ oTZCMCPRO_DeleteDependents( zVIEW vTZCMCPRO,
 
          // A Domain Group needs to delete the associated source file.
 
-         GetStringFromAttribute( szName, sizeof( szName ), vMetaOI, "DomainGroup", "Name" );
-         GetStringFromAttribute( szExtension, sizeof( szExtension ), vMetaOI, "DomainGroup", "Extension" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vMetaOI, "DomainGroup", "Name" );
+         GetStringFromAttribute( szExtension, zsizeof( szExtension ), vMetaOI, "DomainGroup", "Extension" );
          if ( szExtension[ 0 ] )
             nRC = oTZCMCPRO_DeleteServerFile( vTempCPLR, szName, szExtension );
          break;
@@ -1281,8 +1281,8 @@ LoadFileAndActivateMeta( zVIEW  vSubtask,
    }
 
    // create the file
-   strcat_s( szTempName, sizeof( szTempName ), szName );
-   strcat_s( szTempName, sizeof( szTempName ), ".tmp" );
+   strcat_s( szTempName, zsizeof( szTempName ), szName );
+   strcat_s( szTempName, zsizeof( szTempName ), ".tmp" );
    nRC = oTZCMLPLO_CopyFileFromServerFile( vSubtask, szTempName, vTZCMCPRO, szName, szExtension );
    if ( nRC < 0 )
    {
@@ -1328,9 +1328,9 @@ oTZCMRCRO_DeriveCPLR_CPL_Name( zVIEW         vTZCMRCRO  /*  BASED ON LOD TZCMRCR
 
       GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMRCRO, "CPLR", "ZKey" );
       SetCursorFirstEntityByInteger( vTempCPL, "CPLR", "ZKey", (zLONG) ulZKey, "Installation" );
-      GetStringFromAttribute( szCPLR_CPL_Name, sizeof( szCPLR_CPL_Name ), vTempCPL, "CPLR", "Name" );
-      strcat_s( szCPLR_CPL_Name, sizeof( szCPLR_CPL_Name ), "   CPL: " );
-      GetStringFromAttribute( szCPLR_CPL_Name + zstrlen( szCPLR_CPL_Name ), sizeof( szCPLR_CPL_Name ) - zstrlen( szCPLR_CPL_Name ), vTempCPL, "CPL", "Name" );
+      GetStringFromAttribute( szCPLR_CPL_Name, zsizeof( szCPLR_CPL_Name ), vTempCPL, "CPLR", "Name" );
+      strcat_s( szCPLR_CPL_Name, zsizeof( szCPLR_CPL_Name ), "  CPL: " );
+      GetStringFromAttribute( szCPLR_CPL_Name + zstrlen( szCPLR_CPL_Name ), zsizeof( szCPLR_CPL_Name ) - zstrlen( szCPLR_CPL_Name ), vTempCPL, "CPL", "Name" );
 
       StoreValueInRecord( vTZCMRCRO, lpViewEntity, lpViewAttrib, szCPLR_CPL_Name, 0 );
 

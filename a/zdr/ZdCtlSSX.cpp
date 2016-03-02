@@ -368,7 +368,7 @@ SSDelColRange( HWND             hWnd,
       SS_ClearUndoBuffer( hWnd, lpSS );
 
       if ( DrAllocTaskMemory( (zCOREMEM) &lpSS->UndoBuffer.hData,
-                              (zLONG) sizeof( SS_UNDOCOL ) *
+                              (zLONG) zsizeof( SS_UNDOCOL ) *
                                 (Col2 - ssCol + 1), 1090 ) == 0 )
       {
          lpList = (LPSS_UNDOCOL) DrLockTaskMemory( lpSS->UndoBuffer.hData );
@@ -1241,7 +1241,7 @@ SSGetDefFloatFormat( HWND          hWnd,
    zBOOL         bRC = TRUE;
 
    lpSS = SS_Lock( hWnd );
-   zmemcpy( lpFloatFormat, &lpSS->DefaultFloatFormat, sizeof( LPFLOATFORMAT ) );
+   zmemcpy( lpFloatFormat, &lpSS->DefaultFloatFormat, zsizeof( LPFLOATFORMAT ) );
 // DrUnlockTaskMemory( lpSS );
 
    return( bRC );
@@ -1899,7 +1899,7 @@ SSGetMultiSelBlocks( HWND    hWnd,
    {
       if ( (hList = SS_ListDup( lpSS->MultiSelBlock.hItemList,
                                 lpSS->MultiSelBlock.lItemCnt,
-                                sizeof( SS_SELBLOCK ) )) != 0 )
+                                zsizeof( SS_SELBLOCK ) )) != 0 )
       {
          lItemCnt = lpSS->MultiSelBlock.lItemCnt;
          lItemAllocCnt = lpSS->MultiSelBlock.lItemCnt;
@@ -1935,12 +1935,12 @@ SSGetMultiSelBlocks( HWND    hWnd,
 //          DrUnlockTaskMemory( lpItemList );
 
             zmemcpy( &SelBlockTemp, &lpItemList[ lMaxItemNbr ],
-                     sizeof( SS_SELBLOCK ) );
+                     zsizeof( SS_SELBLOCK ) );
 
             hListNew = SS_ListAddItem( hListNew, &lItemCntNew, &lItemAllocCntNew,
-                                       &SelBlockTemp, sizeof( SS_SELBLOCK ), 50 );
+                                       &SelBlockTemp, zsizeof( SS_SELBLOCK ), 50 );
 
-            SS_ListDelItem( hList, lMaxItemNbr, &lItemCnt, sizeof( SS_SELBLOCK ) );
+            SS_ListDelItem( hList, lMaxItemNbr, &lItemCnt, zsizeof( SS_SELBLOCK ) );
 
             // Split rest of list.
             for ( lItemAt = 0, lItemCntOld = lItemCnt; lItemAt < lItemCntOld; )
@@ -1951,9 +1951,9 @@ SSGetMultiSelBlocks( HWND    hWnd,
                if ( SS_IntersectSelBlock( &SelBlockTemp, &lpItemList[ lItemAt ] ) )
                {
                   zmemcpy( &SelBlockSplit, &lpItemList[ lItemAt ],
-                           sizeof( SS_SELBLOCK ) );
+                           zsizeof( SS_SELBLOCK ) );
 
-                  SS_ListDelItem( hList, lItemAt, &lItemCnt, sizeof( SS_SELBLOCK ) );
+                  SS_ListDelItem( hList, lItemAt, &lItemCnt, zsizeof( SS_SELBLOCK ) );
 
                   hList = SS_SelBlockSplitItem( hList, &lItemCnt, &lItemAllocCnt,
                                                 &SelBlockTemp, &SelBlockSplit );
@@ -1974,11 +1974,11 @@ SSGetMultiSelBlocks( HWND    hWnd,
    else
    if ( SS_IsBlockSelected( lpSS ) )
    {
-      zmemcpy( &SelBlockTemp.UL, &lpSS->BlockCellUL, sizeof( SS_CELLCOORD ) );
-      zmemcpy( &SelBlockTemp.LR, &lpSS->BlockCellLR, sizeof( SS_CELLCOORD ) );
+      zmemcpy( &SelBlockTemp.UL, &lpSS->BlockCellUL, zsizeof( SS_CELLCOORD ) );
+      zmemcpy( &SelBlockTemp.LR, &lpSS->BlockCellLR, zsizeof( SS_CELLCOORD ) );
 
       hListNew = SS_ListAddItem( hListNew, &lItemCntNew, &lItemAllocCntNew,
-                                 &SelBlockTemp, sizeof( SS_SELBLOCK ), 1 );
+                                 &SelBlockTemp, zsizeof( SS_SELBLOCK ), 1 );
    }
 
 // DrUnlockTaskMemory( lpSS );
@@ -2947,7 +2947,7 @@ SSSetDefFloatFormat( HWND hWnd,
 
    lpSS = SS_Lock( hWnd );
    zmemcpy( &lpSS->DefaultFloatFormat,
-            lpFloatFormat, sizeof( LPFLOATFORMAT ) );
+            lpFloatFormat, zsizeof( LPFLOATFORMAT ) );
 // DrUnlockTaskMemory( lpSS );
 
    return( bRC );
@@ -3618,7 +3618,7 @@ SSSetTypeButton( HWND            hWnd,
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypeButton" );
 
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType = SS_TYPE_BUTTON;
    CellType->lStyle = lStyle | SBS_NOPOINTERFOCUS;
@@ -3631,7 +3631,7 @@ SSSetTypeButton( HWND            hWnd,
 
    if ( lpColor )
    {
-      zmemcpy( &CellType->Spec.Button.Color, lpColor, sizeof( SUPERBTNCOLOR ) );
+      zmemcpy( &CellType->Spec.Button.Color, lpColor, zsizeof( SUPERBTNCOLOR ) );
 
       if ( CellType->Spec.Button.Color.Color == RGBCOLOR_DEFAULT )
          CellType->Spec.Button.Color.Color = GetSysColor( COLOR_BTNFACE );
@@ -3764,7 +3764,7 @@ SSSetTypeCheckBox( HWND          hWnd,
    CHECKBOXPICTS Picts;
    zBOOL         bRC = TRUE;
 
-   zmemset( lpCellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( lpCellType, 0, zsizeof( SS_CELLTYPE ) );
 
    lpCellType->chType = SS_TYPE_CHECKBOX;
 
@@ -4106,7 +4106,7 @@ SSSetTypeDate( HWND          hWnd,
                LPDATE        lpMax )
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypeDate" );
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType = SS_TYPE_DATE;
    CellType->lStyle = lStyle;
@@ -4114,7 +4114,7 @@ SSSetTypeDate( HWND          hWnd,
 
    if ( lpFormat )
    {
-      zmemcpy( &CellType->Spec.Date.Format, lpFormat, sizeof( DATEFORMAT ) );
+      zmemcpy( &CellType->Spec.Date.Format, lpFormat, zsizeof( DATEFORMAT ) );
 
       if ( CellType->Spec.Date.Format.bSpin )
          CellType->lStyle |= DS_SPIN;
@@ -4148,8 +4148,8 @@ SSSetTypeDate( HWND          hWnd,
    if ( lpMin && lpMax )
    {
       CellType->Spec.Date.SetRange = TRUE;
-      zmemcpy( &CellType->Spec.Date.Min, lpMin, sizeof( TB_DATE ) );
-      zmemcpy( &CellType->Spec.Date.Max, lpMax, sizeof( TB_DATE ) );
+      zmemcpy( &CellType->Spec.Date.Min, lpMin, zsizeof( TB_DATE ) );
+      zmemcpy( &CellType->Spec.Date.Max, lpMax, zsizeof( TB_DATE ) );
    }
 
    return( CellType );
@@ -4180,7 +4180,7 @@ SSSetTypeFloatExt( HWND          hWnd,
                    LPFLOATFORMAT lpFormat )
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypeFloatExt" );
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType            = SS_TYPE_FLOAT;
    CellType->lStyle            = lStyle;
@@ -4191,7 +4191,7 @@ SSSetTypeFloatExt( HWND          hWnd,
 
    if ( lpFormat )
    {
-      zmemcpy( &CellType->Spec.Float.Format, lpFormat, sizeof( FLOATFORMAT ) );
+      zmemcpy( &CellType->Spec.Float.Format, lpFormat, zsizeof( FLOATFORMAT ) );
       CellType->Spec.Float.fSetFormat = TRUE;
    }
 
@@ -4223,7 +4223,7 @@ SSSetTypeIntegerExt( HWND          hWnd,
                      zLONG         lSpinInc )
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypeIntegerExt" );
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType                 = SS_TYPE_INTEGER;
    CellType->lStyle                 = lStyle;
@@ -4246,7 +4246,7 @@ SSSetTypeOwnerDraw( HWND          hWnd,
                     zLONG         lStyle )
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypeOwnerDraw" );
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType = SS_TYPE_OWNERDRAW;
    CellType->lStyle = lStyle;
@@ -4261,7 +4261,7 @@ SSSetTypePic( HWND          hWnd,
               zPCHAR        pchMask )
 {
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypePic" );
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    if ( pchMask == 0 )
       return( 0 );
@@ -4314,7 +4314,7 @@ SSSetTypeTime( HWND          hWnd,
    TRACE_DEBUG( "<SS_TYPE.CPP>", "SSSetTypeTime" );
    LPSPREADSHEET   lpSS;
 
-   zmemset( CellType, 0, sizeof( SS_CELLTYPE ) );
+   zmemset( CellType, 0, zsizeof( SS_CELLTYPE ) );
 
    CellType->chType = SS_TYPE_TIME;
    CellType->lStyle = lStyle;
@@ -4322,7 +4322,7 @@ SSSetTypeTime( HWND          hWnd,
    if ( lpFormat )
    {
       CellType->Spec.Time.SetFormat = TRUE;
-      zmemcpy( &CellType->Spec.Time.Format, lpFormat, sizeof( TIMEFORMAT ) );
+      zmemcpy( &CellType->Spec.Time.Format, lpFormat, zsizeof( TIMEFORMAT ) );
 
       if ( CellType->Spec.Time.Format.bSpin )
          CellType->lStyle |= TS_SPIN;
@@ -4331,8 +4331,8 @@ SSSetTypeTime( HWND          hWnd,
    if ( lpMin && lpMax )
    {
       CellType->Spec.Time.SetRange = TRUE;
-      zmemcpy( &CellType->Spec.Time.Min, lpMin, sizeof( TIME ) );
-      zmemcpy( &CellType->Spec.Time.Max, lpMax, sizeof( TIME ) );
+      zmemcpy( &CellType->Spec.Time.Min, lpMin, zsizeof( TIME ) );
+      zmemcpy( &CellType->Spec.Time.Max, lpMax, zsizeof( TIME ) );
    }
 
    if ( lpFormat == 0 )
@@ -4582,7 +4582,7 @@ void
 StringToFloat( zPCHAR pch, DECIMAL *pdxVal )
 {
    TRACE_DEBUG( "<ATOF.CPP>", "StringToFloat" );
-   strcpy_s( g_cvtb, sizeof( g_cvtb ), pch ); do we know if we can take the sizeof g_cvtb?
+   strcpy_s( g_cvtb, zsizeof( g_cvtb ), pch ); do we know if we can take the zsizeof g_cvtb?
    ::MessageBox( 0, "Should not be here!!!", "StringToFloag", MB_OK );
 // *pdxVal = ZDecimal( g_cvtb );
 // *pdxVal = atof( g_cvtb );
@@ -4926,16 +4926,16 @@ SS_GetDataStruct( LPSPREADSHEET  lpSS,
         (lpCell || (lpCell = SS_LockCellItem( lpSS, ssCol, ssRow )) != 0 ) &&
         lpCell->m_CellData.m_DataType )
    {
-      zmemcpy( lpData, &lpCell->m_CellData, sizeof( ZSS_Data ) );
+      zmemcpy( lpData, &lpCell->m_CellData, zsizeof( ZSS_Data ) );
    }
    else
    if ( ssRow != SS_ALLROWS && lpRow && lpRow->Data.m_DataType )
-      zmemcpy( lpData, &lpRow->Data, sizeof( ZSS_Data ) );
+      zmemcpy( lpData, &lpRow->Data, zsizeof( ZSS_Data ) );
    else
    if ( ssCol != SS_ALLCOLS && lpCol && lpCol->Data.m_DataType )
-      zmemcpy( lpData, &lpCol->Data, sizeof( ZSS_Data ) );
+      zmemcpy( lpData, &lpCol->Data, zsizeof( ZSS_Data ) );
    else
-      zmemcpy( lpData, &lpSS->DefaultData, sizeof( ZSS_Data ) );
+      zmemcpy( lpData, &lpSS->DefaultData, zsizeof( ZSS_Data ) );
 
    if ( lpCell && lpCellOrig == 0 )
       SS_UnlockCellItem( lpSS, ssCol, ssRow );
@@ -4992,7 +4992,7 @@ SSSetCellCellType( HWND hWnd, LPSPREADSHEET lpSS,
       {
          SSx_FreeData( &lpCell->m_CellData );
          if ( DrAllocTaskMemory( (zCOREMEM) &lpCell->m_hCellType,
-                                 sizeof( SS_CELLTYPE ), 1070 ) != 0 )
+                                 zsizeof( SS_CELLTYPE ), 1070 ) != 0 )
          {
             return( FALSE );
          }
@@ -5006,7 +5006,7 @@ SSSetCellCellType( HWND hWnd, LPSPREADSHEET lpSS,
          CellTypeTemp = (LPSS_CELLTYPE)
                                     DrLockTaskMemory( lpCell->m_hCellType );
          lpCell->m_hCellType = (zPCHAR) CellTypeTemp;
-         zmemcpy( CellTypeTemp, CellType, sizeof( SS_CELLTYPE ) );
+         zmemcpy( CellTypeTemp, CellType, zsizeof( SS_CELLTYPE ) );
 //       DrUnlockTaskMemory( CellTypeTemp );
       }
 
@@ -5187,22 +5187,22 @@ SSx_GetData( LPSPREADSHEET  lpSS,
         (lpCell || (lpCell = SSx_LockCellItem( lpSS, lpRow, ssCol, ssRow )) != 0) &&
         lpCell->m_CellData.m_DataType )
    {
-      zmemcpy( &SSData, &lpCell->m_CellData, sizeof( ZSS_Data ) );
+      zmemcpy( &SSData, &lpCell->m_CellData, zsizeof( ZSS_Data ) );
    }
    else
    if ( ssRow != SS_ALLROWS && lpRow && lpRow->Data.m_DataType )
    {
-      zmemcpy( &SSData, &lpRow->Data, sizeof( ZSS_Data ) );
+      zmemcpy( &SSData, &lpRow->Data, zsizeof( ZSS_Data ) );
    }
    else
    if ( ssCol != SS_ALLCOLS &&
         (lpCol || (lpCol = SS_LockColItem( lpSS, ssCol )) != 0) &&
         lpCol->Data.m_DataType )
    {
-      zmemcpy( &SSData, &lpCol->Data, sizeof( ZSS_Data ) );
+      zmemcpy( &SSData, &lpCol->Data, zsizeof( ZSS_Data ) );
    }
    else
-      zmemcpy( &SSData, &lpSS->DefaultData, sizeof( ZSS_Data ) );
+      zmemcpy( &SSData, &lpSS->DefaultData, zsizeof( ZSS_Data ) );
 
    if ( lpCellOrig == 0 && lpCell )
       SSx_UnlockCellItem( lpSS, lpRow, ssCol, ssRow );
@@ -5211,7 +5211,7 @@ SSx_GetData( LPSPREADSHEET  lpSS,
       SS_UnlockColItem( lpSS, ssCol );
 
    if ( lpData && SSData.m_DataType == SS_TYPE_FLOAT )
-      zmemcpy( lpData, &SSData, sizeof( ZSS_Data ) );
+      zmemcpy( lpData, &SSData, zsizeof( ZSS_Data ) );
    else
    if ( SSData.m_DataType )
    {
@@ -5344,7 +5344,7 @@ SSSetColCellType( HWND hWnd, LPSPREADSHEET lpSS,
       if ( CellType )
       {
          if ( DrAllocTaskMemory( (zCOREMEM) &lpCol->hCellType,
-                                 sizeof( SS_CELLTYPE ), 1072 ) != 0 )
+                                 zsizeof( SS_CELLTYPE ), 1072 ) != 0 )
          {
             SS_UnlockColItem( lpSS, ssCol );
             return( FALSE );
@@ -5357,7 +5357,7 @@ SSSetColCellType( HWND hWnd, LPSPREADSHEET lpSS,
          }
 
          CellTypeTemp = (LPSS_CELLTYPE) DrLockTaskMemory( lpCol->hCellType );
-         zmemcpy( CellTypeTemp, CellType, sizeof( SS_CELLTYPE ) );
+         zmemcpy( CellTypeTemp, CellType, zsizeof( SS_CELLTYPE ) );
 //       DrUnlockTaskMemory( CellTypeTemp );
       }
       else
@@ -5989,9 +5989,9 @@ SS_TraceDone( )
                      clf->m_pNext->m_pchFileName );
       }
 
-      strcpy_s( szBuffer, sizeof( szBuffer ), " Function: " );
-      strcat_s( szBuffer, sizeof( szBuffer ), clf->m_pNext->m_pchFunctionName );
-      strcat_s( szBuffer, sizeof( szBuffer ), " access count: " );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), " Function: " );
+      strcat_s( szBuffer, zsizeof( szBuffer ), clf->m_pNext->m_pchFunctionName );
+      strcat_s( szBuffer, zsizeof( szBuffer ), " access count: " );
       TraceLineI( szBuffer, clf->m_pNext->m_lCnt );
       clf = clf->m_pNext;
    }
@@ -6119,7 +6119,7 @@ SelectFont( HDC hDC, HFONT hFont )
 // zCHAR szMsg[ 128 ];
 //
    HFONT hFontOld = (HFONT) SelectObject( hDC, hFont );
-// sprintf_s( szMsg, sizeof( szMsg ), "SelectFont new: %d old: %d",
+// sprintf_s( szMsg, zsizeof( szMsg ), "SelectFont new: %d old: %d",
 //           (zLONG) hFont, (zLONG) hFontOld );
 // TraceLineS( szMsg, "" );
    return( hFontOld );
@@ -6131,7 +6131,7 @@ SelectPen( HDC hDC, HPEN hPen )
 // zCHAR szMsg[ 128 ];
 //
    HPEN hPenOld = (HPEN) SelectObject( hDC, hPen );
-// sprintf_s( szMsg, sizeof( szMsg ), "SelectPen new: %d old: %d",
+// sprintf_s( szMsg, zsizeof( szMsg ), "SelectPen new: %d old: %d",
 //           (zLONG) hPen, (zLONG) hPenOld );
 // TraceLineS( szMsg, "" );
    return( hPenOld );
@@ -6143,7 +6143,7 @@ SelectBrush( HDC hDC, HBRUSH hBrush )
 // zCHAR szMsg[ 128 ];
 //
    HBRUSH hBrushOld = (HBRUSH) SelectObject( hDC, hBrush );
-// sprintf_s( szMsg, sizeof( szMsg ), "SelectBrush new: %d old: %d",
+// sprintf_s( szMsg, zsizeof( szMsg ), "SelectBrush new: %d old: %d",
 //           (zLONG) hBrush, (zLONG) hBrushOld );
 // TraceLineS( szMsg, "" );
    return( hBrushOld );
@@ -6155,7 +6155,7 @@ SelectBitmap( HDC hDC, HBITMAP hBitmap )
 // zCHAR szMsg[ 128 ];
 //
    HBITMAP hBitmapOld = (HBITMAP) SelectObject( hDC, hBitmap );
-// sprintf_s( szMsg, sizeof( szMsg ), "SelectBitmap new: %d old: %d",
+// sprintf_s( szMsg, zsizeof( szMsg ), "SelectBitmap new: %d old: %d",
 //           (zLONG) hBitmap, (zLONG) hBitmapOld );
 // TraceLineS( szMsg, "" );
    return( hBitmapOld );

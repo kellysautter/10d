@@ -266,7 +266,7 @@ cfTZOPSIGO_PostActivate( zVIEW    vSubtask,
    while ( ResetViewFromSubobject( vWkTZCMLPLO ) == 0 )
       ;
 
-   GetStringFromAttribute( szWork, sizeof( szWork ), vTZCMLPLO, "W_MetaDef", "LastSyncDate" );
+   GetStringFromAttribute( szWork, zsizeof( szWork ), vTZCMLPLO, "W_MetaDef", "LastSyncDate" );
    DropView( vWkTZCMLPLO );
    // return success
    return( 0 );
@@ -394,16 +394,16 @@ cfTZEREMDO_PostActivate( zVIEW    vSubtask,
       }
       else
       {
-         GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vTZEREMDO, "Domain", "Name" );
+         GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vTZEREMDO, "Domain", "Name" );
          nRC = ActivateMetaOI_ByName( vSubtask, &vTZDMSRCO, 0, zREFER_DOMAIN_META, zSINGLE, szDomainName, 0 );
          if ( nRC < 0 )
          {
             bRelinkError = TRUE;
             TraceLineI( "Can't relink Domain. ZKey: ", lZKey );
             TraceLineS( "Can't relink Domain. Name: ", szDomainName );
-            GetStringFromAttribute( szTempName, sizeof( szTempName ), vTZEREMDO, "ER_Entity", "Name" );
+            GetStringFromAttribute( szTempName, zsizeof( szTempName ), vTZEREMDO, "ER_Entity", "Name" );
             TraceLineS( "Can't relink Domain. Entity: ", szTempName );
-            GetStringFromAttribute( szTempName, sizeof( szTempName ), vTZEREMDO, "ER_Attribute", "Name" );
+            GetStringFromAttribute( szTempName, zsizeof( szTempName ), vTZEREMDO, "ER_Attribute", "Name" );
             TraceLineS( "Can't relink Domain. Attribute: ", szTempName );
             nRC = SetCursorFirstEntityByString( vDomainLPLR, "W_MetaDef", "Name", "TextForMissingZKey", 0 );
             if ( nRC >= 0 )
@@ -423,8 +423,8 @@ cfTZEREMDO_PostActivate( zVIEW    vSubtask,
          }
          else
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Deleting Attribute because of missing Domain: " );
-            strcat_s( szMsg, sizeof( szMsg ), szDomainName );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Deleting Attribute because of missing Domain: " );
+            strcat_s( szMsg, zsizeof( szMsg ), szDomainName );
             MessageSend( vSubtask, "CM00901", "Configuration Management",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
             DeleteEntity( vTZEREMDO, "ER_Attribute", zREPOS_NONE );
@@ -573,7 +573,7 @@ cfTZERSASO_PostActivate( zVIEW    vSubtask,
    while ( ResetViewFromSubobject( vWkTZCMLPLO ) == 0 )
       ;
 
-   GetStringFromAttribute( szWork, sizeof( szWork ), vTZCMLPLO, "W_MetaDef", "LastSyncDate" );
+   GetStringFromAttribute( szWork, zsizeof( szWork ), vTZCMLPLO, "W_MetaDef", "LastSyncDate" );
 
    // FORCE THE ER/MODEL IN REGARDLESS OF THE SYNC DATE
    if ( bERD == FALSE )
@@ -690,7 +690,7 @@ cfTZTENVRO_PostActivate( zVIEW    vSubtask,
    // issue an activate for that type
    CreateViewFromViewForTask( &vWkTZCMLPLO, vTZCMLPLO, 0 );
    while ( ResetViewFromSubobject( vWkTZCMLPLO ) == 0 );
-   GetStringFromAttribute( szWork, sizeof( szWork ), vTZCMLPLO, "W_MetaDef", "LastSyncDate" );
+   GetStringFromAttribute( szWork, zsizeof( szWork ), vTZCMLPLO, "W_MetaDef", "LastSyncDate" );
    fnActivateDependentBySyncDate( vCM_Subtask, szReturnSyncDate, vWkTZCMLPLO,
                                   szWork, zREFER_ERD_META, 1 );
 
@@ -805,7 +805,7 @@ cfTZWDVORO_PostActivate( zVIEW    vSubtask,
    if ( nRC < zCURSOR_SET )
    {
       // The LOD in the VOR was not found in the LPLR by ZKey, so re-include.
-      GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vTZWDVORO, "LOD", "Name" );
+      GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vTZWDVORO, "LOD", "Name" );
       nRC = ActivateMetaOI_ByName( vSubtask, &vLOD, 0, zREFER_LOD_META,
                                    zSINGLE, szLOD_Name, 0 );
       if ( nRC >= 0 )
@@ -818,7 +818,7 @@ cfTZWDVORO_PostActivate( zVIEW    vSubtask,
    else
    {
       // Activate the LOD and relink it.
-      GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vTZWDVORO, "LOD", "Name" );
+      GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vTZWDVORO, "LOD", "Name" );
       nRC = ActivateMetaOI_ByName( vSubtask, &vLOD, 0, zREFER_LOD_META,
                                    zSINGLE, szLOD_Name, 0 );
       if ( nRC >= 0 )
@@ -1239,13 +1239,13 @@ cfTZADCSDO_PostActivate( zVIEW    vSubtask,
       }
       else
       {
-         strcpy_s( szERR_Msg, sizeof( szERR_Msg ), "Unable to activate Registered View ( file " );
+         strcpy_s( szERR_Msg, zsizeof( szERR_Msg ), "Unable to activate Registered View ( file " );
          zltoxa( lZKey, szERR_Msg + zstrlen( szERR_Msg ) );
          GetAddrForAttribute( &szName, vTZWDVORO, "ViewObjRef", "Name" );
-         strcat_s( szERR_Msg, sizeof( szERR_Msg ), "' for UI Specification '" );
+         strcat_s( szERR_Msg, zsizeof( szERR_Msg ), "' for UI Specification '" );
          GetAddrForAttribute( &szName, vWkTZADCSDO, "UI_Spec", "Name" );
-         strcat_s( szERR_Msg, sizeof( szERR_Msg ), szName );
-         strcat_s( szERR_Msg, sizeof( szERR_Msg ), "'.\n\nA rebuild of the Meta List may be needed." );
+         strcat_s( szERR_Msg, zsizeof( szERR_Msg ), szName );
+         strcat_s( szERR_Msg, zsizeof( szERR_Msg ), "'.\n\nA rebuild of the Meta List may be needed." );
          MessageSend( vSubtask, "CM00903", "Configuration Management",
                       szERR_Msg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
@@ -1294,8 +1294,8 @@ fnGetActiveMetaByType( zPVIEW   vMeta,
                GetIntegerFromAttribute( &lTaskID, vActiveMetas, "W_MetaDef", "TaskID" );
                if ( lTaskID ) // any non-zero task id is valid (Win9x has negative IDs)
                {  // get the active view name for the meta in memory
-                  GetStringFromAttribute( szViewName, sizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-                  strcat_s( szViewName, sizeof( szViewName ), ".u" );
+                  GetStringFromAttribute( szViewName, zsizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+                  strcat_s( szViewName, zsizeof( szViewName ), ".u" );
                   GetViewByName( vMeta, szViewName, vCM_Subtask, zLEVEL_SUBTASK );
                   return( ++nRelNbr );
                }
@@ -1314,8 +1314,8 @@ fnGetActiveMetaByType( zPVIEW   vMeta,
             while ( nCursor == zCURSOR_SET )
             {
                // get the active view name for the meta in memory
-               GetStringFromAttribute( szViewName, sizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-               strcat_s( szViewName, sizeof( szViewName ), ".r" );
+               GetStringFromAttribute( szViewName, zsizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+               strcat_s( szViewName, zsizeof( szViewName ), ".r" );
                if ( GetViewByName( vMeta, szViewName, vCM_Subtask, zLEVEL_SUBTASK ) >= 0 )
                {
                   return( ++nRelNbr );
@@ -1336,8 +1336,8 @@ fnGetActiveMetaByType( zPVIEW   vMeta,
             GetIntegerFromAttribute( &lTaskID, vActiveMetas, "W_MetaDef", "TaskID" );
             if ( lTaskID ) // any non-zero task id is valid (Win9x has negative IDs)
             {  // get the active view name for the meta in memory
-               GetStringFromAttribute( szViewName, sizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-               strcat_s( szViewName, sizeof( szViewName ), ".u" );
+               GetStringFromAttribute( szViewName, zsizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+               strcat_s( szViewName, zsizeof( szViewName ), ".u" );
                GetViewByName( vMeta, szViewName, vCM_Subtask, zLEVEL_SUBTASK );
                return( ++nRelNbr );
             }
@@ -1350,8 +1350,8 @@ fnGetActiveMetaByType( zPVIEW   vMeta,
          while ( nCursor == zCURSOR_SET )
          {
             // get the active view name for the meta in memory
-            GetStringFromAttribute( szViewName, sizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
-            strcat_s( szViewName, sizeof( szViewName ), ".r" );
+            GetStringFromAttribute( szViewName, zsizeof( szViewName ), vActiveMetas, "W_MetaDef", "CM_ViewName" );
+            strcat_s( szViewName, zsizeof( szViewName ), ".r" );
             if ( GetViewByName( vMeta, szViewName, vCM_Subtask, zLEVEL_SUBTASK ) >= 0 )
             {
                return( ++nRelNbr );
@@ -1394,7 +1394,7 @@ fnActivateDependentBySyncDate( zVIEW   vSubtask,
       {
          do
          {
-            GetStringFromAttribute( szDepSyncDate, sizeof( szDepSyncDate ), vWkTZCMLPLO, "W_MetaDef", "LastSyncDate" );
+            GetStringFromAttribute( szDepSyncDate, zsizeof( szDepSyncDate ), vWkTZCMLPLO, "W_MetaDef", "LastSyncDate" );
             if ( nForce || zstrcmp( szDepSyncDate, pchSyncDate ) > 0 )
             {
                SysMutexLock( vSubtask, "ActMeta", 0, 0 );
@@ -1405,9 +1405,9 @@ fnActivateDependentBySyncDate( zVIEW   vSubtask,
 
                // After the object instance has been forced in, get its syncronization date again in case it was in
                // turn updated by being forced in.
-               GetStringFromAttribute( szDepSyncDate, sizeof( szDepSyncDate ), vWkTZCMLPLO, "W_MetaDef", "LastSyncDate" );
+               GetStringFromAttribute( szDepSyncDate, zsizeof( szDepSyncDate ), vWkTZCMLPLO, "W_MetaDef", "LastSyncDate" );
                if ( zstrcmp( szDepSyncDate, szReturnSyncDate ) > 0 )
-                  strcpy_s( szReturnSyncDate, sizeof( szReturnSyncDate ), szDepSyncDate );
+                  strcpy_s( szReturnSyncDate, zsizeof( szReturnSyncDate ), szDepSyncDate );
 
                nRC++;
                if ( vMeta )

@@ -849,7 +849,7 @@ GetStringFromAttribute( zPCHAR  pchReturnString,
       {
          zCHAR szMsg[ 200 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "GetStringFromAttribute for Entity: %s  Attribute: %s has length mismatch: %d specified, %d actual",
+         sprintf_s( szMsg, zsizeof( szMsg ), "GetStringFromAttribute for Entity: %s Attribute: %s has length mismatch: %d specified, %d actual",
                     cpcEntityName, cpcAttributeName, ulStringLth, lMaxLth );
          ulStringLth = lMaxLth;
       }
@@ -928,7 +928,7 @@ fnGetStringFromAttribute( zPCHAR          pchReturnString,
             else
             {
                pchReturnString[ 0 ] = 0;
-               zltoa( *((zPLONG) pchPtr), szTemp, sizeof( szTemp ) );
+               zltoa( *((zPLONG) pchPtr), szTemp, zsizeof( szTemp ) );
                strncat_s( pchReturnString, ulMaxLth, szTemp, (unsigned int) ulMaxLth - 1 );
             }
 
@@ -1704,7 +1704,7 @@ GetStructFromEntityAttrs( zPCHAR  pchReturnStruct,
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Error in structure length for entity: %s", cpcEntityName );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Error in structure length for entity: %s", cpcEntityName );
          SysMessageBox( lpView, "Struct Size Error", szMsg, 1 );
          nRC = zCALL_ERROR;
       }
@@ -1980,12 +1980,12 @@ GetAttributeDisplayLength( zPULONG  pulReturnLth,
          zCHAR  sz[ 102 ];
          LPDOMAIN lpDomain;
 
-         strcpy_s( sz, sizeof( sz ), cpcEntityName );
-         strcat_s( sz, sizeof( sz ), ", " );
-         strcat_s( sz, sizeof( sz ), cpcAttributeName );
-         strcat_s( sz, sizeof( sz ), ", " );
+         strcpy_s( sz, zsizeof( sz ), cpcEntityName );
+         strcat_s( sz, zsizeof( sz ), ", " );
+         strcat_s( sz, zsizeof( sz ), cpcAttributeName );
+         strcat_s( sz, zsizeof( sz ), ", " );
          lpDomain = zGETPTR( lpViewAttrib->hDomain );
-         strcat_s( sz, sizeof( sz ), lpDomain->szName );
+         strcat_s( sz, zsizeof( sz ), lpDomain->szName );
 
          // "KZOEE350 - Context Not Valid for Domain"
          fnIssueCoreError( lpTask, lpView, 8, 350, 0, sz, cpcContextName );
@@ -2722,7 +2722,7 @@ fnSetAttributeFromInteger( zVIEW            lpView,
 
       // Convert integer coming in to a string for storing in the record
       if ( lIntegerValue != lNullInteger )
-         zltoa( lIntegerValue, szAttribValue, sizeof( szAttribValue ) );
+         zltoa( lIntegerValue, szAttribValue, zsizeof( szAttribValue ) );
 
       nRC = fnStoreValueInEntityInstance( lpEntityInstance,
                                           lpViewEntity,
@@ -3743,7 +3743,7 @@ SetBlobFromOI( zVIEW   lpTgtView,
    // Set header information.
    lpBlobOI = (LPBLOBOI_RECORD) pchData;
    zmemset( lpBlobOI, '*', sizeof( BlobOI_Record ) );
-   strcpy_s( lpBlobOI->cpcViewOD_Name, sizeof( lpBlobOI->cpcViewOD_Name ), lpViewOD->szName );
+   strcpy_s( lpBlobOI->cpcViewOD_Name, zsizeof( lpBlobOI->cpcViewOD_Name ), lpViewOD->szName );
 
    if ( SysReadFile( lpSrcView, hFile, pchData + sizeof( BlobOI_Record ), ulLth ) != ulLth )
    {
@@ -3897,7 +3897,7 @@ SetEntityAttributesFromBlob( zVIEW   lpTgtView,
          ulLth       = *lpulLth;
          pchBlob      = zGETPTR( *lpExternalP );
          lplLong     = (zPLONG) pchBlob;
-         if ( ulLth < sizeof ( zLONG ) ||
+         if ( ulLth < sizeof( zLONG ) ||
               *lplLong != lpTgtViewEntity->lEREntTok )
          {
             LPTASK lpTask = zGETPTR( lpSrcView->hTask );
@@ -4167,7 +4167,7 @@ SetOI_FromBlob( zPVIEW  plpTgtView,
    ulLth  -= sizeof( BlobOI_Record );
 
    if ( lControl & zNEW_OBJECT_NAME )
-      strcpy_s( lpOI_Data->cpcViewOD_Name, sizeof( lpOI_Data->cpcViewOD_Name ), pchReturnViewOD_Name );
+      strcpy_s( lpOI_Data->cpcViewOD_Name, zsizeof( lpOI_Data->cpcViewOD_Name ), pchReturnViewOD_Name );
    else
    if ( pchReturnViewOD_Name )
       strcpy_s( pchReturnViewOD_Name, zZEIDON_NAME_LTH + 1, lpOI_Data->cpcViewOD_Name );
@@ -4639,7 +4639,7 @@ SetAttributeFromAttribute( zVIEW    lpTgtView,
             {
                zCHAR    szDatetime[ 20 ];
 
-               fnGetStringFromAttribute( szDatetime, sizeof( szDatetime ), lpSrcView,
+               fnGetStringFromAttribute( szDatetime, zsizeof( szDatetime ), lpSrcView,
                                          lpSrcViewEntityCsr,
                                          lpSrcViewAttrib, 0 );
 
@@ -5931,7 +5931,7 @@ DfExprVML( zVIEW        lpView,
                                                 lpSrcViewAttrib->szName,
                                                 szContextName, 1999 - idx );
             else
-               GetStringFromAttribute( szConcatBuffer + idx, sizeof( szConcatBuffer ) - idx, lpView,
+               GetStringFromAttribute( szConcatBuffer + idx, zsizeof( szConcatBuffer ) - idx, lpView,
                                        lpViewEntity->szName, szAttribName );
 
             // Increment idx so that it points to the null-terminator.
@@ -5985,7 +5985,7 @@ DfExprVML( zVIEW        lpView,
                lIntValue += lNewValue;
 
             // Add the integer value to the end of the string.
-            zltoa( lIntValue, szConcatBuffer + idx, sizeof( szConcatBuffer ) - idx );
+            zltoa( lIntValue, szConcatBuffer + idx, zsizeof( szConcatBuffer ) - idx );
 
             // Convert the value to the temp decimal variable so that if the next
             // token is a decimal it will added correctly.
@@ -6134,7 +6134,7 @@ DfExecuteXPG( zVIEW        lpView,
    SetAttributeFromString( vStackObject, "Variable", "Name",
                            "vView" );
    SetAttributeFromBlob( vStackObject, "Variable", "Value",
-                         (zPVOID) &lpView, sizeof( lpView ) );
+                         (zPVOID) &lpView, zsizeof( lpView ) );
 
    // Name the Stack Object
    SetNameForView( vStackObject, "StackObject", vSubtask, zLEVEL_SUBTASK );
@@ -7536,11 +7536,11 @@ fnSetAttributeFromVariable( zVIEW            lpView,
       zCHAR  szEntityName[ 255 ];
       zCHAR  szAttribName[ 255 ];
 
-      strcpy_s( szEntityName, sizeof( szEntityName ), "Entity:\t" );
-      strcat_s( szEntityName, sizeof( szEntityName ), lpViewEntity->szName );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "Entity:\t" );
+      strcat_s( szEntityName, zsizeof( szEntityName ), lpViewEntity->szName );
 
-      strcpy_s( szAttribName, sizeof( szAttribName ), "Attribute:\t" );
-      strcat_s( szAttribName, sizeof( szAttribName ), lpViewAttrib->szName );
+      strcpy_s( szAttribName, zsizeof( szAttribName ), "Attribute:\t" );
+      strcat_s( szAttribName, zsizeof( szAttribName ), lpViewAttrib->szName );
 
       // "KZOEE245 - Null string not allowed for a required attribute"
       IssueOE_Error( lpView, 8, 245,
@@ -7610,14 +7610,14 @@ fnSetAttributeFromVariable( zVIEW            lpView,
             zCHAR sz1[ 100 ];
             zCHAR sz2[ 100 ];
 
-            strcpy_s( sz1, sizeof( sz1 ), "Type: " );
+            strcpy_s( sz1, zsizeof( sz1 ), "Type: " );
             sz1[ 6 ] = cVariableType;
             sz1[ 7 ] = 0;
-            strcat_s( sz1, sizeof( sz1 ), ", Domain: " );
-            strcat_s( sz1, sizeof( sz1 ), lpDomain->szName );
-            strcpy_s( sz2, sizeof( sz2 ), lpViewEntity->szName );
-            strcpy_s( sz2, sizeof( sz2 ), ", " );
-            strcpy_s( sz2, sizeof( sz2 ), lpViewAttrib->szName );
+            strcat_s( sz1, zsizeof( sz1 ), ", Domain: " );
+            strcat_s( sz1, zsizeof( sz1 ), lpDomain->szName );
+            strcpy_s( sz2, zsizeof( sz2 ), lpViewEntity->szName );
+            strcpy_s( sz2, zsizeof( sz2 ), ", " );
+            strcpy_s( sz2, zsizeof( sz2 ), lpViewAttrib->szName );
             // "KZOEE362 - Variable Type not allowed for this Domain Type "
             fnIssueCoreError( lpCurrentTask, lpView, 8, 362, 0, sz1, sz2 );
             nRC = zCALL_ERROR;
@@ -7644,7 +7644,7 @@ fnSetAttributeFromVariable( zVIEW            lpView,
                zULONG   ul;
 
                ul = zstrlen( (zPCHAR) lpVariable ) + 1;
-               if ( ul > sizeof( sz ) )
+               if ( ul > zsizeof( sz ) )
                {
                   hndl = fnAllocDataspace( lpCurrentTask->hFirstDataHeader,
                                            ul, 0, 0, iAttributeString );
@@ -7659,13 +7659,13 @@ fnSetAttributeFromVariable( zVIEW            lpView,
                {
                   zCHAR sz1[ 128 ];
 
-                  strcpy_s( sz1, sizeof( sz1 ), lpViewEntity->szName );
-                  strcat_s( sz1, sizeof( sz1 ), "." );
-                  strcat_s( sz1, sizeof( sz1 ), lpViewAttrib->szName );
-                  strcat_s( sz1, sizeof( sz1 ), "." );
-                  strcpy_s( sz1, sizeof( sz1 ), lpDomain->szName );
-                  strcat_s( sz1, sizeof( sz1 ), "." );
-                  strcat_s( sz1, sizeof( sz1 ), TrueName( cpcContextName, 0 ) );
+                  strcpy_s( sz1, zsizeof( sz1 ), lpViewEntity->szName );
+                  strcat_s( sz1, zsizeof( sz1 ), "." );
+                  strcat_s( sz1, zsizeof( sz1 ), lpViewAttrib->szName );
+                  strcat_s( sz1, zsizeof( sz1 ), "." );
+                  strcpy_s( sz1, zsizeof( sz1 ), lpDomain->szName );
+                  strcat_s( sz1, zsizeof( sz1 ), "." );
+                  strcat_s( sz1, zsizeof( sz1 ), TrueName( cpcContextName, 0 ) );
               // KJS 06/26/09 - We were calling IssueOE_Error but the error sent
               // to the user is too detailed.  We think this error should be more like
               // the domain errors.  So instead we will issue the MessageSend here.
@@ -7674,8 +7674,8 @@ fnSetAttributeFromVariable( zVIEW            lpView,
                // IssueOE_Error( lpView, 4, 361, 0, 0,
                //                zGETPTR( lpContext->hEditString ),
                //                sz1 );
-                  strcpy_s( sz1, sizeof( sz1 ), "Invalid data format. Your data should be in the format: " );
-                  strcat_s( sz1, sizeof( sz1 ), zGETPTR( lpContext->hEditString ) );
+                  strcpy_s( sz1, zsizeof( sz1 ), "Invalid data format. Your data should be in the format: " );
+                  strcat_s( sz1, zsizeof( sz1 ), zGETPTR( lpContext->hEditString ) );
 
                   //return( MessageSend( zView, szMsgID, pchTitle, szMsg, lMsgType, 0 ) );
                   MessageSend( lpView, "361", szlApplicationLogicError, sz1, 4, 0 );
@@ -7712,7 +7712,7 @@ fnSetAttributeFromVariable( zVIEW            lpView,
          {
             zCHAR szMsg[ 500 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Operation '%s' does not handle an Entry "
+            sprintf_s( szMsg, zsizeof( szMsg ), "Operation '%s' does not handle an Entry "
                        "Type of %ld for domain '%s'", lpDomain->szDomainOper,
                        lDomainEntryType, lpDomain->szName );
             MessageSend( lpView, "TZDMD101", "System Error", szMsg, zMSGQ_DOMAIN_ERROR, 0 );
@@ -7942,7 +7942,7 @@ fnAddToAttributeFromVariable( zVIEW            lpView,
          {
             zCHAR szMsg[ 500 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Operation '%s' does not handle an Entry "
+            sprintf_s( szMsg, zsizeof( szMsg ), "Operation '%s' does not handle an Entry "
                        "Type of %ld for domain '%s'", lpDomain->szDomainOper,
                        zDME_ADD_TO_ATTRIBUTE, lpDomain->szName );
             MessageSend( lpView, "TZDMD101", "System Error",
@@ -8773,7 +8773,7 @@ fnCompareAttributeToVariable( zVIEW             lpView,
          {
             zCHAR szMsg[ 500 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Operation '%s' does not handle an Entry "
+            sprintf_s( szMsg, zsizeof( szMsg ), "Operation '%s' does not handle an Entry "
                        "Type of %ld for domain '%s'", lpDomain->szDomainOper,
                        zDME_COMPARE_ATTRIBUTE, lpDomain->szName );
             MessageSend( lpView, "TZDMD101", "System Error",
@@ -9130,14 +9130,14 @@ fnGetVariableFromAttribute( zPVOID           lpVariable,
             zCHAR sz1[ 100 ];
             zCHAR sz2[ 100 ];
 
-            strcpy_s( sz1, sizeof( sz1 ), "Type: " );
+            strcpy_s( sz1, zsizeof( sz1 ), "Type: " );
             sz1[ 6 ] = cVariableType;
             sz1[ 7 ] = 0;
-            strcat_s( sz1, sizeof( sz1 ), ", Domain: " );
-            strcat_s( sz1, sizeof( sz1 ), lpDomain->szName );
-            strcpy_s( sz2, sizeof( sz2 ), lpViewEntity->szName );
-            strcpy_s( sz2, sizeof( sz2 ), ", " );
-            strcpy_s( sz2, sizeof( sz2 ), lpViewAttrib->szName );
+            strcat_s( sz1, zsizeof( sz1 ), ", Domain: " );
+            strcat_s( sz1, zsizeof( sz1 ), lpDomain->szName );
+            strcpy_s( sz2, zsizeof( sz2 ), lpViewEntity->szName );
+            strcpy_s( sz2, zsizeof( sz2 ), ", " );
+            strcpy_s( sz2, zsizeof( sz2 ), lpViewAttrib->szName );
             // "KZOEE362 - Variable Type not allowed for this Domain Type "
             fnIssueCoreError( lpTask, lpView, 8, 362, 0, sz1, sz2 );
             nRC = zCALL_ERROR;
@@ -9162,12 +9162,12 @@ fnGetVariableFromAttribute( zPVOID           lpVariable,
                         zCHAR sz1[ 66 ];
                         zCHAR sz2[ 66 ];
 
-                        strcpy_s( sz1, sizeof( sz1 ), lpViewEntity->szName );
-                        strcat_s( sz1, sizeof( sz1 ), "/" );
-                        strcat_s( sz1, sizeof( sz1 ), lpViewAttrib->szName );
-                        strcpy_s( sz2, sizeof( sz2 ), lpDomain->szName );
-                        strcat_s( sz2, sizeof( sz2 ), "/" );
-                        strcat_s( sz2, sizeof( sz2 ), TrueName( cpcContextName, 0 ) );
+                        strcpy_s( sz1, zsizeof( sz1 ), lpViewEntity->szName );
+                        strcat_s( sz1, zsizeof( sz1 ), "/" );
+                        strcat_s( sz1, zsizeof( sz1 ), lpViewAttrib->szName );
+                        strcpy_s( sz2, zsizeof( sz2 ), lpDomain->szName );
+                        strcat_s( sz2, zsizeof( sz2 ), "/" );
+                        strcat_s( sz2, zsizeof( sz2 ), TrueName( cpcContextName, 0 ) );
                         // "KZOEE361 - Could not process variable
                         //  with Context Format "
                         fnIssueCoreError( lpTask, lpView, 8, 361, 0, sz1, sz2 );
@@ -9224,7 +9224,7 @@ fnGetVariableFromAttribute( zPVOID           lpVariable,
          {
             zCHAR szMsg[ 500 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Operation '%s' does not handle an Entry "
+            sprintf_s( szMsg, zsizeof( szMsg ), "Operation '%s' does not handle an Entry "
                        "Type of %ld for domain '%s'", lpDomain->szDomainOper,
                        zDME_GET_VARIABLE, lpDomain->szName );
             MessageSend( lpView, "TZDMD101", "System Error",
@@ -10451,7 +10451,7 @@ fnSetAttributeValue( zVIEW   lpView,
          {
             zCHAR szMsg[ 500 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Operation '%s' does not handle an Entry "
+            sprintf_s( szMsg, zsizeof( szMsg ), "Operation '%s' does not handle an Entry "
                        "Type of %ld for domain '%s'", lpDomain->szDomainOper,
                        lDomainEntryType, lpDomain->szName );
             MessageSend( lpView, "TZDMD101", "System Error",

@@ -152,7 +152,7 @@ zltoal( zLONG lValue,
    zLONG  lPos;
    zCHAR  szTemp[ 64 ];
 
-   zltoa( lValue, szTemp, sizeof( szTemp ) );
+   zltoa( lValue, szTemp, zsizeof( szTemp ) );
    k = zstrlen( szTemp ) + 1;
    if ( k < nLth )
    {
@@ -890,7 +890,7 @@ UfEditFormatDateTime( zPCHAR  pchDTString,
       return( zCALL_ERROR );
 
    // init scan pointers
-   k = sizeof( szDT ) - 1;
+   k = zsizeof( szDT ) - 1;
    zmemset( szDT, 'X', k );
    *(szDT + k) = 0;
 
@@ -1088,7 +1088,7 @@ UfEditFormatDateTime( zPCHAR  pchDTString,
             {
                if ( isdigit( *pchDTString ) && isdigit( *(pchDTString + 1) ) && isdigit( *(pchDTString + 2) ) )
                {
-                  strncpy_s( szJulian, sizeof( szJulian ), pchDTString, 3 );
+                  strncpy_s( szJulian, zsizeof( szJulian ), pchDTString, 3 );
                   szJulian[ 3 ] = 0;
                   bConvertJulian = TRUE;
                   bDayNeeded = TRUE;
@@ -1151,7 +1151,7 @@ UfEditFormatDateTime( zPCHAR  pchDTString,
                }
                else
                {
-                  zltoa( (zLONG) k + 101L, sz, sizeof( sz ) );
+                  zltoa( (zLONG) k + 101L, sz, zsizeof( sz ) );
                   *(szDT + 4) = *(sz + 1);
                   *(szDT + 5) = *(sz + 2);
                }
@@ -1309,9 +1309,9 @@ UfEditFormatDateTime( zPCHAR  pchDTString,
       if ( bConvertJulian )
       {
          zCHAR szG[ 9 ];
-         strncpy_s( sz, sizeof( sz ), szDT, 4 ); // copy YYYY
+         strncpy_s( sz, zsizeof( sz ), szDT, 4 ); // copy YYYY
          sz[ 4 ] = 0;
-         strcat_s( sz, sizeof( sz ), szJulian ); // copy jjj
+         strcat_s( sz, zsizeof( sz ), szJulian ); // copy jjj
          UfJulianToGregorian( sz, szG );
          zmemcpy( szDT, szG, 8 );
          // now we really have a vaid DateTime in szDT
@@ -1341,7 +1341,7 @@ UfEditFormatDateTime( zPCHAR  pchDTString,
             if ( l < 12L )
             {
                l += 12L;
-               zltoa( l, sz, sizeof( sz ) );
+               zltoa( l, sz, zsizeof( sz ) );
                *(szDT + 8) = sz[ 0 ];
                *(szDT + 9) = *(sz + 1);
             }
@@ -1456,7 +1456,7 @@ UfStringToDateTime( zCPCHAR cpcDateTimeString, LPDATETIME lpDateTime )
       case 16:   // YYYYMMDDHHmmSSTh
       case 15:   // YYYYMMDDHHmmSST
          // Get Thousandths of seconds Value
-         strcpy_s( szWorkString, sizeof( szWorkString ), (zPCHAR) (cpcDateTimeString + 14) );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), (zPCHAR) (cpcDateTimeString + 14) );
          usTSeconds = (zUSHORT) zatol( szWorkString );
          if ( usStringLth < 17 )
             usTSeconds *= ( usStringLth == 16 ) ? 10 : 100 ;
@@ -1510,7 +1510,7 @@ UfStringToDateTime( zCPCHAR cpcDateTimeString, LPDATETIME lpDateTime )
          usMonth = (zUSHORT) zatol( szWorkString );
 
          // Get Year Value
-         strncpy_s( szWorkString, sizeof( szWorkString ), cpcDateTimeString, 4 );
+         strncpy_s( szWorkString, zsizeof( szWorkString ), cpcDateTimeString, 4 );
          szWorkString[ 4 ] = 0;
          ulYear = (zULONG) zatol( szWorkString );
 
@@ -1880,7 +1880,7 @@ UfGetDayOfWeek( zCPCHAR cpcDateTime )
    zCHAR    sz[ 5 ];
 
    // year
-   strncpy_s( sz, sizeof( sz ), cpcDateTime, 4 );
+   strncpy_s( sz, zsizeof( sz ), cpcDateTime, 4 );
    sz[ 4 ] = 0;
    nYear = (zSHORT) zatol( sz );
 
@@ -1935,7 +1935,7 @@ UfGetDayOfYear( zCPCHAR cpcDateTime )
    zCHAR    sz[ 5 ];
 
    // year
-   strncpy_s( sz, sizeof( sz ), cpcDateTime, 4 );
+   strncpy_s( sz, zsizeof( sz ), cpcDateTime, 4 );
    sz[ 4 ] = 0;
    nYear = (zSHORT) zatol( sz );
 
@@ -2007,7 +2007,7 @@ fnGetDateTimeComponent( LPDATETIME lpDateTime, zSHORT nCID )
    zCHAR    szDateTime[ 20 ];
    zLONG    lValue = -1L;
 
-   UfDateTimeToString( lpDateTime, szDateTime, sizeof( szDateTime ) );
+   UfDateTimeToString( lpDateTime, szDateTime, zsizeof( szDateTime ) );
    switch ( nCID )
    {
       case zDT_YEAR:
@@ -2066,36 +2066,36 @@ fnSetDateTimeComponent( LPDATETIME lpDateTime, zSHORT nCID, zLONG lValue )
    zCHAR    sz[ 10 ];
    zSHORT   nRC = 0;
 
-   nRC = UfDateTimeToString( lpDateTime, szDateTime, sizeof( szDateTime ) );
+   nRC = UfDateTimeToString( lpDateTime, szDateTime, zsizeof( szDateTime ) );
    switch ( nCID )
    {
       case zDT_YEAR:
-         zltoa( lValue + 10000L, sz, sizeof( sz ) );
+         zltoa( lValue + 10000L, sz, zsizeof( sz ) );
          zmemcpy( szDateTime, sz + 1, 4 );
          break;
 
       case zDT_MONTH:
-         zltoa( lValue + 100L, sz, sizeof( sz ) );
+         zltoa( lValue + 100L, sz, zsizeof( sz ) );
          zmemcpy( szDateTime + 4, sz + 1, 2 );
          break;
 
       case zDT_DAY:
-         zltoa( lValue + 100L, sz, sizeof( sz ) );
+         zltoa( lValue + 100L, sz, zsizeof( sz ) );
          zmemcpy( szDateTime + 6, sz + 1, 2 );
          break;
 
       case zDT_HOUR:
-         zltoa( lValue + 100L, sz, sizeof( sz ) );
+         zltoa( lValue + 100L, sz, zsizeof( sz ) );
          zmemcpy( szDateTime + 8, sz + 1, 2 );
          break;
 
       case zDT_MINUTE:
-         zltoa( lValue + 100L, sz, sizeof( sz ) );
+         zltoa( lValue + 100L, sz, zsizeof( sz ) );
          zmemcpy( szDateTime + 10, sz + 1, 2 );
          break;
 
       case zDT_SECOND:
-         zltoa( lValue + 100L, sz, sizeof( sz ) );
+         zltoa( lValue + 100L, sz, zsizeof( sz ) );
          zmemcpy( szDateTime + 12, sz + 1, 2 );
          break;
 
@@ -2136,11 +2136,11 @@ UfJulianToGregorian( zCPCHAR cpcJulian, zPCHAR pchGregorian )
    zCHAR                   sz[ 20 ];
 
    // Get Day Value
-   strcpy_s( sz, sizeof( sz ), (zPCHAR) (cpcJulian + 4) );
+   strcpy_s( sz, zsizeof( sz ), (zPCHAR) (cpcJulian + 4) );
    usDay = (zUSHORT) zatol( sz );
 
    // Get Year Value
-   strncpy_s( sz, sizeof( sz ), cpcJulian, 4 );
+   strncpy_s( sz, zsizeof( sz ), cpcJulian, 4 );
    sz[ 4 ] = 0;
    ulYear = (zULONG) zatol( sz );
    if ( ulYear == 0 )
@@ -2184,7 +2184,7 @@ UfJulianToGregorian( zCPCHAR cpcJulian, zPCHAR pchGregorian )
    if ( UfDateTimeToString( (LPDATETIME) &DT_Rec, sz, 9 ) == zCALL_ERROR )
       return( zCALL_ERROR );
 
-   strcpy_s( pchGregorian, sizeof( sz ), sz );
+   strcpy_s( pchGregorian, zsizeof( sz ), sz );
 
    return( 0 );
 }
@@ -2279,7 +2279,7 @@ UfEncryptString( zPCHAR pchOut, zPCHAR pchIn, zUSHORT uLth )
    zBOOL   bNullFound;
 // zCHAR   szMsg[ 256 ];
 
-// sprintf_s( szMsg, sizeof( szMsg ), "UfEncryptString Length: %d In: \"%s\"", uLth, pchIn );
+// sprintf_s( szMsg, zsizeof( szMsg ), "UfEncryptString Length: %d In: \"%s\"", uLth, pchIn );
 // TraceLineS( szMsg, "" );
 
    if ( uLth > 26 )
@@ -2344,7 +2344,7 @@ UfEncryptString( zPCHAR pchOut, zPCHAR pchIn, zUSHORT uLth )
    for ( uChar = 0 ; uChar < uLth ; uChar++ )
       pchOut[ uChar ] += 'a';
 
-// sprintf_s( szMsg, sizeof( szMsg ), "UfEncryptString Out: \"%s\"", pchOut );
+// sprintf_s( szMsg, zsizeof( szMsg ), "UfEncryptString Out: \"%s\"", pchOut );
 // TraceLineS( szMsg, "" );
    return( 0 );
 }
@@ -2377,7 +2377,7 @@ UfDecryptString( zPCHAR pchOut, zPCHAR pchIn, zUSHORT uLth )
    zSHORT  nReturnLth;
 // zCHAR   szMsg[ 256 ];
 
-// sprintf_s( szMsg, sizeof( szMsg ), "UfDecryptString Length: %d In: \"%s\"", uLth, pchIn );
+// sprintf_s( szMsg, zsizeof( szMsg ), "UfDecryptString Length: %d In: \"%s\"", uLth, pchIn );
 // TraceLineS( szMsg, "" );
 
    if ( *pchIn == 0 )
@@ -2453,7 +2453,7 @@ UfDecryptString( zPCHAR pchOut, zPCHAR pchIn, zUSHORT uLth )
    }
 
    pchOut[ uChar ] = 0;
-// sprintf_s( szMsg, sizeof( szMsg ), "UfDecryptString Out: \"%s\"", pchOut );
+// sprintf_s( szMsg, zsizeof( szMsg ), "UfDecryptString Out: \"%s\"", pchOut );
 // TraceLineS( szMsg, "" );
    return( nReturnLth );
 }
@@ -4027,7 +4027,7 @@ ZeidonStringConvertFromNumber( zPCHAR   pchTgtString,
    lTgtIdx--;  // convert 1-based index to 0-based index
 
    if ( cpcNumberType[ 0 ] == 'I' )
-      zltoa( lIntegerValue, szWorkString, sizeof( szWorkString ) );
+      zltoa( lIntegerValue, szWorkString, zsizeof( szWorkString ) );
    else
       ConvertDecimalToString( szWorkString, 0, dDecimalValue, 0 );
 
@@ -4145,26 +4145,26 @@ main( void )
    szStr3[ 0 ] = 0;
    lRC = ZeidonStringCopy( szStr1, 1, 0, szStr4, 1, 8, 8 );
    TraceLineS( "Zeidon_Tools .9a", szStr1 );
-   lRC = ZeidonStringCopy( szStr1, 1, 0, szStr4, 1, 0, sizeof( szStr1 ) );
-   lRC = ZeidonStringCopy( szStr1, 1, 0, "A", 1, 0, sizeof( szStr1 ) );
+   lRC = ZeidonStringCopy( szStr1, 1, 0, szStr4, 1, 0, zsizeof( szStr1 ) );
+   lRC = ZeidonStringCopy( szStr1, 1, 0, "A", 1, 0, zsizeof( szStr1 ) );
    lRC = ZeidonStringCopy( szStr2, 1, 0,
                            "1234567890abcdefghijklmnopqrstuvwxyz",
-                           1, 0, sizeof( szStr2 ) );
-   lRC = ZeidonStringCopy( szStr2, 1, 0, szStr5, 1, 0, sizeof( szStr2 ) );
+                           1, 0, zsizeof( szStr2 ) );
+   lRC = ZeidonStringCopy( szStr2, 1, 0, szStr5, 1, 0, zsizeof( szStr2 ) );
 
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "A", 1, 0, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "A", 1, 0, zsizeof( szStr1 ) );
    TraceLineI( "String Compare Returned (0)", lRC );
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "B", 1, 0, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "B", 1, 0, zsizeof( szStr1 ) );
    TraceLineI( "String Compare Returned (!0)", lRC );
 
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "AAA", 1, 0, sizeof( szStr1 ) );
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "AxA", 1, 0, sizeof( szStr1 ) );
-   lRC = ZeidonStringCompare( "", 1, 0, "AxA", 1, 0, sizeof( szStr1 ) );
-   lRC = ZeidonStringCompare( "", 1, 0, "", 1, 0, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "AAA", 1, 0, zsizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "AxA", 1, 0, zsizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( "", 1, 0, "AxA", 1, 0, zsizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( "", 1, 0, "", 1, 0, zsizeof( szStr1 ) );
    lRC = ZeidonStringCompare( "WWWW", 1, 0, "", 1, 0, 100 );
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "AABxA", 1, 2, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "AABxA", 1, 2, zsizeof( szStr1 ) );
 
-   lRC = ZeidonStringCompare( szStr1, 1, 0, "ABAxA", 1, 2, sizeof( szStr1 ) );
+   lRC = ZeidonStringCompare( szStr1, 1, 0, "ABAxA", 1, 2, zsizeof( szStr1 ) );
 
    return( 0 );
 }
@@ -4364,7 +4364,7 @@ UfCompressName( zPCHAR  pchLongName,
       // Nothing needs to be done here.
    }
 
-   strcpy_s( sz, sizeof( sz ), pch );
+   strcpy_s( sz, zsizeof( sz ), pch );
 
    // Remove trailing spaces.
    for ( pch = &sz[ zstrlen( sz ) ] - 1; zisspace( *pch ) && pch > sz ; pch-- )
@@ -4954,9 +4954,9 @@ UfZProbeTrace( zPCHAR pchDesc )
 
    // Print out all used probes. Format is:
    //   zp.nnn. 123456789012345678901234567890:nnnn.nnn secs. (avg.nnnn.nnn for nnnnnnn times)
-   sprintf_s( szMsg, sizeof( szMsg ), "======= Probe Trace - %30s ===START===", pchDesc );
+   sprintf_s( szMsg, zsizeof( szMsg ), "======= Probe Trace - %30s ===START===", pchDesc );
    TraceLineS( szMsg, "" );
-   sprintf_s( szMsg, sizeof( szMsg ), "zp.ALL. -- elapsed for Init to Trace->:%8.3f seconds",
+   sprintf_s( szMsg, zsizeof( szMsg ), "zp.ALL. -- elapsed for Init to Trace->:%8.3f seconds",
              fElapsedTimeAll );
    TraceLineS( szMsg, "" );
    for ( k = 0; k <= g_pProbeArea->nProbes; k++)
@@ -4964,16 +4964,16 @@ UfZProbeTrace( zPCHAR pchDesc )
       ulCount = g_pProbeArea->Probes[ k ].zp_CountOff;
       fElapsedTime = (double) ( g_pProbeArea->Probes[ k ].zp_TotalTime ) / zTICKS_PER_SECOND;
       if ( ulCount == g_pProbeArea->Probes[ k ].zp_CountOn )
-         sprintf_s( szMsg, sizeof( szMsg ), "zp.%03d. %30s:%8.3f secs. (avg.%8.3f for %8d times)",
+         sprintf_s( szMsg, zsizeof( szMsg ), "zp.%03d. %30s:%8.3f secs. (avg.%8.3f for %8d times)",
                    k, g_pProbeArea->Probes[ k ].zp_Desc, fElapsedTime, (fElapsedTime / ulCount), ulCount );
       else
-         sprintf_s( szMsg, sizeof( szMsg ), "zp.%03d. %30s:%8.3f secs. (avg.%8.3f for %8d times OFF, but ON is %d times)",
+         sprintf_s( szMsg, zsizeof( szMsg ), "zp.%03d. %30s:%8.3f secs. (avg.%8.3f for %8d times OFF, but ON is %d times)",
                    k, g_pProbeArea->Probes[ k ].zp_Desc, fElapsedTime, (fElapsedTime / ulCount), ulCount, g_pProbeArea->Probes[ k ].zp_CountOn );
 
       TraceLineS( szMsg, "" );
    }
 
-   sprintf_s( szMsg, sizeof( szMsg ), "======= Probe Trace - %30s === END ===", pchDesc );
+   sprintf_s( szMsg, zsizeof( szMsg ), "======= Probe Trace - %30s === END ===", pchDesc );
    TraceLineS( szMsg, "" );
 
    return( 0 );

@@ -1207,7 +1207,7 @@ SetQReturnCodes( zVIEW vSubtask, int lTokenClass, int lToken )
    sQToken.lLastTokenClass = sQToken.lTokenClass;
    sQToken.lLastToken = sQToken.lToken;
    sQToken.lLastLineNo = sQToken.lLineNo;
-   strcpy_s( sQToken.szLastToken, sizeof( sQToken.szLastToken ), sQToken.szToken );
+   strcpy_s( sQToken.szLastToken, zsizeof( sQToken.szLastToken ), sQToken.szToken );
 
    if ( lTokenClass == qUSERDEFINED &&
         lToken == qVARIABLE )
@@ -1222,7 +1222,7 @@ SetQReturnCodes( zVIEW vSubtask, int lTokenClass, int lToken )
    sQToken.lTokenClass = lTokenClass;
    sQToken.lToken = lToken;
    sQToken.lLineNo = qqlineno;
-   strcpy_s( sQToken.szToken, sizeof( sQToken.szToken ), qq_tbuf );
+   strcpy_s( sQToken.szToken, zsizeof( sQToken.szToken ), qq_tbuf );
 
    switch ( lTokenClass )
    {

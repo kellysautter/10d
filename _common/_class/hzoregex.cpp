@@ -126,8 +126,8 @@ void TBRegexp::compile( const char* pattern, bool use_fastmap )
   free();
   registers_ = new re_registers;
   pattern_buf_ = new re_pattern_buffer;
-  ZeroMemory( pattern_buf_, sizeof( re_pattern_buffer ) );
-  ZeroMemory( registers_, sizeof( re_registers ) );
+  ZeroMemory( pattern_buf_, zsizeof( re_pattern_buffer ) );
+  ZeroMemory( registers_, zsizeof( re_registers ) );
   if ( use_fastmap )
     pattern_buf_->fastmap = (char*) malloc( 256 ); // 256 :-).
   const char* error =

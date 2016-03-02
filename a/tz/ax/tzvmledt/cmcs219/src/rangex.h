@@ -17,7 +17,7 @@ public:
    CRangeX()
    {
       // set all values to zero
-      ZeroMemory( &m_cmRange, sizeof( m_cmRange ) );
+      ZeroMemory( &m_cmRange, zsizeof( m_cmRange ) );
    }
    CM_RANGE m_cmRange;
 

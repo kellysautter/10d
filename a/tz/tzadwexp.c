@@ -226,7 +226,7 @@ GetBorderLineWidth( zLONG lBorderStyle,
 
 
    lBorderStyle >>= 24;
-   zltoa( lBorderStyle, szWidth, sizeof( szWidth ) );
+   zltoa( lBorderStyle, szWidth, zsizeof( szWidth ) );
   TraceLineS( "*** szWidth *****", szWidth );
 
    return( 0 );
@@ -249,14 +249,14 @@ SetRptShapeFromBlob( zVIEW vReportDef )
 // zLONG   lSubtype;
    zULONG  ulPenColor = 0xFF000000;
    zULONG  ulShapeColor = 0xFF000000;
-   zULONG  ulLth = sizeof( szBlob );
+   zULONG  ulLth = zsizeof( szBlob );
 
    zmemset( szBlob, 0, ulLth );
    GetBlobFromAttribute( szBlob, &ulLth, vReportDef, "Control", "CtrlBOI" );
 // TraceLineI( "Shape control blob lth = ", ulLth );
-   if ( ulLth == sizeof( szBlob ) ||
-        ulLth == sizeof( szBlob ) - (1 * sizeof( zLONG )) || // remove this soon
-        ulLth == sizeof( szBlob ) - (2 * sizeof( zLONG )) )
+   if ( ulLth == zsizeof( szBlob ) ||
+        ulLth == zsizeof( szBlob ) - (1 * sizeof( zLONG )) || // remove this soon
+        ulLth == zsizeof( szBlob ) - (2 * sizeof( zLONG )) )
    {
       zLONG   lPenWidth;
       zLONG   lPenType;
@@ -292,13 +292,13 @@ SetRptShapeFromBlob( zVIEW vReportDef )
       lPenType = *((zPLONG) (szBlob + 8 + sizeof( zLONG )));
       ulPenColor = *((zPLONG) (szBlob + 8 + (2 * sizeof( zLONG ))));
       lRoundValue = *((zPLONG) (szBlob + 8 + (3 * sizeof( zLONG ))));
-      if ( ulLth == sizeof( szBlob ) )
+      if ( ulLth == zsizeof( szBlob ) )
       {
          ulShapeColor = *((zPULONG) (szBlob + 8 + (4 * sizeof( zLONG ))));
          lFlags = *((zPLONG) (szBlob + 8 + (5 * sizeof( zLONG ))));
       }
 
-      zltoa( ulPenColor, szBlob, sizeof( szBlob ) );
+      zltoa( ulPenColor, szBlob, zsizeof( szBlob ) );
       SetAttributeFromString( vReportDef, "Control", "wLineColorText", szBlob );
       SetAttributeFromInteger( vReportDef, "Control", "wLineColorInt", ulPenColor );
       SetAttributeFromInteger( vReportDef, "Control", "BorderWidth", lPenWidth );
@@ -326,7 +326,7 @@ SetRptShapeFromBlob( zVIEW vReportDef )
       }
 
 
-      zltoa( lRoundValue, szBlob, sizeof( szBlob ) );
+      zltoa( lRoundValue, szBlob, zsizeof( szBlob ) );
       //SetCtrlText( vSubtask, "RoundValue", szBlob );
    }
    else

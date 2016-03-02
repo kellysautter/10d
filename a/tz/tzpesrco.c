@@ -237,7 +237,7 @@ oTZPESRCO_MergePPE( zVIEW     NewPPE,
       { 
          //:SET CURSOR FIRST NewPPE.WindowStyle WHERE
          //:    NewPPE.WindowStyle.Tag = OldPPE.WindowStyle.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldPPE, "WindowStyle", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldPPE, "WindowStyle", "Tag" );
          RESULT = SetCursorFirstEntityByString( NewPPE, "WindowStyle", "Tag", szTempString_0, "" );
       } 
 
@@ -292,7 +292,7 @@ oTZPESRCO_MergePPE( zVIEW     NewPPE,
             //://Check Tag
             //:SET CURSOR FIRST NewPPE.ControlDef WHERE
             //:    NewPPE.ControlDef.Tag = OldPPE.ControlDef.Tag
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldPPE, "ControlDef", "Tag" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldPPE, "ControlDef", "Tag" );
             RESULT = SetCursorFirstEntityByString( NewPPE, "ControlDef", "Tag", szTempString_0, "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
@@ -547,7 +547,7 @@ oTZPESRCO_MergeWindowStyleSubob( zVIEW     vSubtask,
       { 
          //:SET CURSOR FIRST NewPPE.EventDef WHERE
          //:    NewPPE.EventDef.Tag = OldPPE.EventDef.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldPPE, "EventDef", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldPPE, "EventDef", "Tag" );
          RESULT = SetCursorFirstEntityByString( *NewPPE, "EventDef", "Tag", szTempString_0, "" );
       } 
 
@@ -640,7 +640,7 @@ oTZPESRCO_MergeControlDefSubob( zVIEW     vSubtask,
       { 
          //: SET CURSOR FIRST NewPPE.CtrlEventDef WHERE
          //:     NewPPE.CtrlEventDef.Tag = OldPPE.CtrlEventDef.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldPPE, "CtrlEventDef", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldPPE, "CtrlEventDef", "Tag" );
          RESULT = SetCursorFirstEntityByString( *NewPPE, "CtrlEventDef", "Tag", szTempString_0, "" );
       } 
 
@@ -712,7 +712,7 @@ oTZPESRCO_MergeControlDefSubob( zVIEW     vSubtask,
       { 
          //: SET CURSOR FIRST NewPPE.CtrlMapDef WHERE
          //:     NewPPE.CtrlMapDef.Tag = OldPPE.CtrlMapDef.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldPPE, "CtrlMapDef", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldPPE, "CtrlMapDef", "Tag" );
          RESULT = SetCursorFirstEntityByString( *NewPPE, "CtrlMapDef", "Tag", szTempString_0, "" );
       } 
 
@@ -755,7 +755,7 @@ oTZPESRCO_CheckPPE_Format( zPVIEW    OldPPE,
 
 
    //:GetStringFromAttribute( SourceFileName, SourceLPLR, "LPLR", "MetaSrcDir" )
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    //:SourceFileName = SourceFileName + "\ZEIDON.PPE"
    ZeidonStringConcat( SourceFileName, 1, 0, "\\ZEIDON.PPE", 1, 0, 514 );
    //:nRC = ActivateOI_FromFile( OldPPE, "TZPESRCO", SourceLPLR, SourceFileName, 8192 )

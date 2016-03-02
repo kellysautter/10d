@@ -300,7 +300,7 @@ MainThrdWndProc( HWND   hWnd,         // window handle
 
          // TraceLine( "App idle for count %d", lCount );
 
-            SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+            SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
             SysGetDateTimeDifference( &lDiffSeconds, g_szTimeStamp, szDateTime, zDT_SECOND );
             if ( g_uKillTimerId == 0 && lDiffSeconds > g_lTimeOut )
             {
@@ -321,7 +321,7 @@ MainThrdWndProc( HWND   hWnd,         // window handle
                      g_uKillTimerId = 0;
                   }
 
-                  SysGetDateTime( g_szTimeStamp, sizeof( g_szTimeStamp ) );
+                  SysGetDateTime( g_szTimeStamp, zsizeof( g_szTimeStamp ) );
                }
             }
 
@@ -333,8 +333,8 @@ MainThrdWndProc( HWND   hWnd,         // window handle
             KillTimer( g_hWndMainFrame, g_uKillTimerId );
             g_uKillTimerId = 0;
 
-            SysReadZeidonIni( -1, "[ObjectEngine]", "KillZeidon", szTempName, sizeof( szTempName ) );
-            SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTempName );
+            SysReadZeidonIni( -1, "[ObjectEngine]", "KillZeidon", szTempName, zsizeof( szTempName ) );
+            SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTempName );
             TraceLineS( "KillZeidon: ", szFileName );
             if ( szFileName[ 0 ] )
             {
@@ -571,12 +571,12 @@ WinMain( HINSTANCE hInstance,
    SetEvent( hServicesStarted );
    CloseHandle( hServicesStarted );
 
-   SysReadZeidonIni( -1, "[ObjectEngine]", "TimeOut", szWork, sizeof( szWork ) );
+   SysReadZeidonIni( -1, "[ObjectEngine]", "TimeOut", szWork, zsizeof( szWork ) );
    if ( szWork[ 0 ] && (g_lTimeOut = zatol( szWork )) != 0 )
    {
-      SysReadZeidonIni( -1, "[ObjectEngine]", "KillZeidon", szWork, sizeof( szWork ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "KillZeidon", szWork, zsizeof( szWork ) );
       if ( szWork[ 0 ] )
-         SysGetDateTime( g_szTimeStamp, sizeof( g_szTimeStamp ) );
+         SysGetDateTime( g_szTimeStamp, zsizeof( g_szTimeStamp ) );
       else
       {
          MessageBox( 0, "TimeOut requires KillZeidon specification", "Object Services", MB_OK );
@@ -746,7 +746,7 @@ MainWndProc( HWND   hWnd,                // window handle
                WORD wCurSel = (WORD) SendMessage( hwndTrace, LB_GETCURSEL, 0, 0L );
                WORD k;
 
-               strcpy_s( szFindString, sizeof( szFindString ), g_szFindString );
+               strcpy_s( szFindString, zsizeof( szFindString ), g_szFindString );
                SysTranslateString( szFindString, 'L' );
                if ( wCommand == IDM_FINDPREV )
                {
@@ -841,8 +841,8 @@ MainWndProc( HWND   hWnd,                // window handle
 
                if ( nFound == 0 )
                {
-                  strcpy_s( szText, sizeof( szText ), "Search string not found - " );
-                  strcat_s( szText, sizeof( szText ), g_szFindString );
+                  strcpy_s( szText, zsizeof( szText ), "Search string not found - " );
+                  strcat_s( szText, zsizeof( szText ), g_szFindString );
                   MessageBox( hWnd, szText, "Zeidon Object Engine", MB_OK | MB_ICONINFORMATION );
                }
             }
@@ -854,7 +854,7 @@ MainWndProc( HWND   hWnd,                // window handle
                                                LB_GETCURSEL, 0, 0 );
             zLONG lTextLth = SendMessage( g_hwndTraceWindow[ g_nTraceWindowDisplayed ],
                                           LB_GETTEXTLEN, wCurSel, 0L );
-            if ( lTextLth < sizeof( g_szCopyBuffer ) )
+            if ( lTextLth < zsizeof( g_szCopyBuffer ) )
             {
                SendMessage( g_hwndTraceWindow[ g_nTraceWindowDisplayed ],
                             LB_GETTEXT, wCurSel, (LPARAM) g_szCopyBuffer );
@@ -865,8 +865,8 @@ MainWndProc( HWND   hWnd,                // window handle
 
                SfAllocTaskMemory( g_vSystemTaskView, (zCOREMEM) &pchMem, lTextLth + 1 );
                SendMessage( g_hwndTraceWindow[ g_nTraceWindowDisplayed ], LB_GETTEXT, wCurSel, (LPARAM) pchMem );
-               pchMem[ sizeof( g_szCopyBuffer ) - 1 ] = 0;
-               strcpy_s( g_szCopyBuffer, sizeof( g_szCopyBuffer ), pchMem );
+               pchMem[ zsizeof( g_szCopyBuffer ) - 1 ] = 0;
+               strcpy_s( g_szCopyBuffer, zsizeof( g_szCopyBuffer ), pchMem );
                SfFreeTaskMemory( pchMem );
             }
 
@@ -914,7 +914,7 @@ MainWndProc( HWND   hWnd,                // window handle
          if ( wCommand == IDM_INSERTMARKER )
          {
             WORD wCurSel = (WORD) SendMessage( g_hwndTraceWindow[ g_nTraceWindowDisplayed ], LB_GETCURSEL, 0, 0 );
-            zSHORT nLth = sizeof( szMark ) - 1;
+            zSHORT nLth = zsizeof( szMark ) - 1;
             zLONG  j, k;
 
             g_lMark++;
@@ -1056,8 +1056,8 @@ MainWndProc( HWND   hWnd,                // window handle
                zCHAR szFileName[ zMAX_FILENAME_LTH + 1 ];
                zCHAR szTempName[ zMAX_FILENAME_LTH + 1 ];
 
-               SysReadZeidonIni( -1, "[ObjectEngine]", "KillZeidon", szTempName, sizeof( szTempName ) );
-               SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTempName );
+               SysReadZeidonIni( -1, "[ObjectEngine]", "KillZeidon", szTempName, zsizeof( szTempName ) );
+               SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTempName );
                if ( szFileName[ 0 ] )
                   WinExec( szFileName, SW_SHOWNORMAL );
             }
@@ -1223,10 +1223,10 @@ MainWndProc( HWND   hWnd,                // window handle
                // Get System available memory
             // lFree = GlobalCompact( 0 );
             // lFree = (lFree / 1024) + 10000;
-            // strcpy_s( szMessage, sizeof( szMessage ), "System Memory Available:" );
-            // zltoa( lFree, szMessage + 200, sizeof( szMessage ) - 200 );
-            // strcat_s( szMessage, sizeof( szMessage ), szMessage + 201 );
-            // strcat_s( szMessage, sizeof( szMessage ), "K" );
+            // strcpy_s( szMessage, zsizeof( szMessage ), "System Memory Available:" );
+            // zltoa( lFree, szMessage + 200, zsizeof( szMessage ) - 200 );
+            // strcat_s( szMessage, zsizeof( szMessage ), szMessage + 201 );
+            // strcat_s( szMessage, zsizeof( szMessage ), "K" );
             // SysMessageList( szMessage );
 
                // Display Anchor block memory utilization
@@ -1241,16 +1241,16 @@ MainWndProc( HWND   hWnd,                // window handle
                   lpFreespace = zGETPTR( lpFreespace->hNextFreespace );
                }
 
-               strcpy_s( szMessage, sizeof( szMessage ), "Anchor Block  Alloc: " );
+               strcpy_s( szMessage, zsizeof( szMessage ), "Anchor Block Alloc: " );
                ulUsed = ulAlloc - ulFree;
-               zltoa( ulAlloc, szMessage + 200, sizeof( szMessage ) - 200 );
-               strcat_s( szMessage, sizeof( szMessage ), szMessage + 200 );
-               strcat_s( szMessage, sizeof( szMessage ), "   Used: " );
-               zltoa( ulUsed, szMessage + 200, sizeof( szMessage ) - 200 );
-               strcat_s( szMessage, sizeof( szMessage ), szMessage + 200 );
-               strcat_s( szMessage, sizeof( szMessage ), "   Free: " );
-               zltoa( ulFree, szMessage + 200, sizeof( szMessage ) - 200 );
-               strcat_s( szMessage, sizeof( szMessage ), szMessage + 200 );
+               zltoa( ulAlloc, szMessage + 200, zsizeof( szMessage ) - 200 );
+               strcat_s( szMessage, zsizeof( szMessage ), szMessage + 200 );
+               strcat_s( szMessage, zsizeof( szMessage ), "  Used: " );
+               zltoa( ulUsed, szMessage + 200, zsizeof( szMessage ) - 200 );
+               strcat_s( szMessage, zsizeof( szMessage ), szMessage + 200 );
+               strcat_s( szMessage, zsizeof( szMessage ), "  Free: " );
+               zltoa( ulFree, szMessage + 200, zsizeof( szMessage ) - 200 );
+               strcat_s( szMessage, zsizeof( szMessage ), szMessage + 200 );
                SysMessageList( szMessage );
 #endif
 
@@ -1318,16 +1318,16 @@ MainWndProc( HWND   hWnd,                // window handle
 #endif
 
                   SysMessageList( szMessage );
-                  strcpy_s( szMessage, sizeof( szMessage ), "      Title: '" );
+                  strcpy_s( szMessage, zsizeof( szMessage ), "     Title: '" );
                   if ( lpTask->szTaskTitle[ 0 ] )
-                     strcat_s( szMessage, sizeof( szMessage ), lpTask->szTaskTitle );
+                     strcat_s( szMessage, zsizeof( szMessage ), lpTask->szTaskTitle );
 
-                  strcat_s( szMessage, sizeof( szMessage ), "'" );
+                  strcat_s( szMessage, zsizeof( szMessage ), "'" );
 
                   if ( lpTask->szUserId[ 0 ] )
                   {
-                     strcat_s( szMessage, sizeof( szMessage ), "   UserId: " );
-                     strcat_s( szMessage, sizeof( szMessage ), lpTask->szUserId );
+                     strcat_s( szMessage, zsizeof( szMessage ), "  UserId: " );
+                     strcat_s( szMessage, zsizeof( szMessage ), lpTask->szUserId );
                   }
 
                   SysMessageList( szMessage );
@@ -1346,7 +1346,7 @@ MainWndProc( HWND   hWnd,                // window handle
                         LPSUBTASK lpTempSubtask;
                         LPAPP     lpTempApp;
 
-                        strcpy_s( szMessage, sizeof( szMessage ), "      Subtask:'" );
+                        strcpy_s( szMessage, zsizeof( szMessage ), "     Subtask:'" );
 
                         lpSubtaskView = zGETPTR( lpSubtask->hFirstView );
                         while( lpSubtaskView )
@@ -1362,31 +1362,31 @@ MainWndProc( HWND   hWnd,                // window handle
 
                         if ( lpSubtaskView && lpSubtaskView->hViewName )
                         {
-                           strcat_s( szMessage, sizeof( szMessage ), zGETPTR( lpSubtaskView->hViewName ) );
-                           strcat_s( szMessage, sizeof( szMessage ), "'" );
+                           strcat_s( szMessage, zsizeof( szMessage ), zGETPTR( lpSubtaskView->hViewName ) );
+                           strcat_s( szMessage, zsizeof( szMessage ), "'" );
                         }
                         else
-                           strcat_s( szMessage, sizeof( szMessage ), "(unnamed)'" );
+                           strcat_s( szMessage, zsizeof( szMessage ), "(unnamed)'" );
 
-                        strcat_s( szMessage, sizeof( szMessage ), ", Application:'" );
-                        strcat_s( szMessage, sizeof( szMessage ), zGETPTR( lpTempApp->hName ) );
-                        strcat_s( szMessage, sizeof( szMessage ), "'" );
+                        strcat_s( szMessage, zsizeof( szMessage ), ", Application:'" );
+                        strcat_s( szMessage, zsizeof( szMessage ), zGETPTR( lpTempApp->hName ) );
+                        strcat_s( szMessage, zsizeof( szMessage ), "'" );
                         SysMessageList( szMessage );
 
                         // Now report on views
                         lpSubtaskView = zGETPTR( lpSubtask->hFirstView );
                         while( lpSubtaskView )
                         {
-                           strcpy_s( szMessage, sizeof( szMessage ), "         View:'" );
+                           strcpy_s( szMessage, zsizeof( szMessage ), "        View:'" );
                            if ( lpSubtaskView->hSubtaskView == 0 )
                            {
                               if ( lpSubtaskView->hViewName )
                               {
-                                 strcat_s( szMessage, sizeof( szMessage ), zGETPTR( lpSubtaskView->hViewName ) );
-                                 strcat_s( szMessage, sizeof( szMessage ), "'" );
+                                 strcat_s( szMessage, zsizeof( szMessage ), zGETPTR( lpSubtaskView->hViewName ) );
+                                 strcat_s( szMessage, zsizeof( szMessage ), "'" );
                               }
                               else
-                                 strcat_s( szMessage, sizeof( szMessage ), "(unnamed)'" );
+                                 strcat_s( szMessage, zsizeof( szMessage ), "(unnamed)'" );
 
                               if ( lpSubtaskView->hViewCsr )
                               {
@@ -1394,9 +1394,9 @@ MainWndProc( HWND   hWnd,                // window handle
                                  LPVIEWOI  lpViewOI  = zGETPTR( lpViewCsr->hViewOI );
                                  LPVIEWOD  lpViewOD  = zGETPTR( lpViewOI->hViewOD );
 
-                                 strcat_s( szMessage, ", sizeof( szMessage ), Object:'" );
-                                 strcat_s( szMessage, sizeof( szMessage ), lpViewOD->szName );
-                                 strcat_s( szMessage, sizeof( szMessage ), "'" );
+                                 strcat_s( szMessage, ", zsizeof( szMessage ), Object:'" );
+                                 strcat_s( szMessage, zsizeof( szMessage ), lpViewOD->szName );
+                                 strcat_s( szMessage, zsizeof( szMessage ), "'" );
                               }
 
                               SysMessageList( szMessage );
@@ -1430,23 +1430,23 @@ MainWndProc( HWND   hWnd,                // window handle
                         lpDataHeader = lpDataHeader->hNextDataHeader;
                      }
 
-                     strcpy_s( szMessage, sizeof( szMessage ), "      Memory Alloc:" );
+                     strcpy_s( szMessage, zsizeof( szMessage ), "     Memory Alloc:" );
                      lUsed = lAlloc - lFree;
-                     zltoa( lAlloc, szMessage + 200, sizeof( szMessage ) - 200 );
-                     strcat_s( szMessage, sizeof( szMessage ), szMessage + 200 );
-                     strcat_s( szMessage, sizeof( szMessage ), ",  Used:" );
-                     zltoa( lUsed, szMessage + 200, sizeof( szMessage ) - 200 );
-                     strcat_s( szMessage, sizeof( szMessage ), szMessage + 200 );
-                     strcat_s( szMessage, sizeof( szMessage ), ",  Free:" );
-                     zltoa( lFree, szMessage + 200, sizeof( szMessage ) - 200 );
-                     strcat_s( szMessage, sizeof( szMessage ), szMessage + 200 );
+                     zltoa( lAlloc, szMessage + 200, zsizeof( szMessage ) - 200 );
+                     strcat_s( szMessage, zsizeof( szMessage ), szMessage + 200 );
+                     strcat_s( szMessage, zsizeof( szMessage ), ", Used:" );
+                     zltoa( lUsed, szMessage + 200, zsizeof( szMessage ) - 200 );
+                     strcat_s( szMessage, zsizeof( szMessage ), szMessage + 200 );
+                     strcat_s( szMessage, zsizeof( szMessage ), ", Free:" );
+                     zltoa( lFree, szMessage + 200, zsizeof( szMessage ) - 200 );
+                     strcat_s( szMessage, zsizeof( szMessage ), szMessage + 200 );
                      SysMessageList( szMessage );
 #endif
                   }
 
 #if 0  //x
                   // Display task domains.
-                  strcpy_s( szMessage, sizeof( szMessage ), "      Domains:" );
+                  strcpy_s( szMessage, zsizeof( szMessage ), "     Domains:" );
                   SysMessageList( szMessage );
                   for ( lpTaskDomain = zGETPTR( lpTask->hFirstTaskDomain );
                         lpTaskDomain;
@@ -1468,11 +1468,11 @@ MainWndProc( HWND   hWnd,                // window handle
                            SysMessageList( szMessage );
                         }
 
-                        zltoa( lpDomain->lApDmTok, sz, sizeof( sz ) );
+                        zltoa( lpDomain->lApDmTok, sz, zsizeof( sz ) );
                         strcpy_s( szMessage, "         Domain Token: " );
                         strcat_s( szMessage, sz );
                         SysMessageList( szMessage );
-                        zltoa( (zLONG) lpDomain, sz, sizeof( sz ) );
+                        zltoa( (zLONG) lpDomain, sz, zsizeof( sz ) );
                         strcpy_s( szMessage, "         Domain Ptr  : " );
                         strcat_s( szMessage, sz );
                         SysMessageList( szMessage );
@@ -1496,7 +1496,7 @@ MainWndProc( HWND   hWnd,                // window handle
             SysMutexQueryStatus( );
             TraceLineS( "", "" );
             MiListOE_Memory( 0, 0 );
-            SysDescribeZeidonPageTable( szMsg, sizeof( szMsg ) );
+            SysDescribeZeidonPageTable( szMsg, zsizeof( szMsg ) );
             TraceLineS( " Page table info - ", szMsg );
          }
          else
@@ -1511,20 +1511,20 @@ MainWndProc( HWND   hWnd,                // window handle
                lpApp = zGETPTR( AnchorBlock->hFirstApp );
                while ( lpApp )
                {
-                  strcpy_s( szMessage, sizeof( szMessage ), "Application:'" );
+                  strcpy_s( szMessage, zsizeof( szMessage ), "Application:'" );
                   if ( *lpApp->szName )
-                     strcat_s( szMessage, sizeof( szMessage ), lpApp->szName );
+                     strcat_s( szMessage, zsizeof( szMessage ), lpApp->szName );
 
-                  strcat_s( szMessage, sizeof( szMessage ), "'" );
+                  strcat_s( szMessage, zsizeof( szMessage ), "'" );
                   SysMessageList( szMessage );
                   lpViewOD = zGETPTR( lpApp->hFirstViewOD );
                   while ( lpViewOD )
                   {
-                     strcpy_s( szMessage, sizeof( szMessage ), "   View Object:'" );
+                     strcpy_s( szMessage, zsizeof( szMessage ), "  View Object:'" );
                      if ( *lpViewOD->szName )
-                        strcat_s( szMessage, sizeof( szMessage ), lpViewOD->szName );
+                        strcat_s( szMessage, zsizeof( szMessage ), lpViewOD->szName );
 
-                     strcat_s( szMessage, sizeof( szMessage ), "'" );
+                     strcat_s( szMessage, zsizeof( szMessage ), "'" );
                      SysMessageList( szMessage );
                      lpViewOD = zGETPTR( lpViewOD->hNextViewOD );
                   }
@@ -1537,7 +1537,7 @@ MainWndProc( HWND   hWnd,                // window handle
          if ( wCommand == IDM_RESETTIMEOUT )
          {
             if ( g_lTimeOut )
-               SysGetDateTime( g_szTimeStamp, sizeof( g_szTimeStamp ) );
+               SysGetDateTime( g_szTimeStamp, zsizeof( g_szTimeStamp ) );
 
             return( 0 );
          }
@@ -1546,7 +1546,7 @@ MainWndProc( HWND   hWnd,                // window handle
          {
             if ( g_lTimeOut && g_uIdleTimerId == 0 )
             {
-               SysGetDateTime( g_szTimeStamp, sizeof( g_szTimeStamp ) );
+               SysGetDateTime( g_szTimeStamp, zsizeof( g_szTimeStamp ) );
                TraceLine( "OE Setting Idle Timer for hWnd: 0x%08x   g_hWndMainFrame: 0x%08x  Id: %d",
                           hWnd, g_hWndMainFrame, g_nIdIdleEvt );
                g_uIdleTimerId = SetTimer( hWnd, g_nIdIdleEvt, 30000, 0 );  // 30000 ==> 30 seconds
@@ -1590,7 +1590,7 @@ MainWndProc( HWND   hWnd,                // window handle
          else
          if ( wCommand == IDM_GETFINDSTRING )
          {
-            strcpy_s( (zPCHAR) lParam, sizeof( g_szFindString ), g_szFindString );
+            strcpy_s( (zPCHAR) lParam, zsizeof( g_szFindString ), g_szFindString );
             return( zstrlen( g_szFindString ) );
          }
          else
@@ -1692,7 +1692,7 @@ MainWndProc( HWND   hWnd,                // window handle
                char  szIniName[ 260 ];
                char  szFileName[ 260 ];
                char  szTempName[ 260 ];
-               char  szBuffer[ sizeof( "-2147483647," ) * 10 ];
+               char  szBuffer[ zsizeof( "-2147483647," ) * 10 ];
                WINDOWPLACEMENT wp;
 
                wp.length = sizeof( wp );
@@ -1713,23 +1713,23 @@ MainWndProc( HWND   hWnd,                // window handle
                   szBuffer[ 0 ] = 0;
 
             // SysReadZeidonIni( -1, szlWorkstation, "LocalDir", szTempName );
-               GetEnvironmentVariable( "ZEIDON", szIniName, sizeof( szIniName ) );
-               strcat_s( szIniName, sizeof( szIniName ), "\\zeidon.ini" );
-               GetPrivateProfileString( "Workstation", "LocalDir", "", szTempName, sizeof( szTempName ), szIniName );
-               SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTempName );
+               GetEnvironmentVariable( "ZEIDON", szIniName, zsizeof( szIniName ) );
+               strcat_s( szIniName, zsizeof( szIniName ), "\\zeidon.ini" );
+               GetPrivateProfileString( "Workstation", "LocalDir", "", szTempName, zsizeof( szTempName ), szIniName );
+               SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTempName );
                if ( szFileName[ 0 ] )
                {
                   SysAppendcDirSep( szFileName );
-                  strcat_s( szFileName, sizeof( szFileName ), "ZeidonRT.ini" );
+                  strcat_s( szFileName, zsizeof( szFileName ), "ZeidonRT.ini" );
                }
                else
-                  strcpy_s( szFileName, sizeof( szFileName ), szIniName );
+                  strcpy_s( szFileName, zsizeof( szFileName ), szIniName );
 
                WritePrivateProfileString( "ObjectEngine", // section name
                                           "WindowPos",    // key name
                                           szBuffer,       // string to add
                                           szFileName );   // ini filename
-               zltoa( g_uTraceLineLimit, szBuffer, sizeof( szBuffer ) );
+               zltoa( g_uTraceLineLimit, szBuffer, zsizeof( szBuffer ) );
                WritePrivateProfileString( "ObjectEngine", "LineLimit", szBuffer, szFileName );
                WritePrivateProfileString( "ObjectEngine", "FindString", g_szFindString, szFileName );
                szBuffer[ 1 ] = 0;
@@ -1911,7 +1911,7 @@ MainWndProc( HWND   hWnd,                // window handle
             GetLocalTime( &SysTime );
 
             // szFileName looks like this:  YYYYMMDDhhmmss
-            sprintf_s( szFileName, sizeof( szFileName ), "%04d%02d%02d%02d%02d%02d.log",
+            sprintf_s( szFileName, zsizeof( szFileName ), "%04d%02d%02d%02d%02d%02d.log",
                        SysTime.wYear, SysTime.wMonth,
                        SysTime.wDay, SysTime.wHour,
                        SysTime.wMinute, SysTime.wSecond );
@@ -1927,9 +1927,9 @@ MainWndProc( HWND   hWnd,                // window handle
                   char szTraceText[ 512 ];
 
                   // Send message that log file opened.
-                  strcpy_s( szTraceText, sizeof( szTraceText ), "(ng) Log file Opened '" );
-                  strcat_s( szTraceText, sizeof( szTraceText ), szFileName );
-                  strcat_s( szTraceText, sizeof( szTraceText ), "'" );
+                  strcpy_s( szTraceText, zsizeof( szTraceText ), "(ng) Log file Opened '" );
+                  strcat_s( szTraceText, zsizeof( szTraceText ), szFileName );
+                  strcat_s( szTraceText, zsizeof( szTraceText ), "'" );
                   SysMessageList( szTraceText );
 
                   WriteTraceToLog( lpTask );
@@ -1983,7 +1983,7 @@ fnProcessOENG_Message( HWND hWnd, unsigned uMsg,
 
 // SysMessageBox( "DGC", "processing message", 1 );
 
-   pszReturn = (zPCHAR) ((zLONG) lParam + sizeof( zPDECIMAL ));
+   pszReturn = (zPCHAR) ((zLONG) lParam + zsizeof( zPDECIMAL ));
 
    if ( nPrecision > 0 )
       zsprintf( szStr, "%*Lf", (int) wParam, *pdDecimal );
@@ -2185,7 +2185,7 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
       SetEnvironmentVariable( "ZEIDON", g_szZeidonEnvDirectory );
 
    GetEnvironmentVariable( "ZEIDON", szFileName, zMAX_FILENAME_LTH + 1 );
-   strcat_s( szFileName, sizeof( szFileName ), "\\zeidon.ini" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\zeidon.ini" );
    g_nTraceWindowCnt = GetPrivateProfileInt( "ObjectEngine", "TraceWindows", 2, szFileName );
    if ( g_nTraceWindowCnt < 1 )
       g_nTraceWindowCnt = 2;
@@ -2283,14 +2283,14 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
    g_vSystemTaskView = zGETPTR( lpTask->hFirstView );
 
    TraceLineS( "----Zeidon configuration file: ", szFileName );
-   SysReadZeidonIni( -1, szlWorkstation, "LocalDir", szTempName, sizeof( szTempName ) );
-   SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTempName );
+   SysReadZeidonIni( -1, szlWorkstation, "LocalDir", szTempName, zsizeof( szTempName ) );
+   SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTempName );
    if ( szFileName[ 0 ] )
    {
       SysAppendcDirSep( szFileName );
-      strcat_s( szFileName, sizeof( szFileName ), "ZeidonRT.ini" );
+      strcat_s( szFileName, zsizeof( szFileName ), "ZeidonRT.ini" );
       TraceLineS( "--LocalDir configuration file: ", szFileName );
-      GetPrivateProfileString( "ObjectEngine", "LineLimit", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "LineLimit", "", szBuffer, zsizeof( szBuffer ), szFileName );
       if ( szBuffer[ 0 ] )
       {
          g_uTraceLineLimit = atoi( szBuffer );
@@ -2301,13 +2301,13 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
          }
       }
 
-      GetPrivateProfileString( "ObjectEngine", "FindString", "", szBuffer, sizeof( szBuffer ), szFileName );
-      strcpy_s( g_szFindString, sizeof( g_szFindString ), szBuffer );
-      GetPrivateProfileString( "ObjectEngine", "ScrollTrace", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "FindString", "", szBuffer, zsizeof( szBuffer ), szFileName );
+      strcpy_s( g_szFindString, zsizeof( g_szFindString ), szBuffer );
+      GetPrivateProfileString( "ObjectEngine", "ScrollTrace", "", szBuffer, zsizeof( szBuffer ), szFileName );
       if ( szBuffer[ 0 ] )
          g_chScrollTrace = szBuffer[ 0 ];
 
-      GetPrivateProfileString( "ObjectEngine", "PrintPreview", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "PrintPreview", "", szBuffer, zsizeof( szBuffer ), szFileName );
       if ( szBuffer[ 0 ] )
       {
          g_chPrintPreview = szBuffer[ 0 ];
@@ -2315,40 +2315,40 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
             g_chPrintPreview = '0';
       }
 
-      GetPrivateProfileString( "ObjectEngine", "PrintDialog", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "PrintDialog", "", szBuffer, zsizeof( szBuffer ), szFileName );
       if ( szBuffer[ 0 ] )
          g_chPrintDialog = szBuffer[ 0 ];
 
-      GetPrivateProfileString( "ObjectEngine", "TraceOE_Warning", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "TraceOE_Warning", "", szBuffer, zsizeof( szBuffer ), szFileName );
       if ( szBuffer[ 0 ] )
          g_chTraceOE_Warning = szBuffer[ 0 ];
 
-      GetPrivateProfileString( "ObjectEngine", "TraceAction", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "TraceAction", "", szBuffer, zsizeof( szBuffer ), szFileName );
       if ( szBuffer[ 0 ] )
          g_chTraceZDrActions = szBuffer[ 0 ];
 
-      GetPrivateProfileString( "ObjectEngine", "TraceWeb", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "TraceWeb", "", szBuffer, zsizeof( szBuffer ), szFileName );
       if ( szBuffer[ 0 ] )
          g_chTraceWebActions = szBuffer[ 0 ];
 
-      GetPrivateProfileString( "ObjectEngine", "ShowTaskID", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "ShowTaskID", "", szBuffer, zsizeof( szBuffer ), szFileName );
       if ( szBuffer[ 0 ] )
          AnchorBlock->bShowTaskID = 1;
 
       lpTraceFlags = GetTracingFlags( );
 
-      GetPrivateProfileString( "ObjectEngine", "ShowOpenFile", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "ShowOpenFile", "", szBuffer, zsizeof( szBuffer ), szFileName );
       lpTraceFlags->bOpenFile = (toupper( szBuffer[ 0 ] ) == 'Y') ? TRUE : FALSE;
 
-      GetPrivateProfileString( "ObjectEngine", "ShowOI_Times", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "ShowOI_Times", "", szBuffer, zsizeof( szBuffer ), szFileName );
       lpTraceFlags->bOI_Times = (toupper( szBuffer[ 0 ] ) == 'Y') ? TRUE : FALSE;
 
-      GetPrivateProfileString( "ObjectEngine", "ShowTaskMsgs", "", szBuffer, sizeof( szBuffer ), szFileName );
+      GetPrivateProfileString( "ObjectEngine", "ShowTaskMsgs", "", szBuffer, zsizeof( szBuffer ), szFileName );
       lpTraceFlags->bTaskMsgs = (toupper( szBuffer[ 0 ] ) == 'Y') ? TRUE : FALSE;
    }
    else
    {
-      SysReadZeidonIni( -1, "[ObjectEngine]", "LineLimit", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "LineLimit", szBuffer, zsizeof( szBuffer ) );
       if ( szBuffer[ 0 ] )
       {
          g_uTraceLineLimit = atoi( szBuffer );
@@ -2359,13 +2359,13 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
          }
       }
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "FindString", szBuffer, sizeof( szBuffer ) );
-      strcpy_s( g_szFindString, sizeof( g_szFindString ), szBuffer );
-      SysReadZeidonIni( -1, "[ObjectEngine]", "ScrollTrace", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "FindString", szBuffer, zsizeof( szBuffer ) );
+      strcpy_s( g_szFindString, zsizeof( g_szFindString ), szBuffer );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "ScrollTrace", szBuffer, zsizeof( szBuffer ) );
       if ( szBuffer[ 0 ] )
          g_chScrollTrace = szBuffer[ 0 ];
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "PrintPreview", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "PrintPreview", szBuffer, zsizeof( szBuffer ) );
       if ( szBuffer[ 0 ] )
       {
          g_chPrintPreview = szBuffer[ 0 ];
@@ -2373,40 +2373,40 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
             g_chPrintPreview = '0';
       }
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "PrintDialog", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "PrintDialog", szBuffer, zsizeof( szBuffer ) );
       if ( szBuffer[ 0 ] )
          g_chPrintDialog = szBuffer[ 0 ];
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "TraceOE_Warning", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "TraceOE_Warning", szBuffer, zsizeof( szBuffer ) );
       if ( szBuffer[ 0 ] )
          g_chTraceOE_Warning = szBuffer[ 0 ];
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "TraceAction", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "TraceAction", szBuffer, zsizeof( szBuffer ) );
       if ( szBuffer[ 0 ] )
          g_chTraceZDrActions = szBuffer[ 0 ];
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "TraceWeb", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "TraceWeb", szBuffer, zsizeof( szBuffer ) );
       if ( szBuffer[ 0 ] )
          g_chTraceWebActions = szBuffer[ 0 ];
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "ShowTaskID", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "ShowTaskID", szBuffer, zsizeof( szBuffer ) );
       if ( szBuffer[ 0 ] )
          AnchorBlock->bShowTaskID = 1;
 
       lpTraceFlags = GetTracingFlags( );
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "ShowOpenFile", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "ShowOpenFile", szBuffer, zsizeof( szBuffer ) );
       lpTraceFlags->bOpenFile = (toupper( szBuffer[ 0 ] ) == 'Y') ? TRUE : FALSE;
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "ShowOI_Times", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "ShowOI_Times", szBuffer, zsizeof( szBuffer ) );
       lpTraceFlags->bOI_Times = (toupper( szBuffer[ 0 ] ) == 'Y') ? TRUE : FALSE;
 
-      SysReadZeidonIni( -1, "[ObjectEngine]", "ShowTaskMsgs", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "ShowTaskMsgs", szBuffer, zsizeof( szBuffer ) );
       lpTraceFlags->bTaskMsgs = (toupper( szBuffer[ 0 ] ) == 'Y') ? TRUE : FALSE;
    }
 
    // Retrieve WindowStartup parameter and show window in hidden, systray or normal mode.
-   SysReadZeidonIni( -1, "[ObjectEngine]", "WindowStartup", szBuffer, sizeof( szBuffer ) );
+   SysReadZeidonIni( -1, "[ObjectEngine]", "WindowStartup", szBuffer, zsizeof( szBuffer ) );
    if ( _stricmp( szBuffer, "Hidden" ) == 0 )
    {
       ShowWindow( g_hWndMainFrame, SW_HIDE );
@@ -2437,7 +2437,7 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
    else
       ShowWindow( g_hWndMainFrame, SW_SHOW );  // Show the window
 
-   SysReadZeidonIni( -1, "ObjectEngine", "DropEngineIfNoTasks", szBuffer, sizeof( szBuffer ) );
+   SysReadZeidonIni( -1, "ObjectEngine", "DropEngineIfNoTasks", szBuffer, zsizeof( szBuffer ) );
    if ( ztoupper( *szBuffer ) == 'Y' )
       AnchorBlock->bDropEngineIfNoTasks = TRUE;
 
@@ -2471,8 +2471,8 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
       USHORT  uLth = 6;
       USHORT  uRC = 7;
 
-      SysReadZeidonIni( -1, szlWorkstation, szlUserID, szIniUser, sizeof( szIniUser ) );
-      SysReadZeidonIni( -1, szlWorkstation, szlPassword, szIniPassword, sizeof( szIniPassword ) );
+      SysReadZeidonIni( -1, szlWorkstation, szlUserID, szIniUser, zsizeof( szIniUser ) );
+      SysReadZeidonIni( -1, szlWorkstation, szlPassword, szIniPassword, zsizeof( szIniPassword ) );
       szLanUser[ 0 ] = 0;
       if ( (hNetApi = GetModuleHandle( "NETAPI" )) != 0 )
       {
@@ -2483,16 +2483,16 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
                                           (zUSHORT) 80,
                                           (zPUSHORT) &uReturnLth );
             if ( uRC == 0 )
-               strcpy_s( szLanUser, sizeof( szLanUser ), Buffer[ 1 ] );
+               strcpy_s( szLanUser, zsizeof( szLanUser ), Buffer[ 1 ] );
          }
       }
 
       if ( szLanUser[ 0 ] || szIniUser[ 0 ] )
       {
-         SysReadZeidonIni( -1, szlWorkstation, "Encrypted", szEncrypted, sizeof( szEncrypted ) );
+         SysReadZeidonIni( -1, szlWorkstation, "Encrypted", szEncrypted, zsizeof( szEncrypted ) );
 
          if ( szIniUser[ 0 ] == 0 )
-            strcpy_s( szIniUser, sizeof( szIniUser ), szLanUser );
+            strcpy_s( szIniUser, zsizeof( szIniUser ), szLanUser );
 
          if ( szEncrypted[ 0 ] == 'E' || szEncrypted[ 0 ] == 'e' )
          {
@@ -2517,14 +2517,14 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
          }
          else
          {
-            strcpy_s( szUser, sizeof( szUser ), szIniUser );
-            strcpy_s( szPassword, sizeof( szPassword ), szIniPassword );
+            strcpy_s( szUser, zsizeof( szUser ), szIniUser );
+            strcpy_s( szPassword, zsizeof( szPassword ), szIniPassword );
          }
 
       // if ( zstrlen( szIniPassword ) == 26 )
       //    UfDecryptString( szPassword, szIniPassword, 26 );
       // else
-      //    strcpy_s( szPassword, sizeof( szPassword ), szIniPassword );
+      //    strcpy_s( szPassword, zsizeof( szPassword ), szIniPassword );
 
          SysSetUserID( lpTask, szUser, szPassword );
       }
@@ -2547,7 +2547,7 @@ InitInstance( HANDLE hInstance, // Current instance identifier.
    }
 
    // Just a way to test if we are opening the right INI file.
-   SysReadZeidonIni( -1, "[Debug]", "StartMessage", szBuffer, sizeof( szBuffer ) );
+   SysReadZeidonIni( -1, "[Debug]", "StartMessage", szBuffer, zsizeof( szBuffer ) );
    if ( szBuffer[ 0 ] )
       fnSysMessageBox( lpTask, "Object Engine Start Message", szBuffer, 0 );
 
@@ -2601,8 +2601,8 @@ LogonDlgProc( HWND hWndDlg, unsigned uMsg,
       case WM_COMMAND:
          if ( wParam == IDC_OK )
          {
-            GetDlgItemText( hWndDlg, IDC_USERID, szUserID, sizeof( szUserID ) );
-            GetDlgItemText( hWndDlg, IDC_PASSWORD, szPassword, sizeof( szPassword ) );
+            GetDlgItemText( hWndDlg, IDC_USERID, szUserID, zsizeof( szUserID ) );
+            GetDlgItemText( hWndDlg, IDC_PASSWORD, szPassword, zsizeof( szPassword ) );
 
             if ( szUserID[ 0 ] )
             {
@@ -2630,7 +2630,7 @@ LogonDlgProc( HWND hWndDlg, unsigned uMsg,
          // fall through
 
       case WM_INITDIALOG:
-         SysGetUserID( 0, szUserID, sizeof( szUserID ), szPassword, sizeof( szPassword ) );
+         SysGetUserID( 0, szUserID, zsizeof( szUserID ), szPassword, zsizeof( szPassword ) );
          SetDlgItemText( hWndDlg, IDC_USERID, szUserID );
          SetDlgItemText( hWndDlg, IDC_PASSWORD, szPassword );
          return( TRUE );
@@ -2650,7 +2650,7 @@ FindStringDlgProc( HWND hWndDlg, unsigned uMsg,
       case WM_COMMAND:
          if ( wParam == IDC_OK )
          {
-            GetDlgItemText( hWndDlg, IDC_FINDSTRING, g_szFindString, sizeof( g_szFindString ) );
+            GetDlgItemText( hWndDlg, IDC_FINDSTRING, g_szFindString, zsizeof( g_szFindString ) );
             EndDialog( hWndDlg, IDOK );
          }
          else
@@ -2662,7 +2662,7 @@ FindStringDlgProc( HWND hWndDlg, unsigned uMsg,
          return( TRUE );
 
       case WM_INITDIALOG:
-         SendDlgItemMessage( hWndDlg, IDC_FINDSTRING, EM_LIMITTEXT, sizeof( g_szFindString ), 0L );
+         SendDlgItemMessage( hWndDlg, IDC_FINDSTRING, EM_LIMITTEXT, zsizeof( g_szFindString ), 0L );
          SetDlgItemText( hWndDlg, IDC_FINDSTRING, g_szFindString );
          return( TRUE );
 
@@ -2777,22 +2777,22 @@ ShowDLLDlgProc( HWND hWndDlg, unsigned uMsg,
          {
             zCHAR szWorkString[ 256 ];
 
-            strcpy_s( szWorkString, sizeof( szWorkString ), "DLLDlg WM_COMMAND  Message " );
+            strcpy_s( szWorkString, zsizeof( szWorkString ), "DLLDlg WM_COMMAND Message " );
 
-            zltoa( (zLONG) (unsigned) uMsg, (szWorkString + zstrlen( szWorkString )), sizeof( szWorkString ) - zstrlen( szWorkString ) );
-            strcat_s( szWorkString, sizeof( szWorkString ), "(" );
-            zltox( (zLONG) (unsigned) uMsg, (szWorkString + zstrlen( szWorkString )), sizeof( szWorkString ) - zstrlen( szWorkString ) );
+            zltoa( (zLONG) (unsigned) uMsg, (szWorkString + zstrlen( szWorkString )), zsizeof( szWorkString ) - zstrlen( szWorkString ) );
+            strcat_s( szWorkString, zsizeof( szWorkString ), "(" );
+            zltox( (zLONG) (unsigned) uMsg, (szWorkString + zstrlen( szWorkString )), zsizeof( szWorkString ) - zstrlen( szWorkString ) );
 
-            strcat_s( szWorkString, sizeof( szWorkString ), ") wParam " );
-            zltoa( (zLONG) wParam, (szWorkString + zstrlen( szWorkString )), sizeof( szWorkString ) - zstrlen( szWorkString ) );
-            strcat_s( szWorkString, sizeof( szWorkString ), "(" );
-            zltoa( (zLONG) wParam, (szWorkString + zstrlen( szWorkString )), sizeof( szWorkString ) - zstrlen( szWorkString ) );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ") wParam " );
+            zltoa( (zLONG) wParam, (szWorkString + zstrlen( szWorkString )), zsizeof( szWorkString ) - zstrlen( szWorkString ) );
+            strcat_s( szWorkString, zsizeof( szWorkString ), "(" );
+            zltoa( (zLONG) wParam, (szWorkString + zstrlen( szWorkString )), zsizeof( szWorkString ) - zstrlen( szWorkString ) );
 
-            strcat_s( szWorkString, sizeof( szWorkString ), ") lParam " );
-            zltoa( lParam, (szWorkString + zstrlen( szWorkString )), sizeof( szWorkString ) - zstrlen( szWorkString ) );
-            strcat_s( szWorkString, sizeof( szWorkString ), "(" );
-            zltoa( lParam, (szWorkString + zstrlen( szWorkString )), sizeof( szWorkString ) - zstrlen( szWorkString ) );
-            strcat_s( szWorkString, sizeof( szWorkString ), ")" );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ") lParam " );
+            zltoa( lParam, (szWorkString + zstrlen( szWorkString )), zsizeof( szWorkString ) - zstrlen( szWorkString ) );
+            strcat_s( szWorkString, zsizeof( szWorkString ), "(" );
+            zltoa( lParam, (szWorkString + zstrlen( szWorkString )), zsizeof( szWorkString ) - zstrlen( szWorkString ) );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ")" );
 
             SendMessage( g_hWndLB, LB_ADDSTRING, 0, (zLONG)(zPCHAR) szWorkString );
          }
@@ -2815,12 +2815,12 @@ ShowDLLDlgProc( HWND hWndDlg, unsigned uMsg,
                      WORD  hModHandle;
                      zCHAR szWorkString[ 256 ];
 
-                     strcpy_s( szWorkString, sizeof( szWorkString ), "Selected item: " );
+                     strcpy_s( szWorkString, zsizeof( szWorkString ), "Selected item: " );
                      SendDlgItemMessage( hWndDlg, IDC_DLLLB, LB_GETTEXT,
                                          wLBIndex,
                                          (zLONG)(zPCHAR)
                                          (szWorkString + zstrlen( szWorkString )));
-                     strcat_s( szWorkString, sizeof( szWorkString ), " Handle: " );
+                     strcat_s( szWorkString, zsizeof( szWorkString ), " Handle: " );
                      hModHandle = LOWORD( (LPARAM) SendDlgItemMessage
                                             ( hWndDlg, IDC_DLLLB,
                                               LB_GETITEMDATA, wLBIndex, 0L ) );
@@ -2860,11 +2860,11 @@ ShowDLLDlgProc( HWND hWndDlg, unsigned uMsg,
          BOOL        bOkay;
          UINT        nShow = WM_USER;
 #if 0
-         zltoa( (zLONG) nShow, szLBItem, sizeof( szLBItem ) );
+         zltoa( (zLONG) nShow, szLBItem, zsizeof( szLBItem ) );
          SendMessage( g_hWndLB, LB_ADDSTRING, 0, (zLONG)(zPCHAR) szLBItem );
 #endif
-         zmemset( (zPCHAR) &ge, 0, sizeof( ge ) );
-         ge.dwSize = sizeof( GLOBALENTRY );
+         zmemset( (zPCHAR) &ge, 0, zsizeof( ge ) );
+         ge.dwSize = zsizeof( GLOBALENTRY );
          bOkay = GlobalFirst( &ge, wFlags );
          while ( bOkay )
          {
@@ -2896,7 +2896,7 @@ ShowDLLDlgProc( HWND hWndDlg, unsigned uMsg,
 
                ModuleName[ iLth ] = 0;
 
-               strcpy_s( szLBItem, sizeof( szLBItem ), ModuleName );
+               strcpy_s( szLBItem, zsizeof( szLBItem ), ModuleName );
                iLth = zstrlen( szLBItem );
                while ( iLth < 9 )
                   szLBItem[ iLth++ ] = ' ';
@@ -2904,7 +2904,7 @@ ShowDLLDlgProc( HWND hWndDlg, unsigned uMsg,
                szLBItem[ iLth ] = 0;
 
                // show load count for module
-               zltoa( *lpwLoadCount, szLBItem + iLth, sizeof( szLBItem ) - iLth );
+               zltoa( *lpwLoadCount, szLBItem + iLth, zsizeof( szLBItem ) - iLth );
 
                //  add name and count to listbox
                wLBIndex = (WORD) SendDlgItemMessage( hWndDlg, IDC_DLLLB,
@@ -3030,7 +3030,7 @@ LogTraceDlgProc( HWND hWndDlg, unsigned uMsg,
          if ( wParam == IDC_OPEN ) // open pushbutton
          {
             LPTASK lpTask = zGETPTR( AnchorBlock->hFirstTask );
-            GetDlgItemText( hWndDlg, IDC_LOGFILE, szLogFileName, sizeof( szLogFileName ) );
+            GetDlgItemText( hWndDlg, IDC_LOGFILE, szLogFileName, zsizeof( szLogFileName ) );
             if ( (g_hLogFile = fnSysOpenFile( lpTask, szLogFileName, COREFILE_CREATE )) == -1 )
             {
                MessageBox( GetActiveWindow( ), "Error opening trace file!",
@@ -3041,9 +3041,9 @@ LogTraceDlgProc( HWND hWndDlg, unsigned uMsg,
                char szTraceText[ 512 ];
 
                // Send message that log file opened.
-               strcpy_s( szTraceText, sizeof( szTraceText ), "(ng) Log file Opened '" );
-               strcat_s( szTraceText, sizeof( szTraceText ), szLogFileName );
-               strcat_s( szTraceText, sizeof( szTraceText ), "'" );
+               strcpy_s( szTraceText, zsizeof( szTraceText ), "(ng) Log file Opened '" );
+               strcat_s( szTraceText, zsizeof( szTraceText ), szLogFileName );
+               strcat_s( szTraceText, zsizeof( szTraceText ), "'" );
                SysMessageList( szTraceText );
 
                WriteTraceToLog( lpTask );
@@ -3083,15 +3083,15 @@ LogTraceDlgProc( HWND hWndDlg, unsigned uMsg,
             SendDlgItemMessage( hWndDlg, IDC_OPEN, BM_SETSTYLE, (WORD) BS_DEFPUSHBUTTON, 1L );
             if ( szLogFileName[ 0 ] == 0 )
             {
-               SysReadZeidonIni( -1, szlWorkstation, "LogFile", szLogFileName, sizeof( szLogFileName ) );
+               SysReadZeidonIni( -1, szlWorkstation, "LogFile", szLogFileName, zsizeof( szLogFileName ) );
                if ( szLogFileName[ 0 ] == 0 )
                {
                   if ( AnchorBlock->szZeidonLoc[ 0 ] )
-                     strcpy_s( szLogFileName, sizeof( szLogFileName ), AnchorBlock->szZeidonLoc );
+                     strcpy_s( szLogFileName, zsizeof( szLogFileName ), AnchorBlock->szZeidonLoc );
                   else
-                     strcpy_s( szLogFileName, sizeof( szLogFileName ), "\\" );
+                     strcpy_s( szLogFileName, zsizeof( szLogFileName ), "\\" );
 
-                  strcat_s( szLogFileName, sizeof( szLogFileName ), "ZEIDON00.LOG" );
+                  strcat_s( szLogFileName, zsizeof( szLogFileName ), "ZEIDON00.LOG" );
                }
             }
 
@@ -3143,21 +3143,21 @@ ReadWindowPlacement( LPTASK lpTask, LPWINDOWPLACEMENT pwp )
    char szBuffer[ 256 ];
    int nRead = 0;
 
-   SysReadZeidonIni( -1, szlWorkstation, "LocalDir", szTempName, sizeof( szTempName ) );
-   SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTempName );
+   SysReadZeidonIni( -1, szlWorkstation, "LocalDir", szTempName, zsizeof( szTempName ) );
+   SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTempName );
    if ( szFileName[ 0 ] )
    {
       SysAppendcDirSep( szFileName );
-      strcat_s( szFileName, sizeof( szFileName ), "ZeidonRT.ini" );
+      strcat_s( szFileName, zsizeof( szFileName ), "ZeidonRT.ini" );
       GetPrivateProfileString( "ObjectEngine",     // section name
                                "WindowPos",        // key name
                                "",                 // default string
                                szBuffer,           // destination buffer
-                               sizeof( szBuffer ), // size of destination buffer
+                               zsizeof( szBuffer ), // size of destination buffer
                                szFileName );       // ini filename
    }
    else
-      SysReadZeidonIni( -1, "[ObjectEngine]", "WindowPos", szBuffer, sizeof( szBuffer ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "WindowPos", szBuffer, zsizeof( szBuffer ) );
 
    if ( szBuffer[ 0 ] )
    {
@@ -3256,7 +3256,7 @@ TrayMessage( DWORD dwMessage, UINT uID, HICON hIcon, LPCSTR pszTip )
    tnd.hIcon      = hIcon;
    if ( pszTip )
    {
-      lstrcpyn( tnd.szTip, pszTip, sizeof( tnd.szTip ) );
+      lstrcpyn( tnd.szTip, pszTip, zsizeof( tnd.szTip ) );
    }
    else
    {

@@ -85,7 +85,7 @@ CControlState::CControlState()
    m_FontStyles.byTagAttributeName      = DEF_FSTAGATTRNAME;
    m_FontStyles.byLineNumber         = DEF_FSLINENUMBER;
 
-   ZeroMemory( &m_lf, sizeof( m_lf ) );
+   ZeroMemory( &m_lf, zsizeof( m_lf ) );
 
    m_LineNum.bEnabled               = DEF_LINENUMENABLE;
    m_LineNum.nStartAt               = DEF_LINENUMBERSTART;
@@ -222,7 +222,7 @@ void CControlState::Save( CEditX *pCtrl )
    pCtrl->m_bRequiresSave = bSaveState;
 }
 
-#define READDATA( var ) if ( FAILED( hr = pStm->Read( &var, sizeof( var ), NULL ) ) ) goto bail;
+#define READDATA( var ) if ( FAILED( hr = pStm->Read( &var, zsizeof( var ), NULL ) ) ) goto bail;
 HRESULT CControlState::Load( LPSTREAM pStm )
 {
    HRESULT hr = S_OK;
@@ -311,7 +311,7 @@ HRESULT CControlState::Load( LPSTREAM pStm )
    return hr;
 }
 
-#define WRITEDATA( var ) if ( FAILED( hr = pStm->Write( &var, sizeof( var ), NULL ) ) ) goto bail;
+#define WRITEDATA( var ) if ( FAILED( hr = pStm->Write( &var, zsizeof( var ), NULL ) ) ) goto bail;
 HRESULT CControlState::Save( CEditX *pCtrl, LPSTREAM pStm )
 {
    HRESULT hr = S_OK;

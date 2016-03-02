@@ -289,7 +289,7 @@ ZMLE::MapToOI( zLONG lFlag )
 #ifdef zREMOTE_SERVER
       zCHAR   szMap[ 65534 ];
 
-      GetZCtrlText( this, szMap, sizeof( szMap ) );
+      GetZCtrlText( this, szMap, zsizeof( szMap ) );
 #else
       CString szMap;  // named szMap rather than csMap for SetAttribute below
 

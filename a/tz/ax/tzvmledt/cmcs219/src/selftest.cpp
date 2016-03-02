@@ -161,7 +161,7 @@ void CEdit::DoSelfTest()
          case 2:  // CMM_REPLACETEXT
          {
             CM_RANGE cmRange;
-            ZeroMemory( &cmRange, sizeof( cmRange ) );
+            ZeroMemory( &cmRange, zsizeof( cmRange ) );
             ASSERT( CM_AddText( m_hWndTest, _T("\n") ) == CME_SUCCESS );
             ASSERT( CM_GetLineCount( m_hWndTest ) == i + 1 );
             cmRange.posStart.nLine = cmRange.posEnd.nLine = i;
@@ -174,7 +174,7 @@ void CEdit::DoSelfTest()
          case 3:  // CMM_REPLACESEL
          {
             CM_RANGE cmRange;
-            ZeroMemory( &cmRange, sizeof( cmRange ) );
+            ZeroMemory( &cmRange, zsizeof( cmRange ) );
             ASSERT( CM_AddText( m_hWndTest, _T("\n") ) == CME_SUCCESS );
             ASSERT( CM_GetLineCount( m_hWndTest ) == i + 1 );
             cmRange.posStart.nLine = cmRange.posEnd.nLine = i;
@@ -351,7 +351,7 @@ void CEdit::DoSelfTest()
    ASSERT( CM_SetSel( m_hWndTest, &cmRange, FALSE ) == CME_SUCCESS );
    CM_RANGE cmRange2;
    ASSERT( CM_GetSel( m_hWndTest, &cmRange2, FALSE ) == CME_SUCCESS );
-   ASSERT( memcmp( &cmRange, &cmRange2, sizeof( CM_RANGE ) ) == 0 );
+   ASSERT( memcmp( &cmRange, &cmRange2, zsizeof( CM_RANGE ) ) == 0 );
    ASSERT( CM_GetTextLength( m_hWndTest, &cmRange, FALSE ) == 4 );
 
    ASSERT( CM_SetItemData( m_hWndTest, 0, 0x1234567 ) == CME_SUCCESS );
@@ -400,7 +400,7 @@ void CEdit::DoSelfTest()
    ASSERT( CM_SetColors( m_hWndTest, &cmColors ) == CME_SUCCESS );
    CM_COLORS cmColors2;
    ASSERT( CM_GetColors( m_hWndTest, &cmColors2 ) == CME_SUCCESS );
-   ASSERT( memcmp( &cmColors, &cmColors2, sizeof( CM_COLORS ) ) == 0 );
+   ASSERT( memcmp( &cmColors, &cmColors2, zsizeof( CM_COLORS ) ) == 0 );
 
    CM_FONTSTYLES cmFontStyles = {
       CM_FONT_NORMAL,         // plain text foreground font style
@@ -414,7 +414,7 @@ void CEdit::DoSelfTest()
    ASSERT( CM_SetFontStyles( m_hWndTest, &cmFontStyles ) == CME_SUCCESS );
    CM_FONTSTYLES cmFontStyles2;
    ASSERT( CM_GetFontStyles( m_hWndTest, &cmFontStyles2 ) == CME_SUCCESS );
-   ASSERT( memcmp( &cmFontStyles, &cmFontStyles, sizeof( CM_FONTSTYLES ) ) == 0 );
+   ASSERT( memcmp( &cmFontStyles, &cmFontStyles, zsizeof( CM_FONTSTYLES ) ) == 0 );
 
    CM_LINENUMBERING cmLineNum = { TRUE, 100, CM_OCTAL };
    ASSERT( CM_SetLineNumbering( m_hWndTest, &cmLineNum ) == CME_SUCCESS );

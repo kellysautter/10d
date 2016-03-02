@@ -354,7 +354,7 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
    ActivateEmptyObjectInstance( &vTZERPOSO, "TZERPOSO", vSubtask, zSINGLE );
    if ( vTZERPOSO == 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "Unable to create TZERPOSO work OI." );
+      strcpy_s( sz, zsizeof( sz ), "Unable to create TZERPOSO work OI." );
       MessageSend( vSubtask, "ER00202", "E/R Model Maintainance",
                    sz,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -373,7 +373,7 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
    {
       // first, position at "cluster" for the entity -- currently based
       // on a possible Owning Area.
-      GetStringFromAttribute( sz, sizeof( sz ), vTZEREMDO, "ER_Entity", "OwningArea" );
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZEREMDO, "ER_Entity", "OwningArea" );
       if ( sz[ 0 ] == 0 )
       {
          sz[ 0 ] = 1;  // Nice happy face...
@@ -494,7 +494,7 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERPOSO, "Cluster", "" ) )
    {
-      GetStringFromAttribute( sz, sizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
       zgSortEntityWithinParent( zDESCENDING, vTZERPOSO, "W_ERD_Entity", "NbrRelEntsInSameOA", "" );
       // Set Cell size
       GetIntegerFromAttribute( &lEnts, vTZERPOSO, "Cluster", "NbrEnts" );
@@ -523,9 +523,9 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
             nY++;
             if ( nY >= MAX_CELL_Y )
             {
-               strcpy_s( sz, sizeof( sz ), "No space available for Area:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ), vTZERPOSO, "Cluster", "Name" );
-               strcat_s( sz, sizeof( sz ), "'." );
+               strcpy_s( sz, zsizeof( sz ), "No space available for Area:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ), vTZERPOSO, "Cluster", "Name" );
+               strcat_s( sz, zsizeof( sz ), "'." );
                MessageSend( vSubtask, "ER00203", "E/R Model Maintainance",
                             sz,
                             zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -581,7 +581,7 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERPOSO, "Cluster", "" ) )
    {
-      GetStringFromAttribute( sz, sizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
       for ( nRC = SetCursorFirstEntity( vTZERPOSO, "W_ERD_Entity", "" );
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTZERPOSO, "W_ERD_Entity", "" ) )
@@ -624,7 +624,7 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERPOSO, "Cluster", "" ) )
    {
-      GetStringFromAttribute( sz, sizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
 
       // Get Cell size
       GetIntegerFromAttribute( &lCells, vTZERPOSO, "Cluster", "NbrCells" );
@@ -649,7 +649,7 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTZERPOSO, "W_ERD_Entity", "" ) )
       {
-         GetStringFromAttribute( sz + 50, sizeof( sz ) - 50, //debug only
+         GetStringFromAttribute( sz + 50, zsizeof( sz ) - 50, //debug only
                                  vTZERPOSO, "W_ERD_Entity", "Name" );
          if ( CompareAttributeToInteger( vTZERPOSO, "W_ERD_Entity", "ER_DgmPosX", 0 ) != 0 )
          {
@@ -663,11 +663,11 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
             nD = nXincr = nYincr = 0;
             if ( zwfnTZEREMDD_FreeCell( &nXchk, &nYchk, nXcenter, nYcenter, nCells ) < 0 )
             {
-               strcpy_s( sz, sizeof( sz ), "No cell available for Area:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ), vTZERPOSO, "Cluster", "Name" );
-               strcat_s( sz, sizeof( sz ), "'\nEntity:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ), vTZERPOSO, "W_ERD_Entity", "Name" );
-               strcat_s( sz, sizeof( sz ), "'." );
+               strcpy_s( sz, zsizeof( sz ), "No cell available for Area:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ), vTZERPOSO, "Cluster", "Name" );
+               strcat_s( sz, zsizeof( sz ), "'\nEntity:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ), vTZERPOSO, "W_ERD_Entity", "Name" );
+               strcat_s( sz, zsizeof( sz ), "'." );
                MessageSend( vSubtask, "ER00205", "E/R Model Maintainance",
                             sz,
                             zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -691,7 +691,7 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
                nRC >= zCURSOR_SET;
                nRC = SetCursorNextEntity( vTZERPOSO, "W_ERD_RelatedEntity", "" ) )
          {
-            GetStringFromAttribute( sz + 100, sizeof( sz ) - 100, //debug only
+            GetStringFromAttribute( sz + 100, zsizeof( sz ) - 100, //debug only
                                     vTZERPOSO, "W_ERD_RelatedEntity", "Name" );
             if ( CompareAttributeToString( vTZERPOSO, "W_ERD_RelatedEntity",
                                            "OA_MatchesParentsOA", "Y" ) != 0 )
@@ -702,13 +702,13 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
             // find next free cell
             if ( zwfnTZEREMDD_FreeCell( &nXchk, &nYchk, nX, nY, nCells ) < 0 )
             {
-               strcpy_s( sz, sizeof( sz ), "No cell available for Area:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ), vTZERPOSO, "Cluster", "Name" );
-               strcat_s( sz, sizeof( sz ), "'\nEntity:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ), vTZERPOSO, "W_ERD_Entity", "Name" );
-               strcat_s( sz, sizeof( sz ), "'\nRelated Entity:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ), vTZERPOSO, "W_ERD_RelatedEntity", "Name" );
-               strcat_s( sz, sizeof( sz ), "'." );
+               strcpy_s( sz, zsizeof( sz ), "No cell available for Area:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ), vTZERPOSO, "Cluster", "Name" );
+               strcat_s( sz, zsizeof( sz ), "'\nEntity:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ), vTZERPOSO, "W_ERD_Entity", "Name" );
+               strcat_s( sz, zsizeof( sz ), "'\nRelated Entity:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ), vTZERPOSO, "W_ERD_RelatedEntity", "Name" );
+               strcat_s( sz, zsizeof( sz ), "'." );
                MessageSend( vSubtask, "ER00206", "E/R Model Maintainance",
                             sz,
                             zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -739,8 +739,8 @@ zwTZEREMDD_PositionER( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERPOSO, "W_ERD_Entity", "RootStats" ) )
    {
-      GetStringFromAttribute( sz, sizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
-      GetStringFromAttribute( sz + 50, sizeof( sz ) - 50, //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
+      GetStringFromAttribute( sz + 50, zsizeof( sz ) - 50, //debug only
                               vTZERPOSO, "W_ERD_Entity", "Name" );
       // First, retrieve the cell position, adjust for white space at the top and left, then calc a stagger offset.
       GetIntegerFromAttribute( &lXcell, vTZERPOSO, "W_ERD_Entity", "ER_DgmPosX" );
@@ -1195,10 +1195,10 @@ zwTZEREMDD_ERD_EntityNeighbors( zVIEW vSubtask )
    GetViewByName( &vT, "TZEREMDO", vSubtask, zLEVEL_TASK );
 
    // Set up DIL message.
-   strcpy_s( sz, sizeof( sz ), "Neighbors of entity (" );
+   strcpy_s( sz, zsizeof( sz ), "Neighbors of entity (" );
    GetAddrForAttribute( &szName, vT, "ER_Entity", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), ") are selected." );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), ") are selected." );
 
    SelectEntityNeighbors( vW, "ERD", 1, 0, 0 );
 
@@ -1411,13 +1411,13 @@ zwTZEREMDD_ERD_RelDelete( zVIEW vSubtask )
    //Prompt to confirm Delete
    szMessage[ 0 ] = 0;
    GetAddrForAttribute( &sz, vTZEREMDO, "ER_Entity", "Name" );
-   strcat_s( szMessage, sizeof( szMessage ), sz );
-   strcat_s( szMessage, sizeof( szMessage ), " " );
+   strcat_s( szMessage, zsizeof( szMessage ), sz );
+   strcat_s( szMessage, zsizeof( szMessage ), " " );
    GetAddrForAttribute( &sz, vTZEREMDO, "ER_RelLink", "Name" );
-   strcat_s( szMessage, sizeof( szMessage ), sz );
-   strcat_s( szMessage, sizeof( szMessage ), " " );
+   strcat_s( szMessage, zsizeof( szMessage ), sz );
+   strcat_s( szMessage, zsizeof( szMessage ), " " );
    GetAddrForAttribute( &sz, vTZEREMDO, "ER_Entity_Other", "Name" );
-   strcat_s( szMessage, sizeof( szMessage ), sz );
+   strcat_s( szMessage, zsizeof( szMessage ), sz );
 
    nRC = IssueToolMsg( vSubtask, zTOOLMSG_DELETE, zTOOL_ERD,
                      zENAME_ER_RELATIONSHIP, 0, 0, szMessage, 0 );
@@ -1509,15 +1509,15 @@ zwTZEREMDD_ERD_RelNeighbors( zVIEW vSubtask )
    CreateViewFromViewForTask( &vT, vTZEREMDO, 0 );
 
    // Set up DIL message.
-   strcpy_s( sz, sizeof( sz ), "Neighbors of relationship (" );
+   strcpy_s( sz, zsizeof( sz ), "Neighbors of relationship (" );
    SetCursorFirstEntity( vT, "ER_RelLink_2", 0 );
    GetAddrForAttribute( &szName, vT, "ER_RelLink_2", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), " / " );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), " / " );
    SetCursorNextEntity( vT, "ER_RelLink_2", 0 );
    GetAddrForAttribute( &szName, vT, "ER_RelLink_2", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), ") are selected." );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), ") are selected." );
 
    SetCursorFirstEntity( vTZEREMDO, "ER_RelLink_2", "" );
    // position right side of ER to first Entity and Select/Refresh it.
@@ -1586,13 +1586,13 @@ zwTZEREMDD_ERD_RelSelect( zVIEW vSubtask )
    SetCursorFirstEntityByEntityCsr( vTZEREMDO1, "ER_RelLink",
                                     vTZEREMDO1, "ER_RelLink_2", "" );
    GetAddrForAttribute( &szName, vTZEREMDO1, "ER_Entity", "Name" );
-   strcpy_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), " [" );
+   strcpy_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), " [" );
    GetAddrForAttribute( &szName, vTZEREMDO1, "ER_RelLink", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), "] " );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), "] " );
    GetAddrForAttribute( &szName, vTZEREMDO1, "ER_Entity_Other", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), szName );
 
    MB_SetMessage( vSubtask, 1, sz );
    DropView( vTZEREMDO1 );
@@ -2197,10 +2197,10 @@ zwTZEREMDD_SA_EntityNeighbors( zVIEW vSubtask )
    GetViewByName( &vT, "TZEREMDO", vSubtask, zLEVEL_TASK );
 
    // Set up DIL message.
-   strcpy_s( sz, sizeof( sz ), "Neighbors of entity (" );
+   strcpy_s( sz, zsizeof( sz ), "Neighbors of entity (" );
    GetAddrForAttribute( &szName, vT, "ER_Entity", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), ") are selected." );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), ") are selected." );
 
    SelectEntityNeighbors( vSubtask, "ERD", 1, 0, 0 );
 
@@ -2404,15 +2404,15 @@ zwTZEREMDD_SA_RelNeighbors( zVIEW vSubtask )
    //                                 "SubjectArea" );
 
    // Set up DIL message.
-   strcpy_s( sz, sizeof( sz ), "Neighbors of relationship (" );
+   strcpy_s( sz, zsizeof( sz ), "Neighbors of relationship (" );
    SetCursorFirstEntity( vT, "ER_RelLink_2", 0 );
    GetAddrForAttribute( &szName, vT, "ER_RelLink_2", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), " / " );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), " / " );
    SetCursorNextEntity( vT, "ER_RelLink_2", 0 );
    GetAddrForAttribute( &szName, vT, "ER_RelLink_2", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), ") are selected." );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), ") are selected." );
 
    // position right side of ER to second Entity and Select/Refresh it. (new)
    // Frank H. (97/04/15): if the ERD is not checked out then the
@@ -2429,11 +2429,11 @@ zwTZEREMDD_SA_RelNeighbors( zVIEW vSubtask )
    // construct first part of DIL for Rel
    GetAddrForAttribute( &szName, vTZERSASO, "ER_Entity", "Name" );
    MB_SetMessage( vSubtask, 1, szName );
-   strcpy_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), " [" );
+   strcpy_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), " [" );
    GetAddrForAttribute( &szName, vTZERSASO, "ER_RelLink_2", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), "] " );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), "] " );
 #endif
 
    SetCursorNextEntity( vTZERSASO, "ER_RelLink_2", "" );
@@ -2458,7 +2458,7 @@ zwTZEREMDD_SA_RelNeighbors( zVIEW vSubtask )
 #if 0
    // construct second part of DIL for Rel
    GetAddrForAttribute( &szName, vTZERSASO, "ER_Entity", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), szName );
 #endif
 
    MB_SetMessage( vSubtask, 1, sz );
@@ -2512,13 +2512,13 @@ zwTZEREMDD_SA_RelSelect( zVIEW vSubtask )
                                     vTZERSASO, "ER_RelLink_2", "" );
 
    GetAddrForAttribute( &szName, vTZERSASO, "ER_Entity", "Name" );
-   strcpy_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), " [" );
+   strcpy_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), " [" );
    GetAddrForAttribute( &szName, vTZERSASO, "ER_RelLink", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), "] " );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), "] " );
    GetAddrForAttribute( &szName, vTZERSASO, "ER_Entity_Other", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), szName );
    MB_SetMessage( vSubtask, 1, sz );
 
    return( 0 );
@@ -2815,8 +2815,8 @@ zwfnTZEREMDD_GetWeightedPosEDM( zPLONG  plXout,
          nRC = SetCursorNextEntity( vTZEREMD1, "ER_RelLink", "" ) )
    {
 
-      GetStringFromAttribute( sz, sizeof( sz ), vTZEREMD1, "ER_Entity", "Name" ); //debug only
-      GetStringFromAttribute( sz + 50, sizeof( sz ) - 50, vTZEREMD1, "ER_Entity_Other", "Name" ); //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZEREMD1, "ER_Entity", "Name" ); //debug only
+      GetStringFromAttribute( sz + 50, zsizeof( sz ) - 50, vTZEREMD1, "ER_Entity_Other", "Name" ); //debug only
       if ( SetCursorFirstEntityByEntityCsr( vTZEREMD2, "ER_Entity", vTZEREMD1, "ER_Entity_Other", "" ) >= zCURSOR_SET )
       {
          nRels++;
@@ -2863,7 +2863,7 @@ zwfnTZEREMDD_InitCellsSA( zVIEW vTZERSASO )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERSAS1, "SA_Entity", "" ) )
    {
-//    GetStringFromAttribute( sz, sizeof( sz ), vTZERSAS1, "ER_Entity", "Name" ); //debug only
+//    GetStringFromAttribute( sz, zsizeof( sz ), vTZERSAS1, "ER_Entity", "Name" ); //debug only
       nEnts++;
       GetIntegerFromAttribute( &lXgrid, vTZERSAS1, "SA_Entity", "ER_DiagramPosX" );
       if ( lXgrid != 0 )
@@ -3043,8 +3043,8 @@ zwfnTZEREMDD_GetWeightedPosSA( zPLONG  plXout,
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERSAS1, "ER_RelLink", "" ) )
    {
-      GetStringFromAttribute( sz, sizeof( sz ), vTZERSAS1, "ER_Entity", "Name" ); //debug only
-      GetStringFromAttribute( sz + 50, sizeof( sz ) - 50, vTZERSAS1, "ER_Entity_Other", "Name" ); //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZERSAS1, "ER_Entity", "Name" ); //debug only
+      GetStringFromAttribute( sz + 50, zsizeof( sz ) - 50, vTZERSAS1, "ER_Entity_Other", "Name" ); //debug only
       if ( SetCursorFirstEntityByEntityCsr( vTZERSAS2, "ER_Entity",
                                             vTZERSAS1, "ER_Entity_Other",
                                             "SubjectArea" ) >= zCURSOR_SET )
@@ -3563,11 +3563,11 @@ zwfnTZEREMDD_EntitySA_AddSA( zVIEW vSubtask,
    HFILE  hFile;
    zSHORT nRC;
 
-   GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vTemp, "W_MetaDef", "Name" );
-   GetStringFromAttribute( szFullName, sizeof( szFullName ), vTemp, "LPLR", "MetaSrcDir" );
-   strcat_s( szFullName, sizeof( szFullName ), "\\" );
-   strcat_s( szFullName, sizeof( szFullName ), szMetaName );
-   strcat_s( szFullName, sizeof( szFullName ), ".PSA" );
+   GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vTemp, "W_MetaDef", "Name" );
+   GetStringFromAttribute( szFullName, zsizeof( szFullName ), vTemp, "LPLR", "MetaSrcDir" );
+   strcat_s( szFullName, zsizeof( szFullName ), "\\" );
+   strcat_s( szFullName, zsizeof( szFullName ), szMetaName );
+   strcat_s( szFullName, zsizeof( szFullName ), ".PSA" );
 
    hFile = SysOpenFile( vSubtask, szFullName, COREFILE_READ );
    if ( hFile >= 0 )
@@ -3578,8 +3578,8 @@ zwfnTZEREMDD_EntitySA_AddSA( zVIEW vSubtask,
       if ( nRC < 0 )
       {
          TraceLineS( "Error reading file: ", szFullName );
-         strcpy_s( szMsg, sizeof( szMsg ), "Error in reading Subject Area: " );
-         strcat_s( szMsg, sizeof( szMsg ), szMetaName );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Error in reading Subject Area: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szMetaName );
          MessageSend( vSubtask, "ER00190", "E/R Model Maintenance",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
@@ -3813,12 +3813,12 @@ zwfnTZEREMDD_SetIdentifierEntity( zVIEW vXfer, zVIEW vERD )
 
    if ( CheckExistenceOfEntity( vERD, "ER_Entity_Other_Identifier" ) >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szFactTypeName, sizeof( szFactTypeName ),
+      GetStringFromAttribute( szFactTypeName, zsizeof( szFactTypeName ),
                               vERD, "ER_RelLinkIdentifier", "Name" );
-      GetStringFromAttribute( szOtherName, sizeof( szOtherName ),
+      GetStringFromAttribute( szOtherName, zsizeof( szOtherName ),
                               vERD, "ER_Entity_Other_Identifier", "Name" );
-      strcat_s( szFactTypeName, sizeof( szFactTypeName ), " " );
-      strcat_s( szFactTypeName, sizeof( szFactTypeName ), szOtherName );
+      strcat_s( szFactTypeName, zsizeof( szFactTypeName ), " " );
+      strcat_s( szFactTypeName, zsizeof( szFactTypeName ), szOtherName );
       SetAttributeFromString( vXfer, "IdentifierEntity", "FactTypeName",
                               szFactTypeName );
       SetAttributeFromString( vXfer, "IdentifierEntity", "Type",

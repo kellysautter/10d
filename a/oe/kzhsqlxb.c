@@ -2331,10 +2331,10 @@ fnBuildDropIndex( zVIEW  lpTaskView,
    zCHAR szLine[ 500 ];
 
    #if defined( SQLSERVER )
-      sprintf_s( szLine, sizeof( szLine), "DROP INDEX %s%s.%s %s",
+      sprintf_s( szLine, zsizeof( szLine), "DROP INDEX %s%s.%s %s",
                 pchOwner, pchTableName, pchIndexName, LINE_TERMINATOR );
    #else
-      sprintf_s( szLine, sizeof( szLine ), "DROP INDEX %s ON %s%s %s",
+      sprintf_s( szLine, zsizeof( szLine ), "DROP INDEX %s ON %s%s %s",
                 pchIndexName, pchOwner, pchTableName, LINE_TERMINATOR );
    #endif
 
@@ -2405,7 +2405,7 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
    if ( vDBH_Data )
       DropView( vDBH_Data );
 
-   GetStringFromAttribute( szColName, sizeof( szColName ), vDTE, "TE_FieldDataRel", "Name" );
+   GetStringFromAttribute( szColName, zsizeof( szColName ), vDTE, "TE_FieldDataRel", "Name" );
    GetAddrForAttribute( &pchDataType, vDTE, "TE_FieldDataRel", "DataType" );
    RemoveBrackets( szColName );
 
@@ -2483,8 +2483,8 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
          zCHAR szTableName[ MAX_TABLENAME_LTH + 1 ];
          zCHAR szMsg[ 300 ];
 
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
-         sprintf_s( szMsg, sizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
                     pchDataType, szTableName, szColName );
          SysMessageBox( vDTE, "SQLBASE DDL Generator", szMsg, 1 );
          return( -1 );
@@ -2562,8 +2562,8 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
          zCHAR szTableName[ MAX_TABLENAME_LTH + 1 ];
          zCHAR szMsg[ 300 ];
 
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
-         sprintf_s( szMsg, sizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
                     pchDataType, szTableName, szColName );
          SysMessageBox( vDTE, "SQLBASE DDL Generator", szMsg, 1 );
          return( -1 );
@@ -2647,8 +2647,8 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
          zCHAR szTableName[ MAX_TABLENAME_LTH + 1 ];
          zCHAR szMsg[ 300 ];
 
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
-         sprintf_s( szMsg, sizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
                     pchDataType, szTableName, szColName );
          SysMessageBox( vDTE, "SQL DDL Generator", szMsg, 1 );
          return( -1 );
@@ -2744,8 +2744,8 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
          zCHAR szTableName[ MAX_TABLENAME_LTH + 1 ];
          zCHAR szMsg[ 300 ];
 
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
-         sprintf_s( szMsg, sizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
                     pchDataType, szTableName, szColName );
          SysMessageBox( vDTE, "SQLBASE DDL Generator", szMsg, 1 );
          return( -1 );
@@ -2807,8 +2807,8 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
          zCHAR szTableName[ MAX_TABLENAME_LTH + 1 ];
          zCHAR szMsg[ 300 ];
 
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
-         sprintf_s( szMsg, sizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
                     pchDataType, szTableName, szColName );
          SysMessageBox( vDTE, "SQL DDL Generator", szMsg, 1 );
          return( -1 );
@@ -2869,8 +2869,8 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
          zCHAR szTableName[ MAX_TABLENAME_LTH + 1 ];
          zCHAR szMsg[ 300 ];
 
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
-         sprintf_s( szMsg, sizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Invalid DataType '%s' for attribute %s.%s",
                     pchDataType, szTableName, szColName );
          SysMessageBox( vDTE, "SQL DDL Generator", szMsg, 1 );
          return( -1 );
@@ -2926,12 +2926,12 @@ fnBuildFK_Index( zVIEW  vDTE, zLONG  f )
    if ( pchDefaultOwner == 0 || pchDefaultOwner[ 0 ] == 0 )
       pchDefaultOwner = 0;
 
-   GetStringFromAttribute( szOwner, sizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
+   GetStringFromAttribute( szOwner, zsizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
    if ( szOwner[ 0 ] == 0 && pchDefaultOwner )
-      strcpy_s( szOwner, sizeof( szOwner ), pchDefaultOwner );
+      strcpy_s( szOwner, zsizeof( szOwner ), pchDefaultOwner );
 
    if ( szOwner[ 0 ] )
-      strcat_s( szOwner, sizeof( szOwner ), "." );
+      strcat_s( szOwner, zsizeof( szOwner ), "." );
 
    // If it exists get the object that defines the dbhandler type.
    GetViewByName( &vTZTEDBLO, "TZTEDBLO", vDTE, zLEVEL_TASK );
@@ -2966,42 +2966,42 @@ fnBuildFK_Index( zVIEW  vDTE, zLONG  f )
    if ( vDBH_Data )
       DropView( vDBH_Data );
 
-   GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+   GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
    RemoveBrackets( szTableName );
 
    // Generate a comment identifying the relationship.
    GetAddrForAttribute( &pch, vDTE, "TE_FieldDataRel", "Desc" );
    if ( pch && pch[ 0 ] )
    {
-      sprintf_s( szLine, sizeof( szLine ), "%s Index for Relationship - '%s' %s", COMMENT_START, pch, COMMENT_END );
+      sprintf_s( szLine, zsizeof( szLine ), "%s Index for Relationship - '%s' %s", COMMENT_START, pch, COMMENT_END );
 
       if ( fnWriteLine( vDTE, f, szLine ) < 0 )
          return( -1 );
    }
 
    GetIntegerFromAttribute( &lZKey, vDTE, "TE_FieldDataRel", "ZKey" );
-   GetStringFromAttribute( szKeyName, sizeof( szKeyName ), vDTE, "TE_FieldDataRel", "Name" );
+   GetStringFromAttribute( szKeyName, zsizeof( szKeyName ), vDTE, "TE_FieldDataRel", "Name" );
    RemoveBrackets( szKeyName );
 
    // The base name for the index is a concatenation of the table and key name.
    // To ensure that the index name is unique, we also use the zkey value.
    // NOTE: Becaues of a bug in UfCompressName, we tack on a extra '0' to the
    // name so that the zkey does not get truncated.
-   sprintf_s( szWorkIdxName, sizeof( szWorkIdxName ), "%s_%s_%ld0", szTableName, szKeyName, lZKey );
+   sprintf_s( szWorkIdxName, zsizeof( szWorkIdxName ), "%s_%s_%ld0", szTableName, szKeyName, lZKey );
 
    // Make sure that the index name is a valid length.
    UfCompressName( szWorkIdxName, szWorkIdxName, nMaxTableNameLth, "", "B", "", "B_AEIOUYBCDFGHJKLMNPQRSTVWXZ", 0 );
 
-   sprintf_s( szLine, sizeof( szLine ), "CREATE INDEX %s%s %s", szOwner, szWorkIdxName, CONTINUATION_STR );
+   sprintf_s( szLine, zsizeof( szLine ), "CREATE INDEX %s%s %s", szOwner, szWorkIdxName, CONTINUATION_STR );
    if ( fnWriteLine( vDTE, f, szLine ) < 0 )
       return( -1 );
 
-   sprintf_s( szLine, sizeof( szLine ), "       ON %s%s ( %s", szOwner, szTableName, CONTINUATION_STR );
+   sprintf_s( szLine, zsizeof( szLine ), "      ON %s%s ( %s", szOwner, szTableName, CONTINUATION_STR );
    if ( fnWriteLine( vDTE, f, szLine ) < 0 )
       return( -1 );
 
    // Write Key-Name.
-   sprintf_s( szLine, sizeof( szLine ), "%*s %s ) %s", (zSHORT) COLUMN_INDENT, " ", szKeyName, LINE_TERMINATOR );
+   sprintf_s( szLine, zsizeof( szLine ), "%*s %s ) %s", (zSHORT) COLUMN_INDENT, " ", szKeyName, LINE_TERMINATOR );
    if ( fnWriteLine( vDTE, f, szLine ) < 0 )
       return( -1 );
 
@@ -3034,12 +3034,12 @@ fnBuildIndexFromTablRecKey( zVIEW vDTE, zBOOL bUnique, zLONG f )
    if ( pchDefaultOwner == 0 || pchDefaultOwner[ 0 ] == 0 )
       pchDefaultOwner = 0;
 
-   GetStringFromAttribute( szOwner, sizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
+   GetStringFromAttribute( szOwner, zsizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
    if ( szOwner[ 0 ] == 0 && pchDefaultOwner )
-      strcpy_s( szOwner, sizeof( szOwner ), pchDefaultOwner );
+      strcpy_s( szOwner, zsizeof( szOwner ), pchDefaultOwner );
 
    if ( szOwner[ 0 ] )
-      strcat_s( szOwner, sizeof( szOwner ), "." );
+      strcat_s( szOwner, zsizeof( szOwner ), "." );
 
    // If it exists get the object that defines the dbhandler type.
    GetViewByName( &vTZTEDBLO, "TZTEDBLO", vDTE, zLEVEL_TASK );
@@ -3079,26 +3079,26 @@ fnBuildIndexFromTablRecKey( zVIEW vDTE, zBOOL bUnique, zLONG f )
       zPCHAR pch;
 
       GetAddrForAttribute( &pch, vDTE, "ER_Entity", "Name" );
-      sprintf_s( szLine, sizeof( szLine ), "%s Main key for Entity - %s %s", COMMENT_START, pch, COMMENT_END );
+      sprintf_s( szLine, zsizeof( szLine ), "%s Main key for Entity - %s %s", COMMENT_START, pch, COMMENT_END );
 
       if ( fnWriteLine( vDTE, f, szLine ) < 0 )
          return( -1 );
    }
 
-   GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+   GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
    RemoveBrackets( szTableName );
 
    // If an IndexName value exists in TE_TablRecKey, use it.  Otherwise use the Name value.
-   GetStringFromAttribute( szName, sizeof( szName ), vDTE, "TE_TablRecKey", "IndexName" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vDTE, "TE_TablRecKey", "IndexName" );
    if ( szName[ 0 ] == 0 )
    {
       zCHAR  szEntityName[ MAX_NAME_LTH + 1 ];
       zLONG  lZKey;
 
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vDTE, "TE_TablRec", "Name" );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vDTE, "TE_TablRec", "Name" );
       RemoveBrackets( szEntityName );
 
-      GetStringFromAttribute( szName, sizeof( szName ), vDTE, "TE_TablRecKey", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vDTE, "TE_TablRecKey", "Name" );
       RemoveBrackets( szName );
 
       GetIntegerFromAttribute( &lZKey, vDTE, "TE_FieldDataRelKey", "ZKey" );
@@ -3108,14 +3108,14 @@ fnBuildIndexFromTablRecKey( zVIEW vDTE, zBOOL bUnique, zLONG f )
       // NOTE: Becaues of a bug in UfCompressName, we tack on a extra '0' to
       // the name so that the zkey does not get truncated.
       if ( bUnique )
-         sprintf_s( szWorkIdxName, sizeof( szWorkIdxName ), "U%s_%s_%ld0", szEntityName, szName, lZKey );
+         sprintf_s( szWorkIdxName, zsizeof( szWorkIdxName ), "U%s_%s_%ld0", szEntityName, szName, lZKey );
       else
-         sprintf_s( szWorkIdxName, sizeof( szWorkIdxName ), "%s_%s_%ld0", szEntityName, szName, lZKey );
+         sprintf_s( szWorkIdxName, zsizeof( szWorkIdxName ), "%s_%s_%ld0", szEntityName, szName, lZKey );
    }
    else
    {
       RemoveBrackets( szName );
-      sprintf_s( szWorkIdxName, sizeof( szWorkIdxName ), "%s", szName );
+      sprintf_s( szWorkIdxName, zsizeof( szWorkIdxName ), "%s", szName );
    }
 
    // Make sure that the index name is a valid length.
@@ -3123,16 +3123,16 @@ fnBuildIndexFromTablRecKey( zVIEW vDTE, zBOOL bUnique, zLONG f )
 
    if ( bUnique )
    {
-      sprintf_s( szLine, sizeof( szLine ), "CREATE UNIQUE INDEX %s%s %s", szOwner, szWorkIdxName, CONTINUATION_STR );
+      sprintf_s( szLine, zsizeof( szLine ), "CREATE UNIQUE INDEX %s%s %s", szOwner, szWorkIdxName, CONTINUATION_STR );
    }
    else
-      sprintf_s( szLine, sizeof( szLine ), "CREATE INDEX %s%s %s", szOwner, szWorkIdxName, CONTINUATION_STR );
+      sprintf_s( szLine, zsizeof( szLine ), "CREATE INDEX %s%s %s", szOwner, szWorkIdxName, CONTINUATION_STR );
 
 
    if ( fnWriteLine( vDTE, f, szLine ) < 0 )
       return( -1 );
 
-   sprintf_s( szLine, sizeof( szLine ), "       ON %s%s ( %s", szOwner, szTableName, CONTINUATION_STR );
+   sprintf_s( szLine, zsizeof( szLine ), "      ON %s%s ( %s", szOwner, szTableName, CONTINUATION_STR );
 
    if ( fnWriteLine( vDTE, f, szLine ) < 0 )
       return( -1 );
@@ -3145,19 +3145,19 @@ fnBuildIndexFromTablRecKey( zVIEW vDTE, zBOOL bUnique, zLONG f )
    nLoop = SetCursorFirstEntity( vDTE, "TE_FieldDataRelKey", 0 );
    while( nLoop >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szName, sizeof( szName ), vDTE, "TE_FieldDataRelKey", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vDTE, "TE_FieldDataRelKey", "Name" );
       RemoveBrackets( szName );
 
       nLoop = SetCursorNextEntity( vDTE, "TE_FieldDataRelKey", 0 );
       if ( nLoop >= zCURSOR_SET  )
       {
          // More keys coming, so print line with continuation stuff.
-         sprintf_s( szLine, sizeof( szLine ), "%*s %s, %s", (zSHORT) COLUMN_INDENT, " ", szName, CONTINUATION_STR );
+         sprintf_s( szLine, zsizeof( szLine ), "%*s %s, %s", (zSHORT) COLUMN_INDENT, " ", szName, CONTINUATION_STR );
       }
       else
       {
          // No more keys, so end current command.
-         sprintf_s( szLine, sizeof( szLine ), "%*s %s ) %s", (zSHORT) COLUMN_INDENT, " ", szName, LINE_TERMINATOR );
+         sprintf_s( szLine, zsizeof( szLine ), "%*s %s ) %s", (zSHORT) COLUMN_INDENT, " ", szName, LINE_TERMINATOR );
       }
 
       if ( fnWriteLine( vDTE, f, szLine ) < 0 )
@@ -3254,7 +3254,7 @@ fnBuildCreateTable( zVIEW  vDTE, zLONG  f )
    if ( pchDefaultOwner == 0 || pchDefaultOwner[ 0 ] == 0 )
       pchDefaultOwner = 0;
 
-   GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+   GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
    RemoveBrackets( szTableName );
 
    /* Position on the first column of the table */
@@ -3267,7 +3267,7 @@ fnBuildCreateTable( zVIEW  vDTE, zLONG  f )
    if ( CheckExistenceOfEntity( vDTE, "ER_Entity" ) >= zCURSOR_SET )
    {
       GetAddrForAttribute( &pch, vDTE, "ER_Entity", "Name" );
-      sprintf_s( szLine, sizeof( szLine ), "%s Entity - %s %s",
+      sprintf_s( szLine, zsizeof( szLine ), "%s Entity - %s %s",
                  COMMENT_START, pch, COMMENT_END );
 
       if ( fnWriteLine( vDTE, f, szLine ) < 0 )
@@ -3275,14 +3275,14 @@ fnBuildCreateTable( zVIEW  vDTE, zLONG  f )
    }
 
    // Determine owner.
-   GetStringFromAttribute( szOwner, sizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
+   GetStringFromAttribute( szOwner, zsizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
    if ( szOwner[ 0 ] == 0 && pchDefaultOwner )
-      strcpy_s( szOwner, sizeof( szOwner ), pchDefaultOwner );
+      strcpy_s( szOwner, zsizeof( szOwner ), pchDefaultOwner );
 
    if ( szOwner[ 0 ] )
-      strcat_s( szOwner, sizeof( szOwner ), "." );
+      strcat_s( szOwner, zsizeof( szOwner ), "." );
 
-   sprintf_s( szLine, sizeof( szLine ), "CREATE TABLE %s%s ( %s",
+   sprintf_s( szLine, zsizeof( szLine ), "CREATE TABLE %s%s ( %s",
               szOwner, szTableName, CONTINUATION_STR );
 
    if ( fnWriteLine( vDTE, f, szLine ) < 0 )
@@ -3297,7 +3297,7 @@ fnBuildCreateTable( zVIEW  vDTE, zLONG  f )
    // Loop for each column in the table.
    while ( nLoop >= zCURSOR_SET )
    {
-      sprintf_s( szLine, sizeof( szLine ), "%*s ", (zSHORT) COLUMN_INDENT, " " );
+      sprintf_s( szLine, zsizeof( szLine ), "%*s ", (zSHORT) COLUMN_INDENT, " " );
       fnBuildColumn( vDTE, f, szLine );
 
       pchEnd = &szLine[ zstrlen( szLine ) ];
@@ -3449,7 +3449,7 @@ BuildDDL( zVIEW  vDTE,
    GetAddrForAttribute( &pchDatabaseName, vDTE, "TE_DBMS_Source", "Name" );
 
 #ifdef CREATE_DB
-   sprintf_s( szLine, sizeof( szLine), "%s CREATE DATABASE %s %s %s", COMMENT_START,
+   sprintf_s( szLine, zsizeof( szLine), "%s CREATE DATABASE %s %s %s", COMMENT_START,
               pchDatabaseName, COMMENT_END, LINE_TERMINATOR );
    if ( fnWriteLine( vDTE, f, szLine ) < 0 )
       goto EndOfFunction;
@@ -3461,7 +3461,7 @@ BuildDDL( zVIEW  vDTE,
 
 #if defined( DB2 )
 
-   sprintf_s( szLine, sizeof( szLine ), "CONNECT TO %s %s", pchDatabaseName, LINE_TERMINATOR );
+   sprintf_s( szLine, zsizeof( szLine ), "CONNECT TO %s %s", pchDatabaseName, LINE_TERMINATOR );
    if ( fnWriteLine( vDTE, f, szLine ) < 0 )
       goto EndOfFunction;
 
@@ -3470,7 +3470,7 @@ BuildDDL( zVIEW  vDTE,
    #ifdef SQLITE
        // Skip the "USE" statement for SQLITE.
    #else
-       sprintf_s( szLine, sizeof( szLine ), "USE %s %s", pchDatabaseName, LINE_TERMINATOR );
+       sprintf_s( szLine, zsizeof( szLine ), "USE %s %s", pchDatabaseName, LINE_TERMINATOR );
        if ( fnWriteLine( vDTE, f, szLine ) < 0 )
          goto EndOfFunction;
    #endif
@@ -3496,7 +3496,7 @@ BuildDDL( zVIEW  vDTE,
       {
          zUSHORT usForeignKeyCntForTable = 0;
 
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
          pchTableName = szTableName;
          RemoveBrackets( pchTableName );
 
@@ -3509,7 +3509,7 @@ BuildDDL( zVIEW  vDTE,
          if ( CheckExistenceOfEntity( vDTE, "ER_Entity" ) >= zCURSOR_SET )
          {
             GetAddrForAttribute( &pch, vDTE, "ER_Entity", "Name" );
-            sprintf_s( szLine, sizeof( szLine ), "%s Indexes for Entity - %s %s",
+            sprintf_s( szLine, zsizeof( szLine ), "%s Indexes for Entity - %s %s",
                        COMMENT_START, pch, COMMENT_END );
 
             if ( fnWriteLine( vDTE, f, szLine ) < 0 )
@@ -3517,12 +3517,12 @@ BuildDDL( zVIEW  vDTE,
          }
 
          // Determine owner.
-         GetStringFromAttribute( szOwner, sizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
+         GetStringFromAttribute( szOwner, zsizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
          if ( szOwner[ 0 ] == 0 && pchDefaultOwner )
-            strcpy_s( szOwner, sizeof( szOwner ), pchDefaultOwner );
+            strcpy_s( szOwner, zsizeof( szOwner ), pchDefaultOwner );
 
          if ( szOwner[ 0 ] )
-            strcat_s( szOwner, sizeof( szOwner ), "." );
+            strcat_s( szOwner, zsizeof( szOwner ), "." );
 
          //=================================================================
          //
@@ -3540,22 +3540,22 @@ BuildDDL( zVIEW  vDTE,
 
             // If an IndexName value exists in TE_TablRecKey, use it.  Otherwise
             // us the Name value.
-            GetStringFromAttribute( szName, sizeof( szName ), vDTE, "TE_TablRecKey", "IndexName");
+            GetStringFromAttribute( szName, zsizeof( szName ), vDTE, "TE_TablRecKey", "IndexName");
             if ( szName[ 0 ] == 0 )
             {
-               GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vDTE, "TE_TablRec", "Name" );
+               GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vDTE, "TE_TablRec", "Name" );
                RemoveBrackets( szEntityName );
 
-               GetStringFromAttribute( szName, sizeof( szName ), vDTE, "TE_TablRecKey", "Name" );
+               GetStringFromAttribute( szName, zsizeof( szName ), vDTE, "TE_TablRecKey", "Name" );
                RemoveBrackets( szName );
 
-               sprintf_s( szWorkIdxName, sizeof( szWorkIdxName ), "%s_%s", szEntityName, szName );
+               sprintf_s( szWorkIdxName, zsizeof( szWorkIdxName ), "%s_%s", szEntityName, szName );
             }
             else
             {
                RemoveBrackets( szName );
 
-               sprintf_s( szWorkIdxName, sizeof( szWorkIdxName ), "%s", szName );
+               sprintf_s( szWorkIdxName, zsizeof( szWorkIdxName ), "%s", szName );
             }
 
             // Make sure that the index name is a valid length.
@@ -3590,15 +3590,15 @@ BuildDDL( zVIEW  vDTE,
 
             // generate a comment identifying the relationship
             GetAddrForAttribute( &pch, vDTE, "TE_FieldDataRel", "Desc" );
-            sprintf_s( szLine, sizeof( szLine ), "%s Index for Relationship - '%s' %s",
+            sprintf_s( szLine, zsizeof( szLine ), "%s Index for Relationship - '%s' %s",
                        COMMENT_START, pch, COMMENT_END );
 
             if ( fnWriteLine( vDTE, f, szLine ) < 0 )
                goto EndOfFunction;
 
-            GetStringFromAttribute( szKeyName, sizeof( szKeyName ), vDTE, "TE_FieldDataRel", "Name" );
+            GetStringFromAttribute( szKeyName, zsizeof( szKeyName ), vDTE, "TE_FieldDataRel", "Name" );
             RemoveBrackets( szKeyName );
-            sprintf_s( szWorkIdxName, sizeof( szWorkIdxName ), "%s_%s", pchTableName, szKeyName );
+            sprintf_s( szWorkIdxName, zsizeof( szWorkIdxName ), "%s_%s", pchTableName, szKeyName );
 
             // Make sure that the index name is a valid length.
             // MAX_TABLENAME_LTH - 2 because of numbering the indexname
@@ -3607,7 +3607,7 @@ BuildDDL( zVIEW  vDTE,
                             "", "B", "", "B_AEIOU", 1 );
             usForeignKeyCntForTable++;
             lLth = zstrlen( szWorkIdxName );
-            sprintf_s( &szWorkIdxName[ lLth ], sizeof( szWorkIdxName ) - lLth, "%02d", usForeignKeyCntForTable );
+            sprintf_s( &szWorkIdxName[ lLth ], zsizeof( szWorkIdxName ) - lLth, "%02d", usForeignKeyCntForTable );
 
             fnBuildDropIndex( vDTE, szWorkIdxName, szOwner, pchTableName, f );
 
@@ -3639,23 +3639,23 @@ BuildDDL( zVIEW  vDTE,
             continue;
 
          // Determine owner.
-         GetStringFromAttribute( szOwner, sizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
+         GetStringFromAttribute( szOwner, zsizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
          if ( szOwner[ 0 ] == 0 && pchDefaultOwner )
-            strcpy_s( szOwner, sizeof( szOwner ), pchDefaultOwner );
+            strcpy_s( szOwner, zsizeof( szOwner ), pchDefaultOwner );
 
          if ( szOwner[ 0 ] )
-            strcat_s( szOwner, sizeof( szOwner ), "." );
+            strcat_s( szOwner, zsizeof( szOwner ), "." );
 
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vDTE, "TE_TablRec", "Name" );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vDTE, "TE_TablRec", "Name" );
          pch = szEntityName;
          RemoveBrackets( pch );
 
          #if defined( SQLITE )
-            sprintf_s( szLine, sizeof( szLine ), "DROP TABLE IF EXISTS %s%s %s", szOwner, pch, LINE_TERMINATOR );
+            sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE IF EXISTS %s%s %s", szOwner, pch, LINE_TERMINATOR );
          #elif defined( MYSQL )
-            sprintf_s( szLine, sizeof( szLine ), "DROP TABLE %s%s IF EXISTS %s", szOwner, pch, LINE_TERMINATOR );
+            sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE %s%s IF EXISTS %s", szOwner, pch, LINE_TERMINATOR );
          #else
-            sprintf_s( szLine, sizeof( szLine ), "DROP TABLE %s%s %s", szOwner, pch, LINE_TERMINATOR );
+            sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE %s%s %s", szOwner, pch, LINE_TERMINATOR );
     #endif
 
          if ( fnWriteLine( vDTE, f, szLine ) < 0 )
@@ -3709,7 +3709,7 @@ BuildDDL( zVIEW  vDTE,
             nRCTable >= zCURSOR_SET;
             nRCTable = SetCursorNextEntity( vDTE, "TE_TablRec", 0 ) )
       {
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
          pchTableName = szTableName;
          RemoveBrackets( pchTableName );
 
@@ -3801,17 +3801,17 @@ BuildDDL( zVIEW  vDTE,
          continue;
 
       // Determine owner.
-      GetStringFromAttribute( szOwner, sizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
+      GetStringFromAttribute( szOwner, zsizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
       if ( szOwner[ 0 ] == 0 && pchDefaultOwner )
-         strcpy_s( szOwner, sizeof( szOwner ), pchDefaultOwner );
+         strcpy_s( szOwner, zsizeof( szOwner ), pchDefaultOwner );
 
       if ( szOwner[ 0 ] )
-         strcat_s( szOwner, sizeof( szOwner ), "." );
+         strcat_s( szOwner, zsizeof( szOwner ), "." );
 
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
       pchTableName = szTableName;
       RemoveBrackets( pchTableName );
-      sprintf_s( szLine, sizeof( szLine ), "GRANT ALL ON %s%s TO PUBLIC %s",
+      sprintf_s( szLine, zsizeof( szLine ), "GRANT ALL ON %s%s TO PUBLIC %s",
                  szOwner, pchTableName, CONTINUATION_STR );
 
       if ( fnWriteLine( vDTE, f, szLine ) < 0 )
@@ -3835,15 +3835,15 @@ EndOfFunction:
 
    if ( nRC == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "File " );
-      strcat_s( szMsg, sizeof( szMsg ), pchFileName );
-      strcat_s( szMsg, sizeof( szMsg ), " is created successfully!" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "File " );
+      strcat_s( szMsg, zsizeof( szMsg ), pchFileName );
+      strcat_s( szMsg, zsizeof( szMsg ), " is created successfully!" );
      MB_SetMessage( vSubtask, 0, szMsg );
    }
    else
    {
-       strcpy_s( szMsg, sizeof( szMsg ), "Couldn't create file " );
-       strcat_s( szMsg, sizeof( szMsg ), pchFileName );
+       strcpy_s( szMsg, zsizeof( szMsg ), "Couldn't create file " );
+       strcat_s( szMsg, zsizeof( szMsg ), pchFileName );
       SysMessageBox( vDTE, "Generate DDL", szMsg, 0 );
    }
 
@@ -3900,7 +3900,7 @@ BuildSyncDDL( zVIEW  vDTE,
    CreateViewFromViewForTask( &vEMD, vEMD, 0 );
 
    // First thing we have to do is call the SQL DBH to load the current DB schema.
-   GetStringFromAttribute( szDLL, sizeof( szDLL ), vDTE, "TE_DBMS_Source", "Executable" );
+   GetStringFromAttribute( szDLL, zsizeof( szDLL ), vDTE, "TE_DBMS_Source", "Executable" );
    hLibrary = SysLoadLibrary( vSubtask, szDLL );
    if ( hLibrary )
    {
@@ -3939,7 +3939,7 @@ BuildSyncDDL( zVIEW  vDTE,
 
    GetAddrForAttribute( &pchDBName, vDTE, "TE_DBMS_Source", "Name" );
    GetAddrForAttribute( &pchDBDesc, vDTE, "TE_DBMS_Source", "Desc" );
-   sprintf_s( szLine, sizeof( szLine ), "%s Alter script for %s -- %s %s",
+   sprintf_s( szLine, zsizeof( szLine ), "%s Alter script for %s -- %s %s",
               COMMENT_START, pchDBName, pchDBDesc, COMMENT_END );
    if ( fnWriteLine( vDTE, f, szLine ) < 0 )
       goto EndOfFunction;
@@ -4008,8 +4008,8 @@ BuildSyncDDL( zVIEW  vDTE,
          GetAddrForAttribute( &pchColName, vDB, "TE_FieldDataRel", "Name" );
          GetIntegerFromAttribute( &lDB_Lth,  vDB, "TE_FieldDataRel", "Length" );
          GetIntegerFromAttribute( &lDTE_Lth, vDTE, "TE_FieldDataRel", "Length" );
-         GetStringFromAttribute( szDB_Type, sizeof( szDB_Type ), vDB, "TE_FieldDataRel", "DataType" );
-         GetStringFromAttribute( szDTE_Type, sizeof( szDTE_Type ), vDTE, "TE_FieldDataRel", "DataType" );
+         GetStringFromAttribute( szDB_Type, zsizeof( szDB_Type ), vDB, "TE_FieldDataRel", "DataType" );
+         GetStringFromAttribute( szDTE_Type, zsizeof( szDTE_Type ), vDTE, "TE_FieldDataRel", "DataType" );
 
          // Some datatypes need to be massaged before we compare them.
          #if defined( ACCESS ) || defined( MYSQL ) || defined( ODBC ) || \
@@ -4037,10 +4037,10 @@ BuildSyncDDL( zVIEW  vDTE,
             #if 0
                zCHAR sz[ 500 ];
 
-               sprintf_s( sz, sizeof( sz ), "%s.%s  TE Datatype = %s, Length = %d",
+               sprintf_s( sz, zsizeof( sz ), "%s.%s TE Datatype = %s, Length = %d",
                           pchTableName, pchColName, szDTE_Type, lDTE_Lth );
                TraceLineS( sz, "" );
-               sprintf_s( sz, sizeof( sz ), "%s.%s  DB Datatype = %s, Length = %d",
+               sprintf_s( sz, zsizeof( sz ), "%s.%s DB Datatype = %s, Length = %d",
                           pchTableName, pchColName, szDB_Type, lDB_Lth );
                TraceLineS( sz, "" );
             #endif
@@ -4068,7 +4068,7 @@ BuildSyncDDL( zVIEW  vDTE,
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vDTE, "TE_TablRec", 0 ) )
    {
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
 
       // If table is in the DB, we don't need to create it.
       if ( CompareAttributeToString( vDTE, "TE_TablRec", "MatchFound", "N" ) != 0 )
@@ -4120,7 +4120,7 @@ BuildSyncDDL( zVIEW  vDTE,
    {
       zBOOL bFirstAlterOfTable;
 
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDTE, "TE_TablRec", "Name" );
 
       if ( CompareAttributeToString( vDTE, "TE_TablRec", "MatchFound", "N" ) == 0 )
       {
@@ -4154,23 +4154,23 @@ BuildSyncDDL( zVIEW  vDTE,
             // is no ER_ENTITY. I am not sure why I don't seem to get that when "Keep ..." is not set.
             if ( CheckExistenceOfEntity( vDTE, "ER_Entity" ) == zCURSOR_SET )
             {
-               GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vDTE, "ER_Entity", "Name" );
+               GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vDTE, "ER_Entity", "Name" );
 
                if ( fnWriteLine( vDTE, f, "" ) < 0 )
                   goto EndOfFunction;
 
-               sprintf_s( szLine, sizeof( szLine ), "%s Entity %s %s",
+               sprintf_s( szLine, zsizeof( szLine ), "%s Entity %s %s",
                           COMMENT_START, szEntityName, COMMENT_END );
                if ( fnWriteLine( vDTE, f, szLine ) < 0 )
                   goto EndOfFunction;
             }
             }
 
-            GetStringFromAttribute( szColumnName, sizeof( szColumnName ), vDTE, "TE_FieldDataRel", "Name" );
+            GetStringFromAttribute( szColumnName, zsizeof( szColumnName ), vDTE, "TE_FieldDataRel", "Name" );
 
-            sprintf_s( szLine, sizeof( szLine ), "ALTER TABLE %s " ADD_COLUMN_STMT " ", szTableName );
+            sprintf_s( szLine, zsizeof( szLine ), "ALTER TABLE %s " ADD_COLUMN_STMT " ", szTableName );
             fnBuildColumn( vDTE, f, szLine );
-            strcat_s( szLine, sizeof( szLine ), LINE_TERMINATOR );
+            strcat_s( szLine, zsizeof( szLine ), LINE_TERMINATOR );
             if ( fnWriteLine( vDTE, f, szLine ) < 0 )
                goto EndOfFunction;
 
@@ -4200,12 +4200,12 @@ BuildSyncDDL( zVIEW  vDTE,
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vDB, "TE_TablRec", 0 ) )
    {
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vDB, "TE_TablRec", "Name" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDB, "TE_TablRec", "Name" );
       RemoveBrackets( szTableName );
 
       if ( CompareAttributeToString( vDB, "TE_TablRec", "MatchFound", "Y" ) != 0 )
       {
-         sprintf_s( szLine, sizeof( szLine ), "DROP TABLE %s %s", szTableName, LINE_TERMINATOR );
+         sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE %s %s", szTableName, LINE_TERMINATOR );
 
          if ( fnWriteLine( vDTE, f, szLine ) < 0 )
             goto EndOfFunction;
@@ -4227,7 +4227,7 @@ BuildSyncDDL( zVIEW  vDTE,
    {
       zBOOL bFirstAlterForTable;
 
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vDB, "TE_TablRec", "Name" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDB, "TE_TablRec", "Name" );
       RemoveBrackets( szTableName );
 
       if ( CompareAttributeToString( vDB, "TE_TablRec", "MatchFound", "Y" ) != 0 )
@@ -4240,12 +4240,12 @@ BuildSyncDDL( zVIEW  vDTE,
       SetCursorFirstEntityByAttr( vDTE, "TE_TablRec", "Name",
                                   vDB,  "TE_TablRec", "Name", 0 );
 
-      GetStringFromAttribute( szOwner, sizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
+      GetStringFromAttribute( szOwner, zsizeof( szOwner ), vDTE, "TE_TablRec", "SQL_TableOwner" );
       if ( szOwner[ 0 ] == 0 && pchDefaultOwner )
-         strcpy_s( szOwner, sizeof( szOwner ), pchDefaultOwner );
+         strcpy_s( szOwner, zsizeof( szOwner ), pchDefaultOwner );
 
       if ( szOwner[ 0 ] )
-         strcat_s( szOwner, sizeof( szOwner ), "." );
+         strcat_s( szOwner, zsizeof( szOwner ), "." );
 
       bFirstAlterForTable = TRUE;
       for ( nRC = SetCursorFirstEntity( vDB, "TE_FieldDataRel", 0 );
@@ -4268,18 +4268,18 @@ BuildSyncDDL( zVIEW  vDTE,
             zCHAR szEntityName[ zZEIDON_NAME_LTH + 1 ];
 
             bFirstAlterForTable = FALSE;
-            GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vDTE, "ER_Entity", "Name" );
+            GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vDTE, "ER_Entity", "Name" );
 
             if ( fnWriteLine( vDTE, f, "" ) < 0 )
                goto EndOfFunction;
 
-            sprintf_s( szLine, sizeof( szLine ), "%s Entity %s %s",
+            sprintf_s( szLine, zsizeof( szLine ), "%s Entity %s %s",
                        COMMENT_START, szEntityName, COMMENT_END );
             if ( fnWriteLine( vDTE, f, szLine ) < 0 )
                goto EndOfFunction;
          }
 
-         GetStringFromAttribute( szColumnName, sizeof( szColumnName ), vDB, "TE_FieldDataRel", "Name" );
+         GetStringFromAttribute( szColumnName, zsizeof( szColumnName ), vDB, "TE_FieldDataRel", "Name" );
 
          // Check to see if there is an index on the column.  If there is,
          // then we need to drop it.
@@ -4294,7 +4294,7 @@ BuildSyncDDL( zVIEW  vDTE,
          {
             zCHAR szIndex[ MAX_TABLENAME_LTH + 1 ];
 
-            GetStringFromAttribute( szIndex, sizeof( szIndex ), vDB, "TE_TablRecKey", "IndexName" );
+            GetStringFromAttribute( szIndex, zsizeof( szIndex ), vDB, "TE_TablRecKey", "IndexName" );
             fnBuildDropIndex( vDB, szIndex, szOwner, szTableName, f );
             nIndexDroppedCount++;
          }
@@ -4304,7 +4304,7 @@ BuildSyncDDL( zVIEW  vDTE,
                                         "MatchFound", "N" ) == 0 )
          {
             // Drop the column.
-            sprintf_s( szLine, sizeof( szLine ), "ALTER TABLE %s%s " DROP_COLUMN_STMT " %s %s",
+            sprintf_s( szLine, zsizeof( szLine ), "ALTER TABLE %s%s " DROP_COLUMN_STMT " %s %s",
                        szOwner, szTableName, szColumnName, LINE_TERMINATOR );
 
             if ( fnWriteLine( vDTE, f, szLine ) < 0 )
@@ -4317,11 +4317,11 @@ BuildSyncDDL( zVIEW  vDTE,
             zPCHAR pchKeyType;
 
             // Alter the column to match the datatype in the TE.
-            sprintf_s( szLine, sizeof( szLine ), "ALTER TABLE %s%-*s ALTER COLUMN ",
+            sprintf_s( szLine, zsizeof( szLine ), "ALTER TABLE %s%-*s ALTER COLUMN ",
                        szOwner, (int) MAX_TABLENAME_LTH, szTableName );
 
             fnBuildColumn( vDB, f, szLine );
-            strcat_s( szLine, sizeof( szLine ), LINE_TERMINATOR );
+            strcat_s( szLine, zsizeof( szLine ), LINE_TERMINATOR );
 
             if ( fnWriteLine( vDTE, f, szLine ) < 0 )
                goto EndOfFunction;
@@ -4371,7 +4371,7 @@ BuildSyncDDL( zVIEW  vDTE,
                // modified but it is not a FK so we don't normally create an
                // index on it.  We'll display a warning and try to create an
                // index for the column.
-               sprintf_s( szMsg, sizeof( szMsg ), "WARNING: The data type for the column %s.%s "
+               sprintf_s( szMsg, zsizeof( szMsg ), "WARNING: The data type for the column %s.%s "
                           "has been changed and therefore had an index deleted.  "
                           "The column is NOT a key and therefore the index was "
                           "added by the DBA.  An attempt has been made to "
@@ -4380,7 +4380,7 @@ BuildSyncDDL( zVIEW  vDTE,
                           szTableName, szColumnName );
                SysMessageBox( vDTE, "DDL Generationg Warning", szMsg, 0 );
 
-               sprintf_s( szMsg, sizeof( szMsg ), "%s WARNING--Following index may not have the "
+               sprintf_s( szMsg, zsizeof( szMsg ), "%s WARNING--Following index may not have the "
                           " same the columns as the original index: %s",
                           COMMENT_START, COMMENT_END );
                if ( fnWriteLine( vDTE, f, szMsg ) < 0 )
@@ -4803,7 +4803,7 @@ fnChangeReservedName( zPCHAR pchName, zLONG lMaxLth )
          // Since we know that all the reserved words are at least 2 chars
          // shorter then the max column/table length, then don't worry about
          // compressing the name.
-         strcat_s( szTemp, sizeof( szTemp ), pchName );
+         strcat_s( szTemp, zsizeof( szTemp ), pchName );
          strcpy_s( pchName, lMaxLth, szTemp );
          return;
       }
@@ -4899,7 +4899,7 @@ TranslateToUnderscoreCase( zPCHAR pchSrc, zPCHAR pchTarget, zCHAR  cMetaType )
   if ( (zSHORT) zstrlen( pchSrc ) >= nMaxLth )
      return zCALL_ERROR;
 
-  strcpy_s( sz, sizeof( sz ), pchSrc );
+  strcpy_s( sz, zsizeof( sz ), pchSrc );
 
   //p = pchTarget;
   p = sz;
@@ -4987,7 +4987,7 @@ GenerateName( zVIEW  vDTE,
    pch1[ 0 ] = 0;
 
    // KJS 08/07/14 - DG wants to be able to create names Like EntityName to entity_name. This is the ini setting.
-   GetStringFromAttribute( szCreateUnderscore, sizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
+   GetStringFromAttribute( szCreateUnderscore, zsizeof( szCreateUnderscore ), vDTE, "TE_DBMS_Source", "TranslateNamesToLowerUnderscore");
 
    switch ( cMetaType )
    {
@@ -5119,7 +5119,7 @@ fnCreateStartFunctions( zVIEW lpTaskView, zLONG f, LPVIEWOD lpViewOD )
    //
 
    SysWriteLine( lpTaskView, f, "zSHORT OPERATION" );
-   sprintf_s( szLine, sizeof( szLine ), "%s_OpenConnection( zPCHAR pchUser, zPCHAR pchPassword, "
+   sprintf_s( szLine, zsizeof( szLine ), "%s_OpenConnection( zPCHAR pchUser, zPCHAR pchPassword, "
                      "zSHORT nTraceLevel )", lpViewOD->szName );
    SysWriteLine( lpTaskView, f, szLine );
 
@@ -5129,10 +5129,10 @@ fnCreateStartFunctions( zVIEW lpTaskView, zLONG f, LPVIEWOD lpViewOD )
    SysWriteLine( lpTaskView, f, "      char szLocalPassword[ 100 ];" );
    SysWriteLine( lpTaskView, f, "   EXEC SQL END DECLARE SECTION;" );
    SysWriteLine( lpTaskView, f, " " );
-   SysWriteLine( lpTaskView, f, "   strcpy_s( szLocalUser, sizeof( szLocalUser ), pchUser );" );
-   SysWriteLine( lpTaskView, f, "   strcpy_s( szLocalPassword, sizeof( szLocalPassword ), pchPassword );" );
+   SysWriteLine( lpTaskView, f, "   strcpy_s( szLocalUser, zsizeof( szLocalUser ), pchUser );" );
+   SysWriteLine( lpTaskView, f, "   strcpy_s( szLocalPassword, zsizeof( szLocalPassword ), pchPassword );" );
 
-   sprintf_s( szLine, sizeof( szLine ), "   EXEC SQL CONNECT TO %s USER :szLocalUser "
+   sprintf_s( szLine, zsizeof( szLine ), "  EXEC SQL CONNECT TO %s USER :szLocalUser "
                      "USING :szLocalPassword;", lpViewOD->szDfltDBName );
    SysWriteLine( lpTaskView, f, szLine );
 
@@ -5140,7 +5140,7 @@ fnCreateStartFunctions( zVIEW lpTaskView, zLONG f, LPVIEWOD lpViewOD )
    SysWriteLine( lpTaskView, f, "   if ( nTraceLevel > 0 )" );
    SysWriteLine( lpTaskView, f, "   {" );
    SysWriteLine( lpTaskView, f, "      TraceLineS( \"Executed following static SQL:\", \"\" );" );
-   sprintf_s( szLine, sizeof( szLine ), "      TraceLineS( \"   EXEC SQL CONNECT TO %s USER :szLocalUser "
+   sprintf_s( szLine, zsizeof( szLine ), "     TraceLineS( \"   EXEC SQL CONNECT TO %s USER :szLocalUser "
                      "USING :szLocalPassword;\", \"\" );", lpViewOD->szDfltDBName );
    SysWriteLine( lpTaskView, f, szLine );
    SysWriteLine( lpTaskView, f, "      TraceLineS( \"User = \", pchUser );" );
@@ -5159,7 +5159,7 @@ fnCreateStartFunctions( zVIEW lpTaskView, zLONG f, LPVIEWOD lpViewOD )
    //
 
    SysWriteLine( lpTaskView, f, "zSHORT OPERATION" );
-   sprintf_s( szLine, sizeof( szLine ), "%s_CloseConnection( zSHORT nTraceLevel )",
+   sprintf_s( szLine, zsizeof( szLine ), "%s_CloseConnection( zSHORT nTraceLevel )",
               lpViewOD->szName );
    SysWriteLine( lpTaskView, f, szLine );
 
@@ -5185,7 +5185,7 @@ fnCreateStartFunctions( zVIEW lpTaskView, zLONG f, LPVIEWOD lpViewOD )
    //
 
    SysWriteLine( lpTaskView, f, "zSHORT OPERATION" );
-   sprintf_s( szLine, sizeof( szLine ), "%s_Commit( zSHORT nTraceLevel )", lpViewOD->szName );
+   sprintf_s( szLine, zsizeof( szLine ), "%s_Commit( zSHORT nTraceLevel )", lpViewOD->szName );
    SysWriteLine( lpTaskView, f, szLine );
 
    SysWriteLine( lpTaskView, f, "{" );
@@ -5210,7 +5210,7 @@ fnCreateStartFunctions( zVIEW lpTaskView, zLONG f, LPVIEWOD lpViewOD )
    //
 
    SysWriteLine( lpTaskView, f, "zSHORT OPERATION" );
-   sprintf_s( szLine, sizeof( szLine ), "%s_Rollback( zSHORT nTraceLevel )", lpViewOD->szName );
+   sprintf_s( szLine, zsizeof( szLine ), "%s_Rollback( zSHORT nTraceLevel )", lpViewOD->szName );
    SysWriteLine( lpTaskView, f, szLine );
 
    SysWriteLine( lpTaskView, f, "{" );
@@ -5342,7 +5342,7 @@ fnDBH_Callback( zULONG      nCommand,
 
          // For decimal columns we will convert the number to a string.
          strcat_s( pchTarget, MAX_NAME_LTH, lpDataField->szFldName );
-         sprintf_s( szTemp, sizeof( szTemp ), "CAST( %s AS CHAR( 40 ) )", pchTarget );
+         sprintf_s( szTemp, zsizeof( szTemp ), "CAST( %s AS CHAR( 40 ) )", pchTarget );
          strcpy_s( pchTarget, MAX_NAME_LTH, szTemp );
          return( TRUE );
       }
@@ -5409,7 +5409,7 @@ fnWriteSql( zVIEW lpTaskView, zPCHAR pchSQL, zPVOID pInfo )
       // Change ' ' to null-terminator.
       pch[ 0 ] = 0;
 
-      sprintf_s( szLine, sizeof( szLine ), "%*s%s", nIndent, " ", pchSQL );
+      sprintf_s( szLine, zsizeof( szLine ), "%*s%s", nIndent, " ", pchSQL );
       SysWriteLine( lpTaskView, (zLONG) pInfo, szLine );
       if ( nIndent == g_nIndent )
          nIndent += 7;
@@ -5419,7 +5419,7 @@ fnWriteSql( zVIEW lpTaskView, zPCHAR pchSQL, zPVOID pInfo )
       pchSQL = pch + 1;
    }
 
-   sprintf_s( szLine, sizeof( szLine ), "%*s%s", nIndent, " ", pchSQL );
+   sprintf_s( szLine, zsizeof( szLine ), "%*s%s", nIndent, " ", pchSQL );
    SysWriteLine( lpTaskView, (zLONG) pInfo, szLine );
 }
 
@@ -5449,7 +5449,7 @@ fnWriteSql2( zVIEW lpTaskView, zPCHAR pchSQL, zPVOID pInfo )
       // Change ' ' to null-terminator.
       pch[ 0 ] = 0;
 
-      sprintf_s( szLine, sizeof( szLine ), "%*s\"%s \"", nIndent, " ", pchSQL );
+      sprintf_s( szLine, zsizeof( szLine ), "%*s\"%s \"", nIndent, " ", pchSQL );
       SysWriteLine( lpTaskView, (zLONG) pInfo, szLine );
       if ( nIndent == g_nIndent )
          nIndent += 7;
@@ -5462,10 +5462,10 @@ fnWriteSql2( zVIEW lpTaskView, zPCHAR pchSQL, zPVOID pInfo )
    if ( pchSemiColon && pchSemiColon[ 1 ] == 0 )
    {
       pchSemiColon[ 0 ] = 0;
-      sprintf_s( szLine, sizeof( szLine ), "%*s\"%s\";", nIndent, " ", pchSQL );
+      sprintf_s( szLine, zsizeof( szLine ), "%*s\"%s\";", nIndent, " ", pchSQL );
    }
    else
-      sprintf_s( szLine, sizeof( szLine ), "%*s\"%s\"", nIndent, " ", pchSQL );
+      sprintf_s( szLine, zsizeof( szLine ), "%*s\"%s\"", nIndent, " ", pchSQL );
 
    SysWriteLine( lpTaskView, (zLONG) pInfo, szLine );
 }
@@ -5629,26 +5629,26 @@ fnBuildSelectFunction( zLONG        f,
    // =================== Function Name ========================
    //
    SysWriteLine( lpTaskView, f, "zSHORT OPERATION" );
-   sprintf_s( szLine, sizeof( szLine ), "SQL_%s_%s_Select%s( zVIEW        lpView,",
+   sprintf_s( szLine, zsizeof( szLine ), "SQL_%s_%s_Select%s( zVIEW       lpView,",
               lpViewOD->szName, lpViewEntity->szName,
               bUniqueQual ? "Unique" : "" );
    SysWriteLine( lpTaskView, f, szLine );
 
    pch = zstrchr( szLine, '(' ) + 2;
    nTempIndent = (int) ( pch - szLine );
-   sprintf_s( szLine, sizeof( szLine ), "%*sLPVIEWOD     lpViewOD,", nTempIndent, " " );
+   sprintf_s( szLine, zsizeof( szLine ), "%*sLPVIEWOD    lpViewOD,", nTempIndent, " " );
    SysWriteLine( lpTaskView, f, szLine );
-   sprintf_s( szLine, sizeof( szLine ), "%*sLPVIEWENTITY lpViewEntity,", nTempIndent, " " );
+   sprintf_s( szLine, zsizeof( szLine ), "%*sLPVIEWENTITY lpViewEntity,", nTempIndent, " " );
    SysWriteLine( lpTaskView, f, szLine );
    if ( bUniqueQual )
    {
-      sprintf_s( szLine, sizeof( szLine ), "%*sLPQUALENTITY lpQualEntity,", nTempIndent, " " );
+      sprintf_s( szLine, zsizeof( szLine ), "%*sLPQUALENTITY lpQualEntity,", nTempIndent, " " );
       SysWriteLine( lpTaskView, f, szLine );
    }
 
-   sprintf_s( szLine, sizeof( szLine ), "%*sint          nIndicators,", nTempIndent, " " );
+   sprintf_s( szLine, zsizeof( szLine ), "%*sint         nIndicators,", nTempIndent, " " );
    SysWriteLine( lpTaskView, f, szLine );
-   sprintf_s( szLine, sizeof( szLine ), "%*szSHORT       nTraceLevel )", nTempIndent, " " );
+   sprintf_s( szLine, zsizeof( szLine ), "%*szSHORT      nTraceLevel )", nTempIndent, " " );
    SysWriteLine( lpTaskView, f, szLine );
 
    SysWriteLine( lpTaskView, f, "{" );
@@ -5694,36 +5694,36 @@ fnBuildSelectFunction( zLONG        f,
       if ( bUniqueQual )
          nGen |= GEN_UNIQUE;
 
-      strcpy_s( szLine, sizeof( szLine ), " " );
+      strcpy_s( szLine, zsizeof( szLine ), " " );
 
       // For supported types see "Supported SQL Data Types" in the "DB2
       // Application Programming" reference.
       switch ( lpViewAttrib->cType )
       {
          case zTYPE_INTEGER:
-            strcat_s( szLine, sizeof( szLine ), "long " );
+            strcat_s( szLine, zsizeof( szLine ), "long " );
             break;
 
          case zTYPE_BLOB:
-            strcat_s( szLine, sizeof( szLine ), "sql type is blob_locator" );
+            strcat_s( szLine, zsizeof( szLine ), "sql type is blob_locator" );
             SysWriteLine( lpTaskView, f, szLine );
-            strcpy_s( szLine, sizeof( szLine ), " " );
+            strcpy_s( szLine, zsizeof( szLine ), " " );
             break;
 
          case zTYPE_STRING:
             if ( lpBoundAttr->lpDataField->cFldType == 'V' )
             {
-               strcat_s( szLine, sizeof( szLine ), "sql type is clob_locator" );
+               strcat_s( szLine, zsizeof( szLine ), "sql type is clob_locator" );
                SysWriteLine( lpTaskView, f, szLine );
-               strcpy_s( szLine, sizeof( szLine ), " " );
+               strcpy_s( szLine, zsizeof( szLine ), " " );
             }
             else
-               strcat_s( szLine, sizeof( szLine ), "char " );
+               strcat_s( szLine, zsizeof( szLine ), "char " );
 
             break;
 
          default:
-            strcat_s( szLine, sizeof( szLine ), "char " );
+            strcat_s( szLine, zsizeof( szLine ), "char " );
             break;
       }
 
@@ -5740,11 +5740,11 @@ fnBuildSelectFunction( zLONG        f,
          case zTYPE_BLOB:
             // We need to create the line that frees blob locators.
             if ( szFreeLocatorsCmd[ 0 ] == 0 )
-               strcpy_s( szFreeLocatorsCmd, sizeof( szFreeLocatorsCmd ), "EXEC SQL FREE LOCATOR " );
+               strcpy_s( szFreeLocatorsCmd, zsizeof( szFreeLocatorsCmd ), "EXEC SQL FREE LOCATOR " );
             else
-               strcat_s( szFreeLocatorsCmd, sizeof( szFreeLocatorsCmd ), ", " );
+               strcat_s( szFreeLocatorsCmd, zsizeof( szFreeLocatorsCmd ), ", " );
 
-            strcat_s( szFreeLocatorsCmd, sizeof( szFreeLocatorsCmd ), ":" );
+            strcat_s( szFreeLocatorsCmd, zsizeof( szFreeLocatorsCmd ), ":" );
             fnGenerateVarName( &szFreeLocatorsCmd[ zstrlen( szFreeLocatorsCmd ) ],
                                lpViewEntity,
                                lpBoundViewEntity, lpViewAttrib, nGen );
@@ -5753,7 +5753,7 @@ fnBuildSelectFunction( zLONG        f,
          case zTYPE_DATE:
          case zTYPE_TIME:
          case zTYPE_DATETIME:
-            strcat_s( szLine, sizeof( szLine ), " [ 27 ]" );
+            strcat_s( szLine, zsizeof( szLine ), " [ 27 ]" );
             break;
 
          case zTYPE_STRING:
@@ -5761,11 +5761,11 @@ fnBuildSelectFunction( zLONG        f,
             {
                // We need to create the line that frees blob locators.
                if ( szFreeLocatorsCmd[ 0 ] == 0 )
-                  strcpy_s( szFreeLocatorsCmd, sizeof( szFreeLocatorsCmd ), "EXEC SQL FREE LOCATOR " );
+                  strcpy_s( szFreeLocatorsCmd, zsizeof( szFreeLocatorsCmd ), "EXEC SQL FREE LOCATOR " );
                else
-                  strcat_s( szFreeLocatorsCmd, sizeof( szFreeLocatorsCmd ), ", " );
+                  strcat_s( szFreeLocatorsCmd, zsizeof( szFreeLocatorsCmd ), ", " );
 
-               strcat_s( szFreeLocatorsCmd, sizeof( szFreeLocatorsCmd ), ":" );
+               strcat_s( szFreeLocatorsCmd, zsizeof( szFreeLocatorsCmd ), ":" );
                fnGenerateVarName( &szFreeLocatorsCmd[ zstrlen( szFreeLocatorsCmd ) ],
                                   lpViewEntity,
                                   lpBoundViewEntity, lpViewAttrib, nGen );
@@ -5778,34 +5778,34 @@ fnBuildSelectFunction( zLONG        f,
          {
             zCHAR sz[ 10 ];
 
-            strcat_s( szLine, sizeof( szLine ), "[ " );
-            zltoa( lpViewAttrib->ulLth + 1, sz, sizeof( sz ) );
-            strcat_s( szLine, sizeof( szLine ), sz );
-            strcat_s( szLine, sizeof( szLine ), " ]" );
+            strcat_s( szLine, zsizeof( szLine ), "[ " );
+            zltoa( lpViewAttrib->ulLth + 1, sz, zsizeof( sz ) );
+            strcat_s( szLine, zsizeof( szLine ), sz );
+            strcat_s( szLine, zsizeof( szLine ), " ]" );
             break;
          }
       }
 
-      strcat_s( szLine, sizeof( szLine ), ";" );
+      strcat_s( szLine, zsizeof( szLine ), ";" );
 
       while ( zstrlen( szLine ) < 45 )
-         strcat_s( szLine, sizeof( szLine ), " " );
+         strcat_s( szLine, zsizeof( szLine ), " " );
 
       if ( lpBoundViewEntity != lpViewEntity )
       {
          zCHAR szTemp[ 100 ];
 
-         sprintf_s( szTemp, sizeof( szTemp ), "// %s.%s", lpBoundViewEntity->szName,
+         sprintf_s( szTemp, zsizeof( szTemp ), "// %s.%s", lpBoundViewEntity->szName,
                     lpViewAttrib->szName );
-         strcat_s( szLine, sizeof( szLine ), szTemp );
+         strcat_s( szLine, zsizeof( szLine ), szTemp );
       }
       else
       {
          zCHAR szTemp[ 100 ];
 
-         sprintf_s( szTemp, sizeof( szTemp ), "// %s.%s", lpViewEntity->szName,
+         sprintf_s( szTemp, zsizeof( szTemp ), "// %s.%s", lpViewEntity->szName,
                     lpViewAttrib->szName );
-         strcat_s( szLine, sizeof( szLine ), szTemp );
+         strcat_s( szLine, zsizeof( szLine ), szTemp );
       }
 
       SysWriteLine( lpTaskView, f, szLine );
@@ -5821,7 +5821,7 @@ fnBuildSelectFunction( zLONG        f,
                             lpBoundViewEntity, lpViewAttrib,
                             (zSHORT) (nGen | GEN_NULL) );
 
-         sprintf_s( szLine, sizeof( szLine ), "      short   %s;", szNullIndicator );
+         sprintf_s( szLine, zsizeof( szLine ), "     short   %s;", szNullIndicator );
          SysWriteLine( lpTaskView, f, szLine );
       }
 
@@ -5858,7 +5858,7 @@ fnBuildSelectFunction( zLONG        f,
       lpViewAttrib      = zGETPTR( lpBoundAttr->lpDataField->hViewAttrib );
       lpBoundViewEntity = zGETPTR( lpViewAttrib->hViewEntity );
 
-      strcpy_s( szLine, sizeof( szLine ), " " );
+      strcpy_s( szLine, zsizeof( szLine ), " " );
 
       // If the bound entity and the ViewEntity are the same then qualification
       // for the current entity must be coming from a qualification object.
@@ -5869,11 +5869,11 @@ fnBuildSelectFunction( zLONG        f,
          switch ( lpViewAttrib->cType )
          {
             case zTYPE_INTEGER:
-               strcat_s( szLine, sizeof( szLine ), "SDB2_GetIntegerFromQualification( &" );
+               strcat_s( szLine, zsizeof( szLine ), "SDB2_GetIntegerFromQualification( &" );
                break;
 
             default:
-               strcat_s( szLine, sizeof( szLine ), "SDB2_GetStringFromQualification( " );
+               strcat_s( szLine, zsizeof( szLine ), "SDB2_GetStringFromQualification( " );
                break;
          }
 
@@ -5885,10 +5885,10 @@ fnBuildSelectFunction( zLONG        f,
          fnGenerateVarName( pch, lpViewEntity,
                             lpBoundViewEntity, lpViewAttrib,
                             (zSHORT) (nGen | GEN_QUAL) );
-         strcat_s( pch, sizeof( szLine ) - (pch - szLine), "," );
+         strcat_s( pch, zsizeof( szLine ) - (pch - szLine), "," );
          SysWriteLine( lpTaskView, f, szLine );
 
-         sprintf_s( szLine, sizeof( szLine ), "%*slpViewEntity, \"%s\", lpQualEntity );",
+         sprintf_s( szLine, zsizeof( szLine ), "%*slpViewEntity, \"%s\", lpQualEntity );",
                     nIndent, " ", lpViewAttrib->szName );
          SysWriteLine( lpTaskView, f, szLine );
       }
@@ -5899,11 +5899,11 @@ fnBuildSelectFunction( zLONG        f,
          switch ( lpViewAttrib->cType )
          {
             case zTYPE_INTEGER:
-               strcat_s( szLine, sizeof( szLine ), "SDB2_GetIntegerFromAttribute( &" );
+               strcat_s( szLine, zsizeof( szLine ), "SDB2_GetIntegerFromAttribute( &" );
                break;
 
             default:
-               strcat_s( szLine, sizeof( szLine ), "SDB2_GetStringFromAttribute( " );
+               strcat_s( szLine, zsizeof( szLine ), "SDB2_GetStringFromAttribute( " );
                break;
          }
 
@@ -5913,10 +5913,10 @@ fnBuildSelectFunction( zLONG        f,
          // more info on why we use ZKeys instead of names.
          pch = szLine + zstrlen( szLine );
          fnGenerateVarName( pch, lpViewEntity, lpBoundViewEntity, lpViewAttrib, (zSHORT) (nGen | GEN_QUAL) );
-         strcat_s( pch, sizeof( szLine ) - (pch - szLine), "," );
+         strcat_s( pch, zsizeof( szLine ) - (pch - szLine), "," );
          SysWriteLine( lpTaskView, f, szLine );
 
-         sprintf_s( szLine, sizeof( szLine ), "%*slpView, lpViewOD, \"%s\", \"%s\" );",
+         sprintf_s( szLine, zsizeof( szLine ), "%*slpView, lpViewOD, \"%s\", \"%s\" );",
                     nIndent, " ", lpBoundViewEntity->szName, lpViewAttrib->szName );
          SysWriteLine( lpTaskView, f, szLine );
       }
@@ -5944,9 +5944,9 @@ fnBuildSelectFunction( zLONG        f,
       nRC = SqlBuildSelect( lpTaskView, lpViewOD, lpViewEntity, lpQualEntity, szSqlCmd, lpBoundList );
 
       // Now generate the cursor for the SQL statement.
-      sprintf_s( szLine, sizeof( szLine ), "   EXEC SQL DECLARE c%d CURSOR FOR", lpViewEntity->nHierNbr );
+      sprintf_s( szLine, zsizeof( szLine ), "  EXEC SQL DECLARE c%d CURSOR FOR", lpViewEntity->nHierNbr );
       SysWriteLine( lpTaskView, f, szLine );
-      strcat_s( szSqlCmd, sizeof( szSqlCmd ), ";" );
+      strcat_s( szSqlCmd, zsizeof( szSqlCmd ), ";" );
       g_nIndent = 6;
       SqlDisplayCommandEx( szSqlCmd, 0, (zPVOID) fnWriteSql, (zPVOID) f );
 
@@ -5967,7 +5967,7 @@ fnBuildSelectFunction( zLONG        f,
    // lpBoundList = 0;
 
       SysWriteLine( lpTaskView, f, " " );
-      sprintf_s( szLine, sizeof( szLine ), "   EXEC SQL OPEN c%d;", lpViewEntity->nHierNbr );
+      sprintf_s( szLine, zsizeof( szLine ), "  EXEC SQL OPEN c%d;", lpViewEntity->nHierNbr );
       SysWriteLine( lpTaskView, f, szLine );
       SysWriteLine( lpTaskView, f, "   while ( TRUE )" );
       SysWriteLine( lpTaskView, f, "   {" );
@@ -5980,7 +5980,7 @@ fnBuildSelectFunction( zLONG        f,
       //
       // =================== Generate 'INTO' ========================
       //
-      sprintf_s( szSqlCmd, sizeof( szSqlCmd ), "   EXEC SQL FETCH c%d INTO", lpViewEntity->nHierNbr );
+      sprintf_s( szSqlCmd, zsizeof( szSqlCmd ), "  EXEC SQL FETCH c%d INTO", lpViewEntity->nHierNbr );
       pch = szSqlCmd;
       bFirstAttr = TRUE;
       for ( lpBoundAttr = lpBoundList->lpFirstBoundAttr;
@@ -6000,10 +6000,10 @@ fnBuildSelectFunction( zLONG        f,
          if ( bFirstAttr )
             bFirstAttr = FALSE;
          else
-            strcat_s( pch, sizeof( szSqlCmd ) - (pch - szSqlCmd), "," );
+            strcat_s( pch, zsizeof( szSqlCmd ) - (pch - szSqlCmd), "," );
 
          // Find the end of the command.
-         strcat_s( pch, sizeof( szSqlCmd ) - (pch - szSqlCmd), " :" );
+         strcat_s( pch, zsizeof( szSqlCmd ) - (pch - szSqlCmd), " :" );
          pch = pch + zstrlen( pch );
          fnGenerateVarName( pch, lpViewEntity, lpBoundViewEntity, lpViewAttrib, nGen );
 
@@ -6017,11 +6017,11 @@ fnBuildSelectFunction( zLONG        f,
 
             lLth =  zstrlen( pch );
             pch = pch + lLth;
-            sprintf_s( pch, sizeof( szSqlCmd ) - (pch - szSqlCmd), " INDICATOR :%s", szNullIndicator );
+            sprintf_s( pch, zsizeof( szSqlCmd ) - (pch - szSqlCmd), " INDICATOR :%s", szNullIndicator );
          }
       }
 
-      strcat_s( szSqlCmd, sizeof( szSqlCmd ), ";" );
+      strcat_s( szSqlCmd, zsizeof( szSqlCmd ), ";" );
       g_nIndent = 3;
       fnWriteSql( lpTaskView, szSqlCmd, (zPVOID) f );
       SysWriteLine( lpTaskView, f, " " );
@@ -6083,7 +6083,7 @@ fnBuildSelectFunction( zLONG        f,
       // We are only expecting 1 result so we don't need a cursor.
       g_nIndent = 3;
       SysWriteLine( lpTaskView, f, "   EXEC SQL" );
-      strcat_s( szSqlCmd, sizeof( szSqlCmd ), ";" );
+      strcat_s( szSqlCmd, zsizeof( szSqlCmd ), ";" );
       SqlDisplayCommandEx( szSqlCmd, 0, (zPVOID) fnWriteSql, (zPVOID) f );
       SysWriteLine( lpTaskView, f, " " );
       SysWriteLine( lpTaskView, f, "   if ( nTraceLevel >= 1 )" );
@@ -6113,9 +6113,9 @@ fnBuildSelectFunction( zLONG        f,
    // =================== Load Entity/Attributes ========================
    //
    // Create the Entity and load the attributes.
-   sprintf_s( szLine, sizeof( szLine ), "%*snRowCount++;", g_nIndent, " " );
+   sprintf_s( szLine, zsizeof( szLine ), "%*snRowCount++;", g_nIndent, " " );
    SysWriteLine( lpTaskView, f, szLine );
-   sprintf_s( szLine, sizeof( szLine ), "%*sLoadEntity( lpView, \"%s\", zPOS_AFTER, 0 );",
+   sprintf_s( szLine, zsizeof( szLine ), "%*sLoadEntity( lpView, \"%s\", zPOS_AFTER, 0 );",
               g_nIndent, " ", lpViewEntity->szName );
    SysWriteLine( lpTaskView, f, szLine );
    SysWriteLine( lpTaskView, f, " " );
@@ -6139,14 +6139,14 @@ fnBuildSelectFunction( zLONG        f,
       if ( lpBoundAttr->pszValue )
          continue;
 
-      sprintf_s( szLine, sizeof( szLine ), "%*s// %s.%s ", g_nIndent, " ",
+      sprintf_s( szLine, zsizeof( szLine ), "%*s// %s.%s ", g_nIndent, " ",
                  lpViewEntity->szName, lpViewAttrib->szName );
       SysWriteLine( lpTaskView, f, szLine );
 
       switch ( lpViewAttrib->cType )
       {
          case zTYPE_INTEGER:
-            sprintf_s( szLine, sizeof( szLine ), "%*sSDB2_SetAttributeFromInteger( lpView, "
+            sprintf_s( szLine, zsizeof( szLine ), "%*sSDB2_SetAttributeFromInteger( lpView, "
                        "lpViewOD, lpViewEntity, \"%s\",", g_nIndent, " ", lpViewAttrib->szName );
             fnGenerateVarName( szVar, lpViewEntity, lpBoundViewEntity, lpViewAttrib, nGen );
 
@@ -6161,12 +6161,12 @@ fnBuildSelectFunction( zLONG        f,
 
             // Set the attribute from the retrieved blob.
             // --> SDB2_SetAttributeFromBlob( lpView, lpViewOD, lpViewEntity, "_attr_name_",
-            sprintf_s( szLine, sizeof( szLine ), "%*sSDB2_SetAttributeFromBlob( lpView, "
+            sprintf_s( szLine, zsizeof( szLine ), "%*sSDB2_SetAttributeFromBlob( lpView, "
                        "lpViewOD, lpViewEntity, \"%s\", ",
                        g_nIndent, " ", lpViewAttrib->szName );
 
             // szVar is the name of the variable we are sending to SDB2_SetAttributeFromBlob( ).
-            sprintf_s( szVar, sizeof( szVar ), "g_pvBuffer %s", lpViewOD->szName );
+            sprintf_s( szVar, zsizeof( szVar ), "g_pvBuffer %s", lpViewOD->szName );
             break;
          }
 
@@ -6175,13 +6175,13 @@ fnBuildSelectFunction( zLONG        f,
             {
                fnGenerateLargeAttribute( lpTaskView, f, lpViewEntity,
                                          lpViewAttrib, nGen, szLine );
-               sprintf_s( szLine, sizeof( szLine ), "%*sSDB2_SetAttributeFromBlob( lpView, "
+               sprintf_s( szLine, zsizeof( szLine ), "%*sSDB2_SetAttributeFromBlob( lpView, "
                           "lpViewOD, lpViewEntity, \"%s\", ", g_nIndent, " ", lpViewAttrib->szName );
-               sprintf_s( szVar, sizeof( szVar ), "g_pvBuffer %s", lpViewOD->szName );
+               sprintf_s( szVar, zsizeof( szVar ), "g_pvBuffer %s", lpViewOD->szName );
             }
             else
             {
-               sprintf_s( szLine, sizeof( szLine ), "%*sSDB2_SetAttributeFromString(  lpView, "
+               sprintf_s( szLine, zsizeof( szLine ), "%*sSDB2_SetAttributeFromString( lpView, "
                           "lpViewOD, lpViewEntity, \"%s\",", g_nIndent, " ", lpViewAttrib->szName );
 
                fnGenerateVarName( szVar, lpViewEntity, lpBoundViewEntity, lpViewAttrib, nGen );
@@ -6191,18 +6191,18 @@ fnBuildSelectFunction( zLONG        f,
 
       SysWriteLine( lpTaskView, f, szLine );
 
-      sprintf_s( szLine, sizeof( szLine ), "%*s%s, ", 30 +  g_nIndent, " ", szVar );
+      sprintf_s( szLine, zsizeof( szLine ), "%*s%s, ", 30 + g_nIndent, " ", szVar );
       if ( lpViewAttrib->bRequired == FALSE )
          fnGenerateVarName( &szLine[ zstrlen( szLine ) ], lpViewEntity,
                             lpBoundViewEntity, lpViewAttrib, (zSHORT) (nGen | GEN_NULL) );
       else
-         strcat_s( szLine, sizeof( szLine ), "0" );
+         strcat_s( szLine, zsizeof( szLine ), "0" );
 
       // Blobs need a lth.
       if ( lpViewAttrib->cType == zTYPE_BLOB )
-         strcat_s( szLine, sizeof( szLine ), ", g_lColumnLth" );
+         strcat_s( szLine, zsizeof( szLine ), ", g_lColumnLth" );
 
-      strcat_s( szLine, sizeof( szLine ), " );" );
+      strcat_s( szLine, zsizeof( szLine ), " );" );
 
       SysWriteLine( lpTaskView, f, szLine );
    }
@@ -6211,7 +6211,7 @@ fnBuildSelectFunction( zLONG        f,
    if ( szFreeLocatorsCmd[ 0 ] )
    {
       SysWriteLine( lpTaskView, f, " " );
-      sprintf_s( szLine, sizeof( szLine ), "   %s;", szFreeLocatorsCmd );
+      sprintf_s( szLine, zsizeof( szLine ), "  %s;", szFreeLocatorsCmd );
       fnWriteSql( lpTaskView, szLine, (zPVOID) f );
       SysWriteLine( lpTaskView, f, szLine );
    }
@@ -6223,7 +6223,7 @@ fnBuildSelectFunction( zLONG        f,
       SysWriteLine( lpTaskView, f, " " );
       SysWriteLine( lpTaskView, f, "   } // while ( TRUE )..." );
       SysWriteLine( lpTaskView, f, " " );
-      sprintf_s( szLine, sizeof( szLine ), "   EXEC SQL CLOSE c%d;", lpViewEntity->nHierNbr );
+      sprintf_s( szLine, zsizeof( szLine ), "  EXEC SQL CLOSE c%d;", lpViewEntity->nHierNbr );
       SysWriteLine( lpTaskView, f, szLine );
    }
 
@@ -6261,15 +6261,15 @@ fnBuildInsertFunction( zLONG        f,
    // =================== Function Name ========================
    //
    SysWriteLine( lpTaskView, f, "zSHORT OPERATION" );
-   sprintf_s( szLine, sizeof( szLine ), "SQL_%s_%s_Insert( zVIEW        lpView,",
+   sprintf_s( szLine, zsizeof( szLine ), "SQL_%s_%s_Insert( zVIEW       lpView,",
               lpViewOD->szName, lpViewEntity->szName );
    SysWriteLine( lpTaskView, f, szLine );
 
    pch = zstrchr( szLine, '(' ) + 2;
    nTempIndent = (int) ( pch - szLine );
-   sprintf_s( szLine, sizeof( szLine ), "%*sLPVIEWENTITY lpViewEntity,", nTempIndent, " " );
+   sprintf_s( szLine, zsizeof( szLine ), "%*sLPVIEWENTITY lpViewEntity,", nTempIndent, " " );
    SysWriteLine( lpTaskView, f, szLine );
-   sprintf_s( szLine, sizeof( szLine ), "%*szSHORT       nTraceLevel )", nTempIndent, " " );
+   sprintf_s( szLine, zsizeof( szLine ), "%*szSHORT      nTraceLevel )", nTempIndent, " " );
    SysWriteLine( lpTaskView, f, szLine );
 
    SysWriteLine( lpTaskView, f, "{" );
@@ -6298,18 +6298,18 @@ fnBuildInsertFunction( zLONG        f,
       lpViewAttrib      = zGETPTR( lpBoundAttr->lpDataField->hViewAttrib );
       lpBoundViewEntity = zGETPTR( lpViewAttrib->hViewEntity );
 
-      strcpy_s( szLine, sizeof( szLine ), " " );
+      strcpy_s( szLine, zsizeof( szLine ), " " );
 
       // For supported types see "Supported SQL Data Types" in the "DB2
       // Application Programming" reference.
       switch ( lpViewAttrib->cType )
       {
          case zTYPE_INTEGER:
-            strcat_s( szLine, sizeof( szLine ), "long " );
+            strcat_s( szLine, zsizeof( szLine ), "long " );
             break;
 
          default:
-            strcat_s( szLine, sizeof( szLine ), "char " );
+            strcat_s( szLine, zsizeof( szLine ), "char " );
             break;
       }
 
@@ -6326,28 +6326,28 @@ fnBuildInsertFunction( zLONG        f,
          case zTYPE_DATE:
          case zTYPE_TIME:
          case zTYPE_DATETIME:
-            strcat_s( szLine, sizeof( szLine ), " [ 27 ]" );
+            strcat_s( szLine, zsizeof( szLine ), " [ 27 ]" );
             break;
 
          default:
          {
             zCHAR sz[ 10 ];
 
-            strcat_s( szLine, sizeof( szLine ), "[ " );
-            zltoa( lpViewAttrib->ulLth + 1, sz, sizeof( sz ) );
-            strcat_s( szLine, sizeof( szLine ), sz );
-            strcat_s( szLine, sizeof( szLine ), " ]" );
+            strcat_s( szLine, zsizeof( szLine ), "[ " );
+            zltoa( lpViewAttrib->ulLth + 1, sz, zsizeof( sz ) );
+            strcat_s( szLine, zsizeof( szLine ), sz );
+            strcat_s( szLine, zsizeof( szLine ), " ]" );
             break;
          }
       }
 
-      strcat_s( szLine, sizeof( szLine ), ";" );
+      strcat_s( szLine, zsizeof( szLine ), ";" );
 
       while ( zstrlen( szLine ) < 45 )
-         strcat_s( szLine, sizeof( szLine ), " " );
+         strcat_s( szLine, zsizeof( szLine ), " " );
 
       lLth = zstrlen( szLine );
-      sprintf_s( &szLine[ lLth ], sizeof( szLine ) - lLth, "// %s.%s",
+      sprintf_s( &szLine[ lLth ], zsizeof( szLine ) - lLth, "// %s.%s",
                  lpViewEntity->szName, lpViewAttrib->szName );
 
       SysWriteLine( lpTaskView, f, szLine );
@@ -6373,18 +6373,18 @@ fnBuildInsertFunction( zLONG        f,
       lpViewAttrib      = zGETPTR( lpBoundAttr->lpDataField->hViewAttrib );
       lpBoundViewEntity = zGETPTR( lpViewAttrib->hViewEntity );
 
-      strcpy_s( szLine, sizeof( szLine ), " " );
+      strcpy_s( szLine, zsizeof( szLine ), " " );
 
       // For supported types see "Supported SQL Data Types" in the "DB2
       // Application Programming" reference.
       switch ( lpViewAttrib->cType )
       {
          case zTYPE_INTEGER:
-            strcat_s( szLine, sizeof( szLine ), "fnGetIntegerFromAttribute( &" );
+            strcat_s( szLine, zsizeof( szLine ), "fnGetIntegerFromAttribute( &" );
             break;
 
          default:
-            strcat_s( szLine, sizeof( szLine ), "fnGetStringFromAttribute( " );
+            strcat_s( szLine, zsizeof( szLine ), "fnGetStringFromAttribute( " );
             break;
       }
 
@@ -6395,10 +6395,10 @@ fnBuildInsertFunction( zLONG        f,
       pch = szLine + zstrlen( szLine );
       fnGenerateVarName( pch, lpViewEntity,
                          lpBoundViewEntity, lpViewAttrib, 0  );
-      strcat_s( pch, sizeof( szLine ) - (pch - szLine), "," );
+      strcat_s( pch, zsizeof( szLine ) - (pch - szLine), "," );
       SysWriteLine( lpTaskView, f, szLine );
 
-      sprintf_s( szLine, sizeof( szLine ), "%*slpView, lpViewOD, \"%s\", \"%s\" );",
+      sprintf_s( szLine, zsizeof( szLine ), "%*slpView, lpViewOD, \"%s\", \"%s\" );",
                  nIndent, " ",
                  lpBoundViewEntity->szName, lpViewAttrib->szName );
       SysWriteLine( lpTaskView, f, szLine );
@@ -6408,7 +6408,7 @@ fnBuildInsertFunction( zLONG        f,
 
    g_nIndent = 3;
    SysWriteLine( lpTaskView, f, "   EXEC SQL" );
-   strcat_s( szSqlCmd, sizeof( szSqlCmd ), ";" );
+   strcat_s( szSqlCmd, zsizeof( szSqlCmd ), ";" );
    SqlDisplayCommandEx( szSqlCmd, 0, (zPVOID) fnWriteSql, (zPVOID) f );
    SysWriteLine( lpTaskView, f, " " );
    SysWriteLine( lpTaskView, f, "   if ( nTraceLevel >= 1 )" );
@@ -6475,18 +6475,18 @@ fnGenerateBindForLOD( zPCHAR pchReturnFileName,
    CreateViewFromViewForTask( &vTZZOXODO, vTZZOXODO, 0 );
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vZeidonSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szLPLR_Name, sizeof( szLPLR_Name ), vTaskLPLR, "LPLR", "Name" );
+   GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), vTaskLPLR, "LPLR", "Name" );
    SfCreateSubtask( &vSubtask, vTZZOLODO, szLPLR_Name );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
    strcpy_s( pchReturnDirectory, zMAX_FILESPEC_LTH + 1,  szFileName );
    SysAppendcDirSep( szFileName );
-   GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vTZZOLODO, "LOD", "Name" );
+   GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vTZZOLODO, "LOD", "Name" );
    strcpy_s( pchReturnFileName, zMAX_FILESPEC_LTH + 1, szLOD_Name );
-   strcat_s( szFileName, sizeof( szFileName ), szLOD_Name );
-   strcpy_s( szTempFileName, sizeof( szTempFileName ), szFileName ); // Save temp file name for later.
+   strcat_s( szFileName, zsizeof( szFileName ), szLOD_Name );
+   strcpy_s( szTempFileName, zsizeof( szTempFileName ), szFileName ); // Save temp file name for later.
    strcat_s( pchReturnFileName, zMAX_FILESPEC_LTH + 1, ".sqc" );
-   strcat_s( szFileName, sizeof( szFileName ), ".sqc" );
+   strcat_s( szFileName, zsizeof( szFileName ), ".sqc" );
    f = SysOpenFile( vTZZOLODO, szFileName, COREFILE_WRITE );
    if ( f == -1 )
       goto EndOfFunction;
@@ -6508,7 +6508,7 @@ fnGenerateBindForLOD( zPCHAR pchReturnFileName,
 
    // We need to reload the ViewOD to match the current vTZZOXODO.  First
    // write the XOD.
-   strcat_s( szTempFileName, sizeof( szTempFileName ), ".XOD" );
+   strcat_s( szTempFileName, zsizeof( szTempFileName ), ".XOD" );
    if ( CommitOI_ToFile( vTZZOXODO, szTempFileName, 0 ) == zCALL_ERROR )
       goto EndOfFunction;
 
@@ -6665,7 +6665,7 @@ fnProcessApplA( zVIEW            vApSvDisO,
    // the object is activated.
    lpDB2_Data->bStoreDB2_Data = TRUE;
    lpDB2_Data->bUseStaticSQL  = TRUE;
-   GetStringFromAttribute( lpDB2_Data->szStaticSQL_DLL, sizeof( lpDB2_Data->szStaticSQL_DLL ), TZDBHDBO, "ApplA", "StaticSQL_DLL_Name" );
+   GetStringFromAttribute( lpDB2_Data->szStaticSQL_DLL, zsizeof( lpDB2_Data->szStaticSQL_DLL ), TZDBHDBO, "ApplA", "StaticSQL_DLL_Name" );
 
    // Now add the .SQC file to the vApSvDisO object so that it get's sent
    // to the server.
@@ -6688,7 +6688,7 @@ fnProcessApplA( zVIEW            vApSvDisO,
    GetAddrForAttribute( &pchMakefileDir, vTaskLPLR, "Compiler", "MakefileDir" );
    pchTargetName = lpDB2_Data->szStaticSQL_DLL;
 
-   sprintf_s( szFileName, sizeof( szFileName ), "%s\\%s.MAK", pchMakefileDir, pchTargetName );
+   sprintf_s( szFileName, zsizeof( szFileName ), "%s\\%s.MAK", pchMakefileDir, pchTargetName );
 
    // Now check to see if the DLL name is the same as the last DLL name.
    // If it is not then we need to create and initialize the make file.  If
@@ -6705,7 +6705,7 @@ fnProcessApplA( zVIEW            vApSvDisO,
       hMakefile = SysOpenFile( vTZZOLODO, szFileName, COREFILE_WRITE );
       if ( hMakefile == -1 )
       {
-         sprintf_s( szLine, sizeof( szLine ), "Could not create file\n  '%s'\n.Check Compiler "
+         sprintf_s( szLine, zsizeof( szLine ), "Could not create file\n '%s'\n.Check Compiler "
                     "Specification for valid Makefile Directory", szFileName );
          MessageSend( vTaskLPLR, "LO00107", "Zeidon Tools",
                       szLine, zMSGQ_SYSTEM_ERROR, TRUE );
@@ -6714,33 +6714,33 @@ fnProcessApplA( zVIEW            vApSvDisO,
 
       // Add the makefile to the list of files we must copy to the server.
       CreateEntity( vApSvDisO, "DS_TempFile", zPOS_FIRST );
-      sprintf_s( szTemp, sizeof( szTemp ), "%s.MAK", pchTargetName );
+      sprintf_s( szTemp, zsizeof( szTemp ), "%s.MAK", pchTargetName );
       SetAttributeFromString( vApSvDisO, "DS_TempFile", "LocalDirectory", pchMakefileDir );
       SetAttributeFromString( vApSvDisO, "DS_TempFile", "Name", szTemp );
 
       // Add stuff at the beginning.
       SysWriteLine( vTZZOLODO, hMakefile, "#" );
-      sprintf_s( szLine, sizeof( szLine ), "#  %s.mak", pchTargetName );
+      sprintf_s( szLine, zsizeof( szLine ), "# %s.mak", pchTargetName );
       SysWriteLine( vTZZOLODO, hMakefile, szLine );
       SysWriteLine( vTZZOLODO, hMakefile, "#  Makefile for compiling DB2 static SQL" );
-      SysGetDateTime( szTime1, sizeof( szTime1 ) );
-      UfFormatDateTime( szTime2, sizeof( szTime2 ), szTime1, "DD-MM-YYYY HH:MI:SS" );
-      sprintf_s( szLine, sizeof( szLine ), "#  Generated on %s", szTime2 );
+      SysGetDateTime( szTime1, zsizeof( szTime1 ) );
+      UfFormatDateTime( szTime2, zsizeof( szTime2 ), szTime1, "DD-MM-YYYY HH:MI:SS" );
+      sprintf_s( szLine, zsizeof( szLine ), "# Generated on %s", szTime2 );
       SysWriteLine( vTZZOLODO, hMakefile, szLine );
       SysWriteLine( vTZZOLODO, hMakefile, "#" );
       SysWriteLine( vTZZOLODO, hMakefile, " " );
 
       SysWriteLine( vTZZOLODO, hMakefile, "# Include makefile to set environment variables." );
-      sprintf_s( szLine, sizeof( szLine ), "!include \"%s\\zenv.hnm\"", pchMakefileDir );
+      sprintf_s( szLine, zsizeof( szLine ), "!include \"%s\\zenv.hnm\"", pchMakefileDir );
       SysWriteLine( vTZZOLODO, hMakefile, szLine );
       SysWriteLine( vTZZOLODO, hMakefile, " " );
 
-      sprintf_s( szLine, sizeof( szLine ), "MODULE     = %s", pchTargetName );
+      sprintf_s( szLine, zsizeof( szLine ), "MODULE    = %s", pchTargetName );
       SysWriteLine( vTZZOLODO, hMakefile, szLine );
       GetAddrForAttribute( &pch, TZDBHDBO, "ApplA", "StaticSQL_C_FileDir" );
-      sprintf_s( szLine, sizeof( szLine ), "SRC_DIR    = %s", pch );
+      sprintf_s( szLine, zsizeof( szLine ), "SRC_DIR   = %s", pch );
       SysWriteLine( vTZZOLODO, hMakefile, szLine );
-      sprintf_s( szLine, sizeof( szLine ), "OBJ_DIR    = %s", pch );
+      sprintf_s( szLine, zsizeof( szLine ), "OBJ_DIR   = %s", pch );
       SysWriteLine( vTZZOLODO, hMakefile, szLine );
       SysWriteLine( vTZZOLODO, hMakefile, " " );
 
@@ -6748,20 +6748,20 @@ fnProcessApplA( zVIEW            vApSvDisO,
       SysWriteLine( vTZZOLODO, hMakefile, "# the Target Executable." );
       SysWriteLine( vTZZOLODO, hMakefile, "OBJS = \\" );
 
-      strcpy_s( g_szSqlDLLName, sizeof( g_szSqlDLLName ), pchTargetName );
+      strcpy_s( g_szSqlDLLName, zsizeof( g_szSqlDLLName ), pchTargetName );
 
       // Add the batch file to the list of files we must copy to the server.
       CreateEntity( vApSvDisO, "DS_TempFile", zPOS_FIRST );
-      sprintf_s( szFileName, sizeof( szFileName ), "%s.BAT", pchTargetName );
+      sprintf_s( szFileName, zsizeof( szFileName ), "%s.BAT", pchTargetName );
       SetAttributeFromString( vApSvDisO, "DS_TempFile", "LocalDirectory", pchMakefileDir );
       SetAttributeFromString( vApSvDisO, "DS_TempFile", "Name", szFileName );
 
       // Open the batch file.
-      sprintf_s( szFileName, sizeof( szFileName ), "%s\\%s.BAT", pchMakefileDir, pchTargetName );
+      sprintf_s( szFileName, zsizeof( szFileName ), "%s\\%s.BAT", pchMakefileDir, pchTargetName );
       hBatFile = SysOpenFile( vTZZOLODO, szFileName, COREFILE_WRITE );
       if ( hBatFile == -1 )
       {
-         sprintf_s( szLine, sizeof( szLine ), "Could not create file\n  '%s'\n.Check Compiler "
+         sprintf_s( szLine, zsizeof( szLine ), "Could not create file\n '%s'\n.Check Compiler "
                     "Specification for valid Makefile Directory", szFileName );
          MessageSend( vTaskLPLR, "LO00107", "Zeidon Tools",
                       szLine, zMSGQ_SYSTEM_ERROR, TRUE );
@@ -6770,7 +6770,7 @@ fnProcessApplA( zVIEW            vApSvDisO,
 
       SysWriteLine( vTZZOLODO, hBatFile, "@echo off" );
       SysWriteLine( vTZZOLODO, hBatFile, "rem  Builds all .C files from .SQC files" );
-      sprintf_s( szLine, sizeof( szLine ), "rem  Usage: %s.bat <db_name> <userid> <password>", pchTargetName );
+      sprintf_s( szLine, zsizeof( szLine ), "rem Usage: %s.bat <db_name> <userid> <password>", pchTargetName );
       SysWriteLine( vTZZOLODO, hBatFile, szLine );
       SysWriteLine( vTZZOLODO, hBatFile, " " );
       SysWriteLine( vTZZOLODO, hBatFile, "rem  Connect to database." );
@@ -6782,7 +6782,7 @@ fnProcessApplA( zVIEW            vApSvDisO,
       hMakefile = SysOpenFile( vTZZOLODO, szFileName, COREFILE_APPEND );
       if ( hMakefile == -1 )
       {
-         sprintf_s( szLine, sizeof( szLine ), "Could not re-open file\n  '%s'.\nCheck Compiler "
+         sprintf_s( szLine, zsizeof( szLine ), "Could not re-open file\n '%s'.\nCheck Compiler "
                     "Specification for valid Makefile Directory", szFileName );
          MessageSend( vTaskLPLR, "LO00107", "Zeidon Tools",
                       szLine, zMSGQ_SYSTEM_ERROR, TRUE );
@@ -6790,11 +6790,11 @@ fnProcessApplA( zVIEW            vApSvDisO,
       }
 
       // Open the batch file.
-      sprintf_s( szFileName, sizeof( szFileName ), "%s\\%s.BAT", pchMakefileDir, pchTargetName );
+      sprintf_s( szFileName, zsizeof( szFileName ), "%s\\%s.BAT", pchMakefileDir, pchTargetName );
       hBatFile = SysOpenFile( vTZZOLODO, szFileName, COREFILE_APPEND );
       if ( hBatFile == -1 )
       {
-         sprintf_s( szLine, sizeof( szLine ), "Could not re-open file\n  '%s'.\nCheck Compiler "
+         sprintf_s( szLine, zsizeof( szLine ), "Could not re-open file\n '%s'.\nCheck Compiler "
                     "Specification for valid Makefile Directory", szFileName );
          MessageSend( vTaskLPLR, "LO00107", "Zeidon Tools",
                       szLine, zMSGQ_SYSTEM_ERROR, TRUE );
@@ -6804,15 +6804,15 @@ fnProcessApplA( zVIEW            vApSvDisO,
 
    // Now just add the LOD name to the makefile.
    GetAddrForAttribute( &pch, vApSvDisO, "DS_LOD", "Name" );
-   sprintf_s( szLine, sizeof( szLine ), "    $(OBJ_DIR)\\%s.obj \\", pch );
+   sprintf_s( szLine, zsizeof( szLine ), "   $(OBJ_DIR)\\%s.obj \\", pch );
    SysWriteLine( vTZZOLODO, hMakefile, szLine );
 
    // Add the the LOD to the precompile/bind batch file.
    GetAddrForAttribute( &pchOutDir, TZDBHDBO, "ApplA", "StaticSQL_C_FileDir" );
-   sprintf_s( szLine, sizeof( szLine ), "db2 prep %s.SQC bindfile disconnect explicit output %s\\%s.c",
+   sprintf_s( szLine, zsizeof( szLine ), "db2 prep %s.SQC bindfile disconnect explicit output %s\\%s.c",
               pch, pchOutDir, pch );
    SysWriteLine( vTZZOLODO, hBatFile, szLine );
-   sprintf_s( szLine, sizeof( szLine ), "db2 bind %s.bnd", pch );
+   sprintf_s( szLine, zsizeof( szLine ), "db2 bind %s.bnd", pch );
    SysWriteLine( vTZZOLODO, hBatFile, szLine );
    SysWriteLine( vTZZOLODO, hBatFile, " " );
 
@@ -6934,7 +6934,7 @@ fnSortDataFields( zVIEW vTZZOXODO )
    CreateViewFromViewForTask( &vXOD2, vTZZOXODO, 0 );
 
    // Initialize DATARECORD into szEntityName so that we reference the first ENTITY.
-   strcpy_s( szEntityName, sizeof( szEntityName ), "DATARECORD" );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), "DATARECORD" );
 
    for ( nRC = DefineHierarchicalCursor( vTZZOXODO, "DATARECORD" );
          nRC >= zCURSOR_SET;
@@ -7127,12 +7127,9 @@ PostXOD_BuildHook( zVIEW vTZTEDBLO,
       zmemset( &sData, 0, sizeof( sData ) );
       GetIntegerFromAttribute( &sData.nTimestampPrecision,
                                vOI, "ODBC", "TimestampPrecision" );
-      sData.bStoreTimestampAsString =
-            ( CompareAttributeToString( vOI, "ODBC",
-                                        "TimestampAsString", "Y" ) == 0 );
+      sData.bStoreTimestampAsString = (CompareAttributeToString( vOI, "ODBC", "TimestampAsString", "Y" ) == 0);
 
-      SetAttributeFromBlob( vTZZOXODO, "OBJECT", "DBH_Data", (zPVOID) &sData,
-                            sizeof( sData ) );
+      SetAttributeFromBlob( vTZZOXODO, "OBJECT", "DBH_Data", (zPVOID) &sData, sizeof( sData ) );
 
       // Go through the LOD and set dbh-specific information for each entity.
       ResetView( vTZZOLODO );
@@ -7141,8 +7138,7 @@ PostXOD_BuildHook( zVIEW vTZTEDBLO,
       // Set the cursor to the first non-hidden entity.
       SetCursorFirstEntity( vTZZOXODO, "OBJECT", 0 );
 
-      GetIntegerFromAttribute( &lDBMS_ZKey, vTZTENVRO_REF, "TE_DBMS_Source",
-                               "ZKey" );
+      GetIntegerFromAttribute( &lDBMS_ZKey, vTZTENVRO_REF, "TE_DBMS_Source", "ZKey" );
       fnSetEntityInformation( vTZZOLODO, vTZZOXODO, lDBMS_ZKey );
    }
 

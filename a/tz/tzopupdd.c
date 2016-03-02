@@ -270,7 +270,7 @@ zwfnSaveOperation( zVIEW vSubtask,
    // Make sure that the Subdirectory attribute is null and that the
    // Extension attribute is set according to the Language type.
    SetAttributeFromString( vOperGrp, "GlobalOperationGroup", "Subdirectory", "" );
-   GetStringFromAttribute( szLanguageType, sizeof( szLanguageType ),
+   GetStringFromAttribute( szLanguageType, zsizeof( szLanguageType ),
                            vOperGrp, "GlobalOperationGroup", "LanguageType" );
    if ( szLanguageType[ 0 ] == 'V' )
       SetAttributeFromString( vOperGrp, "GlobalOperationGroup", "Extension",
@@ -311,7 +311,7 @@ zwfnSaveOperation( zVIEW vSubtask,
    OrderEntityForView( vCM_List, "W_MetaDef", "Name A" );
 
    // Now merge operation prototypes into the LPLR header file.
-   GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vOperGrp, "GlobalOperationGroup", "Name" );
+   GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vOperGrp, "GlobalOperationGroup", "Name" );
 
    // Since MergeGlobalPrototypes also modifies position, create a
    // temporary view to be used by that routine.
@@ -364,12 +364,12 @@ zwfnPromptForSave( zVIEW vSubtask )
          if ( !ComponentIsCheckedOut( vSubtask, vOperGrp, zSOURCE_GOPGRP_META ) )
          {
             nSaveAs = TRUE;
-            GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vOperGrp, "Operation", "Name" );
-            strcpy_s( szMessageText, sizeof( szMessageText ), "Operation Group is not checked out," );
-            strcat_s( szMessageText, sizeof( szMessageText ), " but Operation '" );
-            strcat_s( szMessageText, sizeof( szMessageText ), szOperationName );
-            strcat_s( szMessageText, sizeof( szMessageText ), "' has been modified. \n\nWould you like" );
-            strcat_s( szMessageText, sizeof( szMessageText ), " to save it with differend name?" );
+            GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vOperGrp, "Operation", "Name" );
+            strcpy_s( szMessageText, zsizeof( szMessageText ), "Operation Group is not checked out," );
+            strcat_s( szMessageText, zsizeof( szMessageText ), " but Operation '" );
+            strcat_s( szMessageText, zsizeof( szMessageText ), szOperationName );
+            strcat_s( szMessageText, zsizeof( szMessageText ), "' has been modified. \n\nWould you like" );
+            strcat_s( szMessageText, zsizeof( szMessageText ), " to save it with differend name?" );
             nRC = MessagePrompt( vSubtask, "DM00115", "Operation Maintenance",
                                  szMessageText, zBEEP, zBUTTONS_YESNOCANCEL,
                                  zRESPONSE_YES, zICON_QUESTION );
@@ -515,7 +515,7 @@ zwfnDropActiveOperation( zVIEW vSubtask )
    if ( GetViewByName( &vSOURCEMETA, "SOURCEMETA", vSubtask, zLEVEL_TASK ) < 1 )
       return( 0 );
    GetIntegerFromAttribute( &lOperZKey, vSOURCEMETA, "Operation", "ZKey" );
-   GetStringFromAttribute( szSrcZKey, sizeof( szSrcZKey ), vSOURCEMETA, "SourceFile", "ZKey" );
+   GetStringFromAttribute( szSrcZKey, zsizeof( szSrcZKey ), vSOURCEMETA, "SourceFile", "ZKey" );
 
    if ( GetViewByName( &vNEW, "NEWOPER", vSubtask, zLEVEL_TASK ) > 0 )
    {
@@ -638,7 +638,7 @@ zwTZOPUPDD_OpenOperation( zVIEW vSubtask )
    //    on the correct Operation entity.
    // 2. The new Operation is not in the current Global Operation Group.  In this case, Activate
    //    a new Global Operation Group and position on the correct Operation entity.
-   GetStringFromAttribute( szOperName, sizeof( szOperName ), vCM_List, "W_MetaDef", "Name" );
+   GetStringFromAttribute( szOperName, zsizeof( szOperName ), vCM_List, "W_MetaDef", "Name" );
    nRC = GetViewByName( &vOperGrp, "TZOGSRCO", vSubtask, zLEVEL_TASK );
    if ( nRC >= 0 )
       nRC = SetCursorFirstEntityByString( vOperGrp, "Operation", "Name", szOperName, 0 );
@@ -653,7 +653,7 @@ zwTZOPUPDD_OpenOperation( zVIEW vSubtask )
    else
    {
       // Either there is no current Oper Group or it does not contain the new Operation
-      GetStringFromAttribute( szOperGroupName, sizeof( szOperGroupName ), vCM_List, "W_MetaDef", "GroupName" );
+      GetStringFromAttribute( szOperGroupName, zsizeof( szOperGroupName ), vCM_List, "W_MetaDef", "GroupName" );
 
       if ( ActivateMetaOI_ByName( vSubtask, &vOperGrp2, 0, zSOURCE_GOPGRP_META,
                                   zSINGLE, szOperGroupName, 0 ) < 0 )
@@ -716,7 +716,7 @@ zwTZOPUPDD_CreateOperation( zVIEW vSubtask )
    GetViewByName( &vCM_ListGroup, "CM_ListGroup", vSubtask, zLEVEL_ANY );
    GetViewByName( &vCM_List, "CMLIST", vSubtask, zLEVEL_ANY );
 
-   nZRetCode = GetStringFromAttribute( szName, sizeof( szName ), vProfileXFER, "OP", "Name" );
+   nZRetCode = GetStringFromAttribute( szName, zsizeof( szName ), vProfileXFER, "OP", "Name" );
    if ( szName[ 0 ] == 0 )
    {
       MessageSend( vSubtask, "OP00301", "Operation Maintenance",
@@ -751,7 +751,7 @@ zwTZOPUPDD_CreateOperation( zVIEW vSubtask )
       // attribute in the Profile object is null.  If it is null, we assume condition 1 above is
       // occurring..
 
-      GetStringFromAttribute( szProfileGroupName, sizeof( szProfileGroupName ), vProfileXFER, "OP", "GroupName" );
+      GetStringFromAttribute( szProfileGroupName, zsizeof( szProfileGroupName ), vProfileXFER, "OP", "GroupName" );
       if ( szProfileGroupName[ 0 ] == 0 )
       {
          // This is not a new Global Operation Group, Activate the one on which we have position.
@@ -936,7 +936,7 @@ fnzwTZOPUPDD_DeleteOperation( zVIEW  vSubtask,
 
    nRC = ActivateMetaOI( vSubtask, &vOperGrp, vCM_List, zSOURCE_GO_META,
                          zSINGLE | zLEVEL_APPLICATION );
-   GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vCM_ListOrig, "W_MetaDef", "GroupName" );
+   GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vCM_ListOrig, "W_MetaDef", "GroupName" );
    DropView( vCM_List );
    vCM_List = 0;
 
@@ -1221,7 +1221,7 @@ zwTZOPUPDD_NewOperationGroup( zVIEW vSubtask )
 
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
    GetViewByName( &vCM_List, "CMLIST", vSubtask, zLEVEL_ANY );
-   GetStringFromAttribute( szOperName, sizeof( szOperName ), vProfileXFER, "OP", "Name" );
+   GetStringFromAttribute( szOperName, zsizeof( szOperName ), vProfileXFER, "OP", "Name" );
 
    // Check that the Operation name was entered.
    // (This is same message as in CreateOperation.)
@@ -1371,7 +1371,7 @@ zwTZOPUPDD_CheckGroupName( zVIEW  vSubtask,
    }
 
    //BL, 1999.11.03  check Executable Name
-   GetStringFromAttribute( szExecName, sizeof( szExecName ), vOperGrp, "GlobalOperationGroup",
+   GetStringFromAttribute( szExecName, zsizeof( szExecName ), vOperGrp, "GlobalOperationGroup",
                            "DomainAndGlobalOpGroupName" );
    if ( szExecName[ 0 ] == 0 )
    {
@@ -1399,7 +1399,7 @@ zwTZOPUPDD_SetExtension( zVIEW vSubtask )
 
    GetViewByName( &vOperGrp, "TZOGSRCO_DETAIL", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szLanguageType, sizeof( szLanguageType ), vOperGrp, "GlobalOperationGroup",
+   GetStringFromAttribute( szLanguageType, zsizeof( szLanguageType ), vOperGrp, "GlobalOperationGroup",
                            "LanguageType" );
 
    if ( szLanguageType[ 0 ] == 0 )  // '\0f' ???
@@ -1449,7 +1449,7 @@ zwTZOPUPDD_SaveOperationGroup( zVIEW vSubtask )
    GetViewByName( &vOperGrp, "TZOGSRCO_DETAIL", vSubtask, zLEVEL_ANY );
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
    GetViewByName( &vCM_ListGroup, "CM_ListGroup", vSubtask, zLEVEL_ANY );
-   GetStringFromAttribute( szOperGrpName, sizeof( szOperGrpName ), vOperGrp, "GlobalOperationGroup", "Name" );
+   GetStringFromAttribute( szOperGrpName, zsizeof( szOperGrpName ), vOperGrp, "GlobalOperationGroup", "Name" );
 
    if ( !ComponentIsCheckedOut( vSubtask, vOperGrp, zSOURCE_GOPGRP_META ))
       return( 0 );
@@ -1629,7 +1629,7 @@ zwTZOPUPDD_OpenOperPreBuild( zVIEW vSubtask )
    nRC = SetCursorFirstEntity( vOperLPLR, "W_MetaDef", 0 );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szGroupName, sizeof( szGroupName ),
+      GetStringFromAttribute( szGroupName, zsizeof( szGroupName ),
                               vOperLPLR, "W_MetaDef", "GroupName" );
       SetCursorFirstEntityByString( vGroupLPLR, "W_MetaDef", "Name",
                                     szGroupName, 0 );
@@ -1819,7 +1819,7 @@ zwTZOPUPDD_LoadOperation( zVIEW vSubtask )
                             "ActionAfterSaveAS", "Typ" );
 
    // save new selected Operation
-   GetStringFromAttribute( szNewOperation, sizeof( szNewOperation ), vTZOGSRCO, "Operation", "Name" );
+   GetStringFromAttribute( szNewOperation, zsizeof( szNewOperation ), vTZOGSRCO, "Operation", "Name" );
 
    GetSubtaskForWindowName( vSubtask, &vMainWindow, "TZOPUPDD" );
    GetCtrlText( vMainWindow, "OperName", szOldOperation, 33 );
@@ -1950,8 +1950,8 @@ zwTZOPUPDD_MoveOperationPostBuil( zVIEW vSubtask )
    if ( GetSubtaskForWindowName( vSubtask, &vWindow, "OPENOPER" ) >= 0 )
    {
       GetViewByName( &vCM_List, "CMLIST", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vCM_List, "W_MetaDef", "Name" );
-      GetStringFromAttribute( szOperationGroup, sizeof( szOperationGroup ), vCM_List, "W_MetaDef", "GroupName" );
+      GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vCM_List, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szOperationGroup, zsizeof( szOperationGroup ), vCM_List, "W_MetaDef", "GroupName" );
       SetCursorFirstEntityByAttr( vMoveOperation, "SourceFile", "Name",
                                   vCM_List, "W_MetaDef", "GroupName", "" );
       GetStringFromAttributeByContext( szType, vMoveOperation, "SourceFile",
@@ -1960,8 +1960,8 @@ zwTZOPUPDD_MoveOperationPostBuil( zVIEW vSubtask )
    else
    {
       GetViewByName( &vTZOGSRCO, "TZOGSRCO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vTZOGSRCO, "Operation", "Name" );
-      GetStringFromAttribute( szOperationGroup, sizeof( szOperationGroup ), vTZOGSRCO,
+      GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vTZOGSRCO, "Operation", "Name" );
+      GetStringFromAttribute( szOperationGroup, zsizeof( szOperationGroup ), vTZOGSRCO,
                               "GlobalOperationGroup", "Name" );
       GetStringFromAttributeByContext( szType, vTZOGSRCO, "GlobalOperationGroup",
                               "LanguageType", "LanguageType", 4 );
@@ -2020,7 +2020,7 @@ zwTZOPUPDD_MoveCheckGroupType( zVIEW  vSubtask,
 
       if ( zstrcmp( szControltext, szLanguageType ) != 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Language Type of Operation Group do not match." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Language Type of Operation Group do not match." );
          MessageSend( vSubtask, "OP00819", "Operation Maintenance",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, "", "" );
@@ -2189,7 +2189,7 @@ zwTZOPUPDD_MoveOperToNewGroup( zVIEW vSubtask )
    else
       GetViewByName( &vSource, "TZOGSRCO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vSource, "Operation", "Name" );
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vSource, "Operation", "Name" );
 
    // Move Operation in a new Operation Group?
    if ( CompareAttributeToString( vProfileXFER, "OP", "NewOperationGroupFlag",
@@ -2318,7 +2318,7 @@ zwTZOPUPDD_SaveAsPostBuild( zVIEW vSubtask )
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
    GetViewByName( &vMoveOperation, "MoveOperation", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vTZOGSRCO, "Operation", "Name" );
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vTZOGSRCO, "Operation", "Name" );
 
    //if edit new Operation Name in main window
    if ( SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name",
@@ -2407,7 +2407,7 @@ zwTZOPUPDD_SetSaveAsName( zVIEW vSubtask )
    SetAttributeFromAttribute( vProfileXFER, "OP", "Name",
                               vCM_List, "W_MetaDef", "Name" );
 
-   GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vCM_List, "W_MetaDef", "GroupName" );
+   GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vCM_List, "W_MetaDef", "GroupName" );
    GetStringFromAttributeByContext( szType, vMoveOperation, "SourceFile",
                                     "LanguageType", "LanguageType", 4 );
    SetCtrlText( vSubtask, "txtOperationGroup", szGroupName );
@@ -2461,7 +2461,7 @@ zwTZOPUPDD_SetGroupName( zVIEW vSubtask )
    GetViewByName( &vMoveOperation, "MoveOperation", vSubtask, zLEVEL_TASK );
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vMoveOperation, "SourceFile", "Name" );
+   GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vMoveOperation, "SourceFile", "Name" );
    GetStringFromAttributeByContext( szType, vMoveOperation, "SourceFile",
                                     "LanguageType", "LanguageType", 4 );
    SetCtrlText( vSubtask, "txtOperationGroup", szGroupName );
@@ -2500,7 +2500,7 @@ zwTZOPUPDD_SaveAsInNewGroup( zVIEW vSubtask )
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
    GetViewByName( &vCM_List, "CMLIST", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vProfileXFER, "OP", "Name" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vProfileXFER, "OP", "Name" );
    UfCompressName( szNewName, szOutName, 32, "", "", "", "", 0 );
 
    // Check that a Operation Name has been entered.
@@ -2520,12 +2520,12 @@ zwTZOPUPDD_SaveAsInNewGroup( zVIEW vSubtask )
    if ( SetCursorFirstEntityByString( vCM_List_Copy, "W_MetaDef", "Name",
                                       szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
-      GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vCM_List_Copy, "W_MetaDef", "GroupName" );
-      strcpy_s( szMsg, sizeof( szMsg ), "Cannot create a new Operation Group for an "
+      GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vCM_List_Copy, "W_MetaDef", "GroupName" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Cannot create a new Operation Group for an "
                       "existing Operation." );
-      strcat_s( szMsg, sizeof( szMsg ), "\nOperation exists in Operation Group '" );
-      strcat_s( szMsg, sizeof( szMsg ), szGroupName );
-      strcat_s( szMsg, sizeof( szMsg ), "'.");
+      strcat_s( szMsg, zsizeof( szMsg ), "\nOperation exists in Operation Group '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szGroupName );
+      strcat_s( szMsg, zsizeof( szMsg ), "'.");
       MessageSend( vSubtask, "DM00103", "Operation Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -2604,7 +2604,7 @@ zwTZOPUPDD_SaveAsCheckValues( zVIEW  vSubtask,
    }
 
    //Operation Name is required
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vProfileXFER, "OP", "Name" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vProfileXFER, "OP", "Name" );
    UfCompressName( szNewName, szOutName, 32, "", "", "", "", 0 );
    if ( zstrcmp( szOutName, "" ) == 0 )
    {
@@ -2622,11 +2622,11 @@ zwTZOPUPDD_SaveAsCheckValues( zVIEW  vSubtask,
         CompareAttributeToString( vCM_List_Copy, "W_MetaDef", "GroupName",
                                   szGroupName ) != 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Cannot save Operation, because already\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "exists in Operation Group '" );
-      GetStringFromAttribute( szNewName, sizeof( szNewName ), vCM_List_Copy, "W_MetaDef", "GroupName" );
-      strcat_s( szMsg, sizeof( szMsg ), szNewName );
-      strcat_s( szMsg, sizeof( szMsg ), "'.");
+      strcpy_s( szMsg, zsizeof( szMsg ), "Cannot save Operation, because already\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "exists in Operation Group '" );
+      GetStringFromAttribute( szNewName, zsizeof( szNewName ), vCM_List_Copy, "W_MetaDef", "GroupName" );
+      strcat_s( szMsg, zsizeof( szMsg ), szNewName );
+      strcat_s( szMsg, zsizeof( szMsg ), "'.");
       MessageSend( vSubtask, "ZO00137", "Operation Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -3267,7 +3267,7 @@ zwTZOPUPDD_AcceptSubobject( zVIEW vSubtask,
 
    GetViewByName( &vTZOGSRCO, "TZOGSRCO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vTZOGSRCO, szEntityName, szAttributeName );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vTZOGSRCO, szEntityName, szAttributeName );
 
    CreateViewFromViewForTask( &vTZOGSRCO_Copy, vTZOGSRCO, 0 );
 
@@ -3279,9 +3279,9 @@ zwTZOPUPDD_AcceptSubobject( zVIEW vSubtask,
 
    if ( nRC == zCURSOR_SET )
    {
-      strcpy_s( szMessage, sizeof( szMessage ), "A " );
-      strcat_s( szMessage, sizeof( szMessage ), szMessageText );
-      strcat_s( szMessage, sizeof( szMessage ), " already exists by this name!" );
+      strcpy_s( szMessage, zsizeof( szMessage ), "A " );
+      strcat_s( szMessage, zsizeof( szMessage ), szMessageText );
+      strcat_s( szMessage, zsizeof( szMessage ), " already exists by this name!" );
       MessageSend( vSubtask, "OP00814", "Operations",
                    szMessage,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -3317,10 +3317,10 @@ zwTZOPUPDD_DeleteParameter( zVIEW vSubtask )
 
    GetViewByName( &vTZOGSRCO, "TZOGSRCO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szShortDesc, sizeof( szShortDesc ), vTZOGSRCO, "Parameter", "ShortDesc" );
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Parameter '" );
-   strcat_s( szMsg, sizeof( szMsg ), szShortDesc );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   GetStringFromAttribute( szShortDesc, zsizeof( szShortDesc ), vTZOGSRCO, "Parameter", "ShortDesc" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Parameter '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szShortDesc );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
    nRC = MessagePrompt( vSubtask, "OP00305", "Operation Maintenance", szMsg, 0,
                         zBUTTONS_YESNO, zRESPONSE_NO, zICON_QUESTION );
 

@@ -146,7 +146,7 @@ BOOL InitApplication (HANDLE hInstance)
 {
    WNDCLASS  wc;
 
-   ZeroMemory( &wc, sizeof( WNDCLASS ) );
+   ZeroMemory( &wc, zsizeof( WNDCLASS ) );
 
    /*
     * Fill in window class structure with parameters that describe the
@@ -321,19 +321,19 @@ void RunAppl( HWND hWnd )
          case 'p':
             // Application name
             ++pc;
-            pc = extract_name( pc, cApplication, sizeof( cApplication ) );
+            pc = extract_name( pc, cApplication, zsizeof( cApplication ) );
             break;
 
          case 't':
             // DBMS source name
             ++pc;
-            pc = extract_name( pc, cTE_Name, sizeof( cTE_Name ) );
+            pc = extract_name( pc, cTE_Name, zsizeof( cTE_Name ) );
             break;
 
          case 'l':
             // Log file
             ++pc;
-            pc = extract_name( pc, cLogFile, sizeof( cLogFile ) );
+            pc = extract_name( pc, cLogFile, zsizeof( cLogFile ) );
             break;
 
          case 'n':
@@ -399,7 +399,7 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
       MessageBox( hWnd, szMsg,
                   "Error Running xodgen",
                   MB_OK | MB_ICONSTOP | MB_APPLMODAL );
-      strcat_s( szMsg, sizeof( szMsg ), "\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n" );
       if ( fLog )
       {
          fputs( szMsg,fLog );
@@ -423,7 +423,7 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
       MessageBox( hWnd, szMsg,
                   "Error Running xodgen",
                   MB_OK | MB_ICONSTOP | MB_APPLMODAL );
-      strcat_s( szMsg, sizeof( szMsg ), "\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n" );
       if ( fLog )
       {
          fputs( szMsg,fLog );
@@ -442,7 +442,7 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
       MessageBox( hWnd, szMsg,
                   "Error Running xodgen",
                   MB_OK | MB_ICONSTOP | MB_APPLMODAL );
-      strcat_s( szMsg, sizeof( szMsg ), "\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n" );
       if ( fLog )
       {
          fputs( szMsg,fLog );
@@ -490,22 +490,22 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
          nRC = SetCursorNextEntity( vLOD_List, "W_MetaDef", "" ) )
    {
 
-      GetStringFromAttribute( szLODName, sizeof( szLODName ),
+      GetStringFromAttribute( szLODName, zsizeof( szLODName ),
                               vLOD_List, "W_MetaDef", "Name" );
 
       nRC = ActivateMetaOI( &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI );
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Could not Activate LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLODName );
-         strcat_s( szMsg, sizeof( szMsg ), ".\nAborting Build" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Could not Activate LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLODName );
+         strcat_s( szMsg, zsizeof( szMsg ), ".\nAborting Build" );
 
          MessageBox( hWnd,
                   szMsg,
                   "Error Running xodgen",
                   MB_OK | MB_ICONSTOP | MB_APPLMODAL );
 
-         strcat_s( szMsg, sizeof( szMsg ), "\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n" );
          if ( fLog )
          {
             fputs( szMsg,fLog );
@@ -527,7 +527,7 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
 
          if ( fLog )
          {
-           strcat_s( szMsg, sizeof( szMsg ), "\n" );
+           strcat_s( szMsg, zsizeof( szMsg ), "\n" );
            fputs( szMsg,fLog );
          }
          else
@@ -546,11 +546,11 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
 
          // Commit the XOD to LPLR file.
          GetViewByName( &vXOD, "TZZOXODO", 0, zLEVEL_TASK );
-         GetStringFromAttribute( szFileName, sizeof( szFileName ),
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                                  vTaskLPLR, "LPLR", "ExecDir" );
          ofnTZCMWKSO_AppendSlash( szFileName );
-         strcat_s( szFileName, sizeof( szFileName ), szLODName );
-         strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+         strcat_s( szFileName, zsizeof( szFileName ), szLODName );
+         strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
          CommitOI_ToFile( vXOD, szFileName, zSINGLE );
       }
    }

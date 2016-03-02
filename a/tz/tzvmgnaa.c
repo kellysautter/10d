@@ -131,8 +131,8 @@ Generate3GL( zVIEW   lpVSSubtask,        // pointer to the vml task
       return( -1 );
    }
 
-   nRC = GetStringFromAttribute( szCFileSpec, sizeof( szCFileSpec ), vTaskLPLR, "LPLR", "PgmSrcDir" );
-   SysConvertEnvironmentString( szPgmSrcDir, sizeof( szPgmSrcDir ), szCFileSpec );
+   nRC = GetStringFromAttribute( szCFileSpec, zsizeof( szCFileSpec ), vTaskLPLR, "LPLR", "PgmSrcDir" );
+   SysConvertEnvironmentString( szPgmSrcDir, zsizeof( szPgmSrcDir ), szCFileSpec );
 
    //-------------------------------------- Step Two --------------------------------------------//
    // Initialize all of the global data that the generator needs to run.  Activate the source meta
@@ -159,28 +159,28 @@ Generate3GL( zVIEW   lpVSSubtask,        // pointer to the vml task
    //------------------------------------- Step Three -------------------------------------------//
    // Get the Directory for the actual source file text.  FileSpec is the fully qualified name of
    // the File.
-   strcpy_s( szCFileSpec, sizeof( szCFileSpec ), szPgmSrcDir );
+   strcpy_s( szCFileSpec, zsizeof( szCFileSpec ), szPgmSrcDir );
    nLth = SysAppendcDirSep( szCFileSpec );
 
    // Get the name of the SourceFile entity in the meta object. Reuse szTempCFileSpec as a work area.
    MiGetObjectNameForView( szTempCFileSpec, g_vSourceMeta );
    if ( zstrcmp( szTempCFileSpec, "TZDGSRCO" ) == 0 )
-      strcpy_s( szSourceFileEntity, sizeof( szSourceFileEntity ), "DomainGroup" );
+      strcpy_s( szSourceFileEntity, zsizeof( szSourceFileEntity ), "DomainGroup" );
    else
    {
       if ( zstrcmp( szTempCFileSpec, "TZOGSRCO" ) == 0 )
-         strcpy_s( szSourceFileEntity, sizeof( szSourceFileEntity ), "GlobalOperationGroup" );
+         strcpy_s( szSourceFileEntity, zsizeof( szSourceFileEntity ), "GlobalOperationGroup" );
       else
-         strcpy_s( szSourceFileEntity, sizeof( szSourceFileEntity ), "SourceFile" );
+         strcpy_s( szSourceFileEntity, zsizeof( szSourceFileEntity ), "SourceFile" );
    }
 
    if ( g_szGenLang[ 0 ] == 'J' )
    {
       /*
-      strcat_s( szCFileSpec, sizeof( szCFileSpec ), "JavaProject\\src\\" );
+      strcat_s( szCFileSpec, zsizeof( szCFileSpec ), "JavaProject\\src\\" );
       nLth += 16;
-      GetStringFromAttribute( szCFileSpec, sizeof( szCFileSpec ), vTaskLPLR, "LPLR", "JavaPackageName" );
-      GetStringFromAttribute( szCFileSpec + nLth, sizeof( szCFileSpec ) - nLth, vTaskLPLR, "LPLR", "JavaPackageName" );
+      GetStringFromAttribute( szCFileSpec, zsizeof( szCFileSpec ), vTaskLPLR, "LPLR", "JavaPackageName" );
+      GetStringFromAttribute( szCFileSpec + nLth, zsizeof( szCFileSpec ) - nLth, vTaskLPLR, "LPLR", "JavaPackageName" );
       nLth = SysAppendcDirSep( szCFileSpec );
       */
 
@@ -188,40 +188,40 @@ Generate3GL( zVIEW   lpVSSubtask,        // pointer to the vml task
       // I first changed the JavaPackageName but that needs to stay the same for the line:
       // "Package com.quinsoft.zencas" in the generated java.  So I have added JavaGenDir to the .ini.
       // Initialize Output for java generation files.
-      GetStringFromAttribute( szLPLR_Name, sizeof( szLPLR_Name ), vTaskLPLR, "LPLR", "Name" );
-      strcpy_s( szSystemIniApplName, sizeof( szSystemIniApplName ), "[App." );
-      strcat_s( szSystemIniApplName, sizeof( szSystemIniApplName ), szLPLR_Name );
-      strcat_s( szSystemIniApplName, sizeof( szSystemIniApplName ), "]" );
-      SysReadZeidonIni( -1, szSystemIniApplName, "JavaGenDir", szMsg, sizeof( szMsg ) );
+      GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), vTaskLPLR, "LPLR", "Name" );
+      strcpy_s( szSystemIniApplName, zsizeof( szSystemIniApplName ), "[App." );
+      strcat_s( szSystemIniApplName, zsizeof( szSystemIniApplName ), szLPLR_Name );
+      strcat_s( szSystemIniApplName, zsizeof( szSystemIniApplName ), "]" );
+      SysReadZeidonIni( -1, szSystemIniApplName, "JavaGenDir", szMsg, zsizeof( szMsg ) );
       if ( szMsg[ 0 ] == 0 )
       {
-         strcpy_s( szCFileSpec, sizeof( szCFileSpec ), szPgmSrcDir );
+         strcpy_s( szCFileSpec, zsizeof( szCFileSpec ), szPgmSrcDir );
          nLth = SysAppendcDirSep( szCFileSpec );
-         strcpy_s( szCFileSpec + nLth , sizeof( szCFileSpec ) - nLth, "JavaProject\\src\\com\\quinsoft\\" );
+         strcpy_s( szCFileSpec + nLth , zsizeof( szCFileSpec ) - nLth, "JavaProject\\src\\com\\quinsoft\\" );
          nLth += 29;
-         strcpy_s( szCFileSpec + nLth , sizeof( szCFileSpec ) - nLth, szLPLR_Name );
+         strcpy_s( szCFileSpec + nLth , zsizeof( szCFileSpec ) - nLth, szLPLR_Name );
       }
       else
       {
-         SysConvertEnvironmentString( szCFileSpec, sizeof( szCFileSpec ), szMsg );
+         SysConvertEnvironmentString( szCFileSpec, zsizeof( szCFileSpec ), szMsg );
       }
 
       nLth = SysAppendcDirSep( szCFileSpec );
    }
 
-   GetStringFromAttribute( szCFileSpec + nLth, sizeof( szCFileSpec ) - nLth, g_vSourceMeta, szSourceFileEntity, "Name" );
+   GetStringFromAttribute( szCFileSpec + nLth, zsizeof( szCFileSpec ) - nLth, g_vSourceMeta, szSourceFileEntity, "Name" );
 
    // Need a C/Java file and a tmp file.
    if ( g_szGenLang[ 0 ] == 'J' )
    {
       if ( lType == zREFER_LOD_META ) // 2007
-         strcat_s( szCFileSpec, sizeof( szCFileSpec ), "_Object" );
+         strcat_s( szCFileSpec, zsizeof( szCFileSpec ), "_Object" );
       else
       if ( lType == zREFER_DIALOG_META ) // 2011
-         strcat_s( szCFileSpec, sizeof( szCFileSpec ), "_Dialog" );
+         strcat_s( szCFileSpec, zsizeof( szCFileSpec ), "_Dialog" );
       else
       if ( lType == zREFER_GOPGRP_META ) // 2014
-         strcat_s( szCFileSpec, sizeof( szCFileSpec ), "_Operation" );
+         strcat_s( szCFileSpec, zsizeof( szCFileSpec ), "_Operation" );
       else
       {
          TraceLineI( "Make Target Unexpected Meta Type: ", lType );
@@ -229,35 +229,35 @@ Generate3GL( zVIEW   lpVSSubtask,        // pointer to the vml task
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
 
-      strcpy_s( szTempCFileSpec, sizeof( szTempCFileSpec ), szCFileSpec );
-      strcat_s( szCFileSpec, sizeof( szCFileSpec ), ".java" );
+      strcpy_s( szTempCFileSpec, zsizeof( szTempCFileSpec ), szCFileSpec );
+      strcat_s( szCFileSpec, zsizeof( szCFileSpec ), ".java" );
    }
    else
    {
-      strcpy_s( szTempCFileSpec, sizeof( szTempCFileSpec ), szCFileSpec );
-      strcat_s( szCFileSpec, sizeof( szCFileSpec ), ".c" );
+      strcpy_s( szTempCFileSpec, zsizeof( szTempCFileSpec ), szCFileSpec );
+      strcat_s( szCFileSpec, zsizeof( szCFileSpec ), ".c" );
    }
 
-   strcat_s( szTempCFileSpec, sizeof( szTempCFileSpec ), ".tmp" );
+   strcat_s( szTempCFileSpec, zsizeof( szTempCFileSpec ), ".tmp" );
 
    //-------------------------------------- Step Four -------------------------------------------//
    // Build the XPG name / Load the File.
 
    // Get the ExecDir off of the LPLR Entity.  This will be the directory where the xpg is now or will be saved to.
-   nRC = GetStringFromAttribute( szMsg, sizeof( szMsg ), vTaskLPLR, "LPLR", "ExecDir" );
-   SysConvertEnvironmentString( szXPGFileName, sizeof( szXPGFileName ), szMsg );
+   nRC = GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTaskLPLR, "LPLR", "ExecDir" );
+   SysConvertEnvironmentString( szXPGFileName, zsizeof( szXPGFileName ), szMsg );
 
    // Be sure the dir name is terminated with the delimiter.
    nLth = SysAppendcDirSep( szXPGFileName );
 
    // Build the information needed to load the XPG File.  Append the xpg name onto the target.  This is the name of the ExecComposite.
-   GetStringFromAttribute( szXPGFileName + nLth, sizeof( szXPGFileName ) - nLth, g_vSourceMeta, szSourceFileEntity, "Name" );
+   GetStringFromAttribute( szXPGFileName + nLth, zsizeof( szXPGFileName ) - nLth, g_vSourceMeta, szSourceFileEntity, "Name" );
 
    // Concat the Extension onto the directory.
    if ( g_szGenLang[ 0 ] == 'J' )
-      strcat_s( szXPGFileName, sizeof( szXPGFileName ), ".XPJ" );
+      strcat_s( szXPGFileName, zsizeof( szXPGFileName ), ".XPJ" );
    else
-      strcat_s( szXPGFileName, sizeof( szXPGFileName ), ".XPG" );
+      strcat_s( szXPGFileName, zsizeof( szXPGFileName ), ".XPG" );
 
    //-------------------------------------- Step Five -------------------------------------------//
    // Activate the XPG object.  We'll first drop the current one if it is active.  It should be kept around for debugging purposes.
@@ -268,9 +268,9 @@ Generate3GL( zVIEW   lpVSSubtask,        // pointer to the vml task
    nRC = ActivateOI_FromFile( &g_lpPIView, "TZVSPOOO", lpVSSubtask, szXPGFileName, zSINGLE | zNOI_OKAY );
    if ( nRC )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), szMessageListGenerate[ 1 ] );
-      strcat_s( szMsg, sizeof( szMsg ), " file: " );
-      strcat_s( szMsg, sizeof( szMsg ), szXPGFileName );
+      strcpy_s( szMsg, zsizeof( szMsg ), szMessageListGenerate[ 1 ] );
+      strcat_s( szMsg, zsizeof( szMsg ), " file: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szXPGFileName );
       MessageSend( vSubtask, "VM02003", "VML Generator",
                    szMsg, // szMessageListGenerate[ 1 ],
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -281,7 +281,7 @@ Generate3GL( zVIEW   lpVSSubtask,        // pointer to the vml task
    SetNameForView( g_lpPIView, "_GenFromXPG", lpVSSubtask, zLEVEL_SUBTASK );
 
    // Get XPG name.
-   GetStringFromAttribute( szXPGName, sizeof( szXPGName ), g_lpPIView, "VML_XSource", "Name" );
+   GetStringFromAttribute( szXPGName, zsizeof( szXPGName ), g_lpPIView, "VML_XSource", "Name" );
 
    //-------------------------------------- Step Six --------------------------------------------//
    // Load and get access to the global operation list.
@@ -294,7 +294,7 @@ Generate3GL( zVIEW   lpVSSubtask,        // pointer to the vml task
    zgGetZeidonToolsDir( vSubtask, szXGODirectory, zAPPL_DIR_OBJECT );
 
    // The name of the system core operation list.
-   strcpy_s( szXGODirectory, sizeof( szXGODirectory ), "TZOPSIGK.XGO" );
+   strcpy_s( szXGODirectory, zsizeof( szXGODirectory ), "TZOPSIGK.XGO" );
 
    // Now that we have the name, try to load the operation list.
    nRC = ActivateOI_FromFile( &g_lpZOListView, "TZOPGRPO", lpVSSubtask, szXGODirectory, zSINGLE | zNOI_OKAY );
@@ -321,7 +321,7 @@ Generate3GL( zVIEW   lpVSSubtask,        // pointer to the vml task
    while ( nRC >= zCURSOR_SET )
    {
       szOpGenType[ 0 ] = 0;
-      GetStringFromAttribute( szOpGenType, sizeof( szOpGenType ), g_lpZOListView, "Operation", "GenerationType" );
+      GetStringFromAttribute( szOpGenType, zsizeof( szOpGenType ), g_lpZOListView, "Operation", "GenerationType" );
      if ( szOpGenType[0] == 'C' && g_szGenLang[ 0 ] == 'J' )
      {
         DropEntity( g_lpZOListView, "Operation", zREPOS_NONE );

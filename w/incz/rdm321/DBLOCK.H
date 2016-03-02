@@ -52,7 +52,7 @@
 #define LOGFILELEN FILENMLEN
 #endif
 
-#define WORDPAD(a) ((sizeof(int)-(a)%sizeof(int))%sizeof(int))
+#define WORDPAD(a) ((zsizeof(int)-(a)%zsizeof(int))%zsizeof(int))
 
 /*==========================================================================*/
 

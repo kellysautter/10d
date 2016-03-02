@@ -421,7 +421,7 @@ ZPushButton::MapFromOI( WPARAM wFlag )
             zCHAR  szText[ 256 ];
             zSHORT nRC =
                GetVariableFromAttribute( szText, 0, zTYPE_STRING,
-                                         sizeof( szText ),
+                                         zsizeof( szText ),
                                          vApp, *m_pzsEName,
                                          *m_pzsAName, *m_pzsContext,
                                          m_pzsContext->IsEmpty( ) ?
@@ -1428,7 +1428,7 @@ ZFontPicker::MapFromOI( WPARAM wFlag )
          {
             zCHAR  szFont[ 256 ];
             zSHORT nRC = GetVariableFromAttribute( szFont, 0, zTYPE_STRING,
-                                                   sizeof( szFont ),
+                                                   zsizeof( szFont ),
                                                    vApp, *m_pzsEName,
                                                    *m_pzsAName, *m_pzsContext,
                                                    m_pzsContext->IsEmpty( ) ?
@@ -1466,7 +1466,7 @@ ZFontPicker::MapToOI( zLONG lFlag )
       if ( CheckExistenceOfEntity( vApp, *m_pzsEName ) != 0 )
          return( 0 );
 
-      GetZCtrlText( this, szFont, sizeof( szFont ) );
+      GetZCtrlText( this, szFont, zsizeof( szFont ) );
       nRC = SetAttributeFromVariable( vApp, *m_pzsEName,
                                       *m_pzsAName, szFont,
                                       zTYPE_STRING, 0,
@@ -2019,7 +2019,7 @@ ZToolTip::ShowTips( CPoint pt, const CString& cs )
          zmemset( &lf, 0, sizeof( lf ) );
 
          lf.lfHeight = m_nFontHeight;
-         strcpy_s( lf.lfFaceName, sizeof( lf.lfFaceName ), m_csFont );
+         strcpy_s( lf.lfFaceName, zsizeof( lf.lfFaceName ), m_csFont );
 
          // Delete old font.
          m_font.DeleteObject( );

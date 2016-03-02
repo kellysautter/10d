@@ -55,7 +55,7 @@ int main (int argc, char* argv[])
       }
 
       /* "Address" found */
-        i += sizeof("Address")-1;
+        i += zsizeof("Address")-1;
       i += strspn(cLine+i," ");   /* Blank-Elimination */
 
       /* End Processing if "Address Publics" */
@@ -66,7 +66,7 @@ int main (int argc, char* argv[])
          continue;
 
       /* "Address Export" found */
-      i += sizeof( "Export" ) - 1;
+      i += zsizeof( "Export" ) - 1;
       i += strspn(cLine+i," ");   /* Blank-Elimination */
 
       if (strcmpx (cLine+i, "Alias") == 0) {

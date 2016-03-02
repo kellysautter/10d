@@ -1098,7 +1098,7 @@ ZComboBox::BuildListFromOI( zBOOL bRefresh )
          {
             // Borrow szMap to display the message ... this should not
             // happen!
-            sprintf_s( szMap, sizeof( szMap ), "ZComboBox::BuildListFromOI unable to locate attribute %s for entity ",
+            sprintf_s( szMap, zsizeof( szMap ), "ZComboBox::BuildListFromOI unable to locate attribute %s for entity ",
                        (*m_pzsListMapAName).GetString() );
             TraceLineS( szMap, *pzsEntity );
          }
@@ -1111,8 +1111,8 @@ ZComboBox::BuildListFromOI( zBOOL bRefresh )
               (m_ulSubtype & zCOMBOBOX_SORT) )
          {
             zCHAR szAttribute[ 35 ];
-            strcpy_s( szAttribute, sizeof( szAttribute ), *m_pzsListMapAName );
-            strcat_s( szAttribute, sizeof( szAttribute ), " A" );
+            strcpy_s( szAttribute, zsizeof( szAttribute ), *m_pzsListMapAName );
+            strcat_s( szAttribute, zsizeof( szAttribute ), " A" );
             OrderEntityForView( vAppList, *pzsEntity, szAttribute );
          }
 #endif
@@ -1123,14 +1123,14 @@ ZComboBox::BuildListFromOI( zBOOL bRefresh )
          while ( nRC > zCURSOR_UNCHANGED )
          {
             nRC = GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                            sizeof( szMap ),
+                                            zsizeof( szMap ),
                                             vAppList, *m_pzsListMapEName,
                                             *m_pzsListMapAName,
                                             cpcMapContext, nFlag );
             if ( nRC == zVAR_NULL )
                szMap[ 0 ] = 0;
 
-            TranslateValue( szMap, sizeof( szMap ), TRUE );
+            TranslateValue( szMap, zsizeof( szMap ), TRUE );
 
 #ifdef zREMOTE_SERVER
             if ( AddString( szMap,
@@ -1194,7 +1194,7 @@ ZComboBox::BuildListFromOI( zBOOL bRefresh )
             if ( CheckExistenceOfEntity( vApp, *m_pzsEName ) == zCURSOR_SET )
             {
                GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                         sizeof( szMap ),
+                                         zsizeof( szMap ),
                                          vApp, *m_pzsEName,
                                          *m_pzsAName, *m_pzsContext,
                                          m_pzsContext->IsEmpty( ) ? zUSE_DEFAULT_CONTEXT : 0 );
@@ -1254,7 +1254,7 @@ ZComboBox::BuildListFromOI( zBOOL bRefresh )
          }
          else
          {
-            nRC = GetFirstTableEntryForAttribute( szMap, sizeof( szMap ), vApp, *m_pzsEName, *m_pzsAName, *m_pzsContext, &lCursor );
+            nRC = GetFirstTableEntryForAttribute( szMap, zsizeof( szMap ), vApp, *m_pzsEName, *m_pzsAName, *m_pzsContext, &lCursor );
             bFirstValue = TRUE;
          }
 
@@ -1286,11 +1286,11 @@ ZComboBox::BuildListFromOI( zBOOL bRefresh )
 
             if ( bFirstValue )
             {
-               nRC = GetNextTableEntryForAttribute( szMap, sizeof( szMap ), vApp, *m_pzsEName, *m_pzsAName, *m_pzsContext, &lCursor );
+               nRC = GetNextTableEntryForAttribute( szMap, zsizeof( szMap ), vApp, *m_pzsEName, *m_pzsAName, *m_pzsContext, &lCursor );
             }
             else
             {
-               nRC = GetFirstTableEntryForAttribute( szMap, sizeof( szMap ), vApp, *m_pzsEName, *m_pzsAName, *m_pzsContext, &lCursor );
+               nRC = GetFirstTableEntryForAttribute( szMap, zsizeof( szMap ), vApp, *m_pzsEName, *m_pzsAName, *m_pzsContext, &lCursor );
 
                bFirstValue = TRUE;
             }
@@ -1326,7 +1326,7 @@ ZComboBox::BuildListFromOI( zBOOL bRefresh )
                   pch = 0;
                }
 
-               strcpy_s( szMap, sizeof( szMap ), pchDisplay );
+               strcpy_s( szMap, zsizeof( szMap ), pchDisplay );
                *pchSemiInternal = ';';
                if ( pchSemiDisplay )
                   *pchSemiDisplay = ';';
@@ -1350,12 +1350,12 @@ ZComboBox::BuildListFromOI( zBOOL bRefresh )
 
       }
 
-      GetVariableFromAttribute( szMap, 0, zTYPE_STRING, sizeof( szMap ),
+      GetVariableFromAttribute( szMap, 0, zTYPE_STRING, zsizeof( szMap ),
                                 vApp, *m_pzsEName, *m_pzsAName,
                                 *m_pzsContext,
                                 m_pzsContext->IsEmpty( ) ? zUSE_DEFAULT_CONTEXT : 0 );
 
-      TranslateValue( szMap, sizeof( szMap ), TRUE );
+      TranslateValue( szMap, zsizeof( szMap ), TRUE );
 
 #ifdef zREMOTE_SERVER
       if ( GetCount( ) == 0 && szMap[ 0 ] )
@@ -1498,14 +1498,14 @@ ZComboBox::SetDataFromOI( zCPCHAR cpcSelectItem,
    while ( nRC > zCURSOR_UNCHANGED )
    {
       nRC = GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                      sizeof( szMap ),
+                                      zsizeof( szMap ),
                                       vAppList, cpcBrowseEName,
                                       cpcBrowseAName,
                                       cpcMapContext, nFlag );
       if ( nRC == zVAR_NULL )
          szMap[ 0 ] = 0;
 
-      TranslateValue( szMap, sizeof( szMap ), TRUE );
+      TranslateValue( szMap, zsizeof( szMap ), TRUE );
 
       if ( AddString( szMap ) < 0 )
       {
@@ -1550,7 +1550,7 @@ ZComboBox::SetDataFromOI( zCPCHAR cpcSelectItem,
       if ( CheckExistenceOfEntity( vAppOI, cpcEName ) == zCURSOR_SET )
       {
          GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                   sizeof( szMap ),
+                                   zsizeof( szMap ),
                                    vAppOI, cpcEName,
                                    cpcAName, cpcContext,
                                    cpcContext == 0 || cpcContext[ 0 ] == 0 ?
@@ -1616,7 +1616,7 @@ ZComboBox::SetDataFromDomain( zCPCHAR cpcSelectItem,
          }
          else
          {
-            nRC = GetFirstTableEntryForAttribute( szMap, sizeof( szMap ), vAppOI, cpcEName, cpcAName, cpcContext, &lCursor );
+            nRC = GetFirstTableEntryForAttribute( szMap, zsizeof( szMap ), vAppOI, cpcEName, cpcAName, cpcContext, &lCursor );
             bFirstValue = TRUE;
          }
 
@@ -1644,11 +1644,11 @@ ZComboBox::SetDataFromDomain( zCPCHAR cpcSelectItem,
 
             if ( bFirstValue )
             {
-               nRC = GetNextTableEntryForAttribute( szMap, sizeof( szMap ), vAppOI, cpcEName, cpcAName, cpcContext, &lCursor );
+               nRC = GetNextTableEntryForAttribute( szMap, zsizeof( szMap ), vAppOI, cpcEName, cpcAName, cpcContext, &lCursor );
             }
             else
             {
-               nRC = GetFirstTableEntryForAttribute( szMap, sizeof( szMap ), vAppOI, cpcEName, cpcAName, cpcContext, &lCursor );
+               nRC = GetFirstTableEntryForAttribute( szMap, zsizeof( szMap ), vAppOI, cpcEName, cpcAName, cpcContext, &lCursor );
 
                bFirstValue = TRUE;
             }
@@ -1683,7 +1683,7 @@ ZComboBox::SetDataFromDomain( zCPCHAR cpcSelectItem,
                   pch = 0;
                }
 
-               strcpy_s( szMap, sizeof( szMap ), pchDisplay );
+               strcpy_s( szMap, zsizeof( szMap ), pchDisplay );
                *pchSemiInternal = ';';
                if ( pchSemiDisplay )
                   *pchSemiDisplay = ';';
@@ -1703,11 +1703,11 @@ ZComboBox::SetDataFromDomain( zCPCHAR cpcSelectItem,
 
       }
 
-      GetVariableFromAttribute( szMap, 0, zTYPE_STRING, sizeof( szMap ),
+      GetVariableFromAttribute( szMap, 0, zTYPE_STRING, zsizeof( szMap ),
                                 vAppOI, cpcEName, cpcAName, cpcContext,
                                 cpcContext == 0 || cpcContext[ 0 ] == 0 ? zUSE_DEFAULT_CONTEXT : 0 );
 
-      TranslateValue( szMap, sizeof( szMap ), TRUE );
+      TranslateValue( szMap, zsizeof( szMap ), TRUE );
 
       SelectExactString( -1, szMap );
       Invalidate( TRUE );
@@ -1896,12 +1896,12 @@ ZComboBox::MapFromOI( WPARAM wFlag )
                else
                {
                   szMap[ 0 ] = 0;
-                  GetVariableFromAttribute( szMap, 0, zTYPE_STRING, sizeof( szMap ),
+                  GetVariableFromAttribute( szMap, 0, zTYPE_STRING, zsizeof( szMap ),
                                             vApp, *m_pzsEName, *m_pzsAName,
                                             *m_pzsContext, m_pzsContext->IsEmpty( ) ?
                                                            zUSE_DEFAULT_CONTEXT : 0 );
 
-                  TranslateValue( szMap, sizeof( szMap ), TRUE );
+                  TranslateValue( szMap, zsizeof( szMap ), TRUE );
 
 #ifdef zREMOTE_SERVER
                   if ( AddString( szMap, GetEntityKey( vApp, *m_pzsEName ), 0 ) < 0 )
@@ -2035,11 +2035,11 @@ ZComboBox::MapFromOI( WPARAM wFlag )
            CheckExistenceOfEntity( vApp, *m_pzsEName ) == zCURSOR_SET )
       {
          szMap[ 0 ] = 0;
-         GetVariableFromAttribute( szMap, 0, zTYPE_STRING, sizeof( szMap ),
+         GetVariableFromAttribute( szMap, 0, zTYPE_STRING, zsizeof( szMap ),
                                    vApp, *m_pzsEName, *m_pzsAName,
                                    *m_pzsContext, m_pzsContext->IsEmpty( ) ? zUSE_DEFAULT_CONTEXT : 0 );
 
-         TranslateValue( szMap, sizeof( szMap ), TRUE );
+         TranslateValue( szMap, zsizeof( szMap ), TRUE );
 
 #ifdef zREMOTE_SERVER
          if ( AddString( szMap, GetEntityKey( vApp, *m_pzsEName ), 0 ) < 0 )
@@ -2156,13 +2156,13 @@ ZComboBox::MapToOI( zLONG lFlag )
    else
    {
 #ifdef zREMOTE_SERVER
-      GetZCtrlText( this, szMap, sizeof( szMap ) );
+      GetZCtrlText( this, szMap, zsizeof( szMap ) );
 #else
-      GetWindowText( szMap, sizeof( szMap ) - 1 );
+      GetWindowText( szMap, zsizeof( szMap ) - 1 );
 #endif
    }
 
-   TranslateValue( szMap, sizeof( szMap ), FALSE );
+   TranslateValue( szMap, zsizeof( szMap ), FALSE );
 
    if ( m_ulSubtype & zCOMBOBOX_POSITION_ONLY )
    {
@@ -3235,7 +3235,7 @@ ZComboBox::SelectStringByKeyAttributes( zVIEW vXRA )
    {
       zCHAR szMap[ 256 ];
       GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                sizeof( szMap ),
+                                zsizeof( szMap ),
                                 vListSearch, *m_pzsListMapEName,
                                 *m_pzsListMapAName, *m_pzsListMapContext,
                                 m_pzsListMapContext->IsEmpty( ) ?
@@ -3533,7 +3533,7 @@ ZComboBox::FormatTextAtPosition( zPCHAR pchText,
          {
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
                       (*m_pzsVName).GetString(), (*(m_pZSubtask->m_pzsDlgTag)).GetString(),
                       (*(m_pZSubtask->m_pzsWndTag)).GetString(), (*m_pzsTag).GetString() );
             TraceLineS( "ZComboBox::FormatTextAtPosition ", szMsg );
@@ -3571,7 +3571,7 @@ ZComboBox::FormatTextAtPosition( zPCHAR pchText,
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ),
+      sprintf_s( szMsg, zsizeof( szMsg ),
                 "Error in entity count for view: %s for %s.%s.%s",
                 (*m_pzsVName).GetString(), (*m_pZSubtask->m_pzsDlgTag).GetString(),
                 (*m_pZSubtask->m_pzsWndTag).GetString(), (*m_pzsTag).GetString() );
@@ -3855,8 +3855,8 @@ ZComboBox::DrawItem( LPDRAWITEMSTRUCT pdis )
             // if ( pdis->itemID == 3 )
             //    TraceLineS( "", "" );
 
-               FormatTextAtPosition( szText, pdis->itemID, nColIdx, sizeof( szText ) );
-            // sprintf_s( szText, sizeof( szText ), "%s.%d", "BOX", pdis->itemID );
+               FormatTextAtPosition( szText, pdis->itemID, nColIdx, zsizeof( szText ) );
+            // sprintf_s( szText, zsizeof( szText ), "%s.%d", "BOX", pdis->itemID );
             // pdis->itemID /= k;
 
                pDC->DrawText( szText, -1, rectText,
@@ -3874,8 +3874,8 @@ ZComboBox::DrawItem( LPDRAWITEMSTRUCT pdis )
          pCol = FindColumn( m_nBoundCol );
          if ( pCol->m_nColWidth > 0 )
          {
-            FormatTextAtPosition( szText, pdis->itemID, m_nBoundCol, sizeof( szText ) );
-         // sprintf_s( szText, sizeof( szText ), "%s.%d", "EDIT BOX", pdis->itemID );
+            FormatTextAtPosition( szText, pdis->itemID, m_nBoundCol, zsizeof( szText ) );
+         // sprintf_s( szText, zsizeof( szText ), "%s.%d", "EDIT BOX", pdis->itemID );
          // if ( pdis->itemID == 3 )
          //    pdis->itemID /= k;
          // TraceLineS( "FormatText for edit box: ", szText );
@@ -3897,8 +3897,8 @@ ZComboBox::DrawItem( LPDRAWITEMSTRUCT pdis )
 //                             FindIndex( pdis->itemID ) ), -1, rectText,
 //                         m_plColumnAlignStyle[ nColIdx ] | DT_SINGLELINE |
 //                           DT_NOPREFIX | DT_NOCLIP | DT_VCENTER );
-            FormatTextAtPosition( szText, pdis->itemID, m_nShowColumn, sizeof( szText ) );
-         // sprintf_s( szText, sizeof( szText ), "%s.%d", "EDIT", pdis->itemID );
+            FormatTextAtPosition( szText, pdis->itemID, m_nShowColumn, zsizeof( szText ) );
+         // sprintf_s( szText, zsizeof( szText ), "%s.%d", "EDIT", pdis->itemID );
          // if ( pdis->itemID == 3 )
          //    pdis->itemID /= k;
 
@@ -4324,14 +4324,14 @@ CB_SetData( zVIEW   vSubtask,
                {
                   *pchContext = 0;
                   pchContext++;
-                  strcpy_s( szContext, sizeof( szContext ), pchContext );
+                  strcpy_s( szContext, zsizeof( szContext ), pchContext );
                }
                else
                   szContext[ 0 ] = 0;
 
-               strcpy_s( szEntity, sizeof( szEntity ), pchEntity );
-               strcpy_s( szAttribute, sizeof( szAttribute ), pchAttribute );
-               strcpy_s( szDomain, sizeof( szDomain ), pchDomain );
+               strcpy_s( szEntity, zsizeof( szEntity ), pchEntity );
+               strcpy_s( szAttribute, zsizeof( szAttribute ), pchAttribute );
+               strcpy_s( szDomain, zsizeof( szDomain ), pchDomain );
                lpDomain = GetAppDomain( vSubtask, szDomain );
 
                pchTableData[ 0 ] = 0;
@@ -4355,8 +4355,8 @@ CB_SetData( zVIEW   vSubtask,
                   VIEWATTRIB va; // structures, but we mock them up just enough to
                                  // permit the call to fnGetTableEntryForDomain to work.
 
-                  strcpy_s( ve.szName, sizeof( ve.szName ), szEntity );
-                  strcpy_s( va.szName, sizeof( ve.szName ), szAttribute );
+                  strcpy_s( ve.szName, zsizeof( ve.szName ), szEntity );
+                  strcpy_s( va.szName, zsizeof( ve.szName ), szAttribute );
                   va.hDomain = (struct DomainStruct *) SysGetHandleFromPointer( lpDomain );
 
                   do
@@ -4551,7 +4551,7 @@ ZMCComboEdit::WindowProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
          zCHAR  szString[ 256 ];
          zSHORT nShowItemLth;
 
-         GetLine( 0, szString, sizeof( szString ) );
+         GetLine( 0, szString, zsizeof( szString ) );
          for ( nShowItemLth = 0;
                szString[ nShowItemLth ] != 0;
                nShowItemLth++ )
@@ -4600,7 +4600,7 @@ ZMCComboEdit::OnPaint( )
 
    zCHAR szString[ 256 ];
 
-   GetLine( 0, szString, sizeof( szString ) );
+   GetLine( 0, szString, zsizeof( szString ) );
    dc.SelectObject( ::GetStockObject( DEFAULT_GUI_FONT ) );
 
    if ( mIs_hWndEnabled( m_hWnd ) == FALSE )

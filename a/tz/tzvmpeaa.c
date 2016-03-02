@@ -209,15 +209,15 @@ SyntaxError( zVIEW vSubtask, zLONG lErrorNumber, zPCHAR szErrorString )
    // IssueError( vError, 0, 0, "Syntax Error" );
 
       // build msc type error message
-      GetStringFromAttribute( szMessage, sizeof( szMessage ), vError, "Root", "SourceFileName" );
-      strcat_s( szMessage, sizeof( szMessage ), "(" );
-      zltoa( qqlineno, szNum, sizeof( szNum ) );
-      strcat_s( szMessage, sizeof( szMessage ), szNum );
-      strcat_s( szMessage, sizeof( szMessage ), ") : error " );
-      zltoa( lErrorNumber, szNum, sizeof( szNum ) );
-      strcat_s( szMessage, sizeof( szMessage ), szNum );
-      strcat_s( szMessage, sizeof( szMessage ), ": " );
-      strcat_s( szMessage, sizeof( szMessage ), g_szMessages[ lErrorNumber - 501 ] );
+      GetStringFromAttribute( szMessage, zsizeof( szMessage ), vError, "Root", "SourceFileName" );
+      strcat_s( szMessage, zsizeof( szMessage ), "(" );
+      zltoa( qqlineno, szNum, zsizeof( szNum ) );
+      strcat_s( szMessage, zsizeof( szMessage ), szNum );
+      strcat_s( szMessage, zsizeof( szMessage ), ") : error " );
+      zltoa( lErrorNumber, szNum, zsizeof( szNum ) );
+      strcat_s( szMessage, zsizeof( szMessage ), szNum );
+      strcat_s( szMessage, zsizeof( szMessage ), ": " );
+      strcat_s( szMessage, zsizeof( szMessage ), g_szMessages[ lErrorNumber - 501 ] );
       switch ( lErrorNumber )
       {
          case eQINVALIDFUNCTIONPARAM /*553*/:
@@ -225,12 +225,12 @@ SyntaxError( zVIEW vSubtask, zLONG lErrorNumber, zPCHAR szErrorString )
          case 556:
             break;
          default:
-            strcat_s( szMessage, sizeof( szMessage ), " Last Token " );
+            strcat_s( szMessage, zsizeof( szMessage ), " Last Token " );
             if ( !szErrorString || !szErrorString[ 0 ] )
-               strcat_s( szMessage, sizeof( szMessage ), sQToken.szToken );
+               strcat_s( szMessage, zsizeof( szMessage ), sQToken.szToken );
       }
 
-      strcat_s( szMessage, sizeof( szMessage ), szErrorString );
+      strcat_s( szMessage, zsizeof( szMessage ), szErrorString );
 
       // look to see if a similar error message has been posted
       // we need to match both nErrorNumber and szErrorString

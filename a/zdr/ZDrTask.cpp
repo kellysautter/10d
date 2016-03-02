@@ -169,7 +169,7 @@ ZSocketTask::ZSocketTask( SOCKET sock, ZTask *pZTask )
 #ifdef DEBUG_ALL
    zCHAR szMsg[ 128 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSocketTask::ctor: pCacheWndList: ",
+   sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSocketTask::ctor: pCacheWndList: ",
               this, AfxGetThread( ), m_pWinThread, m_sock );
    TraceLineI( szMsg, (zLONG) m_pCacheWndList );
 #endif
@@ -183,7 +183,7 @@ ZSocketTask::~ZSocketTask( )
 #ifdef DEBUG_ALL
    zCHAR szMsg[ 128 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSocketTask::dtor: pCacheWndList: %ld   SysMutexLockCnt: ",
+   sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZSocketTask::dtor: pCacheWndList: %ld SysMutexLockCnt: ",
               this, AfxGetThread( ), m_pWinThread, m_sock, (zLONG) m_pCacheWndList );
    TraceLineI( szMsg, m_lSysMutexLockCnt );
 #endif
@@ -257,7 +257,7 @@ ZSocketTask::LockMutex( zBOOL bLock, zCPCHAR cpcText )
 #ifdef DEBUG_ALL
    zCHAR szMsg[ 128 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] %sMutex: %s LockCnt = ",
+   sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] %sMutex: %s LockCnt = ",
               this, AfxGetThread( ), m_pWinThread, m_sock, bLock ? "Lock" : "Unlock", cpcText );
 #endif
 
@@ -291,7 +291,7 @@ ZSocketTask::ApplyState( zBOOL bLocateActionOnly )
    zSHORT    nRC;
 
    szRealRemoteWndTag[ 0 ] = 0;
-   strcpy_s( szHoldRemoteWndTag, sizeof( szHoldRemoteWndTag ), m_szRemoteWndTag );
+   strcpy_s( szHoldRemoteWndTag, zsizeof( szHoldRemoteWndTag ), m_szRemoteWndTag );
    m_lSyncIdx = 0;
    m_szAppTag[ 0 ] = 0;
    m_szRemoteWndTag[ 0 ] = 0;
@@ -319,7 +319,7 @@ ZSocketTask::ApplyState( zBOOL bLocateActionOnly )
 #if 0
    if ( SetCursorFirstEntityByString( vXRA, "Wnd", "Active", "Y", 0 ) == zCURSOR_SET )
    {
-      GetStringFromAttribute( szRealRemoteWndTag, sizeof( szRealRemoteWndTag ), vXRA, "Wnd", "Tag" );
+      GetStringFromAttribute( szRealRemoteWndTag, zsizeof( szRealRemoteWndTag ), vXRA, "Wnd", "Tag" );
    }
    else
    {
@@ -333,7 +333,7 @@ ZSocketTask::ApplyState( zBOOL bLocateActionOnly )
    zLONG k, j;
 
    SetCursorFirstEntity( vXRA, "Wnd", 0 );
-   strcpy_s( szEntityName, sizeof( szEntityName ), "App" );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), "App" );
    DefineHierarchicalCursor( vXRA, "App" );
    while ( nRC != zCURSOR_UNCHANGED && nRC != zCALL_ERROR )
    {
@@ -371,7 +371,7 @@ ZSocketTask::ApplyState( zBOOL bLocateActionOnly )
             pItem = cl.Find( k );
             if ( pItem )
             {
-               strcpy_s( szTag, sizeof( szTag ), pItem->m_csValue );
+               strcpy_s( szTag, zsizeof( szTag ), pItem->m_csValue );
                break;
             }
          }
@@ -404,7 +404,7 @@ ZSocketTask::ApplyState( zBOOL bLocateActionOnly )
       {
          if ( zstrcmp( lpViewAttrib->szName, "Tag" ) == 0 )
          {
-            GetStringFromAttribute( szTag, sizeof( szTag ), vXRA, szEntityName, "Tag" );
+            GetStringFromAttribute( szTag, zsizeof( szTag ), vXRA, szEntityName, "Tag" );
             if ( zstrcmp( szEntityName, "Ctrl" ) == 0 )
                bResetSelected = FALSE;
 
@@ -415,12 +415,12 @@ ZSocketTask::ApplyState( zBOOL bLocateActionOnly )
               AttributeUpdated( vXRA, szEntityName, lpViewAttrib->szName ) )
          {
 #ifdef DEBUG_ALL
-            sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "Entity: %s Attribute: %s updated", szEntityName, lpViewAttrib->szName );
+            sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "Entity: %s Attribute: %s updated", szEntityName, lpViewAttrib->szName );
             TraceLineS( szMsg, "" );
 #endif
             if ( zstrcmp( lpViewAttrib->szName, "SyncIdx" ) == 0 )
             {
-               strcpy_s( szRealRemoteWndTag, sizeof( szRealRemoteWndTag ), m_szRemoteWndTag );
+               strcpy_s( szRealRemoteWndTag, zsizeof( szRealRemoteWndTag ), m_szRemoteWndTag );
                GetIntegerFromAttribute( &m_lSyncIdx, vXRA, szEntityName, "SyncIdx" );
                m_chActType = szEntityName[ 0 ];
 
@@ -506,7 +506,7 @@ ZSocketTask::ApplyState( zBOOL bLocateActionOnly )
                ZSubtask *pZSubtask;
                ZMapAct  *pzma;
 
-               GetStringFromAttribute( szValue, sizeof( szValue ), vXRA, "Wnd", "CtrlLastFocusTag" );
+               GetStringFromAttribute( szValue, zsizeof( szValue ), vXRA, "Wnd", "CtrlLastFocusTag" );
                if ( szValue[ 0 ] && GetWindowAndCtrl( &pZSubtask, &pzma, pXRA->m_pZSubtask->m_vDialog, szValue ) == 0 )
                {
                   pXRA->m_pZSubtask->m_pzmaWithFocus = pzma;
@@ -515,7 +515,7 @@ ZSocketTask::ApplyState( zBOOL bLocateActionOnly )
             else
             if ( pXRA && pXRA->m_pZSubtask && bLocateActionOnly == FALSE )
             {
-               GetStringFromAttribute( szValue, sizeof( szValue ), vXRA, szEntityName, lpViewAttrib->szName );
+               GetStringFromAttribute( szValue, zsizeof( szValue ), vXRA, szEntityName, lpViewAttrib->szName );
                if ( zstrcmp( szEntityName, "App" ) == 0 )
                {
                }
@@ -556,19 +556,19 @@ ZSocketTask::ApplyState( zBOOL bLocateActionOnly )
             // nothing to do
          }
 
-         strcpy_s( szEntityName, sizeof( szEntityName ), lpParent->szName );
+         strcpy_s( szEntityName, zsizeof( szEntityName ), lpParent->szName );
 #endif
       }
    }
 
    if ( szRealRemoteWndTag[ 0 ] )
-      strcpy_s( m_szRemoteWndTag, sizeof( m_szRemoteWndTag ), szRealRemoteWndTag );
+      strcpy_s( m_szRemoteWndTag, zsizeof( m_szRemoteWndTag ), szRealRemoteWndTag );
    else
    if ( bWnd == FALSE )
-      strcpy_s( m_szRemoteWndTag, sizeof( m_szRemoteWndTag ), szHoldRemoteWndTag );
+      strcpy_s( m_szRemoteWndTag, zsizeof( m_szRemoteWndTag ), szHoldRemoteWndTag );
 
 #ifdef DEBUG_ALL
-   sprintf_s( szMsg, sizeof( szMsg ), "ApplyState App: %s Wnd: %s Action: %s ActType: %c SyncIdx: %d",
+   sprintf_s( szMsg, zsizeof( szMsg ), "ApplyState App: %s Wnd: %s Action: %s ActType: %c SyncIdx: %d",
               m_szAppTag, m_szRemoteWndTag, m_szActTag, m_chActType, m_lSyncIdx );
    TraceLineS( szMsg, "" );
 
@@ -669,7 +669,7 @@ fnZDrConnectionThreadProc( zPVOID p )
    {
       if ( g_pSubtaskList[ lItemCnt ].pZSubtask )
       {
-         sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ),
+         sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ),
                     " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx   Subtask: ",
                     g_pSubtaskList[ lItemCnt ].pZSubtask->m_pZSocketTask, AfxGetThread( ),
                     g_pSubtaskList[ lItemCnt ].lTID,
@@ -690,7 +690,7 @@ fnZDrConnectionThreadProc( zPVOID p )
    // We broke the protocol in order to bootstrap ... DKS.
    //
    // Get length of application name.
-   lBytes = recv( pZSocketTask->m_sock, szBuffer, sizeof( szBuffer ), 0 );
+   lBytes = recv( pZSocketTask->m_sock, szBuffer, zsizeof( szBuffer ), 0 );
 #ifdef DEBUG_ALL
    TraceLineI( "fnZDrConnectionThreadProc Initialization buffer size: ", lBytes );
 #endif
@@ -700,7 +700,7 @@ fnZDrConnectionThreadProc( zPVOID p )
       goto InitializationError_label;
    }
    else
-   if  (lBytes == sizeof( szBuffer ) )
+   if  (lBytes == zsizeof( szBuffer ) )
    {
       TraceLineS( "fnZDrConnectionThreadProc ", "Initialization buffer overflow" );
    }
@@ -792,7 +792,7 @@ fnZDrConnectionThreadProc( zPVOID p )
 
    if ( pZSocketTask->m_pZTask->m_nTraceAction )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "Received a connection ==> AppName '%s'  DialogName '%s'", szAppName + 2, szDlgName );
+      sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "Received a connection ==> AppName '%s' DialogName '%s'", szAppName + 2, szDlgName );
       TraceLineS( szMsg, "" );
    }
 
@@ -802,9 +802,9 @@ fnZDrConnectionThreadProc( zPVOID p )
    lpTask->bServer = TRUE;
 
    SfCreateSubtask( &(pZSocketTask->m_vSubtask), 0, szAppName + 2 );
-   strcpy_s( pZSocketTask->m_szAppTag, sizeof( pZSocketTask->m_szAppTag ), szAppName + 2 );
+   strcpy_s( pZSocketTask->m_szAppTag, zsizeof( pZSocketTask->m_szAppTag ), szAppName + 2 );
    pZSocketTask->m_pzsAppName = new CString( szAppName + 2 );
-   strcpy_s( pZSocketTask->m_pZTask->m_szInitialDlgName, sizeof( pZSocketTask->m_pZTask->m_szInitialDlgName ), szDlgName );
+   strcpy_s( pZSocketTask->m_pZTask->m_szInitialDlgName, zsizeof( pZSocketTask->m_pZTask->m_szInitialDlgName ), szDlgName );
 
 #ifdef DEBUG_ALL
    TraceLineS( "fnZDrConnectionThreadProc Calling init ", "Prev" );
@@ -830,7 +830,7 @@ fnZDrConnectionThreadProc( zPVOID p )
       SetAttributeFromString( vXRA, "Wnd", "Tag", szDlgName );
       fnTransferMessages( vXRA, pZSocketTask->m_vSubtask );
 
-      zmemset( &cr, 0, sizeof( ConnectionRecord ) );
+      zmemset( &cr, 0, zsizeof( ConnectionRecord ) );
       cr.pszBuffer = szBuffer;
       cr.sock = pZSocketTask->m_sock;
       cr.lFileHandle = -1;
@@ -857,12 +857,12 @@ fnZDrConnectionThreadProc( zPVOID p )
          nExtensionPos = strFileName.ReverseFind( '.' );
          if ( nExtensionPos > -1 )
          {
-            strcpy_s( szExtension, sizeof( szExtension ), ((LPCSTR( strFileName )) + nExtensionPos ) );
+            strcpy_s( szExtension, zsizeof( szExtension ), ((LPCSTR( strFileName )) + nExtensionPos ) );
             szXRAFile[ nExtensionPos ] = 0;
          }
          else
          {
-            strcpy_s( szExtension, sizeof( szExtension ), ".XML" );
+            strcpy_s( szExtension, zsizeof( szExtension ), ".XML" );
          }
          if ( ::GetEnvironmentVariable( "TEMP", szTempDir, MAX_PATH ) == 0)
          {
@@ -929,7 +929,7 @@ fnZDrConnectionThreadProc( zPVOID p )
       {
       // TraceLineS( "DisplayObjectInstance m_vXRA_State ", "..." );
       // DisplayObjectInstance( pZSocketTask->m_vXRA_State, 0, 0 );
-         GetStringFromAttribute( szMsg, sizeof( szMsg ), pZSocketTask->m_vXRA_State, "App", "SelectedAction" );
+         GetStringFromAttribute( szMsg, zsizeof( szMsg ), pZSocketTask->m_vXRA_State, "App", "SelectedAction" );
       }
       else
          TraceLineS( "Did NOT receive m_vXRA_State ", "..." );
@@ -957,23 +957,23 @@ fnZDrConnectionThreadProc( zPVOID p )
       switch ( pZSocketTask->m_chActType )
       {
          case 'C':
-            strcpy_s( szMsg, sizeof( szMsg ), "CtrlEvent" );
+            strcpy_s( szMsg, zsizeof( szMsg ), "CtrlEvent" );
             break;
 
          case 'W':
-            strcpy_s( szMsg, sizeof( szMsg ), "WndEvent" );
+            strcpy_s( szMsg, zsizeof( szMsg ), "WndEvent" );
             break;
 
          case 'O':
-            strcpy_s( szMsg, sizeof( szMsg ), "Option" );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Option" );
             break;
 
          case 'H':
-            strcpy_s( szMsg, sizeof( szMsg ), "Hotkey" );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Hotkey" );
             break;
 
          default:
-            strcpy_s( szMsg, sizeof( szMsg ), "Unknown" );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Unknown" );
             break;
       }
 
@@ -1081,7 +1081,7 @@ fnZDrConnectionThreadProc( zPVOID p )
 #if 0
       if ( pXRA )
       {
-         sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "pXRA: %ld m_pZSubtask: %ld found for %s",
+         sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "pXRA: %ld m_pZSubtask: %ld found for %s",
                     pXRA, pXRA->m_pZSubtask, pZSocketTask->m_szRemoteWndTag );
          TraceLineS( szMsg, "" );
       }
@@ -1114,7 +1114,7 @@ fnZDrConnectionThreadProc( zPVOID p )
    {
       zKZWDLGXO_Act_DEF ActDef;
 
-      e->GetErrorMessage( szMsg, sizeof( szMsg ) );
+      e->GetErrorMessage( szMsg, zsizeof( szMsg ) );
       TraceLineS( "(drvr) Remote Thread Exception ====> ", szMsg );
    // ::MessageBox( 0, szMsg, "Action Exception", MB_OK );
       ActDef.Type = zWAB_ExitDialogTask | zWAB_ProcessImmediateReturn;
@@ -1152,7 +1152,7 @@ InitializationError_label:
    {
       if ( g_pSubtaskList[ lItemCnt ].pZSubtask )
       {
-         sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ),
+         sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ),
                     " [S%ld.T%ld.t%ld.s%ld] Dlg: %s Wnd: %s vSubtask: %#010hx   Subtask: ",
                     g_pSubtaskList[ lItemCnt ].pZSubtask->m_pZSocketTask, AfxGetThread( ),
                     g_pSubtaskList[ lItemCnt ].lTID,
@@ -1175,7 +1175,7 @@ InitializationError_label:
            pWinThread->m_nThreadID == (DWORD) g_pSubtaskList[ lItemCnt ].lTID &&
            (g_pSubtaskList[ lItemCnt ].ulSubtaskState & zSUBTASK_STATE_MARK_FOR_DELETE) == 0 )
       {
-         sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ),
+         sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ),
                    "ZDRemote detected abnormal termination ... cleaning up: [S%ld.T%ld.t%ld.s%ld] Dlg: %s  Wnd: %s  vSubtask: %#010hx   Subtask: %ld  @",
                    g_pSubtaskList[ lItemCnt ].pZSubtask->m_pZSocketTask, AfxGetThread( ),
                    g_pSubtaskList[ lItemCnt ].lTID,
@@ -1207,7 +1207,7 @@ InitializationError_label:
       ConnectionRecord  cr;
 
       // Send a cleanup string.
-      zmemset( &cr, 0, sizeof( ConnectionRecord ) );
+      zmemset( &cr, 0, zsizeof( ConnectionRecord ) );
       cr.pszBuffer = szBuffer;
       cr.sock = pZSocketTask->m_sock;
       cr.cMore = 0;
@@ -1268,7 +1268,7 @@ TrackConnectionThreadProc( zPVOID p )
    // default to 3027).
    zCHAR szPortNbr[ 32 ];
 
-   SysReadZeidonIni( -1, "[zWinSock]", "RemoteServerPort", szPortNbr, sizeof( szPortNbr ) );
+   SysReadZeidonIni( -1, "[zWinSock]", "RemoteServerPort", szPortNbr, zsizeof( szPortNbr ) );
    zUSHORT uPort = (zUSHORT) zatol( szPortNbr );
    if ( uPort == 0 )
       uPort = 3027;
@@ -1279,7 +1279,7 @@ TrackConnectionThreadProc( zPVOID p )
    saServer.sin_port = htons( uPort );
 
    // Bind the name to the socket.
-   nRC = bind( listenSocket, (LPSOCKADDR) &saServer, sizeof( struct sockaddr ) );
+   nRC = bind( listenSocket, (LPSOCKADDR) &saServer, zsizeof( struct sockaddr ) );
    if ( nRC == SOCKET_ERROR )
    {
       fnShowError( "Bind" );
@@ -1502,7 +1502,7 @@ ZTask::ZTask( ZDrApp *pDrApp,
    m_pWndList = 0;
 
    // Retain the Dialog name by which this task is being started
-   SfGetTaskInfo( m_szInitialDlgName, sizeof( m_szInitialDlgName ), zTASK_DIALOG, SfGetCurrentTask( vSubtask ) );
+   SfGetTaskInfo( m_szInitialDlgName, zsizeof( m_szInitialDlgName ), zTASK_DIALOG, SfGetCurrentTask( vSubtask ) );
 
    // Ask OE if Driver action messages should be traced.
 #define IDM_GETACTIONTRACE 204
@@ -1557,7 +1557,7 @@ ZTask::ZTask( ZDrApp *pDrApp,
 
    zCHAR szHoverDelay[ 256 ] = { 'x' };
 
-   SysReadZeidonIni( -1, "[Workstation]", "HoverDelay", szHoverDelay, sizeof( szHoverDelay ) );
+   SysReadZeidonIni( -1, "[Workstation]", "HoverDelay", szHoverDelay, zsizeof( szHoverDelay ) );
    m_lHoverDelay = zatol( szHoverDelay );
 
 #ifdef zREMOTE_SERVER
@@ -1660,7 +1660,7 @@ ZTask::ZTask( zVIEW  vSubtask )
 
    zCHAR szHoverDelay[ 256 ];
 
-   SysReadZeidonIni( -1, "[Workstation]", "HoverDelay", szHoverDelay, sizeof( szHoverDelay ) );
+   SysReadZeidonIni( -1, "[Workstation]", "HoverDelay", szHoverDelay, zsizeof( szHoverDelay ) );
    m_lHoverDelay = zatol( szHoverDelay );
 
    // Ask OE if Driver action messages should be traced.
@@ -1785,9 +1785,9 @@ ZTask::InitTask( zVIEW vSubtask )
       // does not have to be in the application LPLR.
       if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) > 0 )
       {
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "ExecDir" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "ExecDir" );
          SysAppendcDirSep( szFileName );
-         strcat_s( szFileName, sizeof( szFileName ), szlZEIDON_XPE );
+         strcat_s( szFileName, zsizeof( szFileName ), szlZEIDON_XPE );
          if ( SfActivateSysOI_FromFile( &m_vPE, szlKZPEXVOO, vSubtask, szFileName, zSINGLE | zLEVEL_APPLICATION | zNOI_OKAY ) >= 0 )
          {
             bLPLR_XPE = TRUE;
@@ -1798,7 +1798,7 @@ ZTask::InitTask( zVIEW vSubtask )
       {
          SysGetLocalSysDirectory( szFileName );
          SysAppendcDirSep( szFileName );
-         strcat_s( szFileName, sizeof( szFileName ), szlZEIDON_XPE );
+         strcat_s( szFileName, zsizeof( szFileName ), szlZEIDON_XPE );
          if ( SfActivateSysOI_FromFile( &m_vPE, szlKZPEXVOO, vSubtask, szFileName, zSINGLE | zLEVEL_APPLICATION | zNOI_OKAY ) >= 0 )
          {
             bLPLR_XPE = TRUE;
@@ -1827,8 +1827,8 @@ ZTask::InitTask( zVIEW vSubtask )
       zCHAR szFileSpec[ 256 ];
 
       // Activate using SfActivateSysOI_FromFile so that the kzhkeyxo.xod does not have to be in the application LPLR.
-      GetApplDirectoryFromView( szFileSpec, vSubtask, zAPPL_DIR_OBJECT, sizeof( szFileSpec ) );
-      strcat_s( szFileSpec, sizeof( szFileSpec ), szlKZHKEYAA_POR );
+      GetApplDirectoryFromView( szFileSpec, vSubtask, zAPPL_DIR_OBJECT, zsizeof( szFileSpec ) );
+      strcat_s( szFileSpec, zsizeof( szFileSpec ), szlKZHKEYAA_POR );
       if ( SfActivateSysOI_FromFile( &m_vHK, szlKZHKEYXO, vSubtask, szFileSpec, zSINGLE | zLEVEL_APPLICATION | zNOI_OKAY ) < 0 )
       {
          zULONG  ulHotkeyLth;
@@ -1916,7 +1916,7 @@ ZTask::NewZWnd( ZSubtask *pZParent,    // Zeidon parent window (subtask)
       if ( pZSocketTask->m_pZSubtaskTop == 0 )
          pZSocketTask->m_pZSubtaskTop = pZSubtask;
 
-      strcpy_s( pZSocketTask->m_szRemoteWndTag, sizeof( pZSocketTask->m_szRemoteWndTag ), *(pZSubtask->m_pzsRemoteWndTag) );
+      strcpy_s( pZSocketTask->m_szRemoteWndTag, zsizeof( pZSocketTask->m_szRemoteWndTag ), *(pZSubtask->m_pzsRemoteWndTag) );
       ZXRA_Item *pXRA = pZSocketTask->m_pCacheWndList->Find( *(pZSubtask->m_pzsRemoteWndTag), 0, "ZTask::NewZWnd" );
 
       if ( pXRA == 0 )
@@ -1969,7 +1969,7 @@ ZTask::NewZWnd( ZSubtask *pZParent,    // Zeidon parent window (subtask)
 
       // zCHAR szMsg[ 256 ];
       //
-      // sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "pXRA: %ld m_pZSubtask: %ld set for %s",
+      // sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "pXRA: %ld m_pZSubtask: %ld set for %s",
       //           pXRA, pXRA->m_pZSubtask, pZSocketTask->m_szRemoteWndTag );
       // TraceLineS( szMsg, "" );
       }
@@ -2372,7 +2372,7 @@ ZTask::DeleteSubtask( ZSubtask *pZSubtask )
 #ifdef zREMOTE_SERVER
       zCHAR szMsg[ 128 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZTask::DeleteSubtask: ",
+      sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "[S%ld.T%ld.t%ld.s%ld] ZTask::DeleteSubtask: ",
                 pZSubtask->m_pZSocketTask, AfxGetThread( ), pZSubtask->m_pZSocketTask->m_pWinThread, pZSubtask->m_pZSocketTask->m_sock );
 #else
       TraceLine( "ZTask::DeleteSubtask: [0x%08x]  IdNbr: %d   %s.%s",
@@ -2826,11 +2826,11 @@ fnShowError( zPCHAR pszFuncName )
 
    if ( g_ErrMsgs[ k ].pszErrorMessage )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "(zwinsock) WinSock error Func = %s %s %d", pszFuncName, g_ErrMsgs[ k ].pszErrorMessage, iErr );
+      sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "(zwinsock) WinSock error Func = %s %s %d", pszFuncName, g_ErrMsgs[ k ].pszErrorMessage, iErr );
    }
    else
    {
-      sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "(zwinsock) Unknown WinSock error Func = %s %d", pszFuncName, iErr );
+      sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "(zwinsock) Unknown WinSock error Func = %s %d", pszFuncName, iErr );
    }
 
    TraceLineS( szMsg, "" );
@@ -2899,7 +2899,7 @@ fnTransferMessages( zVIEW vXRA, zVIEW vSubtask )
          csTag = pch;
          csTag += ':';
          zCHAR szTemp[ 16 ];
-         _ltoa_s( lMsgTag, szTemp, sizeof( szTemp ), 10 );
+         _ltoa_s( lMsgTag, szTemp, zsizeof( szTemp ), 10 );
          csTag += szTemp;
          SetAttributeFromString( vXRA, "MsgBox", "Tag", csTag );
 
@@ -2949,7 +2949,7 @@ fnSend( zULONG lControl,
             TraceBlob( "fnSend Sending buffer lth: ", lpConn->pszBuffer, lpConn->ulBufferLth );
          }
 
-         sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "%05d/%c", (int) lpConn->ulBufferLth, pchText ? 'C' : '0' );
+         sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "%05d/%c", (int) lpConn->ulBufferLth, pchText ? 'C' : '0' );
          lBytesToSend = zstrlen( szMsg );
       // TraceLineS( "==> ", szMsg );
          lBytesSent = 0;
@@ -3041,7 +3041,7 @@ fnRead( zPPCHAR ppchReturnBuffer,
       if ( (m_nTraceAction & 0x71) == 0x71 )
       {
          zCHAR szMsg[ 256 ];
-         sprintf_s( szMsg, sizeof( szMsg ), sizeof( szMsg ), "fnRead Received block lth [%s] = %ld More: '%c' BytesRead: ",
+         sprintf_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ), "fnRead Received block lth [%s] = %ld More: '%c' BytesRead: ",
                     szBlockLth, lpConn->ulBlockLth, lpConn->cMore );
          TraceBlob( szMsg, lpConn->pszBuffer, lpConn->ulBlockLth );
       }
@@ -3106,7 +3106,7 @@ fnSendReceiveXML( ZSocketTask *pZSocketTask,
 // ZDxFrame *pFrame = (ZDxFrame *) AfxGetMainWnd( );
    ConnectionRecord  cr;
 
-   zmemset( &cr, 0, sizeof( ConnectionRecord ) );
+   zmemset( &cr, 0, zsizeof( ConnectionRecord ) );
    cr.pszBuffer = pchBuffer;
    cr.sock = pZSocketTask->m_sock;
    cr.lFileHandle = -1;
@@ -3133,12 +3133,12 @@ fnSendReceiveXML( ZSocketTask *pZSocketTask,
       nExtensionPos = strFileName.ReverseFind( '.' );
       if ( nExtensionPos > -1 )
       {
-         strcpy_s( szExtension, sizeof( szExtension ), ((LPCSTR( strFileName )) + nExtensionPos ) );
+         strcpy_s( szExtension, zsizeof( szExtension ), ((LPCSTR( strFileName )) + nExtensionPos ) );
          szXRAFile[ nExtensionPos ] = 0;
       }
       else
       {
-         strcpy_s( szExtension, sizeof( szExtension ), ".XML" );
+         strcpy_s( szExtension, zsizeof( szExtension ), ".XML" );
       }
 
       if ( ::GetEnvironmentVariable( "TEMP", szTempDir, MAX_PATH ) == 0 )
@@ -3204,7 +3204,7 @@ fnSendReceiveXML( ZSocketTask *pZSocketTask,
       TraceLineS( csText, "Waiting for XRA ..." );
 
    // Reset connection record.
-   zmemset( &cr, 0, sizeof( ConnectionRecord ) );
+   zmemset( &cr, 0, zsizeof( ConnectionRecord ) );
    cr.pszBuffer = pchBuffer;
    cr.sock      = pZSocketTask->m_sock;
    cr.cMore = 0;

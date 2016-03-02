@@ -948,7 +948,7 @@ fnInitRmtDataSet( ZRmtDataRow *pdr,
       if ( pos )
       {
          prdi = (ZRmtDataItem *) pdr->m_Cols.GetNext( pos );
-         sprintf_s( szMsg, sizeof( szMsg ), "InitRmtDataSet: %s %ld %ld %-32s State: 0x%08lx",
+         sprintf_s( szMsg, zsizeof( szMsg ), "InitRmtDataSet: %s %ld %ld %-32s State: 0x%08lx",
                    (zPCHAR) lParam, pdr->GetOrder( ), pdr->GetKey( ),
                    prdi->GetString( ), pdr->GetState( ) );
          TraceLineS( szMsg, "" );
@@ -1259,7 +1259,7 @@ fnDisplayRmtDataSet( ZRmtDataRow *pdr,
 {
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "RmtDataSet Row: %s %ld %ld - ",
+   sprintf_s( szMsg, zsizeof( szMsg ), "RmtDataSet Row: %s %ld %ld - ",
              pdr->GetRowDataText( ),
              pdr->GetOrder( ), pdr->GetKey( ) );
    TraceLineX( szMsg, (zLONG) pdr );

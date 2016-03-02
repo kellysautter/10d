@@ -355,7 +355,7 @@ wTZOPRUSD_SetCtrlState( zVIEW vSubtask )
 
    // before this gets called
    GetViewByName( &vSOURCE, "TZOPRUSO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szOType, sizeof( szOType ), vSOURCE, "Operation", "Type" );
+   GetStringFromAttribute( szOType, zsizeof( szOType ), vSOURCE, "Operation", "Type" );
    fnSetButtonControls( szOType, vSubtask );
    fnSetEditControls( szOType, vSubtask );
 
@@ -381,7 +381,7 @@ wTZOPRUSD_VerifyParms( zVIEW vSubtask )
 
    CreateViewFromViewForTask( &vSOURCE_Copy, vSOURCE, 0 );
 
-   GetStringFromAttribute( szOperType, sizeof( szOperType ), vSOURCE_Copy, "Operation", "Type" );
+   GetStringFromAttribute( szOperType, zsizeof( szOperType ), vSOURCE_Copy, "Operation", "Type" );
 
    switch ( szOperType[ 0 ] )
    {
@@ -526,7 +526,7 @@ wTZOPRUSD_NeedParmOfType( zVIEW  vSubtask,
    {
       // if the first parm is there, get the type, else set the type 0
       nRetCode =
-         GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ),
+         GetStringFromAttribute( szCurrentType, zsizeof( szCurrentType ),
                                  vSOURCE, "Parameter", "DataType" );
       if ( zstrcmp( szCurrentType, szZType ) != 0 )
          DeleteEntity( vSOURCE, "Parameter", zREPOS_NONE );
@@ -666,7 +666,7 @@ wTZOPRUSD_InvokeEditor( zVIEW vSubtask )
    wTZOPRUSD_RemoveMultiSelection( vSubtask );
 
    GetViewByName( &vSOURCE, "TZOPRUSO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "OperationList", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "OperationList", "Name" );
 
    if ( GetViewByName( &vDialog, "TZWINDOWL", vSubtask, zLEVEL_TASK ) > 0 )
       SetCursorFirstEntityByString( vSOURCE, "Operation", "Name", szName,
@@ -753,10 +753,10 @@ wTZOPRUSD_ParameterDelete( zVIEW vSubtask )
    GetViewByName( &vSOURCEMETA, "TZOPRUSO", vSubtask, zLEVEL_TASK );
    if ( CheckExistenceOfEntity( vSOURCEMETA, "Parameter" ) >= zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "OK to delete the parameter " );
-      GetStringFromAttribute( szMsg + 27, sizeof( szMsg ) - 27, vSOURCEMETA,
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete the parameter " );
+      GetStringFromAttribute( szMsg + 27, zsizeof( szMsg ) - 27, vSOURCEMETA,
                               "Parameter", "ShortDesc" );
-      strcat_s( szMsg, sizeof( szMsg ), "?" );
+      strcat_s( szMsg, zsizeof( szMsg ), "?" );
       if (  MessagePrompt( vSubtask, "OP00804",
                            "Operations",
                            szMsg,
@@ -858,7 +858,7 @@ wTZOPRUSD_GoToUpdateOperation( zVIEW vSubtask )
    wTZOPRUSD_RemoveMultiSelection( vSubtask );
 
    GetViewByName( &vSOURCE, "TZOPRUSO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "OperationList", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "OperationList", "Name" );
 
    if ( GetViewByName( &vDialog, "TZWINDOWL", vSubtask, zLEVEL_TASK ) > 0 )
       SetCursorFirstEntityByString( vSOURCE, "Operation", "Name", szName, "Dialog" );
@@ -897,10 +897,10 @@ wTZOPRUSD_SaveOperation( zVIEW vSubtask )
    // duplicate because duplication is checked for each Operation
    // added or updated.
    CreateViewFromViewForTask( &vMetaView2, vMetaView, 0 );
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ),
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ),
                            vMetaView, "Operation", "Name" );
 
-   GetStringFromAttribute( szReturnType, sizeof( szReturnType ),
+   GetStringFromAttribute( szReturnType, zsizeof( szReturnType ),
                            vMetaView, "SourceFile", "LanguageType" );
 
    // Validate that the length of the operation name is restricted to
@@ -951,9 +951,9 @@ wTZOPRUSD_SaveOperation( zVIEW vSubtask )
    // for a VML Operation.
    if ( szReturnType[ 0 ] == 'V' )
    {
-      GetStringFromAttribute( szReturnType, sizeof( szReturnType ),
+      GetStringFromAttribute( szReturnType, zsizeof( szReturnType ),
                               vMetaView, "Operation", "ReturnDataType" );
-      GetStringFromAttribute( szOperationType, sizeof( szOperationType ),
+      GetStringFromAttribute( szOperationType, zsizeof( szOperationType ),
                               vMetaView, "Operation", "Type" );
       if ( szReturnType[ 0 ] != 0 && szReturnType[ 0 ] != 'N' &&
            szOperationType[ 0 ] != 'L' )
@@ -1002,7 +1002,7 @@ wTZOPRUSD_SaveSourceFile( zVIEW vSubtask )
       return( 0 );
 
    // Check that the Language Type was entered.
-   GetStringFromAttribute( szLanguageType, sizeof( szLanguageType ),
+   GetStringFromAttribute( szLanguageType, zsizeof( szLanguageType ),
                            vMetaView, "SourceFile", "LanguageType" );
    if ( szLanguageType[ 0 ] == 0 )  // ??? '\0f' )
    {
@@ -1114,9 +1114,9 @@ fnBuildOperationList( zVIEW vSubtask )
 
    // Determine name of root entity.
    if ( GetViewByName( &vMetaView, "TZZOLODO", vSubtask, zLEVEL_TASK ) < 0 )
-      strcpy_s( szRootName, sizeof( szRootName ), "Dialog" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "Dialog" );
    else
-      strcpy_s( szRootName, sizeof( szRootName ), "LOD" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "LOD" );
 
    // Now get the real meta view.
    GetViewByName( &vMetaView, "TZOPRUSO", vSubtask, zLEVEL_TASK );
@@ -1124,7 +1124,7 @@ fnBuildOperationList( zVIEW vSubtask )
    // save Cursor Position
    szOperationName[ 0 ] = 0;
    if ( CheckExistenceOfEntity( vMetaView, "Operation" ) >= zCURSOR_SET )
-      GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vMetaView, "Operation", "Name" );
+      GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vMetaView, "Operation", "Name" );
 
    if ( GetViewByName( &vTargetMeta, "TZOPRUSO2", vSubtask, zLEVEL_TASK ) < 0 )
    {
@@ -1262,10 +1262,10 @@ wTZOPRUSD_DeleteSourceFile( zVIEW vSubtask )
          // Verify that the SourceFile has no Operations.
          if ( CheckExistenceOfEntity( vMeta, "Operation" ) >= zCURSOR_SET )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Source File '" );
-            GetStringFromAttribute( szName, sizeof( szName ), vMeta, "SourceFile", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), szName );
-            strcat_s( szMsg, sizeof( szMsg ), "' cannot be deleted if it has Operations." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Source File '" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vMeta, "SourceFile", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), szName );
+            strcat_s( szMsg, zsizeof( szMsg ), "' cannot be deleted if it has Operations." );
             MessageSend( vSubtask, "OP00802", "Operations",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
          }
@@ -1470,7 +1470,7 @@ wTZOPRUSD_OperActionsCreate( zVIEW vSubtask )
       SetViewReadOnly( vOrigMeta );
 
    // set action name in the caption.
-   GetStringFromAttribute( szActionname, sizeof( szActionname ), vOrigMeta, "OperationList", "Name");
+   GetStringFromAttribute( szActionname, zsizeof( szActionname ), vOrigMeta, "OperationList", "Name");
    SetWindowCaptionTitle( vSubtask, 0, szActionname );
 
    return( 0 );
@@ -1535,7 +1535,7 @@ wTZOPRUSD_UpdateNextOperation( zVIEW vSubtask )
    // Position on next Operation.
    SetSelectStateOfEntity( vSOURCE, "OperationList", 0 );
    SetCursorNextEntity( vSOURCE, "OperationList", 0 );
-   GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "OperationList", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "OperationList", "Name" );
 
    if ( GetViewByName( &vDialog, "TZWINDOWL", vSubtask, zLEVEL_TASK ) > 0 )
       SetCursorFirstEntityByString( vSOURCE, "Operation", "Name", szName,
@@ -1582,7 +1582,7 @@ wTZOPRUSD_UpdatePrevOperation( zVIEW vSubtask )
    // Position on previous Operation.
    SetSelectStateOfEntity( vSOURCE, "OperationList", 0 );
    SetCursorPrevEntity( vSOURCE, "OperationList", 0 );
-   GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "OperationList", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "OperationList", "Name" );
 
    if ( GetViewByName( &vDialog, "TZWINDOWL", vSubtask, zLEVEL_TASK ) > 0 )
       SetCursorFirstEntityByString( vSOURCE, "Operation", "Name", szName,
@@ -1693,13 +1693,13 @@ wTZOPRUSD_CheckExistsSourceFile( zVIEW vSubtask )
 
    if ( GetViewByName( &vDialog, "TZWINDOWL", vSubtask, zLEVEL_TASK ) > 0 )
    {
-      strcpy_s( szRootName, sizeof( szRootName ), "Dialog" );
-      strcpy_s( szAttributeName, sizeof( szAttributeName ), "Tag" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "Dialog" );
+      strcpy_s( szAttributeName, zsizeof( szAttributeName ), "Tag" );
    }
    else
    {
-      strcpy_s( szRootName, sizeof( szRootName ), "LOD" );
-      strcpy_s( szAttributeName, sizeof( szAttributeName ), "Name" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "LOD" );
+      strcpy_s( szAttributeName, zsizeof( szAttributeName ), "Name" );
    }
 
    wTZOPRUSD_RemoveMultiSelection( vSubtask );
@@ -1760,10 +1760,10 @@ wTZOPRUSD_DeleteAllFiles( zVIEW vSubtask )
          // Verify that the SourceFile has no Operations.
          if ( CheckExistenceOfEntity( vMeta, "Operation" ) >= zCURSOR_SET )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Source File '" );
-            GetStringFromAttribute( szName, sizeof( szName ), vMeta, "SourceFile", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), szName );
-            strcat_s( szMsg, sizeof( szMsg ), "' cannot be deleted if it has Operations." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Source File '" );
+            GetStringFromAttribute( szName, zsizeof( szName ), vMeta, "SourceFile", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), szName );
+            strcat_s( szMsg, zsizeof( szMsg ), "' cannot be deleted if it has Operations." );
             MessageSend( vSubtask, "OP00802", "Operations",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
          }
@@ -1834,14 +1834,14 @@ wTZOPRUSD_DeleteSelectedOperat( zVIEW vSubtask )
 
    if ( GetViewByName( &vDialog, "TZWINDOWL", vSubtask, zLEVEL_TASK ) > 0 )
    {
-      strcpy_s( szRootName, sizeof( szRootName ), "Dialog" );
-      strcpy_s( szEntityName, sizeof( szEntityName ), "WD" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "Dialog" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "WD" );
       lSourceType = zSOURCE_DIALOG_META;
    }
    else
    {
-      strcpy_s( szRootName, sizeof( szRootName ), "LOD" );
-      strcpy_s( szEntityName, sizeof( szEntityName ), "ZO" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "LOD" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "ZO" );
       lSourceType = zSOURCE_LOD_META;
    }
 
@@ -1869,7 +1869,7 @@ wTZOPRUSD_DeleteSelectedOperat( zVIEW vSubtask )
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextSelectedEntity( vSOURCE, "OperationList", "" ) )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "OperationList", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "OperationList", "Name" );
          // The following validation is executed for Dialog metas only.
          nDelete = wTZOPRUSD_CheckActionForDeleteOp( vSubtask, vDialog,
                                                      lSourceType, szName );
@@ -1917,14 +1917,14 @@ wTZOPRUSD_DeleteAllOperations( zVIEW vSubtask )
 
    if ( GetViewByName( &vDialog, "TZWINDOWL", vSubtask, zLEVEL_TASK ) > 0 )
    {
-      strcpy_s( szRootName, sizeof( szRootName ), "Dialog" );
-      strcpy_s( szEntityName, sizeof( szEntityName ), "WD" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "Dialog" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "WD" );
       lSourceType = zSOURCE_DIALOG_META;
    }
    else
    {
-      strcpy_s( szRootName, sizeof( szRootName ), "LOD" );
-      strcpy_s( szEntityName, sizeof( szEntityName ), "ZO" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "LOD" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "ZO" );
       lSourceType = zSOURCE_LOD_META;
    }
 
@@ -1952,7 +1952,7 @@ wTZOPRUSD_DeleteAllOperations( zVIEW vSubtask )
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vSOURCE, "OperationList", "" ) )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "OperationList", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "OperationList", "Name" );
 
          // The following validation is executed for Dialog metas only.
          nDelete = wTZOPRUSD_CheckActionForDeleteOp( vSubtask, vDialog,
@@ -1997,7 +1997,7 @@ wTZOPRUSD_AcceptSubobject( zVIEW  vSubtask,
 
    GetViewByName( &vTZOPRUSO, "TZOPRUSO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vTZOPRUSO, szEntityName, AttributeName );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vTZOPRUSO, szEntityName, AttributeName );
 
    CreateViewFromViewForTask( &vTZOPRUSO_Copy, vTZOPRUSO, 0 );
 
@@ -2009,9 +2009,9 @@ wTZOPRUSD_AcceptSubobject( zVIEW  vSubtask,
 
    if ( nRC == zCURSOR_SET )
    {
-      strcpy_s( szMessage, sizeof( szMessage ), "A " );
-      strcat_s( szMessage, sizeof( szMessage ), szMessageText );
-      strcat_s( szMessage, sizeof( szMessage ), " already exists by this name!" );
+      strcpy_s( szMessage, zsizeof( szMessage ), "A " );
+      strcat_s( szMessage, zsizeof( szMessage ), szMessageText );
+      strcat_s( szMessage, zsizeof( szMessage ), " already exists by this name!" );
       MessageSend( vSubtask, "OP00814", "Operations",
                    szMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -2172,7 +2172,7 @@ wTZOPRUSD_CopyOperation( zVIEW vSubtask )
                                   vMetaView, "Operation", zPOS_AFTER );
    SetMatchingAttributesByName( vMetaView, "Operation",
                                 vMetaView2, "Operation", zSET_NOTNULL );
-   GetStringFromAttribute( szName + 1, sizeof( szName ) - 1, vMetaView, "Operation", "Name" );
+   GetStringFromAttribute( szName + 1, zsizeof( szName ) - 1, vMetaView, "Operation", "Name" );
    szName[ 0 ] = '_';
    szName[ 33 ] = 0;
    SetAttributeFromString( vMetaView, "Operation", "Name", szName );
@@ -2213,21 +2213,21 @@ wTZOPRUSD_DeleteCurrentOperation( zVIEW vSubtask )
 
    if ( GetViewByName( &vDialog, "TZWINDOWL", vSubtask, zLEVEL_TASK ) > 0 )
    {
-      strcpy_s( szRootName, sizeof( szRootName ), "Dialog" );
-      strcpy_s( szEntityName, sizeof( szEntityName ), "WD" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "Dialog" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "WD" );
       lSourceType = zSOURCE_DIALOG_META;
    }
    else
    {
-      strcpy_s( szRootName, sizeof( szRootName ), "LOD" );
-      strcpy_s( szEntityName, sizeof( szEntityName ), "ZO" );
+      strcpy_s( szRootName, zsizeof( szRootName ), "LOD" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "ZO" );
       lSourceType = zSOURCE_LOD_META;
    }
 
-   GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "Operation", "Name" );
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Operation '" );
-   strcat_s( szMsg, sizeof( szMsg ), szName );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "Operation", "Name" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Operation '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
    nRC = MessagePrompt( vSubtask, "OP00815", "Operations", szMsg, 0,
                         zBUTTONS_YESNO, zRESPONSE_NO, zICON_QUESTION );
 
@@ -2269,7 +2269,7 @@ wTZOPRUSD_DeleteCurrentOperation( zVIEW vSubtask )
    else
    {
       SetCursorPrevEntity( vSOURCE, "OperationList", "" );
-      GetStringFromAttribute( szName, sizeof( szName ), vSOURCE, "OperationList", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vSOURCE, "OperationList", "Name" );
       SetCursorFirstEntityByString( vSOURCE, "Operation", "Name", szName, szRootName );
       // Use a temporal subobject version for updating the Operation subobject.
       CreateTemporalSubobjectVersion( vSOURCE, "Operation" );
@@ -2308,9 +2308,9 @@ wTZOPRUSD_CheckActionForDeleteOp( zVIEW  vSubtask,
       if ( SetCursorFirstEntityByString( vTemp, "ActOper", "Name",
                                          szName, "Dialog" ) >= zCURSOR_SET )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Operation '" );
-         strcat_s( szMsg, sizeof( szMsg ), szName );
-         strcat_s( szMsg, sizeof( szMsg ), "' cannot be deleted if it is used by an Action." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Operation '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' cannot be deleted if it is used by an Action." );
          TraceLineS( szMsg, "" );
          DisplayObjectInstance( vTemp, "Action", 0 );
          MessageSend( vSubtask, "OP00817", "Operations", szMsg,
@@ -2390,10 +2390,10 @@ wTZOPRUSD_DeleteParameter( zVIEW vSubtask )
 
    GetViewByName( &vSOURCE, "TZOPRUSO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szShortDesc, sizeof( szShortDesc ), vSOURCE, "Parameter", "ShortDesc" );
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Parameter '" );
-   strcat_s( szMsg, sizeof( szMsg ), szShortDesc );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   GetStringFromAttribute( szShortDesc, zsizeof( szShortDesc ), vSOURCE, "Parameter", "ShortDesc" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Parameter '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szShortDesc );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
    nRC = MessagePrompt( vSubtask, "OP00815", "Operations", szMsg, 0,
                         zBUTTONS_YESNO, zRESPONSE_NO, zICON_QUESTION );
 
@@ -2999,7 +2999,7 @@ fnTZOPRUSD_SetNewOperationAssign( zVIEW  vSubtask,
    else
    {
       // Copy LOD Operation, check Operation Type
-      GetStringFromAttribute( szOperationType, sizeof( szOperationType ),
+      GetStringFromAttribute( szOperationType, zsizeof( szOperationType ),
                               vSourceMeta, "Operation", "Type" );
       switch ( szOperationType[ 0 ] )
       {
@@ -3048,9 +3048,9 @@ fnTZOPRUSD_MoveOperation( zVIEW vSubtask,
    // We will move the operation on which we're currently positioned in
    // TZOPRUSO to the end of the SourceFile for view, TZOPRUSO2, from
    // which the new souce entity was selected.
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vTZOPRUSO_Move, "Operation", "Name" );
-   strcpy_s( szMsg, sizeof( szMsg ), "Move Operation: " );
-   strcat_s( szMsg, sizeof( szMsg ), szOperationName );
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vTZOPRUSO_Move, "Operation", "Name" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Move Operation: " );
+   strcat_s( szMsg, zsizeof( szMsg ), szOperationName );
    MB_SetMessage( vSubtask, 0, szMsg );
 
    SetCursorLastEntity( vTargetMeta, "Operation", 0 );
@@ -3076,8 +3076,8 @@ fnTZOPRUSD_MoveOperation( zVIEW vSubtask,
    // if move Operation with Operation Code
    if ( GetCtrlState( vSubtask, "cbCopyCode", zCONTROL_STATUS_CHECKED ) == 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Move Operation Code: " );
-      strcat_s( szMsg, sizeof( szMsg ), szOperationName );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Move Operation Code: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szOperationName );
       MB_SetMessage( vSubtask, 0, szMsg );
       wTZOPRUSD_MoveOperationToFile( vSubtask );
    }

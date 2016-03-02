@@ -91,7 +91,7 @@ ShowTrans_ExecuteTrans( zVIEW vDBH_Subtask )
       return( fnShowResult( vDBH_Subtask, vT, zCALL_ERROR, pszObjectName, "",
                             "No Oper" ) );
 
-   zmemset( wArgValues, 0, sizeof( wArgValues ) );
+   zmemset( wArgValues, 0, zsizeof( wArgValues ) );
    pwArg = wArgValues;
    *szArgControl = 0;
    iViewCount = -1;
@@ -104,10 +104,10 @@ ShowTrans_ExecuteTrans( zVIEW vDBH_Subtask )
 
       GetAddrForAttribute( &pchReturnedValue, vT, szlArgument, "ReturnedValue" );
       if ( *pchReturnedValue == 'Y' )
-         strcat_s( szArgControl, sizeof( szArgControl ), "p" );
+         strcat_s( szArgControl, zsizeof( szArgControl ), "p" );
 
       GetAddrForAttribute( &pszDataType, vT, szlArgument, "DataType" );
-      strcat_s( szArgControl, sizeof( szArgControl ), pszDataType );
+      strcat_s( szArgControl, zsizeof( szArgControl ), pszDataType );
       switch ( *pszDataType )
       {
          case 'N':
@@ -267,9 +267,9 @@ ShowTrans_ExecuteTrans( zVIEW vDBH_Subtask )
 
       SfGetApplicationForSubtask( &lpApp, vSubtask );
 
-      strcpy_s( szFileName, sizeof( szFileName ), lpApp->szLibraryDir );
+      strcpy_s( szFileName, zsizeof( szFileName ), lpApp->szLibraryDir );
       SysAppendcDirSep( szFileName );
-      strcat_s( szFileName, sizeof( szFileName ), lpViewOD->szOperLibname );
+      strcat_s( szFileName, zsizeof( szFileName ), lpViewOD->szOperLibname );
       TraceLineS( "DBHTest: Trying to load library ", szFileName );
       hLibrary = SysLoadLibrary( vSubtask, szFileName );
       if ( hLibrary == 0 )
@@ -304,7 +304,7 @@ ShowTrans_ExecuteTrans( zVIEW vDBH_Subtask )
 
    if ( nRC < 0 )
    {
-      strcpy_s( szArgControl, sizeof( szArgControl ), "CallTran error" );
+      strcpy_s( szArgControl, zsizeof( szArgControl ), "CallTran error" );
       goto EndOfFunction;
    }
 
@@ -367,7 +367,7 @@ ShowTrans_ExecuteTrans( zVIEW vDBH_Subtask )
    } // for ( nRC = SetCursorFirstEntity( vT, szlArgument, 0 )...
 
    nRC = 0;
-   sprintf_s( szArgControl, sizeof( szArgControl ), "OK/RC = %ld", lRC );
+   sprintf_s( szArgControl, zsizeof( szArgControl ), "OK/RC = %ld", lRC );
 
 EndOfFunction:
    return( fnShowResult( vDBH_Subtask, vT, nRC, pszObjectName,
@@ -527,7 +527,7 @@ fnInclude_SelectView( zVIEW  vSubtask,
          szEntityName[ nRC ] = ' ';
       }
       szEntityName[ nRC ] = 0;
-      strcat_s( szEntityName, sizeof( szEntityName ), lpViewEntity->szName );
+      strcat_s( szEntityName, zsizeof( szEntityName ), lpViewEntity->szName );
       SetAttributeFromString( vT, "Entity", "IndentedName", szEntityName );
 
       if ( CheckExistenceOfEntity( vTemp, lpViewEntity->szName ) < zCURSOR_SET )
@@ -692,8 +692,8 @@ fnRead( zVIEW   lpTaskView,
 
    *ppchReturnBuffer = g_szReadBuffer;
    *pulReturnLth = SysReadFile( lpTaskView, hFile, g_szReadBuffer,
-                                sizeof( g_szReadBuffer ) );
-   if ( *pulReturnLth < sizeof( g_szReadBuffer ) )
+                                zsizeof( g_szReadBuffer ) );
+   if ( *pulReturnLth < zsizeof( g_szReadBuffer ) )
       return( TRUE );   // Nothing more to read.
    else
       return( FALSE );  // Still more info in file.
@@ -735,7 +735,7 @@ void TestDec( zVIEW v, zPCHAR psz1, zPCHAR psz2 )
 
    nRC = CompareAttributeToAttribute( v, "Root", "Int1", v, "Root", "Dec2" );
 
-   sprintf_s( szMsg, sizeof( szMsg ), "Result of comparing Int1 = '%s' and Dec2 = '%s' = %d", psz1, psz2, nRC );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Result of comparing Int1 = '%s' and Dec2 = '%s' = %d", psz1, psz2, nRC );
    TraceLineS( "DGC ", szMsg );
 
 }
@@ -750,7 +750,7 @@ void TestInt( zVIEW v, zPCHAR psz1, zPCHAR psz2 )
 
    nRC = CompareAttributeToAttribute( v, "Root", "Dec1", v, "Root", "Int2" );
 
-   sprintf_s( szMsg, sizeof( szMsg ), "Result of comparing Dec1 = '%s' and Int2 = '%s' = %d", psz1, psz2, nRC );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Result of comparing Dec1 = '%s' and Int2 = '%s' = %d", psz1, psz2, nRC );
    TraceLineS( "DGC ", szMsg );
 
 }
@@ -848,9 +848,9 @@ Tester( zVIEW vSubtask )
    GetViewByName( &v, "Source", vSubtask, zLEVEL_TASK );
 
 #if 0
-   //GetStringFromAttribute( sz, sizeof( sz ), v, "SalesOrder", "DonTest" );
+   //GetStringFromAttribute( sz, zsizeof( sz ), v, "SalesOrder", "DonTest" );
    //TraceLineS( "DonTest =====> ", sz );
-   GetStringFromAttribute( sz, sizeof( sz ), v, "SalesOrder", "DGTest" );
+   GetStringFromAttribute( sz, zsizeof( sz ), v, "SalesOrder", "DGTest" );
    TraceLineS( "DGTest  =====> ", sz );
 #endif
 

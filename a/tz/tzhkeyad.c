@@ -96,7 +96,7 @@ SaveVKey( zVIEW vSubtask )
 // {
 //    zCHAR szText[ 64 ];
 //
-//    GetCtrlText( vSubtask, "DLL_Name", szText, sizeof( szText ) );
+//    GetCtrlText( vSubtask, "DLL_Name", szText, zsizeof( szText ) );
 //    SetAttributeFromString( vHotkey, "Operation", "DLL_Name", 0 );
 // }
 
@@ -184,9 +184,9 @@ zwTZHKEYAD_InitHK_ForLPLR( zVIEW vSubtask )
       return( 0 );
    }
 
-   GetStringFromAttribute( szFileSpecEnv, sizeof( szFileSpecEnv ), vTaskLPLR, "LPLR", "MetaSrcDir" );
-   SysConvertEnvironmentString( szFileSpec, sizeof( szFileSpec ), szFileSpecEnv );
-   strcat_s( szFileSpec, sizeof( szFileSpec ), "\\ZEIDON.PHK" );
+   GetStringFromAttribute( szFileSpecEnv, zsizeof( szFileSpecEnv ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   SysConvertEnvironmentString( szFileSpec, zsizeof( szFileSpec ), szFileSpecEnv );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), "\\ZEIDON.PHK" );
    TraceLineS( "Hotkey Dialog opening file: ", szFileSpec );
 
    // Load the HKEY object.
@@ -234,8 +234,8 @@ zwTZHKEYAD_SaveHK_ForLPLR( zVIEW vSubtask )
       return( 0 );
    }
 
-   GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vTaskLPLR, "LPLR", "MetaSrcDir" );
-   strcat_s( szFileSpec, sizeof( szFileSpec ), "\\ZEIDON.PHK" );
+   GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), "\\ZEIDON.PHK" );
    MiSetOI_ReleaseForView( vKZHKEYSO, szlReleaseCurrent );
    CommitOI_ToFile( vKZHKEYSO, szFileSpec, zASCII | zENCODE_BLOBS | zNO_NULL_STRING_TERM );
 
@@ -280,8 +280,8 @@ zwTZHKEYAD_SaveHK_ForLPLR( zVIEW vSubtask )
    SfUnlockTaskMemory( lpAT );
    SfFreeTaskMemory( lpGlobalHotkey );
 
-   GetStringFromAttribute( szFileSpec, sizeof( szFileSpec ), vTaskLPLR, "LPLR", "ExecDir" );
-   strcat_s( szFileSpec, sizeof( szFileSpec ), "\\ZEIDON.XKY" );
+   GetStringFromAttribute( szFileSpec, zsizeof( szFileSpec ), vTaskLPLR, "LPLR", "ExecDir" );
+   strcat_s( szFileSpec, zsizeof( szFileSpec ), "\\ZEIDON.XKY" );
    CommitOI_ToFile( vKZHKEYXO, szFileSpec, zASCII );
    return( 0 );
 }
@@ -349,7 +349,7 @@ zwTZHKEYAD_SwitchLPLR( zVIEW vSubtask )
    {
       zCHAR  szMsg[ 300 ];
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Do you wish to save current Application Hotkeys?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Do you wish to save current Application Hotkeys?" );
       nRC = MessagePrompt( vSubtask, "HK00103",
                            "Hot Keys",
                             szMsg,
@@ -392,7 +392,7 @@ zwTZHKEYAD_ExitAppl( zVIEW vSubtask )
    {
       zCHAR  szMsg[ 300 ];
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Do you wish to save current Application Hotkeys?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Do you wish to save current Application Hotkeys?" );
       nRC = MessagePrompt( vSubtask, "HK00104",
                            "Hot Keys",
                             szMsg,

@@ -181,7 +181,7 @@ ZER_Diagram::ZER_Diagram( ZSubtask *pZSubtask,
    m_bRefreshERD = TRUE;
 
    // Check a flag in the Zeidon INI to see if we should pop up the msg.
-   SysReadZeidonIni( -1, "[ZeidonTools]", "RefreshERD", szTemp, sizeof( szTemp ) );
+   SysReadZeidonIni( -1, "[ZeidonTools]", "RefreshERD", szTemp, zsizeof( szTemp ) );
    if ( ((*szTemp && *(szTemp + 1) == 0) && (*szTemp == 'N' || *szTemp == 'n')) )
       m_bRefreshERD = FALSE;
 
@@ -724,22 +724,22 @@ ZER_Diagram::PrintDiagram( zSHORT nPercent, zSHORT nOptions )
                                    nPercent, nOptions, ptDiagramSize, ptPageSizeWork );
          }
 
-         strcpy_s( szMessage, sizeof( szMessage ), "Print Analysis\r\n\r\n" );
-         strcat_s( szMessage, sizeof( szMessage ), " Size: " );
-         _ltoa_s( m_lScale + 100, szMessage + 240, sizeof( szMessage ) - 240, 10 );
-         strcat_s( szMessage, sizeof( szMessage ), szMessage + 240 );
-         strcat_s( szMessage, sizeof( szMessage ), "%\r\n" );
-         strcat_s( szMessage, sizeof( szMessage ), " Orientation: " );
+         strcpy_s( szMessage, zsizeof( szMessage ), "Print Analysis\r\n\r\n" );
+         strcat_s( szMessage, zsizeof( szMessage ), " Size: " );
+         _ltoa_s( m_lScale + 100, szMessage + 240, zsizeof( szMessage ) - 240, 10 );
+         strcat_s( szMessage, zsizeof( szMessage ), szMessage + 240 );
+         strcat_s( szMessage, zsizeof( szMessage ), "%\r\n" );
+         strcat_s( szMessage, zsizeof( szMessage ), " Orientation: " );
          if ( nOptions & zPRINT_PORTRAIT )
-            strcat_s( szMessage, sizeof( szMessage ), "Portrait\r\n" );
+            strcat_s( szMessage, zsizeof( szMessage ), "Portrait\r\n" );
          else
-            strcat_s( szMessage, sizeof( szMessage ), "Landscape\r\n" );
+            strcat_s( szMessage, zsizeof( szMessage ), "Landscape\r\n" );
 
-         strcat_s( szMessage, sizeof( szMessage ), " Pages: " );
-         _ltoa_s( lPages, szMessage + 240, sizeof( szMessage ) - 240, 10 );
-         strcat_s( szMessage, sizeof( szMessage ), szMessage + 240 );
-         strcat_s( szMessage, sizeof( szMessage ), "\r\n\r\n" );
-         strcat_s( szMessage, sizeof( szMessage ), "Continue with printing?" );
+         strcat_s( szMessage, zsizeof( szMessage ), " Pages: " );
+         _ltoa_s( lPages, szMessage + 240, zsizeof( szMessage ) - 240, 10 );
+         strcat_s( szMessage, zsizeof( szMessage ), szMessage + 240 );
+         strcat_s( szMessage, zsizeof( szMessage ), "\r\n\r\n" );
+         strcat_s( szMessage, zsizeof( szMessage ), "Continue with printing?" );
 
          // Reset the drawing stuff so a window paint can occur
          // while we are prompting the operator
@@ -824,7 +824,7 @@ ZER_Diagram::PrintDiagram( zSHORT nPercent, zSHORT nOptions )
                {
                   if ( lPage > 1 )
                   {
-                     _ltoa_s( lPage, szMessage, sizeof( szMessage ), 10 );
+                     _ltoa_s( lPage, szMessage, zsizeof( szMessage ), 10 );
                      lPos = zstrlen( szMessage );
                   // szMessage[ lPos++ ] = ' ';
                   // szMessage[ lPos ] = 0;     don't need to null terminate
@@ -849,7 +849,7 @@ ZER_Diagram::PrintDiagram( zSHORT nPercent, zSHORT nOptions )
 
                      if ( pchPrintTitle && *pchPrintTitle )
                      {
-                        strcpy_s( szMessage, sizeof( szMessage ), pchPrintTitle );
+                        strcpy_s( szMessage, zsizeof( szMessage ), pchPrintTitle );
                         lPos = zstrlen( szMessage );
                         szMessage[ lPos++ ] = ' ';
                         szMessage[ lPos++ ] = '[';
@@ -860,8 +860,8 @@ ZER_Diagram::PrintDiagram( zSHORT nPercent, zSHORT nOptions )
                         lPos = 0;
                      }
 
-                     SysGetDateTime( szMessage + 200, sizeof( szMessage ) - 200 );
-                     UfFormatDateTime( szMessage + lPos, sizeof( szMessage ) - lPos, szMessage + 200, "YYYY/MM/DD HH:MI:SS" );
+                     SysGetDateTime( szMessage + 200, zsizeof( szMessage ) - 200 );
+                     UfFormatDateTime( szMessage + lPos, zsizeof( szMessage ) - lPos, szMessage + 200, "YYYY/MM/DD HH:MI:SS" );
                      lPos = zstrlen( szMessage ) - 3; // drop the seconds
                      szMessage[ lPos++ ] = ']';
                      szMessage[ lPos++ ] = ' ';
@@ -2181,7 +2181,7 @@ ZER_Diagram::DisplayCells( zCPCHAR cpcText,
       szVal[ 2 ] = 0;
       while ( lX1 <= lX2 )
       {
-         sprintf_s( szMsg, sizeof( szMsg ), "Row %3ld:", lX1 );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Row %3ld:", lX1 );
          lLth = zstrlen( szMsg );
          lIdx = (lX1 * tzERDIAGRAMX) + lY1;
          for ( k = 0; k <= lY2 - lY1; k++ )
@@ -2189,7 +2189,7 @@ ZER_Diagram::DisplayCells( zCPCHAR cpcText,
             if ( k && (k % 100) == 0 )
             {
                TraceLineS( szMsg, "" );
-               sprintf_s( szMsg, sizeof( szMsg ), "=>> %3ld:", lX1 );
+               sprintf_s( szMsg, zsizeof( szMsg ), "=>> %3ld:", lX1 );
                lLth = zstrlen( szMsg );
             }
 
@@ -2550,9 +2550,9 @@ ZER_Diagram::MapFromOI( WPARAM wFlag )
             nRels++;
             bSelect = (zBOOL) GetSelectStateOfEntityForSet( vDiagram, *m_pzsAName, 1 );
             GetIntegerFromAttribute( &lPosZKey, vDiagram, *m_pzsAName, szlZKey );
-            GetStringFromAttribute( szSrcText, sizeof( szSrcText ), vDiagram, szlER_RelLink_2, szlName );
+            GetStringFromAttribute( szSrcText, zsizeof( szSrcText ), vDiagram, szlER_RelLink_2, szlName );
             strcat_s( szSrcText, szlLPAREN );
-            GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram, szlER_RelLink_2, szlCardMin );
+            GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram, szlER_RelLink_2, szlCardMin );
             strcat_s( szSrcText, szCard );
             if ( atoi( szCard ) == 1 )
                bSrcReq = 1;
@@ -2560,7 +2560,7 @@ ZER_Diagram::MapFromOI( WPARAM wFlag )
                bSrcReq = 0;
 
             strcat_s( szSrcText, szlCOMMA );
-            GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram, szlER_RelLink_2, szlCardMax );
+            GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram, szlER_RelLink_2, szlCardMax );
             strcat_s( szSrcText, szCard );
             if ( atoi( szCard ) == 1 )
                bSrcMany = 0;
@@ -2581,9 +2581,9 @@ ZER_Diagram::MapFromOI( WPARAM wFlag )
             }
 
             nCsrRC = SetCursorNextEntity( vDiagram, szlER_RelLink_2, 0 );
-            GetStringFromAttribute( szTgtText, sizeof( szTgtText ), vDiagram, szlER_RelLink_2, szlName );
+            GetStringFromAttribute( szTgtText, zsizeof( szTgtText ), vDiagram, szlER_RelLink_2, szlName );
             strcat_s( szTgtText, szlLPAREN );
-            GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram, szlER_RelLink_2, szlCardMin );
+            GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram, szlER_RelLink_2, szlCardMin );
             strcat_s( szTgtText, szCard );
             if ( atoi( szCard ) == 1 )
                bTgtReq = 1;
@@ -2591,7 +2591,7 @@ ZER_Diagram::MapFromOI( WPARAM wFlag )
                bTgtReq = 0;
 
             strcat_s( szTgtText, szlCOMMA );
-            GetStringFromAttribute( szCard, sizeof( szCard ), vDiagram, szlER_RelLink_2, szlCardMax );
+            GetStringFromAttribute( szCard, zsizeof( szCard ), vDiagram, szlER_RelLink_2, szlCardMax );
             strcat_s( szTgtText, szCard );
             if ( atoi( szCard ) == 1 )
                bTgtMany = 0;

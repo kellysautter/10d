@@ -89,7 +89,7 @@ oTZERSASO_SA_Migrate( zPVIEW    NewSA,
 
    //:// Activate existing source meta OldSA
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + SubjectAreaName + ".PSA"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, SubjectAreaName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".PSA", 1, 0, 514 );
@@ -109,7 +109,7 @@ oTZERSASO_SA_Migrate( zPVIEW    NewSA,
       //:SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2004
       RESULT = SetCursorFirstEntityByInteger( SourceLPLR, "W_MetaType", "Type", 2004, "" );
       //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + SourceLPLR.W_MetaDef.Name + ".PMD"
-      GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
       GetVariableFromAttribute( szTempString_0, 0, 'S', 33, SourceLPLR, "W_MetaDef", "Name", "", 0 );
       ZeidonStringConcat( SourceFileName, 1, 0, szTempString_0, 1, 0, 514 );
@@ -217,7 +217,7 @@ oTZERSASO_SA_MigrateWithERDs( zPVIEW    NewSA,
       { 
          //:SET CURSOR FIRST NewSA.ER_Entity WITHIN NewSA.SubjectArea WHERE
          //:       NewSA.ER_Entity.Name = OldERD.ER_Entity.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldERD, "ER_Entity", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldERD, "ER_Entity", "Name" );
          RESULT = SetCursorFirstEntityByString( *NewSA, "ER_Entity", "Name", szTempString_0, "SubjectArea" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -230,7 +230,7 @@ oTZERSASO_SA_MigrateWithERDs( zPVIEW    NewSA,
 
             //:SET CURSOR FIRST NewERD.ER_Entity WHERE
             //:    NewERD.ER_Entity.Name = OldERD.ER_Entity.Name
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldERD, "ER_Entity", "Name" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldERD, "ER_Entity", "Name" );
             RESULT = SetCursorFirstEntityByString( NewERD, "ER_Entity", "Name", szTempString_0, "" );
             //:IF RESULT < zCURSOR_SET
             if ( RESULT < zCURSOR_SET )
@@ -411,7 +411,7 @@ oTZERSASO_SA_MigrateWithERDs( zPVIEW    NewSA,
       { 
          //:SET CURSOR FIRST NewERD.ER_Entity WHERE
          //:    NewERD.ER_Entity.Name = OldERD.ER_Entity.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldERD, "ER_Entity", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldERD, "ER_Entity", "Name" );
          RESULT = SetCursorFirstEntityByString( NewERD, "ER_Entity", "Name", szTempString_0, "" );
          //:INCLUDE NewSA.OwnedER_Entity FROM NewERD.ER_Entity
          RESULT = IncludeSubobjectFromSubobject( *NewSA, "OwnedER_Entity", NewERD, "ER_Entity", zPOS_AFTER );

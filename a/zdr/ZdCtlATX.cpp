@@ -772,7 +772,7 @@ ZActiveX::OnCmdMsg( UINT uID, int nCode,
    else
    {
       zCHAR szMsg[ 256 ];
-      sprintf_s( szMsg, sizeof( szMsg ), "nCode %d is no Event", nCode );
+      sprintf_s( szMsg, zsizeof( szMsg ), "nCode %d is no Event", nCode );
       TraceLineS( szMsg, "" );
    }
 
@@ -1373,7 +1373,7 @@ ZActiveX::GetZCtrlState( zLONG lStatusType )
 // int i = QueryMappingInfoCount( ..., ... ) // retrieves the number of
 // Mapping in Zeidon
 //
-// long MapinfoSize = sizeof( MapInfo ) * i;
+// long MapinfoSize = zsizeof( MapInfo ) * i;
 // MapInfo *pMapInfo = (MapInfo *) new zCHAR ( MapinfoSize );
 //
 // QueryMappingInfo ( ........., pMapInfo, MapinfoSize ) // fills the Array of
@@ -1586,7 +1586,7 @@ ExampleOf::MapFromOI( )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ),
+         sprintf_s( szMsg, zsizeof( szMsg ),
                    "Unable to load view: %s for %s.%s.%s",
                    *m_pzsVName, *m_pZSubtask->m_pzsDlgTag,
                    *m_pZSubtask->m_pzsWndTag, *m_pzsTag );

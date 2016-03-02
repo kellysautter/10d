@@ -786,7 +786,7 @@ zwTZAXCFGD_ReturnFromSubwindow( zVIEW vSubtask )
 
       // save cursor
       GetViewByName( &vTZPNEVWO, "TZPNEVWO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szEventTag, sizeof( szEventTag ), vTZPNEVWO, pszEvent, "Tag" );
+      GetStringFromAttribute( szEventTag, zsizeof( szEventTag ), vTZPNEVWO, pszEvent, "Tag" );
 
       // Build the TZPNEVWO object for the control events.
       fnPainterCall( zMSG_BUILDTZPNEVWO, vSubtask, 0, 0, 0 );
@@ -937,7 +937,7 @@ zwTZAXCFGD_OperationEdit( zVIEW vSubtask )
    if ( CheckExistenceOfEntity( vDialogC, "EventAct" ) == zCURSOR_SET &&
         CompareAttributeToString( vDialogC, "EventAct", "Tag", "" ) != 0 )
    {
-      GetStringFromAttribute( szTag, sizeof( szTag ), vDialogC, "EventAct", "Tag" );
+      GetStringFromAttribute( szTag, zsizeof( szTag ), vDialogC, "EventAct", "Tag" );
       SetCursorFirstEntityByString( vDialogW, "Action", "Tag", szTag, "" );
       if ( CheckExistenceOfEntity( vDialogW, "Operation" ) == zCURSOR_SET &&
            CheckExistenceOfEntity( vDialogW, "ActOper" ) == zCURSOR_SET )
@@ -1023,8 +1023,8 @@ zwTZAXCFGD_OK( zVIEW vSubtask )
    zCHAR     szText[ 255 ];
 
    GetViewByName( &vControl, pszTZCONTROL, vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szTag, sizeof( szTag ), vControl, pszControl, pszTag );
-   GetStringFromAttribute( szText, sizeof( szText ), vControl, pszControl, pszText );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vControl, pszControl, pszTag );
+   GetStringFromAttribute( szText, zsizeof( szText ), vControl, pszControl, pszText );
 
    pAtx = GetCurrentActiveX( vSubtask );
    if ( pAtx )
@@ -1146,12 +1146,12 @@ SetupGridColumnFromControlView( zVIEW vSubtask, Column &Col, ZColumns& cols )
       if ( CheckExistenceOfEntity( vControl, pszCtrlMapView ) == zCURSOR_SET )
       {
          // Get the view, entity, attribute name  and context to create edit and listbox mapping
-         GetStringFromAttribute( szView, sizeof( szView ), vControl, pszCtrlMapView, pszName );
-         GetStringFromAttribute( szEntity, sizeof( szEntity ), vControl, pszCtrlMapRelatedEntity, pszName );
-         GetStringFromAttribute( szAttribute, sizeof( szAttribute ), vControl, pszCtrlMapER_Attribute, pszName );
+         GetStringFromAttribute( szView, zsizeof( szView ), vControl, pszCtrlMapView, pszName );
+         GetStringFromAttribute( szEntity, zsizeof( szEntity ), vControl, pszCtrlMapRelatedEntity, pszName );
+         GetStringFromAttribute( szAttribute, zsizeof( szAttribute ), vControl, pszCtrlMapER_Attribute, pszName );
          if ( CheckExistenceOfEntity( vControl, pszCtrlMapContext ) == zCURSOR_SET )
          {
-            GetStringFromAttribute( szContext, sizeof( szContext ), vControl, pszCtrlMapContext, pszName );
+            GetStringFromAttribute( szContext, zsizeof( szContext ), vControl, pszCtrlMapContext, pszName );
          }
       }
       //try to setup unique name for datafield property of the column
@@ -1180,7 +1180,7 @@ SetupGridColumnFromControlView( zVIEW vSubtask, Column &Col, ZColumns& cols )
       }
       Col.SetDataField( strDataField );
 
-      GetStringFromAttribute( szHelp, sizeof( szHelp ), vControl, pszControl, pszText );
+      GetStringFromAttribute( szHelp, zsizeof( szHelp ), vControl, pszControl, pszText );
       Col.SetCaption( szHelp );
 
       GetIntegerFromAttribute( &lControlType, vControl, pszControl, pszType );
@@ -1277,12 +1277,12 @@ SetupGridCombo( zVIEW vSubtask, Column &Col, ZColumns& cols, ZColComboBox* pComb
             if ( CheckExistenceOfEntity( vControl, pszCtrlMapView ) == zCURSOR_SET )
             {
                // Get the view, entity, attribute name  and context to create edit and listbox mapping
-               GetStringFromAttribute( szViewName, sizeof( szViewName ), vControl, pszCtrlMapView, pszName );
-               GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vControl, pszCtrlMapRelatedEntity, pszName );
-               GetStringFromAttribute( szAttributeName, sizeof( szAttributeName ), vControl, pszCtrlMapER_Attribute, pszName );
+               GetStringFromAttribute( szViewName, zsizeof( szViewName ), vControl, pszCtrlMapView, pszName );
+               GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vControl, pszCtrlMapRelatedEntity, pszName );
+               GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ), vControl, pszCtrlMapER_Attribute, pszName );
                if ( CheckExistenceOfEntity( vControl, pszCtrlMapContext ) == zCURSOR_SET )
                {
-                  GetStringFromAttribute( szContextName, sizeof( szContextName ), vControl, pszCtrlMapContext, pszName );
+                  GetStringFromAttribute( szContextName, zsizeof( szContextName ), vControl, pszCtrlMapContext, pszName );
                }
                // first is Edit mapping the second is list mapping
                if ( k == 1 )
@@ -1298,7 +1298,7 @@ SetupGridCombo( zVIEW vSubtask, Column &Col, ZColumns& cols, ZColComboBox* pComb
             // here we get browse and scope informations
             if ( CheckExistenceOfEntity( vControl, pszCtrlMapLOD_Entity ) == 0 )
             {
-               GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vControl, pszCtrlMapLOD_Entity, pszName );
+               GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vControl, pszCtrlMapLOD_Entity, pszName );
                if ( k == 3 )
                   pComboBoxProps->SetBrowseEntity( szEntityName );
                else
@@ -1318,7 +1318,7 @@ SetupGridCombo( zVIEW vSubtask, Column &Col, ZColumns& cols, ZColComboBox* pComb
                // in the Target, but all the rest will be deleted.
                if ( CheckExistenceOfEntity( vControl, pszCtrlMapView ) == zCURSOR_SET )
                {
-                  GetStringFromAttribute( szViewName, sizeof( szViewName ), vControl, pszCtrlMapView, pszName );
+                  GetStringFromAttribute( szViewName, zsizeof( szViewName ), vControl, pszCtrlMapView, pszName );
                   pComboBoxProps->SetOnlySelectedView( szViewName );
                }
                else
@@ -1386,7 +1386,7 @@ SetupGridRadioGroup( zVIEW vSubtask, Column &Col, ZColumns& cols, ZColRadioGrp* 
          // Set work attributes DefaultIndicator & Value from
          // Control.CtrlBOI.
          GetAddrForAttribute( &pCtrlBOI, vSubControl, pszControl, pszCtrlBOI );
-         GetStringFromAttribute( szHelp, sizeof( szHelp ), vSubControl, pszControl, pszText );
+         GetStringFromAttribute( szHelp, zsizeof( szHelp ), vSubControl, pszControl, pszText );
          szIndicator[ 0 ] = pCtrlBOI[ 0 ];
          szIndicator[ 1 ] = 0;
          ZColRadioBtn *pZRB = new ZColRadioBtn();
@@ -1560,7 +1560,7 @@ zwTZAXCFGD_COMBO_Init( zVIEW vSubtask )
    }
 
    // If Subtype already is defined, switch to the proper window.
-   GetStringFromAttribute( szStringSubtype, sizeof( szStringSubtype ), vWork, "ComboBox", "Subtype" );
+   GetStringFromAttribute( szStringSubtype, zsizeof( szStringSubtype ), vWork, "ComboBox", "Subtype" );
    if ( szStringSubtype[ 0 ] != 0 )
    {
       GetIntegerFromAttribute( &CurrentSubtype, vWork,
@@ -2671,13 +2671,13 @@ zwTZAXCFGD_CHECK_OK( zVIEW vSubtask )
 
    // Null out edit text since it has no meaning and we prefer the
    // tag to be displayed in the painter
-   GetStringFromAttribute( szCtrlBOI, sizeof( szCtrlBOI ), vWork, "CheckBox", "CheckOn" );
+   GetStringFromAttribute( szCtrlBOI, zsizeof( szCtrlBOI ), vWork, "CheckBox", "CheckOn" );
    nLth = 0;
    while ( szCtrlBOI[ nLth ] )
       nLth++;
 
    nLth++;
-   GetStringFromAttribute( szCtrlBOI + nLth, sizeof( szCtrlBOI ) - nLth, vWork,
+   GetStringFromAttribute( szCtrlBOI + nLth, zsizeof( szCtrlBOI ) - nLth, vWork,
                            "CheckBox", "CheckOff" );
    while ( szCtrlBOI[ nLth ] )
       nLth++;
@@ -2778,7 +2778,7 @@ zwTZAXCFGD_TEXT_PostBuild( zVIEW vSubtask )
 // zLONG   lBorderStyle;
 // zLONG   lBorderColor = 0;
    zLONG   lEscapement = 0;
-   zULONG  uLth = sizeof( szBlob );
+   zULONG  uLth = zsizeof( szBlob );
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
    GetBlobFromAttribute( szBlob, &uLth, vControl, "Control", "CtrlBOI" );
@@ -2818,18 +2818,18 @@ zwTZAXCFGD_TEXT_PostBuild( zVIEW vSubtask )
 
             // careful not to mess up szBlob prematurely!
          // lBorderStyle >>= 24;
-         // zltoa( lBorderStyle, szBlob, sizeof( szBlob ) );
+         // zltoa( lBorderStyle, szBlob, zsizeof( szBlob ) );
          // SetCtrlText( vSubtask, "LineWidth", szBlob );
          }
       }
       else
          SetCtrlState( vSubtask, "Left", zCONTROL_STATUS_CHECKED, TRUE );
 
-      zltoa( lSize, szBlob, sizeof( szBlob ) );
+      zltoa( lSize, szBlob, zsizeof( szBlob ) );
       SetCtrlText( vSubtask, "Size", szBlob );
-      zltoa( lColor, szBlob, sizeof( szBlob ) );
+      zltoa( lColor, szBlob, zsizeof( szBlob ) );
       SetCtrlText( vSubtask, "Color", szBlob );
-      zltoa( lEscapement, szBlob, sizeof( szBlob ) );
+      zltoa( lEscapement, szBlob, zsizeof( szBlob ) );
       SetCtrlText( vSubtask, "Escapement", szBlob );
    }
 
@@ -2863,7 +2863,7 @@ zwTZAXCFGD_TEXT_OK( zVIEW vSubtask )
    zUSHORT uLth;
 
    // initialize the blob
-   memset( szBlob, 0, sizeof( szBlob ) );
+   memset( szBlob, 0, zsizeof( szBlob ) );
 
    // get the view
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
@@ -2878,11 +2878,11 @@ zwTZAXCFGD_TEXT_OK( zVIEW vSubtask )
    bCenter    = (zBOOL) GetCtrlState( vSubtask, "Center", zCONTROL_STATUS_CHECKED );
    bRight     = (zBOOL) GetCtrlState( vSubtask, "Right", zCONTROL_STATUS_CHECKED );
 
-   GetCtrlText( vSubtask, "Size", szBlob, sizeof( szBlob ) );
+   GetCtrlText( vSubtask, "Size", szBlob, zsizeof( szBlob ) );
    lSize = atol( szBlob );
-   GetCtrlText( vSubtask, "Color", szBlob, sizeof( szBlob ) );
+   GetCtrlText( vSubtask, "Color", szBlob, zsizeof( szBlob ) );
    lColor = atol( szBlob );
-   GetCtrlText( vSubtask, "Escapement", szBlob, sizeof( szBlob ) );
+   GetCtrlText( vSubtask, "Escapement", szBlob, zsizeof( szBlob ) );
    lEscapement = atol( szBlob );
    GetCtrlText( vSubtask, "FontFace", szBlob + 8 + (6 * sizeof( long )),
                 LF_FACESIZE );
@@ -2893,7 +2893,7 @@ zwTZAXCFGD_TEXT_OK( zVIEW vSubtask )
    {
       zPLONG lpLong;
 
-      uLth = sizeof( szBlob );
+      uLth = zsizeof( szBlob );
       szBlob[ 0 ] = bBold;
       szBlob[ 1 ] = bItalic;
       szBlob[ 2 ] = bStrikeout;
@@ -2966,8 +2966,8 @@ zwTZAXCFGD_RadioGroupOK( zVIEW vSubtask )
                                   vWork, "Radio", "Text" );
       // Set the DefaultIndicator & Value attributes from the Radio
       // entity in the work OI into Control.CtrlBOI.
-      GetStringFromAttribute( szBlob, sizeof( szBlob ), vWork, "Radio", "DefaultIndicator" );
-      GetStringFromAttribute( szBlob + 1, sizeof( szBlob ) - 1, vWork, "Radio", "Value" );
+      GetStringFromAttribute( szBlob, zsizeof( szBlob ), vWork, "Radio", "DefaultIndicator" );
+      GetStringFromAttribute( szBlob + 1, zsizeof( szBlob ) - 1, vWork, "Radio", "Value" );
       SetAttributeFromBlob( vControl, "CtrlCtrl", "CtrlBOI",
                             szBlob, (zUSHORT) (zstrlen( szBlob + 1 ) + 2) );
       SetCursorNextEntity( vWork, "Radio", "" );
@@ -3003,7 +3003,7 @@ zwTZAXCFGD_RadioUpdateSubCtrl( zVIEW vSubtask )
    GetViewByName( &vWork, "TZPNCTWO", vSubtask, zLEVEL_TASK );
 
    // Position on vControl.CtrlCtrl by vWork.Radio position
-   GetStringFromAttribute( szTag, sizeof( szTag ), vWork, "Radio", "Tag" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vWork, "Radio", "Tag" );
    SetCursorFirstEntityByString( vControl, "CtrlCtrl", "Tag", szTag, "" );
 
    SetViewToSubobject( vControl, "CtrlCtrl" );
@@ -3333,8 +3333,8 @@ zwTZAXCFGD_RadioSubCtrlOK( zVIEW vSubtask )
 
    // Set the DefaultIndicator & Value attributes from the Radio
    // entity in the work OI into Control.CtrlBOI.
-   GetStringFromAttribute( szBlob, sizeof( szBlob ), vWork, "Radio", "DefaultIndicator" );
-   GetStringFromAttribute( szBlob + 1, sizeof( szBlob ) - 1, vWork, "Radio", "Value" );
+   GetStringFromAttribute( szBlob, zsizeof( szBlob ), vWork, "Radio", "DefaultIndicator" );
+   GetStringFromAttribute( szBlob + 1, zsizeof( szBlob ) - 1, vWork, "Radio", "Value" );
    SetAttributeFromBlob( vControl, "Control", "CtrlBOI",
                          szBlob, (zUSHORT) (zstrlen( szBlob + 1 ) + 2) );
 
@@ -3455,7 +3455,7 @@ zwTZAXCFGD_DeleteRadioButton( zVIEW vSubtask )
 
    // delete work object
    GetViewByName( &vRadioWork, pszTZPNCTWO, vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szTag, sizeof( szTag ), vRadioWork, pszRadio, pszTag );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vRadioWork, pszRadio, pszTag );
    nRC = DeleteEntity( vRadioWork, pszRadio, zREPOS_NEXT );
 
    // delete real control entry

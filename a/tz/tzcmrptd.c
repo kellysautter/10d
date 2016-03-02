@@ -96,7 +96,7 @@ zwTZCMRPTD_LoadAudittrail( zVIEW vSubtask )
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "Z_MetaDef" );
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-         zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+         zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 
          nRC = ActivateObjectInstance( &vTZBRAUDO, "TZBRAUDO", vSubtask,
@@ -151,7 +151,7 @@ zwTZCMRPTD_LoadDesc_AUX( zVIEW vSubtask,
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "CPLR" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-   zltoa( CPLR_ZKey, szZKey, sizeof( szZKey ) );
+   zltoa( CPLR_ZKey, szZKey, zsizeof( szZKey ) );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 
    // QualAttrib for "AND"
@@ -196,7 +196,7 @@ zwTZCMRPTD_LoadDesc_AU2O( zVIEW vSubtask )
    if ( GetViewByName( &vTZBRAU2O, "TZBRAU2O", vSubtask, zLEVEL_TASK ) > 0 )
    {
      GetIntegerFromAttribute( &CPLR_ZKey, vTZBRAU2O, "CPLR", "ZKey");
-     GetStringFromAttribute( szTimeStamp, sizeof( szTimeStamp ), vTZBRAU2O, "AuditTrail", "TimeStamp");
+     GetStringFromAttribute( szTimeStamp, zsizeof( szTimeStamp ), vTZBRAU2O, "AuditTrail", "TimeStamp");
      zwTZCMRPTD_LoadDesc_AUX( vSubtask, CPLR_ZKey, szTimeStamp );
    }
 
@@ -214,7 +214,7 @@ zwTZCMRPTD_LoadDesc_AUDO( zVIEW vSubtask )
    if ( GetViewByName( &vTZBRAUDO, "TZBRAUDO", vSubtask, zLEVEL_TASK ) > 0 )
    {
      GetIntegerFromAttribute( &CPLR_ZKey, vTZBRAUDO, "CPLR", "ZKey");
-     GetStringFromAttribute( szTimeStamp, sizeof( szTimeStamp ), vTZBRAUDO, "AuditTrail", "TimeStamp");
+     GetStringFromAttribute( szTimeStamp, zsizeof( szTimeStamp ), vTZBRAUDO, "AuditTrail", "TimeStamp");
      zwTZCMRPTD_LoadDesc_AUX( vSubtask, CPLR_ZKey, szTimeStamp );
    }
 
@@ -237,48 +237,48 @@ zwTZCMRPTD_ExportTextAUX( zVIEW vSubtask,
 
       if ( lfFile < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Error writing the File '" );
-         strcat_s( szMsg, sizeof( szMsg ), pszFileName );
-         strcat_s( szMsg, sizeof( szMsg ), "'." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Error writing the File '" );
+         strcat_s( szMsg, zsizeof( szMsg ), pszFileName );
+         strcat_s( szMsg, zsizeof( szMsg ), "'." );
          MessageSend( vSubtask, "CM00xxx", "Configuration Management",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
 
-      strcpy_s( szText, sizeof( szText ), "AuditTrail Print created with (c) Zeidon 1997" );
+      strcpy_s( szText, zsizeof( szText ), "AuditTrail Print created with (c) Zeidon 1997" );
       SysWriteLine( vSubtask, lfFile, szText );
 
-      strcpy_s( szText, sizeof( szText ), "---------------------------------------------" );
+      strcpy_s( szText, zsizeof( szText ), "---------------------------------------------" );
       SysWriteLine( vSubtask, lfFile, szText );
 
       // save the CPLR-Name:
-      strcpy_s( szText, sizeof( szText ), "CPLR:\t\t" );
-      GetStringFromAttribute( szMsg, sizeof( szMsg ), vTZBRAU3O, "CPLR", "Name" );
-      strcat_s( szText, sizeof( szText ), szMsg );
+      strcpy_s( szText, zsizeof( szText ), "CPLR:\t\t" );
+      GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTZBRAU3O, "CPLR", "Name" );
+      strcat_s( szText, zsizeof( szText ), szMsg );
       SysWriteLine( vSubtask, lfFile, szText );
 
       // save the DateTime:
-      strcpy_s( szText, sizeof( szText ), "Date:\t\t" );
+      strcpy_s( szText, zsizeof( szText ), "Date:\t\t" );
       GetStringFromAttributeByContext( szMsg, vTZBRAU3O, "AuditTrail", "TimeStamp",
                                        "DD.MM.YYYY HH:MM:SS", 20);
-      strcat_s( szText, sizeof( szText ), szMsg );
+      strcat_s( szText, zsizeof( szText ), szMsg );
       SysWriteLine( vSubtask, lfFile, szText );
 
       // save the User:
-      strcpy_s( szText, sizeof( szText ), "User:\t\t" );
-      GetStringFromAttribute( szMsg, sizeof( szMsg ), vTZBRAU3O, "AuditTrail", "UserName" );
-      strcat_s( szText, sizeof( szText ), szMsg );
-      strcat_s( szText, sizeof( szText ), " " );
-      GetStringFromAttribute( szMsg, sizeof( szMsg ), vTZBRAU3O, "AuditTrail", "UserDesc" );
-      strcat_s( szText, sizeof( szText ), szMsg );
+      strcpy_s( szText, zsizeof( szText ), "User:\t\t" );
+      GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTZBRAU3O, "AuditTrail", "UserName" );
+      strcat_s( szText, zsizeof( szText ), szMsg );
+      strcat_s( szText, zsizeof( szText ), " " );
+      GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTZBRAU3O, "AuditTrail", "UserDesc" );
+      strcat_s( szText, zsizeof( szText ), szMsg );
       SysWriteLine( vSubtask, lfFile, szText );
 
       // save the ShortDesc:
-      strcpy_s( szText, sizeof( szText ), "ShortDesc:\t" );
-      GetStringFromAttribute( szMsg, sizeof( szMsg ), vTZBRAU3O, "AuditTrail", "ShortDesc" );
-      strcat_s( szText, sizeof( szText ), szMsg );
+      strcpy_s( szText, zsizeof( szText ), "ShortDesc:\t" );
+      GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTZBRAU3O, "AuditTrail", "ShortDesc" );
+      strcat_s( szText, zsizeof( szText ), szMsg );
       SysWriteLine( vSubtask, lfFile, szText );
 
-      strcpy_s( szText, sizeof( szText ), "---------------------------------------------" );
+      strcpy_s( szText, zsizeof( szText ), "---------------------------------------------" );
       SysWriteLine( vSubtask, lfFile, szText );
 
       GetAddrForAttribute( &szAttr, vTZBRAU3O, "AuditTrail", "Desc" );
@@ -304,11 +304,11 @@ zwTZCMRPTD_ExportTextFile( zVIEW vSubtask )
    zCHAR   szMsg[ 256 ];
    zSHORT  nRC;
 
-   GetSystemDirectory(szFileName, sizeof(szFileName));
+   GetSystemDirectory(szFileName, zsizeof(szFileName));
 
    while ( TRUE )
    {
-      nRC = OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+      nRC = OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                               "Text Files (*.TXT)|*.txt|", "TXT", FALSE );
 
       // Operator pressed cancel --> get outta here:
@@ -319,9 +319,9 @@ zwTZCMRPTD_ExportTextFile( zVIEW vSubtask )
       if ( SysOpenFile( vSubtask, szFileName, COREFILE_EXIST ) < 0 )
         break;
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Override the current File '" );
-      strcat_s( szMsg, sizeof( szMsg ), szFileName );
-      strcat_s( szMsg, sizeof( szMsg ), "' ?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Override the current File '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szFileName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' ?" );
 
       // overwrite the existing file ? --> also get out of here:
       if ( MessagePrompt( vSubtask, "CM00xxx",
@@ -364,9 +364,9 @@ zwTZCMRPTD_RefreshAllComponents( zVIEW vSubtask )
       return( -1 );
    }
 
-   strcpy_s( szERR_Msg, sizeof( szERR_Msg ), "Project '" );
-   GetStringFromAttribute( szERR_Msg + zstrlen( szERR_Msg ), sizeof( szERR_Msg ) - zstrlen( szERR_Msg ), vTZCMLPLO, "LPLR", "Name" );
-   strcat_s( szERR_Msg, sizeof( szERR_Msg ), "' has been successfully refreshed." );
+   strcpy_s( szERR_Msg, zsizeof( szERR_Msg ), "Project '" );
+   GetStringFromAttribute( szERR_Msg + zstrlen( szERR_Msg ), zsizeof( szERR_Msg ) - zstrlen( szERR_Msg ), vTZCMLPLO, "LPLR", "Name" );
+   strcat_s( szERR_Msg, zsizeof( szERR_Msg ), "' has been successfully refreshed." );
    MessageSend( vSubtask, "CM00279", "Configuration Management",
                 szERR_Msg,
                 zMSGQ_OBJECT_CONSTRAINT_INFORMATION, zBEEP );
@@ -419,7 +419,7 @@ zwTZCMRPTD_RefreshSelComponents( zVIEW vSubtask )
    if ( SetCursorFirstSelectedEntity( vTZCMRPTO, "ReportLine",
                                       "" ) < zCURSOR_SET )
    {
-      strcpy_s( szERR_Msg, sizeof( szERR_Msg ), "No Component selected to Refresh." );
+      strcpy_s( szERR_Msg, zsizeof( szERR_Msg ), "No Component selected to Refresh." );
       MessageSend( vSubtask, "CM00241", "Configuration Management",
                    szERR_Msg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
       return( 0 );
@@ -437,12 +437,12 @@ zwTZCMRPTD_RefreshSelComponents( zVIEW vSubtask )
    if ( CompareAttributeToInteger( vTZCMRPTO_New, "CPLR",
                                    "ComponentRefreshed", 1 ) == 0 )
    {
-      strcpy_s( szERR_Msg, sizeof( szERR_Msg ), "Project '" );
-      GetStringFromAttribute( szERR_Msg + zstrlen( szERR_Msg ), sizeof( szERR_Msg ) - zstrlen( szERR_Msg ), vTZCMLPLO,
+      strcpy_s( szERR_Msg, zsizeof( szERR_Msg ), "Project '" );
+      GetStringFromAttribute( szERR_Msg + zstrlen( szERR_Msg ), zsizeof( szERR_Msg ) - zstrlen( szERR_Msg ), vTZCMLPLO,
                               "LPLR", "Name" );
-      strcat_s( szERR_Msg, sizeof( szERR_Msg ), "' has been successfully refreshed \nfrom CPLR '" );
-      strcat_s( szERR_Msg, sizeof( szERR_Msg ), szName );
-      strcat_s( szERR_Msg, sizeof( szERR_Msg ), "'." );
+      strcat_s( szERR_Msg, zsizeof( szERR_Msg ), "' has been successfully refreshed \nfrom CPLR '" );
+      strcat_s( szERR_Msg, zsizeof( szERR_Msg ), szName );
+      strcat_s( szERR_Msg, zsizeof( szERR_Msg ), "'." );
       MessageSend( vSubtask, "CM00279", "Configuration Management",
                    szERR_Msg,
                    zMSGQ_OBJECT_CONSTRAINT_INFORMATION, zBEEP );
@@ -493,7 +493,7 @@ zwfnTZCMRPTD_LoadNewAudittrail( zVIEW vSubtask, zPVIEW vTZBRAU2O )
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "CPLR" );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-      zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+      zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 
 
@@ -533,7 +533,7 @@ zwTZCMRPTD_LoadNewAudittrail( zVIEW vSubtask )
    GetViewByName( &vTZCMCPL, "TZCMCPL", vSubtask, zLEVEL_TASK );
 
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMCPL, "CPLR", "ZKey" );
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
 
    if ( GetViewByName( &vTZBRAU2O, "TZBRAU2O", vSubtask, zLEVEL_TASK ) > 0 )
    {
@@ -549,9 +549,9 @@ zwTZCMRPTD_LoadNewAudittrail( zVIEW vSubtask )
       return( -1 );
    }
 
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPL", "Name" );
-   strcpy_s( szControlText, sizeof( szControlText ), " CPL: " );
-   strcat_s( szControlText, sizeof( szControlText ), szName );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPL", "Name" );
+   strcpy_s( szControlText, zsizeof( szControlText ), " CPL: " );
+   strcat_s( szControlText, zsizeof( szControlText ), szName );
    SetCtrlText( vSubtask, "txtCPL", szControlText );
 
    GetParentWindow( &vParentWindow, vSubtask );
@@ -599,9 +599,9 @@ zwTZCMRPTD_SetCPLR_Desc( zVIEW vSubtask )
    if ( GetViewByName( &vTZCMRPTO, "TZCMRPTO", vSubtask, zLEVEL_TASK ) < 0 )
       return( -1 );
 
-   GetStringFromAttribute( szDesc, sizeof( szDesc ), vTZCMRPTO, "CPLR", "Desc" );
-   strcpy_s( szControlText, sizeof( szControlText ), " Desc: " );
-   strcat_s( szControlText, sizeof( szControlText ), szDesc );
+   GetStringFromAttribute( szDesc, zsizeof( szDesc ), vTZCMRPTO, "CPLR", "Desc" );
+   strcpy_s( szControlText, zsizeof( szControlText ), " Desc: " );
+   strcat_s( szControlText, zsizeof( szControlText ), szDesc );
 
    SetCtrlText( vSubtask, "txtDesc", szControlText );
 

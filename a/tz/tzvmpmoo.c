@@ -61,7 +61,7 @@ oTZVSPOOO_C_GenOperationName( zVIEW  PIView,
    SetCursorFirstEntityByInteger( vTempView, "OperationSource", "ZKey",
                                   lZKey, "VML_XSource" );
 
-   GetStringFromAttribute( szType, sizeof( szType ), vTempView, "Operation", "Type" );
+   GetStringFromAttribute( szType, zsizeof( szType ), vTempView, "Operation", "Type" );
    if ( szType[ 0 ] == 'L' ||
         szType[ 0 ] == 'O' ||
         szType[ 0 ] == 'T' ||
@@ -70,14 +70,14 @@ oTZVSPOOO_C_GenOperationName( zVIEW  PIView,
         szType[ 0 ] == 'A' )
    {
       szTempName1[ 0 ] = 'o';
-      GetStringFromAttribute( szTempName1 + 1, sizeof( szTempName1 ) - 1, vTempView,
+      GetStringFromAttribute( szTempName1 + 1, zsizeof( szTempName1 ) - 1, vTempView,
                               "VML_XSource", "MetaName" );
-      strcat_s( szTempName1, sizeof( szTempName1 ), "_" );
-      GetStringFromAttribute( szTempName2, sizeof( szTempName2 ), vTempView, "Operation", "Name" );
-      strcat_s( szTempName1, sizeof( szTempName1 ), szTempName2 );
+      strcat_s( szTempName1, zsizeof( szTempName1 ), "_" );
+      GetStringFromAttribute( szTempName2, zsizeof( szTempName2 ), vTempView, "Operation", "Name" );
+      strcat_s( szTempName1, zsizeof( szTempName1 ), szTempName2 );
    }
    else
-      GetStringFromAttribute( szTempName1, sizeof( szTempName1 ), vTempView, "Operation", "Name" );
+      GetStringFromAttribute( szTempName1, zsizeof( szTempName1 ), vTempView, "Operation", "Name" );
 
 
    StoreValueInRecord( vTempView, EntityStructure, AttributeStructure,

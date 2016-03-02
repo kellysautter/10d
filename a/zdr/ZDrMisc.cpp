@@ -252,47 +252,47 @@ zkCtrlInfo( zVIEW vSubtask )
                   (*(pZSubtask->m_pzsWndTag)).GetString(),
                   (*(pzma->m_pzsTag)).GetString() );
          lLth = zstrlen( szMsg ) + 1;
-         if ( sizeof( szMsg ) - lLth > 50 )
+         if ( zsizeof( szMsg ) - lLth > 50 )
          {
             if ( pzma->m_pzsVName && *(pzma->m_pzsVName) )
             {
-               strcat_s( szMsg, sizeof( szMsg ), " View: " );
+               strcat_s( szMsg, zsizeof( szMsg ), " View: " );
                lLth = zstrlen( szMsg ) + 1;
-               strncat_s( szMsg, sizeof( szMsg ), *(pzma->m_pzsVName), sizeof( szMsg ) - lLth );
+               strncat_s( szMsg, zsizeof( szMsg ), *(pzma->m_pzsVName), zsizeof( szMsg ) - lLth );
             }
          }
 
-         if ( sizeof( szMsg ) - zstrlen( szMsg ) > 50 )
+         if ( zsizeof( szMsg ) - zstrlen( szMsg ) > 50 )
          {
             if ( pzma->m_pzsEName && *(pzma->m_pzsEName) )
             {
-               strcat_s( szMsg, sizeof( szMsg ), " Entity: " );
+               strcat_s( szMsg, zsizeof( szMsg ), " Entity: " );
                lLth = zstrlen( szMsg ) + 1;
-               strncat_s( szMsg, sizeof( szMsg ), *(pzma->m_pzsEName), sizeof( szMsg ) - lLth );
+               strncat_s( szMsg, zsizeof( szMsg ), *(pzma->m_pzsEName), zsizeof( szMsg ) - lLth );
             }
          }
 
-         if ( sizeof( szMsg ) - zstrlen( szMsg ) > 50 )
+         if ( zsizeof( szMsg ) - zstrlen( szMsg ) > 50 )
          {
             if ( pzma->m_pzsAName && *(pzma->m_pzsAName) )
             {
-               strcat_s( szMsg, sizeof( szMsg ), " Attribute: " );
+               strcat_s( szMsg, zsizeof( szMsg ), " Attribute: " );
                lLth = zstrlen( szMsg ) + 1;
-               strncat_s( szMsg, sizeof( szMsg ), *(pzma->m_pzsAName), sizeof( szMsg ) - lLth );
+               strncat_s( szMsg, zsizeof( szMsg ), *(pzma->m_pzsAName), zsizeof( szMsg ) - lLth );
             }
          }
 
          lLth = zstrlen( szMsg );
          if ( **(pzma->m_pzsText) )
          {
-            strcat_s( szMsg, sizeof( szMsg ), " Text: " );
-            strncat_s( szMsg, sizeof( szMsg ), *(pzma->m_pzsText), sizeof( szMsg ) - lLth - 1000 );
+            strcat_s( szMsg, zsizeof( szMsg ), " Text: " );
+            strncat_s( szMsg, zsizeof( szMsg ), *(pzma->m_pzsText), zsizeof( szMsg ) - lLth - 1000 );
          }
 
          lLth = zstrlen( szMsg );
          szMsg[ lLth ] = '\n';
-         strcpy_s( szMsg + lLth + 1, sizeof( szMsg ) - lLth - 1, "Sub Ctrls: " );
-         if ( ListSubCtrls( pzma, szMsg + lLth + 12, (zSHORT) lLth, (zSHORT) (sizeof( szMsg ) - lLth - 16) ) <= 0 )
+         strcpy_s( szMsg + lLth + 1, zsizeof( szMsg ) - lLth - 1, "Sub Ctrls: " );
+         if ( ListSubCtrls( pzma, szMsg + lLth + 12, (zSHORT) lLth, (zSHORT) (zsizeof( szMsg ) - lLth - 16) ) <= 0 )
          {
             szMsg[ lLth ] = 0;
          }
@@ -354,7 +354,7 @@ GetRealEntityName( zVIEW v, zPCHAR pchEntityName )
    LPVIEWENTITY lpParent;
    zCHAR szEntityName[ zTAG_LTH ];
 
-   strcpy_s( szEntityName, sizeof( szEntityName ), pchEntityName );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), pchEntityName );
    lpViewEntity = (LPVIEWENTITY) MiGetViewEntityForView( v, pchEntityName );
    if ( lpViewEntity->bRecursiveSt )
    {
@@ -550,15 +550,15 @@ ListWindowsAndControls( ZSubtask *pZSubtask,
             if ( mIs_hWndVisible( g_pSubtaskList[ lItemCnt ].hWnd ) )
             {
                if ( mIs_hWndEnabled( g_pSubtaskList[ lItemCnt ].hWnd ) )
-                  strcpy_s( szListLine, sizeof( szListLine ), "Enabled" );
+                  strcpy_s( szListLine, zsizeof( szListLine ), "Enabled" );
                else
-                  strcpy_s( szListLine, sizeof( szListLine ), "Disabled" );
+                  strcpy_s( szListLine, zsizeof( szListLine ), "Disabled" );
             }
             else
-               strcpy_s( szListLine, sizeof( szListLine ), "Invisible" );
+               strcpy_s( szListLine, zsizeof( szListLine ), "Invisible" );
          }
          else
-            strcpy_s( szListLine, sizeof( szListLine ), "Invalid" );
+            strcpy_s( szListLine, zsizeof( szListLine ), "Invalid" );
 
          if ( g_pSubtaskList[ lItemCnt ].lTID == lTID )
          {
@@ -645,7 +645,7 @@ ListWindowsAndControls( ZSubtask *pZSubtask,
 //       ZInputDialog( this, "Patient name",
 //                     "Enter the patient's name:",
 //                     szPatientName,
-//                     sizeof( szPatientName ) );
+//                     zsizeof( szPatientName ) );
 //
 //       In this example, patientName is a text buffer that gets filled with
 //       the user's input when the user chooses OK. It should be initialized
@@ -1277,7 +1277,7 @@ EnableZWindowsForApplication( ZSubtask *pZSubtask,
 
    zCHAR szMsg[ 256 ];
 
-   sprintf_s( szMsg, sizeof( szMsg ), "EnableZWindowsForApplication bEnable: %s ulInterp: ",
+   sprintf_s( szMsg, zsizeof( szMsg ), "EnableZWindowsForApplication bEnable: %s ulInterp: ",
              bEnable ? "TRUE" : "FALSE" );
    TraceLineX( szMsg, ulInterp );
 #endif
@@ -1315,7 +1315,7 @@ EnableZWindowsForApplication( ZSubtask *pZSubtask,
 #ifdef DEBUG_ALL
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "EnableZWindowsForApplication Dlg: %s Wnd: %s nInvisible: ",
+            sprintf_s( szMsg, zsizeof( szMsg ), "EnableZWindowsForApplication Dlg: %s Wnd: %s nInvisible: ",
                       *(g_pSubtaskList[ lItemCnt ].pZSubtask->m_pzsDlgTag),
                       *(g_pSubtaskList[ lItemCnt ].pZSubtask->m_pzsWndTag) );
             TraceLineI( szMsg, g_pSubtaskList[ lItemCnt ].pZSubtask->m_nInvisible );
@@ -2000,7 +2000,7 @@ GetDollarsCents( HWND hWnd, ZDecimal& dwCents )
    zPCHAR pchDollars;
    zPCHAR pchCents;
 
-   ::GetWindowText( hWnd, szWindowText, sizeof( szWindowText ) - 1 );
+   ::GetWindowText( hWnd, szWindowText, zsizeof( szWindowText ) - 1 );
 
    // strip leading blanks
    for ( pchDollars = szWindowText;  *pchDollars == ' ';  pchDollars++ )
@@ -2375,7 +2375,7 @@ ZSubtaskList::OnInitDialog( )
          lvItem.cchTextMax = zstrlen( g_pSubtaskList[ lPos ].WndN ) + 1;
          pListCtrl->SetItem( &lvItem );
 
-         sprintf_s( szListLine, sizeof( szListLine ), "0x%08x", (zULONG) g_pSubtaskList[ lPos ].pvDialog );
+         sprintf_s( szListLine, zsizeof( szListLine ), "0x%08x", (zULONG) g_pSubtaskList[ lPos ].pvDialog );
       // _ltoa_s( (zLONG) g_pSubtaskList[ lPos ].pvDialog, szListLine );
          lvItem.mask = LVIF_TEXT;
          lvItem.iItem = lPos - 1;
@@ -2385,9 +2385,9 @@ ZSubtaskList::OnInitDialog( )
          pListCtrl->SetItem( &lvItem );
 
          if ( g_pSubtaskList[ lPos ].pZSubtask )
-            _ltoa_s( (zLONG) g_pSubtaskList[ lPos ].pZSubtask->m_ulSubtaskIdNbr, szListLine, sizeof( szListLine ) );
+            _ltoa_s( (zLONG) g_pSubtaskList[ lPos ].pZSubtask->m_ulSubtaskIdNbr, szListLine, zsizeof( szListLine ) );
          else
-            strcpy_s( szListLine, sizeof( szListLine ), "0" );
+            strcpy_s( szListLine, zsizeof( szListLine ), "0" );
 
          lvItem.mask = LVIF_TEXT;
          lvItem.iItem = lPos - 1;
@@ -2396,7 +2396,7 @@ ZSubtaskList::OnInitDialog( )
          lvItem.cchTextMax = zstrlen( szListLine ) + 1;
          pListCtrl->SetItem( &lvItem );
 
-         sprintf_s( szListLine, sizeof( szListLine ), "0x%08x", g_pSubtaskList[ lPos ].lTID );
+         sprintf_s( szListLine, zsizeof( szListLine ), "0x%08x", g_pSubtaskList[ lPos ].lTID );
       // _ltoa_s( (zLONG) g_pSubtaskList[ lPos ].lTID, szListLine );
          lvItem.mask = LVIF_TEXT;
          lvItem.iItem = lPos - 1;
@@ -2410,15 +2410,15 @@ ZSubtaskList::OnInitDialog( )
             if ( mIs_hWndVisible( g_pSubtaskList[ lPos ].hWnd ) )
             {
                if ( mIs_hWndEnabled( g_pSubtaskList[ lPos ].hWnd ) )
-                  strcpy_s( szListLine, sizeof( szListLine ), "Enabled" );
+                  strcpy_s( szListLine, zsizeof( szListLine ), "Enabled" );
                else
-                  strcpy_s( szListLine, sizeof( szListLine ), "Disabled" );
+                  strcpy_s( szListLine, zsizeof( szListLine ), "Disabled" );
             }
             else
-               strcpy_s( szListLine, sizeof( szListLine ), "Invisible" );
+               strcpy_s( szListLine, zsizeof( szListLine ), "Invisible" );
          }
          else
-            strcpy_s( szListLine, sizeof( szListLine ), "Invalid" );
+            strcpy_s( szListLine, zsizeof( szListLine ), "Invalid" );
 
       // _ltoa_s( (zLONG) g_pSubtaskList[ lPos ].lTID, szListLine );
          lvItem.mask = LVIF_TEXT;

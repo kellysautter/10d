@@ -25,9 +25,9 @@
 
 
 RCDX L_MAX_BYTES         = (RCDX) 65000;    // leave room for overhead
-RCDX L_NEXT_BLOCK_OFFSET = (RCDX) L_MAX_BYTES - sizeof( VOID * );
-RCDX L_MAX_RECORD_BLOCK  = (RCDX) L_NEXT_BLOCK_OFFSET / sizeof( VOID * );
-RCDX L_MAX_SORT_BLOCK    = (RCDX) L_NEXT_BLOCK_OFFSET / sizeof( RCDX );
+RCDX L_NEXT_BLOCK_OFFSET = (RCDX) L_MAX_BYTES - zsizeof( VOID * );
+RCDX L_MAX_RECORD_BLOCK  = (RCDX) L_NEXT_BLOCK_OFFSET / zsizeof( VOID * );
+RCDX L_MAX_SORT_BLOCK    = (RCDX) L_NEXT_BLOCK_OFFSET / zsizeof( RCDX );
 
 #if 0
 #define CSIMP_GETRECORD_PTR( xRecord, pvRecords )  (pvRecords + xRecord - 1)
@@ -147,11 +147,11 @@ CSIMP::CSIMP( WORD wReserveIncrement,
       (at least that's the plan) */
    ASSERT_MSGBOX( "Invalid record limit specified for CSIMP constructor", 0,
                   dwRecordLimit > 0 &&
-                  dwRecordLimit < 65536L - 4 * sizeof( VOID * ) );
+                  dwRecordLimit < 65536L - 4 * zsizeof( VOID * ) );
 
    m_wMaxFixedPoolFieldLth =
-      (wMaxFixedPoolFieldLth > sizeof( LONG double )) ?
-                              wMaxFixedPoolFieldLth : sizeof( LONG double );
+      (wMaxFixedPoolFieldLth > zsizeof( LONG double )) ?
+                              wMaxFixedPoolFieldLth : zsizeof( LONG double );
    m_wReservedBytes = wReservedBytes;  // reserved bytes at start of record
    m_wApplBytes = 0;                   // reserved bytes at end of record
    m_dwRecordLimit = dwRecordLimit;
@@ -176,22 +176,22 @@ CSIMP::CSIMP( WORD wReserveIncrement,
    if ( autotype == eAUTO_VERSION )
    {
       m_wFlags |= CSIMP_VERSIONING;
-      m_wReservedBytes += sizeof( VOID * );
+      m_wReservedBytes += zsizeof( VOID * );
    }
    else
    if ( autotype == eAUTO_UNDO_REDO )
    {
       m_wFlags |= CSIMP_UNDO_REDO;
-      m_wReservedBytes += 2 * sizeof( VOID * );
+      m_wReservedBytes += 2 * zsizeof( VOID * );
    }
 
    // the DWORD is for the dirty flag, select bits, etc.
-   m_wRecordLth = m_wReservedBytes + sizeof( DWORD );
+   m_wRecordLth = m_wReservedBytes + zsizeof( DWORD );
 
    m_wDescriptorCnt = 0;
    m_wDescriptorMax = 10;
    m_pDD = (CDataDescriptor **)
-   m_pPoolVariable->Alloc( m_wDescriptorMax * sizeof( CDataDescriptor * ) );
+   m_pPoolVariable->Alloc( m_wDescriptorMax * zsizeof( CDataDescriptor * ) );
 
    m_dwRecordCnt = 0;
    m_pvRecords = 0;
@@ -319,7 +319,7 @@ CSIMP::AcceptVersion( RCDX xRecord,
    {
       SetDirtySelectBit( pvVersion, CSIMP_REDO, FALSE );
       pvRecord = *((VOID **)((BYTE *) pvVersion +
-                             m_wReservedBytes - 2 * sizeof( VOID * )));
+                             m_wReservedBytes - 2 * zsizeof( VOID * )));
 
       VOID *pv;
       while ( pvRecord )
@@ -328,7 +328,7 @@ CSIMP::AcceptVersion( RCDX xRecord,
          if ( IsDirtySelectBitSet( pvRecord, CSIMP_REDO ) )
          {
             pvRecord = *((VOID **)((BYTE *) pvRecord +
-                                   m_wReservedBytes - 2 * sizeof( VOID * )));
+                                   m_wReservedBytes - 2 * zsizeof( VOID * )));
          }
          else
          {
@@ -344,7 +344,7 @@ CSIMP::AcceptVersion( RCDX xRecord,
       return( 0 );
    }
 
-   ppvVer = (VOID **)((BYTE *) pvVersion + m_wReservedBytes - sizeof( VOID * ));
+   ppvVer = (VOID **)((BYTE *) pvVersion + m_wReservedBytes - zsizeof( VOID * ));
    do
    {
       /* all we want to do is delete the previous version(s) */
@@ -354,7 +354,7 @@ CSIMP::AcceptVersion( RCDX xRecord,
       {
          /* re-link to previous previous version */
          *ppvVer = *((VOID **)((BYTE *) pvRecord +
-                              m_wReservedBytes - sizeof( VOID * )));
+                              m_wReservedBytes - zsizeof( VOID * )));
       }
       else
       {
@@ -646,18 +646,18 @@ CSIMP::CreateRecord( WORD wFlags )
       if ( (xNewMax >= L_MAX_RECORD_BLOCK) && xNewRemain )
       {
          pvNew = (VOID **)
-            m_pPoolVarData->Alloc( (LONG) sizeof( VOID * ) * xNewRemain );
+            m_pPoolVarData->Alloc( (LONG) zsizeof( VOID * ) * xNewRemain );
          VERIFY( pvNew );
 
-         memset( pvNew, 0, sizeof( VOID * ) * xNewRemain );
+         memset( pvNew, 0, zsizeof( VOID * ) * xNewRemain );
          xNewMax = L_MAX_RECORD_BLOCK;
       }
 
       *pvOldPtr = (VOID **)
-               m_pPoolVarData->Alloc( (LONG) sizeof( VOID * ) * xNewMax );
+               m_pPoolVarData->Alloc( (LONG) zsizeof( VOID * ) * xNewMax );
       VERIFY( *pvOldPtr );
 
-      memcpy( *pvOldPtr, pvOld, xOldMax * sizeof( VOID * ) );
+      memcpy( *pvOldPtr, pvOld, xOldMax * zsizeof( VOID * ) );
       m_pPoolVarData->Free( pvOld );
       if ( pvNew )  // only true when block boundary has been broken
       {
@@ -695,18 +695,18 @@ CSIMP::CreateRecord( WORD wFlags )
          if ( (xNewMax >= L_MAX_SORT_BLOCK) && xNewRemain )
          {
             pxNew = (RCDX *)
-               m_pPoolVarData->Alloc( (LONG) sizeof( RCDX ) * xNewRemain );
+               m_pPoolVarData->Alloc( (LONG) zsizeof( RCDX ) * xNewRemain );
             VERIFY( pxNew );
 
-            memset( pxNew, 0, sizeof( RCDX ) * xNewRemain );
+            memset( pxNew, 0, zsizeof( RCDX ) * xNewRemain );
             xNewMax = L_MAX_SORT_BLOCK;
          }
 
          *pxOldPtr = (RCDX *)
-                  m_pPoolVarData->Alloc( (LONG) sizeof( RCDX ) * xNewMax );
+                  m_pPoolVarData->Alloc( (LONG) zsizeof( RCDX ) * xNewMax );
          VERIFY( *pxOldPtr );
 
-         memcpy( *pxOldPtr, pxOld, xOldMax * sizeof( RCDX ) );
+         memcpy( *pxOldPtr, pxOld, xOldMax * zsizeof( RCDX ) );
          m_pPoolVarData->Free( pxOld );
          if ( pxNew )  // only true when block boundary has been broken
          {
@@ -756,7 +756,7 @@ CSIMP::CreateRecord( WORD wFlags )
             if ( pDD->IsVarSize( ) )
             {
                VOID **ppv = (VOID **) ((BYTE *) pvRec + pDD->GetOffset( ));
-               WORD wLth = pDD->GetRawLth( ) + sizeof( WORD );
+               WORD wLth = pDD->GetRawLth( ) + zsizeof( WORD );
                pv = m_pPoolVarData->Alloc( wLth );
                memset( pv, 0, wLth );  // zeroinit
                VERIFY( pv );
@@ -816,12 +816,12 @@ CSIMP::CreateVersion( RCDX xRecord )
    VOID *pvVersion = CreateRecord( CSIMP_NO_INSERT );
 
    /* copy flags et. al. */
-   memcpy( pvVersion, pvRecord, m_wReservedBytes + sizeof( DWORD ) );
+   memcpy( pvVersion, pvRecord, m_wReservedBytes + zsizeof( DWORD ) );
    SetRecordFromRecord( pvVersion, pvRecord );
    SetDirtySelectBit( pvVersion, CSIMP_VERSIONED, TRUE );
    *(CSIMP_GETRECORD_PTR( xRecord, m_pvRecords )) = pvVersion;
    VOID **pv = (VOID **)((BYTE *) pvVersion +
-                         m_wReservedBytes - sizeof( VOID * ));
+                         m_wReservedBytes - zsizeof( VOID * ));
    *pv = pvRecord;   // link back to previous version
 
    return( pvVersion );
@@ -901,7 +901,7 @@ CSIMP::DeleteVersion( RCDX xRecord,
    {
       SetDirtySelectBit( pvVersion, CSIMP_REDO, FALSE );
       pvRecord = *((VOID **)((BYTE *) pvVersion +
-                             m_wReservedBytes - 2 * sizeof( VOID * )));
+                             m_wReservedBytes - 2 * zsizeof( VOID * )));
 
       VOID *pv;
       while ( pvRecord )
@@ -910,7 +910,7 @@ CSIMP::DeleteVersion( RCDX xRecord,
          if ( IsDirtySelectBitSet( pvRecord, CSIMP_REDO ) )
          {
             pvRecord = *((VOID **)((BYTE *) pvRecord +
-                                   m_wReservedBytes - 2 * sizeof( VOID * )));
+                                   m_wReservedBytes - 2 * zsizeof( VOID * )));
          }
          else
          {
@@ -930,7 +930,7 @@ CSIMP::DeleteVersion( RCDX xRecord,
    do
    {
       pvRecord = *((VOID **)((BYTE *) pvVersion +
-                             m_wReservedBytes - sizeof( VOID * )));
+                             m_wReservedBytes - zsizeof( VOID * )));
       DeleteRecord( pvVersion );
       pvVersion = pvRecord;  // link back to previous version
 
@@ -1032,7 +1032,7 @@ CSIMP::Enable( WORD wEnable )
       }
 
       m_pvRecords = (VOID **)
-                 m_pPoolVarData->Alloc( m_lMaxRecords * sizeof( VOID * ) );
+                 m_pPoolVarData->Alloc( m_lMaxRecords * zsizeof( VOID * ) );
       VERIFY( m_pvRecords );
 
 
@@ -1523,7 +1523,7 @@ CSIMP::GetVersion( RCDX xRecord )
       }
 
       pvRecord = *((VOID **)((BYTE *) pvRecord +  // link back to prev version
-                             m_wReservedBytes - sizeof( VOID * )));
+                             m_wReservedBytes - zsizeof( VOID * )));
       wVersion++;
 
    } while ( TRUE );
@@ -1559,10 +1559,10 @@ CSIMP::InsertDataDescriptor( FMDBM_FLDID FldId,
 
       m_wDescriptorMax += 10;
       pDDNew = (CDataDescriptor **) m_pPoolVariable->
-                    Alloc( m_wDescriptorMax * sizeof( CDataDescriptor * ) );
+                    Alloc( m_wDescriptorMax * zsizeof( CDataDescriptor * ) );
       VERIFY( pDDNew );
       memcpy( pDDNew, m_pDD,
-              sizeof( CDataDescriptor * ) * m_wDescriptorCnt );
+              zsizeof( CDataDescriptor * ) * m_wDescriptorCnt );
       m_pPoolVariable->Free( m_pDD );
       m_pDD = pDDNew;
    }
@@ -1573,7 +1573,7 @@ CSIMP::InsertDataDescriptor( FMDBM_FLDID FldId,
 
    if ( (DataType & ~CSIMP_HIGHBITS) == CSIMP_VARCHAR )
    {
-      wRawLth += sizeof( WORD ) + 1;  // null terminator + lth bytes
+      wRawLth += zsizeof( WORD ) + 1; // null terminator + lth bytes
       m_wFlags |= CSIMP_VARCHAR_USED;
    }
    else
@@ -1604,7 +1604,7 @@ CSIMP::InsertDataDescriptor( FMDBM_FLDID FldId,
    if ( wRawLth > m_wMaxFixedPoolFieldLth )
    {
       DataType |= CSIMP_ADDRESS;
-      m_wRecordLth += sizeof( VOID * );
+      m_wRecordLth += zsizeof( VOID * );
    }
    else
    {
@@ -1730,9 +1730,9 @@ CSIMP::InsertPendingRecord( VOID *pvNewRecord,
          {
             xTemp = pxIdx[ L_MAX_SORT_BLOCK - 1 ];
             memcpy( (char *) pv, (char *) pxIdx + xLower,
-                    (L_MAX_SORT_BLOCK - xLower) * sizeof( RCDX ) );
+                    (L_MAX_SORT_BLOCK - xLower) * zsizeof( RCDX ) );
             memcpy( (char *) pxIdx + xLower + 1, (char *) pv,
-                    (L_MAX_SORT_BLOCK - xLower - 1) * sizeof( RCDX ) );
+                    (L_MAX_SORT_BLOCK - xLower - 1) * zsizeof( RCDX ) );
             pxIdx[ xLower ] = xSave;
             xSave = xTemp;
             xLower = 0;
@@ -1744,9 +1744,9 @@ CSIMP::InsertPendingRecord( VOID *pvNewRecord,
          if ( xRecordCnt )
          {
             memcpy( (char *) pv, (char *) pxIdx + xLower,
-                    (xRecordCnt - xLower) * sizeof( RCDX ) );
+                    (xRecordCnt - xLower) * zsizeof( RCDX ) );
             memcpy( (char *) pxIdx + xLower + 1, (char *) pv,
-                    (xRecordCnt - xLower - 1) * sizeof( RCDX ) );
+                    (xRecordCnt - xLower - 1) * zsizeof( RCDX ) );
             pxIdx[ xLower ] = xSave;
          }
 
@@ -1894,11 +1894,11 @@ CSIMP::RedoVersion( RCDX xRecord,
    {
       SetDirtySelectBit( pvRecord, CSIMP_REDO, FALSE );
       ppvRedo = (VOID **)((BYTE *) pvRecord +
-                          m_wReservedBytes - 2 * sizeof( VOID * ));
+                          m_wReservedBytes - 2 * zsizeof( VOID * ));
       pvVersion = *ppvRedo;   // link forward to redo version
       SetDirtySelectBit( pvVersion, CSIMP_VERSIONED, TRUE );
       ppvVer = (VOID **)((BYTE *) pvVersion +
-                         m_wReservedBytes - sizeof( VOID * ));
+                         m_wReservedBytes - zsizeof( VOID * ));
       *ppvVer = pvRecord;    // link back to previous version
       pvRecord = pvVersion;
       if ( IsDirtySelectBitSet( pvRecord, CSIMP_REDO ) == FALSE )
@@ -2182,7 +2182,7 @@ CSIMP::RestructureRecord( CDataDescriptor *pDD,
    {
       if ( (DataType & ~CSIMP_HIGHBITS) == CSIMP_VARCHAR )
       {
-         wRawLth += sizeof( WORD ) + 1;  // null terminator + lth bytes
+         wRawLth += zsizeof( WORD ) + 1; // null terminator + lth bytes
          m_wFlags |= CSIMP_VARCHAR_USED;
       }
       else
@@ -2208,7 +2208,7 @@ CSIMP::RestructureRecord( CDataDescriptor *pDD,
       if ( wRawLth > m_wMaxFixedPoolFieldLth )
       {
          pDD->m_DataType |= CSIMP_ADDRESS;
-         wRawLth = sizeof( VOID * );
+         wRawLth = zsizeof( VOID * );
       }
       else
       {
@@ -2354,8 +2354,8 @@ CSIMP::SetBindRecord( VOID *pvBindRecord,
             {
                /* strip the leading length bytes */
                WORD *pw = (WORD *) pchSrcData;
-               pchSrcData[ *pw + sizeof( WORD ) ] = 0;
-               memcpy( pchSrcData, pchSrcData + sizeof( WORD ), *pw + 1 );
+               pchSrcData[ *pw + zsizeof( WORD ) ] = 0;
+               memcpy( pchSrcData, pchSrcData + zsizeof( WORD ), *pw + 1 );
             }
             else
             if ( (pDD->m_DataType & ~CSIMP_HIGHBITS) == CSIMP_CHAR )
@@ -2423,8 +2423,8 @@ CSIMP::SetBindRecord( VOID *pvBindRecord,
                VOID *pv = pDD->GetDataAddress( pvBindRecord );
                WORD *pw = (WORD *) pv;
                *pw = wLth;
-               memcpy( (BYTE *) pv + sizeof( WORD ),
-                       pchSrcData + sizeof( WORD ), wLth - 2 );
+               memcpy( (BYTE *) pv + zsizeof( WORD ),
+                       pchSrcData + zsizeof( WORD ), wLth - 2 );
             }
             else
             if ( (pDD->m_DataType & ~CSIMP_HIGHBITS) == CSIMP_FMTIMESTAMP )
@@ -2592,7 +2592,7 @@ CSIMP::SetDataInRecord( CDataDescriptor *pDD,
          else
          {
             px = (RCDX *) pv;
-            pv = (VOID *) ((BYTE *) pv + sizeof( RCDX ));
+            pv = (VOID *) ((BYTE *) pv + zsizeof( RCDX ));
             if ( *px == wRawLth &&
                  memcmp( pv, pvData, wRawLth ) == 0 )
             {
@@ -2618,15 +2618,15 @@ CSIMP::SetDataInRecord( CDataDescriptor *pDD,
 
       if ( pv == 0 )
       {
-         pv = m_pPoolVarData->Alloc( wRawLth + sizeof( RCDX ) );
+         pv = m_pPoolVarData->Alloc( wRawLth + zsizeof( RCDX ) );
          VERIFY( pv );
-         memset( pv, 0, wRawLth + sizeof( RCDX ) );  // zeroinit
+         memset( pv, 0, wRawLth + zsizeof( RCDX ) ); // zeroinit
          *pvRec = pv;
          px = (RCDX *) pv;
          *px = wRawLth;
       }
 
-      pv = (VOID *) ((BYTE *) pv + sizeof( RCDX ));
+      pv = (VOID *) ((BYTE *) pv + zsizeof( RCDX ));
    }
    else
    {
@@ -2736,7 +2736,7 @@ CSIMP::ShareData( CSIMP *pSrcCSIMP )
    }
 
    m_pDD = (CDataDescriptor **)
-   m_pPoolVariable->Alloc( m_wDescriptorMax * sizeof( CDataDescriptor * ) );
+   m_pPoolVariable->Alloc( m_wDescriptorMax * zsizeof( CDataDescriptor * ) );
    WORD k = m_wDescriptorCnt;
    while ( k )
    {
@@ -2786,9 +2786,9 @@ CSIMP::UndoVersion( RCDX xRecord,
    do
    {
       pvVersion = *((VOID **)((BYTE *) pvRecord +  // link back to prev version
-                              m_wReservedBytes - sizeof( VOID * )));
+                              m_wReservedBytes - zsizeof( VOID * )));
       ppvRedo = (VOID **)((BYTE *) pvVersion +
-                          m_wReservedBytes - 2 * sizeof( VOID * ));
+                          m_wReservedBytes - 2 * zsizeof( VOID * ));
       *ppvRedo = pvRecord;    // link forward to redo version
       SetDirtySelectBit( pvVersion, CSIMP_REDO, TRUE );
 
@@ -2908,7 +2908,7 @@ PrivateDisplaySortTime( LPCSTR szText = "",
 
    if ( wFlag & 2 )     // reset start time
    {
-      memcpy( &TimeStart, &TimeNow, sizeof( struct _timeb ) );
+      memcpy( &TimeStart, &TimeNow, zsizeof( struct _timeb ) );
    }
 #endif
 }
@@ -3290,7 +3290,7 @@ ShowHeap( CSIMP *pcs,
          OutputDebugString( " - " );
 
       pcs->GetDataFromRecord( pcs->GetDataDescriptor( 1 ),
-                              &l, sizeof( l ), pxBase[ k - 1 ] + 1 );
+                              &l, zsizeof( l ), pxBase[ k - 1 ] + 1 );
       ltoa( l, szBuffer + 1, 10 );
       OutputDebugString( szBuffer + 1 );
       OutputDebugString( "\n" );
@@ -3626,7 +3626,7 @@ CSIMP::QuickSortNR( RCDX xRecord1,    // non-recursive
 
    uStackSize <<= 2;     // two entries for each comparison
    UINT *puStack = (UINT *)
-                       m_pPoolVarData->Alloc( uStackSize * sizeof( UINT ) );
+                       m_pPoolVarData->Alloc( uStackSize * zsizeof( UINT ) );
    UINT uStack = 0;
    UINT uLeft;
    UINT uRight;
@@ -3847,7 +3847,7 @@ CSIMP::UseSortIndex( WORD wSortIdx,
          }
          else
          {
-            px = (RCDX *) m_pPoolVarData->Alloc( (LONG) sizeof( RCDX ) * xMax );
+            px = (RCDX *) m_pPoolVarData->Alloc( (LONG) zsizeof( RCDX ) * xMax );
             xMax = 0;
          }
 
@@ -4344,7 +4344,7 @@ CDataDescriptor::GetDataAddress( const VOID *pvRecord )
          pvData = *((VOID **) pvData);    // dereference pointer to pointer
 
          /* skip length bytes */
-         pvData = (VOID *) ((BYTE *) pvData + sizeof( WORD ));
+         pvData = (VOID *) ((BYTE *) pvData + zsizeof( WORD ));
       }
    }
 

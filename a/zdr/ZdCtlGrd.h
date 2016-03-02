@@ -796,8 +796,8 @@ protected:
 ///////////////////////////////////////////////////////////////////////////////////
 
 // Handy functions
-#define mIsSHIFT_Pressed() ( (GetKeyState(VK_SHIFT) & (1 << (sizeof(SHORT)*8-1))) != 0 )
-#define mIsCTRL_Pressed() ( (GetKeyState(VK_CONTROL) & (1 << (sizeof(SHORT)*8-1))) != 0 )
+#define mIsSHIFT_Pressed() ( (GetKeyState(VK_SHIFT) & (1 << (zsizeof(SHORT)*8-1))) != 0 )
+#define mIsCTRL_Pressed() ( (GetKeyState(VK_CONTROL) & (1 << (zsizeof(SHORT)*8-1))) != 0 )
 
 // Backwards compatibility for pre 2.20 grid versions
 #define DDX_GridControl(pDX, nIDC, rControl)  DDX_Control(pDX, nIDC, rControl)
@@ -1992,8 +1992,8 @@ inline CCellRange CCellRange::Intersect(const CCellRange& rhs) const
 ///////////////////////////////////////////////////////////////////////////////////
 
 // Handy functions
-#define mIsSHIFT_Pressed() ( (GetKeyState(VK_SHIFT) & (1 << (sizeof(SHORT)*8-1))) != 0 )
-#define mIsCTRL_Pressed() ( (GetKeyState(VK_CONTROL) & (1 << (sizeof(SHORT)*8-1))) != 0 )
+#define mIsSHIFT_Pressed() ( (GetKeyState(VK_SHIFT) & (1 << (zsizeof(SHORT)*8-1))) != 0 )
+#define mIsCTRL_Pressed() ( (GetKeyState(VK_CONTROL) & (1 << (zsizeof(SHORT)*8-1))) != 0 )
 
 // Backwards compatibility for pre 2.20 grid versions
 #define DDX_GridControl(pDX, nIDC, rControl)  DDX_Control(pDX, nIDC, rControl)

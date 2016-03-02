@@ -102,7 +102,7 @@ TZNoteBook::TZNoteBook( TZPainterWindow *pPainterWindow,
       OrderEntityForView( vCtrl, szlCtrlCtrl, "Type A" );
 
       zCHAR szBlob[ 5 * sizeof( zLONG ) ];
-      zULONG ulLth = sizeof( szBlob );
+      zULONG ulLth = zsizeof( szBlob );
 
       GetBlobFromAttribute( szBlob, &ulLth, vCtrl, "Control", "CtrlBOI" );
 //    TraceLineI( "TZNoteBook ctor Blob Lth = ", ulLth );
@@ -416,7 +416,7 @@ TZNoteBook::ActivateTab( zSHORT nTabNbr )
          //      zstrcmp( pCtrl->m_csTag, "ClientActivity" ) == 0 )
             {
          //    pCtrl = m_pPainterWindow->m_CtrlList[ nPos ];
-               sprintf_s( szMsg, sizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
+               sprintf_s( szMsg, zsizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
                          pCtrl->IsSelected( ) ? "*" : " ",
                          pCtrl->m_pCtrlParent ?
                                        pCtrl->m_pCtrlParent->m_csTag : "<null>",
@@ -453,7 +453,7 @@ TZNoteBook::ActivateTab( zSHORT nTabNbr )
       //      zstrcmp( pCtrl->m_csTag, "ClientActivity" ) == 0 )
          {
       //    pCtrl = m_pPainterWindow->m_CtrlList[ nPos ];
-            sprintf_s( szMsg, sizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
+            sprintf_s( szMsg, zsizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
                       pCtrl->IsSelected( ) ? "*" : " ",
                       pCtrl->m_pCtrlParent ?
                                     pCtrl->m_pCtrlParent->m_csTag : "<null>",
@@ -527,7 +527,7 @@ TZNoteBook::ActivateTab( zSHORT nTabNbr )
       //      zstrcmp( pCtrl->m_csTag, "ClientActivity" ) == 0 )
          {
       //    pCtrl = m_pPainterWindow->m_CtrlList[ nPos ];
-            sprintf_s( szMsg, sizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
+            sprintf_s( szMsg, zsizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
                       pCtrl->IsSelected( ) ? "*" : " ",
                       pCtrl->m_pCtrlParent ?
                                     pCtrl->m_pCtrlParent->m_csTag : "<null>",
@@ -581,7 +581,7 @@ TZNoteBook::ActivateTab( zSHORT nTabNbr )
       //      zstrcmp( pCtrl->m_csTag, "ClientActivity" ) == 0 )
          {
       //    pCtrl = m_pPainterWindow->m_CtrlList[ nPos ];
-            sprintf_s( szMsg, sizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
+            sprintf_s( szMsg, zsizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
                       pCtrl->IsSelected( ) ? "*" : " ",
                       pCtrl->m_pCtrlParent ?
                                     pCtrl->m_pCtrlParent->m_csTag : "<null>",

@@ -96,7 +96,7 @@ fnSqlInitSqlStatement( LPSQLSTATEMENT lpSql,
    zLONG  hMem;
    zPCHAR lpPtr;
 
-   zmemset( (zPVOID) lpSql, sizeof( SqlStatementRecord ), 0 );
+   zmemset( (zPVOID) lpSql, zsizeof( SqlStatementRecord ), 0 );
    if ( pchSqlCmd )
    {
       pchSqlCmd[ 0 ] = 0;             // ensure SQL initialized with null
@@ -299,7 +299,7 @@ SqlConvertStringToSqlString( zCHAR        cDBType,
 
       case zTYPE_DATETIME:
          // Get date-time from pchSrc as an unformatted string -- yyyymmddhhmmsss.
-         strcpy_s( szDateTime1, sizeof( szDateTime1 ), pchSrc );
+         strcpy_s( szDateTime1, zsizeof( szDateTime1 ), pchSrc );
 
          // Make sure that the DateTime doesn't contain any spaces.
          sz = szDateTime1;
@@ -315,11 +315,11 @@ SqlConvertStringToSqlString( zCHAR        cDBType,
          switch ( cDBType )
          {
             case zSQL_SQLBASE:
-                  UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD HH:MI:SS:999" );
+                  UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD HH:MI:SS:999" );
                break;
 
             case zSQL_SQLSERVER:
-                  UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "Mmm dd YYYY HH:MI:SS:999" );
+                  UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "Mmm dd YYYY HH:MI:SS:999" );
                break;
          } // switch ( cDBType )...
 
@@ -571,12 +571,12 @@ SqlBuildColumnList( zCHAR          cDBType,
               lpRelRecord->cOwnerMember == zDBH_MANY_TO_MANY )
          {
             // Qualify column using corresponding table.
-            strcpy_s( szColumnName, sizeof( szColumnName ), lpRelRecord->lpRecordName );
+            strcpy_s( szColumnName, zsizeof( szColumnName ), lpRelRecord->lpRecordName );
          }
          else
-            strcpy_s( szColumnName, sizeof( szColumnName ), lpDataRecord->lpRecordName );
+            strcpy_s( szColumnName, zsizeof( szColumnName ), lpDataRecord->lpRecordName );
 
-         strcat_s( szColumnName, sizeof( szColumnName ), "." );
+         strcat_s( szColumnName, zsizeof( szColumnName ), "." );
       }
 
       // Now add column name to list.  For date/time columns, sometimes
@@ -587,26 +587,26 @@ SqlBuildColumnList( zCHAR          cDBType,
          {
             // For SqlBase, just add column name to list.
             case zSQL_SQLBASE:
-               strcat_s( szColumnName, sizeof( szColumnName ), lpDataField->lpFldName );
+               strcat_s( szColumnName, zsizeof( szColumnName ), lpDataField->lpFldName );
                break;
 
             // For SqlServer, on Insert just add column name to list. On
             // Select, use CONVERT function to get date in a certain format.
             case zSQL_SQLSERVER:
                if ( lpSql->nCommandType & zINSERT_CMD )
-                  strcat_s( szColumnName, sizeof( szColumnName ), lpDataField->lpFldName );
+                  strcat_s( szColumnName, zsizeof( szColumnName ), lpDataField->lpFldName );
                else
                {
                   zCHAR sz[ 300 ];
 
                   // Set szColumnName to "CONVERT( VARCHAR, [tbl.]column, 109 )"
-                  strcpy_s( sz, sizeof( sz ), "CONVERT( VARCHAR, " );
+                  strcpy_s( sz, zsizeof( sz ), "CONVERT( VARCHAR, " );
                   if ( szColumnName[ 0 ] )
-                     strcat_s( sz, sizeof( sz ), szColumnName );
+                     strcat_s( sz, zsizeof( sz ), szColumnName );
 
-                  strcat_s( sz, sizeof( sz ), lpDataField->lpFldName );
-                  strcat_s( sz, sizeof( sz ), ", 109 )" );
-                  strcpy_s( szColumnName, sizeof( szColumnName ), sz );
+                  strcat_s( sz, zsizeof( sz ), lpDataField->lpFldName );
+                  strcat_s( sz, zsizeof( sz ), ", 109 )" );
+                  strcpy_s( szColumnName, zsizeof( szColumnName ), sz );
                }
 
                break;
@@ -614,7 +614,7 @@ SqlBuildColumnList( zCHAR          cDBType,
       }
       else
          // For other field types, just add column name to list.
-         strcat_s( szColumnName, sizeof( szColumnName ), lpDataField->lpFldName );
+         strcat_s( szColumnName, zsizeof( szColumnName ), lpDataField->lpFldName );
 
       fnSqlAddStringToSql( lpSql, MAX_SQLCMD_LENGTH szColumnName );
    } // for (; lpDataField; ... )...
@@ -793,11 +793,11 @@ SqlBuildWhere( zCHAR          cDBType,
    {
       zCHAR szMsg[ 400 ];
 
-      strcpy_s( szMsg, sizeof( szMsg ), "SQL Error creating WHERE clause -- no key attribute "
+      strcpy_s( szMsg, zsizeof( szMsg ), "SQL Error creating WHERE clause -- no key attribute "
                "found in object definition.\nObject name = " );
-      strcat_s( szMsg, sizeof( szMsg ), lpViewOD->lpName );
-      strcat_s( szMsg, sizeof( szMsg ), "\nEntity name = " );
-      strcat_s( szMsg, sizeof( szMsg ), lpViewEntity->lpName );
+      strcat_s( szMsg, zsizeof( szMsg ), lpViewOD->lpName );
+      strcat_s( szMsg, zsizeof( szMsg ), "\nEntity name = " );
+      strcat_s( szMsg, zsizeof( szMsg ), lpViewEntity->lpName );
       IssueError( lpView, 16, 16, szMsg );
 
       return( zCALL_ERROR );
@@ -1532,18 +1532,18 @@ SqlBuildSubselect( zCHAR          cDBType,
 
    if ( fnSqlWhereIsNotEmpty( lpSql ) )
    {
-      fnSqlAddStringToWhere( lpParentSql, sizeof( lpParentSql ), lpSql->szSqlCmd );
-      fnSqlAddStringToWhere( lpParentSql, sizeof( lpParentSql ), " FROM " );
-      fnSqlAddStringToWhere( lpParentSql, sizeof( lpParentSql ), lpSql->szFrom );
-      fnSqlAddStringToWhere( lpParentSql, sizeof( lpParentSql ), " WHERE " );
+      fnSqlAddStringToWhere( lpParentSql, zsizeof( lpParentSql ), lpSql->szSqlCmd );
+      fnSqlAddStringToWhere( lpParentSql, zsizeof( lpParentSql ), " FROM " );
+      fnSqlAddStringToWhere( lpParentSql, zsizeof( lpParentSql ), lpSql->szFrom );
+      fnSqlAddStringToWhere( lpParentSql, zsizeof( lpParentSql ), " WHERE " );
       if ( lpSql->nComponentCount > 1 )
-         fnSqlAddStringToWhere( lpParentSql, sizeof( lpParentSql ), " ( " );
+         fnSqlAddStringToWhere( lpParentSql, zsizeof( lpParentSql ), " ( " );
 
-      fnSqlAddStringToWhere( lpParentSql, sizeof( lpParentSql ), lpSql->szWhere );
+      fnSqlAddStringToWhere( lpParentSql, zsizeof( lpParentSql ), lpSql->szWhere );
       if ( lpSql->nComponentCount > 1 )
-         fnSqlAddStringToWhere( lpParentSql, sizeof( lpParentSql ), " ) " );
+         fnSqlAddStringToWhere( lpParentSql, zsizeof( lpParentSql ), " ) " );
 
-      fnSqlAddStringToWhere( lpParentSql, sizeof( lpParentSql ), " )" );
+      fnSqlAddStringToWhere( lpParentSql, zsizeof( lpParentSql ), " )" );
    }
 
    fnSqlFreeSqlStatement( lpSql );
@@ -2085,14 +2085,14 @@ SqlDisplayQualMsg( zVIEW  lpView,
       szTitle = "Qualification Object Warning";
       bBeep   = 0;
       nIcon   = zICON_EXCLAMATION;
-      strcpy_s( szText, sizeof( szText ), "Warning loading qualification object for Activate:\n" );
+      strcpy_s( szText, zsizeof( szText ), "Warning loading qualification object for Activate:\n" );
    }
    else
    {
       szTitle = "Qualification Object Error";
       bBeep   = TRUE;
       nIcon   = zICON_ERROR;
-      strcpy_s( szText, sizeof( szText ), "Error loading qualification object for Activate:\n\n" );
+      strcpy_s( szText, zsizeof( szText ), "Error loading qualification object for Activate:\n\n" );
    }
 
    zstrcatp( szText, pchMsg );
@@ -2205,7 +2205,7 @@ SqlRetrieveQualAttrib( zCHAR        cDBType,
    while ( nRC == zCURSOR_SET )
    {
       // Allocate space for new QualAttrib record.
-      hMem = SysAllocMemory( (zPVOID) &lpQualAttrib, sizeof( QualAttribRecord ), 0, zCOREMEM_ALLOC, 0 );
+      hMem = SysAllocMemory( (zPVOID) &lpQualAttrib, zsizeof( QualAttribRecord ), 0, zCOREMEM_ALLOC, 0 );
       if ( lpQualAttrib == 0 )
       {
          SqlDisplayQualMsg( lpQualView, "Cannot allocate memory",
@@ -2214,7 +2214,7 @@ SqlRetrieveQualAttrib( zCHAR        cDBType,
       }
 
       // Fill new QualAttrib with zeros.
-      zmemset( (zPVOID) lpQualAttrib, sizeof( QualAttribRecord ), 0 );
+      zmemset( (zPVOID) lpQualAttrib, zsizeof( QualAttribRecord ), 0 );
       lpQualAttrib->hMem = hMem;
 
       // Add lpQualAttrib as first qual attrib in chain.
@@ -2705,7 +2705,7 @@ fnSqlRetrieveQualObject( zCHAR        cDBType,
    // Copy each of the EntitySpec entities to the qualification chain.
    while ( nRC == zCURSOR_SET )
    {
-      hMem = SysAllocMemory( (zPVOID) &lpQualEntity, sizeof( QualEntityRecord ), 0, zCOREMEM_ALLOC, 0 );
+      hMem = SysAllocMemory( (zPVOID) &lpQualEntity, zsizeof( QualEntityRecord ), 0, zCOREMEM_ALLOC, 0 );
       if ( lpQualEntity == 0 )
       {
          SqlDisplayQualMsg( lpQualView, "Cannot allocate memory", zERROR, 0 );
@@ -2713,7 +2713,7 @@ fnSqlRetrieveQualObject( zCHAR        cDBType,
       }
 
       // Add lpQualEntity to beginning of chain.
-      zmemset( (zPVOID) lpQualEntity, sizeof( QualEntityRecord ), 0 );
+      zmemset( (zPVOID) lpQualEntity, zsizeof( QualEntityRecord ), 0 );
       lpQualEntity->hMem = hMem;
       lpQualEntity->lpNextQualEntity = *lpFirstQualEntity;
       *lpFirstQualEntity = lpQualEntity;
@@ -2817,7 +2817,7 @@ SqlPrintLine( zPCHAR  pchBuffer,
    }
 
    // Set up indent string.
-   strcpy_s( szIndentStr, sizeof( szIndentStr ), "SQL> " );
+   strcpy_s( szIndentStr, zsizeof( szIndentStr ), "SQL> " );
    pchPtr = szIndentStr;
    mAdvanceToNull( pchPtr );
    for ( n = 0; n < (*pnIndentLth - nParenIndent); n++ )
@@ -2829,7 +2829,7 @@ SqlPrintLine( zPCHAR  pchBuffer,
 
    if ( *pnErrorIdx )
    {
-      strcpy_s( szIndentStr, sizeof( szIndentStr ), "ERR> " );
+      strcpy_s( szIndentStr, zsizeof( szIndentStr ), "ERR> " );
       pchPtr = szIndentStr;
       mAdvanceToNull( pchPtr );
       for ( n = 0; n < (*pnIndentLth + *pnErrorIdx); n++ )
@@ -2914,7 +2914,7 @@ fnSqlDisplayCommand( zPCHAR *ppchSqlCmdStr,
    pchLine = szBuffer;
    if ( pchInitString )
    {
-      strcpy_s( szBuffer, sizeof( szBuffer ), pchInitString );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), pchInitString );
       mAdvanceToNull( pchLine );
       nIndentIncrement = zstrlen( pchInitString ) + 1;
    }
@@ -2959,7 +2959,7 @@ fnSqlDisplayCommand( zPCHAR *ppchSqlCmdStr,
       {
          zCHAR s[ 100 ];
 
-         strncpy_s( s, sizeof( s ), pchToken, nTokenLth );
+         strncpy_s( s, zsizeof( s ), pchToken, nTokenLth );
          s[ nTokenLth ] = 0;
          TraceLineS( "DBG Token> ", s );
       }

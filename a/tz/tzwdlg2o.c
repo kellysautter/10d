@@ -193,7 +193,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
    { 
       //:SET CURSOR FIRST vPE.ControlDef WHERE
       //:           vPE.ControlDef.Tag = vControl.ControlDef.Tag
-      GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vControl, "ControlDef", "Tag" );
+      GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vControl, "ControlDef", "Tag" );
       RESULT = SetCursorFirstEntityByString( vPE, "ControlDef", "Tag", szTempString_2, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -260,7 +260,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
             { 
                //:SET CURSOR FIRST vDialog.ViewObjRef WHERE
                //:    vDialog.ViewObjRef.Name = vControl.CtrlMapView.Name
-               GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), vControl, "CtrlMapView", "Name" );
+               GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), vControl, "CtrlMapView", "Name" );
                RESULT = SetCursorFirstEntityByString( vDialog, "ViewObjRef", "Name", szTempString_3, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -291,7 +291,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                   GetVariableFromAttribute( szTempString_4, 0, 'S', 33, vControl, "CtrlMapView", "Name", "", 0 );
                   ZeidonStringConcat( szMsg, 1, 0, szTempString_4, 1, 0, 256 );
                   //:SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
-                  SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, sizeof( szContinueParseGen ) );
+                  SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, zsizeof( szContinueParseGen ) );
                   //:IF szContinueParseGen = "N"
                   if ( ZeidonStringCompare( szContinueParseGen, 1, 0, "N", 1, 0, 2 ) == 0 )
                   { 
@@ -340,7 +340,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                { 
                   //:nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
                   //:                             zSINGLE, vDialog.LOD.Name, 0 )
-                  GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), vDialog, "LOD", "Name" );
+                  GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), vDialog, "LOD", "Name" );
                   nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META, zSINGLE, szTempString_5, 0 );
                } 
 
@@ -398,14 +398,14 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                //:// and recreated.  In this case, re-include the Attribute.
                //:SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
                //:                 vLastLOD.LOD_Entity.Name = vControl.CtrlMapRelatedEntity.Name
-               GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), vControl, "CtrlMapRelatedEntity", "Name" );
+               GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), vControl, "CtrlMapRelatedEntity", "Name" );
                RESULT = SetCursorFirstEntityByString( *vLastLOD, "LOD_Entity", "Name", szTempString_7, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
                { 
                   //:SET CURSOR FIRST vLastLOD.ER_Attribute WITHIN vLastLOD.LOD_Entity WHERE
                   //:                 vLastLOD.ER_Attribute.Name = vControl.CtrlMapER_Attribute.Name
-                  GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), vControl, "CtrlMapER_Attribute", "Name" );
+                  GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), vControl, "CtrlMapER_Attribute", "Name" );
                   RESULT = SetCursorFirstEntityByString( *vLastLOD, "ER_Attribute", "Name", szTempString_7, "LOD_Entity" );
                   //:IF RESULT >= zCURSOR_SET     //
                   if ( RESULT >= zCURSOR_SET )
@@ -453,7 +453,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                   GetVariableFromAttribute( szTempString_8, 0, 'S', 33, vControl, "CtrlMapER_Attribute", "Name", "", 0 );
                   ZeidonStringConcat( szMsg, 1, 0, szTempString_8, 1, 0, 256 );
                   //:SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
-                  SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, sizeof( szContinueParseGen ) );
+                  SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, zsizeof( szContinueParseGen ) );
                   //:IF szContinueParseGen = "N"
                   if ( ZeidonStringCompare( szContinueParseGen, 1, 0, "N", 1, 0, 2 ) == 0 )
                   { 
@@ -566,7 +566,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                      { 
                         //:SET CURSOR FIRST vDomain.Context WHERE
                         //:    vDomain.Context.Name = vControl.CtrlMapContext.Name
-                        GetStringFromAttribute( szTempString_9, sizeof( szTempString_9 ), vControl, "CtrlMapContext", "Name" );
+                        GetStringFromAttribute( szTempString_9, zsizeof( szTempString_9 ), vControl, "CtrlMapContext", "Name" );
                         RESULT = SetCursorFirstEntityByString( vDomain, "Context", "Name", szTempString_9, "" );
                         //:IF RESULT >= zCURSOR_SET
                         if ( RESULT >= zCURSOR_SET )
@@ -595,14 +595,14 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                   { 
                      //:nRC = ActivateMetaOI_ByName( vSubtask, vDomain, 0, zREFER_DOMAIN_META,
                      //:                             zSINGLE, vControl.CtrlMapER_Domain.Name , 0 )
-                     GetStringFromAttribute( szTempString_9, sizeof( szTempString_9 ), vControl, "CtrlMapER_Domain", "Name" );
+                     GetStringFromAttribute( szTempString_9, zsizeof( szTempString_9 ), vControl, "CtrlMapER_Domain", "Name" );
                      nRC = ActivateMetaOI_ByName( vSubtask, &vDomain, 0, zREFER_DOMAIN_META, zSINGLE, szTempString_9, 0 );
                      //:IF nRC >= 0
                      if ( nRC >= 0 )
                      { 
                         //:SET CURSOR FIRST vDomain.Context WHERE
                         //:    vDomain.Context.Name = vControl.CtrlMapContext.Name
-                        GetStringFromAttribute( szTempString_10, sizeof( szTempString_10 ), vControl, "CtrlMapContext", "Name" );
+                        GetStringFromAttribute( szTempString_10, zsizeof( szTempString_10 ), vControl, "CtrlMapContext", "Name" );
                         RESULT = SetCursorFirstEntityByString( vDomain, "Context", "Name", szTempString_10, "" );
                         //:IF RESULT >= zCURSOR_SET
                         if ( RESULT >= zCURSOR_SET )
@@ -696,7 +696,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                //:// LOD_Entity had been deleted and readded.
                //:SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
                //:    vLastLOD.LOD_Entity.Name = vControl.CtrlMapLOD_Entity.Name
-               GetStringFromAttribute( szTempString_12, sizeof( szTempString_12 ), vControl, "CtrlMapLOD_Entity", "Name" );
+               GetStringFromAttribute( szTempString_12, zsizeof( szTempString_12 ), vControl, "CtrlMapLOD_Entity", "Name" );
                RESULT = SetCursorFirstEntityByString( *vLastLOD, "LOD_Entity", "Name", szTempString_12, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -721,7 +721,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                   GetVariableFromAttribute( szTempString_13, 0, 'S', 33, vControl, "CtrlMapLOD_Entity", "Name", "", 0 );
                   ZeidonStringConcat( szMsg, 1, 0, szTempString_13, 1, 0, 256 );
                   //:SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
-                  SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, sizeof( szContinueParseGen ) );
+                  SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, zsizeof( szContinueParseGen ) );
                   //:IF szContinueParseGen = "N"
                   if ( ZeidonStringCompare( szContinueParseGen, 1, 0, "N", 1, 0, 2 ) == 0 )
                   { 
@@ -1081,7 +1081,7 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
       { 
          //:nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
          //:                             zSINGLE, vVOR.LOD.Name, 0 )
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vVOR, "LOD", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vVOR, "LOD", "Name" );
          nRC = ActivateMetaOI_ByName( vSubtask, &vLastLOD, 0, zREFER_LOD_META, zSINGLE, szTempString_0, 0 );
          //:IF nRC >= 0
          if ( nRC >= 0 )
@@ -1119,7 +1119,7 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
             GetVariableFromAttribute( szTempString_2, 0, 'S', 33, vDialog, "LOD", "Name", "", 0 );
             ZeidonStringConcat( szMsg, 1, 0, szTempString_2, 1, 0, 256 );
             //:SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
-            SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, sizeof( szContinueParseGen ) );
+            SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, zsizeof( szContinueParseGen ) );
             //:IF szContinueParseGen = "N"
             if ( ZeidonStringCompare( szContinueParseGen, 1, 0, "N", 1, 0, 2 ) == 0 )
             { 
@@ -1148,7 +1148,7 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
       { 
          //:nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
          //:                             zSINGLE, vDialog.ViewObjRef.Name , 0 )
-         GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), vDialog, "ViewObjRef", "Name" );
+         GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), vDialog, "ViewObjRef", "Name" );
          nRC = ActivateMetaOI_ByName( vSubtask, &vVOR, 0, zREFER_VOR_META, zSINGLE, szTempString_3, 0 );
          //:IF nRC >= 0
          if ( nRC >= 0 )
@@ -1170,7 +1170,7 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
             ZeidonStringConcat( szMsg, 1, 0, szTempString_4, 1, 0, 256 );
             ZeidonStringConcat( szMsg, 1, 0, "\nMissing Registered View.", 1, 0, 256 );
             //:SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen )
-            SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, sizeof( szContinueParseGen ) );
+            SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, zsizeof( szContinueParseGen ) );
             //:IF szContinueParseGen = "N"
             if ( ZeidonStringCompare( szContinueParseGen, 1, 0, "N", 1, 0, 2 ) == 0 )
             { 
@@ -1243,7 +1243,7 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
                   { 
                      //:SET CURSOR FIRST vDialog.ViewObjRef WHERE
                      //:    vDialog.ViewObjRef.Name = vDialog.ActMapView.Name
-                     GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), vDialog, "ActMapView", "Name" );
+                     GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), vDialog, "ActMapView", "Name" );
                      RESULT = SetCursorFirstEntityByString( vDialog, "ViewObjRef", "Name", szTempString_5, "" );
                      //:IF RESULT >= zCURSOR_SET
                      if ( RESULT >= zCURSOR_SET )
@@ -1277,7 +1277,7 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
                         { 
                            //:nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
                            //:                             zSINGLE, vDialog.LOD.Name, 0 )
-                           GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), vDialog, "LOD", "Name" );
+                           GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), vDialog, "LOD", "Name" );
                            nRC = ActivateMetaOI_ByName( vSubtask, &vLastLOD, 0, zREFER_LOD_META, zSINGLE, szTempString_5, 0 );
                         } 
 
@@ -1353,7 +1353,7 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
                      { 
                         //:nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
                         //:                             zSINGLE, vDialog.LOD.Name, 0 )
-                        GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), vDialog, "LOD", "Name" );
+                        GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), vDialog, "LOD", "Name" );
                         nRC = ActivateMetaOI_ByName( vSubtask, &vLastLOD, 0, zREFER_LOD_META, zSINGLE, szTempString_8, 0 );
                      } 
 
@@ -1404,7 +1404,7 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
                   { 
                      //:SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
                      //:    vLastLOD.LOD_Entity.Name = vDialog.ActMapLOD_Entity.Name
-                     GetStringFromAttribute( szTempString_10, sizeof( szTempString_10 ), vDialog, "ActMapLOD_Entity", "Name" );
+                     GetStringFromAttribute( szTempString_10, zsizeof( szTempString_10 ), vDialog, "ActMapLOD_Entity", "Name" );
                      RESULT = SetCursorFirstEntityByString( vLastLOD, "LOD_Entity", "Name", szTempString_10, "" );
                      //:IF RESULT >= zCURSOR_SET
                      if ( RESULT >= zCURSOR_SET )
@@ -1579,7 +1579,7 @@ oTZWDLGSO_OptionRelinkDelete( zVIEW     vSubtask,
             { 
                //:SET CURSOR FIRST vDialog.ViewObjRef WHERE
                //:    vDialog.ViewObjRef.Name = vOption.OptMapView.Name
-               GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOption, "OptMapView", "Name" );
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOption, "OptMapView", "Name" );
                RESULT = SetCursorFirstEntityByString( vDialog, "ViewObjRef", "Name", szTempString_0, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -1695,14 +1695,14 @@ oTZWDLGSO_OptionRelinkDelete( zVIEW     vSubtask,
                //:// and recreated.  In this case, re-include the Attribute.
                //:SET CURSOR FIRST vLastLOD.LOD_Entity WHERE
                //:                 vLastLOD.LOD_Entity.Name = vOption.OptMapRelatedEntity.Name
-               GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vOption, "OptMapRelatedEntity", "Name" );
+               GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vOption, "OptMapRelatedEntity", "Name" );
                RESULT = SetCursorFirstEntityByString( *vLastLOD, "LOD_Entity", "Name", szTempString_4, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
                { 
                   //:SET CURSOR FIRST vLastLOD.ER_Attribute WITHIN vLastLOD.LOD_Entity WHERE
                   //:                 vLastLOD.ER_Attribute.Name = vOption.OptMapER_Attribute.Name
-                  GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), vOption, "OptMapER_Attribute", "Name" );
+                  GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), vOption, "OptMapER_Attribute", "Name" );
                   RESULT = SetCursorFirstEntityByString( *vLastLOD, "ER_Attribute", "Name", szTempString_4, "LOD_Entity" );
                   //:IF RESULT >= zCURSOR_SET     //
                   if ( RESULT >= zCURSOR_SET )
@@ -1800,7 +1800,7 @@ oTZWDLGSO_OptionRelinkDelete( zVIEW     vSubtask,
                      { 
                         //:SET CURSOR FIRST vDomain.Context WHERE
                         //:    vDomain.Context.Name = vOption.OptMapContext.Name
-                        GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), vOption, "OptMapContext", "Name" );
+                        GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), vOption, "OptMapContext", "Name" );
                         RESULT = SetCursorFirstEntityByString( vDomain, "Context", "Name", szTempString_7, "" );
                         //:IF RESULT >= zCURSOR_SET
                         if ( RESULT >= zCURSOR_SET )
@@ -1829,14 +1829,14 @@ oTZWDLGSO_OptionRelinkDelete( zVIEW     vSubtask,
                   { 
                      //:nRC = ActivateMetaOI_ByName( vSubtask, vDomain, 0, zREFER_DOMAIN_META,
                      //:                             zSINGLE, vOption.OptMapER_Domain.Name , 0 )
-                     GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), vOption, "OptMapER_Domain", "Name" );
+                     GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), vOption, "OptMapER_Domain", "Name" );
                      nRC = ActivateMetaOI_ByName( vSubtask, &vDomain, 0, zREFER_DOMAIN_META, zSINGLE, szTempString_7, 0 );
                      //:IF nRC >= 0
                      if ( nRC >= 0 )
                      { 
                         //:SET CURSOR FIRST vDomain.Context WHERE
                         //:    vDomain.Context.Name = vOption.OptMapContext.Name
-                        GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), vOption, "OptMapContext", "Name" );
+                        GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), vOption, "OptMapContext", "Name" );
                         RESULT = SetCursorFirstEntityByString( vDomain, "Context", "Name", szTempString_8, "" );
                         //:IF RESULT >= zCURSOR_SET
                         if ( RESULT >= zCURSOR_SET )

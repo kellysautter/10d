@@ -133,7 +133,7 @@ SwitchToAction( zVIEW   vSubtask,
 //       pAction = pAction->m_pNextAction;
 
       pAction->m_lActType = zWAB_SwitchToAction;
-      strcpy_s( pAction->m_szAction, sizeof( pAction->m_szAction ), cpcNewAction );
+      strcpy_s( pAction->m_szAction, zsizeof( pAction->m_szAction ), cpcNewAction );
       return( 0 );
    }
 
@@ -178,7 +178,7 @@ InvokeAction( zVIEW   vSubtask,
 //    pAction = pAction->m_pNextAction;
 
       zCHAR szAction[ zTAG_LTH ];
-      strcpy_s( szAction, sizeof( szAction ), cpcActionTag ); // localize action
+      strcpy_s( szAction, zsizeof( szAction ), cpcActionTag ); // localize action
       return( (zSHORT) ProcessAction( pZSubtask, szAction, 0, 0, "InvokeAction" ) );
    }
 
@@ -225,14 +225,14 @@ GetWebRedirection( zVIEW   vSubtask,
    {
       GetStringFromAttribute( pchDlgTag, zTAG_LTH, vKZXMLPGO, "NextDialogWindow", "DialogName" );
       GetStringFromAttribute( pchWndTag, zTAG_LTH, vKZXMLPGO, "NextDialogWindow", "WindowName" );
-      GetStringFromAttribute( szFunctionCall, sizeof( szFunctionCall ), vKZXMLPGO, "NextDialogWindow", "FunctionCall" );
+      GetStringFromAttribute( szFunctionCall, zsizeof( szFunctionCall ), vKZXMLPGO, "NextDialogWindow", "FunctionCall" );
 
       DeleteEntity( vKZXMLPGO, "NextDialogWindow", zREPOS_LAST );
 
       if ( zstrcmp( szFunctionCall, "StartSubwindow" ) == 0 )
       {
-         strcpy_s( szDlgWnd, sizeof( szDlgWnd ), pchDlgTag );
-         strcat_s( szDlgWnd, sizeof( szDlgWnd ), pchWndTag );
+         strcpy_s( szDlgWnd, zsizeof( szDlgWnd ), pchDlgTag );
+         strcat_s( szDlgWnd, zsizeof( szDlgWnd ), pchWndTag );
          CreateEntity( vKZXMLPGO, "PagePath", zPOS_AFTER );
          SetAttributeFromString( vKZXMLPGO, "PagePath", "LastPageName", szDlgWnd );
          nRC = 1;
@@ -576,12 +576,12 @@ SetWindowActionBehavior( zVIEW   vSubtask,
          zCHAR szWndTag[ zTAG_LTH ];
 
          if ( cpcDlgTag && cpcDlgTag[ 0 ] )
-            strcpy_s( szDlgTag, sizeof( szDlgTag ), cpcDlgTag );
+            strcpy_s( szDlgTag, zsizeof( szDlgTag ), cpcDlgTag );
          else
             szDlgTag[ 0 ] = 0;
 
          if ( cpcWndTag && cpcWndTag[ 0 ] )
-            strcpy_s( szWndTag, sizeof( szWndTag ), cpcWndTag );
+            strcpy_s( szWndTag, zsizeof( szWndTag ), cpcWndTag );
          else
             szWndTag[ 0 ] = 0;
 #endif
@@ -597,12 +597,12 @@ SetWindowActionBehavior( zVIEW   vSubtask,
                   (pAction->m_lActType & ~zWAB_ProcessImmediateReturn) < 100) ||
                  (pAction->m_lActType & ~zWAB_ProcessImmediateReturn) == zWAB_TerminateActionForError );
          if ( cpcDlgTag )
-            strcpy_s( pAction->m_szActDlg, sizeof( pAction->m_szActDlg ), cpcDlgTag );
+            strcpy_s( pAction->m_szActDlg, zsizeof( pAction->m_szActDlg ), cpcDlgTag );
          else
             pAction->m_szActDlg[ 0 ] = 0;
 
          if ( cpcWndTag )
-            strcpy_s( pAction->m_szActWnd, sizeof( pAction->m_szActWnd ), cpcWndTag );
+            strcpy_s( pAction->m_szActWnd, zsizeof( pAction->m_szActWnd ), cpcWndTag );
          else
             pAction->m_szActWnd[ 0 ] = 0;
 
@@ -630,12 +630,12 @@ SetWindowActionBehavior( zVIEW   vSubtask,
                ZFindDialog *pfd = (ZFindDialog *) SfLockTaskMemory( pv );
 
                if ( cpcDlgTag && *cpcDlgTag )
-                  strcpy_s( pfd->DlgN, sizeof( pfd->DlgN ), cpcDlgTag );
+                  strcpy_s( pfd->DlgN, zsizeof( pfd->DlgN ), cpcDlgTag );
                else
                   pfd->DlgN[ 0 ] = 0;
 
                if ( cpcWndTag && *cpcWndTag )
-                  strcpy_s( pfd->WndN, sizeof( pfd->WndN ), cpcWndTag );
+                  strcpy_s( pfd->WndN, zsizeof( pfd->WndN ), cpcWndTag );
                else
                   pfd->WndN[ 0 ] = 0;
 
@@ -745,12 +745,12 @@ InvokeWindowActionBehavior( zVIEW   vSubtask,
                (pAction->m_lActType & ~zWAB_ProcessImmediateReturn) < 100) ||
               (pAction->m_lActType & ~zWAB_ProcessImmediateReturn) == zWAB_TerminateActionForError );
       if ( cpcDlgTag )
-         strcpy_s( pAction->m_szActDlg, sizeof( pAction->m_szActDlg ), cpcDlgTag );
+         strcpy_s( pAction->m_szActDlg, zsizeof( pAction->m_szActDlg ), cpcDlgTag );
       else
          pAction->m_szActDlg[ 0 ] = 0;
 
       if ( cpcWndTag )
-         strcpy_s( pAction->m_szActWnd, sizeof( pAction->m_szActWnd ), cpcWndTag );
+         strcpy_s( pAction->m_szActWnd, zsizeof( pAction->m_szActWnd ), cpcWndTag );
       else
          pAction->m_szActWnd[ 0 ] = 0;
 
@@ -793,7 +793,7 @@ EnableAction( zVIEW   vSubtask,
    // int k = 0;
 
    // k /= k;
-      sprintf_s( szMsg, sizeof( szMsg ), "EnableAction: %s Enable=%s", cpcActionName,
+      sprintf_s( szMsg, zsizeof( szMsg ), "EnableAction: %s Enable=%s", cpcActionName,
                 (nEnable == FALSE) ? "FALSE" : (nEnable == TRUE) ? "TRUE" :
                 (nEnable == zAUTO_DISABLE) ? "AUTO_DISABLE" :
                 (nEnable == zAUTO_ENABLE) ? "AUTO_ENABLE" : "Enable ???" );
@@ -966,7 +966,7 @@ StartTask( zVIEW   vSubtask,
       zCHAR  szTempString[ 128 ];
       zPCHAR pch;
 
-      strcpy_s( szTempString, sizeof( szTempString ), cpcCmdLine );
+      strcpy_s( szTempString, zsizeof( szTempString ), cpcCmdLine );
       zstrupper( szTempString );
       pch = zstrstr( szTempString, ".EXE" );
       if ( pch )
@@ -998,7 +998,7 @@ StartTask( zVIEW   vSubtask,
          {
             zVIEW  vNewSubtask;
 
-            strcpy_s( szTempString, sizeof( szTempString ), cpcCmdLine );
+            strcpy_s( szTempString, zsizeof( szTempString ), cpcCmdLine );
             *pchDlg = 0;
             pchDlg++;
 
@@ -1026,16 +1026,16 @@ StartTask( zVIEW   vSubtask,
             szStartTask[ nLth++ ] = ' ';
             szStartTask[ nLth++ ] = '-';
             szStartTask[ nLth++ ] = 'a';
-            strcpy_s( szStartTask + nLth, sizeof( szStartTask ) - nLth, pchApp );
+            strcpy_s( szStartTask + nLth, zsizeof( szStartTask ) - nLth, pchApp );
             nLth += zstrlen( szStartTask + nLth );
             szStartTask[ nLth++ ] = ' ';
             szStartTask[ nLth++ ] = '-';
             szStartTask[ nLth++ ] = 'd';
 
             GetApplDirectoryFromView( szNameExt, vNewSubtask,
-                                      zAPPL_DIR_OBJECT, sizeof( szNameExt ) );
-            strcat_s( szNameExt, sizeof( szNameExt ), pchDlg );
-            strcat_s( szNameExt, sizeof( szNameExt ), ".xra" );
+                                      zAPPL_DIR_OBJECT, zsizeof( szNameExt ) );
+            strcat_s( szNameExt, zsizeof( szNameExt ), pchDlg );
+            strcat_s( szNameExt, zsizeof( szNameExt ), ".xra" );
 
             // Activate using SfActivateSysOI_FromFile so that the kzxra.xod
             // does not have to be in the application LPLR.
@@ -1135,16 +1135,16 @@ CreateWindowSubtask( zVIEW   *pvSubtask,
       SfCreateSubtask( &vNewSubtask, vSubtask, cpcAppName );
 
    szViewName[ 0 ] = '_';  szViewName[ 1 ] = '_';
-   strcpy_s( szViewName + 2, sizeof( szViewName ) - 2, cpcDlgTag );
+   strcpy_s( szViewName + 2, zsizeof( szViewName ) - 2, cpcDlgTag );
    if ( GetViewByName( &vDialogNew, szViewName, vSubtask, zLEVEL_TASK ) != zLEVEL_TASK )
    {
       zCHAR szNameExt[ 256 ];
 
       // This original Dialog view will never be used ... it is just here by
       // name so that new (usable) views can be declared/set from this one.
-      GetApplDirectoryFromView( szNameExt, vNewSubtask, zAPPL_DIR_OBJECT, sizeof( szNameExt ) );
-      strcat_s( szNameExt, sizeof( szNameExt ), cpcDlgTag );
-      strcat_s( szNameExt, sizeof( szNameExt ), ".xwd" );
+      GetApplDirectoryFromView( szNameExt, vNewSubtask, zAPPL_DIR_OBJECT, zsizeof( szNameExt ) );
+      strcat_s( szNameExt, zsizeof( szNameExt ), cpcDlgTag );
+      strcat_s( szNameExt, zsizeof( szNameExt ), ".xwd" );
 
       // Activate using SfActivateSysOI_FromFile so that the kzwdlgxo.xod does not have to be in the application LPLR.
       if ( (nRC = SfActivateSysOI_FromFile( &vDialogNew, szlKZWDLGXO, vSubtask, szNameExt, zSINGLE )) == 0 )
@@ -1257,16 +1257,16 @@ CreateRemoteWindowSubtask( zVIEW   *pvSubtask,
    zSHORT nRC;
 
    szViewName[ 0 ] = '_';  szViewName[ 1 ] = '@';
-   strcpy_s( szViewName + 2, sizeof( szViewName ) - 2, cpcDlgTag );
+   strcpy_s( szViewName + 2, zsizeof( szViewName ) - 2, cpcDlgTag );
    if ( GetViewByName( &vDialogNew, szViewName, vSubtask, zLEVEL_TASK ) != zLEVEL_TASK )
    {
       zCHAR szNameExt[ 256 ];
 
       // This original Dialog view will never be used ... it is just here by
       // name so that new (usable) views can be declared/set from this one.
-      GetApplDirectoryFromView( szNameExt, vSubtask, zAPPL_DIR_OBJECT, sizeof( szNameExt ) );
-      strcat_s( szNameExt, sizeof( szNameExt ), cpcDlgTag );
-      strcat_s( szNameExt, sizeof( szNameExt ), ".xra" );
+      GetApplDirectoryFromView( szNameExt, vSubtask, zAPPL_DIR_OBJECT, zsizeof( szNameExt ) );
+      strcat_s( szNameExt, zsizeof( szNameExt ), cpcDlgTag );
+      strcat_s( szNameExt, zsizeof( szNameExt ), ".xra" );
 
       // Activate using SfActivateSysOI_FromFile so that the kzxra.xod
       // does not have to be in the application LPLR.

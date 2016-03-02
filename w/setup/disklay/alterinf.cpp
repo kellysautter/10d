@@ -156,7 +156,7 @@ fnProcessINF( const char *cpcFileName,
    strcpy( pch, ".tmp" );
 
    k = 0;
-   while ( fgets( szBuffer, sizeof( szBuffer ), fpChange ) )
+   while ( fgets( szBuffer, zsizeof( szBuffer ), fpChange ) )
    {
       k++;
       nLth = strlen( szBuffer );
@@ -193,7 +193,7 @@ fnProcessINF( const char *cpcFileName,
 //    cerr << "Writing Temp file " << szFileTemp << endl;
 
    k = 1;
-   while ( fgets( szBuffer, sizeof( szBuffer ), fpRead ) )
+   while ( fgets( szBuffer, zsizeof( szBuffer ), fpRead ) )
    {
       for ( pslChgCurr = pslChgHead;
             pslChgCurr;

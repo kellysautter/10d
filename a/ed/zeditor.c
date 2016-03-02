@@ -400,7 +400,7 @@ fnZeidonCreateBuffer( zVIEW  vSubtask,
    ColorKeywords( 0xFC );              // Keywords are red.
    ColorComments( 0xF3 );
 
-   GetStringFromAttribute( szFontString, sizeof( szFontString ), vProfile, szlED, "FontString" );
+   GetStringFromAttribute( szFontString, zsizeof( szFontString ), vProfile, szlED, "FontString" );
 
    if ( *szFontString == 0 )
    {
@@ -419,7 +419,7 @@ fnZeidonCreateBuffer( zVIEW  vSubtask,
       psz = strchr( psz, '\'' ) + 1;
       psz2 = strchr( psz, '\'' );
       *psz2 = 0;
-      strcpy_s( facename, sizeof( facename, psz );
+      strcpy_s( facename, zsizeof( facename, psz );
       psz = psz2 + 2;
 
       if ( hFont )
@@ -554,7 +554,7 @@ InitSession( zVIEW  vSubtask )
       lpszSourceFileEntityName = szlSourceFile;
 
    // Get the source dir from the lplr view.
-   GetStringFromAttribute( szFilename, sizeof( szFilename ), vTaskLPLR, szlLPLR, szlPgmSrcDir );
+   GetStringFromAttribute( szFilename, zsizeof( szFilename ), vTaskLPLR, szlLPLR, szlPgmSrcDir );
    SysAppendcDirSep( szFilename );
 
    // Get the subdir from the source file entity.  If GetString... returns < 0
@@ -569,7 +569,7 @@ InitSession( zVIEW  vSubtask )
    // Get the file name and extension.
    GetStringFromAttribute( szFilename + zstrlen( szFilename ),
                            vSource, lpszSourceFileEntityName, szlName );
-   strcat_s( szFilename, sizeof( szFileName ), "." );
+   strcat_s( szFilename, zsizeof( szFileName ), "." );
    GetStringFromAttribute( szFilename + zstrlen( szFilename ),
                            vSource, lpszSourceFileEntityName, szlExtension );
 
@@ -594,7 +594,7 @@ InitSession( zVIEW  vSubtask )
                                  vSource, "GlobalOperationGroup", "DomainAndGlobalOpGroupName" );
       SetAttributeFromInteger( vEdWrk, szlBuffer, szlMetaType, zREFER_GOPGRP_META );
       lMetaType = zSOURCE_GOPGRP_META;
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vSource, "GlobalOperationGroup", "Name" );
+      GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vSource, "GlobalOperationGroup", "Name" );
    }
    else
    if ( zstrcmp( pszInvokingTool, "DM" ) == 0 )
@@ -603,7 +603,7 @@ InitSession( zVIEW  vSubtask )
                                  vSource, "DomainGroup", "DomainAndGlobalOpGroupName" );
       SetAttributeFromInteger( vEdWrk, szlBuffer, szlMetaType, zREFER_DOMAINGRP_META );
       lMetaType = zSOURCE_DOMAINGRP_META;
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vSource, "DomainGroup", "Name" );
+      GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vSource, "DomainGroup", "Name" );
    }
    else
    if ( zstrcmp( pszInvokingTool, "ZO" ) == 0 )
@@ -613,7 +613,7 @@ InitSession( zVIEW  vSubtask )
       SetAttributeFromInteger( vEdWrk, szlBuffer, szlMetaType,
                                zREFER_LOD_META );
       lMetaType = zSOURCE_LOD_META;
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ),
+      GetStringFromAttribute( szMetaName, zsizeof( szMetaName ),
                               vSource, "LOD", "Name" );
    }
    else
@@ -637,7 +637,7 @@ InitSession( zVIEW  vSubtask )
       }
 
       lMetaType = zSOURCE_DIALOG_META;
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vSource, "Dialog", "Tag" );
+      GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vSource, "Dialog", "Tag" );
    }
 
    // If the source meta view is not updateable, then make sure that buffer
@@ -689,7 +689,7 @@ InitSession( zVIEW  vSubtask )
          GetAddrForAttribute( &pszName, vSource, lpszSourceFileEntityName, szlName );
 
          SysGetDateTime( szDateRaw );
-         UfFormatDateTime( szDateFormatted, sizeof( szDateFormatted ), szDateRaw, "DD-MM-YYYY" );
+         UfFormatDateTime( szDateFormatted, zsizeof( szDateFormatted ), szDateRaw, "DD-MM-YYYY" );
 
          BufInsertStr(
            "/*\r\n"
@@ -741,9 +741,9 @@ InitSession( zVIEW  vSubtask )
 
    // Determine if the operation is in the file or we should create a template
    GetAddrForAttribute( &lpszOperName, vSource, szlOperation, szlName );
-   strcpy_s( szOperSrch, sizeof( szOperSrch ), "OPERATION[ \\t\\n]+" );
-   strcat_s( szOperSrch, sizeof( szOperSrch ), lpszOperName );
-   strcat_s( szOperSrch, sizeof( szOperSrch ), "[ \\t\\n\\(]+" );
+   strcpy_s( szOperSrch, zsizeof( szOperSrch ), "OPERATION[ \\t\\n]+" );
+   strcat_s( szOperSrch, zsizeof( szOperSrch ), lpszOperName );
+   strcat_s( szOperSrch, zsizeof( szOperSrch ), "[ \\t\\n\\(]+" );
    MovTopBuf( );
    MovHome( );
    if ( !SrchFind( szOperSrch,
@@ -1327,16 +1327,16 @@ OpenZeidonFile( zVIEW vSubtask )
    OPENFILENAME ofn;
    char         szFile[ 256 ];
 
-   memset( &ofn, 0, sizeof( OPENFILENAME ) );
+   memset( &ofn, 0, zsizeof( OPENFILENAME ) );
    *szFile = 0;
 
-   ofn.lStructSize  = sizeof( OPENFILENAME );
+   ofn.lStructSize  = zsizeof( OPENFILENAME );
    ofn.hwndOwner    = 0;
    ofn.hInstance    = 0;
    ofn.lpstrFilter  = "Zeidon Source Files\0*.vml;*.c\0All files\0*.*\0";
    ofn.nFilterIndex = 1;
    ofn.lpstrFile    = szFile;
-   ofn.nMaxFile     = sizeof( szFile );
+   ofn.nMaxFile     = zsizeof( szFile );
    ofn.Flags        = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
    if ( !GetOpenFileName( &ofn ) )
@@ -1461,8 +1461,8 @@ SaveFile( zVIEW vSubtask )
             zCHAR  szNewFileName[ 255 ];
             zCHAR  szMsg[ 300 ];
 
-            strcpy_s( szNewFileName, sizeof( szNewFileName ), psz );
-            strcat_s( szNewFileName, sizeof( szNewFileName ), "._zz" );
+            strcpy_s( szNewFileName, zsizeof( szNewFileName ), psz );
+            strcat_s( szNewFileName, zsizeof( szNewFileName ), "._zz" );
             BufWriteFile( szNewFileName, FALSE );
             sprintf( szMsg, "Unable to save buffer to file.  Buffer saved to "
                      "temp file '%s'", szNewFileName );
@@ -1528,14 +1528,14 @@ SaveAndParse( zVIEW vSubtask )
    GetWorkView( &vEdWrk );
    if ( !vEdWrk )
    {
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at _zfParseFile." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at _zfParseFile." );
       fnEditorMsg( sz, 1, 0, 0, zICON_EXCLAMATION );
       return( 0 );
    }
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) != 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "Parse only valid with .VML files." );
+      strcpy_s( sz, zsizeof( sz ), "Parse only valid with .VML files." );
       fnEditorMsg( sz, 1, 0, 0, zICON_EXCLAMATION );
       nRC = 1;
       goto EndOfFunction;
@@ -1543,8 +1543,8 @@ SaveAndParse( zVIEW vSubtask )
 
    // Make sure that none of the buffers contains the .ERR file.
    szFilename = TransformFilename( BufQFilename (), "%b" );
-   strcpy_s( szErrorFile, sizeof( szErrorFile ), szFilename );
-   strcat_s( szErrorFile, sizeof( szErrorFile ), ".ERR" );
+   strcpy_s( szErrorFile, zsizeof( szErrorFile ), szFilename );
+   strcat_s( szErrorFile, zsizeof( szErrorFile ), ".ERR" );
    StrFree( szFilename );
    szFilename = 0;
    CreateViewFromViewForTask( &vTempWrk, vEdWrk, vSubtask );
@@ -1618,7 +1618,7 @@ SaveAndParse( zVIEW vSubtask )
       // error file.
       if ( UserFlagsOn( zUF_PerformingExit ) )
       {
-         strcpy_s( sz, sizeof( sz ), "Parse completed with Errors.\n\n"
+         strcpy_s( sz, zsizeof( sz ), "Parse completed with Errors.\n\n"
                       "See Error File for list of errors." );
          nRC = fnEditorMsg( sz, 1, 0, 0, zICON_ERROR );
       }
@@ -1627,7 +1627,7 @@ SaveAndParse( zVIEW vSubtask )
 #if 0
          ErrorSrcFile( szErrorFile );
 
-         strcpy_s( sz, sizeof( sz ), "Parse completed with Errors.\n\nDo you want to open the Error File?" );
+         strcpy_s( sz, zsizeof( sz ), "Parse completed with Errors.\n\nDo you want to open the Error File?" );
          nRC = fnEditorMsg( sz, 1, zBUTTONS_YESNO, 0, zICON_ERROR );
          if ( nRC == zRESPONSE_YES )
 #endif
@@ -1638,7 +1638,7 @@ SaveAndParse( zVIEW vSubtask )
    }
    else
    {
-      strcpy_s( sz, sizeof( sz ), "Parse completed successfully." );
+      strcpy_s( sz, zsizeof( sz ), "Parse completed successfully." );
       fnEditorMsg( sz, 0, 0, 0, zICON_INFORMATION );
       nRC = 0;
    }
@@ -1671,7 +1671,7 @@ Generate( zVIEW vSubtask )
    GetWorkView( &vEdWrk );
    if ( !vEdWrk )
    {
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at _zfGenerateCFile." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at _zfGenerateCFile." );
       fnEditorMsg( sz, 1, 0, 0, zICON_EXCLAMATION );
       return( 0 );
    }
@@ -1713,8 +1713,8 @@ Generate( zVIEW vSubtask )
 
    if ( nRC < 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "Errors in Generate." );
-      strcat_s( sz, sizeof( sz ), "\n\nSee Messages in Error Box" );
+      strcpy_s( sz, zsizeof( sz ), "Errors in Generate." );
+      strcat_s( sz, zsizeof( sz ), "\n\nSee Messages in Error Box" );
       fnEditorMsg( sz, 1, 0, 0, zICON_ERROR );
       nRC = 1;
    }
@@ -1841,8 +1841,8 @@ fnSetCurrentBuffer( zPVIEW pvEdWrk, zPCHAR szRoutine )
       {
          char sz[ 300 ];
 
-         strcpy_s( sz, sizeof( sz ), "TZEDWRKO not found in fnSetCurrentBuffer" );
-         strcat_s( sz, sizeof( sz ), szRoutine );
+         strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not found in fnSetCurrentBuffer" );
+         strcat_s( sz, zsizeof( sz ), szRoutine );
          fnEditorMsg( sz, 1, 0, 0, zICON_EXCLAMATION );
          return( zCALL_ERROR );
       }
@@ -2004,7 +2004,7 @@ _TZ_BufferDelete( DWORD eventnum, HBUFFER hBuffer )
       char sz[ 100 ];
 
       // This should never happen, so flash a message if it does.
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO current buffer not found for Delete!." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO current buffer not found for Delete!." );
       fnEditorMsg( sz, 1, 0, 0, zICON_EXCLAMATION );
       if ( hCurrentBuffer )
          BufSwitchBuffer( hCurrentBuffer );
@@ -2091,7 +2091,7 @@ _TZ_BufferSaved( DWORD eventnum )
    GetIntegerFromAttribute( &lMetaType,
                             vEdWrk, szlBuffer, szlMetaType );
    RetrieveViewForMetaList( vSubtask, vSubtask, &vTempLPLR, (zSHORT) lMetaType );
-   GetStringFromAttribute( szMetaName, sizeof( szMetaName ),
+   GetStringFromAttribute( szMetaName, zsizeof( szMetaName ),
                            vTempLPLR, "W_MetaDef", "Name" );
    lMetaType = lMetaType - 2000;   // Convert type from REFER to SOURCE.
    nRC = SetCursorFirstEntityByString( vTempLPLR, "W_MetaDef", "Name",
@@ -2124,9 +2124,9 @@ _TZ_BufferSaved( DWORD eventnum )
       char sz[ 300 ];
 
       szFileName = BufQFilename ();
-      strcpy_s( sz, sizeof( sz ), "File " );
-      strcat_s( sz, sizeof( sz ), szFileName );
-      strcat_s( sz, sizeof( sz ), " has been saved. Parse file?" );
+      strcpy_s( sz, zsizeof( sz ), "File " );
+      strcat_s( sz, zsizeof( sz ), szFileName );
+      strcat_s( sz, zsizeof( sz ), " has been saved. Parse file?" );
       nRC = fnEditorMsg( sz, 1, zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
       if ( nRC == zRESPONSE_YES )
       {
@@ -2266,37 +2266,37 @@ int OperTemplate( zVIEW vSource )
       GetAddrForAttribute( &szDataType, vSource, "Parameter", "DataType" );
 
       // create prefix for parameter name
-      strcpy_s( szParam, sizeof( szParam ), "");
+      strcpy_s( szParam, zsizeof( szParam ), "");
       if (bFileC)
       {
          if (bPointer)
-           strcat_s( szParam, sizeof( szParam ), "p");
+           strcat_s( szParam, zsizeof( szParam ), "p");
 
          if (bUnsigned && *szDataType == 'N' || *szDataType == 'L')
-           strcat_s( szParam, sizeof( szParam ), "u");
+           strcat_s( szParam, zsizeof( szParam ), "u");
 
          switch ( *szDataType )
          {
             case 'V':
-               strcat_s( szParam, sizeof( szParam ), "v");
+               strcat_s( szParam, zsizeof( szParam ), "v");
                break;
             case 'N':
-               strcat_s( szParam, sizeof( szParam ), "n");
+               strcat_s( szParam, zsizeof( szParam ), "n");
                break;
             case 'M':
-               strcat_s( szParam, sizeof( szParam ), "d");
+               strcat_s( szParam, zsizeof( szParam ), "d");
                break;
             case 'Y':
-               strcat_s( szParam, sizeof( szParam ), "c");
+               strcat_s( szParam, zsizeof( szParam ), "c");
                break;
             case 'L':
-               strcat_s( szParam, sizeof( szParam ), "l");
+               strcat_s( szParam, zsizeof( szParam ), "l");
                break;
             case 'O':
                // no prefix for void pointers
                break;
             default:
-               strcat_s( szParam, sizeof( szParam ), "sz");
+               strcat_s( szParam, zsizeof( szParam ), "sz");
          }
       }
 
@@ -2306,14 +2306,14 @@ int OperTemplate( zVIEW vSource )
       UfCompressName( szParam + nLen,
          szParam + nLen, 32 - nLen, "", "BL", "", "B_", 1 );
 
-      strcpy_s( szLine, sizeof( szLine ), "");
+      strcpy_s( szLine, zsizeof( szLine ), "");
       if (bFileC)
       {
          // create prefix for "C"
-         strcat_s( szLine, sizeof( szLine ), "z");
+         strcat_s( szLine, zsizeof( szLine ), "z");
 
          if (bPointer)
-           strcat_s( szLine, sizeof( szLine ), "P");
+           strcat_s( szLine, zsizeof( szLine ), "P");
 
          if (bUnsigned)
          {
@@ -2322,7 +2322,7 @@ int OperTemplate( zVIEW vSource )
 //               case 'Y':
                case 'N':
                case 'L':
-                  strcat_s( szLine, sizeof( szLine ), "U");
+                  strcat_s( szLine, zsizeof( szLine ), "U");
                   break;
             }
          }
@@ -2331,8 +2331,8 @@ int OperTemplate( zVIEW vSource )
       switch ( *szDataType )
       {
          case 'V':
-            strcat_s( szLine, sizeof( szLine ), "VIEW ");
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            strcat_s( szLine, zsizeof( szLine ), "VIEW ");
+            strcat_s( szLine, zsizeof( szLine ), szParam );
 
             if ( nParam == 1 &&
                  ( *szType == 'A' || *szType == 'E' || *szType == 'T' ||
@@ -2357,41 +2357,41 @@ int OperTemplate( zVIEW vSource )
                }
 
                if ( bFileC )
-                  strcat_s( szLine, sizeof( szLine ), " /* " );
-               strcat_s( szLine, sizeof( szLine ), " BASED ON LOD " );
-               strcat_s( szLine, sizeof( szLine ), szLOD );
+                  strcat_s( szLine, zsizeof( szLine ), " /* " );
+               strcat_s( szLine, zsizeof( szLine ), " BASED ON LOD " );
+               strcat_s( szLine, zsizeof( szLine ), szLOD );
                if ( bFileC )
-                  strcat_s( szLine, sizeof( szLine ), " */" );
+                  strcat_s( szLine, zsizeof( szLine ), " */" );
             }
             break;
          case 'N':
-            strcat_s( szLine, sizeof( szLine ), "SHORT ");
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            strcat_s( szLine, zsizeof( szLine ), "SHORT ");
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
          case 'M':
-            strcat_s( szLine, sizeof( szLine ), "DECIMAL ");
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            strcat_s( szLine, zsizeof( szLine ), "DECIMAL ");
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
          case 'Y':
-            strcat_s( szLine, sizeof( szLine ), "CHAR ");
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            strcat_s( szLine, zsizeof( szLine ), "CHAR ");
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
          case 'L':
-            bFileC ? strcat_s( szLine, sizeof( szLine ), "LONG " )
-                   : strcat_s( szLine, sizeof( szLine ), "INTEGER " );
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            bFileC ? strcat_s( szLine, zsizeof( szLine ), "LONG " )
+                   : strcat_s( szLine, zsizeof( szLine ), "INTEGER " );
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
          case 'O':
-            bFileC ? strcat_s( szLine, sizeof( szLine ), "VOID " )
-                   : strcat_s( szLine, sizeof( szLine ), "VOID " );
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            bFileC ? strcat_s( szLine, zsizeof( szLine ), "VOID " )
+                   : strcat_s( szLine, zsizeof( szLine ), "VOID " );
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
          case 'A':
          case 'E':
          default:
-            bFileC ? strcat_s( szLine, sizeof( szLine ), "PCHAR " )
-                   : strcat_s( szLine, sizeof( szLine ), "STRING ( 32 ) " );
-            strcat_s( szLine, sizeof( szLine ), szParam );
+            bFileC ? strcat_s( szLine, zsizeof( szLine ), "PCHAR " )
+                   : strcat_s( szLine, zsizeof( szLine ), "STRING ( 32 ) " );
+            strcat_s( szLine, zsizeof( szLine ), szParam );
             break;
       }
       BufInsertStr( szLine );
@@ -2402,25 +2402,25 @@ int OperTemplate( zVIEW vSource )
          case 1:
             if ( *szType == 'M' )
             {
-               strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
+               strcpy_s( szParamCase, zsizeof( szParamCase ), szParam );
             }
             break;
          case 2:
             if ( *szType == 'C' || *szType == 'O' )
             {
-               strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
+               strcpy_s( szParamCase, zsizeof( szParamCase ), szParam );
             }
             break;
          case 3:
             if ( *szType == 'E' )
             {
-               strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
+               strcpy_s( szParamCase, zsizeof( szParamCase ), szParam );
             }
             break;
          case 4:
             if ( *szType == 'A' )
             {
-               strcpy_s( szParamCase, sizeof( szParamCase ), szParam );
+               strcpy_s( szParamCase, zsizeof( szParamCase ), szParam );
             }
             break;
       }
@@ -2576,18 +2576,18 @@ int OperTemplate( zVIEW vSource )
 
    if (bFileC)
    {
-      strcpy_s( szLine, sizeof( szLine ), "{\r\n\r\n\r\n" );
+      strcpy_s( szLine, zsizeof( szLine ), "{\r\n\r\n\r\n" );
       if ( *szReturnDataType == 'O')
-         strcat_s( szLine, sizeof( szLine ), "\treturn;\r\n");
+         strcat_s( szLine, zsizeof( szLine ), "\treturn;\r\n");
       else
-         strcat_s( szLine, sizeof( szLine ), "\treturn( 0 );\r\n");
-      strcat_s( szLine, sizeof( szLine ), "} // ");
-      strcat_s( szLine, sizeof( szLine ), szOperName );
-      strcat_s( szLine, sizeof( szLine ), "\r\n" );
+         strcat_s( szLine, zsizeof( szLine ), "\treturn( 0 );\r\n");
+      strcat_s( szLine, zsizeof( szLine ), "} // ");
+      strcat_s( szLine, zsizeof( szLine ), szOperName );
+      strcat_s( szLine, zsizeof( szLine ), "\r\n" );
    }
    else
    {
-      strcpy_s( szLine, sizeof( szLine ), "\r\nEND\r\n" );
+      strcpy_s( szLine, zsizeof( szLine ), "\r\nEND\r\n" );
    }
    BufInsertStr( szLine );
 
@@ -2733,7 +2733,7 @@ zSHORT fnPasteQualifier( zVIEW  vSubtask,
    GetWorkView( &vEdWrk );
    if ( !vEdWrk )
    {
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at PasteQualifier." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at PasteQualifier." );
       OperatorPrompt ( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 ) ;
       return( zCALL_ERROR );
    }
@@ -2744,7 +2744,7 @@ zSHORT fnPasteQualifier( zVIEW  vSubtask,
    if ( CompareAttributeToString( vEdWrk, szlBuffer,
                                   szlLanguageType, szlVML_File ) != 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "Paste only works for .VML files." );
+      strcpy_s( sz, zsizeof( sz ), "Paste only works for .VML files." );
       OperatorPrompt ( 0, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 ) ;
       return( zCALL_ERROR );
    }
@@ -2767,21 +2767,21 @@ zSHORT fnPasteQualifier( zVIEW  vSubtask,
          if ( *sz )
          {
             if ( bInsertWithQuote )
-               strcat_s( sz, sizeof( sz ), ", " );
+               strcat_s( sz, zsizeof( sz ), ", " );
             else
-               strcat_s( sz, sizeof( sz ), "." );
+               strcat_s( sz, zsizeof( sz ), "." );
          }
 
          if ( bInsertWithQuote )
-            strcat_s( sz, sizeof( sz ), "\"" );
+            strcat_s( sz, zsizeof( sz ), "\"" );
 
          // Get rid of any leading spaces.
          while ( *pszEntityName == ' ' )
             pszEntityName++;
-         strcat_s( sz, sizeof( sz ), pszEntityName );
+         strcat_s( sz, zsizeof( sz ), pszEntityName );
 
          if ( bInsertWithQuote )
-            strcat_s( sz, sizeof( sz ), "\"" );
+            strcat_s( sz, zsizeof( sz ), "\"" );
       }
    }
 
@@ -2795,24 +2795,24 @@ zSHORT fnPasteQualifier( zVIEW  vSubtask,
          if ( *sz )
          {
             if ( bInsertWithQuote )
-               strcat_s( sz, sizeof( sz ), ", " );
+               strcat_s( sz, zsizeof( sz ), ", " );
             else
-               strcat_s( sz, sizeof( sz ), "." );
+               strcat_s( sz, zsizeof( sz ), "." );
          }
 
          if ( bInsertWithQuote )
-            strcat_s( sz, sizeof( sz ), "\"" );
+            strcat_s( sz, zsizeof( sz ), "\"" );
 
-         strcat_s( sz, sizeof( sz ), pszAttribName );
+         strcat_s( sz, zsizeof( sz ), pszAttribName );
 
          if ( bInsertWithQuote )
-            strcat_s( sz, sizeof( sz ), "\"" );
+            strcat_s( sz, zsizeof( sz ), "\"" );
       }
    }
 
    if ( *sz )
    {
-      strcat_s( sz, sizeof( sz ), " " );
+      strcat_s( sz, zsizeof( sz ), " " );
       BufInsertStr( sz );
 
       hWinCW = WinQHCurrent();
@@ -2978,7 +2978,7 @@ zSHORT fnGetNextTokenFromBuffer( zPCHAR szToken )
                     break;
       }
 
-      if ( szEndPtr > 0 && ( szEndPtr - szStr ) >= MAX_TOKEN_LTH )
+      if ( szEndPtr > 0 && (szEndPtr - szStr) >= MAX_TOKEN_LTH )
       {
          OperatorSend( 0, szlZeidonEditor, "Max token length exceeded!", 1 );
          *szEndPtr = 0;
@@ -2986,7 +2986,7 @@ zSHORT fnGetNextTokenFromBuffer( zPCHAR szToken )
       }
    }
 
-   strcpy_s( szToken, sizeof( szToken ), szStartPtr );
+   strcpy_s( szToken, MAX_TOKEN_LTH, szStartPtr );
    StrFree( szStr );
 
    return( 0 );
@@ -3013,8 +3013,8 @@ zSHORT PasteOperation( zVIEW vSubtask, zVIEW vOp )
                                            szlVML_File ) == 0 );
 
    GetAddrForAttribute( &szStr, vOp, szlOperation, szlName );
-   strcpy_s( szTemp, sizeof( szTemp ), szStr );
-   strcat_s( szTemp, sizeof( szTemp ), "( " );
+   strcpy_s( szTemp, zsizeof( szTemp ), szStr );
+   strcat_s( szTemp, zsizeof( szTemp ), "( " );
 
    // Create Indent string.
    nIndent = zstrlen( szTemp ) + (zSHORT) BufQCurrentCol() - 1;
@@ -3027,11 +3027,11 @@ zSHORT PasteOperation( zVIEW vSubtask, zVIEW vOp )
    {
       GetAddrForAttribute( &szStr, vOp, "Parameter", "PFlag" );
       if ( !bVML_File && *szStr == 'Y' )
-         strcat_s( szTemp, sizeof( szTemp ), "PTR " );
+         strcat_s( szTemp, zsizeof( szTemp ), "PTR " );
 
       GetAddrForAttribute( &szStr, vOp, "Parameter", "UFlag" );
       if ( !bVML_File && *szStr == 'Y' )
-         strcat_s( szTemp, sizeof( szTemp ), "UNSIGNED " );
+         strcat_s( szTemp, zsizeof( szTemp ), "UNSIGNED " );
 
       GetAddrForAttribute( &szStr, vOp, "Parameter", "DataType" );
       if ( *szStr )
@@ -3040,25 +3040,25 @@ zSHORT PasteOperation( zVIEW vSubtask, zVIEW vOp )
          {
             switch ( *szStr )
             {
-            case 'A': strcat_s( szTemp, sizeof( szTemp ), "\"ATTRIBUTE_NAME\"" );
+            case 'A': strcat_s( szTemp, zsizeof( szTemp ), "\"ATTRIBUTE_NAME\"" );
                         break;
-            case 'E': strcat_s( szTemp, sizeof( szTemp ), "\"ENTITY_NAME\"" );
+            case 'E': strcat_s( szTemp, zsizeof( szTemp ), "\"ENTITY_NAME\"" );
                         break;
-            case 'L': strcat_s( szTemp, sizeof( szTemp ), "INTEGER" );
+            case 'L': strcat_s( szTemp, zsizeof( szTemp ), "INTEGER" );
                         break;
-            case 'M': strcat_s( szTemp, sizeof( szTemp ), "DOUBLE" );
+            case 'M': strcat_s( szTemp, zsizeof( szTemp ), "DOUBLE" );
                         break;
-            case 'N': strcat_s( szTemp, sizeof( szTemp ), "INTEGER" );
+            case 'N': strcat_s( szTemp, zsizeof( szTemp ), "INTEGER" );
                         break;
-            case 'O': strcat_s( szTemp, sizeof( szTemp ), "VOID" );
+            case 'O': strcat_s( szTemp, zsizeof( szTemp ), "VOID" );
                         break;
-            case 'S': strcat_s( szTemp, sizeof( szTemp ), "STRING" );
+            case 'S': strcat_s( szTemp, zsizeof( szTemp ), "STRING" );
                         break;
-            case 'V': strcat_s( szTemp, sizeof( szTemp ), "VIEW" );
+            case 'V': strcat_s( szTemp, zsizeof( szTemp ), "VIEW" );
                         break;
-            case 'Y': strcat_s( szTemp, sizeof( szTemp ), "STRING" );
+            case 'Y': strcat_s( szTemp, zsizeof( szTemp ), "STRING" );
                         break;
-            default : strcat_s( szTemp, sizeof( szTemp ), szStr );
+            default : strcat_s( szTemp, zsizeof( szTemp ), szStr );
                         break;
             } // switch
          }
@@ -3066,25 +3066,25 @@ zSHORT PasteOperation( zVIEW vSubtask, zVIEW vOp )
          {
             switch ( *szStr )
             {
-            case 'A': strcat_s( szTemp, sizeof( szTemp ), "\"ATTRIBUTE_NAME\"" );
+            case 'A': strcat_s( szTemp, zsizeof( szTemp ), "\"ATTRIBUTE_NAME\"" );
                         break;
-            case 'E': strcat_s( szTemp, sizeof( szTemp ), "\"ENTITY_NAME\"" );
+            case 'E': strcat_s( szTemp, zsizeof( szTemp ), "\"ENTITY_NAME\"" );
                         break;
-            case 'L': strcat_s( szTemp, sizeof( szTemp ), "zLONG" );
+            case 'L': strcat_s( szTemp, zsizeof( szTemp ), "zLONG" );
                         break;
-            case 'M': strcat_s( szTemp, sizeof( szTemp ), "DOUBLE" );
+            case 'M': strcat_s( szTemp, zsizeof( szTemp ), "DOUBLE" );
                         break;
-            case 'N': strcat_s( szTemp, sizeof( szTemp ), "zSHORT" );
+            case 'N': strcat_s( szTemp, zsizeof( szTemp ), "zSHORT" );
                         break;
-            case 'O': strcat_s( szTemp, sizeof( szTemp ), "void" );
+            case 'O': strcat_s( szTemp, zsizeof( szTemp ), "void" );
                         break;
-            case 'S': strcat_s( szTemp, sizeof( szTemp ), "zCHAR" );
+            case 'S': strcat_s( szTemp, zsizeof( szTemp ), "zCHAR" );
                         break;
-            case 'V': strcat_s( szTemp, sizeof( szTemp ), "zVIEW" );
+            case 'V': strcat_s( szTemp, zsizeof( szTemp ), "zVIEW" );
                         break;
-            case 'Y': strcat_s( szTemp, sizeof( szTemp ), "zCHAR" );
+            case 'Y': strcat_s( szTemp, zsizeof( szTemp ), "zCHAR" );
                         break;
-            default : strcat_s( szTemp, sizeof( szTemp ), szStr );
+            default : strcat_s( szTemp, zsizeof( szTemp ), szStr );
                         break;
             } // switch
          } // if ( bVML_File )...else...
@@ -3093,24 +3093,24 @@ zSHORT PasteOperation( zVIEW vSubtask, zVIEW vOp )
       GetAddrForAttribute( &szStr, vOp, "Parameter", "ShortDesc" );
       if ( *szStr )
       {
-         strcat_s( szTemp, sizeof( szTemp ), " /* " );
-         strcat_s( szTemp, sizeof( szTemp ), szStr );
-         strcat_s( szTemp, sizeof( szTemp ), " */" );
+         strcat_s( szTemp, zsizeof( szTemp ), " /* " );
+         strcat_s( szTemp, zsizeof( szTemp ), szStr );
+         strcat_s( szTemp, zsizeof( szTemp ), " */" );
       }
 
       nRC = SetCursorNextEntity( vOp, "Parameter", "" );
       if ( nRC == zCURSOR_SET )
       {
-         strcat_s( szTemp, sizeof( szTemp ), ",\n" );
-         strcat_s( szTemp, sizeof( szTemp ), szIndentStr );
+         strcat_s( szTemp, zsizeof( szTemp ), ",\n" );
+         strcat_s( szTemp, zsizeof( szTemp ), szIndentStr );
       }
       else
-         strcat_s( szTemp, sizeof( szTemp ), " " );
+         strcat_s( szTemp, zsizeof( szTemp ), " " );
    }
 
-   strcat_s( szTemp, sizeof( szTemp ), ")" );
+   strcat_s( szTemp, zsizeof( szTemp ), ")" );
    if ( !bVML_File )
-      strcat_s( szTemp, sizeof( szTemp ), ";" );
+      strcat_s( szTemp, zsizeof( szTemp ), ";" );
 
    BufInsertStr( szTemp );
 
@@ -3185,7 +3185,7 @@ AEQ_GetViews( zVIEW vSubtask )
    GetWorkView( &vEdWrk );
    if ( !vEdWrk )
    {
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at GetViews." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at GetViews." );
       OperatorPrompt ( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 ) ;
       return( zCALL_ERROR );
    }
@@ -3193,7 +3193,7 @@ AEQ_GetViews( zVIEW vSubtask )
    if ( CompareAttributeToString( vEdWrk, szlBuffer,
                                   szlLanguageType, szlVML_File ) != 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "'Get Views' only works on .VML files." );
+      strcpy_s( sz, zsizeof( sz ), "'Get Views' only works on .VML files." );
       OperatorPrompt ( 0, "ED - Error", sz, 0, zBUTTONS_OK, 0, 0 ) ;
       return( zCALL_ERROR );
    }
@@ -3228,7 +3228,7 @@ AEQ_GetViews( zVIEW vSubtask )
       SrchSetFwd( FALSE );          // Set search to look backward.
       if ( !SrchFind( szOperationString, SEARCH_REGEX | SEARCH_IGCASE, &lLth ) )
       {
-         strcpy_s( sz, sizeof( sz ), "Couldn't find beginning of operation" );
+         strcpy_s( sz, zsizeof( sz ), "Couldn't find beginning of operation" );
          OperatorPrompt( 0, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 ) ;
          return( zCALL_ERROR );
       }
@@ -3299,14 +3299,14 @@ AEQ_GetViews( zVIEW vSubtask )
                                          szObjectName, 0 );
             if ( nRC < 0 )
             {
-               strcpy_s( sz, sizeof( sz ), "Can't find Registered View with name " );
-               strcat_s( sz, sizeof( sz ), szObjectName );
+               strcpy_s( sz, zsizeof( sz ), "Can't find Registered View with name " );
+               strcat_s( sz, zsizeof( sz ), szObjectName );
                OperatorPrompt ( 0, szlZeidonEditor, sz, 0, zBUTTONS_OK, 0, 0 );
                continue;
             }
 
             // Get Object name from VOR.
-            GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vVor, "LOD", szlName );
+            GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vVor, "LOD", szlName );
             DropMetaOI( vSubtask, vVor );
          }
 
@@ -3520,7 +3520,7 @@ SaveBuffers_ParseAll( zVIEW vSubtask )
       GetIntegerFromAttribute( &hBuffer, vEdWrk, szlBufferSaveList, szlhBuffer );
       BufSetCurrentBuffer( (HBUFFER) hBuffer );
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Parsing: " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Parsing: " );
       GetStringFromAttribute( &szMsg[ zstrlen( szMsg ) ],
                               vEdWrk, szlBufferSaveList, szlFileName );
       MB_SetMessage( vSubtask, 0, szMsg );
@@ -3610,28 +3610,28 @@ OBJ_PasteObjectName( zVIEW vSubtask )
          break;
 
       case 'B':
-         strcpy_s( sz, sizeof( sz ), "VIEW " );
-         strcat_s( sz, sizeof( sz ), szName );
-         strcat_s( sz, sizeof( sz ), " BASED ON LOD " );
-         strcat_s( sz, sizeof( sz ), szName );
+         strcpy_s( sz, zsizeof( sz ), "VIEW " );
+         strcat_s( sz, zsizeof( sz ), szName );
+         strcat_s( sz, zsizeof( sz ), " BASED ON LOD " );
+         strcat_s( sz, zsizeof( sz ), szName );
          BufInsertStr( sz );
          break;
 
       case 'G':
-         strcpy_s( sz, sizeof( sz ), "GET VIEW " );
-         strcat_s( sz, sizeof( sz ), szName );
-         strcat_s( sz, sizeof( sz ), " NAMED \"" );
-         strcat_s( sz, sizeof( sz ), szName );
-         strcat_s( sz, sizeof( sz ), "\"" );
+         strcpy_s( sz, zsizeof( sz ), "GET VIEW " );
+         strcat_s( sz, zsizeof( sz ), szName );
+         strcat_s( sz, zsizeof( sz ), " NAMED \"" );
+         strcat_s( sz, zsizeof( sz ), szName );
+         strcat_s( sz, zsizeof( sz ), "\"" );
          BufInsertStr( sz );
          break;
 
       case 'S':
-         strcpy_s( sz, sizeof( sz ), "NAME VIEW " );
-         strcat_s( sz, sizeof( sz ), szName );
-         strcat_s( sz, sizeof( sz ), " \"" );
-         strcat_s( sz, sizeof( sz ), szName );
-         strcat_s( sz, sizeof( sz ), "\"" );
+         strcpy_s( sz, zsizeof( sz ), "NAME VIEW " );
+         strcat_s( sz, zsizeof( sz ), szName );
+         strcat_s( sz, zsizeof( sz ), " \"" );
+         strcat_s( sz, zsizeof( sz ), szName );
+         strcat_s( sz, zsizeof( sz ), "\"" );
          BufInsertStr( sz );
          break;
    }
@@ -3671,7 +3671,7 @@ VOR_PasteName( zVIEW vSubtask )
    switch ( *szOption )
    {
       case 'N':
-         strcpy_s( sz, sizeof( sz ), pszName );
+         strcpy_s( sz, zsizeof( sz ), pszName );
          break;
 
       case 'R':
@@ -3743,7 +3743,7 @@ OpIns_InsertOperation( zVIEW vSubtask )
    zVIEW  vEdWrk;
 
    GetWorkView( &vEdWrk );
-   GetStringFromAttribute( szType, sizeof( szType ), vEdWrk, szlOperListType, szlType );
+   GetStringFromAttribute( szType, zsizeof( szType ), vEdWrk, szlOperListType, szlType );
 //   SetCursorFirstSelectedEntity( vEdWrk, szlOper, 0 );
    switch ( *szType )
    {
@@ -3769,7 +3769,7 @@ OpIns_InsertOperation( zVIEW vSubtask )
          // User wants to insert a Global operation.  Retrieve the Global
          // Operations Group view that contains the operation.
 
-         GetStringFromAttribute( szOpName, sizeof( szOpName ), vEdWrk, szlOper, szlName );
+         GetStringFromAttribute( szOpName, zsizeof( szOpName ), vEdWrk, szlOper, szlName );
          ActivateMetaOI_ByName( &vOp, vSubtask, zREFER_GO_META,
                                 zSINGLE | zLEVEL_APPLICATION,
                                 szOpName, zCURRENT_OI );
@@ -3819,7 +3819,7 @@ OpIns_InsertOperation( zVIEW vSubtask )
          zPCHAR psz;
 
          // User wants to insert an Object Operation.
-         GetStringFromAttribute( szObjectName, sizeof( szObjectName ), vEdWrk, szlOper, szlName );
+         GetStringFromAttribute( szObjectName, zsizeof( szObjectName ), vEdWrk, szlOper, szlName );
 
          // Look for the period between the Object name and the Oper name.
          for ( psz = szObjectName; *psz && *psz != '.'; psz++ )
@@ -3830,7 +3830,7 @@ OpIns_InsertOperation( zVIEW vSubtask )
          *psz++ = 0;
 
          // Copy the oper name.
-         strcpy_s( szOperName, sizeof( szOperName ), psz );
+         strcpy_s( szOperName, zsizeof( szOperName ), psz );
 
          // Activate the object meta.
          ActivateMetaOI_ByName( vSubtask, &vObj, vSubtask, zREFER_LOD_META,
@@ -3902,19 +3902,19 @@ VML_InsertText( zVIEW vSubtask )
    if ( CompareAttributeToString( vProfileXFER,
                                   szlED, szlVML_InsertFull, "Y" ) == 0 )
    {
-      GetStringFromAttribute( szInsertString, sizeof( szInsertString ), vProfileXFER,
+      GetStringFromAttribute( szInsertString, zsizeof( szInsertString ), vProfileXFER,
                               szlVML_Text, szlInsertTextFull );
    }
 
    if ( *szInsertString == 0 )
    {
-      GetStringFromAttribute( szInsertString, sizeof( szInsertString ), vProfileXFER,
+      GetStringFromAttribute( szInsertString, zsizeof( szInsertString ), vProfileXFER,
                               szlVML_Text, szlInsertText );
    }
 
    if ( *szInsertString == 0 )
    {
-      GetStringFromAttribute( szInsertString, sizeof( szInsertString ), vProfileXFER,
+      GetStringFromAttribute( szInsertString, zsizeof( szInsertString ), vProfileXFER,
                               szlVML_Text, szlText );
    }
 
@@ -4064,8 +4064,8 @@ void OPERATION tbNextError( BOOL bShowErrorFile )
 
    // Make sure that the error file exists.
    pszFilename = TransformFilename( BufQFilename (), "%b" );
-   strcpy_s( szErrorFile, sizeof( szErrorFile ), pszFilename );
-   strcat_s( szErrorFile, sizeof( szErrorFile ), ".ERR" );
+   strcpy_s( szErrorFile, zsizeof( szErrorFile ), pszFilename );
+   strcat_s( szErrorFile, zsizeof( szErrorFile ), ".ERR" );
    StrFree( pszFilename );
    if ( !FileExists( szErrorFile ) )
    {

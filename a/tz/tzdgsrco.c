@@ -119,7 +119,7 @@ oTZDGSRCO_DomainMigrate( zVIEW     NewDomainGroup,
 
    //:// Activate existing source meta OldDomain Group
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DomainGroupMetaName + ".PDG"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, DomainGroupMetaName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".PDG", 1, 0, 514 );
@@ -177,7 +177,7 @@ oTZDGSRCO_DomainMigrateReus( zVIEW     NewDomainGroup,
    { 
       //:SET CURSOR FIRST NewDomainGroup.Operation WHERE
       //:                 NewDomainGroup.Operation.Name = OldDomainGroup.SelectedOperation.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldDomainGroup, "SelectedOperation", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "SelectedOperation", "Name" );
       RESULT = SetCursorFirstEntityByString( NewDomainGroup, "Operation", "Name", szTempString_0, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -251,7 +251,7 @@ oTZDGSRCO_DomainMigrateReus( zVIEW     NewDomainGroup,
    { 
       //:SET CURSOR FIRST NewDomainGroup.Operation WHERE
       //:                 NewDomainGroup.Operation.Name = OldDomainGroup.SelectedOperation.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldDomainGroup, "SelectedOperation", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "SelectedOperation", "Name" );
       RESULT = SetCursorFirstEntityByString( NewDomainGroup, "Operation", "Name", szTempString_0, "" );
       //:INCLUDE NewDomainGroup.SelectedOperation FROM NewDomainGroup.Operation
       RESULT = IncludeSubobjectFromSubobject( NewDomainGroup, "SelectedOperation", NewDomainGroup, "Operation", zPOS_AFTER );
@@ -497,7 +497,7 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
 
    //:// Activate existing source meta OldDomain Group
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DomainGroupMetaName + ".PDG"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, DomainGroupMetaName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".PDG", 1, 0, 514 );
@@ -552,11 +552,11 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
 
          //:END
          //:SourceFileName = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName
-         GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
+         GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
          ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
          ZeidonStringConcat( SourceFileName, 1, 0, SourceName, 1, 0, 514 );
          //:SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName
-         GetStringFromAttribute( SourceFileName2, sizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
+         GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
          ZeidonStringConcat( SourceFileName2, 1, 0, "\\", 1, 0, 514 );
          ZeidonStringConcat( SourceFileName2, 1, 0, SourceName, 1, 0, 514 );
          //:SysCopyFile( vSubtask, SourceFileName, SourceFileName2, TRUE )
@@ -576,7 +576,7 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
    while ( RESULT > zCURSOR_UNCHANGED )
    { 
       //:SET CURSOR FIRST NewDomainGroup.Operation WHERE NewDomainGroup.Operation.Name = OldDomainGroup.Operation.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldDomainGroup, "Operation", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "Operation", "Name" );
       RESULT = SetCursorFirstEntityByString( NewDomainGroup, "Operation", "Name", szTempString_0, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -605,7 +605,7 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
    { 
       //:// Add any Domains and/or Contexts in the Source LPLR not in the Target LPLR.
       //:SET CURSOR FIRST CurrentLPLR.W_MetaDef WHERE CurrentLPLR.W_MetaDef.Name = OldDomainGroup.Domain.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldDomainGroup, "Domain", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "Domain", "Name" );
       RESULT = SetCursorFirstEntityByString( CurrentLPLR, "W_MetaDef", "Name", szTempString_0, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -678,7 +678,7 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
       { 
          //:SET CURSOR FIRST NewDomainGroup.Operation WHERE
          //:                 NewDomainGroup.Operation.Name = OldDomainGroup.SelectedOperation.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldDomainGroup, "SelectedOperation", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "SelectedOperation", "Name" );
          RESULT = SetCursorFirstEntityByString( NewDomainGroup, "Operation", "Name", szTempString_0, "" );
          //:INCLUDE NewDomainGroup.SelectedOperation FROM NewDomainGroup.Operation
          RESULT = IncludeSubobjectFromSubobject( NewDomainGroup, "SelectedOperation", NewDomainGroup, "Operation", zPOS_AFTER );

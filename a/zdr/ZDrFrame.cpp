@@ -1717,8 +1717,8 @@ ZDrFrame::OnProcessHotkey( WPARAM wParam, LPARAM lParam )
    // Get access to hotkey object instance ... it must exist.
    CreateViewFromViewForTask( &vHotkey, m_pZSubtask->m_pZTask->m_vHK, m_pZSubtask->m_vDialog );
    SetEntityCursor( vHotkey, szlHotkey, 0, zPOS_FIRST | zPOS_RELATIVE, 0, 0, 0, (zSHORT) lParam, 0, 0 );
-   GetStringFromAttribute( szDLL_Name, sizeof( szDLL_Name ), vHotkey, szlHotkey, szlDLL );
-   GetStringFromAttribute( szOperName, sizeof( szOperName ), vHotkey, szlHotkey, szlCOP );
+   GetStringFromAttribute( szDLL_Name, zsizeof( szDLL_Name ), vHotkey, szlHotkey, szlDLL );
+   GetStringFromAttribute( szOperName, zsizeof( szOperName ), vHotkey, szlHotkey, szlCOP );
    DropView( vHotkey );  // created to stop RESETTING task message
 
 // TraceLine( "ZDrFrame::OnProcessHotkey Zeidon Hotkey: %d   DLL: %s   Operation: %s", lParam, szDLL_Name, szOperName );
@@ -1762,7 +1762,7 @@ ZDrFrame::OnPostedPopupMenu( WPARAM wParam, LPARAM lParam )
       zCHAR szPopupTag[ zTAG_LTH ];
       CPoint pt = CPoint( lParam );
 
-      strcpy_s( szPopupTag, sizeof( szPopupTag ), *(m_pZSubtask->m_pzsPopupTag) );
+      strcpy_s( szPopupTag, zsizeof( szPopupTag ), *(m_pZSubtask->m_pzsPopupTag) );
       m_pZSubtask->CreateZeidonPopupMenu( szPopupTag, pt );
    }
 
@@ -1793,7 +1793,7 @@ ZDrFrame::OnPostedSplitterClose( WPARAM wParam, LPARAM lParam )
 
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "ZDrFrame::OnPostedSplitterClose SetParent of (SplitterData ZView) 0x%08x to (pParentWnd) 0x%08x from 0x%08x",
+         sprintf_s( szMsg, zsizeof( szMsg ), "ZDrFrame::OnPostedSplitterClose SetParent of (SplitterData ZView) 0x%08x to (pParentWnd) 0x%08x from 0x%08x",
                     (zULONG) pSplitterWnd->m_pZView, (zULONG) pParentWnd, (zULONG) p );
          TraceLineS( szMsg, "" );
 
@@ -1881,8 +1881,8 @@ ZDrFrame::OnFindDialogWindow( WPARAM wParam, LPARAM lParam )
       pZSubtask = pfd->pZSubtask;
       pfd->hWnd = pZSubtask->m_pZFWnd->m_hWnd;
       pfd->pvDialog = SysGetHandleFromPointer( vSubtask );
-      strcpy_s( pfd->DlgN, sizeof( pfd->DlgN ), *(pZSubtask->m_pzsDlgTag) );
-      strcpy_s( pfd->WndN, sizeof( pfd->WndN ), *(pZSubtask->m_pzsWndTag) );
+      strcpy_s( pfd->DlgN, zsizeof( pfd->DlgN ), *(pZSubtask->m_pzsDlgTag) );
+      strcpy_s( pfd->WndN, zsizeof( pfd->WndN ), *(pZSubtask->m_pzsWndTag) );
    }
 
    SfUnlockTaskMemory( pfd );
@@ -2155,12 +2155,12 @@ ZDrFrame::OnCommand( WPARAM wParam, LPARAM lParam )
             {
                if ( pOption->m_bChecked )
                {
-                  strcpy_s( szChkValue, sizeof( szChkValue ), *(pOption->m_pzsValueOff) );
+                  strcpy_s( szChkValue, zsizeof( szChkValue ), *(pOption->m_pzsValueOff) );
                   pOption->m_bChecked = FALSE;
                }
                else
                {
-                  strcpy_s( szChkValue, sizeof( szChkValue ), *(pOption->m_pzsValueOn) );
+                  strcpy_s( szChkValue, zsizeof( szChkValue ), *(pOption->m_pzsValueOn) );
                   pOption->m_bChecked = TRUE;
                }
 
@@ -2169,7 +2169,7 @@ ZDrFrame::OnCommand( WPARAM wParam, LPARAM lParam )
 
                SetAttributeFromVariable( vApp, *(pOption->m_pzsEName), *(pOption->m_pzsAName), szChkValue, zTYPE_STRING, 0,
                                          *(pOption->m_pzsContext), **(pOption->m_pzsContext) ? 0 : zUSE_DEFAULT_CONTEXT );
-//             GetStringFromAttribute( szChkValue, sizeof( szChkValue ), vApp, *(pOption->m_pzsEName), *(pOption->m_pzsAName) );
+//             GetStringFromAttribute( szChkValue, zsizeof( szChkValue ), vApp, *(pOption->m_pzsEName), *(pOption->m_pzsAName) );
 //             TraceLineS( " Get Value Before - ", szChkValue );
 
 //             pOption->m_pZSubtask->m_pMenu->CheckMenuItem( pOption->m_uOptionID,
@@ -2184,7 +2184,7 @@ ZDrFrame::OnCommand( WPARAM wParam, LPARAM lParam )
 
 //          if ( vApp )
 //          {
-//             GetStringFromAttribute( szChkValue, sizeof( szChkValue ), vApp, *(pOption->m_pzsEName), *(pOption->m_pzsAName) );
+//             GetStringFromAttribute( szChkValue, zsizeof( szChkValue ), vApp, *(pOption->m_pzsEName), *(pOption->m_pzsAName) );
 //             TraceLineS( " Get Value After - ", szChkValue );
 //          }
 
@@ -2208,12 +2208,12 @@ ZDrFrame::OnCommand( WPARAM wParam, LPARAM lParam )
          {
             if ( pOption->m_bChecked )
             {
-               strcpy_s( szChkValue, sizeof( szChkValue ), *(pOption->m_pzsValueOff) );
+               strcpy_s( szChkValue, zsizeof( szChkValue ), *(pOption->m_pzsValueOff) );
                pOption->m_bChecked = FALSE;
             }
             else
             {
-               strcpy_s( szChkValue, sizeof( szChkValue ), *(pOption->m_pzsValueOn) );
+               strcpy_s( szChkValue, zsizeof( szChkValue ), *(pOption->m_pzsValueOn) );
                pOption->m_bChecked = TRUE;
             }
 
@@ -2384,19 +2384,19 @@ ZDrFrame::OnBeginDrag( WPARAM wParam, LPARAM lParam )
       strcpy_s( g_DragDrop.szSrcDragKey, pzmaSrc->m_pchDragDrop + (2 * sizeof( zLONG )) );
       g_DragDrop.pzmaSrc = pzmaSrc;
       g_DragDrop.vSrcSubtask = pzmaSrc->m_pZSubtask->m_vDialog;
-      strcpy_s( g_DragDrop.szSrcDialogName, sizeof( g_DragDrop.szSrcDialogName ), *(pzmaSrc->m_pZSubtask->m_pzsDlgTag) );
-      strcpy_s( g_DragDrop.szSrcWindowName, sizeof( g_DragDrop.szSrcWindowName ), *(pzmaSrc->m_pZSubtask->m_pzsWndTag) );
-      strcpy_s( g_DragDrop.szSrcCtrlName, sizeof( g_DragDrop.szSrcCtrlName ), *(pzmaSrc->m_pzsTag) );
+      strcpy_s( g_DragDrop.szSrcDialogName, zsizeof( g_DragDrop.szSrcDialogName ), *(pzmaSrc->m_pZSubtask->m_pzsDlgTag) );
+      strcpy_s( g_DragDrop.szSrcWindowName, zsizeof( g_DragDrop.szSrcWindowName ), *(pzmaSrc->m_pZSubtask->m_pzsWndTag) );
+      strcpy_s( g_DragDrop.szSrcCtrlName, zsizeof( g_DragDrop.szSrcCtrlName ), *(pzmaSrc->m_pzsTag) );
       g_DragDrop.vData = 0;
 
       if ( pzmaSrc->m_pzsVName )
-         strcpy_s( g_DragDrop.szViewName, sizeof( g_DragDrop.szViewName ), *(pzmaSrc->m_pzsVName) );
+         strcpy_s( g_DragDrop.szViewName, zsizeof( g_DragDrop.szViewName ), *(pzmaSrc->m_pzsVName) );
 
       if ( pzmaSrc->m_pzsEName )
-         strcpy_s( g_DragDrop.szEntityName, sizeof( g_DragDrop.szEntityName ), *(pzmaSrc->m_pzsEName) );
+         strcpy_s( g_DragDrop.szEntityName, zsizeof( g_DragDrop.szEntityName ), *(pzmaSrc->m_pzsEName) );
 
       if ( pzmaSrc->m_pzsAName )
-         strcpy_s( g_DragDrop.szAttributeName, sizeof( g_DragDrop.szAttributeName ), *(pzmaSrc->m_pzsAName) );
+         strcpy_s( g_DragDrop.szAttributeName, zsizeof( g_DragDrop.szAttributeName ), *(pzmaSrc->m_pzsAName) );
 
       if ( wParam & MK_CONTROL )   // we don't yet know about multiple
          g_DragDrop.fCopyMultiple = 0x01;
@@ -2565,9 +2565,9 @@ ZDrFrame::OnDoDrop( WPARAM wParam, LPARAM lParam )
    if ( g_pzmaDragDrop )  // this guy will accept the drop
    {
       g_DragDrop.vTgtSubtask = g_pzmaDragDrop->m_pZSubtask->m_vDialog;
-      strcpy_s( g_DragDrop.szTgtDialogName, sizeof( g_DragDrop.szTgtDialogName ), *(g_pzmaDragDrop->m_pZSubtask->m_pzsDlgTag) );
-      strcpy_s( g_DragDrop.szTgtWindowName, sizeof( g_DragDrop.szTgtWindowName ), *(g_pzmaDragDrop->m_pZSubtask->m_pzsWndTag) );
-      strcpy_s( g_DragDrop.szTgtCtrlName, sizeof( g_DragDrop.szTgtCtrlName ), *(g_pzmaDragDrop->m_pzsTag) );
+      strcpy_s( g_DragDrop.szTgtDialogName, zsizeof( g_DragDrop.szTgtDialogName ), *(g_pzmaDragDrop->m_pZSubtask->m_pzsDlgTag) );
+      strcpy_s( g_DragDrop.szTgtWindowName, zsizeof( g_DragDrop.szTgtWindowName ), *(g_pzmaDragDrop->m_pZSubtask->m_pzsWndTag) );
+      strcpy_s( g_DragDrop.szTgtCtrlName, zsizeof( g_DragDrop.szTgtCtrlName ), *(g_pzmaDragDrop->m_pzsTag) );
 
       // Need to check for the existence of a DoDrop event on this control.  If the DoDrop event does not exist,
       // the do drop is denied.  Otherwise, the application code specified for the event is called to process the drop.

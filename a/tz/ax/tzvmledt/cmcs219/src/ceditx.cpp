@@ -64,7 +64,7 @@ HRESULT CFontDisp::GetFontDispatch(IFontDisp **ppIFont)
       double cyFont = (((double)lf.lfHeight * 72.0) / (double)GetDeviceCaps(hDC, LOGPIXELSY)) * 10000.0;
       FONTDESC fd =
          {
-         sizeof(FONTDESC),
+         zsizeof(FONTDESC),
          T2OLE(lf.lfFaceName),
          { abs((int)cyFont), 0 },
          (short) lf.lfWeight,
@@ -178,7 +178,7 @@ STDMETHODIMP CEditX::InterfaceSupportsErrorInfo(REFIID riid)
       &IID_ICodeSense,
       &IID_ICodeSenseEvents
    };
-   for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
+   for (int i=0;i<zsizeof(arr)/zsizeof(arr[0]);i++)
    {
       if (CMIsEqualGUID(*arr[i],riid))
          return S_OK;
@@ -407,7 +407,7 @@ void CEditX::OnChanged(int nDispID)
 
 HRESULT CEditX::GetControlInfo(LPCONTROLINFO pCI)
 {
-   pCI->cb = sizeof(CONTROLINFO);
+   pCI->cb = zsizeof(CONTROLINFO);
    pCI->hAccel = g_hAccel;
    pCI->cAccel = (USHORT)g_nAccelCount;
    pCI->dwFlags = CTRLINFO_EATS_RETURN | CTRLINFO_EATS_ESCAPE;
@@ -1127,7 +1127,7 @@ HRESULT CEditX::IPersistStreamInit_Load(LPSTREAM pStm, ATL_PROPMAP_ENTRY* /* pMa
    hr = m_pState->Load(pStm);
 
    if (SUCCEEDED(hr))
-      hr = pStm->Read(&m_sizeExtent, sizeof(m_sizeExtent), NULL);
+      hr = pStm->Read(&m_sizeExtent, zsizeof(m_sizeExtent), NULL);
 
    if (SUCCEEDED(hr))
    {
@@ -1159,7 +1159,7 @@ HRESULT CEditX::IPersistStreamInit_Save(LPSTREAM pStm, BOOL /* fClearDirty */, A
    hr = m_pState->Save(this, pStm);
 
    if (SUCCEEDED(hr))
-      hr = pStm->Write(&m_sizeExtent, sizeof(m_sizeExtent), NULL);
+      hr = pStm->Write(&m_sizeExtent, zsizeof(m_sizeExtent), NULL);
 
    return hr;
 }
@@ -2520,8 +2520,8 @@ HRESULT STDMETHODCALLTYPE CEditX::put_ImageList(IDispatch __RPC_FAR *pImageList)
                TextOut(hDCScreen, 300, 16, "Hello World", 11);
                HDC hDCSrc = CreateCompatibleDC(hDCScreen);
                BITMAP bm;
-               int nSize = GetObject(ii.hbmImage, sizeof(bm), &bm);
-               ASSERT(nSize == sizeof(bm));
+               int nSize = GetObject(ii.hbmImage, zsizeof(bm), &bm);
+               ASSERT(nSize == zsizeof(bm));
                HBITMAP hbmOld = (HBITMAP)SelectObject(hDCSrc,ii.hbmImage);
                BitBlt(hDCScreen, 300, 16,
                       (ii.rcImage.right - ii.rcImage.left) * nImages,

@@ -340,8 +340,8 @@ CTBEditor::CTBEditor()
     m_bInsertMode = TRUE;
     m_hFont = NULL;
 
-    ZeroMemory( &m_cf, sizeof(CHARFORMAT) );
-    m_cf.cbSize = sizeof(CHARFORMAT);
+    ZeroMemory( &m_cf, zsizeof(CHARFORMAT) );
+    m_cf.cbSize = zsizeof(CHARFORMAT);
     m_cf.dwMask = CFM_COLOR;
     m_cf.dwEffects = 0;
 
@@ -385,35 +385,35 @@ CTBEditor::CTBEditor()
         pReg->ReadValue( REGFONT, &dTyp, (BYTE*)m_FontName, &dSize );
 
         dTyp = REG_DWORD;
-        dSize = sizeof ( m_FontSize );
+        dSize = zsizeof ( m_FontSize );
         pReg->ReadValue( REGSIZE, &dTyp, (BYTE*)&m_FontSize, &dSize );
 
         dTyp = REG_DWORD;
-        dSize = sizeof ( m_crBackground );
+        dSize = zsizeof ( m_crBackground );
         pReg->ReadValue( REGBACK, &dTyp, (BYTE*)&m_crBackground, &dSize );
 
         dTyp = REG_DWORD;
-        dSize = sizeof ( m_crForeground );
+        dSize = zsizeof ( m_crForeground );
         pReg->ReadValue( REGFORE, &dTyp, (BYTE*)&m_crForeground, &dSize );
 
         dTyp = REG_DWORD;
-        dSize = sizeof ( m_crKeyword );
+        dSize = zsizeof ( m_crKeyword );
         pReg->ReadValue( REGWORD, &dTyp, (BYTE*)&m_crKeyword, &dSize );
 
         dTyp = REG_DWORD;
-        dSize = sizeof ( m_crComment );
+        dSize = zsizeof ( m_crComment );
         pReg->ReadValue( REGCOMMENT, &dTyp, (BYTE*)&m_crComment, &dSize );
 
         dTyp = REG_DWORD;
-        dSize = sizeof ( m_lTabStop );
+        dSize = zsizeof ( m_lTabStop );
         pReg->ReadValue( REGTABSTOP, &dTyp, (BYTE*)&m_lTabStop, &dSize );
 
         dTyp = REG_DWORD;
-        dSize = sizeof ( m_lUndoLevel );
+        dSize = zsizeof ( m_lUndoLevel );
         pReg->ReadValue( REGUNDOLEVEL, &dTyp, (BYTE*)&m_lUndoLevel, &dSize );
 
         dTyp = REG_DWORD;
-        dSize = sizeof ( m_lCommentBufferSize );
+        dSize = zsizeof ( m_lCommentBufferSize );
         pReg->ReadValue( REGBUFFERSIZE, &dTyp, (BYTE*)&m_lCommentBufferSize, &dSize );
     }
 
@@ -1567,27 +1567,27 @@ void CTBEditor::SaveOptions()
         pReg->WriteValue( REGFONT, dTyp, (BYTE*)m_FontName, dSize );
 
         dTyp = REG_DWORD;   //Schriftgroesse
-        dSize = sizeof ( m_FontSize );
+        dSize = zsizeof ( m_FontSize );
         pReg->WriteValue( REGSIZE, dTyp, (BYTE*)&m_FontSize, dSize );
 
         dTyp = REG_DWORD;   //Hintergrundfarbe
-        dSize = sizeof ( m_crBackground );
+        dSize = zsizeof ( m_crBackground );
         pReg->WriteValue( REGBACK, dTyp, (BYTE*)&m_crBackground, dSize );
 
         dTyp = REG_DWORD;   //Vordergrundfarbe
-        dSize = sizeof ( m_crForeground );
+        dSize = zsizeof ( m_crForeground );
         pReg->WriteValue( REGFORE, dTyp, (BYTE*)&m_crForeground, dSize );
 
         dTyp = REG_DWORD;   //Keywordfarbe
-        dSize = sizeof ( m_crKeyword );
+        dSize = zsizeof ( m_crKeyword );
         pReg->WriteValue( REGWORD, dTyp, (BYTE*)&m_crKeyword, dSize );
 
         dTyp = REG_DWORD;   //K0mmentarfarbe
-        dSize = sizeof ( m_crComment );
+        dSize = zsizeof ( m_crComment );
         pReg->WriteValue( REGCOMMENT, dTyp, (BYTE*)&m_crComment, dSize );
 
         dTyp = REG_DWORD;   //Tabulator-Positionen
-        dSize = sizeof ( m_lTabStop );
+        dSize = zsizeof ( m_lTabStop );
         pReg->WriteValue( REGTABSTOP, dTyp, (BYTE*)&m_lTabStop, dSize );
     }
 

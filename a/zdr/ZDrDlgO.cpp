@@ -591,14 +591,14 @@ ResumeFromDebugger( zVIEW   vDebuggerSubtask,
          zCHAR szActionName[ zTAG_LTH ];
          zCHAR szMessage[ 80 ];
 
-         strcpy_s( szMessage, sizeof( szMessage ), "(drvr[" );
+         strcpy_s( szMessage, zsizeof( szMessage ), "(drvr[" );
          ltoa( (zLONG) pZSubtask, szMessage + 6, 10 );
          if ( pZSubtask )
          {
-            strcat_s( szMessage, sizeof( szMessage ), "." );
-            strcat_s( szMessage, sizeof( szMessage ), *(pZSubtask->m_pzsDlgTag) );
-            strcat_s( szMessage, sizeof( szMessage ), "." );
-            strcat_s( szMessage, sizeof( szMessage ), *(pZSubtask->m_pzsWndTag) );
+            strcat_s( szMessage, zsizeof( szMessage ), "." );
+            strcat_s( szMessage, zsizeof( szMessage ), *(pZSubtask->m_pzsDlgTag) );
+            strcat_s( szMessage, zsizeof( szMessage ), "." );
+            strcat_s( szMessage, zsizeof( szMessage ), *(pZSubtask->m_pzsWndTag) );
          }
 
          // Re-enable all windows for the application being debugged.
@@ -623,7 +623,7 @@ ResumeFromDebugger( zVIEW   vDebuggerSubtask,
          else
          {
             // Localize Action name so it can be modified by ProcessAction.
-            strcpy_s( szActionName, sizeof( szActionName ), *(pZSubtask->m_pzsResumeAction) );
+            strcpy_s( szActionName, zsizeof( szActionName ), *(pZSubtask->m_pzsResumeAction) );
             mDeleteInit( pZSubtask->m_pzsResumeAction );
 
             // The first time thru ... resume flag is ON.
@@ -666,7 +666,7 @@ HotkeyToPainter( zVIEW vSubtask )
 
    TraceLineX( "HotkeyToPainter for Subtask: ", (zLONG) vSubtask );
    GetAppOrWorkstationValue( vSubtask, "Deployed",
-                             szDeployed, sizeof( szDeployed ) );
+                             szDeployed, zsizeof( szDeployed ) );
    if ( szDeployed[ 0 ] == 'Y' || szDeployed[ 0 ] == 'y' )
       return( -3 );  // cannot start painter for deployed application
 
@@ -710,7 +710,7 @@ HotkeyToPainter( zVIEW vSubtask )
 //       if ( szFileSpec[ nLth - 1 ] != '\\' )
 //          szFileSpec[ nLth++ ] = '\\';
 
-         strcpy_s( szFileSpec + nLth, sizeof( szFileSpec ) - nLth, "zdr ~~Zeidon_Tools~tzpntrad" );
+         strcpy_s( szFileSpec + nLth, zsizeof( szFileSpec ) - nLth, "zdr ~~Zeidon_Tools~tzpntrad" );
          UINT uRC = ::WinExec( szFileSpec, SW_SHOWNORMAL );
          if ( uRC < 32 )
          {
@@ -970,7 +970,7 @@ fnResumeFromPainter( ZSubtask *pZSubtask )
    CWaitCursor wait;
 
    szViewName[ 0 ] = '_';  szViewName[ 1 ] = '_';
-   strcpy_s( szViewName + 2, sizeof( szViewName ) - 2, *(pZSubtask->m_pzsDlgTag) );
+   strcpy_s( szViewName + 2, zsizeof( szViewName ) - 2, *(pZSubtask->m_pzsDlgTag) );
    if ( GetViewByName( &vDialogNew, szViewName,
                        pZSubtask->m_vDialog, zLEVEL_TASK ) == zLEVEL_TASK )
    {
@@ -1177,7 +1177,7 @@ OperatorPromptForInput( zVIEW    vSubtask,
          SetNameForView( pXRA->m_vXRA_Delta, "__XRA_Delta", vSubtask, zLEVEL_SUBTASK );
 #endif
 
-         GetStringFromAttribute( szYN, sizeof( szYN ), pXRA->m_vXRA_Delta, "MsgBox", "OK" );
+         GetStringFromAttribute( szYN, zsizeof( szYN ), pXRA->m_vXRA_Delta, "MsgBox", "OK" );
          if ( szYN[ 0 ] )
          {
             nRC = zRESPONSE_OK;
@@ -1367,7 +1367,7 @@ OperatorPrompt( zVIEW    vSubtask,
          zCHAR sz[ zMAX_FILENAME_LTH ];
 
          // Check a flag in the Zeidon INI to see if we should pop up the msg.
-         SysReadZeidonIni( -1, "[Debug]", "ServerDebug", sz, sizeof( sz ) );
+         SysReadZeidonIni( -1, "[Debug]", "ServerDebug", sz, zsizeof( sz ) );
          if ( *sz == 0 || ((*sz && *(sz + 1) == 0) && (*sz == 'Y' || *sz == 'y' || *sz == '1')) )
          {
             cShowPopup = 'Y';
@@ -1380,7 +1380,7 @@ OperatorPrompt( zVIEW    vSubtask,
                zCHAR szLogFileName[ zMAX_FILENAME_LTH ];
                zLONG hLogFile;
 
-               SysConvertEnvironmentString( szLogFileName, sizeof( szLogFileName ), sz );
+               SysConvertEnvironmentString( szLogFileName, zsizeof( szLogFileName ), sz );
                if ( (hLogFile = fnSysOpenFile( lpTask, szLogFileName, COREFILE_APPEND )) != -1 )
                {
                   fnSysWriteLine( lpTask, hLogFile, 0, cpcMsgText );
@@ -1614,39 +1614,39 @@ OperatorPrompt( zVIEW    vSubtask,
 
          zVIEW  vXRA_State = pZSubtask->m_pZSocketTask->m_vXRA_State;
 
-         GetStringFromAttribute( szYN, sizeof( szYN ), vXRA_State, "MsgBox", "OK" );
+         GetStringFromAttribute( szYN, zsizeof( szYN ), vXRA_State, "MsgBox", "OK" );
          if ( szYN[ 0 ] )
             nRC = zRESPONSE_OK;
          else
          {
-            GetStringFromAttribute( szYN, sizeof( szYN ), vXRA_State, "MsgBox", "Cancel" );
+            GetStringFromAttribute( szYN, zsizeof( szYN ), vXRA_State, "MsgBox", "Cancel" );
             if ( szYN[ 0 ] )
                nRC = zRESPONSE_CANCEL;
             else
             {
-               GetStringFromAttribute( szYN, sizeof( szYN ), vXRA_State, "MsgBox", "Yes" );
+               GetStringFromAttribute( szYN, zsizeof( szYN ), vXRA_State, "MsgBox", "Yes" );
                if ( szYN[ 0 ] )
                   nRC = zRESPONSE_YES;
                else
                {
-                  GetStringFromAttribute( szYN, sizeof( szYN ), vXRA_State, "MsgBox", "No" );
+                  GetStringFromAttribute( szYN, zsizeof( szYN ), vXRA_State, "MsgBox", "No" );
                   if ( szYN[ 0 ] )
                      nRC = zRESPONSE_NO;
                   else
                   {
-                     GetStringFromAttribute( szYN, sizeof( szYN ), vXRA_State,
+                     GetStringFromAttribute( szYN, zsizeof( szYN ), vXRA_State,
                                              "MsgBox", "Abort" );
                      if ( szYN[ 0 ] )
                         nRC = zRESPONSE_ABORT;
                      else
                      {
-                        GetStringFromAttribute( szYN, sizeof( szYN ), vXRA_State,
+                        GetStringFromAttribute( szYN, zsizeof( szYN ), vXRA_State,
                                                 "MsgBox", "Retry" );
                         if ( szYN[ 0 ] )
                            nRC = zRESPONSE_RETRY;
                         else
                         {
-                           GetStringFromAttribute( szYN, sizeof( szYN ), vXRA_State,
+                           GetStringFromAttribute( szYN, zsizeof( szYN ), vXRA_State,
                                                    "MsgBox", "Ignore" );
                            if ( szYN[ 0 ] )
                               nRC = zRESPONSE_IGNORE;
@@ -1889,7 +1889,7 @@ OperatorConversationalDialog( zVIEW   vSubtask,
       {
          zCHAR szMessage[ 256 ];
 
-         sprintf_s( szMessage, sizeof( szMessage ),
+         sprintf_s( szMessage, zsizeof( szMessage ),
                    "(drvr) Window name: %s not found in Dialog: %s",
                    cpcDlgTag, cpcWndTag );
          MessageSend( vSubtask, 0, "Zeidon Application",
@@ -2266,11 +2266,11 @@ InvokeHelpWithContext( zVIEW    vSubtask,
       zUSHORT usSize;
 
       if ( cpcHelpFile && cpcHelpFile[ 0 ] )
-         strcpy_s( szHelpFile, sizeof( szHelpFile ), cpcHelpFile );
+         strcpy_s( szHelpFile, zsizeof( szHelpFile ), cpcHelpFile );
       else
       {
-         GetStringFromAttribute( szHelpFile, sizeof( szHelpFile ), pZSubtask->m_vDialog, szlDlg, szlDLL );
-         strcat_s( szHelpFile, sizeof( szHelpFile ), ".hlp" );
+         GetStringFromAttribute( szHelpFile, zsizeof( szHelpFile ), pZSubtask->m_vDialog, szlDlg, szlDLL );
+         strcat_s( szHelpFile, zsizeof( szHelpFile ), ".hlp" );
       }
 
       // this is here so that the driver knows that help has been invoked
@@ -2279,23 +2279,23 @@ InvokeHelpWithContext( zVIEW    vSubtask,
       pZSubtask->m_pZTask->m_pzsHelpFile = new CString( szHelpFile );
 
       if ( cpcHelpContext && cpcHelpContext[ 0 ] )
-         strcpy_s( szHelpContext, sizeof( szHelpContext ), cpcHelpContext );
+         strcpy_s( szHelpContext, zsizeof( szHelpContext ), cpcHelpContext );
       else
       {
-         strcpy_s( szHelpContext, sizeof( szHelpContext ), *(pZSubtask->m_pzsDlgTag) );
+         strcpy_s( szHelpContext, zsizeof( szHelpContext ), *(pZSubtask->m_pzsDlgTag) );
          usSize = (zSHORT) zstrlen( szHelpContext );
          if ( usSize )
             szHelpContext[ usSize++ ] = '.';
 
-         strcpy_s( szHelpContext + usSize, sizeof( szHelpContext - usSize ), *(pZSubtask->m_pzsWndTag) );
+         strcpy_s( szHelpContext + usSize, zsizeof( szHelpContext ) - usSize, *(pZSubtask->m_pzsWndTag) );
          usSize += (zSHORT) zstrlen( szHelpContext + usSize );
          szHelpContext[ usSize++ ] = '.';
 
          if ( cpcCtrlTag && cpcCtrlTag[ 0 ] )
-            strcpy_s( szHelpContext + usSize, sizeof( szHelpContext - usSize ), cpcCtrlTag );
+            strcpy_s( szHelpContext + usSize, zsizeof( szHelpContext ) - usSize, cpcCtrlTag );
          else
          if ( pZSubtask->m_pzmaWithFocus )
-            strcpy_s( szHelpContext + usSize, sizeof( szHelpContext - usSize ), *(pZSubtask->m_pzmaWithFocus->m_pzsTag) );
+            strcpy_s( szHelpContext + usSize, zsizeof( szHelpContext ) - usSize, *(pZSubtask->m_pzmaWithFocus->m_pzsTag) );
       }
 
       TraceLineS( "dlgo - Calling WinHelp with help file - ", szHelpFile );
@@ -2331,7 +2331,7 @@ InvokeHelpWithContext( zVIEW    vSubtask,
             mkh = (MULTIKEYHELP FAR *) GlobalLock( hmkh );
             mkh->mkSize = usSize;
             mkh->mkKeylist = 'Z';
-            strcpy_s( mkh->szKeyphrase, sizeof( mkh->szKeyphrase ), szHelpContext );
+            strcpy_s( mkh->szKeyphrase, zsizeof( mkh->szKeyphrase ), szHelpContext );
             WinHelp( *(pZSubtask->m_pZFWnd), szHelpFile, HELP_MULTIKEY, (DWORD) mkh );
 
             GlobalUnlock( hmkh );
@@ -2391,10 +2391,10 @@ CallObjectOperation1Param( zVIEW  vObject,
    if ( pchNameDLL == 0 || pchNameDLL[ 0 ] == 0 )
       return( -16 );
 
-   strcpy_s( szOperation, sizeof( szOperation ), "o" );
-   strcat_s( szOperation, sizeof( szOperation ), pchObjectName );
-   strcat_s( szOperation, sizeof( szOperation ), "_" );
-   strcat_s( szOperation, sizeof( szOperation ), pchOperationName );
+   strcpy_s( szOperation, zsizeof( szOperation ), "o" );
+   strcat_s( szOperation, zsizeof( szOperation ), pchObjectName );
+   strcat_s( szOperation, zsizeof( szOperation ), "_" );
+   strcat_s( szOperation, zsizeof( szOperation ), pchOperationName );
 
    lpfnDynRoutine = (zFARPROC_DYNOBJ1)
           GetOperationDynamicCallAddress( vObject, &hLibrary, pchNameDLL,

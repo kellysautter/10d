@@ -17,7 +17,7 @@ public:
    CRectX()
    {
       // set all values to zero
-      ZeroMemory( &m_rc, sizeof( m_rc ) );
+      ZeroMemory( &m_rc, zsizeof( m_rc ) );
    }
    RECT m_rc;
 

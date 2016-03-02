@@ -43,7 +43,7 @@ typedef void *XML_Parser;
 
 #ifdef XML_UNICODE_WCHAR_T
 
-/* XML_UNICODE_WCHAR_T will work only if sizeof(wchar_t) == 2 and wchar_t
+/* XML_UNICODE_WCHAR_T will work only if zsizeof(wchar_t) == 2 and wchar_t
 uses Unicode. */
 /* Information is UTF-16 encoded as wchar_ts */
 

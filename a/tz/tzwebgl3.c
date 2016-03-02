@@ -7102,7 +7102,7 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
       if ( lTempInteger_0 == 0 )
       {
          //:SET CURSOR FIRST vDialog.Action WHERE vDialog.Action.Tag = vDialog.OptAct.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialog, "OptAct", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "OptAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( vDialog, "Action", "Tag", szTempString_0, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -7372,7 +7372,7 @@ BuildSideNavSection( zVIEW     vDialog,
 
    //:// SIDE NAVIGATION BAR
    //:TraceLineS( "*** BuildSideNavSection Window! *** ", vDialog.Window.Tag )
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialog, "Window", "Tag" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Window", "Tag" );
    TraceLineS( "*** BuildSideNavSection Window! *** ", szTempString_0 );
 
    //:szWriteBuffer = ""

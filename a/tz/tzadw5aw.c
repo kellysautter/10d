@@ -70,25 +70,25 @@ ofnTZWDLGSO_CreateQualifierWnd( zVIEW   vSubtask,
    lCC = 5;
 
    /* SHOULD I LOOP THROUGH THE OBJECT??? */
-   GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUSSubEnt, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUSSubEnt, "LOD_Entity", "Name" );
    nRC = SetCursorFirstEntityByString( vLOD, "LOD_Entity",
                                        "Name", szWorkString, "" );
 
    nRC = SetCursorFirstEntityByString( vLOD, "LOD_Attribute",
                                        "ParticipatesInKey", "Y", "LOD_Entity" );
    if ( nRC >= zCURSOR_SET )
-      GetStringFromAttribute( szLiteral, sizeof( szLiteral ), vLOD,
+      GetStringFromAttribute( szLiteral, zsizeof( szLiteral ), vLOD,
                               "ER_Attribute", "Name" );
-   strcat_s( szLiteral, sizeof( szLiteral ), " " );
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vUSSubEnt,
+   strcat_s( szLiteral, zsizeof( szLiteral ), " " );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vUSSubEnt,
                             "UIS_Include", "SubObjectOperators" );
-   strcat_s( szLiteral, sizeof( szLiteral ), szTempString_0 );
+   strcat_s( szLiteral, zsizeof( szLiteral ), szTempString_0 );
 
    CreateMetaEntity( vSubtask, vNewDialog, "Window", zPOS_AFTER );
 
-   strcpy_s( szTempString_1, sizeof( szTempString_1 ), "QUAL" );
-   GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vUSSubEnt, "LOD_Entity", "Name" );
-   strcat_s( szTempString_1, sizeof( szTempString_1 ), szTempString_2 );
+   strcpy_s( szTempString_1, zsizeof( szTempString_1 ), "QUAL" );
+   GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vUSSubEnt, "LOD_Entity", "Name" );
+   strcat_s( szTempString_1, zsizeof( szTempString_1 ), szTempString_2 );
    szTempString_1[ 32 ] = 0;
    SetAttributeFromString( vNewDialog, "Window", "Tag", szTempString_1 );
 
@@ -101,9 +101,9 @@ ofnTZWDLGSO_CreateQualifierWnd( zVIEW   vSubtask,
    lNumber = 6 * lCC;
    ofnTZWDLGSO_CreateTheButton( vSubtask, vNewDialog, 48, 10, "OK", lNumber );
    SetAttributeFromInteger( vNewDialog, "Action", "Type", 72 );  /* RETURN */
-   strcpy_s( szTempString_1, sizeof( szTempString_1 ), "ListQualSubObj" );
-   GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), vUSSubEnt, "LOD_Entity", "Name" );
-   strcat_s( szTempString_1, sizeof( szTempString_1 ), szTempString_3 );
+   strcpy_s( szTempString_1, zsizeof( szTempString_1 ), "ListQualSubObj" );
+   GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), vUSSubEnt, "LOD_Entity", "Name" );
+   strcat_s( szTempString_1, zsizeof( szTempString_1 ), szTempString_3 );
    szTempString_1[ 32 ] = 0;
 
    ofnTZWDLGSO_CreateTheOperation( vSubtask, vNewDialog, szTempString_1, "",
@@ -215,17 +215,17 @@ ofnTZWDLGSO_CreateEntryWindow( zVIEW    vSubtask,
    {
       SetCursorFirstEntityByString( vUSSubEnt, "L_LOD_Attribute",
                                     "ParticipatesInKey", "Y", "UIS_Entity" );
-      GetStringFromAttribute( szLiteral, sizeof( szLiteral ), vUSSubEnt,
+      GetStringFromAttribute( szLiteral, zsizeof( szLiteral ), vUSSubEnt,
                               "L_ER_Attribute", "ListPaintLit" );
       if ( szLiteral[ 0 ] == 0 )
       {
-         GetStringFromAttribute( szLiteral, sizeof( szLiteral ), vUSSubEnt,
+         GetStringFromAttribute( szLiteral, zsizeof( szLiteral ), vUSSubEnt,
                                  "L_ER_Attribute", "PromptPaintLit" );
       }
 
       if ( szLiteral[ 0 ] == 0 )
       {
-         GetStringFromAttribute( szLiteral, sizeof( szLiteral ), vUSSubEnt,
+         GetStringFromAttribute( szLiteral, zsizeof( szLiteral ), vUSSubEnt,
                                  "L_ER_Attribute", "Name" );
       }
 
@@ -237,9 +237,9 @@ ofnTZWDLGSO_CreateEntryWindow( zVIEW    vSubtask,
 
    CreateMetaEntity( vSubtask, vNewDialog, "Window", zPOS_AFTER );
 
-   strcpy_s( szTempString_0, sizeof( szTempString_0 ), "KEY" );
-   GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vUSSubEnt, "LOD_Entity", "Name" );
-   strcat_s( szTempString_0, sizeof( szTempString_0 ), szTempString_1 );
+   strcpy_s( szTempString_0, zsizeof( szTempString_0 ), "KEY" );
+   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vUSSubEnt, "LOD_Entity", "Name" );
+   strcat_s( szTempString_0, zsizeof( szTempString_0 ), szTempString_1 );
    szTempString_0[ 32 ] = 0;
    SetAttributeFromString( vNewDialog, "Window", "Tag", szTempString_0 );
 
@@ -251,9 +251,9 @@ ofnTZWDLGSO_CreateEntryWindow( zVIEW    vSubtask,
 
    ofnTZWDLGSO_CreateTheButton( vSubtask, vNewDialog, 48, 10, "OK", 6 * lCC );
    SetAttributeFromInteger( vNewDialog, "Action", "Type", 72 ); /* RETURN */
-   strcpy_s( szTempString_0, sizeof( szTempString_0 ), "LoadObjForList" );
-   GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vUSSubEnt, "LOD_Entity", "Name" );
-   strcat_s( szTempString_0, sizeof( szTempString_0 ), szTempString_2 );
+   strcpy_s( szTempString_0, zsizeof( szTempString_0 ), "LoadObjForList" );
+   GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vUSSubEnt, "LOD_Entity", "Name" );
+   strcat_s( szTempString_0, zsizeof( szTempString_0 ), szTempString_2 );
    szTempString_0[ 32 ] = 0;
 
    ofnTZWDLGSO_CreateTheOperation( vSubtask, vNewDialog, szTempString_0, "",
@@ -297,10 +297,10 @@ ofnTZWDLGSO_LocateLstboxAttribs( zVIEW  vSubtask,
    {
       lAttribLth = ofnTZWDLGSO_GetSizeForListAttr( vSubtask, vUserSpec, "L" );
 
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vUserSpec,
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vUserSpec,
                                "L_ER_Attribute", "ListPaintLit" );
       if ( szTempString_0[ 0 ] == 0 )
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vUserSpec,
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vUserSpec,
                                  "L_ER_Attribute", "Name" );
       lPaintLth = zstrlen( szTempString_0 );
 
@@ -341,8 +341,8 @@ ofnTZWDLGSO_GetSizeForListAttr( zVIEW  vSubtask,
    // Set up variables to either I_LOD listbox or L_LOD listbox.
    if ( szListType[ 0 ] == 'I' )
    {
-      strcpy_s( X_Domain, sizeof( X_Domain ), "I_Domain" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "I_ER_Attribute" );
+      strcpy_s( X_Domain, zsizeof( X_Domain ), "I_Domain" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "I_ER_Attribute" );
       // If a paint length is specified for the attribute, use it.
       GetIntegerFromAttribute( &lAttribLth, vUserSpec,
                                X_ER_Attribute, "ListPaintLth" );
@@ -350,16 +350,16 @@ ofnTZWDLGSO_GetSizeForListAttr( zVIEW  vSubtask,
    else
    if ( szListType[ 0 ] == 'M' )
    {
-      strcpy_s( X_Domain, sizeof( X_Domain ), "L_Domain" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "L_ER_Attribute" );
+      strcpy_s( X_Domain, zsizeof( X_Domain ), "L_Domain" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "L_ER_Attribute" );
       // If a paint length is specified for the attribute, use it.
       GetIntegerFromAttribute( &lAttribLth, vUserSpec,
                                X_ER_Attribute, "PromptPaintLth" );
    }
    else
    {
-      strcpy_s( X_Domain, sizeof( X_Domain ), "L_Domain" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "L_ER_Attribute" );
+      strcpy_s( X_Domain, zsizeof( X_Domain ), "L_Domain" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "L_ER_Attribute" );
       // If a paint length is specified for the attribute, use it.
       GetIntegerFromAttribute( &lAttribLth, vUserSpec,
                                X_ER_Attribute, "ListPaintLth" );
@@ -372,7 +372,7 @@ ofnTZWDLGSO_GetSizeForListAttr( zVIEW  vSubtask,
       //   Decimals (value of M) are assigned a fixed lenght of 11.
       //   Dates (value of T) are assigned a fixed lenght of 10.
       //   Strings use either length of attribute or domain.
-      GetStringFromAttribute( szDataType, sizeof( szDataType ), vUserSpec,
+      GetStringFromAttribute( szDataType, zsizeof( szDataType ), vUserSpec,
                               X_Domain, "DataType" );
       switch ( szDataType[ 0 ] )
       {
@@ -436,7 +436,7 @@ ofnTZWDLGSO_GetSizeForAttr( zVIEW  vSubtask,
       //   Decimals (value of M) are assigned a fixed lenght of 11.
       //   Dates (value of T) are assigned a fixed lenght of 10.
       //   Strings use either length of attribute or domain.
-      GetStringFromAttribute( szDataType, sizeof( szDataType ), vUserSpec,
+      GetStringFromAttribute( szDataType, zsizeof( szDataType ), vUserSpec,
                               szDomainName, "DataType" );
       switch ( szDataType[ 0 ] )
       {

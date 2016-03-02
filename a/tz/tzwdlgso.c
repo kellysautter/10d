@@ -115,7 +115,7 @@ oTZWDLGSO_CloneActMap( zVIEW     vSourceLPLR,
    { 
       //:nRC = PositionOnVOR( vNewW, vOrigW,
       //:                     vSourceLPLR, vOrigW.ActMapView.Name, vSubtask )
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "ActMapView", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ActMapView", "Name" );
       nRC = oTZWDLGSO_PositionOnVOR( vNewW, vOrigW, vSourceLPLR, szTempString_0, vSubtask );
       //:IF nRC >= 0
       if ( nRC >= 0 )
@@ -142,7 +142,7 @@ oTZWDLGSO_CloneActMap( zVIEW     vSourceLPLR,
       RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
       //:SET CURSOR FIRST LOD_List.W_MetaDef
       //:   WHERE  LOD_List.W_MetaDef.Name = vNewW.LOD.Name
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vNewW, "LOD", "Name" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vNewW, "LOD", "Name" );
       RESULT = SetCursorFirstEntityByString( LOD_List, "W_MetaDef", "Name", szTempString_1, "" );
       //:IF GetViewByName( vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK ) > 0
       lTempInteger_1 = GetViewByName( &vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK );
@@ -168,7 +168,7 @@ oTZWDLGSO_CloneActMap( zVIEW     vSourceLPLR,
          //:// We assume position on the correct LOD from the ActMapView.
          //:SET CURSOR FIRST vLOD.LOD_Entity
          //:    WHERE  vLOD.LOD_Entity.Name = vOrigW.ActMapLOD_Entity.Name
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vOrigW, "ActMapLOD_Entity", "Name" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vOrigW, "ActMapLOD_Entity", "Name" );
          RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTempString_1, "" );
          //:IF RESULT >= 0
          if ( RESULT >= 0 )
@@ -259,7 +259,7 @@ oTZWDLGSO_ConvertListBoxToGrid( zVIEW     vControl )
    //:INCLUDE vControl.ControlDef FROM vPE.ControlDef
    RESULT = IncludeSubobjectFromSubobject( vControl, "ControlDef", vPE, "ControlDef", zPOS_AFTER );
    //:szGridName = vControl.Control.Tag + "Grid"
-   GetStringFromAttribute( szGridName, sizeof( szGridName ), vControl, "Control", "Tag" );
+   GetStringFromAttribute( szGridName, zsizeof( szGridName ), vControl, "Control", "Tag" );
    ZeidonStringConcat( szGridName, 1, 0, "Grid", 1, 0, 51 );
    //:vControl.Control.Tag = szGridName
    SetAttributeFromString( vControl, "Control", "Tag", szGridName );
@@ -375,7 +375,7 @@ oTZWDLGSO_CloneAction( zVIEW     vSourceLPLR,
 
    //:// Simply return if an Action by the same name already exists.
    //:SET CURSOR FIRST vNewW.Action WHERE vNewW.Action.Tag = vOrigW.Action.Tag
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "Action", "Tag" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "Action", "Tag" );
    RESULT = SetCursorFirstEntityByString( vNewW, "Action", "Tag", szTempString_0, "" );
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
@@ -427,7 +427,7 @@ oTZWDLGSO_CloneAction( zVIEW     vSourceLPLR,
    { 
       //:SET CURSOR FIRST vNewW.Operation WITHIN vNewW.Dialog WHERE
       //:                 vNewW.Operation.Name = vOrigW.ActOper.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "ActOper", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ActOper", "Name" );
       RESULT = SetCursorFirstEntityByString( vNewW, "Operation", "Name", szTempString_0, "Dialog" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -437,7 +437,7 @@ oTZWDLGSO_CloneAction( zVIEW     vSourceLPLR,
          //:// to the correct SourceFile entry.  If one doesn't exist, create it.
          //:SET CURSOR FIRST vOrigW.Operation WITHIN vOrigW.Dialog WHERE
          //:    vOrigW.Operation.Name = vOrigW.ActOper.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "ActOper", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ActOper", "Name" );
          RESULT = SetCursorFirstEntityByString( vOrigW, "Operation", "Name", szTempString_0, "Dialog" );
          //:szLanguageType = vOrigW.SourceFile.LanguageType
          GetVariableFromAttribute( szLanguageType, 0, 'S', 2, vOrigW, "SourceFile", "LanguageType", "", 0 );
@@ -575,7 +575,7 @@ oTZWDLGSO_CloneControl( zVIEW     vSourceLPLR,
    { 
       //:SET CURSOR FIRST vPE.ControlDef WHERE
       //:                 vPE.ControlDef.Tag = vOrigWC.ControlDef.Tag
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigWC, "ControlDef", "Tag" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigWC, "ControlDef", "Tag" );
       RESULT = SetCursorFirstEntityByString( vPE, "ControlDef", "Tag", szTempString_0, "" );
       //:IF RESULT < 0
       if ( RESULT < 0 )
@@ -726,7 +726,7 @@ oTZWDLGSO_CloneControl( zVIEW     vSourceLPLR,
          SetMatchingAttributesByName( vNewWC, "Event", vOrigWC, "Event", zSET_NULL );
          //:SET CURSOR FIRST vNewW.Action
          //:   WHERE  vNewW.Action.Tag = vOrigWC.EventAct.Tag
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vOrigWC, "EventAct", "Tag" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vOrigWC, "EventAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( vNewW, "Action", "Tag", szTempString_1, "" );
          //:IF RESULT >= 0
          if ( RESULT >= 0 )
@@ -814,7 +814,7 @@ oTZWDLGSO_CloneCtrlMap( zVIEW     vNewW,
    { 
       //:nRC = PositionOnVOR( vNewW, vOrigW, vSourceLPLR,
       //:                     vOrigWC.CtrlMapView.Name, vSubtask )
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigWC, "CtrlMapView", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigWC, "CtrlMapView", "Name" );
       nRC = oTZWDLGSO_PositionOnVOR( vNewW, vOrigW, vSourceLPLR, szTempString_0, vSubtask );
       //:IF nRC >= 0
       if ( nRC >= 0 )
@@ -838,7 +838,7 @@ oTZWDLGSO_CloneCtrlMap( zVIEW     vNewW,
       RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
       //:SET CURSOR FIRST LOD_List.W_MetaDef
       //:   WHERE  LOD_List.W_MetaDef.Name = vNewW.LOD.Name
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vNewW, "LOD", "Name" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vNewW, "LOD", "Name" );
       RESULT = SetCursorFirstEntityByString( LOD_List, "W_MetaDef", "Name", szTempString_1, "" );
 
       //:IF GetViewByName( vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK ) > 0
@@ -870,7 +870,7 @@ oTZWDLGSO_CloneCtrlMap( zVIEW     vNewW,
       GetViewByName( &vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK );
       //:SET CURSOR FIRST vLOD.LOD_Entity
       //:    WHERE  vLOD.LOD_Entity.Name = vOrigWC.CtrlMapLOD_Entity.Name
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vOrigWC, "CtrlMapLOD_Entity", "Name" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vOrigWC, "CtrlMapLOD_Entity", "Name" );
       RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTempString_1, "" );
       //:IF RESULT >= 0
       if ( RESULT >= 0 )
@@ -904,7 +904,7 @@ oTZWDLGSO_CloneCtrlMap( zVIEW     vNewW,
       //:// We assume position on the correct LOD from the CtrlMapView.
       //:SET CURSOR FIRST vLOD.LOD_Entity
       //:    WHERE  vLOD.LOD_Entity.Name = vOrigWC.CtrlMapRelatedEntity.Name
-      GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vOrigWC, "CtrlMapRelatedEntity", "Name" );
+      GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vOrigWC, "CtrlMapRelatedEntity", "Name" );
       RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTempString_2, "" );
       //:IF RESULT >= 0
       if ( RESULT >= 0 )
@@ -1012,7 +1012,7 @@ oTZWDLGSO_CloneMenuAndOptions( zVIEW     vSourceLPLR,
    { 
       //:SET CURSOR FIRST vNewW.Menu
       //:              WHERE vNewW.Menu.Tag = vOrigW.DfltMenu.Tag
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "DfltMenu", "Tag" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "DfltMenu", "Tag" );
       RESULT = SetCursorFirstEntityByString( vNewW, "Menu", "Tag", szTempString_0, "" );
       //:IncludeSubobjectFromSubobject( vNewW, "DfltMenu",
       //:                               vNewW, "Menu", zPOS_AFTER )
@@ -1077,7 +1077,7 @@ oTZWDLGSO_CloneOptMap( zVIEW     vSourceLPLR,
    { 
       //:nRC = PositionOnVOR( vNewW, vOrigW, vSourceLPLR,
       //:                     vOrigWO.OptMapView.Name, vSubtask )
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigWO, "OptMapView", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigWO, "OptMapView", "Name" );
       nRC = oTZWDLGSO_PositionOnVOR( vNewW, vOrigW, vSourceLPLR, szTempString_0, vSubtask );
       //:IF nRC >= 0
       if ( nRC >= 0 )
@@ -1102,7 +1102,7 @@ oTZWDLGSO_CloneOptMap( zVIEW     vSourceLPLR,
       RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
       //:SET CURSOR FIRST LOD_List.W_MetaDef
       //:   WHERE  LOD_List.W_MetaDef.Name = vNewW.LOD.Name
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vNewW, "LOD", "Name" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vNewW, "LOD", "Name" );
       RESULT = SetCursorFirstEntityByString( LOD_List, "W_MetaDef", "Name", szTempString_1, "" );
       //:ActivateMetaOI( vSubtask, vLOD, LOD_List, zREFER_LOD_META, zSINGLE )
       ActivateMetaOI( vSubtask, &vLOD, LOD_List, zREFER_LOD_META, zSINGLE );
@@ -1120,7 +1120,7 @@ oTZWDLGSO_CloneOptMap( zVIEW     vSourceLPLR,
       //:// We assume position on the correct LOD from the OptMapView
       //:SET CURSOR FIRST vLOD.LOD_Entity
       //:    WHERE  vLOD.LOD_Entity.Name = vOrigWO.OptMapRelatedEntity.Name
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vOrigWO, "OptMapRelatedEntity", "Name" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vOrigWO, "OptMapRelatedEntity", "Name" );
       RESULT = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTempString_1, "" );
       //:IF RESULT >= 0
       if ( RESULT >= 0 )
@@ -1250,7 +1250,7 @@ oTZWDLGSO_CloneOption( zVIEW     vNewWO,
       { 
          //:SET CURSOR FIRST vNewW.Action
          //:   WHERE  vNewW.Action.Tag = vOrigWO.OptAct.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigWO, "OptAct", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigWO, "OptAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( vNewW, "Action", "Tag", szTempString_0, "" );
          //:IF RESULT >= 0
          if ( RESULT >= 0 )
@@ -1325,7 +1325,7 @@ oTZWDLGSO_CloneWindow( zVIEW     vNewW,
    //:// Clone Window Style.
    //:SET CURSOR FIRST vPE.WindowStyle WHERE
    //:                 vPE.WindowStyle.Tag = vOrigW.WndStyle.Tag
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "WndStyle", "Tag" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "WndStyle", "Tag" );
    RESULT = SetCursorFirstEntityByString( vPE, "WindowStyle", "Tag", szTempString_0, "" );
    //:IF RESULT >= 0
    if ( RESULT >= 0 )
@@ -1428,7 +1428,7 @@ oTZWDLGSO_CtrlAttributeMapping( zVIEW     vSubtask,
    //:// We assume position is already on the correct LOD_Entity.
    //:SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity
    //:    WHERE  vLOD.ER_Attribute.Name = vOrigWC.CtrlMapER_Attribute.Name
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigWC, "CtrlMapER_Attribute", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigWC, "CtrlMapER_Attribute", "Name" );
    RESULT = SetCursorFirstEntityByString( vLOD, "ER_Attribute", "Name", szTempString_0, "LOD_Entity" );
    //:IF RESULT >= 0
    if ( RESULT >= 0 )
@@ -1452,7 +1452,7 @@ oTZWDLGSO_CtrlAttributeMapping( zVIEW     vSubtask,
          RetrieveViewForMetaList( vSubtask, &DomainList, zREFER_DOMAIN_META );
          //:SET CURSOR FIRST DomainList.W_MetaDef
          //:   WHERE DomainList.W_MetaDef.Name = vSourceLPLR.W_MetaDef.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vSourceLPLR, "W_MetaDef", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vSourceLPLR, "W_MetaDef", "Name" );
          RESULT = SetCursorFirstEntityByString( DomainList, "W_MetaDef", "Name", szTempString_0, "" );
          //:IF RESULT >= 0
          if ( RESULT >= 0 )
@@ -1463,7 +1463,7 @@ oTZWDLGSO_CtrlAttributeMapping( zVIEW     vSubtask,
             //:SET CURSOR FIRST vDomain.Context
             //:   WHERE  vDomain.Context.Name =
             //:          vOrigWC.CtrlMapContext.Name
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigWC, "CtrlMapContext", "Name" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigWC, "CtrlMapContext", "Name" );
             RESULT = SetCursorFirstEntityByString( vDomain, "Context", "Name", szTempString_0, "" );
             //:IF RESULT >= 0
             if ( RESULT >= 0 )
@@ -1652,7 +1652,7 @@ oTZWDLGSO_MergeWindowComponents( zVIEW     vNewW,
          SetMatchingAttributesByName( vNewW, "WndEvent", vOrigW, "WndEvent", zSET_NULL );
          //:SET CURSOR FIRST vNewW.Action
          //:   WHERE  vNewW.Action.Tag = vOrigW.WndAct.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "WndAct", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "WndAct", "Tag" );
          RESULT = SetCursorFirstEntityByString( vNewW, "Action", "Tag", szTempString_0, "" );
          //:IF RESULT >= 0
          if ( RESULT >= 0 )
@@ -1709,7 +1709,7 @@ oTZWDLGSO_MergeWindowComponents( zVIEW     vNewW,
          { 
             //:SET CURSOR FIRST vNewW.Action
             //:      WHERE  vNewW.Action.Tag = vOrigW.HotAct.Tag
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "HotAct", "Tag" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "HotAct", "Tag" );
             RESULT = SetCursorFirstEntityByString( vNewW, "Action", "Tag", szTempString_0, "" );
             //:IF RESULT >= 0
             if ( RESULT >= 0 )
@@ -1793,7 +1793,7 @@ oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
          CreateViewFromView( &TZWND_List, vNewW );
          //:SET CURSOR FIRST TZWND_List.Window
          //:           WHERE TZWND_List.Window.Tag = vOrigW.ReusableSideWindow.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "ReusableSideWindow", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableSideWindow", "Tag" );
          RESULT = SetCursorFirstEntityByString( TZWND_List, "Window", "Tag", szTempString_0, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -1812,7 +1812,7 @@ oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
          //:// The Reusable Menu is not in this Dialog, so look for an external Dialog.
          //:SET CURSOR FIRST TZDLG_List.W_MetaDef
          //:           WHERE TZDLG_List.W_MetaDef.Name = vOrigW.ReusableSideDialog.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "ReusableSideDialog", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableSideDialog", "Tag" );
          RESULT = SetCursorFirstEntityByString( TZDLG_List, "W_MetaDef", "Name", szTempString_0, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -1874,7 +1874,7 @@ oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
             { 
                //:SET CURSOR FIRST TZWND_List.Window
                //:           WHERE TZWND_List.Window.Tag = vOrigW.ReusableSideWindow.Tag
-               GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "ReusableSideWindow", "Tag" );
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableSideWindow", "Tag" );
                RESULT = SetCursorFirstEntityByString( TZWND_List, "Window", "Tag", szTempString_0, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -1912,7 +1912,7 @@ oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
          CreateViewFromView( &TZWND_List, vNewW );
          //:SET CURSOR FIRST TZWND_List.Window
          //:           WHERE TZWND_List.Window.Tag = vOrigW.ReusableMainWindow.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "ReusableMainWindow", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableMainWindow", "Tag" );
          RESULT = SetCursorFirstEntityByString( TZWND_List, "Window", "Tag", szTempString_0, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -1930,7 +1930,7 @@ oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
       { 
          //:SET CURSOR FIRST TZDLG_List.W_MetaDef
          //:           WHERE TZDLG_List.W_MetaDef.Name = vOrigW.ReusableMainDialog.Tag
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "ReusableMainDialog", "Tag" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableMainDialog", "Tag" );
          RESULT = SetCursorFirstEntityByString( TZDLG_List, "W_MetaDef", "Name", szTempString_0, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -1992,7 +1992,7 @@ oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
             { 
                //:SET CURSOR FIRST TZWND_List.Window
                //:           WHERE TZWND_List.Window.Tag = vOrigW.ReusableMainWindow.Tag
-               GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "ReusableMainWindow", "Tag" );
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableMainWindow", "Tag" );
                RESULT = SetCursorFirstEntityByString( TZWND_List, "Window", "Tag", szTempString_0, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -2055,7 +2055,7 @@ oTZWDLGSO_OptAttributeMapping( zVIEW     vSubtask,
    //:// We assume position is already on the correct LOD_Entity.
    //:SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity
    //:    WHERE  vLOD.ER_Attribute.Name = vOrigWO.OptMapER_Attribute.Name
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigWO, "OptMapER_Attribute", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigWO, "OptMapER_Attribute", "Name" );
    RESULT = SetCursorFirstEntityByString( vLOD, "ER_Attribute", "Name", szTempString_0, "LOD_Entity" );
    //:IF RESULT >= 0
    if ( RESULT >= 0 )
@@ -2080,7 +2080,7 @@ oTZWDLGSO_OptAttributeMapping( zVIEW     vSubtask,
          RetrieveViewForMetaList( vSubtask, &DomainList, zREFER_DOMAIN_META );
          //:SET CURSOR FIRST DomainList.W_MetaDef
          //:   WHERE DomainList.W_MetaDef.Name = vSourceLPLR.W_MetaDef.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vSourceLPLR, "W_MetaDef", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vSourceLPLR, "W_MetaDef", "Name" );
          RESULT = SetCursorFirstEntityByString( DomainList, "W_MetaDef", "Name", szTempString_0, "" );
          //:IF RESULT >= 0
          if ( RESULT >= 0 )
@@ -2090,7 +2090,7 @@ oTZWDLGSO_OptAttributeMapping( zVIEW     vSubtask,
             //:SET CURSOR FIRST vDomain.Context
             //:   WHERE  vDomain.Context.Name =
             //:          vOrigWO.OptMapContext.Name
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigWO, "OptMapContext", "Name" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigWO, "OptMapContext", "Name" );
             RESULT = SetCursorFirstEntityByString( vDomain, "Context", "Name", szTempString_0, "" );
             //:IF RESULT >= 0
             if ( RESULT >= 0 )
@@ -2250,7 +2250,7 @@ oTZWDLGSO_PositionOnVOR( zVIEW     vNewW,
 
          //:SET CURSOR FIRST LOD_List.W_MetaDef WHERE
          //:                 LOD_List.W_MetaDef.Name = vOrigW.LOD.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vOrigW, "LOD", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "LOD", "Name" );
          RESULT = SetCursorFirstEntityByString( LOD_List, "W_MetaDef", "Name", szTempString_0, "" );
          //:IF RESULT >= 0
          if ( RESULT >= 0 )
@@ -2382,7 +2382,7 @@ oTZWDLGSO_WndEventName( zVIEW     vTZWDLGSO,
 
    //:SET CURSOR FIRST vPE.WindowStyle
    //:    WHERE  vPE.WindowStyle.Tag = vTZWDLGSO.WndStyle.Tag
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTZWDLGSO, "WndStyle", "Tag" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTZWDLGSO, "WndStyle", "Tag" );
    RESULT = SetCursorFirstEntityByString( vPE, "WindowStyle", "Tag", szTempString_0, "" );
 
    //:SET CURSOR FIRST vPE.EventDef
@@ -2459,7 +2459,7 @@ oTZWDLGSO_BuildWebCtrlPropOpts( zVIEW     vDialog,
    //:nRC = GetFirstTableEntryForAttribute( szExternalValue,
    //:                                      vSourceView, SourceEntityName, SourceAttributeName,
    //:                                      ControlContext, CursorPos )
-   nRC = GetFirstTableEntryForAttribute( szExternalValue, sizeof( szExternalValue ), vSourceView, SourceEntityName, SourceAttributeName, ControlContext, &CursorPos );
+   nRC = GetFirstTableEntryForAttribute( szExternalValue, zsizeof( szExternalValue ), vSourceView, SourceEntityName, SourceAttributeName, ControlContext, &CursorPos );
    //:LOOP WHILE nRC >= 0
    while ( nRC >= 0 )
    { 
@@ -2478,7 +2478,7 @@ oTZWDLGSO_BuildWebCtrlPropOpts( zVIEW     vDialog,
       //:nRC = GetNextTableEntryForAttribute( szExternalValue,
       //:                                     vSourceView, SourceEntityName, SourceAttributeName,
       //:                                     ControlContext, CursorPos )
-      nRC = GetNextTableEntryForAttribute( szExternalValue, sizeof( szExternalValue ), vSourceView, SourceEntityName, SourceAttributeName, ControlContext, &CursorPos );
+      nRC = GetNextTableEntryForAttribute( szExternalValue, zsizeof( szExternalValue ), vSourceView, SourceEntityName, SourceAttributeName, ControlContext, &CursorPos );
    } 
 
    //:END
@@ -2529,7 +2529,7 @@ oTZWDLGSO_BuildMapTypeList( zVIEW     vDialog,
    //:nRC = GetFirstTableEntryForAttribute( szExternalValue,
    //:                                      vSourceView, SourceEntityName, SourceAttributeName,
    //:                                      ControlContext, CursorPos )
-   nRC = GetFirstTableEntryForAttribute( szExternalValue, sizeof( szExternalValue ), vSourceView, SourceEntityName, SourceAttributeName, ControlContext, &CursorPos );
+   nRC = GetFirstTableEntryForAttribute( szExternalValue, zsizeof( szExternalValue ), vSourceView, SourceEntityName, SourceAttributeName, ControlContext, &CursorPos );
    //:LOOP WHILE nRC >= 0
    while ( nRC >= 0 )
    { 
@@ -2548,7 +2548,7 @@ oTZWDLGSO_BuildMapTypeList( zVIEW     vDialog,
       //:nRC = GetNextTableEntryForAttribute( szExternalValue,
       //:                                     vSourceView, SourceEntityName, SourceAttributeName,
       //:                                     ControlContext, CursorPos )
-      nRC = GetNextTableEntryForAttribute( szExternalValue, sizeof( szExternalValue ), vSourceView, SourceEntityName, SourceAttributeName, ControlContext, &CursorPos );
+      nRC = GetNextTableEntryForAttribute( szExternalValue, zsizeof( szExternalValue ), vSourceView, SourceEntityName, SourceAttributeName, ControlContext, &CursorPos );
    } 
 
    //:END
@@ -2647,7 +2647,7 @@ oTZWDLGSO_DialogMigrate( zVIEW     NewDialog,
 
    //:// Activate existing source meta OldDialog
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DialogName + ".PWD"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, DialogName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".PWD", 1, 0, 514 );
@@ -2707,7 +2707,7 @@ oTZWDLGSO_DialogMigrate( zVIEW     NewDialog,
       //:// includes it, if it doesn't already exist.
       //:PositionOnVOR( NewDialog, OldDialog,
       //:               SourceLPLR, OldDialog.ViewObjRef.Name, vSubtask )
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldDialog, "ViewObjRef", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDialog, "ViewObjRef", "Name" );
       oTZWDLGSO_PositionOnVOR( NewDialog, OldDialog, SourceLPLR, szTempString_0, vSubtask );
       RESULT = SetCursorNextEntity( OldDialog, "ViewObjRef", "" );
    } 
@@ -2720,7 +2720,7 @@ oTZWDLGSO_DialogMigrate( zVIEW     NewDialog,
    while ( RESULT > zCURSOR_UNCHANGED )
    { 
       //:SET CURSOR FIRST NewDialog.Window WHERE NewDialog.Window.Tag = OldDialog.Window.Tag
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), OldDialog, "Window", "Tag" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), OldDialog, "Window", "Tag" );
       RESULT = SetCursorFirstEntityByString( NewDialog, "Window", "Tag", szTempString_1, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
@@ -2752,7 +2752,7 @@ oTZWDLGSO_DialogMigrate( zVIEW     NewDialog,
    while ( RESULT > zCURSOR_UNCHANGED )
    { 
       //:SET CURSOR FIRST NewDialog.Window WHERE NewDialog.Window.Tag = OldDialog.Window.Tag
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), OldDialog, "Window", "Tag" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), OldDialog, "Window", "Tag" );
       RESULT = SetCursorFirstEntityByString( NewDialog, "Window", "Tag", szTempString_1, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
@@ -2777,7 +2777,7 @@ oTZWDLGSO_DialogMigrate( zVIEW     NewDialog,
       if ( lTempInteger_2 != 0 )
       { 
          //:SET CURSOR FIRST NewDialog.Window WHERE NewDialog.Window.Tag = OldDialog.DfltWnd.Tag
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), OldDialog, "DfltWnd", "Tag" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), OldDialog, "DfltWnd", "Tag" );
          RESULT = SetCursorFirstEntityByString( NewDialog, "Window", "Tag", szTempString_1, "" );
          //:INCLUDE NewDialog.DfltWnd FROM NewDialog.Window
          RESULT = IncludeSubobjectFromSubobject( NewDialog, "DfltWnd", NewDialog, "Window", zPOS_AFTER );

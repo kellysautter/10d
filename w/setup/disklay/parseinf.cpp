@@ -235,7 +235,7 @@ fnProcessINF( const char *cpcFileName )
       exit( 1 );
    }
 
-   while ( fgets( szBuffer, sizeof( szBuffer ), fpRead ) )
+   while ( fgets( szBuffer, zsizeof( szBuffer ), fpRead ) )
    {
       switch( nStatus )
       {

@@ -29,7 +29,7 @@ CBuffer::CBuffer()
    m_bNormalizeCase = DEF_NORMALIZECASE;
 
    m_pLangBuff = NULL;
-   ZeroMemory( m_CharIsKeyword, sizeof( m_CharIsKeyword ) );
+   ZeroMemory( m_CharIsKeyword, zsizeof( m_CharIsKeyword ) );
    m_bLangIsCaseSensitive = TRUE;
 
    m_nKeywords =
@@ -158,7 +158,7 @@ void CBuffer::InsertLine( int nBefore, LPCTSTR pszText, int cbText )
    // make room for the new line
    memmove( m_pLines + nBefore + 1,
             m_pLines + nBefore,
-            ( m_nLineCount - nBefore ) * sizeof( CLine ) );
+            ( m_nLineCount - nBefore ) * zsizeof( CLine ) );
    pLine->CLine::CLine( pszText, cbText );
    m_nLineCount++;
 
@@ -278,7 +278,7 @@ void CBuffer::RemoveLines( int nStartLine, int nCount )
       pLine->CLine::~CLine();
    }
    // remove the entry from the array
-   memmove( m_pLines + nStartLine, m_pLines + nStartLine + nCount, ( m_nLineCount - ( nStartLine + nCount - 1 ) ) * sizeof( CLine ) );
+   memmove( m_pLines + nStartLine, m_pLines + nStartLine + nCount, ( m_nLineCount - ( nStartLine + nCount - 1 ) ) * zsizeof( CLine ) );
    m_nLineCount -= nCount;
 
    Unlock();
@@ -322,7 +322,7 @@ void CBuffer::EnsureLineArraySize( register int nLinesRequired )
    if ( nLinesRequired > m_nLinesAllocated )
    {
       m_nLinesAllocated = nLinesRequired + m_nLineChunkSize;
-      size_t cbNewSize = ( m_nLinesAllocated ) * sizeof( CLine );
+      size_t cbNewSize = ( m_nLinesAllocated ) * zsizeof( CLine );
       // need to realloc
       m_pLines = ( m_pLines ?
                  ( CLine * )realloc( m_pLines, cbNewSize ) :
@@ -335,7 +335,7 @@ void CBuffer::FlushExtraLines()
    if ( m_nLineCount != m_nLinesAllocated )
    {
       ASSERT( m_nLineCount < m_nLinesAllocated );
-      size_t cbNewSize = m_nLineCount * sizeof( CLine );
+      size_t cbNewSize = m_nLineCount * zsizeof( CLine );
       // need to realloc
       m_pLines = ( m_pLines ?
                  ( CLine * )realloc( m_pLines, cbNewSize ) :
@@ -470,7 +470,7 @@ void CBuffer::EnsureUndoArraySize( int nUndosRequired )
 {
    if ( nUndosRequired > m_nUndosAllocated )
    {
-      size_t cbNewSize = ( nUndosRequired + UNDO_GROWBY ) * sizeof( CUndoAction * );
+      size_t cbNewSize = ( nUndosRequired + UNDO_GROWBY ) * zsizeof( CUndoAction * );
       // need to realloc
       m_pUndo  = ( m_pUndo ?
                  ( CUndoAction ** )realloc( m_pUndo, cbNewSize ) :
@@ -508,7 +508,7 @@ void CBuffer::EnforceMaxUndo()
       ASSERT( i <= m_nUndoPos );
 
       // shift (but don't shrink) the undo chain, consuming the deleted undo records
-      memmove( m_pUndo, m_pUndo + nRemoved, ( m_nUndoCount - nRemoved ) * sizeof( CUndoAction * ) );
+      memmove( m_pUndo, m_pUndo + nRemoved, ( m_nUndoCount - nRemoved ) * zsizeof( CUndoAction * ) );
       m_nUndoCount -= nRemoved;
       m_nUndoPos -= nRemoved;
 
@@ -997,7 +997,7 @@ BOOL CBuffer::GetText( int nStartRow, int nStartCol, int nEndRow, int nEndCol, H
    // Copy the text
    //
    //
-   hMem = GlobalAlloc( GHND | GMEM_DDESHARE, cbText * sizeof( TCHAR ) );
+   hMem = GlobalAlloc( GHND | GMEM_DDESHARE, cbText * zsizeof( TCHAR ) );
 
    if ( hMem )
    {
@@ -1206,8 +1206,8 @@ BOOL CBuffer::SetLanguage( CM_LANGUAGE *pLang )
    BOOL bCaseSensitive = pLang->bIsCaseSensitive == TRUE;
    LPTSTR pszBuff = m_pLangBuff;
 
-   ZeroMemory( m_pLangBuff, cbLangBuff * sizeof( TCHAR ) );
-   ZeroMemory( m_CharIsKeyword, sizeof( m_CharIsKeyword ) );
+   ZeroMemory( m_pLangBuff, cbLangBuff * zsizeof( TCHAR ) );
+   ZeroMemory( m_CharIsKeyword, zsizeof( m_CharIsKeyword ) );
 
    for ( i = 0; i < ARRAY_SIZE( LangInfo ); i++ )
    {
@@ -1276,7 +1276,7 @@ BOOL CBuffer::SetLanguage( CM_LANGUAGE *pLang )
    for ( i = 0; i < ARRAY_SIZE( LangInfo ); i++ )
    {
       _LangInfo *pInfo = LangInfo + i;
-      qsort( *pInfo->ppszTokensOut, *pInfo->pnTokensIn, sizeof( LPCTSTR ), TokenSortProc );
+      qsort( *pInfo->ppszTokensOut, *pInfo->pnTokensIn, zsizeof( LPCTSTR ), TokenSortProc );
       *pInfo->pnTokensOut = *pInfo->pnTokensIn;
    }
 
@@ -1298,7 +1298,7 @@ void CBuffer::DeleteLanguageInfo()
       EndSyntaxParse();
    }
 
-   ZeroMemory( m_CharIsKeyword, sizeof( m_CharIsKeyword ) );
+   ZeroMemory( m_CharIsKeyword, zsizeof( m_CharIsKeyword ) );
    delete [] m_pLangBuff;
    m_pLangBuff = NULL;
 

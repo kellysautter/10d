@@ -95,14 +95,14 @@ BuildXODsOnLPLR( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextSelectedEntity( vLOD_List, "W_MetaDef", "" ) )
    {
-      GetStringFromAttribute( szLOD_Name, sizeof( szLOD_Name ), vLOD_List, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szLOD_Name, zsizeof( szLOD_Name ), vLOD_List, "W_MetaDef", "Name" );
 
       nRC = ActivateMetaOI( vSubtask, &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI );
       if ( nRC < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Could not Activate LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), ".\nAborting Build" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Could not Activate LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), ".\nAborting Build" );
          MessageSend( vSubtask, "TE00426", "Physical Data Model",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -111,9 +111,9 @@ BuildXODsOnLPLR( zVIEW vSubtask )
       else
       {
          // Send message that we are building the LOD.
-         strcpy_s( szMsg, sizeof( szMsg ), "Building executable for LOD: " );
-         strcat_s( szMsg, sizeof( szMsg ), szLOD_Name );
-         strcat_s( szMsg, sizeof( szMsg ), "." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Building executable for LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLOD_Name );
+         strcat_s( szMsg, zsizeof( szMsg ), "." );
          MB_SetMessage( vSubtask, 1, szMsg );
 
          // Make sure the TE_SourceZKey attribute is set because it determines
@@ -129,11 +129,11 @@ BuildXODsOnLPLR( zVIEW vSubtask )
          DropMetaOI( vSubtask, vLOD );
 
          // Commit the XOD to LPLR file.
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vLPLR, "LPLR", "ExecDir" );
-         SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szTemp );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vLPLR, "LPLR", "ExecDir" );
+         SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szTemp );
          ofnTZCMWKSO_AppendSlash( szFileName );
-         strcat_s( szFileName, sizeof( szFileName ), szLOD_Name );
-         strcat_s( szFileName, sizeof( szFileName ), ".XOD" );
+         strcat_s( szFileName, zsizeof( szFileName ), szLOD_Name );
+         strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
          TraceLineS( "*** Committing workstation file: ", szFileName );
          CommitOI_ToFile( vXOD, szFileName, zSINGLE );
       }

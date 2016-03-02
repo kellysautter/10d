@@ -17,7 +17,7 @@ public:
    CHotKeyX()
    {
       // set all values to zero
-      ZeroMemory( &m_cmHotKey, sizeof( m_cmHotKey ) );
+      ZeroMemory( &m_cmHotKey, zsizeof( m_cmHotKey ) );
    }
    CM_HOTKEY m_cmHotKey;
 

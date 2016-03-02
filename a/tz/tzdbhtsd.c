@@ -326,8 +326,8 @@ Include_LinkSubobject( zVIEW     vSubtask )
 
    //:RelinkInstanceToInstance( vTarget, TZDBHTSO.Entity.Name,
    //:                          vSource, TZDBHTSO2.Entity.Name )
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TZDBHTSO, "Entity", "Name" );
-   GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TZDBHTSO2, "Entity", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZDBHTSO, "Entity", "Name" );
+   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZDBHTSO2, "Entity", "Name" );
    RelinkInstanceToInstance( vTarget, szTempString_0, vSource, szTempString_1 );
    return( 0 );
 // END
@@ -351,7 +351,7 @@ EditID_Prebuild( zVIEW     vSubtask )
    RESULT = GetViewByName( &TZDBHTSO, "TZDBHTSO", vSubtask, zLEVEL_TASK );
 
    //:SysGetDB_UserID( vSubtask, szUserID, szPassword )
-   SysGetDB_UserID( vSubtask, szUserID, sizeof( szUserID ), szPassword, sizeof( szPassword ) );
+   SysGetDB_UserID( vSubtask, szUserID, zsizeof( szUserID ), szPassword, zsizeof( szPassword ) );
    //:TZDBHTSO.Root.DB_UserID   = szUserID
    SetAttributeFromString( TZDBHTSO, "Root", "DB_UserID", szUserID );
    //:TZDBHTSO.Root.DB_Password = szPassword
@@ -453,8 +453,8 @@ Include_IncludeSubobject( zVIEW     vSubtask )
 
    //:IncludeSubobjectFromSubobject( vTarget, TZDBHTSO.Entity.Name,
    //:                               vSource, TZDBHTSO2.Entity.Name, zPOS_AFTER )
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TZDBHTSO, "Entity", "Name" );
-   GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TZDBHTSO2, "Entity", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZDBHTSO, "Entity", "Name" );
+   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZDBHTSO2, "Entity", "Name" );
    IncludeSubobjectFromSubobject( vTarget, szTempString_0, vSource, szTempString_1, zPOS_AFTER );
    return( 0 );
 // END
@@ -577,7 +577,7 @@ TZDBHTSD_RefreshViewList( zVIEW     vSubtask )
          if ( ZeidonStringCompare( szTemp, 1, 0, "KZDBHQUA", 1, 0, 101 ) == 0 )
          {
             //:lAddViewNameToQualList( TZDBHTSO.View.Name )
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TZDBHTSO, "View", "Name" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZDBHTSO, "View", "Name" );
             o_lAddViewNameToQualList( szTempString_0 );
          }
 
@@ -1032,8 +1032,8 @@ zExecuteOperation( zVIEW     vSubtask )
       //:                           vDialog,            /* Subtask qual */
       //:                           TZDBHTSO.File.Name,  /* File Name */
       //:                           nFlags )             /* Control Value */
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TZDBHTSO, "LOD", "Name" );
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TZDBHTSO, "File", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZDBHTSO, "LOD", "Name" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZDBHTSO, "File", "Name" );
       nRC = ActivateOI_FromFile( &vTemp, szTempString_0, vDialog, szTempString_1, nFlags );
 
       //:TZDBHTSO.ExecutionResult.ReturnCode = nRC
@@ -1160,7 +1160,7 @@ zExecuteOperation( zVIEW     vSubtask )
       //:                              vDialog,
       //:                              KZDBHQUA,
       //:                              nFlags )            /* Control Value */
-      GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), TZDBHTSO, "LOD", "Name" );
+      GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), TZDBHTSO, "LOD", "Name" );
       nRC = ActivateObjectInstance( &vTemp, szTempString_2, vDialog, KZDBHQUA, nFlags );
 
       //:TZDBHTSO.ExecutionResult.ReturnCode = nRC
@@ -1222,7 +1222,7 @@ zExecuteOperation( zVIEW     vSubtask )
       //:                                   TZDBHTSO.LOD.Name,/* Object Def Name */
       //:                                   vDialog,
       //:                                   zMULTIPLE )
-      GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), TZDBHTSO, "LOD", "Name" );
+      GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), TZDBHTSO, "LOD", "Name" );
       nRC = ActivateEmptyObjectInstance( &vTemp, szTempString_3, vDialog, zMULTIPLE );
 
       //:TZDBHTSO.ExecutionResult.ReturnCode = nRC
@@ -1288,8 +1288,8 @@ zExecuteOperation( zVIEW     vSubtask )
       //:                              vDialog,            /* Subtask qual */
       //:                              TZDBHTSO.File.Name,  /* File Name */
       //:                              nFlags )             /* Control Value */
-      GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), TZDBHTSO, "LOD", "Name" );
-      GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), TZDBHTSO, "File", "Name" );
+      GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), TZDBHTSO, "LOD", "Name" );
+      GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), TZDBHTSO, "File", "Name" );
       nRC = DBH_ActivateOI_FromXML( &vTemp, szTempString_4, vDialog, szTempString_5, nFlags );
 
       //:TZDBHTSO.ExecutionResult.ReturnCode = nRC
@@ -1330,7 +1330,7 @@ zExecuteOperation( zVIEW     vSubtask )
       //:                                   TZDBHTSO.LOD.Name,/* Object Def Name */
       //:                                   vDialog,
       //:                                   zSINGLE )
-      GetStringFromAttribute( szTempString_6, sizeof( szTempString_6 ), TZDBHTSO, "LOD", "Name" );
+      GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), TZDBHTSO, "LOD", "Name" );
       nRC = ActivateEmptyObjectInstance( &vTemp, szTempString_6, vDialog, zSINGLE );
 
       //:nRC = DisplayObjectDef( vTemp, 0 )
@@ -1459,7 +1459,7 @@ zExecuteOperation( zVIEW     vSubtask )
       //:nRC = CommitOI_ToFile( vTemp,
       //:                       TZDBHTSO.File.Name,  /* File Name */
       //:                       nFlags )
-      GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), TZDBHTSO, "File", "Name" );
+      GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), TZDBHTSO, "File", "Name" );
       nRC = CommitOI_ToFile( vTemp, szTempString_7, nFlags );
 
       //:TZDBHTSO.ExecutionResult.ReturnCode = nRC
@@ -1522,7 +1522,7 @@ zExecuteOperation( zVIEW     vSubtask )
       //:nRC = DBH_WriteOI_ToXML( vTemp,
       //:                         TZDBHTSO.File.Name,  /* File Name */
       //:                         nFlags )
-      GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), TZDBHTSO, "File", "Name" );
+      GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), TZDBHTSO, "File", "Name" );
       nRC = DBH_WriteOI_ToXML( vTemp, szTempString_8, nFlags );
 
       //:TZDBHTSO.ExecutionResult.ReturnCode = nRC
@@ -1995,15 +1995,15 @@ TZDBHTSD_SetOptionsFromResultLst( zVIEW     vSubtask )
    {
       //:fnAddListValue( TZDBHTSO, "View",
       //:                TZDBHTSO.ExecutionResult.ViewName )
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), TZDBHTSO, "ExecutionResult", "ViewName" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZDBHTSO, "ExecutionResult", "ViewName" );
       o_fnAddListValue( TZDBHTSO, "View", szTempString_0 );
       //:fnAddListValue( TZDBHTSO, "LOD",
       //:                TZDBHTSO.ExecutionResult.LOD  )
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), TZDBHTSO, "ExecutionResult", "LOD" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZDBHTSO, "ExecutionResult", "LOD" );
       o_fnAddListValue( TZDBHTSO, "LOD", szTempString_1 );
       //:fnAddListValue( TZDBHTSO, "File",
       //:                TZDBHTSO.ExecutionResult.FileName  )
-      GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), TZDBHTSO, "ExecutionResult", "FileName" );
+      GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), TZDBHTSO, "ExecutionResult", "FileName" );
       o_fnAddListValue( TZDBHTSO, "File", szTempString_2 );
    }
 
@@ -2014,15 +2014,15 @@ TZDBHTSD_SetOptionsFromResultLst( zVIEW     vSubtask )
    {
       //:fnAddListValue( TZDBHTSO, "View",
       //:                TZDBHTSO.ExecutionResult.ViewName  )
-      GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), TZDBHTSO, "ExecutionResult", "ViewName" );
+      GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), TZDBHTSO, "ExecutionResult", "ViewName" );
       o_fnAddListValue( TZDBHTSO, "View", szTempString_3 );
       //:fnAddListValue( TZDBHTSO, "LOD",
       //:                TZDBHTSO.ExecutionResult.LOD  )
-      GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), TZDBHTSO, "ExecutionResult", "LOD" );
+      GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), TZDBHTSO, "ExecutionResult", "LOD" );
       o_fnAddListValue( TZDBHTSO, "LOD", szTempString_4 );
       //:fnAddListValue( TZDBHTSO, "Qual",
       //:                TZDBHTSO.ExecutionResult.QualView )
-      GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), TZDBHTSO, "ExecutionResult", "QualView" );
+      GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), TZDBHTSO, "ExecutionResult", "QualView" );
       o_fnAddListValue( TZDBHTSO, "Qual", szTempString_5 );
    }
 
@@ -2033,11 +2033,11 @@ TZDBHTSD_SetOptionsFromResultLst( zVIEW     vSubtask )
    {
       //:fnAddListValue( TZDBHTSO, "View",
       //:                TZDBHTSO.ExecutionResult.ViewName  )
-      GetStringFromAttribute( szTempString_6, sizeof( szTempString_6 ), TZDBHTSO, "ExecutionResult", "ViewName" );
+      GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), TZDBHTSO, "ExecutionResult", "ViewName" );
       o_fnAddListValue( TZDBHTSO, "View", szTempString_6 );
       //:fnAddListValue( TZDBHTSO, "LOD",
       //:                TZDBHTSO.ExecutionResult.LOD  )
-      GetStringFromAttribute( szTempString_7, sizeof( szTempString_7 ), TZDBHTSO, "ExecutionResult", "LOD" );
+      GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), TZDBHTSO, "ExecutionResult", "LOD" );
       o_fnAddListValue( TZDBHTSO, "LOD", szTempString_7 );
    }
 
@@ -2048,7 +2048,7 @@ TZDBHTSD_SetOptionsFromResultLst( zVIEW     vSubtask )
    {
       //:fnAddListValue( TZDBHTSO, "LOD",
       //:                TZDBHTSO.ExecutionResult.LOD  )
-      GetStringFromAttribute( szTempString_8, sizeof( szTempString_8 ), TZDBHTSO, "ExecutionResult", "LOD" );
+      GetStringFromAttribute( szTempString_8, zsizeof( szTempString_8 ), TZDBHTSO, "ExecutionResult", "LOD" );
       o_fnAddListValue( TZDBHTSO, "LOD", szTempString_8 );
    }
 
@@ -2059,7 +2059,7 @@ TZDBHTSD_SetOptionsFromResultLst( zVIEW     vSubtask )
    {
       //:fnAddListValue( TZDBHTSO, "View",
       //:                TZDBHTSO.ExecutionResult.ViewName  )
-      GetStringFromAttribute( szTempString_9, sizeof( szTempString_9 ), TZDBHTSO, "ExecutionResult", "ViewName" );
+      GetStringFromAttribute( szTempString_9, zsizeof( szTempString_9 ), TZDBHTSO, "ExecutionResult", "ViewName" );
       o_fnAddListValue( TZDBHTSO, "View", szTempString_9 );
    }
 
@@ -2070,11 +2070,11 @@ TZDBHTSD_SetOptionsFromResultLst( zVIEW     vSubtask )
    {
       //:fnAddListValue( TZDBHTSO, "View",
       //:                TZDBHTSO.ExecutionResult.ViewName  )
-      GetStringFromAttribute( szTempString_10, sizeof( szTempString_10 ), TZDBHTSO, "ExecutionResult", "ViewName" );
+      GetStringFromAttribute( szTempString_10, zsizeof( szTempString_10 ), TZDBHTSO, "ExecutionResult", "ViewName" );
       o_fnAddListValue( TZDBHTSO, "View", szTempString_10 );
       //:fnAddListValue( TZDBHTSO, "File",
       //:                TZDBHTSO.ExecutionResult.FileName )
-      GetStringFromAttribute( szTempString_11, sizeof( szTempString_11 ), TZDBHTSO, "ExecutionResult", "FileName" );
+      GetStringFromAttribute( szTempString_11, zsizeof( szTempString_11 ), TZDBHTSO, "ExecutionResult", "FileName" );
       o_fnAddListValue( TZDBHTSO, "File", szTempString_11 );
    }
 
@@ -2085,7 +2085,7 @@ TZDBHTSD_SetOptionsFromResultLst( zVIEW     vSubtask )
    {
       //:fnAddListValue( TZDBHTSO, "View",
       //:                TZDBHTSO.ExecutionResult.ViewName  )
-      GetStringFromAttribute( szTempString_12, sizeof( szTempString_12 ), TZDBHTSO, "ExecutionResult", "ViewName" );
+      GetStringFromAttribute( szTempString_12, zsizeof( szTempString_12 ), TZDBHTSO, "ExecutionResult", "ViewName" );
       o_fnAddListValue( TZDBHTSO, "View", szTempString_12 );
    }
 
@@ -2096,7 +2096,7 @@ TZDBHTSD_SetOptionsFromResultLst( zVIEW     vSubtask )
    {
       //:fnAddListValue( TZDBHTSO, "View",
       //:                TZDBHTSO.ExecutionResult.ViewName  )
-      GetStringFromAttribute( szTempString_13, sizeof( szTempString_13 ), TZDBHTSO, "ExecutionResult", "ViewName" );
+      GetStringFromAttribute( szTempString_13, zsizeof( szTempString_13 ), TZDBHTSO, "ExecutionResult", "ViewName" );
       o_fnAddListValue( TZDBHTSO, "View", szTempString_13 );
    }
 

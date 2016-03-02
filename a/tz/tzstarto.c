@@ -144,25 +144,25 @@ static void fnMyHelp(int nHelpType)
 {
   zCHAR szMsg[512];
 
-  strcpy_s( szMsg, sizeof( szMsg ), "TZSTARTO - back ground process to start global ops\n");
-  strcat_s( szMsg, sizeof( szMsg ), "Copyright (C) Ton Beller GmbH, Quinsoft Inc. 1997.\n\n");
+  strcpy_s( szMsg, zsizeof( szMsg ), "TZSTARTO - back ground process to start global ops\n");
+  strcat_s( szMsg, zsizeof( szMsg ), "Copyright (C) Ton Beller GmbH, Quinsoft Inc. 1997.\n\n");
 
   if (nHelpType == LINE_HELP)
   {
-    strcat_s( szMsg, sizeof( szMsg ), "\n");
-    strcat_s( szMsg, sizeof( szMsg ), "Call Syntax:\n");
-    strcat_s( szMsg, sizeof( szMsg ), " TZSTARTO LPLR DLL Operation\n");
-    strcat_s( szMsg, sizeof( szMsg ), "\n");
+    strcat_s( szMsg, zsizeof( szMsg ), "\n");
+    strcat_s( szMsg, zsizeof( szMsg ), "Call Syntax:\n");
+    strcat_s( szMsg, zsizeof( szMsg ), " TZSTARTO LPLR DLL Operation\n");
+    strcat_s( szMsg, zsizeof( szMsg ), "\n");
   }
   else
   {
-    strcat_s( szMsg, sizeof( szMsg ), "\n");
-    strcat_s( szMsg, sizeof( szMsg ), "Call Syntax:\n");
-    strcat_s( szMsg, sizeof( szMsg ), " TZSTARTO LPLR DLL Operation\n");
-    strcat_s( szMsg, sizeof( szMsg ), " LPLR - name of the Zeidon application (LPLR)\n");
-    strcat_s( szMsg, sizeof( szMsg ), " DLL - name of the DLL with the Global Op\n");
-    strcat_s( szMsg, sizeof( szMsg ), " Operation - name of the Global Op to run\n");
-    strcat_s( szMsg, sizeof( szMsg ), "\n");
+    strcat_s( szMsg, zsizeof( szMsg ), "\n");
+    strcat_s( szMsg, zsizeof( szMsg ), "Call Syntax:\n");
+    strcat_s( szMsg, zsizeof( szMsg ), " TZSTARTO LPLR DLL Operation\n");
+    strcat_s( szMsg, zsizeof( szMsg ), " LPLR - name of the Zeidon application (LPLR)\n");
+    strcat_s( szMsg, zsizeof( szMsg ), " DLL - name of the DLL with the Global Op\n");
+    strcat_s( szMsg, zsizeof( szMsg ), " Operation - name of the Global Op to run\n");
+    strcat_s( szMsg, zsizeof( szMsg ), "\n");
   }
 
   SysMessageBox( "TZSTARTO", szMsg, 0);
@@ -240,10 +240,10 @@ fnProcessCommandParm(int argc, zCHAR **argv, T_GLOBAL_OP *pGO)
   }
 
   // get the global op data
-  zmemset( pGO, 0, sizeof(T_GLOBAL_OP) );
-  strncpy_s( pGO->szApp, sizeof( pGO->szApp ), argv[ 0 ], sizeof( pGO->szApp ) - 1 );
-  strncpy_s( pGO->szDLL, sizeof( pGO->szDLL ), argv[ 1 ], sizeof( pGO->szDLL ) - 1 );
-  strncpy_s( pGO->szOp, sizeof( pGO->szOp ), argv[ 2 ], sizeof( pGO->szOp ) - 1 );
+  zmemset( pGO, 0, zsizeof(T_GLOBAL_OP) );
+  strncpy_s( pGO->szApp, zsizeof( pGO->szApp ), argv[ 0 ], zsizeof( pGO->szApp ) - 1 );
+  strncpy_s( pGO->szDLL, zsizeof( pGO->szDLL ), argv[ 1 ], zsizeof( pGO->szDLL ) - 1 );
+  strncpy_s( pGO->szOp, zsizeof( pGO->szOp ), argv[ 2 ], zsizeof( pGO->szOp ) - 1 );
 
   return( 0 );
 } // fnProcessCommandParm
@@ -271,9 +271,9 @@ fnConnect( T_GLOBAL_OP *pGO )
 
   // Initialize window for application
   // Connect to Zeidon
-  strcpy_s( szApp, sizeof( szApp ), "\\\\" );
-  zstrcat_s( szApp, sizeof( szApp ), pGO->szApp);
-  zstrcat_s( szApp, sizeof( szApp ), "\\");
+  strcpy_s( szApp, zsizeof( szApp ), "\\\\" );
+  zstrcat_s( szApp, zsizeof( szApp ), pGO->szApp);
+  zstrcat_s( szApp, zsizeof( szApp ), "\\");
 
   if ( RegisterZeidonApplication( &(pGO->vTask),
                                   (zLONG) pGO->hInst,
@@ -351,7 +351,7 @@ static void fnRunOp( T_GLOBAL_OP *pGO)
     szDLL_Path[ 0 ] = 0;
   }
 
-  zstrcat_s( szDLL_Path, sizeof( szDLL_Path ), pGO->szDLL );
+  zstrcat_s( szDLL_Path, zsizeof( szDLL_Path ), pGO->szDLL );
 
   // Load the DLL
   hLibrary = SysLoadLibrary( pGO->vTask, szDLL_Path );
@@ -366,7 +366,7 @@ static void fnRunOp( T_GLOBAL_OP *pGO)
   if ( fnGlobalOp == 0 )
   {
     // if operation not found, try to look for upper case name
-    strcpy_s( szOpUpper, sizeof( szOpUpper ) pGO->szOp );
+    strcpy_s( szOpUpper, zsizeof( szOpUpper ) pGO->szOp );
     SysTranslateString( szOpUpper, 'U' );
     fnGlobalOp = SysGetProc( hLibrary, szOpUpper );
     if ( fnGlobalOp == 0 )
@@ -508,7 +508,7 @@ InitInstance( HANDLE hInstance,  /* Current instance identifier.       */
     zSHORT nRC;
 
     // check the command line parameters
-    zmemset( &GlobalOp, 0, sizeof( T_GLOBAL_OP ) );
+    zmemset( &GlobalOp, 0, zsizeof( T_GLOBAL_OP ) );
 
     argc = 1;
     argv[ 0 ] = "TZSTARTO.EXE";

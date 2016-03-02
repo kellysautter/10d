@@ -553,13 +553,13 @@ zwTZERSAPD_LoadWorkLod( zVIEW vSubtask )
    zwTZERSAPD_ReadServerFromSirEnv( vSubtask, vTZERSAPO );
 
    // set Client, User and Password from Zeidon.ini
-   SysReadZeidonIni( -1, "[SAP]", "DefaultClient", szValue, sizeof( szValue ) );
+   SysReadZeidonIni( -1, "[SAP]", "DefaultClient", szValue, zsizeof( szValue ) );
    SetAttributeFromString( vTZERSAPO, "SapEnvironment", "Client", szValue );
 
-   SysReadZeidonIni( -1, "[SAP]", "DefaultUser", szValue, sizeof( szValue ) );
+   SysReadZeidonIni( -1, "[SAP]", "DefaultUser", szValue, zsizeof( szValue ) );
    SetAttributeFromString( vTZERSAPO, "SapEnvironment", "User", szValue );
 
-   SysReadZeidonIni( -1, "[SAP]", "DefaultPassword", szValue, sizeof( szValue ) );
+   SysReadZeidonIni( -1, "[SAP]", "DefaultPassword", szValue, zsizeof( szValue ) );
    UfDecryptString( szDecrypt, szValue, 8 );
    SetAttributeFromVariable( vTZERSAPO, "SapEnvironment", "Password",
                              szDecrypt, zTYPE_STRING, 8, "Password", 0 );
@@ -590,10 +590,10 @@ zwTZERSAPD_SaveInZeidonIni( zVIEW vTZERSAPO )
    // if checkBox "save in zeidon.ini" active, set new values in zeidon.ini
    if ( CompareAttributeToString( vTZERSAPO, "SapEnvironment", "SaveInZeidonIni", "Y" ) == 0 )
    {
-      GetStringFromAttribute( szValue, sizeof( szValue ), vTZERSAPO, "SapEnvironment", "Client" );
+      GetStringFromAttribute( szValue, zsizeof( szValue ), vTZERSAPO, "SapEnvironment", "Client" );
       SysUpdateZeidonIni( "[SAP]", "DefaultClient", szValue );
 
-      GetStringFromAttribute( szValue, sizeof( szValue ), vTZERSAPO, "SapEnvironment", "User" );
+      GetStringFromAttribute( szValue, zsizeof( szValue ), vTZERSAPO, "SapEnvironment", "User" );
       SysUpdateZeidonIni( "[SAP]", "DefaultUser", szValue );
 
       GetStringFromAttributeByContext( szValue, vTZERSAPO, "SapEnvironment", "Password", "Password", 8 );
@@ -672,14 +672,14 @@ fnTZERSAPD_CheckValues( zVIEW  vSubtask,
                                   szAttributeName, "" ) == 0 )
    {
       if ( zstrcmp( szAttributeName, "SearchString" ) == 0 )
-         strcpy_s( szWorkMessage, sizeof( szWorkMessage ), "Search String for Table" );
+         strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Search String for Table" );
       else
-         strcpy_s( szWorkMessage, sizeof( szWorkMessage ), szAttributeName );
+         strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), szAttributeName );
 
       if ( zstrcmp( szAttributeName, "Password" ) == 0 )
-         strcat_s( szWorkMessage, sizeof( szWorkMessage ), " is required." );
+         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), " is required." );
       else
-         strcat_s( szWorkMessage, sizeof( szWorkMessage ), " Name is required." );
+         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), " Name is required." );
 
       MessageSend( vSubtask, "SAP00001", "SAP Import",
                    szWorkMessage,
@@ -762,14 +762,14 @@ zwTZERSAPD_SetCountTable( zVIEW  vSubtask,
 
    if ( lTranspCount != -1 )
    {
-      zltoa( lTranspCount, szCountTables, sizeof( szCountTables ) );
-      strcpy_s( szControlText, sizeof( szControlText ), " " );
-      strcat_s( szControlText, sizeof( szControlText ), szCountTables );
-      strcat_s( szControlText, sizeof( szControlText ), " Table(s) found" );
+      zltoa( lTranspCount, szCountTables, zsizeof( szCountTables ) );
+      strcpy_s( szControlText, zsizeof( szControlText ), " " );
+      strcat_s( szControlText, zsizeof( szControlText ), szCountTables );
+      strcat_s( szControlText, zsizeof( szControlText ), " Table(s) found" );
    }
    else
    {
-      strcpy_s( szControlText, sizeof( szControlText ), " Press Search Button" );
+      strcpy_s( szControlText, zsizeof( szControlText ), " Press Search Button" );
    }
 
    SetCtrlText( vSubtask, "txtCountTable", szControlText );
@@ -882,8 +882,8 @@ zwTZERSAPD_CreateNewSearchString( zVIEW  vSubtask,
    else
    {
       // search string is updated, create a new search string with this data and reset old search string data
-      GetStringFromAttribute( szOrgSearchString, sizeof( szOrgSearchString ), vTZERSAPO, "SearchString", "OriginalSearchString" );
-      GetStringFromAttribute( szSearchString, sizeof( szSearchString ), vTZERSAPO, "SearchString", "SearchString" );
+      GetStringFromAttribute( szOrgSearchString, zsizeof( szOrgSearchString ), vTZERSAPO, "SearchString", "OriginalSearchString" );
+      GetStringFromAttribute( szSearchString, zsizeof( szSearchString ), vTZERSAPO, "SearchString", "SearchString" );
       if ( zstrcmp( szSearchString, szOrgSearchString ) != 0 )
       {
          // reset old search string data
@@ -930,7 +930,7 @@ zwTZERSAPD_ExistThisSearchString( zVIEW  vSubtask,
    zwTZERSAPD_CreateNewSearchString( vSubtask, vTZERSAPO );
 
    CreateViewFromViewForTask( &vTZERSAPO_Copy, vTZERSAPO, 0 );
-   GetStringFromAttribute( szSearchString, sizeof( szSearchString ), vTZERSAPO, "SearchString", "SearchString" );
+   GetStringFromAttribute( szSearchString, zsizeof( szSearchString ), vTZERSAPO, "SearchString", "SearchString" );
 
    // if a Table list for this search string already exists, do load it
    // (do not start a new SAP connection)
@@ -986,9 +986,9 @@ fnTZERSAPD_SAP_ReadErrorMsg( zVIEW lpTaskView, zCPCHAR cpcMessage )
 
    pszSAP_Msg = (*pGetLastError)( );
 
-   strcpy_s( szMsg, sizeof( szMsg ), cpcMessage );
-   strcat_s( szMsg, sizeof( szMsg ), ":\n\n" );
-   strcat_s( szMsg, sizeof( szMsg ), pszSAP_Msg );
+   strcpy_s( szMsg, zsizeof( szMsg ), cpcMessage );
+   strcat_s( szMsg, zsizeof( szMsg ), ":\n\n" );
+   strcat_s( szMsg, zsizeof( szMsg ), pszSAP_Msg );
 
    SysMessageBox( lpTaskView, "SAP Import", szMsg, 1 );
 
@@ -1000,9 +1000,9 @@ fnTZERSAPD_SAP_LoadErrorMsg( zVIEW lpTaskView, zPCHAR szOperation )
 {
    zCHAR  szMsg[ 512 ];
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Can't find operation '" );
-   strcat_s( szMsg, sizeof( szMsg ), szOperation );
-   strcat_s( szMsg, sizeof( szMsg ), "' in library KZSAPACC." );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Can't find operation '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szOperation );
+   strcat_s( szMsg, zsizeof( szMsg ), "' in library KZSAPACC." );
 
    SysMessageBox( lpTaskView, "SAP Import", szMsg, 1 );
 
@@ -1024,10 +1024,10 @@ fnTZERSAPD_SAP_Connect( zVIEW   vSubtask,
    if ( zstrcmp( szConnection, "ZSAP_Logon" ) == 0 )
    {
       MB_SetMessage( vSubtask, 0, "SAP Logon" );
-      GetStringFromAttribute( szClient, sizeof( szClient ), vTZERSAPO, "SapEnvironment", "Client" );
-      GetStringFromAttribute( szUser, sizeof( szUser ), vTZERSAPO, "SapEnvironment", "User" );
+      GetStringFromAttribute( szClient, zsizeof( szClient ), vTZERSAPO, "SapEnvironment", "Client" );
+      GetStringFromAttribute( szUser, zsizeof( szUser ), vTZERSAPO, "SapEnvironment", "User" );
       GetStringFromAttributeByContext( szPassword, vTZERSAPO, "SapEnvironment", "Password", "Password", 8 );
-      GetStringFromAttribute( szServer, sizeof( szServer ), vTZERSAPO, "SirEnvServer", "Server" );
+      GetStringFromAttribute( szServer, zsizeof( szServer ), vTZERSAPO, "SirEnvServer", "Server" );
 
       pfnLogon = (pfnSapLogon) SysGetProc( hLibrary, szConnection );
       if ( pfnLogon == 0 )
@@ -1042,10 +1042,10 @@ fnTZERSAPD_SAP_Connect( zVIEW   vSubtask,
    else
    {
       MB_SetMessage( vSubtask, 0, "SAP Logoff" );
-      GetStringFromAttribute( szClient, sizeof( szClient ), vTZERSAPO, "Logon", "Client_Org" );
-      GetStringFromAttribute( szUser, sizeof( szUser ), vTZERSAPO, "Logon", "User_Org" );
+      GetStringFromAttribute( szClient, zsizeof( szClient ), vTZERSAPO, "Logon", "Client_Org" );
+      GetStringFromAttribute( szUser, zsizeof( szUser ), vTZERSAPO, "Logon", "User_Org" );
       GetStringFromAttributeByContext( szPassword, vTZERSAPO, "Logon", "Password_Org", "Password", 8 );
-      GetStringFromAttribute( szServer, sizeof( szServer ), vTZERSAPO, "Logon", "Server_Org" );
+      GetStringFromAttribute( szServer, zsizeof( szServer ), vTZERSAPO, "Logon", "Server_Org" );
 
       pfnLogoff = (pfnSapLogoff) SysGetProc( hLibrary, szConnection );
       if ( pfnLogoff == 0 )
@@ -1142,8 +1142,8 @@ fnTZERSAPD_SAP_LoadTableData( zVIEW   vSubtask,
       if ( zstrcmp( szType, "TRANSP" ) == 0 || zstrcmp( szType, "POOL" ) == 0 ||
            zstrcmp( szType, "VIEW" ) == 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Load Table: " );
-         strcat_s( szMsg, sizeof( szMsg ), szTableName );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Load Table: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szTableName );
          MB_SetMessage( vSubtask, 0, szMsg );
          lTranspCount++;
          CreateEntity( vTZERSAPO, "Table", zPOS_AFTER );
@@ -1224,7 +1224,7 @@ zwTZERSAPD_GetSearchString( zVIEW   vSubtask,
       return( -1 );
    }
 
-   strcpy_s( szSearchString, sizeof( szSearchString ), szSearchStr );
+   strcpy_s( szSearchString, zsizeof( szSearchString ), szSearchStr );
    return( 0 );
 } // zwTZERSAPD_GetSearchString
 
@@ -1257,10 +1257,10 @@ fnTZERSAPD_CreateNewLogonEntity( zVIEW  vTZERSAPO )
    zCHAR   szPassword[9];
    zCHAR   szServer[33];
 
-   GetStringFromAttribute( szClient, sizeof( szClient ), vTZERSAPO, "SapEnvironment", "Client" );
-   GetStringFromAttribute( szUser, sizeof( szUser ), vTZERSAPO, "SapEnvironment", "User" );
+   GetStringFromAttribute( szClient, zsizeof( szClient ), vTZERSAPO, "SapEnvironment", "Client" );
+   GetStringFromAttribute( szUser, zsizeof( szUser ), vTZERSAPO, "SapEnvironment", "User" );
    GetStringFromAttributeByContext( szPassword, vTZERSAPO, "SapEnvironment", "Password", "Password", 8 );
-   GetStringFromAttribute( szServer, sizeof( szServer ), vTZERSAPO, "SirEnvServer", "Server" );
+   GetStringFromAttribute( szServer, zsizeof( szServer ), vTZERSAPO, "SirEnvServer", "Server" );
 
    for ( nRC = SetCursorFirstEntity( vTZERSAPO, "Logon", "" );
          nRC >= zCURSOR_SET;
@@ -1346,7 +1346,7 @@ zwTZERSAPD_SearchSapTable( zVIEW vSubtask )
    if ( zwTZERSAPD_CheckValues( vSubtask, vTZERSAPO ) < 0 )
       return( -1 );
 
-   GetStringFromAttribute( szSearchString, sizeof( szSearchString ), vTZERSAPO, "SearchString", "SearchString" );
+   GetStringFromAttribute( szSearchString, zsizeof( szSearchString ), vTZERSAPO, "SearchString", "SearchString" );
    if ( zwTZERSAPD_GetSearchString( vSubtask, szSearchString ) < 0 )
       return( -1);
 
@@ -1370,7 +1370,7 @@ zwTZERSAPD_SearchSapTable( zVIEW vSubtask )
    SetCtrlText( vSubtask, "txtCountTable", " Search Table(s)..." );
 
    // Read Table Informations and Table Data
-   GetStringFromAttribute( szLanguage, sizeof( szLanguage ), vTZERSAPO, "SapEnvironment", "LanguageType" );
+   GetStringFromAttribute( szLanguage, zsizeof( szLanguage ), vTZERSAPO, "SapEnvironment", "LanguageType" );
    cLanguage = szLanguage[ 0 ];
    nRC = fnTZERSAPD_SAP_LoadTableData( vSubtask, vTZERSAPO, szSearchString, cLanguage );
    if ( nRC < 0 )
@@ -1466,17 +1466,17 @@ fnTZERSAPD_SAP_AttrSetDilMsg( zVIEW   vSubtask,
    zCHAR   szShowIndex[ 10 ];
    zLONG   lShowIndex;
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Import Table: " );
-   strcat_s( szMsg, sizeof( szMsg ), szTableName );
-   strcat_s( szMsg, sizeof( szMsg ), ", Column: " );
-   strcat_s( szMsg, sizeof( szMsg ), szAttr );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Import Table: " );
+   strcat_s( szMsg, zsizeof( szMsg ), szTableName );
+   strcat_s( szMsg, zsizeof( szMsg ), ", Column: " );
+   strcat_s( szMsg, zsizeof( szMsg ), szAttr );
    MB_SetMessage( vSubtask, 0, szMsg );
 
    lShowIndex = 1 + lIndex;
-   zltoa( lShowIndex, szShowIndex, sizeof( szShowIndex ), 10 );
-   strcpy_s( szMsg1, sizeof( szMsg1 ), szShowIndex );
-   strcat_s( szMsg1, sizeof( szMsg1 ), " / " );
-   strcat_s( szMsg1, sizeof( szMsg1 ), szCountAttr );
+   zltoa( lShowIndex, szShowIndex, zsizeof( szShowIndex ), 10 );
+   strcpy_s( szMsg1, zsizeof( szMsg1 ), szShowIndex );
+   strcat_s( szMsg1, zsizeof( szMsg1 ), " / " );
+   strcat_s( szMsg1, zsizeof( szMsg1 ), szCountAttr );
    MB_SetMessage( vSubtask, 2, szMsg1 );
 
    return( 0 );
@@ -1502,66 +1502,66 @@ zwTZERSAPD_IncludeDomain( zVIEW  vSubtask,
    zCHAR   szMsg[ 254 ];
 
    if ( cIntType == SAP_SHORT || cIntType == SAP_BIN || cIntType == SAP_INT )
-      strcpy_s( szDomainName, sizeof( szDomainName ), "Integer" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "Integer" );
    else
    if ( cIntType == SAP_CHAR )
-      strcpy_s( szDomainName, sizeof( szDomainName ), "Text" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "Text" );
    else
    if ( cIntType == SAP_DATE )
-      strcpy_s( szDomainName, sizeof( szDomainName ), "Date" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "Date" );
    else
    if ( cIntType == SAP_TIME )
-      strcpy_s( szDomainName, sizeof( szDomainName ), "Time" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "Time" );
    else
    if ( cIntType == SAP_HEX )
-      strcpy_s( szDomainName, sizeof( szDomainName ), "AlphaNumeric" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "AlphaNumeric" );
    else
    if ( cIntType == SAP_FLOAT || cIntType == SAP_NUM || cIntType == SAP_PACKED )
    {
       switch ( lDecimals )
       {
       case 0:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal0" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal0" );
          break;
       case 1:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal1" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal1" );
          break;
       case 2:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal2" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal2" );
          break;
       case 3:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal3" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal3" );
          break;
       case 4:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal4" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal4" );
          break;
       case 5:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal5" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal5" );
          break;
       case 6:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal6" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal6" );
          break;
       case 7:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal7" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal7" );
          break;
       case 8:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal8" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal8" );
          break;
       case 9:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal9" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal9" );
          break;
       default:
-         strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal" );
+         strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal" );
       }
    }
    else
    {
-      GetStringFromAttribute( szAttributeName, sizeof( szAttributeName ), vERD, "ER_Attribute", "Name" );
-      strcpy_s( szMsg, sizeof( szMsg ), "Attribute '" );
-      strcat_s( szMsg, sizeof( szMsg ), szAttributeName );
-      strcat_s( szMsg, sizeof( szMsg ), "' does not have Domain assigned, SAP Data Type '" );
+      GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ), vERD, "ER_Attribute", "Name" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Attribute '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szAttributeName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' does not have Domain assigned, SAP Data Type '" );
       zstrncat( szMsg, &cIntType, 1 );
-      strcat_s( szMsg, sizeof( szMsg ), "' is not implemented." );
+      strcat_s( szMsg, zsizeof( szMsg ), "' is not implemented." );
       zwTZERSAPD_WriteErrorMsg( vSubtask, zBuildERD, szMsg, 1 );
       return( -1 );
    }
@@ -1569,12 +1569,12 @@ zwTZERSAPD_IncludeDomain( zVIEW  vSubtask,
    nRC = ActivateMetaOI_ByName( vSubtask, &vDomain, 0, zREFER_DOMAIN_META, zSINGLE, szDomainName, 0 );
    if ( nRC < 1 )
    {
-      GetStringFromAttribute( szAttributeName, sizeof( szAttributeName ), vERD, "ER_Attribute", "Name" );
-      strcpy_s( szMsg, sizeof( szMsg ), "Attribute '" );
-      strcat_s( szMsg, sizeof( szMsg ), szAttributeName );
-      strcat_s( szMsg, sizeof( szMsg ), "' does not have Domain assigned, Domain '" );
-      strcat_s( szMsg, sizeof( szMsg ), szDomainName );
-      strcat_s( szMsg, sizeof( szMsg ), "' was not found." );
+      GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ), vERD, "ER_Attribute", "Name" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Attribute '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szAttributeName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' does not have Domain assigned, Domain '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szDomainName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' was not found." );
       zwTZERSAPD_WriteErrorMsg( vSubtask, zBuildERD, szMsg, 1 );
       return( -1 );
    }
@@ -1606,8 +1606,8 @@ zwTZERSAPD_CreateIdentifier( zVIEW   vSubtask,
    if ( CheckExistenceOfEntity( vERD, "ER_EntIdentifier" ) < zCURSOR_SET )
    {
       CreateMetaEntity( vSubtask, vERD, "ER_EntIdentifier", zPOS_AFTER );
-      strcpy_s( szIdentifierName, sizeof( szIdentifierName ), szTableName );
-      strcat_s( szIdentifierName, sizeof( szIdentifierName ), "_ID" );
+      strcpy_s( szIdentifierName, zsizeof( szIdentifierName ), szTableName );
+      strcat_s( szIdentifierName, zsizeof( szIdentifierName ), "_ID" );
       SetAttributeFromString( vERD, "ER_EntIdentifier", "Name", szIdentifierName );
       SetAttributeFromString( vERD, "ER_EntIdentifier", "TE_KeyName", szIdentifierName );
    }
@@ -1743,7 +1743,7 @@ fnTZERSAPD_SAP_LoadAttributeData( zVIEW   vSubtask,
       return( fnTZERSAPD_SAP_LoadErrorMsg( vSubtask, "ZSAP_GetAttr" ));
    }
 
-   zltoa( lCountAttr, szCountAttr, sizeof( szCountAttr ) );
+   zltoa( lCountAttr, szCountAttr, zsizeof( szCountAttr ) );
    for ( k = 0; k < lCountAttr; k++ )
    {
       nRC = fnTZERSAPD_CreateAttribAndIdent( vSubtask, vERD, szTableName, szCountAttr, pfnGetAttr, hAttribList, k, &nExistFK );
@@ -1790,12 +1790,12 @@ zwTZERSAPD_CreateAttribAndIdent( zVIEW   vSubtask,
       return( nRC );
 
    // Set DIL Message
-   strcpy_s( szMsg, sizeof( szMsg ), "Import Table: " );
-   strcat_s( szMsg, sizeof( szMsg ), szTableName );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Import Table: " );
+   strcat_s( szMsg, zsizeof( szMsg ), szTableName );
    MB_SetMessage( vSubtask, 0, szMsg );
 
    // Read Table Informations and Table Data
-   GetStringFromAttribute( szLanguage, sizeof( szLanguage ), vTZERSAPO, "SapEnvironment", "LanguageType" );
+   GetStringFromAttribute( szLanguage, zsizeof( szLanguage ), vTZERSAPO, "SapEnvironment", "LanguageType" );
    cLanguage = szLanguage[ 0 ];
 
    if ( fnTZERSAPD_SAP_LoadAttributeData( vSubtask, vERD, szTableName, cLanguage ) < 0 )
@@ -1896,10 +1896,10 @@ fnTZERSAPD_CheckExistsOfEntity( zVIEW   vSubtask,
       // do not ask for replace
       if ( CompareAttributeToString( vTZERSAPO, "SapEnvironment", "OverwriteExistingEntity", "Y" ) != 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Table '" );
-         strcat_s( szMsg, sizeof( szMsg ), szTableName );
-         strcat_s( szMsg, sizeof( szMsg ), "' already exists in Data Model.\n" );
-         strcat_s( szMsg, sizeof( szMsg ), "Replace existing Entity?" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Table '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szTableName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' already exists in Data Model.\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "Replace existing Entity?" );
          nRC = MessagePrompt( vERD, "SAP00002", "SAP Import", szMsg, zBEEP,
                               zBUTTONS_YESNOCANCEL, zRESPONSE_NO, zICON_QUESTION );
          if ( nRC == zRESPONSE_NO )
@@ -1943,10 +1943,10 @@ zwTZERSAPD_CreateEntity( zVIEW vSubtask,
    zSHORT   nEntityInSA = 0;
    zSHORT   nRC;
 
-   GetStringFromAttribute( szTableName, sizeof( szTableName ), vTZERSAPO, "Table", "TableName" );
+   GetStringFromAttribute( szTableName, zsizeof( szTableName ), vTZERSAPO, "Table", "TableName" );
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Import Table: " );
-   strcat_s( szMsg, sizeof( szMsg ), szTableName );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Import Table: " );
+   strcat_s( szMsg, zsizeof( szMsg ), szTableName );
    MB_SetMessage( vSubtask, 0, szMsg );
 
    // check exists of Entity in ERD
@@ -2050,46 +2050,46 @@ zwTZERSAPD_ExistStandardDomain( zVIEW vSubtask )
    if ( SetCursorFirstEntityByString( vDomainList, "W_MetaDef", "Name", "AlphaNumeric", "" ) < zCURSOR_SET )
    {
       bError = TRUE;
-      strcpy_s( szDomainName, sizeof( szDomainName ), "AlphaNumeric" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "AlphaNumeric" );
    }
    else
    if ( SetCursorFirstEntityByString( vDomainList, "W_MetaDef", "Name", "Integer", "" ) < zCURSOR_SET )
    {
       bError = TRUE;
-      strcpy_s( szDomainName, sizeof( szDomainName ), "Integer" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "Integer" );
    }
    else
    if ( SetCursorFirstEntityByString( vDomainList, "W_MetaDef", "Name", "Text", "" ) < zCURSOR_SET )
    {
       bError = TRUE;
-      strcpy_s( szDomainName, sizeof( szDomainName ), "Text" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "Text" );
    }
    else
    if ( SetCursorFirstEntityByString( vDomainList, "W_MetaDef", "Name", "Date", "" ) < zCURSOR_SET )
    {
       bError = TRUE;
-      strcpy_s( szDomainName, sizeof( szDomainName ), "Date" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "Date" );
    }
    else
    if ( SetCursorFirstEntityByString( vDomainList, "W_MetaDef", "Name", "Time", "" ) < zCURSOR_SET )
    {
       bError = TRUE;
-      strcpy_s( szDomainName, sizeof( szDomainName ), "Time" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "Time" );
    }
    else
    if ( SetCursorFirstEntityByString( vDomainList, "W_MetaDef", "Name", "Decimal", "" ) < zCURSOR_SET )
    {
       bError = TRUE;
-      strcpy_s( szDomainName, sizeof( szDomainName ), "Decimal" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "Decimal" );
    }
 
    DropView ( vDomainList );
 
    if ( bError )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Import aborted, because Domain '" );
-      strcat_s( szMsg, sizeof( szMsg ), szDomainName );
-      strcat_s( szMsg, sizeof( szMsg ), "' does not exist. " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Import aborted, because Domain '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szDomainName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' does not exist. " );
       MessageSend( vSubtask, "ER00133", "SAP Import", szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
@@ -2191,38 +2191,38 @@ zwTZERSAPD_WriteReasonOfAbort( zVIEW   vSubtask,
       if ( nReasonOfAbort == zAbortImport )
          bWriteMsg = FALSE;
       else
-         strcpy_s( szMsg, sizeof( szMsg ), "Import Tables completed with Errors." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Import Tables completed with Errors." );
    }
    else
    if ( CompareAttributeToString( vTZERSAPO, "SapEnvironment", "ImportFlags", zBuild_RS_TE ) == 0 )
    {
       if ( nReasonOfAbort == zAbortBuild )
-         strcpy_s( szMsg, sizeof( szMsg ), "Cancel Build Relationships and TE." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Cancel Build Relationships and TE." );
       else
-         strcpy_s( szMsg, sizeof( szMsg ), "TE not built." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "TE not built." );
    }
    else
    if ( CompareAttributeToString( vTZERSAPO, "SapEnvironment", "ImportFlags", zBuild_TE_only ) == 0 )
    {
       if ( nReasonOfAbort == zAbortBuild )
-         strcpy_s( szMsg, sizeof( szMsg ), "Cancel Build TE." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Cancel Build TE." );
       else
-         strcpy_s( szMsg, sizeof( szMsg ), "TE not built." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "TE not built." );
    }
    else
    {
       if ( nReasonOfAbort == zAbortBuild )
-         strcpy_s( szMsg, sizeof( szMsg ), "Cancel Build Relationships and TE." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Cancel Build Relationships and TE." );
       else
       if ( nReasonOfAbort == zAbortImport )
          bWriteMsg = FALSE;
       else
       if ( nReasonOfAbort == zAbortImportBuild )
-         strcpy_s( szMsg, sizeof( szMsg ), "Cancel Import Tables, Build Relationships and TE." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Cancel Import Tables, Build Relationships and TE." );
       else
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Relationships and TE was not build, " );
-         strcat_s( szMsg, sizeof( szMsg ), "because of Errors during Table Import." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Relationships and TE was not build, " );
+         strcat_s( szMsg, zsizeof( szMsg ), "because of Errors during Table Import." );
       }
    }
 
@@ -2296,19 +2296,19 @@ fnTZERSAPD_SendMessageBox( zVIEW   vSubtask,
    zCHAR  szMsg[ 100 ];
 
    if ( zstrcmp( szBuildFlag, zBuild_Tables ) == 0 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Import Tables completed " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Import Tables completed " );
    else
    if ( zstrcmp( szBuildFlag, zBuild_RS_TE ) == 0 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Build Relationships and TE \ncompleted " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Build Relationships and TE \ncompleted " );
    else
    if ( zstrcmp( szBuildFlag, zBuild_Tables_RS_TE ) == 0 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Import Tables, Build Relationships and TE \ncompleted " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Import Tables, Build Relationships and TE \ncompleted " );
    else
    if ( zstrcmp( szBuildFlag, zBuild_TE_only ) == 0 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Build TE only completed " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Build TE only completed " );
 
-   strcat_s( szMsg, sizeof( szMsg ), szSubMsg );
-   strcat_s( szMsg, sizeof( szMsg ), "." );
+   strcat_s( szMsg, zsizeof( szMsg ), szSubMsg );
+   strcat_s( szMsg, zsizeof( szMsg ), "." );
 
    MB_SetMessage( vSubtask, 0, szMsg );
 
@@ -2341,9 +2341,9 @@ zwTZERSAPD_Build_AskForSave( zVIEW vSubtask,
       return( 0 );
    }
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Build Relationships and TE will cause \n" );
-   strcat_s( szMsg, sizeof( szMsg ), "the ERD and the TE to be saved. \n\n" );
-   strcat_s( szMsg, sizeof( szMsg ), "Do you want to continue?" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Build Relationships and TE will cause \n" );
+   strcat_s( szMsg, zsizeof( szMsg ), "the ERD and the TE to be saved. \n\n" );
+   strcat_s( szMsg, zsizeof( szMsg ), "Do you want to continue?" );
 
    nRC = MessagePrompt( vSubtask, "SAP00004", "SAP Import", szMsg, zBEEP,
                         zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
@@ -2498,17 +2498,17 @@ fnTZERSAPD_SAP_RelSetDilMsg( zVIEW   vSubtask,
    zCHAR   szShowIndex[ 10 ];
    zLONG   lShowIndex;
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Build Relationships, from Entity: " );
-   strcat_s( szMsg, sizeof( szMsg ), szTableName );
-   strcat_s( szMsg, sizeof( szMsg ), ", to Entity: " );
-   strcat_s( szMsg, sizeof( szMsg ), szFK_TableName );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Build Relationships, from Entity: " );
+   strcat_s( szMsg, zsizeof( szMsg ), szTableName );
+   strcat_s( szMsg, zsizeof( szMsg ), ", to Entity: " );
+   strcat_s( szMsg, zsizeof( szMsg ), szFK_TableName );
    MB_SetMessage( vSubtask, 0, szMsg );
 
    lShowIndex = 1 + lIndex;
-   zltoa( lShowIndex, szShowIndex, sizeof( szShowIndex ) );
-   strcpy_s( szMsg1, sizeof( szMsg1 ), szShowIndex );
-   strcat_s( szMsg1, sizeof( szMsg1 ), " / " );
-   strcat_s( szMsg1, sizeof( szMsg1 ), szCountRel );
+   zltoa( lShowIndex, szShowIndex, zsizeof( szShowIndex ) );
+   strcpy_s( szMsg1, zsizeof( szMsg1 ), szShowIndex );
+   strcat_s( szMsg1, zsizeof( szMsg1 ), " / " );
+   strcat_s( szMsg1, zsizeof( szMsg1 ), szCountRel );
    MB_SetMessage( vSubtask, 2, szMsg1 );
 
    return( 0 );
@@ -2528,13 +2528,13 @@ fnTZERSAPD_CreateSecondRelLink( zVIEW   vSubtask,
    // Create First RelLink and include ER_Entity
    CreateMetaEntity( vSubtask, vERD, "ER_RelLink_2", zPOS_AFTER );
 
-   strcpy_s( szName, sizeof( szName ), szFK_FieldName );
+   strcpy_s( szName, zsizeof( szName ), szFK_FieldName );
    _strlwr( szName ); // convert to lowercase
 
    if ( zstrlen( szFK_FieldName ) > 28 )
-      strcpy_s( szName + 28, sizeof( szName ) - 28, " for" );
+      strcpy_s( szName + 28, zsizeof( szName ) - 28, " for" );
    else
-      strcat_s( szName, sizeof( szName ), " for" );
+      strcat_s( szName, zsizeof( szName ), " for" );
 
    SetAttributeFromString( vERD, "ER_RelLink_2", "Name", szName );
 
@@ -2566,7 +2566,7 @@ fnTZERSAPD_CreateFirstRelLink( zVIEW   vSubtask,
    // do not generate a Foreign Key Prefix
    SetAttributeFromString( vERD, "ER_RelLink_2", "TE_NoForeignKeyPrefix", "Y" );
 
-   strcpy_s( szName, sizeof( szName ), "has " );
+   strcpy_s( szName, zsizeof( szName ), "has " );
    zstrncat( szName, szFK_FieldName, 28 );
    _strlwr( szName ); // convert to lowercase
 
@@ -2641,14 +2641,14 @@ fnTZERSAPD_EntityForKeyRS( zVIEW  vSubtask,
    GetIntegerFromAttribute( &lZKey, *pvERD, "ER_Entity", "ZKey" );
 
    // Write Warning in Error List Window
-   strcpy_s( szName, sizeof( szName ), "has " );
+   strcpy_s( szName, zsizeof( szName ), "has " );
    zstrncat( szName, szFK_FieldName, 28 );
    _strlwr( szName );
-   strcpy_s( szMsg, sizeof( szMsg ), "Automatically imported as Target of a Key Relationship '" );
-   strcat_s( szMsg, sizeof( szMsg ), szName );
-   strcat_s( szMsg, sizeof( szMsg ), "' to Entity '" );
-   strcat_s( szMsg, sizeof( szMsg ), szTableName );
-   strcat_s( szMsg, sizeof( szMsg ), "'." );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Automatically imported as Target of a Key Relationship '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
+   strcat_s( szMsg, zsizeof( szMsg ), "' to Entity '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szTableName );
+   strcat_s( szMsg, zsizeof( szMsg ), "'." );
    zwTZERSAPD_WriteErrorMsg( vSubtask, zBuildERD, szMsg, 0 );
 
    // Create ER Entity
@@ -2805,9 +2805,9 @@ fnTZERSAPD_CreateRelatedEntity( zVIEW          vSubtask,
    }
 
    // show related table only one
-   strcpy_s( szWorkName, sizeof( szWorkName ), szTableName );
-   strcat_s( szWorkName, sizeof( szWorkName ), " " );
-   strcat_s( szWorkName, sizeof( szWorkName ), szFK_TableName );
+   strcpy_s( szWorkName, zsizeof( szWorkName ), szTableName );
+   strcat_s( szWorkName, zsizeof( szWorkName ), " " );
+   strcat_s( szWorkName, zsizeof( szWorkName ), szFK_TableName );
 
    CreateViewFromViewForTask( &vTZERSAPO_Copy, vTZERSAPO, 0 );
 
@@ -2819,11 +2819,11 @@ fnTZERSAPD_CreateRelatedEntity( zVIEW          vSubtask,
       SetAttributeFromString( vTZERSAPO, "Table", "WorkName", szWorkName );
 
       if ( cKey == 'X' )
-         strcpy_s( szIndentName, sizeof( szIndentName ), " * " );
+         strcpy_s( szIndentName, zsizeof( szIndentName ), " * " );
       else
-         strcpy_s( szIndentName, sizeof( szIndentName ), " " );
+         strcpy_s( szIndentName, zsizeof( szIndentName ), " " );
 
-      strcat_s( szIndentName, sizeof( szIndentName ), szFK_TableName );
+      strcat_s( szIndentName, zsizeof( szIndentName ), szFK_TableName );
       SetAttributeFromString( vTZERSAPO, "Table", "IndentName", szIndentName );
       SetAttributeFromString( vTZERSAPO, "Table", "Desc", szDesc );
       SetAttributeFromInteger( vTZERSAPO, "Table", "IndentLvl", 1 );
@@ -2864,7 +2864,7 @@ zwTZERSAPD_CreateRelationship( zVIEW  vSubtask,
    // Set Language Type for Description
    if ( nCreateRelatedEntity == zBuildRelatedEntity )
    {
-      GetStringFromAttribute( szLanguage, sizeof( szLanguage ), vView, "SapEnvironment", "LanguageType" );
+      GetStringFromAttribute( szLanguage, zsizeof( szLanguage ), vView, "SapEnvironment", "LanguageType" );
       cLanguage = szLanguage[ 0 ];
    }
    else
@@ -2888,7 +2888,7 @@ zwTZERSAPD_CreateRelationship( zVIEW  vSubtask,
       return( fnTZERSAPD_SAP_LoadErrorMsg( vSubtask,  "ZSAP_GetRelationship" ) );
    }
 
-   zltoa( lCountRel, szCountRel, sizeof( szCountRel ) );
+   zltoa( lCountRel, szCountRel, zsizeof( szCountRel ) );
    CreateViewFromViewForTask( &vView_Copy, vView, 0 );
    for ( k = 0; k < lCountRel; k++ )
    {
@@ -2931,7 +2931,7 @@ zwTZERSAPD_Build_SAP_RS( zVIEW  vSubtask,
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntityByInteger( vERD, "ER_Entity", "SAP_Entity", 1, "" ) )
    {
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vERD, "ER_Entity", "TE_TableName" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vERD, "ER_Entity", "TE_TableName" );
 
       // Create Entity in Worklod to be save all SAP Relationships for Switch FK
       CreateEntity( vTZSapRel, "SAP_Enitiy", zPOS_LAST );
@@ -3032,11 +3032,11 @@ zwTZERSAPD_SaveTE_ERD( zVIEW  vSubtask,
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
    RetrieveViewForMetaList( vSubtask, &vCM_List, zSOURCE_DTE_META );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
    ofnTZCMWKSO_AppendSlash( szFileName );
-   GetStringFromAttribute( szName, sizeof( szName ), vCM_List, "W_MetaDef", "Name" );
-   strcat_s( szFileName, sizeof( szFileName ), szName );
-   strcat_s( szFileName, sizeof( szFileName ), ".dte" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vCM_List, "W_MetaDef", "Name" );
+   strcat_s( szFileName, zsizeof( szFileName ), szName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".dte" );
 
    nRC = CommitOI_ToFile( vDTE, szFileName, zSINGLE );
    if ( nRC < 0 )
@@ -3087,7 +3087,7 @@ zwTZERSAPD_LoadTE( zVIEW  vSubtask,
    // TE does not exists, create it
    if ( CheckExistenceOfEntity( vCM_List, "W_MetaDef" ) < zCURSOR_SET )
    {
-      GetStringFromAttribute( szName, sizeof( szName ), vTaskLPLR, "LPLR", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTaskLPLR, "LPLR", "Name" );
       ActivateEmptyMetaOI( vSubtask, &vDTE, zSOURCE_DTE_META, zSINGLE | zLEVEL_APPLICATION );
       if ( !vDTE )
          return( -2 );
@@ -3108,11 +3108,11 @@ zwTZERSAPD_LoadTE( zVIEW  vSubtask,
       }
    }
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
    ofnTZCMWKSO_AppendSlash( szFileName );
-   GetStringFromAttribute( szName, sizeof( szName ), vCM_List, "W_MetaDef", "Name" );
-   strcat_s( szFileName, sizeof( szFileName ), szName );
-   strcat_s( szFileName, sizeof( szFileName ), ".dte" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vCM_List, "W_MetaDef", "Name" );
+   strcat_s( szFileName, zsizeof( szFileName ), szName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".dte" );
 
    nRC = ActivateOI_FromFile( &vDTE, "TZTENVRO", vSubtask, szFileName, zSINGLE | zIGNORE_ATTRIB_ERRORS );
    if ( nRC < 0 )
@@ -3282,7 +3282,7 @@ fnTZERSAPD_FK_HasBlankRS( zVIEW  vDTE,
       if ( CompareAttributeToString( vTZSapRel, "SAP_Rel", "FK_Art", "" ) == 0 )
       {
          // check, whether TE_FieldDataRel with this name already exists.
-         GetStringFromAttribute( szFieldName, sizeof( szFieldName ), vTZSapRel, "SAP_Rel", "FieldName" );
+         GetStringFromAttribute( szFieldName, zsizeof( szFieldName ), vTZSapRel, "SAP_Rel", "FieldName" );
          nRC = fnTZERSAPD_CheckExistsOfName( vDTE, vDTE_FieldDataRel, vTZSapRel, szFieldName );
          if ( nRC < zCURSOR_SET )
          {
@@ -3305,7 +3305,7 @@ fnTZERSAPD_FK_HasBlankRS( zVIEW  vDTE,
         SetCursorFirstEntityByAttr( vTZSapRel, "SAP_Rel", "ZKey", vDTE, "ER_RelLink", "ZKey", "" ) >= zCURSOR_SET )
    {
       // check, whether TE_FieldDataRel with this name already exists.
-      GetStringFromAttribute( szFieldName, sizeof( szFieldName ), vTZSapRel, "SAP_Rel", "FieldName" );
+      GetStringFromAttribute( szFieldName, zsizeof( szFieldName ), vTZSapRel, "SAP_Rel", "FieldName" );
       nRC = fnTZERSAPD_CheckExistsOfName( vDTE, vDTE_FieldDataRel, vTZSapRel, szFieldName );
       if ( nRC < zCURSOR_SET )
       {
@@ -3382,8 +3382,8 @@ zwTZERSAPD_SwitchForeignKeys( zVIEW  vDTE,
       if ( CheckExistenceOfEntity( vDTE_BaseKey, "ER_Attribute" ) >= zCURSOR_SET )
       {
          GetIntegerFromAttribute( &lBaseZKey, vDTE_BaseKey, "TE_FieldDataRel", "ZKey" );
-         GetStringFromAttribute( szCheckTable, sizeof( szCheckTable ), vDTE_BaseKey, "TE_TablRec", "Name" );
-         GetStringFromAttribute( szBaseKeyName, sizeof( szBaseKeyName ), vDTE_BaseKey, "TE_FieldDataRel", "Name" );
+         GetStringFromAttribute( szCheckTable, zsizeof( szCheckTable ), vDTE_BaseKey, "TE_TablRec", "Name" );
+         GetStringFromAttribute( szBaseKeyName, zsizeof( szBaseKeyName ), vDTE_BaseKey, "TE_FieldDataRel", "Name" );
 
          // Position Root of Relationship-Workobject to the current table.
          if ( SetCursorFirstEntityByAttr( vTZSapRel, "SAP_Enitiy", "TE_TableName", vDTE, "TE_TablRec", "Name", "" ) >= zCURSOR_SET )
@@ -3418,19 +3418,19 @@ zwTZERSAPD_SwitchForeignKeys( zVIEW  vDTE,
                        szBaseKeyName, "TE_TablRec" ) >= zCURSOR_SET )
                {
                   fnTZERSAPD_SwitchForeignToERAttr( vDTE, vDTE_SwitchTo );
-                  strcpy_s( szMsg, sizeof( szMsg ), "ER Attribute '" );
-                  strcat_s( szMsg, sizeof( szMsg ), szBaseKeyName );
-                  strcat_s( szMsg, sizeof( szMsg ), "' used as Foreign Key." );
+                  strcpy_s( szMsg, zsizeof( szMsg ), "ER Attribute '" );
+                  strcat_s( szMsg, zsizeof( szMsg ), szBaseKeyName );
+                  strcat_s( szMsg, zsizeof( szMsg ), "' used as Foreign Key." );
                   zwTZERSAPD_WriteErrorMsg( vDTE, zBuildTE, szMsg, 0 );
                }
                else
                {
                   // now, we see no more way to get around the error.
-                  GetStringFromAttribute( szCheckTable, sizeof( szCheckTable ), vDTE, "ER_RelLink", "Name" );
-                  strcpy_s( szMsg, sizeof( szMsg ), "Internal TE build error. Missing Foreign Key for ");
-                  strcat_s( szMsg, sizeof( szMsg ), "Relationship '" );
-                  strcat_s( szMsg, sizeof( szMsg ), szCheckTable );
-                  strcat_s( szMsg, sizeof( szMsg ), "'." );
+                  GetStringFromAttribute( szCheckTable, zsizeof( szCheckTable ), vDTE, "ER_RelLink", "Name" );
+                  strcpy_s( szMsg, zsizeof( szMsg ), "Internal TE build error. Missing Foreign Key for ");
+                  strcat_s( szMsg, zsizeof( szMsg ), "Relationship '" );
+                  strcat_s( szMsg, zsizeof( szMsg ), szCheckTable );
+                  strcat_s( szMsg, zsizeof( szMsg ), "'." );
                   zwTZERSAPD_WriteErrorMsg( vDTE, zBuildTE, szMsg, 1 );
                   DropView( vDTE_SwitchTo );
                   DropView( vDTE_BaseKey );
@@ -3481,9 +3481,9 @@ zwTZERSAPD_DropTE_ErrorList( zVIEW vSubtask )
                nRC = SetCursorNextEntity( vTZTEERR, "ErrorMsg", "" ) )
          {
             CreateEntity( vTZSAPERR, "ErrorMsg", zPOS_LAST );
-            strcpy_s( szMsgText, sizeof( szMsgText ), "Error: " );
-            GetStringFromAttribute( szMsg, sizeof( szMsg ), vTZTEERR, "ErrorMsg", "MessageText" );
-            strcat_s( szMsgText, sizeof( szMsgText ), szMsg );
+            strcpy_s( szMsgText, zsizeof( szMsgText ), "Error: " );
+            GetStringFromAttribute( szMsg, zsizeof( szMsg ), vTZTEERR, "ErrorMsg", "MessageText" );
+            strcat_s( szMsgText, zsizeof( szMsgText ), szMsg );
             SetAttributeFromString( vTZSAPERR, "ErrorMsg", "ErrorText", szMsgText );
             SetAttributeFromAttribute( vTZSAPERR, "ErrorMsg", "EntityName", vTZTEERR, "ErrorMsg", "EntityName" );
             SetAttributeFromInteger( vTZSAPERR, "ErrorMsg", "Error", 1 );
@@ -3867,24 +3867,24 @@ zwTZERSAPD_SetCountError( zVIEW vSubtask )
       if ( lCountWarning > 0 )
          lCountWarning--;
 
-      zltoa( lCountError, szCount, sizeof( szCount ) );
-      strcpy_s( szControlText, sizeof( szControlText ), " " );
-      strcat_s( szControlText, sizeof( szControlText ), szCount );
-      strcat_s( szControlText, sizeof( szControlText ), " Error(s) " );
+      zltoa( lCountError, szCount, zsizeof( szCount ) );
+      strcpy_s( szControlText, zsizeof( szControlText ), " " );
+      strcat_s( szControlText, zsizeof( szControlText ), szCount );
+      strcat_s( szControlText, zsizeof( szControlText ), " Error(s) " );
 
       if ( lCountWarning > 0 )
       {
-         zltoa( lCountWarning, szCount, sizeof( szCount ) );
-         strcat_s( szControlText, sizeof( szControlText ), ", " );
-         strcat_s( szControlText, sizeof( szControlText ), szCount );
-         strcat_s( szControlText, sizeof( szControlText ), " Warning(s) " );
+         zltoa( lCountWarning, szCount, zsizeof( szCount ) );
+         strcat_s( szControlText, zsizeof( szControlText ), ", " );
+         strcat_s( szControlText, zsizeof( szControlText ), szCount );
+         strcat_s( szControlText, zsizeof( szControlText ), " Warning(s) " );
       }
 
-      strcat_s( szControlText, sizeof( szControlText ), "found" );
+      strcat_s( szControlText, zsizeof( szControlText ), "found" );
    }
    else
    {
-      strcpy_s( szControlText, sizeof( szControlText ), " No Errors" );
+      strcpy_s( szControlText, zsizeof( szControlText ), " No Errors" );
    }
 
    SetCtrlText( vSubtask, "txtCountError", szControlText );
@@ -3941,7 +3941,7 @@ zwTZERSAPD_CreateNewErrorRoot( zVIEW vSubtask )
       GetViewByName( &vTZSAPERR, "TZSAPERR", vSubtask, zLEVEL_TASK );
    }
 
-  SysGetDateTime( szCurrentDateTime, sizeof( szCurrentDateTime ) );
+  SysGetDateTime( szCurrentDateTime, zsizeof( szCurrentDateTime ) );
    CreateEntity( vTZSAPERR, "Import", zPOS_LAST );
    SetAttributeFromString( vTZSAPERR, "Import", "SearchDateTime", szCurrentDateTime );
    SetAttributeFromAttribute( vTZSAPERR, "Import", "ShowErrorList", vTZERSAPO, "SapEnvironment", "ShowErrorList" );
@@ -4000,17 +4000,17 @@ zwTZERSAPD_WriteErrorMsg( zVIEW  vSubtask,
    }
 
    if ( nError == 1 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Error: " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Error: " );
    else
    if ( nError == 0 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Warning: " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Warning: " );
    else
-      strcpy_s( szMsg, sizeof( szMsg ), "*** " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "*** " );
 
-   strcat_s( szMsg, sizeof( szMsg ), szErrorMsg );
+   strcat_s( szMsg, zsizeof( szMsg ), szErrorMsg );
 
    if ( nError == -1 )
-      strcat_s( szMsg, sizeof( szMsg ), " ***" );
+      strcat_s( szMsg, zsizeof( szMsg ), " ***" );
 
    SetAttributeFromString( vTZSAPERR, "ErrorMsg", "ErrorText", szMsg );
    SetAttributeFromInteger( vTZSAPERR, "ErrorMsg", "Error", nError );
@@ -4072,23 +4072,23 @@ zwTZERSAPD_ErrorListSaveToFile( zVIEW vSubtask )
    ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT |
               zOFN_SAVEAS | zOFN_HIDEREADONLY;
 
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                "Text Files (*.txt)|*.txt|", "txt", ulZFlags ) == 1 )
    {
       FileHandle = SysOpenFile( vSubtask, szFileName, COREFILE_WRITE );
 
       if ( FileHandle == -1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to open " );
-         strcat_s( szMsg, sizeof( szMsg ), szFileName );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+         strcat_s( szMsg, zsizeof( szMsg ), szFileName );
          MessageSend( vSubtask, "FEH001", "SAP Import", szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
          return( -1 );
       }
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Zeidon: SAP Import Error List from " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Zeidon: SAP Import Error List from " );
       GetStringFromAttributeByContext( szTemp, vTZSAPERR, "Import", "SearchDateTime", "DD.MM.YYYY HH:MM:SS", 20 );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
       SysWriteLine( vSubtask, FileHandle, szMsg );
       SysWriteLine( vSubtask, FileHandle, "" );
 
@@ -4096,18 +4096,18 @@ zwTZERSAPD_ErrorListSaveToFile( zVIEW vSubtask )
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTZSAPERR, "ErrorMsg", "" ) )
       {
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZSAPERR, "ErrorMsg", "EntityName" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZSAPERR, "ErrorMsg", "EntityName" );
          if ( zstrcmp( szTemp, "" ) != 0 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Entity: " );
-            strcat_s( szMsg, sizeof( szMsg ), szTemp );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Entity: " );
+            strcat_s( szMsg, zsizeof( szMsg ), szTemp );
          }
          else
-            strcpy_s( szMsg, sizeof( szMsg ), " \t " );
+            strcpy_s( szMsg, zsizeof( szMsg ), " \t " );
 
-         strcat_s( szMsg, sizeof( szMsg ), "\t" );
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZSAPERR, "ErrorMsg", "ErrorText" );
-         strcat_s( szMsg, sizeof( szMsg ), szTemp );
+         strcat_s( szMsg, zsizeof( szMsg ), "\t" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZSAPERR, "ErrorMsg", "ErrorText" );
+         strcat_s( szMsg, zsizeof( szMsg ), szTemp );
          SysWriteLine( vSubtask, FileHandle, szMsg );
       }
 
@@ -4151,7 +4151,7 @@ zwTZERSAPD_RemoveTablesFromList( zVIEW vSubtask )
       // if selected Table a SAP Table, remove all related Tables
       if ( CompareAttributeToInteger( vTZERSAPO, "Table", "IndentLvl", 0 ) == 0 )
       {
-         GetStringFromAttribute( szTableName, sizeof( szTableName ), vTZERSAPO, "Table", "ParentName" );
+         GetStringFromAttribute( szTableName, zsizeof( szTableName ), vTZERSAPO, "Table", "ParentName" );
          for ( nRC = SetCursorFirstEntityByString( vTZERSAPO, "Table", "ParentName", szTableName, "" );
                nRC >= zCURSOR_SET;
                nRC = SetCursorNextEntityByString( vTZERSAPO, "Table", "ParentName", szTableName, "" ) )
@@ -4186,7 +4186,7 @@ fnTZERSAPD_ShowRelatedTables( zVIEW vSubtask,
    // not from SAP
    if ( CompareAttributeToInteger( vTZERSAPO, "Table", "IndentLvl", 0 ) == 0 )
    {
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vTZERSAPO, "Table", "ParentName" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vTZERSAPO, "Table", "ParentName" );
 
       // Exists the related Tables in Entity "RemovedTable"
       if ( SetCursorFirstEntityByString( vTZERSAPO, "RemovedTable", "ParentName", szTableName, "" ) >= zCURSOR_SET )
@@ -4311,7 +4311,7 @@ zwTZERSAPD_RemoveRelatedTables( zVIEW vSubtask )
    // if SAP Table selected, not related Table selected, remove all related Tables
    if ( lCount == 0 )
    {
-      GetStringFromAttribute( szTableName, sizeof( szTableName ), vTZERSAPO, "Table", "ParentName" );
+      GetStringFromAttribute( szTableName, zsizeof( szTableName ), vTZERSAPO, "Table", "ParentName" );
       for ( nRC = SetCursorFirstEntityByString( vTZERSAPO, "Table", "ParentName", szTableName, "" );
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntityByString( vTZERSAPO, "Table", "ParentName", szTableName, "" ) )
@@ -4346,7 +4346,7 @@ zwTZERSAPD_RemoveAllRelatedTabl( zVIEW vSubtask )
 
    GetViewByName( &vTZERSAPO, "TZERSAPO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szTableName, sizeof( szTableName ), vTZERSAPO, "Table", "ParentName" );
+   GetStringFromAttribute( szTableName, zsizeof( szTableName ), vTZERSAPO, "Table", "ParentName" );
 
    // all related Tables, not SAP Tables
    for ( nRC = SetCursorFirstEntityByInteger( vTZERSAPO, "Table", "IndentLvl", 1, "" );

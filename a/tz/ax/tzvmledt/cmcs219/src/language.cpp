@@ -19,12 +19,12 @@ TRUE,
 _T("#define\n#elif\n#else\n#endif\n#error\n#if\n#ifdef\n#ifndef\n#include\n#line\n#pragma\n#printf\n#undef\nauto\nbreak\ncase\ncatch\n")
 _T("char\nclass\nconst\nconst_cast\ncontinue\ndefault\ndelete\ndo\ndouble\ndynamic_cast\nelse\nenum\nexcept\nextern\nfalse\nfinally\nfloat\n")
 _T("for\nfriend\ngoto\nif\ninline\nint\nlong\nmutable\nnamespace\nnew\noperator\nprivate\nprotected\npublic\nregister\nreinterpret_cast\n")
-_T("return\nshort\nsigned\nsizeof\nstatic\nstatic_cast\nstruct\nswitch\ntemplate\nthis\nthrow\ntrue\ntry\ntypedef\ntypeid\nunion\nunsigned\n")
+_T("return\nshort\nsigned\nzsizeof\nstatic\nstatic_cast\nstruct\nswitch\ntemplate\nthis\nthrow\ntrue\ntry\ntypedef\ntypeid\nunion\nunsigned\n")
 _T("using\nvirtual\nvoid\nvolatile\nwhile\nxalloc\nnew\ndelete"),
 //////////////////////////////////////////////////////////////////
 // operators
 //////////////////////////////////////////////////////////////////
-_T("::\n.\n->\n++\n--\n*\n&\n+\n-\n!\n~\nsizeof\ntypeid\nconst_cast\ndynamic_cast\nreinterpret_cast\nstatic_cast\n.*\n->*\n*\n")
+_T("::\n.\n->\n++\n--\n*\n&\n+\n-\n!\n~\nzsizeof\ntypeid\nconst_cast\ndynamic_cast\nreinterpret_cast\nstatic_cast\n.*\n->*\n*\n")
 _T("/\n%\n<<\n>>\n<\n>\n<=\n>=\n==\n!=\n&\n^\n|\n&&\n||\n?\n=\n*=\n/=\n%=\n+=\n-=\n<<=\n>>=\n&=\n|=\n^="),
 //////////////////////////////////////////////////////////////////
 // Single line comments
@@ -549,8 +549,8 @@ CME_CODE CEdit::RegisterLanguage( LPCTSTR pszName, CM_LANGUAGE *pLang )
    }
    else
    {
-      g_pLanguages = g_pLanguages ? ( CLanguage ** ) realloc( g_pLanguages, ( g_nLanguageCount + 1 ) * sizeof( CLanguage * ) ) :
-                                    ( CLanguage ** ) malloc( sizeof( CLanguage * ) );
+      g_pLanguages = g_pLanguages ? ( CLanguage ** ) realloc( g_pLanguages, ( g_nLanguageCount + 1 ) * zsizeof( CLanguage * ) ) :
+                                    ( CLanguage ** ) malloc( zsizeof( CLanguage * ) );
       g_pLanguages[ g_nLanguageCount++ ] = new CLanguage( pszName, pLang );
    }
 
@@ -590,7 +590,7 @@ BOOL CEdit::UnregisterLanguage( LPCTSTR pszName )
             {
                memmove( g_pLanguages + nLanguage,
                         g_pLanguages + nLanguage + 1,
-                      ( g_nLanguageCount - nLanguage - 1 ) * sizeof( CLanguage * ) );
+                      ( g_nLanguageCount - nLanguage - 1 ) * zsizeof( CLanguage * ) );
             }
          }
          g_nLanguageCount--;
@@ -652,9 +652,9 @@ CLanguage::CLanguage( LPCTSTR pszName, CM_LANGUAGE *pLang )
               ( pLang->pszTagAttributeNames ? _tcslen( pLang->pszTagAttributeNames ) + 1 : 0 ) +
               ( pLang->pszTagEntities ? _tcslen( pLang->pszTagEntities ) + 1 : 0 );
 
-   int cbLang = sizeof( CM_LANGUAGE ) +       // the language structure
-                sizeof( DWORD ) +             // size of language struct
-                sizeof( TCHAR ) * ( nLen + 1 ); // the lang buffer. +1 in case nLen = 0
+   int cbLang = zsizeof( CM_LANGUAGE ) +      // the language structure
+                zsizeof( DWORD ) +            // size of language struct
+                zsizeof( TCHAR ) * ( nLen + 1 ); // the lang buffer. +1 in case nLen = 0
    m_pLang = ( CM_LANGUAGE * ) new BYTE[ cbLang ];
    ZeroMemory( m_pLang, cbLang );
 
@@ -664,7 +664,7 @@ CLanguage::CLanguage( LPCTSTR pszName, CM_LANGUAGE *pLang )
    m_pLang->chTerminator = pLang->chTerminator;
    m_pLang->dwStyle = pLang->dwStyle;
 
-   LPTSTR pszOut = ( LPTSTR ) ( ( LPBYTE ) ( m_pLang + 1 ) + sizeof( DWORD ) );
+   LPTSTR pszOut = ( LPTSTR ) ( ( LPBYTE ) ( m_pLang + 1 ) + zsizeof( DWORD ) );
 
    if ( pLang->pszKeywords )
    {

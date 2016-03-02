@@ -44,7 +44,7 @@ ActivateOPERSIGK( zVIEW vSubtask )
 
    nRC = GetApplDirectoryFromView( szXGO_FileName, vT, zAPPL_DIR_OBJECT, 125 );
    nRC = SfDropSubtask( vT, 0 );
-   strcat_s( szXGO_FileName, sizeof( szXGO_FileName ), TZOPSIGK_FILE );
+   strcat_s( szXGO_FileName, zsizeof( szXGO_FileName ), TZOPSIGK_FILE );
 
    nRC = ActivateOI_FromFile( &vOperSig, "TZOPGRPO", vSubtask,
                               szXGO_FileName, zSINGLE | zLEVEL_TASK );
@@ -80,7 +80,7 @@ CommitOPERSIGK( zVIEW vSubtask )
 
    nRC = GetApplDirectoryFromView( szXGO_FileName, vT, zAPPL_DIR_OBJECT, 125 );
    nRC = SfDropSubtask( vT, 0 );
-   strcat_s( szXGO_FileName, sizeof( szXGO_FileName ), TZOPSIGK_FILE );
+   strcat_s( szXGO_FileName, zsizeof( szXGO_FileName ), TZOPSIGK_FILE );
 
    GetViewByName( &vOperSig, "TZOPSIGK", vSubtask, zLEVEL_TASK );
 
@@ -230,7 +230,7 @@ CopySelectedOperation( zVIEW vSubtask )
    }
 
    // Include the Header File.
-   GetStringFromAttribute( szFile, sizeof( szFile ), vOperSig, "HeaderFile_Oper", "Name" );
+   GetStringFromAttribute( szFile, zsizeof( szFile ), vOperSig, "HeaderFile_Oper", "Name" );
    nRC = SetCursorFirstEntityByString( vOperSig2, "HeaderFile",
                                        "Name", szFile,  0 );
    if ( nRC < zCURSOR_SET )
@@ -247,7 +247,7 @@ CopySelectedOperation( zVIEW vSubtask )
 
    // Include the Source File.
    szFile[ 0 ] = 0;
-   GetStringFromAttribute( szFile, sizeof( szFile ), vOperSig, "SourceFile", "Name" );
+   GetStringFromAttribute( szFile, zsizeof( szFile ), vOperSig, "SourceFile", "Name" );
    nRC = SetCursorFirstEntityByString( vOperSig2, "SourceFileOfOperation",
                                        "Name", szFile,  0 );
    if ( nRC < zCURSOR_SET )
@@ -285,7 +285,7 @@ SelectOperation( zVIEW vSubtask )
    GetViewByName( &vOperSig, "TZOPSIGK", vSubtask, zLEVEL_TASK );
    GetViewByName( &vOperSig2, "TZOPSIG2", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szOperation, sizeof( szOperation ), vOperSig2, "Operation", "Name" );
+   GetStringFromAttribute( szOperation, zsizeof( szOperation ), vOperSig2, "Operation", "Name" );
    nRC = SetCursorFirstEntityByString( vOperSig, "Operation", "Name",
                                        szOperation, 0 );
 
@@ -312,7 +312,7 @@ SelectOperation( zVIEW vSubtask )
    }
 
    // Include the Header File
-   GetStringFromAttribute( szFile, sizeof( szFile ), vOperSig2, "HeaderFile_Oper", "Name" );
+   GetStringFromAttribute( szFile, zsizeof( szFile ), vOperSig2, "HeaderFile_Oper", "Name" );
    nRC = SetCursorFirstEntityByString( vOperSig, "HeaderFile",
                                        "Name", szFile,  0 );
    if ( nRC < zCURSOR_SET )
@@ -329,7 +329,7 @@ SelectOperation( zVIEW vSubtask )
 
    // Include the Source File.
    szFile[ 0 ] = 0;
-   GetStringFromAttribute( szFile, sizeof( szFile ), vOperSig2, "SourceFile", "Name" );
+   GetStringFromAttribute( szFile, zsizeof( szFile ), vOperSig2, "SourceFile", "Name" );
    nRC = SetCursorFirstEntityByString( vOperSig, "SourceFileOfOperation",
                                        "Name", szFile,  0 );
    if ( nRC < zCURSOR_SET )
@@ -364,7 +364,7 @@ OpenXGO2( zVIEW vSubtask )
    zSHORT  nRC;
    zCHAR szFileName[ 512 ] = { 0 };
 
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                "Import Files (*.XGO)|*.xgo|", "XGO",
                                zOFN_FILEMUSTEXIST ) != 1 )
    {

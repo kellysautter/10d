@@ -207,12 +207,12 @@ oTZCMLPLO_HeaderMigrate( zVIEW     SourceLPLR,
    //:ResetViewFromSubobject( CurrentLPLR )
    ResetViewFromSubobject( CurrentLPLR );
    //:HeaderFileName1 = SourceLPLR.LPLR.MetaSrcDir + "\" + HeaderMetaName + ".H"
-   GetStringFromAttribute( HeaderFileName1, sizeof( HeaderFileName1 ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( HeaderFileName1, zsizeof( HeaderFileName1 ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( HeaderFileName1, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( HeaderFileName1, 1, 0, HeaderMetaName, 1, 0, 514 );
    ZeidonStringConcat( HeaderFileName1, 1, 0, ".H", 1, 0, 514 );
    //:HeaderFileName2 = CurrentLPLR.LPLR.MetaSrcDir + "\" + HeaderMetaName + ".H"
-   GetStringFromAttribute( HeaderFileName2, sizeof( HeaderFileName2 ), CurrentLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( HeaderFileName2, zsizeof( HeaderFileName2 ), CurrentLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( HeaderFileName2, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( HeaderFileName2, 1, 0, HeaderMetaName, 1, 0, 514 );
    ZeidonStringConcat( HeaderFileName2, 1, 0, ".H", 1, 0, 514 );
@@ -223,7 +223,7 @@ oTZCMLPLO_HeaderMigrate( zVIEW     SourceLPLR,
 
    //:// Activate existing source meta OldHeader
    //:HeaderFileName1 = SourceLPLR.LPLR.MetaSrcDir + "\" + HeaderMetaName + ".HDR"
-   GetStringFromAttribute( HeaderFileName1, sizeof( HeaderFileName1 ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( HeaderFileName1, zsizeof( HeaderFileName1 ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( HeaderFileName1, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( HeaderFileName1, 1, 0, HeaderMetaName, 1, 0, 514 );
    ZeidonStringConcat( HeaderFileName1, 1, 0, ".HDR", 1, 0, 514 );
@@ -375,7 +375,7 @@ oTZCMLPLO_SetUniqueSpecName( zVIEW     vCurrentLPLR )
       //:  lNumber = lNumber + 1
       lNumber = lNumber + 1;
       //:  zltoa( lNumber, szNumber )
-      zltoa( lNumber, szNumber, sizeof( szNumber ) );
+      zltoa( lNumber, szNumber, zsizeof( szNumber ) );
 
       //:  szSuffix   = "_" + szNumber
       ZeidonStringCopy( szSuffix, 1, 0, "_", 1, 0, 12 );
@@ -469,9 +469,9 @@ oTZCMLPLO_SetCompilerPathes( zVIEW     vSource,
 
 
    //:GetStringFromAttribute( szBaseDir, vSource, "LPLR", "MetaSrcDir" )
-   GetStringFromAttribute( szBaseDir, sizeof( szBaseDir ), vSource, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szBaseDir, zsizeof( szBaseDir ), vSource, "LPLR", "MetaSrcDir" );
    //:GetStringFromAttribute( szActDir,  vSource, pszEntityName, pszAttributeName )
-   GetStringFromAttribute( szActDir, sizeof( szActDir ), vSource, pszEntityName, pszAttributeName );
+   GetStringFromAttribute( szActDir, zsizeof( szActDir ), vSource, pszEntityName, pszAttributeName );
    //:zToUpper( szBaseDir, szBaseDirUpper)
    zToUpper( szBaseDir, szBaseDirUpper );
    //:zToUpper( szActDir, szActDirUpper)
@@ -492,7 +492,7 @@ oTZCMLPLO_SetCompilerPathes( zVIEW     vSource,
       case 1 :
          //:      // Is the LPLR-Name included in the pathname ?
          //:      GetStringFromAttribute( szLPLRName, vSource, "LPLR", "Name")
-         GetStringFromAttribute( szLPLRName, sizeof( szLPLRName ), vSource, "LPLR", "Name" );
+         GetStringFromAttribute( szLPLRName, zsizeof( szLPLRName ), vSource, "LPLR", "Name" );
          //:      zToUpper (szLPLRName, szLPLRNameUpper)
          zToUpper( szLPLRName, szLPLRNameUpper );
          //:      sRC = zSearchSubString( szActDirUpper, szLPLRNameUpper, "f", 0)
@@ -537,7 +537,7 @@ oTZCMLPLO_SetCompilerPathes( zVIEW     vSource,
                //:      sAnfPos  = sAktLth - sAnzahl + 1
                sAnfPos = sAktLth - sAnzahl + 1;
                //:      GetStringFromAttribute( szBaseDir, vTarget, "LPLR", "MetaSrcDir" )
-               GetStringFromAttribute( szBaseDir, sizeof( szBaseDir ), vTarget, "LPLR", "MetaSrcDir" );
+               GetStringFromAttribute( szBaseDir, zsizeof( szBaseDir ), vTarget, "LPLR", "MetaSrcDir" );
                //:      szBaseDir = szBaseDir + szActDir[sAnfPos : sAnzahl]
                ZeidonStringConcat( szBaseDir, 1, 0, szActDir, sAnfPos, sAnzahl, 257 );
                //:      SetAttributeFromString( vTarget, pszEntityName, pszAttributeName, szBaseDir)

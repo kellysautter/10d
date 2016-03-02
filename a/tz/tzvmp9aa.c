@@ -256,7 +256,7 @@ SetupActivate( zVIEW vSubtask, zLONG lIDNumber )
    CreateViewFromViewForTask( &g_vSaveStmtView, g_vStatementView, 0 );
 
    // Need to create a name for the local operation.
-   GenerateLocalOperationName( szLocalName, sizeof( szLocalName ), "BuildQual" );
+   GenerateLocalOperationName( szLocalName, zsizeof( szLocalName ), "BuildQual" );
 
    // SetViewFromView( g_lpSGView, g_lpPIView );
 
@@ -267,8 +267,8 @@ SetupActivate( zVIEW vSubtask, zLONG lIDNumber )
    lRC = AddOperationEntityToPI( vSubtask, szLocalName, 0 ); // do not show in list
    if ( lRC < 0 )
    {
-      strcpy_s( g_szFatalErrorMsg, sizeof( g_szFatalErrorMsg ), "found operation with reserved name: " );
-      strcat_s( g_szFatalErrorMsg, sizeof( g_szFatalErrorMsg ), szLocalName );
+      strcpy_s( g_szFatalErrorMsg, zsizeof( g_szFatalErrorMsg ), "found operation with reserved name: " );
+      strcat_s( g_szFatalErrorMsg, zsizeof( g_szFatalErrorMsg ), szLocalName );
       longjmp( jbFatalError, -1 ); // Fatal Error exit
    }
 
@@ -323,7 +323,7 @@ GenerateLocalOperationName( zPCHAR pchReturnName,
       zLONG lNbr;
       zLONG l;
 
-      GetStringFromAttribute( szOperName, sizeof( szOperName ), vSearchView, "Operation", "Name" );
+      GetStringFromAttribute( szOperName, zsizeof( szOperName ), vSearchView, "Operation", "Name" );
       GetIntegerFromAttribute( &lZKey, vSearchView, "Operation", "ZKey" );
 
       // The C generator accepts operation ZKeys only if they are > MAXSTRING (currently 512).
@@ -404,12 +404,12 @@ InsertActivateIntoCurrentOperation( zVIEW  vSubtask,
    {
       zCHAR szViewName[ 60 ];
 
-      GetStringFromAttribute( szViewName, sizeof( szViewName ), g_lpPIView, "Variable", "Name" );
+      GetStringFromAttribute( szViewName, zsizeof( szViewName ), g_lpPIView, "Variable", "Name" );
       SyntaxError( vSubtask, eQNOVIEWDEFGIVEN, szViewName );
       return( -1 );
    }
 
-   GetStringFromAttribute( szLODName, sizeof( szLODName ), lpTempView, "LOD", "Name" );
+   GetStringFromAttribute( szLODName, zsizeof( szLODName ), lpTempView, "LOD", "Name" );
 
    // 1: Create the qual View.
    lQualID = GenerateTempVariable( vSubtask, qTVIEW, 0 );
@@ -450,12 +450,12 @@ InsertActivateNoWhere( zVIEW  vSubtask,
    {
       zCHAR szViewName[ 60 ];
 
-      GetStringFromAttribute( szViewName, sizeof( szViewName ), g_lpPIView, "Variable", "Name" );
+      GetStringFromAttribute( szViewName, zsizeof( szViewName ), g_lpPIView, "Variable", "Name" );
       SyntaxError( vSubtask, eQNOVIEWDEFGIVEN, szViewName );
       return( -1 );
    }
 
-   GetStringFromAttribute( szLODName, sizeof( szLODName ), lpTempView, "LOD", "Name" );
+   GetStringFromAttribute( szLODName, zsizeof( szLODName ), lpTempView, "LOD", "Name" );
    lQualID = 0;
 
    // Add the call to the operation ActivateObjectInstance.
@@ -487,12 +487,12 @@ InsertActivateEmpty( zVIEW  vSubtask,
    {
       zCHAR szViewName[ 60 ];
 
-      GetStringFromAttribute( szViewName, sizeof( szViewName ), g_lpPIView, "Variable", "Name" );
+      GetStringFromAttribute( szViewName, zsizeof( szViewName ), g_lpPIView, "Variable", "Name" );
       SyntaxError( vSubtask, eQNOVIEWDEFGIVEN, szViewName );
       return( -1 );
    }
 
-   GetStringFromAttribute( szLODName, sizeof( szLODName ), lpTempView, "LOD", "Name" );
+   GetStringFromAttribute( szLODName, zsizeof( szLODName ), lpTempView, "LOD", "Name" );
 
    // Add the call to the operation ActivateObjectInstance.
    lDefineZKey = GetDefineZKey( vSubtask, &lDataType, pchLoadControl );
@@ -535,7 +535,7 @@ BuildCallToLocalFunction( zVIEW vSubtask,
    ADDEXPRESSIONENTRYTOSTRING( qVARIABLE, qNUMERIC, qTSHORT, "RC", lRCID, 0 );
 
    // Get the name of the local operation just built and set it.
-   GetStringFromAttribute( szLocalName, sizeof( szLocalName ), vLocalView, "Operation", "Name" );
+   GetStringFromAttribute( szLocalName, zsizeof( szLocalName ), vLocalView, "Operation", "Name" );
    GetIntegerFromAttribute( &lZKey, vLocalView, "Operation", "ZKey" );
 
    // Add the CALL ... 1. "Operation Name"   2. "("
@@ -598,7 +598,7 @@ BuildCallToLocalFunction( zVIEW vSubtask,
       // ","
       ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ",", qCOMMA, 0 );
 
-      GetStringFromAttribute( szLocalName, sizeof( szLocalName ), vLocalView, "Variable", "Name" );
+      GetStringFromAttribute( szLocalName, zsizeof( szLocalName ), vLocalView, "Variable", "Name" );
       SetCursorFirstEntityByString( g_lpPIView, "Variable", "Name", szLocalName, "" );
 
       // Get the ID number to increment.
@@ -760,14 +760,14 @@ BuildActivateEmptyLocal( zVIEW  vSubtask,
                           zPOS_FIRST | zQUAL_INTEGER | zQUAL_EQUAL,
                           &lVal, "", "", 0, "", 0 );
 
-   GetStringFromAttribute( szLocalVal, sizeof( szLocalVal ), g_lpSGView, "Variable", "PFlag" );
+   GetStringFromAttribute( szLocalVal, zsizeof( szLocalVal ), g_lpSGView, "Variable", "PFlag" );
    while ( lRC == zCURSOR_SET && szLocalVal[ 0 ] == 'Y' )
    {
       lRC = SetEntityCursor( g_lpSGView, "Variable", "DataType",
                              zPOS_NEXT | zQUAL_INTEGER | zQUAL_EQUAL,
                              &lVal, "", "", 0, "", 0 );
 
-      GetStringFromAttribute( szLocalVal, sizeof( szLocalVal ), g_lpSGView, "Variable", "PFlag" );
+      GetStringFromAttribute( szLocalVal, zsizeof( szLocalVal ), g_lpSGView, "Variable", "PFlag" );
    }
 
    // 7. "Qualifying View"
@@ -947,7 +947,7 @@ BuildWhereStatements( zVIEW  vSubtask,
    if ( lRootOrRestrict == 1 ) // root
    {
       lLoop = 1;
-      GetRootEntityName( szRootName, sizeof( szRootName ) );
+      GetRootEntityName( szRootName, zsizeof( szRootName ) );
       fnBuildCreateEntity( vSubtask, "EntitySpec" );
       fnBuildSetAttributeConstant( vSubtask, "EntitySpec", "EntityName", szRootName );
    }
@@ -956,7 +956,7 @@ BuildWhereStatements( zVIEW  vSubtask,
    {
       lLoop = 1;
       SplitQualifier( g_sWhereLeft[ 0 ].szText, szViewName, szEntityName, szAttributeName );
-      strcpy_s( szRootName, sizeof( szRootName ), szEntityName );
+      strcpy_s( szRootName, zsizeof( szRootName ), szEntityName );
       fnBuildCreateEntity( vSubtask, "EntitySpec" );
       fnBuildSetAttributeConstant( vSubtask, "EntitySpec", "EntityName", szRootName );
    }
@@ -1014,19 +1014,19 @@ BuildWhereStatements( zVIEW  vSubtask,
 
             if ( g_sWhereLeft[ lLoop ].lDataType == qTDECIMAL )
             {
-               strcpy_s( g_szOperationName, sizeof( g_szOperationName ), "GetDecimalFromAttribute" );
+               strcpy_s( g_szOperationName, zsizeof( g_szOperationName ), "GetDecimalFromAttribute" );
                lDataType = qTDECIMAL;
             }
             else
             {
                if ( g_sWhereLeft[ lLoop ].lDataType == qTINTEGER )
                {
-                  strcpy_s( g_szOperationName, sizeof( g_szOperationName ), "GetIntegerFromAttribute" );
+                  strcpy_s( g_szOperationName, zsizeof( g_szOperationName ), "GetIntegerFromAttribute" );
                   lDataType = qTINTEGER;
                }
                else
                {
-                  strcpy_s( g_szOperationName, sizeof( g_szOperationName ), "GetStringFromAttribute" );
+                  strcpy_s( g_szOperationName, zsizeof( g_szOperationName ), "GetStringFromAttribute" );
                   lDataType = qTSTRING;
                }
             }
@@ -1076,7 +1076,7 @@ BuildWhereStatements( zVIEW  vSubtask,
          g_lWhereOp[ lLoop ] = qEQUAL; // SQL problem
 
       // insert comparison operator
-      GetStringForSQLOperator( szOperString, sizeof( szOperString ), g_lWhereOp[ lLoop ] );
+      GetStringForSQLOperator( szOperString, zsizeof( szOperString ), g_lWhereOp[ lLoop ] );
       fnBuildSetAttributeConstant( vSubtask, "QualAttrib", "Oper", szOperString );
 
       // insert closing parens, if there
@@ -1089,7 +1089,7 @@ BuildWhereStatements( zVIEW  vSubtask,
       // insert Join operator (AND/OR)
       if ( g_lWhereJoin[ lLoop ] )
       {
-         GetStringForSQLOperator( szOperString, sizeof( szOperString ), g_lWhereJoin[ lLoop ] );
+         GetStringForSQLOperator( szOperString, zsizeof( szOperString ), g_lWhereJoin[ lLoop ] );
          fnBuildCreateEntity( vSubtask, "QualAttrib" );
          fnBuildSetAttributeConstant( vSubtask, "QualAttrib", "Oper", szOperString );
       }
@@ -1221,7 +1221,7 @@ fnBuildSetAttributeVariable( zVIEW  vSubtask,
    CreateViewFromViewForTask( &vCallingView, g_lpSGView, 0 );
 
    // Get the name since we are using the same name as is being passed.
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vCallingView, "Variable", "Name" );
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vCallingView, "Variable", "Name" );
    PositionAtNewOperation( );
 
    // See if we can position on it in the target.
@@ -1284,26 +1284,26 @@ fnBuildSetAttributeVariable( zVIEW  vSubtask,
    // AddOperatorToView( vSubtask, 0, -2 );
 
    GetVariableID( &lQualID, "vQualObject" );
-   strcpy_s( szOperationName, sizeof( szOperationName ), "SetAttributeFrom" );
+   strcpy_s( szOperationName, zsizeof( szOperationName ), "SetAttributeFrom" );
 
    switch( lVarDataType )
    {
       case qTSTRING:
       case qTCHARACTER :
-         strcat_s( szOperationName, sizeof( szOperationName ), "String" );
+         strcat_s( szOperationName, zsizeof( szOperationName ), "String" );
          break;
 
       case qTINTEGER:
       case qTSHORT   :
-         strcat_s( szOperationName, sizeof( szOperationName ), "Integer" );
+         strcat_s( szOperationName, zsizeof( szOperationName ), "Integer" );
          break;
 
       case qTDECIMAL:
-         strcat_s( szOperationName, sizeof( szOperationName ), "Decimal" );
+         strcat_s( szOperationName, zsizeof( szOperationName ), "Decimal" );
          break;
 
       default :
-         strcat_s( szOperationName, sizeof( szOperationName ), "String" );
+         strcat_s( szOperationName, zsizeof( szOperationName ), "String" );
          break;
    }
 
@@ -1519,11 +1519,11 @@ BuildGetView( zVIEW  vSubtask,
       // DonC code 10/19/2003 to add View to call.
       // Locate a passed view in the operation calling list.  If one isn't there, pass in zero.
       lRC = SetCursorFirstEntityByInteger( g_lpSGView, "Variable", "DataType", qTVIEW, 0 );
-      GetStringFromAttribute( szReturnFlag, sizeof( szReturnFlag ), g_lpSGView, "Variable", "PFlag" );
+      GetStringFromAttribute( szReturnFlag, zsizeof( szReturnFlag ), g_lpSGView, "Variable", "PFlag" );
       while ( lRC >= zCURSOR_SET && szReturnFlag[ 0 ] == 'Y' )
       {
          lRC = SetCursorNextEntityByInteger( g_lpSGView, "Variable", "DataType", qTVIEW, 0 );
-         GetStringFromAttribute( szReturnFlag, sizeof( szReturnFlag ), g_lpSGView, "Variable", "PFlag" );
+         GetStringFromAttribute( szReturnFlag, zsizeof( szReturnFlag ), g_lpSGView, "Variable", "PFlag" );
       }
 
       if ( lRC < zCURSOR_SET )

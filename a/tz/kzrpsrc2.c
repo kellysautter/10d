@@ -112,27 +112,27 @@ FormatSubobjectOnDoc( zVIEW     vSourceOI,
       SfGetApplicationForSubtask( &lpApp, vSubtask );
       if ( lpApp )
       {
-         strcpy_s( szFileName, sizeof( szFileName ), lpApp->szObjectDir );
+         strcpy_s( szFileName, zsizeof( szFileName ), lpApp->szObjectDir );
       }
    }
    else
    {
       if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) >= 0 )
       {
-         GetStringFromAttribute( szFileName, sizeof( szFileName ),
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                                  vTaskLPLR, "LPLR", "ExecDir" );
-         strcat_s( szFileName, sizeof( szFileName ), "\\" );
+         strcat_s( szFileName, zsizeof( szFileName ), "\\" );
       }
    }
 
-   strcat_s( szFileName, sizeof( szFileName ), cpcReportDefName );
-   strcat_s( szFileName, sizeof( szFileName ), ".XRP" );
+   strcat_s( szFileName, zsizeof( szFileName ), cpcReportDefName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".XRP" );
 
    // DGC 7/11/96 -- The following is a hack for compatability with Unix.
    // Unix file names are case-sensitive.  Since DOS/Windows files (when
    // copied to a unix system via a network) are assigned lower-case letters
    // in Unix, we will (for now) make all Zeidon System file names lowercase.
-   _strlwr_s( szFileName, sizeof( szFileName ) );
+   _strlwr_s( szFileName, zsizeof( szFileName ) );
 
    nRC = ActivateOI_FromFile( &vReportDef, "TZRPSRCO", vSubtask, szFileName, zACTIVATE_SYSTEM );
 
@@ -282,7 +282,7 @@ FormatSubobjectOnDocWithXRP( zVIEW     vSourceOI,
                   if ( lType == 3020L ) // zTEXT_REPORT
                   {
                      zCHAR   szBlob[ 8 + (6 * sizeof( long )) + LF_FACESIZE ];
-                     zULONG  ulLth = sizeof( szBlob );
+                     zULONG  ulLth = zsizeof( szBlob );
                      zLONG   lSize;
                      GetBlobFromAttribute( szBlob, &ulLth, vReportDef,
                                            "Control", "CtrlBOI" );
@@ -342,7 +342,7 @@ FormatSubobjectOnDocWithXRP( zVIEW     vSourceOI,
       {
          lExtent = -1;  // indicate that Extent has been calculated.
 
-         GetStringFromAttribute( szType, sizeof( szType ), vReportDef, "GroupSet", "Type" );
+         GetStringFromAttribute( szType, zsizeof( szType ), vReportDef, "GroupSet", "Type" );
          if ( (szType[ 0 ] == 'P' || szType[ 0 ] == 'p') &&
               (szType[ 1 ] == 'H' || szType[ 1 ] == 'h') )
          {
@@ -563,7 +563,7 @@ FormatSubobjectOnDocWithXRP( zVIEW     vSourceOI,
    nRC = SetCursorFirstEntity( vReportDef, "GroupSet", 0 );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szType, sizeof( szType ), vReportDef, "GroupSet", "Type" );
+      GetStringFromAttribute( szType, zsizeof( szType ), vReportDef, "GroupSet", "Type" );
       if ( szType[ 0 ] == 'P' &&
            (szType[ 1 ] == 'H' || szType[ 1 ] == 'F') )
       {
@@ -652,10 +652,10 @@ FormatSubobjectOnDocWithXRP( zVIEW     vSourceOI,
    if ( bNoRows )
    {
       zCHAR szMsg[ 1024 ];
-      strcpy_s( szMsg, sizeof( szMsg ), "Rows to print report: Report = " );
-      strcat_s( szMsg, sizeof( szMsg ), cpcReportDefName );
-      strcat_s( szMsg, sizeof( szMsg ), " Entity = ");
-      strcat_s( szMsg, sizeof( szMsg ), cpcSubobjectEntityName );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Rows to print report: Report = " );
+      strcat_s( szMsg, zsizeof( szMsg ), cpcReportDefName );
+      strcat_s( szMsg, zsizeof( szMsg ), " Entity = ");
+      strcat_s( szMsg, zsizeof( szMsg ), cpcSubobjectEntityName );
       TraceLineS( szMsg,  "" );
    }
    else
@@ -707,27 +707,27 @@ FormatWebReport( zVIEW     vSourceOI,
       SfGetApplicationForSubtask( &lpApp, vSubtask );
       if ( lpApp )
       {
-         strcpy_s( szFileName, sizeof( szFileName ), lpApp->szObjectDir );
+         strcpy_s( szFileName, zsizeof( szFileName ), lpApp->szObjectDir );
       }
    }
    else
    {
       if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) >= 0 )
       {
-         GetStringFromAttribute( szFileName, sizeof( szFileName ),
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ),
                                  vTaskLPLR, "LPLR", "ExecDir" );
-         strcat_s( szFileName, sizeof( szFileName ), "\\" );
+         strcat_s( szFileName, zsizeof( szFileName ), "\\" );
       }
    }
 
-   strcat_s( szFileName, sizeof( szFileName ), cpcReportDefName );
-   strcat_s( szFileName, sizeof( szFileName ), ".XRP" );
+   strcat_s( szFileName, zsizeof( szFileName ), cpcReportDefName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".XRP" );
 
    // DGC 7/11/96 -- The following is a hack for compatability with Unix.
    // Unix file names are case-sensitive.  Since DOS/Windows files (when
    // copied to a unix system via a network) are assigned lower-case letters
    // in Unix, we will (for now) make all Zeidon System file names lowercase.
-   _strlwr_s( szFileName, sizeof( szFileName ) );
+   _strlwr_s( szFileName, zsizeof( szFileName ) );
 
    nRC = ActivateOI_FromFile( &vReportDef, "TZRPSRCO", vSubtask, szFileName, zACTIVATE_SYSTEM );
 
@@ -779,18 +779,18 @@ FormatSubobjectForXSLT( zVIEW     vSourceOI,
    szFileName[ 0 ] = 0;
    SfGetApplicationForSubtask( &lpApp, vSubtask );
    if ( lpApp )
-      strcpy_s( szFileName, sizeof( szFileName ), lpApp->szObjectDir );
+      strcpy_s( szFileName, zsizeof( szFileName ), lpApp->szObjectDir );
    else
       return -1;
 
-   strcat_s( szFileName, sizeof( szFileName ), cpcReportDefName );
-   strcat_s( szFileName, sizeof( szFileName ), ".XRP" );
+   strcat_s( szFileName, zsizeof( szFileName ), cpcReportDefName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".XRP" );
 
    // DGC 7/11/96 -- The following is a hack for compatability with Unix.
    // Unix file names are case-sensitive.  Since DOS/Windows files (when
    // copied to a unix system via a network) are assigned lower-case letters
    // in Unix, we will (for now) make all Zeidon System file names lowercase.
-   _strlwr_s( szFileName, sizeof( szFileName ) );
+   _strlwr_s( szFileName, zsizeof( szFileName ) );
 
    nRC = ActivateOI_FromFile( &vReportDef, "TZRPSRCO", vSubtask, szFileName, zACTIVATE_SYSTEM );
 
@@ -873,7 +873,7 @@ ConvertXML_SpecialCharacters( zVIEW  vAnyView,
       {
          *TargetPtr = *SourcePtr;
          TargetPtr++;
-         strcpy_s( szTrace, sizeof( szTrace ), "*** Source Character: " );
+         strcpy_s( szTrace, zsizeof( szTrace ), "*** Source Character: " );
          *(szTrace + 21) = *SourcePtr;
       }
 

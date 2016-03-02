@@ -586,11 +586,11 @@ zwfnTZDMUPDD_AskForSave( zVIEW  vSubtask,
    if ( !ComponentIsCheckedOut( vSubtask, vDomainGrp, zSOURCE_DOMAINGRP_META ) )
    {
       nSaveAs = TRUE;
-      GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vDomainGrp, "Domain", "Name" );
-      strcpy_s( szMessageText, sizeof( szMessageText ), "Domain Group is not checked out, but Domain '" );
-      strcat_s( szMessageText, sizeof( szMessageText ), szDomainName );
-      strcat_s( szMessageText, sizeof( szMessageText ), "' has been modified. \n\nWould you like to " );
-      strcat_s( szMessageText, sizeof( szMessageText ), "save it with differend name?" );
+      GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vDomainGrp, "Domain", "Name" );
+      strcpy_s( szMessageText, zsizeof( szMessageText ), "Domain Group is not checked out, but Domain '" );
+      strcat_s( szMessageText, zsizeof( szMessageText ), szDomainName );
+      strcat_s( szMessageText, zsizeof( szMessageText ), "' has been modified. \n\nWould you like to " );
+      strcat_s( szMessageText, zsizeof( szMessageText ), "save it with differend name?" );
       nRC = MessagePrompt( vSubtask, "DM00115", "Domain Maintenance",
                            szMessageText, zBEEP, zBUTTONS_YESNOCANCEL,
                            zRESPONSE_YES, zICON_QUESTION );
@@ -811,7 +811,7 @@ zwTZDMUPDD_SaveDomain( zVIEW    vSubtask )
    if ( nRC < 1 )
       return( 0 );
 
-   nRC = GetStringFromAttribute( szType, sizeof( szType ), vDomainGrp, "Domain", "DomainType" );
+   nRC = GetStringFromAttribute( szType, zsizeof( szType ), vDomainGrp, "Domain", "DomainType" );
    if ( szType[ 0 ] == 0 )
    {
       MessageSend( vSubtask, "DM00101", "Domain Maintenance",
@@ -821,7 +821,7 @@ zwTZDMUPDD_SaveDomain( zVIEW    vSubtask )
       return( -1 );
    }
 
-   nRC = GetStringFromAttribute( szType, sizeof( szType ), vDomainGrp, "Domain", "DataType" );
+   nRC = GetStringFromAttribute( szType, zsizeof( szType ), vDomainGrp, "Domain", "DataType" );
    if ( szType[ 0 ] == 0 )
    {
       MessageSend( vSubtask, "DM00101", "Domain Maintenance",
@@ -877,7 +877,7 @@ zwfnTZDMUPDD_SaveDomain( zVIEW vSubtask, zVIEW vDomainGrp )
    // Make sure that the Subdirectory attribute is null and that the
    // Extension attribute is set according to the Language type.
    SetAttributeFromString( vDomainGrp, "DomainGroup", "Subdirectory", "" );
-   GetStringFromAttribute( szLanguageType, sizeof( szLanguageType ),
+   GetStringFromAttribute( szLanguageType, zsizeof( szLanguageType ),
                            vDomainGrp, "DomainGroup", "LanguageType" );
    if ( szLanguageType[ 0 ] == 'V' )
       SetAttributeFromString( vDomainGrp, "DomainGroup", "Extension", "VML" );
@@ -1035,7 +1035,7 @@ zwTZDMUPDD_CreateNewDomain( zVIEW    vSubtask )
 
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
    GetViewByName( &vCM_ListGroup, "CM_ListGroup", vSubtask, zLEVEL_ANY );
-   nZRetCode = GetStringFromAttribute( szTempString, sizeof( szTempString ),
+   nZRetCode = GetStringFromAttribute( szTempString, zsizeof( szTempString ),
                                        vProfileXFER, "DM", "DomainName" );
    if ( szTempString[ 0 ] == 0 )
    {
@@ -1173,7 +1173,7 @@ zwfnTZDMUPDD_PromptForDelete( zVIEW  vSubtask,
    if ( CheckExistenceOfEntity( vTZDGSRCO, "SelectedOperation" ) < zCURSOR_SET )
       return( 0 );
 
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vTZDGSRCO, "SelectedOperation", "Name" );
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vTZDGSRCO, "SelectedOperation", "Name" );
 
    // if Operation assigned an other Domain?
    CreateViewFromViewForTask( &vTZDGSRCO_Copy, vTZDGSRCO, 0 );
@@ -1188,9 +1188,9 @@ zwfnTZDMUPDD_PromptForDelete( zVIEW  vSubtask,
    nRC = zRESPONSE_NO;
    if ( nPromptForDelete == 1 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Delete assigned Domain Operation '" );
-      strcat_s( szMsg, sizeof( szMsg ), szOperationName );
-      strcat_s( szMsg, sizeof( szMsg ), "' from Source File?" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Delete assigned Domain Operation '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szOperationName );
+      strcat_s( szMsg, zsizeof( szMsg ), "' from Source File?" );
 
       nRC = MessagePrompt( vSubtask, "OP00810", "Domain Maintenance",
                            szMsg, 0, zBUTTONS_YESNO, zRESPONSE_YES,
@@ -1221,7 +1221,7 @@ zwfnTZDMUPDD_DeleteCode( zVIEW vSubtask,
                                          vTZDGSRCO, "SelectedOperation",
                                          "" ) >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vTZDGSRCO,
+      GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vTZDGSRCO,
                                "SelectedOperation", "Name" );
 
       // Create Work LOD for Delete Operation from File
@@ -1554,7 +1554,7 @@ zwTZDMUPDD_AddTableEntry( zVIEW    vSubtask )
       if ( CompareAttributeToString( vDomainGrp, "Domain", "DataType",
                                     "L" ) == 0 )
       {
-         GetStringFromAttribute( szInternalValue, sizeof( szInternalValue ),
+         GetStringFromAttribute( szInternalValue, zsizeof( szInternalValue ),
                                  vDomainGrp, "DomainGroup", "WorkNumeric" );
          SetAttributeFromString( vDomainGrp, "TableEntry", "InternalValue",
                                  szInternalValue );
@@ -1803,7 +1803,7 @@ zwTZDMUPDD_TABLEENT_BUTTON_Next( zVIEW    vSubtask )
    if ( CompareAttributeToString( vDomainGrp, "Domain", "DataType",
                                   "L" ) == 0 )
    {
-      GetStringFromAttribute( szInternalValue, sizeof( szInternalValue ), vDomainGrp,
+      GetStringFromAttribute( szInternalValue, zsizeof( szInternalValue ), vDomainGrp,
                               "DomainGroup", "WorkNumeric" );
       // If DomainGroup not checked out, View is read only. To set a attribute
       // View has to be updateble. After change attribute set View read only again
@@ -1835,7 +1835,7 @@ zwTZDMUPDD_TABLEENT_BUTTON_Next( zVIEW    vSubtask )
    if ( CompareAttributeToString( vDomainGrp, "Domain", "DataType",
                                   "L" ) == 0 )
    {
-      GetStringFromAttribute( szInternalValue, sizeof( szInternalValue ),
+      GetStringFromAttribute( szInternalValue, zsizeof( szInternalValue ),
                               vDomainGrp, "TableEntry", "InternalValue" );
       // If DomainGroup not checked out, View is read only. To set a attribute
       // View has to be updateble. After change attribute set View read only again
@@ -1875,7 +1875,7 @@ zwTZDMUPDD_TABLEENT_BUTTON_Prev( zVIEW    vSubtask )
    // the work attribute to the InternalValue.
    if ( CompareAttributeToString( vDomainGrp, "Domain", "DataType", "L" ) == 0 )
    {
-      GetStringFromAttribute( szInternalValue, sizeof( szInternalValue ),
+      GetStringFromAttribute( szInternalValue, zsizeof( szInternalValue ),
                               vDomainGrp, "DomainGroup", "WorkNumeric" );
       // If DomainGroup not checked out, View is read only. To set a attribute
       // View has to be updateble. After change attribute set View read only again
@@ -1907,7 +1907,7 @@ zwTZDMUPDD_TABLEENT_BUTTON_Prev( zVIEW    vSubtask )
    if ( CompareAttributeToString( vDomainGrp, "Domain", "DataType",
                                   "L" ) == 0 )
    {
-      GetStringFromAttribute( szInternalValue, sizeof( szInternalValue ),
+      GetStringFromAttribute( szInternalValue, zsizeof( szInternalValue ),
                               vDomainGrp, "TableEntry", "InternalValue" );
       // If DomainGroup not checked out, View is read only. To set a attribute
       // View has to be updateble. After change attribute set View read only again
@@ -1976,7 +1976,7 @@ zwTZDMUPDD_CreateByCopy( zVIEW    vSubtask )
    zCHAR    szDomainName[ 33 ];
 
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
-   GetStringFromAttribute( szDomainName, sizeof( szDomainName ),
+   GetStringFromAttribute( szDomainName, zsizeof( szDomainName ),
                             vProfileXFER, "DM", "DomainName" );
    nRC = CheckExistenceOfMetaOI( vSubtask, szDomainName, zSOURCE_DOMAIN_META );
    if ( nRC == 1 )
@@ -2382,10 +2382,10 @@ zwTZDMUPDD_CheckDomainGroupTyp( zVIEW  vSubtask,
         CompareAttributeToString( vDomain, "DomainGroup",
                                   "DomainAndGlobalOpGroupName", "" ) == 0 )
   {
-      strcpy_s( szMsg, sizeof( szMsg ), "DLL Name does not exists or wrong Language\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "Type selected.\n\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "Please switch to Domain Group Properties\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "and correct the problem." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "DLL Name does not exists or wrong Language\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "Type selected.\n\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "Please switch to Domain Group Properties\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "and correct the problem." );
       MessageSend( vSubtask, "DM00115", "Domain Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
@@ -2507,7 +2507,7 @@ zwTZDMUPDD_OpenDomainPreBuild( zVIEW vSubtask )
    nRC = SetCursorFirstEntity( vDomainLPLR, "W_MetaDef", 0 );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szGroupName, sizeof( szGroupName ),
+      GetStringFromAttribute( szGroupName, zsizeof( szGroupName ),
                               vDomainLPLR, "W_MetaDef", "GroupName" );
       SetCursorFirstEntityByString( vGroupLPLR, "W_MetaDef", "Name",
                                     szGroupName, 0 );
@@ -2622,7 +2622,7 @@ zwTZDMUPDD_TableEntryIntegerOK( zVIEW vSubtask )
 
    GetViewByName( &vDomainGrp, "TZDGSRCO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szInternalValue, sizeof( szInternalValue ),
+   GetStringFromAttribute( szInternalValue, zsizeof( szInternalValue ),
                            vDomainGrp, "DomainGroup", "WorkNumeric" );
    // If DomainGroup not checked out, View is read only. To set a attribute
    // View has to be updateble. After change attribute set View read only again
@@ -2657,7 +2657,7 @@ zwTZDMUPDD_TableEntryIntegerInit ( zVIEW vSubtask )
    GetViewByName( &vDomainGrp, "TZDGSRCO", vSubtask, zLEVEL_TASK );
 
    // Set up the work attribute for the new entity.
-   GetStringFromAttribute( szInternalValue, sizeof( szInternalValue ),
+   GetStringFromAttribute( szInternalValue, zsizeof( szInternalValue ),
                            vDomainGrp, "TableEntry", "InternalValue" );
    // If DomainGroup not checked out, View is read only. To set a attribute
    // View has to be updateble. After change attribute set View read only again
@@ -2867,7 +2867,7 @@ zwTZDMUPDD_LoadDomain( zVIEW vSubtask )
                             "ActionAfterSaveAS", "Typ" );
 
    //save new selected Domain
-   GetStringFromAttribute( szNewDomain, sizeof( szNewDomain ), vDomainGrp, "Domain", "Name" );
+   GetStringFromAttribute( szNewDomain, zsizeof( szNewDomain ), vDomainGrp, "Domain", "Name" );
 
    GetSubtaskForWindowName( vSubtask, &vWindow, "TZDMUPDD" );
    GetCtrlText( vWindow, "DomainName", szOldDomain, 33 );
@@ -2956,10 +2956,10 @@ zwTZDMUPDD_DeleteOperation( zVIEW vSubtask )
    GetViewByName( &vTZDGSRCO, "TZDGSRCO", vSubtask, zLEVEL_ANY );
 
    // Prompt for Delete
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to Delete Domain Operation '" );
-   GetStringFromAttribute( szName, sizeof( szName ), vTZDGSRCO, "Operation", "Name" );
-   strcat_s( szMsg, sizeof( szMsg ), szName );
-   strcat_s( szMsg, sizeof( szMsg ), "' ?" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to Delete Domain Operation '" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZDGSRCO, "Operation", "Name" );
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
+   strcat_s( szMsg, zsizeof( szMsg ), "' ?" );
    nRC = MessagePrompt( vSubtask, "OP00805", "Domain Maintenance",
                         szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 );
 
@@ -2971,9 +2971,9 @@ zwTZDMUPDD_DeleteOperation( zVIEW vSubtask )
                                           "Name", szName, "DomainGroup" );
       if ( nRC >= zCURSOR_SET )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Domain Operation '" );
-         strcat_s( szMsg, sizeof( szMsg ), szName );
-         strcat_s( szMsg, sizeof( szMsg ), "' cannot be deleted \nif it is used by an Domain." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Domain Operation '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' cannot be deleted \nif it is used by an Domain." );
          MessageSend( vSubtask, "OP00817", "Domain Maintenance", szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
          return( -1 );
@@ -3258,8 +3258,8 @@ zwTZDMUPDD_MoveDomainPostBuild( zVIEW vSubtask )
    if ( GetSubtaskForWindowName( vSubtask, &vWindow, "DOMLIST" ) >= 0 )
    {
       GetViewByName( &vCM_List, "CM_List", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vCM_List, "W_MetaDef", "Name" );
-      GetStringFromAttribute( szDomainGroup, sizeof( szDomainGroup ), vCM_List, "W_MetaDef", "GroupName" );
+      GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vCM_List, "W_MetaDef", "Name" );
+      GetStringFromAttribute( szDomainGroup, zsizeof( szDomainGroup ), vCM_List, "W_MetaDef", "GroupName" );
       SetCursorFirstEntityByAttr( vMoveDomain, "SourceFile", "Name",
                                   vCM_List, "W_MetaDef", "GroupName", "" );
       GetStringFromAttributeByContext( szType, vMoveDomain, "SourceFile",
@@ -3274,8 +3274,8 @@ zwTZDMUPDD_MoveDomainPostBuild( zVIEW vSubtask )
    else
    {
       GetViewByName( &vTZDGSRCO, "TZDGSRCO", vSubtask, zLEVEL_TASK );
-      GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vTZDGSRCO, "Domain", "Name" );
-      GetStringFromAttribute( szDomainGroup, sizeof( szDomainGroup ), vTZDGSRCO, "DomainGroup", "Name" );
+      GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vTZDGSRCO, "Domain", "Name" );
+      GetStringFromAttribute( szDomainGroup, zsizeof( szDomainGroup ), vTZDGSRCO, "DomainGroup", "Name" );
       GetStringFromAttributeByContext( szType, vTZDGSRCO, "DomainGroup",
                                        "LanguageType", "LanguageType", 4 );
       SetCursorFirstEntityByAttr( vMoveDomain, "SourceFile", "Name",
@@ -3363,7 +3363,7 @@ zwTZDMUPDD_SaveAsPostBuild( zVIEW vSubtask )
    GetViewByName( &vTZDGSRCO, "TZDGSRCO", vSubtask, zLEVEL_TASK );
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vTZDGSRCO, "Domain", "Name" );
+   GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vTZDGSRCO, "Domain", "Name" );
 
    //if edit new Domain Name in main window
    if ( SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name",
@@ -3456,7 +3456,7 @@ zwTZDMUPDD_SetSaveAsName( zVIEW vSubtask )
    SetAttributeFromAttribute ( vProfileXFER, "DM", "DomainName",
                                vCM_List, "W_MetaDef", "Name" );
 
-   GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vCM_List, "W_MetaDef", "GroupName" );
+   GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vCM_List, "W_MetaDef", "GroupName" );
    GetStringFromAttributeByContext( szType, vMoveDomain, "SourceFile",
                                     "LanguageType", "LanguageType", 4 );
    SetCtrlText( vSubtask, "txtDomainGroup", szGroupName );
@@ -3511,7 +3511,7 @@ zwTZDMUPDD_SetGroupName( zVIEW vSubtask )
    GetViewByName( &vMoveDomain, "MoveDomain", vSubtask, zLEVEL_TASK );
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vMoveDomain, "SourceFile", "Name" );
+   GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vMoveDomain, "SourceFile", "Name" );
    GetStringFromAttributeByContext( szType, vMoveDomain, "SourceFile",
                                     "LanguageType", "LanguageType", 4 );
 
@@ -3659,7 +3659,7 @@ zwTZDMUPDD_SaveAsCheckValues( zVIEW  vSubtask,
    GetCtrlText( vWindow, "txtDomainGroup", szGroupName, 33 );
    if ( zstrcmp( szGroupName, "" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Target Group Name is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Target Group Name is required." );
       MessageSend( vSubtask, "ZO00137", "Domain Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -3667,11 +3667,11 @@ zwTZDMUPDD_SaveAsCheckValues( zVIEW  vSubtask,
    }
 
    //Domain Name is required
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vProfileXFER, "DM", "DomainName" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vProfileXFER, "DM", "DomainName" );
    UfCompressName( szNewName, szOutName, 32, "", "", "", "", 0 );
    if ( zstrcmp( szOutName, "" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Domain Name is required." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Domain Name is required." );
       MessageSend( vSubtask, "ZO00137", "Domain Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -3685,11 +3685,11 @@ zwTZDMUPDD_SaveAsCheckValues( zVIEW  vSubtask,
         CompareAttributeToString( vCM_List_Copy, "W_MetaDef", "GroupName",
                                   szGroupName ) != 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Cannot save Domain, because already exists\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "in Domain Group '" );
-      GetStringFromAttribute( szNewName, sizeof( szNewName ), vCM_List_Copy, "W_MetaDef", "GroupName" );
-      strcat_s( szMsg, sizeof( szMsg ), szNewName );
-      strcat_s( szMsg, sizeof( szMsg ), "'.");
+      strcpy_s( szMsg, zsizeof( szMsg ), "Cannot save Domain, because already exists\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "in Domain Group '" );
+      GetStringFromAttribute( szNewName, zsizeof( szNewName ), vCM_List_Copy, "W_MetaDef", "GroupName" );
+      strcat_s( szMsg, zsizeof( szMsg ), szNewName );
+      strcat_s( szMsg, zsizeof( szMsg ), "'.");
       MessageSend( vSubtask, "ZO00137", "Domain Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -3979,20 +3979,20 @@ zwfnTZDMUPDD_CreateOperation( zVIEW   vSubtask,
    nRC = SetCursorFirstEntityByString( vCopy, "SelectedOperation", "Name",
                                        szOperationName, "DomainGroup" );
    DropView( vCopy );
-   strcpy_s( szMsg, sizeof( szMsg ), "Domain Operation '" );
-   strcat_s( szMsg, sizeof( szMsg ), szOperationName );
-   strcat_s( szMsg, sizeof( szMsg ), "' " );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Domain Operation '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szOperationName );
+   strcat_s( szMsg, zsizeof( szMsg ), "' " );
 
    // Operation already exists in Target Group and is assigned to an other Domain
    if ( nRC >= zCURSOR_SET )
    {
-      strcat_s( szMsg, sizeof( szMsg ), "is assigned to more than one Domains.\n\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "Replace existing Operation? ");
+      strcat_s( szMsg, zsizeof( szMsg ), "is assigned to more than one Domains.\n\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "Replace existing Operation? ");
    }
    else
    {
-      strcat_s( szMsg, sizeof( szMsg ), "already exists.\n\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "Replace existing Operation? ");
+      strcat_s( szMsg, zsizeof( szMsg ), "already exists.\n\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "Replace existing Operation? ");
    }
 
    nRC = MessagePrompt( vSubtask, "ZO00138", "Domain Maintenance",
@@ -4037,9 +4037,9 @@ zwTZDMUPDD_RemoveOperFromGroup( zVIEW   vSubtask,
 
    if ( nRC >= zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Operation Code cannot be moved, because\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "Operation is related to an other Domain.\n\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "Operation Code will be copied." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Operation Code cannot be moved, because\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "Operation is related to an other Domain.\n\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "Operation Code will be copied." );
       MessageSend( vSubtask, "OP00819", "Domain Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       nCopyOrMoveFlag = zCOPY_OPERATION;
@@ -4074,7 +4074,7 @@ zwTZDMUPDD_CreateOperation( zVIEW  vSubtask,
    if ( CheckExistenceOfEntity( vSource, "SelectedOperation" ) < zCURSOR_SET )
       return( zDM_NOREPLACE_CODE );
 
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vSource, "SelectedOperation", "Name" );
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vSource, "SelectedOperation", "Name" );
 
    nRC = SetCursorFirstEntityByString( vTarget, "Operation",
                                        "Name", szOperationName, "" );
@@ -4256,7 +4256,7 @@ zwTZDMUPDD_MoveCheckGroupType( zVIEW  vSubtask,
       {
          zSHORT nRC;
 
-         strcpy_s( szMsg, sizeof( szMsg ), "Language Type of Domain Group do not match.\n"
+         strcpy_s( szMsg, zsizeof( szMsg ), "Language Type of Domain Group do not match.\n"
                          "Are you sure you want to move the domain?" );
          nRC = OperatorPrompt( vSubtask, "Move Domain", szMsg, 0, zBUTTONS_YESNO,
                                zRESPONSE_NO, zICON_QUESTION );
@@ -4390,7 +4390,7 @@ zwTZDMUPDD_MoveDomainOperToFile( zVIEW  vSubtask,
 
       // Create Operation
       CreateEntity( vDeleteOp, "Operation", zPOS_AFTER );
-      GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vTZDGSRCO, "SelectedOperation", "Name" );
+      GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vTZDGSRCO, "SelectedOperation", "Name" );
       SetAttributeFromString( vDeleteOp, "Operation", "Name", szOperationName );
 
       // Added new Sourcen File for move Opertion to new File
@@ -4435,7 +4435,7 @@ zwTZDMUPDD_MoveDomainToNewGroup( zVIEW vSubtask )
    else
       GetViewByName( &vSource, "TZDGSRCO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vSource, "Domain", "Name" );
+   GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vSource, "Domain", "Name" );
 
    // Move Domain in a new Domain Group?
    if ( CompareAttributeToString( vProfileXFER, "DM", "NewDomainGroupFlag",
@@ -4556,7 +4556,7 @@ zwTZDMUPDD_CheckGroupType( zVIEW vSubtask,
 {
    zCHAR  szLanguageType[ 4 ];
 
-   GetStringFromAttribute( szLanguageType, sizeof( szLanguageType ),
+   GetStringFromAttribute( szLanguageType, zsizeof( szLanguageType ),
                            vTZDGSRCO_DETAIL, "DomainGroup", "LanguageType" );
 
    if ( szLanguageType[ 0 ] == '\0f' )
@@ -4618,7 +4618,7 @@ zwTZDMUPDD_AcceptDomainGroup( zVIEW vSubtask )
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
    GetViewByName( &vTZDGSRCO_DETAIL, "TZDGSRCO_DETAIL", vSubtask, zLEVEL_TASK );
    GetViewByName( &vCM_ListGroup, "CM_ListGroup", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szDomainGroup, sizeof( szDomainGroup ), vTZDGSRCO_DETAIL, "DomainGroup", "Name" );
+   GetStringFromAttribute( szDomainGroup, zsizeof( szDomainGroup ), vTZDGSRCO_DETAIL, "DomainGroup", "Name" );
 
    if ( !ComponentIsCheckedOut( vSubtask, vTZDGSRCO_DETAIL, zSOURCE_DOMAINGRP_META ))
       return( 0 );
@@ -4705,7 +4705,7 @@ zwTZDMUPDD_SaveAsInNewGroup( zVIEW vSubtask )
    GetViewByName( &vProfileXFER, "ProfileXFER", vSubtask, zLEVEL_ANY );
    GetViewByName( &vCM_List, "CM_List", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vProfileXFER, "DM", "DomainName" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vProfileXFER, "DM", "DomainName" );
    UfCompressName( szNewName, szOutName, 32, "", "", "", "", 0 );
 
    // Check that a domain name has been entered.
@@ -4724,11 +4724,11 @@ zwTZDMUPDD_SaveAsInNewGroup( zVIEW vSubtask )
    if ( SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name",
                                      szOutName, 0 ) > zCURSOR_UNCHANGED )
    {
-      GetStringFromAttribute( szGroupName, sizeof( szGroupName ), vCM_List, "W_MetaDef", "GroupName" );
-      strcpy_s( szMsg, sizeof( szMsg ), "Cannot create a new Domain Group for an existing Domain.\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "Domain exists in Doamin Group '");
-      strcat_s( szMsg, sizeof( szMsg ), szGroupName );
-      strcat_s( szMsg, sizeof( szMsg ), "'.");
+      GetStringFromAttribute( szGroupName, zsizeof( szGroupName ), vCM_List, "W_MetaDef", "GroupName" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Cannot create a new Domain Group for an existing Domain.\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "Domain exists in Doamin Group '");
+      strcat_s( szMsg, zsizeof( szMsg ), szGroupName );
+      strcat_s( szMsg, zsizeof( szMsg ), "'.");
       MessageSend( vSubtask, "DM00103", "Domain Maintenance",
                    szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -5306,7 +5306,7 @@ zwTZDMUPDD_AcceptSubobject( zVIEW vSubtask,
 
    GetViewByName( &vTZDGSRCO, "TZDGSRCO", vSubtask, zLEVEL_ANY );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vTZDGSRCO, szEntityName, szAttributeName );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vTZDGSRCO, szEntityName, szAttributeName );
 
    if ( zstrcmp( szEntityName, "TableEntry" ) &&
         zstrcmp( szEntityName, "Operation" ) != 0 )
@@ -5315,8 +5315,8 @@ zwTZDMUPDD_AcceptSubobject( zVIEW vSubtask,
 
       if ( zstrcmp( szNewName, "") == 0 )
       {
-         strcpy_s( szMessage, sizeof( szMessage ), szMessageText );
-         strcat_s( szMessage, sizeof( szMessage ), " Name is required.");
+         strcpy_s( szMessage, zsizeof( szMessage ), szMessageText );
+         strcat_s( szMessage, zsizeof( szMessage ), " Name is required.");
          MessageSend( vSubtask, "PE00114", "Domain Maintenance",
                       szMessage,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -5336,9 +5336,9 @@ zwTZDMUPDD_AcceptSubobject( zVIEW vSubtask,
 
    if ( nRC == zCURSOR_SET )
    {
-      strcpy_s( szMessage, sizeof( szMessage ), "A " );
-      strcat_s( szMessage, sizeof( szMessage ), szMessageText );
-      strcat_s( szMessage, sizeof( szMessage ), " already exists by this name!" );
+      strcpy_s( szMessage, zsizeof( szMessage ), "A " );
+      strcat_s( szMessage, zsizeof( szMessage ), szMessageText );
+      strcat_s( szMessage, zsizeof( szMessage ), " already exists by this name!" );
       MessageSend( vSubtask, "OP00814", "Domain Maintenance",
                    szMessage,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );

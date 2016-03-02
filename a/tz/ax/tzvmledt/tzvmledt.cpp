@@ -997,9 +997,9 @@ LPCSTR ZVMLWrap::GetControlTag()
    return strHelp;
 }
 
-void ZVMLWrap::GetObjectName( zPCHAR lpszFileName )
+void ZVMLWrap::GetObjectName( zPCHAR pchFileName )
 {
-   strcpy_s( lpszFileName, sizeof( lpszFileName ), m_strFileName );
+   strcpy_s( pchFileName, MAX_PATH + 1, m_strFileName );
 }
 
 
@@ -1140,7 +1140,7 @@ ZVMLWrap::LoadLodDefinition( CString strObjectName )
       while( nRC >= zCURSOR_SET && bFound == FALSE )
       {
 
-         GetStringFromAttribute( szLodName, sizeof( szLodName ), vLOD_List, "W_MetaDef", "Name" );
+         GetStringFromAttribute( szLodName, zsizeof( szLodName ), vLOD_List, "W_MetaDef", "Name" );
          if ( strObjectName.CompareNoCase( szLodName ) == 0 )
             bFound = TRUE;
          else
@@ -1149,7 +1149,7 @@ ZVMLWrap::LoadLodDefinition( CString strObjectName )
 
       if ( bFound )
       {
-         GetStringFromAttribute( szLodDesc, sizeof( szLodDesc ), vLOD_List, "W_MetaDef", "Desc" );
+         GetStringFromAttribute( szLodDesc, zsizeof( szLodDesc ), vLOD_List, "W_MetaDef", "Desc" );
 
          lpLod = new ZLod( szLodName, szLodDesc );
          m_mapLods[lpLod->m_strName] = lpLod;
@@ -1165,8 +1165,8 @@ ZVMLWrap::LoadLodDefinition( CString strObjectName )
             {
                CHAR szEntityName[255];
                CHAR szEntityDesc[5000];
-               GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vLOD, "LOD_Entity", "Name" );
-               GetStringFromAttribute( szEntityDesc, sizeof( szEntityDesc ), vLOD, "LOD_Entity", "Desc" );
+               GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vLOD, "LOD_Entity", "Name" );
+               GetStringFromAttribute( szEntityDesc, zsizeof( szEntityDesc ), vLOD, "LOD_Entity", "Desc" );
 
                LPZENTITY lpEntity = new ZEntity( szEntityName, szEntityDesc);
                // append entity to lod
@@ -1177,8 +1177,8 @@ ZVMLWrap::LoadLodDefinition( CString strObjectName )
                {
                   CHAR szAttributeName[255];
                   CHAR szAttributeDesc[5000];
-                  GetStringFromAttribute( szAttributeName, sizeof( szAttributeName ), vLOD, "ER_Attribute", "Name" );
-                  GetStringFromAttribute( szAttributeDesc, sizeof( szAttributeDesc ), vLOD, "ER_Attribute", "Desc" );
+                  GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ), vLOD, "ER_Attribute", "Name" );
+                  GetStringFromAttribute( szAttributeDesc, zsizeof( szAttributeDesc ), vLOD, "ER_Attribute", "Desc" );
 
                   LPZATTRIBUTE lpAttribute = new ZAttribute( szAttributeName, szAttributeDesc );
                   // append attribute to entity
@@ -1384,7 +1384,7 @@ ZVMLWrap::PopulateFunctions( LPDISPATCH ListCtrl )
          nRC = SetCursorNextEntity( vTZOPSIGK, "Operation", 0 ), i++ )
    {
       char szFunc[255];
-      GetStringFromAttribute( szFunc, sizeof( szFunc ), vTZOPSIGK, "Operation", "Name" );
+      GetStringFromAttribute( szFunc, zsizeof( szFunc ), vTZOPSIGK, "Operation", "Name" );
       COleVariant v;
       COleVariant vImageIndex( LONG(i%2) );
       m_pCL->AddItem( szFunc, vImageIndex, v );

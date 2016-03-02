@@ -315,7 +315,7 @@ fnPrintMutexInfo( zCHAR  cLock,
    if ( g_hMutexMemFile == 0 )
    {
       zBOOL bInit;
-      zLONG lBytes = sizeof( struct DbgMutexInfo );
+      zLONG lBytes = zsizeof( struct DbgMutexInfo );
       long  lLastError;
 
       // Allocate space for an extra mutex to handle SendMessage( ) as a mutex.
@@ -374,7 +374,7 @@ fnPrintMutexInfo( zCHAR  cLock,
 
       pch++;
       strcpy_s( g_MutexInfoTable[ lMutex ].TaskInfo[ k ].szLockingFile,
-                sizeof( g_MutexInfoTable[ lMutex ].TaskInfo[ k ].szLockingFile ), pch );
+                zsizeof( g_MutexInfoTable[ lMutex ].TaskInfo[ k ].szLockingFile ), pch );
       g_MutexInfoTable[ lMutex ].TaskInfo[ k ].lLockingLine = lLine;
    }
 
@@ -679,11 +679,11 @@ SetTransientTaskProcess( zCPCHAR cpcSessionId, zVIEW vSubtask, zBOOL bOn, zCPCHA
    // TraceLine( "EnterCriticalSection STP S/V/T: %s/0x%08x/0x%08x  ==> %s (%s)  Thread: %d",
    //            cpcSessionId, vSubtask, vSubtask->hTask, bOn ? "ON " : "OFF", cpcTitle, lThreadID );
 #if 1
-      SysGetDateTime( lpTask->szTimeStamp, sizeof( lpTask->szTimeStamp ) );
+      SysGetDateTime( lpTask->szTimeStamp, zsizeof( lpTask->szTimeStamp ) );
 #else
       if ( FindWebSubtask( cpcSessionId ) == vSubtask )
       {
-         SysGetDateTime( lpTask->szTimeStamp, sizeof( lpTask->szTimeStamp ) );
+         SysGetDateTime( lpTask->szTimeStamp, zsizeof( lpTask->szTimeStamp ) );
       }
       else
       {
@@ -735,9 +735,9 @@ SysMakeWebFileName( zPCHAR pchReturnName, zLONG lMaxLth, zVIEW v, zLONG lFlags )
    {
       if ( lpApp )
       {
-         strcpy_s( szName, sizeof( szName ), "[App." );
-         strcpy_s( szName + 5, sizeof( szName ) - 5, lpApp->szName );
-         strcat_s( szName, sizeof( szName ), "]" );
+         strcpy_s( szName, zsizeof( szName ), "[App." );
+         strcpy_s( szName + 5, zsizeof( szName ) - 5, lpApp->szName );
+         strcat_s( szName, zsizeof( szName ), "]" );
          SysReadZeidonIni( -1, szName, "WebDirectory", pchReturnName, lMaxLth );
       }
 
@@ -753,11 +753,11 @@ SysMakeWebFileName( zPCHAR pchReturnName, zLONG lMaxLth, zVIEW v, zLONG lFlags )
    {
       szName[ 0 ] = 's';
       szName[ 1 ] = 'i';
-      strcpy_s( szName + 2, sizeof( szName ) - 2, lpTask->szSessionId );
+      strcpy_s( szName + 2, zsizeof( szName ) - 2, lpTask->szSessionId );
    }
    else
    {
-      sprintf_s( szName, sizeof( szName ), "0x%08x", (zULONG) v );
+      sprintf_s( szName, zsizeof( szName ), "0x%08x", (zULONG) v );
    }
 
    strcat_s( pchReturnName, zMAX_FILESPEC_LTH, szName );
@@ -796,13 +796,13 @@ SysSetFocusToWebCtrl( zVIEW v, zCPCHAR cpcDialog, zCPCHAR cpcWindow,
          zLONG  lLth;
 
          szFullCtrlTag[ 0 ] = '@';
-         strcpy_s( szFullCtrlTag + 1, sizeof( szFullCtrlTag ) - 1, cpcCtrlTag );
+         strcpy_s( szFullCtrlTag + 1, zsizeof( szFullCtrlTag ) - 1, cpcCtrlTag );
          lLth = zstrlen( szFullCtrlTag );
          szFullCtrlTag[ lLth++ ] = '#';
-         zltoa( lKey, szFullCtrlTag + lLth, sizeof( szFullCtrlTag ) - lLth );
+         zltoa( lKey, szFullCtrlTag + lLth, zsizeof( szFullCtrlTag ) - lLth );
       }
       else
-         strcpy_s( szFullCtrlTag, sizeof( szFullCtrlTag ), cpcCtrlTag );
+         strcpy_s( szFullCtrlTag, zsizeof( szFullCtrlTag ), cpcCtrlTag );
 
       SetAttributeFromString( vKZXMLPGO, "Window", "FocusCtrl", szFullCtrlTag );
 
@@ -940,7 +940,7 @@ RegisterZeidonApplication( zPVIEW    pvSubtask,
    zSHORT k;
    zSHORT nRC;
 
-   SysDescribeZeidonPageTable( szTaskTitle, sizeof( szTaskTitle ) );
+   SysDescribeZeidonPageTable( szTaskTitle, zsizeof( szTaskTitle ) );
 // SysMalloc( -2 );  // initialize memory usage (debug)
 
    // Check to see if the "termination" mutex is defined.  If it is then
@@ -962,7 +962,7 @@ RegisterZeidonApplication( zPVIEW    pvSubtask,
    fnParseAppString( szAppName, szDialog, szUserID,  szPassword, szCommand, cpcAppString );
 
    if ( szDialog[ 0 ] )
-      strcpy_s( szTaskTitle, sizeof( szTaskTitle ), szDialog );
+      strcpy_s( szTaskTitle, zsizeof( szTaskTitle ), szDialog );
    else
       szTaskTitle[ 0 ] = 0;
 
@@ -999,9 +999,9 @@ RegisterZeidonApplication( zPVIEW    pvSubtask,
          lpFirstSubtask->hApp = lpTask->hApp;
 
          if ( szDialog && szDialog[ 0 ] )
-            strcpy_s( lpTask->szDialog, sizeof( lpTask->szDialog ), szDialog );
+            strcpy_s( lpTask->szDialog, zsizeof( lpTask->szDialog ), szDialog );
          else
-            strcpy_s( lpTask->szDialog, sizeof( lpTask->szDialog ), lpApp->szDefaultDialog );
+            strcpy_s( lpTask->szDialog, zsizeof( lpTask->szDialog ), lpApp->szDefaultDialog );
 
          if ( szCommand[ 0 ] )
          {
@@ -1036,14 +1036,14 @@ RegisterZeidonApplication( zPVIEW    pvSubtask,
 
          if ( lControl & 0x00000001 )
          {
-            if ( cpcControlData && zstrlen( cpcControlData ) < sizeof( lpTask->szSessionId ) )
+            if ( cpcControlData && zstrlen( cpcControlData ) < zsizeof( lpTask->szSessionId ) )
             {
-               strcpy_s( lpTask->szTaskTitle, sizeof( lpTask->szTaskTitle ), cpcControlData );
-               strcpy_s( lpTask->szSessionId, sizeof( lpTask->szSessionId ), cpcControlData );
+               strcpy_s( lpTask->szTaskTitle, zsizeof( lpTask->szTaskTitle ), cpcControlData );
+               strcpy_s( lpTask->szSessionId, zsizeof( lpTask->szSessionId ), cpcControlData );
             }
 
             lpTask->vWebSubtask = *pvSubtask;
-            SysGetDateTime( lpTask->szTimeStamp, sizeof( lpTask->szTimeStamp ) );
+            SysGetDateTime( lpTask->szTimeStamp, zsizeof( lpTask->szTimeStamp ) );
          }
 
          SetViewFlags( *pvSubtask, zVF_MESSAGEONDROP );
@@ -1656,14 +1656,14 @@ SysCreateInternational( zVOID )
    lpInternational->nCountry = GetProfileInt( szlINTL, szlICOUNTRY, 1 );
 
    // Selected country name, no default
-   GetProfileString( szlINTL, szlSCOUNTRY, szNullS, sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlSCOUNTRY, szNullS, sz, zsizeof( sz ) - 1 );
 
-   strcpy_s( lpInternational->szCountry, sizeof( lpInternational->szCountry ), sz );
+   strcpy_s( lpInternational->szCountry, zsizeof( lpInternational->szCountry ), sz );
 
    // Get selected language code, default U.S. English
-   GetProfileString( szlINTL, szlSLANGUAGE, "ENU", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlSLANGUAGE, "ENU", sz, zsizeof( sz ) - 1 );
 
-   strcpy_s( lpInternational->szLanguage, sizeof( lpInternational->szLanguage ), sz );
+   strcpy_s( lpInternational->szLanguage, zsizeof( lpInternational->szLanguage ), sz );
 
    // DGC: ????????????????? OS/2 ?????????? DKS 2/21/96 ?????????
    // Hard code the language code from the language string.
@@ -1686,47 +1686,47 @@ SysCreateInternational( zVOID )
       lpInternational->nLanguage = 1; // lpInternational->nLanguage = 0;
 
    // List separator, default comma
-   GetProfileString( szlINTL, szlSLIST, ",", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlSLIST, ",", sz, zsizeof( sz ) - 1 );
 
-   strcpy_s( lpInternational->szList, sizeof( lpInternational->szList ), sz );
+   strcpy_s( lpInternational->szList, zsizeof( lpInternational->szList ), sz );
 
    // Measurement system, default English
    // Time format, default 12 hour
    // Time Separator, default ":"
    lpInternational->nMeasure = GetProfileInt( szlINTL, szlIMEASURE, 1 );
    lpInternational->nTime = GetProfileInt( szlINTL, szlITIME, 0 );
-   GetProfileString( szlINTL, szlSTIME, ":", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlSTIME, ":", sz, zsizeof( sz ) - 1 );
 
-   strcpy_s( lpInternational->szTime, sizeof( lpInternational->szTime ), sz );
+   strcpy_s( lpInternational->szTime, zsizeof( lpInternational->szTime ), sz );
 
    // Trailing string for AM, default "AM"
-   GetProfileString( szlINTL, szlS1159, "AM", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlS1159, "AM", sz, zsizeof( sz ) - 1 );
 
-   strcpy_s( lpInternational->sz1159, sizeof( lpInternational->sz1159 ), sz );
+   strcpy_s( lpInternational->sz1159, zsizeof( lpInternational->sz1159 ), sz );
 
    // Trailing string for PM, default "PM"
-   GetProfileString( szlINTL, szlS2359, "PM", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlS2359, "PM", sz, zsizeof( sz ) - 1 );
 
-   strcpy_s( lpInternational->sz2359, sizeof( lpInternational->sz2359 ), sz );
+   strcpy_s( lpInternational->sz2359, zsizeof( lpInternational->sz2359 ), sz );
 
    // Time leading zeros for hours, default yes
    // Picture for short date, default "mm/dd/yy"
    lpInternational->nTLZero = GetProfileInt( szlINTL, szlITLZERO, 1 );
-   GetProfileString( szlINTL, szlSSHORTDATE, "mm/dd/yy", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlSSHORTDATE, "mm/dd/yy", sz, zsizeof( sz ) - 1 );
 
    fnConvertToZeidonFormat( sz );
    lpInternational->hShortDate = fnStoreStringInDataspace( AnchorBlock->hMainFirstDataHeader, sz );
 
    // Picture for long date, default "mmm dd, yyyy"
-   GetProfileString( szlINTL, szlSLONGDATE, "mmm dd, yyyy", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlSLONGDATE, "mmm dd, yyyy", sz, zsizeof( sz ) - 1 );
 
    fnConvertToZeidonFormat( sz );
    lpInternational->hLongDate = fnStoreStringInDataspace( AnchorBlock->hMainFirstDataHeader, sz );
 
    // Currency symbol, default "$"
-   GetProfileString( szlINTL, szlSCURRENCY, "$", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlSCURRENCY, "$", sz, zsizeof( sz ) - 1 );
 
-   strcpy_s( lpInternational->szCurrency, sizeof( lpInternational->szCurrency ), sz );
+   strcpy_s( lpInternational->szCurrency, zsizeof( lpInternational->szCurrency ), sz );
 
    // Current code format, default 0
    //
@@ -1759,15 +1759,15 @@ SysCreateInternational( zVOID )
    lpInternational->nCurrency = GetProfileInt( szlINTL, szlICURRENCY, 0 );
    lpInternational->nCurrDigits = GetProfileInt( szlINTL, szlICURRDIGITS, 2 );
    lpInternational->nNegCurr = GetProfileInt( szlINTL, szlINEGCURR, 0 );
-   GetProfileString( szlINTL, szlSTHOUSAND, ",", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlSTHOUSAND, ",", sz, zsizeof( sz ) - 1 );
 
-   strcpy_s( lpInternational->szThousand, sizeof( lpInternational->szThousand ), sz );
+   strcpy_s( lpInternational->szThousand, zsizeof( lpInternational->szThousand ), sz );
 
    // Symbol used to separate the integer part from the fractional part
    // of a number, default "."
-   GetProfileString( szlINTL, szlSDECIMAL, ".", sz, sizeof( sz ) - 1 );
+   GetProfileString( szlINTL, szlSDECIMAL, ".", sz, zsizeof( sz ) - 1 );
 
-   strcpy_s( lpInternational->szDecimal, sizeof( lpInternational->szDecimal ), sz );
+   strcpy_s( lpInternational->szDecimal, zsizeof( lpInternational->szDecimal ), sz );
 
    // Value defining the number of decimal digits that should be used in a
    // number, default 2
@@ -1784,16 +1784,16 @@ SysCreateInternational( zVOID )
 
    // construct zeidon intl time format from the other indicators
    if ( lpInternational->nTLZero )
-      strcpy_s( sz, sizeof( sz ), "HH" );
+      strcpy_s( sz, zsizeof( sz ), "HH" );
    else
-      strcpy_s( sz, sizeof( sz ), "H" );
+      strcpy_s( sz, zsizeof( sz ), "H" );
 
-   strcat_s( sz, sizeof( sz ), "\"" );
-   strcat_s( sz, sizeof( sz ), lpInternational->szTime );
-   strcat_s( sz, sizeof( sz ), "\"" );
-   strcat_s( sz, sizeof( sz ), "MI" );
+   strcat_s( sz, zsizeof( sz ), "\"" );
+   strcat_s( sz, zsizeof( sz ), lpInternational->szTime );
+   strcat_s( sz, zsizeof( sz ), "\"" );
+   strcat_s( sz, zsizeof( sz ), "MI" );
    if ( lpInternational->nTime == 0 )
-      strcat_s( sz, sizeof( sz ), " AM" );
+      strcat_s( sz, zsizeof( sz ), " AM" );
 
    lpInternational->hTimeFmt =
       fnStoreStringInDataspace( AnchorBlock->hMainFirstDataHeader, sz );
@@ -2021,7 +2021,7 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
    zLONG  lTaskAllocSize = zSHARED_ALLOC;
    zLONG  lSize = 16384;
 
-   zmemset( szZeidonEnv, 0, sizeof( szZeidonEnv ) );
+   zmemset( szZeidonEnv, 0, zsizeof( szZeidonEnv ) );
 
    // Validate that environment variable ZEIDON set, NOTE: This
    // is done both here and in SysStartObjectServices on purpose
@@ -2032,13 +2032,13 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
    // is done both here and in SysStartObjectServices on purpose
    // because ObjectServices can be started either alone or by
    // a client's RegisterZeidonApplication call.
-   SysGetEnvVar( szZeidonEnv, szlZEIDON, sizeof( szZeidonEnv ) );
+   SysGetEnvVar( szZeidonEnv, szlZEIDON, zsizeof( szZeidonEnv ) );
    if ( szZeidonEnv[ 0 ] == 0 )
    {
       char szMessage[ 256 ];
 
       // {2,"KZOEE002 - ZEIDON environment variable not set"},
-      SysGetBaseMessage( szMessage, KZOEE002, sizeof( szMessage ) );
+      SysGetBaseMessage( szMessage, KZOEE002, zsizeof( szMessage ) );
       SysMessageBox( 0, szlOE_SystemError, szMessage, -1 );
 
       return( (LPANCHOR) zCALL_ERROR );   // Error initializing anchor
@@ -2047,7 +2047,7 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
    {
       zCHAR szFileName[ zMAX_FILENAME_LTH + 1 ];
 
-      fnBuildZeidonIni( szFileName, sizeof( szFileName ) );
+      fnBuildZeidonIni( szFileName, zsizeof( szFileName ) );
       lTaskAllocSize = GetPrivateProfileInt( "Zeidon", "AllocSize",
                                              lTaskAllocSize, szFileName );
 
@@ -2111,7 +2111,7 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
    AnchorBlock->hFirstTask       = 0;
 // AnchorBlock->hFirstOpenFile   = 0; moved to Task
 // AnchorBlock->hFirstProcLib    = 0; moved to Task
-   strcpy_s( AnchorBlock->szZeidonLocal, sizeof( AnchorBlock->szZeidonLocal ), szZeidonEnv );
+   strcpy_s( AnchorBlock->szZeidonLocal, zsizeof( AnchorBlock->szZeidonLocal ), szZeidonEnv );
    AnchorBlock->szZeidonBin[ 0 ] = 0;
    AnchorBlock->szZeidonSys[ 0 ] = 0;
    AnchorBlock->szZeidonLoc[ 0 ] = 0;
@@ -2133,7 +2133,7 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
    AnchorBlock->nMemoryCeiling   = 0;
 
    // Get Title of Main Task.
-   GetWindowText( (HWND) lOE_hMainWnd, szTaskTitle, sizeof( szTaskTitle ) - 1 );
+   GetWindowText( (HWND) lOE_hMainWnd, szTaskTitle, zsizeof( szTaskTitle ) - 1 );
 
    lpMainTask = fnCreateTask( OE_AnchorBlock, lOE_hMainWnd,
                               lOE_Msg, szTaskTitle );
@@ -2162,7 +2162,7 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
       // Now that we have created the main task, see if we can open
       // the zeidon applications file and get the directory pointers
       // for the zeidon exe directory and the zeidon system directory.
-      strcat_s( szZeidonEnv, sizeof( szZeidonEnv ), szlAppFile );
+      strcat_s( szZeidonEnv, zsizeof( szZeidonEnv ), szlAppFile );
       hFile = fnSysOpenFile( lpMainTask, szZeidonEnv, COREFILE_READ );
       if ( hFile == -1 )
       {
@@ -2170,9 +2170,9 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
 
          // {9,"KZOEE009 - Error opening application definition file"},
          SysGetBaseMessage( szMessage, KZOEE009, 255 );
-         strcat_s( szMessage, sizeof( szMessage ), " '" );
-         strcat_s( szMessage, sizeof( szMessage ), szZeidonEnv );
-         strcat_s( szMessage, sizeof( szMessage ), "'" );
+         strcat_s( szMessage, zsizeof( szMessage ), " '" );
+         strcat_s( szMessage, zsizeof( szMessage ), szZeidonEnv );
+         strcat_s( szMessage, zsizeof( szMessage ), "'" );
 
          // Free the shared segment for KZOENGWA
          AnchorBlock->nStatus = AnchorCorrupt; // mark AnchorBlock as no good
@@ -2192,33 +2192,33 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
       nEOF = fnSysReadLine( lpMainTask, &pchLine, hFile, &pvFile );
       while ( nEOF > 0 )
       {
-         SysParseLine( szZeidonEnv, sizeof( szZeidonEnv ), &pchLine, pchLine + 1 );
+         SysParseLine( szZeidonEnv, zsizeof( szZeidonEnv ), &pchLine, pchLine + 1 );
          if ( zstrcmp( szZeidonEnv, szlZEIDON_BIN ) == 0 )
          {
-            fnConvertEnvironmentString( szZeidonEnv, sizeof( szZeidonEnv ), pchLine );
+            fnConvertEnvironmentString( szZeidonEnv, zsizeof( szZeidonEnv ), pchLine );
             SysAppendcDirSep( szZeidonEnv );
-            strcpy_s( AnchorBlock->szZeidonBin, sizeof( AnchorBlock->szZeidonBin ), szZeidonEnv );
+            strcpy_s( AnchorBlock->szZeidonBin, zsizeof( AnchorBlock->szZeidonBin ), szZeidonEnv );
          }
          else
          if ( zstrcmp( szZeidonEnv, szlZEIDON_SYS ) == 0 )
          {
-            fnConvertEnvironmentString( szZeidonEnv, sizeof( szZeidonEnv ), pchLine );
+            fnConvertEnvironmentString( szZeidonEnv, zsizeof( szZeidonEnv ), pchLine );
             SysAppendcDirSep( szZeidonEnv );
-            strcpy_s( AnchorBlock->szZeidonSys, sizeof( AnchorBlock->szZeidonSys ), szZeidonEnv );
+            strcpy_s( AnchorBlock->szZeidonSys, zsizeof( AnchorBlock->szZeidonSys ), szZeidonEnv );
          }
          else
          if ( zstrcmp( szZeidonEnv, szlZEIDON_LOC ) == 0 )
          {
-            fnConvertEnvironmentString( szZeidonEnv, sizeof( szZeidonEnv ), pchLine );
+            fnConvertEnvironmentString( szZeidonEnv, zsizeof( szZeidonEnv ), pchLine );
             SysAppendcDirSep( szZeidonEnv );
-            strcpy_s( AnchorBlock->szZeidonLoc, sizeof( AnchorBlock->szZeidonLoc ), szZeidonEnv );
+            strcpy_s( AnchorBlock->szZeidonLoc, zsizeof( AnchorBlock->szZeidonLoc ), szZeidonEnv );
          }
          else
          if ( zstrcmp( szZeidonEnv, szlZEIDON_SHR ) == 0 )
          {
-            fnConvertEnvironmentString( szZeidonEnv, sizeof( szZeidonEnv ), pchLine );
+            fnConvertEnvironmentString( szZeidonEnv, zsizeof( szZeidonEnv ), pchLine );
             SysAppendcDirSep( szZeidonEnv );
-            strcpy_s( AnchorBlock->szZeidonShr, sizeof( AnchorBlock->szZeidonShr ), szZeidonEnv );
+            strcpy_s( AnchorBlock->szZeidonShr, zsizeof( AnchorBlock->szZeidonShr ), szZeidonEnv );
          }
 
          nEOF = fnSysReadLine( lpMainTask, &pchLine, hFile, &pvFile );
@@ -2235,9 +2235,9 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
 
          // {8,"KZOEE008 - Application definition file missing ZEIDON_BIN or ZEIDON_SYS"},
          SysGetBaseMessage( szMessage, KZOEE008, 255 );
-         strcat_s( szMessage, sizeof( szMessage ), ", " );
-         strcat_s( szMessage, sizeof( szMessage ), AnchorBlock->szZeidonLocal );
-         strcat_s( szMessage, sizeof( szMessage ), szlAppFile );
+         strcat_s( szMessage, zsizeof( szMessage ), ", " );
+         strcat_s( szMessage, zsizeof( szMessage ), AnchorBlock->szZeidonLocal );
+         strcat_s( szMessage, zsizeof( szMessage ), szlAppFile );
          fnSysMessageBox( lpMainTask, szlOE_SystemError, szMessage, 1 );
       }
       else
@@ -2248,17 +2248,17 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
 
       if ( AnchorBlock->szZeidonLoc[ 0 ] == 0 )
       {
-         SysGetEnvVar( szZeidonEnv, "TEMP", sizeof( szZeidonEnv ) );
+         SysGetEnvVar( szZeidonEnv, "TEMP", zsizeof( szZeidonEnv ) );
          if ( szZeidonEnv[ 0 ] == 0 )
-            SysGetEnvVar( szZeidonEnv, "TMP", sizeof( szZeidonEnv ) );
+            SysGetEnvVar( szZeidonEnv, "TMP", zsizeof( szZeidonEnv ) );
 
          if ( szZeidonEnv[ 0 ] )
          {
             zCHAR sz[ zMAX_FILENAME_LTH + 1 ];
 
-            fnConvertEnvironmentString( sz, sizeof( sz ), szZeidonEnv );
+            fnConvertEnvironmentString( sz, zsizeof( sz ), szZeidonEnv );
             SysAppendcDirSep( sz );
-            strcpy_s( AnchorBlock->szZeidonLoc, sizeof( AnchorBlock->szZeidonLoc ), sz );
+            strcpy_s( AnchorBlock->szZeidonLoc, zsizeof( AnchorBlock->szZeidonLoc ), sz );
          }
       }
 
@@ -2286,9 +2286,9 @@ InitializeAnchorBlock( zLONG  OE_AnchorBlock,
    // create international info from win.ini
    AnchorBlock->hInternational = SysCreateInternational( );
 
-   SysReadZeidonIni( -1, "[ObjectEngine]", "MemoryTraceThreshold", szSize, sizeof( szSize ) );
+   SysReadZeidonIni( -1, "[ObjectEngine]", "MemoryTraceThreshold", szSize, zsizeof( szSize ) );
    AnchorBlock->nMemoryTraceThreshold = atoi( szSize );
-   SysReadZeidonIni( -1, "[ObjectEngine]", "MemoryCeiling", szSize, sizeof( szSize ) );
+   SysReadZeidonIni( -1, "[ObjectEngine]", "MemoryCeiling", szSize, zsizeof( szSize ) );
    AnchorBlock->nMemoryCeiling = atoi( szSize );
 
    zUNLOCK_MUTEX( zMUTEX_ANCHORINIT );
@@ -2760,7 +2760,7 @@ ProcessZeidonMessage( zLONG wParam, zLONG lParam )
          {
             char szMsg[ 100 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Error destroying mutex: %s", lpMutex->szName );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Error destroying mutex: %s", lpMutex->szName );
             TraceLineS( szMsg, "" );
             fnSysMessageBox( lpTask, szlOE_SystemError, szMsg, 1 );
          }
@@ -3042,11 +3042,11 @@ fnFreeSharedMemory( LPTASK lpTask, zLONG hMemory )
    {
       char szMessage[ 256 ];
    // k = 0;
-      sprintf_s( szMessage, sizeof( szMessage ), "Invalid pointer handle for free: hi-bit not set: 0x%08x", hMemory );
+      sprintf_s( szMessage, zsizeof( szMessage ), "Invalid pointer handle for free: hi-bit not set: 0x%08x", hMemory );
       TraceLineS( szMessage, "" );
       SysMessageBox( 0, szlOE_SystemError, szMessage, -1 );
 #if 0
-      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
       if ( szMessage[ 0 ] == 'Y' )
          k /= k;
 #endif
@@ -3367,8 +3367,8 @@ SysAllocMemory( zCOREMEM ppvMemory, zLONG lBytes,
       char szMsg[ 60 ];
 
       // offset ...... 1234567890123456789212345678931234567894123456
-      strcpy_s( szMsg, sizeof( szMsg ), "KZOE0012 - Error allocating memory for length " );
-      zltoa( lBytes, szMsg + 46, sizeof( szMsg ) - 46 );
+      strcpy_s( szMsg, zsizeof( szMsg ), "KZOE0012 - Error allocating memory for length " );
+      zltoa( lBytes, szMsg + 46, zsizeof( szMsg ) - 46 );
       SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
    }
 
@@ -3713,7 +3713,7 @@ SysStartObjectServices( zLONG lAppOE_Msg,
    zPCHAR pchOS_Name;
 
    // Validate that environment variable ZEIDON set
-   SysGetEnvVar( szProgramName, szlZEIDON, sizeof( szProgramName ) - 1 );
+   SysGetEnvVar( szProgramName, szlZEIDON, zsizeof( szProgramName ) - 1 );
    if ( szProgramName[ 0 ] == 0 )
    {
       char szMessage[ 256 ];
@@ -3745,7 +3745,7 @@ SysStartObjectServices( zLONG lAppOE_Msg,
 
       // See if we can open the zeidon applications file.
       SysAppendcDirSep( szProgramName );
-      strcat_s( szProgramName, sizeof( szProgramName ), szlAppFile );
+      strcat_s( szProgramName, zsizeof( szProgramName ), szlAppFile );
 
       hFile = (zLONG) CreateFile( szProgramName, GENERIC_READ, FILE_SHARE_READ, 0,
                                   OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0 );
@@ -3756,9 +3756,9 @@ SysStartObjectServices( zLONG lAppOE_Msg,
 
          // {9,"KZOEE009 - Error opening application definition file"},
          SysGetBaseMessage( szMessage, KZOEE009, 255 );
-         strcat_s( szMessage, sizeof( szMessage ), " '" );
-         strcat_s( szMessage, sizeof( szMessage ), szProgramName );
-         strcat_s( szMessage, sizeof( szMessage ), "'" );
+         strcat_s( szMessage, zsizeof( szMessage ), " '" );
+         strcat_s( szMessage, zsizeof( szMessage ), szProgramName );
+         strcat_s( szMessage, zsizeof( szMessage ), "'" );
       // SysMessageBox( 0, szlOE_SystemError, szMessage, -1 );  causes bomb if called
          fnSysMessageBox( 0, szlOE_SystemError, szMessage, -1 );
 
@@ -3770,11 +3770,11 @@ SysStartObjectServices( zLONG lAppOE_Msg,
       {
          ULONG ulBytes;
 
-         ReadFile( (HANDLE) hFile, szLine, sizeof( szLine ), &ulBytes, 0 );
+         ReadFile( (HANDLE) hFile, szLine, zsizeof( szLine ), &ulBytes, 0 );
          CloseHandle( (HANDLE) hFile );
       }
 
-      szLine[ sizeof( szLine ) - 1 ] = 0;    // ensure buffer is terminated
+      szLine[ zsizeof( szLine ) - 1 ] = 0;   // ensure buffer is terminated
       pchPtr = zstrstr( szLine, szlZEIDON_BIN );
       if ( !pchPtr )
       {
@@ -3796,14 +3796,14 @@ SysStartObjectServices( zLONG lAppOE_Msg,
       szTemp[ k ] = 0;
 
       // Convert name using environment vars.
-      fnConvertEnvironmentString( szProgramName, sizeof( szProgramName ), szTemp );
+      fnConvertEnvironmentString( szProgramName, zsizeof( szProgramName ), szTemp );
 
       // Create a Win32 event so we'll know when OE is up.
       hServicesStarted = CreateEvent( NULL, TRUE, FALSE, "Zeidon - Object Services Init" );
 
       // Start Object Services program asynchronously
       SysAppendcDirSep( szProgramName );
-      strcat_s( szProgramName, sizeof( szProgramName ), szObjectEngineName );
+      strcat_s( szProgramName, zsizeof( szProgramName ), szObjectEngineName );
 
       zmemset( &PInfo, 0, sizeof( PInfo ) );
       zmemset( &Startup, 0, sizeof( Startup ) );
@@ -3817,8 +3817,8 @@ SysStartObjectServices( zLONG lAppOE_Msg,
 
          // {3,"KZOEE003 - Error starting Object Services"},
          SysGetBaseMessage( szMessage, KZOEE003, 255 );
-         strcat_s( szMessage, sizeof( szMessage ), " - " );
-         strcat_s( szMessage, sizeof( szMessage ), szProgramName );
+         strcat_s( szMessage, zsizeof( szMessage ), " - " );
+         strcat_s( szMessage, zsizeof( szMessage ), szProgramName );
          fnSysMessageBox( 0, szlOE_SystemError, szMessage, -1 );
          return( -1 );
       }
@@ -4020,7 +4020,7 @@ fnTraceSharedMemory( zCPCHAR cpcTitle )
    zLONG lProcessID = SysGetProcessID( 0 );
 
    OutputDebugString( "\n============ Map/Unmap =============\n" );
-   sprintf_s( szMsg, sizeof( szMsg ), "%s      ProcessID: %d\n", cpcTitle, lProcessID );
+   sprintf_s( szMsg, zsizeof( szMsg ), "%s     ProcessID: %d\n", cpcTitle, lProcessID );
    OutputDebugString( szMsg );
    zDumpStack( );
    OutputDebugString( "=============== End ================\n" );
@@ -4056,7 +4056,7 @@ fnSysGetPointerFromHandleShared( zPVOID pHandle )
    {
       char szMessage[ 256 ];
 
-      sprintf_s( szMessage, sizeof( szMessage ), "Invalid pointer handle (get) : hi-bit not set: 0x%08x", (zULONG) pHandle );
+      sprintf_s( szMessage, zsizeof( szMessage ), "Invalid pointer handle (get) : hi-bit not set: 0x%08x", (zULONG) pHandle );
       TraceLineS( szMessage, "" );
       if ( AnchorBlock->bDebugLeak == FALSE )
       {
@@ -4064,7 +4064,7 @@ fnSysGetPointerFromHandleShared( zPVOID pHandle )
                      szlOE_SystemError, MB_ICONSTOP | MB_OK | MB_TASKMODAL );
       }
 #if 0
-      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
       if ( szMessage[ 0 ] == 'Y' )
       {
          k = 0;
@@ -4082,14 +4082,14 @@ fnSysGetPointerFromHandleShared( zPVOID pHandle )
    {
       char szMessage[ 256 ];  // dks 2006.09.18 error while cleaning up client OE (k=134)
 
-      sprintf_s( szMessage, sizeof( szMessage ), "Invalid pointer handle (null) at Index: %x for pointer 0x%08x", k, (zULONG) pHandle );
+      sprintf_s( szMessage, zsizeof( szMessage ), "Invalid pointer handle (null) at Index: %x for pointer 0x%08x", k, (zULONG) pHandle );
       TraceLineS( szMessage, "" );
       if ( AnchorBlock->bDebugLeak == FALSE )
       {
          MessageBox( GetActiveWindow( ), szMessage, szlOE_SystemError, MB_ICONSTOP | MB_OK | MB_TASKMODAL );
       }
 #if 0
-      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
       if ( szMessage[ 0 ] == 'Y' )
       {
          k /= k - k;
@@ -4135,7 +4135,7 @@ fnSysGetHandleFromPointerShared( zPVOID pPointer )
       MessageBox( GetActiveWindow( ), "Invalid pointer: hi-bit set!!",
                   szlOE_SystemError, MB_ICONSTOP | MB_OK | MB_TASKMODAL );
 #if 0
-      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
       if ( szMessage[ 0 ] == 'Y' )
          k /= k;
 #endif
@@ -4175,7 +4175,7 @@ fnSysCreateHandle( LPDATAHEADER lpDataHeader,
       MessageBox( GetActiveWindow( ), "Invalid pointer: hi-bit not set!!",
                   szlOE_SystemError, MB_ICONSTOP | MB_OK | MB_TASKMODAL );
 #if 0
-      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+      SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
       if ( szMessage[ 0 ] == 'Y' )
          k /= k;
 #endif
@@ -4371,7 +4371,7 @@ SysDiagnosticMessage( zVIEW lpTaskView, zCPCHAR cpcTitle,
 {
    char szDiagnostic[ 2 ];
 
-   SysReadZeidonIni( -1, "[Debug]", "Diagnostic", szDiagnostic, sizeof( szDiagnostic ) );
+   SysReadZeidonIni( -1, "[Debug]", "Diagnostic", szDiagnostic, zsizeof( szDiagnostic ) );
    if ( szDiagnostic[ 0 ] != 'N' && szDiagnostic[ 0 ] != 'n' )
       return( SysMessageBox( lpTaskView, cpcTitle, cpcMessage, nBeep ) );
 
@@ -4425,7 +4425,7 @@ fnSysMessageBox( LPTASK lpTask, zCPCHAR cpcTitle,
             zCHAR sz[ zMAX_FILENAME_LTH ];
 
             // Check a flag in the Zeidon INI to see if we should pop up the msg.
-            SysReadZeidonIni( -1, "[Debug]", "ServerDebug", sz, sizeof( sz ) );
+            SysReadZeidonIni( -1, "[Debug]", "ServerDebug", sz, zsizeof( sz ) );
             if ( *sz == 0 || ((*sz && *(sz + 1) == 0) && (*sz == 'Y' || *sz == 'y' || *sz == '1')) )
             {
                cShowPopup = 'Y';
@@ -4438,7 +4438,7 @@ fnSysMessageBox( LPTASK lpTask, zCPCHAR cpcTitle,
                   zCHAR szLogFileName[ zMAX_FILENAME_LTH ];
                   zLONG hLogFile;
 
-                  SysConvertEnvironmentString( szLogFileName, sizeof( szLogFileName ), sz );
+                  SysConvertEnvironmentString( szLogFileName, zsizeof( szLogFileName ), sz );
                   if ( (hLogFile = fnSysOpenFile( lpTask, szLogFileName, COREFILE_APPEND )) != -1 )
                   {
                      fnSysWriteLine( lpTask, hLogFile, 0, cpcMessage );
@@ -4480,7 +4480,7 @@ SysMessageBox( zVIEW lpTaskView, zCPCHAR cpcTitle,
 {
    zCHAR  sz[ 10 ];
 
-   SysReadZeidonIni( -1, "[ObjectEngine]", "WebUserErrorMessages", sz, sizeof( sz ) );
+   SysReadZeidonIni( -1, "[ObjectEngine]", "WebUserErrorMessages", sz, zsizeof( sz ) );
    if ( sz[ 0 ] == 'Y' || sz[ 0 ] == 'y' )
    {
       TraceLine( "SysMessageBox Title: %s   Error: %s", cpcTitle, cpcMessage );
@@ -4549,27 +4549,27 @@ SysMessageList( zCPCHAR cpcMessage )
       if ( hTask == 0 )
          hTask = (zLONG) AnchorBlock->hMainTask;
 
-      SysGetDateTime( szCurrentDateTime, sizeof( szCurrentDateTime ) );
+      SysGetDateTime( szCurrentDateTime, zsizeof( szCurrentDateTime ) );
       if ( zstrncmp( szLastDateTime, szCurrentDateTime, 6 ) == 0 )
       {
          // Current date matches last date so we'll just display the time.
-         UfFormatDateTime( szFormattedDateTime, sizeof( szFormattedDateTime ), szCurrentDateTime, "HH:MI:SS.999" );
+         UfFormatDateTime( szFormattedDateTime, zsizeof( szFormattedDateTime ), szCurrentDateTime, "HH:MI:SS.999" );
       }
       else
       {
          // Current date is different from the date of the last message.
          // Print the date and time.
-         UfFormatDateTime( szFormattedDateTime, sizeof( szFormattedDateTime ), szCurrentDateTime, "YYYY-MM-DD HH:MI:SS.999" );
-         strcpy_s( szLastDateTime, sizeof( szLastDateTime ), szCurrentDateTime );
+         UfFormatDateTime( szFormattedDateTime, zsizeof( szFormattedDateTime ), szCurrentDateTime, "YYYY-MM-DD HH:MI:SS.999" );
+         strcpy_s( szLastDateTime, zsizeof( szLastDateTime ), szCurrentDateTime );
       }
 
-      sprintf_s( pchMsg, sizeof( g_szMessage ), "%s Task(%x) : ", szFormattedDateTime, hTask );
-      strncat_s( pchMsg, sizeof( g_szMessage ), (zPCHAR) cpcMessage, sizeof( g_szMessage ) - (zstrlen( pchMsg ) + 1) );
+      sprintf_s( pchMsg, zsizeof( g_szMessage ), "%s Task(%x) : ", szFormattedDateTime, hTask );
+      strncat_s( pchMsg, zsizeof( g_szMessage ), (zPCHAR) cpcMessage, zsizeof( g_szMessage ) - (zstrlen( pchMsg ) + 1) );
    }
    else
    if ( *cpcMessage )
    {
-      strncat_s( pchMsg + 1, sizeof( g_szMessage ) - 1, cpcMessage + 1, sizeof( g_szMessage ) - 2 );
+      strncat_s( pchMsg + 1, zsizeof( g_szMessage ) - 1, cpcMessage + 1, zsizeof( g_szMessage ) - 2 );
    }
 
    if ( AnchorBlock && AnchorBlock->lOE_hListWnd )
@@ -4644,18 +4644,18 @@ SysSetUserID( LPTASK lpTask, zCPCHAR cpcUserID, zCPCHAR cpcPassword )
    else
    {
       // These next two lines don't seem to do a lot, but leaving them cuz they've been here since 10a ... dks 2015.11.17
-      strcpy_s( AnchorBlock->szUserID, sizeof( AnchorBlock->szUserID ), AnchorBlock->szUserID );
-      strcpy_s( AnchorBlock->szPassword, sizeof( AnchorBlock->szPassword ), AnchorBlock->szPassword );
+      strcpy_s( AnchorBlock->szUserID, zsizeof( AnchorBlock->szUserID ), AnchorBlock->szUserID );
+      strcpy_s( AnchorBlock->szPassword, zsizeof( AnchorBlock->szPassword ), AnchorBlock->szPassword );
       if ( cpcUserID[ 0 ] )
-         strcpy_s( AnchorBlock->szUserID, sizeof( AnchorBlock->szUserID ), cpcUserID );
+         strcpy_s( AnchorBlock->szUserID, zsizeof( AnchorBlock->szUserID ), cpcUserID );
 
       if ( cpcPassword[ 0 ] )
-         strcpy_s( AnchorBlock->szPassword, sizeof( AnchorBlock->szPassword ), cpcPassword );
+         strcpy_s( AnchorBlock->szPassword, zsizeof( AnchorBlock->szPassword ), cpcPassword );
    }
 
    // Send UserID to list box
-   strcpy_s( szMsg, sizeof( szMsg ), "(sy) Logon Userid=" );
-   strcat_s( szMsg, sizeof( szMsg ), (zPCHAR) cpcUserID );
+   strcpy_s( szMsg, zsizeof( szMsg ), "(sy) Logon Userid=" );
+   strcat_s( szMsg, zsizeof( szMsg ), (zPCHAR) cpcUserID );
    SysMessageList( szMsg );
    return( 0 );
 }
@@ -5078,7 +5078,7 @@ fnSysOpenFile( LPTASK lpTask, zCPCHAR cpcFileName, int nFlags )
       return( -1 );
    }
 
-   strcpy_s( szTempFileName, sizeof( szTempFileName ), cpcFileName );
+   strcpy_s( szTempFileName, zsizeof( szTempFileName ), cpcFileName );
 
    // Check to see if we are going to write the file to a backup file first.
    if ( nFlags & COREFILE_BACKUP )
@@ -5092,7 +5092,7 @@ fnSysOpenFile( LPTASK lpTask, zCPCHAR cpcFileName, int nFlags )
 
       // Save the extension for later use.
       if ( pch > szTempFileName )
-         strcpy_s( szExtension, sizeof( szExtension ), pch );
+         strcpy_s( szExtension, zsizeof( szExtension ), pch );
 
       // Backup until we find the first directory separator.
       while ( pch > szTempFileName && *pch != cDirSep )
@@ -5103,7 +5103,7 @@ fnSysOpenFile( LPTASK lpTask, zCPCHAR cpcFileName, int nFlags )
          pch++;
 
       // Create a temp file name using the current task ID.
-      sprintf_s( pch, sizeof( szTempFileName ) - (pch - szTempFileName), "0x%08x%s", (zULONG) zGETHNDL( lpTask ), szExtension );
+      sprintf_s( pch, zsizeof( szTempFileName ) - (pch - szTempFileName), "0x%08x%s", (zULONG) zGETHNDL( lpTask ), szExtension );
    }
 
    if ( nFlags & COREFILE_READ )
@@ -5151,13 +5151,13 @@ fnSysOpenFile( LPTASK lpTask, zCPCHAR cpcFileName, int nFlags )
       zPCHAR pch;
 
       // Find the last directory separator.
-      strcpy_s( szPath, sizeof( szPath ), szTempFileName );
+      strcpy_s( szPath, zsizeof( szPath ), szTempFileName );
       pch = &szPath[ zstrlen( szPath ) - 1 ];
       while ( pch >= szPath && *pch != cDirSep && *pch != ':' )
          pch--;
 
       // Copy the filename and extension.
-      strcpy_s( szFN, sizeof( szFN ), pch + 1 );
+      strcpy_s( szFN, zsizeof( szFN ), pch + 1 );
 
       // Set null terminator in szPath to remove filename and extension.
       pch[ 1 ] = 0;
@@ -5236,8 +5236,8 @@ fnSysOpenFile( LPTASK lpTask, zCPCHAR cpcFileName, int nFlags )
          lpOpenFile->lProcessID    = lProcessID;
          lpOpenFile->nFlags        = nFlags;
          lpOpenFile->lFileHandle   = (zLONG) hFile;
-         strcpy_s( lpOpenFile->szFileName, sizeof( lpOpenFile->szFileName ), cpcFileName );
-         strcpy_s( lpOpenFile->szTempFileName, sizeof( lpOpenFile->szTempFileName ), szTempFileName );
+         strcpy_s( lpOpenFile->szFileName, zsizeof( lpOpenFile->szFileName ), cpcFileName );
+         strcpy_s( lpOpenFile->szTempFileName, zsizeof( lpOpenFile->szTempFileName ), szTempFileName );
 
          if ( bMutexLocked )
             zUNLOCK_MUTEX( zMUTEX_ANCHORBLOCK );
@@ -5314,7 +5314,7 @@ SysOpenFile( zVIEW lpTaskView, zCPCHAR cpcFileName, int nFlags )
 //
 //    rc = DosWrite( hfFileHandle,         // File handle
 //                   (PVOID) uchFileData,  // String to be written
-//                   sizeof (uchFileData), // Size of string to be written
+//                   zsizeof (uchFileData), // Size of string to be written
 //                   &ulWrote );           // Bytes actually written
 //
 //    if ( rc != NO_ERROR )
@@ -6221,8 +6221,8 @@ fnSysCloseFileWithControl( LPTASK lpTask,
          zCHAR szBackup[ zMAX_FILENAME_LTH + 1 ];
 
          // Rename the original file to a .BAK file.
-         strcpy_s( szBackup, sizeof( szBackup ), lpOpenFile->szFileName );
-         strcat_s( szBackup, sizeof( szBackup ), ".BAK" );
+         strcpy_s( szBackup, zsizeof( szBackup ), lpOpenFile->szFileName );
+         strcat_s( szBackup, zsizeof( szBackup ), ".BAK" );
          if ( SysRenameFile( lpOpenFile->szFileName, szBackup, TRUE ) == zCALL_ERROR )
          {
             nRC = zCALL_ERROR;
@@ -6305,7 +6305,7 @@ SysSetFileTime( zCPCHAR cpcFileName, zCPCHAR cpcDateTime, zLONG lControl )
    zCHAR      szTemp[ 10 ];
    zCHAR      szFileName[ zMAX_FILESPEC_LTH + 1 ];
 
-   strncpy_s( szTemp, sizeof( szTemp ), cpcDateTime, 4 );
+   strncpy_s( szTemp, zsizeof( szTemp ), cpcDateTime, 4 );
    szTemp[ 4 ] = 0;
    SysTime.wYear         = (WORD) atoi( szTemp );
    SysTime.wMonth        = CONVERT_2_DIGITS( cpcDateTime + 4 );
@@ -6316,7 +6316,7 @@ SysSetFileTime( zCPCHAR cpcFileName, zCPCHAR cpcDateTime, zLONG lControl )
    SysTime.wMilliseconds = (WORD) atoi( cpcDateTime + 14 );
    SystemTimeToFileTime( &SysTime, &ftTime );
 
-   SysConvertEnvironmentString( szFileName, sizeof( szFileName ), cpcFileName );
+   SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), cpcFileName );
    hFile = CreateFile( szFileName, GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0 );
    if ( hFile == INVALID_HANDLE_VALUE )
    {
@@ -6736,7 +6736,7 @@ _zCall_GetDateTime( zVIEW  vArgs,
 {
    zCHAR szDateTime[ 32 ];
 
-   SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+   SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
    SetAttributeFromString( vArgs, "Operation", "ReturnValue", szDateTime );
    return( 0 );
 }
@@ -6917,7 +6917,7 @@ SysLoadLibraryWithErrFlag( zVIEW   lpTaskView,
          lpApp = zGETPTR( AnchorBlock->hSystemApp );
    }
 
-   strcpy_s( szFileName, sizeof( szFileName ), cpcLibraryName );
+   strcpy_s( szFileName, zsizeof( szFileName ), cpcLibraryName );
    SysTranslateString( szFileName, 'L' );
 
    // Check to see if library name is qualified.
@@ -6957,7 +6957,7 @@ SysLoadLibraryWithErrFlag( zVIEW   lpTaskView,
    GetCurrentDirectory( zMAX_FILENAME_LTH + 1, szCurrentDir );
    SetCurrentDirectory( lpApp->szLibraryDir );
 
-   strcat_s( szFileName, sizeof( szFileName ), ".dll" );
+   strcat_s( szFileName, zsizeof( szFileName ), ".dll" );
 
    if ( lFlag & zLOADLIB_RESOURCES )
       lLibOS = (zLONG) LoadLibraryEx( szFileName, NULL, LOAD_LIBRARY_AS_DATAFILE );
@@ -6974,7 +6974,7 @@ SysLoadLibraryWithErrFlag( zVIEW   lpTaskView,
       {
          char  szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Load failed for: %s (%s)", cpcLibraryName, szFileName );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Load failed for: %s (%s)", cpcLibraryName, szFileName );
          MessageSend( lpTaskView, "SY00101", "System Services", szMsg, zMSGQ_SYSTEM_ERROR, 1 );
       }
 
@@ -7002,7 +7002,7 @@ SysLoadLibraryWithErrFlag( zVIEW   lpTaskView,
       lpLibrary->lProcessID = lProcessID;
 
       pchUnqualifiedName[ nUnqualLth ] = 0;
-      strcpy_s( lpLibrary->szName, sizeof( lpLibrary->szName ), pchUnqualifiedName );
+      strcpy_s( lpLibrary->szName, zsizeof( lpLibrary->szName ), pchUnqualifiedName );
 
    // fnTraceLibrary( lpLibrary, 1 );
       if ( zGETHNDL( lpTask ) == AnchorBlock->hMainTask )
@@ -7092,7 +7092,7 @@ SysGetProc( LPLIBRARY hLibrary, zCPCHAR cpcProcName )
 #if 0
          char szMessage[ 16 ];
 
-         SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, sizeof( szMessage ) );
+         SysReadZeidonIni( -1, "[Debug]", "BombZDr", szMessage, zsizeof( szMessage ) );
          if ( szMessage[ 0 ] == 'Y' )
          {
             zSHORT k = 0;
@@ -7401,7 +7401,7 @@ fnReuseEntity( zPVOID lpViewEntityCsr )
 //             {
 //                if ( (hFileName = SysReadZeidonIni( hFileName,
 //                                     "[Workstation]", szParameter,
-//                                     szValue, sizeof( szValue ) )) == -1 )
+//                                     szValue, zsizeof( szValue ) )) == -1 )
 //                {
 //                   break;   // End of Group Parameter List
 //                }
@@ -7463,9 +7463,9 @@ SysReadZeidonIni( zLONG   hFile,
 
    // Add [] if not supplied.
    if ( cpcGroup[ 0 ] != '[' )
-      sprintf_s( szGroup, sizeof( szGroup ), "[%s]", cpcGroup );
+      sprintf_s( szGroup, zsizeof( szGroup ), "[%s]", cpcGroup );
    else
-      strcpy_s( szGroup, sizeof( szGroup ), cpcGroup );
+      strcpy_s( szGroup, zsizeof( szGroup ), cpcGroup );
 
    // If this is not a repeated read, open the file.
    if ( hFile == -1 )
@@ -7473,7 +7473,7 @@ SysReadZeidonIni( zLONG   hFile,
       char szFileName[ zMAX_FILENAME_LTH + 1 ];
       int nTrys = 0;
 
-      fnBuildZeidonIni( szFileName, sizeof( szFileName ) );
+      fnBuildZeidonIni( szFileName, zsizeof( szFileName ) );
       hFile = fnSysOpenFile( lpTask, szFileName, COREFILE_READ );
       if ( hFile == -1 )
          return( hFile );
@@ -7495,7 +7495,7 @@ SysReadZeidonIni( zLONG   hFile,
 
       while ( k > 0 && zstrcmpi( szParseName, szGroup ) != 0 )
       {
-         SysParseLine( szParseName, sizeof( szParseName ), &pchParseValue, pchLine );
+         SysParseLine( szParseName, zsizeof( szParseName ), &pchParseValue, pchLine );
          k = fnSysReadLine( lpTask, &pchLine, hFile, &pvFile );
       }
 
@@ -7524,7 +7524,7 @@ SysReadZeidonIni( zLONG   hFile,
    // following the Group identifier, look for the specified parameter.
    while ( k )
    {
-      SysParseLine( szParseName, sizeof( szParseName ), &pchParseValue, pchLine );
+      SysParseLine( szParseName, zsizeof( szParseName ), &pchParseValue, pchLine );
 
       // Remove blanks before Parse Value.
       while ( pchParseValue[ 0 ] == ' ' )
@@ -7637,18 +7637,18 @@ SysUpdateZeidonIni( zCPCHAR cpcGroup,
    int    k;
 
    // build the parameter to be written into ZEIDON.INI
-   sprintf_s( szParmString, sizeof( szParmString ), "%s=%s", cpcParameter, cpcValue );
+   sprintf_s( szParmString, zsizeof( szParmString ), "%s=%s", cpcParameter, cpcValue );
 
-   k = fnBuildZeidonIni( szFileName, sizeof( szFileName ) );
-   strcpy_s( szFileNameTmp, sizeof( szFileNameTmp ), szFileName );
-   strcpy_s( szFileNameTmp + k, sizeof( szFileNameTmp ) - k, "zeidon.in~" );
+   k = fnBuildZeidonIni( szFileName, zsizeof( szFileName ) );
+   strcpy_s( szFileNameTmp, zsizeof( szFileNameTmp ), szFileName );
+   strcpy_s( szFileNameTmp + k, zsizeof( szFileNameTmp ) - k, "zeidon.in~" );
    hFIn = fnSysOpenFile( lpTask, szFileName, COREFILE_READ );
 
    // Add [] if not supplied.
    if ( cpcGroup[ 0 ] != '[' )
-      sprintf_s( szGroup, sizeof( szGroup ), "[%s]", cpcGroup );
+      sprintf_s( szGroup, zsizeof( szGroup ), "[%s]", cpcGroup );
    else
-      strcpy_s( szGroup, sizeof( szGroup ), cpcGroup );
+      strcpy_s( szGroup, zsizeof( szGroup ), cpcGroup );
 
    // If the file does not exist, create one
    if ( hFIn == -1 )
@@ -7688,7 +7688,7 @@ SysUpdateZeidonIni( zCPCHAR cpcGroup,
 
       while ( k && zstrcmpi( szParseName, szGroup ) != 0 )
       {
-         SysParseLine( szParseName, sizeof( szParseName ), &pchParseValue, pchLine );
+         SysParseLine( szParseName, zsizeof( szParseName ), &pchParseValue, pchLine );
          fnSysWriteLine( lpTask, hFOut, &pvFileOut, pchLine );
          k = fnSysReadLine( lpTask, &pchLine, hFIn, &pvFileIn );
       }
@@ -7704,7 +7704,7 @@ SysUpdateZeidonIni( zCPCHAR cpcGroup,
       {
          // Group line has been found and rewritten, search for parameter
          // in the group.
-         SysParseLine( szParseName, sizeof( szParseName ), &pchParseValue, pchLine );
+         SysParseLine( szParseName, zsizeof( szParseName ), &pchParseValue, pchLine );
          if ( zstrcmpi( szParseName, cpcParameter ) == 0 )
             break;
          else
@@ -7712,7 +7712,7 @@ SysUpdateZeidonIni( zCPCHAR cpcGroup,
          {
             fnSysWriteLine( lpTask, hFOut, &pvFileOut, szParmString );  // create new parm
             fnSysWriteLine( lpTask, hFOut, &pvFileOut, "" );            // write blank after parm
-            strcpy_s( szParmString, sizeof( szParmString ), pchLine );     // set string to nxt grp
+            strcpy_s( szParmString, zsizeof( szParmString ), pchLine );    // set string to nxt grp
             break;
          }
 
@@ -7741,8 +7741,8 @@ SysUpdateZeidonIni( zCPCHAR cpcGroup,
 
    // replace old ZEIDON.INI with updated temp ZEIDON.IN~
    fnSysOpenFile( lpTask, szFileName, COREFILE_DELETE );
-   strcpy_s( szParmString, sizeof( szParmString ), szFileNameTmp );
-   strcpy_s( szParmString + zstrlen( szParmString ) + 1, sizeof( szParmString ) - zstrlen( szParmString ) - 1, szFileName );
+   strcpy_s( szParmString, zsizeof( szParmString ), szFileNameTmp );
+   strcpy_s( szParmString + zstrlen( szParmString ) + 1, zsizeof( szParmString ) - zstrlen( szParmString ) - 1, szFileName );
    fnSysOpenFile( lpTask, szParmString, COREFILE_RENAME );
 
 } // SysUpdateZeidonIni
@@ -7897,7 +7897,7 @@ SysStartHelp( zCPCHAR pchHelpFile,
    if ( zstrcmp( pchHelpFile, "SYSTEM HELP" ) == 0 )
    {
       // Build the file name for the help file.
-      strcpy_s( szFileName, sizeof( szFileName ), "winhelp.hlp" );
+      strcpy_s( szFileName, zsizeof( szFileName ), "winhelp.hlp" );
 
       // For calling HelpOnHelp use function Winhelp because there is
       // no compressed Helpfile for this available.
@@ -7920,12 +7920,12 @@ SysStartHelp( zCPCHAR pchHelpFile,
    else
    {
       // Build the file name for the help file.
-      strcpy_s( szFileName, sizeof( szFileName ), pchHelpFile );
-      _strupr_s( szFileName, sizeof( szFileName ) );
+      strcpy_s( szFileName, zsizeof( szFileName ), pchHelpFile );
+      _strupr_s( szFileName, zsizeof( szFileName ) );
       if ( zstrstr( szFileName, ".CHM" ) == 0 )
-         strcat_s( szFileName, sizeof( szFileName ), ".CHM" );
+         strcat_s( szFileName, zsizeof( szFileName ), ".CHM" );
 
-      strcat_s( szFileName, sizeof( szFileName ), ">mainwin");
+      strcat_s( szFileName, zsizeof( szFileName ), ">mainwin");
 
       // If entering help at the table of contents ...
       if ( pchContextID == 0  )
@@ -8015,7 +8015,7 @@ SysElapsedTimer( zUSHORT idx, zPCHAR pchMsg )
 {
    zCHAR sz[ 20 ];
 
-   sprintf_s( sz, sizeof( sz ), " = %lf seconds", (double) (GetTickCount( ) - g_lTable[ idx ]) / zTICKS_PER_SECOND);
+   sprintf_s( sz, zsizeof( sz ), " = %lf seconds", (double) (GetTickCount( ) - g_lTable[ idx ]) / zTICKS_PER_SECOND);
    TraceLineS( pchMsg, sz );
 }
 
@@ -8310,7 +8310,7 @@ fnSysCreateCoreMutex( zLONG lMutex )
       {
          zCHAR szMsg[ 100 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Mutex '%s' already created", g_ZeidonMutexName[ lMutex ] );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Mutex '%s' already created", g_ZeidonMutexName[ lMutex ] );
          SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
       }
       else
@@ -8322,7 +8322,7 @@ fnSysCreateCoreMutex( zLONG lMutex )
          {
             zCHAR szMsg[ 100 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Error creating mutex %s", g_ZeidonMutexName[ lMutex ] );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Error creating mutex %s", g_ZeidonMutexName[ lMutex ] );
             SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
          }
       }
@@ -8342,7 +8342,7 @@ fnSysDestroyCoreMutex( zLONG  lMutex )
       {
          zCHAR szMsg[ 100 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Trying to destroy NULL Mutex %s", g_ZeidonMutexName[ lMutex ] );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Trying to destroy NULL Mutex %s", g_ZeidonMutexName[ lMutex ] );
          SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
          return;
       }
@@ -8421,7 +8421,7 @@ fnSysUnlockCoreMutex( zLONG lMutex )
             {
                zCHAR szMsg[ 100 ];
 
-               sprintf_s( szMsg, sizeof( szMsg ), "Error releasing mutex %s", g_ZeidonMutexName[ lMutex ] );
+               sprintf_s( szMsg, zsizeof( szMsg ), "Error releasing mutex %s", g_ZeidonMutexName[ lMutex ] );
                SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
                return;
             }
@@ -8452,7 +8452,7 @@ fnSysCreateCoreMutex( zLONG lMutex )
       {
          zCHAR szMsg[ 100 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Mutex '%s' already created", g_ZeidonMutexName[ lMutex ] );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Mutex '%s' already created", g_ZeidonMutexName[ lMutex ] );
          SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
       }
       else
@@ -8463,7 +8463,7 @@ fnSysCreateCoreMutex( zLONG lMutex )
          {
             zCHAR szMsg[ 100 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Error creating mutex %s", g_ZeidonMutexName[ lMutex ] );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Error creating mutex %s", g_ZeidonMutexName[ lMutex ] );
             SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
          }
       }
@@ -8483,7 +8483,7 @@ fnSysDestroyCoreMutex( zLONG lMutex )
       {
          zCHAR szMsg[ 100 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Trying to destroy NULL Mutex %s", g_ZeidonMutexName[ lMutex ] );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Trying to destroy NULL Mutex %s", g_ZeidonMutexName[ lMutex ] );
          SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
          return;
       }
@@ -8492,7 +8492,7 @@ fnSysDestroyCoreMutex( zLONG lMutex )
       {
          zCHAR szMsg[ 100 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Error destroying mutex %s", g_ZeidonMutexName[ lMutex ] );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Error destroying mutex %s", g_ZeidonMutexName[ lMutex ] );
          SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
          return;
       }
@@ -8525,7 +8525,7 @@ fnSysLockCoreMutex( zLONG lMutex )
       {
          zCHAR szMsg[ 100 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Trying to lock NULL Mutex %s", g_ZeidonMutexName[ lMutex ] );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Trying to lock NULL Mutex %s", g_ZeidonMutexName[ lMutex ] );
          SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
          return;
       }
@@ -8579,7 +8579,7 @@ fnSysUnlockCoreMutex( zLONG lMutex )
    {
       zCHAR szMsg[ 100 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Trying to unlock NULL Mutex %s", g_ZeidonMutexName[ lMutex ] );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Trying to unlock NULL Mutex %s", g_ZeidonMutexName[ lMutex ] );
       SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
    }
    else
@@ -8587,7 +8587,7 @@ fnSysUnlockCoreMutex( zLONG lMutex )
    {
       zCHAR szMsg[ 100 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Error releasing mutex %s", g_ZeidonMutexName[ lMutex ] );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Error releasing mutex %s", g_ZeidonMutexName[ lMutex ] );
       SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
    }
 
@@ -8785,7 +8785,7 @@ fnMutexCreate( LPTASK lpTask, zCPCHAR cpcMutexName,
       // We need to create the system mutex.
       hSysMutex = fnAllocDataspace( (LPDATAHEADER) g_hAnchorBlock, sizeof( MutexRecord ), 1, 0, iMutex );
       lpSysMutex = zGETPTR( hSysMutex );
-      strcpy_s( lpSysMutex->szName, sizeof( lpSysMutex->szName ), cpcMutexName );
+      strcpy_s( lpSysMutex->szName, zsizeof( lpSysMutex->szName ), cpcMutexName );
       lpSysMutex->lNameHash = fnHashName( cpcMutexName );
    // lpSysMutex->lProcessID = lProcessID; we don't care what process created the system mutex
       lpSysMutex->lProcessID = 0;
@@ -8811,7 +8811,7 @@ fnMutexCreate( LPTASK lpTask, zCPCHAR cpcMutexName,
    // Create the task mutex.
    hMutex = fnAllocDataspace( lpTask->hFirstDataHeader, sizeof( MutexRecord ), 1, 0, iMutex );
    lpMutex = zGETPTR( hMutex );
-   strcpy_s( lpMutex->szName, sizeof( lpMutex->szName ), cpcMutexName );
+   strcpy_s( lpMutex->szName, zsizeof( lpMutex->szName ), cpcMutexName );
    lpMutex->hSysMutex = hSysMutex;
    lpMutex->lNameHash = lpSysMutex->lNameHash;
    lpMutex->lProcessID = lProcessID;
@@ -8851,7 +8851,7 @@ fnMutexCreateOS( LPTASK lpTask, LPMUTEX lpMutex, zLONG lControl )
    {
       zCHAR szMsg[ 100 ];
       DWORD dw = GetLastError( );
-      sprintf_s( szMsg, sizeof( szMsg ), "Error creating mutex %s", lpMutex->szName );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Error creating mutex %s", lpMutex->szName );
       SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
       return( zCALL_ERROR );
    }
@@ -9024,7 +9024,7 @@ fnSysMutexUnlock( LPTASK lpTask, LPMUTEX lpMutex )
       {
          zCHAR szMsg[ 100 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Error releasing mutex %s", lpMutex->szName );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Error releasing mutex %s", lpMutex->szName );
          TraceLineS( szMsg, "" );
          SysMessageBox( 0, szlOE_SystemError, szMsg, -1 );
          return( zCALL_ERROR );
@@ -9145,7 +9145,7 @@ fnSysMutexDestroy( LPTASK lpTask, LPMUTEX lpMutex )
       {
          char szMsg[ 100 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Error destroying mutex: %s", lpMutex->szName );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Error destroying mutex: %s", lpMutex->szName );
          TraceLineS( szMsg, "" );
          fnSysMessageBox( lpTask, szlOE_SystemError, szMsg, 1 );
          return( zCALL_ERROR );
@@ -9269,12 +9269,12 @@ SysMutexQueryStatus( )
    {
       if ( lpMutex->lLockedTaskID )
       {
-         sprintf_s( szMsg, sizeof( szMsg ), "Mutex '%s' locked by Task: %d     ProcessID: %d",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Mutex '%s' locked by Task: %d    ProcessID: %d",
                    lpMutex->szName, lpMutex->lLockedTaskID, lpMutex->lProcessID );
       }
       else
       {
-         sprintf_s( szMsg, sizeof( szMsg ), "Mutex '%s' is unlocked      ProcessID: %d",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Mutex '%s' is unlocked     ProcessID: %d",
                    lpMutex->szName, lpMutex->lProcessID );
       }
 
@@ -9295,7 +9295,7 @@ SysMutexQueryStatus( )
          if ( lpMutex->bWaiting == FALSE )
             continue;
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Task 0x%08x (process id:%d) is waiting on mutex '%s'      Lock Count: %d",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Task 0x%08x (process id:%d) is waiting on mutex '%s'     Lock Count: %d",
                    (zULONG) lpTask, lpMutex->lProcessID, lpMutex->szName, SysMutexQueryLock( lpMutex->szName ) );
       }
    }
@@ -10208,7 +10208,7 @@ SysInitApplicationWindow( zLONG   hInstance,
       {
          char szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "SysInitApplicationWindow Class: %s     Title: %s  hWnd: 0x%08x=%d",
+         sprintf_s( szMsg, zsizeof( szMsg ), "SysInitApplicationWindow Class: %s    Title: %s  hWnd: 0x%08x=%d",
                     cpcClassName, cpcWindowTitle, (zULONG) hMainWnd, (int) hMainWnd );
          TraceLineS( szMsg, "" );
       // SysMessageBox( 0, "CreateWindow", szMsg, -1 );
@@ -10271,20 +10271,20 @@ DllMain( HINSTANCE hDLL, DWORD dwReason, LPVOID lpReserved )
 
          // Check the ServerMode flag in Zeidon.ini.  Since the OE is not running
          // yet, we have to use GetPrivateProfileString( ).
-         k = fnBuildZeidonIni( szFileName, sizeof( szFileName ) );
+         k = fnBuildZeidonIni( szFileName, zsizeof( szFileName ) );
          if ( k == 0 )
          {
             char szMessage[ 256 ];
 
             // {2,"KZOEE002 - ZEIDON environment variable not set"},
-            SysGetBaseMessage( szMessage, KZOEE002, sizeof( szMessage ) );
+            SysGetBaseMessage( szMessage, KZOEE002, zsizeof( szMessage ) );
             SysMessageBox( 0, szlOE_SystemError, szMessage, -1 );
 
             return( 1 );
          }
 
          GetPrivateProfileString( "ObjectEngine", "ServerMode", "N", szServerMode,
-                                  sizeof( szServerMode ), szFileName );
+                                  zsizeof( szServerMode ), szFileName );
          if ( toupper( szServerMode[ 0 ] ) == 'Y' )
             g_bServerMode = TRUE;
 

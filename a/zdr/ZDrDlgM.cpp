@@ -1832,7 +1832,7 @@ SetRemoteZOptAttribute( ZOption *pOpt,
 
 #ifdef DEBUG_ALL
       zCHAR  szMsg[ 256 ];
-      sprintf_s( szMsg, sizeof( szMsg ), "SetRemoteZOptAttribute Tag: %s Entity: %s "
+      sprintf_s( szMsg, zsizeof( szMsg ), "SetRemoteZOptAttribute Tag: %s Entity: %s "
                        "Attribute: %s  Value: %s",
                 *(pOpt->m_pzsTag), cpcEntity, cpcAttribute, cpcValue );
       TraceLineS( szMsg, "" );

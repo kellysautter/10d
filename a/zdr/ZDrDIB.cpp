@@ -1379,7 +1379,7 @@ ZDib2::SwitchFrom24( ZDib2& rDib )
 
    w = Width( );
    h = Height( );
-   zmemset( m_CachePtr, 0, sizeof( m_CachePtr ) );
+   zmemset( m_CachePtr, 0, zsizeof( m_CachePtr ) );
    for ( k = 0; k < h; k++ )
    {
       pTgt = GetLinePtr( k );
@@ -1403,7 +1403,7 @@ ZDib2::SwitchFromOne( ZDib2& rDib )
 
    w = Width( );
    h = Height( );
-   zmemset( m_CachePtr, 0, sizeof( m_CachePtr ) );
+   zmemset( m_CachePtr, 0, zsizeof( m_CachePtr ) );
    cols[ 0 ] = (unsigned char) ClosestColor( rDib.m_pRGB );
    cols[ 1 ] = (unsigned char) ClosestColor( rDib.m_pRGB + 1 );
    for ( k = 0; k < h; k++ )
@@ -1430,7 +1430,7 @@ ZDib2::SwitchFromFour( ZDib2& rDib )
    unsigned char cols[ 16 ];
    w = Width( );
    h = Height( );
-   zmemset( m_CachePtr, 0, sizeof( m_CachePtr ) );
+   zmemset( m_CachePtr, 0, zsizeof( m_CachePtr ) );
    for ( k = 0; k < 16; k++ )
    {
       cols[ k ] = (unsigned char) ClosestColor( rDib.m_pRGB + k );
@@ -1466,7 +1466,7 @@ ZDib2::SwitchPalette( ZDib2& rDib )
 
    w = Width( );
    h = Height( );
-   zmemset( m_CachePtr, 0, sizeof( m_CachePtr ) );
+   zmemset( m_CachePtr, 0, zsizeof( m_CachePtr ) );
    for ( k = 0; k < 256; k++ )
    {
       cols[ k ] = (unsigned char) ClosestColor( rDib.m_pRGB + k );
@@ -1714,7 +1714,7 @@ ZDib2::SwitchFrom24( ZDib2& rDib )
    if ( index_ptr == 0 )
       return( FALSE );
 
-   zmemset( m_CachePtr, 0, sizeof( m_CachePtr ) );
+   zmemset( m_CachePtr, 0, zsizeof( m_CachePtr ) );
    for ( k = 0; k <= 0x7FFF; k++ )
    {
       rgb.rgbRed = (((k & 0x7C00) >> 10) << 3) | 0x07;

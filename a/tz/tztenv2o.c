@@ -348,7 +348,7 @@ oTZTENVRO_TE_Migrate( zPVIEW    NewTE,
    //:SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2004
    RESULT = SetCursorFirstEntityByInteger( SourceLPLR, "W_MetaType", "Type", 2004, "" );
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + SourceLPLR.W_MetaDef.Name + ".PMD"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    GetVariableFromAttribute( szTempString_0, 0, 'S', 33, SourceLPLR, "W_MetaDef", "Name", "", 0 );
    ZeidonStringConcat( SourceFileName, 1, 0, szTempString_0, 1, 0, 514 );
@@ -359,7 +359,7 @@ oTZTENVRO_TE_Migrate( zPVIEW    NewTE,
 
    //:// Activate existing source meta OldTE
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + TE_MetaName + ".DTE"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, TE_MetaName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".DTE", 1, 0, 514 );
@@ -412,7 +412,7 @@ oTZTENVRO_TE_Migrate( zPVIEW    NewTE,
          { 
             //:SET CURSOR FIRST NewERD.ER_Entity WHERE
             //:   NewERD.ER_Entity.Name = OldTE.ER_Entity.Name
-            GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), OldTE, "ER_Entity", "Name" );
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), OldTE, "ER_Entity", "Name" );
             RESULT = SetCursorFirstEntityByString( NewERD, "ER_Entity", "Name", szTempString_1, "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
@@ -507,7 +507,7 @@ oTZTENVRO_TE_Migrate( zPVIEW    NewTE,
             { 
                //:SET CURSOR FIRST NewERD.ER_Attribute WHERE
                //:    NewERD.ER_Attribute.Name = OldTE.ER_Attribute.Name
-               GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), OldTE, "ER_Attribute", "Name" );
+               GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), OldTE, "ER_Attribute", "Name" );
                RESULT = SetCursorFirstEntityByString( NewERD, "ER_Attribute", "Name", szTempString_2, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -608,7 +608,7 @@ oTZTENVRO_TE_Migrate( zPVIEW    NewTE,
             { 
                //:SET CURSOR FIRST NewERD.ER_EntIdentifier WHERE
                //:   NewERD.ER_EntIdentifier.Name = OldTE.ER_EntIdentifier.Name
-               GetStringFromAttribute( szTempString_3, sizeof( szTempString_3 ), OldTE, "ER_EntIdentifier", "Name" );
+               GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), OldTE, "ER_EntIdentifier", "Name" );
                RESULT = SetCursorFirstEntityByString( NewERD, "ER_EntIdentifier", "Name", szTempString_3, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -653,7 +653,7 @@ oTZTENVRO_TE_Migrate( zPVIEW    NewTE,
                   CreateViewFromViewForTask( &NewWorkTE, *NewTE, 0 );
                   //:SET CURSOR FIRST NewWorkTE.TE_FieldDataRel WHERE
                   //:       NewWorkTE.TE_FieldDataRel.Name = OldTE.TE_FieldDataRelKey.Name
-                  GetStringFromAttribute( szTempString_4, sizeof( szTempString_4 ), OldTE, "TE_FieldDataRelKey", "Name" );
+                  GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), OldTE, "TE_FieldDataRelKey", "Name" );
                   RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_FieldDataRel", "Name", szTempString_4, "" );
                   //:IF RESULT >= zCURSOR_SET
                   if ( RESULT >= zCURSOR_SET )
@@ -798,7 +798,7 @@ oTZTENVRO_TE_Migrate( zPVIEW    NewTE,
       { 
          //:SET CURSOR FIRST NewTE.TE_TablRec WHERE
          //:    NewTE.TE_TablRec.Name = OldTE.TE_TablRec.Name
-         GetStringFromAttribute( szTempString_5, sizeof( szTempString_5 ), OldTE, "TE_TablRec", "Name" );
+         GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), OldTE, "TE_TablRec", "Name" );
          RESULT = SetCursorFirstEntityByString( *NewTE, "TE_TablRec", "Name", szTempString_5, "" );
 
          //:// Process only the first TE_TablRecKey entry, which represents the first Identifier,
@@ -1066,7 +1066,7 @@ oTZTENVRO_TE_RelinkDelete( zVIEW     vTE,
             { 
                //:SET CURSOR FIRST vERD.ER_Entity WHERE
                //:    vERD.ER_Entity.Name = vTE.ER_Entity.Name
-               GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTE, "ER_Entity", "Name" );
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTE, "ER_Entity", "Name" );
                RESULT = SetCursorFirstEntityByString( vERD, "ER_Entity", "Name", szTempString_0, "" );
                //:IF RESULT >= zCURSOR_SET
                if ( RESULT >= zCURSOR_SET )
@@ -1185,7 +1185,7 @@ oTZTENVRO_TE_RelinkDelete( zVIEW     vTE,
                   { 
                      //:SET CURSOR FIRST vERD.ER_Attribute WHERE
                      //:    vERD.ER_Attribute.Name = vTE.ER_Attribute.Name
-                     GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vTE, "ER_Attribute", "Name" );
+                     GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vTE, "ER_Attribute", "Name" );
                      RESULT = SetCursorFirstEntityByString( vERD, "ER_Attribute", "Name", szTempString_0, "" );
                      //:IF RESULT >= zCURSOR_SET
                      if ( RESULT >= zCURSOR_SET )
@@ -1423,11 +1423,11 @@ oTZTENVRO_TE_MigrateOrgSironSubF( zVIEW     vSubtask,
       //:// Include the SironField under the correct FieldDataRel
       //:SET CURSOR FIRST NewWorkTE.TE_TablRec WHERE
       //:        NewWorkTE.TE_TablRec.Name = OldWorkTE.TE_TablRec.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldWorkTE, "TE_TablRec", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldWorkTE, "TE_TablRec", "Name" );
       RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_TablRec", "Name", szTempString_0, "" );
       //:SET CURSOR FIRST NewWorkTE.TE_FieldDataRel WHERE
       //:        NewWorkTE.TE_FieldDataRel.Name = OldWorkTE.TE_FieldDataRel.Name
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldWorkTE, "TE_FieldDataRel", "Name" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldWorkTE, "TE_FieldDataRel", "Name" );
       RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_FieldDataRel", "Name", szTempString_0, "" );
 
       //:INCLUDE NewWorkTE.SironField FROM NewTE.OrigSironField
@@ -1448,7 +1448,7 @@ oTZTENVRO_TE_MigrateOrgSironSubF( zVIEW     vSubtask,
       { 
          //:SET CURSOR FIRST NewWorkTE.TE_TablRec WHERE
          //:        NewWorkTE.TE_TablRec.Name = OldWorkTE.TE_TablRec.Name
-         GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), OldWorkTE, "TE_TablRec", "Name" );
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldWorkTE, "TE_TablRec", "Name" );
          RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_TablRec", "Name", szTempString_0, "" );
 
          //:INCLUDE NewWorkTE.SironGroup FROM NewTE.OrigSironField

@@ -370,7 +370,7 @@ ZBitmapButton::LoadBitmaps( )
       zSHORT nLth;
       zBOOL  bHTTP = FALSE;
 
-      fnGetImageURL( m_pZSubtask, szImageURL, sizeof( szImageURL ) );
+      fnGetImageURL( m_pZSubtask, szImageURL, zsizeof( szImageURL ) );
       nLth = zstrlen( szImageURL );
 
       if ( zstrncmpi( szImageURL, "http:", 5) == 0 )
@@ -384,57 +384,57 @@ ZBitmapButton::LoadBitmaps( )
 
       if ( PositionOnRemoteCtrl( this, vXRA, FALSE ) )
       {
-         GetStringFromAttribute( szImageUp, sizeof( szImageUp ), vXRA, "Ctrl", "Fix" );
+         GetStringFromAttribute( szImageUp, zsizeof( szImageUp ), vXRA, "Ctrl", "Fix" );
          if ( szImageUp[ 0 ] != 'Y' )
          {
             SetRemoteZCtrlAttribute( this, "Ctrl", "Fix", "Y" );
 
             // handle UP URL, this is the default
-            GetStringFromAttribute( szImageUp, sizeof( szImageUp ), vXRA, "BitmapBtn", "URL_Up" );
+            GetStringFromAttribute( szImageUp, zsizeof( szImageUp ), vXRA, "BitmapBtn", "URL_Up" );
             if ( bHTTP )
-               strcpy_s( szImageURL + nLth, sizeof( szImageURL ) - nLth, StripDir( szImage ) );
+               strcpy_s( szImageURL + nLth, zsizeof( szImageURL ) - nLth, StripDir( szImage ) );
             else
-               strcpy_s( szImageURL + nLth, sizeof( szImageURL ) - nLth, szImageUp );
+               strcpy_s( szImageURL + nLth, zsizeof( szImageURL ) - nLth, szImageUp );
 
             SysTranslateString( szImageURL, 'L' );
             SetRemoteZCtrlAttribute( this, "BitmapBtn", "URL_Up", szImageURL );
-            strcpy_s( szImageUp, sizeof( szImageUp ), szImageURL ); // save to be used as default
+            strcpy_s( szImageUp, zsizeof( szImageUp ), szImageURL ); // save to be used as default
 
             // handle DOWN URL
-            GetStringFromAttribute( szImage, sizeof( szImage ), vXRA, "BitmapBtn", "URL_Down" );
+            GetStringFromAttribute( szImage, zsizeof( szImage ), vXRA, "BitmapBtn", "URL_Down" );
             if ( szImage[ 0 ] == 0 )
-               strcpy_s( szImageURL, sizeof( szImageURL ), szImageUp );
+               strcpy_s( szImageURL, zsizeof( szImageURL ), szImageUp );
             else
             if ( bHTTP )
-               strcpy_s( szImageURL + nLth, sizeof( szImageURL ) - nLth, StripDir( szImage ) );
+               strcpy_s( szImageURL + nLth, zsizeof( szImageURL ) - nLth, StripDir( szImage ) );
             else
-               strcpy_s( szImageURL + nLth, sizeof( szImageURL ) - nLth, szImage );
+               strcpy_s( szImageURL + nLth, zsizeof( szImageURL ) - nLth, szImage );
 
             SysTranslateString( szImageURL, 'L' );
             SetRemoteZCtrlAttribute( this, "BitmapBtn", "URL_Down", szImageURL );
 
             // handle Focus URL
-            GetStringFromAttribute( szImage, sizeof( szImage ), vXRA, "BitmapBtn", "URL_Focus" );
+            GetStringFromAttribute( szImage, zsizeof( szImage ), vXRA, "BitmapBtn", "URL_Focus" );
             if ( szImage[ 0 ] == 0 )
-               strcpy_s( szImageURL, sizeof( szImageURL ), szImageUp );
+               strcpy_s( szImageURL, zsizeof( szImageURL ), szImageUp );
             else
             if ( bHTTP )
-               strcpy_s( szImageURL + nLth, sizeof( szImageURL ) - nLth, StripDir( szImage ) );
+               strcpy_s( szImageURL + nLth, zsizeof( szImageURL ) - nLth, StripDir( szImage ) );
             else
-               strcpy_s( szImageURL + nLth, sizeof( szImageURL ) - nLth, szImage );
+               strcpy_s( szImageURL + nLth, zsizeof( szImageURL ) - nLth, szImage );
 
             SysTranslateString( szImageURL, 'L' );
             SetRemoteZCtrlAttribute( this, "BitmapBtn", "URL_Focus", szImageURL );
 
             // handle Disabled URL
-            GetStringFromAttribute( szImage, sizeof( szImage ), vXRA, "BitmapBtn", "URL_Disabled" );
+            GetStringFromAttribute( szImage, zsizeof( szImage ), vXRA, "BitmapBtn", "URL_Disabled" );
             if ( szImage[ 0 ] == 0 )
-               strcpy_s( szImageURL, sizeof( szImageURL ), szImageUp );
+               strcpy_s( szImageURL, zsizeof( szImageURL ), szImageUp );
             else
             if ( bHTTP )
-               strcpy_s( szImageURL + nLth, sizeof( szImageURL ) - nLth, StripDir( szImage ) );
+               strcpy_s( szImageURL + nLth, zsizeof( szImageURL ) - nLth, StripDir( szImage ) );
             else
-               strcpy_s( szImageURL + nLth, sizeof( szImageURL ) - nLth, szImage );
+               strcpy_s( szImageURL + nLth, zsizeof( szImageURL ) - nLth, szImage );
 
             SysTranslateString( szImageURL, 'L' );
             SetRemoteZCtrlAttribute( this, "BitmapBtn", "URL_Disabled", szImageURL );
@@ -642,12 +642,12 @@ ZBitmapButton::LoadDib( HINSTANCE hInstDLL,
 
          if ( SfGetApplicationForSubtask( &pApp, m_pZSubtask->m_vDialog ) == 0 && pApp )
          {
-            strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+            strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
             if ( szZeidonPath[ 0 ] )
             {
                SysAppendcDirSep( szZeidonPath );
-               strcat_s( szZeidonPath, sizeof( szZeidonPath ), pchSemiColon );
-               SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+               strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pchSemiColon );
+               SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
                if ( m_pDib->Load( szWorkString ) )
                {
                   if ( m_pZSubtask == 0 || m_pZSubtask->m_pZTask->m_nTraceAction > 2 )
@@ -677,12 +677,12 @@ ZBitmapButton::LoadDib( HINSTANCE hInstDLL,
             }
          }
 
-         SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+         SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
          if ( szZeidonPath[ 0 ] )
          {
             SysAppendcDirSep( szZeidonPath );
-            strcat_s( szZeidonPath, sizeof( szZeidonPath ), pchSemiColon );
-            SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+            strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pchSemiColon );
+            SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
             if ( m_pDib->Load( szWorkString ) )
             {
                if ( m_pZSubtask == 0 || m_pZSubtask->m_pZTask->m_nTraceAction > 2 )
@@ -713,12 +713,12 @@ ZBitmapButton::LoadDib( HINSTANCE hInstDLL,
 
          if ( pApp )
          {
-            strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szObjectDir );
+            strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szObjectDir );
             if ( szZeidonPath[ 0 ] )
             {
                SysAppendcDirSep( szZeidonPath );
-               strcat_s( szZeidonPath, sizeof( szZeidonPath ), pchSemiColon );
-               SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+               strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pchSemiColon );
+               SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
                if ( m_pDib->Load( szWorkString ) )
                {
                   if ( m_pZSubtask == 0 || m_pZSubtask->m_pZTask->m_nTraceAction > 2 )
@@ -1513,7 +1513,7 @@ the method shown above or you can use
 
    // The variable hBmp is a HBITMAP
    BITMAP bm;
-   ::GetObject( hBmp, sizeof( bm ), &bm );
+   ::GetObject( hBmp, zsizeof( bm ), &bm );
    bmWidth = bm.bmWidth;
    bmHeight = bm.bmHeight;
 
@@ -1527,7 +1527,7 @@ For images in a BMP file, you can use something like
    BITMAPFILEHEADER bmfHeader;
 
    // Read file header
-   if ( file.Read( (LPSTR) &bmfHeader, sizeof( bmfHeader ) ) != sizeof( bmfHeader ))
+   if ( file.Read( (LPSTR) &bmfHeader, zsizeof( bmfHeader ) ) != zsizeof( bmfHeader ))
       return;
 
    // File type should be 'BM'
@@ -1535,7 +1535,7 @@ For images in a BMP file, you can use something like
       return;
 
    BITMAPINFOHEADER bmiHeader;
-   if ( file.Read( (LPSTR) &bmiHeader, sizeof( bmiHeader ) ) != sizeof( bmiHeader ) )
+   if ( file.Read( (LPSTR) &bmiHeader, zsizeof( bmiHeader ) ) != zsizeof( bmiHeader ) )
       return;
 
 

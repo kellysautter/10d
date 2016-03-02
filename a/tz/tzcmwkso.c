@@ -89,7 +89,7 @@ oTZCMWKSO_ActivateWorkStation( zPVIEW vTZCMWKSO, zVIEW vQual, zLONG lControl )
 {
    zCHAR  szZeidonWKS[ 256 ];
 
-   if ( oTZCMWKSO_GetWKS_FileName( szZeidonWKS, sizeof( szZeidonWKS ) ) == 0 )
+   if ( oTZCMWKSO_GetWKS_FileName( szZeidonWKS, zsizeof( szZeidonWKS ) ) == 0 )
       return( ActivateOI_FromFile( vTZCMWKSO, "TZCMWKSO", vQual, szZeidonWKS, lControl ) );
    return( -1 );
 }
@@ -115,7 +115,7 @@ oTZCMWKSO_CommitWorkstation( zVIEW WKS_View )
 {
    zCHAR szZeidonWKS[ 256 ];
 
-   if ( oTZCMWKSO_GetWKS_FileName( szZeidonWKS, sizeof( szZeidonWKS ) ) == 0 )
+   if ( oTZCMWKSO_GetWKS_FileName( szZeidonWKS, zsizeof( szZeidonWKS ) ) == 0 )
    {
       // To avoid error messages on checkin of objects, that have RepositoryClient included,
       // we turn the created flag off, before we save the workstation to por file.

@@ -204,7 +204,7 @@ GetMouseScrollLines( )
       {
          TCHAR szData[ 128 ];
          DWORD dwKeyDataType;
-         DWORD dwDataBufSize = sizeof( szData );
+         DWORD dwDataBufSize = zsizeof( szData );
 
          if ( RegQueryValueEx( hKey, _T( "WheelScrollLines" ), 0, &dwKeyDataType,
                                (LPBYTE) &szData, &dwDataBufSize ) == ERROR_SUCCESS )
@@ -2758,12 +2758,9 @@ ZGrid::OnChar( UINT uChar, UINT uRepCnt, UINT uFlags )
                // Turn on bit 10 (not used by Windows) as a flag to
                // InPlaceEdit to ignore the message.
                uFlags |= 0x00000200;
-               m_pZeidonWnd->SendMessage( WM_KEYDOWN, uChar,
-                                          MAKELONG( uRepCnt, uFlags ) );
-               m_pZeidonWnd->SendMessage( WM_CHAR, uChar,
-                                          MAKELONG( uRepCnt, uFlags ) );
-               m_pZeidonWnd->SendMessage( WM_KEYUP, uChar,
-                                          MAKELONG( uRepCnt, uFlags ) );
+               m_pZeidonWnd->SendMessage( WM_KEYDOWN, uChar, MAKELONG( uRepCnt, uFlags ) );
+               m_pZeidonWnd->SendMessage( WM_CHAR, uChar, MAKELONG( uRepCnt, uFlags ) );
+               m_pZeidonWnd->SendMessage( WM_KEYUP, uChar, MAKELONG( uRepCnt, uFlags ) );
                uFlags &= ~0x00000200;  // turn off bit 10
                return;
             }
@@ -10153,7 +10150,7 @@ ZGrid::Load( zCPCHAR filename, TCHAR chSeparator /*=_T( ',' )*/ )
    TRY
    {
       // Read Header off file.
-      File.ReadString( szBuffer, sizeof( szBuffer ) );
+      File.ReadString( szBuffer, zsizeof( szBuffer ) );
 
       // Get first token.
       for ( token = szBuffer, end = szBuffer;
@@ -10188,7 +10185,7 @@ ZGrid::Load( zCPCHAR filename, TCHAR chSeparator /*=_T( ',' )*/ )
 
       // Read in rest of data
       int nItem = 0;
-      while ( File.ReadString( szBuffer, sizeof( szBuffer ) ) )
+      while ( File.ReadString( szBuffer, zsizeof( szBuffer ) ) )
       {
          // Get first token
          for ( token = szBuffer, end = szBuffer;
@@ -10457,18 +10454,18 @@ ZGrid::SortByColumn( zSHORT nCol, zSHORT nAscending )
       if ( m_pCol[ nCol ].pchAttribX && m_pCol[ nCol ].pchAttribX[ 0 ] &&
            m_pCol[ nCol ].pchEntityX && m_pCol[ nCol ].pchEntityX[ 0 ] )
       {
-         strcpy_s( szBuffer, sizeof( szBuffer ), m_pCol[ nCol ].pchEntityX );
+         strcpy_s( szBuffer, zsizeof( szBuffer ), m_pCol[ nCol ].pchEntityX );
       }
       else
-         strcpy_s( szBuffer, sizeof( szBuffer ), m_pCol[ nCol ].pchEntity );
+         strcpy_s( szBuffer, zsizeof( szBuffer ), m_pCol[ nCol ].pchEntity );
 
       lBufferLth = strlen( szBuffer );
       szBuffer[ lBufferLth++ ] = '.';
 
       if ( m_pCol[ nCol ].pchAttribX && m_pCol[ nCol ].pchAttribX[ 0 ] )
-         strcpy_s( szBuffer + lBufferLth, sizeof( szBuffer ) - lBufferLth, m_pCol[ nCol ].pchAttribX );
+         strcpy_s( szBuffer + lBufferLth, zsizeof( szBuffer ) - lBufferLth, m_pCol[ nCol ].pchAttribX );
       else
-         strcpy_s( szBuffer + lBufferLth, sizeof( szBuffer ) - lBufferLth, m_pCol[ nCol ].pchAttrib );
+         strcpy_s( szBuffer + lBufferLth, zsizeof( szBuffer ) - lBufferLth, m_pCol[ nCol ].pchAttrib );
 
       lBufferLth = zstrlen( szBuffer );
       szBuffer[ lBufferLth++ ] = ' ';
@@ -10525,9 +10522,9 @@ ZGrid::SortByColumn( zSHORT nCol, zSHORT nAscending )
          szBuffer[ lBufferLth++ ] = ' ';
          szBuffer[ lBufferLth++ ] = '[';
          if ( m_pCol[ nCol ].pchContextX )
-            strcpy_s( szBuffer + lBufferLth, sizeof( szBuffer ) - lBufferLth, m_pCol[ nCol ].pchContextX );
+            strcpy_s( szBuffer + lBufferLth, zsizeof( szBuffer ) - lBufferLth, m_pCol[ nCol ].pchContextX );
          else
-            strcpy_s( szBuffer + lBufferLth, sizeof( szBuffer ) - lBufferLth, m_pCol[ nCol ].pchContext );
+            strcpy_s( szBuffer + lBufferLth, zsizeof( szBuffer ) - lBufferLth, m_pCol[ nCol ].pchContext );
 
          lBufferLth = (zSHORT) zstrlen( szBuffer );
          szBuffer[ lBufferLth++ ] = ']';
@@ -13075,7 +13072,7 @@ ZGridCellCheck::GetCheck( long lRow, int nCol )
 
          // Position was established by GetText call above.
          GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                   sizeof( szMap ) - 1,
+                                   zsizeof( szMap ) - 1,
                                    m_pGrid->m_vAppList,
                                    m_pGrid->m_pCol[ nCol ].pchEntity,
                                    m_pGrid->m_pCol[ nCol ].pchAttrib,
@@ -14226,7 +14223,7 @@ ZGridURLCell::GetHandCursor( )
 zBOOL
 ZGridURLCell::HasUrl( CString cs )
 {
-   int nNbrPrefixes = sizeof( g_szURIprefixes ) / sizeof( g_szURIprefixes[ 0 ] );
+   int nNbrPrefixes = zsizeof( g_szURIprefixes ) / sizeof( g_szURIprefixes[ 0 ] );
    for ( int k = 0; k < nNbrPrefixes; k++ )
    {
       // if ( cs.Left( g_szURIprefixes[ k ].nLength ) ==

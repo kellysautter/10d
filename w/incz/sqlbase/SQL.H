@@ -1080,7 +1080,7 @@ struct     sysdefx
      };
 typedef   struct    sysdefx sysdef;
 typedef   struct    sysdefx SQLTSYS;
-#define   SYSSIZ    sizeof(sysdef)
+#define   SYSSIZ    zsizeof(sysdef)
 
 /*
 DESCRIPTION:
@@ -1120,7 +1120,7 @@ struct     gdidefx
 typedef   struct    gdidefx gdidef;
 typedef   struct gdidefx SQLTGDI;
 typedef   struct gdidefx* SQLTPGD;
-#define   GDISIZ    sizeof(gdidef)
+#define   GDISIZ    zsizeof(gdidef)
 
 /*
 DESCRIPTION
@@ -1141,7 +1141,7 @@ typedef   struct   binaryx BINARY;
 typedef   struct   binaryx *lpbinary;
 typedef   struct   binaryx *LPBINARY;
 
-#define   BINARYSIZ sizeof(binary)
+#define   BINARYSIZ zsizeof(binary)
 
 #define   BINARY_GET_LENGTH(x)          (x.binary_len)
 #define   BINARY_GET_BUFFER(x)          (x.binary_ptr)
@@ -1163,7 +1163,7 @@ struct  datetimex
 
 typedef struct  datetimex datetime;
 
-#define DATETIMESIZ sizeof(datetime)
+#define DATETIMESIZ zsizeof(datetime)
 
 #define DATETIME_IS_NULL(x)     (x.datetime_len == 0)
 #define DATETIME_SET_NULL(x)    (x.datetime_len = 0)
@@ -1176,7 +1176,7 @@ struct  numberx
 
 typedef struct  numberx number;
 
-#define NUMBERSIZ sizeof(number)
+#define NUMBERSIZ zsizeof(number)
 
 #define NUMBER_IS_NULL(x)     (x.datetime_len == 0)
 #define NUMBER_SET_NULL(x)    (x.datetime_len = 0)

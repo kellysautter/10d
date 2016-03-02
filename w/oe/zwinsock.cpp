@@ -664,7 +664,7 @@ zNetOpenConnection( zPPVOID  ppHandle,
    }
 
    // Since we may manipulate the server address let's copy it to a temp var.
-   strcpy_s( szServerAddress, sizeof( szServerAddress ), pchAddress );
+   strcpy_s( szServerAddress, zsizeof( szServerAddress ), pchAddress );
 
    // Check to see if the port number is part of the address.  If it is, then
    // copy it to szPort.
@@ -687,7 +687,7 @@ zNetOpenConnection( zPPVOID  ppHandle,
       zCHAR szPort[ 20 ];
 
       // The port value wasn't specified so get the default port from the Ini file.
-      SysReadZeidonIni( -1, "[zWinSock]", "ApplPort", szPort, sizeof( szPort ) );
+      SysReadZeidonIni( -1, "[zWinSock]", "ApplPort", szPort, zsizeof( szPort ) );
       nPort = (u_short) zatol( szPort );
       g_nApplPort = nPort;
    }
@@ -736,7 +736,7 @@ zNetOpenConnection( zPPVOID  ppHandle,
       {
          char sz[ 200 ];
 
-         sprintf_s( sz, sizeof( sz ), "%s took %lf seconds.", szServerAddress,
+         sprintf_s( sz, zsizeof( sz ), "%s took %lf seconds.", szServerAddress,
                     (double) (lEnd - lStart) / zTICKS_PER_SECOND );
          TraceLineS( "(zWinSock) WARNING gethostbyname() for ", sz );
       }
@@ -745,7 +745,7 @@ zNetOpenConnection( zPPVOID  ppHandle,
          break;  // Got the info, so break.
 
       SHOWERROR( "gethostbyname" );
-      sprintf_s( szMsg, sizeof( szMsg ), "Couldn't resolve network address '%s'.  Make sure the server "
+      sprintf_s( szMsg, zsizeof( szMsg ), "Couldn't resolve network address '%s'. Make sure the server "
                  "address is correct and that the Zeidon Server is running.",
                  szServerAddress );
 
@@ -787,7 +787,7 @@ zNetOpenConnection( zPPVOID  ppHandle,
          {
             char sz[ 200 ];
 
-            sprintf_s( sz, sizeof( sz ), "%s took %lf seconds.", szServerAddress,
+            sprintf_s( sz, zsizeof( sz ), "%s took %lf seconds.", szServerAddress,
                        (double) ( lEnd - lStart ) / zTICKS_PER_SECOND );
             TraceLineS( "(zWinSock) WARNING connect() for ", sz );
          }
@@ -797,7 +797,7 @@ zNetOpenConnection( zPPVOID  ppHandle,
 
       SHOWERROR( "connect" );
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Connection to server '%s' failed.  Make sure the server "
+      sprintf_s( szMsg, zsizeof( szMsg ), "Connection to server '%s' failed. Make sure the server "
                  "address is correct and that the server is running the Zeidon "
                  "Object Engine.", pchAddress );
 
@@ -966,7 +966,7 @@ fnProcessConnectionThreadProc( zPVOID p )
    {
       char szBuf[ 80 ];
 
-      SysReadZeidonIni( -1, "[zWinSock]", "SyncServerAccess", szBuf, sizeof( szBuf ) );
+      SysReadZeidonIni( -1, "[zWinSock]", "SyncServerAccess", szBuf, zsizeof( szBuf ) );
       DoSync = atoi( szBuf );
       if ( DoSync == 0 )
          DoSync = -1;   // atoi returns 0 if string was empty
@@ -1038,7 +1038,7 @@ fnProcessConnectionThreadProc( zPVOID p )
          zCHAR szSysDateTime[ 30 ];
 
          SysGetDateTime( szSysDateTime );
-         UfFormatDateTime( szDateTime, sizeof( szDateTime ), szSysDateTime, "YYYY-MM-DD HH:MI:SS" );
+         UfFormatDateTime( szDateTime, zsizeof( szDateTime ), szSysDateTime, "YYYY-MM-DD HH:MI:SS" );
          zsprintf( szMsg, "(%s) Client %s created an exception in NetProcessMessage",
                    szDateTime, cr.pchPeerName );
          TraceLineS( "EXCEPTION >>>>>>>>>>>>>>>>>>>>>>>> zWinsock: ", szMsg );
@@ -1097,7 +1097,7 @@ fnListenThreadProc( zPVOID p )
    // Get port number.
    if ( g_nListenPort == -1 )
    {
-      SysReadZeidonIni( -1, "[zWinSock]", "ListenPort", szPort, sizeof( szPort ) );
+      SysReadZeidonIni( -1, "[zWinSock]", "ListenPort", szPort, zsizeof( szPort ) );
       g_nListenPort = (short) zatol( szPort );
    }
 
@@ -1538,7 +1538,7 @@ zNetStart( zPCHAR pchNetworkName, zPPVOID  ppHandle )
    {
       char szTemp[ 80 ];
 
-      sprintf_s( szTemp, sizeof( szTemp ), "Error loading starting WinSock: %d", status );
+      sprintf_s( szTemp, zsizeof( szTemp ), "Error loading starting WinSock: %d", status );
       SysMessageBox( 0, szlErrorTitle, szTemp, -1 );
       return( zCALL_ERROR );
    }
@@ -1641,7 +1641,7 @@ zNetSendPacket( zPPVOID  ppHandle,
    Packet.cPacketType = cPacketType;
    Packet.lPacketData = htonl( lPacketData );
 
-   return zNetSend( ppHandle, ppvConnPtr, (zPCHAR) &Packet, sizeof( Packet ),
+   return zNetSend( ppHandle, ppvConnPtr, (zPCHAR) &Packet, zsizeof( Packet ),
                     zTYPE_BLOB );
 }
 
@@ -1654,7 +1654,7 @@ zNetReceivePacket( zPPVOID  ppHandle,
    LPPACKET lpPacket;
 
    if ( zNetReceive( ppHandle, ppvConnPtr, (zPPCHAR) &lpPacket,
-                     sizeof( zDataPacket ), zTYPE_BLOB ) != 0 )
+                     zsizeof( zDataPacket ), zTYPE_BLOB ) != 0 )
    {
       return( zCALL_ERROR );
    }
@@ -1692,9 +1692,9 @@ GetDirectoryList( zPVIEW pvList, zVIEW vAppList )
 
    vList = *pvList;  // Just so it's easier.
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vAppList, "APPLICATION", "APP_ADOBIN" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vAppList, "APPLICATION", "APP_ADOBIN" );
    SysAppendcDirSep( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), "*" );
+   strcat_s( szFileName, zsizeof( szFileName ), "*" );
 
    hFind = FindFirstFile( szFileName, &FileData );
    if ( hFind != INVALID_HANDLE_VALUE )
@@ -1711,7 +1711,7 @@ GetDirectoryList( zPVIEW pvList, zVIEW vAppList )
                                     FileData.cFileName );
 
             FileTimeToSystemTime( &FileData.ftLastWriteTime, &lpTime );
-            sprintf_s( szTimestamp, sizeof( szTimestamp ), "%d%02d%02d%02d%02d%02d%d",
+            sprintf_s( szTimestamp, zsizeof( szTimestamp ), "%d%02d%02d%02d%02d%02d%d",
                        lpTime.wYear, lpTime.wMonth, lpTime.wDay, lpTime.wHour,
                        lpTime.wMinute, lpTime.wSecond, lpTime.wMilliseconds );
             SetAttributeFromString( vList, "File", "ModDate", szTimestamp );
@@ -1754,9 +1754,9 @@ CompareFiles( zPVIEW pvList )
    zCHAR  szFileName[ zMAX_FILENAME_LTH + 1 ];
 
    // Activate the object containing the app list.
-   SysGetEnvVar( szFileName, "ZEIDON", sizeof( szFileName ) );
+   SysGetEnvVar( szFileName, "ZEIDON", zsizeof( szFileName ) );
    SysAppendcDirSep( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), "ZEIDON.APP" );
+   strcat_s( szFileName, zsizeof( szFileName ), "ZEIDON.APP" );
    SfActivateSysOI_FromFile( &vAppList, "KZAPPLOO", 0, szFileName, 0 );
 
    // Make sure the application exists for this server.
@@ -1770,12 +1770,12 @@ CompareFiles( zPVIEW pvList )
    }
 
    // Get the list of executable files for the app server.
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vAppList, "APPLICATION", "APP_NAME" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vAppList, "APPLICATION", "APP_NAME" );
    if ( lMaxTotalFileSize == 0 )
    {
       zCHAR szTemp[ 100 ];
 
-      SysReadZeidonIni( -1, szFileName, "MaxTotalFileSize", szTemp, sizeof( szTemp ) );
+      SysReadZeidonIni( -1, szFileName, "MaxTotalFileSize", szTemp, zsizeof( szTemp ) );
       if ( *szTemp )
          lMaxTotalFileSize = zatol( szTemp );
 
@@ -1785,7 +1785,7 @@ CompareFiles( zPVIEW pvList )
 
    TraceLineS( "Performing Application Update for app: ", szFileName );
 
-   strcat_s( szFileName, sizeof( szFileName ), "_ExecutableSourceList" );
+   strcat_s( szFileName, zsizeof( szFileName ), "_ExecutableSourceList" );
    GetViewByName( &vServerList, szFileName, 0, zLEVEL_SYSTEM );
    if ( vServerList == 0 )
    {
@@ -1793,7 +1793,7 @@ CompareFiles( zPVIEW pvList )
       SetNameForView( vServerList, szFileName, 0, zLEVEL_SYSTEM );
    }
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vAppList, "APPLICATION", "APP_ADOBIN" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vAppList, "APPLICATION", "APP_ADOBIN" );
    SysAppendcDirSep( szFileName );
    iNameIdx = (zSHORT) zstrlen( szFileName );
 
@@ -1807,8 +1807,8 @@ CompareFiles( zPVIEW pvList )
 
       if ( nClientRC >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szServerFile, sizeof( szServerFile ), vServerList, "File", "FileName" );
-         GetStringFromAttribute( szClientFile, sizeof( szClientFile ), vClientList, "File", "FileName" );
+         GetStringFromAttribute( szServerFile, zsizeof( szServerFile ), vServerList, "File", "FileName" );
+         GetStringFromAttribute( szClientFile, zsizeof( szClientFile ), vClientList, "File", "FileName" );
 
          nCmprResult = zstrcmpi( szServerFile, szClientFile );
       }
@@ -1845,7 +1845,7 @@ CompareFiles( zPVIEW pvList )
       // Keep track of the number of files we are downloading.
       nFileCount++;
 
-      GetStringFromAttribute( szFileName + iNameIdx, sizeof( szFileName ) - iNameIdx, vClientList, "File", "FileName" );
+      GetStringFromAttribute( szFileName + iNameIdx, zsizeof( szFileName ) - iNameIdx, vClientList, "File", "FileName" );
       SetAttributeFromString( vClientList, "File", "Updated", "Y" );
       SetAttributeFromAttribute( vClientList, "File", "ModDate", vServerList, "File", "ModDate" );
       SetBlobFromFile( vClientList, "File", "Data", szFileName );
@@ -1896,9 +1896,9 @@ PerformApplicationUpdate( zVIEW lpView )
    zPCHAR pchAppName;
 
    // Activate the object containing the app list.
-   SysGetEnvVar( szFileName, "ZEIDON", sizeof( szFileName ) );
+   SysGetEnvVar( szFileName, "ZEIDON", zsizeof( szFileName ) );
    SysAppendcDirSep( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), "ZEIDON.APP" );
+   strcat_s( szFileName, zsizeof( szFileName ), "ZEIDON.APP" );
    SfActivateSysOI_FromFile( &vAppList, "KZAPPLOO", lpView, szFileName, 0 );
 
    for ( nRC = SetCursorFirstEntity( vAppList, "APPLICATION", 0 );
@@ -1911,7 +1911,7 @@ PerformApplicationUpdate( zVIEW lpView )
 
       // Check to see if a source server is specified for this app.  If not,
       // then skip it.
-      SysReadZeidonIni( -1, pchAppName, "SourceServer", szSourceServer, sizeof( szSourceServer ) );
+      SysReadZeidonIni( -1, pchAppName, "SourceServer", szSourceServer, zsizeof( szSourceServer ) );
       if ( szSourceServer[ 0 ] == 0 )
          continue;
 
@@ -1929,7 +1929,7 @@ PerformApplicationUpdate( zVIEW lpView )
          NetCallOperation( "zWinSock", szSourceServer, vList, FALSE,
                            "zWinSock", "CompareFiles", &nMore, "NpV", &vList );
 
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vAppList, "APPLICATION", "APP_ADOBIN" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vAppList, "APPLICATION", "APP_ADOBIN" );
          SysAppendcDirSep( szFileName );
          iFileNameIdx = (zSHORT) zstrlen( szFileName );
 
@@ -1940,11 +1940,11 @@ PerformApplicationUpdate( zVIEW lpView )
          {
             zCHAR szFileDateTime[ 40 ];
 
-            GetStringFromAttribute( szFileName + iFileNameIdx, sizeof( szFileName ) - iFileNameIdx, vList, "File", "FileName" );
+            GetStringFromAttribute( szFileName + iFileNameIdx, zsizeof( szFileName ) - iFileNameIdx, vList, "File", "FileName" );
             TraceLineS( "FileName: ", szFileName );
             WriteBlobToFile( vList, "File", "Data", szFileName );
 
-            GetStringFromAttribute( szFileDateTime, sizeof( szFileDateTime ), vList, "File", "ModDate" );
+            GetStringFromAttribute( szFileDateTime, zsizeof( szFileDateTime ), vList, "File", "ModDate" );
             SysSetFileTime( szFileName, szFileDateTime, 0 );
          }
 

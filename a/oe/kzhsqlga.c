@@ -763,13 +763,13 @@ fnAddAliasName( LPSQLSTATEMENT lpSql, int nTableNbr )
 
    szAlias[ 0 ] = ' ';
    szAlias[ 1 ] = 'A' + (zCHAR) lpSql->nSubLevel;
-   zltoa( (zLONG) nTableNbr, szAlias + 2, sizeof( szAlias ) - 2 );
+   zltoa( (zLONG) nTableNbr, szAlias + 2, zsizeof( szAlias ) - 2 );
 
-   lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, sizeof( szAlias ), szAlias );
+   lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, zsizeof( szAlias ), szAlias );
 
    // Copy alias name to table info (skipping the leading space ).
    strcpy_s( lpSql->TableNameInfo[ nTableNbr ].szAliasName,
-             sizeof( lpSql->TableNameInfo[ nTableNbr ].szAliasName ), szAlias + 1 );
+             zsizeof( lpSql->TableNameInfo[ nTableNbr ].szAliasName ), szAlias + 1 );
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -864,7 +864,7 @@ fnAddTableToFrom( LPSQLSTATEMENT lpSql,
       // Add the rel table to the table list.
       nRelTableNbr = lpSql->nFromTableCount++;
 
-      lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, sizeof( lpRelRecord->szRecordName ),
+      lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, zsizeof( lpRelRecord->szRecordName ),
                                     lpRelRecord->szRecordName );
       lpSql->TableNameInfo[ nRelTableNbr ].pchTableName =
                                              lpRelRecord->szRecordName;
@@ -913,7 +913,7 @@ fnAddTableToFrom( LPSQLSTATEMENT lpSql,
                                                        lpRelRecord->szRecordName,
                                                        lpViewEntity ) );
             lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, 2, "." );
-            lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, sizeof( lpRelField->szFldName ),
+            lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, zsizeof( lpRelField->szFldName ),
                                           lpRelField->szFldName );
 
             lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, 4, " = " );
@@ -923,7 +923,7 @@ fnAddTableToFrom( LPSQLSTATEMENT lpSql,
                                                        lpSrcDataRecord->szRecordName,
                                                        lpSrcViewEntity ) );
             lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, 2, "." );
-            lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, sizeof( lpSrcDataField->szFldName ),
+            lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, zsizeof( lpSrcDataField->szFldName ),
                                           lpSrcDataField->szFldName );
 
          } // for ( lpRelField... )
@@ -1002,7 +1002,7 @@ fnAddTableToFrom( LPSQLSTATEMENT lpSql,
                                                     lpDataRecord->szRecordName,
                                                     lpTempEntity ) );
          lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, 2, "." );
-         lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, sizeof( lpDataField->szFldName ),
+         lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, zsizeof( lpDataField->szFldName ),
                                        lpDataField->szFldName );
 
          lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, 4, " = " );
@@ -1016,7 +1016,7 @@ fnAddTableToFrom( LPSQLSTATEMENT lpSql,
                                                        lpRelRecord->szRecordName,
                                                        lpTempEntity ) );
             lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, 2, "." );
-            lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, sizeof( lpRelField->szFldName ),
+            lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, zsizeof( lpRelField->szFldName ),
                                           lpRelField->szFldName );
          }
          else
@@ -1031,7 +1031,7 @@ fnAddTableToFrom( LPSQLSTATEMENT lpSql,
                                                        lpDataRecord->szRecordName,
                                                        lpTempEntity ) );
             lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, 2, "." );
-            lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, sizeof( lpDataField->szFldName ),
+            lpSql->pchFromEnd = zstrcatp( lpSql->pchFromEnd, zsizeof( lpDataField->szFldName ),
                                           lpDataField->szFldName );
          }
       }
@@ -1167,40 +1167,40 @@ fnSqlUnformatDateTimeString( zPCHAR pchTarget, zPCHAR pchSource )
    // the order of the UfEditFormatDateTime calls is important--the more
    // complex ones MUST be done FIRST.  UfEditFormatDateTime returns 0 only
    // if the data in szStr matches the format given.
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "YYYYMMDD" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "YYYYMMDD" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "YYYY-M-D H:MI:SSAM" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "YYYY-M-D H:MI:SSAM" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "D-Mmm-YYYY H:MI:SSAM" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "D-Mmm-YYYY H:MI:SSAM" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "D-Mmm-YYYY" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "D-Mmm-YYYY" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "YYYY-M-D H:MI:SS" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "YYYY-M-D H:MI:SS" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "YYYY-M-D H:MIAM" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "YYYY-M-D H:MIAM" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "YYYY-M-D H:MI" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "YYYY-M-D H:MI" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "YYYY-M-D" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "YYYY-M-D" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "H:MI:SSAM" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "H:MI:SSAM" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "H:MI:SS" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "H:MI:SS" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "H:MIAM" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "H:MIAM" ) == 0 )
       nRC = 1;
    else
-   if ( UfEditFormatDateTime( szStr, sizeof( szStr ), "H:MI" ) == 0 )
+   if ( UfEditFormatDateTime( szStr, zsizeof( szStr ), "H:MI" ) == 0 )
       nRC = 1;
 
    if ( nRC == 1 )
@@ -1456,7 +1456,7 @@ fnSqlConvertStringToSqlString( LPDATAFIELD  lpDataField,
       case zTYPE_DATETIME:
          // Get date-time from pchSrc as an unformatted string --
          // yyyymmddhhmmsss.
-         strcpy_s( szDateTime1, sizeof( szDateTime1 ), pchSrc );
+         strcpy_s( szDateTime1, zsizeof( szDateTime1 ), pchSrc );
 
          // Make sure that the DateTime doesn't contain any spaces.
          sz = szDateTime1;
@@ -1472,15 +1472,15 @@ fnSqlConvertStringToSqlString( LPDATAFIELD  lpDataField,
          switch ( lpDataField->cFldType )
          {
             case zTYPE_TIME:
-               UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "HH.MI.SS.999" );
+               UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "HH.MI.SS.999" );
                break;
 
             case zTYPE_DATE:
-               UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD" );
+               UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD" );
                break;
 
             default:
-               UfFormatDateTime( szDateTime2, sizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD-HH.MI.SS.999" );
+               UfFormatDateTime( szDateTime2, zsizeof( szDateTime2 ), szDateTime1, "YYYY-mm-DD-HH.MI.SS.999" );
          }
 
          // Date string must be inside a quote.
@@ -1706,23 +1706,23 @@ fnSqlBuildColumnList( LPVIEWENTITY   lpViewEntity,
          switch ( lpViewAttrib->cDB_Oper )
          {
             case 'A':
-               strcat_s( szColumnName, sizeof( szColumnName ), "AVG( " );
+               strcat_s( szColumnName, zsizeof( szColumnName ), "AVG( " );
                break;
 
             case 'C':
-               strcat_s( szColumnName, sizeof( szColumnName ), "COUNT( " );
+               strcat_s( szColumnName, zsizeof( szColumnName ), "COUNT( " );
                break;
 
             case 'N':
-               strcat_s( szColumnName, sizeof( szColumnName ), "MIN( " );
+               strcat_s( szColumnName, zsizeof( szColumnName ), "MIN( " );
                break;
 
             case 'S':
-               strcat_s( szColumnName, sizeof( szColumnName ), "SUM( " );
+               strcat_s( szColumnName, zsizeof( szColumnName ), "SUM( " );
                break;
 
             case 'X':
-               strcat_s( szColumnName, sizeof( szColumnName ), "MAX( " );
+               strcat_s( szColumnName, zsizeof( szColumnName ), "MAX( " );
                break;
          }
       }
@@ -1736,18 +1736,18 @@ fnSqlBuildColumnList( LPVIEWENTITY   lpViewEntity,
               lpRelRecord->cOwnerMember == zDBH_MANY_TO_MANY )
          {
             // Qualify column using corresponding table.
-            strcat_s( szColumnName, sizeof( szColumnName ),
+            strcat_s( szColumnName, zsizeof( szColumnName ),
                       fnTableName( lpSql,
                                    lpRelRecord->szRecordName,
                                    lpViewEntity ) );
          }
          else
-            strcat_s( szColumnName, sizeof( szColumnName ),
+            strcat_s( szColumnName, zsizeof( szColumnName ),
                       fnTableName( lpSql,
                                    lpDataRecord->szRecordName,
                                    lpViewEntity ) );
 
-         strcat_s( szColumnName, sizeof( szColumnName ), "." );
+         strcat_s( szColumnName, zsizeof( szColumnName ), "." );
       }
 
       if ( EXEC_CALLBACK( zSQLCALLBACK_GETCOLUMNNAME, 0, lpDataField,
@@ -1759,11 +1759,11 @@ fnSqlBuildColumnList( LPVIEWENTITY   lpViewEntity,
       else
       {
          // Default processing is to just copy the column name.
-         strcat_s( szColumnName, sizeof( szColumnName ), lpDataField->szFldName );
+         strcat_s( szColumnName, zsizeof( szColumnName ), lpDataField->szFldName );
       }
 
       if ( lpSql->nCommandType & zSELECT_CMD && lpViewAttrib->cDB_Oper )
-         strcat_s( szColumnName, sizeof( szColumnName ), " )" );
+         strcat_s( szColumnName, zsizeof( szColumnName ), " )" );
 
       // Some columns need to go at the end of the list.  Check with the DBH
       // if this column should do so but only if we are dealing with a
@@ -1774,7 +1774,7 @@ fnSqlBuildColumnList( LPVIEWENTITY   lpViewEntity,
       {
          // Callback indicated that column goes in 2nd column list.
          lpSql->pchColList2End = zstrcatp( lpSql->pchColList2End, 3, ", " );
-         lpSql->pchColList2End = zstrcatp( lpSql->pchColList2End, sizeof( szColumnName ), szColumnName );
+         lpSql->pchColList2End = zstrcatp( lpSql->pchColList2End, zsizeof( szColumnName ), szColumnName );
       }
       else
       {
@@ -1870,8 +1870,8 @@ fnSqlBuildIntoList( LPVIEWENTITY   lpViewEntity,
       else
       {
          // Default processing is to just copy the attribute name.
-         strcpy_s( szColumnName, sizeof( szColumnName ), ":" );
-         strcat_s( szColumnName, sizeof( szColumnName ), lpViewAttrib->szName );
+         strcpy_s( szColumnName, zsizeof( szColumnName ), ":" );
+         strcat_s( szColumnName, zsizeof( szColumnName ), lpViewAttrib->szName );
       }
 
       fnSqlAddStringToSql( lpSql, MAX_SQLCMD_LENGTH, szColumnName );
@@ -2067,11 +2067,11 @@ fnSqlBuildWhere( zVIEW          lpView,
    {
       zCHAR szMsg[ 400 ];
 
-      strcpy_s( szMsg, sizeof( szMsg ), "SQL Error creating WHERE clause -- no key attribute "
+      strcpy_s( szMsg, zsizeof( szMsg ), "SQL Error creating WHERE clause -- no key attribute "
                "found in object definition.\nObject name = " );
-      strcat_s( szMsg, sizeof( szMsg ), lpViewOD->szName );
-      strcat_s( szMsg, sizeof( szMsg ), "\nEntity name = " );
-      strcat_s( szMsg, sizeof( szMsg ), lpViewEntity->szName );
+      strcat_s( szMsg, zsizeof( szMsg ), lpViewOD->szName );
+      strcat_s( szMsg, zsizeof( szMsg ), "\nEntity name = " );
+      strcat_s( szMsg, zsizeof( szMsg ), lpViewEntity->szName );
       IssueError( lpView, 16, 16, szMsg );
 
       return( zCALL_ERROR );
@@ -2654,11 +2654,11 @@ SqlBuildDeleteAll( zVIEW        lpView,
       {
          zCHAR szMsg[ 400 ];
 
-         strcpy_s( szMsg, sizeof( szMsg ), "SQL Error creating WHERE clause -- no key attribute "
+         strcpy_s( szMsg, zsizeof( szMsg ), "SQL Error creating WHERE clause -- no key attribute "
                   "found in object definition.\nObject name = " );
-         strcat_s( szMsg, sizeof( szMsg ), lpViewOD->szName );
-         strcat_s( szMsg, sizeof( szMsg ), "\nEntity name = " );
-         strcat_s( szMsg, sizeof( szMsg ), lpViewEntity->szName );
+         strcat_s( szMsg, zsizeof( szMsg ), lpViewOD->szName );
+         strcat_s( szMsg, zsizeof( szMsg ), "\nEntity name = " );
+         strcat_s( szMsg, zsizeof( szMsg ), lpViewEntity->szName );
          IssueError( lpView, 16, 16, szMsg );
 
          return( zCALL_ERROR );
@@ -3411,7 +3411,7 @@ fnSqlAddQualToWhere( zVIEW          lpView,
          fnSqlAddStringToWhere( lpSql, MAX_SQLCMD_LENGTH, lpQualAttrib->lpDataField->szFldName );
 
 
-         sprintf_s( szCmd, sizeof( szCmd ), " IN ( SELECT INTVALUE FROM ZEIDONKEYLIST WHERE TASKID = %ld ) ",
+         sprintf_s( szCmd, zsizeof( szCmd ), " IN ( SELECT INTVALUE FROM ZEIDONKEYLIST WHERE TASKID = %ld ) ",
                     SysGetTaskFromView( lpView ) );
          fnSqlAddStringToWhere( lpSql, MAX_SQLCMD_LENGTH, szCmd );
       }
@@ -3946,13 +3946,13 @@ fnSqlBuildOpenSQL( zVIEW         lpView,
       // Try getting the attribute value as a string.  If it failed, then
       // return with an error.  This call also verifies that the entity name
       // and attribute name are valid.
-      nRC = GetStringFromAttribute( szTempStr, sizeof( szTempStr ), lpView, szEntityName, szAttributeName );
+      nRC = GetStringFromAttribute( szTempStr, zsizeof( szTempStr ), lpView, szEntityName, szAttributeName );
       if ( nRC < -2 )
          return( zCALL_ERROR );
       else
       if ( nRC == -2 )
       {
-         sprintf_s( szTempStr, sizeof( szTempStr ), "Cursor is NULL for attribute '@%s.%s'",
+         sprintf_s( szTempStr, zsizeof( szTempStr ), "Cursor is NULL for attribute '@%s.%s'",
                     szEntityName, szAttributeName );
          MessageSend( lpView, "KZH0202", "Qualification Object Error",
                       szTempStr, zMSGQ_SYSTEM_ERROR, 0 );
@@ -4048,7 +4048,7 @@ SqlBuildSelect( zVIEW        lpView,
       // Init handled by call back.
    }
    else
-      strcpy_s( sz, sizeof( sz ), "SELECT " );
+      strcpy_s( sz, zsizeof( sz ), "SELECT " );
 
    lpSql = &SqlStatement;
    fnSqlInitSqlStatement( lpSql, zSELECT_CMD, pchSqlCmd, lpView, lpBoundList );
@@ -4766,7 +4766,7 @@ fnCanonicalOrder( LPSQLSTATEMENT lpSql,
       LPDATARECORD lpOrderDataRecord;
       LPDATAFIELD apDataField[ MAXLEN_KEY_ARRAY ];
 
-      memset( apDataField, 0, sizeof( apDataField ) );
+      memset( apDataField, 0, zsizeof( apDataField ) );
       nKey = 0;
       nSequencing = 0;
 
@@ -4912,32 +4912,32 @@ fnSqlDisplayQualAttrib( LPQUALATTRIB lpQualAttrib,
 
       if ( lpQualAttrib->lpViewEntity )
       {
-         strcat_s( szStr, sizeof( szStr ), "Entity name: " );
+         strcat_s( szStr, zsizeof( szStr ), "Entity name: " );
          TraceLineS( szStr, lpQualAttrib->lpViewEntity->szName );
          szStr[ n ] = 0;
       }
 
       if ( lpQualAttrib->lpViewAttrib )
       {
-         strcat_s( szStr, sizeof( szStr ), "Attrib name: " );
+         strcat_s( szStr, zsizeof( szStr ), "Attrib name: " );
          TraceLineS( szStr, lpQualAttrib->lpViewAttrib->szName );
          szStr[ n ] = 0;
       }
 
-      strcat_s( szStr, sizeof( szStr ), "Oper      : " );
+      strcat_s( szStr, zsizeof( szStr ), "Oper     : " );
       TraceLineS( szStr, lpQualAttrib->szOper );
       szStr[ n ] = 0;
 
       if ( lpQualAttrib->szValue )
       {
-         strcat_s( szStr, sizeof( szStr ), "Value     : " );
+         strcat_s( szStr, zsizeof( szStr ), "Value    : " );
          TraceLineS( szStr, lpQualAttrib->szValue );
          szStr[ n ] = 0;
       }
 
       if ( lpQualAttrib->lpSourceViewEntity )
       {
-         strcat_s( szStr, sizeof( szStr ), "Source Entity name: " );
+         strcat_s( szStr, zsizeof( szStr ), "Source Entity name: " );
          TraceLineS( szStr, lpQualAttrib->lpSourceViewEntity->szName );
          szStr[ n ] = 0;
       }
@@ -4946,7 +4946,7 @@ fnSqlDisplayQualAttrib( LPQUALATTRIB lpQualAttrib,
       {
          LPVIEWATTRIB lpViewAttrib = zGETPTR( lpQualAttrib->lpSourceDataField->hViewAttrib );
 
-         strcat_s( szStr, sizeof( szStr ), "Source Attrib name: " );
+         strcat_s( szStr, zsizeof( szStr ), "Source Attrib name: " );
          TraceLineS( szStr, lpViewAttrib->szName );
          szStr[ n ] = 0;
       }
@@ -5074,7 +5074,7 @@ fnSqlDisplayQualMsg( zVIEW  lpView,
    zCHAR    szText[ 1000 ];
 
    lpViewOD = (LPVIEWOD) MiGetViewEntityForView( lpView, 0 );
-   sprintf_s( szText, sizeof( szText ), "%s loading qualification object while activating LOD "
+   sprintf_s( szText, zsizeof( szText ), "%s loading qualification object while activating LOD "
               "%s: %s", bWarning ? "Warning" : "Error", lpViewOD->szName, pchMsg );
 
    MessageSend( lpView, "KZH0201", bWarning ? "Qualification Object Warning" : "Qualification Object Error",
@@ -5166,7 +5166,7 @@ fnAllocOper( LPQUALATTRIB lpQualAttrib,
    lpQualAttrib->hOperMem = SysAllocMemory( (zPVOID) &lpQualAttrib->szOper,
                                             uLth, 0, zCOREMEM_ALLOC, 0 );
    if ( lpQualAttrib->szOper )
-      strcpy_s( lpQualAttrib->szOper, sizeof( lpQualAttrib->szOper ), pchOper );
+      strcpy_s( lpQualAttrib->szOper, zsizeof( lpQualAttrib->szOper ), pchOper );
 }
 
 static zSHORT
@@ -5221,7 +5221,7 @@ fnCreateQualAttrib( zVIEW        lpView,
       }
 
       lpQualAttrib->hValueMem = hMem;
-      strcpy_s( lpQualAttrib->szValue, sizeof( lpQualAttrib->szValue ), pchValue );
+      strcpy_s( lpQualAttrib->szValue, zsizeof( lpQualAttrib->szValue ), pchValue );
    }
 
    if ( lpViewEntity )
@@ -5447,7 +5447,7 @@ fnSqlRetrieveQualAttrib( zVIEW        lpView,
          // then issue an error and exit.
          if ( lpViewEntity == 0 )
          {
-            sprintf_s( szStr, sizeof( szStr ), "Entity '%s' was specified in the Qualification "
+            sprintf_s( szStr, zsizeof( szStr ), "Entity '%s' was specified in the Qualification "
                        "object but does not exist in LOD '%s'",
                        pchAttEntityName, lpViewOD->szName );
             fnSqlDisplayQualMsg( lpView, lpQualView, szStr, zERROR, szlQualAttrib );
@@ -5460,7 +5460,7 @@ fnSqlRetrieveQualAttrib( zVIEW        lpView,
          {
             zCHAR szMsg[ 500 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Entity '%s' in Object '%s' is a work or derived entity "
+            sprintf_s( szMsg, zsizeof( szMsg ), "Entity '%s' in Object '%s' is a work or derived entity "
                        "and is not allowed for entity qualification during an "
                        "Activate", pchAttEntityName, lpViewOD->szName );
             fnSqlDisplayQualMsg( lpView, lpQualView, szMsg, zERROR, szlEntitySpec );
@@ -5478,7 +5478,7 @@ fnSqlRetrieveQualAttrib( zVIEW        lpView,
                // we haven't found a match with lpQualEntity->lpViewEntity. Illegal qual.
                zCHAR szMsg[ 500 ];
 
-               sprintf_s( szMsg, sizeof( szMsg ), "You cannot qualify entity '%s' using entity "
+               sprintf_s( szMsg, zsizeof( szMsg ), "You cannot qualify entity '%s' using entity "
                           "'%s' in Object Definition '%s'.  Only child entities "
                           "may be used for qualification.",
                           lpQualEntity->lpViewEntity->szName,
@@ -5648,7 +5648,7 @@ fnSqlRetrieveQualAttrib( zVIEW        lpView,
          }
 
          lpQualAttrib->hValueMem = hMem;
-         strcpy_s( lpQualAttrib->szValue, sizeof( lpQualAttrib->szValue ), pchValue );
+         strcpy_s( lpQualAttrib->szValue, zsizeof( lpQualAttrib->szValue ), pchValue );
 
       } // if ( *pchValue )...
 
@@ -5959,7 +5959,7 @@ fnSqlRetrieveQualAttrib( zVIEW        lpView,
                // QualAttribs *backwards*.
                lpQualAttrib->lpViewEntity = 0;
                lpQualAttrib->bExists = lpQualAttrib->bDoesNotExist = 0;
-               strcpy_s( lpQualAttrib->szOper, sizeof( lpQualAttrib->szOper ), ")" );
+               strcpy_s( lpQualAttrib->szOper, zsizeof( lpQualAttrib->szOper ), ")" );
 
                // Now we have to create a new QualAttrib for each of the FKs.
                bFirst = TRUE;
@@ -6443,8 +6443,7 @@ fnSqlRetrieveQualObject( zVIEW        lpView,
       *lpFirstQualEntity = lpQualEntity;
 
       // Find the view entity that matches the qual entity.
-      GetAddrForAttribute( &pchEntityName, lpQualView, szlEntitySpec,
-                           "EntityName" );
+      GetAddrForAttribute( &pchEntityName, lpQualView, szlEntitySpec, "EntityName" );
       if ( zstrcmp( pchEntityName, "*root*" ) == 0 )
       {
          LPVIEWOD lpViewOD;
@@ -6457,13 +6456,12 @@ fnSqlRetrieveQualObject( zVIEW        lpView,
       else
          lpViewEntity = MiGetViewEntityForView( lpView, pchEntityName );
 
-      // If no view entity was found to match entity name in qual entity
-      // then issue an error and exit.
+      // If no view entity was found to match entity name in qual entity, then issue an error and exit.
       if ( lpViewEntity == 0 )
       {
          zCHAR szMsg[ 500 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Entity '%s' does not exist in Object '%s'",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Entity '%s' does not exist in Object '%s'",
                    pchEntityName, lpViewOD->szName );
          fnSqlDisplayQualMsg( lpView, lpQualView, szMsg,
                               zERROR, szlEntitySpec );
@@ -6475,7 +6473,7 @@ fnSqlRetrieveQualObject( zVIEW        lpView,
       {
          zCHAR szMsg[ 500 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Entity '%s' in Object '%s' is a work or derived entity "
+         sprintf_s( szMsg, zsizeof( szMsg ), "Entity '%s' in Object '%s' is a work or derived entity "
                    "and is not allowed for entity qualification during an "
                    "Activate", pchEntityName, lpViewOD->szName );
          fnSqlDisplayQualMsg( lpView, lpQualView, szMsg,
@@ -6587,7 +6585,7 @@ fnSqlRetrieveQualObject( zVIEW        lpView,
             {
                zCHAR szMsg[ 300 ];
 
-               sprintf_s( szMsg, sizeof( szMsg ), "Attribute name '%s' specified in "
+               sprintf_s( szMsg, zsizeof( szMsg ), "Attribute name '%s' specified in "
                          "OpenSQL_AttributeList does not exist for entity '%s'",
                          szAttrName, lpViewEntity->szName );
                fnSqlDisplayQualMsg( lpView, lpQualView,
@@ -6911,7 +6909,7 @@ fnSqlDisplayCommand( zPCHAR *pchSqlCmdStr,
       {
          zCHAR s[ 100 ];
 
-         strncpy_s( s, sizeof( s ), pchToken, nTokenLth );
+         strncpy_s( s, zsizeof( s ), pchToken, nTokenLth );
          s[ nTokenLth ] = 0;
          TraceLineS( "DBG Token> ", s );
       }
@@ -7065,7 +7063,7 @@ fnSqlDisplayCommand( zPCHAR *pchSqlCmdStr,
 
                // Because of OpenSQL, we want to use the generated
                // WHERE because it might be lower-case.
-               strncpy_s( szTemp, sizeof( szTemp ), pchToken, 5 );
+               strncpy_s( szTemp, zsizeof( szTemp ), pchToken, 5 );
                szTemp[ 5 ] = 0;
 
                fnSqlDisplayCommand( &pchSqlCmd, pchErrorChar,
@@ -7215,7 +7213,7 @@ SqlInitBoundAttrList( LPBOUNDLIST   *plpBoundList,
                              sizeof( BoundAttrListRecord ), 0,
                              zCOREMEM_ALLOC, 0 );
 // TraceLine( "SqlInitBoundAttrList allocating memory: 0x%08x  for %d bytes",
-//            lHandle, sizeof( BoundAttrListRecord ) );
+//            lHandle, zsizeof( BoundAttrListRecord ) );
 
    lpBoundList = *plpBoundList;
    zmemset( lpBoundList, 0, sizeof( BoundAttrListRecord ) );

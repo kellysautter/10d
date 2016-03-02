@@ -777,7 +777,7 @@ fnGetTableEntryForDomain( zVIEW lpView, LPVIEWENTITY lpViewEntity,
                                  lpViewEntity, lpViewAttribute, 256 );
          if ( nRC == zDME_NOT_HANDLED )
          {
-            sprintf_s( szWorkString, sizeof( szWorkString ), "Operation '%s' does not handle an Entry "
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "Operation '%s' does not handle an Entry "
                        "Type of %ld for domain '%s'", lpDomain->szDomainOper,
                        lEntryType, lpDomain->szName );
             MessageSend( lpView, "TZDMD101", "System Error",
@@ -786,10 +786,10 @@ fnGetTableEntryForDomain( zVIEW lpView, LPVIEWENTITY lpViewEntity,
       }
       else
       {
-         strcpy_s( szWorkString, sizeof( szWorkString ), "Operation, " );
-         strcat_s( szWorkString, sizeof( szWorkString ), lpDomain->szDomainOper );
-         strcat_s( szWorkString, sizeof( szWorkString ), ", not found for Domain: " );
-         strcat_s( szWorkString, sizeof( szWorkString ), lpDomain->szName );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), "Operation, " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), lpDomain->szDomainOper );
+         strcat_s( szWorkString, zsizeof( szWorkString ), ", not found for Domain: " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), lpDomain->szName );
          MessageSend( lpView, "TZDMD101", "System Error",
                       szWorkString, zMSGQ_DOMAIN_ERROR, 0 );
          nRC = -1;
@@ -991,7 +991,7 @@ Table_Handler( zLONG        lEntryType,
                                  ulMaxStringLth );
          if ( nRC == zDME_NOT_HANDLED )
          {
-            sprintf_s( szWorkString, sizeof( szWorkString ), "Operation '%s' does not handle an Entry "
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "Operation '%s' does not handle an Entry "
                        "Type of %ld for domain '%s'", lpDomain->szDomainOper,
                        lEntryType, lpDomain->szName );
             MessageSend( lpView, "TZDMD101", "System Error",
@@ -1000,10 +1000,10 @@ Table_Handler( zLONG        lEntryType,
       }
       else
       {
-         strcpy_s( szWorkString, sizeof( szWorkString ), "Operation, " );
-         strcat_s( szWorkString, sizeof( szWorkString ), lpDomain->szDomainOper );
-         strcat_s( szWorkString, sizeof( szWorkString ), ", not found for Domain: " );
-         strcat_s( szWorkString, sizeof( szWorkString ), lpDomain->szName );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), "Operation, " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), lpDomain->szDomainOper );
+         strcat_s( szWorkString, zsizeof( szWorkString ), ", not found for Domain: " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), lpDomain->szName );
          MessageSend( lpView, "TZDMD101", "System Error",
                       szWorkString, zMSGQ_DOMAIN_ERROR, 0 );
          nRC = -1;
@@ -1208,7 +1208,7 @@ Table_Handler( zLONG        lEntryType,
                   {
                      // Convert integer coming in to a string
                      if ( *((zPLONG) pvData) != lNullInteger )
-                        zltoa( *((zPLONG) pvData), szAttribValue, sizeof( szAttribValue ) );
+                        zltoa( *((zPLONG) pvData), szAttribValue, zsizeof( szAttribValue ) );
                   }
                   else
                   {
@@ -1873,7 +1873,7 @@ Table_Handler( zLONG        lEntryType,
                   zLONG lInternalValue;
 
                   // convert to string then look up using context
-                  zltoa( *((zPLONG) pvData), szIntString, sizeof( szIntString ) );
+                  zltoa( *((zPLONG) pvData), szIntString, zsizeof( szIntString ) );
                   nRC = TableEntryExtToInt( (zPVOID) &lInternalValue,
                                             lpView,
                                             lpDomain,

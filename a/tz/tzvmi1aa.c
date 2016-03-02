@@ -179,7 +179,7 @@ StepOnce( zVIEW vSubtask, zPVOID hWRKS, zPLONG plRetVal )
          // Execute this code only if the previous IF condition was false.
          // Set cursor back to the if and then forward again to the else.
          SetCursorPrevEntity( g_vStatementView, "Statement", 0 );
-         GetStringFromAttribute( szIfConditionResult, sizeof( szIfConditionResult ), g_vStatementView, "Statement", "IfConditionResult" );
+         GetStringFromAttribute( szIfConditionResult, zsizeof( szIfConditionResult ), g_vStatementView, "Statement", "IfConditionResult" );
          SetCursorNextEntity( g_vStatementView, "Statement", 0 );
 
          if ( szIfConditionResult[ 0 ] == 'F' )
@@ -523,8 +523,8 @@ StageOperationCall( zVIEW  lpInterpSubtask,
       {
          zCHAR szMsg[ 32 ];
 
-         strcpy_s( szMsg, sizeof( szMsg ), szOperName );
-         strcat_s( szMsg, sizeof( szMsg ), " could not be located in the VML code, re-parse" );
+         strcpy_s( szMsg, zsizeof( szMsg ), szOperName );
+         strcat_s( szMsg, zsizeof( szMsg ), " could not be located in the VML code, re-parse" );
          MessageSend( vSubtask, "VM03101", "VML Interpretor",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );

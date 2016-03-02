@@ -108,7 +108,7 @@ CreateZeidonCtrls( zVIEW    vSubobject,
 
       GetAddrForAttribute( (zPCHAR *) &pch, vSubobject, szlCtrl, szlD_Text );
       if ( *pch )
-         strcpy_s( CtrlDef.Text, sizeof( CtrlDef.Text ), pch );
+         strcpy_s( CtrlDef.Text, zsizeof( CtrlDef.Text ), pch );
 
 #ifdef DEBUG_ALL
       TraceLineS( "Tag ", CtrlDef.Tag );
@@ -160,15 +160,15 @@ CreateZeidonCtrls( zVIEW    vSubobject,
       catch( CResourceException *e )
       {
          zCHAR szMsg[ 256 ];
-         e->GetErrorMessage( szMsg, sizeof( szMsg ) );
-         strcat_s( szMsg, sizeof( szMsg ), sizeof( szMsg ),
+         e->GetErrorMessage( szMsg, zsizeof( szMsg ) );
+         strcat_s( szMsg, zsizeof( szMsg ), zsizeof( szMsg ),
       }
 #endif
       catch( CException *e )
       {
          zCHAR szMsg[ 256 ];
 
-         e->GetErrorMessage( szMsg, sizeof( szMsg ) );
+         e->GetErrorMessage( szMsg, zsizeof( szMsg ) );
          MessageSend( pZSubtask->m_vDialog, 0, "Zeidon Control", szMsg, zMSGQ_MODAL_ERROR, FALSE );
          break;
       }
@@ -281,8 +281,8 @@ MakeShortString( CDC *pDC, zPCHAR pchReturn, zLONG lMaxReturnLth,
 
    zCHAR szFontFace[ 32 ];
 
-   GetTextFace( pDC->m_hDC, sizeof( szFontFace ), szFontFace );
-   GetTextFace( pDC->m_hAttribDC, sizeof( szFontFace ), szFontFace );
+   GetTextFace( pDC->m_hDC, zsizeof( szFontFace ), szFontFace );
+   GetTextFace( pDC->m_hAttribDC, zsizeof( szFontFace ), szFontFace );
    GetTextExtentPoint32( pDC->m_hDC, cpcString, lStringLth, &size );
    if ( pDC->m_bPrinting )
       GetTextExtentPoint32( pDC->m_hAttribDC, cpcString, lStringLth, &size );
@@ -290,7 +290,7 @@ MakeShortString( CDC *pDC, zPCHAR pchReturn, zLONG lMaxReturnLth,
    if ( lStringLth == 0 || (size.cx + lOffset) <= lColLth )
       return;
 
-   GetTextExtentPoint32( pDC->m_hDC, szThreeDots, sizeof( szThreeDots ), &size );
+   GetTextExtentPoint32( pDC->m_hDC, szThreeDots, zsizeof( szThreeDots ), &size );
    zLONG lAddLth = size.cx;
 
    if ( lStringLth >= lMaxReturnLth - 3 )
@@ -328,21 +328,21 @@ TraceRect( zCPCHAR cpcMessage,
    zSHORT nLth;
 
    nLth = (zSHORT) zstrlen( cpcMessage );
-   if ( nLth < sizeof( szBuffer ) - 32 )
-      strcpy_s( szBuffer, sizeof( szBuffer ), cpcMessage );
+   if ( nLth < zsizeof( szBuffer ) - 32 )
+      strcpy_s( szBuffer, zsizeof( szBuffer ), cpcMessage );
    else
       nLth = 0;
 
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " X:" );
-   _ltoa_s( rect.left, szBuffer + nLth + 3, sizeof( szBuffer ) - nLth - 3, 10 );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " X:" );
+   _ltoa_s( rect.left, szBuffer + nLth + 3, zsizeof( szBuffer ) - nLth - 3, 10 );
    nLth = (zSHORT) zstrlen( szBuffer );
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " Y:" );
-   _ltoa_s( rect.top, szBuffer + nLth + 3, sizeof( szBuffer ) - nLth - 3, 10 );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " Y:" );
+   _ltoa_s( rect.top, szBuffer + nLth + 3, zsizeof( szBuffer ) - nLth - 3, 10 );
    nLth = (zSHORT) zstrlen( szBuffer );
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " W:" );
-   _ltoa_s( rect.right - rect.left, szBuffer + nLth + 3, sizeof( szBuffer ) - nLth - 3, 10 );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " W:" );
+   _ltoa_s( rect.right - rect.left, szBuffer + nLth + 3, zsizeof( szBuffer ) - nLth - 3, 10 );
    nLth = (zSHORT) zstrlen( szBuffer );
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " H:" );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " H:" );
 // _ltoa_s( rect.bottom - rect.top, szBuffer + nLth + 3 );
    TraceLineI( szBuffer, rect.bottom - rect.top );
 }
@@ -358,15 +358,15 @@ TracePoint( zCPCHAR cpcMessage,
    zSHORT nLth;
 
    nLth = (zSHORT) zstrlen( cpcMessage );
-   if ( nLth < sizeof( szBuffer ) - 32 )
-      strcpy_s( szBuffer, sizeof( szBuffer ), cpcMessage );
+   if ( nLth < zsizeof( szBuffer ) - 32 )
+      strcpy_s( szBuffer, zsizeof( szBuffer ), cpcMessage );
    else
       nLth = 0;
 
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " X=" );
-   _ltoa_s( pt.x, szBuffer + nLth + 3, sizeof( szBuffer ) - nLth - 3, 10 );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " X=" );
+   _ltoa_s( pt.x, szBuffer + nLth + 3, zsizeof( szBuffer ) - nLth - 3, 10 );
    nLth = (zSHORT) zstrlen( szBuffer );
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " Y=" );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " Y=" );
 // _ltoa_s( pt.y, szBuffer + nLth + 3 );
    TraceLineI( szBuffer, pt.y );
 }
@@ -382,15 +382,15 @@ TraceSize( zCPCHAR cpcMessage,
    zSHORT nLth;
 
    nLth = (zSHORT) zstrlen( cpcMessage );
-   if ( nLth < sizeof( szBuffer ) - 32 )
-      strcpy_s( szBuffer, sizeof( szBuffer ), cpcMessage );
+   if ( nLth < zsizeof( szBuffer ) - 32 )
+      strcpy_s( szBuffer, zsizeof( szBuffer ), cpcMessage );
    else
       nLth = 0;
 
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " cX=" );
-   _ltoa_s( size.cx, szBuffer + nLth + 4, sizeof( szBuffer ) - nLth - 4, 10 );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " cX=" );
+   _ltoa_s( size.cx, szBuffer + nLth + 4, zsizeof( szBuffer ) - nLth - 4, 10 );
    nLth = (zSHORT) zstrlen( szBuffer );
-   strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, " cY=" );
+   strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, " cY=" );
 // _ltoa_s( size.cy, szBuffer + nLth + 4 );
    TraceLineI( szBuffer, size.cy );
 }

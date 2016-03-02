@@ -32,7 +32,7 @@ extern "C" {      /* Assume C declarations for C++        */
 #endif   /* __cplusplus */
 
 #ifndef SIZEOF
-#define SIZEOF(x) (int)sizeof(x)
+#define SIZEOF(x) (int)zsizeof(x)
 #endif
 
 /* server remote procedure call open file flags              */

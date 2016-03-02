@@ -62,7 +62,7 @@ CUndoInsertDeleteString::CUndoInsertDeleteString( BOOL bInsert, LPCTSTR pszText,
    ASSERT( cbText );
    m_nCol = nCol;
    m_nRow = nRow;
-   m_pszText = ( LPTSTR ) malloc( ( cbText + 1 ) * sizeof( TCHAR ) );
+   m_pszText = ( LPTSTR ) malloc( ( cbText + 1 ) * zsizeof( TCHAR ) );
    _tcsncpy( m_pszText, pszText, cbText );
    m_pszText[ cbText ] = _T('\0');
 }
@@ -151,7 +151,7 @@ BOOL CUndoInsertDeleteString::Append( BOOL bInsertChar, TCHAR ch, int nRow, int 
             if ( bCanAppend )
             {
                // can append to this record
-               m_pszText = ( LPTSTR ) realloc( m_pszText, ( cbText + 2 ) * sizeof( TCHAR ) );
+               m_pszText = ( LPTSTR ) realloc( m_pszText, ( cbText + 2 ) * zsizeof( TCHAR ) );
                m_pszText[ cbText ] = ch;
                m_pszText[ cbText + 1 ] = '\0';
                bSuccess = TRUE;
@@ -168,7 +168,7 @@ CUndoAddRemoveLine::CUndoAddRemoveLine( BOOL bInsert, LPCTSTR pszText, int cbTex
    if ( pszText )
    {
       ASSERT( cbText == ( int ) _tcslen( pszText ) );
-      m_pszText = ( LPTSTR ) malloc( ( cbText + 1 ) * sizeof( TCHAR ) );
+      m_pszText = ( LPTSTR ) malloc( ( cbText + 1 ) * zsizeof( TCHAR ) );
       _tcsncpy( m_pszText, pszText, cbText );
       m_pszText[ cbText ] = _T('\0');
    }

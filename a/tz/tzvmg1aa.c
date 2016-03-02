@@ -396,7 +396,7 @@ GenerateC_Source( zVIEW  vSubtask,
    // Get the VML forward switch (output VML as part of the generated source)
    // from zeidon.ini (default is on).
    szIni[ 0 ] = 0;
-   SysReadZeidonIni( -1, "[Zeidon]", "ForwardVMLToC", szIni, sizeof( szIni ) );
+   SysReadZeidonIni( -1, "[Zeidon]", "ForwardVMLToC", szIni, zsizeof( szIni ) );
 
    if ( szIni[ 0 ] == 'n' || szIni[ 0 ] == 'N' || szIni[ 0 ] == '0' )
       g_bForwardVML_ToC = FALSE;
@@ -434,7 +434,7 @@ GenerateC_Source( zVIEW  vSubtask,
             // Write out prototype to C file or global header file.
             ///////////////////////////////////////////////////////////////
             // find the operation type and store as a character
-            GetStringFromAttribute( szTypeString, sizeof( szTypeString ), g_lpPIView, "Operation", "Type" );
+            GetStringFromAttribute( szTypeString, zsizeof( szTypeString ), g_lpPIView, "Operation", "Type" );
             cOperationType = szTypeString[ 0 ];
 
             // determine if header stuff goes to c file or to external lplr header.
@@ -632,7 +632,7 @@ GenerateJavaSource( zVIEW  vSubtask,
    OutputLine( vSubtask, lfCFileHandle, "**/", 1 );
    OutputBlankLine( vSubtask, lfCFileHandle );
    strcpy_s( pchOutputString, VM_MAX_STRING_SIZE, "package " );
-   GetStringFromAttribute( szPackageName, sizeof( szPackageName ), vViewObject, "LPLR", "JavaPackageName" );
+   GetStringFromAttribute( szPackageName, zsizeof( szPackageName ), vViewObject, "LPLR", "JavaPackageName" );
    while ( (pchSlash = zstrchr( szPackageName, '\\' )) != 0 )
       *pchSlash = '.';
 
@@ -682,7 +682,7 @@ GenerateJavaSource( zVIEW  vSubtask,
    // Get the VML forward switch (output VML as part of the generated source)
    // from zeidon.ini (default is on).
    szIni[ 0 ] = 0;
-   SysReadZeidonIni( -1, "[Zeidon]", "ForwardVMLToC", szIni, sizeof( szIni ) );
+   SysReadZeidonIni( -1, "[Zeidon]", "ForwardVMLToC", szIni, zsizeof( szIni ) );
 
    if ( szIni[ 0 ] == 'n' || szIni[ 0 ] == 'N' || szIni[ 0 ] == '0' )
       g_bForwardVML_ToC = FALSE;
@@ -713,7 +713,7 @@ GenerateJavaSource( zVIEW  vSubtask,
             // Write out prototype to java file or global header file.
             ///////////////////////////////////////////////////////////////
             // find the operation type and store as a character
-            GetStringFromAttribute( szTypeString, sizeof( szTypeString ), g_lpPIView, "Operation", "Type" );
+            GetStringFromAttribute( szTypeString, zsizeof( szTypeString ), g_lpPIView, "Operation", "Type" );
             cOperationType = szTypeString[ 0 ];
 
             // Determine if header stuff goes to c file or to external lplr header.
@@ -828,9 +828,9 @@ GenerateJavaSource( zVIEW  vSubtask,
    while ( nRC > zCURSOR_UNCHANGED )
    {
       // Write out import for the source file.
-      GetStringFromAttribute( szImportName, sizeof( szImportName ), g_lpPIView, "ExternalOperation", "SourceName" );
-      GetStringFromAttribute( szSourceType, sizeof( szSourceType ), g_lpPIView, "ExternalOperation", "SourceType" );
-      sprintf_s( szFullImportName, sizeof( szFullImportName ), "import %s.%s_%s;", szPackageName, szImportName, szSourceType );
+      GetStringFromAttribute( szImportName, zsizeof( szImportName ), g_lpPIView, "ExternalOperation", "SourceName" );
+      GetStringFromAttribute( szSourceType, zsizeof( szSourceType ), g_lpPIView, "ExternalOperation", "SourceType" );
+      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "import %s.%s_%s;", szPackageName, szImportName, szSourceType );
       if ( zstrstr( pchOutputString, szFullImportName ) == 0 )
       {
          if ( pchOutputString[ 0 ] != 0 )
@@ -853,9 +853,9 @@ GenerateJavaSource( zVIEW  vSubtask,
    while ( nRC > zCURSOR_UNCHANGED )
    {
       // Write out import for the source file.
-      GetStringFromAttribute( szImportName, sizeof( szImportName ), g_lpPIView, "ExternalOperationJava", "SourceName" );
-      GetStringFromAttribute( szSourceType, sizeof( szSourceType ), g_lpPIView, "ExternalOperationJava", "SourceType" );
-      sprintf_s( szFullImportName, sizeof( szFullImportName ), "import com.quinsoft.zeidon.zeidonoperations.%s;", szImportName );
+      GetStringFromAttribute( szImportName, zsizeof( szImportName ), g_lpPIView, "ExternalOperationJava", "SourceName" );
+      GetStringFromAttribute( szSourceType, zsizeof( szSourceType ), g_lpPIView, "ExternalOperationJava", "SourceType" );
+      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "import com.quinsoft.zeidon.zeidonoperations.%s;", szImportName );
 
       if ( zstrstr( pchOutputString, szFullImportName ) == 0 )
       {
@@ -906,9 +906,9 @@ GenerateJavaSource( zVIEW  vSubtask,
    while ( nRC > zCURSOR_UNCHANGED )
    {
       // Write out import for the source file.
-      GetStringFromAttribute( szImportName, sizeof( szImportName ), g_lpPIView, "ExternalOperation", "SourceName" );
-      GetStringFromAttribute( szSourceType, sizeof( szSourceType ), g_lpPIView, "ExternalOperation", "SourceType" );
-      sprintf_s( szFullImportName, sizeof( szFullImportName ), "%s_%s", szImportName, szSourceType );
+      GetStringFromAttribute( szImportName, zsizeof( szImportName ), g_lpPIView, "ExternalOperation", "SourceName" );
+      GetStringFromAttribute( szSourceType, zsizeof( szSourceType ), g_lpPIView, "ExternalOperation", "SourceType" );
+      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "%s_%s", szImportName, szSourceType );
       if ( zstrstr( pchOutputString, szFullImportName ) == 0 )
       {
          if ( pchOutputString[ 0 ] != 0 )
@@ -937,8 +937,8 @@ GenerateJavaSource( zVIEW  vSubtask,
    while ( nRC > zCURSOR_UNCHANGED )
    {
       // Write out declaration for the class.
-      GetStringFromAttribute( szImportName, sizeof( szImportName ), g_lpPIView, "ExternalOperationJava", "SourceName" );
-      sprintf_s( szFullImportName, sizeof( szFullImportName ), "   private final %s m_%s;", szImportName, szImportName );
+      GetStringFromAttribute( szImportName, zsizeof( szImportName ), g_lpPIView, "ExternalOperationJava", "SourceName" );
+      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "  private final %s m_%s;", szImportName, szImportName );
       OutputLine( vSubtask, lfCFileHandle, szFullImportName, 1 );
 
       nRC = SetCursorNextEntity( g_lpPIView, "ExternalOperationJava", "" );
@@ -966,8 +966,8 @@ GenerateJavaSource( zVIEW  vSubtask,
    while ( nRC > zCURSOR_UNCHANGED )
    {
       // Write out instantiation for the class.
-      GetStringFromAttribute( szImportName, sizeof( szImportName ), g_lpPIView, "ExternalOperationJava", "SourceName" );
-      sprintf_s( szFullImportName, sizeof( szFullImportName ), "      m_%s = new %s( view );", szImportName, szImportName );
+      GetStringFromAttribute( szImportName, zsizeof( szImportName ), g_lpPIView, "ExternalOperationJava", "SourceName" );
+      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "     m_%s = new %s( view );", szImportName, szImportName );
       OutputLine( vSubtask, lfCFileHandle, szFullImportName, 1 );
 
       nRC = SetCursorNextEntity( g_lpPIView, "ExternalOperationJava", "" );
@@ -980,9 +980,9 @@ GenerateJavaSource( zVIEW  vSubtask,
    while ( nRC > zCURSOR_UNCHANGED )
    {
       // Write out import for the source file.
-      GetStringFromAttribute( szImportName, sizeof( szImportName ), g_lpPIView, "ExternalOperation", "SourceName" );
-      GetStringFromAttribute( szSourceType, sizeof( szSourceType ), g_lpPIView, "ExternalOperation", "SourceType" );
-      sprintf_s( szFullImportName, sizeof( szFullImportName ), "%s_%s", szImportName, szSourceType );
+      GetStringFromAttribute( szImportName, zsizeof( szImportName ), g_lpPIView, "ExternalOperation", "SourceName" );
+      GetStringFromAttribute( szSourceType, zsizeof( szSourceType ), g_lpPIView, "ExternalOperation", "SourceType" );
+      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "%s_%s", szImportName, szSourceType );
       if ( zstrstr( pchOutputString, szFullImportName ) == 0 )
       {
          if ( pchOutputString[ 0 ] != 0 )
@@ -1061,7 +1061,7 @@ GenerateC_Prototype( zVIEW   vSubtask,
    else
       strcpy_s( pchOutputString, VM_MAX_STRING_SIZE, "zOPER_EXPORT " );   // global operation
 
-   GetStringFromAttribute( szTypeString, sizeof( szTypeString ), g_lpPIView, "Operation", "ReturnDataType" );
+   GetStringFromAttribute( szTypeString, zsizeof( szTypeString ), g_lpPIView, "Operation", "ReturnDataType" );
    cReturnType = szTypeString[ 0 ];
 
    if ( cReturnType == 'L' )
@@ -1124,7 +1124,7 @@ GenerateC_Prototype( zVIEW   vSubtask,
          GetIntegerFromAttribute( &lVariableID, g_lpPIView, "Variable", "ID" );
 
          // Get the variable name/declaration.  If function returns TRUE then the argument is a decimal and special processing will be needed later.
-         if ( GetLocalC_DeclarationString( g_szLocalString, sizeof( g_szLocalString ), (zSHORT) lVariableID ) )
+         if ( GetLocalC_DeclarationString( g_szLocalString, zsizeof( g_szLocalString ), (zSHORT) lVariableID ) )
          {
             *pbDecimalArguments = TRUE;
          }
@@ -1207,7 +1207,7 @@ GenerateJavaPrototype( zVIEW   vSubtask,
          GetIntegerFromAttribute( &lParameterFlag, g_lpPIView, "Variable", "ParameterFlag" );
          if ( lParameterFlag > 0 ) // this is a parm
          {
-            GetStringFromAttribute( szPFlag, sizeof( szPFlag ), g_lpPIView, "Variable", "PFlag" );
+            GetStringFromAttribute( szPFlag, zsizeof( szPFlag ), g_lpPIView, "Variable", "PFlag" );
             if ( szPFlag[ 0 ] == 'Y' )
             {
                GetIntegerFromAttribute( &lVariableType, g_lpPIView, "Variable", "VMLType" );
@@ -1233,7 +1233,7 @@ GenerateJavaPrototype( zVIEW   vSubtask,
 #endif
    }
 
-   GetStringFromAttribute( szTypeString, sizeof( szTypeString ), g_lpPIView, "Operation", "ReturnDataType" );
+   GetStringFromAttribute( szTypeString, zsizeof( szTypeString ), g_lpPIView, "Operation", "ReturnDataType" );
    cReturnType = szTypeString[ 0 ];
 
    if ( lVariableType != 0 )
@@ -1320,7 +1320,7 @@ GenerateJavaPrototype( zVIEW   vSubtask,
          GetIntegerFromAttribute( &lVariableID, g_lpPIView, "Variable", "ID" );
 
          // Get the variable name/declaration.  If function returns TRUE then the argument is a decimal and special processing will be needed later.
-         if ( GetLocalJavaDeclarationString( g_szLocalString, sizeof( g_szLocalString ), lVariableID, bLocalBuildQual, FALSE ) )
+         if ( GetLocalJavaDeclarationString( g_szLocalString, zsizeof( g_szLocalString ), lVariableID, bLocalBuildQual, FALSE ) )
          {
             *pbDecimalArguments = TRUE;
          }
@@ -1408,7 +1408,7 @@ GenerateC_LocalVariableList( zVIEW  vSubtask,
 
          // If we have a decimal return parameter we must generate "zDECIMAL*"  (HH,12.06.1998)
          szPFlag[ 0 ] = 0;
-         GetStringFromAttribute( szPFlag, sizeof( szPFlag ), vTemp, "Variable", "PFlag" );
+         GetStringFromAttribute( szPFlag, zsizeof( szPFlag ), vTemp, "Variable", "PFlag" );
          if ( szPFlag[ 0 ] == 'Y' )
             strcpy_s( psz, VM_MAX_STRING_SIZE - (psz - pchOutputString), "zDECIMAL *" );
          else
@@ -1451,7 +1451,7 @@ GenerateC_LocalVariableList( zVIEW  vSubtask,
          }
 
          GetIntegerFromAttribute( &lVariableID, g_lpPIView, "Variable", "ID" );
-         GetLocalC_DeclarationString( g_szLocalString, sizeof( g_szLocalString ), (zSHORT) lVariableID );
+         GetLocalC_DeclarationString( g_szLocalString, zsizeof( g_szLocalString ), (zSHORT) lVariableID );
 
          strcat_s( pchOutputString, VM_MAX_STRING_SIZE, g_szLocalString );
          strcat_s( pchOutputString, VM_MAX_STRING_SIZE, "; " );
@@ -1521,7 +1521,7 @@ GenerateJavaLocalVariableList( zVIEW  vSubtask,
 
          // If we have a decimal return parameter we must generate "decimal"  (HH,12.06.1998)
          szPFlag[ 0 ] = 0;
-         GetStringFromAttribute( szPFlag, sizeof( szPFlag ), vTemp, "Variable", "PFlag" );
+         GetStringFromAttribute( szPFlag, zsizeof( szPFlag ), vTemp, "Variable", "PFlag" );
       // if ( szPFlag[ 0 ] == 'Y' )
       //    strcpy_s( psz, "double *" ); // strcpy_s( psz, "decimal *" );
       // else
@@ -1565,7 +1565,7 @@ GenerateJavaLocalVariableList( zVIEW  vSubtask,
          }
 
          GetIntegerFromAttribute( &lVariableID, g_lpPIView, "Variable", "ID" );
-         GetLocalJavaDeclarationString( g_szLocalString, sizeof( g_szLocalString ), lVariableID, FALSE, TRUE );
+         GetLocalJavaDeclarationString( g_szLocalString, zsizeof( g_szLocalString ), lVariableID, FALSE, TRUE );
 
          strcat_s( pchOutputString, VM_MAX_STRING_SIZE, g_szLocalString );
          strcat_s( pchOutputString, VM_MAX_STRING_SIZE, ";" );
@@ -1926,7 +1926,7 @@ GetLocalC_DeclarationString( zPCHAR pchLocalString,
    zSHORT nRC = FALSE;
 
    SetCursorFirstEntityByInteger( g_lpPIView, "Variable", "ID", lVariableID, "" );
-   GetStringFromAttribute( szVarName, sizeof( szVarName ), g_lpPIView, "Variable", "Name" );
+   GetStringFromAttribute( szVarName, zsizeof( szVarName ), g_lpPIView, "Variable", "Name" );
    GetIntegerFromAttribute( &lDataType, g_lpPIView, "Variable", "DataType" );
    GetIntegerFromAttribute( &lElements, g_lpPIView, "Variable", "NElements" );
 
@@ -1942,7 +1942,7 @@ GetLocalC_DeclarationString( zPCHAR pchLocalString,
    // not allow overlay of LPVIEWENTITY- respectively LPVIEWATTRIB-parameters without a cast.
    // However, we know about Attribute Operations, and we generate the correct types.
    szType[ 0 ] = 0;
-   GetStringFromAttribute( szType, sizeof( szType ), g_lpPIView, "Operation", "Type" );
+   GetStringFromAttribute( szType, zsizeof( szType ), g_lpPIView, "Operation", "Type" );
    if ( szType[ 0 ] == 'A' && lVariableID == 2 )
    {
       // Here we have the 2. parameter of an attribute operation.
@@ -1964,10 +1964,10 @@ GetLocalC_DeclarationString( zPCHAR pchLocalString,
       zCHAR  szPFlag[ 2 ] = { 0 };
 
       // Determine whether the Variable is unsigned.
-      GetStringFromAttribute( szUFlag, sizeof( szUFlag ), g_lpPIView, "Variable", "UFlag" );
+      GetStringFromAttribute( szUFlag, zsizeof( szUFlag ), g_lpPIView, "Variable", "UFlag" );
 
       // Determine whether the Variable is a pointer.
-      GetStringFromAttribute( szPFlag, sizeof( szPFlag ), g_lpPIView, "Variable", "PFlag" );
+      GetStringFromAttribute( szPFlag, zsizeof( szPFlag ), g_lpPIView, "Variable", "PFlag" );
 
       if ( lDataType == qTDECIMAL && lParm <= 0 )
          strcat_s( pchLocalString, lMaxLth, "Z" );  // class ZDecimal
@@ -2015,7 +2015,7 @@ GetLocalC_DeclarationString( zPCHAR pchLocalString,
 
                // Concat a string at the end of szVarName.  This will allow us
                // to create a local variable with the name szVarName.
-               strcat_s( szVarName, sizeof( szVarName ), "_Arg_" );
+               strcat_s( szVarName, zsizeof( szVarName ), "_Arg_" );
             }
             else
                strcat_s( pchLocalString, lMaxLth, "Decimal" );  // Argument
@@ -2060,7 +2060,7 @@ GetLocalC_DeclarationString( zPCHAR pchLocalString,
       if ( lElements > 0 && lParm == 0 )
       {
          strcat_s( pchLocalString, lMaxLth, "[ " );
-         zltoa( lElements, szNumber, sizeof( szNumber ) );
+         zltoa( lElements, szNumber, zsizeof( szNumber ) );
          strcat_s( pchLocalString, lMaxLth, szNumber );
          strcat_s( pchLocalString, lMaxLth, " ]" );
       }
@@ -2099,7 +2099,7 @@ GetLocalJavaDeclarationString( zPCHAR pchLocalString,
 // zCHAR  szMsgDebug[ 64 ];
 
    SetCursorFirstEntityByInteger( g_lpPIView, "Variable", "ID", lVariableID, "" );
-   GetStringFromAttribute( szVarName, sizeof( szVarName ), g_lpPIView, "Variable", "Name" );
+   GetStringFromAttribute( szVarName, zsizeof( szVarName ), g_lpPIView, "Variable", "Name" );
    GetIntegerFromAttribute( &lDataType, g_lpPIView, "Variable", "DataType" );
    GetIntegerFromAttribute( &lElements, g_lpPIView, "Variable", "NElements" );
 
@@ -2115,7 +2115,7 @@ GetLocalJavaDeclarationString( zPCHAR pchLocalString,
    // not allow overlay of LPVIEWENTITY- respectively LPVIEWATTRIB-parameters without a cast.
    // However, we know about Attribute Operations, and we generate the correct types.
    szType[ 0 ] = 0;
-   GetStringFromAttribute( szType, sizeof( szType ), g_lpPIView, "Operation", "Type" );
+   GetStringFromAttribute( szType, zsizeof( szType ), g_lpPIView, "Operation", "Type" );
    if ( szType[ 0 ] == 'A' && lVariableID == 2 )
    {
       // Here we have the 2. parameter of an attribute operation.
@@ -2139,10 +2139,10 @@ GetLocalJavaDeclarationString( zPCHAR pchLocalString,
       zCHAR  szPFlag[ 2 ];
 
       // Determine whether the Variable is unsigned.
-      GetStringFromAttribute( szUFlag, sizeof( szUFlag ), g_lpPIView, "Variable", "UFlag" );
+      GetStringFromAttribute( szUFlag, zsizeof( szUFlag ), g_lpPIView, "Variable", "UFlag" );
 
       // Determine whether the Variable is a pointer.
-      GetStringFromAttribute( szPFlag, sizeof( szPFlag ), g_lpPIView, "Variable", "PFlag" );
+      GetStringFromAttribute( szPFlag, zsizeof( szPFlag ), g_lpPIView, "Variable", "PFlag" );
 
 //    if ( lDataType == qTDECIMAL && lParm <= 0 )
 //       strcat_s( pchLocalString, lMaxLth, "Z" );  // class ZDecimal
@@ -2245,7 +2245,7 @@ GetLocalJavaDeclarationString( zPCHAR pchLocalString,
 
                // Concat a string at the end of szVarName.  This will allow us
                // to create a local variable with the name szVarName.
-            // strcat_s( szVarName, sizeof( szVarName ), "_Arg_" );  not in Java
+            // strcat_s( szVarName, zsizeof( szVarName ), "_Arg_" ); not in Java
             }
             else
             {
@@ -2302,7 +2302,7 @@ GetLocalJavaDeclarationString( zPCHAR pchLocalString,
          zCHAR  szNumber[ 10 ];
 
          strcat_s( pchLocalString, lMaxLth, "[ " );
-         zltoa( lElements, szNumber, sizeof( szNumber ) );
+         zltoa( lElements, szNumber, zsizeof( szNumber ) );
          strcat_s( pchLocalString, lMaxLth, szNumber );
          strcat_s( pchLocalString, lMaxLth, " ]" );
       }
@@ -2761,7 +2761,7 @@ BuildC_ReturnStatement( zVIEW  vSubtask,
                         zLONG  lMaxLth )
 {
    zCHAR  szExprCode[ 1200 ];
-   zULONG uCodeIndex = sizeof( szExprCode );
+   zULONG uCodeIndex = zsizeof( szExprCode );
    zPCHAR pch;
 
    zmemset( pchOutputString, ' ', g_nLeftMargin );
@@ -2999,7 +2999,7 @@ BuildJavaReturnStatement( zVIEW  vSubtask,
                           zBOOL  bLocal )
 {
    zCHAR  szExprCode[ 1200 ];
-   zULONG uCodeIndex = sizeof( szExprCode );
+   zULONG uCodeIndex = zsizeof( szExprCode );
    zPCHAR pch;
 
    zmemset( pchOutputString, ' ', g_nLeftMargin );
@@ -3053,7 +3053,7 @@ BuildJavaReturnStatement( zVIEW  vSubtask,
             zCHAR  szEnd[ 256 ];
             zPCHAR pchClose = zstrchr( pch + 1, ')' );
 
-            strcpy_s( szEnd, sizeof( szEnd ) pchClose );
+            strcpy_s( szEnd, zsizeof( szEnd ) pchClose );
             strcpy_s( pch + 1, commented out, " " );
             strcpy_s( pch + 2, commented out, pchReturnParameterName );
             strcat_s( pch + 2, commented out, " " );
@@ -3200,7 +3200,7 @@ WritePrototypesForLocalC( zVIEW  vSubtask,
       {
          zCHAR szType[ 2 ];
          szType[ 0 ] = 0;
-         GetStringFromAttribute( szType, sizeof( szType ), v, "Operation", "Type" );
+         GetStringFromAttribute( szType, zsizeof( szType ), v, "Operation", "Type" );
          if ( szType[ 0 ] == 'L' )
          {
             zCHAR szReturnDataType[ 2 ];
@@ -3211,7 +3211,7 @@ WritePrototypesForLocalC( zVIEW  vSubtask,
             // It is a local Operation - so generate the prototype, whether it is called or not.
 
             // return type
-            GetStringFromAttribute( szReturnDataType, sizeof( szReturnDataType ), v, "Operation", "ReturnDataType" );
+            GetStringFromAttribute( szReturnDataType, zsizeof( szReturnDataType ), v, "Operation", "ReturnDataType" );
             switch ( szReturnDataType[ 0 ] )
             {
                case 'M':
@@ -3225,7 +3225,7 @@ WritePrototypesForLocalC( zVIEW  vSubtask,
                   break;
             }
 
-            GetStringFromAttribute( sz, sizeof( sz ), v, "Operation", "Name" );
+            GetStringFromAttribute( sz, zsizeof( sz ), v, "Operation", "Name" );
             strcat_s( pchOutputString, VM_MAX_STRING_SIZE, sz );
             strcat_s( pchOutputString, VM_MAX_STRING_SIZE, "(" );
             m = SetCursorFirstEntity( v, "Parameter", "" );
@@ -3243,9 +3243,9 @@ WritePrototypesForLocalC( zVIEW  vSubtask,
                szDataType[ 0 ] = 0;
                szPFlag[ 0 ] = szUFlag[ 0 ] = 'N';
 
-               GetStringFromAttribute( szDataType, sizeof( szDataType ), v, "Parameter", "DataType" );
-               GetStringFromAttribute( szPFlag, sizeof( szPFlag ), v, "Parameter", "PFlag" );
-               GetStringFromAttribute( szUFlag, sizeof( szUFlag ), v, "Parameter", "UFlag" );
+               GetStringFromAttribute( szDataType, zsizeof( szDataType ), v, "Parameter", "DataType" );
+               GetStringFromAttribute( szPFlag, zsizeof( szPFlag ), v, "Parameter", "PFlag" );
+               GetStringFromAttribute( szUFlag, zsizeof( szUFlag ), v, "Parameter", "UFlag" );
                if ( nCount )
                   strcat_s( pchOutputString, VM_MAX_STRING_SIZE, ", " );
                else

@@ -151,7 +151,7 @@ ComputeQueryOperationValue( zVIEW     vReportDef,
             //:                         vQueryObject,
             //:                         szEntityName,
             //:                         szAttributeName )
-            GetStringFromAttribute( MaxString, sizeof( MaxString ), vQueryObject, szEntityName, szAttributeName );
+            GetStringFromAttribute( MaxString, zsizeof( MaxString ), vQueryObject, szEntityName, szAttributeName );
             //:LOOP WHILE nRC >= zCURSOR_SET
             while ( nRC >= zCURSOR_SET )
             { 
@@ -166,7 +166,7 @@ ComputeQueryOperationValue( zVIEW     vReportDef,
                   //:                         vQueryObject,
                   //:                         szEntityName,
                   //:                         szAttributeName )
-                  GetStringFromAttribute( AttributeValueString, sizeof( AttributeValueString ), vQueryObject, szEntityName, szAttributeName );
+                  GetStringFromAttribute( AttributeValueString, zsizeof( AttributeValueString ), vQueryObject, szEntityName, szAttributeName );
                   //:IF AttributeValueString > MaxString
                   if ( ZeidonStringCompare( AttributeValueString, 1, 0, MaxString, 1, 0, 21 ) < 0 )
                   { 
@@ -308,7 +308,7 @@ ComputeQueryOperationValue( zVIEW     vReportDef,
                //:                     vQueryObject,
                //:                     szEntityName,
                //:                     szAttributeName )
-               GetStringFromAttribute( MinString, sizeof( MinString ), vQueryObject, szEntityName, szAttributeName );
+               GetStringFromAttribute( MinString, zsizeof( MinString ), vQueryObject, szEntityName, szAttributeName );
                //:LOOP WHILE nRC >= zCURSOR_SET
                while ( nRC >= zCURSOR_SET )
                { 
@@ -323,7 +323,7 @@ ComputeQueryOperationValue( zVIEW     vReportDef,
                      //:                     vQueryObject,
                      //:                     szEntityName,
                      //:                     szAttributeName )
-                     GetStringFromAttribute( AttributeValueString, sizeof( AttributeValueString ), vQueryObject, szEntityName, szAttributeName );
+                     GetStringFromAttribute( AttributeValueString, zsizeof( AttributeValueString ), vQueryObject, szEntityName, szAttributeName );
                      //:IF AttributeValueString < MinString
                      if ( ZeidonStringCompare( AttributeValueString, 1, 0, MinString, 1, 0, 21 ) > 0 )
                      { 

@@ -613,13 +613,13 @@ zNetListen( LPSTR    pszNetworkName,
 
    // Create the local socket information.
    LocalSock.sin_family = AF_INET;
-   gethostname( szHostName, sizeof( szHostName ) );
+   gethostname( szHostName, zsizeof( szHostName ) );
    LocalSock.sin_addr.s_addr = INADDR_ANY;
    LocalSock.sin_port = htons( 2000 );
 
    // Try to bind the socket.
    if ( bind( sock, (struct sockaddr FAR *) &LocalSock,
-              sizeof( LocalSock ) ) == SOCKET_ERROR )
+              zsizeof( LocalSock ) ) == SOCKET_ERROR )
    {
       fnShowError( "bind" );
       MessageBox( 0, "bind(sock) failed", szlErrorTitle, MB_OK );
@@ -760,7 +760,7 @@ LRESULT WINAPI fnWinsockDlgProc( HWND   hWnd,
             }
 
             // We can now process the message synchronously.
-            memset( &cr, 0, sizeof( ConnectionRecord ) );
+            memset( &cr, 0, zsizeof( ConnectionRecord ) );
 
             // Set up a buffer to receive network traffic.
             cr.hBufferMem = GlobalAlloc( GPTR, BUFFER_LTH );
@@ -812,7 +812,7 @@ LRESULT WINAPI fnWinsockDlgProc( HWND   hWnd,
             /*
             *   Accept the incoming connection.
             */
-            iAcceptSocketLth = sizeof( AcceptSocket );
+            iAcceptSocketLth = zsizeof( AcceptSocket );
             sock = accept( sock, (struct sockaddr FAR *) &AcceptSocket,
                            (int FAR *) &iAcceptSocketLth );
 
@@ -916,7 +916,7 @@ zNetStart( LPSTR     pszNetworkName,
    {
       WNDCLASS  wc;
 
-      memset( &wc, 0, sizeof( wc ) );
+      memset( &wc, 0, zsizeof( wc ) );
       wc.style         = 0;
       wc.lpfnWndProc   = fnWinsockDlgProc;
       wc.hInstance     = hInstance;
@@ -948,7 +948,7 @@ zNetStart( LPSTR     pszNetworkName,
       return( zCALL_ERROR );
    }
 
-   hMemHandle = GlobalAlloc( GPTR, sizeof( SocketsRecord ) );
+   hMemHandle = GlobalAlloc( GPTR, zsizeof( SocketsRecord ) );
    if ( hMemHandle == 0 )
    {
       char szTemp[ 80 ];

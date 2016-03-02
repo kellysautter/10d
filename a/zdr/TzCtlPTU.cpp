@@ -989,16 +989,16 @@ PainterCall( zSHORT nMessage,
 
             pPainterWindow = pPainterBar->m_pActivePainterWindow;
             if ( pPainterBar->m_fState & zTZCB_XSLT )
-               strcpy_s( szViewName, sizeof( szViewName ), "__ClipboardXSLT_" );
+               strcpy_s( szViewName, zsizeof( szViewName ), "__ClipboardXSLT_" );
             else
             if ( pPainterBar->m_fState & zTZCB_REPORT )
-               strcpy_s( szViewName, sizeof( szViewName ), "__ClipboardReport_" );
+               strcpy_s( szViewName, zsizeof( szViewName ), "__ClipboardReport_" );
             else
-               strcpy_s( szViewName, sizeof( szViewName ), "__ClipboardDialog_" );
+               strcpy_s( szViewName, zsizeof( szViewName ), "__ClipboardDialog_" );
 
             // We need the LPLR name so we can correctly qualify the System level view name.
             GetViewByName( &vTaskLPLR, "TaskLPLR", pPainterBar->m_vSubtask, zLEVEL_TASK );
-            GetStringFromAttribute( szViewName + 18, sizeof( szViewName ) - 18, vTaskLPLR, "LPLR", szlName );
+            GetStringFromAttribute( szViewName + 18, zsizeof( szViewName ) - 18, vTaskLPLR, "LPLR", szlName );
 
             if ( GetViewByName( &vDialog, szViewName, pPainterBar->m_vSubtask, zLEVEL_SYSTEM ) > 0 )
                DropObjectInstance( vDialog );
@@ -1162,15 +1162,15 @@ PainterCall( zSHORT nMessage,
             // We need the LPLR name so we can correctly qualify the System
             // level view name.
             if ( pPainterBar->m_fState & zTZCB_XSLT )
-               strcpy_s( szViewName, sizeof( szViewName ), "__ClipboardXSLT_" );
+               strcpy_s( szViewName, zsizeof( szViewName ), "__ClipboardXSLT_" );
             else
             if ( pPainterBar->m_fState & zTZCB_REPORT )
-               strcpy_s( szViewName, sizeof( szViewName ), "__ClipboardReport_" );
+               strcpy_s( szViewName, zsizeof( szViewName ), "__ClipboardReport_" );
             else
-               strcpy_s( szViewName, sizeof( szViewName ), "__ClipboardDialog_" );
+               strcpy_s( szViewName, zsizeof( szViewName ), "__ClipboardDialog_" );
 
             GetViewByName( &vTaskLPLR, "TaskLPLR", pPainterBar->m_vSubtask, zLEVEL_TASK );
-            GetStringFromAttribute( szViewName + 18, sizeof( szViewName ) - 18, vTaskLPLR, "LPLR", szlName );
+            GetStringFromAttribute( szViewName + 18, zsizeof( szViewName ) - 18, vTaskLPLR, "LPLR", szlName );
 
             if ( GetViewByName( &vDialog, szViewName, pPainterBar->m_vSubtask, zLEVEL_SYSTEM ) > 0 )
             {
@@ -1410,15 +1410,15 @@ PainterCall( zSHORT nMessage,
             if ( pchParm )    // asking if copy is valid
                return( 0 );
 
-            GetStringFromAttribute( szMenuTag, sizeof( szMenuTag ), pPainterWindow->m_vDialog, szlMenu, "Tag" );
+            GetStringFromAttribute( szMenuTag, zsizeof( szMenuTag ), pPainterWindow->m_vDialog, szlMenu, "Tag" );
             TraceLineS( "COPY MENU TO CLIPBOARD for Menu: ", szMenuTag );
 
-            strcpy_s( szViewName, sizeof( szViewName ), "__ClipboardMenu_" );
+            strcpy_s( szViewName, zsizeof( szViewName ), "__ClipboardMenu_" );
 
             // We need the LPLR name so we can correctly qualify the System
             // level view name.
             GetViewByName( &vTaskLPLR, "TaskLPLR", pPainterBar->m_vSubtask, zLEVEL_TASK );
-            GetStringFromAttribute( szViewName + 16, sizeof( szViewName ) - 16, vTaskLPLR, "LPLR", szlName );
+            GetStringFromAttribute( szViewName + 16, zsizeof( szViewName ) - 16, vTaskLPLR, "LPLR", szlName );
 
             if ( GetViewByName( &vDialog, szViewName, pPainterBar->m_vSubtask, zLEVEL_SYSTEM ) > 0 )
                DropObjectInstance( vDialog );
@@ -1522,10 +1522,10 @@ PainterCall( zSHORT nMessage,
 
             // We need the LPLR name so we can correctly qualify the System
             // level view name.
-            strcpy_s( szViewName, sizeof( szViewName ), "__ClipboardMenu_" );
+            strcpy_s( szViewName, zsizeof( szViewName ), "__ClipboardMenu_" );
 
             GetViewByName( &vTaskLPLR, "TaskLPLR", pPainterBar->m_vSubtask, zLEVEL_TASK );
-            GetStringFromAttribute( szViewName + 16, sizeof( szViewName ) - 16, vTaskLPLR, "LPLR", szlName );
+            GetStringFromAttribute( szViewName + 16, zsizeof( szViewName ) - 16, vTaskLPLR, "LPLR", szlName );
 
             if ( GetViewByName( &vDialog, szViewName, pPainterBar->m_vSubtask, zLEVEL_SYSTEM ) > 0 )
             {

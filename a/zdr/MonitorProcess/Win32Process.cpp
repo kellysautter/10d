@@ -316,7 +316,7 @@ Win32Process::FindProcessesNT( CString *strProcessName, bool bJustCheckingOne )
 
       // Convert it to ascii.
       rc = WideCharToMultiByte( CP_ACP, 0, p, -1, szProcessName,
-                                sizeof( szProcessName ), NULL, NULL );
+                                zsizeof( szProcessName ), NULL, NULL );
       if ( rc )
       {
          if ( bJustCheckingOne )
@@ -378,7 +378,7 @@ Win32Process::FindProcesses95( CString *strProcessName, bool bJustCheckingOne )
    }
 
    PROCESSENTRY32 process;
-   process.dwSize = sizeof( PROCESSENTRY32 );
+   process.dwSize = zsizeof( PROCESSENTRY32 );
 
    BOOL bContinue = m_pfnProcess32First( handle,&process );
 

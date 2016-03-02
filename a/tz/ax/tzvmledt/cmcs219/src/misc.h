@@ -8,7 +8,7 @@ void StartLineToolTip( CEditView *pEditView );
 void EndLineToolTip();
 
 #define HAS_FLAG( val, flag ) ( ( val & flag ) == flag )
-#define ARRAY_SIZE( array ) ( sizeof( array ) / sizeof( array[ 0 ] ) )
+#define ARRAY_SIZE( array ) ( zsizeof( array ) / zsizeof( array[ 0 ] ) )
 
 BOOL is_space( register TCHAR ch );
 BOOL is_alphanumeric( register TCHAR ch );
@@ -24,7 +24,7 @@ BOOL is_eoln( TCHAR ch );
 #else
 BOOL is_leadbyte( TCHAR ch );
 BOOL is_trailbyte( TCHAR ch );
-__forceinline int _tclen_prev( LPCTSTR pszStart, LPCTSTR psz ) { return ( psz - CharPrev( pszStart, psz ) ) / sizeof( TCHAR ); }
+__forceinline int _tclen_prev( LPCTSTR pszStart, LPCTSTR psz ) { return ( psz - CharPrev( pszStart, psz ) ) / zsizeof( TCHAR ); }
 int log_strlen( LPCTSTR psz );
 #endif
 

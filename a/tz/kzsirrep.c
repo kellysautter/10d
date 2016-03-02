@@ -648,9 +648,9 @@ SironShowPreview( zVIEW vSubtask,
   else
   {
   if (lZFlags && 0x00000001L)
-    SysGetEnvVar( szFilename, "ADATEI3", sizeof( szFilename ) );
+    SysGetEnvVar( szFilename, "ADATEI3", zsizeof( szFilename ) );
   else
-    SysGetEnvVar( szFilename, "ADATEI1", sizeof( szFilename ) );
+    SysGetEnvVar( szFilename, "ADATEI1", zsizeof( szFilename ) );
   }
 
   TraceLineS( "(kzsirrep) Start of Preview: ", szFilename);
@@ -798,8 +798,8 @@ SironRunReport( zVIEW  vSubtask,
       // we do not need to sync multiple connections
       bFree = TRUE;
 /*
-     SysGetDateTime( szCurrentTime, sizeof( szCurrentTime ) );
-      GetStringFromAttribute( szTimeout, sizeof( szTimeout ), vSirPara, "SirPara", "TimeoutTime");
+     SysGetDateTime( szCurrentTime, zsizeof( szCurrentTime ) );
+      GetStringFromAttribute( szTimeout, zsizeof( szTimeout ), vSirPara, "SirPara", "TimeoutTime");
 
       // if report is in starting phase
       if ( zstrcmp(szCurrentTime, szTimeout) <= 0) {
@@ -921,7 +921,7 @@ SironRunReport( zVIEW  vSubtask,
   // set ExecState to starting and Timeout to now+START_TIMEOUT [s]
   SetAttributeFromInteger( vSirPara, "SirPara", "ExecState", 1L );
   SetAttributeFromInteger( vSirPara, "SirPara", "TaskID", SysGetTaskFromView( vSubtask ) );
- SysGetDateTime( szCurrentTime, sizeof( szCurrentTime ) );
+ SysGetDateTime( szCurrentTime, zsizeof( szCurrentTime ) );
   SetAttributeFromString( vSirPara, "SirPara", "CurrentTime", szCurrentTime );
   SetAttributeFromString( vSirPara, "SirPara", "TimeoutTime", szCurrentTime );
   SetAttributeFromString( vSirPara, "SirPara", "ErrorCode", "" );
@@ -939,7 +939,7 @@ SironRunReport( zVIEW  vSubtask,
   UfAddToDateTime( (LPDATETIME) pszTimeout, START_TIMEOUT, zDT_SECOND );
 */
   TraceLineS( "(kzsirrep) Report started at ", szCurrentTime );
-  GetStringFromAttribute( szCurrentTime, sizeof( szCurrentTime ), vSirPara, "SirPara", "TimeoutTime" );
+  GetStringFromAttribute( szCurrentTime, zsizeof( szCurrentTime ), vSirPara, "SirPara", "TimeoutTime" );
 //  TraceLineS( "(kzsirrep)        Timeout is ", szCurrentTime );
 
   TraceLineS( "(kzsirrep) LPLR = ", pszLPLR_Name );
@@ -1494,8 +1494,8 @@ SironSetUser( zVIEW vSubtask,
   }
 
   // Set the values
-  strcpy_s( szUsername, sizeof( szUsername ), pszUsername );
-  strcpy_s( szPassword, sizeof( szPassword ), pszPassword );
+  strcpy_s( szUsername, zsizeof( szUsername ), pszUsername );
+  strcpy_s( szPassword, zsizeof( szPassword ), pszPassword );
   SetAttributeFromString( vSirPara,
                           "SirPara", "Username", pszUsername );
   SetAttributeFromString( vSirPara,

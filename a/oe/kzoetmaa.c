@@ -407,7 +407,7 @@ fnCreateProcess( zLONG   hMainWnd,
 
    // Allocate a process record.
    hProcess = fnAllocDataspace( (LPDATAHEADER) g_hAnchorBlock,
-                                sizeof( ProcessRecord ), 1, 0, iProcess );
+                                zsizeof( ProcessRecord ), 1, 0, iProcess );
    // If a process record could not be acquired, return.
    if ( hProcess == 0 )
       return( 0 );  // return Failure
@@ -482,7 +482,7 @@ fnCreateTask( zLONG   lSystemInstance,
    lpTask->nOperIdx         = -1;
 
    // Initialize szTaskName
-   sprintf_s( szTaskName, sizeof( szTaskName ), "App Task 0x%08x", (zULONG) hTask );
+   sprintf_s( szTaskName, zsizeof( szTaskName ), "App Task 0x%08x", (zULONG) hTask );
 
    // Task is disabled until we finish initializing it.
    lpTask->bDisable         = TRUE;
@@ -494,15 +494,15 @@ fnCreateTask( zLONG   lSystemInstance,
    fnEndBrowseOfTaskList( TRUE );
 
    // Create a dataspace for the task unless it is the main task.
-   strcpy_s( szMessage, sizeof( szMessage ), "(tm) "); // prefix message
+   strcpy_s( szMessage, zsizeof( szMessage ), "(tm) "); // prefix message
    if ( AnchorBlock->hMainTask == 0 ||
         AnchorBlock->hMainTask == hTask )
    {
-      strcat_s( szMessage, sizeof( szMessage ), "Main " );
+      strcat_s( szMessage, zsizeof( szMessage ), "Main " );
    }
 
-   strcat_s( szMessage, sizeof( szMessage ), szTaskName );
-   strncpy_s( lpTask->szTaskTitle, sizeof( lpTask->szTaskTitle ), cpcTaskTitle, 127 );
+   strcat_s( szMessage, zsizeof( szMessage ), szTaskName );
+   strncpy_s( lpTask->szTaskTitle, zsizeof( lpTask->szTaskTitle ), cpcTaskTitle, 127 );
    lpTask->szTaskTitle[ 127 ] = 0;
 
 #if 0
@@ -1650,13 +1650,13 @@ fnBuildHexAscii( zPCHAR pchHex, zPCHAR pchAscii, zCPCHAR cpcBuffer,
 
    // Loop through each byte in the buffer and display a block of ulLth bytes
    // on a line in the trace window.
-   for ( k = 0; k < (sizeof( sz ) - 2) && ulPos < ulLth; k++, ulPos++ )
+   for ( k = 0; k < (zsizeof( sz ) - 2) && ulPos < ulLth; k++, ulPos++ )
    {
       if ( k && (k % 8) == 0 )
          strcat_s( pchHex, 1024, "  " );
 
       // Convert the current byte to a 2-char hex number.
-      zltox( (zLONG) cpcBuffer[ ulPos ], sz, sizeof( sz ) );
+      zltox( (zLONG) cpcBuffer[ ulPos ], sz, zsizeof( sz ) );
 
       // Add the hex number to pchHex.
       if ( sz[ 0 ] == 0 || sz[ 1 ] == 0 )
@@ -1843,9 +1843,9 @@ fnCleanupTask( LPTASK lpTask )
                   fnBuildHexAscii( szHex, szAscii, (zCPCHAR) zGETPTR( lpFreespace->hFreespace ), 0,
                                    lpDataHeader->ulUseableSize );
                                 // lpDataHeader->ulUseableSize >= 32 ? 32 : lpDataHeader->ulUseableSize );
-                  strcpy_s( szMsg, sizeof( szMsg ), szHex );
-                  strcat_s( szMsg, sizeof( szMsg ), " | " );
-                  strcat_s( szMsg, sizeof( szMsg ), szAscii );
+                  strcpy_s( szMsg, zsizeof( szMsg ), szHex );
+                  strcat_s( szMsg, zsizeof( szMsg ), " | " );
+                  strcat_s( szMsg, zsizeof( szMsg ), szAscii );
                   cpcText = " Used Space";
                }
                else
@@ -2051,8 +2051,8 @@ DeleteTask( LPTASK lpTask )
       zVIEW vWork;
 
    // SfCloseTaskDatabases( lpView );
-   // zltoa( (zLONG) hTask, szMsg, sizeof( szMsg ) );
-      sprintf_s( szMsg, sizeof( szMsg ), "0x%08x", hTask );
+   // zltoa( (zLONG) hTask, szMsg, zsizeof( szMsg ) );
+      sprintf_s( szMsg, zsizeof( szMsg ), "0x%08x", hTask );
 
       CreateViewFromViewForTask( &vWork, vDbhWork, lpView );
       while ( SetCursorFirstEntityByString( vWork, "Connection",
@@ -2319,13 +2319,13 @@ DeleteTask( LPTASK lpTask )
    // Send message that task deleted (before we delete the task).
    if ( AnchorBlock->TraceFlags.bTaskMsgs )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), "(tm) Task (0x%08x) deleted for Process %d",
+      sprintf_s( szMsg, zsizeof( szMsg ), "(tm) Task (0x%08x) deleted for Process %d",
                 (zULONG) hTask, SysGetProcessID( 0 ) );
 
       if ( lpTask && lpTask->szUserId[ 0 ] )
       {
-         strcat_s( szMsg, sizeof( szMsg ), " UserName: " );
-         strcat_s( szMsg, sizeof( szMsg ), lpTask->szUserId );
+         strcat_s( szMsg, zsizeof( szMsg ), " UserName: " );
+         strcat_s( szMsg, zsizeof( szMsg ), lpTask->szUserId );
       }
    }
 
@@ -2344,7 +2344,7 @@ DeleteTask( LPTASK lpTask )
       // Use SysMessageList because TraceLineS expects a current task.
       SysMessageList( szMsg );
    // MiListOE_Memory( 0, 0 );
-      SysDescribeZeidonPageTable( szMsg, sizeof( szMsg ) );
+      SysDescribeZeidonPageTable( szMsg, zsizeof( szMsg ) );
       TraceLineS( "Post DeleteTask - ", szMsg );
    }
 
@@ -2875,7 +2875,7 @@ GarbageCollectViews( zVIEW  lpTaskView,
       lpTask = zGETPTR( hTask );
       if ( lpTask->bTransientTask && hTask != lpTaskView->hTask )
       {
-         SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+         SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
          SysGetDateTimeDifference( &lDiffMinutes,
                                    lpTask->szTimeStamp,
                                    szDateTime, zDT_MINUTE );
@@ -3321,7 +3321,7 @@ DisplayOpenFiles( zCPCHAR cpcTitle, zPVOID hTask )
    lpTask = zGETPTR( AnchorBlock->hFirstTask );
    while ( lpTask )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), " Task (0x%08x) %s Process: %d",
+      sprintf_s( szMsg, zsizeof( szMsg ), " Task (0x%08x) %s Process: %d",
                 (zULONG) zGETHNDL( lpTask ), lpTask->szTaskTitle, lProcessID );
 
 //*********************************************************************************
@@ -3329,8 +3329,8 @@ DisplayOpenFiles( zCPCHAR cpcTitle, zPVOID hTask )
       // is for this task (because of call sfSetUserIdForTask).
       if ( lpTask->szUserId[ 0 ] )
       {
-         strcat_s( szMsg, sizeof( szMsg ), " UserName: " );
-         strcat_s( szMsg, sizeof( szMsg ), lpTask->szUserId );
+         strcat_s( szMsg, zsizeof( szMsg ), " UserName: " );
+         strcat_s( szMsg, zsizeof( szMsg ), lpTask->szUserId );
       }
 //*********************************************************************************
 
@@ -3339,7 +3339,7 @@ DisplayOpenFiles( zCPCHAR cpcTitle, zPVOID hTask )
       lpOpenFile = zGETPTR( lpTask->hFirstOpenFile );
       while ( lpOpenFile )
       {
-         sprintf_s( szMsg, sizeof( szMsg ), " Open file: '%s'", lpOpenFile->szFileName );
+         sprintf_s( szMsg, zsizeof( szMsg ), " Open file: '%s'", lpOpenFile->szFileName );
          SysMessageList( szMsg );
          lpOpenFile = zGETPTR( lpOpenFile->hNextOpenFile );
       }
@@ -3350,13 +3350,13 @@ DisplayOpenFiles( zCPCHAR cpcTitle, zPVOID hTask )
    lpApp = zGETPTR( AnchorBlock->hFirstApp );
    while ( lpApp )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), " App (0x%08x) %s %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), " App (0x%08x) %s %s",
                 (zULONG) zGETHNDL( lpApp ), lpApp->szName, lpApp->bKeepAlive ? "(KeepAlive)" : "" );
       SysMessageList( szMsg );
       lpViewOD = zGETPTR( lpApp->hFirstViewOD );
       while ( lpViewOD )
       {
-         sprintf_s( szMsg, sizeof( szMsg ), " View OD (0x%08x): '%s'",
+         sprintf_s( szMsg, zsizeof( szMsg ), " View OD (0x%08x): '%s'",
                    (zULONG) zGETHNDL( lpViewOD), lpViewOD->szName );
          SysMessageList( szMsg );
          lpViewOD = zGETPTR( lpViewOD->hNextViewOD );

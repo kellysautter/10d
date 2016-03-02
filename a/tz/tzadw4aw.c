@@ -78,13 +78,13 @@ ofnTZWDLGSO_AutoPaintListBox( zVIEW  vSubtask,
 
    // Set up variables to either I_LOD listbox or L_LOD listbox.
    if ( szListType[ 0 ] == 'I' )
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
    else
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
 
    lCL = 12;
    lCC = 5;
-   strcpy_s( szParentName, sizeof( szParentName ), "Window" );
+   strcpy_s( szParentName, zsizeof( szParentName ), "Window" );
    lTempInteger_0  = zstrcmp( szParentName, "SECTION" );
    // If we are Autodesigning a ROD, set the lCL to 8 so line skips do not tak place.
    if ( lTempInteger_0 == 0 )
@@ -211,13 +211,13 @@ ofnTZWDLGSO_AutoPaintLstLitPart( zVIEW    vSubtask,
    // Set up variables to either I_LOD listbox or L_LOD listbox.
    if ( szListType[ 0 ] == 'I' )
    {
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "I_ER_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "I_ER_Attribute" );
    }
    else
    {
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "L_ER_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "L_ER_Attribute" );
    }
 
    lCC = 5;
@@ -241,17 +241,17 @@ ofnTZWDLGSO_AutoPaintLstLitPart( zVIEW    vSubtask,
          lListAttributeLength = 25;
 
       // Get the paint literal
-      GetStringFromAttribute( szPaintLiteral, sizeof( szPaintLiteral ), vUserSpec,
+      GetStringFromAttribute( szPaintLiteral, zsizeof( szPaintLiteral ), vUserSpec,
                                X_ER_Attribute, "ListPaintLit" );
       if ( szPaintLiteral[ 0 ] == 0 )
-         GetStringFromAttribute( szPaintLiteral, sizeof( szPaintLiteral ), vUserSpec,
+         GetStringFromAttribute( szPaintLiteral, zsizeof( szPaintLiteral ), vUserSpec,
                                  X_ER_Attribute, "PromptPaintLit" );
       if ( szPaintLiteral[ 0 ] == 0 )
       {
-         GetStringFromAttribute( szPaintLiteral, sizeof( szPaintLiteral ), vUserSpec,
+         GetStringFromAttribute( szPaintLiteral, zsizeof( szPaintLiteral ), vUserSpec,
                                   X_ER_Attribute, "Name" );
          // Add a ':' to the end.
-         strcat_s( szPaintLiteral, sizeof( szPaintLiteral ), ":" );
+         strcat_s( szPaintLiteral, zsizeof( szPaintLiteral ), ":" );
          // Add spaces before any capital letters.
          AddSpacesToString( szPaintLiteral );
       }
@@ -390,15 +390,15 @@ ofnTZWDLGSO_AutoPaintListPart( zVIEW    vSubtask,
    // Set up variables to either I_LOD listbox or L_LOD listbox.
    if ( szListType[ 0 ] == 'I' )
    {
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
-      strcpy_s( X_LOD_Entity, sizeof( X_LOD_Entity ), "I_LOD_Entity" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "I_ER_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
+      strcpy_s( X_LOD_Entity, zsizeof( X_LOD_Entity ), "I_LOD_Entity" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "I_ER_Attribute" );
    }
    else
    {
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
-      strcpy_s( X_LOD_Entity, sizeof( X_LOD_Entity ), "L_LOD_Entity" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "L_ER_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
+      strcpy_s( X_LOD_Entity, zsizeof( X_LOD_Entity ), "L_LOD_Entity" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "L_ER_Attribute" );
    }
 
    lCL = 12;
@@ -406,10 +406,10 @@ ofnTZWDLGSO_AutoPaintListPart( zVIEW    vSubtask,
 
    GetViewByName( &vCtrlDef, "TZADCTLD", vNewDialog, zLEVEL_TASK );
    GetViewByName( &vAutoDesWk, "TZADWWKO", vNewDialog, zLEVEL_TASK );
-   GetStringFromAttribute( szControlType, sizeof( szControlType ), vNewDialog, "ControlDef", "Tag" );
+   GetStringFromAttribute( szControlType, zsizeof( szControlType ), vNewDialog, "ControlDef", "Tag" );
 
    // It is important to know whether the parent is a WINDOW (WDODs) or a SECTION(RODs).
-   strcpy_s( szParentName, sizeof( szParentName ), "Window" );
+   strcpy_s( szParentName, zsizeof( szParentName ), "Window" );
 
    // IF we are Autodesigning a ROD, set lCL to 8 so line skips do not take place
    lTempInteger_0  = zstrcmp( szParentName, "SECTION" );
@@ -457,13 +457,13 @@ ofnTZWDLGSO_AutoPaintListPart( zVIEW    vSubtask,
          lListAttributeLength = 25;
 
       // If there isn't a paint literal then use the entity name as the paint literal
-      GetStringFromAttribute( szLiteralString, sizeof( szLiteralString ), vUserSpec, X_ER_Attribute, "ListPaintLit" );
+      GetStringFromAttribute( szLiteralString, zsizeof( szLiteralString ), vUserSpec, X_ER_Attribute, "ListPaintLit" );
       if ( szLiteralString[ 0 ] == 0 )
-         GetStringFromAttribute( szLiteralString, sizeof( szLiteralString ), vUserSpec, X_ER_Attribute, "PromptPaintLit" );
+         GetStringFromAttribute( szLiteralString, zsizeof( szLiteralString ), vUserSpec, X_ER_Attribute, "PromptPaintLit" );
       lPaintLiteralLength = zstrlen( szLiteralString );
       if ( szLiteralString[ 0 ] == 0 )
       {
-         GetStringFromAttribute( szLiteralString, sizeof( szLiteralString ), vUserSpec, X_ER_Attribute, "Name" );
+         GetStringFromAttribute( szLiteralString, zsizeof( szLiteralString ), vUserSpec, X_ER_Attribute, "Name" );
          AddSpacesToString( szLiteralString );
          lPaintLiteralLength = zstrlen( szLiteralString ) + 1;
       }
@@ -532,12 +532,12 @@ ofnTZWDLGSO_AutoPaintListPart( zVIEW    vSubtask,
       }
       // Set the tag
       ofnTZWDLGSO_AssignTag( vSubtask, vNewDialog, vSubobject, "ListCtrl" );
-/*    GetStringFromAttribute( szTag, sizeof( szTag ), vUserSpec, X_ER_Attribute, "Name" );
+/*    GetStringFromAttribute( szTag, zsizeof( szTag ), vUserSpec, X_ER_Attribute, "Name" );
       szTag[ 30 ] = 0;
 
       lFieldsPainted = lFieldsPainted + 1;
-      zltoa( lFieldsPainted, szWork, sizeof( szWork ) );
-      strcat_s( szTag, sizeof( szTag ), szWork );
+      zltoa( lFieldsPainted, szWork, zsizeof( szWork ) );
+      strcat_s( szTag, zsizeof( szTag ), szWork );
       SetAttributeFromString( vSubobject, "Control", "Tag", szTag );
 */
       SetAttributeFromInteger( vSubobject, "Control", "SZDLG_X", lListAttributeLength );
@@ -552,8 +552,8 @@ ofnTZWDLGSO_AutoPaintListPart( zVIEW    vSubtask,
       END
       */
 
-      GetStringFromAttribute( szMapEntity, sizeof( szMapEntity ), vUserSpec, "LOD_Entity", "Name" );
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, X_LOD_Entity, "Name" );
+      GetStringFromAttribute( szMapEntity, zsizeof( szMapEntity ), vUserSpec, "LOD_Entity", "Name" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, X_LOD_Entity, "Name" );
       // If this LISTATTRIB is from a different ENTITY than the current ENTITY, then make sure the value gets mapped.
       lRC = zstrcmp( szWorkString, "" );
       if ( lRC != 0 )
@@ -561,7 +561,7 @@ ofnTZWDLGSO_AutoPaintListPart( zVIEW    vSubtask,
          lRC = zstrcmp( szWorkString, szMapEntity );
          if ( lRC == 0 )
          {
-            strcpy_s( szMapEntity, sizeof( szMapEntity ), szWorkString );
+            strcpy_s( szMapEntity, zsizeof( szMapEntity ), szWorkString );
          }
       }
 
@@ -636,13 +636,13 @@ ofnTZWDLGSO_AutoPntFldPartWLits( zVIEW  vSubtask,
    // Set up variables to either I_LOD listbox or L_LOD listbox.
    if ( szListType[ 0 ] == 'I' )
    {
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "I_ER_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "I_LOD_Attribute" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "I_ER_Attribute" );
    }
    else
    {
-      strcpy_s( X_LOD_Attribute, sizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
-      strcpy_s( X_ER_Attribute, sizeof( X_ER_Attribute ), "L_ER_Attribute" );
+      strcpy_s( X_LOD_Attribute, zsizeof( X_LOD_Attribute ), "L_LOD_Attribute" );
+      strcpy_s( X_ER_Attribute, zsizeof( X_ER_Attribute ), "L_ER_Attribute" );
    }
 
 // TraceLineS( "IN", " AutoPaintPartitionWithFields" );
@@ -703,13 +703,13 @@ ofnTZWDLGSO_AutoPntFldPartWLits( zVIEW  vSubtask,
       // Remove the text border.
       SetAttributeFromInteger( vSubobject, "Control", "Subtype",
                                zCONTROL_BORDEROFF | zCONTROL_NOTABSTOP );
-      GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, X_ER_Attribute, "ListPaintLit" );
-      GetStringFromAttribute( szMapAttribute, sizeof( szMapAttribute ), vUserSpec, X_ER_Attribute, "Name" );
+      GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, X_ER_Attribute, "ListPaintLit" );
+      GetStringFromAttribute( szMapAttribute, zsizeof( szMapAttribute ), vUserSpec, X_ER_Attribute, "Name" );
 
       // If there is no paint literal for this attribute then
       // use the attribute name as the paint literal.
       if ( szWorkString[ 0 ] == 0 )
-         strcpy_s( szWorkString, sizeof( szWorkString ), szMapAttribute );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), szMapAttribute );
 
       SetAttributeFromString( vSubobject, "Control", "Text", szWorkString );
 
@@ -798,7 +798,7 @@ ofnTZWDLGSO_AutoPntFldPartWLits( zVIEW  vSubtask,
       GetIntegerFromAttribute( &lLine, vSubobject, "Control", "PSDLG_Y" );
       if ( lLine >= lFirstPaintLine && lLine <= lLastPaintLine )
       {
-         GetStringFromAttribute( szType, sizeof( szType ), vSubobject, "ControlDef", "Tag" );
+         GetStringFromAttribute( szType, zsizeof( szType ), vSubobject, "ControlDef", "Tag" );
          /* If the control is not a text control. */
          if ( zstrcmp( szType, "Text" ) != 0 )
          {
@@ -922,7 +922,7 @@ ofnTZWDLGSO_AssignTag( zVIEW  vSubtask,
    zSHORT nLth;
    zCHAR szTag[ 25 ];
 
-   strcpy_s( szTag, sizeof( szTag ), szType );
+   strcpy_s( szTag, zsizeof( szTag ), szType );
    nLth = (zSHORT) zstrlen( szTag );
 
    // Use a temp view for Dialog to make sure we are positioned on the
@@ -934,7 +934,7 @@ ofnTZWDLGSO_AssignTag( zVIEW  vSubtask,
    GetIntegerFromAttribute( &lIdx, vTmpDlg, "Window", "ControlTagCounter" );
    lIdx++;
    SetAttributeFromInteger( vTmpDlg, "Window", "ControlTagCounter", lIdx );
-   zltoa( lIdx, szTag + nLth, sizeof( szTag ) - nLth );
+   zltoa( lIdx, szTag + nLth, zsizeof( szTag ) - nLth );
    DropView( vTmpDlg );
 
    SetAttributeFromString( vControl, "Control", "Tag", szTag );

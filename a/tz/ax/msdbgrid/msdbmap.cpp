@@ -1935,7 +1935,7 @@ BOOL IMsDgridCtrl::CreateComboBox(int nColumn)
             m_pWndListBox = 0;
             m_lColumns = cols.GetCount( );
             m_pWndListArray = (IMsDbGridList **)
-                          new char[ m_lColumns * sizeof( IMsDbGridList *) ];
+                          new char[ m_lColumns * zsizeof( IMsDbGridList *) ];
 
             for ( long k = 0; k < m_lColumns; k++ )
                m_pWndListArray[ k ] = 0;

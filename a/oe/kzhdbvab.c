@@ -321,7 +321,7 @@ BuildDDL( zVIEW  vDTE,
       {
          if ( szLine[ 0 ] )
          {
-            strcat_s( szLine, sizeof( szLine ), "," );
+            strcat_s( szLine, zsizeof( szLine ), "," );
             if ( SysWriteLine( vSubtask, f, szLine ) < 0 )
             {
                nRC = zCALL_ERROR;
@@ -341,7 +341,7 @@ BuildDDL( zVIEW  vDTE,
 
    if ( szLine[ 0 ] )
    {
-      strcat_s( szLine, sizeof( szLine ), ";" );
+      strcat_s( szLine, zsizeof( szLine ), ";" );
       if ( SysWriteLine( vSubtask, f, szLine ) < 0 )
       {
          nRC = zCALL_ERROR;
@@ -415,7 +415,7 @@ BuildDDL( zVIEW  vDTE,
          GetAddrForAttribute( &pchFieldName, vDTE, "TE_FieldDataRel", "Name" );
          if ( CompareAttributeToString( vDTE, "TE_FieldDataRel",
                                         "Key", "Y" ) == 0 )
-            strcpy_s( szDataType, sizeof( szDataType ), "unique key " );
+            strcpy_s( szDataType, zsizeof( szDataType ), "unique key " );
          else
             szDataType[ 0 ] = 0;
 
@@ -423,7 +423,7 @@ BuildDDL( zVIEW  vDTE,
          switch ( *pch )
          {
             case zTYPE_STRING:
-               strcat_s( szDataType, sizeof( szDataType ), "char" );
+               strcat_s( szDataType, zsizeof( szDataType ), "char" );
 
                GetIntegerFromAttribute( &nLth, vDTE, "TE_FieldDataRel",
                                         "Length" );
@@ -446,9 +446,9 @@ BuildDDL( zVIEW  vDTE,
                // dimension is 1.  This doesn't change the storage size of the
                // char array but does force Raima to load the entire field.
                if ( lAttrLth >= lMaxFixedAttrLth )
-                  strcat_s( szLine, sizeof( szLine ), " [ 1 ]" );
+                  strcat_s( szLine, zsizeof( szLine ), " [ 1 ]" );
 
-               strcat_s( szLine, sizeof( szLine ), ";" );
+               strcat_s( szLine, zsizeof( szLine ), ";" );
                break;
 
             case zTYPE_BLOB:
@@ -459,21 +459,21 @@ BuildDDL( zVIEW  vDTE,
                break;
 
             case zTYPE_DATETIME:
-               strcat_s( szDataType, sizeof( szDataType ), "int" );
+               strcat_s( szDataType, zsizeof( szDataType ), "int" );
                sprintf_s( szLine, "%*s %*s %s[ 3 ];",
                          (zSHORT) COLUMN_INDENT, " ",
                          MAX_DATATYPE_LTH, szDataType, pchFieldName );
                break;
 
             case zTYPE_INTEGER:
-               strcat_s( szDataType, sizeof( szDataType ), "long" );
+               strcat_s( szDataType, zsizeof( szDataType ), "long" );
                sprintf_s( szLine, "%*s %*s %s;",
                          (zSHORT) COLUMN_INDENT, " ",
                          MAX_DATATYPE_LTH, szDataType, pchFieldName );
                break;
 
             case zTYPE_DECIMAL:
-               strcat_s( szDataType, sizeof( szDataType ), "long double" );
+               strcat_s( szDataType, zsizeof( szDataType ), "long double" );
                sprintf_s( szLine, "%*s %*s %s;",
                          (zSHORT) COLUMN_INDENT, " ",
                          MAX_DATATYPE_LTH, szDataType, pchFieldName );
@@ -481,7 +481,7 @@ BuildDDL( zVIEW  vDTE,
 
             case 'N':
             case 'H':
-               strcat_s( szDataType, sizeof( szDataType ), "int" );
+               strcat_s( szDataType, zsizeof( szDataType ), "int" );
                sprintf_s( szLine, "%*s %*s %s;",
                          (zSHORT) COLUMN_INDENT, " ",
                          MAX_DATATYPE_LTH, szDataType, pchFieldName );
@@ -575,15 +575,15 @@ EndOfFunction:
 
    if ( nRC == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "File " );
-      strcat_s( szMsg, sizeof( szMsg ), pchFileName );
-      strcat_s( szMsg, sizeof( szMsg ), " is created successfully!" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "File " );
+      strcat_s( szMsg, zsizeof( szMsg ), pchFileName );
+      strcat_s( szMsg, zsizeof( szMsg ), " is created successfully!" );
      MB_SetMessage( vSubtask, 0, szMsg );
    }
    else
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Couldn't create file " );
-      strcat_s( szMsg, sizeof( szMsg ), pchFileName );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Couldn't create file " );
+      strcat_s( szMsg, zsizeof( szMsg ), pchFileName );
       SysMessageBox( "Generate DDL", szMsg, 0 );
    }
 
@@ -753,7 +753,7 @@ ChangeReservedName( zPCHAR pchName )
          // Since we know that all the reserved words are at least 2 chars
          // shorter then the max column/table length, then don't worry about
          // compressing the name.
-         strcat_s( szTemp, sizeof( szTemp ), pchName );
+         strcat_s( szTemp, zsizeof( szTemp ), pchName );
          strcpy_s( pchName, szTemp );
          return;
       }
@@ -784,7 +784,7 @@ GenerateName( zVIEW  vDTE,
    zPCHAR pch1;
    zPCHAR pch2;
 
-   strcpy_s( szTemp, sizeof( szTemp ), pchName );
+   strcpy_s( szTemp, zsizeof( szTemp ), pchName );
 
    // Eliminate invalid chars.
    for ( pch1 = pch2 = pchName; *pch2; pch2++ )
@@ -951,8 +951,8 @@ ImportDB_Data( zVIEW vTE_View, zVIEW vEMD )
    GetAddrForAttribute( &pchDatabaseName, vTE_View, "TE_DBMS_Source", "Name" );
 
    // DictionaryFile = DatabaseName + ".DBD".
-   strcpy_s( szDictionaryFile, sizeof( szDictionaryFile ), pchDatabaseName );
-   strcat_s( szDictionaryFile, sizeof( szDictionaryFile ), ".DBD" );
+   strcpy_s( szDictionaryFile, zsizeof( szDictionaryFile ), pchDatabaseName );
+   strcat_s( szDictionaryFile, zsizeof( szDictionaryFile ), ".DBD" );
 
    // Get the db-Vista database path from zeidon.ini.
    szPath[ 0 ] = 0;
@@ -972,21 +972,21 @@ ImportDB_Data( zVIEW vTE_View, zVIEW vEMD )
    hFile = SysOpenFile( vTE_View, szPath, COREFILE_READ );
    if ( hFile == -1 )
    {
-      strcpy_s( szWork, sizeof( szWork ), "DBVista Dictionary not found for database " );
-      strcat_s( szWork, sizeof( szWork ), pchDatabaseName );
-      strcat_s( szWork, sizeof( szWork ), ".\n \'" );
-      strcat_s( szWork, sizeof( szWork ), szPath );
-      strcat_s( szWork, sizeof( szWork ), "\' cannot be opened." );
+      strcpy_s( szWork, zsizeof( szWork ), "DBVista Dictionary not found for database " );
+      strcat_s( szWork, zsizeof( szWork ), pchDatabaseName );
+      strcat_s( szWork, zsizeof( szWork ), ".\n \'" );
+      strcat_s( szWork, zsizeof( szWork ), szPath );
+      strcat_s( szWork, zsizeof( szWork ), "\' cannot be opened." );
       MessageSend( vTE_View, "TE00112", "Technical Environment",
                    szWork, zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 );
       return( zCALL_ERROR );
    }
 
    // Read header information from dictionary.
-   lNbrBytes = SysReadFile( vTE_View, hFile,(zPCHAR) &Header, sizeof( HeaderType ) );
+   lNbrBytes = SysReadFile( vTE_View, hFile,(zPCHAR) &Header, zsizeof( HeaderType ) );
 
    // Check to make sure that the correct # of bytes were read.
-   if ( lNbrBytes != (zLONG) sizeof( HeaderType ) )
+   if ( lNbrBytes != (zLONG) zsizeof( HeaderType ) )
    {
       MessageSend( vTE_View, "TE00113", "Technical Environment",
                    "Error reading header information.",
@@ -1003,17 +1003,17 @@ ImportDB_Data( zVIEW vTE_View, zVIEW vEMD )
                     zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 );
 
    // Skip over bytes to get to name information.
-   lFieldPosition = sizeof( HeaderType ) +
-                   Header.size_ft  * sizeof( FILE_ENTRY ) +
-                   Header.size_rt  * sizeof( RECORD_ENTRY );
-   lNamePosition = sizeof( HeaderType ) +
-                   Header.size_ft  * sizeof( FILE_ENTRY )    +
-                   Header.size_rt  * sizeof( RECORD_ENTRY )  +
-                   Header.size_fd  * sizeof( FIELD_ENTRY )   +
-                   Header.size_st  * sizeof( SET_ENTRY )     +
-                   Header.size_mt  * sizeof( MEMBER_ENTRY )  +
-                   Header.size_srt * sizeof( SORT_ENTRY )    +
-                   Header.size_kt  * sizeof( KEY_ENTRY );
+   lFieldPosition = zsizeof( HeaderType ) +
+                   Header.size_ft  * zsizeof( FILE_ENTRY ) +
+                   Header.size_rt  * zsizeof( RECORD_ENTRY );
+   lNamePosition = zsizeof( HeaderType ) +
+                   Header.size_ft  * zsizeof( FILE_ENTRY )   +
+                   Header.size_rt  * zsizeof( RECORD_ENTRY ) +
+                   Header.size_fd  * zsizeof( FIELD_ENTRY )  +
+                   Header.size_st  * zsizeof( SET_ENTRY )    +
+                   Header.size_mt  * zsizeof( MEMBER_ENTRY ) +
+                   Header.size_srt * zsizeof( SORT_ENTRY )   +
+                   Header.size_kt  * zsizeof( KEY_ENTRY );
 
    // Zero all record id's
    for ( nRC = SetCursorFirstEntity( vTE_View, "TE_TablRec", 0 );
@@ -1034,10 +1034,10 @@ ImportDB_Data( zVIEW vTE_View, zVIEW vEMD )
                                              szName, "TE_DBMS_Source" );
          if ( nRC < zCURSOR_SET )
          {
-            strcpy_s( szWork, sizeof( szWork ), "Record " );
-            strcat_s( szWork, sizeof( szWork ), szName );
-            strcat_s( szWork, sizeof( szWork ), " has no corresponding TE_TablRec.\n" );
-            strcat_s( szWork, sizeof( szWork ), "Import aborted." );
+            strcpy_s( szWork, zsizeof( szWork ), "Record " );
+            strcat_s( szWork, zsizeof( szWork ), szName );
+            strcat_s( szWork, zsizeof( szWork ), " has no corresponding TE_TablRec.\n" );
+            strcat_s( szWork, zsizeof( szWork ), "Import aborted." );
             MessageSend( vTE_View, "TE00115", "Technical Environment",
                          szWork,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 );
@@ -1069,9 +1069,9 @@ ImportDB_Data( zVIEW vTE_View, zVIEW vEMD )
       // Read Field record from dictionary.
       nb = SysPositionFile( vTE_View, hFile, lFieldPosition );
       nb = SysReadFile( vTE_View, hFile,
-                        (zPCHAR) &Field, sizeof( FIELD_ENTRY ) );
-      lFieldPosition = lFieldPosition + sizeof( FIELD_ENTRY );
-      if ( nb != (zLONG) sizeof( FIELD_ENTRY ) )
+                        (zPCHAR) &Field, zsizeof( FIELD_ENTRY ) );
+      lFieldPosition = lFieldPosition + zsizeof( FIELD_ENTRY );
+      if ( nb != (zLONG) zsizeof( FIELD_ENTRY ) )
       {
          SysCloseFile( vTE_View, hFile, 0 );
          MessageSend( vTE_View, "TE00116", "Technical Environment",
@@ -1123,11 +1123,11 @@ ImportDB_Data( zVIEW vTE_View, zVIEW vEMD )
             // If the field is not 10 bytes, then issue error message and return.
             if ( nLogicalLth > Field.fd_len && Field.fd_len < 10 )
             {
-               strcpy_s( szWork, sizeof( szWork ), "Field \"" );
-               strcat_s( szWork, sizeof( szWork ), szRecordName );
-               strcat_s( szWork, sizeof( szWork ), "." );
-               strcat_s( szWork, sizeof( szWork ), szName );
-               strcat_s( szWork, sizeof( szWork ), "\" has a different length from it's "
+               strcpy_s( szWork, zsizeof( szWork ), "Field \"" );
+               strcat_s( szWork, zsizeof( szWork ), szRecordName );
+               strcat_s( szWork, zsizeof( szWork ), "." );
+               strcat_s( szWork, zsizeof( szWork ), szName );
+               strcat_s( szWork, zsizeof( szWork ), "\" has a different length from it's "
                         "corresponding attribute and therefore must be at "
                         "least 10 bytes." );
                MessageSend( vTE_View, "TE00118", "Technical Environment",
@@ -1160,10 +1160,10 @@ ImportDB_Data( zVIEW vTE_View, zVIEW vEMD )
                                              "Name", szName, "TE_DBMS_Source" );
          if ( nRC < zCURSOR_SET )
          {
-            strcpy_s( szWork, sizeof( szWork ), "Set " );
-            strcat_s( szWork, sizeof( szWork ), szName );
-            strcat_s( szWork, sizeof( szWork ), " has no corresponding TE_FieldDataRel.\n" );
-            strcat_s( szWork, sizeof( szWork ), "Import aborted." );
+            strcpy_s( szWork, zsizeof( szWork ), "Set " );
+            strcat_s( szWork, zsizeof( szWork ), szName );
+            strcat_s( szWork, zsizeof( szWork ), " has no corresponding TE_FieldDataRel.\n" );
+            strcat_s( szWork, zsizeof( szWork ), "Import aborted." );
             MessageSend( vTE_View, "TE00119", "Technical Environment",
                          szWork,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, 1 );

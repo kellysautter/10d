@@ -184,9 +184,9 @@ oTZCMREPO_ObjectConstraints( zVIEW vTZCMREPO, zSHORT nEventType,
             SetAttributeFromAttribute( vTZCMREPO, "Installation",
                                        "NextWKS_Id", vTZCMREPO_Compare,
                                        "Installation", "NextWKS_Id" );
-            strcpy_s( szMsg, sizeof( szMsg ), "Unable to Commit Repository to database!" );
-            strcat_s( szMsg, sizeof( szMsg ), "\nAttempt to decrement Next Workstation Id." );
-            strcat_s( szMsg, sizeof( szMsg ), "\nNext Workstation Id set to current value on database." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Commit Repository to database!" );
+            strcat_s( szMsg, zsizeof( szMsg ), "\nAttempt to decrement Next Workstation Id." );
+            strcat_s( szMsg, zsizeof( szMsg ), "\nNext Workstation Id set to current value on database." );
             MessageSend( vTZCMREPO, "CM00517", "Configuration Management",
                          szMsg,
                          zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );

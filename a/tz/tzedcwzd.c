@@ -90,7 +90,7 @@ AEQ_ClearViews( zVIEW vSubtask )
    {
       zCHAR sz[ 200 ];
 
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at AEQ_ClearViews." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at AEQ_ClearViews." );
       OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
       return( zCALL_ERROR );
    }
@@ -175,7 +175,7 @@ AEQ_SelectView( zVIEW vSubtask )
    {
       zCHAR sz[ 200 ];
 
-      strcpy_s( sz, sizeof( sz ), "TZEDWRKO not Available at ObjSelAQ_ObjSelView." );
+      strcpy_s( sz, zsizeof( sz ), "TZEDWRKO not Available at ObjSelAQ_ObjSelView." );
       OperatorPrompt( vSubtask, "ED - Error", sz, 0, zBUTTONS_OK, 0, zICON_STOP );
       return( zCALL_ERROR );
    }
@@ -206,9 +206,9 @@ AEQ_SelectView( zVIEW vSubtask )
       zCHAR sz[ 200 ];
 
       DropView( vList );
-      strcpy_s( sz, sizeof( sz ), "LOD " );
-      strcat_s( sz, sizeof( sz ), szLOD_Name );
-      strcat_s( sz, sizeof( sz ), " not found. Possibly wrong LPLR?" );
+      strcpy_s( sz, zsizeof( sz ), "LOD " );
+      strcat_s( sz, zsizeof( sz ), szLOD_Name );
+      strcat_s( sz, zsizeof( sz ), " not found. Possibly wrong LPLR?" );
       OperatorPrompt( vSubtask, "ZeidonEditor", sz, 0, 0, 1, zICON_STOP );
       return( zCALL_ERROR );
    }
@@ -441,13 +441,13 @@ OpIns_BuildOperList( zVIEW vSubtask )
 
    GetWorkView( &vEdWrk );
    GetProfileView( &vProfileXFER );
-   GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ), vProfileXFER, "ED",
+   GetStringFromAttribute( szCurrentType, zsizeof( szCurrentType ), vProfileXFER, "ED",
                            "OpIns_CurrentType" );
 
    // Default of CurrentType is 'Z'...
    if ( *szCurrentType == 0 )
    {
-      strcpy_s( szCurrentType, sizeof( szCurrentType ), "Z" );
+      strcpy_s( szCurrentType, zsizeof( szCurrentType ), "Z" );
       SetAttributeFromString( vProfileXFER, "ED", "OpIns_CurrentType",
                               szCurrentType );
    }
@@ -593,7 +593,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
       SetCtrlState( vSubtask, "ListObjects", zCONTROL_STATUS_ENABLED, FALSE );
 
    // Now set the select states depending on the keyword values.
-   GetStringFromAttribute( szKeyword, sizeof( szKeyword ), vProfileXFER, "ED", "OpIns_Keyword" );
+   GetStringFromAttribute( szKeyword, zsizeof( szKeyword ), vProfileXFER, "ED", "OpIns_Keyword" );
    if ( *szKeyword &&
         CompareAttributeToString( vProfileXFER,
                                   "ED", "OpIns_UseKeyword", "Y" ) == 0 )
@@ -606,7 +606,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
       // De-select all operations.
       SetAllSelectStatesForEntity( vEdWrk, "Oper", FALSE, 0 );
 
-      GetStringFromAttribute( szIgnoreCase, sizeof( szIgnoreCase ), vProfileXFER, "ED",
+      GetStringFromAttribute( szIgnoreCase, zsizeof( szIgnoreCase ), vProfileXFER, "ED",
                               "OpIns_KeywordIgnoreCase" );
       if ( *szIgnoreCase == 'Y' )
       {
@@ -632,7 +632,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
       {
          zCHAR  szOperName[ 255 ];
 
-         GetStringFromAttribute( szOperName, sizeof( szOperName ), vEdWrk, "Oper", "Name" );
+         GetStringFromAttribute( szOperName, zsizeof( szOperName ), vEdWrk, "Oper", "Name" );
          if ( *szIgnoreCase == 'Y' )
             strupr( szOperName );
 
@@ -685,13 +685,13 @@ OpIns_RebuildOperList( zVIEW vSubtask )
 
    GetWorkView( &vEdWrk );
    GetProfileView( &vProfileXFER );
-   GetStringFromAttribute( szCurrentType, sizeof( szCurrentType ), vProfileXFER, "ED",
+   GetStringFromAttribute( szCurrentType, zsizeof( szCurrentType ), vProfileXFER, "ED",
                            "OpIns_CurrentType" );
 
    // Default of CurrentType is 'Z'...
    if ( *szCurrentType == 0 )
    {
-      strcpy_s( szCurrentType, sizeof( szCurrentType ), "Z" );
+      strcpy_s( szCurrentType, zsizeof( szCurrentType ), "Z" );
       SetAttributeFromString( vProfileXFER, "ED", "OpIns_CurrentType",
                               szCurrentType );
    }
@@ -776,15 +776,15 @@ ObjList_AddObjOpersToWorkList( zVIEW vSubtask )
 
    GetViewByName( &vObjList, "TZEDCWZD_TZCMLPLO_List", vSubtask, zLEVEL_TASK );
    ActivateMetaOI( vSubtask, &vLOD, vObjList, zREFER_LOD_META, 0 );
-   GetStringFromAttribute( szOpName, sizeof( szOpName ), vObjList, "W_MetaDef", "Name" );
-   strcat_s( szOpName, sizeof( szOpName ), "." );
+   GetStringFromAttribute( szOpName, zsizeof( szOpName ), vObjList, "W_MetaDef", "Name" );
+   strcat_s( szOpName, zsizeof( szOpName ), "." );
    nLth = zstrlen( szOpName );
 
    for ( nRC = SetCursorFirstEntity( vLOD, "OperationList", 0 );
          nRC == zCURSOR_SET;
          nRC = SetCursorNextEntity( vLOD, "OperationList", 0 ) )
    {
-      GetStringFromAttribute( szOpName + nLth, sizeof( szOpName ) - nLth,
+      GetStringFromAttribute( szOpName + nLth, zsizeof( szOpName ) - nLth,
                               vLOD, "OperationList", "Name" );
 
       CreateEntity( vEdWrk, "Oper", zPOS_LAST );
@@ -978,37 +978,37 @@ VML_DisplayList( zVIEW vSubtask )
    if ( CompareAttributeToString( vProfileXFER, "ED",
                                   "VML_ShowDeclarations", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "D" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "D" );
    }
 
    if ( CompareAttributeToString( vProfileXFER, "ED",
                                   "VML_ShowControlStatements", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "C" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "C" );
    }
 
    if ( CompareAttributeToString( vProfileXFER, "ED",
                                   "VML_ShowViewStatements", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "V" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "V" );
    }
 
    if ( CompareAttributeToString( vProfileXFER, "ED",
                                   "VML_ShowEntityStatements", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "E" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "E" );
    }
 
    if ( CompareAttributeToString( vProfileXFER, "ED",
                                   "VML_ShowOperators", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "O" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "O" );
    }
 
    if ( CompareAttributeToString( vProfileXFER, "ED",
                                   "VML_ShowOther", "Y" ) == 0 )
    {
-      strcat_s( szShowStr, sizeof( szShowStr ), "?" );
+      strcat_s( szShowStr, zsizeof( szShowStr ), "?" );
    }
 
    // szShowStr lists all the types that the user wants shown. eg "CV?" means
@@ -1020,7 +1020,7 @@ VML_DisplayList( zVIEW vSubtask )
    {
       zCHAR szType[ 5 ];
 
-      GetStringFromAttribute( szType, sizeof( szType ), vProfileXFER, "VML_Text", "Type" );
+      GetStringFromAttribute( szType, zsizeof( szType ), vProfileXFER, "VML_Text", "Type" );
       if ( zstrchr( szShowStr, *szType ) )
          SetSelectStateOfEntity( vProfileXFER, "VML_Text", TRUE );
       else
@@ -1212,7 +1212,7 @@ OpIns_StartOperationHelp( zVIEW vSubtask )
 
    // FIND OUT WHAT TYPE OF OPERATION LIST IS CURRENTLY DISPLAYED.
    GetWorkView( &vEdWrk );
-   GetStringFromAttribute( szOperType, sizeof( szOperType ), vEdWrk, "OperListType", "Type" );
+   GetStringFromAttribute( szOperType, zsizeof( szOperType ), vEdWrk, "OperListType", "Type" );
 
    // IF IT'S NOT A ZEIDON OPER LIST, GET OUT. NO HELP IS AVAILABLE.
    if ( szOperType[ 0 ] != 'Z' )
@@ -1221,7 +1221,7 @@ OpIns_StartOperationHelp( zVIEW vSubtask )
    }
 
    // GET THE OPERATION TAG FOR THE CURRENT CURSOR POSITION.
-   GetStringFromAttribute( szOperName, sizeof( szOperName ), vEdWrk, "Oper", "Name" );
+   GetStringFromAttribute( szOperName, zsizeof( szOperName ), vEdWrk, "Oper", "Name" );
 
    // CALL HELP
    nRC = StartZeidonHelp( vSubtask, szOperName );

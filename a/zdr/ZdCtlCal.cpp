@@ -423,7 +423,7 @@ ZCalendar::MapFromOI( WPARAM wFlag )
       zUSHORT uMapState = GetMappingAutoGray( &vApp, *m_pzsVName,
                                               *m_pzsEName, *m_pzsAName );
       if ( vApp && (uMapState & zMAPACT_ENTITY_EXISTS) &&
-           GetStringFromAttribute( szDate, sizeof( szDate ), vApp,
+           GetStringFromAttribute( szDate, zsizeof( szDate ), vApp,
                                    *m_pzsEName, *m_pzsAName ) >= 0 )
       {
 #ifdef zREMOTE_SERVER
@@ -468,7 +468,7 @@ ZCalendar::SetRowColText( zCPCHAR cpcDate, zLONG lRow, zLONG lColumn )
          bRC = date.ParseDateTime( cpcDate );
          if ( bRC )
          {
-            SetZeidonDateFromOleDateTime( szDate, sizeof( szDate ), date );
+            SetZeidonDateFromOleDateTime( szDate, zsizeof( szDate ), date );
             if ( SetSysTimeFromZeidon( m_SysTime, szDate ) )
                dwGDT = GDT_VALID;
          }
@@ -524,7 +524,7 @@ ZCalendar::MapToOI( zLONG lFlag )
       zCHAR   szDate[ 256 ];
 
 #ifdef zREMOTE_SERVER
-      GetZCtrlText( this, szDate, sizeof( szDate ) );
+      GetZCtrlText( this, szDate, zsizeof( szDate ) );
 #else
       DWORD dwGDT = DateTime_GetSystemtime( m_hWnd, &m_SysTime );
 
@@ -533,7 +533,7 @@ ZCalendar::MapToOI( zLONG lFlag )
          if ( (lFlag & zVALIDATE) == zVALIDATE )
             return( 0 );
 
-         SetZeidonDateFromSysTime( szDate, sizeof( szDate ), m_SysTime );
+         SetZeidonDateFromSysTime( szDate, zsizeof( szDate ), m_SysTime );
       }
       else
          szDate[ 0 ] = 0;
@@ -1864,7 +1864,7 @@ CMultiSelCal::CMultiSelCal( )
 
    TCHAR szLocaleData[ 32 ];
    ::GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_IFIRSTDAYOFWEEK,
-                    szLocaleData, sizeof( szLocaleData ) );
+                    szLocaleData, zsizeof( szLocaleData ) );
 
    // m_nFirstDayOfWeek should be 0 = Sunday, 1 = Monday, ....:
    m_nFirstDayOfWeek = (szLocaleData[ 0 ] - _T( '0' ) + 1) % 7;
@@ -3367,7 +3367,7 @@ ZMultiCal::MapFromOI( WPARAM wFlag )
       zUSHORT uMapState = GetMappingAutoGray( &vApp, *m_pzsVName,
                                               *m_pzsEName, *m_pzsAName );
       if ( vApp && (uMapState & zMAPACT_ENTITY_EXISTS) &&
-           GetStringFromAttribute( szDate, sizeof( szDate ), vApp,
+           GetStringFromAttribute( szDate, zsizeof( szDate ), vApp,
                                    *m_pzsEName, *m_pzsAName ) >= 0 )
       {
 #ifdef zREMOTE_SERVER
@@ -3431,7 +3431,7 @@ ZMultiCal::MapToOI( zLONG lFlag )
       zCHAR   szDate[ 256 ];
 
 #ifdef zREMOTE_SERVER
-      GetZCtrlText( this, szDate, sizeof( szDate ) );
+      GetZCtrlText( this, szDate, zsizeof( szDate ) );
 #else
       DWORD dwGDT = DateTime_GetSystemtime( m_hWnd, &m_SysTime );
 
@@ -3440,7 +3440,7 @@ ZMultiCal::MapToOI( zLONG lFlag )
          if ( (lFlag & zVALIDATE) == zVALIDATE )
             return( 0 );
 
-         SetZeidonDateFromSysTime( szDate, sizeof( szDate ), m_SysTime );
+         SetZeidonDateFromSysTime( szDate, zsizeof( szDate ), m_SysTime );
       }
       else
          szDate[ 0 ] = 0;
@@ -3545,7 +3545,7 @@ SmartEdit::OnKillFocus( CWnd *pWndGetFocus )
       GetWindowText( cs );
       COleDataSource *pds = new COleDataSource;
       PTCHAR cp = (PTCHAR) GlobalAlloc( GMEM_FIXED,
-                     (cs.GetLength( ) * sizeof( TCHAR )) + sizeof( TCHAR ) );
+                     (cs.GetLength( ) * zsizeof( TCHAR )) + zsizeof( TCHAR ) );
       _tcscpy( cp, cs );
       pds->CacheGlobalData( CF_TEXT, cp );
       pds->SetClipboard( );

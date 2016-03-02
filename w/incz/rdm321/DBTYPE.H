@@ -107,10 +107,10 @@ You need a 'compiler' definition in the compile command!!
 #define BITS_PER_BYTE 8
 
 /* Number of bits in a "type" */
-#define BITS( type )  (BITS_PER_BYTE * sizeof( type ))
+#define BITS( type )  (BITS_PER_BYTE * zsizeof( type ))
 
 /* Number of elements in a vector */
-#define arraysize(v) (sizeof(v)/sizeof(*(v)))
+#define arraysize(v) (zsizeof(v)/zsizeof(*(v)))
 
 #endif /* OMAN */
 
@@ -120,19 +120,19 @@ You need a 'compiler' definition in the compile command!!
 #ifndef OMAN
 
 #define DBD_COMPAT_LEN 6
-#define INT_SIZE     sizeof(int)
-#define SHORT_SIZE   sizeof(short)
-#define LONG_SIZE    sizeof(long)
-#define FLOAT_SIZE   sizeof(float)
-#define DOUBLE_SIZE  sizeof(double)
-#define CHAR_SIZE    sizeof(char)
-#define DB_ADDR_SIZE sizeof(long)
+#define INT_SIZE     zsizeof(int)
+#define SHORT_SIZE   zsizeof(short)
+#define LONG_SIZE    zsizeof(long)
+#define FLOAT_SIZE   zsizeof(float)
+#define DOUBLE_SIZE  zsizeof(double)
+#define CHAR_SIZE    zsizeof(char)
+#define DB_ADDR_SIZE zsizeof(long)
 #define PGHDRSIZE 4
 #define CTBNAME "vista.ctb"
 
 #endif /* OMAN */
 
-#define RECHDRSIZE (sizeof(DB_SHORT) + DB_ADDR_SIZE)
+#define RECHDRSIZE (zsizeof(DB_SHORT) + DB_ADDR_SIZE)
 #define NONE -1L
 #define FILEMASK 0xFFL
 #define ADDRMASK 0x00FFFFFFL
@@ -151,22 +151,22 @@ You need a 'compiler' definition in the compile command!!
 #endif
 
 /* creation timestamp in rec hdr */
-#define RECCRTIME (sizeof(DB_SHORT) + DB_ADDR_SIZE)
+#define RECCRTIME (zsizeof(DB_SHORT) + DB_ADDR_SIZE)
 
 /* update timestamp in rec hdr */
-#define RECUPTIME (RECCRTIME + sizeof(long))
+#define RECUPTIME (RECCRTIME + zsizeof(long))
 
 #ifndef OMAN
 
 /* max size of set pointer */
 /*                member count   prior + next     timestamp (opt) */
-#define SETPSIZE (sizeof(long) + 2*DB_ADDR_SIZE + sizeof(DB_ULONG))
+#define SETPSIZE (zsizeof(long) + 2*DB_ADDR_SIZE + zsizeof(DB_ULONG))
 
 /* Offset to total members in set ptr */
 #define SP_MEMBERS 0
 
 /* Offset to first member ptr in set ptr */
-#define SP_FIRST   sizeof(long)
+#define SP_FIRST   zsizeof(long)
 
 /* Offset to last member ptr in set ptr */
 #define SP_LAST    (SP_FIRST+DB_ADDR_SIZE)
@@ -847,7 +847,7 @@ typedef struct
 } LOCK_DESCR_P;
 
 /* Maximum number of transactions which can commit a time, 1 sector */
-/* #define TAFLIMIT ((512-sizeof(DB_SHORT))/FILENMLEN) */
+/* #define TAFLIMIT ((512-zsizeof(DB_SHORT))/FILENMLEN) */
 #define TAFLIMIT 9
 
 /* structure to read TAF data into */

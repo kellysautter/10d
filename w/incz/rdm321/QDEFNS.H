@@ -253,7 +253,7 @@ int _qstricmp ();
 #define QDBNUM (no_of_dbs-1)
 
 /* general memory allocation macro */
-#define QMALLOC(p,s) if(((p) = qNewObject(sizeof(s))) == NULL) return(Q_NOMEMORY);
+#define QMALLOC(p,s) if(((p) = qNewObject(zsizeof(s))) == NULL) return(Q_NOMEMORY);
 
 /* keep compiler from squawking about unreferenced formal paramaters */
 #ifndef REF_FORMAL
@@ -1645,7 +1645,7 @@ struct qTask_s {
 };                                     /* end of struct qTask_s */
 
 typedef struct qTask_s QTASK;
-#define QTASKSIZE sizeof(QTASK)
+#define QTASKSIZE zsizeof(QTASK)
 
 extern QTASK qGlobals;                 /* declared in execute.c */
 

@@ -277,7 +277,7 @@ ZSubtask::fnRecurseSubOptions( zVIEW   vSubOption,
 
       GetAddrForAttribute( (zPCHAR *) &pch, vSubOption, szlOpt, szlD_Text );
       if ( *pch )
-         strcpy_s( OptDef.Text, sizeof( OptDef.Text ), pch );
+         strcpy_s( OptDef.Text, zsizeof( OptDef.Text ), pch );
 
       if ( CheckExistenceOfEntity( vSubOption, szlOptAct ) > zCURSOR_UNCHANGED )
       {
@@ -368,7 +368,7 @@ ZSubtask::fnRecurseSubOptions( zVIEW   vSubOption,
          return( -1 );
       }
 
-      strcpy_s( szOptionText, sizeof( szOptionText ), OptDef.Text );
+      strcpy_s( szOptionText, zsizeof( szOptionText ), OptDef.Text );
       if ( CheckExistenceOfEntity( vSubOption, szlOptOpt ) > zCURSOR_UNCHANGED )
       {
          pZOption->m_bParent = TRUE;
@@ -404,8 +404,8 @@ ZSubtask::fnRecurseSubOptions( zVIEW   vSubOption,
                GetAddrForAttribute( (zCOREMEM) &pch, vAct, szlActHot, szlTitle );
                if ( *pch )
                {
-                  strcat_s( szOptionText, sizeof( szOptionText ), "\t" );
-                  strcat_s( szOptionText, sizeof( szOptionText ), pch );
+                  strcat_s( szOptionText, zsizeof( szOptionText ), "\t" );
+                  strcat_s( szOptionText, zsizeof( szOptionText ), pch );
                }
             }
 

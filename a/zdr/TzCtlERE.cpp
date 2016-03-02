@@ -373,7 +373,7 @@ ZER_Entity::DrawEntity( zBOOL bErase )
             nIdx--;
             if ( nIdx > 0 )
             {
-               HyphenateER_Text( m_csText, szText, sizeof( szText ), nIdx );
+               HyphenateER_Text( m_csText, szText, zsizeof( szText ), nIdx );
             }
 
             m_pER_Diagram->m_hDC->DrawText( szText, -1, rect, DT_LEFT );

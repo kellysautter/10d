@@ -62,26 +62,26 @@ oTZOPHDRO_DeriveFileSpec( zVIEW            vMeta,
       return( zCALL_ERROR );
    }
 
-   GetStringFromAttribute( szDir, sizeof( szDir ), vTaskLPLR, "LPLR", "PgmSrcDir" );
+   GetStringFromAttribute( szDir, zsizeof( szDir ), vTaskLPLR, "LPLR", "PgmSrcDir" );
    if ( szDir[ 0 ] == 0 )
-      GetStringFromAttribute( szDir, sizeof( szDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szDir, zsizeof( szDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
 
    lLth = zstrlen( szDir );
    if ( szDir[ lLth ] != '\\' )
-      strcat_s( szDir, sizeof( szDir ), "\\" );
+      strcat_s( szDir, zsizeof( szDir ), "\\" );
 
    lLth = zstrlen( szDir );
    if ( szDir[ lLth ] != '\\' )
-      strcat_s( szDir, sizeof( szDir ), "\\" );
+      strcat_s( szDir, zsizeof( szDir ), "\\" );
 
    GetAddrForAttribute( &szTemp, vMeta, "HeaderFile", "Name" );
-   strcat_s(szDir, sizeof( szDir ), szTemp );
-   strcat_s(szDir, sizeof( szDir ), "." );
+   strcat_s(szDir, zsizeof( szDir ), szTemp );
+   strcat_s(szDir, zsizeof( szDir ), "." );
    GetAddrForAttribute( &szTemp, vMeta, "HeaderFile", "Extension" );
    if ( szTemp[ 0 ] )
-      strcat_s(szDir, sizeof( szDir ), szTemp );
+      strcat_s(szDir, zsizeof( szDir ), szTemp );
    else
-      strcat_s(szDir, sizeof( szDir ), "H" );
+      strcat_s(szDir, zsizeof( szDir ), "H" );
 
    StoreValueInRecord( vMeta, lpViewEntity, lpViewAttrib, szDir, 0 );
    return( 0 );
@@ -104,9 +104,9 @@ oTZOPHDRO_DeriveName( zVIEW        vMeta,
                                 zSINGLE | zLEVEL_APPLICATION,
                                 lHDR_ZKey, zCURRENT_OI );
    if ( nRC == 1 )
-      GetStringFromAttribute( szHDR_Name, sizeof( szHDR_Name ), vHDR_Ref, "HeaderFile", "Name" );
+      GetStringFromAttribute( szHDR_Name, zsizeof( szHDR_Name ), vHDR_Ref, "HeaderFile", "Name" );
    else
-      strcpy_s( szHDR_Name, sizeof( szHDR_Name ), "" );
+      strcpy_s( szHDR_Name, zsizeof( szHDR_Name ), "" );
 
    DropMetaOI( vMeta, vHDR_Ref );
    StoreValueInRecord( vMeta, lpViewEntity, lpViewAttrib, szHDR_Name, 0 );

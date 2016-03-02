@@ -186,10 +186,10 @@ zwTZWDVORD_SetVOR_Caption( zVIEW vSubtask )
    zCHAR    szWrk[ 256 ];
 
    if ( GetViewByName( &vTZWINDOW, "PAGEL", vSubtask, zLEVEL_ANY ) > 0 )
-      GetStringFromAttribute( szWrk, sizeof( szWrk ), vTZWINDOW, "Report", "Tag" );
+      GetStringFromAttribute( szWrk, zsizeof( szWrk ), vTZWINDOW, "Report", "Tag" );
    else
    if ( GetViewByName( &vTZWINDOW, "TZWINDOWL", vSubtask, zLEVEL_ANY ) > 0 )
-      GetStringFromAttribute( szWrk, sizeof( szWrk ), vTZWINDOW, "Dialog", "Tag" );
+      GetStringFromAttribute( szWrk, zsizeof( szWrk ), vTZWINDOW, "Dialog", "Tag" );
 
    SetWindowCaptionTitle( vSubtask, 0, szWrk );
 
@@ -343,7 +343,7 @@ zwTZWDVORD_UpdateVOR_CheckName( zVIEW vSubtask,
    zSHORT   nRC;
 
    // Can't create a VOR without Name.
-   GetStringFromAttribute( szViewName, sizeof( szViewName ), vApplVOR, "ViewObjRef", "Name" );
+   GetStringFromAttribute( szViewName, zsizeof( szViewName ), vApplVOR, "ViewObjRef", "Name" );
    if ( szViewName[ 0 ] == 0 )
    {
       MessageSend( vSubtask, "WD00302", "Dialog Maintenance",
@@ -602,10 +602,10 @@ zwTZWDVORD_UpdateVOR_Delete( zVIEW vSubtask )
    // if a new registered View?
    if ( nRC < zCURSOR_SET )
    {
-      GetStringFromAttribute( szViewName, sizeof( szViewName ), vApplVOR, "ViewObjRef", "Name" );
-      strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Registered View '" );
-      strcat_s( szMsg, sizeof( szMsg ), szViewName );
-      strcat_s( szMsg, sizeof( szMsg ), "'?" );
+      GetStringFromAttribute( szViewName, zsizeof( szViewName ), vApplVOR, "ViewObjRef", "Name" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Registered View '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szViewName );
+      strcat_s( szMsg, zsizeof( szMsg ), "'?" );
       nRC = MessagePrompt( vSubtask, "WD00303", "Dialog Maintenance",
                            szMsg, zBEEP, zBUTTONS_YESNO,
                            zRESPONSE_NO, zICON_QUESTION );
@@ -782,11 +782,11 @@ zwTZWDVORD_Mapp_CreateTreeObject( zVIEW vSubtask,
    RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
 
    CreateEntity( vMapTreeCtrl, "RegView", zPOS_AFTER );
-   GetStringFromAttribute( szViewAndLodName, sizeof( szViewAndLodName ), vTZWINDOWL, "ViewObjRef", "Name" );
-   strcat_s( szViewAndLodName, sizeof( szViewAndLodName ), " ( Object Name: " );
-   GetStringFromAttribute( szLodName, sizeof( szLodName ), vTZWINDOWL, "LOD", "Name" );
-   strcat_s( szViewAndLodName, sizeof( szViewAndLodName ), szLodName );
-   strcat_s( szViewAndLodName, sizeof( szViewAndLodName ), " )" );
+   GetStringFromAttribute( szViewAndLodName, zsizeof( szViewAndLodName ), vTZWINDOWL, "ViewObjRef", "Name" );
+   strcat_s( szViewAndLodName, zsizeof( szViewAndLodName ), " ( Object Name: " );
+   GetStringFromAttribute( szLodName, zsizeof( szLodName ), vTZWINDOWL, "LOD", "Name" );
+   strcat_s( szViewAndLodName, zsizeof( szViewAndLodName ), szLodName );
+   strcat_s( szViewAndLodName, zsizeof( szViewAndLodName ), " )" );
    SetAttributeFromString( vMapTreeCtrl, "RegView", "ViewAndLodName", szViewAndLodName );
    SetAttributeFromInteger( vMapTreeCtrl, "RegView", "ShowFlag", zShowAllMapping );
    SetAttributeFromInteger( vMapTreeCtrl, "RegView", "SortFlag", zSortByLodStructure );
@@ -995,7 +995,7 @@ zwTZWDVORD_Mapp_CreateViewMap( zVIEW  vTZPNMAPP,
             }
          }
 
-         GetStringFromAttribute( szControlTag, sizeof( szControlTag ), vDialog, "Control", "Tag" );
+         GetStringFromAttribute( szControlTag, zsizeof( szControlTag ), vDialog, "Control", "Tag" );
          SetViewToSubobject( vDialog, "CtrlCtrl" );
          zwTZWDVORD_Mapp_CreateViewMap( vTZPNMAPP, vDialog, szWindowName, lZKey, szControlTag );
          ResetViewFromSubobject( vDialog );
@@ -1075,7 +1075,7 @@ zwTZWDVORD_Mapp_CreateEntityMap( zVIEW  vTZPNMAPP,
             }
          }
 
-         GetStringFromAttribute( szControlTag, sizeof( szControlTag ), vDialog, "Control", "Tag" );
+         GetStringFromAttribute( szControlTag, zsizeof( szControlTag ), vDialog, "Control", "Tag" );
          SetViewToSubobject( vDialog, "CtrlCtrl" );
          zwTZWDVORD_Mapp_CreateEntityMap( vTZPNMAPP, vDialog, szWindowName, lZKey, szControlTag );
          ResetViewFromSubobject( vDialog );
@@ -1164,7 +1164,7 @@ zwTZWDVORD_Mapp_CreateAttribMap( zVIEW  vTZPNMAPP,
             }
          }
 
-         GetStringFromAttribute( szControlTag, sizeof( szControlTag ), vDialog, "Control", "Tag" );
+         GetStringFromAttribute( szControlTag, zsizeof( szControlTag ), vDialog, "Control", "Tag" );
          SetViewToSubobject( vDialog, "CtrlCtrl" );
          zwTZWDVORD_Mapp_CreateAttribMap( vTZPNMAPP, vDialog, szWindowName, lZKey, szControlTag );
          ResetViewFromSubobject( vDialog );
@@ -1197,29 +1197,29 @@ zwTZWDVORD_Mapp_CreateMapping( zVIEW  vTZPNMAPP,
 
    if ( nIsReport == 0 )   // Dialog Painter
    {
-      strcpy_s( szEntityName, sizeof( szEntityName ), "Window" );
-      strcpy_s( szGoupName, sizeof( szGoupName ), "Window" );
-      strcpy_s( szScope, sizeof( szScope ), "" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "Window" );
+      strcpy_s( szGoupName, zsizeof( szGoupName ), "Window" );
+      strcpy_s( szScope, zsizeof( szScope ), "" );
    }
    else  // Zeidon Reports
    {
-      strcpy_s( szEntityName, sizeof( szEntityName ), "Group" );
-      strcpy_s( szGoupName, sizeof( szGoupName ), "GroupSet" );
-      strcpy_s( szScope, sizeof( szScope ), "Report" );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), "Group" );
+      strcpy_s( szGoupName, zsizeof( szGoupName ), "GroupSet" );
+      strcpy_s( szScope, zsizeof( szScope ), "Report" );
    }
 
    for ( nRC = SetCursorFirstEntity( vDialog, szEntityName, szScope );
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vDialog, szEntityName, szScope ) )
    {
-      GetStringFromAttribute( szWindowName, sizeof( szWindowName ), vDialog, szGoupName, "Tag" );
+      GetStringFromAttribute( szWindowName, zsizeof( szWindowName ), vDialog, szGoupName, "Tag" );
 
       // if Zeidon Report, set Group Tag additional
       if ( nIsReport == 1 )
       {
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vDialog, szEntityName, "Tag" );
-         strcat_s( szWindowName, sizeof( szWindowName ), " - " );
-         strcat_s( szWindowName, sizeof( szWindowName ), szTemp );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vDialog, szEntityName, "Tag" );
+         strcat_s( szWindowName, zsizeof( szWindowName ), " - " );
+         strcat_s( szWindowName, zsizeof( szWindowName ), szTemp );
       }
 
       if ( nMappingType == zViewMapping )
@@ -1942,12 +1942,12 @@ zwTZWDVORD_LoadControlDetailWnd( zVIEW vSubtask, zPCHAR szEntityName )
    nRC = GetViewByName( &vTZWINDOWL, "PAGEL", vSubtask, zLEVEL_ANY );
    if ( nRC == -1 )
    {
-      strcpy_s( szScope, sizeof( szScope ), "" );
+      strcpy_s( szScope, zsizeof( szScope ), "" );
       GetViewByName( &vTZWINDOWL, "TZWINDOWL", vSubtask, zLEVEL_ANY );
    }
    else
    {
-      strcpy_s( szScope, sizeof( szScope ), "Report" );
+      strcpy_s( szScope, zsizeof( szScope ), "Report" );
       bIsReport = TRUE;
       SetNameForView( vTZWINDOWL, "TZWINDOWL", vSubtask, zLEVEL_TASK );
    }
@@ -2177,8 +2177,8 @@ zwTZWDVORD_ReturnFromSubwindow( zVIEW vSubtask )
       return( -1 );
    }
 
-   strcpy_s( szMappingEntity, sizeof( szMappingEntity ), szTreeEntity );
-   strcat_s( szMappingEntity, sizeof( szMappingEntity ), "Mapping" );
+   strcpy_s( szMappingEntity, zsizeof( szMappingEntity ), szTreeEntity );
+   strcat_s( szMappingEntity, zsizeof( szMappingEntity ), "Mapping" );
    SetAttributeFromAttribute( vTZPNMAPP, szMappingEntity, "Text",
                               vControl, "Control", "Text" );
    SetAttributeFromAttribute( vTZPNMAPP, szMappingEntity, "Tag",

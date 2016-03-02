@@ -108,11 +108,11 @@ zoTZSIXSKO_SaveXSK( zVIEW vTZZOXODO, zVIEW vTZTENVRO )
    // Commit the XSK to a file named the same as the XOD,
    // except with suffix ".XSK".
    GetViewByName( &vTaskLPLR, "TaskLPLR", vTZZOXODO, zLEVEL_TASK );
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "ExecDir" );
-   strcat_s( szFileName, sizeof( szFileName ), "\\" );
-   GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vTZZOXODO, "OBJECT", "NAME" );
-   strcat_s( szFileName, sizeof( szFileName ), szMetaName );
-   strcat_s( szFileName, sizeof( szFileName ), ".XSK" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "ExecDir" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vTZZOXODO, "OBJECT", "NAME" );
+   strcat_s( szFileName, zsizeof( szFileName ), szMetaName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".XSK" );
    CommitOI_ToFile( vKZSIXSKO, szFileName, zASCII );
 
    DropView( vKZSIXSKO_Root );
@@ -201,13 +201,13 @@ zofnTZSIXSKO_BldXSK ( zVIEW vKZSIXSKO_Root,
                  if ( CompareAttributeToString( vTZTENVR1, "TE_DBMS_Source",
                                                 "DBMS", szDBMS ) == 0 )
                  {
-                    strcpy_s( szMsg, sizeof( szMsg ), "Do you want to use Data Source '" );
+                    strcpy_s( szMsg, zsizeof( szMsg ), "Do you want to use Data Source '" );
                     GetAddrForAttribute( &szMsgName, vTZTENVR1, "TE_DBMS_Source", "Name" );
-                    strcat_s( szMsg, sizeof( szMsg ), szMsgName );
-                    strcat_s( szMsg, sizeof( szMsg ), "' to implement ER Entity '" );
+                    strcat_s( szMsg, zsizeof( szMsg ), szMsgName );
+                    strcat_s( szMsg, zsizeof( szMsg ), "' to implement ER Entity '" );
                     GetAddrForAttribute( &szMsgName, vTZTENVR1, "ER_Entity", "Name" );
-                    strcat_s( szMsg, sizeof( szMsg ), szMsgName );
-                    strcat_s( szMsg, sizeof( szMsg ), "'?" );
+                    strcat_s( szMsg, zsizeof( szMsg ), szMsgName );
+                    strcat_s( szMsg, zsizeof( szMsg ), "'?" );
                     nRC = MessagePrompt( vTZTENVR1, "XOD_06", "TE Choice",
                                          szMsg, 0, zBUTTONS_YESNO, 0, 0 );
                     if ( nRC == zRESPONSE_YES )
@@ -218,10 +218,10 @@ zofnTZSIXSKO_BldXSK ( zVIEW vKZSIXSKO_Root,
 
            if ( nRC < zCURSOR_SET )
            {
-              strcpy_s( szMsg, sizeof( szMsg ),
+              strcpy_s( szMsg, zsizeof( szMsg ),
                        "Unable to Find Entity in TE Data Source with same DBMS.\n\nEntity Name = " );
               GetAddrForAttribute( &szMsgName, vTZZOXOD1, "ENTITY", "NAME" );
-              strcat_s( szMsg, sizeof( szMsg ), szMsgName );
+              strcat_s( szMsg, zsizeof( szMsg ), szMsgName );
               nRC = MessagePrompt( vTZZOXOD1, "XOD_03",
                                    "Internal LOD Error", szMsg,
                                    0, zBUTTONS_OK, 0, 0 );
@@ -406,15 +406,15 @@ zofnTZSIXSKO_BldXSKChildEnt ( zVIEW vKZSIXSKO_Root,
                  if ( CompareAttributeToString( vTZTENVRO_Parent, "TE_DBMS_Source", "DBMS",
                                 szDBMS ) == 0 )
                  {
-                    strcpy_s( szMsg, sizeof( szMsg ), "Do you want to use Data Source '" );
+                    strcpy_s( szMsg, zsizeof( szMsg ), "Do you want to use Data Source '" );
                     GetAddrForAttribute( &szMsgName,
                                          vTZTENVRO_Parent, "TE_DBMS_Source", "Name" );
-                    strcat_s( szMsg, sizeof( szMsg ), szMsgName );
-                    strcat_s( szMsg, sizeof( szMsg ), "' to implement ER Entity '" );
+                    strcat_s( szMsg, zsizeof( szMsg ), szMsgName );
+                    strcat_s( szMsg, zsizeof( szMsg ), "' to implement ER Entity '" );
                     GetAddrForAttribute( &szMsgName,
                                          vTZTENVRO_Parent, "ER_Entity", "Name" );
-                    strcat_s( szMsg, sizeof( szMsg ), szMsgName );
-                    strcat_s( szMsg, sizeof( szMsg ), "'?" );
+                    strcat_s( szMsg, zsizeof( szMsg ), szMsgName );
+                    strcat_s( szMsg, zsizeof( szMsg ), "'?" );
                     nRC = MessagePrompt ( vTZTENVRO_Parent, "XOD_06", "TE Choice",
                                           szMsg, 0, zBUTTONS_YESNO, 0, 0 );
                     if ( nRC == zRESPONSE_YES )
@@ -425,9 +425,9 @@ zofnTZSIXSKO_BldXSKChildEnt ( zVIEW vKZSIXSKO_Root,
 
             if ( nRC < zCURSOR_SET )
             {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find Entity in TE Data Source with same DBMS.\n\nEntity Name = " );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find Entity in TE Data Source with same DBMS.\n\nEntity Name = " );
                GetAddrForAttribute( &szMsgName, vTZZOXOD1, "ER_EntityRec", "Name" );
-               strcat_s( szMsg, sizeof( szMsg ), szMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), szMsgName );
                nRC = MessagePrompt( vTZZOXOD1, "XOD_06", "Internal LOD Error", szMsg, 0,
                                     zBUTTONS_OK, 0, 0 );
                nRC = DropView( vTZTENVRO_Parent );
@@ -514,9 +514,9 @@ zofnTZSIXSKO_BldXSKChildEnt ( zVIEW vKZSIXSKO_Root,
              nRC = CheckExistenceOfEntity( vTZTENVRO_Parent, "SironField" );
              if ( nRC < zCURSOR_SET )
              {
-               strcpy_s( szMsg, sizeof( szMsg ), "Unable to Find SironField in TE Data Source .\n\nAttribute Name = " );
+               strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Find SironField in TE Data Source .\n\nAttribute Name = " );
                GetAddrForAttribute( &szMsgName, vTZZOXOD1, "ATTRIB", "NAME" );
-               strcat_s( szMsg, sizeof( szMsg ), szMsgName );
+               strcat_s( szMsg, zsizeof( szMsg ), szMsgName );
                nRC = MessagePrompt ( vTZZOXOD1, "XOD_06",
                                      "Internal XOD Error", szMsg,
                                      0, zBUTTONS_OK, 0, 0 );

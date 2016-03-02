@@ -198,7 +198,7 @@ UINT GetMouseScrollLines()
 #ifndef _WIN32_WCE
     // Do things the hard way in win95
     OSVERSIONINFO VersionInfo;
-    VersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    VersionInfo.dwOSVersionInfoSize = zsizeof(OSVERSIONINFO);
     if (!GetVersionEx(&VersionInfo) ||
         (VersionInfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && VersionInfo.dwMinorVersion == 0))
     {
@@ -208,7 +208,7 @@ UINT GetMouseScrollLines()
         {
             TCHAR szData[128];
             DWORD dwKeyDataType;
-            DWORD dwDataBufSize = sizeof(szData);
+            DWORD dwDataBufSize = zsizeof(szData);
 
             if (RegQueryValueEx(hKey, _T("WheelScrollLines"), NULL, &dwKeyDataType,
                 (LPBYTE) &szData, &dwDataBufSize) == ERROR_SUCCESS)
@@ -1604,7 +1604,7 @@ CGridCellBase* CGridCtrl::GetCell(int nRow, int nCol) const
         gvdi.item.crBkClr = pCell->GetBackClr();
         gvdi.item.crFgClr = pCell->GetTextClr();
         gvdi.item.lParam  = pCell->GetData();
-        memcpy(&gvdi.item.lfFont, pCell->GetFont(), sizeof(LOGFONT));
+        memcpy(&gvdi.item.lfFont, pCell->GetFont(), zsizeof(LOGFONT));
         gvdi.item.nMargin = pCell->GetMargin();
         gvdi.item.strText.Empty();
 
@@ -3109,7 +3109,7 @@ void CGridCtrl::ResetSelectedRange()
 int CGridCtrl::GetScrollPos32(int nBar, BOOL bGetTrackPos /* = FALSE */)
 {
     SCROLLINFO si;
-    si.cbSize = sizeof(SCROLLINFO);
+    si.cbSize = zsizeof(SCROLLINFO);
 
     if (bGetTrackPos)
     {
@@ -3130,7 +3130,7 @@ BOOL CGridCtrl::SetScrollPos32(int nBar, int nPos, BOOL bRedraw /* = TRUE */)
     m_idTopLeftCell.row = -1;
 
     SCROLLINFO si;
-    si.cbSize = sizeof(SCROLLINFO);
+    si.cbSize = zsizeof(SCROLLINFO);
     si.fMask  = SIF_POS;
     si.nPos   = nPos;
     return SetScrollInfo(nBar, &si, bRedraw);
@@ -3254,7 +3254,7 @@ void CGridCtrl::ResetScrollBars()
 
     /* Old code - CJM
     SCROLLINFO si;
-    si.cbSize = sizeof(SCROLLINFO);
+    si.cbSize = zsizeof(SCROLLINFO);
     si.fMask = SIF_PAGE;
     si.nPage = (m_nHScrollMax>0)? VisibleRect.Width() : 0;
     SetScrollInfo(SB_HORZ, &si, FALSE);
@@ -3267,7 +3267,7 @@ void CGridCtrl::ResetScrollBars()
 
     // New code - Paul Runstedler
     SCROLLINFO si;
-    si.cbSize = sizeof(SCROLLINFO);
+    si.cbSize = zsizeof(SCROLLINFO);
     si.fMask = SIF_PAGE | SIF_RANGE;
     si.nPage = (m_nHScrollMax>0)? VisibleRect.Width() : 0;
     si.nMin = 0;
@@ -3400,7 +3400,7 @@ LRESULT CGridCtrl::OnSetFont(WPARAM hFont, LPARAM /*lParam */)
 
     // Get the logical font
     LOGFONT lf;
-    if (!GetObject((HFONT) hFont, sizeof(LOGFONT), &lf))
+    if (!GetObject((HFONT) hFont, zsizeof(LOGFONT), &lf))
         return result;
 
     m_cellDefault.SetFont(&lf);
@@ -4472,7 +4472,7 @@ BOOL CGridCtrl::GetItem(GV_ITEM* pItem)
     if (pItem->mask & GVIF_FGCLR)
         pItem->crFgClr = pCell->GetTextClr();
     if (pItem->mask & GVIF_FONT)
-        memcpy(&(pItem->lfFont), pCell->GetFont(), sizeof(LOGFONT));
+        memcpy(&(pItem->lfFont), pCell->GetFont(), zsizeof(LOGFONT));
     if( pItem->mask & GVIF_MARGIN)
         pItem->nMargin = pCell->GetMargin();
 
@@ -6475,8 +6475,8 @@ void CGridCtrl::Print(CPrintDialog* pPrntDialog /*=NULL*/)
     }
 
     DOCINFO di;                                 // Initialise print doc details
-    memset(&di, 0, sizeof (DOCINFO));
-    di.cbSize = sizeof (DOCINFO);
+    memset(&di, 0, zsizeof (DOCINFO));
+    di.cbSize = zsizeof (DOCINFO);
     di.lpszDocName = strTitle;
 
     BOOL bPrintingOK = dc.StartDoc(&di);        // Begin a new print job
@@ -7912,7 +7912,7 @@ void CGridCell::SetFont(const LOGFONT* plf)
         if (!m_plfFont)
             m_plfFont = new LOGFONT;
         if (m_plfFont)
-            memcpy(m_plfFont, plf, sizeof(LOGFONT));
+            memcpy(m_plfFont, plf, zsizeof(LOGFONT));
     }
 }
 
@@ -8034,12 +8034,12 @@ CGridDefaultCell::CGridDefaultCell()
 
 #ifdef _WIN32_WCE
     LOGFONT lf;
-    GetObject(GetStockObject(SYSTEM_FONT), sizeof(LOGFONT), &lf);
+    GetObject(GetStockObject(SYSTEM_FONT), zsizeof(LOGFONT), &lf);
     SetFont(&lf);
 #else // not CE
     NONCLIENTMETRICS ncm;
-    ncm.cbSize = sizeof(NONCLIENTMETRICS);
-    VERIFY(SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &ncm, 0));
+    ncm.cbSize = zsizeof(NONCLIENTMETRICS);
+    VERIFY(SystemParametersInfo(SPI_GETNONCLIENTMETRICS, zsizeof(NONCLIENTMETRICS), &ncm, 0));
     SetFont(&(ncm.lfMessageFont));
 #endif
 }
@@ -9849,7 +9849,7 @@ HCURSOR CGridURLCell::GetHandCursor()
 
 BOOL CGridURLCell::HasUrl(CString str)
 {
-    int nNumPrefixes = sizeof(g_szURIprefixes) / sizeof(g_szURIprefixes[0]);
+    int nNumPrefixes = zsizeof(g_szURIprefixes) / zsizeof(g_szURIprefixes[0]);
     for (int i = 0; i < nNumPrefixes; i++)
         //if (str.Left(g_szURIprefixes[i].nLength) == g_szURIprefixes[i].szURLPrefix)
         if (str.Find(g_szURIprefixes[i].szURLPrefix) >= 0)
@@ -10061,7 +10061,7 @@ ZGrid::ZGrid( ZSubtask *pZSubtask,
 
          nCols = (zSHORT) *((zPLONG) pchListInfo) + 1;  // add one for label
          m_pCol = new zLB_COL[ (nCols + 1) ];
-         zmemset( m_pCol, 0, sizeof( zLB_COL ) * nCols );
+         zmemset( m_pCol, 0, zsizeof( zLB_COL ) * nCols );
 
          pch = pchListInfo + *((zPLONG) (pchListInfo + sizeof( zLONG )));
 
@@ -10333,7 +10333,7 @@ ZGrid::FormatTextAtPosition( CString& csText, zLONG lRow, zLONG lCol )
          {
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ),
+            sprintf_s( szMsg, zsizeof( szMsg ),
                       "Unable to load view: %s for %s.%s.%s",
                       *m_pzsVName, *(m_pZSubtask->m_pzsDlgTag),
                       *(m_pZSubtask->m_pzsWndTag), *m_pzsTag );
@@ -10370,7 +10370,7 @@ ZGrid::FormatTextAtPosition( CString& csText, zLONG lRow, zLONG lCol )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ),
+      sprintf_s( szMsg, zsizeof( szMsg ),
                 "Error in entity count for view: %s for %s.%s.%s",
                 *m_pzsVName, *m_pZSubtask->m_pzsDlgTag,
                 *m_pZSubtask->m_pzsWndTag, *m_pzsTag );
@@ -10467,7 +10467,7 @@ ZGrid::FormatTextAtPosition( CString& csText, zLONG lRow, zLONG lCol )
    {
       nRC =
       GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                sizeof( szMap ) - 1, // nMaxLth - 1 ... bombs when > 255
+                                zsizeof( szMap ) - 1, // nMaxLth - 1 ... bombs when > 255
                                 m_vAppList,
                                 m_pCol[ lCol ].pchEntity,
                                 m_pCol[ lCol ].pchAttrib,
@@ -10483,7 +10483,7 @@ ZGrid::FormatTextAtPosition( CString& csText, zLONG lRow, zLONG lCol )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "ZListCtrl::FormatTextAtPosition Tag: %s "
+      sprintf_s( szMsg, zsizeof( szMsg ), "ZListCtrl::FormatTextAtPosition Tag: %s "
                          "EntityNbr: %d  Row: %ld  Col: %d  MaxLth: %d  VN: %s   "
                          "DlgTag: %s  WndTag: %s - ",
                 *m_pzsTag, m_lEntityNbr, lRow, nCol, nMaxLth, *m_pzsVName,
@@ -10502,7 +10502,7 @@ ZGrid::FormatTextAtPosition( CString& csText, zLONG lRow, zLONG lCol )
       {
          zCHAR szValue[ 256 ];
 
-         GetStringFromAttribute( szValue, sizeof( szValue ), m_vAppList, *m_pzsEName,
+         GetStringFromAttribute( szValue, zsizeof( szValue ), m_vAppList, *m_pzsEName,
                                  *m_pzsColorAttribute );
 
          // Use the setting for the whole row (if it exists).  Otherwise
@@ -10522,7 +10522,7 @@ ZGrid::FormatTextAtPosition( CString& csText, zLONG lRow, zLONG lCol )
       }
    }
 
-   TranslateValue( szMap, sizeof( szMap ), TRUE, (zSHORT) lCol );
+   TranslateValue( szMap, zsizeof( szMap ), TRUE, (zSHORT) lCol );
    csText = szMap;
 
 #ifdef DEBUG_ALL
@@ -10638,7 +10638,7 @@ ZGrid::MapRowFromOI( zLONG lRow, zLONG lCol, CString& cs )
             MessageBox( 0, "CtrlMapDef Structure Length Error", "GetStructFromEntityAttrs", MB_OK );
 
          GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                   sizeof( szMap ) - 1,
+                                   zsizeof( szMap ) - 1,
                                    m_vAppList, CtrlMapDef.EN,
                                    CtrlMapDef.AN, CtrlMapDef.Context,
                                    CtrlMapDef.Context[ 0 ] ? 0 :
@@ -10821,7 +10821,7 @@ ZGrid::MapRowFromOI( zLONG lRow, zLONG lCol, CString& cs )
 
                   // This is the attribute to present to the grid.
                   GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                            sizeof( szMap ) - 1,
+                                            zsizeof( szMap ) - 1,
                                             m_vAppList, cpcEntityName,
                                             pchAttributeName, cpcContextName,
 //                                            cpcContextName &&
@@ -10832,9 +10832,9 @@ ZGrid::MapRowFromOI( zLONG lRow, zLONG lCol, CString& cs )
                                               zACCEPT_0_ENTITY | zUSE_DEFAULT_CONTEXT );
 
                   SetValue( k, lRow, szMap );
-               // zCHAR szMsg[ sizeof( szMap ) + 100 ];
+               // zCHAR szMsg[ zsizeof( szMap ) + 100 ];
                //
-               // sprintf_s( szMsg, sizeof( szMsg ), "SetValue for Row: %d Col: %d %s",
+               // sprintf_s( szMsg, zsizeof( szMsg ), "SetValue for Row: %d Col: %d %s",
                //           (zLONG) lRow, (zLONG) k, szMap );
                // TraceLineS( szMsg, "" );
                   break;
@@ -10854,7 +10854,7 @@ ZGrid::MapRowFromOI( zLONG lRow, zLONG lCol, CString& cs )
                      ulStyle |= CBS_SORT;
 
                   GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                            sizeof( szMap ) - 1,
+                                            zsizeof( szMap ) - 1,
                                             m_vAppList, cpcEntityName,
                                             pchAttributeName, cpcContextName,
 //                                          cpcContextName &&
@@ -10912,7 +10912,7 @@ ZGrid::MapRowFromOI( zLONG lRow, zLONG lCol, CString& cs )
 
                   // This is the attribute to present to the grid.
                   GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                            sizeof( szMap ) - 1,
+                                            zsizeof( szMap ) - 1,
                                             m_vAppList, cpcEntityName,
                                             pchAttributeName, cpcContextName,
 //                                          cpcContextName &&
@@ -11204,7 +11204,7 @@ ZGrid::MapFromOI( WPARAM wFlag )
          {
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Grid: %s - no %s entities",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Grid: %s - no %s entities",
                       *m_pzsTag, *m_pzsEName );
             TraceLineS( szMsg, "" );
          }
@@ -11419,9 +11419,9 @@ ZGrid::MapRowToOI( zLONG lFlag, zLONG lRow )
 
                // nRC = GetValue( k, lActiveRow, szMap );
                //?nRC = GetData( k, lActiveRow, szMap );
-               // zCHAR szMsg[ sizeof( szMap ) + 100 ];
+               // zCHAR szMsg[ zsizeof( szMap ) + 100 ];
                //
-               // sprintf_s( szMsg, sizeof( szMsg ), "GetValue for Row: %d Col: %d %s",
+               // sprintf_s( szMsg, zsizeof( szMsg ), "GetValue for Row: %d Col: %d %s",
                //           (zLONG) lActiveRow, (zLONG) k, szMap );
                // TraceLineS( szMsg, "" );
 
@@ -11437,7 +11437,7 @@ ZGrid::MapRowToOI( zLONG lFlag, zLONG lRow )
                                              m_pCol[ k ].pchEntity,
                                              m_pCol[ k ].pchAttrib,
                                              szMap, zTYPE_STRING,
-                                             sizeof( szMap ) - 1,
+                                             zsizeof( szMap ) - 1,
                                              m_pCol[ k ].pchContext,
                                              (m_pCol[ k ].pchContext &&
                                               m_pCol[ k ].pchContext[ 0 ]) ?
@@ -11478,7 +11478,7 @@ ZGrid::MapRowToOI( zLONG lFlag, zLONG lRow )
                                            m_pCol[ k ].pchAttrib,
                                            *szMap == '1' ? pchOn : pchOff,
                                            zTYPE_STRING,
-                                           sizeof( szMap ) - 1,
+                                           zsizeof( szMap ) - 1,
                                            m_pCol[ k ].pchContext,
                                            (m_pCol[ k ].pchContext &&
                                             m_pCol[ k ].pchContext[ 0 ]) ?

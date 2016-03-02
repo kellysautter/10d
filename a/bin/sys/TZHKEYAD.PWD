@@ -1,4 +1,4 @@
-z1000-Zeidon    TZHKEYAD TZWDLGSO 12/14/05   16:14:08 1.0b0
+z1000-Zeidon    TZHKEYAD TZWDLGSO 03/01/16   20:21:27 1.0b0   
 eDialog    1
 aTag       TZHKEYAD
 aDLL_Name  TZHKEYAD
@@ -974,6 +974,7 @@ aPSDLG_Y   106
 aSZDLG_X   33
 aSZDLG_Y   14
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   4
 aZKey      1347298
@@ -1002,6 +1003,7 @@ aPSDLG_Y   106
 aSZDLG_X   33
 aSZDLG_Y   14
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   4
 aZKey      1347295
@@ -1030,6 +1032,7 @@ aPSDLG_Y   106
 aSZDLG_X   33
 aSZDLG_Y   14
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   4
 aZKey      1347301

@@ -240,7 +240,7 @@ void
 fnGetRootEntityName( zVIEW vObject, zPCHAR pchEntity, zLONG lMaxLth )
 {
    zCHAR szParentEntity[ zTAG_LTH ];
-   strcpy_s( szParentEntity, sizeof( szParentEntity ), pchEntity );
+   strcpy_s( szParentEntity, zsizeof( szParentEntity ), pchEntity );
 
    while ( szParentEntity[ 0 ] )
    {
@@ -356,7 +356,7 @@ SetZeidonDateAttributeFromOleDateTime( COleDateTime& DateTime,
 {
    zCHAR  szDate[ 20 ];
 
-   SetZeidonDateFromOleDateTime( szDate, sizeof( szDate ), DateTime );
+   SetZeidonDateFromOleDateTime( szDate, zsizeof( szDate ), DateTime );
    SetAttributeFromString( vApp, cpcEntity, cpcAttribute, szDate );
 }
 
@@ -366,7 +366,7 @@ SetOleDateTimeFromZeidonDate( COleDateTime& DateTime, zCPCHAR cpcDate )
    zCHAR  szDate[ 20 ];
 
    // cpcDate looks like this:  YYYYMMDDhhmmssttt
-   strcpy_s( szDate, sizeof( szDate ), cpcDate );
+   strcpy_s( szDate, zsizeof( szDate ), cpcDate );
 // DateTime.wMilliseconds = atoi( cpcDate + 14 );
    szDate[ 14 ] = 0;
    int nSecond = atoi( szDate + 12 );
@@ -400,7 +400,7 @@ GetOleDateTimeFromZeidonDateAttribute( COleDateTime& DateTime,
 {
    zCHAR  szDate[ 20 ];
 
-   GetStringFromAttribute( szDate, sizeof( szDate ), vApp, cpcEntity, cpcAttribute );
+   GetStringFromAttribute( szDate, zsizeof( szDate ), vApp, cpcEntity, cpcAttribute );
    SetOleDateTimeFromZeidonDate( DateTime, szDate );
 }
 

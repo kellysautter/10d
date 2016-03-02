@@ -361,7 +361,7 @@ ZHD_Node::DrawNode( )
             nIdx--;
             if ( nIdx > 0 )
             {
-               HyphenateHD_Text( m_csText, szText, sizeof( szText ), nIdx );
+               HyphenateHD_Text( m_csText, szText, zsizeof( szText ), nIdx );
             }
 
             m_pHD_Diagram->m_hDC->DrawText( szText, -1, rect, DT_LEFT | DT_WORDBREAK );

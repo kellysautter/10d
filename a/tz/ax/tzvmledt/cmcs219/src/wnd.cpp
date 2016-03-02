@@ -25,7 +25,7 @@ CWnd::CWnd()
 : m_hWnd( NULL )
 , m_OldWndProc( NULL )
 {
-   ZeroMemory( &m_msgLast, sizeof(m_msgLast) );
+   ZeroMemory( &m_msgLast, zsizeof(m_msgLast) );
 
 #ifdef _ACTIVEX
    m_pFont = NULL;

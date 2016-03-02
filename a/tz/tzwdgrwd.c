@@ -162,7 +162,7 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
    nRC = GetViewByName( &vGRW, "DlgGraph", vSubtask, zLEVEL_TASK );
    if ( nRC < 1 )
    {
-      strcpy_s( sz, sizeof( sz ), "Unable to Access WD Model. Model must be opened." );
+      strcpy_s( sz, zsizeof( sz ), "Unable to Access WD Model. Model must be opened." );
       MessageSend( vSubtask, "WD00402", "Dialog",
                    sz,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -182,7 +182,7 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
    ActivateEmptyObjectInstance( &vTZERPOSO, "TZERPOSO", vSubtask, zSINGLE );
    if ( vTZERPOSO == 0 )
    {
-      strcpy_s( sz, sizeof( sz ), "Unable to create TZERPOSO work OI." );
+      strcpy_s( sz, zsizeof( sz ), "Unable to create TZERPOSO work OI." );
       MessageSend( vSubtask, "WD00403", "Dialog",
                    sz,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -201,7 +201,7 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
    {
       // first, position at "cluster" for the entity -- currently based
       // on a possible Owning Area.
-      GetStringFromAttribute( sz, sizeof( sz ), vGRW, "ER_Entity", "OwningArea" );
+      GetStringFromAttribute( sz, zsizeof( sz ), vGRW, "ER_Entity", "OwningArea" );
       if ( sz[ 0 ] == 0 )
       {
          sz[ 0 ] = 1;  // Nice happy face...
@@ -324,7 +324,7 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERPOSO, "Cluster", "" ) )
    {
-      GetStringFromAttribute( sz, sizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
       zgSortEntityWithinParent( zDESCENDING, vTZERPOSO, "W_ERD_Entity", "NbrRelEntsInSameOA", "" );
    //  Set Cell size
       GetIntegerFromAttribute( &lEnts, vTZERPOSO, "Cluster", "NbrEnts" );
@@ -352,9 +352,9 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
             nY++;
             if ( nY >= MAX_CELL_Y )
             {
-               strcpy_s( sz, sizeof( sz ), "No space available for Area:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ), vTZERPOSO, "Cluster", "Name" );
-               strcat_s( sz, sizeof( sz ), "'." );
+               strcpy_s( sz, zsizeof( sz ), "No space available for Area:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ), vTZERPOSO, "Cluster", "Name" );
+               strcat_s( sz, zsizeof( sz ), "'." );
                MessageSend( vSubtask, "WD00404", "Dialog",
                             sz,
                             zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -408,7 +408,7 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERPOSO, "Cluster", "" ) )
    {
-      GetStringFromAttribute( sz, sizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
       for ( nRC = SetCursorFirstEntity( vTZERPOSO, "W_ERD_Entity", "" );
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTZERPOSO, "W_ERD_Entity", "" ) )
@@ -452,7 +452,7 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERPOSO, "Cluster", "" ) )
    {
-      GetStringFromAttribute( sz, sizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
 
    //  Get Cell size
       GetIntegerFromAttribute( &lCells, vTZERPOSO, "Cluster", "NbrCells" );
@@ -477,7 +477,7 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTZERPOSO, "W_ERD_Entity", "" ) )
       {
-         GetStringFromAttribute( sz + 50, sizeof( sz ) - 50, //debug only
+         GetStringFromAttribute( sz + 50, zsizeof( sz ) - 50, //debug only
                                  vTZERPOSO, "W_ERD_Entity", "Name" );
          if ( CompareAttributeToInteger( vTZERPOSO, "W_ERD_Entity",
                                          "ER_DgmPosX", 0 ) != 0 )
@@ -492,13 +492,13 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
             nD = nXincr = nYincr = 0;
             if ( zwfnTZWDGRWD_FreeCell( &nXchk, &nYchk, nXcenter, nYcenter, nCells ) < 0 )
             {
-               strcpy_s( sz, sizeof( sz ), "No cell available for Area:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ),
+               strcpy_s( sz, zsizeof( sz ), "No cell available for Area:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ),
                                        vTZERPOSO, "Cluster", "Name" );
-               strcat_s( sz, sizeof( sz ), "'\nEntity:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ),
+               strcat_s( sz, zsizeof( sz ), "'\nEntity:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ),
                                        vTZERPOSO, "W_ERD_Entity", "Name" );
-               strcat_s( sz, sizeof( sz ), "'." );
+               strcat_s( sz, zsizeof( sz ), "'." );
                MessageSend( vSubtask, "WD00406", "Dialog",
                             sz,
                             zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -520,7 +520,7 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
                nRC >= zCURSOR_SET;
                nRC = SetCursorNextEntity( vTZERPOSO, "W_ERD_RelatedEntity", "" ) )
          {
-            GetStringFromAttribute( sz + 100, sizeof( sz ) - 100, //debug only
+            GetStringFromAttribute( sz + 100, zsizeof( sz ) - 100, //debug only
                                     vTZERPOSO, "W_ERD_RelatedEntity", "Name" );
             if ( CompareAttributeToString( vTZERPOSO, "W_ERD_RelatedEntity", "OA_MatchesParentsOA", "Y" ) != 0 )
                continue;
@@ -530,16 +530,16 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
             // find next free cell
             if ( zwfnTZWDGRWD_FreeCell( &nXchk, &nYchk, nX, nY, nCells ) < 0 )
             {
-               strcpy_s( sz, sizeof( sz ), "No cell available for Area:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ),
+               strcpy_s( sz, zsizeof( sz ), "No cell available for Area:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ),
                                        vTZERPOSO, "Cluster", "Name" );
-               strcat_s( sz, sizeof( sz ), "'\nEntity:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ),
+               strcat_s( sz, zsizeof( sz ), "'\nEntity:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ),
                                        vTZERPOSO, "W_ERD_Entity", "Name" );
-               strcat_s( sz, sizeof( sz ), "'\nRelated Entity:\n\t'" );
-               GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ),
+               strcat_s( sz, zsizeof( sz ), "'\nRelated Entity:\n\t'" );
+               GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ),
                                        vTZERPOSO, "W_ERD_RelatedEntity", "Name" );
-               strcat_s( sz, sizeof( sz ), "'." );
+               strcat_s( sz, zsizeof( sz ), "'." );
                MessageSend( vSubtask, "WD00407", "Dialog",
                             sz,
                             zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -572,8 +572,8 @@ zwTZWDGRWD_PositionWD( zVIEW vSubtask )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERPOSO, "W_ERD_Entity", "RootStats" ) )
    {
-      GetStringFromAttribute( sz, sizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
-      GetStringFromAttribute( sz + 50, sizeof( sz ) - 50, //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vTZERPOSO, "Cluster", "Name" ); //debug only
+      GetStringFromAttribute( sz + 50, zsizeof( sz ) - 50, //debug only
                               vTZERPOSO, "W_ERD_Entity", "Name" );
       // first, retrieve the cell position, adjust for white space at the
       // top and left, then calc a stagger offset
@@ -948,13 +948,13 @@ zwTZWDGRWD_WD_RelDelete( zVIEW vSubtask )
 // Prompt to confirm Delete
    szMessage[ 0 ] = 0;
    GetAddrForAttribute( &sz, vGRW, "ER_Entity", "Name" );
-   strcat_s( szMessage, sizeof( szMessage ), sz );
-   strcat_s( szMessage, sizeof( szMessage ), " " );
+   strcat_s( szMessage, zsizeof( szMessage ), sz );
+   strcat_s( szMessage, zsizeof( szMessage ), " " );
    GetAddrForAttribute( &sz, vGRW, "ER_RelLink", "Name" );
-   strcat_s( szMessage, sizeof( szMessage ), sz );
-   strcat_s( szMessage, sizeof( szMessage ), " " );
+   strcat_s( szMessage, zsizeof( szMessage ), sz );
+   strcat_s( szMessage, zsizeof( szMessage ), " " );
    GetAddrForAttribute( &sz, vGRW, "ER_Entity_Other", "Name" );
-   strcat_s( szMessage, sizeof( szMessage ), sz );
+   strcat_s( szMessage, zsizeof( szMessage ), sz );
 
    nRC = IssueToolMsg( vSubtask, zTOOLMSG_DELETE, zTOOL_ERD,
                      zENAME_ER_RELATIONSHIP, 0, 0, szMessage, 0 );
@@ -1010,11 +1010,11 @@ zwTZWDGRWD_WD_RelNeighbors( zVIEW vSubtask )
    GetAddrForAttribute( &szName, vGRW, "ER_Entity_2", "Desc" );
    MB_SetMessage( vW, 1, szName );
    GetAddrForAttribute( &szName, vGRW, "ER_Entity_2", "Name" );
-   strcpy_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), " [" );
+   strcpy_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), " [" );
    GetAddrForAttribute( &szName, vGRW, "ER_RelLink_2", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), "] " );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), "] " );
 
    SetCursorNextEntity( vGRW, "ER_RelLink_2", "" );
    // position right side of WD to second Entity and Select/Refresh it.
@@ -1026,7 +1026,7 @@ zwTZWDGRWD_WD_RelNeighbors( zVIEW vSubtask )
 
    // construct secnod part of DIL for Rel
    GetAddrForAttribute( &szName, vGRW, "ER_Entity_2", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), szName );
 
    MB_SetMessage( vW, 2, sz );
 
@@ -1060,13 +1060,13 @@ zwTZWDGRWD_WD_RelSelect( zVIEW vSubtask )
                                     vGRW, "ER_RelLink_2",
                                     "" );
    GetAddrForAttribute( &szName, vGRW, "ER_Entity", "Name" );
-   strcpy_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), " [" );
+   strcpy_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), " [" );
    GetAddrForAttribute( &szName, vGRW, "ER_RelLink", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
-   strcat_s( sz, sizeof( sz ), "] " );
+   strcat_s( sz, zsizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), "] " );
    GetAddrForAttribute( &szName, vGRW, "ER_Entity_Other", "Name" );
-   strcat_s( sz, sizeof( sz ), szName );
+   strcat_s( sz, zsizeof( sz ), szName );
 
    MB_SetMessage( vSubtask, 2, sz );
    zwTZWDGRWD_ERD_HighliteEntity( vSubtask );
@@ -1233,7 +1233,7 @@ zCHAR  szArcType[ 2 ];
                nRC >= zCURSOR_SET;
                nRC = SetCursorNextEntity( vGRW, "ER_RelType_1", "ER_Entity" ) )
          {
-            GetStringFromAttribute( szArcType, sizeof( szArcType ), vGRW, "ER_RelType_1", "Type" );
+            GetStringFromAttribute( szArcType, zsizeof( szArcType ), vGRW, "ER_RelType_1", "Type" );
             if ( szArcType[ 0 ] == 'G' )
             {
                GetIntegerFromAttribute( &lZKey, vGRW, "ER_RelType_1", "ZKey" );
@@ -1413,7 +1413,7 @@ zwfnTZWDGRWD_InitCellsEDM( zVIEW vGRW )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vGRW1, "ER_Entity", "" ) )
    {
-//    GetStringFromAttribute( sz, sizeof( sz ), vGRW1, "ER_Entity", "Name" ); //debug only
+//    GetStringFromAttribute( sz, zsizeof( sz ), vGRW1, "ER_Entity", "Name" ); //debug only
       nEnts++;
       GetIntegerFromAttribute( &lXgrid, vGRW1, "ER_Entity", "ER_DiagramPosX" );
       if ( lXgrid != 0 )
@@ -1594,8 +1594,8 @@ zwfnTZWDGRWD_GetWeightedPosEDM( zPLONG  plXout,
          nRC = SetCursorNextEntity( vGRW1, "ER_RelLink", "" ) )
    {
 
-      GetStringFromAttribute( sz, sizeof( sz ), vGRW1, "ER_Entity", "Name" ); //debug only
-      GetStringFromAttribute( sz + 50, sizeof( sz ) - 50, vGRW1, "ER_Entity_Other", "Name" ); //debug only
+      GetStringFromAttribute( sz, zsizeof( sz ), vGRW1, "ER_Entity", "Name" ); //debug only
+      GetStringFromAttribute( sz + 50, zsizeof( sz ) - 50, vGRW1, "ER_Entity_Other", "Name" ); //debug only
       if ( SetCursorFirstEntityByEntityCsr( vGRW2, "ER_Entity", vGRW1, "ER_Entity_Other", "" ) >= zCURSOR_SET )
       {
          nRels++;

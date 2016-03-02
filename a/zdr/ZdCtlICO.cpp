@@ -183,7 +183,7 @@ ZIconCtl::ZIconCtl( ZSubtask *pZSubtask,
       zCHAR  szImageURL[ zMAX_FILENAME_LTH ];
       zSHORT nLth;
 
-      fnGetImageURL( m_pZSubtask, szImageURL, sizeof( szImageURL ) );
+      fnGetImageURL( m_pZSubtask, szImageURL, zsizeof( szImageURL ) );
       nLth = zstrlen( szImageURL );
 
       CreateViewFromViewForTask( &vXRA, pXRA->m_vXRA,
@@ -408,12 +408,12 @@ ZIconCtl::ZIconCtl( ZSubtask *pZSubtask,
                                           m_pZSubtask->m_vDialog ) == 0 &&
               pApp )
          {
-            strcpy_s( szZeidonPath, sizeof( szZeidonPath ), pApp->szLocalDir );
+            strcpy_s( szZeidonPath, zsizeof( szZeidonPath ), pApp->szLocalDir );
             if ( szZeidonPath[ 0 ] )
             {
                SysAppendcDirSep( szZeidonPath );
-               strcat_s( szZeidonPath, sizeof( szZeidonPath ), pch );
-               SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+               strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pch );
+               SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
                HICON hIcon = ::ExtractIcon( hInstDLL, szWorkString, 0 );
                if ( hIcon && hIcon != (HICON) 1 )
                   m_hIcon = hIcon;
@@ -422,12 +422,12 @@ ZIconCtl::ZIconCtl( ZSubtask *pZSubtask,
 
          if ( m_hIcon == 0 || m_hIcon == (HICON) 1 )
          {
-            SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, sizeof( szZeidonPath ) );
+            SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szZeidonPath, zsizeof( szZeidonPath ) );
             if ( szZeidonPath[ 0 ] )
             {
                SysAppendcDirSep( szZeidonPath );
-               strcat_s( szZeidonPath, sizeof( szZeidonPath ), pch );
-               SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), szZeidonPath );
+               strcat_s( szZeidonPath, zsizeof( szZeidonPath ), pch );
+               SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), szZeidonPath );
                HICON hIcon = ::ExtractIcon( hInstDLL, szWorkString, 0 );
                if ( hIcon && hIcon != (HICON) 1 )
                   m_hIcon = hIcon;

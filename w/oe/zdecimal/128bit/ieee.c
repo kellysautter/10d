@@ -151,7 +151,7 @@
 #endif
 
 /* This handles 64-bit long ints. */
-#define LONGBITS (8 * sizeof( long ))
+#define LONGBITS (8 * zsizeof( long ))
 
 /* Control register for rounding precision.
  * This can be set to 80 (if NE=6), 64, 56, 53, or 24 bits.
@@ -2579,7 +2579,7 @@ else
    ll = (unsigned long )( *lp );
    }
 /* move the long integer to yi significand area */
-if( sizeof( long ) == 8 )
+if( zsizeof( long ) == 8 )
    {
    yi[M] = (unsigned short) (ll >> (LONGBITS - 16));
    yi[M + 1] = (unsigned short) (ll >> (LONGBITS - 32));
@@ -2620,7 +2620,7 @@ ecleaz( yi );
 ll = *lp;
 
 /* move the long integer to ayi significand area */
-if( sizeof(zLONG) == 8 )
+if( zsizeof(zLONG) == 8 )
    {
    yi[M] = (unsigned short) (ll >> (LONGBITS - 16));
    yi[M + 1] = (unsigned short) (ll >> (LONGBITS - 32));
@@ -2670,13 +2670,13 @@ if( k <= 0 )
    emovo( xi, frac );
    return;
    }
-if( k > (8 * sizeof(zLONG) - 1) )
+if( k > (8 * zsizeof(zLONG) - 1) )
    {
 /*
 ;  long integer overflow: output large integer
 ;  and correct fraction
 */
-   j = 8 * sizeof(zLONG) - 1;
+   j = 8 * zsizeof(zLONG) - 1;
    if( xi[0] )
       *i = (zLONG) ((unsigned long) 1) << j;
    else
@@ -2751,7 +2751,7 @@ if( k <= 0 )
    emovo( xi, frac );
    return;
    }
-if( k > (8 * sizeof(zLONG)) )
+if( k > (8 * zsizeof(zLONG)) )
    {
 /*
 ;  long integer overflow: output large integer

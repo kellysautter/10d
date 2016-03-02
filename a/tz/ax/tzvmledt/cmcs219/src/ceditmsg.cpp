@@ -20,8 +20,8 @@ LRESULT CEdit::OnCreate( HWND hWnd, WPARAM /* wParam */, LPARAM lParam )
 
       // Keep track of all CodeMax windows
       ASSERT( g_nhWndCount == 0 && !g_phWnds || g_nhWndCount && g_phWnds );
-      g_phWnds = g_phWnds ? ( HWND * ) realloc( g_phWnds, ( g_nhWndCount + 1 ) * sizeof( HWND ) ) :
-                            ( HWND * ) malloc( sizeof( HWND ) );
+      g_phWnds = g_phWnds ? ( HWND * ) realloc( g_phWnds, ( g_nhWndCount + 1 ) * zsizeof( HWND ) ) :
+                            ( HWND * ) malloc( zsizeof( HWND ) );
       g_phWnds[ g_nhWndCount++ ] = hWnd;
 
       pEdit->NotifyParent( CMN_CREATE );
@@ -79,7 +79,7 @@ LRESULT CEdit::OnDestroy( WPARAM /* wParam */, LPARAM /* lParam */ )
       {
          memmove( g_phWnds + nhWnd,
                 g_phWnds + nhWnd + 1,
-                ( g_nhWndCount - nhWnd - 1 ) * sizeof( HWND ) );
+                ( g_nhWndCount - nhWnd - 1 ) * zsizeof( HWND ) );
       }
    }
    g_nhWndCount--;
@@ -168,7 +168,7 @@ LRESULT CEdit::OnPaint( WPARAM /* wParam */, LPARAM /* lParam */ )
       #ifdef _DEBUG
       // verify DC and bitmap integrity
       BITMAP bmTest;
-      ASSERT( GetObject( m_hbmPaint, sizeof( bmTest ), &bmTest ) );
+      ASSERT( GetObject( m_hbmPaint, zsizeof( bmTest ), &bmTest ) );
       ASSERT( GetTextColor( m_hdcPaint ) != CLR_INVALID );
       #endif
       HBITMAP hbmOld = ( HBITMAP ) SelectObject( m_hdcPaint, m_hbmPaint );
@@ -258,8 +258,8 @@ LRESULT CEdit::OnSetFont( WPARAM wParam, LPARAM lParam )
 
 
    LOGFONT lf, lfSys;
-   VERIFY( GetObject( GetStockObject( SYSTEM_FIXED_FONT ), sizeof( lfSys ), &lfSys ) );
-   if ( !GetObject( hFont, sizeof( lf ), &lf ) )
+   VERIFY( GetObject( GetStockObject( SYSTEM_FIXED_FONT ), zsizeof( lfSys ), &lfSys ) );
+   if ( !GetObject( hFont, zsizeof( lf ), &lf ) )
       return( 0 );
 
    HDC hDC = GetDC( m_hWnd );
@@ -335,7 +335,7 @@ LRESULT CEdit::OnKillFocus( WPARAM wParam, LPARAM /* lParam */ )
       DamageSelection( FALSE );
 
    // any pending hotkey is no longer valid
-   ZeroMemory( &m_cmHotKeyPending, sizeof( m_cmHotKeyPending ) );
+   ZeroMemory( &m_cmHotKeyPending, zsizeof( m_cmHotKeyPending ) );
 
    // if in certain modes, cancel out of them
    switch ( m_eMode )
@@ -849,8 +849,8 @@ LRESULT CEdit::OnVScroll( WPARAM wParam, LPARAM lParam )
    // exceed 64K, we must use the 32-bit version
    // of the scrollbar APIs to get the real position.
    SCROLLINFO si;
-   ZeroMemory(&si, sizeof(SCROLLINFO));
-   si.cbSize = sizeof(SCROLLINFO);
+   ZeroMemory(&si, zsizeof(SCROLLINFO));
+   si.cbSize = zsizeof(SCROLLINFO);
    si.fMask = SIF_TRACKPOS;
    VERIFY( GetScrollInfo( hWndScrollBar, SB_CTL, &si ) );
    int nPos = si.nTrackPos;
@@ -1622,7 +1622,7 @@ LRESULT CEdit::OnGetColors( WPARAM /*wParam*/, LPARAM lParam )
    }
 
    // assign the colors
-   memcpy( pColors, &m_Colors, sizeof( m_Colors ) );
+   memcpy( pColors, &m_Colors, zsizeof( m_Colors ) );
 
    return CME_SUCCESS;
 }
@@ -2726,7 +2726,7 @@ LRESULT CEdit::OnSetFontStyles( WPARAM /*wParam*/, LPARAM lParam )
    }
 
    // assign the FontStyles
-   memcpy( &m_FontStyles, pFontStyles, sizeof( m_FontStyles ) );
+   memcpy( &m_FontStyles, pFontStyles, zsizeof( m_FontStyles ) );
 
    OnFontChanged();
 
@@ -2745,7 +2745,7 @@ LRESULT CEdit::OnGetFontStyles( WPARAM /*wParam*/, LPARAM lParam )
    }
 
    // assign the FontStyles
-   memcpy( pFontStyles, &m_FontStyles, sizeof( m_FontStyles ) );
+   memcpy( pFontStyles, &m_FontStyles, zsizeof( m_FontStyles ) );
 
    return CME_SUCCESS;
 }

@@ -81,7 +81,7 @@ void CEdit::CharTranspose()
          int cbChar = _tclen( pszChar );
          TCHAR szSave[10];
          ZeroMemory( szSave, ARRAY_SIZE( szSave ) );
-         memcpy( szSave, pszChar, cbChar * sizeof( TCHAR ) );
+         memcpy( szSave, pszChar, cbChar * zsizeof( TCHAR ) );
          m_Buffer.RemoveCharsFromLine( nLine, nChar, cbChar );
          int nInsertAt = CharPrev( pszLine, pszChar ) - pszLine;
          m_Buffer.InsertCharsIntoLine( nLine, nInsertAt, szSave, cbChar );
@@ -366,7 +366,7 @@ void CEdit::GoToLine( int nLine )
    if ( IsPlayingMacro() )
    {
       DWORD dwLine;
-      GetMacroData( ( LPBYTE ) &dwLine, sizeof( dwLine ) );
+      GetMacroData( ( LPBYTE ) &dwLine, zsizeof( dwLine ) );
       nLine = dwLine;
    }
    else
@@ -378,7 +378,7 @@ void CEdit::GoToLine( int nLine )
          if ( IsRecordingMacro() )
          {
             DWORD dwLine = nLine;
-            AddMacroData( ( LPBYTE ) &dwLine, sizeof( dwLine ) );
+            AddMacroData( ( LPBYTE ) &dwLine, zsizeof( dwLine ) );
          }
       }
    }
@@ -1657,14 +1657,14 @@ void CEdit::ToggleWhitespaceDisplay()
    BOOL bState;
    if ( IsPlayingMacro() )
    {
-      GetMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+      GetMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
    }
    else
    {
       bState = !m_bDisplayWhitespace;
       if ( IsRecordingMacro() )
       {
-         AddMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+         AddMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
       }
    }
    m_bDisplayWhitespace = bState;
@@ -1677,14 +1677,14 @@ void CEdit::ToggleOvertype()
 
    if ( IsPlayingMacro() )
    {
-      GetMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+      GetMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
    }
    else
    {
       bState = !m_bOverType;
       if ( IsRecordingMacro() )
       {
-         AddMacroData( ( LPBYTE ) &bState, sizeof( bState ) );
+         AddMacroData( ( LPBYTE ) &bState, zsizeof( bState ) );
       }
    }
    m_bOverType = bState;
@@ -1728,11 +1728,11 @@ void CEdit::InsertChar( TCHAR ch )
    ASSERT( IsPlayingMacro() || ch != _T('\0') );
    if ( IsPlayingMacro() )
    {
-      GetMacroData( ( LPBYTE ) &ch, sizeof( ch ) );
+      GetMacroData( ( LPBYTE ) &ch, zsizeof( ch ) );
    }
    else if ( IsRecordingMacro() )
    {
-      AddMacroData( ( LPBYTE ) &ch, sizeof( ch ) );
+      AddMacroData( ( LPBYTE ) &ch, zsizeof( ch ) );
    }
 
    TCHAR szChar[ 3 ] = { _T('\0'), _T('\0'), _T('\0') };

@@ -452,7 +452,7 @@ zdmDate( zLONG        lEntryType,
          szDate[ 0 ] = lpDomainData->pszContextName[ 0 ];
          szDate[ 1 ] = lpDomainData->pszContextName[ 1 ];
          szDate[ 2 ] = lpDomainData->pszContextName[ 2 ];
-         strcpy_s( szDate + 3, sizeof( szDate ) - 3, (zPCHAR) (lpDomainData->lpData) );
+         strcpy_s( szDate + 3, zsizeof( szDate ) - 3, (zPCHAR) (lpDomainData->lpData) );
          strcpy_s( (zPCHAR) (lpDomainData->lpData), lpDomainData->uMaxStringLength, szDate );
       }
 
@@ -546,8 +546,8 @@ fnDateTime( zSHORT       nDomain,
    {
       sz[ 0 ] = lpDomainData->lpViewAttribute->cType;
       sz[ 1 ] = 0;
-      strcat_s( sz, sizeof( sz ), ", " );
-      strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+      strcat_s( sz, zsizeof( sz ), ", " );
+      strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
 
       // "TZDME003 - Attribute Type invalid for this Domain"
       SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0, sz, lpDomainData->lpViewAttribute->szName );
@@ -680,13 +680,13 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
          if ( psz == 0 || *psz == 0 )
             sz[ 0 ] = 0;
          else
-            strcpy_s( sz, sizeof( sz ), (zPCHAR) lpDomainData->lpData );
+            strcpy_s( sz, zsizeof( sz ), (zPCHAR) lpDomainData->lpData );
 
          psz = sz;
 
          if ( lpDomainData->pszContextName && lpDomainData->pszContextName[ 0 ] )
          {
-            nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT1, sizeof( szDT1 ) - 1 );
+            nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT1, zsizeof( szDT1 ) - 1 );
             switch ( nRC )
             {
                case 0:
@@ -696,7 +696,7 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                case -1:
                   // attribute value was null
                   bWasNull = 1;
-                  strcpy_s( szDT1, sizeof( szDT1 ), "00000000000000000" );
+                  strcpy_s( szDT1, zsizeof( szDT1 ), "00000000000000000" );
                   break;
 
                default:
@@ -788,7 +788,7 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                         }
                         else
                         {
-                           zltoa( (zLONG) k + 101L, sz, sizeof( sz ) );
+                           zltoa( (zLONG) k + 101L, sz, zsizeof( sz ) );
                            *(szDT1 + 4) = *(sz + 1);
                            *(szDT1 + 5) = *(sz + 2);
                            zmemcpy( sz, szDT1, 18 );
@@ -923,7 +923,7 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                         }
 
                         // At last, we finally edit the silly thing.
-                        nRC = UfEditFormatDateTime( sz, sizeof( sz ), pszEditString );
+                        nRC = UfEditFormatDateTime( sz, zsizeof( sz ), pszEditString );
 
                         if ( nRC )
                         {
@@ -961,7 +961,7 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                      else
                         nSeverity = 8;
 
-                     strcpy_s( sz, sizeof( sz ), lpContext->szName );
+                     strcpy_s( sz, zsizeof( sz ), lpContext->szName );
                      k = (zSHORT) zstrlen( sz );
                      sz[ k ] = '/';
                      sz[ k + 1 ] = lpDomainData->cType;
@@ -972,7 +972,7 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                      return( zCALL_ERROR );
                   }
 
-                  nRC = UfEditFormatDateTime( sz, sizeof( sz ), SysGetPointerFromHandle( lpContext->hEditString ) );
+                  nRC = UfEditFormatDateTime( sz, zsizeof( sz ), SysGetPointerFromHandle( lpContext->hEditString ) );
                   if ( nRC )
                   {
                      if ( nRC == -1 )
@@ -1069,9 +1069,9 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
             else
                nSeverity = 0;
 
-            strcpy_s( sz, sizeof( sz ), (zPCHAR) lpDomainData->lpData );
-            strcat_s( sz, sizeof( sz ), ", " );
-            strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+            strcpy_s( sz, zsizeof( sz ), (zPCHAR) lpDomainData->lpData );
+            strcat_s( sz, zsizeof( sz ), ", " );
+            strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
             // "TZDME010 - DateTime input string invalid "
             SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 10, 0, sz, lpDomainData->lpViewAttribute->szName );
          }
@@ -1086,9 +1086,9 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                else
                   nSeverity = 16;
 
-               strcpy_s( sz, sizeof( sz ), (zPCHAR) lpDomainData->lpData );
-               strcat_s( sz, sizeof( sz ), ", " );
-               strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+               strcpy_s( sz, zsizeof( sz ), (zPCHAR) lpDomainData->lpData );
+               strcat_s( sz, zsizeof( sz ), ", " );
+               strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
                // "TZDME011 - Error storing value in record "
                SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 11, 0, sz, lpDomainData->lpViewAttribute->szName );
             }
@@ -1109,7 +1109,7 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
             return( zCALL_ERROR );
          }
 
-         nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT1, sizeof( szDT1 ) - 1 );
+         nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT1, zsizeof( szDT1 ) - 1 );
          switch ( nRC )
          {
             case 0:
@@ -1119,7 +1119,7 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
             case -1:
                // attribute value was null
                bWasNull = 1;
-               strcpy_s( szDT1, sizeof( szDT1 ), "00000000000000000" );
+               strcpy_s( szDT1, zsizeof( szDT1 ), "00000000000000000" );
                break;
 
             default:
@@ -1135,13 +1135,13 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                switch ( nContextIndex )
                {
                   case eDAYOFMONTH:
-                     zltoa( *((zPLONG) lpDomainData->lpData) + 100, sz, sizeof( sz ) );
+                     zltoa( *((zPLONG) lpDomainData->lpData) + 100, sz, zsizeof( sz ) );
                      *(szDT1 + 6) = *(sz + 1);
                      *(szDT1 + 7) = *(sz + 2);
                      break;
 
                   case eMONTHOFYEAR:
-                     zltoa( *((zPLONG) lpDomainData->lpData) + 100, sz, sizeof( sz ) );
+                     zltoa( *((zPLONG) lpDomainData->lpData) + 100, sz, zsizeof( sz ) );
                      *(szDT1 + 4) = *(sz + 1);
                      *(szDT1 + 5) = *(sz + 2);
                      break;
@@ -1149,21 +1149,21 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                   case eYY:
                      // Eliminated support of 2-digit years and forced them to be treated as 4-digit years.
 #if 0
-                     zltoa( *((zPLONG) lpDomainData->lpData) + 1900, sz, sizeof( sz ) );
+                     zltoa( *((zPLONG) lpDomainData->lpData) + 1900, sz, zsizeof( sz ) );
                      zmemcpy( szDT1, sz, 4 );
                      break;
 #endif
                   case eYYYY:
-                     zltoa( *((zPLONG) lpDomainData->lpData) + 10000, sz, sizeof( sz ) );
+                     zltoa( *((zPLONG) lpDomainData->lpData) + 10000, sz, zsizeof( sz ) );
                      zmemcpy( szDT1, sz + 1, 4 );
                      break;
 
                   case eDAYOFYEAR:
                   {
                      zCHAR sz2[ 20 ];
-                     zltoa( *((zPLONG) lpDomainData->lpData) + 1000, sz, sizeof( sz ) );
+                     zltoa( *((zPLONG) lpDomainData->lpData) + 1000, sz, zsizeof( sz ) );
                      zmemcpy( sz2, szDT1, 4 ); // copy yyyy
-                     strcpy_s( sz2 + 4, sizeof( sz2 ) - 4, sz + 1 ); // copy jjj
+                     strcpy_s( sz2 + 4, zsizeof( sz2 ) - 4, sz + 1 ); // copy jjj
                      if ( UfJulianToGregorian( sz2, sz ) == zCALL_ERROR )
                      {
                         return( zCALL_ERROR );
@@ -1209,9 +1209,9 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                   else
                      nSeverity = 0;
 
-                  strcpy_s( sz, sizeof( sz ), psz );
-                  strcat_s( sz, sizeof( sz ), ", " );
-                  strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+                  strcpy_s( sz, zsizeof( sz ), psz );
+                  strcat_s( sz, zsizeof( sz ), ", " );
+                  strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
                   // "TZDME010 - DateTime input string invalid "
                   SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 10, 0, sz, lpDomainData->lpViewAttribute->szName );
                }
@@ -1221,9 +1221,9 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                   nRC = StoreValueInRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, &stDT, 0 );
                   if ( nRC )
                   {
-                     strcpy_s( sz, sizeof( sz ), psz );
-                     strcat_s( sz, sizeof( sz ), ", " );
-                     strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+                     strcpy_s( sz, zsizeof( sz ), psz );
+                     strcat_s( sz, zsizeof( sz ), ", " );
+                     strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
                      // "TZDME011 - Error storing value in record "
                      SendDomainError( lpDomainData->zView, lpDomain, 16, 11, 0, sz, lpDomainData->lpViewAttribute->szName );
                   }
@@ -1236,7 +1236,7 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
                else
                   nSeverity = 8;
 
-               strcpy_s( sz, sizeof( sz ), lpContext->szName );
+               strcpy_s( sz, zsizeof( sz ), lpContext->szName );
                k = (zSHORT) zstrlen( sz );
                sz[ k ] = '/';
                sz[ k + 1 ] = lpDomainData->cType;
@@ -1266,13 +1266,13 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
       Date to Date operations are OK without considering ContextName.
          if ( lpDomainData->pszContextName && *lpDomainData->pszContextName && zstrcmp( lpDomainData->pszContextName, "DateTime" ) != 0 )
          {
-            strcpy_s( sz, sizeof( sz ), lpDomainData->pszContextName );
-            strcat_s( sz, sizeof( sz ), "/" );
+            strcpy_s( sz, zsizeof( sz ), lpDomainData->pszContextName );
+            strcat_s( sz, zsizeof( sz ), "/" );
             k = zstrlen( sz );
             *(sz + k) = lpDomainData->cType;
             *(sz + k + 1) = 0;
-            strcat_s( sz, sizeof( sz ), ", " );
-            strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz, zsizeof( sz ), ", " );
+            strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
             // "TZDME013 - Context/cType Combination is invalid "
             SendDomainError( lpDomainData->zView, lpDomain, 8, 13, 0, sz, lpDomainData->lpViewAttribute->szName );
             return( zCALL_ERROR );
@@ -1300,8 +1300,8 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
 
          sz[ 0 ] = lpDomainData->cType;
          sz[ 1 ] = 0;
-         strcat_s( sz, sizeof( sz ), ", " );
-         strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+         strcat_s( sz, zsizeof( sz ), ", " );
+         strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
          // "TZDME001 - Invalid Input Data Type"
          SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 1, 0, sz, lpDomainData->lpViewAttribute->szName );
          return( zCALL_ERROR );
@@ -1369,7 +1369,7 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
    // When retrieving the pic value for an attribute, we cannot assume that there is an entity instance present.
    if ( lpDomainData->cType != zTYPE_PIC )
    {
-      nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT1, sizeof( szDT1 ) - 1 );
+      nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT1, zsizeof( szDT1 ) - 1 );
       switch ( nRC )
       {
          case 0:
@@ -1440,18 +1440,18 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
                   }
 
                   if ( nContextIndex == eWEEKOFYEAR )
-                     zltoa( UfGetWeekOfYear( szDT1 ), sz2, sizeof( sz2 ) );
+                     zltoa( UfGetWeekOfYear( szDT1 ), sz2, zsizeof( sz2 ) );
                   else
                   if ( nContextIndex == eFREEFORM )
                   {
                      CheckEditString( pszEditString, lpDomainData, lpContext );
                      if ( zstrcmp( "Date", lpDomain->szName) == 0 )
-                        nRC = FormatFreeFormDate( sz2, sizeof( sz2 ), szDT1, pszEditString );
+                        nRC = FormatFreeFormDate( sz2, zsizeof( sz2 ), szDT1, pszEditString );
                      else
-                        nRC = FormatFreeFormTime( sz2, sizeof( sz2 ), szDT1, pszEditString );
+                        nRC = FormatFreeFormTime( sz2, zsizeof( sz2 ), szDT1, pszEditString );
                   }
                   else
-                     nRC = UfFormatDateTime( sz2, sizeof( sz2 ), szDT1, pszEditString );
+                     nRC = UfFormatDateTime( sz2, zsizeof( sz2 ), szDT1, pszEditString );
 
                   if ( nRC == zCALL_ERROR )
                   {
@@ -1464,7 +1464,7 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
                {
                   if ( lpContext->hEditString == 0 )
                   {
-                     strcpy_s( sz1, sizeof( sz1 ), lpContext->szName );
+                     strcpy_s( sz1, zsizeof( sz1 ), lpContext->szName );
                      k = (zSHORT) zstrlen( sz1 );
                      sz1[ k ] = '/';
                      sz1[ k + 1 ] = lpDomainData->cType;
@@ -1475,7 +1475,7 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
                      return( zCALL_ERROR );
                   }
 
-                  nRC = UfFormatDateTime( sz2, sizeof( sz2 ), szDT1, SysGetPointerFromHandle( lpContext->hEditString ) );
+                  nRC = UfFormatDateTime( sz2, zsizeof( sz2 ), szDT1, SysGetPointerFromHandle( lpContext->hEditString ) );
                   if ( nRC == zCALL_ERROR )
                   {
                      // "TZDME009 - Context edit string is invalid for Domain "
@@ -1656,7 +1656,7 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
                }
                else
                {
-                  strcpy_s( sz2, sizeof( sz2 ), lpContext->szName );
+                  strcpy_s( sz2, zsizeof( sz2 ), lpContext->szName );
                   k = (zSHORT) zstrlen( sz2 );
                   sz2[ k ] = '/';
                   sz2[ k + 1 ] = zTYPE_INTEGER;
@@ -1744,7 +1744,7 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
                }
                else
                {
-                  strcpy_s( sz2, sizeof( sz2 ), lpContext->szName );
+                  strcpy_s( sz2, zsizeof( sz2 ), lpContext->szName );
                   k = (zSHORT) zstrlen( sz2 );
                   sz2[ k ] = '/';
                   sz2[ k + 1 ] = lpDomainData->cType;
@@ -1772,8 +1772,8 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
       default:
          sz1[ 0 ] = lpDomainData->cType;
          sz1[ 1 ] = 0;
-         strcat_s( sz1, sizeof( sz1 ), ", " );
-         strcat_s( sz1, sizeof( sz1 ), lpDomainData->lpViewEntity->szName );
+         strcat_s( sz1, zsizeof( sz1 ), ", " );
+         strcat_s( sz1, zsizeof( sz1 ), lpDomainData->lpViewEntity->szName );
          // "TZDME001 - Invalid Input Data Type"
          SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0, sz1, lpDomainData->lpViewAttribute->szName );
          return( zCALL_ERROR );
@@ -1843,7 +1843,7 @@ fnCompareDateTimeAttribute( zSHORT       nDomain,
    zSHORT      nRC;
 
    lpDomain = SysGetPointerFromHandle( lpDomainData->lpViewAttribute->hDomain );
-   nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT1, sizeof( szDT1 ) - 1 );
+   nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT1, zsizeof( szDT1 ) - 1 );
 
    switch ( nRC )
    {
@@ -1959,9 +1959,9 @@ fnCompareDateTimeAttribute( zSHORT       nDomain,
                      // put string into sz2 for comparing
 
                      if ( nContextIndex == eWEEKOFYEAR )
-                        zltoa( UfGetWeekOfYear( sz1 ), sz2, sizeof( sz2 ) );
+                        zltoa( UfGetWeekOfYear( sz1 ), sz2, zsizeof( sz2 ) );
                      else
-                        nRC = UfFormatDateTime( sz2, sizeof( sz2 ), szDT1, pszEditString );
+                        nRC = UfFormatDateTime( sz2, zsizeof( sz2 ), szDT1, pszEditString );
 
                      if ( nRC == zCALL_ERROR )
                      {
@@ -1975,7 +1975,7 @@ fnCompareDateTimeAttribute( zSHORT       nDomain,
                      // We have a context, but nothing 'special'
                      if ( lpContext->hEditString == 0 )
                      {
-                        strcpy_s( sz1, sizeof( sz1 ), lpContext->szName );
+                        strcpy_s( sz1, zsizeof( sz1 ), lpContext->szName );
                         k = (zSHORT) zstrlen( sz1 );
                         sz1[ k ] = '/';
                         sz1[ k + 1 ] = lpDomainData->cType;
@@ -1984,7 +1984,7 @@ fnCompareDateTimeAttribute( zSHORT       nDomain,
                         SendDomainError( lpDomainData->zView, lpDomain, 8, 13, 0, sz1, 0 );
                         return( zCALL_ERROR );
                      }
-                     nRC = UfFormatDateTime( sz2, sizeof( sz2 ), szDT1, SysGetPointerFromHandle( lpContext->hEditString ) );
+                     nRC = UfFormatDateTime( sz2, zsizeof( sz2 ), szDT1, SysGetPointerFromHandle( lpContext->hEditString ) );
                      if ( nRC == zCALL_ERROR )
                      {
                         // "TZDME009 - Context edit string is invalid for Domain "
@@ -2028,20 +2028,20 @@ fnCompareDateTimeAttribute( zSHORT       nDomain,
       Date to Date operations are OK without considering ContextName.
          if ( lpDomainData->pszContextName && *lpDomainData->pszContextName )
          {
-            strcpy_s( sz1, sizeof( sz1 ), lpDomainData->pszContextName );
-            strcat_s( sz1, sizeof( sz1 ), "/" );
+            strcpy_s( sz1, zsizeof( sz1 ), lpDomainData->pszContextName );
+            strcat_s( sz1, zsizeof( sz1 ), "/" );
             k = zstrlen( sz1 );
             *(sz1 + i) = lpDomainData->cType;
             *(sz1 + k + 1) = 0;
-            strcat_s( sz1, sizeof( sz1 ), ", " );
-            strcat_s( sz1, sizeof( sz1 ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz1, zsizeof( sz1 ), ", " );
+            strcat_s( sz1, zsizeof( sz1 ), lpDomainData->lpViewEntity->szName );
             // "TZDME013 - Context/cType Combination is invalid "
             SendDomainError( lpDomainData->zView, lpDomain, 8, 13, 0, sz1, lpDomainData->lpViewAttribute->szName );
             return( zCALL_ERROR );
          }
 #endif
 
-         UfDateTimeToString( (LPDATETIME) lpDomainData->lpData, szDT2, sizeof( szDT2 ) );
+         UfDateTimeToString( (LPDATETIME) lpDomainData->lpData, szDT2, zsizeof( szDT2 ) );
 
          psz1 = szDT1;
          psz2 = szDT2;
@@ -2172,7 +2172,7 @@ fnCompareDateTimeAttribute( zSHORT       nDomain,
                }
                else
                {
-                  strcpy_s( sz1, sizeof( sz1 ), lpContext->szName );
+                  strcpy_s( sz1, zsizeof( sz1 ), lpContext->szName );
                   k = (zSHORT) zstrlen( sz1 );
                   sz1[ k ] = '/';
                   sz1[ k + 1 ] = zTYPE_INTEGER;
@@ -2201,8 +2201,8 @@ fnCompareDateTimeAttribute( zSHORT       nDomain,
       default:
          *sz1 = lpDomainData->cType;
          *(sz1 + 1) = 0;
-         strcat_s( sz1, sizeof( sz1 ), ", " );
-         strcat_s( sz1, sizeof( sz1 ), lpDomainData->lpViewEntity->szName );
+         strcat_s( sz1, zsizeof( sz1 ), ", " );
+         strcat_s( sz1, zsizeof( sz1 ), lpDomainData->lpViewEntity->szName );
          // "TZDME001 - Invalid Input Data Type"
          SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0, sz1, lpDomainData->lpViewAttribute->szName );
          return( zCALL_ERROR );
@@ -2334,8 +2334,8 @@ fnAddToDateTimeAttribute( zSHORT       nDomain,
    {
       sz[ 0 ] = lpDomainData->cType;
       sz[ 1 ] = 0;
-      strcat_s( sz, sizeof( sz ), ", " );
-      strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+      strcat_s( sz, zsizeof( sz ), ", " );
+      strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
       // "TZDME001 - Invalid Input Data Type"
       SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0, sz, lpDomainData->lpViewAttribute->szName );
       return( zCALL_ERROR );
@@ -2355,7 +2355,7 @@ fnAddToDateTimeAttribute( zSHORT       nDomain,
       return( zCALL_ERROR );
    }
 
-   nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT2, sizeof( szDT2 ) - 1 );
+   nRC = GetStringFromRecord( lpDomainData->zView, lpDomainData->lpViewEntity, lpDomainData->lpViewAttribute, szDT2, zsizeof( szDT2 ) - 1 );
    switch ( nRC )
    {
       case 0:
@@ -2364,7 +2364,7 @@ fnAddToDateTimeAttribute( zSHORT       nDomain,
 
       case -1:
          // attribute value was null
-         strcpy_s( szDT2, sizeof( szDT2 ), "00000000000000000" );
+         strcpy_s( szDT2, zsizeof( szDT2 ), "00000000000000000" );
          break;
 
       default:
@@ -2404,7 +2404,7 @@ fnAddToDateTimeAttribute( zSHORT       nDomain,
    {
       // Invalid Context for Add operation.
 
-      strcpy_s( sz, sizeof( sz ), lpDomainData->pszContextName );
+      strcpy_s( sz, zsizeof( sz ), lpDomainData->pszContextName );
       n = (zSHORT) zstrlen( sz );
       sz[ n ] = '/';
       sz[ n + 1 ] = zTYPE_INTEGER;
@@ -2415,7 +2415,7 @@ fnAddToDateTimeAttribute( zSHORT       nDomain,
    }
 
    // save original value for later usage...
-   strcpy_s( szDT1, sizeof( szDT1 ), szDT2 );
+   strcpy_s( szDT1, zsizeof( szDT1 ), szDT2 );
 
    UfStringToDateTime( szDT2, &stDT );
 
@@ -2424,7 +2424,7 @@ fnAddToDateTimeAttribute( zSHORT       nDomain,
    // If domain is Date or Time, retrieve the portion that will not be changing and place into string
    if ( nDomain != eDM_DateTime && nRC == 0 )
    {
-      UfDateTimeToString( &stDT, szDT2, sizeof( szDT2 ) );
+      UfDateTimeToString( &stDT, szDT2, zsizeof( szDT2 ) );
       switch ( nDomain )
       {
          case eDM_Date:
@@ -2461,7 +2461,7 @@ static zSHORT NormalizeFreeFormDate( zPCHAR sz )
    zPCHAR pc, pc2;
    zLONG l1, l2, l3, l4;
 
-   strcpy_s( szTemp, sizeof( szTemp ), sz );
+   strcpy_s( szTemp, zsizeof( szTemp ), sz );
    if ( (pc = strpbrk( szTemp, "./-" )) != NULL )
    {
       cSeparator = *pc;
@@ -2542,9 +2542,9 @@ static zSHORT NormalizeFreeFormDate( zPCHAR sz )
    if ( CheckDate( l3, l2, l1 ) )
       return( -1 ); // error
 
-   sprintf_s( sz, sizeof( sz ), "%04ld", l3 ); // year
-   sprintf_s( sz + 4, sizeof( sz ) - 4, "%02ld", l2 ); // month
-   sprintf_s( sz + 6, sizeof( sz ) - 6, "%02ld", l1 ); // day
+   sprintf_s( sz, zsizeof( sz ), "%04ld", l3 ); // year
+   sprintf_s( sz + 4, zsizeof( sz ) - 4, "%02ld", l2 ); // month
+   sprintf_s( sz + 6, zsizeof( sz ) - 6, "%02ld", l1 ); // day
 
    return( 0 );
 }
@@ -2564,7 +2564,7 @@ NormalizeFreeFormTime( zPCHAR sz )
    zULONG k;
    zSHORT nAPM = 0;
 
-   strcpy_s( szTemp, sizeof( szTemp ), sz + strspn( sz, " " ) ); // copy without leading blanks
+   strcpy_s( szTemp, zsizeof( szTemp ), sz + strspn( sz, " " ) ); // copy without leading blanks
 
    // test for illegal characters
    if ( strspn( szTemp, "0123456789aAmMpP:., " ) < ulLth )
@@ -2696,10 +2696,10 @@ NormalizeFreeFormTime( zPCHAR sz )
    if ( CheckTime( &l1, l2, l3, l4, nAPM ) )
       return( -1 ); // error
 
-   sprintf_s( sz + 8, sizeof( sz ) - 8, "%02ld", l1 ); // hour
-   sprintf_s( sz + 10, sizeof( sz ) - 10, "%02ld", l2 ); // minute
-   sprintf_s( sz + 12, sizeof( sz ) - 12, "%02ld", l3 ); // second
-   sprintf_s( sz + 14, sizeof( sz ) - 14, "%03ld", l4 ); // millisecond
+   sprintf_s( sz + 8, zsizeof( sz ) - 8, "%02ld", l1 ); // hour
+   sprintf_s( sz + 10, zsizeof( sz ) - 10, "%02ld", l2 ); // minute
+   sprintf_s( sz + 12, zsizeof( sz ) - 12, "%02ld", l3 ); // second
+   sprintf_s( sz + 14, zsizeof( sz ) - 14, "%03ld", l4 ); // millisecond
 
    return( 0 );
 }
@@ -2806,7 +2806,7 @@ LongYearFromShort( zLONG lYear )
 
    if ( lCurrent == 0 )
    {
-      SysGetDateTime( szCurrentDate, sizeof( szCurrentDate ) );
+      SysGetDateTime( szCurrentDate, zsizeof( szCurrentDate ) );
       szCurrentDate[ 4 ] = 0;
       lCurrent = atol( szCurrentDate );
    }
@@ -2968,7 +2968,7 @@ CheckEditString( zCPCHAR pchEditString,
       if ( pchEditString[ 0 ] == '*' )
       {
          zCHAR szBuffer[ 16 ];
-         GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_IDATE, szBuffer, sizeof( szBuffer ) );
+         GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_IDATE, szBuffer, zsizeof( szBuffer ) );
          switch ( szBuffer[ 0 ] )
          {
          case '0': // Month-Day-Year
@@ -2985,10 +2985,10 @@ CheckEditString( zCPCHAR pchEditString,
             break;
          }
          // LOCALE_SDATE = date separator
-         GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SDATE, szBuffer, sizeof( szBuffer ) );
+         GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SDATE, szBuffer, zsizeof( szBuffer ) );
          cDateSeparator = szBuffer[ 0 ];
 
-//       GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SSHORTDATE, pchEditString, sizeof( szBuffer ) );
+//       GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SSHORTDATE, pchEditString, zsizeof( szBuffer ) );
          return;
       }
 #endif
@@ -3046,10 +3046,10 @@ CheckEditString( zCPCHAR pchEditString,
       if ( pchEditString[ 0 ] == '*' )
       {
          zCHAR szBuffer[ 16 ];
-         GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_STIME, szBuffer, sizeof( szBuffer ) );
+         GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_STIME, szBuffer, zsizeof( szBuffer ) );
          cTimeSeparator[ 0 ] = cTimeSeparator[ 1 ] = szBuffer[ 0 ];
          cTimeSeparator[ 2 ] = '.';
-         GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_ITIME, szBuffer, sizeof( szBuffer ) );
+         GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_ITIME, szBuffer, zsizeof( szBuffer ) );
          switch( szBuffer[ 0 ] )
          {
          case '0' : // AM/PM
@@ -3060,7 +3060,7 @@ CheckEditString( zCPCHAR pchEditString,
             kTimeAM = 0;
             break;
          }
-//       GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_STIMEFORMAT, pchEditString, sizeof( pchEditString ) );
+//       GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_STIMEFORMAT, pchEditString, zsizeof( pchEditString ) );
          return;
       }
 #endif

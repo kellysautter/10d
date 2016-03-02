@@ -450,10 +450,10 @@ ZER_Relationship::CalculateLine( zBOOL bDisplayMsgBox, zSHORT nErrCnt )
    //    TraceLineS( szMessage, " entities!!!" );
    // }
 
-   //xstrcpy_s( szMessage, sizeof( szMessage ), m_pSrcEntity->m_csText );
-   //xstrcat_s( szMessage, sizeof( szMessage ), "/" );
-   //xstrcat_s( szMessage, sizeof( szMessage ), m_pTgtEntity->m_csText );
-   //xstrcat_s( szMessage, sizeof( szMessage ), " - Error calculating relationship!" );
+   //xstrcpy_s( szMessage, zsizeof( szMessage ), m_pSrcEntity->m_csText );
+   //xstrcat_s( szMessage, zsizeof( szMessage ), "/" );
+   //xstrcat_s( szMessage, zsizeof( szMessage ), m_pTgtEntity->m_csText );
+   //xstrcat_s( szMessage, zsizeof( szMessage ), " - Error calculating relationship!" );
    //xMB_SetMessage( m_pER_Diagram->m_pZSubtask->m_vDialog, 1, szMessage );
 
    // if ( bDisplayMsgBox )
@@ -1318,7 +1318,7 @@ ZER_Relationship::AnalyzeLine( zPLONG  lpSPIdx,       //
 BADPATH_tag:
 #ifdef DEBUG_ALL
    zCHAR szMsg[ 256 ];
-   sprintf_s( szMsg, sizeof( szMsg ), "(TzCtlERL) Line Analysis m_csTextF: %s"
+   sprintf_s( szMsg, zsizeof( szMsg ), "(TzCtlERL) Line Analysis m_csTextF: %s"
                     "  SourcePort: %d"
                     "  TargetPort: %d"
                     "  Axis: %d"

@@ -621,17 +621,17 @@ fnText( zSHORT       nID,
                         ulMaxLth = lpDomainData->uMaxStringLength;
 
                      ulLth = zstrlen( (zPCHAR) lpDomainData->lpData );
-                     if ( ulLth >= sizeof( szWorkString ) )
-                        ulLth = sizeof( szWorkString ) - 1;
+                     if ( ulLth >= zsizeof( szWorkString ) )
+                        ulLth = zsizeof( szWorkString ) - 1;
 
                      szWorkString[ 0 ] = 0;
-                     strncat_s( szWorkString, sizeof( szWorkString ), (zPCHAR) lpDomainData->lpData, ulLth );
+                     strncat_s( szWorkString, zsizeof( szWorkString ), (zPCHAR) lpDomainData->lpData, ulLth );
 
 #if 0    // don't need this part of the domain processing anymore
                      pch = zstrchr( szWorkString, '^' );
                      while ( pch && ulLth < ulMaxLth )
                      {
-                        strcpy_s( szTempString, sizeof( szTempString ), pch );
+                        strcpy_s( szTempString, zsizeof( szTempString ), pch );
                         strcpy_s( pch + 1, commented out, szTempString );
                         ulLth++;
                         pch = zstrchr( pch + 2, '^' );
@@ -699,7 +699,7 @@ fnText( zSHORT       nID,
                   // convert long to a string
                   lplInteger = (zPLONG) lpDomainData->lpData;
                   if ( *lplInteger != lNullInteger )
-                     zltoa( *lplInteger, szWorkString, sizeof( szWorkString ) );
+                     zltoa( *lplInteger, szWorkString, zsizeof( szWorkString ) );
 
                   pchStringToStore = szWorkString;
                   break;
@@ -737,8 +737,8 @@ fnText( zSHORT       nID,
 
                   szWorkString[ 0 ] = lpDomainData->cType;
                   szWorkString[ 1 ] = 0;
-                  strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-                  strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain,
                                    nSeverity, 1, 0, szWorkString,
@@ -788,8 +788,8 @@ fnText( zSHORT       nID,
 
             szWorkString[ 0 ] = lpDomainData->lpViewAttribute->cType;
             szWorkString[ 1 ] = 0;
-            strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-            strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
 
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain,
@@ -841,7 +841,7 @@ fnText( zSHORT       nID,
                      if ( nID == eDM_EXPAND_ENVIRONMENT )
                      {
                         szWorkString[ 0 ] = 0;
-                        SysConvertEnvironmentString( szWorkString, sizeof( szWorkString ), (zPCHAR) lpAttrAddr );
+                        SysConvertEnvironmentString( szWorkString, zsizeof( szWorkString ), (zPCHAR) lpAttrAddr );
                         strncat_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength,
                                    szWorkString, lpDomainData->uMaxStringLength - 1 );
                      }
@@ -871,7 +871,7 @@ fnText( zSHORT       nID,
                   }
                   else
                   {
-                     strcpy_s( szWorkString, sizeof( szWorkString ), (zPCHAR) lpAttrAddr );
+                     strcpy_s( szWorkString, zsizeof( szWorkString ), (zPCHAR) lpAttrAddr );
                      *((zPLONG) lpDomainData->lpData) = atol( szWorkString );
                      nRC = 0;
                   }
@@ -932,8 +932,8 @@ fnText( zSHORT       nID,
                default:
                   szWorkString[ 0 ] = lpDomainData->cType;
                   szWorkString[ 1 ] = 0;
-                  strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-                  strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, 8, 1,
                                    0, szWorkString, lpDomainData->lpViewAttribute->szName );
@@ -945,8 +945,8 @@ fnText( zSHORT       nID,
          {
             szWorkString[ 0 ] = lpDomainData->lpViewAttribute->cType;
             szWorkString[ 1 ] = 0;
-            strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-            strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0,
                              szWorkString, lpDomainData->lpViewAttribute->szName );
@@ -1001,8 +1001,8 @@ fnText( zSHORT       nID,
                default:
                   szWorkString[ 0 ] = lpDomainData->cType;
                   szWorkString[ 1 ] = 0;
-                  strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-                  strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0, szWorkString,
                                    lpDomainData->lpViewAttribute->szName );
@@ -1013,8 +1013,8 @@ fnText( zSHORT       nID,
          {
             szWorkString[ 0 ] = lpDomainData->lpViewAttribute->cType;
             szWorkString[ 1 ] = 0;
-            strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-            strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0,
                              szWorkString, lpDomainData->lpViewAttribute->szName );
@@ -1031,7 +1031,7 @@ fnText( zSHORT       nID,
                break;
 
             case zTYPE_INTEGER:
-               zltoa( *((zPLONG) lpDomainData->lpData), szWorkString, sizeof( szWorkString ) );
+               zltoa( *((zPLONG) lpDomainData->lpData), szWorkString, zsizeof( szWorkString ) );
                strcpy_s( (zPCHAR) lpDomainData->lpData, lpDomainData->uMaxStringLength, szWorkString );
                nRC = 1; // indicate returning a string value
                break;
@@ -1046,8 +1046,8 @@ fnText( zSHORT       nID,
             default:
                szWorkString[ 0 ] = lpDomainData->cType;
                szWorkString[ 1 ] = 0;
-               strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-               strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+               strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+               strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                // "TZDME001 - Invalid Input Data Type"
                SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0,
                                 szWorkString, lpDomainData->lpViewAttribute->szName );
@@ -1129,12 +1129,12 @@ zdmInteger( zLONG        lEntryType,
                      if ( *((zPCHAR) lpDomainData->lpData) == '-' ||
                           *((zPCHAR) lpDomainData->lpData) == '+' )
                      {
-                        strcpy_s( sz, sizeof( sz ), (zPCHAR) lpDomainData->lpData );
+                        strcpy_s( sz, zsizeof( sz ), (zPCHAR) lpDomainData->lpData );
                      }
                      else
                      {
                         sz[ 0 ] = '+';
-                        strcpy_s( sz + 1, sizeof( sz ) - 1, (zPCHAR) lpDomainData->lpData );
+                        strcpy_s( sz + 1, zsizeof( sz ) - 1, (zPCHAR) lpDomainData->lpData );
                      }
                      if ( lpDomainData->pszContextName && zstrcmpi( lpDomainData->pszContextName, "Hex" ) == 0 )
                      {
@@ -1262,9 +1262,9 @@ zdmInteger( zLONG        lEntryType,
                            if ( nRC )
                            {
                               /*zCHAR sz2[ 70 ];
-                              strcpy_s( sz2, sizeof( sz2 ), lpDomainData->lpViewEntity->szName );
-                              strcat_s( sz2, sizeof( sz2 ), ", " );
-                              strcat_s( sz2, sizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
+                              strcpy_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewEntity->szName );
+                              strcat_s( sz2, zsizeof( sz2 ), ", " );
+                              strcat_s( sz2, zsizeof( sz2 ), lpDomainData->lpViewAttribute->szName );
                               */
 
                               if ( lEntryType == zDME_VALIDATE_LPDATA )
@@ -1350,8 +1350,8 @@ zdmInteger( zLONG        lEntryType,
 
                   sz[ 0 ] = lpDomainData->cType;
                   sz[ 1 ] = 0;
-                  strcat_s( sz, sizeof( sz ), ", " );
-                  strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( sz, zsizeof( sz ), ", " );
+                  strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 1,
                                    0, sz, lpDomainData->lpViewAttribute->szName );
@@ -1368,7 +1368,7 @@ zdmInteger( zLONG        lEntryType,
                zCHAR  szEditString[ 100 ];
                zPCHAR lpEditString = SysGetPointerFromHandle( lpContext->hEditString );
 
-               strcpy_s( szEditString, sizeof( szEditString ), lpEditString );
+               strcpy_s( szEditString, zsizeof( szEditString ), lpEditString );
 
                // Loop for each range check in EditString.
                // At each pass of loop, copy the range check to sz.
@@ -1380,7 +1380,7 @@ zdmInteger( zLONG        lEntryType,
 
                for ( ; ; ) // loop until colon is found
                {
-                  strncpy_s( sz, sizeof( sz ), szEditString + nStart, i - nStart );
+                  strncpy_s( sz, zsizeof( sz ), szEditString + nStart, i - nStart );
                   sz[ i - nStart ] = 0;
 
                   if ( sz[ 0 ] == '>' || sz[ 0 ] == '<' || sz[ 0 ] == '=' )
@@ -1431,8 +1431,8 @@ zdmInteger( zLONG        lEntryType,
 
                         *sz = lpDomainData->cType;
                         *(sz + 1) = 0;
-                        strcat_s( sz, sizeof( sz ), ", " );
-                        strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+                        strcat_s( sz, zsizeof( sz ), ", " );
+                        strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
 
                         // "TZDME023 - Value out of valid range"
                         SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 23,
@@ -1472,8 +1472,8 @@ zdmInteger( zLONG        lEntryType,
 
             sz[ 0 ] = lpDomainData->lpViewAttribute->cType;
             sz[ 1 ] = 0;
-            strcat_s( sz, sizeof( sz ), ", " );
-            strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz, zsizeof( sz ), ", " );
+            strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 3, 0,
                              sz, lpDomainData->lpViewAttribute->szName );
@@ -1518,7 +1518,7 @@ zdmInteger( zLONG        lEntryType,
                      lLocal = *((zPLONG) lpAttrValue);
                      if ( lpDomainData->pszContextName && zstrcmpi( lpDomainData->pszContextName, "Hex" ) == 0 )
                      {
-                        zltox( lLocal, sz, sizeof( sz ) );
+                        zltox( lLocal, sz, zsizeof( sz ) );
                      }
                      else
                      {
@@ -1527,15 +1527,15 @@ zdmInteger( zLONG        lEntryType,
                            zCHAR      sz3[ 256 ];
                            unsigned char c;
 
-                           zltox( lLocal, sz, sizeof( sz ) );
+                           zltox( lLocal, sz, zsizeof( sz ) );
 
 
                            // fill up with "0" at the left to the length of 8 (+ termination)
                            while ( strlen( sz ) < 8 )
                            {
-                              strcpy_s( sz3, sizeof( sz3 ), "0" );
-                              strcat_s( sz3, sizeof( sz3 ), sz );
-                              strcpy_s( sz, sizeof( sz ),  sz3 );
+                              strcpy_s( sz3, zsizeof( sz3 ), "0" );
+                              strcat_s( sz3, zsizeof( sz3 ), sz );
+                              strcpy_s( sz, zsizeof( sz ), sz3 );
                            }
 
                            // insert a ":" in the middle
@@ -1560,7 +1560,7 @@ zdmInteger( zLONG        lEntryType,
                         }
                         else
                         {
-                           zltoa( lLocal, sz, sizeof( sz ) );
+                           zltoa( lLocal, sz, zsizeof( sz ) );
                         }
                      }
 
@@ -1669,8 +1669,8 @@ zdmInteger( zLONG        lEntryType,
                default:
                   sz[ 0 ] = lpDomainData->cType;
                   sz[ 1 ] = 0;
-                  strcat_s( sz, sizeof( sz ), ", " );
-                  strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( sz, zsizeof( sz ), ", " );
+                  strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, 8, 1,
                                    0, sz, lpDomainData->lpViewAttribute->szName );
@@ -1681,8 +1681,8 @@ zdmInteger( zLONG        lEntryType,
          {
             sz[ 0 ] = lpDomainData->lpViewAttribute->cType;
             sz[ 1 ] = 0;
-            strcat_s( sz, sizeof( sz ), ", " );
-            strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz, zsizeof( sz ), ", " );
+            strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0,
                              sz, lpDomainData->lpViewAttribute->szName );
@@ -1800,8 +1800,8 @@ zdmInteger( zLONG        lEntryType,
                default:
                   sz[ 0 ] = lpDomainData->cType;
                   sz[ 1 ] = 0;
-                  strcat_s( sz, sizeof( sz ), ", " );
-                  strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( sz, zsizeof( sz ), ", " );
+                  strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, 8, 1,
                                    0, sz, lpDomainData->lpViewAttribute->szName );
@@ -1819,8 +1819,8 @@ zdmInteger( zLONG        lEntryType,
          {
             sz[ 0 ] = lpDomainData->lpViewAttribute->cType;
             sz[ 1 ] = 0;
-            strcat_s( sz, sizeof( sz ), ", " );
-            strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz, zsizeof( sz ), ", " );
+            strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0,
                              sz, lpDomainData->lpViewAttribute->szName );
@@ -1926,8 +1926,8 @@ zdmInteger( zLONG        lEntryType,
              default:
                sz[ 0 ] = lpDomainData->cType;
                sz[ 1 ] = 0;
-               strcat_s( sz, sizeof( sz ), ", " );
-               strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+               strcat_s( sz, zsizeof( sz ), ", " );
+               strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
                // "TZDME001 - Invalid Input Data Type"
                SendDomainError( lpDomainData->zView, lpDomain, 8, 1,
                                 0, sz, lpDomainData->lpViewAttribute->szName );
@@ -1949,8 +1949,8 @@ zdmInteger( zLONG        lEntryType,
          {
             sz[ 0 ] = lpDomainData->lpViewAttribute->cType;
             sz[ 1 ] = 0;
-            strcat_s( sz, sizeof( sz ), ", " );
-            strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+            strcat_s( sz, zsizeof( sz ), ", " );
+            strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0,
                              sz, lpDomainData->lpViewAttribute->szName );
@@ -2024,8 +2024,8 @@ zdmInteger( zLONG        lEntryType,
             default:
                sz[ 0 ] = lpDomainData->cType;
                sz[ 1 ] = 0;
-               strcat_s( sz, sizeof( sz ), ", " );
-               strcat_s( sz, sizeof( sz ), lpDomainData->lpViewEntity->szName );
+               strcat_s( sz, zsizeof( sz ), ", " );
+               strcat_s( sz, zsizeof( sz ), lpDomainData->lpViewEntity->szName );
                // "TZDME001 - Invalid Input Data Type"
                SendDomainError( lpDomainData->zView, lpDomain, 8, 1,
                                 0, sz, lpDomainData->lpViewAttribute->szName );
@@ -2054,10 +2054,10 @@ fnHexToLong( zPCHAR  szHexString, zPLONG  lIn )
    int i, ii;
 
    lWk = 0;
-   strcpy_s( szWk, sizeof( szWk ), "00000000" );
+   strcpy_s( szWk, zsizeof( szWk ), "00000000" );
    ii = 8 - zstrlen( szHexString );
    if ( ii < 0 ) ii = 0;
-   strcpy_s( szWk + ii, sizeof( szWk ) - ii, szHexString );
+   strcpy_s( szWk + ii, zsizeof( szWk ) - ii, szHexString );
 
 
    p = (zPCHAR) &lWk;
@@ -2155,8 +2155,8 @@ zdmPassword( zLONG        lEntryType,
 
                   szWorkString[ 0 ] = lpDomainData->cType;
                   szWorkString[ 1 ] = 0;
-                  strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-                  strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 1,
                                    0, szWorkString,
@@ -2205,8 +2205,8 @@ zdmPassword( zLONG        lEntryType,
 
             szWorkString[ 0 ] = lpDomainData->lpViewAttribute->cType;
             szWorkString[ 1 ] = 0;
-            strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-            strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
 
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 3, 0,
@@ -2285,8 +2285,8 @@ zdmPassword( zLONG        lEntryType,
                default:
                   szWorkString[ 0 ] = lpDomainData->cType;
                   szWorkString[ 1 ] = 0;
-                  strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-                  strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, 8, 1,
                                    0, szWorkString,
@@ -2300,8 +2300,8 @@ zdmPassword( zLONG        lEntryType,
          {
             szWorkString[ 0 ] = lpDomainData->lpViewAttribute->cType;
             szWorkString[ 1 ] = 0;
-            strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-            strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
 
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0,
@@ -2358,8 +2358,8 @@ zdmPassword( zLONG        lEntryType,
                default:
                   szWorkString[ 0 ] = lpDomainData->cType;
                   szWorkString[ 1 ] = 0;
-                  strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-                  strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0,
                                    szWorkString,
@@ -2371,8 +2371,8 @@ zdmPassword( zLONG        lEntryType,
          {
             szWorkString[ 0 ] = lpDomainData->lpViewAttribute->cType;
             szWorkString[ 1 ] = 0;
-            strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-            strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
 
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0,
@@ -2400,8 +2400,8 @@ zdmPassword( zLONG        lEntryType,
             default:
                szWorkString[ 0 ] = lpDomainData->cType;
                szWorkString[ 1 ] = 0;
-               strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-               strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+               strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+               strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                // "TZDME001 - Invalid Input Data Type"
                SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0,
                                 szWorkString,
@@ -2477,8 +2477,8 @@ zdmPasswordUL( zLONG        lEntryType,
 
                   szWorkString[ 0 ] = lpDomainData->cType;
                   szWorkString[ 1 ] = 0;
-                  strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-                  strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 1,
                                    0, szWorkString,
@@ -2527,8 +2527,8 @@ zdmPasswordUL( zLONG        lEntryType,
 
             szWorkString[ 0 ] = lpDomainData->lpViewAttribute->cType;
             szWorkString[ 1 ] = 0;
-            strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-            strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, nSeverity, 3, 0,
                              szWorkString, lpDomainData->lpViewAttribute->szName );
@@ -2606,8 +2606,8 @@ zdmPasswordUL( zLONG        lEntryType,
                default:
                   szWorkString[ 0 ] = lpDomainData->cType;
                   szWorkString[ 1 ] = 0;
-                  strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-                  strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, 8, 1,
                                    0, szWorkString,
@@ -2621,8 +2621,8 @@ zdmPasswordUL( zLONG        lEntryType,
          {
             szWorkString[ 0 ] = lpDomainData->lpViewAttribute->cType;
             szWorkString[ 1 ] = 0;
-            strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-            strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
 
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0,
@@ -2680,8 +2680,8 @@ zdmPasswordUL( zLONG        lEntryType,
                default:
                   szWorkString[ 0 ] = lpDomainData->cType;
                   szWorkString[ 1 ] = 0;
-                  strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-                  strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+                  strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                   // "TZDME001 - Invalid Input Data Type"
                   SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0,
                                    szWorkString,
@@ -2693,8 +2693,8 @@ zdmPasswordUL( zLONG        lEntryType,
          {
             szWorkString[ 0 ] = lpDomainData->lpViewAttribute->cType;
             szWorkString[ 1 ] = 0;
-            strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-            strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
 
             // "TZDME003 - Attribute Type invalid for this Domain"
             SendDomainError( lpDomainData->zView, lpDomain, 8, 3, 0,
@@ -2722,8 +2722,8 @@ zdmPasswordUL( zLONG        lEntryType,
             default:
                szWorkString[ 0 ] = lpDomainData->cType;
                szWorkString[ 1 ] = 0;
-               strcat_s( szWorkString, sizeof( szWorkString ), ", " );
-               strcat_s( szWorkString, sizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
+               strcat_s( szWorkString, zsizeof( szWorkString ), ", " );
+               strcat_s( szWorkString, zsizeof( szWorkString ), lpDomainData->lpViewEntity->szName );
                // "TZDME001 - Invalid Input Data Type"
                SendDomainError( lpDomainData->zView, lpDomain, 8, 1, 0,
                                 szWorkString,
@@ -2791,18 +2791,18 @@ zdmDynamicTable( zLONG        lEntryType,
 
    // Activate the Dynamic Table and name it, if it does not currently
    // exist in memory with a name of "X_" + Domain Name.
-   strcpy_s( szSavedTableName, sizeof( szSavedTableName ), "X_" );
+   strcpy_s( szSavedTableName, zsizeof( szSavedTableName ), "X_" );
 
    lpDomain = SysGetPointerFromHandle( lpDomainData->lpViewAttribute->hDomain );
    if ( lpDomainData->pszContextName && *lpDomainData->pszContextName )
    {
-      strcat_s( szSavedTableName, sizeof( szSavedTableName ), lpDomainData->pszContextName );
+      strcat_s( szSavedTableName, zsizeof( szSavedTableName ), lpDomainData->pszContextName );
       lpContextName = lpDomainData->pszContextName;
    }
    else
    {
       GetDefaultContext( &lpContext, lpDomain );
-      strcat_s( szSavedTableName, sizeof( szSavedTableName ), lpContext->szName );
+      strcat_s( szSavedTableName, zsizeof( szSavedTableName ), lpContext->szName );
       lpContextName = lpContext->szName;
    }
 
@@ -2812,7 +2812,7 @@ zdmDynamicTable( zLONG        lEntryType,
       zCHAR szMutexName[ 500 ];
 
       // Make sure we are the only ones accessing the application OI.
-      sprintf_s( szMutexName, sizeof( szMutexName ), "DomainMutex_%s", szSavedTableName );
+      sprintf_s( szMutexName, zsizeof( szMutexName ), "DomainMutex_%s", szSavedTableName );
       SysMutexLock( lpDomainData->zView, szMutexName, 0, 0 );
 
       nRC = GetViewByName( &vDomainTable, szSavedTableName, lpDomainData->zView, zLEVEL_APPLICATION );
@@ -2829,9 +2829,9 @@ zdmDynamicTable( zLONG        lEntryType,
          {
             SysMutexUnlock( lpDomainData->zView, szMutexName, 0 );
 
-            strcpy_s( szMsg, sizeof( szMsg ), "Validation table, " );
-            strcat_s( szMsg, sizeof( szMsg ), szSavedTableName );
-            strcat_s( szMsg, sizeof( szMsg ), ", cannot be loaded." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Validation table, " );
+            strcat_s( szMsg, zsizeof( szMsg ), szSavedTableName );
+            strcat_s( szMsg, zsizeof( szMsg ), ", cannot be loaded." );
             MessageSend( lpDomainData->zView, "TZDMD002", "Data Validation", szMsg, zMSGQ_DOMAIN_ERROR, 0 );
             return( zCALL_ERROR );
          }
@@ -2893,7 +2893,7 @@ zdmDynamicTable( zLONG        lEntryType,
                {
                   if ( lpDomain->cType == zTYPE_STRING )
                   {
-                     GetStringFromAttribute( szStringAttributeValue, sizeof( szStringAttributeValue ), vDomainTable, "DomainValue", "InternalStringValue" );
+                     GetStringFromAttribute( szStringAttributeValue, zsizeof( szStringAttributeValue ), vDomainTable, "DomainValue", "InternalStringValue" );
                      StoreValueInRecord( lpDomainData->zView, lpDomainData->lpViewEntity,
                                          lpDomainData->lpViewAttribute, szStringAttributeValue, 0 );
                   }
@@ -3382,8 +3382,8 @@ zdmDynamicTableM( zLONG        lEntryType,
    // Activate the Dynamic Table and name it, if it does not currently
    // exist in memory with a name of "X_" + Domain Name.
    /////////
-   strcpy_s( szSavedTableName, sizeof( szSavedTableName ), "X_" );
-   strcat_s( szSavedTableName, sizeof( szSavedTableName ), lpDomainData->pszContextName );
+   strcpy_s( szSavedTableName, zsizeof( szSavedTableName ), "X_" );
+   strcat_s( szSavedTableName, zsizeof( szSavedTableName ), lpDomainData->pszContextName );
    nRC = GetViewByName( &vDomainTable, szSavedTableName, lpDomainData->zView, zLEVEL_TASK );
    if ( nRC < 0 )
    {
@@ -3441,7 +3441,7 @@ zdmDynamicTableM( zLONG        lEntryType,
          {
             if ( lpDomain->cType == zTYPE_STRING )
             {
-               GetStringFromAttribute( szStringAttributeValue, sizeof( szStringAttributeValue ),
+               GetStringFromAttribute( szStringAttributeValue, zsizeof( szStringAttributeValue ),
                                        vDomainTable, lpDomainData->pszContextName, szInternalAttributeName );
                StoreValueInRecord( lpDomainData->zView,
                                    lpDomainData->lpViewEntity,

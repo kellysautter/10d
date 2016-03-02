@@ -128,7 +128,7 @@ CColourPopup::CColourPopup(CPoint p, COLORREF crColour, CWnd* pParentWnd,
 
 void CColourPopup::Initialise()
 {
-    m_nNumColours       = sizeof(m_crColours)/sizeof(ColourTableEntry);
+    m_nNumColours       = zsizeof(m_crColours)/zsizeof(ColourTableEntry);
     ASSERT(m_nNumColours <= MAX_COLOURS);
     if (m_nNumColours > MAX_COLOURS)
         m_nNumColours = MAX_COLOURS;
@@ -147,8 +147,8 @@ void CColourPopup::Initialise()
 
     // Create the font
     NONCLIENTMETRICS ncm;
-    ncm.cbSize = sizeof(NONCLIENTMETRICS);
-    VERIFY(SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &ncm, 0));
+    ncm.cbSize = zsizeof(NONCLIENTMETRICS);
+    VERIFY(SystemParametersInfo(SPI_GETNONCLIENTMETRICS, zsizeof(NONCLIENTMETRICS), &ncm, 0));
     m_Font.CreateFontIndirect(&(ncm.lfMessageFont));
 
     // Create the palette

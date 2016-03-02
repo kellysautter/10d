@@ -492,7 +492,7 @@ ZGrid::ZGrid( ZSubtask *pZSubtask,
          {
             // New grid with possible sub-controls.
             if ( *pch == (char) 0xFF )
-               pch += (3 * sizeof( zLONG )) + 34; // sizeof( szSubBlob );
+               pch += (3 * sizeof( zLONG )) + 34; // zsizeof( szSubBlob );
 
             // Get the number of dialog units allotted for this attribute.
             lChar = *((zPLONG) pch);
@@ -865,8 +865,8 @@ ZGrid::GetPreferencesFromIni( )
    int    nCol;
    int    k;
 
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    GetWindowPreferenceString( m_pZSubtask->m_vDialog,
                               szBuffer, pchBuffer, nLth );
 
@@ -922,8 +922,8 @@ ZGrid::GetPreferencesFromIni( )
       {
          zBOOL bLocateSort = FALSE;
 
-         strcpy_s( szBuffer, sizeof( szBuffer ), "Sort:" );
-         strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+         strcpy_s( szBuffer, zsizeof( szBuffer ), "Sort:" );
+         strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
          GetWindowPreferenceString( m_pZSubtask->m_vDialog,
                                     szBuffer, pchBuffer, nLth );
          k = (zSHORT) zstrlen( pchBuffer );
@@ -1093,13 +1093,13 @@ ZGrid::PostCreateCtrls( WPARAM wFlag )
          // New grid with possible sub-controls.
          if ( *pch == (char) 0xFF )
          {
-            zmemcpy( szSubBlob, pch, sizeof( szSubBlob ) );
+            zmemcpy( szSubBlob, pch, zsizeof( szSubBlob ) );
             szSubBlob[ 0 ] = 0;
             GRID_SetColumnCtrl( m_pZSubtask->m_vDialog, *m_pzsTag,
                                 k + (1 - m_nFixedCols),
                                 szSubBlob + (3 * sizeof( zLONG )),
                                 *((zPSHORT) (szSubBlob + 2)) );
-            pch += sizeof( szSubBlob );
+            pch += zsizeof( szSubBlob );
          }
 
          // Get the number of dialog units allotted for this attribute.
@@ -1200,7 +1200,7 @@ ZGrid::DestroyWindow( )
       m_vAppList = 0;
    }
 
-   zLONG  lLth = sizeof( "-2147483647," ) * (m_nCols + 1);
+   zLONG  lLth = zsizeof( "-2147483647," ) * (m_nCols + 1);
    zPCHAR pch = new char[ lLth ];
    zSHORT nHeight = GetRowHeight( 0 );
    zSHORT nPos = 0;
@@ -1223,13 +1223,13 @@ ZGrid::DestroyWindow( )
    }
 
    pch[ nPos ] = 0;
-   strcpy_s( szBuffer, sizeof( szBuffer ), "Ctrl:" );
-   strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+   strcpy_s( szBuffer, zsizeof( szBuffer ), "Ctrl:" );
+   strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
    SetWindowPreferenceString( m_pZSubtask->m_vDialog, szBuffer, pch );
    if ( m_bRememberSort )
    {
-      strcpy_s( szBuffer, sizeof( szBuffer ), "Sort:" );
-      strcpy_s( szBuffer + 5, sizeof( szBuffer ) - 5, *m_pzsTag );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), "Sort:" );
+      strcpy_s( szBuffer + 5, zsizeof( szBuffer ) - 5, *m_pzsTag );
 
       // Set the "check bytes" at end of string.
       m_csSortBuffer += _T( "##" );
@@ -1347,7 +1347,7 @@ ZGrid::FormatTextForCell( CString& csText, zLONG lRow, zSHORT nCol )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
                    *m_pzsVName, *(m_pZSubtask->m_pzsDlgTag), *(m_pZSubtask->m_pzsWndTag), *m_pzsTag );
          TraceLineS( "ZGrid::FormatTextForCell Retry MapFromOI: ", szMsg );
 
@@ -1364,7 +1364,7 @@ ZGrid::FormatTextForCell( CString& csText, zLONG lRow, zSHORT nCol )
          {
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
                       (*m_pzsVName).GetString(), (*(m_pZSubtask->m_pzsDlgTag)).GetString(),
                       (*(m_pZSubtask->m_pzsWndTag)).GetString(), (*m_pzsTag).GetString() );
             TraceLineS( "ZGrid::FormatTextForCell ", szMsg );
@@ -1398,7 +1398,7 @@ ZGrid::FormatTextForCell( CString& csText, zLONG lRow, zSHORT nCol )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Error in entity count for view: %s  Entity: %s for %s.%s.%s",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Error in entity count for view: %s Entity: %s for %s.%s.%s",
                    (*m_pzsVName).GetString(), (*m_pzsEName).GetString(), (*m_pZSubtask->m_pzsDlgTag).GetString(),
                    (*m_pZSubtask->m_pzsWndTag).GetString(), (*m_pzsTag).GetString() );
          TraceLineS( "ZGrid::FormatTextForCell ", szMsg );
@@ -1430,7 +1430,7 @@ ZGrid::FormatTextForCell( CString& csText, zLONG lRow, zSHORT nCol )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ),
+         sprintf_s( szMsg, zsizeof( szMsg ),
                    "Entity Key Error: %s  Entity: %s  for %s.%s.%s",
                    (*m_pzsVName).GetString(), (*m_pzsEName).GetString(), (*m_pZSubtask->m_pzsDlgTag).GetString(),
                    (*m_pZSubtask->m_pzsWndTag).GetString(), (*m_pzsTag).GetString() );
@@ -1462,7 +1462,7 @@ ZGrid::FormatTextForCell( CString& csText, zLONG lRow, zSHORT nCol )
 
       nRC =
       GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                sizeof( szMap ) - 1,
+                                zsizeof( szMap ) - 1,
                                 m_vAppList,
                                 cpcEntity,
                                 m_pCol[ nCol ].pchAttribX,
@@ -1474,7 +1474,7 @@ ZGrid::FormatTextForCell( CString& csText, zLONG lRow, zSHORT nCol )
    {
       nRC =
       GetVariableFromAttribute( szMap, 0, zTYPE_STRING,
-                                sizeof( szMap ) - 1,
+                                zsizeof( szMap ) - 1,
                                 m_vAppList,
                                 m_pCol[ nCol ].pchEntity,
                                 m_pCol[ nCol ].pchAttrib,
@@ -1524,7 +1524,7 @@ ZGrid::FormatTextForCell( CString& csText, zLONG lRow, zSHORT nCol )
       {
          zCHAR szValue[ 256 ];
 
-         GetStringFromAttribute( szValue, sizeof( szValue ), m_vAppList, *m_pzsEName,
+         GetStringFromAttribute( szValue, zsizeof( szValue ), m_vAppList, *m_pzsEName,
                                  m_pCol[ nCol ].pchColorAttribute ?
                                    m_pCol[ nCol ].pchColorAttribute :
                                    m_pCol[ 0 ].pchColorAttribute );
@@ -1543,7 +1543,7 @@ ZGrid::FormatTextForCell( CString& csText, zLONG lRow, zSHORT nCol )
       }
    }
 
-   TranslateValue( szMap, sizeof( szMap ), TRUE, nCol );
+   TranslateValue( szMap, zsizeof( szMap ), TRUE, nCol );
    csText = szMap;
 
 #ifdef DEBUG_ALL
@@ -1599,7 +1599,7 @@ ZGrid::TransferDataFromCellToOI( zCPCHAR cpcText, zLONG lRow, zSHORT nCol )
          {
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ),
+            sprintf_s( szMsg, zsizeof( szMsg ),
                       "Unable to load view: %s for %s.%s.%s",
                       (*m_pzsVName).GetString(), (*(m_pZSubtask->m_pzsDlgTag)).GetString(),
                       (*(m_pZSubtask->m_pzsWndTag)).GetString(), (*m_pzsTag).GetString() );
@@ -1636,7 +1636,7 @@ ZGrid::TransferDataFromCellToOI( zCPCHAR cpcText, zLONG lRow, zSHORT nCol )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ),
+      sprintf_s( szMsg, zsizeof( szMsg ),
                 "Error in entity count for view: %s for %s.%s.%s",
                 (*m_pzsVName).GetString(), (*(m_pZSubtask->m_pzsDlgTag)).GetString(),
                 (*(m_pZSubtask->m_pzsWndTag)).GetString(), (*m_pzsTag).GetString() );
@@ -1655,7 +1655,7 @@ ZGrid::TransferDataFromCellToOI( zCPCHAR cpcText, zLONG lRow, zSHORT nCol )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ),
+         sprintf_s( szMsg, zsizeof( szMsg ),
                    "Entity Key Error: %s for %s.%s.%s",
                    (*m_pzsVName).GetString(), (*m_pZSubtask->m_pzsDlgTag).GetString(),
                    (*m_pZSubtask->m_pzsWndTag).GetString(), (*m_pzsTag).GetString() );
@@ -1679,8 +1679,8 @@ ZGrid::TransferDataFromCellToOI( zCPCHAR cpcText, zLONG lRow, zSHORT nCol )
                                       zUPD_NONPERSIST ) > 0 )
    {
       szMap[ 0 ] = 0;
-      strncat_s( szMap, sizeof( szMap ), cpcText, sizeof( szMap ) - 1 );
-      zBOOL bTranslated = TranslateValue( szMap, sizeof( szMap ), FALSE, nCol );
+      strncat_s( szMap, zsizeof( szMap ), cpcText, zsizeof( szMap ) - 1 );
+      zBOOL bTranslated = TranslateValue( szMap, zsizeof( szMap ), FALSE, nCol );
       zSHORT nRC;
 
       if ( bTranslated )
@@ -1689,7 +1689,7 @@ ZGrid::TransferDataFromCellToOI( zCPCHAR cpcText, zLONG lRow, zSHORT nCol )
                                          m_pCol[ nCol ].pchEntity,
                                          m_pCol[ nCol ].pchAttrib,
                                          szMap, zTYPE_STRING,
-                                         sizeof( szMap ) - 1,
+                                         zsizeof( szMap ) - 1,
                                          m_pCol[ nCol ].pchContext,
                                          (m_pCol[ nCol ].pchContext &&
                                           m_pCol[ nCol ].pchContext[ 0 ]) ?
@@ -2064,9 +2064,9 @@ ZGrid::MapFromOI( WPARAM wFlag )
             // SetCellType( nCol, lRow, &SSCellType );
 
             // SetValue( nCol, lRow, szMap );
-            // zCHAR szMsg[ sizeof( szMap ) + 100 ];
+            // zCHAR szMsg[ zsizeof( szMap ) + 100 ];
             //
-            // sprintf_s( szMsg, sizeof( szMsg ), "SetValue for Row: %d Col: %d %s",
+            // sprintf_s( szMsg, zsizeof( szMsg ), "SetValue for Row: %d Col: %d %s",
             //           (zLONG) lRow, (zLONG) nCol, szMap );
             // TraceLineS( szMsg, "" );
                break;
@@ -2678,7 +2678,7 @@ ZGrid::PrintZPage( zLONG  lPageNbr,
       size.cx = m_pCol[ nCol ].nColWidth;
       size.cx = (size.cx * pZSubtask->m_pZPrintout->m_nPixelsPerInchX) / 256;
       pZSubtask->m_pZPrintout->m_pDC->DPtoLP( &size );
-      MakeShortString( pZSubtask->m_pZPrintout->m_pDC, szText, sizeof( szText ), m_pCol[ nCol ].pchText, size.cx, 0 );
+      MakeShortString( pZSubtask->m_pZPrintout->m_pDC, szText, zsizeof( szText ), m_pCol[ nCol ].pchText, size.cx, 0 );
       PrintTextToReport( m_pZSubtask->m_vDialog, szText, lLeft256ths, lTop256ths, lRight256ths, lBottom256ths, 34, 0x00000F00, 0, 0, 0 );
       lLeft256ths = lRight256ths;
    }
@@ -2691,7 +2691,7 @@ ZGrid::PrintZPage( zLONG  lPageNbr,
       for ( nCol = 0; nCol < m_nCols; nCol++ )
       {
          nRC = FormatTextAtPosition( szText, lRow,
-                                     nCol, sizeof( szText ) );
+                                     nCol, zsizeof( szText ) );
          if ( nRC )
             break;
 
@@ -2703,7 +2703,7 @@ ZGrid::PrintZPage( zLONG  lPageNbr,
          pZSubtask->m_pZPrintout->m_pDC->DPtoLP( &size );
 
          cs = szText;
-         MakeShortString( pZSubtask->m_pZPrintout->m_pDC, szText, sizeof( szText ), cs, size.cx, 0 );
+         MakeShortString( pZSubtask->m_pZPrintout->m_pDC, szText, zsizeof( szText ), cs, size.cx, 0 );
 
          if ( m_pCol[ nCol ].nJustify == LVCFMT_RIGHT )
             lJustify = 4;
@@ -2779,7 +2779,7 @@ ZGrid::PrintZPage( zLONG  lPageNbr,
       cs = pZPrintout->m_csReportInfo;
 
    cs += "   ";
-   SysGetDateTime( szText, sizeof( szText ) );
+   SysGetDateTime( szText, zsizeof( szText ) );
    szText[ 14 ] = 0;
    fnFormatString( szText, "####.##.##  ##:##:##" );
    cs += szText;
@@ -3097,10 +3097,10 @@ ZGrid::PrintZPage( zLONG  lPageNbr,
       zCHAR  szPageNbr[ 32 ];
       zSHORT k;
 
-      _ltoa_s( lPageNbr, szPageNbr, sizeof( szPageNbr ), 10 );
+      _ltoa_s( lPageNbr, szPageNbr, zsizeof( szPageNbr ), 10 );
       k = (zSHORT) zstrlen( szPageNbr );
       szPageNbr[ k ] = '/';
-      _ltoa_s( m_nMaxPage, szPageNbr + k + 1, sizeof( szPageNbr ) - k - 1, 10 );
+      _ltoa_s( m_nMaxPage, szPageNbr + k + 1, zsizeof( szPageNbr ) - k - 1, 10 );
       rectItem = rect;
       rectItem.bottom += 3 * m_nTextHeightBold;
       rectItem.top = rectItem.bottom;
@@ -3167,7 +3167,7 @@ ZGrid::InformCompositeOfKillFocus( ZMapAct *pzmaLosingFocus )
    {
       zCHAR   szText[ 65534 ];
 
-      GetZCtrlText( pzmaLosingFocus, szText, sizeof( szText ) );
+      GetZCtrlText( pzmaLosingFocus, szText, zsizeof( szText ) );
       pzmaLosingFocus->m_pzmaComposite->TransferTextFromInplace( szText );
 
       pzmaLosingFocus->m_ulMapActFlags &= ~zMAPACT_VISIBLE;
@@ -3264,7 +3264,7 @@ ZGridCellZeidon::Edit( long lRow, int nCol, CRect rect,
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ),
+         sprintf_s( szMsg, zsizeof( szMsg ),
                    "Entity Key Error: %s for %s.%s.%s",
                    (*(m_pGrid->m_pzsVName)).GetString(),
                    (*(m_pGrid->m_pZSubtask->m_pzsDlgTag)).GetString(),
@@ -3336,7 +3336,7 @@ ZGridCellZeidon::EndEdit( BOOL bDestroy )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ),
+         sprintf_s( szMsg, zsizeof( szMsg ),
                    "Entity Key Error: %s for %s.%s.%s",
                    *(m_pGrid->m_pzsVName),
                    *(m_pGrid->m_pZSubtask->m_pzsDlgTag),

@@ -53,7 +53,7 @@ zwTZZMAIND_PostBuild( zVIEW vSubtask )
    nRC = GetViewByName( &vLPL, "TaskLPLR", vSubtask, zLEVEL_TASK );
    if ( nRC > 0 )
    {
-      GetStringFromAttribute( szLPL_Name, sizeof( szLPL_Name ), vLPL, "LPLR", "Name" );
+      GetStringFromAttribute( szLPL_Name, zsizeof( szLPL_Name ), vLPL, "LPLR", "Name" );
       SetWindowCaptionTitle( vSubtask, 0, szLPL_Name );
    }
 
@@ -119,8 +119,8 @@ fnLaunchTool( zVIEW vSubtask, zPCHAR szDialogName )
 //
 // GetApplDirectoryFromView( szCommand, vSubtask,
 //                           zAPPL_DIR_LIB, 200 );
-// strcat_s( szCommand, sizeof( szCommand ), "\\zdr.exe \\\\Zeidon_Tools\\" );
-// strcat_s( szCommand, sizeof( szCommand ), szDialogName );
+// strcat_s( szCommand, zsizeof( szCommand ), "\\zdr.exe \\\\Zeidon_Tools\\" );
+// strcat_s( szCommand, zsizeof( szCommand ), szDialogName );
 // return( StartTask( vSubtask, szCommand, SW_SHOWNORMAL ) );
 }
 
@@ -141,15 +141,15 @@ fnRefreshComponentList( zVIEW vSubtask, zPCHAR szListType )
    else
    if ( szListType[ 0 ] )
    {
-      strcpy_s( szListView, sizeof( szListView ), "TZ" );
-      strcat_s( szListView, sizeof( szListView ), szListType );
+      strcpy_s( szListView, zsizeof( szListView ), "TZ" );
+      strcat_s( szListView, zsizeof( szListView ), szListType );
       if ( vListWindow &&
             GetCtrlState( vListWindow, "Refer", zCONTROL_STATUS_CHECKED ) > 0 )
       {
-         strcat_s( szListView, sizeof( szListView ), "R" );
+         strcat_s( szListView, zsizeof( szListView ), "R" );
       }
       else
-         strcat_s( szListView, sizeof( szListView ), "S" );
+         strcat_s( szListView, zsizeof( szListView ), "S" );
 
       GetViewByName( &vList, szListView, vSubtask, zLEVEL_TASK );
       SetNameForView( vList, "TZLPLRLS", vSubtask, zLEVEL_TASK );
@@ -393,7 +393,7 @@ zwTZZMAIND_StartEditor( zVIEW vSubtask )
    zCHAR szCommand[ 256 ];
 
    SysGetEnvVar( szCommand, "ZEIDON", 200 );
-   strcat_s( szCommand, sizeof( szCommand ), "\\CW -ZEditor" );
+   strcat_s( szCommand, zsizeof( szCommand ), "\\CW -ZEditor" );
    return( StartTask( vSubtask, szCommand, SW_SHOWNORMAL ) );
 }
 

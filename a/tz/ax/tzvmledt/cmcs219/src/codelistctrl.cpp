@@ -276,7 +276,7 @@ BOOL CCodeListCtrl::SetTipText( LPCTSTR pszText )
       return FALSE;
 
    // Set up the TOOLINFO structure
-   TOOLINFO ti = { sizeof(TOOLINFO) };
+   TOOLINFO ti = { zsizeof(TOOLINFO) };
 
    ti.uFlags = TTF_TRACK | TTF_IDISHWND;
    ti.hwnd = m_hWnd;

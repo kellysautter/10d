@@ -1756,7 +1756,7 @@ void ITrueDBGridCtrl::StoreLayoutChanges()
       Column c = cols.GetColumn( k );
       char szBuffer[ 32 ];
       szBuffer[ 0 ] = 0;
-      _ltoa_s( (zLONG) c.GetWidth(), szBuffer, sizeof( szBuffer ), 10 );
+      _ltoa_s( (zLONG) c.GetWidth(), szBuffer, zsizeof( szBuffer ), 10 );
       strPositionBuffer += szBuffer;
       if ( k < nCols - 1 )
       {

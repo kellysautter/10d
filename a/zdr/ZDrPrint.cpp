@@ -178,12 +178,12 @@ ZPrintout::ZPrintout( ZSubtask *pZSubtask,
       szFileName[ 0 ] = 0;
       if ( lPrintFlags & zREPORT_PRINTREMOTE )
       {
-         SysMakeWebFileName( szFileName, sizeof( szFileName ), m_vSubtask, 2 );
+         SysMakeWebFileName( szFileName, zsizeof( szFileName ), m_vSubtask, 2 );
       }
       else
       {
          if ( lPrintFlags & zREPORT_USEFOLDER )
-            strcpy_s( szFileName, sizeof( szFileName ), pchReportInfo );
+            strcpy_s( szFileName, zsizeof( szFileName ), pchReportInfo );
 
          if ( lPrintFlags & zREPORT_CREATENAME )
          {
@@ -191,10 +191,10 @@ ZPrintout::ZPrintout( ZSubtask *pZSubtask,
 
             SysAppendcDirSep( szFileName );
             sprintf_s( szName, "0x%08x", (zULONG) pZSubtask->m_vDialog );
-            strcat_s( szFileName, sizeof( szFileName ), szName );
+            strcat_s( szFileName, zsizeof( szFileName ), szName );
          }
          else
-            strcat_s( szFileName, sizeof( szFileName ), pchReportInfo );
+            strcat_s( szFileName, zsizeof( szFileName ), pchReportInfo );
       }
 
       if ( zstrchr( szFileName, '/' ) == 0 && zstrchr( szFileName, '\\' ) == 0 )
@@ -204,21 +204,21 @@ ZPrintout::ZPrintout( ZSubtask *pZSubtask,
          {
             zCHAR szTempName[ zMAX_FILESPEC_LTH + 1 ];
 
-            strcpy_s( szTempName, sizeof( szTempName ), szFileName );
-            strcpy_s( szFileName, sizeof( szFileName ), lpApp->szLocalDir );
-            strcat_s( szFileName, sizeof( szFileName ), szTempName );
+            strcpy_s( szTempName, zsizeof( szTempName ), szFileName );
+            strcpy_s( szFileName, zsizeof( szFileName ), lpApp->szLocalDir );
+            strcat_s( szFileName, zsizeof( szFileName ), szTempName );
          }
       }
 
       zstrlower( szFileName );
       if ( m_bPrintToCSV )
       {
-         strcat_s( szFileName, sizeof( szFileName ), ".csv" );
+         strcat_s( szFileName, zsizeof( szFileName ), ".csv" );
          TraceLineS( "Creating CSV File: ", szFileName );
       }
       else
       {
-         strcat_s( szFileName, sizeof( szFileName ), ".html" );
+         strcat_s( szFileName, zsizeof( szFileName ), ".html" );
          TraceLineS( "Creating HTML File: ", szFileName );
       }
 
@@ -291,7 +291,7 @@ ZPrintout::ZPrintout( ZSubtask *pZSubtask,
    zCHAR szTabStops[ 128 ];
 
    GetWorkstationApplicationValues( m_vSubtask, "PrintTabStops",
-                                    szTabStops, sizeof( szTabStops ),
+                                    szTabStops, zsizeof( szTabStops ),
                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
 
    m_nTabStops = (zSHORT) zatol( szTabStops );
@@ -361,7 +361,7 @@ ZPrintout::ZPrintout( ZSubtask *pZSubtask,
          // Set up the font scale as specified in Zeidon.ini
          zCHAR  szFontData[ 128 ];
 
-         GetWorkstationApplicationValues( m_vSubtask, "FontScale", szFontData, sizeof( szFontData ),
+         GetWorkstationApplicationValues( m_vSubtask, "FontScale", szFontData, zsizeof( szFontData ),
                                           0, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
 #if 0
          if ( szFontData[ 0 ] )
@@ -470,7 +470,7 @@ ZPrintout::ZPrintout( ZTask    *pZTask,
    zCHAR szTabStops[ 128 ];
 
    GetWorkstationApplicationValues( m_vSubtask, "PrintTabStops",
-                                    szTabStops, sizeof( szTabStops ),
+                                    szTabStops, zsizeof( szTabStops ),
                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
 
    m_nTabStops = (zSHORT) zatol( szTabStops );
@@ -533,7 +533,7 @@ ZPrintout::ZPrintout( ZTask    *pZTask,
          zCHAR  szFontData[ 128 ];
 
          GetWorkstationApplicationValues( m_vSubtask, "FontScale",
-                                          szFontData, sizeof( szFontData ),
+                                          szFontData, zsizeof( szFontData ),
                                           0, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
 
 #if 0
@@ -580,7 +580,7 @@ ZPrintout::~ZPrintout( )
 
       GetAppOrWorkstationValue( m_vSubtask, "AcrobatPDF_PathFileName",
                                 szDeviceFileName,
-                                sizeof( szDeviceFileName ) );
+                                zsizeof( szDeviceFileName ) );
       if ( szDeviceFileName[ 0 ] )
       {
          DWORD dwMilliSeconds = GetTickCount( );
@@ -601,7 +601,7 @@ ZPrintout::~ZPrintout( )
             if ( lFile != -1 )
             {
                if ( SysReadFile( m_vSubtask, lFile,
-                                 szBuffer, sizeof( szBuffer ) ) > 0 )
+                                 szBuffer, zsizeof( szBuffer ) ) > 0 )
                {
                   break;
                }
@@ -625,7 +625,7 @@ ZPrintout::~ZPrintout( )
          {
             SysCloseFile( m_vSubtask, lFile, 0 );
             StartBrowserWindowWithURL( m_vSubtask, szReportFileName,
-                                       sizeof( szReportFileName ),
+                                       zsizeof( szReportFileName ),
                                        0, szDeviceFileName, 1 );
             SysOpenFile( m_vSubtask,
                          szDeviceFileName, COREFILE_DELETE );
@@ -909,33 +909,33 @@ ZPrintout::ListFontsAndColors( zPCHAR pchFontList, zLONG lMaxLth )
             {
                case FF_DECORATIVE:
                   strcpy_s( pchFontList + nLth, lMaxLth - nLth, "decorative" );
-                  nLth += sizeof( "decorative" );
+                  nLth += zsizeof( "decorative" );
                   break;
 
                case FF_MODERN:
                   strcpy_s( pchFontList + nLth, lMaxLth - nLth, "modern" );
-                  nLth += sizeof( "modern" );
+                  nLth += zsizeof( "modern" );
                   break;
 
                case FF_ROMAN:
                   strcpy_s( pchFontList + nLth, lMaxLth - nLth, "roman" );
-                  nLth += sizeof( "roman" );
+                  nLth += zsizeof( "roman" );
                   break;
 
                case FF_SCRIPT:
                   strcpy_s( pchFontList + nLth, lMaxLth - nLth, "script" );
-                  nLth += sizeof( "script" );
+                  nLth += zsizeof( "script" );
                   break;
 
                case FF_SWISS:
                   strcpy_s( pchFontList + nLth, lMaxLth - nLth, "swiss" );
-                  nLth += sizeof( "swiss" );
+                  nLth += zsizeof( "swiss" );
                   break;
 
                case FF_DONTCARE:
                default:
                   strcpy_s( pchFontList + nLth, lMaxLth - nLth, "nil" );
-                  nLth += sizeof( "nil" );
+                  nLth += zsizeof( "nil" );
                   break;
             }
 
@@ -1094,9 +1094,9 @@ ZPrintout::HandlePageNumbering( zPCHAR pchPageNumber,
       {
          zCHAR szTotalPageSeparator[ 32 ];
 
-         SysReadZeidonIni( -1, "[Workstation]", "TotalPageSeparator", szTotalPageSeparator, sizeof( szTotalPageSeparator ) );
+         SysReadZeidonIni( -1, "[Workstation]", "TotalPageSeparator", szTotalPageSeparator, zsizeof( szTotalPageSeparator ) );
          if ( szTotalPageSeparator[ 0 ] == 0 )
-            strcpy_s( szTotalPageSeparator, sizeof( szTotalPageSeparator ), "of" );
+            strcpy_s( szTotalPageSeparator, zsizeof( szTotalPageSeparator ), "of" );
 
          pResetPagingItem = m_pResetPagingHead;
 
@@ -1225,7 +1225,7 @@ ZPrintout::AddPagePosition( zLONG   lPageNbr,
 
          GetIntegerFromAttribute( &lCurrLevel, vReportDef,
                                  "FooterAtLevel", "Level" );
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vReportDef,
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vReportDef,
                                  "FooterAtLevel", "EntityName" );
          pLevelItem = new ZLevelItem( lCurrLevel, szEntityName,
                                       ulFooterPos, szFooterEntityName );
@@ -1249,7 +1249,7 @@ ZPrintout::AddPagePosition( zLONG   lPageNbr,
       while ( nRC >= zCURSOR_SET )
       {
          GetIntegerFromAttribute( &lCurrLevel, vReportDef, "LastEntityAtLevel", "Level" );
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vReportDef, "LastEntityAtLevel", "EntityName" );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vReportDef, "LastEntityAtLevel", "EntityName" );
          pLevelItem = new ZLevelItem( lCurrLevel, szEntityName );
          if ( pPage->m_pLastEntityHead == 0 )
          {
@@ -1466,7 +1466,7 @@ ZViewPort::ZViewPort( zCPCHAR cpcCurrentEntityName,
                       zLONG   lViewPortBottom,
                       zLONG   lViewPortRight )
 {
-   strcpy_s( m_szCurrentEntityName, sizeof( m_szCurrentEntityName ), cpcCurrentEntityName );
+   strcpy_s( m_szCurrentEntityName, zsizeof( m_szCurrentEntityName ), cpcCurrentEntityName );
    m_lRepeatHorizontal = lRepeatHorizontal;
    m_lRepeatHorizontalColumn = lRepeatHorizontalColumn;
    m_lRepeatHorizontalIndent = lRepeatHorizontalIndent;
@@ -1600,9 +1600,9 @@ ZPageItem::ZPageItem( zLONG lPageNbr, zLONG lPosition, zLONG lRC,
    m_lFlags = lFlags;
    m_lMultiLineTextPos = lMultiLineTextPos;
    m_lContinuedGroupFlag = lContinuedGroupFlag;
-   strcpy_s( m_szEntityName, sizeof( m_szEntityName ), cpcEntityName );
-   strcpy_s( m_szRptGroupSetTag, sizeof( m_szRptGroupSetTag ), cpcRptGroupSetTag );
-   strcpy_s( m_szRptGroupTag, sizeof( m_szRptGroupTag ), cpcRptGroupTag );
+   strcpy_s( m_szEntityName, zsizeof( m_szEntityName ), cpcEntityName );
+   strcpy_s( m_szRptGroupSetTag, zsizeof( m_szRptGroupSetTag ), cpcRptGroupSetTag );
+   strcpy_s( m_szRptGroupTag, zsizeof( m_szRptGroupTag ), cpcRptGroupTag );
    m_pNext = 0;
    m_pFooterHead = 0;
    m_pLastEntityHead = 0;
@@ -1619,10 +1619,10 @@ ZLevelItem::ZLevelItem( zLONG lLevel, zCPCHAR cpcEntityName,
                         zLONG lFooterPos, zCPCHAR cpcFooterEntityName )
 {
    m_lLevel = lLevel;
-   strcpy_s( m_szEntityName, sizeof( m_szEntityName ), cpcEntityName );
+   strcpy_s( m_szEntityName, zsizeof( m_szEntityName ), cpcEntityName );
    m_lFooterPos = lFooterPos;
    if ( cpcFooterEntityName && *cpcFooterEntityName )
-      strcpy_s( m_szFooterEntityName, sizeof( m_szFooterEntityName ), m_szFooterEntityName );
+      strcpy_s( m_szFooterEntityName, zsizeof( m_szFooterEntityName ), m_szFooterEntityName );
    else
       m_szFooterEntityName[ 0 ] = 0;
 
@@ -1753,19 +1753,19 @@ ActivateReportDef( zVIEW   vSubtask,
 
       SfGetApplicationForSubtask( &lpApp, vSubtask );
       if ( lpApp )
-         strcpy_s( szFileName, sizeof( szFileName ), lpApp->szObjectDir );
+         strcpy_s( szFileName, zsizeof( szFileName ), lpApp->szObjectDir );
    }
    else
    {
       if ( GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) >= 0 )
       {
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "ExecDir" );
-         strcat_s( szFileName, sizeof( szFileName ), "\\" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "ExecDir" );
+         strcat_s( szFileName, zsizeof( szFileName ), "\\" );
       }
    }
 
-   strcat_s( szFileName, sizeof( szFileName ), cpcReportDefName );
-   strcat_s( szFileName, sizeof( szFileName ), ".XRP" );
+   strcat_s( szFileName, zsizeof( szFileName ), cpcReportDefName );
+   strcat_s( szFileName, zsizeof( szFileName ), ".XRP" );
    zstrlower( szFileName );
 
    TraceLineS( "ActivateReportDef: ", szFileName );
@@ -1851,13 +1851,13 @@ ZPrintout::RemoteFilePrint( zVIEW vSubtask )
    // Get Report URL name.
    GetAppOrWorkstationValue( vSubtask, "ExecutableRemotePrinter",
                              szPrinterFileDevice,
-                             sizeof( szPrinterFileDevice ) );
+                             zsizeof( szPrinterFileDevice ) );
 
    // Set up document title.
    GetAppOrWorkstationValue( vSubtask, "AcrobatPDF_PathFileName",
-                             szDeviceFileName, sizeof( szDeviceFileName ) );
+                             szDeviceFileName, zsizeof( szDeviceFileName ) );
    GetAppOrWorkstationValue( vSubtask, "RunOncePDF_PathFileName",
-                             szRunOnceFileName, sizeof( szRunOnceFileName ) );
+                             szRunOnceFileName, zsizeof( szRunOnceFileName ) );
 
    // AcrobatPDF_PathFileName is used if we are trying to call the runonce.bat file.
    // This has the directory and filename structure for where to create the pdf file.
@@ -1903,7 +1903,7 @@ ZPrintout::RemoteFilePrint( zVIEW vSubtask )
    m_szDefaultPrinter[ 0 ] = 0;
    if ( szPrinterFileDevice[ 0 ] )
    {
-      zLONG lNameBuffer = sizeof( m_szDefaultPrinter );
+      zLONG lNameBuffer = zsizeof( m_szDefaultPrinter );
 
       if ( GetDefaultPrinterName( m_szDefaultPrinter, &lNameBuffer ) )
       {
@@ -1938,7 +1938,7 @@ ZPrintout::RemoteFilePrint( zVIEW vSubtask )
 
       GetWorkstationAppValue( vSubtask,
                               (zPCHAR) pDevMode->dmDeviceName,
-                              "NegateEscapement", szYN, sizeof( szYN ) );
+                              "NegateEscapement", szYN, zsizeof( szYN ) );
       if ( szYN[ 0 ] == 'Y' || szYN[ 0 ] == 'y' )
       {
          if ( m_pZTask->m_nTraceAction > 2 )
@@ -1962,7 +1962,7 @@ ZPrintout::RemoteFilePrint( zVIEW vSubtask )
 
       GetWorkstationAppValue( vSubtask,
                               (zPCHAR) pDevMode->dmDeviceName,
-                              "FontScale", szFontScale, sizeof( szFontScale ) );
+                              "FontScale", szFontScale, zsizeof( szFontScale ) );
       if ( szFontScale[ 0 ] )
       {
          m_dHeight = atof( szFontScale );
@@ -2283,7 +2283,7 @@ GenerateReportToPDF( zVIEW   vSubtask,
    // zencas.  Might need to change something because I had a hard time getting a file
    // to open when PDF_PathFileName was something like "C:\Program Files...".
    GetAppOrWorkstationValue( vSubtask, "PDF_PathFileName",
-                             szPathFileName, sizeof( szPathFileName ) );
+                             szPathFileName, zsizeof( szPathFileName ) );
 
    szFileName += szPathFileName;
    szFileName += pchReportName;
@@ -2950,7 +2950,7 @@ PrintLineToHTML( zVIEW   vSubtask,
          BYTE byGreen = GetGValue( pZSubtask->m_pZPrintout->m_pFontCurr->m_clrText );
          BYTE byBlue = GetBValue( pZSubtask->m_pZPrintout->m_pFontCurr->m_clrText );
 
-         sprintf_s( szText, sizeof( szText ),
+         sprintf_s( szText, zsizeof( szText ),
                     "<hr %s style=\"color:#%.2x%.2x%.2x;width:%dpx;height:%dpx;"
                       "POSITION:absolute;LEFT:%dpx;TOP:%dpx;\" />",
                     csPenType.GetString(), byRed, byGreen, byBlue,
@@ -2958,7 +2958,7 @@ PrintLineToHTML( zVIEW   vSubtask,
       }
       else
       {
-         sprintf_s( szText, sizeof( szText ),
+         sprintf_s( szText, zsizeof( szText ),
                     "<hr %s style=\"width:%dpx;height:%dpx;"
                       "POSITION:absolute;LEFT:%dpx;TOP:%dpx;\" />",
                     csPenType.GetString(), lPixelsWidth, nPenWidth, lPixelsLeft, lPixelsTop );
@@ -3014,13 +3014,13 @@ PrintBitmapToHTML( zVIEW   vSubtask,
       if ( pchBitmapName && *pchBitmapName == 0 )
          pchBitmapName++;
 
-      SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szBitmapFileName, sizeof( szBitmapFileName ) );
+      SysReadZeidonIni( -1, "[Workstation]", "ResourcePath", szBitmapFileName, zsizeof( szBitmapFileName ) );
       if ( szBitmapFileName[ 0 ] )
          SysAppendcDirSep( szBitmapFileName );
 
       strcat_s( szBitmapFileName, pchBitmapName );
       TraceLineS( "PrintBitmapToHTML File Name: ", szBitmapFileName );
-      sprintf_s( szText, sizeof( szText ),
+      sprintf_s( szText, zsizeof( szText ),
                  "<span style=\"width:%dpx; height:%dpx;POSITION:absolute;LEFT:%dpx;TOP:%dpx;\"><img border=0 hspace=6 width=%dpx height=%dpx src=\"%s\"></span>",
                  lPixelsWidth, lPixelsHeight, lPixelsLeft, lPixelsTop, lPixelsWidth, lPixelsHeight, szBitmapFileName );
       SysWriteFile( vSubtask, pZSubtask->m_pZPrintout->m_lFileCSV, szText, zstrlen( szText ) );
@@ -3259,7 +3259,7 @@ GenerateUniqueFileName( zPCHAR  pchReturnFileName,
 
    ::CoCreateGuid( &my_guid );
 
-   sprintf_s( szGuid, sizeof( szGuid ), "%08lx-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+   sprintf_s( szGuid, zsizeof( szGuid ), "%08lx-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
               my_guid.Data1, my_guid.Data2, my_guid.Data3,
               my_guid.Data4[ 0 ], my_guid.Data4[ 1 ],
               my_guid.Data4[ 2 ], my_guid.Data4[ 3 ],
@@ -3327,7 +3327,7 @@ GenerateUniqueFileNameForWEB( zVIEW   vSubtask,
    zCHAR  szDocPath[ zMAX_FILENAME_LTH ];
    int   nLth;
 
-   GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteDocPath", szDocPath, sizeof( szDocPath ) );
+   GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteDocPath", szDocPath, zsizeof( szDocPath ) );
    nLth = (zSHORT) zstrlen( szDocPath );
    if ( nLth && szDocPath[ nLth - 1 ] != '\\' )
    {
@@ -3601,11 +3601,11 @@ StartBrowserWindowWithURL( zVIEW   vSubtask,
          if ( (ulControlFlag & 0x00000010) == 0 )
          {
             // Get Doc URL name.
-            GetAppOrWorkstationValue( vSubtask, "FtpHostName", szFtpHostName, sizeof( szFtpHostName ) );
-            GetAppOrWorkstationValue( vSubtask, "FtpUserName", szFtpUserName, sizeof( szFtpUserName ) );
-            GetAppOrWorkstationValue( vSubtask, "FtpPassword", szFtpPassword, sizeof( szFtpPassword ) );
-            GetAppOrWorkstationValue( vSubtask, "FtpPort", szFtpPort, sizeof( szFtpPort ) );
-            GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteDocURL", szDocURL, sizeof( szDocURL ) );
+            GetAppOrWorkstationValue( vSubtask, "FtpHostName", szFtpHostName, zsizeof( szFtpHostName ) );
+            GetAppOrWorkstationValue( vSubtask, "FtpUserName", szFtpUserName, zsizeof( szFtpUserName ) );
+            GetAppOrWorkstationValue( vSubtask, "FtpPassword", szFtpPassword, zsizeof( szFtpPassword ) );
+            GetAppOrWorkstationValue( vSubtask, "FtpPort", szFtpPort, zsizeof( szFtpPort ) );
+            GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteDocURL", szDocURL, zsizeof( szDocURL ) );
             nLth = (zSHORT) zstrlen( szDocURL );
             if ( nLth && szDocURL[ nLth - 1 ] != '/' )
             {
@@ -3614,7 +3614,7 @@ StartBrowserWindowWithURL( zVIEW   vSubtask,
                szDocURL[ nLth ] = 0;
             }
 
-            GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteDocPath", szDocPath, sizeof( szDocPath ) );
+            GetAppOrWorkstationValue( vSubtask, "ExecutableRemoteDocPath", szDocPath, zsizeof( szDocPath ) );
             nLth = (zSHORT) zstrlen( szDocPath );
             if ( nLth && szDocPath[ nLth - 1 ] != '\\' )
             {
@@ -3652,7 +3652,7 @@ StartBrowserWindowWithURL( zVIEW   vSubtask,
                if ( ulControlFlag & 0x00000001 ) // generate unique file name
                {
                   GenerateUniqueFileName( szReportFileName,
-                                          sizeof( szReportFileName ),
+                                          zsizeof( szReportFileName ),
                                           szDocPath, pchName, pchExt );
 
                   if ( fnFtpPutFile( szFtpHostName, szFtpUserName, szFtpPassword,
@@ -3663,19 +3663,19 @@ StartBrowserWindowWithURL( zVIEW   vSubtask,
                   else
                   {
                      cpcTag = szReportFileName + csDocPath.GetLength( );
-                     strcat_s( szDocURL, sizeof( szDocURL ), cpcTag );
+                     strcat_s( szDocURL, zsizeof( szDocURL ), cpcTag );
                   }
                }
                else
                {
                   cpcTag = szReportFileName + csDocPath.GetLength( );
-                  strcat_s( szDocURL, sizeof( szDocURL ), cpcTag );
+                  strcat_s( szDocURL, zsizeof( szDocURL ), cpcTag );
                }
             }
             else
             {
                // The file needs to be copied to the URL directory.
-               GenerateUniqueFileName( szReportFileName, sizeof( szReportFileName ), szDocPath, pchName, pchExt );
+               GenerateUniqueFileName( szReportFileName, zsizeof( szReportFileName ), szDocPath, pchName, pchExt );
                if ( fnFtpPutFile( szFtpHostName,
                                   szFtpUserName,
                                   szFtpPassword,
@@ -3689,7 +3689,7 @@ StartBrowserWindowWithURL( zVIEW   vSubtask,
                else
                {
                   cpcTag = szReportFileName + csDocPath.GetLength( );
-                  strcat_s( szDocURL, sizeof( szDocURL ), cpcTag );
+                  strcat_s( szDocURL, zsizeof( szDocURL ), cpcTag );
                }
             }
 
@@ -3699,7 +3699,7 @@ StartBrowserWindowWithURL( zVIEW   vSubtask,
          else
          {
             cpcTag = cpcURL;
-            strcpy_s( szDocURL, sizeof( szDocURL ), cpcURL );
+            strcpy_s( szDocURL, zsizeof( szDocURL ), cpcURL );
          }
 
          if ( pXRA->m_vXRA_Delta == 0 )

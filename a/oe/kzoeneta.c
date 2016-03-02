@@ -338,7 +338,7 @@ fnFindNetwork( LPTASK lpTask,
    {
       zCHAR szMsg[ 200 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Cannot find network '%s'", pchNetworkName );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Cannot find network '%s'", pchNetworkName );
       fnSysMessageBox( lpTask, szlNetworkError, szMsg, 1 );
    }
 
@@ -355,7 +355,7 @@ fnRetrieveAppName( zVIEW vSubtask, zPCHAR pchAppName )
 
    fnGetApplicationForSubtask( &lpApp, vSubtask );
    if ( lpApp )
-      strcpy_s( pchAppName, sizeof( lpApp->szName ), lpApp->szName );
+      strcpy_s( pchAppName, zsizeof( lpApp->szName ), lpApp->szName );
    else
       pchAppName[ 0 ] = 0;
 }
@@ -383,7 +383,7 @@ LoadNetworkOperations( LPTASK lpTask, LPNETWORK lpNetwork )
       {
          zCHAR szMsg[ 200 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Can't find Server Directory functions in '%s'. "
+         sprintf_s( szMsg, zsizeof( szMsg ), "Can't find Server Directory functions in '%s'. "
                     "See trace for more.", lpNetwork->szFileName );
          fnSysMessageBox( lpTask, "Zeidon Network Error", szMsg, 1 );
          return( zCALL_ERROR );
@@ -436,7 +436,7 @@ fnGetApplAddress( LPTASK    lpTask,
 
    // The default is to read the server address from the INI file
    // using the network name.
-   sprintf_s( szGroup, sizeof( szGroup ), "[%s]", lpNetwork->szNetworkName );
+   sprintf_s( szGroup, zsizeof( szGroup ), "[%s]", lpNetwork->szNetworkName );
    SysReadZeidonIni( -1, szGroup, "ApplServer", pchReturnAddress, lReturnMaxLth );
 
    return( 0 );
@@ -476,7 +476,7 @@ fnAddConnectionToNetwork( LPTASK    lpTask,
       {
          // Get address of data server.
          nRC = fnGetApplAddress( lpTask, lpNetwork, lRequest, pvRequestInfo,
-                                 szServer, sizeof( szServer ), pchServerAddress, 0 );
+                                 szServer, zsizeof( szServer ), pchServerAddress, 0 );
          if ( nRC < 0 )
             return( zNETWORK_ERROR );
 
@@ -610,10 +610,10 @@ fnSendDataPacket( LPNETWORK lpNetwork,
          // Convert negative integer to positive and prepend '-' sign.
          Packet.szPacketData[ 0 ] = '-';
          lPacketData = -lPacketData;
-         zltox( lPacketData, Packet.szPacketData + 1, sizeof( Packet.szPacketData ) - 1 );
+         zltox( lPacketData, Packet.szPacketData + 1, zsizeof( Packet.szPacketData ) - 1 );
       }
       else
-         zltox( lPacketData, Packet.szPacketData, sizeof( Packet.szPacketData ) );
+         zltox( lPacketData, Packet.szPacketData, zsizeof( Packet.szPacketData ) );
 
       nRC = (*lpNetwork->lpfnSend)( &lpNetwork->pNetworkHandle, ppvConn,
                                     &Packet, zSTRPACKETLTH, zTYPE_STRING );
@@ -689,7 +689,7 @@ fnSendHeaderPacket( LPNETWORK lpNetwork,
    zLONG         lLth;
 
    szHeaderStr[ 0 ] = cPacketType;
-   strcpy_s( szHeaderStr + 1, sizeof( szHeaderStr ) - 1, pchAppName );
+   strcpy_s( szHeaderStr + 1, zsizeof( szHeaderStr ) - 1, pchAppName );
    lLth = zstrlen( szHeaderStr ) + 1;
 
    if ( fnSendDataPacket( lpNetwork, ppvConn, zPACKET_HEADER, lLth ) != 0 )
@@ -721,8 +721,8 @@ fnCreateMsgObj( zVIEW vSubtask )
       {
          zCHAR szMsg[ 512 ];
 
-         strcpy_s( szMsg, sizeof( szMsg ), "Cannot load Message Object: " );
-         strcat_s( szMsg, sizeof( szMsg ), "KZMSGQOO" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Cannot load Message Object: " );
+         strcat_s( szMsg, zsizeof( szMsg ), "KZMSGQOO" );
          SysMessageBox( vSubtask, "System Error", szMsg, 1 );
          return( 0 );
       }
@@ -832,7 +832,7 @@ fnSendTraceObj( LPNETWORK lpNetwork,
    {
       zCHAR szDateTime[ 18 ];
 
-      SysGetDateTime( szDateTime, sizeof( szDateTime ) );  // DateTime yyyymmddhhmmssttt
+      SysGetDateTime( szDateTime, zsizeof( szDateTime ) ); // DateTime yyyymmddhhmmssttt
       SetAttributeFromVariable( vTrace, "Trace", "TraceEnd",
                                 szDateTime, zTYPE_STRING, 17, "DateTime", 0 );
 
@@ -1003,20 +1003,20 @@ fnRetrieveTraceObj( LPNETWORK lpNetwork,
       if ( nRC == zCURSOR_SET )
       {
          zCHAR szDTime[ 32 ];
-         GetStringFromAttribute( szDTime, sizeof( szDTime ), vTrace,"Trace", "TraceStart" );
+         GetStringFromAttribute( szDTime, zsizeof( szDTime ), vTrace,"Trace", "TraceStart" );
          TraceLineS( "(kzoeneta) ** Start Server Trace: ", szDTime );
          while ( nRC == zCURSOR_SET )
          {
            zCHAR szLine[ 255 ];
            szLine[ 0 ] = 0;
-           GetStringFromAttribute( szLine, sizeof( szLine ), vTrace, "Line", "Line" );
+           GetStringFromAttribute( szLine, zsizeof( szLine ), vTrace, "Line", "Line" );
            if ( szLine[ 0 ] )
               TraceLineS( "(kzoeneta) ** Line: ", szLine );
 
            nRC = SetCursorNextEntity( vTrace, "Line", "Trace" );
          } // while
 
-         GetStringFromAttribute( szDTime, sizeof( szDTime ), vTrace,"Trace", "TraceEnd" );
+         GetStringFromAttribute( szDTime, zsizeof( szDTime ), vTrace,"Trace", "TraceEnd" );
          TraceLineS( "(kzoeneta) ** End Server Trace: ", szDTime );
       }
 
@@ -1085,10 +1085,10 @@ fnSendTraceSwitches( LPNETWORK lpNetwork,
 {
    zCHAR  szTraceSwitch[ L_TRACE_SWITCH_MSG + 1 ];
 
-   sprintf_s( szTraceSwitch, sizeof( szTraceSwitch ), "%2.2hd", lpNetwork->nServerCoreTraceLevel );
-// sprintf_s( szTraceSwitch + 2, sizeof( szTraceSwitch ) - 2, "%2.2hd", lpTask->nDBHandlerTraceLevel );
-   sprintf_s( szTraceSwitch + 2, sizeof( szTraceSwitch ) - 2, "%2.2hd", lpNetwork->nServerDBHTraceLevel );
-   sprintf_s( szTraceSwitch + 4, sizeof( szTraceSwitch ) - 4, "%2.2hd", lpNetwork->nServerNetTraceLevel );
+   sprintf_s( szTraceSwitch, zsizeof( szTraceSwitch ), "%2.2hd", lpNetwork->nServerCoreTraceLevel );
+// sprintf_s( szTraceSwitch + 2, zsizeof( szTraceSwitch ) - 2, "%2.2hd", lpTask->nDBHandlerTraceLevel );
+   sprintf_s( szTraceSwitch + 2, zsizeof( szTraceSwitch ) - 2, "%2.2hd", lpNetwork->nServerDBHTraceLevel );
+   sprintf_s( szTraceSwitch + 4, zsizeof( szTraceSwitch ) - 4, "%2.2hd", lpNetwork->nServerNetTraceLevel );
 
    if ( fnSendDataPacket( lpNetwork, ppvConn, zPACKET_TRACESWITCH, L_TRACE_SWITCH_MSG  ) != 0 )
    {
@@ -1195,16 +1195,16 @@ fnNetActivateOI( LPTASK    lpTask,
    // Set up the activate information.  We initialize the structure to 0's so
    // that the network stack can better compress the data.
    zmemset( &ActPacket, 0, sizeof( zActivatePacket ) );
-   strcpy_s( ActPacket.szVersion, sizeof( ActPacket.szVersion ), zCURRENT_PROTOCOL_VERSION );
-   zltox( lControl, ActPacket.szControl, sizeof( ActPacket.szControl ) );
-   strcpy_s( ActPacket.szObjectDef, sizeof( ActPacket.szObjectDef ), pchObjName );
+   strcpy_s( ActPacket.szVersion, zsizeof( ActPacket.szVersion ), zCURRENT_PROTOCOL_VERSION );
+   zltox( lControl, ActPacket.szControl, zsizeof( ActPacket.szControl ) );
+   strcpy_s( ActPacket.szObjectDef, zsizeof( ActPacket.szObjectDef ), pchObjName );
    if ( vQual )
       ActPacket.cUseQualification = 'Y';
    else
       ActPacket.cUseQualification = 'N';
 
-   strcpy_s( ActPacket.szAppName, sizeof( ActPacket.szAppName ), szAppName );
-   SysGetUserID( vSubtask, ActPacket.szUserName, sizeof( ActPacket.szUserName ), ActPacket.szPassword, sizeof( ActPacket.szPassword ) );
+   strcpy_s( ActPacket.szAppName, zsizeof( ActPacket.szAppName ), szAppName );
+   SysGetUserID( vSubtask, ActPacket.szUserName, zsizeof( ActPacket.szUserName ), ActPacket.szPassword, zsizeof( ActPacket.szPassword ) );
 
    if ( lpNetwork->nTraceLevel > 1 )
    {
@@ -1398,7 +1398,7 @@ NetStartup( zVIEW    lpTaskView,
    // If network name isn't supplied, use the default.
    if ( pchNetworkName == 0 || *pchNetworkName == 0 )
    {
-      SysReadZeidonIni( -1, "[Zeidon]", "DefaultNetwork", szDefaultNetwork, sizeof( szDefaultNetwork ) );
+      SysReadZeidonIni( -1, "[Zeidon]", "DefaultNetwork", szDefaultNetwork, zsizeof( szDefaultNetwork ) );
       if ( szDefaultNetwork[ 0 ] == 0 )
       {
          SysMessageBox( lpTaskView, szlNetworkError, "No default network for NetStartup", 1 );
@@ -1408,11 +1408,11 @@ NetStartup( zVIEW    lpTaskView,
 
       pchNetworkName = szDefaultNetwork;
 
-      SysReadZeidonIni( -1, "[Zeidon]", "DefaultNetworkExec", szExecutableName, sizeof( szExecutableName ) );
+      SysReadZeidonIni( -1, "[Zeidon]", "DefaultNetworkExec", szExecutableName, zsizeof( szExecutableName ) );
       if ( szExecutableName[ 0 ] == 0 )
       {
          // If no exec name give, use network name for executable too.
-         strcpy_s( szExecutableName, sizeof( szExecutableName ), szDefaultNetwork);
+         strcpy_s( szExecutableName, zsizeof( szExecutableName ), szDefaultNetwork);
       }
 
       pchExecutable = szExecutableName;
@@ -1433,10 +1433,10 @@ NetStartup( zVIEW    lpTaskView,
    if ( zstrchr( pchNetworkName, cDirSep ) == 0 )
    {
       SysGetLocalDirectory( szFileName );
-      strcat_s( szFileName, sizeof( szFileName ), pchExecutable );
+      strcat_s( szFileName, zsizeof( szFileName ), pchExecutable );
    }
    else
-      strcpy_s( szFileName, sizeof( szFileName ), pchExecutable );
+      strcpy_s( szFileName, zsizeof( szFileName ), pchExecutable );
 
    // Try loading the library.
    hLibrary = SysLoadLibrary( vSystemView, szFileName );
@@ -1445,7 +1445,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Can't find library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Can't find library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       fnOperationReturn( iNetStartup, lpTask );
       return( zCALL_ERROR );
@@ -1458,7 +1458,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Can't find operation zNetStart in library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Can't find operation zNetStart in library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       SysFreeLibrary( vSystemView, hLibrary );
       fnOperationReturn( iNetStartup, lpTask );
@@ -1471,7 +1471,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Can't find operation zNetClose in library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Can't find operation zNetClose in library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       SysFreeLibrary( vSystemView, hLibrary );
       fnOperationReturn( iNetStartup, lpTask );
@@ -1484,7 +1484,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Can't find operation zNetListen in library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Can't find operation zNetListen in library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       SysFreeLibrary( vSystemView, hLibrary );
       fnOperationReturn( iNetStartup, lpTask );
@@ -1497,7 +1497,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Can't find operation zNetStopListen in library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Can't find operation zNetStopListen in library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       SysFreeLibrary( vSystemView, hLibrary );
       fnOperationReturn( iNetStartup, lpTask );
@@ -1510,7 +1510,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Can't find operation zNetOpenConnection in library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Can't find operation zNetOpenConnection in library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       SysFreeLibrary( vSystemView, hLibrary );
       fnOperationReturn( iNetStartup, lpTask );
@@ -1523,7 +1523,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Can't find operation zNetCloseConnection in library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Can't find operation zNetCloseConnection in library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       SysFreeLibrary( vSystemView, hLibrary );
       fnOperationReturn( iNetStartup, lpTask );
@@ -1536,7 +1536,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Can't find operation zNetSend in library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Can't find operation zNetSend in library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       SysFreeLibrary( vSystemView, hLibrary );
       fnOperationReturn( iNetStartup, lpTask );
@@ -1549,7 +1549,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Cannot find operation zNetReceive in library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Cannot find operation zNetReceive in library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       SysFreeLibrary( vSystemView, hLibrary );
       fnOperationReturn( iNetStartup, lpTask );
@@ -1562,7 +1562,7 @@ NetStartup( zVIEW    lpTaskView,
       zCHAR szMsg[ 200 ];
 
       zUNLOCK_MUTEX( zMUTEX_NETWORKCHAIN );
-      sprintf_s( szMsg, sizeof( szMsg ), "Cannot find operation zNetGetLocalHostAddress in library '%s'", pchExecutable );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Cannot find operation zNetGetLocalHostAddress in library '%s'", pchExecutable );
       SysMessageBox( lpTaskView, "Zeidon Network Error", szMsg, 1 );
       SysFreeLibrary( vSystemView, hLibrary );
       fnOperationReturn( iNetStartup, lpTask );
@@ -1607,8 +1607,8 @@ NetStartup( zVIEW    lpTaskView,
 //
 // lpTask->bTrace = bOldTrace;
 
-   strcpy_s( lpNetwork->szNetworkName, sizeof( lpNetwork->szNetworkName ), pchNetworkName );
-   strcpy_s( lpNetwork->szExecutable, sizeof( lpNetwork->szExecutable ), pchExecutable );
+   strcpy_s( lpNetwork->szNetworkName, zsizeof( lpNetwork->szNetworkName ), pchNetworkName );
+   strcpy_s( lpNetwork->szExecutable, zsizeof( lpNetwork->szExecutable ), pchExecutable );
    lpNetwork->nConnCount     = 0;
    lpNetwork->lProcessID     = SysGetProcessID( 0 );
    lpNetwork->bListen        = FALSE;
@@ -1623,14 +1623,14 @@ NetStartup( zVIEW    lpTaskView,
    lpNetwork->lpfnStopListen = lpfnStopListen;
    lpNetwork->lpfnGetAddress = lpfnGetAddress;
 
-   sprintf_s( szGroup, sizeof( szGroup ), "[%s]", pchNetworkName );
-   SysReadZeidonIni( -1, szGroup, "TraceLevel", szTraceLevel, sizeof( szTraceLevel ) );
+   sprintf_s( szGroup, zsizeof( szGroup ), "[%s]", pchNetworkName );
+   SysReadZeidonIni( -1, szGroup, "TraceLevel", szTraceLevel, zsizeof( szTraceLevel ) );
    lpNetwork->nTraceLevel = (zSHORT) zatol( szTraceLevel );
-   SysReadZeidonIni( -1, szGroup, "ServerCoreTraceLevel", szTraceLevel, sizeof( szTraceLevel ) );
+   SysReadZeidonIni( -1, szGroup, "ServerCoreTraceLevel", szTraceLevel, zsizeof( szTraceLevel ) );
    lpNetwork->nServerCoreTraceLevel = (zSHORT) zatol( szTraceLevel );
-   SysReadZeidonIni( -1, szGroup, "ServerNetTraceLevel", szTraceLevel, sizeof( szTraceLevel ) );
+   SysReadZeidonIni( -1, szGroup, "ServerNetTraceLevel", szTraceLevel, zsizeof( szTraceLevel ) );
    lpNetwork->nServerNetTraceLevel = (zSHORT) zatol( szTraceLevel );
-   SysReadZeidonIni( -1, szGroup, "ServerDBHTraceLevel", szTraceLevel, sizeof( szTraceLevel ) );
+   SysReadZeidonIni( -1, szGroup, "ServerDBHTraceLevel", szTraceLevel, zsizeof( szTraceLevel ) );
    lpNetwork->nServerDBHTraceLevel = (zSHORT) zatol( szTraceLevel );
 
    lpNetwork->hNextNetwork = AnchorBlock->hFirstNetwork;
@@ -1664,17 +1664,17 @@ NetStartup( zVIEW    lpTaskView,
    // Now load the server directory functions.
    //
 
-   SysReadZeidonIni( -1, szGroup, "ServerDirApp", szServerDirApp, sizeof( szServerDirApp ) );
+   SysReadZeidonIni( -1, szGroup, "ServerDirApp", szServerDirApp, zsizeof( szServerDirApp ) );
    if ( szServerDirApp[ 0 ] == 0 )
-      strcpy_s( szServerDirApp, sizeof( szServerDirApp ), "zSimpDir" );
+      strcpy_s( szServerDirApp, zsizeof( szServerDirApp ), "zSimpDir" );
 
    if ( zstrchr( szServerDirApp, cDirSep ) == 0 )
    {
       SysGetLocalDirectory( lpNetwork->szFileName );
-      strcat_s( lpNetwork->szFileName, sizeof( lpNetwork->szFileName ), szServerDirApp );
+      strcat_s( lpNetwork->szFileName, zsizeof( lpNetwork->szFileName ), szServerDirApp );
    }
    else
-      strcpy_s( lpNetwork->szFileName, sizeof( lpNetwork->szFileName ), szServerDirApp );
+      strcpy_s( lpNetwork->szFileName, zsizeof( lpNetwork->szFileName ), szServerDirApp );
 
    // Try loading the library.
    if ( LoadNetworkOperations( (LPTASK) zGETPTR( lpTaskView->hTask ), lpNetwork ) == 0 )
@@ -2071,7 +2071,7 @@ NetProcessMessage( zVIEW lpTaskView, zPCHAR pchNetworkName, zPVOID *ppvConn )
 
       nRC = CreateEntity( vTrace, "Trace", zPOS_AFTER );
       SetAttributeFromInteger( vTrace, "Trace", "nLine", 0 );
-      SysGetDateTime( szDateTime, sizeof( szDateTime ) );  // DateTime yyyymmddhhmmssttt
+      SysGetDateTime( szDateTime, zsizeof( szDateTime ) ); // DateTime yyyymmddhhmmssttt
       SetAttributeFromVariable( vTrace, "Trace", "TraceStart", szDateTime, zTYPE_STRING, 17, "DateTime", 0 );
    }
 
@@ -2254,13 +2254,13 @@ fnConvertIS_Clause( zPVIEW plpQualView )
       }
 
       // Get the source view.entity and the target entity.
-      GetStringFromAttribute( szSrcViewName, sizeof( szSrcViewName ), lpNewQual, pchEntityName, "SourceViewName" );
+      GetStringFromAttribute( szSrcViewName, zsizeof( szSrcViewName ), lpNewQual, pchEntityName, "SourceViewName" );
       if ( szSrcViewName && szSrcViewName[ 0 ] )
          GetViewByName( &lpSrcView, szSrcViewName, lpOrigQual, zLEVEL_TASK );
       else
          GetIntegerFromAttribute( (zPLONG) &lpSrcView, lpNewQual, pchEntityName, "SourceViewID" );
-      GetStringFromAttribute( szSourceEntity, sizeof( szSourceEntity ), lpNewQual, pchEntityName, "SourceEntityName" );
-      GetStringFromAttribute( szTargetEntity, sizeof( szTargetEntity ), lpNewQual, pchEntityName, "EntityName" );
+      GetStringFromAttribute( szSourceEntity, zsizeof( szSourceEntity ), lpNewQual, pchEntityName, "SourceEntityName" );
+      GetStringFromAttribute( szTargetEntity, zsizeof( szTargetEntity ), lpNewQual, pchEntityName, "EntityName" );
 
       // Now change the "IS" to "(key1 = value1 & key2 = value2...)"
 
@@ -2448,7 +2448,7 @@ NetActivateOI_FromFile( zPCHAR  pchNetworkName,
    zActivatePacket ActPacket;
    zSHORT          nRC = zCALL_ERROR;
 
-   zmemset( &LAD_Info, 0, sizeof( LAD_Info ) );
+   zmemset( &LAD_Info, 0, zsizeof( LAD_Info ) );
 
    // If task not active or disabled, return zCALL_ERROR.
    if ( (lpTask = fnOperationCall( iNetActivateOI_FromFile ... )) == 0 )
@@ -2473,7 +2473,7 @@ NetActivateOI_FromFile( zPCHAR  pchNetworkName,
    LAD_Info.vSubtask   = vSubtask;
    LAD_Info.nObjType   = zLADTYPE_LOD_ACTIVATE_FILE;
    LAD_Info.pchObjName = pchViewOD_Name;
-   SysGetUserID( vSubtask, LAD_Info.szUserName, sizeof( LAD_Info.szUserName ), LAD_Info.szPassword, sizeof( LAD_Info.szPassword ) );
+   SysGetUserID( vSubtask, LAD_Info.szUserName, zsizeof( LAD_Info.szUserName ), LAD_Info.szPassword, zsizeof( LAD_Info.szPassword ) );
    fnRetrieveAppName( vSubtask, LAD_Info.szAppName );
 
    if ( fnGetApplAddress( &LAD_Info, pchAddress ) == zCALL_ERROR )
@@ -2514,7 +2514,7 @@ NetActivateOI_FromFile( zPCHAR  pchNetworkName,
 
    // Set up the activate information.  We initialize the structure to 0's so
    // that the network stack can better compress the data.
-   zmemset( &ActPacket, 0, sizeof( zActivatePacket ) );
+   zmemset( &ActPacket, 0, zsizeof( zActivatePacket ) );
    strcpy_s( ActPacket.szVersion, zCURRENT_PROTOCOL_VERSION );
    zltox( lControl, ActPacket.szControl );
    strcpy_s( ActPacket.szObjectDef, pchViewOD_Name );
@@ -2522,7 +2522,7 @@ NetActivateOI_FromFile( zPCHAR  pchNetworkName,
    zltox( (zLONG) zstrlen( pchFileName ) + 1, ActPacket.szFileNameLth );
 
    strcpy_s( ActPacket.szAppName, LAD_Info.szAppName );
-   SysGetUserID( vSubtask, ActPacket.szUserName, sizeof( ActPacket.szUserName ), ActPacket.szPassword, sizeof( ActPacket.szPassword ) );
+   SysGetUserID( vSubtask, ActPacket.szUserName, zsizeof( ActPacket.szUserName ), ActPacket.szPassword, zsizeof( ActPacket.szPassword ) );
 
    if ( lpNetwork->nTraceLevel > 1 )
    {
@@ -2534,7 +2534,7 @@ NetActivateOI_FromFile( zPCHAR  pchNetworkName,
 
    // Send server activate info.
    if ( (*lpNetwork->lpfnSend)( &lpNetwork->pNetworkHandle,
-                                &pvConn, &ActPacket, sizeof( zActivatePacket ),
+                                &pvConn, &ActPacket, zsizeof( zActivatePacket ),
                                 zTYPE_STRING ) != 0 )
       goto EndOfFunction;
 
@@ -2846,7 +2846,7 @@ fnSetLinkBuffer( LPTASK  lpTask,
 
          // Set table to all 0's to indicate that for this linked-list chain
          // we haven't linked any OIs yet.
-         zmemset( cOI_Linked, 0, sizeof( cOI_Linked ) );
+         zmemset( cOI_Linked, 0, zsizeof( cOI_Linked ) );
 
          // Loop through each of the linked instances and see if there is
          // any interlinking.  Stop looping if we find that there is interlinking.
@@ -3348,20 +3348,20 @@ NetCommitOI( zPCHAR        pchNetworkName,
    // Set up the commit information.  We initialize the structure to 0's so
    // that the network stack can better compress the data.
    zmemset( &CommitPacket, 0, sizeof( zCommitPacket ) );
-   strcpy_s( CommitPacket.szVersion, sizeof( CommitPacket.szVersion ), zCURRENT_PROTOCOL_VERSION );
-   strcpy_s( CommitPacket.szAppName, sizeof( CommitPacket.szAppName ), szAppName );
-   SysGetUserID( lpTaskView, CommitPacket.szUserName, sizeof( CommitPacket.szUserName ), CommitPacket.szPassword, sizeof( CommitPacket.szPassword ) );
-   zltox( nViewCount, CommitPacket.szViewCount, sizeof( CommitPacket.szViewCount ) );
-   zltox( lControl, CommitPacket.szControl, sizeof( CommitPacket.szControl ) );
+   strcpy_s( CommitPacket.szVersion, zsizeof( CommitPacket.szVersion ), zCURRENT_PROTOCOL_VERSION );
+   strcpy_s( CommitPacket.szAppName, zsizeof( CommitPacket.szAppName ), szAppName );
+   SysGetUserID( lpTaskView, CommitPacket.szUserName, zsizeof( CommitPacket.szUserName ), CommitPacket.szPassword, zsizeof( CommitPacket.szPassword ) );
+   zltox( nViewCount, CommitPacket.szViewCount, zsizeof( CommitPacket.szViewCount ) );
+   zltox( lControl, CommitPacket.szControl, zsizeof( CommitPacket.szControl ) );
 
    nObjectNameLth = (zSHORT) (pch - pchObjectNameBuffer);
-   zltox( (zLONG) nObjectNameLth, CommitPacket.szObjectNameLth, sizeof( CommitPacket.szObjectNameLth ) );
+   zltox( (zLONG) nObjectNameLth, CommitPacket.szObjectNameLth, zsizeof( CommitPacket.szObjectNameLth ) );
 
    // Set up the link buffer.  This buffer contains a list of all entity
    // instances that are linked with each other in lpViewArray.
    fnSetLinkBuffer( lpTask, lpViewArray, nViewCount, &pchLinkBuffer, &lLinkBufferLth );
 
-   zltox( lLinkBufferLth, CommitPacket.szLinkBufferLth, sizeof( CommitPacket.szLinkBufferLth ) );
+   zltox( lLinkBufferLth, CommitPacket.szLinkBufferLth, zsizeof( CommitPacket.szLinkBufferLth ) );
 
    if ( lpNetwork->nTraceLevel > 0 )
    {
@@ -3423,9 +3423,9 @@ NetCommitOI( zPCHAR        pchNetworkName,
       // Send the control value for the view.  We'll store the length of the
       // string containing the control value in the first 2 bytes.  We'll assume
       // that the length can be sent as a 2-digit hex value.
-      zltox( lpViewCluster[ k ].lControl, szControl + 2, sizeof( szControl ) - 2 );
+      zltox( lpViewCluster[ k ].lControl, szControl + 2, zsizeof( szControl ) - 2 );
       lLth = zstrlen( &szControl[ 2 ] ) + 1;
-      zltox( lLth, szLth, sizeof( szLth ) );
+      zltox( lLth, szLth, zsizeof( szLth ) );
       szControl[ 0 ] = szLth[ 0 ];  // Copy lth to first two bytes.
       szControl[ 1 ] = szLth[ 1 ];
 
@@ -3695,7 +3695,7 @@ NetCommitOI_ToFile( zPCHAR  pchNetworkName,
    LPVIEWOD      lpViewOD;
    LAD_InfoRecord LAD_Info;
 
-   zmemset( &LAD_Info, 0, sizeof( LAD_Info ) );
+   zmemset( &LAD_Info, 0, zsizeof( LAD_Info ) );
 
    // If task not active or disabled, return zCALL_ERROR.
    if ( (lpTask = fnOperationCall( iNetCommitOI_ToFile ... )) == 0 )
@@ -3720,7 +3720,7 @@ NetCommitOI_ToFile( zPCHAR  pchNetworkName,
    LAD_Info.nObjType   = zLADTYPE_LOD_COMMIT_FILE;
    LAD_Info.pchObjName = lpViewOD->szName;
    fnRetrieveAppName( lpView, LAD_Info.szAppName );
-   SysGetUserID( lpView, LAD_Info.szUserName, sizeof( LAD_Info.szUserName ), LAD_Info.szPassword, sizeof( LAD_Info.szPassword ) );
+   SysGetUserID( lpView, LAD_Info.szUserName, zsizeof( LAD_Info.szUserName ), LAD_Info.szPassword, zsizeof( LAD_Info.szPassword ) );
 
    if ( fnGetApplAddress( &LAD_Info, pchAddress ) == zCALL_ERROR )
    {
@@ -3761,13 +3761,13 @@ NetCommitOI_ToFile( zPCHAR  pchNetworkName,
 
    // Set up the commit information.  We initialize the structure to 0's so
    // that the network stack can better compress the data.
-   zmemset( &CommitPacket, 0, sizeof( zCommitPacket ) );
+   zmemset( &CommitPacket, 0, zsizeof( zCommitPacket ) );
    strcpy_s( CommitPacket.szVersion, zCURRENT_PROTOCOL_VERSION );
    strcpy_s( CommitPacket.szObjectDef, lpViewOD->szName );
    zltox( lControl, CommitPacket.szControl );
    zltox( (zLONG) zstrlen( pchFileName ) + 1, CommitPacket.szFileNameLth );
    strcpy_s( CommitPacket.szAppName, LAD_Info.szAppName );
-   SysGetUserID( lpView, CommitPacket.szUserName, sizeof( CommitPacket.szUserName ), CommitPacket.szPassword, sizeof( CommitPacket.szPassword ) );
+   SysGetUserID( lpView, CommitPacket.szUserName, zsizeof( CommitPacket.szUserName ), CommitPacket.szPassword, zsizeof( CommitPacket.szPassword ) );
 
    if ( lpNetwork->nTraceLevel > 0 )
    {
@@ -3779,7 +3779,7 @@ NetCommitOI_ToFile( zPCHAR  pchNetworkName,
 
    // Send server commit info.
    if ( (*lpNetwork->lpfnSend)( &lpNetwork->pNetworkHandle, &pvConn,
-                                &CommitPacket, sizeof( zCommitPacket ),
+                                &CommitPacket, zsizeof( zCommitPacket ),
                                 zTYPE_STRING ) != 0 )
    {
       goto EndOfFunction;
@@ -4163,7 +4163,7 @@ NetCallOperation( zPCHAR   pchNetworkName,
                      SetAttributeFromString( vArgs, szlArgument, "ApplicationName", szTempAppName );
                   }
 
-                  SetAttributeFromBlob( vArgs, szlArgument, "PointerValue", &v, sizeof( v ) );
+                  SetAttributeFromBlob( vArgs, szlArgument, "PointerValue", &v, zsizeof( v ) );
                   SetAttributeFromString( vArgs, szlArgument, "SendArgument", "Y" );
                   SetAttributeFromString( vArgs, szlArgument, "ObjectName", lpViewOD->szName );
                }
@@ -4459,7 +4459,7 @@ NetSendFile( zPCHAR pchNetworkName,
    SendFileRecord sf;
    LAD_InfoRecord LAD_Info;
 
-   zmemset( &LAD_Info, 0, sizeof( LAD_Info ) );
+   zmemset( &LAD_Info, 0, zsizeof( LAD_Info ) );
 
    // If task not active or disabled, return zCALL_ERROR.
    if ( (lpTask = fnOperationCall( iNetSendFile ... )) == 0 )
@@ -4488,7 +4488,7 @@ NetSendFile( zPCHAR pchNetworkName,
    LAD_Info.lpNetwork  = lpNetwork;
    LAD_Info.vSubtask   = vSubtask;
    LAD_Info.nObjType   = zLADTYPE_SEND_FILE;
-   SysGetUserID( vSubtask, LAD_Info.szUserName, sizeof( LAD_Info.szUserName ), LAD_Info.szPassword, sizeof( LAD_Info.szPassword ) );
+   SysGetUserID( vSubtask, LAD_Info.szUserName, zsizeof( LAD_Info.szUserName ), LAD_Info.szPassword, zsizeof( LAD_Info.szPassword ) );
 
    if ( fnGetApplAddress( &LAD_Info, pchAddress ) == zCALL_ERROR )
    {
@@ -4548,7 +4548,7 @@ NetSendFile( zPCHAR pchNetworkName,
       goto EndOfFunction;
 
    // Send the file information.
-   if ( (*lpNetwork->lpfnSend)( &lpNetwork->pNetworkHandle, &pvConn, (zPCHAR) &sf, sizeof( sf ), zTYPE_STRING ) != 0 )
+   if ( (*lpNetwork->lpfnSend)( &lpNetwork->pNetworkHandle, &pvConn, (zPCHAR) &sf, zsizeof( sf ), zTYPE_STRING ) != 0 )
    {
       goto EndOfFunction;
    }
@@ -4648,7 +4648,7 @@ EndOfFunction:
    {
       zCHAR szMsg[ zMAX_FILENAME_LTH + 40 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "Error sending file '%s' to server.", pchLocalFileName );
+      sprintf_s( szMsg, zsizeof( szMsg ), "Error sending file '%s' to server.", pchLocalFileName );
       SysMessageBox( szlNetworkError, szMsg, 1 );
    }
 
@@ -4932,22 +4932,22 @@ fnReadDataFromNet( zVIEW   lpView,
       {
          case 74:
             // "KZOEE074 - Invalid Entity name on line "
-            sprintf_s( szMsg, sizeof( szMsg ), "Invalid Entity name = %s", pchExtraData );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Invalid Entity name = %s", pchExtraData );
             break;
 
          case 75:
             // "KZOEE075 - Invalid Entity level on line "
-            sprintf_s( szMsg, sizeof( szMsg ), "Invalid Entity level = %s", pchExtraData );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Invalid Entity level = %s", pchExtraData );
             break;
 
          case 90:
             // "KZOEE090 - Maximum number of entites in portable file exceeded"
-            strcpy_s( szMsg, sizeof( szMsg ), "Maximum number of entities in stream exceeded" );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Maximum number of entities in stream exceeded" );
             break;
 
          case 104:
             // "KZOEE104 - Invalid Attribute name for Entity"
-            sprintf_s( szMsg, sizeof( szMsg ), "Invalid Attr name for Entity = %s",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Invalid Attr name for Entity = %s",
                       pchExtraData );
             break;
 
@@ -5129,7 +5129,7 @@ fnSendOI( zPVOID      *ppvConn,
    {
       zCHAR szCompressed[ 10 ];
 
-      SysReadZeidonIni( -1, "[Zeidon]", "NetSendCompressed", szCompressed, sizeof( szCompressed ) );
+      SysReadZeidonIni( -1, "[Zeidon]", "NetSendCompressed", szCompressed, zsizeof( szCompressed ) );
       g_chNetSendCompressed = ztoupper( szCompressed[ 0 ] ) == 'N' ? 'N' : 'Y';
    }
 
@@ -5417,7 +5417,7 @@ fnProcessActivateOI_FromFile( LPNETWORK lpNetwork, zPVOID *ppvConn )
 
    // First thing to do is retrieve the activate info.
    if ( (*lpNetwork->lpfnReceive)( &lpNetwork->pNetworkHandle, ppvConn,
-                                   &lpActPacket, sizeof( zActivatePacket ),
+                                   &lpActPacket, zsizeof( zActivatePacket ),
                                    zTYPE_STRING ) != 0 )
    {
       TraceLineS( "(kzoeneta) ** Couldn't retrieve Act info", "" );
@@ -5427,7 +5427,7 @@ fnProcessActivateOI_FromFile( LPNETWORK lpNetwork, zPVOID *ppvConn )
 
    // Store the info locally -- as soon as we perform the next network IO
    // operation we aren't assured that lpActPacket points to valid data.
-   zmemcpy( &ActPacket, lpActPacket, sizeof( zActivatePacket ) );
+   zmemcpy( &ActPacket, lpActPacket, zsizeof( zActivatePacket ) );
    lControl = zxtol( ActPacket.szControl );
 
    // Retrieve the file name.  Use a dummy pointer to get the file name and
@@ -5441,7 +5441,7 @@ fnProcessActivateOI_FromFile( LPNETWORK lpNetwork, zPVOID *ppvConn )
       goto EndOfFunction;
    }
 
-   strcpy_s( szFileName, sizeof( szFileName ), pch );
+   strcpy_s( szFileName, zsizeof( szFileName ), pch );
 
    if ( lpNetwork->nTraceLevel > 0 )
    {
@@ -5945,7 +5945,7 @@ fnProcessCommitOI( zVIEW lpTaskView, LPNETWORK lpNetwork, zPVOID *ppvConn )
 
       SysGetEnvVar( szTempFileName, "TEMP", zMAX_FILENAME_LTH + 1 );
       SysAppendcDirSep( szTempFileName );
-      strcat_s( szTempFileName, sizeof( szTempFileName ), "commitoi.por" );
+      strcat_s( szTempFileName, zsizeof( szTempFileName ), "commitoi.por" );
       CommitOI_ToFile( vOI, szTempFileName, zINCREMENTAL );
    }
 #endif
@@ -6122,7 +6122,7 @@ fnProcessCommitOI_ToFile( LPNETWORK lpNetwork, zPVOID *ppvConn )
 
    // First thing to do is retrieve the commit info.
    if ( (*lpNetwork->lpfnReceive)( &lpNetwork->pNetworkHandle, ppvConn,
-                                   &lpCommitPacket, sizeof( zCommitPacket ),
+                                   &lpCommitPacket, zsizeof( zCommitPacket ),
                                    zTYPE_STRING ) != 0 )
    {
       TraceLineS( "(kzoeneta) ** Couldn't retrieve Commit info", "" );
@@ -6132,7 +6132,7 @@ fnProcessCommitOI_ToFile( LPNETWORK lpNetwork, zPVOID *ppvConn )
 
    // Store the info locally -- as soon as we perform the next network IO
    // operation we aren't assured that lpCommitPacket points to valid data.
-   zmemcpy( &CommitPacket, lpCommitPacket, sizeof( zCommitPacket ) );
+   zmemcpy( &CommitPacket, lpCommitPacket, zsizeof( zCommitPacket ) );
    lControl = zxtol( CommitPacket.szControl );
 
    // Retrieve the file name.
@@ -6146,14 +6146,14 @@ fnProcessCommitOI_ToFile( LPNETWORK lpNetwork, zPVOID *ppvConn )
       goto EndOfFunction;
    }
 
-   strcpy_s( szFileName, sizeof( szFileName ), pch );
+   strcpy_s( szFileName, zsizeof( szFileName ), pch );
 
 #if 0
    /* this code doesn't work unless client changed, HH, 08.11.1996
    */
-   strcpy_s( szFileName, sizeof( szFileName ), vSubtask->hSubtask->hApp->hObjectDir );
+   strcpy_s( szFileName, zsizeof( szFileName ), vSubtask->hSubtask->hApp->hObjectDir );
    SysAppendcDirSep( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), pch );
+   strcat_s( szFileName, zsizeof( szFileName ), pch );
 #endif
 
    if ( lpNetwork->nTraceLevel > 0 )
@@ -6341,9 +6341,9 @@ fnProcessSendFile( zVIEW lpTaskView, LPNETWORK lpNetwork, zPVOID *ppvConn )
    }
 
    // Store the filename to a more static location.
-   strcpy_s( szFileName, sizeof( szFileName ), pch );
+   strcpy_s( szFileName, zsizeof( szFileName ), pch );
    SysAppendcDirSep( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), &pch[ zstrlen( pch ) + 1 ] );
+   strcat_s( szFileName, zsizeof( szFileName ), &pch[ zstrlen( pch ) + 1 ] );
 
    if ( lpNetwork->nTraceLevel > 0 )
    {
@@ -6516,7 +6516,7 @@ fnProcessOperation( zVIEW lpTaskView, LPNETWORK lpNetwork, zPVOID *ppvConn )
       TraceLineS( "(kzoeneta) ** Retrieving the Argument OI.", "" );
    }
 
-   zmemset( vViewList, 0, sizeof( vViewList ) );
+   zmemset( vViewList, 0, zsizeof( vViewList ) );
 
    //=======================================================================
    // Receiving data.
@@ -6531,7 +6531,7 @@ fnProcessOperation( zVIEW lpTaskView, LPNETWORK lpNetwork, zPVOID *ppvConn )
       goto EndOfFunction;
    }
 
-   strcpy_s( szAppName, sizeof( szAppName ), pchAppName );
+   strcpy_s( szAppName, zsizeof( szAppName ), pchAppName );
 
    if ( SfCreateSubtask( &vSubtask, lpTaskView, szAppName ) == zCALL_ERROR )
       goto EndOfFunction;
@@ -6665,17 +6665,17 @@ fnProcessOperation( zVIEW lpTaskView, LPNETWORK lpNetwork, zPVOID *ppvConn )
       pvViewList[ k ] = &vViewList[ k ];
 
    pvViewList[ k ] = 0;
-   strcpy_s( szName, sizeof( szName ), lpApp->szLibraryDir );
+   strcpy_s( szName, zsizeof( szName ), lpApp->szLibraryDir );
    SysAppendcDirSep( szName );
 
    if ( bTransformation )
    {
       SfGetApplicationForSubtask( &lpApp, vSubtask );
 
-      strcpy_s( szName, sizeof( szName ), lpApp->szLibraryDir );
+      strcpy_s( szName, zsizeof( szName ), lpApp->szLibraryDir );
       SysAppendcDirSep( szName );
       pchDLL_Name = lpViewOD->szOperLibname;
-      strcat_s( szName, sizeof( szName ), lpViewOD->szOperLibname );
+      strcat_s( szName, zsizeof( szName ), lpViewOD->szOperLibname );
    }
    else
    {
@@ -6683,7 +6683,7 @@ fnProcessOperation( zVIEW lpTaskView, LPNETWORK lpNetwork, zPVOID *ppvConn )
       GetAddrForAttribute( &pchDLL_Name, vArgs, "Operation", "DLL_Name" );
       if ( pchDLL_Name && *pchDLL_Name )
       {
-         strcat_s( szName, sizeof( szName ), pchDLL_Name );
+         strcat_s( szName, zsizeof( szName ), pchDLL_Name );
       }
    }
 
@@ -6701,7 +6701,7 @@ fnProcessOperation( zVIEW lpTaskView, LPNETWORK lpNetwork, zPVOID *ppvConn )
       goto EndOfFunction;
    }
 
-   sprintf_s( szName, sizeof( szName ), "_zCall_%s", pchOperName );
+   sprintf_s( szName, zsizeof( szName ), "_zCall_%s", pchOperName );
    pfnOper = (LPFN_CALLOPER) SysGetProc( hLibrary, szName );
    if ( pfnOper == 0 )
    {
@@ -6825,7 +6825,7 @@ fnProcessOperation( zVIEW lpTaskView, LPNETWORK lpNetwork, zPVOID *ppvConn )
 
          SysGetEnvVar( szTempFileName, "TEMP", zMAX_FILENAME_LTH + 1 );
          SysAppendcDirSep( szTempFileName );
-         strcat_s( szTempFileName, sizeof( szTempFileName ), "tranoi.por" );
+         strcat_s( szTempFileName, zsizeof( szTempFileName ), "tranoi.por" );
          CommitOI_ToFile( vViewList[ k ], szTempFileName,
                           zINCREMENTAL | zSAVE_CURSORS );
       }
@@ -6987,17 +6987,17 @@ SfStartNetworks( zVIEW lpView, zLONG lControl )
    //    etc...
    for ( k = 1; TRUE; k++ )
    {
-      sprintf_s( szNetName, sizeof( szNetName ), "Network%d", k );
+      sprintf_s( szNetName, zsizeof( szNetName ), "Network%d", k );
    // TraceLineS( "(kzoeneta) ** Looking for Net = ", szNetName );
 
       szValue[ 0 ] = 0;
-      SysReadZeidonIni( -1, "[Network]", szNetName, szValue, sizeof( szValue ) );
+      SysReadZeidonIni( -1, "[Network]", szNetName, szValue, zsizeof( szValue ) );
       if ( szValue[ 0 ] == 0 )
          break;               // No network# item so break loop.
 
-      strcpy_s( szNetName, sizeof( szNetName ), szValue );
-      sprintf_s( szGroupName, sizeof( szGroupName ), "[%s]", szValue );
-      SysReadZeidonIni( -1, szGroupName, "Startup", szStartup, sizeof( szStartup ) );
+      strcpy_s( szNetName, zsizeof( szNetName ), szValue );
+      sprintf_s( szGroupName, zsizeof( szGroupName ), "[%s]", szValue );
+      SysReadZeidonIni( -1, szGroupName, "Startup", szStartup, zsizeof( szStartup ) );
       if ( szValue[ 0 ] == 0 )
          continue;
 
@@ -7010,14 +7010,14 @@ SfStartNetworks( zVIEW lpView, zLONG lControl )
          continue;
       }
 
-      SysReadZeidonIni( -1, szGroupName, "ExecName", szExecName, sizeof( szExecName ) );
+      SysReadZeidonIni( -1, szGroupName, "ExecName", szExecName, zsizeof( szExecName ) );
       if ( szExecName[ 0 ] == 0 )
-         strcpy_s( szExecName, sizeof( szExecName ), szNetName );
+         strcpy_s( szExecName, zsizeof( szExecName ), szNetName );
 
       // If network is started see if we need to do a listen.
       if ( NetStartup( lpView, szNetName, szExecName ) != zCALL_ERROR )
       {
-         SysReadZeidonIni( -1, szGroupName, "TraceLevel", szValue, sizeof( szValue ) );
+         SysReadZeidonIni( -1, szGroupName, "TraceLevel", szValue, zsizeof( szValue ) );
          if ( szValue[ 0 ] )
             NetSetTraceLevel( lpView, szNetName, (zSHORT) zatol( szValue ) );
 

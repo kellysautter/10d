@@ -1929,7 +1929,7 @@ yyEncore:
 #ifdef YACC_WINDOWS
    if (yystate >= Sizeof_yypact)    /* simple state */
 #else /* YACC_WINDOWS */
-   if (yystate >= sizeof yypact/sizeof yypact[ 0 ])  /* simple state */
+   if (yystate >= sizeof yypact/sizeof yypact[ 0 ]) /* simple state */
 #endif /* YACC_WINDOWS */
       yyi = yystate - YYDELTA;   /* reduce in any case */
    else {
@@ -1965,7 +1965,7 @@ yyEncore:
 #ifdef YACC_WINDOWS
       if (yystate >= Sizeof_yydef)
 #else /* YACC_WINDOWS */
-      if (yystate >= sizeof yydef /sizeof yydef[ 0 ])
+      if (yystate >= sizeof yydef / sizeof yydef[ 0 ])
 #endif /* YACC_WINDOWS */
          goto yyError;
       if ((yyi = yydef[yystate]) < 0)    { /* default == reduce? */
@@ -1974,7 +1974,7 @@ yyEncore:
          yyassert((unsigned)yyneg(yyi) < Sizeof_yyex,
             m_textmsg(2825, "exception %d\n", "I num"), yystate);
 #else /* YACC_WINDOWS */
-         yyassert((unsigned)yyneg(yyi) < sizeof yyex/sizeof yyex[ 0 ],
+         yyassert((unsigned)yyneg(yyi) < sizeof yyex / sizeof yyex[ 0 ],
             m_textmsg(2825, "exception %d\n", "I num"), yystate);
 #endif /* YACC_WINDOWS */
          yyp = &yyex[yyneg(yyi)];
@@ -2960,7 +2960,7 @@ yyError:
 #ifdef YACC_WINDOWS
          if (*yyps >= Sizeof_yypact)
 #else /* YACC_WINDOWS */
-         if (*yyps >= sizeof yypact/sizeof yypact[ 0 ])
+         if (*yyps >= sizeof yypact / sizeof yypact[ 0 ])
 #endif /* YACC_WINDOWS */
             continue;
          yyp = &yyact[yypact[*yyps]];

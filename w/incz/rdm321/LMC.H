@@ -38,7 +38,7 @@ typedef struct HR_MESSAGE_S
 } HR_MESSAGE;
 
 
-#define HDR_SIZE  sizeof(MESSAGE_HDR)
+#define HDR_SIZE  zsizeof(MESSAGE_HDR)
 
 typedef struct HM_LOGIN_S
 {
@@ -146,7 +146,7 @@ typedef union
    HR_LOCK        hr_lock;
 } MESSAGE_PKT;
 
-#define MAX_PCKT_LEN (sizeof (MESSAGE_PKT) + (size_ft+1)*sizeof(LM_FILEID))
+#define MAX_PCKT_LEN (zsizeof (MESSAGE_PKT) + (size_ft+1)*zsizeof(LM_FILEID))
 
 #pragma pack()
 

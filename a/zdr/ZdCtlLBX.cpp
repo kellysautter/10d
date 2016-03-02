@@ -313,8 +313,7 @@ ZListBox::ZListBox( ZSubtask *pZSubtask,
          if ( nLists == 2 )
             ulLth = (zUSHORT) (m_nCols + 2) * sizeof( zLONG );
          else
-            ulLth = (zUSHORT) (*((zPLONG) (m_pchListInfo +
-                                                      2 * sizeof( zLONG ))));
+            ulLth = (zUSHORT) (*((zPLONG) (m_pchListInfo + 2 * sizeof( zLONG ))));
          for ( zSHORT nCol = 1; nCol <= m_nCols; nCol++ )
          {
             m_pCol[ nCol ].pchText = 0;
@@ -322,13 +321,11 @@ ZListBox::ZListBox( ZSubtask *pZSubtask,
             *((zPLONG) (m_pchListInfo + ((nCol + nLists) * sizeof( zLONG ))));
             if ( m_pZSubtask->m_bUseMapDlgUnits )
             {
-               m_pCol[ nCol ].nTabPos =
-                           mConvertMapDlgToPixelX( m_pCol[ nCol ].nTabPos );
+               m_pCol[ nCol ].nTabPos = mConvertMapDlgToPixelX( m_pCol[ nCol ].nTabPos );
             }
             else
             {
-               m_pCol[ nCol ].nTabPos =
-                           mConvertDlgUnitToPixelX( m_pCol[ nCol ].nTabPos );
+               m_pCol[ nCol ].nTabPos = mConvertDlgUnitToPixelX( m_pCol[ nCol ].nTabPos );
             }
 
             if ( nCol &&
@@ -352,17 +349,13 @@ ZListBox::ZListBox( ZSubtask *pZSubtask,
 
             if ( m_pZSubtask->m_bUseMapDlgUnits )
             {
-               m_pCol[ nCol ].nExtent =
-                       mConvertMapDlgToPixelX( m_pCol[ nCol ].nColLth ) + 2;
-               m_pCol[ nCol ].nColLth =
-                            mConvertMapDlgToCharX( m_pCol[ nCol ].nColLth );
+               m_pCol[ nCol ].nExtent = mConvertMapDlgToPixelX( m_pCol[ nCol ].nColLth ) + 2;
+               m_pCol[ nCol ].nColLth = mConvertMapDlgToCharX( m_pCol[ nCol ].nColLth );
             }
             else
             {
-               m_pCol[ nCol ].nExtent =
-                       mConvertDlgUnitToPixelX( m_pCol[ nCol ].nColLth ) + 2;
-               m_pCol[ nCol ].nColLth =
-                            mConvertDlgUnitToCharX( m_pCol[ nCol ].nColLth );
+               m_pCol[ nCol ].nExtent = mConvertDlgUnitToPixelX( m_pCol[ nCol ].nColLth ) + 2;
+               m_pCol[ nCol ].nColLth = mConvertDlgUnitToCharX( m_pCol[ nCol ].nColLth );
             }
 
 #ifdef DEBUG_ALL
@@ -673,7 +666,7 @@ ZListBox::FormatTextAtPosition( zLONG lPos )
          {
             zCHAR szMsg[ 256 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ),
+            sprintf_s( szMsg, zsizeof( szMsg ),
                       "Unable to load view: %s for %s.%s.%s",
                       (*m_pzsVName).GetString(), (*(m_pZSubtask->m_pzsDlgTag)).GetString(),
                       (*(m_pZSubtask->m_pzsWndTag)).GetString(), (*m_pzsTag).GetString());
@@ -791,7 +784,7 @@ ZListBox::FormatTextAtPosition( zLONG lPos )
    {
       zCHAR szMsg[ 256 ];
 
-      sprintf_s( szMsg, sizeof( szMsg ), "%ld %s", lPos, m_pchMap );
+      sprintf_s( szMsg, zsizeof( szMsg ), "%ld %s", lPos, m_pchMap );
       TraceLineS( "ZListBox::Formatted Text: ", szMsg );
    }
 #endif
@@ -862,7 +855,7 @@ ZListBox::MapFromOI( WPARAM wFlag )
       {
          zCHAR szMsg[ 256 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Unable to load view: %s for %s.%s.%s",
                    (*m_pzsVName).GetString(), (*(m_pZSubtask->m_pzsDlgTag)).GetString(),
                    (*(m_pZSubtask->m_pzsWndTag)).GetString(), (*m_pzsTag).GetString() );
          TraceLineS( "ZListBox::MapFromOI ", szMsg );
@@ -1662,10 +1655,10 @@ ZListBox::SortByColumn( zSHORT nCol, zSHORT nAscending )
       zSHORT nFind;
       zCHAR szBuffer[ 4096 ];
 
-      strcpy_s( szBuffer, sizeof( szBuffer ), m_pCol[ nCol ].pchEntity );
+      strcpy_s( szBuffer, zsizeof( szBuffer ), m_pCol[ nCol ].pchEntity );
       nLth = zstrlen( szBuffer );
       szBuffer[ nLth++ ] = '.';
-      strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, m_pCol[ nCol ].pchAttrib );
+      strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, m_pCol[ nCol ].pchAttrib );
       nLth = zstrlen( szBuffer );
       szBuffer[ nLth++ ] = ' ';
       szBuffer[ nLth ] = 0;
@@ -1715,7 +1708,7 @@ ZListBox::SortByColumn( zSHORT nCol, zSHORT nAscending )
       {
          szBuffer[ nLth++ ] = ' ';
          szBuffer[ nLth++ ] = '[';
-         strcpy_s( szBuffer + nLth, sizeof( szBuffer ) - nLth, m_pCol[ nCol ].pchContext );
+         strcpy_s( szBuffer + nLth, zsizeof( szBuffer ) - nLth, m_pCol[ nCol ].pchContext );
          nLth = zstrlen( szBuffer );
          szBuffer[ nLth++ ] = ']';
       }
@@ -3441,7 +3434,7 @@ ZListBox::SetMultiSelection()
       zSHORT  nRC;
       zLONG   lSelItem;
 
-      strcpy_s( szEntityName, sizeof( szEntityName ), cpcLBSelItemEntity );
+      strcpy_s( szEntityName, zsizeof( szEntityName ), cpcLBSelItemEntity );
 
       // XRA has a Hierarchical Cursor, you can not use SetCursorFirst
       nRC = DefineHierarchicalCursor( vXRA_Sel, cpcLBSelItemEntity );

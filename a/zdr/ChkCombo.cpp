@@ -367,7 +367,7 @@ void CCheckComboBox::RecalcText()
 
       // Get the list separator
       TCHAR szBuffer[10] = {0};
-      GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SLIST, szBuffer, sizeof(szBuffer));
+      GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SLIST, szBuffer, zsizeof(szBuffer));
 
       CString strSeparator = szBuffer;
 

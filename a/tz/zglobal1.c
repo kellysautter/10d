@@ -84,7 +84,7 @@ SetAttributeFromCurrentDateTime( zVIEW   vView,
   zCHAR  szTimestamp[ 22 ];
   zSHORT nRC;
 
-  SysGetDateTime( szTimeStamp, sizeof( szTimestamp ) );
+  SysGetDateTime( szTimeStamp, zsizeof( szTimestamp ) );
   nRC = SetAttributeFromString( vView, cpcEntityName, cpcAttributeName,
                                 szTimestamp );
   return( nRC );
@@ -528,11 +528,11 @@ DateTimeAttributeDiff( zPLONG  plDiff,
    zSHORT    nRC;
 
    // read the attributes
-   nRC = GetStringFromAttribute( szTS1, sizeof( szTS1 ), vView1, cpcEntity1, cpcAttribute1 );
+   nRC = GetStringFromAttribute( szTS1, zsizeof( szTS1 ), vView1, cpcEntity1, cpcAttribute1 );
    if ( nRC < 0 )
       return( zCALL_ERROR );
 
-   nRC = GetStringFromAttribute( szTS2, sizeof( szTS2 ), vView2, cpcEntity2, cpcAttribute2 );
+   nRC = GetStringFromAttribute( szTS2, zsizeof( szTS2 ), vView2, cpcEntity2, cpcAttribute2 );
    if ( nRC < 0 )
       return( zCALL_ERROR );
 

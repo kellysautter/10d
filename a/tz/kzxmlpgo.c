@@ -204,7 +204,7 @@ oKZXMLPGO_AddWebControlSubobject( zVIEW     vKZXMLPGO,
             //:nRC = GetFirstTableEntryForAttribute( ExternalValue,
             //:                                SourceView, SourceEntity, SourceAttribute,
             //:                                ControlContext, CursorPos )
-            nRC = GetFirstTableEntryForAttribute( ExternalValue, sizeof( ExternalValue ), SourceView, SourceEntity, SourceAttribute, ControlContext, &CursorPos );
+            nRC = GetFirstTableEntryForAttribute( ExternalValue, zsizeof( ExternalValue ), SourceView, SourceEntity, SourceAttribute, ControlContext, &CursorPos );
             //:LOOP WHILE nRC >= 0
             while ( nRC >= 0 )
             { 
@@ -229,7 +229,7 @@ oKZXMLPGO_AddWebControlSubobject( zVIEW     vKZXMLPGO,
                //:nRC = GetNextTableEntryForAttribute( ExternalValue,
                //:                               SourceView, SourceEntity, SourceAttribute,
                //:                               ControlContext, CursorPos )
-               nRC = GetNextTableEntryForAttribute( ExternalValue, sizeof( ExternalValue ), SourceView, SourceEntity, SourceAttribute, ControlContext, &CursorPos );
+               nRC = GetNextTableEntryForAttribute( ExternalValue, zsizeof( ExternalValue ), SourceView, SourceEntity, SourceAttribute, ControlContext, &CursorPos );
             } 
 
             //:END
@@ -345,10 +345,10 @@ oKZXMLPGO_AddWebControlSubobject( zVIEW     vKZXMLPGO,
    //:END
 
    //:TraceLineS( "AddWebControlSubobject Type: ", vKZXMLPGO.Control.Type )
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vKZXMLPGO, "Control", "Type" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vKZXMLPGO, "Control", "Type" );
    TraceLineS( "AddWebControlSubobject Type: ", szTempString_0 );
    //:TraceLineS( "      =============== Value: ", vKZXMLPGO.Control.CurrentValue )
-   GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vKZXMLPGO, "Control", "CurrentValue" );
+   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vKZXMLPGO, "Control", "CurrentValue" );
    TraceLineS( "      =============== Value: ", szTempString_1 );
    return( 0 );
 //    /* vKZXMLPGO.Control.Type = "EditBox" OR

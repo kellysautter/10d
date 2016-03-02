@@ -239,10 +239,10 @@ yyparse()
 
 $A
 #ifdef YYALLOC
-   yys = (short *) malloc((YYSSIZE + 1) * sizeof(short));
-   yyv = (YYSTYPE *) malloc((YYSSIZE + 1) * sizeof(YYSTYPE));
+   yys = (short *) malloc((YYSSIZE + 1) * zsizeof(short));
+   yyv = (YYSTYPE *) malloc((YYSSIZE + 1) * zsizeof(YYSTYPE));
 #if YYDEBUG
-   yytypev = (short *) malloc((YYSSIZE+1) * sizeof(short));
+   yytypev = (short *) malloc((YYSSIZE+1) * zsizeof(short));
 #endif
    if (yys == (short *)0 || yyv == (YYSTYPE *)0
 #if YYDEBUG
@@ -293,7 +293,7 @@ yyEncore:
 #ifdef YYSYNC
    YYREAD;
 #endif
-   if (yystate >= sizeof yypact/sizeof yypact[0])  /* simple state */
+   if (yystate >= zsizeof yypact/zsizeof yypact[0]) /* simple state */
       yyi = yystate - YYDELTA;   /* reduce in any case */
    else {
       if(*(yyp = &yyact[yypact[yystate]]) >= 0) {
@@ -325,11 +325,11 @@ yyEncore:
        * Fell through - take default action
        */
 
-      if (yystate >= sizeof yydef /sizeof yydef[0])
+      if (yystate >= zsizeof yydef /zsizeof yydef[0])
          goto yyError;
       if ((yyi = yydef[yystate]) < 0)   { /* default == reduce? */
          /* Search exception table */
-         yyassert((unsigned)~yyi < sizeof yyex/sizeof yyex[0],
+         yyassert((unsigned)~yyi < zsizeof yyex/zsizeof yyex[0],
             gettext("exception %d\n"), yystate);
          yyp = &yyex[~yyi];
 #ifndef YYSYNC
@@ -425,7 +425,7 @@ yyError:
                , yytp--
 #endif
       ) {
-         if (*yyps >= sizeof yypact/sizeof yypact[0])
+         if (*yyps >= zsizeof yypact/zsizeof yypact[0])
             continue;
          yyp = &yyact[yypact[*yyps]];
          yyq = yyp;

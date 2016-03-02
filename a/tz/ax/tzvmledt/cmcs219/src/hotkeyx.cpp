@@ -14,7 +14,7 @@ STDMETHODIMP CHotKeyX::InterfaceSupportsErrorInfo(REFIID riid)
    {
       &IID_IHotKey,
    };
-   for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
+   for (int i=0;i<zsizeof(arr)/zsizeof(arr[0]);i++)
    {
       if (CMIsEqualGUID(*arr[i],riid))
          return S_OK;

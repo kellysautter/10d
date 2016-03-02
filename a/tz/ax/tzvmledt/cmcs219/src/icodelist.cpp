@@ -100,7 +100,7 @@ STDMETHODIMP CICodeList::GetItemText( long ItemIndex, BSTR* pstrVal )
    if( NULL == pszText )
       return E_OUTOFMEMORY;
 
-   ZeroMemory( pszText, sizeof(TCHAR) * (iLen + 1) );
+   ZeroMemory( pszText, zsizeof(TCHAR) * (iLen + 1) );
    m_pCtrl->GetItemText( ItemIndex, pszText, iLen );
 
    USES_CONVERSION;

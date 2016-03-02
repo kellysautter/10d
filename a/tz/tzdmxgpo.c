@@ -63,9 +63,9 @@ oTZDMXGPO_GetViewForXDM( zVIEW  vSubtask,
 // Set up the XDM File Name and the View Name
 
    GetViewByName( &vTask, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szAppViewName + 10, sizeof( szAppViewName ) - 10, vTask, "LPLR", "Name" );
-   GetStringFromAttribute( szXDM_FileName, sizeof( szXDM_FileName ), vTask, "LPLR", "ExecDir" );
-   strcat_s( szXDM_FileName, sizeof( szXDM_FileName ), "\\zeidon.xdm" );
+   GetStringFromAttribute( szAppViewName + 10, zsizeof( szAppViewName ) - 10, vTask, "LPLR", "Name" );
+   GetStringFromAttribute( szXDM_FileName, zsizeof( szXDM_FileName ), vTask, "LPLR", "ExecDir" );
+   strcat_s( szXDM_FileName, zsizeof( szXDM_FileName ), "\\zeidon.xdm" );
 
 // See if XDM View is at the Application level
    nRScope = GetViewByName( &vT, szAppViewName, vTask, zLEVEL_APPLICATION );
@@ -132,12 +132,12 @@ oTZDMXGPO_CommitXDM( zVIEW vSubtask, zVIEW vTZDMXGPO )
 // Set up the XDM File Name
 
    GetViewByName( &vT, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szXDM_FileName, sizeof( szXDM_FileName ), vT, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szXDM_FileName, zsizeof( szXDM_FileName ), vT, "LPLR", "ExecDir" );
 
    GetApplDirectoryFromView( szApplExecDir, vT, 2, zMAX_FILESPEC_LTH+1 );
    szApplExecDir[ zstrlen( szApplExecDir ) - 1 ] = 0;
 
-   strcat_s( szXDM_FileName, sizeof( szXDM_FileName ), "\\zeidon.xdm" );
+   strcat_s( szXDM_FileName, zsizeof( szXDM_FileName ), "\\zeidon.xdm" );
    nRC = CommitOI_ToFile( vTZDMXGPO, szXDM_FileName, zASCII );
    return( nRC );
 }

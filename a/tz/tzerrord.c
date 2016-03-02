@@ -69,24 +69,24 @@ zwTZERRORD_SetCountError( zVIEW vSubtask )
             lCountWarning++;
       }
 
-      zltoa( lCountError, szCount, sizeof( szCount ) );
-      strcpy_s( szControlText, sizeof( szControlText ), " " );
-      strcat_s( szControlText, sizeof( szControlText ), szCount );
-      strcat_s( szControlText, sizeof( szControlText ), " Error(s) " );
+      zltoa( lCountError, szCount, zsizeof( szCount ) );
+      strcpy_s( szControlText, zsizeof( szControlText ), " " );
+      strcat_s( szControlText, zsizeof( szControlText ), szCount );
+      strcat_s( szControlText, zsizeof( szControlText ), " Error(s) " );
 
       if ( lCountWarning > 0 )
       {
-         zltoa( lCountWarning, szCount, sizeof( szCount ) );
-         strcat_s( szControlText, sizeof( szControlText ), ", " );
-         strcat_s( szControlText, sizeof( szControlText ), szCount );
-         strcat_s( szControlText, sizeof( szControlText ), " Warning(s) " );
+         zltoa( lCountWarning, szCount, zsizeof( szCount ) );
+         strcat_s( szControlText, zsizeof( szControlText ), ", " );
+         strcat_s( szControlText, zsizeof( szControlText ), szCount );
+         strcat_s( szControlText, zsizeof( szControlText ), " Warning(s) " );
       }
 
-      strcat_s( szControlText, sizeof( szControlText ), "found" );
+      strcat_s( szControlText, zsizeof( szControlText ), "found" );
    }
    else
    {
-      strcpy_s( szControlText, sizeof( szControlText ), " No Errors" );
+      strcpy_s( szControlText, zsizeof( szControlText ), " No Errors" );
    }
 
    SetCtrlText( vSubtask, "txtCountError", szControlText );
@@ -146,20 +146,20 @@ zwfnTZERRORD_WriteErrorListToFile( zVIEW vTZERROR, zLONG  FileHandle,
    zLONG  i;
 
    // write Tool and DateTime
-   strcpy_s( szMsg, sizeof( szMsg ), "Zeidon: " );
-   strcat_s( szMsg, sizeof( szMsg ), szTool );
-   strcat_s( szMsg, sizeof( szMsg ), " Error List from " );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Zeidon: " );
+   strcat_s( szMsg, zsizeof( szMsg ), szTool );
+   strcat_s( szMsg, zsizeof( szMsg ), " Error List from " );
    GetStringFromAttributeByContext( szTemp, vTZERROR, "ErrorList", "DateTime", "DD.MM.YYYY HH:MM:SS", 20 );
-   strcat_s( szMsg, sizeof( szMsg ), szTemp );
+   strcat_s( szMsg, zsizeof( szMsg ), szTemp );
    SysWriteLine( vTZERROR, FileHandle, szMsg );
    SysWriteLine( vTZERROR, FileHandle, "" );
 
    // write LPLR Name
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZERROR, "ErrorList", "LPLR_Name" );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZERROR, "ErrorList", "LPLR_Name" );
    if ( szTemp[ 0 ] )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Project: " );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Project: " );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
       SysWriteLine( vTZERROR, FileHandle, szMsg );
       SysWriteLine( vTZERROR, FileHandle, "" );
    }
@@ -169,19 +169,19 @@ zwfnTZERRORD_WriteErrorListToFile( zVIEW vTZERROR, zLONG  FileHandle,
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vTZERROR, "ErrorMsg", "" ) )
    {
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZERROR, "ErrorMsg", "Name" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZERROR, "ErrorMsg", "Name" );
       if ( zstrcmp( szTemp, "" ) != 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), szName );
-         strcat_s( szMsg, sizeof( szMsg ), ": " );
-         strcat_s( szMsg, sizeof( szMsg ), szTemp );
+         strcpy_s( szMsg, zsizeof( szMsg ), szName );
+         strcat_s( szMsg, zsizeof( szMsg ), ": " );
+         strcat_s( szMsg, zsizeof( szMsg ), szTemp );
          for ( i = zstrlen( szTemp ); i < lLen; i++ )
-            strcat_s( szMsg, sizeof( szMsg ), " " );
+            strcat_s( szMsg, zsizeof( szMsg ), " " );
       }
 
-      strcat_s( szMsg, sizeof( szMsg ), " " );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZERROR, "ErrorMsg", "ErrorText" );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
+      strcat_s( szMsg, zsizeof( szMsg ), " " );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZERROR, "ErrorMsg", "ErrorText" );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
       SysWriteLine( vTZERROR, FileHandle, szMsg );
    }
 
@@ -213,38 +213,38 @@ zwTZERRORD_ErrorListSaveToFile( zVIEW vSubtask )
 
    if ( CompareAttributeToInteger( vTZERROR, "ErrorList", "MetaType", zSOURCE_ERD_META ) == 0 )
    {
-      strcpy_s( szTool, sizeof( szTool ), "Data Model" );
-      strcpy_s( szName, sizeof( szName ), "Entity" );
+      strcpy_s( szTool, zsizeof( szTool ), "Data Model" );
+      strcpy_s( szName, zsizeof( szName ), "Entity" );
       lLth = 32;
    }
    else
    if ( CompareAttributeToInteger( vTZERROR, "ErrorList", "MetaType", zSOURCE_REPLACE_BMP ) == 0 )
    {
-      strcpy_s( szTool, sizeof( szTool ), "Bitmap" );
-      strcpy_s( szName, sizeof( szName ), "Dialog" );
+      strcpy_s( szTool, zsizeof( szTool ), "Bitmap" );
+      strcpy_s( szName, zsizeof( szName ), "Dialog" );
       lLth = 8;
    }
    else
    {
-      strcpy_s( szTool, sizeof( szTool ), "" );
-      strcpy_s( szName, sizeof( szName ), "" );
+      strcpy_s( szTool, zsizeof( szTool ), "" );
+      strcpy_s( szName, zsizeof( szName ), "" );
       lLth = 1;
    }
 
    szFileName[ 0 ] = 0;
    ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT | zOFN_SAVEAS | zOFN_HIDEREADONLY;
 
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                "Text Files (*.txt)|*.txt|", "txt", ulZFlags ) == 1 )
    {
       FileHandle = SysOpenFile( vSubtask, szFileName, COREFILE_WRITE );
 
       if ( FileHandle == -1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to open " );
-         strcat_s( szMsg, sizeof( szMsg ), szFileName );
-         strcpy_s( szTitle, sizeof( szTitle ), szTool );
-         strcat_s( szTitle, sizeof( szTitle ), " Maintenance" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+         strcat_s( szMsg, zsizeof( szMsg ), szFileName );
+         strcpy_s( szTitle, zsizeof( szTitle ), szTool );
+         strcat_s( szTitle, zsizeof( szTitle ), " Maintenance" );
          MessageSend( vSubtask, "FEH001", szTitle, szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
          return( -1 );
@@ -304,7 +304,7 @@ zwTZERRORD_CreateNewErrorRoot( zVIEW vSubtask )
       SetNameForView( vTZERROR, "TZERROR", vSubtask, zLEVEL_TASK );
    }
 
-   SysGetDateTime( szCurrentDateTime, sizeof( szCurrentDateTime ) );
+   SysGetDateTime( szCurrentDateTime, zsizeof( szCurrentDateTime ) );
    CreateEntity( vTZERROR, "ErrorList", zPOS_LAST );
    SetAttributeFromString( vTZERROR, "ErrorList", "DateTime", szCurrentDateTime );
    return( 0 );
@@ -332,19 +332,19 @@ zwTZERRORD_SetTitle( zVIEW vSubtask )
 
    if ( lType == zSOURCE_ERD_META )
    {
-      strcpy_s( szTitle, sizeof( szTitle ), "Data Model Error List" );
-      strcpy_s( szColumnName, sizeof( szColumnName ), "Entity" );
+      strcpy_s( szTitle, zsizeof( szTitle ), "Data Model Error List" );
+      strcpy_s( szColumnName, zsizeof( szColumnName ), "Entity" );
    }
    else
    if ( lType == zSOURCE_REPLACE_BMP )
    {
-      strcpy_s( szTitle, sizeof( szTitle ), "Bitmap Error List" );
-      strcpy_s( szColumnName, sizeof( szColumnName ), "Dialog" );
+      strcpy_s( szTitle, zsizeof( szTitle ), "Bitmap Error List" );
+      strcpy_s( szColumnName, zsizeof( szColumnName ), "Dialog" );
    }
    else
    {
-      strcpy_s( szTitle, sizeof( szTitle ), "" );
-      strcpy_s( szColumnName, sizeof( szColumnName ), "" );
+      strcpy_s( szTitle, zsizeof( szTitle ), "" );
+      strcpy_s( szColumnName, zsizeof( szColumnName ), "" );
    }
 
    SetCtrlRowColText( vSubtask, "lbErrorList", 0, 1, szColumnName );
@@ -402,12 +402,12 @@ zwTZERRORD_WriteErrorMsg( zVIEW  vSubtask,
    SetAttributeFromAttribute( vTZERROR, "ErrorMsg", "Name", vMetaView, szMetaEntity, szMetaAttribute );
 
    if ( nError == 1 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Error: " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Error: " );
    else
    if ( nError == 0 )
-      strcpy_s( szMsg, sizeof( szMsg ), "Warning: " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Warning: " );
 
-   strcat_s( szMsg, sizeof( szMsg ), szErrorMsg );
+   strcat_s( szMsg, zsizeof( szMsg ), szErrorMsg );
 
    SetAttributeFromString( vTZERROR, "ErrorMsg", "ErrorText", szMsg );
    SetAttributeFromInteger( vTZERROR, "ErrorMsg", "Error", nError );

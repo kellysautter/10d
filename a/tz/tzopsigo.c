@@ -54,7 +54,7 @@ oTZOPSIGO_RemoveOperFromXGO( zVIEW  vSubtask,
    if ( nRC < 0 )
       return( nRC );
 
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vOperation, "Operation", "Name" );
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vOperation, "Operation", "Name" );
    if ( SetCursorFirstEntityByString( vXGO, "Operation", "Name",
                                       szOperationName, "" ) != zCURSOR_SET )
    {
@@ -91,7 +91,7 @@ oTZOPSIGO_ReplaceOrAddOperToXGO( zVIEW  vSubtask,
       nRC = ExcludeEntity( vXGO, "Operation", zREPOS_PREV );
    }
 
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vOperation, "Operation", "Name" );
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vOperation, "Operation", "Name" );
    if ( SetCursorFirstEntityByString( vXGO, "Operation", "Name",
                                       szOperationName, "" ) == zCURSOR_SET )
    {
@@ -125,7 +125,7 @@ oTZOPSIGO_AddOperToXGO( zVIEW  vSubtask,
       return( 1 );
    }
 
-   GetStringFromAttribute( szOperationName, sizeof( szOperationName ), vOperation, "Operation", "Name" );
+   GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vOperation, "Operation", "Name" );
    if ( SetCursorFirstEntityByString( vXGO, "Operation", "Name",
                                       szOperationName, "" ) == zCURSOR_SET )
    {
@@ -185,10 +185,10 @@ ofnTZOPSIGO_CopyOperToXGO( zVIEW vSubtask,
       {
          if ( ObjectInstanceUpdatedFromFile( vTmpHdr ) == 1 )
          {
-            strcpy_s( sz, sizeof( sz ), "Do you wish to save Header '" );
-            GetStringFromAttribute( sz + zstrlen( sz ), sizeof( sz ) - zstrlen( sz ),
+            strcpy_s( sz, zsizeof( sz ), "Do you wish to save Header '" );
+            GetStringFromAttribute( sz + zstrlen( sz ), zsizeof( sz ) - zstrlen( sz ),
                                     vTmpHdr, "HeaderFile", "Name" );
-            strcat_s( sz, sizeof( sz ), "'?" );
+            strcat_s( sz, zsizeof( sz ), "'?" );
             nRC = MessagePrompt( vOperation, "OP01101", "Operations", sz,
                                  zBEEP, zBUTTONS_YESNOCANCEL, zRESPONSE_NO,  0 );
             if ( nRC == zRESPONSE_YES )
@@ -224,7 +224,7 @@ oTZOPSIGO_UniqueHdrName( zVIEW vHdrFile, zVIEW vCM_List )
    zSHORT   nRC;
    zCHAR    szHdrFileName[ 33 ];
 
-   nRC = GetStringFromAttribute( szHdrFileName, sizeof( szHdrFileName ), vHdrFile,
+   nRC = GetStringFromAttribute( szHdrFileName, zsizeof( szHdrFileName ), vHdrFile,
                                  "HeaderFile", "Name" );
    nRC = SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name",
                                        szHdrFileName, "" );
@@ -258,7 +258,7 @@ oTZOPSIGO_RemoveHdrFromXGO( zVIEW vSubtask,
    if ( nRC < 0 )
       return( nRC );
 
-   GetStringFromAttribute( szHdrFileName, sizeof( szHdrFileName ), vHdrFile, "HeaderFile", "Name" );
+   GetStringFromAttribute( szHdrFileName, zsizeof( szHdrFileName ), vHdrFile, "HeaderFile", "Name" );
    if ( SetCursorFirstEntityByString( vXGO, "HeaderFile", "Name",
                                       szHdrFileName, "" ) != zCURSOR_SET )
    {
@@ -295,7 +295,7 @@ oTZOPSIGO_ReplaceOrAddHdrToXGO( zVIEW vSubtask,
       nRC = DeleteEntity( vXGO, "HeaderFile", zREPOS_PREV );
    }
 
-   GetStringFromAttribute( szHdrFileName, sizeof( szHdrFileName ), vHdrFile, "HeaderFile", "Name" );
+   GetStringFromAttribute( szHdrFileName, zsizeof( szHdrFileName ), vHdrFile, "HeaderFile", "Name" );
    if ( SetCursorFirstEntityByString( vXGO, "HeaderFile", "Name",
                                       szHdrFileName, "" ) == zCURSOR_SET )
    {
@@ -327,7 +327,7 @@ oTZOPSIGO_AddHdrToXGO( zVIEW vSubtask,
       return( 1 );
    }
 
-   GetStringFromAttribute( szHdrFileName, sizeof( szHdrFileName ), vHdrFile, "HeaderFile", "Name" );
+   GetStringFromAttribute( szHdrFileName, zsizeof( szHdrFileName ), vHdrFile, "HeaderFile", "Name" );
    if ( SetCursorFirstEntityByString( vXGO, "HeaderFile", "Name",
                                       szHdrFileName, "" ) == zCURSOR_SET )
    {
@@ -424,7 +424,7 @@ oTZOPSIGO_DeriveSourceName( zVIEW        vMeta,
                                           "CPLR_ZKey", lSRC_ZKey,
                                           "LPLR" ) >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szSRC_Name, sizeof( szSRC_Name ), vTaskLPLR,
+         GetStringFromAttribute( szSRC_Name, zsizeof( szSRC_Name ), vTaskLPLR,
                                  "W_MetaDef", "Name" );
       }
    }

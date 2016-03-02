@@ -37,7 +37,7 @@ FormattedDate::GetFormattedDate( _TCHAR *ptcDateTime )
                           "Aug", "Sep", "Oct", "Nov", "Dec" };
    _TCHAR *ptcDay[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
-// memset( ptcDateTime, 0, sizeof( _TCHAR ) * 128 );
+// memset( ptcDateTime, 0, zsizeof( _TCHAR ) * 128 );
 // "Date: Tue, 30 Dec 2003 23:59:00 +0000
    ptcDateTime[ 0 ] = 0;
 
@@ -277,8 +277,7 @@ Smtp::CreateSmtpConnection( zPCHAR pchSmtpServer )
    INT err;
    for ( zLONG lRetry = 0; lRetry < 5; lRetry++ )
    {
-      err = connect( m_SA, (struct sockaddr *) &sockaddrSend,
-                     sizeof( sockaddr_in ) );
+      err = connect( m_SA, (struct sockaddr *) &sockaddrSend, sizeof( sockaddr_in ) );
       if ( err != SOCKET_ERROR )
       {
          break;
@@ -289,8 +288,7 @@ Smtp::CreateSmtpConnection( zPCHAR pchSmtpServer )
    if ( err == SOCKET_ERROR )
    {
    // printf( "Connect error: %d\n", WSAGetLastError() );
-      TraceLineI( "Smtp::CreateSmtpConnection Connect Error: ",
-                  WSAGetLastError() );
+      TraceLineI( "Smtp::CreateSmtpConnection Connect Error: ", WSAGetLastError() );
       return( FALSE );
    }
 
@@ -309,8 +307,7 @@ Smtp::prepare_header()
 BOOL
 Smtp::insert_mixed_part()
 {
-   if ( !Send( "Content-Type: multipart/mixed; boundary=\"MessagePartBoundry\"",
-               "\r\n" ) )
+   if ( !Send( "Content-Type: multipart/mixed; boundary=\"MessagePartBoundry\"", "\r\n" ) )
    {
       return( FALSE );
    }
@@ -566,7 +563,7 @@ Smtp::CreateSmtpMessage( zPCHAR pchSmtpServer,
 
          zPCHAR pchBody;
 
-         if ( lLth > sizeof( szBody ) )
+         if ( lLth > zsizeof( szBody ) )
             pchBody = new char[ lLth ];
          else
             pchBody = szBody;
@@ -945,18 +942,18 @@ WinMain( HINSTANCE hInstance,
    Smtp smtpMailMessage3;
    Smtp smtpMailMessage4;
 
-   strcpy_s( szBody, sizeof( szBody ), "This is a plain Text EMAIL" );
+   strcpy_s( szBody, zsizeof( szBody ), "This is a plain Text EMAIL" );
    smtpMailMessage.CreateSmtpConnection( "www.quinsoft.com" );
    smtpMailMessage.CreateSmtpMessage( "www.quinsoft.com",
                                       "dks@quinsoft.com",
                                       pchNames, 1, "Test",  1, // text
                                       szBody, 0, "" );
 
-   strcpy_s( szBody, sizeof( szBody ), "" );
+   strcpy_s( szBody, zsizeof( szBody ), "" );
    fp = fopen( "C:\\Temp\\test2.html", "r" );
    while ( fgets( szString,5120,fp ) )
    {
-      strcat_s( szBody, sizeof( szBody ), szString );
+      strcat_s( szBody, zsizeof( szBody ), szString );
    }
 
    fclose( fp );
@@ -967,7 +964,7 @@ WinMain( HINSTANCE hInstance,
                                     pchNames, 1, "Test", 2, // HTML
                                     szBody, 0, "" );
 
-   strcpy_s( szBody, sizeof( szBody ), "This is aNOTHER plain Text EMAIL with Attachment");
+   strcpy_s( szBody, zsizeof( szBody ), "This is aNOTHER plain Text EMAIL with Attachment");
    smtpMailMessage3.CreateSmtpConnection( "www.quinsoft.com" );
    smtpMailMessage3.CreateSmtpMessage( "www.quinsoft.com",
                                     "dks@quinsoft.com",
@@ -975,11 +972,11 @@ WinMain( HINSTANCE hInstance,
                                     szBody, 1,
                                     "C:\\temp\\text1.txt" );
 
-   strcpy_s( szBody, sizeof( szBody ), "" );
+   strcpy_s( szBody, zsizeof( szBody ), "" );
    fp = fopen( "C:\\Temp\\test2.html", "r" );
    while ( fgets( szString, 1024, fp ) )
    {
-      strcat_s( szBody, sizeof( szBody ), szString );
+      strcat_s( szBody, zsizeof( szBody ), szString );
    }
 
    fclose( fp );
@@ -1216,7 +1213,7 @@ DisplaySeeError( int nSeeCode )
 {
    zCHAR szErrorMsg[ zMAX_FILESPEC_LTH + 1 ];
 
-   nSeeCode = seeErrorText( 0, nSeeCode, szErrorMsg, sizeof( szErrorMsg ) );
+   nSeeCode = seeErrorText( 0, nSeeCode, szErrorMsg, zsizeof( szErrorMsg ) );
    TraceLine( "SEE Error %d: %s", nSeeCode, szErrorMsg );
 }
 

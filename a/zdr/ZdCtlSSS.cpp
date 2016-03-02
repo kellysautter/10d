@@ -152,14 +152,14 @@ RegisterSS( HINSTANCE  hInstance )
 
    do  // purist's goto
    {
-      zmemset( &wc, 0, sizeof( WNDCLASS ) );
+      zmemset( &wc, 0, zsizeof( WNDCLASS ) );
 
 //    wc.style         = CS_GLOBALCLASS | CS_HREDRAW | CS_VREDRAW |
 //                       CS_DBLCLKS | CS_NOKEYCVT;
       wc.style         = CS_GLOBALCLASS | CS_DBLCLKS;
       wc.lpfnWndProc   = (WNDPROC) SpreadSheetWndProc;
       wc.cbClsExtra    = 0;
-      wc.cbWndExtra    = 2 * sizeof( void * );
+      wc.cbWndExtra    = 2 * zsizeof( void * );
       wc.hInstance     = hInstance;
       wc.hIcon         = 0;
       wc.hCursor       = 0;
@@ -169,13 +169,13 @@ RegisterSS( HINSTANCE  hInstance )
       wc.lpszClassName = VA_SPREAD_CLASS_NAME;
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_SPREAD_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_SPREAD_CLASS_NAME );
          break;
       }
 
       wc.style         = CS_GLOBALCLASS;
       wc.lpfnWndProc   = (WNDPROC) EditGeneralWndProc;
-      wc.cbWndExtra    = 2 * sizeof( HANDLE ) + sizeof( FARPROC );
+      wc.cbWndExtra    = 2 * zsizeof( HANDLE ) + zsizeof( FARPROC );
       wc.hInstance     = hInstance;
       wc.hCursor       = LoadCursor( 0, IDC_IBEAM );
       wc.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
@@ -183,7 +183,7 @@ RegisterSS( HINSTANCE  hInstance )
       wc.lpszClassName = VA_GENERAL_CLASS_NAME;
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_GENERAL_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_GENERAL_CLASS_NAME );
          break;
       }
 
@@ -197,7 +197,7 @@ RegisterSS( HINSTANCE  hInstance )
          wc.lpszClassName = SSClassNames[ 0 ].SSEdit;
          if ( AfxRegisterClass( &wc ) == 0 )
          {
-            strcpy_s( szErrorClass, sizeof( szErrorClass ), SSClassNames[ 0 ].SSEdit );
+            strcpy_s( szErrorClass, zsizeof( szErrorClass ), SSClassNames[ 0 ].SSEdit );
             break;
          }
       }
@@ -212,7 +212,7 @@ RegisterSS( HINSTANCE  hInstance )
          wc.lpszClassName = SSClassNames[ 0 ].SSEditHScroll;
          if ( AfxRegisterClass( &wc ) == 0 )
          {
-            strcpy_s( szErrorClass, sizeof( szErrorClass ), SSClassNames[ 0 ].SSEditHScroll );
+            strcpy_s( szErrorClass, zsizeof( szErrorClass ), SSClassNames[ 0 ].SSEditHScroll );
             break;
          }
       }
@@ -231,7 +231,7 @@ RegisterSS( HINSTANCE  hInstance )
 
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), SSClassNames[ 0 ].TBCheckBox );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), SSClassNames[ 0 ].TBCheckBox );
          break;
       }
 
@@ -245,7 +245,7 @@ RegisterSS( HINSTANCE  hInstance )
 
          if ( AfxRegisterClass( &wc ) == 0 )
          {
-            strcpy_s( szErrorClass, sizeof( szErrorClass ), SSClassNames[ 0 ].SSCheckBox );
+            strcpy_s( szErrorClass, zsizeof( szErrorClass ), SSClassNames[ 0 ].SSCheckBox );
             break;
          }
       }
@@ -260,7 +260,7 @@ RegisterSS( HINSTANCE  hInstance )
          wc.lpszClassName = SSClassNames[ 0 ].SSListBox;
          if ( AfxRegisterClass( &wc ) == 0 )
          {
-            strcpy_s( szErrorClass, sizeof( szErrorClass ), SSClassNames[ 0 ].SSListBox );
+            strcpy_s( szErrorClass, zsizeof( szErrorClass ), SSClassNames[ 0 ].SSListBox );
             break;
          }
       }
@@ -278,7 +278,7 @@ RegisterSS( HINSTANCE  hInstance )
       wc.lpszClassName = SSClassNames[ 0 ].TBComboBox;
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), SSClassNames[ 0 ].TBComboBox );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), SSClassNames[ 0 ].TBComboBox );
          break;
       }
 
@@ -292,7 +292,7 @@ RegisterSS( HINSTANCE  hInstance )
          wc.lpszClassName = SSClassNames[ 0 ].SSEditComboBox;
          if ( AfxRegisterClass( &wc ) == 0 )
          {
-            strcpy_s( szErrorClass, sizeof( szErrorClass ), SSClassNames[ 0 ].SSEditComboBox );
+            strcpy_s( szErrorClass, zsizeof( szErrorClass ), SSClassNames[ 0 ].SSEditComboBox );
             break;
          }
       }
@@ -308,7 +308,7 @@ RegisterSS( HINSTANCE  hInstance )
 
          if ( AfxRegisterClass( &wc ) == 0 )
          {
-            strcpy_s( szErrorClass, sizeof( szErrorClass ), SSClassNames[ 0 ].SSComboBox );
+            strcpy_s( szErrorClass, zsizeof( szErrorClass ), SSClassNames[ 0 ].SSComboBox );
             break;
          }
       }
@@ -317,7 +317,7 @@ RegisterSS( HINSTANCE  hInstance )
 #ifndef SS_NOCT_DATE
       wc.style         = CS_GLOBALCLASS | CS_DBLCLKS;
       wc.lpfnWndProc   = (WNDPROC) EditDateWndProc;
-      wc.cbWndExtra    = 2 * sizeof( HANDLE ) + sizeof( FARPROC );
+      wc.cbWndExtra    = 2 * zsizeof( HANDLE ) + zsizeof( FARPROC );
       wc.hInstance     = hInstance;
       wc.hCursor       = LoadCursor( 0, IDC_IBEAM );
       wc.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
@@ -325,7 +325,7 @@ RegisterSS( HINSTANCE  hInstance )
       wc.lpszClassName = VA_DATE_CLASS_NAME;
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_DATE_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_DATE_CLASS_NAME );
          break;
       }
 #endif
@@ -338,10 +338,10 @@ RegisterSS( HINSTANCE  hInstance )
       wc.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
       wc.lpszMenuName  = 0;
       wc.lpszClassName = VA_TIME_CLASS_NAME;
-      wc.cbWndExtra    = 2 * sizeof( HANDLE ) + sizeof( FARPROC );
+      wc.cbWndExtra    = 2 * zsizeof( HANDLE ) + zsizeof( FARPROC );
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_TIME_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_TIME_CLASS_NAME );
          break;
       }
 #endif
@@ -354,10 +354,10 @@ RegisterSS( HINSTANCE  hInstance )
       wc.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
       wc.lpszMenuName  = 0;
       wc.lpszClassName = VA_INTEGER_CLASS_NAME;
-      wc.cbWndExtra    = 2 * sizeof( HANDLE ) + sizeof( FARPROC );
+      wc.cbWndExtra    = 2 * zsizeof( HANDLE ) + zsizeof( FARPROC );
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_INTEGER_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_INTEGER_CLASS_NAME );
          break;
       }
 #endif
@@ -365,7 +365,7 @@ RegisterSS( HINSTANCE  hInstance )
 #ifndef SS_NOCT_FLOAT
       wc.style         = CS_GLOBALCLASS;
       wc.lpfnWndProc   = (WNDPROC) EditFloatWndProc;
-      wc.cbWndExtra    = 2 * sizeof( HANDLE ) + sizeof( FARPROC );
+      wc.cbWndExtra    = 2 * zsizeof( HANDLE ) + zsizeof( FARPROC );
       wc.hInstance     = hInstance;
       wc.hCursor       = LoadCursor( 0, IDC_IBEAM );
       wc.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
@@ -373,7 +373,7 @@ RegisterSS( HINSTANCE  hInstance )
       wc.lpszClassName = VA_FLOAT_CLASS_NAME;
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_FLOAT_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_FLOAT_CLASS_NAME );
          break;
       }
 #endif
@@ -381,7 +381,7 @@ RegisterSS( HINSTANCE  hInstance )
 #ifndef SS_NOCT_PIC
       wc.style         = CS_GLOBALCLASS;
       wc.lpfnWndProc   = (WNDPROC) EditPicWndProc;
-      wc.cbWndExtra    = 2 * sizeof( HANDLE ) + sizeof( FARPROC );
+      wc.cbWndExtra    = 2 * zsizeof( HANDLE ) + zsizeof( FARPROC );
       wc.hInstance     = hInstance;
       wc.hCursor       = LoadCursor( 0, IDC_IBEAM );
       wc.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
@@ -389,7 +389,7 @@ RegisterSS( HINSTANCE  hInstance )
       wc.lpszClassName = VA_PIC_CLASS_NAME;
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_PIC_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_PIC_CLASS_NAME );
          break;
       }
 #endif
@@ -401,7 +401,7 @@ RegisterSS( HINSTANCE  hInstance )
       wc.style         = CS_DBLCLKS | CS_GLOBALCLASS;
       wc.lpfnWndProc   = (WNDPROC) CalendarWndProc;
       wc.cbClsExtra    = 0;
-      wc.cbWndExtra    = sizeof( HANDLE );
+      wc.cbWndExtra    = zsizeof( HANDLE );
       wc.hInstance     = hInstance;
       wc.hIcon         = 0;
       wc.hCursor       = LoadCursor( 0, IDC_ARROW );
@@ -410,7 +410,7 @@ RegisterSS( HINSTANCE  hInstance )
       wc.lpszClassName = VA_CALENDAR_CLASS_NAME;
       if ( AfxRegisterClass( &wc ) == 0 )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_CALENDAR_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_CALENDAR_CLASS_NAME );
          break;
       }
 #endif
@@ -418,14 +418,14 @@ RegisterSS( HINSTANCE  hInstance )
 
       if ( RegisterViewPict( hInstance, VA_VIEWPICT_CLASS_NAME ) == FALSE )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_VIEWPICT_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_VIEWPICT_CLASS_NAME );
          break;
       }
 
 #ifndef SSP_NO_TYPESPIN
       if ( RegisterSpinBtn( hInstance, VA_SPINBTN_CLASS_NAME ) == FALSE )
       {
-         strcpy_s( szErrorClass, sizeof( szErrorClass ), VA_SPINBTN_CLASS_NAME );
+         strcpy_s( szErrorClass, zsizeof( szErrorClass ), VA_SPINBTN_CLASS_NAME );
          break;
       }
 #endif
@@ -626,7 +626,7 @@ SpreadSheetWndProc( HWND    hWnd,
 
          g_nSpreadInstCnt++;
          if ( DrAllocTaskMemory( (zCOREMEM) &hSpread,
-                                 sizeof( SPREADSHEET), 1050 ) == 0 )
+                                 zsizeof( SPREADSHEET), 1050 ) == 0 )
          {
             lpSS = (LPSPREADSHEET) DrLockTaskMemory( hSpread );
          }
@@ -671,7 +671,7 @@ SpreadSheetWndProc( HWND    hWnd,
 #define OBM_COMBO           32738
          lpSS->hBitmapComboBtn = LoadBitmap( 0, (zPCHAR) OBM_COMBO );
 
-         GetObject( lpSS->hBitmapComboBtn, sizeof( BITMAP ), (zPCHAR) &Bitmap );
+         GetObject( lpSS->hBitmapComboBtn, zsizeof( BITMAP ), (zPCHAR) &Bitmap );
          lpSS->nComboButtonBitmapWidth = Bitmap.bmWidth * 2;
 
          lpSS->hCursorPointer = SS_CreateCursorPointer( g_hInstanceDLL );
@@ -3052,7 +3052,7 @@ SS_AllocCell( LPSPREADSHEET lpSS,
    if ( (lpRow = SS_AllocLockRow( lpSS, CellRow )) != 0 )
    {
       hCellItem = SS_AllocItems( lpSS, &lpRow->Cells,
-                                 CellCol, sizeof( ZSS_Cell ), 0,
+                                 CellCol, zsizeof( ZSS_Cell ), 0,
                                  SS_GetColsMax( lpSS ), &fIsNew );
 
 //    lpCell = (LPSS_CELL) DrLockTaskMemory( hCellItem );
@@ -3089,7 +3089,7 @@ SS_AllocCol( LPSPREADSHEET lpSS,
 
    // Make room for column item.
    if ( (hColItem = SS_AllocItems( lpSS, &lpSS->Col.Items, CellCol,
-                                   sizeof( SS_COL ), 0,
+                                   zsizeof( SS_COL ), 0,
                                    SS_GetColsMax( lpSS ), &fIsNew )) != 0 &&
         fIsNew )
    {
@@ -3182,7 +3182,7 @@ SS_VAllocInitRow( LPSPREADSHEET lpSS,
    }
 
    if ( DrAllocTaskMemory( (zCOREMEM) &hRowItem,
-                           sizeof( SS_ROW ), 1051 ) != 0 )
+                           zsizeof( SS_ROW ), 1051 ) != 0 )
    {
       TraceLineI( "Memory allocation error for virtual row ",
                   ssCellRow );
@@ -3495,7 +3495,7 @@ SS_AllocRow( LPSPREADSHEET lpSS,
 
    // Make room for ssRow item.
    if ( (lpRowItem = (LPSS_ROW) SS_AllocItems( lpSS, &lpSS->Row.Items,
-                                              ssCellRow, sizeof( SS_ROW ), 0,
+                                              ssCellRow, zsizeof( SS_ROW ), 0,
                                    SS_GetRowsMax( lpSS ), &fIsNew )) != 0 &&
         fIsNew )
    {
@@ -3581,7 +3581,7 @@ SS_AllocItems( LPSPREADSHEET lpSS,           // pointer to spreadsheet struct
       if ( lpAllocItem->dwItemCnt == 0 )
       {
          if ( DrAllocTaskMemory( (zCOREMEM) &lpAllocItem->hItems,
-                                 (zLONG) (dwItemCnt * sizeof( SS_ALLOCITEM )),
+                                 (zLONG) (dwItemCnt * zsizeof( SS_ALLOCITEM )),
                                  1052 ) != 0 )
          {
             return( 0 );
@@ -3592,7 +3592,7 @@ SS_AllocItems( LPSPREADSHEET lpSS,           // pointer to spreadsheet struct
          lpAllocItem->hItems =
                           (zPCHAR) DrUnlockTaskMemory( lpAllocItem->hItems );
          if ( DrReAllocTaskMemory( (zCOREMEM) &lpAllocItem->hItems, (zLONG)
-                                (dwItemCnt * sizeof( SS_ALLOCITEM )) ) != 0 )
+                                (dwItemCnt * zsizeof( SS_ALLOCITEM )) ) != 0 )
          {
             return( 0 );
          }
@@ -3817,9 +3817,9 @@ SS_ClearAll( HWND hWnd, LPSPREADSHEET lpSS )
    lpSS->nCalcTableAllocCnt = 0;
    lpSS->hCalcTable = 0;
    lpSS->DefaultData.m_DataType = 0;
-   zmemset( &lpSS->CurVisCell, 0, sizeof( SS_CELLCOORD ) );
-   zmemset( &lpSS->CurCalcCell, 0, sizeof( SS_CELLCOORD ) );
-//? zmemset( &lpSS->CalcAllDependents, 0, sizeof( SS_CALCLIST ) );
+   zmemset( &lpSS->CurVisCell, 0, zsizeof( SS_CELLCOORD ) );
+   zmemset( &lpSS->CurCalcCell, 0, zsizeof( SS_CELLCOORD ) );
+//? zmemset( &lpSS->CalcAllDependents, 0, zsizeof( SS_CALCLIST ) );
    lpSS->ModeResize = 0;
    lpSS->lResizeOffset = 0;
    lpSS->lResizeCurrentPos = 0;
@@ -3827,8 +3827,8 @@ SS_ClearAll( HWND hWnd, LPSPREADSHEET lpSS )
    lpSS->lResizeMinPos = 0;
    lpSS->ssResizeCoord = 0;
    lpSS->ModeBlock = 0;
-   zmemset( &lpSS->BlockCellUL, 0, sizeof( SS_CELLCOORD ) );
-   zmemset( &lpSS->BlockCellLR, 0, sizeof( SS_CELLCOORD ) );
+   zmemset( &lpSS->BlockCellUL, 0, zsizeof( SS_CELLCOORD ) );
+   zmemset( &lpSS->BlockCellLR, 0, zsizeof( SS_CELLCOORD ) );
    lpSS->Col.BlockCellCurrentPos = 0;
    lpSS->Row.BlockCellCurrentPos = 0;
 
@@ -4636,7 +4636,7 @@ SS_LockRowItem( LPSPREADSHEET lpSS, SS_COORD ssCellRow )
             k < lpSS->Virtual.VStartRow + lpSS->Virtual.VHighWaterIdx; k++ )
       {
          SSGetData( lpSS->hWnd, 1, k, szTemp ); // causes stack fault
-         strcat_s( szTemp, sizeof( szTemp ), ", " );
+         strcat_s( szTemp, zsizeof( szTemp ), ", " );
          TraceLineI( szTemp, k );
       }
 #endif
@@ -6486,7 +6486,7 @@ SSx_SetData( HWND          hWnd,
    if ( lpSS->fAllowCellOverflow )
       SS_ResetCellOverflow( hWnd, lpSS, ssCol, ssRow );
 
-   zmemset( &SSData, 0, sizeof( ZSS_Data ) );
+   zmemset( &SSData, 0, zsizeof( ZSS_Data ) );
 
    if ( pchData && !SS_FormatData( lpSS, &SSData, &CellType, pchData, fValue ) )
    {
@@ -6533,7 +6533,7 @@ SSx_SetData( HWND          hWnd,
          if ( lpSS->fAllowCellOverflow )
             SS_ResetCellOverflow( hWnd, lpSS, ssCol, ssRow );
 
-         zmemcpy( &lpCell->m_CellData, &SSData, sizeof( ZSS_Data ) );
+         zmemcpy( &lpCell->m_CellData, &SSData, zsizeof( ZSS_Data ) );
 
          if ( lpSS->fAllowCellOverflow )
             SS_CalcCellOverflow( hWnd, lpSS, lpCell, &CellType, ssCol, ssRow );
@@ -6579,7 +6579,7 @@ SSx_SetData( HWND          hWnd,
             SSx_FreeData( &lpCol->Data );
             SS_ResetCellOverflow( hWnd, lpSS, ssCol, ssRow );
 
-            zmemcpy( &lpCol->Data, &SSData, sizeof( ZSS_Data ) );
+            zmemcpy( &lpCol->Data, &SSData, zsizeof( ZSS_Data ) );
          }
 
          SS_UnlockColItem( lpSS, ssCol );
@@ -6620,7 +6620,7 @@ SSx_SetData( HWND          hWnd,
             SSx_FreeData( &lpRow->Data );
             SS_ResetCellOverflow( hWnd, lpSS, ssCol, ssRow );
 
-            zmemcpy( &lpRow->Data, &SSData, sizeof( ZSS_Data ) );
+            zmemcpy( &lpRow->Data, &SSData, zsizeof( ZSS_Data ) );
          }
 
          SS_UnlockRowItem( lpSS, ssRow );
@@ -6680,7 +6680,7 @@ SSx_SetData( HWND          hWnd,
            !SS_GetLock( hWnd, lpSS, SS_ALLCOLS, SS_ALLROWS ) )
       {
          SSx_FreeData( &lpSS->DefaultData );
-         zmemcpy( &lpSS->DefaultData, &SSData, sizeof( ZSS_Data ) );
+         zmemcpy( &lpSS->DefaultData, &SSData, zsizeof( ZSS_Data ) );
          SS_InvalidateScrollArea( hWnd, lpSS, SS_SCROLLAREA_ALL );
       }
    }
@@ -7050,7 +7050,7 @@ SS_CalcCellMetrics( HDC hDC, HWND hWnd, LPSPREADSHEET lpSS,
 
          if ( SSData.m_DataType == SS_TYPE_FLOAT )
          {
-            zmemset( Buffer, 0, sizeof( Buffer ) );
+            zmemset( Buffer, 0, zsizeof( Buffer ) );
             SS_FloatFormat( lpSS, CellType, SSData.m_Data.dxValue,
                             Buffer, FALSE );
             pchDecimalData = Buffer;
@@ -7060,7 +7060,7 @@ SS_CalcCellMetrics( HDC hDC, HWND hWnd, LPSPREADSHEET lpSS,
          {
             if ( pchDecimalData && *pchDecimalData )
             {
-               zmemset( Buffer, 0, sizeof( Buffer ) );
+               zmemset( Buffer, 0, zsizeof( Buffer ) );
                dxValue = ZDecimal( pchDecimalData );
             // StringToFloat( pchDecimalData, &dxValue ),
                SS_FloatFormat( lpSS, CellType, dxValue, Buffer, FALSE );
@@ -7278,10 +7278,10 @@ leak?          if ( (lpStrOut = (zPCHAR) DrLockTaskMemory( hClip )) != 0 )
                      SSGetActiveCell( hWnd, &CellUL.ssCol, &CellUL.ssRow );
                      CellLR.ssCol = lpSS->Col.Max;
                      CellLR.ssRow = lpSS->Row.Max;
-                     zmemcpy( &CellLRVal, &CellLR, sizeof( SS_CELLCOORD ) );
+                     zmemcpy( &CellLRVal, &CellLR, zsizeof( SS_CELLCOORD ) );
                   }
                   else
-                     zmemcpy( &CellLRVal, &CellLR, sizeof( SS_CELLCOORD ) );
+                     zmemcpy( &CellLRVal, &CellLR, zsizeof( SS_CELLCOORD ) );
 
                   if ( SS_ValidatePasteData( hWnd, lpSS, lpStrOut, &CellUL,
                                              &CellLRVal, FALSE ) )
@@ -7492,7 +7492,7 @@ SS_SetDocColor( HWND          hWnd,
    {
       if ( (lpRow = SS_LockRowItem( lpSS, ss )) != 0 )
       {
-         zmemset( &lpRow->Color, 0, sizeof( SS_COLORITEM ) );
+         zmemset( &lpRow->Color, 0, zsizeof( SS_COLORITEM ) );
          SS_ClearColorItem( &lpRow->Color, Background, Foreground );
 
          for ( j = 1; j < lpSS->Col.AllocCnt; j++ )
@@ -7558,7 +7558,7 @@ SSSetDocDefaultCellType( HWND hWnd,
       }
    }
 
-   zmemcpy( &lpSS->DefaultCellType, CellType, sizeof( SS_CELLTYPE ) );
+   zmemcpy( &lpSS->DefaultCellType, CellType, zsizeof( SS_CELLTYPE ) );
    SS_InvalidateScrollArea( hWnd, lpSS, SS_SCROLLAREA_ALL );
 
    return( TRUE );

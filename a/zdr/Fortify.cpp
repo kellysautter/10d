@@ -99,7 +99,7 @@ struct Header
     unsigned char  Allocator;   /* malloc/realloc/new/etc            */
 };
 
-#define FORTIFY_HEADER_SIZE ROUND_UP(sizeof(struct Header), sizeof(unsigned short))
+#define FORTIFY_HEADER_SIZE ROUND_UP(zsizeof(struct Header), zsizeof(unsigned short))
 
 
 
@@ -1510,7 +1510,7 @@ st_ChecksumHeader(struct Header *h)
     unsigned short c, checksum, *p;
 
     for(c = 0, checksum = 0, p = (unsigned short *)h;
-        c < FORTIFY_HEADER_SIZE/sizeof(unsigned short); c++)
+        c < FORTIFY_HEADER_SIZE/zsizeof(unsigned short); c++)
     {
         checksum += *p++;
     }

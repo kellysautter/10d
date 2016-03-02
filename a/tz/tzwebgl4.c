@@ -1563,7 +1563,7 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
       ZeidonStringConcat( szLPLR_Name, 1, 0, szText, 1, 0, 33 );
       ZeidonStringConcat( szLPLR_Name, 1, 0, "]", 1, 0, 33 );
       //:SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass )
-      SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass, sizeof( szClass ) );
+      SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass, zsizeof( szClass ) );
       //:IF szClass = ""
       if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
       { 

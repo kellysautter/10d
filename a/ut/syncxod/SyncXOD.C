@@ -61,7 +61,7 @@ void main ( int argc, char *argv[], char *envp[] )
    }
 
    // Initialize szEntityName to "ATTRIB" so first hier csr is processed.
-   strcpy_s( szEntityName, sizeof( szEntityName ), "ATTRIB" );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), "ATTRIB" );
 
    for ( nRC = DefineHierarchicalCursor( vXOD, "ATTRIB" );
          nRC >= zCURSOR_SET;

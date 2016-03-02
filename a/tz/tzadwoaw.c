@@ -73,7 +73,7 @@ ofnTZWDLGSO_CreateNewWindowInfo( zVIEW  vSubtask,
    if ( bAutoDesignSubordinates == 0 ||
         (bAutoDesignSubordinates == 1 && bFirstWindow == 1) )
    {
-      GetStringFromAttribute( szOrigName, sizeof( szOrigName ), vNewDialog, "Window", "Tag" );
+      GetStringFromAttribute( szOrigName, zsizeof( szOrigName ), vNewDialog, "Window", "Tag" );
       CreateViewFromViewForTask( &vTempWnd, vNewDialog, 0 );
       CreateMetaEntity( vSubtask, vNewDialog, "Window", zPOS_AFTER );
       DeleteEntity( vTempWnd, "Window", zREPOS_NONE );
@@ -112,8 +112,8 @@ ofnTZWDLGSO_CreateNewWindowInfo( zVIEW  vSubtask,
 
       if ( CompareAttributeToString ( vUserSpec, "WndDesign", "WndCaption", "" ) == 0 )
       {
-         GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
-         strcat_s( szWorkString, sizeof( szWorkString ), " Detail" );
+         GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "LOD_Entity", "Name" );
+         strcat_s( szWorkString, zsizeof( szWorkString ), " Detail" );
          SetAttributeFromString( vNewDialog, "Window", "Caption",
                                   szWorkString );
       }
@@ -177,22 +177,22 @@ ofnTZWDLGSO_CreateMenuActions( zVIEW    vSubtask,
    CreateViewFromViewForTask( &vTempStyle, vUserSpec, 0 );
    ResetView( vTempStyle );
 
-   GetStringFromAttribute( cAutoVersion, sizeof( cAutoVersion ), vUserSpec, "WndDesign", "AutoVersion" );
-   GetStringFromAttribute( cCancel, sizeof( cCancel ), vUserSpec, "WndDesign", "UpdateCancelAction" );
-   GetStringFromAttribute( cDelete, sizeof( cDelete ), vUserSpec, "WndDesign", "UpdateDeleteAction" );
-   GetStringFromAttribute( cSave, sizeof( cSave ), vUserSpec, "WndDesign", "UpdateSaveAction" );
-   GetStringFromAttribute( cNext, sizeof( cNext ), vUserSpec, "WndDesign", "UpdateNextAction" );
-   GetStringFromAttribute( cPrev, sizeof( cPrev ), vUserSpec, "WndDesign", "UpdatePrevAction" );
+   GetStringFromAttribute( cAutoVersion, zsizeof( cAutoVersion ), vUserSpec, "WndDesign", "AutoVersion" );
+   GetStringFromAttribute( cCancel, zsizeof( cCancel ), vUserSpec, "WndDesign", "UpdateCancelAction" );
+   GetStringFromAttribute( cDelete, zsizeof( cDelete ), vUserSpec, "WndDesign", "UpdateDeleteAction" );
+   GetStringFromAttribute( cSave, zsizeof( cSave ), vUserSpec, "WndDesign", "UpdateSaveAction" );
+   GetStringFromAttribute( cNext, zsizeof( cNext ), vUserSpec, "WndDesign", "UpdateNextAction" );
+   GetStringFromAttribute( cPrev, zsizeof( cPrev ), vUserSpec, "WndDesign", "UpdatePrevAction" );
 
    // Check the runtime permissions for this LOD_Entity to see if there is any conflicts with the actions.
    if ( cSave[ 0 ] == 'Y' && CompareAttributeToString( vUserSpec, "LOD_Entity", "Update", "Y" ) != 0 )
    {
 
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-      strcpy_s( szWorkString, sizeof( szWorkString ), "The runtime permission for entity " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " does not allow an update.  " );
-      strcat_s( szWorkString, sizeof( szWorkString ), "Still add the Save window action?  " );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "The runtime permission for entity " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " does not allow an update. " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), "Still add the Save window action? " );
       lRC =  MessagePrompt( vUserSpec, "AD10901", "Autodesigner",
                             szWorkString, zBEEP,
                             zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
@@ -211,11 +211,11 @@ ofnTZWDLGSO_CreateMenuActions( zVIEW    vSubtask,
       /* This entity is not included so check the delete option. */
       if ( !bInclude && CompareAttributeToString( vUserSpec, "LOD_Entity", "Delete", "Y" ) != 0 )
       {
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-         strcpy_s(szWorkString, sizeof( szWorkString ), "The runtime permission for entity " );
-         strcat_s(szWorkString, sizeof( szWorkString ), szEntityName );
-         strcat_s(szWorkString, sizeof( szWorkString ), " does not allow a delete.  " );
-         strcat_s(szWorkString, sizeof( szWorkString ), "Still add the Delete window action?  " );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+         strcpy_s(szWorkString, zsizeof( szWorkString ), "The runtime permission for entity " );
+         strcat_s(szWorkString, zsizeof( szWorkString ), szEntityName );
+         strcat_s(szWorkString, zsizeof( szWorkString ), " does not allow a delete. " );
+         strcat_s(szWorkString, zsizeof( szWorkString ), "Still add the Delete window action? " );
          lRC = MessagePrompt( vUserSpec, "AD10902", "Autodesigner",
                               szWorkString, zBEEP,
                               zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
@@ -227,11 +227,11 @@ ofnTZWDLGSO_CreateMenuActions( zVIEW    vSubtask,
       /* This entity is included so check the exclude option. */
       if ( bInclude && CompareAttributeToString( vUserSpec, "LOD_Entity", "Exclude", "Y" ) != 0 )
       {
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-         strcpy_s(szWorkString, sizeof( szWorkString ), "The runtime permission for entity " );
-         strcat_s(szWorkString, sizeof( szWorkString ), szEntityName );
-         strcat_s(szWorkString, sizeof( szWorkString ), " does not allow an exclude.  " );
-         strcat_s(szWorkString, sizeof( szWorkString ), "Still add the Delete window action?  " );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+         strcpy_s(szWorkString, zsizeof( szWorkString ), "The runtime permission for entity " );
+         strcat_s(szWorkString, zsizeof( szWorkString ), szEntityName );
+         strcat_s(szWorkString, zsizeof( szWorkString ), " does not allow an exclude. " );
+         strcat_s(szWorkString, zsizeof( szWorkString ), "Still add the Delete window action? " );
          lRC = MessagePrompt( vUserSpec, "AD10903", "Autodesigner",
                               szWorkString, zBEEP,
                               zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
@@ -245,12 +245,12 @@ ofnTZWDLGSO_CreateMenuActions( zVIEW    vSubtask,
                                   "Update", "Y" ) != 0 )
    {
 
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec,
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec,
                               "LOD_Entity", "Name" );
-      strcpy_s( szWorkString, sizeof( szWorkString ), "The runtime permission for entity " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " does not allow an update.  " );
-      strcat_s( szWorkString, sizeof( szWorkString ), "Still add the Next and Prev window actions?  " );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "The runtime permission for entity " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " does not allow an update. " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), "Still add the Next and Prev window actions? " );
       lRC =  MessagePrompt( vUserSpec, "AD10904", "Autodesigner",
                             szWorkString, zBEEP,
                             zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
@@ -354,7 +354,7 @@ ofnTZWDLGSO_CreateMenuActions( zVIEW    vSubtask,
          CreateMetaEntity( vSubtask, vNewDialog2, "Option", zPOS_AFTER );
          if ( cSave[ 0 ] != 'Y' && cDelete[ 0 ] != 'Y' )
          {
-            strcpy_s(szWorkString, sizeof( szWorkString ), "Close" );
+            strcpy_s(szWorkString, zsizeof( szWorkString ), "Close" );
          }
 
          if ( CompareAttributeToString ( vUserSpec, "WndDesign",
@@ -472,10 +472,10 @@ ofnTZWDLGSO_CreateMenuActions( zVIEW    vSubtask,
                                          "NextRoutineFlagForRootEntity", " " ) == 0 &&
                                          zstrcmp( "UI_Spec", szWorkString ) == 0 )
          {
-            GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-            strcpy_s( szWorkString, sizeof( szWorkString ), "Because " );
-            strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-            strcat_s( szWorkString, sizeof( szWorkString ), " is the root entity. The window "
+            GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+            strcpy_s( szWorkString, zsizeof( szWorkString ), "Because " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), " is the root entity. The window "
                       "action Next will not work properly.  Still add the option?" );
             lRC = MessagePrompt( vUserSpec, "AD10905", "Autodesigner",
                                  szWorkString, zBEEP,
@@ -543,10 +543,10 @@ ofnTZWDLGSO_CreateMenuActions( zVIEW    vSubtask,
                                          "PrevRoutineFlagForRootEntity", " " ) == 0 &&
                                          zstrcmp( "UI_Spec", szWorkString ) == 0 )
          {
-            GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-            strcpy_s( szWorkString, sizeof( szWorkString ), "Because " );
-            strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-            strcat_s( szWorkString, sizeof( szWorkString ), " is the root entity. The window "
+            GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+            strcpy_s( szWorkString, zsizeof( szWorkString ), "Because " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), " is the root entity. The window "
                      "action Prev will not work properly.  Still add the option?" );
             lRC = MessagePrompt( vUserSpec, "AD10906", "Autodesigner",
                                  szWorkString, zBEEP,
@@ -624,12 +624,12 @@ ofnTZWDLGSO_BuildButton( zVIEW  vSubtask,
 
    lCL = 12;
    lCC = 5;
-   GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+   GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
    *nNbrButtons = *nNbrButtons + 1;
    lTempInteger_0 = zstrcmp( "", szButtonText );
    if ( lTempInteger_0 == 0 )
    {
-      strcat_s( szButtonText, sizeof( szButtonText ), szDefaultText );
+      strcat_s( szButtonText, zsizeof( szButtonText ), szDefaultText );
    }
 
    nTempLength = zstrlen( szButtonText );
@@ -736,12 +736,12 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
    nScreenWidth = 321;
    iNbrButtons = 0;
    iMaxLength = 0;
-   GetStringFromAttribute( cAutoVersion, sizeof( cAutoVersion ), vUserSpec, "WndDesign", "AutoVersion" );
-   GetStringFromAttribute( cCancel, sizeof( cCancel ), vUserSpec, "WndDesign", "UpdateCancelAction" );
-   GetStringFromAttribute( cDelete, sizeof( cDelete ), vUserSpec, "WndDesign", "UpdateDeleteAction" );
-   GetStringFromAttribute( cSave, sizeof( cSave ), vUserSpec, "WndDesign", "UpdateSaveAction" );
-   GetStringFromAttribute( cNext, sizeof( cNext ), vUserSpec, "WndDesign", "UpdateNextAction" );
-   GetStringFromAttribute( cPrev, sizeof( cPrev ), vUserSpec, "WndDesign", "UpdatePrevAction" );
+   GetStringFromAttribute( cAutoVersion, zsizeof( cAutoVersion ), vUserSpec, "WndDesign", "AutoVersion" );
+   GetStringFromAttribute( cCancel, zsizeof( cCancel ), vUserSpec, "WndDesign", "UpdateCancelAction" );
+   GetStringFromAttribute( cDelete, zsizeof( cDelete ), vUserSpec, "WndDesign", "UpdateDeleteAction" );
+   GetStringFromAttribute( cSave, zsizeof( cSave ), vUserSpec, "WndDesign", "UpdateSaveAction" );
+   GetStringFromAttribute( cNext, zsizeof( cNext ), vUserSpec, "WndDesign", "UpdateNextAction" );
+   GetStringFromAttribute( cPrev, zsizeof( cPrev ), vUserSpec, "WndDesign", "UpdatePrevAction" );
 
    // Check the runtime permissions for this LOD_Entity to see if there
    // is any conflicts with the actions.
@@ -749,11 +749,11 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
         CompareAttributeToString( vUserSpec, "LOD_Entity", "Update", "Y" ) != 0 )
    {
 
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-      strcpy_s( szWorkString, sizeof( szWorkString ), "The runtime permission for entity " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " does not allow an update.  " );
-      strcat_s( szWorkString, sizeof( szWorkString ), "Still add the Save window action?  " );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "The runtime permission for entity " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " does not allow an update. " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), "Still add the Save window action? " );
       nRC = MessagePrompt( vUserSpec, "AD10907", "Autodesigner",
                            szWorkString, zBEEP,
                            zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
@@ -770,11 +770,11 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
          bInclude = 0;
       if ( !bInclude && CompareAttributeToString( vUserSpec, "LOD_Entity", "Delete", "Y" ) != 0 )
       {
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-         strcpy_s( szWorkString, sizeof( szWorkString ), "The runtime permission for entity " );
-         strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-         strcat_s( szWorkString, sizeof( szWorkString ), " does not allow a delete.  " );
-         strcat_s( szWorkString, sizeof( szWorkString ), "Still add the Delete window action?  " );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), "The runtime permission for entity " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+         strcat_s( szWorkString, zsizeof( szWorkString ), " does not allow a delete. " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), "Still add the Delete window action? " );
          nRC = MessagePrompt( vUserSpec, "AD10908", "Autodesigner",
                               szWorkString, zBEEP,
                               zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
@@ -785,11 +785,11 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
       else
       if ( bInclude && CompareAttributeToString( vUserSpec, "LOD_Entity", "Exclude", "Y" ) != 0 )
       {
-         GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-         strcpy_s( szWorkString, sizeof( szWorkString ), "The runtime permission for entity " );
-         strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-         strcat_s( szWorkString, sizeof( szWorkString ), " does not allow an exclude.  " );
-         strcat_s( szWorkString, sizeof( szWorkString ), "Still add the Delete window action?  " );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+         strcpy_s( szWorkString, zsizeof( szWorkString ), "The runtime permission for entity " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+         strcat_s( szWorkString, zsizeof( szWorkString ), " does not allow an exclude. " );
+         strcat_s( szWorkString, zsizeof( szWorkString ), "Still add the Delete window action? " );
          nRC = MessagePrompt( vUserSpec, "AD10909", "Autodesigner",
                               szWorkString, zBEEP,
                               zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
@@ -802,11 +802,11 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
         CompareAttributeToString( vUserSpec, "LOD_Entity", "Update", "Y" ) != 0 )
    {
 
-      GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-      strcpy_s( szWorkString, sizeof( szWorkString ), "The runtime permission for entity " );
-      strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-      strcat_s( szWorkString, sizeof( szWorkString ), " does not allow an update.  " );
-      strcat_s( szWorkString, sizeof( szWorkString ), "Still add the Next and Prev window actions?  " );
+      GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "The runtime permission for entity " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), " does not allow an update. " );
+      strcat_s( szWorkString, zsizeof( szWorkString ), "Still add the Next and Prev window actions? " );
       nRC = MessagePrompt( vUserSpec, "AD10910", "Autodesigner",
                            szWorkString, zBEEP,
                            zBUTTONS_YESNO, zRESPONSE_YES, zICON_QUESTION );
@@ -823,7 +823,7 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
    {
       if ( cSave[ 0 ] == 'Y' )
       {
-         GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "WndDesign", "UpdateSaveText" );
+         GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "WndDesign", "UpdateSaveText" );
          ofnTZWDLGSO_BuildButton( vSubtask, vUserSpec, vNewDialog, szWorkString,
                                   "Save", &iMaxLength, &iNbrButtons );
          SetAttributeFromString( vNewDialog, "Control", "Tag", "Save" );
@@ -865,12 +865,12 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
          {
             /* If there is no Save or Delete button, then nothing can be updated
                so call button Close. */
-            strcpy_s( szWorkString, sizeof( szWorkString ), "Close" );
+            strcpy_s( szWorkString, zsizeof( szWorkString ), "Close" );
             // Set window default button to be Cancel.
             SetAttributeFromString( vNewDialog, "Window", "DfltButton", "Cancel" );
          }
          else
-            GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "WndDesign", "UpdateCancelText" );
+            GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "WndDesign", "UpdateCancelText" );
 
          ofnTZWDLGSO_BuildButton( vSubtask, vUserSpec, vNewDialog, szWorkString,
                                   "Cancel", &iMaxLength, &iNbrButtons );
@@ -909,7 +909,7 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
 
       if ( cDelete[ 0 ] == 'Y' )
       {
-         GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "WndDesign", "UpdateDeleteText" );
+         GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "WndDesign", "UpdateDeleteText" );
          ofnTZWDLGSO_BuildButton( vSubtask, vUserSpec, vNewDialog, szWorkString, "&Delete", &iMaxLength, &iNbrButtons );
          SetAttributeFromString( vNewDialog, "Control", "Tag", "Delete" );
          CreateMetaEntity( vSubtask, vNewDialog, "Action", zPOS_AFTER );
@@ -955,10 +955,10 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
                                         "NextRoutineFlagForRootEntity", " " ) == 0 &&
                                         zstrcmp( "UI_Spec", szWorkString ) == 0 )
          {
-            GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-            strcpy_s( szWorkString, sizeof( szWorkString ), "Because " );
-            strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-            strcat_s( szWorkString, sizeof( szWorkString ), " is the root entity. The window "
+            GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+            strcpy_s( szWorkString, zsizeof( szWorkString ), "Because " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), " is the root entity. The window "
                       " action Next will not work properly.  Still add the button?" );
             nRC = MessagePrompt( vUserSpec, "AD10911", "Autodesigner",
                                  szWorkString, zBEEP,
@@ -966,7 +966,7 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
          }
          if ( nRC == zRESPONSE_YES )
          {
-            GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec,
+            GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec,
                                     "WndDesign", "UpdateNextText" );
             ofnTZWDLGSO_BuildButton( vSubtask, vUserSpec, vNewDialog, szWorkString,
                                      "&Next", &iMaxLength, &iNbrButtons );
@@ -1018,10 +1018,10 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
                                          "PrevRoutineFlagForRootEntity", " " ) == 0 &&
                                          zstrcmp( "UI_Spec", szWorkString ) == 0 )
          {
-            GetStringFromAttribute( szEntityName, sizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
-            strcpy_s( szWorkString, sizeof( szWorkString ), "Because " );
-            strcat_s( szWorkString, sizeof( szWorkString ), szEntityName );
-            strcat_s( szWorkString, sizeof( szWorkString ), " is the root entity. The window "
+            GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vUserSpec, "LOD_Entity", "Name" );
+            strcpy_s( szWorkString, zsizeof( szWorkString ), "Because " );
+            strcat_s( szWorkString, zsizeof( szWorkString ), szEntityName );
+            strcat_s( szWorkString, zsizeof( szWorkString ), " is the root entity. The window "
                       "action Prev will not work properly.  Still add the button?" );
             nRC = MessagePrompt( vUserSpec, "AD10912", "Autodesigner",
                                  szWorkString, zBEEP,
@@ -1029,7 +1029,7 @@ ofnTZWDLGSO_CreateButtonActions( zVIEW vSubtask,
          }
          if ( nRC == zRESPONSE_YES )
          {
-            GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, "WndDesign", "UpdatePrevText" );
+            GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, "WndDesign", "UpdatePrevText" );
             ofnTZWDLGSO_BuildButton( vSubtask, vUserSpec, vNewDialog, szWorkString, "&Prev", &iMaxLength, &iNbrButtons );
             SetAttributeFromString( vNewDialog, "Control", "Tag", "Prev" );
             CreateMetaEntity( vSubtask, vNewDialog, "Action", zPOS_AFTER );
@@ -1103,7 +1103,7 @@ AddSpacesToString( zPCHAR szWorkString )
    }
 
    szWorkString2[ k ] = 0;
-   strcpy_s( szWorkString, sizeof( szWorkString ), szWorkString2 );
+   strcpy_s( szWorkString, zsizeof( szWorkString ), szWorkString2 );
    return( 0 );
 }
 
@@ -1161,13 +1161,13 @@ ofnTZWDLGSO_BasicWindowPainting( zVIEW    vSubtask,
 
    if ( zstrcmp( szLOD_AttributeName, "M_LOD_Attribute" ) == 0 )
    {
-      strcpy_s( szER_AttributeName, sizeof( szER_AttributeName ), "M_ER_Attribute" );
-      strcpy_s( szDomainName, sizeof( szDomainName ), "M_Domain" );
+      strcpy_s( szER_AttributeName, zsizeof( szER_AttributeName ), "M_ER_Attribute" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "M_Domain" );
    }
    else
    {
-      strcpy_s( szER_AttributeName, sizeof( szER_AttributeName ), "MT_ER_Attribute" );
-      strcpy_s( szDomainName, sizeof( szDomainName ), "MT_Domain" );
+      strcpy_s( szER_AttributeName, zsizeof( szER_AttributeName ), "MT_ER_Attribute" );
+      strcpy_s( szDomainName, zsizeof( szDomainName ), "MT_Domain" );
    }
 
    GetViewByName( &vCtrlDef, "TZADCTLD", vNewDialog, zLEVEL_TASK );
@@ -1184,7 +1184,7 @@ ofnTZWDLGSO_BasicWindowPainting( zVIEW    vSubtask,
    lFieldsPainted = 0;
    lScreenWidth = 321;
    CreateViewFromViewForTask( &vNewDialog2, vNewDialog, 0 );
-   GetStringFromAttribute( cUsage, sizeof( cUsage ), vUserSpec, "WndDesign", "UsageStyle" );
+   GetStringFromAttribute( cUsage, zsizeof( cUsage ), vUserSpec, "WndDesign", "UsageStyle" );
 
    // Create a view to the Window entity.
    CreateViewFromViewForTask( &vWndTop, vNewDialog, 0 );
@@ -1259,9 +1259,9 @@ ofnTZWDLGSO_BasicWindowPainting( zVIEW    vSubtask,
       GetIntegerFromAttribute( &lFieldsPainted, vWndTop, "Window", "ControlTagCounter" );
       lFieldsPainted++;
       SetAttributeFromInteger( vWndTop, "Window", "ControlTagCounter", lFieldsPainted );
-      zltoa( lFieldsPainted, szWork, sizeof( szWork ) );
-      strcpy_s( szWorkString, sizeof( szWorkString ), "Text" );
-      strcat_s( szWorkString, sizeof( szWorkString ), szWork );
+      zltoa( lFieldsPainted, szWork, zsizeof( szWork ) );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "Text" );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szWork );
       SetAttributeFromString( vNewDialog, "Control", "Tag", szWorkString );
 
       SetCursorFirstEntityByString( vCtrlDef, "ControlDef", "Tag", "Text", "" );
@@ -1281,17 +1281,17 @@ ofnTZWDLGSO_BasicWindowPainting( zVIEW    vSubtask,
       if ( CompareAttributeToString( vUserSpec, szER_AttributeName,
                                      "PromptPaintLit", "" ) == 0 )
       {
-         GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, szER_AttributeName, "Name" );
+         GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, szER_AttributeName, "Name" );
 
          // Add a ':' to the end.
-         strcat_s( szWorkString, sizeof( szWorkString ), ":" );
+         strcat_s( szWorkString, zsizeof( szWorkString ), ":" );
 
          // Add spaces before any capital letters.
          AddSpacesToString( szWorkString );
       }
       else
       {
-         GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vUserSpec, szER_AttributeName, "PromptPaintLit" );
+         GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vUserSpec, szER_AttributeName, "PromptPaintLit" );
       }
 
       SetAttributeFromString( vNewDialog, "Control", "Tag", szWorkString );
@@ -1336,15 +1336,15 @@ ofnTZWDLGSO_BasicWindowPainting( zVIEW    vSubtask,
 
       // Create the appropriate Data Field for the Attribute.
       CreateMetaEntity( vSubtask, vNewDialog, "Control", zPOS_AFTER );
-   // strcpy_s( szWorkString, sizeof( szWorkString ), "EditBox" );
-   // strcat_s( szWorkString, sizeof( szWorkString ), szWork );
+   // strcpy_s( szWorkString, zsizeof( szWorkString ), "EditBox" );
+   // strcat_s( szWorkString, zsizeof( szWorkString ), szWork );
       SetAttributeFromString( vNewDialog, "Control", "Tag", szWorkString );
 
       // Save the name of the first data field in UIS_Entity for use by
       // other functions.
       if ( szFirstDataFieldName[ 0 ] == 0 )
       {
-         strcpy_s( szFirstDataFieldName, sizeof( szFirstDataFieldName ), szWorkString );
+         strcpy_s( szFirstDataFieldName, zsizeof( szFirstDataFieldName ), szWorkString );
          SetAttributeFromString( vUserSpec, "UIS_Entity", "FirstDataFieldName", szFirstDataFieldName );
       }
 
@@ -1453,8 +1453,8 @@ ofnTZWDLGSO_BasicWindowPainting( zVIEW    vSubtask,
       GetIntegerFromAttribute( &lLine, vNewDialog2, "Control", "PSDLG_Y" );
       if ( lLine >= lFirstPaintLine && lLine <= lLastPaintLine )
       {
-         GetStringFromAttribute( szUsage, sizeof( szUsage ), vNewDialog2, "ControlDef", "Tag" );
-         GetStringFromAttribute( szWorkString, sizeof( szWorkString ), vNewDialog2, "Control", "Text" );
+         GetStringFromAttribute( szUsage, zsizeof( szUsage ), vNewDialog2, "ControlDef", "Tag" );
+         GetStringFromAttribute( szWorkString, zsizeof( szWorkString ), vNewDialog2, "Control", "Text" );
          nRC = zstrcmp( szUsage, "Text" );
          // An output field is a text field without the text.
          // if ( zstrcmp( szUsage, "Text" ) != 0 )
@@ -1678,12 +1678,12 @@ ofnTZWDLGSO_CreateTheOperation( zVIEW   vSubtask,
    }
    else
    {
-      strcpy_s( szWorkString, sizeof( szWorkString ), "Attempt to add operation '" );
-      strcat_s( szWorkString, sizeof( szWorkString ), szOperName );
-      strcat_s( szWorkString, sizeof( szWorkString ), "' to an Action that has associated operation '" );
+      strcpy_s( szWorkString, zsizeof( szWorkString ), "Attempt to add operation '" );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szOperName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), "' to an Action that has associated operation '" );
       GetAddrForAttribute( &szName, vInclude, szIncludeEntityName, "Name" );
-      strcat_s( szWorkString, sizeof( szWorkString ), szName );
-      strcat_s( szWorkString, sizeof( szWorkString ), "'." );
+      strcat_s( szWorkString, zsizeof( szWorkString ), szName );
+      strcat_s( szWorkString, zsizeof( szWorkString ), "'." );
       MessageSend( vInclude, "AD10913", "Autodesigner",
                    szWorkString, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
    }
@@ -1708,7 +1708,7 @@ ofnTZWDLGSO_CreateDIL( zVIEW   vSubtask,
    // height of the window.
    // The PosY of the DIL will be the highest PosY value of any Groupbox + its
    // height + 5.
-   GetStringFromAttribute( szDIL_Flag, sizeof( szDIL_Flag ), vDefaults, "InitValues", "DIL_MessageFlag" );
+   GetStringFromAttribute( szDIL_Flag, zsizeof( szDIL_Flag ), vDefaults, "InitValues", "DIL_MessageFlag" );
    if ( szDIL_Flag[ 0 ] == 'Y' )
    {
       // Determine PosY.

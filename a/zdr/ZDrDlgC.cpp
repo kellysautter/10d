@@ -744,7 +744,7 @@ SetRemoteZCtrlAttribute( ZMapAct *pzma,
 
 #ifdef DEBUG_ALL
       zCHAR  szMsg[ 256 ];
-      sprintf_s( szMsg, sizeof( szMsg ), "SetRemoteZCtrlAttribute Tag: %s Entity: %s Attribute: %s  Value: %s",
+      sprintf_s( szMsg, zsizeof( szMsg ), "SetRemoteZCtrlAttribute Tag: %s Entity: %s Attribute: %s Value: %s",
                  *(pzma->m_pzsTag), cpcEntity, cpcAttribute, cpcValue );
       TraceLineS( szMsg, "" );
 #endif
@@ -1365,9 +1365,9 @@ TranslateCtrlValue( zVIEW   vSubtask,
    if ( cpcCtrlTag && GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, cpcCtrlTag ) == 0 )
    {
       zCHAR szValue[ 4096 ]; // hardwire max size (256 should be adequate)
-      strcpy_s( szValue, sizeof( szValue ), pchValue );
+      strcpy_s( szValue, zsizeof( szValue ), pchValue );
       *pchValue = 0;
-      pzma->TranslateValue( szValue, sizeof( szValue ), (zBOOL) bToDisplay, nColumn );
+      pzma->TranslateValue( szValue, zsizeof( szValue ), (zBOOL) bToDisplay, nColumn );
       strncat_s( pchValue, uLth, szValue, uLth - 1 );
       return( 0 );
    }

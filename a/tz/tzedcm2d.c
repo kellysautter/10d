@@ -263,20 +263,20 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
    zCHAR  szMsg[ 200 ];
    zSHORT nRC;
 
-   GetStringFromAttribute( szTargetFile, sizeof( szTargetFile ), vTaskLPLR, "LPLR", "ExecDir" );
-   SysConvertEnvironmentString( szXPG, sizeof( szXPG ), szTargetFile );
+   GetStringFromAttribute( szTargetFile, zsizeof( szTargetFile ), vTaskLPLR, "LPLR", "ExecDir" );
+   SysConvertEnvironmentString( szXPG, zsizeof( szXPG ), szTargetFile );
    nExecDirLth = SysAppendcDirSep( szXPG );
-   GetStringFromAttribute( szTargetFile, sizeof( szTargetFile ), vTaskLPLR, "LPLR", "PgmSrcDir" );
-   SysConvertEnvironmentString( szSourceFile, sizeof( szSourceFile ), szTargetFile );
+   GetStringFromAttribute( szTargetFile, zsizeof( szTargetFile ), vTaskLPLR, "LPLR", "PgmSrcDir" );
+   SysConvertEnvironmentString( szSourceFile, zsizeof( szSourceFile ), szTargetFile );
    nSourceDirLth = SysAppendcDirSep( szSourceFile );
-   strcpy_s( szTargetFile, sizeof( szTargetFile ), szSourceFile );
+   strcpy_s( szTargetFile, zsizeof( szTargetFile ), szSourceFile );
    nTargetDirLth = nSourceDirLth;
 
    if ( cpcGenLang[ 0 ] == 'J' )
    {
-      strcat_s( szTargetFile + nTargetDirLth, sizeof( szTargetFile ) - nTargetDirLth, "JavaProject\\src\\" );
+      strcat_s( szTargetFile + nTargetDirLth, zsizeof( szTargetFile ) - nTargetDirLth, "JavaProject\\src\\" );
       nTargetDirLth += 16;
-      GetStringFromAttribute( szTargetFile + nTargetDirLth, sizeof( szTargetFile ) - nTargetDirLth, vTaskLPLR, "LPLR", "JavaPackageName" );
+      GetStringFromAttribute( szTargetFile + nTargetDirLth, zsizeof( szTargetFile ) - nTargetDirLth, vTaskLPLR, "LPLR", "JavaPackageName" );
       nTargetDirLth = SysAppendcDirSep( szTargetFile );
    }
 
@@ -306,7 +306,7 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
       zSHORT nMetaRC = 0;
 
       GetIntegerFromAttribute( &lType, vTaskLPLR, "Meta", "MetaType" ); // 2007
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vTaskLPLR, "Meta", "Name" ); // TZRPSRCO
+      GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vTaskLPLR, "Meta", "Name" ); // TZRPSRCO
 
       // If we are called from a Zeidon Tool, the we first try to open
       // the meta, which might already be updated from inside the tool.
@@ -321,7 +321,7 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
             if ( nMetaRC <= 0 )
                break;
 
-            GetStringFromAttribute( szMetaName2, sizeof( szMetaName2 ), vMeta, "GlobalOperationGroup", "Name" );
+            GetStringFromAttribute( szMetaName2, zsizeof( szMetaName2 ), vMeta, "GlobalOperationGroup", "Name" );
             if ( zstrcmp( szMetaName, szMetaName2 ) != 0 )
                nMetaRC = 0; // no, not the right one
 
@@ -335,7 +335,7 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
             if ( nMetaRC <= 0 )
                break;
 
-            GetStringFromAttribute( szMetaName2, sizeof( szMetaName2 ), vMeta, "LOD", "Name" );
+            GetStringFromAttribute( szMetaName2, zsizeof( szMetaName2 ), vMeta, "LOD", "Name" );
             if ( zstrcmp( szMetaName, szMetaName2 ) != 0 )
                nMetaRC = 0; // no, not the right one
 
@@ -348,7 +348,7 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
                break;
 
             // Determine if the open meta is the one to be parsed.
-            GetStringFromAttribute( szMetaName2, sizeof( szMetaName2 ), vMeta, "Dialog", "Tag" );
+            GetStringFromAttribute( szMetaName2, zsizeof( szMetaName2 ), vMeta, "Dialog", "Tag" );
             if ( zstrcmp( szMetaName, szMetaName2 ) != 0 )
                nMetaRC = 0;  // no, not the right one
 
@@ -358,9 +358,9 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
       if ( nMetaRC <= 0 &&
            ActivateMetaOI_ByName( vSubtask, &vMeta, 0, (zSHORT) lType, 0, szMetaName, 0 ) < 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Internal error - ActivateMeta failed for " );
-         strcat_s( szMsg , sizeof( szMsg  ), szMetaName );
-         strcat_s( szMsg , sizeof( szMsg  ), "." );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Internal error - ActivateMeta failed for " );
+         strcat_s( szMsg , zsizeof( szMsg ), szMetaName );
+         strcat_s( szMsg , zsizeof( szMsg ), "." );
 
          MessageSend( vSubtask, "ED00999", "Zeidon Compiler",
                       szMsg,
@@ -453,31 +453,31 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
 
          // Retrieve the source file name and XPG name.
          GetAddrForAttribute( &pchPtr, vMetaCopy, pchSourceFileEntity, "Subdirectory" );
-         strcat_s( szSourceFile, sizeof( szSourceFile ), pchPtr );
+         strcat_s( szSourceFile, zsizeof( szSourceFile ), pchPtr );
          SysAppendcDirSep( szSourceFile );
          GetAddrForAttribute( &pchPtr, vMetaCopy, pchSourceFileEntity, "Name" );
-         strcat_s( szSourceFile, sizeof( szSourceFile ), pchPtr );
-         strcat_s( szTargetFile, sizeof( szTargetFile ), pchPtr );
-         strcat_s( szSourceFile, sizeof( szSourceFile ), ".VML" );
-         strcat_s( szXPG, sizeof( szXPG ), pchPtr );
+         strcat_s( szSourceFile, zsizeof( szSourceFile ), pchPtr );
+         strcat_s( szTargetFile, zsizeof( szTargetFile ), pchPtr );
+         strcat_s( szSourceFile, zsizeof( szSourceFile ), ".VML" );
+         strcat_s( szXPG, zsizeof( szXPG ), pchPtr );
          if ( cpcGenLang[ 0 ] == 'J' )
-            strcat_s( szXPG, sizeof( szXPG ), ".XPJ" );
+            strcat_s( szXPG, zsizeof( szXPG ), ".XPJ" );
          else
-            strcat_s( szXPG, sizeof( szXPG ), ".XPG" );
+            strcat_s( szXPG, zsizeof( szXPG ), ".XPG" );
 
-         strcpy_s( szSourceBase, sizeof( szSourceBase ), pchPtr );
+         strcpy_s( szSourceBase, zsizeof( szSourceBase ), pchPtr );
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Checking %s for parse ... ", szSourceFile );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Checking %s for parse ... ", szSourceFile );
          MB_SetMessage( vSubtask, 0, szMsg );
 
-         fnGetFileDateTime( vSubtask, szSourceFile, szSourceDateTime, sizeof( szSourceDateTime ) );
-         fnGetFileDateTime( vSubtask, szXPG, szXPG_DateTime, sizeof( szXPG_DateTime ) );
+         fnGetFileDateTime( vSubtask, szSourceFile, szSourceDateTime, zsizeof( szSourceDateTime ) );
+         fnGetFileDateTime( vSubtask, szXPG, szXPG_DateTime, zsizeof( szXPG_DateTime ) );
 
          // Check to see if we need to parse the file.
          if ( szXPG_DateTime[ 0 ] == 0 || bAlwaysParse ||
               zstrcmpi( szSourceDateTime, szXPG_DateTime ) > 0 )
          {
-            sprintf_s( szMsg, sizeof( szMsg ), "Parsing %s...", szSourceFile );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Parsing %s...", szSourceFile );
             MB_SetMessage( vSubtask, 0, szMsg );
             TraceLineS( "fnParseGenTarget: ", szMsg );
 
@@ -493,10 +493,10 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
             {
                char szContinueParseGen[ 2 ];
 
-               sprintf_s( szMsg, sizeof( szMsg ), "Error parsing %s.\nSee error file for a list of the errors.",
+               sprintf_s( szMsg, zsizeof( szMsg ), "Error parsing %s.\nSee error file for a list of the errors.",
                          szSourceFile );
 
-               SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, sizeof( szContinueParseGen ) );
+               SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, zsizeof( szContinueParseGen ) );
 
                if ( szContinueParseGen[ 0 ] != 'Y' )
                {
@@ -515,7 +515,7 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
             else
                bParsed = TRUE;
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Completed parse of %s...", szSourceFile );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Completed parse of %s...", szSourceFile );
             MB_SetMessage( vSubtask, 0, szMsg );
          }
 
@@ -527,13 +527,13 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
          if ( cpcGenLang[ 0 ] == 'J' )
          {
             if ( lType == zREFER_LOD_META ) // 2007
-               strcpy_s( szTargetFile + zstrlen( szTargetFile ), sizeof( szTargetFile ) - zstrlen( szTargetFile ), "_Object.java" );
+               strcpy_s( szTargetFile + zstrlen( szTargetFile ), zsizeof( szTargetFile ) - zstrlen( szTargetFile ), "_Object.java" );
             else
             if ( lType == zREFER_DIALOG_META ) // 2011
-               strcpy_s( szTargetFile + zstrlen( szTargetFile ), sizeof( szTargetFile ) - zstrlen( szTargetFile ), "_Dialog.java" );
+               strcpy_s( szTargetFile + zstrlen( szTargetFile ), zsizeof( szTargetFile ) - zstrlen( szTargetFile ), "_Dialog.java" );
             else
             if ( lType == zREFER_GOPGRP_META ) // 2014
-               strcpy_s( szTargetFile + zstrlen( szTargetFile ), sizeof( szTargetFile ) - zstrlen( szTargetFile ), "_Operation.java" );
+               strcpy_s( szTargetFile + zstrlen( szTargetFile ), zsizeof( szTargetFile ) - zstrlen( szTargetFile ), "_Operation.java" );
             else
             {
                TraceLineI( "Make Target Unexpected Meta Type: ", lType );
@@ -542,19 +542,19 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
             }
          }
          else
-            strcpy_s( szTargetFile + zstrlen( szTargetFile ), sizeof( szTargetFile ) - zstrlen( szTargetFile ), ".c" );
+            strcpy_s( szTargetFile + zstrlen( szTargetFile ), zsizeof( szTargetFile ) - zstrlen( szTargetFile ), ".c" );
 
          // Now retrieve the date/time of the .c/.java file and the .XPG.  We retrieve the date/time of the .XPG again because it might
          // have been changed by a parse.
-         fnGetFileDateTime( vSubtask, szTargetFile, szSourceDateTime, sizeof( szSourceDateTime ) );
-         fnGetFileDateTime( vSubtask, szXPG, szXPG_DateTime, sizeof( szXPG_DateTime ) );
+         fnGetFileDateTime( vSubtask, szTargetFile, szSourceDateTime, zsizeof( szSourceDateTime ) );
+         fnGetFileDateTime( vSubtask, szXPG, szXPG_DateTime, zsizeof( szXPG_DateTime ) );
 
          // Check to see if we need to generate the file.
          if ( szTargetFile[ 0 ] == 0 || bAlwaysGen || bParsed || zstrcmpi( szXPG_DateTime, szSourceDateTime ) > 0 )
          {
             zCHAR szMsg[ 200 ];
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Generating %s...", szTargetFile );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Generating %s...", szTargetFile );
             TraceLineS( szMsg, "" );
             MB_SetMessage( vSubtask, 0, szMsg );
 
@@ -562,8 +562,8 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
             {
                char szContinueParseGen[ 2 ];
 
-               SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, sizeof( szContinueParseGen ) );
-               sprintf_s( szMsg, sizeof( szMsg ), "Error generating %s.", szTargetFile );
+               SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, zsizeof( szContinueParseGen ) );
+               sprintf_s( szMsg, zsizeof( szMsg ), "Error generating %s.", szTargetFile );
                if ( szContinueParseGen[ 0 ] != 'Y' )
                {
                   MessageSend( vSubtask, "ED00102", "Zeidon Compiler", szMsg,
@@ -579,7 +579,7 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
                   TraceLineS( szMsg, "" );
             }
 
-            sprintf_s( szMsg, sizeof( szMsg ), "Completed generation of %s ...", szTargetFile );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Completed generation of %s ...", szTargetFile );
             TraceLineS( szMsg, "" );
             MB_SetMessage( vSubtask, 0, szMsg );
 
@@ -672,7 +672,7 @@ fnExecMake( zVIEW   vSubtask,
 
    nCompilerType = FindCompilerType( vTaskLPLR );
 
-   sprintf_s( szMsg, sizeof( szMsg ), "Compiling %s...", pchTargetExecutableName );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Compiling %s...", pchTargetExecutableName );
    MB_SetMessage( vSubtask, 0, szMsg );
 
    TraceLineS( "(tzedcm2d) Command for Make = ", szCommand );
@@ -699,7 +699,7 @@ fnExecMake( zVIEW   vSubtask,
 
          // Windows NT 3.51 show us always Windows version 3.10, but there is a different format in the PIF, which we use to detect NT.
          GetWindowsDirectory( szDefaultPIF, 300 );
-         strcat_s( szDefaultPIF, sizeof( szDefaultPIF ), "\\_DEFAULT.PIF");
+         strcat_s( szDefaultPIF, zsizeof( szDefaultPIF ), "\\_DEFAULT.PIF");
          hFile = SysOpenFile( vSubtask, szDefaultPIF, COREFILE_READ );
          if ( hFile >= 0 )
          {
@@ -714,20 +714,20 @@ fnExecMake( zVIEW   vSubtask,
          {
             // Build new Command "COMMAND.COM /C Path\\ZMAKE.BAT"
             if ( SysGetOS_Info( 0 ) == zOS_WINDOWSNT )
-               strcpy_s( szCommandNT, sizeof( szCommandNT ), "CMD.EXE ");
+               strcpy_s( szCommandNT, zsizeof( szCommandNT ), "CMD.EXE ");
             else
-               strcpy_s( szCommandNT, sizeof( szCommandNT ), "COMMAND.COM ");
+               strcpy_s( szCommandNT, zsizeof( szCommandNT ), "COMMAND.COM ");
 
             if ( CompareAttributeToString( vTaskLPLR, "Compiler", "CloseWindowAfterCompile", "Y" ) == 0 )
             {
-               strcat_s( szCommandNT, sizeof( szCommandNT ), "/C ");
+               strcat_s( szCommandNT, zsizeof( szCommandNT ), "/C ");
             }
             else
-               strcat_s( szCommandNT, sizeof( szCommandNT ), "/K ");
+               strcat_s( szCommandNT, zsizeof( szCommandNT ), "/K ");
 
-            strcat_s( szCommandNT, sizeof( szCommandNT ), szCommand );
+            strcat_s( szCommandNT, zsizeof( szCommandNT ), szCommand );
             szCommandNT[  strlen( szCommandNT ) - 12  ] = 0; // remove PIF file
-            strcat_s( szCommandNT, sizeof( szCommandNT ), "ZMAKE.BAT" );
+            strcat_s( szCommandNT, zsizeof( szCommandNT ), "ZMAKE.BAT" );
 
             TraceLineS( "(tzedcm2d) New Command for Make = ", szCommandNT );
 
@@ -768,27 +768,27 @@ fnExecMake( zVIEW   vSubtask,
                switch ( hInst )
                {
                   case 0:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. System out of memory" );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. System out of memory" );
                      break;
 
                   case 2:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Command shell not found." );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Command shell not found." );
                      break;
 
                   case 3:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Path was not found. Check the specification of the Compiler directory." );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Path was not found. Check the specification of the Compiler directory." );
                      break;
 
                   case 5:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Sharing or network-protection error." );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Sharing or network-protection error." );
                      break;
 
                   case 8:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Insufficient memory. Close apps and try again. " );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Insufficient memory. Close apps and try again. " );
                      break;
 
                   default:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Reason code = %d", hInst );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Reason code = %d", hInst );
                      break;
                }
 
@@ -807,7 +807,7 @@ fnExecMake( zVIEW   vSubtask,
          // Compiling for OS/2 under WinOS2 runs with PIF for standard mode but WinOS2 could be still in enhanced mode???
 
          // we set WinOS2=Y in ZEIDON.INI, if we are under WinOS2 otherwise, we just create a make file but don't compile
-         SysReadZeidonIni( -1, "[Workstation]", "WinOS2", szWinOS2, sizeof( szWinOS2 ) );
+         SysReadZeidonIni( -1, "[Workstation]", "WinOS2", szWinOS2, zsizeof( szWinOS2 ) );
          if ( szWinOS2[ 0 ] == 'Y' || szWinOS2[ 0 ] == 'y')
          {
             hInst = WinExec( szCommand, SW_SHOW );
@@ -816,27 +816,27 @@ fnExecMake( zVIEW   vSubtask,
                switch ( hInst )
                {
                   case 0:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. System out of memory" );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. System out of memory" );
                      break;
 
                   case 2:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Command shell not found." );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Command shell not found." );
                      break;
 
                   case 3:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Path was not found. Check the specification of the Compiler directory." );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Path was not found. Check the specification of the Compiler directory." );
                      break;
 
                   case 5:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Sharing or network-protection error. " );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Sharing or network-protection error. " );
                      break;
 
                   case 8:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Insufficient memory. Close apps and try again. " );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Insufficient memory. Close apps and try again. " );
                      break;
 
                   default:
-                     sprintf_s( szMsg, sizeof( szMsg ), "Error running compile. Reason code = %d", hInst );
+                     sprintf_s( szMsg, zsizeof( szMsg ), "Error running compile. Reason code = %d", hInst );
                      break;
                }
 
@@ -849,7 +849,7 @@ fnExecMake( zVIEW   vSubtask,
          }
          else
          {
-            sprintf_s( szMsg, sizeof( szMsg ), "Makefile for %s has been generated.", pchTargetExecutableName );
+            sprintf_s( szMsg, zsizeof( szMsg ), "Makefile for %s has been generated.", pchTargetExecutableName );
             MB_SetMessage( vSubtask, 0, szMsg );
             return( 0 );
          }
@@ -863,7 +863,7 @@ fnExecMake( zVIEW   vSubtask,
 #else
    // Re-use szMsg as a buffer.  You probably shouldn't change the following
    // string because it's used in other places.
-   strcpy_s( szMsg, sizeof( szMsg ), "Compiling Zeidon Target..." );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Compiling Zeidon Target..." );
 
    // Give the compile task 10 seconds to appear
    for ( nRC = 0; nRC < 5; nRC++ )
@@ -882,7 +882,7 @@ fnExecMake( zVIEW   vSubtask,
    }
 #endif
 
-   sprintf_s( szMsg, sizeof( szMsg ), "Make of %s completed", pchTargetExecutableName );
+   sprintf_s( szMsg, zsizeof( szMsg ), "Make of %s completed", pchTargetExecutableName );
    MB_SetMessage( vSubtask, 0, szMsg );
    return( 0 );
 
@@ -930,7 +930,7 @@ MakeTarget( zVIEW vSubtask, zCPCHAR cpcGenLang )
       {
          char szContinueParseGen[ 2 ];
 
-         SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, sizeof( szContinueParseGen ) );
+         SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, zsizeof( szContinueParseGen ) );
 
          if ( szContinueParseGen[ 0 ] != 'Y' )
          {
@@ -974,7 +974,7 @@ MakeTarget( zVIEW vSubtask, zCPCHAR cpcGenLang )
    }
 
    bCompileAllTargets = (lMakeOption == 6);
-   nRC = CreateMakefileForAllTargets( vSubtask, vTaskLPLR, 0, bCompileAllTargets, szCommand, sizeof( szCommand ), cpcGenLang );
+   nRC = CreateMakefileForAllTargets( vSubtask, vTaskLPLR, 0, bCompileAllTargets, szCommand, zsizeof( szCommand ), cpcGenLang );
    if ( nRC == 0 )
    {
       MB_SetMessage( vSubtask, 0, "Build of Makefile failed" );
@@ -1089,7 +1089,7 @@ MakeAllTargets( zVIEW vSubtask, zVIEW vTaskLPLR )
    }
 
    bCompileAllTargets = (lMakeOption == 6);
-   if ( !CreateMakefileForAllTargets( vSubtask, vTempTaskLPLR, 0, bCompileAllTargets, szCommand, sizeof( szCommand ), cpcGenLang ) )
+   if ( !CreateMakefileForAllTargets( vSubtask, vTempTaskLPLR, 0, bCompileAllTargets, szCommand, zsizeof( szCommand ), cpcGenLang ) )
    {
       MB_SetMessage( vSubtask, 0, "Build of Makefile failed" );
       DropView( vTempTaskLPLR );
@@ -1135,8 +1135,8 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
    zSHORT nRC;
 
    // Base directory for relative paths.
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
-   SysConvertEnvironmentString( szBaseDir, sizeof( szBaseDir ), szFileName );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   SysConvertEnvironmentString( szBaseDir, zsizeof( szBaseDir ), szFileName );
 
    // get dirs
    GetAddrForAttribute( &pchAppName, vTaskLPLR, "LPLR", "Name" );
@@ -1148,7 +1148,7 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
       pchMakefileDir = pchPgmSrcDir;
 
    // Build relative path if necessary; Base directory is Component Source Dir
-   SysConvertEnvironmentString( szMakefileDir, sizeof( szMakefileDir ), pchMakefileDir );
+   SysConvertEnvironmentString( szMakefileDir, zsizeof( szMakefileDir ), pchMakefileDir );
    if ( IntGenFullQualPathFromRelPath( vTaskLPLR, szMakefileDir, szBaseDir, zMAX_FILENAME_LTH - 2, "Makefile Directory" ) == -1 )
    {
       return( 0 );
@@ -1167,9 +1167,9 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
       return( FALSE );
    }
 
-   strcpy_s( szFileName, sizeof( szFileName ), pchMakefileDir );
+   strcpy_s( szFileName, zsizeof( szFileName ), pchMakefileDir );
    SysAppendcDirSep( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), "ZENV.HNM" );
+   strcat_s( szFileName, zsizeof( szFileName ), "ZENV.HNM" );
    hFile = SysOpenFile( vTaskLPLR, szFileName, COREFILE_WRITE );
    if ( hFile == -1 )
       return( FALSE );
@@ -1177,8 +1177,8 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
    SWL( vTaskLPLR, "#" );
    SWL( vTaskLPLR, "#  zEnv.HNM" );
    SWL( vTaskLPLR, "#  Make Include File (MSVC 5.0)." );
-   SysGetDateTime( szDT, sizeof( szDT ) );
-   UfFormatDateTime( szDTFormatted, sizeof( szDTFormatted ), szDT, "YYYY.MM.DD HH:MI:SS" );
+   SysGetDateTime( szDT, zsizeof( szDT ) );
+   UfFormatDateTime( szDTFormatted, zsizeof( szDTFormatted ), szDT, "YYYY.MM.DD HH:MI:SS" );
    sprintf_s( pchLine, 10000, "#  Generated at %s", szDTFormatted);
    SWL( vTaskLPLR, pchLine );
    SWL( vTaskLPLR, "#" );
@@ -1194,19 +1194,19 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
       pch = pchExecDir;
 
    // Build relative path if necessary; Base directory is Component Source Dir
-   strcpy_s( szExecDir, sizeof( szExecDir ), pch );
+   strcpy_s( szExecDir, zsizeof( szExecDir ), pch );
    if ( IntGenFullQualPathFromRelPath( vTaskLPLR, szExecDir, szBaseDir, zMAX_FILENAME_LTH - 2, "Target Executable Directory" ) == -1 )
    {
       return( 0 );
    }
 
-   SysConvertEnvironmentString( szFileName2, sizeof( szFileName2 ), szExecDir );
+   SysConvertEnvironmentString( szFileName2, zsizeof( szFileName2 ), szExecDir );
    pch = szFileName2;
 
    sprintf_s( pchLine, 10000, "TARGET_DIR = %s", pch );
    SWL( vTaskLPLR, pchLine );
 
-   SysConvertEnvironmentString( szFileName, sizeof( szFileName ), pchPgmSrcDir );
+   SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), pchPgmSrcDir );
    sprintf_s( pchLine, 10000, "SRC_DIR    = %s$(MODULE_DIR)", szFileName );
    SWL( vTaskLPLR, pchLine );
 
@@ -1215,13 +1215,13 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
       pchObj = pchPgmSrcDir;
 
    // Build relative path if necessary; Base directory is Component Source Dir.
-   strcpy_s( szObj, sizeof( szObj ), pchObj );
+   strcpy_s( szObj, zsizeof( szObj ), pchObj );
    if ( IntGenFullQualPathFromRelPath( vTaskLPLR, szObj, szBaseDir, zMAX_FILENAME_LTH - 2, "Obj/Lib directory" ) == -1 )
    {
       return( 0 );
    }
 
-   SysConvertEnvironmentString( szFileName2, sizeof( szFileName2 ), szObj );
+   SysConvertEnvironmentString( szFileName2, zsizeof( szFileName2 ), szObj );
    pchObj = szFileName2;
 
    sprintf_s( pchLine, 10000, "OBJ_DIR    = %s", pchObj );
@@ -1232,13 +1232,13 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
       pch = pchPgmSrcDir;
 
    // Build relative path if necessary; Base directory is Component Source Dir.
-   strcpy_s( szEnvDir, sizeof( szEnvDir ), pch );
+   strcpy_s( szEnvDir, zsizeof( szEnvDir ), pch );
    if ( IntGenFullQualPathFromRelPath( vTaskLPLR, szEnvDir, szBaseDir, zMAX_FILENAME_LTH - 2, "Resource Directory" ) == -1 )
    {
       return( 0 );
    }
 
-   SysConvertEnvironmentString( szFileName2, sizeof( szFileName2 ), szEnvDir );
+   SysConvertEnvironmentString( szFileName2, zsizeof( szFileName2 ), szEnvDir );
    pch = szFileName2;
 
    sprintf_s( pchLine, 10000, "ENV_DIR    = %s", pch );
@@ -1280,9 +1280,9 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
    // Create zCompile.HNM
    //=======================================================================
 
-   strcpy_s( szFileName, sizeof( szFileName ), pchMakefileDir );
+   strcpy_s( szFileName, zsizeof( szFileName ), pchMakefileDir );
    SysAppendcDirSep( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), "ZCOMPILE.HNM" );
+   strcat_s( szFileName, zsizeof( szFileName ), "ZCOMPILE.HNM" );
    hFile = SysOpenFile( vTaskLPLR, szFileName, COREFILE_WRITE );
    if ( hFile == -1 )
       return( FALSE );
@@ -1291,8 +1291,8 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
    sprintf_s( pchLine, 10000, "#  zCompile.HNM" );
    SWL( vTaskLPLR, pchLine );
    SWL( vTaskLPLR, "#  Make Include File (MSVC 5.0)." );
-   SysGetDateTime( szDT, sizeof( szDT ) );
-   UfFormatDateTime( szDTFormatted, sizeof( szDTFormatted ), szDT, "YYYY.MM.DD HH:MI:SS" );
+   SysGetDateTime( szDT, zsizeof( szDT ) );
+   UfFormatDateTime( szDTFormatted, zsizeof( szDTFormatted ), szDT, "YYYY.MM.DD HH:MI:SS" );
    sprintf_s( pchLine, 10000, "#  Generated at %s", szDTFormatted );
    SWL( vTaskLPLR, pchLine );
    SWL( vTaskLPLR, "#" );
@@ -1357,7 +1357,7 @@ fnWriteInclude_MSVC50( zVIEW  vTaskLPLR,
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTaskLPLR, "ExternalLibFile", 0 ) )
       {
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "ExternalLibFile", "Name" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "ExternalLibFile", "Name" );
 
          // extract the Filename without Dirs...
          _splitpath( szFileName2, 0, 0, szFileName2, 0 );
@@ -1504,9 +1504,9 @@ CreateMakeIncludeFile( zVIEW vSubtask,
    {
       zCHAR szMsg[ 200 ];
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Current Compiler Specification is invalid:\n'" );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ), vTaskLPLR, "LPLR", "CurrentCompilerSpec" );
-      strcat_s( szMsg, sizeof( szMsg ), "'" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Current Compiler Specification is invalid:\n'" );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ), vTaskLPLR, "LPLR", "CurrentCompilerSpec" );
+      strcat_s( szMsg, zsizeof( szMsg ), "'" );
       MessageSend( vSubtask, "LO00105", "Zeidon Compiler",
                    szMsg, zMSGQ_SYSTEM_ERROR, zBEEP );
       return( FALSE );
@@ -1595,10 +1595,10 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
                                      "CurrentCompilerSpec", 0 );
    if ( nRC < zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Current Compiler Specification is invalid:\n'" );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+      strcpy_s( szMsg, zsizeof( szMsg ), "Current Compiler Specification is invalid:\n'" );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                               vTaskLPLR, "LPLR", "CurrentCompilerSpec" );
-      strcat_s( szMsg, sizeof( szMsg ), "'" );
+      strcat_s( szMsg, zsizeof( szMsg ), "'" );
       MessageSend( vTaskLPLR, "LO00105", "Zeidon Compiler",
                    szMsg, zMSGQ_SYSTEM_ERROR, zBEEP );
 
@@ -1609,7 +1609,7 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
    nCompilerType = FindCompilerType( vTaskLPLR);
 
    // Base directory for relative paths.
-   GetStringFromAttribute( szBaseDir, sizeof( szBaseDir ), vTaskLPLR, "LPLR", "MetaSrcDir");
+   GetStringFromAttribute( szBaseDir, zsizeof( szBaseDir ), vTaskLPLR, "LPLR", "MetaSrcDir");
 
    // get dirs
    GetAddrForAttribute( &pchMakefileDir, vTaskLPLR, "Compiler", "MakefileDir" );
@@ -1617,7 +1617,7 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
       GetAddrForAttribute( &pchMakefileDir, vTaskLPLR, "LPLR", "PgmSrcDir" );
 
    // Build relative path; base is Component Source directory
-   strcpy_s( szMakefileDir, sizeof( szMakefileDir ), pchMakefileDir );
+   strcpy_s( szMakefileDir, zsizeof( szMakefileDir ), pchMakefileDir );
    if ( IntGenFullQualPathFromRelPath( vTaskLPLR, szMakefileDir, szBaseDir, zMAX_FILENAME_LTH - 2, "Makefile Directory" ) == -1 )
    {
       return( FALSE );
@@ -1630,7 +1630,7 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
       pchEnvDir = pchMakefileDir;
 
    // Build relative path; base is Component Source directory
-   strcpy_s( szEnvDir, sizeof( szEnvDir ), pchEnvDir);
+   strcpy_s( szEnvDir, zsizeof( szEnvDir ), pchEnvDir);
    if ( IntGenFullQualPathFromRelPath( vTaskLPLR, szEnvDir, szBaseDir, zMAX_FILENAME_LTH - 2, "Resource Directory" ) == -1 )
    {
       return( FALSE );
@@ -1638,14 +1638,14 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
 
    pchEnvDir = szEnvDir;
 
-   strcpy_s( szFileName, sizeof( szFileName ), pchEnvDir );
+   strcpy_s( szFileName, zsizeof( szFileName ), pchEnvDir );
    SysAppendcDirSep( szFileName );
 
    // we have different PIFs for Windows and OS/2 compiling
    if ( nCompilerType == zCOMP_TYPE_MSVC15 )
-     strcat_s( szFileName, sizeof( szFileName ), "ZCOMPILE.PIF" );
+     strcat_s( szFileName, zsizeof( szFileName ), "ZCOMPILE.PIF" );
    else
-     strcat_s( szFileName, sizeof( szFileName ), "ZCOMPOS2.PIF" );
+     strcat_s( szFileName, zsizeof( szFileName ), "ZCOMPOS2.PIF" );
 
    if ( cOverwrite == 'N' || cOverwrite == 'A' )
    {
@@ -1654,7 +1654,7 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
          if ( cOverwrite == 'N' )
             return( FALSE );
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Overwrite %s?", szFileName );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Overwrite %s?", szFileName );
          if ( MessagePrompt( vTaskLPLR, "LO00106", "Zeidon Compiler", szMsg, 1,
                              zBUTTONS_YESNO, zRESPONSE_YES,
                              zICON_QUESTION ) == zRESPONSE_NO )
@@ -1672,12 +1672,12 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
      struct PIF_Struct386 sPIF_Info;
 
      // When working with Win 3.1, we are using and enhanced PIF struct
-     zmemset( &sPIF_Info, 0, sizeof( struct PIF_Struct386 ) );
+     zmemset( &sPIF_Info, 0, zsizeof( struct PIF_Struct386 ) );
      zmemcpy( sPIF_Info.szDummy0, "\0\x90", 2 );
-     strcpy_s( sPIF_Info.szWindowTitle, sizeof( sPIF_Info.szWindowTitle ), "Compiling Zeidon Target..." );
+     strcpy_s( sPIF_Info.szWindowTitle, zsizeof( sPIF_Info.szWindowTitle ), "Compiling Zeidon Target..." );
      zmemcpy( sPIF_Info.szDummy1, "\x02\x80\0", 3 );
-     strcpy_s( sPIF_Info.szCommand, sizeof( sPIF_Info.szCommand ), "COMMAND.COM" );
-     strcpy_s( sPIF_Info.szDirectory, sizeof( sPIF_Info.szDirectory ), pchMakefileDir );
+     strcpy_s( sPIF_Info.szCommand, zsizeof( sPIF_Info.szCommand ), "COMMAND.COM" );
+     strcpy_s( sPIF_Info.szDirectory, zsizeof( sPIF_Info.szDirectory ), pchMakefileDir );
      zmemcpy( sPIF_Info.szDummy2, "\x10\0", 2 );
      zmemcpy( sPIF_Info.szDummy4, "\x01\0\xff\x19\x50\0\0\x07", 8 );
      zmemcpy( sPIF_Info.szDummy6, "MICROSOFT PIFEX\0\x87\x01\0\0\x71\x01WINDOWS "
@@ -1687,13 +1687,13 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
 
      // WIN: Look for close flag
      if ( CompareAttributeToString( vTaskLPLR, "Compiler", "CloseWindowAfterCompile", "Y" ) == 0 )
-        strcpy_s( sPIF_Info.szParameters, sizeof( sPIF_Info.szParameters ), "/e:2048 /c " );
+        strcpy_s( sPIF_Info.szParameters, zsizeof( sPIF_Info.szParameters ), "/e:2048 /c " );
      else
-        strcpy_s( sPIF_Info.szParameters, sizeof( sPIF_Info.szParameters ), "/e:2048 /k " );
+        strcpy_s( sPIF_Info.szParameters, zsizeof( sPIF_Info.szParameters ), "/e:2048 /k " );
 
-     strcat_s( sPIF_Info.szParameters, sizeof( sPIF_Info.szParameters ), pchEnvDir );
+     strcat_s( sPIF_Info.szParameters, zsizeof( sPIF_Info.szParameters ), pchEnvDir );
      SysAppendcDirSep( sPIF_Info.szParameters );
-     strcat_s( sPIF_Info.szParameters, sizeof( sPIF_Info.szParameters ), "ZMAKE.BAT" );
+     strcat_s( sPIF_Info.szParameters, zsizeof( sPIF_Info.szParameters ), "ZMAKE.BAT" );
 
      // There appears to be a bug in Windows caching that sometimes obliterates changes we make
      // to the PIF file.  To get around this we set the read-only attribute on after creating the
@@ -1706,7 +1706,7 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
 
      hFile = SysOpenFile( vTaskLPLR, szFileName, COREFILE_WRITE );
      SysWriteFile( vTaskLPLR, hFile,
-                   (zPCHAR) &sPIF_Info, sizeof( struct PIF_Struct386 ) );
+                   (zPCHAR) &sPIF_Info, zsizeof( struct PIF_Struct386 ) );
      SysCloseFile( vTaskLPLR, hFile, 0 );
 
      // See comment above about setting the read-only attribute.
@@ -1719,7 +1719,7 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
      struct PIF_Struct286 sPIF_Info;
 
      // WinOS2 can't run in 386 mode of windows, we are using the old PIF struct.
-     zmemset( &sPIF_Info, 0, sizeof( struct PIF_Struct286 ) );
+     zmemset( &sPIF_Info, 0, zsizeof( struct PIF_Struct286 ) );
      zmemcpy( sPIF_Info.szDummy0, "\0\x8a", 2 );
      zmemcpy( sPIF_Info.szDummy1, "\x80\0\x80\0", 4 );
      zmemcpy( sPIF_Info.szDummy2, "\x12\0", 2 );
@@ -1732,18 +1732,18 @@ CreatePIF_File( zVIEW vTaskLPLR, zCHAR cOverwrite )
      zmemset( sPIF_Info.szDummy7, ' ', 62);
      zmemcpy( sPIF_Info.szDummy8, "WINDOWS 286 3.0\0\xff\xff\x1b\x02\x06", 21);
 
-     strcpy_s( sPIF_Info.szWindowTitle, sizeof( sPIF_Info.szWindowTitle ), "Compiling Zeidon Target..." );
-     strcpy_s( sPIF_Info.szCommand, sizeof( sPIF_Info.szCommand ), "ZMAKEOS2.BAT" );
-     strncpy_s( sPIF_Info.szDirectory, sizeof( sPIF_Info.szDirectory ), pchMakefileDir, sizeof( sPIF_Info.szDirectory ) - 1 );
+     strcpy_s( sPIF_Info.szWindowTitle, zsizeof( sPIF_Info.szWindowTitle ), "Compiling Zeidon Target..." );
+     strcpy_s( sPIF_Info.szCommand, zsizeof( sPIF_Info.szCommand ), "ZMAKEOS2.BAT" );
+     strncpy_s( sPIF_Info.szDirectory, zsizeof( sPIF_Info.szDirectory ), pchMakefileDir, zsizeof( sPIF_Info.szDirectory ) - 1 );
      sPIF_Info.szDirectory[63] = 0;
-     strcpy_s( sPIF_Info.szParameters, sizeof( sPIF_Info.szParameters ), "" );
+     strcpy_s( sPIF_Info.szParameters, zsizeof( sPIF_Info.szParameters ), "" );
 
      _dos_getfileattr( szFileName, &unFileAttr );
      unFileAttr &= ~_A_RDONLY;
      _dos_setfileattr( szFileName, unFileAttr );
 
      hFile = SysOpenFile( vTaskLPLR, szFileName, COREFILE_WRITE );
-     SysWriteFile( vTaskLPLR, hFile, (zPCHAR) &sPIF_Info, sizeof( struct PIF_Struct286 ) );
+     SysWriteFile( vTaskLPLR, hFile, (zPCHAR) &sPIF_Info, zsizeof( struct PIF_Struct286 ) );
      SysCloseFile( vTaskLPLR, hFile, 0 );
 
      // See comment above about setting the read-only attribute.
@@ -1792,20 +1792,20 @@ CloseCompilerSpecification( zVIEW vSubtask )
    }
 
    // Make sure that the current compiler is valid.
-   GetStringFromAttribute( szCompilerSpec, sizeof( szCompilerSpec ), vCompilerSpec, "LPLR", "CurrentCompilerSpec" );
+   GetStringFromAttribute( szCompilerSpec, zsizeof( szCompilerSpec ), vCompilerSpec, "LPLR", "CurrentCompilerSpec" );
    if ( SetCursorFirstEntityByString( vCompilerSpec, "Compiler", "Name", szCompilerSpec, 0 ) != zCURSOR_SET )
    {
       zCHAR szMsg[ 200 ];
 
       if ( zstrcmp( szCompilerSpec, "" ) == 0 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Current Compiler Specification is required." );
-         strcat_s( szMsg, sizeof( szMsg ), "\n\nDo you want to set Current Compiler Specification?" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Current Compiler Specification is required." );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n\nDo you want to set Current Compiler Specification?" );
       }
       else
       {
-         sprintf_s( szMsg, sizeof( szMsg ), "Current Compiler Specification '%s' is invalid.", szCompilerSpec );
-         strcat_s( szMsg, sizeof( szMsg ), "\n\nDo you want to set Current Compiler Specification?" );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Current Compiler Specification '%s' is invalid.", szCompilerSpec );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n\nDo you want to set Current Compiler Specification?" );
       }
 
       if ( MessagePrompt( vSubtask, "LO00105", "Zeidon Compiler",
@@ -1857,7 +1857,7 @@ fnVerifyExternalTargetFile( zVIEW  vSubtask,
    _splitpath( pchName, szDrive, szDir, szFilename, szExtension);
    if ( szExtension[ 0 ] != 0 && zstrcmpi( szExtension, pchValidExtension ) != 0 )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), "%s '%s' has invalid extension: %s", pchControlName, pchName, szExtension );
+      sprintf_s( szMsg, zsizeof( szMsg ), "%s '%s' has invalid extension: %s", pchControlName, pchName, szExtension );
       MessageSend( vSubtask, "ED1003", "Zeidon Compiler", szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
@@ -1877,7 +1877,7 @@ fnVerifyExternalTargetFile( zVIEW  vSubtask,
    // Check to see if file exists
    if ( SysValidDirOrFile( szPath, FALSE, FALSE, (zSHORT) (zstrlen( szPath ) + 1) ) == FALSE )
    {
-      sprintf_s( szMsg, sizeof( szMsg ), "%s '%s' does not exist.\nIgnore error?", pchControlName, szPath );
+      sprintf_s( szMsg, zsizeof( szMsg ), "%s '%s' does not exist.\nIgnore error?", pchControlName, szPath );
       if ( MessagePrompt( vSubtask, "ED1003", "Zeidon Compiler",
                           szMsg, TRUE, zBUTTONS_YESNO, zRESPONSE_NO,
                           zICON_QUESTION ) == zRESPONSE_YES )
@@ -1929,7 +1929,7 @@ fnRemoveSpace( zPCHAR szFileName )
       // Nothing needs to be done here ... we're just moving pch to the right spot
    }
 
-   strcpy_s( szFileName, sizeof( szFileName ), pch );
+   strcpy_s( szFileName, zsizeof( szFileName ), pch );
 }
 
 static BOOL
@@ -1938,7 +1938,7 @@ fnVerifyExternalLibFile( zVIEW vSubtask, zVIEW vTaskLPLR, zPCHAR pchFileName )
    zCHAR szFileName[ zMAX_FILESPEC_LTH + 1 ];
 
    // Remove leading spaces.
-   SysConvertEnvironmentString( szFileName, sizeof( szFileName ), pchFileName );
+   SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), pchFileName );
    fnRemoveSpace( szFileName );
    if ( zstrcmp( szFileName, "" ) == 0 )
    {
@@ -1976,7 +1976,7 @@ fnVerifyExternalTargetDir( zVIEW vSubtask, zVIEW vTaskLPLR )
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTaskLPLR, "ExternalObjFile", 0 ) )
       {
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "ExternalObjFile", "Name" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "ExternalObjFile", "Name" );
 
          if ( fnVerifyExternalObjFile( vSubtask, vTaskLPLR, szFileName ) == FALSE )
             return( FALSE );
@@ -1987,7 +1987,7 @@ fnVerifyExternalTargetDir( zVIEW vSubtask, zVIEW vTaskLPLR )
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTaskLPLR, "ExternalLibFile", 0 ) )
       {
-         GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "ExternalLibFile", "Name" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "ExternalLibFile", "Name" );
 
          if ( fnVerifyExternalLibFile( vSubtask, vTaskLPLR, szFileName ) == FALSE )
             return( FALSE );
@@ -2007,7 +2007,7 @@ fnVerifyIncludeLibTargetDir( zVIEW vSubtask, zVIEW vTaskLPLR )
          nRC == zCURSOR_SET;
          nRC = SetCursorNextEntity( vTaskLPLR, "Include", 0 ) )
    {
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "Include", "IncludeDir" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "Include", "IncludeDir" );
 
       if ( !VerifyDir( vSubtask, szFileName, "Include Directory", FALSE ) )
       {
@@ -2024,7 +2024,7 @@ fnVerifyIncludeLibTargetDir( zVIEW vSubtask, zVIEW vTaskLPLR )
          nRC == zCURSOR_SET;
          nRC = SetCursorNextEntity( vTaskLPLR, "Lib", 0 ) )
    {
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "Lib", "LibDir" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "Lib", "LibDir" );
 
       if ( !VerifyDir( vSubtask, szFileName, "Lib Directory", FALSE ) )
       {
@@ -2082,12 +2082,12 @@ fnExternalLibObjToLibTarget (zVIEW vTask2, zPCHAR pchEntity)
         nRC = SetCursorNextEntity (vTask2, pchEntity, 0) )
    {
       // Get the full qualified Lib-name
-      GetStringFromAttribute( szFullFileName, sizeof( szFullFileName ), vTask2, pchEntity, "Name" );
+      GetStringFromAttribute( szFullFileName, zsizeof( szFullFileName ), vTask2, pchEntity, "Name" );
       // Split into Filename and directory name
       _splitpath( szFullFileName, szDrive, szDir, szFileName, szExtension );
       // Remove \ at last position.
       szDir[ strlen(szDir) - 1 ] = 0;
-      strcat_s( szDrive, sizeof( szDrive ), szDir );
+      strcat_s( szDrive, zsizeof( szDrive ), szDir );
 
       // put the directoryname into the Library list. From this library list
       // Variable LIB will be build.
@@ -2136,7 +2136,7 @@ fnVerifyExternalAllDir( zVIEW vSubtask, zVIEW vTaskLPLR )
          if ( nRC >= 0 )
          {
             // Show a warning, then delete the item for our target
-            sprintf_s( szMsg, sizeof( szMsg ), "Duplicate lib \"%s\" in target \"%s\" and in \"<ALL>\"",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Duplicate lib \"%s\" in target \"%s\" and in \"<ALL>\"",
                        pchName, pchTarget );
             MessageSend( vSubtask, "ED00999", "Zeidon Compiler",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
@@ -2157,7 +2157,7 @@ fnVerifyExternalAllDir( zVIEW vSubtask, zVIEW vTaskLPLR )
          if ( nRC >= 0 )
          {
             // Show a warning, then delete the item for our target
-            sprintf_s( szMsg, sizeof( szMsg ), "Duplicate object \"%s\" in target \"%s\" and in \"<ALL>\"",
+            sprintf_s( szMsg, zsizeof( szMsg ), "Duplicate object \"%s\" in target \"%s\" and in \"<ALL>\"",
                        pchName, pchTarget );
             MessageSend( vSubtask, "ED00999", "Zeidon Compiler",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
@@ -2299,9 +2299,9 @@ VerifyCompilerSpecOptions( zVIEW vSubtask )
    SetAttributeFromString( vTaskLPLR, "Compiler", "CompilerName", "MSC 1.5" );
 
    // Basedirectory for relative pathes is the component source directory.
-   GetStringFromAttribute( szBaseDir, sizeof( szBaseDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( szBaseDir, zsizeof( szBaseDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "Compiler", "TargetExecutableDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "Compiler", "TargetExecutableDir" );
    if ( IntGenFullQualPathFromRelPath( vSubtask, szFileName, szBaseDir, zMAX_FILENAME_LTH - 2, "Target Executable Directory" ) == -1 )
    {
       goto EndOfFunction;
@@ -2310,7 +2310,7 @@ VerifyCompilerSpecOptions( zVIEW vSubtask )
    if ( !VerifyDir( vSubtask, szFileName, "Target Executable Directory", TRUE ) )
       goto EndOfFunction;
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "Compiler", "TargetObjectDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "Compiler", "TargetObjectDir" );
    if ( IntGenFullQualPathFromRelPath( vSubtask, szFileName, szBaseDir, zMAX_FILENAME_LTH - 2, "OBJ Directory" ) == -1 )
    {
       goto EndOfFunction;
@@ -2319,7 +2319,7 @@ VerifyCompilerSpecOptions( zVIEW vSubtask )
    if ( !VerifyDir( vSubtask, szFileName, "OBJ Directory", TRUE ) )
       goto EndOfFunction;
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "Compiler", "MakefileDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "Compiler", "MakefileDir" );
    if ( IntGenFullQualPathFromRelPath( vSubtask, szFileName, szBaseDir, zMAX_FILENAME_LTH - 2, "Makefile Directory" ) == -1 )
    {
       goto EndOfFunction;
@@ -2328,7 +2328,7 @@ VerifyCompilerSpecOptions( zVIEW vSubtask )
    if ( !VerifyDir( vSubtask, szFileName, "Makefile Directory", TRUE ) )
       goto EndOfFunction;
 
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "Compiler", "EnvironmentDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "Compiler", "EnvironmentDir" );
    if ( IntGenFullQualPathFromRelPath( vSubtask, szFileName, szBaseDir, zMAX_FILENAME_LTH - 2, "Resource Directory" ) == -1 )
    {
       goto EndOfFunction;
@@ -2337,10 +2337,10 @@ VerifyCompilerSpecOptions( zVIEW vSubtask )
    if ( !VerifyDir( vSubtask, szFileName, "Resource Directory", TRUE ) )
       goto EndOfFunction;
 
-   GetStringFromAttribute( szBaseDir, sizeof( szBaseDir ), vTaskLPLR, "Compiler", "CompilerDir" );
-   SysConvertEnvironmentString( szFileName, sizeof( szFileName ), szBaseDir );
+   GetStringFromAttribute( szBaseDir, zsizeof( szBaseDir ), vTaskLPLR, "Compiler", "CompilerDir" );
+   SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), szBaseDir );
    SysAppendcDirSep( szFileName );
-   strcat_s( szFileName, sizeof( szFileName ), "NMAKE.EXE" );
+   strcat_s( szFileName, zsizeof( szFileName ), "NMAKE.EXE" );
    if ( SysOpenFile( vSubtask, szFileName, COREFILE_EXIST ) == -1 )
    {
       if ( MessagePrompt( vSubtask, "ED1000", "Zeidon Compiler",
@@ -2403,20 +2403,20 @@ ExternalTargetLibFile_Browse( zVIEW vSubtask )
          RefreshCtrl( vSubtask, "tgLibFiles" );
       }
 
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "ExternalLibFile", "Name" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "ExternalLibFile", "Name" );
       fnRemoveSpace( szFileName );
 
       if ( zstrcmp( szFileName, "" ) == 0 ||
            CompareAttributeToString( vTaskLPLR, "Compiler", "BrowseInfo", "Y" ) != 0 )
       {
-         GetStringFromAttribute( szMetaSrcDir, sizeof( szMetaSrcDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+         GetStringFromAttribute( szMetaSrcDir, zsizeof( szMetaSrcDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
          _chdir( szMetaSrcDir );
       }
 
       // do a loop for input of filename until the filename is valid or the user pressed cancel...
       do
       {
-         nRC = OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+         nRC = OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                       "Library Files (*.LIB)|*.lib|", "LIB",
                                       zOFN_HIDEREADONLY | zOFN_FILEMUSTEXIST );
       } while ( nRC == 1 &&
@@ -2455,20 +2455,20 @@ ExternalTargetObjFile_Browse( zVIEW vSubtask )
          RefreshCtrl( vSubtask, "tgObjectFiles" );
       }
 
-      GetStringFromAttribute( szFileName, sizeof( szFileName ), vTaskLPLR, "ExternalObjFile", "Name");
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "ExternalObjFile", "Name");
       fnRemoveSpace( szFileName );
 
       if ( zstrcmp( szFileName, "" ) == 0 ||
            CompareAttributeToString( vTaskLPLR, "Compiler", "BrowseInfo", "Y" ) != 0 )
       {
-         GetStringFromAttribute( szMetaSrcDir, sizeof( szMetaSrcDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
+         GetStringFromAttribute( szMetaSrcDir, zsizeof( szMetaSrcDir ), vTaskLPLR, "LPLR", "MetaSrcDir" );
          _chdir( szMetaSrcDir );
       }
 
       // do a loop for input of filename until the filename is valid or the user pressed cancel...
       do
       {
-         nRC = OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+         nRC = OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                       "Object Files (*.OBJ)|*.obj|", "OBJ",
                                       zOFN_HIDEREADONLY | zOFN_FILEMUSTEXIST );
 
@@ -2574,7 +2574,7 @@ PostbuildTargetList( zVIEW vSubtask )
 
    // if Compiler Spec does not exists, Zeidon create it in PreBuild
    // if Compiler Spec from Zeidon created, Compiler Dir is empty
-   GetStringFromAttribute( szCurrentCompilerSpec, sizeof( szCurrentCompilerSpec ), vTaskLPLR, "LPLR",
+   GetStringFromAttribute( szCurrentCompilerSpec, zsizeof( szCurrentCompilerSpec ), vTaskLPLR, "LPLR",
                            "CurrentCompilerSpec" );
    if ( CheckExistenceOfEntity( vTaskLPLR, "Compiler" ) >= zCURSOR_SET &&
         zstrcmp( szCurrentCompilerSpec, "" ) != 0 &&
@@ -2605,11 +2605,11 @@ DeleteCompilerSpec( zVIEW vSubtask )
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szCompilerName, sizeof( szCompilerName ), vTaskLPLR, "Compiler", "Name" );
+   GetStringFromAttribute( szCompilerName, zsizeof( szCompilerName ), vTaskLPLR, "Compiler", "Name" );
 
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Compiler Specification '" );
-   strcat_s( szMsg, sizeof( szMsg ), szCompilerName );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Compiler Specification '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szCompilerName );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
 
    if ( MessagePrompt( vSubtask, "PE002", "Zeidon Compiler",
                        szMsg, zBEEP, zBUTTONS_YESNO,

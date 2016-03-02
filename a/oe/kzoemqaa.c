@@ -196,7 +196,7 @@ MessageSend( zVIEW   vSubtask,
       {
          zCHAR szMsg[ 512 ];
 
-         sprintf_s( szMsg, sizeof( szMsg ), "Message Interface Inactive: %s %s %s %d",
+         sprintf_s( szMsg, zsizeof( szMsg ), "Message Interface Inactive: %s %s %s %d",
                    cpcMsgId, cpcTitle, cpcMsgText, lMsgType );
          SysMessageBox( vSubtask, g_pchMQI[ 0 ], szMsg, 1 );
       }
@@ -219,7 +219,7 @@ MessageSend( zVIEW   vSubtask,
       // If the zeidon.ini requests that all messages be sent to the User, but
       // there is not a valid message object, we will simply exit, because we
       // cannot get a message back to the User.
-      SysReadZeidonIni( -1, "[ObjectEngine]", "WebUserErrorMessages", sz, sizeof( sz ) );
+      SysReadZeidonIni( -1, "[ObjectEngine]", "WebUserErrorMessages", sz, zsizeof( sz ) );
       if ( (sz[ 0 ] == 'Y' || sz[ 0 ] == 'y') && vMsgQ == 0 )
          nRC = -16;
       else
@@ -858,8 +858,8 @@ fnFindTaskApp( zVIEW vSubtask, LPTASK lpTask, LPAPP lpApp )
 
          // Don't use the fnIssueCoreError above because will just cause
          // a recursive call if the message object can't be found.
-         strcpy_s( szMsg, sizeof( szMsg ), "Cannot load Message Object: " );
-         strcat_s( szMsg, sizeof( szMsg ), szlMessageObject );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Cannot load Message Object: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szlMessageObject );
          SysMessageBox( vSubtask, "System Error", szMsg, 1 );
       }
       else

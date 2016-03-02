@@ -61,7 +61,7 @@ oTZDMSRCO_UniqueDomainName( zVIEW vDomain, zVIEW vCM_List )
    zCHAR    szDomainName[ 33 ];
    zSHORT   nRC;
 
-   GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vDomain, "Domain", "Name" );
+   GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vDomain, "Domain", "Name" );
    nRC = SetCursorFirstEntityByString( vCM_List, "W_MetaDef", "Name",
                                        szDomainName, "" );
    if ( nRC != zCURSOR_SET )
@@ -93,7 +93,7 @@ oTZDMSRCO_RemoveDomainFromXDM( zVIEW vSubtask, zVIEW vDomain )
    if ( nRC < 0 )
       return( nRC );
 
-   GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vDomain, "Domain", "Name" );
+   GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vDomain, "Domain", "Name" );
    if ( SetCursorFirstEntityByString( vXDM, "Domain", "Name",
                                       szDomainName, "" ) != zCURSOR_SET )
    {
@@ -130,7 +130,7 @@ oTZDMSRCO_ReplaceOrAddDomToXDM( zVIEW vSubtask, zVIEW vDomain, zSHORT bCommit )
       nRC = DeleteEntity( vXDM, "Domain", zREPOS_PREV );
    }
 
-   GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vDomain, "Domain", "Name" );
+   GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vDomain, "Domain", "Name" );
    if ( SetCursorFirstEntityByString( vXDM, "Domain", "Name",
                                       szDomainName, "" ) == zCURSOR_SET )
    {
@@ -164,7 +164,7 @@ oTZDMSRCO_AddDomToXDM( zVIEW vSubtask, zVIEW vDomain )
       return( 1 );
    }
 
-   GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vDomain, "Domain", "Name" );
+   GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vDomain, "Domain", "Name" );
    if ( SetCursorFirstEntityByString( vXDM, "Domain", "Name",
                                       szDomainName, "" ) == zCURSOR_SET )
    {
@@ -191,7 +191,7 @@ ofnTZDMSRCO_CopyDomToXDM( zVIEW vSubtask, zVIEW vDomain, zVIEW vXDM )
    // If the source Domain.DataType is Date or Time ("D" or "I"), set the
    // target Domain.DataType to DateTime ("T"), since that is the only
    // internal type used.
-   GetStringFromAttribute( szDataType, sizeof( szDataType ), vDomain, "Domain", "DataType" );
+   GetStringFromAttribute( szDataType, zsizeof( szDataType ), vDomain, "Domain", "DataType" );
    if ( *szDataType == 'D' || *szDataType == 'I' )
       SetAttributeFromString( vXDM, "Domain", "DataType", "T" );
 
@@ -304,7 +304,7 @@ oTZDMSRCO_DeriveDomName( zVIEW            vMeta,
                                 lDomainZKey, zCURRENT_OI );
    if ( nRC >= 0 )
    {
-      GetStringFromAttribute( szDomainName, sizeof( szDomainName ), vDomain, "Domain", "Name" );
+      GetStringFromAttribute( szDomainName, zsizeof( szDomainName ), vDomain, "Domain", "Name" );
       StoreValueInRecord( vMeta, lpViewEntity, lpViewAttrib, szDomainName, 0 );
    }
    else
@@ -350,7 +350,7 @@ oTZDMSRCO_DeriveDomDataType( zVIEW        vMeta,
                                 lDomainZKey, zCURRENT_OI );
    if ( nRC >= 0 )
    {
-      nRC = GetStringFromAttribute( szDomainDataType, sizeof( szDomainDataType ), vDomain, "Domain", "DataType" );
+      nRC = GetStringFromAttribute( szDomainDataType, zsizeof( szDomainDataType ), vDomain, "Domain", "DataType" );
       StoreValueInRecord( vMeta, lpViewEntity, lpViewAttrib, szDomainDataType, 0 );
    }
    else
@@ -395,7 +395,7 @@ oTZDMSRCO_DeriveDomType( zVIEW        vMeta,
                                 lDomainZKey, zCURRENT_OI );
    if ( nRC >= 0 )
    {
-      GetStringFromAttribute( szDomainType, sizeof( szDomainType ), vDomain, "Domain", "DomainType" );
+      GetStringFromAttribute( szDomainType, zsizeof( szDomainType ), vDomain, "Domain", "DomainType" );
       StoreValueInRecord( vMeta, lpViewEntity, lpViewAttrib, szDomainType, 0 );
    }
    else
@@ -531,7 +531,7 @@ oTZDMSRCO_DeriveContextName( zVIEW        vMeta,
 
    // Derive Context Name
    GetIntegerFromAttribute( &lContextZKey, vMeta, lpViewEntity->szName, "ZKey" );
-   strcpy_s( szEntityName, sizeof( szEntityName ), lpViewEntity->szName );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), lpViewEntity->szName );
    if ( zstrcmp( szEntityName, "CtrlMapContext" ) == 0 )
    {
       SetCursorFirstEntity( vMeta, "CtrlMapER_Domain", "" );
@@ -577,7 +577,7 @@ oTZDMSRCO_DeriveContextName( zVIEW        vMeta,
                                         "ZKey", lContextZKey, "" );
    if ( nRC >= 0 )
    {
-      GetStringFromAttribute( szContextName, sizeof( szContextName ), vDomain, "Context", "Name" );
+      GetStringFromAttribute( szContextName, zsizeof( szContextName ), vDomain, "Context", "Name" );
       StoreValueInRecord( vMeta, lpViewEntity, lpViewAttrib,
                           szContextName, 0 );
    }
@@ -617,12 +617,12 @@ oTZDMSRCO_DeriveDLL_Name( zVIEW        vMeta,
 
    if ( CheckExistenceOfEntity( vMeta, "SourceFile" ) == zCURSOR_SET )
    {
-      GetStringFromAttribute( szZKey, sizeof( szZKey ), vMeta, "SourceFile", "ZKey" );
+      GetStringFromAttribute( szZKey, zsizeof( szZKey ), vMeta, "SourceFile", "ZKey" );
       if ( GetViewByName( &vSource, szZKey, vMeta, zLEVEL_TASK ) > 0 )
       {
          if ( CheckExistenceOfEntity( vSource, "ExecComposite" ) >= zCURSOR_SET )
          {
-            GetStringFromAttribute( szDLL_Name, sizeof( szDLL_Name ), vSource,
+            GetStringFromAttribute( szDLL_Name, zsizeof( szDLL_Name ), vSource,
                                     "ExecComposite", "Name" );
          }
       }
@@ -640,7 +640,7 @@ oTZDMSRCO_DeriveDLL_Name( zVIEW        vMeta,
                if ( CheckExistenceOfEntity( vSource, "ExecComposite" ) >=
                                                               zCURSOR_SET )
                {
-                  GetStringFromAttribute( szDLL_Name, sizeof( szDLL_Name ), vSource,
+                  GetStringFromAttribute( szDLL_Name, zsizeof( szDLL_Name ), vSource,
                                           "ExecComposite", "Name" );
                }
 
@@ -672,7 +672,7 @@ oTZDMSRCO_DeriveOperName( zVIEW            vMeta,
    // Default to NULL
    szOperName[ 0 ] = 0;
    if ( CheckExistenceOfEntity( vMeta, "Operation" ) >= zCURSOR_SET )
-      GetStringFromAttribute( szOperName, sizeof( szOperName ), vMeta, "Operation", "Name" );
+      GetStringFromAttribute( szOperName, zsizeof( szOperName ), vMeta, "Operation", "Name" );
 
    StoreValueInRecord( vMeta, lpViewEntity, lpViewAttrib, szOperName, 0 );
    return( 0 );
@@ -773,18 +773,18 @@ oTZDMSRCO_CheckDomainType( zVIEW vMeta  /*  BASED ON LOD TZDGSRCO  */ )
             nRC >= zCURSOR_SET;
             nRC = SetCursorNextEntity( vTZDGSRCO, "Context", "" ) )
       {
-         GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZDGSRCO, "Context", "EditString" );
+         GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZDGSRCO, "Context", "EditString" );
          zGetStringWithoutBlank( szTemp, szTemp );
 
          if ( zstrcmp( szTemp, "") == 0 )
          {
-            strcpy_s( szMsg, sizeof( szMsg ), "Domain '" );
-            GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZDGSRCO, "Domain", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), szTemp );
-            strcat_s( szMsg, sizeof( szMsg ), "' is from Type 'Format' \nand the Context '");
-            GetStringFromAttribute( szTemp, sizeof( szTemp ), vTZDGSRCO, "Context", "Name" );
-            strcat_s( szMsg, sizeof( szMsg ), szTemp );
-            strcat_s( szMsg, sizeof( szMsg ), "' \ndoes not have a Format/Range String." );
+            strcpy_s( szMsg, zsizeof( szMsg ), "Domain '" );
+            GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZDGSRCO, "Domain", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), szTemp );
+            strcat_s( szMsg, zsizeof( szMsg ), "' is from Type 'Format' \nand the Context '");
+            GetStringFromAttribute( szTemp, zsizeof( szTemp ), vTZDGSRCO, "Context", "Name" );
+            strcat_s( szMsg, zsizeof( szMsg ), szTemp );
+            strcat_s( szMsg, zsizeof( szMsg ), "' \ndoes not have a Format/Range String." );
 
             MessageSend( vMeta, "DM00107", "Domain Maintenance",
                          szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );

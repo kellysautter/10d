@@ -378,7 +378,7 @@ LPCTSTR ZWndMsgMap::Names[ WM_USER ];  // name of each WM_ message
 ZWndMsgMap::ZWndMsgMap( )
 {
    // Copy sparse MsgData into table.
-   zmemset( Names, 0, sizeof( Names ) );
+   zmemset( Names, 0, zsizeof( Names ) );
    for ( zSHORT k = 0; MsgData[ k ].uMsg; k++ )
       Names[ MsgData[ k ].uMsg ] = MsgData[ k ].cpcName;
 }
@@ -429,8 +429,7 @@ DbgWndName( REFIID iid )
    {
       for ( int k = 0; _pDbgInterfaceNames[ k ].name; k++ )
       {
-         if ( zmemcmp( _pDbgInterfaceNames[ k ].piid, &iid,
-                      sizeof( IID ) ) == 0 )
+         if ( zmemcmp( _pDbgInterfaceNames[ k ].piid, &iid, sizeof( IID ) ) == 0 )
          {
             return( _pDbgInterfaceNames[ k ].name );
          }

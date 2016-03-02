@@ -165,9 +165,9 @@ o_zwTZCMREVO_DeleteEmptyInstances( zVIEW     vView,
    while ( nRC >= zCURSOR_SET )
    { 
       //:   GetStringFromAttribute( szValue, vView, szEntityName, szAttributeName )
-      GetStringFromAttribute( szValue, sizeof( szValue ), vView, szEntityName, szAttributeName );
+      GetStringFromAttribute( szValue, zsizeof( szValue ), vView, szEntityName, szAttributeName );
       //:   GetStringFromAttribute( szDesc, vView, szEntityName, "Desc" )
-      GetStringFromAttribute( szDesc, sizeof( szDesc ), vView, szEntityName, "Desc" );
+      GetStringFromAttribute( szDesc, zsizeof( szDesc ), vView, szEntityName, "Desc" );
 
       //:   IF szValue = "" AND szDesc = ""
       if ( ZeidonStringCompare( szValue, 1, 0, "", 1, 0, 255 ) == 0 && ZeidonStringCompare( szDesc, 1, 0, "", 1, 0, 255 ) == 0 )

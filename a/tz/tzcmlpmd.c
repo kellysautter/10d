@@ -324,7 +324,7 @@ DialogCompareDataModels( zVIEW     vSubtask )
    //:TruncatedName = FileName [1:32]
    ZeidonStringCopy( TruncatedName, 1, 0, FileName, 1, 32, 33 );
    //:FileName = vCM.LPLR.ExecDir + "\" + TruncatedName + ".XLP"
-   GetStringFromAttribute( FileName, sizeof( FileName ), vCM, "LPLR", "ExecDir" );
+   GetStringFromAttribute( FileName, zsizeof( FileName ), vCM, "LPLR", "ExecDir" );
    ZeidonStringConcat( FileName, 1, 0, "\\", 1, 0, 513 );
    ZeidonStringConcat( FileName, 1, 0, TruncatedName, 1, 0, 513 );
    ZeidonStringConcat( FileName, 1, 0, ".XLP", 1, 0, 513 );
@@ -359,7 +359,7 @@ DialogCompareDataModels( zVIEW     vSubtask )
 
    //:END
    //:FileName = OtherLPLR.LPLR.MetaSrcDir + "\" + OtherLPLR.W_MetaDef.Name + ".PMD"
-   GetStringFromAttribute( FileName, sizeof( FileName ), OtherLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( FileName, zsizeof( FileName ), OtherLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( FileName, 1, 0, "\\", 1, 0, 513 );
    GetVariableFromAttribute( szTempString_0, 0, 'S', 33, OtherLPLR, "W_MetaDef", "Name", "", 0 );
    ZeidonStringConcat( FileName, 1, 0, szTempString_0, 1, 0, 513 );
@@ -892,7 +892,7 @@ MigrateMeta( zVIEW     vSubtask )
             //:SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 7
             RESULT = SetCursorFirstEntityByInteger( CurrentLPLR, "W_MetaType", "Type", 7, "" );
             //:SET CURSOR FIRST CurrentLPLR.W_MetaDef WHERE CurrentLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
-            GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), SourceLPLR, "W_MetaDef", "Name" );
+            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), SourceLPLR, "W_MetaDef", "Name" );
             RESULT = SetCursorFirstEntityByString( CurrentLPLR, "W_MetaDef", "Name", szTempString_0, "" );
             //:IF NewLOD.LOD.DoNotMergeFlag = "" AND NewLOD.LOD.DoNotMergeOperationsFlag = ""
             if ( CompareAttributeToString( NewLOD, "LOD", "DoNotMergeFlag", "" ) == 0 && CompareAttributeToString( NewLOD, "LOD", "DoNotMergeOperationsFlag", "" ) == 0 )
@@ -1469,7 +1469,7 @@ SelectLPLR( zVIEW     vSubtask )
    ZeidonStringCopy( TruncatedName, 1, 0, SourceFileName, 1, 32, 33 );
    //:SourceFileName = vCM.LPLR.ExecDir + "\" +
    //:                 TruncatedName + ".XLP"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), vCM, "LPLR", "ExecDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), vCM, "LPLR", "ExecDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, TruncatedName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".XLP", 1, 0, 514 );
@@ -1498,7 +1498,7 @@ SelectLPLR( zVIEW     vSubtask )
    //:// Reposition work station view on original LPLR so that any ZKeys generated during migration will
    //:// be created using the correct next ZKey.
    //:SET CURSOR FIRST vCM.LPLR WHERE vCM.LPLR.Name = CurrentLPLR.LPLR.Name 
-   GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), CurrentLPLR, "LPLR", "Name" );
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), CurrentLPLR, "LPLR", "Name" );
    RESULT = SetCursorFirstEntityByString( vCM, "LPLR", "Name", szTempString_0, "" );
 
    //:// Copy the Orig members with Type >= 2000 to Source
@@ -1626,7 +1626,7 @@ CommitTZWDLCVO( zVIEW     vSubtask )
    //:END
 
    //:szFileName = vLPLR.LPLR.ExecDir + "\ZEIDON.LNG"
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
    ZeidonStringConcat( szFileName, 1, 0, "\\ZEIDON.LNG", 1, 0, 514 );
    //:CommitOI_ToFile( vTZWDLCVO, szFileName, zASCII )
    CommitOI_ToFile( vTZWDLCVO, szFileName, zASCII );
@@ -1684,7 +1684,7 @@ InitializeTZWDLCVO( zVIEW     vSubtask )
          //:// First process Caption entries for each Window.
          //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
          //:    vTZWDLCVO.OriginalText.Value = vDialog.Window.Caption
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vDialog, "Window", "Caption" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Window", "Caption" );
          RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
          //:IF RESULT < zCURSOR_SET AND vDialog.Window.Caption != ""
          if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Window", "Caption", "" ) != 0 )
@@ -1705,7 +1705,7 @@ InitializeTZWDLCVO( zVIEW     vSubtask )
          { 
             //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
             //:     vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
-            GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vDialog, "Option", "Text" );
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Option", "Text" );
             RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
             //:IF RESULT < zCURSOR_SET AND vDialog.Option.Text != ""
             if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Option", "Text", "" ) != 0 )
@@ -1734,7 +1734,7 @@ InitializeTZWDLCVO( zVIEW     vSubtask )
             //:// First process Text
             //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
             //:     vTZWDLCVO.OriginalText.Value =vDialog.Control.Text
-            GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vDialog, "Control", "Text" );
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Control", "Text" );
             RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
             //:IF RESULT < zCURSOR_SET AND vDialog.Control.Text != ""
             if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "Text", "" ) != 0 )
@@ -1749,7 +1749,7 @@ InitializeTZWDLCVO( zVIEW     vSubtask )
             //:// Next process DIL_Text
             //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
             //:     vTZWDLCVO.OriginalText.Value =vDialog.Control.DIL_Text
-            GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vDialog, "Control", "DIL_Text" );
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Control", "DIL_Text" );
             RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
             //:IF RESULT < zCURSOR_SET AND vDialog.Control.DIL_Text != ""
             if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "DIL_Text", "" ) != 0 )
@@ -1809,7 +1809,7 @@ o_InitializeControlSubobject( zVIEW     vTZWDLCVO,
       //:// First process Text
       //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
       //:      vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialog, "Control", "Text" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Control", "Text" );
       RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
       //:IF RESULT < zCURSOR_SET AND vDialog.Control.Text != ""
       if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "Text", "" ) != 0 )
@@ -1827,7 +1827,7 @@ o_InitializeControlSubobject( zVIEW     vTZWDLCVO,
       //:// Next process DIL_Text
       //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
       //:      vTZWDLCVO.OriginalText.Value =vDialog.Control.DIL_Text
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialog, "Control", "DIL_Text" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Control", "DIL_Text" );
       RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
       //:IF RESULT < zCURSOR_SET AND vDialog.Control.DIL_Text != ""
       if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "DIL_Text", "" ) != 0 )
@@ -1871,7 +1871,7 @@ o_InitializeOptionSubobject( zVIEW     vTZWDLCVO,
    { 
       //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
       //:      vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialog, "Option", "Text" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Option", "Text" );
       RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
       //:IF RESULT < zCURSOR_SET AND vDialog.Option.Text != ""
       if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Option", "Text", "" ) != 0 )
@@ -1993,7 +1993,7 @@ ActivateTZWDLCVO( zVIEW     vSubtask )
    RESULT = GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
    //:szFileName = vLPLR.LPLR.ExecDir + "\ZEIDON.LNG"
-   GetStringFromAttribute( szFileName, sizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
    ZeidonStringConcat( szFileName, 1, 0, "\\ZEIDON.LNG", 1, 0, 514 );
    //:nFileNo = SysOpenFile( vSubtask, szFileName, COREFILE_READ )
    nFileNo = SysOpenFile( vSubtask, szFileName, COREFILE_READ );
@@ -2108,7 +2108,7 @@ ConvertTextInDialogs( zVIEW     vSubtask )
          //:// an original text entry.
          //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
          //:    vTZWDLCVO.OriginalText.Value = vDialog.Window.Caption
-         GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vDialog, "Window", "Caption" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Window", "Caption" );
          RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
@@ -2156,7 +2156,7 @@ ConvertTextInDialogs( zVIEW     vSubtask )
          { 
             //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
             //:     vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
-            GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vDialog, "Option", "Text" );
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Option", "Text" );
             RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
@@ -2214,7 +2214,7 @@ ConvertTextInDialogs( zVIEW     vSubtask )
             //:// Control Text
             //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
             //:     vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
-            GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vDialog, "Control", "Text" );
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Control", "Text" );
             RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
@@ -2257,7 +2257,7 @@ ConvertTextInDialogs( zVIEW     vSubtask )
             //:// Control DIL_Text
             //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
             //:     vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
-            GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vDialog, "Control", "DIL_Text" );
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Control", "DIL_Text" );
             RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
             //:IF RESULT >= zCURSOR_SET
             if ( RESULT >= zCURSOR_SET )
@@ -2355,7 +2355,7 @@ o_ConvertControlSubobject( zVIEW     vSubtask,
       //:// Control Text
       //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
       //:     vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialog, "Control", "Text" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Control", "Text" );
       RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
@@ -2398,7 +2398,7 @@ o_ConvertControlSubobject( zVIEW     vSubtask,
       //:// Control DIL_Text
       //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
       //:     vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialog, "Control", "DIL_Text" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Control", "DIL_Text" );
       RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
@@ -2478,7 +2478,7 @@ o_ConvertOptionSubobject( zVIEW     vSubtask,
    { 
       //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
       //:     vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
-      GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vDialog, "Option", "Text" );
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Option", "Text" );
       RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
@@ -2600,7 +2600,7 @@ SelectLPLR_ForSAMerge( zVIEW     vSubtask )
    ZeidonStringCopy( TruncatedName, 1, 0, SourceFileName, 1, 32, 33 );
    //:SourceFileName = vCM.LPLR.ExecDir + "\" +
    //:                 TruncatedName + ".XLP"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), vCM, "LPLR", "ExecDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), vCM, "LPLR", "ExecDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, TruncatedName, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".XLP", 1, 0, 514 );
@@ -2697,7 +2697,7 @@ MergeSAsToER( zVIEW     vSubtask )
    RESULT = SetCursorFirstEntityByInteger( vSourceLPLR2, "W_MetaType", "Type", 2004, "" );
 
    //:SourceFileName = vSourceLPLR.LPLR.MetaSrcDir + "\" + vSourceLPLR2.W_MetaDef.Name + ".PMD"
-   GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), vSourceLPLR, "LPLR", "MetaSrcDir" );
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), vSourceLPLR, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
    GetVariableFromAttribute( szTempString_0, 0, 'S', 33, vSourceLPLR2, "W_MetaDef", "Name", "", 0 );
    ZeidonStringConcat( SourceFileName, 1, 0, szTempString_0, 1, 0, 514 );
@@ -2745,7 +2745,7 @@ MergeSAsToER( zVIEW     vSubtask )
       //:SubjectAreaName = vSourceLPLR.W_MetaDef.Name
       GetVariableFromAttribute( SubjectAreaName, 0, 'S', 34, vSourceLPLR, "W_MetaDef", "Name", "", 0 );
       //:SourceFileName  = vSourceLPLR.LPLR.MetaSrcDir + "\" + SubjectAreaName + ".PSA"
-      GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), vSourceLPLR, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), vSourceLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( SourceFileName, 1, 0, SubjectAreaName, 1, 0, 514 );
       ZeidonStringConcat( SourceFileName, 1, 0, ".PSA", 1, 0, 514 );
@@ -2759,7 +2759,7 @@ MergeSAsToER( zVIEW     vSubtask )
       //:// We will pass the merge option selected to the merge operation.
       //:nRC = MergeSA_ToER( vTargetERD, vSourceERD, vSourceSA,
       //:                    vSourceLPLR.LPLR.MergeType, vSubtask )
-      GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vSourceLPLR, "LPLR", "MergeType" );
+      GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vSourceLPLR, "LPLR", "MergeType" );
       nRC = oTZEREMDO_MergeSA_ToER( vTargetERD, vSourceERD, vSourceSA, szTempString_1, vSubtask );
       //:IF nRC < 0
       if ( nRC < 0 )
@@ -2795,7 +2795,7 @@ MergeSAsToER( zVIEW     vSubtask )
       //:SubjectAreaName = vSourceLPLR.W_MetaDef.Name
       GetVariableFromAttribute( SubjectAreaName, 0, 'S', 34, vSourceLPLR, "W_MetaDef", "Name", "", 0 );
       //:SourceFileName  = vSourceLPLR.LPLR.MetaSrcDir + "\" + SubjectAreaName + ".PSA"
-      GetStringFromAttribute( SourceFileName, sizeof( SourceFileName ), vSourceLPLR, "LPLR", "MetaSrcDir" );
+      GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), vSourceLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( SourceFileName, 1, 0, SubjectAreaName, 1, 0, 514 );
       ZeidonStringConcat( SourceFileName, 1, 0, ".PSA", 1, 0, 514 );

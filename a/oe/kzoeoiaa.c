@@ -856,7 +856,7 @@ fnSetLockingAttributes( LPTASK          lpCurrentTask,
             zCHAR szUserName[ zZEIDON_NAME_LTH + 1 ];
             zCHAR szPassword[ zZEIDON_NAME_LTH + 1 ];
 
-            SysGetUserID( vLock, szUserName, sizeof( szUserName ), szPassword, sizeof( szPassword ) );
+            SysGetUserID( vLock, szUserName, zsizeof( szUserName ), szPassword, zsizeof( szPassword ) );
             if ( fnSetAttributeFromVariable( vLock, lpLockEntityCsr,
                                              lpViewAttrib,
                                              (zPVOID) szUserName, 'S',
@@ -875,7 +875,7 @@ fnSetLockingAttributes( LPTASK          lpCurrentTask,
          {
             zCHAR szDateTime[ 30 ];
 
-            SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+            SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
             if ( fnSetAttributeFromVariable( vLock, lpLockEntityCsr,
                                              lpViewAttrib,
                                              (zPVOID) szDateTime, 'S',
@@ -1018,13 +1018,13 @@ fnCreatePessimisticSemaphore( LPTASK   lpCurrentTask,
          bGlobalLockCreated = TRUE;
 
          // We are using entity level locking.
-         strcpy_s( szLockName, sizeof( szLockName ), "#Global Entity Lock" );
+         strcpy_s( szLockName, zsizeof( szLockName ), "#Global Entity Lock" );
       }
       else
          // We are not using entity level locking so we can just lock out other
          // users using the same LOD.  We prefix the name with a '#' to to
          // indicate that this is the locking semaphore.
-         sprintf_s( szLockName, sizeof( szLockName ), "#%s", lpViewOD->szName );
+         sprintf_s( szLockName, zsizeof( szLockName ), "#%s", lpViewOD->szName );
 
       // Check to make sure we're not already setting the lock for this type.
       if ( SetCursorFirstEntityByString( vLock.vOI, "ZeidonLock", "LOD_Name",
@@ -1208,14 +1208,14 @@ fnDeletePessimisticSemaphore( LPTASK   lpCurrentTask,
       if ( lpViewOD->nEntityLock )
       {
          // We are using entity level locking.
-         strcpy_s( szLockName, sizeof( szLockName ), "#Global Entity Lock" );
+         strcpy_s( szLockName, zsizeof( szLockName ), "#Global Entity Lock" );
       }
       else
       {
          // We are not using entity level locking so we can just lock out other
          // users using the same LOD.  We prefix the name with a '#' to to
          // indicate that this is the locking semaphore.
-         sprintf_s( szLockName, sizeof( szLockName ), "#%s", lpViewOD->szName );
+         sprintf_s( szLockName, zsizeof( szLockName ), "#%s", lpViewOD->szName );
       }
 
       // Get the lpViewEntity and lpLockEntityCsr for the lock OI.
@@ -2035,9 +2035,9 @@ ActivateObjectInstance( zPVIEW  pvReturnView,
             // Transaction backed out because of deadlock.
             zCHAR  szMsg[ 256 ];
 
-            strcpy_s( szMsg, sizeof( szMsg ), "(oi) Database Deadlock - Object=" );
-            strcat_s( szMsg, sizeof( szMsg ), cpcViewOD_Name );
-            strcat_s( szMsg, sizeof( szMsg ), " Activate Retry Count=" );
+            strcpy_s( szMsg, zsizeof( szMsg ), "(oi) Database Deadlock - Object=" );
+            strcat_s( szMsg, zsizeof( szMsg ), cpcViewOD_Name );
+            strcat_s( szMsg, zsizeof( szMsg ), " Activate Retry Count=" );
             TraceLineI( szMsg, nActivateCount );
 
             nActivateCount++;
@@ -2312,7 +2312,7 @@ EndOfFunction:
    {
       zCHAR sz[ 100 ];
 
-      sprintf_s( sz, sizeof( sz ), "%lf seconds for object %s ",
+      sprintf_s( sz, zsizeof( sz ), "%lf seconds for object %s ",
                  (double) (SysGetTickCount( ) - lTickCount) / zTICKS_PER_SECOND,
                  cpcViewOD_Name );
       TraceLineS( "(oi) Total time for ActivateObjectInstance = ", sz );
@@ -2571,12 +2571,12 @@ ActivateOI_FromFile( zPVIEW    pvReturnView,
    if ( zstrchr( cpcFileName, cDirSep ) == 0 )
    {
       if ( lpApp )
-         strcpy_s( szWork, sizeof( szWork ), lpApp->szObjectDir );
+         strcpy_s( szWork, zsizeof( szWork ), lpApp->szObjectDir );
       else
       {
          LPAPP lpSystemApp = zGETPTR( AnchorBlock->hSystemApp );
 
-         strcpy_s( szWork, sizeof( szWork ), lpSystemApp->szObjectDir );
+         strcpy_s( szWork, zsizeof( szWork ), lpSystemApp->szObjectDir );
       }
 
       SysAppendcDirSep( szWork );
@@ -2584,8 +2584,8 @@ ActivateOI_FromFile( zPVIEW    pvReturnView,
    else
       szWork[ 0 ] = 0;
 
-   strcat_s( szWork, sizeof( szWork ), cpcFileName ); // w\bin\sys\tzrpsrco.lod
-   SysConvertEnvironmentString( szOpenFileName, sizeof( szOpenFileName ), szWork );
+   strcat_s( szWork, zsizeof( szWork ), cpcFileName ); // w\bin\sys\tzrpsrco.lod
+   SysConvertEnvironmentString( szOpenFileName, zsizeof( szOpenFileName ), szWork );
 
    if ( AnchorBlock->TraceFlags.bOpenFile )
    {
@@ -3261,8 +3261,8 @@ fnGetDBHandler( LPTASK  hTask,
          // bin directory.
          zCHAR szLibName[ zMAX_FILENAME_LTH + 1 ];
 
-         strcpy_s( szLibName, sizeof( szLibName ), AnchorBlock->szZeidonBin );
-         strcat_s( szLibName, sizeof( szLibName ), lpDBHandler->szName );
+         strcpy_s( szLibName, zsizeof( szLibName ), AnchorBlock->szZeidonBin );
+         strcat_s( szLibName, zsizeof( szLibName ), lpDBHandler->szName );
          hLibrary = SysLoadLibrary( vTask, szLibName );
       }
       else
@@ -3280,8 +3280,8 @@ fnGetDBHandler( LPTASK  hTask,
          if ( lpDBHandler->pfDBHandlerOper == 0 )
          {
             // Couldn't find the default name.  Try the old-style name.
-            strcpy_s( szFuncName, sizeof( szFuncName ), lpDBHandler->szName );
-            strcat_s( szFuncName, sizeof( szFuncName ), "_DBH_MsgProc" );
+            strcpy_s( szFuncName, zsizeof( szFuncName ), lpDBHandler->szName );
+            strcat_s( szFuncName, zsizeof( szFuncName ), "_DBH_MsgProc" );
 
             // Find the address of entry func.
             lpDBHandler->pfDBHandlerOper =
@@ -3381,8 +3381,8 @@ fnGetDBHandlerOper( LPTASK      lpTask,
          // bin directory.
          zCHAR szLibName[ 100 ];
 
-         strcpy_s( szLibName, sizeof( szLibName ), AnchorBlock->szZeidonBin );
-         strcat_s( szLibName, sizeof( szLibName ), lpDBHandler->szName );
+         strcpy_s( szLibName, zsizeof( szLibName ), AnchorBlock->szZeidonBin );
+         strcat_s( szLibName, zsizeof( szLibName ), lpDBHandler->szName );
          hLibrary = SysLoadLibrary( lpView, szLibName );
       }
       else
@@ -3396,8 +3396,8 @@ fnGetDBHandlerOper( LPTASK      lpTask,
       if ( pOper == 0 )
       {
          // Couldn't find the default name.  Try the old-style name.
-         strcpy_s( szFuncName, sizeof( szFuncName ), lpDBHandler->szName );
-         strcat_s( szFuncName, sizeof( szFuncName ), "_DBH_MsgProc" );
+         strcpy_s( szFuncName, zsizeof( szFuncName ), lpDBHandler->szName );
+         strcat_s( szFuncName, zsizeof( szFuncName ), "_DBH_MsgProc" );
 
          // Find the address of entry func.  If it can't be found, return with
          // an error.
@@ -3517,8 +3517,8 @@ fnGetGKHandlerOper( zVIEW       vSubtask,
          // bin directory.
          zCHAR szLibName[ 100 ];
 
-         strcpy_s( szLibName, sizeof( szLibName ), AnchorBlock->szZeidonBin );
-         strcat_s( szLibName, sizeof( szLibName ), lpGKHandler->szName );
+         strcpy_s( szLibName, zsizeof( szLibName ), AnchorBlock->szZeidonBin );
+         strcat_s( szLibName, zsizeof( szLibName ), lpGKHandler->szName );
 
          TraceLineS( "(oi) Attempting to load GK-handler as ", szLibName );
          hLibrary = SysLoadLibrary( vSubtask, szLibName );
@@ -3537,8 +3537,8 @@ fnGetGKHandlerOper( zVIEW       vSubtask,
       if ( pGKOper == 0 )
       {
          // Try the old style name.
-         strcpy_s( szFuncName, sizeof( szFuncName ), lpGKHandler->szName );
-         strcat_s( szFuncName, sizeof( szFuncName ), "_GKH_MsgProc" );
+         strcpy_s( szFuncName, zsizeof( szFuncName ), lpGKHandler->szName );
+         strcat_s( szFuncName, zsizeof( szFuncName ), "_GKH_MsgProc" );
 
          // Find the address of entry func.  If it can't be found, return with
          // an error.
@@ -3639,8 +3639,8 @@ fnGetGKHandler( LPTASK  hTask,
          // bin directory.
          zCHAR szLibName[ zMAX_FILENAME_LTH + 1 ];
 
-         strcpy_s( szLibName, sizeof( szLibName ), AnchorBlock->szZeidonBin );
-         strcat_s( szLibName, sizeof( szLibName ), lpGKHandler->szName );
+         strcpy_s( szLibName, zsizeof( szLibName ), AnchorBlock->szZeidonBin );
+         strcat_s( szLibName, zsizeof( szLibName ), lpGKHandler->szName );
 
          TraceLineS( "(oi) Attempting to load GK-handler as ", szLibName );
          hLibrary = SysLoadLibrary( vTask, szLibName );
@@ -3662,8 +3662,8 @@ fnGetGKHandler( LPTASK  hTask,
          if ( lpGKHandler->pfGKHandlerOper == 0 )
          {
             // Couldn't find the default name.  Try the old-style name.
-            strcpy_s( szFuncName, sizeof( szFuncName ), lpGKHandler->szName );
-            strcat_s( szFuncName, sizeof( szFuncName ), "_GKH_MsgProc" );
+            strcpy_s( szFuncName, zsizeof( szFuncName ), lpGKHandler->szName );
+            strcat_s( szFuncName, zsizeof( szFuncName ), "_GKH_MsgProc" );
 
             // Find the address of entry func.
             lpGKHandler->pfGKHandlerOper =
@@ -4437,7 +4437,7 @@ CommitMultipleOIs( LPVIEWCLUSTER lpOrigViewCluster,
                      TraceLineS( "(oi) Object definition = ", lpViewOD->szName );
                      TraceLineS( "(oi) Entity name = ", lpViewEntity->szName );
                      TraceLineX( "(oi) EI Flags    = ", lpEntityInstance->u.nIndicators );
-                     sprintf_s( szMsg, sizeof( szMsg ), "%s %s Object Definition: %s "
+                     sprintf_s( szMsg, zsizeof( szMsg ), "%s %s Object Definition: %s "
                                  "EntityName: %s   EI Flags 0x%08x",
                                "OE Warning", "Return code indicates that "
                                  "Commit was successful but OI still has "
@@ -4510,7 +4510,7 @@ EndOfFunction:
    {
       zCHAR sz[ 30 ];
 
-      sprintf_s( sz, sizeof( sz ), "%lf seconds",
+      sprintf_s( sz, zsizeof( sz ), "%lf seconds",
                  (double) (SysGetTickCount( ) - lTickCount) / zTICKS_PER_SECOND );
       TraceLineS( "(oi) Total time for CommitMultipleOIs = ", sz );
    }
@@ -4858,7 +4858,7 @@ fnCheckCreateDeleteFlags( LPENTITYINSTANCE lpEntityInstance,
       }
 
       TraceLineS( "----------------- Warning ----------------", "" );
-      sprintf_s( szMsg, sizeof( szMsg ), "Warning: Trying to commit an entity that "
+      sprintf_s( szMsg, zsizeof( szMsg ), "Warning: Trying to commit an entity that "
                 "has been %s but does not have %s "
                 "authority in the current cluster.  OD.EntityName = %s.%s",
                 bCheckCreate ? "created" : "deleted",
@@ -4877,13 +4877,13 @@ fnCheckCreateDeleteFlags( LPENTITYINSTANCE lpEntityInstance,
             continue;
          }
 
-         sprintf_s( szMsg, sizeof( szMsg ), " View ID = %lx, Object name = %s",
+         sprintf_s( szMsg, zsizeof( szMsg ), " View ID = %lx, Object name = %s",
                     (zULONG) lpViewArray[ k ], lpViewOD_Array[ k ]->szName );
          TraceLineS( szMsg, "" );
       }
 
 
-      sprintf_s( szMsg, sizeof( szMsg ), "%s.%s", lpViewOD->szName, lpViewEntity->szName );
+      sprintf_s( szMsg, zsizeof( szMsg ), "%s.%s", lpViewOD->szName, lpViewEntity->szName );
       if ( bCheckCreate )
          TraceLineS( "OD.Entity with Create flag = ", szMsg );
       else
@@ -4892,7 +4892,7 @@ fnCheckCreateDeleteFlags( LPENTITYINSTANCE lpEntityInstance,
 
       if ( lpCandidateViewEntity )
       {
-         sprintf_s( szMsg, sizeof( szMsg ), "%s.%s", lpCandidateViewOD->szName,
+         sprintf_s( szMsg, zsizeof( szMsg ), "%s.%s", lpCandidateViewOD->szName,
                    lpCandidateViewEntity->szName );
          TraceLineS( "OD.Entity with create authority = ", szMsg );
          TraceLineX( "OI ID = ", (zLONG) lpCandidateViewOI );
@@ -4902,7 +4902,7 @@ fnCheckCreateDeleteFlags( LPENTITYINSTANCE lpEntityInstance,
       CreateViewFromViewForTask( &lpView, lpView, 0 );
       fnEstablishViewForInstance( lpView, 0, lpEntityInstance );
       DisplayEntityInstancePath( lpView, lpViewEntity->szName );
-      sprintf_s( szMsg, sizeof( szMsg ), "Warning: Trying to commit an entity that "
+      sprintf_s( szMsg, zsizeof( szMsg ), "Warning: Trying to commit an entity that "
                 "has been %s but does not have %s "
                 "authority in the current cluster.  OD.EntityName = %s.%s. "
                 "See trace for more information.",
@@ -4986,7 +4986,7 @@ fnInitializeGenKeys( zVIEW       lpViewArray[],
             {
                zCHAR    szMsg[ 256 ];
 
-               sprintf_s( szMsg, sizeof( szMsg ), "No GenKey handler set for LOD: %s",
+               sprintf_s( szMsg, zsizeof( szMsg ), "No GenKey handler set for LOD: %s",
                          lpViewOD_Array[ k ]->szName );
                SysMessageBox( vSubtask, szlOE_SystemError, szMsg, 1 );
                return( zCALL_ERROR );
@@ -5953,7 +5953,7 @@ fnDeleteLocksOnTwins( LPTASK           lpCurrentTask,
    {
       // We are checking a LOD level lock so we set LockName to the name of
       // the LOD.
-      strcpy_s( szLockName, sizeof( szLockName ), lpViewOD->szName );
+      strcpy_s( szLockName, zsizeof( szLockName ), lpViewOD->szName );
    }
    else
    {
@@ -5962,7 +5962,7 @@ fnDeleteLocksOnTwins( LPTASK           lpCurrentTask,
       // a LOD and entity name are the same we prefix all entity names with
       // a '@' because it's an invalid character for entity names.  This
       // insures that the LockName for the entity does not match a LOD name.
-      sprintf_s( szLockName, sizeof( szLockName ), "@%s", lpViewEntity->szName );
+      sprintf_s( szLockName, zsizeof( szLockName ), "@%s", lpViewEntity->szName );
    }
 
    // Loop through each of the twin entities and create a locking record.  We
@@ -6990,9 +6990,9 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
    if ( lControl & zENTITY_TAGS )
    {
       if ( lControl & zCOMPRESSED )
-         sprintf_s( szWorkString, sizeof( szWorkString ), "mOITAG %lx", (zLONG) lpViewOI );
+         sprintf_s( szWorkString, zsizeof( szWorkString ), "mOITAG %lx", (zLONG) lpViewOI );
       else
-         sprintf_s( szWorkString, sizeof( szWorkString ), "mOITAG %lx", (zLONG) lpViewOI );
+         sprintf_s( szWorkString, zsizeof( szWorkString ), "mOITAG %lx", (zLONG) lpViewOI );
 
       if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
          return( zCALL_ERROR );
@@ -7002,9 +7002,9 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
    {
       // If the tag for the current OI is non-zero, then we'll write it.
       if ( lControl & zCOMPRESSED )
-         sprintf_s( szWorkString, sizeof( szWorkString ), "mOITAG %lx", lpViewOI->lTag );
+         sprintf_s( szWorkString, zsizeof( szWorkString ), "mOITAG %lx", lpViewOI->lTag );
       else
-         sprintf_s( szWorkString, sizeof( szWorkString ), "mOITAG %lx", lpViewOI->lTag );
+         sprintf_s( szWorkString, zsizeof( szWorkString ), "mOITAG %lx", lpViewOI->lTag );
 
       if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
          return( zCALL_ERROR );
@@ -7036,9 +7036,9 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
       if ( uFlags )
       {
          if ( lControl & zCOMPRESSED )
-            sprintf_s( szWorkString, sizeof( szWorkString ), "mOIFLAGS %lx", uFlags );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "mOIFLAGS %lx", uFlags );
          else
-            sprintf_s( szWorkString, sizeof( szWorkString ), "mOIFLAGS %lx", uFlags );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "mOIFLAGS %lx", uFlags );
 
          if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
             return( zCALL_ERROR );
@@ -7150,19 +7150,19 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
       if ( lControl & zCOMPRESSED )
       {
          // Use the hierarchical number instead of the entity name.
-         sprintf_s( szWorkString + 1, sizeof( szWorkString ) - 1, "%x %x", lpViewEntity->nHierNbr, lpEntityInstance->nLevel );
+         sprintf_s( szWorkString + 1, zsizeof( szWorkString ) - 1, "%x %x", lpViewEntity->nHierNbr, lpEntityInstance->nLevel );
          k = zstrlen( szWorkString );
       }
       else
       {
-         strcpy_s( szWorkString + 1, sizeof( szWorkString ) - 1, lpViewEntity->szName );
+         strcpy_s( szWorkString + 1, zsizeof( szWorkString ) - 1, lpViewEntity->szName );
          k = zstrlen( szWorkString );
 
          szWorkString[ k++ ] = ' ';
          while ( k < 11 )
             szWorkString[ k++ ] = ' ';
 
-         zltoa( lpEntityInstance->nLevel, szWorkString + k, sizeof( szWorkString ) - k );
+         zltoa( lpEntityInstance->nLevel, szWorkString + k, zsizeof( szWorkString ) - k );
          k = zstrlen( szWorkString );
       }
 
@@ -7170,7 +7170,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
       if ( bIncremental )
       {
          szWorkString[ k++ ] = ',';
-         zbtoa( lpEntityInstance->u.nIndicators, szWorkString + k, sizeof( szWorkString ) - k );
+         zbtoa( lpEntityInstance->u.nIndicators, szWorkString + k, zsizeof( szWorkString ) - k );
 
          if ( lControl & zCOMPRESSED )
          {
@@ -7178,7 +7178,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
 
             // Convert number for decimal format to hexadecimal.
             lTemp = zatol( szWorkString + k );
-            zltox( lTemp, szWorkString + k, sizeof( szWorkString ) - k );
+            zltox( lTemp, szWorkString + k, zsizeof( szWorkString ) - k );
          }
       }
 
@@ -7190,9 +7190,9 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
       if ( lControl & zENTITY_TAGS )
       {
          if ( lControl & zCOMPRESSED )
-            sprintf_s( szWorkString, sizeof( szWorkString ), "mETAG %lx", (zLONG) lpEntityInstance );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %lx", (zLONG) lpEntityInstance );
          else
-            sprintf_s( szWorkString, sizeof( szWorkString ), "mETAG %lx", (zLONG) lpEntityInstance );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %lx", (zLONG) lpEntityInstance );
 
          if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
             goto EndOfFunction;
@@ -7203,9 +7203,9 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
          // If the tag for the current entity instance is non-zero, then we'll
          // write it.
          if ( lControl & zCOMPRESSED )
-            sprintf_s( szWorkString, sizeof( szWorkString ), "mETAG %lx", lpEntityInstance->lTag );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %lx", lpEntityInstance->lTag );
          else
-            sprintf_s( szWorkString, sizeof( szWorkString ), "mETAG %lx", lpEntityInstance->lTag );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %lx", lpEntityInstance->lTag );
 
          if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
             goto EndOfFunction;
@@ -7214,9 +7214,9 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
       if ( lControl & zENTITY_KEYS )
       {
          if ( lControl & zCOMPRESSED )
-            sprintf_s( szWorkString, sizeof( szWorkString ), "mEKEY %lx", lpEntityInstance->ulKey );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "mEKEY %lx", lpEntityInstance->ulKey );
          else
-            sprintf_s( szWorkString, sizeof( szWorkString ), "mEKEY %lx", lpEntityInstance->ulKey );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "mEKEY %lx", lpEntityInstance->ulKey );
 
          if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
             goto EndOfFunction;
@@ -7382,7 +7382,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
 
             // If the attrib flags is not 0 then set up string.
             if ( lpAttribFlags )
-               sprintf_s( szAttribFlags, sizeof( szAttribFlags ), ",%lx", lpAttribFlags->u.uFlags );
+               sprintf_s( szAttribFlags, zsizeof( szAttribFlags ), ",%lx", lpAttribFlags->u.uFlags );
             else
                szAttribFlags[ 0 ] = 0;
 
@@ -7391,13 +7391,13 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
             // might be a blob, etc.) but we can still save a few bytes by
             // using XVATOK instead of the name.
             if ( lControl & zCOMPRESSED )
-               sprintf_s( szWorkString, sizeof( szWorkString ), "a%lx%s ", lpViewAttrib->lXVAAttTok, szAttribFlags );
+               sprintf_s( szWorkString, zsizeof( szWorkString ), "a%lx%s ", lpViewAttrib->lXVAAttTok, szAttribFlags );
             else
             {
                zCHAR szAttribName[ 50 ];
 
-               sprintf_s( szAttribName, sizeof( szAttribName ), "%s%s", lpViewAttrib->szName, szAttribFlags );
-               sprintf_s( szWorkString, sizeof( szWorkString ), "a%-9s ", szAttribName );
+               sprintf_s( szAttribName, zsizeof( szAttribName ), "%s%s", lpViewAttrib->szName, szAttribFlags );
+               sprintf_s( szWorkString, zsizeof( szWorkString ), "a%-9s ", szAttribName );
             }
 
             k = zstrlen( szWorkString );
@@ -7462,7 +7462,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
                   if ( lControl & zENCODE_BLOBS )
                      szWorkString[ k++ ] = zBLOB_STORED_ENCODED;
 
-                  zltoa( ulLth, szWorkString + k, sizeof( szWorkString ) - k );
+                  zltoa( ulLth, szWorkString + k, zsizeof( szWorkString ) - k );
 
                   // write out the attribute name and length
                   if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0,
@@ -7575,7 +7575,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
                         l = l * -1;
                      }
 
-                     zltox( l, szWorkString + k, sizeof( szWorkString ) - k );
+                     zltox( l, szWorkString + k, zsizeof( szWorkString ) - k );
                   }
                }
                else
@@ -7616,7 +7616,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
          // Set first char to 'a' to indicate that it's attribute data.
          // The next char is a space to differentiate it with a normal
          // attribute value line.
-         sprintf_s( szLth, sizeof( szLth ), "a %x", ulLth );
+         sprintf_s( szLth, zsizeof( szLth ), "a %x", ulLth );
          if ( (*lpfnStreamFunc)( lpView, lpvData, szLth, zstrlen( szLth ), zTYPE_STRING ) )
          {
             goto EndOfFunction;
@@ -7763,21 +7763,21 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
 
          if ( lControl & zCOMPRESSED )
          {
-            sprintf_s( szWorkString, sizeof( szWorkString ), "i%lx %lx",
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "i%lx %lx",
                        lpEntityInstance->lHierCount,
                        lpSourceEntityInstance->lHierCount );
          }
          else
          {
             szWorkString[ 0 ] = 'i';
-            zltoa( lpEntityInstance->lHierCount, szWorkString + 1, sizeof( szWorkString ) - 1 );
+            zltoa( lpEntityInstance->lHierCount, szWorkString + 1, zsizeof( szWorkString ) - 1 );
             k = zstrlen( szWorkString );
             do
             {
                szWorkString[ k++ ] = ' ';
             } while ( k < 11 );
 
-            zltoa( lpSourceEntityInstance->lHierCount, szWorkString + k, sizeof( szWorkString ) - k );
+            zltoa( lpSourceEntityInstance->lHierCount, szWorkString + k, zsizeof( szWorkString ) - k );
          }
 
          if ( lpEntityInstance->lHierCount != lpSourceEntityInstance->lHierCount )
@@ -7822,7 +7822,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
 
          if ( lpViewEntityCsr->hEntityInstance == UNSET_CSR )
          {
-            sprintf_s( szWorkString, sizeof( szWorkString ), "c%x 0", lpViewEntityCsr->nHierNbr );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "c%x 0", lpViewEntityCsr->nHierNbr );
 
             if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
                goto EndOfFunction;
@@ -7876,7 +7876,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
             // Cursor points to invalid entity but the entity does have
             // valid twins, so send record indicating that the cursor is
             // currently not set.
-            sprintf_s( szWorkString, sizeof( szWorkString ), "c%x 0", lpViewEntityCsr->nHierNbr );
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "c%x 0", lpViewEntityCsr->nHierNbr );
          }
          else
          {
@@ -7892,7 +7892,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
                lInstanceCount++;
             }
 
-            sprintf_s( szWorkString, sizeof( szWorkString ), "c%x %lx", lpViewEntityCsr->nHierNbr,
+            sprintf_s( szWorkString, zsizeof( szWorkString ), "c%x %lx", lpViewEntityCsr->nHierNbr,
                       lInstanceCount );
          }
 
@@ -7947,13 +7947,13 @@ fnFillHeaderLine( zPCHAR pchFileHeader, zLONG lMaxLth, FileHeaderRecord FileHead
 {
    zLONG lLth = 0;
    pchFileHeader[ 0 ] = 0;
-   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.chTypeIndicator, sizeof( FileHeader.chTypeIndicator ), sizeof( FileHeader.chTypeIndicator ), FALSE );
-   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szZeidon, sizeof( FileHeader.szZeidon ), sizeof( FileHeader.szZeidon ), TRUE );
-   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szFileName, sizeof( FileHeader.szFileName ), 9, TRUE );
-   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szObjectType, sizeof( FileHeader.szObjectType ), sizeof( FileHeader.szObjectType ), TRUE );
-   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szDate, sizeof( FileHeader.szDate ), sizeof( FileHeader.szDate ), TRUE );
-   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szTime, sizeof( FileHeader.szTime ), sizeof( FileHeader.szTime ), TRUE );
-   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szRelease, sizeof( FileHeader.szRelease ), 0, FALSE );
+   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.chTypeIndicator, zsizeof( FileHeader.chTypeIndicator ), zsizeof( FileHeader.chTypeIndicator ), FALSE );
+   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szZeidon, zsizeof( FileHeader.szZeidon ), zsizeof( FileHeader.szZeidon ), TRUE );
+   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szFileName, zsizeof( FileHeader.szFileName ), 9, TRUE );
+   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szObjectType, zsizeof( FileHeader.szObjectType ), zsizeof( FileHeader.szObjectType ), TRUE );
+   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szDate, zsizeof( FileHeader.szDate ), zsizeof( FileHeader.szDate ), TRUE );
+   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szTime, zsizeof( FileHeader.szTime ), zsizeof( FileHeader.szTime ), TRUE );
+   lLth = fnFillHeaderFieldMember( pchFileHeader, lMaxLth, lLth, FileHeader.szRelease, zsizeof( FileHeader.szRelease ), 0, FALSE );
 }
 //=SfWriteOI_ToStream
 zSHORT OPERATION
@@ -8066,7 +8066,7 @@ SfWriteOI_ToStream( zVIEW          lpView,
    FileHeader.chTypeIndicator[ 5 ] = '-';
 #endif
 
-   strcpy_s( FileHeader.szZeidon, sizeof( FileHeader.szZeidon ), szlmZeidon );
+   strcpy_s( FileHeader.szZeidon, zsizeof( FileHeader.szZeidon ), szlmZeidon );
 
    pchFileNmp = (zPCHAR) cpcHeaderName;
    pchLine    = (zPCHAR) cpcHeaderName;
@@ -8078,20 +8078,20 @@ SfWriteOI_ToStream( zVIEW          lpView,
 
    // we are building the header record for this file and realize that the
    // file name we are copying to FileHeader.szFileName may be longer than
-   // sizeof( FileHeader.szFileName ).  This is OK since the FileHeader
+   // zsizeof( FileHeader.szFileName ). This is OK since the FileHeader
    // structure is large enough to accomodate an overwrite.
-   strcpy_s( FileHeader.szFileName, sizeof( FileHeader.szFileName ), pchFileNmp );  // no longer permitting overwrite ... dks 2015.11.12
+   strcpy_s( FileHeader.szFileName, zsizeof( FileHeader.szFileName ), pchFileNmp ); // no longer permitting overwrite ... dks 2015.11.12
    pchLine = zstrchr( FileHeader.szFileName, '.' );
    if ( pchLine )
    {
-      strcpy_s( pchLine, sizeof( FileHeader.szFileName ) - (pchLine - FileHeader.szFileName),  "       " );
+      strcpy_s( pchLine, zsizeof( FileHeader.szFileName ) - (pchLine - FileHeader.szFileName), "       " );
       pchLine[ 0 ] = 0;
    }
 
    SysTranslateString( FileHeader.szFileName, 'U' );
-   strcpy_s( FileHeader.szObjectType, sizeof( FileHeader.szObjectType ), lpViewOD->szName );
-   SysGetDateTime( szDateTime, sizeof( szDateTime ) );
-   fnDateTimeFormat( szDateTime, FileHeader.szDate, sizeof( FileHeader.szDate ), FileHeader.szTime, sizeof( FileHeader.szTime ) );
+   strcpy_s( FileHeader.szObjectType, zsizeof( FileHeader.szObjectType ), lpViewOD->szName );
+   SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
+   fnDateTimeFormat( szDateTime, FileHeader.szDate, zsizeof( FileHeader.szDate ), FileHeader.szTime, zsizeof( FileHeader.szTime ) );
 
    // Even if this is not a MetaOI, we should force the release level for
    // all files to be at the minimal level of the software.
@@ -8106,7 +8106,7 @@ SfWriteOI_ToStream( zVIEW          lpView,
       MiSetOI_ReleaseForView( lpView, szlReleaseCurrent );
    }
 
-   strcpy_s( FileHeader.szRelease, sizeof( FileHeader.szRelease ), lpViewOI->szRelease ); // dks 3/5/96
+   strcpy_s( FileHeader.szRelease, zsizeof( FileHeader.szRelease ), lpViewOI->szRelease ); // dks 3/5/96
 
    /* this is what used to be done to get: "z1000-Zeidon    ACCOUNT  TZZOXODO 07/04/15   10:58:29 1.0a2"
 
@@ -8120,7 +8120,7 @@ SfWriteOI_ToStream( zVIEW          lpView,
    FileHeader.nEntityInstanceRecordSize = 0;
    */
 
-   fnFillHeaderLine( szFileHeader, sizeof( szFileHeader ), FileHeader );
+   fnFillHeaderLine( szFileHeader, zsizeof( szFileHeader ), FileHeader );
 
    if ( (*lpfnStreamFunc)( lpView, lpvData, szFileHeader, 0, zTYPE_STRING ) == zCALL_ERROR )
    {
@@ -8137,7 +8137,7 @@ SfWriteOI_ToStream( zVIEW          lpView,
    // Write the flags used to activate the OI.
    if ( lpViewOI->lActivateControl )
    {
-      sprintf_s( szTemp, sizeof( szTemp ), "mCONTROL %lx", lpViewOI->lActivateControl );
+      sprintf_s( szTemp, zsizeof( szTemp ), "mCONTROL %lx", lpViewOI->lActivateControl );
       if ( (*lpfnStreamFunc)( lpView, lpvData, szTemp, 0, zTYPE_STRING ) == zCALL_ERROR )
       {
          return( zCALL_ERROR );
@@ -8185,7 +8185,7 @@ SfWriteOI_ToStream( zVIEW          lpView,
    {
       zCHAR sz[ 100 ];
 
-      sprintf_s( sz, sizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
+      sprintf_s( sz, zsizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
                  (double) ( SysGetTickCount( ) - lTickCount ) / zTICKS_PER_SECOND );
       TraceLineS( "(oi) Total time for SfWriteOI_ToStream ", sz );
    }
@@ -8242,11 +8242,11 @@ CommitOI_ToFile( zVIEW lpView, zCPCHAR cpcFileName, zLONG lControl )
 
       fnGetApplicationForSubtask( &lpApp, lpView );
       if ( lpApp )
-         strcpy_s( szWork, sizeof( szWork ), lpApp->szObjectDir );
+         strcpy_s( szWork, zsizeof( szWork ), lpApp->szObjectDir );
       else
       {
          lpApp = zGETPTR( AnchorBlock->hSystemApp );
-         strcpy_s( szWork, sizeof( szWork ), lpApp->szObjectDir );
+         strcpy_s( szWork, zsizeof( szWork ), lpApp->szObjectDir );
       }
 
       SysAppendcDirSep( szWork );
@@ -8254,8 +8254,8 @@ CommitOI_ToFile( zVIEW lpView, zCPCHAR cpcFileName, zLONG lControl )
    else
       szWork[ 0 ] = 0;
 
-   strcat_s( szWork, sizeof( szWork ), cpcFileName );
-   SysConvertEnvironmentString( szOpenFileName, sizeof( szOpenFileName ), szWork );
+   strcat_s( szWork, zsizeof( szWork ), cpcFileName );
+   SysConvertEnvironmentString( szOpenFileName, zsizeof( szOpenFileName ), szWork );
 
    // Open the file for the object instance data ... this file really should
    // exist, but it may already be open.  So we will try more than once to
@@ -8978,9 +8978,9 @@ fnActivateEmptyObjectInstance( LPTASK    lpCurrentTask,
    lpViewOI->hAllocTask         = hInstanceOwningTask;
 
    // Put date time stamp into View OI record.
-   SysGetDateTime( szDateTime, sizeof( szDateTime ) );
+   SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
    UfStringToDateTime( szDateTime, (LPDATETIME) &(lpViewOI->DateTime) );
-   strcpy_s( lpViewOI->szRelease, sizeof( lpViewOI->szRelease ), szlReleaseCompatible ); // initialize release for compatiblity
+   strcpy_s( lpViewOI->szRelease, zsizeof( lpViewOI->szRelease ), szlReleaseCompatible ); // initialize release for compatiblity
 
    // Mark View OI as read only if requested, and the View also ...
    if ( lControl & zREADONLY )
@@ -9500,7 +9500,7 @@ fnCheckLocksOnTwins( LPTASK           lpCurrentTask,
    {
       // We are checking a LOD level lock so we set LockName to the name of
       // the LOD.
-      strcpy_s( szLockName, sizeof( szLockName ), lpViewOD->szName );
+      strcpy_s( szLockName, zsizeof( szLockName ), lpViewOD->szName );
    }
    else
    {
@@ -9509,7 +9509,7 @@ fnCheckLocksOnTwins( LPTASK           lpCurrentTask,
       // a LOD and entity name are the same we prefix all entity names with
       // a '@' because it's an invalid character for entity names.  This
       // insures that the LockName for the entity does not match a LOD name.
-      sprintf_s( szLockName, sizeof( szLockName ), "@%s", lpViewEntity->szName );
+      sprintf_s( szLockName, zsizeof( szLockName ), "@%s", lpViewEntity->szName );
    }
 
    // Create EntitySpec and QualAttribs.  This creates a qual that
@@ -9571,17 +9571,17 @@ fnCheckLocksOnTwins( LPTASK           lpCurrentTask,
             // read-only views so don't allow activate.
 
             if ( bLOD_Lock )
-               sprintf_s( szWhat, sizeof( szWhat ), "LOD '%s' is locked", lpViewOD->szName );
+               sprintf_s( szWhat, zsizeof( szWhat ), "LOD '%s' is locked", lpViewOD->szName );
             else
-               sprintf_s( szWhat, sizeof( szWhat ), "Entity '%s' is locked", lpViewEntity->szName );
+               sprintf_s( szWhat, zsizeof( szWhat ), "Entity '%s' is locked", lpViewEntity->szName );
 
             GetAddrForAttribute( &pch, vLock, "ZeidonLock", "UserName" );
-            GetStringFromAttribute( szMsg, sizeof( szMsg ), vLock, "ZeidonLock", "Timestamp" );
-            UfFormatDateTime( szDate, sizeof( szDate ), szMsg, "YYYY-M-D HH:MI:SS" );
+            GetStringFromAttribute( szMsg, zsizeof( szMsg ), vLock, "ZeidonLock", "Timestamp" );
+            UfFormatDateTime( szDate, zsizeof( szDate ), szMsg, "YYYY-M-D HH:MI:SS" );
             TraceLineS( "(oi) Object locked by ", pch );
             TraceLineS( "(oi) Object locked on ", szDate );
             TraceLineS( "(oi) Concatenated key = ", szKeyString );
-         // sprintf_s( szMsg, sizeof( szMsg ), "By '%s' on %s", pch, szDate );
+         // sprintf_s( szMsg, zsizeof( szMsg ), "By '%s' on %s", pch, szDate );
          // fnIssueCoreError( lpTask, lpView, 16, 94, 0, szWhat, szMsg );
 
             nRC = zLOCK_ERROR;
@@ -9862,7 +9862,7 @@ fnLoadCachedEntity( LPTASK           lpTask,
       if ( lpTask->nDBHandlerTraceLevel > 0 )
       {
          TraceLineS( "", "" );
-         sprintf_s( szMsg, sizeof( szMsg ), "Entity %s loaded from cache.", lpViewEntity->szName );
+         sprintf_s( szMsg, zsizeof( szMsg ), "Entity %s loaded from cache.", lpViewEntity->szName );
          TraceLineS( szMsg, "" );
          TraceLineS( "", "" );
       }
@@ -10305,7 +10305,7 @@ fnSetLocksOnTwins( LPTASK           lpCurrentTask,
    {
       // We are setting a LOD level lock so we set LockName to the name of
       // the LOD.
-      strcpy_s( szLockName, sizeof( szLockName ), lpViewOD->szName );
+      strcpy_s( szLockName, zsizeof( szLockName ), lpViewOD->szName );
    }
    else
    {
@@ -10315,7 +10315,7 @@ fnSetLocksOnTwins( LPTASK           lpCurrentTask,
       // a '@' because it's an invalid character for entity names.  This
       // insures that the LockName for the entity does not match a LOD name.
       lpViewEntity = zGETPTR( lpFirstEntityInstance->hViewEntity );
-      sprintf_s( szLockName, sizeof( szLockName ), "@%s", lpViewEntity->szName );
+      sprintf_s( szLockName, zsizeof( szLockName ), "@%s", lpViewEntity->szName );
    }
 
    // Loop through each of the root entities and create a locking record.
@@ -10744,7 +10744,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
       {
          if ( pchLine[ 0 ] == 'e' )
          {
-            SysParseLine( szWorkString, sizeof( szWorkString ), &pchLine, pchLine + 1 );
+            SysParseLine( szWorkString, zsizeof( szWorkString ), &pchLine, pchLine + 1 );
             if ( *plControl & zCOMPRESSED )
                nLevel = (zSHORT) zxtol( pchLine );
             else
@@ -10766,7 +10766,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
       {
          // Meta information is information about the OI (as opposed to the
          // info *in* the OI).
-         SysParseLine( szWorkString, sizeof( szWorkString ), &pchLine, pchLine + 1 );
+         SysParseLine( szWorkString, zsizeof( szWorkString ), &pchLine, pchLine + 1 );
          switch ( szWorkString[ 0 ] )
          {
             case 'C':
@@ -10807,7 +10807,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
       else
       if ( pchLine[ 0 ] == 'e' )  // Entity type
       {
-         SysParseLine( szWorkString, sizeof( szWorkString ), &pchLine, pchLine + 1 );
+         SysParseLine( szWorkString, zsizeof( szWorkString ), &pchLine, pchLine + 1 );
          if ( *plControl & zCOMPRESSED )
             nLevel = (zSHORT) zxtol( pchLine );
          else
@@ -11042,7 +11042,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                   zCHAR szFile[ 256 ];
 
                   nFlag = 0;  // we only want to check this once
-                  SysReadZeidonIni( -1, "[Workstation]", "DebugRelink", szFile, sizeof( szFile ) );
+                  SysReadZeidonIni( -1, "[Workstation]", "DebugRelink", szFile, zsizeof( szFile ) );
                   if ( szFile[ 0 ] )
                   {
                      FileDataRecord  *pActFileData = (FileDataRecord *) lpvData;
@@ -11284,9 +11284,9 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
             {
                zCHAR sz[ 400 ];
 
-               strcpy_s( sz, sizeof( sz ), lpViewEntity->szName );
-               strcat_s( sz, sizeof( sz ), "." );
-               strcat_s( sz, sizeof( sz ), szWorkString );
+               strcpy_s( sz, zsizeof( sz ), lpViewEntity->szName );
+               strcat_s( sz, zsizeof( sz ), "." );
+               strcat_s( sz, zsizeof( sz ), szWorkString );
 
                //  "KZOEE104 - Invalid Attribute name for Entity"
                (*lpfnStreamFunc)( lpView, lpvData, (zPPCHAR) sz, 0, 104 );
@@ -11507,7 +11507,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
          if ( *plControl & zACTIVATE_ROOTONLY )
             continue;
 
-         SysParseLine( szWorkString, sizeof( szWorkString ), &pchLine, pchLine + 1 );
+         SysParseLine( szWorkString, zsizeof( szWorkString ), &pchLine, pchLine + 1 );
          if ( *plControl & zCOMPRESSED )
          {
             lLinkTgt = zxtol( szWorkString );
@@ -11668,7 +11668,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
          }
 
          // Get entity hier number and absolute instance position from record.
-         SysParseLine( szWorkString, sizeof( szWorkString ), &pchLine, pchLine + 1 );
+         SysParseLine( szWorkString, zsizeof( szWorkString ), &pchLine, pchLine + 1 );
          nHierNbr = (zSHORT) zxtol( szWorkString );
          l = zxtol( pchLine );
 
@@ -11952,7 +11952,7 @@ z1000-Zeidon    ACCOUNT  TZWDLGSO 04/18/07   09:18:42 1.0a2
       // header into the view (object instance) release value. (dks 3/5/96)
       if ( zstrlen( pchLine ) > 55 )
       {
-         strncpy_s( lpViewOI->szRelease, sizeof( lpViewOI->szRelease ), pchLine + 54, 8 );
+         strncpy_s( lpViewOI->szRelease, zsizeof( lpViewOI->szRelease ), pchLine + 54, 8 );
          lpViewOI->szRelease[ 8 ] = 0;
       }
 
@@ -12011,7 +12011,7 @@ z1000-Zeidon    ACCOUNT  TZWDLGSO 04/18/07   09:18:42 1.0a2
       // header into the view (object instance) release value. (dks 3/5/96)
       if ( zstrlen( pchLine ) > 50 )
       {
-         strncpy_s( lpViewOI->szRelease, sizeof( lpViewOI->szRelease ), pchLine + 49, 8 );
+         strncpy_s( lpViewOI->szRelease, zsizeof( lpViewOI->szRelease ), pchLine + 49, 8 );
          lpViewOI->szRelease[ 8 ] = 0;
       }
 
@@ -12181,7 +12181,7 @@ EndOfFunction:
 
       if ( zstrcmp( lpViewOD->szName, "TZCMULWO" ) != 0 )
       {
-         sprintf_s( sz, sizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
+         sprintf_s( sz, zsizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
                     (double) (SysGetTickCount( ) - lTickCount) / zTICKS_PER_SECOND );
          TraceLineS( "(oi) Total time for SfActivateOI_FromStream ", sz );
       }
@@ -13411,7 +13411,7 @@ OrderEntityForView( zVIEW     zView,
    lpViewAttrListPtr = lpViewAttrList;
 
    lTemp = zstrlen( cpcOrderKeys ) + 1;
-   if ( lTemp > sizeof( szWorkString ) )
+   if ( lTemp > zsizeof( szWorkString ) )
    {
       pchWSBuffer = (zPCHAR) fnAllocDataspace( lpCurrentTask->hFirstDataHeader,
                                                lTemp, 0, 0, iBuffer );
@@ -13638,12 +13638,11 @@ fnOrderOI_ByDefaultAttribs( zVIEW lpView )
    zSHORT             nRC;
 
    // Fill EntityList with zeros.
-   zmemset( (zPVOID) EntityList, 0,
-            sizeof( struct EntityListStruct ) * MAX_SEQ_ENTS );
+   zmemset( (zPVOID) EntityList, 0, sizeof( struct EntityListStruct ) * MAX_SEQ_ENTS );
    lEntityCnt = 0;
 
-   lpViewCsr        = zGETPTR( lpView->hViewCsr );
-   lpViewOI         = zGETPTR( lpViewCsr->hViewOI );
+   lpViewCsr = zGETPTR( lpView->hViewCsr );
+   lpViewOI  = zGETPTR( lpViewCsr->hViewOI );
 
    // For each of the entity instances, sort all groups of twin entities if
    // the entity instance is the first twin.

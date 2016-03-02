@@ -304,7 +304,7 @@ HFONT CCodeTipHighlightCtrl::GetHighlightFont()
       // Create a new bold font based on text font
       LOGFONT lf = {0};
 
-      GetObject( __GetFont(), sizeof(LOGFONT), &lf );
+      GetObject( __GetFont(), zsizeof(LOGFONT), &lf );
 
       lf.lfWeight = FW_BOLD;
       m_hfHighlight = ::CreateFontIndirect( &lf );

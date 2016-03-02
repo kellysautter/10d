@@ -3204,7 +3204,7 @@ ZOLB_PopupMenu::AddSpawnItem( zCPCHAR cpcText, const int nCmd )
    SpawnItem *p = new SpawnItem;
    ASSERT( p );
    m_pSpawnItem[ m_nSpawnItem ] = p;
-   strcpy_s( p->szText, sizeof( p->szText ), cpcText );
+   strcpy_s( p->szText, zsizeof( p->szText ), cpcText );
    p->nCmd = nCmd;
 
    if ( nCmd >= 0 )

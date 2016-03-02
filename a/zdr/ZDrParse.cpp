@@ -1626,7 +1626,7 @@ ZHTML_ParseHTML::ConstructTag( zVIEW vSrc, CString& csPage, CString& csLastTag )
             nRC = SetCursorFirstEntity( vSrc, m_csAttributeEntity, 0 );
             while ( nRC == zCURSOR_SET )
             {
-               GetStringFromAttribute( szDelimiter, sizeof( szDelimiter ), vSrc, m_csAttributeEntity, m_csAttributeDelimiter );
+               GetStringFromAttribute( szDelimiter, zsizeof( szDelimiter ), vSrc, m_csAttributeEntity, m_csAttributeDelimiter );
                GetAddrForAttribute( &pch, vSrc, m_csAttributeEntity, m_csAttributeName );
                GetAddrForAttribute( &pchValue, vSrc, m_csAttributeEntity, m_csAttributeValue );
                csPage += ' ';

@@ -914,7 +914,7 @@ extern int inflateInit2_ OF((z_stream *strm, int  windowBits,
         inflateInit_((strm),             COMPRESS_VERSION, sizeof(z_stream))
 #define deflateInit2(strm, level, method, windowBits, memLevel, strategy) \
         deflateInit2_((strm),(level),(method),(windowBits),(memLevel),\
-            (strategy),      COMPRESS_VERSION, sizeof(z_stream))
+            (strategy),      COMPRESS_VERSION, zsizeof(z_stream))
 #define inflateInit2(strm, windowBits) \
         inflateInit2_((strm), (windowBits), COMPRESS_VERSION, sizeof(z_stream))
 

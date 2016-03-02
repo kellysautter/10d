@@ -158,10 +158,10 @@ void CPropInfo::AddHotKey( CM_HOTKEY &cmHotKey, WORD wCmd )
 
    if ( bAppend )
    {
-      m_pcmAddKey = m_pcmAddKey ? ( CM_HOTKEY * ) realloc( m_pcmAddKey, sizeof( CM_HOTKEY ) * ( m_nAddCount + 1 ) ) :
-                            ( CM_HOTKEY * ) malloc( sizeof( CM_HOTKEY ) );
-      m_pwAddCmd = m_pwAddCmd ? ( WORD * ) realloc( m_pwAddCmd, sizeof( WORD ) * ( m_nAddCount + 1 ) ) :
-                            ( WORD * ) malloc( sizeof( WORD ) );
+      m_pcmAddKey = m_pcmAddKey ? ( CM_HOTKEY * ) realloc( m_pcmAddKey, zsizeof( CM_HOTKEY ) * ( m_nAddCount + 1 ) ) :
+                            ( CM_HOTKEY * ) malloc( zsizeof( CM_HOTKEY ) );
+      m_pwAddCmd = m_pwAddCmd ? ( WORD * ) realloc( m_pwAddCmd, zsizeof( WORD ) * ( m_nAddCount + 1 ) ) :
+                            ( WORD * ) malloc( zsizeof( WORD ) );
       m_pcmAddKey[ m_nAddCount ] = cmHotKey;
       m_pwAddCmd[ m_nAddCount++ ] = wCmd;
    }
@@ -197,8 +197,8 @@ void CPropInfo::RemoveHotKey( CM_HOTKEY &cmHotKey )
 
    if ( bAppend )
    {
-      m_pcmRemoveKey = m_pcmRemoveKey ? ( CM_HOTKEY * ) realloc( m_pcmRemoveKey, sizeof( CM_HOTKEY ) * ( m_nRemoveCount + 1 ) ) :
-                            ( CM_HOTKEY * ) malloc( sizeof( CM_HOTKEY ) );
+      m_pcmRemoveKey = m_pcmRemoveKey ? ( CM_HOTKEY * ) realloc( m_pcmRemoveKey, zsizeof( CM_HOTKEY ) * ( m_nRemoveCount + 1 ) ) :
+                            ( CM_HOTKEY * ) malloc( zsizeof( CM_HOTKEY ) );
       m_pcmRemoveKey[ m_nRemoveCount++ ] = cmHotKey;
    }
 }
@@ -307,7 +307,7 @@ void CPropInfo::CommitChanges( eProps eWhat )
       else if ( eWhat == eColorFont )
       {
          CM_COLORS Colors;
-         ZeroMemory( &Colors, sizeof( Colors ) );
+         ZeroMemory( &Colors, zsizeof( Colors ) );
          Colors.crWindow = m_crFore[ IDX_WINDOW ];
          Colors.crLeftMargin = m_crFore[ IDX_LMARGIN ];
          Colors.crBookmark = m_crFore[ IDX_BOOKMARK ];
@@ -345,7 +345,7 @@ void CPropInfo::CommitChanges( eProps eWhat )
          pCtrl->m_bOwnFont = TRUE;
 
          CM_FONTSTYLES FontStyles;
-         ZeroMemory( &FontStyles, sizeof( FontStyles ) );
+         ZeroMemory( &FontStyles, zsizeof( FontStyles ) );
          FontStyles.byText = m_byFontStyles[ IDX_TEXT ];
          FontStyles.byNumber = m_byFontStyles[ IDX_NUMBER ];
          FontStyles.byKeyword = m_byFontStyles[ IDX_KEYWORD ];
@@ -892,7 +892,7 @@ BOOL CALLBACK PageColorFontDlgProc( HWND hWndDlg, UINT uMsg, WPARAM wParam, LPAR
             {
                if ( wCmd == BN_CLICKED )
                {
-                  CHOOSEFONT cf = { sizeof( CHOOSEFONT ), GetParent( hWndDlg ), NULL, &pInfo->m_lf,
+                  CHOOSEFONT cf = { zsizeof( CHOOSEFONT ), GetParent( hWndDlg ), NULL, &pInfo->m_lf,
                                     0,
                                 CF_INITTOLOGFONTSTRUCT | CF_FIXEDPITCHONLY | CF_SCREENFONTS | CF_NOVERTFONTS | CF_SELECTSCRIPT,
                                 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -1864,7 +1864,7 @@ void CEdit::Properties()
       HGLOBAL hKeyboardTemplate   = LoadDialogTemplate( MAKEINTRESOURCE( IDD_PROPPAGE_KEYBOARD ) );
       HGLOBAL hMiscTemplate      = LoadDialogTemplate( MAKEINTRESOURCE( IDD_PROPPAGE_MISC ) );
 
-      PROPSHEETPAGE Pages[] = { { sizeof( PROPSHEETPAGE ),
+      PROPSHEETPAGE Pages[] = { { zsizeof( PROPSHEETPAGE ),
                            PSP_USEICONID | PSP_RTLREADING | PSP_DLGINDIRECT,
                            hInstance,
                            ( LPCTSTR ) GlobalLock( hColorFontTemplate ),
@@ -1874,7 +1874,7 @@ void CEdit::Properties()
                            ( LPARAM ) &Info,
                            NULL,
                            NULL },
-                          { sizeof( PROPSHEETPAGE ),
+                          { zsizeof( PROPSHEETPAGE ),
                            PSP_USEICONID | PSP_RTLREADING | PSP_DLGINDIRECT,
                            hInstance,
                            ( LPCTSTR ) GlobalLock( hTabsTemplate ),
@@ -1884,7 +1884,7 @@ void CEdit::Properties()
                            ( LPARAM ) &Info,
                            NULL,
                            NULL },
-                          { sizeof( PROPSHEETPAGE ),
+                          { zsizeof( PROPSHEETPAGE ),
                            PSP_USEICONID | PSP_RTLREADING | PSP_DLGINDIRECT,
                            hInstance,
                            ( LPCTSTR ) GlobalLock( hKeyboardTemplate ),
@@ -1894,7 +1894,7 @@ void CEdit::Properties()
                            ( LPARAM ) &Info,
                            NULL,
                            NULL },
-                          { sizeof( PROPSHEETPAGE ),
+                          { zsizeof( PROPSHEETPAGE ),
                            PSP_USEICONID | PSP_RTLREADING | PSP_DLGINDIRECT,
                            hInstance,
                            ( LPCTSTR ) GlobalLock( hMiscTemplate ),
@@ -1905,7 +1905,7 @@ void CEdit::Properties()
                            NULL,
                            NULL } };
 
-      PROPSHEETHEADER Sheet = { sizeof( PROPSHEETHEADER ),
+      PROPSHEETHEADER Sheet = { zsizeof( PROPSHEETHEADER ),
                           PSH_PROPSHEETPAGE | PSH_RTLREADING | PSH_USECALLBACK,
                           m_hWndDlgParent,
                           hInstance,
@@ -1948,7 +1948,7 @@ void CEdit::GetTipPoint( POINT& pt )
       LOGFONT lf = {0};
       HDC hdc = GetDC( m_hWnd );
 
-      GetObject( hFont, sizeof(LOGFONT), &lf );
+      GetObject( hFont, zsizeof(LOGFONT), &lf );
       pt.y += -MulDiv( lf.lfHeight, GetDeviceCaps( hdc, LOGPIXELSY ), 72 );
 
       ReleaseDC( m_hWnd, hdc );

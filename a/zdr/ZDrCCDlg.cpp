@@ -76,7 +76,7 @@ ZRememberComboBox::LoadRegEntries( )
       {
          _stprintf( szValName, _T( "%d"), dw + 1);
 
-         dwSize = 256 * sizeof( TCHAR);
+         dwSize = 256 * sizeof( TCHAR );
 
          retVal = RegQueryValueEx( hKey,
                                   szValName,

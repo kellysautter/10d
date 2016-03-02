@@ -2465,7 +2465,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       //:// BUT JUST IN CASE allow an INI to continue to use this code
       //:SysReadZeidonIni( -1, "[Debug]",
       //:                  "IgnoreReportFix011201(ExtraDtlHdr)", szINI )
-      SysReadZeidonIni( -1, "[Debug]", "IgnoreReportFix011201(ExtraDtlHdr)", szINI, sizeof( szINI ) );
+      SysReadZeidonIni( -1, "[Debug]", "IgnoreReportFix011201(ExtraDtlHdr)", szINI, zsizeof( szINI ) );
       //:IF szINI = "Y"
       if ( ZeidonStringCompare( szINI, 1, 0, "Y", 1, 0, 33 ) == 0 )
       {
@@ -4509,7 +4509,7 @@ oTZRPSRCO_FormatGroupOnPage( zVIEW     vReportDef,
    //:CreateViewFromViewForTask( vReportDefTemp, vReportDef, 0 )
    CreateViewFromViewForTask( &vReportDefTemp, vReportDef, 0 );
    //:GetStringFromAttribute( szTag, vReportDef, "Group", "Tag" )
-   GetStringFromAttribute( szTag, sizeof( szTag ), vReportDef, "Group", "Tag" );
+   GetStringFromAttribute( szTag, zsizeof( szTag ), vReportDef, "Group", "Tag" );
    //:nRC = SetCursorFirstEntityByString( vReportDefTemp, "Group",
    //:                                    "OverlayTag", szTag, "" )
    nRC = SetCursorFirstEntityByString( vReportDefTemp, "Group", "OverlayTag", szTag, "" );
@@ -5750,7 +5750,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
    //:szWorkString = szWorkString + "PrintDraftWithoutForm"
    ZeidonStringConcat( szWorkString, 1, 0, "PrintDraftWithoutForm", 1, 0, 32767 );
    //:SysReadZeidonIni( -1, "[Workstation]", szWorkString, szOverrideHide )
-   SysReadZeidonIni( -1, "[Workstation]", szWorkString, szOverrideHide, sizeof( szOverrideHide ) );
+   SysReadZeidonIni( -1, "[Workstation]", szWorkString, szOverrideHide, zsizeof( szOverrideHide ) );
 
    //:lPrintFlags = vReportDef.Report.PrintFlags
    GetIntegerFromAttribute( &lPrintFlags, vReportDef, "Report", "PrintFlags" );
@@ -7430,13 +7430,13 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               //:"continued for an entity Detail Group." )
                               TraceLineS( "WARNING: a multiline text field can ONLY be ", "continued for an entity Detail Group." );
                               //:TraceLineS( "         GroupSet: ", vReportDef.GroupSet.Tag )
-                              GetStringFromAttribute( szTempString_0, sizeof( szTempString_0 ), vReportDef, "GroupSet", "Tag" );
+                              GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vReportDef, "GroupSet", "Tag" );
                               TraceLineS( "         GroupSet: ", szTempString_0 );
                               //:TraceLineS( "         Group   : ", vReportDef.Group.Tag )
-                              GetStringFromAttribute( szTempString_1, sizeof( szTempString_1 ), vReportDef, "Group", "Tag" );
+                              GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vReportDef, "Group", "Tag" );
                               TraceLineS( "         Group   : ", szTempString_1 );
                               //:TraceLineS( "         Control : ", vReportDef.Control.Tag )
-                              GetStringFromAttribute( szTempString_2, sizeof( szTempString_2 ), vReportDef, "Control", "Tag" );
+                              GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), vReportDef, "Control", "Tag" );
                               TraceLineS( "         Control : ", szTempString_2 );
                               //:TraceLineI( "         Text truncated to (chars): ",
                               //:lNextWord )

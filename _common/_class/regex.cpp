@@ -102,7 +102,7 @@ init_syntax_once ()
    if (done)
      return;
 
-   bzero (re_syntax_table, sizeof re_syntax_table);
+   bzero (re_syntax_table, zsizeof re_syntax_table);
 
    for (c = 'a'; c <= 'z'; c++)
      re_syntax_table[c] = Sword;
@@ -313,9 +313,9 @@ char *alloca ( size_t );
   (size1 && string1 <= (ptr) && (ptr) <= string1 + size1)
 
 /* (Re)Allocate N items of type T using malloc, or fail.  */
-#define TALLOC(n, t) ((t *) malloc ((n) * sizeof (t)))
-#define RETALLOC(addr, n, t) ((addr) = (t *) realloc ( (char*)addr, (n) * sizeof (t)))
-#define REGEX_TALLOC(n, t) ((t *) REGEX_ALLOCATE ((n) * sizeof (t)))
+#define TALLOC(n, t) ((t *) malloc ((n) * zsizeof (t)))
+#define RETALLOC(addr, n, t) ((addr) = (t *) realloc ( (char*)addr, (n) * zsizeof (t)))
+#define REGEX_TALLOC(n, t) ((t *) REGEX_ALLOCATE ((n) * zsizeof (t)))
 
 #define BYTEWIDTH 8 /* In bits.  */
 
@@ -2408,7 +2408,7 @@ typedef struct
 #define INIT_FAIL_STACK()                 \
   do {                           \
     fail_stack.stack = (fail_stack_elt_t *)           \
-      REGEX_ALLOCATE (INIT_FAILURE_ALLOC * sizeof (fail_stack_elt_t));  \
+      REGEX_ALLOCATE (INIT_FAILURE_ALLOC * zsizeof (fail_stack_elt_t)); \
                            \
     if (fail_stack.stack == NULL)               \
       return -2;                    \
@@ -2430,8 +2430,8 @@ typedef struct
    ? 0                           \
    : ((fail_stack).stack = (fail_stack_elt_t *)          \
         REGEX_REALLOCATE ((fail_stack).stack,            \
-          (fail_stack).size * sizeof (fail_stack_elt_t),    \
-          ((fail_stack).size << 1) * sizeof (fail_stack_elt_t)),  \
+          (fail_stack).size * zsizeof (fail_stack_elt_t),   \
+          ((fail_stack).size << 1) * zsizeof (fail_stack_elt_t)), \
                            \
       (fail_stack).stack == NULL             \
       ? 0                        \
@@ -2934,7 +2934,7 @@ re_compile_fastmap (
    ENDS.  Subsequent matches using PATTERN_BUFFER and REGS will use
    this memory for recording register information.  STARTS and ENDS
    must be allocated using the malloc library routine, and must each
-   be at least NUM_REGS * sizeof (gregoff_t) bytes long.
+   be at least NUM_REGS * zsizeof (gregoff_t) bytes long.
 
    If NUM_REGS == 0, then subsequent matches should allocate their own
    register data.
@@ -5033,7 +5033,7 @@ regerror (
   size_t msg_size;
 
   if (errcode < 0
-      || errcode >= (sizeof (re_error_msg) / sizeof (re_error_msg[0])))
+      || errcode >= (zsizeof (re_error_msg) / zsizeof (re_error_msg[0])))
     /* Only error codes returned by the rest of the code should be passed
        to this routine.  If we are given anything else, or if other regex
        code generates an invalid error code, then the program has a bug.

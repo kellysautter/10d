@@ -539,7 +539,7 @@ AddGetOrSetAttribute( zVIEW  vSubtask,
    zLONG lOperZKey;
    zVIEW vTargetView;
 
-// memset( sParmListExt, 0, sizeof( sParmListExt ) );
+// memset( sParmListExt, 0, zsizeof( sParmListExt ) );
 
    CreateEntity( g_lpExprView, "Expression", zPOS_AFTER );
    CreateViewFromViewForTask( &vTargetView, g_lpExprView, 0 );
@@ -688,7 +688,7 @@ AddGetOrSetAttributeWithString( zVIEW  vSubtask,
    zLONG lRCID;
    zLONG lOperZKey;
 
-// memset( sParmListExt, 0, sizeof( sParmListExt ) );
+// memset( sParmListExt, 0, zsizeof( sParmListExt ) );
 // lParmListIndex = 0;
 
    lLocal3Code = 0;
@@ -817,7 +817,7 @@ CreateOperationCallUsingAQ( zVIEW  vSubtask,
    zLONG lParmListIndex = 0;
    zLONG lOperZKey;
 
-// memset( sParmListExt, 0, sizeof( sParmListExt ) );
+// memset( sParmListExt, 0, zsizeof( sParmListExt ) );
 
    lOperZKey = GetOperationZKey( vSubtask, qZEIDONOPERATION, pchOperationName );
 
@@ -1021,7 +1021,7 @@ AddGetVariableFromAttribute( zVIEW  vSubtask,
    zLONG lTempVariableID;
    zCHAR szVariableLth[ 12 ];
 
-// memset( sParmListExt, 0, sizeof( sParmListExt ) );
+// memset( sParmListExt, 0, zsizeof( sParmListExt ) );
 // lParmListIndex = 0;
 
    lLocal3Code = 0;
@@ -1084,7 +1084,7 @@ AddGetVariableFromAttribute( zVIEW  vSubtask,
    // Add variable length and comma. First position on variable.
    lParmListIndex++;  // variable length
    SetCursorFirstEntityByInteger( g_lpPIView, "Variable", "ID", lTempVariableID, 0 );
-   GetStringFromAttribute( szVariableLth, sizeof( szVariableLth ), g_lpPIView, "Variable", "NElements" );
+   GetStringFromAttribute( szVariableLth, zsizeof( szVariableLth ), g_lpPIView, "Variable", "NElements" );
 
    ADDEXPRESSIONENTRYTOSTRING( qCONSTANT, 0, qTINTEGER, szVariableLth, lVariableID, 0 );  // add variable length
    ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ",", qCOMMA, 0 );

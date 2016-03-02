@@ -56,7 +56,7 @@ void main ( int argc, char *argv[], char *envp[] )
             exit( 1 );
          }
 
-         while ( fgets( szFile, sizeof( szFile ), f ) )
+         while ( fgets( szFile, zsizeof( szFile ), f ) )
          {
             if ( remove( szFile ) == 0 )
                printf( "File %s deleted.\n", szFile );

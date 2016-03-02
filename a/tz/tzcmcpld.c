@@ -344,7 +344,7 @@ zwfnTZCMCPLD_IfZeidonToolOpen( zVIEW vSubtask )
       // Check the name of the dialog associated with the task.  If it begins
       // with TZ then it's a Zeidon Tools task.  We allow the object browser
       // to run and we have to ignore the current task.
-      SfGetTaskInfo( szDialogName, sizeof( szDialogName ), zTASK_DIALOG, lpTask );
+      SfGetTaskInfo( szDialogName, zsizeof( szDialogName ), zTASK_DIALOG, lpTask );
 
       // We allow non-Zeidon tasks...
       if ( zstrncmpi( szDialogName, "TZ", 2 ) != 0 )
@@ -439,22 +439,22 @@ zwfnTZCMCPLD_ActivateREPO_Enqueue( zVIEW vSubtask )
       OrderEntityForView( vTZCMQSYO, "SysEnqueue", "TimeStamp" );
       SetCursorLastEntity( vTZCMQSYO, "SysEnqueue", "" );
 
-      strcpy_s( szMsg, sizeof( szMsg ), "The repository was enqueued \non\t" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "The repository was enqueued \non\t" );
       GetStringFromAttributeByContext( szDateEnqueue,
                                        vTZCMQSYO, "SysEnqueue", "TimeStamp",
                                        "DD.MM.YYYY HH:MM:SS", 19 );
-      strcat_s( szMsg, sizeof( szMsg ), szDateEnqueue );
-      strcat_s( szMsg, sizeof( szMsg ), "\nby\t" );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+      strcat_s( szMsg, zsizeof( szMsg ), szDateEnqueue );
+      strcat_s( szMsg, zsizeof( szMsg ), "\nby\t" );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                            vTZCMQSYO, "SysEnqueue", "UserName" );
-      strcat_s( szMsg, sizeof( szMsg ), " (" );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+      strcat_s( szMsg, zsizeof( szMsg ), " (" );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                            vTZCMQSYO, "SysEnqueue", "UserDesc" );
-      strcat_s( szMsg, sizeof( szMsg ), "). \n\n " );
-      strcat_s( szMsg, sizeof( szMsg ), "Respond YES to exit the dialog now.\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "Responding NO will allow you into the dialog,\n" );
-      strcat_s( szMsg, sizeof( szMsg ), "however, any current enqueues will be deleted.\n" );
-      strcat_s( szMsg, sizeof( szMsg ), " Exit Dialog Now?" );
+      strcat_s( szMsg, zsizeof( szMsg ), "). \n\n " );
+      strcat_s( szMsg, zsizeof( szMsg ), "Respond YES to exit the dialog now.\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "Responding NO will allow you into the dialog,\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), "however, any current enqueues will be deleted.\n" );
+      strcat_s( szMsg, zsizeof( szMsg ), " Exit Dialog Now?" );
 
       if ( MessagePrompt( vSubtask, "CM00103", "Configuration Management",
                           szMsg, zBEEP, zBUTTONS_YESNO,
@@ -735,8 +735,8 @@ zwTZCMCPLD_CheckLoginValues( zVIEW vSubtask )
      return( -1 );
    }
 
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMWIPO, "ROOT", "UserName" );
-   GetStringFromAttribute( szPassword, sizeof( szPassword ), vTZCMWIPO, "ROOT", "Password" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMWIPO, "ROOT", "UserName" );
+   GetStringFromAttribute( szPassword, zsizeof( szPassword ), vTZCMWIPO, "ROOT", "Password" );
 
    if ( zwfnTZCMCPLD_IsSysadm( vSubtask ) )
    {
@@ -814,18 +814,18 @@ zwTZCMCPLD_CheckRepoEnqueue( zVIEW vSubtask )
 
       if ( nRC >= zCURSOR_SET )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Be careful, the repository was enqueued \non\t" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Be careful, the repository was enqueued \non\t" );
          GetStringFromAttributeByContext( szDateEnqueue,
                                           vTZCMQSYO_All, "SysEnqueue", "TimeStamp",
                                           "DD.MM.YYYY HH:MM:SS", 19 );
-         strcat_s( szMsg, sizeof( szMsg ), szDateEnqueue );
-         strcat_s( szMsg, sizeof( szMsg ), "\nby\t" );
-         GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+         strcat_s( szMsg, zsizeof( szMsg ), szDateEnqueue );
+         strcat_s( szMsg, zsizeof( szMsg ), "\nby\t" );
+         GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                                  vTZCMQSYO_All, "SysEnqueue", "UserName" );
-         strcat_s( szMsg, sizeof( szMsg ), " (" );
-         GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+         strcat_s( szMsg, zsizeof( szMsg ), " (" );
+         GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                                  vTZCMQSYO_All, "SysEnqueue", "UserDesc" );
-         strcat_s( szMsg, sizeof( szMsg ), ")." );
+         strcat_s( szMsg, zsizeof( szMsg ), ")." );
 
          MessageSend( vSubtask, "CM00107", "Configuration Management",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
@@ -852,7 +852,7 @@ zwTZCMCPLD_SetRepoEnqueue( zVIEW vSubtask )
                                       vSubtask, zSINGLE );
    CreateEntity( vTZCMQSYO, "SysEnqueue", zPOS_AFTER );
 
-   SysGetDateTime( szTimeStamp, sizeof( szTimeStamp ) );
+   SysGetDateTime( szTimeStamp, zsizeof( szTimeStamp ) );
    SetAttributeFromString( vTZCMQSYO, "SysEnqueue", "TimeStamp", szTimeStamp );
    SetAttributeFromAttribute( vTZCMQSYO, "SysEnqueue", "UserName",
                               vTZCMWIPO, "ROOT", "UserName" );
@@ -1087,10 +1087,10 @@ zwTZCMCPLD_DeleteCPL( zVIEW vSubtask )
       return( 0 );
    }
 
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPL", "Name" );
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete CPL '" );
-   strcat_s( szMsg, sizeof( szMsg ), szName );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPL", "Name" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete CPL '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
 
    if ( MessagePrompt( vSubtask,  "CM00110", "Configuration Management", szMsg,
                        zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 ) == zRESPONSE_NO )
@@ -1188,10 +1188,10 @@ zwTZCMCPLD_DeleteCPLR( zVIEW vSubtask )
    GetViewByName( &vTZCMCPRO, "TZCMCPRO", vSubtask, zLEVEL_TASK );
 
    // Ask the operator if it is ok to delete.
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPRO, "CPLR", "Name" );
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete CPLR '" );
-   strcat_s( szMsg, sizeof( szMsg ), szName );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPRO, "CPLR", "Name" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete CPLR '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
 
    if ( MessagePrompt( vSubtask, "CM00111", "Configuration Management", szMsg,
                        zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 ) == zRESPONSE_NO )
@@ -1255,10 +1255,10 @@ zwTZCMCPLD_DeleteCPLR_WithEnq( zVIEW vSubtask )
    GetViewByName( &vTZCMCPRO, "TZCMCPRO", vSubtask, zLEVEL_TASK );
 
    // Ask the operator if it is ok to delete.
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete CPLR '" );
-   strcat_s( szMsg, sizeof( szMsg ), szName );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete CPLR '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
 
    if ( MessagePrompt( vSubtask, "CM00111", "Configuration Management", szMsg,
                        zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 ) == zRESPONSE_NO )
@@ -1346,11 +1346,11 @@ zwTZCMCPLD_DeleteMetaFromListAll( zVIEW vSubtask )
    {
       if ( CheckExistenceOfEntity( vCPLR_AllMetas, "UserMetaStatus" ) >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vCPLR_AllMetas, "Z_MetaDef", "Name" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Meta '" );
-         strcat_s( szMsg, sizeof( szMsg ), szName );
-         strcat_s( szMsg, sizeof( szMsg ), "' could not be deleted because it is checked out.\n" );
-         strcat_s( szMsg, sizeof( szMsg ), "Remove check out status before deleting." );
+         GetStringFromAttribute( szName, zsizeof( szName ), vCPLR_AllMetas, "Z_MetaDef", "Name" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Meta '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' could not be deleted because it is checked out.\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "Remove check out status before deleting." );
          MessageSend( vSubtask, "CM00145", "Configuration Management",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1424,11 +1424,11 @@ zwTZCMCPLD_DeleteMetaFromList( zVIEW vSubtask )
    {
       if ( CheckExistenceOfEntity( vCPLR_MetaList, "UserMetaStatus" ) >= zCURSOR_SET )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vCPLR_MetaList, "Z_MetaDef", "Name" );
-         strcpy_s( szMsg, sizeof( szMsg ), "Meta '" );
-         strcat_s( szMsg, sizeof( szMsg ), szName );
-         strcat_s( szMsg, sizeof( szMsg ), "' could not be deleted because it is checked out.\n" );
-         strcat_s( szMsg, sizeof( szMsg ), "Remove check out status before deleting." );
+         GetStringFromAttribute( szName, zsizeof( szName ), vCPLR_MetaList, "Z_MetaDef", "Name" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Meta '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' could not be deleted because it is checked out.\n" );
+         strcat_s( szMsg, zsizeof( szMsg ), "Remove check out status before deleting." );
          MessageSend( vSubtask, "CM00145", "Configuration Management",
                       szMsg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1471,10 +1471,10 @@ zwTZCMCPLD_DeleteMeta( zVIEW vSubtask )
    if ( GetViewByName( &vCPLR_AllMetas, "CPLR_AllMetas", vSubtask, zLEVEL_TASK ) < 0 )
       return( -1 );
 
-   GetStringFromAttribute( szName, sizeof( szName ), vCPLR_AllMetas, "Z_MetaDef", "Name" );
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Component '");
-   strcat_s( szMsg, sizeof( szMsg ), szName );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vCPLR_AllMetas, "Z_MetaDef", "Name" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Component '");
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
 
    if ( MessagePrompt( vSubtask, "CM00112", "Configuration Management", szMsg,
                        zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 ) == zRESPONSE_NO )
@@ -1544,11 +1544,11 @@ zwfnTZCMCPLD_DeleteMetas( zVIEW vSubtask )
    if ( nRC != zCURSOR_SET )
       return( 1 );
 
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPRO, "CPLR", "Name" );
-   strcpy_s( szMsg, sizeof( szMsg ), "CPLR " );
-   strcat_s( szMsg, sizeof( szMsg ), szName );
-   strcat_s( szMsg, sizeof( szMsg ), " contains Metas. Deleting\n the CPLR will delete the Components as ");
-   strcat_s( szMsg, sizeof( szMsg ), "well.\nDo you wish to continue with the delete?");
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPRO, "CPLR", "Name" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "CPLR " );
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
+   strcat_s( szMsg, zsizeof( szMsg ), " contains Metas. Deleting\n the CPLR will delete the Components as ");
+   strcat_s( szMsg, zsizeof( szMsg ), "well.\nDo you wish to continue with the delete?");
 
    if ( MessagePrompt( vSubtask, "CM00113", "Configuration Management",
                        szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO,
@@ -1666,7 +1666,7 @@ zwTZCMCPLD_DeleteInstallUser( zVIEW    vSubtask )
 
    if ( SetCursorFirstEntity( vTZCMUSER, "AccessAuthority", "" ) >= zCURSOR_SET )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "You cannot delete a User with current authority." );
+      strcpy_s( szMsg, zsizeof( szMsg ), "You cannot delete a User with current authority." );
       MessageSend( vSubtask, "CM00114", "Configuration Management",
                    szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -1674,13 +1674,13 @@ zwTZCMCPLD_DeleteInstallUser( zVIEW    vSubtask )
    }
 
    // Ask if delete is OK.
-   GetStringFromAttribute( szUserName, sizeof( szUserName ), vTZCMREPO, "User", "Name" );
-   GetStringFromAttribute( szUserDesc, sizeof( szUserDesc ), vTZCMREPO, "User", "Desc" );
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete User '" );
-   strcat_s( szMsg, sizeof( szMsg ), szUserName );
-   strcat_s( szMsg, sizeof( szMsg ), " (" );
-   strcat_s( szMsg, sizeof( szMsg ), szUserDesc );
-   strcat_s( szMsg, sizeof( szMsg ), ")'?" );
+   GetStringFromAttribute( szUserName, zsizeof( szUserName ), vTZCMREPO, "User", "Name" );
+   GetStringFromAttribute( szUserDesc, zsizeof( szUserDesc ), vTZCMREPO, "User", "Desc" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete User '" );
+   strcat_s( szMsg, zsizeof( szMsg ), szUserName );
+   strcat_s( szMsg, zsizeof( szMsg ), " (" );
+   strcat_s( szMsg, zsizeof( szMsg ), szUserDesc );
+   strcat_s( szMsg, zsizeof( szMsg ), ")'?" );
    nRC = MessagePrompt( vSubtask, "CM00140", "Configuration Management",
                         szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 );
 
@@ -1709,7 +1709,7 @@ zwTZCMCPLD_AddInstallUser( zVIEW vSubtask )
    // the SetCursor twice.
    GetViewByName( &vTZCMREPO, "TZCMREPO", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szUserName, sizeof( szUserName ), vTZCMREPO, "User", "Name" );
+   GetStringFromAttribute( szUserName, zsizeof( szUserName ), vTZCMREPO, "User", "Name" );
 
    CreateViewFromViewForTask( &vTZCMREPO_Work, vTZCMREPO, 0 );
    SetCursorFirstEntityByString( vTZCMREPO_Work, "User", "Name", szUserName, "" );
@@ -1728,7 +1728,7 @@ zwTZCMCPLD_AddInstallUser( zVIEW vSubtask )
 
    DropView( vTZCMREPO_Work );
 
-   GetStringFromAttribute( szPassword, sizeof( szPassword ), vTZCMREPO, "User", "Password" );
+   GetStringFromAttribute( szPassword, zsizeof( szPassword ), vTZCMREPO, "User", "Password" );
    if ( zwfnTZCMCPLD_CheckPassword( vSubtask, szPassword ) < 0 )
       return( -1 );
 
@@ -1829,7 +1829,7 @@ zwTZCMCPLD_SetAuthority( zVIEW vSubtask )
          else
          {
             SetAttributeFromString( vTZCMRUWK, "User", "Authority", "" );
-            strcpy_s( szValue, sizeof( szValue ), "" );
+            strcpy_s( szValue, zsizeof( szValue ), "" );
          }
 
          TG_SetCellData( vSubtask, "tgUser", szValue, lRow, 1 );
@@ -1977,7 +1977,7 @@ zwTZCMCPLD_CPLR_OK( zVIEW vSubtask )
    if ( zwfnTZCMCPLD_CheckCPLR_Name( vSubtask, vTZCMCPL, ulZKey ) < 0 )
       return( -1 );
 
-   GetStringFromAttribute( szCPLR_Name, sizeof( szCPLR_Name ), vTZCMCPLR, "CPLR", "Name" );
+   GetStringFromAttribute( szCPLR_Name, zsizeof( szCPLR_Name ), vTZCMCPLR, "CPLR", "Name" );
 
    // If the CPLR is not in the REPO object, include it.
    if ( SetCursorFirstEntityByInteger( vTZCMCPL, "CPLR", "ZKey", ulZKey,
@@ -2166,7 +2166,7 @@ zwfnTZCMCPLD_LoadCPLR( zVIEW vSubtask, zPVIEW vTZCMCPRO, zPCHAR szLodName,
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "CPLR" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-   zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+   zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 
    nRC = ActivateObjectInstance( vTZCMCPRO, szLodName,
@@ -2175,9 +2175,9 @@ zwfnTZCMCPLD_LoadCPLR( zVIEW vSubtask, zPVIEW vTZCMCPRO, zPCHAR szLodName,
 
    if ( nRC < 0 )
    {
-      strcpy_s( szERR_Msg, sizeof( szERR_Msg ), "Unable to Activate CPLR '" );
-      strcat_s( szERR_Msg, sizeof( szERR_Msg ), szName );
-      strcat_s( szERR_Msg, sizeof( szERR_Msg ), "' !" );
+      strcpy_s( szERR_Msg, zsizeof( szERR_Msg ), "Unable to Activate CPLR '" );
+      strcat_s( szERR_Msg, zsizeof( szERR_Msg ), szName );
+      strcat_s( szERR_Msg, zsizeof( szERR_Msg ), "' !" );
       MessageSend( vSubtask, "CM00118", "Configuration Management",
                    szERR_Msg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2230,7 +2230,7 @@ zwfnTZCMCPLD_LoadCPLR_ForViewName( zVIEW  vSubtask, zPCHAR szViewName )
    }
 
    // Set up qualification object and activate CPLR
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
 
    if ( zwfnTZCMCPLD_LoadCPLR( vSubtask, &vTZCMCPLR, szViewName, ulZKey,
                                szName, zSINGLE ) < 0 )
@@ -2242,7 +2242,7 @@ zwfnTZCMCPLD_LoadCPLR_ForViewName( zVIEW  vSubtask, zPCHAR szViewName )
    // Identify the current user in the WIPO object as an administrator
    // depending on how he is set in the CPLR.
    SetAttributeFromInteger( vTZCMWIPO, "ROOT", "CPLR_Administrator", 0 );
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMWIPO, "ROOT", "UserName" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMWIPO, "ROOT", "UserName" );
 
    if ( SetCursorFirstEntityByString( vTZCMCPLR, "User", "Name",
                                       szName, "CPLR" ) >= zCURSOR_SET &&
@@ -2332,7 +2332,7 @@ zwTZCMCPLD_LoadUser( zVIEW    vSubtask )
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "User" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-   zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+   zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 
    nRC = ActivateObjectInstance( &vTZCMUSER, "TZCMUSER",
@@ -2344,10 +2344,10 @@ zwTZCMCPLD_LoadUser( zVIEW    vSubtask )
       // No Error Message for new Users
       if ( GetIncrementalUpdateFlags( vTZCMREPO, "User", zSET_INCR_CREATED ) != 1 )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vTZCMREPO, "User", "Name" );
-         strcpy_s( szERR_Msg, sizeof( szERR_Msg ), "Unable to Activate User '" );
-         strcat_s( szERR_Msg, sizeof( szERR_Msg ), szName );
-         strcat_s( szERR_Msg, sizeof( szERR_Msg ), "'." );
+         GetStringFromAttribute( szName, zsizeof( szName ), vTZCMREPO, "User", "Name" );
+         strcpy_s( szERR_Msg, zsizeof( szERR_Msg ), "Unable to Activate User '" );
+         strcat_s( szERR_Msg, zsizeof( szERR_Msg ), szName );
+         strcat_s( szERR_Msg, zsizeof( szERR_Msg ), "'." );
          MessageSend( vSubtask, "CM00119", "Configuration Management",
                       szERR_Msg,
                       zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -2537,7 +2537,7 @@ zwfnTZCMCPLD_CreateMetaViews( zVIEW vSubtask, zPVIEW vAllMetas, zPVIEW vMetaList
    }
 
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMCPL, "CPLR", "ZKey" );
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
 
    if ( GetViewByName( vAllMetas, "CPLR_AllMetas", vSubtask, zLEVEL_TASK ) < 0 )
    {
@@ -2584,7 +2584,7 @@ zwfnTZCMCPLD_BuildFileView( zVIEW vSubtask, zPVIEW vTZCMFILE )
    if ( CheckExistenceOfEntity( vTZCMCPL, "CPLR" ) >= zCURSOR_SET )
    {
       GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMCPL, "CPLR", "ZKey" );
-      GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
    }
    else
    {
@@ -2740,7 +2740,7 @@ zwfnTZCMCPLD_GetListMeta( zVIEW vSubtask, zVIEW vTZCMCUSR, zVIEW vAllMetas,
    if ( nStatus == 3 )
    {
       if ( CheckExistenceOfEntity( vTZCMCUSR, "User" ) == zCURSOR_SET )
-         GetStringFromAttribute( szName, sizeof( szName ), vTZCMCUSR, "User", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCUSR, "User", "Name" );
       else
          return( lCount );
    }
@@ -2749,11 +2749,11 @@ zwfnTZCMCPLD_GetListMeta( zVIEW vSubtask, zVIEW vTZCMCUSR, zVIEW vAllMetas,
    while ( nRC == zCURSOR_SET )
    {
       lCount++;
-      zltoa( lCount, szMsg + 110, sizeof( szMsg ) - 110 );
-      strcpy_s( szMsg, sizeof( szMsg ), szMsg + 110 );
-      strcat_s( szMsg, sizeof( szMsg ), " of " );
-      zltoa( lCountMetas, szMsg + 110, sizeof( szMsg ) - 110 );
-      strcat_s( szMsg, sizeof( szMsg ), szMsg + 110 );
+      zltoa( lCount, szMsg + 110, zsizeof( szMsg ) - 110 );
+      strcpy_s( szMsg, zsizeof( szMsg ), szMsg + 110 );
+      strcat_s( szMsg, zsizeof( szMsg ), " of " );
+      zltoa( lCountMetas, szMsg + 110, zsizeof( szMsg ) - 110 );
+      strcat_s( szMsg, zsizeof( szMsg ), szMsg + 110 );
       MB_SetMessage( vSubtask, 2, szMsg );
 
       Copy = 0;
@@ -2761,7 +2761,7 @@ zwfnTZCMCPLD_GetListMeta( zVIEW vSubtask, zVIEW vTZCMCUSR, zVIEW vAllMetas,
       {
          if ( CheckExistenceOfEntity( vAllMetas, "UserMetaStatus" ) == zCURSOR_SET )
          {
-            GetStringFromAttribute( szCO_Name, sizeof( szCO_Name ), vAllMetas, "User", "Name" );
+            GetStringFromAttribute( szCO_Name, zsizeof( szCO_Name ), vAllMetas, "User", "Name" );
             if ( zstrcmp( szName, szCO_Name ) == 0 )
                Copy = 1;
          }
@@ -2785,12 +2785,12 @@ zwfnTZCMCPLD_GetListMeta( zVIEW vSubtask, zVIEW vTZCMCUSR, zVIEW vAllMetas,
 
       if ( Copy == 1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Loading " );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Loading " );
          GetStringFromAttributeByContext( szMsg + zstrlen( szMsg ), vAllMetas,
                                           "Z_MetaDef", "Type", "CM_Type", 50 );
-         strcat_s( szMsg, sizeof( szMsg ), ": " );
-         GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vAllMetas, "Z_MetaDef", "Name" );
-         strcat_s( szMsg, sizeof( szMsg ), szMetaName );
+         strcat_s( szMsg, zsizeof( szMsg ), ": " );
+         GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vAllMetas, "Z_MetaDef", "Name" );
+         strcat_s( szMsg, zsizeof( szMsg ), szMetaName );
          MB_SetMessage( vSubtask, 0, szMsg );
 
          CreateEntity( vMetaList, "Z_MetaDef", zPOS_AFTER );
@@ -2896,7 +2896,7 @@ zwfnTZCMCPLD_ReusableCPLR_CreateQual( zVIEW vSubtask, zULONG ulZKey, zPVIEW vKZD
    SetAttributeFromString( *vKZDBHQUA, "EntitySpec", "EntityName", "Installation" );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "EntityName", "CPLR" );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
-   zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+   zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "Value", szZKey );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "Oper", "=" );
 
@@ -2905,7 +2905,7 @@ zwfnTZCMCPLD_ReusableCPLR_CreateQual( zVIEW vSubtask, zULONG ulZKey, zPVIEW vKZD
    CreateEntity( *vKZDBHQUA, "QualAttrib", zPOS_AFTER );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "EntityName", "CPLR" );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
-   zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+   zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "Value", szZKey );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "Oper", "=" );
 
@@ -2914,7 +2914,7 @@ zwfnTZCMCPLD_ReusableCPLR_CreateQual( zVIEW vSubtask, zULONG ulZKey, zPVIEW vKZD
    CreateEntity( *vKZDBHQUA, "QualAttrib", zPOS_AFTER );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "EntityName", "CPLR" );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
-   zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+   zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "Value", szZKey );
    SetAttributeFromString( *vKZDBHQUA, "QualAttrib", "Oper", "=" );
 
@@ -3309,10 +3309,10 @@ zwTZCMCPLD_RemoveReusableCPLR( zVIEW  vSubtask )
 
    while ( ResetViewFromSubobject( vReusableCPLR ) == 0 );
 
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to remove CPLR '" );
-   GetStringFromAttribute( szCPLR, sizeof( szCPLR ), vReusableCPLR, "CPLR", "Name" );
-   strcat_s( szMsg, sizeof( szMsg ), szCPLR );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to remove CPLR '" );
+   GetStringFromAttribute( szCPLR, zsizeof( szCPLR ), vReusableCPLR, "CPLR", "Name" );
+   strcat_s( szMsg, zsizeof( szMsg ), szCPLR );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
 
    if ( OperatorPrompt( vSubtask, "Configuration Management", szMsg,
                         zBEEP, zBUTTONS_YESNO, zRESPONSE_NO,
@@ -3456,7 +3456,7 @@ zwfnTZCMCPLD_Reusable_CreateErrorRoot( zVIEW vSubtask, zVIEW vTZCMRCRO,
    zwTZCMCPLD_ReusCreateErrorLod( vSubtask );
    GetViewByName( &vReusError, "TZCMREUS", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szCPLR_CPL_Name, sizeof( szCPLR_CPL_Name ), vTZCMRCRO, "CPLR", "CPLR_CPL_Name" );
+   GetStringFromAttribute( szCPLR_CPL_Name, zsizeof( szCPLR_CPL_Name ), vTZCMRCRO, "CPLR", "CPLR_CPL_Name" );
    if ( SetCursorFirstEntityByString( vReusError, "ErrorList",
                                       "ReusableCPLR_CPL_Name",
                                       szCPLR_CPL_Name, "" ) >= zCURSOR_SET )
@@ -3468,7 +3468,7 @@ zwfnTZCMCPLD_Reusable_CreateErrorRoot( zVIEW vSubtask, zVIEW vTZCMRCRO,
    SetAttributeFromString( vReusError, "ErrorList", "ReusableCPLR_CPL_Name",
                            szCPLR_CPL_Name );
 
-  SysGetDateTime( szCurrentDateTime, sizeof( szCurrentDateTime ) );
+  SysGetDateTime( szCurrentDateTime, zsizeof( szCurrentDateTime ) );
    SetAttributeFromString( vReusError, "ErrorList", "DateTime", szCurrentDateTime );
 
    if ( nCheckType == zCheckReusingCPLR )
@@ -3506,29 +3506,29 @@ zwTZCMCPLD_ReusSetCountError( zVIEW vSubtask )
          lCount--;
       }
 
-      zltoa( lCount, szCount, sizeof( szCount ) );
-      strcpy_s( szControlText, sizeof( szControlText ), " " );
-      strcat_s( szControlText, sizeof( szControlText ), szCount );
-      strcat_s( szControlText, sizeof( szControlText ), " duplicate Component(s) found" );
+      zltoa( lCount, szCount, zsizeof( szCount ) );
+      strcpy_s( szControlText, zsizeof( szControlText ), " " );
+      strcat_s( szControlText, zsizeof( szControlText ), szCount );
+      strcat_s( szControlText, zsizeof( szControlText ), " duplicate Component(s) found" );
    }
    else
    {
-      strcpy_s( szControlText, sizeof( szControlText ), " No duplicate Component(s)" );
+      strcpy_s( szControlText, zsizeof( szControlText ), " No duplicate Component(s)" );
    }
 
    SetCtrlText( vSubtask, "txtCountError", szControlText );
 
    // Set ListBox Title and Textfield Text
-   strcpy_s( szControlText, sizeof( szControlText ), "Add Reusable CPLR:" );
-   strcpy_s( szListBoxTitle, sizeof( szListBoxTitle ), "CPLR to be reused" );
+   strcpy_s( szControlText, zsizeof( szControlText ), "Add Reusable CPLR:" );
+   strcpy_s( szListBoxTitle, zsizeof( szListBoxTitle ), "CPLR to be reused" );
 
    if ( CheckExistenceOfEntity( vReusError, "ErrorList" ) >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szReusedBy, sizeof( szReusedBy ), vReusError, "ErrorList", "CheckReusedBy" );
+      GetStringFromAttribute( szReusedBy, zsizeof( szReusedBy ), vReusError, "ErrorList", "CheckReusedBy" );
       if ( zstrcmp( szReusedBy, "Y" ) == 0 )
       {
-         strcpy_s( szControlText, sizeof( szControlText ), "Check reusing CPLR:" );
-         strcpy_s( szListBoxTitle, sizeof( szListBoxTitle ), "CPLR reusing the current one" );
+         strcpy_s( szControlText, zsizeof( szControlText ), "Check reusing CPLR:" );
+         strcpy_s( szListBoxTitle, zsizeof( szListBoxTitle ), "CPLR reusing the current one" );
       }
    }
 
@@ -3717,47 +3717,47 @@ zwfnTZCMCPLD_CreateView_ForAddReus( zVIEW vSubtask, zPVIEW vReusableToAdd, zVIEW
 }
 
 static void
-zwfnTZCMCPLD_GetErrorMsg( zPCHAR szMsg, zLONG lMetaType, zSHORT nCheckType,
-                          zPCHAR szMetaName, zPCHAR szMetaType,
+zwfnTZCMCPLD_GetErrorMsg( zPCHAR pchMsg, zLONG lMetaType, zSHORT nCheckType,
+                          zPCHAR pchMetaName, zPCHAR pchMetaType,
                           zVIEW vCurrentReusables, zVIEW vReusableToAdd )
 {
    zCHAR  szTemp[ 100 ];
 
-   strcpy_s( szMsg, sizeof( szMsg ), "CPLR reuse rejected because following Component " );
-   strcat_s( szMsg, sizeof( szMsg ), "is defined more than once:\n\n\t" );
-   strcat_s( szMsg, sizeof( szMsg ), szMetaType );
+   strcpy_s( pchMsg, 500, "CPLR reuse rejected because following Component " );
+   strcat_s( pchMsg, 500, "is defined more than once:\n\n\t" );
+   strcat_s( pchMsg, 500, pchMetaType );
 
    if ( lMetaType == zSOURCE_ERD_META || lMetaType == zSOURCE_PENV_META )
    {
-      strcpy_s( szMetaName, sizeof( szMetaName ), "" );
-      strcat_s( szMsg, sizeof( szMsg ), " exists " );
-      strcat_s( szMsg, sizeof( szMsg ), "\n\t\tin CPLR '" );
+      strcpy_s( pchMetaName, 33, "" );
+      strcat_s( pchMsg, 500, " exists " );
+      strcat_s( pchMsg, 500, "\n\t\tin CPLR '" );
    }
    else
    {
-      strcat_s( szMsg, sizeof( szMsg ), " '" );
-      strcat_s( szMsg, sizeof( szMsg ), szMetaName );
-      strcat_s( szMsg, sizeof( szMsg ), "' exists \n\t\tin CPLR '" );
+      strcat_s( pchMsg, 500, " '" );
+      strcat_s( pchMsg, 500, pchMetaName );
+      strcat_s( pchMsg, 500, "' exists \n\t\tin CPLR '" );
    }
 
    if ( nCheckType == zCheckReusableCPLR )
    {
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vCurrentReusables, "CPLR", "Name" );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
-      strcat_s( szMsg, sizeof( szMsg ), "' and \n\t\tin CPLR '" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vReusableToAdd, "CPLR", "Name" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vCurrentReusables, "CPLR", "Name" );
+      strcat_s( pchMsg, 500, szTemp );
+      strcat_s( pchMsg, 500, "' and \n\t\tin CPLR '" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vReusableToAdd, "CPLR", "Name" );
    }
    else
    {
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vReusableToAdd, "CPLR", "Name" );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
-      strcat_s( szMsg, sizeof( szMsg ), "', \n\t\twith reuses CPLR '" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vCurrentReusables, "CPLR", "Name" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vReusableToAdd, "CPLR", "Name" );
+      strcat_s( pchMsg, 500, szTemp );
+      strcat_s( pchMsg, 500, "', \n\t\twith reuses CPLR '" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vCurrentReusables, "CPLR", "Name" );
    }
 
-   strcat_s( szMsg, sizeof( szMsg ), szTemp );
-   strcat_s( szMsg, sizeof( szMsg ), "'.\n\n" );
-   strcat_s( szMsg, sizeof( szMsg ), "Would you like to continue to check duplicate Components?" );
+   strcat_s( pchMsg, 500, szTemp );
+   strcat_s( pchMsg, 500, "'.\n\n" );
+   strcat_s( pchMsg, 500, "Would you like to continue to check duplicate Components?" );
 }
 
 static zSHORT
@@ -3773,7 +3773,7 @@ zwfnTZCMCPLD_WriteErrorMsg( zVIEW vSubtask, zVIEW vCurrentReusables,
 
    GetViewByName( &vReusError, "TZCMREUS", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vCurrentReusables, "Z_MetaDef", "Name" );
+   GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vCurrentReusables, "Z_MetaDef", "Name" );
    GetStringFromAttributeByContext( szMetaType, vCurrentReusables, "Z_MetaType",
                                     "Type", "CM_Type", 50 );
 
@@ -3889,7 +3889,7 @@ zwfnTZCMCPLD_CheckMetasForAddReus( zVIEW vSubtask, zVIEW vCurrentReusables,
    nRC = SetCursorFirstEntity( vReusableToAdd, "Z_MetaDef", "CPLR" );
    while ( nRC >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szName, sizeof( szName ), vReusableToAdd, "Z_MetaDef", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vReusableToAdd, "Z_MetaDef", "Name" );
 
       // Exists a component with this name?
       if ( SetCursorFirstEntityByString( vCurrentReusables, "Z_MetaDef", "Name",
@@ -3962,8 +3962,8 @@ zwfnTZCMCPLD_CheckCPLR_ForAddReus( zVIEW vSubtask, zVIEW vReusableToAdd,
          return( -1 );
       }
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Checking CPLR " );
-      GetStringFromAttribute( szMsg + zstrlen( szMsg ), sizeof( szMsg ) - zstrlen( szMsg ),
+      strcpy_s( szMsg, zsizeof( szMsg ), "Checking CPLR " );
+      GetStringFromAttribute( szMsg + zstrlen( szMsg ), zsizeof( szMsg ) - zstrlen( szMsg ),
                               vReusableToAdd, "CPLR", "Name" );
       MB_SetMessage( vSubtask, 0, szMsg );
 
@@ -4014,19 +4014,19 @@ zwfnTZCMCPLD_AskForRemoveERD_TE_SA( zVIEW vSubtask, zLONG lType )
 
    if ( lType == (zLONG) zSOURCE_ERD_META )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Removing Check Out State from Data Model will remove\n"
+      strcpy_s( szMsg, zsizeof( szMsg ), "Removing Check Out State from Data Model will remove\n"
                       "Check Out State for all Subject Areas and TE!" );
    }
    else
    if ( lType == (zLONG) zSOURCE_DTE_META )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Removing Check Out State from TE will remove\n"
+      strcpy_s( szMsg, zsizeof( szMsg ), "Removing Check Out State from TE will remove\n"
                       "Check Out State for Data Model and all Subject Areas!" );
    }
    else
    if ( lType == (zLONG) zSOURCE_SA_META )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), "Removing Check Out State from a Subject Area will remove\n"
+      strcpy_s( szMsg, zsizeof( szMsg ), "Removing Check Out State from a Subject Area will remove\n"
                       "Check Out State for Data Model, all Subject Areas and TE!" );
    }
    else
@@ -4034,7 +4034,7 @@ zwfnTZCMCPLD_AskForRemoveERD_TE_SA( zVIEW vSubtask, zLONG lType )
       return( 0 );
    }
 
-   strcat_s( szMsg, sizeof( szMsg ), "\n\nContinue with Remove Check Out State?" );
+   strcat_s( szMsg, zsizeof( szMsg ), "\n\nContinue with Remove Check Out State?" );
 
    if ( MessagePrompt( vSubtask, "CM00253", "Configuration Management",
                        szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO,
@@ -4120,10 +4120,10 @@ zwTZCMCPLD_RemoveCO_Status( zVIEW  vSubtask )
 
       if ( nRC == 0 )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vCPLR_AllMetas, "Z_MetaDef", "Name" );
-         strcpy_s( szMsg, sizeof( szMsg ), "OK to Remove Check Out Status for '" );
-         strcat_s( szMsg, sizeof( szMsg ), szName );
-         strcat_s( szMsg, sizeof( szMsg ), "'?" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vCPLR_AllMetas, "Z_MetaDef", "Name" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "OK to Remove Check Out Status for '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szName );
+         strcat_s( szMsg, zsizeof( szMsg ), "'?" );
 
          nRC = MessagePrompt( vSubtask, "CM00140", "Configuration Management",
                               szMsg, zBEEP, zBUTTONS_YESNO, zRESPONSE_NO, 0 );
@@ -4210,10 +4210,10 @@ zwTZCMCPLD_DeleteWorkstation( zVIEW  vSubtask )
 
    GetViewByName( &vTZCMREPO, "TZCMREPO", vSubtask, zLEVEL_TASK );
 
-   strcpy_s( szMsg, sizeof( szMsg ), "OK to delete Workstation '" );
-   GetStringFromAttribute( szZKey, sizeof( szZKey ), vTZCMREPO, "RepositoryClient", "WKS_Id" );
-   strcat_s( szMsg, sizeof( szMsg ), szZKey );
-   strcat_s( szMsg, sizeof( szMsg ), "'?" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "OK to delete Workstation '" );
+   GetStringFromAttribute( szZKey, zsizeof( szZKey ), vTZCMREPO, "RepositoryClient", "WKS_Id" );
+   strcat_s( szMsg, zsizeof( szMsg ), szZKey );
+   strcat_s( szMsg, zsizeof( szMsg ), "'?" );
 
    if ( OperatorPrompt( vSubtask, "Configuration Management", szMsg,
                         zBEEP, zBUTTONS_YESNO, zRESPONSE_NO,
@@ -4233,7 +4233,7 @@ zwTZCMCPLD_DeleteWorkstation( zVIEW  vSubtask )
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "RepositoryClient" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-   GetStringFromAttribute( szZKey, sizeof( szZKey ), vTZCMREPO, "RepositoryClient", "ZKey" );
+   GetStringFromAttribute( szZKey, zsizeof( szZKey ), vTZCMREPO, "RepositoryClient", "ZKey" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 
    nRC = ActivateObjectInstance( &vTZCMWKSO, "TZCMWKSO", vSubtask, vKZDBHQUA, zSINGLE );
@@ -4287,7 +4287,7 @@ zwTZCMCPLD_BuildWS_UserList( zVIEW  vSubtask )
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "RepositoryClient" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-   zltoa( ulWKS_ID, szZKey, sizeof( szZKey ) );
+   zltoa( ulWKS_ID, szZKey, zsizeof( szZKey ) );
    SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
    nRC = ActivateObjectInstance( &vTZCMWULO, "TZCMWULO",
                                  vSubtask, vKZDBHQUA, zSINGLE );
@@ -4295,10 +4295,10 @@ zwTZCMCPLD_BuildWS_UserList( zVIEW  vSubtask )
 
    if ( nRC < 0 )
    {
-      GetStringFromAttribute( szWKS_Desc, sizeof( szWKS_Desc ), vTZCMREPO, "RepositoryClient", "Desc" );
-      strcpy_s( szERR_Msg, sizeof( szERR_Msg ), "Unable to Activate Workstation " );
-      strcat_s( szERR_Msg, sizeof( szERR_Msg ), szWKS_Desc );
-      strcat_s( szERR_Msg, sizeof( szERR_Msg ), "!" );
+      GetStringFromAttribute( szWKS_Desc, zsizeof( szWKS_Desc ), vTZCMREPO, "RepositoryClient", "Desc" );
+      strcpy_s( szERR_Msg, zsizeof( szERR_Msg ), "Unable to Activate Workstation " );
+      strcat_s( szERR_Msg, zsizeof( szERR_Msg ), szWKS_Desc );
+      strcat_s( szERR_Msg, zsizeof( szERR_Msg ), "!" );
       MessageSend( vSubtask, "CM00138", "Configuration Management",
                    szERR_Msg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -4439,13 +4439,13 @@ zwTZCMCPLD_SetDIL_Message( zVIEW vSubtask )
 
    if ( CheckExistenceOfEntity( vTZCMCPL, "CPL" ) == zCURSOR_SET )
    {
-      GetStringFromAttribute( szWorkMessage, sizeof( szWorkMessage ), vTZCMCPL, "CPL", "Desc" );
+      GetStringFromAttribute( szWorkMessage, zsizeof( szWorkMessage ), vTZCMCPL, "CPL", "Desc" );
       MB_SetMessage( vSubtask, 1, szWorkMessage );
    }
 
    if ( CheckExistenceOfEntity( vTZCMCPL, "CPLR" ) == zCURSOR_SET )
    {
-      GetStringFromAttribute( szWorkMessage, sizeof( szWorkMessage ), vTZCMCPL, "CPLR", "Desc" );
+      GetStringFromAttribute( szWorkMessage, zsizeof( szWorkMessage ), vTZCMCPL, "CPLR", "Desc" );
       MB_SetMessage( vSubtask, 1, szWorkMessage );
    }
 
@@ -4508,7 +4508,7 @@ zwTZCMCPLD_LoadAuditTrailC( zVIEW vSubtask )
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "CPLR" );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-      zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+      zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 
 
@@ -4561,7 +4561,7 @@ zwTZCMCPLD_LoadAuditTrailM( zVIEW vSubtask )
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "Z_MetaDef" );
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-         zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+         zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 
 
@@ -4619,7 +4619,7 @@ zwTZCMCPLD_LoadAuditTrailM2_All( zVIEW vSubtask )
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "Z_MetaDef" );
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-         zltoa( ulZKey, szZKey, sizeof( szZKey ) );
+         zltoa( ulZKey, szZKey, zsizeof( szZKey ) );
          SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
 
          nRC = ActivateObjectInstance( &vTZBRAUDO, "TZBRAUDO", vSubtask,
@@ -4685,17 +4685,17 @@ zwTZCMCPLD_DeleteFile( zVIEW vSubtask )
       return( -1 );
 
    // Prompt the user before actually deleting the file.
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMFILE, "File", "Name" );
-   GetStringFromAttribute( szExtension, sizeof( szExtension ), vTZCMFILE, "File", "Extension" );
-   strcpy_s( szMsg, sizeof( szMsg ),"W A R N I N G");
-   strcat_s( szMsg, sizeof( szMsg ), "\n\n You are going to delete a file from Repository \n'");
-   strcat_s( szMsg, sizeof( szMsg ), szName );
-   strcat_s( szMsg, sizeof( szMsg ), "." );
-   strcat_s( szMsg, sizeof( szMsg ), szExtension );
-   strcat_s( szMsg, sizeof( szMsg ), "'.\n\n" );
-   strcat_s( szMsg, sizeof( szMsg ), "This could D E S T R O Y the Repository,\n" );
-   strcat_s( szMsg, sizeof( szMsg ), "if you do not fully understand what you are doing!" );
-   strcat_s( szMsg, sizeof( szMsg ), "\n\nContinue?" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMFILE, "File", "Name" );
+   GetStringFromAttribute( szExtension, zsizeof( szExtension ), vTZCMFILE, "File", "Extension" );
+   strcpy_s( szMsg, zsizeof( szMsg ),"W A R N I N G");
+   strcat_s( szMsg, zsizeof( szMsg ), "\n\n You are going to delete a file from Repository \n'");
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
+   strcat_s( szMsg, zsizeof( szMsg ), "." );
+   strcat_s( szMsg, zsizeof( szMsg ), szExtension );
+   strcat_s( szMsg, zsizeof( szMsg ), "'.\n\n" );
+   strcat_s( szMsg, zsizeof( szMsg ), "This could D E S T R O Y the Repository,\n" );
+   strcat_s( szMsg, zsizeof( szMsg ), "if you do not fully understand what you are doing!" );
+   strcat_s( szMsg, zsizeof( szMsg ), "\n\nContinue?" );
 
    if ( MessagePrompt( vSubtask, "CM00112", "Configuration Management",
                         szMsg, zBEEP, zBUTTONS_YESNO,
@@ -5085,7 +5085,7 @@ zwTZCMCPLD_CheckOutItems( zVIEW vSubtask )
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "EntityName", "RepositoryClient" );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "AttributeName", "ZKey" );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Oper", "=" );
-      zltoa( ulWKS_ID, szZKey, sizeof( szZKey ) );
+      zltoa( ulWKS_ID, szZKey, zsizeof( szZKey ) );
       SetAttributeFromString( vKZDBHQUA, "QualAttrib", "Value", szZKey );
       nRC = ActivateObjectInstance( &vTZCMWULO, "TZCMWULO",
                                     vSubtask, vKZDBHQUA, zSINGLE );
@@ -5093,10 +5093,10 @@ zwTZCMCPLD_CheckOutItems( zVIEW vSubtask )
 
       if ( nRC < 0 )
       {
-         GetStringFromAttribute( szWKS_Desc, sizeof( szWKS_Desc ), vTZCMWKUS, "RepositoryClient", "Desc" );
-         strcpy_s( szERR_Msg, sizeof( szERR_Msg ), "Unable to Activate Workstation " );
-         strcat_s( szERR_Msg, sizeof( szERR_Msg ), szWKS_Desc );
-         strcat_s( szERR_Msg, sizeof( szERR_Msg ), "!" );
+         GetStringFromAttribute( szWKS_Desc, zsizeof( szWKS_Desc ), vTZCMWKUS, "RepositoryClient", "Desc" );
+         strcpy_s( szERR_Msg, zsizeof( szERR_Msg ), "Unable to Activate Workstation " );
+         strcat_s( szERR_Msg, zsizeof( szERR_Msg ), szWKS_Desc );
+         strcat_s( szERR_Msg, zsizeof( szERR_Msg ), "!" );
          MessageSend( vSubtask, "CM00138", "Configuration Management",
                       szERR_Msg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
          return( -1 );
@@ -5231,7 +5231,7 @@ zwTZCMCPLD_SaveAsSetCPLName( zVIEW vSubtask )
 
    if ( CheckExistenceOfEntity( vTZCMCPL, "CPL" ) >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szCPL_Name, sizeof( szCPL_Name ), vTZCMCPL, "CPL", "Name" );
+      GetStringFromAttribute( szCPL_Name, zsizeof( szCPL_Name ), vTZCMCPL, "CPL", "Name" );
       SetCtrlText( vSubtask, "txtCPL", szCPL_Name );
       RefreshCtrl( vSubtask, "txtCPL" );
    }
@@ -5333,7 +5333,7 @@ zwTZCMCPLD_SaveAsCheckData( zVIEW vSubtask )
    GetViewByName( &vTZCMCPL, "TZCMCPL", vSubtask, zLEVEL_TASK );
    GetViewByName( &vTZCMCPRO_New, "TZCMCPRO_New", vSubtask, zLEVEL_TASK );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vTZCMCPRO_New, "CPLR", "SaveAsName" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vTZCMCPRO_New, "CPLR", "SaveAsName" );
    UfCompressName( szNewName, szOutName, 32, "", "", "", "", 0 );
 
    // Check that a CPLR name has been entered.
@@ -5406,9 +5406,9 @@ zwTZCMCPLD_SaveAsAccessAuthority( zVIEW vTZCMCPRO_Source,
                       vTZCMCPRO_Source, "User", "ZKey", 0 ) >= zCURSOR_SET )
       {
          //Set DIL Message Text
-         strcpy_s( szMessage, sizeof( szMessage ), "Copying Access Authority for User: " );
-         GetStringFromAttribute( szName, sizeof( szName ), vTZCMREPO, "User", "Name" );
-         strcat_s( szMessage, sizeof( szMessage ), szName );
+         strcpy_s( szMessage, zsizeof( szMessage ), "Copying Access Authority for User: " );
+         GetStringFromAttribute( szName, zsizeof( szName ), vTZCMREPO, "User", "Name" );
+         strcat_s( szMessage, zsizeof( szMessage ), szName );
          MB_SetMessage( vSubtask, 1, szMessage );
 
          IncludeSubobjectFromSubobject( vTZCMCPRO_New, "User",
@@ -5446,9 +5446,9 @@ zwTZCMCPLD_SaveAsReusableCPLR( zVIEW vTZCMCPRO_Source,
                       "Installation" ) >= zCURSOR_SET )
       {
          //Set DIL Message Text
-         strcpy_s( szMessage, sizeof( szMessage ), "Copying Reusable CPLR: " );
-         GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
-         strcat_s( szMessage, sizeof( szMessage ), szName );
+         strcpy_s( szMessage, zsizeof( szMessage ), "Copying Reusable CPLR: " );
+         GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+         strcat_s( szMessage, zsizeof( szMessage ), szName );
          MB_SetMessage( vSubtask, 1, szMessage );
 
          IncludeSubobjectFromSubobject( vTZCMCPRO_New, "ReusableCPLR",
@@ -5472,11 +5472,11 @@ zwTZCMCPLD_FileErrorMessage( zVIEW  vSubtask,
 {
    zCHAR    szMessage[250];
 
-   strcpy_s( szMessage, sizeof( szMessage ), "Error while copying File: " );
-   strcat_s( szMessage, sizeof( szMessage ), szName );
-   strcat_s( szMessage, sizeof( szMessage ), "." );
-   strcat_s( szMessage, sizeof( szMessage ), szExtension );
-   strcat_s( szMessage, sizeof( szMessage ), ".\n\n Save as aborted!" );
+   strcpy_s( szMessage, zsizeof( szMessage ), "Error while copying File: " );
+   strcat_s( szMessage, zsizeof( szMessage ), szName );
+   strcat_s( szMessage, zsizeof( szMessage ), "." );
+   strcat_s( szMessage, zsizeof( szMessage ), szExtension );
+   strcat_s( szMessage, zsizeof( szMessage ), ".\n\n Save as aborted!" );
    MessageSend( vSubtask, "CM00152", "Configuration Management", szMessage,
                 zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
 
@@ -5612,7 +5612,7 @@ zwTZCMCPLD_LoadShadowFile( zVIEW  vSubtask,
    for ( lSeq = 0;; lSeq ++ )
    {
       nLth = SysReadFile( vTZCMCPRO_New, hFileFrom,
-                          szBuffer, sizeof( szBuffer ) - 1 );
+                          szBuffer, zsizeof( szBuffer ) - 1 );
       if ( nLth > 0 )
       {
          CreateEntity( *pvFile, "Buffer", zPOS_AFTER );
@@ -5655,8 +5655,8 @@ zwTZCMCPLD_CopyShadowWithZKey( zVIEW vSubtask,
    ReturnValue = 0;
 
    GetIntegerFromAttribute( &lType, vTZCMCPRO_New, "Z_MetaDef", "Type" );
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPRO_New, "Z_MetaDef", "Name" );
-   strcpy_s( szExtension, sizeof( szExtension ), SRC_CMOD[ lType ].szOD_EXT + 1 );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPRO_New, "Z_MetaDef", "Name" );
+   strcpy_s( szExtension, zsizeof( szExtension ), SRC_CMOD[ lType ].szOD_EXT + 1 );
 
    if ( lType == zSOURCE_VOR_META )
    {
@@ -5687,11 +5687,11 @@ zwTZCMCPLD_CopyShadowWithZKey( zVIEW vSubtask,
 
    // First get temp directory to store the file
    zgGetZeidonToolsDir( vSubtask, szTempName, zAPPL_DIR_LOCAL );
-   strcat_s( szTempName, sizeof( szTempName ), szName );
-   strcat_s( szTempName, sizeof( szTempName ), ".tmp" );
+   strcat_s( szTempName, zsizeof( szTempName ), szName );
+   strcat_s( szTempName, zsizeof( szTempName ), ".tmp" );
 
    // Set ZKey from Z_MetaDef in Shadow file
-   strcpy_s( szEntityName, sizeof( szEntityName ), "" );
+   strcpy_s( szEntityName, zsizeof( szEntityName ), "" );
    zGetFirstEntityNameForView( vMetaShadow, szEntityName );
    GetAddrForAttribute( (zCOREMEM) &lplInteger, vMetaShadow,
                         szEntityName, "ZKey" );
@@ -5744,12 +5744,12 @@ zwTZCMCPLD_SaveAsZ_MetaDef( zVIEW vTZCMCPRO_Source,
    while ( nRC == zCURSOR_SET )
    {
       //Set DIL Message Text
-      strcpy_s( szMessage, sizeof( szMessage ), "Copying Component: " );
+      strcpy_s( szMessage, zsizeof( szMessage ), "Copying Component: " );
       GetVariableFromAttribute( &szMessage[ 19 ], 0, zTYPE_STRING, 125,
                   vTZCMCPRO_Source, "Z_MetaDef", "Type", "CM_Type", 0 );
-      strcat_s( szMessage, sizeof( szMessage ), " " );
-      GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPRO_Source, "Z_MetaDef", "Name" );
-      strcat_s( szMessage, sizeof( szMessage ), szName );
+      strcat_s( szMessage, zsizeof( szMessage ), " " );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPRO_Source, "Z_MetaDef", "Name" );
+      strcat_s( szMessage, zsizeof( szMessage ), szName );
       MB_SetMessage( vSubtask, 1, szMessage );
 
       //Create Z_MetaDef
@@ -5833,13 +5833,13 @@ zwTZCMCPLD_CreateAuditTrail( zVIEW vTZCMAUDO_Source,
    while ( nRC == zCURSOR_SET )
    {
       //Set DIL Message Text
-      strcpy_s( szMessage, sizeof( szMessage ), "Copying Audit Trail for Component: " );
+      strcpy_s( szMessage, zsizeof( szMessage ), "Copying Audit Trail for Component: " );
       GetVariableFromAttribute( &szMessage[ 35 ], 0, zTYPE_STRING, 125,
                 vTZCMAUDO_Source, "AuditTrailMeta", "MetaDefType", "CM_Type", 0 );
-      strcat_s( szMessage, sizeof( szMessage ), " " );
-      GetStringFromAttribute( szName, sizeof( szName ), vTZCMAUDO_Source,
+      strcat_s( szMessage, zsizeof( szMessage ), " " );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTZCMAUDO_Source,
                               "AuditTrailMeta", "MetaDefName" );
-      strcat_s( szMessage, sizeof( szMessage ), szName );
+      strcat_s( szMessage, zsizeof( szMessage ), szName );
       MB_SetMessage( vSubtask, 1, szMessage );
 
       CreateEntity( vTZCMAUDO_New, "AuditTrailMeta", zPOS_AFTER );
@@ -5878,7 +5878,7 @@ zwTZCMCPLD_LoadAuditTrailObject( zVIEW   vTZCMCPRO_Source,
 
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMCPRO_Source,
                             "CPLR", "ZKey" );
-   GetStringFromAttribute( szDateTime, sizeof( szDateTime ), vTZCMCPRO_Source,
+   GetStringFromAttribute( szDateTime, zsizeof( szDateTime ), vTZCMCPRO_Source,
                            "AuditTrail", "TimeStamp" );
 
    if ( ActivateEmptyObjectInstance( &vKZDBHQUA, "KZDBHQUA",
@@ -5961,14 +5961,14 @@ zwTZCMCPLD_SaveAsAuditTrail( zVIEW vTZCMCPRO_Source,
       if ( CommitObjectInstance( vTZCMAUDO_New ) < 0 )
       {
          //Set DIL Message Text
-         strcpy_s( szMessage, sizeof( szMessage ), "Error while copying Audit Trail for Component: " );
+         strcpy_s( szMessage, zsizeof( szMessage ), "Error while copying Audit Trail for Component: " );
          GetVariableFromAttribute( &szMessage[ 47 ], 0, zTYPE_STRING, 125,
                    vTZCMAUDO_New, "AuditTrailMeta", "MetaDefType", "CM_Type", 0 );
-         strcat_s( szMessage, sizeof( szMessage ), " " );
-         GetStringFromAttribute( szName, sizeof( szName ), vTZCMAUDO_New,
+         strcat_s( szMessage, zsizeof( szMessage ), " " );
+         GetStringFromAttribute( szName, zsizeof( szName ), vTZCMAUDO_New,
                                  "AuditTrailMeta", "MetaDefName" );
-         strcat_s( szMessage, sizeof( szMessage ), szName );
-         strcat_s( szMessage, sizeof( szMessage ), "\n\n Do you want to continue?" );
+         strcat_s( szMessage, zsizeof( szMessage ), szName );
+         strcat_s( szMessage, zsizeof( szMessage ), "\n\n Do you want to continue?" );
          if ( MessagePrompt( vSubtask, "CM00150",
                              "Save CPLR as:",
                              szMessage,
@@ -6057,8 +6057,8 @@ zwTZCMCPLD_SaveAsFile( zVIEW vTZCMCPRO_Source,
    nRC = SetCursorFirstEntity( vTZCMCPRO_Source, "File", "" );
    while ( nRC == zCURSOR_SET )
    {
-      GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPRO_Source, "File", "Name" );
-      GetStringFromAttribute( szExtension, sizeof( szExtension ), vTZCMCPRO_Source, "File", "Extension" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPRO_Source, "File", "Name" );
+      GetStringFromAttribute( szExtension, zsizeof( szExtension ), vTZCMCPRO_Source, "File", "Extension" );
       // Do not copy Registered Views
       if ( zstrcmp( szExtension, "PVR" ) == 0 )
          bFound = TRUE;
@@ -6084,10 +6084,10 @@ zwTZCMCPLD_SaveAsFile( zVIEW vTZCMCPRO_Source,
          SetNameForView( vTZCMFILO_New, "TZCMFILO_New", vSubtask, zLEVEL_TASK );
 
          //Set DIL Message Text
-         strcpy_s( szMessage, sizeof( szMessage ), "Copying File: " );
-         strcat_s( szMessage, sizeof( szMessage ), szName );
-         strcat_s( szMessage, sizeof( szMessage ), "." );
-         strcat_s( szMessage, sizeof( szMessage ), szExtension );
+         strcpy_s( szMessage, zsizeof( szMessage ), "Copying File: " );
+         strcat_s( szMessage, zsizeof( szMessage ), szName );
+         strcat_s( szMessage, zsizeof( szMessage ), "." );
+         strcat_s( szMessage, zsizeof( szMessage ), szExtension );
          MB_SetMessage( vSubtask, 1, szMessage );
 
          //Copy File Object
@@ -6190,10 +6190,10 @@ zwTZCMCPLD_SaveAS( zVIEW vSubtask,
    MB_SetMessage( vSubtask, 1, "Commiting new CPLR." );
    if ( CommitObjectInstance( vTZCMCPRO_New ) < 0 )
    {
-      GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPRO_New, "CPLR", "Name" );
-      strcpy_s( szMessage, sizeof( szMessage ), "Couldn't commit CPLR " );
-      strcat_s( szMessage, sizeof( szMessage ), szName );
-      strcat_s( szMessage, sizeof( szMessage ), "\n\n Save as aborted!" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPRO_New, "CPLR", "Name" );
+      strcpy_s( szMessage, zsizeof( szMessage ), "Couldn't commit CPLR " );
+      strcat_s( szMessage, zsizeof( szMessage ), szName );
+      strcat_s( szMessage, zsizeof( szMessage ), "\n\n Save as aborted!" );
       MessageSend( vSubtask, "CM00153", "Configuration Management",
                    szMessage,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -6221,23 +6221,23 @@ zwTZCMCPLD_SetCPLR_CPL_Name( zVIEW vSubtask )
 
    if ( CheckExistenceOfEntity( vTZCMCPL, "CPLR" ) >= zCURSOR_SET )
    {
-      GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
    }
    else
    if ( GetViewByName( &vTZCMCPLR, "TZCMCPLR", vSubtask, zLEVEL_TASK ) > 0 )
    {
-      GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPLR, "CPLR", "Name" );
+      GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPLR, "CPLR", "Name" );
    }
    else
    {
-      strcpy_s( szName, sizeof( szName ), "" );
+      strcpy_s( szName, zsizeof( szName ), "" );
    }
 
-   strcpy_s( szTitle, sizeof( szTitle ), "CPLR: " );
-   strcat_s( szTitle, sizeof( szTitle ), szName );
-   strcat_s( szTitle, sizeof( szTitle ), ", CPL: " );
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPL", "Name" );
-   strcat_s( szTitle, sizeof( szTitle ), szName );
+   strcpy_s( szTitle, zsizeof( szTitle ), "CPLR: " );
+   strcat_s( szTitle, zsizeof( szTitle ), szName );
+   strcat_s( szTitle, zsizeof( szTitle ), ", CPL: " );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPL", "Name" );
+   strcat_s( szTitle, zsizeof( szTitle ), szName );
    SetWindowCaptionTitle( vSubtask, 0, szTitle );
 
    return( 0 );
@@ -6280,7 +6280,7 @@ zwTZCMCPLD_SaveAsCPLR( zVIEW vSubtask )
    if ( zwTZCMCPLD_SaveAsCheckData( vSubtask ) < 0 )
       return( -1 );
 
-   GetStringFromAttribute( szNewName, sizeof( szNewName ), vTZCMCPRO_New, "CPLR", "SaveAsName" );
+   GetStringFromAttribute( szNewName, zsizeof( szNewName ), vTZCMCPRO_New, "CPLR", "SaveAsName" );
    UfCompressName( szNewName, szOutName, 32, "", "", "", "", 0 );
 
    // Include new CPLR in TZCMREPO
@@ -6306,9 +6306,9 @@ zwTZCMCPLD_SaveAsCPLR( zVIEW vSubtask )
    }
    else  //Source CPLR not found in TZCMREPO
    {
-      GetStringFromAttribute( szOutName, sizeof( szOutName ), vTZCMCPRO_Source, "CPLR", "Name" );
-      strcpy_s( szMessage, sizeof( szMessage ), "Unable to Activate CPLR " );
-      strcat_s( szMessage, sizeof( szMessage ), szOutName );
+      GetStringFromAttribute( szOutName, zsizeof( szOutName ), vTZCMCPRO_Source, "CPLR", "Name" );
+      strcpy_s( szMessage, zsizeof( szMessage ), "Unable to Activate CPLR " );
+      strcat_s( szMessage, zsizeof( szMessage ), szOutName );
       MessageSend( vSubtask, "CM00154", "Configuration Management",
                    szMessage,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
@@ -6464,7 +6464,7 @@ zwTZCMCPLD_Password_OK( zVIEW vSubtask )
    zCHAR szPassword[ 9 ];
 
    GetViewByName( &vTZCMREPO, "TZCMREPO", vSubtask, zLEVEL_TASK );
-   GetStringFromAttribute( szPassword, sizeof( szPassword ), vTZCMREPO, "Installation", "Password" );
+   GetStringFromAttribute( szPassword, zsizeof( szPassword ), vTZCMREPO, "Installation", "Password" );
 
    if ( zwfnTZCMCPLD_CheckPassword( vSubtask, szPassword ) < 0 )
       return( -1 );
@@ -6516,10 +6516,10 @@ zwfnTZCMCPLD_LoadMetas( zVIEW vSubtask, zVIEW vReusableCPLR )
    zCHAR   szTemp[ 200 ];
 
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vReusableCPLR, "CPLR", "ZKey" );
-   GetStringFromAttribute( szName, sizeof( szName ), vReusableCPLR, "CPLR", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vReusableCPLR, "CPLR", "Name" );
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Activating Reusable CPLR " );
-   strcat_s( szMsg, sizeof( szMsg ), szName );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Activating Reusable CPLR " );
+   strcat_s( szMsg, zsizeof( szMsg ), szName );
    MB_SetMessage( vSubtask, 0, szMsg );
 
    // Set up qualification object and activate CPLR
@@ -6549,20 +6549,20 @@ zwfnTZCMCPLD_LoadMetas( zVIEW vSubtask, zVIEW vReusableCPLR )
       }
 
       lCurrent++;
-      zltoa( lCurrent, szTemp + 110, sizeof( szTemp ) + 110 );
-      strcpy_s( szTemp, sizeof( szTemp ), szTemp + 110 );
-      strcat_s( szTemp, sizeof( szTemp ), " of " );
-      zltoa( lCount, szTemp + 110, sizeof( szTemp ) - 110 );
-      strcat_s( szTemp, sizeof( szTemp ), szTemp + 110 );
+      zltoa( lCurrent, szTemp + 110, zsizeof( szTemp ) + 110 );
+      strcpy_s( szTemp, zsizeof( szTemp ), szTemp + 110 );
+      strcat_s( szTemp, zsizeof( szTemp ), " of " );
+      zltoa( lCount, szTemp + 110, zsizeof( szTemp ) - 110 );
+      strcat_s( szTemp, zsizeof( szTemp ), szTemp + 110 );
       MB_SetMessage( vSubtask, 2, szTemp );
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Loading " );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Loading " );
       GetStringFromAttributeByContext( szMsg + zstrlen( szMsg ),
                                        vReusableComponents, "Z_MetaDef", "Type",
                                        "CM_Type", 50 );
-      strcat_s( szMsg, sizeof( szMsg ), ": " );
-      GetStringFromAttribute( szMetaName, sizeof( szMetaName ), vReusableComponents, "Z_MetaDef", "Name" );
-      strcat_s( szMsg, sizeof( szMsg ), szMetaName );
+      strcat_s( szMsg, zsizeof( szMsg ), ": " );
+      GetStringFromAttribute( szMetaName, zsizeof( szMetaName ), vReusableComponents, "Z_MetaDef", "Name" );
+      strcat_s( szMsg, zsizeof( szMsg ), szMetaName );
       MB_SetMessage( vSubtask, 0, szMsg );
 
       CreateEntity( vReusableCPLR, "Z_MetaDef", zPOS_AFTER );
@@ -6605,10 +6605,10 @@ zwfnTZCMCPLD_LoadCompForReusable( zVIEW vSubtask, zPCHAR szViewName, zBOOL bShow
    {
       if ( CheckExistenceOfEntity( vReusableCPLR, "Z_MetaType" ) < zCURSOR_SET )
       {
-         GetStringFromAttribute( szName, sizeof( szName ), vReusableCPLR, "CPLR", "Name" );
-         strcpy_s( szMsg, sizeof( szMsg ), "CPLR '" );
-         strcat_s( szMsg, sizeof( szMsg ), szName );
-         strcat_s( szMsg, sizeof( szMsg ), "' has no Components." );
+         GetStringFromAttribute( szName, zsizeof( szName ), vReusableCPLR, "CPLR", "Name" );
+         strcpy_s( szMsg, zsizeof( szMsg ), "CPLR '" );
+         strcat_s( szMsg, zsizeof( szMsg ), szName );
+         strcat_s( szMsg, zsizeof( szMsg ), "' has no Components." );
          MessageSend( vSubtask, "CM00101", "Configuration Management",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       }
@@ -6669,9 +6669,9 @@ zwfnTZCMCPLD_ReusableSetButtonText( zVIEW vSubtask, zPCHAR szViewName )
    }
 
    if ( CheckExistenceOfEntity( vReusableCPLR, "Z_MetaType" ) >= zCURSOR_SET )
-      strcpy_s( szButtonText, sizeof( szButtonText ), "Re&move Comp." );
+      strcpy_s( szButtonText, zsizeof( szButtonText ), "Re&move Comp." );
    else
-      strcpy_s( szButtonText, sizeof( szButtonText ), "&Components" );
+      strcpy_s( szButtonText, zsizeof( szButtonText ), "&Components" );
 
    SetCtrlText( vSubtask, "pbComponents", szButtonText );
 
@@ -7168,51 +7168,51 @@ zwfnTZCMCPLD_WriteErrorListTitle( zVIEW vReusError, zLONG  FileHandle )
    zCHAR  szMsg[ 500 ];
    zCHAR  szTemp[ 255 ];
 
-   GetStringFromAttribute( szReusedBy, sizeof( szReusedBy ), vReusError, "ErrorList", "CheckReusedBy" );
+   GetStringFromAttribute( szReusedBy, zsizeof( szReusedBy ), vReusError, "ErrorList", "CheckReusedBy" );
 
    // write Tool and DateTime
-   strcpy_s( szMsg, sizeof( szMsg ), "Zeidon: Error List from " );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Zeidon: Error List from " );
    GetStringFromAttributeByContext( szTemp, vReusError, "ErrorList",
                                     "DateTime", "DD.MM.YYYY HH:MM:SS", 20 );
-   strcat_s( szMsg, sizeof( szMsg ), szTemp );
+   strcat_s( szMsg, zsizeof( szMsg ), szTemp );
    SysWriteLine( vReusError, FileHandle, szMsg );
    SysWriteLine( vReusError, FileHandle, "" );
 
-   GetStringFromAttribute( szTemp, sizeof( szTemp ), vReusError, "ErrorList", "ReusableCPLR_CPL_Name" );
+   GetStringFromAttribute( szTemp, zsizeof( szTemp ), vReusError, "ErrorList", "ReusableCPLR_CPL_Name" );
    if ( zstrcmp( szReusedBy, "Y" ) == 0 )
    {
-      strcpy_s( szMsg, sizeof( szMsg ), " Check reusing CPLR '" );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
-      strcat_s( szMsg, sizeof( szMsg ), "'" );
+      strcpy_s( szMsg, zsizeof( szMsg ), " Check reusing CPLR '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
+      strcat_s( szMsg, zsizeof( szMsg ), "'" );
    }
    else
    {
-      strcpy_s( szMsg, sizeof( szMsg ), " Add Reusable CPLR '" );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
-      strcat_s( szMsg, sizeof( szMsg ), "' to CPLR '" );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vReusError, "CPLR", "Name" );
-      strcat_s( szMsg, sizeof( szMsg ), szTemp );
-      strcat_s( szMsg, sizeof( szMsg ), "'" );
+      strcpy_s( szMsg, zsizeof( szMsg ), " Add Reusable CPLR '" );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
+      strcat_s( szMsg, zsizeof( szMsg ), "' to CPLR '" );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vReusError, "CPLR", "Name" );
+      strcat_s( szMsg, zsizeof( szMsg ), szTemp );
+      strcat_s( szMsg, zsizeof( szMsg ), "'" );
    }
 
    SysWriteLine( vReusError, FileHandle, szMsg );
    SysWriteLine( vReusError, FileHandle, "" );
    SysWriteLine( vReusError, FileHandle, "" );
 
-   strcpy_s( szMsg, sizeof( szMsg ), "Meta Name:       " );
-   strcat_s( szMsg, sizeof( szMsg ), "Meta Type:    " );
-   strcat_s( szMsg, sizeof( szMsg ), "CPLR:            " );
+   strcpy_s( szMsg, zsizeof( szMsg ), "Meta Name:      " );
+   strcat_s( szMsg, zsizeof( szMsg ), "Meta Type:   " );
+   strcat_s( szMsg, zsizeof( szMsg ), "CPLR:           " );
    if ( zstrcmp( szReusedBy, "Y" ) == 0 )
-      strcat_s( szMsg, sizeof( szMsg ), "CPLR reusing the current one: " );
+      strcat_s( szMsg, zsizeof( szMsg ), "CPLR reusing the current one: " );
    else
-      strcat_s( szMsg, sizeof( szMsg ), "CPLR to be reused: " );
+      strcat_s( szMsg, zsizeof( szMsg ), "CPLR to be reused: " );
 
    SysWriteLine( vReusError, FileHandle, szMsg );
 
-   strcpy_s( szMsg, sizeof( szMsg ), "___________________________________" );
-   strcat_s( szMsg, sizeof( szMsg ), "________________________________" );
-   strcat_s( szMsg, sizeof( szMsg ), "___________________________________" );
-   strcat_s( szMsg, sizeof( szMsg ), "__________________________________" );
+   strcpy_s( szMsg, zsizeof( szMsg ), "___________________________________" );
+   strcat_s( szMsg, zsizeof( szMsg ), "________________________________" );
+   strcat_s( szMsg, zsizeof( szMsg ), "___________________________________" );
+   strcat_s( szMsg, zsizeof( szMsg ), "__________________________________" );
    SysWriteLine( vReusError, FileHandle, szMsg );
    SysWriteLine( vReusError, FileHandle, "" );
 }
@@ -7232,37 +7232,37 @@ zwfnTZCMCPLD_WriteErrorListToFile( zVIEW vReusError, zLONG  FileHandle )
          nRC >= zCURSOR_SET;
          nRC = SetCursorNextEntity( vReusError, "ErrorMsg", "" ) )
    {
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vReusError, "ErrorMsg", "MetaName" );
-      strcpy_s( szMsg, sizeof( szMsg ), szTemp );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vReusError, "ErrorMsg", "MetaName" );
+      strcpy_s( szMsg, zsizeof( szMsg ), szTemp );
       for ( i = zstrlen( szTemp ); i < 33; i++ )
-         strcat_s( szMsg, sizeof( szMsg ), " " );
+         strcat_s( szMsg, zsizeof( szMsg ), " " );
 
-      strcat_s( szMsg, sizeof( szMsg ), " " );
+      strcat_s( szMsg, zsizeof( szMsg ), " " );
       GetStringFromAttributeByContext( szTemp, vReusError, "ErrorMsg", "MetaType",
                                        "CM_Type", 30 );
       if ( zstrcmp( szTemp, "" ) != 0 )
       {
-         strcat_s( szMsg, sizeof( szMsg ), szTemp );
+         strcat_s( szMsg, zsizeof( szMsg ), szTemp );
          for ( i = zstrlen( szTemp ); i < 30; i++ )
-            strcat_s( szMsg, sizeof( szMsg ), " " );
+            strcat_s( szMsg, zsizeof( szMsg ), " " );
       }
 
-      strcat_s( szMsg, sizeof( szMsg ), "  " );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vReusError, "ErrorMsg", "CurrentCPLR" );
+      strcat_s( szMsg, zsizeof( szMsg ), " " );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vReusError, "ErrorMsg", "CurrentCPLR" );
       if ( zstrcmp( szTemp, "" ) != 0 )
       {
-         strcat_s( szMsg, sizeof( szMsg ), szTemp );
+         strcat_s( szMsg, zsizeof( szMsg ), szTemp );
          for ( i = zstrlen( szTemp ); i < 33; i++ )
-            strcat_s( szMsg, sizeof( szMsg ), " " );
+            strcat_s( szMsg, zsizeof( szMsg ), " " );
       }
 
-      strcat_s( szMsg, sizeof( szMsg ), "  " );
-      GetStringFromAttribute( szTemp, sizeof( szTemp ), vReusError, "ErrorMsg", "CPLR_ToBeReused" );
+      strcat_s( szMsg, zsizeof( szMsg ), " " );
+      GetStringFromAttribute( szTemp, zsizeof( szTemp ), vReusError, "ErrorMsg", "CPLR_ToBeReused" );
       if ( zstrcmp( szTemp, "" ) != 0 )
       {
-         strcat_s( szMsg, sizeof( szMsg ), szTemp );
+         strcat_s( szMsg, zsizeof( szMsg ), szTemp );
          for ( i = zstrlen( szTemp ); i < 33; i++ )
-            strcat_s( szMsg, sizeof( szMsg ), " " );
+            strcat_s( szMsg, zsizeof( szMsg ), " " );
       }
 
       SysWriteLine( vReusError, FileHandle, szMsg );
@@ -7292,15 +7292,15 @@ zwTZCMCPLD_ErrorListSaveToFile( zVIEW vSubtask )
    szFileName[ 0 ] = 0;
    ulZFlags = zOFN_OVERWRITEPROMPT | zOFN_CREATEPROMPT | zOFN_SAVEAS | zOFN_HIDEREADONLY;
 
-   if ( OperatorPromptForFile( vSubtask, szFileName, sizeof( szFileName ),
+   if ( OperatorPromptForFile( vSubtask, szFileName, zsizeof( szFileName ),
                                "Text Files (*.txt)|*.txt|", "txt", ulZFlags ) == 1 )
    {
       FileHandle = SysOpenFile( vReusError, szFileName, COREFILE_WRITE );
 
       if ( FileHandle == -1 )
       {
-         strcpy_s( szMsg, sizeof( szMsg ), "Unable to open " );
-         strcat_s( szMsg, sizeof( szMsg ), szFileName );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+         strcat_s( szMsg, zsizeof( szMsg ), szFileName );
          MessageSend( vSubtask, "FEH001", "Configuration Management",
                       szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
          return( -1 );
@@ -7329,9 +7329,9 @@ zwTZCMCPLD_SetCPL_Name( zVIEW vSubtask )
    if ( GetViewByName( &vTZCMCPL, "TZCMCPL", vSubtask, zLEVEL_TASK ) < 0 )
       return( -1 );
 
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPL", "Name" );
-   strcpy_s( szControlText, sizeof( szControlText ), " CPL: " );
-   strcat_s( szControlText, sizeof( szControlText ), szName );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPL", "Name" );
+   strcpy_s( szControlText, zsizeof( szControlText ), " CPL: " );
+   strcat_s( szControlText, zsizeof( szControlText ), szName );
    SetCtrlText( vSubtask, "txtCPL", szControlText );
 
    if ( zwfnTZCMCPLD_IsSysadm( vSubtask ) )
@@ -7368,7 +7368,7 @@ zwTZCMCPLD_LoadCPLR_Users( zVIEW vSubtask )
    GetViewByName( &vTZCMCPL, "TZCMCPL", vSubtask, zLEVEL_TASK );
 
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMCPL, "CPLR", "ZKey" );
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
 
    zwTZCMCPLD_SetCPL_Name( vSubtask );
 
@@ -7481,7 +7481,7 @@ zwTZCMCPLD_Search_CPLR( zVIEW vSubtask )
    while ( ResetViewFromSubobject( vTZCMRCRO ) == 0 );
 
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMCPL, "CPLR", "ZKey" );
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
 
    // Searching for all CPLR, who reusing the current CPLR
    nRC = SetCursorFirstEntityByInteger( vTZCMRCRO, "ReusableCPLR", "ZKey",
@@ -7702,7 +7702,7 @@ zwTZCMCPLD_ListPrefSetCPL_Name( zVIEW vSubtask )
    GetViewByName( &vTZCMCPL, "TZCMCPL", vSubtask, zLEVEL_TASK );
 
    GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMCPL, "CPLR", "ZKey" );
-   GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPL", "Name" );
+   GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPL", "Name" );
 
    zwTZCMCPLD_SetCPL_Name( vSubtask );
 
@@ -7766,7 +7766,7 @@ zwTZCMCPLD_ListPrefPostBuild( zVIEW vSubtask )
       if ( CheckExistenceOfEntity( vTZCMCPL, "CPLR" ) >= zCURSOR_SET )
       {
          GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMCPL, "CPLR", "ZKey" );
-         GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
       }
       else
       {
@@ -7912,7 +7912,7 @@ zwTZCMCPLD_ComponentPostBuild( zVIEW vSubtask )
       if ( CheckExistenceOfEntity( vTZCMCPL, "CPLR" ) >= zCURSOR_SET )
       {
          GetIntegerFromAttribute( (zPLONG) &ulZKey, vTZCMCPL, "CPLR", "ZKey" );
-         GetStringFromAttribute( szName, sizeof( szName ), vTZCMCPL, "CPLR", "Name" );
+         GetStringFromAttribute( szName, zsizeof( szName ), vTZCMCPL, "CPLR", "Name" );
       }
       else
       {

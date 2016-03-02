@@ -592,15 +592,15 @@ BeginTransaction( int      Indicators,
    if ( zstrcmp( szDatabaseName, "ZMM" ) == 0 )
    {
       SysReadZeidonIni( -1, "[RaimaDM_dir]", szDatabaseName, szPath );
-      strcpy_s( szFullDBN, sizeof( szFullDBN ), szPath );
-      strcat_s( szFullDBN, sizeof( szFullDBN ), "\\ZMMBK.LOK" );
+      strcpy_s( szFullDBN, zsizeof( szFullDBN ), szPath );
+      strcat_s( szFullDBN, zsizeof( szFullDBN ), "\\ZMMBK.LOK" );
    // TraceLineS( "(kzhdbvaa) Checking for lock file : ", szFullDBN );
       if ( SysOpenFile( lpView, szFullDBN, COREFILE_EXIST ) >= 0 )
       {
          int k;
          WORD wErrMode;
 
-      // strcat_s( szFullDBN, sizeof( szFullDBN ), ".LOK" );
+      // strcat_s( szFullDBN, zsizeof( szFullDBN ), ".LOK" );
          for ( ; ; )
          {
             for ( k = 0 ; k < 5 ; k++ )
@@ -683,7 +683,7 @@ BeginTransaction( int      Indicators,
 
    // Retrieve user id.
    szUserId[ 0 ] = 0;
-   SysGetDB_UserID( lpView, szUserId, sizeof( szUserId ), szPassword, sizeof( szPassword ) );
+   SysGetDB_UserID( lpView, szUserId, zsizeof( szUserId ), szPassword, zsizeof( szPassword ) );
    if ( szUserId[ 0 ] == 0 )
    {
       SysReadZeidonIni( -1, "[RaimaDM_dir]", "DBUserID", szUserId );
@@ -702,10 +702,10 @@ BeginTransaction( int      Indicators,
    {
 //    zCHAR szTemp[ 500 ];
 
-//    strcpy_s( szTemp, sizeof( szTemp ), "Your Raima Database User ID specified in ZEIDON.INI "
+//    strcpy_s( szTemp, zsizeof( szTemp ), "Your Raima Database User ID specified in ZEIDON.INI "
 //             "is greater than 7 characters.\n\nDatabase User ID = '" );
-//    strcat_s( szTemp, sizeof( szTemp ), szUserId );
-//    strcat_s( szTemp, sizeof( szTemp ), "'\n\nOK to truncate ID to 7 characters and continue?" );
+//    strcat_s( szTemp, zsizeof( szTemp ), szUserId );
+//    strcat_s( szTemp, zsizeof( szTemp ), "'\n\nOK to truncate ID to 7 characters and continue?" );
 
       nRC = zRESPONSE_YES;
 //    nRC = OperatorPrompt( lpView, "Database Handler Warning", szTemp,
@@ -729,7 +729,7 @@ BeginTransaction( int      Indicators,
    if ( nRC != zCURSOR_SET )
    {
       // Initialize connection record.
-      zmemset( (zPVOID) &ConnRec, 0, sizeof( ConnectionRecord ) );
+      zmemset( (zPVOID) &ConnRec, 0, zsizeof( ConnectionRecord ) );
       lpConnection = &ConnRec;
       lpConnection->bValidConnection = FALSE;
 #if TRACE
@@ -869,7 +869,7 @@ BeginTransaction( int      Indicators,
       // Generate a unique user id.
       CreateViewFromViewForTask( &lpTemp, vDbhWork, 0 );
       nIdx = 0;
-      strncpy_s( szUniqueDatabaseID, sizeof( szUniqueDatabaseID ), szUserId, 7 );
+      strncpy_s( szUniqueDatabaseID, zsizeof( szUniqueDatabaseID ), szUserId, 7 );
       szUniqueDatabaseID[ 7 ] = 0;
       nLastChar = zstrlen( szUniqueDatabaseID );
       strcat_s( szUniqueDatabaseID, "1" );
@@ -959,15 +959,15 @@ BeginTransaction( int      Indicators,
          return( -1 );
       }
 
-      strcpy_s( szFullDBN, sizeof( szFullDBN ), szPath );
-      strcat_s( szFullDBN, sizeof( szFullDBN ), "\\" );
-      strcat_s( szFullDBN, sizeof( szFullDBN ), szDatabaseName );
+      strcpy_s( szFullDBN, zsizeof( szFullDBN ), szPath );
+      strcat_s( szFullDBN, zsizeof( szFullDBN ), "\\" );
+      strcat_s( szFullDBN, zsizeof( szFullDBN ), szDatabaseName );
 
       // Now open database using fully qualified database name.
 #if MultiUser
-      strcpy_s( szOpenType, sizeof( szOpenType ), "s" );
+      strcpy_s( szOpenType, zsizeof( szOpenType ), "s" );
 #else
-      strcpy_s( szOpenType, sizeof( szOpenType ), "o" );
+      strcpy_s( szOpenType, zsizeof( szOpenType ), "o" );
 #endif
 
 #if DBQuery
@@ -1026,7 +1026,7 @@ BeginTransaction( int      Indicators,
       SetAttributeFromString( vDbhWork, "Connection", "DatabaseName",
                               szDatabaseName );
       SetAttributeFromBlob( vDbhWork, "Connection", "ConnectionBlob",
-                            (zPVOID) &ConnRec, sizeof( ConnectionRecord ) );
+                            (zPVOID) &ConnRec, zsizeof( ConnectionRecord ) );
       SetAttributeFromString( vDbhWork, "Connection", "UniqueDatabaseID",
                               szUniqueDatabaseID );
 
@@ -1094,7 +1094,7 @@ BeginTransaction( int      Indicators,
    // Allocate enough memory to lock MAX_LOCKS records and sets.
    nLockRequestCount = 0;
    hMem = SysAllocMemory( (zCOREMEM) &lpLockRequest,
-                          (zLONG) sizeof( LOCK_REQUEST ) * MAX_LOCKS,
+                          (zLONG) zsizeof( LOCK_REQUEST ) * MAX_LOCKS,
                           0, zCOREMEM_ALLOC, 0 );
    if ( lpLockRequest == 0 )
    {
@@ -1239,12 +1239,12 @@ BeginTransaction( int      Indicators,
                   (zLONG) nLockRequestCount );
       for ( k = 0; k < nLockRequestCount; k++ )
       {
-         strcpy_s( szWork, sizeof( szWork ), " Record/Set Name = " );
+         strcpy_s( szWork, zsizeof( szWork ), " Record/Set Name = " );
          if ( lpLockName[ k ] )
-            strcat_s( szWork, sizeof( szWork ), lpLockName[ k ] );
+            strcat_s( szWork, zsizeof( szWork ), lpLockName[ k ] );
          else
-            strcat_s( szWork, sizeof( szWork ), "Overflow record" );
-         strcat_s( szWork, sizeof( szWork ), " ID = " );
+            strcat_s( szWork, zsizeof( szWork ), "Overflow record" );
+         strcat_s( szWork, zsizeof( szWork ), " ID = " );
          TraceLineI( szWork, (zLONG) lpLockRequest[ k ].item );
       }
    }
@@ -2517,12 +2517,12 @@ Delete( LPVIEWOD     lpViewOD,
       // Lock ALL sets.
       for ( k = 20000; k < 20234 ; k++ )
       {
-         strcpy_s( sz, sizeof( sz ), "Set ID = " );
+         strcpy_s( sz, zsizeof( sz ), "Set ID = " );
          zltoa( (zLONG) i, cLockType );
-         strcat_s( sz, sizeof( sz ), cLockType );
-         strcat_s( sz, sizeof( sz ), ". Lock type = " );
+         strcat_s( sz, zsizeof( sz ), cLockType );
+         strcat_s( sz, zsizeof( sz ), ". Lock type = " );
          nRC = dt_setlstat( i, cLockType, &lpConnection->Currtask, CURR_DB );
-         strcat_s( sz, sizeof( sz ), cLockType );
+         strcat_s( sz, zsizeof( sz ), cLockType );
          RDM_RC( "d_setlstat", nRC, sz, 0, 1 );
          if ( *cLockType == 'f' )
          {
@@ -2621,31 +2621,31 @@ DeleteRel( LPVIEWOD     lpViewOD,
       DisplayEntityInstance( lpView, lpViewEntity->hParent->szName );
       DisplayEntityInstance( lpView, lpViewEntity->szName );
 
-      strcpy_s( szMsg, sizeof( szMsg ), "Attempting to exclude an entity that has already "
+      strcpy_s( szMsg, zsizeof( szMsg ), "Attempting to exclude an entity that has already "
                "been excluded." );
-      strcat_s( szMsg, sizeof( szMsg ), "\n\n Parent entity name = " );
-      strcat_s( szMsg, sizeof( szMsg ), lpViewEntity->hParent->szName );
-      strcat_s( szMsg, sizeof( szMsg ), "\n Child entity name = " );
-      strcat_s( szMsg, sizeof( szMsg ), lpViewEntity->szName );
-      strcat_s( szMsg, sizeof( szMsg ), ", Record name = " );
-      strcat_s( szMsg, sizeof( szMsg ), lpDataRecord->szRecordName );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n\n Parent entity name = " );
+      strcat_s( szMsg, zsizeof( szMsg ), lpViewEntity->hParent->szName );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n Child entity name = " );
+      strcat_s( szMsg, zsizeof( szMsg ), lpViewEntity->szName );
+      strcat_s( szMsg, zsizeof( szMsg ), ", Record name = " );
+      strcat_s( szMsg, zsizeof( szMsg ), lpDataRecord->szRecordName );
       if ( lpRelRecord->cOwnerMember == zDBH_MANY_TO_MANY )
       {
-         strcat_s( szMsg, sizeof( szMsg ), "\n Set name1 = " );
-         strcat_s( szMsg, sizeof( szMsg ), lpRelRecord->szSetName1 );
-         strcat_s( szMsg, sizeof( szMsg ), "\n Intersection record = " );
-         strcat_s( szMsg, sizeof( szMsg ), lpRelRecord->szRecordName );
-         strcat_s( szMsg, sizeof( szMsg ), "\n Set name2 = " );
-         strcat_s( szMsg, sizeof( szMsg ), lpRelRecord->szSetName2 );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n Set name1 = " );
+         strcat_s( szMsg, zsizeof( szMsg ), lpRelRecord->szSetName1 );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n Intersection record = " );
+         strcat_s( szMsg, zsizeof( szMsg ), lpRelRecord->szRecordName );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n Set name2 = " );
+         strcat_s( szMsg, zsizeof( szMsg ), lpRelRecord->szSetName2 );
       }
       else
       {
-         strcat_s( szMsg, sizeof( szMsg ), "\n Set name = " );
-         strcat_s( szMsg, sizeof( szMsg ), lpRelRecord->szSetName1 );
+         strcat_s( szMsg, zsizeof( szMsg ), "\n Set name = " );
+         strcat_s( szMsg, zsizeof( szMsg ), lpRelRecord->szSetName1 );
       }
 
-      strcat_s( szMsg, sizeof( szMsg ), "\nSee Trace for attribute values." );
-      strcat_s( szMsg, sizeof( szMsg ), "\n\nDo you want to ignore this error and continue "
+      strcat_s( szMsg, zsizeof( szMsg ), "\nSee Trace for attribute values." );
+      strcat_s( szMsg, zsizeof( szMsg ), "\n\nDo you want to ignore this error and continue "
                "with the Commit?" );
       nRC = zRESPONSE_YES;
       TraceLineS( "(kzhdbvaa) ", szMsg );
@@ -2927,7 +2927,7 @@ AddKeysToEntity( zVIEW        lpView,
          nKeyCnt++;
 
          // Allocate key memory and insert it into key chain.
-         hMem = SysAllocMemory( (zPVOID) &lpKey, (zLONG) sizeof( KeyRecord ),
+         hMem = SysAllocMemory( (zPVOID) &lpKey, (zLONG) zsizeof( KeyRecord ),
                                 0, zCOREMEM_ALLOC, 0 );
          if ( lpKey == 0 )
          {
@@ -2935,7 +2935,7 @@ AddKeysToEntity( zVIEW        lpView,
                        "(kzhdbvaa) Error allocating memory.", "lpKey #1", 0 );
             return( -1 );
          }
-         zmemset( (zPCHAR) lpKey, 0, sizeof( KeyRecord ) );
+         zmemset( (zPCHAR) lpKey, 0, zsizeof( KeyRecord ) );
          lpKey->hMemory       = hMem;
          lpKey->lpViewAttrib  = lpViewAttrib;
          lpKey->lpDataField   = lpDataField;
@@ -3006,14 +3006,14 @@ zSHORT AddSetToPathTable ( zSHORT       nPathType,
 
    // Allocate Set.
    hMem = SysAllocMemory( (zPVOID) plpSet,
-                           sizeof( SetRecord ), 0, zCOREMEM_ALLOC, 0 );
+                           zsizeof( SetRecord ), 0, zCOREMEM_ALLOC, 0 );
    if ( plpSet[ 0 ] == 0 )
    {
       DBH_Error( lpConnection->lpAppView,
                  "Error allocating memory.", "lpSet", 0 );
       return( -1 );
    }
-   zmemset( (zPCHAR) *plpSet, 0, sizeof( SetRecord ) );
+   zmemset( (zPCHAR) *plpSet, 0, zsizeof( SetRecord ) );
    (*plpSet)->hMemory = hMem;
 
    // Add lpSet as last set in set chain.
@@ -3056,52 +3056,52 @@ void BuildWhereClause ( zVIEW  lpView,
    LPRELRECORD   lpRelRecord;
    LPDATAFIELD   lpDataField;
 
-   nLth = sizeof( lpViewEntity );
+   nLth = zsizeof( lpViewEntity );
    nRC = GetBlobFromAttribute( &lpViewEntity, &nLth, lpView, "DB_Key",
                                "lpViewEntity" );
    lpDataRecord = lpViewEntity->hFirstDataRecord;
    lpRelRecord  = lpDataRecord->hFirstRelRecord;
    szRecordName = lpDataRecord->szRecordName;
 
-   strcpy_s( szWhereClause, sizeof( szWhereClause ), " WHERE ( " );
+   strcpy_s( szWhereClause, zsizeof( szWhereClause ), " WHERE ( " );
    nRC = SetCursorFirstEntity( lpView, "DB_Key", "DB_Entity" );
 
    if ( lpRelRecord )
    {
-      strcpy_s( szWhereClause, sizeof( szWhereClause ), " ( db_addr( " );
+      strcpy_s( szWhereClause, zsizeof( szWhereClause ), " ( db_addr( " );
       copy parent record name.
-      strcpy_s( szWhereClause, sizeof( szWhereClause ), " ) = " );
+      strcpy_s( szWhereClause, zsizeof( szWhereClause ), " ) = " );
       copy parent record dba.
-      strcpy_s( szWhereClause, sizeof( szWhereClause ), " ) AND " );
+      strcpy_s( szWhereClause, zsizeof( szWhereClause ), " ) AND " );
    }  // if ( lpRelRecord )...
 
-   strcpy_s( szWork1, sizeof( szWork1 ), "( " );
+   strcpy_s( szWork1, zsizeof( szWork1 ), "( " );
 
    // For each DB_Key entity, add a "fld = fld" statement to the WHERE clause.
    while ( nRC == zCURSOR_SET )
    {
-      strcat_s( szWhereClause, sizeof( szWhereClause ), szWork1 );
+      strcat_s( szWhereClause, zsizeof( szWhereClause ), szWork1 );
 
       nLth = 999;
       GetBlobFromAttribute( bKeyValue, &nLth, lpView, "DB_Key", "KeyValue" );
-      nLth = sizeof( lpViewAttrib );
+      nLth = zsizeof( lpViewAttrib );
       GetBlobFromAttribute( &lpViewAttrib, &nLth, lpView, "DB_Key",
                             "lpViewAttrib" );
-      nLth = sizeof( lpDataField );
+      nLth = zsizeof( lpDataField );
       GetBlobFromAttribute( &lpDataField, &nLth, lpView, "DB_Key",
                             "lpDataField" );
 
-      strcat_s( szWhereClause, sizeof( szWhereClause ), szRecordName );
-      strcat_s( szWhereClause, sizeof( szWhereClause ), "." );
-      strcat_s( szWhereClause, sizeof( szWhereClause ), lpDataField->hFldName );
-      strcat_s( szWhereClause, sizeof( szWhereClause ), " = " );
+      strcat_s( szWhereClause, zsizeof( szWhereClause ), szRecordName );
+      strcat_s( szWhereClause, zsizeof( szWhereClause ), "." );
+      strcat_s( szWhereClause, zsizeof( szWhereClause ), lpDataField->hFldName );
+      strcat_s( szWhereClause, zsizeof( szWhereClause ), " = " );
 
       switch ( lpViewAttrib->cType )
       {
          case zTYPE_INTEGER:
             TempLongPtr = (zPLONG) bKeyValue;
             zltoa( *TempLongPtr, szWork1 );
-            strcat_s( szWhereClause, sizeof( szWhereClause ), szWork1 );
+            strcat_s( szWhereClause, zsizeof( szWhereClause ), szWork1 );
             break;
 
          case zTYPE_DECIMAL:
@@ -3109,14 +3109,14 @@ void BuildWhereClause ( zVIEW  lpView,
             break;
 
          case zTYPE_STRING:
-            strcat_s( szWhereClause, sizeof( szWhereClause ), "\"" );
-            strcat_s( szWhereClause, sizeof( szWhereClause ), bKeyValue );
-            strcat_s( szWhereClause, sizeof( szWhereClause ), "\"" );
+            strcat_s( szWhereClause, zsizeof( szWhereClause ), "\"" );
+            strcat_s( szWhereClause, zsizeof( szWhereClause ), bKeyValue );
+            strcat_s( szWhereClause, zsizeof( szWhereClause ), "\"" );
             break;
       }  // switch (...)...
 
-      strcat_s( szWhereClause, sizeof( szWhereClause ), " )" );
-      strcpy_s( szWork1, sizeof( szWork1 ), " AND (" );
+      strcat_s( szWhereClause, zsizeof( szWhereClause ), " )" );
+      strcpy_s( szWork1, zsizeof( szWork1 ), " AND (" );
 
       // Set cursor to next key entity.
       nRC = SetCursorNextEntity( lpView, "DB_Key", "DB_Entity" );
@@ -3157,12 +3157,12 @@ ConvertAttributeValue( zCHAR    cInType,
          switch ( cOutType )
          {
             case 'L' :
-               *puLth = sizeof( zPLONG );
+               *puLth = zsizeof( zPLONG );
                TempLong = zatol( lpInValue );
                zmemcpy( (zPVOID) lpOutValue, (zPVOID) &TempLong, *pulLth );
                return( 0 );
             case 'N' :
-               *puLth = sizeof( int );
+               *puLth = zsizeof( int );
                TempInt = (int) zatol( lpInValue );
                zmemcpy( lpOutValue, (zPVOID) &TempInt, *pulLth );
                return( 0 );
@@ -3178,7 +3178,7 @@ ConvertAttributeValue( zCHAR    cInType,
          switch ( cOutType )
          {
             case 'N' :
-               *puLth = sizeof( int );
+               *puLth = zsizeof( int );
                TempLongPtr = (zPLONG) lpInValue;
                TempInt = (int) *TempLongPtr;
                zmemcpy( lpOutValue, (zPVOID) &TempInt, *pulLth );
@@ -3203,7 +3203,7 @@ ConvertAttributeValue( zCHAR    cInType,
             case 'F' :
                TempDecimal = *((zPDECIMAL) lpInValue);
                TempFloat   = (float) TempDecimal;
-               *puLth = sizeof( float );
+               *puLth = zsizeof( float );
                zmemcpy( lpOutValue, (zPVOID) &TempFloat, *pulLth );
                return( 0 );
          }
@@ -3239,9 +3239,9 @@ ConvertAttributeValue( zCHAR    cInType,
          break;
    } // switch ( cInType )...
 
-   strcpy_s( szWork, sizeof( szWork ), "Internal error--converting illegal types. From-type = " );
+   strcpy_s( szWork, zsizeof( szWork ), "Internal error--converting illegal types. From-type = " );
    zstrncat( szWork, (zPCHAR) &cInType, 1 );
-   strcat_s( szWork, sizeof( szWork ), "; To-type = " );
+   strcat_s( szWork, zsizeof( szWork ), "; To-type = " );
    zstrncat( szWork, (zPCHAR) &cOutType, 1 );
 
    TraceLineS( "", "" );
@@ -3582,7 +3582,7 @@ CopyQualToPath( zVIEW        lpQualView,
          lpSet->Child.lpViewEntity = lpViewEntity;
 
          // Allocate key memory.
-         hMem = SysAllocMemory( (zPVOID) &lpKey, (zLONG) sizeof( KeyRecord ),
+         hMem = SysAllocMemory( (zPVOID) &lpKey, (zLONG) zsizeof( KeyRecord ),
                                  0, zCOREMEM_ALLOC, 0 );
          if ( lpKey == 0 )
          {
@@ -3592,7 +3592,7 @@ CopyQualToPath( zVIEW        lpQualView,
          }
 
          // Insert key at the beginning of the key chain.
-         zmemset( (zPCHAR) lpKey, 0, sizeof( KeyRecord ) );
+         zmemset( (zPCHAR) lpKey, 0, zsizeof( KeyRecord ) );
          lpKey->hMemory   = hMem;
          lpKey->lpNextKey = lpSet->Child.lpFirstKey;
          lpSet->Child.lpFirstKey = lpKey;
@@ -3868,7 +3868,7 @@ CreateOverflowRecord( zPCHAR       pchDataValue,
    if ( uLth > 0 )
    {
       hOverflowMem = SysAllocMemory( (zPVOID) &OverflowRec,
-                      lpConnection->nOVERFLOW_BUFFER_LTH + sizeof( DB_ADDR ),
+                      lpConnection->nOVERFLOW_BUFFER_LTH + zsizeof( DB_ADDR ),
                       0, zCOREMEM_ALLOC, 0 );
       if ( OverflowRec == 0 )
       {
@@ -4047,7 +4047,7 @@ DeleteOverflowRecords( LPCONNECTION lpConnection, zBOOL bDelete )
    {
       // Allocate memory to store overflow data.
       hOverflowMem = SysAllocMemory( (zPVOID) &lpOverflowRec,
-                        lpConnection->nOVERFLOW_BUFFER_LTH + sizeof( DB_ADDR ),
+                        lpConnection->nOVERFLOW_BUFFER_LTH + zsizeof( DB_ADDR ),
                         0, zCOREMEM_ALLOC, 0 );
       if ( lpOverflowRec == 0 )
       {
@@ -4171,7 +4171,7 @@ DeleteOverflowRecsForCurrentRec( LPVIEWENTITY lpViewEntity,
          {
             // Allocate memory for overflow delete chain.
             hMem = SysAllocMemory( (zPVOID) &lpOverflow,
-                                   sizeof( OverflowDeleteRecord ),
+                                   zsizeof( OverflowDeleteRecord ),
                                    0, zCOREMEM_ALLOC, 0 );
             if ( lpOverflow == 0 )
             {
@@ -5120,7 +5120,7 @@ zSHORT ReadOverflowRecord ( zPVOID       lpSrc,
          return( -1 );
 
       hOverflowMem = SysAllocMemory( (zPVOID) &OverflowRec,
-                       lpConnection->nOVERFLOW_BUFFER_LTH + sizeof( DB_ADDR ),
+                       lpConnection->nOVERFLOW_BUFFER_LTH + zsizeof( DB_ADDR ),
                        0, zCOREMEM_ALLOC, 0 );
       if ( OverflowRec == 0 )
       {
