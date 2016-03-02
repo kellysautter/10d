@@ -1898,7 +1898,7 @@ XSLT_GetStyleShape( VIEW vReportDef BASED ON LOD TZRPSRCO,
    INTEGER        nRC
    DECIMAL        lBorder
    STRING ( 32 )  szFaceName
-   STRING ( 25 )  szBorderWidth
+   STRING ( 10 )  szBorderWidth
    STRING ( 50 ) szAlign
    STRING ( 50 ) szBorderStyle
    STRING ( 25 ) szFontSize

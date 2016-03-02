@@ -938,7 +938,7 @@ GenerateJavaSource( zVIEW  vSubtask,
    {
       // Write out declaration for the class.
       GetStringFromAttribute( szImportName, zsizeof( szImportName ), g_lpPIView, "ExternalOperationJava", "SourceName" );
-      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "  private final %s m_%s;", szImportName, szImportName );
+      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "   private final %s m_%s;", szImportName, szImportName );
       OutputLine( vSubtask, lfCFileHandle, szFullImportName, 1 );
 
       nRC = SetCursorNextEntity( g_lpPIView, "ExternalOperationJava", "" );
@@ -967,7 +967,7 @@ GenerateJavaSource( zVIEW  vSubtask,
    {
       // Write out instantiation for the class.
       GetStringFromAttribute( szImportName, zsizeof( szImportName ), g_lpPIView, "ExternalOperationJava", "SourceName" );
-      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "     m_%s = new %s( view );", szImportName, szImportName );
+      sprintf_s( szFullImportName, zsizeof( szFullImportName ), "      m_%s = new %s( view );", szImportName, szImportName );
       OutputLine( vSubtask, lfCFileHandle, szFullImportName, 1 );
 
       nRC = SetCursorNextEntity( g_lpPIView, "ExternalOperationJava", "" );

@@ -655,7 +655,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
             // multiple "String" and "Int" return parameters, but at most one other type of return parameter.
             if ( psExpr->lDataType == qTVIEW )  // qTVIEW:1045
             {
-               if ( psExpr->lOffset >= 0 )  // ==> it's not a pointer ... take the most firstest view
+               if ( psExpr->lOffset >= 0 )  // ==> it's not a pointer ... take the firstmost view
                   nFirstViewIdx = nExprIdx;
 
                // Ignore return View parameters except for special case of setting View1 = View2.
@@ -1135,7 +1135,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
             szStringBuilder1[ nIndent + 6 ] = 'm';
             szStringBuilder1[ nIndent + 7 ] = '_';
             strcpy_s( szStringBuilder1 + nIndent + 8, zsizeof( szStringBuilder1 ) - (nIndent + 8), szOperationGroup );
-            strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), " = null; // permit gc  (unnecessary)\n" );
+            strcat_s( szStringBuilder1, zsizeof( szStringBuilder1 ), " = null;  // permit gc  (unnecessary)\n" );
             nLth = (zSHORT) zstrlen( szStringBuilder1 );
             zmemset( szStringBuilder1 + nLth, ' ', nIndent );
             nLth += nIndent;
@@ -1471,8 +1471,7 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
    {
       // Localize the expression record out of the szExprCode blob ... not sure we need to since
       // we could just run through the structures using a pointer (dks 2009.10.01)
-      zmemcpy( &sCurrExpr, szExprCode + nExprIdx, sizeof( sQExprStruct ) - MAXSTRING);
-
+      zmemcpy( &sCurrExpr, szExprCode + nExprIdx, sizeof( sQExprStruct ) - MAXSTRING );
       if ( (sCurrExpr.lFlags & SKIP_BIT) == 0 )
       {
          if ( sCurrExpr.lElementClass )  // if the Expression structure retrieved is a value
@@ -1586,14 +1585,19 @@ GenerateNewExpression( zVIEW vSubtask, zPCHAR pchOutputString )
                     sCurrExpr.lElementClass == qOPERATIONCALL )        // 2008
                {
                   // Output the value.
-                  if ( (sCurrExpr.lFlags & TESTVIEW_BIT) != 0 &&
-                       sCurrExpr.lElementClass == qCONSTANT && zstrcmp( szExprText + sCurrExpr.lOffset, "0" ) == 0 )
+                  if ( (sCurrExpr.lFlags & TESTVIEW_BIT) != 0 )
                   {
-                     if ( g_szGenLang[ 0 ] == 'J' )
+                     if ( sCurrExpr.lElementClass == qCONSTANT )
                      {
-                        nOutputIdx -= 3;
-                        zmemcpy( g_pchOutputExprStr + nOutputIdx, "null", 4 );
-                        nOutputIdx--;
+                        if ( zstrcmp( szExprText + sCurrExpr.lOffset, "0" ) == 0 )
+                        {
+                           if ( g_szGenLang[ 0 ] == 'J' )
+                           {
+                              nOutputIdx -= 3;
+                              zmemcpy( g_pchOutputExprStr + nOutputIdx, "null", 4 );
+                              nOutputIdx--;
+                           }
+                        }
                      }
                   }
                   else
@@ -2479,8 +2483,8 @@ AddSizeofToOperation( zPCHAR pchOutputExprStr, zSHORT nOutputIdx, zSHORT nParmPo
 
          if ( bComma )  // not the last parameter
          {
-            // now back off nOutputIdx by the length of the variable + 12 bytes for the addition of "zsizeof( ), "
-            nLth += 12;
+            // now back off nOutputIdx by the length of the variable + 13 bytes for the addition of "zsizeof( ), "
+            nLth += 13;
             nOutputIdx -= nLth;
             pchComma += 2;
             zmemcpy( pchOutputExprStr + nOutputIdx + 1, pchStart, pchComma - pchStart );  // get the var + comma + space
@@ -2495,8 +2499,8 @@ AddSizeofToOperation( zPCHAR pchOutputExprStr, zSHORT nOutputIdx, zSHORT nParmPo
          }
          else  // otherwise, we are looking at the last parameter, so a close-paren rather than a comma
          {
-            // now back off nOutputIdx by the length of the variable + 12 bytes for the addition of ", zsizeof( )"
-            nLth += 12;
+            // now back off nOutputIdx by the length of the variable + 13 bytes for the addition of ", zsizeof( )"
+            nLth += 13;
             nOutputIdx -= nLth;
             zmemcpy( pchOutputExprStr + nOutputIdx + 1, pchStart, pchComma - pchStart );  // get the parameters up to where the comma will go
             pchStart += (pchComma - pchStart) - nLth;  // start has been moved
@@ -2643,7 +2647,12 @@ AddExprEntryToString( zVIEW          vSubtask,
                {
                   strcpy_s( szVarSave, zsizeof( szVarSave ), szVarName );
                   if ( bPointer )
-                     strcpy_s( szVarName, zsizeof( szVarName ), "(zLONG *) ");
+                  {
+                     if ( psExpr->lDataType == qTSHORT )
+                        strcpy_s( szVarName, zsizeof( szVarName ), "Invalid Cast (zLONG *) ");
+                     else
+                        strcpy_s( szVarName, zsizeof( szVarName ), "(zLONG *) ");
+                  }
                   else
                      strcpy_s( szVarName, zsizeof( szVarName ), "(zLONG) ");
 
@@ -2717,6 +2726,13 @@ AddExprEntryToString( zVIEW          vSubtask,
          else
          {
             strcpy_s( szVarName, zsizeof( szVarName ), pchExprText + psExpr->lOffset );
+         }
+
+         // The next test handles the case where we need to cast a long (in VML) to a LPVIEWCLUSTER
+         if ( strcmp( szVarName, "CommitMultipleOIs" ) == 0 )
+         {
+            strcat_s( szVarName, zsizeof( szVarName ), "( (LPVIEWCLUSTER)");
+            nOutputIdx++;  // remove the open paren ... we are putting in a new one
          }
 
          lCast = 0;
@@ -2835,7 +2851,11 @@ AddExprEntryToString( zVIEW          vSubtask,
                }
             }
 
-            strcat_s( szVarName, zsizeof( szVarName ), pchExprText + psExpr->lOffset );
+            // The next test is a very specialized case where an unsigned cannot start with a '-'
+            if ( psExpr->lElementClass == qCONSTANT && psExpr->lDataClass == qNUMERIC && zstrcmp( pchExprText, "-2147483648" ) == 0 )
+               strcat_s( szVarName, zsizeof( szVarName ), "0x80000000" );
+            else
+               strcat_s( szVarName, zsizeof( szVarName ), pchExprText + psExpr->lOffset );
          }
 
          break;

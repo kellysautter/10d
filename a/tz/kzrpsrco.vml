@@ -389,7 +389,7 @@ FormatDocPage( VIEW    vSubtask,
    SHORT        nPageCnt
    SHORT        nRC
    SHORT        nCase
-   SHORT        nPreviousPageNbr
+   INTEGER      lPreviousPageNbr
    INTEGER      lStartLevel
    INTEGER      lPrintFlags
    INTEGER      lWork
@@ -473,7 +473,7 @@ FormatDocPage( VIEW    vSubtask,
    lCurrentPagePrinted   = vReportDef.Report.CurrentPageNbr
    lNextPagePrinted      = lCurrentPagePrinted + 1
    lPreviousPagePrinted  = lCurrentPagePrinted - 1
-   nPreviousPageNbr      = lPageNbr - 1
+   lPreviousPageNbr      = lPageNbr - 1
 
    lEntityKey = -1
    lHierRC = zCURSOR_NULL
@@ -624,7 +624,7 @@ FormatDocPage( VIEW    vSubtask,
       CreateViewFromViewForTask( vSourceHierOI, vSourceCurrentHierOI, 0 )
       NAME VIEW vSourceHierOI "TZ_SourceHierOI"
       SET CURSOR FIRST vReportDef.PageState WHERE
-                       vReportDef.PageState.PageNbr = nPreviousPageNbr
+                       vReportDef.PageState.PageNbr = lPreviousPageNbr
       szCurrentEntityName = vReportDef.PageState.CurrentEntityName
       DefineHierarchicalCursor( vSourceHierOI, szCurrentEntityName )
       SET CURSOR FIRST vReportDef.GroupSet WHERE
@@ -651,9 +651,9 @@ FormatDocPage( VIEW    vSubtask,
       // CreateViewTrace( "Creating view (3): ", vSourceHierOI, vSourcePreviousHierOI, 0 )
          CreateViewFromViewForTask( vSourceHierOI, vSourcePreviousHierOI, 0 )
          NAME VIEW vSourceHierOI "TZ_SourceHierOI"
-         nPreviousPageNbr = nPreviousPageNbr
+         lPreviousPageNbr = lPreviousPageNbr
          SET CURSOR FIRST vReportDef.PageState WHERE
-                          vReportDef.PageState.PageNbr = nPreviousPageNbr
+                          vReportDef.PageState.PageNbr = lPreviousPageNbr
          szCurrentEntityName = vReportDef.PageState.CurrentEntityName
          DefineHierarchicalCursor( vSourceHierOI, szCurrentEntityName )
          SET CURSOR FIRST vReportDef.GroupSet WHERE
@@ -704,7 +704,7 @@ FormatDocPage( VIEW    vSubtask,
       // Retrieve state information from the report definition for the
       // current page (from the final state of the previous page).
       SET CURSOR FIRST vReportDef.PageState WHERE
-                       vReportDef.PageState.PageNbr = nPreviousPageNbr
+                       vReportDef.PageState.PageNbr = lPreviousPageNbr
       IF RESULT >= zCURSOR_SET
          lEntityKey = vReportDef.PageState.AbsolutePos
          bForcePageBreak = vReportDef.PageState.ForcePageBreak
@@ -995,7 +995,7 @@ FormatDocPage( VIEW    vSubtask,
          nRC = PrintPage( vSubtask, vSourceHierOI, vReportDef,
                           lWork, lPageWidth, lPageHeight,
                           szRptGroupSetTag, szRptGroupTag,
-                          -2147483648 )  // 0x80000000  phantom print page counting
+                          -2147483648 )  // 0x80000000  phantom print page counting ... needs to be converted in generation step
 
          // Reset Previous and Current views.
 //UNDVV     IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/

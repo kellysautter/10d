@@ -633,7 +633,10 @@ IMPORT_LPLR( VIEW ViewToWindow )
 
 // KJS 06/05/15 - Probably not here, but if the user puts in a directory for the meta source that doesn't
 // exist, do we want to create one for them?
-//      SysValidDirOrFile( szFileName,//                         TRUE /* Directory (TRUE or FALSE) */,//                         FALSE /* CheckCreate */,//                         512 /* Max Path Length */ )
+//      SysValidDirOrFile( szFileName,
+//                         TRUE /* Directory (TRUE or FALSE) */,
+//                         FALSE /* CheckCreate */,
+//                         512 /* Max Path Length */ )
   TZCMLPLO.LPLR.MetaSrcDir = szFileName
 
    // KJS 06/16/15 - Should we see if there is an ExecutableSubDirecory, and if not, create one based on the ExecDir.

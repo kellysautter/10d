@@ -1,12 +1,12 @@
 #define KZSYSSVC_INCL
-#include "KZOENGAA.H"
-#include "ZDRVROPR.H"
-
+#include "KZOENGAA.H" 
+#include "ZDRVROPR.H" 
+ 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
+ 
 #include "ZEIDONOP.H"
 
 static zSHORT
@@ -138,89 +138,89 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
                          zLONG     lPageWidth,
                          zLONG     lPageHeight )
 {
-   zVIEW     vReportDef = 0;
+   zVIEW     vReportDef = 0; 
    //:VIEW         vReportDef2        BASED ON LOD TZRPSRCO
-   zVIEW     vReportDef2 = 0;
+   zVIEW     vReportDef2 = 0; 
    //:VIEW         vSourceOI
-   zVIEW     vSourceOI = 0;
+   zVIEW     vSourceOI = 0; 
    //:// VIEW         vDeferredOI
    //:INTEGER      bForcePageBreak
-   zLONG     bForcePageBreak = 0;
+   zLONG     bForcePageBreak = 0; 
    //:VIEW         vFooterDidNotFit
-   zVIEW     vFooterDidNotFit = 0;
+   zVIEW     vFooterDidNotFit = 0; 
    //:VIEW         vSourceHierOI
-   zVIEW     vSourceHierOI = 0;
+   zVIEW     vSourceHierOI = 0; 
    //:VIEW         vSourceCurrentHierOI
-   zVIEW     vSourceCurrentHierOI = 0;
+   zVIEW     vSourceCurrentHierOI = 0; 
    //:VIEW         vSourcePreviousHierOI
-   zVIEW     vSourcePreviousHierOI = 0;
+   zVIEW     vSourcePreviousHierOI = 0; 
    //:// VIEW         vFooterHierOI
    //:VIEW         vTempOI
-   zVIEW     vTempOI = 0;
+   zVIEW     vTempOI = 0; 
    //:VIEW         vTemp
-   zVIEW     vTemp = 0;
+   zVIEW     vTemp = 0; 
    //:INTEGER      lTempView
-   zLONG     lTempView = 0;
+   zLONG     lTempView = 0; 
    //:STRING (32)  szCurrentEntityName
-   zCHAR     szCurrentEntityName[ 33 ] = { 0 };
+   zCHAR     szCurrentEntityName[ 33 ] = { 0 }; 
    //:STRING (32)  szSubobjectEntityName
-   zCHAR     szSubobjectEntityName[ 33 ] = { 0 };
+   zCHAR     szSubobjectEntityName[ 33 ] = { 0 }; 
    //:STRING (32)  szFaceName      // LF_FACENAME is 32
-   zCHAR     szFaceName[ 33 ] = { 0 };
+   zCHAR     szFaceName[ 33 ] = { 0 }; 
    //:STRING (256) szViewName
-   zCHAR     szViewName[ 257 ] = { 0 };
+   zCHAR     szViewName[ 257 ] = { 0 }; 
    //:INTEGER      lReturnLevel
-   zLONG     lReturnLevel = 0;
+   zLONG     lReturnLevel = 0; 
    //:SHORT        nPageCnt
-   zSHORT    nPageCnt = 0;
+   zSHORT    nPageCnt = 0; 
    //:SHORT        nRC
-   zSHORT    nRC = 0;
+   zSHORT    nRC = 0; 
    //:SHORT        nCase
-   zSHORT    nCase = 0;
-   //:SHORT        nPreviousPageNbr
-   zSHORT    nPreviousPageNbr = 0;
+   zSHORT    nCase = 0; 
+   //:INTEGER      lPreviousPageNbr
+   zLONG     lPreviousPageNbr = 0; 
    //:INTEGER      lStartLevel
-   zLONG     lStartLevel = 0;
+   zLONG     lStartLevel = 0; 
    //:INTEGER      lPrintFlags
-   zLONG     lPrintFlags = 0;
+   zLONG     lPrintFlags = 0; 
    //:INTEGER      lWork
-   zLONG     lWork = 0;
+   zLONG     lWork = 0; 
    //:INTEGER      lDefaultFontSize
-   zLONG     lDefaultFontSize = 0;
+   zLONG     lDefaultFontSize = 0; 
    //:INTEGER      lFontSize
-   zLONG     lFontSize = 0;
+   zLONG     lFontSize = 0; 
    //:INTEGER      lEntityKey
-   zLONG     lEntityKey = 0;
+   zLONG     lEntityKey = 0; 
    //:INTEGER      lNextPagePrinted
-   zLONG     lNextPagePrinted = 0;
+   zLONG     lNextPagePrinted = 0; 
    //:INTEGER      lCurrentPagePrinted
-   zLONG     lCurrentPagePrinted = 0;
+   zLONG     lCurrentPagePrinted = 0; 
    //:INTEGER      lPreviousPagePrinted
-   zLONG     lPreviousPagePrinted = 0;
+   zLONG     lPreviousPagePrinted = 0; 
    //:STRING (32)  szHierEntityName
-   zCHAR     szHierEntityName[ 33 ] = { 0 };
+   zCHAR     szHierEntityName[ 33 ] = { 0 }; 
    //:STRING (32)  szRptEntityName
-   zCHAR     szRptEntityName[ 33 ] = { 0 };
+   zCHAR     szRptEntityName[ 33 ] = { 0 }; 
    //:STRING (32)  szRptGroupSetTag
-   zCHAR     szRptGroupSetTag[ 33 ] = { 0 };
+   zCHAR     szRptGroupSetTag[ 33 ] = { 0 }; 
    //:STRING (32)  szRptGroupTag
-   zCHAR     szRptGroupTag[ 33 ] = { 0 };
+   zCHAR     szRptGroupTag[ 33 ] = { 0 }; 
    //:STRING (32)  szRptContinuedControlTag
-   zCHAR     szRptContinuedControlTag[ 33 ] = { 0 };
+   zCHAR     szRptContinuedControlTag[ 33 ] = { 0 }; 
    //:INTEGER      lMultiLineTextPos
-   zLONG     lMultiLineTextPos = 0;
+   zLONG     lMultiLineTextPos = 0; 
    //:INTEGER      lContinuedGroupFlag
-   zLONG     lContinuedGroupFlag = 0;
+   zLONG     lContinuedGroupFlag = 0; 
    //:INTEGER      lHierRC
-   zLONG     lHierRC = 0;
+   zLONG     lHierRC = 0; 
    //:INTEGER      lLastLevel
-   zLONG     lLastLevel = 0;
+   zLONG     lLastLevel = 0; 
    //:INTEGER      bValidView
-   zLONG     bValidView = 0;
+   zLONG     bValidView = 0; 
    //:INTEGER      lRptPos
-   zLONG     lRptPos = 0;
-   zSHORT    lTempInteger_0;
-   zSHORT    RESULT;
+   zLONG     lRptPos = 0; 
+   zSHORT    lTempInteger_0; 
+   zSHORT    RESULT; 
 
 
    //://UNDEF IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
@@ -229,7 +229,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
 
    //:IF lPageNbr < 0  // here on BeginPrint (-1) or EndPrint (-3) or
    if ( lPageNbr < 0 )
-   {
+   { 
       //:              //  BeginPrintPreview (-2) or EndPrintPreview (-4)
 
       //:// IF ( lPageNbr = -1 AND
@@ -240,7 +240,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       //:// ELSE
       //:   RETURN 0
       return( 0 );
-   }
+   } 
 
    //:// END
    //:END
@@ -265,18 +265,18 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
 
    //:IF vSourceHierOI != 0
    if ( vSourceHierOI != 0 )
-   {
+   { 
       //:bValidView = IsValidView( vSourceHierOI )
       bValidView = IsValidView( vSourceHierOI );
       //:IF bValidView = 0
       if ( bValidView == 0 )
-      {
+      { 
          //:bValidView = bValidView / bValidView
          bValidView = bValidView / bValidView;
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -299,13 +299,13 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
    //://    (lPageNbr > 1 AND vSourceHierOI = 0))
    //:IF ( vReportDef = 0 OR vSourceOI = 0 )
    if ( vReportDef == 0 || vSourceOI == 0 )
-   {
+   { 
 
       //:TraceLineS( "PrintPage views dropped!", "" )
       TraceLineS( "PrintPage views dropped!", "" );
       //:RETURN -1   // get out of Dodge pronto!!!
       return( -1 );
-   }
+   } 
 
 
    //:END
@@ -321,8 +321,8 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
    lNextPagePrinted = lCurrentPagePrinted + 1;
    //:lPreviousPagePrinted  = lCurrentPagePrinted - 1
    lPreviousPagePrinted = lCurrentPagePrinted - 1;
-   //:nPreviousPageNbr      = lPageNbr - 1
-   nPreviousPageNbr = lPageNbr - 1;
+   //:lPreviousPageNbr      = lPageNbr - 1
+   lPreviousPageNbr = lPageNbr - 1;
 
    //:lEntityKey = -1
    lEntityKey = -1;
@@ -372,7 +372,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
    //:IF vReportDef.PageState DOES NOT EXIST
    lTempInteger_0 = CheckExistenceOfEntity( vReportDef, "PageState" );
    if ( lTempInteger_0 != 0 )
-   {
+   { 
 
       //:// The state for page number zero will never change.
       //:fnPageStateAdd( vReportDef, 0 )
@@ -390,10 +390,10 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       GetWorkstationApplicationValues( vSubtask, szViewName, szFaceName, 32, &lFontSize, &lWork, &lWork, &lWork, &lWork, &lWork, &lWork, &lWork, &lWork, &lWork );
       //:IF lDefaultFontSize = 0
       if ( lDefaultFontSize == 0 )
-      {
+      { 
          //:lDefaultFontSize = lFontSize
          lDefaultFontSize = lFontSize;
-      }
+      } 
 
       //:END
 
@@ -401,7 +401,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       //:                     FALSE, FALSE, FALSE, FALSE,
       //:                     -16777216, -16777216, 0, szFaceName )
       CreateFontForReport( vSubtask, "default", lDefaultFontSize, FALSE, FALSE, FALSE, FALSE, -16777216, -16777216, 0, szFaceName );
-   }
+   } 
 
    //:END
 
@@ -453,29 +453,29 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
    //:// Determine cases.
    //:IF lPageNbr = 1
    if ( lPageNbr == 1 )
-   {
+   { 
 
       //:// 1. We are starting report at page 1.
       //:nCase = 1
       nCase = 1;
-   }
+   } 
 
    //:END
 
    //:IF lPageNbr > 1 AND lNextPagePrinted = 1
    if ( lPageNbr > 1 && lNextPagePrinted == 1 )
-   {
+   { 
 
       //:// 2. We are starting report at later than page 1.
       //:nCase = 2
       nCase = 2;
-   }
+   } 
 
    //:END
 
    //:IF lPageNbr > 1 AND lNextPagePrinted = lPageNbr
    if ( lPageNbr > 1 && lNextPagePrinted == lPageNbr )
-   {
+   { 
 
       //:// 3. We are going to a next page.
       //://    Reset Previous and Current views.
@@ -486,7 +486,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       nCase = 3;
       //:IF vSourcePreviousHierOI != vSourceCurrentHierOI
       if ( vSourcePreviousHierOI != vSourceCurrentHierOI )
-      {
+      { 
          //://UNDVV  IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
          //://UNDVV     TraceLineV( "(nCase=3) DropView( vSourcePreviousHierOI ): ",
          //://UNDVV                 vSourcePreviousHierOI )
@@ -496,7 +496,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          DropView( vSourcePreviousHierOI );
          //:vSourcePreviousHierOI = 0
          vSourcePreviousHierOI = 0;
-      }
+      } 
 
       //:END
 
@@ -509,13 +509,13 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       CreateViewFromViewForTask( &vSourceCurrentHierOI, vSourceHierOI, 0 );
       //:NAME VIEW vSourceCurrentHierOI "TZ_SourceCurrentHierOI"
       SetNameForView( vSourceCurrentHierOI, "TZ_SourceCurrentHierOI", 0, zLEVEL_TASK );
-   }
+   } 
 
    //:END
 
    //:IF lPageNbr > 1 AND lCurrentPagePrinted = lPageNbr
    if ( lPageNbr > 1 && lCurrentPagePrinted == lPageNbr )
-   {
+   { 
 
       //:// 4. We are staying on the same page (for example zoom).
       //://    Reset Next view to Current.
@@ -535,8 +535,8 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       //:NAME VIEW vSourceHierOI "TZ_SourceHierOI"
       SetNameForView( vSourceHierOI, "TZ_SourceHierOI", 0, zLEVEL_TASK );
       //:SET CURSOR FIRST vReportDef.PageState WHERE
-      //:                 vReportDef.PageState.PageNbr = nPreviousPageNbr
-      RESULT = SetCursorFirstEntityByInteger( vReportDef, "PageState", "PageNbr", nPreviousPageNbr, "" );
+      //:                 vReportDef.PageState.PageNbr = lPreviousPageNbr
+      RESULT = SetCursorFirstEntityByInteger( vReportDef, "PageState", "PageNbr", lPreviousPageNbr, "" );
       //:szCurrentEntityName = vReportDef.PageState.CurrentEntityName
       GetVariableFromAttribute( szCurrentEntityName, 0, 'S', 33, vReportDef, "PageState", "CurrentEntityName", "", 0 );
       //:DefineHierarchicalCursor( vSourceHierOI, szCurrentEntityName )
@@ -544,18 +544,18 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       //:SET CURSOR FIRST vReportDef.GroupSet WHERE
       //:                 vReportDef.GroupSet.Tag = szCurrentEntityName
       RESULT = SetCursorFirstEntityByString( vReportDef, "GroupSet", "Tag", szCurrentEntityName, "" );
-   }
+   } 
 
    //:END
 
    //:IF lPageNbr > 1 AND
    //:   lPageNbr < lCurrentPagePrinted
    if ( lPageNbr > 1 && lPageNbr < lCurrentPagePrinted )
-   {
+   { 
 
       //:IF vSourceCurrentHierOI != vSourcePreviousHierOI
       if ( vSourceCurrentHierOI != vSourcePreviousHierOI )
-      {
+      { 
 
          //:// 5. We are going to the previous page and we have a view to
          //://    previous page position.  Reset Current and Next views.
@@ -576,11 +576,11 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          CreateViewFromViewForTask( &vSourceHierOI, vSourcePreviousHierOI, 0 );
          //:NAME VIEW vSourceHierOI "TZ_SourceHierOI"
          SetNameForView( vSourceHierOI, "TZ_SourceHierOI", 0, zLEVEL_TASK );
-         //:nPreviousPageNbr = nPreviousPageNbr
-         nPreviousPageNbr = nPreviousPageNbr;
+         //:lPreviousPageNbr = lPreviousPageNbr
+         lPreviousPageNbr = lPreviousPageNbr;
          //:SET CURSOR FIRST vReportDef.PageState WHERE
-         //:                 vReportDef.PageState.PageNbr = nPreviousPageNbr
-         RESULT = SetCursorFirstEntityByInteger( vReportDef, "PageState", "PageNbr", nPreviousPageNbr, "" );
+         //:                 vReportDef.PageState.PageNbr = lPreviousPageNbr
+         RESULT = SetCursorFirstEntityByInteger( vReportDef, "PageState", "PageNbr", lPreviousPageNbr, "" );
          //:szCurrentEntityName = vReportDef.PageState.CurrentEntityName
          GetVariableFromAttribute( szCurrentEntityName, 0, 'S', 33, vReportDef, "PageState", "CurrentEntityName", "", 0 );
          //:DefineHierarchicalCursor( vSourceHierOI, szCurrentEntityName )
@@ -601,47 +601,47 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          SetNameForView( vSourceCurrentHierOI, "TZ_SourceCurrentHierOI", 0, zLEVEL_TASK );
 
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
 
          //:// 6. We are going to the previous page and we DON'T have a view to
          //://    previous page position.
          //:nCase = 6
          nCase = 6;
-      }
+      } 
 
 
       //:END
-   }
+   } 
 
    //:END
 
    //:IF lPageNbr = 0
    if ( lPageNbr == 0 )
-   {
+   { 
 
       //:// 7. We are only counting pages.
       //:nCase = 7
       nCase = 7;
-   }
+   } 
 
    //:END
 
    //:IF vSourceHierOI != 0
    if ( vSourceHierOI != 0 )
-   {
+   { 
       //:bValidView = IsValidView( vSourceHierOI )
       bValidView = IsValidView( vSourceHierOI );
       //:IF bValidView = 0
       if ( bValidView == 0 )
-      {
+      { 
          //:bValidView = bValidView / bValidView
          bValidView = bValidView / bValidView;
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -649,7 +649,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
    //:   nCase = 4 OR
    //:   nCase = 5
    if ( nCase == 3 || nCase == 4 || nCase == 5 )
-   {
+   { 
 
       //:// Cases 3, 4 and 5
 
@@ -663,11 +663,11 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       //:// Retrieve state information from the report definition for the
       //:// current page (from the final state of the previous page).
       //:SET CURSOR FIRST vReportDef.PageState WHERE
-      //:                 vReportDef.PageState.PageNbr = nPreviousPageNbr
-      RESULT = SetCursorFirstEntityByInteger( vReportDef, "PageState", "PageNbr", nPreviousPageNbr, "" );
+      //:                 vReportDef.PageState.PageNbr = lPreviousPageNbr
+      RESULT = SetCursorFirstEntityByInteger( vReportDef, "PageState", "PageNbr", lPreviousPageNbr, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      {
+      { 
          //:lEntityKey = vReportDef.PageState.AbsolutePos
          GetIntegerFromAttribute( &lEntityKey, vReportDef, "PageState", "AbsolutePos" );
          //:bForcePageBreak = vReportDef.PageState.ForcePageBreak
@@ -707,7 +707,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          GetVariableFromAttribute( szRptGroupTag, 0, 'S', 33, vReportDef, "PageState", "GroupTag", "", 0 );
          //:nRC = zCURSOR_SET
          nRC = zCURSOR_SET;
-      }
+      } 
 
       //:END
 
@@ -727,19 +727,19 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "Report", "FooterDidNotFit" );
       //:IF vTemp != 0
       if ( vTemp != 0 )
-      {
+      { 
          //:// DropViewTrace( "Dropping view (4a): ", vTemp )
          //:DropView( vTemp )
          DropView( vTemp );
          //:vTemp = 0
          vTemp = 0;
-      }
+      } 
 
       //:END
 
       //:IF vFooterDidNotFit != 0
       if ( vFooterDidNotFit != 0 )
-      {
+      { 
          //:// bValidView = IsValidView( vFooterDidNotFit )
          //:// IF bValidView = FALSE
          //:// // bValidView = bValidView / bValidView
@@ -756,13 +756,13 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          lTempView = MakeIntegerFromView( vTemp );
 
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
 
          //:lTempView = 0
          lTempView = 0;
-      }
+      } 
 
 
       //:END
@@ -783,9 +783,9 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       SetAttributeFromString( vReportDef, "Report", "GroupTag", szRptGroupTag );
 
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
 
       //:// Cases 1, 2, 6 and 7
 
@@ -799,7 +799,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       //:// gotton here anyway.
       //:IF vSourceHierOI != 0
       if ( vSourceHierOI != 0 )
-      {
+      { 
          //:DropHierarchicalCursor( vSourceHierOI )
          DropHierarchicalCursor( vSourceHierOI );
          //://UNDVV  IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
@@ -812,7 +812,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          DropView( vSourceHierOI );
          //:vSourceHierOI = 0
          vSourceHierOI = 0;
-      }
+      } 
 
       //:END
 
@@ -821,7 +821,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       nRC = CheckExistenceOfEntity( vSourceOI, szSubobjectEntityName );
       //:IF nRC = 0
       if ( nRC == 0 )
-      {
+      { 
          //:// CreateViewTrace( "Creating view (4): ", vSourceHierOI, vSourceOI, 0 )
          //:CreateViewFromViewForTask( vSourceHierOI, vSourceOI, 0 )
          CreateViewFromViewForTask( &vSourceHierOI, vSourceOI, 0 );
@@ -839,7 +839,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          nRC = GetViewByName( &vSourceCurrentHierOI, szViewName, vSubtask, zLEVEL_ANY );
          //:IF nRC > 0
          if ( nRC > 0 )
-         {
+         { 
             //://UNDVV     IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
             //://UNDVV        TraceLineV( "(NAMED TZ_SourceCurrentHierOI) "
             //://UNDVV                      "DropView( vSourceCurrentHierOI ): ",
@@ -850,7 +850,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
             DropView( vSourceCurrentHierOI );
             //:vSourceCurrentHierOI = 0
             vSourceCurrentHierOI = 0;
-         }
+         } 
 
          //:END
 
@@ -862,7 +862,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          nRC = GetViewByName( &vSourcePreviousHierOI, szViewName, vSubtask, zLEVEL_ANY );
          //:IF nRC > 0
          if ( nRC > 0 )
-         {
+         { 
             //://UNDVV     IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
             //://UNDVV        TraceLineV( "(NAMED TZ_SourcePreviousHierOI) "
             //://UNDVV                      "DropView( vSourcePreviousHierOI ): ",
@@ -873,7 +873,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
             DropView( vSourcePreviousHierOI );
             //:vSourcePreviousHierOI = 0
             vSourcePreviousHierOI = 0;
-         }
+         } 
 
          //:END
 
@@ -889,9 +889,9 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          //:NAME VIEW vSourcePreviousHierOI "TZ_SourcePreviousHierOI"
          SetNameForView( vSourcePreviousHierOI, "TZ_SourcePreviousHierOI", 0, zLEVEL_TASK );
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:// If we get here, we didn't have any data and we want to print a
          //:// page with no details.  Our trigger for this will be a zero value
          //:// for vSourceHierOI.
@@ -899,7 +899,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          TraceLineS( "Report Entity not found: ", szSubobjectEntityName );
          //:vSourceHierOI = 0
          vSourceHierOI = 0;
-      }
+      } 
 
       //:END
 
@@ -924,15 +924,15 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       RESULT = SetCursorFirstEntityByString( vReportDef, "GroupSet", "Tag", szSubobjectEntityName, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      {
+      { 
          //:SET CURSOR FIRST vReportDef.Group WHERE
          //:                 vReportDef.Group.Type = "ga"
          RESULT = SetCursorFirstEntityByString( vReportDef, "Group", "Type", "ga", "" );
          //:ELSE
-      }
+      } 
       else
-      {
-      }
+      { 
+      } 
 
       //:// TraceLineS( "FormatDocPage unable to locate GroupSet: ",
       //://             szCurrentEntityName )
@@ -948,14 +948,14 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       //:// (meaning there was no data to print).
       //:IF vSourceHierOI != 0
       if ( vSourceHierOI != 0 )
-      {
+      { 
          //:GetEntityKeyForHierarchicalCsr( lStartLevel, szCurrentEntityName,
          //:                                lEntityKey, vSourceHierOI )
          GetEntityKeyForHierarchicalCsr( &lStartLevel, szCurrentEntityName, (zPULONG) &lEntityKey, vSourceHierOI );
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:lReturnLevel = 1
          lReturnLevel = 1;
          //:lStartLevel  = 1
@@ -964,7 +964,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          lEntityKey = -1;
          //:szHierEntityName = ""
          ZeidonStringCopy( szHierEntityName, 1, 0, "", 1, 0, 33 );
-      }
+      } 
 
       //:END
 
@@ -977,19 +977,19 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "Report", "FooterDidNotFit" );
       //:IF vTemp != 0
       if ( vTemp != 0 )
-      {
+      { 
          //:// DropViewTrace( "Dropping view (4b): ", vTemp )
          //:DropView( vTemp )
          DropView( vTemp );
          //:vTemp = 0
          vTemp = 0;
-      }
+      } 
 
       //:END
 
       //:IF vFooterDidNotFit != 0
       if ( vFooterDidNotFit != 0 )
-      {
+      { 
          //:// bValidView = IsValidView( vFooterDidNotFit )
          //:// IF bValidView = FALSE
          //:// // bValidView = bValidView / bValidView
@@ -1006,13 +1006,13 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          lTempView = MakeIntegerFromView( vTemp );
 
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
 
          //:lTempView = 0
          lTempView = 0;
-      }
+      } 
 
 
       //:END
@@ -1036,7 +1036,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       //:SetMatchingAttributesByName( vReportDef, "PageState",
       //:                             vReportDef, "Report", zSET_ALL )
       SetMatchingAttributesByName( vReportDef, "PageState", vReportDef, "Report", zSET_ALL );
-   }
+   } 
 
 
    //://UNDEF IF szHierEntityName != szCurrentEntityName
@@ -1065,7 +1065,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
    //:   nCase = 6 OR
    //:   nCase = 7
    if ( nCase == 2 || nCase == 6 || nCase == 7 )
-   {
+   { 
 
       //:// Cases 2, 6 and 7
 
@@ -1074,10 +1074,10 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
 
       //:IF nCase = 7
       if ( nCase == 7 )
-      {
+      { 
          //:lNextPagePrinted = -1
          lNextPagePrinted = -1;
-      }
+      } 
 
       //:END
 
@@ -1085,23 +1085,23 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       SetPhantomMode( vSubtask, 1 );
       //:LOOP WHILE lNextPagePrinted < lPageNbr AND nRC > 0
       while ( lNextPagePrinted < lPageNbr && nRC > 0 )
-      {
+      { 
 
          //:nPageCnt = nPageCnt + 1
          nPageCnt = nPageCnt + 1;
 
          //:IF lNextPagePrinted > 0
          if ( lNextPagePrinted > 0 )
-         {
+         { 
             //:lWork = lNextPagePrinted
             lWork = lNextPagePrinted;
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
             //:lWork = nPageCnt
             lWork = nPageCnt;
-         }
+         } 
 
          //:END
 
@@ -1110,10 +1110,10 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          RESULT = SetCursorFirstEntityByInteger( vReportDef, "PageState", "PageNbr", lWork, "" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
-         {
+         { 
             //:fnPageStateAdd( vReportDef, lWork )
             oTZRPSRCO_fnPageStateAdd( vReportDef, lWork );
-         }
+         } 
 
          //:END
 
@@ -1129,7 +1129,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          //:nRC = PrintPage( vSubtask, vSourceHierOI, vReportDef,
          //:                 lWork, lPageWidth, lPageHeight,
          //:                 szRptGroupSetTag, szRptGroupTag,
-         //:                 -2147483648 )  // 0x80000000  phantom print page counting
+         //:                 -2147483648 )  // 0x80000000  phantom print page counting ... needs to be converted in generation step
          nRC = oTZRPSRCO_PrintPage( vSubtask, vSourceHierOI, vReportDef, lWork, lPageWidth, lPageHeight, szRptGroupSetTag, szRptGroupTag, 0x80000000 );
 
          //:// Reset Previous and Current views.
@@ -1149,7 +1149,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          //:// Set up cursor information for the next page.
          //:IF ( nRC > 0 )
          if ( nRC > 0 )
-         {
+         { 
 
             //:GetEntityKeyForHierarchicalCsr( lReturnLevel, szHierEntityName,
             //:                                lEntityKey, vSourceHierOI )
@@ -1206,19 +1206,19 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
             GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "PageState", "FooterDidNotFit" );
             //:IF vTemp != 0
             if ( vTemp != 0 )
-            {
+            { 
                //:// DropViewTrace( "Dropping view (4c): ", vTemp )
                //:DropView( vTemp )
                DropView( vTemp );
                //:vTemp = 0
                vTemp = 0;
-            }
+            } 
 
             //:END
 
             //:IF vFooterDidNotFit != 0
             if ( vFooterDidNotFit != 0 )
-            {
+            { 
                //:// bValidView = IsValidView( vFooterDidNotFit )
                //:// IF bValidView = FALSE
                //:// // bValidView = bValidView / bValidView
@@ -1235,13 +1235,13 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
                lTempView = MakeIntegerFromView( vTemp );
 
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
 
                //:lTempView = 0
                lTempView = 0;
-            }
+            } 
 
 
             //:END
@@ -1260,7 +1260,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
             SetAttributeFromString( vReportDef, "PageState", "GroupSetTag", szRptGroupSetTag );
             //:vReportDef.PageState.GroupTag = szRptGroupTag
             SetAttributeFromString( vReportDef, "PageState", "GroupTag", szRptGroupTag );
-         }
+         } 
 
 
          //:END
@@ -1269,13 +1269,13 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
 
          //:IF lPageNbr > 0
          if ( lPageNbr > 0 )
-         {
+         { 
             //:lNextPagePrinted = lNextPagePrinted + 1
             lNextPagePrinted = lNextPagePrinted + 1;
-         }
+         } 
 
          //:END
-      }
+      } 
 
       //:END
 
@@ -1287,7 +1287,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       SetNameForView( vSourcePreviousHierOI, "TZ_SourcePreviousHierOI", 0, zLEVEL_TASK );
       //:NAME VIEW vSourceCurrentHierOI  "TZ_SourceCurrentHierOI"
       SetNameForView( vSourceCurrentHierOI, "TZ_SourceCurrentHierOI", 0, zLEVEL_TASK );
-   }
+   } 
 
 
    //:END
@@ -1295,16 +1295,16 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
    //:// Return with the page count when only counting pages.
    //:IF nCase = 7
    if ( nCase == 7 )
-   {
+   { 
 
       //:nRC = IsFlagSequenceSet( lPrintFlags, 8 )
       nRC = IsFlagSequenceSet( lPrintFlags, 8 );
       //:IF nRC != 0
       if ( nRC != 0 )
-      {
+      { 
          //:SetCursorFirstEntity( vSourceOI, szSubobjectEntityName, 0 )
          SetCursorFirstEntity( vSourceOI, szSubobjectEntityName, 0 );
-      }
+      } 
 
       //:END
 
@@ -1333,7 +1333,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       SetAttributeFromInteger( vReportDef, "Report", "TotalPageCnt", nPageCnt );
       //:RETURN 0
       return( 0 );
-   }
+   } 
 
    //:END
 
@@ -1349,24 +1349,24 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
 
    //:IF vSourceHierOI != 0
    if ( vSourceHierOI != 0 )
-   {
+   { 
       //:bValidView = IsValidView( vSourceHierOI )
       bValidView = IsValidView( vSourceHierOI );
       //:IF bValidView = 0
       if ( bValidView == 0 )
-      {
+      { 
          //:bValidView = bValidView / bValidView
          bValidView = bValidView / bValidView;
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
    //:IF nRC > 0
    if ( nRC > 0 )
-   {
+   { 
 
       //://UNDEF  TraceLineI( "Standard mode for page: ", lPageNbr )
 
@@ -1375,10 +1375,10 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       RESULT = SetCursorFirstEntityByInteger( vReportDef, "PageState", "PageNbr", lPageNbr, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
-      {
+      { 
          //:fnPageStateAdd( vReportDef, lPageNbr )
          oTZRPSRCO_fnPageStateAdd( vReportDef, lPageNbr );
-      }
+      } 
 
       //:END
 
@@ -1401,16 +1401,16 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
       lWork = IsFlagSequenceSet( lPrintFlags, 256 );
       //:IF lWork = 0
       if ( lWork == 0 )
-      {
+      { 
          //:lWork = IsFlagSequenceSet( lPrintFlags, 128 ) // CSV
          lWork = IsFlagSequenceSet( lPrintFlags, 128 );
-      }
+      } 
 
       //:END
 
       //:IF lWork != 0
       if ( lWork != 0 )
-      {
+      { 
          //:lPrintFlags = SetFlagSequence( lPrintFlags,
          //:                               384,  // turn off HTML and CSV
          //:                               0 )
@@ -1422,14 +1422,14 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          CloseReport( vSubtask, 3 );
          //:RETURN 0   // we are all done
          return( 0 );
-      }
+      } 
 
       //:END
 
       //:// Set up cursor information for the next page, if there is one.
       //:IF ( nRC > 0 )
       if ( nRC > 0 )
-      {
+      { 
 
          //:GetEntityKeyForHierarchicalCsr( lReturnLevel, szHierEntityName,
          //:                                lEntityKey, vSourceHierOI )
@@ -1486,19 +1486,19 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "PageState", "FooterDidNotFit" );
          //:IF vTemp != 0
          if ( vTemp != 0 )
-         {
+         { 
             //:// DropViewTrace( "Dropping view (4a): ", vTemp )
             //:DropView( vTemp )
             DropView( vTemp );
             //:vTemp = 0
             vTemp = 0;
-         }
+         } 
 
          //:END
 
          //:IF vFooterDidNotFit != 0
          if ( vFooterDidNotFit != 0 )
-         {
+         { 
             //:// bValidView = IsValidView( vFooterDidNotFit )
             //:// IF bValidView = FALSE
             //:// // bValidView = bValidView / bValidView
@@ -1515,13 +1515,13 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
             lTempView = MakeIntegerFromView( vTemp );
 
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
 
             //:lTempView = 0
             lTempView = 0;
-         }
+         } 
 
 
          //:END
@@ -1540,11 +1540,11 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
          SetAttributeFromString( vReportDef, "PageState", "GroupSetTag", szRptGroupSetTag );
          //:vReportDef.PageState.GroupTag = szRptGroupTag
          SetAttributeFromString( vReportDef, "PageState", "GroupTag", szRptGroupTag );
-      }
+      } 
 
 
       //:END
-   }
+   } 
 
 
    //://UNDEF TraceLineI( "FormatDocPage End PageNbr: ", lPageNbr )
@@ -1555,7 +1555,7 @@ oTZRPSRCO_FormatDocPage( zVIEW     vSubtask,
    //:RETURN nRC
    return( nRC );
 // END
-}
+} 
 
 
 //:LOCAL OPERATION
@@ -1583,7 +1583,7 @@ oTZRPSRCO_fnSetCtrlPrintValues( zVIEW     vReportDef,
    SetAttributeFromInteger( vReportDef, "Control", "wLastPrintPosY", lPosY );
    return( 0 );
 // END
-}
+} 
 
 
 //:LOCAL OPERATION
@@ -1595,19 +1595,19 @@ static zSHORT
 oTZRPSRCO_fnPageStateRemove( zVIEW     vReportDef,
                              zLONG     lPageNbr )
 {
-   zVIEW     vReportDef2 = 0;
+   zVIEW     vReportDef2 = 0; 
    //:VIEW vTemp
-   zVIEW     vTemp = 0;
-   zSHORT    RESULT;
+   zVIEW     vTemp = 0; 
+   zSHORT    RESULT; 
 
 
    //:IF lPageNbr <= 0
    if ( lPageNbr <= 0 )
-   {
+   { 
       //:// The state for page number zero will never change.
       //:RETURN 0
       return( 0 );
-   }
+   } 
 
    //:END
 
@@ -1615,14 +1615,14 @@ oTZRPSRCO_fnPageStateRemove( zVIEW     vReportDef,
    //:FOR EACH vReportDef.PageState
    RESULT = SetCursorFirstEntity( vReportDef, "PageState", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   {
+   { 
       //:IF vReportDef.PageState.PageNbr >= lPageNbr
       if ( CompareAttributeToInteger( vReportDef, "PageState", "PageNbr", lPageNbr ) >= 0 )
-      {
+      { 
          //:FOR EACH vReportDef.FooterAtLevel
          RESULT = SetCursorFirstEntity( vReportDef, "FooterAtLevel", "" );
          while ( RESULT > zCURSOR_UNCHANGED )
-         {
+         { 
             //:vTemp = vReportDef.FooterAtLevel.SourceOI_Hier
             GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "FooterAtLevel", "SourceOI_Hier" );
             //://UNDVV     nRC = IsValidView( vTemp )
@@ -1640,7 +1640,7 @@ oTZRPSRCO_fnPageStateRemove( zVIEW     vReportDef,
             //:   vTemp = 0
             vTemp = 0;
             RESULT = SetCursorNextEntity( vReportDef, "FooterAtLevel", "" );
-         }
+         } 
 
          //://UNDVV     END
          //:END
@@ -1649,23 +1649,23 @@ oTZRPSRCO_fnPageStateRemove( zVIEW     vReportDef,
          GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "PageState", "FooterDidNotFit" );
          //:IF vTemp != 0
          if ( vTemp != 0 )
-         {
+         { 
             //:// DropViewTrace( "Dropping view (4g): ", vTemp )
             //:DropView( vTemp )
             DropView( vTemp );
             //:vTemp = 0
             vTemp = 0;
-         }
+         } 
 
          //:END
 
          //:DELETE ENTITY vReportDef.PageState NONE
          RESULT = DeleteEntity( vReportDef, "PageState", zREPOS_NONE );
-      }
+      } 
 
       RESULT = SetCursorNextEntity( vReportDef, "PageState", "" );
       //:END
-   }
+   } 
 
    //:END
 
@@ -1675,7 +1675,7 @@ oTZRPSRCO_fnPageStateRemove( zVIEW     vReportDef,
    //:RETURN 0
    return( 0 );
 // END
-}
+} 
 
 
 //:LOCAL OPERATION
@@ -1701,150 +1701,150 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                      zPCHAR    szRptGroupTag,
                      zLONG     lFlags )
 {
-   zVIEW     vFooterHierOI = 0;
+   zVIEW     vFooterHierOI = 0; 
    //:INTEGER     bForcePageBreak
-   zLONG     bForcePageBreak = 0;
+   zLONG     bForcePageBreak = 0; 
    //:VIEW        vFooterDidNotFit
-   zVIEW     vFooterDidNotFit = 0;
+   zVIEW     vFooterDidNotFit = 0; 
    //:VIEW        vTempOI
-   zVIEW     vTempOI = 0;
+   zVIEW     vTempOI = 0; 
    //:VIEW        vTemp
-   zVIEW     vTemp = 0;
+   zVIEW     vTemp = 0; 
    //:INTEGER     lCurrentPosX
-   zLONG     lCurrentPosX = 0;
+   zLONG     lCurrentPosX = 0; 
    //:INTEGER     lCurrentPosY
-   zLONG     lCurrentPosY = 0;
+   zLONG     lCurrentPosY = 0; 
    //:VIEW        vHeaderDef         BASED ON LOD TZRPSRCO
-   zVIEW     vHeaderDef = 0;
+   zVIEW     vHeaderDef = 0; 
    //:VIEW        vPageHeaderDef     BASED ON LOD TZRPSRCO
-   zVIEW     vPageHeaderDef = 0;
+   zVIEW     vPageHeaderDef = 0; 
    //:VIEW        vFooterDef         BASED ON LOD TZRPSRCO
-   zVIEW     vFooterDef = 0;
+   zVIEW     vFooterDef = 0; 
    //:STRING (32) szCurrentEntityName
-   zCHAR     szCurrentEntityName[ 33 ] = { 0 };
+   zCHAR     szCurrentEntityName[ 33 ] = { 0 }; 
    //:STRING (32) szHoldEntityName
-   zCHAR     szHoldEntityName[ 33 ] = { 0 };
+   zCHAR     szHoldEntityName[ 33 ] = { 0 }; 
    //:STRING (32) szSubobjectEntityName
-   zCHAR     szSubobjectEntityName[ 33 ] = { 0 };
+   zCHAR     szSubobjectEntityName[ 33 ] = { 0 }; 
    //:STRING (32) szLastHeaderEntityNameAtLevel
-   zCHAR     szLastHeaderEntityNameAtLevel[ 33 ] = { 0 };
+   zCHAR     szLastHeaderEntityNameAtLevel[ 33 ] = { 0 }; 
    //:SHORT       nReturnLevel      // parameter for function
-   zSHORT    nReturnLevel = 0;
+   zSHORT    nReturnLevel = 0; 
    //:                              // SetCursorNextEntityHierarchical
    //:                              // lReturnLevel will be set to this value
    //:STRING (32) szRepeatHorizontalEntityName
-   zCHAR     szRepeatHorizontalEntityName[ 33 ] = { 0 };
+   zCHAR     szRepeatHorizontalEntityName[ 33 ] = { 0 }; 
    //:INTEGER     lTotalPages
-   zLONG     lTotalPages = 0;
+   zLONG     lTotalPages = 0; 
    //:INTEGER     lEntityKey
-   zLONG     lEntityKey = 0;
+   zLONG     lEntityKey = 0; 
    //:INTEGER     lPosYHold
-   zLONG     lPosYHold = 0;
+   zLONG     lPosYHold = 0; 
    //:INTEGER     lRepeatHorizontalHold
-   zLONG     lRepeatHorizontalHold = 0;
+   zLONG     lRepeatHorizontalHold = 0; 
    //:INTEGER     lRepeatHorizontal
-   zLONG     lRepeatHorizontal = 0;
+   zLONG     lRepeatHorizontal = 0; 
    //:INTEGER     lRepeatHorizontalTemp
-   zLONG     lRepeatHorizontalTemp = 0;
+   zLONG     lRepeatHorizontalTemp = 0; 
    //:INTEGER     lRepeatHorizontalFlags
-   zLONG     lRepeatHorizontalFlags = 0;
+   zLONG     lRepeatHorizontalFlags = 0; 
    //:INTEGER     lRepeatHorizontalColumn
-   zLONG     lRepeatHorizontalColumn = 0;
+   zLONG     lRepeatHorizontalColumn = 0; 
    //:INTEGER     lRepeatHorizontalIndent
-   zLONG     lRepeatHorizontalIndent = 0;
+   zLONG     lRepeatHorizontalIndent = 0; 
    //:INTEGER     lRepeatHorizontalMargin
-   zLONG     lRepeatHorizontalMargin = 0;
+   zLONG     lRepeatHorizontalMargin = 0; 
    //:INTEGER     lRepeatHorizontalExtent
-   zLONG     lRepeatHorizontalExtent = 0;
+   zLONG     lRepeatHorizontalExtent = 0; 
    //:INTEGER     lRepeatHorizontalNewspaper
-   zLONG     lRepeatHorizontalNewspaper = 0;
+   zLONG     lRepeatHorizontalNewspaper = 0; 
    //:INTEGER     lViewPortBottomPrev
-   zLONG     lViewPortBottomPrev = 0;
+   zLONG     lViewPortBottomPrev = 0; 
    //:INTEGER     lViewPortTop
-   zLONG     lViewPortTop = 0;
+   zLONG     lViewPortTop = 0; 
    //:INTEGER     lViewPortBottom
-   zLONG     lViewPortBottom = 0;
+   zLONG     lViewPortBottom = 0; 
    //:INTEGER     lViewPortLeft
-   zLONG     lViewPortLeft = 0;
+   zLONG     lViewPortLeft = 0; 
    //:INTEGER     lViewPortRight
-   zLONG     lViewPortRight = 0;
+   zLONG     lViewPortRight = 0; 
    //:INTEGER     lReturnLevel
-   zLONG     lReturnLevel = 0;
+   zLONG     lReturnLevel = 0; 
    //:INTEGER     lAbsolutePosition
-   zLONG     lAbsolutePosition = 0;
+   zLONG     lAbsolutePosition = 0; 
    //:INTEGER     lHierRC
-   zLONG     lHierRC = 0;
+   zLONG     lHierRC = 0; 
    //:INTEGER     lLastLevel
-   zLONG     lLastLevel = 0;
+   zLONG     lLastLevel = 0; 
    //:INTEGER     lTempLevel
-   zLONG     lTempLevel = 0;
+   zLONG     lTempLevel = 0; 
    //:INTEGER     lIncrPosX
-   zLONG     lIncrPosX = 0;
+   zLONG     lIncrPosX = 0; 
    //:INTEGER     lNewPosX
-   zLONG     lNewPosX = 0;
+   zLONG     lNewPosX = 0; 
    //:INTEGER     lNewPosY
-   zLONG     lNewPosY = 0;
+   zLONG     lNewPosY = 0; 
    //:INTEGER     lBottomOfPage
-   zLONG     lBottomOfPage = 0;
+   zLONG     lBottomOfPage = 0; 
    //:INTEGER     lFooterPosY
-   zLONG     lFooterPosY = 0;
+   zLONG     lFooterPosY = 0; 
    //:INTEGER     lRemainingSpaceOnPageX
-   zLONG     lRemainingSpaceOnPageX = 0;
+   zLONG     lRemainingSpaceOnPageX = 0; 
    //:INTEGER     lRemainingSpaceOnPageY
-   zLONG     lRemainingSpaceOnPageY = 0;
+   zLONG     lRemainingSpaceOnPageY = 0; 
    //:INTEGER     lOrigRemainingSpaceOnPageX
-   zLONG     lOrigRemainingSpaceOnPageX = 0;
+   zLONG     lOrigRemainingSpaceOnPageX = 0; 
    //:INTEGER     lOrigRemainingSpaceOnPageY
-   zLONG     lOrigRemainingSpaceOnPageY = 0;
+   zLONG     lOrigRemainingSpaceOnPageY = 0; 
    //:INTEGER     lGroupTotal
-   zLONG     lGroupTotal = 0;
+   zLONG     lGroupTotal = 0; 
    //:INTEGER     lFooterHeight
-   zLONG     lFooterHeight = 0;
+   zLONG     lFooterHeight = 0; 
    //:INTEGER     lContinuedGroupFlag
-   zLONG     lContinuedGroupFlag = 0;
+   zLONG     lContinuedGroupFlag = 0; 
    //:INTEGER     lTempView
-   zLONG     lTempView = 0;
+   zLONG     lTempView = 0; 
    //:INTEGER     lTemp
-   zLONG     lTemp = 0;
+   zLONG     lTemp = 0; 
    //:INTEGER     lDksLevel
-   zLONG     lDksLevel = 0;
+   zLONG     lDksLevel = 0; 
    //:INTEGER     lDksKey
-   zLONG     lDksKey = 0;
+   zLONG     lDksKey = 0; 
    //:INTEGER     lResetPageNbr
-   zLONG     lResetPageNbr = 0;
+   zLONG     lResetPageNbr = 0; 
    //:INTEGER     lResetTotalPageCnt
-   zLONG     lResetTotalPageCnt = 0;
+   zLONG     lResetTotalPageCnt = 0; 
    //:STRING (32) szPageNumber
-   zCHAR     szPageNumber[ 33 ] = { 0 };
+   zCHAR     szPageNumber[ 33 ] = { 0 }; 
    //:INTEGER     lStartLevel
-   zLONG     lStartLevel = 0;
+   zLONG     lStartLevel = 0; 
    //:INTEGER     lPrintFlags
-   zLONG     lPrintFlags = 0;
+   zLONG     lPrintFlags = 0; 
    //:INTEGER     lPrintHTML
-   zLONG     lPrintHTML = 0;
+   zLONG     lPrintHTML = 0; 
    //:INTEGER     lMultiRootFlag
-   zLONG     lMultiRootFlag = 0;
+   zLONG     lMultiRootFlag = 0; 
    //:INTEGER     lPrintFooterUsingHeaderView
-   zLONG     lPrintFooterUsingHeaderView = 0;
+   zLONG     lPrintFooterUsingHeaderView = 0; 
    //:INTEGER     lFirstEntityOnReportFlag
-   zLONG     lFirstEntityOnReportFlag = 0;
+   zLONG     lFirstEntityOnReportFlag = 0; 
    //:INTEGER     bValidView
-   zLONG     bValidView = 0;
+   zLONG     bValidView = 0; 
    //:STRING (32) szHierEntityName
-   zCHAR     szHierEntityName[ 33 ] = { 0 };
+   zCHAR     szHierEntityName[ 33 ] = { 0 }; 
    //:INTEGER     nGroupSuppressedForPage
-   zLONG     nGroupSuppressedForPage = 0;
+   zLONG     nGroupSuppressedForPage = 0; 
    //:INTEGER     nRC_GP
-   zLONG     nRC_GP = 0;
+   zLONG     nRC_GP = 0; 
    //:STRING (32) szINI
-   zCHAR     szINI[ 33 ] = { 0 };
+   zCHAR     szINI[ 33 ] = { 0 }; 
    //:SHORT       nRC
-   zSHORT    nRC = 0;
-   zSHORT    RESULT;
-   zSHORT    lTempInteger_0;
-   zSHORT    lTempInteger_1;
-   zLONG     lTempInteger_2;
-   zLONG     lTempInteger_3;
+   zSHORT    nRC = 0; 
+   zSHORT    RESULT; 
+   zSHORT    lTempInteger_0; 
+   zSHORT    lTempInteger_1; 
+   zLONG     lTempInteger_2; 
+   zLONG     lTempInteger_3; 
 
    //://UNDEF INTEGER       lFirstTime
    //://UNDEF INTEGER       lTempValue
@@ -1869,18 +1869,18 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    nRC = IsFlagSequenceSet( lPrintFlags, 256 );
    //:IF nRC != 0
    if ( nRC != 0 )
-   {
+   { 
       //:lPrintHTML = 1
       lPrintHTML = 1;
       //:lPageHeight = 2147483647  // BIG Number!!!
       lPageHeight = 2147483647;
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:lPrintHTML = 0
       lPrintHTML = 0;
-   }
+   } 
 
    //:END
 
@@ -1888,35 +1888,35 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    nRC = IsFlagSequenceSet( lPrintFlags, 2048 );
    //:IF nRC != 0
    if ( nRC != 0 )
-   {
+   { 
       //:lPrintFooterUsingHeaderView = 1
       lPrintFooterUsingHeaderView = 1;
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:lPrintFooterUsingHeaderView = 0
       lPrintFooterUsingHeaderView = 0;
-   }
+   } 
 
    //:END
 
    //:IF vSourceHierOI != 0
    if ( vSourceHierOI != 0 )
-   {
+   { 
       //:bValidView = IsValidView( vSourceHierOI )
       bValidView = IsValidView( vSourceHierOI );
       //:IF bValidView = 0
       if ( bValidView == 0 )
-      {
+      { 
          //:SysMessageBox( vSubtask, "Report Writer", "Invalid Hierarchical View", TRUE )
          SysMessageBox( vSubtask, "Report Writer", "Invalid Hierarchical View", TRUE );
          //:bValidView = bValidView / bValidView
          bValidView = bValidView / bValidView;
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -1943,7 +1943,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    //:// IF lPageNbr = 1 OR vReportDef.Report.ForcePageBreak = "Y"
    //:IF vSourceHierOI != 0
    if ( vSourceHierOI != 0 )
-   {
+   { 
       //:CreateViewFromViewForTask( vTemp, vSourceHierOI, 0 )
       CreateViewFromViewForTask( &vTemp, vSourceHierOI, 0 );
       //:GetEntityKeyForHierarchicalCsr( lReturnLevel, szCurrentEntityName,
@@ -1960,12 +1960,12 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       DropView( vTemp );
 
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:lEntityKey = 0
       lEntityKey = 0;
-   }
+   } 
 
    //:END
 
@@ -1988,13 +1988,13 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
    //:IF lPageNbr = 1
    if ( lPageNbr == 1 )
-   {
+   { 
       //:lFirstEntityOnReportFlag = 1
       lFirstEntityOnReportFlag = 1;
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:lFirstEntityOnReportFlag = 0
       lFirstEntityOnReportFlag = 0;
 
@@ -2016,19 +2016,19 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       RESULT = SetCursorFirstEntityByString( vFooterDef, "FooterAtLevel", "Complete", "N", "" );
       //:LOOP WHILE RESULT >= zCURSOR_SET
       while ( RESULT >= zCURSOR_SET )
-      {
+      { 
 
          //:vTemp = vFooterDef.FooterAtLevel.SourceOI_Hier
          GetIntegerFromAttribute( (zLONG *) &vTemp, vFooterDef, "FooterAtLevel", "SourceOI_Hier" );
          //:IF vTemp != 0
          if ( vTemp != 0 )
-         {
+         { 
             //:// DropViewTrace( "Dropping view (10a): ", vTemp )
             //:DropView( vTemp )
             DropView( vTemp );
             //:vTemp = 0
             vTemp = 0;
-         }
+         } 
 
          //:END
 
@@ -2037,7 +2037,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          //:SET CURSOR FIRST vFooterDef.FooterAtLevel WHERE
          //:    vFooterDef.FooterAtLevel.Complete = "N"
          RESULT = SetCursorFirstEntityByString( vFooterDef, "FooterAtLevel", "Complete", "N", "" );
-      }
+      } 
 
       //:END
 
@@ -2047,23 +2047,23 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       RESULT = SetCursorFirstEntityByString( vFooterDef, "GroupSet", "Tag", szCurrentEntityName, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      {
+      { 
          //:SET CURSOR FIRST vFooterDef.Group WHERE
          //:                 vFooterDef.Group.Type = "gf"
          RESULT = SetCursorFirstEntityByString( vFooterDef, "Group", "Type", "gf", "" );
-      }
+      } 
 
       //:END
 
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      {
+      { 
          //:SET CURSOR FIRST vFooterDef.FooterAtLevel WHERE
          //:    vFooterDef.FooterAtLevel.EntityName = szCurrentEntityName
          RESULT = SetCursorFirstEntityByString( vFooterDef, "FooterAtLevel", "EntityName", szCurrentEntityName, "" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
-         {
+         { 
             //:CREATE ENTITY vFooterDef.FooterAtLevel FIRST
             RESULT = CreateEntity( vFooterDef, "FooterAtLevel", zPOS_FIRST );
             //:vFooterDef.FooterAtLevel.Level = lReturnLevel
@@ -2078,10 +2078,10 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             bValidView = IsValidView( vFooterHierOI );
             //:IF bValidView = FALSE
             if ( bValidView == FALSE )
-            {
+            { 
                //:bValidView = bValidView / bValidView
                bValidView = bValidView / bValidView;
-            }
+            } 
 
             //:END
 
@@ -2090,10 +2090,10 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             SetAttributeFromView( vFooterDef, "FooterAtLevel", "SourceOI_Hier", vFooterHierOI );
             //:vFooterDef.FooterAtLevel.Complete = "N"  // this used to say vReportDef... dks 2005.06.22
             SetAttributeFromString( vFooterDef, "FooterAtLevel", "Complete", "N" );
-         }
+         } 
 
          //:END
-      }
+      } 
 
       //:END
       //:// DropViewTrace( "Dropping view (10): ", vFooterDef )
@@ -2101,7 +2101,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       DropView( vFooterDef );
       //:vFooterDef = 0
       vFooterDef = 0;
-   }
+   } 
 
    //:END
 
@@ -2137,22 +2137,22 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    RESULT = SetCursorFirstEntityByString( vFooterDef, "GroupSet", "Type", "PF", "" );
    //:IF RESULT >= zCURSOR_SET
    if ( RESULT >= zCURSOR_SET )
-   {
+   { 
       //:// Check each footer Group and use it if it is not suppressed.
       //:FOR EACH vFooterDef.Group
       //:      WHERE vFooterDef.Group.Type = "ga"
       //:         OR vFooterDef.Group.Type = "pf"
       RESULT = SetCursorFirstEntity( vFooterDef, "Group", "" );
       while ( RESULT > zCURSOR_UNCHANGED )
-      {
+      { 
          if ( CompareAttributeToString( vFooterDef, "Group", "Type", "ga" ) == 0 || CompareAttributeToString( vFooterDef, "Group", "Type", "pf" ) == 0 )
-         {
+         { 
             //:nGroupSuppressedForPage = GroupSuppressReason( vFooterDef, lResetPageNbr,
             //:                                            lResetTotalPageCnt )
             nGroupSuppressedForPage = oTZRPSRCO_GroupSuppressReason( vFooterDef, lResetPageNbr, lResetTotalPageCnt );
             //:IF nGroupSuppressedForPage <= 0  // Group with no controls reserves space
             if ( nGroupSuppressedForPage <= 0 )
-            {
+            { 
                //:lFooterHeight = vFooterDef.Group.SZDLG_Y
                GetIntegerFromAttribute( &lFooterHeight, vFooterDef, "Group", "SZDLG_Y" );
                //:lBottomOfPage = lPageHeight - lFooterHeight
@@ -2160,28 +2160,28 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
                //:IF lPrintHTML = 1
                if ( lPrintHTML == 1 )
-               {
+               { 
                   //:lFooterPosY = lFooterHeight
                   lFooterPosY = lFooterHeight;
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
                   //:lFooterPosY = lBottomOfPage
                   lFooterPosY = lBottomOfPage;
-               }
+               } 
 
                //:END
-            }
+            } 
 
-         }
+         } 
 
          RESULT = SetCursorNextEntity( vFooterDef, "Group", "" );
          //:END
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -2202,12 +2202,12 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    CreateViewFromViewForTask( &vPageHeaderDef, vReportDef, 0 );
    //:IF lPrintFooterUsingHeaderView > 0
    if ( lPrintFooterUsingHeaderView > 0 )
-   {
+   { 
       //:CreateViewFromViewForTask( vTempOI, vSourceHierOI, 0 )
       CreateViewFromViewForTask( &vTempOI, vSourceHierOI, 0 );
       //:NAME VIEW vTempOI "-->HeaderViewForFooter"
       SetNameForView( vTempOI, "-->HeaderViewForFooter", 0, zLEVEL_TASK );
-   }
+   } 
 
    //:END
 
@@ -2216,7 +2216,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    RESULT = SetCursorFirstEntityByString( vPageHeaderDef, "GroupSet", "Type", "PH", "" );
    //:LOOP WHILE RESULT >= zCURSOR_SET
    while ( RESULT >= zCURSOR_SET )
-   {
+   { 
       //:// Check if subtype specified for page header.
       //:nGroupSuppressedForPage = GroupSuppressReason( vPageHeaderDef, lResetPageNbr,
       //:                                               lResetTotalPageCnt )
@@ -2225,16 +2225,16 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       //:// Only print header stuff if not suppressed.
       //:IF nGroupSuppressedForPage = 0 //Note: empty Group does NOT reserve space.
       if ( nGroupSuppressedForPage == 0 )
-      {
+      { 
          //:SET CURSOR FIRST vPageHeaderDef.Control WHERE
          //:                 vPageHeaderDef.Control.Tag = "PageNumber"
          RESULT = SetCursorFirstEntityByString( vPageHeaderDef, "Control", "Tag", "PageNumber", "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         {
+         { 
             //:vPageHeaderDef.Control.Text = szPageNumber
             SetAttributeFromString( vPageHeaderDef, "Control", "Text", szPageNumber );
-         }
+         } 
 
          //:END
 
@@ -2247,16 +2247,16 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          vTempOI = vSourceHierOI;
          //:IF lPageNbr > 1
          if ( lPageNbr > 1 )
-         {
+         { 
             //:vTemp = vReportDef.Report.FooterDidNotFit
             GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "Report", "FooterDidNotFit" );
             //:IF vTemp != 0
             if ( vTemp != 0 )
-            {
+            { 
 
                //:vTempOI = vTemp
                vTempOI = vTemp;
-            }
+            } 
 
             //:// bValidView = IsValidView( vTempOI )
             //:// IF bValidView = FALSE
@@ -2267,7 +2267,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             //://    TraceLineV( "FooterDidNotFit View is Valid (8): ", vTempOI )
             //:// END
             //:END
-         }
+         } 
 
          //:END
 
@@ -2284,13 +2284,13 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          lCurrentPosY = lNewPosY;
          //:lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY
          lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY;
-      }
+      } 
 
       //:END
 
       //:SET CURSOR NEXT vPageHeaderDef.Group
       RESULT = SetCursorNextEntity( vPageHeaderDef, "Group", "" );
-   }
+   } 
 
    //:END
 
@@ -2313,7 +2313,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    //:IF lPageNbr > 1 AND vTempOI != 0 AND vReportDef.FooterAtLevel EXISTS
    lTempInteger_0 = CheckExistenceOfEntity( vReportDef, "FooterAtLevel" );
    if ( lPageNbr > 1 && vTempOI != 0 && lTempInteger_0 == 0 )
-   {
+   { 
 
       //:// Go to reusable routine to process any necessary footers.
       //:lReturnLevel = vReportDef.Report.LastLevel
@@ -2327,19 +2327,19 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
       //:IF vReportDef.Report.ForcePageBreak = 0
       if ( CompareAttributeToInteger( vReportDef, "Report", "ForcePageBreak", 0 ) == 0 )
-      {
+      { 
 
          //:vTemp = vReportDef.Report.FooterDidNotFit
          GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "Report", "FooterDidNotFit" );
          //:IF vTemp != 0
          if ( vTemp != 0 )
-         {
+         { 
             //:// DropViewTrace( "Dropping view (4d): ", vTemp )
             //:DropView( vTemp )
             DropView( vTemp );
             //:vTemp = 0
             vTemp = 0;
-         }
+         } 
 
          //:END
 
@@ -2347,19 +2347,19 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          SetAttributeFromInteger( vReportDef, "Report", "FooterDidNotFit", 0 );
 
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
 
          //:// Process a Page Footer if necessary before returning.
          //:IF lPrintHTML = 1
          if ( lPrintHTML == 1 )
-         {
+         { 
             //:lPageHeight = lCurrentPosY + lFooterPosY
             lPageHeight = lCurrentPosY + lFooterPosY;
             //:lFooterPosY = lCurrentPosY
             lFooterPosY = lCurrentPosY;
-         }
+         } 
 
          //:END
 
@@ -2372,13 +2372,13 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "Report", "FooterDidNotFit" );
          //:IF vTemp != 0
          if ( vTemp != 0 )
-         {
+         { 
             //:// DropViewTrace( "Dropping view (4e): ", vTemp )
             //:DropView( vTemp )
             DropView( vTemp );
             //:vTemp = 0
             vTemp = 0;
-         }
+         } 
 
          //:END
 
@@ -2389,17 +2389,17 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
          //:RETURN 1 // return indicating that there are MORE pages
          return( 1 );
-      }
+      } 
 
 
       //:END
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:lRepeatHorizontalHold = 0
       lRepeatHorizontalHold = 0;
-   }
+   } 
 
    //:END
 
@@ -2407,7 +2407,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    ZeidonStringCopy( szLastHeaderEntityNameAtLevel, 1, 0, szCurrentEntityName, 1, 0, 33 );
    //:IF szCurrentEntityName != ""
    if ( ZeidonStringCompare( szCurrentEntityName, 1, 0, "", 1, 0, 33 ) != 0 )
-   {
+   { 
       //:ProcessPgDetailHeadrs( vPageHeaderDef, vSourceHierOI,
       //:                       szCurrentEntityName,
       //:                       vSubtask, lNewPosX, lNewPosY,
@@ -2422,15 +2422,15 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       //:// a header was formatted.
       //:IF lCurrentPosY != lNewPosY
       if ( lCurrentPosY != lNewPosY )
-      {
+      { 
          //:lCurrentPosY = lNewPosY
          lCurrentPosY = lNewPosY;
          //:lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY
          lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY;
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -2458,7 +2458,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    nRC_GP = -2;
    //:IF vReportDef.PageState.ContinuedGroupFlagStartPage > 0
    if ( CompareAttributeToInteger( vReportDef, "PageState", "ContinuedGroupFlagStartPage", 0 ) > 0 )
-   {
+   { 
 
       //:// First, for a continued group, we may need to print group headers.
       //:// 01Dec01 - NO - Is done properly above after November fixes
@@ -2468,7 +2468,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       SysReadZeidonIni( -1, "[Debug]", "IgnoreReportFix011201(ExtraDtlHdr)", szINI, zsizeof( szINI ) );
       //:IF szINI = "Y"
       if ( ZeidonStringCompare( szINI, 1, 0, "Y", 1, 0, 33 ) == 0 )
-      {
+      { 
          //:// szCurrentEntityName = vReportDef.Report.CurrentEntityName
          //:// CreateViewTrace( "Creating view (13): ", vHeaderDef, vReportDef, 0 )
          //:CreateViewFromViewForTask( vHeaderDef, vReportDef, 0 )
@@ -2478,24 +2478,24 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          RESULT = SetCursorFirstEntityByString( vHeaderDef, "GroupSet", "Tag", szCurrentEntityName, "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         {
+         { 
             //:SET CURSOR FIRST vHeaderDef.Group WHERE
             //:                 vHeaderDef.Group.Type = "gh"
             RESULT = SetCursorFirstEntityByString( vHeaderDef, "Group", "Type", "gh", "" );
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
             //:TraceLineS( "PrintPage unable to locate GroupSet: ",
             //:            szCurrentEntityName )
             TraceLineS( "PrintPage unable to locate GroupSet: ", szCurrentEntityName );
-         }
+         } 
 
          //:END
 
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         {
+         { 
             //://UNDEF     IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
             //://UNDEF        TraceLineS( "FormatGroupOnPage MULTI EDIT header 2: ",
             //://UNDEF                    vHeaderDef.Group.Tag )
@@ -2516,7 +2516,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             lCurrentPosY = lNewPosY;
             //:lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY
             lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY;
-         }
+         } 
 
          //:END
 
@@ -2525,7 +2525,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          DropView( vHeaderDef );
          //:vHeaderDef = 0
          vHeaderDef = 0;
-      }
+      } 
 
       //:END
 
@@ -2552,9 +2552,9 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       //:lNewPosX = 0
       lNewPosX = 0;
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //://====================
       //:// Group was not continued to this page
       //://====================
@@ -2567,7 +2567,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       //:IF vReportDef.FooterAtLevel EXISTS
       lTempInteger_1 = CheckExistenceOfEntity( vReportDef, "FooterAtLevel" );
       if ( lTempInteger_1 == 0 )
-      {
+      { 
 
          //:// Go to reusable routine to process any necessary footers.
          //:lReturnLevel = vReportDef.Report.LastLevel
@@ -2578,7 +2578,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          //:                lTemp,
          //:                lPageWidth, lPageHeight, 0 )
          oTZRPSRCO_ProcessFooters( vReportDef, vSubtask, szCurrentEntityName, lReturnLevel, lRemainingSpaceOnPageY, lBottomOfPage, &lCurrentPosX, &lCurrentPosY, &lTemp, lPageWidth, lPageHeight, 0 );
-      }
+      } 
 
 
       //:END
@@ -2588,7 +2588,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       //:// Now format the last Group, if return code was ok, including a Header.
       //:IF lHierRC >= zCURSOR_SET AND lPageNbr != 1
       if ( lHierRC >= zCURSOR_SET && lPageNbr != 1 )
-      {
+      { 
          //:// Only process the entity if there is a GroupSet by the same name
          //:// as the Entity.
          //:SET CURSOR FIRST vReportDef.Group WHERE
@@ -2596,7 +2596,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          RESULT = SetCursorFirstEntityByString( vReportDef, "Group", "Type", "ga", "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         {
+         { 
 
             //:szRptGroupSetTag = vReportDef.GroupSet.Tag
             GetVariableFromAttribute( szRptGroupSetTag, 0, 'S', 33, vReportDef, "GroupSet", "Tag", "", 0 );
@@ -2626,15 +2626,15 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "Report", "FooterDidNotFit" );
             //:IF vTemp = 0
             if ( vTemp == 0 )
-            {
+            { 
                //:vTempOI = vSourceHierOI
                vTempOI = vSourceHierOI;
                //:lRepeatHorizontal = vReportDef.GroupSet.RepeatHorizontal
                GetIntegerFromAttribute( &lRepeatHorizontal, vReportDef, "GroupSet", "RepeatHorizontal" );
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
                //:vTempOI = vTemp
                vTempOI = vTemp;
 
@@ -2651,13 +2651,13 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
                //:lRepeatHorizontal = 0
                lRepeatHorizontal = 0;
-            }
+            } 
 
             //:END
 
             //:IF lRepeatHorizontal = 0
             if ( lRepeatHorizontal == 0 )
-            {
+            { 
                //:nRC_GP = FormatGroupOnPage( vReportDef, vTempOI, vSubtask,
                //:                            lNewPosX, lNewPosY,
                //:                            lCurrentPosX, lCurrentPosY,
@@ -2669,16 +2669,16 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                nRC_GP = oTZRPSRCO_FormatGroupOnPage( vReportDef, vTempOI, vSubtask, &lNewPosX, &lNewPosY, lCurrentPosX, lCurrentPosY, lRemainingSpaceOnPageY, 0, lPageWidth, lPageHeight, lOrigRemainingSpaceOnPageY, lBottomOfPage );
                //:lNewPosX = 0
                lNewPosX = 0;
-            }
+            } 
 
             //:END
-         }
+         } 
 
          //:END
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -2687,16 +2687,16 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    //:// next data entity.
    //:IF nRC_GP = -2
    if ( nRC_GP == -2 )
-   {
+   { 
       //:// FormatGroupOnPage was not called above in the start of page
       //:// processing (usually Page 1).  So do nothing.
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:IF nRC_GP = -1
       if ( nRC_GP == -1 )
-      {
+      { 
          //://*****  MULTI EDIT
          //:// If the return code from FormatGroupOnPage is -1, then the Group
          //:// could not fit on the page due to a multi-line text field. For
@@ -2706,12 +2706,12 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          //:// Process a Page Footer if necessary before returning.
          //:IF lPrintHTML = 1
          if ( lPrintHTML == 1 )
-         {
+         { 
             //:lPageHeight = lCurrentPosY + lFooterPosY
             lPageHeight = lCurrentPosY + lFooterPosY;
             //:lFooterPosY = lCurrentPosY
             lFooterPosY = lCurrentPosY;
-         }
+         } 
 
          //:END
 
@@ -2733,9 +2733,9 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          return( 1 );
 
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //://UNDEF  IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
          //://UNDEF     TraceLineI( "Setting ReturnLevel: ", lLastLevel )
          //://UNDEF     TraceLineS( "   szLastHeaderEntityNameAtLevel? ",
@@ -2757,7 +2757,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
          //:IF vSourceHierOI != 0
          if ( vSourceHierOI != 0 )
-         {
+         { 
             //:// We want to save the level of the last entity on which we have
             //:// position anytime we read a new entity.  In the past, we saved
             //:// the level (above) only when we processed a detail Group.
@@ -2780,7 +2780,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             lTempLevel = lLastLevel + 1;
             //:LOOP WHILE lHierRC >= zCURSOR_SET AND lTempLevel > lLastLevel
             while ( lHierRC >= zCURSOR_SET && lTempLevel > lLastLevel )
-            {
+            { 
 
                //:lHierRC = SetCursorNextEntityHierarchical( nReturnLevel,
                //:                                        szCurrentEntityName,
@@ -2788,17 +2788,17 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                lHierRC = SetCursorNextEntityHierarchical( (zPUSHORT) &nReturnLevel, szCurrentEntityName, vSourceHierOI );
                //:IF lHierRC >= zCURSOR_SET
                if ( lHierRC >= zCURSOR_SET )
-               {
+               { 
 
                   //:// For recursive subentity, step down a level.
                   //:IF lHierRC = zCURSOR_SET_RECURSIVECHILD
                   if ( lHierRC == zCURSOR_SET_RECURSIVECHILD )
-                  {
+                  { 
                      //:SetViewToSubobject( vSourceHierOI, szCurrentEntityName )
                      SetViewToSubobject( vSourceHierOI, szCurrentEntityName );
                      //:GetEntityNameForHierarchicalCsr( nReturnLevel, szCurrentEntityName, lAbsolutePosition, vSourceHierOI )
                      GetEntityNameForHierarchicalCsr( (zPUSHORT) &nReturnLevel, szCurrentEntityName, (zPULONG) &lAbsolutePosition, vSourceHierOI );
-                  }
+                  } 
 
                   //:END
 
@@ -2811,7 +2811,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                   lTempLevel = nReturnLevel;
                   //:IF lTempLevel > lLastLevel
                   if ( lTempLevel > lLastLevel )
-                  {
+                  { 
 
                      //:// Only process the entity if there is a GroupSet whose Tag matches
                      //:// the name of the Entity.
@@ -2820,7 +2820,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                      RESULT = SetCursorFirstEntityByString( vReportDef, "GroupSet", "Tag", szCurrentEntityName, "" );
                      //:IF RESULT >= zCURSOR_SET
                      if ( RESULT >= zCURSOR_SET )
-                     {
+                     { 
 
                         //:lReturnLevel = nReturnLevel
                         lReturnLevel = nReturnLevel;
@@ -2829,16 +2829,16 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                         //:SET CURSOR FIRST vReportDef.GroupSet WHERE
                         //:              vReportDef.GroupSet.Tag = szHoldEntityName
                         RESULT = SetCursorFirstEntityByString( vReportDef, "GroupSet", "Tag", szHoldEntityName, "" );
-                     }
+                     } 
 
                      //:END
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
-            }
+            } 
 
             //:END
             //:// dks/pas 2005.11.17 - end
@@ -2847,7 +2847,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             //:// Process a Group Footer if necessary before continuing.
             //:IF szHoldEntityName != szCurrentEntityName AND lTempLevel < lLastLevel
             if ( ZeidonStringCompare( szHoldEntityName, 1, 0, szCurrentEntityName, 1, 0, 33 ) != 0 && lTempLevel < lLastLevel )
-            {
+            { 
 
                //:// Note that we are using lTempLevel in the call below instead of the normal lReturnLevel as we're
                //:// concerned that we not step on lReturnLevel, which seems to be used quite a bit at the beginning of a page.
@@ -2856,7 +2856,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                //:             lBottomOfPage, lCurrentPosX, lCurrentPosY,
                //:             lRepeatHorizontalHold, lPageWidth, lPageHeight, 0 )
                oTZRPSRCO_ProcessFooters( vReportDef, vSubtask, szHoldEntityName, lTempLevel, lRemainingSpaceOnPageY, lBottomOfPage, &lCurrentPosX, &lCurrentPosY, &lRepeatHorizontalHold, lPageWidth, lPageHeight, 0 );
-            }
+            } 
 
             //:END
             //:// dks/dgc 2007.2.28 - end
@@ -2868,15 +2868,15 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             //://UNDEF     DisplayEntityInstance( vSourceHierOI, szCurrentEntityName )
             //://UNDEF  END
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
             //:lHierRC = zCURSOR_NULL
             lHierRC = zCURSOR_NULL;
-         }
+         } 
 
          //:END
-      }
+      } 
 
 
       //://    TraceLineI( "PrintPage b============== PageNbr: ", lPageNbr )
@@ -2893,7 +2893,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       //://UNDEF              szCurrentEntityName )
 
       //:END END
-   }
+   } 
 
 
    //://////////////////////////////////////////////////////////////////////////
@@ -2952,7 +2952,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    nRC = 1;
    //:LOOP WHILE nRC > 0
    while ( nRC > 0 )
-   {
+   { 
       //:nRC = PopReportViewPort( vSubtask, szRepeatHorizontalEntityName,
       //:                         lRepeatHorizontal, lRepeatHorizontalColumn,
       //:                         lRepeatHorizontalIndent, lRepeatHorizontalMargin,
@@ -2961,7 +2961,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       //:                         lViewPortBottom, lViewPortRight )
       nRC = (zSHORT) PopReportViewPort( vSubtask, szRepeatHorizontalEntityName, &lRepeatHorizontal, &lRepeatHorizontalColumn, &lRepeatHorizontalIndent, &lRepeatHorizontalMargin, &lRepeatHorizontalExtent, &lRepeatHorizontalFlags, &lViewPortBottomPrev,
               &lViewPortTop, &lViewPortLeft, &lViewPortBottom, &lViewPortRight );
-   }
+   } 
 
    //:END
 
@@ -2972,7 +2972,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    //:            lFirstEntityOnReportFlag = 1 OR
    //:            szCurrentEntityName != szSubobjectEntityName)
    while ( lHierRC >= zCURSOR_SET && lReturnLevel >= lStartLevel && ( lMultiRootFlag != 0 || lFirstEntityOnReportFlag == 1 || ZeidonStringCompare( szCurrentEntityName, 1, 0, szSubobjectEntityName, 1, 0, 33 ) != 0 ) )
-   {
+   { 
 
       //:lFirstEntityOnReportFlag = 0
       lFirstEntityOnReportFlag = 0;
@@ -2984,7 +2984,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
       RESULT = SetCursorFirstEntityByString( vReportDef, "GroupSet", "Tag", szCurrentEntityName, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      {
+      { 
 
          //:// Added 2006.10.30 by DonC, because we were not always positioned on the detail group.
          //:SET CURSOR FIRST vReportDef.Group WHERE vReportDef.Group.Type = "ga"
@@ -2999,7 +2999,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          //:// trigger of headers for those entities.
          //:IF lReturnLevel < lLastLevel
          if ( lReturnLevel < lLastLevel )
-         {
+         { 
 
             //:// CreateViewTrace( "Creating view (14): ", vHeaderDef, vReportDef, 0 )
             //:CreateViewFromViewForTask( vHeaderDef, vReportDef, 0 )
@@ -3007,17 +3007,17 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             //:FOR EACH vHeaderDef.LastHeaderEntityAtLevel
             RESULT = SetCursorFirstEntity( vHeaderDef, "LastHeaderEntityAtLevel", "" );
             while ( RESULT > zCURSOR_UNCHANGED )
-            {
+            { 
                //:IF vHeaderDef.LastHeaderEntityAtLevel.Level > lReturnLevel
                if ( CompareAttributeToInteger( vHeaderDef, "LastHeaderEntityAtLevel", "Level", lReturnLevel ) > 0 )
-               {
+               { 
                   //:vHeaderDef.LastHeaderEntityAtLevel.EntityName = ""
                   SetAttributeFromString( vHeaderDef, "LastHeaderEntityAtLevel", "EntityName", "" );
-               }
+               } 
 
                RESULT = SetCursorNextEntity( vHeaderDef, "LastHeaderEntityAtLevel", "" );
                //:END
-            }
+            } 
 
             //:END
 
@@ -3026,7 +3026,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             DropView( vHeaderDef );
             //:vHeaderDef = 0
             vHeaderDef = 0;
-         }
+         } 
 
          //:END
 
@@ -3046,14 +3046,14 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          GetIntegerFromAttribute( &lRepeatHorizontalTemp, vReportDef, "GroupSet", "RepeatHorizontal" );
          //:IF lRepeatHorizontalTemp != lRepeatHorizontal
          if ( lRepeatHorizontalTemp != lRepeatHorizontal )
-         {
+         { 
 
             //:// Clear the "view port" stack.
             //:nRC = 1
             nRC = 1;
             //:LOOP WHILE nRC > 0
             while ( nRC > 0 )
-            {
+            { 
                //:nRC = PopReportViewPort( vSubtask, szRepeatHorizontalEntityName,
                //:                         lRepeatHorizontal, lRepeatHorizontalColumn,
                //:                         lRepeatHorizontalIndent, lRepeatHorizontalMargin,
@@ -3062,7 +3062,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                //:                         lViewPortBottom, lViewPortRight )
                nRC = (zSHORT) PopReportViewPort( vSubtask, szRepeatHorizontalEntityName, &lRepeatHorizontal, &lRepeatHorizontalColumn, &lRepeatHorizontalIndent, &lRepeatHorizontalMargin, &lRepeatHorizontalExtent, &lRepeatHorizontalFlags,
                        &lViewPortBottomPrev, &lViewPortTop, &lViewPortLeft, &lViewPortBottom, &lViewPortRight );
-            }
+            } 
 
             //:END
 
@@ -3085,18 +3085,18 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
             //:IF lRepeatHorizontalHold != 0 AND lRepeatHorizontalHold = lRepeatHorizontalTemp
             if ( lRepeatHorizontalHold != 0 && lRepeatHorizontalHold == lRepeatHorizontalTemp )
-            {
+            { 
                //:lViewPortTop = lPosYHold
                lViewPortTop = lPosYHold;
                //:lRepeatHorizontalHold = 0
                lRepeatHorizontalHold = 0;
-            }
+            } 
 
             //:END
 
             //:IF lRepeatHorizontal = 0
             if ( lRepeatHorizontal == 0 )
-            {
+            { 
 
                //:lRepeatHorizontalFlags = 0
                lRepeatHorizontalFlags = 0;
@@ -3112,9 +3112,9 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                ZeidonStringCopy( szRepeatHorizontalEntityName, 1, 0, "", 1, 0, 33 );
 
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
 
                //:// SysReadZeidonIni( -1, "[Workstation]",
                //://                   "RepeatHorizontalIndent", szINI )
@@ -3132,20 +3132,20 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                lRepeatHorizontalNewspaper = IsFlagSequenceSet( lRepeatHorizontalFlags, 1 );
                //:IF lRepeatHorizontalNewspaper != 0
                if ( lRepeatHorizontalNewspaper != 0 )
-               {
+               { 
                   //:IF szRepeatHorizontalEntityName != szCurrentEntityName
                   if ( ZeidonStringCompare( szRepeatHorizontalEntityName, 1, 0, szCurrentEntityName, 1, 0, 33 ) != 0 )
-                  {
-                  }
+                  { 
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
 
                //:lNewPosX = lViewPortLeft + lRepeatHorizontalIndent
                lNewPosX = lViewPortLeft + lRepeatHorizontalIndent;
-            }
+            } 
 
 
             //:END
@@ -3154,15 +3154,15 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             ZeidonStringCopy( szRepeatHorizontalEntityName, 1, 0, szCurrentEntityName, 1, 0, 33 );
 
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
 
             //:// lRepeatHorizontal = lRepeatHorizontalTemp
 
             //:IF lRepeatHorizontal = 0
             if ( lRepeatHorizontal == 0 )
-            {
+            { 
 
                //:lViewPortLeft = lCurrentPosX
                lViewPortLeft = lCurrentPosX;
@@ -3188,13 +3188,13 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                ZeidonStringCopy( szRepeatHorizontalEntityName, 1, 0, "", 1, 0, 33 );
 
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
 
                //:IF lRepeatHorizontalColumn > 1
                if ( lRepeatHorizontalColumn > 1 )
-               {
+               { 
 
                   //:lNewPosX = lRepeatHorizontalExtent + lRepeatHorizontalMargin
                   lNewPosX = lRepeatHorizontalExtent + lRepeatHorizontalMargin;
@@ -3206,7 +3206,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                   lTemp = lNewPosX + lRepeatHorizontalExtent;
                   //:IF lTemp > lPageWidth AND lRepeatHorizontalColumn < lRepeatHorizontal
                   if ( lTemp > lPageWidth && lRepeatHorizontalColumn < lRepeatHorizontal )
-                  {
+                  { 
                      //:lNewPosX = lViewPortLeft + lRepeatHorizontalIndent
                      lNewPosX = lViewPortLeft + lRepeatHorizontalIndent;
                      //:lViewPortTop = lCurrentPosY
@@ -3214,15 +3214,15 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                      //:lRepeatHorizontalColumn = 1
                      lRepeatHorizontalColumn = 1;
                      //:ELSE
-                  }
+                  } 
                   else
-                  {
+                  { 
                      //:IF lRepeatHorizontalNewspaper = 0
                      if ( lRepeatHorizontalNewspaper == 0 )
-                     {
+                     { 
                         //:lNewPosY = lViewPortBottomPrev
                         lNewPosY = lViewPortBottomPrev;
-                     }
+                     } 
 
                      //:END
 
@@ -3230,17 +3230,17 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                      lCurrentPosY = lNewPosY;
                      //:lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY
                      lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY;
-                  }
+                  } 
 
                   //:END
 
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
                   //:lNewPosX = lViewPortLeft + lRepeatHorizontalIndent
                   lNewPosX = lViewPortLeft + lRepeatHorizontalIndent;
-               }
+               } 
 
                //:END
 
@@ -3248,11 +3248,11 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                lCurrentPosX = lNewPosX;
                //:lCurrentPosY = lNewPosY
                lCurrentPosY = lNewPosY;
-            }
+            } 
 
 
             //:END
-         }
+         } 
 
          //:END
 
@@ -3260,7 +3260,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          //:IF vReportDef.Group.ForcePageBreak = "Y" AND
          //:   lOrigRemainingSpaceOnPageY != lRemainingSpaceOnPageY
          if ( CompareAttributeToString( vReportDef, "Group", "ForcePageBreak", "Y" ) == 0 && lOrigRemainingSpaceOnPageY != lRemainingSpaceOnPageY )
-         {
+         { 
 
             //:// This entity requests a page break for each entity instance.
             //:// Thus process any page footers and return.
@@ -3276,12 +3276,12 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             //:// Process a Page Footer if necessary before returning.
             //:IF lPrintHTML = 1
             if ( lPrintHTML == 1 )
-            {
+            { 
                //:lPageHeight = lCurrentPosY + lFooterPosY
                lPageHeight = lCurrentPosY + lFooterPosY;
                //:lFooterPosY = lCurrentPosY
                lFooterPosY = lCurrentPosY;
-            }
+            } 
 
             //:END
 
@@ -3302,7 +3302,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
             //:RETURN 1 // return indicating that there are MORE pages
             return( 1 );
-         }
+         } 
 
          //:END
 
@@ -3315,7 +3315,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          nRC = 1;
          //:LOOP WHILE nRC = 1
          while ( nRC == 1 )
-         {
+         { 
 
             //:lViewPortBottomPrev = lCurrentPosY
             lViewPortBottomPrev = lCurrentPosY;
@@ -3327,21 +3327,21 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             nRC = oTZRPSRCO_ProcessFooters( vReportDef, vSubtask, szCurrentEntityName, lReturnLevel, lRemainingSpaceOnPageY, lBottomOfPage, &lCurrentPosX, &lCurrentPosY, &lTemp, lPageWidth, lPageHeight, 0 );
             //:IF nRC = 1
             if ( nRC == 1 )
-            {
+            { 
 
                //:IF lRepeatHorizontal = 0 OR lRepeatHorizontalColumn >= lRepeatHorizontal
                if ( lRepeatHorizontal == 0 || lRepeatHorizontalColumn >= lRepeatHorizontal )
-               {
+               { 
 
                   //:// Process a Page Footer if necessary before returning.
                   //:IF lPrintHTML = 1
                   if ( lPrintHTML == 1 )
-                  {
+                  { 
                      //:lPageHeight = lCurrentPosY + lFooterPosY
                      lPageHeight = lCurrentPosY + lFooterPosY;
                      //:lFooterPosY = lCurrentPosY
                      lFooterPosY = lCurrentPosY;
-                  }
+                  } 
 
                   //:END
 
@@ -3363,9 +3363,9 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                   return( 1 );
 
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
 
                   //:lRepeatHorizontalColumn = lRepeatHorizontalColumn + 1
                   lRepeatHorizontalColumn = lRepeatHorizontalColumn + 1;
@@ -3388,21 +3388,21 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                   GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "Report", "FooterDidNotFit" );
                   //:IF vTemp != 0
                   if ( vTemp != 0 )
-                  {
+                  { 
                      //:DropView( vTemp )
                      DropView( vTemp );
                      //:vReportDef.Report.FooterDidNotFit = 0
                      SetAttributeFromInteger( vReportDef, "Report", "FooterDidNotFit", 0 );
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
-            }
+            } 
 
             //:END
-         }
+         } 
 
          //:END
 
@@ -3414,14 +3414,14 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          RESULT = SetCursorFirstEntityByString( vReportDef, "Group", "Type", "gf", "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         {
+         { 
 
             //:SET CURSOR FIRST vReportDef.FooterAtLevel WHERE
             //:    vReportDef.FooterAtLevel.EntityName = szCurrentEntityName
             RESULT = SetCursorFirstEntityByString( vReportDef, "FooterAtLevel", "EntityName", szCurrentEntityName, "" );
             //:IF RESULT < zCURSOR_SET
             if ( RESULT < zCURSOR_SET )
-            {
+            { 
 
                //:CREATE ENTITY vReportDef.FooterAtLevel FIRST
                RESULT = CreateEntity( vReportDef, "FooterAtLevel", zPOS_FIRST );
@@ -3435,13 +3435,13 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                //:SetAttributeFromView( vReportDef, "FooterAtLevel",
                //:                      "SourceOI_Hier", vFooterHierOI )
                SetAttributeFromView( vReportDef, "FooterAtLevel", "SourceOI_Hier", vFooterHierOI );
-            }
+            } 
 
             //://UNDVV        TraceLineV( "Creating FooterAtLevel with view: ", vFooterHierOI )
             //://UNDVV        DisplayEntityInstance( vReportDef, "PageState" )
             //://UNDVV        DisplayEntityInstance( vReportDef, "FooterAtLevel" )
             //:END
-         }
+         } 
 
          //:END
 
@@ -3478,7 +3478,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
-         {
+         { 
 
             //:CREATE ENTITY vReportDef.LastHeaderEntityAtLevel
             RESULT = CreateEntity( vReportDef, "LastHeaderEntityAtLevel", zPOS_AFTER );
@@ -3490,13 +3490,13 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             ZeidonStringCopy( szLastHeaderEntityNameAtLevel, 1, 0, "", 1, 0, 33 );
 
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
             //:/*dks*/     szLastHeaderEntityNameAtLevel =
             //:/*dks*/                       vReportDef.LastHeaderEntityAtLevel.EntityName
             GetVariableFromAttribute( szLastHeaderEntityNameAtLevel, 0, 'S', 33, vReportDef, "LastHeaderEntityAtLevel", "EntityName", "", 0 );
-         }
+         } 
 
          //:END
 
@@ -3513,17 +3513,17 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          //:FOR EACH vHeaderDef.LastHeaderEntityAtLevel
          RESULT = SetCursorFirstEntity( vHeaderDef, "LastHeaderEntityAtLevel", "" );
          while ( RESULT > zCURSOR_UNCHANGED )
-         {
+         { 
             //:IF vHeaderDef.LastHeaderEntityAtLevel.Level > lReturnLevel
             if ( CompareAttributeToInteger( vHeaderDef, "LastHeaderEntityAtLevel", "Level", lReturnLevel ) > 0 )
-            {
+            { 
                //:vHeaderDef.LastHeaderEntityAtLevel.EntityName = ""
                SetAttributeFromString( vHeaderDef, "LastHeaderEntityAtLevel", "EntityName", "" );
-            }
+            } 
 
             RESULT = SetCursorNextEntity( vHeaderDef, "LastHeaderEntityAtLevel", "" );
             //:END
-         }
+         } 
 
          //:END
 
@@ -3556,31 +3556,31 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          RESULT = SetCursorFirstEntityByString( vHeaderDef, "Group", "Type", "gh", "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         {
+         { 
 
             //:IF lLastLevel < lReturnLevel OR
             //:   szLastHeaderEntityNameAtLevel != szCurrentEntityName OR  // ******
             //:   vHeaderDef.Group.ForceHeaderPerEntity = "Y"
             if ( lLastLevel < lReturnLevel || ZeidonStringCompare( szLastHeaderEntityNameAtLevel, 1, 0, szCurrentEntityName, 1, 0, 33 ) != 0 || CompareAttributeToString( vHeaderDef, "Group", "ForceHeaderPerEntity", "Y" ) == 0 )
-            {
+            { 
 
                //:// IF lLastLevel < lReturnLevel OR
                //:IF vHeaderDef.Group.ForceHeaderPerEntity = "Y"
                if ( CompareAttributeToString( vHeaderDef, "Group", "ForceHeaderPerEntity", "Y" ) == 0 )
-               {
+               { 
 
                   //:SET CURSOR FIRST vReportDef.FooterAtLevel WHERE
                   //:   vReportDef.FooterAtLevel.EntityName = szCurrentEntityName
                   RESULT = SetCursorFirstEntityByString( vReportDef, "FooterAtLevel", "EntityName", szCurrentEntityName, "" );
                   //:IF RESULT >= zCURSOR_SET
                   if ( RESULT >= zCURSOR_SET )
-                  {
+                  { 
                      //:vReportDef.FooterAtLevel.Complete = "Y"
                      SetAttributeFromString( vReportDef, "FooterAtLevel", "Complete", "Y" );
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
 
@@ -3607,21 +3607,21 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                //://UNDEF        TraceLineI( "     GroupTotal SZDLG_Y=> ", lGroupTotal )
                //:IF lRemainingSpaceOnPageY < lGroupTotal
                if ( lRemainingSpaceOnPageY < lGroupTotal )
-               {
+               { 
 
                   //:IF lRepeatHorizontal = 0 OR lRepeatHorizontalColumn >= lRepeatHorizontal
                   if ( lRepeatHorizontal == 0 || lRepeatHorizontalColumn >= lRepeatHorizontal )
-                  {
+                  { 
 
                      //:// Process a Page Footer if necessary before returning.
                      //:IF lPrintHTML = 1
                      if ( lPrintHTML == 1 )
-                     {
+                     { 
                         //:lPageHeight = lCurrentPosY + lFooterPosY
                         lPageHeight = lCurrentPosY + lFooterPosY;
                         //:lFooterPosY = lCurrentPosY
                         lFooterPosY = lCurrentPosY;
-                     }
+                     } 
 
                      //:END
 
@@ -3643,7 +3643,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
                      //:RETURN 1 // return indicating there are MORE pages
                      return( 1 );
-                  }
+                  } 
 
 
                   //:// ELSE  this was removed so when splitting a group, the  // dks 2005.07.04
@@ -3652,7 +3652,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                   //://    lNewPosY = lViewPortTop
 
                   //:END
-               }
+               } 
 
                //:END
 
@@ -3685,18 +3685,18 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
                //:IF lRepeatHorizontalColumn = 1
                if ( lRepeatHorizontalColumn == 1 )
-               {
+               { 
                   //:lTemp = lNewPosX - lRepeatHorizontalIndent
                   lTemp = lNewPosX - lRepeatHorizontalIndent;
                   //:IF lRepeatHorizontalExtent < lTemp
                   if ( lRepeatHorizontalExtent < lTemp )
-                  {
+                  { 
                      //:lRepeatHorizontalExtent = lTemp
                      lRepeatHorizontalExtent = lTemp;
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
 
@@ -3707,10 +3707,10 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                lCurrentPosY = lNewPosY;
                //:lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY
                lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY;
-            }
+            } 
 
             //:END
-         }
+         } 
 
          //:END
 
@@ -3728,7 +3728,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         {
+         { 
 
             //:// *** PROCESS REGULAR GROUP ***
 
@@ -3764,7 +3764,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             nRC = 0;
             //:LOOP WHILE nRC = 0
             while ( nRC == 0 )
-            {
+            { 
 
                //:IF lRemainingSpaceOnPageY > vReportDef.Group.SZDLG_Y OR
                //:   vReportDef.Group.AllowPageBreak = "Y" OR
@@ -3772,7 +3772,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                //:   lRemainingSpaceOnPageY = lOrigRemainingSpaceOnPageY
                if ( CompareAttributeToInteger( vReportDef, "Group", "SZDLG_Y", lRemainingSpaceOnPageY ) < 0 || CompareAttributeToString( vReportDef, "Group", "AllowPageBreak", "Y" ) == 0 || lPrintHTML == 1 ||
                     lRemainingSpaceOnPageY == lOrigRemainingSpaceOnPageY )
-               {
+               { 
 
                   //:lViewPortBottomPrev = lNewPosY
                   lViewPortBottomPrev = lNewPosY;
@@ -3787,12 +3787,12 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                   nRC_GP = oTZRPSRCO_FormatGroupOnPage( vReportDef, vSourceHierOI, vSubtask, &lNewPosX, &lNewPosY, lCurrentPosX, lCurrentPosY, lRemainingSpaceOnPageY, lContinuedGroupFlag, lPageWidth, lPageHeight, lOrigRemainingSpaceOnPageY,
                         lBottomOfPage );
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
                   //:nRC_GP = -2
                   nRC_GP = -2;
-               }
+               } 
 
                //:END
 
@@ -3812,32 +3812,32 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                nRC = 1;
                //:IF lRepeatHorizontal != 0
                if ( lRepeatHorizontal != 0 )
-               {
+               { 
 
                   //:IF lRepeatHorizontalColumn = 1
                   if ( lRepeatHorizontalColumn == 1 )
-                  {
+                  { 
 
                      //:lTemp = lNewPosX - lRepeatHorizontalIndent
                      lTemp = lNewPosX - lRepeatHorizontalIndent;
                      //:IF lRepeatHorizontalExtent < lTemp
                      if ( lRepeatHorizontalExtent < lTemp )
-                     {
+                     { 
 
                         //:lRepeatHorizontalExtent = lTemp
                         lRepeatHorizontalExtent = lTemp;
-                     }
+                     } 
 
 
                      //:END
-                  }
+                  } 
 
 
                   //:END
 
                   //:IF lRepeatHorizontalNewspaper = 0  // ==> horizontal first
                   if ( lRepeatHorizontalNewspaper == 0 )
-                  {
+                  { 
 
                      //:lNewPosX = lRepeatHorizontalExtent + lRepeatHorizontalMargin
                      lNewPosX = lRepeatHorizontalExtent + lRepeatHorizontalMargin;
@@ -3857,7 +3857,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                      //:LOOP WHILE vSourceHierOI != 0 AND nRC = 1 AND
                      //:           lHierRC >= zCURSOR_SET
                      while ( vSourceHierOI != 0 && nRC == 1 && lHierRC >= zCURSOR_SET )
-                     {
+                     { 
 
                         //:lHierRC = SetCursorNextEntityHierarchical( nReturnLevel,
                         //:                                           szCurrentEntityName,
@@ -3865,48 +3865,48 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                         lHierRC = SetCursorNextEntityHierarchical( (zPUSHORT) &nReturnLevel, szCurrentEntityName, vSourceHierOI );
                         //:IF lHierRC >= zCURSOR_SET
                         if ( lHierRC >= zCURSOR_SET )
-                        {
+                        { 
 
                            //:// For recursive subentity, step down a level.
                            //:IF lHierRC = zCURSOR_SET_RECURSIVECHILD
                            if ( lHierRC == zCURSOR_SET_RECURSIVECHILD )
-                           {
+                           { 
                               //:SetViewToSubobject( vSourceHierOI, szCurrentEntityName )
                               SetViewToSubobject( vSourceHierOI, szCurrentEntityName );
                               //:GetEntityNameForHierarchicalCsr( nReturnLevel, szCurrentEntityName, lAbsolutePosition, vSourceHierOI )
                               GetEntityNameForHierarchicalCsr( (zPUSHORT) &nReturnLevel, szCurrentEntityName, (zPULONG) &lAbsolutePosition, vSourceHierOI );
-                           }
+                           } 
 
                            //:END
 
                            //:GetEntityKeyForHierarchicalCsr( lDksLevel, szCurrentEntityName,
                            //:                                lDksKey,  vSourceHierOI )
                            GetEntityKeyForHierarchicalCsr( &lDksLevel, szCurrentEntityName, (zPULONG) &lDksKey, vSourceHierOI );
-                        }
+                        } 
 
                         //:   //TraceLine( "Processing Entity: %s   Key: %d", szCurrentEntityName, lDksKey )
                         //:END
 
                         //:IF szCurrentEntityName = szHoldEntityName
                         if ( ZeidonStringCompare( szCurrentEntityName, 1, 0, szHoldEntityName, 1, 0, 33 ) == 0 )
-                        {
+                        { 
                            //:nRC = 0
                            nRC = 0;
-                        }
+                        } 
 
                         //:END
-                     }
+                     } 
 
 
                      //:END
 
                      //:IF nRC = 0   // we located another "repeat" entity
                      if ( nRC == 0 )
-                     {
+                     { 
 
                         //:IF lTemp < lPageWidth  // this one fits on current "line"
                         if ( lTemp < lPageWidth )
-                        {
+                        { 
 
                            //:lNewPosY = lViewPortBottomPrev
                            lNewPosY = lViewPortBottomPrev;
@@ -3919,15 +3919,15 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                            lCurrentPosX = lNewPosX;
 
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
 
                            //:lRemainingSpaceOnPageY = lBottomOfPage - lNewPosY
                            lRemainingSpaceOnPageY = lBottomOfPage - lNewPosY;
                            //:IF lRemainingSpaceOnPageY > vReportDef.Group.SZDLG_Y
                            if ( CompareAttributeToInteger( vReportDef, "Group", "SZDLG_Y", lRemainingSpaceOnPageY ) < 0 )
-                           {
+                           { 
 
                               //:// We need to move to next "line".
                               //:lNewPosX = lRepeatHorizontalIndent
@@ -3942,44 +3942,44 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                               lOrigRemainingSpaceOnPageY = lRemainingSpaceOnPageY;
 
                               //:ELSE
-                           }
+                           } 
                            else
-                           {
+                           { 
 
                               //:nRC = 1  // does not fit on this page
                               nRC = 1;
                               //:nRC_GP = -1
                               nRC_GP = -1;
-                           }
+                           } 
 
 
                            //:END
-                        }
+                        } 
 
                         //:END
                         //:ELSE
-                     }
+                     } 
                      else
-                     {
+                     { 
 
                         //:// We didn't locate any more "repeat" entities.
                         //:nRC_GP = 0
                         nRC_GP = 0;
-                     }
+                     } 
 
 
                      //:END
 
                      //:ELSE
-                  }
+                  } 
                   else
-                  {
+                  { 
 
                      //:// This is the Newspaper case.
                      //:IF nRC_GP = -1 OR  //*****  MULTI EDIT
                      //:   nRC_GP = -2     // Did not fit
                      if ( nRC_GP == -1 || nRC_GP == -2 )
-                     {
+                     { 
 
                         //:lNewPosX = lRepeatHorizontalExtent + lRepeatHorizontalMargin
                         lNewPosX = lRepeatHorizontalExtent + lRepeatHorizontalMargin;
@@ -3995,11 +3995,11 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                         //:    lRepeatHorizontalColumn <= lRepeatHorizontal) OR
                         //:   lRepeatHorizontalColumn = lRepeatHorizontal
                         if ( ( lTemp < lPageWidth && lRepeatHorizontalColumn <= lRepeatHorizontal ) || lRepeatHorizontalColumn == lRepeatHorizontal )
-                        {
+                        { 
 
                            //:IF nRC_GP = -1
                            if ( nRC_GP == -1 )
-                           {
+                           { 
 
                               //:vReportDef.PageState.MultiLineTextPosStartPage =
                               //:           vReportDef.PageState.MultiLineTextPosEndPage
@@ -4015,7 +4015,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                               SetAttributeFromAttribute( vReportDef, "PageState", "ContinuedControlTagStartPage", vReportDef, "PageState", "ContinuedControlTagEndPage" );
                               //:lContinuedGroupFlag = 1
                               lContinuedGroupFlag = 1;
-                           }
+                           } 
 
 
                            //:END
@@ -4034,9 +4034,9 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                            nRC_GP = 0;
 
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
 
                            //:lNewPosX = lViewPortLeft
                            lNewPosX = lViewPortLeft;
@@ -4044,24 +4044,24 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                            lRepeatHorizontalColumn = 1;
                            //:nRC = 1
                            nRC = 1;
-                        }
+                        } 
 
 
                         //:END
-                     }
+                     } 
 
 
                      //:END
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
 
                //:IF nRC = 1
                if ( nRC == 1 )
-               {
+               { 
 
                   //:// lNewPosX = 0   // reset for next group
                   //:lNewPosX = lRepeatHorizontalIndent   // reset for next group
@@ -4076,7 +4076,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                   //:IF nRC_GP = -1 OR //*****  MULTI EDIT
                   //:   nRC_GP = -2    // did not fit ... AND lRepeatHorizontal != 0)
                   if ( nRC_GP == -1 || nRC_GP == -2 )
-                  {
+                  { 
 
                      //:// If the return code from FormatGroupOnPage is -1, then
                      //:// the Group could not fit on the page due to a multi-line
@@ -4087,12 +4087,12 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                      //:// Process a Page Footer if necessary before returning.
                      //:IF lPrintHTML = 1
                      if ( lPrintHTML == 1 )
-                     {
+                     { 
                         //:lPageHeight = lCurrentPosY + lFooterPosY
                         lPageHeight = lCurrentPosY + lFooterPosY;
                         //:lFooterPosY = lCurrentPosY
                         lFooterPosY = lCurrentPosY;
-                     }
+                     } 
 
                      //:END
 
@@ -4116,23 +4116,23 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                      return( 1 );
 
                      //:ELSE
-                  }
+                  } 
                   else
-                  {
+                  { 
                      //:lCurrentPosY = lNewPosY
                      lCurrentPosY = lNewPosY;
                      //:lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY
                      lRemainingSpaceOnPageY = lBottomOfPage - lCurrentPosY;
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
-            }
+            } 
 
             //:END
-         }
+         } 
 
          //:END
 
@@ -4146,10 +4146,10 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                         lViewPortTop, lViewPortLeft, lViewPortBottom, lViewPortRight );
 
          //:ELSE
-      }
+      } 
       else
-      {
-      }
+      { 
+      } 
 
 
       //:// TraceLineS( "PrintPage3 unable to locate GroupSet: ",
@@ -4159,7 +4159,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
       //:IF vSourceHierOI != 0
       if ( vSourceHierOI != 0 )
-      {
+      { 
          //:// We want to save the level of the last entity on which we have
          //:// position anytime we read a new entity.  In the past, we saved
          //:// the level (above) only when we processed a detail Group.
@@ -4182,7 +4182,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          lTempLevel = lLastLevel + 1;
          //:LOOP WHILE lHierRC >= zCURSOR_SET AND lTempLevel > lLastLevel
          while ( lHierRC >= zCURSOR_SET && lTempLevel > lLastLevel )
-         {
+         { 
 
             //:lHierRC = SetCursorNextEntityHierarchical( nReturnLevel,
             //:                                           szCurrentEntityName,
@@ -4190,17 +4190,17 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
             lHierRC = SetCursorNextEntityHierarchical( (zPUSHORT) &nReturnLevel, szCurrentEntityName, vSourceHierOI );
             //:IF lHierRC >= zCURSOR_SET
             if ( lHierRC >= zCURSOR_SET )
-            {
+            { 
 
                //:// For recursive subentity, step down a level.
                //:IF lHierRC = zCURSOR_SET_RECURSIVECHILD
                if ( lHierRC == zCURSOR_SET_RECURSIVECHILD )
-               {
+               { 
                   //:SetViewToSubobject( vSourceHierOI, szCurrentEntityName )
                   SetViewToSubobject( vSourceHierOI, szCurrentEntityName );
                   //:GetEntityNameForHierarchicalCsr( nReturnLevel, szCurrentEntityName, lAbsolutePosition, vSourceHierOI )
                   GetEntityNameForHierarchicalCsr( (zPUSHORT) &nReturnLevel, szCurrentEntityName, (zPULONG) &lAbsolutePosition, vSourceHierOI );
-               }
+               } 
 
                //:END
 
@@ -4213,7 +4213,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                lTempLevel = nReturnLevel;
                //:IF lTempLevel > lLastLevel
                if ( lTempLevel > lLastLevel )
-               {
+               { 
 
                   //:// Only process the entity if there is a GroupSet whose Tag matches
                   //:// the name of the Entity.
@@ -4222,23 +4222,23 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
                   RESULT = SetCursorFirstEntityByString( vReportDef, "GroupSet", "Tag", szCurrentEntityName, "" );
                   //:IF RESULT >= zCURSOR_SET
                   if ( RESULT >= zCURSOR_SET )
-                  {
+                  { 
 
                      //:lTempLevel = lLastLevel
                      lTempLevel = lLastLevel;
                      //:SET CURSOR FIRST vReportDef.GroupSet WHERE
                      //:                 vReportDef.GroupSet.Tag = szHoldEntityName
                      RESULT = SetCursorFirstEntityByString( vReportDef, "GroupSet", "Tag", szHoldEntityName, "" );
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
-            }
+            } 
 
             //:END
-         }
+         } 
 
          //:END
          //:// dks/pas 2005.11.17 - end
@@ -4265,14 +4265,14 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          //:// Process a Group Footer if necessary before returning.
          //:IF szHoldEntityName != szCurrentEntityName
          if ( ZeidonStringCompare( szHoldEntityName, 1, 0, szCurrentEntityName, 1, 0, 33 ) != 0 )
-         {
+         { 
 
             //:ProcessFooters( vReportDef, vSubtask, szHoldEntityName,
             //:                lReturnLevel, lRemainingSpaceOnPageY,
             //:                lBottomOfPage, lCurrentPosX, lCurrentPosY,
             //:                lRepeatHorizontalHold, lPageWidth, lPageHeight, 0 )
             oTZRPSRCO_ProcessFooters( vReportDef, vSubtask, szHoldEntityName, lReturnLevel, lRemainingSpaceOnPageY, lBottomOfPage, &lCurrentPosX, &lCurrentPosY, &lRepeatHorizontalHold, lPageWidth, lPageHeight, 0 );
-         }
+         } 
 
          //:END
          //:// dks/pas 2005.11.17 - end
@@ -4283,18 +4283,18 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          //://UNDEF  END
 
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:lHierRC = zCURSOR_NULL
          lHierRC = zCURSOR_NULL;
-      }
+      } 
 
       //:END
 
       //:IF lHierRC < zCURSOR_SET
       if ( lHierRC < zCURSOR_SET )
-      {
+      { 
 
          //:szCurrentEntityName = ""
          ZeidonStringCopy( szCurrentEntityName, 1, 0, "", 1, 0, 33 );
@@ -4304,9 +4304,9 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          lReturnLevel = 0;
 
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
 
          //:// I think this is the correct place to store state information???
          //:vReportDef.Report.CurrentEntityName = szCurrentEntityName
@@ -4315,7 +4315,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
          SetAttributeFromInteger( vReportDef, "Report", "HierReturnCode", lHierRC );
          //:vReportDef.Report.LastLevel = lReturnLevel
          SetAttributeFromInteger( vReportDef, "Report", "LastLevel", lReturnLevel );
-      }
+      } 
 
       //:// vReportDef.Report.ForcePageBreak = bForcePageBreak
       //:// lTempView = MakeIntegerFromView( vFooterDidNotFit )
@@ -4338,7 +4338,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
       //:lRepeatHorizontalHold = 0
       lRepeatHorizontalHold = 0;
-   }
+   } 
 
 
    //:END
@@ -4358,16 +4358,16 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    nRC = oTZRPSRCO_ProcessFooters( vReportDef, vSubtask, szCurrentEntityName, lReturnLevel, lRemainingSpaceOnPageY, lBottomOfPage, &lCurrentPosX, &lCurrentPosY, &lTemp, lPageWidth, lPageHeight, 0 );
    //:IF nRC = 1
    if ( nRC == 1 )
-   {
+   { 
       //:// Process a Page Footer if necessary before returning.
       //:IF lPrintHTML = 1
       if ( lPrintHTML == 1 )
-      {
+      { 
          //:lPageHeight = lCurrentPosY + lFooterPosY
          lPageHeight = lCurrentPosY + lFooterPosY;
          //:lFooterPosY = lCurrentPosY
          lFooterPosY = lCurrentPosY;
-      }
+      } 
 
       //:END
 
@@ -4387,7 +4387,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
 
       //:RETURN 1 // return indicating that there are MORE pages
       return( 1 );
-   }
+   } 
 
 
    //:END
@@ -4395,12 +4395,12 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    //:// Process a Page Footer if necessary before returning.
    //:IF lPrintHTML = 1
    if ( lPrintHTML == 1 )
-   {
+   { 
       //:lPageHeight = lCurrentPosY + lFooterPosY
       lPageHeight = lCurrentPosY + lFooterPosY;
       //:lFooterPosY = lCurrentPosY
       lFooterPosY = lCurrentPosY;
-   }
+   } 
 
    //:END
 
@@ -4418,7 +4418,7 @@ oTZRPSRCO_PrintPage( zVIEW     vSubtask,
    //:RETURN 0  // return indicating that this is the LAST page
    return( 0 );
 // END
-}
+} 
 
 
 //:TRANSFORMATION OPERATION
@@ -4452,29 +4452,29 @@ oTZRPSRCO_FormatGroupOnPage( zVIEW     vReportDef,
                              zLONG     lOrigRemainingSpaceOnPageY,
                              zLONG     lFooterPosPageBottom )
 {
-   zVIEW     vReportDefTemp = 0;
+   zVIEW     vReportDefTemp = 0; 
    //:INTEGER     lContinuedGroupSave
-   zLONG     lContinuedGroupSave = 0;
+   zLONG     lContinuedGroupSave = 0; 
    //:INTEGER     lOrigPosY         // original y-position of control on page
-   zLONG     lOrigPosY = 0;
+   zLONG     lOrigPosY = 0; 
    //:INTEGER     lOrigRemainingSpace
-   zLONG     lOrigRemainingSpace = 0;
+   zLONG     lOrigRemainingSpace = 0; 
    //:INTEGER     lFlags            // Group Flags attribute
-   zLONG     lFlags = 0;
+   zLONG     lFlags = 0; 
    //:STRING (32) szTag
-   zCHAR     szTag[ 33 ] = { 0 };
+   zCHAR     szTag[ 33 ] = { 0 }; 
    //:SHORT       nRC
-   zSHORT    nRC = 0;
+   zSHORT    nRC = 0; 
 
 
    //:lFlags = vReportDef.Group.Flags
    GetIntegerFromAttribute( &lFlags, vReportDef, "Group", "Flags" );
    //:IF lFlags = 1  // this is an Overlay Group
    if ( lFlags == 1 )
-   {
+   { 
       //:RETURN 0
       return( 0 );
-   }
+   } 
 
    //:END
 
@@ -4496,12 +4496,12 @@ oTZRPSRCO_FormatGroupOnPage( zVIEW     vReportDef,
    lFlags = lContinuedGroupFlag;
    //:IF lContinuedGroupFlag < 0
    if ( lContinuedGroupFlag < 0 )
-   {
+   { 
       //:TraceLineI( "FormatGroupOnPage ContinuedGroupFlag: ", lContinuedGroupFlag )
       TraceLineI( "FormatGroupOnPage ContinuedGroupFlag: ", lContinuedGroupFlag );
       //:lContinuedGroupFlag = 0
       lContinuedGroupFlag = 0;
-   }
+   } 
 
    //:END
 
@@ -4515,7 +4515,7 @@ oTZRPSRCO_FormatGroupOnPage( zVIEW     vReportDef,
    nRC = SetCursorFirstEntityByString( vReportDefTemp, "Group", "OverlayTag", szTag, "" );
    //:IF nRC >= zCURSOR_SET
    if ( nRC >= zCURSOR_SET )
-   {
+   { 
       //:lContinuedGroupSave = vReportDef.PageState.ContinuedGroupFlagStartPage
       GetIntegerFromAttribute( &lContinuedGroupSave, vReportDef, "PageState", "ContinuedGroupFlagStartPage" );
       //:lOrigPosY = lCurrentPosY
@@ -4524,7 +4524,7 @@ oTZRPSRCO_FormatGroupOnPage( zVIEW     vReportDef,
       lOrigRemainingSpace = lRemainingSpaceOnPageY;
       //:LOOP WHILE nRC >= zCURSOR_SET
       while ( nRC >= zCURSOR_SET )
-      {
+      { 
          //:fnFormatGroupOnPage( vReportDefTemp, vSourceHierOI, vSubtask,
          //:                     plNewPosX, plNewPosY, lCurrentPosX, lCurrentPosY,
          //:                     lRemainingSpaceOnPageY, lContinuedGroupFlag,
@@ -4536,7 +4536,7 @@ oTZRPSRCO_FormatGroupOnPage( zVIEW     vReportDef,
          //:nRC = SetCursorNextEntityByString( vReportDefTemp, "Group",
          //:                                   "OverlayTag", szTag, "" )
          nRC = SetCursorNextEntityByString( vReportDefTemp, "Group", "OverlayTag", szTag, "" );
-      }
+      } 
 
       //:END
 
@@ -4546,7 +4546,7 @@ oTZRPSRCO_FormatGroupOnPage( zVIEW     vReportDef,
       lCurrentPosY = lOrigPosY;
       //:lRemainingSpaceOnPageY = lOrigRemainingSpace
       lRemainingSpaceOnPageY = lOrigRemainingSpace;
-   }
+   } 
 
    //:END
 
@@ -4570,7 +4570,7 @@ oTZRPSRCO_FormatGroupOnPage( zVIEW     vReportDef,
    //:RETURN nRC
    return( nRC );
 // END
-}
+} 
 
 
 //:TRANSFORMATION OPERATION
@@ -4614,9 +4614,9 @@ oTZRPSRCO_FormatSubobjectForDef( zVIEW     vReportDef,
                                  zLONG     lPrintDialogFlag,
                                  zLONG     lPrintFlags )
 {
-   zLONG     bValidView = 0;
+   zLONG     bValidView = 0; 
    //:INTEGER nRC
-   zLONG     nRC = 0;
+   zLONG     nRC = 0; 
 
 
    //:NAME VIEW vSourceOI  "TZ_SourceOrigOI"
@@ -4627,10 +4627,10 @@ oTZRPSRCO_FormatSubobjectForDef( zVIEW     vReportDef,
    nRC = IsFlagSequenceSet( lPrintFlags, 8192 );
    //:IF nRC != 0
    if ( nRC != 0 )
-   {
+   { 
       //:DisplayObjectInstance( vSourceOI, "", "" )
       DisplayObjectInstance( vSourceOI, "", "" );
-   }
+   } 
 
    //:END
 
@@ -4638,10 +4638,10 @@ oTZRPSRCO_FormatSubobjectForDef( zVIEW     vReportDef,
    nRC = IsFlagSequenceSet( lPrintFlags, 16384 );
    //:IF nRC != 0
    if ( nRC != 0 )
-   {
+   { 
       //:SysMessageBox( vSubtask, "TZ_SourceOrigOI Entity", szSubobjectEntityName, TRUE )
       SysMessageBox( vSubtask, "TZ_SourceOrigOI Entity", szSubobjectEntityName, TRUE );
-   }
+   } 
 
    //:END
 
@@ -4674,40 +4674,40 @@ oTZRPSRCO_FormatSubobjectForDef( zVIEW     vReportDef,
    nRC = IsFlagSequenceSet( lPrintFlags, 128 );
    //:IF nRC != 0
    if ( nRC != 0 )
-   {
+   { 
       //:PrintReportToCSV( vSubtask, vSourceOI, szSubobjectEntityName,
       //:                  szReportDefName, szReportDefName, lPrintFlags )
       PrintReportToCSV( vSubtask, vSourceOI, szSubobjectEntityName, szReportDefName, szReportDefName, lPrintFlags );
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:nRC = IsFlagSequenceSet( lPrintFlags, 256 ) // zREPORT_PRINT2HTML
       nRC = IsFlagSequenceSet( lPrintFlags, 256 );
       //:IF nRC != 0
       if ( nRC != 0 )
-      {
+      { 
          //:PrintReportToHTML( vSubtask, vSourceOI, szSubobjectEntityName,
          //:                   "", szReportDefName, lPrintFlags )
          PrintReportToHTML( vSubtask, vSourceOI, szSubobjectEntityName, "", szReportDefName, lPrintFlags );
 
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:OpenReport( vSubtask, "KZRPSRCO", "oTZRPSRCO_FormatDocPage",
          //:            lPrintFlags, TRUE, TRUE, lPrintDialogFlag,
          //:            szReportDefName, szSubobjectEntityName )
          OpenReport( vSubtask, "KZRPSRCO", "oTZRPSRCO_FormatDocPage", lPrintFlags, TRUE, TRUE, lPrintDialogFlag, szReportDefName, szSubobjectEntityName );
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
    return( 0 );
 // END
-}
+} 
 
 
 //:LOCAL OPERATION
@@ -4739,34 +4739,34 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
                           zLONG     lPageHeight,
                           zLONG     bForcePageBreak )
 {
-   zVIEW     vFooterDef = 0;
+   zVIEW     vFooterDef = 0; 
    //:VIEW        vTempDef   BASED ON LOD TZRPSRCO
-   zVIEW     vTempDef = 0;
+   zVIEW     vTempDef = 0; 
    //:VIEW        vTemp
-   zVIEW     vTemp = 0;
+   zVIEW     vTemp = 0; 
    //:VIEW        vFooterHierOI
-   zVIEW     vFooterHierOI = 0;
+   zVIEW     vFooterHierOI = 0; 
    //:INTEGER     lOrigPosX
-   zLONG     lOrigPosX = 0;
+   zLONG     lOrigPosX = 0; 
    //:INTEGER     lNewPosX
-   zLONG     lNewPosX = 0;
+   zLONG     lNewPosX = 0; 
    //:INTEGER     lNewPosY
-   zLONG     lNewPosY = 0;
+   zLONG     lNewPosY = 0; 
    //:INTEGER     lGroupTotal
-   zLONG     lGroupTotal = 0;
+   zLONG     lGroupTotal = 0; 
    //:INTEGER     lTempView
-   zLONG     lTempView = 0;
+   zLONG     lTempView = 0; 
    //:INTEGER     bValidView
-   zLONG     bValidView = 0;
+   zLONG     bValidView = 0; 
    //:INTEGER     nFooterLoop
-   zLONG     nFooterLoop = 0;
+   zLONG     nFooterLoop = 0; 
    //:INTEGER     nLevel
-   zLONG     nLevel = 0;
+   zLONG     nLevel = 0; 
    //:STRING (32) szEntityName
-   zCHAR     szEntityName[ 33 ] = { 0 };
+   zCHAR     szEntityName[ 33 ] = { 0 }; 
    //:SHORT       nRC
-   zSHORT    nRC = 0;
-   zSHORT    RESULT;
+   zSHORT    nRC = 0; 
+   zSHORT    RESULT; 
 
 
    //:plRepeatHorizontal = 0
@@ -4794,13 +4794,13 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
    //:                 vReportDef.FooterAtLevel.Level >= lReturnLevel
    RESULT = SetCursorFirstEntity( vReportDef, "FooterAtLevel", "" );
    if ( RESULT > zCURSOR_UNCHANGED )
-   {
+   { 
       while ( RESULT > zCURSOR_UNCHANGED && ( CompareAttributeToInteger( vReportDef, "FooterAtLevel", "Level", lReturnLevel ) < 0 ) )
-      {
+      { 
          RESULT = SetCursorNextEntity( vReportDef, "FooterAtLevel", "" );
-      }
+      } 
 
-   }
+   } 
 
    //:// If the current level is the same as the FooterAtLevel, we will check to
    //:// see if the entity names are the same.
@@ -4808,21 +4808,21 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
    nFooterLoop = RESULT;
    //:IF nFooterLoop >= zCURSOR_SET
    if ( nFooterLoop >= zCURSOR_SET )
-   {
+   { 
       //:IF vReportDef.FooterAtLevel.Level = lReturnLevel AND
       //:   vReportDef.FooterAtLevel.EntityName = szCurrentEntityName AND
       //:   vReportDef.FooterAtLevel.Complete != "Y"
       if ( CompareAttributeToInteger( vReportDef, "FooterAtLevel", "Level", lReturnLevel ) == 0 && CompareAttributeToString( vReportDef, "FooterAtLevel", "EntityName", szCurrentEntityName ) == 0 &&
            CompareAttributeToString( vReportDef, "FooterAtLevel", "Complete", "Y" ) != 0 )
-      {
+      { 
 
          //:nFooterLoop = -1
          nFooterLoop = -1;
-      }
+      } 
 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -4832,7 +4832,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
    //:// Now loop to process each Footer.
    //:LOOP WHILE nFooterLoop >= zCURSOR_SET
    while ( nFooterLoop >= zCURSOR_SET )
-   {
+   { 
       //:GetViewFromAttribute( vFooterHierOI, vReportDef,
       //:                      "FooterAtLevel", "SourceOI_Hier" )
       GetViewFromAttribute( &vFooterHierOI, vReportDef, "FooterAtLevel", "SourceOI_Hier" );
@@ -4840,10 +4840,10 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
       bValidView = IsValidView( vFooterHierOI );
       //:IF bValidView = FALSE
       if ( bValidView == FALSE )
-      {
+      { 
          //:bValidView = bValidView / bValidView
          bValidView = bValidView / bValidView;
-      }
+      } 
 
       //:END
       //://UNDVV IF bValidView = FALSE
@@ -4863,27 +4863,27 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
 
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      {
+      { 
          //:SET CURSOR FIRST vFooterDef.Group WHERE
          //:    vFooterDef.Group.Type = "gf"
          RESULT = SetCursorFirstEntityByString( vFooterDef, "Group", "Type", "gf", "" );
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:TraceLineS( "ProcessFooters unable to locate GroupSet: ",
          //:            szEntityName )
          TraceLineS( "ProcessFooters unable to locate GroupSet: ", szEntityName );
-      }
+      } 
 
       //:END
 
       //:IF vReportDef.PageState.ForcePageBreak != 0
       if ( CompareAttributeToInteger( vReportDef, "PageState", "ForcePageBreak", 0 ) != 0 )
-      {
+      { 
          //:nRC = 1
          nRC = 1;
-      }
+      } 
 
       //:END
 
@@ -4895,7 +4895,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
       GetIntegerFromAttribute( &lGroupTotal, vFooterDef, "Group", "SZDLG_Y" );
       //:IF lRemainingSpaceOnPageY < lGroupTotal
       if ( lRemainingSpaceOnPageY < lGroupTotal )
-      {
+      { 
 
          //:// Return with an indication that there are more Footers, but there
          //:// was not enough room to process them all.  Then save the last
@@ -4912,13 +4912,13 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
          GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "Report", "FooterDidNotFit" );
          //:IF vTemp != 0
          if ( vTemp != 0 )
-         {
+         { 
             //:// DropViewTrace( "Dropping view (4f): ", vTemp )
             //:DropView( vTemp )
             DropView( vTemp );
             //:vTemp = 0
             vTemp = 0;
-         }
+         } 
 
          //:END
 
@@ -4929,7 +4929,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
 
          //:IF vFooterHierOI != 0
          if ( vFooterHierOI != 0 )
-         {
+         { 
 
             //:// bValidView = IsValidView( vFooterHierOI )
             //:// IF bValidView = FALSE
@@ -4947,13 +4947,13 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
             lTempView = MakeIntegerFromView( vTemp );
 
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
 
             //:lTempView = 0
             lTempView = 0;
-         }
+         } 
 
 
          //:END
@@ -4968,7 +4968,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
 
          //:RETURN 1 // return indicating that there are MORE pages
          return( 1 );
-      }
+      } 
 
 
       //:END
@@ -4976,7 +4976,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
       //:// Put Footer on Page.
       //:IF bValidView = TRUE
       if ( bValidView == TRUE )
-      {
+      { 
 
          //:plRepeatHorizontal = vFooterDef.GroupSet.RepeatHorizontal
          GetIntegerFromAttribute( plRepeatHorizontal, vFooterDef, "GroupSet", "RepeatHorizontal" );
@@ -4997,12 +4997,12 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
          //:lRemainingSpaceOnPageY = lBottomOfPage - plCurrentPosY
          lRemainingSpaceOnPageY = lBottomOfPage - *plCurrentPosY;
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:TraceLineS( "Footer has been Skipped.....", "" )
          TraceLineS( "Footer has been Skipped.....", "" );
-      }
+      } 
 
       //:END
 
@@ -5011,13 +5011,13 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
       GetIntegerFromAttribute( (zLONG *) &vTemp, vReportDef, "FooterAtLevel", "SourceOI_Hier" );
       //:IF vTemp != 0
       if ( vTemp != 0 )
-      {
+      { 
          //:IF vTemp = vFooterHierOI
          if ( vTemp == vFooterHierOI )
-         {
+         { 
             //:vFooterHierOI = 0
             vFooterHierOI = 0;
-         }
+         } 
 
          //:END
 
@@ -5028,7 +5028,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
          vTemp = 0;
          //:vReportDef.FooterAtLevel.SourceOI_Hier = 0
          SetAttributeFromInteger( vReportDef, "FooterAtLevel", "SourceOI_Hier", 0 );
-      }
+      } 
 
       //:END
 
@@ -5054,7 +5054,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
       RESULT = SetCursorFirstEntityByInteger( vTempDef, "FooterAtLevel", "SourceOI_Hier", lTempView, "" );
       //:IF RESULT < zCURSOR_SET AND vFooterHierOI != 0
       if ( RESULT < zCURSOR_SET && vFooterHierOI != 0 )
-      {
+      { 
          //://UNDVV  bValidView = IsValidView( vFooterHierOI )
          //://UNDVV  IF bValidView = FALSE
          //://UNDVV     TraceLineV( "(nFooterLoop2) PageState/FooterAtLevel invalid view: ",
@@ -5067,7 +5067,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
          DropView( vFooterHierOI );
          //:   vFooterHierOI = 0
          vFooterHierOI = 0;
-      }
+      } 
 
       //://UNDVV  END
       //:END
@@ -5084,13 +5084,13 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
       //:                vReportDef.FooterAtLevel.Level >= lReturnLevel
       RESULT = SetCursorNextEntity( vReportDef, "FooterAtLevel", "" );
       if ( RESULT > zCURSOR_UNCHANGED )
-      {
+      { 
          while ( RESULT > zCURSOR_UNCHANGED && ( CompareAttributeToInteger( vReportDef, "FooterAtLevel", "Level", lReturnLevel ) < 0 ) )
-         {
+         { 
             RESULT = SetCursorNextEntity( vReportDef, "FooterAtLevel", "" );
-         }
+         } 
 
-      }
+      } 
 
       //:nFooterLoop = RESULT
       nFooterLoop = RESULT;
@@ -5106,7 +5106,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
 
       //:IF nFooterLoop >= zCURSOR_SET
       if ( nFooterLoop >= zCURSOR_SET )
-      {
+      { 
          //:nLevel = vReportDef.FooterAtLevel.Level
          GetIntegerFromAttribute( &nLevel, vReportDef, "FooterAtLevel", "Level" );
          //:szEntityName = vReportDef.FooterAtLevel.EntityName
@@ -5114,27 +5114,27 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
 
          //:IF nLevel < lReturnLevel
          if ( nLevel < lReturnLevel )
-         {
+         { 
             //:nFooterLoop = -1
             nFooterLoop = -1;
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
 
             //:IF nLevel > lReturnLevel
             if ( nLevel > lReturnLevel )
-            {
+            { 
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
 
                //:LOOP WHILE nFooterLoop >= zCURSOR_SET AND
                //:           nLevel = lReturnLevel AND
                //:           szEntityName != szCurrentEntityName
                while ( nFooterLoop >= zCURSOR_SET && nLevel == lReturnLevel && ZeidonStringCompare( szEntityName, 1, 0, szCurrentEntityName, 1, 0, 33 ) != 0 )
-               {
+               { 
 
                   //:SET CURSOR NEXT vReportDef.FooterAtLevel
                   RESULT = SetCursorNextEntity( vReportDef, "FooterAtLevel", "" );
@@ -5142,68 +5142,68 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
                   nFooterLoop = RESULT;
                   //:IF nFooterLoop >= zCURSOR_SET
                   if ( nFooterLoop >= zCURSOR_SET )
-                  {
+                  { 
                      //:nLevel = vReportDef.FooterAtLevel.Level
                      GetIntegerFromAttribute( &nLevel, vReportDef, "FooterAtLevel", "Level" );
                      //:szEntityName = vReportDef.FooterAtLevel.EntityName
                      GetVariableFromAttribute( szEntityName, 0, 'S', 33, vReportDef, "FooterAtLevel", "EntityName", "", 0 );
                      //:IF nLevel < lReturnLevel
                      if ( nLevel < lReturnLevel )
-                     {
+                     { 
                         //:nFooterLoop = -1
                         nFooterLoop = -1;
                         //:ELSE
-                     }
+                     } 
                      else
-                     {
+                     { 
                         //:IF szEntityName = szCurrentEntityName AND
                         //:   vReportDef.FooterAtLevel.Complete != "Y"
                         if ( ZeidonStringCompare( szEntityName, 1, 0, szCurrentEntityName, 1, 0, 33 ) == 0 && CompareAttributeToString( vReportDef, "FooterAtLevel", "Complete", "Y" ) != 0 )
-                        {
+                        { 
 
                            //:nFooterLoop = -1
                            nFooterLoop = -1;
-                        }
+                        } 
 
 
                         //:END
-                     }
+                     } 
 
                      //:END
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
 
                //:IF nFooterLoop >= zCURSOR_SET
                if ( nFooterLoop >= zCURSOR_SET )
-               {
+               { 
                   //:IF nLevel < lReturnLevel OR
                   //:   szEntityName != szCurrentEntityName OR
                   //:   vReportDef.FooterAtLevel.Complete != "Y"
                   if ( nLevel < lReturnLevel || ZeidonStringCompare( szEntityName, 1, 0, szCurrentEntityName, 1, 0, 33 ) != 0 || CompareAttributeToString( vReportDef, "FooterAtLevel", "Complete", "Y" ) != 0 )
-                  {
+                  { 
 
                      //:nFooterLoop = -1
                      nFooterLoop = -1;
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
-            }
+            } 
 
             //:END
-         }
+         } 
 
          //:END
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -5212,7 +5212,7 @@ oTZRPSRCO_ProcessFooters( zVIEW     vReportDef,
    //:RETURN nRC
    return( nRC );
 // END
-}
+} 
 
 
 //:LOCAL OPERATION
@@ -5240,30 +5240,30 @@ oTZRPSRCO_ProcessPageFooter( zVIEW     vReportDef,
                              zLONG     lPageHeight,
                              zLONG     lFlags )
 {
-   zVIEW     vPageFooterDef = 0;
+   zVIEW     vPageFooterDef = 0; 
    //:VIEW        vTempOI
-   zVIEW     vTempOI = 0;
+   zVIEW     vTempOI = 0; 
    //:STRING (32) szPageNumber
-   zCHAR     szPageNumber[ 33 ] = { 0 };
+   zCHAR     szPageNumber[ 33 ] = { 0 }; 
    //:INTEGER     nGroupSuppressedForPage
-   zLONG     nGroupSuppressedForPage = 0;
+   zLONG     nGroupSuppressedForPage = 0; 
    //:INTEGER     lPageNbr
-   zLONG     lPageNbr = 0;
+   zLONG     lPageNbr = 0; 
    //:INTEGER     lResetPageNbr
-   zLONG     lResetPageNbr = 0;
+   zLONG     lResetPageNbr = 0; 
    //:INTEGER     lResetTotalPageCnt
-   zLONG     lResetTotalPageCnt = 0;
+   zLONG     lResetTotalPageCnt = 0; 
    //:INTEGER     lTotalPages
-   zLONG     lTotalPages = 0;
+   zLONG     lTotalPages = 0; 
    //:INTEGER     lPrintFlags
-   zLONG     lPrintFlags = 0;
+   zLONG     lPrintFlags = 0; 
    //:INTEGER     lPrintHTML
-   zLONG     lPrintHTML = 0;
+   zLONG     lPrintHTML = 0; 
    //:INTEGER     lTemp
-   zLONG     lTemp = 0;
+   zLONG     lTemp = 0; 
    //:SHORT       nRC
-   zSHORT    nRC = 0;
-   zSHORT    RESULT;
+   zSHORT    nRC = 0; 
+   zSHORT    RESULT; 
 
 
    //:lPrintFlags = vReportDef.Report.PrintFlags
@@ -5272,16 +5272,16 @@ oTZRPSRCO_ProcessPageFooter( zVIEW     vReportDef,
    nRC = IsFlagSequenceSet( lPrintFlags, 256 );
    //:IF nRC != 0
    if ( nRC != 0 )
-   {
+   { 
       //:lPrintHTML = 1
       lPrintHTML = 1;
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:lPrintHTML = 0
       lPrintHTML = 0;
-   }
+   } 
 
    //:END
 
@@ -5293,18 +5293,18 @@ oTZRPSRCO_ProcessPageFooter( zVIEW     vReportDef,
    nRC = IsFlagSequenceSet( lPrintFlags, 2048 );
    //:IF nRC != 0
    if ( nRC != 0 )
-   {
+   { 
       //:GET VIEW vTempOI NAMED "-->HeaderViewForFooter"
       RESULT = GetViewByName( &vTempOI, "-->HeaderViewForFooter", vReportDef, zLEVEL_TASK );
       //:IF vTempOI != 0
       if ( vTempOI != 0 )
-      {
+      { 
          //:vSourceHierOI = vTempOI
          vSourceHierOI = vTempOI;
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -5335,7 +5335,7 @@ oTZRPSRCO_ProcessPageFooter( zVIEW     vReportDef,
    RESULT = SetCursorFirstEntityByString( vPageFooterDef, "GroupSet", "Type", "PF", "" );
    //:LOOP WHILE RESULT >= zCURSOR_SET
    while ( RESULT >= zCURSOR_SET )
-   {
+   { 
       //:// Check if subtype specified for page footer.
       //:nGroupSuppressedForPage = GroupSuppressReason( vPageFooterDef, lResetPageNbr,
       //:                                               lResetTotalPageCnt )
@@ -5344,16 +5344,16 @@ oTZRPSRCO_ProcessPageFooter( zVIEW     vReportDef,
       //:// Only process the footer if it is not suppressed.
       //:IF nGroupSuppressedForPage = 0
       if ( nGroupSuppressedForPage == 0 )
-      {
+      { 
          //:SET CURSOR FIRST vPageFooterDef.Control WHERE
          //:                 vPageFooterDef.Control.Tag = "PageNumber"
          RESULT = SetCursorFirstEntityByString( vPageFooterDef, "Control", "Tag", "PageNumber", "" );
          //:IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
-         {
+         { 
             //:vPageFooterDef.Control.Text = szPageNumber
             SetAttributeFromString( vPageFooterDef, "Control", "Text", szPageNumber );
-         }
+         } 
 
          //:END
 
@@ -5365,13 +5365,13 @@ oTZRPSRCO_ProcessPageFooter( zVIEW     vReportDef,
          oTZRPSRCO_FormatGroupOnPage( vPageFooterDef, vSourceHierOI, vSubtask, plNewPosX, plNewPosY, lCurrentPosX, lCurrentPosY, 99999, 0, lPageWidth, lPageHeight, 99999, lPageHeight );
          //:lCurrentPosY = plNewPosY
          lCurrentPosY = *plNewPosY;
-      }
+      } 
 
       //:END
 
       //:SET CURSOR NEXT vPageFooterDef.Group
       RESULT = SetCursorNextEntity( vPageFooterDef, "Group", "" );
-   }
+   } 
 
    //:END
 
@@ -5383,15 +5383,15 @@ oTZRPSRCO_ProcessPageFooter( zVIEW     vReportDef,
 
    //:IF vTempOI != 0
    if ( vTempOI != 0 )
-   {
+   { 
       //:DropView( vTempOI )
       DropView( vTempOI );
-   }
+   } 
 
    //:END
    return( 0 );
 // END
-}
+} 
 
 
 //:LOCAL OPERATION
@@ -5405,103 +5405,103 @@ oTZRPSRCO_GroupSuppressReason( zVIEW     vReportDef,
                                zLONG     lPageNbr,
                                zLONG     lTotalPageCnt )
 {
-   zCHAR     szGroupSubType[ 2 ] = { 0 };
+   zCHAR     szGroupSubType[ 2 ] = { 0 }; 
    //:SHORT      nGroupSuppressedForPage
-   zSHORT    nGroupSuppressedForPage = 0;
-   zSHORT    lTempInteger_0;
-   zSHORT    lTempInteger_1;
+   zSHORT    nGroupSuppressedForPage = 0; 
+   zSHORT    lTempInteger_0; 
+   zSHORT    lTempInteger_1; 
 
 
    //: // Check if subtype specified for page header.
    //:IF vReportDef.Group EXISTS
    lTempInteger_0 = CheckExistenceOfEntity( vReportDef, "Group" );
    if ( lTempInteger_0 == 0 )
-   {
+   { 
       //:szGroupSubType = vReportDef.Group.SubType
       GetVariableFromAttribute( szGroupSubType, 0, 'S', 2, vReportDef, "Group", "SubType", "", 0 );
       //:IF lPageNbr > 1 AND szGroupSubType = "1"  // FirstPageOnly
       if ( lPageNbr > 1 && ZeidonStringCompare( szGroupSubType, 1, 0, "1", 1, 0, 2 ) == 0 )
-      {
+      { 
          //:nGroupSuppressedForPage = 1
          nGroupSuppressedForPage = 1;
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:IF lPageNbr < 2 AND szGroupSubType = "2"  // StartingOnPage2
          if ( lPageNbr < 2 && ZeidonStringCompare( szGroupSubType, 1, 0, "2", 1, 0, 2 ) == 0 )
-         {
+         { 
             //:nGroupSuppressedForPage = 2
             nGroupSuppressedForPage = 2;
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
             //:IF szGroupSubType = "3"  // LastPageOnly
             if ( ZeidonStringCompare( szGroupSubType, 1, 0, "3", 1, 0, 2 ) == 0 )
-            {
+            { 
                //:IF lPageNbr = 0 OR           // suppress for all pages when counting
                //:lPageNbr < lTotalPageCnt  // suppress when not on last page
                if ( lPageNbr == 0 || lPageNbr < lTotalPageCnt )
-               {
+               { 
                   //:nGroupSuppressedForPage = 3
                   nGroupSuppressedForPage = 3;
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
                   //:nGroupSuppressedForPage = 0
                   nGroupSuppressedForPage = 0;
-               }
+               } 
 
                //:END
                //:// TraceLineS ( "Group subtype of 'LastPageOnly' is no longer ",
                //://              "supported - use a work entity at end of object." )
                //:// nGroupSuppressedForPage = 0
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
                //:nGroupSuppressedForPage = 0
                nGroupSuppressedForPage = 0;
-            }
+            } 
 
             //:END END END
-         }
+         } 
 
-      }
+      } 
 
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:nGroupSuppressedForPage = 9  // No Group in Group set??
       nGroupSuppressedForPage = 9;
-   }
+   } 
 
    //:END
 
    //:// Finally, Only print Group if there are any controls to process.
    //:IF nGroupSuppressedForPage = 0
    if ( nGroupSuppressedForPage == 0 )
-   {
+   { 
       //:IF vReportDef.Control DOES NOT EXIST
       lTempInteger_1 = CheckExistenceOfEntity( vReportDef, "Control" );
       if ( lTempInteger_1 != 0 )
-      {
+      { 
          //:nGroupSuppressedForPage = -1
          nGroupSuppressedForPage = -1;
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
    //:RETURN nGroupSuppressedForPage
    return( nGroupSuppressedForPage );
 // END
-}
+} 
 
 
 //:TRANSFORMATION OPERATION
@@ -5535,204 +5535,204 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                                zLONG     lOrigRemainingSpaceOnPageY,
                                zLONG     lFooterPosPageBottom )
 {
-   zVIEW     vSourceOI = 0;
+   zVIEW     vSourceOI = 0; 
    //:VIEW         vReportTmp
-   zVIEW     vReportTmp = 0;
+   zVIEW     vReportTmp = 0; 
    //:VIEW         vMappingOI
-   zVIEW     vMappingOI = 0;
+   zVIEW     vMappingOI = 0; 
    //:VIEW         vSourceOrigOI
-   zVIEW     vSourceOrigOI = 0;
+   zVIEW     vSourceOrigOI = 0; 
    //:INTEGER      lOrigPosY         // original y-position of control on page
-   zLONG     lOrigPosY = 0;
+   zLONG     lOrigPosY = 0; 
    //:INTEGER      lRemainingSpaceOnPageStart
-   zLONG     lRemainingSpaceOnPageStart = 0;
+   zLONG     lRemainingSpaceOnPageStart = 0; 
    //:INTEGER      lPagePosMaxX      // position of control on page
-   zLONG     lPagePosMaxX = 0;
+   zLONG     lPagePosMaxX = 0; 
    //:INTEGER      lPagePosX         // position of control on page
-   zLONG     lPagePosX = 0;
+   zLONG     lPagePosX = 0; 
    //:INTEGER      lPagePosY         // position of control on page
-   zLONG     lPagePosY = 0;
+   zLONG     lPagePosY = 0; 
    //:INTEGER      lPagePosEndX      // end position of control on page
-   zLONG     lPagePosEndX = 0;
+   zLONG     lPagePosEndX = 0; 
    //:INTEGER      lPagePosEndY      // end position of control on page
-   zLONG     lPagePosEndY = 0;
+   zLONG     lPagePosEndY = 0; 
    //:INTEGER      lEndPosY          // bottom of multi-line control
-   zLONG     lEndPosY = 0;
+   zLONG     lEndPosY = 0; 
    //:INTEGER      lNextWord         // begining of next word to print in multi-line text
-   zLONG     lNextWord = 0;
+   zLONG     lNextWord = 0; 
    //:INTEGER      lMultiLineAdjustment // Adjustment +/- to posY to deal with multi-line
-   zLONG     lMultiLineAdjustment = 0;
+   zLONG     lMultiLineAdjustment = 0; 
    //:INTEGER      lMultiLineIncrement  // Amount multi-line added to Group size
-   zLONG     lMultiLineIncrement = 0;
+   zLONG     lMultiLineIncrement = 0; 
    //:INTEGER      lMaxSizeY   // temp value for max y size for all controls on same line
-   zLONG     lMaxSizeY = 0;
+   zLONG     lMaxSizeY = 0; 
    //:INTEGER      lMultiLineSizeY   // temp value for actual size of multi-line
-   zLONG     lMultiLineSizeY = 0;
+   zLONG     lMultiLineSizeY = 0; 
    //:                               // control after print
    //:INTEGER      lAdjust
-   zLONG     lAdjust = 0;
+   zLONG     lAdjust = 0; 
    //:INTEGER      lTemp
-   zLONG     lTemp = 0;
+   zLONG     lTemp = 0; 
    //:INTEGER      lStartBottomAdjustment
-   zLONG     lStartBottomAdjustment = 0;
+   zLONG     lStartBottomAdjustment = 0; 
    //:INTEGER      lContinuedGroupAdjustment
-   zLONG     lContinuedGroupAdjustment = 0;
+   zLONG     lContinuedGroupAdjustment = 0; 
    //:INTEGER      lRangeBottom
-   zLONG     lRangeBottom = 0;
+   zLONG     lRangeBottom = 0; 
    //:INTEGER      lRemainingSpaceForCurrentLine
-   zLONG     lRemainingSpaceForCurrentLine = 0;
+   zLONG     lRemainingSpaceForCurrentLine = 0; 
    //:INTEGER      lTextAddress // will hold the address of print text in multi-line case
-   zLONG     lTextAddress = 0;
+   zLONG     lTextAddress = 0; 
    //:INTEGER      lCtrlBOI
-   zLONG     lCtrlBOI = 0;
+   zLONG     lCtrlBOI = 0; 
    //:STRING (32766) szWorkString
-   zCHAR     szWorkString[ 32767 ] = { 0 };
+   zCHAR     szWorkString[ 32767 ] = { 0 }; 
    //:STRING (256) szViewName
-   zCHAR     szViewName[ 257 ] = { 0 };
+   zCHAR     szViewName[ 257 ] = { 0 }; 
    //:STRING (32)  szEntityName
-   zCHAR     szEntityName[ 33 ] = { 0 };
+   zCHAR     szEntityName[ 33 ] = { 0 }; 
    //:STRING (32)  szAttributeName
-   zCHAR     szAttributeName[ 33 ] = { 0 };
+   zCHAR     szAttributeName[ 33 ] = { 0 }; 
    //:STRING (32)  szContextName
-   zCHAR     szContextName[ 33 ] = { 0 };
+   zCHAR     szContextName[ 33 ] = { 0 }; 
    //:STRING (32)  szFaceName      // LF_FACENAME is 32
-   zCHAR     szFaceName[ 33 ] = { 0 };
+   zCHAR     szFaceName[ 33 ] = { 0 }; 
    //:STRING (32)  szCtrlTag
-   zCHAR     szCtrlTag[ 33 ] = { 0 };
+   zCHAR     szCtrlTag[ 33 ] = { 0 }; 
    //:STRING (10)  szQueryOperation
-   zCHAR     szQueryOperation[ 11 ] = { 0 };
+   zCHAR     szQueryOperation[ 11 ] = { 0 }; 
    //:STRING (256) szClass
-   zCHAR     szClass[ 257 ] = { 0 };
+   zCHAR     szClass[ 257 ] = { 0 }; 
    //:STRING (32)  szYN
-   zCHAR     szYN[ 33 ] = { 0 };
+   zCHAR     szYN[ 33 ] = { 0 }; 
    //:SHORT        nRectangleFlag
-   zSHORT    nRectangleFlag = 0;
+   zSHORT    nRectangleFlag = 0; 
    //:SHORT        nRoundRectFlag
-   zSHORT    nRoundRectFlag = 0;
+   zSHORT    nRoundRectFlag = 0; 
    //:SHORT        nEllipseFlag
-   zSHORT    nEllipseFlag = 0;
+   zSHORT    nEllipseFlag = 0; 
    //:SHORT        nDiamondFlag
-   zSHORT    nDiamondFlag = 0;
+   zSHORT    nDiamondFlag = 0; 
    //:SHORT        nHorizontalFlag
-   zSHORT    nHorizontalFlag = 0;
+   zSHORT    nHorizontalFlag = 0; 
    //:SHORT        nVerticalFlag
-   zSHORT    nVerticalFlag = 0;
+   zSHORT    nVerticalFlag = 0; 
    //:SHORT        nDiagDescendFlag
-   zSHORT    nDiagDescendFlag = 0;
+   zSHORT    nDiagDescendFlag = 0; 
    //:SHORT        nDiagAscendFlag
-   zSHORT    nDiagAscendFlag = 0;
+   zSHORT    nDiagAscendFlag = 0; 
    //:SHORT        nMultiLineFlag
-   zSHORT    nMultiLineFlag = 0;
+   zSHORT    nMultiLineFlag = 0; 
    //:SHORT        nBoldFlag
-   zSHORT    nBoldFlag = 0;
+   zSHORT    nBoldFlag = 0; 
    //:SHORT        nItalicFlag
-   zSHORT    nItalicFlag = 0;
+   zSHORT    nItalicFlag = 0; 
    //:SHORT        nStrikeoutFlag
-   zSHORT    nStrikeoutFlag = 0;
+   zSHORT    nStrikeoutFlag = 0; 
    //:SHORT        nUnderlineFlag
-   zSHORT    nUnderlineFlag = 0;
+   zSHORT    nUnderlineFlag = 0; 
    //:STRING (2)   szOverrideHide
-   zCHAR     szOverrideHide[ 3 ] = { 0 };
+   zCHAR     szOverrideHide[ 3 ] = { 0 }; 
    //:SHORT        nHide
-   zSHORT    nHide = 0;
+   zSHORT    nHide = 0; 
    //:INTEGER      lJustify
-   zLONG     lJustify = 0;
+   zLONG     lJustify = 0; 
    //:INTEGER      lWork
-   zLONG     lWork = 0;
+   zLONG     lWork = 0; 
    //:INTEGER      lFontSize
-   zLONG     lFontSize = 0;
+   zLONG     lFontSize = 0; 
    //:INTEGER      lDefaultFontSize
-   zLONG     lDefaultFontSize = 0;
+   zLONG     lDefaultFontSize = 0; 
    //:INTEGER      lTextColor
-   zLONG     lTextColor = 0;
+   zLONG     lTextColor = 0; 
    //:INTEGER      lTextBkColor
-   zLONG     lTextBkColor = 0;
+   zLONG     lTextBkColor = 0; 
    //:INTEGER      lBorderStyle
-   zLONG     lBorderStyle = 0;
+   zLONG     lBorderStyle = 0; 
    //:INTEGER      lBorderColor
-   zLONG     lBorderColor = 0;
+   zLONG     lBorderColor = 0; 
    //:INTEGER      lEscapement
-   zLONG     lEscapement = 0;
+   zLONG     lEscapement = 0; 
    //:INTEGER      lType
-   zLONG     lType = 0;
+   zLONG     lType = 0; 
    //:INTEGER      lPenWidth
-   zLONG     lPenWidth = 0;
+   zLONG     lPenWidth = 0; 
    //:INTEGER      lPenType
-   zLONG     lPenType = 0;
+   zLONG     lPenType = 0; 
    //:INTEGER      lPenColor
-   zLONG     lPenColor = 0;
+   zLONG     lPenColor = 0; 
    //:INTEGER      lRoundValue
-   zLONG     lRoundValue = 0;
+   zLONG     lRoundValue = 0; 
    //:INTEGER      lBackgroundColor
-   zLONG     lBackgroundColor = 0;
+   zLONG     lBackgroundColor = 0; 
    //:INTEGER      lFlags            // Shape Flags attribute
-   zLONG     lFlags = 0;
+   zLONG     lFlags = 0; 
    //:INTEGER      lPrintFlags
-   zLONG     lPrintFlags = 0;
+   zLONG     lPrintFlags = 0; 
    //:INTEGER      lPrintHTML
-   zLONG     lPrintHTML = 0;
+   zLONG     lPrintHTML = 0; 
    //:INTEGER      lPrintCSV
-   zLONG     lPrintCSV = 0;
+   zLONG     lPrintCSV = 0; 
    //:INTEGER      lColumnCSV
-   zLONG     lColumnCSV = 0;
+   zLONG     lColumnCSV = 0; 
    //:SHORT        bTopOfPage
-   zSHORT    bTopOfPage = 0;
+   zSHORT    bTopOfPage = 0; 
    //:SHORT        bCurrentGroupCanContinue
-   zSHORT    bCurrentGroupCanContinue = 0;
+   zSHORT    bCurrentGroupCanContinue = 0; 
    //:SHORT        bProcessedMultiLine
-   zSHORT    bProcessedMultiLine = 0;
+   zSHORT    bProcessedMultiLine = 0; 
    //:SHORT        nSkipFlag
-   zSHORT    nSkipFlag = 0;
+   zSHORT    nSkipFlag = 0; 
    //:SHORT        nLoop1
-   zSHORT    nLoop1 = 0;
+   zSHORT    nLoop1 = 0; 
 
    //:SHORT        nRptExitEvent
-   zSHORT    nRptExitEvent = 0;
+   zSHORT    nRptExitEvent = 0; 
    //:SHORT        nRptExitReturn
-   zSHORT    nRptExitReturn = 0;
+   zSHORT    nRptExitReturn = 0; 
    //:STRING (32)  szRptExitOper
-   zCHAR     szRptExitOper[ 33 ] = { 0 };
+   zCHAR     szRptExitOper[ 33 ] = { 0 }; 
 
    //:INTEGER      lLastPage
-   zLONG     lLastPage = 0;
+   zLONG     lLastPage = 0; 
    //:INTEGER      lPageNbr
-   zLONG     lPageNbr = 0;
+   zLONG     lPageNbr = 0; 
    //:INTEGER      lTotalPageCnt
-   zLONG     lTotalPageCnt = 0;
+   zLONG     lTotalPageCnt = 0; 
    //:SHORT        nRC
-   zSHORT    nRC = 0;
+   zSHORT    nRC = 0; 
 
    //://UNDEF INTEGER lTempView
    //:STRING (32) szRptGroupSetTag
-   zCHAR     szRptGroupSetTag[ 33 ] = { 0 };
+   zCHAR     szRptGroupSetTag[ 33 ] = { 0 }; 
    //:STRING (32) szRptGroupTag
-   zCHAR     szRptGroupTag[ 33 ] = { 0 };
-   zSHORT    lTempInteger_0;
-   zLONG     lTempInteger_1;
-   zSHORT    lTempInteger_2;
-   zSHORT    lTempInteger_3;
-   zLONG     lTempInteger_4;
-   zLONG     lTempInteger_5;
-   zLONG     lTempInteger_6;
-   zSHORT    RESULT;
-   zSHORT    lTempInteger_7;
-   zSHORT    lTempInteger_8;
-   zLONG     lTempInteger_9;
-   zLONG     lTempInteger_10;
-   zLONG     lTempInteger_11;
-   zSHORT    lTempInteger_12;
-   zLONG     lTempInteger_13;
-   zCHAR     szTempString_0[ 33 ];
-   zCHAR     szTempString_1[ 33 ];
-   zCHAR     szTempString_2[ 33 ];
-   zLONG     lTempInteger_14;
-   zSHORT    lTempInteger_15;
-   zSHORT    lTempInteger_16;
-   zSHORT    lTempInteger_17;
-   zLONG     lTempInteger_18;
-   zLONG     lTempInteger_19;
-   zSHORT    lTempInteger_20;
-   zLONG     lTempInteger_21;
+   zCHAR     szRptGroupTag[ 33 ] = { 0 }; 
+   zSHORT    lTempInteger_0; 
+   zLONG     lTempInteger_1; 
+   zSHORT    lTempInteger_2; 
+   zSHORT    lTempInteger_3; 
+   zLONG     lTempInteger_4; 
+   zLONG     lTempInteger_5; 
+   zLONG     lTempInteger_6; 
+   zSHORT    RESULT; 
+   zSHORT    lTempInteger_7; 
+   zSHORT    lTempInteger_8; 
+   zLONG     lTempInteger_9; 
+   zLONG     lTempInteger_10; 
+   zLONG     lTempInteger_11; 
+   zSHORT    lTempInteger_12; 
+   zLONG     lTempInteger_13; 
+   zCHAR     szTempString_0[ 33 ]; 
+   zCHAR     szTempString_1[ 33 ]; 
+   zCHAR     szTempString_2[ 33 ]; 
+   zLONG     lTempInteger_14; 
+   zSHORT    lTempInteger_15; 
+   zSHORT    lTempInteger_16; 
+   zSHORT    lTempInteger_17; 
+   zLONG     lTempInteger_18; 
+   zLONG     lTempInteger_19; 
+   zSHORT    lTempInteger_20; 
+   zLONG     lTempInteger_21; 
 
    //:szRptGroupSetTag = vReportDef.GroupSet.Tag
    GetVariableFromAttribute( szRptGroupSetTag, 0, 'S', 33, vReportDef, "GroupSet", "Tag", "", 0 );
@@ -5758,43 +5758,43 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
    nRC = IsFlagSequenceSet( lPrintFlags, 256 );
    //:IF nRC = 0
    if ( nRC == 0 )
-   {
+   { 
       //:lPrintHTML = 0
       lPrintHTML = 0;
       //:nRC = IsFlagSequenceSet( lPrintFlags, 128 )
       nRC = IsFlagSequenceSet( lPrintFlags, 128 );
       //:IF nRC = 0
       if ( nRC == 0 )
-      {
+      { 
          //:lPrintCSV = 0
          lPrintCSV = 0;
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:lPrintCSV = 1
          lPrintCSV = 1;
          //:IF vReportDef.Control EXISTS
          lTempInteger_0 = CheckExistenceOfEntity( vReportDef, "Control" );
          if ( lTempInteger_0 == 0 )
-         {
+         { 
             //:lRangeBottom = vReportDef.Control.RangeBottom
             GetIntegerFromAttribute( &lRangeBottom, vReportDef, "Control", "RangeBottom" );
-         }
+         } 
 
          //:END
-      }
+      } 
 
       //:END
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:lPrintHTML = 1
       lPrintHTML = 1;
       //:lPrintCSV = 0
       lPrintCSV = 0;
-   }
+   } 
 
    //:END
 
@@ -5808,17 +5808,17 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
    //:IF (lTotalPageCnt > 0 AND lPageNbr = lTotalPageCnt) OR
    //:   lPrintHTML != 0 OR lPrintCSV != 0
    if ( ( lTotalPageCnt > 0 && lPageNbr == lTotalPageCnt ) || lPrintHTML != 0 || lPrintCSV != 0 )
-   {
+   { 
 
       //:lLastPage = 1
       lLastPage = 1;
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:lLastPage = 0
       lLastPage = 0;
-   }
+   } 
 
    //:END
 
@@ -5842,32 +5842,32 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
    bProcessedMultiLine = 0;
    //:IF lRemainingSpaceOnPageY = lOrigRemainingSpaceOnPageY
    if ( lRemainingSpaceOnPageY == lOrigRemainingSpaceOnPageY )
-   {
+   { 
       //:bTopOfPage = TRUE
       bTopOfPage = TRUE;
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:bTopOfPage = FALSE
       bTopOfPage = FALSE;
-   }
+   } 
 
    //:END
    //:IF vReportDef.GroupSet.Type = "E" AND    // entity GroupSet
    //:   vReportDef.Group.Type = "ga"   // entity Group detail
    if ( CompareAttributeToString( vReportDef, "GroupSet", "Type", "E" ) == 0 && CompareAttributeToString( vReportDef, "Group", "Type", "ga" ) == 0 )
-   {
+   { 
 
       //:bCurrentGroupCanContinue = TRUE
       bCurrentGroupCanContinue = TRUE;
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:bCurrentGroupCanContinue = FALSE
       bCurrentGroupCanContinue = FALSE;
-   }
+   } 
 
    //:END
 
@@ -5908,10 +5908,10 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
    nRC = GetWorkstationApplicationValues( vSubtask, szWorkString, szFaceName, 32, &lFontSize, &lWork, &lWork, &lWork, &lWork, &lWork, &lWork, &lWork, &lWork, &lWork );
    //:IF lDefaultFontSize = 0
    if ( lDefaultFontSize == 0 )
-   {
+   { 
       //:lDefaultFontSize = lFontSize
       lDefaultFontSize = lFontSize;
-   }
+   } 
 
    //:END
 
@@ -5920,19 +5920,19 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
    //:// a hierarchical cursor.
    //:IF vSourceHierOI != 0
    if ( vSourceHierOI != 0 )
-   {
+   { 
       //:// CreateViewTrace( "Creating view (18): ", vSourceOI, vSourceHierOI, 0 )
       //:CreateViewFromViewForTask( vSourceOI, vSourceHierOI, 0 )
       CreateViewFromViewForTask( &vSourceOI, vSourceHierOI, 0 );
       //:NAME VIEW vSourceOI "-->vSourceI2"
       SetNameForView( vSourceOI, "-->vSourceI2", 0, zLEVEL_TASK );
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:vSourceOI = 0
       vSourceOI = 0;
-   }
+   } 
 
    //:END
 
@@ -5944,7 +5944,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
 
    //:IF lContinuedGroupFlag > 0
    if ( lContinuedGroupFlag > 0 )
-   {
+   { 
       //:// Subtract the position of the first continued control to
       //:// adjust for starting in the middle of a Group. recall that
       //:// control positions are relative to the beginning of the Group
@@ -5956,16 +5956,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
       GetIntegerFromAttribute( &lContinuedGroupFlag, vReportDef, "PageState", "ContinuedGroupFlagStartPage" );
       //:IF lContinuedGroupFlag = 1
       if ( lContinuedGroupFlag == 1 )
-      {
+      { 
          //:lStartBottomAdjustment = vReportDef.Control.RangeBottom
          GetIntegerFromAttribute( &lStartBottomAdjustment, vReportDef, "Control", "RangeBottom" );
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:lStartBottomAdjustment = vReportDef.Control.RangeTop
          GetIntegerFromAttribute( &lStartBottomAdjustment, vReportDef, "Control", "RangeTop" );
-      }
+      } 
 
       //:   // NOTE: above eliminates the space between ranges after a page break
       //:   //       we may need to also set the MultilineINCREMENT to be negative
@@ -5984,7 +5984,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
       nLoop1 = SetCursorFirstEntityByString( vReportDef, "Control", "Tag", szWorkString, "" );
       //:IF nLoop1 < zCURSOR_SET
       if ( nLoop1 < zCURSOR_SET )
-      {
+      { 
          //:TraceLineS( "Report Internal Error: Continuation control not found.", "" )
          TraceLineS( "Report Internal Error: Continuation control not found.", "" );
          //:TraceLineS( "     GroupSet: ", szRptGroupSetTag )
@@ -5993,7 +5993,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
          TraceLineS( "        Group: ", szRptGroupTag );
          //:TraceLineS( "      Control: ", szWorkString )
          TraceLineS( "      Control: ", szWorkString );
-      }
+      } 
 
       //://UNDEF ELSE
       //://UNDEF  TraceLineS( "Continuation control set to : ", szWorkString )
@@ -6003,9 +6003,9 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
       //:nRptExitEvent = zRGE_EVENT_GROUP_CONTINUE
       nRptExitEvent = zRGE_EVENT_GROUP_CONTINUE;
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:nLoop1 = SetCursorFirstEntity( vReportDef, "Control", "" )
       nLoop1 = SetCursorFirstEntity( vReportDef, "Control", "" );
       //:nRptExitEvent = zRGE_EVENT_PREPRINT
@@ -6013,7 +6013,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
       //:fnSetGroupCtrlStatus( vReportDef,
       //:                      zRCONTROL_STATUS_NOTPRINTED )  //not yet printed
       oTZRPSRCO_fnSetGroupCtrlStatus( vReportDef, zRCONTROL_STATUS_NOTPRINTED );
-   }
+   } 
 
    //:END
 
@@ -6025,7 +6025,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
    nRptExitReturn = InvokeReportExitCode( vSubtask, vReportDef, szRptExitOper, nRptExitEvent, lPageNbr, vSourceOI );
    //:IF nRptExitReturn = zRGE_RETURN_SUPPRESS
    if ( nRptExitReturn == zRGE_RETURN_SUPPRESS )
-   {
+   { 
       //://UNDEF TraceLineI( "Exit Suppressed Formatting GroupSet/Group at PosY: ",
       //://UNDEF             lCurrentPosY )
       //://UNDEF TraceLineS( "     GroupSet: ", szRptGroupSetTag )
@@ -6038,34 +6038,34 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
       *plNewPosY = lCurrentPosY;
       //:IF vSourceOI != 0
       if ( vSourceOI != 0 )
-      {
+      { 
          //:// DropViewTrace( "Dropping view (17): ", vSourceOI )
          //:DropView( vSourceOI )
          DropView( vSourceOI );
          //:vSourceOI = 0
          vSourceOI = 0;
-      }
+      } 
 
       //:END
 
       //:RETURN 0
       return( 0 );
-   }
+   } 
 
    //:END
    //:IF nRptExitReturn = zRGE_RETURN_NEWPAGE
    if ( nRptExitReturn == zRGE_RETURN_NEWPAGE )
-   {
+   { 
       //:IF nRptExitEvent = zRGE_EVENT_GROUP_CONTINUE
       if ( nRptExitEvent == zRGE_EVENT_GROUP_CONTINUE )
-      {
+      { 
          //:TraceLineS( "zRGE_RETURN_NEWPAGE return from Exit ignored for ",
          //:            "zRGE_EVENT_GROUP_CONTINUE" )
          TraceLineS( "zRGE_RETURN_NEWPAGE return from Exit ignored for ", "zRGE_EVENT_GROUP_CONTINUE" );
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //://UNDEF TraceLineI( "Exit Forced New Page GroupSet/Group at PosY: ",
          //://UNDEF             lCurrentPosY )
          //://UNDEF TraceLineS( "     GroupSet: ", szRptGroupSetTag )
@@ -6086,22 +6086,22 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
 
          //:IF vSourceOI != 0
          if ( vSourceOI != 0 )
-         {
+         { 
             //:// DropViewTrace( "Dropping view (18): ", vSourceOI )
             //:DropView( vSourceOI )
             DropView( vSourceOI );
             //:vSourceOI = 0
             vSourceOI = 0;
-         }
+         } 
 
          //:END
 
          //:RETURN -1
          return( -1 );
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -6120,37 +6120,37 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
    nRC = CreateViewFromViewForTask( &vReportTmp, vReportDef, 0 );
    //:LOOP WHILE nLoop1 = zCURSOR_SET
    while ( nLoop1 == zCURSOR_SET )
-   {
+   { 
 
       //:lWork = vReportDef.Control.Subtype
       GetIntegerFromAttribute( &lWork, vReportDef, "Control", "Subtype" );
       //:IF szOverrideHide = "Y"
       if ( ZeidonStringCompare( szOverrideHide, 1, 0, "Y", 1, 0, 3 ) == 0 )
-      {
+      { 
          //:nHide = 0
          nHide = 0;
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:nHide = IsFlagSequenceSet( lWork, 4096 )  // 0x00001000
          nHide = IsFlagSequenceSet( lWork, 4096 );
-      }
+      } 
 
       //:END
 
       //:IF lPrintCSV = 1
       if ( lPrintCSV == 1 )
-      {
+      { 
 
          //:lWork = vReportDef.Control.RangeBottom
          GetIntegerFromAttribute( &lWork, vReportDef, "Control", "RangeBottom" );
          //:IF lWork != lRangeBottom
          if ( lWork != lRangeBottom )
-         {
+         { 
             //:PrintTextToCSV( vSubtask, 0, 0 )
             PrintTextToCSV( vSubtask, 0, 0 );
-         }
+         } 
 
          //:END
 
@@ -6161,12 +6161,12 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
          GetIntegerFromAttribute( &lColumnCSV, vReportDef, "Control", "ColumnCSV" );
          //:IF lColumnCSV > 0
          if ( lColumnCSV > 0 )
-         {
+         { 
 
             //:IF vReportDef.CtrlMapView EXISTS
             lTempInteger_2 = CheckExistenceOfEntity( vReportDef, "CtrlMapView" );
             if ( lTempInteger_2 == 0 )
-            {
+            { 
 
                //:// Get text value to put on report AND GET AN ADDRESS TO IT.
                //:// If there is mapping on the report (determined by the existence
@@ -6179,16 +6179,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                //:IF vReportDef.CtrlMapContext EXISTS
                lTempInteger_3 = CheckExistenceOfEntity( vReportDef, "CtrlMapContext" );
                if ( lTempInteger_3 == 0 )
-               {
+               { 
                   //:szContextName = vReportDef.CtrlMapContext.Name
                   GetVariableFromAttribute( szContextName, 0, 'S', 33, vReportDef, "CtrlMapContext", "Name", "", 0 );
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
                   //:szContextName = ""
                   ZeidonStringCopy( szContextName, 1, 0, "", 1, 0, 33 );
-               }
+               } 
 
                //:END
 
@@ -6203,7 +6203,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                nRC = GetViewByName( &vMappingOI, szViewName, vSubtask, zLEVEL_ANY );
                //:IF nRC >= 0
                if ( nRC >= 0 )
-               {
+               { 
                   //:// GET VIEW vSourceOrigOI NAMED "TZ_SourceOrigOI"
                   //:szViewName = "TZ_SourceOrigOI"
                   ZeidonStringCopy( szViewName, 1, 0, "TZ_SourceOrigOI", 1, 0, 257 );
@@ -6212,16 +6212,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                   nRC = GetViewByName( &vSourceOrigOI, szViewName, vSubtask, zLEVEL_ANY );
                   //:IF vMappingOI = vSourceOrigOI
                   if ( vMappingOI == vSourceOrigOI )
-                  {
+                  { 
                      //:vMappingOI = vSourceOI
                      vMappingOI = vSourceOI;
-                  }
+                  } 
 
                   //:END
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
                   //:szWorkString = "Report cannot get view by name for View.Entity.Attribute: " +
                   //:                        szViewName + "." + szEntityName + "." + szAttributeName
                   ZeidonStringCopy( szWorkString, 1, 0, "Report cannot get view by name for View.Entity.Attribute: ", 1, 0, 32767 );
@@ -6232,14 +6232,14 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                   ZeidonStringConcat( szWorkString, 1, 0, szAttributeName, 1, 0, 32767 );
                   //:TraceLineS( szWorkString, "" )
                   TraceLineS( szWorkString, "" );
-               }
+               } 
 
                //:// szWorkString = ""
                //:END
 
                //:IF vReportDef.Control.wQueryOperation != ""
                if ( CompareAttributeToString( vReportDef, "Control", "wQueryOperation", "" ) != 0 )
-               {
+               { 
                   //:// Query Operation
                   //:szQueryOperation = vReportDef.Control.wQueryOperation
                   GetVariableFromAttribute( szQueryOperation, 0, 'S', 11, vReportDef, "Control", "wQueryOperation", "", 0 );
@@ -6253,41 +6253,41 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                   //:                         szAttributeName )
                   ComputeQueryOperationValue( vReportDef, vMappingOI, szWorkString, szQueryOperation, szEntityName, szAttributeName );
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
                   //:// Regular Mapping
                   //:IF vMappingOI = 0
                   if ( vMappingOI == 0 )
-                  {
+                  { 
                      //:nRC = 1
                      nRC = 1;
                      //:ELSE
-                  }
+                  } 
                   else
-                  {
+                  { 
                      //:nRC = CheckExistenceOfEntity( vMappingOI, szEntityName )
                      nRC = CheckExistenceOfEntity( vMappingOI, szEntityName );
-                  }
+                  } 
 
                   //:END
 
                   //:IF nRC = 0
                   if ( nRC == 0 )
-                  {
+                  { 
                      //:GetAttributeDisplayLength( lWork, vMappingOI,
                      //:                        szEntityName, szAttributeName, "" )
                      GetAttributeDisplayLength( (zPULONG) &lWork, vMappingOI, szEntityName, szAttributeName, "" );
                      //:IF lWork > 32764
                      if ( lWork > 32764 )
-                     {
+                     { 
                         //:GetAddrForAttribute( lTextAddress, vMappingOI,
                         //:                  szEntityName, szAttributeName )
                         GetAddrForAttribute( &lTextAddress, vMappingOI, szEntityName, szAttributeName );
                         //:ELSE
-                     }
+                     } 
                      else
-                     {
+                     { 
                         //:// The following code creates the pointer, lTextAddress,
                         //:// to szWorkString, because lTextAddress is the variable
                         //:// used later in a call.
@@ -6298,61 +6298,61 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         //:                              szAttributeName,
                         //:                              "", 32764 )
                         GetStringFromAttributeByContext( szWorkString, vMappingOI, szEntityName, szAttributeName, "", 32764 );
-                     }
+                     } 
 
                      //:END
                      //:ELSE
-                  }
+                  } 
                   else
-                  {
+                  { 
                      //:lWork = 0
                      lWork = 0;
                      //:lTextAddress = 0
                      lTextAddress = 0;
                      //:szWorkString = ""
                      ZeidonStringCopy( szWorkString, 1, 0, "", 1, 0, 32767 );
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
 
                //:ELSE  // Ctrl has no Mapping.
-            }
+            } 
             else
-            {
+            { 
 
                //:szWorkString = vReportDef.Control.Text
                GetVariableFromAttribute( szWorkString, 0, 'S', 32767, vReportDef, "Control", "Text", "", 0 );
-            }
+            } 
 
 
             //:END
 
             //:IF nHide = 0
             if ( nHide == 0 )
-            {
+            { 
                //:PrintTextToCSV( vSubtask, szWorkString, lColumnCSV )
                PrintTextToCSV( vSubtask, szWorkString, lColumnCSV );
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
                //:PrintTextToCSV( vSubtask, "", lColumnCSV )
                PrintTextToCSV( vSubtask, "", lColumnCSV );
-            }
+            } 
 
             //:END
-         }
+         } 
 
 
          //:END  // IF lColumnCSV > 0
 
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
 
          //:// Check to see if the next control will fit onto the page.
          //:// Since controls can be placed horizontally in an overlapping
@@ -6368,17 +6368,17 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
 
          //:IF lPrintHTML = 1   // this is to put in line breaks
          if ( lPrintHTML == 1 )
-         {
+         { 
             //:IF lWork != lRangeBottom
             if ( lWork != lRangeBottom )
-            {
+            { 
                //:PrintTextToHTML( vSubtask, vMappingOI, 0, "",
                //:              0, 0, 0, 0, 0, 0, 0, 0, 0 )
                PrintTextToHTML( vSubtask, vMappingOI, 0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0 );
-            }
+            } 
 
             //:END
-         }
+         } 
 
          //:END
 
@@ -6388,10 +6388,10 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
          GetIntegerFromAttribute( &lMaxSizeY, vReportDef, "Group", "SZDLG_Y" );
          //:IF lMaxSizeY > lRangeBottom
          if ( lMaxSizeY > lRangeBottom )
-         {
+         { 
             //:lMaxSizeY = lRangeBottom
             lMaxSizeY = lRangeBottom;
-         }
+         } 
 
          //:END
 
@@ -6424,7 +6424,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
          //:(lRemainingSpaceOnPageStart < lMaxSizeY OR
          //: lRemainingSpaceOnPageY < 1) // this is an extra safety check
          if ( bTopOfPage == FALSE && ( lRemainingSpaceOnPageStart < lMaxSizeY || lRemainingSpaceOnPageY < 1 ) )
-         {
+         { 
 
             //:vReportDef.PageState.MultiLineTextPosEndPage = 0
             SetAttributeFromInteger( vReportDef, "PageState", "MultiLineTextPosEndPage", 0 );
@@ -6445,23 +6445,23 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
             nRptExitReturn = InvokeReportExitCode( vSubtask, vReportDef, szRptExitOper, nRptExitEvent, lPageNbr, vSourceOI );
             //:IF nRptExitReturn != 0
             if ( nRptExitReturn != 0 )
-            {
+            { 
                //:TraceLineI( "Non-zero return from Exit ignored for zRGE_EVENT_GROUP_SPLITTING: rc=",
                //:         nRptExitReturn )
                TraceLineI( "Non-zero return from Exit ignored for zRGE_EVENT_GROUP_SPLITTING: rc=", (zLONG) nRptExitReturn );
-            }
+            } 
 
             //:END
 
             //:IF vSourceOI != 0
             if ( vSourceOI != 0 )
-            {
+            { 
                //:// DropViewTrace( "Dropping view (19): ", vSourceOI )
                //:DropView( vSourceOI )
                DropView( vSourceOI );
                //:vSourceOI = 0
                vSourceOI = 0;
-            }
+            } 
 
             //:END
 
@@ -6484,7 +6484,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
 
             //:RETURN -1
             return( -1 );
-         }
+         } 
 
 
          //:END
@@ -6499,10 +6499,10 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
          lPagePosX = lPagePosX + *plNewPosX;
          //:IF lPagePosMaxX < lPagePosX
          if ( lPagePosMaxX < lPagePosX )
-         {
+         { 
             //:lPagePosMaxX = lPagePosX
             lPagePosMaxX = lPagePosX;
-         }
+         } 
 
          //:END
 
@@ -6540,7 +6540,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
          lTempInteger_7 = CheckExistenceOfEntity( vReportTmp, "CtrlMapView" );
          if ( RESULT >= zCURSOR_SET && CompareAttributeToString( vReportDef, "Report", "SuppressEmptyTextFields", "Y" ) == 0 && CompareAttributeToString( vReportDef, "Group", "Type", "ga" ) == 0 &&
               CompareAttributeToInteger( vReportDef, "Control", "Type", 10 ) == 0 && lTempInteger_7 == 0 )
-         {
+         { 
 
             //:szEntityName = vReportTmp.CtrlMapRelatedEntity.Name
             GetVariableFromAttribute( szEntityName, 0, 'S', 33, vReportTmp, "CtrlMapRelatedEntity", "Name", "", 0 );
@@ -6549,16 +6549,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
             //:IF vReportDef.CtrlMapContext EXISTS
             lTempInteger_8 = CheckExistenceOfEntity( vReportDef, "CtrlMapContext" );
             if ( lTempInteger_8 == 0 )
-            {
+            { 
                //:szContextName = vReportDef.CtrlMapContext.Name
                GetVariableFromAttribute( szContextName, 0, 'S', 33, vReportDef, "CtrlMapContext", "Name", "", 0 );
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
                //:szContextName = ""
                ZeidonStringCopy( szContextName, 1, 0, "", 1, 0, 33 );
-            }
+            } 
 
             //:END
 
@@ -6575,7 +6575,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
             nRC = GetViewByName( &vMappingOI, szViewName, vSubtask, zLEVEL_ANY );
             //:IF nRC >= 0
             if ( nRC >= 0 )
-            {
+            { 
                //:// GET VIEW vSourceOrigOI NAMED "TZ_SourceOrigOI"
                //:szViewName = "TZ_SourceOrigOI"
                ZeidonStringCopy( szViewName, 1, 0, "TZ_SourceOrigOI", 1, 0, 257 );
@@ -6583,57 +6583,57 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                RESULT = GetViewByName( &vSourceOrigOI, szViewName, vSubtask, zLEVEL_ANY );
                //:IF vMappingOI = vSourceOrigOI
                if ( vMappingOI == vSourceOrigOI )
-               {
+               { 
                   //:vMappingOI = vSourceOI
                   vMappingOI = vSourceOI;
-               }
+               } 
 
                //:END
 
                //:IF vMappingOI = 0
                if ( vMappingOI == 0 )
-               {
+               { 
                   //:nRC = 1
                   nRC = 1;
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
                   //:nRC = CheckExistenceOfEntity( vMappingOI, szEntityName )
                   nRC = CheckExistenceOfEntity( vMappingOI, szEntityName );
-               }
+               } 
 
                //:END
 
                //:IF nRC = 0
                if ( nRC == 0 )
-               {
+               { 
                   //:GetStringFromAttributeByContext( szWorkString, vMappingOI,
                   //:                              szEntityName, szAttributeName,
                   //:                              szContextName, 32764 )
                   GetStringFromAttributeByContext( szWorkString, vMappingOI, szEntityName, szAttributeName, szContextName, 32764 );
                   //:IF szWorkString != ""
                   if ( ZeidonStringCompare( szWorkString, 1, 0, "", 1, 0, 32767 ) != 0 )
-                  {
+                  { 
                      //:nSkipFlag = 0     // 0 = don't skip
                      nSkipFlag = 0;
-                  }
+                  } 
 
                   //:END
-               }
+               } 
 
                //:END
-            }
+            } 
 
             //:END
-         }
+         } 
 
          //:END
 
          //:// If we need to skip this line and both controls on this line
          //:IF nSkipFlag > 0
          if ( nSkipFlag > 0 )
-         {
+         { 
             //:lMultiLineAdjustment = lMultiLineAdjustment -
             //:                                      vReportDef.Control.SZDLG_Y
             GetIntegerFromAttribute( &lTempInteger_9, vReportDef, "Control", "SZDLG_Y" );
@@ -6642,9 +6642,9 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
             SetCursorNextEntity( vReportDef, "Control", "" );
 
             //:ELSE
-         }
+         } 
          else
-         {
+         { 
             //:lPagePosEndX = lPagePosX + vReportDef.Control.SZDLG_X
             GetIntegerFromAttribute( &lTempInteger_10, vReportDef, "Control", "SZDLG_X" );
             lPagePosEndX = lPagePosX + lTempInteger_10;
@@ -6653,10 +6653,10 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
             lPagePosEndY = lPagePosY + lTempInteger_11;
             //:IF lPagePosMaxX < lPagePosEndX
             if ( lPagePosMaxX < lPagePosEndX )
-            {
+            { 
                //:lPagePosMaxX = lPagePosEndX
                lPagePosMaxX = lPagePosEndX;
-            }
+            } 
 
             //:END
 
@@ -6666,32 +6666,32 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
             GetVariableFromAttribute( szCtrlTag, 0, 'S', 33, vReportDef, "Control", "Tag", "", 0 );
             //:IF lLastPage = 1
             if ( lLastPage == 1 )
-            {
+            { 
                //:lTemp = 0
                lTemp = 0;
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
                //:// TraceLineS( "FormatGroup Ctrl: ", szCtrlTag )
                //:lTemp = ZeidonStringFind( szCtrlTag, 1, "LPO_" )  // LastPageOnly
                lTemp = ZeidonStringFind( szCtrlTag, 1, "LPO_" );
-            }
+            } 
 
             //:// TraceLineI( "         LPO Pos: ", lTemp )
             //:END
 
             //:IF lTemp > 0
             if ( lTemp > 0 )
-            {
+            { 
                //:// do nothing here ... we are skipping this control
                //:ELSE
-            }
+            } 
             else
-            {
+            { 
                //:IF vReportDef.ControlDef.Key = 3040   // Bitmap
                if ( CompareAttributeToInteger( vReportDef, "ControlDef", "Key", 3040 ) == 0 )
-               {
+               { 
 
                   //:// TraceLineI( "Bitmap lPagePosX: ", lPagePosX )
                   //:// TraceLineI( "Bitmap lPagePosY: ", lPagePosY )
@@ -6701,7 +6701,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                   //:// Print the specified bitmap
                   //:IF nHide = 0
                   if ( nHide == 0 )
-                  {
+                  { 
                      //:szEntityName = "Control"
                      ZeidonStringCopy( szEntityName, 1, 0, "Control", 1, 0, 33 );
                      //:szAttributeName = "CtrlBOI"
@@ -6712,21 +6712,21 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
 
                      //:IF lPrintHTML = 1
                      if ( lPrintHTML == 1 )
-                     {
+                     { 
                         //:nRC = PrintBitmapToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                         //:                lPagePosEndX, lPagePosEndY, lCtrlBOI )
                         nRC = PrintBitmapToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lCtrlBOI );
                         //:ELSE
-                     }
+                     } 
                      else
-                     {
+                     { 
                         //:nRC = DrawBitmapToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                         //:                 lPagePosEndX, lPagePosEndY, lCtrlBOI )
                         nRC = DrawBitmapToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lCtrlBOI );
-                     }
+                     } 
 
                      //:END
-                  }
+                  } 
 
                   //:END
 
@@ -6736,12 +6736,12 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                   //:             lPagePosX, lPagePosY )
                   oTZRPSRCO_fnSetCtrlPrintValues( vReportDef, "", lPageNbr, lPagePosX, lPagePosY );
                   //:ELSE
-               }
+               } 
                else
-               {
+               { 
                   //:IF vReportDef.ControlDef.Key = 3050   // Shape
                   if ( CompareAttributeToInteger( vReportDef, "ControlDef", "Key", 3050 ) == 0 )
-                  {
+                  { 
 
                      //:// TraceLineI( "Shape lPagePosX: ", lPagePosX )
                      //:// TraceLineI( "Shape lPagePosY: ", lPagePosY )
@@ -6768,76 +6768,76 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
 
                      //:IF nRectangleFlag != 0
                      if ( nRectangleFlag != 0 )
-                     {
+                     { 
 
                         //:nRC = IsFlagSequenceSet( lFlags, 1 )
                         nRC = IsFlagSequenceSet( lFlags, 1 );
                         //:IF nRC != 0
                         if ( nRC != 0 )
-                        {
+                        { 
                            //:lWork = lPagePosEndY
                            lWork = lPagePosEndY;
                            //:lPagePosEndY = lFooterPosPageBottom - 10
                            lPagePosEndY = lFooterPosPageBottom - 10;
-                        }
+                        } 
 
                         //:END
 
                         //:IF lPrintHTML = 0
                         if ( lPrintHTML == 0 )
-                        {
+                        { 
                            //:IF nHide = 0
                            if ( nHide == 0 )
-                           {
+                           { 
                               //:DrawRectangleToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                               //:           lPagePosEndX, lPagePosEndY,
                               //:           lPenWidth, lPenType,
                               //:           lPenColor, 0, lBackgroundColor )
                               DrawRectangleToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 0, lBackgroundColor );
-                           }
+                           } 
 
                            //:END
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:IF nHide = 0
                            if ( nHide == 0 )
-                           {
+                           { 
                               //:PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                               //:     lPagePosEndX, lPagePosEndY,
                               //:     lPenWidth, lPenType,
                               //:     lPenColor, 0 )
                               PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 0 );
-                           }
+                           } 
 
                            //:END
-                        }
+                        } 
 
                         //:END
 
                         //:IF nRC != 0
                         if ( nRC != 0 )
-                        {
+                        { 
                            //:lPagePosEndY = lWork
                            lPagePosEndY = lWork;
-                        }
+                        } 
 
                         //:END
-                     }
+                     } 
 
                      //:END
 
                      //:IF nRoundRectFlag != 0
                      if ( nRoundRectFlag != 0 )
-                     {
+                     { 
 
                         //:IF lRoundValue <= 0
                         if ( lRoundValue <= 0 )
-                        {
+                        { 
                            //:lRoundValue = 16
                            lRoundValue = 16;
-                        }
+                        } 
 
                         //:END
 
@@ -6845,226 +6845,226 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         nRC = IsFlagSequenceSet( lFlags, 1 );
                         //:IF nRC != 0
                         if ( nRC != 0 )
-                        {
+                        { 
                            //:lWork = lPagePosEndY
                            lWork = lPagePosEndY;
                            //:lPagePosEndY = lFooterPosPageBottom - 10
                            lPagePosEndY = lFooterPosPageBottom - 10;
-                        }
+                        } 
 
                         //:END
 
                         //:IF lPrintHTML = 0
                         if ( lPrintHTML == 0 )
-                        {
+                        { 
                            //:IF nHide = 0
                            if ( nHide == 0 )
-                           {
+                           { 
                               //:DrawRectangleToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                               //:           lPagePosEndX, lPagePosEndY,
                               //:           lPenWidth, lPenType,
                               //:           lPenColor, lRoundValue, lBackgroundColor )
                               DrawRectangleToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, lRoundValue, lBackgroundColor );
-                           }
+                           } 
 
                            //:END
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:IF nHide = 0
                            if ( nHide == 0 )
-                           {
+                           { 
                               //:PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                               //:     lPagePosEndX, lPagePosEndY,
                               //:     lPenWidth, lPenType,
                               //:     lPenColor, 0 )
                               PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 0 );
-                           }
+                           } 
 
                            //:END
-                        }
+                        } 
 
                         //:END
 
                         //:IF nRC != 0
                         if ( nRC != 0 )
-                        {
+                        { 
                            //:lPagePosEndY = lWork
                            lPagePosEndY = lWork;
-                        }
+                        } 
 
                         //:END
-                     }
+                     } 
 
                      //:END
 
                      //:IF nEllipseFlag != 0 AND nHide = 0
                      if ( nEllipseFlag != 0 && nHide == 0 )
-                     {
+                     { 
 
                         //:nRC = IsFlagSequenceSet( lFlags, 1 )
                         nRC = IsFlagSequenceSet( lFlags, 1 );
                         //:IF nRC != 0
                         if ( nRC != 0 )
-                        {
+                        { 
                            //:lWork = lPagePosEndY
                            lWork = lPagePosEndY;
                            //:lPagePosEndY = lFooterPosPageBottom - 10
                            lPagePosEndY = lFooterPosPageBottom - 10;
-                        }
+                        } 
 
                         //:END
 
                         //:IF lPrintHTML = 0
                         if ( lPrintHTML == 0 )
-                        {
+                        { 
                            //:DrawEllipseToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                            //:         lPagePosEndX, lPagePosEndY,
                            //:         lPenWidth, lPenType, lPenColor,
                            //:         lBackgroundColor )
                            DrawEllipseToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, lBackgroundColor );
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                            //:     lPagePosEndX, lPagePosEndY,
                            //:     lPenWidth, lPenType,
                            //:     lPenColor, 0 )
                            PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 0 );
-                        }
+                        } 
 
                         //:END
 
                         //:IF nRC != 0
                         if ( nRC != 0 )
-                        {
+                        { 
                            //:lPagePosEndY = lWork
                            lPagePosEndY = lWork;
-                        }
+                        } 
 
                         //:END
-                     }
+                     } 
 
                      //:END
 
                      //:IF nDiamondFlag != 0 AND nHide = 0
                      if ( nDiamondFlag != 0 && nHide == 0 )
-                     {
+                     { 
                         //:nRC = IsFlagSequenceSet( lFlags, 1 )
                         nRC = IsFlagSequenceSet( lFlags, 1 );
                         //:IF nRC != 0
                         if ( nRC != 0 )
-                        {
+                        { 
                            //:lWork = lPagePosEndY
                            lWork = lPagePosEndY;
                            //:lPagePosEndY = lFooterPosPageBottom - 10
                            lPagePosEndY = lFooterPosPageBottom - 10;
-                        }
+                        } 
 
                         //:END
 
                         //:IF lPrintHTML = 0
                         if ( lPrintHTML == 0 )
-                        {
+                        { 
                            //:DrawRectangleToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                            //:           lPagePosEndX, lPagePosEndY,
                            //:           lPenWidth, lPenType,
                            //:           lPenColor, -1, lBackgroundColor )
                            DrawRectangleToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, -1, lBackgroundColor );
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                            //:     lPagePosEndX, lPagePosEndY,
                            //:     lPenWidth, lPenType,
                            //:     lPenColor, 0 )
                            PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 0 );
-                        }
+                        } 
 
                         //:END
 
                         //:IF nRC != 0
                         if ( nRC != 0 )
-                        {
+                        { 
                            //:lPagePosEndY = lWork
                            lPagePosEndY = lWork;
-                        }
+                        } 
 
                         //:END
-                     }
+                     } 
 
                      //:END
 
                      //:IF nHorizontalFlag != 0 AND nHide = 0
                      if ( nHorizontalFlag != 0 && nHide == 0 )
-                     {
+                     { 
                         //:IF lPrintHTML = 1
                         if ( lPrintHTML == 1 )
-                        {
+                        { 
                            //:PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                            //:     lPagePosEndX, lPagePosEndY,
                            //:     lPenWidth, lPenType,
                            //:     lPenColor, 0 )
                            PrintLineToHTML( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 0 );
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:DrawLineToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                            //:      lPagePosEndX, lPagePosEndY,
                            //:      lPenWidth, lPenType,
                            //:      lPenColor, 0 )
                            DrawLineToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 0 );
-                        }
+                        } 
 
                         //:END
-                     }
+                     } 
 
                      //:END
 
                      //:IF nVerticalFlag != 0 AND nHide = 0
                      if ( nVerticalFlag != 0 && nHide == 0 )
-                     {
+                     { 
                         //:DrawLineToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                         //:      lPagePosEndX, lPagePosEndY,
                         //:      lPenWidth, lPenType,
                         //:      lPenColor, 1 )
                         DrawLineToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 1 );
-                     }
+                     } 
 
                      //:END
 
                      //:IF nDiagDescendFlag != 0 AND nHide = 0
                      if ( nDiagDescendFlag != 0 && nHide == 0 )
-                     {
+                     { 
                         //:DrawLineToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                         //:      lPagePosEndX, lPagePosEndY,
                         //:      lPenWidth, lPenType,
                         //:      lPenColor, 2 )
                         DrawLineToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 2 );
-                     }
+                     } 
 
                      //:END
 
                      //:IF nDiagAscendFlag != 0 AND nHide = 0
                      if ( nDiagAscendFlag != 0 && nHide == 0 )
-                     {
+                     { 
                         //:DrawLineToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY,
                         //:      lPagePosEndX, lPagePosEndY,
                         //:      lPenWidth, lPenType,
                         //:      lPenColor, 3 )
                         DrawLineToReport( vSubtask, vSourceOI, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lPenWidth, lPenType, lPenColor, 3 );
-                     }
+                     } 
 
                      //:END
 
                      //:ELSE
-                  }
+                  } 
                   else
-                  {
+                  { 
                      //:// If the Control has FontSize or Bold or Italic flags set,
                      //:// create a temporary font with those characteristics and use it.
                      //:// If not, use the default font.
@@ -7079,19 +7079,19 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                      //:// If the return code is <= 0, the CtrlBOI is null.
                      //:IF nRC <= 0
                      if ( nRC <= 0 )
-                     {
+                     { 
                         //:SelectFontForReport( vSubtask, "default" )
                         SelectFontForReport( vSubtask, "default" );
                         //:ELSE
-                     }
+                     } 
                      else
-                     {
+                     { 
                         //:IF lFontSize = 0
                         if ( lFontSize == 0 )
-                        {
+                        { 
                            //:lFontSize = lDefaultFontSize
                            lFontSize = lDefaultFontSize;
-                        }
+                        } 
 
                         //:END
 
@@ -7107,7 +7107,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         CreateFontForReport( vSubtask, "control", lFontSize, nBoldFlag, nItalicFlag, nUnderlineFlag, nStrikeoutFlag, lTextColor, lTextBkColor, lEscapement, szFaceName );
                         //:SelectFontForReport( vSubtask, "control" )
                         SelectFontForReport( vSubtask, "control" );
-                     }
+                     } 
 
                      //:END
 
@@ -7117,7 +7117,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                      //:IF nMultiLineFlag = 1 AND vReportDef.CtrlMapView EXISTS
                      lTempInteger_12 = CheckExistenceOfEntity( vReportDef, "CtrlMapView" );
                      if ( nMultiLineFlag == 1 && lTempInteger_12 == 0 )
-                     {
+                     { 
 
                         //:// Get text value to put on report AND GET AN ADDRESS TO IT.
                         //:// If there is mapping on the report (determined by the existence
@@ -7139,7 +7139,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         nRC = GetViewByName( &vMappingOI, szViewName, vSubtask, zLEVEL_ANY );
                         //:IF nRC >= 0
                         if ( nRC >= 0 )
-                        {
+                        { 
                            //:// GET VIEW vSourceOrigOI NAMED "TZ_SourceOrigOI"
                            //:szViewName = "TZ_SourceOrigOI"
                            ZeidonStringCopy( szViewName, 1, 0, "TZ_SourceOrigOI", 1, 0, 257 );
@@ -7148,44 +7148,44 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                            nRC = GetViewByName( &vSourceOrigOI, szViewName, vSubtask, zLEVEL_ANY );
                            //:IF vMappingOI = vSourceOrigOI
                            if ( vMappingOI == vSourceOrigOI )
-                           {
+                           { 
                               //:vMappingOI = vSourceOI
                               vMappingOI = vSourceOI;
-                           }
+                           } 
 
                            //:END
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:szWorkString = "Report cannot get view by name: " + szViewName
                            ZeidonStringCopy( szWorkString, 1, 0, "Report cannot get view by name: ", 1, 0, 32767 );
                            ZeidonStringConcat( szWorkString, 1, 0, szViewName, 1, 0, 32767 );
                            //:TraceLineS( szWorkString, "" )
                            TraceLineS( szWorkString, "" );
-                        }
+                        } 
 
                         //:// szWorkString = ""
                         //:END
 
                         //:IF vMappingOI = 0
                         if ( vMappingOI == 0 )
-                        {
+                        { 
                            //:nRC = 1
                            nRC = 1;
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:nRC = CheckExistenceOfEntity( vMappingOI, szEntityName )
                            nRC = CheckExistenceOfEntity( vMappingOI, szEntityName );
-                        }
+                        } 
 
                         //:END
 
                         //:IF nRC = 0
                         if ( nRC == 0 )
-                        {
+                        { 
                            //://UNDEF        IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
                            //://UNDEF           TraceLineS( " --> MultiLine Case : ", "TextAddress OK." )
                            //://UNDEF        END
@@ -7194,14 +7194,14 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                            GetAttributeDisplayLength( (zPULONG) &lWork, vMappingOI, szEntityName, szAttributeName, "" );
                            //:IF lWork > 32764
                            if ( lWork > 32764 )
-                           {
+                           { 
                               //:GetAddrForAttribute( lTextAddress, vMappingOI,
                               //:         szEntityName, szAttributeName )
                               GetAddrForAttribute( &lTextAddress, vMappingOI, szEntityName, szAttributeName );
                               //:ELSE
-                           }
+                           } 
                            else
-                           {
+                           { 
                               //:lTextAddress = MakeIntegerFromPointer( szWorkString )
                               lTextAddress = MakeIntegerFromPointer( szWorkString );
                               //:GetStringFromAttributeByContext( szWorkString, vMappingOI,
@@ -7209,13 +7209,13 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               //:                     szAttributeName,
                               //:                     "", 32764 )
                               GetStringFromAttributeByContext( szWorkString, vMappingOI, szEntityName, szAttributeName, "", 32764 );
-                           }
+                           } 
 
                            //:END
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //://UNDEF        IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
                            //://UNDEF           TraceLineS( " --> MultiLine Case : ", "TextAddress = 0" )
                            //://UNDEF        END
@@ -7229,7 +7229,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                            lTextAddress = 0;
                            //:szWorkString = ""
                            ZeidonStringCopy( szWorkString, 1, 0, "", 1, 0, 32767 );
-                        }
+                        } 
 
                         //:END
 
@@ -7241,17 +7241,17 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         //:IF vReportDef.PageState.ContinuedGroupFlagStartPage > 0 AND
                         //:lContinuedGroupFlag > 0
                         if ( CompareAttributeToInteger( vReportDef, "PageState", "ContinuedGroupFlagStartPage", 0 ) > 0 && lContinuedGroupFlag > 0 )
-                        {
+                        { 
 
                            //:IF bCurrentGroupCanContinue = TRUE
                            if ( bCurrentGroupCanContinue == TRUE )
-                           {
+                           { 
                               //:lNextWord = vReportDef.PageState.MultiLineTextPosStartPage
                               GetIntegerFromAttribute( &lNextWord, vReportDef, "PageState", "MultiLineTextPosStartPage" );
-                           }
+                           } 
 
                            //:END
-                        }
+                        } 
 
                         //:END
 
@@ -7279,46 +7279,46 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
 
                         //:IF lPrintHTML = 1
                         if ( lPrintHTML == 1 )
-                        {
+                        { 
                            //:IF nHide = 0
                            if ( nHide == 0 )
-                           {
+                           { 
                               //:szClass = vReportDef.Control.CSS_Class
                               GetVariableFromAttribute( szClass, 0, 'S', 257, vReportDef, "Control", "CSS_Class", "", 0 );
                               //:IF szClass != ""
                               if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) != 0 )
-                              {
+                              { 
                                  //:szYN = vReportDef.Control.CSS_Font
                                  GetVariableFromAttribute( szYN, 0, 'S', 33, vReportDef, "Control", "CSS_Font", "", 0 );
                                  //:IF szYN = "Y"
                                  if ( ZeidonStringCompare( szYN, 1, 0, "Y", 1, 0, 33 ) == 0 )
-                                 {
+                                 { 
                                     //:lType = lType + 16
                                     lType = lType + 16;
-                                 }
+                                 } 
 
                                  //:END
                                  //:szYN = vReportDef.Control.CSS_Position
                                  GetVariableFromAttribute( szYN, 0, 'S', 33, vReportDef, "Control", "CSS_Position", "", 0 );
                                  //:IF szYN = "Y"
                                  if ( ZeidonStringCompare( szYN, 1, 0, "Y", 1, 0, 33 ) == 0 )
-                                 {
+                                 { 
                                     //:lType = lType + 32
                                     lType = lType + 32;
-                                 }
+                                 } 
 
                                  //:END
                                  //:szYN = vReportDef.Control.CSS_Size
                                  GetVariableFromAttribute( szYN, 0, 'S', 33, vReportDef, "Control", "CSS_Size", "", 0 );
                                  //:IF szYN = "Y"
                                  if ( ZeidonStringCompare( szYN, 1, 0, "Y", 1, 0, 33 ) == 0 )
-                                 {
+                                 { 
                                     //:lType = lType + 64
                                     lType = lType + 64;
-                                 }
+                                 } 
 
                                  //:END
-                              }
+                              } 
 
                               //:END
 
@@ -7328,16 +7328,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               //:     lBorderStyle, lBorderColor, lEscapement,
                               //:     lType )
                               PrintTextToHTML( vSubtask, vMappingOI, szWorkString, szClass, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lJustify, lBorderStyle, lBorderColor, lEscapement, lType );
-                           }
+                           } 
 
                            //:END
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:IF lTextAddress = 0 OR nHide = 1
                            if ( lTextAddress == 0 || nHide == 1 )
-                           {
+                           { 
                               //:nRC = DrawMultiLineTextToReport( vSubtask, vMappingOI,
                               //:                  "", lWork,
                               //:                  lPagePosX, lPagePosY,
@@ -7347,9 +7347,9 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               //:                  lType, lEndPosY, lNextWord )
                               nRC = DrawMultiLineTextToReport( vSubtask, vMappingOI, "", lWork, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lJustify, lBorderStyle, lBorderColor, lEscapement, lType, &lEndPosY, &lNextWord );
                               //:ELSE
-                           }
+                           } 
                            else
-                           {
+                           { 
                               //:nRC = DrawMultiLineTextToReport( vSubtask, vMappingOI,
                               //:                  lTextAddress, lWork,
                               //:                  lPagePosX, lPagePosY,
@@ -7358,10 +7358,10 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               //:                  lBorderColor, lEscapement,
                               //:                  lType, lEndPosY, lNextWord )
                               nRC = DrawMultiLineTextToReport( vSubtask, vMappingOI, lTextAddress, lWork, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lJustify, lBorderStyle, lBorderColor, lEscapement, lType, &lEndPosY, &lNextWord );
-                           }
+                           } 
 
                            //:END
-                        }
+                        } 
 
                         //:END
 
@@ -7378,13 +7378,13 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         lTemp = lPagePosY + lTempInteger_13;
                         //:IF lTemp > lEndPosY
                         if ( lTemp > lEndPosY )
-                        {
+                        { 
                            //:lEndPosY = lTemp
                            lEndPosY = lTemp;
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:// Otherwise, the multi-line text took up more than one line
                            //:// of space so we capture adjustment values.
                            //:lEndPosY = lEndPosY + 1 // a classic fudge factor to open up
@@ -7400,7 +7400,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                            //://UNDEF     END
                            //:lMultiLineIncrement = lMultiLineIncrement + lTemp
                            lMultiLineIncrement = lMultiLineIncrement + lTemp;
-                        }
+                        } 
 
                         //:// lMultiLineAdjustment = lMultiLineAdjustment + lTemp
                         //:END
@@ -7422,10 +7422,10 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         //:// it is for an entity Group detail - otherwise, don't split.
                         //:IF nRC = 1
                         if ( nRC == 1 )
-                        {
+                        { 
                            //:IF bCurrentGroupCanContinue = FALSE
                            if ( bCurrentGroupCanContinue == FALSE )
-                           {
+                           { 
                               //:TraceLineS( "WARNING: a multiline text field can ONLY be ",
                               //:"continued for an entity Detail Group." )
                               TraceLineS( "WARNING: a multiline text field can ONLY be ", "continued for an entity Detail Group." );
@@ -7443,16 +7443,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               TraceLineI( "         Text truncated to (chars): ", lNextWord );
                               //:nRC = 0  // turn off continuation
                               nRC = 0;
-                           }
+                           } 
 
                            //:END
-                        }
+                        } 
 
                         //:END
                         //:// If the text we just printed didn't fit on the page, return now.
                         //:IF nRC = 1
                         if ( nRC == 1 )
-                        {
+                        { 
                            //:// Store offset to first unprinted word in multi-line text.
                            //:vReportDef.PageState.MultiLineTextPosEndPage = lNextWord
                            SetAttributeFromInteger( vReportDef, "PageState", "MultiLineTextPosEndPage", lNextWord );
@@ -7478,16 +7478,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                            nRptExitReturn = InvokeReportExitCode( vSubtask, vReportDef, szRptExitOper, nRptExitEvent, lPageNbr, vSourceOI );
                            //:IF nRptExitReturn != 0
                            if ( nRptExitReturn != 0 )
-                           {
+                           { 
                               //:TraceLineI( "Non-zero return from Exit ignored for zRGE_EVENT_GROUP_SPLITTING: rc=",
                               //:nRptExitReturn )
                               TraceLineI( "Non-zero return from Exit ignored for zRGE_EVENT_GROUP_SPLITTING: rc=", (zLONG) nRptExitReturn );
-                           }
+                           } 
 
                            //:END
                            //:IF vSourceOI != 0
                            if ( vSourceOI != 0 )
-                           {
+                           { 
                               //://UNDVV           IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
                               //://UNDVV              TraceLineV( "(FormatGroupOnPage.MultiLine) DropView( vSourceOI ): ",
                               //://UNDVV                          vSourceOI )
@@ -7497,7 +7497,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               DropView( vSourceOI );
                               //:vSourceOI = 0
                               vSourceOI = 0;
-                           }
+                           } 
 
                            //:END
 
@@ -7515,33 +7515,33 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                            return( -1 );
 
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
 
                            //:// Clear offset that may have been stored in previous iteration
                            //:IF bCurrentGroupCanContinue = TRUE
                            if ( bCurrentGroupCanContinue == TRUE )
-                           {
+                           { 
                               //:vReportDef.PageState.MultiLineTextPosEndPage = 0
                               SetAttributeFromInteger( vReportDef, "PageState", "MultiLineTextPosEndPage", 0 );
                               //:// PAS 08Nov01 - make sure we don't continue the Group.
                               //:vReportDef.PageState.ContinuedGroupFlagEndPage = 0
                               SetAttributeFromInteger( vReportDef, "PageState", "ContinuedGroupFlagEndPage", 0 );
-                           }
+                           } 
 
                            //:END
 
                            //:vReportDef.Control.wPrintStatus = 3  // zRCONTROL_STATUS_PRINTED
                            SetAttributeFromInteger( vReportDef, "Control", "wPrintStatus", 3 );
-                        }
+                        } 
 
                         //:END
 
                         //:ELSE  // Not MultiLine Text ... or if it is, it has no Mapping.
-                     }
+                     } 
                      else
-                     {
+                     { 
 
                         //:// Get text value to put on report AND STORE IT IN szWorkString.
                         //:// If there is mapping on the report, use it to get the text
@@ -7551,7 +7551,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         //:IF vReportDef.CtrlMapView EXISTS
                         lTempInteger_15 = CheckExistenceOfEntity( vReportDef, "CtrlMapView" );
                         if ( lTempInteger_15 == 0 )
-                        {
+                        { 
 
                            //:szEntityName = vReportDef.CtrlMapRelatedEntity.Name
                            GetVariableFromAttribute( szEntityName, 0, 'S', 33, vReportDef, "CtrlMapRelatedEntity", "Name", "", 0 );
@@ -7560,16 +7560,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                            //:IF vReportDef.CtrlMapContext EXISTS
                            lTempInteger_16 = CheckExistenceOfEntity( vReportDef, "CtrlMapContext" );
                            if ( lTempInteger_16 == 0 )
-                           {
+                           { 
                               //:szContextName = vReportDef.CtrlMapContext.Name
                               GetVariableFromAttribute( szContextName, 0, 'S', 33, vReportDef, "CtrlMapContext", "Name", "", 0 );
                               //:ELSE
-                           }
+                           } 
                            else
-                           {
+                           { 
                               //:szContextName = ""
                               ZeidonStringCopy( szContextName, 1, 0, "", 1, 0, 33 );
-                           }
+                           } 
 
                            //:END
 
@@ -7585,7 +7585,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                            nRC = GetViewByName( &vMappingOI, szViewName, vSubtask, zLEVEL_ANY );
                            //:IF nRC >= 0
                            if ( nRC >= 0 )
-                           {
+                           { 
                               //:// GET VIEW vSourceOrigOI NAMED "TZ_SourceOrigOI"
                               //:szViewName = "TZ_SourceOrigOI"
                               ZeidonStringCopy( szViewName, 1, 0, "TZ_SourceOrigOI", 1, 0, 257 );
@@ -7594,16 +7594,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               nRC = GetViewByName( &vSourceOrigOI, szViewName, vSubtask, zLEVEL_ANY );
                               //:IF vMappingOI = vSourceOrigOI
                               if ( vMappingOI == vSourceOrigOI )
-                              {
+                              { 
                                  //:vMappingOI = vSourceOI
                                  vMappingOI = vSourceOI;
-                              }
+                              } 
 
                               //:END
 
                               //:IF vReportDef.Control.wQueryOperation != ""
                               if ( CompareAttributeToString( vReportDef, "Control", "wQueryOperation", "" ) != 0 )
-                              {
+                              { 
                                  //:// Query Operation
                                  //:szQueryOperation = vReportDef.Control.wQueryOperation
                                  GetVariableFromAttribute( szQueryOperation, 0, 'S', 11, vReportDef, "Control", "wQueryOperation", "", 0 );
@@ -7614,28 +7614,28 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                                  //:                szAttributeName )
                                  ComputeQueryOperationValue( vReportDef, vMappingOI, szWorkString, szQueryOperation, szEntityName, szAttributeName );
                                  //:ELSE
-                              }
+                              } 
                               else
-                              {
+                              { 
                                  //:// Regular Mapping
                                  //:IF vMappingOI = 0
                                  if ( vMappingOI == 0 )
-                                 {
+                                 { 
                                     //:nRC = 1
                                     nRC = 1;
                                     //:ELSE
-                                 }
+                                 } 
                                  else
-                                 {
+                                 { 
                                     //:nRC = CheckExistenceOfEntity( vMappingOI,
                                     //:                  szEntityName )
                                     nRC = CheckExistenceOfEntity( vMappingOI, szEntityName );
-                                 }
+                                 } 
 
                                  //:END
                                  //:IF nRC = 0
                                  if ( nRC == 0 )
-                                 {
+                                 { 
                                     //:nRC = GetStringFromAttributeByContext( szWorkString,
                                     //:                           vMappingOI,
                                     //:                           szEntityName,
@@ -7645,7 +7645,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                                     nRC = GetStringFromAttributeByContext( szWorkString, vMappingOI, szEntityName, szAttributeName, szContextName, 32764 );
                                     //:IF nRC < 0
                                     if ( nRC < 0 )
-                                    {
+                                    { 
                                        //:szWorkString = "Report cannot get View.Entity.Attribute.Context: " +
                                        //:   szViewName + "." + szEntityName + "." + szAttributeName + "." + szContextName
                                        ZeidonStringCopy( szWorkString, 1, 0, "Report cannot get View.Entity.Attribute.Context: ", 1, 0, 32767 );
@@ -7660,25 +7660,25 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                                        TraceLineS( szWorkString, "" );
                                        //:szWorkString = ""
                                        ZeidonStringCopy( szWorkString, 1, 0, "", 1, 0, 32767 );
-                                    }
+                                    } 
 
                                     //:END
                                     //:ELSE
-                                 }
+                                 } 
                                  else
-                                 {
+                                 { 
                                     //:szWorkString = ""
                                     ZeidonStringCopy( szWorkString, 1, 0, "", 1, 0, 32767 );
-                                 }
+                                 } 
 
                                  //:END
-                              }
+                              } 
 
                               //:END
                               //:ELSE
-                           }
+                           } 
                            else
-                           {
+                           { 
                               //:szWorkString = "Report cannot get view by name for View.Entity.Attribute: " +
                               //:            szViewName + "." + szEntityName + "." + szAttributeName
                               ZeidonStringCopy( szWorkString, 1, 0, "Report cannot get view by name for View.Entity.Attribute: ", 1, 0, 32767 );
@@ -7691,17 +7691,17 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               TraceLineS( szWorkString, "" );
                               //:TraceLineS( szWorkString, "" )
                               TraceLineS( szWorkString, "" );
-                           }
+                           } 
 
                            //:// szWorkString = ""
                            //:END
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:szWorkString = vReportDef.Control.Text
                            GetVariableFromAttribute( szWorkString, 0, 'S', 32767, vReportDef, "Control", "Text", "", 0 );
-                        }
+                        } 
 
                         //:END
 
@@ -7727,55 +7727,55 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
 
                         //:IF nHide = 1
                         if ( nHide == 1 )
-                        {
+                        { 
                            //:szWorkString = ""
                            ZeidonStringCopy( szWorkString, 1, 0, "", 1, 0, 32767 );
-                        }
+                        } 
 
                         //:END
 
                         //:IF lPrintHTML = 1
                         if ( lPrintHTML == 1 )
-                        {
+                        { 
                            //:IF nHide = 0
                            if ( nHide == 0 )
-                           {
+                           { 
                               //:szClass = vReportDef.Control.CSS_Class
                               GetVariableFromAttribute( szClass, 0, 'S', 257, vReportDef, "Control", "CSS_Class", "", 0 );
                               //:IF szClass != ""
                               if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) != 0 )
-                              {
+                              { 
                                  //:szYN = vReportDef.Control.CSS_Font
                                  GetVariableFromAttribute( szYN, 0, 'S', 33, vReportDef, "Control", "CSS_Font", "", 0 );
                                  //:IF szYN = "Y"
                                  if ( ZeidonStringCompare( szYN, 1, 0, "Y", 1, 0, 33 ) == 0 )
-                                 {
+                                 { 
                                     //:lType = lType + 16
                                     lType = lType + 16;
-                                 }
+                                 } 
 
                                  //:END
                                  //:szYN = vReportDef.Control.CSS_Position
                                  GetVariableFromAttribute( szYN, 0, 'S', 33, vReportDef, "Control", "CSS_Position", "", 0 );
                                  //:IF szYN = "Y"
                                  if ( ZeidonStringCompare( szYN, 1, 0, "Y", 1, 0, 33 ) == 0 )
-                                 {
+                                 { 
                                     //:lType = lType + 32
                                     lType = lType + 32;
-                                 }
+                                 } 
 
                                  //:END
                                  //:szYN = vReportDef.Control.CSS_Size
                                  GetVariableFromAttribute( szYN, 0, 'S', 33, vReportDef, "Control", "CSS_Size", "", 0 );
                                  //:IF szYN = "Y"
                                  if ( ZeidonStringCompare( szYN, 1, 0, "Y", 1, 0, 33 ) == 0 )
-                                 {
+                                 { 
                                     //:lType = lType + 64
                                     lType = lType + 64;
-                                 }
+                                 } 
 
                                  //:END
-                              }
+                              } 
 
                               //:END
 
@@ -7785,17 +7785,17 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               //:     lBorderStyle, lBorderColor, lEscapement,
                               //:     lType )
                               PrintTextToHTML( vSubtask, vMappingOI, szWorkString, szClass, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lJustify, lBorderStyle, lBorderColor, lEscapement, lType );
-                           }
+                           } 
 
                            //:END
                            //:ELSE
-                        }
+                        } 
                         else
-                        {
+                        { 
                            //:// It could still be multi-line with no Mapping.
                            //:IF nMultiLineFlag = 1
                            if ( nMultiLineFlag == 1 )
-                           {
+                           { 
 
                               //:lType = lType + 1
                               lType = lType + 1;
@@ -7814,16 +7814,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               DrawMultiLineTextToReport( vSubtask, vMappingOI, szWorkString, lWork, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lJustify, lBorderStyle, lBorderColor, lEscapement, lType, &lEndPosY, &lNextWord );
 
                               //:ELSE
-                           }
+                           } 
                            else
-                           {
+                           { 
 
                               //:IF nMultiLineFlag = 2  // Fixed height
                               if ( nMultiLineFlag == 2 )
-                              {
+                              { 
                                  //:lType = 2
                                  lType = 2;
-                              }
+                              } 
 
                               //:END
 
@@ -7833,16 +7833,16 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                               //:   lBorderStyle, lBorderColor, lEscapement,
                               //:   lType )
                               DrawTextToReport( vSubtask, vMappingOI, szWorkString, lPagePosX, lPagePosY, lPagePosEndX, lPagePosEndY, lJustify, lBorderStyle, lBorderColor, lEscapement, lType );
-                           }
+                           } 
 
                            //:END
-                        }
+                        } 
 
                         //:END
 
                         //:vReportDef.Control.wPrintStatus = 3  // zRCONTROL_STATUS_PRINTED
                         SetAttributeFromInteger( vReportDef, "Control", "wPrintStatus", 3 );
-                     }
+                     } 
 
                      //://          END
                      //:END
@@ -7875,7 +7875,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                      //:vReportTmp.Control.RangeBottom = lRangeBottom
                      lTempInteger_17 = SetCursorNextEntity( vReportTmp, "Control", "" );
                      if ( lTempInteger_17 == zCURSOR_SET && CompareAttributeToInteger( vReportTmp, "Control", "RangeBottom", lRangeBottom ) == 0 )
-                     {
+                     { 
 
                         //:lAdjust = vReportDef.Control.PSDLG_Y + vReportDef.Control.SZDLG_Y
                         GetIntegerFromAttribute( &lTempInteger_18, vReportDef, "Control", "PSDLG_Y" );
@@ -7886,9 +7886,9 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         lRemainingSpaceForCurrentLine = lRemainingSpaceOnPageY - ( lRangeBottom - lAdjust ) - lMultiLineSizeY;
 
                         //:ELSE
-                     }
+                     } 
                      else
-                     {
+                     { 
 
                         //://UNDEF     IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
                         //://UNDEF        TraceLineI( "FormatGroupOnPage Change RemainingSpaceOnPage: ",
@@ -7910,7 +7910,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                         lRemainingSpaceForCurrentLine = 0;
                         //:bTopOfPage = FALSE   // if adjusting RemainingSpace, then
                         bTopOfPage = FALSE;
-                     }
+                     } 
 
                      //:            // can't be at top
 
@@ -7920,43 +7920,43 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
                      //://UNDEF     END
 
                      //:END
-                  }
+                  } 
 
                   //:END // else of SkipLastPage
-               }
+               } 
 
                //:END // else
-            }
+            } 
 
             //:END // else
-         }
+         } 
 
          //:END // else
-      }
+      } 
 
       //:END // else of: IF lPrintHTML = 1 OR lPrintCSV = 1
 
       //:// increment loop
       //:nLoop1 = SetCursorNextEntity( vReportDef, "Control", "" )
       nLoop1 = SetCursorNextEntity( vReportDef, "Control", "" );
-   }
+   } 
 
 
    //:END   // LOOP WHILE nLoop1 = zCURSOR_SET
 
    //:IF lPrintCSV = 1
    if ( lPrintCSV == 1 )
-   {
+   { 
       //:IF vReportDef.Control EXISTS
       lTempInteger_20 = CheckExistenceOfEntity( vReportDef, "Control" );
       if ( lTempInteger_20 == 0 )
-      {
+      { 
          //:PrintTextToCSV( vSubtask, 0, 0 )  // end of line
          PrintTextToCSV( vSubtask, 0, 0 );
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -7976,7 +7976,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
 
    //:IF vSourceOI != 0
    if ( vSourceOI != 0 )
-   {
+   { 
       //://UNDVV IF (lPageNbr >= 1 AND lPageNbr <= 4)/*TracePages*/
       //://UNDVV    TraceLineV( "(FormatGroupOnPage.end) DropView( vSourceOI ): ",
       //://UNDVV                vSourceOI )
@@ -7986,13 +7986,13 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
       DropView( vSourceOI );
       //:vSourceOI = 0
       vSourceOI = 0;
-   }
+   } 
 
    //:END
 
    //:IF nRptExitReturn = zRGE_RETURN_NEWPAGE
    if ( nRptExitReturn == zRGE_RETURN_NEWPAGE )
-   {
+   { 
       //://UNDEF TraceLineI( "Exit Forced New Page after Group at PosY: ",
       //://UNDEF             lCurrentPosY )
 
@@ -8002,14 +8002,14 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
       *plNewPosY = lFooterPosPageBottom;
 
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:plNewPosY = lOrigPosY + vReportDef.Group.SZDLG_Y +
       //:            lMultiLineAdjustment + lMultiLineIncrement
       GetIntegerFromAttribute( &lTempInteger_21, vReportDef, "Group", "SZDLG_Y" );
       *plNewPosY = lOrigPosY + lTempInteger_21 + lMultiLineAdjustment + lMultiLineIncrement;
-   }
+   } 
 
    //:END
 
@@ -8029,7 +8029,7 @@ oTZRPSRCO_fnFormatGroupOnPage( zVIEW     vReportDef,
    //:RETURN 0
    return( 0 );
 // END
-}
+} 
 
 
 //:LOCAL OPERATION
@@ -8061,12 +8061,12 @@ oTZRPSRCO_ProcessPgDetailHeadrs( zVIEW     vReportDef,
                                  zLONG     lPageWidth,
                                  zLONG     lPageHeight )
 {
-   zVIEW     vHeaderDef = 0;
+   zVIEW     vHeaderDef = 0; 
    //:VIEW        vSourceOI
-   zVIEW     vSourceOI = 0;
+   zVIEW     vSourceOI = 0; 
    //:STRING (32) szParentEntityName
-   zCHAR     szParentEntityName[ 33 ] = { 0 };
-   zSHORT    RESULT;
+   zCHAR     szParentEntityName[ 33 ] = { 0 }; 
+   zSHORT    RESULT; 
 
 
    //:plNewPosY = lCurrentPosY
@@ -8077,10 +8077,10 @@ oTZRPSRCO_ProcessPgDetailHeadrs( zVIEW     vReportDef,
    //:// a hierarchical cursor.
    //:IF vSourceHierOI = 0
    if ( vSourceHierOI == 0 )
-   {
+   { 
       //:RETURN
       return( 0 );
-   }
+   } 
 
    //:END
 
@@ -8098,7 +8098,7 @@ oTZRPSRCO_ProcessPgDetailHeadrs( zVIEW     vReportDef,
 
    //:IF szParentEntityName != ""
    if ( ZeidonStringCompare( szParentEntityName, 1, 0, "", 1, 0, 33 ) != 0 )
-   {
+   { 
 
       //:ProcessPgDetailHeadrs( vReportDef, vSourceHierOI,
       //:                       szParentEntityName, vSubtask,
@@ -8120,24 +8120,24 @@ oTZRPSRCO_ProcessPgDetailHeadrs( zVIEW     vReportDef,
       RESULT = SetCursorFirstEntityByString( vHeaderDef, "GroupSet", "Tag", szCurrentEntityName, "" );
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      {
+      { 
          //:SET CURSOR FIRST vHeaderDef.Group WHERE
          //:                 vHeaderDef.Group.Type = "gh"
          RESULT = SetCursorFirstEntityByString( vHeaderDef, "Group", "Type", "gh", "" );
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:TraceLineS( "ProcessPgDetailHeadrs unable to locate GroupSet: ",
          //:            szCurrentEntityName )
          TraceLineS( "ProcessPgDetailHeadrs unable to locate GroupSet: ", szCurrentEntityName );
-      }
+      } 
 
       //:END
 
       //:IF RESULT >= zCURSOR_SET
       if ( RESULT >= zCURSOR_SET )
-      {
+      { 
          //:FormatGroupOnPage( vHeaderDef, vSourceHierOI, vSubtask,
          //:                   plNewPosX, plNewPosY,
          //:                   lCurrentPosX, lCurrentPosY, lRemainingSpaceOnPageY,
@@ -8147,7 +8147,7 @@ oTZRPSRCO_ProcessPgDetailHeadrs( zVIEW     vReportDef,
          oTZRPSRCO_FormatGroupOnPage( vHeaderDef, vSourceHierOI, vSubtask, plNewPosX, plNewPosY, lCurrentPosX, lCurrentPosY, *lRemainingSpaceOnPageY, 0, lPageWidth, lPageHeight, *lRemainingSpaceOnPageY, lBottomOfPage );
          //:vReportDef.Report.CurrentEntityName = szCurrentEntityName
          SetAttributeFromString( vReportDef, "Report", "CurrentEntityName", szCurrentEntityName );
-      }
+      } 
 
       //:END
 
@@ -8156,12 +8156,12 @@ oTZRPSRCO_ProcessPgDetailHeadrs( zVIEW     vReportDef,
       DropView( vHeaderDef );
       //:vHeaderDef = 0
       vHeaderDef = 0;
-   }
+   } 
 
    //:END
    return( 0 );
 // END
-}
+} 
 
 
 //:LOCAL OPERATION
@@ -8173,8 +8173,8 @@ static zSHORT
 oTZRPSRCO_fnSetGroupCtrlStatus( zVIEW     vReportDefIn,
                                 zSHORT    nStatus )
 {
-   zVIEW     vReportDef = 0;
-   zSHORT    RESULT;
+   zVIEW     vReportDef = 0; 
+   zSHORT    RESULT; 
 
 
    //:// CreateViewTrace( "Creating view (28): ", vReportDef, vReportDefIn, 0 )
@@ -8184,11 +8184,11 @@ oTZRPSRCO_fnSetGroupCtrlStatus( zVIEW     vReportDefIn,
    //:FOR EACH vReportDef.Control
    RESULT = SetCursorFirstEntity( vReportDef, "Control", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   {
+   { 
       //:vReportDef.Control.wPrintStatus = nStatus
       SetAttributeFromInteger( vReportDef, "Control", "wPrintStatus", nStatus );
       RESULT = SetCursorNextEntity( vReportDef, "Control", "" );
-   }
+   } 
 
    //:END
 
@@ -8199,7 +8199,7 @@ oTZRPSRCO_fnSetGroupCtrlStatus( zVIEW     vReportDefIn,
    vReportDef = 0;
    return( 0 );
 // END
-}
+} 
 
 
 //:LOCAL OPERATION
@@ -8211,21 +8211,21 @@ static zSHORT
 oTZRPSRCO_fnPageStateAdd( zVIEW     vReportDef,
                           zLONG     lPageNbr )
 {
-   zVIEW     vReportDef2 = 0;
+   zVIEW     vReportDef2 = 0; 
    //:VIEW vTempView
-   zVIEW     vTempView = 0;
+   zVIEW     vTempView = 0; 
    //:INTEGER nPrevPageNbr
-   zLONG     nPrevPageNbr = 0;
+   zLONG     nPrevPageNbr = 0; 
    //:INTEGER lTempView
-   zLONG     lTempView = 0;
+   zLONG     lTempView = 0; 
    //:INTEGER bValidView
-   zLONG     bValidView = 0;
-   zSHORT    RESULT;
+   zLONG     bValidView = 0; 
+   zSHORT    RESULT; 
 
 
    //:IF lPageNbr <= 0
    if ( lPageNbr <= 0 )
-   {
+   { 
       //:// The state for page number zero will never change.
       //:CREATE ENTITY vReportDef.PageState FIRST
       RESULT = CreateEntity( vReportDef, "PageState", zPOS_FIRST );
@@ -8244,7 +8244,7 @@ oTZRPSRCO_fnPageStateAdd( zVIEW     vReportDef,
       SetAttributeFromInteger( vReportDef, "PageState", "AbsolutePos", -1 );
       //:RETURN 0
       return( 0 );
-   }
+   } 
 
    //:END
 
@@ -8257,13 +8257,13 @@ oTZRPSRCO_fnPageStateAdd( zVIEW     vReportDef,
    RESULT = SetCursorFirstEntityByInteger( vReportDef, "PageState", "PageNbr", nPrevPageNbr, "" );
    //:IF RESULT < zCURSOR_SET
    if ( RESULT < zCURSOR_SET )
-   {
+   { 
       //:TraceLineI( "Internal Error: fnPageStateAdd() cannot find page ",
       //:            nPrevPageNbr )
       TraceLineI( "Internal Error: fnPageStateAdd() cannot find page ", nPrevPageNbr );
       //:RETURN -1
       return( -1 );
-   }
+   } 
 
    //:END
 
@@ -8287,7 +8287,7 @@ oTZRPSRCO_fnPageStateAdd( zVIEW     vReportDef,
    //:FOR EACH vReportDef2.LastHeaderEntityAtLevel
    RESULT = SetCursorFirstEntity( vReportDef2, "LastHeaderEntityAtLevel", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   {
+   { 
       //:CREATE ENTITY vReportDef.LastHeaderEntityAtLevel
       RESULT = CreateEntity( vReportDef, "LastHeaderEntityAtLevel", zPOS_AFTER );
       //:SetMatchingAttributesByName( vReportDef,  "LastHeaderEntityAtLevel",
@@ -8295,13 +8295,13 @@ oTZRPSRCO_fnPageStateAdd( zVIEW     vReportDef,
       //:                             zSET_NULL )
       SetMatchingAttributesByName( vReportDef, "LastHeaderEntityAtLevel", vReportDef2, "LastHeaderEntityAtLevel", zSET_NULL );
       RESULT = SetCursorNextEntity( vReportDef2, "LastHeaderEntityAtLevel", "" );
-   }
+   } 
 
    //:END
    //:FOR EACH vReportDef2.FooterAtLevel
    RESULT = SetCursorFirstEntity( vReportDef2, "FooterAtLevel", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
-   {
+   { 
       //:CREATE ENTITY vReportDef.FooterAtLevel
       RESULT = CreateEntity( vReportDef, "FooterAtLevel", zPOS_AFTER );
       //:SetMatchingAttributesByName( vReportDef,  "FooterAtLevel",
@@ -8320,10 +8320,10 @@ oTZRPSRCO_fnPageStateAdd( zVIEW     vReportDef,
       bValidView = IsValidView( vTempView );
       //:IF bValidView = FALSE
       if ( bValidView == FALSE )
-      {
+      { 
          //:bValidView = bValidView / bValidView
          bValidView = bValidView / bValidView;
-      }
+      } 
 
       //:END
 
@@ -8335,7 +8335,7 @@ oTZRPSRCO_fnPageStateAdd( zVIEW     vReportDef,
       //:vReportDef.FooterAtLevel.SourceOI_Hier = lTempView
       SetAttributeFromInteger( vReportDef, "FooterAtLevel", "SourceOI_Hier", lTempView );
       RESULT = SetCursorNextEntity( vReportDef2, "FooterAtLevel", "" );
-   }
+   } 
 
    //:END
 
@@ -8351,7 +8351,7 @@ oTZRPSRCO_fnPageStateAdd( zVIEW     vReportDef,
    //:RETURN 0
    return( 0 );
 // END
-}
+} 
 
 
 //:TRANSFORMATION OPERATION
@@ -8368,40 +8368,40 @@ oTZRPSRCO_FormatReportGroupSets( zVIEW     vSubtask,
                                  zLONG     lPageWidth,
                                  zLONG     lPageHeight )
 {
-   zCHAR     szViewName[ 257 ] = { 0 };
+   zCHAR     szViewName[ 257 ] = { 0 }; 
    //:STRING ( 32 )  szSubobjectEntityName
-   zCHAR     szSubobjectEntityName[ 33 ] = { 0 };
+   zCHAR     szSubobjectEntityName[ 33 ] = { 0 }; 
    //:VIEW     vSourceOI
-   zVIEW     vSourceOI = 0;
+   zVIEW     vSourceOI = 0; 
    //:VIEW     vReportDef
-   zVIEW     vReportDef = 0;
+   zVIEW     vReportDef = 0; 
    //:INTEGER  lPrintFlags
-   zLONG     lPrintFlags = 0;
+   zLONG     lPrintFlags = 0; 
    //:INTEGER  lCurrentPosX
-   zLONG     lCurrentPosX = 0;
+   zLONG     lCurrentPosX = 0; 
    //:INTEGER  lCurrentPosY
-   zLONG     lCurrentPosY = 0;
+   zLONG     lCurrentPosY = 0; 
    //:INTEGER  lNewPosX
-   zLONG     lNewPosX = 0;
+   zLONG     lNewPosX = 0; 
    //:INTEGER  lNewPosY
-   zLONG     lNewPosY = 0;
+   zLONG     lNewPosY = 0; 
    //:INTEGER  lRemainingSpaceOnPageY
-   zLONG     lRemainingSpaceOnPageY = 0;
+   zLONG     lRemainingSpaceOnPageY = 0; 
    //:INTEGER  lBottomOfPage
-   zLONG     lBottomOfPage = 0;
+   zLONG     lBottomOfPage = 0; 
    //:SHORT    nPrintMultiple
-   zSHORT    nPrintMultiple = 0;
+   zSHORT    nPrintMultiple = 0; 
    //:SHORT    nRC
-   zSHORT    nRC = 0;
-   zSHORT    RESULT;
+   zSHORT    nRC = 0; 
+   zSHORT    RESULT; 
 
 
    //:IF lPageNbr <= 0  // we only care about page 1
    if ( lPageNbr <= 0 )
-   {
+   { 
       //:RETURN 0
       return( 0 );
-   }
+   } 
 
    //:END
 
@@ -8437,45 +8437,45 @@ oTZRPSRCO_FormatReportGroupSets( zVIEW     vSubtask,
    nRC = IsFlagSequenceSet( lPrintFlags, 8 );
    //:IF nRC > 0
    if ( nRC > 0 )
-   {
+   { 
       //:nPrintMultiple = 1
       nPrintMultiple = 1;
       //:nRC = SetCursorFirstEntity( vSourceOI, szSubobjectEntityName, 0 )
       nRC = SetCursorFirstEntity( vSourceOI, szSubobjectEntityName, 0 );
       //:ELSE
-   }
+   } 
    else
-   {
+   { 
       //:nRC = 1
       nRC = 1;
-   }
+   } 
 
    //:END
 
    //:LOOP WHILE nRC >= 0
    while ( nRC >= 0 )
-   {
+   { 
 
       //:// Process each Page entity.
       //:SET CURSOR FIRST vReportDef.Page
       RESULT = SetCursorFirstEntity( vReportDef, "Page", "" );
       //:LOOP WHILE RESULT >= 0
       while ( RESULT >= 0 )
-      {
+      { 
 
          //:// Process each GroupSet entity.
          //:SET CURSOR FIRST vReportDef.GroupSet
          RESULT = SetCursorFirstEntity( vReportDef, "GroupSet", "" );
          //:LOOP WHILE RESULT >= 0
          while ( RESULT >= 0 )
-         {
+         { 
 
             //:// Process each Group entity.
             //:SET CURSOR FIRST vReportDef.Group
             RESULT = SetCursorFirstEntity( vReportDef, "Group", "" );
             //:LOOP WHILE RESULT >= 0
             while ( RESULT >= 0 )
-            {
+            { 
 
                //:FormatGroupOnPage( vReportDef, vSourceOI, vSubtask,
                //:                   lNewPosX, lNewPosY,
@@ -8486,37 +8486,37 @@ oTZRPSRCO_FormatReportGroupSets( zVIEW     vSubtask,
                oTZRPSRCO_FormatGroupOnPage( vReportDef, vSourceOI, vSubtask, &lNewPosX, &lNewPosY, lCurrentPosX, lCurrentPosY, lRemainingSpaceOnPageY, 32768, lPageWidth, lPageHeight, lRemainingSpaceOnPageY, lBottomOfPage );
                //:SET CURSOR NEXT vReportDef.Group
                RESULT = SetCursorNextEntity( vReportDef, "Group", "" );
-            }
+            } 
 
             //:END
 
             //:SET CURSOR NEXT vReportDef.GroupSet
             RESULT = SetCursorNextEntity( vReportDef, "GroupSet", "" );
-         }
+         } 
 
          //:END
 
          //:SET CURSOR NEXT vReportDef.Page
          RESULT = SetCursorNextEntity( vReportDef, "Page", "" );
-      }
+      } 
 
       //:END
 
       //:IF nPrintMultiple = 1
       if ( nPrintMultiple == 1 )
-      {
+      { 
          //:nRC = SetCursorNextEntity( vSourceOI, szSubobjectEntityName, 0 )
          nRC = SetCursorNextEntity( vSourceOI, szSubobjectEntityName, 0 );
          //:ELSE
-      }
+      } 
       else
-      {
+      { 
          //:nRC = -1
          nRC = -1;
-      }
+      } 
 
       //:END
-   }
+   } 
 
    //:END
 
@@ -8527,10 +8527,10 @@ oTZRPSRCO_FormatReportGroupSets( zVIEW     vSubtask,
    //:RETURN 0
    return( 0 );
 // END
-}
+} 
 
 
-
+ 
 #ifdef __cplusplus
 }
 #endif
