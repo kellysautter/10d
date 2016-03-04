@@ -2,7 +2,7 @@
 // Project ZdCtl
 //
 // This is a part of the Zeidon Dynamic Rendering of GUI applications package.
-// Copyright © 1995 - 2007 QuinSoft, Inc.
+// Copyright © 1995 - 2016 QuinSoft, Inc.
 // All Rights Reserved.
 //
 // SUBSYSTEM:    tzctl.dll - ZDr Application

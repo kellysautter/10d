@@ -619,7 +619,8 @@ protected:
    struct SLineInfo
    {
       TCHAR *m_pcLine;
-      int      m_nLength, m_nMax;
+      int   m_nLength;
+      int   m_nMax;
       DWORD m_dwFlags;
 
       SLineInfo() { memset(this, 0, sizeof(SLineInfo)); };
@@ -636,7 +637,8 @@ protected:
    {
       DWORD  m_dwFlags;
 
-      CPoint m_ptStartPos, m_ptEndPos;     // Block of text participating
+      CPoint m_ptStartPos;     // Block of text participating start position ...
+      CPoint m_ptEndPos;       // ... end position
       int    m_nAction;                    // For information only: action type
 
    private:

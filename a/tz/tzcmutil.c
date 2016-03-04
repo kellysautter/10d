@@ -5,7 +5,7 @@
 //                application.
 //
 // //////////////////////////////////////////////////////////////////////////
-// * Copyright (c) 1995 QuinSoft, Corporation.  All rights reserved.        *
+// * Copyright (c) 1995 - 2016 QuinSoft, Inc.   All rights reserved.        *
 // * Confidential and Proprietary material subject to license - do not      *
 // * reproduce or disclose.  This material is an unpublished work and       *
 // * is considered a trade secret belonging to the copyright holder.        *

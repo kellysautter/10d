@@ -308,7 +308,7 @@ BEGIN
     ICON            "ZEIDON",101,12,13,20,20
     CTEXT           "Version 1.0",102,30,16,100,8,NOT WS_GROUP
     CTEXT           "Copyright (c) 1996-2001",103,30,28,100,8,NOT WS_GROUP
-    CTEXT           "QuinSoft Corporation",104,30,40,100,8,NOT WS_GROUP
+    CTEXT           "QuinSoft, Inc.",104,30,40,100,8,NOT WS_GROUP
     CTEXT           "All Rights Reserved",105,30,52,100,8,NOT WS_GROUP
 END
 

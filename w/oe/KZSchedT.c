@@ -4,7 +4,7 @@
 //               Object services DLL and creates a tray window
 //               to manage scheduled tasks.
 // ************************************************************************
-// * Copyright (c) 1993-2009 QuinSoft Corporation. All rights reserved.   *
+// * Copyright (c) 1993-2016 QuinSoft, Inc. All rights reserved.          *
 // * Confidential and Proprietary material subject to license -           *
 // * do not reproduce or disclose. This material is an unpublished work   *
 // * and is considered a trade secret belonging to the copyright holder.  *

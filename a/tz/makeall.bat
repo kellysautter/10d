@@ -152,7 +152,8 @@ qff *.ler /q /180
 @call cds a tz
 @dir *.err
 @echo Expected error sizes:
-@echo                                  2,033 kzrpsrco.err
+@echo                                    102 account.err
+@echo                                  1,922 kzrpsrco.err
 @echo                                    795 kzxmlpg2.err
 @echo                                    133 tzcmlpldv.err
 @echo                                    236 tzcmlpmo.err
@@ -162,6 +163,6 @@ qff *.ler /q /180
 @echo                                    170 tzvmplaa.err
 @echo                                    129 tzwdlg6o.err
 @echo                                    238 tzwebgl1.err
-@echo               10 File(s)          5,687 bytes
+@echo               11 File(s)          5,687 bytes
 
 dir *.ler

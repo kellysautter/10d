@@ -501,7 +501,7 @@ main( int  argc,
                      fnWriteStructRec( "You should have received a copy of the GNU Lesser General Public License" );
                      fnWriteStructRec( "along with Zeidon Dr.  If not, see <http://www.gnu.org/licenses/>." );
                      fnWriteStructRec( "" );
-                     fnWriteStructRec( "Copyright 2011-2012 Arksoft" );
+                     fnWriteStructRec( "Copyright © 2011 - 2016 Arksoft, Inc." );
                      fnWriteStructRec( "*/" );
                      fnWriteStructRec( "" );
                      fnWriteStructRec( "package com.quinsoft.zeidon.gui;" );

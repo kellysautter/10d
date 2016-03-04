@@ -2,7 +2,7 @@
 // Project TzAxCtl
 //
 // This is a part of the Zeidon Dynamic Rendering of GUI applications package.
-// Copyright © 1995 - 1998 QuinSoft, Inc.
+// Copyright © 1995 - 2016 QuinSoft, Inc.
 // All Rights Reserved.
 //
 // SUBSYSTEM:    TzAxCtl.dll - ActiveX Control implementations

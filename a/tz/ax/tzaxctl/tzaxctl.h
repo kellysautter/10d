@@ -2,7 +2,7 @@
 // Project TzAxCtl
 //
 // This is a part of the Zeidon ActiveX controls package.
-// Copyright © 1995 - 1999 QuinSoft, Inc.
+// Copyright © 1995 - 2016 QuinSoft, Inc.
 // All Rights Reserved.
 //
 // SUBSYSTEM:    tzaxctl.dll - ZDr Application

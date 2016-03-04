@@ -2,7 +2,7 @@
 //
 // File:            zviewdef.h
 // *******************************************************************
-// * Copyright © 2001 QuinSoft Corporation and TONBELLER AG.         *
+// *  Copyright © 2001 - 2016 QuinSoft, Inc. and TONBELLER AG.       *
 // * All rights reserved.                                            *
 // * Confidential and Proprietary material subject to license -      *
 // * do not reproduce or disclose. This material is an unpublished   *

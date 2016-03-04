@@ -2,7 +2,7 @@
 // Project ZdCtl
 //
 // This is a part of the Zeidon Dynamic Rendering of GUI applications package.
-// Copyright © 1995 - 2010 QuinSoft, Inc. and TONBELLER AG.
+// Copyright © 1995 - 2016 QuinSoft, Inc. and TONBELLER AG.
 // All Rights Reserved.
 //
 //  Confidential and Proprietary material subject to license -

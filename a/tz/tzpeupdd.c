@@ -3,7 +3,7 @@
 // DESCRIPTION:  This is the c++ file which contains the presentation
 //               environment operations
 /////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 1998-1999 QuinSoft, Inc. All rights reserved.  Confidential
+// Copyright © 1998 - 2016 QuinSoft, Inc. All rights reserved.  Confidential
 // and Proprietary material subject to license - do not reproduce or
 // disclose.  This material is an unpublished work and is considered a
 // trade secret belonging to the copyright holder.

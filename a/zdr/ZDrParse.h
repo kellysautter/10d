@@ -2,7 +2,7 @@
 // Project ZDrApp
 //
 // This is a part of the Zeidon Dynamic Rendering of GUI applications package.
-// Copyright © 2007 - 2008 Arksoft, Inc.
+// Copyright © 2007 - 2016 QuinSoft, Inc.
 // All Rights Reserved.
 //
 // SUBSYSTEM:    zdrapp.dll - ZDr Application

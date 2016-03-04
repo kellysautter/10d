@@ -274,7 +274,7 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
 
    m_bDisableBSAtSOL = FALSE;
 
-   // AFX_ZERO_INIT_OBJECT(CView);  ==>  memset (&object, 0, zsizeof(object));
+   // AFX_ZERO_INIT_OBJECT(CView);  ==>  memset (&object, 0, sizeof(object));
 
    int k;
 
@@ -2663,7 +2663,7 @@ void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rc, int nLineIndex)
          LF_INVALID_BREAKPOINT
       };
       int k;
-      for (k = 0; k <= zsizeof(adwFlags) / sizeof(adwFlags[0]); k++)
+      for (k = 0; k <= sizeof(adwFlags) / sizeof(adwFlags[0]); k++)
       {
          if ((dwLineFlags & adwFlags[k]) != 0)
          {

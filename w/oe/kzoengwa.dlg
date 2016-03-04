@@ -5,7 +5,7 @@ BEGIN
     CONTROL "OK", 100, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 68, 68, 24, 14
     CONTROL "ZEIDON", 101, "static", SS_ICON | WS_CHILD, 12, 13, 16, 16
     CONTROL "Version 1.0", 102, "static", SS_LEFT | WS_CHILD, 64, 16, 46, 8
-    CONTROL "Copyright (c) 1996 QuinSoft Corporation", 103, "static", SS_LEFT | WS_CHILD, 15, 34, 138, 8
+    CONTROL "Copyright © 1996 - 2016 QuinSoft, Inc.", 103, "static", SS_LEFT | WS_CHILD, 15, 34, 138, 8
     CONTROL "All Rights Reserved", 104, "static", SS_LEFT | WS_CHILD, 50, 47, 72, 8
 END
 

@@ -2,7 +2,7 @@
 // Project ZDrApp
 //
 // This is a part of the Zeidon Dynamic Rendering of GUI applications package.
-// Copyright © 1995 - 2010 QuinSoft, Inc.
+// Copyright © 1995 - 2016 QuinSoft, Inc.
 // All Rights Reserved.
 //
 // SUBSYSTEM:    zdrapp.dll - ZDr Application
@@ -1629,7 +1629,7 @@ Nr Zeichen HTML-Encoding
 //                the same way regardless of the target language.
 //
 /////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2000 QuinSoft, Corporation.  All rights reserved.
+// Copyright (c) 2000-2016 QuinSoft, Inc. All rights reserved.
 // Confidential and Proprietary material subject to license - do not
 // reproduce or disclose.  This material is an unpublished work and
 // is considered a trade secret belonging to the copyright holder.

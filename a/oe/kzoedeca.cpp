@@ -5,7 +5,7 @@
 //               calls to the OS and network specific Network Handler.
 // OPERATIONS:   All OPERATIONS which do network handling (eg Net...)
 // *******************************************************************
-// * Copyright (c) 1996 QuinSoft Corporation. All rights reserved.   *
+// * Copyright © 1996 - 2016 QuinSoft, Inc. All rights reserved.     *
 // * Confidential and Proprietary material subject to license -      *
 // * do not reproduce or disclose. This material is an unpublished   *
 // * work and is considered a trade secret belonging to the          *
