@@ -1357,7 +1357,7 @@ BOOL ZCrystalEditView::IsDraggingText() const
 BOOL ZCrystalEditView::DoDropText(COleDataObject *pDataObject, CPoint &ptClient)
 {
 // TRACE(_T("ZCrystalEditView::DoDropText - drop: %d, y:%d\n"), ptClient.x, ptClient.y);
-   HGLOBAL hData = pDataObject->GetGlobalData(CF_TEXT);
+   HGLOBAL hData = pDataObject->GetGlobalData(m_cfFormat);
    if (hData == NULL)
       return FALSE;
 

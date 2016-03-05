@@ -111,7 +111,7 @@ EXPORTS
    EDT_SelectItem                                         @580
    EDT_SelectRange                                        @581
    EDT_SetBookmark                                        @598
-   EDT_SetCursorPositionByLine                            @582
+   EDT_SetCursorPositionByLineCol                         @582
    EDT_SyntaxOff                                          @583
    EDT_ToggleBookmark                                     @599
    EDT_Undo                                               @584

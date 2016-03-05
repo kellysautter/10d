@@ -79,8 +79,10 @@ public:
                      zKZWDLGXO_Ctrl_DEF *pCtrlDef );
    ~ZCrystalEditView();
    void CreateZ();
+   friend ZEditDropTargetImpl;
 
 private:
+   CLIPFORMAT m_cfFormat;
    BOOL   m_bOvrMode;
    BOOL   m_bDropPosVisible;
    CPoint m_ptSavedCaretPos;

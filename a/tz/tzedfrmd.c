@@ -35,19 +35,19 @@ extern "C"
 // Editor related Macros
 // for cursor positioning purpose
 #define MovRight(n)   EDT_GetCursorPosition( vSubtask, &lMoveBaseLine, &lMoveBaseColumn );    \
-                      EDT_SetCursorPositionByLine( vSubtask, lMoveBaseLine, lMoveBaseColumn + n )
+                      EDT_SetCursorPositionByLineCol( vSubtask, lMoveBaseLine, lMoveBaseColumn + n )
 
 #define MovUp( n )    EDT_GetCursorPosition( vSubtask, &lMoveBaseLine, &lMoveBaseColumn );    \
-                      EDT_SetCursorPositionByLine( vSubtask, lMoveBaseLine - n, lMoveBaseColumn )
+                      EDT_SetCursorPositionByLineCol( vSubtask, lMoveBaseLine - n, lMoveBaseColumn )
 
-#define MovEOF( )     lMoveBaseLine = EDT_GetLineCount( vSubtask ); \
-                      EDT_SetCursorPositionByLine( vSubtask, lMoveBaseLine + 1, 0 )
+#define MovEOF( )     lMoveBaseLine = EDT_GetLineCount( vSubtask ) - 1; \
+                      EDT_SetCursorPositionByLineCol( vSubtask, lMoveBaseLine, EDT_GetLineLength( vSubtask, lMoveBaseLine ) )
 
 /*
 #define MovEOL( )    {  zCHAR Buffer[ 2 ];\
                         EDT_GetCursorPosition( vSubtask, &lMoveBaseLine, &lMoveBaseColumn );    \
                         lMoveBaseColumn = pzma->GetActualTextLine( Buffer, 1 ); \
-                        EDT_SetCursorPositionByLine( vSubtask, lMoveBaseLine, lMoveBaseColumn );     \
+                        EDT_SetCursorPositionByLineCol( vSubtask, lMoveBaseLine, lMoveBaseColumn );     \
                      }
 */
 
@@ -176,7 +176,7 @@ char szlZeidonInitialized[]  = "ZeidonInitialized";
 char szlZeidonRestoreState[] = "ZeidonRestoreState";
 char szlZKey[]               = "ZKey";
 
-long lMoveBaseLine, lMoveBaseColumn, lMoveBaseIndex;
+long lMoveBaseLine, lMoveBaseColumn;
 
 //zBOOL   g_bIsFileNew = FALSE; // to handle "File New" menu command
 FINDREPLACE g_fr;
@@ -224,10 +224,10 @@ TZEDFRMD_DropOperationFromSource( zVIEW  vSubtask );
 zOPER_EXPORT zSHORT OPERATION
 AEQ_SelectView( zVIEW vSubtask );
 
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_DisableActions( zVIEW vSubtask );
 
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_EnableEditMenuActions( zVIEW vSubtask );
 
 zLONG
@@ -428,7 +428,7 @@ EDT_SelectItem( zVIEW vSubtask, zLONG lLine, zLONG lCol, zCPCHAR cpcText );
 zOPER_EXPORT zBOOL OPERATION
 EDT_SelectRange( zVIEW vSubtask, zLONG lLine, zLONG lCol, zLONG lCharCnt );
 zOPER_EXPORT zBOOL OPERATION
-EDT_SetCursorPositionByLine( zVIEW vSubtask, zLONG lLine, zLONG lCol );
+EDT_SetCursorPositionByLineCol( zVIEW vSubtask, zLONG lLine, zLONG lCol );
 zOPER_EXPORT zBOOL OPERATION
 EDT_WantKeystrokes( zVIEW vSubtask, zBOOL bOn );
 zOPER_EXPORT zBOOL OPERATION
@@ -465,7 +465,7 @@ EDT_ClearAllBookmarks( zVIEW vSubtask );
 // Setup a comment in the current editor instance
 //
 // Parameter :
-//    ZMapAct *pzma            Pointer to the Editor Instance
+//    zV8EW vSubtask           Editor window subtask
 //    LPSTR szOperName         Operation Name
 //    LPSTR szOperComment      Comment
 //
@@ -478,39 +478,30 @@ InsertComment( zVIEW vSubtask, LPSTR szOperName, LPSTR szOperComment )
 // zCHAR       szCommentType[ 256 ];
    CStringList sl;
    POSITION    pos = NULL;
-   CString     csSource, csLine;
-   CString     csHelp,
-               csCommentStart = "/*",
-               csLineStart = "**    ",
-               csCommentStop = "*/",
-               csNewLine = "\r\n";
+   CString     csSource;
+   CString     csLine;
+   CString     csText;
+   CString     csCommentStart = "//";
+   CString     csLineStart = "//  ";
+   CString     csCommentStop = "//";
+   CString     csNewLine = "\r\n";
    zPCHAR      pchBuffer = 0;
    zLONG       lCommentLength = 0;
-   zLONG       lLineLength = 100;
-   zLONG       k = 0, j = 0;
+   zLONG       lLineLength = 78;
+   zLONG       k = 0;
+   zLONG       j = 0;
 
    // A line containing the beginning of Operation Documentation like "///////////..."
-   CString csBegin( '*', lLineLength - csCommentStart.GetLength( ) - csCommentStop.GetLength( ) );
-#if 0
-   if ( GetAppOrWorkstationValue( vSource, "CommentType", szCommentType, zsizeof( szCommentType ) ) &&
-        szCommentType[ 0 ] == '/' )
-   {
-      csCommentStart = "//";
-      csLineStart = "// ";
-      csCommentStop = "//";
+   CString csBegin( '/', lLineLength - csCommentStart.GetLength( ) - csCommentStop.GetLength( ) );
 
-      // Fix line containing the beginning of Operation Documentation like "///// ..."
-      csBegin.Replace( '*', '/' );
-   }
-#endif
    // A line which contains only blanks.
    CString csBlanks( ' ', lLineLength - csCommentStart.GetLength( ) - csCommentStop.GetLength( ) );
    csSource = szOperComment;
 
    // Setting up a list of strings which are part of the Comment.
-   csLine = csNewLine + csNewLine + csCommentStart + csBegin + csNewLine;
+   csLine = csNewLine + csCommentStart + csBegin + csNewLine;
    sl.AddTail( csLine );
-   sl.AddTail( csLineStart + csNewLine ); // insert an empty comment line
+   sl.AddTail( csCommentStart + csNewLine ); // insert an empty comment line
 
    // Add operation name.
    csLine = csLineStart + "OPERATION: " + szOperName + csNewLine;
@@ -539,29 +530,29 @@ InsertComment( zVIEW vSubtask, LPSTR szOperName, LPSTR szOperComment )
    j = k = 0;
    while ( lCommentLength > 0 )
    {
-      csHelp = csSource.Mid( k, lLineLength ); // take the first 100 bytes
+      csText = csSource.Mid( k, lLineLength ); // take the first 100 bytes
 
-      csHelp.TrimLeft( ); // make sure there is no blank at the beginning
+      csText.TrimLeft( ); // make sure there is no blank at the beginning
 
       // Find a previous blank to have no linefeed within a word.
-      if ( csHelp.GetLength( ) >= lLineLength )
-         j = csHelp.ReverseFind( ' ' );
+      if ( csText.GetLength( ) >= lLineLength )
+         j = csText.ReverseFind( ' ' );
       else
          j= -1;
 
       if ( j > -1 )
       {
-         csHelp = csHelp.Left( j );
+         csText = csText.Left( j );
       }
 
-      if ( !csHelp.IsEmpty( ) )
+      if ( !csText.IsEmpty( ) )
       {
-         k += csHelp.GetLength( );    // The next 100 bytes we want to proceed with
+         k += csText.GetLength( );    // The next 100 bytes we want to proceed with
                                       // start at k + length of current line
-         lCommentLength = lCommentLength - csHelp.GetLength( );
-         csHelp.TrimRight( );
+         lCommentLength = lCommentLength - csText.GetLength( );
+         csText.TrimRight( );
          csLine = csLineStart;
-         csLine = csLine + csHelp + csNewLine;
+         csLine = csLine + csText + csNewLine;
          sl.AddTail( csLine );
       }
       else
@@ -571,7 +562,7 @@ InsertComment( zVIEW vSubtask, LPSTR szOperName, LPSTR szOperComment )
       }
    }
 
-   csLine = csLineStart + csNewLine;  // insert an empty comment line
+   csLine = csCommentStart + csNewLine;  // insert an empty comment line
    sl.AddTail(csLine );
 
    csLine = csBegin + csCommentStop + csNewLine;
@@ -582,8 +573,9 @@ InsertComment( zVIEW vSubtask, LPSTR szOperName, LPSTR szOperComment )
 
    while ( pos )
    {
-      csHelp = sl.GetAt( pos );
-      EDT_InsertItem( vSubtask, csHelp ); // send string to Editor control
+      csText = sl.GetAt( pos );
+      MovEOF( );
+      EDT_InsertItem( vSubtask, csText ); // send string to Editor control
       sl.GetNext( pos );  // get next list entry
    }
 
@@ -714,7 +706,7 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
          lLine = lEndLine + lKeyWordLength; // add 3 for keyword length
 
          // Setting index to the first column of the next line
-         lLastLine = EDT_GetLineCount( vSubtask );
+         lLastLine = EDT_GetLineCount( vSubtask ) - 1;
          EDT_GetPositionByIndex( vSubtask, &lLine, &lCol );
          while ( lLine < lLastLine && lCol > 0 )
          {
@@ -818,7 +810,7 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
             {
                // Setting index to the first column of the next line.
                EDT_GetPositionByIndex( vSubtask, &lLine, &lCol );
-               EDT_SetCursorPositionByLine( vSubtask, lLine + 1, 0 );
+               EDT_SetCursorPositionByLineCol( vSubtask, lLine + 1, 0 );
                EDT_GetCursorPosition( vSubtask, &lEndLine, &lCol );
             }
             if ( lEndLine > 0 && lEndLine > lLine )
@@ -922,7 +914,7 @@ FindEndOfOperation( zVIEW    vSubtask,
          // assuming that comments in the same line as the closing END
          // belong to the operation
          zLONG lLastLine = 0, lLine = 0, lCol = 0;
-         lLastLine = EDT_GetLineCount( vSubtask );
+         lLastLine = EDT_GetLineCount( vSubtask ) - 1;
          EDT_GetPositionByIndex( vSubtask, &lLine, &lCol );
          while ( lLine < lLastLine && lCol > 0 )
          {
@@ -942,8 +934,8 @@ FindEndOfOperation( zVIEW    vSubtask,
 
          zLONG lLine = 0;
          // set cursor to the last line
-         lLine = EDT_GetLineCount( vSubtask );
-         EDT_SetCursorPositionByLine( vSubtask, lLine - 1, 0 );
+         lLine = EDT_GetLineCount( vSubtask ) - 1;
+         EDT_SetCursorPositionByLineCol( vSubtask, lLine, 0 );
          EDT_FindTextPosition( vSubtask, szSearchString, &lLine, &lCol, FIND_DIRECTION_UP );
          lLine--;
          zLONG lOpStartLine = -1;
@@ -1136,6 +1128,8 @@ GetTabsInLine( zVIEW vSubtask, zLONG lUpToPosition )
 void
 BufInsertStr( zVIEW vSubtask, zCPCHAR cpc )
 {
+   // Set cursor to the last line.
+   MovEOF( );
    EDT_InsertItem( vSubtask, cpc );
 }
 
@@ -1158,7 +1152,8 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
    zCHAR    szLine[ 65 ];
    LPSTR    szOperComment;
    LPSTR    szTab = "   ";
-   CString  csFormat, csInsertBuffer;
+   CString  csFormat;
+   CString  csInsertBuffer;
    zSHORT   nRC;
    zSHORT   nLth;
 
@@ -1177,7 +1172,7 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
    {
       if ( bFileC )
       {
-         csFormat = "zOPER_EXPORT %s /*";
+         csFormat = "zOPER_EXPORT %s /* ";
          switch ( szReturnDataType[ 0 ] )
          {
             case 'V':
@@ -1374,8 +1369,7 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
                   if ( nRC < 0 )
                   {
                      MessagePrompt( vEdWrk, "ED0001",szlZeidonEditor,
-                                    "Internal Error -- Couldn't find LOD to go \
-                                    with Source Meta", 1, 0, 0, 0 );
+                                    "Internal Error -- Couldn't find LOD to go with Source Meta", 1, 0, 0, 0 );
                      szLOD = "error";
                   }
                   else
@@ -1471,7 +1465,6 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
                strcpy_s( szParamCase, zsizeof( szParamCase ), szParam );
 
             break;
-
       }
 
    }  // End FOR EACH Parameter
@@ -1631,7 +1624,7 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
 
    if ( bFileC )
    {
-      strcpy_s( szLine, zsizeof( szLine ), "{\r\n\r\n\r\n" );
+      strcpy_s( szLine, zsizeof( szLine ), "{\r\n" );
       if ( szReturnDataType[ 0 ] == 'O' || szReturnDataType[ 0 ] == 0 ) // empty data type handled as void
          strcat_s( szLine, zsizeof( szLine ), "\treturn;\r\n" );
       else
@@ -1651,7 +1644,7 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
    // insert a single string
    BufInsertStr( vSubtask, csInsertBuffer );
    if ( bFileC )
-      BufInsertStr( vSubtask, "\r\n\r\n" );
+      BufInsertStr( vSubtask, "\r\n" );
 
    if ( vLOD )
       DropView( vLOD );
@@ -1774,48 +1767,29 @@ CreateFileInfo( zVIEW    vSubtask,
    zCHAR    szDateFormatted[ 20 ];
 
    SysGetDateTime( szDateRaw, zsizeof( szDateRaw ) );
-   UfFormatDateTime( szDateFormatted, zsizeof( szDateFormatted ), szDateRaw, "DD-MM-YYYY" );
+   UfFormatDateTime( szDateFormatted, zsizeof( szDateFormatted ), szDateRaw, "YYYY.DD.MM" );
 
-   BufInsertStr( vSubtask,
-     "/*\r\n"
-     "//----------------------------------------------------------------------\r\n"
-     "//\r\n"
-     "// .Name:         " );
+   BufInsertStr( vSubtask, "////////////////////////////////////////////////////////////////////////////\r\n//\r\n// .Name:         " );
    BufInsertStr( vSubtask, pchName );
-   BufInsertStr( vSubtask, ".c\r\n"
-     "//\r\n"
-     "// .Version:      1.0\r\n"
-     "//\r\n"
-     "// .Last change:  " );
+   BufInsertStr( vSubtask, ".c\r\n//\r\n// .Version:      1.0\r\n//\r\n// .Last change:  " );
    BufInsertStr( vSubtask, szDateFormatted );
-   BufInsertStr( vSubtask, "\r\n"
-     "//\r\n"
-     "// .Description:  Zeidon operations\r\n"
-     "//\r\n"
-     "//----------------------------------------------------------------------\r\n"
-     "// .Change notes\r\n"
-     "//\r\n"
-     "//  1.0  = New\r\n"
-     "//        (" );
+   BufInsertStr( vSubtask, "\r\n//\r\n// .Description:  Zeidon operations\r\n//\r\n"
+                           "////////////////////////////////////////////////////////////////////////////\r\n"
+                           "// .Change notes\r\n//\r\n//  1.0  = New  " );
    BufInsertStr( vSubtask, szDateFormatted );
-   BufInsertStr( vSubtask, ") Zeidon\r\n"
-     "//\r\n"
-     "//----------------------------------------------------------------------\r\n"
-     "*/\r\n\r\n" );
+   BufInsertStr( vSubtask, " Zeidon\r\n//\r\n////////////////////////////////////////////////////////////////////////////\r\n\r\n\r\n" );
 
-   BufInsertStr( vSubtask,
-     "#define KZSYSSVC_INCL\r\n"
-     "#include <KZOENGAA.H>\r\n"
-     "#include <ZDRVROPR.H>\r\n"
-     "#ifdef __cplusplus\r\n"
-     "extern \"C\"\r\n"
-     "{\r\n"
-     "#endif\r\n"
-     "#include \"ZEIDONOP.H\"\r\n\r\n"
-     "#ifdef __cplusplus\r\n"
-     "}\r\n"
-     "#endif\r\n"
-     "\r\n\r\n" );
+   BufInsertStr( vSubtask, "#define KZSYSSVC_INCL\r\n"
+                           "#include <KZOENGAA.H>\r\n"
+                           "#include <ZDRVROPR.H>\r\n"
+                           "#ifdef __cplusplus\r\n"
+                           "extern \"C\"\r\n"
+                           "{\r\n"
+                           "#endif\r\n"
+                           "#include \"ZEIDONOP.H\"\r\n\r\n"
+                           "#ifdef __cplusplus\r\n"
+                           "}\r\n"
+                           "#endif\r\n\r\n" );
 
    return( 0 );
 } // CreateFileInfo
@@ -1831,7 +1805,7 @@ CreateSourceFile( zVIEW    vSubtask,
    zLONG    lLine = 0, lCol = 0;
    zSHORT   nRC;
 
-   EDT_SetCursorPositionByLine( vSubtask, 0, 0 );
+   EDT_SetCursorPositionByLineCol( vSubtask, 0, 0 );
 
    if ( bCFile )
    {
@@ -1848,20 +1822,17 @@ CreateSourceFile( zVIEW    vSubtask,
       MovEOF( );
       EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
 
-      EDT_FindTextPosition( vSubtask, szSearchString, &lLine, &lCol, FIND_DIRECTION_UP );
-
       // Something found so insert two blank lines and reposition the cursor
       // to one of the blank lines.
-      if ( lLine > -1 )
+      if (EDT_FindTextPosition(vSubtask, szSearchString, &lLine, &lCol, FIND_DIRECTION_UP))
       {
          // Set cursor to begin of line
          EDT_GetPositionByIndex( vSubtask, &lLine, &lCol );
-         EDT_SetCursorPositionByLine( vSubtask, lLine, 0 );
+         EDT_SetCursorPositionByLineCol( vSubtask, lLine, 0 );
          BufInsertStr( vSubtask, "\r\n\r\n" );
          EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
-         EDT_SetCursorPositionByLine( vSubtask, lLine - 1, lCol );
+         EDT_SetCursorPositionByLineCol( vSubtask, lLine - 1, lCol );
       }
-
    }
 
    CreateViewFromViewForTask( &vTmp, vSource, 0 );
@@ -1870,16 +1841,17 @@ CreateSourceFile( zVIEW    vSubtask,
          nRC = SetCursorNextEntity( vTmp, szlOperation, "" ) )
    {
       OperTemplate( vSubtask, vTmp );
+/*
       // reposition cursor for next insert
       if ( bCFile )
       {
-         lLine = EDT_GetLineCount( vSubtask );
-         EDT_SetCursorPositionByLine( vSubtask, lLine, 0 );
+         lLine = EDT_GetLineCount( vSubtask ) - 1;
+         EDT_SetCursorPositionByLineCol( vSubtask, lLine, 0 );
          EDT_InsertItem( vSubtask, "\r\n\r\n" );
-         lLine = EDT_GetLineCount( vSubtask );
-         EDT_SetCursorPositionByLine( vSubtask, lLine, 0 );
+         lLine = EDT_GetLineCount( vSubtask ) - 1;
+         EDT_SetCursorPositionByLineCol( vSubtask, lLine, 0 );
       }
-
+*/
    } // End for each Operation
 
    DropView( vTmp );
@@ -1933,18 +1905,18 @@ GotoCurrentOperation( zVIEW    vSubtask,
    zLONG  lLine = 0, lCol = 0;
    DWORD  dwTBEDTDefaultSearchBehavior = FIND_MATCH_CASE | FIND_WHOLE_WORD;
 
-   EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+   EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
    EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
-   EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+   EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
    TraceLine( "(xxx) Return from search line: %d  col: %d", lLine, lCol );
 
    // Skipping lines where the search text is part of a comment
    while ( fnIsCommentAtIndex( vSubtask, lLine, lCol ) && lLine > -1 ) // 1998.10.15  TMV check lLine
    {
       lLine++;
-      EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+      EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
       EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
-      EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+      EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
    }
 
    // New operation code?
@@ -1957,7 +1929,7 @@ GotoCurrentOperation( zVIEW    vSubtask,
          // in c-files search for #ifdef __cplusplus (from end to begin)
          // to get the position where to insert new operation
          GetPositionForNextInsert( vSubtask, &lLine, &lCol );
-         EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+         EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
       }
 
       // if file read only, do not create operation
@@ -1974,7 +1946,7 @@ GotoCurrentOperation( zVIEW    vSubtask,
       // Find end of parm list.
       EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
       // Move cursor to beginning of next line.
-      EDT_SetCursorPositionByLine( vSubtask, lLine, 3 );
+      EDT_SetCursorPositionByLineCol( vSubtask, lLine, 3 );
    }
 
    EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
@@ -2052,26 +2024,19 @@ SetTargetExecutableName( zVIEW  vSource,
 
 static zSHORT
 CheckFileAttribute( zPCHAR  pchFileName,
-                    zPBOOL  bReadOnly )
+                    zPBOOL  pbReadOnly )
 {
+   *pbReadOnly = FALSE;
    DWORD dwAttribute = ::GetFileAttributes(pchFileName);
    if (dwAttribute == 0xFFFFFFFF) //call of function GetFileAttributes failed
    {
       LPSTR lpMsgBuf = NULL;
-      CString csMsgTitle = "Zeidon";
-      FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, GetLastError( ),
-                     MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ), // Default language
-                     lpMsgBuf, 0, NULL );
-      MessageBox( NULL, lpMsgBuf, csMsgTitle, MB_OK | MB_ICONINFORMATION );
-
-      // Free the buffer.
-      LocalFree( lpMsgBuf );
-      *bReadOnly = FALSE;
+      MessageBox( NULL, pchFileName, "File Not Found", MB_OK | MB_ICONINFORMATION );
    }
    else
    {
       if ( dwAttribute & FILE_ATTRIBUTE_READONLY )
-         *bReadOnly = TRUE;
+         *pbReadOnly = TRUE;
    }
 
    return( 0 );
@@ -2287,8 +2252,8 @@ InitSession( zVIEW  vSubtask )
    }
 
    // If the file did not previously exist or if it's empty then init all operations in Meta.
-   lLine = EDT_GetLineCount( vSubtask );
-   if ( bFileExists == FALSE || lLine < 1 )
+   lLine = EDT_GetLineCount( vSubtask ) - 1;
+   if ( bFileExists == FALSE || lLine <= 0 )
       CreateSourceFile( vSubtask, vSource, bCFile, szSourceFileEntityName );
 
    // Determine if the operation is in the file or we should create a template
@@ -2505,7 +2470,7 @@ fnCommandCompletion( zVIEW vSubtask )
 // EDT_DeleteTextRange( vSubtask, lLine - zstrlen( pchToken ), 0, lLine, 0 );
    csHelp = pchToken;
    EDT_SelectItem( vSubtask, lLine + 1, 0, csHelp );
-// EDT_SetCursorPositionByLine( vSubtask, lLine, lCol - zstrlen( pchToken ) );
+// EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol - zstrlen( pchToken ) );
 
    // Call operation to insert currently selected keyword in profile OI.
    fnInsertVML_Text( vSubtask, vEdWrk, vProfileXFER );
@@ -3089,7 +3054,7 @@ AEQ_GetViews( zVIEW vSubtask )
    // Find the end of the current operation by searching for the beginning
    // of the next operation.  Since we want to ignore any operations that
    // might be commented out, keep searching until we are not in a comment.
-   lLineCnt = EDT_GetLineCount( vEditorSubtask );
+   lLineCnt = EDT_GetLineCount( vEditorSubtask ) - 1;
    EDT_GetCursorPosition( vEditorSubtask, &lLine, &lCol );
    lOperationEndLine = lLine;
    lCol = 0;
@@ -3514,7 +3479,7 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
    zVIEW      vEditorSubtask;
    zLONG      lOperationNameLength = 0,
               lLine = 0, lCol = 0;
-   zLONG      lTabSize = 4; // Today a fixed length, in future this has to be queried
+   zLONG      lTabSize = 3; // Today a fixed length, in future this has to be queried
                             // from the edit-control
    CString    csComment;
    CString    csIndent;
@@ -4756,7 +4721,7 @@ fnInsertVML_Text( zVIEW      vSubtask,
          zCHAR  szTemp[ 100 ] = "\n";
          zSHORT k = (zSHORT) zstrlen( szTemp );
 
-         // We need to add the new-line and then a spaces to match original column position.
+         // We need to add the new-line and then spaces to match original column position.
 
          zmemset( &szTemp[ k ], ' ', lOriginalCol );
          szTemp[ k + lOriginalCol ] = 0;
@@ -4776,7 +4741,7 @@ fnInsertVML_Text( zVIEW      vSubtask,
 
    if ( lPositionCursor >= 0 )
    {
-      EDT_SetCursorPositionByLine( vSubtask, lLine + lPositionCursor, lCol );
+      EDT_SetCursorPositionByLineCol( vSubtask, lLine + lPositionCursor, lCol );
    }
 
    return( 0 );
@@ -5050,7 +5015,7 @@ ErrList_ShowError( zVIEW vSubtask )
    EDT_GetCursorPosition( vEditorSubtask, &lLine, &lCol );
    if ( lErrorLine != lLine )
    {
-      EDT_SetCursorPositionByLine( vEditorSubtask, lErrorLine, 0 );
+      EDT_SetCursorPositionByLineCol( vEditorSubtask, lErrorLine, 0 );
    }
 
    SetFocusToCtrl( vEditorSubtask, EDIT_CONTROL_NAME );
@@ -5290,10 +5255,10 @@ GenerateJava( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: GenerateCompileJava
+//  OPERATION: GenerateCompileJava
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 GenerateCompileJava( zVIEW vSubtask )
 {
    zVIEW    vLPLR;
@@ -5324,10 +5289,10 @@ GenerateCompileJava( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: CompileJava
+//  OPERATION: CompileJava
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 CompileJava( zVIEW vSubtask )
 {
    zVIEW    vLPLR;
@@ -5424,7 +5389,7 @@ fnTZEDFRMD_SaveFile( zVIEW    vSubtask,
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_AskForSaveWithParse
+//  OPERATION: TZEDFRMD_AskForSaveWithParse
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT /*LOCAL */  OPERATION
@@ -5484,7 +5449,7 @@ TZEDFRMD_AskForSaveWithParse( zVIEW vSubtask,
 // OPERATION: TZEDFRMD_AskForSave
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_AskForSave( zVIEW vSubtask )
 {
    zVIEW        vEdWrk;
@@ -5621,7 +5586,10 @@ fnSaveWithCheckForParse( zVIEW vSubtask )
       zSHORT nRC = OperatorPrompt( vSubtask, szlZeidonEditor, "Do you want to save the changes?", TRUE,
                                    zBUTTONS_YESNOCANCEL, zRESPONSE_YES, zICON_EXCLAMATION );
       if ( nRC == zRESPONSE_CANCEL )
+      {
+         SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
          return( -1 );  // should probably be staying put on the editor
+      }
       else
       if ( nRC == zRESPONSE_YES)
       {
@@ -6000,7 +5968,7 @@ SearchContinue( zVIEW vSubtask, zLONG lDirectionFlag )
          if ( csHelp.CompareNoCase( g_csFindWhat ) == 0 && g_fr.Flags & FR_DOWN )
          {
             lStartLine += lCharCount;
-            EDT_SetCursorPositionByLine( vSubtask, lStartLine, lStartCol );
+            EDT_SetCursorPositionByLineCol( vSubtask, lStartLine, lStartCol );
          }
       }
    }
@@ -6148,7 +6116,7 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
 
    if ( lLine >= 0 ) // we found something so place the cursor onto it
    {
-      EDT_SetCursorPositionByLine( vSubtask, lLine + 12, 0 );
+      EDT_SetCursorPositionByLineCol( vSubtask, lLine + 12, 0 );
       return( 1 );
    }
    else
@@ -6163,7 +6131,7 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditCut
+//  OPERATION: TZEDFRMD_EditCut
 //
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditCut( zVIEW vSubtask )
@@ -6177,7 +6145,7 @@ TZEDFRMD_EditCut( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditPaste
+//  OPERATION: TZEDFRMD_EditPaste
 //
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditPaste( zVIEW vSubtask )
@@ -6191,7 +6159,7 @@ TZEDFRMD_EditPaste( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditCopy
+//  OPERATION: TZEDFRMD_EditCopy
 //
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditCopy( zVIEW vSubtask )
@@ -6205,7 +6173,7 @@ TZEDFRMD_EditCopy( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditSelectAll
+//  OPERATION: TZEDFRMD_EditSelectAll
 //
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditSelectAll( zVIEW vSubtask )
@@ -6218,7 +6186,7 @@ TZEDFRMD_EditSelectAll( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditDelete
+//  OPERATION: TZEDFRMD_EditDelete
 //
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditDelete( zVIEW vSubtask )
@@ -6232,7 +6200,7 @@ TZEDFRMD_EditDelete( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditUndo
+//  OPERATION: TZEDFRMD_EditUndo
 //
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditUndo( zVIEW vSubtask )
@@ -6246,7 +6214,7 @@ TZEDFRMD_EditUndo( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditRedo
+//  OPERATION: TZEDFRMD_EditRedo
 //
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditRedo( zVIEW vSubtask )
@@ -6260,7 +6228,7 @@ TZEDFRMD_EditRedo( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditFind
+//  OPERATION: TZEDFRMD_EditFind
 //
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditFind( zVIEW vSubtask )
@@ -6271,7 +6239,7 @@ TZEDFRMD_EditFind( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_RepeatFind
+//  OPERATION: TZEDFRMD_RepeatFind
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
@@ -6300,7 +6268,7 @@ TZEDFRMD_EditRepeatFind( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_FindPrevious
+//  OPERATION: TZEDFRMD_FindPrevious
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
@@ -6383,7 +6351,7 @@ TZEDFRMD_OnEditFind( zVIEW vSubtask )
          if ( csHelp.CompareNoCase( g_csFindWhat ) == 0 && pfr->Flags & FR_DOWN )
          {
             lPosition += lCharCount;
-            EDT_SetCursorPositionByLine( vSubtask, lPosition, 0 );
+            EDT_SetCursorPositionByLineCol( vSubtask, lPosition, 0 );
          }
       }
    }
@@ -6417,12 +6385,12 @@ TZEDFRMD_OnEditFind( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_OnEditFindNext
+//  OPERATION: TZEDFRMD_OnEditFindNext
 //
-//    handles the EditFindNext event
+//  handles the EditFindNext event
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_OnEditFindNext( zVIEW vSubtask )
 {
    TZEDFRMD_OnEditFind( vSubtask );
@@ -6433,7 +6401,7 @@ TZEDFRMD_OnEditFindNext( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EditReplace
+//  OPERATION: TZEDFRMD_EditReplace
 //
 //  Repeat Replace
 //
@@ -6455,7 +6423,7 @@ TZEDFRMD_EditReplace( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: OptionSettings
+//  OPERATION: OptionSettings
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
@@ -6518,8 +6486,8 @@ GetPositionForNextInsert( zVIEW   vSubtask,
    zLONG lCol   = -1;
 
    // set cursor to the last line
-   lLine = EDT_GetLineCount( vSubtask );
-   EDT_SetCursorPositionByLine( vSubtask, lLine - 1, 0 );
+   lLine = EDT_GetLineCount( vSubtask ) - 1;
+   EDT_SetCursorPositionByLineCol( vSubtask, lLine, 0 );
 
    // in c-files search for #ifdef __cplusplus (from end to begin)
    static zCHAR szSearchString[] = "\\bifdef[^!-~°§²³´ßäöüÄÖÜ]+__cplusplus[^!-~°§²³´ßäöüÄÖÜ]+";
@@ -6536,7 +6504,7 @@ GetPositionForNextInsert( zVIEW   vSubtask,
       zLONG  lCol_2 = 0;
 
       //set cursor to #ifdef __cplusplus
-      EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+      EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
 
       // search for } ( from #ifdef __cplusplus to end )
       static zCHAR szSearchString_1[] = "} *";
@@ -6546,7 +6514,7 @@ GetPositionForNextInsert( zVIEW   vSubtask,
       if ( lLine_1 >= 0 && lLine_1 > lLine )
       {
          //set cursor to #ifdef __cplusplus
-         EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+         EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
 
          // search for #endif (from #ifdef __cplusplus to end)
          static zCHAR szSearchString_2[] = "\\bendif[^!-~°§²³´ßäöüÄÖÜ]*";
@@ -6586,17 +6554,17 @@ CopyOperationToNewFile( zVIEW    vSubtask,
    {
       // in c-files search for #ifdef __cplusplus (from end to begin)
       GetPositionForNextInsert( vSubtask, &lLine, &lCol );
-      EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+      EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
    }
    else
    {
       // set cursor to the last line
-      lLine = EDT_GetLineCount( vSubtask );
-      EDT_SetCursorPositionByLine( vSubtask, lLine - 1, 0 );
+      lLine = EDT_GetLineCount( vSubtask ) - 1;
+      EDT_SetCursorPositionByLineCol( vSubtask, lLine, 0 );
       EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
       szBuffer = csBuffer.GetBufferSetLength( 64004 );   // 255
       lReturnedBuffSize = EDT_GetTextFromLineOfIndex( vSubtask, szBuffer, 64000, lLine );
-      EDT_SetCursorPositionByLine( vSubtask, lLine, lReturnedBuffSize );
+      EDT_SetCursorPositionByLineCol( vSubtask, lLine, lReturnedBuffSize );
    }
 
    EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
@@ -6713,7 +6681,7 @@ RenameOperation( ZMapAct  *pzma,
 
    // replace Operation name in comments
    zsprintf( szSearchText, "\\b%s\\W", szOperation );
-   EDT_SetCursorPositionByLine( vSubtask, lPosition, lCol );
+   EDT_SetCursorPositionByLineCol( vSubtask, lPosition, lCol );
    EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    while ( lPosition > -1 )
    {
@@ -6729,7 +6697,7 @@ RenameOperation( ZMapAct  *pzma,
 
    // replace Operation name
    zsprintf( szSearchText, "\\b%s[^!-~°§²³´ßäöüÄÖÜ]*(", szOperation );
-   EDT_SetCursorPositionByLine( vSubtask, lLine, lCol );
+   EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
    EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    while ( lLine > -1 )
    {
@@ -6746,7 +6714,7 @@ RenameOperation( ZMapAct  *pzma,
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_CopyOperationCode
+//  OPERATION: TZEDFRMD_CopyOperationCode
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION
@@ -6958,11 +6926,10 @@ DropViewsForMoveAndDelete( zVIEW vSubtask,
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_DisableActions
-//
+//  OPERATION: TZEDFRMD_DisableActions
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_DisableActions( zVIEW vSubtask )
 {
    zBOOL  bReadOnly = TRUE;
@@ -6990,12 +6957,12 @@ TZEDFRMD_DisableActions( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_CreateContextMenue
+//  OPERATION: TZEDFRMD_CreateContextMenue
 //
-//    Creates a Context menu for Editor
+//  Creates a Context menu for Editor
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_CreateContextMenue( zVIEW vSubtask )
 {
 // POINT  pt;
@@ -7011,10 +6978,10 @@ TZEDFRMD_CreateContextMenue( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_EnableEditMenuActions
+//  OPERATION: TZEDFRMD_EnableEditMenuActions
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_EnableEditMenuActions( zVIEW vSubtask )
 {
    BOOL bEnable = TRUE;
@@ -7129,12 +7096,12 @@ SetUpdateFlagInMeta( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_SetBookmark
+//  OPERATION: TZEDFRMD_SetBookmark
 //
-//    Sets a bookmark at the current location in the editor
+//  Sets a bookmark at the current location in the editor
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_SetBookmark( zVIEW vSubtask )
 {
    zCHAR szOptionTag[ 65 ];
@@ -7152,12 +7119,12 @@ TZEDFRMD_SetBookmark( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_GoToBookmark
+//  OPERATION: TZEDFRMD_GoToBookmark
 //
-//    Sets position to the specified bookmark in the editor
+//  Sets position to the specified bookmark in the editor
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_GoToBookmark( zVIEW vSubtask )
 {
    zCHAR szOptionTag[ 65 ];
@@ -7173,14 +7140,14 @@ TZEDFRMD_GoToBookmark( zVIEW vSubtask )
 
 } // TZEDFRMD_GoToBookmark
 
-  /////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_ToggleBookmark
+//  OPERATION: TZEDFRMD_ToggleBookmark
 //
-//    Toggles a bookmark at the current location in the editor
+//  Toggles a bookmark at the current location in the editor
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_ToggleBookmark( zVIEW vSubtask )
 {
    EDT_ToggleBookmark( vSubtask );
@@ -7190,12 +7157,12 @@ TZEDFRMD_ToggleBookmark( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_ClearAllBookmarks
+//  OPERATION: TZEDFRMD_ClearAllBookmarks
 //
-//    Clears all bookmarks in the editor
+//  Clears all bookmarks in the editor
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_ClearAllBookmarks( zVIEW vSubtask )
 {
    zCHAR szOptionTag[ 65 ];
@@ -7213,12 +7180,12 @@ TZEDFRMD_ClearAllBookmarks( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_GoToNextBookmark
+//  OPERATION: TZEDFRMD_GoToNextBookmark
 //
-//    Go to next bookmark in the editor
+//  Go to next bookmark in the editor
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_GoToNextBookmark( zVIEW vSubtask )
 {
    zCHAR szOptionTag[ 65 ];
@@ -7236,12 +7203,12 @@ TZEDFRMD_GoToNextBookmark( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: TZEDFRMD_GoToPreviousBookmark
+//  OPERATION: TZEDFRMD_GoToPreviousBookmark
 //
-//    Go to previous bookmark in the editor
+//  Go to previous bookmark in the editor
 //
 /////////////////////////////////////////////////////////////////////////////
-zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_GoToPreviousBookmark( zVIEW vSubtask )
 {
    zCHAR szOptionTag[ 65 ];
