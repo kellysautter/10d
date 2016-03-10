@@ -76,9 +76,9 @@ OnScrollBy - Special behavior for when scrolling is necessary in the target wind
 class ZEditDropTargetImpl : public COleDropTarget
 {
 private:
-   ZCrystalEditView *m_pOwner;
+   ZCrystalEditView *m_pED_Crystal;
 public:
-   ZEditDropTargetImpl(ZCrystalEditView *pOwner) { m_pOwner = pOwner; };
+   ZEditDropTargetImpl(ZCrystalEditView *pED_Crystal) { m_pED_Crystal = pED_Crystal; };
 
    virtual DROPEFFECT OnDragEnter(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point);
    virtual void OnDragLeave(CWnd *pWnd);  //
@@ -1206,12 +1206,12 @@ void ZCrystalEditView::OnUpdateEditSwitchOvrmode(CCmdUI *pCmdUI)
 DROPEFFECT ZEditDropTargetImpl::OnDragEnter(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)
 {
 // TRACE(_T("ZEditDropTargetImpl::OnDragEnter - %x\n"), pWnd->m_hWnd);
-   if (! pDataObject->IsDataAvailable(CF_TEXT))
+   if (! pDataObject->IsDataAvailable(m_pED_Crystal->m_cfFormat))
    {
-      m_pOwner->HideDropIndicator();
+      m_pED_Crystal->HideDropIndicator();
       return DROPEFFECT_NONE;
    }
-   m_pOwner->ShowDropIndicator(point);
+   m_pED_Crystal->ShowDropIndicator(point);
    if (dwKeyState & MK_CONTROL)
       return DROPEFFECT_COPY;
    return DROPEFFECT_MOVE;
@@ -1220,16 +1220,16 @@ DROPEFFECT ZEditDropTargetImpl::OnDragEnter(CWnd *pWnd, COleDataObject *pDataObj
 void ZEditDropTargetImpl::OnDragLeave(CWnd *pWnd)
 {
 // TRACE(_T("ZEditDropTargetImpl::OnDragLeave - %x\n"), pWnd->m_hWnd);
-   m_pOwner->HideDropIndicator();
+   m_pED_Crystal->HideDropIndicator();
 }
 
 DROPEFFECT ZEditDropTargetImpl::OnDragOver(CWnd *pWnd, COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)
 {
 // TRACE(_T("ZEditDropTargetImpl::OnDragOver - %x\n"), pWnd->m_hWnd);
 /*
-   if (! pDataObject->IsDataAvailable(CF_TEXT))
+   if (! pDataObject->IsDataAvailable(m_cfFormat))
    {
-      m_pOwner->HideDropIndicator();
+      m_pED_Crystal->HideDropIndicator();
       return DROPEFFECT_NONE;
    }
 */
@@ -1238,26 +1238,24 @@ DROPEFFECT ZEditDropTargetImpl::OnDragOver(CWnd *pWnd, COleDataObject *pDataObje
    //
    bool bDataSupported = false;
 
-   if ((!m_pOwner) ||                           // If No Owner
-       (!( m_pOwner->QueryEditable())) ||       // Or Not Editable
-       (m_pOwner->GetDisableDragAndDrop()))     // Or Drag And Drop Disabled
+   if ((!m_pED_Crystal) ||                           // If No Owner
+       (!( m_pED_Crystal->QueryEditable())) ||       // Or Not Editable
+       (m_pED_Crystal->GetDisableDragAndDrop()))     // Or Drag And Drop Disabled
    {
-      m_pOwner -> HideDropIndicator();          // Hide Drop Caret
+      m_pED_Crystal -> HideDropIndicator();          // Hide Drop Caret
       return DROPEFFECT_NONE;                   // Return DE_NONE
    }
-// if ((pDataObject->IsDataAvailable( CF_TEXT )) ||  // If Text Available
-//     (pDataObject -> IsDataAvailable( xxx )) ||    // Or xxx Available
-//     (pDataObject -> IsDataAvailable( yyy )))      // Or yyy Available
-   if (pDataObject->IsDataAvailable(CF_TEXT))  // If Text Available
+// if (pDataObject->IsDataAvailable(CF_TEXT))    // If text available
+   if (pDataObject->IsDataAvailable(m_pED_Crystal->m_cfFormat)) // If our registered format available
    {
       bDataSupported = true;                    // Set Flag
    }
    if (!bDataSupported)                         // If No Supported Formats Available
    {
-      m_pOwner->HideDropIndicator();                   // Hide Drop Caret
+      m_pED_Crystal->HideDropIndicator();                   // Hide Drop Caret
       return DROPEFFECT_NONE;                          // Return DE_NONE
    }
-   m_pOwner->ShowDropIndicator(point);
+   m_pED_Crystal->ShowDropIndicator(point);
    if (dwKeyState & MK_CONTROL)
       return DROPEFFECT_COPY;
    return DROPEFFECT_MOVE;
@@ -1267,21 +1265,20 @@ BOOL ZEditDropTargetImpl::OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEF
 {
 // TRACE(_T("ZEditDropTargetImpl::OnDrop - %x\n"), pWnd->m_hWnd);
    //
-   // [JRT]          ( m_pOwner -> GetDisableDragAndDrop() ) )    // Or Drag And Drop Disabled
+   // [JRT]          ( m_pED_Crystal -> GetDisableDragAndDrop() ) )    // Or Drag And Drop Disabled
    //
+   ClipCursor(NULL);
    bool bDataSupported = false;
 
-   m_pOwner->HideDropIndicator();                // Hide Drop Caret
-   if ((!m_pOwner) ||                            // If No Owner
-       (!(m_pOwner->QueryEditable())) ||         // Or Not Editable
-       (m_pOwner->GetDisableDragAndDrop()))      // Or Drag And Drop Disabled
+   m_pED_Crystal->HideDropIndicator();                // Hide Drop Caret
+   if ((!m_pED_Crystal) ||                            // If No Owner
+       (!(m_pED_Crystal->QueryEditable())) ||         // Or Not Editable
+       (m_pED_Crystal->GetDisableDragAndDrop()))      // Or Drag And Drop Disabled
    {
       return DROPEFFECT_NONE;                    // Return DE_NONE
    }
-// if ((pDataObject->IsDataAvailable( CF_TEXT )) || // If Text Available
-//     (pDataObject->IsDataAvailable( xxx )) ||     // Or xxx Available
-//     (pDataObject->IsDataAvailable( yyy )) )      // Or yyy Available
-   if (pDataObject->IsDataAvailable(CF_TEXT))  // If Text Available
+// if (pDataObject->IsDataAvailable(CF_TEXT))    // If text available
+   if (pDataObject->IsDataAvailable(m_pED_Crystal->m_cfFormat)) // If our registered format available
    {
       bDataSupported = true;                       // Set Flag
    }
@@ -1289,7 +1286,7 @@ BOOL ZEditDropTargetImpl::OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEF
    {
       return DROPEFFECT_NONE;                       // Return DE_NONE
    }
-   return (m_pOwner->DoDropText(pDataObject, point));     // Return Result Of Drop
+   return (m_pED_Crystal->DoDropText(pDataObject, point));     // Return Result Of Drop
 }
 #if 0
 DROPEFFECT ZEditDropTargetImpl::OnDropEx(CWnd *pWnd, COleDataObject *pDataObject, DROPEFFECT dropDefault, DROPEFFECT dropList, CPoint point)
@@ -1301,8 +1298,8 @@ DROPEFFECT ZEditDropTargetImpl::OnDropEx(CWnd *pWnd, COleDataObject *pDataObject
 DROPEFFECT ZEditDropTargetImpl::OnDragScroll(CWnd *pWnd, DWORD dwKeyState, CPoint point)
 {
 // TRACE(_T("ZEditDropTargetImpl::OnDragScroll - %x\n"), pWnd->m_hWnd);
-   ASSERT(m_pOwner == pWnd);
-   m_pOwner->DoDragScroll(point);
+   ASSERT(m_pED_Crystal == pWnd);
+   m_pED_Crystal->DoDragScroll(point);
 
    if (dwKeyState & MK_CONTROL)
       return DROPEFFECT_COPY;
@@ -1311,10 +1308,10 @@ DROPEFFECT ZEditDropTargetImpl::OnDragScroll(CWnd *pWnd, DWORD dwKeyState, CPoin
 
 void ZCrystalEditView::DoDragScroll(CPoint &point)
 {
-// TRACE(_T("ZCrystalEditView::DoDragScroll - x:%d, y:%d\n"), point.x, point.y);
-   CRect rcClientRect;
-   GetClientRect(rcClientRect);
-   if (point.y < rcClientRect.top + DRAG_BORDER_Y)
+   CRect rcClient;
+   GetClientRect(rcClient);
+// TRACE(_T("ZCrystalEditView::DoDragScroll - x:%d, y:%d   rcClient.bottom: %d\n"), point.x, point.y, rcClient.bottom - DRAG_BORDER_Y - GetSystemMetrics(SM_CXHSCROLL));
+   if (point.y < rcClient.top + DRAG_BORDER_Y)
    {
       HideDropIndicator();
       ScrollUp();
@@ -1322,7 +1319,7 @@ void ZCrystalEditView::DoDragScroll(CPoint &point)
       ShowDropIndicator(point);
       return;
    }
-   if (point.y >= rcClientRect.bottom - DRAG_BORDER_Y)
+   if (point.y >= rcClient.bottom - DRAG_BORDER_Y - GetSystemMetrics(SM_CXHSCROLL))
    {
       HideDropIndicator();
       ScrollDown();
@@ -1330,7 +1327,7 @@ void ZCrystalEditView::DoDragScroll(CPoint &point)
       ShowDropIndicator(point);
       return;
    }
-   if (point.x < rcClientRect.left + GetMarginWidth() + DRAG_BORDER_X)
+   if (point.x < rcClient.left + GetMarginWidth() + DRAG_BORDER_X)
    {
       HideDropIndicator();
       ScrollLeft();
@@ -1338,7 +1335,7 @@ void ZCrystalEditView::DoDragScroll(CPoint &point)
       ShowDropIndicator(point);
       return;
    }
-   if (point.x >= rcClientRect.right - DRAG_BORDER_X)
+   if (point.x >= rcClient.right - DRAG_BORDER_X)
    {
       HideDropIndicator();
       ScrollRight();
@@ -1357,7 +1354,7 @@ BOOL ZCrystalEditView::IsDraggingText() const
 BOOL ZCrystalEditView::DoDropText(COleDataObject *pDataObject, CPoint &ptClient)
 {
 // TRACE(_T("ZCrystalEditView::DoDropText - drop: %d, y:%d\n"), ptClient.x, ptClient.y);
-   HGLOBAL hData = pDataObject->GetGlobalData(m_cfFormat);
+   HGLOBAL hData = pDataObject->GetGlobalData(m_cfFormat); //CF_TEXT);
    if (hData == NULL)
       return FALSE;
 
@@ -1423,10 +1420,12 @@ int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
       TRACE0("Warning: Unable to register drop target for ZCrystalEditView.\n");
       delete m_pOleDropTarget;
       m_pOleDropTarget = NULL;
+      m_cfFormat = CF_TEXT;
    }
    else
    {
    // TRACE("Register successful for drop target for ZCrystalEditView hWnd: %d\n", m_hWnd );
+      m_cfFormat = RegisterClipboardFormat("{8F3F8B63_6F66_11D2_8C34_0080ABCD6836}");
    }
 
    SetFocus();  // dks
@@ -1882,7 +1881,7 @@ void ZCrystalEditView::OnEditOperation(int nAction, LPCTSTR pszText)
          CPoint ptCursorPos = GetCursorPos();
          ASSERT(ptCursorPos.y > 0);
 
-         // Take indentation from the previos line
+         // Take indentation from the previous line
          int nLength = m_pTextBuffer->GetLineLength(ptCursorPos.y - 1);
          LPCTSTR pszLineChars = m_pTextBuffer->GetLineChars(ptCursorPos.y - 1);
          int nPos = 0;
@@ -1891,7 +1890,7 @@ void ZCrystalEditView::OnEditOperation(int nAction, LPCTSTR pszText)
 
          if (nPos > 0)
          {
-            // Insert part of the previos line
+            // Insert part of the previous line
             TCHAR *pszInsertStr = (TCHAR *) _alloca(sizeof(TCHAR) * (nLength + 1));
             strncpy_s(pszInsertStr, sizeof(TCHAR) * (nLength + 1), pszLineChars, nPos);
             pszInsertStr[nPos] = 0;
@@ -2453,8 +2452,8 @@ void ZCrystalEditView::DrawMargin(CDC *pdc, const CRect &rc, int nLineIndex)
       pdc->SetTextColor(GetColor(COLORINDEX_PREPROCESSOR));
       if ( nLineIndex >= 0 )
       {
-      _ltoa_s( nLineIndex + 1, szLineNbr, zsizeof( szLineNbr ), 10 );
-      sprintf_s( szMsg, zsizeof( szMsg ), "%7s", szLineNbr );
+         _ltoa_s( nLineIndex + 1, szLineNbr, zsizeof( szLineNbr ), 10 );
+         sprintf_s( szMsg, zsizeof( szMsg ), "%7s", szLineNbr );
       }
       else
       {
@@ -3595,7 +3594,7 @@ void ZCrystalEditView::AssertValidTextPos(CPoint &pt, BOOL bResetInvalid )
             pt.x = nLineLth;
       }
       ASSERT(m_nTopLine >= 0 && m_nOffsetChar >= 0);
-      ASSERT(pt.y >= 0 && pt.y < GetLineCount());
+      ASSERT(pt.y >= 0 && pt.y < nLineCnt);
       ASSERT(pt.x >= 0 && pt.x <= GetLineLength(pt.y));
    }
    else
@@ -4068,8 +4067,7 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
    ASSERT_VALIDTEXTPOS(ptCurrentPos,FALSE);
    ASSERT_VALIDTEXTPOS(ptBlockBegin,FALSE);
    ASSERT_VALIDTEXTPOS(ptBlockEnd,FALSE);
-   ASSERT(ptBlockBegin.y < ptBlockEnd.y || ptBlockBegin.y == ptBlockEnd.y &&
-      ptBlockBegin.x <= ptBlockEnd.x);
+   ASSERT(ptBlockBegin.y < ptBlockEnd.y || ptBlockBegin.y == ptBlockEnd.y && ptBlockBegin.x <= ptBlockEnd.x);
    if (ptBlockBegin == ptBlockEnd)
       return 0;
 
@@ -4080,6 +4078,7 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
    if ((dwFlags & FIND_MATCH_CASE) == 0)
       what.MakeUpper();
 
+   long lSearchLth = lstrlen(pszText);
    if (dwFlags & FIND_DIRECTION_UP)
    {
       // Let's check if we deal with whole text.
@@ -4094,7 +4093,7 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
          {
             int nLineLength = GetLineLength(ptCurrentPos.y);
             nLineLength -= ptCurrentPos.x;
-            if (nLineLength <= 0)
+            if (nLineLength < lSearchLth)
             {
                ptCurrentPos.x = 0;
                ptCurrentPos.y--;
@@ -5073,6 +5072,11 @@ void ZCrystalEditView::OnLButtonDown(UINT uFlags, CPoint point)
          m_bDragSelection = TRUE;
       }
    }
+   CRect rect;
+   GetClientRect(rect);
+   ClientToScreen(&rect);
+   rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
+   ClipCursor(rect);
 
    ASSERT_VALIDTEXTPOS(m_ptCursorPos,FALSE);
 }
@@ -5177,7 +5181,7 @@ void ZCrystalEditView::OnMouseMove(UINT uFlags, CPoint point)
             m_pTextBuffer->BeginUndoGroup();
 
          COleDataSource ds;
-         ds.CacheGlobalData(CF_TEXT, hData);
+         ds.CacheGlobalData(m_cfFormat, hData);
          m_bDraggingText = TRUE;
       // TRACE(_T("OnMouseMove m_bDraggingText1 - %d\n"), m_bDraggingText);
          DROPEFFECT de = ds.DoDragDrop(GetDropEffect());
@@ -5201,6 +5205,7 @@ void ZCrystalEditView::OnLButtonUp(UINT uFlags, CPoint point)
 #ifdef DEBUG_ALL
    TraceLine("OnLButtonUp m_bDragSelection - %d", m_bDragSelection);
 #endif
+   ClipCursor(NULL);
    CView::OnLButtonUp(uFlags, point);
 // TRACE(_T("OnLButtonUp m_bDragSelection - %d\n"), m_bDragSelection);
    if (m_bDragSelection)
@@ -5307,6 +5312,7 @@ void ZCrystalEditView::OnTimer(UINT nIDEvent)
       CRect rcClient;
       GetClientRect(&rcClient);
 
+   // TRACE( "Timer pt.y: %d   rcClient.bottom: %d", pt.y, rcClient.bottom - GetSystemMetrics(SM_CXHSCROLL));
       BOOL bChanged = FALSE;
 
       // Scroll vertically, if necessary
@@ -5319,7 +5325,7 @@ void ZCrystalEditView::OnTimer(UINT nIDEvent)
             nNewTopLine -= 2;
       }
       else
-      if (pt.y >= rcClient.bottom)
+      if (pt.y >= rcClient.bottom - GetSystemMetrics(SM_CXHSCROLL))
       {
          nNewTopLine++;
          if (pt.y >= rcClient.bottom + GetLineHeight())
@@ -5414,6 +5420,11 @@ void ZCrystalEditView::OnLButtonDblClk(UINT uFlags, CPoint point)
       m_bLineSelection = FALSE;
       m_bDragSelection = TRUE;
    }
+   CRect rect;
+   GetClientRect(rect);
+   ClientToScreen(&rect);
+   rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
+   ClipCursor(rect);
 }
 
 void ZCrystalEditView::OnEditCopy()
@@ -6783,7 +6794,12 @@ void ZCrystalTextBuffer::FlushUndoGroup(ZCrystalEditView *pSource)
    ASSERT(m_bUndoGroup);
    if (pSource != NULL)
    {
-      ASSERT(m_nUndoPosition == m_aUndoBuf.GetSize());
+      // ASSERT(m_nUndoPosition == m_aUndoBuf.GetSize());
+      if (m_nUndoPosition != m_aUndoBuf.GetSize())
+      {
+         TRACE( "Averting assertion failure UndoPosition: %d is not equal to UndoSize: %d", m_nUndoPosition, m_aUndoBuf.GetSize());
+         m_nUndoPosition = m_aUndoBuf.GetSize();
+      }
       if (m_nUndoPosition > 0)
       {
          m_bUndoBeginGroup = TRUE;

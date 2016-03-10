@@ -64,6 +64,7 @@ class ZDCTL_CLASS ZCrystalEditView : public CView
    DECLARE_DYNCREATE(ZCrystalEditView)
 
 private:
+   CLIPFORMAT m_cfFormat;
    BOOL   m_bOvrMode;
    BOOL   m_bDropPosVisible;
    CPoint m_ptSavedCaretPos;

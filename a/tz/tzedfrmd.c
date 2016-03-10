@@ -487,7 +487,7 @@ InsertComment( zVIEW vSubtask, LPSTR szOperName, LPSTR szOperComment )
    CString     csNewLine = "\r\n";
    zPCHAR      pchBuffer = 0;
    zLONG       lCommentLength = 0;
-   zLONG       lLineLength = 78;
+   zLONG       lLineLength = 79;
    zLONG       k = 0;
    zLONG       j = 0;
 
@@ -824,11 +824,10 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// Search the source for the end of a requestet Operation
-// which is not part of a comment
+// Search the source for the end of a requested Operation which is not part of a comment
 //
 // Parameter :
-//    LPCSTR szOperationName    Name of the requestet operation the operation
+//    LPCSTR szOperationName    Name of the requested operation the operation
 //                              within the source where we start the search
 //    ZMapAct *pzma    Pointer to the Editor instance
 //
@@ -1904,23 +1903,27 @@ GotoCurrentOperation( zVIEW    vSubtask,
 {
    zLONG  lLine = 0, lCol = 0;
    DWORD  dwTBEDTDefaultSearchBehavior = FIND_MATCH_CASE | FIND_WHOLE_WORD;
+   zBOOL  bTextFound;
 
    EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
-   EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
-   EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
-   TraceLine( "(xxx) Return from search line: %d  col: %d", lLine, lCol );
-
-   // Skipping lines where the search text is part of a comment
-   while ( fnIsCommentAtIndex( vSubtask, lLine, lCol ) && lLine > -1 ) // 1998.10.15  TMV check lLine
+   bTextFound = EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
+   if ( bTextFound )
    {
-      lLine++;
       EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
-      EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
-      EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
+      TraceLine( "(xxx) Return from search line: %d  col: %d", lLine, lCol );
+
+      // Skipping lines where the search text is part of a comment
+      while ( fnIsCommentAtIndex( vSubtask, lLine, lCol ) && lLine > -1 ) // 1998.10.15  TMV check lLine
+      {
+         lLine++;
+         EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
+         bTextFound = EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
+         EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
+      }
    }
 
    // New operation code?
-   if ( lLine == -1 )
+   if ( bTextFound == FALSE )
    {
       // set cursor to the last line
       MovEOF( );
@@ -1929,7 +1932,6 @@ GotoCurrentOperation( zVIEW    vSubtask,
          // in c-files search for #ifdef __cplusplus (from end to begin)
          // to get the position where to insert new operation
          GetPositionForNextInsert( vSubtask, &lLine, &lCol );
-         EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
       }
 
       // if file read only, do not create operation
@@ -1938,21 +1940,23 @@ GotoCurrentOperation( zVIEW    vSubtask,
       else
       {
          OperTemplate( vSubtask, vSource );
-         MovUp( 3 );
+         MovUp( -3 );
+         EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
       }
    }
    else
    {
       // Find end of parm list.
       EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
-      // Move cursor to beginning of next line.
-      EDT_SetCursorPositionByLineCol( vSubtask, lLine, 3 );
    }
 
-   EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
-   zsprintf( szMetaName, "(%ld,%ld)", lLine + 1, lCol + 1 );
+// EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+// zsprintf( szMetaName, "(%ld,%ld)", lLine + 1, lCol + 1 );
 
-   MB_SetMessage( vSubtask, LINECOL_DIL, szMetaName );
+   // Move cursor to beginning of next line.
+   EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
+
+// MB_SetMessage( vSubtask, LINECOL_DIL, szMetaName );
    return( 0 );
 
 } //GotoCurrentOperation

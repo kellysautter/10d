@@ -1,4 +1,4 @@
-z1100-Zeidon    TZCMWKS8 TZCMWKSO 03/02/16   11:49:45 1.0a2   
+z1100-Zeidon    TZCMWKS8 TZCMWKSO 03/07/16   08:32:26 1.0a2   
 2015070316571755
 eRepositoryClient 1,50331780
 aZKey,2    88000000
@@ -6,7 +6,7 @@ aWKS_Id,2  2
 aMaxZKey,2 92758678
 aTE_MaxZKey,2 164642
 aDesc,2    DKS
-aDefaultLPLR_ZKey,2 86796007
+aDefaultLPLR_ZKey,2 89580508
 
 eLPLR      2,50331686
 aName,2    cheetah

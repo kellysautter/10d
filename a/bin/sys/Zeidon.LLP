@@ -1,11 +1,11 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO 03/05/16   18:34:59 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO 03/05/16   20:57:54 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
 aPgmSrcDir %kzd%:\%kzv%\a\tz
 aExecDir   %kzd%:\%kzv%\w\bin\sys
 aMetaSrcDir %kzd%:\%kzv%\a\bin\sys
-aTaskUseCount 1
+aTaskUseCount 0
 aLastBuildDate 20160131203406863
 aJavaPackageName com\quinsoft\zeidon\zeidontools
 awFullyQualifiedFileName \10C_Prejava\a\bin\sys

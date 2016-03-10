@@ -307,7 +307,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "            status = ^boundary^;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "         } "
+   szWriteBuffer = "         }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         else "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -317,7 +317,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      } "
+   szWriteBuffer = "      }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      else if (enctype.equals(^x-www-form-urlencoded^)) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -325,7 +325,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         //out.println(^****************^+sLine);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      } "
+   szWriteBuffer = "      }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      else if (enctype.equals(^form-data^)) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -341,7 +341,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "            status = ^disposition^;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "         } "
+   szWriteBuffer = "         }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         else if (status.equals(^disposition^)) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -355,7 +355,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               status = ^type^;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "            } "
+   szWriteBuffer = "            }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "            else "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -365,7 +365,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "            }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "         } "
+   szWriteBuffer = "         }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         else if (status.equals(^type^)) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -375,7 +375,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "            status = ^blank^;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "         } "
+   szWriteBuffer = "         }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         else if (status.equals(^blank^) |||| status.equals(^data^)) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -389,7 +389,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               status = ^boundary^;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "            } "
+   szWriteBuffer = "            }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "            else "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -416,7 +416,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
 
    szWriteBuffer = "            if (l>=0) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "            { "
+   szWriteBuffer = "            {"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               sTargetFile = sTargetFile.replaceAll(^\^^,^^);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
@@ -505,7 +505,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               if (sTargetFile.length()>0)"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "               { "
+   szWriteBuffer = "               {"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                   //If the directory doesn't exist, Create one. "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -517,7 +517,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "            } "
+   szWriteBuffer = "            }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "            else"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -527,7 +527,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               if (l>=0) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "               { "
+   szWriteBuffer = "               {"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                  sName = sLine.substring(l+6);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -563,7 +563,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "            }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "         } "
+   szWriteBuffer = "         }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         else if (status.equals(^boundary^)) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -597,7 +597,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               holdNewLine = hasNewLine;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "            } "
+   szWriteBuffer = "            }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "            else "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -3965,7 +3965,7 @@ DKS_TRACE_END */
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   if ( nRC >= 0 ) "
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "   { "
+      szWriteBuffer = "   {"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "      nRC = mDashboard.SetOIFromBlob( ^^, task, " + szViewName + ", ^PresentationObjectInstance^, ^ObjectInstanceBlob^, 0 ); //zIGNORE_ERRORS "
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -3973,7 +3973,7 @@ DKS_TRACE_END */
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "      mDashboard.SetName(strViewName );"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "   } "
+      szWriteBuffer = "   }"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = ""
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -4130,7 +4130,7 @@ DKS_TRACE_END */
    // KJS 07/12/13 - Would like to try and catch java errors that occur while building the page. Then display this to the
    // user. We might want to do this for each field displayed on the page, but for now we are going to try an overall generic one.
    // try/catch
-   //szWriteBuffer = "   try { "
+   //szWriteBuffer = "   try {"
    //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
    IF szKeyRole = "Y"
@@ -4766,7 +4766,7 @@ GenJSPJ_DownloadFile( VIEW vDialog,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         outStream.write(c);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      } "
+   szWriteBuffer = "      }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      outStream.flush();"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -4778,17 +4778,17 @@ GenJSPJ_DownloadFile( VIEW vDialog,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   catch (Exception e) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   { "
+   szWriteBuffer = "   {"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      if ( InputFile!=null && InputFile.exists( ) ) "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      { "
+   szWriteBuffer = "      {"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         //TraceLine"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "         task.log().info( ^Error downloading file: ^ + sDownloadFile );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      } "
+   szWriteBuffer = "      }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )

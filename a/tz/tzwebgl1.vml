@@ -698,7 +698,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "   if ( nRC > 0 ) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "   { "
+            szWriteBuffer = "   {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -706,7 +706,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      if ( nRC >= 0 ) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      { "
+            szWriteBuffer = "      {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         //Order by Sort Order "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -718,7 +718,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         while ( nRC >= 0 ) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         { "
+            szWriteBuffer = "         {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            szDisplayFrame = " + vDialog.CtrlMapView.Name + ".GetStringFromAttributeByContext( strSessionId, ^DashboardFrameUser^, ^ActiveOnCurrentDashboard^, ^^, 254 ); "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -726,7 +726,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            if ( szDisplayFrame.equals( ^Y^ ) ) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            { "
+            szWriteBuffer = "            {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "               // When we've reached the max number of columns then "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -746,11 +746,11 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "               iColNbr++; "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            } "
+            szWriteBuffer = "            }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            nRC =  " + vDialog.CtrlMapView.Name + ".SetCursorNext( strSessionId, ^DashboardFrameUser^, ^^ ); "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         } "
+            szWriteBuffer = "         }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "          "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -774,7 +774,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         for  ( i=1; i <= iMaxColumns; i++ ) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         { "
+            szWriteBuffer = "         {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -784,7 +784,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            if ( i != 1 ) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            { "
+            szWriteBuffer = "            {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "%> "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -792,7 +792,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "<% "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            } "
+            szWriteBuffer = "            }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -818,7 +818,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            while ( nRC >= 0 ) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            { "
+            szWriteBuffer = "            {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "               szDisplayFrame = " + vDialog.CtrlMapView.Name + ".GetStringFromAttributeByContext( strSessionId, ^DashboardFrameUser^, ^ActiveOnCurrentDashboard^, ^^, 254 ); "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -826,13 +826,13 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "               if ( iSortOrder <= 0 ) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "               { "
+            szWriteBuffer = "               {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "                  iSortOrder = iDashboardCnt; "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "                  " + vDialog.CtrlMapView.Name + ".TraceLine(^*** There is no sort order *** ^, iSortOrder ); "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "               } "
+            szWriteBuffer = "               }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -846,7 +846,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "               if ( szDisplayFrame.equals( ^Y^ ) ) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "               { "
+            szWriteBuffer = "               {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "                  szDashboardSource = " + vDialog.CtrlMapView.Name + ".GetStringFromAttributeByContext( strSessionId, ^DashboardFrame^, ^DashboardDisplayURL^, ^^, 254 ); "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -932,7 +932,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "   } "
+            szWriteBuffer = "   }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -4593,7 +4593,7 @@ GenJSP_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                      // no value was assigned.  If this is the case, then we do not want to process this row so ignore.
                      szWriteBuffer = "         if ( strMapValue != null ) "
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "         { "
+                     szWriteBuffer = "         {"
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                      IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
@@ -4627,7 +4627,7 @@ GenJSP_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      szWriteBuffer = "            }"
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-                     szWriteBuffer = "         } "
+                     szWriteBuffer = "         }"
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
 
@@ -4684,7 +4684,7 @@ GenJSP_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
                            szWriteBuffer = "         if ( strMapValue != null ) "
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "         { "
+                           szWriteBuffer = "         {"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                            IF szCtrlCtrlType = "Calendar"
@@ -4715,7 +4715,7 @@ GenJSP_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "            break;"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "         } "
+                           szWriteBuffer = "         }"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "         }"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -4947,7 +4947,7 @@ GenJSP_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
                         szWriteBuffer = "         if ( strMapValue != null ) "
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "         { "
+                        szWriteBuffer = "         {"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                         IF szCtrlCtrlType = "Calendar"
@@ -4978,7 +4978,7 @@ GenJSP_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "            break;"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "         } "
+                        szWriteBuffer = "         }"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "         }"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -6214,15 +6214,15 @@ GenJSP_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       IF  lActionType = zWAB_StartBrowserPDF_Page
          // If we are copying to pdf, then we need to have a wait routine, otherwise, the jsp tries to open
          // the pdf file before it's actually created.
-         szWriteBuffer = "      try{ "
+         szWriteBuffer = "      try {"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "         Thread.sleep(5000); "
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "      }catch(InterruptedException ie){ "
+         szWriteBuffer = "      } catch(InterruptedException ie) {"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "         out.println(^error^); "
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "      } "
+         szWriteBuffer = "      }"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       END
 
@@ -6594,7 +6594,7 @@ GenJSP_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "               outStream.write(c); "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            } "
+            szWriteBuffer = "            }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            outStream.flush(); "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -6604,17 +6604,17 @@ GenJSP_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         catch (Exception e) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         { "
+            szWriteBuffer = "         {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            if (InputFile!=null && InputFile.exists()) "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            { "
+            szWriteBuffer = "            {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "               //TraceLine"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "               vAppSubtask.TraceLine( ^Error downloading file: ^, sDownloadFile );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            } "
+            szWriteBuffer = "            }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -6629,7 +6629,7 @@ GenJSP_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         nRC = 1;  // do the redirection"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            //szWriteBuffer = "      } "
+            //szWriteBuffer = "      }"
             //WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          END
       END
