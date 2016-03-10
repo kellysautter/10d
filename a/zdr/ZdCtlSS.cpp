@@ -492,7 +492,7 @@ ZGrid::ZGrid( ZSubtask *pZSubtask,
          {
             // New grid with possible sub-controls.
             if ( *pch == (char) 0xFF )
-               pch += (3 * sizeof( zLONG )) + 34; // zsizeof( szSubBlob );
+               pch += (3 * sizeof( zLONG )) + 34; // sizeof( szSubBlob );
 
             // Get the number of dialog units allotted for this attribute.
             lChar = *((zPLONG) pch);

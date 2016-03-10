@@ -31,7 +31,7 @@
 char *compat_dbd[] = {
    "V3.00\032"
 };
-int size_compat = zsizeof(compat_dbd) / zsizeof(*compat_dbd);
+int size_compat = sizeof(compat_dbd) / sizeof(*compat_dbd);
 
 #endif
 /* vpp @win.vpp INITTAB.h (Thu May 21 10:46:23 1992)

@@ -1830,8 +1830,8 @@ int ZCrystalEditView::EditReplace()
    // Take search parameters from registry
    dlg.m_bMatchCase = pApp->GetProfileInt(REG_REPLACE_SUBKEY, REG_MATCH_CASE, FALSE);
    dlg.m_bWholeWord = pApp->GetProfileInt(REG_REPLACE_SUBKEY, REG_WHOLE_WORD, FALSE);
-   dlg.m_sText = pApp->GetProfileString(REG_REPLACE_SUBKEY, REG_FIND_WHAT, _T(""));
-   dlg.m_sNewText = pApp->GetProfileString(REG_REPLACE_SUBKEY, REG_REPLACE_WITH, _T(""));
+   dlg.m_csText = pApp->GetProfileString(REG_REPLACE_SUBKEY, REG_FIND_WHAT, _T(""));
+   dlg.m_csNewText = pApp->GetProfileString(REG_REPLACE_SUBKEY, REG_REPLACE_WITH, _T(""));
 
    if (IsSelection())
    {
@@ -1866,8 +1866,8 @@ int ZCrystalEditView::EditReplace()
    // Save search parameters to registry
    pApp->WriteProfileInt(REG_REPLACE_SUBKEY, REG_MATCH_CASE, dlg.m_bMatchCase);
    pApp->WriteProfileInt(REG_REPLACE_SUBKEY, REG_WHOLE_WORD, dlg.m_bWholeWord);
-   pApp->WriteProfileString(REG_REPLACE_SUBKEY, REG_FIND_WHAT, dlg.m_sText);
-   pApp->WriteProfileString(REG_REPLACE_SUBKEY, REG_REPLACE_WITH, dlg.m_sNewText);
+   pApp->WriteProfileString(REG_REPLACE_SUBKEY, REG_FIND_WHAT, dlg.m_csText);
+   pApp->WriteProfileString(REG_REPLACE_SUBKEY, REG_REPLACE_WITH, dlg.m_csNewText);
    return 1;
 }
 
@@ -4160,17 +4160,17 @@ HGLOBAL ZCrystalEditView::PrepareDragData()
    if (m_ptDrawSelStart == m_ptDrawSelEnd)
       return NULL;
 
-   CString text;
-   GetText(m_ptDrawSelStart, m_ptDrawSelEnd, text);
+   CString csText;
+   GetText(m_ptDrawSelStart, m_ptDrawSelEnd, csText);
 // TRACE(_T("ZCrystalEditView::PrepareDragData - %s\n"), text.GetString());
-   HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, lstrlen(text) + 1);
+   HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, csText.GetLength() + 1);
    if (hData == NULL)
       return NULL;
 
    LPSTR pszData = (LPSTR) ::GlobalLock(hData);
    USES_CONVERSION;
-   strcpy_s(pszData, lstrlen(text) + 1, T2A(text.GetBuffer(0)));
-   text.ReleaseBuffer();
+   strcpy_s(pszData, csText.GetLength() + 1, T2A(csText.GetBuffer(0)));
+   csText.ReleaseBuffer();
    ::GlobalUnlock(hData);
 
    m_ptDraggedTextBegin = m_ptDrawSelStart;
@@ -4381,7 +4381,7 @@ int ZCrystalEditView::EditFind()
       dlg.m_bWholeWord = (m_dwLastSearchFlags & FIND_WHOLE_WORD) != 0;
       dlg.m_nDirection = (m_dwLastSearchFlags & FIND_DIRECTION_UP) != 0 ? 0 : 1;
       if (m_csLastFindWhat.IsEmpty() == false)
-         dlg.m_sText = m_csLastFindWhat.GetString();
+         dlg.m_csText = m_csLastFindWhat.GetString();
    }
    else
    {
@@ -4389,7 +4389,7 @@ int ZCrystalEditView::EditFind()
       dlg.m_bMatchCase = pApp->GetProfileInt(REG_FIND_SUBKEY, REG_MATCH_CASE, FALSE);
       dlg.m_bWholeWord = pApp->GetProfileInt(REG_FIND_SUBKEY, REG_WHOLE_WORD, FALSE);
       dlg.m_nDirection = 1;  // Search down
-      dlg.m_sText = pApp->GetProfileString(REG_FIND_SUBKEY, REG_FIND_WHAT, _T(""));
+      dlg.m_csText = pApp->GetProfileString(REG_FIND_SUBKEY, REG_FIND_WHAT, _T(""));
    }
 
    // Take the current selection, if any
@@ -4400,8 +4400,8 @@ int ZCrystalEditView::EditFind()
       {
          LPCTSTR pszChars = GetLineChars(ptSelStart.y);
          int nChars = ptSelEnd.x - ptSelStart.x;
-         lstrcpyn(dlg.m_sText.GetBuffer(nChars + 1), pszChars + ptSelStart.x, nChars + 1);
-         dlg.m_sText.ReleaseBuffer();
+         lstrcpyn(dlg.m_csText.GetBuffer(nChars + 1), pszChars + ptSelStart.x, nChars + 1);
+         dlg.m_csText.ReleaseBuffer();
       }
    }
 
@@ -4414,7 +4414,7 @@ int ZCrystalEditView::EditFind()
    // Save search parameters for 'F3' command
    m_bLastSearch = TRUE;
 
-   m_csLastFindWhat = dlg.m_sText;
+   m_csLastFindWhat = dlg.m_csText;
 
    m_dwLastSearchFlags = 0;
    if (dlg.m_bMatchCase)
@@ -4427,7 +4427,7 @@ int ZCrystalEditView::EditFind()
    // Save search parameters to registry
    pApp->WriteProfileInt(REG_FIND_SUBKEY, REG_MATCH_CASE, dlg.m_bMatchCase);
    pApp->WriteProfileInt(REG_FIND_SUBKEY, REG_WHOLE_WORD, dlg.m_bWholeWord);
-   pApp->WriteProfileString(REG_FIND_SUBKEY, REG_FIND_WHAT, dlg.m_sText);
+   pApp->WriteProfileString(REG_FIND_SUBKEY, REG_FIND_WHAT, dlg.m_csText);
    return 1;
 }
 
@@ -4453,7 +4453,7 @@ int ZCrystalEditView::EditRepeat()
          AfxMessageBox(prompt);
          return 0;
       }
-      HighlightText(ptFoundPos, lstrlen(m_csLastFindWhat));
+      HighlightText(ptFoundPos, m_csLastFindWhat.GetLength());
       m_bMultipleSearch = TRUE;       // More search
       return nRC;
    }
@@ -5283,11 +5283,7 @@ void ZCrystalEditView::OnLButtonDown(UINT uFlags, CPoint point)
          m_bDragSelection = TRUE;
       }
    }
-   CRect rect;
-   GetClientRect(rect);
-   ClientToScreen(&rect);
-   rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
-   ClipCursor(rect);
+   ClipCursorToClient();
 
    ASSERT_VALIDTEXTPOS(m_ptCursorPos,FALSE);
 }
@@ -5635,11 +5631,16 @@ void ZCrystalEditView::OnLButtonDblClk(UINT uFlags, CPoint point)
       m_bLineSelection = FALSE;
       m_bDragSelection = TRUE;
    }
+   ClipCursorToClient();
+}
+
+BOOL ZCrystalEditView::ClipCursorToClient()
+{
    CRect rect;
    GetClientRect(rect);
    ClientToScreen(&rect);
    rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
-   ClipCursor(rect);
+   return ClipCursor(rect);
 }
 
 void ZCrystalEditView::OnEditCopy()
@@ -7121,15 +7122,15 @@ void ZCrystalEditView::SetAutoIndent(BOOL bAutoIndent)
 // ZEditReplaceDlg dialog
 
 
-ZEditReplaceDlg::ZEditReplaceDlg(ZCrystalEditView *pBuddy) : CDialog(ZEditReplaceDlg::IDD, NULL)
+ZEditReplaceDlg::ZEditReplaceDlg(ZCrystalEditView *pED_Crystal) : CDialog(ZEditReplaceDlg::IDD, NULL)
 {
-   ASSERT(pBuddy != NULL);
-   m_pBuddy = pBuddy;
+   ASSERT(pED_Crystal != NULL);
+   m_pED_Crystal = pED_Crystal;
    //{{AFX_DATA_INIT(ZEditReplaceDlg)
    m_bMatchCase = FALSE;
    m_bWholeWord = FALSE;
-   m_sText = _T("");
-   m_sNewText = _T("");
+   m_csText = _T("");
+   m_csNewText = _T("");
    m_nScope = -1;
    //}}AFX_DATA_INIT
    m_bEnableScopeSelection = TRUE;
@@ -7142,8 +7143,8 @@ void ZEditReplaceDlg::DoDataExchange(CDataExchange *pDX)
    //{{AFX_DATA_MAP(ZEditReplaceDlg)
    DDX_Check(pDX, IDC_EDIT_MATCH_CASE, m_bMatchCase);
    DDX_Check(pDX, IDC_EDIT_WHOLE_WORD, m_bWholeWord);
-   DDX_Text(pDX, IDC_EDIT_TEXT, m_sText);
-   DDX_Text(pDX, IDC_EDIT_REPLACE_WITH, m_sNewText);
+   DDX_Text(pDX, IDC_EDIT_TEXT, m_csText);
+   DDX_Text(pDX, IDC_EDIT_REPLACE_WITH, m_csNewText);
    DDX_Radio(pDX, IDC_EDIT_SCOPE_SELECTION, m_nScope);
    //}}AFX_DATA_MAP
 }
@@ -7188,7 +7189,7 @@ BOOL ZEditReplaceDlg::OnInitDialog()
 #endif
    CDialog::OnInitDialog();
 
-   GetDlgItem(IDC_EDIT_SKIP)->EnableWindow(m_sText != _T(""));
+   GetDlgItem(IDC_EDIT_SKIP)->EnableWindow(m_csText != _T(""));
    GetDlgItem(IDC_EDIT_SCOPE_SELECTION)->EnableWindow(m_bEnableScopeSelection);
    m_bFound = FALSE;
 
@@ -7197,7 +7198,7 @@ BOOL ZEditReplaceDlg::OnInitDialog()
 
 BOOL ZEditReplaceDlg::DoHighlightText()
 {
-   ASSERT(m_pBuddy != NULL);
+   ASSERT(m_pED_Crystal != NULL);
    DWORD dwSearchFlags = 0;
    if (m_bMatchCase)
       dwSearchFlags |= FIND_MATCH_CASE;
@@ -7208,25 +7209,25 @@ BOOL ZEditReplaceDlg::DoHighlightText()
    if (m_nScope == 0)
    {
       // Searching selection only
-      nFound = m_pBuddy->FindTextInBlock(m_sText, m_ptFoundAt, m_ptBlockBegin, m_ptBlockEnd,
-                                         dwSearchFlags, FALSE, &m_ptFoundAt);
+      nFound = m_pED_Crystal->FindTextInBlock(m_csText, m_ptFoundAt, m_ptBlockBegin, m_ptBlockEnd,
+                                              dwSearchFlags, FALSE, &m_ptFoundAt);
    }
    else
    {
       // Searching whole text
-      nFound = m_pBuddy->FindText(m_sText, m_ptFoundAt, dwSearchFlags, FALSE, &m_ptFoundAt);
+      nFound = m_pED_Crystal->FindText(m_csText, m_ptFoundAt, dwSearchFlags, FALSE, &m_ptFoundAt);
    }
 
    if (! nFound)
    {
-      CString prompt;
-      prompt.Format(IDS_EDIT_TEXT_NOT_FOUND, m_sText);
-      AfxMessageBox(prompt);
+      CString csPrompt;
+      csPrompt.Format(IDS_EDIT_TEXT_NOT_FOUND, m_csText);
+      AfxMessageBox(csPrompt);
       m_ptCurrentPos = m_nScope == 0 ? m_ptBlockBegin : CPoint(0, 0);
       return 0;
    }
 
-   m_pBuddy->HighlightText(m_ptFoundAt, lstrlen(m_sText));
+   m_pED_Crystal->HighlightText(m_ptFoundAt, m_csText.GetLength());
    return nFound;
 }
 
@@ -7265,23 +7266,23 @@ void ZEditReplaceDlg::OnEditReplace()
    }
 
    // We have highlighted text
-   VERIFY(m_pBuddy->ReplaceSelection(m_sNewText));
+   VERIFY(m_pED_Crystal->ReplaceSelection(m_csNewText));
 
    // Manually recalculate points
    if (m_bEnableScopeSelection)
    {
       if (m_ptBlockBegin.y == m_ptFoundAt.y && m_ptBlockBegin.x > m_ptFoundAt.x)
       {
-         m_ptBlockBegin.x -= lstrlen(m_sText);
-         m_ptBlockBegin.x += lstrlen(m_sNewText);
+         m_ptBlockBegin.x -= m_csText.GetLength();
+         m_ptBlockBegin.x += m_csNewText.GetLength();
       }
       if (m_ptBlockEnd.y == m_ptFoundAt.y && m_ptBlockEnd.x > m_ptFoundAt.x)
       {
-         m_ptBlockEnd.x -= lstrlen(m_sText);
-         m_ptBlockEnd.x += lstrlen(m_sNewText);
+         m_ptBlockEnd.x -= m_csText.GetLength();
+         m_ptBlockEnd.x += m_csNewText.GetLength();
       }
    }
-   m_ptFoundAt.x += lstrlen(m_sNewText);
+   m_ptFoundAt.x += m_csNewText.GetLength();
    m_bFound = DoHighlightText();
 }
 
@@ -7302,23 +7303,23 @@ void ZEditReplaceDlg::OnEditReplaceAll()
    while (m_bFound)
    {
       // We have highlighted text
-      VERIFY(m_pBuddy->ReplaceSelection(m_sNewText));
+      VERIFY(m_pED_Crystal->ReplaceSelection(m_csNewText));
 
       // Manually recalculate points
       if (m_bEnableScopeSelection)
       {
          if (m_ptBlockBegin.y == m_ptFoundAt.y && m_ptBlockBegin.x > m_ptFoundAt.x)
          {
-            m_ptBlockBegin.x -= lstrlen(m_sText);
-            m_ptBlockBegin.x += lstrlen(m_sNewText);
+            m_ptBlockBegin.x -= m_csText.GetLength();
+            m_ptBlockBegin.x += m_csNewText.GetLength();
          }
          if (m_ptBlockEnd.y == m_ptFoundAt.y && m_ptBlockEnd.x > m_ptFoundAt.x)
          {
-            m_ptBlockEnd.x -= lstrlen(m_sText);
-            m_ptBlockEnd.x += lstrlen(m_sNewText);
+            m_ptBlockEnd.x -= m_csText.GetLength();
+            m_ptBlockEnd.x += m_csNewText.GetLength();
          }
       }
-      m_ptFoundAt.x += lstrlen(m_sNewText);
+      m_ptFoundAt.x += m_csNewText.GetLength();
       m_bFound = DoHighlightText();
    }
 }
@@ -7327,14 +7328,14 @@ void ZEditReplaceDlg::OnEditReplaceAll()
 /////////////////////////////////////////////////////////////////////////////
 // ZFindTextDlg dialog
 
-ZFindTextDlg::ZFindTextDlg(ZCrystalEditView *pBuddy) : CDialog(ZFindTextDlg::IDD, NULL)
+ZFindTextDlg::ZFindTextDlg(ZCrystalEditView *pED_Crystal) : CDialog(ZFindTextDlg::IDD, NULL)
 {
-   m_pBuddy = pBuddy;
+   m_pED_Crystal = pED_Crystal;
    //{{AFX_DATA_INIT(ZFindTextDlg)
    m_nDirection = 1;
    m_bMatchCase = FALSE;
    m_bWholeWord = FALSE;
-   m_sText = _T("");
+   m_csText = _T("");
    //}}AFX_DATA_INIT
    m_ptCurrentPos = CPoint(0, 0);
 }
@@ -7346,7 +7347,7 @@ void ZFindTextDlg::DoDataExchange(CDataExchange *pDX)
    //{{AFX_DATA_MAP(ZFindTextDlg)
    DDX_Radio(pDX, IDC_EDIT_DIRECTION_UP, m_nDirection);
    DDX_Check(pDX, IDC_EDIT_MATCH_CASE, m_bMatchCase);
-   DDX_Text(pDX, IDC_EDIT_TEXT, m_sText);
+   DDX_Text(pDX, IDC_EDIT_TEXT, m_csText);
    DDX_Check(pDX, IDC_EDIT_WHOLE_WORD, m_bWholeWord);
    //}}AFX_DATA_MAP
 }
@@ -7365,7 +7366,7 @@ void ZFindTextDlg::OnOK()
 {
    if (UpdateData())
    {
-      ASSERT(m_pBuddy != NULL);
+      ASSERT(m_pED_Crystal != NULL);
       DWORD dwSearchFlags = 0;
       if (m_bMatchCase)
          dwSearchFlags |= FIND_MATCH_CASE;
@@ -7375,16 +7376,16 @@ void ZFindTextDlg::OnOK()
          dwSearchFlags |= FIND_DIRECTION_UP;
 
       CPoint ptTextPos;
-      if (! m_pBuddy->FindText(m_sText, m_ptCurrentPos, dwSearchFlags, TRUE, &ptTextPos))
+      if (! m_pED_Crystal->FindText(m_csText, m_ptCurrentPos, dwSearchFlags, TRUE, &ptTextPos))
       {
          CString prompt;
-         prompt.Format(IDS_EDIT_TEXT_NOT_FOUND, m_sText);
+         prompt.Format(IDS_EDIT_TEXT_NOT_FOUND, m_csText);
          AfxMessageBox(prompt);
          m_ptCurrentPos = CPoint(0, 0);
          return;
       }
 
-      m_pBuddy->HighlightText(ptTextPos, lstrlen(m_sText));
+      m_pED_Crystal->HighlightText(ptTextPos, m_csText.GetLength());
 
       CDialog::OnOK();
    }
@@ -7401,7 +7402,7 @@ BOOL ZFindTextDlg::OnInitDialog()
 {
    CDialog::OnInitDialog();
 
-   GetDlgItem(IDOK)->EnableWindow(m_sText != _T(""));
+   GetDlgItem(IDOK)->EnableWindow(m_csText != _T(""));
 
    return TRUE;
 }
@@ -9211,15 +9212,168 @@ EDT_OnSize( zVIEW vSubtask )
       {
          CRect rect;
          pZSubtask->m_pZFWnd->GetClientRect( rect );
-      // int nLeftMargin = pED_Crystal->GetCharWidth() * 8;
+         // int nLeftMargin = pED_Crystal->GetCharWidth() * 8;
          pED_Crystal->SetWindowPos( 0, 0, 0, rect.Width() - GetSystemMetrics(SM_CXVSCROLL) + 8, rect.Height() - GetSystemMetrics(SM_CXHSCROLL) - 8, SWP_NOMOVE | SWP_NOZORDER );
-      // pED_Crystal->SetWindowPos( 0, nLeftMargin, 0, rect.Width() - GetSystemMetrics(SM_CXVSCROLL) + 8 - nLeftMargin, rect.Height() - GetSystemMetrics(SM_CXHSCROLL) - 8, SWP_NOZORDER );
+         // pED_Crystal->SetWindowPos( 0, nLeftMargin, 0, rect.Width() - GetSystemMetrics(SM_CXVSCROLL) + 8 - nLeftMargin, rect.Height() - GetSystemMetrics(SM_CXHSCROLL) - 8, SWP_NOZORDER );
          return( TRUE );
       }
 
       TraceLineS( "drvr - Invalid control type for EDT_OnSize ", EDIT_CONTROL_NAME );
    }
    return( FALSE );
+}
+
+zOPER_EXPORT zSHORT OPERATION
+EDT_ReplaceAll( zVIEW vSubtask )
+{
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+
+   CWinApp  *pApp = AfxGetApp();
+   ASSERT(pApp != NULL);
+
+   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
+   {
+      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
+      if ( pED_Crystal )
+      {
+         int  nLength = 0;
+         int  nChanged = 0;
+         BOOL bMatchCase = pApp->GetProfileInt( REG_REPLACE_SUBKEY, REG_MATCH_CASE, FALSE );
+         BOOL bWholeWord = pApp->GetProfileInt( REG_REPLACE_SUBKEY, REG_WHOLE_WORD, FALSE );
+         CString csSearchText = pApp->GetProfileString( REG_REPLACE_SUBKEY, REG_FIND_WHAT, _T("") );
+         CString csNewText = pApp->GetProfileString( REG_REPLACE_SUBKEY, REG_REPLACE_WITH, _T("") );
+         DWORD dwSearchFlags = 0;
+         if ( bMatchCase )
+            dwSearchFlags |= FIND_MATCH_CASE;
+         if ( bWholeWord )
+            dwSearchFlags |= FIND_WHOLE_WORD;
+
+         CPoint ptBlockBegin;
+         CPoint ptBlockEnd;
+         int nFound;
+         int nScope = pED_Crystal->IsSelection() ? 0 : 1;
+         CPoint ptFoundAt = pED_Crystal->GetCursorPos();
+         CPoint ptStartPos = ptFoundAt;
+         if ( nScope )
+         {
+            ptFoundAt = {0, 0};
+         }
+         else
+         {
+            pED_Crystal->GetSelection( ptBlockBegin, ptBlockEnd );
+            if ( ptBlockBegin.y == ptBlockEnd.y )
+            {
+               nLength = ptBlockEnd.x - ptBlockBegin.x;
+            }
+            else
+            {
+               nLength = pED_Crystal->GetLineLength( ptBlockBegin.y ) - ptBlockBegin.x;
+               nLength += ptBlockEnd.x;
+               int  nLine = ptBlockBegin.y + 1;
+               while ( nLine < ptBlockEnd.y )
+               {
+                  nLength += pED_Crystal->GetLineLength( nLine );
+                  nLine++;
+               }
+            }
+            ptFoundAt = ptBlockBegin;
+         }
+         CString csMsg;
+         csMsg.Format( "Replace all '%s' with '%s'%s", csSearchText, csNewText, nScope ? "" : " in selection" );
+         int nRC = AfxMessageBox( csMsg, MB_YESNO );
+         if ( nRC != IDYES )
+            return( -1 );
+
+         pED_Crystal->SetRedraw( FALSE );
+         do
+         {
+            if ( nScope == 0 )
+            {
+               // Searching selection only
+               nFound = pED_Crystal->FindTextInBlock( csSearchText, ptFoundAt, ptBlockBegin, ptBlockEnd,
+                                                      dwSearchFlags, FALSE, &ptFoundAt );
+            }
+            else
+            {
+               // Searching whole text
+               nFound = pED_Crystal->FindText( csSearchText, ptFoundAt, dwSearchFlags, FALSE, &ptFoundAt );
+            }
+
+            if ( nFound == 0 )
+            {
+               if ( nChanged == 0 )
+               {
+                  CString csPrompt;
+                  csPrompt.Format( IDS_EDIT_TEXT_NOT_FOUND, csSearchText );
+                  AfxMessageBox( csPrompt );
+               }
+               break;
+            }
+
+            nChanged++;
+            pED_Crystal->HighlightText( ptFoundAt, csSearchText.GetLength() );
+
+            // We have highlighted text
+            VERIFY(pED_Crystal->ReplaceSelection(csNewText));
+
+            // Manually recalculate points
+            if ( ptBlockBegin.y == ptFoundAt.y && ptBlockBegin.x > ptFoundAt.x )
+            {
+               ptBlockBegin.x -= csSearchText.GetLength();
+               ptBlockBegin.x += csNewText.GetLength();
+            }
+            if ( ptBlockEnd.y == ptFoundAt.y && ptBlockEnd.x > ptFoundAt.x )
+            {
+               ptBlockEnd.x -= csSearchText.GetLength();
+               ptBlockEnd.x += csNewText.GetLength();
+            }
+
+            ptFoundAt.x += csNewText.GetLength();
+
+         } while ( nFound );
+
+         if ( nScope == 0 )
+         {
+            nLength += (csNewText.GetLength() - csSearchText.GetLength()) * nChanged;  // get new length of selection
+
+            int nLineLth = pED_Crystal->GetLineLength( ptBlockBegin.y ) - ptBlockBegin.x;
+            ptBlockEnd = ptBlockBegin;
+            while ( nLineLth < nLength )
+            {
+               nLength -= nLineLth;
+               ptBlockEnd.y++;
+               nLineLth = pED_Crystal->GetLineLength( ptBlockEnd.y );
+            }
+
+            if ( nLength )
+            {
+               ptBlockEnd.x = nLength;
+            }
+
+            pED_Crystal->SetRedraw( TRUE );
+            pED_Crystal->SetSelection( ptBlockBegin, ptBlockEnd );
+         // pED_Crystal->HighlightText( ptBlockBegin, nLength );
+         }
+         else
+         {
+            pED_Crystal->SetRedraw( TRUE );
+         }
+         if (ptStartPos.y >= pED_Crystal->GetLineCount())
+            ptStartPos.y = pED_Crystal->GetLineCount() - 1;
+
+         if ( ptStartPos.x > pED_Crystal->GetLineLength( ptStartPos.y ) )
+            ptStartPos.x = pED_Crystal->GetLineLength( ptStartPos.y );
+
+         pED_Crystal->SetCursorPos( ptStartPos );
+         pED_Crystal->EnsureVisible( ptStartPos );
+         pED_Crystal->Invalidate();
+         return( nChanged );
+      }
+
+      TraceLineS( "drvr - Invalid control type for EDT_ReplaceAll ", EDIT_CONTROL_NAME );
+   }
+   return( -1 );
 }
 
 } // end: extern "C"

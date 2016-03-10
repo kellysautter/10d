@@ -5909,7 +5909,7 @@ SS_InitFont( HWND  hWnd,
       lSize = fm.tmHeight - fm.tmInternalLeading;
 
    for ( FontIdTemp = 0;
-         FontIdTemp < zsizeof( DefaultFontHeight ) / zsizeof( SS_FONTPOINTS );
+         FontIdTemp < sizeof( DefaultFontHeight ) / sizeof( SS_FONTPOINTS );
          FontIdTemp++ )
    {
       if ( lSize <= DefaultFontHeight[ FontIdTemp ].nSize )

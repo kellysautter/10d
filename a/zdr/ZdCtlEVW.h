@@ -154,8 +154,8 @@ private:
 
    // Helper functions
    void ExpandChars(LPCTSTR pszChars, int nOffset, int nCount, CString &line);
-
-   int ApproxActualOffset(int nLineIndex, int nOffset);
+   BOOL ClipCursorToClient();
+   int  ApproxActualOffset(int nLineIndex, int nOffset);
    void AdjustTextPoint(CPoint &point);
    void DrawLineHelperImpl(CDC *pdc, CPoint &ptOrigin, const CRect &rcClip,
                            LPCTSTR pszChars, int nOffset, int nCount);
@@ -824,11 +824,11 @@ protected:
 class ZFindTextDlg : public CDialog
 {
 private:
-   ZCrystalEditView *m_pBuddy;
+   ZCrystalEditView *m_pED_Crystal;
 
    // Construction
 public:
-   ZFindTextDlg(ZCrystalEditView *pBuddy);
+   ZFindTextDlg(ZCrystalEditView *pED_Crystal);
 
    CPoint m_ptCurrentPos;
    // Dialog Data
@@ -836,8 +836,8 @@ public:
    enum { IDD = IDD_EDIT_FIND };
    int   m_nDirection;
    BOOL  m_bMatchCase;
-   CString  m_sText;
    BOOL  m_bWholeWord;
+   CString  m_csText;
    //}}AFX_DATA
 
    // Overrides
@@ -866,14 +866,14 @@ protected:
 class ZEditReplaceDlg : public CDialog
 {
 private:
-   ZCrystalEditView *m_pBuddy;
+   ZCrystalEditView *m_pED_Crystal;
    BOOL m_bFound;
    CPoint m_ptFoundAt;
    BOOL DoHighlightText();
 
    // Construction
 public:
-   ZEditReplaceDlg(ZCrystalEditView *pBuddy);
+   ZEditReplaceDlg(ZCrystalEditView *pED_Crystal);
 
    BOOL m_bEnableScopeSelection;
    CPoint m_ptCurrentPos;
@@ -884,8 +884,8 @@ public:
    enum { IDD = IDD_EDIT_REPLACE };
    BOOL  m_bMatchCase;
    BOOL  m_bWholeWord;
-   CString  m_sText;
-   CString  m_sNewText;
+   CString  m_csText;
+   CString  m_csNewText;
    int      m_nScope;
    //}}AFX_DATA
 

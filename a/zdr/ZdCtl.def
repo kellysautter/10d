@@ -21,7 +21,7 @@
 EXPORTS
 
 ;;
-;; Maximum Ordinal value in this "OPERATION" section is > @604 <
+;; Maximum Ordinal value in this "OPERATION" section is > @605 <
 ;;
 
    ActiveX                                                @19
@@ -105,6 +105,7 @@ EXPORTS
    EDT_Redo                                               @577
    EDT_RepeatFind                                         @595
    EDT_ReplaceDialog                                      @593
+   EDT_ReplaceAll                                         @605
    EDT_SaveFile                                           @538
    EDT_SaveFileAs                                         @539
    EDT_SelectAll                                          @579

@@ -136,7 +136,7 @@ private:
 
    // Helper functions
    void ExpandChars(LPCTSTR pszChars, int nOffset, int nCount, CString &line);
-
+   BOOL ClipCursorToClient();
    int ApproxActualOffset(int nLineIndex, int nOffset);
    void AdjustTextPoint(CPoint &point);
    void DrawLineHelperImpl(CDC *pdc, CPoint &ptOrigin, const CRect &rcClip,

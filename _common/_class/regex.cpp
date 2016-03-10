@@ -5033,7 +5033,7 @@ regerror (
   size_t msg_size;
 
   if (errcode < 0
-      || errcode >= (zsizeof (re_error_msg) / zsizeof (re_error_msg[0])))
+      || errcode >= (sizeof (re_error_msg) / sizeof (re_error_msg[0])))
     /* Only error codes returned by the rest of the code should be passed
        to this routine.  If we are given anything else, or if other regex
        code generates an invalid error code, then the program has a bug.

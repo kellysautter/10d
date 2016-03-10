@@ -36,7 +36,7 @@
 /* ((((256*zsizeof(F_ADDR))+D_BLKSZ-1) / D_BLKSZ)*D_BLKSZ) */
 #define IX_PAGESIZE 1024
 
-/* (IX_PAGESIZE / zsizeof(F_ADDR)) */
+/* (IX_PAGESIZE / sizeof(F_ADDR)) */
 #define IX_EPP 256
 
 #define RI_BITMAP_SIZE(pcnt) ((int)((IX_SIZE(pcnt)+(BUI-1)) / BUI))

@@ -9849,7 +9849,7 @@ HCURSOR CGridURLCell::GetHandCursor()
 
 BOOL CGridURLCell::HasUrl(CString str)
 {
-    int nNumPrefixes = zsizeof(g_szURIprefixes) / zsizeof(g_szURIprefixes[0]);
+    int nNumPrefixes = sizeof(g_szURIprefixes) / sizeof(g_szURIprefixes[0]);
     for (int i = 0; i < nNumPrefixes; i++)
         //if (str.Left(g_szURIprefixes[i].nLength) == g_szURIprefixes[i].szURLPrefix)
         if (str.Find(g_szURIprefixes[i].szURLPrefix) >= 0)

@@ -719,7 +719,7 @@ ZDxFrame::OnCreate( LPCREATESTRUCT lpCreateStruct )
    }
 
    if ( m_wndStatusBar.Create( this ) == 0 ||
-        m_wndStatusBar.SetIndicators( indicators, zsizeof( indicators ) / zsizeof( UINT ) ) == 0 )
+        m_wndStatusBar.SetIndicators( indicators, sizeof( indicators ) / sizeof( UINT ) ) == 0 )
    {
       TraceLineS( "ZDxFrame::OnCreate Failed to create status bar", "" );
       return( -1 );      // fail to create

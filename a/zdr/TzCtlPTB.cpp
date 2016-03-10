@@ -2733,8 +2733,8 @@ END_MESSAGE_MAP()
 
 TZSizingControlBar::TZSizingControlBar()
 {
-    m_szMinHorz = CSize(zTAG_LTH, 32);
-    m_szMinVert = CSize(zTAG_LTH, 32);
+    m_szMinHorz = CSize(33, 32);
+    m_szMinVert = CSize(33, 32);
     m_szMinFloat = CSize(37, 32);
     m_szHorz = CSize(200, 200);
     m_szVert = CSize(200, 200);

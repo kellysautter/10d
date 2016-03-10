@@ -2428,7 +2428,7 @@ ZClrPicker::ZClrPicker( ZSubtask *pZSubtask,
    TraceLineS( "ZClrPicker::ctor ", *m_pzsTag );
 #endif
 
-   m_nNbrColors = zsizeof( g_clrColors ) / sizeof( ColorTableEntry );
+   m_nNbrColors = sizeof( g_clrColors ) / sizeof( ColorTableEntry );
    ASSERT( m_nNbrColors <= MAX_COLORS );
    if ( m_nNbrColors > MAX_COLORS )
       m_nNbrColors = MAX_COLORS;
@@ -3028,7 +3028,7 @@ ZClrPopup::ZClrPopup( CPoint p, COLORREF clrColor, CWnd *pParentWnd,
 void
 ZClrPopup::Initialize( )
 {
-   m_nNbrColors = zsizeof( g_clrColors ) / sizeof( ColorTableEntry );
+   m_nNbrColors = sizeof( g_clrColors ) / sizeof( ColorTableEntry );
    ASSERT( m_nNbrColors <= MAX_COLORS );
    if ( m_nNbrColors > MAX_COLORS )
       m_nNbrColors = MAX_COLORS;

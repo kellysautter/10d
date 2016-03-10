@@ -8078,7 +8078,7 @@ SfWriteOI_ToStream( zVIEW          lpView,
 
    // we are building the header record for this file and realize that the
    // file name we are copying to FileHeader.szFileName may be longer than
-   // zsizeof( FileHeader.szFileName ). This is OK since the FileHeader
+   // sizeof( FileHeader.szFileName ). This is OK since the FileHeader
    // structure is large enough to accomodate an overwrite.
    strcpy_s( FileHeader.szFileName, zsizeof( FileHeader.szFileName ), pchFileNmp ); // no longer permitting overwrite ... dks 2015.11.12
    pchLine = zstrchr( FileHeader.szFileName, '.' );

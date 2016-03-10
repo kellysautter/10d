@@ -26,8 +26,8 @@
 
 RCDX L_MAX_BYTES         = (RCDX) 65000;    // leave room for overhead
 RCDX L_NEXT_BLOCK_OFFSET = (RCDX) L_MAX_BYTES - zsizeof( VOID * );
-RCDX L_MAX_RECORD_BLOCK  = (RCDX) L_NEXT_BLOCK_OFFSET / zsizeof( VOID * );
-RCDX L_MAX_SORT_BLOCK    = (RCDX) L_NEXT_BLOCK_OFFSET / zsizeof( RCDX );
+RCDX L_MAX_RECORD_BLOCK  = (RCDX) L_NEXT_BLOCK_OFFSET / sizeof( VOID * );
+RCDX L_MAX_SORT_BLOCK    = (RCDX) L_NEXT_BLOCK_OFFSET / sizeof( RCDX );
 
 #if 0
 #define CSIMP_GETRECORD_PTR( xRecord, pvRecords )  (pvRecords + xRecord - 1)

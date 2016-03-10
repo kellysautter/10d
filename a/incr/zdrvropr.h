@@ -838,7 +838,7 @@ typedef struct tagGRID_CELL
 
 
 // determine number of elements in an array (not bytes)
-#define mElementCnt( Array ) (zsizeof( Array ) / sizeof( Array[ 0 ] ))
+#define mElementCnt( Array ) (sizeof( Array ) / sizeof( Array[ 0 ] ))
 
 typedef zSHORT (POPERATION zFARPROC_PRINT)( zVIEW, zLONG, zLONG, zLONG );
 typedef zSHORT (POPERATION zFARPROC_DRIVER)( zVIEW );

@@ -5183,12 +5183,12 @@ CheckBoxPickPicture( LPCHECKBOX  lpCheckBox,
    if ( lpCheckBox->fChecked )
    {
       lpwPriority = wPriorityDown;
-      nPriorityCnt = zsizeof( wPriorityDown ) / zsizeof(WORD);
+      nPriorityCnt = sizeof( wPriorityDown ) / sizeof(WORD);
    }
    else
    {
       lpwPriority = wPriorityUp;
-      nPriorityCnt = zsizeof( wPriorityUp ) / zsizeof(WORD);
+      nPriorityCnt = sizeof( wPriorityUp ) / sizeof(WORD);
    }
 
    for ( k = nPriorityCnt - 1, fFound = FALSE; k >= 0; k-- )

@@ -459,6 +459,8 @@ zOPER_EXPORT zBOOL OPERATION
 EDT_ToggleBookmark( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_ClearAllBookmarks( zVIEW vSubtask );
+zOPER_EXPORT zSHORT OPERATION
+EDT_ReplaceAll( zVIEW vSubtask );
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -675,7 +677,7 @@ FindBeginOfOperation( zVIEW vSubtask, LPCSTR szOperationName, ZMapAct *pzma )
    }
 
    // Set up search string.
-   zsprintf( szOperSrch, "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", szOperationName );
+   sprintf_s( szOperSrch, zsizeof( szOperSrch ), "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", szOperationName );
 
    EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
 
@@ -863,7 +865,7 @@ FindEndOfOperation( zVIEW    vSubtask,
    }
 
    // setup search string "OPERATION OperationName ("
-   zsprintf( szOperSrch, "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", szOperationName );
+   sprintf_s( szOperSrch, zsizeof( szOperSrch ), "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", szOperationName );
    EDT_FindTextPosition( vSubtask, szOperSrch, &lLine, &lCol, dwTBEDTDefaultSearchBehavior );
 
    // Skipping lines where the search text is part of a comment
@@ -1901,7 +1903,8 @@ GotoCurrentOperation( zVIEW    vSubtask,
                       zPCHAR   szMetaName,
                       zBOOL    bCFile )
 {
-   zLONG  lLine = 0, lCol = 0;
+   zLONG  lLine = 0;
+   zLONG  lCol = 0;
    DWORD  dwTBEDTDefaultSearchBehavior = FIND_MATCH_CASE | FIND_WHOLE_WORD;
    zBOOL  bTextFound;
 
@@ -1940,8 +1943,13 @@ GotoCurrentOperation( zVIEW    vSubtask,
       else
       {
          OperTemplate( vSubtask, vSource );
-         MovUp( -3 );
          EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+         zLONG lLineCnt = EDT_GetLineCount( vSubtask ) - 4;
+         if (lLine < lLineCnt)
+         {
+            MovUp( -3 );
+            EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
+         }
       }
    }
    else
@@ -1951,7 +1959,7 @@ GotoCurrentOperation( zVIEW    vSubtask,
    }
 
 // EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
-// zsprintf( szMetaName, "(%ld,%ld)", lLine + 1, lCol + 1 );
+// sprintf_s( szMetaName, zsizeof( szMetaName ), "(%ld,%ld)", lLine + 1, lCol + 1 );
 
    // Move cursor to beginning of next line.
    EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
@@ -2262,8 +2270,8 @@ InitSession( zVIEW  vSubtask )
 
    // Determine if the operation is in the file or we should create a template
    GetAddrForAttribute( &pchOperName, vSource, szlOperation, szlName );
-// zsprintf( szOperSrch, "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", pchOperName );
-   zsprintf( szOperSrch, "%s", pchOperName );
+// sprintf_s( szOperSrch, zsizeof( szOperSrch ), "\\bOPERATION[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]+%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", pchOperName );
+   sprintf_s( szOperSrch, zsizeof( szOperSrch ), "%s", pchOperName );
 
    GotoCurrentOperation( vSubtask, vSource, szOperSrch, szMetaName, bCFile );
    return( 0 );
@@ -2529,7 +2537,7 @@ TZEDFRMD_LineChange( zVIEW vSubtask )
       // of the current control.
       lLine = pCE->m_pEvent->m_pDispParams->rgvarg[ 1 ].iVal;
       lCol  = pCE->m_pEvent->m_pDispParams->rgvarg[ 0 ].iVal;
-      zsprintf( szData, "(%ld,%ld)", lLine, lCol);
+      sprintf_s( szData, zsizeof( szData ), "(%ld,%ld)", lLine, lCol);
    }
 
    MB_SetMessage( vSubtask, LINECOL_DIL, szData );
@@ -5695,7 +5703,7 @@ zTZEDFRMD_OpenFile( zVIEW vSubtask )
    {
       zCHAR szMsg[ zMAX_FILENAME_LTH + 100 ];
 
-      zsprintf( szMsg, "File '%s' is already being edited.  Open new window in Read-Only mode?", szFileName );
+      sprintf_s( szMsg, zsizeof( szMsg ), "File '%s' is already being edited.  Open new window in Read-Only mode?", szFileName );
       nRC = OperatorPrompt( vSubtask, szlZeidonEditor, szMsg, TRUE,
                             zBUTTONS_YESNOCANCEL, zRESPONSE_NO, zICON_EXCLAMATION );
 
@@ -6684,7 +6692,7 @@ RenameOperation( ZMapAct  *pzma,
    GetStringFromAttribute( szReplaceText, zsizeof( szReplaceText ), vDeleteOp, "Operation", "Name" );
 
    // replace Operation name in comments
-   zsprintf( szSearchText, "\\b%s\\W", szOperation );
+   sprintf_s( szSearchText, zsizeof( szSearchText ), "\\b%s\\W", szOperation );
    EDT_SetCursorPositionByLineCol( vSubtask, lPosition, lCol );
    EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    while ( lPosition > -1 )
@@ -6700,7 +6708,7 @@ RenameOperation( ZMapAct  *pzma,
    }
 
    // replace Operation name
-   zsprintf( szSearchText, "\\b%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", szOperation );
+   sprintf_s( szSearchText, zsizeof( szSearchText ), "\\b%s[^!-~∞ß≤≥¥ﬂ‰ˆ¸ƒ÷‹]*(", szOperation );
    EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol );
    EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    while ( lLine > -1 )
@@ -7228,6 +7236,26 @@ TZEDFRMD_GoToPreviousBookmark( zVIEW vSubtask )
 
 } // TZEDFRMD_GoToNextBookmark
 
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: TZEDFRMD_EditReplaceAll
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+TZEDFRMD_EditReplaceAll( zVIEW vSubtask )
+{
+   zCHAR szMsg[ 256 ];
+
+   zLONG lChanged =  EDT_ReplaceAll( vSubtask );
+   if ( lChanged > 0 )
+      sprintf_s( szMsg, sizeof( szMsg ), "Specified text changed %d times", lChanged );
+   else
+      sprintf_s( szMsg, sizeof( szMsg ), "Specified text not found" );
+
+   MB_SetMessage( vSubtask, MAIN_DIL, szMsg );
+   return( (zSHORT) lChanged );
+
+} // TZEDFRMD_EditReplaceAll
 
 #ifdef __cplusplus
 }

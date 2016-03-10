@@ -5072,11 +5072,7 @@ void ZCrystalEditView::OnLButtonDown(UINT uFlags, CPoint point)
          m_bDragSelection = TRUE;
       }
    }
-   CRect rect;
-   GetClientRect(rect);
-   ClientToScreen(&rect);
-   rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
-   ClipCursor(rect);
+   ClipCursorToClient();
 
    ASSERT_VALIDTEXTPOS(m_ptCursorPos,FALSE);
 }
@@ -5420,11 +5416,16 @@ void ZCrystalEditView::OnLButtonDblClk(UINT uFlags, CPoint point)
       m_bLineSelection = FALSE;
       m_bDragSelection = TRUE;
    }
+   ClipCursorToClient();
+}
+
+BOOL ZCrystalEditView::ClipCursorToClient()
+{
    CRect rect;
    GetClientRect(rect);
    ClientToScreen(&rect);
    rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
-   ClipCursor(rect);
+   return ClipCursor(rect);
 }
 
 void ZCrystalEditView::OnEditCopy()
