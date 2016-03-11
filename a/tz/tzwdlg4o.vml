@@ -2306,13 +2306,12 @@ DKS_TRACE_END */
    // KJS 08/27/13 - I am commenting this code out because we call the Postbuild javascript code below (comment KJS 09/21/2009), so
    // this code means we call the javascript code twice. Maybe we should have this instead but for now I am taking it out (the below code
    // only looks for Postbuild action (not prebuild) because this is after the page has been rendered.
-   // ePamms needs the following code DKS 2015.09.22
+   /* // ePamms needs the following code DKS 2015.09.22
    // Check of prebuild and postbuild action jsp code.
    FOR EACH vDialogTemp.Action
       FOR EACH vDialogTemp.ActWndEvent
          IF vDialogTemp.ActWndEvent.Type = 1 OR
             vDialogTemp.ActWndEvent.Type = 2
-
             // DKS 2008.09.10 - We want to insert any javascript code that the
             // user has entered for this pre/post build action.
             szJavaScript = vDialogTemp.Action.WebJavaScript
@@ -2327,8 +2326,7 @@ DKS_TRACE_END */
          END
       END
    END
-   // ePamms needs the above code
-
+   */ // ePamms needs the above code ... but not in the C world
    // If this Window/Page has a "Start Web Popup" Action with mapping, then we need the following code
    // to actually start up the Popup, since the script code for the Action had to do the submit to
    // do input mapping.
@@ -2345,7 +2343,6 @@ DKS_TRACE_END */
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   {"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-
       //KELLY22
       /*  We don't need this now, we look for these errors and window sizes elsewhere
       // The Popup size (both X and Y values) will be WebSize / 34,000 to convert Window Size to Web Page Size.

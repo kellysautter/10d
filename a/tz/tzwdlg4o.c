@@ -4246,56 +4246,27 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
    //:// KJS 08/27/13 - I am commenting this code out because we call the Postbuild javascript code below (comment KJS 09/21/2009), so
    //:// this code means we call the javascript code twice. Maybe we should have this instead but for now I am taking it out (the below code
    //:// only looks for Postbuild action (not prebuild) because this is after the page has been rendered.
-   //:// ePamms needs the following code DKS 2015.09.22
+   //:/* // ePamms needs the following code DKS 2015.09.22
    //:// Check of prebuild and postbuild action jsp code.
    //:FOR EACH vDialogTemp.Action
-   RESULT = SetCursorFirstEntity( vDialogTemp, "Action", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:FOR EACH vDialogTemp.ActWndEvent
-      RESULT = SetCursorFirstEntity( vDialogTemp, "ActWndEvent", "" );
-      while ( RESULT > zCURSOR_UNCHANGED )
-      { 
-         //:IF vDialogTemp.ActWndEvent.Type = 1 OR
-         //:   vDialogTemp.ActWndEvent.Type = 2
-         if ( CompareAttributeToInteger( vDialogTemp, "ActWndEvent", "Type", 1 ) == 0 || CompareAttributeToInteger( vDialogTemp, "ActWndEvent", "Type", 2 ) == 0 )
-         { 
-
-            //:// DKS 2008.09.10 - We want to insert any javascript code that the
-            //:// user has entered for this pre/post build action.
-            //:szJavaScript = vDialogTemp.Action.WebJavaScript
-            GetVariableFromAttribute( szJavaScript, 0, 'S', 10001, vDialogTemp, "Action", "WebJavaScript", "", 0 );
-            //:IF  szJavaScript != ""
-            if ( ZeidonStringCompare( szJavaScript, 1, 0, "", 1, 0, 10001 ) != 0 )
-            { 
-               //:szWriteBuffer = "   // Javascript code entered by user."
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "   // Javascript code entered by user.", 1, 0, 10001 );
-               //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = szJavaScript
-               ZeidonStringCopy( szWriteBuffer, 1, 0, szJavaScript, 1, 0, 10001 );
-               //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "   // END of Javascript code entered by user."
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "   // END of Javascript code entered by user.", 1, 0, 10001 );
-               //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
-            } 
-
-            //:END
-         } 
-
-         RESULT = SetCursorNextEntity( vDialogTemp, "ActWndEvent", "" );
-         //:END
-      } 
-
-      RESULT = SetCursorNextEntity( vDialogTemp, "Action", "" );
-      //:END
-   } 
-
+   //:   FOR EACH vDialogTemp.ActWndEvent
+   //:      IF vDialogTemp.ActWndEvent.Type = 1 OR
+   //:         vDialogTemp.ActWndEvent.Type = 2
+   //:         // DKS 2008.09.10 - We want to insert any javascript code that the
+   //:         // user has entered for this pre/post build action.
+   //:         szJavaScript = vDialogTemp.Action.WebJavaScript
+   //:         IF  szJavaScript != ""
+   //:            szWriteBuffer = "   // Javascript code entered by user."
+   //:            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   //:            szWriteBuffer = szJavaScript
+   //:            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   //:            szWriteBuffer = "   // END of Javascript code entered by user."
+   //:            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+   //:         END
+   //:      END
+   //:   END
    //:END
-   //:// ePamms needs the above code
-
+   //:*/ // ePamms needs the above code ... but not in the C world
    //:// If this Window/Page has a "Start Web Popup" Action with mapping, then we need the following code
    //:// to actually start up the Popup, since the script code for the Action had to do the submit to
    //:// do input mapping.
@@ -4335,7 +4306,6 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "   {", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-
       //://KELLY22
       //:/*  We don't need this now, we look for these errors and window sizes elsewhere
       //:// The Popup size (both X and Y values) will be WebSize / 34,000 to convert Window Size to Web Page Size.
@@ -6603,8 +6573,8 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( nRC >= 0 ) ", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "   { "
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   { ", 1, 0, 10001 );
+      //:szWriteBuffer = "   {"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "   {", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
       //:szWriteBuffer = "      nRC = mDashboard.SetOIFromBlob(strSessionId, ^^, vAppSubtask, " + szViewName + ", ^PresentationObjectInstance^, ^ObjectInstanceBlob^,0); //zIGNORE_ERRORS "
@@ -6623,8 +6593,8 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "      mDashboard.SetName( strSessionId, strViewName ); ", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "   } "
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   } ", 1, 0, 10001 );
+      //:szWriteBuffer = "   }"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "   }", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
       //:szWriteBuffer = ""
@@ -7849,8 +7819,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "            status = ^boundary^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "         } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "         } ", 1, 0, 10001 );
+   //:szWriteBuffer = "         }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "         }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "         else "
@@ -7869,8 +7839,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "         }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "      } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "      } ", 1, 0, 10001 );
+   //:szWriteBuffer = "      }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "      else if (enctype.equals(^x-www-form-urlencoded^)) "
@@ -7885,8 +7855,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "         //out.println(^****************^+sLine);", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "      } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "      } ", 1, 0, 10001 );
+   //:szWriteBuffer = "      }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "      else if (enctype.equals(^form-data^)) "
@@ -7917,8 +7887,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "            status = ^disposition^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "         } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "         } ", 1, 0, 10001 );
+   //:szWriteBuffer = "         }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "         }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "         else if (status.equals(^disposition^)) "
@@ -7945,8 +7915,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               status = ^type^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "            } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "            } ", 1, 0, 10001 );
+   //:szWriteBuffer = "            }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "            }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "            else "
@@ -7965,8 +7935,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "            }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "         } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "         } ", 1, 0, 10001 );
+   //:szWriteBuffer = "         }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "         }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "         else if (status.equals(^type^)) "
@@ -7985,8 +7955,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "            status = ^blank^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "         } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "         } ", 1, 0, 10001 );
+   //:szWriteBuffer = "         }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "         }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "         else if (status.equals(^blank^) |||| status.equals(^data^)) "
@@ -8013,8 +7983,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               status = ^boundary^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "            } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "            } ", 1, 0, 10001 );
+   //:szWriteBuffer = "            }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "            }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "            else "
@@ -8066,8 +8036,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "            if (l>=0) ", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "            { "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "            { ", 1, 0, 10001 );
+   //:szWriteBuffer = "            {"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "            {", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "               sTargetFile = sTargetFile.replaceAll(^\^^,^^); "
@@ -8239,8 +8209,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               if (sTargetFile.length()>0)", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "               { "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "               { ", 1, 0, 10001 );
+   //:szWriteBuffer = "               {"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "               {", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "                   //If the directory doesn't exist, Create one. "
@@ -8263,8 +8233,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "            } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "            } ", 1, 0, 10001 );
+   //:szWriteBuffer = "            }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "            }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "            else"
@@ -8283,8 +8253,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               if (l>=0) ", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "               { "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "               { ", 1, 0, 10001 );
+   //:szWriteBuffer = "               {"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "               {", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "                  sName = sLine.substring(l+6);"
@@ -8355,8 +8325,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "            }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "         } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "         } ", 1, 0, 10001 );
+   //:szWriteBuffer = "         }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "         }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "         else if (status.equals(^boundary^)) "
@@ -8423,8 +8393,8 @@ oTZWDLGSO_GenJSP_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               holdNewLine = hasNewLine;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "            } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "            } ", 1, 0, 10001 );
+   //:szWriteBuffer = "            }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "            }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "            else "
@@ -8873,8 +8843,8 @@ oTZWDLGSO_GenJSP_DownloadFile( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "         outStream.write(c); ", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "      } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "      } ", 1, 0, 10001 );
+   //:szWriteBuffer = "      }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "      outStream.flush(); "
@@ -8897,16 +8867,16 @@ oTZWDLGSO_GenJSP_DownloadFile( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   catch (Exception e) ", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "   { "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "   { ", 1, 0, 10001 );
+   //:szWriteBuffer = "   {"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   {", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "      if (InputFile!=null && InputFile.exists()) "
    ZeidonStringCopy( szWriteBuffer, 1, 0, "      if (InputFile!=null && InputFile.exists()) ", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "      { "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "      { ", 1, 0, 10001 );
+   //:szWriteBuffer = "      {"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "      {", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "         //TraceLine"
@@ -8917,8 +8887,8 @@ oTZWDLGSO_GenJSP_DownloadFile( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "         vAppSubtask.TraceLine( ^Error downloading file: ^, sDownloadFile );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "      } "
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "      } ", 1, 0, 10001 );
+   //:szWriteBuffer = "      }"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "   }"

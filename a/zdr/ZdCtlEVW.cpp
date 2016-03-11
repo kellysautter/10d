@@ -595,8 +595,8 @@ BOOL ZCrystalEditView::CanPaste()
 
 void ZCrystalEditView::Paste()
 {
-   CString text;
-   if (CanPaste() && GetFromClipboard(text))
+   CString csText;
+   if (CanPaste() && GetFromClipboard(csText))
    {
       m_pTextBuffer->BeginUndoGroup();
 
@@ -605,7 +605,7 @@ void ZCrystalEditView::Paste()
       CPoint ptCursorPos = GetCursorPos();
       ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
       int x, y;
-      m_pTextBuffer->InsertText(this, ptCursorPos.y, ptCursorPos.x, text, y, x, CE_ACTION_PASTE); //  [JRT]
+      m_pTextBuffer->InsertText(this, ptCursorPos.y, ptCursorPos.x, csText, y, x, CE_ACTION_PASTE); //  [JRT]
       ptCursorPos.x = x;
       ptCursorPos.y = y;
       ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
@@ -629,9 +629,9 @@ void ZCrystalEditView::Cut()
 
    CPoint ptSelStart, ptSelEnd;
    GetSelection(ptSelStart, ptSelEnd);
-   CString text;
-   GetText(ptSelStart, ptSelEnd, text);
-   PutToClipboard(text);
+   CString csText;
+   GetText(ptSelStart, ptSelEnd, csText);
+   PutToClipboard(csText);
 
    CPoint ptCursorPos = ptSelStart;
    ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
@@ -3087,16 +3087,16 @@ int ZCrystalEditView::PrintLineHeight(CDC *pdc, int nLine)
    return rcPrintArea.Height();
 }
 
-void ZCrystalEditView::GetPrintHeaderText(int nPageNum, CString &text)
+void ZCrystalEditView::GetPrintHeaderText(int nPageNum, CString &csText)
 {
    ASSERT(m_bPrintHeader);
-   text = _T("");
+   csText = _T("");
 }
 
-void ZCrystalEditView::GetPrintFooterText(int nPageNum, CString &text)
+void ZCrystalEditView::GetPrintFooterText(int nPageNum, CString &csText)
 {
    ASSERT(m_bPrintFooter);
-   text.Format(_T("Page %d/%d"), nPageNum, m_nPrintPages);
+   csText.Format(_T("Page %d/%d"), nPageNum, m_nPrintPages);
 }
 
 void ZCrystalEditView::PrintHeader(CDC *pdc, int nPageNum)
@@ -3105,10 +3105,10 @@ void ZCrystalEditView::PrintHeader(CDC *pdc, int nPageNum)
    rcHeader.bottom = rcHeader.top;
    rcHeader.top -= (m_nPrintLineHeight + m_nPrintLineHeight / 2);
 
-   CString text;
-   GetPrintHeaderText(nPageNum, text);
-   if (! text.IsEmpty())
-      pdc->DrawText(text, &rcHeader, DT_CENTER | DT_NOPREFIX | DT_TOP | DT_SINGLELINE);
+   CString csText;
+   GetPrintHeaderText(nPageNum, csText);
+   if (! csText.IsEmpty())
+      pdc->DrawText(csText, &rcHeader, DT_CENTER | DT_NOPREFIX | DT_TOP | DT_SINGLELINE);
 }
 
 void ZCrystalEditView::PrintFooter(CDC *pdc, int nPageNum)
@@ -3117,10 +3117,10 @@ void ZCrystalEditView::PrintFooter(CDC *pdc, int nPageNum)
    rcFooter.top = rcFooter.bottom;
    rcFooter.bottom += (m_nPrintLineHeight + m_nPrintLineHeight / 2);
 
-   CString text;
-   GetPrintFooterText(nPageNum, text);
-   if (! text.IsEmpty())
-      pdc->DrawText(text, &rcFooter, DT_CENTER | DT_NOPREFIX | DT_BOTTOM | DT_SINGLELINE);
+   CString csText;
+   GetPrintFooterText(nPageNum, csText);
+   if (! csText.IsEmpty())
+      pdc->DrawText(csText, &rcFooter, DT_CENTER | DT_NOPREFIX | DT_BOTTOM | DT_SINGLELINE);
 }
 
 void ZCrystalEditView::RecalcPageLayouts(CDC *pdc, CPrintInfo *pInfo)
@@ -3754,9 +3754,9 @@ CPoint ZCrystalEditView::ClientToText(CPoint &point)
 void ZCrystalEditView::AssertValidTextPos(CPoint &pt, BOOL bResetInvalid )
 {
    int nLineCnt = GetLineCount();
-   int nLineLth = 0;
    if (nLineCnt > 0)
    {
+      int nLineLth = 0;
       if ( bResetInvalid )
       {
          if ( pt.y > nLineCnt )
@@ -3770,7 +3770,8 @@ void ZCrystalEditView::AssertValidTextPos(CPoint &pt, BOOL bResetInvalid )
       }
       ASSERT(m_nTopLine >= 0 && m_nOffsetChar >= 0);
       ASSERT(pt.y >= 0 && pt.y < nLineCnt);
-      ASSERT(pt.x >= 0 && pt.x <= GetLineLength(pt.y));
+      nLineLth = GetLineLength(pt.y);
+      ASSERT(pt.x >= 0 && pt.x <= nLineLth);
    }
    else
    {
@@ -3990,12 +3991,12 @@ void ZCrystalEditView::OnSysColorChange()
    Invalidate();
 }
 
-void ZCrystalEditView::GetText(CPoint &ptStart, CPoint &ptEnd, CString &text)
+void ZCrystalEditView::GetText(CPoint &ptStart, CPoint &ptEnd, CString &csText)
 {
    if (m_pTextBuffer != NULL)
-      m_pTextBuffer->GetText(ptStart.y, ptStart.x, ptEnd.y, ptEnd.x, text);
+      m_pTextBuffer->GetText(ptStart.y, ptStart.x, ptEnd.y, ptEnd.x, csText);
    else
-      text = _T("");
+      csText = _T("");
 }
 
 HINSTANCE ZCrystalEditView::GetResourceHandle()
@@ -4162,7 +4163,7 @@ HGLOBAL ZCrystalEditView::PrepareDragData()
 
    CString csText;
    GetText(m_ptDrawSelStart, m_ptDrawSelEnd, csText);
-// TRACE(_T("ZCrystalEditView::PrepareDragData - %s\n"), text.GetString());
+// TRACE(_T("ZCrystalEditView::PrepareDragData - %s\n"), csText.GetString());
    HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, csText.GetLength() + 1);
    if (hData == NULL)
       return NULL;
@@ -4241,6 +4242,7 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
 {
    CPoint ptCurrentPos = ptStartPosition;
    BOOL   bSearchWrapped = FALSE;
+   int    nLineLength;
 
    ASSERT(pszText != NULL && lstrlen(pszText) > 0);
    ASSERT_VALIDTEXTPOS(ptCurrentPos, FALSE);
@@ -4257,7 +4259,7 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
    if ((dwFlags & FIND_MATCH_CASE) == 0)
       what.MakeUpper();
 
-   long lSearchLth = lstrlen(pszText);
+   int nSearchLth = lstrlen(pszText);
    if (dwFlags & FIND_DIRECTION_UP)
    {
       // Let's check if we deal with whole text.
@@ -4265,25 +4267,30 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
       ASSERT(ptBlockBegin.x == 0 && ptBlockBegin.y == 0);
       ASSERT(ptBlockEnd.x == GetLineLength(GetLineCount() - 1) && ptBlockEnd.y == GetLineCount() - 1);
 
-      // Proceed as if we have whole text search.
+      int  nEndPos = ptCurrentPos.x - nSearchLth;
+      ptCurrentPos.x = 0;
+
+      // Reverse search ... proceed as if we have whole text search.
       for (;;)
       {
          while (ptCurrentPos.y >= 0)
          {
-            int nLineLength = GetLineLength(ptCurrentPos.y);
-            nLineLength -= ptCurrentPos.x;
-            if (nLineLength < lSearchLth)
+         // nLineLength = GetLineLength(ptCurrentPos.y);
+            nLineLength = nEndPos;
+            if (nLineLength < nSearchLth)
             {
-               ptCurrentPos.x = 0;
                ptCurrentPos.y--;
+               ptCurrentPos.x = 0;
+               if (ptCurrentPos.y >= 0)
+                  nEndPos = GetLineLength(ptCurrentPos.y);
                continue;
             }
 
             LPCTSTR pszChars = GetLineChars(ptCurrentPos.y);
-            pszChars += ptCurrentPos.x;
+        //  pszChars += ptCurrentPos.x;
 
             CString line;
-            lstrcpyn(line.GetBuffer(nLineLength + 1), pszChars, nLineLength + 1);
+            lstrcpyn(line.GetBuffer(nEndPos + 1), pszChars, nEndPos + 1);
             line.ReleaseBuffer();
             if ((dwFlags & FIND_MATCH_CASE) == 0)
                line.MakeUpper();
@@ -4291,6 +4298,17 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
             int nPos = ::FindStringHelper(line, what, (dwFlags & FIND_WHOLE_WORD) != 0);
             if (nPos >= 0)    // Found text!
             {
+               nEndPos = nPos + nSearchLth;
+               while ( nEndPos >= 0 )
+               {
+                  line = line.Mid( nEndPos );
+                  nEndPos = ::FindStringHelper(line, what, (dwFlags & FIND_WHOLE_WORD) != 0);
+                  if ( nEndPos >= 0 )
+                  {
+                     nEndPos += nSearchLth;
+                     nPos += nEndPos;
+                  }
+               }
                ptCurrentPos.x += nPos;
                *pptFoundPos = ptCurrentPos;
                return bSearchWrapped ? -1 : 1;
@@ -4298,6 +4316,8 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
 
             ptCurrentPos.x = 0;
             ptCurrentPos.y--;
+            if (ptCurrentPos.y >= 0)
+               nEndPos = GetLineLength(ptCurrentPos.y);
          }
 
          // Beginning of text reached
@@ -4316,12 +4336,12 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
       {
          while (ptCurrentPos.y <= ptBlockEnd.y)
          {
-            int nLineLength = GetLineLength(ptCurrentPos.y);
+            nLineLength = GetLineLength(ptCurrentPos.y);
             nLineLength -= ptCurrentPos.x;
-            if (nLineLength <= 0)
+            if (nLineLength < nSearchLth)
             {
-               ptCurrentPos.x = 0;
                ptCurrentPos.y++;
+               ptCurrentPos.x = 0;
                continue;
             }
 
@@ -4349,8 +4369,8 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
             }
 
             // Go further, text was not found
-            ptCurrentPos.x = 0;
             ptCurrentPos.y++;
+            ptCurrentPos.x = 0;
          }
 
          // End of text reached
@@ -5718,9 +5738,9 @@ void ZCrystalEditView::Copy()
    if ( IsSelection() )
    {
       PrepareSelBounds();
-      CString text;
-      GetText(m_ptDrawSelStart, m_ptDrawSelEnd, text);
-      PutToClipboard(text);
+      CString csText;
+      GetText(m_ptDrawSelStart, m_ptDrawSelEnd, csText);
+      PutToClipboard(csText);
    }
 }
 
@@ -5753,7 +5773,7 @@ BOOL ZCrystalEditView::PutToClipboard(LPCTSTR pszText)
    return bOK;
 }
 
-BOOL ZCrystalEditView::GetFromClipboard(CString &text)
+BOOL ZCrystalEditView::GetFromClipboard(CString &csText)
 {
    BOOL bSuccess = FALSE;
    if (OpenClipboard())
@@ -5764,7 +5784,7 @@ BOOL ZCrystalEditView::GetFromClipboard(CString &text)
          LPSTR pszData = (LPSTR) GlobalLock(hData);
          if (pszData != NULL)
          {
-            text = pszData;
+            csText = pszData;
             GlobalUnlock(hData);
             bSuccess = TRUE;
          }
@@ -6451,7 +6471,7 @@ void ZCrystalTextBuffer::SetLineFlag(int nLine, DWORD dwFlag, BOOL bSet, BOOL bR
    }
 }
 
-void ZCrystalTextBuffer::GetText(int nStartLine, int nStartChar, int nEndLine, int nEndChar, CString &text, LPCTSTR pszCRLF /*= NULL*/)
+void ZCrystalTextBuffer::GetText(int nStartLine, int nStartChar, int nEndLine, int nEndChar, CString &csText, LPCTSTR pszCRLF /*= NULL*/)
 {
    ASSERT(m_bInit);  // text buffer not yet initialized ... InitNew or LoadFromFile must be called first!
    ASSERT(nStartLine >= 0 && nStartLine < m_aLines.GetSize());
@@ -6473,7 +6493,7 @@ void ZCrystalTextBuffer::GetText(int nStartLine, int nStartChar, int nEndLine, i
       nBufSize += nCRLFLength;
    }
 
-   LPTSTR pszBuf = text.GetBuffer(nBufSize);
+   LPTSTR pszBuf = csText.GetBuffer(nBufSize);
    LPTSTR pszCurPos = pszBuf;
 
    if (nStartLine < nEndLine)
@@ -6510,8 +6530,8 @@ void ZCrystalTextBuffer::GetText(int nStartLine, int nStartChar, int nEndLine, i
       pszBuf += k;
    }
    pszBuf[0] = 0;
-   text.ReleaseBuffer();
-   text.FreeExtra();
+   csText.ReleaseBuffer();
+   csText.FreeExtra();
 }
 
 void ZCrystalTextBuffer::AddView(ZCrystalEditView *pView)
@@ -6771,9 +6791,9 @@ BOOL ZCrystalTextBuffer::Undo(CPoint &ptCursorPos)
 #ifdef _ADVANCED_BUGCHECK
          // Try to ensure that we undoing correctly...
          // Just compare the text as it was before Undo operation
-         CString text;
-         GetText(ur.m_ptStartPos.y, ur.m_ptStartPos.x, ur.m_ptEndPos.y, ur.m_ptEndPos.x, text);
-         ASSERT(lstrcmp(text, ur.GetText()) == 0);
+         CString csText;
+         GetText(ur.m_ptStartPos.y, ur.m_ptStartPos.x, ur.m_ptEndPos.y, ur.m_ptEndPos.x, csText);
+         ASSERT(lstrcmp(csText, ur.GetText()) == 0);
 #endif
          VERIFY(InternalDeleteText(NULL, ur.m_ptStartPos.y, ur.m_ptStartPos.x, ur.m_ptEndPos.y, ur.m_ptEndPos.x));
          ptCursorPos = ur.m_ptStartPos;
@@ -6819,9 +6839,9 @@ BOOL ZCrystalTextBuffer::Redo(CPoint &ptCursorPos)
       else
       {
 #ifdef _ADVANCED_BUGCHECK
-         CString text;
-         GetText(ur.m_ptStartPos.y, ur.m_ptStartPos.x, ur.m_ptEndPos.y, ur.m_ptEndPos.x, text);
-         ASSERT(lstrcmp(text, ur.GetText()) == 0);
+         CString csText;
+         GetText(ur.m_ptStartPos.y, ur.m_ptStartPos.x, ur.m_ptEndPos.y, ur.m_ptEndPos.x, csText);
+         ASSERT(lstrcmp(csText, ur.GetText()) == 0);
 #endif
          VERIFY(InternalDeleteText(NULL, ur.m_ptStartPos.y, ur.m_ptStartPos.x, ur.m_ptEndPos.y, ur.m_ptEndPos.x));
          ptCursorPos = ur.m_ptStartPos;
@@ -7167,9 +7187,9 @@ void ZEditReplaceDlg::OnChangeEditText()
 #ifdef DEBUG_ALL
    TraceLineS( "OnChangeEditText", "");
 #endif
-   CString text;
-   GetDlgItem(IDC_EDIT_TEXT)->GetWindowText(text);
-   GetDlgItem(IDC_EDIT_SKIP)->EnableWindow(text != _T(""));
+   CString csText;
+   GetDlgItem(IDC_EDIT_TEXT)->GetWindowText(csText);
+   GetDlgItem(IDC_EDIT_SKIP)->EnableWindow(csText != _T(""));
 }
 
 void ZEditReplaceDlg::OnCancel()
@@ -7393,9 +7413,9 @@ void ZFindTextDlg::OnOK()
 
 void ZFindTextDlg::OnChangeEditText()
 {
-   CString text;
-   GetDlgItem(IDC_EDIT_TEXT)->GetWindowText(text);
-   GetDlgItem(IDOK)->EnableWindow(text != _T(""));
+   CString csText;
+   GetDlgItem(IDC_EDIT_TEXT)->GetWindowText(csText);
+   GetDlgItem(IDOK)->EnableWindow(csText != _T(""));
 }
 
 BOOL ZFindTextDlg::OnInitDialog()
@@ -8416,10 +8436,10 @@ EDT_GetSelectedTextLength( zVIEW vSubtask )
       if ( pED_Crystal )
       {
          CPoint ptSelStart, ptSelEnd;
-         CString text;
+         CString csText;
          pED_Crystal->GetSelection(ptSelStart, ptSelEnd);
-         pED_Crystal->GetText(ptSelStart, ptSelEnd, text);
-         return text.GetLength();
+         pED_Crystal->GetText(ptSelStart, ptSelEnd, csText);
+         return csText.GetLength();
       }
 
       TraceLineS( "drvr - Invalid control type for EDT_GetSelectedText ", EDIT_CONTROL_NAME );
@@ -8439,10 +8459,10 @@ EDT_GetSelectedText( zVIEW vSubtask, zPCHAR pchText, zLONG lMaxLth )
       if ( pED_Crystal )
       {
          CPoint ptSelStart, ptSelEnd;
-         CString text;
+         CString csText;
          pED_Crystal->GetSelection(ptSelStart, ptSelEnd);
-         pED_Crystal->GetText(ptSelStart, ptSelEnd, text);
-         strcpy_s( pchText, lMaxLth, text );
+         pED_Crystal->GetText(ptSelStart, ptSelEnd, csText);
+         strcpy_s( pchText, lMaxLth, csText );
          return( TRUE );
       }
 
@@ -8482,12 +8502,12 @@ EDT_GetTextFromRange( zVIEW vSubtask, zPCHAR pchBuffer, zLONG lMaxLth, zLONG lSt
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
       if ( pED_Crystal )
       {
-         CString text;
-         pED_Crystal->m_pTextBuffer->GetText(lStartLine, lStartCol, lEndLine, lEndCol, text);
-         if ( text.GetLength() >= lMaxLth )
-            text.GetBufferSetLength( lMaxLth - 1 );
-         strcpy_s( pchBuffer, lMaxLth, text );
-         return text.GetLength();
+         CString csText;
+         pED_Crystal->m_pTextBuffer->GetText(lStartLine, lStartCol, lEndLine, lEndCol, csText);
+         if ( csText.GetLength() >= lMaxLth )
+            csText.GetBufferSetLength( lMaxLth - 1 );
+         strcpy_s( pchBuffer, lMaxLth, csText );
+         return csText.GetLength();
       }
 
       TraceLineS( "drvr - Invalid control type for EDT_GetTextFromRange ", EDIT_CONTROL_NAME );
@@ -8737,7 +8757,7 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
          pED_Crystal->UpdateCaret();
          pED_Crystal->EnsureVisible( pt );
          pZSubtask->m_pZFWnd->ModifyStyle(WS_MINIMIZEBOX, 0, SWP_FRAMECHANGED);
-
+         pZSubtask->m_pZFWnd->ShowControlBar( &(pED_Crystal->m_wndToolBar), TRUE, FALSE );
       //?pED_Crystal->ModifyStyleEx( 0, WS_EX_CONTROLPARENT );
       //?pZSubtask->m_pZFWnd->ModifyStyleEx( WS_EX_APPWINDOW, WS_EX_CONTROLPARENT );
 
@@ -9375,5 +9395,53 @@ EDT_ReplaceAll( zVIEW vSubtask )
    }
    return( -1 );
 }
+
+zOPER_EXPORT zSHORT OPERATION
+EDT_SearchSelectedText( zVIEW vSubtask )
+{
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+
+   CWinApp  *pApp = AfxGetApp();
+   ASSERT(pApp != NULL);
+
+   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
+   {
+      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
+      if ( pED_Crystal )
+      {
+         CPoint ptSelStart;
+         CPoint ptSelEnd;
+         CString csText;
+         pED_Crystal->GetSelection(ptSelStart, ptSelEnd);
+         if (ptSelStart != ptSelEnd && ptSelStart.y == ptSelEnd.y)
+         {
+            pED_Crystal->GetText(ptSelStart, ptSelEnd, csText);
+            pApp->WriteProfileString(REG_FIND_SUBKEY, REG_FIND_WHAT, csText);
+            ptSelEnd = ptSelStart;
+            ptSelStart.x += csText.GetLength();
+            if (pED_Crystal->FindText(csText, ptSelStart, FIND_MATCH_CASE, TRUE, &ptSelStart))
+            {
+               pED_Crystal->HighlightText(ptSelStart, csText.GetLength());
+               pED_Crystal->m_ptCursorPos.y = ptSelStart.y;
+               pED_Crystal->m_ptCursorPos.x = ptSelStart.x + csText.GetLength();
+               pED_Crystal->m_bLastSearch = TRUE;
+               pED_Crystal->m_dwLastSearchFlags = FIND_MATCH_CASE;
+               pED_Crystal->m_bMultipleSearch = TRUE;
+               pED_Crystal->m_csLastFindWhat = csText;
+               if ( ptSelStart == ptSelEnd )
+                  return( -1 );
+               else
+                  return( 1 );
+            }
+         }
+         return( 0 );
+      }
+
+      TraceLineS( "drvr - Invalid control type for EDT_SearchSelectedText ", EDIT_CONTROL_NAME );
+   }
+   return( 0 );
+}
+
 
 } // end: extern "C"

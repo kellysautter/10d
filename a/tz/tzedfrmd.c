@@ -193,9 +193,6 @@ GetWindowAndCtrl( ZSubtask **pWndReturn,
                   zCPCHAR  cpcCtrlTag );
 
 zOPER_EXPORT zSHORT OPERATION
-SearchContinue( zVIEW vSubtask,
-                zLONG lDirectionFlag );
-zOPER_EXPORT zSHORT OPERATION
 SystemClose( zVIEW vSubtask );
 
 zOPER_EXPORT zSHORT OPERATION
@@ -461,7 +458,8 @@ zOPER_EXPORT zBOOL OPERATION
 EDT_ClearAllBookmarks( zVIEW vSubtask );
 zOPER_EXPORT zSHORT OPERATION
 EDT_ReplaceAll( zVIEW vSubtask );
-
+zOPER_EXPORT zBOOL OPERATION
+EDT_SearchSelectedText( zVIEW vSubtask );
 
 /////////////////////////////////////////////////////////////////////////////
 // Setup a comment in the current editor instance
@@ -5927,25 +5925,13 @@ OpIns_StartOperationHelp( zVIEW vSubtask )
    return( 0 );
 }
 
-// Handles a pressed F3-Key in the Editor.
+// Handles a pressed Ctrl+F3 in the Editor.
 zOPER_EXPORT zSHORT OPERATION
-SearchForward( zVIEW vSubtask )
+TZEDFRMD_SearchSelectedText( zVIEW vSubtask )
 {
-   return( SearchContinue( vSubtask, FIND_FORWARD ) );
-}
-
-// Handles a pressed Shift-F3-Key in the Editor.
-zOPER_EXPORT zSHORT OPERATION
-SearchBackward( zVIEW vSubtask )
-{
-   return( SearchContinue( vSubtask, FIND_DIRECTION_UP ) );
-}
-
-// Continue a search that has been started with Find/Replace Dialog.
-zOPER_EXPORT zSHORT OPERATION
-SearchContinue( zVIEW vSubtask, zLONG lDirectionFlag )
-{
-   CString  csMsg, csMsgFormat = "Could not find requested string\"%s\"!";
+#if 0
+   CString  csMsg;
+   CString  csMsgFormat = "Could not find requested string\"%s\"!";
    CString  csStringToFind = "";
    zLONG    lStartLine = 0, lStartCol = 0, lEndLine = 0, lEndCol = 0, lLine = 0, lCol = 0;
    zLONG    lSearchBehavior = lDirectionFlag;
@@ -6004,8 +5990,26 @@ SearchContinue( zVIEW vSubtask, zLONG lDirectionFlag )
       csMsg.Format( csMsgFormat, g_csFindWhat );
       MB_SetMessage( vSubtask, MAIN_DIL, csMsg );
    }
-
-   return( 0 );
+#endif
+   zSHORT nRC = EDT_SearchSelectedText( vSubtask );
+   CString csLast = EDT_GetLastFindString( vSubtask );
+   CString csMsg;
+   if (nRC == 0)
+   {
+      csMsg = "Selected text NOT found: ";
+   }
+   else
+   if (nRC < 0)
+   {
+      csMsg = "Found past the end of the document: ";
+   }
+   else
+   {
+      csMsg = "Selected text found: ";
+   }
+   csMsg += csLast;
+   MB_SetMessage( vSubtask, MAIN_DIL, csMsg );
+   return nRC;
 }
 
 /////////////////////////////////////////////////////////////////////////////
