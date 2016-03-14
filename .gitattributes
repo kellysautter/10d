@@ -9,6 +9,7 @@
 *.cpp text eol=crlf
 *.c text eol=crlf
 *.h text eol=crlf
+*.java text eol=crlf
 *.sln text eol=crlf
 *.dsw text eol=crlf
 *.dsp text eol=crlf

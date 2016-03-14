@@ -2378,7 +2378,8 @@ fnCommandCompletion( zVIEW vSubtask )
 {
    zVIEW    vEdWrk;
    zVIEW    vProfileXFER;
-   zLONG    lLine = 0, lCol = 0;
+   zLONG    lLine = 0;
+   zLONG    lCol = 0;
    zLONG    lLth = 0;
    zCHAR    szBuffer[ 300 ];
    zPCHAR   pchToken;
@@ -2416,13 +2417,11 @@ fnCommandCompletion( zVIEW vSubtask )
    zmemset( szBuffer, 0, zsizeof( szBuffer ) );
    lLth = EDT_GetActualTextLine( vSubtask, szBuffer, zsizeof( szBuffer ), lLine );
 
-   // If the previous character to the space that was just entered is also a
-   // space then skip command completion.
+   // If the previous character to the space that was just entered is also a space then skip command completion.
    if ( lLth < 2 || isspace( szBuffer[ lCol - 1 ]) )
       return( FALSE );
 
-   // Check to see if anything comes after the space.  If there is and it's
-   // not a white space then skip CC.
+   // Check to see if anything comes after the space.  If there is and it's not a white space then skip CC.
    if ( lLth > lCol + 1 )
    {
       for ( pchToken = &szBuffer[ lCol + 1 ]; *pchToken; pchToken++ )
@@ -2436,14 +2435,14 @@ fnCommandCompletion( zVIEW vSubtask )
    szBuffer[ lCol ] = 0;
 
    // Find the last token before what was the space.
-   for ( pchToken = &szBuffer[ lCol - 1 ];
-         !isspace( *pchToken ) && pchToken >= szBuffer;
+   for ( pchToken = szBuffer + lCol - 1;
+         pchToken >= szBuffer && !isspace( *pchToken );
          pchToken--)
    {
       // Nothing needs to be done here.
    }
 
-   // Set pchToken to point to the first zCHAR of the token.
+   // Set pchToken to point to the first char of the token.
    pchToken++;
 
    // Create a temp view so we don't mess up cursors.
@@ -2475,12 +2474,11 @@ fnCommandCompletion( zVIEW vSubtask )
       }
    }
 
-   // OK...we are about to do command completion so we need to remove the
-   // token from the current line.
-// EDT_DeleteTextRange( vSubtask, lLine - zstrlen( pchToken ), 0, lLine, 0 );
+   // OK...we are about to do command completion so we need to remove the token from the current line.
+   EDT_DeleteTextRange( vSubtask, lLine, lCol - zstrlen( pchToken ), lLine, lCol );
    csHelp = pchToken;
    EDT_SelectItem( vSubtask, lLine + 1, 0, csHelp );
-// EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol - zstrlen( pchToken ) );
+   EDT_SetCursorPositionByLineCol( vSubtask, lLine, lCol - zstrlen( pchToken ) );
 
    // Call operation to insert currently selected keyword in profile OI.
    fnInsertVML_Text( vSubtask, vEdWrk, vProfileXFER );
@@ -2493,6 +2491,7 @@ fnCommandCompletion( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_Keystroke( zVIEW vSubtask )
 {
+#if 0  // we only get here if the character is a space
    zCTRL_EVENT *pCE;
    zSHORT      nRC;
    zCHAR       cKey;
@@ -2515,6 +2514,9 @@ TZEDFRMD_Keystroke( zVIEW vSubtask )
 
    pCE->m_ulRC = 0x00000001;
    return( 0 );
+#else
+   return( fnCommandCompletion( vSubtask ) );
+#endif
 }
 
 zOPER_EXPORT zSHORT OPERATION
@@ -3530,7 +3532,7 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
    lOperationNameLength += lCol;
    lCol = GetTabsInLine( vEditorSubtask, lCol ); // Get number of tabs until current Cursor position
    lOperationNameLength -=lCol;  // Control interprets tab as a single character
-   lCol = lCol * lTabSize;    // remove single zCHAR and add multiple
+   lCol = lCol * lTabSize;    // remove single char and add multiple
    lOperationNameLength += lCol; // (virtual) characters depending on tabsize
 
    // Set up a string which contains a number of tabs and blanks depending
@@ -3826,7 +3828,7 @@ OpIns_InsertOperation( zVIEW vSubtask )
          lOperationNameLth += lCol;
          lCol = GetTabsInLine( vSubtask, lCol ); // Get number of tabs until current Cursorposition
          lOperationNameLth -=lCol;  // Control interprets tab as a single character
-         lCol = lCol * lTabSize;    // remove single zCHAR and add multiple
+         lCol = lCol * lTabSize;    // remove single char and add multiple
          lOperationNameLth += lCol; // (virtual) characters depending on tabsize
 
          // Set up a string which contains a number of tabs and blanks depending
@@ -4046,7 +4048,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
             *pchKeyword = ztoupper( *pchKeyword );
       }
 
-      // If the keyword starts with a "*", then the keyword search starts with the first zCHAR (e.g. column) ONLY.
+      // If the keyword starts with a "*", then the keyword search starts with the first char (e.g. column) ONLY.
       pchKeyword = szKeyword;
       if ( *pchKeyword == '*' || *pchKeyword == '/' )
       {
@@ -4653,8 +4655,6 @@ fnInsertVML_Text( zVIEW      vSubtask,
    zCHAR      szInsertString[ 1000 ];
    zPCHAR     pchStrBegin;
    zPCHAR     pchStrEnd;
-   zLONG      lLine = 0;
-   zLONG      lCol = 0;
    zLONG      lOriginalCol = 0;
    zLONG      lOriginalLine = 0;
    zLONG      lTabCount = 0, lTabSize = 4;
@@ -4690,7 +4690,7 @@ fnInsertVML_Text( zVIEW      vSubtask,
    // Tabs have to be replaced by a number of blanks.
    lTabCount = GetTabsInLine( vSubtask, lOriginalCol );
 
-   lOriginalCol -=lTabCount;
+   lOriginalCol -= lTabCount;
    lOriginalCol += (lTabCount * lTabSize);
 
    // Insert each line seperately.  Setup insert string line by line.
@@ -4699,7 +4699,7 @@ fnInsertVML_Text( zVIEW      vSubtask,
    {
       zBOOL bMoreLines;
 
-      // Find the end of the current line by looking for the '\n' zCHAR or the null terminator.
+      // Find the end of the current line by looking for the '\n' char or the null terminator.
       for ( pchStrEnd = pchStrBegin;
             *pchStrEnd != '\n' && *pchStrEnd != '\r' && *pchStrEnd != 0;
             pchStrEnd++ )
@@ -4711,8 +4711,7 @@ fnInsertVML_Text( zVIEW      vSubtask,
       // bump up pchStrEnd to point to the next char.
       if ( *pchStrEnd )
       {
-         // If we found a carriage return, then a line feed is sure to follow
-         // so we need to consider both chars.
+         // If we found a carriage return, then a line feed is sure to follow, so skip both chars.
          if ( *pchStrEnd == '\r' )
             *pchStrEnd++ = 0;
 
@@ -4728,11 +4727,10 @@ fnInsertVML_Text( zVIEW      vSubtask,
 
       if ( bMoreLines )
       {
-         zCHAR  szTemp[ 100 ] = "\n";
+         zCHAR  szTemp[ 100 ] = "\r\n";
          zSHORT k = (zSHORT) zstrlen( szTemp );
 
          // We need to add the new-line and then spaces to match original column position.
-
          zmemset( &szTemp[ k ], ' ', lOriginalCol );
          szTemp[ k + lOriginalCol ] = 0;
 
@@ -4742,16 +4740,21 @@ fnInsertVML_Text( zVIEW      vSubtask,
    } // for...
 
    lPositionCursor = csCompleteCommand.Find( _T( "&" ) );
-   if ( lPositionCursor >= 0 )
-   {  // Get rid of that "&" so we don't have to call DeleteTextRange
-      csCompleteCommand.SetAt( lPositionCursor, ' ' );
+   if ( lPositionCursor > 0 )
+   {
+      // Get rid of that "&" so we don't have to call DeleteTextRange
+      CString csLeft = csCompleteCommand.Left( lPositionCursor - 1 );
+      CString csRight = csCompleteCommand.Right( csCompleteCommand.GetLength() - (lPositionCursor + 1) );
+      csLeft.TrimRight();
+      csCompleteCommand = csLeft + csRight;
+      lPositionCursor--;
    }
 
    EDT_InsertItem( vSubtask, csCompleteCommand );
 
    if ( lPositionCursor >= 0 )
    {
-      EDT_SetCursorPositionByLineCol( vSubtask, lLine + lPositionCursor, lCol );
+      EDT_SetCursorPositionByLineCol( vSubtask, lOriginalLine, lOriginalCol + lPositionCursor );
    }
 
    return( 0 );
@@ -4763,7 +4766,6 @@ VML_InsertText( zVIEW vSubtask )
    zVIEW      vEdWrk;
    zVIEW      vEditorSubtask;
    zVIEW      vProfileXFER;
-   zVIEW      vTemp;
 
    mGetProfileView( &vProfileXFER, vSubtask );
    mGetWorkView( &vEdWrk, vSubtask );
@@ -4772,12 +4774,11 @@ VML_InsertText( zVIEW vSubtask )
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlReadOnly, "Y" ) != 0 &&
         CompareAttributeToString( vEdWrk, szlBuffer, szlActiveStatus, "N" ) != 0 )
    {
-      fnInsertVML_Text( vSubtask, vEdWrk, vProfileXFER );
+      fnInsertVML_Text( vEditorSubtask, vEdWrk, vProfileXFER );
    }
 
    // Set Focus to Editor
-   GetParentWindow( &vTemp, vSubtask );
-   SetFocusToCtrl( vTemp, EDIT_CONTROL_NAME );
+   SetFocusToCtrl( vEditorSubtask, EDIT_CONTROL_NAME );
    return( 0 );
 }
 

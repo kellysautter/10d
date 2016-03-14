@@ -996,6 +996,11 @@ void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
       m_pTextBuffer->FlushUndoGroup(this);
       return;
    }
+   else
+   if (nChar == VK_SPACE)
+   {
+      InvokeAction( m_pZSubtask->m_vDialog, "Keystroke" );
+   }
 
    if (nChar > 31)
    {
@@ -8135,7 +8140,7 @@ EDT_DeleteTextRange( zVIEW vSubtask, zLONG lStartLine, zLONG lStartCol, zLONG lE
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
       if ( pED_Crystal )
       {
-         pED_Crystal->m_pTextBuffer->DeleteText(pED_Crystal,lStartLine, lStartCol, lEndLine, lEndCol, CE_ACTION_DELETE);
+         pED_Crystal->m_pTextBuffer->DeleteText(pED_Crystal, lStartLine, lStartCol, lEndLine, lEndCol, CE_ACTION_DELETE);
          return( TRUE );
       }
 
@@ -8284,8 +8289,8 @@ EDT_GetCursorPosition( zVIEW vSubtask, zPLONG plLine, zPLONG plCol )
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
 
-   *plCol = -1;
-   *plLine = -1;
+   *plCol = 0;
+   *plLine = 0;
    if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
    {
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
@@ -8987,7 +8992,7 @@ EDT_SelectItem( zVIEW vSubtask, zLONG lLine, zLONG lCol, zCPCHAR cpcText )
       ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
       if ( pED_Crystal )
       {
-         CPoint pt( 0, lLine );
+         CPoint pt( lCol, lLine );
          CPoint ptReturn;
          return pED_Crystal->FindText(cpcText, pt, 0, FALSE, &ptReturn);
       }
