@@ -7598,8 +7598,8 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, " )", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "      { "
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      { ", 1, 0, 10001 );
+            //:szWriteBuffer = "      {"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "      {", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
             //:szWriteBuffer = "%>"
@@ -7616,8 +7616,8 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
 
-            //:szWriteBuffer = "      }  "
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      }  ", 1, 0, 10001 );
+            //:szWriteBuffer = "      }"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
          } 

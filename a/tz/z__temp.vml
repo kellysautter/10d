@@ -731,11 +731,13 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )     szWindowIsForDashboard
    STRING ( 1 )     szNoAutoLogout
    STRING ( 1 )     szKeyRole
+   STRING ( 1 )     szDynamicBanner
    STRING ( 1 )     szZeidonTaskTimeout
    STRING ( 1 )     szRegisterZeidon
    STRING ( 1 )     szNoMonitorTaskLogout
    STRING ( 10 )    szTimeout
    STRING ( 10 )    szDOCTYPE
+   STRING ( 20 )    szTimestamp
    INTEGER          lActionType
 // INTEGER          lHeight
 // INTEGER          lWidth
@@ -792,6 +794,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    SysReadZeidonIni( -1, szSystemIniApplName, "WebDebugView", szWebDebugView )
    SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole )
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebDynamicBanner", szDynamicBanner )
    SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace )
    SysReadZeidonIni( -1, szSystemIniApplName, "DOCTYPE", szDOCTYPE )
    SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonTaskTimeout", szZeidonTaskTimeout )
@@ -911,7 +914,9 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    //END
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
-   szWriteBuffer = "<%-- " + szFormName + " --%>"
+   SysGetDateTime( szTimestamp )
+   szWriteBuffer = "<%-- " + szFormName + "   Generate Timestamp: " + szTimestamp
+   szWriteBuffer = szWriteBuffer + " --%>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
    szIOImport = ""
@@ -2159,26 +2164,28 @@ DKS_TRACE_END */
    // It doesn't seem like we are using this anyway since we can have a separate banner for each dialog if we want.
    // Leave this code for when we want to change it back. :)
    ///////////////////////////////////////////////////////////
-   /*
-   szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DynamicBannerName^ ).setFirst( ^DialogName^, ^" + szDialogTag + "^, ^^ );"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   if ( csrRC.isSet( ) )"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      strBannerName = vKZXMLPGO.cursor( ^DynamicBannerName^ ).getAttribute( ^BannerName^ ).getString( ^^ );"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-   szWriteBuffer = "   if ( StringUtils.isBlank( strBannerName ) )"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szBannerName = vDialog.Dialog.WEB_TopBannerName
+   IF szDynamicBanner = "Y"
+      szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DynamicBannerName^ ).setFirst( ^DialogName^, ^" + szDialogTag + "^, ^^ );"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( csrRC.isSet( ) )"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      strBannerName = vKZXMLPGO.cursor( ^DynamicBannerName^ ).getAttribute( ^BannerName^ ).getString( ^^ );"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
-   // If a banner include file has been entered by the user, then use this, otherwise
-   // hardcode "./include/banner.inc" as the banner name.
-   IF szBannerName != ""
-      szWriteBuffer = "      strBannerName = ^" + szBannerName + "^;"
-   ELSE
-      szWriteBuffer = "      strBannerName = ^./include/banner.inc^;"
+      szWriteBuffer = "   if ( StringUtils.isBlank( strBannerName ) )"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szBannerName = vDialog.Dialog.WEB_TopBannerName
+
+      // If a banner include file has been entered by the user, then use this, otherwise
+      // hardcode "./include/banner.inc" as the banner name.
+      IF szBannerName != ""
+         szWriteBuffer = "      strBannerName = ^" + szBannerName + "^;"
+      ELSE
+         szWriteBuffer = "      strBannerName = ^./include/banner.inc^;"
+      END
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    END
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-*/
+
    //////////////////////////////////////////////////////////////////////////
 
    IF szWebRedirection = "Y"
@@ -3203,6 +3210,7 @@ DKS_TRACE_END */
 
             //szWriteBuffer = "   isWindowClosing = false;"
             //WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
             szDlgTag = vDialog.Action.DialogName
             szWndTag = vDialog.Action.WindowName
 
@@ -3237,6 +3245,7 @@ DKS_TRACE_END */
                END
                DropObjectInstance( vDialogTemp2 )
             END
+
             szWriteBuffer = "   var NewWin = window.open( ^" + szDlgTag + szWndTag + ".jsp^, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth +
                             ",height=" + szHeight + ",modal=1^ );"
             WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
@@ -3677,7 +3686,11 @@ DKS_TRACE_END */
 
    // Build the Banner before getting into Menu Options.
 // IF vDialogRoot.Window.WEB_NoBannerFlag = ""
-   IF szShowBanner = "Y"
+   IF szDynamicBanner = "Y"
+      szWriteBuffer = "<jsp:include page='<%=strBannerName %>' />"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+   ELSE
+      IF szShowBanner = "Y"
       // strBannerName will always have a value, it might be a dynamic banner name set in vml code
       // or it might be an include file specified in the dialog or if neither of those, then
       // strBannerName has been set to "./include/banner.inc".
@@ -3693,6 +3706,7 @@ DKS_TRACE_END */
       END
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
+      END
    END
 
    szSideMenuExists = "N"

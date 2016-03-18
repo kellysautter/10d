@@ -6,7 +6,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 // This is a part of the Zeidon tools package.
-// Copyright © 1995 - 2016 QuinSoft, Inc.
+// Copyright (c) 1995 - 2016 QuinSoft, Inc.
 // All Rights Reserved.
 // Confidential and Proprietary material subject to license - do not
 // reproduce or disclose.  This material is an unpublished work and

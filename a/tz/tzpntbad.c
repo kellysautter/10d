@@ -4,7 +4,7 @@
 // DESCRIPTION:  This is the C file which contains the painter ToolBar control
 //               sub-dialog operations
 /////////////////////////////////////////////////////////////////////////////////
-//* Copyright © 1997 - 2016 QuinSoft, Inc. All rights reserved. Confidential *
+//* Copyright (c) 1997 - 2016 QuinSoft, Inc. All rights reserved. Confidential *
 //* and Proprietary material subject to license - do not reproduce or       *
 //* disclose.  This material is an unpublished work and is considered a     *
 //* trade secret belonging to the copyright holder.                         *

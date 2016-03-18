@@ -172,6 +172,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    zCHAR     szNoAutoLogout[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szKeyRole
    zCHAR     szKeyRole[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szDynamicBanner
+   zCHAR     szDynamicBanner[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szZeidonTaskTimeout
    zCHAR     szZeidonTaskTimeout[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szRegisterZeidon
@@ -182,6 +184,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    zCHAR     szTimeout[ 11 ] = { 0 }; 
    //:STRING ( 10 )    szDOCTYPE
    zCHAR     szDOCTYPE[ 11 ] = { 0 }; 
+   //:STRING ( 20 )    szTimestamp
+   zCHAR     szTimestamp[ 21 ] = { 0 }; 
    //:INTEGER          lActionType
    zLONG     lActionType = 0; 
    //:// INTEGER          lHeight
@@ -389,6 +393,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    SysReadZeidonIni( -1, szSystemIniApplName, "WebDebugView", szWebDebugView, zsizeof( szWebDebugView ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole )
    SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole, zsizeof( szKeyRole ) );
+   //:SysReadZeidonIni( -1, szSystemIniApplName, "WebDynamicBanner", szDynamicBanner )
+   SysReadZeidonIni( -1, szSystemIniApplName, "WebDynamicBanner", szDynamicBanner, zsizeof( szDynamicBanner ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace )
    SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace, zsizeof( szTrace ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "DOCTYPE", szDOCTYPE )
@@ -623,9 +629,14 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
 
-   //:szWriteBuffer = "<%-- " + szFormName + " --%>"
+   //:SysGetDateTime( szTimestamp )
+   SysGetDateTime( szTimestamp, zsizeof( szTimestamp ) );
+   //:szWriteBuffer = "<%-- " + szFormName + "   Generate Timestamp: " + szTimestamp
    ZeidonStringCopy( szWriteBuffer, 1, 0, "<%-- ", 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, "   Generate Timestamp: ", 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szTimestamp, 1, 0, 10001 );
+   //:szWriteBuffer = szWriteBuffer + " --%>"
    ZeidonStringConcat( szWriteBuffer, 1, 0, " --%>", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
@@ -3064,26 +3075,55 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:// It doesn't seem like we are using this anyway since we can have a separate banner for each dialog if we want.
    //:// Leave this code for when we want to change it back. :)
    //:///////////////////////////////////////////////////////////
-   //:/*
-   //:szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DynamicBannerName^ ).setFirst( ^DialogName^, ^" + szDialogTag + "^, ^^ );"
-   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //:szWriteBuffer = "   if ( csrRC.isSet( ) )"
-   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //:szWriteBuffer = "      strBannerName = vKZXMLPGO.cursor( ^DynamicBannerName^ ).getAttribute( ^BannerName^ ).getString( ^^ );"
-   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-   //:szWriteBuffer = "   if ( StringUtils.isBlank( strBannerName ) )"
-   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //:szBannerName = vDialog.Dialog.WEB_TopBannerName
+   //:IF szDynamicBanner = "Y"
+   if ( ZeidonStringCompare( szDynamicBanner, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DynamicBannerName^ ).setFirst( ^DialogName^, ^" + szDialogTag + "^, ^^ );"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "   csrRC = vKZXMLPGO.cursor( ^DynamicBannerName^ ).setFirst( ^DialogName^, ^", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szDialogTag, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ^^ );", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "   if ( csrRC.isSet( ) )"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( csrRC.isSet( ) )", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "      strBannerName = vKZXMLPGO.cursor( ^DynamicBannerName^ ).getAttribute( ^BannerName^ ).getString( ^^ );"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "      strBannerName = vKZXMLPGO.cursor( ^DynamicBannerName^ ).getAttribute( ^BannerName^ ).getString( ^^ );", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
 
-   //:// If a banner include file has been entered by the user, then use this, otherwise
-   //:// hardcode "./include/banner.inc" as the banner name.
-   //:IF szBannerName != ""
-   //:   szWriteBuffer = "      strBannerName = ^" + szBannerName + "^;"
-   //:ELSE
-   //:   szWriteBuffer = "      strBannerName = ^./include/banner.inc^;"
+      //:szWriteBuffer = "   if ( StringUtils.isBlank( strBannerName ) )"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( StringUtils.isBlank( strBannerName ) )", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szBannerName = vDialog.Dialog.WEB_TopBannerName
+      GetVariableFromAttribute( szBannerName, 0, 'S', 257, vDialog, "Dialog", "WEB_TopBannerName", "", 0 );
+
+      //:// If a banner include file has been entered by the user, then use this, otherwise
+      //:// hardcode "./include/banner.inc" as the banner name.
+      //:IF szBannerName != ""
+      if ( ZeidonStringCompare( szBannerName, 1, 0, "", 1, 0, 257 ) != 0 )
+      { 
+         //:szWriteBuffer = "      strBannerName = ^" + szBannerName + "^;"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "      strBannerName = ^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szBannerName, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^;", 1, 0, 10001 );
+         //:ELSE
+      } 
+      else
+      { 
+         //:szWriteBuffer = "      strBannerName = ^./include/banner.inc^;"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "      strBannerName = ^./include/banner.inc^;", 1, 0, 10001 );
+      } 
+
+      //:END
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+   } 
+
    //:END
-   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-   //:*/
+
    //://////////////////////////////////////////////////////////////////////////
 
    //:IF szWebRedirection = "Y"
@@ -4961,6 +5001,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
          //:   //szWriteBuffer = "   isWindowClosing = false;"
          //:   //WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
          //:   szDlgTag = vDialog.Action.DialogName
          //:   szWndTag = vDialog.Action.WindowName
 
@@ -4995,6 +5036,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:      END
          //:      DropObjectInstance( vDialogTemp2 )
          //:   END
+
          //:   szWriteBuffer = "   var NewWin = window.open( ^" + szDlgTag + szWndTag + ".jsp^, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth +
          //:                   ",height=" + szHeight + ",modal=1^ );"
          //:   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
@@ -5892,38 +5934,52 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:// Build the Banner before getting into Menu Options.
    //:// IF vDialogRoot.Window.WEB_NoBannerFlag = ""
-   //:IF szShowBanner = "Y"
-   if ( ZeidonStringCompare( szShowBanner, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   //:IF szDynamicBanner = "Y"
+   if ( ZeidonStringCompare( szDynamicBanner, 1, 0, "Y", 1, 0, 2 ) == 0 )
    { 
-      //:// strBannerName will always have a value, it might be a dynamic banner name set in vml code
-      //:// or it might be an include file specified in the dialog or if neither of those, then
-      //:// strBannerName has been set to "./include/banner.inc".
-      //://szWriteBuffer = "<jsp:include page='<%=strBannerName %>' />"
-
-      //:// KJS 07/28/15 - Trying the banner include as all the other includes, not as the <jsp:include"
-      //:// If a banner include file has been entered by the user, then use this, otherwise
-      //:// hardcode "./include/banner.inc" as the banner name.
-      //:IF vDialog.Dialog.WEB_TopBannerName != ""
-      if ( CompareAttributeToString( vDialog, "Dialog", "WEB_TopBannerName", "" ) != 0 )
-      { 
-         //:szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
-         GetVariableFromAttribute( szTempString_23, 0, 'S', 255, vDialog, "Dialog", "WEB_TopBannerName", "", 0 );
-         ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_23, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
-         //:ELSE
-      } 
-      else
-      { 
-         //:szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
-         ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^./include/banner.inc^ %>", 1, 0, 10001 );
-      } 
-
-      //:END
+      //:szWriteBuffer = "<jsp:include page='<%=strBannerName %>' />"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<jsp:include page='<%=strBannerName %>' />", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+      //:ELSE
    } 
+   else
+   { 
+      //:IF szShowBanner = "Y"
+      if ( ZeidonStringCompare( szShowBanner, 1, 0, "Y", 1, 0, 2 ) == 0 )
+      { 
+         //:// strBannerName will always have a value, it might be a dynamic banner name set in vml code
+         //:// or it might be an include file specified in the dialog or if neither of those, then
+         //:// strBannerName has been set to "./include/banner.inc".
+         //://szWriteBuffer = "<jsp:include page='<%=strBannerName %>' />"
 
+         //:// KJS 07/28/15 - Trying the banner include as all the other includes, not as the <jsp:include"
+         //:// If a banner include file has been entered by the user, then use this, otherwise
+         //:// hardcode "./include/banner.inc" as the banner name.
+         //:IF vDialog.Dialog.WEB_TopBannerName != ""
+         if ( CompareAttributeToString( vDialog, "Dialog", "WEB_TopBannerName", "" ) != 0 )
+         { 
+            //:szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
+            GetVariableFromAttribute( szTempString_23, 0, 'S', 255, vDialog, "Dialog", "WEB_TopBannerName", "", 0 );
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_23, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^./include/banner.inc^ %>", 1, 0, 10001 );
+         } 
+
+         //:END
+         //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+      } 
+
+
+      //:END
+   } 
 
    //:END
 

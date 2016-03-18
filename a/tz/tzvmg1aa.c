@@ -628,7 +628,7 @@ GenerateJavaSource( zVIEW  vSubtask,
    OutputLine( vSubtask, lfCFileHandle, "    You should have received a copy of the GNU Lesser General Public License", 1 );
    OutputLine( vSubtask, lfCFileHandle, "    along with Zeidon JOE.  If not, see <http://www.gnu.org/licenses/>.", 1 );
    OutputBlankLine( vSubtask, lfCFileHandle );
-   OutputLine( vSubtask, lfCFileHandle, "    Copyright © 2009 - 2016 QuinSoft, Inc.", 1 );
+   OutputLine( vSubtask, lfCFileHandle, "    Copyright (c) 2009 - 2016 QuinSoft, Inc.", 1 );
    OutputLine( vSubtask, lfCFileHandle, "**/", 1 );
    OutputBlankLine( vSubtask, lfCFileHandle );
    strcpy_s( pchOutputString, VM_MAX_STRING_SIZE, "package " );

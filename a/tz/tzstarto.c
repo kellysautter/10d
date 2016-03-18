@@ -6,7 +6,7 @@
 /*|                                                                          |*/
 /*| COPYRIGHT:                                                               |*/
 /*| ----------                                                               |*/
-/*|  Copyright (C) Ton Beller GmbH, Quinsoft Inc. 1997                       |*/
+/*|  Copyright (c) Ton Beller GmbH, Quinsoft Inc. 1997                       |*/
 /*|                                                                          |*/
 /*| DISCLAIMER OF WARRANTIES:                                                |*/
 /*| -------------------------                                                |*/
@@ -145,7 +145,7 @@ static void fnMyHelp(int nHelpType)
   zCHAR szMsg[512];
 
   strcpy_s( szMsg, zsizeof( szMsg ), "TZSTARTO - back ground process to start global ops\n");
-  strcat_s( szMsg, zsizeof( szMsg ), "Copyright (C) Ton Beller GmbH, Quinsoft Inc. 1997.\n\n");
+  strcat_s( szMsg, zsizeof( szMsg ), "Copyright (c) Ton Beller GmbH, Quinsoft Inc. 1997.\n\n");
 
   if (nHelpType == LINE_HELP)
   {
