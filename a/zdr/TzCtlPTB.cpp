@@ -1038,6 +1038,7 @@ TZPainterBar::OnGetToolTipText( WPARAM wParam, LPARAM lParam )
          break;
    }
 
+// TraceLineS( "TZPainterBar::OnGetToolTipText: ", pchText );
    return( 0 );
 }
 
@@ -1407,9 +1408,8 @@ TZPainterBar::EnablePainterWindows( zBOOL bEnable )
          {
             sprintf_s( szMsg, zsizeof( szMsg ), " %3d.%s%-32s %-32s%s0x%04x:", nPos + 1,
                       pCtrl->IsSelected( ) ? "*" : " ",
-                      pCtrl->m_pCtrlParent ?
-                                    pCtrl->m_pCtrlParent->m_csTag : "<null>",
-                      pCtrl->m_csTag,
+                      pCtrl->m_pCtrlParent ? pCtrl->m_pCtrlParent->m_csTag.GetString() : "<null>",
+                      pCtrl->m_csTag.GetString(),
                       (pCtrl->m_pWndCtrl && mIs_hWnd( pCtrl->m_pWndCtrl->m_hWnd )) ? " " : "~",
                       pCtrl->m_uVisible );
             TraceRect( szMsg, pCtrl->m_rectCtrl );
@@ -4215,7 +4215,7 @@ LRESULT TZSizingControlBarG::OnNcHitTest(CPoint point)
 // TZSizingControlBarG implementation helpers
 
 void TZSizingControlBarG::OnUpdateCmdUI(CFrameWnd* pTarget,
-                                      BOOL bDisableIfNoHndler)
+                                        BOOL bDisableIfNoHndler)
 {
     UNUSED_ALWAYS(bDisableIfNoHndler);
     UNUSED_ALWAYS(pTarget);

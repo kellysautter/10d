@@ -10996,8 +10996,6 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
 
          if ( nErrorEntityLvl == 0 )
          {
-            LPVIEWENTITY lpEntityTemp;
-
             // if this is not the first instance, set the indicators on
             // the previous instance. NOTE this is done after all updates
             // so the update flag can be reset!
@@ -11034,7 +11032,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
             *pRelinkBufferPtr = (zLONG) lpEntityInstance;
             lEntityCnt++;
 
-#if 1  // debugging
+#if 0  // debugging
             if ( nFlag )
             {
                if ( nFlag < 0 )
@@ -11052,7 +11050,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                }
                if ( nFlag > 0 )
                {
-                  lpEntityTemp = zGETPTR( lpEntityInstance->hViewEntity );
+                  LPVIEWENTITY lpEntityTemp = zGETPTR( lpEntityInstance->hViewEntity );
                   TraceLine( "Setting Relink Ptr: %d   at Entity #: %d   for EI: %d   Entity: %s", (zLONG) pRelinkBufferPtr, lEntityCnt, (zLONG) lpEntityInstance, lpEntityTemp->szName );
                }
             }

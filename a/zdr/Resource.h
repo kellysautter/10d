@@ -247,26 +247,26 @@
 #define IDM_BLUE                        0x9003
 #define IDM_WHITE                       0x9004
 #define IDM_CUSTOM                      0x9005
-#define ID_ACTION_BAR_UPDATE            0x4820
-#define ID_ALIGN_LEFT                   0x4821
-#define ID_ALIGN_TOP                    0x4822
-#define ID_ALIGN_RIGHT                  0x4823
-#define ID_ALIGN_BOTTOM                 0x4824
-#define ID_SIZE_WIDTH                   0x4825
-#define ID_SIZE_HEIGHT                  0x4826
-#define ID_SIZE_WIDTH_HEIGHT            0x4827
-#define ID_EQUAL_SPACE_HORIZONTAL       0x4828
-#define ID_EQUAL_SPACE_VERTICAL         0x4829
-#define ID_ABUT_HORIZONTAL              0x482A
-#define ID_ABUT_VERTICAL                0x482B
-#define ID_DELETE_SELECTED              0x482C
-#define ID_EQUAL_SIZE_POS_CLASS         0x482D
-#define ID_GROUP_SELECTED               0x482E
-#define ID_UNGROUP_SELECTED             0x482F
-#define ID_TOOLBAR_WNDLIST              0x4830
-#define ID_TOOLBAR_ACTLIST              0x4831
-#define ID_TOOLBAR_OPERLIST             0x4832
-#define ID_ARROW                        0x4833
+#define ID_ACTION_BAR_UPDATE            0xE820  // AFX_IDW_CONTROLBAR_FIRST + 32
+#define ID_ALIGN_LEFT                   0xE821
+#define ID_ALIGN_TOP                    0xE822
+#define ID_ALIGN_RIGHT                  0xE823
+#define ID_ALIGN_BOTTOM                 0xE824
+#define ID_SIZE_WIDTH                   0xE825
+#define ID_SIZE_HEIGHT                  0xE826
+#define ID_SIZE_WIDTH_HEIGHT            0xE827
+#define ID_EQUAL_SPACE_HORIZONTAL       0xE828
+#define ID_EQUAL_SPACE_VERTICAL         0xE829
+#define ID_ABUT_HORIZONTAL              0xE82A
+#define ID_ABUT_VERTICAL                0xE82B
+#define ID_DELETE_SELECTED              0xE82C
+#define ID_EQUAL_SIZE_POS_CLASS         0xE82D
+#define ID_GROUP_SELECTED               0xE82E
+#define ID_UNGROUP_SELECTED             0xE82F
+#define ID_TOOLBAR_WNDLIST              0xE830
+#define ID_TOOLBAR_ACTLIST              0xE831
+#define ID_TOOLBAR_OPERLIST             0xE832
+#define ID_ARROW                        0xE833
 
 // Next default values for new objects
 //
