@@ -92,6 +92,7 @@ private:
    CPoint m_ptSavedSelEnd;
    BOOL   m_bAutoIndent;
    BOOL   m_bDisableBSAtSOL;      // [JRT] Disable Back Space At Start Of Line
+   int    m_nHoldArrowXPos;
 
 protected:
    ZEditDropTargetImpl *m_pOleDropTarget;
@@ -641,7 +642,7 @@ protected:
 
       CPoint m_ptStartPos;     // Block of text participating start position ...
       CPoint m_ptEndPos;       // ... end position
-      int    m_nAction;                    // For information only: action type
+      int    m_nAction;        // For information only: action type
 
    private:
       // TCHAR *m_pcText;
@@ -668,7 +669,7 @@ protected:
 
       LPCTSTR GetText() const
       {
-         if (HIWORD((DWORD) m_pszText) != 0)
+         if (HIWORD((DWORD) m_pszText) != 0)  // using the above documented trick
             return m_pszText;
          return m_szText;
       };

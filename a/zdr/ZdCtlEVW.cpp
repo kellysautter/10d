@@ -360,6 +360,7 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
 
    m_nTopLine = 0;
    m_nOffsetChar = 0;
+   m_nHoldArrowXPos = -1;
 
 // SetDisableDragAndDrop( FALSE );
 // SetSmoothScroll(TRUE);
@@ -753,22 +754,16 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
    }
 #else
    BOOL bCtrlKey = (::GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
-// BOOL bShiftKey = (::GetAsyncKeyState(VK_RBUTTON) & VK_SHIFT) != 0;
    if (bCtrlKey)
    {
    }
    else
    {
-      if (uKey == VK_BACK)
-      {
-         // delete the previous character
-         OnEditDeleteBack();
-      }
-      else
       if ( uKey == VK_UP || uKey == VK_DOWN || uKey == VK_LEFT || uKey == VK_RIGHT )
       {
          CPoint ptCursorPos = GetCursorPos();
          ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+         BOOL bShiftKey = (::GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
          int x = ptCursorPos.x;
          int y = ptCursorPos.y;
          int w = GetLineLength(y);
@@ -779,7 +774,11 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
             {
                y--;
                if ( x == w || x > GetLineLength( y ) )
-                 x = GetLineLength(y);
+               {
+                  x = GetLineLength(y);
+                  if ( m_nHoldArrowXPos != -1 && m_nHoldArrowXPos < x )
+                     x = m_nHoldArrowXPos;
+               }
             }
          }
          else
@@ -789,7 +788,11 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
             {
                y++;
                if ( x == w || x > GetLineLength( y ) )
+               {
                   x = GetLineLength(y);
+                  if ( m_nHoldArrowXPos != -1 && m_nHoldArrowXPos < x )
+                     x = m_nHoldArrowXPos;
+               }
             }
          }
          else
@@ -803,6 +806,7 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
                y--;
                x = GetLineLength(y);
             }
+            m_nHoldArrowXPos = x;
          }
          else
          if ( uKey == VK_RIGHT )
@@ -815,75 +819,101 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
                y++;
                x = 0;
             }
+            m_nHoldArrowXPos = x;
+         }
+
+         if ( m_nHoldArrowXPos == -1 )
+         {
+            if ( x != GetLineLength(y) )
+               m_nHoldArrowXPos = x;
          }
 
          ptCursorPos.x = x;
          ptCursorPos.y = y;
          ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         SetSelection(ptCursorPos, ptCursorPos);
-         SetAnchor(ptCursorPos);
-         SetCursorPos(ptCursorPos);
-         EnsureVisible(ptCursorPos);
-      }
-      else
-      if ( uKey == VK_HOME )
-      {
-         CPoint ptCursorPos = GetCursorPos();
-         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         ptCursorPos.x = 0;
-         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         SetSelection(ptCursorPos, ptCursorPos);
-         SetAnchor(ptCursorPos);
-         SetCursorPos(ptCursorPos);
-         EnsureVisible(ptCursorPos);
-      }
-      else
-      if ( uKey == VK_END )
-      {
-         CPoint ptCursorPos = GetCursorPos();
-         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         ptCursorPos.x = GetLineLength( ptCursorPos.y );
-         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         SetSelection(ptCursorPos, ptCursorPos);
-         SetAnchor(ptCursorPos);
-         SetCursorPos(ptCursorPos);
-         EnsureVisible(ptCursorPos);
-      }
-      else
-      if ( uKey == VK_DELETE )
-      {
-         if ( IsSelection() )
+         if ( bShiftKey )
          {
-            OnEditDeleteBack();
+            CPoint ptSelStart;
+            CPoint ptSelEnd;
+            GetSelection(ptSelStart, ptSelEnd);
+            SetSelection(ptSelStart, ptCursorPos);
          }
          else
          {
-            BOOL bDelete = 0;
+            SetSelection(ptCursorPos, ptCursorPos);
+            SetAnchor(ptCursorPos);
+         }
+         SetCursorPos(ptCursorPos);
+         EnsureVisible(ptCursorPos);
+      }
+      else
+      {
+         m_nHoldArrowXPos = -1;
+         if (uKey == VK_BACK)
+         {
+            // delete the previous character
+            OnEditDeleteBack();
+         }
+         else
+         if ( uKey == VK_HOME )
+         {
             CPoint ptCursorPos = GetCursorPos();
             ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-
-            if ( ptCursorPos.x < GetLineLength( ptCursorPos.y ) )
+            ptCursorPos.x = 0;
+            ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+            SetSelection(ptCursorPos, ptCursorPos);
+            SetAnchor(ptCursorPos);
+            SetCursorPos(ptCursorPos);
+            EnsureVisible(ptCursorPos);
+         }
+         else
+         if ( uKey == VK_END )
+         {
+            CPoint ptCursorPos = GetCursorPos();
+            ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+            ptCursorPos.x = GetLineLength( ptCursorPos.y );
+            ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+            SetSelection(ptCursorPos, ptCursorPos);
+            SetAnchor(ptCursorPos);
+            SetCursorPos(ptCursorPos);
+            EnsureVisible(ptCursorPos);
+         }
+         else
+         if ( uKey == VK_DELETE )
+         {
+            if ( IsSelection() )
             {
-               bDelete = 1;
-               ptCursorPos.x++;
+               OnEditDeleteBack();
             }
             else
-            if (ptCursorPos.y < GetLineCount() - 1)
             {
-               bDelete = 1;
-               ptCursorPos.x = 0;
-               ptCursorPos.y++;
-            }
-
-            if ( bDelete )
-            {
+               BOOL bDelete = 0;
+               CPoint ptCursorPos = GetCursorPos();
                ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-               SetSelection(ptCursorPos, ptCursorPos);
-               SetAnchor(ptCursorPos);
-               SetCursorPos(ptCursorPos);
-               EnsureVisible(ptCursorPos);
-               // delete the previous character
-               OnEditDeleteBack();
+
+               if ( ptCursorPos.x < GetLineLength( ptCursorPos.y ) )
+               {
+                  bDelete = 1;
+                  ptCursorPos.x++;
+               }
+               else
+               if (ptCursorPos.y < GetLineCount() - 1)
+               {
+                  bDelete = 1;
+                  ptCursorPos.x = 0;
+                  ptCursorPos.y++;
+               }
+
+               if ( bDelete )
+               {
+                  ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+                  SetSelection(ptCursorPos, ptCursorPos);
+                  SetAnchor(ptCursorPos);
+                  SetCursorPos(ptCursorPos);
+                  EnsureVisible(ptCursorPos);
+                  // delete the previous character
+                  OnEditDeleteBack();
+               }
             }
          }
       }
@@ -917,7 +947,7 @@ void ZCrystalEditView::OnKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags )
          OnEditRedo();
          return;
       }
-    else
+      else
       if (uKey == 'Z')
       {
          OnEditUndo();
@@ -1566,7 +1596,7 @@ int ZCrystalEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #ifdef DEBUG_ALL
    TraceLineS( "OnCreate", "");
 #endif
-   // if (ZCrystalEditView::OnCreate(lpCreateStruct) == -1)
+// if (ZCrystalEditView::OnCreate(lpCreateStruct) == -1)
 //    return -1;
 
 //?SetFontOverride( );
@@ -2789,6 +2819,7 @@ void ZCrystalEditView::ResetView()
    m_bCursorHidden = FALSE;
    m_nTopLine = 0;
    m_nOffsetChar = 0;
+   m_nHoldArrowXPos = -1;
    m_nLineHeight = -1;
    m_nCharWidth = -1;
    m_nTabSize = 4;
@@ -4601,7 +4632,7 @@ void ZCrystalEditView::ToggleBookmark( int nBookmarkID )
       if (nBookmarkID == -1)
       {
          dwNewFlags = LF_ALL_BOOKMARKS;
-         dwMask  = LF_BOOKMARKS;
+         dwMask = LF_BOOKMARKS;
          bRemove = ((dwFlags & LF_ALL_BOOKMARKS) != 0) ? TRUE : FALSE;
       }
       else
@@ -4649,7 +4680,7 @@ void ZCrystalEditView::GoToBookmark( int nBookmarkID )
    if (m_pTextBuffer != NULL)
    {
       int nLine = m_pTextBuffer->GetLineWithFlag(LF_BOOKMARK(nBookmarkID));
-   if (nLine >= 0)
+      if (nLine >= 0)
       {
          CPoint pt(0, nLine);
          ASSERT_VALIDTEXTPOS(pt,FALSE);

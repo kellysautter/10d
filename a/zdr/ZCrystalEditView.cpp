@@ -188,9 +188,9 @@ BEGIN_MESSAGE_MAP(ZCrystalEditView, CView)
    ON_COMMAND_RANGE(ID_EDITOR_GO_BOOKMARK0, ID_EDITOR_GO_BOOKMARK9, OnGoBookmarkID)
    ON_COMMAND(ID_EDITOR_CLEAR_BOOKMARKS, OnClearBookmarks)
    ON_COMMAND(ID_EDITOR_TOGGLE_BOOKMARK, OnToggleBookmark)
-   ON_UPDATE_COMMAND_UI(ID_EDITOR_GOTO_NEXT_BOOKMARK,  OnUpdateNextBookmark)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_GOTO_NEXT_BOOKMARK, OnUpdateNextBookmark)
    ON_COMMAND(ID_EDITOR_GOTO_NEXT_BOOKMARK, OnNextBookmark)
-   ON_UPDATE_COMMAND_UI(ID_EDITOR_GOTO_PREV_BOOKMARK,  OnUpdatePrevBookmark)
+   ON_UPDATE_COMMAND_UI(ID_EDITOR_GOTO_PREV_BOOKMARK, OnUpdatePrevBookmark)
    ON_COMMAND(ID_EDITOR_GOTO_PREV_BOOKMARK, OnPrevBookmark)
    ON_UPDATE_COMMAND_UI(ID_EDITOR_CLEAR_ALL_BOOKMARKS, OnUpdateClearAllBookmarks)
    ON_COMMAND(ID_EDITOR_CLEAR_ALL_BOOKMARKS, OnClearAllBookmarks)
@@ -329,6 +329,7 @@ ZCrystalEditView::ZCrystalEditView() : CView()
 
    m_nTopLine = 0;
    m_nOffsetChar = 0;
+   m_nHoldArrowXPos = -1;
 
    SetDisableDragAndDrop( FALSE );
    SetSmoothScroll(TRUE);
@@ -588,22 +589,16 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
    }
 #else
    BOOL bCtrlKey = (::GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
-// BOOL bShiftKey = (::GetAsyncKeyState(VK_RBUTTON) & VK_SHIFT) != 0;
    if (bCtrlKey)
    {
    }
    else
    {
-      if (uKey == VK_BACK)
-      {
-         // delete the previous character
-         OnEditDeleteBack();
-      }
-      else
       if ( uKey == VK_UP || uKey == VK_DOWN || uKey == VK_LEFT || uKey == VK_RIGHT )
       {
          CPoint ptCursorPos = GetCursorPos();
          ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+         BOOL bShiftKey = (::GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
          int x = ptCursorPos.x;
          int y = ptCursorPos.y;
          int w = GetLineLength(y);
@@ -614,7 +609,11 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
             {
                y--;
                if ( x == w || x > GetLineLength( y ) )
-                 x = GetLineLength(y);
+               {
+                  x = GetLineLength(y);
+                  if ( m_nHoldArrowXPos != -1 && m_nHoldArrowXPos < x )
+                     x = m_nHoldArrowXPos;
+               }
             }
          }
          else
@@ -624,7 +623,11 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
             {
                y++;
                if ( x == w || x > GetLineLength( y ) )
+               {
                   x = GetLineLength(y);
+                  if ( m_nHoldArrowXPos != -1 && m_nHoldArrowXPos < x )
+                     x = m_nHoldArrowXPos;
+               }
             }
          }
          else
@@ -638,6 +641,7 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
                y--;
                x = GetLineLength(y);
             }
+            m_nHoldArrowXPos = x;
          }
          else
          if ( uKey == VK_RIGHT )
@@ -650,75 +654,101 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
                y++;
                x = 0;
             }
+            m_nHoldArrowXPos = x;
+         }
+
+         if ( m_nHoldArrowXPos == -1 )
+         {
+            if ( x != GetLineLength(y) )
+               m_nHoldArrowXPos = x;
          }
 
          ptCursorPos.x = x;
          ptCursorPos.y = y;
          ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         SetSelection(ptCursorPos, ptCursorPos);
-         SetAnchor(ptCursorPos);
-         SetCursorPos(ptCursorPos);
-         EnsureVisible(ptCursorPos);
-      }
-      else
-      if ( uKey == VK_HOME )
-      {
-         CPoint ptCursorPos = GetCursorPos();
-         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         ptCursorPos.x = 0;
-         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         SetSelection(ptCursorPos, ptCursorPos);
-         SetAnchor(ptCursorPos);
-         SetCursorPos(ptCursorPos);
-         EnsureVisible(ptCursorPos);
-      }
-      else
-      if ( uKey == VK_END )
-      {
-         CPoint ptCursorPos = GetCursorPos();
-         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         ptCursorPos.x = GetLineLength( ptCursorPos.y );
-         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         SetSelection(ptCursorPos, ptCursorPos);
-         SetAnchor(ptCursorPos);
-         SetCursorPos(ptCursorPos);
-         EnsureVisible(ptCursorPos);
-      }
-      else
-      if ( uKey == VK_DELETE )
-      {
-         if ( IsSelection() )
+         if ( bShiftKey )
          {
-            OnEditDeleteBack();
+            CPoint ptSelStart;
+            CPoint ptSelEnd;
+            GetSelection(ptSelStart, ptSelEnd);
+            SetSelection(ptSelStart, ptCursorPos);
          }
          else
          {
-            BOOL bDelete = 0;
+            SetSelection(ptCursorPos, ptCursorPos);
+            SetAnchor(ptCursorPos);
+         }
+         SetCursorPos(ptCursorPos);
+         EnsureVisible(ptCursorPos);
+      }
+      else
+      {
+         m_nHoldArrowXPos = -1;
+         if (uKey == VK_BACK)
+         {
+            // delete the previous character
+            OnEditDeleteBack();
+         }
+         else
+         if ( uKey == VK_HOME )
+         {
             CPoint ptCursorPos = GetCursorPos();
             ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-
-            if ( ptCursorPos.x < GetLineLength( ptCursorPos.y ) )
+            ptCursorPos.x = 0;
+            ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+            SetSelection(ptCursorPos, ptCursorPos);
+            SetAnchor(ptCursorPos);
+            SetCursorPos(ptCursorPos);
+            EnsureVisible(ptCursorPos);
+         }
+         else
+         if ( uKey == VK_END )
+         {
+            CPoint ptCursorPos = GetCursorPos();
+            ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+            ptCursorPos.x = GetLineLength( ptCursorPos.y );
+            ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+            SetSelection(ptCursorPos, ptCursorPos);
+            SetAnchor(ptCursorPos);
+            SetCursorPos(ptCursorPos);
+            EnsureVisible(ptCursorPos);
+         }
+         else
+         if ( uKey == VK_DELETE )
+         {
+            if ( IsSelection() )
             {
-               bDelete = 1;
-               ptCursorPos.x++;
+               OnEditDeleteBack();
             }
             else
-            if (ptCursorPos.y < GetLineCount() - 1)
             {
-               bDelete = 1;
-               ptCursorPos.x = 0;
-               ptCursorPos.y++;
-            }
-
-            if ( bDelete )
-            {
+               BOOL bDelete = 0;
+               CPoint ptCursorPos = GetCursorPos();
                ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-               SetSelection(ptCursorPos, ptCursorPos);
-               SetAnchor(ptCursorPos);
-               SetCursorPos(ptCursorPos);
-               EnsureVisible(ptCursorPos);
-               // delete the previous character
-               OnEditDeleteBack();
+
+               if ( ptCursorPos.x < GetLineLength( ptCursorPos.y ) )
+               {
+                  bDelete = 1;
+                  ptCursorPos.x++;
+               }
+               else
+               if (ptCursorPos.y < GetLineCount() - 1)
+               {
+                  bDelete = 1;
+                  ptCursorPos.x = 0;
+                  ptCursorPos.y++;
+               }
+
+               if ( bDelete )
+               {
+                  ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+                  SetSelection(ptCursorPos, ptCursorPos);
+                  SetAnchor(ptCursorPos);
+                  SetCursorPos(ptCursorPos);
+                  EnsureVisible(ptCursorPos);
+                  // delete the previous character
+                  OnEditDeleteBack();
+               }
             }
          }
       }
@@ -752,7 +782,7 @@ void ZCrystalEditView::OnKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags )
          OnEditRedo();
          return;
       }
-    else
+      else
       if (uKey == 'Z')
       {
          OnEditUndo();
@@ -1265,7 +1295,7 @@ BOOL ZEditDropTargetImpl::OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEF
 {
 // TRACE(_T("ZEditDropTargetImpl::OnDrop - %x\n"), pWnd->m_hWnd);
    //
-   // [JRT]          ( m_pED_Crystal -> GetDisableDragAndDrop() ) )    // Or Drag And Drop Disabled
+   // [JRT]          ( m_pED_Crystal->GetDisableDragAndDrop() ) )    // Or Drag And Drop Disabled
    //
    ClipCursor(NULL);
    bool bDataSupported = false;
@@ -1280,11 +1310,11 @@ BOOL ZEditDropTargetImpl::OnDrop(CWnd *pWnd, COleDataObject *pDataObject, DROPEF
 // if (pDataObject->IsDataAvailable(CF_TEXT))    // If text available
    if (pDataObject->IsDataAvailable(m_pED_Crystal->m_cfFormat)) // If our registered format available
    {
-      bDataSupported = true;                       // Set Flag
+      bDataSupported = true;                     // Set Flag
    }
-   if (!bDataSupported)                         // If No Supported Formats Available
+   if (!bDataSupported)                          // If No Supported Formats Available
    {
-      return DROPEFFECT_NONE;                       // Return DE_NONE
+      return DROPEFFECT_NONE;                    // Return DE_NONE
    }
    return (m_pED_Crystal->DoDropText(pDataObject, point));     // Return Result Of Drop
 }
@@ -2612,6 +2642,7 @@ void ZCrystalEditView::ResetView()
    m_bCursorHidden = FALSE;
    m_nTopLine = 0;
    m_nOffsetChar = 0;
+   m_nHoldArrowXPos = -1;
    m_nLineHeight = -1;
    m_nCharWidth = -1;
    m_nTabSize = 4;
@@ -4063,13 +4094,13 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
                                       DWORD dwFlags, BOOL bWrapSearch, CPoint *pptFoundPos)
 {
    CPoint ptCurrentPos = ptStartPosition;
-   BOOL bSearchWrapped = FALSE;
+   BOOL   bSearchWrapped = FALSE;
    int    nLineLength;
 
    ASSERT(pszText != NULL && lstrlen(pszText) > 0);
-   ASSERT_VALIDTEXTPOS(ptCurrentPos,FALSE);
-   ASSERT_VALIDTEXTPOS(ptBlockBegin,FALSE);
-   ASSERT_VALIDTEXTPOS(ptBlockEnd,FALSE);
+   ASSERT_VALIDTEXTPOS(ptCurrentPos, FALSE);
+   ASSERT_VALIDTEXTPOS(ptBlockBegin, FALSE);
+   ASSERT_VALIDTEXTPOS(ptBlockEnd, FALSE);
    ASSERT(ptBlockBegin.y < ptBlockEnd.y || ptBlockBegin.y == ptBlockEnd.y && ptBlockBegin.x <= ptBlockEnd.x);
    if (ptBlockBegin == ptBlockEnd)
       return 0;
@@ -4392,7 +4423,7 @@ void ZCrystalEditView::ToggleBookmark( int nBookmarkID )
       if (nBookmarkID == -1)
       {
          dwNewFlags = LF_ALL_BOOKMARKS;
-         dwMask  = LF_BOOKMARKS;
+         dwMask = LF_BOOKMARKS;
          bRemove = ((dwFlags & LF_ALL_BOOKMARKS) != 0) ? TRUE : FALSE;
       }
       else
@@ -5053,6 +5084,7 @@ void ZCrystalEditView::OnLButtonDown(UINT uFlags, CPoint point)
       if ((IsInsideSelBlock(ptText)) && (m_bDisabledDragAndDrop == FALSE))  // If Inside Selection Area ... and D&D Not Disabled
       {
          m_bPreparingToDrag = TRUE;
+         ClipCursorToClient();
       // TRACE(_T("OnLButtonDown setting m_bPreparingToDrag: %d   for hWnd: %d\n"), m_bPreparingToDrag, m_hWnd);
       }
       else
@@ -5096,7 +5128,6 @@ void ZCrystalEditView::OnLButtonDown(UINT uFlags, CPoint point)
          m_bDragSelection = TRUE;
       }
    }
-   ClipCursorToClient();
 
    ASSERT_VALIDTEXTPOS(m_ptCursorPos,FALSE);
 }
@@ -5443,12 +5474,14 @@ void ZCrystalEditView::OnLButtonDblClk(UINT uFlags, CPoint point)
    ClipCursorToClient();
 }
 
+// Only permit D&D within the client area.  There is a bug somewhere that sometimes shows up when
+// dragging outside the client area.
 BOOL ZCrystalEditView::ClipCursorToClient()
 {
    CRect rect;
    GetClientRect(rect);
    ClientToScreen(&rect);
-   rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
+// rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
    return ClipCursor(rect);
 }
 
@@ -6251,7 +6284,7 @@ void ZCrystalTextBuffer::SetLineFlag(int nLine, DWORD dwFlag, BOOL bSet, BOOL bR
          else
          {
             if ( (dwFlag & LF_BOOKMARKS) == 0)
-            ASSERT(nPrevLine == nLine);
+               ASSERT(nPrevLine == nLine);
          }
       }
 
