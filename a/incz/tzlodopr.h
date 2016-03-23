@@ -2513,10 +2513,14 @@ zOPER_EXPORT zLONG OPERATION
 SaveTextLine( zVOID );
 zOPER_EXPORT zLONG OPERATION
 GetProfileData( zVIEW  vSubtask,
-                zPCHAR pchSourceDirectory,
+                zPCHAR pchSrcDirectory,
+                zLONG  lMaxSrcDirectoryLth,
                 zPCHAR pchSourceFileName,
+                zLONG  lMaxSourceFileNameLth,
                 zPCHAR pchXPGFileName,
-                zPCHAR pchOperationName );
+                zLONG  lMaxXPGFileNameLth,
+                zPCHAR pchOperationName,
+                zLONG  lMaxOperationNameLth );
 zOPER_EXPORT zLONG OPERATION
 ReInitOperation( zVOID );
 zOPER_EXPORT zLONG OPERATION

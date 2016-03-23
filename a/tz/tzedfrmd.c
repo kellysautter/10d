@@ -4010,8 +4010,7 @@ OpIns_BuildOperList( zVIEW vSubtask )
          }
 
          default:
-            SysMessageBox( vSubtask, "Zeidon Internal",
-                           "This operation type not yet supported", 0 );
+            SysMessageBox( vSubtask, "Zeidon Internal", "This operation type not yet supported", 0 );
             break;
 
       } // switch ( szCurrentType[ 0 ] )...
@@ -5073,8 +5072,16 @@ fnParseIt( zVIEW vSubtask, zVIEW vEdWrk, zVIEW vSource, zPCHAR pchFileName, zCPC
    }
 
    GetIntegerFromAttribute( &lMetaType, vEdWrk, szlBuffer, szlMetaType );
+
+   zPCHAR pchDot = strrchr( pchFileName, '.' );
+   if ( pchDot )
+      *pchDot = 0;
+
    nRC = (zSHORT) ParseSource( vSubtask, vSource, lParseAction, lParseLimit, lParseSource,
                                pch, "", lMetaType, 0, cpcGenLang );
+   if ( pchDot )
+      *pchDot = '.';
+
    if ( bReadOnly )
       SetViewReadOnly( vSource );
 
@@ -5280,8 +5287,8 @@ GenerateCompileJava( zVIEW vSubtask )
 
    nRC = Generate( vSubtask, "Java" );
 
-   if (nRC != 0)
-      return ( nRC );
+   if ( nRC )
+      return( nRC );
 
    // KJS 08/21/14
    GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
@@ -5292,7 +5299,10 @@ GenerateCompileJava( zVIEW vSubtask )
 
    // KJS 08/21/14 - Get JavaCompileBat from the zeidon.ini and run it (currently we are using maven for compile).
    SysReadZeidonIni( -1, szSystemApp, "JavaCompileBat", szJavaCompileBat, zsizeof( szJavaCompileBat ) );
-   system( szJavaCompileBat );
+   if ( szJavaCompileBat[ 0 ] )
+      system( szJavaCompileBat );
+   else
+      MessageBox( NULL, "Generate/Compile Java", "Unable to locate JavaCompileBat in Zeidon.ini", MB_OK | MB_ICONINFORMATION );
 
    return nRC;
 
@@ -5899,25 +5909,25 @@ OpIns_StartOperationHelp( zVIEW vSubtask )
    zCHAR  szOperType[ 5 ];
    zSHORT nRC;
 
-   // FIND OUT WHAT TYPE OF OPERATION LIST IS CURRENTLY DISPLAYED.
+   // Find out what type of operation list is currently displayed.
    mGetWorkView( &vEdWrk,vSubtask );
    GetStringFromAttribute( szOperType, zsizeof( szOperType ), vEdWrk, "OperListType", "Type" );
 
-   // IF IT'S NOT A ZEIDON OPER LIST, GET OUT. NO HELP IS AVAILABLE.
+   // If it's not a zeidon oper list, get out.  No Help is available.
    if ( szOperType[ 0 ] != 'Z' )
    {
       return( 0 );
    }
 
-   // GET THE OPERATION TAG FOR THE CURRENT CURSOR POSITION.
+   // Get the operation tag for the current cursor position.
    GetStringFromAttribute( szOperName, zsizeof( szOperName ), vEdWrk, "Oper", "Name" );
    strcpy_s( szOperTag, zsizeof( szOperTag ), "fn " );
    strcat_s( szOperTag, zsizeof( szOperTag ), szOperName );
 
-   // CALL HELP
+   // Call Help
    nRC = StartZeidonHelp( vSubtask, szOperTag );
 
-   // IF HELP WAS NOT FOUND, NOTIFY THE USER.
+   // If help was not found, notify the user.
    if ( nRC == zCALL_ERROR )
    {
       MB_SetMessage( vSubtask, 0, "Help for this operation is not currently available." );
@@ -5976,9 +5986,9 @@ TZEDFRMD_SearchSelectedText( zVIEW vSubtask )
    {
       lSearchBehavior |= FIND_MATCH_CASE;
       g_bMatchCase = TRUE;
-//    csStringToFind = "\\b";
+   // csStringToFind = "\\b";
       csStringToFind = g_csFindWhat;
-//    csStringToFind += "[^a-zA-Z_0-9]";
+   // csStringToFind += "[^a-zA-Z_0-9]";
    }
 
    EDT_FindTextPosition( vSubtask, csStringToFind, &lStartLine, &lStartCol, lSearchBehavior );
@@ -5995,12 +6005,12 @@ TZEDFRMD_SearchSelectedText( zVIEW vSubtask )
    zSHORT nRC = EDT_SearchSelectedText( vSubtask );
    CString csLast = EDT_GetLastFindString( vSubtask );
    CString csMsg;
-   if (nRC == 0)
+   if ( nRC == 0 )
    {
       csMsg = "Selected text NOT found: ";
    }
    else
-   if (nRC < 0)
+   if ( nRC < 0 )
    {
       csMsg = "Found past the end of the document: ";
    }

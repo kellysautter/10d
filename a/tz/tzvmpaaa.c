@@ -106,7 +106,7 @@ zPCHAR szMessageListParse[ ] =
         "11 -Could not write to temp file, Parse Terminating"
       };
 
-static zPCHAR RemoveTabs( zPCHAR szWork, zLONG lMaxLth );
+static zPCHAR RemoveTabs( zPCHAR pchWork, zLONG lMaxLth );
 static zVOID
 fnDeleteGenerated( zVIEW vSourceMeta );
 static zVOID
@@ -167,20 +167,20 @@ fnPrintOperator( sQExprStruct *pWorkExpr, zCPCHAR szIndent );
 //    it is a 1.
 //
 zOPER_EXPORT zLONG OPERATION
-ParseVMLSource( zVIEW  vVML_Subtask,      /* pointer to the vml task */
-                zVIEW  vSubtask,          /* pointer to the appl task */
-                zPCHAR szSrcDirectory,    /* name of the text file to parse */
-                zPCHAR szFileName,        /* name of the text file to parse */
+ParseVMLSource( zVIEW  vVML_Subtask,      // pointer to the vml task
+                zVIEW  vSubtask,          // pointer to the appl task
+                zPCHAR pchSrcDirectory,   // name of the text file to parse
+                zPCHAR pchFileName,       // name of the text file to parse
                 zCPCHAR cpcGenLang )
 {
    zCHAR  szSrcDir[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR  szSourceFileName[ 33 ];
    zCHAR  szXPGFileName[ 33 ];
    zCHAR  szOperationName[ 33 ];
-   zLONG  lRC; /* a return code to test the returns of operation calls */
+   zLONG  lRC;  // return code to test the returns of operation calls
 
-   GetProfileData( vSubtask, szSrcDir, szSourceFileName,
-                   szXPGFileName, szOperationName );
+   GetProfileData( vSubtask, szSrcDir, zsizeof( szSrcDir ), szSourceFileName, zsizeof( szSourceFileName ),
+                   szXPGFileName, zsizeof( szXPGFileName ), szOperationName, zsizeof( szOperationName ) );
 
    lRC = ParseSource( vVML_Subtask, 0,     /* pointer to the vml task */
                       g_lParseAction, g_lParseLimit,
@@ -199,8 +199,8 @@ ParseSource( zVIEW  vVML_Subtask,
              zLONG  lIlParseAction,
              zLONG  lIlParseLimit,
              zLONG  lIlParseSource,
-             zPCHAR szSourceFileName,
-             zPCHAR szInOperationName,
+             zPCHAR pchSourceFileName,
+             zPCHAR pchOperationName,
              zLONG  lMetaType,
              zLONG  lControl,
              zCPCHAR cpcGenLang )
@@ -212,7 +212,6 @@ ParseSource( zVIEW  vVML_Subtask,
    zCHAR  szErrorFile[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR  szVML_DateTime[ 30 ];
    zCHAR  szXGODirectory[ zMAX_FILESPEC_LTH + 1 ];
-   zCHAR  szOperationName[ 33 ];
    zCHAR  szXPGFileName[ 33 ];
    zCHAR  szOpGenType[ 2 ];
    zVIEW  vError;
@@ -278,18 +277,15 @@ ParseSource( zVIEW  vVML_Subtask,
    SysAppendcDirSep( szSrcDirectory );
    strcpy_s( szSrcDirectory2, zsizeof( szSrcDirectory2 ), szSrcDirectory );
 
-   // DM - Is this doing what it is supposed to?  Save the operation name.
-   strcpy_s( szOperationName, zsizeof( szOperationName ), szInOperationName );
-
    // Fill out directory for error file.
    strcpy_s( szErrorFile, zsizeof( szErrorFile ), szSrcDirectory );
 
    // Stick in the file name.  DM - I am assuming the file name was properly passed in!!
-   strcat_s( szSrcDirectory, zsizeof( szSrcDirectory ), szSourceFileName );
-   strcat_s( szErrorFile, zsizeof( szErrorFile ), szSourceFileName );
+   strcat_s( szSrcDirectory, zsizeof( szSrcDirectory ), pchSourceFileName );
+   strcat_s( szErrorFile, zsizeof( szErrorFile ), pchSourceFileName );
 
    // Tack on extensions.
-   strcat_s( szSrcDirectory, zsizeof (szSrcDirectory ), ".VML" );
+   strcat_s( szSrcDirectory, zsizeof( szSrcDirectory ), ".VML" );
    strcat_s( szErrorFile, zsizeof( szErrorFile ), ".ERR" );
 
    // Get the dir name of the Zeidon tools so that we get the XGO directory.
@@ -352,7 +348,7 @@ ParseSource( zVIEW  vVML_Subtask,
       MiGetObjectNameForView( g_szSourceMetaObjectName, g_vSourceMeta );
    }
 
-   strcpy_s( szXPGFileName, zsizeof( szXPGFileName ), szSourceFileName );
+   strcpy_s( szXPGFileName, zsizeof( szXPGFileName ), pchSourceFileName );
    strcat_s( szFullXPGPathName, zsizeof( szFullXPGPathName ), szXPGFileName );
 
    // Concat the Extension onto the directory.
@@ -661,8 +657,7 @@ ParseSource( zVIEW  vVML_Subtask,
             case zPARSE_ACTION_INCREMENTAL:
             {
                // do the text comparison first.
-               lRC = GetIntegerFromAttribute( &lZKey, g_lpPIView,
-                                              "OperationSource", "ZKey" );
+               lRC = GetIntegerFromAttribute( &lZKey, g_lpPIView, "OperationSource", "ZKey" );
                lRC = PositionAtOperationInSource( lZKey );
 
                lCompare = CompareFileToXPG( lZKey );
@@ -671,7 +666,7 @@ ParseSource( zVIEW  vVML_Subtask,
                if ( lCompare != 0 )
                {
                   // first we need to lode the file,, reinit the  globals
-                  TraceLineS( "Must Reparse", szOperationName );
+                  TraceLineS( "Must Reparse", pchOperationName );
                   SysCloseFile( vVML_Subtask, g_lfHandle, 0 );
                   InitGlobalDataForParse( );
 
@@ -1182,8 +1177,8 @@ InitGlobalDataForParse( void )
 //
 zOPER_EXPORT zLONG OPERATION
 InitErrorObject( zVIEW  vSubtask,
-                 zPCHAR szErrorFile, // fully qualified file name
-                 zPCHAR szSourceFile ) // name of source file
+                 zPCHAR pchErrorFile, // fully qualified file name
+                 zPCHAR pchSourceFile ) // name of source file
 {
 // zVIEW  lpTaskView = GetDefaultViewForActiveTask( );
    zVIEW  vError;
@@ -1216,11 +1211,11 @@ InitErrorObject( zVIEW  vSubtask,
    nRC = SetNameForView( vError, "TZVMEROO", vSubtask, zLEVEL_TASK );
 
    // Open the error file to write errors too.
-   g_lfErrorHandle = SysOpenFile( vSubtask, szErrorFile, COREFILE_CREATE );
+   g_lfErrorHandle = SysOpenFile( vSubtask, pchErrorFile, COREFILE_CREATE );
 
    // Put the name of the source file in the error list as a title.
-   SysWriteLine( vSubtask, g_lfErrorHandle, szSourceFile );
-   nRC = SetAttributeFromString( vError, "Root", "SourceFileName", szSourceFile );
+   SysWriteLine( vSubtask, g_lfErrorHandle, pchSourceFile );
+   nRC = SetAttributeFromString( vError, "Root", "SourceFileName", pchSourceFile );
    return( 0 );
 }
 
@@ -1328,10 +1323,14 @@ SaveTextLine( void )
 
 zOPER_EXPORT zLONG OPERATION
 GetProfileData( zVIEW  vSubtask,
-                zPCHAR szSrcDirectory,
-                zPCHAR szSourceFileName,
-                zPCHAR szXPGFileName,
-                zPCHAR szOperationName )
+                zPCHAR pchSrcDirectory,
+                zLONG  lMaxSrcDirectoryLth,
+                zPCHAR pchSourceFileName,
+                zLONG  lMaxSourceFileNameLth,
+                zPCHAR pchXPGFileName,
+                zLONG  lMaxXPGFileNameLth,
+                zPCHAR pchOperationName,
+                zLONG  lMaxOperationNameLth )
 {
    zVIEW  vProfileView;
    zLONG lLth;
@@ -1343,25 +1342,25 @@ GetProfileData( zVIEW  vSubtask,
       GetIntegerFromAttribute( &g_lParseAction, vProfileView, "VML", "ParseAction" );
       GetIntegerFromAttribute( &g_lParseLimit, vProfileView, "VML", "ParseLimit" );
       GetIntegerFromAttribute( &g_lParseSource, vProfileView, "VML", "ParseSource" );
-      GetStringFromAttribute( szSrcDirectory, zsizeof( szSrcDirectory ), vProfileView, "VML", "Dir" );
-      lLth = zstrlen( szSrcDirectory );
-      if ( szSrcDirectory[ lLth ] != '\\' )
+      GetStringFromAttribute( pchSrcDirectory, lMaxSrcDirectoryLth, vProfileView, "VML", "Dir" );
+      lLth = zstrlen( pchSrcDirectory );
+      if ( pchSrcDirectory[ lLth ] != '\\' )
       {
-         szSrcDirectory[ lLth ] = '\\';
-         szSrcDirectory[ lLth + 1 ] = 0;
+         pchSrcDirectory[ lLth ] = '\\';
+         pchSrcDirectory[ lLth + 1 ] = 0;
       }
 
       lLth = 0;
-      GetStringFromAttribute( szSourceFileName, zsizeof( szSourceFileName ), vProfileView, "VML", "SourceFileName" );
-      GetStringFromAttribute( szXPGFileName, zsizeof( szXPGFileName ), vProfileView, "VML", "XPGFileName" );
+      GetStringFromAttribute( pchSourceFileName, lMaxSourceFileNameLth, vProfileView, "VML", "SourceFileName" );
+      GetStringFromAttribute( pchXPGFileName, lMaxXPGFileNameLth, vProfileView, "VML", "XPGFileName" );
 
       // If the XPG file name is NULL then copy in the SourceFileName.
-      if ( szXPGFileName[ 0 ] == 0 )
+      if ( pchXPGFileName[ 0 ] == 0 )
       {
-         strcpy_s( szXPGFileName, zsizeof( szXPGFileName ), szSourceFileName );
+         strcpy_s( pchXPGFileName, lMaxXPGFileNameLth, pchSourceFileName );
       }
 
-      GetStringFromAttribute( szOperationName, zsizeof( szOperationName ), vProfileView, "OP", "PassedName1" );
+      GetStringFromAttribute( pchOperationName, lMaxOperationNameLth, vProfileView, "OP", "PassedName1" );
       return( 0 );
    }
    else
@@ -1423,12 +1422,12 @@ SkipRemainingFile( )
 }
 
 zOPER_EXPORT zLONG OPERATION
-IncludeCoreHeader( zVIEW lpView, zPCHAR szHeaderName )
+IncludeCoreHeader( zVIEW lpView, zPCHAR pchHeaderName )
 {
    zLONG lZKey;
    zLONG lRC;
 
-   lRC = SetCursorFirstEntityByString( g_lpZOListView, "HeaderFile", "Name", szHeaderName, "" );
+   lRC = SetCursorFirstEntityByString( g_lpZOListView, "HeaderFile", "Name", pchHeaderName, "" );
    if ( lRC > zCURSOR_UNCHANGED )
    {
       GetIntegerFromAttribute( &lZKey, g_lpZOListView, "HeaderFile", "ZKey" );

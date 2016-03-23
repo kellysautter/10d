@@ -5264,7 +5264,8 @@ void ZCrystalEditView::OnLButtonDown(UINT uFlags, CPoint point)
       if ((IsInsideSelBlock(ptText)) && (m_bDisabledDragAndDrop == FALSE))  // If Inside Selection Area ... and D&D Not Disabled
       {
          m_bPreparingToDrag = TRUE;
-      // TRACE(_T("OnLButtonDown setting m_bPreparingToDrag: %d   for hWnd: %d\n"), m_bPreparingToDrag, m_hWnd);
+         ClipCursorToClient();
+         // TRACE(_T("OnLButtonDown setting m_bPreparingToDrag: %d   for hWnd: %d\n"), m_bPreparingToDrag, m_hWnd);
       // TraceLine("OnLButtonDown setting m_bPreparingToDrag: %d   for hWnd: %d", m_bPreparingToDrag, m_hWnd);
       }
       else
@@ -5308,7 +5309,6 @@ void ZCrystalEditView::OnLButtonDown(UINT uFlags, CPoint point)
          m_bDragSelection = TRUE;
       }
    }
-   ClipCursorToClient();
 
    ASSERT_VALIDTEXTPOS(m_ptCursorPos,FALSE);
 }
@@ -5659,12 +5659,14 @@ void ZCrystalEditView::OnLButtonDblClk(UINT uFlags, CPoint point)
    ClipCursorToClient();
 }
 
+// Only permit D&D within the client area.  There is a bug somewhere that sometimes shows up when
+// dragging outside the client area.
 BOOL ZCrystalEditView::ClipCursorToClient()
 {
    CRect rect;
    GetClientRect(rect);
    ClientToScreen(&rect);
-   rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
+// rect.bottom -= GetSystemMetrics(SM_CXHSCROLL);
    return ClipCursor(rect);
 }
 
@@ -9238,7 +9240,7 @@ EDT_OnSize( zVIEW vSubtask )
          CRect rect;
          pZSubtask->m_pZFWnd->GetClientRect( rect );
          // int nLeftMargin = pED_Crystal->GetCharWidth() * 8;
-         pED_Crystal->SetWindowPos( 0, 0, 0, rect.Width() - GetSystemMetrics(SM_CXVSCROLL) + 8, rect.Height() - GetSystemMetrics(SM_CXHSCROLL) - 8, SWP_NOMOVE | SWP_NOZORDER );
+         pED_Crystal->SetWindowPos( 0, 0, 0, rect.Width() - GetSystemMetrics(SM_CXVSCROLL) + 8, rect.Height() - GetSystemMetrics(SM_CXHSCROLL) - 38, SWP_NOMOVE | SWP_NOZORDER );
          // pED_Crystal->SetWindowPos( 0, nLeftMargin, 0, rect.Width() - GetSystemMetrics(SM_CXVSCROLL) + 8 - nLeftMargin, rect.Height() - GetSystemMetrics(SM_CXHSCROLL) - 8, SWP_NOZORDER );
          return( TRUE );
       }
