@@ -7495,6 +7495,7 @@ CtrlListRefreshCtrls( zVIEW  vSubtask )
    RefreshCtrl( vSubtask, "CSS_Position" );
    RefreshCtrl( vSubtask, "CSS_Size" );
    RefreshCtrl( vSubtask, "TabOrder" );
+   RefreshCtrl( vSubtask, "WebCtrlType" );
 
    return( 0 );
 } // CtrlListRefreshCtrls
@@ -7930,7 +7931,8 @@ SaveCtrlList( zVIEW vSubtask )
            MapCtrl( vSubtask, "CSS_Font" ) == 0 &&
            MapCtrl( vSubtask, "CSS_Position" ) == 0 &&
            MapCtrl( vSubtask, "CSS_Size" ) == 0 &&
-           MapCtrl( vSubtask, "TabOrder" ) == 0 )
+           MapCtrl( vSubtask, "TabOrder" ) == 0 &&
+           MapCtrl( vSubtask, "WebCtrlType" ) == 0 )
       {
          zCHAR szTag[ 33 ];
 

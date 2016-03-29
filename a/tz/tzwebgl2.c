@@ -10334,20 +10334,20 @@ GenJSPJ_InputMapRecurs( zVIEW     vDialog,
                            //:IF vDialog.Control.CSS_Class = "mceSimpleZeidon"
                            if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "mceSimpleZeidon" ) == 0 )
                            { 
-                              //:szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " prior to TrimTinyHTML: ^ + strMapValue );"
+                              //:szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " prior to TrimTinyHtml: ^ + strMapValue );"
                               ZeidonStringCopy( szWriteBuffer, 1, 0, "         task.log().debug( ^", 1, 0, 10001 );
                               ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, " prior to TrimTinyHTML: ^ + strMapValue );", 1, 0, 10001 );
+                              ZeidonStringConcat( szWriteBuffer, 1, 0, " prior to TrimTinyHtml: ^ + strMapValue );", 1, 0, 10001 );
                               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                               //:szWriteBuffer = "         strMapValue = VmlOperation.TrimTinyHtml( strMapValue );"
                               ZeidonStringCopy( szWriteBuffer, 1, 0, "         strMapValue = VmlOperation.TrimTinyHtml( strMapValue );", 1, 0, 10001 );
                               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                              //:szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " after TrimTinyHTML: ^ + strMapValue );"
+                              //:szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " after TrimTinyHtml: ^ + strMapValue );"
                               ZeidonStringCopy( szWriteBuffer, 1, 0, "         task.log().debug( ^", 1, 0, 10001 );
                               ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, " after TrimTinyHTML: ^ + strMapValue );", 1, 0, 10001 );
+                              ZeidonStringConcat( szWriteBuffer, 1, 0, " after TrimTinyHtml: ^ + strMapValue );", 1, 0, 10001 );
                               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                            } 
