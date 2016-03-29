@@ -4349,6 +4349,15 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " after escape: ^ + strMapValue );"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        ELSE
+                           IF vDialog.Control.CSS_Class = "mceSimpleZeidon"
+                              szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " prior to TrimTinyHTML: ^ + strMapValue );"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              szWriteBuffer = "         strMapValue = VmlOperation.TrimTinyHtml( strMapValue );"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " after TrimTinyHTML: ^ + strMapValue );"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                           END
                         END
                      END
                   END

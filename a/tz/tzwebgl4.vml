@@ -1403,7 +1403,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
 
    // Create a div around the whole table.  This should probably be float.
-   //szWriteBuffer = "<div style=^float:left;width:" + szWidth + "px;height:" + szHeight + "px;^" + szClass + ">"
+   // szWriteBuffer = "<div style=^float:left;width:" + szWidth + "px;height:" + szHeight + "px;^" + szClass + ">"
    // KJS 09/11/09 - Neither the table or the div had an id or name.  I am not sure whether I should put the
    // id on the <table we create or on the <div> but I will put it on the div.
    IF szNoPositioning = "S"
@@ -2100,12 +2100,17 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                   szClass = "mceSimple" // "mceSimple" is TinyMCE default
                END
 
-               szWriteBuffer = "<textarea" + szHTMLCtrlID +
-                               "class=^" + szClass + "^ " + szTitleHTML +
-                               szStyle + ">" +
-                            // "^ rows="15" cols="80" style="width: 80%">" +
-                               "<%=strErrorMapValue%></textarea>"
-
+               IF szClass = "mceSimpleZeidon"
+                  szWriteBuffer = "<div style=^background-color:#eee;border:1px solid #041;width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;overflow:auto;^>"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+               ELSE
+                  szWriteBuffer = "<textarea" + szHTMLCtrlID +
+                                  "class=^" + szClass + "^ " + szTitleHTML +
+                                  szStyle + ">" +
+                               // "^ rows="15" cols="80" style="width: 80%">" +
+                                  "<%=strErrorMapValue%></textarea>"
+               END
             ELSE
                szClass = vDialog.Control.CSS_Class
                CreateTabIndexString( vDialog, szTabIndex )
@@ -3361,7 +3366,7 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 32 )  szContextName
    STRING ( 256 ) szClass
    STRING ( 50 )  szControlType
-   STRING ( 50 )  szSize
+   STRING ( 50 )  szWidth
    STRING ( 10 )  szHeight
    STRING ( 256 ) szAbsoluteStyle
    STRING ( 50 )  szTitleHTML
@@ -3371,6 +3376,7 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szText
    STRING ( 10 )  szMaxStringLength
    STRING ( 1 )   szTinyMCEFlag
+   DECIMAL        dDLUnits
    INTEGER        X_Size
    INTEGER        Y_Size
    INTEGER        Size
@@ -3510,12 +3516,9 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
 
-   X_Size = vDialog.Control.SZDLG_X
-   Size = X_Size / 4
-   zIntegerToString( szSize, 10, Size )
-   Y_Size = vDialog.Control.SZDLG_Y
-   Size = Y_Size / 12
-   zIntegerToString( szHeight, 10, Size )
+   PIX_PER_DU( vDialog, dDLUnits )
+   zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
+   zIntegerToString( szHeight, 10, vDialog.Control.SZDLG_Y * dDLUnits )
 
    IF vDialog.Control.VisibleBorder = "Y"
       zAppendQuotedString( szAbsoluteStyle, "border:solid;border-width:4px;border-style:groove;", "style=", "^" )
@@ -3539,28 +3542,33 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
    // CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
    // szAbsoluteStyle = szAbsoluteStyle + szTabIndex
 
-      GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
-      szText = vLPLR.LPLR.Name
-      szLPLR_Name = "[App." + szText + "]"
-      SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass )
+      szClass = vDialog.Control.CSS_Class
       IF szClass = ""
-         szClass = "mceSimple"  // "mceSimple" is TinyMCE default
+         GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+         szText = vLPLR.LPLR.Name
+         szLPLR_Name = "[App." + szText + "]"
+         SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass )
+         IF szClass = ""
+            szClass = "mceSimple"  // "mceSimple" is TinyMCE default
+         END
       END
 
-      IF vDialog.Control.CSS_Class != ""
-         szClass = szClass + " " + vDialog.Control.CSS_Class
+      IF szClass = "mceSimpleZeidon"
+         szWriteBuffer = "<div style=^background-color:#eee;border:1px solid #042;width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;overflow:auto;^>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<div class=^mceSimpleZeidon^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ style=^width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+      ELSE
+         szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
+                         "^ class=^" + szClass + "^ " + szTitleHTML +
+                         szAbsoluteStyle + szActionCode + ">" +
+                      // "^ rows="15" cols="80" style="width: 80%">" +
+                         "<%=strErrorMapValue%></textarea>"
       END
-
-      szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
-                      "^ class=^" + szClass + "^ " + szTitleHTML +
-                      szAbsoluteStyle + szActionCode + ">" +
-                   // "^ rows="15" cols="80" style="width: 80%">" +
-                      "<%=strErrorMapValue%></textarea>"
 
    ELSE
       szClass = ""
       IF vDialog.Control.CSS_Class != ""
-         szClass = vDialog.Control.CSS_Class
+      // szClass = vDialog.Control.CSS_Class
          szClass = " class=^" + vDialog.Control.CSS_Class + "^"
       END
       CreateTabIndexString( vDialog, szTabIndex )

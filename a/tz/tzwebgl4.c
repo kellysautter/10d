@@ -1115,8 +1115,8 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
    zCHAR     szClass[ 257 ] = { 0 }; 
    //:STRING ( 50 )  szControlType
    zCHAR     szControlType[ 51 ] = { 0 }; 
-   //:STRING ( 50 )  szSize
-   zCHAR     szSize[ 51 ] = { 0 }; 
+   //:STRING ( 50 )  szWidth
+   zCHAR     szWidth[ 51 ] = { 0 }; 
    //:STRING ( 10 )  szHeight
    zCHAR     szHeight[ 11 ] = { 0 }; 
    //:STRING ( 256 ) szAbsoluteStyle
@@ -1135,6 +1135,8 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
    zCHAR     szMaxStringLength[ 11 ] = { 0 }; 
    //:STRING ( 1 )   szTinyMCEFlag
    zCHAR     szTinyMCEFlag[ 2 ] = { 0 }; 
+   //:DECIMAL        dDLUnits
+   ZDecimal  dDLUnits = 0.0; 
    //:INTEGER        X_Size
    zLONG     X_Size = 0; 
    //:INTEGER        Y_Size
@@ -1165,8 +1167,9 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
    zCHAR     szTempString_11[ 33 ]; 
    zCHAR     szTempString_12[ 255 ]; 
    zSHORT    lTempInteger_1; 
+   zLONG     lTempInteger_2; 
+   zLONG     lTempInteger_3; 
    zCHAR     szTempString_13[ 255 ]; 
-   zCHAR     szTempString_14[ 255 ]; 
 
 
    //:TraceLineS("**** GenJSPJ_CrteMLEdit **** ", "")
@@ -1496,18 +1499,14 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
    //:CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
    CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" );
 
-   //:X_Size = vDialog.Control.SZDLG_X
-   GetIntegerFromAttribute( &X_Size, vDialog, "Control", "SZDLG_X" );
-   //:Size = X_Size / 4
-   Size = X_Size / 4;
-   //:zIntegerToString( szSize, 10, Size )
-   zIntegerToString( szSize, 10, Size );
-   //:Y_Size = vDialog.Control.SZDLG_Y
-   GetIntegerFromAttribute( &Y_Size, vDialog, "Control", "SZDLG_Y" );
-   //:Size = Y_Size / 12
-   Size = Y_Size / 12;
-   //:zIntegerToString( szHeight, 10, Size )
-   zIntegerToString( szHeight, 10, Size );
+   //:PIX_PER_DU( vDialog, dDLUnits )
+   PIX_PER_DU( vDialog, &dDLUnits );
+   //:zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
+   GetIntegerFromAttribute( &lTempInteger_2, vDialog, "Control", "SZDLG_X" );
+   zIntegerToString( szWidth, 10, lTempInteger_2 * dDLUnits );
+   //:zIntegerToString( szHeight, 10, vDialog.Control.SZDLG_Y * dDLUnits )
+   GetIntegerFromAttribute( &lTempInteger_3, vDialog, "Control", "SZDLG_Y" );
+   zIntegerToString( szHeight, 10, lTempInteger_3 * dDLUnits );
 
    //:IF vDialog.Control.VisibleBorder = "Y"
    if ( CompareAttributeToString( vDialog, "Control", "VisibleBorder", "Y" ) == 0 )
@@ -1554,55 +1553,80 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
       //:// CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
       //:// szAbsoluteStyle = szAbsoluteStyle + szTabIndex
 
-      //:GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
-      GetViewByName( &vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK );
-      //:szText = vLPLR.LPLR.Name
-      GetVariableFromAttribute( szText, 0, 'S', 257, vLPLR, "LPLR", "Name", "", 0 );
-      //:szLPLR_Name = "[App." + szText + "]"
-      ZeidonStringCopy( szLPLR_Name, 1, 0, "[App.", 1, 0, 33 );
-      ZeidonStringConcat( szLPLR_Name, 1, 0, szText, 1, 0, 33 );
-      ZeidonStringConcat( szLPLR_Name, 1, 0, "]", 1, 0, 33 );
-      //:SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass )
-      SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass, zsizeof( szClass ) );
+      //:szClass = vDialog.Control.CSS_Class
+      GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
       //:IF szClass = ""
       if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
       { 
-         //:szClass = "mceSimple"  // "mceSimple" is TinyMCE default
-         ZeidonStringCopy( szClass, 1, 0, "mceSimple", 1, 0, 257 );
+         //:GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+         GetViewByName( &vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK );
+         //:szText = vLPLR.LPLR.Name
+         GetVariableFromAttribute( szText, 0, 'S', 257, vLPLR, "LPLR", "Name", "", 0 );
+         //:szLPLR_Name = "[App." + szText + "]"
+         ZeidonStringCopy( szLPLR_Name, 1, 0, "[App.", 1, 0, 33 );
+         ZeidonStringConcat( szLPLR_Name, 1, 0, szText, 1, 0, 33 );
+         ZeidonStringConcat( szLPLR_Name, 1, 0, "]", 1, 0, 33 );
+         //:SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass )
+         SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass, zsizeof( szClass ) );
+         //:IF szClass = ""
+         if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
+         { 
+            //:szClass = "mceSimple"  // "mceSimple" is TinyMCE default
+            ZeidonStringCopy( szClass, 1, 0, "mceSimple", 1, 0, 257 );
+         } 
+
+         //:END
       } 
 
       //:END
 
-      //:IF vDialog.Control.CSS_Class != ""
-      if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 )
+      //:IF szClass = "mceSimpleZeidon"
+      if ( ZeidonStringCompare( szClass, 1, 0, "mceSimpleZeidon", 1, 0, 257 ) == 0 )
       { 
-         //:szClass = szClass + " " + vDialog.Control.CSS_Class
-         ZeidonStringConcat( szClass, 1, 0, " ", 1, 0, 257 );
-         GetVariableFromAttribute( szTempString_13, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
-         ZeidonStringConcat( szClass, 1, 0, szTempString_13, 1, 0, 257 );
+         //:szWriteBuffer = "<div style=^background-color:#eee;border:1px solid #042;width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;overflow:auto;^>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<div style=^background-color:#eee;border:1px solid #042;width:", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szWidth, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "px;height:", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szHeight, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "px;position:absolute;left:0px;top:0px;overflow:auto;^>", 1, 0, 10001 );
+         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+         //:szWriteBuffer = "<div class=^mceSimpleZeidon^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ style=^width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^mceSimpleZeidon^ name=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ style=^width:", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szWidth, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "px;height:", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szHeight, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>", 1, 0, 10001 );
+         //:ELSE
+      } 
+      else
+      { 
+         //:szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
+         //:                "^ class=^" + szClass + "^ " + szTitleHTML +
+         //:                szAbsoluteStyle + szActionCode + ">" +
+         //:             // "^ rows="15" cols="80" style="width: 80%">" +
+         //:                "<%=strErrorMapValue%></textarea>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ class=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szActionCode, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
       } 
 
       //:END
-
-      //:szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
-      //:                "^ class=^" + szClass + "^ " + szTitleHTML +
-      //:                szAbsoluteStyle + szActionCode + ">" +
-      //:             // "^ rows="15" cols="80" style="width: 80%">" +
-      //:                "<%=strErrorMapValue%></textarea>"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ class=^", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szActionCode, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
 
       //:ELSE
    } 
@@ -1613,12 +1637,11 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
       //:IF vDialog.Control.CSS_Class != ""
       if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 )
       { 
-         //:szClass = vDialog.Control.CSS_Class
-         GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
+         //:// szClass = vDialog.Control.CSS_Class
          //:szClass = " class=^" + vDialog.Control.CSS_Class + "^"
-         GetVariableFromAttribute( szTempString_14, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
+         GetVariableFromAttribute( szTempString_13, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
          ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
-         ZeidonStringConcat( szClass, 1, 0, szTempString_14, 1, 0, 257 );
+         ZeidonStringConcat( szClass, 1, 0, szTempString_13, 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, "^", 1, 0, 257 );
       } 
 
@@ -4820,7 +4843,7 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
    //:END
 
    //:// Create a div around the whole table.  This should probably be float.
-   //://szWriteBuffer = "<div style=^float:left;width:" + szWidth + "px;height:" + szHeight + "px;^" + szClass + ">"
+   //:// szWriteBuffer = "<div style=^float:left;width:" + szWidth + "px;height:" + szHeight + "px;^" + szClass + ">"
    //:// KJS 09/11/09 - Neither the table or the div had an id or name.  I am not sure whether I should put the
    //:// id on the <table we create or on the <div> but I will put it on the div.
    //:IF szNoPositioning = "S"
@@ -6452,21 +6475,46 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
 
                //:END
 
-               //:szWriteBuffer = "<textarea" + szHTMLCtrlID +
-               //:                "class=^" + szClass + "^ " + szTitleHTML +
-               //:                szStyle + ">" +
-               //:             // "^ rows="15" cols="80" style="width: 80%">" +
-               //:                "<%=strErrorMapValue%></textarea>"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "class=^", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
+               //:IF szClass = "mceSimpleZeidon"
+               if ( ZeidonStringCompare( szClass, 1, 0, "mceSimpleZeidon", 1, 0, 257 ) == 0 )
+               { 
+                  //:szWriteBuffer = "<div style=^background-color:#eee;border:1px solid #041;width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;overflow:auto;^>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<div style=^background-color:#eee;border:1px solid #041;width:", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szSize, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "px;height:", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szHeight, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "px;position:absolute;left:0px;top:0px;overflow:auto;^>", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                  //:szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^mceSimpleZeidon^ ", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, " style=^width:", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szSize, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "px;height:", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szHeight, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>", 1, 0, 10001 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szWriteBuffer = "<textarea" + szHTMLCtrlID +
+                  //:                "class=^" + szClass + "^ " + szTitleHTML +
+                  //:                szStyle + ">" +
+                  //:             // "^ rows="15" cols="80" style="width: 80%">" +
+                  //:                "<%=strErrorMapValue%></textarea>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "class=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
+               } 
 
+               //:END
                //:ELSE
             } 
             else

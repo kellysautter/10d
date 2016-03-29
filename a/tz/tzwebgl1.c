@@ -15073,22 +15073,47 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
 
                   //:END
 
-                  //:szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag +
-                  //:                "^ class=^" + szClass + "^ " + szTitleHTML +
-                  //:                szAbsoluteStyle + ">" +
-                  //:                "<%=strErrorMapValue%></textarea>"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ class=^", 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
+                  //:IF szClass = "mceSimpleZeidon"
+                  if ( ZeidonStringCompare( szClass, 1, 0, "mceSimpleZeidon", 1, 0, 257 ) == 0 )
+                  { 
+                     //:szWriteBuffer = "<div style=^background-color:#eec;border:1px solid #011;width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^>"
+                     ZeidonStringCopy( szWriteBuffer, 1, 0, "<div style=^background-color:#eec;border:1px solid #011;width:", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szSize, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "px;height:", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szHeight, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "px;position:absolute;left:0px;top:0px;^>", 1, 0, 10001 );
+                     //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                     //:szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+                     ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^mceSimpleZeidon^ ", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, " style=^width:", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szSize, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "px;height:", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szHeight, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>", 1, 0, 10001 );
+                     //:ELSE
+                  } 
+                  else
+                  { 
+                     //:szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag +
+                     //:                "^ class=^" + szClass + "^ " + szTitleHTML +
+                     //:                szAbsoluteStyle + ">" +
+                     //:                "<%=strErrorMapValue%></textarea>"
+                     ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "^ class=^", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
+                  } 
 
+                  //:END
                   //:ELSE
                } 
                else
@@ -15136,11 +15161,9 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
 
    //:END // FOR EACH
 
-   //:// I am creating a div for every new y position.  Need to close this.  This
-   //:// will not be correct if there are no controls.
-   //:// If szFirstTimeThrough = "Y" then that means we were on a groupbox that doesn't have
-   //:// any controls inside it.  If that's true, we didn't create the beginning <div so don't create
-   //:// the closing div.
+   //:// I am creating a div for every new y position.  Need to close this.  This will not be correct if there are no controls.
+   //:// If szFirstTimeThrough = "Y", that means we were on a groupbox that doesn't have any controls inside it.  If that's true,
+   //:// we didn't create the beginning <div so don't create the closing div.
    //:// Only do this if we are positioning with relative positioning.
    //:IF  szNoPositioning = "Y"
    if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )

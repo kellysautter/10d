@@ -3309,7 +3309,6 @@ GenJSP_CrteGroupTable(  VIEW vDialog BASED ON LOD TZWDLGSO,
             END
             zAppendQuotedString( szStyle, szAbsoluteStyle, "style=", "^" )
 
-
             szTinyMCEFlag = ""
             SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "wysiwyg TinyMCE"
             IF RESULT >= zCURSOR_SET
@@ -3323,11 +3322,16 @@ GenJSP_CrteGroupTable(  VIEW vDialog BASED ON LOD TZWDLGSO,
                   szClass = "mceSimple" // "mceSimple" is TinyMCE default
                END
 
-               szWriteBuffer = "<textarea" + szHTMLCtrlID +
-                               "class=^" + szClass + "^ " + szTitleHTML +
-                               szStyle + ">" +
-                               "<%=strErrorMapValue%></textarea>"
-
+               IF szClass = "mceSimpleZeidon"
+                  szWriteBuffer = "<div style=^background-color:#eed;border:1px solid #031;width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^>"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+               ELSE
+                  szWriteBuffer = "<textarea" + szHTMLCtrlID +
+                                  "class=^" + szClass + "^ " + szTitleHTML +
+                                  szStyle + ">" +
+                                  "<%=strErrorMapValue%></textarea>"
+               END
             ELSE
                szClass = ""
                szClass = vDialog.Control.CSS_Class

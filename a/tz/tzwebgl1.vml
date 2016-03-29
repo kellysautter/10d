@@ -3879,11 +3879,16 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      szClass = "mceSimple"  // "mceSimple" is TinyMCE default
                   END
 
-                  szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag +
-                                  "^ class=^" + szClass + "^ " + szTitleHTML +
-                                  szAbsoluteStyle + ">" +
-                                  "<%=strErrorMapValue%></textarea>"
-
+                  IF szClass = "mceSimpleZeidon"
+                     szWriteBuffer = "<div style=^background-color:#eec;border:1px solid #011;width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^>"
+                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                     szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+                  ELSE
+                     szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag +
+                                     "^ class=^" + szClass + "^ " + szTitleHTML +
+                                     szAbsoluteStyle + ">" +
+                                     "<%=strErrorMapValue%></textarea>"
+                  END
                ELSE
                   szClass = ""
                   szClass = vDialog.Control.CSS_Class
@@ -3900,11 +3905,9 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
       END
    END // FOR EACH
 
-   // I am creating a div for every new y position.  Need to close this.  This
-   // will not be correct if there are no controls.
-   // If szFirstTimeThrough = "Y" then that means we were on a groupbox that doesn't have
-   // any controls inside it.  If that's true, we didn't create the beginning <div so don't create
-   // the closing div.
+   // I am creating a div for every new y position.  Need to close this.  This will not be correct if there are no controls.
+   // If szFirstTimeThrough = "Y", that means we were on a groupbox that doesn't have any controls inside it.  If that's true,
+   // we didn't create the beginning <div so don't create the closing div.
    // Only do this if we are positioning with relative positioning.
    IF  szNoPositioning = "Y"
       IF szFirstTimeThrough = ""
