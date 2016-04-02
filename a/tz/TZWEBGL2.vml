@@ -1294,7 +1294,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "   if ( VmlOperation.isValid( " + vDialog.CtrlMapView.Name + " ) == false )"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      task.log( ).info( ^Invalid View: ^ + ^" + szCtrlTag + "^ );"
+               szWriteBuffer = "      task.log( ).debug( ^Invalid View: ^ + ^" + szCtrlTag + "^ );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "   else"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -6345,7 +6345,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
                WL_QC( vDialogTemp, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      if ( VmlOperation.isValid( " + vDialogTemp.CtrlMapView.Name + " ) == false )"
                WL_QC( vDialogTemp, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         task.log( ).info( ^Invalid View: ^ + ^" + szCtrlTag + "^ );"
+               szWriteBuffer = "         task.log( ).debug( ^Invalid View: ^ + ^" + szCtrlTag + "^ );"
                WL_QC( vDialogTemp, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      else"
                WL_QC( vDialogTemp, lFile, szWriteBuffer, "^", 0 )

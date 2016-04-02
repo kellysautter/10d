@@ -205,7 +205,7 @@ fnInsertVML_Text( zVIEW    vSubtask,
                   zVIEW    vEdWrk,
                   zVIEW    vProfileXFER );
 zOPER_EXPORT zSHORT OPERATION
-SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang );
+SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang, zBOOL bMsg );
 zOPER_EXPORT zSHORT OPERATION
 SaveAndParseC( zVIEW vSubtask );
 zOPER_EXPORT zSHORT OPERATION
@@ -1888,7 +1888,7 @@ CreateErrorMessage( zVIEW  vSubtask,
    strcat_s( szMsg, zsizeof( szMsg ), szComponentType );
    strcat_s( szMsg, zsizeof( szMsg ), " is not checked out." );
 
-   MessagePrompt( vSubtask, "ED0003", szlZeidonEditor,
+   MessagePrompt( vSubtask, "ED0002", szlZeidonEditor,
                   szMsg,
                   FALSE, zBUTTONS_OK, 0, zICON_EXCLAMATION );
    return( 0 );
@@ -2404,7 +2404,7 @@ fnCommandCompletion( zVIEW vSubtask )
 
    EDT_GetCursorPosition( vSubtask, &lLine, &lCol );
 
-   // No cc if we are in the first col.
+   // No command completion if we are in the first col.
    if ( lCol == 0 )
    {
       return( FALSE );
@@ -2421,10 +2421,10 @@ fnCommandCompletion( zVIEW vSubtask )
    if ( lLth < 2 || isspace( szBuffer[ lCol - 1 ]) )
       return( FALSE );
 
-   // Check to see if anything comes after the space.  If there is and it's not a white space then skip CC.
+   // Check to see if anything comes after the space.  If there is and it's not a white space then skip command completion.
    if ( lLth > lCol + 1 )
    {
-      for ( pchToken = &szBuffer[ lCol + 1 ]; *pchToken; pchToken++ )
+      for ( pchToken = &szBuffer[ lCol + 1 ]; pchToken < szBuffer + lLth && *pchToken; pchToken++ )
       {
          if ( isspace( *pchToken ) == FALSE )
             return( FALSE );
@@ -2457,13 +2457,13 @@ fnCommandCompletion( zVIEW vSubtask )
       return( FALSE );              // Code not found so exit.
    }
 
-   // Check to see if we only perform CC for this token if it is the first token on the line.
+   // Check to see if we only perform command completion for this token if it is the first token on the line.
    if ( CompareAttributeToString( vProfileXFER, "VML_Text", "CC_FirstChar", "Y" ) == 0 )
    {
       zPCHAR pch;
 
       // Scan the current line before the token to see if there is a non-space.
-      // If there is then we don't perform CC so exit.
+      // If there is then we don't perform command completion ... so exit.
       for ( pch = pchToken - 1; pch >= szBuffer; pch-- )
       {
          if ( isspace( *pch ) == FALSE )
@@ -5046,7 +5046,7 @@ SaveFile( zVIEW vSubtask )
 }
 
 zSHORT
-fnParseIt( zVIEW vSubtask, zVIEW vEdWrk, zVIEW vSource, zPCHAR pchFileName, zCPCHAR cpcGenLang )
+fnParseIt( zVIEW vSubtask, zVIEW vEdWrk, zVIEW vSource, zPCHAR pchFileName, zCPCHAR cpcGenLang, zBOOL bMsg )
 {
    zCHAR  szMsg[ 300 ];
    zVIEW  vWindow;
@@ -5106,7 +5106,7 @@ fnParseIt( zVIEW vSubtask, zVIEW vEdWrk, zVIEW vSource, zPCHAR pchFileName, zCPC
       if ( FALSE ) //> performing exit.
       {
          strcpy_s( szMsg, zsizeof( szMsg ), "Parse completed with Errors.\n\nSee Error File for list of errors." );
-         nRC = MessagePrompt( vSubtask, "ED0002", szlZeidonEditor, szMsg, 1, 0, 0, zICON_ERROR );
+         nRC = MessagePrompt( vSubtask, "ED0003", szlZeidonEditor, szMsg, 1, 0, 0, zICON_ERROR );
       }
 
       nRC = 1;
@@ -5119,7 +5119,8 @@ fnParseIt( zVIEW vSubtask, zVIEW vEdWrk, zVIEW vSource, zPCHAR pchFileName, zCPC
 
       sprintf_s( szMsg, zsizeof( szMsg ), "Parse completed successfully for: '%s'", pchFileName );
       MB_SetMessage( vSubtask, MAIN_DIL, szMsg );
-      MessagePrompt( vSubtask, "ED0003", szlZeidonEditor, szMsg, 0, 0, 0, zICON_INFORMATION );
+      if ( bMsg )
+         MessagePrompt( vSubtask, "ED0004", szlZeidonEditor, szMsg, 0, 0, 0, zICON_INFORMATION );
       nRC = 0;
    }
 
@@ -5127,7 +5128,7 @@ fnParseIt( zVIEW vSubtask, zVIEW vEdWrk, zVIEW vSource, zPCHAR pchFileName, zCPC
 }
 
 zOPER_EXPORT zSHORT OPERATION
-SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
+SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang, zBOOL bMsg )
 {
    zCHAR  szFileName[ zMAX_FILENAME_LTH + 1 ];
    zCHAR  szMsg[ 300 ];
@@ -5139,14 +5140,14 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
    if ( vEdWrk == 0 )
    {
       strcpy_s( szMsg, zsizeof( szMsg ), "TZEDWRKO not Available at SaveAndParse." );
-      MessagePrompt( vSubtask, "ED0001", szlZeidonEditor, szMsg, 1, 0, 0, zICON_EXCLAMATION );
+      MessagePrompt( vSubtask, "ED0005", szlZeidonEditor, szMsg, 1, 0, 0, zICON_EXCLAMATION );
       return( 0 );
    }
 
    if ( CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) != 0 )
    {
       strcpy_s( szMsg, zsizeof( szMsg ), "Parse only valid with VML Files." );
-      MessagePrompt( vSubtask, "ED0002", szlZeidonEditor,
+      MessagePrompt( vSubtask, "ED0006", szlZeidonEditor,
                      szMsg, 1, 0, 0, zICON_EXCLAMATION );
       return( 1 );
    }
@@ -5169,24 +5170,24 @@ SaveAndParse( zVIEW vSubtask, zCPCHAR cpcGenLang )
    }
 
    GetStringFromAttribute( szFileName, zsizeof( szFileName ), vEdWrk, szlBuffer, szlFileName );
-   nRC = fnParseIt( vSubtask, vEdWrk, vSource, szFileName, cpcGenLang );
+   nRC = fnParseIt( vSubtask, vEdWrk, vSource, szFileName, cpcGenLang, bMsg );
    return( nRC );
 }
 
 zOPER_EXPORT zSHORT OPERATION
 SaveAndParseC( zVIEW vSubtask )
 {
-   return( SaveAndParse( vSubtask, "C" ) );
+   return( SaveAndParse( vSubtask, "C", TRUE ) );
 }
 
 zOPER_EXPORT zSHORT OPERATION
 SaveAndParseJava( zVIEW vSubtask )
 {
-   return( SaveAndParse( vSubtask, "Java" ) );
+   return( SaveAndParse( vSubtask, "Java", TRUE ) );
 }
 
 zOPER_EXPORT zSHORT OPERATION
-Generate( zVIEW vSubtask, zCPCHAR cpcGenLang )
+Generate( zVIEW vSubtask, zCPCHAR cpcGenLang, zBOOL bMsg )
 {
    zVIEW    vEdWrk;
    zVIEW    vSource;
@@ -5250,8 +5251,11 @@ Generate( zVIEW vSubtask, zCPCHAR cpcGenLang )
    }
    else
    {
-      strcpy_s( szMsg, zsizeof( szMsg ), "Generate completed successfully." );
-      MessagePrompt( vSubtask, "ED0003", szlZeidonEditor, szMsg, 0, 0, 0, zICON_INFORMATION );
+      if ( bMsg )
+      {
+         strcpy_s( szMsg, zsizeof( szMsg ), "Generate completed successfully." );
+         MessagePrompt( vSubtask, "ED0007", szlZeidonEditor, szMsg, 0, 0, 0, zICON_INFORMATION );
+      }
       nRC = 0;
    }
 
@@ -5262,13 +5266,13 @@ Generate( zVIEW vSubtask, zCPCHAR cpcGenLang )
 zOPER_EXPORT zSHORT OPERATION
 GenerateC( zVIEW vSubtask )
 {
-   return( Generate( vSubtask, "C" ) );
+   return( Generate( vSubtask, "C", TRUE ) );
 }
 
 zOPER_EXPORT zSHORT OPERATION
 GenerateJava( zVIEW vSubtask )
 {
-   return( Generate( vSubtask, "Java" ) );
+   return( Generate( vSubtask, "Java", TRUE ) );
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -5285,7 +5289,7 @@ GenerateCompileJava( zVIEW vSubtask )
    zCHAR    szJavaCompileBat[ 256 ] = { 0 };
    zCHAR    szLPLR_Name[ 33 ] = { 0 };
 
-   nRC = Generate( vSubtask, "Java" );
+   nRC = Generate( vSubtask, "Java", TRUE );
 
    if ( nRC )
       return( nRC );
@@ -5367,7 +5371,7 @@ fnTZEDFRMD_SaveFile( zVIEW    vSubtask,
       mGetWorkView( &vEdWrk, vSubtask );
       if ( vEdWrk == 0 )
       {
-         MessagePrompt( vSubtask, "ED0001", szlZeidonEditor,
+         MessagePrompt( vSubtask, "ED0008", szlZeidonEditor,
                         "TZEDWRKO not Available at SaveFile.", 1,
                         0, 0, zICON_EXCLAMATION );
          return( -1 );
@@ -5388,13 +5392,13 @@ fnTZEDFRMD_SaveFile( zVIEW    vSubtask,
 
          if ( lRC == zRESPONSE_YES )
          {
-            if ( SaveAndParse( vSubtask, "C" ) != 0 )
+            if ( SaveAndParse( vSubtask, "C", TRUE ) != 0 )
                return( -1 );
          }
          else
             if ( lRC == zRESPONSE_NO )
             {
-               if ( SaveAndParse( vSubtask, "Java" ) != 0 )
+               if ( SaveAndParse( vSubtask, "Java", TRUE ) != 0 )
                   return( -1 );
             }
       }
@@ -5588,7 +5592,7 @@ fnSaveWithCheckForParse( zVIEW vSubtask )
    if ( vEdWrk == 0 )
    {
       strcpy_s( szMsg, zsizeof( szMsg ), "TZEDWRKO not Available at SaveAndParse." );
-      MessagePrompt( vSubtask, "ED0001", szlZeidonEditor, szMsg, 1, 0, 0, zICON_EXCLAMATION );
+      MessagePrompt( vSubtask, "ED0009", szlZeidonEditor, szMsg, 1, 0, 0, zICON_EXCLAMATION );
       return( 0 );
    }
 
@@ -5635,12 +5639,12 @@ fnSaveWithCheckForParse( zVIEW vSubtask )
                                         zBUTTONS_YESNOCANCEL, zRESPONSE_YES, zICON_EXCLAMATION );
             if ( lRC == zRESPONSE_YES )
             {
-               nRC = fnParseIt( vSubtask, vEdWrk, vSource, szFileName, "C" );
+               nRC = fnParseIt( vSubtask, vEdWrk, vSource, szFileName, "C", TRUE );
             }
             else
             if ( lRC == zRESPONSE_NO )
             {
-               nRC = fnParseIt( vSubtask, vEdWrk, vSource, szFileName, "Java" );
+               nRC = fnParseIt( vSubtask, vEdWrk, vSource, szFileName, "Java", TRUE );
             }
          }
          return( nRC );
@@ -7272,6 +7276,29 @@ TZEDFRMD_EditReplaceAll( zVIEW vSubtask )
 
 } // TZEDFRMD_EditReplaceAll
 
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: ParseGenerateJava
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+ParseGenerateJava( zVIEW vSubtask )
+{
+   zSHORT nRC = SaveAndParse( vSubtask, "Java", FALSE );
+   if ( nRC == 0 )
+   {
+      nRC = Generate( vSubtask, "Java", FALSE );
+      if ( nRC == 0 )
+      {
+         MessagePrompt( vSubtask, "ED0010", szlZeidonEditor, "Parse/Generate completed successfully.", 0, 0, 0, zICON_INFORMATION );
+      }
+   }
+   return( nRC );
+
+} // ParseGenerateJava
+
+
 #ifdef __cplusplus
 }
 #endif
+

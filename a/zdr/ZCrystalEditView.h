@@ -256,7 +256,7 @@ protected:
    };
 
    virtual DWORD ParseLine(DWORD dwCookie, int nLineIndex, TEXTBLOCK *pBuf, int &nActualItems);
-   virtual BOOL ZCrystalEditView::IsKeyword(LPCTSTR pszChars, int nLength);
+   virtual BOOL ZCrystalEditView::IsKeyword(LPCTSTR pszChars, int nLth);
    virtual HINSTANCE GetResourceHandle();
 
 // Operations
@@ -358,7 +358,7 @@ public:
    int FindText(LPCTSTR pszText, CPoint &ptStartPos, DWORD dwFlags, BOOL bWrapSearch, CPoint *pptFoundPos);
    int FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPos, CPoint &ptBlockBegin, CPoint &ptBlockEnd,
                        DWORD dwFlags, BOOL bWrapSearch, CPoint *pptFoundPos);
-   BOOL HighlightText(CPoint &ptStartPos, int nLength);
+   BOOL HighlightText(CPoint &ptStartPos, int nLth);
 
    // Default handle to resources
    static HINSTANCE s_hResourceInst;
@@ -607,7 +607,7 @@ protected:
    struct SLineInfo
    {
       TCHAR *m_pcLine;
-      int   m_nLength;
+      int   m_nLth;
       int   m_nMax;
       DWORD m_dwFlags;
 
@@ -689,8 +689,8 @@ protected:
    CList <ZCrystalEditView *, ZCrystalEditView *> m_lpViews;
 
    // Helper methods
-   void InsertLine(LPCTSTR pszLine, int nLength = -1, int nPosition = -1);
-   void AppendLine(int nLineIndex, LPCTSTR pszChars, int nLength = -1);
+   void InsertLine(LPCTSTR pszLine, int nLth = -1, int nPosition = -1);
+   void AppendLine(int nLineIndex, LPCTSTR pszChars, int nLth = -1);
 
    // Implementation
    BOOL InternalInsertText(ZCrystalEditView *pSource, int nLine, int nPos, LPCTSTR pszText, int &nEndLine, int &nEndChar);

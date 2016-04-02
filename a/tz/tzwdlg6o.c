@@ -4735,8 +4735,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //://checkbox on it.  If there is no "text" for this checkbox (so the header would be blank)
    //://we are going to create a checkbox in the grid header that calls this function.
    //://This will select all or unselect all the checkboxes in the grid.
-   //:szWriteBuffer = "function CheckAllInGrid(id, CheckBoxName)"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "function CheckAllInGrid(id, CheckBoxName)", 1, 0, 10001 );
+   //:szWriteBuffer = "function CheckAllInGrid(id, CheckBoxName) // triggered by no text checkbox" 
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "function CheckAllInGrid(id, CheckBoxName) // triggered by no text checkbox", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "{"

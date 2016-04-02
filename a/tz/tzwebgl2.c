@@ -3740,8 +3740,8 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                ZeidonStringConcat( szWriteBuffer, 1, 0, " ) == false )", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "      task.log( ).info( ^Invalid View: ^ + ^" + szCtrlTag + "^ );"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "      task.log( ).info( ^Invalid View: ^ + ^", 1, 0, 10001 );
+               //:szWriteBuffer = "      task.log( ).debug( ^Invalid View: ^ + ^" + szCtrlTag + "^ );"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "      task.log( ).debug( ^Invalid View: ^ + ^", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -14011,8 +14011,8 @@ GenJSPJ_Action( zVIEW     vDialog,
                ZeidonStringConcat( szWriteBuffer, 1, 0, " ) == false )", 1, 0, 10001 );
                //:WL_QC( vDialogTemp, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialogTemp, lFile, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "         task.log( ).info( ^Invalid View: ^ + ^" + szCtrlTag + "^ );"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "         task.log( ).info( ^Invalid View: ^ + ^", 1, 0, 10001 );
+               //:szWriteBuffer = "         task.log( ).debug( ^Invalid View: ^ + ^" + szCtrlTag + "^ );"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         task.log( ).debug( ^Invalid View: ^ + ^", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
                //:WL_QC( vDialogTemp, lFile, szWriteBuffer, "^", 0 )

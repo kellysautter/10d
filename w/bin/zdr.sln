@@ -1,14 +1,27 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{8BC9CEB9-8B4A-11D0-8D11-00A0C91BC942}") = "ZDr.exe", "ZDr.exe", "{1EC43DF4-7BF5-4015-875F-7F6D5E088D93}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "ZDr", "ZDr.exe", "{1EC43DF4-7BF5-4015-875F-7F6D5E088D93}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\10d\w\bin\ZDr.exe
+		RemoteMachine = DKS7-PC
+		StartingDirectory = C:\10d\w\bin
+		Environment = Default
+		LaunchingEngine = 00000000-0000-0000-0000-000000000000
+		UseLegacyDebugEngines = No
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Default = Debug|Default
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1EC43DF4-7BF5-4015-875F-7F6D5E088D93}.Debug|Default.ActiveCfg = Debug
+		{1EC43DF4-7BF5-4015-875F-7F6D5E088D93}.Debug|Default.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
