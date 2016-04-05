@@ -408,14 +408,14 @@ public:
    CString GetVariantType();
    CString GetCPPDefinition();
    VARTYPE GetVartype () { return m_vartype; }
-   CObject *GetDescribtion() { return m_pDescribtion; }
+   CObject *GetDescription() { return m_pDescription; }
 
 
 private: // methods
 
 private: // members
     VARTYPE m_vartype;       // Type
-    CObject *m_pDescribtion; // If m_vartype==VT_USERDEFINED, m_pDescribtion contains
+    CObject *m_pDescription; // If m_vartype==VT_USERDEFINED, m_pDescription contains
                              // a CTypeInfo of user-defined type.,
                              // if m_vartype==VT_CARRAY, is a CArrayDesc
                              // if m_vartype==VT_PTR is a CTypeDesc of type pointed to.
@@ -458,7 +458,7 @@ public:
 // Operations
 public:
    CString GetCPPDefinition();
-   CTypeDesc*  GetTypeDescribtion(){ return m_pTypeDesc; }
+   CTypeDesc*  GetTypeDescription(){ return m_pTypeDesc; }
    CObList  *  GetArrayBounds(){return &m_ArrayBounds; }
 private: // methods
 

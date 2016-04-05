@@ -4,11 +4,11 @@
 // Copyright:       Ton Beller AG2000
 // Autor:           TMV
 // Datum:           6. September 2000
-// describtion:
+// description:
 //
 //
 // list of classes :
-// Name:                 describtion:
+// Name:                 description:
 // ------------------------------------------------------------------------------------
 // ITrueDBGridCtrl       wrapper for True DBGrid
 // ITrueDBDropDownCtrl   wrapper for True DBGrid DropDown

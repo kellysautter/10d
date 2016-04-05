@@ -4,11 +4,11 @@
 // Copyright:       TONBELLER AG 2001
 // Autor:           TMV
 // Date :           30. November 2001
-// describtion:
+// description:
 //
 //
 // list of classes :   ZString a CString extension
-// Name:             describtion:
+// Name:             description:
 // ------------------------------------------------------------------------------------
 //
 //

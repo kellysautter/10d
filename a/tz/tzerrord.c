@@ -4,7 +4,7 @@
 // Copyright:       Ton Beller AG2001
 // Autor:           BL
 // Datum:           03. March 2001
-// Describtion:     Error List for all Tools
+// Description:     Error List for all Tools
 //
 //
 // LAST MESSAGE ID: BM00001

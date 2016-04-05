@@ -11,7 +11,7 @@
 // *******************************************************************
 // Autor:           TMV
 // Datum:           10. Oktober 2001
-// describtion:     this file contains all the functions that are exported so they can be
+// description:     this file contains all the functions that are exported so they can be
 //                  invoked as global operation in a Zeidon envirionment
 //
 /* Change log most recent first order:

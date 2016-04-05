@@ -1648,25 +1648,58 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
       //:END
       //:CreateTabIndexString( vDialog, szTabIndex )
       CreateTabIndexString( vDialog, szTabIndex );
-      //:szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
-      //:                szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
-      //:                "<%=strErrorMapValue%></textarea>"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szActionCode, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, " wrap=^wrap^>", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
-   } 
 
+      //:lTemp = vDialog.Control.Subtype
+      GetIntegerFromAttribute( &lTemp, vDialog, "Control", "Subtype" );
+      //:lTemp = IsFlagSequenceSet( lTemp, zCONTROL_DISABLED )
+      lTemp = IsFlagSequenceSet( lTemp, zCONTROL_DISABLED );
+      //:IF lTemp = 0
+      if ( lTemp == 0 )
+      { 
+         //:szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
+         //:                szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
+         //:                "<%=strErrorMapValue%></textarea>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szActionCode, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, " wrap=^wrap^>", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
+         //:ELSE
+      } 
+      else
+      { 
+         //:zAppendQuotedString( szAbsoluteStyle, "background-color:lightgray;", "style=", "^" )
+         zAppendQuotedString( szAbsoluteStyle, "background-color:lightgray;", "style=", "^" );
+         //:szWriteBuffer = "<div name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
+         //:                szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
+         //:                "<%=strErrorMapValue%></div>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<div name=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szActionCode, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, " wrap=^wrap^>", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></div>", 1, 0, 10001 );
+      } 
+
+      //:END
+   } 
 
    //:END
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -4730,6 +4763,7 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
    zCHAR     szTempString_25[ 255 ]; 
 
 
+
    //:LastY_Pos = 0
    LastY_Pos = 0;
    //:iColCnt = 0
@@ -6523,20 +6557,50 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
                GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
                //:CreateTabIndexString( vDialog, szTabIndex )
                CreateTabIndexString( vDialog, szTabIndex );
-               //:szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML +
-               //:                "class=^" + szClass + "^ " +
-               //:                szStyle + szTabIndex + " wrap=^wrap^>" +
-               //:                "<%=strErrorMapValue%></textarea>"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "class=^", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, " wrap=^wrap^>", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
+               //:lTemp = vDialog.Control.Subtype
+               GetIntegerFromAttribute( &lTemp, vDialog, "Control", "Subtype" );
+               //:lTemp = IsFlagSequenceSet( lTemp, zCONTROL_DISABLED )
+               lTemp = IsFlagSequenceSet( lTemp, zCONTROL_DISABLED );
+               //:IF lTemp = 0
+               if ( lTemp == 0 )
+               { 
+                  //:szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML +
+                  //:                "class=^" + szClass + "^ " +
+                  //:                szStyle + szTabIndex + " wrap=^wrap^>" +
+                  //:                "<%=strErrorMapValue%></textarea>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "class=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, " wrap=^wrap^>", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></textarea>", 1, 0, 10001 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:zAppendQuotedString( szStyle, "background-color:lightgray;", "style=", "^" )
+                  zAppendQuotedString( szStyle, "background-color:lightgray;", "style=", "^" );
+                  //:szWriteBuffer = "<div" + szHTMLCtrlID + szTitleHTML +
+                  //:                "class=^" + szClass + "^ " +
+                  //:                szStyle + szTabIndex + " wrap=^wrap^>" +
+                  //:                "<%=strErrorMapValue%></div>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<div", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "class=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, " wrap=^wrap^>", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=strErrorMapValue%></div>", 1, 0, 10001 );
+               } 
+
+               //:END
             } 
 
 
@@ -6742,6 +6806,7 @@ GenJSPJ_CrteCtrlsRadio( zVIEW     vDialog,
       } 
 
       //:END
+
       //://CreateAbsolPosString( vDialog, szPosition, 0, 0 )
       //:CreateDisabledString( vDialog, szDisabled )
       CreateDisabledString( vDialog, szDisabled );
@@ -9051,7 +9116,6 @@ GenJSPJ_CrteCalendar( zVIEW     vDialog,
 
       //:CreateTabIndexString( vDialog, szTabIndex )
       CreateTabIndexString( vDialog, szTabIndex );
-
       //:CreateDisabledString( vDialog, szDisabled )
       CreateDisabledString( vDialog, szDisabled );
 

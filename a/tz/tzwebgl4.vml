@@ -366,7 +366,6 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
 
       CreateTabIndexString( vDialog, szTabIndex )
-
       CreateDisabledString( vDialog, szDisabled )
 
       // Multiple class names must be separated by white space characters.
@@ -1212,6 +1211,7 @@ GenJSPJ_CrteCtrlsRadio( VIEW vDialog BASED ON LOD TZWDLGSO,
       IF szNoPositioning = ""
          CreateAbsolPosString( vDialog, szPosition, lOffsetX, lOffsetY )
       END
+
       //CreateAbsolPosString( vDialog, szPosition, 0, 0 )
       CreateDisabledString( vDialog, szDisabled )
       FixStyleString( szStyle, szPosition, "", "" )
@@ -1348,6 +1348,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szToggleFlag
    STRING ( 100 ) szIndentGroup
    STRING ( 50 )  szWebCtrlType
+
 
    LastY_Pos = 0
    iColCnt = 0
@@ -2114,10 +2115,20 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
             ELSE
                szClass = vDialog.Control.CSS_Class
                CreateTabIndexString( vDialog, szTabIndex )
-               szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML +
-                               "class=^" + szClass + "^ " +
-                               szStyle + szTabIndex + " wrap=^wrap^>" +
-                               "<%=strErrorMapValue%></textarea>"
+               lTemp = vDialog.Control.Subtype
+               lTemp = IsFlagSequenceSet( lTemp, zCONTROL_DISABLED )
+               IF lTemp = 0
+                  szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML +
+                                  "class=^" + szClass + "^ " +
+                                  szStyle + szTabIndex + " wrap=^wrap^>" +
+                                  "<%=strErrorMapValue%></textarea>"
+               ELSE
+                  zAppendQuotedString( szStyle, "background-color:lightgray;", "style=", "^" )
+                  szWriteBuffer = "<div" + szHTMLCtrlID + szTitleHTML +
+                                  "class=^" + szClass + "^ " +
+                                  szStyle + szTabIndex + " wrap=^wrap^>" +
+                                  "<%=strErrorMapValue%></div>"
+               END
 
             END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -3572,10 +3583,19 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
          szClass = " class=^" + vDialog.Control.CSS_Class + "^"
       END
       CreateTabIndexString( vDialog, szTabIndex )
-      szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
-                      szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
-                      "<%=strErrorMapValue%></textarea>"
 
+      lTemp = vDialog.Control.Subtype
+      lTemp = IsFlagSequenceSet( lTemp, zCONTROL_DISABLED )
+      IF lTemp = 0
+         szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
+                         szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
+                         "<%=strErrorMapValue%></textarea>"
+      ELSE
+         zAppendQuotedString( szAbsoluteStyle, "background-color:lightgray;", "style=", "^" )
+         szWriteBuffer = "<div name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
+                         szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
+                         "<%=strErrorMapValue%></div>"
+      END
    END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 

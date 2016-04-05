@@ -11,10 +11,10 @@
 // *******************************************************************
 // Autor:           TMV
 // Datum:           11. Dezember 2001
-// describtion:
+// description:
 //
 // list of classes :
-// Name:             describtion:
+// Name:             description:
 // ------------------------------------------------------------------------------------
 //
 //
@@ -54,10 +54,10 @@ typedef CMapStringToOb ZAttributeSet;
 
 class ZLod : public CObject{
 public:
-   ZLod( LPCSTR lpszName = NULL, LPCSTR lpcstrDescribtion = NULL );
+   ZLod( LPCSTR lpszName = NULL, LPCSTR lpcstrDescription = NULL );
    ~ZLod();
    CString m_strName;
-   CString m_strDescribtion;
+   CString m_strDescription;
    ZEntitySet m_mapEntities;
 
 #ifdef _DEBUG
@@ -77,10 +77,10 @@ public:
 
 class ZEntity : public CObject{
 public:
-   ZEntity( LPCSTR lpszName = NULL, LPCSTR lpcstrDescribtion = NULL );
+   ZEntity( LPCSTR lpszName = NULL, LPCSTR lpcstrDescription = NULL );
    ~ZEntity( );
    CString m_strName;
-   CString m_strDescribtion;
+   CString m_strDescription;
    ZAttributeSet m_mapAttributes;
 
 #ifdef _DEBUG
@@ -101,10 +101,10 @@ public:
 
 class ZAttribute : public CObject{
 public:
-   ZAttribute(LPCSTR lpszName = NULL, LPCSTR lpcstrDescribtion = NULL);
+   ZAttribute(LPCSTR lpszName = NULL, LPCSTR lpcstrDescription = NULL);
    ~ZAttribute();
    CString m_strName;
-   CString m_strDescribtion;
+   CString m_strDescription;
 
 #ifdef _DEBUG
    void AssertValid()

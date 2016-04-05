@@ -11,7 +11,7 @@
 // *******************************************************************
 // Autor:           TMV
 // Datum:           19. April 2001
-// describtion:     Implementation of the Virtual Grid control for the web
+// description:     Implementation of the Virtual Grid control for the web
 //
 //
 // Change log most recent first order:

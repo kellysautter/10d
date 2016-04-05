@@ -11,7 +11,7 @@
 // *******************************************************************
 // Autor:
 // Datum:           9. April 2001
-// describtion:
+// description:
 //
 //
 /* Change log most recent first order:

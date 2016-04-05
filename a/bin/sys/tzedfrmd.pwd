@@ -1,4 +1,4 @@
-z1000-Zeidon    TZEDFRMD TZWDLGSO 03/31/16   12:32:27 1.0b0   
+z1000-Zeidon    TZEDFRMD TZWDLGSO 04/04/16   14:34:30 1.0b0   
 eDialog    1
 aTag       TZEDFRMD
 aDLL_Name  TZEDFRMD
@@ -6940,7 +6940,7 @@ eControlDef 4
 
 eControl   3
 aTag       CheckBox1
-aText      Insert Operation Describtion
+aText      Insert Operation Description
 aZKey      190007162
 aSubtype   536870912
 aPSDLG_X   211
@@ -6964,7 +6964,7 @@ aSeqOrder  Y
 eCtrlMapRelatedEntity 6
 
 eCtrlMapER_Attribute 6
-aName      OpIns_InsertDescribtion
+aName      OpIns_InsertDescription
 aZKey      190007159
 aLth       1
 

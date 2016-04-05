@@ -338,7 +338,7 @@ char szlObjectSelAQ[]        = "ObjectSelAQ";
 char szlOper[]               = "Oper";
 char szlOperation[]          = "Operation";
 char szlOperationsList[]     = "OperationsList";
-char szlOpIns_InsertDescribtion[] = "OpIns_InsertDescribtion";
+char szlOpIns_InsertDescription[] = "OpIns_InsertDescription";
 char szlOperListType[]       = "OperListType";
 char szlParentCount[]        = "ParentCount";
 char szlParentSubtask[]      = "ParentSubtask";
@@ -4117,7 +4117,7 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
    GetIntegerFromAttribute( (zPLONG) &vEditorSubtask, vEdWrk, szlBuffer, "vSubtask" );
 
    bVML_File = (CompareAttributeToString( vEdWrk, szlBuffer, szlLanguageType, szlVML_File ) == 0);
-   bInsertComment = (CompareAttributeToString( vEdWrk, szlBuffer, szlOpIns_InsertDescribtion, "Y" ) == 0);
+   bInsertComment = (CompareAttributeToString( vEdWrk, szlBuffer, szlOpIns_InsertDescription, "Y" ) == 0);
    GetAddrForAttribute( &szStr, vOp, szlOperation, szlName );
    if ( bInsertComment )
    {

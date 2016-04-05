@@ -4,7 +4,7 @@
 // Copyright:       Ton Beller AG2000
 // Autor:           TMV
 // Datum:           15. September 2000
-// describtion:     Machine generated IDispatch wrapper class(es) created with ClassWizard
+// description:     Machine generated IDispatch wrapper class(es) created with ClassWizard
 //
 //
 /* Change log most recent first order:

@@ -519,7 +519,7 @@ aUpdate    Y
 aSeqOrder  Y
 
 eER_AttributeRec 5
-aName      OpIns_InsertDescribtion
+aName      OpIns_InsertDescription
 aZKey      190007159
 aLth       1
 

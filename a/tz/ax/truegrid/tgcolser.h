@@ -4,11 +4,11 @@
 // Copyright:       TONBELLER AG2001
 // Autor:           TMV
 // Datum:           8. Februar 2001
-// describtion:     Defines helper classes for mfc serialization of Zeidon Grid properties
+// description:     Defines helper classes for mfc serialization of Zeidon Grid properties
 //
 //
 // list of classes :
-// Name:             describtion:
+// Name:             description:
 // ------------------------------------------------------------------------------------
 // ZColumnMapping    Holds Mapping Information ( View, Entity, Attribute, Context )
 // ZGridColCtrl      Base class for all controltypes representing a column

@@ -8,7 +8,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-ZLod::ZLod( LPCSTR lpszName, LPCSTR lpcstrDescribtion )
+ZLod::ZLod( LPCSTR lpszName, LPCSTR lpcstrDescription )
 {
    if( lpszName ){
       m_strName = lpszName;
@@ -16,11 +16,11 @@ ZLod::ZLod( LPCSTR lpszName, LPCSTR lpcstrDescribtion )
    else{
       m_strName.Empty();
    }
-   if( lpcstrDescribtion ){
-      m_strDescribtion = lpcstrDescribtion;
+   if( lpcstrDescription ){
+      m_strDescription = lpcstrDescription;
    }
    else{
-      m_strDescribtion.Empty();
+      m_strDescription.Empty();
    }
 }
 
@@ -37,7 +37,7 @@ ZLod::~ZLod()
    m_mapEntities.RemoveAll( );
 }
 
-ZEntity::ZEntity( LPCSTR lpszName, LPCSTR lpcstrDescribtion )
+ZEntity::ZEntity( LPCSTR lpszName, LPCSTR lpcstrDescription )
 {
    if( lpszName ){
       m_strName = lpszName;
@@ -45,11 +45,11 @@ ZEntity::ZEntity( LPCSTR lpszName, LPCSTR lpcstrDescribtion )
    else{
       m_strName.Empty();
    }
-   if( lpcstrDescribtion ){
-      m_strDescribtion = lpcstrDescribtion;
+   if( lpcstrDescription ){
+      m_strDescription = lpcstrDescription;
    }
    else{
-      m_strDescribtion.Empty();
+      m_strDescription.Empty();
    }
 }
 
@@ -68,7 +68,7 @@ ZEntity::~ZEntity( )
 
 
 
-ZAttribute::ZAttribute( LPCSTR lpszName, LPCSTR lpcstrDescribtion )
+ZAttribute::ZAttribute( LPCSTR lpszName, LPCSTR lpcstrDescription )
 {
    if( lpszName ){
       m_strName = lpszName;
@@ -76,11 +76,11 @@ ZAttribute::ZAttribute( LPCSTR lpszName, LPCSTR lpcstrDescribtion )
    else{
       m_strName.Empty();
    }
-   if( lpcstrDescribtion ){
-      m_strDescribtion = lpcstrDescribtion;
+   if( lpcstrDescription ){
+      m_strDescription = lpcstrDescription;
    }
    else{
-      m_strDescribtion.Empty();
+      m_strDescription.Empty();
    }
 }
 

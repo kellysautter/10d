@@ -8597,7 +8597,7 @@ EDT_InsertItem( zVIEW vSubtask, zCPCHAR cpcInsertText )
          int x;
          int y;
          CPoint ptCursorPos = pED_Crystal->GetCursorPos();
-         pED_Crystal->m_pTextBuffer->InsertText(pED_Crystal, ptCursorPos.y, ptCursorPos.x, cpcInsertText, y, x, CE_ACTION_TYPING);
+         pED_Crystal->m_pTextBuffer->InsertText(pED_Crystal, ptCursorPos.y, ptCursorPos.x, cpcInsertText, y, x, CE_ACTION_INSERT);
          return( TRUE );
       }
 

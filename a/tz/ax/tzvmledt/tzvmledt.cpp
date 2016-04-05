@@ -11,7 +11,7 @@
 // *******************************************************************
 // Autor:           TMV
 // Datum:           12. März 2002
-// describtion:
+// description:
 //
 //
 /* Change log most recent first order:

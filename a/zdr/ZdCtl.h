@@ -864,7 +864,7 @@ private: // methods
 
 private: // members
    VARTYPE m_vartype;       // Type
-   CObject *m_pDescription; // If m_vartype==VT_USERDEFINED, m_pDescribtion contains
+   CObject *m_pDescription; // If m_vartype==VT_USERDEFINED, m_pDescription contains
                             // a ZTypeInfo of user-defined type.,
                             // if m_vartype==VT_CARRAY, is a ZArrayDesc
                             // if m_vartype==VT_PTR is a ZTypeDesc of type pointed to.
@@ -905,7 +905,7 @@ public:
 // Operations
 public:
    CString GetCPPDefinition();
-   ZTypeDesc * GetTypeDescribtion() { return m_pTypeDesc; }
+   ZTypeDesc * GetTypeDescription() { return m_pTypeDesc; }
    CObList * GetArrayBounds() { return &m_ArrayBounds; }
 private: // methods
 

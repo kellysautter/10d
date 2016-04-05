@@ -4,11 +4,11 @@
 // Copyright:       Ton Beller AG2000
 // Autor:           TMV
 // Datum:           5. September 2000
-// describtion:     helper classes for event handling
+// description:     helper classes for event handling
 //
 //
 // list of classes :
-// Name:             describtion:
+// Name:             description:
 // ------------------------------------------------------------------------------------
 // CActiveXEvent     holds single activex event with its name and its DISPID
 //

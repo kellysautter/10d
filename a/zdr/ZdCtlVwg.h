@@ -19,10 +19,10 @@
 // *******************************************************************
 // Autor:           TMV
 // Datum:           20. April 2001
-// describtion:
+// description:
 //
 // list of classes :
-// Name:                               describtion:
+// Name:                               description:
 // ------------------------------------------------------------------------------------
 // ZWebGridCell
 // ZWebGridCol

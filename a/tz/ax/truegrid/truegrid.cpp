@@ -4,7 +4,7 @@
 // Copyright:       Ton Beller AG2000
 // Autor:           TMV
 // Datum:           6. September 2000
-// describtion:
+// description:
 //        Default implementation of script function
 //
 //

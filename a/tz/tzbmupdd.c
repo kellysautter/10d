@@ -4,7 +4,7 @@
 // Copyright:       Ton Beller AG2001
 // Autor:           BL
 // Datum:           03. March 2001
-// Describtion:     Replace absolute Bitmap Path through relative Path for all
+// Description:     Replace absolute Bitmap Path through relative Path for all
 //                  selected or all Dialogs within a LPLR
 //
 //

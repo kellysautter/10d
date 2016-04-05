@@ -5169,7 +5169,7 @@ ZTypeDesc::GetCPPDefinition()
 
    if ( GetVartype() == VT_PTR )
    {
-      // m_pDescribtion points to a ZTypeDesc that specifies the thing pointed to
+      // m_pDescription points to a ZTypeDesc that specifies the thing pointed to
       ZTypeDesc *o = (ZTypeDesc *)m_pDescription;
 
       str += o->GetCPPDefinition();
@@ -5178,7 +5178,7 @@ ZTypeDesc::GetCPPDefinition()
    else
    if ( (GetVartype() & 0x0FFF) == VT_CARRAY )
    {
-      // m_pDescribtion  points to an ZArrayDesc
+      // m_pDescription  points to an ZArrayDesc
       ZArrayDesc *o = (ZArrayDesc *) m_pDescription;
       str = o->GetCPPDefinition();
    }
@@ -5206,7 +5206,7 @@ ZTypeDesc::GetVariantType()
 
    if ( GetVartype() == VT_PTR )
    {
-      // m_pDescribtion points to a ZTypeDesc that specifies the type pointed to
+      // m_pDescription points to a ZTypeDesc that specifies the type pointed to
       ZTypeDesc *o = (ZTypeDesc *) m_pDescription;
       str += "VTS_P";
       str += VTtoVariantType( o->GetVartype() );
@@ -5227,7 +5227,7 @@ ZTypeDesc::IsDispatchPointer()
 
    if ( GetVartype() == VT_PTR )
    {
-      // m_pDescribtion points to a ZTypeDesc that specifies the type pointed to
+      // m_pDescription points to a ZTypeDesc that specifies the type pointed to
       ZTypeDesc *o = (ZTypeDesc *) m_pDescription;
       if ( o->GetVartype() == VT_USERDEFINED )
       {

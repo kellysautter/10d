@@ -3932,7 +3932,7 @@ eControlDef 4
 
 eControl   3
 aTag       CheckBox1
-aText      Insert Operation Describtion
+aText      Insert Operation Description
 aZKey      190011433
 aSubtype   536870912
 aPSDLG_X   211
@@ -3956,7 +3956,7 @@ aSeqOrder  Y
 eCtrlMapRelatedEntity 6
 
 eCtrlMapER_Attribute 6
-aName      OpIns_InsertDescribtion
+aName      OpIns_InsertDescription
 aZKey      190007159
 aLth       1
 

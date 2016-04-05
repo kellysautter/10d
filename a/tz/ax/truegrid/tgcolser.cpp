@@ -4,7 +4,7 @@
 // Copyright:       Ton Beller AG 2001
 // Autor:           TMV
 // Datum:           8. Februar 2001
-// describtion:     Implemented helper classes for mfc serialization of Zeidon Grid
+// description:     Implemented helper classes for mfc serialization of Zeidon Grid
 //                  properties
 //
 /* Change log most recent first order:

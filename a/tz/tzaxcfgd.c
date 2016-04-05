@@ -4,7 +4,7 @@
 // Copyright:       Ton Beller AG2001
 // Autor:           TMV
 // Datum:           9. Februar 2001
-// describtion:
+// description:
 //
 //
 /* Change log most recent first order:

@@ -11,9 +11,9 @@
 // *******************************************************************
 // Autor:           TMV
 // Datum:           13. März 2002
-// describtion:
+// description:
 //
-// describtion:
+// description:
 // ------------------------------------------------------------------------------------
 // constans to use with current codesense control version ( 2.19 )
 //

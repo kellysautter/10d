@@ -4,11 +4,11 @@
 // Copyright:       Ton Beller AG2000
 // Autor:           TMV
 // Datum:           15. September 2000
-// describtion:     Machine generated IDispatch wrapper class created with ClassWizard
+// description:     Machine generated IDispatch wrapper class created with ClassWizard
 //
 //
 // list of classes :
-// Name:             describtion:
+// Name:             description:
 // ------------------------------------------------------------------------------------
 // IXArrayDB         wrapper class
 //

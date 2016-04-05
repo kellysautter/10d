@@ -2058,7 +2058,7 @@ CTypeDesc::CTypeDesc(LPTYPEINFO ptinfo, TYPEDESC FAR* ptypedesc)
    HRESULT hr = NULL;
    LPTYPEINFO ptinfoUserDefined;
 
-   m_pDescribtion = NULL;
+   m_pDescription = NULL;
    m_vartype = ptypedesc->vt;
    switch ( m_vartype )
    {
@@ -2066,17 +2066,17 @@ CTypeDesc::CTypeDesc(LPTYPEINFO ptinfo, TYPEDESC FAR* ptypedesc)
    {
       hr = ptinfo->GetRefTypeInfo(ptypedesc->hreftype, &ptinfoUserDefined);
       if ( SUCCEEDED( hr ) )
-         m_pDescribtion = new CTypeInfo(ptinfoUserDefined);
+         m_pDescription = new CTypeInfo(ptinfoUserDefined);
       break;
    }
    case VT_CARRAY :
    {
-      m_pDescribtion = new CArrayDesc(ptinfo, ptypedesc->lpadesc );
+      m_pDescription = new CArrayDesc(ptinfo, ptypedesc->lpadesc );
       break;
    }
    case VT_PTR :
    {
-      m_pDescribtion = new CTypeDesc(ptinfo, ptypedesc->lptdesc );
+      m_pDescription = new CTypeDesc(ptinfo, ptypedesc->lptdesc );
       break;
    }
    default:
@@ -2086,9 +2086,9 @@ CTypeDesc::CTypeDesc(LPTYPEINFO ptinfo, TYPEDESC FAR* ptypedesc)
 
 CTypeDesc::~CTypeDesc()
 {
-   if( m_pDescribtion )
+   if( m_pDescription )
    {
-      delete m_pDescribtion;
+      delete m_pDescription;
    }
 }
 
@@ -2105,21 +2105,21 @@ CString CTypeDesc::GetCPPDefinition()
 
    if ( GetVartype() == VT_PTR )
    {
-      // m_pDescribtion points to a CTypeDesc that specifies the thing pointed to
-      CTypeDesc *o = (CTypeDesc *)m_pDescribtion;
+      // m_pDescription points to a CTypeDesc that specifies the thing pointed to
+      CTypeDesc *o = (CTypeDesc *)m_pDescription;
 
       str += o->GetCPPDefinition();
       str += "*" ;
    }
    else if ( (GetVartype() & 0x0FFF) == VT_CARRAY)
    {
-      // m_pDescribtion  points to an CArrayDesc
-      CArrayDesc *o = (CArrayDesc *)m_pDescribtion;
+      // m_pDescription  points to an CArrayDesc
+      CArrayDesc *o = (CArrayDesc *)m_pDescription;
       str = o->GetCPPDefinition();
    }
    else if (GetVartype() == VT_USERDEFINED)
    {
-      CTypeInfo *o = (CTypeInfo *)m_pDescribtion;
+      CTypeInfo *o = (CTypeInfo *)m_pDescription;
       str = o->GetName();
    }
    else
@@ -2140,8 +2140,8 @@ CString CTypeDesc::GetVariantType()
 
    if ( GetVartype() == VT_PTR )
    {
-      // m_pDescribtion points to a CTypeDesc that specifies the type pointed to
-      CTypeDesc *o = (CTypeDesc *)m_pDescribtion;
+      // m_pDescription points to a CTypeDesc that specifies the type pointed to
+      CTypeDesc *o = (CTypeDesc *)m_pDescription;
       str += "VTS_P";
       str += VTtoVariantType( o->GetVartype() );
    }

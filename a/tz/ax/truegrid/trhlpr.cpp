@@ -4,7 +4,7 @@
 // Copyright:       Ton Beller AG2000
 // Autor:           TMV
 // Datum:           5. September 2000
-// describtion:     Helper classes for event tracing
+// description:     Helper classes for event tracing
 //
 //
 /* Change log most recent first order:

@@ -4,7 +4,7 @@
 // Copyright:       TONBELLER AG 2001
 // Autor:           TMV
 // Datum:           30. November 2001
-// describtion:
+// description:
 //
 //
 /* Change log most recent first order:
