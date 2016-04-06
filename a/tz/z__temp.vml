@@ -2123,7 +2123,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                                   szStyle + szTabIndex + " wrap=^wrap^>" +
                                   "<%=strErrorMapValue%></textarea>"
                ELSE
-                  zAppendQuotedString( szStyle, "background-color:lightgray;", "style=", "^" )
+                  zAppendQuotedString( szStyle, "text-overflow:ellipsis;background-color:lightgray;", "style=", "^" )
                   szWriteBuffer = "<div" + szHTMLCtrlID + szTitleHTML +
                                   "class=^" + szClass + "^ " +
                                   szStyle + szTabIndex + " wrap=^wrap^>" +
@@ -3591,7 +3591,7 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
                          szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
                          "<%=strErrorMapValue%></textarea>"
       ELSE
-         zAppendQuotedString( szAbsoluteStyle, "background-color:lightgray;", "style=", "^" )
+         zAppendQuotedString( szAbsoluteStyle, "text-overflow:ellipsis;background-color:lightgray;", "style=", "^" )
          szWriteBuffer = "<div name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
                          szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
                          "<%=strErrorMapValue%></div>"

@@ -754,8 +754,86 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
    }
 #else
    BOOL bCtrlKey = (::GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
+   BOOL bShiftKey = (::GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
    if (bCtrlKey)
    {
+      if ( uKey == VK_LEFT || uKey == VK_RIGHT )
+      {
+         CPoint ptCursorPos = GetCursorPos();
+         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+         int x = ptCursorPos.x;
+         int y = ptCursorPos.y;
+         int w = GetLineLength(y);
+         int h = GetLineCount() - 1;
+
+         CPoint ptSelStart( 0, y ), ptSelEnd( w, y );
+         CString csText;
+         GetText(ptSelStart, ptSelEnd, csText);
+
+         if ( uKey == VK_LEFT )
+         {
+            if ( x > 0 )
+            {
+               while ( x > 0 && isspace(csText.GetAt( x - 1 )) )
+                  x--;
+
+               while ( x > 0 && isspace(csText.GetAt( x - 1 )) == false )
+                  x--;
+            }
+            else
+            if ( y > 0 )
+            {
+               y--;
+               x = GetLineLength(y);
+            }
+            m_nHoldArrowXPos = x;
+         }
+         else
+         if ( uKey == VK_RIGHT )
+         {
+            if ( x < w )
+            {
+               while ( x < w && isspace(csText.GetAt( x + 1 )) == false )
+                  x++;
+
+               while ( x < w && isspace(csText.GetAt( x + 1 )) )
+                  x++;
+
+               if ( x < w )
+                  x++;
+            }
+            else
+            if ( y < h )
+            {
+               y++;
+               x = 0;
+            }
+            m_nHoldArrowXPos = x;
+         }
+         if ( m_nHoldArrowXPos == -1 )
+         {
+            if ( x != GetLineLength(y) )
+               m_nHoldArrowXPos = x;
+         }
+
+         ptCursorPos.x = x;
+         ptCursorPos.y = y;
+         ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
+         if ( bShiftKey )
+         {
+            CPoint ptSelStart;
+            CPoint ptSelEnd;
+            GetSelection(ptSelStart, ptSelEnd);
+            SetSelection(ptSelStart, ptCursorPos);
+         }
+         else
+         {
+            SetSelection(ptCursorPos, ptCursorPos);
+            SetAnchor(ptCursorPos);
+         }
+         SetCursorPos(ptCursorPos);
+         EnsureVisible(ptCursorPos);
+      }
    }
    else
    {
@@ -763,7 +841,6 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
       {
          CPoint ptCursorPos = GetCursorPos();
          ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
-         BOOL bShiftKey = (::GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
          int x = ptCursorPos.x;
          int y = ptCursorPos.y;
          int w = GetLineLength(y);

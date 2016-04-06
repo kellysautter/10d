@@ -1677,8 +1677,8 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
       } 
       else
       { 
-         //:zAppendQuotedString( szAbsoluteStyle, "background-color:lightgray;", "style=", "^" )
-         zAppendQuotedString( szAbsoluteStyle, "background-color:lightgray;", "style=", "^" );
+         //:zAppendQuotedString( szAbsoluteStyle, "text-overflow:hidden;background-color:lightgray;", "style=", "^" )
+         zAppendQuotedString( szAbsoluteStyle, "display:inline-block;text-overflow:hidden;background-color:lightgray;", "style=", "^" );
          //:szWriteBuffer = "<div name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
          //:                szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
          //:                "<%=strErrorMapValue%></div>"
@@ -6582,8 +6582,8 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
                } 
                else
                { 
-                  //:zAppendQuotedString( szStyle, "background-color:lightgray;", "style=", "^" )
-                  zAppendQuotedString( szStyle, "background-color:lightgray;", "style=", "^" );
+                  //:zAppendQuotedString( szStyle, "text-overflow:hidden;background-color:lightgray;", "style=", "^" )
+                  zAppendQuotedString( szStyle, "display:inline-block;text-overflow:hidden;background-color:lightgray;", "style=", "^" );
                   //:szWriteBuffer = "<div" + szHTMLCtrlID + szTitleHTML +
                   //:                "class=^" + szClass + "^ " +
                   //:                szStyle + szTabIndex + " wrap=^wrap^>" +
