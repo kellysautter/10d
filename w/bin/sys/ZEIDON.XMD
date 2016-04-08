@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZEREMXO 07/03/15   17:05:23 1.0a2    
+z1000-Zeidon    ZEIDON   TZEREMXO 04/08/16   10:33:54 1.0a2   
 eMODEL     1
 aNumEnts   173
 aNumRels   315
@@ -20,13 +20,13 @@ aAPDM_TOK  1319720
 aLTH       4
 
 eATTRIB    3
-aZKEY      181
+aZKEY      180738
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      182
+aZKEY      180739
 aNAME      FK_ZKEY02
 aAPDM_TOK  90000044
 aLTH       4
@@ -223,31 +223,31 @@ aNAME      Desc
 aAPDM_TOK  90000030
 
 eATTRIB    3
-aZKEY      171
+aZKEY      180728
 aNAME      FK_TYPE
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      195
+aZKEY      180752
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      197
+aZKEY      180754
 aNAME      FK_SUBTYPE
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      198
+aZKEY      180755
 aNAME      FK_TYPE02
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      203
+aZKEY      180760
 aNAME      FK_ZKEY02
 aAPDM_TOK  90000044
 aLTH       4
@@ -273,19 +273,19 @@ aNAME      MetaDefType
 aAPDM_TOK  1319755
 
 eATTRIB    3
-aZKEY      170
+aZKEY      180727
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      204
+aZKEY      180761
 aNAME      FK_TIMESTAMP
 aAPDM_TOK  90000089
 aLTH       25
 
 eATTRIB    3
-aZKEY      205
+aZKEY      180762
 aNAME      FK_ZKEY02
 aAPDM_TOK  90000044
 aLTH       4
@@ -306,7 +306,7 @@ aNAME      Seqno
 aAPDM_TOK  90000044
 
 eATTRIB    3
-aZKEY      168
+aZKEY      180725
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
@@ -356,7 +356,7 @@ aAPDM_TOK  90000032
 
 eENTITY    2
 aZKEY      1320715
-aNumAtts   49
+aNumAtts   50
 
 eATTRIB    3
 aZKEY      1320716
@@ -459,6 +459,11 @@ aLTH       4
 eATTRIB    3
 aZKEY      1320730
 aNAME      DIL_Text
+aAPDM_TOK  90000032
+
+eATTRIB    3
+aZKEY      130000346
+aNAME      Placeholder
 aAPDM_TOK  90000032
 
 eATTRIB    3
@@ -792,13 +797,13 @@ aNAME      Desc
 aAPDM_TOK  90000030
 
 eATTRIB    3
-aZKEY      183
+aZKEY      180740
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      190
+aZKEY      180747
 aNAME      FK_ZKEY02
 aAPDM_TOK  90000044
 aLTH       4
@@ -863,7 +868,7 @@ aNAME      DB_Mode
 aAPDM_TOK  1319735
 
 eATTRIB    3
-aZKEY      191
+aZKEY      180748
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
@@ -894,13 +899,13 @@ aNAME      UserDesc
 aAPDM_TOK  90000030
 
 eATTRIB    3
-aZKEY      174
+aZKEY      180731
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      175
+aZKEY      180732
 aNAME      FK_ZKEY02
 aAPDM_TOK  90000044
 aLTH       4
@@ -954,7 +959,7 @@ aNAME      ZKey
 aAPDM_TOK  90000044
 
 eATTRIB    3
-aZKEY      167
+aZKEY      180724
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
@@ -1635,7 +1640,7 @@ aAPDM_TOK  90000028
 aLTH       3
 
 eATTRIB    3
-aZKEY      169
+aZKEY      180726
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
@@ -2597,13 +2602,13 @@ aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      193
+aZKEY      180750
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      194
+aZKEY      180751
 aNAME      FK_ZKEY02
 aAPDM_TOK  90000044
 aLTH       4
@@ -3049,7 +3054,7 @@ aAPDM_TOK  90000032
 aLTH       50
 
 eATTRIB    3
-aZKEY      166
+aZKEY      180723
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
@@ -3682,7 +3687,7 @@ aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      172
+aZKEY      180729
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
@@ -3723,7 +3728,7 @@ aNAME      necessary
 aAPDM_TOK  90000014
 
 eATTRIB    3
-aZKEY      196
+aZKEY      180753
 aNAME      FK_TYPE
 aAPDM_TOK  90000044
 aLTH       4
@@ -4773,25 +4778,25 @@ aAPDM_TOK  90000032
 aLTH       254
 
 eATTRIB    3
-aZKEY      173
+aZKEY      180730
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      176
+aZKEY      180733
 aNAME      FK_ZKEY02
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      184
+aZKEY      180741
 aNAME      FK_ZKEY03
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      185
+aZKEY      180742
 aNAME      FK_ZKEY04
 aAPDM_TOK  90000044
 aLTH       4
@@ -5807,7 +5812,7 @@ aLTH       32
 
 eENTITY    2
 aZKEY      1321692
-aNumAtts   26
+aNumAtts   27
 
 eATTRIB    3
 aZKEY      1321693
@@ -5910,6 +5915,11 @@ aZKEY      1321706
 aNAME      DIL
 aAPDM_TOK  90000044
 aLTH       4
+
+eATTRIB    3
+aZKEY      130000347
+aNAME      Placeholder
+aAPDM_TOK  90000032
 
 eATTRIB    3
 aZKEY      88022511
@@ -7402,7 +7412,7 @@ aNAME      MarginRight
 aAPDM_TOK  90000044
 
 eATTRIB    3
-aZKEY      165
+aZKEY      180722
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4
@@ -7454,7 +7464,7 @@ aNAME      Desc
 aAPDM_TOK  90000030
 
 eATTRIB    3
-aZKEY      192
+aZKEY      180749
 aNAME      FK_ZKEY
 aAPDM_TOK  90000044
 aLTH       4

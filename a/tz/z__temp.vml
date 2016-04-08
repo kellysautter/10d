@@ -1,3 +1,6 @@
+//
+//  generating JOE JSP
+//
 /////////////////////////////////////////////////////////////////////////////
 //
 //  OPERATION: BuildSideNavSection
@@ -2123,7 +2126,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                                   szStyle + szTabIndex + " wrap=^wrap^>" +
                                   "<%=strErrorMapValue%></textarea>"
                ELSE
-                  zAppendQuotedString( szStyle, "text-overflow:ellipsis;background-color:lightgray;", "style=", "^" )
+                  zAppendQuotedString( szStyle, "text-overflow:hidden;background-color:lightgray;", "style=", "^" )
                   szWriteBuffer = "<div" + szHTMLCtrlID + szTitleHTML +
                                   "class=^" + szClass + "^ " +
                                   szStyle + szTabIndex + " wrap=^wrap^>" +
@@ -2476,17 +2479,17 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
    END
 
-      // If there is a Default button for the window, we must add some characters
-      // to the end of the input statement.
-      CreateViewFromView( vDialogRoot, vDialog )
+   // If there is a Default button for the window, we must add some characters
+   // to the end of the input statement.
+   CreateViewFromView( vDialogRoot, vDialog )
+   nRC = ResetViewFromSubobject( vDialogRoot )
+   LOOP WHILE nRC = 0
       nRC = ResetViewFromSubobject( vDialogRoot )
-      LOOP WHILE nRC = 0
-         nRC = ResetViewFromSubobject( vDialogRoot )
-      END
-      IF vDialogRoot.Window.DfltButton != ""
+   END
+   IF vDialogRoot.Window.DfltButton != ""
       szEditActionCode = szEditActionCode + " onKeyPress=^return _OnEnter( event )^"
-      END
-      DropView( vDialogRoot )
+   END
+   DropView( vDialogRoot )
 
    IF szNoOutputMapping = "Y"
          szValue = "value=^^"
@@ -2501,7 +2504,7 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
 
    IF szNoOutputMapping = "Y"
-         szValue = "value=^^"
+      szValue = "value=^^"
    ELSE
       lStyleX = vDialog.Control.ExtendedStyle
       lTemp = IsFlagSequenceSet( lStyleX, zCONTROLX_PREFILL )
@@ -2512,12 +2515,16 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
    END
 
-   //KJS 10/19/07 - Added title.
+   //KJS 10/19/07 - Added title.  dks 2016.04.08 - trying placeholder
    //If we put a title on the control, when the mouse is hovered over the control, this text will display.
    szTitleHTML = ""
    szTitle = vDialog.Control.DIL_Text
    IF szTitle != ""
-      szTitleHTML = " title=^" + szTitle + "^ "
+      szTitleHTML = " title=^" + szTitle + "^"
+   END
+   szTitle = vDialog.Control.Placeholder
+   IF szTitle != ""
+      szTitleHTML = szTitleHTML + " placeholder=^" + szTitle + "^"
    END
 
    CreateDisabledString( vDialog, szDisabled )
@@ -3380,7 +3387,8 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 50 )  szWidth
    STRING ( 10 )  szHeight
    STRING ( 256 ) szAbsoluteStyle
-   STRING ( 50 )  szTitleHTML
+   STRING ( 50 )  szTitle
+   STRING ( 100 ) szTitleHTML
    STRING ( 16 )  szTabIndex
    STRING ( 50 )  szActionName
    STRING ( 500 ) szActionCode
@@ -3547,6 +3555,18 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
       szTinyMCEFlag = "Y"
    END
 
+   // dks 2016.04.08 - trying placeholder
+   // If we put a title on the control, when the mouse is hovered over the control, this text will display.
+   szTitleHTML = ""
+   szTitle = vDialog.Control.DIL_Text
+   IF szTitle != ""
+      szTitleHTML = " title=^" + szTitle + "^"
+   END
+   szTitle = vDialog.Control.Placeholder
+   IF szTitle != ""
+      szTitleHTML = szTitleHTML + " placeholder=^" + szTitle + "^"
+   END
+
    IF vDialog.Control.WebCtrlType = "wysiwygEditor" OR szTinyMCEFlag = "Y"
 
    // CreateTabIndexString( vDialog, szTabIndex )
@@ -3588,13 +3608,11 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
       lTemp = IsFlagSequenceSet( lTemp, zCONTROL_DISABLED )
       IF lTemp = 0
          szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
-                         szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
-                         "<%=strErrorMapValue%></textarea>"
+                         szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" + "<%=strErrorMapValue%></textarea>"
       ELSE
-         zAppendQuotedString( szAbsoluteStyle, "text-overflow:ellipsis;background-color:lightgray;", "style=", "^" )
+         zAppendQuotedString( szAbsoluteStyle, "text-overflow:hidden;background-color:lightgray;", "style=", "^" )
          szWriteBuffer = "<div name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML +
-                         szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
-                         "<%=strErrorMapValue%></div>"
+                         szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" + "<%=strErrorMapValue%></div>"
       END
    END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )

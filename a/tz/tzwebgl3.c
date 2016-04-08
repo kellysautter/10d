@@ -2207,6 +2207,35 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
             //:END
 
+            //:// dks 2016.04.08 - trying placeholder
+            //:// If we put a title on the control, when the mouse is hovered over the control, this text will display.
+            //:szTitleHTML = ""
+            ZeidonStringCopy( szTitleHTML, 1, 0, "", 1, 0, 257 );
+            //:szTitle = vDialog.Control.DIL_Text
+            GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
+            //:IF szTitle != ""
+            if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
+            { 
+               //:szTitleHTML = " title=^" + szTitle + "^"
+               ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
+               ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
+               ZeidonStringConcat( szTitleHTML, 1, 0, "^", 1, 0, 257 );
+            } 
+
+            //:END
+            //:szTitle = vDialog.Control.Placeholder
+            GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "Placeholder", "", 0 );
+            //:IF szTitle != ""
+            if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
+            { 
+               //:szTitleHTML = szTitleHTML + " placeholder=^" + szTitle + "^"
+               ZeidonStringConcat( szTitleHTML, 1, 0, " placeholder=^", 1, 0, 257 );
+               ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
+               ZeidonStringConcat( szTitleHTML, 1, 0, "^", 1, 0, 257 );
+            } 
+
+            //:END
+
             //:IF vDialog.Control.WebCtrlType = "wysiwygEditor" OR szTinyMCEFlag = "Y"
             if ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "wysiwygEditor" ) == 0 || ZeidonStringCompare( szTinyMCEFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
             { 
@@ -2245,10 +2274,8 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                } 
                else
                { 
-                  //:szWriteBuffer = "<textarea" + szHTMLCtrlID +
-                  //:                "class=^" + szClass + "^ " + szTitleHTML +
-                  //:                szStyle + ">" +
-                  //:                "<%=strErrorMapValue%></textarea>"
+                  //:szWriteBuffer = "<textarea" + szHTMLCtrlID + "class=^" + szClass + "^ " + szTitleHTML +
+                  //:                szStyle + ">" + "<%=strErrorMapValue%></textarea>"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, "class=^", 1, 0, 10001 );
@@ -2271,10 +2298,8 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
                //:CreateTabIndexString( vDialog, szTabIndex )
                CreateTabIndexString( vDialog, szTabIndex );
-               //:szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML +
-               //:                "class=^" + szClass + "^ " +
-               //:                szStyle + szTabIndex + " wrap=^wrap^>" +
-               //:                "<%=strErrorMapValue%></textarea>"
+               //:szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML + "class=^" + szClass + "^ " +
+               //:                szStyle + szTabIndex + " wrap=^wrap^>" + "<%=strErrorMapValue%></textarea>"
                ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
@@ -4196,7 +4221,7 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    //:IF szNoOutputMapping = "Y"
    if ( ZeidonStringCompare( szNoOutputMapping, 1, 0, "Y", 1, 0, 2 ) == 0 )
    { 
-      //:   szValue = "value=^^"
+      //:szValue = "value=^^"
       ZeidonStringCopy( szValue, 1, 0, "value=^^", 1, 0, 301 );
       //:ELSE
    } 
@@ -4227,7 +4252,7 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
 
    //:END
 
-   //://KJS 10/19/07 - Added title.
+   //://KJS 10/19/07 - Added title.  dks 2016.04.08 - trying placeholder
    //://If we put a title on the control, when the mouse is hovered over the control, this text will display.
    //:szTitleHTML = ""
    ZeidonStringCopy( szTitleHTML, 1, 0, "", 1, 0, 257 );
@@ -4236,10 +4261,22 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    //:IF szTitle != ""
    if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
    { 
-      //:szTitleHTML = " title=^" + szTitle + "^ "
+      //:szTitleHTML = " title=^" + szTitle + "^"
       ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
       ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
-      ZeidonStringConcat( szTitleHTML, 1, 0, "^ ", 1, 0, 257 );
+      ZeidonStringConcat( szTitleHTML, 1, 0, "^", 1, 0, 257 );
+   } 
+
+   //:END
+   //:szTitle = vDialog.Control.Placeholder
+   GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "Placeholder", "", 0 );
+   //:IF szTitle != ""
+   if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
+   { 
+      //:szTitleHTML = szTitleHTML + " placeholder=^" + szTitle + "^"
+      ZeidonStringConcat( szTitleHTML, 1, 0, " placeholder=^", 1, 0, 257 );
+      ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
+      ZeidonStringConcat( szTitleHTML, 1, 0, "^", 1, 0, 257 );
    } 
 
    //:END

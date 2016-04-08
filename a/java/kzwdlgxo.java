@@ -1148,6 +1148,7 @@ public class CtrlImpl implements Ctrl
    protected Integer ColorFg;
    protected Integer ColorBk;
    protected Integer DIL;
+   protected String  Placeholder;
    protected Blob    EventAct;
    protected Blob    DD_BOI;
    protected String  D_Text;
@@ -1439,6 +1440,22 @@ public class CtrlImpl implements Ctrl
    }
 
    /**
+    * @return the Placeholder
+    */
+   public String getPlaceholder( )
+   {
+      return Placeholder;
+   }
+
+   /**
+    * @param Placeholder to set 
+    */
+   public void setPlaceholder( String Placeholder )
+   {
+      this.Placeholder = Placeholder;
+   }
+
+   /**
     * @return the EventAct
     */
    public Blob getEventAct( )
@@ -1617,6 +1634,7 @@ public class CtrlImpl implements Ctrl
       ColorFg = cursor.getIntegerFromAttribute( "ColorFg" );  if ( ColorFg == null ) ColorFg = 0;
       ColorBk = cursor.getIntegerFromAttribute( "ColorBk" );  if ( ColorBk == null ) ColorBk = 0;
       DIL = cursor.getIntegerFromAttribute( "DIL" );  if ( DIL == null ) DIL = 0;
+      Placeholder = cursor.getStringFromAttribute( "Placeholder" );  if ( Placeholder == null ) Placeholder = "";
       EventAct = cursor.getBlobFromAttribute( "EventAct" );
       DD_BOI = cursor.getBlobFromAttribute( "DD_BOI" );
       D_Text = cursor.getStringFromAttribute( "D_Text" );  if ( D_Text == null ) D_Text = "";
@@ -1678,6 +1696,7 @@ public class CtrlCtrlImpl implements CtrlCtrl
    protected Integer ColorFg;
    protected Integer ColorBk;
    protected Integer DIL;
+   protected String  Placeholder;
    protected Blob    EventAct;
    protected Blob    DD_BOI;
    protected String  D_Text;
@@ -1969,6 +1988,22 @@ public class CtrlCtrlImpl implements CtrlCtrl
    }
 
    /**
+    * @return the Placeholder
+    */
+   public String getPlaceholder( )
+   {
+      return Placeholder;
+   }
+
+   /**
+    * @param Placeholder to set 
+    */
+   public void setPlaceholder( String Placeholder )
+   {
+      this.Placeholder = Placeholder;
+   }
+
+   /**
     * @return the EventAct
     */
    public Blob getEventAct( )
@@ -2147,6 +2182,7 @@ public class CtrlCtrlImpl implements CtrlCtrl
       ColorFg = cursor.getIntegerFromAttribute( "ColorFg" );  if ( ColorFg == null ) ColorFg = 0;
       ColorBk = cursor.getIntegerFromAttribute( "ColorBk" );  if ( ColorBk == null ) ColorBk = 0;
       DIL = cursor.getIntegerFromAttribute( "DIL" );  if ( DIL == null ) DIL = 0;
+      Placeholder = cursor.getStringFromAttribute( "Placeholder" );  if ( Placeholder == null ) Placeholder = "";
       EventAct = cursor.getBlobFromAttribute( "EventAct" );
       DD_BOI = cursor.getBlobFromAttribute( "DD_BOI" );
       D_Text = cursor.getStringFromAttribute( "D_Text" );  if ( D_Text == null ) D_Text = "";
@@ -3792,6 +3828,7 @@ public class ActCtrlImpl implements ActCtrl
    protected Integer OptionFlags;
    protected Integer RELCNT_X;
    protected Integer RELCNT_Y;
+   protected String  Placeholder;
    protected Blob    LKey;
 
 
@@ -4202,6 +4239,22 @@ public class ActCtrlImpl implements ActCtrl
    }
 
    /**
+    * @return the Placeholder
+    */
+   public String getPlaceholder( )
+   {
+      return Placeholder;
+   }
+
+   /**
+    * @param Placeholder to set 
+    */
+   public void setPlaceholder( String Placeholder )
+   {
+      this.Placeholder = Placeholder;
+   }
+
+   /**
     * @return the LKey
     */
    public Blob getLKey( )
@@ -4244,6 +4297,7 @@ public class ActCtrlImpl implements ActCtrl
       OptionFlags = cursor.getIntegerFromAttribute( "OptionFlags" );  if ( OptionFlags == null ) OptionFlags = 0;
       RELCNT_X = cursor.getIntegerFromAttribute( "RELCNT_X" );  if ( RELCNT_X == null ) RELCNT_X = 0;
       RELCNT_Y = cursor.getIntegerFromAttribute( "RELCNT_Y" );  if ( RELCNT_Y == null ) RELCNT_Y = 0;
+      Placeholder = cursor.getStringFromAttribute( "Placeholder" );  if ( Placeholder == null ) Placeholder = "";
       LKey = cursor.getBlobFromAttribute( "LKey" );
 
       return 0;

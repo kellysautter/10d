@@ -1743,6 +1743,7 @@ public class ControlImpl implements Control
    protected Integer Underline;
    protected Integer SyncKey;
    protected String  DIL_Text;
+   protected String  Placeholder;
    protected String  ReportGroupType;
    protected String  ForceHeaderPerEntity;
    protected Integer ExtendedStyle;
@@ -2078,6 +2079,22 @@ public class ControlImpl implements Control
    public void setDIL_Text( String DIL_Text )
    {
       this.DIL_Text = DIL_Text;
+   }
+
+   /**
+    * @return the Placeholder
+    */
+   public String getPlaceholder( )
+   {
+      return Placeholder;
+   }
+
+   /**
+    * @param Placeholder to set 
+    */
+   public void setPlaceholder( String Placeholder )
+   {
+      this.Placeholder = Placeholder;
    }
 
    /**
@@ -2756,6 +2773,7 @@ public class ControlImpl implements Control
       Underline = cursor.getIntegerFromAttribute( "Underline" );  if ( Underline == null ) Underline = 0;
       SyncKey = cursor.getIntegerFromAttribute( "SyncKey" );  if ( SyncKey == null ) SyncKey = 0;
       DIL_Text = cursor.getStringFromAttribute( "DIL_Text" );  if ( DIL_Text == null ) DIL_Text = "";
+      Placeholder = cursor.getStringFromAttribute( "Placeholder" );  if ( Placeholder == null ) Placeholder = "";
       ReportGroupType = cursor.getStringFromAttribute( "ReportGroupType" );  if ( ReportGroupType == null ) ReportGroupType = "";
       ForceHeaderPerEntity = cursor.getStringFromAttribute( "ForceHeaderPerEntity" );  if ( ForceHeaderPerEntity == null ) ForceHeaderPerEntity = "";
       ExtendedStyle = cursor.getIntegerFromAttribute( "ExtendedStyle" );  if ( ExtendedStyle == null ) ExtendedStyle = 0;
@@ -2849,6 +2867,7 @@ public class CtrlCtrlImpl implements CtrlCtrl
    protected Integer Underline;
    protected Integer SyncKey;
    protected String  DIL_Text;
+   protected String  Placeholder;
    protected String  ReportGroupType;
    protected String  ForceHeaderPerEntity;
    protected Integer ExtendedStyle;
@@ -3184,6 +3203,22 @@ public class CtrlCtrlImpl implements CtrlCtrl
    public void setDIL_Text( String DIL_Text )
    {
       this.DIL_Text = DIL_Text;
+   }
+
+   /**
+    * @return the Placeholder
+    */
+   public String getPlaceholder( )
+   {
+      return Placeholder;
+   }
+
+   /**
+    * @param Placeholder to set 
+    */
+   public void setPlaceholder( String Placeholder )
+   {
+      this.Placeholder = Placeholder;
    }
 
    /**
@@ -3862,6 +3897,7 @@ public class CtrlCtrlImpl implements CtrlCtrl
       Underline = cursor.getIntegerFromAttribute( "Underline" );  if ( Underline == null ) Underline = 0;
       SyncKey = cursor.getIntegerFromAttribute( "SyncKey" );  if ( SyncKey == null ) SyncKey = 0;
       DIL_Text = cursor.getStringFromAttribute( "DIL_Text" );  if ( DIL_Text == null ) DIL_Text = "";
+      Placeholder = cursor.getStringFromAttribute( "Placeholder" );  if ( Placeholder == null ) Placeholder = "";
       ReportGroupType = cursor.getStringFromAttribute( "ReportGroupType" );  if ( ReportGroupType == null ) ReportGroupType = "";
       ForceHeaderPerEntity = cursor.getStringFromAttribute( "ForceHeaderPerEntity" );  if ( ForceHeaderPerEntity == null ) ForceHeaderPerEntity = "";
       ExtendedStyle = cursor.getIntegerFromAttribute( "ExtendedStyle" );  if ( ExtendedStyle == null ) ExtendedStyle = 0;
@@ -12750,6 +12786,7 @@ public class ActCtrlImpl implements ActCtrl
    protected Blob    Properties;
    protected String  WebreCAPTCHAPublicKey;
    protected String  WebreCAPTCHAPrivateKey;
+   protected String  Placeholder;
    protected Blob    LKey;
    protected String  VisibleBorder;
    protected String  CenterJustify;
@@ -13182,6 +13219,22 @@ public class ActCtrlImpl implements ActCtrl
    public void setWebreCAPTCHAPrivateKey( String WebreCAPTCHAPrivateKey )
    {
       this.WebreCAPTCHAPrivateKey = WebreCAPTCHAPrivateKey;
+   }
+
+   /**
+    * @return the Placeholder
+    */
+   public String getPlaceholder( )
+   {
+      return Placeholder;
+   }
+
+   /**
+    * @param Placeholder to set 
+    */
+   public void setPlaceholder( String Placeholder )
+   {
+      this.Placeholder = Placeholder;
    }
 
    /**
@@ -13627,6 +13680,7 @@ public class ActCtrlImpl implements ActCtrl
       Properties = cursor.getBlobFromAttribute( "Properties" );
       WebreCAPTCHAPublicKey = cursor.getStringFromAttribute( "WebreCAPTCHAPublicKey" );  if ( WebreCAPTCHAPublicKey == null ) WebreCAPTCHAPublicKey = "";
       WebreCAPTCHAPrivateKey = cursor.getStringFromAttribute( "WebreCAPTCHAPrivateKey" );  if ( WebreCAPTCHAPrivateKey == null ) WebreCAPTCHAPrivateKey = "";
+      Placeholder = cursor.getStringFromAttribute( "Placeholder" );  if ( Placeholder == null ) Placeholder = "";
       LKey = cursor.getBlobFromAttribute( "LKey" );
       VisibleBorder = cursor.getStringFromAttribute( "VisibleBorder" );  if ( VisibleBorder == null ) VisibleBorder = "";
       CenterJustify = cursor.getStringFromAttribute( "CenterJustify" );  if ( CenterJustify == null ) CenterJustify = "";
@@ -26597,6 +26651,7 @@ public class NLS_ControlImpl implements NLS_Control
    protected String  DD_TargetKey;
    protected String  DD_SourceKey;
    protected String  DD_Type;
+   protected String  Placeholder;
    protected String  ReportGroupType;
    protected String  ForceHeaderPerEntity;
    protected Integer ExtendedStyle;
@@ -26922,6 +26977,22 @@ public class NLS_ControlImpl implements NLS_Control
    public void setDD_Type( String DD_Type )
    {
       this.DD_Type = DD_Type;
+   }
+
+   /**
+    * @return the Placeholder
+    */
+   public String getPlaceholder( )
+   {
+      return Placeholder;
+   }
+
+   /**
+    * @param Placeholder to set 
+    */
+   public void setPlaceholder( String Placeholder )
+   {
+      this.Placeholder = Placeholder;
    }
 
    /**
@@ -27440,6 +27511,7 @@ public class NLS_ControlImpl implements NLS_Control
       DD_TargetKey = cursor.getStringFromAttribute( "DD_TargetKey" );  if ( DD_TargetKey == null ) DD_TargetKey = "";
       DD_SourceKey = cursor.getStringFromAttribute( "DD_SourceKey" );  if ( DD_SourceKey == null ) DD_SourceKey = "";
       DD_Type = cursor.getStringFromAttribute( "DD_Type" );  if ( DD_Type == null ) DD_Type = "";
+      Placeholder = cursor.getStringFromAttribute( "Placeholder" );  if ( Placeholder == null ) Placeholder = "";
       ReportGroupType = cursor.getStringFromAttribute( "ReportGroupType" );  if ( ReportGroupType == null ) ReportGroupType = "";
       ForceHeaderPerEntity = cursor.getStringFromAttribute( "ForceHeaderPerEntity" );  if ( ForceHeaderPerEntity == null ) ForceHeaderPerEntity = "";
       ExtendedStyle = cursor.getIntegerFromAttribute( "ExtendedStyle" );  if ( ExtendedStyle == null ) ExtendedStyle = 0;
@@ -27961,6 +28033,7 @@ public class NLS_DIL_ControlImpl implements NLS_DIL_Control
    protected Integer Underline;
    protected Integer SyncKey;
    protected String  DIL_Text;
+   protected String  Placeholder;
    protected String  ReportGroupType;
    protected String  ForceHeaderPerEntity;
    protected Integer ExtendedStyle;
@@ -28286,6 +28359,22 @@ public class NLS_DIL_ControlImpl implements NLS_DIL_Control
    public void setDIL_Text( String DIL_Text )
    {
       this.DIL_Text = DIL_Text;
+   }
+
+   /**
+    * @return the Placeholder
+    */
+   public String getPlaceholder( )
+   {
+      return Placeholder;
+   }
+
+   /**
+    * @param Placeholder to set 
+    */
+   public void setPlaceholder( String Placeholder )
+   {
+      this.Placeholder = Placeholder;
    }
 
    /**
@@ -28804,6 +28893,7 @@ public class NLS_DIL_ControlImpl implements NLS_DIL_Control
       Underline = cursor.getIntegerFromAttribute( "Underline" );  if ( Underline == null ) Underline = 0;
       SyncKey = cursor.getIntegerFromAttribute( "SyncKey" );  if ( SyncKey == null ) SyncKey = 0;
       DIL_Text = cursor.getStringFromAttribute( "DIL_Text" );  if ( DIL_Text == null ) DIL_Text = "";
+      Placeholder = cursor.getStringFromAttribute( "Placeholder" );  if ( Placeholder == null ) Placeholder = "";
       ReportGroupType = cursor.getStringFromAttribute( "ReportGroupType" );  if ( ReportGroupType == null ) ReportGroupType = "";
       ForceHeaderPerEntity = cursor.getStringFromAttribute( "ForceHeaderPerEntity" );  if ( ForceHeaderPerEntity == null ) ForceHeaderPerEntity = "";
       ExtendedStyle = cursor.getIntegerFromAttribute( "ExtendedStyle" );  if ( ExtendedStyle == null ) ExtendedStyle = 0;
