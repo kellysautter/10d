@@ -1352,7 +1352,6 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 100 ) szIndentGroup
    STRING ( 50 )  szWebCtrlType
 
-
    LastY_Pos = 0
    iColCnt = 0
    iHighestColCnt = 0
@@ -2066,7 +2065,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                szWriteBuffer = "         strErrorMapValue = ^" + vDialog.Control.Text + "^;"
             END
 
-            // This doesn't work, but something like it may be necessary to remove special characters ... dks 2012.04.25
+            // This doesn't work, but something like "escapeHTML" may be necessary to remove special characters ... dks 2012.04.25
             // strErrorMapValue = strErrorMapValue.replace("/&/g", "&amp;").replace("/>/g", "&gt;").replace("/</g", "&lt;").replace("/\"/g", "&quot;").replace("/%/g", "&#037;");
 
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2110,8 +2109,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                   szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
                ELSE
                   szWriteBuffer = "<textarea" + szHTMLCtrlID +
-                                  "class=^" + szClass + "^ " + szTitleHTML +
-                                  szStyle + ">" +
+                                  "class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" +
                                // "^ rows="15" cols="80" style="width: 80%">" +
                                   "<%=strErrorMapValue%></textarea>"
                END
@@ -2122,14 +2120,12 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                lTemp = IsFlagSequenceSet( lTemp, zCONTROL_DISABLED )
                IF lTemp = 0
                   szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML +
-                                  "class=^" + szClass + "^ " +
-                                  szStyle + szTabIndex + " wrap=^wrap^>" +
+                                  "class=^" + szClass + "^ " + szStyle + szTabIndex + " wrap=^wrap^>" +
                                   "<%=strErrorMapValue%></textarea>"
                ELSE
                   zAppendQuotedString( szStyle, "text-overflow:hidden;background-color:lightgray;", "style=", "^" )
                   szWriteBuffer = "<div" + szHTMLCtrlID + szTitleHTML +
-                                  "class=^" + szClass + "^ " +
-                                  szStyle + szTabIndex + " wrap=^wrap^>" +
+                                  "class=^" + szClass + "^ " + szStyle + szTabIndex + " wrap=^wrap^>" +
                                   "<%=strErrorMapValue%></div>"
                END
 
@@ -2515,13 +2511,14 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
    END
 
-   //KJS 10/19/07 - Added title.  dks 2016.04.08 - trying placeholder
+   //KJS 10/19/07 - Added title.
    //If we put a title on the control, when the mouse is hovered over the control, this text will display.
    szTitleHTML = ""
    szTitle = vDialog.Control.DIL_Text
    IF szTitle != ""
       szTitleHTML = " title=^" + szTitle + "^"
    END
+   // dks 2016.04.08 - trying placeholder
    szTitle = vDialog.Control.Placeholder
    IF szTitle != ""
       szTitleHTML = szTitleHTML + " placeholder=^" + szTitle + "^"
@@ -3590,8 +3587,7 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
          szWriteBuffer = "<div class=^mceSimpleZeidon^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ style=^width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
       ELSE
          szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
-                         "^ class=^" + szClass + "^ " + szTitleHTML +
-                         szAbsoluteStyle + szActionCode + ">" +
+                         "^ class=^" + szClass + "^ " + szTitleHTML + szAbsoluteStyle + szActionCode + ">" +
                       // "^ rows="15" cols="80" style="width: 80%">" +
                          "<%=strErrorMapValue%></textarea>"
       END

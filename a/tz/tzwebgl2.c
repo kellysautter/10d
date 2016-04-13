@@ -5275,7 +5275,7 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
             //:szPosition = ""
             ZeidonStringCopy( szPosition, 1, 0, "", 1, 0, 101 );
 
-            //:// If szNoPositioning is null then we are not using absolute positioning.
+            //:// If szNoPositioning is null then we are using absolute positioning.
             //:IF  szNoPositioning = ""
             if ( ZeidonStringCompare( szNoPositioning, 1, 0, "", 1, 0, 2 ) == 0 )
             { 
@@ -5290,8 +5290,7 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
             if ( ZeidonStringCompare( szTableExport, 1, 0, "Y", 1, 0, 2 ) == 0 )
             { 
                //:// KJS 09/29/10 - Trying to set up a system for displaying a table's values as output so the user
-               //:// can cut and paste this into excel.  The textarea we will create should be as wide as the
-               //:// grid.
+               //:// can cut and paste this into excel.  The textarea we will create should be as wide as the grid.
                //:szWriteBuffer = "<div class=^tableexport^>"
                ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^tableexport^>", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -10344,10 +10343,10 @@ GenJSPJ_InputMapRecurs( zVIEW     vDialog,
                               ZeidonStringCopy( szWriteBuffer, 1, 0, "         strMapValue = VmlOperation.TrimTinyHtml( strMapValue );", 1, 0, 10001 );
                               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                              //:szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " after TrimTinyHtml: ^ + strMapValue );"
+                              //:szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " after TrimTinyHtml: '^ + strMapValue + ^'^ );"
                               ZeidonStringCopy( szWriteBuffer, 1, 0, "         task.log().debug( ^", 1, 0, 10001 );
                               ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, " after TrimTinyHtml: ^ + strMapValue );", 1, 0, 10001 );
+                              ZeidonStringConcat( szWriteBuffer, 1, 0, " after TrimTinyHtml: '^ + strMapValue + ^'^ );", 1, 0, 10001 );
                               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                            } 

@@ -2274,8 +2274,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                } 
                else
                { 
-                  //:szWriteBuffer = "<textarea" + szHTMLCtrlID + "class=^" + szClass + "^ " + szTitleHTML +
-                  //:                szStyle + ">" + "<%=strErrorMapValue%></textarea>"
+                  //:szWriteBuffer = "<textarea" + szHTMLCtrlID + "class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + "<%=strErrorMapValue%></textarea>"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, "class=^", 1, 0, 10001 );
@@ -2337,8 +2336,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
    //:END
 
-   //:// If the previous row didn't have as many controls as there are
-   //:// table columns, then we need to create a blank column
+   //:// If the previous row didn't have as many controls as there are table columns, then we need to create a blank column
    //:LOOP  WHILE iColCnt < iHighestColCnt
    while ( iColCnt < iHighestColCnt )
    { 
@@ -4252,7 +4250,7 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
 
    //:END
 
-   //://KJS 10/19/07 - Added title.  dks 2016.04.08 - trying placeholder
+   //://KJS 10/19/07 - Added title.
    //://If we put a title on the control, when the mouse is hovered over the control, this text will display.
    //:szTitleHTML = ""
    ZeidonStringCopy( szTitleHTML, 1, 0, "", 1, 0, 257 );
@@ -4268,6 +4266,7 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    } 
 
    //:END
+   //:// dks 2016.04.08 - trying placeholder
    //:szTitle = vDialog.Control.Placeholder
    GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "Placeholder", "", 0 );
    //:IF szTitle != ""

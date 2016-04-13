@@ -1637,8 +1637,7 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
       else
       { 
          //:szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
-         //:                "^ class=^" + szClass + "^ " + szTitleHTML +
-         //:                szAbsoluteStyle + szActionCode + ">" +
+         //:                "^ class=^" + szClass + "^ " + szTitleHTML + szAbsoluteStyle + szActionCode + ">" +
          //:             // "^ rows="15" cols="80" style="width: 80%">" +
          //:                "<%=strErrorMapValue%></textarea>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
@@ -4566,7 +4565,7 @@ GenJSPJ_CrteEditBox( zVIEW     vDialog,
 
    //:END
 
-   //://KJS 10/19/07 - Added title.  dks 2016.04.08 - trying placeholder
+   //://KJS 10/19/07 - Added title.
    //://If we put a title on the control, when the mouse is hovered over the control, this text will display.
    //:szTitleHTML = ""
    ZeidonStringCopy( szTitleHTML, 1, 0, "", 1, 0, 257 );
@@ -4582,6 +4581,7 @@ GenJSPJ_CrteEditBox( zVIEW     vDialog,
    } 
 
    //:END
+   //:// dks 2016.04.08 - trying placeholder
    //:szTitle = vDialog.Control.Placeholder
    GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "Placeholder", "", 0 );
    //:IF szTitle != ""
@@ -4802,7 +4802,6 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
    zCHAR     szTempString_23[ 33 ]; 
    zCHAR     szTempString_24[ 33 ]; 
    zCHAR     szTempString_25[ 255 ]; 
-
 
 
    //:LastY_Pos = 0
@@ -6479,7 +6478,7 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
 
             //:END
 
-            //:// This doesn't work, but something like it may be necessary to remove special characters ... dks 2012.04.25
+            //:// This doesn't work, but something like "escapeHTML" may be necessary to remove special characters ... dks 2012.04.25
             //:// strErrorMapValue = strErrorMapValue.replace("/&/g", "&amp;").replace("/>/g", "&gt;").replace("/</g", "&lt;").replace("/\"/g", "&quot;").replace("/%/g", "&#037;");
 
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -6574,8 +6573,7 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
                else
                { 
                   //:szWriteBuffer = "<textarea" + szHTMLCtrlID +
-                  //:                "class=^" + szClass + "^ " + szTitleHTML +
-                  //:                szStyle + ">" +
+                  //:                "class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" +
                   //:             // "^ rows="15" cols="80" style="width: 80%">" +
                   //:                "<%=strErrorMapValue%></textarea>"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
@@ -6606,8 +6604,7 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
                if ( lTemp == 0 )
                { 
                   //:szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML +
-                  //:                "class=^" + szClass + "^ " +
-                  //:                szStyle + szTabIndex + " wrap=^wrap^>" +
+                  //:                "class=^" + szClass + "^ " + szStyle + szTabIndex + " wrap=^wrap^>" +
                   //:                "<%=strErrorMapValue%></textarea>"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
@@ -6626,8 +6623,7 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
                   //:zAppendQuotedString( szStyle, "text-overflow:hidden;background-color:lightgray;", "style=", "^" )
                   zAppendQuotedString( szStyle, "text-overflow:hidden;background-color:lightgray;", "style=", "^" );
                   //:szWriteBuffer = "<div" + szHTMLCtrlID + szTitleHTML +
-                  //:                "class=^" + szClass + "^ " +
-                  //:                szStyle + szTabIndex + " wrap=^wrap^>" +
+                  //:                "class=^" + szClass + "^ " + szStyle + szTabIndex + " wrap=^wrap^>" +
                   //:                "<%=strErrorMapValue%></div>"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<div", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );

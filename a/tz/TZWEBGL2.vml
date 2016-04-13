@@ -2234,7 +2234,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             // Reset szPosition from using is above as the column count.
             szPosition = ""
 
-            // If szNoPositioning is null then we are not using absolute positioning.
+            // If szNoPositioning is null then we are using absolute positioning.
             IF  szNoPositioning = ""
                // Set up "top" and "left" positions for absolute positioning.
                CreateAbsolPosStringTable( vDialog, szPosition, 0, 0 )
@@ -2242,8 +2242,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
             IF szTableExport = "Y"
                // KJS 09/29/10 - Trying to set up a system for displaying a table's values as output so the user
-               // can cut and paste this into excel.  The textarea we will create should be as wide as the
-               // grid.
+               // can cut and paste this into excel.  The textarea we will create should be as wide as the grid.
                szWriteBuffer = "<div class=^tableexport^>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "<img src=^./images/btn_expand.gif^ name=^btmp" + szCtrlTag + "^ id=^btmp" + szCtrlTag + "^ " +
@@ -4355,7 +4354,7 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               szWriteBuffer = "         strMapValue = VmlOperation.TrimTinyHtml( strMapValue );"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                              szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " after TrimTinyHtml: ^ + strMapValue );"
+                              szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " after TrimTinyHtml: '^ + strMapValue + ^'^ );"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            END
                         END

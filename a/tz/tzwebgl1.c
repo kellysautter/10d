@@ -2343,9 +2343,7 @@ CreateAbsolPosString( zVIEW     vDialog,
    GetIntegerFromAttribute( &lTempInteger_1, vDialog, "Control", "PSDLG_Y" );
    zIntegerToString( szY_Pos, 10, lTempInteger_1 * dDLUnits + Y_BASE );
 
-   //:szStyle = "position:absolute;" +
-   //:          "left:" + szX_Pos + "px;" +
-   //:          "top:" + szY_Pos + "px;"
+   //:szStyle = "position:absolute;" + "left:" + szX_Pos + "px;" + "top:" + szY_Pos + "px;"
    ZeidonStringCopy( szStyle, 1, 0, "position:absolute;", 1, 0, 101 );
    ZeidonStringConcat( szStyle, 1, 0, "left:", 1, 0, 101 );
    ZeidonStringConcat( szStyle, 1, 0, szX_Pos, 1, 0, 101 );
@@ -10885,8 +10883,7 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
             if ( ZeidonStringCompare( szTableExport, 1, 0, "Y", 1, 0, 2 ) == 0 )
             { 
                //:// KJS 09/29/10 - Trying to set up a system for displaying a table's values as output so the user
-               //:// can cut and paste this into excel.  The textarea we will create should be as wide as the
-               //:// grid.
+               //:// can cut and paste this into excel.  The textarea we will create should be as wide as the grid.
                //:szWriteBuffer = "<div class=^tableexport^>"
                ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^tableexport^>", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -15096,10 +15093,8 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
                   } 
                   else
                   { 
-                     //:szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag +
-                     //:                "^ class=^" + szClass + "^ " + szTitleHTML +
-                     //:                szAbsoluteStyle + ">" +
-                     //:                "<%=strErrorMapValue%></textarea>"
+                     //:szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ class=^" + szClass + "^ " + szTitleHTML +
+                     //:                szAbsoluteStyle + ">" + "<%=strErrorMapValue%></textarea>"
                      ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
                      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
                      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
@@ -15125,8 +15120,7 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
                   //:CreateTabIndexString( vDialog, szTabIndex )
                   CreateTabIndexString( vDialog, szTabIndex );
                   //:szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szTitleHTML +
-                  //:                "class=^" + szClass + "^ " +
-                  //:                szAbsoluteStyle + szTabIndex + " wrap=^wrap^>" +
+                  //:                "class=^" + szClass + "^ " + szAbsoluteStyle + szTabIndex + " wrap=^wrap^>" +
                   //:                "<%=strErrorMapValue%></textarea>"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );

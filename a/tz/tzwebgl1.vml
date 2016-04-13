@@ -2129,8 +2129,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
             IF szTableExport = "Y"
                // KJS 09/29/10 - Trying to set up a system for displaying a table's values as output so the user
-               // can cut and paste this into excel.  The textarea we will create should be as wide as the
-               // grid.
+               // can cut and paste this into excel.  The textarea we will create should be as wide as the grid.
                szWriteBuffer = "<div class=^tableexport^>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "<img src=^./images/btn_expand.gif^ name=^btmp" + szCtrlTag + "^ id=^btmp" + szCtrlTag + "^ " +
@@ -3884,18 +3883,15 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
                   ELSE
-                     szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag +
-                                     "^ class=^" + szClass + "^ " + szTitleHTML +
-                                     szAbsoluteStyle + ">" +
-                                     "<%=strErrorMapValue%></textarea>"
+                     szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ class=^" + szClass + "^ " + szTitleHTML +
+                                     szAbsoluteStyle + ">" + "<%=strErrorMapValue%></textarea>"
                   END
                ELSE
                   szClass = ""
                   szClass = vDialog.Control.CSS_Class
                   CreateTabIndexString( vDialog, szTabIndex )
                   szWriteBuffer = "<textarea name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szTitleHTML +
-                                  "class=^" + szClass + "^ " +
-                                  szAbsoluteStyle + szTabIndex + " wrap=^wrap^>" +
+                                  "class=^" + szClass + "^ " + szAbsoluteStyle + szTabIndex + " wrap=^wrap^>" +
                                   "<%=strErrorMapValue%></textarea>"
 
                END
@@ -5651,9 +5647,7 @@ CreateAbsolPosString( VIEW vDialog BASED ON LOD TZWDLGSO,
    zIntegerToString( szX_Pos, 10, vDialog.Control.PSDLG_X * dDLUnits + X_BASE )
    zIntegerToString( szY_Pos, 10, vDialog.Control.PSDLG_Y * dDLUnits + Y_BASE )
 
-   szStyle = "position:absolute;" +
-             "left:" + szX_Pos + "px;" +
-             "top:" + szY_Pos + "px;"
+   szStyle = "position:absolute;" + "left:" + szX_Pos + "px;" + "top:" + szY_Pos + "px;"
 END
 
 GLOBAL OPERATION
