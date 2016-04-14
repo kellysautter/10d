@@ -263,7 +263,6 @@ ZCrystalEditView::ZCrystalEditView() : CView()
    m_nLineHeight = -1;
    m_nCharWidth = -1;
 
-
    // Text attributes
    m_nTabSize = 0;
    m_bViewTabs = FALSE;
@@ -872,18 +871,18 @@ void ZCrystalEditView::OnKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags )
 #endif
 }
 
-void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
+void ZCrystalEditView::OnChar(UINT uChar, UINT uRepeatCnt, UINT uFlags)
 {
 #ifdef DEBUG_ALL
-   TraceLine( "ZEditor::OnChar: %d   for tag: %s", nChar, *m_pzsTag );
+   TraceLine( "ZEditor::OnChar: %d   for tag: %s", uChar, *m_pzsTag );
 #endif
-   CView::OnChar(nChar, uRepeatCnt, uFlags);
+   CView::OnChar(uChar, uRepeatCnt, uFlags);
 
    if ((::GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0 || (::GetAsyncKeyState(VK_RBUTTON) & 0x8000) != 0)
       return;
 
    BOOL bTranslated = FALSE;
-   if (nChar == VK_RETURN)
+   if (uChar == VK_RETURN)
    {
       if (m_bOvrMode)
       {
@@ -928,11 +927,11 @@ void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
       return;
    }
 
-   if (nChar > 31)
+   if (uChar > 31)
    {
       if (QueryEditable())
       {
-         m_pTextBuffer->BeginUndoGroup(nChar != _T(' '));
+         m_pTextBuffer->BeginUndoGroup(uChar != _T(' '));
 
          CPoint ptSelStart, ptSelEnd;
          GetSelection(ptSelStart, ptSelEnd);
@@ -952,7 +951,7 @@ void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
          ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
 
          char pszText[2];
-         pszText[0] = (char) nChar;
+         pszText[0] = (char) uChar;
          pszText[1] = 0;
 
          int x, y;

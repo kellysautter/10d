@@ -93,6 +93,7 @@ private:
    BOOL   m_bAutoIndent;
    BOOL   m_bDisableBSAtSOL;      // [JRT] Disable Back Space At Start Of Line
    int    m_nHoldArrowXPos;
+   UINT   m_uLastKey;
 
 protected:
    ZEditDropTargetImpl *m_pOleDropTarget;

@@ -1905,14 +1905,12 @@ TZPainterWindow::PaintCtrl( TZPainterCtrl *pCtrlParent,
             }
 
             if ( mIs_hWnd( pCtrl->m_pWndCtrl->m_hWnd ) == 0 ||
-                 PaintCtrl( pCtrl, szlControl, vCtrl,
-                            0, &rectWork, 0, 0 ) == 0 )
+                 PaintCtrl( pCtrl, szlControl, vCtrl, 0, &rectWork, 0, 0 ) == 0 )
             {
                break;
             }
 
-         } while ( SetCursorNextEntity( vCtrl, szlControl, 0 ) ==
-                                                               zCURSOR_SET );
+         } while ( SetCursorNextEntity( vCtrl, szlControl, 0 ) == zCURSOR_SET );
          ResetViewFromSubobject( vCtrl );
       }
 

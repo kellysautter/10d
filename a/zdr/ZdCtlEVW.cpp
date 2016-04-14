@@ -294,7 +294,6 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
    m_nLineHeight = -1;
    m_nCharWidth = -1;
 
-
    // Text attributes
    m_nTabSize = 0;
    m_bViewTabs = FALSE;
@@ -361,6 +360,7 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
    m_nTopLine = 0;
    m_nOffsetChar = 0;
    m_nHoldArrowXPos = -1;
+   m_uLastKey = 0;
 
 // SetDisableDragAndDrop( FALSE );
 // SetSmoothScroll(TRUE);
@@ -687,10 +687,10 @@ void ZCrystalEditView::OnSysKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
 #ifdef DEBUG_ALL
    TraceLine( "ZEditor::OnSysKeyDown: %d   for tag: %s", uKey, *m_pzsTag );
 #endif
+   m_uLastKey = uKey;
 #if 0
    zLONG lRC = 0;
 
-   m_ulLastKey = uKey;
    if ( uKey != VK_SHIFT && uKey != VK_CONTROL && uKey != VK_MENU )
       lRC = ProcessImmediateEvent( this, zEDITBOX_KeyDown, (zPVOID) uFlags );
 
@@ -716,10 +716,10 @@ void ZCrystalEditView::OnSysKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags )
 #ifdef DEBUG_ALL
    TraceLine( "ZEditor::OnSysKeyUp: %d   for tag: %s", uKey, *m_pzsTag );
 #endif
+   m_uLastKey = uKey;
 #if 0
    zLONG lRC = 0;
 
-   m_ulLastKey = uKey;
    if ( uKey != VK_SHIFT && uKey != VK_CONTROL && uKey != VK_MENU )
       lRC = ProcessImmediateEvent( this, zEDITBOX_KeyUp, (zPVOID) uFlags );
 
@@ -743,8 +743,8 @@ void ZCrystalEditView::OnKeyDown( UINT uKey, UINT uRepeatCnt, UINT uFlags )
 #ifdef DEBUG_ALL
    TraceLine( "ZEditor::OnKeyDown: %d   for tag: %s", uKey, *m_pzsTag );
 #endif
+   m_uLastKey = uKey;
 #if 0
-   m_ulLastKey = uKey;
    zLONG lRC = ProcessImmediateEvent( this, zEDITBOX_KeyDown, (zPVOID) uFlags );
    if ( lRC == zNO_APPLICATION_EVENT || (zSHORT) zLOUSHORT( lRC ) >= 0 )
    {
@@ -1006,8 +1006,8 @@ void ZCrystalEditView::OnKeyUp( UINT uKey, UINT uRepeatCnt, UINT uFlags )
 #ifdef DEBUG_ALL
    TraceLine( "ZEditor::OnKeyUp: %d   for tag: %s", uKey, *m_pzsTag );
 #endif
+   m_uLastKey = uKey;
 #if 0
-   m_ulLastKey = uKey;
    zLONG lRC = ProcessImmediateEvent( this, zEDITBOX_KeyUp, (zPVOID) uFlags );
    if ( lRC == zNO_APPLICATION_EVENT || (zSHORT) zLOUSHORT( lRC ) >= 0 )
    {
@@ -1048,18 +1048,18 @@ UINT ZCrystalEditView::OnGetDlgCode()
 // return DLGC_WANTALLKEYS;
 }
 
-void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
+void ZCrystalEditView::OnChar(UINT uChar, UINT uRepeatCnt, UINT uFlags)
 {
 #ifdef DEBUG_ALL
-   TraceLine( "ZEditor::OnChar: %d   for tag: %s", nChar, *m_pzsTag );
+   TraceLine( "ZEditor::OnChar: %d   for tag: %s", uChar, *m_pzsTag );
 #endif
-   CView::OnChar(nChar, uRepeatCnt, uFlags);
+   CView::OnChar(uChar, uRepeatCnt, uFlags);
 
    if ((::GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0 || (::GetAsyncKeyState(VK_RBUTTON) & 0x8000) != 0)
       return;
 
    BOOL bTranslated = FALSE;
-   if (nChar == VK_RETURN)
+   if (uChar == VK_RETURN)
    {
       if (m_bOvrMode)
       {
@@ -1104,16 +1104,16 @@ void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
       return;
    }
    else
-   if (nChar == VK_SPACE)
+   if (uChar == VK_SPACE && m_uLastKey != VK_SPACE)
    {
       InvokeAction( m_pZSubtask->m_vDialog, "Keystroke" );
    }
 
-   if (nChar > 31)
+   if (uChar > 31)
    {
       if (QueryEditable())
       {
-         m_pTextBuffer->BeginUndoGroup(nChar != _T(' '));
+         m_pTextBuffer->BeginUndoGroup(uChar != _T(' '));
 
          CPoint ptSelStart, ptSelEnd;
          GetSelection(ptSelStart, ptSelEnd);
@@ -1133,7 +1133,7 @@ void ZCrystalEditView::OnChar(UINT nChar, UINT uRepeatCnt, UINT uFlags)
          ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
 
          char pszText[2];
-         pszText[0] = (char) nChar;
+         pszText[0] = (char) uChar;
          pszText[1] = 0;
 
          int x, y;

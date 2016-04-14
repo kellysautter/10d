@@ -564,7 +564,8 @@ enum
    CE_ACTION_DRAGDROP   = 7,
    CE_ACTION_REPLACE    = 8,
    CE_ACTION_DELETE     = 9,
-   CE_ACTION_AUTOINDENT = 10
+   CE_ACTION_AUTOINDENT = 10,
+   CE_ACTION_INSERT     = 11
    // ...
    // Expandable: user actions allowed
 };
