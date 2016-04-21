@@ -6523,7 +6523,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
          szGridScopeOI = ""
          szBuffer = ""
          // For correct setEntityKey placement later, we need to know if this action is on a repeating group (even if it's within a grid). Because of this
-         // we need to keep reseting the view from subobject because we could be down several groups.
+         // we need to keep resetting the view from subobject because we could be down several groups.
          //LOOP WHILE nRC = 0 AND ( nGridParent = 0 OR szRepeatingGroupFlag = "" )
          LOOP WHILE nRC = 0 AND szRepeatingGroupFlag = ""
             //TraceLineS("*** LOOP for szRepeatingGroup *** ", "")
@@ -6550,7 +6550,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
                END
 
                IF vDialogTemp.ControlDef.Tag = "Grid" OR szRepeatingGroupFlag = "Y"
-                  // If the parent is a grid, then get the View and Entity now (we might be reseting the subobject and lose
+                  // If the parent is a grid, then get the View and Entity now (we might be resetting the subobject and lose
                   // our position on the grid) so it can be used further down.
                   IF vDialogTemp.CtrlMapView EXISTS AND
                      vDialogTemp.CtrlMapLOD_Entity EXISTS AND nGridParent = 0
@@ -7067,91 +7067,93 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
          // We don't want the getViewByName if it was generated above with the code:
          // IF nGridParent = 1 OR szRepeatingGroupFlag = "Y"
          IF nGridParent = 1 OR szRepeatingGroupFlag = "Y"
+            szWriteBuffer = "         EntityCursor cursor = " + szViewName + ".cursor( ^" + szEntityName + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          ELSE
-            szWriteBuffer = "      View " + szViewName + " = task.getViewByName( ^" + szViewName + "^ );"
+            // dks 2016.04.15 ... rather than debugging when this improperly occurs, changing the name of the view by adding Auto
+            szWriteBuffer = "         View " + szViewName + "Auto = task.getViewByName( ^" + szViewName + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         EntityCursor cursor = " + szViewName + "Auto.cursor( ^" + szEntityName + "^ );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          END
 
-         szWriteBuffer = "      EntityCursor cursor = " + szViewName + ".cursor( ^" + szEntityName + "^ );"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
          // If the user has selected the auto next/prev.
          IF ( lAutoNextPrev = 128 OR lAutoNextPrev = 256 ) AND lAutoSubAction = 0
-            szWriteBuffer = "      if ( cursor.isNull() )"
+            szWriteBuffer = "         if ( cursor.isNull() )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         nRC = 0;"
+            szWriteBuffer = "            nRC = 0;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      else"
+            szWriteBuffer = "         else"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      {"
+            szWriteBuffer = "         {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             IF lAutoNextPrev = 128
-               szWriteBuffer = "         cursor.setNext( " + szScopingName + " );"
+               szWriteBuffer = "            cursor.setNext( " + szScopingName + " );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             ELSE
-               szWriteBuffer = "         cursor.setPrev( " + szScopingName + " );"
+               szWriteBuffer = "            cursor.setPrev( " + szScopingName + " );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END
-            szWriteBuffer = "      }"
+            szWriteBuffer = "         }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          END
 
          // Add Accept or Cancel statement or delete.
          IF lAutoSubAction = 1 OR lAutoSubAction = 2 OR lAutoSubAction = 4
-            szWriteBuffer = "      if ( cursor.isNull() )"
+            szWriteBuffer = "         if ( cursor.isNull() )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         nRC = 0;"
+            szWriteBuffer = "            nRC = 0;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      else"
+            szWriteBuffer = "         else"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      {"
+            szWriteBuffer = "         {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
             IF lAutoSubAction = 1 OR lAutoSubAction = 2
-               szWriteBuffer = "         if ( cursor.isVersioned( ) )"
+               szWriteBuffer = "            if ( cursor.isVersioned( ) )"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         {"
+               szWriteBuffer = "            {"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                IF lAutoSubAction = 1
                   // Accept
-                  szWriteBuffer = "            cursor.acceptSubobject( );"
+                  szWriteBuffer = "               cursor.acceptSubobject( );"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                ELSE
                IF lAutoSubAction = 2
                   // Cancel
-                  szWriteBuffer = "            cursor.cancelSubobject( );"
+                  szWriteBuffer = "               cursor.cancelSubobject( );"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                END
                END
-               szWriteBuffer = "         }"
+               szWriteBuffer = "            }"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             ELSE
             IF lAutoSubAction = 4
                // Delete
-               szWriteBuffer = "         cursor.deleteEntity( CursorPosition.NEXT );"
+               szWriteBuffer = "            cursor.deleteEntity( CursorPosition.NEXT );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END
             END
 
-            szWriteBuffer = "         nRC = 0;"
+            szWriteBuffer = "            nRC = 0;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      }"
+            szWriteBuffer = "         }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          ELSE
             IF lAutoSubAction = 16
                // Create Entity
-               szWriteBuffer = "      cursor.createEntity( );"
+               szWriteBuffer = "         cursor.createEntity( );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             ELSE
             IF lAutoSubAction = 32
                // Create Temporal Entity
-               szWriteBuffer = "      cursor.createTemporalEntity( );"
+               szWriteBuffer = "         cursor.createTemporalEntity( );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             ELSE
             IF lAutoSubAction = 64
                // Create Subobject Version
-               szWriteBuffer = "      cursor.createTemporalSubobjectVersion( );"
+               szWriteBuffer = "         cursor.createTemporalSubobjectVersion( );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             END
             END

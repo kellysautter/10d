@@ -14373,7 +14373,7 @@ GenJSPJ_Action( zVIEW     vDialog,
          //:szBuffer = ""
          ZeidonStringCopy( szBuffer, 1, 0, "", 1, 0, 4 );
          //:// For correct setEntityKey placement later, we need to know if this action is on a repeating group (even if it's within a grid). Because of this
-         //:// we need to keep reseting the view from subobject because we could be down several groups.
+         //:// we need to keep resetting the view from subobject because we could be down several groups.
          //://LOOP WHILE nRC = 0 AND ( nGridParent = 0 OR szRepeatingGroupFlag = "" )
          //:LOOP WHILE nRC = 0 AND szRepeatingGroupFlag = ""
          while ( nRC == 0 && ZeidonStringCompare( szRepeatingGroupFlag, 1, 0, "", 1, 0, 2 ) == 0 )
@@ -14436,7 +14436,7 @@ GenJSPJ_Action( zVIEW     vDialog,
                //:IF vDialogTemp.ControlDef.Tag = "Grid" OR szRepeatingGroupFlag = "Y"
                if ( CompareAttributeToString( vDialogTemp, "ControlDef", "Tag", "Grid" ) == 0 || ZeidonStringCompare( szRepeatingGroupFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
                { 
-                  //:// If the parent is a grid, then get the View and Entity now (we might be reseting the subobject and lose
+                  //:// If the parent is a grid, then get the View and Entity now (we might be resetting the subobject and lose
                   //:// our position on the grid) so it can be used further down.
                   //:IF vDialogTemp.CtrlMapView EXISTS AND
                   lTempInteger_7 = CheckExistenceOfEntity( vDialogTemp, "CtrlMapView" );
@@ -15562,15 +15562,32 @@ GenJSPJ_Action( zVIEW     vDialog,
          //:IF nGridParent = 1 OR szRepeatingGroupFlag = "Y"
          if ( nGridParent == 1 || ZeidonStringCompare( szRepeatingGroupFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
          { 
+            //:szWriteBuffer = "         EntityCursor cursor = " + szViewName + ".cursor( ^" + szEntityName + "^ );"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         EntityCursor cursor = ", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szViewName, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, ".cursor( ^", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szEntityName, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
+            //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
             //:ELSE
          } 
          else
          { 
-            //:szWriteBuffer = "      View " + szViewName + " = task.getViewByName( ^" + szViewName + "^ );"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      View ", 1, 0, 10001 );
+            //:// dks 2016.04.15 ... rather than debugging when this improperly occurs, changing the name of the view by adding Auto
+            //:szWriteBuffer = "         View " + szViewName + "Auto = task.getViewByName( ^" + szViewName + "^ );"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         View ", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szViewName, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, " = task.getViewByName( ^", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "Auto = task.getViewByName( ^", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szViewName, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
+            //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+            //:szWriteBuffer = "         EntityCursor cursor = " + szViewName + "Auto.cursor( ^" + szEntityName + "^ );"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         EntityCursor cursor = ", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szViewName, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "Auto.cursor( ^", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szEntityName, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
@@ -15578,40 +15595,31 @@ GenJSPJ_Action( zVIEW     vDialog,
 
          //:END
 
-         //:szWriteBuffer = "      EntityCursor cursor = " + szViewName + ".cursor( ^" + szEntityName + "^ );"
-         ZeidonStringCopy( szWriteBuffer, 1, 0, "      EntityCursor cursor = ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szViewName, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, ".cursor( ^", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szEntityName, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
-         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-
          //:// If the user has selected the auto next/prev.
          //:IF ( lAutoNextPrev = 128 OR lAutoNextPrev = 256 ) AND lAutoSubAction = 0
          if ( ( lAutoNextPrev == 128 || lAutoNextPrev == 256 ) && lAutoSubAction == 0 )
          { 
-            //:szWriteBuffer = "      if ( cursor.isNull() )"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      if ( cursor.isNull() )", 1, 0, 10001 );
+            //:szWriteBuffer = "         if ( cursor.isNull() )"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         if ( cursor.isNull() )", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "         nRC = 0;"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "         nRC = 0;", 1, 0, 10001 );
+            //:szWriteBuffer = "            nRC = 0;"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "            nRC = 0;", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "      else"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      else", 1, 0, 10001 );
+            //:szWriteBuffer = "         else"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         else", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "      {"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      {", 1, 0, 10001 );
+            //:szWriteBuffer = "         {"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         {", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
             //:IF lAutoNextPrev = 128
             if ( lAutoNextPrev == 128 )
             { 
-               //:szWriteBuffer = "         cursor.setNext( " + szScopingName + " );"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "         cursor.setNext( ", 1, 0, 10001 );
+               //:szWriteBuffer = "            cursor.setNext( " + szScopingName + " );"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "            cursor.setNext( ", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szScopingName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -15620,8 +15628,8 @@ GenJSPJ_Action( zVIEW     vDialog,
             } 
             else
             { 
-               //:szWriteBuffer = "         cursor.setPrev( " + szScopingName + " );"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "         cursor.setPrev( ", 1, 0, 10001 );
+               //:szWriteBuffer = "            cursor.setPrev( " + szScopingName + " );"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "            cursor.setPrev( ", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szScopingName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -15629,8 +15637,8 @@ GenJSPJ_Action( zVIEW     vDialog,
             } 
 
             //:END
-            //:szWriteBuffer = "      }"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
+            //:szWriteBuffer = "         }"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         }", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
          } 
@@ -15641,32 +15649,32 @@ GenJSPJ_Action( zVIEW     vDialog,
          //:IF lAutoSubAction = 1 OR lAutoSubAction = 2 OR lAutoSubAction = 4
          if ( lAutoSubAction == 1 || lAutoSubAction == 2 || lAutoSubAction == 4 )
          { 
-            //:szWriteBuffer = "      if ( cursor.isNull() )"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      if ( cursor.isNull() )", 1, 0, 10001 );
+            //:szWriteBuffer = "         if ( cursor.isNull() )"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         if ( cursor.isNull() )", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "         nRC = 0;"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "         nRC = 0;", 1, 0, 10001 );
+            //:szWriteBuffer = "            nRC = 0;"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "            nRC = 0;", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "      else"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      else", 1, 0, 10001 );
+            //:szWriteBuffer = "         else"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         else", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "      {"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      {", 1, 0, 10001 );
+            //:szWriteBuffer = "         {"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         {", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
 
             //:IF lAutoSubAction = 1 OR lAutoSubAction = 2
             if ( lAutoSubAction == 1 || lAutoSubAction == 2 )
             { 
-               //:szWriteBuffer = "         if ( cursor.isVersioned( ) )"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "         if ( cursor.isVersioned( ) )", 1, 0, 10001 );
+               //:szWriteBuffer = "            if ( cursor.isVersioned( ) )"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "            if ( cursor.isVersioned( ) )", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "         {"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "         {", 1, 0, 10001 );
+               //:szWriteBuffer = "            {"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "            {", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
 
@@ -15674,8 +15682,8 @@ GenJSPJ_Action( zVIEW     vDialog,
                if ( lAutoSubAction == 1 )
                { 
                   //:// Accept
-                  //:szWriteBuffer = "            cursor.acceptSubobject( );"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            cursor.acceptSubobject( );", 1, 0, 10001 );
+                  //:szWriteBuffer = "               cursor.acceptSubobject( );"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "               cursor.acceptSubobject( );", 1, 0, 10001 );
                   //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                   //:ELSE
@@ -15686,8 +15694,8 @@ GenJSPJ_Action( zVIEW     vDialog,
                   if ( lAutoSubAction == 2 )
                   { 
                      //:// Cancel
-                     //:szWriteBuffer = "            cursor.cancelSubobject( );"
-                     ZeidonStringCopy( szWriteBuffer, 1, 0, "            cursor.cancelSubobject( );", 1, 0, 10001 );
+                     //:szWriteBuffer = "               cursor.cancelSubobject( );"
+                     ZeidonStringCopy( szWriteBuffer, 1, 0, "               cursor.cancelSubobject( );", 1, 0, 10001 );
                      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                   } 
@@ -15696,8 +15704,8 @@ GenJSPJ_Action( zVIEW     vDialog,
                } 
 
                //:END
-               //:szWriteBuffer = "         }"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "         }", 1, 0, 10001 );
+               //:szWriteBuffer = "            }"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "            }", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                //:ELSE
@@ -15708,8 +15716,8 @@ GenJSPJ_Action( zVIEW     vDialog,
                if ( lAutoSubAction == 4 )
                { 
                   //:// Delete
-                  //:szWriteBuffer = "         cursor.deleteEntity( CursorPosition.NEXT );"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "         cursor.deleteEntity( CursorPosition.NEXT );", 1, 0, 10001 );
+                  //:szWriteBuffer = "            cursor.deleteEntity( CursorPosition.NEXT );"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            cursor.deleteEntity( CursorPosition.NEXT );", 1, 0, 10001 );
                   //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                } 
@@ -15719,12 +15727,12 @@ GenJSPJ_Action( zVIEW     vDialog,
 
             //:END
 
-            //:szWriteBuffer = "         nRC = 0;"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "         nRC = 0;", 1, 0, 10001 );
+            //:szWriteBuffer = "            nRC = 0;"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "            nRC = 0;", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "      }"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
+            //:szWriteBuffer = "         }"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "         }", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
             //:ELSE
@@ -15735,8 +15743,8 @@ GenJSPJ_Action( zVIEW     vDialog,
             if ( lAutoSubAction == 16 )
             { 
                //:// Create Entity
-               //:szWriteBuffer = "      cursor.createEntity( );"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "      cursor.createEntity( );", 1, 0, 10001 );
+               //:szWriteBuffer = "         cursor.createEntity( );"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         cursor.createEntity( );", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
                //:ELSE
@@ -15747,8 +15755,8 @@ GenJSPJ_Action( zVIEW     vDialog,
                if ( lAutoSubAction == 32 )
                { 
                   //:// Create Temporal Entity
-                  //:szWriteBuffer = "      cursor.createTemporalEntity( );"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "      cursor.createTemporalEntity( );", 1, 0, 10001 );
+                  //:szWriteBuffer = "         cursor.createTemporalEntity( );"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "         cursor.createTemporalEntity( );", 1, 0, 10001 );
                   //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
                   //:ELSE
@@ -15759,8 +15767,8 @@ GenJSPJ_Action( zVIEW     vDialog,
                   if ( lAutoSubAction == 64 )
                   { 
                      //:// Create Subobject Version
-                     //:szWriteBuffer = "      cursor.createTemporalSubobjectVersion( );"
-                     ZeidonStringCopy( szWriteBuffer, 1, 0, "      cursor.createTemporalSubobjectVersion( );", 1, 0, 10001 );
+                     //:szWriteBuffer = "         cursor.createTemporalSubobjectVersion( );"
+                     ZeidonStringCopy( szWriteBuffer, 1, 0, "         cursor.createTemporalSubobjectVersion( );", 1, 0, 10001 );
                      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
                   } 
