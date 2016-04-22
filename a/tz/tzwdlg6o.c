@@ -225,6 +225,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    ZDecimal  dDLUnits = 0.0; 
    //:INTEGER          lLth
    zLONG     lLth = 0; 
+   //:SHORT            nSystemSort
+   zSHORT    nSystemSort = 0; 
    //:SHORT            nRC
    zSHORT    nRC = 0; 
    zSHORT    RESULT; 
@@ -1909,8 +1911,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          if ( CompareAttributeToInteger( vDialog, "Action", "Type", zWAB_ExitDialogTask ) != 0 )
          { 
             //:// We don't format the Action on exit dialog, as the function in the java script calls OnUnload.
-            //:GenJSPJ_Action( vDialog, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szActionTag, lTrace )
-            GenJSPJ_Action( vDialog, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szActionTag, lTrace );
+            //:nRC = GenJSPJ_Action( vDialog, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szActionTag, lTrace )
+            nRC = GenJSPJ_Action( vDialog, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szActionTag, lTrace );
+            //:IF nRC != 0
+            if ( nRC != 0 )
+            { 
+               //:nSystemSort = nRC
+               nSystemSort = nRC;
+            } 
+
+            //:END
          } 
 
          //:END
@@ -2036,8 +2046,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                         //://                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                         //://END
 
-                        //:GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
+                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:IF nRC != 0
+                        if ( nRC != 0 )
+                        { 
+                           //:nSystemSort = nRC
+                           nSystemSort = nRC;
+                        } 
+
+                        //:END
                      } 
 
                      //:END
@@ -2103,8 +2121,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                         //://                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                         //://END
 
-                        //:GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
+                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:IF nRC != 0
+                        if ( nRC != 0 )
+                        { 
+                           //:nSystemSort = nRC
+                           nSystemSort = nRC;
+                        } 
+
+                        //:END
                      } 
 
                      //:END
@@ -2209,8 +2235,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
                         //:END
 
-                        //:GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
+                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:IF nRC != 0
+                        if ( nRC != 0 )
+                        { 
+                           //:nSystemSort = nRC
+                           nSystemSort = nRC;
+                        } 
+
+                        //:END
                      } 
 
                      //:END
@@ -2279,8 +2313,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
                         //:END
 
-                        //:GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
+                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:IF nRC != 0
+                        if ( nRC != 0 )
+                        { 
+                           //:nSystemSort = nRC
+                           nSystemSort = nRC;
+                        } 
+
+                        //:END
                      } 
 
                      //:END
@@ -2385,8 +2427,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
                         //:END
 
-                        //:GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
+                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:IF nRC != 0
+                        if ( nRC != 0 )
+                        { 
+                           //:nSystemSort = nRC
+                           nSystemSort = nRC;
+                        } 
+
+                        //:END
                      } 
 
                      //:END
@@ -2453,8 +2503,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
                         //:END
 
-                        //:GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
+                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace );
+                        //:IF nRC != 0
+                        if ( nRC != 0 )
+                        { 
+                           //:nSystemSort = nRC
+                           nSystemSort = nRC;
+                        } 
+
+                        //:END
                      } 
 
                      //:END
@@ -3284,6 +3342,20 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
       //:szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/sts.js^></script>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<script language=^JavaScript^ type=^text/javascript^ src=^./js/sts.js^></script>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   } 
+
+   //:END
+   //:IF nSystemSort != 0
+   if ( nSystemSort != 0 )
+   { 
+      //:szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/jsoeUtils.js^></script>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<script language=^JavaScript^ type=^text/javascript^ src=^./js/jsoeUtils.js^></script>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/jsoe.js^></script>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<script language=^JavaScript^ type=^text/javascript^ src=^./js/jsoe.js^></script>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    } 
@@ -4821,7 +4893,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
          //:// Determine if Action for the ActCtrl is for a PushBtn within a Grid or HyperText (not hyperlink)
          //:// or an image (Bitmap or BitmapBtn) within a Grid..
-         //:// KJS 11/10/12 - In GenJSPJ_Action we have already determined ifthis action is on a control within
+         //:// KJS 11/10/12 - In GenJSPJ_Action we have already determined if this action is on a control within
          //:// a grid or a repeating group.
          //:IF vDialog.Action.ParentIsGridOrGrp = "Y"
          if ( CompareAttributeToString( vDialog, "Action", "ParentIsGridOrGrp", "Y" ) == 0 )
@@ -8157,8 +8229,8 @@ oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW     vDialog,
 {
 
    //:GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
-   //:                   INTEGER          lFileJSP,
-   //:                   STRING ( 10000 ) szWriteBuffer )
+   //:                    INTEGER          lFileJSP,
+   //:                    STRING ( 10000 ) szWriteBuffer )
 
    //:// Build the JSP function code to process a file being transferred from the Client to the Server.
 

@@ -1539,7 +1539,7 @@ GenJSP_CrteCtrlsRecurs( zVIEW vDialog0,
                         zLONG lOffsetY9 );
 
 //end
-//start TZWEBGL2 2012.10.30 18:44:00
+//start TZWEBGL2 2016.04.21 16:14:14
 zOPER_EXPORT zVOID OPERATION
 GenJSPJ_OutputMapRecurs( zVIEW vDialog0,
                          zLONG lFile1,
@@ -1568,7 +1568,7 @@ GenJSPJ_InputMapRecurs( zVIEW vDialog0,
                         zLONG lTableRowCnt4,
                         zPCHAR pchszRepeatingGrpKey5 );
 
-zOPER_EXPORT zVOID OPERATION
+zOPER_EXPORT zSHORT OPERATION
 GenJSPJ_Action( zVIEW vDialog0,
                 zVIEW vDialogRoot1,
                 zLONG lFile2,

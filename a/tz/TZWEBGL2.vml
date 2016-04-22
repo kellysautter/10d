@@ -6050,11 +6050,11 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    STRING ( 100 )   szEntityNameR
    STRING ( 100 )   szScopingName
    STRING ( 100 )   szContextName
-   STRING ( 32 )    szDlgTagRoot
+   STRING ( 64 )    szDlgTagRoot
    STRING ( 100 )   szWndTagRoot
    STRING ( 100 )   szCtrlTag
    STRING ( 100 )   szDlgTag
-// STRING ( 32 )    szWndTag
+   STRING ( 64 )    szWndTag
    STRING ( 64 )    szOperName
    STRING ( 100 )   szDownloadViewName
    STRING ( 100 )   szUploadViewName
@@ -6080,6 +6080,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    INTEGER          lSubtypeX
    SHORT            nViewNameLth
    SHORT            nGridParent
+   SHORT            nSystemSort
    SHORT            nRC
 
    InsertBlankFlag = "N"
@@ -6743,7 +6744,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       END
 
       // In order to call a dialog operation we need to create an instance of the dialog class.  We only want to do this once.
-      szDlgTag = vDialog.Dialog.Tag
+   // szDlgTag = vDialog.Dialog.Tag
       // KJS 10/08/15 - Because this could be in a different source file... I will try referencing the source file name.
       szDlgTag = vDialog.SourceFileForOper.Name
    // szWndTag = vDialog.Window.Tag
@@ -6850,8 +6851,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             szWriteBuffer = "         // Next Window"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-            // In order to call a dialog operation we need to create an instance of the dialog class.  We
-            // only want to do this once.
+            // In order to call a dialog operation we need to create an instance of the dialog class.  We only want to do this once.
          // IF szDialogClassCreated = "N"
          //
          //    szWriteBuffer = "      " +  szDlgTagRoot + "_Dialog " + vDialog.Dialog.Tag + " = new " +
@@ -6977,19 +6977,42 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
                szWriteBuffer = "      // Next Window"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-               // In order to call a dialog operation we need to create an instance of the dialog class.  We
-               // only want to do this once.
+               // In order to call a dialog operation we need to create an instance of the dialog class.  We only want to do this once.
             // IF szDialogClassCreated = "N"
-         //
+            //
             //    szWriteBuffer = "      " +  szDlgTagRoot + "_Dialog " + vDialog.Dialog.Tag + " = new " +
             //                    szDlgTagRoot + "_Dialog( vKZXMLPGO );"
             //    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         //
+            //
             //    szDialogClassCreated = "Y"
             // END
 
+               // dks 2016.04.21 - Adding sort support ... on the action, there is still the need to add javascript code similar to the following:
+               // document.wSLCMarketingStatement.zTableRowSelect.value = buildSortTableHtml( "mSubLC", "S_MarketingUsageOrdering", "GridMarketingUsage", ["Usage Type","Usage Name"] );
+               szDlgTag = vDialog.Action.DialogName
+               szWndTag = vDialog.Action.WindowName
+
+               IF szDlgTag = "wSystem" AND szWndTag = "DragDropSort"
+                  nSystemSort = 1
+                  szWriteBuffer = "      // We are borrowing zTableRowSelect and this code is hardwired for the moment.  javascript code similar to the following must be added to the action:"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "      // document.wSLCMarketingStatement.zTableRowSelect.value = buildSortTableHtml( ^mSubLC^, ^S_MarketingUsageOrdering^, ^GridMarketingUsage^, [^Usage Type^,^Usage Name^] );"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "      wWebXA = task.getViewByName( ^wWebXfer^ );"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "      String strHtml = (String) request.getParameter( ^zTableRowSelect^ );"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "      wWebXA.cursor( ^Root^ ).getAttribute( ^HTML^ ).setValue( strHtml, ^^ );"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "      // We are borrowing zTableRowSelect and the code above is hardwired for the moment"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            // ELSE
+            //    szWriteBuffer = "      // 3 Dlg: " + szDlgTag + "  Wnd: " + szWndTag
+            //    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+               END
+
                szWriteBuffer = "      strNextJSP_Name = " + szDlgTagRoot + ".SetWebRedirection( vKZXMLPGO, " + szDlgTagRoot + "." + szWAB + ", ^"
-               szWriteBuffer = szWriteBuffer + vDialog.Action.DialogName + "^, ^" + vDialog.Action.WindowName + "^ );"
+               szWriteBuffer = szWriteBuffer + szDlgTag + "^, ^" + szWndTag + "^ );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      strURL = response.encodeRedirectURL( strNextJSP_Name );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -7184,19 +7207,42 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             szWriteBuffer = "      // Next Window"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-            // In order to call a dialog operation we need to create an instance of the dialog class.  We
-            // only want to do this once.
+            // In order to call a dialog operation we need to create an instance of the dialog class.  We only want to do this once.
          // IF szDialogClassCreated = "N"
-       //
+         //
          //    szWriteBuffer = "      " +  szDlgTagRoot + "_Dialog " + vDialog.Dialog.Tag + " = new " +
          //                    szDlgTagRoot + "_Dialog( vKZXMLPGO );"
          //    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-       //
+         //
          //    szDialogClassCreated = "Y"
          // END
 
+            // dks 2016.04.21 - Adding sort support ... on the action, there is still the need to add javascript code similar to the following:
+            // document.wSLCMarketingStatement.zTableRowSelect.value = buildSortTableHtml( "mSubLC", "S_MarketingUsageOrdering", "GridMarketingUsage", ["Usage Type","Usage Name"] );
+            szDlgTag = vDialog.Action.DialogName
+            szWndTag = vDialog.Action.WindowName
+
+            IF szDlgTag = "wSystem" AND szWndTag = "DragDropSort"
+               nSystemSort = 1
+               szWriteBuffer = "      // We are borrowing zTableRowSelect and this code is hardwired for the moment.  javascript code similar to the following must be added to the action:"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      // document.wSLCMarketingStatement.zTableRowSelect.value = buildSortTableHtml( ^mSubLC^, ^S_MarketingUsageOrdering^, ^GridMarketingUsage^, [^Usage Type^,^Usage Name^] );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      wWebXA = task.getViewByName( ^wWebXfer^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      String strHtml = (String) request.getParameter( ^zTableRowSelect^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      wWebXA.cursor( ^Root^ ).getAttribute( ^HTML^ ).setValue( strHtml, ^^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      // We are borrowing zTableRowSelect and the code above is hardwired for the moment"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         // ELSE
+         //    szWriteBuffer = "      // 4 Dlg: " + szDlgTag + "  Wnd: " + szWndTag
+         //    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            END
+
             szWriteBuffer = "      strNextJSP_Name = " + szDlgTagRoot + ".SetWebRedirection( vKZXMLPGO, " + szDlgTagRoot + "." + szWAB + ", ^"
-            szWriteBuffer = szWriteBuffer + vDialog.Action.DialogName + "^, ^" + vDialog.Action.WindowName + "^ );"
+            szWriteBuffer = szWriteBuffer + szDlgTag + "^, ^" + szWndTag + "^ );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      strURL = response.encodeRedirectURL( strNextJSP_Name );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -7225,9 +7271,8 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    IF szWebRedirection = "Y"
 
       IF lActionType = zWAB_StartBrowserHTML_Page
-            // KJS 02/09/12 - In JOE task.setName is failing, not sure what this code is
-            // even doing so I am commenting this out for now...
-            szWriteBuffer = "      task.setName( strURL );"
+            // KJS 02/09/12 - In JOE task.setName is failing, not sure what this code is even doing so I am commenting this out for now...
+         // szWriteBuffer = "      task.setName( strURL );"
             //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
             // KJS 03/05/08 - This was "nRC = 2 //do the error redirection" and I'm not sure why.
@@ -7269,9 +7314,8 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
       IF lActionType = zWAB_StartBrowserHTML_Page
-         // KJS 02/09/12 - In JOE task.setName is failing, not sure what this code is
-         // even doing so I am commenting this out for now...
-         szWriteBuffer = "      task.setName( strURL );"
+         // KJS 02/09/12 - In JOE task.setName is failing, not sure what this code is even doing so I am commenting this out for now...
+      // szWriteBuffer = "      task.setName( strURL );"
          //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "      strURL = response.encodeRedirectURL( strURL );"
       ELSE
@@ -7637,4 +7681,5 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       DropView( vDialogCtrl )
    END
 
+   RETURN nSystemSort
 END
