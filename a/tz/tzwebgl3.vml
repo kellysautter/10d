@@ -3342,10 +3342,11 @@ GenJSP_CrteGroupTable(  VIEW vDialog BASED ON LOD TZWDLGSO,
                   szClass = "mceSimple" // "mceSimple" is TinyMCE default
                END
 
-               IF szClass = "mceSimpleZeidon"
+               nRC = zSearchSubString( szClass, "mceSimpleZeidon", "f", 0 )
+               IF nRC >= 0
                   szWriteBuffer = "<div style=^background-color:#eed;border:1px solid #031;width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^>"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+                  szWriteBuffer = "<div class=^" + szClass + "^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
                ELSE
                   szWriteBuffer = "<textarea" + szHTMLCtrlID + "class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + "<%=strErrorMapValue%></textarea>"
                END

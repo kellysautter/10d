@@ -2744,3 +2744,29 @@ ConvertZKeyDomains( VIEW vERD BASED ON LOD TZEREMDO )
    END
 
 END
+
+
+// Generate ID Identifiers for each ER Entity
+// 1. Without any current Identifier
+// 2. With an attribute named ID
+
+TRANSFORMATION OPERATION
+GenerateID_Identifiers( VIEW vERD BASED ON LOD TZEREMDO )
+
+   FOR EACH vERD.ER_Entity
+      IF vERD.ER_EntIdentifier DOES NOT EXIST
+         SET CURSOR FIRST vERD.ER_Attribute WHERE vERD.ER_Attribute.Name = "ID"
+         IF RESULT >= zCURSOR_SET
+            CreateMetaEntity( vERD, vERD, "ER_EntIdentifier", zPOS_AFTER )
+            vERD.ER_EntIdentifier.Name = vERD.ER_Attribute.Name
+            vERD.ER_EntIdentifier.SystemMaintained = "Y"
+            CreateMetaEntity( vERD, vERD, "ER_FactType", zPOS_AFTER )
+            vERD.ER_FactType.Type = "ATR"
+            INCLUDE vERD.ER_AttributeIdentifier FROM vERD.ER_Attribute
+         END
+      END
+
+   END
+   SET CURSOR FIRST vERD.ER_Entity
+END
+

@@ -4147,9 +4147,9 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    VIEW vDialog2 BASED ON LOD TZWDLGSO
    VIEW vDialog3 BASED ON LOD TZWDLGSO
-   STRING ( 100 )  szContextName
-   STRING ( 100 )  szScopingEntityName
-   STRING ( 100 )  szListMappingEntityName
+   STRING ( 100 ) szContextName
+   STRING ( 100 ) szScopingEntityName
+   STRING ( 100 ) szListMappingEntityName
    STRING ( 100 ) szViewName
    STRING ( 50 )  szControlType
    STRING ( 50 )  szCtrlCtrlType
@@ -4166,7 +4166,8 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szBlob
    STRING ( 100 ) szUnChecked
    STRING ( 50 )  szWebCtrlType
-   STRING ( 1 )  szSurveyGroupFlag
+   STRING ( 1 )   szSurveyGroupFlag
+   STRING ( 256 ) szClass
    INTEGER       lEditBox
    INTEGER       lSubtype
    INTEGER       lSubtypeX
@@ -4349,7 +4350,9 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                            szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " after escape: ^ + strMapValue );"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         ELSE
-                           IF vDialog.Control.CSS_Class = "mceSimpleZeidon"
+                           szClass = vDialog.Control.CSS_Class
+                           nRC = zSearchSubString( szClass, "mceSimpleZeidon", "f", 0 )
+                           IF nRC >= 0
                               szWriteBuffer = "         task.log().debug( ^" + szCtrlTag + " prior to TrimTinyHtml: ^ + strMapValue );"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               szWriteBuffer = "         strMapValue = VmlOperation.TrimTinyHtml( strMapValue );"
@@ -7123,38 +7126,38 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
          // Add Accept or Cancel statement or delete.
          IF lAutoSubAction = 1 OR lAutoSubAction = 2 OR lAutoSubAction = 4
-            szWriteBuffer = "         if ( cursor.isNull() )"
+            szWriteBuffer = "            if ( cursor.isNull() )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            nRC = 0;"
+            szWriteBuffer = "               nRC = 0;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         else"
+            szWriteBuffer = "            else"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         {"
+            szWriteBuffer = "            {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
             IF lAutoSubAction = 1 OR lAutoSubAction = 2
-               szWriteBuffer = "            if ( cursor.isVersioned( ) )"
+               szWriteBuffer = "               if ( cursor.isVersioned( ) )"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            {"
+               szWriteBuffer = "               {"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                IF lAutoSubAction = 1
                   // Accept
-                  szWriteBuffer = "               cursor.acceptSubobject( );"
+                  szWriteBuffer = "                  cursor.acceptSubobject( );"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                ELSE
                IF lAutoSubAction = 2
                   // Cancel
-                  szWriteBuffer = "               cursor.cancelSubobject( );"
+                  szWriteBuffer = "                  cursor.cancelSubobject( );"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                END
                END
-               szWriteBuffer = "            }"
+               szWriteBuffer = "               }"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             ELSE
             IF lAutoSubAction = 4
                // Delete
-               szWriteBuffer = "            cursor.deleteEntity( CursorPosition.NEXT );"
+               szWriteBuffer = "               cursor.deleteEntity( CursorPosition.NEXT );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END
             END

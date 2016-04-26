@@ -8578,10 +8578,8 @@ ChgCtrlPostbuild( zVIEW vSubtask )
                               "ControlDef", "AcceptsAllChildren" );
       GetStringFromAttribute( szRequiresParent, zsizeof( szRequiresParent ), vPE,
                               "ControlDef", "RequiresParent" );
-      GetIntegerFromAttribute( &lKey, vPE,
-                               "ControlDef", "Key" );
-      GetIntegerFromAttribute( &lInvisible, vPE,
-                               "ControlDef", "Invisible" );
+      GetIntegerFromAttribute( &lKey, vPE, "ControlDef", "Key" );
+      GetIntegerFromAttribute( &lInvisible, vPE, "ControlDef", "Invisible" );
       lValidParentCnt = CountEntitiesForView( vPE, "ValidParent" );
       lValidChildCnt = CountEntitiesForView( vPE, "ValidChild" );
 
@@ -8598,8 +8596,7 @@ ChgCtrlPostbuild( zVIEW vSubtask )
       nRC = SetCursorFirstEntity( vPE, "ControlDef", 0 );
       while ( nRC == zCURSOR_SET )
       {
-         GetIntegerFromAttribute( &lCurrKey, vPE,
-                                  "ControlDef", "Key" );
+         GetIntegerFromAttribute( &lCurrKey, vPE, "ControlDef", "Key" );
          if ( lCurrKey != lKey )
          {
             GetStringFromAttribute( szCurrTag, zsizeof( szCurrTag ), vPE, "ControlDef", "Tag" );
@@ -8609,8 +8606,7 @@ ChgCtrlPostbuild( zVIEW vSubtask )
                                     "ControlDef", "AcceptsAllChildren" );
             GetStringFromAttribute( szCurrRequiresParent, zsizeof( szCurrRequiresParent ), vPE,
                                     "ControlDef", "RequiresParent" );
-            GetIntegerFromAttribute( &lCurrInvisible, vPE,
-                                     "ControlDef", "Invisible" );
+            GetIntegerFromAttribute( &lCurrInvisible, vPE, "ControlDef", "Invisible" );
             lCurrValidParentCnt = CountEntitiesForView( vPE, "ValidParent" );
             lCurrValidChildCnt = CountEntitiesForView( vPE, "ValidChild" );
 

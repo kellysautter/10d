@@ -2251,8 +2251,10 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
                //:END
 
-               //:IF szClass = "mceSimpleZeidon"
-               if ( ZeidonStringCompare( szClass, 1, 0, "mceSimpleZeidon", 1, 0, 257 ) == 0 )
+               //:nRC = zSearchSubString( szClass, "mceSimpleZeidon", "f", 0 )
+               nRC = zSearchSubString( szClass, "mceSimpleZeidon", "f", 0 );
+               //:IF nRC >= 0
+               if ( nRC >= 0 )
                { 
                   //:szWriteBuffer = "<div style=^background-color:#eed;border:1px solid #031;width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^>"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<div style=^background-color:#eed;border:1px solid #031;width:", 1, 0, 10001 );
@@ -2262,8 +2264,10 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                   ZeidonStringConcat( szWriteBuffer, 1, 0, "px;position:absolute;left:0px;top:0px;^>", 1, 0, 10001 );
                   //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                  //:szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^mceSimpleZeidon^ ", 1, 0, 10001 );
+                  //:szWriteBuffer = "<div class=^" + szClass + "^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, " style=^width:", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szSize, 1, 0, 10001 );

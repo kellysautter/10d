@@ -5123,8 +5123,8 @@ oTZWDLGSO_GenerateJSP( zVIEW     vDialog,
 
                   //:szJavaScript = vDialog.Action.WebJavaScript
                   GetVariableFromAttribute( szJavaScript, 0, 'S', 10001, vDialog, "Action", "WebJavaScript", "", 0 );
-
-                  //:// DKS 2015.06.20 - remove prebuild javascript if it is being inserted in _AfterPageLoaded
+                  //:// dks Note to Kelly 2016.04.26 - Since ePamms is not using C generation, make this do what you want
+                  //:// dks 2015.06.20 - remove prebuild javascript if it is being inserted in _AfterPageLoaded
                   //:IF szInsertPrebuildJavascriptInline = "Y"
                   if ( ZeidonStringCompare( szInsertPrebuildJavascriptInline, 1, 0, "Y", 1, 0, 2 ) == 0 )
                   { 

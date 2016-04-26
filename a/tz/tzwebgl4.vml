@@ -2103,10 +2103,11 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                   szClass = "mceSimple" // "mceSimple" is TinyMCE default
                END
 
-               IF szClass = "mceSimpleZeidon"
+               nRC = zSearchSubString( szClass, "mceSimpleZeidon", "f", 0 )
+               IF nRC >= 0
                   szWriteBuffer = "<div style=^background-color:#eee;border:1px solid #041;width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;overflow:auto;^>"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "<div class=^mceSimpleZeidon^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+                  szWriteBuffer = "<div class=^" + szClass + "^ " + szTitleHTML + " style=^width:" + szSize + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
                ELSE
                   szWriteBuffer = "<textarea" + szHTMLCtrlID +
                                   "class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" +
@@ -3581,10 +3582,11 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
          END
       END
 
-      IF szClass = "mceSimpleZeidon"
+      nRC = zSearchSubString( szClass, "mceSimpleZeidon", "f", 0 )
+      IF nRC >= 0
          szWriteBuffer = "<div style=^background-color:#eee;border:1px solid #042;width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;overflow:auto;^>"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "<div class=^mceSimpleZeidon^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ style=^width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+         szWriteBuffer = "<div class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ style=^width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
       ELSE
          szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
                          "^ class=^" + szClass + "^ " + szTitleHTML + szAbsoluteStyle + szActionCode + ">" +

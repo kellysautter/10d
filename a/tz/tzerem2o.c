@@ -5563,6 +5563,58 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
 } 
 
 
+//:TRANSFORMATION OPERATION
+zOPER_EXPORT zSHORT OPERATION
+oTZEREMDO_GenerateID_Identifiers( zVIEW     vERD )
+{
+   zSHORT    RESULT; 
+   zSHORT    lTempInteger_0; 
+
+   //:GenerateID_Identifiers( VIEW vERD BASED ON LOD TZEREMDO )
+
+   //:FOR EACH vERD.ER_Entity
+   RESULT = SetCursorFirstEntity( vERD, "ER_Entity", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:IF vERD.ER_EntIdentifier DOES NOT EXIST
+      lTempInteger_0 = CheckExistenceOfEntity( vERD, "ER_EntIdentifier" );
+      if ( lTempInteger_0 != 0 )
+      { 
+         //:SET CURSOR FIRST vERD.ER_Attribute WHERE vERD.ER_Attribute.Name = "ID"
+         RESULT = SetCursorFirstEntityByString( vERD, "ER_Attribute", "Name", "ID", "" );
+         //:IF RESULT >= zCURSOR_SET
+         if ( RESULT >= zCURSOR_SET )
+         { 
+            //:CreateMetaEntity( vERD, vERD, "ER_EntIdentifier", zPOS_AFTER )
+            CreateMetaEntity( vERD, vERD, "ER_EntIdentifier", zPOS_AFTER );
+            //:vERD.ER_EntIdentifier.Name = vERD.ER_Attribute.Name
+            SetAttributeFromAttribute( vERD, "ER_EntIdentifier", "Name", vERD, "ER_Attribute", "Name" );
+            //:vERD.ER_EntIdentifier.SystemMaintained = "Y"
+            SetAttributeFromString( vERD, "ER_EntIdentifier", "SystemMaintained", "Y" );
+            //:CreateMetaEntity( vERD, vERD, "ER_FactType", zPOS_AFTER )
+            CreateMetaEntity( vERD, vERD, "ER_FactType", zPOS_AFTER );
+            //:vERD.ER_FactType.Type = "ATR"
+            SetAttributeFromString( vERD, "ER_FactType", "Type", "ATR" );
+            //:INCLUDE vERD.ER_AttributeIdentifier FROM vERD.ER_Attribute
+            RESULT = IncludeSubobjectFromSubobject( vERD, "ER_AttributeIdentifier", vERD, "ER_Attribute", zPOS_AFTER );
+         } 
+
+         //:END
+      } 
+
+      RESULT = SetCursorNextEntity( vERD, "ER_Entity", "" );
+      //:END
+   } 
+
+
+   //:END
+   //:SET CURSOR FIRST vERD.ER_Entity
+   RESULT = SetCursorFirstEntity( vERD, "ER_Entity", "" );
+   return( 0 );
+// END
+} 
+
+
  
 #ifdef __cplusplus
 }

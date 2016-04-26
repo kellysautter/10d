@@ -2760,8 +2760,8 @@ DKS_TRACE_END */
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
             szJavaScript = vDialog.Action.WebJavaScript
-
-            // DKS 2015.06.20 - remove prebuild javascript if it is being inserted in _AfterPageLoaded
+            // dks Note to Kelly 2016.04.26 - Since ePamms is not using C generation, make this do what you want
+            // dks 2015.06.20 - remove prebuild javascript if it is being inserted in _AfterPageLoaded
             IF szInsertPrebuildJavascriptInline = "Y"
                IF vDialog.ActWndEvent EXISTS AND vDialog.ActWndEvent.Type = 1
                   // prebuild javascript being inserted inline in _AfterPageLoaded
