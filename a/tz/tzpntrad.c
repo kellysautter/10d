@@ -8441,8 +8441,7 @@ ChangeCtrlType( zVIEW vSubtask )
    if ( vDialog )
       SetNameForView( vDialog, "NoRefresh", vSubtask, zLEVEL_TASK );
 
-   if ( OL_GetCurrentEntityName( vSubtask, "CtrlList",
-                                 &vDialog, szEntityName ) >= 0 )
+   if ( OL_GetCurrentEntityName( vSubtask, "CtrlList", &vDialog, szEntityName ) >= 0 )
    {
       TraceLineS( "ChangeCtrlType: ", szEntityName );
       if ( zstrcmp( szEntityName, "Control" ) == 0 )
@@ -8477,30 +8476,23 @@ ChangeCtrlType( zVIEW vSubtask )
             if ( lParentType )
             {
                CreateViewFromViewForTask( &vParentDef, vPE, 0 );
-               SetCursorFirstEntityByInteger( vParentDef,
-                                              "ControlDef", "Key",
-                                              lParentType, 0 );
+               SetCursorFirstEntityByInteger( vParentDef, "ControlDef", "Key", lParentType, 0 );
             }
 
             pCtrl->PositionOnZeidonCtrl( );
             CreateViewFromViewForTask( &vCtrlDef, vPE, 0 );
-            SetCursorFirstEntityByInteger( vCtrlDef, "ControlDef",
-                                           "Key", pCtrl->m_lType, 0 );
+            SetCursorFirstEntityByInteger( vCtrlDef, "ControlDef", "Key", pCtrl->m_lType, 0 );
 
-            // PositionOnZeidonControl above may have moved the cursor
-            // in TZPESRCO to create the previous control, now ensure
-            // that it is moved back to the new control
-            SetCursorFirstEntityByInteger( vPE, "ControlDef",
-                                           "Key", lNewType, 0 );
-            nRC = CtrlValidate( vCtrlDef, vParentDef, vPE,
-                                zCTRL_VALID_CHANGE );
+            // PositionOnZeidonControl above may have moved the cursor in TZPESRCO to create
+            // the previous control, now ensure that it is moved back to the new control
+            SetCursorFirstEntityByInteger( vPE, "ControlDef", "Key", lNewType, 0 );
+            nRC = CtrlValidate( vCtrlDef, vParentDef, vPE, zCTRL_VALID_CHANGE );
             if ( nRC < 0 )
                lNewID = 0;
             else
             {
                // Get the ID of the control to be painted
-               GetIntegerFromAttribute( &lNewID, vCtrlDef,
-                                        "ControlDef", "Key" );
+               GetIntegerFromAttribute( &lNewID, vCtrlDef, "ControlDef", "Key" );
             }
 
             // Drop the view to the parent control if one was created
@@ -8510,8 +8502,7 @@ ChangeCtrlType( zVIEW vSubtask )
             DropView( vCtrlDef );
 
             if ( nRC == 0 &&           // Old parent is still valid
-                 lNewID == lNewType )  // Ctrl is being changed to type
-                                       // requested.
+                 lNewID == lNewType )  // Ctrl is being changed to type requested.
             {
                if ( SetCursorFirstEntity( m_vDialog, "ControlDef", 0 )
                                                           == zCURSOR_SET )
@@ -8519,13 +8510,9 @@ ChangeCtrlType( zVIEW vSubtask )
                   ExcludeEntity( m_vDialog, "ControlDef", zREPOS_NONE );
                }
 
-               SetCursorFirstEntityByInteger( vPE, "ControlDef",
-                                              "Key", lNewType, 0 );
-               IncludeSubobjectFromSubobject( m_vDialog, "ControlDef",
-                                              vPE, "ControlDef",
-                                              zPOS_BEFORE );
-               SendCtrlMsg( zCTRLMSG_CHANGE_TYPE, 0,
-                            lNewType, lType, 0, 0, pCtrl );
+               SetCursorFirstEntityByInteger( vPE, "ControlDef", "Key", lNewType, 0 );
+               IncludeSubobjectFromSubobject( m_vDialog, "ControlDef", vPE, "ControlDef", zPOS_BEFORE );
+               SendCtrlMsg( zCTRLMSG_CHANGE_TYPE, 0, lNewType, lType, 0, 0, pCtrl );
                RepaintZeidonCtrl( );
             }
          }
@@ -8555,10 +8542,8 @@ ChgCtrlPostbuild( zVIEW vSubtask )
 
    GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
    GetViewByName( &vPE, "TZPESRCO", vSubtask, zLEVEL_TASK );
-   if ( vPE && SetEntityCursor( vPE, "ControlDef", "Key",
-                                zPOS_FIRST | zQUAL_ENTITYATTR,
-                                vControl, "ControlDef", "Key",
-                                0, 0, 0 ) >= zCURSOR_SET )
+   if ( vPE && SetEntityCursor( vPE, "ControlDef", "Key", zPOS_FIRST | zQUAL_ENTITYATTR,
+                                vControl, "ControlDef", "Key", 0, 0, 0 ) >= zCURSOR_SET )
    {
       zCHAR  szTag[ 33 ],               szCurrTag[ 33 ];
       zCHAR  szAcceptsAllParents[ 2 ],  szCurrAcceptsAllParents[ 2 ];
@@ -8614,10 +8599,8 @@ ChgCtrlPostbuild( zVIEW vSubtask )
                  szAcceptsAllChildren[ 0 ] == szCurrAcceptsAllChildren[ 0 ] &&
                  szRequiresParent[ 0 ] == szCurrRequiresParent[ 0 ] &&
                  lInvisible == lCurrInvisible &&
-                 (lValidParentCnt == lCurrValidParentCnt ||
-                  (lValidParentCnt && lCurrValidParentCnt)) &&
-                 (lValidChildCnt == lCurrValidChildCnt ||
-                  (lValidChildCnt && lCurrValidChildCnt)) )
+                 (lValidParentCnt == lCurrValidParentCnt || (lValidParentCnt && lCurrValidParentCnt)) &&
+                 (lValidChildCnt == lCurrValidChildCnt || (lValidChildCnt && lCurrValidChildCnt)) )
             {
                SetSelectStateOfEntity( vPE, "ControlDef", TRUE );
             }
@@ -8667,8 +8650,7 @@ ChgCtrlToggleCheck( zVIEW vSubtask )
    SetSelectSetForView( vPE, nPrevSelSet );
 
    ChgCtrlPostbuild( vSubtask );
-   if ( GetCtrlState( vSubtask, "ChangeChildType",
-                      zCONTROL_STATUS_CHECKED ) == TRUE )
+   if ( GetCtrlState( vSubtask, "ChangeChildType", zCONTROL_STATUS_CHECKED ) == TRUE )
    {
 //    SetCtrlState( vSubtask, "ChangeChildType", zCONTROL_STATUS_CHECKED, 1 );
    }

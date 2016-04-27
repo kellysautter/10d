@@ -640,8 +640,8 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    zLONG     nRC = 0; 
    //:INTEGER        iColWidth
    zLONG     iColWidth = 0; 
-   //:INTEGER        lMaxStringLength
-   zLONG     lMaxStringLength = 0; 
+   //:INTEGER        lMaxStringLth
+   zLONG     lMaxStringLth = 0; 
    //:INTEGER        lTemp
    zLONG     lTemp = 0; 
    //:INTEGER        lStyleX
@@ -684,8 +684,8 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
    zCHAR     szText[ 257 ] = { 0 }; 
    //:STRING ( 32 )  szContextName
    zCHAR     szContextName[ 33 ] = { 0 }; 
-   //:STRING ( 10 )  szMaxStringLength
-   zCHAR     szMaxStringLength[ 11 ] = { 0 }; 
+   //:STRING ( 10 )  szMaxStringLth
+   zCHAR     szMaxStringLth[ 11 ] = { 0 }; 
    //:STRING ( 32 )  szSize
    zCHAR     szSize[ 33 ] = { 0 }; 
    //:STRING ( 256 ) szAbsoluteStyle
@@ -2093,19 +2093,19 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
             //:END
 
-            //:IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
-            if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
+            //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
+            GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
+            //:IF lMaxStringLth <= 254
+            if ( lMaxStringLth <= 254 )
             { 
-               //:lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
-               GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-               //:szMaxStringLength = lMaxStringLength
-               ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
+               //:szMaxStringLth = "254"
+               ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
                //:ELSE
             } 
             else
             { 
-               //:szMaxStringLength = "254"
-               ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
+               //:szMaxStringLth = lMaxStringLth
+               ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
             } 
 
             //:END
@@ -2115,7 +2115,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
             //:                ".GetStringFromAttributeByContext( strSessionId, ^" +
             //:                vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
             //:                vDialog.CtrlMapER_Attribute.Name + "^, ^" +
-            //:                szContextName + "^, " + szMaxStringLength + " );"
+            //:                szContextName + "^, " + szMaxStringLth + " );"
             GetVariableFromAttribute( szTempString_18, 0, 'S', 33, vDialog, "CtrlMapView", "Name", "", 0 );
             ZeidonStringCopy( szWriteBuffer, 1, 0, "         strErrorMapValue = ", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_18, 1, 0, 10001 );
@@ -2128,7 +2128,7 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ^", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szContextName, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLength, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLth, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
@@ -2236,6 +2236,8 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
             //:END
 
+            //:szMaxStringLth = lMaxStringLth
+            ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
             //:IF vDialog.Control.WebCtrlType = "wysiwygEditor" OR szTinyMCEFlag = "Y"
             if ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "wysiwygEditor" ) == 0 || ZeidonStringCompare( szTinyMCEFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
             { 
@@ -2278,11 +2280,13 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                } 
                else
                { 
-                  //:szWriteBuffer = "<textarea" + szHTMLCtrlID + "class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + "<%=strErrorMapValue%></textarea>"
+                  //:szWriteBuffer = "<textarea" + szHTMLCtrlID + "class=^" + szClass + "^ maxlength=^" + szMaxStringLth + "^ " + szTitleHTML + szStyle + ">" + "<%=strErrorMapValue%></textarea>"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, "class=^", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ maxlength=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLth, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
@@ -2301,13 +2305,15 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
                GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
                //:CreateTabIndexString( vDialog, szTabIndex )
                CreateTabIndexString( vDialog, szTabIndex );
-               //:szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML + "class=^" + szClass + "^ " +
+               //:szWriteBuffer = "<textarea" + szHTMLCtrlID + szTitleHTML + "class=^" + szClass + "^ maxlength=^" + szMaxStringLth + "^ " +
                //:                szStyle + szTabIndex + " wrap=^wrap^>" + "<%=strErrorMapValue%></textarea>"
                ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szHTMLCtrlID, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "class=^", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, "^ maxlength=^", 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLth, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
@@ -3674,8 +3680,8 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    zCHAR     szEditActionCode[ 51 ] = { 0 }; 
    //:STRING ( 32 )  szActionName
    zCHAR     szActionName[ 33 ] = { 0 }; 
-   //:STRING ( 10 )  szMaxStringLength
-   zCHAR     szMaxStringLength[ 11 ] = { 0 }; 
+   //:STRING ( 10 )  szMaxStringLth
+   zCHAR     szMaxStringLth[ 11 ] = { 0 }; 
    //:STRING ( 100 ) szDisabled
    zCHAR     szDisabled[ 101 ] = { 0 }; 
    //:STRING ( 1 )   szWCP_Hidden
@@ -3684,8 +3690,8 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
    zCHAR     szCreateSessionVariable[ 2 ] = { 0 }; 
    //:STRING ( 1 )   szNoOutputMapping
    zCHAR     szNoOutputMapping[ 2 ] = { 0 }; 
-   //:INTEGER        lMaxStringLength
-   zLONG     lMaxStringLength = 0; 
+   //:INTEGER        lMaxStringLth
+   zLONG     lMaxStringLth = 0; 
    //:INTEGER        lStyleX
    zLONG     lStyleX = 0; 
    //:INTEGER        lTemp
@@ -3907,27 +3913,28 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
 
       //:END
 
-      //:IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
-      if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
+      //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
+      GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
+      //:IF lMaxStringLth <= 254
+      if ( lMaxStringLth <= 254 )
       { 
-         //:lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
-         GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-         //:szMaxStringLength = lMaxStringLength
-         ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
+         //:szMaxStringLth = "254"
+         ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
          //:ELSE
       } 
       else
       { 
-         //:szMaxStringLength = "254"
-         ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
+         //:szMaxStringLth = lMaxStringLth
+         ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
       } 
 
       //:END
+
       //:szWriteBuffer = "            strErrorMapValue = " +
       //:                vDialog.CtrlMapView.Name + ".GetStringFromAttributeByContext( strSessionId, ^" +
       //:                vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
       //:                vDialog.CtrlMapER_Attribute.Name + "^, ^" +
-      //:                szContextName + "^, " + szMaxStringLength + " );"
+      //:                szContextName + "^, " + szMaxStringLth + " );"
       GetVariableFromAttribute( szTempString_5, 0, 'S', 33, vDialog, "CtrlMapView", "Name", "", 0 );
       ZeidonStringCopy( szWriteBuffer, 1, 0, "            strErrorMapValue = ", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_5, 1, 0, 10001 );
@@ -3940,7 +3947,7 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szContextName, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLength, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLth, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
@@ -5010,14 +5017,14 @@ GenJSP_CrteText( zVIEW     vDialog,
    zCHAR     szText[ 1001 ] = { 0 }; 
    //:STRING ( 16 )  szTabIndex
    zCHAR     szTabIndex[ 17 ] = { 0 }; 
-   //:STRING ( 10 )  szMaxStringLength
-   zCHAR     szMaxStringLength[ 11 ] = { 0 }; 
+   //:STRING ( 10 )  szMaxStringLth
+   zCHAR     szMaxStringLth[ 11 ] = { 0 }; 
    //:STRING ( 20 )  szGroupParentType
    zCHAR     szGroupParentType[ 21 ] = { 0 }; 
    //:STRING ( 85 )  szHTMLCtrlID
    zCHAR     szHTMLCtrlID[ 86 ] = { 0 }; 
-   //:INTEGER        lMaxStringLength
-   zLONG     lMaxStringLength = 0; 
+   //:INTEGER        lMaxStringLth
+   zLONG     lMaxStringLth = 0; 
    //:INTEGER        lSubtypeX
    zLONG     lSubtypeX = 0; 
    //:INTEGER        lSubtype
@@ -5400,19 +5407,20 @@ GenJSP_CrteText( zVIEW     vDialog,
       } 
       else
       { 
-         //:IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
-         if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
+
+         //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
+         GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
+         //:IF lMaxStringLth <= 254
+         if ( lMaxStringLth <= 254 )
          { 
-            //:lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
-            GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-            //:szMaxStringLength = lMaxStringLength
-            ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
+            //:szMaxStringLth = "254"
+            ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
             //:ELSE
          } 
          else
          { 
-            //:szMaxStringLength = "254"
-            ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
+            //:szMaxStringLth = lMaxStringLth
+            ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
          } 
 
          //:END
@@ -5422,7 +5430,7 @@ GenJSP_CrteText( zVIEW     vDialog,
          //:                ".GetStringFromAttributeByContext( strSessionId, ^" +
          //:                vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
          //:                vDialog.CtrlMapER_Attribute.Name + "^, ^" +
-         //:                szContextName + "^, " + szMaxStringLength + " );"
+         //:                szContextName + "^, " + szMaxStringLth + " );"
          GetVariableFromAttribute( szTempString_9, 0, 'S', 33, vDialog, "CtrlMapView", "Name", "", 0 );
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         strTextDisplayValue = ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_9, 1, 0, 10001 );
@@ -5435,7 +5443,7 @@ GenJSP_CrteText( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szContextName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLength, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLth, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
       } 
 
@@ -5566,19 +5574,20 @@ GenJSP_CrteText( zVIEW     vDialog,
             } 
             else
             { 
-               //:IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
-               if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
+
+               //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
+               GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
+               //:IF lMaxStringLth <= 254
+               if ( lMaxStringLth <= 254 )
                { 
-                  //:lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
-                  GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-                  //:szMaxStringLength = lMaxStringLength
-                  ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
+                  //:szMaxStringLth = "254"
+                  ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
                   //:ELSE
                } 
                else
                { 
-                  //:szMaxStringLength = "254"
-                  ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
+                  //:szMaxStringLth = lMaxStringLth
+                  ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
                } 
 
                //:END
@@ -5588,7 +5597,7 @@ GenJSP_CrteText( zVIEW     vDialog,
                //:                ".GetStringFromAttributeByContext( strSessionId, ^" +
                //:                vDialog.CtrlMapRelatedEntity.Name + "^, ^" +
                //:                vDialog.CtrlMapER_Attribute.Name + "^, ^" +
-               //:                szContextName + "^, " + szMaxStringLength + " );"
+               //:                szContextName + "^, " + szMaxStringLth + " );"
                GetVariableFromAttribute( szTempString_20, 0, 'S', 33, vDialog, "CtrlMapView", "Name", "", 0 );
                ZeidonStringCopy( szWriteBuffer, 1, 0, "         strTextURL_Value = ", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_20, 1, 0, 10001 );
@@ -5601,7 +5610,7 @@ GenJSP_CrteText( zVIEW     vDialog,
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ^", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szContextName, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLength, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLth, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
             } 
 
@@ -5826,8 +5835,8 @@ GenJSP_CrteListBox( zVIEW     vDialog,
    zCHAR     ListBoxDoubleClickAction[ 257 ] = { 0 }; 
    //:STRING ( 16 )  szTabIndex
    zCHAR     szTabIndex[ 17 ] = { 0 }; 
-   //:STRING ( 10 )  szMaxStringLength
-   zCHAR     szMaxStringLength[ 11 ] = { 0 }; 
+   //:STRING ( 10 )  szMaxStringLth
+   zCHAR     szMaxStringLth[ 11 ] = { 0 }; 
    //:STRING ( 10 )  szWidth
    zCHAR     szWidth[ 11 ] = { 0 }; 
    //:STRING ( 10 )  szSelectAction
@@ -5846,8 +5855,8 @@ GenJSP_CrteListBox( zVIEW     vDialog,
    ZDecimal  dDLUnits = 0.0; 
    //:INTEGER        lSubtype
    zLONG     lSubtype = 0; 
-   //:INTEGER        lMaxStringLength
-   zLONG     lMaxStringLength = 0; 
+   //:INTEGER        lMaxStringLth
+   zLONG     lMaxStringLth = 0; 
    zLONG     lTempInteger_0; 
    zLONG     lTempInteger_1; 
    zLONG     lTempInteger_2; 
@@ -6115,28 +6124,27 @@ GenJSP_CrteListBox( zVIEW     vDialog,
 
          //:   END
 
-         //:   IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
-         if ( CompareAttributeToInteger( vDialog, "CtrlMapER_Domain", "MaxStringLth", 254 ) > 0 )
+         //:   lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
+         GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
+         //:   IF lMaxStringLth <= 254
+         if ( lMaxStringLth <= 254 )
          { 
-            //:   lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
-            GetIntegerFromAttribute( &lMaxStringLength, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-            //:   szMaxStringLength = lMaxStringLength
-            ZeidonStringConvertFromNumber( szMaxStringLength, 1, 0, 10, lMaxStringLength, (ZDecimal) 0.0, "I" );
+            //:   szMaxStringLth = "254"
+            ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
             //:ELSE
          } 
          else
          { 
-            //:   szMaxStringLength = "254"
-            ZeidonStringCopy( szMaxStringLength, 1, 0, "254", 1, 0, 11 );
+            //:   szMaxStringLth = lMaxStringLth
+            ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
          } 
 
          //:   END
 
-
          //:   szWriteBuffer = "         strComboCurrentValue = " + vDialog.CtrlMapView.Name +
          //:            ".GetStringFromAttributeByContext( strSessionId, ^" +
          //:            szEntityName + "^, ^" +
-         //:            szAttributeName + "^, ^" + szContextName + "^, " + szMaxStringLength + " );"
+         //:            szAttributeName + "^, ^" + szContextName + "^, " + szMaxStringLth + " );"
          GetVariableFromAttribute( szTempString_4, 0, 'S', 1026, vDialog, "CtrlMapView", "Name", "", 0 );
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         strComboCurrentValue = ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_4, 1, 0, 10001 );
@@ -6147,7 +6155,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szContextName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLength, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLth, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
          //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
@@ -6252,7 +6260,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          //:                   ".GetStringFromAttributeByContext( strSessionId, ^" +
          //:                   szEntityName + "^, ^" +
          //:                   szAttributeName + "^, ^" +
-         //:                   szContextName + "^, " + szMaxStringLength + " );"
+         //:                   szContextName + "^, " + szMaxStringLth + " );"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         strErrorMapValue = v", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, ".GetStringFromAttributeByContext( strSessionId, ^", 1, 0, 10001 );
@@ -6262,7 +6270,7 @@ GenJSP_CrteListBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szContextName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^, ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLength, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szMaxStringLth, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " );", 1, 0, 10001 );
          //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
