@@ -393,7 +393,7 @@ EDT_GetTextFromRange( zVIEW vSubtask, zPCHAR pchBuffer, zLONG lMaxLth, zLONG lSt
 zOPER_EXPORT zBOOL OPERATION
 EDT_GotoWindow( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
-EDT_InsertItem( zVIEW vSubtask, zCPCHAR cpcInsertText );
+EDT_InsertItem( zVIEW vSubtask, zCPCHAR cpcInsertText, zBOOL bResetPos );
 zOPER_EXPORT zBOOL OPERATION
 EDT_IsCommentAtIndex( zVIEW vSubtask, zLONG lLine, zLONG lCol );
 zOPER_EXPORT zBOOL OPERATION
@@ -575,7 +575,7 @@ InsertComment( zVIEW vSubtask, LPSTR szOperName, LPSTR szOperComment )
    {
       csText = sl.GetAt( pos );
       MovEOF( );
-      EDT_InsertItem( vSubtask, csText ); // send string to Editor control
+      EDT_InsertItem( vSubtask, csText, FALSE ); // send string to Editor control
       sl.GetNext( pos );  // get next list entry
    }
 
@@ -1129,7 +1129,7 @@ BufInsertStr( zVIEW vSubtask, zCPCHAR cpc )
 {
    // Set cursor to the last line.
    MovEOF( );
-   EDT_InsertItem( vSubtask, cpc );
+   EDT_InsertItem( vSubtask, cpc, FALSE );
 }
 
 int
@@ -1846,7 +1846,7 @@ CreateSourceFile( zVIEW    vSubtask,
       {
          lLine = EDT_GetLineCount( vSubtask ) - 1;
          EDT_SetCursorPositionByLineCol( vSubtask, lLine, 0 );
-         EDT_InsertItem( vSubtask, "\r\n\r\n" );
+         EDT_InsertItem( vSubtask, "\r\n\r\n", FALSE );
          lLine = EDT_GetLineCount( vSubtask ) - 1;
          EDT_SetCursorPositionByLineCol( vSubtask, lLine, 0 );
       }
@@ -3280,7 +3280,7 @@ fnPasteQualifier( zVIEW  vSubtask,
 
       strcat_s( szMsg, zsizeof( szMsg ), " " );
       csStringToInsert = szMsg;
-      EDT_InsertItem( vEditorSubtask, csStringToInsert );
+      EDT_InsertItem( vEditorSubtask, csStringToInsert, FALSE );
       SetFocusToCtrl( vEditorSubtask, EDIT_CONTROL_NAME );
    }
 
@@ -3493,6 +3493,7 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
               lLine = 0, lCol = 0;
    zLONG      lTabSize = 3; // Today a fixed length, in future this has to be queried
                             // from the edit-control
+   CString    csNewLine = "\r\n";
    CString    csComment;
    CString    csIndent;
    CString    csTemp;
@@ -3508,32 +3509,34 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
    GetAddrForAttribute( &szStr, vOp, szlOperation, szlName );
    if ( bInsertComment )
    {
-      zPCHAR  szComment;
+      zPCHAR  pchComment;
       zLONG   lCommentLength = 0;
-      GetAddrForAttribute( &szComment, vOp, szlOperation, szlDesc );
+      GetAddrForAttribute( &pchComment, vOp, szlOperation, szlDesc );
 
-      lCommentLength = zstrlen( szComment );
+      lCommentLength = zstrlen( pchComment );
       if ( lCommentLength > 0 )
       {
-         csComment  = "/*\n";
-         csComment += szComment;
-         csComment += "*/\n";
+         csComment = csNewLine;
+         csComment = "//" + csNewLine;
+         csComment += "// ";
+         csComment += pchComment + csNewLine;
+         csComment += "//" + csNewLine;
       }
-      else
-         csComment.Empty( );
    }
 
-   csTemp = szStr;
+   csIndent = "   ";
+   csTemp = csIndent + szStr;
    csTemp += "( ";
 
    // Get length of operation name and add position within current line.
    lOperationNameLength = zstrlen( csTemp );
-   EDT_GetCursorPosition( vEditorSubtask, &lLine, &lCol );
-   lOperationNameLength += lCol;
-   lCol = GetTabsInLine( vEditorSubtask, lCol ); // Get number of tabs until current Cursor position
-   lOperationNameLength -=lCol;  // Control interprets tab as a single character
-   lCol = lCol * lTabSize;    // remove single char and add multiple
-   lOperationNameLength += lCol; // (virtual) characters depending on tabsize
+   //EDT_GetCursorPosition( vEditorSubtask, &lLine, &lCol );
+   //lOperationNameLength += lCol;
+   //lCol = GetTabsInLine( vEditorSubtask, lCol ); // Get number of tabs until current Cursor position
+   //lOperationNameLength -= lCol;  // Control interprets tab as a single character
+   //lCol = lCol * lTabSize;    // remove single char and add multiple
+   //lCol = 5; // hardwired for the moment ... dks - 2016.04.29
+// lOperationNameLength += 2; // add two for "( "
 
    // Set up a string which contains a number of tabs and blanks depending
    // on operation name and position, to format the operation insert frame.
@@ -3545,7 +3548,8 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
    //   lOperationNameLength -= lTabSize;
    // }
 
-   // insert several tabs
+   // insert spaces to "( "
+   csIndent.Empty();
    while ( lOperationNameLength > 0 )
    {
       csIndent += " ";
@@ -3671,8 +3675,7 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
       nRC = SetCursorNextEntity( vOp, "Parameter", "" );
       if ( nRC == zCURSOR_SET )
       {
-         csTemp += ",\r\n";
-         csTemp += csIndent;
+         csTemp += "," + csNewLine + csIndent;
       }
       else
          csTemp += " ";
@@ -3682,13 +3685,8 @@ PasteOperation( zVIEW vSubtask, zVIEW vOp )
    if ( bVML_File == FALSE )
       csTemp += ";";
 
-   if ( csComment.GetLength( ) > 0 )
-   {
-      csComment += csTemp;
-      csTemp = csComment;
-   }
-
-   EDT_InsertItem( vEditorSubtask, csTemp );
+   csTemp += csNewLine;
+   EDT_InsertItem( vEditorSubtask, csTemp, FALSE );
    return( 0 );
 
 } // PasteOperation
@@ -3845,7 +3843,7 @@ OpIns_InsertOperation( zVIEW vSubtask )
             strcat_s( szBuffer, zsizeof( szBuffer ), ";" );
 
          csIndent += szBuffer;
-         EDT_InsertItem( vSubtask, csIndent );
+         EDT_InsertItem( vSubtask, csIndent, FALSE );
          break;
       }
 
@@ -4300,7 +4298,7 @@ VOR_PasteName( zVIEW vSubtask )
 
 // CString zs = szMsg;
 // BSTR bstr = zs.AllocSysString( );
-   EDT_InsertItem( vSubtask, szMsg );
+   EDT_InsertItem( vSubtask, szMsg, FALSE );
    DropView( vList );
 
 
@@ -4749,7 +4747,7 @@ fnInsertVML_Text( zVIEW      vSubtask,
       lPositionCursor--;
    }
 
-   EDT_InsertItem( vSubtask, csCompleteCommand );
+   EDT_InsertItem( vSubtask, csCompleteCommand, FALSE );
 
    if ( lPositionCursor >= 0 )
    {
@@ -5847,7 +5845,7 @@ OBJ_PasteObjectName( zVIEW vSubtask )
    {
       case 'N':
          zs = szName;
-         EDT_InsertItem( vEditorSubtask, zs );
+         EDT_InsertItem( vEditorSubtask, zs, FALSE );
          break;
 
       case 'B':
@@ -5855,7 +5853,7 @@ OBJ_PasteObjectName( zVIEW vSubtask )
          zs += szName;
          zs += " BASED ON LOD ";
          zs += szName;
-         EDT_InsertItem( vEditorSubtask, zs );
+         EDT_InsertItem( vEditorSubtask, zs, FALSE );
          break;
 
       case 'G':
@@ -5864,7 +5862,7 @@ OBJ_PasteObjectName( zVIEW vSubtask )
          zs += " NAMED \"";
          zs += szName;
          zs += "\"";
-         EDT_InsertItem( vEditorSubtask, zs );
+         EDT_InsertItem( vEditorSubtask, zs, FALSE );
          break;
 
       case 'S':
@@ -5873,7 +5871,7 @@ OBJ_PasteObjectName( zVIEW vSubtask )
          zs += " \"";
          zs += szName;
          zs += "\"";
-         EDT_InsertItem( vEditorSubtask, zs );
+         EDT_InsertItem( vEditorSubtask, zs, FALSE );
          break;
    }
 
@@ -6720,7 +6718,7 @@ RenameOperation( ZMapAct  *pzma,
       {
          EDT_SelectRange( vSubtask, lPosition, 0, zstrlen( szOperation ) );
          if ( EDT_CanCopy( vSubtask ) ) // is something selected?
-            EDT_InsertItem( vSubtask, szReplaceText );
+            EDT_InsertItem( vSubtask, szReplaceText, FALSE );
       }
       lPosition++;
       EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
@@ -6734,7 +6732,7 @@ RenameOperation( ZMapAct  *pzma,
    {
       EDT_SelectRange( vSubtask, lLine, 0, zstrlen( szOperation ) );
       if ( EDT_CanCopy( vSubtask ) ) // is something selected?
-         EDT_InsertItem( vSubtask, szReplaceText );
+         EDT_InsertItem( vSubtask, szReplaceText, FALSE );
 
       EDT_FindTextPosition( vSubtask, szSearchText, &lLine, &lCol, FIND_FORWARD );
    }

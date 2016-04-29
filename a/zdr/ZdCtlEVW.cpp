@@ -8661,7 +8661,7 @@ EDT_GotoWindow( zVIEW vSubtask )
 }
 
 zOPER_EXPORT zBOOL OPERATION
-EDT_InsertItem( zVIEW vSubtask, zCPCHAR cpcInsertText )
+EDT_InsertItem( zVIEW vSubtask, zCPCHAR cpcInsertText, zBOOL bResetPos )
 {
    ZSubtask *pZSubtask;
    ZMapAct  *pzma;
@@ -8675,6 +8675,15 @@ EDT_InsertItem( zVIEW vSubtask, zCPCHAR cpcInsertText )
          int y;
          CPoint ptCursorPos = pED_Crystal->GetCursorPos();
          pED_Crystal->m_pTextBuffer->InsertText(pED_Crystal, ptCursorPos.y, ptCursorPos.x, cpcInsertText, y, x, CE_ACTION_INSERT);
+         if (bResetPos)
+         {
+            ptCursorPos.x += strlen( cpcInsertText );
+            int nLth = pED_Crystal->GetLineLength( ptCursorPos.y );
+            if ( ptCursorPos.x > nLth )
+               ptCursorPos.x = nLth;
+
+            pED_Crystal->SetCursorPos( ptCursorPos );
+         }
          return( TRUE );
       }
 
