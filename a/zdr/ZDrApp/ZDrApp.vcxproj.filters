@@ -15,192 +15,192 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\ZDrAct.cpp">
+    <ClCompile Include=".\..\ZDrAct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrApp.cpp">
+    <ClCompile Include=".\..\ZDrApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrAxLst.cpp">
+    <ClCompile Include=".\..\ZDrAxLst.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDRCCDLG.CPP">
+    <ClCompile Include=".\..\ZDRCCDLG.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrCmdLN.cpp">
+    <ClCompile Include=".\..\ZDrCmdLN.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDRCMPRS.CPP">
+    <ClCompile Include=".\..\ZDRCMPRS.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrComm.cpp">
+    <ClCompile Include=".\..\ZDrComm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrCoolB.cpp">
+    <ClCompile Include=".\..\ZDrCoolB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrCtl.cpp">
+    <ClCompile Include=".\..\ZDrCtl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrDebug.cpp">
+    <ClCompile Include=".\..\ZDrDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrDIB.cpp">
+    <ClCompile Include=".\..\ZDrDIB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrDlgA.cpp">
+    <ClCompile Include=".\..\ZDrDlgA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrDlgC.cpp">
+    <ClCompile Include=".\..\ZDrDlgC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrDlgM.cpp">
+    <ClCompile Include=".\..\ZDrDlgM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrDlgO.cpp">
+    <ClCompile Include=".\..\ZDrDlgO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrDlgP.cpp">
+    <ClCompile Include=".\..\ZDrDlgP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrDlgW.cpp">
+    <ClCompile Include=".\..\ZDrDlgW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrDoc.cpp">
+    <ClCompile Include=".\..\ZDrDoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrFlatB.cpp">
+    <ClCompile Include=".\..\ZDrFlatB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrFont.cpp">
+    <ClCompile Include=".\..\ZDrFont.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrFrame.cpp">
+    <ClCompile Include=".\..\ZDrFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrMapAc.cpp">
+    <ClCompile Include=".\..\ZDrMapAc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrMenu.cpp">
+    <ClCompile Include=".\..\ZDrMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrMisc.cpp">
+    <ClCompile Include=".\..\ZDrMisc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrMsgHK.cpp">
+    <ClCompile Include=".\..\ZDrMsgHK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrMsgQ.cpp">
+    <ClCompile Include=".\..\ZDrMsgQ.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrOle.cpp">
+    <ClCompile Include=".\..\ZDrOle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrOpt.cpp">
+    <ClCompile Include=".\..\ZDrOpt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrPalHK.cpp">
+    <ClCompile Include=".\..\ZDrPalHK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrParse.cpp">
+    <ClCompile Include=".\..\ZDrParse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrPrint.cpp">
+    <ClCompile Include=".\..\ZDrPrint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrPrtC.cpp">
+    <ClCompile Include=".\..\ZDrPrtC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrSTask.cpp">
+    <ClCompile Include=".\..\ZDrSTask.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrTask.cpp">
+    <ClCompile Include=".\..\ZDrTask.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrTwain.cpp">
+    <ClCompile Include=".\..\ZDrTwain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrUtil.cpp">
+    <ClCompile Include=".\..\ZDrUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrVCtrl.cpp">
+    <ClCompile Include=".\..\ZDrVCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrView.cpp">
+    <ClCompile Include=".\..\ZDrView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ZDrVStr.cpp">
+    <ClCompile Include=".\..\ZDrVStr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\ZDrApp.rc">
+    <ResourceCompile Include=".\..\ZDrApp.rc">
       <Filter>Source Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
+    <ClInclude Include=".\..\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\hello.ico">
+    <Image Include=".\..\res\hello.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\texttype.ico">
+    <Image Include=".\..\res\texttype.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\BCOPY1.cur">
+    <CustomBuild Include=".\..\BCOPY1.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\BCOPYM.cur">
+    <CustomBuild Include=".\..\BCOPYM.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\BDROPNOT.cur">
+    <CustomBuild Include=".\..\BDROPNOT.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\BMOVE.cur">
+    <CustomBuild Include=".\..\BMOVE.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\BMOVE1.cur">
+    <CustomBuild Include=".\..\BMOVE1.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\BMOVEM.cur">
+    <CustomBuild Include=".\..\BMOVEM.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\BPROMOTE.cur">
+    <CustomBuild Include=".\..\BPROMOTE.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\DROPNOT.cur">
+    <CustomBuild Include=".\..\DROPNOT.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\DROPOKC1.cur">
+    <CustomBuild Include=".\..\DROPOKC1.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\DROPOKCM.cur">
+    <CustomBuild Include=".\..\DROPOKCM.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\DROPOKM1.cur">
+    <CustomBuild Include=".\..\DROPOKM1.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\DROPOKMM.cur">
+    <CustomBuild Include=".\..\DROPOKMM.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\HAND1.cur">
+    <CustomBuild Include=".\..\HAND1.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\HSPLIT.cur">
+    <CustomBuild Include=".\..\HSPLIT.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\VSPLIT.cur">
+    <CustomBuild Include=".\..\VSPLIT.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\XSPLIT.cur">
+    <CustomBuild Include=".\..\XSPLIT.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\ZDrApp.def">
+    <CustomBuild Include=".\..\ZDrApp.def">
       <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>

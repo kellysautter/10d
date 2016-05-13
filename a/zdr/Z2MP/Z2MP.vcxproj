@@ -58,6 +58,7 @@
     <OutDir>$(KZD):\$(KZV)\w\bin\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>D:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\src\mfc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\Release\</OutDir>
@@ -155,7 +156,6 @@
       <ModuleDefinitionFile>.\..\Z2MP.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
-
   <ItemGroup>
     <ClCompile Include=".\..\mpna81.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
