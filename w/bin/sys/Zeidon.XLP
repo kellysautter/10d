@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO 05/03/16   21:14:33 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO 05/23/16   11:48:16 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -6343,8 +6343,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZPNCTAD
 aDesc      System delivered controls dialog
-aLastSyncDate 20160503211420522
-aLastUpdateDate 20160503211420522
+aLastSyncDate 20160516163927301
+aLastUpdateDate 20160516163927301
 
 eW_MetaDef 3
 aCPLR_ZKey 1137589
@@ -6532,8 +6532,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZZOLODD
 aDesc      LOD (Logical Object Defn) Maint.
-aLastSyncDate 20160123202939260
-aLastUpdateDate 20160123202939260
+aLastSyncDate 20160516153111529
+aLastUpdateDate 20160516153111529
 
 eW_MetaDef 3
 aCPLR_ZKey 91076285

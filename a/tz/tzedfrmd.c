@@ -1494,29 +1494,29 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zECE_ACCEPT:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zECE_ACCEPT */\r\n";
+            csInsertBuffer +=  "     // end zECE_ACCEPT\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zECE_CANCEL:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zECE_CANCEL */\r\n";
+            csInsertBuffer +=  "     // end zECE_CANCEL\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zECE_CREATE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zECE_CREATE */\r\n";
+            csInsertBuffer +=  "     // end zECE_CREATE\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zECE_DELETE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zECE_DELETE */\r\n";
+            csInsertBuffer +=  "     // end zECE_DELETE\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zECE_EXCLUDE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zECE_EXCLUDE */\r\n";
+            csInsertBuffer +=  "     // end zECE_EXCLUDE\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zECE_INCLUDE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zECE_INCLUDE */\r\n";
+            csInsertBuffer +=  "     // end zECE_INCLUDE\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "END  /* case */\r\n";
+            csInsertBuffer +=  "END  // case\r\n";
             break;
 
          case 'C':
@@ -1528,21 +1528,21 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zOCE_ACTIVATE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zOCE_ACTIVATE */\r\n";
+            csInsertBuffer +=  "     // end zOCE_ACTIVATE\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zOCE_ACTIVATE_EMPTY:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zOCE_ACTIVATE_EMPTY */\r\n";
+            csInsertBuffer +=  "     // end zOCE_ACTIVATE_EMPTY\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zOCE_COMMIT:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zOCE_COMMIT */\r\n";
+            csInsertBuffer +=  "     // end zOCE_COMMIT\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zOCE_DROPOI:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zOCE_DROPOI */\r\n";
+            csInsertBuffer +=  "     // end zOCE_DROPOI\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "END  /* case */\r\n";
+            csInsertBuffer +=  "END  // case\r\n";
             break;
 
          case 'A':
@@ -1553,13 +1553,13 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDERIVED_GET:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDERIVED_GET */\r\n";
+            csInsertBuffer +=  "     // end zDERIVED_GET\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDERIVED_SET:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDERIVED_SET */\r\n";
+            csInsertBuffer +=  "     // end zDERIVED_SET\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "END  /* case */\r\n";
+            csInsertBuffer +=  "END  // case\r\n";
             break;
 
          case 'M':
@@ -1570,45 +1570,45 @@ OperTemplate( zVIEW vSubtask, zVIEW vSource )
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_SET_ATTRIBUTE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_SET_ATTRIBUTE */\r\n";
+            csInsertBuffer +=  "     // end zDME_SET_ATTRIBUTE\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_GET_VARIABLE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_GET_VARIABLE */\r\n";
+            csInsertBuffer +=  "     // end zDME_GET_VARIABLE\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_COMPARE_ATTRIBUTE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_COMPARE_ATTRIBUTE */\r\n";
+            csInsertBuffer +=  "     // end zDME_COMPARE_ATTRIBUTE\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_GET_FIRST_TBL_ENT_FOR_ATTR:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_GET_FIRST_TBL_ENT_FOR_ATTR */\r\n";
+            csInsertBuffer +=  "     // end zDME_GET_FIRST_TBL_ENT_FOR_ATTR\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_GET_NEXT_TBL_ENT_FOR_ATTR:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_GET_NEXT_TBL_ENT_FOR_ATTR */\r\n";
+            csInsertBuffer +=  "     // end zDME_GET_NEXT_TBL_ENT_FOR_ATTR\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_SET_ATTRIBUTE_VALUE_NEXT:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_SET_ATTRIBUTE_VALUE_NEXT */\r\n";
+            csInsertBuffer +=  "     // end zDME_SET_ATTRIBUTE_VALUE_NEXT\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_SET_ATTRIBUTE_VALUE_PREV:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_SET_ATTRIBUTE_VALUE_PREV */\r\n";
+            csInsertBuffer +=  "     // end zDME_SET_ATTRIBUTE_VALUE_PREV\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_ADD_TO_ATTRIBUTE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_ADD_TO_ATTRIBUTE */\r\n";
+            csInsertBuffer +=  "     // end zDME_ADD_TO_ATTRIBUTE\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_GET_COMPARE_VALUE:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_GET_COMPARE_VALUE */\r\n";
+            csInsertBuffer +=  "     // end zDME_GET_COMPARE_VALUE\r\n";
             csInsertBuffer += szTab;
             csInsertBuffer +=  "OF   zDME_VALIDATE_LPDATA:\r\n\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "     /* end zDME_VALIDATE_LPDATA */\r\n";
+            csInsertBuffer +=  "     // end zDME_VALIDATE_LPDATA\r\n";
             csInsertBuffer += szTab;
-            csInsertBuffer +=  "END  /* case */\r\n";
+            csInsertBuffer +=  "END  // case\r\n";
             break;
 
          case 'T':
@@ -4847,18 +4847,18 @@ VML_StartHelp( zVIEW vSubtask )
 
    // GET ADDRESS OF THE STRING FOR THE TEXT IN THE LIST BOX
    mGetProfileView( &vProfileXFER, vSubtask );
-   GetAddrForAttribute( &pchText,       /* Return Address */
-                        vProfileXFER,  /* View Id */
-                        "VML_Text",    /* Entity name */
-                        "Text" /* Attribute Name */ );
+   GetAddrForAttribute( &pchText,       // Return Address
+                        vProfileXFER,  // View Id
+                        "VML_Text",    // Entity name
+                        "Text" ); // Attribute Name
 
    // EXTRACT FIRST ALL CAP WORD FROM pchText
    k = 0;
    j = 0;
 
    // look for first cap
-   while ( !isupper( pchText[ k ] ) &&  /* not upper case */
-           pchText[ k ] != 0 )          /* not null terminator */
+   while ( !isupper( pchText[ k ] ) &&  // not upper case
+           pchText[ k ] != 0 )          // not null terminator
    {
       k++;
    }
@@ -4871,9 +4871,9 @@ VML_StartHelp( zVIEW vSubtask )
    }
 
    // copy first all cap word into the buffer
-   while ( isupper( pchText[ k ] )  &&      /* upper case */
-           pchText[ k ] != 0 &&             /* not null terminator */
-           j < 59 )                         /* room left in buffer */
+   while ( isupper( pchText[ k ] )  &&      // upper case
+           pchText[ k ] != 0 &&             // not null terminator
+           j < 59 )                         // room left in buffer
    {
       szBuffer[ j++ ] = pchText[ k++ ];
    }

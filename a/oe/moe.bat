@@ -1,5 +1,5 @@
 echo off
-set PATH=%PATH%;"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin"
+rem set PATH=%PATH%;"D:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin"
 @if "%kzt%" == "a" set kzt=w
 @if "%kzt%" == "A" set kzt=w
 %kzd%:

@@ -1,4 +1,4 @@
-z1000-Zeidon    TZZOLODD TZWDLGSO 01/23/16   15:29:39 1.0b0   
+z1000-Zeidon    TZZOLODD TZWDLGSO 05/16/16   15:31:11 1.0b0   
 eDialog    1
 aTag       TZZOLODD
 aDLL_Name  TZZOLODD
@@ -5637,8 +5637,8 @@ aTag       ENTVIEW
 aCaption   LOD Entity List
 aPSDLG_X   197
 aPSDLG_Y   28
-aSZDLG_X   24117641
-aSZDLG_Y   13238510
+aSZDLG_X   27460029
+aSZDLG_Y   13172974
 aZKey      1333820
 aDIL_Active Y
 aGeneralFlag 0
@@ -5651,7 +5651,7 @@ aZKey      92001618
 aSubtype   537395200
 aPSDLG_X   4
 aPSDLG_Y   2
-aSZDLG_X   151
+aSZDLG_X   198
 aSZDLG_Y   55
 aSyncKey   1
 
@@ -5661,7 +5661,7 @@ aZKey      97125079
 aSubtype   67633152
 aPSDLG_X   6
 aPSDLG_Y   10
-aSZDLG_X   137
+aSZDLG_X   187
 aSZDLG_Y   39
 aSyncKey   9999
 
@@ -5694,7 +5694,7 @@ aZKey      1333897
 aSubtype   -2146361344
 aPSDLG_X   6
 aPSDLG_Y   62
-aSZDLG_X   151
+aSZDLG_X   198
 aSZDLG_Y   151
 aCtrlBOI   U34
 B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
@@ -5788,7 +5788,7 @@ aTag       AttrList
 aText      AttrList
 aZKey      1333908
 aSubtype   -2143944701
-aPSDLG_X   161
+aPSDLG_X   207
 aPSDLG_Y   8
 aSZDLG_X   206
 aSZDLG_Y   207
@@ -5796,7 +5796,9 @@ aCtrlBOI   U34
 B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P#````*P!-`%,Q````
 `
 aSyncKey   7
-aExtendedStyle 16777216
+aExtendedStyle 17301504
+aVisibleBorder Y
+aDisabled  N
 
 eCtrlCtrl  4
 aTag       Attribute

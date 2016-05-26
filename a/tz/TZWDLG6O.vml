@@ -2423,6 +2423,9 @@ DKS_TRACE_END */
       RETURN -1
    END
 
+   szWriteBuffer = "// " + szFormName + "   Generate Timestamp: " + szTimestamp
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
    szWriteBuffer = "var isWindowClosing = true;"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "var timerID = null;"

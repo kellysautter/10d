@@ -3563,6 +3563,14 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:END
 
+   //:szWriteBuffer = "// " + szFormName + "   Generate Timestamp: " + szTimestamp
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "// ", 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, "   Generate Timestamp: ", 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szTimestamp, 1, 0, 10001 );
+   //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 );
+
    //:szWriteBuffer = "var isWindowClosing = true;"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "var isWindowClosing = true;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
