@@ -759,8 +759,8 @@ GenJSPJ_CrtePushButton( zVIEW     vDialog,
 
       //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
       GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-      //:IF lMaxStringLth <= 254
-      if ( lMaxStringLth <= 254 )
+      //:IF lMaxStringLth <= 0
+      if ( lMaxStringLth <= 0 )
       { 
          //:szMaxStringLth = "254"
          ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -1302,8 +1302,8 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
 
       //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
       GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-      //:IF lMaxStringLth <= 254
-      if ( lMaxStringLth <= 254 )
+      //:IF lMaxStringLth <= 0
+      if ( lMaxStringLth <= 0 )
       { 
          //:szMaxStringLth = "254"
          ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -2099,8 +2099,8 @@ GenJSPJ_CrteListBox( zVIEW     vDialog,
 
          //:   lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
          GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-         //:   IF lMaxStringLth <= 254
-         if ( lMaxStringLth <= 254 )
+         //:   IF lMaxStringLth <= 0
+         if ( lMaxStringLth <= 0 )
          { 
             //:   szMaxStringLth = "254"
             ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -3256,8 +3256,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
 
          //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
          GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-         //:IF lMaxStringLth <= 254
-         if ( lMaxStringLth <= 254 )
+         //:IF lMaxStringLth <= 0
+         if ( lMaxStringLth <= 0 )
          { 
             //:szMaxStringLth = "254"
             ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -3469,8 +3469,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
 
                //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
                GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-               //:IF lMaxStringLth <= 254
-               if ( lMaxStringLth <= 254 )
+               //:IF lMaxStringLth <= 0
+               if ( lMaxStringLth <= 0 )
                { 
                   //:szMaxStringLth = "254"
                   ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -4088,8 +4088,8 @@ GenJSPJ_CrteEditBox( zVIEW     vDialog,
 
       //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
       GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-      //:IF lMaxStringLth <= 254
-      if ( lMaxStringLth <= 254 )
+      //:IF lMaxStringLth <= 0
+      if ( lMaxStringLth <= 0 )
       { 
          //:szMaxStringLth = "254"
          ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -4604,8 +4604,21 @@ GenJSPJ_CrteEditBox( zVIEW     vDialog,
 
    //:CreateDisabledString( vDialog, szDisabled )
    CreateDisabledString( vDialog, szDisabled );
-   //:szMaxStringLth = lMaxStringLth
-   ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
+   //:IF lMaxStringLth <= 0
+   if ( lMaxStringLth <= 0 )
+   { 
+      //:szMaxStringLth = "20"
+      ZeidonStringCopy( szMaxStringLth, 1, 0, "20", 1, 0, 11 );
+      //:ELSE
+   } 
+   else
+   { 
+      //:szMaxStringLth = lMaxStringLth
+      ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
+   } 
+
+   //:END
+
    //:szClass = vDialog.Control.CSS_Class
    GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
    //:IF szClass = ""
@@ -6363,8 +6376,8 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
 
             //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
             GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-            //:IF lMaxStringLth <= 254
-            if ( lMaxStringLth <= 254 )
+            //:IF lMaxStringLth <= 0
+            if ( lMaxStringLth <= 0 )
             { 
                //:szMaxStringLth = "254"
                ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );

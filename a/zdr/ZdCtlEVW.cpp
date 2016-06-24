@@ -8330,7 +8330,11 @@ EDT_FindTextPosition( zVIEW vSubtask, zCPCHAR cpcFind, zPLONG plLine, zPLONG plC
             }
             if ( nRC == -1 ) // in comment to end-of-line
             {
-               pt.y = ptReturn.y + 1;
+		   	   if (pt.y >= ptReturn.y + 1)
+				      pt.y++;
+				   else
+                  pt.y = ptReturn.y + 1;
+
                pt.x = 0;
             }
             else  // in multi-line comment

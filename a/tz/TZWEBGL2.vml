@@ -2429,7 +2429,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                         lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
-                        IF lMaxStringLth <= 254
+                        IF lMaxStringLth <= 0
                            szMaxStringLth = "254"
                         ELSE
                            szMaxStringLth = lMaxStringLth
@@ -2904,7 +2904,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                         lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
-                        IF lMaxStringLth <= 254
+                        IF lMaxStringLth <= 0
                            szMaxStringLth = "254"
                         ELSE
                            szMaxStringLth = lMaxStringLth
@@ -2926,7 +2926,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      ELSE
 
                         lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
-                        IF lMaxStringLth <= 254
+                        IF lMaxStringLth <= 0
                            szMaxStringLth = "254"
                         ELSE
                            szMaxStringLth = lMaxStringLth
@@ -3088,7 +3088,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                         lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
-                        IF lMaxStringLth <= 254
+                        IF lMaxStringLth <= 0
                            szMaxStringLth = "254"
                         ELSE
                            szMaxStringLth = lMaxStringLth
@@ -3305,7 +3305,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                            lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
-                           IF lMaxStringLth <= 254
+                           IF lMaxStringLth <= 0
                               szMaxStringLth = "254"
                            ELSE
                               szMaxStringLth = lMaxStringLth
@@ -3464,7 +3464,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
                               lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
-                              IF lMaxStringLth <= 254
+                              IF lMaxStringLth <= 0
                                  szMaxStringLth = "254"
                               ELSE
                                  szMaxStringLth = lMaxStringLth
@@ -3685,7 +3685,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                     END
 
                                     lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
-                                    IF lMaxStringLth <= 254
+                                    IF lMaxStringLth <= 0
                                        szMaxStringLth = "254"
                                     ELSE
                                        szMaxStringLth = lMaxStringLth
@@ -3786,7 +3786,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                     END
 
                                     lMaxStringLth = vList.CtrlMapER_Domain.MaxStringLth
-                                    IF lMaxStringLth <= 254
+                                    IF lMaxStringLth <= 0
                                        szMaxStringLth = "254"
                                     ELSE
                                        szMaxStringLth = lMaxStringLth
@@ -4598,7 +4598,7 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                            END
 
                            lMaxStringLth = vDialog2.CtrlMapER_Domain.MaxStringLth
-                           IF lMaxStringLth <= 254
+                           IF lMaxStringLth <= 0
                               szMaxStringLth = "254"
                            ELSE
                               szMaxStringLth = lMaxStringLth
@@ -4985,7 +4985,7 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                      lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
-                     IF lMaxStringLth <= 254
+                     IF lMaxStringLth <= 0
                         szMaxStringLth = "254"
                      ELSE
                         szMaxStringLth = lMaxStringLth
@@ -5276,7 +5276,7 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                                     END
 
                                     lMaxStringLth = vDialog2.CtrlMapER_Domain.MaxStringLth
-                                    IF lMaxStringLth <= 254
+                                    IF lMaxStringLth <= 0
                                        szMaxStringLth = "254"
                                     ELSE
                                        szMaxStringLth = lMaxStringLth
@@ -7471,7 +7471,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
             lMaxStringLth = vDialogCtrl.CtrlMapER_Domain.MaxStringLth
-            IF lMaxStringLth <= 254
+            IF lMaxStringLth <= 0
                szMaxStringLth = "254"
             ELSE
                szMaxStringLth = lMaxStringLth

@@ -2095,8 +2095,8 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
             //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
             GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-            //:IF lMaxStringLth <= 254
-            if ( lMaxStringLth <= 254 )
+            //:IF lMaxStringLth <= 0
+            if ( lMaxStringLth <= 0 )
             { 
                //:szMaxStringLth = "254"
                ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -2236,8 +2236,20 @@ GenJSP_CrteGroupTable( zVIEW     vDialog,
 
             //:END
 
-            //:szMaxStringLth = lMaxStringLth
-            ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
+            //:IF lMaxStringLth <= 0
+            if ( lMaxStringLth <= 0 )
+            { 
+               //:szMaxStringLth = "20"
+               ZeidonStringCopy( szMaxStringLth, 1, 0, "20", 1, 0, 11 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:szMaxStringLth = lMaxStringLth
+               ZeidonStringConvertFromNumber( szMaxStringLth, 1, 0, 10, lMaxStringLth, (ZDecimal) 0.0, "I" );
+            } 
+
+            //:END
             //:IF vDialog.Control.WebCtrlType = "wysiwygEditor" OR szTinyMCEFlag = "Y"
             if ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "wysiwygEditor" ) == 0 || ZeidonStringCompare( szTinyMCEFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
             { 
@@ -3915,8 +3927,8 @@ GenJSP_CrteEditBox( zVIEW     vDialog,
 
       //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
       GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-      //:IF lMaxStringLth <= 254
-      if ( lMaxStringLth <= 254 )
+      //:IF lMaxStringLth <= 0
+      if ( lMaxStringLth <= 0 )
       { 
          //:szMaxStringLth = "254"
          ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -5410,8 +5422,8 @@ GenJSP_CrteText( zVIEW     vDialog,
 
          //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
          GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-         //:IF lMaxStringLth <= 254
-         if ( lMaxStringLth <= 254 )
+         //:IF lMaxStringLth <= 0
+         if ( lMaxStringLth <= 0 )
          { 
             //:szMaxStringLth = "254"
             ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -5577,8 +5589,8 @@ GenJSP_CrteText( zVIEW     vDialog,
 
                //:lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
                GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-               //:IF lMaxStringLth <= 254
-               if ( lMaxStringLth <= 254 )
+               //:IF lMaxStringLth <= 0
+               if ( lMaxStringLth <= 0 )
                { 
                   //:szMaxStringLth = "254"
                   ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
@@ -6126,8 +6138,8 @@ GenJSP_CrteListBox( zVIEW     vDialog,
 
          //:   lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
          GetIntegerFromAttribute( &lMaxStringLth, vDialog, "CtrlMapER_Domain", "MaxStringLth" );
-         //:   IF lMaxStringLth <= 254
-         if ( lMaxStringLth <= 254 )
+         //:   IF lMaxStringLth <= 0
+         if ( lMaxStringLth <= 0 )
          { 
             //:   szMaxStringLth = "254"
             ZeidonStringCopy( szMaxStringLth, 1, 0, "254", 1, 0, 11 );
