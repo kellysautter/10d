@@ -7613,7 +7613,7 @@ static LPTSTR s_szVmlKeywordList[] =
    _T( "NONE" ),
    _T( "OF" ),
    _T( "OPERATION" ),
-   _T( "PREV" ),
+   _T( "PREVIOUS" ),
    _T( "REGISTERED AS" ),
    _T( "RESULT" ),
    _T( "RETURN" ),
