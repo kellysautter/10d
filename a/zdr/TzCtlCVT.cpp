@@ -1827,7 +1827,7 @@ ConvertGrid( zVIEW   vSubtask,
       zPCHAR pchAttribute;
       zPCHAR pchContext;
       zPCHAR pchText;
-      zCHAR  szSubBlob[ (3 * sizeof( zLONG )) + 34 ]; // flags + 2 reserved longs + tag
+      zCHAR  szSubBlob[ 256 ]; // dks 2016.07.06 ???  (3 * sizeof( zLONG )) + 34 ]; // flags + 2 reserved longs + tag
       zULONG ulSubLth;
       zULONG ulLth = sizeof( zLONG ) + sizeof( zULONG );
       zLONG  lCharLth;

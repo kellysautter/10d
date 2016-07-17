@@ -39,6 +39,8 @@ using namespace std;
 
 #include <direct.h>  // for getcwd
 
+#define zsizeof _countof
+
 #define  READFILE      "r"    /*  read only                              */
 #define  WRITEFILE     "w"    /*  write only (overwrite existing file)   */
 #define  READBINARY    "rb"   /*  read only                              */
