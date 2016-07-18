@@ -10729,12 +10729,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
             break;
          }
 
-         pRelinkBufferTable[ k ] =
-            (zPLONG) fnAllocDataspace( lpTask->hFirstDataHeader,
-                                       640000L, TRUE, 0, iRelinkBuffer );  // moved up from 64000 dks/don 2007.01.04
-
-         pRelinkBufferTable[ k ] = zGETPTR( pRelinkBufferTable[ k ] );
-
+         pRelinkBufferTable[ k ] = SysMalloc( 640000L );
          pRelinkBufferEnd = pRelinkBufferTable[ k ] + 640000 / 4;  // Space for 160000 entities ... moved up from 16000 dks/don 2007.01.04
          pRelinkBufferPtr = pRelinkBufferTable[ k ];
 
@@ -11721,7 +11716,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
    } // while ( (nEOF = (*lpfnStreamFunc)( ... )) == 1 )
 
    for ( lEntityCnt = 0; pRelinkBufferTable[ lEntityCnt ]; lEntityCnt++ )
-      fnFreeDataspace( pRelinkBufferTable[ lEntityCnt ] );
+      SysFree( pRelinkBufferTable[ lEntityCnt ] );
 
    if ( nEOF == zCALL_ERROR )
       nRC = zCALL_ERROR;

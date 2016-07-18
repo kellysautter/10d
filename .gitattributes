@@ -60,7 +60,9 @@
 *.XMD binary
 *.XOG binary
 *.XPE binary
-
+*.bmp binary
+*.hlp binary
+*.chm binary
 
 # You'll notice that files are matched--*.c, *.sln, *.png--, separated by a space, then given a setting--text, text eol=crlf, binary. We'll go over some possible settings below.
 #
