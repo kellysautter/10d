@@ -706,7 +706,7 @@ struct EntityInstanceStruct
    LPENTITYINSTANCE     hNextVsn;
    LPENTITYINSTANCE     hPrevVsn;
    LPENTITYINSTANCE     hNextLinked;
-   zLONG                lTag;              // Used by NetCommit processing.
+   zCHAR[ 65 ]          szTag;             
    zULONG               ulKey;             // Entity key.
    zLONG                lHierCount;        // Hier # for ent.--not always current!
    zSHORT               nLevel;            // Level of this instance

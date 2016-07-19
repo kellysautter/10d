@@ -338,8 +338,8 @@ CHANGE LOG
 #pragma optimize( "", off )
 #endif
 
-// Comment this out to keep from using attribute flags.
-#define zATTRIBFLAGS       0x02000000L
+// Used to indicate that linked EIs are specified via the EI tag.
+#define zLINKED_WITH_TAGS       0x02000000L
 
 // DGC 2-14-96
 // Strings that contain special chars (chars with ASCII values < space [0x20] )
@@ -6971,11 +6971,11 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
    zPCHAR               pchAttr;
    zPCHAR               pchBuffer = 0;
    zCHAR                szWorkString[ 300 ];
-   zLONG                lLastLinkedInstance;
    zLONG                lHierCount;
    zULONG               ulLth;
    zULONG               uPos;
    zBOOL                bMsgBox = TRUE;
+   zBOOL                bLinked;
    zSHORT               nLevel;
    zLONG                k;
    zSHORT               nRC = zCALL_ERROR;
@@ -7057,7 +7057,6 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
    // write out the entity instances
    lpAttribFlags = 0;
    lHierCount = 0;
-   lLastLinkedInstance = -1;      // last linked relative instance counter
    for ( lpEntityInstance = zGETPTR( lpViewOI->hRootEntityInstance );
          lpEntityInstance;
          lpEntityInstance = zGETPTR( lpEntityInstance->hNextHier ) )
@@ -7186,30 +7185,8 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
       if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
          goto EndOfFunction;
 
-      // If user wants entity tags, write it.
-      if ( lControl & zENTITY_TAGS )
-      {
-         if ( lControl & zCOMPRESSED )
-            sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %lx", (zLONG) lpEntityInstance );
-         else
-            sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %lx", (zLONG) lpEntityInstance );
-
-         if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
-            goto EndOfFunction;
-      }
-      else
-      if ( lpEntityInstance->lTag )
-      {
-         // If the tag for the current entity instance is non-zero, then we'll
-         // write it.
-         if ( lControl & zCOMPRESSED )
-            sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %lx", lpEntityInstance->lTag );
-         else
-            sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %lx", lpEntityInstance->lTag );
-
-         if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
-            goto EndOfFunction;
-      }
+      if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
+        goto EndOfFunction;
 
       if ( lControl & zENTITY_KEYS )
       {
@@ -7226,16 +7203,40 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
       // EI that has already been written) and it has no non-persist record,
       // then we don't need to write it's attribute values.
       lpViewAttrib = zGETPTR( lpViewEntity->hFirstOD_Attrib );
+      bLinked = FALSE;
       if ( lpEntityInstance->u.nInd.bWritten )
       {
-         lLastLinkedInstance = lpEntityInstance->lHierCount;
+         LPENTITYINSTANCE lpLinked;
 
+         bLinked = TRUE;
          if ( lpEntityInstance->u.nInd.bHidden == FALSE &&
               lpEntityInstance->hNonPersistRecord == FALSE )
          {
             bEntityIsCompressed = FALSE; // Make sure we don't write anything
             lpViewAttrib = 0;
          }
+
+         // If we get here then lpEntityInstance should always have a next linked.
+         // Write the tag of the record owner so we can relink when we activate
+         // this stream.
+
+         // Find the record owner.
+         for ( lpLinked = zGETPTR( lpEntityInstance->hNextLinked );
+               lpLinked != lpEntityInstance;
+               lpLinked = zGETPTR( lpLinked->hNextLinked ) )
+         {
+            // For a little insurance we'll only set the flags for EIs in
+            // the same OI.
+            if ( lpLinked->hViewOI == lpEntityInstance->hViewOI &&
+                 lpEntityInstance->u.nInd.bRecordOwner )
+            {
+               break;
+            }
+         }
+
+         sprintf_s( szWorkString, zsizeof( szWorkString ), "mLINKED %s", lpLinked->szTag );
+         if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
+            goto EndOfFunction;
       }
 
       // Set flag to indicate that entity instance has been written to
@@ -7249,6 +7250,20 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
          // link lines written (e.g. "i38,102") for it.
          lpEntityInstance->u.nInd.bRecordOwner = TRUE;
 
+         // Write a meta flag to indicate that this EI is the record owner.  When
+         // we read the OI (as part of ActivateOI_FromStream) we'll know to keep
+         // track of it.
+         if ( (*lpfnStreamFunc)( lpView, lpvData, "mRO Y", 0, zTYPE_STRING ) )
+            goto EndOfFunction;
+
+         // We need a tag so this EI can be linked with others.  If it doesn't
+         // have one, set it.
+         if ( lpEntityInstance->szTag == 0 )
+         {
+            // TODO: Generate a GUID.
+            zsprintf( lpEntityInstance->szTag, "%lx", lpEntityInstance );
+         }
+
          for ( lpLinked = zGETPTR( lpEntityInstance->hNextLinked );
                lpLinked != lpEntityInstance;
                lpLinked = zGETPTR( lpLinked->hNextLinked ) )
@@ -7258,6 +7273,14 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
             if ( lpLinked->hViewOI == lpEntityInstance->hViewOI )
                lpLinked->u.nInd.bWritten = TRUE;
          }
+      }
+
+      // Always write entity tag.  If it's currently null, then set it to something.
+      if ( lpEntityInstance->szTag != 0 )
+      {
+         sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %s", lpEntityInstance->szTag );
+         if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
+            goto EndOfFunction;
       }
 
       lpEntityInstance->u.nInd.bWritten = TRUE;
@@ -7313,8 +7336,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
             // If the entity is linked with another, then we don't need to store
             // the attribute value, but we do need to store a dummy value in the
             // attribute buffer.
-            if ( lpViewAttrib->bPersist &&
-                 lpEntityInstance->lHierCount == lLastLinkedInstance )
+            if ( lpViewAttrib->bPersist && bLinked )
             {
                *pchBufferEnd++ = 0;
                continue;
@@ -7368,8 +7390,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
             // included from the linked instance.  This is only TRUE for
             // persistent attributes.  Non-persistent attrs need to be stored
             // with the current EI.
-            if ( lpViewAttrib->bPersist &&
-                 lpEntityInstance->lHierCount == lLastLinkedInstance )
+            if ( lpViewAttrib->bPersist && bLinked )
             {
                continue;
             }
@@ -7638,158 +7659,6 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
 
    } // for ( lpEntityInstance... )...
 
-   // If any intra-object linked instances were found, create
-   // link records now.
-   if ( lLastLinkedInstance > -1 )
-   {
-      LPENTITYINSTANCE lpSourceEntityInstance;
-
-      for ( lpEntityInstance = zGETPTR( lpViewOI->hRootEntityInstance );
-            lpEntityInstance;
-            lpEntityInstance = zGETPTR( lpEntityInstance->hNextHier ) )
-      {
-         // If we've gone past the last linked instance break.
-         if ( lpEntityInstance->lHierCount > lLastLinkedInstance )
-            break;
-
-         // Look to see if the current instance should be written out.  If
-         // not we'll skip it and go on to the next one.  All non-hidden
-         // instances get written so we'll look for that first.
-         if ( lpEntityInstance->u.nInd.bHidden )
-         {
-            // We'll skip hidden entities if:
-            // o  We aren't writing incrementals
-            //    -or-
-            // o  The EI is "dead" e.g. created and deleted.
-            if ( bIncremental == FALSE ||
-                 fnEntityInstanceIsDead( lpEntityInstance ) )
-            {
-               // The current instance should not be written to the file.
-               // This also means that it's children should not be written.
-               // Skip the children.
-               nLevel = lpEntityInstance->nLevel;
-               for ( lpEntityInstance = zGETPTR( lpEntityInstance->hNextHier );
-                     lpEntityInstance;
-                     lpEntityInstance = zGETPTR( lpEntityInstance->hNextHier ) )
-               {
-                  if ( lpEntityInstance->nLevel <= nLevel )
-                     break;
-               }
-
-               // If no more instance break loop.
-               if ( lpEntityInstance == 0 )
-                  break;
-
-               // Do the following so that when the 'for' loop gets the next
-               // entity instance it will be the one we want.
-               lpEntityInstance = zGETPTR( lpEntityInstance->hPrevHier );
-
-               // Skip the hidden instance.
-               continue;
-            }
-         }
-
-         // If the entity is not linked to another entity then there are no
-         // link cards to write, so skip it.
-         if ( lpEntityInstance->hNextLinked == 0 )
-            continue;
-
-         // If the entity is the record owner then we don't write link cards.
-         // Link cards are written for the non-record owner.
-         if ( lpEntityInstance->u.nInd.bRecordOwner )
-            continue;
-
-         // Look for the record owner in the same OI.
-         lpSourceEntityInstance = zGETPTR( lpEntityInstance->hNextLinked );
-         while ( lpSourceEntityInstance->hViewOI != lpEntityInstance->hViewOI ||
-                 lpSourceEntityInstance->u.nInd.bRecordOwner == FALSE )
-         {
-            lpSourceEntityInstance =
-                                 zGETPTR( lpSourceEntityInstance->hNextLinked );
-            if ( lpSourceEntityInstance == lpEntityInstance )
-               break;
-         }
-
-         lpViewEntity = zGETPTR( lpEntityInstance->hViewEntity );
-
-         // If lpSourceEntityInstance == lpEntityInstance then no other
-         // linked instances where found in the loop above.
-         if ( lpSourceEntityInstance == lpEntityInstance )
-         {
-            LPTASK lpTask = zGETPTR( lpView->hTask );
-            zVIEW           vWork;
-            LPVIEWENTITYCSR lpWorkViewEntityCsr;
-
-            CreateViewFromViewForTask( &vWork, lpView, 0 );
-            lpWorkViewEntityCsr =
-               fnEstablishViewForInstance( vWork, 0, lpSourceEntityInstance );
-
-            while ( lpWorkViewEntityCsr )
-            {
-               fnDisplayEntityInstance( vWork, lpWorkViewEntityCsr, 0, 0 );
-               lpWorkViewEntityCsr = zGETPTR( lpWorkViewEntityCsr->hParent );
-            }
-
-            DropView( vWork );
-
-            // "KZOEE078 - Internal error, linked instance "
-            // "           has no visible owner"
-            fnIssueCoreError( lpTask, lpView, 16, 78, (zLONG) 0,
-                              lpViewEntity->szName, 0 );
-         }
-
-#ifdef DEBUG
-         // Check to make sure the linked EI's have the same ER token.
-         {
-            LPVIEWENTITY lpSrcViewEntity;
-
-            lpViewEntity    = zGETPTR( lpEntityInstance->hViewEntity );
-            lpSrcViewEntity = zGETPTR( lpSourceEntityInstance->hViewEntity );
-
-            if ( lpSrcViewEntity->lEREntTok != lpViewEntity->lEREntTok )
-            {
-               TraceLine( "(oi) Error (OD: %s) - Src View Entity: %s Token: %d  View Entity: %s Token = %d",
-                          lpViewOD->szName, lpSrcViewEntity->szName, lpSrcViewEntity->lEREntTok,
-                          lpViewEntity->szName, lpViewEntity->lEREntTok );
-               if ( bMsgBox )
-               {
-                  bMsgBox = FALSE;
-                  SysMessageBox( lpView, szlOE_SystemError,
-                                 "Error writing OI: ER Tokens don't match for linked entities!", 1 );
-               }
-            }
-         }
-#endif
-
-         if ( lControl & zCOMPRESSED )
-         {
-            sprintf_s( szWorkString, zsizeof( szWorkString ), "i%lx %lx",
-                       lpEntityInstance->lHierCount,
-                       lpSourceEntityInstance->lHierCount );
-         }
-         else
-         {
-            szWorkString[ 0 ] = 'i';
-            zltoa( lpEntityInstance->lHierCount, szWorkString + 1, zsizeof( szWorkString ) - 1 );
-            k = zstrlen( szWorkString );
-            do
-            {
-               szWorkString[ k++ ] = ' ';
-            } while ( k < 11 );
-
-            zltoa( lpSourceEntityInstance->lHierCount, szWorkString + k, zsizeof( szWorkString ) - k );
-         }
-
-         if ( lpEntityInstance->lHierCount != lpSourceEntityInstance->lHierCount )
-         {
-            if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
-               goto EndOfFunction;
-         }
-
-      } // for ...
-
-   } // if ( lLastLinkedInstance > -1 )...
-
    //
    // Check to see if we need to save the cursor positions.
    //
@@ -8034,11 +7903,8 @@ SfWriteOI_ToStream( zVIEW          lpView,
    // We store information now as bit-flags.
    FileHeader.chTypeIndicator[ 0 ] = szlNewPortableHeader[ 0 ];
 
-   // DGC 1999.05.07
-   // Used to be binary indicator.  Now it determines if the ER date is store
-   // with with a compressed OI.  This flag can be re-used for something else
-   // when all customers are using post-9j core.
-   FileHeader.chTypeIndicator[ 1 ] = '1'; // This release always store date.
+   // Indicate that linked instances are specified using the EI tag.
+   FileHeader.chTypeIndicator[ 1 ] = '2';
 
    if ( bIncremental )
       FileHeader.chTypeIndicator[ 2 ] = '1';
@@ -8055,16 +7921,8 @@ SfWriteOI_ToStream( zVIEW          lpView,
    else
       FileHeader.chTypeIndicator[ 4 ] = '0';
 
-#ifdef USE_ATTRIBFLAGS
-   // Using attribute flags logic.
-   if ( bIncremental )
-      FileHeader.chTypeIndicator[ 5 ] = '1';
-   else
-      FileHeader.chTypeIndicator[ 5 ] = '0';
-#else
    // Reserved for later use...
    FileHeader.chTypeIndicator[ 5 ] = '-';
-#endif
 
    strcpy_s( FileHeader.szZeidon, zsizeof( FileHeader.szZeidon ), szlmZeidon );
 
@@ -10772,7 +10630,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
 
             case 'E':
                if ( zstrcmp( szWorkString, "ETAG" ) == 0 )
-                  lpEntityInstance->lTag = zxtol( pchLine );
+                  lpEntityInstance->szTag = pchLine;
                else
                if ( zstrcmp( szWorkString, "EKEY" ) == 0 )
                   lpEntityInstance->ulKey = (zULONG) zxtol( pchLine );
@@ -10795,6 +10653,13 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                   if ( uFlags & zOI_READONLY )
                      lpView->bReadOnly = TRUE;
                }
+
+               break;
+
+            case 'R':
+               // Is this EI the record owner of linked instances?
+               if ( zstrcmp( szWorkString, "RO" ) == 0 )
+                  lpViewOI->lActivateControl = zxtol( pchLine );
 
                break;
          }
@@ -11158,8 +11023,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                }
 
                // Now set the attribute flags.
-               if ( (*plControl & zINCREMENTAL) &&
-                    (*plControl & zATTRIBFLAGS) )
+               if ( (*plControl & zINCREMENTAL) )
                {
                   lpAttribFlags = fnGetAttribFlagsPtr( lpEntityInstance,
                                                        lpViewAttrib );
@@ -11215,16 +11079,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
          }
          else
          {
-            // If flags aren't specified then they are assumed 0 *unless* this
-            // OI wasn't stored with attrib flags (this means it was stored
-            // with a pre-10a version).  In this case we have to assume that
-            // every attribute has been changed.
             AttribFlags.u.uFlags = 0; // Turn off all flags.
-            if ( (*plControl & zATTRIBFLAGS ) == 0 )
-            {
-               // No attrib flags--turn on 'changed' bit.
-               AttribFlags.u.bFlags.bUpdated = TRUE;
-            }
          }
 
          if ( *plControl & zCOMPRESSED )
@@ -11949,6 +11804,10 @@ z1000-Zeidon    ACCOUNT  TZWDLGSO 04/18/07   09:18:42 1.0a2
          lpViewOI->szRelease[ 8 ] = 0;
       }
 
+      // If first flag is '2', then we're indicating linked EI's with EI tags.
+      if ( pchLine[ 1 ] == '2' )
+         lControl |= zLINKED_WITH_TAGS;
+
       if ( pchLine[ 2 ] == '1' )
          lControl |= zINCREMENTAL;
       else
@@ -11962,17 +11821,7 @@ z1000-Zeidon    ACCOUNT  TZWDLGSO 04/18/07   09:18:42 1.0a2
       if ( pchLine[ 4 ] == '1' )
          bContainsOptimisticOIs = TRUE;
 
-      // Attrib flags have been written if the 5th flag is set or if the OI is
-      // written in incremental/compressed form.
-      if ( pchLine[ 5 ] == '1' ||
-           ((lControl & zCOMPRESSED) && (lControl & zINCREMENTAL)) )
-      {
-         lControl |= zATTRIBFLAGS;
-      }
-
-      // This used to be the binary flag.  For now it tells us whether the
-      // ER_Date is stored with the LOD.
-      if ( pchLine[ 1 ] == '1' && (lControl & zINCREMENTAL) != 0 )
+      if ( lControl & zINCREMENTAL )
       {
          // Get the ER date.
          (*lpfnStreamFunc)( lpView, lpvData, &pchLine, 0, 0 );
