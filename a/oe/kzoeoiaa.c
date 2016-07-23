@@ -6943,6 +6943,24 @@ fnPutDataToFile( zVIEW   lpTaskView,
       return( SysWriteLine( lpTaskView, lpFileData->hFile, cpcBuffer ) );
 }
 
+
+/**
+ * If the tag for the EI is not set, set it.
+ *
+ * The tag is a semi-random string that can be expected to be unique for the EI across
+ * the OI.  Some day this could generate a UUID instead to make it unique across all
+ * EI's ever created but this is fast and easy.
+ */
+zSHORT
+fnSetEntityInstanceTag( LPENTITYINSTANCE lpEntityInstance )
+{
+   if ( lpEntityInstance->szTag[0] != 0 )
+      return( 0 );
+
+   zsprintf( lpEntityInstance->szTag, "%lx.%lx", lpEntityInstance, SysGetEpochTime() );
+   return 0;
+}
+
 /*
 =fnWriteOI_ToTextStream
 
@@ -7249,11 +7267,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
 
          // We need a tag so this EI can be linked with others.  If it doesn't
          // have one, set it.
-         if ( lpEntityInstance->szTag == 0 )
-         {
-            // TODO: Generate a GUID.
-            zsprintf( lpEntityInstance->szTag, "%lx", lpEntityInstance );
-         }
+         fnSetEntityInstanceTag( lpEntityInstance );
 
          for ( lpLinked = zGETPTR( lpEntityInstance->hNextLinked );
                lpLinked != lpEntityInstance;
@@ -7264,8 +7278,12 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
          }
       }
 
+      // If user wants entity tags set it (if it hasn't been already)
+      if ( lControl & zENTITY_TAGS )
+         fnSetEntityInstanceTag( lpEntityInstance );
+
       // Write the tag if it's set.
-      if ( lpEntityInstance->szTag != 0 )
+      if ( *lpEntityInstance->szTag != 0 )
       {
          sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %s", lpEntityInstance->szTag );
          if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
