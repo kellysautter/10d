@@ -7225,8 +7225,6 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
                lpLinked != lpEntityInstance;
                lpLinked = zGETPTR( lpLinked->hNextLinked ) )
          {
-            // For a little insurance we'll only set the flags for EIs in
-            // the same OI.
             if ( lpLinked->hViewOI == lpEntityInstance->hViewOI &&
                  lpEntityInstance->u.nInd.bRecordOwner )
             {
@@ -7246,15 +7244,8 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
       {
          LPENTITYINSTANCE lpLinked;
 
-         // Set the record owner.  This means that this EI will not have
-         // link lines written (e.g. "i38,102") for it.
+         // Set the record owner.
          lpEntityInstance->u.nInd.bRecordOwner = TRUE;
-
-         // Write a meta flag to indicate that this EI is the record owner.  When
-         // we read the OI (as part of ActivateOI_FromStream) we'll know to keep
-         // track of it.
-         if ( (*lpfnStreamFunc)( lpView, lpvData, "mRO Y", 0, zTYPE_STRING ) )
-            goto EndOfFunction;
 
          // We need a tag so this EI can be linked with others.  If it doesn't
          // have one, set it.
@@ -7268,18 +7259,27 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
                lpLinked != lpEntityInstance;
                lpLinked = zGETPTR( lpLinked->hNextLinked ) )
          {
-            // For a little insurance we'll only set the flags for EIs in
-            // the same OI.
             if ( lpLinked->hViewOI == lpEntityInstance->hViewOI )
                lpLinked->u.nInd.bWritten = TRUE;
          }
       }
 
-      // Always write entity tag.  If it's currently null, then set it to something.
+      // Write the tag if it's set.
       if ( lpEntityInstance->szTag != 0 )
       {
          sprintf_s( szWorkString, zsizeof( szWorkString ), "mETAG %s", lpEntityInstance->szTag );
          if ( (*lpfnStreamFunc)( lpView, lpvData, szWorkString, 0, zTYPE_STRING ) )
+            goto EndOfFunction;
+      }
+
+      // If this is the record owner then write a flag indicating it.  Do this *after*
+      // writing the tag.
+      if ( lpEntityInstance->u.nInd.bRecordOwner )
+      {
+         // Write a meta flag to indicate that this EI is the record owner.  When
+         // we read the OI (as part of ActivateOI_FromStream) we'll know to keep
+         // track of it.
+         if ( (*lpfnStreamFunc)( lpView, lpvData, "mRO Y", 0, zTYPE_STRING ) )
             goto EndOfFunction;
       }
 
@@ -7840,7 +7840,6 @@ SfWriteOI_ToStream( zVIEW          lpView,
    zPCHAR               pchLine;
    zPCHAR               pchFileNmp;
    zCHAR                szFileHeader[ sizeof( FileHeaderRecord ) ];
-   zCHAR                szDateTime[ 20 ];
    zCHAR                szTemp[ 50 ];
    zLONG                lTickCount;
    zBOOL                bOptimistic;
@@ -7948,8 +7947,6 @@ SfWriteOI_ToStream( zVIEW          lpView,
 
    SysTranslateString( FileHeader.szFileName, 'U' );
    strcpy_s( FileHeader.szObjectType, zsizeof( FileHeader.szObjectType ), lpViewOD->szName );
-   SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
-   fnDateTimeFormat( szDateTime, FileHeader.szDate, zsizeof( FileHeader.szDate ), FileHeader.szTime, zsizeof( FileHeader.szTime ) );
 
    // Even if this is not a MetaOI, we should force the release level for
    // all files to be at the minimal level of the software.
@@ -10550,6 +10547,13 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
    // The following should only be used for cursor processing.
    zLONG             lInstanceCount = 0;
 
+   zBOOL             useOldStyleRelink = ( *plControl & zLINKED_WITH_TAGS ) == 0 );
+
+   // Keep a map of record owners that will be used to relink EIs.
+   // Key = lpEntityInstance->szTag, value = lpEntityInstance
+   map_t pRecordOwners = NULL;
+   pRecordOwners = hashmap_new();
+
    bIgnoreEntityErrors = (*plControl & zIGNORE_ENTITY_ERRORS) ? 1 : 0;
    bIgnoreAttribErrors = (*plControl & zIGNORE_ATTRIB_ERRORS) ? 1 : 0;
 
@@ -10572,25 +10576,33 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                                       &pchLine, 0, 0 )) == 1 )
    {
       lLineCount++;
-      if ( pRelinkBufferPtr == pRelinkBufferEnd )
+
+      // DGC 2016-07-21
+      // If we're doing old-style link cards (e.g. lines beginning with 'i')
+      // then allocate the relink buffer.
+      // New style is to use tags and the hashmap.  We can get rid of the old
+      // style code when we're sure it's no longer used.
+      if ( useOldStyleRelink )
       {
-         k = lEntityCnt / 160000;  // moved up from 16000 dks/don 2007.01.04
-
-         // If we've loaded 160000 * 10 entities then bomb.
-         if ( k >= 10 )
+         if ( pRelinkBufferPtr == pRelinkBufferEnd )
          {
-            // if the relink entity pointer is at the end of the
-            // space allocated, issue an error
-            //  "KZOEE090 - Maximum number of entities in portable file exceeded "
-            (*lpfnStreamFunc)( lpView, lpvData, 0, 0, 90 );
-            nRC = zCALL_ERROR;
-            break;
+            k = lEntityCnt / 160000;  // moved up from 16000 dks/don 2007.01.04
+
+            // If we've loaded 160000 * 10 entities then bomb.
+            if ( k >= 10 )
+            {
+               // if the relink entity pointer is at the end of the
+               // space allocated, issue an error
+               //  "KZOEE090 - Maximum number of entities in portable file exceeded "
+               (*lpfnStreamFunc)( lpView, lpvData, 0, 0, 90 );
+               nRC = zCALL_ERROR;
+               break;
+            }
+
+            pRelinkBufferTable[ k ] = SysMalloc( 640000L );
+            pRelinkBufferEnd = pRelinkBufferTable[ k ] + 640000 / 4;  // Space for 160000 entities ... moved up from 16000 dks/don 2007.01.04
+            pRelinkBufferPtr = pRelinkBufferTable[ k ];
          }
-
-         pRelinkBufferTable[ k ] = SysMalloc( 640000L );
-         pRelinkBufferEnd = pRelinkBufferTable[ k ] + 640000 / 4;  // Space for 160000 entities ... moved up from 16000 dks/don 2007.01.04
-         pRelinkBufferPtr = pRelinkBufferTable[ k ];
-
       }
 
       if ( nErrorEntityLvl )
@@ -10606,8 +10618,12 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
             if ( nLevel > nErrorEntityLvl )
                pchLine[ 0 ] = ' ';
 
-            *pRelinkBufferPtr = 0;
-            pRelinkBufferPtr++;
+            if ( useOldStyleRelink )
+            {
+               *pRelinkBufferPtr = 0;
+               pRelinkBufferPtr++;
+            }
+
             lEntityCnt++;
          }
          else
@@ -10637,6 +10653,43 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
 
                break;
 
+            case 'L':
+               if ( zstrcmp( szWorkString, "LINKED" ) == 0 )
+               {
+                  LPENTITYINSTANCE lpSrcInstance = zGETPTR( lpViewEntityCsr->hEntityInstance );
+                  LPENTITYINSTANCE lpTgtInstance = NULL;
+                  LPVIEWENTITY lpTgtViewEntity;
+
+                  hashmap_get( pRecordOwners, pchLine, (void**)(&lpTgtInstance) );
+                  lpTgtViewEntity = lpTgtInstance->lpViewEntity;
+
+                  if ( lpTgtViewEntity->lEREntTok != lpViewEntity->lEREntTok )
+                  {
+                     FileDataRecord  *pActFileData = (FileDataRecord *) lpvData;
+
+                     TraceLine( "(oi) Relink Error (OD: %s) - Tgt View Entity: %s Token: %d  View Entity: %s Token = %d  TgtPtr: %d   SrcPtr: %d   at Index: %d   File: %s",
+                                lpViewOD->szName, lpTgtViewEntity->szName, lpTgtViewEntity->lEREntTok,
+                                lpViewEntity->szName, lpViewEntity->lEREntTok, lLinkTgt, lLinkSrc, k, pActFileData->pchFileName );
+                     if ( bMsgBox )
+                     {
+                        bMsgBox = FALSE;
+                        SysMessageBox( lpView, szlOE_SystemError, "ER Tokens don't match for linked entities!", 1 );
+                     }
+                  }
+                  else
+                  {
+                     lpTgtInstance->hPersistRecord = lpSrcInstance->hPersistRecord;
+                     if ( lpSrcInstance->hNextLinked )
+                        lpTgtInstance->hNextLinked = lpSrcInstance->hNextLinked;
+                     else
+                        lpTgtInstance->hNextLinked = zGETHNDL( lpSrcInstance );
+
+                     lpSrcInstance->hNextLinked = zGETHNDL( lpTgtInstance );
+                  }
+               }
+
+               break;
+
             case 'O':
                if ( zstrcmp( szWorkString, "OITAG" ) == 0 )
                   lpViewOI->lTag = zxtol( pchLine );
@@ -10659,7 +10712,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
             case 'R':
                // Is this EI the record owner of linked instances?
                if ( zstrcmp( szWorkString, "RO" ) == 0 )
-                  lpViewOI->lActivateControl = zxtol( pchLine );
+                  hashmap_put( pRecordOwners, lpEntityInstance->szTag, lpEntityInstance );
 
                break;
          }
@@ -10889,8 +10942,13 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
 
             // Set lpEntityInstance to instance just created.
             lpEntityInstance = zGETPTR( lpViewEntityCsr->hEntityInstance );
-            *pRelinkBufferPtr = (zLONG) lpEntityInstance;
             lEntityCnt++;
+
+            if ( useOldStyleRelink )
+            {
+               *pRelinkBufferPtr = (zLONG) lpEntityInstance;
+               pRelinkBufferPtr++;
+            }
 
 #if 0  // debugging
             if ( nFlag )
@@ -10915,14 +10973,17 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                }
             }
 #endif
-            pRelinkBufferPtr++;
             lpEntityInstance->u.nInd.bCreated = TRUE;
             lpEntityInstance->u.nInd.bPrevVersion = FALSE;
          }
          else
          {
-            *pRelinkBufferPtr = 0;
-            pRelinkBufferPtr++;
+            if ( useOldStyleRelink )
+            {
+               *pRelinkBufferPtr = 0;
+               pRelinkBufferPtr++;
+            }
+
             lEntityCnt++;
 
             // If we're ignoring errors then set the error code back to 0
@@ -11570,8 +11631,13 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
 
    } // while ( (nEOF = (*lpfnStreamFunc)( ... )) == 1 )
 
-   for ( lEntityCnt = 0; pRelinkBufferTable[ lEntityCnt ]; lEntityCnt++ )
-      SysFree( pRelinkBufferTable[ lEntityCnt ] );
+   if ( useOldStyleRelink )
+   {
+      for ( lEntityCnt = 0; pRelinkBufferTable[ lEntityCnt ]; lEntityCnt++ )
+         SysFree( pRelinkBufferTable[ lEntityCnt ] );
+   }
+
+   hashmap_free( pRecordOwners );
 
    if ( nEOF == zCALL_ERROR )
       nRC = zCALL_ERROR;
