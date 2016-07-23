@@ -14,7 +14,7 @@
 //               ProcessZeidonMessage
 //
 /////////////////////////////////////////////////////////////////////////////
-//    Copyright © 1993 - 2016 QuinSoft, Inc.          All rights reserved.
+//    Copyright ï¿½ 1993 - 2016 QuinSoft, Inc.          All rights reserved.
 //    Confidential and Proprietary material subject to license - do not
 //    reproduce or disclose.  This material is an unpublished work and
 //    is considered a trade secret belonging to the copyright holder.
@@ -6697,6 +6697,30 @@ SysGetFileDateTime( zLONG  hFile,
       strcpy_s( pchDateTime, lMaxLth, "???????????????" );
 }
 
+
+//./ ADD NAME=SysGetEpochTime
+/////////////////////////////////////////////////////////////////////////////
+//
+//   FUNCTION:   SysGetEpochTime
+//
+//   PROTOTYPE:
+//      zLONG  OPERATION
+//      SysGetEpochTime()
+//
+//   RETURNS:    Time since 1970 in seconds.
+//
+//   PURPOSE: Return Posix epoch time.
+//
+/////////////////////////////////////////////////////////////////////////////
+//./ END + 2
+zLONG OPERATION
+SysGetEpochTime()
+{
+   time_t ltime;
+   time( &ltime );
+   return( (zLONG) ltime );
+}
+
 //./ ADD NAME=SysGetDateTime
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -9340,9 +9364,9 @@ SysGetClientMessage( )
 // Created: November 24, 1993
 //
 // Abstract --
-// The Microsoft® Win32® Application Programming Interface (API) has given us
+// The Microsoftï¿½ Win32ï¿½ Application Programming Interface (API) has given us
 // the ability to use multiple threads within applications. Many programmers
-// for Microsoft Windows® are now looking for ways to add threads to their
+// for Microsoft Windowsï¿½ are now looking for ways to add threads to their
 // applications. Although there are some excellent reasons to add threads to
 // an application, there are also times when threads are unnecessary and will
 // only add to the complexity of a program. In this technical article, I will
@@ -9358,8 +9382,8 @@ SysGetClientMessage( )
 //  - New functions for handling multiple threads
 //
 // Introduction --
-// So you already have an application written for Microsoft® Windows® version
-// 3.1 that you have decided to port to Windows NT®. Since Windows NT has these
+// So you already have an application written for Microsoftï¿½ Windowsï¿½ version
+// 3.1 that you have decided to port to Windows NTï¿½. Since Windows NT has these
 // new things called threads that are supposed to make applications faster,
 // you're interested in putting these in your application. The first thing you
 // do is look up the functions that you need to create and use threads, and you
@@ -9604,7 +9628,7 @@ SysGetClientMessage( )
 // the call to SetFocus will fail. I will describe a way around this problem
 // and, since we all know that ignorance is not bliss when programming for
 // Windows, I will detail the three concepts of focus, activation, and
-// foreground and background windows in Win32®.
+// foreground and background windows in Win32ï¿½.
 //
 //
 // Figure 1. The focus window, MDI 3
