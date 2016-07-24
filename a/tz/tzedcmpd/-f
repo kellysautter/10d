@@ -1,0 +1,8 @@
+
+Microsoft (R) Program Maintenance Utility Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+cl : Command line warning D9025 : overriding '/FoDebug\' with '/Fo..\..\..\w\tz\debug\tzedcm2d.obj'
+cl : Command line warning D9025 : overriding '/FoDebug\' with '/Fo..\..\..\w\tz\debug\tzedcmpd.obj'
+Mergedef successfully merged: C:\10d\w\tz\tzedcmpd.def   with: C:\10d\w\tz\tzedcmpd.DXX
+Merged file: C:\10d\w\tz\tzedcmpd.tmp

@@ -1,0 +1,155 @@
+:Base Progref.hlp
+:Index Index=ADW_Export.hlp
+:Index Index=Autodesign.hlp
+:Index Index=Basics.hlp
+:Index Index=Glossary.hlp
+:Index Index=Operations_Reference.hlp
+:Index Index=Users.hlp
+:Link ADW_Export.hlp
+:Link Autodesign.hlp
+:Link Basics.hlp
+:Link Glossary.hlp
+:Link Operations_Reference.hlp
+:Link Users.hlp
+1 Programmer's VML Reference Guide
+2 Introduction
+3 View Manipulation Language=View_Manipulation_Language
+3 VML Features=VML_Features
+3 Notational Conventions=Notational_Conventions
+3 About This Manual=About_This_Manual
+3 Other Zeidon Publications=Other_Zeidon_Publications
+2 Compiling VML
+3 Overview
+4 Overview=Compiling_VML___Overview
+3 Compiler Specifications
+4 Opening the Compiler Specification Window=Opening_the_Compiler_Specification_Window
+4 Creating a new Compiler Specification=Creating_a_new_Compiler_Specification
+4 Updating a Compiler Specification=Updating_a_Compiler_Specification
+4 Selecting a Compiler Specification=Selecting_a_Compiler_Specification
+4 Deleting a Compiler Specification=Deleting_a_Compiler_Specification
+3 Target Specifications
+4 Opening the Target Specification Window=Opening_the_Target_Specification_Window
+4 Selecting a Target Executable=Selecting_a_Target_Executable
+4 Selecting Make Options=Selecting_Make_Options
+4 Making a Target Executable=Making_a_Target_Executable
+2 VML Overview
+3 Operations
+4 Operations=Operations
+4 Operation Declarations=VML_Overview___Operations___Operation_Declarations
+4 Return Values=Return_Values
+3 Types of Operations
+4 Types of Operations=Types_of_Operations
+4 Dialog Operations
+5 Dialog Operations=Dialog_Operations
+5 Declaring Dialog Operations=Declaring_Dialog_Operations
+5 Storing Dialog Operations=Storing_Dialog_Operations
+4 Object Operations
+5 Object Operations=Object_Operations
+5 Object Constraint Operations=Object_Constraint_Operations
+5 Entity Constraint Operations=Entity_Constraint_Operations
+5 Derived Attribute Operations=Derived_Attribute_Operations
+5 Transformation Operations=Transformation_Operations
+4 Domain Operations
+5 Domain Operations=Domain_Operations
+5 Retrieval Domain Operations=Retrieval_Domain_Operations
+5 User Text Domain Operations=User_Text_Domain_Operations
+5 Character by Character Domain Operations=Character_by_Character_Domain_Operations
+5 Update Domain Operations=Update_Domain_Operations
+4 Global Operations
+5 Global Operations=Global_Operations
+5 Declaring Global Operations=Declaring_Global_Operations
+4 Local Operations
+5 Local Operations=Local_Operations
+5 Declaring Local Operations=Declaring_Local_Operations
+2 Using VML Declarations and Statements
+3 Declarations
+4 Declarations=Declarations
+4 Operation Declarations
+5 Operation Declarations=Using_VML_Declarations_and_Statements___Op_Declarations
+4 View Declarations
+5 View Declarations=View_Declarations
+5 Declaring Existing Registered Views=Declaring_Existing_Registered_Views
+5 Declaring Views With LODs=Declaring_Views_With_LODs
+5 Declaring Views Without LODs=Declaring_Views_Without_LODs
+4 Local Variable Declarations
+5 Local Variable Declarations=Local_Variable_Declarations
+5 Decimal Variables=Decimal_Variables
+5 Integer Variables=Integer_Variables
+5 String Variables=String_Variables
+5 EntityName Variables=EntityName_Variables
+5 AttributeName Variables=AttributeName_Variables
+4 Entity Qualifiers
+5 Entity Qualifiers=Entity_Qualifiers
+4 Attribute Qualifiers
+5 Attribute Qualifiers=Attribute_Qualifiers
+4 Literals
+5 Literals=Literals
+5 String Literals=String_Literals
+5 Integer Literals=Integer_Literals
+5 Decimal Literals=Decimal_Literals
+3 Statements
+4 Statements=Statements
+4 Conditional Statements
+5 Conditional Statements=Conditional_Statements
+5 Conditions=Conditions
+5 IF=Using_VML_Declarations_and_Statements_Conditional_IF
+4 Looping Statements
+5 Looping Statements=Looping_Statements
+5 LOOP WHILE=Using_VML_Declarations_and_Statements_LOOP_WHILE
+4 Selection Statements
+5 Selection Statements=Selection_Statements
+4 Exit Statements
+5 Exit Statements=Exit_Statements
+4 Expression Statements
+5 Expression Statements=Expression_Statements
+5 Assignment=Assignment
+5 Operation Call=Operation_Call
+4 Action Statements
+5 Action Statements=Action_Statements
+5 ACTIVATE=Using_VML_Declarations_and_Statements___ACTIVATE
+5 COMMIT=Using_VML_Declarations_and_Statements___COMMIT
+5 CREATE=CREATE
+5 DELETE=DELETE
+5 EXCLUDE=Using_VML_Declarations_and_Statements___EXCLUDE
+5 FOR=Using_VML_Declarations_and_Statements___FOR
+5 GET VIEW=Using_VML_Declarations_and_Statements___GET_VIEW
+5 INCLUDE=Using_VML_Declarations_and_Statements___INCLUDE
+5 NAME VIEW=Using_VML_Declarations_and_Statements___NAME_VIEW
+5 SET CURSOR=Using_VML_Declarations_and_Statements___SET_CURSOR
+3 Comments
+4 Comments=Comments
+2 VML Declarations Reference
+3 Overview=VML_Declarations_Reference___Overview
+3 ATTRIBUTENAME=ATTRIBUTENAME
+3 CHARACTER=CHARACTER
+3 DECIMAL=DECIMAL
+3 ENTITYNAME=ENTITYNAME
+3 INTEGER=INTEGER
+3 OPERATION=OPERATION
+3 STRING=STRING
+3 VIEW=VIEW
+2 VML Statements Reference
+3 Overview=VML_Statements_Reference___Overview
+3 ACTIVATE=VML_Statements_Reference___ACTIVATE
+3 AND=AND
+3 CASE=CASE
+3 COMMIT=VML_Statements_Reference___COMMIT
+3 CREATE ENTITY=CREATE_ENTITY
+3 DELETE ENTITY=DELETE_ENTITY
+3 END=END
+3 EXCLUDE=VML_Statements_Reference___EXCLUDE
+3 FOR=VML_Statements_Reference___FOR
+3 GET VIEW=VML_Statements_Reference___GET_VIEW
+3 IF=VML_Statements_Reference___IF
+3 INCLUDE=VML_Statements_Reference___INCLUDE
+3 LOOP WHILE=VML_Statements_Reference___LOOP_WHILE
+3 NAME VIEW=VML_Statements_Reference___NAME_VIEW
+3 NOT=NOT
+3 OR=OR
+3 RETURN=RETURN
+3 RESULT=RESULT
+3 SET CURSOR=VML_Statements_Reference___SET_CURSOR
+3 WHERE=WHERE
+2 VML Reserved Keywords and Defines
+3 Keywords=Keywords
+3 Defines=Defines

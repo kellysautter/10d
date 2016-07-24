@@ -1,0 +1,140 @@
+:Base Basics.hlp
+:Title Zeidon Basic's Manual
+:Index Index=ADW_Export.hlp
+:Index Index=Autodesign.hlp
+:Index Index=Glossary.hlp
+:Index Index=Operations_Reference.hlp
+:Index Index=Progref.hlp
+:Index Index=Users.hlp
+:Link ADW_Export.hlp
+:Link Autodesign.hlp
+:Link Glossary.hlp
+:Link Operations_Reference.hlp
+:Link Progref.hlp
+:Link Users.hlp
+1 Basic's Manual
+2 Introduction
+3 Application Development Challange
+4 The Application Development Challenge=The_Application_Development_Challenge
+3 Zeidon Differentiation
+4 Zeidon Differentiation=Zeidon_Differentiation
+3 Zeidon Objects
+4 Introduction - Zeidon Objects=Introduction___Zeidon_Objects
+3 Results
+4 Results=Results
+4 Object Analysis=Object_Analysis
+4 Physical Database Generation=Physical_Database_Generation
+4 Report and Dialog Generation=Report_and_Dialog_Generation
+4 Complex Algorithms=Complex_Algorithms
+4 Long Business Transactions=Long_Business_Transactions
+4 Cascade Deletions and Integrity Rules=Cascade_Deletions_and_Integrity_Rules
+4 Security and Integrity=Security_and_Integrity
+4 Work Flow=Work_Flow
+4 Performance Across Distributed Systems=Performance_Across_Distributed_Systems
+4 Distribution of Applications and Software Components=Distribution_of_Applications_and_Software_Components
+4 Application Maintenance and Testing=Application_Maintenance_and_Testing
+3 Application Development with Zeidon
+4 Application Development with Zeidon=Application_Development_with_Zeidon
+4 The Application Life-Cycle=The_Application_Life_Cycle
+4 Analysis=Analysis
+4 Data Prototyping=Data_Prototyping
+4 Design=Design
+4 Construction=Construction
+3 About Zeidon Basics
+4 About Zeidon Basics=About_Zeidon_Basics
+4 Intended Audience=Intended_Audience
+3 Other Zeidon Documentation
+4 Other Zeidon Documentation=Other_Zeidon_Documentation
+4 On-line Help=On_line_Help
+2 Data Modeling
+3 Overview
+4 Overview=Data_Modeling___Overview
+3 Entities
+4 Entities=Data_Modeling___Entities
+3 Relationships
+4 Relationships=Data_Modeling___Relationships
+4 Cardinalities=Cardinalities
+3 Attributes
+4 Data Modeling - Attributes=Data_Modeling___Attributes
+3 Domains
+4 Domains=Domains
+3 Subject Areas
+4 Subject Areas=Subject_Areas
+3 The Data Modeling Tool
+4 The Data Modeling Tool=The_Data_Modeling_Tool
+2 Zeidon Objects
+3 Overview
+4 Overview=Zeidon_Objects___Overview
+3 Zeidon Object Structure
+4 Zeidon Object Structure=Zeidon_Object_Structure
+3 Entities
+4 Entities=Zeidon_Objects___Entities
+3 Relationships
+4 Relationships=Zeidon_Objects___Relationships
+3 Attributes
+4 Attributes=Zeidon_Objects___Attributes
+3 Object Instances
+4 Object Instances=Object_Instances
+3 Processing Object Instances
+4 Processing Object Instances=Processing_Object_Instances
+4 Activating and Committing Object Instances=Activating_and_Committing_Object_Instances
+4 Empty Object Instances=Empty_Object_Instances
+4 Creating and Deleting Entity Instances=Creating_and_Deleting_Entity_Instances
+4 Setting Entity Instance Attributes=Setting_Entity_Instance_Attributes
+4 Accepting Subobjects=Accepting_Subobjects
+4 Modifying a Cursor Position=Modifying_a_Cursor_Position
+3 Object Behaviors
+4 Object Behaviors=Object_Behaviors
+4 Object Rules=Object_Rules
+4 Derived Attributes=Derived_Attributes
+3 Advanced Object Instance Processing
+4 Advanced Object Instance Processing=Advanced_Object_Instance_Processing
+4 Multiple Views to an Object Instance=Multiple_Views_to_an_Object_Instance
+4 Naming Views=Naming_Views
+4 Read-Only Processing=Read_Only_Processing
+4 Subobjects=Subobjects
+4 Temporal Subobjects=Temporal_Subobjects
+4 Temporal Entities=Temporal_Entities
+4 Accepting and Canceling Subobjects=Accepting_and_Canceling_Subobjects
+3 The Object Tool
+4 The Objects Tool=The_Objects_Tool
+2 Dialogs / Autodesign
+3 Overview
+4 Overview=Dialogs___AutoDesign___Overview
+3 Window Definitions
+4 Window Definitions=Window_Definitions
+4 Window Controls=Window_Controls
+4 Control Data Mapping=Control_Data_Mapping
+4 Registering Views=Registering_Views
+4 Menus and Options=Menus_and_Options
+4 Control Events=Control_Events
+4 Window Actions=Window_Actions
+4 DIL Messages=DIL_Messages
+4 Disabling Actions and Graying Controls/Options=Disabling_Actions_and_Graying_Controls_Options
+4 Modal and Modeless Windows=Modal_and_Modeless_Windows
+3 Autodesigning Dialogs and Windows
+4 Autodesigning Dialogs and Windows=Autodesigning_Dialogs_and_Windows
+4 Autodesign Case Types=Autodesign_Case_Types
+4 Dialog Structure and Content=Dialog_Structure_and_Content
+4 User Interface Specification=User_Interface_Specification
+2 System Overview
+3 Overview
+4 Overview=System_Overview___Overview
+3 Application Components
+4 Application Components=Application_Components
+3 Tools
+4 Tools=Tools
+3 Configuration Management
+4 Configuration Management=Configuration_Management
+4 The Zeidon Repository=The_Zeidon_Repository
+4 Central Project Libraries=Central_Project_Libraries
+4 Central Project Library Releases=Central_Project_Library_Releases
+4 Reusing CPLR's=Reusing_CPLR_s
+4 Migrating to New CPLRs=Migrating_to_New_CPLRs
+4 Local Project Library Releases
+5 Local Project Library Releases=Local_Project_Library_Releases
+5 Checking Out=Checking_Out
+5 Copying Out=Copying_Out
+5 Refresh=Refresh
+3 Zeidon Runtime Environment
+4 Zeidon Runtime Environment=Zeidon_Runtime_Environment

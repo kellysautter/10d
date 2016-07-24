@@ -1,0 +1,316 @@
+a\zdr\ZdCtlCMB.cpp:      // TraceLineI( "ZListCtrl::FormatText DisplaySelectSet: ", m_nDisplaySelSet );
+a\zdr\ZdCtlCMB.cpp:      // TraceLineI( "ZListCtrl::FormatText SelectSelectSet: ", m_nSelectSelSet );
+a\zdr\ZdCtlCMB.cpp:         // TraceLineI( "ZListCtrl::FormatText REL_FIRST failed: ", lRow );
+a\zdr\ZdCtlCMB.cpp:            // TraceLineI( "ZListCtrl::FormatText REL_NEXT failed: ", lRow );
+a\zdr\ZdCtlCMB.cpp:            // TraceLineI( "ZListCtrl::FormatText REL_PREV failed: ",
+a\zdr\ZdCtlGrd.cpp:      TraceLineS( "ZListCtrl::FormatTextAtPosition lbAttribute: ",
+a\zdr\ZdCtlGrd.cpp:      TraceLineS( "ZListCtrl::FormatTextAtPosition Attrib: ",
+a\zdr\ZdCtlGrd.cpp:            TraceLineS( "ZListCtrl::FormatTextAtPosition ", szMsg );
+a\zdr\ZdCtlGrd.cpp:   // TraceLineS( "ZListCtrl::FormatTextAtPosition ", szMsg );
+a\zdr\ZdCtlGrd.cpp:      // TraceLineI( "ZListCtrl::FormatText DisplaySelectSet: ",
+a\zdr\ZdCtlGrd.cpp:      // TraceLineI( "ZListCtrl::FormatText SelectSelectSet: ",
+a\zdr\ZdCtlGrd.cpp:         // TraceLineI( "ZListCtrl::FormatText REL_FIRST failed: ",
+a\zdr\ZdCtlGrd.cpp:            // TraceLineI( "ZListCtrl::FormatText REL_NEXT failed: ",
+a\zdr\ZdCtlGrd.cpp:            // TraceLineI( "ZListCtrl::FormatText REL_PREV failed: ",
+a\zdr\ZdCtlGrd.cpp:      sprintf_s( szMsg, zsizeof( szMsg ), "ZListCtrl::FormatTextAtPosition Tag: %s "
+a\zdr\ZdCtlGrd.cpp:      TraceLineS( "ZListCtrl::FormatText Text: ", pchText );
+a\zdr\ZdCtlLBH.cpp://    Modified ZListCtrl::OnLButtonUp: if Auto Drag Sort and relative
+a\zdr\ZdCtlLBH.cpp://    ZListCtrl::SetRowColText fixed a bug that causes a system crash.
+a\zdr\ZdCtlLBH.cpp:IMPLEMENT_DYNAMIC( ZListCtrl, CListCtrl )
+a\zdr\ZdCtlLBH.cpp:BEGIN_MESSAGE_MAP( ZListCtrl, CListCtrl )
+a\zdr\ZdCtlLBH.cpp:// ZListCtrl - ctor
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::ZListCtrl( ZSubtask *pZSubtask,
+a\zdr\ZdCtlLBH.cpp:// TraceLineX( "ZListCtrl::ctor m_clrText: ", (zLONG) m_clrText );
+a\zdr\ZdCtlLBH.cpp:// TraceLineX( "ZListCtrl::ctor m_clrTextBk: ", (zLONG) m_clrTextBk );
+a\zdr\ZdCtlLBH.cpp:// TraceLineX( "ZListCtrl::ctor m_clrBkgnd: ", (zLONG) m_clrBkgnd );
+a\zdr\ZdCtlLBH.cpp:      TraceLineI( "In ctor for ZListCtrl", (zLONG) this );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl View ", *m_pzsVName );
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl Entity ", *m_pzsEName );
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl Scope ", *m_pzsScope );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::CreateZ( )
+a\zdr\ZdCtlLBH.cpp:      TraceLine( "ZListCtrl::CreateZ: Dlg.Wnd.Ctrl %s.%s.%s",
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::PreCreateWindow( CREATESTRUCT& cs )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::PreCreateWindow DKS: ", *(m_pZSubtask->m_pzsWndTag) );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::PreCreateWindow: ", m_pCol[ 1 ].pchAttrib );
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::PreCreateWindow ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::GetPreferencesFromIni( )
+a\zdr\ZdCtlLBH.cpp:                     sprintf_s( pchMsg, lMsgLth, "ZListCtrl invalid sort order: %s=%s", szBuffer, pchBuffer );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnCreate( LPCREATESTRUCT lpCreateStruct )
+a\zdr\ZdCtlLBH.cpp:      TraceLine( "ZListCtrl::OnCreate: Dlg.Wnd.Ctrl %s.%s.%s",
+a\zdr\ZdCtlLBH.cpp:// TraceLineS( "ZListCtrl::OnCreate SetFontOverride for ListBox: ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:         TraceLineI( "ZListCtrl::OnCreate InsertColumn failed: ", nCol + 1 );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::DestroyWindow( )
+a\zdr\ZdCtlLBH.cpp:      TraceLine( "ZListCtrl::DestroyWindow: Dlg.Wnd.Ctrl %s.%s.%s",
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetColorAttribute( zCPCHAR cpcAttributeName, zSHORT nCol )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetColorAssociation( zLONG   lColumn,
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::RemoveColorAssociations( )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetDisplaySelSet( zSHORT nSelSet )
+a\zdr\ZdCtlLBH.cpp:   TraceLineI( "ZListCtrl::SetDisplaySelSet ", nSelSet );
+a\zdr\ZdCtlLBH.cpp:      TraceLineI( "ZListCtrl::SetDisplaySelSet warning - setting Display select set to Select select set", nSelSet );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetSelectSelSet( zSHORT nSelSet )
+a\zdr\ZdCtlLBH.cpp:   TraceLineI( "ZListCtrl::SetSelectSet", nSelSet );
+a\zdr\ZdCtlLBH.cpp:      TraceLineI( "ZListCtrl::SetDisplaySelSet warning - setting Display select set to Select select set", nSelSet );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetSelectedPosition( zLONG lDisplayPos )
+a\zdr\ZdCtlLBH.cpp:      TraceLineI( "ZListCtrl::SetSelectedPosition", lDisplayPos );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetZCtrlProperty( zLONG   lPropertyType,
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::GetZCtrlProperty( zLONG   lPropertyType,
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetZCtrlState( zLONG  lStatusType,
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::SetZCtrlState ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::SetZCtrlState: ", *(m_pZSubtask->m_pzsWndTag) );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::SetZCtrlState: ", m_pCol[ 1 ].pchAttrib );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::FormatTextAtPosition( zPCHAR pchText,
+a\zdr\ZdCtlLBH.cpp:         TraceLine( "ZListCtrl::FormatTextAtPosition for Control: %s  Row: %d  Col: %d  "
+a\zdr\ZdCtlLBH.cpp:         TraceLine( "ZListCtrl::FormatTextAtPosition ER_AttributeList: %s  Attribute: %s",
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl::FormatTextAtPosition Retry MapFromOI: ", szMsg );
+a\zdr\ZdCtlLBH.cpp:            TraceLineS( "ZListCtrl::FormatTextAtPosition ", szMsg );
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl::FormatTextAtPosition ", szMsg );
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl::FormatTextAtPosition ", szMsg );
+a\zdr\ZdCtlLBH.cpp:      sprintf_s( szMsg, zsizeof( szMsg ), "ZListCtrl::FormatTextAtPosition Tag: %s EntityNbr: %d Row: %ld  Col: %d  MaxLth: %d  VN: %s   DlgTag: %s  WndTag: %s - ",
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::FormatText Text: ", pchText );
+a\zdr\ZdCtlLBH.cpp:   ZListCtrl *pListCtrl = (ZListCtrl *) pvSortData;
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SortByDisplayData( )
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl::SortByDisplayData Unexpected Entity/Attribute condition: ", pchEntity );
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl::SortByDisplayData Unexpected Ascend/Descend condition: ", pchEnd );
+a\zdr\ZdCtlLBH.cpp:            TraceLineS( "ZListCtrl::SortByDisplayData Unexpected Scope condition: ", pchEntity );
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl::SortByDisplayData Unexpected Entity name: ", pchEntity );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::MapFromOI( WPARAM wFlag )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::MapFromOI ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::MapFromOI: ", *(m_pZSubtask->m_pzsWndTag) );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::MapFromOI: ", m_pCol[ 1 ].pchAttrib );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::MapFromOI ViewName ", *m_pzsVName );
+a\zdr\ZdCtlLBH.cpp://    MessageBox( "ZListCtrl::MapFromOI Begin", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp://    TraceLineS( "ZListCtrl::MapFromOI m_vAppList null ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:         TraceLine( "ZListCtrl::MapFromOI Unable to load view: %s for %s.%s.%s",
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::MapFromOI ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::MapFromOI SortBuffer ", m_csSortBuffer );
+a\zdr\ZdCtlLBH.cpp:   // TraceLine( "ZListCtrl::MapFromOI for Control: %s   Sort Buffer: %s   Remember Sort: %s",
+a\zdr\ZdCtlLBH.cpp:   // TraceLineS( "ZListCtrl::MapFromOI ObjectName ", szViewObjectName );
+a\zdr\ZdCtlLBH.cpp:   // TraceLineX( "ZListCtrl::MapFromOI creating m_vAppList ", (zLONG) m_vAppList );
+a\zdr\ZdCtlLBH.cpp:   // DisplayEntityKey( "ZListCtrl::MapFromOI", m_vApp, m_vAppList, m_pCol );
+a\zdr\ZdCtlLBH.cpp:      // DisplayEntityKey( "ZListCtrl::MapFromOI Relative", m_vApp, m_vAppList, m_pCol );
+a\zdr\ZdCtlLBH.cpp:                  TraceLine( "ZListCtrl::MapFromOI ... Refresh of ListBox: %s required?", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:            TraceLineS( "ZListCtrl::MapFromOI ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::MapFromOI term ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:// DisplayEntityKey( "ZListCtrl::MapFromOI term", m_vApp, m_vAppList, m_pCol );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::MapToOI( zLONG lFlag )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::MapToOI DKS: ", *(m_pZSubtask->m_pzsWndTag) );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::MapToOI: ", m_pCol[ 1 ].pchAttrib );
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::MapToOI ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::GetZCtrlState( zLONG lStatusType )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::GetZCtrlState DKS: ", *(m_pZSubtask->m_pzsWndTag) );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::GetZCtrlState: ", m_pCol[ 1 ].pchAttrib );
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::GetZCtrlState", "" );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::AddCol( zCPCHAR cpcText, zLONG lColumn )
+a\zdr\ZdCtlLBH.cpp:         TraceLineI( "ZListCtrl::SetRowColText InsertColumn failed: ", m_nCols );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetRowColText( zCPCHAR cpcText, zLONG lRow, zLONG lColumn )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::SetRowColText DKS: ", *(m_pZSubtask->m_pzsWndTag) );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::SetRowColText: ", m_pCol[ 1 ].pchAttrib );
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::SetRowColText ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:               TraceLineI( "ZListCtrl::SetRowColText DeleteColumn failed: ", m_nCols );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::GetRowColText( zPCHAR pchText, zUSHORT uLth,
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::GetRowColText ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetCtrlMapping( zCPCHAR cpcViewName, zCPCHAR cpcEntity,
+a\zdr\ZdCtlLBH.cpp:                  TraceLineI( "ZListCtrl::SetCtrlMapping DeleteColumn failed: ", m_nCols );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::GetCtrlMapping( zPCHAR pchViewName, zPCHAR pchEntity,
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::HiliteText( zBOOL bHilite,
+a\zdr\ZdCtlLBH.cpp:      TraceLineI( "ZListCtrl::Hilite type ", lType );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SelectAll( )
+a\zdr\ZdCtlLBH.cpp:// TraceLine( "ZListCtrl::SelectAll (Multi=%c): %s", m_chMultiSelect, *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::GetSortOrderForKey( zLONG lKey )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::HiliteAllSelectedEntities( )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::HiliteAllSelectedEntities ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::ProcessCommand( zUSHORT uNotificationCode )
+a\zdr\ZdCtlLBH.cpp:   TraceLineI( "ZListCtrl::ProcessCommand notification ", uNotificationCode );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::HandleQuickKey( zACCEL_DEF ad )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::HandleQuickKey ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp://       TraceLineS( "ZListCtrl::HandleQuickKey setting focus to: ",
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnSetFocus( CWnd *pWndLostFocus )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnSetFocus ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:      // TraceLineI( "ZListCtrl::OnSetFocus nItem: ", nItem );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnKillFocus( CWnd *pWndGetFocus )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnKillFocus", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnEnable( BOOL bEnable )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SelectHilitedEntity( zVIEW  vApp,
+a\zdr\ZdCtlLBH.cpp:   TraceLineI( "ZListCtrl::SelectHilitedEntity nRelIdx ", nRelIdx );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnGetDlgCode( )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnGetDlgCode ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnRButtonDown( UINT uModKeys, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:   TracePoint( "ZListCtrl::OnRButtonDown ", pt );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnRButtonUp( UINT uModKeys, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnRButtonUp ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnRButtonDblClk( UINT uModKeys, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnRButtonDblClk ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnLButtonDown( UINT uModKeys, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:      TracePoint( "ZListCtrl::OnLButtonDown", pt );
+a\zdr\ZdCtlLBH.cpp:   TraceRect( "ZListCtrl::OnLButtonDown rect label:", rect );
+a\zdr\ZdCtlLBH.cpp:   TraceRect( "ZListCtrl::OnLButtonDown rect bounds:", rect );
+a\zdr\ZdCtlLBH.cpp:   TracePoint( "ZListCtrl::OnLButtonDown point:", pt );
+a\zdr\ZdCtlLBH.cpp:// TraceLineX( "ZListCtrl::OnLButtonDown ON ", m_pZSubtask->m_uMouseStatus );
+a\zdr\ZdCtlLBH.cpp:// TraceLineX( "ZListCtrl::OnLButtonDown OFF ", m_pZSubtask->m_uMouseStatus );
+a\zdr\ZdCtlLBH.cpp:// TraceLineX( "ZListCtrl::OnLButtonDown CAPTURE_LEFT? ", m_pZSubtask->m_uMouseStatus );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnLButtonUp( UINT uModKeys, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:   TracePoint( "ZListCtrl::OnLButtonUp", pt );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnLButtonDblClk( UINT uModKeys, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:   TracePoint( "ZListCtrl::OnLButtonDblClk", pt );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnMouseMove( UINT uModKeys, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:   TracePoint( "ZListCtrl::OnMouseMove: ", pt );
+a\zdr\ZdCtlLBH.cpp:// TraceLineS( "ZListCtrl::OnMouseMove", " default" );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::BeginDrag( ZDragDrop *pDragDrop )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::BeginDrag", "" );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::QueryDrop( ZDragDrop *pDragDrop )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::QueryDrop: ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:   TracePoint( "ZListCtrl::QueryDrop ptDrop:", pDragDrop->ptDrop );
+a\zdr\ZdCtlLBH.cpp:// TraceRect( "ZListCtrl::QueryDrop ClientRect:", rect );
+a\zdr\ZdCtlLBH.cpp:// TraceLineI( "ZListCtrl::QueryDrop ItemHeight: ", size.cy );
+a\zdr\ZdCtlLBH.cpp:// TraceLineX( "ZListCtrl::QueryDrop mouse status: ", m_pZSubtask->m_uMouseStatus );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::PreTranslateMessage( MSG *pMsg )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnKeyDown( UINT uChar, UINT uRepCnt, UINT uFlags )
+a\zdr\ZdCtlLBH.cpp:// TraceLine( "ZListCtrl::OnKeyDown Char: %d (%c) Flags: %d", uChar, (int) uChar, uFlags );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnChar( UINT uChar, UINT uRepCnt, UINT uFlags )
+a\zdr\ZdCtlLBH.cpp:// TraceLine( "ZListCtrl::OnChar Char: %d (%c) Flags: %d", uChar, (int) uChar, uFlags );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnEditCopy( )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnEditPaste( )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::WriteRow( CSharedFile& sf, zLONG lMinRow, zLONG lMaxRow,
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::CopyTextFromListbox( )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::PasteTextToListbox( ZCellId cellId, COleDataObject *pDataObject )
+a\zdr\ZdCtlLBH.cpp:// ZListCtrl - dtor
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::~ZListCtrl( )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::dtor", "" );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SortByColumn( zSHORT nCol, zSHORT nAscending )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::SortByColumn ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:// ZListCtrl message handlers
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnColumnClick( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnColumnClick ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnColumnClick ",
+a\zdr\ZdCtlLBH.cpp:// DisplayEntityKey( "ZListCtrl::OnColumnClick",
+a\zdr\ZdCtlLBH.cpp:// DisplayEntityKey( "ZListCtrl::OnColumnClick2",
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnGetDispInfo( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::OnGetDispInfo ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:         TraceLine( "ZListCtrl::OnGetDispInfo for ListBox: %s  Item: %d,%d  Mask %d",
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnSetDispInfo( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::OnSetDispInfo ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnNotify( WPARAM wParam, LPARAM lParam, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::GetColumnCount( ) const
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::AutoSizeColumns( zLONG lCol, zLONG lTgtMinWidth, zLONG lTgtMaxWidth )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnItemChanging( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::OnItemChanging ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:      TraceLineI( "ZListCtrl::OnItemChanging ItemState: ",
+a\zdr\ZdCtlLBH.cpp:         // TraceLineS( "ZListCtrl::OnItemChanging resetting ERROR: ", "" );
+a\zdr\ZdCtlLBH.cpp:         // TraceLineS( "ZListCtrl::OnItemChanging resetting ERROR: ", "" );
+a\zdr\ZdCtlLBH.cpp:// TraceLineS( "ZListCtrl::OnItemChanging ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::CorrelateZeidonSelectToListSelect( )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetLastSelectedZeidonEntity( zSHORT nPrevSelectSet )
+a\zdr\ZdCtlLBH.cpp:      DisplayEntityKey( "ZListCtrl::OnItemChanged",
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnItemChanged( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::OnItemChanged ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:      TraceLineI( "ZListCtrl::OnItemChanged ItemState: ",
+a\zdr\ZdCtlLBH.cpp:   // TraceLineS( "ZListCtrl::OnItemChanged resetting ERROR: ", "" );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnBeginDrag( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnBeginDrag", "" );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnBeginRDrag( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnBeginRDrag", "" );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnItemActivate( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:      TraceLineI( "ZListCtrl::OnItemActivate", pnmv->iItem );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnOdStateChanged( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnOdStateChanged", "" );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnBeginLabelEdit( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:   TraceLineI( "ZListCtrl::OnBeginLabelEdit TextLimit: ",
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnEndLabelEdit( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnEndLabelEdit: ", pItem->pszText );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::AddColumn( zCPCHAR cpcItem,
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::AddColumn: ", cpcItem );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::AddItem( zSHORT  nItem,
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::AddItem: ", cpcItem );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::CheckItem( zSHORT nNewCheckedItem )
+a\zdr\ZdCtlLBH.cpp:   TraceLineI( "ZListCtrl::CheckItem: ", nNewCheckedItem );
+a\zdr\ZdCtlLBH.cpp:// ZListCtrl helpers
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetViewType( DWORD dwViewType )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::GetViewType( )
+a\zdr\ZdCtlLBH.cpp:// ZListCtrl construction/destruction
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::SetFullRowSel( zBOOL bFullRowSel )
+a\zdr\ZdCtlLBH.cpp:   TraceLineI( "ZListCtrl::SetFullRowSel: ", bFullRowSel );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::GetFullRowSel( )
+a\zdr\ZdCtlLBH.cpp:// TraceLineS( "ZListCtrl::GetFullRowSel ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:// ZListCtrl drawing
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::IsItemSelected( zLONG lOffset )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::PrintZCtrl( zBOOL bTest, zCPCHAR cpcTitle, zLONG lFlags,
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::PrintZPage( zLONG  lPageNbr,
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnMeasureItem( int nIdCtl, LPMEASUREITEMSTRUCT lpMIS )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::MeasureItem( LPMEASUREITEMSTRUCT lpMIS )
+a\zdr\ZdCtlLBH.cpp:// TraceLineS( "ZListCtrl::OnCreate SetFontOverride for ListBox: ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:// TraceLineS( "ZListCtrl::MeasureItem for ListBox: ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::DrawItemText( CDC *pDC, ZPairedList *pPairedList,
+a\zdr\ZdCtlLBH.cpp:// TraceRect( "ZListCtrl::DrawItemText rectItem", rectItem );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::DrawItem( LPDRAWITEMSTRUCT lpDIS )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::DrawItem ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:      MessageBox( "ZListCtrl::DrawItem", "overflow detected", MB_OK );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::DrawItem ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl::DrawItem SELECTED: ", szText );
+a\zdr\ZdCtlLBH.cpp:            TraceLineS( "ZListCtrl::DrawItem Should NOT be SELECTED: ", szText );
+a\zdr\ZdCtlLBH.cpp:         TraceLineS( "ZListCtrl::DrawItem NOT selected: ", szText );
+a\zdr\ZdCtlLBH.cpp:            TraceLineS( "ZListCtrl::DrawItem Should BE SELECTED: ", szText );
+a\zdr\ZdCtlLBH.cpp:// TraceRect( "ZListCtrl::DrawItem rectAllLabels", rectAllLabels );
+a\zdr\ZdCtlLBH.cpp:      // TraceRect( "ZListCtrl::DrawItem ImageList", rectItem );
+a\zdr\ZdCtlLBH.cpp:      // TraceRect( "ZListCtrl::DrawItem rectIcon", rectIcon );
+a\zdr\ZdCtlLBH.cpp:   // TraceLineI( "ZListCtrl::DrawItem item# ", nCol );
+a\zdr\ZdCtlLBH.cpp:   // TraceRect( "ZListCtrl::DrawItem rect", rectItem );
+a\zdr\ZdCtlLBH.cpp:   // TraceRect( "ZListCtrl::DrawItem rectLabel", rectLabel );
+a\zdr\ZdCtlLBH.cpp:   // TraceRect( "ZListCtrl::DrawItem rectItem", rectItem );
+a\zdr\ZdCtlLBH.cpp:   // TraceRect( "ZListCtrl::DrawItem rectFocus", rectAllLabels );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::RepaintSelectedItems( )
+a\zdr\ZdCtlLBH.cpp:// ZListCtrl message handlers
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnSetImageList( WPARAM wParam, LPARAM lParam )
+a\zdr\ZdCtlLBH.cpp:   TraceLineS( "ZListCtrl::OnSetImageList ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnSetTextColor( WPARAM wParam, LPARAM lParam )
+a\zdr\ZdCtlLBH.cpp:   TraceLineX( "ZListCtrl::OnSetTextColor m_clrBkgnd: ", (zLONG) m_clrText );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnSetTextBkColor( WPARAM wParam, LPARAM lParam )
+a\zdr\ZdCtlLBH.cpp:   TraceLineX( "ZListCtrl::OnSetTextBkColor m_clrBkgnd: ",
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnSetBkColor( WPARAM wParam, LPARAM lParam )
+a\zdr\ZdCtlLBH.cpp:   TraceLineX( "ZListCtrl::OnSetBkColor m_clrBkgnd: ", (zLONG) m_clrBkgnd );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnSize( UINT uType, int cx, int cy )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::OnSize ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnEraseBkgnd( CDC *pDC )
+a\zdr\ZdCtlLBH.cpp:   // TraceLineS( "ZListCtrl::OnEraseBkgnd DISABLE READONLY: ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:   // TraceLineS( "ZListCtrl::OnEraseBkgnd ENABLED: ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnEraseBkgnd( CDC *pDC )
+a\zdr\ZdCtlLBH.cpp:// TraceLineS( "ZListCtrl::OnEraseBkgnd ENABLED: ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnNcPaint( )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::OnNcPaint: ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:   // TraceLineS( "ZListCtrl::OnNcPaint Updating Composite: ",
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnPaint( )
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::OnPaint Begin: ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:      TraceRect( "ZListCtrl::OnPaint ClientRect: ", rectClient );
+a\zdr\ZdCtlLBH.cpp:      TraceRect( "ZListCtrl::OnPaint WindowRect: ", rectWindow );
+a\zdr\ZdCtlLBH.cpp:            TraceLineS( "ZListCtrl::OnPaint Composite: ",
+a\zdr\ZdCtlLBH.cpp:            TraceRect( "ZListCtrl::OnPaint ClipRect: ", rectClip );
+a\zdr\ZdCtlLBH.cpp:            TraceRect( "ZListCtrl::OnPaint ScreenToClient WindowRect: ", rectWindow );
+a\zdr\ZdCtlLBH.cpp:   // TraceLineS( "ZListCtrl::OnPaint Updating Composite: ",
+a\zdr\ZdCtlLBH.cpp:      // TraceRect( "ZListCtrl::OnPaint ClientRect:", rectClient );
+a\zdr\ZdCtlLBH.cpp:      // TraceRect( "ZListCtrl::OnPaint ClipBox:", rectClip );
+a\zdr\ZdCtlLBH.cpp:      TraceLineS( "ZListCtrl::OnPaint End: ", m_pzsTag->GetString() );
+a\zdr\ZdCtlLBH.cpp:   ZListCtrl *pCtrl = (ZListCtrl *) ::GetWindowLong( hWnd, GWL_USERDATA );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnBeginDrag( LPNMHDR pNMHDR, LRESULT *pResult )
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnButtonUp( CPoint pt )
+a\zdr\ZdCtlLBH.cpp:   TracePoint( "ZListCtrl::OnButtonUp", pt );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnLButtonDown( UINT uModKeys, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:   TracePoint( "ZListCtrl::OnLButtonDown", pt );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnLButtonDblClk( UINT uModKeys, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:   TracePoint( "ZListCtrl::OnLButtonDblClk", pt );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::OnMouseMove( UINT nFlags, CPoint pt )
+a\zdr\ZdCtlLBH.cpp:// TraceLineS( "ZListCtrl::OnMouseMove ", *m_pzsTag );
+a\zdr\ZdCtlLBH.cpp:ZListCtrl::DrawSeparatorLines( )
+a\zdr\ZdCtlLBH.cpp:   return( new ZListCtrl( pZSubtask, pWndParent,
+a\zdr\ZdCtlLBH.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBH.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBH.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBH.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBH.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBH.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBH.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBH.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBH.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBX.cpp:   TraceLineS( "ZListCtrl::SortByColumn ", *m_pzsTag );
+a\zdr\ZdCtlLBX.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlLBX.cpp:      ZListCtrl *pListCtrl = DYNAMIC_DOWNCAST( ZListCtrl, pzma->m_pCtrl );
+a\zdr\ZdCtlO.cpp://    Suport ZListCtrl control type for LB_SetDisplaySelectSet operation.
+a\zdr\ZdCtlSSU.cpp:   TraceLineS( "ZListCtrl::SortByColumn ", *m_pzsTag );

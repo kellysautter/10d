@@ -2591,10 +2591,12 @@ ActivateOI_FromFile( zPVIEW    pvReturnView,
    {
       if ( zstrstr( cpcFileName, "TZCMULWO.POR" ) == 0 )
       {
+/*
          if ( zstrstr( cpcFileName, "KZTRANWO." ) != 0 )
             TraceLineS( "(oi) opening >>>>>>>>>> ", szOpenFileName );
          else
             TraceLineS( "(oi) opening ", szOpenFileName );
+*/
       }
    }
 
@@ -12179,9 +12181,9 @@ EndOfFunction:
 
       if ( zstrcmp( lpViewOD->szName, "TZCMULWO" ) != 0 )
       {
-         sprintf_s( sz, zsizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
-                    (double) (SysGetTickCount( ) - lTickCount) / zTICKS_PER_SECOND );
-         TraceLineS( "(oi) Total time for SfActivateOI_FromStream ", sz );
+        // sprintf_s( sz, zsizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
+        //            (double) (SysGetTickCount( ) - lTickCount) / zTICKS_PER_SECOND );
+        // TraceLineS( "(oi) Total time for SfActivateOI_FromStream ", sz );
       }
    }
 

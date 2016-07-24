@@ -2,11 +2,9 @@
 #include "KZOENGAA.H" 
 #include "TZVMLIP.H" 
 #include "ZDRVROPR.H" 
- 
-#ifdef __cplusplus
 extern "C"
 {
-#endif
+
  
 #include "ZEIDONOP.H"
 
@@ -15190,6 +15188,6 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
 
 
  
-#ifdef __cplusplus
+
 }
-#endif
+

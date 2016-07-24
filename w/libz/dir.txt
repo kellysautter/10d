@@ -1,0 +1,9 @@
+ Volume in drive C is OS
+ Volume Serial Number is 4809-89EF
+
+ Directory of C:\10d\w\libz
+
+07/21/2016  11:39 AM             5,489 tzweb.exp
+07/21/2016  11:39 AM            12,488 tzweb.lib
+               2 File(s)         17,977 bytes
+               0 Dir(s)  813,821,349,888 bytes free

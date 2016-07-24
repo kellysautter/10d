@@ -39,6 +39,9 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+*.VC.opendb 
+*.VC.db
+ZDr.VC.VC.opendb
 
 # Build results
 

@@ -4352,6 +4352,7 @@ UfCompressName( zPCHAR  pchLongName,
    zCHAR   cReplace;
    zSHORT  k, j;
 
+
    //========================================================================
    //
    // 0. remove any leading or trailing white space.
@@ -4363,8 +4364,15 @@ UfCompressName( zPCHAR  pchLongName,
    {
       // Nothing needs to be done here.
    }
-
+/*
+if (lShortNameLth == 30 )
+{
+      TraceLine( "UfCompressName 1 longname: %s shortname: %s shortnamelth %d ",
+                 pchLongName, pchShortName, lShortNameLth );
+}
+*/
    strcpy_s( sz, zsizeof( sz ), pch );
+
 
    // Remove trailing spaces.
    for ( pch = &sz[ zstrlen( sz ) ] - 1; zisspace( *pch ) && pch > sz ; pch-- )
@@ -4443,6 +4451,11 @@ UfCompressName( zPCHAR  pchLongName,
 
       fnRemoveChars( sz, lShortNameLth, pchUnderscoreMode[ 0 ], "_", pchPrevChar, cReplace );
    }
+//if (lShortNameLth == 30 )
+//{
+//      TraceLine( "UfCompressName 2 sz:%s ",
+//                 sz );
+//}
 
    nPhasesDone = 2;
    if ( nPhasesDone >= nPhasesToForce && zstrlen( sz ) <= (zULONG) lShortNameLth )
@@ -4497,9 +4510,18 @@ UfCompressName( zPCHAR  pchLongName,
    //
    //========================================================================
 
+   sz[ lShortNameLth ] = 0;
+
 EndOfFunction:
-   sz[ lShortNameLth - 1 ] = 0;
-   strcpy_s( pchShortName, lShortNameLth, sz );
+   // KJS 07/22/16 - our old code did not do the " - 1" and had the line above sz[ lShortNameLth ] = 0
+   // and the old code had the zstrcpy, not strcpy_s. If we keep the new code, long names, are short a 
+   // character (due to the - 1) but if I don't do the - 1, then strcpy_s fails. So I am for now going
+   // back to our old 10c code for this.
+   //sz[ lShortNameLth - 1 ] = 0;
+//TraceLine( "Ufcompressed before %s", sz);
+   //strcpy_s( pchShortName, lShortNameLth, sz );
+   zstrcpy( pchShortName, sz );
+//TraceLine( "Ufcompressed after");
    return( (zSHORT) zstrlen( pchShortName ) );
 
 }  // UfCompressName

@@ -1,0 +1,1071 @@
+pZeidon    ZEIDON   TZDMXGPO 01/31/00   12:00:00 1.0a
+eDomainGroup 1
+aName      Zeidon10A
+
+eDomain    2
+aZKey      90000028
+aName      AlphaNumeric
+aDesc      Characters 'a-z', 'A-Z', '0-9'
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+aDLL_Name  TZAPDMAA
+aOperName  zdmText
+aDecimalFormat 1234
+
+eContext   3
+aZKey      90000029
+aName      ALPHANUMERIC
+
+eDomain    2
+aZKey      90000007
+aName      Blob
+aDesc      A do nothing domain for blobs
+aDomainType E
+aDataType  B
+aContextRestriction N
+
+eContext   3
+aZKey      90000008
+aName      BLOB
+
+eDomain    2
+aZKey      90000052
+aName      Date
+aDesc      This domain manipulates the date portion of DateTime
+aDomainType A
+aDataType  T
+aDLL_Name  TZAPDMAA
+aOperName  zdmDate
+
+eContext   3
+aZKey      90000053
+aName      Date
+aEditString YYYYmmdd
+
+eContext   3
+aZKey      90000054
+aName      MM/DD/YYYY
+aEditString mm/dd/YYYY
+
+eContext   3
+aZKey      90000055
+aName      MM/DD/YY
+aEditString mm/dd/YY
+
+eContext   3
+aZKey      90000056
+aName      MM-DD-YYYY
+aEditString mm-dd-YYYY
+
+eContext   3
+aZKey      90000057
+aName      MM-DD-YY
+aEditString mm-dd-YY
+
+eContext   3
+aZKey      90000058
+aName      DD.MM.YYYY
+aEditString dd.mm.YYYY
+
+eContext   3
+aZKey      90000059
+aName      DD.MM.YY
+aEditString dd.mm.YY
+
+eContext   3
+aZKey      90000060
+aName      YYJJJ
+aEditString YYjjj
+
+eContext   3
+aZKey      90000061
+aName      YYYYJJJ
+aEditString YYYYjjj
+
+eContext   3
+aZKey      90000062
+aName      MonthDDYYYY
+aEditString Mmmm dd, YYYY
+
+eContext   3
+aZKey      90000063
+aName      DDMonthYYYY
+aEditString dd Mmmm YYYY
+
+eContext   3
+aZKey      90000064
+aName      MonDDYYYY
+aEditString Mmm dd, YYYY
+
+eContext   3
+aZKey      90000065
+aName      DDMonYYYY
+aEditString dd Mmm YYYY
+
+eContext   3
+aZKey      90000066
+aName      MSWindowsLongSetting
+
+eContext   3
+aZKey      90000067
+aName      MSWindowsShortSetting
+aIsDefault Y
+
+eContext   3
+aZKey      90000068
+aName      Day
+
+eContext   3
+aZKey      90000069
+aName      Month
+
+eContext   3
+aZKey      90000070
+aName      Year
+
+eContext   3
+aZKey      90000071
+aName      YYYY
+aEditString YYYY
+
+eContext   3
+aZKey      90000072
+aName      YY
+aEditString YY
+
+eContext   3
+aZKey      90000073
+aName      DayOfWeek
+aEditString Dddd
+
+eContext   3
+aZKey      90000074
+aName      DayOfMonth
+aEditString D
+
+eContext   3
+aZKey      90000075
+aName      DayOfYear
+aEditString jjj
+
+eContext   3
+aZKey      90000076
+aName      WeekOfYear
+
+eContext   3
+aZKey      90000077
+aName      MonthOfYear
+aEditString Mmmm
+
+eDomain    2
+aZKey      90000089
+aName      DateTime
+aDesc      Basic Timestamp Domain
+aDomainType A
+aDataType  T
+aMaxStringLth 20
+aDLL_Name  TZAPDMAA
+aOperName  zdmDateTime
+
+eContext   3
+aZKey      90000090
+aName      DateTime
+aEditString YYYYmmddHHMISS999
+
+eContext   3
+aZKey      90000091
+aName      Date
+aEditString YYYYmmdd
+
+eContext   3
+aZKey      90000092
+aName      Time
+aEditString HHMISS999
+
+eContext   3
+aZKey      90000093
+aName      ListDisplayNumeric
+aEditString YY/MM/DD - HH:MI
+
+eContext   3
+aZKey      90000094
+aName      MM/DD/YYYY
+aEditString mm/dd/YYYY
+
+eContext   3
+aZKey      90000095
+aName      MM/DD/YY
+aEditString mm/dd/YY
+
+eContext   3
+aZKey      90000096
+aName      MM-DD-YYYY
+aEditString mm-dd-YYYY
+
+eContext   3
+aZKey      90000097
+aName      MM-DD-YY
+aEditString mm-dd-YY
+
+eContext   3
+aZKey      90000098
+aName      DD.MM.YYYY
+aEditString dd.mm.YYYY
+
+eContext   3
+aZKey      90000099
+aName      DD.MM.YY
+aEditString dd.mm.YY
+
+eContext   3
+aZKey      90000100
+aName      YYJJJ
+aEditString YYjjj
+
+eContext   3
+aZKey      90000101
+aName      YYYYJJJ
+aEditString YYYYjjj
+
+eContext   3
+aZKey      90000102
+aName      MonthDDYYYY
+aEditString Mmmm dd, YYYY
+
+eContext   3
+aZKey      90000103
+aName      DDMonthYYYY
+aEditString dd Mmmm, YYYY
+
+eContext   3
+aZKey      90000104
+aName      MonDDYYYY
+aEditString Mmm dd, YYYY
+
+eContext   3
+aZKey      90000105
+aName      DDMonYYYY
+aEditString dd Mmm YYYY
+
+eContext   3
+aZKey      90000106
+aName      MSWindowsLongSetting
+
+eContext   3
+aZKey      90000107
+aName      MSWindowsShortSetting
+aIsDefault Y
+
+eContext   3
+aZKey      90000108
+aName      MSWindowsSetting
+
+eContext   3
+aZKey      90000109
+aName      Day
+
+eContext   3
+aZKey      90000110
+aName      Month
+
+eContext   3
+aZKey      90000111
+aName      Year
+
+eContext   3
+aZKey      90000112
+aName      YYYY
+aEditString YYYY
+
+eContext   3
+aZKey      90000113
+aName      YY
+aEditString YY
+
+eContext   3
+aZKey      90000114
+aName      DayOfWeek
+aEditString Dddd
+
+eContext   3
+aZKey      90000115
+aName      DayOfMonth
+aEditString D
+
+eContext   3
+aZKey      90000116
+aName      DayOfYear
+aEditString jjj
+
+eContext   3
+aZKey      90000117
+aName      WeekOfYear
+
+eContext   3
+aZKey      90000118
+aName      MonthOfYear
+aEditString Mmmm
+
+eContext   3
+aZKey      90000119
+aName      HH:MM:SS.S AM
+aEditString HH:MI:SS.9 AM
+
+eContext   3
+aZKey      90000120
+aName      HH:MM:SS.S
+aEditString HH:MI:SS.9
+
+eContext   3
+aZKey      90000121
+aName      Hour
+aEditString HH
+
+eContext   3
+aZKey      90000122
+aName      Minute
+aEditString MI
+
+eContext   3
+aZKey      90000123
+aName      Second
+aEditString SS
+
+eContext   3
+aZKey      90000124
+aName      MM/DD/YYYY HH:MM:SS.S AM
+aEditString mm/dd/YYYY HH:MI:SS.9 AM
+
+eContext   3
+aZKey      90000125
+aName      MM/DD/YYYY HH:MM:SS.S
+aEditString mm/dd/YYYY HH:MI:SS.9
+
+eContext   3
+aZKey      90000126
+aName      DD.MM.YYYY HH:MM:SS
+aEditString dd.mm.YYYY HH:MI:SS
+
+eDomain    2
+aZKey      90000044
+aName      Integer
+aDesc      Integer numbers from -lots to +lots
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aContextRestriction N
+aDLL_Name  TZAPDMAA
+aOperName  zdmInteger
+aDecimalFormat 0
+
+eContext   3
+aZKey      90000045
+aName      INTEGER
+aIsDefault Y
+
+eContext   3
+aZKey      90000046
+aName      Hex
+
+eTableEntry 4
+aZKey      90000047
+
+eDomain    2
+aZKey      90000032
+aName      Text
+aDesc      Any Character String
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+aDLL_Name  TZAPDMAA
+aOperName  zdmText
+
+eContext   3
+aZKey      90000033
+aName      TEXT
+
+eDomain    2
+aZKey      90000078
+aName      Time
+aDomainType A
+aDataType  T
+aDLL_Name  TZAPDMAA
+aOperName  zdmTime
+
+eContext   3
+aZKey      90000079
+aName      Time
+aEditString HHMISS999
+
+eContext   3
+aZKey      90000080
+aName      HH:MM:SS.S AM
+aEditString HH:MI:SS.9 AM
+aIsDefault Y
+
+eContext   3
+aZKey      90000081
+aName      HH:MM:SS.S
+aEditString HH:MI:SS.9
+
+eContext   3
+aZKey      90000082
+aName      MSWindowsSetting
+
+eTableEntry 4
+aZKey      90000083
+
+eContext   3
+aZKey      90000084
+aName      Hour
+aEditString HH
+
+eContext   3
+aZKey      90000085
+aName      Minute
+aEditString MI
+
+eTableEntry 4
+aZKey      90000086
+
+eContext   3
+aZKey      90000087
+aName      Second
+aEditString SS
+
+eTableEntry 4
+aZKey      90000088
+
+eDomain    2
+aZKey      90000014
+aName      Y/N
+aDesc      Yes or No
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      90000015
+aName      Y/N
+aIsDefault Y
+
+eTableEntry 4
+aZKey      90000016
+
+eTableEntry 4
+aZKey      90000017
+aExternalValue Y
+aInternalValue Y
+
+eTableEntry 4
+aZKey      90000018
+aExternalValue N
+aInternalValue N
+
+eContext   3
+aZKey      90000019
+aName      Default
+
+eTableEntry 4
+aZKey      90000020
+
+eTableEntry 4
+aZKey      90000021
+aExternalValue Default
+aInternalValue Y
+
+eTableEntry 4
+aZKey      90000022
+aInternalValue N
+
+eDomain    2
+aZKey      90145848
+aName      MetaName
+aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aDomainType E
+aDataType  S
+aMaxStringLth 8
+
+eContext   3
+aZKey      90145849
+aName      MetaName
+aIsDefault Y
+
+eDomain    2
+aZKey      90000030
+aName      Description
+aDesc      Standard Zeidon Description
+aDomainType E
+aDataType  S
+aMaxStringLth 32000
+aDLL_Name  TZAPDMAA
+aOperName  zdmText
+aOperNumber 10
+
+eContext   3
+aZKey      90000031
+aName      Description
+aIsDefault Y
+
+eDomain    2
+aZKey      90000038
+aName      QSName
+aDesc      QuinSoft Name
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+aDLL_Name  TZAPDMAA
+aOperName  zdmText
+aOperNumber 15
+
+eContext   3
+aZKey      90000039
+aName      QSName
+aIsDefault Y
+
+eDomain    2
+aZKey      90026801
+aName      DragDropType
+aDesc      Defines the Drag/Drop type (source/target?)  of a control
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eContext   3
+aZKey      90026802
+aName      DragDropType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      90026808
+
+eTableEntry 4
+aZKey      90026803
+aExternalValue Drag & Drop Source
+aInternalValue S
+
+eTableEntry 4
+aZKey      90026807
+aExternalValue Drag & Drop Target AND Source
+aInternalValue B
+
+eTableEntry 4
+aZKey      90026804
+aExternalValue Drag & Drop Target
+aInternalValue T
+
+eDomain    2
+aZKey      90258642
+aName      ReportGroupSetType
+aDesc      Type of GroupSet for Report
+aDomainType T
+aDataType  S
+aMaxStringLth 2
+
+eContext   3
+aZKey      90258643
+aName      ReportGroupSetType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      90258648
+
+eTableEntry 4
+aZKey      90258644
+aExternalValue Page Header
+aInternalValue PH
+
+eTableEntry 4
+aZKey      90258645
+aExternalValue Page Footer
+aInternalValue PF
+
+eTableEntry 4
+aZKey      90258647
+aExternalValue Entity
+aInternalValue E
+
+eDomain    2
+aZKey      90258866
+aName      ReportGroupSubType
+aDesc      Subtype of Group for Report
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eContext   3
+aZKey      90258867
+aName      ReportGroupSubType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      90258873
+
+eTableEntry 4
+aZKey      90258868
+aExternalValue All Pages
+aInternalValue 0
+
+eTableEntry 4
+aZKey      90258870
+aExternalValue First Page Only
+aInternalValue 1
+
+eTableEntry 4
+aZKey      90258871
+aExternalValue Starting on Page 2
+aInternalValue 2
+
+eTableEntry 4
+aZKey      90258872
+aExternalValue Last Page Only
+aInternalValue 3
+
+eDomain    2
+aZKey      90145806
+aName      ReportGroupType
+aDesc      Type of Control group for report, Page Header, Group Header, Attribute, etc.
+aDomainType T
+aDataType  S
+aMaxStringLth 2
+
+eContext   3
+aZKey      90145807
+aName      ReportGroupType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      90258865
+
+eTableEntry 4
+aZKey      90145808
+aExternalValue Group Detail
+aInternalValue ga
+
+eTableEntry 4
+aZKey      90145809
+aExternalValue Group Header
+aInternalValue gh
+
+eTableEntry 4
+aZKey      90145810
+aExternalValue Group Footer
+aInternalValue gf
+
+eTableEntry 4
+aZKey      90258863
+aExternalValue Page Header
+aInternalValue ph
+
+eTableEntry 4
+aZKey      90258864
+aExternalValue Page Footer
+aInternalValue pf
+
+eDomain    2
+aZKey      90000014
+aName      Y/N
+aDesc      Yes or No
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      90000015
+aName      Y/N
+aIsDefault Y
+
+eTableEntry 4
+aZKey      90000016
+
+eTableEntry 4
+aZKey      90000017
+aExternalValue Y
+aInternalValue Y
+
+eTableEntry 4
+aZKey      90000018
+aExternalValue N
+aInternalValue N
+
+eDomain    2
+aZKey      1320147
+aName      LOD_EntitySequence
+aDesc      Attribute or Relative Position
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eContext   3
+aZKey      1320148
+aName      LOD_EntitySequence
+
+eTableEntry 4
+aZKey      1320149
+aExternalValue Attribute
+aInternalValue A
+
+eTableEntry 4
+aZKey      1320150
+aExternalValue Relative Pos.
+aInternalValue R
+
+eTableEntry 4
+aZKey      1320151
+aExternalValue - none -
+aInternalValue -
+
+eDomain    2
+aZKey      1320152
+aName      LOD_ParentDeleteBehavior
+aDesc      Delete, Restrict, Exclude
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eContext   3
+aZKey      1320153
+aName      LOD_ParentDeleteBehavior
+
+eTableEntry 4
+aZKey      1320154
+aExternalValue Delete
+aInternalValue D
+
+eTableEntry 4
+aZKey      1320155
+aExternalValue Exclude
+aInternalValue E
+
+eTableEntry 4
+aZKey      1320156
+aExternalValue Restrict
+aInternalValue R
+
+eTableEntry 4
+aZKey      1320157
+aExternalValue - none -
+aInternalValue -
+
+eDomain    2
+aZKey      90000036
+aName      QSNameLJNS
+aDesc      QuinSoft Name - left justified, no spaces
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+aDLL_Name  TZAPDMAA
+aOperName  zdmQSNameLJNS
+aOperNumber 16
+
+eContext   3
+aZKey      90000037
+aName      QSNameLJNS
+aIsDefault Y
+
+eDomain    2
+aZKey      1320095
+aName      DM_DomainType
+aDesc      Type of Zeidon Domain
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction Y
+
+eContext   3
+aZKey      1320096
+aName      DM_DomainType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1320097
+
+eDomain    2
+aZKey      1319867
+aName      DataTypeDomain
+aDesc      Zeidon domain datatypes ( logical )  supported by Core
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1319868
+aName      DataTypeDomain
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1319869
+
+eDomain    2
+aZKey      90000040
+aName      QSFileName
+aDesc      QuinSoft File Name - 32 chars
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+aDLL_Name  TZAPDMAA
+aOperName  zdmText
+aOperNumber 14
+
+eContext   3
+aZKey      90000041
+aName      QSFILENAME
+aIsDefault Y
+
+eDomain    2
+aZKey      1165598
+aName      QSFullPathName
+aDesc      Construct full path expanding embedded environment variables to their value.
+aDomainType E
+aDataType  S
+aMaxStringLth 260
+aContextRestriction N
+aDLL_Name  TZAPDMAA
+aOperName  zdmExpandEnvVar
+
+eContext   3
+aZKey      1165599
+aName      QSFullPathName
+aIsDefault Y
+
+eContext   3
+aZKey      1165601
+aName      TEXT
+
+eDomain    2
+aZKey      1319755
+aName      CM_Type
+aDesc      Meta types for Configuration Management
+aDomainType T
+aDataType  L
+
+eContext   3
+aZKey      1319756
+aName      CM_Type
+
+eTableEntry 4
+aZKey      90152345
+
+eDomain    2
+aZKey      1137330
+aName      WD_CtrlDefVisible
+aDesc      Determines the visibility of  a CtrlDef to the painter or report builder
+aDomainType T
+aDataType  L
+
+eContext   3
+aZKey      1137331
+aName      WD_CtrlDefVisible
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1137336
+
+eTableEntry 4
+aZKey      1137332
+aExternalValue Dialog
+aInternalValue -1
+
+eTableEntry 4
+aZKey      1137333
+aExternalValue Report
+aInternalValue -2
+
+eTableEntry 4
+aZKey      1137334
+aExternalValue Dialog & Report
+aInternalValue 0
+
+eTableEntry 4
+aZKey      1137335
+aExternalValue Deleted
+aInternalValue 1
+
+eContext   3
+aZKey      1137337
+aName      WD_PPE_Visibility
+
+eTableEntry 4
+aZKey      1137341
+
+eTableEntry 4
+aZKey      1137338
+aExternalValue Dialog
+aInternalValue -1
+
+eTableEntry 4
+aZKey      1137339
+aExternalValue Report
+aInternalValue -2
+
+eTableEntry 4
+aZKey      1137340
+aExternalValue Dialog & Report
+aInternalValue 0
+
+eDomain    2
+aZKey      90201051
+aName      LOD_DB_DerivedValue
+aDesc      X - MAX, N - MIN, A - AVG, S - SUM, C - COUNT
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eContext   3
+aZKey      90201052
+aName      LOD_DB_DerivedValue
+aIsDefault Y
+
+eTableEntry 4
+aZKey      90206082
+
+eTableEntry 4
+aZKey      90201053
+aExternalValue MAX
+aInternalValue X
+
+eDomain    2
+aZKey      90441895
+aName      LockingOptions
+aDesc      LOD and Entity Locks
+aDomainType T
+aDataType  L
+aContextRestriction N
+
+eContext   3
+aZKey      90441896
+aName      LockingOptions
+aIsDefault Y
+
+eTableEntry 4
+aZKey      90441943
+
+eDomain    2
+aZKey      1160237
+aName      WD_MapDefType
+aDesc      Mapping definition type for PE defined MapDef
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aContextRestriction N
+
+eContext   3
+aZKey      1160238
+aName      WD_MapDefType
+aIsDefault Y
+
+eTableEntry 4
+aZKey      1160261
+
+eTableEntry 4
+aZKey      1160239
+aExternalValue Entity
+aInternalValue E
+
+eTableEntry 4
+aZKey      1160242
+aExternalValue Scoping Entity
+aInternalValue S
+
+eTableEntry 4
+aZKey      1160240
+aExternalValue Attribute
+aInternalValue A
+
+eTableEntry 4
+aZKey      1160241
+aExternalValue Multiple Attributes
+aInternalValue M
+
+eDomain    2
+aZKey      1178138
+aName      XRA_Tag
+aDesc      Double ^ to ^^and modify & to ^
+aDomainType A
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+aDLL_Name  TZAPDMAA
+aOperName  zdmXRA_Tag
+
+eContext   3
+aZKey      1178139
+aName      XRA_Tag
+aIsDefault Y
+
+eDomain    2
+aZKey      1178141
+aName      XRA_Text
+aDesc      Double ^ to ^^ and modify & to ^
+aDomainType A
+aDataType  S
+aMaxStringLth 254
+aContextRestriction N
+aDLL_Name  TZAPDMAA
+aOperName  zdmXRA_Text
+
+eContext   3
+aZKey      1178142
+aName      XRA_Text
+aIsDefault Y
+
+eDomain    2
+aZKey      90000208
+aName      SironDB_Type
+aDesc      For Siron DB Handler, the physical database type
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+
+eContext   3
+aZKey      90000209
+aName      SironDB_Type
+aIsDefault Y
+
+eTableEntry 4
+aZKey      90000219
+
+eTableEntry 4
+aZKey      90000210
+aExternalValue Oracle
+aInternalValue O
+
+eTableEntry 4
+aZKey      90000211
+aExternalValue Informix
+aInternalValue I
+
+eTableEntry 4
+aZKey      90000212
+aExternalValue DB2
+aInternalValue 2
+
+eTableEntry 4
+aZKey      90000213
+aExternalValue Ingres
+aInternalValue G
+
+eTableEntry 4
+aZKey      90000214
+aExternalValue RDB
+aInternalValue R
+
+eTableEntry 4
+aZKey      90000215
+aExternalValue ODBC
+aInternalValue D
+
+eTableEntry 4
+aZKey      90000216
+aExternalValue Flat File
+aInternalValue F
+

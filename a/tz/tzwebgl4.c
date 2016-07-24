@@ -3,11 +3,10 @@
 #include "TZVMLIP.H" 
 #include "ZDRVROPR.H" 
  
-#ifdef __cplusplus
+ 
 extern "C"
 {
-#endif
- 
+
 #include "ZEIDONOP.H"
 
 //:GLOBAL OPERATION
@@ -9276,7 +9275,5 @@ GenJSPJ_CrteCalendar( zVIEW     vDialog,
 } 
 
 
- 
-#ifdef __cplusplus
-}
-#endif
+ }
+

@@ -1,0 +1,30 @@
+:Base ADW_Export.hlp
+:Title Zeidon ADW Export Manual
+:Index Index=Autodesign.hlp
+:Index Index=Basics.hlp
+:Index Index=Glossary.hlp
+:Index Index=Operations_Reference.hlp
+:Index Index=Progref.hlp
+:Index Index=Users.hlp
+:Link Autodesign.hlp
+:Link Basics.hlp
+:Link Glossary.hlp
+:Link Operations_Reference.hlp
+:Link Progref.hlp
+:Link Users.hlp
+1 ADW Export Manual
+2 About this Manual
+3 About this Manual=ZEI_ADW_About
+2 Introduction
+3 Introduction=Zei_ADW_Intro
+2 Creating the Export Files
+3 Creating the Export Files=ZEI_ADW_Create_ExpFile
+2 Structure of the Export Files
+3 OI.Exp=OI_Exp
+3 AI.Exp=AI_Exp
+3 PI.Exp=PI_Exp
+3 TI.Exp=TI_Exp
+2 Object Type Mapping Between Zeidon ans Cool
+3 Object Type Mapping between Zeidon and Cool=ZEI_ADW_ObjTypeMap
+2 Export Format Object Definitions
+3 Export Format Object Definitions=ZEI_ADW_ObjDef

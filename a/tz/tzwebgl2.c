@@ -3,10 +3,10 @@
 #include "TZVMLIP.H" 
 #include "ZDRVROPR.H" 
  
-#ifdef __cplusplus
+
 extern "C"
 {
-#endif
+
  
 #include "ZEIDONOP.H"
 
@@ -16843,6 +16843,6 @@ GenJSPJ_Action( zVIEW     vDialog,
 
 
  
-#ifdef __cplusplus
+
 }
-#endif
+
