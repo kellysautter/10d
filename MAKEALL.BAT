@@ -52,9 +52,10 @@ quit
 
 :StartBat
 
-where nmake > nul
+where /q nmake
 if errorlevel 1 (
-  echo nmake not found.  Run this in Developer Command prompt or run varsall.bat.
+  echo nmake not found.  Run this in Developer Command prompt or run vcvarsall.bat.
+  echo ^(Look in C:\Program Files ^(x86^)\Microsoft Visual Studio 14.0\^).
   exit /b 1
 )
 
