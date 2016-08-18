@@ -65,8 +65,8 @@ set buildos=win32
 set rootdir=%kzd%:\%kzv%
 set qbat=%rootdir%\utils\bat
 
-where cds.bat > nul
-if %errorlevel% == 0 goto :SkipUtils
+where /q cds.bat
+
 echo Setting up path
 set PATH=%PATH%;%rootdir%\utils\bat;%rootdir%\utils\bin
 echo PATH="%path%"
@@ -79,10 +79,16 @@ if "%1" == "?"   goto :PrintHelp
 if "%1" == "/?"  goto :PrintHelp
 if "%1" == "-?"  goto :PrintHelp
 
-:: Compiler environment vars.
-set INCLUDE=%rootdir%\a\incr;%rootdir%\w\incr
-
+:: Compiler environment vars.  If kzoengaa.h can be found in the include dirs then
+:: we'll assume we've set them all up.
+where /q $include:kzoengaa.h
+if %errorlevel% == 0 goto :SkipCompilerEnvVars
+set INCLUDE=%include%;%rootdir%\a\incr;%rootdir%\w\incr;%rootdir%\a\incz;%rootdir%\w\incz
+set LIB=%lib%;%rootdir%\w\libr;%rootdir%\w\libz
 echo INCLUDE=%include%
+:SkipCompileEnvVars
+
+mkdir %rootdir%\w\oe\debug
 
 set MakeOE=Y
 set MakeTZ=Y
@@ -173,7 +179,7 @@ cd \%kzv%\w\oe
 %callmake%
 
 echo "DONE"
-exit 0
+exit /b 0
 
 :: ==============
 :: Make driver
