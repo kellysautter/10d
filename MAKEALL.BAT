@@ -86,7 +86,7 @@ if %errorlevel% == 0 goto :SkipCompilerEnvVars
 set INCLUDE=%include%;%rootdir%\a\incr;%rootdir%\w\incr;%rootdir%\a\incz;%rootdir%\w\incz
 set LIB=%lib%;%rootdir%\w\libr;%rootdir%\w\libz
 echo INCLUDE=%include%
-:SkipCompileEnvVars
+:SkipCompilerEnvVars
 
 mkdir %rootdir%\w\oe\debug
 

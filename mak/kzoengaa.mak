@@ -113,6 +113,7 @@ core_obj = $(kz_obj)\kzoeapaa.obj \
            $(kz_obj)\kzoevlaa.obj \
            $(kz_obj)\kzoevmaa.obj \
            $(kz_obj)\kzoexmla.obj \
+           $(kz_obj)\hashmap.obj \
 # DGC 11/2/95  Temporarily added for NLS support....
            $(kz_obj)\kzwdlgxo.obj
 
@@ -146,6 +147,7 @@ $(kz_src)\kzoephdr.pch : $(kz_srca)\kzoephdr.c         \
                          {$(kz_inc_concat)}kzoep1aa.h  \
                          {$(kz_inc_concat)}kzoep0aa.h  \
                          {$(kz_inc_concat)}kzoemiaa.h  \
+                         {$(kz_inc_concat)}hashmap.h   \
                          {$(kz_inc_concat)}kzoengaa.hg \
                          {$(kz_inc_concat)}kzoeltaa.hg \
                          $(kz_src)\kzoehdr1.sig
