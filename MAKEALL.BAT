@@ -63,6 +63,7 @@ if "%kzv%" == "" set kzv=10d
 set qpath=%kzd%:\%kzv%\utils\bat
 set buildos=win32
 set rootdir=%kzd%:\%kzv%
+set qbat=%rootdir%\utils\bat
 
 where cds.bat > nul
 if %errorlevel% == 0 goto :SkipUtils
