@@ -1,4 +1,4 @@
-%At98%echo off
+@echo off
 if '%1' == 'DBG' GoTo Debug
 if '%1' == 'dbg' GoTo Debug
 GoTo StartBat
@@ -24,9 +24,6 @@ Programming Notes:
    again so that we quit processing if there was an error.  This allows us to
    stay in the same directory that had the error.
 
-2001.03.22  DGC
-   I had to change the order of compilation.  DBH stuff now needs to go after
-   the driver.
 
 :PrintHelp
 echo.
@@ -54,11 +51,37 @@ echo.
 quit
 
 :StartBat
+
+where nmake > nul
+if errorlevel 1 (
+  echo nmake not found.  Run this in Developer Command prompt or run varsall.bat.
+  exit /b 1
+)
+
+if "%kzd%" == "" set kzd=c
+if "%kzv%" == "" set kzv=10d
+set qpath=%kzd%:\%kzv%\utils\bat
+set buildos=win32
+set rootdir=%kzd%:\%kzv%
+
+where cds.bat > nul
+if %errorlevel% == 0 goto :SkipUtils
+echo Setting up path
+set PATH=%PATH%;%rootdir%\utils\bat;%rootdir%\utils\bin
+echo PATH="%path%"
+
+:SkipUtils
+
 if "%kztt%" == "" set kztt=a
 if "%kzt%" == "" set kzt=w
 if "%1" == "?"   goto :PrintHelp
 if "%1" == "/?"  goto :PrintHelp
 if "%1" == "-?"  goto :PrintHelp
+
+:: Compiler environment vars.
+set INCLUDE=%rootdir%\a\incr;%rootdir%\w\incr
+
+echo INCLUDE=%include%
 
 set MakeOE=Y
 set MakeTZ=Y
@@ -147,6 +170,9 @@ set CFG=zdecimal - Win32 Debug
 cd \%kzv%\w\oe
 %callmake% %kzd%:\%kzv%\mak\kzoengaa.mak %1 %2 %3 %4 %5 %6 %7 %8 %9
 %callmake%
+
+echo "DONE"
+exit 0
 
 :: ==============
 :: Make driver
