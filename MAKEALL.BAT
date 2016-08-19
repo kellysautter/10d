@@ -69,7 +69,7 @@ set qbat=%rootdir%\utils\bat
 where /q cds.bat
 
 echo Setting up path
-set PATH=%PATH%;%rootdir%\utils\bat;%rootdir%\utils\bin
+set PATH=%PATH%;%rootdir%\utils\bat;%rootdir%\utils\bin;%rootdir%\w\bin
 echo PATH="%path%"
 
 :SkipUtils
