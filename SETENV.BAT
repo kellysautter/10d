@@ -23,7 +23,8 @@ set buildos=win32
 set rootdir=%kzd%:\%kzv%
 set qbat=%rootdir%\utils\bat
 set qbin=%rootdir%\utils\bin
-set ZEIDON=%rootdir%\ZApp32
+
+if "%zeidon%" == "" set ZEIDON=%rootdir%\ZApp32
 
 where /q cds.bat
 if %errorlevel% == 0 goto :SkipUtilsPath
