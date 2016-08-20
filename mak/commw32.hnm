@@ -46,7 +46,7 @@ DLLFLAG = /MDd
 CPPFLAG = -D _AFXDLL -FR
 !else
 opt = -Od $(opt)
-linkopt = $(linkopt) /debug /pdbtype:con
+linkopt = $(linkopt) /debug 
 EXEFLAG = /MT
 DLLFLAG = /MD
 CPPFLAG = -D _AFXDLL
