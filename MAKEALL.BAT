@@ -52,43 +52,11 @@ quit
 
 :StartBat
 
-where /q nmake
-if errorlevel 1 (
-  echo nmake not found.  Run this in Developer Command prompt or run vcvarsall.bat.
-  echo ^(Look in C:\Program Files ^(x86^)\Microsoft Visual Studio 14.0\^).
-  exit /b 1
-)
-
-if "%kzd%" == "" set kzd=c
-if "%kzv%" == "" set kzv=10d
-set qpath=%kzd%:\%kzv%\utils\bat
-set buildos=win32
-set rootdir=%kzd%:\%kzv%
-set qbat=%rootdir%\utils\bat
-
-where /q cds.bat
-
-echo Setting up path
-set PATH=%PATH%;%rootdir%\utils\bat;%rootdir%\utils\bin;%rootdir%\w\bin
-echo PATH="%path%"
-
-:SkipUtils
-
-if "%kztt%" == "" set kztt=a
-if "%kzt%" == "" set kzt=w
 if "%1" == "?"   goto :PrintHelp
 if "%1" == "/?"  goto :PrintHelp
 if "%1" == "-?"  goto :PrintHelp
 
-:: Compiler environment vars.  If kzoengaa.h can be found in the include dirs then
-:: we'll assume we've set them all up.
-where /q $include:kzoengaa.h
-if %errorlevel% == 0 goto :SkipCompilerEnvVars
-set INCLUDE=%include%;%rootdir%\a\incr;%rootdir%\w\incr;%rootdir%\a\incz;%rootdir%\w\incz
-set LIB=%lib%;%rootdir%\w\libr;%rootdir%\w\libz
-echo INCLUDE=%include%
-:SkipCompilerEnvVars
-
+call SETENV.BAT
 mkdir %rootdir%\w\oe\debug
 
 set MakeOE=Y

@@ -65,9 +65,7 @@ ALL : \
       $(kz_bin)\kzoengwa.exe  \
       $(kz_bin)\zsimpdir.dll  \
       $(kz_bin)\kzschedt.exe  \
-!if $(debug)
       $(kz_bin)\kzoeclnt.exe  \
-!endif
       $(kz_bin)\zwinsock.dll
 
 # The following used to be on all the .obj's used in creating kzoengaa.dll,
