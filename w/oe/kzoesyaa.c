@@ -10278,7 +10278,11 @@ DllMain( HINSTANCE hDLL, DWORD dwReason, LPVOID lpReserved )
 
             // {2,"KZOEE002 - ZEIDON environment variable not set"},
             SysGetBaseMessage( szMessage, KZOEE002, zsizeof( szMessage ) );
-            SysMessageBox( 0, szlOE_SystemError, szMessage, -1 );
+
+            // We can't use SysMessageBox because it will try to read from
+            // Zeidon INI and will bomb because AnchorBlock isn't set.
+            MessageBox( GetActiveWindow( ), szMessage, szlOE_SystemError,
+                        MB_ICONSTOP | MB_OK | MB_TASKMODAL );
 
             return( 1 );
          }
