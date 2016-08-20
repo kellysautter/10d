@@ -9,20 +9,6 @@ dllspec = $(CL)
 exespec = $(CL)
 !endif
 
-!if "$(BUILDOS)"=="win"
-TARGETS = $(kz_bin)\kzhdbvaa.dll \
-          $(kz_bin)\kzhdbvab.dll \
-          $(kz_obj)\kzhsqlga.obj \
-          $(kz_bin)\kzhsqlsa.dll \
-          $(kz_bin)\kzhsqlsb.dll \
-          $(kz_bin)\kzhsqlmb.dll \
-          $(kz_bin)\kzhsqllb.dll \
-          $(kz_bin)\kzhsqlba.dll \
-          $(kz_bin)\kzhsqlbb.dll \
-          $(kz_bin)\kzhsqldb.dll \
-          $(kz_bin)\kzhgenky.dll
-!else
-
 TARGETS = $(kz_obj)\kzhsqlga.obj \
           $(kz_bin)\kzhgenky.dll
 
@@ -61,8 +47,6 @@ TARGETS = $(TARGETS) $(kz_bin)\kzhsqlmb.dll $(kz_bin)\kzhsqllb.dll
 
 !ifndef NO_DUMMY
 TARGETS = $(TARGETS) $(kz_bin)\kzhsqlxx.dll
-!endif
-
 !endif
 
 DLLFLAG = $(DLLFLAG) -DQUINSOFT
