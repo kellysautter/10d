@@ -146,6 +146,8 @@ set CFG=zdecimal - Win32 Debug
 cd \%kzv%\w\oe
 %callmake% %kzd%:\%kzv%\mak\kzoengaa.mak %1 %2 %3 %4 %5 %6 %7 %8 %9
 %callmake%
+%callmake% %rootdir%\mak\kzoedbha.mak %1 %2
+%callmake%
 
 echo "DONE"
 exit /b 0
