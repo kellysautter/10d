@@ -6697,6 +6697,29 @@ SysGetFileDateTime( zLONG  hFile,
       strcpy_s( pchDateTime, lMaxLth, "???????????????" );
 }
 
+//./ ADD NAME=SysGetEpochTime
+/////////////////////////////////////////////////////////////////////////////
+//
+//   FUNCTION:   SysGetEpochTime
+//
+//   PROTOTYPE:
+//      zLONG  OPERATION
+//      SysGetEpochTime()
+//
+//   RETURNS:    Time since 1970 in seconds.
+//
+//   PURPOSE: Return Posix epoch time.
+//
+/////////////////////////////////////////////////////////////////////////////
+//./ END + 2
+zLONG OPERATION
+SysGetEpochTime()
+{
+   time_t ltime;
+   time( &ltime );
+   return( (zLONG) ltime );
+}
+
 //./ ADD NAME=SysGetDateTime
 /////////////////////////////////////////////////////////////////////////////
 //

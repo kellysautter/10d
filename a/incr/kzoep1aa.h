@@ -530,6 +530,9 @@ SysFreeLibrary( zVIEW lpTaskView, LPLIBRARY hLibrary );
 zLONG OPERATION
 SysFreeMemory( zLONG hMemory );
 
+zLONG OPERATION
+SysGetEpochTime();
+
 void OPERATION
 SysGetDateTime( zPCHAR pchReturnDateTime, zLONG lMaxLth );
 
