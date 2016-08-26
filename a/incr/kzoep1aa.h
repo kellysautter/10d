@@ -600,6 +600,9 @@ SysGetProcessID( zPLONG plThreadID );
 zLONG OPERATION
 SysGetTaskFromView( zVIEW lpView );
 
+zULONG OPERATION
+SysGetRandomLong();
+
 //zLONG OPERATION
 //SetTaskAsTransient( zVIEW vSubtask, zLONG lFlag );
 

@@ -307,13 +307,19 @@ MainWndProc( HWND hWnd,                // window handle
          else
          if ( wParam == 115 )  // ID_TEST
          {
-             zVIEW vLOD_Meta;
-             zCHAR szName[300] = "c:\\10d\\a\\bin\\sys\\Zeidon.LLP";
-             zCHAR szTempFile[300] = "c:\\temp\\meta.LOD";
-             int nRC = ActivateOI_FromFile( &vLOD_Meta, "TZCMLPLO", vSubtask, szName, zSINGLE );
-             nRC = CommitOI_ToFile( vLOD_Meta, szTempFile, zINCREMENTAL );
-             nRC = ActivateOI_FromFile( &vLOD_Meta, "TZCMLPLO", vSubtask, szTempFile, zSINGLE );
-             nRC = CommitOI_ToFile( vLOD_Meta, "c:\\temp\\meta-original.LOD", zUSE_OLD_LINK_CARDS );
+               int i;
+
+               /* Display 10 numbers. */
+               for( i = 0;   i < 10;i++ )
+                  TraceLineI( "  Random =", SysGetRandomLong() );
+
+//             zVIEW vLOD_Meta;
+//             zCHAR szName[300] = "c:\\10d\\a\\bin\\sys\\Zeidon.LLP";
+//             zCHAR szTempFile[300] = "c:\\temp\\meta.LOD";
+//             int nRC = ActivateOI_FromFile( &vLOD_Meta, "TZCMLPLO", vSubtask, szName, zSINGLE );
+//             nRC = CommitOI_ToFile( vLOD_Meta, szTempFile, zINCREMENTAL );
+//             nRC = ActivateOI_FromFile( &vLOD_Meta, "TZCMLPLO", vSubtask, szTempFile, zSINGLE );
+//             nRC = CommitOI_ToFile( vLOD_Meta, "c:\\temp\\meta-original.LOD", zUSE_OLD_LINK_CARDS );
          }
 
          break;
