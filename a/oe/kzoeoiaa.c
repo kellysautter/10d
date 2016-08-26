@@ -6646,7 +6646,7 @@ fnSetEntityInstanceTag( LPENTITYINSTANCE lpEntityInstance )
    if ( lpEntityInstance->szTag[0] != 0 )
       return( 0 );
 
-   sprintf_s( lpEntityInstance->szTag, zsizeof( lpEntityInstance->szTag), "%lx.%lx", (unsigned long) lpEntityInstance, SysGetEpochTime() );
+   sprintf_s( lpEntityInstance->szTag, zsizeof( lpEntityInstance->szTag), "%lx.%lx", SysGetEpochTime(), (unsigned long) lpEntityInstance );
    return 0;
 }
 
