@@ -1,4 +1,4 @@
-%At98%echo off
+@echo off
 if '%1' == 'DBG' GoTo Debug
 if '%1' == 'dbg' GoTo Debug
 GoTo StartBat
@@ -24,9 +24,6 @@ Programming Notes:
    again so that we quit processing if there was an error.  This allows us to
    stay in the same directory that had the error.
 
-2001.03.22  DGC
-   I had to change the order of compilation.  DBH stuff now needs to go after
-   the driver.
 
 :PrintHelp
 echo.
@@ -54,11 +51,13 @@ echo.
 quit
 
 :StartBat
-if "%kztt%" == "" set kztt=a
-if "%kzt%" == "" set kzt=w
+
 if "%1" == "?"   goto :PrintHelp
 if "%1" == "/?"  goto :PrintHelp
 if "%1" == "-?"  goto :PrintHelp
+
+call SETENV.BAT
+mkdir %rootdir%\w\oe\debug
 
 set MakeOE=Y
 set MakeTZ=Y
@@ -147,6 +146,11 @@ set CFG=zdecimal - Win32 Debug
 cd \%kzv%\w\oe
 %callmake% %kzd%:\%kzv%\mak\kzoengaa.mak %1 %2 %3 %4 %5 %6 %7 %8 %9
 %callmake%
+%callmake% %rootdir%\mak\kzoedbha.mak %1 %2
+%callmake%
+
+echo "DONE"
+exit /b 0
 
 :: ==============
 :: Make driver

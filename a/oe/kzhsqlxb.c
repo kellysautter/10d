@@ -92,7 +92,6 @@ the brackets for the DDL-command
 #define  KZSYSSVC_INCL
 #define  KZMETA_INCL
 #include <kzoengaa.h>
-#include <zdrvropr.h>
 #include "kzhsqlxa.h"
 #include <stdio.h>
 #include <ctype.h>
@@ -3838,7 +3837,7 @@ EndOfFunction:
       strcpy_s( szMsg, zsizeof( szMsg ), "File " );
       strcat_s( szMsg, zsizeof( szMsg ), pchFileName );
       strcat_s( szMsg, zsizeof( szMsg ), " is created successfully!" );
-     MB_SetMessage( vSubtask, 0, szMsg );
+      SysMessageBox( vSubtask, "Generate DDL", szMsg, 0 );
    }
    else
    {
