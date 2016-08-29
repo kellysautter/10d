@@ -65,6 +65,9 @@ delerr.bat
 account.*
 carlson.*
 mtznlast.bat
+*.lib
+*.LIB
+*.dll
 *_i.c
 *_p.c
 *.asm

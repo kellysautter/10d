@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO 06/20/16   10:56:58 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO                         08/24/16   08:14:27 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -2036,8 +2036,8 @@ aStatus    1
 aUpdateInd 2
 aName      Zeidon_T
 aDesc      Local Project Library Release 8C
-aLastSyncDate 20160408103419218
-aLastUpdateDate 20160408103419218
+aLastSyncDate 20160824080730472
+aLastUpdateDate 20160824080730472
 
 eW_MetaType 2
 aType      7
@@ -3307,8 +3307,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZWDLGSO
 aDesc      Source Dialog Definition
-aLastSyncDate 20160408102502488
-aLastUpdateDate 20160408102502488
+aLastSyncDate 20160823192013997
+aLastUpdateDate 20160823192013997
 
 eW_MetaDef 3
 aCPLR_ZKey 1326496

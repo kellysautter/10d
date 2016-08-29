@@ -309,25 +309,25 @@ main( int  argc,
       return( 1 );
    }
 
-   _fullpath( szObjectDefFile, argv[ nObjectDef ], zsizeof( szObjectDefFile ) );
+   _fullpath( szObjectDefFile, argv[ nObjectDef ], sizeof( szObjectDefFile ) );
 
    // Get just the base name of the object definition file.
    szObjectDefBase[ 0 ] = 'z';
-   strcpy_s( szObjectDefBase + 1, zsizeof( szObjectDefBase ) - 1, argv[ nObjectDef ] );
+   strcpy_s( szObjectDefBase + 1, sizeof( szObjectDefBase ) - 1, argv[ nObjectDef ] );
    pch = strrchr( szObjectDefBase, '\\' );
    if ( pch )
-      strcpy_s( szObjectDefBase + 1, zsizeof( szObjectDefBase ) - 1, pch + 1 );
+      strcpy_s( szObjectDefBase + 1, sizeof( szObjectDefBase ) - 1, pch + 1 );
 
    pch = strchr( szObjectDefBase, '.' );
    if ( pch )
       *pch = 0;
 
-   _strupr_s( szObjectDefBase + 1, zsizeof( szObjectDefBase ) - 1 );
+   _strupr_s( szObjectDefBase + 1, sizeof( szObjectDefBase ) - 1 );
 
    if ( nEntity )  // entity name switch
    {
-      strcpy_s( szEntityName, zsizeof( szEntityName ), argv[ nEntity ] + 2 );
-      _strupr_s( szEntityName, zsizeof( szEntityName ) );
+      strcpy_s( szEntityName, sizeof( szEntityName ), argv[ nEntity ] + 2 );
+      _strupr_s( szEntityName, sizeof( szEntityName ) );
       if ( strcmp( szEntityName, "ALL" ) == 0 )
          bAllEntities = TRUE;
       else
@@ -335,25 +335,25 @@ main( int  argc,
    }
    else
    {
-      strcpy_s( szEntityName, zsizeof( szEntityName ), "ALL" );
+      strcpy_s( szEntityName, sizeof( szEntityName ), "ALL" );
       bAllEntities = TRUE;
    }
 
    if ( nOutput )  // output file for generated struct
-      strcpy_s( szStructFile, zsizeof( szStructFile ), argv[ nOutput ] + 2 );
+      strcpy_s( szStructFile, sizeof( szStructFile ), argv[ nOutput ] + 2 );
    else
    {
-      strcpy_s( szStructFile, zsizeof( szStructFile ), szEntityName );
-      strcat_s( szStructFile, zsizeof( szStructFile ), ".FIL" );
+      strcpy_s( szStructFile, sizeof( szStructFile ), szEntityName );
+      strcat_s( szStructFile, sizeof( szStructFile ), ".FIL" );
    }
 
-   strcpy_s( szTokenBuffer, zsizeof( szTokenBuffer ), "eENTITY" );
-   strcpy_s( szTokenBuffer + 20, zsizeof( szTokenBuffer ) - 20, "eCHILDENTITY" );
-   strcpy_s( szTokenBuffer + 40, zsizeof( szTokenBuffer ) - 40, "eATTRIB" );
-   strcpy_s( szTokenBuffer + 60, zsizeof( szTokenBuffer ) - 60, "aNAME" );
-   strcpy_s( szTokenBuffer + 80, zsizeof( szTokenBuffer ) - 80, "aLTH" );
-   strcpy_s( szTokenBuffer + 100, zsizeof( szTokenBuffer ) - 100, "aTYPE" );
-   strcpy_s( szTokenBuffer + 120, zsizeof( szTokenBuffer ) - 120, "" );
+   strcpy_s( szTokenBuffer, sizeof( szTokenBuffer ), "eENTITY" );
+   strcpy_s( szTokenBuffer + 20, sizeof( szTokenBuffer ) - 20, "eCHILDENTITY" );
+   strcpy_s( szTokenBuffer + 40, sizeof( szTokenBuffer ) - 40, "eATTRIB" );
+   strcpy_s( szTokenBuffer + 60, sizeof( szTokenBuffer ) - 60, "aNAME" );
+   strcpy_s( szTokenBuffer + 80, sizeof( szTokenBuffer ) - 80, "aLTH" );
+   strcpy_s( szTokenBuffer + 100, sizeof( szTokenBuffer ) - 100, "aTYPE" );
+   strcpy_s( szTokenBuffer + 120, sizeof( szTokenBuffer ) - 120, "" );
 
    nTokenCnt = 6;
 
@@ -381,28 +381,28 @@ main( int  argc,
       pXOD = fnOpenFile( szXOD_File, WRITEFILE );
 
 
-   strcpy_s( szBuffer, zsizeof( szBuffer ), "// " );
-   strcat_s( szBuffer, zsizeof( szBuffer ), argv[ 0 ] );
-   strcat_s( szBuffer, zsizeof( szBuffer ), " build " );
-   strcat_s( szBuffer, zsizeof( szBuffer ), PGM_VERSION );
-   strcat_s( szBuffer, zsizeof( szBuffer ), "\n\n" );
-   _strlwr_s( szBuffer, zsizeof( szBuffer ) );
+   strcpy_s( szBuffer, sizeof( szBuffer ), "// " );
+   strcat_s( szBuffer, sizeof( szBuffer ), argv[ 0 ] );
+   strcat_s( szBuffer, sizeof( szBuffer ), " build " );
+   strcat_s( szBuffer, sizeof( szBuffer ), PGM_VERSION );
+   strcat_s( szBuffer, sizeof( szBuffer ), "\n\n" );
+   _strlwr_s( szBuffer, sizeof( szBuffer ) );
    fputs( szBuffer, pStructFile );
    if ( g_bJava )
    {
    }
    else
    {
-      strcpy_s( szBuffer, zsizeof( szBuffer ), "#ifndef __" );
-      strcat_s( szBuffer, zsizeof( szBuffer ), szObjectDefBase + 1 );
-      strcat_s( szBuffer, zsizeof( szBuffer ), "_hst__  // Sentry, use file only if it's not already included\n" );
-      _strlwr_s( szBuffer, zsizeof( szBuffer ) );
+      strcpy_s( szBuffer, sizeof( szBuffer ), "#ifndef __" );
+      strcat_s( szBuffer, sizeof( szBuffer ), szObjectDefBase + 1 );
+      strcat_s( szBuffer, sizeof( szBuffer ), "_hst__  // Sentry, use file only if it's not already included\n" );
+      _strlwr_s( szBuffer, sizeof( szBuffer ) );
       fputs( szBuffer, pStructFile );
 
-      strcpy_s( szBuffer, zsizeof( szBuffer ), "#define __" );
-      strcat_s( szBuffer, zsizeof( szBuffer ), szObjectDefBase + 1 );
-      strcat_s( szBuffer, zsizeof( szBuffer ), "_hst__\n\n" );
-      _strlwr_s( szBuffer, zsizeof( szBuffer ) );
+      strcpy_s( szBuffer, sizeof( szBuffer ), "#define __" );
+      strcat_s( szBuffer, sizeof( szBuffer ), szObjectDefBase + 1 );
+      strcat_s( szBuffer, sizeof( szBuffer ), "_hst__\n\n" );
+      _strlwr_s( szBuffer, sizeof( szBuffer ) );
       fputs( szBuffer, pStructFile );
 
    // fputs( "// #define DEBUG_LODSTRUCT\n", pStructFile );  always use check byte!
@@ -427,7 +427,7 @@ main( int  argc,
 
       if ( pXOD )
       {
-         strcpy_s( szOrigBuffer, zsizeof( szOrigBuffer ), szBuffer );
+         strcpy_s( szOrigBuffer, sizeof( szOrigBuffer ), szBuffer );
       // cout << szOrigBuffer << endl;
       }
 
@@ -510,11 +510,11 @@ main( int  argc,
                      fnWriteStructRec( "import com.quinsoft.zeidon.EntityCursor;" );
                      fnWriteStructRec( "import com.quinsoft.zeidon.Blob;" );
                      fnWriteStructRec( "" );
-                     strcpy_s( szTempString, zsizeof( szTempString ), "public class " );
-                     strcat_s( szTempString, zsizeof( szTempString ), szEntityName );
-                     strcat_s( szTempString, zsizeof( szTempString ), "Impl implements " );
-                     strcat_s( szTempString, zsizeof( szTempString ), szEntityName );
-                     strcat_s( szTempString, zsizeof( szTempString ), "" );
+                     strcpy_s( szTempString, sizeof( szTempString ), "public class " );
+                     strcat_s( szTempString, sizeof( szTempString ), szEntityName );
+                     strcat_s( szTempString, sizeof( szTempString ), "Impl implements " );
+                     strcat_s( szTempString, sizeof( szTempString ), szEntityName );
+                     strcat_s( szTempString, sizeof( szTempString ), "" );
                      fnWriteStructRec( szTempString );
                      fnWriteStructRec( "{" );
                   // fnWriteStructRec( "   protected static final int zCALL_ERROR = -16;" );
@@ -522,19 +522,19 @@ main( int  argc,
                   }
                   else
                   {
-                     strcpy_s( szTempString, zsizeof( szTempString ), "typedef struct tag" );
-                     strcpy_s( szObjectEntityDef, zsizeof( szObjectEntityDef ), szObjectDefBase );
-                     strcat_s( szObjectEntityDef, zsizeof( szObjectEntityDef ), "_" );
-                     strcat_s( szObjectEntityDef, zsizeof( szObjectEntityDef ), szEntityName );
-                     strcat_s( szObjectEntityDef, zsizeof( szObjectEntityDef ), "_DEF" );
-                     strcat_s( szTempString, zsizeof( szTempString ), szObjectEntityDef );
+                     strcpy_s( szTempString, sizeof( szTempString ), "typedef struct tag" );
+                     strcpy_s( szObjectEntityDef, sizeof( szObjectEntityDef ), szObjectDefBase );
+                     strcat_s( szObjectEntityDef, sizeof( szObjectEntityDef ), "_" );
+                     strcat_s( szObjectEntityDef, sizeof( szObjectEntityDef ), szEntityName );
+                     strcat_s( szObjectEntityDef, sizeof( szObjectEntityDef ), "_DEF" );
+                     strcat_s( szTempString, sizeof( szTempString ), szObjectEntityDef );
                      fnWriteStructRec( szTempString );
-                     strcpy_s( szTempString, zsizeof( szTempString ), "{" );
+                     strcpy_s( szTempString, sizeof( szTempString ), "{" );
                      fnWriteStructRec( szTempString );
                   }
                   if ( bStructSize )
                   {
-                     strcpy_s( szTempString, zsizeof( szTempString ), "zLONG lStructSize;\n" );
+                     strcpy_s( szTempString, sizeof( szTempString ), "zLONG lStructSize;\n" );
                      fnWriteStructRec( szTempString );
                   }
 
@@ -565,7 +565,7 @@ main( int  argc,
                pchToken = strtok_s( szBuffer + 6, TOKEN_DELIMITERS, &pchNextToken );
                if ( bAllEntities )
                {
-                  strcpy_s( szEntityName, zsizeof( szEntityName ), pchToken );
+                  strcpy_s( szEntityName, sizeof( szEntityName ), pchToken );
                   nEntity = ENTITY_FOUND;
                   if ( pXOD )
                   {
@@ -590,7 +590,7 @@ main( int  argc,
                zPCHAR pchNextToken = NULL;
 
                pchToken = strtok_s( szBuffer + 6, TOKEN_DELIMITERS, &pchNextToken );
-               strcpy_s( szAttributeName, zsizeof( szAttributeName ), pchToken );
+               strcpy_s( szAttributeName, sizeof( szAttributeName ), pchToken );
 #ifdef DEBUG2
                if ( strcmp( szAttributeName, "SB_ActionDisabling" ) == 0 )
                   bDebug = TRUE;
@@ -620,8 +620,8 @@ main( int  argc,
                pchToken = strtok_s( szBuffer + 5, TOKEN_DELIMITERS, &pchNextToken );
                nLth = atoi( pchToken ) + 1;
 
-               if ( nAlign && (nLth % zsizeof( void * )) )
-                  nLth += zsizeof( void * ) - (nLth % zsizeof( void * ));
+               if ( nAlign && (nLth % sizeof( void * )) )
+                  nLth += sizeof( void * ) - (nLth % sizeof( void * ));
             }
 
             break;
@@ -704,10 +704,10 @@ main( int  argc,
       }
       else
       {
-         strcpy_s( szBuffer, zsizeof( szBuffer ), "#endif  // #define __" );
-         strcat_s( szBuffer, zsizeof( szBuffer ), szObjectDefBase + 1 );
-         strcat_s( szBuffer, zsizeof( szBuffer ), "_hst__\n" );
-         _strlwr_s( szBuffer, zsizeof( szBuffer ) );
+         strcpy_s( szBuffer, sizeof( szBuffer ), "#endif  // #define __" );
+         strcat_s( szBuffer, sizeof( szBuffer ), szObjectDefBase + 1 );
+         strcat_s( szBuffer, sizeof( szBuffer ), "_hst__\n" );
+         _strlwr_s( szBuffer, sizeof( szBuffer ) );
          fputs( szBuffer, pStructFile );
          fclose( pStructFile );
       }
@@ -734,29 +734,29 @@ fnWriteEntity( char *szObjectEntityDef )
    }
    else
    {
-   // strcpy_s( szTempString, zsizeof( szTempString ), "#ifdef DEBUG_LODSTRUCT" ); always use check byte!
+   // strcpy_s( szTempString, sizeof( szTempString ), "#ifdef DEBUG_LODSTRUCT" ); always use check byte!
    // fnWriteStructRec( szTempString );
-      strcpy_s( szTempString, zsizeof( szTempString ), "unsigned char CheckByte;" );
+      strcpy_s( szTempString, sizeof( szTempString ), "unsigned char CheckByte;" );
       fnWriteStructRec( szTempString );
-   // strcpy_s( szTempString, zsizeof( szTempString ), "#endif" );
+   // strcpy_s( szTempString, sizeof( szTempString ), "#endif" );
    // fnWriteStructRec( szTempString );
       szTempString[ 0 ] = 0;
       fnWriteStructRec( szTempString );
 
-      strcpy_s( szTempString, zsizeof( szTempString ), "} " );
-      strcat_s( szTempString, zsizeof( szTempString ), szObjectEntityDef );
-      strcat_s( szTempString, zsizeof( szTempString ), ";" );
+      strcpy_s( szTempString, sizeof( szTempString ), "} " );
+      strcat_s( szTempString, sizeof( szTempString ), szObjectEntityDef );
+      strcat_s( szTempString, sizeof( szTempString ), ";" );
       fnWriteStructRec( szTempString );
 
       if ( bTypedef )
       {
          szTempString[ 0 ] = 0;
          fnWriteStructRec( szTempString );
-         strcpy_s( szTempString, zsizeof( szTempString ), "typedef " );
-         strcat_s( szTempString, zsizeof( szTempString ), szObjectEntityDef );
-         strcat_s( szTempString, zsizeof( szTempString ), " *p" );
-         strcat_s( szTempString, zsizeof( szTempString ), szObjectEntityDef );
-         strcat_s( szTempString, zsizeof( szTempString ), ";" );
+         strcpy_s( szTempString, sizeof( szTempString ), "typedef " );
+         strcat_s( szTempString, sizeof( szTempString ), szObjectEntityDef );
+         strcat_s( szTempString, sizeof( szTempString ), " *p" );
+         strcat_s( szTempString, sizeof( szTempString ), szObjectEntityDef );
+         strcat_s( szTempString, sizeof( szTempString ), ";" );
          fnWriteStructRec( szTempString );
       }
    }
@@ -784,38 +784,38 @@ fnWriteAttribute( char  chType,
 
    if ( g_bJava )
    {
-      strcpy_s( szTempString, zsizeof( szTempString ), "  protected " );
+      strcpy_s( szTempString, sizeof( szTempString ), "  protected " );
       switch( chType )
       {
          case TYPE_LONG:
-              strcat_s( szTempString, zsizeof( szTempString ), "Integer " );
+              strcat_s( szTempString, sizeof( szTempString ), "Integer " );
               break;
 
          case TYPE_INTEGER:
-              strcat_s( szTempString, zsizeof( szTempString ), "Integer " );
+              strcat_s( szTempString, sizeof( szTempString ), "Integer " );
               break;
 
          case TYPE_CHAR:
-              strcat_s( szTempString, zsizeof( szTempString ), "String " );
+              strcat_s( szTempString, sizeof( szTempString ), "String " );
               break;
 
          case TYPE_DECIMAL:
-              strcat_s( szTempString, zsizeof( szTempString ), "double " );
+              strcat_s( szTempString, sizeof( szTempString ), "double " );
               break;
 
          case TYPE_BLOB:
-              strcat_s( szTempString, zsizeof( szTempString ), "Blob   " );
+              strcat_s( szTempString, sizeof( szTempString ), "Blob   " );
               break;
 
          case TYPE_STRING:
          default:
-              strcat_s( szTempString, zsizeof( szTempString ), "String " );
+              strcat_s( szTempString, sizeof( szTempString ), "String " );
               break;
       }
 
       g_pListAttributeType->Add( pchAttributeName, szTempString + 13 );
-      strcat_s( szTempString, zsizeof( szTempString ), pchAttributeName );
-      strcat_s( szTempString, zsizeof( szTempString ), ";" );
+      strcat_s( szTempString, sizeof( szTempString ), pchAttributeName );
+      strcat_s( szTempString, sizeof( szTempString ), ";" );
    }
    else
    {
@@ -823,41 +823,41 @@ fnWriteAttribute( char  chType,
       {
          case TYPE_BLOB:
          case TYPE_LONG:
-              strcpy_s( szTempString, zsizeof( szTempString ), "  zLONG " );
-              strcat_s( szTempString, zsizeof( szTempString ), pchAttributeName );
-              strcat_s( szTempString, zsizeof( szTempString ), ";" );
+              strcpy_s( szTempString, sizeof( szTempString ), "  zLONG " );
+              strcat_s( szTempString, sizeof( szTempString ), pchAttributeName );
+              strcat_s( szTempString, sizeof( szTempString ), ";" );
 
               break;
 
          case TYPE_INTEGER:
-              strcpy_s( szTempString, zsizeof( szTempString ), "  zINT  " );
-              strcat_s( szTempString, zsizeof( szTempString ), pchAttributeName );
-              strcat_s( szTempString, zsizeof( szTempString ), ";" );
+              strcpy_s( szTempString, sizeof( szTempString ), "  zINT  " );
+              strcat_s( szTempString, sizeof( szTempString ), pchAttributeName );
+              strcat_s( szTempString, sizeof( szTempString ), ";" );
 
               break;
 
          case TYPE_CHAR:
-              strcpy_s( szTempString, zsizeof( szTempString ), "  zCHAR " );
-              strcat_s( szTempString, zsizeof( szTempString ), pchAttributeName );
-              strcat_s( szTempString, zsizeof( szTempString ), ";" );
+              strcpy_s( szTempString, sizeof( szTempString ), "  zCHAR " );
+              strcat_s( szTempString, sizeof( szTempString ), pchAttributeName );
+              strcat_s( szTempString, sizeof( szTempString ), ";" );
 
               break;
 
          case TYPE_DECIMAL:
-              strcpy_s( szTempString, zsizeof( szTempString ), "  zDOUBLE " );
-              strcat_s( szTempString, zsizeof( szTempString ), pchAttributeName );
-              strcat_s( szTempString, zsizeof( szTempString ), ";" );
+              strcpy_s( szTempString, sizeof( szTempString ), "  zDOUBLE " );
+              strcat_s( szTempString, sizeof( szTempString ), pchAttributeName );
+              strcat_s( szTempString, sizeof( szTempString ), ";" );
 
               break;
 
          case TYPE_STRING:
          default:
-              strcpy_s( szTempString, zsizeof( szTempString ), "  zCHAR " );
-              strcat_s( szTempString, zsizeof( szTempString ), pchAttributeName );
-              strcat_s( szTempString, zsizeof( szTempString ), "[ " );
+              strcpy_s( szTempString, sizeof( szTempString ), "  zCHAR " );
+              strcat_s( szTempString, sizeof( szTempString ), pchAttributeName );
+              strcat_s( szTempString, sizeof( szTempString ), "[ " );
               int k = strlen( szTempString );
-              _itoa_s( nLth, szTempString + k, zsizeof( szTempString ) - k, 10 );
-              strcat_s( szTempString, zsizeof( szTempString ), " ];" );
+              _itoa_s( nLth, szTempString + k, sizeof( szTempString ) - k, 10 );
+              strcat_s( szTempString, sizeof( szTempString ), " ];" );
               break;
       }
    }
@@ -980,7 +980,7 @@ CLinkAttributeType::~CLinkAttributeType( )
 
 CSListAttributeType::CSListAttributeType( zCPCHAR cpcEntityName )
 {
-   strcpy_s( m_szEntityName, zsizeof( m_szEntityName ), cpcEntityName );
+   strcpy_s( m_szEntityName, sizeof( m_szEntityName ), cpcEntityName );
    m_pHead = 0;
    m_pTail = 0;
    m_lCnt = 0;
@@ -1040,14 +1040,14 @@ fnFinishUpJavaEntity( )
    CLinkAttributeType *pItem = g_pListAttributeType->GetFirstLink( );
 
    fnWriteStructRec( "   // ctor" );
-   strcpy_s( szTempString, zsizeof( szTempString ), "  protected " );
-   strcat_s( szTempString, zsizeof( szTempString ), g_pListAttributeType->GetEntityName( ) );
-   strcat_s( szTempString, zsizeof( szTempString ), "Impl( EntityCursor cursor )" );
+   strcpy_s( szTempString, sizeof( szTempString ), "  protected " );
+   strcat_s( szTempString, sizeof( szTempString ), g_pListAttributeType->GetEntityName( ) );
+   strcat_s( szTempString, sizeof( szTempString ), "Impl( EntityCursor cursor )" );
    fnWriteStructRec( szTempString );
    fnWriteStructRec( "   {" );
-   strcpy_s( szTempString, zsizeof( szTempString ), "     load" );
-   strcat_s( szTempString, zsizeof( szTempString ), g_pListAttributeType->GetEntityName( ) );
-   strcat_s( szTempString, zsizeof( szTempString ), "EntityStructure( cursor );" );
+   strcpy_s( szTempString, sizeof( szTempString ), "     load" );
+   strcat_s( szTempString, sizeof( szTempString ), g_pListAttributeType->GetEntityName( ) );
+   strcat_s( szTempString, sizeof( szTempString ), "EntityStructure( cursor );" );
    fnWriteStructRec( szTempString );
    fnWriteStructRec( "   }" );
 
@@ -1055,47 +1055,47 @@ fnFinishUpJavaEntity( )
    while ( pItem )
    {
       fnWriteStructRec( "   /**" );     
-      strcpy_s( szTempString, zsizeof( szTempString ), "   * @return the " );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
+      strcpy_s( szTempString, sizeof( szTempString ), "   * @return the " );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
       fnWriteStructRec( szTempString );
       fnWriteStructRec( "    */" );
-      strcpy_s( szTempString, zsizeof( szTempString ), "  public " );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchType );
-      strcat_s( szTempString, zsizeof( szTempString ), " get" );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-      strcat_s( szTempString, zsizeof( szTempString ), "( )\n  {" );
+      strcpy_s( szTempString, sizeof( szTempString ), "  public " );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchType );
+      strcat_s( szTempString, sizeof( szTempString ), " get" );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+      strcat_s( szTempString, sizeof( szTempString ), "( )\n  {" );
       fnWriteStructRec( szTempString );
 
-      strcpy_s( szTempString, zsizeof( szTempString ), "     return " );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-      strcat_s( szTempString, zsizeof( szTempString ), ";" );
+      strcpy_s( szTempString, sizeof( szTempString ), "     return " );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+      strcat_s( szTempString, sizeof( szTempString ), ";" );
       fnWriteStructRec( szTempString );
 
       fnWriteStructRec( "   }" );
       fnWriteStructRec( "" );
       fnWriteStructRec( "   /**" );
-      strcpy_s( szTempString, zsizeof( szTempString ), "   * @param " );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-//    strcat_s( szTempString, zsizeof( szTempString ), " the " );
-//    strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-      strcat_s( szTempString, zsizeof( szTempString ), " to set " );
+      strcpy_s( szTempString, sizeof( szTempString ), "   * @param " );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+//    strcat_s( szTempString, sizeof( szTempString ), " the " );
+//    strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+      strcat_s( szTempString, sizeof( szTempString ), " to set " );
       fnWriteStructRec( szTempString );
       fnWriteStructRec( "    */" );
 
-      strcpy_s( szTempString, zsizeof( szTempString ), "  public void set" );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-      strcat_s( szTempString, zsizeof( szTempString ), "( " );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchType );
-      strcat_s( szTempString, zsizeof( szTempString ), " " );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-      strcat_s( szTempString, zsizeof( szTempString ), " )\n  {" );
+      strcpy_s( szTempString, sizeof( szTempString ), "  public void set" );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+      strcat_s( szTempString, sizeof( szTempString ), "( " );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchType );
+      strcat_s( szTempString, sizeof( szTempString ), " " );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+      strcat_s( szTempString, sizeof( szTempString ), " )\n  {" );
       fnWriteStructRec( szTempString );
 
-      strcpy_s( szTempString, zsizeof( szTempString ), "     this." );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-      strcat_s( szTempString, zsizeof( szTempString ), " = " );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-      strcat_s( szTempString, zsizeof( szTempString ), ";" );
+      strcpy_s( szTempString, sizeof( szTempString ), "     this." );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+      strcat_s( szTempString, sizeof( szTempString ), " = " );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+      strcat_s( szTempString, sizeof( szTempString ), ";" );
       fnWriteStructRec( szTempString );
       fnWriteStructRec( "   }" );
       fnWriteStructRec( "" );
@@ -1103,7 +1103,7 @@ fnFinishUpJavaEntity( )
       pItem = pItem->m_pNext;
    }
 
-   strcpy_s( szTempString, zsizeof( szTempString ), "  public int load" );
+   strcpy_s( szTempString, sizeof( szTempString ), "  public int load" );
    strcat_s( szTempString, g_pListAttributeType->GetEntityName( ) );
    strcat_s( szTempString, "EntityStructure( EntityCursor cursor )" );
    fnWriteStructRec( szTempString );
@@ -1113,30 +1113,30 @@ fnFinishUpJavaEntity( )
    {
       // Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
       // Tag = cursor.getStringFromAttribute( "Tag.cursor( " );  if ( Tag == null ) Tag = "";
-      strcpy_s( szTempString, zsizeof( szTempString ), "     " );
-      strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-      strcat_s( szTempString, zsizeof( szTempString ), " = cursor.get" );
+      strcpy_s( szTempString, sizeof( szTempString ), "     " );
+      strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+      strcat_s( szTempString, sizeof( szTempString ), " = cursor.get" );
       if ( pItem->m_pchType[ 0 ] == 'S' || pItem->m_pchType[ 0 ] == 'I' )
       {
-         strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchType );
-         strcat_s( szTempString, zsizeof( szTempString ), "FromAttribute( \"" );
-         strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-         strcat_s( szTempString, zsizeof( szTempString ), "\" ); if ( " );
-         strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-         strcat_s( szTempString, zsizeof( szTempString ), " == null ) " );
-         strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
+         strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchType );
+         strcat_s( szTempString, sizeof( szTempString ), "FromAttribute( \"" );
+         strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+         strcat_s( szTempString, sizeof( szTempString ), "\" ); if ( " );
+         strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+         strcat_s( szTempString, sizeof( szTempString ), " == null ) " );
+         strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
          if ( pItem->m_pchType[ 0 ] == 'S' )
-            strcat_s( szTempString, zsizeof( szTempString ), " = \"\";" );
+            strcat_s( szTempString, sizeof( szTempString ), " = \"\";" );
          else
-            strcat_s( szTempString, zsizeof( szTempString ), " = 0;" );
+            strcat_s( szTempString, sizeof( szTempString ), " = 0;" );
       }
       else
       {
-         strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchType[ 0 ] == 'B' ? "Blob" :
+         strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchType[ 0 ] == 'B' ? "Blob" :
                                                          pItem->m_pchType[ 0 ] == 'd' ? "Decimal" : "Unknown" ); 
-         strcat_s( szTempString, zsizeof( szTempString ), "FromAttribute( \"" );
-         strcat_s( szTempString, zsizeof( szTempString ), pItem->m_pchAttribute );
-         strcat_s( szTempString, zsizeof( szTempString ), "\" );" );
+         strcat_s( szTempString, sizeof( szTempString ), "FromAttribute( \"" );
+         strcat_s( szTempString, sizeof( szTempString ), pItem->m_pchAttribute );
+         strcat_s( szTempString, sizeof( szTempString ), "\" );" );
       }
 
       fnWriteStructRec( szTempString );
