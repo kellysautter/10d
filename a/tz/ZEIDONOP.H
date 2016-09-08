@@ -39,7 +39,7 @@ zgGetZeidonToolsDir( zVIEW  vSubtask,
 
 // DGC 10/17/95 -----------------------------------------------------------
 
-//start TZWDLGSO 2016.04.08 10:34:11
+//start TZWDLGSO 2016.08.23 11:14:31
 zOPER_EXPORT zSHORT OPERATION
 oTZWDLGSO_ConvertListBoxToGrid( zVIEW vViewToInstance0 );
 
@@ -143,7 +143,7 @@ oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW vViewToInstance0,
                                  zPCHAR pchszWriteBuffer2 );
 
 //end
-//start TZWDGRWO 2016.04.08 10:34:10
+//start TZWDGRWO 2016.08.23 10:53:36
 zOPER_EXPORT zSHORT OPERATION
 oTZWDGRWO_ArcActionWindow( zVIEW vV10,
                            zVIEW vV21,
@@ -184,7 +184,7 @@ oTZWDGRWO_ReInit( zVIEW vV10,
                   zVIEW vV21 );
 
 //end
-//start TZTENVRO 2016.04.08 10:34:09
+//start TZTENVRO 2016.08.23 10:53:35
 zOPER_EXPORT zSHORT OPERATION
 oTZTENVRO_SyncTablRecKey( zVIEW vvDTE0,
                           zVIEW vvERD1,
@@ -226,7 +226,7 @@ oTZTENVRO_Accept_FieldDataRelKey( zVIEW vViewtoInstance0,
                                   zSHORT nState3 );
 
 //end
-//start TZOGSRCO 2016.04.08 10:34:05
+//start TZOGSRCO 2016.08.23 10:53:32
 zOPER_EXPORT zSHORT OPERATION
 oTZOGSRCO_GlobalOperGrpMigrate( zVIEW vViewToInstance0,
                                 zPCHAR pchSourceGlobalOperGrou1,
@@ -243,7 +243,7 @@ zOPER_EXPORT zSHORT OPERATION
 oTZOGSRCO_GenerateXOG( zVIEW vViewToInstance0 );
 
 //end
-//start TZERSASO 2016.04.08 10:34:05
+//start TZERSASO 2016.08.23 10:53:31
 zOPER_EXPORT zSHORT OPERATION
 oTZERSASO_SA_Migrate( zPVIEW vViewToInstance0,
                       zPCHAR pchSourceSAMetaName1,
@@ -262,7 +262,7 @@ oTZERSASO_SA_RelinkDelete( zVIEW vViewToInstance0,
                            zVIEW vSubtask1 );
 
 //end
-//start TZDGSRCO 2016.04.08 10:34:03
+//start TZDGSRCO 2016.08.23 10:53:30
 zOPER_EXPORT zSHORT OPERATION
 oTZDGSRCO_DomainMigrate( zVIEW vViewToInstance0,
                          zPCHAR pchSourceDomainMetaName1,
@@ -298,14 +298,14 @@ zOPER_EXPORT zSHORT OPERATION
 oTZDMSRCO_CheckDomainType( zVIEW vViewToInstance0 );
 
 //end
-//start TZCMREPO 2016.04.08 10:34:01
+//start TZCMREPO 2016.08.23 10:53:28
 zOPER_EXPORT zSHORT OPERATION
 oTZCMREPO_ObjectConstraints( zVIEW vViewtoInstance0,
                              zSHORT nEvent1,
                              zSHORT nState2 );
 
 //end
-//start TZADCSDO 2016.04.08 10:33:56
+//start TZADCSDO 2016.08.23 10:53:25
 zOPER_EXPORT zSHORT OPERATION
 oTZADCSDO_DS_RelinkDelete( zVIEW vViewToInstance0,
                            zVIEW vSubtask1 );
@@ -528,7 +528,7 @@ ActivateMetaOI( zVIEW vSubtask0,
 //start TZCM_OPR 2015.10.27 15:41:07
 
 //end
-//start TZEREMDO 2016.04.08 10:34:03
+//start TZEREMDO 2016.08.23 10:53:30
 zOPER_EXPORT zSHORT OPERATION
 oTZEREMDO_ImportADW_Model( zVIEW vViewToInstance0,
                            zVIEW vADWWorkObject1,
@@ -861,7 +861,7 @@ Exec_ResumeFromDebugger( zVIEW vView0,
 //end
 
 
-//start TZRPSRCO 2016.04.08 10:34:07
+//start TZRPSRCO 2016.08.23 10:53:34
 zOPER_EXPORT zSHORT OPERATION
 oTZRPSRCO_AutodesignReport( zVIEW vViewToInstance0,
                             zVIEW vvUserSpec1,
@@ -1077,7 +1077,7 @@ oTZRPSRCO_GenerateXSLT( zVIEW vViewToInstance0 );
 
 //end
 
-//start TZ__PRFO 2016.04.08 10:33:56
+//start TZ__PRFO 2016.08.23 10:53:24
 zOPER_EXPORT zSHORT OPERATION
 oTZ__PRFO_GetViewToProfile( zPVIEW vViewToInstance0,
                             zPCHAR pchToolID1,
@@ -1085,7 +1085,7 @@ oTZ__PRFO_GetViewToProfile( zPVIEW vViewToInstance0,
                             zSHORT nCurrentOrReloadFlag3 );
 
 //end
-//start TZZOLODO 2016.04.08 10:34:12
+//start TZZOLODO 2016.08.23 10:53:37
 zOPER_EXPORT zSHORT OPERATION
 oTZZOLODO_ParseDerivedExpr( zVIEW vViewToInstance0,
                             zVIEW vWindowsubtask1 );
@@ -1193,7 +1193,7 @@ oTZZOLODO_LOD_Merge( zVIEW vViewToInstance0,
                      zVIEW vvSubtask2 );
 
 //end
-//start TZTEMPMO 2016.04.08 10:34:08
+//start TZTEMPMO 2016.08.23 10:53:35
 zOPER_EXPORT zSHORT OPERATION
 oTZTEMPMO_Create( zPVIEW vvMPM0,
                   zVIEW vvEMD_in1,
@@ -1206,7 +1206,7 @@ oTZCMCPRO_CPLR_Enqueue( zVIEW  vTZCMCPRO,
                         zVIEW  vSubtask,
                         zSHORT EnqueueType );
 
-//start TZCMCPRO 2016.04.08 10:34:00
+//start TZCMCPRO 2016.08.23 10:53:27
 zOPER_EXPORT zSHORT OPERATION
 oTZCMCPRO_ActivateCPLR( zPVIEW vTZCMCPRO0,
                         zLONG llZKey1,
@@ -1222,7 +1222,7 @@ oTZCMCPRO_CPLR_Enqueue( zVIEW vTZCMCPRO0,
                         zSHORT nEnqueueType2 );
 
 //end
-//start TZCMLPLO 2016.04.08 10:34:00
+//start TZCMLPLO 2016.08.23 10:53:28
 zOPER_EXPORT zSHORT OPERATION
 oTZCMLPLO_CheckOI_ForDupZKey( zVIEW vViewToInstance0,
                               zVIEW vViewSubjectOI1,
@@ -1349,7 +1349,7 @@ CreateSironWorkObjectList( zPCHAR pchDirecoryPathforSironwo0,
 
 //end
 
-//start TZPESRCO 2016.04.08 10:34:06
+//start TZPESRCO 2016.08.23 10:53:33
 zOPER_EXPORT zSHORT OPERATION
 oTZPESRCO_MigratePPE( zPVIEW vViewToInstance0,
                       zVIEW vSourceLPLR1,
@@ -1413,7 +1413,7 @@ AddDaysToDate( zVIEW vViewToInstance0,
                zSHORT nNumberOfDays3 );
 
 //end
-//start KZXMLPGO 2016.04.08 10:33:55
+//start KZXMLPGO 2016.08.23 10:53:24
 zOPER_EXPORT zSHORT OPERATION
 oKZXMLPGO_InitWebSessionObject( zPVIEW vViewToInstance0,
                                 zVIEW vAnyView1,
@@ -1717,13 +1717,29 @@ CreateTabIndexString( zVIEW vDialog0,
                       zPCHAR pchTabIndex1 );
 
 //end
-//start TZWEBGL4 2016.01.08 09:33:05
+//start TZWEBGL4 2016.09.01 10:58:24
 zOPER_EXPORT zSHORT OPERATION
 BuildSideNavSectionJ( zVIEW vvDialog0,
                       zVIEW vvDialogRoot1,
                       zLONG llFile2,
                       zPCHAR pchReusableMenu3,
                       zVIEW vvDialogMenu4 );
+
+zOPER_EXPORT zSHORT OPERATION
+GenJSPJ_CrteListBoxAsList( zVIEW vvDialog0,
+                           zLONG llFile1,
+                           zPCHAR pchszWriteBuffer2,
+                           zPCHAR pchszIndent3,
+                           zPCHAR pchszCtrlTag4,
+                           zPCHAR pchszNoPositioning5,
+                           zLONG llOffsetX6,
+                           zLONG llOffsetY7 );
+
+zOPER_EXPORT zSHORT OPERATION
+BuildMenuListJ( zVIEW vvDialog0,
+                zVIEW vvDialogRoot1,
+                zLONG llFile2,
+                zPCHAR pchszMenuName3 );
 
 zOPER_EXPORT zSHORT OPERATION
 GenJSPJ_CrtePushButton( zVIEW vDialog0,

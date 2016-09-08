@@ -5,7 +5,6 @@
 extern "C"
 {
 
- 
 #include "ZEIDONOP.H"
 
 //:GLOBAL OPERATION
