@@ -4510,19 +4510,24 @@ if (lShortNameLth == 30 )
    //
    //========================================================================
 
-   //sz[ lShortNameLth ] = 0;
-
-EndOfFunction:
    // KJS 07/22/16 - our old code did not do the " - 1" and had the line above sz[ lShortNameLth ] = 0
    // and the old code had the zstrcpy, not strcpy_s. If we keep the new code, long names, are short a 
    // character (due to the - 1) but if I don't do the - 1, then strcpy_s fails. So I am for now going
    // back to our old 10c code for this.
+   sz[ lShortNameLth ] = 0;
+
+EndOfFunction:
+   zstrcpy( pchShortName, sz );
+   return( zstrlen( pchShortName ) );
+
+/* DOUG's 10d CODE:
+
+EndOfFunction:
    sz[ lShortNameLth - 1 ] = 0;
-TraceLine( "Ufcompressed before %s", sz);
    strcpy_s( pchShortName, lShortNameLth, sz );
-   //zstrcpy( pchShortName, sz );
-TraceLine( "Ufcompressed after");
    return( (zSHORT) zstrlen( pchShortName ) );
+
+*/
 
 }  // UfCompressName
 
