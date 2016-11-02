@@ -14,7 +14,9 @@ BuildSideNavSectionJ( VIEW vDialog,
                       VIEW vDialogMenu BASED ON LOD TZWDLGSO )
 
    STRING ( 10000 ) szWriteBuffer
-   STRING ( 50 )    szNavigationTitle
+   STRING ( 500 )   szNavigationTitle
+   STRING ( 500 )   szText
+   STRING ( 5 )     szSrch
    STRING ( 50 )    szHTML_Name
    STRING ( 50 )    szDialogName
    STRING ( 50 )    szOptionTag
@@ -47,7 +49,20 @@ BuildSideNavSectionJ( VIEW vDialog,
    WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
    FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
-      szNavigationTitle = vDialogRoot.Option.Text
+      //szNavigationTitle = vDialogRoot.Option.Text
+      // KJS 09/30/16 - Language Conversion.
+      // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+      // So for now, I am always using, if the flag is set.
+      IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+         szText = vDialogRoot.Option.Text
+         zSearchAndReplace( szText, 500, "\", "\\" )
+         szSrch = "\" + QUOTES 
+         zSearchAndReplace( szText, 500, QUOTES, szSrch )
+         szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
+      ELSE
+         szNavigationTitle = vDialogRoot.Option.Text
+      END
+
       szDialogName = vDialogRoot.OptAct.DialogName
       IF szDialogName = ""
          szDialogName = "NoDialogName"
@@ -127,7 +142,19 @@ BuildSideNavSectionJ( VIEW vDialog,
       CreateViewFromViewForTask( vDialogMenu, vDialogMenu, 0 )
       SET CURSOR FIRST vDialogMenu.Menu WHERE vDialogMenu.Menu.ZKey = vDialogMenu.DfltMenu.ZKey
       FOR EACH vDialogMenu.OptAct WITHIN vDialogMenu.Menu
-         szNavigationTitle = vDialogMenu.Option.Text
+         //szNavigationTitle = vDialogMenu.Option.Text
+         // KJS 09/30/16 - Language Conversion.
+         // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+         // So for now, I am always using, if the flag is set.
+         IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+            szText = vDialogMenu.Option.Text
+            zSearchAndReplace( szText, 500, "\", "\\" )
+            szSrch = "\" + QUOTES 
+            zSearchAndReplace( szText, 500, QUOTES, szSrch )
+            szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
+         ELSE
+            szNavigationTitle = vDialogMenu.Option.Text
+         END
          szDialogName = vDialogMenu.OptAct.DialogName
          IF szDialogName = ""
             szDialogName = "NoDialogName"
@@ -226,7 +253,9 @@ BuildMenuListJ( VIEW vDialog BASED ON LOD TZWDLGSO,
                 STRING (50) szMenuName )
 
    STRING ( 10000 ) szWriteBuffer
-   STRING ( 50 )    szNavigationTitle
+   STRING ( 500 )   szNavigationTitle
+   STRING ( 500 )   szText
+   STRING ( 5 )     szSrch
    STRING ( 50 )    szHTML_Name
    STRING ( 50 )    szDialogName
    STRING ( 50 )    szOptionTag
@@ -261,7 +290,19 @@ BuildMenuListJ( VIEW vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
    FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
-      szNavigationTitle = vDialogRoot.Option.Text
+      //szNavigationTitle = vDialogRoot.Option.Text
+      // KJS 09/30/16 - Language Conversion.
+      // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+      // So for now, I am always using, if the flag is set.
+      IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+         szText = vDialogRoot.Option.Text
+         zSearchAndReplace( szText, 500, "\", "\\" )
+         szSrch = "\" + QUOTES 
+         zSearchAndReplace( szText, 500, QUOTES, szSrch )
+         szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
+      ELSE
+         szNavigationTitle = vDialogRoot.Option.Text
+      END
       szDialogName = vDialogRoot.OptAct.DialogName
       IF szDialogName = ""
          szDialogName = "NoDialogName"
@@ -569,6 +610,7 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
                      STRING ( 100 )   szRepeatGrpKey )
 
    // Format an CHECKBOX control.
+   VIEW vDialogRoot BASED ON LOD TZWDLGSO
    STRING ( 256 ) szStyle
    STRING ( 256 ) szClass
    STRING ( 256 ) szTitle
@@ -579,8 +621,13 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 20 )  szSpaces
    STRING ( 256 ) szBlob
    STRING ( 256 ) szUnChecked
+   STRING ( 500 ) szText
+   STRING ( 500 ) szText2
+   STRING ( 5 )   szSrch
    INTEGER lTemp
    INTEGER lLen
+   
+   GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
    
    // See if the checkbox has an unchecked value. The checked value is in attrib RadioOrCheckboxValue but we 
    // don't have an attrib for the unchecked value.
@@ -691,11 +738,26 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
    END
    szClass = vDialog.Control.CSS_Class
+   
+
+   // KJS 09/30/16 - Language Conversion.
+   // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+   // So for now, I am always using, if the flag is set.
+   IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+      szText2 = vDialog.Control.Text
+      zSearchAndReplace( szText2, 1000, "\", "\\" )
+      szSrch = "\" + QUOTES 
+      zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
+      szSrch = ""
+      szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+   ELSE
+      szText = vDialog.Control.Text
+   END   
 
    IF szClass = ""
-      szWriteBuffer = "<span " + szTitleHTML + szStyle + ">" + szSpaces + vDialog.Control.Text + "</span>"
+      szWriteBuffer = "<span " + szTitleHTML + szStyle + ">" + szSpaces + szText + "</span>"
    ELSE
-      szWriteBuffer = "<span class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + szSpaces + vDialog.Control.Text + "</span>"
+      szWriteBuffer = "<span class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + szSpaces + szText + "</span>"
    END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
@@ -1334,11 +1396,15 @@ GenJSPJ_CrteCtrlsRadio( VIEW vDialog BASED ON LOD TZWDLGSO,
                        INTEGER          lOffsetY,
                        STRING ( 100 )   szRepeatGrpKey )
 
+   VIEW vDialogRoot BASED ON LOD TZWDLGSO
    STRING ( 256 ) szStyle
    STRING ( 256 ) szClass
    STRING ( 256 ) szTitle
    STRING ( 256 ) szCtrlTag
    STRING ( 256 ) szTitleHTML
+   STRING ( 500 ) szText
+   STRING ( 500 ) szText2
+   STRING ( 5 )   szSrch
    STRING ( 100 ) szDisabled
    STRING ( 16 )  szPosition
    STRING ( 16 )  szTabIndex
@@ -1346,6 +1412,9 @@ GenJSPJ_CrteCtrlsRadio( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szFirstTimeThru
    INTEGER        nRC
    INTEGER        LastY_Pos
+   
+   GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
+   
    // KJS 09/02/13 - Adding table around radio buttons. This was already done for C jsps...
    LastY_Pos = 0
    szFirstTimeThru = "Y"
@@ -1439,12 +1508,26 @@ GenJSPJ_CrteCtrlsRadio( VIEW vDialog BASED ON LOD TZWDLGSO,
       IF szTitle != ""
          szTitleHTML = " title=^" + szTitle + "^ "
       END
-
+   
+      // KJS 09/30/16 - Language Conversion.
+      // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+      // So for now, I am always using, if the flag is set.
+      IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+         szText2 = vDialog.Control.Text
+         zSearchAndReplace( szText2, 1000, "\", "\\" )
+         szSrch = "\" + QUOTES 
+         zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
+         szSrch = ""
+         szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+      ELSE
+         szText = vDialog.Control.Text
+      END
+   
       szClass = vDialog.Control.CSS_Class
       IF szClass = ""
-         szWriteBuffer = "      <td nowrap style=^border:0px;^><span " + szTitleHTML + szStyle + ">" + vDialog.Control.Text + "</span></td>"
+         szWriteBuffer = "      <td nowrap style=^border:0px;^><span " + szTitleHTML + szStyle + ">" + szText + "</span></td>"
       ELSE
-         szWriteBuffer = "      <td nowrap style=^border:0px;^><span class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + vDialog.Control.Text + "</span></td>"
+         szWriteBuffer = "      <td nowrap style=^border:0px;^><span class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + szText + "</span></td>"
       END
 
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1484,6 +1567,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
    INTEGER        iColCnt
    INTEGER        nRC
    INTEGER        iColWidth
+   INTEGER        lMaxStringLength
    INTEGER        lTemp
    INTEGER        lStyleX
    INTEGER        Size
@@ -1504,10 +1588,14 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 32 )  szActionName
    STRING ( 50 )  szControlType
    STRING ( 16 )  szTabIndex
-   STRING ( 256 ) szText
+   STRING ( 500 ) szText
+   STRING ( 500 ) szText2
+   STRING ( 5 )   szSrch
    STRING ( 32 )  szContextName
+   STRING ( 10 )  szMaxStringLength
    STRING ( 32 )  szSize
    STRING ( 256 ) szAbsoluteStyle
+
    STRING ( 1 )   szNoHeightFlag
    STRING ( 1 )   szNoWidthFlag
    STRING ( 1 )   szSpanFlag
@@ -1536,6 +1624,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
    ELSE
       szClass = ""
    END
+   
 
    IF vDialogRoot.WndStyle.Tag = "jMobile Window"
       szWindowIsjMobile = "Y"
@@ -1543,6 +1632,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
       szWindowIsjMobile = ""
    END
    
+      
    // KJS 02/23/16 - We have added a field for HTML5 attributes (this could be for jQuery Mobile or whatever extra attributes we want).
    // It is simply a string and we will add it to different controls like <div> or <input> etc.
    szHTML5Attr = ""
@@ -1589,7 +1679,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
 
    // Create a div around the whole table.  This should probably be float.
-   // szWriteBuffer = "<div style=^float:left;width:" + szWidth + "px;height:" + szHeight + "px;^" + szClass + ">"
+   //szWriteBuffer = "<div style=^float:left;width:" + szWidth + "px;height:" + szHeight + "px;^" + szClass + ">"
    // KJS 09/11/09 - Neither the table or the div had an id or name.  I am not sure whether I should put the
    // id on the <table we create or on the <div> but I will put it on the div.
    IF szNoPositioning = "S"
@@ -1602,7 +1692,10 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
          szWriteBuffer = szWriteBuffer + "^"
       END
    END
-   szWriteBuffer = szWriteBuffer + " " + szClass + ">"
+   // KJS 02/23/16 - We have added a field for HTML5 attributes, but I am not sure whether this should be
+   // here on the <div> (which surrounds the table) or whether this should be on the <table>. For now since the
+   // class is here I will also put the HTLM5 attribute here.
+   szWriteBuffer = szWriteBuffer + szHTML5Attr + " " + szClass + ">"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
    // Now create the table with the proper number of columns.
@@ -1666,6 +1759,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
       szControlType = vDialog.ControlDef.Tag
       CreateNoPosStyleString( vDialog, szStyle, "" )
       
+      
       // KJS 02/23/16 - We have added a field for HTML5 attributes (this could be for jQuery Mobile or whatever extra attributes we want).
       // It is simply a string and we will add it to different controls like <div> or <input> etc.
       szHTML5Attr = ""
@@ -1706,7 +1800,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
       zIntegerToString( szWidth, 10, iColWidth * dDLUnits )
       IF szNoPositioning = "S"  // No style information
          szWriteBuffer = "<td valign=^top^ " + szClass + ">"
-      ELSE
+      ELSE 
          szWriteBuffer = "<td valign=^top^ " + szClass + "style=^width:" + szWidth + "px;^>"
       END
       //szWriteBuffer = "<td>"
@@ -1753,7 +1847,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
             szreCAPTCHAFlag = "Y"
          END
 
-         szToggleFlag = ""
+         szToggleFlag = "" 
          SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Show/Hide Toggle"
          IF RESULT >= zCURSOR_SET
             szToggleFlag = "Y"
@@ -1801,7 +1895,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
       ELSE
       IF szNoPositioning = "S"
          szAbsoluteStyle = "" // No style information.
-      ELSE
+      ELSE 
          CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
       END
       END
@@ -1916,7 +2010,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
             ELSE
             IF szNoPositioning = "S"
-               szAbsoluteStyle = "" // No style information.
+               szAbsoluteStyle = "" // No style information.             
             END
             END
 
@@ -1952,7 +2046,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
             END
             IF szNoPositioning = "S"
-               szAbsoluteStyle = "" // No style information.
+               szAbsoluteStyle = "" // No style information.             
             END
             szClass = vDialog.Control.CSS_Class
             IF szClass = ""
@@ -1982,7 +2076,7 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
             ELSE
             IF szNoPositioning = "S"
-               szAbsoluteStyle = "" // No style information.
+               szAbsoluteStyle = "" // No style information.             
             END
             END
 
@@ -1999,7 +2093,24 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
             END*/
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             IF vDialog.Control.Text != ""
-               szWriteBuffer = "<div>" + vDialog.Control.Text + "</div>"
+            
+               // KJS 09/30/16 - Language Conversion.
+               // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+               // So for now, I am always using, if the flag is set.
+               IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+                  // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
+                  // is where the text is <img src="./images/admi..." border="0".
+                  szText2 = vDialog.Control.Text
+                  zSearchAndReplace( szText2, 1000, "\", "\\" )
+                  szSrch = "\" + QUOTES 
+                  zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
+                  szSrch = ""
+                  szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+               ELSE
+                  szText = vDialog.Control.Text
+               END
+         
+               szWriteBuffer = "<div>" + szText + "</div>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END
 
@@ -2087,7 +2198,22 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
          END
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          IF vDialog.Control.Text != ""
-            szWriteBuffer = "<div>" + vDialog.Control.Text + "</div>"
+            // KJS 09/30/16 - Language Conversion.
+            // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+            // So for now, I am always using, if the flag is set.
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
+               // is where the text is <img src="./images/admi..." border="0".
+               szText2 = vDialog.Control.Text
+               zSearchAndReplace( szText2, 1000, "\", "\\" )
+               szSrch = "\" + QUOTES 
+               zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
+               szSrch = ""
+               szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+            ELSE
+               szText = vDialog.Control.Text
+            END
+            szWriteBuffer = "<div>" + szText + "</div>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          END
 
@@ -2125,7 +2251,23 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
          szStyle = szStyle + szTabIndex
 
          szText = ""
-         szText = vDialog.Control.Text
+         // KJS 09/30/16 - Language Conversion.
+         // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+         // So for now, I am always using, if the flag is set.
+         IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+            // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
+            // is where the text is <img src="./images/admi..." border="0".
+            szText2 = vDialog.Control.Text
+            zSearchAndReplace( szText2, 1000, "\", "\\" )
+            szSrch = "\" + QUOTES 
+            zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
+            szSrch = ""
+            szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+         ELSE
+            szText = vDialog.Control.Text
+         END
+
+         //szText = vDialog.Control.Text
          // Set Class as either null or with Class value.
          IF vDialog.Control.CSS_Class = ""
             szClass = ""
@@ -2163,8 +2305,11 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
 
       IF szControlType = "ListBox"  // LISTBOX
-         GenJSPJ_CrteListBox( vDialog, lFile, szWriteBuffer, szIndent,
-                              szCtrlTag, szNoPositioning, 0, 0 )
+         //IF jquery
+         //ELSE
+            GenJSPJ_CrteListBox( vDialog, lFile, szWriteBuffer, szIndent,
+                                 szCtrlTag, szNoPositioning, 0, 0 )
+         //END                              
       END  // IF szControlType = "ListBox"
 
       IF szControlType = "MLEdit"  // MLEDIT
@@ -2214,6 +2359,13 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
                szContextName = vDialog.CtrlMapContext.Name
             ELSE
                szContextName = ""
+            END
+
+            IF vDialog.CtrlMapER_Domain.MaxStringLth > 254
+               lMaxStringLength = vDialog.CtrlMapER_Domain.MaxStringLth
+               szMaxStringLength = lMaxStringLength
+            ELSE
+               szMaxStringLength = "254"
             END
 
             szWriteBuffer = "            strErrorMapValue = " +
@@ -2357,7 +2509,6 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
 
 END
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 //  OPERATION: GenJSPJ_CrteEditBox
@@ -2400,6 +2551,7 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szCreateSessionVariable
    STRING ( 1 )   szNoOutputMapping
    STRING ( 1 )   szBrowseFile
+   STRING ( 1 )   szNumber
 
    INTEGER        lMaxStringLength
    INTEGER        lStyleX
@@ -2458,6 +2610,12 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Autocomplete Off"
    IF RESULT >= zCURSOR_SET
       szAutoCompleteOff = " autocomplete=^off^"
+   END
+
+   szNumber = "" 
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Number"
+   IF RESULT >= zCURSOR_SET
+      szNumber = "Y"
    END
 
    // We have an Upload file on the group box, but what if we aren't uploading the file, we just want the user
@@ -2640,12 +2798,16 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    IF vDialog.CtrlMapER_Domain EXISTS AND vDialog.Control.Subtype = 4
       szType = " type=^password^ "
    ELSE
+   IF szNumber = "Y"
+      szType = " type=^number^"
+   ELSE
       szType = " type=^text^ "
       IF szBlob != ""
          szType = szType + "mask=^"
          szType = szType + szBlob
          szType = szType + "^ onblur=^return onBlurMask(this);^ onfocus=^return onFocusMask(this);^ onkeydown=^return doMask(this);^ "
       END
+   END
    END
    END
    END
@@ -2783,6 +2945,7 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szTitleHTML
    STRING ( 265 ) szHTML5Attr
    STRING ( 1000 ) szText
+   STRING ( 1000 ) szText2
    STRING ( 16 )  szTabIndex
    STRING ( 10 )  szMaxStringLength
    STRING ( 20 )  szGroupParentType
@@ -2814,7 +2977,22 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szIsLabel
    SHORT          nRC
 
-   szText = vDialog.Control.Text
+   // KJS 09/30/16 - Language Conversion.
+   // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+   // So for now, I am always using, if the flag is set.
+   IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+      // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
+      // is where the text is <img src="./images/admi..." border="0".
+      szText2 = vDialog.Control.Text
+      zSearchAndReplace( szText2, 1000, "\", "\\" )
+      szStyle = "\" + QUOTES 
+      zSearchAndReplace( szText2, 1000, QUOTES, szStyle )
+      szStyle = ""
+      szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+   ELSE
+      szText = vDialog.Control.Text
+   END
+
    CreateTabIndexString( vDialog, szTabIndex )
 
    szHTMLCtrlID = " id=^" + szCtrlTag + szRepeatGrpKey + "^ name=^" + szCtrlTag + szRepeatGrpKey + "^ "
@@ -3006,8 +3184,15 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
-      szText = "<%=strTextDisplayValue%>"
+   
+      // KJS 09/30/16 - Language Conversion.
+      // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+      // So for now, I am always using, if the flag is set.
+      IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+         szText = "<%=LangConv.getLanguageText(strTextDisplayValue)%>" 
+      ELSE
+         szText = "<%=strTextDisplayValue%>"
+      END
 
    END
 
@@ -3130,7 +3315,7 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szLabelFor = " for=^" + vDialog.Control.WebCtrlLabelLink + "^ " 
          END
       END
-
+      
       // If szNoPositioning is null then we are using absolute positioning when creating controls.
       IF  szNoPositioning = ""
 
@@ -4193,9 +4378,11 @@ GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szTitleHTML
    STRING ( 256 ) szHTML5Attr
    STRING ( 300 ) szType
-   STRING ( 256 ) szText
+   STRING ( 500 ) szText
+   STRING ( 500 ) szText2
+   STRING ( 5 )   szSrch
    STRING ( 50 )  szParentWebType
-   STRING ( 256 )  szTerm
+   STRING ( 256 ) szTerm
    STRING ( 256 ) szAction
    STRING ( 600 ) szWidget
    STRING ( 16 )  szTabIndex
@@ -4219,6 +4406,8 @@ GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 100 )  szPosition
 
    TraceLineS("*** GenJSPJ_CrtePushButton *** ", "")
+
+   GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )
 
    IF  szNoPositioning = "Y"
       CreateNoPosStyleString( vDialog, szStyle, "" )
@@ -4344,9 +4533,33 @@ GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
 
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-      szText = "<%=strErrorMapValue%>"
+      
+      //szText = "<%=strErrorMapValue%>"
+
+      // KJS 09/30/16 - Language Conversion.
+      // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+      // So for now, I am always using, if the flag is set.
+      IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+         szText = "<%=LangConv.getLanguageText(strErrorMapValue)%>" 
+      ELSE
+         szText = "<%=strErrorMapValue%>"
+      END
    ELSE
-      szText = vDialog.Control.Text
+      //szText = vDialog.Control.Text
+      // KJS 09/30/16 - Language Conversion.
+      // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+      // So for now, I am always using, if the flag is set.
+      IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+         szText2 = vDialog.Control.Text
+         zSearchAndReplace( szText2, 1000, "\", "\\" )
+         szSrch = "\" + QUOTES 
+         zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
+         szSrch = ""
+         szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+      ELSE
+         szText = vDialog.Control.Text
+      END
+
    END
 
 
@@ -4412,7 +4625,5 @@ GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
             END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    /************************ END OF REAL CODE ********************************************/
-      TraceLineS("*** GenJSPJ_CrtePushButton END   *** ", "")
-
 END
 

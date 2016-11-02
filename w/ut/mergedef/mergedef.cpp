@@ -27,7 +27,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-#define PGM_VERSION "2.1"
+#define PGM_VERSION "2.2"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -133,7 +133,7 @@ FILE  *pDefFile;
 FILE  *pDumpbinFile;
 char  szDefFileSpec[ 512 ];
 char  szDumpbinFileSpec[ 512 ];
-short nMaxOrd = 0;
+long  lMaxOrd = 0;
 short nBytesToOrd = 68;  // space ordinal out to right
 
 CExportsData *g_pHead = 0;
@@ -246,7 +246,7 @@ main( int  argc,
 #define ORDINAL_HINT_RVA_NAME 'R'
 #define SUMMARY               'S'
 
-   CExportsData *pXData;
+   CExportsData *pXData = 0;
    CExportsData *pXDataTmp;
    FILE   *pDefFileIn;
    FILE   *pDumpbinFileIn;
@@ -284,15 +284,15 @@ main( int  argc,
                         // the .DEF file ... so quit without completing the process
             }
 
-            short nOrd = 0;
+            long lOrd = 0;
             pch = strrchr( szBuffer, '@' );
             char *pchEnd = pch;
             if ( pch > szBuffer && *(pch - 1) == ' ' &&
                  *(pch + 1) >= '0' && *(pch + 1) <= '9' )
             {
-               nOrd = atoi( pch + 1 );
-               if ( nOrd > nMaxOrd )
-                  nMaxOrd = nOrd;
+               lOrd = atol( pch + 1 );
+               if ( lOrd > lMaxOrd )
+                  lMaxOrd = lOrd;
 
                while ( pch > szBuffer && *(pch - 1) == ' ' )
                {
@@ -310,7 +310,7 @@ main( int  argc,
                if ( nBytesToOrd < pchEnd - pch )
                   nBytesToOrd = pchEnd - pch;
 
-               pXData = new CExportsData( pch, nOrd );
+               pXData = new CExportsData( pch, lOrd );
                if ( g_pHead == 0 )
                {
                   g_pHead = g_pTail = pXData;
@@ -627,12 +627,12 @@ main( int  argc,
 
          } while ( k < nBytesToOrd );
 
-         strcpy_s( szBuffer + k, zsizeof( szBuffer ) - k, "  @" );
+         strcpy_s( szBuffer + k, zsizeof( szBuffer ) - k, "   @" );
          k += 4;
 
-         nMaxOrd++;
-         _ltoa_s( nMaxOrd, szBuffer + k, zsizeof( szBuffer ) - k, 10 );
-         strcat_s( szBuffer, zsizeof( szBuffer ), " ;; added by mergedef\n" );
+         lMaxOrd++;
+         _ltoa_s( lMaxOrd, szBuffer + k, zsizeof( szBuffer ) - k, 10 );
+         strcat_s( szBuffer, zsizeof( szBuffer ), "  ;; added by mergedef\n" );
          if ( bFirst == 'y' )
          {
             bFirst = 'n';

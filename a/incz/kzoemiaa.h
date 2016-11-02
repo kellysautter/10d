@@ -256,8 +256,8 @@ struct FileHeaderStruct
 {
    zCHAR                chTypeIndicator[ 6 ];
    zCHAR                szZeidon[ 10 ];
-   zCHAR                szFileName[ 32 ];
-   zCHAR                szObjectType[ 9 ];
+   zCHAR                szFileName[ zZEIDON_NAME_LTH + 1 ];
+   zCHAR                szObjectType[ zZEIDON_NAME_LTH + 1 ];
    zCHAR                szDate[ 11 ];
    zCHAR                szTime[ 9 ];
    zCHAR                szRelease[ 9 ];
@@ -706,7 +706,7 @@ struct EntityInstanceStruct
    LPENTITYINSTANCE     hNextVsn;
    LPENTITYINSTANCE     hPrevVsn;
    LPENTITYINSTANCE     hNextLinked;
-   zLONG                lTag;              // Used by NetCommit processing.
+   zCHAR                szTag[ 65 ];
    zULONG               ulKey;             // Entity key.
    zLONG                lHierCount;        // Hier # for ent.--not always current!
    zSHORT               nLevel;            // Level of this instance

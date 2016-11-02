@@ -123,7 +123,7 @@ mGLOBAL_DECLARE( sQExprStruct, g_sWhereRight[ WHERE_ARRAY_SIZE ], { 0 } );
 //zEXTERN sQExprStruct g_sWhereRight[ WHERE_ARRAY_SIZE ];
 zEXTERN zBOOL  g_bActivate;
 zEXTERN zCHAR  g_szLoadControl[ 35 ];
-zEXTERN zCHAR  g_szOperationName[ 33 ];
+zEXTERN zCHAR  g_szOperationName[ 256 ];
 zEXTERN zCHAR  g_szViewName[ 33 ];
 zEXTERN zCHAR  g_szEntityName[ 33 ];
 zEXTERN zCHAR  g_szAttributeName[ 33 ];

@@ -39,9 +39,6 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
-*.VC.opendb 
-*.VC.db
-ZDr.VC.VC.opendb
 
 # Build results
 
@@ -50,6 +47,11 @@ ZDr.VC.VC.opendb
 x64/
 build/
 [Oo]bj/
+w/libr
+w/libz
+# Ignore w/bin but not w/bin/sys
+w/bin
+!w/bin/sys
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -66,7 +68,6 @@ mtznlast.bat
 *.lib
 *.LIB
 *.dll
-*.exe
 *_i.c
 *_p.c
 *.asm

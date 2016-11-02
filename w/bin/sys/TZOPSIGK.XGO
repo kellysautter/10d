@@ -1,4 +1,4 @@
-z1000-Zeidon    TZOPSIGK TZOPGRPO 06/08/15   15:52:20 1.0a2    
+z2000-Zeidon    TZOPSIGK TZOPGRPO                                             1.0a2   
 eOPERSIG   1
 aName      TZKZ8C
 
@@ -17,6 +17,8 @@ aUFlag     N
 aZKey      93002384
 
 eSourceFile 3
+mETAG 57ffc13c.2d617d0
+mRO Y
 aZKey      93002379
 aName      KZOESOAA
 aCM_Managed Y
@@ -24,6 +26,8 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mETAG 57ffc13c.2d618d4
+mRO Y
 aName      KZOENGAA
 aZKey      164352
 aDesc      Core Header File
@@ -50,6 +54,8 @@ aUFlag     N
 aZKey      4009936
 
 eSourceFile 3
+mETAG 57ffc13c.2d61cf8
+mRO Y
 aZKey      8052094
 aName      KZOENGAA
 aCM_Managed Y
@@ -57,6 +63,7 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      AcquireTwainImage
@@ -95,6 +102,8 @@ aUFlag     N
 aZKey      1000755
 
 eSourceFile 3
+mETAG 57ffc13c.2d62414
+mRO Y
 aZKey      8052095
 aName      ZDRAPP
 aCM_Managed Y
@@ -102,6 +111,8 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mETAG 57ffc13c.2d62518
+mRO Y
 aName      ZDRVROPR
 aZKey      164096
 aDesc      Dialog Header File
@@ -143,6 +154,8 @@ aUFlag     N
 aZKey      126015416
 
 eSourceFile 3
+mETAG 57ffc13c.2d62b5c
+mRO Y
 aZKey      126015410
 aName      ZAACTXPT
 aDesc      eported operations for Active Bar
@@ -152,6 +165,7 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ActBar_OnToolbarClick
@@ -175,8 +189,10 @@ aUFlag     N
 aZKey      126015419
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62b5c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ActBar_SetToolVisible
@@ -215,8 +231,10 @@ aUFlag     N
 aZKey      126015412
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62b5c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ActivateEmptyObjectInstance
@@ -256,8 +274,10 @@ aUFlag     N
 aZKey      4009940
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ActivateObjectInstance
@@ -304,8 +324,10 @@ aUFlag     N
 aZKey      4009945
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ActivateOI_FromFile
@@ -352,8 +374,10 @@ aUFlag     N
 aZKey      4009950
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ActivateOI_FromOI
@@ -381,8 +405,10 @@ aUFlag     N
 aZKey      90008236
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ActivateOI_FromOI_ForTask
@@ -420,8 +446,10 @@ aUFlag     N
 aZKey      1042167
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ActivateOI_FromXML_File
@@ -465,8 +493,10 @@ aUFlag     N
 aZKey      90925334
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ActivateViewObject
@@ -499,8 +529,10 @@ aUFlag     N
 aZKey      8023227
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ActivateWindow
@@ -519,8 +551,10 @@ aUFlag     N
 aZKey      4009951
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      AddAttributeToMemory
@@ -565,8 +599,10 @@ aUFlag     N
 aZKey      1178384
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      AddHotkeysToGlobalHotkeys
@@ -583,8 +619,10 @@ aUFlag     N
 aZKey      89843108
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      AddHTML_TagAttribute
@@ -649,8 +687,10 @@ aUFlag     N
 aZKey      4070340
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      AddOptionToMenu
@@ -710,8 +750,10 @@ aUFlag     N
 aZKey      1153970
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      AddPagePosition
@@ -813,8 +855,10 @@ aUFlag     N
 aZKey      1169106
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      AddStringToMemory
@@ -845,8 +889,10 @@ aUFlag     N
 aZKey      1178388
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      AddToAttributeFromAttribute
@@ -900,8 +946,10 @@ aUFlag     N
 aZKey      4009957
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      AddToAttributeFromDecimal
@@ -941,8 +989,10 @@ aUFlag     N
 aZKey      4009961
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      AddToAttributeFromInteger
@@ -982,8 +1032,10 @@ aUFlag     N
 aZKey      4009965
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      AddToAttributeFromVariable
@@ -1043,8 +1095,10 @@ aUFlag     N
 aZKey      8023239
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      AddToViewCluster
@@ -1076,8 +1130,10 @@ aUFlag     N
 aZKey      90344837
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      AddViewToViewCluster
@@ -1102,8 +1158,10 @@ aUFlag     N
 aZKey      90037515
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      AddWebControlSubobject
@@ -1170,6 +1228,8 @@ aUFlag     N
 aZKey      91301782
 
 eSourceFile 3
+mETAG 57ffc13c.2d9470c
+mRO Y
 aZKey      90153251
 aName      KZRPSRCO
 aCM_Managed Y
@@ -1177,6 +1237,7 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      AppendViewCluster
@@ -1201,8 +1262,10 @@ aUFlag     N
 aZKey      123054930
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      AreBitsSetInFlag
@@ -1227,8 +1290,10 @@ aUFlag     N
 aZKey      1177301
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      AttachSubtaskToPane
@@ -1274,8 +1339,10 @@ aUFlag     N
 aZKey      1007354
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      AttributeUpdated
@@ -1306,8 +1373,10 @@ aUFlag     N
 aZKey      90028907
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      BMP_SetBitmapFileName
@@ -1338,6 +1407,8 @@ aUFlag     N
 aZKey      90025030
 
 eSourceFile 3
+mETAG 57ffc13c.2d963a0
+mRO Y
 aZKey      91001257
 aName      ZDCTL
 aCM_Managed Y
@@ -1345,6 +1416,7 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      BuildCSV_FromEntityAttribute
@@ -1403,8 +1475,10 @@ aUFlag     N
 aZKey      2047948
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      BuildEntityAttributeFromCSV
@@ -1463,8 +1537,10 @@ aUFlag     N
 aZKey      2047949
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      BuildWindowImmediate
@@ -1496,8 +1572,10 @@ aUFlag     N
 aZKey      8044258
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CallDialogOperation
@@ -1528,8 +1606,10 @@ aUFlag     N
 aZKey      2555310
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CancelAllTemporalSubobjects
@@ -1546,8 +1626,10 @@ aUFlag     N
 aZKey      93002382
 
 eSourceFile 3
+mLINKED 57ffc13c.2d617d0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CancelSubobject
@@ -1573,8 +1655,10 @@ aUFlag     N
 aZKey      4009967
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CB_GetSelectedString
@@ -1606,8 +1690,10 @@ aUFlag     N
 aZKey      1006773
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CB_SetData
@@ -1653,8 +1739,10 @@ aUFlag     N
 aZKey      1081794
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CB_SetDisplaySelectSet
@@ -1686,8 +1774,10 @@ aUFlag     N
 aZKey      1006786
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CB_SetSelectSelectSet
@@ -1719,8 +1809,10 @@ aUFlag     N
 aZKey      1006782
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CheckExistenceOfEntity
@@ -1745,8 +1837,10 @@ aUFlag     N
 aZKey      4009969
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CloseFrame
@@ -1764,8 +1858,10 @@ aUFlag     N
 aZKey      1007357
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CloseReport
@@ -1787,8 +1883,10 @@ aUFlag     N
 aZKey      1073895
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CloseSeeConnection
@@ -1805,6 +1903,8 @@ aUFlag     N
 aZKey      1033562
 
 eSourceFile 3
+mETAG 57ffc13c.2d9b274
+mRO Y
 aZKey      1026699
 aName      ZSEMail
 aCM_Managed Y
@@ -1812,6 +1912,7 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CloseSmtpConnection
@@ -1827,8 +1928,10 @@ aUFlag     N
 aZKey      1026717
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9b274
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CommitMultipleObjectInstances
@@ -1853,8 +1956,10 @@ aUFlag     N
 aZKey      90037505
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CommitMultipleOIs
@@ -1891,8 +1996,10 @@ aUFlag     N
 aZKey      90019693
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CommitObjectInstance
@@ -1911,8 +2018,10 @@ aUFlag     N
 aZKey      4009970
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CommitOI_ToFile
@@ -1945,8 +2054,10 @@ aUFlag     N
 aZKey      4009973
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CommitOI_ToXML_File
@@ -1976,8 +2087,10 @@ aUFlag     N
 aZKey      90925338
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CompareAttributeToAttribute
@@ -2031,8 +2144,10 @@ aUFlag     N
 aZKey      4009979
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CompareAttributeToDecimal
@@ -2072,8 +2187,10 @@ aUFlag     N
 aZKey      4009983
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CompareAttributeToInteger
@@ -2113,8 +2230,10 @@ aUFlag     N
 aZKey      4009987
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CompareAttributeToString
@@ -2154,8 +2273,10 @@ aUFlag     N
 aZKey      4009991
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CompareAttributeToVariable
@@ -2219,8 +2340,10 @@ aUFlag     N
 aZKey      8044180
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CompareEntityToEntity
@@ -2260,8 +2383,10 @@ aUFlag     N
 aZKey      4010001
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CompareOI_ToOI
@@ -2286,8 +2411,10 @@ aUFlag     N
 aZKey      8023825
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CompressFile
@@ -2340,8 +2467,10 @@ aUFlag     N
 aZKey      1000762
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ConstructHTML_AttrFromZeidonOI
@@ -2464,8 +2593,10 @@ aUFlag     N
 aZKey      3756808
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ConstructHTML_TextFromZeidonOI
@@ -2580,8 +2711,10 @@ aUFlag     N
 aZKey      1176308
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ConstructZeidonPrompt
@@ -2654,8 +2787,10 @@ aUFlag     N
 aZKey      1007340
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ConvertDecimalToString
@@ -2692,8 +2827,10 @@ aUFlag     N
 aZKey      1005527
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ConvertXML_SpecialCharacters
@@ -2732,8 +2869,10 @@ aUFlag     N
 aZKey      92702838
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9470c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ConvertXML_ToPDF
@@ -2770,8 +2909,10 @@ aUFlag     N
 aZKey      110006767
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ConvertXMLToPDF
@@ -2801,8 +2942,10 @@ aUFlag     N
 aZKey      120175565
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CopyOperationCode
@@ -2840,8 +2983,10 @@ aUFlag     N
 aZKey      68367623
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CountEntitiesForView
@@ -2867,8 +3012,10 @@ aUFlag     N
 aZKey      8044183
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CreateCommaSeparatedList
@@ -2921,8 +3068,10 @@ aUFlag     N
 aZKey      1028203
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CreateEntity
@@ -2955,8 +3104,10 @@ aUFlag     N
 aZKey      4010008
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CreateFlatCtrlList
@@ -3000,6 +3151,8 @@ aUFlag     N
 aZKey      1133535
 
 eSourceFile 3
+mETAG 57ffc13c.3b57346
+mRO Y
 aZKey      1133529
 aName      TZCTL
 aCM_Managed Y
@@ -3007,6 +3160,8 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mETAG 57ffc13c.3b5744a
+mRO Y
 aName      TZCTLOPR
 aZKey      90154042
 aExtension H
@@ -3081,8 +3236,10 @@ aUFlag     N
 aZKey      1157798
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CreateMemoryHandle
@@ -3099,8 +3256,10 @@ aUFlag     N
 aZKey      1178373
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CreateSeeConnection
@@ -3138,8 +3297,10 @@ aUFlag     N
 aZKey      1033545
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9b274
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CreateSeeMessage
@@ -3254,8 +3415,10 @@ aUFlag     N
 aZKey      1033560
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9b274
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CreateSironWorkObjectList
@@ -3279,6 +3442,8 @@ aUFlag     N
 aZKey      95027293
 
 eSourceFile 3
+mETAG 57ffc13c.3b5a16c
+mRO Y
 aZKey      95027282
 aName      tzsioprs
 aCM_Managed Y
@@ -3286,6 +3451,8 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mETAG 57ffc13c.3b5a270
+mRO Y
 aName      tzlodopr
 aZKey      95027286
 aExtension h
@@ -3305,8 +3472,10 @@ aUFlag     N
 aZKey      1026702
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9b274
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CreateSmtpMessage
@@ -3400,8 +3569,10 @@ aUFlag     N
 aZKey      1026715
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9b274
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CreateTemporalEntity
@@ -3434,8 +3605,10 @@ aUFlag     N
 aZKey      4010011
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CreateTemporalSubobjectVersion
@@ -3461,8 +3634,10 @@ aUFlag     N
 aZKey      4010013
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CreateTrackingPopupMenu
@@ -3513,8 +3688,10 @@ aUFlag     Y
 aZKey      8023584
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      CreateViewCluster
@@ -3539,8 +3716,10 @@ aUFlag     N
 aZKey      89063101
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CreateViewFromView
@@ -3566,8 +3745,10 @@ aUFlag     N
 aZKey      4010015
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CreateViewFromViewForTask
@@ -3599,8 +3780,10 @@ aUFlag     N
 aZKey      1042168
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CreateViewTrace
@@ -3637,8 +3820,10 @@ aUFlag     N
 aZKey      1073888
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      CreateWindowSubtask
@@ -3669,8 +3854,10 @@ aUFlag     N
 aZKey      8023588
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DefineHierarchicalCursor
@@ -3696,8 +3883,10 @@ aUFlag     N
 aZKey      4010017
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DeleteCommaSeparatedList
@@ -3715,8 +3904,10 @@ aUFlag     N
 aZKey      1028202
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DeleteEntity
@@ -3749,8 +3940,10 @@ aUFlag     N
 aZKey      8002228
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DeleteMemoryHandle
@@ -3767,8 +3960,10 @@ aUFlag     N
 aZKey      1178375
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DeleteTask
@@ -3787,8 +3982,10 @@ aUFlag     N
 aZKey      4010020
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DetermineRegKeyValue
@@ -3827,8 +4024,10 @@ aUFlag     Y
 aZKey      1024323
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DisableTask
@@ -3847,8 +4046,10 @@ aUFlag     N
 aZKey      4010021
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DisplayCursorInfo
@@ -3867,8 +4068,10 @@ aUFlag     N
 aZKey      8023241
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DisplayEntityInstance
@@ -3894,8 +4097,10 @@ aUFlag     N
 aZKey      4010023
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DisplayEntityInstancePath
@@ -3920,8 +4125,10 @@ aUFlag     N
 aZKey      8023822
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DisplayObjectDef
@@ -3945,8 +4152,10 @@ aUFlag     N
 aZKey      8023245
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DisplayObjectInstance
@@ -3979,8 +4188,10 @@ aUFlag     N
 aZKey      1025817
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DrawBitmapToReport
@@ -4038,8 +4249,10 @@ aUFlag     N
 aZKey      1147802
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DrawEllipseToReport
@@ -4118,8 +4331,10 @@ aUFlag     N
 aZKey      1073906
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DrawLineToReport
@@ -4198,8 +4413,10 @@ aUFlag     N
 aZKey      1147756
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DrawMultiLineTextToReport
@@ -4303,8 +4520,10 @@ aPFlag     Y
 aZKey      90007687
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DrawRectangleToReport
@@ -4390,8 +4609,10 @@ aUFlag     N
 aZKey      1073905
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DrawTextToReport
@@ -4475,8 +4696,10 @@ aUFlag     N
 aZKey      1157977
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DropEntity
@@ -4505,8 +4728,10 @@ aUFlag     N
 aZKey      8057577
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DropHierarchicalCursor
@@ -4525,8 +4750,10 @@ aUFlag     N
 aZKey      4010026
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DropNameForView
@@ -4566,8 +4793,10 @@ aUFlag     N
 aZKey      4010030
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DropObjectInstance
@@ -4584,8 +4813,10 @@ aDataType  V
 aZKey      4010031
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DropView
@@ -4604,8 +4835,10 @@ aUFlag     N
 aZKey      4010032
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DropViewCluster
@@ -4622,8 +4855,10 @@ aUFlag     N
 aZKey      90039472
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DropViewObject
@@ -4654,8 +4889,10 @@ aUFlag     N
 aZKey      90933026
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DropViewTrace
@@ -4678,8 +4915,10 @@ aUFlag     N
 aZKey      1073883
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      DT_DeleteCurrentAppointment
@@ -4703,8 +4942,10 @@ aUFlag     N
 aZKey      1010123
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DT_NewAppointment
@@ -4756,8 +4997,10 @@ aUFlag     N
 aZKey      1010117
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DT_SetColorAssociation
@@ -4802,8 +5045,10 @@ aUFlag     N
 aZKey      1010137
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DT_SetTimeEntityAttributes
@@ -4882,8 +5127,10 @@ aUFlag     N
 aZKey      1010110
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DT_SetWorkday
@@ -4942,8 +5189,10 @@ aUFlag     N
 aZKey      1010131
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      DT_UpdateCurrentAppointment
@@ -4966,8 +5215,10 @@ aUFlag     N
 aZKey      1010120
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ED_GetLastKey
@@ -4991,8 +5242,10 @@ aUFlag     N
 aZKey      1006226
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ED_GetSelText
@@ -5031,8 +5284,10 @@ aUFlag     N
 aZKey      1006231
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ED_HiliteText
@@ -5071,8 +5326,10 @@ aUFlag     N
 aZKey      90001742
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ED_LimitTextLength
@@ -5102,8 +5359,10 @@ aUFlag     N
 aZKey      1148405
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ED_SetCtrlMapping
@@ -5156,8 +5415,10 @@ aUFlag     N
 aZKey      127095197
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ED_SetPlaceHolder
@@ -5188,8 +5449,10 @@ aUFlag     N
 aZKey      1019856
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ED_SetSelText
@@ -5220,8 +5483,10 @@ aUFlag     N
 aZKey      1006235
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      EnableAction
@@ -5253,8 +5518,10 @@ aUFlag     Y
 aZKey      8023656
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      EnableAllSubwindows
@@ -5278,8 +5545,10 @@ aUFlag     Y
 aZKey      8044261
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      EnableTask
@@ -5296,8 +5565,10 @@ aDataType  V
 aZKey      4010033
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ExcludeEntity
@@ -5330,8 +5601,10 @@ aUFlag     N
 aZKey      4000529
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      FindCtrlForFocus
@@ -5367,8 +5640,10 @@ aUFlag     N
 aZKey      1010055
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      FindDialogWindow
@@ -5400,8 +5675,10 @@ aUFlag     N
 aZKey      90010160
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      FindFileClose
@@ -5419,6 +5696,8 @@ aUFlag     N
 aZKey      123073567
 
 eSourceFile 3
+mETAG 57ffc13c.3b7027e
+mRO Y
 aZKey      90078510
 aName      TZVMLIP
 aDesc      Call standard C functions from VML interpreter
@@ -5427,6 +5706,8 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mETAG 57ffc13c.3b703c4
+mRO Y
 aName      TZVMLIP
 aZKey      2166306
 aDesc      wrapper functions to be used from VML
@@ -5455,8 +5736,10 @@ aUFlag     N
 aZKey      123073565
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      FindFileStart
@@ -5481,8 +5764,10 @@ aUFlag     N
 aZKey      123073562
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      FormatSubobjectForXSLT
@@ -5524,8 +5809,10 @@ aUFlag     N
 aZKey      90207118
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9470c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      FormatSubobjectForXSLTWithXRP
@@ -5578,8 +5865,10 @@ aUFlag     N
 aZKey      90933033
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9470c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      FormatSubobjectOnDoc
@@ -5621,8 +5910,10 @@ aUFlag     N
 aZKey      4592701
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9470c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      FormatSubobjectOnDocWithXRP
@@ -5675,8 +5966,10 @@ aUFlag     N
 aZKey      4592708
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9470c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GarbageCollectViews
@@ -5699,8 +5992,10 @@ aUFlag     N
 aZKey      1026668
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GenerateQualFromEntityList
@@ -5746,8 +6041,10 @@ aUFlag     N
 aZKey      91214547
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GenerateRandomStudentId
@@ -5785,8 +6082,10 @@ aUFlag     N
 aZKey      1025681
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GenerateReportToHTML
@@ -5844,8 +6143,10 @@ aUFlag     N
 aZKey      1645433
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GenerateReportToPDF
@@ -5903,8 +6204,10 @@ aUFlag     N
 aZKey      1054555
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GenFullQualPathFromRelPath
@@ -5942,8 +6245,10 @@ aUFlag     N
 aZKey      121051292
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      GetAbsolutePositionForEntity
@@ -5976,8 +6281,10 @@ aUFlag     N
 aZKey      8023249
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetActionName
@@ -6001,8 +6308,10 @@ aUFlag     N
 aZKey      4840957
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetActionParameters
@@ -6020,8 +6329,10 @@ aUFlag     N
 aZKey      1169765
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetActionString
@@ -6038,8 +6349,10 @@ aUFlag     N
 aZKey      1169928
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetActiveX_ParameterCount
@@ -6071,8 +6384,10 @@ aUFlag     N
 aZKey      1169998
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetActiveX_ParameterValue
@@ -6125,8 +6440,10 @@ aUFlag     N
 aZKey      1170005
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetActualAttributeLength
@@ -6166,8 +6483,10 @@ aUFlag     N
 aZKey      8023254
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetAddrForAttribute
@@ -6207,8 +6526,10 @@ aUFlag     N
 aZKey      4010039
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetAddrFromRecord
@@ -6248,8 +6569,10 @@ aUFlag     N
 aZKey      8023261
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetApplDirectoryFromView
@@ -6289,8 +6612,10 @@ aUFlag     N
 aZKey      4010043
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetAttributeDisplayLength
@@ -6327,8 +6652,10 @@ aDataType  S
 aZKey      8057583
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetAttributeLength
@@ -6368,8 +6695,10 @@ aUFlag     N
 aZKey      8044186
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetBlobFromAttribute
@@ -6416,8 +6745,10 @@ aUFlag     N
 aZKey      8023267
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetClipboardBlob
@@ -6449,8 +6780,10 @@ aUFlag     N
 aZKey      1007361
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetContext
@@ -6483,8 +6816,10 @@ aUFlag     N
 aZKey      8023272
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetContinuedGroupFlag
@@ -6500,8 +6835,10 @@ aUFlag     N
 aZKey      1004089
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlMapping
@@ -6560,8 +6897,10 @@ aUFlag     N
 aZKey      1089396
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlPosition
@@ -6607,8 +6946,10 @@ aUFlag     Y
 aZKey      8023594
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlPrintPosition
@@ -6668,8 +7009,10 @@ aUFlag     N
 aZKey      89389110
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlPrintStatus
@@ -6708,8 +7051,10 @@ aUFlag     N
 aZKey      89389095
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlPrintText
@@ -6762,8 +7107,10 @@ aUFlag     N
 aZKey      89389102
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlRowColText
@@ -6815,6 +7162,8 @@ aUFlag     Y
 aZKey      127035666
 
 eSourceFile 3
+mETAG 57ffc13c.3b7e90a
+mRO Y
 aZKey      90099389
 aName      ZDRDLGC
 aCM_Managed Y
@@ -6822,6 +7171,7 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlSize
@@ -6867,8 +7217,10 @@ aUFlag     Y
 aZKey      8023600
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlState
@@ -6901,8 +7253,10 @@ aUFlag     N
 aZKey      8044262
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlText
@@ -6942,8 +7296,10 @@ aUFlag     Y
 aZKey      4010052
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetCtrlWithFocus
@@ -6965,8 +7321,10 @@ aUFlag     N
 aZKey      70057927
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetDecimalFromAttribute
@@ -7006,8 +7364,10 @@ aUFlag     N
 aZKey      4010056
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetDefaultContext
@@ -7033,8 +7393,10 @@ aUFlag     N
 aZKey      8044189
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetDefaultPrinterName
@@ -7059,8 +7421,10 @@ aUFlag     N
 aZKey      1005501
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetDefaultViewForActiveTask
@@ -7070,8 +7434,10 @@ aReturnDesc Default Subtask View for Task
 aReturnDataType V
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetDistance
@@ -7117,6 +7483,8 @@ aUFlag     N
 aZKey      1012142
 
 eSourceFile 3
+mETAG 57ffc13c.3b81b52
+mRO Y
 aZKey      1012103
 aName      Z2MP
 aCM_Managed Y
@@ -7124,6 +7492,7 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetDistanceRectangle
@@ -7190,8 +7559,10 @@ aUFlag     N
 aZKey      1012136
 
 eSourceFile 3
+mLINKED 57ffc13c.3b81b52
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetDlgWndCtrlNames
@@ -7230,8 +7601,10 @@ aUFlag     N
 aZKey      1174172
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetEntityKey
@@ -7255,8 +7628,10 @@ aUFlag     N
 aZKey      1004113
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetEntityKeyForHierarchicalCsr
@@ -7293,8 +7668,10 @@ aUFlag     N
 aZKey      1079190
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetEntityNameForHierarchicalCsr
@@ -7331,8 +7708,10 @@ aUFlag     N
 aZKey      3169104
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetFirstTableEntryForAttribute
@@ -7386,8 +7765,10 @@ aUFlag     N
 aZKey      4010062
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetFlagBit
@@ -7412,8 +7793,10 @@ aUFlag     N
 aZKey      1177298
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetIncrementalUpdateFlags
@@ -7441,8 +7824,10 @@ aDataType  N
 aZKey      90032088
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetIntegerFromAttribute
@@ -7482,8 +7867,10 @@ aUFlag     N
 aZKey      1128065
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetLastCommandTag
@@ -7508,8 +7895,10 @@ aUFlag     N
 aZKey      50001413
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetLastCtrlTag
@@ -7534,8 +7923,10 @@ aUFlag     N
 aZKey      1174160
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetLastDlgWnd
@@ -7566,8 +7957,10 @@ aUFlag     N
 aZKey      1017101
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetLastPopupMenu
@@ -7592,8 +7985,10 @@ aUFlag     N
 aZKey      8023603
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetNameForView
@@ -7633,8 +8028,10 @@ aUFlag     N
 aZKey      4010070
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetNextTableEntryForAttribute
@@ -7688,8 +8085,10 @@ aUFlag     N
 aZKey      4010076
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetNextWebCtrlOffset
@@ -7719,8 +8118,10 @@ aUFlag     N
 aZKey      1133541
 
 eSourceFile 3
+mLINKED 57ffc13c.3b57346
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b5744a
 
 eOperation 2
 aName      GetNextWebListCtrl
@@ -7750,8 +8151,10 @@ aUFlag     N
 aZKey      1133543
 
 eSourceFile 3
+mLINKED 57ffc13c.3b57346
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b5744a
 
 eOperation 2
 aName      GetOperationDynamicCallAddress
@@ -7797,8 +8200,10 @@ aUFlag     N
 aZKey      8023609
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetOptionState
@@ -7830,8 +8235,10 @@ aUFlag     N
 aZKey      8023660
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetPagePosition
@@ -7933,8 +8340,10 @@ aUFlag     N
 aZKey      1169107
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetParentWindow
@@ -7956,8 +8365,10 @@ aDataType  V
 aZKey      90223856
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetParentWindowName
@@ -7989,8 +8400,10 @@ aUFlag     N
 aZKey      1158596
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetPhantomMode
@@ -8008,8 +8421,10 @@ aUFlag     N
 aZKey      1166312
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetPressedState
@@ -8034,8 +8449,10 @@ aUFlag     N
 aZKey      1169947
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetPrintCurrentEntity
@@ -8058,8 +8475,10 @@ aUFlag     N
 aZKey      1004092
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetRelativeEntityNumber
@@ -8099,8 +8518,10 @@ aUFlag     N
 aZKey      11044268
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetSelectStateOfEntity
@@ -8126,8 +8547,10 @@ aUFlag     N
 aZKey      4010081
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetSironWorkObjPathName
@@ -8151,8 +8574,10 @@ aUFlag     N
 aZKey      95027290
 
 eSourceFile 3
+mLINKED 57ffc13c.3b5a16c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b5a270
 
 eOperation 2
 aName      GetStringFromAttribute
@@ -8192,8 +8617,10 @@ aUFlag     N
 aZKey      4010085
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetStringFromAttributeByContext
@@ -8244,8 +8671,10 @@ aUFlag     Y
 aZKey      90155039
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetStringFromRecord
@@ -8292,8 +8721,10 @@ aUFlag     Y
 aZKey      8023278
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetStructFromEntityAttrs
@@ -8326,8 +8757,10 @@ aUFlag     N
 aZKey      8023282
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetSubtaskForWindowName
@@ -8359,8 +8792,10 @@ aUFlag     N
 aZKey      8023664
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetTaskDBHandlerTraceLevel
@@ -8379,8 +8814,10 @@ aUFlag     N
 aZKey      8023285
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetTextHeight
@@ -8403,8 +8840,10 @@ aUFlag     N
 aZKey      90155335
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetTextWidth
@@ -8427,8 +8866,10 @@ aUFlag     N
 aZKey      90155332
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetVariableFromAttribute
@@ -8503,8 +8944,10 @@ aUFlag     N
 aZKey      8044178
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetViewByName
@@ -8544,8 +8987,10 @@ aUFlag     N
 aZKey      4010096
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetViewFlags
@@ -8563,8 +9008,10 @@ aUFlag     N
 aZKey      88053342
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetViewFromAttribute
@@ -8604,8 +9051,10 @@ aUFlag     N
 aZKey      4010066
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      GetWindowHandle
@@ -8644,8 +9093,10 @@ aUFlag     N
 aZKey      8023615
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetWindowName
@@ -8677,8 +9128,10 @@ aUFlag     N
 aZKey      1013569
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetWindowState
@@ -8703,8 +9156,10 @@ aUFlag     N
 aZKey      8023618
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GetWorkstationApplicationValues
@@ -8813,8 +9268,10 @@ aUFlag     N
 aZKey      1158612
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_GetActiveCell
@@ -8853,8 +9310,10 @@ aUFlag     N
 aZKey      1132302
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_GetCellData
@@ -8893,8 +9352,10 @@ aUFlag     N
 aZKey      1016472
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_GetPasteCellAndText
@@ -8947,8 +9408,10 @@ aUFlag     N
 aZKey      1142077
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_GetSortOrder
@@ -8987,8 +9450,10 @@ aUFlag     N
 aZKey      1016372
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_LockColumn
@@ -9027,8 +9492,10 @@ aUFlag     N
 aZKey      1016462
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_RemoveColorAssociations
@@ -9052,8 +9519,10 @@ aUFlag     N
 aZKey      1016454
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_ReplaceEntityKey
@@ -9091,8 +9560,10 @@ aUFlag     Y
 aZKey      1019894
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetActiveCell
@@ -9131,8 +9602,10 @@ aUFlag     N
 aZKey      1016467
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetCellData
@@ -9178,8 +9651,10 @@ aUFlag     N
 aZKey      1142076
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetCheckAttribute
@@ -9232,8 +9707,10 @@ aUFlag     N
 aZKey      1016399
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetColorAssociation
@@ -9293,8 +9770,10 @@ aUFlag     N
 aZKey      1016391
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetColorAttributeName
@@ -9333,8 +9812,10 @@ aUFlag     N
 aZKey      1016450
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetColumnCtrl
@@ -9380,8 +9861,10 @@ aUFlag     N
 aZKey      1016412
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetDisplaySelectSet
@@ -9412,8 +9895,10 @@ aUFlag     N
 aZKey      1017063
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetGridLines
@@ -9452,8 +9937,10 @@ aUFlag     N
 aZKey      1016483
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetRowColumnColors
@@ -9506,8 +9993,10 @@ aUFlag     N
 aZKey      1016406
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetSelectedPosition
@@ -9539,8 +10028,10 @@ aUFlag     N
 aZKey      1016380
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetSelectSelectSet
@@ -9571,8 +10062,10 @@ aUFlag     N
 aZKey      1017067
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SetSortOrder
@@ -9604,8 +10097,10 @@ aUFlag     N
 aZKey      1016376
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      GRID_SortByColumn
@@ -9644,8 +10139,10 @@ aUFlag     N
 aZKey      1016367
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      HandlePageNumbering
@@ -9698,8 +10195,10 @@ aUFlag     N
 aZKey      1079192
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      HiliteListBoxItem
@@ -9738,8 +10237,10 @@ aUFlag     N
 aZKey      8044268
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ImportCSV_ToZeidonOI
@@ -9764,8 +10265,10 @@ aUFlag     N
 aZKey      1285975
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      IncludeSubobjectFromSubobject
@@ -9812,8 +10315,10 @@ aUFlag     N
 aZKey      4010104
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      InitWebPage
@@ -9845,8 +10350,10 @@ aUFlag     N
 aZKey      91301866
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9470c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      InitWebSessionObject
@@ -9878,8 +10385,10 @@ aUFlag     N
 aZKey      91301862
 
 eSourceFile 3
+mLINKED 57ffc13c.2d9470c
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      InsertSpacesInPrompt
@@ -9917,8 +10426,10 @@ aUFlag     N
 aZKey      110001048
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      InvokeAction
@@ -9943,8 +10454,10 @@ aUFlag     N
 aZKey      89843111
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      InvokeReportExitCode
@@ -9995,8 +10508,10 @@ aUFlag     N
 aZKey      1003979
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      IsDoubleClick
@@ -10021,8 +10536,10 @@ aUFlag     N
 aZKey      8023621
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      IsFlagSequenceSet
@@ -10047,8 +10564,10 @@ aUFlag     N
 aZKey      1303735
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      IsKeyQueued
@@ -10073,8 +10592,10 @@ aUFlag     Y
 aZKey      8023624
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      IsNt
@@ -10085,8 +10606,10 @@ aReturnDesc 0=Not NT --- 1=NT
 aReturnDataType N
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      IsNumeric
@@ -10104,8 +10627,10 @@ aUFlag     N
 aZKey      160002261
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      IsRemoteServer
@@ -10116,8 +10641,10 @@ aReturnDesc 0=Not RemoteServer --- 1=RemoteServer
 aReturnDataType N
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      IssueError
@@ -10157,8 +10684,10 @@ aUFlag     N
 aZKey      4010108
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      IsValidView
@@ -10175,8 +10704,10 @@ aUFlag     N
 aZKey      1003972
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_AutoSizeColumns
@@ -10222,8 +10753,10 @@ aUFlag     N
 aZKey      89843097
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_GetSortOrder
@@ -10262,8 +10795,10 @@ aUFlag     N
 aZKey      1009469
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_RemoveColorAssociations
@@ -10287,8 +10822,10 @@ aUFlag     N
 aZKey      1016457
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_ReplaceEntityKey
@@ -10326,8 +10863,10 @@ aUFlag     Y
 aZKey      1019889
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_SetColorAssociation
@@ -10386,8 +10925,10 @@ aUFlag     N
 aZKey      1153624
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_SetColorAttributeName
@@ -10425,8 +10966,10 @@ aUFlag     N
 aZKey      1016451
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_SetDisplaySelectSet
@@ -10457,8 +11000,10 @@ aUFlag     N
 aZKey      1169975
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_SetSelectedPosition
@@ -10488,8 +11033,10 @@ aUFlag     N
 aZKey      1169935
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_SetSelectSelectSet
@@ -10520,8 +11067,10 @@ aUFlag     N
 aZKey      1169971
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_SetSortOrder
@@ -10553,8 +11102,10 @@ aUFlag     N
 aZKey      1009473
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LB_SortByColumn
@@ -10592,8 +11143,10 @@ aUFlag     N
 aZKey      1165730
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      LoadEntity
@@ -10633,8 +11186,10 @@ aUFlag     N
 aZKey      88041109
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      LoadZeidonPPE
@@ -10678,6 +11233,8 @@ aUFlag     N
 aZKey      1178195
 
 eSourceFile 3
+mETAG 57ffc13c.3ba6e10
+mRO Y
 aZKey      95026579
 aName      tzlooprs
 aCM_Managed Y
@@ -10685,6 +11242,7 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b5a270
 
 eOperation 2
 aName      MakeIntegerFromPointer
@@ -10700,8 +11258,10 @@ aUFlag     N
 aZKey      1005485
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MakeIntegerFromView
@@ -10717,8 +11277,10 @@ aUFlag     N
 aZKey      1003970
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MakePointerFromInteger
@@ -10741,8 +11303,10 @@ aUFlag     N
 aZKey      1005487
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MakeViewFromInteger
@@ -10765,8 +11329,10 @@ aUFlag     N
 aZKey      1003968
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapCtrl
@@ -10790,8 +11356,10 @@ aUFlag     N
 aZKey      4010110
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapPointIsActive
@@ -10801,8 +11369,10 @@ aReturnDesc 0 - Inactive    1 - Active
 aReturnDataType N
 
 eSourceFile 3
+mLINKED 57ffc13c.3b81b52
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapPointSetPushPin
@@ -10868,8 +11438,10 @@ aUFlag     N
 aZKey      1012126
 
 eSourceFile 3
+mLINKED 57ffc13c.3b81b52
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapPointShowApplication
@@ -10886,8 +11458,10 @@ aUFlag     N
 aZKey      1012110
 
 eSourceFile 3
+mLINKED 57ffc13c.3b81b52
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapPointStart
@@ -10897,8 +11471,10 @@ aType      Z
 aReturnDataType N
 
 eSourceFile 3
+mLINKED 57ffc13c.3b81b52
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapPointStartFromHold
@@ -10907,8 +11483,10 @@ aDesc      0 - OK
 aType      Z
 
 eSourceFile 3
+mLINKED 57ffc13c.3b81b52
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapPointStop
@@ -10918,8 +11496,10 @@ aType      Z
 aReturnDataType N
 
 eSourceFile 3
+mLINKED 57ffc13c.3b81b52
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapPointStopAndHold
@@ -10929,8 +11509,10 @@ aType      Z
 aReturnDataType N
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapPointValidateAddress
@@ -10988,8 +11570,10 @@ aUFlag     N
 aZKey      1012127
 
 eSourceFile 3
+mLINKED 57ffc13c.3b81b52
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MapWindow
@@ -11007,8 +11591,10 @@ aUFlag     N
 aZKey      8023939
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MB_SetMessage
@@ -11036,8 +11622,10 @@ aUFlag     N
 aZKey      11276157
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      MessagePresent
@@ -11063,8 +11651,10 @@ aUFlag     N
 aZKey      8044202
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MessagePrompt
@@ -11132,8 +11722,10 @@ aUFlag     N
 aZKey      8044210
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MessagePromptForInput
@@ -11194,8 +11786,10 @@ aUFlag     Y
 aZKey      8044217
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MessageSend
@@ -11249,8 +11843,10 @@ aUFlag     Y
 aZKey      8044064
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MiEntityVersioned
@@ -11274,8 +11870,10 @@ aUFlag     N
 aZKey      1027267
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MiGetObjectNameForView
@@ -11300,8 +11898,10 @@ aUFlag     N
 aZKey      90075692
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MiGetParentEntityNameForView
@@ -11332,8 +11932,10 @@ aUFlag     N
 aZKey      1153170
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MiGetTypeForViewEntityAttr
@@ -11364,8 +11966,10 @@ aUFlag     N
 aZKey      3911622
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MiGetUpdateForView
@@ -11383,8 +11987,10 @@ aUFlag     N
 aZKey      89147175
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MiSetInstanceUpdateFlag
@@ -11408,8 +12014,10 @@ aUFlag     N
 aZKey      1027755
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MoveSubobject
@@ -11463,8 +12071,10 @@ aUFlag     N
 aZKey      4010116
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MutexCreate
@@ -11489,8 +12099,10 @@ aUFlag     Y
 aZKey      90025486
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MutexLock
@@ -11522,8 +12134,10 @@ aUFlag     Y
 aZKey      90025490
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MutexQuery
@@ -11541,8 +12155,10 @@ aUFlag     N
 aZKey      90025494
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      MutexUnlock
@@ -11560,8 +12176,10 @@ aUFlag     N
 aZKey      90025492
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      NameForZKey
@@ -11587,8 +12205,10 @@ aUFlag     N
 aZKey      8044220
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ObjectInstanceUpdated
@@ -11605,8 +12225,10 @@ aDataType  V
 aZKey      4010117
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ObjectInstanceUpdatedFromFile
@@ -11624,8 +12246,10 @@ aUFlag     N
 aZKey      123065590
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      OL_EditLabel
@@ -11657,8 +12281,10 @@ aUFlag     Y
 aZKey      127024547
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_ExpandEntity
@@ -11697,8 +12323,10 @@ aUFlag     Y
 aZKey      127037358
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetBackgroundColor
@@ -11723,8 +12351,10 @@ aUFlag     N
 aZKey      127035572
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetCollapsingEntityName
@@ -11756,8 +12386,10 @@ aUFlag     N
 aZKey      127035321
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetCtrlState
@@ -11789,8 +12421,10 @@ aUFlag     N
 aZKey      127024554
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetCurrentEntityName
@@ -11829,8 +12463,10 @@ aUFlag     N
 aZKey      127018583
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetDefaultBitmap
@@ -11876,8 +12512,10 @@ aUFlag     Y
 aZKey      127037531
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetExpandingEntityName
@@ -11909,8 +12547,10 @@ aUFlag     N
 aZKey      127035317
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetExpandState
@@ -11942,8 +12582,10 @@ aUFlag     N
 aZKey      127037374
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetLastCollapsedEntityName
@@ -11975,8 +12617,10 @@ aUFlag     N
 aZKey      127035336
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetLastExpandedEntityName
@@ -12008,8 +12652,10 @@ aUFlag     N
 aZKey      127035332
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetSelectedBitmap
@@ -12055,8 +12701,10 @@ aUFlag     Y
 aZKey      127037548
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetTextColorForEntity
@@ -12088,8 +12736,10 @@ aUFlag     N
 aZKey      127035576
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_GetTextFontForEntity
@@ -12177,8 +12827,10 @@ aUFlag     N
 aZKey      127035590
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_ResetAllTextColorsForItemText
@@ -12203,8 +12855,10 @@ aUFlag     N
 aZKey      127075784
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_ResetNodeList
@@ -12229,8 +12883,10 @@ aUFlag     N
 aZKey      127024247
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SelectItem
@@ -12276,8 +12932,10 @@ aUFlag     Y
 aZKey      127037381
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SelectItemAtPosForEntity
@@ -12315,8 +12973,10 @@ aUFlag     N
 aZKey      1021679
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SetBackgroundColor
@@ -12348,8 +13008,10 @@ aUFlag     N
 aZKey      127024152
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SetCtrlState
@@ -12388,8 +13050,10 @@ aUFlag     N
 aZKey      3030891
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SetDefaultBitmap
@@ -12428,8 +13092,10 @@ aUFlag     N
 aZKey      127037461
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SetSelectedBitmap
@@ -12468,8 +13134,10 @@ aUFlag     N
 aZKey      127037492
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SetTextColorForEntity
@@ -12508,8 +13176,10 @@ aUFlag     N
 aZKey      127023980
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SetTextColorForItemText
@@ -12555,8 +13225,10 @@ aUFlag     N
 aZKey      127075807
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SetTextFontForEntity
@@ -12644,8 +13316,10 @@ aUFlag     N
 aZKey      127024197
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OL_SetTextForCurrentItem
@@ -12676,8 +13350,10 @@ aUFlag     N
 aZKey      1024400
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OpenRemoteReportFromClient
@@ -12730,8 +13406,10 @@ aUFlag     N
 aZKey      1178326
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OpenReport
@@ -12797,8 +13475,10 @@ aUFlag     N
 aZKey      90144846
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OperationCount
@@ -12817,8 +13497,10 @@ aUFlag     N
 aZKey      8023306
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      OperatorConversationalDialog
@@ -12857,8 +13539,10 @@ aUFlag     N
 aZKey      8023629
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OperatorPrompt
@@ -12919,8 +13603,10 @@ aUFlag     N
 aZKey      4010124
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OperatorPromptForColor
@@ -12959,8 +13645,10 @@ aUFlag     N
 aZKey      123065588
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OperatorPromptForFile
@@ -13013,8 +13701,10 @@ aUFlag     Y
 aZKey      1156565
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OperatorPromptForInput
@@ -13067,8 +13757,10 @@ aUFlag     Y
 aZKey      4000592
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OperatorSend
@@ -13107,8 +13799,10 @@ aUFlag     Y
 aZKey      8023636
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      OrderEntitiesByDefaultAttribs
@@ -13134,8 +13828,10 @@ aUFlag     N
 aZKey      8044223
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      OrderEntityForView
@@ -13167,8 +13863,10 @@ aUFlag     N
 aZKey      8043811
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      OrderOI_ByDefaultAttribs
@@ -13187,8 +13885,10 @@ aUFlag     N
 aZKey      8044225
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ParseHTML_AttrToZeidonOI
@@ -13310,8 +14010,10 @@ aUFlag     N
 aZKey      3756789
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ParseHTML_TextToZeidonOI
@@ -13419,8 +14121,10 @@ aUFlag     N
 aZKey      1176329
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PopReportTabStops
@@ -13438,8 +14142,10 @@ aUFlag     N
 aZKey      1005057
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PopReportViewPort
@@ -13539,8 +14245,10 @@ aUFlag     N
 aZKey      1143373
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintActiveWindow
@@ -13558,8 +14266,10 @@ aUFlag     N
 aZKey      8044291
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintBitmapToHTML
@@ -13617,8 +14327,10 @@ aUFlag     N
 aZKey      1147810
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintLineToHTML
@@ -13697,8 +14409,10 @@ aUFlag     N
 aZKey      1070302
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintReportToCSV
@@ -13749,8 +14463,10 @@ aUFlag     N
 aZKey      1005476
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintReportToHTML
@@ -13801,8 +14517,10 @@ aUFlag     N
 aZKey      1639282
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintReportToPDF
@@ -13853,8 +14571,10 @@ aUFlag     N
 aZKey      1158076
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintTextBlob
@@ -13911,8 +14631,10 @@ aUFlag     N
 aZKey      1073659
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintTextFile
@@ -13963,8 +14685,10 @@ aUFlag     N
 aZKey      1070311
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintTextToCSV
@@ -13994,8 +14718,10 @@ aUFlag     N
 aZKey      1005480
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PrintTextToHTML
@@ -14095,8 +14821,10 @@ aUFlag     N
 aZKey      1070289
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ProcessZeidonMessage
@@ -14122,8 +14850,10 @@ aUFlag     N
 aZKey      4010126
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      PumpMessages
@@ -14138,8 +14868,10 @@ aUFlag     N
 aZKey      1024396
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PushReportTabStops
@@ -14164,8 +14896,10 @@ aUFlag     N
 aZKey      1005060
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      PushReportViewPort
@@ -14265,8 +14999,10 @@ aUFlag     N
 aZKey      1043373
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      RefreshAllSubwindows
@@ -14284,8 +15020,10 @@ aUFlag     N
 aZKey      8044274
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      RefreshCtrl
@@ -14310,8 +15048,10 @@ aUFlag     N
 aZKey      8023639
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      RefreshVisibleItems
@@ -14343,8 +15083,10 @@ aUFlag     N
 aZKey      2177296
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      RefreshWindow
@@ -14362,8 +15104,10 @@ aUFlag     N
 aZKey      8023641
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      RefreshWindowExceptForCtrl
@@ -14388,8 +15132,10 @@ aUFlag     N
 aZKey      1165850
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      RegisterZeidonApplication
@@ -14436,8 +15182,10 @@ aUFlag     N
 aZKey      8023577
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      RelinkAllSubobjectsForOI
@@ -14476,8 +15224,10 @@ aUFlag     N
 aZKey      8023311
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      RelinkInstanceToInstance
@@ -14517,8 +15267,10 @@ aUFlag     N
 aZKey      4010130
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      RemoveFormattingFromHTML_Attr
@@ -14555,8 +15307,10 @@ aUFlag     N
 aZKey      3750107
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      RemoveFormattingFromHTML_Text
@@ -14593,8 +15347,10 @@ aUFlag     N
 aZKey      4070334
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      RemoveInvalidCharsFromFilename
@@ -14614,8 +15370,10 @@ aUFlag     N
 aZKey      2166307
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      RemoveOptionFromMenu
@@ -14640,8 +15398,10 @@ aUFlag     N
 aZKey      1153973
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      RemoveTagFromHTML
@@ -14678,8 +15438,10 @@ aUFlag     N
 aZKey      4094500
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ReplacePrimaryMenu
@@ -14704,8 +15466,10 @@ aUFlag     N
 aZKey      1153962
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      ResetView
@@ -14722,8 +15486,10 @@ aDataType  V
 aZKey      4010131
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ResetViewFromSubobject
@@ -14742,8 +15508,10 @@ aUFlag     N
 aZKey      110001492
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ResetViewFromSubobjectTop
@@ -14762,8 +15530,10 @@ aUFlag     N
 aZKey      4010132
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ResetWindowPlacement
@@ -14809,8 +15579,10 @@ aUFlag     N
 aZKey      1153019
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SelectFontForReport
@@ -14833,8 +15605,10 @@ aUFlag     N
 aZKey      90144827
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetAllSelectStatesForEntity
@@ -14874,8 +15648,10 @@ aUFlag     N
 aZKey      4010136
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAllSelStatesForEntityForSet
@@ -14915,8 +15691,10 @@ aUFlag     N
 aZKey      90278672
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAttributeFromAttribute
@@ -14970,8 +15748,10 @@ aUFlag     N
 aZKey      4010142
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAttributeFromBlob
@@ -15018,8 +15798,10 @@ aUFlag     Y
 aZKey      8023317
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAttributeFromDecimal
@@ -15059,8 +15841,10 @@ aUFlag     N
 aZKey      4010146
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAttributeFromInteger
@@ -15100,8 +15884,10 @@ aUFlag     N
 aZKey      1128060
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAttributeFromString
@@ -15141,8 +15927,10 @@ aUFlag     N
 aZKey      4010154
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAttributeFromVariable
@@ -15210,8 +15998,10 @@ aUFlag     N
 aZKey      8044227
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAttributeFromView
@@ -15251,8 +16041,10 @@ aUFlag     N
 aZKey      4010150
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAttributeValueNext
@@ -15292,8 +16084,10 @@ aUFlag     N
 aZKey      4010165
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetAttributeValuePrev
@@ -15333,8 +16127,10 @@ aUFlag     N
 aZKey      4010169
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetBlobAttributeFromAttribute
@@ -15388,8 +16184,10 @@ aUFlag     N
 aZKey      8023325
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetBlobFromEntityAttributes
@@ -15435,8 +16233,10 @@ aUFlag     N
 aZKey      8023331
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetBlobFromFile
@@ -15474,8 +16274,10 @@ aUFlag     N
 aZKey      88049067
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetBlobFromOI
@@ -15521,8 +16323,10 @@ aUFlag     N
 aZKey      91003079
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetClipboardBlob
@@ -15554,8 +16358,10 @@ aUFlag     N
 aZKey      1007365
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetCtrlMapping
@@ -15615,8 +16421,10 @@ aUFlag     N
 aZKey      91036320
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetCtrlPosition
@@ -15662,8 +16470,10 @@ aUFlag     Y
 aZKey      8023647
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetCtrlProperty
@@ -15709,8 +16519,10 @@ aUFlag     N
 aZKey      123057396
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetCtrlRowColText
@@ -15755,8 +16567,10 @@ aUFlag     N
 aZKey      90099396
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7e90a
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetCtrlSize
@@ -15802,8 +16616,10 @@ aUFlag     Y
 aZKey      8023673
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetCtrlState
@@ -15843,8 +16659,10 @@ aUFlag     Y
 aZKey      4010173
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetCtrlText
@@ -15877,8 +16695,10 @@ aUFlag     N
 aZKey      4010176
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetCtrlTextLth
@@ -15910,8 +16730,10 @@ aUFlag     Y
 aZKey      8044278
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetCursorAbsolutePosition
@@ -15944,8 +16766,10 @@ aUFlag     N
 aZKey      8023335
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorFirstEntity
@@ -15978,8 +16802,10 @@ aUFlag     N
 aZKey      1159526
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorFirstEntityByAttr
@@ -16040,8 +16866,10 @@ aUFlag     N
 aZKey      8044235
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorFirstEntityByDecimal
@@ -16088,8 +16916,10 @@ aUFlag     N
 aZKey      4010184
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorFirstEntityByEntityCsr
@@ -16136,8 +16966,10 @@ aUFlag     N
 aZKey      4010189
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorFirstEntityByInteger
@@ -16184,8 +17016,10 @@ aUFlag     N
 aZKey      4010194
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorFirstEntityByString
@@ -16232,8 +17066,10 @@ aUFlag     N
 aZKey      4010199
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorFirstSelectedEntity
@@ -16266,8 +17102,10 @@ aUFlag     N
 aZKey      4010202
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorLastEntity
@@ -16300,8 +17138,10 @@ aUFlag     N
 aZKey      4010205
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorNextEntity
@@ -16334,8 +17174,10 @@ aUFlag     N
 aZKey      4010208
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorNextEntityByAttr
@@ -16395,8 +17237,10 @@ aUFlag     N
 aZKey      8044243
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorNextEntityByDecimal
@@ -16443,8 +17287,10 @@ aUFlag     N
 aZKey      4010213
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorNextEntityByEntityCsr
@@ -16491,8 +17337,10 @@ aUFlag     N
 aZKey      4010218
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorNextEntityByInteger
@@ -16539,8 +17387,10 @@ aUFlag     N
 aZKey      4010223
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorNextEntityByString
@@ -16587,8 +17437,10 @@ aUFlag     N
 aZKey      4010228
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorNextEntityHierarchical
@@ -16621,8 +17473,10 @@ aUFlag     N
 aZKey      4010231
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorNextSelectedEntity
@@ -16655,8 +17509,10 @@ aUFlag     N
 aZKey      4010234
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorPrevEntity
@@ -16689,8 +17545,10 @@ aUFlag     N
 aZKey      4010237
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorRelativeEntity
@@ -16730,8 +17588,10 @@ aUFlag     N
 aZKey      4010241
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetCursorScopeOI
@@ -16764,8 +17624,10 @@ aUFlag     N
 aZKey      4010179
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetDatabaseUser
@@ -16797,8 +17659,10 @@ aUFlag     N
 aZKey      123079929
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetDefaultPrinterName
@@ -16815,8 +17679,10 @@ aUFlag     N
 aZKey      1005503
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetDefaultViewForActiveTask
@@ -16840,8 +17706,10 @@ aUFlag     N
 aZKey      1026727
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetEntityAttributesFromBlob
@@ -16887,8 +17755,95 @@ aUFlag     N
 aZKey      8023341
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
+
+eOperation 2
+aName      SetEntityCursor
+aZKey      92727189
+aDesc      does alot
+aType      Z
+aReturnDesc nReturnCode
+aReturnDataType N
+aGenerationType C
+
+eParameter 3
+aShortDesc zView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      92727190
+
+eParameter 3
+aShortDesc EntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92727191
+
+eParameter 3
+aShortDesc AttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92727192
+
+eParameter 3
+aShortDesc lControl
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      92727194
+
+eParameter 3
+aShortDesc Void Qual Value
+aDataType  O
+aPFlag     Y
+aUFlag     N
+aZKey      92727195
+
+eParameter 3
+aShortDesc SrcEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92727196
+
+eParameter 3
+aShortDesc SrcAttributeName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92727197
+
+eParameter 3
+aShortDesc RelPosition
+aDataType  N
+aPFlag     N
+aUFlag     N
+aZKey      92727198
+
+eParameter 3
+aShortDesc ScopingEntityName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92727199
+
+eParameter 3
+aShortDesc ContextName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92727200
+
+eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
+
+eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetEntityCursor
@@ -16971,91 +17926,10 @@ aUFlag     N
 aZKey      8023352
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
-
-eOperation 2
-aName      SetEntityCursor
-aZKey      92727189
-aDesc      does alot
-aType      Z
-aReturnDesc nReturnCode
-aReturnDataType N
-aGenerationType C
-
-eParameter 3
-aShortDesc zView
-aDataType  V
-aPFlag     N
-aUFlag     N
-aZKey      92727190
-
-eParameter 3
-aShortDesc EntityName
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      92727191
-
-eParameter 3
-aShortDesc AttributeName
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      92727192
-
-eParameter 3
-aShortDesc lControl
-aDataType  L
-aPFlag     N
-aUFlag     N
-aZKey      92727194
-
-eParameter 3
-aShortDesc Void Qual Value
-aDataType  O
-aPFlag     Y
-aUFlag     N
-aZKey      92727195
-
-eParameter 3
-aShortDesc SrcEntityName
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      92727196
-
-eParameter 3
-aShortDesc SrcAttributeName
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      92727197
-
-eParameter 3
-aShortDesc RelPosition
-aDataType  N
-aPFlag     N
-aUFlag     N
-aZKey      92727198
-
-eParameter 3
-aShortDesc ScopingEntityName
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      92727199
-
-eParameter 3
-aShortDesc ContextName
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      92727200
-
-eSourceFile 3
-
-eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetFlagBit
@@ -17087,8 +17961,10 @@ aUFlag     N
 aZKey      1177302
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetFlagSequence
@@ -17120,8 +17996,10 @@ aUFlag     N
 aZKey      2177298
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetFocusToCtrl
@@ -17146,8 +18024,10 @@ aUFlag     N
 aZKey      8023680
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetFocusToNextCtrl
@@ -17172,8 +18052,10 @@ aUFlag     N
 aZKey      1010059
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetIncrementalUpdateFlags
@@ -17205,8 +18087,10 @@ aUFlag     N
 aZKey      8023368
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetMatchingAttributesByName
@@ -17253,8 +18137,10 @@ aUFlag     N
 aZKey      8002237
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetMemoryToAttribute
@@ -17291,8 +18177,10 @@ aUFlag     N
 aZKey      1178383
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetMessageQueueTaskStatus
@@ -17317,8 +18205,10 @@ aUFlag     N
 aZKey      8044281
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetMessageStatusFromTask
@@ -17336,8 +18226,10 @@ aUFlag     N
 aZKey      8044283
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetNameForView
@@ -17376,8 +18268,10 @@ aUFlag     N
 aZKey      4010249
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetNewApplicationSubtask
@@ -17402,8 +18296,10 @@ aUFlag     N
 aZKey      8023693
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetOI_FromBlob
@@ -17463,8 +18359,10 @@ aUFlag     N
 aZKey      91003087
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetOptionState
@@ -17503,8 +18401,10 @@ aUFlag     Y
 aZKey      8023685
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetPhantomMode
@@ -17529,8 +18429,10 @@ aUFlag     N
 aZKey      1166311
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetRGB
@@ -17561,8 +18463,10 @@ aUFlag     N
 aZKey      91184454
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetSelectSetForView
@@ -17582,8 +18486,10 @@ aDataType  N
 aZKey      8057586
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetSelectStateOfEntity
@@ -17616,8 +18522,10 @@ aUFlag     N
 aZKey      4010252
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetSelectStateOfEntityForSet
@@ -17649,8 +18557,10 @@ aDataType  N
 aZKey      8057591
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetTaskDBHandlerTraceLevel
@@ -17676,8 +18586,10 @@ aUFlag     N
 aZKey      8023371
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetViewFlags
@@ -17700,8 +18612,10 @@ aUFlag     N
 aZKey      89250510
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetViewFromView
@@ -17727,8 +18641,10 @@ aUFlag     N
 aZKey      4010254
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetViewReadOnly
@@ -17743,8 +18659,10 @@ aDataType  V
 aZKey      8057593
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetViewToSubobject
@@ -17770,8 +18688,10 @@ aUFlag     N
 aZKey      4010256
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetViewUpdate
@@ -17789,8 +18709,10 @@ aUFlag     N
 aZKey      91044571
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SetWindowActionBehavior
@@ -17830,8 +18752,10 @@ aUFlag     N
 aZKey      4010260
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetWindowCaptionTitle
@@ -17864,8 +18788,10 @@ aUFlag     N
 aZKey      4010263
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SetWindowState
@@ -17897,8 +18823,10 @@ aUFlag     N
 aZKey      8023689
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SfActivateSysEmptyOI
@@ -17938,8 +18866,10 @@ aUFlag     N
 aZKey      8023378
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfActivateSysOI_FromFile
@@ -17986,8 +18916,10 @@ aUFlag     N
 aZKey      8023385
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfAllocTaskMemory
@@ -18013,8 +18945,10 @@ aUFlag     N
 aZKey      8023388
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfCloseTaskDatabases
@@ -18024,8 +18958,10 @@ aType      Z
 aReturnDataType N
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfCreateSubtask
@@ -18058,8 +18994,10 @@ aUFlag     N
 aZKey      4010266
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfCreateSystemSubtask
@@ -18092,8 +19030,10 @@ aUFlag     N
 aZKey      8023392
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfCreateSysViewFromView
@@ -18118,8 +19058,10 @@ aUFlag     N
 aZKey      8044246
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfDropSubtask
@@ -18141,8 +19083,10 @@ aDataType  N
 aZKey      90006367
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfFreeTaskMemory
@@ -18161,8 +19105,10 @@ aUFlag     N
 aZKey      8023394
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfGetApplicationForSubtask
@@ -18188,8 +19134,10 @@ aUFlag     N
 aZKey      8023397
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfGetFirstNamedView
@@ -18229,8 +19177,10 @@ aUFlag     N
 aZKey      8023402
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfGetFirstSubtaskView
@@ -18249,8 +19199,10 @@ aUFlag     N
 aZKey      8023404
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfGetNextNamedView
@@ -18289,8 +19241,10 @@ aUFlag     N
 aZKey      8023412
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfGetNextSubtaskView
@@ -18316,8 +19270,10 @@ aUFlag     N
 aZKey      8023407
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfGetTaskInfo
@@ -18350,8 +19306,10 @@ aUFlag     N
 aZKey      90000475
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfGetUserIdForTask
@@ -18375,8 +19333,10 @@ aUFlag     N
 aZKey      1092157
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfIsObjectServicesTask
@@ -18395,8 +19355,10 @@ aUFlag     N
 aZKey      8023417
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfLockView
@@ -18415,8 +19377,10 @@ aUFlag     N
 aZKey      8023419
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfSetApplicationTask
@@ -18439,8 +19403,10 @@ aUFlag     N
 aZKey      3320905
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfSetSubtaskView
@@ -18466,8 +19432,10 @@ aUFlag     N
 aZKey      8023422
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfSetTaskFlag
@@ -18499,8 +19467,10 @@ aUFlag     N
 aZKey      8044250
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfSetUserIdForTask
@@ -18524,8 +19494,10 @@ aUFlag     N
 aZKey      3320908
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SfTransferView
@@ -18558,8 +19530,10 @@ aUFlag     N
 aZKey      8023426
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SironAbortReport
@@ -18583,6 +19557,8 @@ aUFlag     N
 aZKey      91023419
 
 eSourceFile 3
+mETAG 57ffc13c.3bf87ea
+mRO Y
 aZKey      91023415
 aName      KZSIRREP
 aCM_Managed Y
@@ -18590,6 +19566,8 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mETAG 57ffc13c.3bf88ee
+mRO Y
 aName      KZSIRREP
 aZKey      91023413
 aDesc      Interface to Siron reports
@@ -18611,8 +19589,10 @@ aUFlag     N
 aZKey      91023421
 
 eSourceFile 3
+mLINKED 57ffc13c.3bf87ea
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3bf88ee
 
 eOperation 2
 aName      SironDisconnect
@@ -18630,8 +19610,10 @@ aUFlag     N
 aZKey      91023437
 
 eSourceFile 3
+mLINKED 57ffc13c.3bf87ea
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3bf88ee
 
 eOperation 2
 aName      SironGetLastStatus
@@ -18677,8 +19659,10 @@ aUFlag     N
 aZKey      91023443
 
 eSourceFile 3
+mLINKED 57ffc13c.3bf87ea
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3bf88ee
 
 eOperation 2
 aName      SironRequestStatus
@@ -18703,8 +19687,10 @@ aUFlag     N
 aZKey      91023455
 
 eSourceFile 3
+mLINKED 57ffc13c.3bf87ea
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3bf88ee
 
 eOperation 2
 aName      SironRunReport
@@ -18771,8 +19757,10 @@ aUFlag     N
 aZKey      91023452
 
 eSourceFile 3
+mLINKED 57ffc13c.3bf87ea
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3bf88ee
 
 eOperation 2
 aName      SironSetUser
@@ -18804,8 +19792,10 @@ aUFlag     N
 aZKey      91023463
 
 eSourceFile 3
+mLINKED 57ffc13c.3bf87ea
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3bf88ee
 
 eOperation 2
 aName      SironShowPreview
@@ -18837,8 +19827,10 @@ aUFlag     N
 aZKey      91023467
 
 eSourceFile 3
+mLINKED 57ffc13c.3bf87ea
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3bf88ee
 
 eOperation 2
 aName      SironTerminate
@@ -18862,8 +19854,10 @@ aUFlag     N
 aZKey      95023270
 
 eSourceFile 3
+mLINKED 57ffc13c.3bf87ea
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3bf88ee
 
 eOperation 2
 aName      SironWaitForStatus
@@ -18902,8 +19896,10 @@ aUFlag     N
 aZKey      91023472
 
 eSourceFile 3
+mLINKED 57ffc13c.3bf87ea
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3bf88ee
 
 eOperation 2
 aName      SP_GetShapeCtrlBOI
@@ -19018,8 +20014,10 @@ aUFlag     N
 aZKey      1073924
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SP_SetShapeCtrlBOI
@@ -19134,8 +20132,10 @@ aUFlag     N
 aZKey      1073925
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SplitFrame
@@ -19181,8 +20181,10 @@ aUFlag     N
 aZKey      1007348
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SS_GetActiveCell
@@ -19221,8 +20223,10 @@ aUFlag     N
 aZKey      90014885
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SS_GetCellData
@@ -19268,8 +20272,10 @@ aUFlag     N
 aZKey      90014891
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SS_LockColumn
@@ -19306,8 +20312,10 @@ aUFlag     N
 aZKey      90075697
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SS_SetCellData
@@ -19353,8 +20361,10 @@ aUFlag     N
 aZKey      90014897
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      StartBrowserWindowWithURL
@@ -19406,8 +20416,10 @@ aUFlag     Y
 aZKey      127075845
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      StartEmailClient
@@ -19473,8 +20485,10 @@ aUFlag     N
 aZKey      1024424
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      StartEmailClientL
@@ -19540,8 +20554,10 @@ aUFlag     N
 aZKey      2024424
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      StartPainterForApp
@@ -19579,8 +20595,10 @@ aUFlag     N
 aZKey      1078566
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      StartTask
@@ -19612,8 +20630,10 @@ aUFlag     Y
 aZKey      8023697
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      StoreStringInDerivedAttribute
@@ -19651,8 +20671,10 @@ aUFlag     N
 aZKey      90933089
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      StoreStringInRecord
@@ -19692,8 +20714,10 @@ aUFlag     N
 aZKey      8023435
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      StoreValueInDerivedAttribute
@@ -19738,56 +20762,10 @@ aUFlag     Y
 aZKey      90933095
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
-
-eOperation 2
-aName      StoreValueInRecord
-aZKey      92727183
-aDesc      used to store attribute values in a zeidon record
-aType      Z
-aReturnDesc nReturnCode
-aReturnDataType N
-aGenerationType J
-
-eParameter 3
-aShortDesc View
-aDataType  V
-aPFlag     N
-aUFlag     N
-aZKey      92727184
-
-eParameter 3
-aShortDesc View Entity String
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      92727185
-
-eParameter 3
-aShortDesc View Attribute String
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      92727186
-
-eParameter 3
-aShortDesc Void Value
-aDataType  O
-aPFlag     N
-aUFlag     N
-aZKey      92727187
-
-eParameter 3
-aShortDesc uLength
-aDataType  L
-aPFlag     N
-aUFlag     N
-aZKey      92727188
-
-eSourceFile 3
-
-eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      StoreValueInRecord
@@ -19835,8 +20813,60 @@ aUFlag     Y
 aZKey      8023441
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
+
+eOperation 2
+aName      StoreValueInRecord
+aZKey      92727183
+aDesc      used to store attribute values in a zeidon record
+aType      Z
+aReturnDesc nReturnCode
+aReturnDataType N
+aGenerationType J
+
+eParameter 3
+aShortDesc View
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      92727184
+
+eParameter 3
+aShortDesc View Entity String
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92727185
+
+eParameter 3
+aShortDesc View Attribute String
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92727186
+
+eParameter 3
+aShortDesc Void Value
+aDataType  O
+aPFlag     N
+aUFlag     N
+aZKey      92727187
+
+eParameter 3
+aShortDesc uLength
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      92727188
+
+eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
+
+eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SubobjectVersionUpdated
@@ -19868,8 +20898,10 @@ aUFlag     N
 aZKey      123066092
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SwitchToAction
@@ -19894,8 +20926,10 @@ aUFlag     N
 aZKey      8023700
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SysAddressMemory
@@ -19914,8 +20948,11 @@ aUFlag     N
 aZKey      8023443
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mETAG 57ffc13c.3c05a0c
+mRO Y
 aName      KZOEP1AA
 aZKey      11276380
 aDesc      Sys  Operations
@@ -19966,8 +21003,10 @@ aUFlag     N
 aZKey      8023449
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysAppendcDirSep
@@ -19984,8 +21023,10 @@ aUFlag     N
 aZKey      90018473
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysCloseFile
@@ -20019,8 +21060,44 @@ aUFlag     N
 aZKey      8023452
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
+
+eOperation 2
+aName      SysConvertDecimalToString
+aZKey      1592220
+aDesc      Convert a Decimal to a String
+aType      Z
+aReturnDesc nRC
+aReturnDataType N
+aGenerationType J
+
+eParameter 3
+aShortDesc pDecimal
+aDataType  M
+aPFlag     N
+aUFlag     N
+aZKey      1592221
+
+eParameter 3
+aShortDesc ReturnString
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      1592222
+
+eParameter 3
+aShortDesc nPrecision
+aDataType  N
+aZKey      1592223
+
+eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
+
+eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysConvertDecimalToString
@@ -20053,40 +21130,10 @@ aUFlag     N
 aZKey      92727204
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
-
-eOperation 2
-aName      SysConvertDecimalToString
-aZKey      1592220
-aDesc      Convert a Decimal to a String
-aType      Z
-aReturnDesc nRC
-aReturnDataType N
-aGenerationType J
-
-eParameter 3
-aShortDesc pDecimal
-aDataType  M
-aPFlag     N
-aUFlag     N
-aZKey      1592221
-
-eParameter 3
-aShortDesc ReturnString
-aDataType  S
-aPFlag     Y
-aUFlag     N
-aZKey      1592222
-
-eParameter 3
-aShortDesc nPrecision
-aDataType  N
-aZKey      1592223
-
-eSourceFile 3
-
-eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysConvertEnvironmentString
@@ -20111,8 +21158,10 @@ aUFlag     N
 aZKey      44805706
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysConvertStringToDecimal
@@ -20137,8 +21186,10 @@ aUFlag     N
 aZKey      123069645
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysCopyFile
@@ -20178,8 +21229,10 @@ aUFlag     N
 aZKey      90001434
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysFreeLibrary
@@ -20205,8 +21258,10 @@ aUFlag     N
 aZKey      8023454
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysFreeMemory
@@ -20225,8 +21280,10 @@ aUFlag     N
 aZKey      8023456
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetDateTime
@@ -20244,8 +21301,10 @@ aUFlag     N
 aZKey      8023458
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetDB_UserID
@@ -20275,8 +21334,10 @@ aPFlag     Y
 aZKey      8057598
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetEnvVar
@@ -20309,8 +21370,10 @@ aUFlag     N
 aZKey      8023462
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetFileDateTime
@@ -20336,8 +21399,10 @@ aUFlag     N
 aZKey      8023465
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetLanguageCode
@@ -20355,8 +21420,10 @@ aUFlag     N
 aZKey      90012914
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetLocalDirectory
@@ -20373,8 +21440,10 @@ aUFlag     N
 aZKey      8057601
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetProc
@@ -20400,8 +21469,10 @@ aUFlag     N
 aZKey      8023470
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetServerDateTime
@@ -20425,8 +21496,10 @@ aUFlag     N
 aZKey      1131844
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysGetTaskID
@@ -20443,8 +21516,10 @@ aUFlag     N
 aZKey      1025724
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetTickCount
@@ -20455,8 +21530,10 @@ aReturnDesc Milliseconds
 aReturnDataType L
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysGetUserID
@@ -20489,8 +21566,10 @@ aUFlag     N
 aZKey      8044427
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysLoadLibrary
@@ -20516,8 +21595,10 @@ aUFlag     N
 aZKey      8023478
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysLoadLibraryWithErrFlag
@@ -20549,8 +21630,10 @@ aUFlag     N
 aZKey      123036180
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysMakeWebFileName
@@ -20580,8 +21663,10 @@ aUFlag     N
 aZKey      1742062
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysMessageBox
@@ -20621,8 +21706,10 @@ aUFlag     N
 aZKey      8023477
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysMessageList
@@ -20641,8 +21728,10 @@ aUFlag     N
 aZKey      8023480
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysMutexLock
@@ -20680,8 +21769,10 @@ aUFlag     Y
 aZKey      1042172
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysMutexUnlock
@@ -20712,8 +21803,10 @@ aUFlag     Y
 aZKey      1042177
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysOpenFile
@@ -20747,8 +21840,10 @@ aUFlag     N
 aZKey      8023483
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysParseLine
@@ -20781,8 +21876,10 @@ aUFlag     N
 aZKey      8023487
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysPositionFile
@@ -20808,8 +21905,10 @@ aUFlag     N
 aZKey      8023490
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysReadFile
@@ -20850,8 +21949,10 @@ aUFlag     Y
 aZKey      8023494
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysReadLine
@@ -20861,6 +21962,7 @@ aType      Z
 aReturnDesc nReturnCode
 aReturnDataType N
 aOrdinalValue 15
+aThrowsException Y
 
 eParameter 3
 aShortDesc TaskView
@@ -20884,8 +21986,10 @@ aUFlag     N
 aZKey      8023497
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysReadLineLth
@@ -20925,8 +22029,10 @@ aUFlag     Y
 aZKey      8023501
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysReadZeidonIni
@@ -20966,8 +22072,10 @@ aUFlag     N
 aZKey      8023506
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysRenameFile
@@ -21005,8 +22113,10 @@ aUFlag     N
 aZKey      91040286
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysRoundDecimal
@@ -21031,8 +22141,10 @@ aUFlag     N
 aZKey      123082821
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysSendOE_Message
@@ -21055,6 +22167,7 @@ aUFlag     N
 aZKey      1147687
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eOperation 2
 aName      SysSetDB_UserID
@@ -21085,8 +22198,10 @@ aUFlag     N
 aZKey      8057606
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysSetFileTime
@@ -21117,8 +22232,10 @@ aUFlag     N
 aZKey      1159530
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysSetFocusToWebCtrl
@@ -21164,8 +22281,10 @@ aUFlag     N
 aZKey      1159532
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysSetLanguageCode
@@ -21183,8 +22302,10 @@ aUFlag     N
 aZKey      90684990
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysSetUserID
@@ -21210,8 +22331,10 @@ aUFlag     N
 aZKey      8023509
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysStartHelp
@@ -21236,8 +22359,10 @@ aUFlag     N
 aZKey      89151968
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysTruncateFile
@@ -21263,8 +22388,10 @@ aUFlag     N
 aZKey      8023514
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysUpdateZeidonIni
@@ -21294,8 +22421,10 @@ aUFlag     N
 aZKey      8057610
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysValidDirOrFile
@@ -21332,8 +22461,10 @@ aUFlag     N
 aZKey      1005498
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      SysWait
@@ -21350,8 +22481,10 @@ aUFlag     N
 aZKey      10025030
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      SysWriteFile
@@ -21392,8 +22525,10 @@ aUFlag     N
 aZKey      8023521
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysWriteLine
@@ -21427,8 +22562,10 @@ aUFlag     N
 aZKey      8023524
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      SysWriteLineLth
@@ -21475,8 +22612,10 @@ aUFlag     N
 aZKey      8023529
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3c05a0c
 
 eOperation 2
 aName      TAB_GetActiveSubTab
@@ -21506,8 +22645,10 @@ aUFlag     N
 aZKey      4134536
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TAB_GetActiveTab
@@ -21530,8 +22671,10 @@ aUFlag     N
 aZKey      4134535
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TAB_HideSubTab
@@ -21568,8 +22711,10 @@ aUFlag     N
 aZKey      1022905
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TAB_HideTab
@@ -21606,8 +22751,10 @@ aUFlag     N
 aZKey      91048445
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TAB_SetActiveSubTab
@@ -21637,8 +22784,10 @@ aUFlag     N
 aZKey      1027637
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TAB_SetActiveTab
@@ -21668,8 +22817,10 @@ aUFlag     N
 aZKey      91048447
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      Table_Handler
@@ -21737,8 +22888,10 @@ aUFlag     Y
 aZKey      8023555
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      TableEntryExtToInt
@@ -21785,8 +22938,10 @@ aUFlag     N
 aZKey      8023535
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      TableEntryForInternalValue
@@ -21826,8 +22981,10 @@ aUFlag     N
 aZKey      8023540
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      TableEntryIntToExt
@@ -21874,8 +23031,10 @@ aUFlag     N
 aZKey      8023546
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      TB_GetItemText
@@ -21921,8 +23080,10 @@ aUFlag     N
 aZKey      1024878
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TB_SetItemText
@@ -21961,8 +23122,10 @@ aUFlag     N
 aZKey      1024883
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TerminateActionForError
@@ -21980,8 +23143,10 @@ aUFlag     N
 aZKey      8044285
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TerminateActionForErrors
@@ -21999,8 +23164,10 @@ aUFlag     N
 aZKey      8044287
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_AllowAddNew
@@ -22032,6 +23199,8 @@ aUFlag     N
 aZKey      126016024
 
 eSourceFile 3
+mETAG 57ffc13c.3c1b822
+mRO Y
 aZKey      127043754
 aName      TRGRXPRT
 aDesc      exported Operations for TrueGrid
@@ -22040,6 +23209,7 @@ aOwnerType Z
 aLanguageType C
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_AllowDelete
@@ -22071,8 +23241,10 @@ aUFlag     N
 aZKey      126016028
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_EnableAutosort
@@ -22104,8 +23276,10 @@ aUFlag     N
 aZKey      126016871
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_GetActiveCell
@@ -22144,8 +23318,10 @@ aUFlag     N
 aZKey      126016797
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_GetCaption
@@ -22191,8 +23367,10 @@ aUFlag     Y
 aZKey      127092568
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_GetCellData
@@ -22238,8 +23416,10 @@ aUFlag     N
 aZKey      126016803
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_GetMouseClick
@@ -22264,8 +23444,10 @@ aUFlag     N
 aZKey      131027339
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_GetMouseClickWithKey
@@ -22297,8 +23479,10 @@ aUFlag     N
 aZKey      131027344
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_LimitTextLen
@@ -22337,8 +23521,10 @@ aUFlag     N
 aZKey      127092578
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_LockColumn
@@ -22377,8 +23563,10 @@ aUFlag     N
 aZKey      126016808
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_LockGrid
@@ -22417,8 +23605,10 @@ aUFlag     N
 aZKey      126016033
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetActiveCell
@@ -22457,8 +23647,10 @@ aUFlag     N
 aZKey      126016813
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetAlignment
@@ -22497,8 +23689,10 @@ aUFlag     N
 aZKey      126016068
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetAllowColSelect
@@ -22530,8 +23724,10 @@ aUFlag     N
 aZKey      126016081
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetAllowFocus
@@ -22570,8 +23766,10 @@ aUFlag     N
 aZKey      126016094
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetAllowRowSelect
@@ -22603,8 +23801,10 @@ aUFlag     N
 aZKey      126016085
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetAllowRowSizing
@@ -22636,8 +23836,10 @@ aUFlag     N
 aZKey      126016089
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetBackgroundColor
@@ -22676,8 +23878,10 @@ aUFlag     N
 aZKey      126016043
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetButtonAlways
@@ -22716,8 +23920,10 @@ aUFlag     N
 aZKey      126016099
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetCaption
@@ -22755,8 +23961,10 @@ aUFlag     N
 aZKey      126016063
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetCellData
@@ -22802,8 +24010,10 @@ aUFlag     N
 aZKey      126016819
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetCheckBoxTranslation
@@ -22849,8 +24059,10 @@ aUFlag     N
 aZKey      126016826
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetColumnWidth
@@ -22889,8 +24101,10 @@ aUFlag     N
 aZKey      126016073
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetDateCtrlForColumn
@@ -22929,8 +24143,10 @@ aUFlag     N
 aZKey      190006490
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetFont
@@ -23004,8 +24220,10 @@ aUFlag     N
 aZKey      126016058
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetForegroundColor
@@ -23044,8 +24262,10 @@ aUFlag     N
 aZKey      126016038
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetInactiveBackColor
@@ -23084,8 +24304,10 @@ aUFlag     N
 aZKey      126016104
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetInactiveForeColor
@@ -23124,8 +24346,10 @@ aUFlag     N
 aZKey      126016109
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetMultiSelect
@@ -23157,8 +24381,10 @@ aUFlag     N
 aZKey      126016077
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_SetTextColor
@@ -23197,8 +24423,10 @@ aUFlag     N
 aZKey      126016048
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TG_ShowColumn
@@ -23237,8 +24465,10 @@ aUFlag     N
 aZKey      127092573
 
 eSourceFile 3
+mLINKED 57ffc13c.3c1b822
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TraceLineI
@@ -23263,8 +24493,10 @@ aUFlag     N
 aZKey      4010269
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      TraceLineS
@@ -23289,8 +24521,10 @@ aUFlag     N
 aZKey      4010271
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      TraceLineV
@@ -23312,8 +24546,10 @@ aUFlag     N
 aZKey      1073880
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      TraceLineX
@@ -23337,8 +24573,10 @@ aUFlag     N
 aZKey      1004065
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      TrueName
@@ -23364,8 +24602,10 @@ aUFlag     N
 aZKey      8044254
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      TX_GetTextRptCtrlBOI
@@ -23479,8 +24719,10 @@ aUFlag     N
 aZKey      1157799
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TX_SetColors
@@ -23519,8 +24761,10 @@ aUFlag     N
 aZKey      1089403
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      TX_SetTextRptCtrlBOI
@@ -23624,8 +24868,10 @@ aUFlag     N
 aZKey      1157800
 
 eSourceFile 3
+mLINKED 57ffc13c.2d963a0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      UfEncryptString
@@ -23657,8 +24903,10 @@ aUFlag     Y
 aZKey      4106148
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfEncryptStringLong
@@ -23697,8 +24945,10 @@ aUFlag     Y
 aZKey      4106144
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfEncryptStringUL
@@ -23737,8 +24987,10 @@ aUFlag     Y
 aZKey      4106155
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfFormatDateTime
@@ -23771,8 +25023,10 @@ aUFlag     N
 aZKey      8023566
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfZProbeEnable
@@ -23790,8 +25044,10 @@ aUFlag     N
 aZKey      89745050
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfZProbeInit
@@ -23802,8 +25058,10 @@ aReturnDesc nReturnCode
 aReturnDataType N
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfZProbeOff
@@ -23828,8 +25086,10 @@ aUFlag     N
 aZKey      89745058
 
 eSourceFile 3
+mLINKED 57ffc13c.2d617d0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfZProbeOffByDesc
@@ -23847,8 +25107,10 @@ aUFlag     N
 aZKey      89745063
 
 eSourceFile 3
+mLINKED 57ffc13c.2d617d0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfZProbeOn
@@ -23880,8 +25142,10 @@ aUFlag     N
 aZKey      89745055
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfZProbeOnByDesc
@@ -23906,8 +25170,10 @@ aUFlag     N
 aZKey      89745061
 
 eSourceFile 3
+mLINKED 57ffc13c.2d617d0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UfZProbeTrace
@@ -23925,8 +25191,10 @@ aUFlag     N
 aZKey      89745065
 
 eSourceFile 3
+mLINKED 57ffc13c.2d617d0
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      UnregisterZeidonApplication
@@ -23938,8 +25206,10 @@ aReturnDataType N
 aOrdinalValue 5
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ValidateMapCtrl
@@ -23964,8 +25234,10 @@ aUFlag     N
 aZKey      532
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      WindowsShellExecute
@@ -24002,8 +25274,10 @@ aUFlag     N
 aZKey      1156732
 
 eSourceFile 3
+mLINKED 57ffc13c.2d62414
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      WriteBlobToFile
@@ -24041,8 +25315,10 @@ aUFlag     N
 aZKey      88049072
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zAbs
@@ -24060,8 +25336,10 @@ aUFlag     N
 aZKey      160002253
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zAppendQuotedString
@@ -24099,8 +25377,10 @@ aUFlag     N
 aZKey      1159175
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zatol
@@ -24118,8 +25398,10 @@ aUFlag     N
 aZKey      1033478
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zCeil
@@ -24137,8 +25419,10 @@ aUFlag     N
 aZKey      160002255
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zCharToOem
@@ -24154,8 +25438,10 @@ aUFlag     N
 aZKey      92002586
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zDateIsLeapYear
@@ -24171,8 +25457,10 @@ aUFlag     N
 aZKey      91009473
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zDeleteFile
@@ -24188,8 +25476,10 @@ aUFlag     N
 aZKey      95026582
 
 eSourceFile 3
+mLINKED 57ffc13c.3ba6e10
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zDialogIsActive
@@ -24205,8 +25495,10 @@ aUFlag     N
 aZKey      91009458
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zdSUM
@@ -24244,8 +25536,10 @@ aUFlag     N
 aZKey      90936810
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ZeidonCopyWithinString
@@ -24283,8 +25577,10 @@ aUFlag     N
 aZKey      2681065
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ZeidonStringCompare
@@ -24335,8 +25631,10 @@ aDataType  L
 aZKey      8002256
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ZeidonStringConcat
@@ -24387,8 +25685,10 @@ aDataType  L
 aZKey      4010278
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ZeidonStringConvertFromNumber
@@ -24438,8 +25738,10 @@ aUFlag     N
 aZKey      90178526
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ZeidonStringCopy
@@ -24490,8 +25792,10 @@ aDataType  L
 aZKey      2681064
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      ZeidonStringFind
@@ -24523,8 +25827,10 @@ aUFlag     N
 aZKey      1028387
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zExponent
@@ -24554,8 +25860,10 @@ aUFlag     N
 aZKey      91009531
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zExpungeAllSubstring
@@ -24580,8 +25888,10 @@ aUFlag     N
 aZKey      160002267
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zFindTextValueInAttribute
@@ -24618,8 +25928,10 @@ aUFlag     N
 aZKey      91009502
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zFloor
@@ -24637,8 +25949,10 @@ aUFlag     N
 aZKey      160002257
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetDateFromDayOfYear
@@ -24668,8 +25982,10 @@ aUFlag     Y
 aZKey      91009467
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetDayOfYearFromDate
@@ -24685,8 +26001,10 @@ aUFlag     N
 aZKey      91009463
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetDecrementDate
@@ -24709,8 +26027,10 @@ aUFlag     N
 aZKey      91009476
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetDelimitedString
@@ -24749,8 +26069,10 @@ aUFlag     Y
 aZKey      1113725
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetFirstAttributeNameForEntity
@@ -24780,8 +26102,10 @@ aUFlag     N
 aZKey      91009513
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetFirstEntityNameForView
@@ -24805,8 +26129,10 @@ aUFlag     N
 aZKey      91009506
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetGermanNameOfMonth
@@ -24829,8 +26155,10 @@ aUFlag     N
 aZKey      91009482
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetIncrementDate
@@ -24853,8 +26181,10 @@ aUFlag     N
 aZKey      91009479
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetNextAttributeNameForEntity
@@ -24884,8 +26214,10 @@ aUFlag     N
 aZKey      91009517
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetNextEntityNameForView
@@ -24909,8 +26241,10 @@ aUFlag     N
 aZKey      91009509
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetStringLen
@@ -24926,8 +26260,10 @@ aUFlag     N
 aZKey      91009449
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetStringLenWithoutBlank
@@ -24943,8 +26279,10 @@ aUFlag     N
 aZKey      91009495
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zGetStringWithoutBlank
@@ -24967,8 +26305,10 @@ aUFlag     N
 aZKey      91009492
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zHIUSHORT
@@ -24985,8 +26325,10 @@ aUFlag     N
 aZKey      1113711
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      zIntegerToString
@@ -25016,8 +26358,10 @@ aUFlag     N
 aZKey      91009486
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      ziSUM
@@ -25055,8 +26399,10 @@ aUFlag     N
 aZKey      90936815
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zLeft
@@ -25095,8 +26441,10 @@ aUFlag     Y
 aZKey      160002240
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zLike
@@ -25121,8 +26469,10 @@ aUFlag     N
 aZKey      160002264
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zLodContainsAttribute
@@ -25152,8 +26502,10 @@ aUFlag     N
 aZKey      91009524
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zLodContainsEntity
@@ -25176,8 +26528,10 @@ aUFlag     N
 aZKey      91009520
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zLOUSHORT
@@ -25194,8 +26548,10 @@ aUFlag     N
 aZKey      1113709
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      zltoa
@@ -25218,8 +26574,10 @@ aUFlag     N
 aZKey      4011157
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zLTrim
@@ -25251,8 +26609,10 @@ aUFlag     Y
 aZKey      160002235
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zMAKELONG
@@ -25275,8 +26635,10 @@ aUFlag     N
 aZKey      1113714
 
 eSourceFile 3
+mLINKED 57ffc13c.2d61cf8
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d62518
 
 eOperation 2
 aName      zMax
@@ -25301,8 +26663,10 @@ aUFlag     N
 aZKey      160002248
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zMin
@@ -25327,8 +26691,10 @@ aUFlag     N
 aZKey      160002251
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zModulo
@@ -25351,8 +26717,10 @@ aUFlag     N
 aZKey      91009489
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zReadLine
@@ -25382,8 +26750,10 @@ aUFlag     N
 aZKey      91009456
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zRemoveAllBlanks
@@ -25415,8 +26785,10 @@ aUFlag     Y
 aZKey      1137374
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zReplaceSubString
@@ -25454,8 +26826,10 @@ aUFlag     N
 aZKey      1159174
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zReplicate
@@ -25494,8 +26868,10 @@ aUFlag     Y
 aZKey      160002227
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zRight
@@ -25534,8 +26910,10 @@ aUFlag     Y
 aZKey      160002245
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zRound
@@ -25565,8 +26943,10 @@ aUFlag     N
 aZKey      91009527
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zRTrim
@@ -25598,8 +26978,10 @@ aUFlag     Y
 aZKey      160002231
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zSearchAndReplace
@@ -25637,8 +27019,10 @@ aUFlag     N
 aZKey      1452170
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zSearchAndReplaceWord
@@ -25683,8 +27067,10 @@ aUFlag     N
 aZKey      1452171
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zSearchSubString
@@ -25723,8 +27109,10 @@ aUFlag     N
 aZKey      91040279
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zSoundex
@@ -25749,8 +27137,10 @@ aUFlag     N
 aZKey      2501794
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zSqrt
@@ -25768,8 +27158,10 @@ aUFlag     N
 aZKey      160002259
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zStartSystemCommand
@@ -25792,8 +27184,10 @@ aUFlag     N
 aZKey      91009452
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zstrcmp
@@ -25818,8 +27212,10 @@ aUFlag     N
 aZKey      4166319
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zstrcmpi
@@ -25845,8 +27241,10 @@ aUFlag     N
 aZKey      4011162
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zStringIsDate
@@ -25862,8 +27260,10 @@ aUFlag     N
 aZKey      91009469
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zStringToInteger
@@ -25879,8 +27279,10 @@ aUFlag     N
 aZKey      91009533
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zstrlen
@@ -25899,8 +27301,10 @@ aUFlag     N
 aZKey      4118667
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zstrncmpi
@@ -25932,8 +27336,10 @@ aUFlag     N
 aZKey      91036274
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zstrncpy
@@ -25964,8 +27370,10 @@ aUFlag     N
 aZKey      110003610
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zstrncpyoffset
@@ -26003,8 +27411,10 @@ aUFlag     N
 aZKey      110003611
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.2d618d4
 
 eOperation 2
 aName      zstrtrim
@@ -26023,8 +27433,10 @@ aUFlag     N
 aZKey      4011163
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zSysReadLine
@@ -26065,8 +27477,10 @@ aUFlag     Y
 aZKey      110006768
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zSysReadLineLth
@@ -26107,8 +27521,10 @@ aUFlag     N
 aZKey      2166313
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zSysTranslateString
@@ -26134,8 +27550,10 @@ aUFlag     N
 aZKey      4166316
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zTagFromText
@@ -26167,8 +27585,10 @@ aUFlag     Y
 aZKey      160002272
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zToUpper
@@ -26191,8 +27611,10 @@ aUFlag     N
 aZKey      91009461
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zViewIsUpdateable
@@ -26208,8 +27630,10 @@ aUFlag     N
 aZKey      91009497
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eOperation 2
 aName      zYearIsLeapYear
@@ -26225,10 +27649,13 @@ aUFlag     N
 aZKey      91009471
 
 eSourceFile 3
+mLINKED 57ffc13c.3b7027e
 
 eHeaderFile_Oper 3
+mLINKED 57ffc13c.3b703c4
 
 eHeaderFile 2
+mLINKED 57ffc13c.2d618d4
 
 eDefinedItem 3
 aExternalValue COREFILE_APPEND
@@ -27424,6 +28851,7 @@ aInternalValue 0
 aDataType  N
 
 eHeaderFile 2
+mLINKED 57ffc13c.3bf88ee
 
 eDefinedItem 3
 aExternalValue zSIRON_TERM_AFTER_RUN
@@ -27522,11 +28950,13 @@ aInternalValue 1
 aDataType  L
 
 eHeaderFile 2
+mLINKED 57ffc13c.3c05a0c
 
 eDefinedItem 3
 aZKey      11276381
 
 eHeaderFile 2
+mLINKED 57ffc13c.2d62518
 
 eDefinedItem 3
 aExternalValue zBUTTONS_ABORTRETRYIGNORE
@@ -29047,6 +30477,7 @@ aInternalValue 5
 aDataType  N
 
 eHeaderFile 2
+mLINKED 57ffc13c.3b5744a
 
 eDefinedItem 3
 aExternalValue zMSG_REPAINTZEIDONWINDOW
@@ -29055,1505 +30486,119 @@ aInternalValue 8
 aDataType  N
 
 eHeaderFile 2
+mLINKED 57ffc13c.3b5a270
 
 eDefinedItem 3
 aZKey      95027287
 
 eHeaderFile 2
+mLINKED 57ffc13c.3b703c4
 
 eDefinedItem 3
 aZKey      3166307
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.2d61cf8
 
 eExecComposite 3
 aZKey      8053954
 aName      KZOENGAA
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.2d9b274
 
 eExecComposite 3
 aZKey      1026700
 aName      ZSEMail
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.2d617d0
 
 eExecComposite 3
 aZKey      93002380
 aName      KZOENGAA
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.2d62b5c
 
 eExecComposite 3
 aZKey      126015411
 aName      Actbar
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.3b7e90a
 
 eExecComposite 3
 aZKey      90099390
 aName      ZDRAPP
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.2d62414
 
 eExecComposite 3
 aZKey      8053955
 aName      ZDRAPP
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.3b81b52
 
 eExecComposite 3
 aZKey      1012104
 aName      Z2MP
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.2d963a0
 
 eExecComposite 3
 aZKey      91001258
 aName      ZDCTL
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.3b57346
 
 eExecComposite 3
 aZKey      1133530
 aName      TZCTL
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.3c1b822
 
 eExecComposite 3
 aZKey      127043755
 aName      TRUEGRID
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.2d9470c
 
 eExecComposite 3
 aZKey      90153252
 aName      KZRPSRCO
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.3b7027e
 
 eExecComposite 3
 aZKey      90078511
 aName      TZVMLIP
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.3ba6e10
 
 eExecComposite 3
 aZKey      95026580
 aName      tzlodopr
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.3b5a16c
 
 eExecComposite 3
 aZKey      95027283
 aName      tzlodopr
 
 eSourceFileOfOperation 2
+mLINKED 57ffc13c.3bf87ea
 
 eExecComposite 3
 aZKey      91023416
 aName      KZSIRREP
 
-i9         4
-i23        16
-i27        22
-i28        16
-i34        22
-i35        16
-i41        8
-i42        4
-i49        8
-i50        4
-i57        8
-i58        4
-i63        8
-i64        4
-i70        8
-i71        4
-i78        8
-i79        4
-i84        8
-i85        4
-i88        15
-i89        16
-i96        15
-i97        16
-i100       15
-i101       16
-i111       15
-i112       16
-i121       15
-i122       16
-i137       15
-i138       16
-i143       15
-i144       16
-i152       8
-i153       4
-i159       8
-i160       4
-i166       8
-i167       4
-i176       8
-i177       4
-i182       8
-i183       4
-i187       8
-i188       4
-i199       4
-i203       8
-i204       4
-i208       15
-i209       16
-i216       15
-i217       16
-i222       8
-i223       4
-i229       16
-i238       15
-i239       16
-i248       15
-i249       16
-i254       15
-i255       16
-i260       15
-i261       16
-i264       3
-i265       4
-i269       8
-i270       4
-i275       228
-i276       16
-i283       228
-i284       16
-i289       228
-i290       16
-i295       228
-i296       16
-i300       8
-i301       4
-i304       15
-i305       16
-i309       15
-i310       16
-i314       16
-i317       313
-i318       16
-i322       8
-i323       4
-i329       8
-i330       4
-i333       8
-i334       4
-i339       8
-i340       4
-i345       8
-i346       4
-i354       8
-i355       4
-i361       8
-i362       4
-i368       8
-i369       4
-i375       8
-i376       4
-i386       8
-i387       16
-i393       8
-i394       4
-i398       8
-i399       4
-i407       15
-i408       16
-i426       15
-i427       16
-i444       15
-i445       16
-i456       15
-i457       16
-i463       8
-i464       4
-i470       198
-i471       4
-i477       15
-i478       16
-i483       15
-i484       16
-i490       8
-i491       4
-i495       8
-i496       4
-i504       15
-i505       16
-i510       8
-i511       4
-i532       15
-i533       16
-i536       15
-i537       16
-i543       313
-i544       16
-i561       313
-i562       16
-i570       313
-i571       16
-i585       313
-i586       16
-i591       8
-i592       4
-i596       8
-i597       4
-i605       15
-i606       16
-i610       8
-i611       4
-i615       8
-i616       4
-i621       8
-i622       4
-i628       8
-i629       4
-i634       15
-i635       16
-i639       8
-i640       4
-i643       15
-i644       16
-i649       8
-i650       4
-i653       15
-i654       16
-i657       8
-i658       4
-i664       15
-i665       16
-i668       8
-i669       4
-i672       8
-i673       4
-i677       8
-i678       4
-i682       8
-i683       4
-i687       8
-i688       4
-i693       8
-i694       4
-i703       15
-i704       16
-i716       15
-i717       16
-i729       15
-i730       16
-i747       15
-i748       16
-i761       15
-i762       16
-i776       15
-i777       16
-i782       8
-i783       4
-i786       8
-i787       4
-i793       8
-i794       4
-i797       8
-i798       4
-i801       8
-i802       4
-i805       8
-i806       4
-i811       8
-i812       4
-i816       8
-i817       4
-i821       15
-i822       16
-i830       15
-i831       16
-i838       15
-i839       16
-i851       15
-i852       16
-i861       15
-i862       16
-i866       15
-i867       16
-i871       228
-i872       16
-i878       228
-i879       16
-i885       228
-i886       16
-i891       228
-i892       16
-i900       228
-i901       16
-i906       228
-i907       16
-i912       228
-i913       16
-i918       15
-i919       16
-i923       15
-i924       16
-i927       8
-i928       4
-i933       8
-i934       4
-i940       15
-i941       16
-i946       15
-i947       16
-i955       950
-i956       951
-i960       950
-i961       951
-i968       198
-i969       4
-i977       198
-i978       4
-i985       198
-i986       4
-i994       198
-i995       4
-i999       8
-i1000      4
-i1007      8
-i1008      4
-i1014      15
-i1015      16
-i1024      15
-i1025      16
-i1034      15
-i1035      16
-i1041      950
-i1042      951
-i1047      8
-i1048      4
-i1052      15
-i1053      16
-i1056      15
-i1057      16
-i1060      15
-i1061      16
-i1066      228
-i1067      16
-i1075      228
-i1076      16
-i1082      8
-i1083      4
-i1089      8
-i1090      4
-i1096      8
-i1097      4
-i1103      8
-i1104      4
-i1111      8
-i1112      4
-i1118      8
-i1119      4
-i1126      8
-i1127      4
-i1132      15
-i1133      16
-i1138      8
-i1139      4
-i1142      15
-i1143      16
-i1152      15
-i1153      16
-i1160      15
-i1161      16
-i1170      15
-i1171      16
-i1177      15
-i1178      16
-i1186      15
-i1187      16
-i1196      16
-i1203      15
-i1204      16
-i1209      15
-i1210      16
-i1216      15
-i1217      16
-i1221      15
-i1222      16
-i1228      8
-i1229      4
-i1233      8
-i1234      4
-i1238      15
-i1239      16
-i1241      8
-i1242      4
-i1250      16
-i1260      1249
-i1261      16
-i1267      15
-i1268      16
-i1272      8
-i1273      4
-i1279      8
-i1280      4
-i1286      8
-i1287      4
-i1295      8
-i1296      4
-i1300      15
-i1301      16
-i1306      8
-i1307      4
-i1313      8
-i1314      4
-i1318      15
-i1319      16
-i1323      15
-i1324      16
-i1329      15
-i1330      16
-i1334      15
-i1335      16
-i1341      8
-i1342      4
-i1350      8
-i1351      4
-i1356      518
-i1357      519
-i1362      518
-i1363      519
-i1370      15
-i1371      16
-i1376      15
-i1377      16
-i1392      15
-i1393      16
-i1397      15
-i1398      16
-i1403      15
-i1404      16
-i1407      15
-i1408      16
-i1412      15
-i1413      16
-i1417      15
-i1418      16
-i1424      8
-i1425      4
-i1429      8
-i1430      4
-i1434      566
-i1435      567
-i1441      8
-i1442      4
-i1450      8
-i1451      4
-i1458      8
-i1459      4
-i1464      8
-i1465      4
-i1470      15
-i1471      16
-i1474      8
-i1475      4
-i1479      15
-i1480      16
-i1484      15
-i1485      16
-i1496      8
-i1497      4
-i1503      8
-i1504      4
-i1507      8
-i1508      4
-i1514      8
-i1515      4
-i1521      15
-i1522      16
-i1527      15
-i1528      16
-i1532      15
-i1533      16
-i1549      15
-i1550      16
-i1556      228
-i1557      16
-i1563      228
-i1564      16
-i1572      228
-i1573      16
-i1579      228
-i1580      16
-i1586      228
-i1587      16
-i1591      228
-i1592      16
-i1598      228
-i1599      16
-i1605      228
-i1606      16
-i1613      228
-i1614      16
-i1622      228
-i1623      16
-i1632      228
-i1633      16
-i1639      228
-i1640      16
-i1647      228
-i1648      16
-i1653      228
-i1654      16
-i1660      228
-i1661      16
-i1669      228
-i1670      16
-i1675      228
-i1676      16
-i1681      228
-i1682      16
-i1687      228
-i1688      16
-i1694      228
-i1695      16
-i1703      15
-i1704      16
-i1710      15
-i1711      16
-i1715      15
-i1716      16
-i1723      8
-i1724      4
-i1729      198
-i1730      4
-i1735      198
-i1736      4
-i1742      8
-i1743      4
-i1747      15
-i1748      16
-i1756      15
-i1757      16
-i1761      15
-i1762      16
-i1766      15
-i1767      16
-i1771      15
-i1772      16
-i1774      15
-i1775      16
-i1778      950
-i1779      951
-i1781      15
-i1782      16
-i1788      8
-i1789      4
-i1792      15
-i1793      16
-i1800      228
-i1801      16
-i1807      228
-i1808      16
-i1812      228
-i1813      16
-i1819      228
-i1820      16
-i1829      228
-i1830      16
-i1836      228
-i1837      16
-i1842      228
-i1843      16
-i1848      228
-i1849      16
-i1854      228
-i1855      16
-i1860      228
-i1861      16
-i1867      228
-i1868      16
-i1874      8
-i1875      4
-i1883      567
-i1886      15
-i1887      16
-i1890      15
-i1891      16
-i1895      15
-i1896      16
-i1900      15
-i1901      16
-i1905      15
-i1906      16
-i1908      1249
-i1909      16
-i1919      1249
-i1920      16
-i1923      1249
-i1924      16
-i1926      1249
-i1927      16
-i1929      1249
-i1930      16
-i1932      1249
-i1933      16
-i1935      15
-i1936      16
-i1945      1249
-i1946      16
-i1949      15
-i1950      16
-i1955      228
-i1956      16
-i1960      8
-i1961      4
-i1971      8
-i1972      4
-i1981      8
-i1982      4
-i1990      8
-i1991      4
-i1995      8
-i1996      4
-i2000      8
-i2001      4
-i2006      8
-i2007      4
-i2012      8
-i2013      4
-i2016      8
-i2017      4
-i2021      8
-i2022      4
-i2030      8
-i2031      4
-i2035      8
-i2036      4
-i2041      8
-i2042      4
-i2045      8
-i2046      4
-i2049      8
-i2050      4
-i2054      8
-i2055      4
-i2058      8
-i2059      4
-i2062      8
-i2063      4
-i2068      228
-i2069      16
-i2075      228
-i2076      16
-i2080      228
-i2081      16
-i2086      228
-i2087      16
-i2092      228
-i2093      16
-i2099      228
-i2100      16
-i2107      228
-i2108      16
-i2113      228
-i2114      16
-i2119      228
-i2120      16
-i2125      228
-i2126      16
-i2131      228
-i2132      16
-i2139      228
-i2140      16
-i2145      228
-i2146      16
-i2159      228
-i2160      16
-i2164      228
-i2165      16
-i2169      228
-i2170      16
-i2177      228
-i2178      16
-i2184      228
-i2185      16
-i2190      228
-i2191      16
-i2197      228
-i2198      16
-i2204      228
-i2205      16
-i2211      228
-i2212      16
-i2218      228
-i2219      16
-i2226      228
-i2227      16
-i2240      228
-i2241      16
-i2246      228
-i2247      16
-i2255      15
-i2256      16
-i2267      15
-i2268      16
-i2271      8
-i2272      4
-i2278      15
-i2279      16
-i2288      15
-i2289      16
-i2295      15
-i2296      16
-i2304      15
-i2305      16
-i2313      15
-i2314      16
-i2320      15
-i2321      16
-i2325      8
-i2326      4
-i2331      8
-i2332      4
-i2335      8
-i2336      4
-i2354      15
-i2355      16
-i2371      15
-i2372      16
-i2375      15
-i2376      16
-i2391      15
-i2392      16
-i2395      15
-i2396      16
-i2405      15
-i2406      16
-i2418      15
-i2419      16
-i2427      15
-i2428      16
-i2436      15
-i2437      16
-i2445      15
-i2446      16
-i2455      15
-i2456      16
-i2464      15
-i2465      16
-i2470      15
-i2471      16
-i2486      15
-i2487      16
-i2491      8
-i2492      4
-i2495      15
-i2496      16
-i2500      15
-i2501      16
-i2516      15
-i2517      16
-i2520      15
-i2521      16
-i2525      15
-i2526      16
-i2531      15
-i2532      16
-i2535      15
-i2536      16
-i2540      15
-i2541      16
-i2548      8
-i2549      4
-i2555      8
-i2556      4
-i2562      8
-i2563      4
-i2569      15
-i2570      16
-i2576      15
-i2577      16
-i2580      950
-i2581      951
-i2585      15
-i2586      16
-i2592      15
-i2593      16
-i2597      15
-i2598      16
-i2601      8
-i2602      4
-i2605      8
-i2606      4
-i2609      8
-i2610      4
-i2617      15
-i2618      16
-i2622      15
-i2623      16
-i2629      8
-i2630      4
-i2637      8
-i2638      4
-i2646      8
-i2647      4
-i2654      8
-i2655      4
-i2661      8
-i2662      4
-i2668      8
-i2669      4
-i2675      8
-i2676      4
-i2686      8
-i2687      4
-i2693      8
-i2694      4
-i2700      8
-i2701      4
-i2707      8
-i2708      4
-i2716      8
-i2717      4
-i2724      8
-i2725      4
-i2731      8
-i2732      4
-i2739      8
-i2740      4
-i2745      15
-i2746      16
-i2755      15
-i2756      16
-i2763      15
-i2764      16
-i2771      15
-i2772      16
-i2779      1195
-i2780      16
-i2787      15
-i2788      16
-i2794      15
-i2795      16
-i2800      15
-i2801      16
-i2806      15
-i2807      16
-i2812      8
-i2813      4
-i2818      8
-i2819      4
-i2828      8
-i2829      4
-i2836      8
-i2837      4
-i2844      8
-i2845      4
-i2852      8
-i2853      4
-i2860      8
-i2861      4
-i2866      8
-i2867      4
-i2872      8
-i2873      4
-i2878      8
-i2879      4
-i2888      8
-i2889      4
-i2896      8
-i2897      4
-i2904      8
-i2905      4
-i2912      8
-i2913      4
-i2920      8
-i2921      4
-i2926      8
-i2927      4
-i2932      8
-i2933      4
-i2938      8
-i2939      4
-i2945      8
-i2946      4
-i2951      8
-i2952      4
-i2957      8
-i2958      4
-i2961      15
-i2962      16
-i2966      8
-i2967      4
-i2974      8
-i2975      4
-i2987      8
-i2988      4
-i3000      8
-i3001      4
-i3006      15
-i3007      16
-i3012      15
-i3013      16
-i3017      15
-i3018      16
-i3022      15
-i3023      16
-i3028      8
-i3029      4
-i3036      8
-i3037      4
-i3043      15
-i3044      16
-i3048      15
-i3049      16
-i3052      15
-i3053      16
-i3059      8
-i3060      4
-i3064      15
-i3065      16
-i3074      8
-i3075      4
-i3081      15
-i3082      16
-i3086      15
-i3087      16
-i3092      15
-i3093      16
-i3097      8
-i3098      4
-i3103      8
-i3104      4
-i3110      8
-i3111      4
-i3115      8
-i3116      4
-i3120      8
-i3121      4
-i3125      8
-i3126      4
-i3129      8
-i3130      4
-i3134      8
-i3135      4
-i3138      8
-i3139      4
-i3145      15
-i3146      16
-i3151      15
-i3152      16
-i3157      15
-i3158      16
-i3164      8
-i3165      4
-i3172      8
-i3173      4
-i3177      8
-i3178      4
-i3180      8
-i3181      4
-i3186      8
-i3187      4
-i3192      8
-i3193      4
-i3197      8
-i3198      4
-i3202      8
-i3203      4
-i3206      8
-i3207      4
-i3211      8
-i3212      4
-i3218      8
-i3219      4
-i3222      8
-i3223      4
-i3229      8
-i3230      4
-i3234      8
-i3235      4
-i3240      8
-i3241      4
-i3245      8
-i3246      4
-i3249      8
-i3250      4
-i3253      8
-i3254      4
-i3258      8
-i3259      4
-i3263      8
-i3264      4
-i3269      8
-i3270      4
-i3274      8
-i3275      4
-i3280      8
-i3281      4
-i3289      3285
-i3290      3286
-i3293      3285
-i3294      3286
-i3301      3285
-i3302      3286
-i3306      3285
-i3307      3286
-i3317      3285
-i3318      3286
-i3323      3285
-i3324      3286
-i3329      3285
-i3330      3286
-i3334      3285
-i3335      3286
-i3341      3285
-i3342      3286
-i3359      228
-i3360      16
-i3377      228
-i3378      16
-i3385      15
-i3386      16
-i3392      228
-i3393      16
-i3400      228
-i3401      16
-i3407      228
-i3408      16
-i3415      228
-i3416      16
-i3424      15
-i3425      16
-i3435      15
-i3436      16
-i3446      15
-i3447      16
-i3453      15
-i3454      16
-i3459      15
-i3460      16
-i3466      8
-i3467      4
-i3473      8
-i3474      4
-i3481      8
-i3482      4
-i3489      8
-i3490      4
-i3497      8
-i3498      4
-i3503      8
-i3504      4
-i3508      15
-i3509      16
-i3512      8
-i3520      8
-i3521      3513
-i3524      8
-i3525      3513
-i3530      8
-i3531      3513
-i3536      8
-i3537      4
-i3542      8
-i3543      4
-i3547      8
-i3548      3513
-i3552      8
-i3553      4
-i3559      8
-i3560      3513
-i3564      8
-i3565      3513
-i3568      8
-i3569      3513
-i3572      8
-i3573      3513
-i3578      8
-i3579      3513
-i3584      8
-i3585      3513
-i3589      8
-i3590      3513
-i3593      8
-i3594      3513
-i3597      8
-i3598      3513
-i3602      8
-i3603      3513
-i3607      8
-i3608      4
-i3611      8
-i3612      3513
-i3614      8
-i3615      3513
-i3620      8
-i3621      3513
-i3625      8
-i3626      3513
-i3631      8
-i3632      3513
-i3637      8
-i3638      4
-i3644      8
-i3645      3513
-i3648      8
-i3649      3513
-i3655      8
-i3656      4
-i3661      8
-i3662      4
-i3667      8
-i3668      3513
-i3673      8
-i3674      3513
-i3678      8
-i3679      3513
-i3685      8
-i3686      3513
-i3691      8
-i3692      3513
-i3698      8
-i3699      3513
-i3705      8
-i3706      3513
-i3712      8
-i3713      3513
-i3717      8
-i3718      4
-i3722      8
-i3727      8
-i3728      3513
-i3733      8
-i3734      4
-i3741      8
-i3742      4
-i3745      8
-i3746      4
-i3750      8
-i3751      3513
-i3755      8
-i3756      3513
-i3760      8
-i3761      3513
-i3766      8
-i3767      3513
-i3773      8
-i3774      4
-i3777      15
-i3778      16
-i3784      8
-i3785      3513
-i3790      8
-i3791      3513
-i3798      8
-i3799      3513
-i3804      228
-i3805      16
-i3809      228
-i3810      16
-i3816      228
-i3817      16
-i3823      228
-i3824      16
-i3829      228
-i3830      16
-i3835      228
-i3836      16
-i3846      8
-i3847      4
-i3854      8
-i3855      4
-i3861      8
-i3862      4
-i3869      8
-i3870      4
-i3877      228
-i3878      16
-i3884      228
-i3885      16
-i3888      15
-i3889      16
-i3892      15
-i3893      16
-i3899      16
-i3904      3898
-i3905      16
-i3910      3898
-i3911      16
-i3917      3898
-i3918      16
-i3925      3898
-i3926      16
-i3933      3898
-i3934      16
-i3938      3898
-i3939      16
-i3944      3898
-i3945      16
-i3951      3898
-i3952      16
-i3958      3898
-i3959      16
-i3965      3898
-i3966      16
-i3972      3898
-i3973      16
-i3979      3898
-i3980      16
-i3985      3898
-i3986      16
-i3992      3898
-i3993      16
-i3998      3898
-i3999      16
-i4004      3898
-i4005      16
-i4011      3898
-i4012      16
-i4018      3898
-i4019      16
-i4025      3898
-i4026      16
-i4033      3898
-i4034      16
-i4041      3898
-i4042      16
-i4048      3898
-i4049      16
-i4055      3898
-i4056      16
-i4067      3898
-i4068      16
-i4074      3898
-i4075      16
-i4081      3898
-i4082      16
-i4088      3898
-i4089      16
-i4094      3898
-i4095      16
-i4101      3898
-i4102      16
-i4108      3898
-i4109      16
-i4113      8
-i4114      4
-i4118      8
-i4119      4
-i4123      8
-i4124      4
-i4128      8
-i4129      4
-i4133      8
-i4134      4
-i4151      228
-i4152      16
-i4158      228
-i4159      16
-i4176      228
-i4177      16
-i4182      8
-i4183      4
-i4189      8
-i4190      4
-i4196      8
-i4197      4
-i4202      8
-i4203      4
-i4206      8
-i4207      4
-i4209      8
-i4210      4
-i4214      3
-i4215      4
-i4218      3
-i4219      4
-i4224      8
-i4225      4
-i4229      3
-i4230      4
-i4233      3
-i4234      4
-i4236      8
-i4237      4
-i4241      15
-i4242      16
-i4248      15
-i4249      16
-i4255      8
-i4256      4
-i4259      950
-i4260      951
-i4266      950
-i4267      951
-i4270      8
-i4271      4
-i4274      950
-i4275      951
-i4278      950
-i4279      951
-i4282      950
-i4283      951
-i4286      1882
-i4287      951
-i4290      950
-i4291      951
-i4297      8
-i4298      4
-i4304      8
-i4305      4
-i4314      8
-i4315      4
-i4324      8
-i4325      4
-i4334      8
-i4335      4
-i4344      8
-i4345      4
-i4350      8
-i4351      4
-i4356      950
-i4357      951
-i4361      950
-i4362      951
-i4368      950
-i4369      951
-i4372      950
-i4373      951
-i4378      950
-i4379      951
-i4382      950
-i4383      951
-i4387      950
-i4388      951
-i4394      950
-i4395      951
-i4400      950
-i4401      951
-i4405      950
-i4406      951
-i4410      950
-i4411      951
-i4415      950
-i4416      951
-i4421      950
-i4422      951
-i4426      950
-i4427      951
-i4430      950
-i4431      951
-i4434      950
-i4435      951
-i4439      950
-i4440      951
-i4443      8
-i4444      16
-i4449      950
-i4450      951
-i4456      8
-i4457      4
-i4463      950
-i4464      951
-i4468      950
-i4469      951
-i4474      950
-i4475      951
-i4479      950
-i4480      951
-i4483      8
-i4484      16
-i4488      950
-i4489      4
-i4494      950
-i4495      951
-i4499      8
-i4500      16
-i4504      950
-i4505      951
-i4509      950
-i4510      951
-i4514      950
-i4515      951
-i4520      950
-i4521      951
-i4526      950
-i4527      951
-i4533      950
-i4534      951
-i4540      950
-i4541      951
-i4547      950
-i4548      951
-i4553      950
-i4554      951
-i4559      950
-i4560      951
-i4566      950
-i4567      951
-i4574      950
-i4575      951
-i4581      950
-i4582      951
-i4586      950
-i4587      951
-i4590      950
-i4591      951
-i4595      950
-i4596      951
-i4600      950
-i4601      4
-i4605      950
-i4606      4
-i4609      950
-i4610      951
-i4613      950
-i4614      951
-i4617      950
-i4618      4
-i4623      950
-i4624      4
-i4629      950
-i4630      4
-i4636      950
-i4637      4
-i4640      950
-i4641      951
-i4647      950
-i4648      951
-i4654      950
-i4655      951
-i4659      950
-i4660      951
-i4665      950
-i4666      951
-i4670      950
-i4671      951
-i4674      950
-i4675      951
-i4678      950
-i4679      951
-i4680      4
-i4880      3286
-i4897      3513
-i4899      16
-i5153      519
-i5155      567
-i5157      951
-i5159      8
-i5161      313
-i5163      3
-i5165      22
-i5167      1195
-i5169      15
-i5171      1249
-i5173      228
-i5175      518
-i5177      3898
-i5179      198
-i5181      950
-i5183      1882
-i5185      566
-i5187      3285

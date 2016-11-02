@@ -43,8 +43,11 @@ BuildMainNavSection( VIEW vDialog,
                      VIEW vDialogRoot BASED ON LOD TZWDLGSO,
                      INTEGER lFile )
 
+   VIEW vCurrentDlgRoot BASED ON LOD TZWDLGSO
    STRING ( 10000 ) szWriteBuffer
-   STRING ( 50 )    szNavigationTitle
+   STRING ( 500 )   szNavigationTitle
+   STRING ( 500 )   szText
+   STRING ( 5 )     szSrch
    STRING ( 256 )   szHTML_Address
    STRING ( 256 )   szHTML5Attr
    STRING ( 256 )   szClass
@@ -54,7 +57,12 @@ BuildMainNavSection( VIEW vDialog,
    STRING ( 1 )     szWindowIsjMobile
    INTEGER          ActionType
    SHORT            nRC
-
+   
+   // We need the root of the dialog being generated but sometimes the passed vDialogRoot is
+   // the root of a different dialog (if we are reusing menu from a different dialog). 
+   // Get the root of the dialog being generated.
+   GET VIEW vCurrentDlgRoot NAMED "DialogRoot"
+   
    IF vDialog.WndStyle.Tag = "jMobile Window"
       szWindowIsjMobile = "Y"
    ELSE
@@ -90,7 +98,19 @@ BuildMainNavSection( VIEW vDialog,
    WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
    FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
-      szNavigationTitle = vDialogRoot.Option.Text
+      //szNavigationTitle = vDialogRoot.Option.Text
+      // KJS 09/30/16 - Language Conversion.
+      // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+      // So for now, I am always using, if the flag is set.
+      IF vCurrentDlgRoot.Dialog.wWebUsesLanguageConversion = "Y"
+         szText = vDialogRoot.Option.Text
+         zSearchAndReplace( szText, 500, "\", "\\" )
+         szSrch = "\" + QUOTES 
+         zSearchAndReplace( szText, 500, QUOTES, szSrch )
+         szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
+      ELSE
+         szNavigationTitle = vDialogRoot.Option.Text
+      END
       szDialogName = vDialogRoot.OptAct.DialogName
       IF szDialogName = ""
          szDialogName = "NoDialogName"

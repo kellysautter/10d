@@ -33,6 +33,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szHTML5Attr
    STRING ( 256 ) szPlaceholder
    STRING ( 256 ) szjMobileDataRole
+   STRING ( 20 )  szNumber
    STRING ( 10 )  szSelectAction
    STRING ( 10 )  szSelectFunction
    STRING ( 50 )  szCtrlTag
@@ -60,7 +61,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szBorder
    STRING ( 100 ) szRadioGroupName
    STRING ( 256 ) szWidget
-   STRING ( 256 ) szText
+   STRING ( 500 ) szText
+   STRING ( 500 ) szText2
+   STRING ( 5 )   szSrch
    STRING ( 64 )  szTerm
    STRING ( 20 )  szJustify
    STRING ( 50 )  szWebCtrlType
@@ -1194,7 +1197,22 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                   // jumps to the top of the page. Adding the #CtrlTag, keeps it anchored.
                   szWriteBuffer = "<div style=^height:20px;^>"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "<a href=^#" + szCtrlTag + "^ onclick=^animatedcollapse.toggle('" + szCtrlTag + "');^ style=^^>" + vDialog.Control.Text + "</a></div>"
+                  
+                  
+                  IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+                     // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
+                     // is where the text is <img src="./images/admi..." border="0".
+                     szText2 = vDialog.Control.Text
+                     zSearchAndReplace( szText2, 1000, "\", "\\" )
+                     szSrch = "\" + QUOTES 
+                     zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
+                     szSrch = ""
+                     szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+                  ELSE
+                     szText = vDialog.Control.Text
+                  END
+                  
+                  szWriteBuffer = "<a href=^#" + szCtrlTag + "^ onclick=^animatedcollapse.toggle('" + szCtrlTag + "');^ style=^^>" + szText + "</a></div>"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                END
             END
@@ -1211,15 +1229,30 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                // jumps to the top of the page. Adding the #CtrlTag, keeps it anchored.
                szWriteBuffer = "<div style=^height:20px;^>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+            
+               IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+                  // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
+                  // is where the text is <img src="./images/admi..." border="0".
+                  szText2 = vDialog.Control.Text
+                  zSearchAndReplace( szText2, 1000, "\", "\\" )
+                  szSrch = "\" + QUOTES 
+                  zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
+                  szSrch = ""
+                  szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+               ELSE
+                  szText = vDialog.Control.Text
+               END
+
                
                szWriteBuffer = "<a href=^#^ rel=^toggle['" + szCtrlTag + "']^ data-openimage=^toggle-open.png^ data-closedimage=^toggle-close.png^>"
-               szWriteBuffer = szWriteBuffer + "<div class=^showhidetoggle^><div style=^float:right^><img src=^toggle-close.png^ /></div>" + vDialog.Control.Text + "</div></a></div>"
+               szWriteBuffer = szWriteBuffer + "<div class=^showhidetoggle^><div style=^float:right^><img src=^toggle-close.png^ /></div>" + szText + "</div></a></div>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END
             
             // If groupbox is toggle and also we are doing jMobile then there is only one <div> as opposed to two divs for animatedcollapse generation.
             IF ( szToggleFlag = "Y" OR szToggleFlag2 = "Y" ) AND szWindowIsjMobile = "Y"
-               szWriteBuffer = "<div data-role=^collapsible^ " + szHTMLCtrlID + szHTML5Attr + szClass + szAbsoluteStyle + ">  <!-- " + vDialog.Control.Tag + " --> "
+               szWriteBuffer = "<div data-role=^collapsible^ " + szHTMLCtrlID + szHTML5Attr + szClass + szAbsoluteStyle + ">  <!-- " + szText + " --> "
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "<h1>" + vDialog.Control.Text + "</h1>"
             ELSE 
@@ -3984,9 +4017,16 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            IF vDialog.Control.WebPlaceholder != ""
                               szPlaceholder = " placeholder=^" + vDialog.Control.WebPlaceholder + "^ "
                            END
+                                                     
+                           szNumber = "" 
+                           SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Number (Used with Edit)"
+                           IF RESULT >= zCURSOR_SET
+                              szNumber = " type=^number^"
+                           END
+                                                                              
                            //KJS 7/26/07 - Added DISABLED option.
                            //KJS 10/19/07 - Added title
-                           szWriteBuffer = "   " + szItemTableHeader + "><input" + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
+                           szWriteBuffer = "   " + szItemTableHeader + "><input" + szNumber + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
                                                   "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ " + szTitleHTML + szDisabled + "></td>"
                         ELSE
                         IF vDialog.Control.WebCtrlType = "Multiline" OR szWCP_Multiline = "Y"
@@ -7255,6 +7295,23 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             szWriteBuffer = "      View " + szViewName + " = task.getViewByName( ^" + szViewName + "^ );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          END
+
+	 // This is code that Doug had intead of my above code ... 
+	 // since I don't understand it at the moment, I am putting here but it's commentted out.
+	/*
+         // We don't want the getViewByName if it was generated above with the code:
+         // IF nGridParent = 1 OR szRepeatingGroupFlag = "Y"
+         IF nGridParent = 1 OR szRepeatingGroupFlag = "Y"
+            szWriteBuffer = "         EntityCursor cursor = " + szViewName + ".cursor( ^" + szEntityName + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         ELSE
+            // dks 2016.04.15 ... rather than debugging when this improperly occurs, changing the name of the view by adding Auto
+            szWriteBuffer = "         View " + szViewName + "Auto = task.getViewByName( ^" + szViewName + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         EntityCursor cursor = " + szViewName + "Auto.cursor( ^" + szEntityName + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+	*/
          
          szWriteBuffer = "      EntityCursor cursor = " + szViewName + ".cursor( ^" + szEntityName + "^ );"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

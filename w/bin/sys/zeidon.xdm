@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZDMXGPO 09/01/16   09:57:03 1.0a2   
+z1000-Zeidon    ZEIDON   TZDMXGPO 10/19/16   10:46:05 1.0a2    
 eDomainGroup 1
 aName      Zeidon9B
 
@@ -5798,7 +5798,7 @@ aExternalValue Start Jasper PDF Report
 aInternalValue 48
 
 eTableEntry 4
-aZKey      130069820
+aZKey      130069821
 aExternalValue Start Jasper XLS File
 aInternalValue 49
 
@@ -6620,14 +6620,14 @@ aName      WD_WebEditControlProperties
 aIsDefault Y
 
 eTableEntry 4
-aZKey      68304448
-aExternalValue No Current Values
-aInternalValue No Current Values
-
-eTableEntry 4
-aZKey      130069818
+aZKey      130069820
 aExternalValue Autocomplete Off
 aInternalValue Autocomplete Off
+
+eTableEntry 4
+aZKey      130069822
+aExternalValue Number
+aInternalValue Number
 
 eTableEntry 4
 aZKey      92656445
@@ -6695,7 +6695,7 @@ aExternalValue Filter Rows (wHideTableRow='Y')
 aInternalValue Filter Rows
 
 eTableEntry 4
-aZKey      130069817
+aZKey      130069819
 aExternalValue Generate as <ul> List
 aInternalValue Gen As List
 
@@ -6725,6 +6725,16 @@ aExternalValue Edit
 aInternalValue Edit
 
 eTableEntry 4
+aZKey      130069825
+aExternalValue Number (Used with Edit)
+aInternalValue Number
+
+eTableEntry 4
+aZKey      90249868
+aExternalValue Wrap
+aInternalValue WRAP
+
+eTableEntry 4
 aZKey      68304443
 aExternalValue Multiline
 aInternalValue Multiline
@@ -6738,11 +6748,6 @@ eTableEntry 4
 aZKey      68442680
 aExternalValue Absolute Width
 aInternalValue Absolute Width
-
-eTableEntry 4
-aZKey      90249868
-aExternalValue Wrap
-aInternalValue WRAP
 
 eTableEntry 4
 aZKey      90768599
@@ -6825,7 +6830,7 @@ aExternalValue Show/Hide Toggle2
 aInternalValue Show/Hide Toggle2
 
 eTableEntry 4
-aZKey      130069819
+aZKey      130069818
 aExternalValue Menu Action List
 aInternalValue Menu Action List
 

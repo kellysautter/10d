@@ -562,3 +562,64 @@ w\ut\xwdgen\xwdgen.c:    * Fill in window class structure with parameters that d
 _common\_class\regex.cpp:              /* If the regs structure we return has more elements than
 _common\_class\regex.cpp:           registers data structure) under the register number.  */
 _common\_class\regex.cpp:  /* Copy the register information to the POSIX structure.  */
+a\ed\zeditor.c:   // Following called from CWDIALOG.C when opening a file.
+a\oe\kzhdbvaa.c://       DBH_Error( lpView, "Error opening database.",
+a\oe\kzhdbvaa.c:         TraceLineS( "Error opening database: ", szFullDBN );
+a\oe\kzhsqlga.c:   zPCHAR pchNextJoinParen;   // Ptr to next available space for opening paren.
+a\oe\kzhsqlga.c:      // Set aside some spaces for opening parens.  We'll be safe and set aside
+a\oe\kzhsqlga.c:      // so let's add an opening paren.
+a\oe\kzhsqlga.c:   // Add the opening paren.
+a\oe\kzhsqlga.c:               // Add the opening paren.
+a\oe\kzhsqlxa.c:   GetWorkObject( ) was ignoring the return code when opening a DB connection.
+a\oe\kzoeapaa.c:         // "KZOEE009 - Error opening application definition file"
+a\oe\kzoeapaa.c:      // "KZOEE011 - Error opening application domains file"
+a\oe\kzoeataa.c:      // "KZOEE190 - Error opening temporary file"
+a\oe\kzoeataa.c:      // "KZOEE190 - Error opening temporary file"
+a\oe\kzoeataa.c:      // "KZOEE024190 - Error opening file"
+a\oe\kzoeneta.c:   // Try opening the file.
+a\oe\kzoeneta.c:      // Skip opening paren if it's there -- they're harmless.
+a\oe\kzoeodaa.c:      //  "KZOEE050 - Error opening View Object file "
+a\oe\kzoeodaa.c:      TraceLineS( "(od) opening Object Def file Name: ", ProcessInfo.szFileName );
+a\oe\kzoeoiaa.c:            TraceLineS( "(oi) opening >>>>>>>>>> ", szOpenFileName );
+a\oe\kzoeoiaa.c:            TraceLineS( "(oi) opening ", szOpenFileName );
+a\oe\kzoeoiaa.c:         //  "KZOEE071 - Error opening instance file "
+a\oe\kzoeoiaa.c:      //  "KZOEE071 - Error opening instance file "
+a\oe\kzoexmla.c:   // Ok, we wrote the opening tag so set the name in the "entity stack".
+a\oe\kzoexmla.c:      //  "KZOEE071 - Error opening instance file "
+a\oe\kzoexmla.c:      //  "KZOEE071 - Error opening instance file "
+a\oe\kzoexmla.c:      //  "KZOEE071 - Error opening instance file "
+a\tz\tzdmupdd.c:   // opening the domain, so I am commenting this out but leaving the code here just
+a\tz\tzedfrmd.c:      // There is no meta view so we must be opening the current file using the Open/File menu command.
+a\tz\tzedvmld.C:      // There is no meta view so we must be opening the current file using
+a\tz\tzhkeyad.c:   TraceLineS( "Hotkey Dialog opening file: ", szFileSpec );
+a\tz\tzlooprs.c:                    "Error opening file '%s'.  Check specification of Environment directory for a valid directory name.", szFileName );
+a\tz\tzobrwad.c://    2 - if there is a problem opening them
+a\tz\tzrpupsd.c:   because of 'Assertion failed' while opening a SironReport File
+a\tz\tzvmg2aa.c:               pchOutputExprStr[ nOutputIdx-- ] = '('; // opening paren
+a\tz\tzvmp1aa.c:      // We are using g_sWhereLeft.lLevel/g_sWhereRight.lLevel to store the number of opening/closing parens.  Thus we get the
+a\tz\tzvmp2aa.c:         // Insert opening parens, if necessary.
+a\tz\tzvmp5aa.c:      // insert opening parens, if necessary
+a\tz\tzvmp6aa.c:         // Insert opening parens, if necessary.
+a\tz\tzvmp6aa.c:            lLevel += g_sWhereLeft[ i ].lLevel;  // opening parens before
+a\tz\tzvmp6aa.c:            // we first insert an opening paren before the first AND
+a\tz\tzvmp9aa.c:      // Insert opening parens, if there.
+a\tz\tzvmpaaa.c:         // Error opening temp file for write
+a\tz\tzwdlg4o.c:            //:// We are opening a popup window within this dialog
+a\tz\tzwdlg4o.c:               //:// We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg4o.c:                        //:// We are opening a popup window within this dialog
+a\tz\tzwdlg4o.c:                           //:// We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg6o.c:         //:   // We are opening a popup window within this dialog
+a\tz\tzwdlg6o.c:         //:      // We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg6o.c:                     //:// We are opening a popup window within this dialog
+a\tz\tzwdlg6o.c:                        //:// We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Error opening file \'" );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Error opening file \'" );
+a\zdr\jpeglib\JPEGTRAN.C:   * values read here are ignored; we will rescan the switches after opening
+w\oe\kzoengwa.c:   // Just a way to test if we are opening the right INI file.
+w\oe\kzoengwa.c:               MessageBox( GetActiveWindow( ), "Error opening trace file!",
+w\oe\kzoesyaa.c:         // {9,"KZOEE009 - Error opening application definition file"},
+w\oe\kzoesyaa.c:   // by opening a view to the (named) shared memory mapping file.
+w\oe\kzoesyaa.c:         // {9,"KZOEE009 - Error opening application definition file"},
+w\oe\kzoesyaa.c:                     TraceLine( "Message Handler Error opening log file (%s) for message: %s",
+w\oe\kzoesyaa.c:// somewhat by opening the Tasking dialog box in the System applet found in the
+w\ut\qdelete\qdelete.c:            printf( "Error opening file %s\n", pszFileName );
