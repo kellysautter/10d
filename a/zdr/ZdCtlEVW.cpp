@@ -4503,10 +4503,50 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
 
 void ZCrystalEditView::PageUp()
 {
+	int nNewTopLine = m_nTopLine - GetScreenLines() + 1;
+	if (nNewTopLine < 0)
+		nNewTopLine = 0;
+	if (m_nTopLine != nNewTopLine)
+	{
+		ScrollToLine(nNewTopLine);
+		UpdateSiblingScrollPos(TRUE);
+	}
+
+	m_ptCursorPos.y -= GetScreenLines() - 1;
+	if (m_ptCursorPos.y < 0)
+		m_ptCursorPos.y = 0;
+	if (m_ptCursorPos.x > GetLineLength(m_ptCursorPos.y))
+		m_ptCursorPos.x = GetLineLength(m_ptCursorPos.y);
+	m_nIdealCharPos = CalculateActualOffset(m_ptCursorPos.y, m_ptCursorPos.x);
+	EnsureVisible(m_ptCursorPos); //todo: no vertical scroll
+	UpdateCaret();
+	//if (!bSelect)
+	m_ptAnchor = m_ptCursorPos;
+	SetSelection(m_ptAnchor, m_ptCursorPos);
 }
 
 void ZCrystalEditView::PageDown()
 {
+	int nNewTopLine = m_nTopLine + GetScreenLines() - 1;
+	if (nNewTopLine >= GetLineCount())
+		nNewTopLine = GetLineCount() - 1;
+	if (m_nTopLine != nNewTopLine)
+	{
+		ScrollToLine(nNewTopLine);
+		UpdateSiblingScrollPos(TRUE);
+	}
+
+	m_ptCursorPos.y += GetScreenLines() - 1;
+	if (m_ptCursorPos.y >= GetLineCount())
+		m_ptCursorPos.y = GetLineCount() - 1;
+	if (m_ptCursorPos.x > GetLineLength(m_ptCursorPos.y))
+		m_ptCursorPos.x = GetLineLength(m_ptCursorPos.y);
+	m_nIdealCharPos = CalculateActualOffset(m_ptCursorPos.y, m_ptCursorPos.x);
+	EnsureVisible(m_ptCursorPos); //todo: no vertical scroll
+	UpdateCaret();
+	//if (!bSelect)
+	m_ptAnchor = m_ptCursorPos;
+	SetSelection(m_ptAnchor, m_ptCursorPos);
 }
 
 int ZCrystalEditView::EditFind()
@@ -8997,47 +9037,6 @@ EDT_PrintObject( zVIEW vSubtask )
 }
 
 zOPER_EXPORT zBOOL OPERATION
-EDT_PageUp(zVIEW vSubtask)
-{
-	ZSubtask *pZSubtask;
-	ZMapAct  *pzma;
-
-	if (GetWindowAndCtrl(&pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME) == 0)
-	{
-		ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST(ZCrystalEditView, pzma->m_pCtrl);
-		if (pED_Crystal)
-		{
-			pED_Crystal->PageUp();
-			return(TRUE);
-		}
-
-		TraceLineS("drvr - Invalid control type for EDT_PageDown ", EDIT_CONTROL_NAME);
-	}
-	return(FALSE);
-}
-
-
-zOPER_EXPORT zBOOL OPERATION
-EDT_PageDown(zVIEW vSubtask)
-{
-	ZSubtask *pZSubtask;
-	ZMapAct  *pzma;
-
-	if (GetWindowAndCtrl(&pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME) == 0)
-	{
-		ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST(ZCrystalEditView, pzma->m_pCtrl);
-		if (pED_Crystal)
-		{
-			pED_Crystal->PageDown();
-			return(TRUE);
-		}
-
-		TraceLineS("drvr - Invalid control type for EDT_PageDown ", EDIT_CONTROL_NAME);
-	}
-	return(FALSE);
-}
-
-zOPER_EXPORT zBOOL OPERATION
 EDT_FindDialog( zVIEW vSubtask )
 {
    ZSubtask *pZSubtask;
@@ -9647,5 +9646,45 @@ EDT_SearchSelectedText( zVIEW vSubtask )
    return( 0 );
 }
 
+zOPER_EXPORT zBOOL OPERATION
+EDT_PageUp(zVIEW vSubtask)
+{
+	ZSubtask *pZSubtask;
+	ZMapAct  *pzma;
+
+	if (GetWindowAndCtrl(&pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME) == 0)
+	{
+		ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST(ZCrystalEditView, pzma->m_pCtrl);
+		if (pED_Crystal)
+		{
+			pED_Crystal->PageUp();
+			
+			return(TRUE);
+		}
+
+		TraceLineS("drvr - Invalid control type for EDT_PageDown ", EDIT_CONTROL_NAME);
+	}
+	return(FALSE);
+}
+
+zOPER_EXPORT zBOOL OPERATION
+EDT_PageDown(zVIEW vSubtask)
+{
+	ZSubtask *pZSubtask;
+	ZMapAct  *pzma;
+
+	if (GetWindowAndCtrl(&pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME) == 0)
+	{
+		ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST(ZCrystalEditView, pzma->m_pCtrl);
+		if (pED_Crystal)
+		{
+			pED_Crystal->PageDown();
+			return(TRUE);
+		}
+
+		TraceLineS("drvr - Invalid control type for EDT_PageDown ", EDIT_CONTROL_NAME);
+	}
+	return(FALSE);
+}
 
 } // end: extern "C"

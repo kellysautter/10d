@@ -460,6 +460,10 @@ zOPER_EXPORT zSHORT OPERATION
 EDT_ReplaceAll( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_SearchSelectedText( zVIEW vSubtask );
+zOPER_EXPORT zBOOL OPERATION
+EDT_PageUp(zVIEW vSubtask);
+zOPER_EXPORT zBOOL OPERATION
+EDT_PageDown(zVIEW vSubtask);
 
 /////////////////////////////////////////////////////////////////////////////
 // Setup a comment in the current editor instance
@@ -6195,7 +6199,18 @@ TZEDFRMD_GotoOperation( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_PageUp( zVIEW vSubtask )
 {
-   return EDT_PageUp( vSubtask );
+	/*
+	zLONG    lLine = 0, lCol = 0;
+
+	EDT_GetCursorPosition(vSubtask, &lLine, &lCol);
+
+	if (lLine >= 25) // we found something so place the cursor onto it
+	{
+		EDT_SetCursorPositionByLineCol(vSubtask, lLine - 25, lCol);
+		return(1);
+	}
+	*/	
+	return EDT_PageUp( vSubtask );
 
 } // TZEDFRMD_PageUp
 
@@ -6206,7 +6221,8 @@ TZEDFRMD_PageUp( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_PageDown( zVIEW vSubtask )
 {
-   return EDT_PageDown( vSubtask );
+	return EDT_PageDown( vSubtask );
+	//return(0);
 
 }
 
