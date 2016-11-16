@@ -142,6 +142,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    zCHAR     szTransferFileFlag[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szListButtonFlag
    zCHAR     szListButtonFlag[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szLangConvFlag
+   zCHAR     szLangConvFlag[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szTrace
    zCHAR     szTrace[ 2 ] = { 0 }; 
    //:STRING ( 50 )    szreCAPTCHAImport
@@ -414,6 +416,18 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonTaskTimeout", szZeidonTaskTimeout, zsizeof( szZeidonTaskTimeout ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "NoMonitorTaskLogout", szNoMonitorTaskLogout )
    SysReadZeidonIni( -1, szSystemIniApplName, "NoMonitorTaskLogout", szNoMonitorTaskLogout, zsizeof( szNoMonitorTaskLogout ) );
+   //:SysReadZeidonIni( -1, szSystemIniApplName, "UsesLanguageConversion", szLangConvFlag )
+   SysReadZeidonIni( -1, szSystemIniApplName, "UsesLanguageConversion", szLangConvFlag, zsizeof( szLangConvFlag ) );
+   //:vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
+   SetAttributeFromString( vDialog, "Dialog", "wWebUsesLanguageConversion", szLangConvFlag );
+   //:szWriteBuffer = "mMsgQ = new KZMSGQOO_Object( vKZXMLPGO );"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "mMsgQ = new KZMSGQOO_Object( vKZXMLPGO );", 1, 0, 10001 );
+   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   //:szWriteBuffer = "mMsgQ.setView( VmlOperation.getMessageObject( task ) );"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "mMsgQ.setView( VmlOperation.getMessageObject( task ) );", 1, 0, 10001 );
+   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:TraceLineS("** TraceLevel ** ", szTrace)
    TraceLineS( "** TraceLevel ** ", szTrace );
    //:IF  szTrace = "1"
@@ -1816,6 +1830,23 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "mMsgQ.setView( VmlOperation.getMessageObject( task ) );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+
+   //:// If we are using language conversion in this application, then we need to load the lang object.
+   //:IF szLangConvFlag = "Y" 
+   if ( ZeidonStringCompare( szLangConvFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:szWriteBuffer = "jspLangConv LangConv = new jspLangConv( vKZXMLPGO );  // Language conversion object"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "jspLangConv LangConv = new jspLangConv( vKZXMLPGO );  // Language conversion object", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "LangConv.getLanguageObject( vKZXMLPGO );"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "LangConv.getLanguageObject( vKZXMLPGO );", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   } 
+
+   //:END
+
    //:// KJS 10/08/15 - What if this dialog has more than one source file? We need to have both defined, so let's loop and see.
    //:FOR EACH vDialogRoot.SourceFile 
    RESULT = SetCursorFirstEntity( vDialogRoot, "SourceFile", "" );
@@ -6894,6 +6925,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   // FindErrorFields Processing", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   //:// KJS 09/30/16 - I don't think we need this because it is a duplicate of code above. I am commenting out.
+   //:// KJS 10/14/16 - But now I see that the error message does not come up without this because mMsgQ is null inside FindErrorFields if we don't.
    //:szWriteBuffer = "   mMsgQ = new KZMSGQOO_Object( vKZXMLPGO );"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   mMsgQ = new KZMSGQOO_Object( vKZXMLPGO );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )

@@ -560,7 +560,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
       // Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
       // as a table and try and position what is in this group box as a table.
-      IF szControlType = "GroupBox" AND szGroupIsTable = "Y"
+       IF szControlType = "GroupBox" AND szGroupIsTable = "Y" AND szFileTransferFlag = ""
 
          X_Size = vDialog.Control.SZDLG_X
          Y_Size = vDialog.Control.SZDLG_Y
@@ -671,6 +671,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             //                INTEGER lFile,
             //                STRING (50) szMenuName )
 
+      END
+      
+      IF szControlType = "GroupBox" AND szFileTransferFlag = "Y"
+         GenJSPJ_CrteFileTransferForm( vDialog, vDialogRoot, lFile, szWriteBuffer, szIndentGroup, szNoPositioning, lOffsetX, lOffsetY )
       END
 
       IF szControlType = "GroupBox" AND szRepeatingGroupFlag = "" AND szFileTransferFlag = "" AND szGroupIsTable = "" AND szGridGroupingFlag = ""
@@ -7298,6 +7302,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
 	 // This is code that Doug had intead of my above code ... 
 	 // since I don't understand it at the moment, I am putting here but it's commentted out.
+	 
 	/*
          // We don't want the getViewByName if it was generated above with the code:
          // IF nGridParent = 1 OR szRepeatingGroupFlag = "Y"

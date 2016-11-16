@@ -4627,3 +4627,426 @@ GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
    /************************ END OF REAL CODE ********************************************/
 END
 
+/*************************************************************************************************
+**    
+**    OPERATION: GenJSPJ_CrteFileTransferForm
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GenJSPJ_CrteFileTransferForm( VIEW vDialog,
+                              VIEW vDialogRoot,
+                              INTEGER lFileJSP,
+                              STRING ( 10000 ) szWriteBuffer,
+                              STRING ( 32 ) szIndent,
+                              STRING ( 1 ) szNoPositioning,
+                              INTEGER          lOffsetX,
+                              INTEGER          lOffsetY )
+
+   VIEW vDialogTemp  BASED ON LOD TZWDLGSO
+   STRING ( 64 )    szFormName
+   STRING ( 50 )    szCSS_Class
+   STRING ( 256 )   szClass
+   STRING ( 32 )    szCtrlTag
+   STRING ( 1024 )  szStyle
+   STRING ( 34 )    szActionTag
+   STRING ( 50 )    szControlType
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 256 ) szHTML5Attr
+   STRING ( 256 ) szPlaceholder
+   STRING ( 16 )  szWidth
+   STRING ( 16 )  szHeight
+   STRING ( 1 )   szGroupBoxAbsPosFlag
+   STRING ( 1 )   szGridGroupingFlag
+   STRING ( 1 )   szGroupIsTable
+   STRING ( 1 )   szIncludeFileFlag
+   STRING ( 1 )   szNoHeightFlag
+   STRING ( 1 )   szNoWidthFlag
+   INTEGER          lControl
+   INTEGER          lSizeX
+   INTEGER          lSizeY
+   INTEGER          lTrace
+   INTEGER        lHeight
+   INTEGER        lWidth
+   INTEGER        LastY_Pos
+   INTEGER        LastY_Height
+   INTEGER        LastY_PosGroup
+   INTEGER        LastX_Pos
+   INTEGER        LastX_Width
+   INTEGER        MaxY_HeightForLine
+   INTEGER        X_Size
+   INTEGER        Y_Size
+   INTEGER        X_Pos
+   INTEGER        Y_Pos
+   SHORT            nRC
+
+   DECIMAL        dDLUnits
+   STRING ( 100 )  szSize
+   STRING ( 100 )  szPosition
+
+   
+   // KJS 11/07/16 - For file transfer, since it doesn't place the controls correctly (if there are more controls than the
+   // edit and button), we are going to try, closing the previous <form> and creating the form for the upload. Any controls
+   // that are after the "file upload" groupbox, are going to be placed in this form. Because on the actions, we submit the
+   // original (first) form, this doesn't seem to be a problem, but we will see...
+   szWriteBuffer = "</form>"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+   // Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
+   // as a table and try and position what is in this group box as a table.
+   szGroupIsTable = ""
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Table"
+   IF RESULT >= zCURSOR_SET
+      szGroupIsTable = "Y"
+   END
+
+   // A groupbox might want the children to be absolutely positioned.  Allow for this.
+   szGroupBoxAbsPosFlag = ""
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Absolute Pos"
+   IF RESULT >= zCURSOR_SET
+      szGroupBoxAbsPosFlag = "Y"
+   END
+     
+   // There are times when the user wants to paint a div that has no height so it will grow with the
+   // data within it.  This flags the div will have no height.
+   szNoHeightFlag = ""
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Height"
+   IF RESULT >= zCURSOR_SET
+      szNoHeightFlag = "Y"
+   END
+   
+   // There are times when the user wants to paint a div that has no width so it will grow with the
+   // data within it.  This flags the div will have no width.
+   szNoWidthFlag = ""
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Width"
+   IF RESULT >= zCURSOR_SET
+      szNoWidthFlag = "Y"
+   END
+   
+   PIX_PER_DU( vDialog, dDLUnits )
+
+   // FORM GENERATION FOR FILE TRANSFER GROUPS
+   // Create Form statements for each Group of type "File Transfer to Server".
+   // Note that each Group requires a subcontrol of type EditBox and another of type PushBtn.
+   CreateViewFromView( vDialogTemp, vDialog )
+   NAME VIEW vDialogTemp "vDialogTemp"
+
+   // Generate Form Statement for Group, with hidden field zAction.
+   szWriteBuffer = ""
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szFormName = vDialogTemp.Control.Tag
+   szWriteBuffer = "<form name=^" + szFormName + "^  id=^" + szFormName + "^ method=^post^ enctype=^multipart/form-data^>"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   <input name=^zAction^ id=^zAction^ type=^hidden^ value=^HELP^>"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+      //CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
+      // Initialize the szStyle variable with X and Y values.
+      IF szNoPositioning = "Y"
+      
+         lWidth = vDialog.Control.SZDLG_X * dDLUnits
+         lHeight = vDialog.Control.SZDLG_Y * dDLUnits
+         zIntegerToString( szWidth, 10, lWidth )
+         zIntegerToString( szHeight, 10, lHeight )
+      
+         // If szGroupBoxAbsPosFlag = "Y" then we are saying that the children of this group box will
+         // be absolutely positioned.
+         IF szGroupBoxAbsPosFlag = "Y"
+         
+            //szNoPositioningHold = szNoPositioning
+            //szNoPositioning = ""  // we want absolute positioning on all child controls
+            
+            IF szNoHeightFlag = "Y" // We might not want the groupbox to have a height (so it grows)
+               szStyle = "style=^float:left;position:relative; width:" + szWidth + "px;^"
+            ELSE
+               //zIntegerToString( szHeight, 10, lHeight * dDLUnits )
+               szStyle = "style=^float:left;position:relative; width:" + szWidth + "px; height:" + szHeight + "px;^"
+            END                      
+         ELSE 
+         IF szNoHeightFlag = "Y" AND szNoWidthFlag = "Y"
+            szStyle = ""
+         ELSE
+         IF szNoHeightFlag = "Y"
+            // We might not want the groupbox to have a height (so it grows)
+            szStyle = "style=^width:" + szWidth + "px;^"
+         ELSE
+         IF szNoWidthFlag = "Y"
+            // We might not want the groupbox to have a width (so it grows)
+            szStyle = "style=^height:" + szHeight + "px;^"
+         ELSE
+            CreateNoPosStyleString( vDialog, szStyle, "" )
+         END
+         END
+         END
+         END
+      ELSE
+      IF  szNoPositioning = "S" // We are not creating any style information.
+         szStyle = ""
+      ELSE
+         CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
+      END
+      END
+
+      szClass = ""
+      IF vDialogTemp.Control.CSS_Class != ""
+         szClass = " class=^" + vDialogTemp.Control.CSS_Class + "^"
+      END
+      szWriteBuffer = "<div " + szStyle + szClass + ">  <!-- " + vDialogTemp.Control.Tag + " --> "
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+      // Get Group positions for adding to subcontrols.
+      //lSizeX = vDialogTemp.Control.PSDLG_X * dDLUnits
+      //lSizeY = vDialogTemp.Control.PSDLG_Y * dDLUnits
+
+      // Generate hidden field zTargetFileName, with JSP to retrieve name.
+      // We are currently positioned on the GroupBox and need to reposition on the subcontrol Button
+      // to generate the FileName mapping..
+      szWriteBuffer = "<%"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   strErrorMapValue = ^^;"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+      SetViewToSubobject( vDialogTemp, "CtrlCtrl" )
+      FOR EACH vDialogTemp.Control
+         IF vDialogTemp.ControlDef.Tag = "PushBtn"
+            IF vDialogTemp.CtrlMapER_Attribute EXISTS
+               // The mapping for the Push Button specifies the attribute that contains the Target File Name (without suffix).
+
+            // szWriteBuffer = "   strSessionId = session.getId( );"
+            // WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+               szWriteBuffer = "   " + vDialogTemp.CtrlMapView.Name + " = " +
+                               "task.getViewByName( ^" + vDialogTemp.CtrlMapView.Name + "^ );"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "   if ( VmlOperation.isValid( " + vDialogTemp.CtrlMapView.Name + " ) )"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+               szWriteBuffer = "   {"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      nRC = " + vDialogTemp.CtrlMapView.Name + ".cursor( ^" +
+                               vDialogTemp.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      if ( nRC >= 0 )"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         strErrorMapValue = " +
+                               vDialogTemp.CtrlMapView.Name + ".cursor(^" + vDialogTemp.CtrlMapRelatedEntity.Name +
+                               "^).getAttribute( ^" +
+                               vDialogTemp.CtrlMapER_Attribute.Name + "^ ).getString( ^^ );"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "   }"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+               IF (lTrace = 1)
+                  szWriteBuffer = "   else"
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "      task.log().info( ^Invalid View: ^ + ^" + vDialogTemp.Control.Tag + "^ );"
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               END
+
+            END
+         END
+      END
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   <input name=^zTargetFileName^ id=^zTargetFileName^ type=^hidden^ value=^<%=strErrorMapValue%>^ >"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+      IF szGroupIsTable = "Y" 
+         szWriteBuffer = "<table>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<tr>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<td>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      END
+
+      // Process EditBox and PushBtn as subcontrols.
+      FOR EACH vDialogTemp.Control
+      
+         IF vDialogTemp.ControlDef.Tag = "EditBox"
+            szCtrlTag     = vDialogTemp.Control.Tag
+            szControlType = vDialogTemp.ControlDef.Tag
+            szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+            //CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
+            zIntegerToString( szWidth, 10, vDialogTemp.Control.SZDLG_X * dDLUnits )
+            szSize = "width:" + szWidth + "px;"
+            // If zNoPositioning is null then we are using absolute positioning for controls
+            IF  szNoPositioning = ""
+               CreateAbsolPosString( vDialogTemp, szPosition, lOffsetX, lOffsetY )
+            END
+            
+            IF szNoPositioning = "S" 
+               szStyle = ""
+            ELSE 
+               FixStyleString( szStyle, szSize, szPosition,  "<%=strErrorColor%>"  )
+            END
+            
+            //szStyle = szStyle + szTabIndex
+            szTitleHTML = ""
+            szTitle = vDialogTemp.Control.DIL_Text
+            IF szTitle != ""
+               szTitleHTML = " title=^" + szTitle + "^ "
+            END
+            
+            szPlaceholder = ""
+            IF vDialogTemp.Control.WebPlaceholder != ""
+               szPlaceholder = " placeholder=^" + vDialogTemp.Control.WebPlaceholder + "^ "
+            END
+            
+            szHTML5Attr = ""
+            IF vDialogTemp.Control.WebHTML5Attribute != ""
+               szHTML5Attr = " " + vDialogTemp.Control.WebHTML5Attribute + " "
+            END
+            
+            // For some reason with the <input type="file" control, the width property doesn't
+            // seem to size the width correctly.  Use the "size" attribute instead.  The weird thing
+            // is that if I don't include the width in style, then the "Browse" button that gets
+            // created is not inline with the field that displays the upload file. ???!!!
+            zIntegerToString( szWidth, 10, vDialogTemp.Control.SZDLG_X / 3.5 )
+
+            szClass = vDialogTemp.Control.CSS_Class
+            IF szClass = ""
+               szWriteBuffer = "   <input name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^" + szWidth + "^ " + szStyle + " type=^file^  >"
+            ELSE
+               szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^" + szWidth + "^ " + szStyle + " type=^file^  >"
+            END
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+            LastY_Pos    = vDialogTemp.Control.PSDLG_Y
+            LastY_Height = vDialogTemp.Control.SZDLG_Y
+            LastX_Pos    = vDialogTemp.Control.PSDLG_X
+            LastX_Width  = vDialogTemp.Control.SZDLG_X
+         END
+         // We are just assuming that the "Unload" button is positioned after the edit field.
+         IF vDialogTemp.ControlDef.Tag = "PushBtn"
+         
+            IF szGroupIsTable = "Y" AND ( vDialogTemp.Control.PSDLG_Y > LastY_Pos )
+               szWriteBuffer = "</td>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "</tr>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "<tr>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "<td>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            ELSE
+            IF szGroupIsTable = "Y" AND ( vDialogTemp.Control.PSDLG_Y <= LastY_Pos ) 
+               szWriteBuffer = "</td>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "<td>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )            
+            END
+            END
+         
+            // Determine if there is blank space in between the y coordinates of the last
+            // control and the current control.  If so, then we need to put in a div as a spacer control.
+            IF szNoPositioning = "Y" AND szGroupIsTable = "" AND ( vDialogTemp.Control.PSDLG_Y > LastY_Pos )
+   
+                  Y_Size = ( vDialogTemp.Control.PSDLG_Y - ( LastY_Pos + LastY_Height ) ) * dDLUnits
+                  X_Size = 10
+                  zIntegerToString( szHeight, 16, Y_Size )
+                  zIntegerToString( szWidth, 16, X_Size )
+                  szWriteBuffer = ""
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = " <!-- This is added as a line spacer -->"
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "<div style=^height:" + szHeight + "px;width:" + szWidth + "px;^></div>"
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            END
+            IF szNoPositioning = "Y" AND szGroupIsTable = "" AND ( vDialogTemp.Control.PSDLG_X > 0 )
+   
+                  X_Size = ( vDialogTemp.Control.PSDLG_X ) * dDLUnits
+                  Y_Size = 1
+                  zIntegerToString( szHeight, 16, Y_Size )
+                  zIntegerToString( szWidth, 16, X_Size )
+                  szWriteBuffer = ""
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = " <!-- This is added as a width spacer -->"
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "<div style=^height:1px;width:" + szWidth + "px;float:left;^></div>"
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "<div style=^height:1px;width:" + szWidth + "px;float:left;^></div>   <!-- Width Spacer -->"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            END
+                     
+            szCtrlTag     = vDialogTemp.Control.Tag
+            szControlType = vDialogTemp.ControlDef.Tag
+            szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+            //CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
+            IF szNoPositioning = "Y"
+               CreateNoPosStyleString( vDialogTemp, szStyle, "" )
+            ELSE
+            IF szNoPositioning = "S" // No style information
+               szStyle = "" 
+            ELSE 
+               CreateAbsolStyleString( vDialogTemp, szStyle, lOffsetX, lOffsetY, "" )
+            END
+            END
+            
+            //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+            szTitleHTML = ""
+            szTitle = vDialogTemp.Control.DIL_Text
+            IF szTitle != ""
+               szTitleHTML = " title=^" + szTitle + "^ "
+            END
+   
+            szHTML5Attr = ""
+            IF vDialogTemp.Control.WebHTML5Attribute != ""
+               szHTML5Attr = " " + vDialogTemp.Control.WebHTML5Attribute + " "
+            END
+  
+            szActionTag = ""
+            IF vDialogTemp.EventAct EXISTS
+               szActionTag = vDialogTemp.EventAct.Tag
+            END
+            szClass = vDialogTemp.Control.CSS_Class
+            //IF szNoPositioning = "Y"
+            //   szWriteBuffer = "<div style=^float:left;^>"
+            //   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            //END
+            IF szClass = ""
+               //szWriteBuffer = "   <input type=^submit^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + " value=^" + vDialogTemp.Control.Text + "^" +
+               //                " onclick=^" + szActionTag + "()^ " + szStyle + " >"
+               szWriteBuffer = "   <button type=^button^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " +
+                               " onclick=^" + szActionTag + "()^ " + szStyle + szTitleHTML + szHTML5Attr + " >" + vDialogTemp.Control.Text + "</button>"
+            ELSE
+               //szWriteBuffer = "   <input class=^" + szClass + "^ type=^submit^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + " value=^" + vDialogTemp.Control.Text + "^" +
+               //                " onclick=^" + szActionTag + "()^ " + szStyle + " >"
+               szWriteBuffer = "   <button type=^button^ class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " +
+                               " onclick=^" + szActionTag + "()^ " + szStyle + szTitleHTML + szHTML5Attr + " >" + vDialogTemp.Control.Text + "</button>"
+            END
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+            //IF szNoPositioning = "Y"
+            //   szWriteBuffer = "</div>"
+            //   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            //END
+            IF szGroupIsTable = "Y" 
+               szWriteBuffer = "</td>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "</tr>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "</table>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            END
+         END
+      END
+      ResetViewFromSubobject( vDialogTemp )
+
+      szWriteBuffer = "</div>  <!-- " + vDialogTemp.Control.Tag + " --> "
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+      //szWriteBuffer = "</form>"
+      //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+      //lControl = zQUAL_STRING + zPOS_NEXT + zRECURS
+      //szCtrlTag = "File Transfer to Server"
+      //nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
+      //                       szCtrlTag, "", "", 0, "Window", "" )
+   //END
+   DropView( vDialogTemp )
+
+END
