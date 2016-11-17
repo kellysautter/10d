@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO 11/16/16   13:21:32 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO 11/17/16   15:59:18 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -7090,8 +7090,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZEDCMPD
 aDesc      Set compiler specification
-aLastSyncDate 20160714173228136
-aLastUpdateDate 20160714173228136
+aLastSyncDate 20161117155639030
+aLastUpdateDate 20161117155639030
 
 eW_MetaDef 3
 aCPLR_ZKey 1350101
@@ -8425,451 +8425,488 @@ eW_MetaDef 3
 aGroupName CM
 
 eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName BASE
-
-eW_MetaDef 3
-aGroupName CM
-
-eW_MetaDef 3
-aGroupName CM
-
-eW_MetaDef 3
-aGroupName CM
-
-eW_MetaDef 3
-aGroupName CM
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName TZAPDMAB
-
-eW_MetaDef 3
-aGroupName TZAPDMAB
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAC
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName ERD
-
-eW_MetaDef 3
-aGroupName ERD
-
-eW_MetaDef 3
-aGroupName ERD
-
-eW_MetaDef 3
-aGroupName ERD
-
-eW_MetaDef 3
-aGroupName ERD
-
-eW_MetaDef 3
-aGroupName ERD
-
-eW_MetaDef 3
-aGroupName ERD
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName BASE
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName LOD
-
-eW_MetaDef 3
-aGroupName LOD
-
-eW_MetaDef 3
-aGroupName LOD
-
-eW_MetaDef 3
-aGroupName LOD
-
-eW_MetaDef 3
-aGroupName ERD
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAB
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName SIRON
-
-eW_MetaDef 3
-aGroupName SIRON
-
-eW_MetaDef 3
-aGroupName APP
-
-eW_MetaDef 3
-aGroupName APP
-
-eW_MetaDef 3
-aGroupName TE
-
-eW_MetaDef 3
-aGroupName TE
-
-eW_MetaDef 3
-aGroupName TE
-
-eW_MetaDef 3
-aGroupName TE
-
-eW_MetaDef 3
-aGroupName TE
-
-eW_MetaDef 3
-aGroupName TE
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAB
-
-eW_MetaDef 3
-aGroupName BASE
-
-eW_MetaDef 3
-aGroupName TZ
-
-eW_MetaDef 3
-aGroupName TZ
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aGroupName BASE
-
-eW_MetaDef 3
-aGroupName DATA
-
-eW_MetaDef 3
-aGroupName TZAPDMAA
-
-eW_MetaDef 3
-aCPLR_ZKey 1320468
-aStatus    1
-aName      WD_ActionNoMap
-aGroupName WD
-
-eW_MetaDef 3
 aCPLR_ZKey 110002502
 aStatus    1
 aName      AD_WebWindowStyle
+aLastUpdateDate 20160901095659433
 aGroupName WD
 
 eW_MetaDef 3
-aCPLR_ZKey 130001474
-aStatus    1
-aName      WD_WebJSPGenerationPositioning
-aGroupName WD
+aGroupName TZAPDMAA
 
 eW_MetaDef 3
-aCPLR_ZKey 92715091
+aCPLR_ZKey 90059367
 aStatus    1
-aName      WD_TextAlignHorizontal
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 92709478
-aStatus    1
-aName      WD_WebTextControlProperties
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 4899546
-aStatus    1
-aName      WD_WebScriptLocation
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 4591424
-aStatus    1
-aName      XSL_PageProperties
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 68567203
-aStatus    1
-aName      MapTypeTextControl
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 68567201
-aStatus    1
-aName      MapTypeGridColumnControl
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1158762
-aStatus    1
-aName      MapTypeGeneral
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 68544962
-aStatus    1
-aName      WD_WebPushControlProperties
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 68442297
-aStatus    1
-aName      WD_WebGridControlProperties
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 68304446
-aStatus    1
-aName      WD_WebEditControlProperties
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 68304365
-aStatus    1
-aName      WD_WebGroupControlProperties
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 68304279
-aStatus    1
-aName      WD_WebGridSubControlProperties
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1141800
-aStatus    1
-aName      WD_WebCtrlType
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1160237
-aStatus    1
-aName      WD_MapDefType
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 90258866
-aStatus    1
-aName      ReportGroupSubType
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 90258642
-aStatus    1
-aName      ReportGroupSetType
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1137350
-aStatus    1
-aName      UserSpecType
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1137330
-aStatus    1
-aName      WD_CtrlDefVisible
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 90145806
-aStatus    1
-aName      ReportGroupType
+aName      AutodesignCaseType
+aLastUpdateDate 20160901095659433
 aGroupName WD
 
 eW_MetaDef 3
 aCPLR_ZKey 90067466
 aStatus    1
 aName      AutodesignDefaultText
+aLastUpdateDate 20160901095659433
 aGroupName WD
 
 eW_MetaDef 3
-aCPLR_ZKey 90059367
+aGroupName BASE
+
+eW_MetaDef 3
+aGroupName CM
+
+eW_MetaDef 3
+aGroupName CM
+
+eW_MetaDef 3
+aGroupName CM
+
+eW_MetaDef 3
+aGroupName CM
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aGroupName TZAPDMAB
+
+eW_MetaDef 3
+aGroupName TZAPDMAB
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAC
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aCPLR_ZKey 90026801
 aStatus    1
-aName      AutodesignCaseType
+aName      DragDropType
+aLastUpdateDate 20160901095659433
 aGroupName WD
 
 eW_MetaDef 3
-aCPLR_ZKey 70000607
-aStatus    1
-aName      VerticalSpacingIncrement
-aGroupName WD
+aGroupName ERD
+
+eW_MetaDef 3
+aGroupName ERD
+
+eW_MetaDef 3
+aGroupName ERD
+
+eW_MetaDef 3
+aGroupName ERD
+
+eW_MetaDef 3
+aGroupName ERD
+
+eW_MetaDef 3
+aGroupName ERD
+
+eW_MetaDef 3
+aGroupName ERD
 
 eW_MetaDef 3
 aCPLR_ZKey 70000605
 aStatus    1
 aName      HorizontalControlSize
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName BASE
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aGroupName LOD
+
+eW_MetaDef 3
+aGroupName LOD
+
+eW_MetaDef 3
+aGroupName LOD
+
+eW_MetaDef 3
+aGroupName LOD
+
+eW_MetaDef 3
+aCPLR_ZKey 1158762
+aStatus    1
+aName      MapTypeGeneral
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 68567201
+aStatus    1
+aName      MapTypeGridColumnControl
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 68567203
+aStatus    1
+aName      MapTypeTextControl
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aGroupName ERD
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAB
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aCPLR_ZKey 90258642
+aStatus    1
+aName      ReportGroupSetType
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 90258866
+aStatus    1
+aName      ReportGroupSubType
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 90145806
+aStatus    1
+aName      ReportGroupType
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aGroupName SIRON
+
+eW_MetaDef 3
+aGroupName SIRON
+
+eW_MetaDef 3
+aGroupName APP
+
+eW_MetaDef 3
+aGroupName APP
+
+eW_MetaDef 3
+aGroupName TE
+
+eW_MetaDef 3
+aGroupName TE
+
+eW_MetaDef 3
+aGroupName TE
+
+eW_MetaDef 3
+aGroupName TE
+
+eW_MetaDef 3
+aGroupName TE
+
+eW_MetaDef 3
+aGroupName TE
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAB
+
+eW_MetaDef 3
+aGroupName BASE
+
+eW_MetaDef 3
+aGroupName TZ
+
+eW_MetaDef 3
+aCPLR_ZKey 1137350
+aStatus    1
+aName      UserSpecType
+aLastUpdateDate 20160901095659433
 aGroupName WD
 
 eW_MetaDef 3
 aCPLR_ZKey 70000603
 aStatus    1
 aName      VerticalControlSize
+aLastUpdateDate 20160901095659433
 aGroupName WD
 
 eW_MetaDef 3
-aCPLR_ZKey 90026801
+aCPLR_ZKey 70000607
 aStatus    1
-aName      DragDropType
+aName      VerticalSpacingIncrement
+aLastUpdateDate 20160901095659433
 aGroupName WD
+
+eW_MetaDef 3
+aGroupName TZ
 
 eW_MetaDef 3
 aCPLR_ZKey 1320595
 aStatus    1
 aName      WD__OutlinerFormatType
+aLastUpdateDate 20160901095659433
 aGroupName WD
 
 eW_MetaDef 3
-aCPLR_ZKey 1320593
+aCPLR_ZKey 1320468
 aStatus    1
-aName      WD_WindowStyle
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1320578
-aStatus    1
-aName      WD_SB_SubAction
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1320573
-aStatus    1
-aName      WD_SB_NextPrev
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1320568
-aStatus    1
-aName      WD_SB_DeleteNull
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1320560
-aStatus    1
-aName      WD_SB_ActionDisabling
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1320509
-aStatus    1
-aName      WD_ControlSubtype
-aGroupName WD
-
-eW_MetaDef 3
-aCPLR_ZKey 1320504
-aStatus    1
-aName      WD_ComboBoxFormatType
+aName      WD_ActionNoMap
+aLastUpdateDate 20160901095659433
 aGroupName WD
 
 eW_MetaDef 3
 aCPLR_ZKey 1320472
 aStatus    1
 aName      WD_ActionType
+aLastUpdateDate 20160901095659433
 aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1320504
+aStatus    1
+aName      WD_ComboBoxFormatType
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1320509
+aStatus    1
+aName      WD_ControlSubtype
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1137330
+aStatus    1
+aName      WD_CtrlDefVisible
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1160237
+aStatus    1
+aName      WD_MapDefType
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1320560
+aStatus    1
+aName      WD_SB_ActionDisabling
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1320568
+aStatus    1
+aName      WD_SB_DeleteNull
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1320573
+aStatus    1
+aName      WD_SB_NextPrev
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1320578
+aStatus    1
+aName      WD_SB_SubAction
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 92715091
+aStatus    1
+aName      WD_TextAlignHorizontal
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1141800
+aStatus    1
+aName      WD_WebCtrlType
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 68304446
+aStatus    1
+aName      WD_WebEditControlProperties
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 68442297
+aStatus    1
+aName      WD_WebGridControlProperties
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 68304279
+aStatus    1
+aName      WD_WebGridSubControlProperties
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 68304365
+aStatus    1
+aName      WD_WebGroupControlProperties
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 130001474
+aStatus    1
+aName      WD_WebJSPGenerationPositioning
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 68544962
+aStatus    1
+aName      WD_WebPushControlProperties
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 4899546
+aStatus    1
+aName      WD_WebScriptLocation
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 92709478
+aStatus    1
+aName      WD_WebTextControlProperties
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aCPLR_ZKey 1320593
+aStatus    1
+aName      WD_WindowStyle
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
+
+eW_MetaDef 3
+aCPLR_ZKey 4591424
+aStatus    1
+aName      XSL_PageProperties
+aLastUpdateDate 20160901095659433
+aGroupName WD
+
+eW_MetaDef 3
+aGroupName BASE
+
+eW_MetaDef 3
+aGroupName DATA
+
+eW_MetaDef 3
+aGroupName TZAPDMAA
 
 eW_MetaType 2
 aType      2004
@@ -10978,81 +11015,81 @@ i1181      215
 i1182      216
 i1183      217
 i1185      285
-i1186      236
-i1187      290
-i1188      289
-i1189      288
-i1190      287
-i1191      286
-i1192      275
-i1193      284
-i1194      283
-i1195      232
-i1196      235
-i1197      220
-i1198      231
-i1199      230
-i1200      229
-i1201      228
-i1202      227
-i1203      226
-i1204      225
-i1205      224
-i1206      223
-i1207      222
-i1208      221
-i1209      245
-i1210      282
-i1211      271
-i1212      270
-i1213      269
-i1214      267
-i1215      274
-i1216      273
-i1217      272
-i1218      252
-i1219      292
-i1220      279
-i1221      277
-i1222      264
-i1223      265
-i1224      263
-i1225      266
-i1226      268
-i1227      244
-i1228      233
-i1229      238
-i1230      276
-i1231      281
-i1232      251
-i1233      239
-i1234      250
-i1235      243
-i1236      249
-i1237      248
-i1238      247
-i1239      278
-i1240      262
-i1241      261
-i1242      219
-i1243      294
-i1244      255
-i1245      260
-i1246      257
-i1247      259
-i1248      258
-i1249      256
-i1250      246
-i1251      234
-i1252      291
-i1253      253
-i1254      254
-i1255      242
-i1256      241
-i1257      240
-i1258      293
-i1259      280
-i1260      237
+i1187      236
+i1190      290
+i1191      289
+i1192      288
+i1193      287
+i1194      286
+i1195      275
+i1196      284
+i1197      283
+i1198      232
+i1199      235
+i1200      220
+i1201      231
+i1202      230
+i1203      229
+i1204      228
+i1205      227
+i1206      226
+i1207      225
+i1208      224
+i1209      223
+i1210      222
+i1211      221
+i1212      245
+i1213      282
+i1215      271
+i1216      270
+i1217      269
+i1218      267
+i1219      274
+i1220      273
+i1221      272
+i1223      252
+i1224      292
+i1225      279
+i1226      277
+i1227      264
+i1228      265
+i1229      263
+i1230      266
+i1234      268
+i1235      244
+i1236      233
+i1237      238
+i1238      276
+i1239      281
+i1240      251
+i1241      239
+i1242      250
+i1243      243
+i1244      249
+i1245      248
+i1246      247
+i1250      278
+i1251      262
+i1252      261
+i1253      219
+i1254      294
+i1255      255
+i1256      260
+i1257      257
+i1258      259
+i1259      258
+i1260      256
+i1261      246
+i1262      234
+i1263      291
+i1264      253
+i1268      254
+i1291      242
+i1292      241
+i1293      240
+i1295      293
+i1296      280
+i1297      237
 i1299      444
 i1301      446
 i1302      447
