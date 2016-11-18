@@ -1,7 +1,0 @@
-
-Microsoft (R) Program Maintenance Utility Version 14.00.24210.0
-Copyright (C) Microsoft Corporation.  All rights reserved.
-
-cl : Command line warning D9025 : overriding '/FoDebug\' with '/Fo..\..\..\w\tz\debug\tzsiimpd.obj'
-NMAKE : fatal error U1077: 'C:\10d\w\bin\qspawn.EXE' : return code '0x450'
-Stop.

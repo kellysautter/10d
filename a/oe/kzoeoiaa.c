@@ -2591,12 +2591,10 @@ ActivateOI_FromFile( zPVIEW    pvReturnView,
    {
       if ( zstrstr( cpcFileName, "TZCMULWO.POR" ) == 0 )
       {
-/*
          if ( zstrstr( cpcFileName, "KZTRANWO." ) != 0 )
             TraceLineS( "(oi) opening >>>>>>>>>> ", szOpenFileName );
          else
             TraceLineS( "(oi) opening ", szOpenFileName );
-*/
       }
    }
 
@@ -10731,12 +10729,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
             break;
          }
 
-         pRelinkBufferTable[ k ] =
-            (zPLONG) fnAllocDataspace( lpTask->hFirstDataHeader,
-                                       640000L, TRUE, 0, iRelinkBuffer );  // moved up from 64000 dks/don 2007.01.04
-
-         pRelinkBufferTable[ k ] = zGETPTR( pRelinkBufferTable[ k ] );
-
+         pRelinkBufferTable[ k ] = SysMalloc( 640000L );
          pRelinkBufferEnd = pRelinkBufferTable[ k ] + 640000 / 4;  // Space for 160000 entities ... moved up from 16000 dks/don 2007.01.04
          pRelinkBufferPtr = pRelinkBufferTable[ k ];
 
@@ -11723,7 +11716,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
    } // while ( (nEOF = (*lpfnStreamFunc)( ... )) == 1 )
 
    for ( lEntityCnt = 0; pRelinkBufferTable[ lEntityCnt ]; lEntityCnt++ )
-      fnFreeDataspace( pRelinkBufferTable[ lEntityCnt ] );
+      SysFree( pRelinkBufferTable[ lEntityCnt ] );
 
    if ( nEOF == zCALL_ERROR )
       nRC = zCALL_ERROR;
@@ -12181,9 +12174,9 @@ EndOfFunction:
 
       if ( zstrcmp( lpViewOD->szName, "TZCMULWO" ) != 0 )
       {
-        // sprintf_s( sz, zsizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
-        //            (double) (SysGetTickCount( ) - lTickCount) / zTICKS_PER_SECOND );
-        // TraceLineS( "(oi) Total time for SfActivateOI_FromStream ", sz );
+         sprintf_s( sz, zsizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
+                    (double) (SysGetTickCount( ) - lTickCount) / zTICKS_PER_SECOND );
+         TraceLineS( "(oi) Total time for SfActivateOI_FromStream ", sz );
       }
    }
 
