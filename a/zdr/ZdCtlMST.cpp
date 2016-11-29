@@ -787,6 +787,13 @@ ZMSTree::MapFromOI( WPARAM wFlag )
       m_szLastAccEntity[ 0 ] = 0;
       m_vApp = vApp;
    }
+   else
+   {
+	   // KJS 11/28/16 - This code takes awhile to build. It doesn't seem like if I make a change to an object, that when this rebuilds it gets the change made, so
+	   // I am wondering if we should try only building this once when we open the dialog to try and save time. So
+	   // if we get here, then return. This also rebuilds if I add a registered view.
+	   return ( 0 );
+   }
 
 // TraceLineS( "ZMSTree::MapFromOI ", *m_pzsTag );
    zULONG ulTopEntityKey = 0;

@@ -1,0 +1,683 @@
+a\ed\zeditor.c:   // Following called from CWDIALOG.C when opening a file.
+a\ed\zeditor.c:      SysMessageBox( "Zeidon Editor", "Couldn't open file", 0 );
+a\ed\zeditor.c:   // Retrieve the source file name and open a buffer.
+a\ed\zeditor.c:   // we just opened.
+a\ed\zeditor.c:                     "Cannot parse VML that has been opened via File/Open",
+a\ed\zeditor.c:         strcpy_s( sz, zsizeof( sz ), "Parse completed with Errors.\n\nDo you want to open the Error File?" );
+a\ed\zeditor.c:                     "Cannot generate VML that has been opened via File/Open",
+a\ed\zeditor.c:      // specifies whether the last quote found is an open quote.
+a\ed\zeditor.c:   // Use BufEditFile to open the current buffer and window.
+a\java\kzoejava.c:   // this function checks if that view exists.  If it does, then it passes back the file name to open.
+a\java\kzoejava.c:like" then our web site is leaving the doors wide open for attack. It is simple to
+a\oe\kzhdbvaa.c:      o  Only one database is allowed to be open.  This can easily be changed
+a\oe\kzhdbvaa.c:      Checks to see if the database has already been opened and opens it
+a\oe\kzhdbvaa.c:   // below in case we decide to leave the lock file open longer
+a\oe\kzhdbvaa.c:   // Check to see if the database needs to be opened.  If there is a
+a\oe\kzhdbvaa.c:   // opened.  If there is no database entity with a matching name, then the
+a\oe\kzhdbvaa.c:   // database needs to be opened.
+a\oe\kzhdbvaa.c:      nRC = dt_opentask( &lpConnection->Currtask );
+a\oe\kzhdbvaa.c:      RDM_RC( "dt_opentask", nRC, 0, 0, 2 );
+a\oe\kzhdbvaa.c:      nRC = qt_opentask( &lpConnection->Currtask );
+a\oe\kzhdbvaa.c:      RDM_RC( "qt_opentask", nRC, 0, 0, 2 );
+a\oe\kzhdbvaa.c:      // The database needs to be opened + an entity in the work obj created.
+a\oe\kzhdbvaa.c:      // Now open database using fully qualified database name.
+a\oe\kzhdbvaa.c:      nRC = q_open( szFullDBN, szOpenType );
+a\oe\kzhdbvaa.c:      RDM_RC( "q_open", nRC, "   Database name = ", szFullDBN, 1 );
+a\oe\kzhdbvaa.c:      nRC = dt_open( szFullDBN, szOpenType, &lpConnection->Currtask );
+a\oe\kzhdbvaa.c:      RDM_RC( "d_open", nRC, "Database name = ", szFullDBN, 1 );
+a\oe\kzhdbvaa.c://       DBH_Error( lpView, "Error opening database.",
+a\oe\kzhdbvaa.c:         TraceLineS( "Error opening database: ", szFullDBN );
+a\oe\kzhdbvaa.c:   // Database has been opened.  Now start a transaction.
+a\oe\kzhdbvab.c:   // Generate the DDL file name and open it.
+a\oe\kzhdbvab.c:      strcat_s( szWork, zsizeof( szWork ), "\' cannot be opened." );
+a\oe\kzhdbvab.c:                   "db-Vista version other than V3.xx opened.\nPossible"
+a\oe\kzhsqlga.c:   zPCHAR pchNextJoinParen;   // Ptr to next available space for opening paren.
+a\oe\kzhsqlga.c:   // check, whether we find a qual entity with open SQL
+a\oe\kzhsqlga.c:      // Set aside some spaces for opening parens.  We'll be safe and set aside
+a\oe\kzhsqlga.c:      // so let's add an opening paren.
+a\oe\kzhsqlga.c:   // Add the opening paren.
+a\oe\kzhsqlga.c:               // Add the opening paren.
+a\oe\kzhsqlxa.c:   GetWorkObject( ) was ignoring the return code when opening a DB connection.
+a\oe\kzhsqlxa.c:   // Following used to keep track of ODs opened by DB2.
+a\oe\kzhsqlxa.c:      unsigned int bOpenConn    : 1,   // We have an open connection.
+a\oe\kzhsqlxa.c://  Checks to see if the database has already been opened and opens it
+a\oe\kzhsqlxa.c:      // We have to use dynamic SQL so open a connection using it.
+a\oe\kzhsqlxa.c:   // Loop through all the open database names, looking for one that
+a\oe\kzhsqlxa.c:         // Copy opened DB information to 'common' information.
+a\oe\kzhsqlxa.c:         DBH_Error( lpView, "Too many open databases for 1 session.", 0, 0 );
+a\oe\kzhsqlxa.c:      // If k >= DBCount, then we need to open a new database.
+a\oe\kzhsqlxa.c:      // Otherwise we will try to re-open a database that failed earlier.
+a\oe\kzhsqlxb.c:   // Generate the DDL file name and open it.
+a\oe\kzhsqlxb.c:   // Generate the DDL file name and open it.
+a\oe\kzhsqlxb.c:   This functions "closes" the Static SQL makefile.  It's not really open...
+a\oe\kzhsqlxb.c:      sprintf_s( pchLine, 500, "Could not re-open file\n  '%s'.\nCheck Compiler "
+a\oe\kzhsqlxb.c:      sprintf_s( pchLine, 500, "Could not re-open file\n  '%s'.\nCheck Compiler "
+a\oe\kzhsqlxb.c:   // it's not then we need to open for append.
+a\oe\kzhsqlxb.c:         sprintf_s( szLine, zsizeof( szLine ), "Could not re-open file\n '%s'.\nCheck Compiler "
+a\oe\kzhsqlxb.c:         sprintf_s( szLine, zsizeof( szLine ), "Could not re-open file\n '%s'.\nCheck Compiler "
+a\oe\kzoeapaa.c:         // "KZOEE009 - Error opening application definition file"
+a\oe\kzoeapaa.c:      // "KZOEE011 - Error opening application domains file"
+a\oe\kzoeataa.c:      // "KZOEE190 - Error opening temporary file"
+a\oe\kzoeataa.c:      // "KZOEE190 - Error opening temporary file"
+a\oe\kzoeataa.c:      // "KZOEE024190 - Error opening file"
+a\oe\kzoeneta.c:// bCallOpen is TRUE, then also call the network handler to open a connection
+a\oe\kzoeneta.c:// connection is already open--probably created during a listen.
+a\oe\kzoeneta.c:   // Do we need to call the network handler to open a connection?
+a\oe\kzoeneta.c:      // Try to open connections and keep trying until we get an open conn or an error.
+a\oe\kzoeneta.c:         // Try to open the connection.  Return codes:
+a\oe\kzoeneta.c:         //    0 - Connection opened.
+a\oe\kzoeneta.c:            // We will try to open the connection again.  Turn on a flag to
+a\oe\kzoeneta.c://  DESCRIPTION: Starts up a network for a task.  This op opens the
+a\oe\kzoeneta.c:   // Try closing any open connections.
+a\oe\kzoeneta.c:      // Replace the "IS" with open paren.
+a\oe\kzoeneta.c://  DESCRIPTION: This operation opens the file specified by pchFileName.  If
+a\oe\kzoeneta.c:   // Try opening the file.
+a\oe\kzoeneta.c:      TraceLineS( "(kzoeneta) ** Can't open file ", pchLocalFileName );
+a\oe\kzoeneta.c:      SysMessageBox( szlNetworkError, "Can't open file for NetSendFile", 1 );
+a\oe\kzoeneta.c:      // Skip opening paren if it's there -- they're harmless.
+a\oe\kzoeodaa.c:      //  "KZOEE050 - Error opening View Object file "
+a\oe\kzoeodaa.c:   // Display the name and date time stamp of file just opened.
+a\oe\kzoeodaa.c:      TraceLineS( "(od) opening Object Def file Name: ", ProcessInfo.szFileName );
+a\oe\kzoeodaa.c:   // Object file opened, load the object definition.
+a\oe\kzoeoiaa.c:   // First off, see if we can open the filename requested,
+a\oe\kzoeoiaa.c:            TraceLineS( "(oi) opening >>>>>>>>>> ", szOpenFileName );
+a\oe\kzoeoiaa.c:            TraceLineS( "(oi) opening ", szOpenFileName );
+a\oe\kzoeoiaa.c:         //  "KZOEE071 - Error opening instance file "
+a\oe\kzoeoiaa.c:   // exist, but it may already be open.  So we will try more than once to
+a\oe\kzoeoiaa.c:   // open it before giving up.
+a\oe\kzoeoiaa.c:      //  "KZOEE071 - Error opening instance file "
+a\oe\kzoeoiaa.c://                                        be opened, no error message is
+a\oe\kzoesoaa.c:   // system task.  Unfortunately this opens tons of race-condition holes.
+a\oe\kzoetmaa.c:      // Call DBHandler Close routine to close any open connections.
+a\oe\kzoetmaa.c://              (to close any open databases) and free any space used by
+a\oe\kzoevlaa.c:// 371-399 open
+a\oe\kzoexmla.c:   // Ok, we wrote the opening tag so set the name in the "entity stack".
+a\oe\kzoexmla.c:      //  "KZOEE071 - Error opening instance file "
+a\oe\kzoexmla.c:      //  "KZOEE071 - Error opening instance file "
+a\oe\kzoexmla.c:      //  "KZOEE071 - Error opening instance file "
+a\tz\etc\yyparse.c:    && (yyStatesFile = fopen(YYStatesFile, "r")) == (FILE *) 0)
+a\tz\etc\yyparse.c:      return "yyExpandName: cannot open states file";
+a\tz\kzrpsrco.c:                           //:lEndPosY = lEndPosY + 1 // a classic fudge factor to open up
+a\tz\tzadcdod.c:   // Transfer to the open dialog window
+a\tz\tzadcdod.c://              list and attempts to open an Object with this name.
+a\tz\tzadwdod.c:         // Get the file name and open the file.
+a\tz\tzbmupdd.c:   // if Dialog open for update
+a\tz\tzbmupdd.c:                                "Dialog is already opened for update by "
+a\tz\tzbmupdd.c:                                "another task. Unable to open.", 1 );
+a\tz\tzbmupdd.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzcmcpld.c:   // Was the window <MaintainUsers> opened via the menu option
+a\tz\tzcmcpld.c:   //BL, 1999.09.21 Was the window <MaintainUsers> opened via the menu option
+a\tz\tzcmcpld.c:   // Was the window <Reusable CPLR> opened via the menu option
+a\tz\tzcmcpld.c:   // Was the window <Reusable CPLR> opened via the menu option
+a\tz\tzcmcpld.c:   // If the window was opened from the window <CPLR_Maintenance>, then set
+a\tz\tzcmcpld.c:   // if opended window <CPLR_Maintenance>, then we have the change to save or
+a\tz\tzcmcpld.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzcmlpld.c:   Workstation Administration is opened, no other Tool can run.
+a\tz\tzcmlpld.c:     User A open the Window "Component Check Out"
+a\tz\tzcmlpld.c:     User B open the Window "Component Check Out" and checked out Component XXX
+a\tz\tzcmlpld.c:   __CM.taskId, when do you open the active LPLR
+a\tz\tzcmlpld.c:                         "The File you specified could not be opened.",
+a\tz\tzcmlpldv.c:      //:szMsg = "Could not open the LLP file specified: " + NEW_LINE + "  " + szXLPFileName + "."
+a\tz\tzcmlpldv.c:      ZeidonStringCopy( szMsg, 1, 0, "Could not open the LLP file specified: ", 1, 0, 514 );
+a\tz\tzcmlpldv.c:      //:szMsg = "Could not open: " + szZeidonDirectory + "."
+a\tz\tzcmlpldv.c:      ZeidonStringCopy( szMsg, 1, 0, "Could not open: ", 1, 0, 514 );
+a\tz\tzcmlplo.c:            strcat_s( szMsg, zsizeof( szMsg ), " could not be opened for creation." );
+a\tz\tzcmlplo.c:   // If we can't open the file, we assume there is no file on the LPLR,
+a\tz\tzcmlpmd.c:   //:// First make sure that now Dialog meta is currently open.  We will
+a\tz\tzcmlpmd.c:      //:             "You cannot convert text when a dialog is open.",
+a\tz\tzcmlpmd.c:      MessageSend( vSubtask, "CM01020", "Dialog", "You cannot convert text when a dialog is open.", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
+a\tz\tzcmoprs.c:   It created a problem: open meta (repository), close Zeidon Tool,
+a\tz\tzcmoprs.c:   open meta again : Error message CM00416 .
+a\tz\tzcmoprs.c:         strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Unable to open the RepositoryClient File - " );
+a\tz\tzcmoprs.c:         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\npossible reasons for your being unable to open" );
+a\tz\tzcmoprs.c:                                 "opened for update by another task\n"
+a\tz\tzcmoprs.c:                                 "Unable to open!",
+a\tz\tzcmoprs.c:         // The view may still be hanging around if Zeidon was still open.
+a\tz\tzcmoprs.c:         // If such a named view was not found, then the meta was not opened for update.
+a\tz\tzcmoprs.c:                         "opened for Update!",
+a\tz\tzcmoprs.c:                                                 "which the view was originally opened." );
+a\tz\tzcmoprs.c:            strcpy_s( szMsg, zsizeof( szMsg ), "(fnCommitMetaOI) Unable to Access XOD. XOD must be opened." );
+a\tz\tzcmoprs.c:         strcpy_s( szMsg, zsizeof( szMsg ), "(CommitDependentOI) Unable to Access XOD. XOD must be opened." );
+a\tz\tzcmoprs.c:                     "Component to be Deleted is currently opened for update." );
+a\tz\tzcmoprs.c:// Save sort order for window open components (for example "Open Domain").
+a\tz\tzcmoprs.c:// Sort components for window open components (for example "Open Domain").
+a\tz\tzdmupdd.c:   // opening the domain, so I am commenting this out but leaving the code here just
+a\tz\tzdmupdd.c:      // if Domain open, then set cursor of it
+a\tz\tzdmupdd.c:   // was window <Move Domain from Group to Group> opened via Move Button or menu item
+a\tz\tzdmupdd.c:      //if this Domain open, then save Domain, not save as
+a\tz\tzdmupdd.c:         // if another Domain open, then replace existing Domain
+a\tz\tzdmupdd.c:   //was window <Move Domain from Group to Group> opened via Move Button or menu item
+a\tz\tzedcm2d.c:   Corrected OperatorPromptForFile calls so that files would be opened
+a\tz\tzedcm2d.c:      // If we are called from a Zeidon Tool, the we first try to open
+a\tz\tzedcm2d.c:            // Determine if the open meta is the one to be parsed.
+a\tz\tzedcm2d.c:            // Determine if the open meta is the one to be parsed.
+a\tz\tzedcm2d.c:            // Determine if the open meta is the one to be parsed.
+a\tz\tzedfrmd.c:      // specifies whether the last quote found is an open quote.
+a\tz\tzedfrmd.c:// We're about to open a sub-window.  We need to name the subtask view for
+a\tz\tzedfrmd.c:   // Call dialog op to indicate we're about to open some subwindows.
+a\tz\tzedfrmd.c:   // Retrieve the source file name and open a buffer.
+a\tz\tzedfrmd.c:      // There is no meta view so we must be opening the current file using the Open/File menu command.
+a\tz\tzedfrmd.c:      // If an other Editor open, do not drop vEdWrk
+a\tz\tzedfrmd.c:      // comes back up when we open the next editor.
+a\tz\tzedfrmd.c:      // Look for open paren.  If none found skip the line.
+a\tz\tzedfrmd.c:      pch2++;  // Skip open paren.
+a\tz\tzedfrmd.c:                     "Cannot parse VML that has been opened via File/Open",
+a\tz\tzedfrmd.c:                     "Cannot generate VML that has been opened via File/Open",
+a\tz\tzedfrmd.c:                     "Cannot parse VML that has been opened via File/Open",
+a\tz\tzedvmld.C:      // comes back up when we open the next editor.
+a\tz\tzedvmld.C:                     "Cannot generate VML that has been opened via File/Open",
+a\tz\tzedvmld.C:   // open.
+a\tz\tzedvmld.C:// We're about to open a sub-window.  We need to name the subtask view for
+a\tz\tzedvmld.C:   // Call dialog op to indicate we're about to open some subwindows.
+a\tz\tzedvmld.C:   // Retrieve the source file name and open a buffer.
+a\tz\tzedvmld.C:      // There is no meta view so we must be opening the current file using
+a\tz\tzedvmld.C:      // Look for open paren.  If none found skip the line.
+a\tz\tzedvmld.C:      psz2++;  // Skip open paren.
+a\tz\tzedvmld.C:                     "Cannot parse VML that has been opened via File/Open",
+a\tz\tzedvmld.C:      // If an other Editor open, do not drop vEdWrk
+a\tz\tzeremdd.c:   open subject area and disable/enable Delete and New Button
+a\tz\tzeremdd.c:   // If ERM List is not available, get one and open the model if it exists
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access new Data Model. Model must be opened to Cancel New." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access new Data Model. Model must be opened to Cancel New." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model List. Model list must be opened to Delete." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened to Save As." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      // if Subject Area open, then set cursor of it
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   // Get access to opened ER Model and error if a ER model is not opened
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:      MessageSend( vSubtask, "ER00143", "ER Data Model Maintenance", "Unable to Access Subject Area.  SA must be opened.", zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. Subject Area must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. Subject Area must be opened." );
+a\tz\tzeremdd.c:         //if this Subject Area open, then save Subject Area, not save as
+a\tz\tzeremdd.c:            //if an other Subject Area open, then replace existing Subject Area
+a\tz\tzeremdd.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzeremdo.c:   deletion of corresponding entries in an open Subject Area.
+a\tz\tzeremdo.c:   // opened Subject Area.  If so, we must be sure that Subject Area doesn't
+a\tz\tzeremdo.c:   // opened Subject Area.  If so, we must be sure that Subject Area doesn't
+a\tz\tzerrord.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzersapd.c:         // if Subject Area open, add RelLink to Subject Area
+a\tz\tzersapd.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzersaso.c:   GetViewByName( &vSAVIEW, "SAVIEW", vTZERSASO, zLEVEL_TASK ); // Get SAVIEW if wnd open
+a\tz\tzersaso.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); Get SAVIEW if wnd open
+a\tz\tzhkeyad.c:   // If not, create one, else open it.
+a\tz\tzhkeyad.c:   TraceLineS( "Hotkey Dialog opening file: ", szFileSpec );
+a\tz\tzhlpcxd.c://  includes the mapping informations which are necessary to open the *.hlp
+a\tz\tzhlpcxd.c:                         "Unable to open help file. Trying to create a new one.",
+a\tz\tzhlpcxd.c:   // Read the manual mapping information which is necessary to open a
+a\tz\tzhlpcxd.c:      // already exists. If yes then open Message window
+a\tz\tzhlpcxd.c://      import file and opens the import file.
+a\tz\tzhlpcxd.c://      which is necessary to open a help file and to jump at a specified
+a\tz\tzlooprs.c://              of an opened file to
+a\tz\tzlooprs.c://  PURPOSE:    This routine opens a character, sequential file (a source
+a\tz\tzlooprs.c:   // Reopen old file for rewrite.
+a\tz\tzlooprs.c:   // Close new header file and reopen it for reading.
+a\tz\tzlooprs.c:            sprintf_s( pchLine, zLINESIZE, "Could not open dialog meta for update: '%s'", szMetaName );
+a\tz\tzlooprs.c:                    "Error opening file '%s'.  Check specification of Environment directory for a valid directory name.", szFileName );
+a\tz\tzlooprs.c:   // otherwise, context number is not 0, so we open help in
+a\tz\tzlooprs.c:   // Create temp file name and open it.
+a\tz\tzlooprs.c://             -1  - Could not open Source or Target file
+a\tz\tzlooprs.c:      TraceLineS( "CopyOperationCode cannot open Source File: ", szSrcFile );
+a\tz\tzlooprs.c:            TraceLineS( "CopyOperationCode cannot open Target File: ", szTgtFile );
+a\tz\tzlooprs.c:               TraceLineS( "CopyOperationCode cannot open Target File: ", szTmpFile );
+a\tz\tzlooprs.c:            // We've opened this file once ... it had better still be OK.
+a\tz\tzobrwad.c:   there is no Tree control. The Browser opens now the OldViewOI
+a\tz\tzobrwad.c://              simply activate the open window
+a\tz\tzobrwad.c://    2 - if there is a problem opening them
+a\tz\tzogsrco.c:         //:szMsg = "Can't open POG file, " + POG_FileName
+a\tz\tzogsrco.c:         ZeidonStringCopy( szMsg, 1, 0, "Can't open POG file, ", 1, 0, 201 );
+a\tz\tzophdrd.c:// PURPOSE:    This Entry opens the header file
+a\tz\tzophdrd.c:// PURPOSE:    This Entry opens the header file
+a\tz\tzopsigd.c:   // Open the other XGO file using standard open file dialog
+a\tz\tzopupdd.c:   // vCM_List is positioned on the Operation to be opened.  There are two diferent situations.
+a\tz\tzopupdd.c:      // if Operation open, then set cursor of it
+a\tz\tzopupdd.c:   //was window <Move Domain from Group to Group> opened via Move Button or menu item
+a\tz\tzopupdd.c:   // Was window <Move Operation from Group to Group> opened via
+a\tz\tzopupdd.c:      // if this Operation open, then save Operation, not save as
+a\tz\tzopupdd.c:         // if another Domain open, then replace existing Domain
+a\tz\tzpeupdd.c:   If PPE Tool open, do not open a second PPE Tool
+a\tz\tzpeupdd.c:   Modified zwTZPEUPDD_PreBuildPE: if Workstation Administration open,
+a\tz\tzpeupdd.c:   do not open PPE tool
+a\tz\tzpeupdd.c:   // if not, create one, else open it
+a\tz\tzpnctad.c:// If dialog is open dialog, use existing window list, else create a
+a\tz\tzpntrad.c:   Modified OpenDialogFile: does not ask for save after open dialog (TZWDLGSO
+a\tz\tzpntrad.c://  PURPOSE:    To open a dialog file and paint the first window into
+a\tz\tzpntrad.c:   // Call configuration management to open the selected file.
+a\tz\tzpntrad.c:   // If there are no W_MetaDefs, then one can't be opened.
+a\tz\tzpntrad.c:   // Set the current opened file name.
+a\tz\tzpntrad.c:      MiSetInstanceUpdateFlag( vNewDialog, FALSE );  // it should not be updated on open
+a\tz\tzpntrad.c:         // Transfer to the open dialog window
+a\tz\tzpntrad.c:      // Transfer to the open dialog window.
+a\tz\tzpntrad.c:   /* If there are no W_MetaDefs then one can't be opened. */
+a\tz\tzpntrad.c:   // Get the current open dialog.
+a\tz\tzpntrad.c:   // Get the current open dialog.
+a\tz\tzpntrad.c://              file open.
+a\tz\tzpntrad.c:      // If Dialog open, then set cursor to it.
+a\tz\tzpntrad.c:      // an open dialog already up.
+a\tz\tzpntrad.c:         // Transfer to the open dialog window
+a\tz\tzpntrad.c:      // if this Dialog open, then save Dialog, not save as
+a\tz\tzpntrad.c:         // if another Dialog open, then replace existing Dialog
+a\tz\tzpntrad.c:                   "Unable to open Task LPLR!\n"
+a\tz\tzpntrad.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzpntrad.c:         TraceLineI( "MigrateDialogs unexpected failure to open dialog in list ",
+a\tz\tzrpsrco.c:   //:// If positioning is vertical add a bit of space to open up between
+a\tz\tzrpsrco.c:      //:szMsg = "Cannot open File " + szFullName
+a\tz\tzrpsrco.c:      ZeidonStringCopy( szMsg, 1, 0, "Cannot open File ", 1, 0, 2050 );
+a\tz\tzrpsrco.c:      //:szMsg = "Cannot open temp. File " + szTmpFile
+a\tz\tzrpsrco.c:      ZeidonStringCopy( szMsg, 1, 0, "Cannot open temp. File ", 1, 0, 2050 );
+a\tz\tzrpsrco.c:   //:// If positioning is vertical add a bit of space to open up between
+a\tz\tzrpsxm2.c:               //:// Build open table and column statements.
+a\tz\tzrpsxm2.c:   //:// Build open table and column statements.
+a\tz\tzrpsxm2.c:   //:   // Build open block & table statements.
+a\tz\tzrpsxm2.c:      //:   // Build open table-row statement.
+a\tz\tzrpsxm2.c:      //:szMsg = "Cannot open XSLT Output File, " + szFileName
+a\tz\tzrpsxm2.c:      ZeidonStringCopy( szMsg, 1, 0, "Cannot open XSLT Output File, ", 1, 0, 201 );
+a\tz\tzrpsxml.c:      //:szMsg = "Cannot open XSLT Output File, " + szFileName
+a\tz\tzrpsxml.c:      ZeidonStringCopy( szMsg, 1, 0, "Cannot open XSLT Output File, ", 1, 0, 201 );
+a\tz\tzrpup2d.c:   Send an error message if a SironReport should be opened as ZeidonReport
+a\tz\tzrpup2d.c:   Modified TZRPUPDD_ReportPreBuild: if Workstation Administration open,
+a\tz\tzrpup2d.c:   do not open Report tool
+a\tz\tzrpup2d.c:   // Call configuration management to open the selected file
+a\tz\tzrpup2d.c:   // If there are no W_MetaDefs, then one can't be opened.
+a\tz\tzrpup2d.c:                   "Cannot open Report. It's a Siron Report.",
+a\tz\tzrpup2d.c:   // Set the current opened file name.
+a\tz\tzrpup2d.c:      // Transfer to the open report window
+a\tz\tzrpup2d.c:   // If there are no W_MetaDefs then one can't be opened.
+a\tz\tzrpup2d.c:   // BL, remove update flag: When you open a Zeidon Report is the
+a\tz\tzrpup2d.c:   // Get the current open report
+a\tz\tzrpup2d.c:      // if Window UPD_GROUPSET open, do not set correct Group Type
+a\tz\tzrpup2d.c:      //if this Report open, then save Report, not save as
+a\tz\tzrpup2d.c:         // if another Report open, then replace existing Report
+a\tz\tzrpupdd.c:   Modified AutoDesignReport: if AutoDesignReport and Page not open,
+a\tz\tzrpupdd.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzrpupdd.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzrpupdd.c:                         "Unable to open Task LPLR!\n"
+a\tz\tzrpupdd.c:         TraceLineI( "MigrateReports unexpected failure to open report in list ", k );
+a\tz\tzrpupsd.c:   Send an error message if a ZeidonReport should be opened as SironReport
+a\tz\tzrpupsd.c:   Modified TZRPUPSD_ReportPreBuild: if Workstation Administration open,
+a\tz\tzrpupsd.c:   do not open Report tool
+a\tz\tzrpupsd.c:   because of 'Assertion failed' while opening a SironReport File
+a\tz\tzrpupsd.c:   // Transfer to the open report window
+a\tz\tzrpupsd.c:   // Call configuration management to open the selected file
+a\tz\tzrpupsd.c:   // If there are no W_MetaDefs then one can't be opened.
+a\tz\tzrpupsd.c:                   "Cannot open Report. It's a Zeidon Report.",
+a\tz\tzrpupsd.c:   // BL, remove update flag: When you open a Zeidon Report in the Siron
+a\tz\tzrpupsd.c:   // Set the current opened file name
+a\tz\tzrpupsd.c:   /* If there are no W_MetaDefs then one can't be opened. */
+a\tz\tzrpupsd.c:   // Get the current open report
+a\tz\tzrpupsd.c:      // if Report open, then set cursor of it
+a\tz\tzrpupsd.c:         // Transfer to the open report window
+a\tz\tzrpupsd.c:      //if this Report open, then save Report, not save as
+a\tz\tzrpupsd.c:         // if another Report open, then replace existing Report
+a\tz\tzrpupsd.c:   // if a error situation disable menue item new and open
+a\tz\tzsiimpd.c:      //: // We cannot open the file
+a\tz\tzsiimpd.c:      //:OF 562: szMessage = "Catalogfile could no be opened !"
+a\tz\tzsiimpd.c:         ZeidonStringCopy( szMessage, 1, 0, "Catalogfile could no be opened !", 1, 0, 257 );
+a\tz\tzstarto.c:int nCmdShow;                    /* show-window type (open/icon) */
+a\tz\tzteupdd.c:   //if window TableRecord open
+a\tz\tzteupdd.c:                "Model must be opened to Save." );
+a\tz\tzteupdd.c:// 1. The entity contains hidden ER_Attributes. They have to be opened.
+a\tz\tzteupdd.c:   // We open a new window, because the Reference view to the ERD is
+a\tz\tzteupdd.c:   //if Window TableDetail not open ( is a modeless Window )?
+a\tz\tzteupdd.c:   //if Window TableDetail not open ( is a modeless Window )?
+a\tz\tzteupdd.c:   // if window "Tables/Records" open
+a\tz\tzteupdd.c:   //if window TableRecord open
+a\tz\tzvmg1aa.c:      // open parm list
+a\tz\tzvmg2aa.c:   zPCHAR pchOpenParen = zstrchr( pchStart, '(' ); // point to open paren
+a\tz\tzvmg2aa.c:   if ( pchOpenParen ) // we for sure need an open paren
+a\tz\tzvmg2aa.c:               pchOutputExprStr[ nOutputIdx-- ] = '('; // opening paren
+a\tz\tzvmg2aa.c:            nOutputIdx++;  // remove the open paren ... we are putting in a new one
+a\tz\tzvmgnaa.c:   // Close temp C file and reopen it for reading.
+a\tz\tzvmgnaa.c:   // our own system open with the delete option. This avoids problems with the short
+a\tz\tzvmgnaa.c:   // Close temp Java file and reopen it for reading.
+a\tz\tzvmgnaa.c:   // our own system open with the delete option. This avoids problems with the short
+a\tz\tzvmi3aa.c:   // if the Include Domains was selected, open each Domain, copy
+a\tz\tzvmi3aa.c:            TraceLineS( "ERROR Could not open: ", szSourceMetaDirectory );
+a\tz\tzvmi3aa.c:            TraceLineS( "ERROR Could not open: ", szTargetMetaDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szSourceExeDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szTargetExeDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szSourceMetaDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szTargetMetaDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szSourceExeDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szTargetExeDirectory );
+a\tz\tzvmlip.c:   // durch alle Entitäten des LOD loopen, bis cpcEntityNameToSearch gefunden oder am Ende:
+a\tz\tzvmlip.c:   // durch alle Attribute des LOD loopen, bis cpcAttributeNameToSearch gefunden oder am Ende:
+a\tz\tzvmp1aa.c:      // We are using g_sWhereLeft.lLevel/g_sWhereRight.lLevel to store the number of opening/closing parens.  Thus we get the
+a\tz\tzvmp2aa.c:   // Set values in expression entry.  If the operator is a left or open operator, then
+a\tz\tzvmp2aa.c:   ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qOPENOPER, 0 );  // 1 open
+a\tz\tzvmp2aa.c:            ADDEXPRESSIONENTRYTOSTRING( qCONSTANT, qNUMERIC, qTINTEGER, "\n                (", 0, 0 );  // 2 open
+a\tz\tzvmp2aa.c:         // Insert opening parens, if necessary.
+a\tz\tzvmp2aa.c:            ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qLPAREN, 0 );  // no open added
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qLPAREN, 0 );  // 3 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qOPENOPER, 0 );  // 4 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ")", qCLOSEOPER, 0 );  // close 4 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qOPENOPER, 0 );  // 5 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ")", qCLOSEOPER, 0 );  // close 5 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qOPENOPER, 0 );  // 6 open
+a\tz\tzvmp2aa.c:               strcat_s( szCursorVEA, zsizeof( szCursorVEA ), "\" )" ); // close 6 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ")", qCLOSEOPER, 0 );  // close 3 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ")", qCLOSEOPER, 0 );  // close 2 open
+a\tz\tzvmp5aa.c:      // insert opening parens, if necessary
+a\tz\tzvmp6aa.c:         // Insert opening parens, if necessary.
+a\tz\tzvmp6aa.c:            lLevel += g_sWhereLeft[ i ].lLevel;  // opening parens before
+a\tz\tzvmp6aa.c:            // we first insert an opening paren before the first AND
+a\tz\tzvmp7aa.c:      // if we find an open paren, go down one level recursively
+a\tz\tzvmp9aa.c:      // Insert opening parens, if there.
+a\tz\tzvmpaaa.c:   // message on the open if it does not exist.
+a\tz\tzvmpaaa.c:         // Error opening temp file for write
+a\tz\tzvmpaaa.c:      // Right now we had better just return if there is an open error.
+a\tz\tzvmpaaa.c:                  // reread the file/open it
+a\tz\tzvmpaaa.c://    function opens the file for parsing.
+a\tz\tzvmpaaa.c:         // Generateerror if open failed.
+a\tz\tzvmpyaa.c:   "openoper",
+a\tz\tzvmpyaa.c:case YYr313: {   /* parameter_value_list :  openoper */
+a\tz\tzvmpyaa.c:case YYr315: {   /* parameter_value_list :  openoper */
+a\tz\tzvmpyaa.c:        (yyStatesFile = fopen(YYStatesFile, "r")) == (FILE *) 0 )
+a\tz\tzvmpyaa.c:      return "yyExpandName: cannot open states file";
+a\tz\tzwdgrwd.c:      strcpy_s( sz, zsizeof( sz ), "Unable to Access WD Model. Model must be opened." );
+a\tz\tzwdlg4o.c:   //:szWriteBuffer = "      var NewWin = window.open( szMsg );"
+a\tz\tzwdlg4o.c:   ZeidonStringCopy( szWriteBuffer, 1, 0, "      var NewWin = window.open( szMsg );", 1, 0, 10001 );
+a\tz\tzwdlg4o.c:      //://szWriteBuffer = "      var NewWin = window.open( szMsg, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth + ",height=" + szHeight + ",modal=1^ );"
+a\tz\tzwdlg4o.c:      //:szWriteBuffer = "      var NewWin = window.open( szMsg, ^^, strWindowOptions );"
+a\tz\tzwdlg4o.c:      ZeidonStringCopy( szWriteBuffer, 1, 0, "      var NewWin = window.open( szMsg, ^^, strWindowOptions );", 1, 0, 10001 );
+a\tz\tzwdlg4o.c:            //:// We are opening a popup window within this dialog
+a\tz\tzwdlg4o.c:                  //:// KJS 01/30/08 - Want the popup window to be opened with the correct size of the painted popup window
+a\tz\tzwdlg4o.c:               //:// We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg4o.c:               //:// popup window.  Need to open the other dialog.
+a\tz\tzwdlg4o.c:            //:szWriteBuffer = "   var NewWin = window.open( ^" + szDialogTag + szWindowTag + ".jsp^, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth +
+a\tz\tzwdlg4o.c:            ZeidonStringCopy( szWriteBuffer, 1, 0, "   var NewWin = window.open( ^", 1, 0, 10001 );
+a\tz\tzwdlg4o.c:                        //:// We are opening a popup window within this dialog
+a\tz\tzwdlg4o.c:                           //:// We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg4o.c:                           //:// popup window.  Need to open the other dialog.
+a\tz\tzwdlg4o.c:                        //:szWriteBuffer = "      window.opener.location.href=window.opener.location.href;"
+a\tz\tzwdlg4o.c:                        ZeidonStringCopy( szWriteBuffer, 1, 0, "      window.opener.location.href=window.opener.location.href;", 1, 0, 10001 );
+a\tz\tzwdlg4o.c:                        //:szWriteBuffer = "      window.opener.focus();"
+a\tz\tzwdlg4o.c:                        ZeidonStringCopy( szWriteBuffer, 1, 0, "      window.opener.focus();", 1, 0, 10001 );
+a\tz\tzwdlg4o.c:   //:// when people come to this page but don't do anything, we don't have a session open.
+a\tz\tzwdlg4o.c:   //:szWriteBuffer = "            // Getting the file name and open a file for saving"
+a\tz\tzwdlg4o.c:   ZeidonStringCopy( szWriteBuffer, 1, 0, "            // Getting the file name and open a file for saving", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:   //:// KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
+a\tz\tzwdlg6o.c:   //:// It looks like users write over data when they have a couple of browser sessions open.
+a\tz\tzwdlg6o.c:   //:// KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
+a\tz\tzwdlg6o.c:   //:// It looks like users write over data when they have a couple of browser sessions open.
+a\tz\tzwdlg6o.c:   //:szWriteBuffer = "         // Setting a logout date to try and determine if a user tries to log into application when they already have a session open."
+a\tz\tzwdlg6o.c:   //:// KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
+a\tz\tzwdlg6o.c:   //:// It looks like users write over data when they have a couple of browser sessions open.
+a\tz\tzwdlg6o.c:   //:szWriteBuffer = "         // Setting a logout date to try and determine if a user tries to log into application when they already have a session open."
+a\tz\tzwdlg6o.c:   //:szWriteBuffer = "      var NewWin = window.open( szMsg );"
+a\tz\tzwdlg6o.c:   ZeidonStringCopy( szWriteBuffer, 1, 0, "      var NewWin = window.open( szMsg );", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:      //://szWriteBuffer = "      var NewWin = window.open( szMsg, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth + ",height=" + szHeight + ",modal=1^ );"
+a\tz\tzwdlg6o.c:      //:szWriteBuffer = "      var NewWin = window.open( szMsg, ^^, strWindowOptions );"
+a\tz\tzwdlg6o.c:      ZeidonStringCopy( szWriteBuffer, 1, 0, "      var NewWin = window.open( szMsg, ^^, strWindowOptions );", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:         //:// KJS 07/11/12 - I am taking out this code, because at the moment, I do not see why we want to open the popup window
+a\tz\tzwdlg6o.c:         //:   // We are opening a popup window within this dialog
+a\tz\tzwdlg6o.c:         //:         // KJS 01/30/08 - Want the popup window to be opened with the correct size of the painted popup window
+a\tz\tzwdlg6o.c:         //:      // We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg6o.c:         //:      // popup window.  Need to open the other dialog.
+a\tz\tzwdlg6o.c:         //:   szWriteBuffer = "   var NewWin = window.open( ^" + szDlgTag + szWndTag + ".jsp^, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth +
+a\tz\tzwdlg6o.c:               //:// If this function is for Download File or open Jasper pdf report, we want to eliminate the _DisableFormElements statement.
+a\tz\tzwdlg6o.c:                     //:// We are opening a popup window within this dialog
+a\tz\tzwdlg6o.c:                        //:// We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg6o.c:                        //:// popup window.  Need to open the other dialog.
+a\tz\tzwdlg6o.c:                     //:szWriteBuffer = "      window.opener.location.href=window.opener.location.href;"
+a\tz\tzwdlg6o.c:                     ZeidonStringCopy( szWriteBuffer, 1, 0, "      window.opener.location.href=window.opener.location.href;", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:                     //:szWriteBuffer = "      window.opener.focus();"
+a\tz\tzwdlg6o.c:                     ZeidonStringCopy( szWriteBuffer, 1, 0, "      window.opener.focus();", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:   //:// when people come to this page but don't do anything, we don't have a session open.
+a\tz\tzwdlg6o.c:      //:// KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
+a\tz\tzwdlg6o.c:      //:// It looks like users write over data when they have a couple of browser sessions open.
+a\tz\tzwdlg6o.c:      //:szWriteBuffer = "         // Setting a logout date to try and determine if a user tries to log into application when they already have a session open."
+a\tz\tzwdlg6o.c:   //:szWriteBuffer = "            // Getting the file name and open a file for saving"
+a\tz\tzwdlg6o.c:   ZeidonStringCopy( szWriteBuffer, 1, 0, "            // Getting the file name and open a file for saving", 1, 0, 10001 );
+a\tz\tzwebgl1.c:         //:// If we are copying to pdf, then we need to have a wait routine, otherwise, the jsp tries to open
+a\tz\tzwebgl1.c:      //:szWriteBuffer = "      nRC = 0;  // No redirection, we want to open the popup"
+a\tz\tzwebgl1.c:      ZeidonStringCopy( szWriteBuffer, 1, 0, "      nRC = 0;  // No redirection, we want to open the popup", 1, 0, 10001 );
+a\tz\tzwebgl1.c:                     //:szWriteBuffer = "                         <div id=^rpt-display-open-<%=iDashboardCnt%>^ class=^region-header-title-open^ title=^More Detail...^ onclick=^OpenFrame(this,'<%=szDashboardMore%>' );^> "
+a\tz\tzwebgl1.c:                     ZeidonStringCopy( szWriteBuffer, 1, 0, "                         <div id=^rpt-display-open-<%=iDashboardCnt%>^ class=^region-header-title-open^ title=^More Detail...^ onclick=^OpenFrame(this,'<%=szDashboardMore%>' );^> ", 1, 0,
+a\tz\tzwebgl2.c:                        //:szWriteBuffer = "                         <div id=^rpt-display-open-<%=iDashboardCnt%>^ class=^region-header-title-open^ title=^More Detail...^ onclick=^OpenFrame(this,'<%=szDashboardMore%>' );^> "
+a\tz\tzwebgl2.c:                        ZeidonStringCopy( szWriteBuffer, 1, 0, "                         <div id=^rpt-display-open-<%=iDashboardCnt%>^ class=^region-header-title-open^ title=^More Detail...^ onclick=^OpenFrame(this,'<%=szDashboardMore%>' );^> ", 1, 0,
+a\tz\tzwebgl2.c:                              //:szWriteBuffer = "<a href=^#^ rel=^toggle['" + szCtrlTag + "']^ data-openimage=^toggle-open.png^ data-closedimage=^toggle-close.png^>"
+a\tz\tzwebgl2.c:                              ZeidonStringConcat( szWriteBuffer, 1, 0, "']^ data-openimage=^toggle-open.png^ data-closedimage=^toggle-close.png^>", 1, 0, 10001 );
+a\tz\tzwebgl2.c:            //:// If we are copying to pdf, then we need to have a wait routine, otherwise, the jsp tries to open
+a\tz\tzwebgl2.c:         //:szWriteBuffer = "      nRC = 0;  // No redirection, we want to open the popup"
+a\tz\tzwebgl2.c:         ZeidonStringCopy( szWriteBuffer, 1, 0, "      nRC = 0;  // No redirection, we want to open the popup", 1, 0, 10001 );
+a\tz\tzwebgl2.c:   //:// KJS 09/17/14 - Run a jasper report and open in PDF.
+a\tz\tzwebgl2.c:   //:// KJS 07/26/16 - Run a jasper report and open in Excel.
+a\tz\tzxsltdd.c:      // Transfer to the open report window
+a\tz\tzxsltdd.c:      // an open dialog already up.
+a\tz\tzxsltdd.c:         // Transfer to the open dialog window
+a\tz\tzxsltdd.c://  PURPOSE:    To ensure a view to the meta list is available for file open.
+a\tz\tzxsltdd.c:      // If XSLT open, then set cursor to it.
+a\tz\tzxsltdd.c:   /* If there are no W_MetaDefs then one can't be opened. */
+a\tz\tzxsltdd.c:   // Get the current open dialog.
+a\tz\tzxsltdd.c:   // Get the current open dialog.
+a\tz\tzxsltdd.c:      // if this XSLT open, then save XSLT, not save as
+a\tz\tzxsltdd.c:         // if another XSLT open, then replace existing XSLT
+a\tz\tzxsltdd.c:                   "Unable to open Task LPLR!\n"
+a\tz\tzxsltdd.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzxsltdd.c:         TraceLineI( "MigrateXSLTs unexpected failure to open dialog in list ", k );
+a\tz\tzxsltdd.c://  PURPOSE:    To open a dialog file and paint the first window into
+a\tz\tzxsltdd.c:   // Call configuration management to open the selected file.
+a\tz\tzxsltdd.c:   // If there are no W_MetaDefs, then one can't be opened.
+a\tz\tzxsltdd.c:   // Set the current opened file name.
+a\tz\tzxsltdd.c:      MiSetInstanceUpdateFlag( vNewXSLT, FALSE );  // it should not be updated on open
+a\tz\tzzapp2d.c:   // open Task LPLR
+a\tz\tzzappsd.c:   //:// open it
+a\tz\tzzolodd.c:      // If LOD open, then set cursor to it.
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_CreateNewLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_OkNewLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access ER Model. ER must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:      // to open another LPLR, answer NO (don't save the LOD yet),
+a\tz\tzzolodd.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access LOD List. LOD List must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODForTE) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access Technical Env. TE must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODWithoutTE) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Error opening file \'" );
+a\tz\tzzolodd.c:      //if this LOD open, then save LOD, not save as
+a\tz\tzzolodd.c:         // if another LOD open, then replace existing LOD
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwfnTZZOLODD_SaveAsLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:   //Set Cursor to new LOD and open this LOD
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_AddParentEntity) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzzolodd.c:                         "Unable to open Task LPLR!\n"
+a\tz\tzzolodd.c:         TraceLineI( "MigrateToolLODsForOK unexpected failure to open LOD in list ", k );
+a\tz\tzzolodo.c:         // Skip whitespaces and the open paren.
+a\tz\tzzolodo.c:      // If the next zCHAR is an open paren, then szAttribName is really a
+a\tz\tzzolodq.c:      // If LOD open, then set cursor to it.
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_CreateNewLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_OkNewLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access ER Model. ER must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODForTE) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access Technical Env. TE must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:      // to open another LPLR, answer NO (don't save the LOD yet),
+a\tz\tzzolodq.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access LOD List. LOD List must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODWithoutTE) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Error opening file \'" );
+a\tz\tzzolodq.c:      //if this LOD open, then save LOD, not save as
+a\tz\tzzolodq.c:         // if another LOD open, then replace existing LOD
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwfnTZZOLODD_SaveAsLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:   //Set Cursor to new LOD and open this LOD
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_AddParentEntity) Unable to Access LOD. LOD must be opened." );
+a\tzvmp9aa.c:      // Insert opening parens, if there.
+a\ut\qmap2def\QMAP2DEF.C:    fDfb = fopen(argv[1],"r");
+a\ut\qmap2def\QMAP2DEF.C:    fMap = fopen(argv[2],"r");
+a\ut\qspawn\QSPAWN.C:      stream = freopen( pszFileName, "a", stdout );
+a\ut\qspawn\QSPAWN.C:      stream = freopen( pszFileName, "w", stdout );
+a\ut\qspawn\QSPAWN.C:      printf( "Couldn't reopen stdout as '%1'\n", argv[ 1 ] );
+a\ut\qspawn\QSPAWN.C:   stream = freopen( "CON", "w", stdout );
+a\zdr\jpeglib\JDATADST.C: * The caller must have already opened the stream, and is responsible
+a\zdr\jpeglib\JDATASRC.C: * The caller must have already opened the stream, and is responsible
+a\zdr\jpeglib\JMEMMGR.C:  boolean b_s_open;     /* is backing-store data valid? */
+a\zdr\jpeglib\JMEMMGR.C:  boolean b_s_open;     /* is backing-store data valid? */
+a\zdr\jpeglib\JMEMMGR.C:  result->b_s_open = FALSE;   /* no associated backing-store object */
+a\zdr\jpeglib\JMEMMGR.C:  result->b_s_open = FALSE;   /* no associated backing-store object */
+a\zdr\jpeglib\JMEMMGR.C:   jpeg_open_backing_store(cinfo, & sptr->b_s_info,
+a\zdr\jpeglib\JMEMMGR.C:   sptr->b_s_open = TRUE;
+a\zdr\jpeglib\JMEMMGR.C:   jpeg_open_backing_store(cinfo, & bptr->b_s_info,
+a\zdr\jpeglib\JMEMMGR.C:   bptr->b_s_open = TRUE;
+a\zdr\jpeglib\JMEMMGR.C:    if (! ptr->b_s_open)
+a\zdr\jpeglib\JMEMMGR.C:    if (! ptr->b_s_open)
+a\zdr\jpeglib\JMEMMGR.C:      if (sptr->b_s_open) {   /* there may be no backing store */
+a\zdr\jpeglib\JMEMMGR.C:   sptr->b_s_open = FALSE; /* prevent recursive close if error */
+a\zdr\jpeglib\JMEMMGR.C:      if (bptr->b_s_open) {   /* there may be no backing store */
+a\zdr\jpeglib\JMEMMGR.C:   bptr->b_s_open = FALSE; /* prevent recursive close if error */
+a\zdr\jpeglib\JMEMMGR.C:  /* Declare ourselves open for business */
+a\zdr\jpeglib\JMEMNOBS.C:jpeg_open_backing_store (j_common_ptr cinfo, backing_store_ptr info,
+a\zdr\jpeglib\JPEGTRAN.C:   * values read here are ignored; we will rescan the switches after opening
+a\zdr\jpeglib\JPEGTRAN.C:    if ((input_file = fopen(argv[file_index], READ_BINARY)) == NULL) {
+a\zdr\jpeglib\JPEGTRAN.C:      fprintf(stderr, "%s: can't open %s\n", progname, argv[file_index]);
+a\zdr\jpeglib\JPEGTRAN.C:    if ((output_file = fopen(outfilename, WRITE_BINARY)) == NULL) {
+a\zdr\jpeglib\JPEGTRAN.C:      fprintf(stderr, "%s: can't open %s\n", progname, outfilename);
+a\zdr\jpeglib\JPEGTRAN.C:  /* Close files, if we opened them */
+a\zdr\MonitorProcess\McbXML\McbMain.c:   OPENFILENAME openName;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lStructSize = zsizeof(OPENFILENAME);
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.hwndOwner = hWnd;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.hInstance = g_hInst;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrFilter = _T("XML Files (*.xml)\0*.xml\0Text Files (*.txt)")
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrCustomFilter = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nMaxCustFilter = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nFilterIndex = pOptions->nFilterIndex;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrFile = szFile;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nMaxFile = _MAX_PATH;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrFileTitle = szFileTitle;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nMaxFileTitle = _MAX_PATH;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrInitialDir = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrTitle = _T("Load XML file");
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST |
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nFileOffset = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nFileExtension = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrDefExt = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lCustData = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpfnHook = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpTemplateName = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrInitialDir = szStartDir;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   if (GetOpenFileName(&openName))
+a\zdr\MonitorProcess\McbXML\McbMain.c:         pOptions->nFilterIndex = openName.nFilterIndex;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   OPENFILENAME openName;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lStructSize = zsizeof(OPENFILENAME);
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.hwndOwner = hWnd;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.hInstance = g_hInst;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrFilter = _T("XML Files (*.xml)\0*.xml\0Text Files (*.txt)")
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrCustomFilter = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nMaxCustFilter = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nFilterIndex = pOptions->nFilterIndex;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrFile = szFile;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nMaxFile = _MAX_PATH;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrFileTitle = szFileTitle;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nMaxFileTitle = _MAX_PATH;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrInitialDir = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrTitle = _T("Save XML file");
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY |
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nFileOffset = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nFileExtension = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrDefExt = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lCustData = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpfnHook = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpTemplateName = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:            openName.lpstrInitialDir = szStartDir;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        if (GetSaveFileName(&openName))
+a\zdr\MonitorProcess\McbXML\McbMain.c:            pOptions->nFilterIndex = openName.nFilterIndex;
+a\zdr\MonitorProcess\McbXML\McbMain.c:            * File open command
+a\zdr\MonitorProcess\McbXML\McbXML.c:            * Obtain the name of the open part of the clear tag
+a\zdr\MonitorProcess\McbXML\McbXML.c:                * Compare the open tag with the current token
+w\oe\kzoeclnt.c:         int  nCmdShow )          // show-window type (open/icon)
+w\oe\kzoengwa.c:specified (ZeidonOE) and open the Startup Dialog Box. Select the Startup Type (usually: "Automatic").
+w\oe\kzoengwa.c:When the ZeidonOE Service is started and the Object Service window appears this window has to remain open.
+w\oe\kzoengwa.c:   // The file has been opened, get all text from all the
+w\oe\kzoengwa.c:               // Display open files.
+w\oe\kzoengwa.c:                     // Display open files.
+w\oe\kzoengwa.c:            // If the logfile is still open then close it.
+w\oe\kzoengwa.c:                  // Send message that log file opened.
+w\oe\kzoengwa.c:   // messages and write them to the trace log (if open)
+w\oe\kzoengwa.c:   // Just a way to test if we are opening the right INI file.
+w\oe\kzoengwa.c:         if ( wParam == IDC_OPEN ) // open pushbutton
+w\oe\kzoengwa.c:               MessageBox( GetActiveWindow( ), "Error opening trace file!",
+w\oe\kzoengwa.c:               // Send message that log file opened.
+w\oe\kzoesyaa.c:   // using the open slot we found.
+w\oe\kzoesyaa.c:      // Find an open cell in the Process record.
+w\oe\kzoesyaa.c:      // Now that we have created the main task, see if we can open
+w\oe\kzoesyaa.c:         // {9,"KZOEE009 - Error opening application definition file"},
+w\oe\kzoesyaa.c:      // Send each task a message to open the same file mapping.
+w\oe\kzoesyaa.c:   // by opening a view to the (named) shared memory mapping file.
+w\oe\kzoesyaa.c:   // We now have to open views to all shared mapping files created by other
+w\oe\kzoesyaa.c:      // system task and open it for the current task.
+w\oe\kzoesyaa.c:      lpProcessList->nOE_Request = TASKREQ_ALLOC; // we want to open a file mapping
+w\oe\kzoesyaa.c:      // See if we can open the zeidon applications file.
+w\oe\kzoesyaa.c:         // {9,"KZOEE009 - Error opening application definition file"},
+w\oe\kzoesyaa.c:// the handle.  The OE takes the handle and stores it in HO and then "opens"
+w\oe\kzoesyaa.c:      // Start off by finding an empty (or open) page table entry.
+w\oe\kzoesyaa.c:                     TraceLine( "Message Handler Error opening log file (%s) for message: %s",
+w\oe\kzoesyaa.c://   PURPOSE: To open a file based on the filename using the flag passed
+w\oe\kzoesyaa.c://            to indicate the type of open to be done.  The flag values
+w\oe\kzoesyaa.c://   RETURN VALUE: A handle to the file opened or -1 if the file could not be
+w\oe\kzoesyaa.c://                 opened, NOTE the return value of a COREFILE_EXIST/DELETE/RENAME
+w\oe\kzoesyaa.c:      TraceLineS( "(sy) Could not open file: ", szTempFileName );
+w\oe\kzoesyaa.c:   // If we got here, then a file open was successful.
+w\oe\kzoesyaa.c:   // Create an open file record on the AnchorBlock chain.
+w\oe\kzoesyaa.c:// This example opens or creates and opens a file named "DOSTEST.DAT",
+w\oe\kzoesyaa.c:// PURPOSE:  To read a block of data from an opened file
+w\oe\kzoesyaa.c:      IssueError( vTask, 0, 0, "SysReadLine ... no open files" );
+w\oe\kzoesyaa.c:// PURPOSE:  To write a block of data to an opened file
+w\oe\kzoesyaa.c:// PURPOSE:  To close a previously opened file
+w\oe\kzoesyaa.c:   // Find open file and prev open file.
+w\oe\kzoesyaa.c:   // Note: Although the close may fail, keeping the open
+w\oe\kzoesyaa.c:   // If the file was opened with the backup option then we need to rename
+w\oe\kzoesyaa.c:      TraceLineS( "SysSetFileTime: Couldn't open file ", szFileName );
+w\oe\kzoesyaa.c://           cannot be opened.
+w\oe\kzoesyaa.c:   // If this is not a repeated read, open the file.
+w\oe\kzoesyaa.c:      // Read the next line if processing an already opened file.
+w\oe\kzoesyaa.c:// is passed in as a null string, we know to open help at the table of
+w\oe\kzoesyaa.c:// that you use to open a file, but the data you keep in the thread for the pointer
+w\oe\kzoesyaa.c://     /* Create or open a named semaphore. */
+w\oe\kzoesyaa.c://     /* Close handle, and return NULL if existing semaphore opened. */
+w\oe\kzoesyaa.c:// somewhat by opening the Tasking dialog box in the System applet found in the
+w\oe\kzoesyaa.c:// receives from the system can leave you open to starving your other threads
+w\oe\KZSchedT.c:         int       nCmdShow )     // show-window type (open/icon)
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\ut\qdelete\qdelete.c:         f = fopen( pszFileName, "r" );
+w\ut\qdelete\qdelete.c:            printf( "Error opening file %s\n", pszFileName );
+w\ut\qmap2def\qmap2def.c:    fDfb = fopen(argv[1],"r");
+w\ut\qmap2def\qmap2def.c:    fMap = fopen(argv[2],"r");
+w\ut\qspawn\qspawn.c:      stream = freopen( pszFileName, "a", stdstream );
+w\ut\qspawn\qspawn.c:      stream = freopen( pszFileName, "w", stdstream );
+w\ut\qspawn\qspawn.c:      printf( "Couldn't reopen stdout as '%1'\n", argv[ 1 ] );
+w\ut\qspawn\qspawn.c:   stream = freopen( "CON", "w", stdstream );
+w\ut\xodgen\xodgen.c:               int    nCmdShow)        /* show-window type (open/icon) */
+w\ut\xodgen\xodgen.c:      fLog = fopen( cLogFile, "w");
+w\ut\xwdgen\xwdgen.c:               int    nCmdShow)        /* show-window type (open/icon) */
+w\ut\xwdgen\xwdgen.c:      fLog = fopen( cLogFile, "w");
