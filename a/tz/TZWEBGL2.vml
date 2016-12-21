@@ -2491,7 +2491,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                IF lSort = 0
                   szWriteBuffer = "<thead><tr>"
                ELSE
-                  szWriteBuffer = "<thead bgcolor=green><tr>"
+                  // KJS 12/08/16 - Not sure why we are setting the bgcolor=green. It's causing issue when Aadit is using
+                  // some other styles so taking out for now since I couldn't see a difference with grids without this.
+                  //szWriteBuffer = "<thead bgcolor=green><tr>"
+                  szWriteBuffer = "<thead><tr>"
                END
 
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )

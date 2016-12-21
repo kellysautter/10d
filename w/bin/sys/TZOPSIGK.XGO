@@ -1,4 +1,4 @@
-z1000-Zeidon    TZOPSIGK TZOPGRPO 06/08/15   15:52:20 1.0a2    
+z1000-Zeidon    TZOPSIGK TZOPGRPO                         11/29/16   16:07:50 1.0a2   
 eOPERSIG   1
 aName      TZKZ8C
 
@@ -20861,6 +20861,7 @@ aType      Z
 aReturnDesc nReturnCode
 aReturnDataType N
 aOrdinalValue 15
+aThrowsException Y
 
 eParameter 3
 aShortDesc TaskView

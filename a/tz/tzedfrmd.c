@@ -181,6 +181,7 @@ long lMoveBaseLine, lMoveBaseColumn;
 //zBOOL   g_bIsFileNew = FALSE; // to handle "File New" menu command
 FINDREPLACE g_fr;
 CString g_csFindWhat = "";
+CString g_strFindWhat = "";
 zBOOL   g_bMatchCase = FALSE;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -6330,7 +6331,35 @@ TZEDFRMD_EditRedo( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 TZEDFRMD_EditFind( zVIEW vSubtask )
 {
-   return EDT_FindDialog( vSubtask );
+	/*
+	zPCHAR   pch = 0;
+	CString  strBuffer;
+	zLONG    lBufferLth = 512;
+	ZDrTBEdt *oEditor =
+		(ZDrTBEdt *)GetActiveX_WrapperInstance(vSubtask, EDIT_CONTROL_NAME);
+
+	if (oEditor)
+	{
+		if (oEditor->CanCopy()) // something is selected
+		{
+			pch = strBuffer.GetBufferSetLength(lBufferLth);
+			zLONG lReturn = oEditor->GetSelectedText(pch, lBufferLth);
+			while (lReturn > lBufferLth)
+			{
+				lBufferLth = lReturn + 1;
+				lReturn = oEditor->GetSelectedText(pch, lBufferLth);
+			}
+		}
+	}
+	else
+	{
+		return(-1);
+	}
+
+	if (pch == 0)
+		pch = g_strFindWhat.GetBufferSetLength(g_strFindWhat.GetLength());
+		*/
+	return EDT_FindDialog( vSubtask );
 
 } // TZEDFRMD_EditFind
 

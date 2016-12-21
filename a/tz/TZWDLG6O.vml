@@ -4560,6 +4560,7 @@ DKS_TRACE_END */
    szWriteBuffer = "</form>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
+   // KJS 11/07/16 - Going to try putting this in an operation that gets called from the recursive code...
    // FORM GENERATION FOR FILE TRANSFER GROUPS
    // Create Form statements for each Group of type "File Transfer to Server".
    // Note that each Group requires a subcontrol of type EditBox and another of type PushBtn.
@@ -4569,29 +4570,27 @@ DKS_TRACE_END */
    szCtrlTag = "File Transfer to Server"
    nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
                           szCtrlTag, "", "", 0, "Window", "" )
-   LOOP WHILE nRC >= zCURSOR_SET
+   IF nRC >= zCURSOR_SET
       // Generate Form Statement for Group, with hidden field zAction.
       szWriteBuffer = ""
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szFormName = vDialogTemp.Control.Tag
+   END
+   /*
       szWriteBuffer = "<form name=^" + szFormName + "^  id=^" + szFormName + "^ method=^post^ enctype=^multipart/form-data^>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   <input name=^zAction^ id=^zAction^ type=^hidden^ value=^HELP^>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-
       CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
-
       szClass = ""
       IF vDialogTemp.Control.CSS_Class != ""
          szClass = " class=^" + vDialogTemp.Control.CSS_Class + "^"
       END
       szWriteBuffer = "<div" + szStyle + szClass + ">  <!-- " + vDialogTemp.Control.Tag + " --> "
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-
       // Get Group positions for adding to subcontrols.
       //lSizeX = vDialogTemp.Control.PSDLG_X * dDLUnits
       //lSizeY = vDialogTemp.Control.PSDLG_Y * dDLUnits
-
       // Generate hidden field zTargetFileName, with JSP to retrieve name.
       // We are currently positioned on the GroupBox and need to reposition on the subcontrol Button
       // to generate the FileName mapping..
@@ -4599,22 +4598,18 @@ DKS_TRACE_END */
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   strErrorMapValue = ^^;"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-
       SetViewToSubobject( vDialogTemp, "CtrlCtrl" )
       FOR EACH vDialogTemp.Control
          IF vDialogTemp.ControlDef.Tag = "PushBtn"
             IF vDialogTemp.CtrlMapER_Attribute EXISTS
                // The mapping for the Push Button specifies the attribute that contains the Target File Name (without suffix).
-
             // szWriteBuffer = "   strSessionId = session.getId( );"
             // WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-
                szWriteBuffer = "   " + vDialogTemp.CtrlMapView.Name + " = " +
                                "task.getViewByName( ^" + vDialogTemp.CtrlMapView.Name + "^ );"
                WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
                szWriteBuffer = "   if ( VmlOperation.isValid( " + vDialogTemp.CtrlMapView.Name + " ) )"
                WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-
                szWriteBuffer = "   {"
                WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      nRC = " + vDialogTemp.CtrlMapView.Name + ".cursor( ^" +
@@ -4629,14 +4624,12 @@ DKS_TRACE_END */
                WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
                szWriteBuffer = "   }"
                WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-
                IF (lTrace = 1)
                   szWriteBuffer = "   else"
                   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "      task.log().info( ^Invalid View: ^ + ^" + vDialogTemp.Control.Tag + "^ );"
                   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
                END
-
             END
          END
       END
@@ -4644,23 +4637,19 @@ DKS_TRACE_END */
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   <input name=^zTargetFileName^ id=^zTargetFileName^ type=^hidden^ value=^<%=strErrorMapValue%>^ >"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-
       // Process EditBox and PushBtn as subcontrols.
       FOR EACH vDialogTemp.Control
          IF vDialogTemp.ControlDef.Tag = "EditBox"
             szCtrlTag     = vDialogTemp.Control.Tag
             szControlType = vDialogTemp.ControlDef.Tag
-            szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+            szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " ** %>"
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-
             CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
-
             // For some reason with the <input type="file" control, the width property doesn't
             // seem to size the width correctly.  Use the "size" attribute instead.  The weird thing
             // is that if I don't include the width in style, then the "Browse" button that gets
             // created is not inline with the field that displays the upload file. ???!!!
             zIntegerToString( szWidth, 10, vDialogTemp.Control.SZDLG_X / 3.5 )
-
             szClass = vDialogTemp.Control.CSS_Class
             IF szClass = ""
                szWriteBuffer = "   <input name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^" + szWidth + "^ " + szStyle + " type=^file^  >"
@@ -4672,9 +4661,8 @@ DKS_TRACE_END */
          IF vDialogTemp.ControlDef.Tag = "PushBtn"
             szCtrlTag     = vDialogTemp.Control.Tag
             szControlType = vDialogTemp.ControlDef.Tag
-            szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+            szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " ** %>"
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-
             CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
             szActionTag = ""
             IF vDialogTemp.EventAct EXISTS
@@ -4696,18 +4684,16 @@ DKS_TRACE_END */
          END
       END
       ResetViewFromSubobject( vDialogTemp )
-
       szWriteBuffer = "</div>  <!-- " + vDialogTemp.Control.Tag + " --> "
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-
       szWriteBuffer = "</form>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-
       lControl = zQUAL_STRING + zPOS_NEXT + zRECURS
       szCtrlTag = "File Transfer to Server"
       nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
                              szCtrlTag, "", "", 0, "Window", "" )
    END
+   */
    DropView( vDialogTemp )
 
    IF szWindowIsjMobile = ""

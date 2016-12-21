@@ -5858,7 +5858,7 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                else
                { 
                   //:szWriteBuffer = "<thead bgcolor=green><tr>"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<thead bgcolor=green><tr>", 1, 0, 10001 );
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<thead><tr>", 1, 0, 10001 );
                } 
 
                //:END
