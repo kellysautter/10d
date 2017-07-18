@@ -63,7 +63,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szWidget
    STRING ( 500 ) szText
    STRING ( 500 ) szText2
-   STRING ( 256 ) szTextID
    STRING ( 5 )   szSrch
    STRING ( 64 )  szTerm
    STRING ( 20 )  szJustify
@@ -91,7 +90,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szToggleFlag2
    STRING ( 1 )   sziFrameFlag
    STRING ( 1 )   szDashboardFlag
-   STRING ( 1 )   szChartFlag
    STRING ( 1 )   szScrollableFlag
    STRING ( 1 )   szScrollingTable
    STRING ( 1 )   szFilterTable
@@ -114,7 +112,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szGenAsList
    STRING ( 100 ) szDisabled
    STRING ( 1 )   szTableExport
-   STRING ( 1 )   szLangConv
    STRING ( 256 ) szStyle
    STRING ( 100 ) szRepeatingGroupKey
    DECIMAL        dDLUnits
@@ -408,13 +405,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szSurveyGroupFlag = "Y"
          END
 
-         // Set flag for Survey Group, which is a repeating group for survey questions.
-         szChartFlag = ""
-         SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Chart"
-         IF RESULT >= zCURSOR_SET
-            szChartFlag = "Y"
-         END
-
          // Set flag for FileTransfer, as all GroupBox and subcontrol processing is skipped for that case.
          szFileTransferFlag = ""
          SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "File Transfer to Server"
@@ -570,7 +560,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
       // Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
       // as a table and try and position what is in this group box as a table.
-      IF szControlType = "GroupBox" AND szGroupIsTable = "Y" AND szFileTransferFlag = ""
+       IF szControlType = "GroupBox" AND szGroupIsTable = "Y" AND szFileTransferFlag = ""
 
          X_Size = vDialog.Control.SZDLG_X
          Y_Size = vDialog.Control.SZDLG_Y
@@ -1217,16 +1207,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
                      // is where the text is <img src="./images/admi..." border="0".
                      szText2 = vDialog.Control.Text
-                     szTextID = vDialog.Control.LangID
                      zSearchAndReplace( szText2, 1000, "\", "\\" )
                      szSrch = "\" + QUOTES 
                      zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
                      szSrch = ""
-                     IF szTextID = ""
-                        szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
-                     ELSE 
-                        szText = "<%=LangConv.getLanguageText(^" + szText2 + "^, ^" + szTextID + "^)%>" 
-                     END
+                     szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
                   ELSE
                      szText = vDialog.Control.Text
                   END
@@ -1254,16 +1239,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                   // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
                   // is where the text is <img src="./images/admi..." border="0".
                   szText2 = vDialog.Control.Text
-                  szTextID = vDialog.Control.LangID
                   zSearchAndReplace( szText2, 1000, "\", "\\" )
                   szSrch = "\" + QUOTES 
                   zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
                   szSrch = ""
-                  IF szTextID = ""
-                     szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
-                  ELSE 
-                     szText = "<%=LangConv.getLanguageText(^" + szText2 + "^, ^" + szTextID + "^)%>" 
-                  END
+                  szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
                ELSE
                   szText = vDialog.Control.Text
                END
@@ -1344,75 +1324,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
             ELSE
-            IF szChartFlag = "Y"
-               szCtrlTag = vDialog.Control.Tag 
-               szWriteBuffer = ""
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "<%"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "   View mChart" + szCtrlTag + " = null;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "try"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "{"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = ""
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "   String strChartOutput = ^^;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "   mChart" + szCtrlTag + " = task.getViewByName( ^mChart^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "   if ( VmlOperation.isValid( mChart" + szCtrlTag + ") )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "   {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      csrRC = mChart" + szCtrlTag + ".cursor( ^Chart^ ).setFirst( ^Tag^, ^" + szCtrlTag + "^, ^^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      if ( csrRC.isSet() )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "     {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "        csrRC = mChart" + szCtrlTag + ".cursor( ^CodeLine^ ).setFirst( );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "        while ( csrRC.isSet() )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "        {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "          strChartOutput = mChart" + szCtrlTag + ".cursor( ^CodeLine^ ).getAttribute( ^Line^ ).getString();"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "          %>"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "          <%=strChartOutput%>"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "          <%"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "          csrRC = mChart" + szCtrlTag + ".cursor( ^CodeLine^ ).setNextContinue( );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "        }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "     }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = ""
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
-
-               szWriteBuffer = "   } // If mChart valid"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "}"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "catch (Exception e)"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "{"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "   out.println( ^There is an error: ^ + e.getMessage());"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "   task.log().info( ^*** Error in chart ^ + e.getMessage() );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "}"  
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "%>"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            ELSE 
                // Only put this in if there was no web type.  We might want to change this later.
                IF  szDivFlag = ""
                   IF vDialog.Control.Text != ""
@@ -1438,7 +1349,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                ResetViewFromSubobject( vDialog )
                DropView( vGroupParent )
                vGroupParent = 0
-            END
             END
             END
 
@@ -2427,13 +2337,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             //table def if the headers were sortable.  In trying to get the absolute width
             //to work for individual columns, it seems I need this set so I am going to always
             //set "cols=...".
-            // KJS 02/23/17 - But now I am not going to set this if we are jmobile.
             szColCount = ""
-            IF szWindowIsjMobile = ""
-               IF lColCnt > 0
-                  zIntegerToString( szPosition, 10, lColCnt )
-                  szColCount = " cols=" + szPosition
-               END
+            IF  lColCnt > 0
+               zIntegerToString( szPosition, 10, lColCnt )
+               szColCount = " cols=" + szPosition
             END
 
             szClass = vDialog.Control.CSS_Class
@@ -2482,11 +2389,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                szWriteBuffer = "<div name=^gb" + szCtrlTag + "^ id=^gb" + szCtrlTag + "^ style=^width:" +
                                 szWidth + "px;height:70px;display:none;^>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               //szWriteBuffer = "<textarea name=^o" + szCtrlTag + "^ id=^o" + szCtrlTag + "^ style=^width:" +
-               //                 szWidth + "px;height:50px;border:solid;border-width:2px;border-style:groove;^ wrap=^wrap^></textarea> <!-- textarea for table values output  -->"
-               // KJS 01/26/17 - Taking out the border style
                szWriteBuffer = "<textarea name=^o" + szCtrlTag + "^ id=^o" + szCtrlTag + "^ style=^width:" +
-                                szWidth + "px;height:50px;^ wrap=^wrap^></textarea> <!-- textarea for table values output  -->"
+                                szWidth + "px;height:50px;border:solid;border-width:2px;border-style:groove;^ wrap=^wrap^></textarea> <!-- textarea for table values output  -->"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "</div>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2689,16 +2593,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "%>"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
-      // KJS 02/14/17 - Language Conversion.
-      // I'm not sure that I want to use language conversion on mapped fields. I will keep this code here for now but won't
-      // change the below code to use szText unless we decide to.
-      IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
-         szText = "<%=LangConv.getLanguageText(strErrorMapValue)%>" 
-      ELSE
-         szText = "<%=strErrorMapValue%>"
-      END
-
                         IF  szAbsoluteWidth = ""
                            szWriteBuffer = "   <th><%=strErrorMapValue%></th>"
                         ELSE
@@ -2722,32 +2616,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            szWriteBuffer = "%>"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         END
-                        
-                  IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
-                     // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
-                     // is where the text is <img src="./images/admi..." border="0".
-                     szText2 = vDialog.Control.Text
-                     szTextID = vDialog.Control.LangID
-                     zSearchAndReplace( szText2, 1000, "\", "\\" )
-                     szSrch = "\" + QUOTES 
-                     zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
-                     szSrch = ""
-                     IF szTextID = ""
-                        szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
-                     ELSE 
-                        szText = "<%=LangConv.getLanguageText(^" + szText2 + "^, ^" + szTextID + "^)%>" 
-                     END
-                  ELSE
-                     szText = vDialog.Control.Text
-                  END
-                        
 
                         // If this is sortable and this is a pushbutton on the grid...
                         IF lSort != 0 AND lPushBtn != 0
                            IF  szAbsoluteWidth = ""
-                              szWriteBuffer = "   <th class=^gridheading^>" + szText
+                              szWriteBuffer = "   <th class=^gridheading^>" + vDialog.Control.Text
                            ELSE
-                              szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^ class=^gridheading^>" + szText
+                              szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^ class=^gridheading^>" + vDialog.Control.Text
                            END
                         ELSE
                            IF  szAbsoluteWidth = ""
@@ -2765,7 +2640,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            END
 
                            //Put the ending on the tag and the text if there is any.
-                           szWriteBuffer = szWriteBuffer + ">" + szText
+                           szWriteBuffer = szWriteBuffer + ">" + vDialog.Control.Text
                         END
 
                         //KJS 10/19/07 - If there is no Text and the control is a checkbox, then we want to create a
@@ -3092,8 +2967,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
                      szListCtrlTag = vDialog.Control.Tag
                      szControlTag = "str" + szListCtrlTag
-                     szWriteBuffer = "         " + szControlTag + " = ^^;"                                       
-                     // set string to blank
+                     szWriteBuffer = "         " + szControlTag + " = ^^;"                                       // set string to blank
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                      SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Edit"
@@ -3413,11 +3287,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      IF vDialog.Control.WebWrap = "Y"
                         szItemTableHeader = "<td"
                      ELSE
-                        // KJS 02/24/17 - HTML5 does not recognze nowrap. You should use <td style="white-space:nowrap"> but 
-                        // since I believe that everyone is now using HTML5, then I don't think I should put the "correct" way in, since
-                        // I assume that will affect pages. So for now I will take it out.
-                        //szItemTableHeader = "<td nowrap"
-                        szItemTableHeader = "<td"
+                        szItemTableHeader = "<td nowrap"
                      END
 
                   END
@@ -3632,39 +3502,20 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      
                            szWriteBuffer = "%>"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-                           IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
-                              szText = "<%=LangConv.getLanguageText(strErrorMapValue)%>" 
-                           ELSE
-                              szText = "<%=strErrorMapValue%>"
-                           END
+                           szText = "<%=strErrorMapValue%>"
                         ELSE
-                           IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
-                              // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
-                              // is where the text is <img src="./images/admi..." border="0".
-                              szText2 = vDialog.Control.Text
-                              szTextID = vDialog.Control.LangID
-                              zSearchAndReplace( szText2, 1000, "\", "\\" )
-                              szSrch = "\" + QUOTES 
-                              zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
-                              szSrch = ""
-                              IF szTextID = ""
-                                 szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
-                              ELSE 
-                                 szText = "<%=LangConv.getLanguageText(^" + szText2 + "^, ^" + szTextID + "^)%>" 
-                              END
-                           ELSE
-                              szText = vDialog.Control.Text
-                           END                                 
+                           szText = vDialog.Control.Text
                         END
                         /************************************** END OF NEW CODE *********************************/
                      
                                     
+                     // szWriteBuffer = "   " + szItemTableHeader + "><input type=^submit^ " + szTitleHTML + szClass + "name=<%=strButtonName%> onclick=^" + szActionName +
+                     //                 "( this.id )^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ value=^" + vDialog.Control.Text + "^" + szDisabled + "></td>"
                         szWriteBuffer = "   " + szItemTableHeader + "><button type=^button^ " + szTitleHTML + szClass + "name=^" + szListCtrlTag + "::<%=strEntityKey%>^  onclick=^" + szActionName +
                                         // KJS 11/10/12 thought i might want this"( '<%=strEntityKey%>' )^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ " + szStyle + szDisabled + ">"+
                                         "( this.id )^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ " + szStyle + szDisabled + ">"+
                                         szText + "</button></td>"
-                     ELSE  //IF szCtrlCtrlType = "PushBtn"
-                     
+                     ELSE
                         szListCtrlTag = vDialog.Control.Tag
 
                         // If Title is variable mapping, only create entries for columns with titles.
@@ -3676,13 +3527,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      // ELSE
                         IF szCtrlCtrlType = "ComboBox" OR szCtrlCtrlType = "GridComboCtl"
 
-                           szStyle = ""
-                           szWidth = ""
-                           IF szNoPositioning != "S" // "S" is no style information.  szWCP_AbsoluteWidth = "Y"
+                           //IF szWCP_AbsoluteWidth = "Y"
                               PIX_PER_DU( vDialog, dDLUnits )
                               zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
-                              szStyle = " style=^width:" + szWidth + "px;^"
-                           END
+                              //szItemTableHeader = szItemTableHeader + " style=^width:" + szWidth + "px;^"
+                           //END
 
                            //szViewName = vDialog.CtrlMapView.Name
                            szViewName = szGridView
@@ -3721,12 +3570,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
                               IF szClass = ""
                               // szWriteBuffer = szWriteBuffer + "<select name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ size=^1^" + szTitleHTML + " style=^width:152px;height:20px;^ " +
-                                 szWriteBuffer = szWriteBuffer + "<select name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ size=^1^" + szTitleHTML + szStyle +
+                                 szWriteBuffer = szWriteBuffer + "<select name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ size=^1^" + szTitleHTML + " style=^width:" + szWidth + "px;^ " +
                                                  szDisabled + szSelectAction + "=^" +
                                                  szListCtrlTag + szSelectFunction + "( 'h" + szListCtrlTag + "::<%=strEntityKey%>', this, <%=strEntityKey%> )^>"
                               ELSE
                                  szWriteBuffer = szWriteBuffer + "<select class=^" + szClass + "^ name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ size=^1^" + szTitleHTML +
-                                                szStyle + szDisabled + szSelectAction + "=^" + szListCtrlTag + szSelectFunction + "( 'h" + szListCtrlTag + "<%=strEntityKey%>' this," + 
+                                                " style=^width:" + szWidth + "px;^ " + szDisabled + szSelectAction + "=^" + szListCtrlTag + szSelectFunction + "( 'h" + szListCtrlTag + "<%=strEntityKey%>' this," + 
                                                 " <%=strEntityKey%> )^>"
                                                 //" style=^width:152px;height:20px;^ " + szDisabled + szSelectAction + "=^" + szListCtrlTag + szSelectFunction + "( h" + szListCtrlTag + "<%=strEntityKey%>," + szListCtrlTag + "<%=strEntityKey%> )^>"
                               END
@@ -3916,13 +3765,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
                               IF szClass = ""
                               // szWriteBuffer = szWriteBuffer + "<select name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ size=^1^" + szTitleHTML + " style=^width:152px;height:20px;^ " +
-                                 szWriteBuffer = szWriteBuffer + "<select name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ size=^1^" + szTitleHTML + szStyle +
+                                 szWriteBuffer = szWriteBuffer + "<select name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ size=^1^" + szTitleHTML + " style=^width:" + szWidth + "px;^ " +
                                                  szDisabled + szSelectAction + "=^" +
                                                  szListCtrlTag + szSelectFunction + "( 'h" + szListCtrlTag + "::<%=strEntityKey%>', this, <%=strEntityKey%> )^>"
                                                  //szListCtrlTag + szSelectFunction + "( h" + szListCtrlTag + "::<%=strEntityKey%>," + szListCtrlTag + "::<%=strEntityKey%>, <%=strEntityKey%> )^>"
                               ELSE
                                  szWriteBuffer = szWriteBuffer + "<select class=^" + szClass + "^ name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ size=^1^" + szTitleHTML +
-                                                szStyle + szDisabled + szSelectAction + "=^" + szListCtrlTag + szSelectFunction + "( 'h" + szListCtrlTag + "::<%=strEntityKey%>', this, <%=strEntityKey%> )^>"
+                                                " style=^width:" + szWidth + "px;^ " + szDisabled + szSelectAction + "=^" + szListCtrlTag + szSelectFunction + "( 'h" + szListCtrlTag + "::<%=strEntityKey%>', this, <%=strEntityKey%> )^>"
                                                 //" style=^width:" + szWidth + "px;^ " + szDisabled + szSelectAction + "=^" + szListCtrlTag + szSelectFunction + "( h" + szListCtrlTag + "::<%=strEntityKey%>," + szListCtrlTag + "::<%=strEntityKey%> )^>"
                               END
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -4236,12 +4085,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            // does not have EventActs but normal Checkboxes do..
                            szWriteBuffer = "   " + szItemTableHeader + "><%=str" + szListCtrlTag + "%></td>"
                         ELSE
-                           szLangConv = "" 
-                           SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Language Conv"
-                           IF RESULT >= zCURSOR_SET
-                              szLangConv = "Y"
-                           END
-
                            IF vDialog.EventAct EXISTS
                               // Right now the only EventAct on a regular grid subcontrol is HotText (now there is Bitmap and BitmapBtn)
                               // Process HotText Action the same as for the Text Control.
@@ -4250,28 +4093,14 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               IF vDialog.EventAct.Type = 45    // Type 45 is Hyperlink Action.
                                  // For a Hyperlink in a Grid, we assume there is ALWAYS both "Displayed Text" mapping and
                                  // "Hyperlink URL" mapping, which have been set above.
-                                 IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y" AND szLangConv = "Y" 
-                                    szWriteBuffer = "   " + szItemTableHeader + "><a href=^<%=str" + szListCtrlTag + "_URL%>^ " + szTitleHTML + " target=^_blank^><%=LangConv.getTableText( str" + 
-                                                   szListCtrlTag + " )%></a></td>"
-                                 ELSE
-                                    szWriteBuffer = "   " + szItemTableHeader + "><a href=^<%=str" + szListCtrlTag + "_URL%>^ " + szTitleHTML + " target=^_blank^><%=str" + szListCtrlTag + "%></a></td>"
-                                 END
+                                 szWriteBuffer = "   " + szItemTableHeader + "><a href=^<%=str" + szListCtrlTag + "_URL%>^ " + szTitleHTML + " target=^_blank^><%=str" + szListCtrlTag + "%></a></td>"
                               ELSE
                                  // This is HotText mapping to an Action.
-                                 IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y" AND szLangConv = "Y" 
-                                    szWriteBuffer = "   " + szItemTableHeader + "><a href=^#^ onclick=^" + vDialog.EventAct.Tag + "( this.id )^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^" + 
-                                                    szTitleHTML + "><%=LangConv.getTableText( str" + szListCtrlTag + " )%></a></td>"
-                                 ELSE
-                                    szWriteBuffer = "   " + szItemTableHeader + "><a href=^#^ onclick=^" + vDialog.EventAct.Tag + "( this.id )^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^" + szTitleHTML + "><%=str" + szListCtrlTag + "%></a></td>"
-                                 END
+                                 szWriteBuffer = "   " + szItemTableHeader + "><a href=^#^ onclick=^" + vDialog.EventAct.Tag + "( this.id )^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^" + szTitleHTML + "><%=str" + szListCtrlTag + "%></a></td>"
                               END
                            ELSE
                               // Regular default Grid subcontrol.
-                              IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y" AND szLangConv = "Y" 
-                                 szWriteBuffer = "   " + szItemTableHeader + "><%=LangConv.getTableText( str" + szListCtrlTag + " )%></td>"
-                              ELSE
-                                 szWriteBuffer = "   " + szItemTableHeader + "><%=str" + szListCtrlTag + "%></td>"
-                              END
+                              szWriteBuffer = "   " + szItemTableHeader + "><%=str" + szListCtrlTag + "%></td>"
                            END
                         END // szCtrlCtrlType = "GridCheckCtl" OR szCtrlCtrlType = "CheckBox"
                         END // WebCtrlType = "EmailAddress"
@@ -4405,27 +4234,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      %>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               
-               IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
-                  // Seems like we need to check the text, and if the text has " then we shouldn't use the getLanguageText. Because one example we have
-                  // is where the text is <img src="./images/admi..." border="0".
-                  szText2 = vDialog.Control.WebNoGridDataMessage
-                  zSearchAndReplace( szText2, 1000, "\", "\\" )
-                  szSrch = "\" + QUOTES 
-                  zSearchAndReplace( szText2, 1000, QUOTES, szSrch )
-                  szSrch = ""
-                  szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
-               ELSE
-                  szText = vDialog.Control.WebNoGridDataMessage
-               END
-            
 
                IF vDialog.Control.WebNoGridDataMsgClass = ""
-                  szWriteBuffer = "<span style=^^>" + szText + "</span>"
+                  szWriteBuffer = "<span style=^^>" + vDialog.Control.WebNoGridDataMessage + "</span>"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                ELSE
                   szWriteBuffer = "<span class=^" + vDialog.Control.WebNoGridDataMsgClass + "^ style=^^>" +
-                                   szText + "</span>"
+                                   vDialog.Control.WebNoGridDataMessage + "</span>"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                END
 
@@ -4507,7 +4322,7 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szBlob
    STRING ( 100 ) szUnChecked
    STRING ( 50 )  szWebCtrlType
-   STRING ( 1 )   szSurveyGroupFlag
+   STRING ( 1 )  szSurveyGroupFlag
    STRING ( 256 ) szClass
    INTEGER       lEditBox
    INTEGER       lSubtype
@@ -6268,8 +6083,7 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
             szCodeCreated = "N"
 
             szJavaScript = vDialog.EventAct.WebJavaScript
-            
-            /*
+
             IF (vDialog.Control.Subtype >= 20480 AND vDialog.Control.Subtype <= 21252)  OR
                (vDialog.Control.Subtype >= 36864 AND vDialog.Control.Subtype <= 45056)
                // "Auto include" or "set foreign key" combo box.  Do nothing.
@@ -6278,6 +6092,7 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                // the action.
                IF vDialog.EventAct.Type = zWAB_StayOnWindow AND szJavaScript != ""
                      // Create only the javascript code without the form submit.
+
                   szCodeCreated = "Y"
                   szWriteBuffer = "      // Javascript code entered by user."
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -6287,23 +6102,19 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                END
             END
-            */
 
             // The code for szWAB_StayOnWindow with Javascript code was not created so build this
             // the normal way with the action .submit.
             IF szCodeCreated = "N"
-               // Only generate the DisableFormElements statement if there is an Action tied to the combobox. (this is in 10d)
-               // KJS 07/14/17 - Because we commented out the above code (where szCodeCreate="Y"), we are adding the
-               // _DisableFormElements even when all we have is javascript code (with no submit action). This causes the page to
-               // spin so take this out. We do it below with the submit.
-               //szWriteBuffer = "      _DisableFormElements( true );"
-               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+               // Only generate the DisableFormElements statement if there is an Action tied to the combobox.
+               szWriteBuffer = "      _DisableFormElements( true );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
                //KJS 11/16/2007 - We want to insert any javascript code that the
                //user has entered for this action.  This will be put before the action
                //generated code for submitting.  If the user wants to skip the
                //generated code, the inserted code should end with a return.
-               IF szJavaScript != ""
+               IF  szJavaScript != ""
                   szWriteBuffer = "      // Javascript code entered by user."
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   szWriteBuffer = szJavaScript
@@ -6312,17 +6123,11 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                END
 
-               // KJS 02/21/17
-               IF vDialog.EventAct.Type != zWAB_StayOnWindow             
-                  // Only generate the DisableFormElements statement if there is an Action tied to the combobox.
-                  szWriteBuffer = "      _DisableFormElements( true );"
-                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-                  szActionName = vDialog.EventAct.Tag
-                  szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
-                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "      document." + szFormName + ".submit( );"
-                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               END
+               szActionName = vDialog.EventAct.Tag
+               szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      document." + szFormName + ".submit( );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END
          ELSE
             //There is no action but because this is an automatic include or a
@@ -6332,15 +6137,10 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                (vDialog.Control.Subtype >= 36864 AND vDialog.Control.Subtype <= 45056)
 
                szActionName = "ZEIDON_ComboBoxSubmit"
-               // KJS 02/21/17 - We are now thinking that because there is not action for the combobox, we do not want
-               // to submit the page at this point. We set the appropriate values for the combo row that is selected, but
-               // we will wait to do any of the autoinclude etc. for when the page gets refreshed elsewhere.
-               /*
                szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      document." + szFormName + ".submit( );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               */
 
             END
          END
@@ -6432,6 +6232,7 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
    END // FOR EACH vDialog.Control
 END
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 //  OPERATION: GenJSPJ_Action
@@ -6489,7 +6290,6 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    SHORT            nGridParent
    SHORT            nSystemSort
    SHORT            nRC
-
    InsertBlankFlag = "N"
    
    TraceLineS("*** GenJSPJ_Action *** ", "")
@@ -6632,13 +6432,11 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    lActionType = vDialog.Action.Type
    IF lActionType = zWAB_StayOnWindow OR
       lActionType = zWAB_StayOnWindowWithRefresh OR
-      lActionType = zWAB_StayOnWindowWebRefresh OR
-      lActionType = zWAB_StayOnWindowRefreshNP
+      lActionType = zWAB_StayOnWindowWebRefresh
       szWAB = "zWAB_StayOnWindowWithRefresh"
    ELSE
       IF lActionType = zWAB_StartModelessSubwindow OR
-         lActionType = zWAB_StartModalSubwindow OR
-         lActionType = zWAB_StartModalSubwindowNP
+         lActionType = zWAB_StartModalSubwindow
          szWAB = "zWAB_StartModalSubwindow"
       ELSE
          IF lActionType = zWAB_ReplaceWindowWithModelessWindow OR
@@ -7266,8 +7064,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             szWriteBuffer = "         // Next Window"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
-            // In order to call a dialog operation we need to create an instance of the dialog class.  We
-            // only want to do this once.
+            // In order to call a dialog operation we need to create an instance of the dialog class.  We only want to do this once.
          // IF szDialogClassCreated = "N"
          //
          //    szWriteBuffer = "      " +  szDlgTagRoot + "_Dialog " + vDialog.Dialog.Tag + " = new " +
@@ -7393,6 +7190,16 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
                szWriteBuffer = "      // Next Window"
                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
+               // In order to call a dialog operation we need to create an instance of the dialog class.  We only want to do this once.
+            // IF szDialogClassCreated = "N"
+            //
+            //    szWriteBuffer = "      " +  szDlgTagRoot + "_Dialog " + vDialog.Dialog.Tag + " = new " +
+            //                    szDlgTagRoot + "_Dialog( vKZXMLPGO );"
+            //    WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            //
+            //    szDialogClassCreated = "Y"
+            // END
+
                // dks 2016.04.21 - Adding sort support ... on the action, there is still the need to add javascript code similar to the following:
                // document.wSLCMarketingStatement.zTableRowSelect.value = buildSortTableHtml( "mSubLC", "S_MarketingUsageOrdering", "GridMarketingUsage", ["Usage Type","Usage Name"] );
                szDlgTag = vDialog.Action.DialogName
@@ -7452,11 +7259,8 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       
       // Add Object Functions Accept, Cancel, Create Temporal Entity and Create Temporal Subobject Version.
       // Also looking at the auto setNext/Prev
-      // Only if ActMap exists, otherwise, the object function doesn't make sense.
-      IF vDialog.ActMap EXISTS
-         lAutoNextPrev = vDialog.Action.SB_NextPrev
-         lAutoSubAction = vDialog.Action.SB_SubAction 
-      END
+      lAutoNextPrev = vDialog.Action.SB_NextPrev
+      lAutoSubAction = vDialog.Action.SB_SubAction 
       IF lAutoSubAction = 1 OR    // Accept
          lAutoSubAction = 2 OR    // Cancel
          lAutoSubAction = 4 OR    // Delete
@@ -7503,6 +7307,24 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             szWriteBuffer = "      View " + szViewName + " = task.getViewByName( ^" + szViewName + "^ );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
          END
+
+	 // This is code that Doug had intead of my above code ... 
+	 // since I don't understand it at the moment, I am putting here but it's commentted out.
+	 
+	/*
+         // We don't want the getViewByName if it was generated above with the code:
+         // IF nGridParent = 1 OR szRepeatingGroupFlag = "Y"
+         IF nGridParent = 1 OR szRepeatingGroupFlag = "Y"
+            szWriteBuffer = "         EntityCursor cursor = " + szViewName + ".cursor( ^" + szEntityName + "^ );"
+            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         ELSE
+            // dks 2016.04.15 ... rather than debugging when this improperly occurs, changing the name of the view by adding Auto
+            szWriteBuffer = "         View " + szViewName + "Auto = task.getViewByName( ^" + szViewName + "^ );"
+            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         EntityCursor cursor = " + szViewName + "Auto.cursor( ^" + szEntityName + "^ );"
+            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         END
+	*/
          
          szWriteBuffer = "      EntityCursor cursor = " + szViewName + ".cursor( ^" + szEntityName + "^ );"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -7613,6 +7435,17 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
             szWriteBuffer = "      // Next Window"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+            // In order to call a dialog operation we need to create an instance of the dialog class.  We only want to do this once.
+         // IF szDialogClassCreated = "N"
+         //
+         //    szWriteBuffer = "      " +  szDlgTagRoot + "_Dialog " + vDialog.Dialog.Tag + " = new " +
+         //                    szDlgTagRoot + "_Dialog( vKZXMLPGO );"
+         //    WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         //
+         //    szDialogClassCreated = "Y"
+         // END
+
             // dks 2016.04.21 - Adding sort support ... on the action, there is still the need to add javascript code similar to the following:
             // document.wSLCMarketingStatement.zTableRowSelect.value = buildSortTableHtml( "mSubLC", "S_MarketingUsageOrdering", "GridMarketingUsage", ["Usage Type","Usage Name"] );
             szDlgTag = vDialog.Action.DialogName
@@ -7663,7 +7496,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       END
 
    END    // IF vDialog.ActOper EXISTS ... End of calling an operation
-
+kkkkkkkkkk
    IF szWebRedirection = "Y"
 
       IF lActionType = zWAB_StartBrowserHTML_Page
@@ -7694,14 +7527,13 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    // Next Window Option
       IF lActionType = zWAB_StartModelessSubwindow          OR
          lActionType = zWAB_StartModalSubwindow             OR
-         lActionType = zWAB_StartModalSubwindowNP           OR
          lActionType = zWAB_ReplaceWindowWithModelessWindow OR
          lActionType = zWAB_ReplaceWindowWithModalWindow    OR
          lActionType = zWAB_StartTopWindow                  OR
          lActionType = zWAB_ResetTopWindow                  OR
          lActionType = zWAB_StartBrowserHTML_Page           OR
-         lActionType = zWAB_StartNewApp                     OR  //reCAPTCHA StartModalSubwindow
-         lActionType = zWAB_ReCAPTCHA  //reCAPTCHA ReplaceModalWindow
+         lActionType = 35                                   OR  //reCAPTCHA StartModalSubwindow
+         lActionType = 55  //reCAPTCHA ReplaceModalWindow
       IF InsertBlankFlag = "Y"
          szWriteBuffer = ""
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -7731,8 +7563,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
          IF lActionType = zWAB_StartModelessSubwindow OR
             lActionType = zWAB_StartModalSubwindow    OR
-            lActionType = zWAB_StartModalSubwindowNP  OR
-            lActionType = zWAB_StartNewApp //reCAPTCHA StartModalSubwindow
+            lActionType = 35 //reCAPTCHA StartModalSubwindow
          // Next Window is subwindow. Set up current window for return.
          szWriteBuffer = "      vKZXMLPGO.cursor( ^PagePath^ ).createEntity( CursorPosition.NEXT );"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -7769,7 +7600,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    END
 
    // Same Window Refresh option
-   IF lActionType = zWAB_StayOnWindowWithRefresh OR lActionType = zWAB_StayOnWindowRefreshNP
+   IF lActionType = zWAB_StayOnWindowWithRefresh
       szWriteBuffer = "      // Stay on Window with Refresh"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "      strURL = response.encodeRedirectURL( ^" + vDialogRoot.Dialog.Tag + vDialogRoot.Window.Tag + ".jsp^ );"
@@ -8118,32 +7949,12 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "               DateFormat dateFormat = new SimpleDateFormat(^yyyymmddhhmmsss^);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               String strDirFileName = vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).getString();"
+      szWriteBuffer = "               String strFileName = ^export^ + dateFormat.format(new java.util.Date()) + ^.xls^;"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               if ( strDirFileName.equals(^^) )"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "                  strDirFileName = ^c:\\temp\\export^ + dateFormat.format(new java.util.Date()) + ^.xlsx^;"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               else"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "                  vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).setValue(^^);"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-          
-      szWriteBuffer = "               int x = strDirFileName.lastIndexOf(^\\^);"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               // If no backslash, try forward slash"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               if ( x == -1 )"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "                  x = strDirFileName.lastIndexOf(^/^);"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               String strFileName = strDirFileName.substring(x + 1);"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )      
-      
       szWriteBuffer = "               String strParam = ^attachment; filename=\^^ + strFileName + ^\^^;"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      //szWriteBuffer = "               String strDirFileName = ^c:/temp/^ + strFileName;"
-      //WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "               String strDirFileName = ^c:/temp/^ + strFileName;"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
       szWriteBuffer = "               exporter.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, strDirFileName);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -8213,6 +8024,6 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    IF vDialogCtrl > 0
       DropView( vDialogCtrl )
    END
-   
+
    RETURN nSystemSort
 END

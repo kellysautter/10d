@@ -1,4 +1,4 @@
-// qstruct  build  v4.54 
+// qstruct  build  v4.54
 
 #ifndef __tzwdlgso_hst__   // sentry, use file only if it's not already included
 #define __tzwdlgso_hst__
@@ -25,7 +25,6 @@ zLONG  lStructSize;
    zCHAR WEB_NoAutoLogOut[ 2 ];
    zCHAR WEB_ImportInclude[ 255 ];
    zCHAR WEB_Logout[ 255 ];
-   zCHAR Converted[ 2 ];
    zCHAR LastSyncDate[ 7 ];
    zCHAR wOriginalViewName[ 255 ];
    zCHAR wNewViewName[ 255 ];
@@ -36,7 +35,6 @@ zLONG  lStructSize;
    zCHAR wWebEditControlProperties[ 33 ];
    zCHAR wWebPushControlProperties[ 33 ];
    zCHAR wWebTextControlProperties[ 33 ];
-   zCHAR wWebUsesLanguageConversion[ 2 ];
    zCHAR wMapTypeGridColumnControl[ 33 ];
    zCHAR wMapTypeTextControl[ 33 ];
    zCHAR wOriginalClassName[ 255 ];
@@ -184,7 +182,6 @@ zLONG  lStructSize;
    zCHAR DIL_Inherited[ 255 ];
    zCHAR NLS_Text[ 255 ];
    zCHAR NLS_DIL_Text[ 255 ];
-   zCHAR LangID[ 255 ];
    zLONG FontSize;
    zCHAR TextBold[ 2 ];
    zCHAR TextItalic[ 2 ];
@@ -223,13 +220,6 @@ zLONG  lStructSize;
    zCHAR GUID[ 65 ];
    zLONG Properties;
    zLONG LKey;
-   zLONG BorderWidth;
-   zLONG BorderStyle;
-   zLONG BorderTop;
-   zLONG BorderBottom;
-   zLONG BorderLeft;
-   zLONG BorderRight;
-   zCHAR TextAlignHorizontal[ 255 ];
    zCHAR VisibleBorder[ 2 ];
    zCHAR CenterJustify[ 2 ];
    zCHAR RightJustify[ 2 ];
@@ -242,8 +232,6 @@ zLONG  lStructSize;
    zCHAR JavaScript[ 255 ];
    zCHAR RadioOrCheckboxValue[ 51 ];
    zCHAR WebFileName[ 261 ];
-   zCHAR WebCtrlLabelLink[ 255 ];
-   zCHAR WebSelectSetName[ 255 ];
    zCHAR WebCtrlType[ 33 ];
    zCHAR WebColumnSpan[ 255 ];
    zCHAR WebWrap[ 2 ];
@@ -251,17 +239,25 @@ zLONG  lStructSize;
    zCHAR WebNoGridDataMsgClass[ 255 ];
    zCHAR WebreCAPTCHAPublicKey[ 255 ];
    zCHAR WebreCAPTCHAPrivateKey[ 255 ];
-   zCHAR WebHTML5Attribute[ 255 ];
-   zCHAR WebPlaceholder[ 255 ];
-   zCHAR MenuName[ 255 ];
    zCHAR DIL_Inherited[ 255 ];
    zCHAR NLS_Text[ 255 ];
    zCHAR NLS_DIL_Text[ 255 ];
-   zCHAR LangID[ 255 ];
+   zLONG BorderWidth;
+   zLONG BorderStyle;
+   zLONG BorderTop;
+   zLONG BorderBottom;
+   zLONG BorderLeft;
+   zLONG BorderRight;
+   zCHAR TextAlignHorizontal[ 255 ];
    zLONG FontSize;
    zCHAR TextBold[ 2 ];
    zCHAR TextItalic[ 2 ];
    zCHAR TextUnderline[ 2 ];
+   zCHAR WebCtrlLabelLink[ 255 ];
+   zCHAR WebSelectSetName[ 255 ];
+   zCHAR WebHTML5Attribute[ 255 ];
+   zCHAR WebPlaceholder[ 255 ];
+   zCHAR MenuName[ 255 ];
 
 unsigned char CheckByte;
 
@@ -1021,7 +1017,6 @@ zLONG  lStructSize;
    zCHAR TextBold[ 2 ];
    zCHAR TextItalic[ 2 ];
    zCHAR TextUnderline[ 2 ];
-   zCHAR LangID[ 255 ];
 
 unsigned char CheckByte;
 
@@ -1039,7 +1034,6 @@ zLONG  lStructSize;
    zCHAR Separator[ 2 ];
    zLONG ZKey;
    zLONG Underline;
-   zCHAR LangID[ 255 ];
    zCHAR DIL_Text[ 255 ];
    zLONG SeqNo_Menu;
    zLONG SeqNo_Option;
@@ -1148,7 +1142,6 @@ zLONG  lStructSize;
    zCHAR NLS_Text[ 255 ];
    zCHAR CSS_Class[ 255 ];
    zCHAR WebHTML5Attribute[ 255 ];
-   zCHAR LangID[ 255 ];
 
 unsigned char CheckByte;
 
@@ -1174,7 +1167,6 @@ zLONG  lStructSize;
    zCHAR NLS_Text[ 255 ];
    zCHAR CSS_Class[ 255 ];
    zCHAR WebHTML5Attribute[ 255 ];
-   zCHAR LangID[ 255 ];
 
 unsigned char CheckByte;
 
@@ -2130,7 +2122,6 @@ zLONG  lStructSize;
    zCHAR TextBold[ 2 ];
    zCHAR TextItalic[ 2 ];
    zCHAR TextUnderline[ 2 ];
-   zCHAR LangID[ 255 ];
 
 unsigned char CheckByte;
 
@@ -2163,7 +2154,6 @@ zLONG  lStructSize;
    zCHAR DIL_Text[ 255 ];
    zLONG SeqNo_Menu;
    zLONG SeqNo_Option;
-   zCHAR LangID[ 255 ];
 
 unsigned char CheckByte;
 
@@ -2235,7 +2225,6 @@ zLONG  lStructSize;
    zCHAR TextBold[ 2 ];
    zCHAR TextItalic[ 2 ];
    zCHAR TextUnderline[ 2 ];
-   zCHAR LangID[ 255 ];
 
 unsigned char CheckByte;
 
@@ -2268,7 +2257,6 @@ zLONG  lStructSize;
    zCHAR DIL_Text[ 255 ];
    zLONG SeqNo_Menu;
    zLONG SeqNo_Option;
-   zCHAR LangID[ 255 ];
 
 unsigned char CheckByte;
 

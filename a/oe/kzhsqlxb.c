@@ -1723,7 +1723,7 @@ the brackets for the DDL-command
    #define COMMENT_START         "--"
    #define COMMENT_END           ""
    #define NOT_NULL_FIELD        " NOT NULL"
-   #define NULL_FIELD            "         "
+   #define NULL_FIELD            " DEFAULT NULL"
    #define ADD_COLUMN_STMT       "ADD COLUMN"
    #define DROP_COLUMN_STMT      "DROP COLUMN"
    #define COMMIT_STR            "COMMIT;"
@@ -2769,24 +2769,25 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
          //sprintf_s( pchEnd, lEndRemainingLth, " text" );
          break;
 
+
       case zTYPE_DATETIME:
-         sprintf_s( pchEnd, lEndRemainingLth, " timestamp" );
+         zsprintf( pchEnd, " TIMESTAMP" );
          break;
 
       case zTYPE_INTEGER:
-         sprintf_s( pchEnd, lEndRemainingLth, " int" );
+         zsprintf( pchEnd, " INTEGER" );
          break;
 
       case zTYPE_DECIMAL:
-         sprintf_s( pchEnd, lEndRemainingLth, " float4" );
+         zsprintf( pchEnd, " FLOAT4" );
          break;
 
       case zTYPE_DATE:
-         sprintf_s( pchEnd, lEndRemainingLth, " timestamp" );
+         zsprintf( pchEnd, " TIMESTAMP" );
          break;
 
       case zTYPE_TIME:
-         sprintf_s( pchEnd, lEndRemainingLth, " timestamp" );
+         zsprintf( pchEnd, " TIMESTAMP" );
          break;
 
       // ===
@@ -2794,12 +2795,12 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
       // ===
 
       case 'V':
-         sprintf_s( pchEnd, lEndRemainingLth, " text" );
+         zsprintf( pchEnd, " TEXT" );
          break;
 
       // TimeStampEx
       case 'X':
-         sprintf_s( pchEnd, lEndRemainingLth, " varchar( 30 )" );
+         zsprintf( pchEnd, " VARCHAR( 30 )" );
          break;
 
       default:
@@ -2894,7 +2895,30 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
    // Check to see if column can be NULL.
    if ( CompareAttributeToString( vDTE, "TE_FieldDataRel", "SQL_NULLS", "Y" ) == 0  )
    {
+
+      // KJS 02/16/17 - Do I want to check if this is POSTGRES and the system generated key and if so set to 'PRIMARY KEY'??????
+	  #if defined( POSTGRESQL )
+      if ( SetCursorFirstEntityByAttr( vDTE, "TE_FieldDataRelKey", "ZKey",
+                                       vDTE, "TE_FieldDataRel", "ZKey", "TE_TablRec" ) >= 0 )
+	  {
+   		if ( CheckExistenceOfEntity( vDTE, "ER_Entity" ) >= zCURSOR_SET )
+
+	  if ( CheckExistenceOfEntity( vDTE, "ER_EntIdentifier" ) >= zCURSOR_SET &&
+	       CompareAttributeToString( vDTE, "ER_EntIdentifier", "SystemMaintained", "Y" ) == 0  )
+			{
+			      strcat_s( pchEnd, lEndRemainingLth, "PRIMARY KEY" );
+
+			}
+			else
+			      strcat_s( pchEnd, lEndRemainingLth, NOT_NULL_FIELD );
+	  }
+	  else
+	        strcat_s( pchEnd, lEndRemainingLth, NOT_NULL_FIELD );
+
+	  
+	  #else
       strcat_s( pchEnd, lEndRemainingLth, NOT_NULL_FIELD );
+	  #endif
    }
    else
       strcat_s( pchEnd, lEndRemainingLth, NULL_FIELD );
@@ -3475,6 +3499,12 @@ BuildDDL( zVIEW  vDTE,
          goto EndOfFunction;
    #endif
 
+#elif defined( POSTGRESQL ) 
+
+       sprintf_s( szLine, zsizeof( szLine ), "SET SCHEMA '%s' %s", pchDatabaseName, LINE_TERMINATOR );
+       if ( fnWriteLine( vDTE, f, szLine ) < 0 )
+         goto EndOfFunction;
+
 #endif
 
    GetAddrForAttribute( &pchDefaultOwner, vDTE, "TE_DBMS_Source",
@@ -3654,7 +3684,9 @@ BuildDDL( zVIEW  vDTE,
             sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE IF EXISTS %s%s %s", szOwner, pch, LINE_TERMINATOR );
          #elif defined( MYSQL )
             sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE %s%s IF EXISTS %s", szOwner, pch, LINE_TERMINATOR );
-         #else
+         #elif defined( POSTGRESQL )
+            sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE IF EXISTS %s%s CASCADE%s", szOwner, pch, LINE_TERMINATOR );
+        #else
             sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE %s%s %s", szOwner, pch, LINE_TERMINATOR );
     #endif
 
