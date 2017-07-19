@@ -2769,25 +2769,24 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
          //sprintf_s( pchEnd, lEndRemainingLth, " text" );
          break;
 
-
       case zTYPE_DATETIME:
-         zsprintf( pchEnd, " TIMESTAMP" );
+         sprintf_s( pchEnd, lEndRemainingLth, " timestamp" );
          break;
 
       case zTYPE_INTEGER:
-         zsprintf( pchEnd, " INTEGER" );
+         sprintf_s( pchEnd, lEndRemainingLth, " int" );
          break;
 
       case zTYPE_DECIMAL:
-         zsprintf( pchEnd, " FLOAT4" );
+         sprintf_s( pchEnd, lEndRemainingLth, " float4" );
          break;
 
       case zTYPE_DATE:
-         zsprintf( pchEnd, " TIMESTAMP" );
+         sprintf_s( pchEnd, lEndRemainingLth, " timestamp" );
          break;
 
       case zTYPE_TIME:
-         zsprintf( pchEnd, " TIMESTAMP" );
+         sprintf_s( pchEnd, lEndRemainingLth, " timestamp" );
          break;
 
       // ===
@@ -2795,12 +2794,12 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
       // ===
 
       case 'V':
-         zsprintf( pchEnd, " TEXT" );
+         sprintf_s( pchEnd, lEndRemainingLth, " text" );
          break;
 
       // TimeStampEx
       case 'X':
-         zsprintf( pchEnd, " VARCHAR( 30 )" );
+         sprintf_s( pchEnd, lEndRemainingLth, " varchar( 30 )" );
          break;
 
       default:
