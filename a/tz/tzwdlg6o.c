@@ -4988,8 +4988,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    ZeidonStringConcat( szWriteBuffer, 1, 0, ".position^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "   var scrollPosition = localStorage.getItem( storageName );"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "   var scrollPosition = localStorage.getItem( storageName );", 1, 0, 10001 );
+   //:szWriteBuffer = "   var scrollPosition = sessionStorage.getItem( storageName );"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   var scrollPosition = sessionStorage.getItem( storageName );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "   if ( scrollPosition.indexOf('#') > 0 )"
@@ -5012,14 +5012,14 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.body.scrollLeft = parseInt( parts[parts.length - 1] );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
-   //://szWriteBuffer = "      localStorage.removeItem(storageName);" //ZENCAS.wClassDClassListByTerm.position
+   //://szWriteBuffer = "      sessionStorage.removeItem(storageName);" //ZENCAS.wClassDClassListByTerm.position
    //://WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    //:szWriteBuffer = "   }"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   }", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "   localStorage.removeItem(storageName);" //ZENCAS.wClassDClassListByTerm.position
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "   localStorage.removeItem(storageName);", 1, 0, 10001 );
+   //:szWriteBuffer = "   sessionStorage.removeItem(storageName);" //ZENCAS.wClassDClassListByTerm.position
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   sessionStorage.removeItem(storageName);", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
 
@@ -5477,8 +5477,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "      {", 1, 0, 10001 );
                //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "         // Code for localStorage/sessionStorage."
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "         // Code for localStorage/sessionStorage.", 1, 0, 10001 );
+               //:szWriteBuffer = "         // Code for sessionStorage/sessionStorage."
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         // Code for sessionStorage/sessionStorage.", 1, 0, 10001 );
                //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
                //:szWriteBuffer = "         var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^" //ZENCAS.wClassDClassListByTerm.position
@@ -5493,8 +5493,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "         var scrollPosition = document.body.scrollTop + '#' + document.body.scrollLeft;", 1, 0, 10001 );
                //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "         localStorage.setItem( storageName, scrollPosition );"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "         localStorage.setItem( storageName, scrollPosition );", 1, 0, 10001 );
+               //:szWriteBuffer = "         sessionStorage.setItem( storageName, scrollPosition );"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         sessionStorage.setItem( storageName, scrollPosition );", 1, 0, 10001 );
                //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
                //:szWriteBuffer = "      }"
@@ -5617,8 +5617,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "      {", 1, 0, 10001 );
                   //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
-                  //:szWriteBuffer = "         // Code for localStorage/sessionStorage."
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "         // Code for localStorage/sessionStorage.", 1, 0, 10001 );
+                  //:szWriteBuffer = "         // Code for sessionStorage."
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "         // Code for sessionStorage.", 1, 0, 10001 );
                   //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
                   //:szWriteBuffer = "         var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^" //ZENCAS.wClassDClassListByTerm.position
@@ -5633,8 +5633,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "         var scrollPosition = document.body.scrollTop + '#' + document.body.scrollLeft;", 1, 0, 10001 );
                   //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
-                  //:szWriteBuffer = "         localStorage.setItem( storageName, scrollPosition );"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "         localStorage.setItem( storageName, scrollPosition );", 1, 0, 10001 );
+                  //:szWriteBuffer = "         sessionStorage.setItem( storageName, scrollPosition );"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "         sessionStorage.setItem( storageName, scrollPosition );", 1, 0, 10001 );
                   //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
                   //:szWriteBuffer = "      }"

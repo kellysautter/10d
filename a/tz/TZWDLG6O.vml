@@ -3234,7 +3234,7 @@ DKS_TRACE_END */
 
    szWriteBuffer = "   var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^;"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   var scrollPosition = localStorage.getItem( storageName );"
+   szWriteBuffer = "   var scrollPosition = sessionStorage.getItem( storageName );"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   if ( scrollPosition.indexOf('#') > 0 )"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
@@ -3246,11 +3246,11 @@ DKS_TRACE_END */
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      document.body.scrollLeft = parseInt( parts[parts.length - 1] );"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-   //szWriteBuffer = "      localStorage.removeItem(storageName);" //ZENCAS.wClassDClassListByTerm.position
+   //szWriteBuffer = "      sessionStorage.removeItem(storageName);" //ZENCAS.wClassDClassListByTerm.position
    //WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   }"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   localStorage.removeItem(storageName);" //ZENCAS.wClassDClassListByTerm.position
+   szWriteBuffer = "   sessionStorage.removeItem(storageName);" //ZENCAS.wClassDClassListByTerm.position
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
 
 
@@ -3533,13 +3533,13 @@ DKS_TRACE_END */
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      {"
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         // Code for localStorage/sessionStorage."
+               szWriteBuffer = "         // Code for sessionStorage."
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                szWriteBuffer = "         var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^" //ZENCAS.wClassDClassListByTerm.position
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                szWriteBuffer = "         var scrollPosition = document.body.scrollTop + '#' + document.body.scrollLeft;"
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         localStorage.setItem( storageName, scrollPosition );"
+               szWriteBuffer = "         sessionStorage.setItem( storageName, scrollPosition );"
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      }"
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
@@ -3607,13 +3607,13 @@ DKS_TRACE_END */
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "      {"
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "         // Code for localStorage/sessionStorage."
+                  szWriteBuffer = "         // Code for sessionStorage."
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "         var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^" //ZENCAS.wClassDClassListByTerm.position
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "         var scrollPosition = document.body.scrollTop + '#' + document.body.scrollLeft;"
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "         localStorage.setItem( storageName, scrollPosition );"
+                  szWriteBuffer = "         sessionStorage.setItem( storageName, scrollPosition );"
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "      }"
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )                
