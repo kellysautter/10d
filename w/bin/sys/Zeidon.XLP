@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO 07/19/17   17:14:04 1.0a2    
+z1000-Zeidon    ZEIDON   TZCMLPLO                         09/26/17   15:37:44 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -1811,6 +1811,213 @@ aLastSyncDate 20160714173227361
 aLastUpdateDate 20160714173227361
 
 eW_MetaDef 3
+aCPLR_ZKey 1331051
+aStatus    1
+aUpdateInd 2
+aName      KZDBHQUA
+aDesc      DB Handler Qualification Object
+aLastSyncDate 20160714173227365
+aLastUpdateDate 20160714173227365
+
+eW_MetaDef 3
+aCPLR_ZKey 1331075
+aStatus    1
+aUpdateInd 2
+aName      KZDBHWOB
+aDesc      Work object for Zeidon database handlers
+aLastSyncDate 20160714173227368
+aLastUpdateDate 20160714173227368
+
+eW_MetaDef 3
+aCPLR_ZKey 88046397
+aStatus    1
+aUpdateInd 2
+aName      KZFXFERO
+aDesc      File transfer object.  Used to upload/download files.
+aLastSyncDate 20160714173227374
+aLastUpdateDate 20160714173227374
+
+eW_MetaDef 3
+aCPLR_ZKey 1331115
+aStatus    1
+aUpdateInd 2
+aName      KZGKHWOB
+aDesc      Work object for Genkey Handlers
+aLastSyncDate 20160714173227378
+aLastUpdateDate 20160714173227378
+
+eW_MetaDef 3
+aCPLR_ZKey 1331132
+aStatus    1
+aUpdateInd 2
+aName      KZHKEYSO
+aDesc      Hot key object definition
+aLastSyncDate 20160714173227383
+aLastUpdateDate 20160714173227383
+
+eW_MetaDef 3
+aCPLR_ZKey 1331158
+aStatus    1
+aUpdateInd 2
+aName      KZHKEYXO
+aDesc      Executable version of the global hotkey object
+aLastSyncDate 20160714173227387
+aLastUpdateDate 20160714173227387
+
+eW_MetaDef 3
+aCPLR_ZKey 1331171
+aStatus    1
+aUpdateInd 2
+aName      KZMSGQOO
+aDesc      Message Queue Handler
+aLastSyncDate 20160714173227393
+aLastUpdateDate 20160714173227393
+
+eW_MetaDef 3
+aCPLR_ZKey 1330798
+aStatus    1
+aUpdateInd 2
+aName      KZPEXVOO
+aDesc      Driver execution time presentation environment
+aLastSyncDate 20160714173227400
+aLastUpdateDate 20160714173227400
+
+eW_MetaDef 3
+aCPLR_ZKey 92718988
+aStatus    1
+aUpdateInd 2
+aName      KZRESTRC
+aDesc      28
+(REST return code object)
+ 
+aLastSyncDate 20160714173227403
+aLastUpdateDate 20160714173227403
+
+eW_MetaDef 3
+aCPLR_ZKey 110001928
+aStatus    1
+aUpdateInd 2
+aName      KZRestResponse
+aDesc      Object used to return activate/commit response by the JOE REST server.
+aLastSyncDate 20160714173226876
+aLastUpdateDate 20160714173226876
+
+eW_MetaDef 3
+aCPLR_ZKey 95057242
+aStatus    1
+aUpdateInd 2
+aName      KZSIRRPO
+aDesc      This Work Object is used by Siron Reports
+aLastSyncDate 20160714173227413
+aLastUpdateDate 20160714173227413
+
+eW_MetaDef 3
+aCPLR_ZKey 1330816
+aStatus    1
+aUpdateInd 2
+aName      KZSIXSKO
+aDesc      Executable Siron object for a LOD that matches XOD struct
+aLastSyncDate 20160714173227416
+aLastUpdateDate 20160714173227416
+
+eW_MetaDef 3
+aCPLR_ZKey 91043632
+aStatus    1
+aUpdateInd 2
+aName      KZTRACEO
+aDesc      Object to transfer a trace from server to client
+aLastSyncDate 20160714173227478
+aLastUpdateDate 20160714173227478
+
+eW_MetaDef 3
+aCPLR_ZKey 90007406
+aStatus    1
+aUpdateInd 2
+aName      KZTRANWO
+aDesc      Work object that will store operation information when calling transformations or global operations across the network.
+aLastSyncDate 20160714173227498
+aLastUpdateDate 20160714173227498
+
+eW_MetaDef 3
+aCPLR_ZKey 1330836
+aStatus    1
+aUpdateInd 2
+aName      KZWDLGXO
+aDesc      Executable Dialog Definition
+aLastSyncDate 20170714162040303
+aLastUpdateDate 20170714162040303
+
+eW_MetaDef 3
+aCPLR_ZKey 91301926
+aStatus    1
+aUpdateInd 2
+aName      KZXMLPGO
+aDesc      XML for window controls
+aLastSyncDate 20160714173226881
+aLastUpdateDate 20160714173226881
+
+eW_MetaDef 3
+aCPLR_ZKey 90417949
+aStatus    1
+aUpdateInd 2
+aName      KZXRA
+aDesc      Executable Remote Application
+aLastSyncDate 20160714173227524
+aLastUpdateDate 20160714173227524
+
+eW_MetaDef 3
+aCPLR_ZKey 1151049
+aStatus    1
+aUpdateInd 2
+aName      KZZDR
+aDesc      Zeidon Dialog Rendering object
+aLastSyncDate 20160714173227531
+aLastUpdateDate 20160714173227531
+
+eW_MetaDef 3
+aCPLR_ZKey 1326804
+aStatus    1
+aUpdateInd 2
+aName      TZ__PRFO
+aDesc      Tools XFER & Profile Info.
+aLastSyncDate 20160714173227133
+aLastUpdateDate 20160714173227133
+
+eW_MetaDef 3
+aCPLR_ZKey 1326102
+aStatus    1
+aUpdateInd 2
+aName      TZADCSDO
+aDesc      User information specification
+aLastSyncDate 20160714173226920
+aLastUpdateDate 20160714173226920
+
+eW_MetaDef 3
+aCPLR_ZKey 1330717
+aStatus    1
+aUpdateInd 2
+aName      TZADCWKO
+aLastSyncDate 20160714173227619
+aLastUpdateDate 20160714173227619
+
+eW_MetaDef 3
+aCPLR_ZKey 1330739
+aStatus    1
+aUpdateInd 2
+aName      TZADWKLO
+aDesc      User Spec Entity List
+aLastSyncDate 20160714173227636
+aLastUpdateDate 20160714173227636
+
+eW_MetaDef 3
+aCPLR_ZKey 1330759
+aStatus    1
+aUpdateInd 2
+aName      TZADWWKO
+aLastSyncDate 20160714173227644
+aLastUpdateDate 20160714173227644
+
+eW_MetaDef 3
 aCPLR_ZKey 127042456
 aStatus    1
 aUpdateInd 2
@@ -2053,8 +2260,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZCMLPLO
 aDesc      LPLR Object
-aLastSyncDate 20160714173226943
-aLastUpdateDate 20160714173226943
+aLastSyncDate 20170920144742756
+aLastUpdateDate 20170920144742756
 
 eW_MetaDef 3
 aCPLR_ZKey 127091350
@@ -2261,15 +2468,6 @@ aName      TZDBHODO
 aDesc      This is a db-handler object.  It is used to specify information that is specific to ODBC databases.
 aLastSyncDate 20160714173228066
 aLastUpdateDate 20160714173228066
-
-eW_MetaDef 3
-aCPLR_ZKey 1331051
-aStatus    1
-aUpdateInd 2
-aName      KZDBHQUA
-aDesc      DB Handler Qualification Object
-aLastSyncDate 20160714173227365
-aLastUpdateDate 20160714173227365
 
 eW_MetaDef 3
 aCPLR_ZKey 90004370
@@ -2945,204 +3143,6 @@ aName      TZZOXOGO
 aDesc      Global Operations Executable Object - Defines parameters of every global operation (similar to XDM)
 aLastSyncDate 20160714173227123
 aLastUpdateDate 20160714173227123
-
-eW_MetaDef 3
-aCPLR_ZKey 1326804
-aStatus    1
-aUpdateInd 2
-aName      TZ__PRFO
-aDesc      Tools XFER & Profile Info.
-aLastSyncDate 20160714173227133
-aLastUpdateDate 20160714173227133
-
-eW_MetaDef 3
-aCPLR_ZKey 1331075
-aStatus    1
-aUpdateInd 2
-aName      KZDBHWOB
-aDesc      Work object for Zeidon database handlers
-aLastSyncDate 20160714173227368
-aLastUpdateDate 20160714173227368
-
-eW_MetaDef 3
-aCPLR_ZKey 88046397
-aStatus    1
-aUpdateInd 2
-aName      KZFXFERO
-aDesc      File transfer object.  Used to upload/download files.
-aLastSyncDate 20160714173227374
-aLastUpdateDate 20160714173227374
-
-eW_MetaDef 3
-aCPLR_ZKey 1331115
-aStatus    1
-aUpdateInd 2
-aName      KZGKHWOB
-aDesc      Work object for Genkey Handlers
-aLastSyncDate 20160714173227378
-aLastUpdateDate 20160714173227378
-
-eW_MetaDef 3
-aCPLR_ZKey 1331132
-aStatus    1
-aUpdateInd 2
-aName      KZHKEYSO
-aDesc      Hot key object definition
-aLastSyncDate 20160714173227383
-aLastUpdateDate 20160714173227383
-
-eW_MetaDef 3
-aCPLR_ZKey 1331158
-aStatus    1
-aUpdateInd 2
-aName      KZHKEYXO
-aDesc      Executable version of the global hotkey object
-aLastSyncDate 20160714173227387
-aLastUpdateDate 20160714173227387
-
-eW_MetaDef 3
-aCPLR_ZKey 1331171
-aStatus    1
-aUpdateInd 2
-aName      KZMSGQOO
-aDesc      Message Queue Handler
-aLastSyncDate 20160714173227393
-aLastUpdateDate 20160714173227393
-
-eW_MetaDef 3
-aCPLR_ZKey 1330798
-aStatus    1
-aUpdateInd 2
-aName      KZPEXVOO
-aDesc      Driver execution time presentation environment
-aLastSyncDate 20160714173227400
-aLastUpdateDate 20160714173227400
-
-eW_MetaDef 3
-aCPLR_ZKey 92718988
-aStatus    1
-aUpdateInd 2
-aName      KZRESTRC
-aDesc      28
-(REST return code object)
- 
-aLastSyncDate 20160714173227403
-aLastUpdateDate 20160714173227403
-
-eW_MetaDef 3
-aCPLR_ZKey 110001928
-aStatus    1
-aUpdateInd 2
-aName      KZRestResponse
-aDesc      Object used to return activate/commit response by the JOE REST server.
-aLastSyncDate 20160714173226876
-aLastUpdateDate 20160714173226876
-
-eW_MetaDef 3
-aCPLR_ZKey 95057242
-aStatus    1
-aUpdateInd 2
-aName      KZSIRRPO
-aDesc      This Work Object is used by Siron Reports
-aLastSyncDate 20160714173227413
-aLastUpdateDate 20160714173227413
-
-eW_MetaDef 3
-aCPLR_ZKey 1330816
-aStatus    1
-aUpdateInd 2
-aName      KZSIXSKO
-aDesc      Executable Siron object for a LOD that matches XOD struct
-aLastSyncDate 20160714173227416
-aLastUpdateDate 20160714173227416
-
-eW_MetaDef 3
-aCPLR_ZKey 91043632
-aStatus    1
-aUpdateInd 2
-aName      KZTRACEO
-aDesc      Object to transfer a trace from server to client
-aLastSyncDate 20160714173227478
-aLastUpdateDate 20160714173227478
-
-eW_MetaDef 3
-aCPLR_ZKey 90007406
-aStatus    1
-aUpdateInd 2
-aName      KZTRANWO
-aDesc      Work object that will store operation information when calling transformations or global operations across the network.
-aLastSyncDate 20160714173227498
-aLastUpdateDate 20160714173227498
-
-eW_MetaDef 3
-aCPLR_ZKey 1330836
-aStatus    1
-aUpdateInd 2
-aName      KZWDLGXO
-aDesc      Executable Dialog Definition
-aLastSyncDate 20170714162040303
-aLastUpdateDate 20170714162040303
-
-eW_MetaDef 3
-aCPLR_ZKey 91301926
-aStatus    1
-aUpdateInd 2
-aName      KZXMLPGO
-aDesc      XML for window controls
-aLastSyncDate 20160714173226881
-aLastUpdateDate 20160714173226881
-
-eW_MetaDef 3
-aCPLR_ZKey 90417949
-aStatus    1
-aUpdateInd 2
-aName      KZXRA
-aDesc      Executable Remote Application
-aLastSyncDate 20160714173227524
-aLastUpdateDate 20160714173227524
-
-eW_MetaDef 3
-aCPLR_ZKey 1151049
-aStatus    1
-aUpdateInd 2
-aName      KZZDR
-aDesc      Zeidon Dialog Rendering object
-aLastSyncDate 20160714173227531
-aLastUpdateDate 20160714173227531
-
-eW_MetaDef 3
-aCPLR_ZKey 1326102
-aStatus    1
-aUpdateInd 2
-aName      TZADCSDO
-aDesc      User information specification
-aLastSyncDate 20160714173226920
-aLastUpdateDate 20160714173226920
-
-eW_MetaDef 3
-aCPLR_ZKey 1330717
-aStatus    1
-aUpdateInd 2
-aName      TZADCWKO
-aLastSyncDate 20160714173227619
-aLastUpdateDate 20160714173227619
-
-eW_MetaDef 3
-aCPLR_ZKey 1330739
-aStatus    1
-aUpdateInd 2
-aName      TZADWKLO
-aDesc      User Spec Entity List
-aLastSyncDate 20160714173227636
-aLastUpdateDate 20160714173227636
-
-eW_MetaDef 3
-aCPLR_ZKey 1330759
-aStatus    1
-aUpdateInd 2
-aName      TZADWWKO
-aLastSyncDate 20160714173227644
-aLastUpdateDate 20160714173227644
 
 eW_MetaType 2
 aType      8
@@ -5832,8 +5832,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZCMLPLD
 aDesc      Local Project Library Maintenence
-aLastSyncDate 20160714173226939
-aLastUpdateDate 20160714173226939
+aLastSyncDate 20170919163321621
+aLastUpdateDate 20170919163321621
 
 eW_MetaDef 3
 aCPLR_ZKey 1337786

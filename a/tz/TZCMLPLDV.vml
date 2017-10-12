@@ -214,14 +214,22 @@ CREATE_NewLPLR( VIEW ViewToWindow )
    VIEW TZCMLPLO    REGISTERED AS TZCMLPLO
    VIEW KZAPPLOO    BASED ON LOD  KZAPPLOO
    VIEW TZCMLPLONew BASED ON LOD  TZCMLPLO
+   VIEW TZEREMDO    BASED ON LOD  TZEREMDO
+   VIEW TZTENVRO    BASED ON LOD  TZTENVRO
    STRING ( 513 ) szMsg
+   STRING ( 513 ) szTmp
    STRING ( 513 ) szFileName
    STRING ( 513 ) szFromFileName
+   STRING ( 513 ) szExeDir
+   STRING ( 513 ) szTempDir
    STRING ( 513 ) szLPLRName
+   STRING ( 513 ) szOrigLPLRName
+   STRING ( 513 ) szJavaPackageName
    SHORT nRC
    INTEGER lHighZKey
    INTEGER lHighPrefix
    INTEGER nLth
+   INTEGER lHandle
 
    // KJS 05/18/15 - For right now I am not using this because we were running into errors with
    // the xlp, hky file not being created and zeidon.app not updated. I modified nzwTZCMLPLD_CreateNewLPLR to
@@ -261,7 +269,8 @@ CREATE_NewLPLR( VIEW ViewToWindow )
       END
    END
 
-   IF TZCMLPLO.LPLR.LPLR_Type = "2"    // "2" is new empty
+   // KJS 09/12/17 - Thinking I still want to do this even if it's not new... because if I have a different directory to move to...??
+   //IF TZCMLPLO.LPLR.LPLR_Type = "2"    // "2" is new empty
       // LPLR is new empty.
       // Create the following.
       // 1. Build Installation/Users object (TZCMULWO). It will be completed on next window.
@@ -277,14 +286,207 @@ CREATE_NewLPLR( VIEW ViewToWindow )
          RETURN -1
       END
 
-         END
+   //END
 
+
+   // We have to create the subdirectory one directory at a time.
+   szExeDir = TZCMLPLO.LPLR.wExecutableSubDirectory
+   TZCMLPLO.LPLR.ExecDir = TZCMLPLO.LPLR.MetaSrcDir + "\" + szExeDir
+   nRC = zSearchSubString( szExeDir, "\"  , "f", 0 )
+   LOOP WHILE nRC > 0 
+      ZeidonStringCopy( szTempDir, 1, 0, szExeDir, 1, nRC, 513 )
+      szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szTempDir
+      IF SysValidDirOrFile( szFileName, TRUE, TRUE, 512) < 0
+         szMsg = "An error occured trying to create the executable directory " + szFileName
+         MessageSend( ViewToWindow, "", "Configuration Management",
+                      szMsg,
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
+         RETURN -1
+      END
+      nRC = zSearchSubString( szExeDir, "\"  , "f", nRC + 1)
+   END
+   
    // Set the executable directory. Create it if it doesn't exist and also copy the zeidon.hky if it doesn't exist.
    szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
-   IF SysValidDirOrFile( szFileName, TRUE, TRUE, 512) < 0
-      RETURN -1
+   SysValidDirOrFile( szFileName, TRUE, TRUE, 512)
+   
+   // If the user has changed the lplr name, then we will copy over the original lplr to the new directory.
+   IF TZCMLPLO.LPLR.wOrigLPLRName != "" AND TZCMLPLO.LPLR.Name != TZCMLPLO.LPLR.wOrigLPLRName 
+   
+      // This was for testing purposes but at the moment, it looked like the
+      // zSearchSubString is case sensitive and I don't want it to be.
+      szFileName = TZCMLPLO.LPLR.JavaPackageName 
+      szOrigLPLRName = TZCMLPLO.LPLR.wOrigLPLRName
+      nRC = zSearchSubString( szFileName, szOrigLPLRName, "f", 0 )
+      zSearchAndReplace( szFileName, 513, szOrigLPLRName, szLPLRName )
+      TZCMLPLO.LPLR.JavaPackageName = szFileName
+            
+      szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\*.*"
+
+      lHandle = FindFileStart( szFromFileName, szMsg )
+      nRC = 1
+      LOOP WHILE lHandle >= 0 AND nRC > 0
+      
+         //szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szMsg
+         nRC = zSearchSubString( szMsg, ".", "f", 0 )
+         IF nRC != 0 
+         
+         // I think we care about DTE, PMD, LLP (don't copy)
+         szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".DTE"
+         nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
+         IF nRC >= 0
+            szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.Name + ".DTE"
+
+            szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg   
+            nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            nRC = ActivateOI_FromFile ( TZTENVRO, "TZTENVRO", ViewToWindow, szFileName, 512 )
+            TZTENVRO.TE_DB_Environ.Name = TZCMLPLO.LPLR.Name
+            nRC = CommitOI_ToFile( TZTENVRO, szFileName, zASCII )
+         ELSE 
+         szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".PMD"
+         nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
+         IF nRC >= 0
+            szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.Name + ".PMD"
+            szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg   
+            nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            nRC = ActivateOI_FromFile ( TZEREMDO, "TZEREMDO", ViewToWindow, szFileName, 512 ) 
+            TZEREMDO.EntpER_Model.Name = TZCMLPLO.LPLR.Name
+            //CommitMetaOI( ViewToWindow, TZEREMDO, zSOURCE_ERD_META )
+            nRC = CommitOI_ToFile( TZEREMDO, szFileName, zASCII )
+         ELSE 
+         szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".LLP"
+         nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
+         // Don't copy if this is the llp.
+         IF nRC < 0
+            szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szMsg
+            szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg
+            nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+         END
+         END
+         END
+
+         END // Check if file name starts with "."
+
+         nRC = FindFileNext( lHandle, szMsg )
+      END 
+
+      szFromFileName = TZCMLPLO.LPLR.wOrigExecSrc + "\*.*"
+
+      // Now Copy files from executable directory.
+      lHandle = FindFileStart( szFromFileName, szMsg )
+      nRC = 1
+      LOOP WHILE lHandle >= 0 AND nRC > 0
+
+         szFileName = TZCMLPLO.LPLR.ExecDir + "\" + szMsg
+         //szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg
+         szFromFileName = TZCMLPLO.LPLR.wOrigExecSrc + "\" + szMsg
+
+         nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+         nRC = FindFileNext( lHandle, szMsg )
+      END 
+
+      // Copy files from the JavaProject... java directory if it exists.
+      IF TZCMLPLO.LPLR.JavaPackageName != ""
+      
+         szJavaPackageName = TZCMLPLO.LPLR.JavaPackageName 
+         nRC = zSearchSubString( szJavaPackageName, "."  , "f", 0 )
+         IF nRC >= 0
+            zSearchAndReplace( szJavaPackageName, 513, ".", "\" )
+         END
+         // At the moment we are going to assume that if you have a JavaPackageName that
+         // you will have a \javaProject\src\main" + javaPackageName directory to store your 
+         // java code.
+         szTmp = "JavaProject\src\main\java\" + szJavaPackageName + "\"
+         nRC = zSearchSubString( szTmp, "\"  , "f", 0 )
+         LOOP WHILE nRC > 0 
+            ZeidonStringCopy( szTempDir, 1, 0, szTmp, 1, nRC, 513 )
+            szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szTempDir
+            IF SysValidDirOrFile( szFileName, TRUE, TRUE, 512) < 0
+               szMsg = "An error occured trying to create the java project directory " + szFileName
+               MessageSend( ViewToWindow, "", "Configuration Management",
+                            szMsg,
+                            zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+               SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
+               RETURN -1
+            END
+            nRC = zSearchSubString( szTmp, "\"  , "f", nRC + 1)
+         END
+         
+         szTmp = TZCMLPLO.LPLR.wOrigJavaPackage  
+         IF zSearchSubString( szTmp, "."  , "f", 0 ) >= 0
+            zSearchAndReplace( szTmp, 513, ".", "\" )
+         END
+         
+         TZCMLPLO.LPLR.wOrigJavaPackage = szTmp
+         
+         // Copy java files
+         szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\JavaProject\src\main\java\" + szTmp 
+         szTempDir = TZCMLPLO.LPLR.MetaSrcDir + "\JavaProject\src\main\java\" + szJavaPackageName
+         szJavaPackageName = szTempDir
+         szTempDir = szFromFileName + "\*.*"
+   
+         // Now Copy files from JavaProject... java directory.
+         lHandle = FindFileStart( szTempDir, szTmp )
+         nRC = 1
+         LOOP WHILE lHandle >= 0 AND nRC > 0
+   
+            szFileName = szJavaPackageName + "\" + szTmp
+            szTempDir = szFromFileName + "\" + szTmp
+   
+            nRC = SysCopyFile( ViewToWindow, szTempDir, szFileName, TRUE )
+            nRC = FindFileNext( lHandle, szTmp )
+         END 
+         
+         // Look for a JavaProject...\domains directory. If one exists, then copy the files.
+         //szFromFileName = szFromFileName + TZCMLPLO.LPLR.wOrigJavaPackage + "\domains" 
+         //kkkkkk
+         szFromFileName = szFromFileName + "\domains" 
+         szTempDir = szJavaPackageName + "\domains"
+         szJavaPackageName = szTempDir
+         szTempDir = szFromFileName + "\*.*"
+   
+         // Now Copy files JavaProject \domain.
+         lHandle = FindFileStart( szTempDir, szTmp )
+         IF lHandle >= 0 
+            // Create domains directory in imported lplr
+            SysValidDirOrFile( szJavaPackageName, TRUE, TRUE, 512)
+         END
+         nRC = 1
+         LOOP WHILE lHandle >= 0 AND nRC > 0
+   
+            szFileName = szJavaPackageName + "\" + szTmp
+            szTempDir = szFromFileName + "\" + szTmp
+   
+            nRC = SysCopyFile( ViewToWindow, szTempDir, szFileName, TRUE )
+            nRC = FindFileNext( lHandle, szTmp )
+         END 
+         
+         // Now copy pom.xml if it exists
+         szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\JavaProject" 
+         szTempDir = TZCMLPLO.LPLR.MetaSrcDir + "\JavaProject"
+         szJavaPackageName = szTempDir
+         szTempDir = szFromFileName + "\*.*"
+   
+         lHandle = FindFileStart( szTempDir, szTmp )
+         nRC = 1
+         LOOP WHILE lHandle >= 0 AND nRC > 0
+   
+            szFileName = szJavaPackageName + "\" + szTmp
+            szTempDir = szFromFileName + "\" + szTmp
+   
+            nRC = SysCopyFile( ViewToWindow, szTempDir, szFileName, TRUE )
+            nRC = FindFileNext( lHandle, szTmp )
+         END 
+      END // If JavaProjectName exists
+    
    END
+   
+   // Set the executable directory. Create it if it doesn't exist and also copy the zeidon.hky if it doesn't exist.
+   szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
+
    TZCMLPLO.LPLR.ExecDir = szFileName
+   
 
    // Copy the Hotkey file "ZEIDON.HKY" to the new LPLR executable directory.
    szFileName = szFileName + "\ZEIDON.HKY"
@@ -294,6 +496,8 @@ CREATE_NewLPLR( VIEW ViewToWindow )
       szFromFileName = szFromFileName + "\ZEIDON.HKY"
       SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
    END
+
+   IF TZCMLPLO.LPLR.Name != TZCMLPLO.LPLR.wOrigLPLRName 
 
    // If we are creating a new lplr...
    // Now check kzmsgqoo, and tzzolodo if the directory "NewLPLR" exists under zeidon executable directory.
@@ -353,6 +557,8 @@ CREATE_NewLPLR( VIEW ViewToWindow )
       szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
       szFromFileName = szFromFileName + "\NewLPLR\KZMSGQOO_Object.java"
       SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+   END
+
    END
 
    TZCMLPLO.LPLR.PgmSrcDir = TZCMLPLO.LPLR.MetaSrcDir
@@ -445,6 +651,8 @@ CREATE_NewLPLR( VIEW ViewToWindow )
 
    RebuildMetaLists( ViewToWindow )
    InitializeLPLR( ViewToWindow, szLPLRName )
+   //CommitMetaOI( ViewToWindow, TZEREMDO, zSOURCE_ERD_META )
+   //CommitMetaOI( ViewToWindow, TZTENVRO, zSOURCE_DTE_META )
    RebuildXDM( ViewToWindow )
    // Right now we run into an error in RebuildXODs because we don't have the TE set up.
    // It's looking for view "TE_DB_Environ" and entity "TE_DBMS_Source".
@@ -487,6 +695,11 @@ PostbuildImportLPLR( VIEW ViewToWindow )
 
    // New Imported (external) LPLR
    TZCMLPLO.LPLR.LPLR_Type = 3
+   SetCtrlState( ViewToWindow, "edName", zCONTROL_STATUS_ENABLED, FALSE )
+   SetCtrlState( ViewToWindow, "edDesc", zCONTROL_STATUS_ENABLED, FALSE )
+   SetCtrlState( ViewToWindow, "edBaseDir", zCONTROL_STATUS_ENABLED, FALSE )
+   SetCtrlState( ViewToWindow, "edExecDir", zCONTROL_STATUS_ENABLED, FALSE )
+   SetCtrlState( ViewToWindow, "edJavaPackageName", zCONTROL_STATUS_ENABLED, FALSE )
 
 END
 
@@ -633,11 +846,11 @@ IMPORT_LPLR( VIEW ViewToWindow )
 
 // KJS 06/05/15 - Probably not here, but if the user puts in a directory for the meta source that doesn't
 // exist, do we want to create one for them?
-//      SysValidDirOrFile( szFileName,
-//                         TRUE /* Directory (TRUE or FALSE) */,
-//                         FALSE /* CheckCreate */,
-//                         512 /* Max Path Length */ )
   TZCMLPLO.LPLR.MetaSrcDir = szFileName
+  TZCMLPLO.LPLR.wOrigMetaSrc = szFileName
+  //TZCMLPLO.LPLR.wOrigExecSrc = TZCMLPLO.LPLR.ExecDir
+  TZCMLPLO.LPLR.wOrigLPLRName = TZCMLPLO.LPLR.Name 
+  TZCMLPLO.LPLR.wOrigJavaPackage = TZCMLPLO.LPLR.JavaPackageName
 
    // KJS 06/16/15 - Should we see if there is an ExecutableSubDirecory, and if not, create one based on the ExecDir.
    IF TZCMLPLO.LPLR.ExecDir != ""
@@ -652,6 +865,8 @@ IMPORT_LPLR( VIEW ViewToWindow )
       // Do we need to get rid of the first /?
       TZCMLPLO.LPLR.wExecutableSubDirectory = szFileName
    END
+
+   TZCMLPLO.LPLR.wOrigExecSrc = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
 
   //zstrncpy( szFileName, szXLPFileName, nRC, nLth )
 
@@ -683,5 +898,22 @@ GetZeidonApp( VIEW ViewToWindow,
       DropView( vKZAPPLOO )
       RETURN -1
    END
+
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: CHANGE_ImportName
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+CHANGE_ImportName( VIEW ViewToWindow )
+
+   SetCtrlState( ViewToWindow, "edName", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( ViewToWindow, "edDesc", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( ViewToWindow, "edBaseDir", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( ViewToWindow, "edExecDir", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( ViewToWindow, "edJavaPackageName", zCONTROL_STATUS_ENABLED, TRUE )
 
 END

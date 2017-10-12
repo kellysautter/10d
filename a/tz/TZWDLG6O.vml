@@ -97,6 +97,14 @@ FlagUsedViewsGetFocusJ( VIEW vDialog     BASED ON LOD TZWDLGSO,
             szProcessControlFlag = "Y"
          END
       END
+      IF szControlType = "GroupBox"
+         SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Survey Group"
+         IF RESULT >= zCURSOR_SET
+            // If we have a group box that has a web property of "Survey Group" then this is a survey and
+            // we will need mapping for each survey question.
+            szProcessControlFlag = "Y"
+         END
+      END
       IF szControlType = "EditBox" OR
          szControlType = "ComboBox" OR
          szControlType = "Text" OR

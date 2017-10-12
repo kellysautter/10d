@@ -687,7 +687,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          GenJSPJ_CrteFileTransferForm( vDialog, vDialogRoot, lFile, szWriteBuffer, szIndentGroup, szNoPositioning, lOffsetX, lOffsetY )
       END
 
-      IF szControlType = "GroupBox" AND szRepeatingGroupFlag = "" AND szFileTransferFlag = "" AND szGroupIsTable = "" AND szGridGroupingFlag = ""
+      IF szControlType = "GroupBox" AND szRepeatingGroupFlag = "" AND szFileTransferFlag = "" AND szGroupIsTable = "" AND szGridGroupingFlag = "" AND szSurveyGroupFlag = ""
 
          // Is this clear even working???!!!
          IF szWebCtrlType = "Clear"
@@ -1766,7 +1766,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
          END  // END OF REPEATING GROUP
-/*
+
          // SURVEY GROUP
          IF szControlType = "GroupBox" AND szSurveyGroupFlag = "Y" AND vDialog.CtrlMapView EXISTS
             szWriteBuffer = ""
@@ -1780,6 +1780,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                szWriteBuffer = "<div class=^" + szClass + "^>  <!-- surrounding div for survey -->"
             END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            // Don't build survey stuff if there is no view specified.
+            IF vDialog.CtrlMapView EXISTS
+
             szWriteBuffer = "<%"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "   int iQuestionCount = 0;"
@@ -1799,36 +1802,33 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szWriteBuffer = "   String szGroupNbr = ^^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             // First begin with Question Group loop.
-            szWriteBuffer = "   nRC = " + vDialog.CtrlMapView.Name + ".GetView( strSessionId, ^" +
-                         vDialog.CtrlMapView.Name + "^, vAppSubtask );"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "   if ( nRC > 0 )"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "   {"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+               szWriteBuffer = "   " + vDialog.CtrlMapView.Name + " = " + "task.getViewByName( ^" +
+                               vDialog.CtrlMapView.Name + "^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "   if ( VmlOperation.isValid( " + vDialog.CtrlMapView.Name + " ) )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "   {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
             // See if a scoping entity has been specified, and if so, use it.
             CreateViewFromView( vDialog2, vDialog )
             SET CURSOR NEXT vDialog2.CtrlMap
             IF vDialog2.CtrlMapLOD_Entity EXISTS
-               szScopingEntityName = vDialog2.CtrlMapLOD_Entity.Name
+               szScopingEntityName = "^" + vDialog2.CtrlMapLOD_Entity.Name + "^"
             ELSE
                szScopingEntityName = ""
             END
             DropView( vDialog2 )
-            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name +
-                         ".CheckExistenceOfEntity( strSessionId, ^SurveyQuestionGroup^ );"
+            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestionGroup^).checkExistenceOfEntity( ).toInt();"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      if ( nRC >= 0 )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          szGroupNbr = " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestionaire^, ^wCurrentSurveyGroup^, ^^, 254 );"
+            szWriteBuffer = "         szGroupNbr = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestionaire^).getAttribute(^wCurrentSurveyGroup^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name +
-                         ".SetCursorFirst( strSessionId, ^SurveyQuestionGroup^" +
-                         ", ^wOrder^, szGroupNbr, ^^ );"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name + ".cursor( ^SurveyQuestionGroup^ ).setFirst( ^wOrder^, szGroupNbr ).toInt();"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1836,8 +1836,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szGroupName = " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestionGroup^, ^Name^, ^^, 254 );"
+            szWriteBuffer = "          String szGroupName = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestionGroup^).getAttribute(^Name^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1858,14 +1857,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             CreateViewFromView( vDialog2, vDialog )
             SET CURSOR NEXT vDialog2.CtrlMap
             IF vDialog2.CtrlMapLOD_Entity EXISTS
-               szScopingEntityName = vDialog2.CtrlMapLOD_Entity.Name
+               szScopingEntityName = "^" + vDialog2.CtrlMapLOD_Entity.Name + "^"
             ELSE
                szScopingEntityName = ""
             END
             DropView( vDialog2 )
-            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name +
-                         ".SetCursorFirst( strSessionId, ^" + "SurveyQuestion" +
-                         "^, ^^ );"
+            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name + ".cursor( ^SurveyQuestion^ ).setFirst( ).toInt();"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      while ( nRC >= 0 )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1874,27 +1871,19 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             // Get the Question
             szWriteBuffer = "          iQuestionCount = iQuestionCount + 1;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          szQuestion = " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^Number^, ^^, 254 );"
+            szWriteBuffer = "          szQuestion = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^Number^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "          if ( szQuestion.length() > 0 )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "             szQuestion = szQuestion + ^. ^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          szQuestion = szQuestion + " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^Question^, ^^, 254 );"
+            szWriteBuffer = "          szQuestion = szQuestion + " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^Question^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szQuestionID = " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^ID^, ^^, 254 );"
+            szWriteBuffer = "          String szQuestionID = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^ID^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szHelp = " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^HelpDescription^, ^^, 254 );"
+            szWriteBuffer = "          String szType = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^Type^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szType = " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^Type^, ^^, 254 );"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szCommentFlag = " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^AllowCommentFlag^, ^^, 1 );"
+            szWriteBuffer = "          String szCommentFlag = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^AllowCommentFlag^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "          String szQuestionIDName = ^QuestionID^ + iQuestionCount;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1902,13 +1891,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "          String szAllowCommentName = ^AllowComment^ + iQuestionCount;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szIsOptional = ^IsOptionalt^ + iQuestionCount;"
+            szWriteBuffer = "          String szIsOptional = ^IsOptional^ + iQuestionCount;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szResponseIsOptional = " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^ResponseIsOptional^, ^^, 1 );"
+            szWriteBuffer = "          String szResponseIsOptional = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^ResponseIsOptional^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szQuestionHelp = " + vDialog.CtrlMapView.Name +
-                  ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^HelpDescription^, ^^, 254 );"
+            szWriteBuffer = "          String szQuestionHelp = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^HelpDescription^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1953,7 +1940,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "   strErrorMapValue = ^^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "   strErrorMapValue = " + vDialog.CtrlMapView.Name + ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^wTextAnswer^, ^^, 10000 );"
+            szWriteBuffer = "   strErrorMapValue = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^wTextAnswer^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2019,13 +2006,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      zeidon.zView vtblMultChoice = new zeidon.zView( strSessionId );"
+            szWriteBuffer = "      View vtblMultChoice = " + vDialog.CtrlMapView.Name + ".newView( );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      vtblMultChoice.CreateViewFromView( strSessionId, " + vDialog.CtrlMapView.Name + " );"
+            szWriteBuffer = "      csrRC2 = vtblMultChoice.cursor(^SurveyMultiChoiceOption^).setFirst();"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      nRC2 = vtblMultChoice.SetCursorFirst( strSessionId, ^SurveyMultiChoiceOption^, ^^ );"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      while ( nRC2 >= 0 )"
+            szWriteBuffer = "      while ( csrRC2.isSet( ) )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2038,11 +2023,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         strchkAnswer = ^^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         strAnswerText = vtblMultChoice.GetStringFromAttributeByContext( strSessionId, ^SurveyMultiChoiceOption^, ^OptionText^, ^^, 200 );"
+            szWriteBuffer = "         strAnswerText = vtblMultChoice.cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^OptionText^ ).getString( ^^ );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         strchkAnswer = vtblMultChoice.GetStringFromAttributeByContext( strSessionId, ^SurveyMultiChoiceOption^, ^wSelectedAnswer^, ^^, 200 );"
+            szWriteBuffer = "         strchkAnswer = vtblMultChoice.cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^wSelectedAnswer^).getString( ^^ );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         strQuestionChoiceID = vtblMultChoice.GetStringFromAttributeByContext( strSessionId, ^SurveyMultiChoiceOption^, ^ID^, ^^, 200 );"
+            szWriteBuffer = "         strQuestionChoiceID = vtblMultChoice.cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^ID^ ).getString( ^^ );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         if ( szCheckType.equals(^radio^) )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2083,11 +2068,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "<%"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         nRC2 = vtblMultChoice.SetCursorNext( strSessionId, ^SurveyMultiChoiceOption^, ^^ );"
+            szWriteBuffer = "         csrRC2 = vtblMultChoice.cursor( ^SurveyMultiChoiceOption^ ).setNext( );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      nRC2 = vtblMultChoice.DropView( strSessionId );"
+            szWriteBuffer = "      vtblMultChoice.drop( );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2114,8 +2099,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "          String szCommentText = ^^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          szCommentText = " + vDialog.CtrlMapView.Name +
-                 ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^RequestCommentText^, ^^, 0 );"
+            szWriteBuffer = "          szCommentText = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^RequestCommentText^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      if ( szCommentText.equals(^^) )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2143,7 +2127,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "   strErrorMapValue = ^^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "   strErrorMapValue = " + vDialog.CtrlMapView.Name + ".GetStringFromAttributeByContext( strSessionId, ^SurveyQuestion^, ^wComment^, ^^, 10000 );"
+            szWriteBuffer = "   strErrorMapValue = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^wComment^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2164,16 +2148,14 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szWriteBuffer = "<%"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             // Loop to next Question.
-            szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name +
-                         ".SetCursorNext( strSessionId, ^" + "SurveyQuestion" +
-                         "^, ^" + szScopingEntityName + "^ );"
+            //szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name + ".cursor( ^SurveyQuestion^ ).setNext( " + szScopingEntityName + ").toInt();"
+            szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name + ".cursor( ^SurveyQuestion^ ).setNext( ).toInt();"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             // Loop to next Question Group.
-            szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name +
-                         ".SetCursorNext( strSessionId, ^" + "SurveyQuestionGroup" +
-                         "^, ^" + szScopingEntityName + "^ );"
+            //szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name + ".cursor( ^SurveyQuestionGroup^ ).setNext( ^" + szScopingEntityName + "^ ).toInt();"
+            szWriteBuffer = "         nRC = " + vDialog.CtrlMapView.Name + ".cursor( ^SurveyQuestionGroup^ ).setNext( ).toInt();"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             // This is where we create the buttons at the bottom of the page.
             // Create Next and Prev buttons if necessary and when we are on the last page
@@ -2243,14 +2225,16 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "</table>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+            END  //IF vDialog.CtrlMapView EXISTS
             szWriteBuffer = "</div>  "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "<!-- SURVEY GROUP END -->"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          END  // END OF SURVEY GROUP
-*/
 
          // Generation of the Tab control
          IF szControlType = "Tab"
@@ -4624,7 +4608,179 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                // This is a repeating group but it's not for the current ViewName we have passed in, so ignore.
                szRepeatingGroupFlag = ""
             END
+
+            szSurveyGroupFlag = ""
+            SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Survey Group"
+            IF RESULT >= zCURSOR_SET
+               szSurveyGroupFlag = "Y"
+            END
             
+            // SUREY GROUP
+            IF szSurveyGroupFlag = "Y" AND vDialog.CtrlMapView EXISTS AND vDialog.CtrlMapView.Name = ViewName
+               // This is the survey group. Creating input mapping for this...
+               // **********************************************************
+               szWriteBuffer = "      String strQuestionCount;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      String strQuestionID=^^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      String strQuestionType=^^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      String strQuestionName=^^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      String strQuestionAnswer=^^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      String strQuestionChoiceID=^^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      String strAllowComment=^^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = ""
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      strQuestionCount = request.getParameter( ^SurveyQuestionCount^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      int iQuestionCount=Integer.parseInt(strQuestionCount);"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = ""
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      for (int i=1; i<=iQuestionCount; i++)"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         strTemp = ^QuestionID^ + i;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         strQuestionID = request.getParameter( strTemp );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         strTemp = ^QuestionType^ + i;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         strQuestionType= request.getParameter( strTemp );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         strTemp = ^AllowComment^ + i;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         strAllowComment= request.getParameter( strTemp );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "         " + ViewName + ".TraceLine( ^******* strQuestionType: ^, strQuestionType );"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "         " + ViewName + ".TraceLine( ^******* strQuestionID:   ^, strQuestionID );"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         "
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         nRC = " + ViewName + ".cursor( ^SurveyQuestion^).setFirst( ^ID^, strQuestionID, ^SurveyQuestionaire^ ).toInt();"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         if ( nRC >= 0 )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            if ( strQuestionType.equals(^Text^) )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "         " + ViewName + ".TraceLine( ^******* Text   ^, ^^);"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               strTemp = ^txtAnswer^ + strQuestionID;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               strQuestionAnswer = request.getParameter( strTemp );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               " + ViewName + ".cursor( ^SurveyQuestion^ ).getAttribute( ^wTextAnswer^ ).setValue( strQuestionAnswer, ^^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            else if ( strQuestionType.equals(^Yes/No^) )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "              strTemp = ^chkAnswer^ + strQuestionID;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            if ( strQuestionType.equals(^Multiple Choice Single Response^) || strQuestionType.equals(^Multiple Choice Multiple Response^) )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "              if ( strQuestionType.equals(^Multiple Choice Single Response^) )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                  // radio buttons"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                  strTemp = ^chkAnswer^ + i;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "         " + ViewName + ".TraceLine( ^******* Radio Control:   ^, strTemp );"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                  strQuestionAnswer = request.getParameter( strTemp );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "         " + ViewName + ".TraceLine( ^******* Radio Answer:   ^, strQuestionAnswer );"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                 " + ViewName +  ".cursor( ^SurveyQuestion^ ).getAttribute( ^wTextAnswer^ ).setValue( strQuestionAnswer, ^^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "              }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               else"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                  // check boxes"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "         " + ViewName + ".TraceLine( ^******* Checkbox   ^, ^^);"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                nRC = " + ViewName + ".cursor( ^SurveyMultiChoiceOption^ ).setFirst( ).toInt();"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                 while ( nRC == 0 )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                 {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                    strQuestionChoiceID = " + ViewName + ".cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^ID^ ).getString();"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                    strTemp = ^chkAnswer^ + strQuestionChoiceID;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "         " + ViewName + ".TraceLine( ^******* Checkbox Control:   ^, strTemp );"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                    strQuestionAnswer = request.getParameter( strTemp );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "         " + ViewName + ".TraceLine( ^******* Checkbox Answer:   ^, strQuestionAnswer );"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                    //if ( !strQuestionAnswer.equals(^^) )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                    if ( strQuestionAnswer != null )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                       " + ViewName + ".cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^wSelectedAnswer^ ).setValue( strQuestionChoiceID, ^^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                      else"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                       " + ViewName + ".cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^wSelectedAnswer^ ).setValue( ^^, ^^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                       "
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                    nRC = " + ViewName + ".cursor( ^SurveyMultiChoiceOption^ ).setNext().toInt();"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "                    " + ViewName + ".TraceLine( ^DoInputMapping SetCursorNext RC: ^, nRC );"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "                 }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+               // Map Comment if it exists
+               szWriteBuffer = "            if ( strAllowComment.equals(^Y^) )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               strTemp = ^txtComment^ + strQuestionID;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               strQuestionAnswer = request.getParameter( strTemp );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "               " + ViewName + ".cursor( ^SurveyQuestion^ ).getAttribute( ^wComment^ ).setValue( strQuestionAnswer, ^^ );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+               szWriteBuffer = "         }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               // *************************************************************
+            END // IF szControlType = "GroupBox"
+// END OF SURVEY GROUP                       
          END
          
          // If the current control is a repeating groupbox, then it has mapping, so we need to ignore that case.
@@ -5867,170 +6023,6 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                szWriteBuffer = "      vGridTmp.drop( );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             ELSE
-            IF szControlType = "GroupBox" AND szSurveyGroupFlag = "Y"
-               // This is the survey group. Creating input mapping for this...
-               // **********************************************************
-               szWriteBuffer = "      String strQuestionCount;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      String strQuestionID=^^;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      String strQuestionType=^^;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      String strQuestionName=^^;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      String strQuestionAnswer=^^;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      String strQuestionChoiceID=^^;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      String strAllowComment=^^;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = ""
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      strQuestionCount = request.getParameter( ^SurveyQuestionCount^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      int iQuestionCount=Integer.parseInt(strQuestionCount);"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = ""
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      for (int i=1; i<=iQuestionCount; i++)"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         strTemp = ^QuestionID^ + i;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         strQuestionID = request.getParameter( strTemp );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         strTemp = ^QuestionType^ + i;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         strQuestionType= request.getParameter( strTemp );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         strTemp = ^AllowComment^ + i;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         strAllowComment= request.getParameter( strTemp );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         task.log().info( ^******* strQuestionType: ^, strQuestionType );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         task.log().info( ^******* strQuestionID:   ^, strQuestionID );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         "
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         nRC = " + szViewName + "cursor(^SurveyQuestion^).setFirst( ^ID^, strQuestionID, ^SurveyQuestionaire^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         if ( nRC >= 0 )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            if ( strQuestionType.equals(^Text^) )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         task.log().info( ^******* Text   ^, ^^);"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               strTemp = ^txtAnswer^ + strQuestionID;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               strQuestionAnswer = request.getParameter( strTemp );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               nRC = " + szViewName + ".cursor( ^SurveyQuestion^).getAttribute( ^wTextAnswer^ ).setValue( strQuestionAnswer, ^^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            else if ( strQuestionType.equals(^Yes/No^) )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "              strTemp = ^chkAnswer^ + strQuestionID;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            if ( strQuestionType.equals(^Multiple Choice Single Response^) || strQuestionType.equals(^Multiple Choice Multiple Response^) )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "              if ( strQuestionType.equals(^Multiple Choice Single Response^) )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                  // radio buttons"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                  strTemp = ^chkAnswer^ + i;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         task.log().info( ^******* Radio Control:   ^, strTemp );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                  strQuestionAnswer = request.getParameter( strTemp );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         task.log().info( ^******* Radio Answer:   ^, strQuestionAnswer );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                 nRC = " + szViewName + ".cursor( ^SurveyQuestion^).getAttribute( ^wTextAnswer^ ).setValue( strQuestionAnswer, ^^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "              }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               else"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                  // check boxes"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         task.log().info( ^******* Checkbox   ^, ^^);"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                nRC = " + szViewName + ".cursor( ^SurveyMultiChoiceOption^ ).setFirst( );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                 while ( nRC == 0 )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                 {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                    strQuestionChoiceID = " + szViewName + ".cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^ID^ ).getString( ^^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                    strTemp = ^chkAnswer^ + strQuestionChoiceID;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         task.log().info( ^******* Checkbox Control:   ^, strTemp );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                    strQuestionAnswer = request.getParameter( strTemp );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         task.log().info( ^******* Checkbox Answer:   ^, strQuestionAnswer );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                    //if ( !strQuestionAnswer.equals(^^) )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                    if ( strQuestionAnswer != null )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                       nRC = " + szViewName + ".cursor( ^SurveyMultiChoiceOption^).getAttribute( ^wSelectedAnswer^ ).setValue( strQuestionChoiceID, ^^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-              szWriteBuffer = "                      else"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                       nRC = " + szViewName + ".cursor( ^SurveyMultiChoiceOption^).getAttribute( ^wSelectedAnswer^ ).setValue( ^^, ^^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                       "
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                    nRC = " + szViewName + ".cursor( ^SurveyMultiChoiceOption^ ).setNextContinue( );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                    task.log().info( ^DoInputMapping setNextContinue RC: ^, nRC );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "                 }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
-               // Map Comment if it exists
-               szWriteBuffer = "            if ( strAllowComment.equals(^Y^) )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               strTemp = ^txtComment^ + strQuestionID;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               strQuestionAnswer = request.getParameter( strTemp );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "               nRC = " + szViewName + ".cursor( ^SurveyQuestion^).getAttribute( ^wComment^ ).setValue( strQuestionAnswer, ^^ );"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "            }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
-               szWriteBuffer = "         }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               // *************************************************************
-            END // IF szControlType = "GroupBox" AND szSurveyGroupFlag = "Y"
 
             END // IF szControlType = "Grid"
             END // IF szControlType = "Calendar"
