@@ -5477,8 +5477,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "      {", 1, 0, 10001 );
                //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "         // Code for sessionStorage/sessionStorage."
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "         // Code for sessionStorage/sessionStorage.", 1, 0, 10001 );
+               //:szWriteBuffer = "         // Code for sessionStorage."
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         // Code for sessionStorage.", 1, 0, 10001 );
                //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
                //:szWriteBuffer = "         var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^" //ZENCAS.wClassDClassListByTerm.position
@@ -8381,6 +8381,24 @@ oTZWDLGSO_FlagUsedViewsGetFocusJ( zVIEW     vDialog,
          if ( RESULT >= zCURSOR_SET )
          { 
             //:// For a GridEditCtl control, we have input mapping only if "Edit" property is requested.
+            //:szProcessControlFlag = "Y"
+            ZeidonStringCopy( szProcessControlFlag, 1, 0, "Y", 1, 0, 2 );
+         } 
+
+         //:END
+      } 
+
+      //:END
+      //:IF szControlType = "GroupBox"
+      if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 )
+      { 
+         //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Survey Group"
+         RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Survey Group", "" );
+         //:IF RESULT >= zCURSOR_SET
+         if ( RESULT >= zCURSOR_SET )
+         { 
+            //:// If we have a group box that has a web property of "Survey Group" then this is a survey and
+            //:// we will need mapping for each survey question.
             //:szProcessControlFlag = "Y"
             ZeidonStringCopy( szProcessControlFlag, 1, 0, "Y", 1, 0, 2 );
          } 

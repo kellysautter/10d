@@ -410,6 +410,10 @@ EDT_OpenNewObject( zVIEW vSubtask, zCPCHAR cpcFileName );
 zOPER_EXPORT zBOOL OPERATION
 EDT_PasteText( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
+EDT_UntabText( zVIEW vSubtask );
+zOPER_EXPORT zBOOL OPERATION
+EDT_TabText( zVIEW vSubtask );
+zOPER_EXPORT zBOOL OPERATION
 EDT_PrintObject( zVIEW vSubtask );
 zOPER_EXPORT zBOOL OPERATION
 EDT_PropertyDialog( zVIEW vSubtask );
