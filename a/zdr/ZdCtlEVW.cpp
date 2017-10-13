@@ -295,7 +295,7 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
    m_nCharWidth = -1;
 
    // Text attributes
-   m_nTabSize = 0;
+   m_nTabSize = 3;
    m_bViewTabs = FALSE;
    m_bSelMargin = FALSE;
 
@@ -1215,11 +1215,8 @@ void ZCrystalEditView::OnEditDeleteBack()
    return;
 }
 
-void ZCrystalEditView::OnEditTab()
+void ZCrystalEditView::Tab()
 {
-#ifdef DEBUG_ALL
-   TraceLineS( "OnEditTab", "");
-#endif
    if (! QueryEditable())
       return;
 
@@ -1328,11 +1325,16 @@ void ZCrystalEditView::OnEditTab()
    m_pTextBuffer->FlushUndoGroup(this);
 }
 
-void ZCrystalEditView::OnEditUntab()
+void ZCrystalEditView::OnEditTab()
 {
 #ifdef DEBUG_ALL
-   TraceLineS( "OnEditUntab", "");
+   TraceLineS( "OnEditTab", "");
 #endif
+   Tab();
+}
+
+void ZCrystalEditView::Untab()
+{
    if (! QueryEditable())
       return;
 
@@ -1441,6 +1443,14 @@ void ZCrystalEditView::OnEditUntab()
          EnsureVisible(ptCursorPos);
       }
    }
+}
+
+void ZCrystalEditView::OnEditUntab()
+{
+#ifdef DEBUG_ALL
+   TraceLineS( "OnEditUntab", "");
+#endif
+   Untab();
 }
 
 void ZCrystalEditView::OnUpdateIndicatorCol(CCmdUI *pCmdUI)
@@ -2899,7 +2909,7 @@ void ZCrystalEditView::ResetView()
    m_nHoldArrowXPos = -1;
    m_nLineHeight = -1;
    m_nCharWidth = -1;
-   m_nTabSize = 4;
+   m_nTabSize = 3;
    m_nMaxLineLength = -1;
    m_nScreenLines = -1;
    m_nScreenChars = -1;
@@ -4503,50 +4513,50 @@ int ZCrystalEditView::FindTextInBlock(LPCTSTR pszText, CPoint &ptStartPosition,
 
 void ZCrystalEditView::PageUp()
 {
-	int nNewTopLine = m_nTopLine - GetScreenLines() + 1;
-	if (nNewTopLine < 0)
-		nNewTopLine = 0;
-	if (m_nTopLine != nNewTopLine)
-	{
-		ScrollToLine(nNewTopLine);
-		UpdateSiblingScrollPos(TRUE);
-	}
+   int nNewTopLine = m_nTopLine - GetScreenLines() + 1;
+   if (nNewTopLine < 0)
+      nNewTopLine = 0;
+   if (m_nTopLine != nNewTopLine)
+   {
+      ScrollToLine(nNewTopLine);
+      UpdateSiblingScrollPos(TRUE);
+   }
 
-	m_ptCursorPos.y -= GetScreenLines() - 1;
-	if (m_ptCursorPos.y < 0)
-		m_ptCursorPos.y = 0;
-	if (m_ptCursorPos.x > GetLineLength(m_ptCursorPos.y))
-		m_ptCursorPos.x = GetLineLength(m_ptCursorPos.y);
-	m_nIdealCharPos = CalculateActualOffset(m_ptCursorPos.y, m_ptCursorPos.x);
-	EnsureVisible(m_ptCursorPos); //todo: no vertical scroll
-	UpdateCaret();
-	//if (!bSelect)
-	m_ptAnchor = m_ptCursorPos;
-	SetSelection(m_ptAnchor, m_ptCursorPos);
+   m_ptCursorPos.y -= GetScreenLines() - 1;
+   if (m_ptCursorPos.y < 0)
+      m_ptCursorPos.y = 0;
+   if (m_ptCursorPos.x > GetLineLength(m_ptCursorPos.y))
+      m_ptCursorPos.x = GetLineLength(m_ptCursorPos.y);
+   m_nIdealCharPos = CalculateActualOffset(m_ptCursorPos.y, m_ptCursorPos.x);
+   EnsureVisible(m_ptCursorPos); //todo: no vertical scroll
+   UpdateCaret();
+   //if (!bSelect)
+   m_ptAnchor = m_ptCursorPos;
+   SetSelection(m_ptAnchor, m_ptCursorPos);
 }
 
 void ZCrystalEditView::PageDown()
 {
-	int nNewTopLine = m_nTopLine + GetScreenLines() - 1;
-	if (nNewTopLine >= GetLineCount())
-		nNewTopLine = GetLineCount() - 1;
-	if (m_nTopLine != nNewTopLine)
-	{
-		ScrollToLine(nNewTopLine);
-		UpdateSiblingScrollPos(TRUE);
-	}
+   int nNewTopLine = m_nTopLine + GetScreenLines() - 1;
+   if (nNewTopLine >= GetLineCount())
+      nNewTopLine = GetLineCount() - 1;
+   if (m_nTopLine != nNewTopLine)
+   {
+      ScrollToLine(nNewTopLine);
+      UpdateSiblingScrollPos(TRUE);
+   }
 
-	m_ptCursorPos.y += GetScreenLines() - 1;
-	if (m_ptCursorPos.y >= GetLineCount())
-		m_ptCursorPos.y = GetLineCount() - 1;
-	if (m_ptCursorPos.x > GetLineLength(m_ptCursorPos.y))
-		m_ptCursorPos.x = GetLineLength(m_ptCursorPos.y);
-	m_nIdealCharPos = CalculateActualOffset(m_ptCursorPos.y, m_ptCursorPos.x);
-	EnsureVisible(m_ptCursorPos); //todo: no vertical scroll
-	UpdateCaret();
-	//if (!bSelect)
-	m_ptAnchor = m_ptCursorPos;
-	SetSelection(m_ptAnchor, m_ptCursorPos);
+   m_ptCursorPos.y += GetScreenLines() - 1;
+   if (m_ptCursorPos.y >= GetLineCount())
+      m_ptCursorPos.y = GetLineCount() - 1;
+   if (m_ptCursorPos.x > GetLineLength(m_ptCursorPos.y))
+      m_ptCursorPos.x = GetLineLength(m_ptCursorPos.y);
+   m_nIdealCharPos = CalculateActualOffset(m_ptCursorPos.y, m_ptCursorPos.x);
+   EnsureVisible(m_ptCursorPos); //todo: no vertical scroll
+   UpdateCaret();
+   //if (!bSelect)
+   m_ptAnchor = m_ptCursorPos;
+   SetSelection(m_ptAnchor, m_ptCursorPos);
 }
 
 int ZCrystalEditView::EditFind()
@@ -8272,6 +8282,46 @@ EDT_CutText( zVIEW vSubtask )
 }
 
 zOPER_EXPORT zBOOL OPERATION
+EDT_TabText( zVIEW vSubtask )
+{
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+
+   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
+   {
+      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
+      if ( pED_Crystal )
+      {
+         pED_Crystal->Tab();
+         return( TRUE );
+      }
+
+      TraceLineS( "drvr - Invalid control type for EDT_TabText ", EDIT_CONTROL_NAME );
+   }
+   return( FALSE );
+}
+
+zOPER_EXPORT zBOOL OPERATION
+EDT_UntabText( zVIEW vSubtask )
+{
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
+
+   if ( GetWindowAndCtrl( &pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME ) == 0 )
+   {
+      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST( ZCrystalEditView, pzma->m_pCtrl );
+      if ( pED_Crystal )
+      {
+         pED_Crystal->Untab();
+         return( TRUE );
+      }
+
+      TraceLineS( "drvr - Invalid control type for EDT_UntabText ", EDIT_CONTROL_NAME );
+   }
+   return( FALSE );
+}
+
+zOPER_EXPORT zBOOL OPERATION
 EDT_DeleteText( zVIEW vSubtask )
 {
    ZSubtask *pZSubtask;
@@ -8369,15 +8419,15 @@ EDT_FindTextPosition( zVIEW vSubtask, zCPCHAR cpcFind, zPLONG plLine, zPLONG plC
             nRC = pED_Crystal->IsInComment(ptReturn.y, ptReturn.x);
             if (nRC == 0)  // not in comment
             {
-			   // KJS 11/11/16 - Right now it seems that we come here when we are inserting view.entity.attributes. This is not when we do a 
-			   // Find. Because of this I do not think we need to highlight the found text "OPERATION" (causes issues on cursor position).
+            // KJS 11/11/16 - Right now it seems that we come here when we are inserting view.entity.attributes. This is not when we do a
+            // Find. Because of this I do not think we need to highlight the found text "OPERATION" (causes issues on cursor position).
                //pED_Crystal->HighlightText(ptReturn, nLth);
                *plLine = ptReturn.y;
                *plCol = ptReturn.x;
                pED_Crystal->m_ptCursorPos.y = ptReturn.y;
                pED_Crystal->m_ptCursorPos.x = ptReturn.x + nLth;
-			   // KJS 11/15/16 - Since this is not where we come when we hit Ctrl+F, then I don't think we should set the LastSearchFlags because then when 
-			   // someone does hit Ctrl+F, then the case/whole word checkboxes are checked.
+            // KJS 11/15/16 - Since this is not where we come when we hit Ctrl+F, then I don't think we should set the LastSearchFlags because then when
+            // someone does hit Ctrl+F, then the case/whole word checkboxes are checked.
                //pED_Crystal->m_bLastSearch = TRUE;
                //pED_Crystal->m_dwLastSearchFlags = FIND_MATCH_CASE | FIND_WHOLE_WORD;
                //pED_Crystal->m_bMultipleSearch = TRUE;
@@ -8386,9 +8436,9 @@ EDT_FindTextPosition( zVIEW vSubtask, zCPCHAR cpcFind, zPLONG plLine, zPLONG plC
             }
             if ( nRC == -1 ) // in comment to end-of-line
             {
-		   	   if (pt.y >= ptReturn.y + 1)
-				      pt.y++;
-				   else
+               if (pt.y >= ptReturn.y + 1)
+                  pt.y++;
+               else
                   pt.y = ptReturn.y + 1;
 
                pt.x = 0;
@@ -8401,8 +8451,8 @@ EDT_FindTextPosition( zVIEW vSubtask, zCPCHAR cpcFind, zPLONG plLine, zPLONG plC
                   pt.y = ptReturn.y + 1;
                   pt.x = 0;
                }
-			   else
-				   pt.y = ptReturn.y;
+            else
+               pt.y = ptReturn.y;
             }
          }
 
@@ -8660,22 +8710,20 @@ EDT_GetTextFromLineOfIndex( zVIEW vSubtask, zPCHAR pchBuffer, zLONG lMaxLth, zLO
       if ( pED_Crystal )
       {
       // return pED_Crystal->EDT_GetTextFromLineOfIndex();    not yet implemented
-		  int x;
-		  int y;
-		  int nEndPos;
-		  CPoint ptStart;
-		  CPoint ptEnd;
-		  CPoint ptCursorPos = pED_Crystal->GetCursorPos();
-		  ptStart = ptCursorPos;
-		  ptEnd = ptCursorPos;
-		  nEndPos = pED_Crystal->GetLineLength(ptCursorPos.y);
-		  CString csText;
-		  ptStart.x = 0;
-		  ptEnd.x = nEndPos;
-		  pED_Crystal->GetText(ptStart, ptEnd, csText);
-		  strcpy_s(pchBuffer, lMaxLth, csText);
+        int nEndPos;
+        CPoint ptStart;
+        CPoint ptEnd;
+        CPoint ptCursorPos = pED_Crystal->GetCursorPos();
+        ptStart = ptCursorPos;
+        ptEnd = ptCursorPos;
+        nEndPos = pED_Crystal->GetLineLength(ptCursorPos.y);
+        CString csText;
+        ptStart.x = 0;
+        ptEnd.x = nEndPos;
+        pED_Crystal->GetText(ptStart, ptEnd, csText);
+        strcpy_s(pchBuffer, lMaxLth, csText);
 
-		  return( nEndPos );
+        return( nEndPos );
       }
 
       TraceLineS( "drvr - Invalid control type for EDT_GetTextFromLineOfIndex ", EDIT_CONTROL_NAME );
@@ -9231,9 +9279,9 @@ EDT_SetCursorPositionByLineCol( zVIEW vSubtask, zLONG lLine, zLONG lCol )
       {
          CPoint pt( lCol, lLine );
          pED_Crystal->SetCursorPos( pt );
-		 pED_Crystal->m_ptCursorPos.y = pt.y;
-		 pED_Crystal->m_ptCursorPos.x = pt.x;
-		 pED_Crystal->EnsureVisible( pt );
+       pED_Crystal->m_ptCursorPos.y = pt.y;
+       pED_Crystal->m_ptCursorPos.x = pt.x;
+       pED_Crystal->EnsureVisible( pt );
          return( TRUE );
       }
 
@@ -9649,42 +9697,42 @@ EDT_SearchSelectedText( zVIEW vSubtask )
 zOPER_EXPORT zBOOL OPERATION
 EDT_PageUp(zVIEW vSubtask)
 {
-	ZSubtask *pZSubtask;
-	ZMapAct  *pzma;
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
 
-	if (GetWindowAndCtrl(&pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME) == 0)
-	{
-		ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST(ZCrystalEditView, pzma->m_pCtrl);
-		if (pED_Crystal)
-		{
-			pED_Crystal->PageUp();
-			
-			return(TRUE);
-		}
+   if (GetWindowAndCtrl(&pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME) == 0)
+   {
+      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST(ZCrystalEditView, pzma->m_pCtrl);
+      if (pED_Crystal)
+      {
+         pED_Crystal->PageUp();
 
-		TraceLineS("drvr - Invalid control type for EDT_PageDown ", EDIT_CONTROL_NAME);
-	}
-	return(FALSE);
+         return(TRUE);
+      }
+
+      TraceLineS("drvr - Invalid control type for EDT_PageDown ", EDIT_CONTROL_NAME);
+   }
+   return(FALSE);
 }
 
 zOPER_EXPORT zBOOL OPERATION
 EDT_PageDown(zVIEW vSubtask)
 {
-	ZSubtask *pZSubtask;
-	ZMapAct  *pzma;
+   ZSubtask *pZSubtask;
+   ZMapAct  *pzma;
 
-	if (GetWindowAndCtrl(&pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME) == 0)
-	{
-		ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST(ZCrystalEditView, pzma->m_pCtrl);
-		if (pED_Crystal)
-		{
-			pED_Crystal->PageDown();
-			return(TRUE);
-		}
+   if (GetWindowAndCtrl(&pZSubtask, &pzma, vSubtask, EDIT_CONTROL_NAME) == 0)
+   {
+      ZCrystalEditView *pED_Crystal = DYNAMIC_DOWNCAST(ZCrystalEditView, pzma->m_pCtrl);
+      if (pED_Crystal)
+      {
+         pED_Crystal->PageDown();
+         return(TRUE);
+      }
 
-		TraceLineS("drvr - Invalid control type for EDT_PageDown ", EDIT_CONTROL_NAME);
-	}
-	return(FALSE);
+      TraceLineS("drvr - Invalid control type for EDT_PageDown ", EDIT_CONTROL_NAME);
+   }
+   return(FALSE);
 }
 
 } // end: extern "C"

@@ -181,7 +181,7 @@ long lMoveBaseLine, lMoveBaseColumn;
 //zBOOL   g_bIsFileNew = FALSE; // to handle "File New" menu command
 FINDREPLACE g_fr;
 CString g_csFindWhat = "";
-CString g_strFindWhat = "";
+//CString g_strFindWhat = "";
 zBOOL   g_bMatchCase = FALSE;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -6254,6 +6254,32 @@ TZEDFRMD_EditPaste( zVIEW vSubtask )
    return( 0 );
 
 }// TZEDFRMD_EditPaste
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: TZEDFRMD_EditTab
+//
+zOPER_EXPORT zSHORT OPERATION
+TZEDFRMD_EditTab( zVIEW vSubtask )
+{
+   EDT_TabText( vSubtask );
+
+   return( 0 );
+
+}// TZEDFRMD_EditTab
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: TZEDFRMD_EditUntab
+//
+zOPER_EXPORT zSHORT OPERATION
+TZEDFRMD_EditUntab( zVIEW vSubtask )
+{
+   EDT_UntabText( vSubtask );
+
+   return( 0 );
+
+}// TZEDFRMD_EditUntab
 
 /////////////////////////////////////////////////////////////////////////////
 //
