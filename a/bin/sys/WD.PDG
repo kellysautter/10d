@@ -1,7 +1,7 @@
-z1000-Zeidon    WD       TZDGSRCO 06/07/17   21:42:15 1.0a2    
+z1000-Zeidon    WD       TZDGSRCO                         10/18/17   18:09:45 1.0a2   
 eDomainGroup 1
 aZKey      1320467
-aNextZKeyToAssign 130069836
+aNextZKeyToAssign 130069845
 aName      WD
 aDesc      Web jsp generation control types 
 aExtension C
@@ -33,6 +33,61 @@ eTableEntry 4
 aZKey      1320471
 aExternalValue Yes
 aInternalValue Y
+
+eDomain    2
+aZKey      130069842
+aName      WD_WebTabControlProperties
+aDesc      Web control type for Tab control
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      130069843
+aName      WD_WebTabControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      130069844
+aExternalValue No Height
+aInternalValue No Height
+
+eTableEntry 4
+aZKey      130069845
+aExternalValue No Width
+aInternalValue No Width
+
+eDomain    2
+aZKey      130069837
+aName      WD_WebBitmapControlProperties
+aDesc      Web control type for Bitmap control
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      130069838
+aName      WD_WebBitmapControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      130069839
+aExternalValue No Height
+aInternalValue No Height
+
+eTableEntry 4
+aZKey      130069840
+aExternalValue No Width
+aInternalValue No Width
+
+eTableEntry 4
+aZKey      130069841
+aExternalValue <object>
+aInternalValue <object>
 
 eDomain    2
 aZKey      110002502
@@ -2040,6 +2095,6 @@ aType      13
 aLastUpdateDate 19950908094926000
 aLastCheckInDate 19951102203051110
 
-i214       211
-i217       211
-i375       211
+i223       220
+i226       220
+i384       220

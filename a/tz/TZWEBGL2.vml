@@ -331,6 +331,22 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          szHTML5Attr = " " + vDialog.Control.WebHTML5Attribute + " "
       END
 
+      // There are times when the user wants to paint a div or other control that has no height so it will grow with the
+      // data within it.  This flags the div will have no height.
+      szNoHeightFlag = ""
+      SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Height"
+      IF RESULT >= zCURSOR_SET
+         szNoHeightFlag = "Y"
+      END
+
+      // There are times when the user wants to paint a div or other control that has no width so it will grow with the
+      // data within it.  This flags the div will have no width.
+      szNoWidthFlag = ""
+      SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Width"
+      IF RESULT >= zCURSOR_SET
+         szNoWidthFlag = "Y"
+      END
+
       IF szControlType = "GroupBox"
 
          // Do I need to check if this is a groupbox and we are not using absolute positioning, then I want to
@@ -541,21 +557,21 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                szAbsoluteStyle = "  style=^float:left;position:relative; width:" + szWidth + "px; height:" + szHeight + "px;^"
             END                      
          ELSE 
-         IF szControlType = "GroupBox" AND szNoHeightFlag = "Y" AND szNoWidthFlag = "Y"
-            szAbsoluteStyle = ""
-         ELSE
-         IF szControlType = "GroupBox" AND szNoHeightFlag = "Y"
-            // We might not want the groupbox to have a height (so it grows)
-            szAbsoluteStyle = "style=^width:" + szWidth + "px;^"
-         ELSE
-         IF szControlType = "GroupBox" AND szNoWidthFlag = "Y"
+         //IF szControlType = "GroupBox" AND szNoHeightFlag = "Y" AND szNoWidthFlag = "Y"
+         //   szAbsoluteStyle = ""
+         //ELSE
+         //IF szControlType = "GroupBox" AND szNoHeightFlag = "Y"
+         //   // We might not want the groupbox to have a height (so it grows)
+         //   szAbsoluteStyle = "style=^width:" + szWidth + "px;^"
+         //ELSE
+         //IF szControlType = "GroupBox" AND szNoWidthFlag = "Y"
             // We might not want the groupbox to have a width (so it grows)
-            szAbsoluteStyle = "style=^height:" + szHeight + "px;^"
-         ELSE
+         //   szAbsoluteStyle = "style=^height:" + szHeight + "px;^"
+         //ELSE
             CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" )
-         END
-         END
-         END
+         //END
+         //END
+         //END
          END
       ELSE
       IF  szNoPositioning = "S" // We are not creating any style information.
@@ -2245,8 +2261,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                szClass = "tab-pane"
             END
 
-            // If we are using relative positioning, don't give the tab a height.
-            IF  szNoPositioning = "Y"
+            // If we are using relative positioning, don't give the tab a height. But also make sure we don't have "No Width" chosen.
+            IF  szNoPositioning = "Y" AND szNoWidthFlag = ""
                // We might not want the groupbox to have a height (so it grows)
                zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
                szAbsoluteStyle = "style=^width:" + szWidth + "px;^"
@@ -2268,10 +2284,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             zIntegerToString( szHeight, 10, vDialog.Control.SZDLG_Y * dDLUnits )
 
             // If we are using relative positioning, don't give each tab page a height.
-            IF  szNoPositioning = "Y"
+            IF szNoPositioning = "Y" OR szNoPositioning = "S"
                szStyle = ""
             ELSE
-               szStyle = "style=^height:" + szHeight + "px;^"
+               //szStyle = "style=^height:" + szHeight + "px;^"
+               szStyle = szAbsoluteStyle
             END
 
             // Set to the ctrl subobject to loop thru the tabs on the tab control
@@ -4515,12 +4532,6 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
       SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "XSS Encode"
       IF RESULT >= zCURSOR_SET
          szXSSEncode = "Y"
-      END
-
-      szSurveyGroupFlag = ""
-      SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Survey Group"
-      IF RESULT >= zCURSOR_SET
-         szSurveyGroupFlag = "Y"
       END
 
       lSubtype = vDialog.Control.Subtype

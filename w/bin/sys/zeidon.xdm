@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZDMXGPO                         07/14/17   11:06:46 1.0a2   
+z1000-Zeidon    ZEIDON   TZDMXGPO                         10/18/17   18:09:45 1.0a2   
 eDomainGroup 1
 aName      Zeidon9B
 
@@ -6526,6 +6526,36 @@ aInternalValue Right Offset
 
 eDomain    2
 aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      130069837
+aName      WD_WebBitmapControlProperties
+aDesc      Web control type for Bitmap control
+aDomainType T
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      130069838
+aName      WD_WebBitmapControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      130069839
+aExternalValue No Height
+aInternalValue No Height
+
+eTableEntry 4
+aZKey      130069840
+aExternalValue No Width
+aInternalValue No Width
+
+eTableEntry 4
+aZKey      130069841
+aExternalValue <object>
+aInternalValue <object>
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1141800
 aName      WD_WebCtrlType
 aDesc      Used for JSP Generation
@@ -6996,6 +7026,31 @@ eTableEntry 4
 aZKey      4899549
 aExternalValue Post Operation
 aInternalValue Post Operation
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      130069842
+aName      WD_WebTabControlProperties
+aDesc      Web control type for Tab control
+aDomainType T
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      130069843
+aName      WD_WebTabControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      130069844
+aExternalValue No Height
+aInternalValue No Height
+
+eTableEntry 4
+aZKey      130069845
+aExternalValue No Width
+aInternalValue No Width
 
 eDomain    2
 aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain

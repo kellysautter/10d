@@ -1,9 +1,9 @@
-z1000-Zeidon    TZEDFRMD TZWDLGSO                         10/13/17   13:13:27 1.0a2   
+z1000-Zeidon    TZEDFRMD TZWDLGSO                         10/18/17   13:33:25 1.0a2   
 eDialog    1
 aTag       TZEDFRMD
 aDLL_Name  TZEDFRMD
 aZKey      90004018
-aNextZKeyToAssign 190007613
+aNextZKeyToAssign 190007615
 aDesc      Dialog Frame for Editor
 
 eDfltWnd   2
@@ -1874,15 +1874,15 @@ aZKey      190007538
 aSB_ActionDisabling 0
 
 eActOpt    4
-aTag       ParseGen
-aText      Parse/Generate Java
-aZKey      190007543
-
-eActOpt    4
 aTag       ParseGenJava
 aText      Parse/Generate Java
 aSeparator Y
 aZKey      190007576
+
+eActOpt    4
+aTag       ParseGen
+aText      Parse/Generate Java
+aZKey      190007615
 
 eActOper   4
 aName      ParseGenerateJava
@@ -9363,12 +9363,12 @@ i643       514
 i644       513
 i645       510
 i646       529
-i648       420
-i649       419
-i650       415
-i651       412
-i652       300
-i653       297
+i648       415
+i649       412
+i650       300
+i651       297
+i652       421
+i653       419
 i654       97
 i655       94
 i657       54
@@ -9395,7 +9395,7 @@ i678       258
 i679       254
 i680       341
 i681       337
-i682       421
+i682       420
 i683       419
 i684       323
 i685       319

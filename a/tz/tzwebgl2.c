@@ -1598,6 +1598,36 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
 
       //:END
 
+      //:// There are times when the user wants to paint a div or other control that has no height so it will grow with the
+      //:// data within it.  This flags the div will have no height.
+      //:szNoHeightFlag = ""
+      ZeidonStringCopy( szNoHeightFlag, 1, 0, "", 1, 0, 2 );
+      //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Height"
+      RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "No Height", "" );
+      //:IF RESULT >= zCURSOR_SET
+      if ( RESULT >= zCURSOR_SET )
+      { 
+         //:szNoHeightFlag = "Y"
+         ZeidonStringCopy( szNoHeightFlag, 1, 0, "Y", 1, 0, 2 );
+      } 
+
+      //:END
+
+      //:// There are times when the user wants to paint a div or other control that has no width so it will grow with the
+      //:// data within it.  This flags the div will have no width.
+      //:szNoWidthFlag = ""
+      ZeidonStringCopy( szNoWidthFlag, 1, 0, "", 1, 0, 2 );
+      //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Width"
+      RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "No Width", "" );
+      //:IF RESULT >= zCURSOR_SET
+      if ( RESULT >= zCURSOR_SET )
+      { 
+         //:szNoWidthFlag = "Y"
+         ZeidonStringCopy( szNoWidthFlag, 1, 0, "Y", 1, 0, 2 );
+      } 
+
+      //:END
+
       //:IF szControlType = "GroupBox"
       if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 )
       { 
@@ -2029,52 +2059,24 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
          } 
          else
          { 
-            //:IF szControlType = "GroupBox" AND szNoHeightFlag = "Y" AND szNoWidthFlag = "Y"
-            if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 && ZeidonStringCompare( szNoHeightFlag, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szNoWidthFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-            { 
-               //:szAbsoluteStyle = ""
-               ZeidonStringCopy( szAbsoluteStyle, 1, 0, "", 1, 0, 257 );
-               //:ELSE
-            } 
-            else
-            { 
-               //:IF szControlType = "GroupBox" AND szNoHeightFlag = "Y"
-               if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 && ZeidonStringCompare( szNoHeightFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-               { 
-                  //:// We might not want the groupbox to have a height (so it grows)
-                  //:szAbsoluteStyle = "style=^width:" + szWidth + "px;^"
-                  ZeidonStringCopy( szAbsoluteStyle, 1, 0, "style=^width:", 1, 0, 257 );
-                  ZeidonStringConcat( szAbsoluteStyle, 1, 0, szWidth, 1, 0, 257 );
-                  ZeidonStringConcat( szAbsoluteStyle, 1, 0, "px;^", 1, 0, 257 );
-                  //:ELSE
-               } 
-               else
-               { 
-                  //:IF szControlType = "GroupBox" AND szNoWidthFlag = "Y"
-                  if ( ZeidonStringCompare( szControlType, 1, 0, "GroupBox", 1, 0, 51 ) == 0 && ZeidonStringCompare( szNoWidthFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
-                  { 
-                     //:// We might not want the groupbox to have a width (so it grows)
-                     //:szAbsoluteStyle = "style=^height:" + szHeight + "px;^"
-                     ZeidonStringCopy( szAbsoluteStyle, 1, 0, "style=^height:", 1, 0, 257 );
-                     ZeidonStringConcat( szAbsoluteStyle, 1, 0, szHeight, 1, 0, 257 );
-                     ZeidonStringConcat( szAbsoluteStyle, 1, 0, "px;^", 1, 0, 257 );
-                     //:ELSE
-                  } 
-                  else
-                  { 
-                     //:CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" )
-                     CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" );
-                  } 
-
-                  //:END
-               } 
-
-               //:END
-            } 
-
-            //:END
+            //://IF szControlType = "GroupBox" AND szNoHeightFlag = "Y" AND szNoWidthFlag = "Y"
+            //://   szAbsoluteStyle = ""
+            //://ELSE
+            //://IF szControlType = "GroupBox" AND szNoHeightFlag = "Y"
+            //://   // We might not want the groupbox to have a height (so it grows)
+            //://   szAbsoluteStyle = "style=^width:" + szWidth + "px;^"
+            //://ELSE
+            //://IF szControlType = "GroupBox" AND szNoWidthFlag = "Y"
+            //:// We might not want the groupbox to have a width (so it grows)
+            //://   szAbsoluteStyle = "style=^height:" + szHeight + "px;^"
+            //://ELSE
+            //:CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" )
+            CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" );
          } 
 
+         //://END
+         //://END
+         //://END
          //:END
          //:ELSE
       } 
@@ -5852,9 +5854,9 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
 
             //:END
 
-            //:// If we are using relative positioning, don't give the tab a height.
-            //:IF  szNoPositioning = "Y"
-            if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
+            //:// If we are using relative positioning, don't give the tab a height. But also make sure we don't have "No Width" chosen.
+            //:IF  szNoPositioning = "Y" AND szNoWidthFlag = ""
+            if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szNoWidthFlag, 1, 0, "", 1, 0, 2 ) == 0 )
             { 
                //:// We might not want the groupbox to have a height (so it grows)
                //:zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
@@ -5912,8 +5914,8 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
             zIntegerToString( szHeight, 10, lTempInteger_20 * dDLUnits );
 
             //:// If we are using relative positioning, don't give each tab page a height.
-            //:IF  szNoPositioning = "Y"
-            if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
+            //:IF szNoPositioning = "Y" OR szNoPositioning = "S"
+            if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 || ZeidonStringCompare( szNoPositioning, 1, 0, "S", 1, 0, 2 ) == 0 )
             { 
                //:szStyle = ""
                ZeidonStringCopy( szStyle, 1, 0, "", 1, 0, 257 );
@@ -5921,10 +5923,9 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
             } 
             else
             { 
-               //:szStyle = "style=^height:" + szHeight + "px;^"
-               ZeidonStringCopy( szStyle, 1, 0, "style=^height:", 1, 0, 257 );
-               ZeidonStringConcat( szStyle, 1, 0, szHeight, 1, 0, 257 );
-               ZeidonStringConcat( szStyle, 1, 0, "px;^", 1, 0, 257 );
+               //://szStyle = "style=^height:" + szHeight + "px;^"
+               //:szStyle = szAbsoluteStyle
+               ZeidonStringCopy( szStyle, 1, 0, szAbsoluteStyle, 1, 0, 257 );
             } 
 
             //:END
@@ -11253,19 +11254,6 @@ GenJSPJ_InputMapRecurs( zVIEW     vDialog,
       { 
          //:szXSSEncode = "Y"
          ZeidonStringCopy( szXSSEncode, 1, 0, "Y", 1, 0, 2 );
-      } 
-
-      //:END
-
-      //:szSurveyGroupFlag = ""
-      ZeidonStringCopy( szSurveyGroupFlag, 1, 0, "", 1, 0, 2 );
-      //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Survey Group"
-      RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Survey Group", "" );
-      //:IF RESULT >= zCURSOR_SET
-      if ( RESULT >= zCURSOR_SET )
-      { 
-         //:szSurveyGroupFlag = "Y"
-         ZeidonStringCopy( szSurveyGroupFlag, 1, 0, "Y", 1, 0, 2 );
       } 
 
       //:END

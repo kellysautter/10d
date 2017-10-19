@@ -239,7 +239,7 @@ CREATE_NewLPLR( VIEW ViewToWindow )
    // If the request is to create a new entry for an existing, external LPLR, then update the existing LPLR.
    szLPLRName = TZCMLPLO.LPLR.Name
    zSearchAndReplace( szLPLRName, 513, " ", "_" )
-
+   
    // Get the max zkey in tzcmwkso? This is code from zwTZCMLPLD_PrebuildNewLPLR, not sure where that was called before...
    // And I'm not seeing that the LPLR.ZKey in xlp is the same as the LPLR.Zkey in tzcmwkso.por. Is this a problem?
    lHighZKey = 0
@@ -268,7 +268,7 @@ CREATE_NewLPLR( VIEW ViewToWindow )
          NAME VIEW KZAPPLOO "KZAPPLOO"
       END
    END
-
+   
    // KJS 09/12/17 - Thinking I still want to do this even if it's not new... because if I have a different directory to move to...??
    //IF TZCMLPLO.LPLR.LPLR_Type = "2"    // "2" is new empty
       // LPLR is new empty.
@@ -287,7 +287,6 @@ CREATE_NewLPLR( VIEW ViewToWindow )
       END
 
    //END
-
 
    // We have to create the subdirectory one directory at a time.
    szExeDir = TZCMLPLO.LPLR.wExecutableSubDirectory
@@ -310,10 +309,10 @@ CREATE_NewLPLR( VIEW ViewToWindow )
    // Set the executable directory. Create it if it doesn't exist and also copy the zeidon.hky if it doesn't exist.
    szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
    SysValidDirOrFile( szFileName, TRUE, TRUE, 512)
-   
+
    // If the user has changed the lplr name, then we will copy over the original lplr to the new directory.
    IF TZCMLPLO.LPLR.wOrigLPLRName != "" AND TZCMLPLO.LPLR.Name != TZCMLPLO.LPLR.wOrigLPLRName 
-   
+      
       // This was for testing purposes but at the moment, it looked like the
       // zSearchSubString is case sensitive and I don't want it to be.
       szFileName = TZCMLPLO.LPLR.JavaPackageName 
@@ -329,62 +328,54 @@ CREATE_NewLPLR( VIEW ViewToWindow )
       LOOP WHILE lHandle >= 0 AND nRC > 0
       
          //szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szMsg
+         // Don't copy the file if it begins with a period (like .git, .project etc)
          nRC = zSearchSubString( szMsg, ".", "f", 0 )
          IF nRC != 0 
          
-         // I think we care about DTE, PMD, LLP (don't copy)
-         szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".DTE"
-         nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
-         IF nRC >= 0
-            szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.Name + ".DTE"
-
-            szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg   
-            nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-            nRC = ActivateOI_FromFile ( TZTENVRO, "TZTENVRO", ViewToWindow, szFileName, 512 )
-            TZTENVRO.TE_DB_Environ.Name = TZCMLPLO.LPLR.Name
-            nRC = CommitOI_ToFile( TZTENVRO, szFileName, zASCII )
-         ELSE 
-         szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".PMD"
-         nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
-         IF nRC >= 0
-            szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.Name + ".PMD"
-            szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg   
-            nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-            nRC = ActivateOI_FromFile ( TZEREMDO, "TZEREMDO", ViewToWindow, szFileName, 512 ) 
-            TZEREMDO.EntpER_Model.Name = TZCMLPLO.LPLR.Name
-            //CommitMetaOI( ViewToWindow, TZEREMDO, zSOURCE_ERD_META )
-            nRC = CommitOI_ToFile( TZEREMDO, szFileName, zASCII )
-         ELSE 
-         szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".LLP"
-         nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
-         // Don't copy if this is the llp.
-         IF nRC < 0
-            szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szMsg
-            szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg
-            nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-         END
-         END
-         END
-
+            // I think we care about DTE, PMD, LLP (don't copy)
+            szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".DTE"
+            nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
+            IF nRC >= 0
+               szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.Name + ".DTE"
+   
+               szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg   
+               nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+               nRC = ActivateOI_FromFile ( TZTENVRO, "TZTENVRO", ViewToWindow, szFileName, 512 )
+               TZTENVRO.TE_DB_Environ.Name = TZCMLPLO.LPLR.Name
+               nRC = CommitOI_ToFile( TZTENVRO, szFileName, zASCII )
+            ELSE 
+            szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".PMD"
+            nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
+            IF nRC >= 0
+               szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.Name + ".PMD"
+               szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg   
+               nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+               nRC = ActivateOI_FromFile ( TZEREMDO, "TZEREMDO", ViewToWindow, szFileName, 512 ) 
+               TZEREMDO.EntpER_Model.Name = TZCMLPLO.LPLR.Name
+               //CommitMetaOI( ViewToWindow, TZEREMDO, zSOURCE_ERD_META )
+               nRC = CommitOI_ToFile( TZEREMDO, szFileName, zASCII )
+            ELSE 
+            szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".LLP"
+            nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
+            // Don't copy if this is the llp.
+            IF nRC < 0
+               szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szMsg
+               szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg
+               nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            END
+            END
+            END
+   
          END // Check if file name starts with "."
 
          nRC = FindFileNext( lHandle, szMsg )
-      END 
-
-      szFromFileName = TZCMLPLO.LPLR.wOrigExecSrc + "\*.*"
+      END       
 
       // Now Copy files from executable directory.
-      lHandle = FindFileStart( szFromFileName, szMsg )
-      nRC = 1
-      LOOP WHILE lHandle >= 0 AND nRC > 0
-
-         szFileName = TZCMLPLO.LPLR.ExecDir + "\" + szMsg
-         //szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg
-         szFromFileName = TZCMLPLO.LPLR.wOrigExecSrc + "\" + szMsg
-
-         nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-         nRC = FindFileNext( lHandle, szMsg )
-      END 
+      szFromFileName = TZCMLPLO.LPLR.wOrigExecSrc + "\"
+      szFileName = TZCMLPLO.LPLR.ExecDir + "\"
+      CopyContentsOfDirectory( ViewToWindow, szFromFileName, szFileName, "Y" )
+      TZCMLPLO.LPLR.wCopiedExecDir = "Y"
 
       // Copy files from the JavaProject... java directory if it exists.
       IF TZCMLPLO.LPLR.JavaPackageName != ""
@@ -419,68 +410,25 @@ CREATE_NewLPLR( VIEW ViewToWindow )
          END
          
          TZCMLPLO.LPLR.wOrigJavaPackage = szTmp
-         
          // Copy java files
-         szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\JavaProject\src\main\java\" + szTmp 
-         szTempDir = TZCMLPLO.LPLR.MetaSrcDir + "\JavaProject\src\main\java\" + szJavaPackageName
-         szJavaPackageName = szTempDir
-         szTempDir = szFromFileName + "\*.*"
-   
-         // Now Copy files from JavaProject... java directory.
-         lHandle = FindFileStart( szTempDir, szTmp )
-         nRC = 1
-         LOOP WHILE lHandle >= 0 AND nRC > 0
-   
-            szFileName = szJavaPackageName + "\" + szTmp
-            szTempDir = szFromFileName + "\" + szTmp
-   
-            nRC = SysCopyFile( ViewToWindow, szTempDir, szFileName, TRUE )
-            nRC = FindFileNext( lHandle, szTmp )
-         END 
+         szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\JavaProject\src\main\java\" + szTmp + "\"
+         TZCMLPLO.LPLR.wOrigJavaPackage = szFromFileName
          
-         // Look for a JavaProject...\domains directory. If one exists, then copy the files.
-         //szFromFileName = szFromFileName + TZCMLPLO.LPLR.wOrigJavaPackage + "\domains" 
-         //kkkkkk
-         szFromFileName = szFromFileName + "\domains" 
-         szTempDir = szJavaPackageName + "\domains"
+         szTempDir = TZCMLPLO.LPLR.MetaSrcDir + "\JavaProject\src\main\java\" + szJavaPackageName + "\"
          szJavaPackageName = szTempDir
-         szTempDir = szFromFileName + "\*.*"
-   
-         // Now Copy files JavaProject \domain.
-         lHandle = FindFileStart( szTempDir, szTmp )
-         IF lHandle >= 0 
-            // Create domains directory in imported lplr
-            SysValidDirOrFile( szJavaPackageName, TRUE, TRUE, 512)
-         END
-         nRC = 1
-         LOOP WHILE lHandle >= 0 AND nRC > 0
-   
-            szFileName = szJavaPackageName + "\" + szTmp
-            szTempDir = szFromFileName + "\" + szTmp
-   
-            nRC = SysCopyFile( ViewToWindow, szTempDir, szFileName, TRUE )
-            nRC = FindFileNext( lHandle, szTmp )
-         END 
-         
-         // Now copy pom.xml if it exists
-         szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\JavaProject" 
-         szTempDir = TZCMLPLO.LPLR.MetaSrcDir + "\JavaProject"
-         szJavaPackageName = szTempDir
-         szTempDir = szFromFileName + "\*.*"
-   
-         lHandle = FindFileStart( szTempDir, szTmp )
-         nRC = 1
-         LOOP WHILE lHandle >= 0 AND nRC > 0
-   
-            szFileName = szJavaPackageName + "\" + szTmp
-            szTempDir = szFromFileName + "\" + szTmp
-   
-            nRC = SysCopyFile( ViewToWindow, szTempDir, szFileName, TRUE )
-            nRC = FindFileNext( lHandle, szTmp )
-         END 
+         CopyContentsOfDirectory( ViewToWindow, szFromFileName, szJavaPackageName, "Y" )
+         TZCMLPLO.LPLR.wCopiedJavaDir = "Y"
+
       END // If JavaProjectName exists
+            
+      // Now copy any other directories that exist.
+
+      szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\"
+      szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\"
+      
+      CopyContentsOfDirectory( ViewToWindow, szFromFileName, szFileName, "N" )
     
-   END
+   END  // If the user has changed the lplr name
    
    // Set the executable directory. Create it if it doesn't exist and also copy the zeidon.hky if it doesn't exist.
    szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
@@ -617,6 +565,14 @@ CREATE_NewLPLR( VIEW ViewToWindow )
       NAME VIEW TZCMLPLONew "TZCMLPLO"
    END
    */
+   
+   TZCMLPLO.LPLR.wOrigLPLRName = ""
+   TZCMLPLO.LPLR.wOrigMetaSrc = ""
+   TZCMLPLO.LPLR.wOrigExecSrc = ""
+   TZCMLPLO.LPLR.wOrigJavaPackage = ""
+   TZCMLPLO.LPLR.wCopiedExecDir = ""
+   TZCMLPLO.LPLR.wCopiedJavaDir = ""
+   
    // Commit the XLP in the executable directory, and then commit the LLP in the base directory.
    CommitOI_ToFile( TZCMLPLO, szFileName, zSINGLE )
    szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szLPLRName + ".LLP"
@@ -867,6 +823,8 @@ IMPORT_LPLR( VIEW ViewToWindow )
    END
 
    TZCMLPLO.LPLR.wOrigExecSrc = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
+   TZCMLPLO.LPLR.wCopiedExecDir = ""
+   TZCMLPLO.LPLR.wCopiedJavaDir = ""
 
   //zstrncpy( szFileName, szXLPFileName, nRC, nLth )
 
@@ -915,5 +873,72 @@ CHANGE_ImportName( VIEW ViewToWindow )
    SetCtrlState( ViewToWindow, "edBaseDir", zCONTROL_STATUS_ENABLED, TRUE )
    SetCtrlState( ViewToWindow, "edExecDir", zCONTROL_STATUS_ENABLED, TRUE )
    SetCtrlState( ViewToWindow, "edJavaPackageName", zCONTROL_STATUS_ENABLED, TRUE )
+
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: CopyContentsOfDirectory
+**    
+*************************************************************************************************/
+LOCAL OPERATION
+CopyContentsOfDirectory( VIEW ViewToWindow, 
+                         STRING ( 1000 ) szFromDir,
+                         STRING ( 1000 ) szToDir, 
+                         STRING( 1 )     szCopyFiles )
+                         
+   VIEW TZCMLPLO    REGISTERED AS TZCMLPLO
+   STRING ( 1000 ) szFromDirSub                          
+   STRING ( 1000 ) szToDirSub                          
+   STRING ( 1000 ) szFromFileName                          
+   STRING ( 1000 ) szToFileName                          
+   STRING ( 100 ) szTmp 
+   STRING ( 1 ) szAlreadyCopied                         
+   SHORT nRC
+   INTEGER lHandle
+   
+   szAlreadyCopied = ""
+
+   szFromDirSub = TZCMLPLO.LPLR.wOrigExecSrc + "\"
+   IF szFromDir = szFromDirSub AND TZCMLPLO.LPLR.wCopiedExecDir = "Y"
+      szAlreadyCopied = "Y"
+      TraceLineS("executabledirectory", "yyy")
+   END
+   szFromDirSub = TZCMLPLO.LPLR.wOrigJavaPackage
+   IF szFromDir = szFromDirSub AND TZCMLPLO.LPLR.wCopiedJavaDir = "Y"
+      szAlreadyCopied = "Y"
+      TraceLineS("javadirectoryname", "yyy")
+   END
+   
+   IF szAlreadyCopied = "" 
+   
+   SysValidDirOrFile( szToDir, TRUE, TRUE, 512)
+
+   // Recursive function to copy directories and files from one lplr to another.
+   szFromFileName = szFromDir + "*.*"
+   lHandle = FindFileStart( szFromFileName, szTmp )
+   nRC = 1
+   LOOP WHILE lHandle >= 0 AND nRC > 0
+
+      // Don't copy the file if it begins with a period (like .git, .project etc)
+      nRC = zSearchSubString( szTmp, ".", "f", 0 )
+      // If there is no period in the name, then we will assume this is a directory.
+      IF nRC < 0 
+         // We want to create the directory, and copy files from the directory
+        szFromDirSub = szFromDir + szTmp + "\"
+        szToDirSub = szToDir + szTmp + "\"
+        //SysValidDirOrFile( szToDirSub, TRUE, TRUE, 512)
+        CopyContentsOfDirectory( ViewToWindow, szFromDirSub, szToDirSub, "Y" )
+      ELSE
+      IF nRC != 0 AND szCopyFiles = "Y"
+         szToFileName = szToDir + "\" + szTmp
+         szFromFileName = szFromDir + "\" + szTmp
+         nRC = SysCopyFile( ViewToWindow, szFromFileName, szToFileName, TRUE )
+      END
+      END
+      nRC = FindFileNext( lHandle, szTmp )
+   END 
+   END
 
 END

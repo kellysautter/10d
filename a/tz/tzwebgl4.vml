@@ -2763,7 +2763,7 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    CreateDisabledString( vDialog, szDisabled )
    szWriteBuffer = "<input" + szClass + " name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ " + szDisabled +
-                   szAutoCompleteOff + szTitleHTML + szPlaceholder + szStyle + szType + szValue + szEditActionCode + " >"
+                   szAutoCompleteOff + szTitleHTML + szHTML5Attr + szPlaceholder + szStyle + szType + szValue + szEditActionCode + " >"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
 END
@@ -3238,6 +3238,7 @@ GenJSPJ_CrteJPG( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szTitleHTML
    STRING ( 256 ) szText
    STRING ( 32 )  szActionName
+   STRING ( 1 )   szObjectFlag
    INTEGER        nRC
 
    CreateTabIndexString( vDialog, szTabIndex )
@@ -3259,10 +3260,12 @@ GenJSPJ_CrteJPG( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    szActionName = ""
    IF vDialog.EventAct EXISTS
-      szActionName = vDialog.EventAct.Tag
+      szActionName = " onclick=^"
+      szActionName = szActionName + vDialog.EventAct.Tag
+      szActionName = szActionName + "( )^ "
       nRC = zstrcmpi( szActionName, "alt-f4" )
       IF nRC = 0
-         szActionName = "AltF4"
+         szActionName = " onclick=^AltF4( )^ "
       END
    END
 
@@ -3280,6 +3283,12 @@ GenJSPJ_CrteJPG( VIEW vDialog BASED ON LOD TZWDLGSO,
    szText = ""
    IF  vDialog.Control.Text != ""
       szText = " alt=^" + vDialog.Control.Text + "^ "
+   END
+
+   szObjectFlag = ""
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "<object>"
+   IF RESULT >= zCURSOR_SET
+      szObjectFlag = "Y"
    END
 
    //There might be mapping for this control which means we should get the
@@ -3329,24 +3338,24 @@ GenJSPJ_CrteJPG( VIEW vDialog BASED ON LOD TZWDLGSO,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-      IF  szActionName = ""
-         szWriteBuffer = "<img src=^<%=strErrorMapValue%>^ " + szStyle + szTitleHTML + szClass + szText + ">"
+      IF szObjectFlag = ""
+         szWriteBuffer = "<img src=^<%=strErrorMapValue%>^ " + szActionName + szStyle + szTitleHTML + szClass + szText + ">"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       ELSE
-         szWriteBuffer = "<img src=^<%=strErrorMapValue%>^ onclick=^" + szActionName + "( )^ " + szStyle + szTitleHTML + szClass + szText + ">"
+         szWriteBuffer = "<object data=^<%=strErrorMapValue%>^ " + szActionName + szStyle + szTitleHTML + szClass + szText + "></object>"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       END
    ELSE
       //Not getting image from mapping, a file name has been specified.
       IF vDialog.Control.WebFileName != ""
-         IF szActionName = ""
+         IF szObjectFlag = ""
          // szWriteBuffer = "<a href=^#^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ ><img src=^" +
          //    vDialog.Control.WebFileName + "^ " + szStyle + szTitleHTML + "></a>"
             szWriteBuffer = "<img src=^" + vDialog.Control.WebFileName + "^  name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " +
                               szStyle + szTitleHTML + szClass + szText + ">"
          ELSE
-            szWriteBuffer = "<img src=^" + vDialog.Control.WebFileName + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ onclick=^" +
-                            szActionName + "( )^ " + szStyle + szTitleHTML + szClass + szText + ">"
+            szWriteBuffer = "<object data=^" + vDialog.Control.WebFileName + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " +
+                            szActionName + szStyle + szTitleHTML + szClass + szText + "></object>"
          // szWriteBuffer = "<a href=^#^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ ^onclick=^" +
          //                 szActionName + "( )^><img src=^" + vDialog.Control.WebFileName + "^ " + szStyle + szTitleHTML + "></a>"
          END

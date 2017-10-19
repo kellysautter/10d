@@ -9062,6 +9062,10 @@ oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               sSourceFile = sSourceFile.replaceAll(^\\^^,^^);", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   //:szWriteBuffer = "               sSourceFile = sSourceFile.replaceAll(^#^,^^);"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "               sSourceFile = sSourceFile.replaceAll(^#^,^^);", 1, 0, 10001 );
+   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "               l = sSourceFile.lastIndexOf(^.^);"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               l = sSourceFile.lastIndexOf(^.^);", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
