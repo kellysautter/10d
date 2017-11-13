@@ -451,6 +451,8 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               sSourceFile = sSourceFile.replaceAll(^#^,^^);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "               sSourceFile = sSourceFile.replaceAll(^ ^,^^);"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               l = sSourceFile.lastIndexOf(^.^);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
@@ -1058,7 +1060,9 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    IF nRC >= zCURSOR_SET
       szIOImport = ",java.io.*"
    END
-
+   
+   DropView( vDialogTemp )
+   CreateViewFromView( vDialogTemp, vDialog )
    FOR EACH vDialogTemp.Action
       // If there is an action to download a file, we need to include "java.oi.*" in the import statement.
       lActionType = vDialogTemp.Action.Type
@@ -3252,9 +3256,15 @@ DKS_TRACE_END */
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      var parts = scrollPosition.split( '#' );"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   // KJS 11/09/17 - For some reason body.scroll... is not working, so I am changing to window.scrollBy which says
+   // it's valid across platforms.
+   /*
    szWriteBuffer = "      document.body.scrollTop = parseInt( parts[parts.length - 2] );"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      document.body.scrollLeft = parseInt( parts[parts.length - 1] );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   */
+   szWriteBuffer = "      window.scrollTo(parseInt( parts[parts.length - 1] ), parseInt( parts[parts.length - 2] ) );"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    //szWriteBuffer = "      sessionStorage.removeItem(storageName);" //ZENCAS.wClassDClassListByTerm.position
    //WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
@@ -3547,8 +3557,19 @@ DKS_TRACE_END */
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                szWriteBuffer = "         var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^" //ZENCAS.wClassDClassListByTerm.position
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+               // KJS 11/09/17 - For some reason body.scroll... seems to not be working. Changing to something that should
+               // be compatible crossplatform.
+               /*
                szWriteBuffer = "         var scrollPosition = document.body.scrollTop + '#' + document.body.scrollLeft;"
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+               */
+               szWriteBuffer = "         var sy= window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;"
+               WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         var sx= window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;"
+               WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         var scrollPosition = sy + '#' + sx;"
+               WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+
                szWriteBuffer = "         sessionStorage.setItem( storageName, scrollPosition );"
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      }"
@@ -3621,9 +3642,19 @@ DKS_TRACE_END */
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "         var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^" //ZENCAS.wClassDClassListByTerm.position
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+                  // KJS 11/09/17 - For some reason body.scroll... seems to not be working. Changing to something that should
+                  // be compatible crossplatform.
+                  /*
                   szWriteBuffer = "         var scrollPosition = document.body.scrollTop + '#' + document.body.scrollLeft;"
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "         sessionStorage.setItem( storageName, scrollPosition );"
+                  */
+                  szWriteBuffer = "         var sy= window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;"
+                  WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "         var sx= window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;"
+                  WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+                  szWriteBuffer = "         var scrollPosition = sy + '#' + sx;"
+                  WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+                 szWriteBuffer = "         sessionStorage.setItem( storageName, scrollPosition );"
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "      }"
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )                

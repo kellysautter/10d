@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZDMXGPO                         10/18/17   18:09:45 1.0a2   
+z1000-Zeidon    ZEIDON   TZDMXGPO                         11/09/17   11:21:29 1.0a2   
 eDomainGroup 1
 aName      Zeidon9B
 
@@ -6783,6 +6783,11 @@ eTableEntry 4
 aZKey      130069834
 aExternalValue Language Conv
 aInternalValue Language Conv
+
+eTableEntry 4
+aZKey      130069846
+aExternalValue Span
+aInternalValue Span
 
 eTableEntry 4
 aZKey      90249868

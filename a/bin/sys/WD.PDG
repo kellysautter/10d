@@ -1,7 +1,7 @@
-z1000-Zeidon    WD       TZDGSRCO                         10/18/17   18:09:45 1.0a2   
+z1000-Zeidon    WD       TZDGSRCO                         11/09/17   11:21:25 1.0a2   
 eDomainGroup 1
 aZKey      1320467
-aNextZKeyToAssign 130069845
+aNextZKeyToAssign 130069846
 aName      WD
 aDesc      Web jsp generation control types 
 aExtension C
@@ -695,6 +695,11 @@ eTableEntry 4
 aZKey      130069834
 aExternalValue Language Conv
 aInternalValue Language Conv
+
+eTableEntry 4
+aZKey      130069846
+aExternalValue Span
+aInternalValue Span
 
 eTableEntry 4
 aZKey      90249868
@@ -2095,6 +2100,6 @@ aType      13
 aLastUpdateDate 19950908094926000
 aLastCheckInDate 19951102203051110
 
-i223       220
-i226       220
-i384       220
+i224       221
+i227       221
+i385       221

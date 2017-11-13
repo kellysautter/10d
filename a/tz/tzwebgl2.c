@@ -26,6 +26,10 @@ GenJSPJ_OutputMapRecurs( zVIEW     vDialog,
                          zPCHAR    szRepeatGrpKey )
 {
    zVIEW     vDialogParent = 0; 
+   //:VIEW          vLPLR        BASED ON LOD TZCMLPLO
+   zVIEW     vLPLR = 0; 
+   //:STRING ( 32 ) szLPLR_Name
+   zCHAR     szLPLR_Name[ 33 ] = { 0 }; 
    //:STRING ( 50 ) szControlType
    zCHAR     szControlType[ 51 ] = { 0 }; 
    //:STRING ( 50 ) szCtrlTag
@@ -46,6 +50,8 @@ GenJSPJ_OutputMapRecurs( zVIEW     vDialog,
    zSHORT    nGridParent = 0; 
    //:INTEGER       lSubtype
    zLONG     lSubtype = 0; 
+   //:INTEGER       lActionType
+   zLONG     lActionType = 0; 
    //:SHORT         nRC
    zSHORT    nRC = 0; 
    zSHORT    RESULT; 
@@ -412,6 +418,67 @@ GenJSPJ_OutputMapRecurs( zVIEW     vDialog,
             //:// this form.  The only problem is if this combobox is an auto include or a "set foreign key" then we have
             //:// to submit to allow this to happen.  If the combobox is not one of those and the action type is
             //:// zWAB_StayOnWindow and there is javascript code, then do not want to do the submit.
+
+            //:lActionType = vDialog.EventAct.Type
+            GetIntegerFromAttribute( &lActionType, vDialog, "EventAct", "Type" );
+            //:IF lActionType = zWAB_StayOnWindow OR
+            //:   lActionType = zWAB_StayOnWindowWithRefresh OR
+            //:   lActionType = zWAB_StayOnWindowWebRefresh OR
+            //:   lActionType = zWAB_StartModelessSubwindow OR
+            //:   lActionType = zWAB_StartModalSubwindow
+            if ( lActionType == zWAB_StayOnWindow || lActionType == zWAB_StayOnWindowWithRefresh || lActionType == zWAB_StayOnWindowWebRefresh || lActionType == zWAB_StartModelessSubwindow || lActionType == zWAB_StartModalSubwindow )
+            { 
+
+               //:szWriteBuffer = "      if ( typeof(Storage) !== ^undefined^ )"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "      if ( typeof(Storage) !== ^undefined^ )", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "      {"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "      {", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "         // Code for sessionStorage."
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         // Code for sessionStorage.", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "         var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^" //ZENCAS.wClassDClassListByTerm.position
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         var storageName = ^", 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szLPLR_Name, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, ".", 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, ".position^", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:// KJS 11/09/17 - For some reason body.scroll... seems to not be working. Changing to something that should
+               //:// be compatible crossplatform.
+               //:/*
+               //:szWriteBuffer = "         var scrollPosition = document.body.scrollTop + '#' + document.body.scrollLeft;"
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //:*/
+               //:szWriteBuffer = "         var sy= window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         var sy= window.pageYOffset | document.documentElement.scrollTop | document.body.scrollTop | 0;", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "         var sx= window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         var sx= window.pageXOffset | document.documentElement.scrollLeft | document.body.scrollLeft | 0;", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "         var scrollPosition = sy + '#' + sx;"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         var scrollPosition = sy + '#' + sx;", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+
+               //:szWriteBuffer = "         sessionStorage.setItem( storageName, scrollPosition );"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "         sessionStorage.setItem( storageName, scrollPosition );", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "      }"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+            } 
+
+            //:END
 
             //:szCodeCreated = "N"
             ZeidonStringCopy( szCodeCreated, 1, 0, "N", 1, 0, 2 );
@@ -961,6 +1028,8 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
    zCHAR     szTableExport[ 2 ] = { 0 }; 
    //:STRING ( 1 )   szLangConv
    zCHAR     szLangConv[ 2 ] = { 0 }; 
+   //:STRING ( 1 )   szSpan
+   zCHAR     szSpan[ 2 ] = { 0 }; 
    //:STRING ( 256 ) szStyle
    zCHAR     szStyle[ 257 ] = { 0 }; 
    //:STRING ( 100 ) szRepeatingGroupKey
@@ -1653,36 +1722,6 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
          { 
             //:szGroupIsTable = "Y"
             ZeidonStringCopy( szGroupIsTable, 1, 0, "Y", 1, 0, 2 );
-         } 
-
-         //:END
-
-         //:// There are times when the user wants to paint a div that has no height so it will grow with the
-         //:// data within it.  This flags the div will have no height.
-         //:szNoHeightFlag = ""
-         ZeidonStringCopy( szNoHeightFlag, 1, 0, "", 1, 0, 2 );
-         //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Height"
-         RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "No Height", "" );
-         //:IF RESULT >= zCURSOR_SET
-         if ( RESULT >= zCURSOR_SET )
-         { 
-            //:szNoHeightFlag = "Y"
-            ZeidonStringCopy( szNoHeightFlag, 1, 0, "Y", 1, 0, 2 );
-         } 
-
-         //:END
-
-         //:// There are times when the user wants to paint a div that has no width so it will grow with the
-         //:// data within it.  This flags the div will have no width.
-         //:szNoWidthFlag = ""
-         ZeidonStringCopy( szNoWidthFlag, 1, 0, "", 1, 0, 2 );
-         //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Width"
-         RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "No Width", "" );
-         //:IF RESULT >= zCURSOR_SET
-         if ( RESULT >= zCURSOR_SET )
-         { 
-            //:szNoWidthFlag = "Y"
-            ZeidonStringCopy( szNoWidthFlag, 1, 0, "Y", 1, 0, 2 );
          } 
 
          //:END
@@ -5263,9 +5302,9 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "<div >  <!-- textarea answer -->", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "<textarea name=^<%=szTxtAnswerName%>^ id=^<%=szTxtAnswerName%>^ style=^width:700px;height:94px;border:solid;border-width:2px;border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^<%=szTxtAnswerName%>^ id=^<%=szTxtAnswerName%>^ style=^width:700px;height:94px;border:solid;border-width:2px;border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>", 1,
-                        0, 10001 );
+               //://szWriteBuffer = "<textarea name=^<%=szTxtAnswerName%>^ id=^<%=szTxtAnswerName%>^ style=^width:700px;height:94px;border:solid;border-width:2px;border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
+               //:szWriteBuffer = "<textarea name=^<%=szTxtAnswerName%>^ id=^<%=szTxtAnswerName%>^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^<%=szTxtAnswerName%>^ id=^<%=szTxtAnswerName%>^ wrap=^wrap^><%=strErrorMapValue%></textarea>", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                //:szWriteBuffer = "</div >  <!-- end textarea answer -->"
@@ -5627,8 +5666,9 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "%>", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "<textarea name=^<%=szCommentName%>^ id=^<%=szCommentName%>^ style=^width:700px;height:94px;border:'2px solid';border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^<%=szCommentName%>^ id=^<%=szCommentName%>^ style=^width:700px;height:94px;border:'2px solid';border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>", 1, 0, 10001 );
+               //://szWriteBuffer = "<textarea name=^<%=szCommentName%>^ id=^<%=szCommentName%>^ style=^width:700px;height:94px;border:'2px solid';border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
+               //:szWriteBuffer = "<textarea name=^<%=szCommentName%>^ id=^<%=szCommentName%>^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^<%=szCommentName%>^ id=^<%=szCommentName%>^ wrap=^wrap^><%=strErrorMapValue%></textarea>", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                //:szWriteBuffer = "</div>  <!-- comment text answer -->"
@@ -5707,8 +5747,30 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "         {", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnNext' id='btnNext' value='' onclick='NEXT_SurveyPage( )'>Next-></button>^;"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = ^<button type='button' name='btnNext' id='btnNext' value='' onclick='NEXT_SurveyPage( )'>Next-></button>^;", 1, 0, 10001 );
+
+               //:IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               if ( CompareAttributeToString( vDialogRoot, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
+               { 
+                  //:szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnNext' id='btnNext' value='' onclick='NEXT_SurveyPage( )'>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = ^<button type='button' name='btnNext' id='btnNext' value='' onclick='NEXT_SurveyPage( )'>^;", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                  //:szWriteBuffer = "            strBtnTwo = strBtnTwo + LangConv.getLanguageText(^Next^);"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = strBtnTwo + LangConv.getLanguageText(^Next^);", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                  //:szWriteBuffer = "            strBtnTwo = strBtnTwo + ^-></button>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = strBtnTwo + ^-></button>^;", 1, 0, 10001 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnNext' id='btnNext' value='' onclick='NEXT_SurveyPage( )'>Next-></button>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = ^<button type='button' name='btnNext' id='btnNext' value='' onclick='NEXT_SurveyPage( )'>Next-></button>^;", 1, 0, 10001 );
+               } 
+
+               //:END
+
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                //:szWriteBuffer = "            if ( Integer.parseInt(szGroupNbr) > 1 )"
@@ -5719,8 +5781,28 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "            {", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;", 1, 0, 10001 );
+               //:IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               if ( CompareAttributeToString( vDialogRoot, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
+               { 
+                  //:szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-^;", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                  //:szWriteBuffer = "            strBtnOne = strBtnOne + LangConv.getLanguageText(^Prev^);"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = strBtnOne + LangConv.getLanguageText(^Prev^);", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                  //:szWriteBuffer = "            strBtnOne = strBtnOne + ^</button>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = strBtnOne + ^</button>^;", 1, 0, 10001 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;", 1, 0, 10001 );
+               } 
+
+               //:END
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                //:szWriteBuffer = "            }"
@@ -5739,8 +5821,28 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "         {", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnSubmit' id='btnSubmit' value='' onclick='SUBMIT_Survey( )'>Submit Survey</button>^;"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = ^<button type='button' name='btnSubmit' id='btnSubmit' value='' onclick='SUBMIT_Survey( )'>Submit Survey</button>^;", 1, 0, 10001 );
+               //:IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               if ( CompareAttributeToString( vDialogRoot, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
+               { 
+                  //:szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnSubmit' id='btnSubmit' value='' onclick='SUBMIT_Survey( )'>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = ^<button type='button' name='btnSubmit' id='btnSubmit' value='' onclick='SUBMIT_Survey( )'>^;", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                  //:szWriteBuffer = "            strBtnTwo = strBtnTwo + LangConv.getLanguageText(^Submit Survey^);"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = strBtnTwo + LangConv.getLanguageText(^Submit Survey^);", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                  //:szWriteBuffer = "            strBtnTwo = strBtnTwo + ^</button>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = strBtnTwo + ^</button>^;", 1, 0, 10001 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnSubmit' id='btnSubmit' value='' onclick='SUBMIT_Survey( )'>Submit Survey</button>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnTwo = ^<button type='button' name='btnSubmit' id='btnSubmit' value='' onclick='SUBMIT_Survey( )'>Submit Survey</button>^;", 1, 0, 10001 );
+               } 
+
+               //:END
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                //:szWriteBuffer = "            if ( Integer.parseInt(szGroupNbr) > 1 )"
@@ -5751,8 +5853,28 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                ZeidonStringCopy( szWriteBuffer, 1, 0, "            {", 1, 0, 10001 );
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-               //:szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;", 1, 0, 10001 );
+               //:IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               if ( CompareAttributeToString( vDialogRoot, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
+               { 
+                  //:szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-^;", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                  //:szWriteBuffer = "            strBtnOne = strBtnOne + LangConv.getLanguageText(^Prev^);"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = strBtnOne + LangConv.getLanguageText(^Prev^);", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                  //:szWriteBuffer = "            strBtnOne = strBtnOne + ^</button>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = strBtnOne + ^</button>^;", 1, 0, 10001 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;", 1, 0, 10001 );
+               } 
+
+               //:END
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
                //:szWriteBuffer = "            }"
@@ -10613,28 +10735,63 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                                                 else
                                                 { 
                                                    //:// Regular default Grid subcontrol.
+                                                   //:szSpan = ""
+                                                   ZeidonStringCopy( szSpan, 1, 0, "", 1, 0, 2 );
+                                                   //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Span"
+                                                   RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "Span", "" );
+                                                   //:IF RESULT >= zCURSOR_SET
+                                                   if ( RESULT >= zCURSOR_SET )
+                                                   { 
+                                                      //:szSpan = "Y"
+                                                      ZeidonStringCopy( szSpan, 1, 0, "Y", 1, 0, 2 );
+                                                   } 
+
+                                                   //:END
+                                                   //:szWriteBuffer = "   " + szItemTableHeader + ">"
+                                                   ZeidonStringCopy( szWriteBuffer, 1, 0, "   ", 1, 0, 10001 );
+                                                   ZeidonStringConcat( szWriteBuffer, 1, 0, szItemTableHeader, 1, 0, 10001 );
+                                                   ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
+                                                   //:IF szSpan = "Y"
+                                                   if ( ZeidonStringCompare( szSpan, 1, 0, "Y", 1, 0, 2 ) == 0 )
+                                                   { 
+                                                      //:szWriteBuffer = szWriteBuffer + "<span name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^>"
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "<span name=^", 1, 0, 10001 );
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^>", 1, 0, 10001 );
+                                                   } 
+
+                                                   //:END
                                                    //:IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y" AND szLangConv = "Y" 
                                                    if ( CompareAttributeToString( vDialogRoot, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 && ZeidonStringCompare( szLangConv, 1, 0, "Y", 1, 0, 2 ) == 0 )
                                                    { 
-                                                      //:szWriteBuffer = "   " + szItemTableHeader + "><%=LangConv.getTableText( str" + szListCtrlTag + " )%></td>"
-                                                      ZeidonStringCopy( szWriteBuffer, 1, 0, "   ", 1, 0, 10001 );
-                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, szItemTableHeader, 1, 0, 10001 );
-                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "><%=LangConv.getTableText( str", 1, 0, 10001 );
+                                                      //:szWriteBuffer = szWriteBuffer + "<%=LangConv.getTableText( str" + szListCtrlTag + " )%>"
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=LangConv.getTableText( str", 1, 0, 10001 );
                                                       ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, " )%></td>", 1, 0, 10001 );
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, " )%>", 1, 0, 10001 );
                                                       //:ELSE
                                                    } 
                                                    else
                                                    { 
-                                                      //:szWriteBuffer = "   " + szItemTableHeader + "><%=str" + szListCtrlTag + "%></td>"
-                                                      ZeidonStringCopy( szWriteBuffer, 1, 0, "   ", 1, 0, 10001 );
-                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, szItemTableHeader, 1, 0, 10001 );
-                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "><%=str", 1, 0, 10001 );
+                                                      //:szWriteBuffer = szWriteBuffer + "<%=str" + szListCtrlTag + "%>"
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=str", 1, 0, 10001 );
                                                       ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "%></td>", 1, 0, 10001 );
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "%>", 1, 0, 10001 );
                                                    } 
 
                                                    //:END
+
+                                                   //:IF szSpan = "Y"
+                                                   if ( ZeidonStringCompare( szSpan, 1, 0, "Y", 1, 0, 2 ) == 0 )
+                                                   { 
+                                                      //:szWriteBuffer = szWriteBuffer + "</span>" 
+                                                      ZeidonStringConcat( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
+                                                   } 
+
+                                                   //:END
+                                                   //:szWriteBuffer = szWriteBuffer + "</td>"
+                                                   ZeidonStringConcat( szWriteBuffer, 1, 0, "</td>", 1, 0, 10001 );
                                                 } 
 
                                                 //:END

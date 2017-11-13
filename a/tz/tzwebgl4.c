@@ -719,14 +719,15 @@ GenJSPJ_CrteFileTransferForm( zVIEW     vDialog,
    zLONG     lTempInteger_3; 
    zCHAR     szTempString_11[ 255 ]; 
    zCHAR     szTempString_12[ 255 ]; 
+   zCHAR     szTempString_13[ 255 ]; 
    zLONG     lTempInteger_4; 
    zLONG     lTempInteger_5; 
    zLONG     lTempInteger_6; 
-   zCHAR     szTempString_13[ 255 ]; 
-   zSHORT    lTempInteger_7; 
    zCHAR     szTempString_14[ 255 ]; 
+   zSHORT    lTempInteger_7; 
    zCHAR     szTempString_15[ 255 ]; 
-   zCHAR     szTempString_16[ 33 ]; 
+   zCHAR     szTempString_16[ 255 ]; 
+   zCHAR     szTempString_17[ 33 ]; 
 
 
 
@@ -1221,6 +1222,20 @@ GenJSPJ_CrteFileTransferForm( zVIEW     vDialog,
          } 
 
          //:   END
+
+         //:   szClass = ""
+         ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
+         //:   IF vDialogTemp.Control.CSS_Class != ""
+         if ( CompareAttributeToString( vDialogTemp, "Control", "CSS_Class", "" ) != 0 )
+         { 
+            //:   szClass = " class=^" + vDialogTemp.Control.CSS_Class + "^ "
+            GetVariableFromAttribute( szTempString_13, 0, 'S', 255, vDialogTemp, "Control", "CSS_Class", "", 0 );
+            ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
+            ZeidonStringConcat( szClass, 1, 0, szTempString_13, 1, 0, 257 );
+            ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
+         } 
+
+         //:   END
          //:   
          //:   // For some reason with the <input type="file" control, the width property doesn't
          //:   // seem to size the width correctly.  Use the "size" attribute instead.  The weird thing
@@ -1230,40 +1245,21 @@ GenJSPJ_CrteFileTransferForm( zVIEW     vDialog,
          GetIntegerFromAttribute( &lTempInteger_4, vDialogTemp, "Control", "SZDLG_X" );
          zIntegerToString( szWidth, 10, lTempInteger_4 / (ZDecimal) 3.5 );
 
-         //:   szClass = vDialogTemp.Control.CSS_Class
-         GetVariableFromAttribute( szClass, 0, 'S', 257, vDialogTemp, "Control", "CSS_Class", "", 0 );
-         //:   IF szClass = ""
-         if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-         { 
-            //:   szWriteBuffer = "   <input name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^" + szWidth + "^ " + szStyle + " type=^file^  >"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "   <input name=^", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ size=^", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szWidth, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, " type=^file^  >", 1, 0, 10001 );
-            //:ELSE
-         } 
-         else
-         { 
-            //:   szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^" + szWidth + "^ " + szStyle + " type=^file^  >"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "   <input class=^", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ name=^", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ size=^", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szWidth, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, " type=^file^  >", 1, 0, 10001 );
-         } 
-
-         //:   END
+         //:   szWriteBuffer = "   <input name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szClass + szHTML5Attr + szTitleHTML + szPlaceholder + "^ size=^" + szWidth + "^ " + szStyle + " type=^file^  >"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "   <input name=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szPlaceholder, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ size=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szWidth, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, " type=^file^  >", 1, 0, 10001 );
          //:   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
 
@@ -1461,9 +1457,9 @@ GenJSPJ_CrteFileTransferForm( zVIEW     vDialog,
          if ( CompareAttributeToString( vDialogTemp, "Control", "WebHTML5Attribute", "" ) != 0 )
          { 
             //:   szHTML5Attr = " " + vDialogTemp.Control.WebHTML5Attribute + " "
-            GetVariableFromAttribute( szTempString_13, 0, 'S', 255, vDialogTemp, "Control", "WebHTML5Attribute", "", 0 );
+            GetVariableFromAttribute( szTempString_14, 0, 'S', 255, vDialogTemp, "Control", "WebHTML5Attribute", "", 0 );
             ZeidonStringCopy( szHTML5Attr, 1, 0, " ", 1, 0, 257 );
-            ZeidonStringConcat( szHTML5Attr, 1, 0, szTempString_13, 1, 0, 257 );
+            ZeidonStringConcat( szHTML5Attr, 1, 0, szTempString_14, 1, 0, 257 );
             ZeidonStringConcat( szHTML5Attr, 1, 0, " ", 1, 0, 257 );
          } 
 
@@ -1505,8 +1501,8 @@ GenJSPJ_CrteFileTransferForm( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, " >", 1, 0, 10001 );
-            GetVariableFromAttribute( szTempString_14, 0, 'S', 255, vDialogTemp, "Control", "Text", "", 0 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_14, 1, 0, 10001 );
+            GetVariableFromAttribute( szTempString_15, 0, 'S', 255, vDialogTemp, "Control", "Text", "", 0 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_15, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "</button>", 1, 0, 10001 );
             //:ELSE
          } 
@@ -1530,8 +1526,8 @@ GenJSPJ_CrteFileTransferForm( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, " >", 1, 0, 10001 );
-            GetVariableFromAttribute( szTempString_15, 0, 'S', 255, vDialogTemp, "Control", "Text", "", 0 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_15, 1, 0, 10001 );
+            GetVariableFromAttribute( szTempString_16, 0, 'S', 255, vDialogTemp, "Control", "Text", "", 0 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_16, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "</button>", 1, 0, 10001 );
          } 
 
@@ -1571,9 +1567,9 @@ GenJSPJ_CrteFileTransferForm( zVIEW     vDialog,
    ResetViewFromSubobject( vDialogTemp );
 
    //:   szWriteBuffer = "</div>  <!-- " + vDialogTemp.Control.Tag + " --> "
-   GetVariableFromAttribute( szTempString_16, 0, 'S', 33, vDialogTemp, "Control", "Tag", "", 0 );
+   GetVariableFromAttribute( szTempString_17, 0, 'S', 33, vDialogTemp, "Control", "Tag", "", 0 );
    ZeidonStringCopy( szWriteBuffer, 1, 0, "</div>  <!-- ", 1, 0, 10001 );
-   ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_16, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_17, 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, " --> ", 1, 0, 10001 );
    //:   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );

@@ -4859,6 +4859,11 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
             IF vDialogTemp.Control.WebHTML5Attribute != ""
                szHTML5Attr = " " + vDialogTemp.Control.WebHTML5Attribute + " "
             END
+   
+            szClass = ""
+            IF vDialogTemp.Control.CSS_Class != ""
+               szClass = " class=^" + vDialogTemp.Control.CSS_Class + "^ "
+            END
             
             // For some reason with the <input type="file" control, the width property doesn't
             // seem to size the width correctly.  Use the "size" attribute instead.  The weird thing
@@ -4866,12 +4871,7 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
             // created is not inline with the field that displays the upload file. ???!!!
             zIntegerToString( szWidth, 10, vDialogTemp.Control.SZDLG_X / 3.5 )
 
-            szClass = vDialogTemp.Control.CSS_Class
-            IF szClass = ""
-               szWriteBuffer = "   <input name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^" + szWidth + "^ " + szStyle + " type=^file^  >"
-            ELSE
-               szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^" + szWidth + "^ " + szStyle + " type=^file^  >"
-            END
+            szWriteBuffer = "   <input name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ " + szClass + szHTML5Attr + szTitleHTML + szPlaceholder + "^ size=^" + szWidth + "^ " + szStyle + " type=^file^  >"
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
             LastY_Pos    = vDialogTemp.Control.PSDLG_Y

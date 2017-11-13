@@ -115,6 +115,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 100 ) szDisabled
    STRING ( 1 )   szTableExport
    STRING ( 1 )   szLangConv
+   STRING ( 1 )   szSpan
    STRING ( 256 ) szStyle
    STRING ( 100 ) szRepeatingGroupKey
    DECIMAL        dDLUnits
@@ -365,22 +366,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Table"
          IF RESULT >= zCURSOR_SET
             szGroupIsTable = "Y"
-         END
-
-         // There are times when the user wants to paint a div that has no height so it will grow with the
-         // data within it.  This flags the div will have no height.
-         szNoHeightFlag = ""
-         SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Height"
-         IF RESULT >= zCURSOR_SET
-            szNoHeightFlag = "Y"
-         END
-
-         // There are times when the user wants to paint a div that has no width so it will grow with the
-         // data within it.  This flags the div will have no width.
-         szNoWidthFlag = ""
-         SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Width"
-         IF RESULT >= zCURSOR_SET
-            szNoWidthFlag = "Y"
          END
 
          // KJS 05/01/09
@@ -1962,7 +1947,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "<div >  <!-- textarea answer -->"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "<textarea name=^<%=szTxtAnswerName%>^ id=^<%=szTxtAnswerName%>^ style=^width:700px;height:94px;border:solid;border-width:2px;border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
+            //szWriteBuffer = "<textarea name=^<%=szTxtAnswerName%>^ id=^<%=szTxtAnswerName%>^ style=^width:700px;height:94px;border:solid;border-width:2px;border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
+            szWriteBuffer = "<textarea name=^<%=szTxtAnswerName%>^ id=^<%=szTxtAnswerName%>^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "</div >  <!-- end textarea answer -->"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2147,7 +2133,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "<textarea name=^<%=szCommentName%>^ id=^<%=szCommentName%>^ style=^width:700px;height:94px;border:'2px solid';border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
+            //szWriteBuffer = "<textarea name=^<%=szCommentName%>^ id=^<%=szCommentName%>^ style=^width:700px;height:94px;border:'2px solid';border-style:'groove';^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
+            szWriteBuffer = "<textarea name=^<%=szCommentName%>^ id=^<%=szCommentName%>^ wrap=^wrap^><%=strErrorMapValue%></textarea>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "</div>  <!-- comment text answer -->"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2189,13 +2176,31 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnNext' id='btnNext' value='' onclick='NEXT_SurveyPage( )'>Next-></button>^;"
+
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnNext' id='btnNext' value='' onclick='NEXT_SurveyPage( )'>^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strBtnTwo = strBtnTwo + LangConv.getLanguageText(^Next^);"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strBtnTwo = strBtnTwo + ^-></button>^;"
+            ELSE
+               szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnNext' id='btnNext' value='' onclick='NEXT_SurveyPage( )'>Next-></button>^;"
+            END
+
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            if ( Integer.parseInt(szGroupNbr) > 1 )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;"
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strBtnOne = strBtnOne + LangConv.getLanguageText(^Prev^);"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strBtnOne = strBtnOne + ^</button>^;"
+            ELSE
+               szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;"
+            END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2205,13 +2210,29 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnSubmit' id='btnSubmit' value='' onclick='SUBMIT_Survey( )'>Submit Survey</button>^;"
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnSubmit' id='btnSubmit' value='' onclick='SUBMIT_Survey( )'>^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strBtnTwo = strBtnTwo + LangConv.getLanguageText(^Submit Survey^);"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strBtnTwo = strBtnTwo + ^</button>^;"
+            ELSE
+               szWriteBuffer = "            strBtnTwo = ^<button type='button' name='btnSubmit' id='btnSubmit' value='' onclick='SUBMIT_Survey( )'>Submit Survey</button>^;"
+            END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            if ( Integer.parseInt(szGroupNbr) > 1 )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;"
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strBtnOne = strBtnOne + LangConv.getLanguageText(^Prev^);"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strBtnOne = strBtnOne + ^</button>^;"
+            ELSE
+               szWriteBuffer = "            strBtnOne = ^<button type='button' name='btnPrev' id='btnPrev' value='' onclick='PREV_SurveyPage( )'><-Prev</button>^;"
+            END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -4268,11 +4289,25 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               END
                            ELSE
                               // Regular default Grid subcontrol.
-                              IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y" AND szLangConv = "Y" 
-                                 szWriteBuffer = "   " + szItemTableHeader + "><%=LangConv.getTableText( str" + szListCtrlTag + " )%></td>"
-                              ELSE
-                                 szWriteBuffer = "   " + szItemTableHeader + "><%=str" + szListCtrlTag + "%></td>"
+                              szSpan = ""
+                              SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Span"
+                              IF RESULT >= zCURSOR_SET
+                                 szSpan = "Y"
                               END
+                              szWriteBuffer = "   " + szItemTableHeader + ">"
+                              IF szSpan = "Y"
+                                 szWriteBuffer = szWriteBuffer + "<span name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^>"
+                              END
+                              IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y" AND szLangConv = "Y" 
+                                 szWriteBuffer = szWriteBuffer + "<%=LangConv.getTableText( str" + szListCtrlTag + " )%>"
+                              ELSE
+                                 szWriteBuffer = szWriteBuffer + "<%=str" + szListCtrlTag + "%>"
+                              END
+                              
+                              IF szSpan = "Y"
+                                 szWriteBuffer = szWriteBuffer + "</span>" 
+                              END
+                              szWriteBuffer = szWriteBuffer + "</td>"
                            END
                         END // szCtrlCtrlType = "GridCheckCtl" OR szCtrlCtrlType = "CheckBox"
                         END // WebCtrlType = "EmailAddress"
@@ -6086,6 +6121,8 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                          STRING ( 100 )   szRepeatGrpKey )
 
    VIEW          vDialogParent
+   VIEW          vLPLR        BASED ON LOD TZCMLPLO
+   STRING ( 32 ) szLPLR_Name
    STRING ( 50 ) szControlType
    STRING ( 50 ) szCtrlTag
    STRING ( 50 ) szActionName
@@ -6096,6 +6133,7 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )  szRepeatingGroupFlag
    SHORT         nGridParent
    INTEGER       lSubtype
+   INTEGER       lActionType
    SHORT         nRC
 
    // "ONCHANGE" FUNCTION GENERATION FOR COMBOBOX CONTROLS
@@ -6259,7 +6297,7 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END
          END
-
+         
          // Action Processing
          IF vDialog.EventAct EXISTS
 
@@ -6267,6 +6305,40 @@ GenJSPJ_OutputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
             // this form.  The only problem is if this combobox is an auto include or a "set foreign key" then we have
             // to submit to allow this to happen.  If the combobox is not one of those and the action type is
             // zWAB_StayOnWindow and there is javascript code, then do not want to do the submit.
+
+            lActionType = vDialog.EventAct.Type
+            IF lActionType = zWAB_StayOnWindow OR
+               lActionType = zWAB_StayOnWindowWithRefresh OR
+               lActionType = zWAB_StayOnWindowWebRefresh OR
+               lActionType = zWAB_StartModelessSubwindow OR
+               lActionType = zWAB_StartModalSubwindow
+  
+               szWriteBuffer = "      if ( typeof(Storage) !== ^undefined^ )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         // Code for sessionStorage."
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         var storageName = ^" + szLPLR_Name + "." + szFormName + ".position^" //ZENCAS.wClassDClassListByTerm.position
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               // KJS 11/09/17 - For some reason body.scroll... seems to not be working. Changing to something that should
+               // be compatible crossplatform.
+               /*
+               szWriteBuffer = "         var scrollPosition = document.body.scrollTop + '#' + document.body.scrollLeft;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               */
+               szWriteBuffer = "         var sy= window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         var sx= window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         var scrollPosition = sy + '#' + sx;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+               szWriteBuffer = "         sessionStorage.setItem( storageName, scrollPosition );"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "      }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            END
 
             szCodeCreated = "N"
 
