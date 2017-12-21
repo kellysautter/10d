@@ -1837,7 +1837,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szGroupName = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestionGroup^).getAttribute(^Name^).getString(^^);"
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               // If we are using language conversion, then we will use the derived attribute names instead of the normal entity/attribute name.
+               szWriteBuffer = "          String szGroupName = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestionGroup^).getAttribute(^dName^).getString(^^);"
+            ELSE
+               szWriteBuffer = "          String szGroupName = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestionGroup^).getAttribute(^Name^).getString(^^);"
+            END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1878,7 +1883,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "             szQuestion = szQuestion + ^. ^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          szQuestion = szQuestion + " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^Question^).getString(^^);"
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               // If we are using language conversion, then we will use the derived attribute names instead of the normal entity/attribute name.
+               szWriteBuffer = "          szQuestion = szQuestion + " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^dQuestion^).getString(^^);"
+            ELSE
+               szWriteBuffer = "          szQuestion = szQuestion + " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^Question^).getString(^^);"
+            END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "          String szQuestionID = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^ID^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1896,7 +1906,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "          String szResponseIsOptional = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^ResponseIsOptional^).getString(^^);"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          String szQuestionHelp = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^HelpDescription^).getString(^^);"
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               // If we are using language conversion, then we will use the derived attribute names instead of the normal entity/attribute name.
+               szWriteBuffer = "          String szQuestionHelp = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^dHelpDescription^).getString(^^);"
+            ELSE
+               szWriteBuffer = "          String szQuestionHelp = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^HelpDescription^).getString(^^);"
+            END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -2025,7 +2040,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         strchkAnswer = ^^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         strAnswerText = vtblMultChoice.cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^OptionText^ ).getString( ^^ );"
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               // If we are using language conversion, then we will use the derived attribute names instead of the normal entity/attribute name.
+               szWriteBuffer = "         strAnswerText = vtblMultChoice.cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^dOptionText^ ).getString( ^^ );"
+            ELSE
+               szWriteBuffer = "         strAnswerText = vtblMultChoice.cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^OptionText^ ).getString( ^^ );"
+            END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         strchkAnswer = vtblMultChoice.cursor( ^SurveyMultiChoiceOption^ ).getAttribute( ^wSelectedAnswer^).getString( ^^ );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2101,7 +2121,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "          String szCommentText = ^^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          szCommentText = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^RequestCommentText^).getString(^^);"
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+               // If we are using language conversion, then we will use the derived attribute names instead of the normal entity/attribute name.
+               szWriteBuffer = "          szCommentText = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^dRequestCommentText^).getString(^^);"
+            ELSE
+               szWriteBuffer = "          szCommentText = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^RequestCommentText^).getString(^^);"
+            END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      if ( szCommentText.equals(^^) )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

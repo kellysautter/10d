@@ -838,6 +838,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )     szZeidonTaskTimeout
    STRING ( 1 )     szRegisterZeidon
    STRING ( 1 )     szNoMonitorTaskLogout
+   STRING ( 1 )     szUseZeidonCtrlActions
    STRING ( 10 )    szTimeout
    STRING ( 10 )    szDOCTYPE
    STRING ( 18 )    szDateTime
@@ -905,6 +906,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonTaskTimeout", szZeidonTaskTimeout )
    SysReadZeidonIni( -1, szSystemIniApplName, "NoMonitorTaskLogout", szNoMonitorTaskLogout )
    SysReadZeidonIni( -1, szSystemIniApplName, "UsesLanguageConversion", szLangConvFlag )
+   SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonControlActions", szUseZeidonCtrlActions )
    vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
    szWriteBuffer = "mMsgQ = new KZMSGQOO_Object( vKZXMLPGO );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -2488,6 +2490,14 @@ DKS_TRACE_END */
    // "Show/Hide Toggle". For now I am always including it.
    IF szWindowIsjMobile = ""
       szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/animatedcollapse.js?v=" + szDateTime + "^></script>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
+   // KJS 12/08/17 - In zeidon windows, we have used the vml operations SetCtrlState and SubtSectionShowHideDisableTabs to disable/hide controls and tabs
+   // on a window. We are trying to replicate this for the web and html. It requires including the following js, and having the above two functions in
+   // ZGLOBAL_Operation.java. Also requires having static function GetHiddenDisabledControls in ZGLOBAL1. I think these will eventually be moved to 
+   // VmlOperation.java. We also require the entity ControlAction to be created in wXferO.LOD which at some point should be moved to KZXMLPGO.LOD.
+   IF szUseZeidonCtrlActions = "Y"
+      szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/zeidonctrlactions.js?v=" + szDateTime + "^></script>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    END
    // KJS 06/09/11 - I am not sure that we want to always include this js file because at the moment, I am putting
@@ -4467,6 +4477,14 @@ DKS_TRACE_END */
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   strOpenFile = VmlOperation.FindOpenFile( task );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   // KJS 12/08/17 - In zeidon windows, we have used the vml operations SetCtrlState and SubtSectionShowHideDisableTabs to disable/hide controls and tabs
+   // on a window. We are trying to replicate this for the web and html. It requires including the following js, and having the above two functions in
+   // ZGLOBAL_Operation.java. Also requires having static function GetControlActions in ZGLOBAL1. I think these will eventually be moved to 
+   // VmlOperation.java. We also require the entity ControlAction to be created in wXferO.LOD which at some point should be moved to KZXMLPGO.LOD.
+   IF szUseZeidonCtrlActions = "Y"
+      szWriteBuffer = "   strCtrlActions = ZGLOBAL1_Operation.GetControlActions( task, ^" + szFormName + "^ );"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
 
    //KJS Trace
    IF (lTrace = 1)
@@ -4896,6 +4914,14 @@ DKS_TRACE_END */
    // at the end on all webpages. Doesn't seem to cause issues even if there is no animatedcollapse on the page (since we include the js). 
    IF szWindowIsjMobile = ""
       szWriteBuffer = "<script type=^text/javascript^>animatedcollapse.init();</script>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
+   // KJS 12/08/17 - In zeidon windows, we have used the vml operations SetCtrlState and SubtSectionShowHideDisableTabs to disable/hide controls and tabs
+   // on a window. We are trying to replicate this for the web and html. It requires including the following js, and having the above two functions in
+   // ZGLOBAL_Operation.java. Also requires having static function GetControlActions in ZGLOBAL1. I think these will eventually be moved to 
+   // VmlOperation.java. We also require the entity ControlAction to be created in wXferO.LOD which at some point should be moved to KZXMLPGO.LOD.
+   IF szUseZeidonCtrlActions = "Y"
+      szWriteBuffer = "<script type=^text/javascript^>processControlActions( ^<%=strCtrlActions%>^ );</script>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    END
    szWriteBuffer = "</html>"

@@ -190,6 +190,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    zCHAR     szRegisterZeidon[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szNoMonitorTaskLogout
    zCHAR     szNoMonitorTaskLogout[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szUseZeidonCtrlActions
+   zCHAR     szUseZeidonCtrlActions[ 2 ] = { 0 }; 
    //:STRING ( 10 )    szTimeout
    zCHAR     szTimeout[ 11 ] = { 0 }; 
    //:STRING ( 10 )    szDOCTYPE
@@ -405,6 +407,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    SysReadZeidonIni( -1, szSystemIniApplName, "NoMonitorTaskLogout", szNoMonitorTaskLogout, zsizeof( szNoMonitorTaskLogout ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "UsesLanguageConversion", szLangConvFlag )
    SysReadZeidonIni( -1, szSystemIniApplName, "UsesLanguageConversion", szLangConvFlag, zsizeof( szLangConvFlag ) );
+   //:SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonControlActions", szUseZeidonCtrlActions )
+   SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonControlActions", szUseZeidonCtrlActions, zsizeof( szUseZeidonCtrlActions ) );
    //:vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
    SetAttributeFromString( vDialog, "Dialog", "wWebUsesLanguageConversion", szLangConvFlag );
    //:szWriteBuffer = "mMsgQ = new KZMSGQOO_Object( vKZXMLPGO );"
@@ -3543,6 +3547,22 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    { 
       //:szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/animatedcollapse.js?v=" + szDateTime + "^></script>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<script language=^JavaScript^ type=^text/javascript^ src=^./js/animatedcollapse.js?v=", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szDateTime, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^></script>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   } 
+
+   //:END
+   //:// KJS 12/08/17 - In zeidon windows, we have used the vml operations SetCtrlState and SubtSectionShowHideDisableTabs to disable/hide controls and tabs
+   //:// on a window. We are trying to replicate this for the web and html. It requires including the following js, and having the above two functions in
+   //:// ZGLOBAL_Operation.java. Also requires having static function GetHiddenDisabledControls in ZGLOBAL1. I think these will eventually be moved to 
+   //:// VmlOperation.java. We also require the entity ControlAction to be created in wXferO.LOD which at some point should be moved to KZXMLPGO.LOD.
+   //:IF szUseZeidonCtrlActions = "Y"
+   if ( ZeidonStringCompare( szUseZeidonCtrlActions, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/zeidonctrlactions.js?v=" + szDateTime + "^></script>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<script language=^JavaScript^ type=^text/javascript^ src=^./js/zeidonctrlactions.js?v=", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szDateTime, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^></script>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -7368,6 +7388,22 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   strOpenFile = VmlOperation.FindOpenFile( task );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   //:// KJS 12/08/17 - In zeidon windows, we have used the vml operations SetCtrlState and SubtSectionShowHideDisableTabs to disable/hide controls and tabs
+   //:// on a window. We are trying to replicate this for the web and html. It requires including the following js, and having the above two functions in
+   //:// ZGLOBAL_Operation.java. Also requires having static function GetControlActions in ZGLOBAL1. I think these will eventually be moved to 
+   //:// VmlOperation.java. We also require the entity ControlAction to be created in wXferO.LOD which at some point should be moved to KZXMLPGO.LOD.
+   //:IF szUseZeidonCtrlActions = "Y"
+   if ( ZeidonStringCompare( szUseZeidonCtrlActions, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:szWriteBuffer = "   strCtrlActions = ZGLOBAL1_Operation.GetControlActions( task, ^" + szFormName + "^ );"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "   strCtrlActions = ZGLOBAL1_Operation.GetControlActions( task, ^", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   } 
+
+   //:END
 
    //://KJS Trace
    //:IF (lTrace = 1)
@@ -8032,6 +8068,20 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    { 
       //:szWriteBuffer = "<script type=^text/javascript^>animatedcollapse.init();</script>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<script type=^text/javascript^>animatedcollapse.init();</script>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   } 
+
+   //:END
+   //:// KJS 12/08/17 - In zeidon windows, we have used the vml operations SetCtrlState and SubtSectionShowHideDisableTabs to disable/hide controls and tabs
+   //:// on a window. We are trying to replicate this for the web and html. It requires including the following js, and having the above two functions in
+   //:// ZGLOBAL_Operation.java. Also requires having static function GetControlActions in ZGLOBAL1. I think these will eventually be moved to 
+   //:// VmlOperation.java. We also require the entity ControlAction to be created in wXferO.LOD which at some point should be moved to KZXMLPGO.LOD.
+   //:IF szUseZeidonCtrlActions = "Y"
+   if ( ZeidonStringCompare( szUseZeidonCtrlActions, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:szWriteBuffer = "<script type=^text/javascript^>processControlActions( ^<%=strCtrlActions%>^ );</script>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<script type=^text/javascript^>processControlActions( ^<%=strCtrlActions%>^ );</script>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    } 
