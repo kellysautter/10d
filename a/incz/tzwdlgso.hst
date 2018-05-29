@@ -39,6 +39,8 @@ zLONG  lStructSize;
    zCHAR wWebTabControlProperties[ 33 ];
    zCHAR wWebBitmapControlProperties[ 33 ];
    zCHAR wWebUsesLanguageConversion[ 2 ];
+   zCHAR wWebUsesControlActions[ 2 ];
+   zCHAR wWebUsesControlActionsView[ 2 ];
    zCHAR wMapTypeGridColumnControl[ 33 ];
    zCHAR wMapTypeTextControl[ 33 ];
    zCHAR wOriginalClassName[ 255 ];

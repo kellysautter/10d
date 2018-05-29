@@ -1,7 +1,7 @@
-z1000-Zeidon    TZWEBGL4 TZOGSRCO 11/10/16   13:12:41 1.0a2   
+z1000-Zeidon    TZWEBGL4 TZOGSRCO                         04/03/18   14:09:45 1.0a2   
 eGlobalOperationGroup 1
 aZKey      4896724
-aNextZKeyToAssign 130000115
+aNextZKeyToAssign 130070656
 aName      TZWEBGL4
 aDesc      JSP Generation operations for zeidon JAVA
 aExtension VML
@@ -50,132 +50,200 @@ aUFlag     N
 aZKey      4896730
 
 eOperation 2
-aName      GenJSPJ_CrteFileTransferForm
-aZKey      130000107
+aName      GenJSPJ_CrteGridRadio
+aZKey      130070647
 aType      G
-aReturnDataType N
 
 eParameter 3
 aShortDesc vDialog
 aDataType  V
 aPFlag     N
 aUFlag     N
-aZKey      130000108
-
-eParameter 3
-aShortDesc vDialogRoot
-aDataType  V
-aPFlag     N
-aUFlag     N
-aZKey      130000109
-
-eParameter 3
-aShortDesc File
-aDataType  L
-aPFlag     N
-aUFlag     N
-aZKey      130000110
-
-eParameter 3
-aShortDesc WriteBuffer
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      130000111
-
-eParameter 3
-aShortDesc Indent
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      130000112
-
-eParameter 3
-aShortDesc NoPositioning
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      130000113
-
-eParameter 3
-aShortDesc OffsetX
-aDataType  L
-aPFlag     N
-aUFlag     N
-aZKey      130000114
-
-eParameter 3
-aShortDesc OffsetY
-aDataType  L
-aPFlag     N
-aUFlag     N
-aZKey      130000115
-
-eOperation 2
-aName      GenJSPJ_CrteListBoxAsList
-aZKey      130000098
-aType      G
-aReturnDataType N
-
-eParameter 3
-aShortDesc vDialog
-aDataType  V
-aPFlag     N
-aUFlag     N
-aZKey      130000099
+aZKey      130070648
 
 eParameter 3
 aShortDesc lFile
 aDataType  L
 aPFlag     N
 aUFlag     N
-aZKey      130000100
+aZKey      130070649
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070650
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070651
+
+eParameter 3
+aShortDesc RadioGroupName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070652
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070653
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130070654
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130070655
+
+eParameter 3
+aShortDesc strRepeatingGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070656
+
+eOperation 2
+aName      GenJSPJ_CrteFileTransferForm
+aZKey      130070638
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      130070639
+
+eParameter 3
+aShortDesc vDialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      130070640
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130070641
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070642
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070643
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070644
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130070645
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130070646
+
+eOperation 2
+aName      GenJSPJ_CrteListBoxAsList
+aZKey      130070629
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      130070630
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130070631
 
 eParameter 3
 aShortDesc szWriteBuffer
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000101
+aZKey      130070632
 
 eParameter 3
 aShortDesc szIndent
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000102
+aZKey      130070633
 
 eParameter 3
 aShortDesc szCtrlTag
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000103
+aZKey      130070634
 
 eParameter 3
 aShortDesc szNoPositioning
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000104
+aZKey      130070635
 
 eParameter 3
 aShortDesc lOffsetX
 aDataType  L
 aPFlag     N
 aUFlag     N
-aZKey      130000105
+aZKey      130070636
 
 eParameter 3
 aShortDesc lOffsetY
 aDataType  L
 aPFlag     N
 aUFlag     N
-aZKey      130000106
+aZKey      130070637
 
 eOperation 2
 aName      BuildMenuListJ
-aZKey      130000093
+aZKey      130070624
 aType      G
 aReturnDataType N
 
@@ -184,118 +252,117 @@ aShortDesc vDialog
 aDataType  V
 aPFlag     N
 aUFlag     N
-aZKey      130000094
+aZKey      130070625
 
 eParameter 3
 aShortDesc vDialogRoot
 aDataType  V
 aPFlag     N
 aUFlag     N
-aZKey      130000095
+aZKey      130070626
 
 eParameter 3
 aShortDesc lFile
 aDataType  L
 aPFlag     N
 aUFlag     N
-aZKey      130000096
+aZKey      130070627
 
 eParameter 3
 aShortDesc szMenuName
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000097
+aZKey      130070628
 
 eOperation 2
 aName      GenJSPJ_CrtePushButton
-aZKey      130000080
+aZKey      130070315
 aType      G
-aReturnDataType N
 
 eParameter 3
-aShortDesc Dialog
+aShortDesc vDialog
 aDataType  V
 aPFlag     N
 aUFlag     N
-aZKey      130000081
+aZKey      130070316
 
 eParameter 3
-aShortDesc GroupParent
+aShortDesc vGroupParent
 aDataType  V
 aPFlag     N
 aUFlag     N
-aZKey      130000082
+aZKey      130070622
 
 eParameter 3
 aShortDesc File
 aDataType  L
 aPFlag     N
 aUFlag     N
-aZKey      130000083
+aZKey      130070317
 
 eParameter 3
 aShortDesc WriteBuffer
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000084
+aZKey      130070318
 
 eParameter 3
 aShortDesc Indent
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000085
+aZKey      130070319
 
 eParameter 3
 aShortDesc CtrlTag
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000086
+aZKey      130070320
 
 eParameter 3
 aShortDesc TableRowFlag
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000087
+aZKey      130070321
 
 eParameter 3
 aShortDesc Justify
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000088
+aZKey      130070322
 
 eParameter 3
 aShortDesc NoPositioning
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000089
+aZKey      130070323
 
 eParameter 3
 aShortDesc OffsetX
 aDataType  L
 aPFlag     N
 aUFlag     N
-aZKey      130000090
+aZKey      130070324
 
 eParameter 3
 aShortDesc OffsetY
 aDataType  L
 aPFlag     N
 aUFlag     N
-aZKey      130000091
+aZKey      130070325
 
 eParameter 3
-aShortDesc RepeatGrpKey
+aShortDesc strRepeatGrpKey
 aDataType  S
 aPFlag     N
 aUFlag     N
-aZKey      130000092
+aZKey      130070326
 
 eOperation 2
 aName      GenJSPJ_CrteMLEdit
@@ -384,7 +451,6 @@ aZKey      130000078
 eOperation 2
 aName      GenJSPJ_CrteListBox
 aZKey      4896913
-aDesc      Create ListBox for Java JSP
 aType      G
 
 eParameter 3

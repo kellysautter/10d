@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZZOXOGO 11/10/16   13:12:42 1.0a2   
+z1000-Zeidon    ZEIDON   TZZOXOGO                         04/03/18   14:09:46 1.0a2   
 eTZZOXOGO  1
 aNAME      Zeidon
 
@@ -2524,6 +2524,46 @@ aNAME      vDialogMenu
 aDATATYPE  V
 
 eOPERATION 3
+aNAME      GenJSPJ_CrteGridRadio
+aTYPE      G
+
+ePARAMETER 4
+aNAME      vDialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      lFile
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      WriteBuffer
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      Indent
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      RadioGroupName
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      NoPositioning
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      OffsetX
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      OffsetY
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      strRepeatingGrpKey
+aDATATYPE  S
+
+eOPERATION 3
 aNAME      GenJSPJ_CrteFileTransferForm
 aTYPE      G
 
@@ -2620,11 +2660,11 @@ aNAME      GenJSPJ_CrtePushButton
 aTYPE      G
 
 ePARAMETER 4
-aNAME      Dialog
+aNAME      vDialog
 aDATATYPE  V
 
 ePARAMETER 4
-aNAME      GroupParent
+aNAME      vGroupParent
 aDATATYPE  V
 
 ePARAMETER 4
@@ -2664,7 +2704,7 @@ aNAME      OffsetY
 aDATATYPE  L
 
 ePARAMETER 4
-aNAME      RepeatGrpKey
+aNAME      strRepeatGrpKey
 aDATATYPE  S
 
 eOPERATION 3

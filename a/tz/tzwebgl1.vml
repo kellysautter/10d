@@ -5567,7 +5567,7 @@ END
 
 GLOBAL OPERATION
 CreateDisabledString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                      STRING ( 1024 ) szDisabled )
+                      STRING ( 100 ) szDisabled )
 
    INTEGER        lSubtype
    INTEGER        lTemp

@@ -1,7 +1,7 @@
-z1000-Zeidon    WD       TZDGSRCO                         11/09/17   11:21:25 1.0a2   
+z1000-Zeidon    WD       TZDGSRCO 01/11/18   10:14:08 1.0a2    
 eDomainGroup 1
 aZKey      1320467
-aNextZKeyToAssign 130069846
+aNextZKeyToAssign 130069848
 aName      WD
 aDesc      Web jsp generation control types 
 aExtension C
@@ -617,6 +617,21 @@ aExternalValue Fieldset Absolute Pos
 aInternalValue Container Absolute Size
 
 eTableEntry 4
+aZKey      90127802
+aExternalValue iFrame
+aInternalValue iFrame
+
+eTableEntry 4
+aZKey      130069847
+aExternalValue Section
+aInternalValue Section
+
+eTableEntry 4
+aZKey      130069848
+aExternalValue Main
+aInternalValue Main
+
+eTableEntry 4
 aZKey      130000001
 aExternalValue Absolute Pos
 aInternalValue Absolute Pos
@@ -640,11 +655,6 @@ eTableEntry 4
 aZKey      92741379
 aExternalValue Survey Group
 aInternalValue Survey Group
-
-eTableEntry 4
-aZKey      90127802
-aExternalValue iFrame
-aInternalValue iFrame
 
 eTableEntry 4
 aZKey      90790799
@@ -2100,6 +2110,6 @@ aType      13
 aLastUpdateDate 19950908094926000
 aLastCheckInDate 19951102203051110
 
-i224       221
-i227       221
-i385       221
+i226       223
+i229       223
+i387       223
