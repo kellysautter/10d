@@ -249,30 +249,30 @@ static void ForNoWhere( zVIEW vSubtask );
 zOPER_EXPORT zLONG OPERATION
 ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action requested
 {
-   zLONG  lType;
-   zLONG  lResultID;
-   zLONG  lVarDataType;
-   zLONG  lIDNumber;
-   zLONG  lDefineZKey;
-   zLONG  lTempID;
-   zLONG  lDataClass;
-   zLONG  lOperType;
-   zLONG  lSearchOrder;
-   zLONG  lStatement, lStatement2;
-   zLONG  lVariable, lVariable2;
-   zLONG  lError;
-   zVIEW  lpLODTempView;
-   zVIEW  lpTempView;
-   zVIEW  vTempView;
-   zVIEW  vTargetView;
-   zVIEW  vSource;
-   zVIEW  vProgram;
+   zLONG  lType = 0;
+   zLONG  lResultID = 0;
+   zLONG  lVarDataType = 0;
+   zLONG  lIDNumber = 0;
+   zLONG  lDefineZKey = 0;
+   zLONG  lTempID = 0;
+   zLONG  lDataClass = 0;
+   zLONG  lOperType = 0;
+   zLONG  lSearchOrder = 0;
+   zLONG  lStatement = 0, lStatement2 = 0;
+   zLONG  lVariable = 0, lVariable2 = 0;
+   zLONG  lError = 0;
+   zVIEW  lpLODTempView = 0;
+   zVIEW  lpTempView = NULL; // KJS 11/15/2019
+   zVIEW  vTempView = NULL;
+   zVIEW  vTargetView = NULL;
+   zVIEW  vSource = NULL;
+   zVIEW  vProgram = NULL;
    zCHAR  szType[ 2 ];
    zCHAR  szWorkPFlag[ 2 ];
    zCHAR  szTempViewName[ 33 ];
    zCHAR  szErrorMsg[ 256 ];
-   zLONG  lUnaryOperator;
-   zLONG  lRC;
+   zLONG  lUnaryOperator = 0;
+   zLONG  lRC = 0;
    static zLONG lBreakFlag = 1;  // to determine if a BREAK should be generated (not immediately after a RETURN)
 
    if ( g_lOperationFlag != 3 )  // if not position, check to see if we want to do work
@@ -2875,12 +2875,11 @@ static zLONG
 ForceExprIntoParens( zVIEW vExpression )
 {
    zLONG lMaxLevel = 9; // priority of RPAREN
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // Try and find an expression entry with a Level less than 9. If found, then we need to
    // enclose the expression in parens.  Start at the first expression node and check for
    // the NEXT node whose priority is less that that of a first level RPAREN.  If we just
-   // did set first, we could find an LPAREN as the first node and erroneously put in more
    // parens when this would really signal that the expression is already in parens.
    lRC = SetCursorFirstEntity( vExpression, "ExprNode", "" );
 
@@ -3208,12 +3207,16 @@ OperationNameValid( zPCHAR szToken )
 
    if ( zstrcmp( g_szSourceMetaObjectName, "TZZOLODO" ) == 0 )
    {
-      zCHAR szLodName[ 9 ] = { 0 };
+      //zCHAR szLodName[ 9 ] = { 0 };
+      // KJS 01/30/17
+      zCHAR szLodName[ 33 ] = { 0 };
 
       // The source meta is a LOD.  For a LOD Operation, the length is restricted to 22 chars to
       // allow for a LOD name length of 8 characters. (o_LODNAME_).
       GetStringFromAttribute( szLodName, zsizeof( szLodName ), g_lpPIView, "VML_XSource", "MetaName" );
-      if ( zstrlen( szToken ) + zstrlen( szLodName ) > 30 )
+      //if ( zstrlen( szToken ) + zstrlen( szLodName ) > 30 )
+      // KJS 01/30/17
+      if ( zstrlen( szToken ) + zstrlen( szLodName ) > 54 )
          return( 0 );
    }
    else

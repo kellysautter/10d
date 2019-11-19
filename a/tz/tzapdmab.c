@@ -659,7 +659,7 @@ fnSetDateTimeAttribute( zSHORT       nDomain,
    zLPCONTEXT     lpContext;
    DateTimeRecord stDT;
    zPCHAR         psz;
-   zPCHAR         pszEditString;
+   zPCHAR         pszEditString = NULL; // KJS 11/15/2019
    zCHAR          szDT1[ 20 ];
    zCHAR          sz[ 256 ];
    zCHAR          szDateFmt[ 256 ];
@@ -1355,7 +1355,7 @@ fnGetDateTimeAttribute( zSHORT       nDomain,
 {
    LPDOMAIN    lpDomain;
    zLPCONTEXT  lpContext;
-   zPCHAR      pszEditString;
+   zPCHAR      pszEditString = NULL; // KJS 11/15/2019
    zCHAR       sz1[ 256 ];
    zCHAR       sz2[ 256 ];
    zCHAR       szDT1[ 20 ] = { "1234567890123456789" };
@@ -1832,7 +1832,7 @@ fnCompareDateTimeAttribute( zSHORT       nDomain,
    zLPCONTEXT  lpContext;
    zCHAR       szDT1[ 20 ];
    zCHAR       szDT2[ 20 ];
-   zPCHAR      pszEditString;
+   zPCHAR      pszEditString = NULL; // KJS 11/15/2019
    zPCHAR      psz1;
    zPCHAR      psz2;
    zCHAR       sz1[ 128 ];

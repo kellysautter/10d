@@ -499,7 +499,7 @@ OptimizeExpression( zVIEW vSubtask,
    zLONG lDataClass;
    zLONG lLth;
    zLONG lLastOperator = 0;
-   zLONG lRC;              // a return code
+   zLONG lRC = 0;              // a return code
 
    // We will reset the expression to the beginning if the set fails, then no
    // expression has be built into vSrc.
@@ -693,15 +693,15 @@ zLONG
 fnAnalyzeAssignmentStatement( zPLONG lpTargetDataClass,
                               zVIEW  vSearchView )
 {
-   zLONG lTargetVarID;
-   zLONG lExprCount;
-   zLONG lSimpleFlag;
-   zLONG lIsCond;
-   zLONG lNeedTemp;
-   zLONG lTargetClass;
-   zLONG lLeftIsOperation;
+   zLONG lTargetVarID = 0;
+   zLONG lExprCount = 0;
+   zLONG lSimpleFlag = 0;
+   zLONG lIsCond = 0;
+   zLONG lNeedTemp = 0;
+   zLONG lTargetClass = 0;
+   zLONG lLeftIsOperation = 0;
    zCHAR szTargetString[ 128 ];
-   zLONG lRC;                    // return code
+   zLONG lRC = 0;                    // return code
 
    // reset the search view
    SetCursorFirstEntity( vSearchView, "ExprNode", "" );
@@ -917,7 +917,7 @@ OptimizeSimpleNumericExpression( zVIEW vSubtask, zVIEW vTgt, zVIEW vSrc,
    zVIEW  vLeftView;
    zVIEW  vRightView;
    zVIEW  vOperatorView;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // assume we re positioned correctly.
    CreateViewFromViewForTask( &vLeftView, vSrc, 0 );
@@ -1372,7 +1372,7 @@ fnHandleOperatorTab( zVIEW  vSubtask,
                      zLONG lStartLevel, zLONG lMaxLevel )
 {
    sQExprStruct sGExpr = { 0 };
-   zLONG lRC;
+   zLONG lRC = 0;
 
    if ( (pOTab->lRightPos > 0) && (pOTab->lLeftPos > 0) )
    {
@@ -2464,7 +2464,7 @@ OptimizeSimpleTextExpression( zVIEW  vSubtask, zVIEW  vTgt, zVIEW  vSrc,
    zLONG lRightElementClass;
    zLONG lMaxLevel;
    zLONG lLth;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    //SetNameForView( vSrc, "EXPRESSION", vSubtask, zLEVEL_TASK );
    //STOP
@@ -3184,7 +3184,7 @@ CreateSourceZeidonStrOp( zVIEW  vSubtask,
    zLONG lOffset;
    zLONG lElementClass;
    zLONG lWork;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // Set the source string.
    fnCopyExprNode( vTgt, vSrc, zPOS_AFTER, FALSE );
@@ -3288,7 +3288,7 @@ CreateSourceZeidonStrOpS( zVIEW  vSubtask,
    zLONG lOffset;
    zLONG lElementClass;
    zLONG lWork;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // Set the source string.
 // sExprStruct.lStructSize = sizeof( sQExprStruct );
@@ -3484,7 +3484,7 @@ CreateTargetZeidonStrOp( zVIEW  vSubtask,
    zLONG lOffset;
    zLONG lElementClass;
    zLONG lOperationZKey;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // We will check to see if vTgt has valid position on Expression.
    // If it doesn't, we have some kind of invalid expression such as
@@ -3609,7 +3609,7 @@ CreateTargetZeidonStrOpS( zVIEW  vSubtask,
    zLONG lOffset;
    zLONG lElementClass;
    zLONG lOperationZKey;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    lOperationZKey = GetOperationZKey( vSubtask, qZEIDONOPERATION, pchOperationName );
    IncludeCoreHeader( g_lpPIView, "ZDRVROPR" );

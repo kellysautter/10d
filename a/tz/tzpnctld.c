@@ -170,6 +170,7 @@ zOPER_EXPORT zSHORT OPERATION
 TabPreBuild( zVIEW vSubtask )
 {
    zVIEW   vControl;
+   zVIEW   vDialogW;
    zLONG   lType;
    zSHORT  k = 0;
    zSHORT  nRC;
@@ -198,6 +199,12 @@ TabPreBuild( zVIEW vSubtask )
 
    if ( !ComponentIsCheckedOut( vSubtask, vControl, zSOURCE_DIALOG_META ) )
       SetViewReadOnly( vControl );
+
+
+   // KJS 10/12/17 - Added web control properties for tab.
+   // Go to build list of Web Potential Control Properties.
+   GetViewByName( &vDialogW, "TZWINDOW", vSubtask, zLEVEL_TASK );
+   oTZWDLGSO_BuildWebCtrlPropOpts( vDialogW, vDialogW, "Dialog", "wWebTabControlProperties" );
 
    return( 0 );
 }
@@ -254,6 +261,7 @@ TabPostBuild( zVIEW vSubtask )
 {
    zVIEW   vControl;
    zVIEW   vTZWINDOWL;
+   zVIEW   vDialogW;
    zLONG   lType;
    zLONG   lTabStyle;
    zULONG  ulTabColor = 0xFF000000;
@@ -613,6 +621,8 @@ ActionInitPrebuild( zVIEW vSubtask )
 
    // Set up Domain Context mapping.
    zwTZPNCTLD_CtrlContextMapping( vSubtask );
+   // Go to build list of Web Potential Control Properties.
+   oTZWDLGSO_BuildWebCtrlPropOpts( vDialogW, vDialogW, "Dialog", "wWebBitmapControlProperties" );
 
    return( 0 );
 }
@@ -2244,6 +2254,62 @@ zwTZPNCTLD_CtrlContextMapping( zVIEW vSubtask )
 
 } // zwTZPNCTLD_CtrlContextMapping
 
+
+
+/*************************************************************************************************
+**
+**    OPERATION: SET_CurrentWebControlProperties
+**
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+SET_CurrentWebControlProperties( zVIEW vSubtask )
+{
+   zVIEW vDialog;
+   zVIEW vDialogC;
+   zSHORT nRC;
+   zCHAR  szPropertyName[ 33 ];
+
+   // Include each selected WebControlPropertyOption entity into WebControlProperty.
+   GetViewByName( &vDialogC, "TZCONTROL", vSubtask, zLEVEL_TASK );
+   GetViewByName( &vDialog, "TZWINDOW", vSubtask, zLEVEL_TASK );
+   for ( nRC = SetCursorFirstSelectedEntity( vDialog, "WebControlPropertyOption", "" );
+         nRC >= zCURSOR_SET;
+         nRC = SetCursorNextSelectedEntity( vDialog, "WebControlPropertyOption", "" ) )
+   {
+      GetStringFromAttribute( szPropertyName, zsizeof( szPropertyName ), vDialog, "WebControlPropertyOption", "Name" );
+      nRC = SetCursorFirstEntityByString( vDialogC, "WebControlProperty", "Name", szPropertyName, 0 );
+      if ( nRC < zCURSOR_SET )
+      {
+         CreateMetaEntity( vSubtask, vDialogC, "WebControlProperty", zPOS_AFTER );
+         SetMatchingAttributesByName( vDialogC, "WebControlProperty", vDialog, "WebControlPropertyOption", zSET_NULL );
+      }
+   }
+
+   return( 0 );
+} // SET_CurrentWebControlProperties
+
+/*************************************************************************************************
+**
+**    OPERATION: REMOVE_CurrentWebCtrlProperties
+**
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+REMOVE_CurrentWebCtrlProperties( zVIEW vSubtask )
+{
+   zVIEW vDialog;
+   zSHORT nRC;
+
+   // Remove each selected WebControlProperty entity.
+   GetViewByName( &vDialog, "TZCONTROL", vSubtask, zLEVEL_TASK );
+   for ( nRC = SetCursorFirstSelectedEntity( vDialog, "WebControlProperty", "" );
+         nRC >= zCURSOR_SET;
+         nRC = SetCursorNextSelectedEntity( vDialog, "WebControlProperty", "" ) )
+   {
+      DeleteEntity( vDialog, "WebControlProperty", zREPOS_NONE );
+   }
+
+   return( 0 );
+} // REMOVE_CurrentWebCtrlProperties
 
 #ifdef __cplusplus
 }

@@ -240,8 +240,8 @@ ZMultiIdxSet::VisitInorder( fnVISIT_INORDER pfnVisit,
 {
    zLONG k;
 
-// TraceLineX( "VisitInorder ", (zLONG) this );
-// TraceLineI( "    m_lNodeCnt ", m_lNodeCnt );
+ //TraceLineX( "VisitInorder ", (zLONG) this );
+ //TraceLineI( "    m_lNodeCnt ", m_lNodeCnt );
 
    m_pvNodeErr = 0;           // first node in error during visit inorder
    if ( nSortedOrder > 0 && m_pCurrIndex )
@@ -268,7 +268,7 @@ ZMultiIdxSet::VisitInorder( fnVISIT_INORDER pfnVisit,
       {
          for ( k = 0; k < m_lNodeCnt; k++ )
          {
-         // TraceLineX( "       pvNode ", (zLONG) (zPVOID) *(m_pvNode + k) );
+          //TraceLineX( "       pvNode ", (zLONG) (zPVOID) *(m_pvNode + k) );
             (*pfnVisit)( (zPVOID) *(m_pvNode + k), wParam, lParam );
          }
       }

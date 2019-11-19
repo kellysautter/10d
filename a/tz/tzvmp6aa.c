@@ -84,27 +84,27 @@ zOPER_EXPORT zLONG OPERATION
 InsertSetCursorWithWhere( zVIEW vSubtask )  // java???
 {
    zCHAR szViewName[ 33 ];
-   zLONG lViewID;
+   zLONG lViewID = 0;
    zCHAR szEntityName[ 33 ];
-   zLONG lEntityID;
+   zLONG lEntityID = 0;
    zCHAR szAttributeName[ 33 ];
-   zLONG lAttributeID;
+   zLONG lAttributeID = 0;
    zCHAR szRightViewName[ 33 ];
-   zLONG lRightViewID;
+   zLONG lRightViewID = 0;
    zCHAR szRightEntityName[ 33 ];
-   zLONG lRightEntityID;
+   zLONG lRightEntityID = 0;
    zCHAR szRightAttributeName[ 33 ];
-   zLONG lRightAttributeID;
-   zLONG lTempID;
+   zLONG lRightAttributeID = 0;
+   zLONG lTempID = 0;
    zLONG lLth;
    zCHAR szOperationName[ 33 ];
-   zLONG lResultID;
-   zLONG lCantOptOut;   // int flag to say we can't optimize because of ORs
-   zLONG lLoop;
-   zLONG lOperator;
-   zLONG lUseFirst;
-   zVIEW vTargetView;
-   zLONG lNewDataType;
+   zLONG lResultID = 0;
+   zLONG lCantOptOut = 0;   // int flag to say we can't optimize because of ORs
+   zLONG lLoop = 0;
+   zLONG lOperator = 0;
+   zLONG lUseFirst = 0;
+   zVIEW vTargetView = 0;
+   zLONG lNewDataType = 0;
    zBOOL bSetNextJava = FALSE;
 
    // TB 519: first check, whether the WHERE Clause uses an EXISTS or a DOES NOT EXIST or
@@ -565,7 +565,7 @@ SetCursorWhereNoOpt( zVIEW vSubtask, zVIEW vTargetView )  // java???
 {
    zLONG lLoop;
    zLONG lOperator;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // Do AND-OR-Analysis.
    // If the expression contains AND and OR we must regard, that

@@ -950,7 +950,7 @@ zOPER_EXPORT zLONG OPERATION
 PositionAtOperationInSource( zLONG lZKey )
 {
    zLONG lLineNumber;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    if ( lZKey == 0 )  // position at first operation
    {
@@ -1001,7 +1001,7 @@ PositionAtOperationInSource( zLONG lZKey )
 zOPER_EXPORT zLONG OPERATION
 DeleteAllOpersForSource( zVIEW vXPGView )
 {
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // Start with the first source file.
    lRC = SetCursorFirstEntity( vXPGView, "OperationSource", "SourceFile" );
@@ -1278,7 +1278,7 @@ zOPER_EXPORT zLONG OPERATION
 SaveTextLine( void )
 {
    zCHAR szWork[ LENWORK ];
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // If we have already stored the entire text git out.
    if ( g_lOperationFlag > 1 )  // update or position
@@ -1334,7 +1334,7 @@ GetProfileData( zVIEW  vSubtask,
 {
    zVIEW  vProfileView;
    zLONG lLth;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    lRC = oTZ__PRFO_GetViewToProfile( &vProfileView, "VML", vSubtask, zCURRENT_OI );
    if ( lRC == 0 )
@@ -1379,7 +1379,7 @@ zOPER_EXPORT zLONG OPERATION
 CompareFileToXPG( zLONG lZKey )
 {
    zLONG lCompare;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    SetCursorFirstEntityByInteger( g_lpPIView, "OperationSource", "ZKey", lZKey, "");
 
@@ -1425,7 +1425,7 @@ zOPER_EXPORT zLONG OPERATION
 IncludeCoreHeader( zVIEW lpView, zPCHAR pchHeaderName )
 {
    zLONG lZKey;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    lRC = SetCursorFirstEntityByString( g_lpZOListView, "HeaderFile", "Name", pchHeaderName, "" );
    if ( lRC > zCURSOR_UNCHANGED )

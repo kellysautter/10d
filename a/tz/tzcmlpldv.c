@@ -61,6 +61,17 @@ o_INITIALIZE_NextZKeyForObject( zVIEW     vMetaOI,
                                 zPCHAR    szRootEntityName );
 
 
+zOPER_EXPORT zSHORT OPERATION
+CHANGE_ImportName( zVIEW     ViewToWindow );
+
+
+static zSHORT
+o_CopyContentsOfDirectory( zVIEW     ViewToWindow,
+                           zPCHAR    szFromDir,
+                           zPCHAR    szToDir,
+                           zPCHAR    szCopyFiles );
+
+
 //:DIALOG OPERATION
 //:PostbuildNewLPLR( VIEW ViewToWindow )
 
@@ -106,6 +117,16 @@ PostbuildImportLPLR( zVIEW     ViewToWindow )
    //:// New Imported (external) LPLR
    //:TZCMLPLO.LPLR.LPLR_Type = 3
    SetAttributeFromInteger( TZCMLPLO, "LPLR", "LPLR_Type", 3 );
+   //:SetCtrlState( ViewToWindow, "edName", zCONTROL_STATUS_ENABLED, FALSE )
+   SetCtrlState( ViewToWindow, "edName", zCONTROL_STATUS_ENABLED, FALSE );
+   //:SetCtrlState( ViewToWindow, "edDesc", zCONTROL_STATUS_ENABLED, FALSE )
+   SetCtrlState( ViewToWindow, "edDesc", zCONTROL_STATUS_ENABLED, FALSE );
+   //:SetCtrlState( ViewToWindow, "edBaseDir", zCONTROL_STATUS_ENABLED, FALSE )
+   SetCtrlState( ViewToWindow, "edBaseDir", zCONTROL_STATUS_ENABLED, FALSE );
+   //:SetCtrlState( ViewToWindow, "edExecDir", zCONTROL_STATUS_ENABLED, FALSE )
+   SetCtrlState( ViewToWindow, "edExecDir", zCONTROL_STATUS_ENABLED, FALSE );
+   //:SetCtrlState( ViewToWindow, "edJavaPackageName", zCONTROL_STATUS_ENABLED, FALSE )
+   SetCtrlState( ViewToWindow, "edJavaPackageName", zCONTROL_STATUS_ENABLED, FALSE );
    return( 0 );
 // END
 } 
@@ -409,14 +430,28 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    zVIEW     KZAPPLOO = 0; 
    //:VIEW TZCMLPLONew BASED ON LOD  TZCMLPLO
    zVIEW     TZCMLPLONew = 0; 
+   //:VIEW TZEREMDO    BASED ON LOD  TZEREMDO
+   zVIEW     TZEREMDO = 0; 
+   //:VIEW TZTENVRO    BASED ON LOD  TZTENVRO
+   zVIEW     TZTENVRO = 0; 
    //:STRING ( 513 ) szMsg
    zCHAR     szMsg[ 514 ] = { 0 }; 
+   //:STRING ( 513 ) szTmp
+   zCHAR     szTmp[ 514 ] = { 0 }; 
    //:STRING ( 513 ) szFileName
    zCHAR     szFileName[ 514 ] = { 0 }; 
    //:STRING ( 513 ) szFromFileName
    zCHAR     szFromFileName[ 514 ] = { 0 }; 
+   //:STRING ( 513 ) szExeDir
+   zCHAR     szExeDir[ 514 ] = { 0 }; 
+   //:STRING ( 513 ) szTempDir
+   zCHAR     szTempDir[ 514 ] = { 0 }; 
    //:STRING ( 513 ) szLPLRName
    zCHAR     szLPLRName[ 514 ] = { 0 }; 
+   //:STRING ( 513 ) szOrigLPLRName
+   zCHAR     szOrigLPLRName[ 514 ] = { 0 }; 
+   //:STRING ( 513 ) szJavaPackageName
+   zCHAR     szJavaPackageName[ 514 ] = { 0 }; 
    //:SHORT nRC
    zSHORT    nRC = 0; 
    //:INTEGER lHighZKey
@@ -425,14 +460,22 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    zLONG     lHighPrefix = 0; 
    //:INTEGER nLth
    zLONG     nLth = 0; 
+   //:INTEGER lHandle
+   zLONG     lHandle = 0; 
    zSHORT    lTempInteger_0; 
    zCHAR     szTempString_0[ 255 ]; 
    zSHORT    lTempInteger_1; 
+   zCHAR     szTempString_1[ 255 ]; 
+   zCHAR     szTempString_2[ 33 ]; 
+   zCHAR     szTempString_3[ 33 ]; 
    zSHORT    lTempInteger_2; 
-   zCHAR     szTempString_1[ 33 ]; 
-   zCHAR     szTempString_2[ 255 ]; 
-   zCHAR     szTempString_3[ 255 ]; 
+   zSHORT    lTempInteger_3; 
    zCHAR     szTempString_4[ 255 ]; 
+   zSHORT    lTempInteger_4; 
+   zCHAR     szTempString_5[ 33 ]; 
+   zCHAR     szTempString_6[ 255 ]; 
+   zCHAR     szTempString_7[ 255 ]; 
+   zCHAR     szTempString_8[ 255 ]; 
 
    RESULT = GetViewByName( &TZCMWKSO, "TZCMWKSO", ViewToWindow, zLEVEL_TASK );
    RESULT = GetViewByName( &TZCMLPLO, "TZCMLPLO", ViewToWindow, zLEVEL_TASK );
@@ -510,53 +553,361 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
 
    //:END
 
-   //:IF TZCMLPLO.LPLR.LPLR_Type = "2"    // "2" is new empty
-   if ( CompareAttributeToString( TZCMLPLO, "LPLR", "LPLR_Type", "2" ) == 0 )
+   //:// KJS 09/12/17 - Thinking I still want to do this even if it's not new... because if I have a different directory to move to...??
+   //://IF TZCMLPLO.LPLR.LPLR_Type = "2"    // "2" is new empty
+   //:   // LPLR is new empty.
+   //:   // Create the following.
+   //:   // 1. Build Installation/Users object (TZCMULWO). It will be completed on next window.
+   //:   // 2. TZCMLPLO and TZCMWKSO will be updated on next window.
+
+   //:   // Is this right?????
+   //:   TZCMLPLO.LPLR.ZKey = lHighZKey
+   SetAttributeFromInteger( TZCMLPLO, "LPLR", "ZKey", lHighZKey );
+
+   //:   // KJS 06/05/15 - If the user puts in a directory for the meta source that doesn't
+   //:   // exist, do we want to create one for them?
+   //:   szFileName = TZCMLPLO.LPLR.MetaSrcDir
+   GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
+   //:   IF SysValidDirOrFile( szFileName, TRUE, TRUE, 512) < 0
+   lTempInteger_0 = SysValidDirOrFile( szFileName, TRUE, TRUE, 512 );
+   if ( lTempInteger_0 < 0 )
    { 
-      //:// LPLR is new empty.
-      //:// Create the following.
-      //:// 1. Build Installation/Users object (TZCMULWO). It will be completed on next window.
-      //:// 2. TZCMLPLO and TZCMWKSO will be updated on next window.
+      //:   RETURN -1
+      return( -1 );
+   } 
 
-      //:// Is this right?????
-      //:TZCMLPLO.LPLR.ZKey = lHighZKey
-      SetAttributeFromInteger( TZCMLPLO, "LPLR", "ZKey", lHighZKey );
+   //:   END
 
-      //:// KJS 06/05/15 - If the user puts in a directory for the meta source that doesn't
-      //:// exist, do we want to create one for them?
-      //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
-      GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
+   //://END
+
+   //:// We have to create the subdirectory one directory at a time.
+   //:szExeDir = TZCMLPLO.LPLR.wExecutableSubDirectory
+   GetVariableFromAttribute( szExeDir, 0, 'S', 514, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
+   //:TZCMLPLO.LPLR.ExecDir = TZCMLPLO.LPLR.MetaSrcDir + "\" + szExeDir
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+   ZeidonStringConcat( szTempString_0, 1, 0, "\\", 1, 0, 255 );
+   ZeidonStringConcat( szTempString_0, 1, 0, szExeDir, 1, 0, 255 );
+   SetAttributeFromString( TZCMLPLO, "LPLR", "ExecDir", szTempString_0 );
+   //:nRC = zSearchSubString( szExeDir, "\"  , "f", 0 )
+   nRC = zSearchSubString( szExeDir, "\\", "f", 0 );
+   //:LOOP WHILE nRC > 0 
+   while ( nRC > 0 )
+   { 
+      //:ZeidonStringCopy( szTempDir, 1, 0, szExeDir, 1, nRC, 513 )
+      ZeidonStringCopy( szTempDir, 1, 0, szExeDir, 1, (zLONG) nRC, 513 );
+      //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szTempDir
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+      ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
+      ZeidonStringConcat( szFileName, 1, 0, szTempDir, 1, 0, 514 );
       //:IF SysValidDirOrFile( szFileName, TRUE, TRUE, 512) < 0
-      lTempInteger_0 = SysValidDirOrFile( szFileName, TRUE, TRUE, 512 );
-      if ( lTempInteger_0 < 0 )
+      lTempInteger_1 = SysValidDirOrFile( szFileName, TRUE, TRUE, 512 );
+      if ( lTempInteger_1 < 0 )
       { 
+         //:szMsg = "An error occured trying to create the executable directory " + szFileName
+         ZeidonStringCopy( szMsg, 1, 0, "An error occured trying to create the executable directory ", 1, 0, 514 );
+         ZeidonStringConcat( szMsg, 1, 0, szFileName, 1, 0, 514 );
+         //:MessageSend( ViewToWindow, "", "Configuration Management",
+         //:             szMsg,
+         //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         MessageSend( ViewToWindow, "", "Configuration Management", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+         //:SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
+         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 );
          //:RETURN -1
          return( -1 );
       } 
 
       //:END
+      //:nRC = zSearchSubString( szExeDir, "\"  , "f", nRC + 1)
+      nRC = zSearchSubString( szExeDir, "\\", "f", nRC + 1 );
    } 
 
-
-   //:      END
+   //:END
 
    //:// Set the executable directory. Create it if it doesn't exist and also copy the zeidon.hky if it doesn't exist.
    //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
    GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
    ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
-   GetVariableFromAttribute( szTempString_0, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
-   ZeidonStringConcat( szFileName, 1, 0, szTempString_0, 1, 0, 514 );
-   //:IF SysValidDirOrFile( szFileName, TRUE, TRUE, 512) < 0
-   lTempInteger_1 = SysValidDirOrFile( szFileName, TRUE, TRUE, 512 );
-   if ( lTempInteger_1 < 0 )
+   GetVariableFromAttribute( szTempString_1, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
+   ZeidonStringConcat( szFileName, 1, 0, szTempString_1, 1, 0, 514 );
+   //:SysValidDirOrFile( szFileName, TRUE, TRUE, 512)
+   SysValidDirOrFile( szFileName, TRUE, TRUE, 512 );
+
+   //:// If the user has changed the lplr name, then we will copy over the original lplr to the new directory.
+   //:IF TZCMLPLO.LPLR.wOrigLPLRName != "" AND TZCMLPLO.LPLR.Name != TZCMLPLO.LPLR.wOrigLPLRName 
+   if ( CompareAttributeToString( TZCMLPLO, "LPLR", "wOrigLPLRName", "" ) != 0 && CompareAttributeToAttribute( TZCMLPLO, "LPLR", "Name", TZCMLPLO, "LPLR", "wOrigLPLRName" ) != 0 )
    { 
-      //:RETURN -1
-      return( -1 );
+
+      //:// This was for testing purposes but at the moment, it looked like the
+      //:// zSearchSubString is case sensitive and I don't want it to be.
+      //:szFileName = TZCMLPLO.LPLR.JavaPackageName 
+      GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "JavaPackageName", "", 0 );
+      //:szOrigLPLRName = TZCMLPLO.LPLR.wOrigLPLRName
+      GetVariableFromAttribute( szOrigLPLRName, 0, 'S', 514, TZCMLPLO, "LPLR", "wOrigLPLRName", "", 0 );
+      //:nRC = zSearchSubString( szFileName, szOrigLPLRName, "f", 0 )
+      nRC = zSearchSubString( szFileName, szOrigLPLRName, "f", 0 );
+      //:zSearchAndReplace( szFileName, 513, szOrigLPLRName, szLPLRName )
+      zSearchAndReplace( szFileName, 513, szOrigLPLRName, szLPLRName );
+      //:TZCMLPLO.LPLR.JavaPackageName = szFileName
+      SetAttributeFromString( TZCMLPLO, "LPLR", "JavaPackageName", szFileName );
+      //:      
+      //:szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\*.*"
+      GetStringFromAttribute( szFromFileName, zsizeof( szFromFileName ), TZCMLPLO, "LPLR", "wOrigMetaSrc" );
+      ZeidonStringConcat( szFromFileName, 1, 0, "\\*.*", 1, 0, 514 );
+
+      //:lHandle = FindFileStart( szFromFileName, szMsg )
+      lHandle = FindFileStart( szFromFileName, szMsg );
+      //:nRC = 1
+      nRC = 1;
+      //:LOOP WHILE lHandle >= 0 AND nRC > 0
+      while ( lHandle >= 0 && nRC > 0 )
+      { 
+
+         //://szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szMsg
+         //:// Don't copy the file if it begins with a period (like .git, .project etc)
+         //:nRC = zSearchSubString( szMsg, ".", "f", 0 )
+         nRC = zSearchSubString( szMsg, ".", "f", 0 );
+         //:IF nRC != 0 
+         if ( nRC != 0 )
+         { 
+
+            //:// I think we care about DTE, PMD, LLP (don't copy)
+            //:szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".DTE"
+            GetStringFromAttribute( szTempDir, zsizeof( szTempDir ), TZCMLPLO, "LPLR", "wOrigLPLRName" );
+            ZeidonStringConcat( szTempDir, 1, 0, ".DTE", 1, 0, 514 );
+            //:nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
+            nRC = zSearchSubString( szMsg, szTempDir, "f", 0 );
+            //:IF nRC >= 0
+            if ( nRC >= 0 )
+            { 
+               //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.Name + ".DTE"
+               GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+               ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
+               GetVariableFromAttribute( szTempString_2, 0, 'S', 33, TZCMLPLO, "LPLR", "Name", "", 0 );
+               ZeidonStringConcat( szFileName, 1, 0, szTempString_2, 1, 0, 514 );
+               ZeidonStringConcat( szFileName, 1, 0, ".DTE", 1, 0, 514 );
+
+               //:szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg   
+               GetStringFromAttribute( szFromFileName, zsizeof( szFromFileName ), TZCMLPLO, "LPLR", "wOrigMetaSrc" );
+               ZeidonStringConcat( szFromFileName, 1, 0, "\\", 1, 0, 514 );
+               ZeidonStringConcat( szFromFileName, 1, 0, szMsg, 1, 0, 514 );
+               //:nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+               nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+               //:nRC = ActivateOI_FromFile ( TZTENVRO, "TZTENVRO", ViewToWindow, szFileName, 512 )
+               nRC = ActivateOI_FromFile( &TZTENVRO, "TZTENVRO", ViewToWindow, szFileName, 512 );
+               //:TZTENVRO.TE_DB_Environ.Name = TZCMLPLO.LPLR.Name
+               SetAttributeFromAttribute( TZTENVRO, "TE_DB_Environ", "Name", TZCMLPLO, "LPLR", "Name" );
+               //:nRC = CommitOI_ToFile( TZTENVRO, szFileName, zASCII )
+               nRC = CommitOI_ToFile( TZTENVRO, szFileName, zASCII );
+               //:ELSE 
+            } 
+            else
+            { 
+               //:szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".PMD"
+               GetStringFromAttribute( szTempDir, zsizeof( szTempDir ), TZCMLPLO, "LPLR", "wOrigLPLRName" );
+               ZeidonStringConcat( szTempDir, 1, 0, ".PMD", 1, 0, 514 );
+               //:nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
+               nRC = zSearchSubString( szMsg, szTempDir, "f", 0 );
+               //:IF nRC >= 0
+               if ( nRC >= 0 )
+               { 
+                  //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.Name + ".PMD"
+                  GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+                  ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
+                  GetVariableFromAttribute( szTempString_3, 0, 'S', 33, TZCMLPLO, "LPLR", "Name", "", 0 );
+                  ZeidonStringConcat( szFileName, 1, 0, szTempString_3, 1, 0, 514 );
+                  ZeidonStringConcat( szFileName, 1, 0, ".PMD", 1, 0, 514 );
+                  //:szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg   
+                  GetStringFromAttribute( szFromFileName, zsizeof( szFromFileName ), TZCMLPLO, "LPLR", "wOrigMetaSrc" );
+                  ZeidonStringConcat( szFromFileName, 1, 0, "\\", 1, 0, 514 );
+                  ZeidonStringConcat( szFromFileName, 1, 0, szMsg, 1, 0, 514 );
+                  //:nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+                  nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+                  //:nRC = ActivateOI_FromFile ( TZEREMDO, "TZEREMDO", ViewToWindow, szFileName, 512 ) 
+                  nRC = ActivateOI_FromFile( &TZEREMDO, "TZEREMDO", ViewToWindow, szFileName, 512 );
+                  //:TZEREMDO.EntpER_Model.Name = TZCMLPLO.LPLR.Name
+                  SetAttributeFromAttribute( TZEREMDO, "EntpER_Model", "Name", TZCMLPLO, "LPLR", "Name" );
+                  //://CommitMetaOI( ViewToWindow, TZEREMDO, zSOURCE_ERD_META )
+                  //:nRC = CommitOI_ToFile( TZEREMDO, szFileName, zASCII )
+                  nRC = CommitOI_ToFile( TZEREMDO, szFileName, zASCII );
+                  //:ELSE 
+               } 
+               else
+               { 
+                  //:szTempDir = TZCMLPLO.LPLR.wOrigLPLRName + ".LLP"
+                  GetStringFromAttribute( szTempDir, zsizeof( szTempDir ), TZCMLPLO, "LPLR", "wOrigLPLRName" );
+                  ZeidonStringConcat( szTempDir, 1, 0, ".LLP", 1, 0, 514 );
+                  //:nRC = zSearchSubString( szMsg, szTempDir, "f", 0 )
+                  nRC = zSearchSubString( szMsg, szTempDir, "f", 0 );
+                  //:// Don't copy if this is the llp.
+                  //:IF nRC < 0
+                  if ( nRC < 0 )
+                  { 
+                     //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szMsg
+                     GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+                     ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
+                     ZeidonStringConcat( szFileName, 1, 0, szMsg, 1, 0, 514 );
+                     //:szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + szMsg
+                     GetStringFromAttribute( szFromFileName, zsizeof( szFromFileName ), TZCMLPLO, "LPLR", "wOrigMetaSrc" );
+                     ZeidonStringConcat( szFromFileName, 1, 0, "\\", 1, 0, 514 );
+                     ZeidonStringConcat( szFromFileName, 1, 0, szMsg, 1, 0, 514 );
+                     //:nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+                     nRC = SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+                  } 
+
+                  //:END
+               } 
+
+               //:END
+            } 
+
+            //:END
+         } 
+
+
+         //:END // Check if file name starts with "."
+
+         //:nRC = FindFileNext( lHandle, szMsg )
+         nRC = FindFileNext( lHandle, szMsg );
+      } 
+
+      //:END       
+
+      //:// Now Copy files from executable directory.
+      //:szFromFileName = TZCMLPLO.LPLR.wOrigExecSrc + "\"
+      GetStringFromAttribute( szFromFileName, zsizeof( szFromFileName ), TZCMLPLO, "LPLR", "wOrigExecSrc" );
+      ZeidonStringConcat( szFromFileName, 1, 0, "\\", 1, 0, 514 );
+      //:szFileName = TZCMLPLO.LPLR.ExecDir + "\"
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "ExecDir" );
+      ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
+      //:CopyContentsOfDirectory( ViewToWindow, szFromFileName, szFileName, "Y" )
+      o_CopyContentsOfDirectory( ViewToWindow, szFromFileName, szFileName, "Y" );
+      //:TZCMLPLO.LPLR.wCopiedExecDir = "Y"
+      SetAttributeFromString( TZCMLPLO, "LPLR", "wCopiedExecDir", "Y" );
+
+      //:// Copy files from the JavaProject... java directory if it exists.
+      //:IF TZCMLPLO.LPLR.JavaPackageName != ""
+      if ( CompareAttributeToString( TZCMLPLO, "LPLR", "JavaPackageName", "" ) != 0 )
+      { 
+
+         //:szJavaPackageName = TZCMLPLO.LPLR.JavaPackageName 
+         GetVariableFromAttribute( szJavaPackageName, 0, 'S', 514, TZCMLPLO, "LPLR", "JavaPackageName", "", 0 );
+         //:nRC = zSearchSubString( szJavaPackageName, "."  , "f", 0 )
+         nRC = zSearchSubString( szJavaPackageName, ".", "f", 0 );
+         //:IF nRC >= 0
+         if ( nRC >= 0 )
+         { 
+            //:zSearchAndReplace( szJavaPackageName, 513, ".", "\" )
+            zSearchAndReplace( szJavaPackageName, 513, ".", "\\" );
+         } 
+
+         //:END
+         //:// At the moment we are going to assume that if you have a JavaPackageName that
+         //:// you will have a \javaProject\src\main" + javaPackageName directory to store your 
+         //:// java code.
+         //:szTmp = "JavaProject\src\main\java\" + szJavaPackageName + "\"
+         ZeidonStringCopy( szTmp, 1, 0, "JavaProject\\src\\main\\java\\", 1, 0, 514 );
+         ZeidonStringConcat( szTmp, 1, 0, szJavaPackageName, 1, 0, 514 );
+         ZeidonStringConcat( szTmp, 1, 0, "\\", 1, 0, 514 );
+         //:nRC = zSearchSubString( szTmp, "\"  , "f", 0 )
+         nRC = zSearchSubString( szTmp, "\\", "f", 0 );
+         //:LOOP WHILE nRC > 0 
+         while ( nRC > 0 )
+         { 
+            //:ZeidonStringCopy( szTempDir, 1, 0, szTmp, 1, nRC, 513 )
+            ZeidonStringCopy( szTempDir, 1, 0, szTmp, 1, (zLONG) nRC, 513 );
+            //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + szTempDir
+            GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+            ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
+            ZeidonStringConcat( szFileName, 1, 0, szTempDir, 1, 0, 514 );
+            //:IF SysValidDirOrFile( szFileName, TRUE, TRUE, 512) < 0
+            lTempInteger_2 = SysValidDirOrFile( szFileName, TRUE, TRUE, 512 );
+            if ( lTempInteger_2 < 0 )
+            { 
+               //:szMsg = "An error occured trying to create the java project directory " + szFileName
+               ZeidonStringCopy( szMsg, 1, 0, "An error occured trying to create the java project directory ", 1, 0, 514 );
+               ZeidonStringConcat( szMsg, 1, 0, szFileName, 1, 0, 514 );
+               //:MessageSend( ViewToWindow, "", "Configuration Management",
+               //:             szMsg,
+               //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+               MessageSend( ViewToWindow, "", "Configuration Management", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+               //:SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
+               SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 );
+               //:RETURN -1
+               return( -1 );
+            } 
+
+            //:END
+            //:nRC = zSearchSubString( szTmp, "\"  , "f", nRC + 1)
+            nRC = zSearchSubString( szTmp, "\\", "f", nRC + 1 );
+         } 
+
+         //:END
+
+         //:szTmp = TZCMLPLO.LPLR.wOrigJavaPackage  
+         GetVariableFromAttribute( szTmp, 0, 'S', 514, TZCMLPLO, "LPLR", "wOrigJavaPackage", "", 0 );
+         //:IF zSearchSubString( szTmp, "."  , "f", 0 ) >= 0
+         lTempInteger_3 = zSearchSubString( szTmp, ".", "f", 0 );
+         if ( lTempInteger_3 >= 0 )
+         { 
+            //:zSearchAndReplace( szTmp, 513, ".", "\" )
+            zSearchAndReplace( szTmp, 513, ".", "\\" );
+         } 
+
+         //:END
+
+         //:TZCMLPLO.LPLR.wOrigJavaPackage = szTmp
+         SetAttributeFromString( TZCMLPLO, "LPLR", "wOrigJavaPackage", szTmp );
+         //:// Copy java files
+         //:szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\JavaProject\src\main\java\" + szTmp + "\"
+         GetStringFromAttribute( szFromFileName, zsizeof( szFromFileName ), TZCMLPLO, "LPLR", "wOrigMetaSrc" );
+         ZeidonStringConcat( szFromFileName, 1, 0, "\\JavaProject\\src\\main\\java\\", 1, 0, 514 );
+         ZeidonStringConcat( szFromFileName, 1, 0, szTmp, 1, 0, 514 );
+         ZeidonStringConcat( szFromFileName, 1, 0, "\\", 1, 0, 514 );
+         //:TZCMLPLO.LPLR.wOrigJavaPackage = szFromFileName
+         SetAttributeFromString( TZCMLPLO, "LPLR", "wOrigJavaPackage", szFromFileName );
+
+         //:szTempDir = TZCMLPLO.LPLR.MetaSrcDir + "\JavaProject\src\main\java\" + szJavaPackageName + "\"
+         GetStringFromAttribute( szTempDir, zsizeof( szTempDir ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+         ZeidonStringConcat( szTempDir, 1, 0, "\\JavaProject\\src\\main\\java\\", 1, 0, 514 );
+         ZeidonStringConcat( szTempDir, 1, 0, szJavaPackageName, 1, 0, 514 );
+         ZeidonStringConcat( szTempDir, 1, 0, "\\", 1, 0, 514 );
+         //:szJavaPackageName = szTempDir
+         ZeidonStringCopy( szJavaPackageName, 1, 0, szTempDir, 1, 0, 514 );
+         //:CopyContentsOfDirectory( ViewToWindow, szFromFileName, szJavaPackageName, "Y" )
+         o_CopyContentsOfDirectory( ViewToWindow, szFromFileName, szJavaPackageName, "Y" );
+         //:TZCMLPLO.LPLR.wCopiedJavaDir = "Y"
+         SetAttributeFromString( TZCMLPLO, "LPLR", "wCopiedJavaDir", "Y" );
+      } 
+
+
+      //:END // If JavaProjectName exists
+      //:      
+      //:// Now copy any other directories that exist.
+
+      //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\"
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+      ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
+      //:szFromFileName = TZCMLPLO.LPLR.wOrigMetaSrc + "\"
+      GetStringFromAttribute( szFromFileName, zsizeof( szFromFileName ), TZCMLPLO, "LPLR", "wOrigMetaSrc" );
+      ZeidonStringConcat( szFromFileName, 1, 0, "\\", 1, 0, 514 );
+
+      //:CopyContentsOfDirectory( ViewToWindow, szFromFileName, szFileName, "N" )
+      o_CopyContentsOfDirectory( ViewToWindow, szFromFileName, szFileName, "N" );
    } 
 
-   //:END
+   //: 
+   //:END  // If the user has changed the lplr name
+
+   //:// Set the executable directory. Create it if it doesn't exist and also copy the zeidon.hky if it doesn't exist.
+   //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+   ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
+   GetVariableFromAttribute( szTempString_4, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
+   ZeidonStringConcat( szFileName, 1, 0, szTempString_4, 1, 0, 514 );
+
    //:TZCMLPLO.LPLR.ExecDir = szFileName
    SetAttributeFromString( TZCMLPLO, "LPLR", "ExecDir", szFileName );
+
 
    //:// Copy the Hotkey file "ZEIDON.HKY" to the new LPLR executable directory.
    //:szFileName = szFileName + "\ZEIDON.HKY"
@@ -576,135 +927,143 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
 
    //:END
 
-   //:// If we are creating a new lplr...
-   //:// Now check kzmsgqoo, and tzzolodo if the directory "NewLPLR" exists under zeidon executable directory.
-   //:szFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS + "\NewLPLR"
-   GetStringFromAttribute( szFileName, zsizeof( szFileName ), KZAPPLOO, "ZEIDON", "ZEIDON_SYS" );
-   ZeidonStringConcat( szFileName, 1, 0, "\\NewLPLR", 1, 0, 514 );
-   //:IF TZCMLPLO.LPLR.LPLR_Type = "2" AND SysValidDirOrFile( szFileName, TRUE, FALSE, 512 ) > 0
-   lTempInteger_2 = SysValidDirOrFile( szFileName, TRUE, FALSE, 512 );
-   if ( CompareAttributeToString( TZCMLPLO, "LPLR", "LPLR_Type", "2" ) == 0 && lTempInteger_2 > 0 )
+   //:IF TZCMLPLO.LPLR.Name != TZCMLPLO.LPLR.wOrigLPLRName 
+   if ( CompareAttributeToAttribute( TZCMLPLO, "LPLR", "Name", TZCMLPLO, "LPLR", "wOrigLPLRName" ) != 0 )
    { 
 
-      //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
-      GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
-      //:szFileName = szFileName + "\KZMSGQOO.LOD"
-      ZeidonStringConcat( szFileName, 1, 0, "\\KZMSGQOO.LOD", 1, 0, 514 );
-      //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
-      nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
-      //:IF nRC <= 0
-      if ( nRC <= 0 )
+      //:// If we are creating a new lplr...
+      //:// Now check kzmsgqoo, and tzzolodo if the directory "NewLPLR" exists under zeidon executable directory.
+      //:szFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS + "\NewLPLR"
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), KZAPPLOO, "ZEIDON", "ZEIDON_SYS" );
+      ZeidonStringConcat( szFileName, 1, 0, "\\NewLPLR", 1, 0, 514 );
+      //:IF TZCMLPLO.LPLR.LPLR_Type = "2" AND SysValidDirOrFile( szFileName, TRUE, FALSE, 512 ) > 0
+      lTempInteger_4 = SysValidDirOrFile( szFileName, TRUE, FALSE, 512 );
+      if ( CompareAttributeToString( TZCMLPLO, "LPLR", "LPLR_Type", "2" ) == 0 && lTempInteger_4 > 0 )
       { 
+
+         //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
+         GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
+         //:szFileName = szFileName + "\KZMSGQOO.LOD"
+         ZeidonStringConcat( szFileName, 1, 0, "\\KZMSGQOO.LOD", 1, 0, 514 );
+         //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
+         nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
+         //:IF nRC <= 0
+         if ( nRC <= 0 )
+         { 
+            //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
+            GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
+            //:szFromFileName = szFromFileName + "\NewLPLR\KZMSGQOO.LOD"
+            ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\KZMSGQOO.LOD", 1, 0, 514 );
+            //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+            //:szFileName = TZCMLPLO.LPLR.ExecDir + "\KZMSGQOO.XOD"
+            GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "ExecDir" );
+            ZeidonStringConcat( szFileName, 1, 0, "\\KZMSGQOO.XOD", 1, 0, 514 );
+            //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
+            GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
+            //:szFromFileName = szFromFileName + "\NewLPLR\KZMSGQOO.XOD"
+            ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\KZMSGQOO.XOD", 1, 0, 514 );
+            //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+         } 
+
+         //:END
+         //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
+         GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
+         //:szFileName = szFileName + "\TZZOLFLO.LOD"
+         ZeidonStringConcat( szFileName, 1, 0, "\\TZZOLFLO.LOD", 1, 0, 514 );
+         //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
+         nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
+         //:IF nRC <= 0
+         if ( nRC <= 0 )
+         { 
+            //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
+            GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
+            //:szFromFileName = szFromFileName + "\NewLPLR\TZZOLFLO.LOD"
+            ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZZOLFLO.LOD", 1, 0, 514 );
+            //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+            //:szFileName = TZCMLPLO.LPLR.ExecDir + "\TZZOLFLO.XOD"
+            GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "ExecDir" );
+            ZeidonStringConcat( szFileName, 1, 0, "\\TZZOLFLO.XOD", 1, 0, 514 );
+            //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
+            GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
+            //:szFromFileName = szFromFileName + "\NewLPLR\TZZOLFLO.XOD"
+            ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZZOLFLO.XOD", 1, 0, 514 );
+            //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+         } 
+
+         //:END
+         //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
+         GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
+         //:szFileName = szFileName + "\TZAPDMAA.PDG"
+         ZeidonStringConcat( szFileName, 1, 0, "\\TZAPDMAA.PDG", 1, 0, 514 );
+         //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
+         nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
+         //:IF nRC <= 0
+         if ( nRC <= 0 )
+         { 
+            //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
+            GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
+            //:szFromFileName = szFromFileName + "\NewLPLR\TZAPDMAA.PDG"
+            ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZAPDMAA.PDG", 1, 0, 514 );
+            //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+         } 
+
+         //:END
+         //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
+         GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
+         //:szFileName = szFileName + "\TZAPDMAB.PDG"
+         ZeidonStringConcat( szFileName, 1, 0, "\\TZAPDMAB.PDG", 1, 0, 514 );
+         //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
+         nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
+         //:IF nRC <= 0
+         if ( nRC <= 0 )
+         { 
+            //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
+            GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
+            //:szFromFileName = szFromFileName + "\NewLPLR\TZAPDMAB.PDG"
+            ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZAPDMAB.PDG", 1, 0, 514 );
+            //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+         } 
+
+         //:END
+         //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
+         GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
+         //:szFileName = szFileName + "\TZAPDMAC.PDG"
+         ZeidonStringConcat( szFileName, 1, 0, "\\TZAPDMAC.PDG", 1, 0, 514 );
+         //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
+         nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
+         //:IF nRC <= 0
+         if ( nRC <= 0 )
+         { 
+            //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
+            GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
+            //:szFromFileName = szFromFileName + "\NewLPLR\TZAPDMAC.PDG"
+            ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZAPDMAC.PDG", 1, 0, 514 );
+            //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
+            SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
+         } 
+
+         //:END
+
+         //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\KZMSGQOO_Object.java"
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+         ZeidonStringConcat( szFileName, 1, 0, "\\KZMSGQOO_Object.java", 1, 0, 514 );
          //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
          GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
-         //:szFromFileName = szFromFileName + "\NewLPLR\KZMSGQOO.LOD"
-         ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\KZMSGQOO.LOD", 1, 0, 514 );
-         //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-         SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
-         //:szFileName = TZCMLPLO.LPLR.ExecDir + "\KZMSGQOO.XOD"
-         GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "ExecDir" );
-         ZeidonStringConcat( szFileName, 1, 0, "\\KZMSGQOO.XOD", 1, 0, 514 );
-         //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
-         GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
-         //:szFromFileName = szFromFileName + "\NewLPLR\KZMSGQOO.XOD"
-         ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\KZMSGQOO.XOD", 1, 0, 514 );
+         //:szFromFileName = szFromFileName + "\NewLPLR\KZMSGQOO_Object.java"
+         ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\KZMSGQOO_Object.java", 1, 0, 514 );
          //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
          SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
       } 
 
       //:END
-      //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
-      GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
-      //:szFileName = szFileName + "\TZZOLFLO.LOD"
-      ZeidonStringConcat( szFileName, 1, 0, "\\TZZOLFLO.LOD", 1, 0, 514 );
-      //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
-      nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
-      //:IF nRC <= 0
-      if ( nRC <= 0 )
-      { 
-         //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
-         GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
-         //:szFromFileName = szFromFileName + "\NewLPLR\TZZOLFLO.LOD"
-         ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZZOLFLO.LOD", 1, 0, 514 );
-         //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-         SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
-         //:szFileName = TZCMLPLO.LPLR.ExecDir + "\TZZOLFLO.XOD"
-         GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "ExecDir" );
-         ZeidonStringConcat( szFileName, 1, 0, "\\TZZOLFLO.XOD", 1, 0, 514 );
-         //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
-         GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
-         //:szFromFileName = szFromFileName + "\NewLPLR\TZZOLFLO.XOD"
-         ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZZOLFLO.XOD", 1, 0, 514 );
-         //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-         SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
-      } 
-
-      //:END
-      //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
-      GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
-      //:szFileName = szFileName + "\TZAPDMAA.PDG"
-      ZeidonStringConcat( szFileName, 1, 0, "\\TZAPDMAA.PDG", 1, 0, 514 );
-      //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
-      nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
-      //:IF nRC <= 0
-      if ( nRC <= 0 )
-      { 
-         //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
-         GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
-         //:szFromFileName = szFromFileName + "\NewLPLR\TZAPDMAA.PDG"
-         ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZAPDMAA.PDG", 1, 0, 514 );
-         //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-         SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
-      } 
-
-      //:END
-      //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
-      GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
-      //:szFileName = szFileName + "\TZAPDMAB.PDG"
-      ZeidonStringConcat( szFileName, 1, 0, "\\TZAPDMAB.PDG", 1, 0, 514 );
-      //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
-      nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
-      //:IF nRC <= 0
-      if ( nRC <= 0 )
-      { 
-         //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
-         GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
-         //:szFromFileName = szFromFileName + "\NewLPLR\TZAPDMAB.PDG"
-         ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZAPDMAB.PDG", 1, 0, 514 );
-         //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-         SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
-      } 
-
-      //:END
-      //:szFileName = TZCMLPLO.LPLR.MetaSrcDir
-      GetVariableFromAttribute( szFileName, 0, 'S', 514, TZCMLPLO, "LPLR", "MetaSrcDir", "", 0 );
-      //:szFileName = szFileName + "\TZAPDMAC.PDG"
-      ZeidonStringConcat( szFileName, 1, 0, "\\TZAPDMAC.PDG", 1, 0, 514 );
-      //:nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 )
-      nRC = SysValidDirOrFile( szFileName, FALSE, FALSE, 512 );
-      //:IF nRC <= 0
-      if ( nRC <= 0 )
-      { 
-         //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
-         GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
-         //:szFromFileName = szFromFileName + "\NewLPLR\TZAPDMAC.PDG"
-         ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\TZAPDMAC.PDG", 1, 0, 514 );
-         //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-         SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
-      } 
-
-      //:END
-
-      //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\KZMSGQOO_Object.java"
-      GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
-      ZeidonStringConcat( szFileName, 1, 0, "\\KZMSGQOO_Object.java", 1, 0, 514 );
-      //:szFromFileName = KZAPPLOO.ZEIDON.ZEIDON_SYS
-      GetVariableFromAttribute( szFromFileName, 0, 'S', 514, KZAPPLOO, "ZEIDON", "ZEIDON_SYS", "", 0 );
-      //:szFromFileName = szFromFileName + "\NewLPLR\KZMSGQOO_Object.java"
-      ZeidonStringConcat( szFromFileName, 1, 0, "\\NewLPLR\\KZMSGQOO_Object.java", 1, 0, 514 );
-      //:SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE )
-      SysCopyFile( ViewToWindow, szFromFileName, szFileName, TRUE );
    } 
+
 
    //:END
 
@@ -716,8 +1075,8 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    //:// TZCMWKSO
    //:// Make sure that the LPLR object exists in TZCMWKSO.
    //:SET CURSOR FIRST TZCMWKSO.LPLR WHERE TZCMWKSO.LPLR.Name = TZCMLPLO.LPLR.Name
-   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZCMLPLO, "LPLR", "Name" );
-   RESULT = SetCursorFirstEntityByString( TZCMWKSO, "LPLR", "Name", szTempString_1, "" );
+   GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), TZCMLPLO, "LPLR", "Name" );
+   RESULT = SetCursorFirstEntityByString( TZCMWKSO, "LPLR", "Name", szTempString_5, "" );
    //:IF RESULT < zCURSOR_SET
    if ( RESULT < zCURSOR_SET )
    { 
@@ -739,11 +1098,11 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    //:TZCMWKSO.LPLR.PgmSrcDir  = TZCMLPLO.LPLR.MetaSrcDir
    SetAttributeFromAttribute( TZCMWKSO, "LPLR", "PgmSrcDir", TZCMLPLO, "LPLR", "MetaSrcDir" );
    //:TZCMWKSO.LPLR.ExecDir    = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
-   GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), TZCMLPLO, "LPLR", "MetaSrcDir" );
-   ZeidonStringConcat( szTempString_2, 1, 0, "\\", 1, 0, 255 );
-   GetVariableFromAttribute( szTempString_3, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
-   ZeidonStringConcat( szTempString_2, 1, 0, szTempString_3, 1, 0, 255 );
-   SetAttributeFromString( TZCMWKSO, "LPLR", "ExecDir", szTempString_2 );
+   GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), TZCMLPLO, "LPLR", "MetaSrcDir" );
+   ZeidonStringConcat( szTempString_6, 1, 0, "\\", 1, 0, 255 );
+   GetVariableFromAttribute( szTempString_7, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
+   ZeidonStringConcat( szTempString_6, 1, 0, szTempString_7, 1, 0, 255 );
+   SetAttributeFromString( TZCMWKSO, "LPLR", "ExecDir", szTempString_6 );
    //://TZCMWKSO.LPLR.MaxZKey    = TZCMULWO.User.GenerationStartZKey
 
    //:TZCMWKSO.RepositoryClient.DefaultLPLR_ZKey = TZCMWKSO.LPLR.ZKey
@@ -786,8 +1145,8 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
       //:szFileName = TZCMLPLO.LPLR.MetaSrcDir + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory + "\" + szLPLRName + ".XLP"
       GetStringFromAttribute( szFileName, zsizeof( szFileName ), TZCMLPLO, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
-      GetVariableFromAttribute( szTempString_4, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
-      ZeidonStringConcat( szFileName, 1, 0, szTempString_4, 1, 0, 514 );
+      GetVariableFromAttribute( szTempString_8, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
+      ZeidonStringConcat( szFileName, 1, 0, szTempString_8, 1, 0, 514 );
       ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 514 );
       ZeidonStringConcat( szFileName, 1, 0, szLPLRName, 1, 0, 514 );
       ZeidonStringConcat( szFileName, 1, 0, ".XLP", 1, 0, 514 );
@@ -813,6 +1172,20 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    //:   NAME VIEW TZCMLPLONew "TZCMLPLO"
    //:END
    //:*/
+
+   //:TZCMLPLO.LPLR.wOrigLPLRName = ""
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wOrigLPLRName", "" );
+   //:TZCMLPLO.LPLR.wOrigMetaSrc = ""
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wOrigMetaSrc", "" );
+   //:TZCMLPLO.LPLR.wOrigExecSrc = ""
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wOrigExecSrc", "" );
+   //:TZCMLPLO.LPLR.wOrigJavaPackage = ""
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wOrigJavaPackage", "" );
+   //:TZCMLPLO.LPLR.wCopiedExecDir = ""
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wCopiedExecDir", "" );
+   //:TZCMLPLO.LPLR.wCopiedJavaDir = ""
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wCopiedJavaDir", "" );
+
    //:// Commit the XLP in the executable directory, and then commit the LLP in the base directory.
    //:CommitOI_ToFile( TZCMLPLO, szFileName, zSINGLE )
    CommitOI_ToFile( TZCMLPLO, szFileName, zSINGLE );
@@ -826,8 +1199,8 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
 
    //:// Make sure the APPLICATION entry exists and is correct.
    //:SET CURSOR FIRST KZAPPLOO.APPLICATION WHERE KZAPPLOO.APPLICATION.APP_NAME = TZCMLPLO.LPLR.Name
-   GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TZCMLPLO, "LPLR", "Name" );
-   RESULT = SetCursorFirstEntityByString( KZAPPLOO, "APPLICATION", "APP_NAME", szTempString_1, "" );
+   GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), TZCMLPLO, "LPLR", "Name" );
+   RESULT = SetCursorFirstEntityByString( KZAPPLOO, "APPLICATION", "APP_NAME", szTempString_5, "" );
    //:IF RESULT < zCURSOR_SET
    if ( RESULT < zCURSOR_SET )
    { 
@@ -878,6 +1251,8 @@ CREATE_NewLPLR( zVIEW     ViewToWindow )
    RebuildMetaLists( ViewToWindow );
    //:InitializeLPLR( ViewToWindow, szLPLRName )
    InitializeLPLR( ViewToWindow, szLPLRName );
+   //://CommitMetaOI( ViewToWindow, TZEREMDO, zSOURCE_ERD_META )
+   //://CommitMetaOI( ViewToWindow, TZTENVRO, zSOURCE_DTE_META )
    //:RebuildXDM( ViewToWindow )
    RebuildXDM( ViewToWindow );
    return( 0 );
@@ -1017,6 +1392,8 @@ IMPORT_LPLR( zVIEW     ViewToWindow )
    //:SHORT nLth
    zSHORT    nLth = 0; 
    zSHORT    lTempInteger_0; 
+   zCHAR     szTempString_0[ 255 ]; 
+   zCHAR     szTempString_1[ 255 ]; 
 
    RESULT = GetViewByName( &TZCMWKSO, "TZCMWKSO", ViewToWindow, zLEVEL_TASK );
 
@@ -1082,12 +1459,15 @@ IMPORT_LPLR( zVIEW     ViewToWindow )
 
    //:// KJS 06/05/15 - Probably not here, but if the user puts in a directory for the meta source that doesn't
    //:// exist, do we want to create one for them?
-   //://      SysValidDirOrFile( szFileName,
-   //://                         TRUE /* Directory (TRUE or FALSE) */,
-   //://                         FALSE /* CheckCreate */,
-   //://                         512 /* Max Path Length */ )
    //:TZCMLPLO.LPLR.MetaSrcDir = szFileName
    SetAttributeFromString( TZCMLPLO, "LPLR", "MetaSrcDir", szFileName );
+   //:TZCMLPLO.LPLR.wOrigMetaSrc = szFileName
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wOrigMetaSrc", szFileName );
+   //://TZCMLPLO.LPLR.wOrigExecSrc = TZCMLPLO.LPLR.ExecDir
+   //:TZCMLPLO.LPLR.wOrigLPLRName = TZCMLPLO.LPLR.Name 
+   SetAttributeFromAttribute( TZCMLPLO, "LPLR", "wOrigLPLRName", TZCMLPLO, "LPLR", "Name" );
+   //:TZCMLPLO.LPLR.wOrigJavaPackage = TZCMLPLO.LPLR.JavaPackageName
+   SetAttributeFromAttribute( TZCMLPLO, "LPLR", "wOrigJavaPackage", TZCMLPLO, "LPLR", "JavaPackageName" );
 
    //:// KJS 06/16/15 - Should we see if there is an ExecutableSubDirecory, and if not, create one based on the ExecDir.
    //:IF TZCMLPLO.LPLR.ExecDir != ""
@@ -1115,6 +1495,17 @@ IMPORT_LPLR( zVIEW     ViewToWindow )
    } 
 
    //:END
+
+   //:TZCMLPLO.LPLR.wOrigExecSrc = TZCMLPLO.LPLR.wOrigMetaSrc + "\" + TZCMLPLO.LPLR.wExecutableSubDirectory
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TZCMLPLO, "LPLR", "wOrigMetaSrc" );
+   ZeidonStringConcat( szTempString_0, 1, 0, "\\", 1, 0, 255 );
+   GetVariableFromAttribute( szTempString_1, 0, 'S', 255, TZCMLPLO, "LPLR", "wExecutableSubDirectory", "", 0 );
+   ZeidonStringConcat( szTempString_0, 1, 0, szTempString_1, 1, 0, 255 );
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wOrigExecSrc", szTempString_0 );
+   //:TZCMLPLO.LPLR.wCopiedExecDir = ""
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wCopiedExecDir", "" );
+   //:TZCMLPLO.LPLR.wCopiedJavaDir = ""
+   SetAttributeFromString( TZCMLPLO, "LPLR", "wCopiedJavaDir", "" );
    return( 0 );
 //   //zstrncpy( szFileName, szXLPFileName, nRC, nLth )
 // END
@@ -1307,6 +1698,165 @@ o_INITIALIZE_NextZKeyForObject( zVIEW     vMetaOI,
    TraceLineI( szMsg, lMaxZKey );
    return( 0 );
 //    END
+} 
+
+
+//:DIALOG OPERATION
+zOPER_EXPORT zSHORT OPERATION
+CHANGE_ImportName( zVIEW     ViewToWindow )
+{
+
+   //:CHANGE_ImportName( VIEW ViewToWindow )
+
+   //:SetCtrlState( ViewToWindow, "edName", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( ViewToWindow, "edName", zCONTROL_STATUS_ENABLED, TRUE );
+   //:SetCtrlState( ViewToWindow, "edDesc", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( ViewToWindow, "edDesc", zCONTROL_STATUS_ENABLED, TRUE );
+   //:SetCtrlState( ViewToWindow, "edBaseDir", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( ViewToWindow, "edBaseDir", zCONTROL_STATUS_ENABLED, TRUE );
+   //:SetCtrlState( ViewToWindow, "edExecDir", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( ViewToWindow, "edExecDir", zCONTROL_STATUS_ENABLED, TRUE );
+   //:SetCtrlState( ViewToWindow, "edJavaPackageName", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( ViewToWindow, "edJavaPackageName", zCONTROL_STATUS_ENABLED, TRUE );
+   return( 0 );
+// END
+} 
+
+
+//:LOCAL OPERATION
+//:CopyContentsOfDirectory( VIEW ViewToWindow, 
+//:                         STRING ( 1000 ) szFromDir,
+//:                         STRING ( 1000 ) szToDir, 
+//:                         STRING( 1 )     szCopyFiles )
+//:                         
+//:   VIEW TZCMLPLO    REGISTERED AS TZCMLPLO
+static zSHORT
+o_CopyContentsOfDirectory( zVIEW     ViewToWindow,
+                           zPCHAR    szFromDir,
+                           zPCHAR    szToDir,
+                           zPCHAR    szCopyFiles )
+{
+   zVIEW     TZCMLPLO = 0; 
+   zSHORT    RESULT; 
+   //:STRING ( 1000 ) szFromDirSub                          
+   zCHAR     szFromDirSub[ 1001 ] = { 0 }; 
+   //:STRING ( 1000 ) szToDirSub                          
+   zCHAR     szToDirSub[ 1001 ] = { 0 }; 
+   //:STRING ( 1000 ) szFromFileName                          
+   zCHAR     szFromFileName[ 1001 ] = { 0 }; 
+   //:STRING ( 1000 ) szToFileName                          
+   zCHAR     szToFileName[ 1001 ] = { 0 }; 
+   //:STRING ( 100 ) szTmp 
+   zCHAR     szTmp[ 101 ] = { 0 }; 
+   //:STRING ( 1 ) szAlreadyCopied                         
+   zCHAR     szAlreadyCopied[ 2 ] = { 0 }; 
+   //:SHORT nRC
+   zSHORT    nRC = 0; 
+   //:INTEGER lHandle
+   zLONG     lHandle = 0; 
+
+   RESULT = GetViewByName( &TZCMLPLO, "TZCMLPLO", ViewToWindow, zLEVEL_TASK );
+
+   //:szAlreadyCopied = ""
+   ZeidonStringCopy( szAlreadyCopied, 1, 0, "", 1, 0, 2 );
+
+   //:szFromDirSub = TZCMLPLO.LPLR.wOrigExecSrc + "\"
+   GetStringFromAttribute( szFromDirSub, zsizeof( szFromDirSub ), TZCMLPLO, "LPLR", "wOrigExecSrc" );
+   ZeidonStringConcat( szFromDirSub, 1, 0, "\\", 1, 0, 1001 );
+   //:IF szFromDir = szFromDirSub AND TZCMLPLO.LPLR.wCopiedExecDir = "Y"
+   if ( ZeidonStringCompare( szFromDir, 1, 0, szFromDirSub, 1, 0, 1001 ) == 0 && CompareAttributeToString( TZCMLPLO, "LPLR", "wCopiedExecDir", "Y" ) == 0 )
+   { 
+      //:szAlreadyCopied = "Y"
+      ZeidonStringCopy( szAlreadyCopied, 1, 0, "Y", 1, 0, 2 );
+      //:TraceLineS("executabledirectory", "yyy")
+      TraceLineS( "executabledirectory", "yyy" );
+   } 
+
+   //:END
+   //:szFromDirSub = TZCMLPLO.LPLR.wOrigJavaPackage
+   GetVariableFromAttribute( szFromDirSub, 0, 'S', 1001, TZCMLPLO, "LPLR", "wOrigJavaPackage", "", 0 );
+   //:IF szFromDir = szFromDirSub AND TZCMLPLO.LPLR.wCopiedJavaDir = "Y"
+   if ( ZeidonStringCompare( szFromDir, 1, 0, szFromDirSub, 1, 0, 1001 ) == 0 && CompareAttributeToString( TZCMLPLO, "LPLR", "wCopiedJavaDir", "Y" ) == 0 )
+   { 
+      //:szAlreadyCopied = "Y"
+      ZeidonStringCopy( szAlreadyCopied, 1, 0, "Y", 1, 0, 2 );
+      //:TraceLineS("javadirectoryname", "yyy")
+      TraceLineS( "javadirectoryname", "yyy" );
+   } 
+
+   //:END
+
+   //:IF szAlreadyCopied = "" 
+   if ( ZeidonStringCompare( szAlreadyCopied, 1, 0, "", 1, 0, 2 ) == 0 )
+   { 
+
+      //:SysValidDirOrFile( szToDir, TRUE, TRUE, 512)
+      SysValidDirOrFile( szToDir, TRUE, TRUE, 512 );
+
+      //:// Recursive function to copy directories and files from one lplr to another.
+      //:szFromFileName = szFromDir + "*.*"
+      ZeidonStringCopy( szFromFileName, 1, 0, szFromDir, 1, 0, 1001 );
+      ZeidonStringConcat( szFromFileName, 1, 0, "*.*", 1, 0, 1001 );
+      //:lHandle = FindFileStart( szFromFileName, szTmp )
+      lHandle = FindFileStart( szFromFileName, szTmp );
+      //:nRC = 1
+      nRC = 1;
+      //:LOOP WHILE lHandle >= 0 AND nRC > 0
+      while ( lHandle >= 0 && nRC > 0 )
+      { 
+
+         //:// Don't copy the file if it begins with a period (like .git, .project etc)
+         //:nRC = zSearchSubString( szTmp, ".", "f", 0 )
+         nRC = zSearchSubString( szTmp, ".", "f", 0 );
+         //:// If there is no period in the name, then we will assume this is a directory.
+         //:IF nRC < 0 
+         if ( nRC < 0 )
+         { 
+            //:// We want to create the directory, and copy files from the directory
+            //:szFromDirSub = szFromDir + szTmp + "\"
+            ZeidonStringCopy( szFromDirSub, 1, 0, szFromDir, 1, 0, 1001 );
+            ZeidonStringConcat( szFromDirSub, 1, 0, szTmp, 1, 0, 1001 );
+            ZeidonStringConcat( szFromDirSub, 1, 0, "\\", 1, 0, 1001 );
+            //:szToDirSub = szToDir + szTmp + "\"
+            ZeidonStringCopy( szToDirSub, 1, 0, szToDir, 1, 0, 1001 );
+            ZeidonStringConcat( szToDirSub, 1, 0, szTmp, 1, 0, 1001 );
+            ZeidonStringConcat( szToDirSub, 1, 0, "\\", 1, 0, 1001 );
+            //://SysValidDirOrFile( szToDirSub, TRUE, TRUE, 512)
+            //:CopyContentsOfDirectory( ViewToWindow, szFromDirSub, szToDirSub, "Y" )
+            o_CopyContentsOfDirectory( ViewToWindow, szFromDirSub, szToDirSub, "Y" );
+            //:ELSE
+         } 
+         else
+         { 
+            //:IF nRC != 0 AND szCopyFiles = "Y"
+            if ( nRC != 0 && ZeidonStringCompare( szCopyFiles, 1, 0, "Y", 1, 0, 2 ) == 0 )
+            { 
+               //:szToFileName = szToDir + "\" + szTmp
+               ZeidonStringCopy( szToFileName, 1, 0, szToDir, 1, 0, 1001 );
+               ZeidonStringConcat( szToFileName, 1, 0, "\\", 1, 0, 1001 );
+               ZeidonStringConcat( szToFileName, 1, 0, szTmp, 1, 0, 1001 );
+               //:szFromFileName = szFromDir + "\" + szTmp
+               ZeidonStringCopy( szFromFileName, 1, 0, szFromDir, 1, 0, 1001 );
+               ZeidonStringConcat( szFromFileName, 1, 0, "\\", 1, 0, 1001 );
+               ZeidonStringConcat( szFromFileName, 1, 0, szTmp, 1, 0, 1001 );
+               //:nRC = SysCopyFile( ViewToWindow, szFromFileName, szToFileName, TRUE )
+               nRC = SysCopyFile( ViewToWindow, szFromFileName, szToFileName, TRUE );
+            } 
+
+            //:END
+         } 
+
+         //:END
+         //:nRC = FindFileNext( lHandle, szTmp )
+         nRC = FindFileNext( lHandle, szTmp );
+      } 
+
+      //:END 
+   } 
+
+   //:END
+   return( 0 );
+// END
 } 
 
 

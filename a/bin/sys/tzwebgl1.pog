@@ -1,4 +1,4 @@
-z1000-Zeidon    TZWEBGL1 TZOGSRCO 06/20/12   15:14:43 1.0a2    
+z1000-Zeidon    TZWEBGL1 TZOGSRCO                         11/18/19   15:55:43 1.0a2   
 eGlobalOperationGroup 1
 aZKey      1141821
 aName      TZWEBGL1
@@ -83,7 +83,7 @@ aZKey      1158827
 eParameter 3
 aShortDesc DisabledString
 aDataType  S
-aPFlag     N
+aPFlag     Y
 aUFlag     N
 aZKey      1158828
 
@@ -102,7 +102,7 @@ aZKey      93089956
 eParameter 3
 aShortDesc Style
 aDataType  S
-aPFlag     N
+aPFlag     Y
 aUFlag     N
 aZKey      93089957
 
@@ -224,7 +224,7 @@ aZKey      1141944
 eParameter 3
 aShortDesc Style
 aDataType  S
-aPFlag     N
+aPFlag     Y
 aUFlag     N
 aZKey      1141945
 
@@ -258,7 +258,7 @@ aZKey      1141941
 eParameter 3
 aShortDesc Style
 aDataType  S
-aPFlag     N
+aPFlag     Y
 aUFlag     N
 aZKey      1141942
 
@@ -318,7 +318,7 @@ aZKey      1141929
 eParameter 3
 aShortDesc Style
 aDataType  S
-aPFlag     N
+aPFlag     Y
 aUFlag     N
 aZKey      1141930
 

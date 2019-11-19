@@ -115,7 +115,7 @@ zLONG lLocal3Text;
 zOPER_EXPORT zLONG OPERATION
 LoadSourceForMeta( zVIEW vSubtask, zPVIEW pvSource, zVIEW vMetaView )
 {
-   zLONG lRC;
+   zLONG lRC = 0;
 
    lRC = CheckExistenceOfEntity( vMetaView, "SourceFile" );
    if ( lRC != 0 )
@@ -535,7 +535,7 @@ AddGetOrSetAttribute( zVIEW  vSubtask,
    zLONG sParmList[ PARM_LIST_SIZE ] = { 0 };
    zLONG sParmListExt[ PARM_LIST_SIZE ] = { 0 };
    zLONG lParmListIndex = 0;
-   zLONG lRCID;
+   zLONG lRCID = 0;
    zLONG lOperZKey;
    zVIEW vTargetView;
 
@@ -685,7 +685,7 @@ AddGetOrSetAttributeWithString( zVIEW  vSubtask,
    zLONG sParmList[ PARM_LIST_SIZE ] = { 0 };
    zLONG sParmListExt[ PARM_LIST_SIZE ] = { 0 };
    zLONG lParmListIndex = 0;
-   zLONG lRCID;
+   zLONG lRCID = 0;
    zLONG lOperZKey;
 
 // memset( sParmListExt, 0, zsizeof( sParmListExt ) );
@@ -1016,7 +1016,7 @@ AddGetVariableFromAttribute( zVIEW  vSubtask,
    zLONG sParmList[ PARM_LIST_SIZE ] = { 0 };
    zLONG sParmListExt[ PARM_LIST_SIZE ] = { 0 };
    zLONG lParmListIndex = 0;
-   zLONG lRCID;
+   zLONG lRCID = 0;
    zLONG lOperZKey;
    zLONG lTempVariableID;
    zCHAR szVariableLth[ 12 ];

@@ -2034,7 +2034,7 @@ fnCreateDEF_IBMC20( zVIEW         lpTaskView,
    zPCHAR pchDFBLine;
    zSHORT nMetaLth;
    zSHORT nRC;
-   zVIEW vMeta;
+   zVIEW vMeta = 0;
 
    strcpy_s( szFileName2, zsizeof( szFileName2 ), pcd->pszMetaSrcDir );
    SysConvertEnvironmentString( szMetaFileName, zsizeof( szMetaFileName ), szFileName2 );
@@ -2150,10 +2150,10 @@ fnCreateDEF_IBMC20( zVIEW         lpTaskView,
                nRC = SetCursorNextEntity( vTaskLPLR, "Meta", 0 ) )
          {
             zLONG  lType;
-            zPCHAR pchOD_Name;
-            zPCHAR pchSourceFileEntityName;
-            zPCHAR pchOpEntityName;
-            zVIEW  vMeta;
+            zPCHAR pchOD_Name = "";
+            zPCHAR pchSourceFileEntityName = "";
+            zPCHAR pchOpEntityName = "";
+            zVIEW  vMeta = 0;
 
             GetStringFromAttribute( szMetaFileName + nMetaLth, zsizeof( szMetaFileName ) - nMetaLth,
                                     vTaskLPLR, "Meta", "Name" );
@@ -2900,8 +2900,8 @@ fnCreateMakefileForTarget( zPCHAR pchTargetName,
          nRC = SetCursorNextEntity( vTaskLPLR, "Meta", 0 ) )
    {
       zLONG  lType;
-      zPCHAR pchOD_Name;
-      zPCHAR pchSourceFileEntityName;
+      zPCHAR pchOD_Name = "";
+      zPCHAR pchSourceFileEntityName = "";
       zVIEW  vMeta;
 
       GetStringFromAttribute( szFileName + nLth, zsizeof( szFileName ) - nLth, vTaskLPLR, "Meta", "Name" );

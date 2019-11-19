@@ -1,0 +1,121 @@
+z1000-Zeidon    TZRBLDMT TZWDLGSO 01/25/19   14:27:32 1.0a2    
+eDialog    1
+aTag       TZRBLDMT
+aDLL_Name  TZRBLDMT
+aZKey      125121248
+aNextZKeyToAssign 125121264
+aDesc      Rebuild Meta
+
+eDfltWnd   2
+aTag       TZRBLDMT
+aCaption   Rebuild Meta
+aPSDLG_X   2
+aPSDLG_Y   2
+aSZDLG_X   11403461
+aSZDLG_Y   5898366
+aZKey      125121250
+
+eWindow    2
+
+eControl   3
+aTag       PushBtn1
+aText      Rebuild
+aZKey      125121255
+aSubtype   537001984
+aPSDLG_X   39
+aPSDLG_Y   20
+aSZDLG_X   69
+aSZDLG_Y   18
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eCtrlMap   4
+aZKey      125121256
+
+eEvent     4
+aType      1
+aZKey      125121261
+
+eEventAct  5
+aTag       RebuildMeta
+aType      2
+aZKey      125121262
+aSB_ActionDisabling 0
+
+eControlDef 4
+aTag       PushBtn
+aZKey      1020
+aKey       1020
+aRT_DLL_Name ZDCTL
+aRT_OperationName PushButton
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZPushMsg
+aPainterConvertOperationName ConvertButton
+aPainterBitmap PUSH
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_PUSH
+aAcceptsAllParents Y
+aId        8
+aInvisible -1
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eActOper   4
+aName      zwTZRBLDMT_RebuildMetaLists
+aZKey      125121253
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+aZKey      125121249
+aLanguageType C
+aName      TZRBLDMT
+aExtension C
+
+eWndStyle  3
+aTag       Primary Window
+aZKey      7008558
+aStyle     13565952
+aDesc      Overlapped window with caption, system menu, sizing border, min/
+
+eSourceFile 2
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      125121254
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eWebControlPropertyOption 2
+aName      No Height
+aZKey      125121257
+
+eWebControlPropertyOption 2
+aName      No Width
+aZKey      125121258
+
+eWebControlPropertyOption 2
+aName      Button (Not Submit)
+aZKey      125121259
+
+eWebControlPropertyOption 2
+aName      Hidden
+aZKey      125121260
+
+i2         1
+i8         6
+i9         5
+i10        3
+i14        12
+i15        11
+i17        11
+i18        12

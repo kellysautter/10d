@@ -92,6 +92,7 @@ the brackets for the DDL-command
 #define  KZSYSSVC_INCL
 #define  KZMETA_INCL
 #include <kzoengaa.h>
+#include <zdrvropr.h>
 #include "kzhsqlxa.h"
 #include <stdio.h>
 #include <ctype.h>
@@ -105,8 +106,8 @@ the brackets for the DDL-command
 
    #define CONTINUATION_STR      ""
    #define LINE_TERMINATOR       ";"
-   #define MAX_TABLENAME_LTH     34
-   #define MAX_COLUMNNAME_LTH    34
+   #define MAX_TABLENAME_LTH     32 // Changing from 34 (dks) because 10c has 32 and we currently need to be able to switch back and forth between the two.
+   #define MAX_COLUMNNAME_LTH    32 // Changing from 34 (dks) because 10c has 32 and we currently need to be able to switch back and forth between the two.
    #define MAX_DATATYPE_LTH      20
    #define COLUMN_INDENT         10
    #define COMMENT_START         "--"
@@ -1133,8 +1134,8 @@ the brackets for the DDL-command
    #define NULL_FIELD            "NULL    "
    #define ADD_COLUMN_STMT       "ADD"
    #define DROP_COLUMN_STMT      "DROP COLUMN"
-   #define MAX_TABLENAME_LTH     34
-   #define MAX_COLUMNNAME_LTH    34
+   #define MAX_TABLENAME_LTH     32 // Changing from 34 (dks) because 10c has 32 and we currently need to be able to switch back and forth between the two.
+   #define MAX_COLUMNNAME_LTH    32 // Changing from 34 (dks) because 10c has 32 and we currently need to be able to switch back and forth between the two.
    #define MAX_DATATYPE_LTH      20
    #define COLUMN_INDENT         10
    #define CREATE_DB             0
@@ -1715,14 +1716,14 @@ the brackets for the DDL-command
 
    #define CONTINUATION_STR      ""
    #define LINE_TERMINATOR       ";"
-   #define MAX_TABLENAME_LTH     34
-   #define MAX_COLUMNNAME_LTH    34
+   #define MAX_TABLENAME_LTH     32 // Changing from 34 (dks) because 10c has 32 and we currently need to be able to switch back and forth between the two. 
+   #define MAX_COLUMNNAME_LTH    32 // Changing from 34 (dks) because 10c has 32 and we currently need to be able to switch back and forth between the two.
    #define MAX_DATATYPE_LTH      20
    #define COLUMN_INDENT         10
    #define COMMENT_START         "--"
    #define COMMENT_END           ""
    #define NOT_NULL_FIELD        " NOT NULL"
-   #define NULL_FIELD            "         "
+   #define NULL_FIELD            " DEFAULT NULL"
    #define ADD_COLUMN_STMT       "ADD COLUMN"
    #define DROP_COLUMN_STMT      "DROP COLUMN"
    #define COMMIT_STR            "COMMIT;"
@@ -1875,8 +1876,8 @@ the brackets for the DDL-command
 
    #define CONTINUATION_STR      ""
    #define LINE_TERMINATOR       ""
-   #define MAX_TABLENAME_LTH     34
-   #define MAX_COLUMNNAME_LTH    34
+   #define MAX_TABLENAME_LTH     32 // Changing from 34 (dks) because 10c has 32 and we currently need to be able to switch back and forth between the two.
+   #define MAX_COLUMNNAME_LTH    32 // Changing from 34 (dks) because 10c has 32 and we currently need to be able to switch back and forth between the two.
    #define MAX_DATATYPE_LTH      20
    #define COLUMN_INDENT         10
    #define COMMENT_START         "/*"
@@ -2893,7 +2894,30 @@ fnBuildColumn( zVIEW vDTE, zLONG f, zPCHAR pchLine )  // pchLine length is 500
    // Check to see if column can be NULL.
    if ( CompareAttributeToString( vDTE, "TE_FieldDataRel", "SQL_NULLS", "Y" ) == 0  )
    {
+
+      // KJS 02/16/17 - Do I want to check if this is POSTGRES and the system generated key and if so set to 'PRIMARY KEY'??????
+	  #if defined( POSTGRESQL )
+      if ( SetCursorFirstEntityByAttr( vDTE, "TE_FieldDataRelKey", "ZKey",
+                                       vDTE, "TE_FieldDataRel", "ZKey", "TE_TablRec" ) >= 0 )
+	  {
+   		if ( CheckExistenceOfEntity( vDTE, "ER_Entity" ) >= zCURSOR_SET )
+
+	  if ( CheckExistenceOfEntity( vDTE, "ER_EntIdentifier" ) >= zCURSOR_SET &&
+	       CompareAttributeToString( vDTE, "ER_EntIdentifier", "SystemMaintained", "Y" ) == 0  )
+			{
+			      strcat_s( pchEnd, lEndRemainingLth, "PRIMARY KEY" );
+
+			}
+			else
+			      strcat_s( pchEnd, lEndRemainingLth, NOT_NULL_FIELD );
+	  }
+	  else
+	        strcat_s( pchEnd, lEndRemainingLth, NOT_NULL_FIELD );
+
+	  
+	  #else
       strcat_s( pchEnd, lEndRemainingLth, NOT_NULL_FIELD );
+	  #endif
    }
    else
       strcat_s( pchEnd, lEndRemainingLth, NULL_FIELD );
@@ -3474,6 +3498,12 @@ BuildDDL( zVIEW  vDTE,
          goto EndOfFunction;
    #endif
 
+#elif defined( POSTGRESQL ) 
+
+       sprintf_s( szLine, zsizeof( szLine ), "SET SCHEMA '%s' %s", pchDatabaseName, LINE_TERMINATOR );
+       if ( fnWriteLine( vDTE, f, szLine ) < 0 )
+         goto EndOfFunction;
+
 #endif
 
    GetAddrForAttribute( &pchDefaultOwner, vDTE, "TE_DBMS_Source",
@@ -3653,7 +3683,9 @@ BuildDDL( zVIEW  vDTE,
             sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE IF EXISTS %s%s %s", szOwner, pch, LINE_TERMINATOR );
          #elif defined( MYSQL )
             sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE %s%s IF EXISTS %s", szOwner, pch, LINE_TERMINATOR );
-         #else
+         #elif defined( POSTGRESQL )
+            sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE IF EXISTS %s%s CASCADE%s", szOwner, pch, LINE_TERMINATOR );
+        #else
             sprintf_s( szLine, zsizeof( szLine ), "DROP TABLE %s%s %s", szOwner, pch, LINE_TERMINATOR );
     #endif
 
@@ -3837,7 +3869,7 @@ EndOfFunction:
       strcpy_s( szMsg, zsizeof( szMsg ), "File " );
       strcat_s( szMsg, zsizeof( szMsg ), pchFileName );
       strcat_s( szMsg, zsizeof( szMsg ), " is created successfully!" );
-      SysMessageBox( vSubtask, "Generate DDL", szMsg, 0 );
+     MB_SetMessage( vSubtask, 0, szMsg );
    }
    else
    {

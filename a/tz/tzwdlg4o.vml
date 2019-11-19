@@ -4192,6 +4192,10 @@ GenJSP_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               sSourceFile = sSourceFile.replaceAll(^\^^,^^); "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "               sSourceFile = sSourceFile.replaceAll(^#^,^^);"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "               sSourceFile = sSourceFile.replaceAll(^ ^,^^);"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               l = sSourceFile.lastIndexOf(^.^);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 

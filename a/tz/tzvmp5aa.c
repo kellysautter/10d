@@ -156,25 +156,25 @@ zOPER_EXPORT zLONG OPERATION
 InsertForWithWhere( zVIEW vSubtask )
 {
    zCHAR szRightViewName[ 33 ];
-   zLONG lRightViewID;
+   zLONG lRightViewID = 0;
    zCHAR szRightEntityName[ 33 ];
-   zLONG lRightEntityID;
+   zLONG lRightEntityID = 0;
    zCHAR szRightAttributeName[ 33 ];
-   zLONG lRightAttributeID;
-   zLONG lTempID;
+   zLONG lRightAttributeID = 0;
+   zLONG lTempID = 0;
    zCHAR szViewName[ 33 ];
    zCHAR szEntityName[ 33 ];
-   zLONG lEntityID;
+   zLONG lEntityID = 0;
    zCHAR szAttributeName[ 33 ];
-   zLONG lAttributeID;
+   zLONG lAttributeID = 0;
    zCHAR szOperationName[ 33 ];
-   zLONG lResultID;
+   zLONG lResultID = 0;
    zLONG lCantOptOut;   /* int flag to say we cant optimize because of ORs */
-   zLONG lLoop;                                      /* temp loop variable */
-   zLONG lUseFirst;
-   zLONG lLth;
-   zLONG lOperator;
-   zVIEW vTargetView;
+   zLONG lLoop = 0;                                      /* temp loop variable */
+   zLONG lUseFirst = 0;
+   zLONG lLth = 0;
+   zLONG lOperator = 0;
+   zVIEW vTargetView = NULL;
    zBOOL bSetNextJava = FALSE;
 
    CreateEntity( g_lpExprView, "Expression", zPOS_AFTER );
@@ -642,7 +642,7 @@ ForEachNoOpt( zVIEW vSubtask, zVIEW vTargetView, zLONG lResultID )
    zCHAR szOperationName[ 33 ];
    zLONG lEntityID;
    zLONG lLoop;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    /* insert the correct CoreOperation call depending on whether or
    not we are setting EACH NEXT VAR CONST */

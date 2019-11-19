@@ -202,7 +202,7 @@ SyntaxError( zVIEW vSubtask, zLONG lErrorNumber, zPCHAR szErrorString )
    zBOOL bDone;
    zCHAR szMessage[ 256 ];
    zCHAR szNum[ 10 ];
-   zLONG lRC;
+   zLONG lRC = 0;
 
    if ( GetViewByName( &vError, "TZVMEROO", vSubtask, zLEVEL_TASK ) > 0 )
    {

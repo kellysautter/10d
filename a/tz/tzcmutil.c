@@ -188,8 +188,6 @@ fnBuildMetas( zVIEW vSubtask, zVIEW vLPLR,
    WIN32_FIND_DATA fd;
    HANDLE sh;
 
-// zUSE_OLD_LINK_CARDS in commit oi to file
-
    // Searches a directory for a file whose name matches the specified
    // file name on the destination site identified by this object.  It
    // examines subdirectory names as well as file names.
