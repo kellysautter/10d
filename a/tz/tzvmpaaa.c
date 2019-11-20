@@ -1480,6 +1480,7 @@ RemoveTabs( zPCHAR pchWork, zLONG lMaxLth )
       zPCHAR pchSource = qqin;
       zPCHAR pchTarget = pchWork;
       zLONG k, n;
+	  zLONG i = 0;
       while ( (pch = zstrchr( pchSource, '\t' ) ) != 0 )
       {
         k = pch - pchSource;
@@ -1490,12 +1491,16 @@ RemoveTabs( zPCHAR pchWork, zLONG lMaxLth )
         for ( n = 0; n < 3; n++ )
            *(pchTarget++) = ' ';
 
+		// KJS 11/20/2019 - I am adding the following because in the strcpy_s below, we were copying lMaxLth but this was then corrupting pchWork because pchWork contains
+		// blanks for the tab and then we add on lMaxLth which is too long. We must subract how many spaces are added for tabs.
+		i = i + 3;
+
         pchSource = ++pch;
       }
 
       // Lastly, move the rest of the string or add a zero-Byte to target.
       if ( *pchSource )
-        strcpy_s( pchTarget, lMaxLth, pchSource );
+        strcpy_s( pchTarget, (lMaxLth - i), pchSource );
       else
         *pchTarget = 0;
 

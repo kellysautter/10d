@@ -39,7 +39,7 @@ zgGetZeidonToolsDir( zVIEW  vSubtask,
 
 // DGC 10/17/95 -----------------------------------------------------------
 
-//start TZWDLGSO 2019.11.15 12:45:29
+//start TZWDLGSO 2019.11.20 09:52:49
 zOPER_EXPORT zSHORT OPERATION
 oTZWDLGSO_ConvertListBoxToGrid( zVIEW vViewToInstance0 );
 
@@ -143,7 +143,7 @@ oTZWDLGSO_FixCtrlCtrlAttributes( zVIEW vvDialog0,
 
 zOPER_EXPORT zSHORT OPERATION
 oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW vViewToInstance0,
-                                 zPCHAR    szAppendDateTime,
+                                 zPCHAR pchszAppendDateTime1,
                                  zLONG llFileJSP2,
                                  zPCHAR pchszWriteBuffer3 );
 

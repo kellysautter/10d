@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO                         11/19/19   15:32:39 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO                         11/20/19   11:13:33 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -641,18 +641,18 @@ aName      FixStyleString
 aGroupName TZWEBGL1
 
 eW_MetaDef 3
-aCPLR_ZKey 1319668
-aStatus    1
-aUpdateInd 2
-aName      fnPainterCall
-aLastUpdateDate 20160714173227371
-
-eW_MetaDef 3
 aCPLR_ZKey 1419668
 aStatus    1
 aUpdateInd 2
 aName      fnPainterCall
 aLastUpdateDate 20160714173229763
+
+eW_MetaDef 3
+aCPLR_ZKey 1319668
+aStatus    1
+aUpdateInd 2
+aName      fnPainterCall
+aLastUpdateDate 20160714173227371
 
 eW_MetaDef 3
 aCPLR_ZKey 91020983
@@ -2325,6 +2325,213 @@ aLastSyncDate 20160714173227361
 aLastUpdateDate 20160714173227361
 
 eW_MetaDef 3
+aCPLR_ZKey 1331051
+aStatus    1
+aUpdateInd 2
+aName      KZDBHQUA
+aDesc      DB Handler Qualification Object
+aLastSyncDate 20160714173227365
+aLastUpdateDate 20160714173227365
+
+eW_MetaDef 3
+aCPLR_ZKey 1331075
+aStatus    1
+aUpdateInd 2
+aName      KZDBHWOB
+aDesc      Work object for Zeidon database handlers
+aLastSyncDate 20160714173227368
+aLastUpdateDate 20160714173227368
+
+eW_MetaDef 3
+aCPLR_ZKey 88046397
+aStatus    1
+aUpdateInd 2
+aName      KZFXFERO
+aDesc      File transfer object.  Used to upload/download files.
+aLastSyncDate 20160714173227374
+aLastUpdateDate 20160714173227374
+
+eW_MetaDef 3
+aCPLR_ZKey 1331115
+aStatus    1
+aUpdateInd 2
+aName      KZGKHWOB
+aDesc      Work object for Genkey Handlers
+aLastSyncDate 20160714173227378
+aLastUpdateDate 20160714173227378
+
+eW_MetaDef 3
+aCPLR_ZKey 1331132
+aStatus    1
+aUpdateInd 2
+aName      KZHKEYSO
+aDesc      Hot key object definition
+aLastSyncDate 20160714173227383
+aLastUpdateDate 20160714173227383
+
+eW_MetaDef 3
+aCPLR_ZKey 1331158
+aStatus    1
+aUpdateInd 2
+aName      KZHKEYXO
+aDesc      Executable version of the global hotkey object
+aLastSyncDate 20160714173227387
+aLastUpdateDate 20160714173227387
+
+eW_MetaDef 3
+aCPLR_ZKey 1331171
+aStatus    1
+aUpdateInd 2
+aName      KZMSGQOO
+aDesc      Message Queue Handler
+aLastSyncDate 20160714173227393
+aLastUpdateDate 20160714173227393
+
+eW_MetaDef 3
+aCPLR_ZKey 1330798
+aStatus    1
+aUpdateInd 2
+aName      KZPEXVOO
+aDesc      Driver execution time presentation environment
+aLastSyncDate 20160714173227400
+aLastUpdateDate 20160714173227400
+
+eW_MetaDef 3
+aCPLR_ZKey 92718988
+aStatus    1
+aUpdateInd 2
+aName      KZRESTRC
+aDesc      28
+(REST return code object)
+ 
+aLastSyncDate 20160714173227403
+aLastUpdateDate 20160714173227403
+
+eW_MetaDef 3
+aCPLR_ZKey 110001928
+aStatus    1
+aUpdateInd 2
+aName      KZRestResponse
+aDesc      Object used to return activate/commit response by the JOE REST server.
+aLastSyncDate 20160714173226876
+aLastUpdateDate 20160714173226876
+
+eW_MetaDef 3
+aCPLR_ZKey 95057242
+aStatus    1
+aUpdateInd 2
+aName      KZSIRRPO
+aDesc      This Work Object is used by Siron Reports
+aLastSyncDate 20160714173227413
+aLastUpdateDate 20160714173227413
+
+eW_MetaDef 3
+aCPLR_ZKey 1330816
+aStatus    1
+aUpdateInd 2
+aName      KZSIXSKO
+aDesc      Executable Siron object for a LOD that matches XOD struct
+aLastSyncDate 20160714173227416
+aLastUpdateDate 20160714173227416
+
+eW_MetaDef 3
+aCPLR_ZKey 91043632
+aStatus    1
+aUpdateInd 2
+aName      KZTRACEO
+aDesc      Object to transfer a trace from server to client
+aLastSyncDate 20160714173227478
+aLastUpdateDate 20160714173227478
+
+eW_MetaDef 3
+aCPLR_ZKey 90007406
+aStatus    1
+aUpdateInd 2
+aName      KZTRANWO
+aDesc      Work object that will store operation information when calling transformations or global operations across the network.
+aLastSyncDate 20160714173227498
+aLastUpdateDate 20160714173227498
+
+eW_MetaDef 3
+aCPLR_ZKey 1330836
+aStatus    1
+aUpdateInd 2
+aName      KZWDLGXO
+aDesc      Executable Dialog Definition
+aLastSyncDate 20170714162040303
+aLastUpdateDate 20170714162040303
+
+eW_MetaDef 3
+aCPLR_ZKey 91301926
+aStatus    1
+aUpdateInd 2
+aName      KZXMLPGO
+aDesc      XML for window controls
+aLastSyncDate 20180105204430000
+aLastUpdateDate 20180105204430000
+
+eW_MetaDef 3
+aCPLR_ZKey 90417949
+aStatus    1
+aUpdateInd 2
+aName      KZXRA
+aDesc      Executable Remote Application
+aLastSyncDate 20160714173227524
+aLastUpdateDate 20160714173227524
+
+eW_MetaDef 3
+aCPLR_ZKey 1151049
+aStatus    1
+aUpdateInd 2
+aName      KZZDR
+aDesc      Zeidon Dialog Rendering object
+aLastSyncDate 20160714173227531
+aLastUpdateDate 20160714173227531
+
+eW_MetaDef 3
+aCPLR_ZKey 1326804
+aStatus    1
+aUpdateInd 2
+aName      TZ__PRFO
+aDesc      Tools XFER & Profile Info.
+aLastSyncDate 20160714173227133
+aLastUpdateDate 20160714173227133
+
+eW_MetaDef 3
+aCPLR_ZKey 1326102
+aStatus    1
+aUpdateInd 2
+aName      TZADCSDO
+aDesc      User information specification
+aLastSyncDate 20160714173226920
+aLastUpdateDate 20160714173226920
+
+eW_MetaDef 3
+aCPLR_ZKey 1330717
+aStatus    1
+aUpdateInd 2
+aName      TZADCWKO
+aLastSyncDate 20160714173227619
+aLastUpdateDate 20160714173227619
+
+eW_MetaDef 3
+aCPLR_ZKey 1330739
+aStatus    1
+aUpdateInd 2
+aName      TZADWKLO
+aDesc      User Spec Entity List
+aLastSyncDate 20160714173227636
+aLastUpdateDate 20160714173227636
+
+eW_MetaDef 3
+aCPLR_ZKey 1330759
+aStatus    1
+aUpdateInd 2
+aName      TZADWWKO
+aLastSyncDate 20160714173227644
+aLastUpdateDate 20160714173227644
+
+eW_MetaDef 3
 aCPLR_ZKey 127042456
 aStatus    1
 aUpdateInd 2
@@ -2775,15 +2982,6 @@ aName      TZDBHODO
 aDesc      This is a db-handler object.  It is used to specify information that is specific to ODBC databases.
 aLastSyncDate 20160714173228066
 aLastUpdateDate 20160714173228066
-
-eW_MetaDef 3
-aCPLR_ZKey 1331051
-aStatus    1
-aUpdateInd 2
-aName      KZDBHQUA
-aDesc      DB Handler Qualification Object
-aLastSyncDate 20160714173227365
-aLastUpdateDate 20160714173227365
 
 eW_MetaDef 3
 aCPLR_ZKey 90004370
@@ -3373,8 +3571,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZWDLGSO
 aDesc      Source Dialog Definition
-aLastSyncDate 20191115183403318
-aLastUpdateDate 20191115183403318
+aLastSyncDate 20191120095249406
+aLastUpdateDate 20191120095249406
 
 eW_MetaDef 3
 aCPLR_ZKey 1326496
@@ -3459,204 +3657,6 @@ aName      TZZOXOGO
 aDesc      Global Operations Executable Object - Defines parameters of every global operation (similar to XDM)
 aLastSyncDate 20160714173227123
 aLastUpdateDate 20160714173227123
-
-eW_MetaDef 3
-aCPLR_ZKey 1326804
-aStatus    1
-aUpdateInd 2
-aName      TZ__PRFO
-aDesc      Tools XFER & Profile Info.
-aLastSyncDate 20160714173227133
-aLastUpdateDate 20160714173227133
-
-eW_MetaDef 3
-aCPLR_ZKey 1331075
-aStatus    1
-aUpdateInd 2
-aName      KZDBHWOB
-aDesc      Work object for Zeidon database handlers
-aLastSyncDate 20160714173227368
-aLastUpdateDate 20160714173227368
-
-eW_MetaDef 3
-aCPLR_ZKey 88046397
-aStatus    1
-aUpdateInd 2
-aName      KZFXFERO
-aDesc      File transfer object.  Used to upload/download files.
-aLastSyncDate 20160714173227374
-aLastUpdateDate 20160714173227374
-
-eW_MetaDef 3
-aCPLR_ZKey 1331115
-aStatus    1
-aUpdateInd 2
-aName      KZGKHWOB
-aDesc      Work object for Genkey Handlers
-aLastSyncDate 20160714173227378
-aLastUpdateDate 20160714173227378
-
-eW_MetaDef 3
-aCPLR_ZKey 1331132
-aStatus    1
-aUpdateInd 2
-aName      KZHKEYSO
-aDesc      Hot key object definition
-aLastSyncDate 20160714173227383
-aLastUpdateDate 20160714173227383
-
-eW_MetaDef 3
-aCPLR_ZKey 1331158
-aStatus    1
-aUpdateInd 2
-aName      KZHKEYXO
-aDesc      Executable version of the global hotkey object
-aLastSyncDate 20160714173227387
-aLastUpdateDate 20160714173227387
-
-eW_MetaDef 3
-aCPLR_ZKey 1331171
-aStatus    1
-aUpdateInd 2
-aName      KZMSGQOO
-aDesc      Message Queue Handler
-aLastSyncDate 20160714173227393
-aLastUpdateDate 20160714173227393
-
-eW_MetaDef 3
-aCPLR_ZKey 1330798
-aStatus    1
-aUpdateInd 2
-aName      KZPEXVOO
-aDesc      Driver execution time presentation environment
-aLastSyncDate 20160714173227400
-aLastUpdateDate 20160714173227400
-
-eW_MetaDef 3
-aCPLR_ZKey 92718988
-aStatus    1
-aUpdateInd 2
-aName      KZRESTRC
-aDesc      28
-(REST return code object)
- 
-aLastSyncDate 20160714173227403
-aLastUpdateDate 20160714173227403
-
-eW_MetaDef 3
-aCPLR_ZKey 110001928
-aStatus    1
-aUpdateInd 2
-aName      KZRestResponse
-aDesc      Object used to return activate/commit response by the JOE REST server.
-aLastSyncDate 20160714173226876
-aLastUpdateDate 20160714173226876
-
-eW_MetaDef 3
-aCPLR_ZKey 95057242
-aStatus    1
-aUpdateInd 2
-aName      KZSIRRPO
-aDesc      This Work Object is used by Siron Reports
-aLastSyncDate 20160714173227413
-aLastUpdateDate 20160714173227413
-
-eW_MetaDef 3
-aCPLR_ZKey 1330816
-aStatus    1
-aUpdateInd 2
-aName      KZSIXSKO
-aDesc      Executable Siron object for a LOD that matches XOD struct
-aLastSyncDate 20160714173227416
-aLastUpdateDate 20160714173227416
-
-eW_MetaDef 3
-aCPLR_ZKey 91043632
-aStatus    1
-aUpdateInd 2
-aName      KZTRACEO
-aDesc      Object to transfer a trace from server to client
-aLastSyncDate 20160714173227478
-aLastUpdateDate 20160714173227478
-
-eW_MetaDef 3
-aCPLR_ZKey 90007406
-aStatus    1
-aUpdateInd 2
-aName      KZTRANWO
-aDesc      Work object that will store operation information when calling transformations or global operations across the network.
-aLastSyncDate 20160714173227498
-aLastUpdateDate 20160714173227498
-
-eW_MetaDef 3
-aCPLR_ZKey 1330836
-aStatus    1
-aUpdateInd 2
-aName      KZWDLGXO
-aDesc      Executable Dialog Definition
-aLastSyncDate 20170714162040303
-aLastUpdateDate 20170714162040303
-
-eW_MetaDef 3
-aCPLR_ZKey 91301926
-aStatus    1
-aUpdateInd 2
-aName      KZXMLPGO
-aDesc      XML for window controls
-aLastSyncDate 20180105204430000
-aLastUpdateDate 20180105204430000
-
-eW_MetaDef 3
-aCPLR_ZKey 90417949
-aStatus    1
-aUpdateInd 2
-aName      KZXRA
-aDesc      Executable Remote Application
-aLastSyncDate 20160714173227524
-aLastUpdateDate 20160714173227524
-
-eW_MetaDef 3
-aCPLR_ZKey 1151049
-aStatus    1
-aUpdateInd 2
-aName      KZZDR
-aDesc      Zeidon Dialog Rendering object
-aLastSyncDate 20160714173227531
-aLastUpdateDate 20160714173227531
-
-eW_MetaDef 3
-aCPLR_ZKey 1326102
-aStatus    1
-aUpdateInd 2
-aName      TZADCSDO
-aDesc      User information specification
-aLastSyncDate 20160714173226920
-aLastUpdateDate 20160714173226920
-
-eW_MetaDef 3
-aCPLR_ZKey 1330717
-aStatus    1
-aUpdateInd 2
-aName      TZADCWKO
-aLastSyncDate 20160714173227619
-aLastUpdateDate 20160714173227619
-
-eW_MetaDef 3
-aCPLR_ZKey 1330739
-aStatus    1
-aUpdateInd 2
-aName      TZADWKLO
-aDesc      User Spec Entity List
-aLastSyncDate 20160714173227636
-aLastUpdateDate 20160714173227636
-
-eW_MetaDef 3
-aCPLR_ZKey 1330759
-aStatus    1
-aUpdateInd 2
-aName      TZADWWKO
-aLastSyncDate 20160714173227644
-aLastUpdateDate 20160714173227644
 
 eW_MetaType 2
 aType      8
@@ -6652,8 +6652,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZPNTRAD
 aDesc      Application Painter 
-aLastSyncDate 20191008164142000
-aLastUpdateDate 20191008164142000
+aLastSyncDate 20191120100911341
+aLastUpdateDate 20191120100911341
 
 eW_MetaDef 3
 aCPLR_ZKey 125121248
@@ -7645,10 +7645,10 @@ aLastUpdateDate 20191118155543626
 aGroupName TZWEBGL1
 
 eW_MetaDef 3
-aGroupName KZDRVRAA
+aGroupName ZDRAPP
 
 eW_MetaDef 3
-aGroupName ZDRAPP
+aGroupName KZDRVRAA
 
 eW_MetaDef 3
 aGroupName TZCM_OPR
@@ -10123,8 +10123,8 @@ i981       93
 i982       94
 i983       95
 i984       96
-i986       103
-i987       102
+i986       102
+i987       103
 i988       104
 i990       110
 i991       111
@@ -10179,8 +10179,8 @@ i1043      179
 i1044      180
 i1045      181
 i1046      182
-i1048      188
-i1049      189
+i1048      189
+i1049      188
 i1050      190
 i1051      191
 i1052      192
@@ -10348,152 +10348,152 @@ i1216      356
 i1217      357
 i1219      359
 i1221      361
-i1222      410
-i1223      487
-i1224      488
-i1225      489
-i1226      490
-i1227      491
-i1228      492
-i1229      493
-i1230      494
-i1231      495
-i1232      496
-i1233      497
-i1234      498
-i1235      499
-i1236      500
-i1237      501
-i1238      502
-i1239      503
-i1240      486
-i1241      504
-i1242      505
-i1243      506
-i1244      507
-i1245      362
-i1246      363
-i1247      364
-i1248      365
-i1249      366
-i1250      367
-i1251      368
-i1252      369
-i1253      370
-i1254      371
-i1255      372
-i1256      373
-i1257      374
-i1258      375
-i1259      376
-i1260      377
-i1261      378
-i1262      379
-i1263      380
-i1264      381
-i1265      382
-i1266      383
-i1267      384
-i1268      385
-i1269      386
-i1270      387
-i1271      388
-i1272      389
-i1273      390
-i1274      391
-i1275      392
-i1276      393
-i1277      394
-i1278      395
-i1279      396
-i1280      397
-i1281      398
-i1282      399
-i1283      400
-i1284      401
-i1285      402
-i1286      403
-i1287      404
-i1288      405
-i1289      406
-i1290      407
-i1291      408
-i1292      409
-i1293      411
-i1294      412
-i1295      413
-i1296      414
-i1297      415
-i1298      416
-i1299      417
-i1300      418
-i1301      419
-i1302      420
-i1303      421
-i1304      422
-i1305      423
-i1306      424
-i1307      425
-i1308      426
-i1309      427
-i1310      428
-i1311      429
-i1312      430
-i1313      431
-i1314      432
-i1315      433
-i1316      434
-i1317      435
-i1318      436
-i1319      437
-i1320      438
-i1321      439
-i1322      440
-i1323      441
-i1324      442
-i1325      443
-i1326      444
-i1327      445
-i1328      446
-i1329      447
-i1330      448
-i1331      449
-i1332      450
-i1333      451
-i1334      452
-i1335      453
-i1336      454
-i1337      455
-i1338      456
-i1339      457
-i1340      458
-i1341      459
-i1342      460
-i1343      461
-i1344      462
-i1345      463
-i1346      464
-i1347      465
-i1348      466
-i1349      467
-i1350      468
-i1351      469
-i1352      470
-i1353      471
-i1354      472
-i1355      473
-i1356      474
-i1357      475
-i1358      476
-i1359      477
-i1360      478
-i1361      479
-i1362      480
-i1363      481
-i1364      482
-i1365      483
-i1366      484
-i1367      485
+i1222      362
+i1223      363
+i1224      364
+i1225      365
+i1226      366
+i1227      367
+i1228      368
+i1229      369
+i1230      370
+i1231      371
+i1232      372
+i1233      373
+i1234      374
+i1235      375
+i1236      376
+i1237      377
+i1238      378
+i1239      379
+i1240      380
+i1241      381
+i1242      382
+i1243      383
+i1244      384
+i1245      385
+i1246      386
+i1247      387
+i1248      388
+i1249      389
+i1250      390
+i1251      391
+i1252      392
+i1253      393
+i1254      394
+i1255      395
+i1256      396
+i1257      397
+i1258      398
+i1259      399
+i1260      400
+i1261      401
+i1262      402
+i1263      403
+i1264      404
+i1265      405
+i1266      406
+i1267      407
+i1268      408
+i1269      409
+i1270      410
+i1271      411
+i1272      412
+i1273      413
+i1274      414
+i1275      415
+i1276      416
+i1277      417
+i1278      418
+i1279      419
+i1280      420
+i1281      421
+i1282      422
+i1283      423
+i1284      424
+i1285      425
+i1286      426
+i1287      427
+i1288      428
+i1289      429
+i1290      430
+i1291      431
+i1292      432
+i1293      433
+i1294      434
+i1295      435
+i1296      436
+i1297      437
+i1298      438
+i1299      439
+i1300      440
+i1301      441
+i1302      442
+i1303      443
+i1304      444
+i1305      445
+i1306      446
+i1307      447
+i1308      448
+i1309      449
+i1310      450
+i1311      451
+i1312      452
+i1313      453
+i1314      454
+i1315      455
+i1316      456
+i1317      457
+i1318      458
+i1319      459
+i1320      460
+i1321      461
+i1322      462
+i1323      463
+i1324      464
+i1325      465
+i1326      466
+i1327      467
+i1328      468
+i1329      469
+i1330      470
+i1331      471
+i1332      472
+i1333      473
+i1334      474
+i1335      475
+i1336      476
+i1337      477
+i1338      478
+i1339      479
+i1340      480
+i1341      481
+i1342      482
+i1343      483
+i1344      484
+i1345      485
+i1346      486
+i1347      487
+i1348      488
+i1349      489
+i1350      490
+i1351      491
+i1352      492
+i1353      493
+i1354      494
+i1355      495
+i1356      496
+i1357      497
+i1358      498
+i1359      499
+i1360      500
+i1361      501
+i1362      502
+i1363      503
+i1364      504
+i1365      505
+i1366      506
+i1367      507
 i1370      510
 i1371      511
 i1372      512

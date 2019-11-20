@@ -254,9 +254,9 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
    zCHAR  szXPG[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR  szSourceFile[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR  szTargetFile[ zMAX_FILESPEC_LTH + 1 ];
-   zBOOL  bParseOnly;
-   zBOOL  bAlwaysParse;
-   zBOOL  bAlwaysGen;
+   zBOOL  bParseOnly = FALSE;
+   zBOOL  bAlwaysParse = FALSE;
+   zBOOL  bAlwaysGen = FALSE;
    zLONG  lMakeOption;
    zCHAR  szMetaName[ 33 ];
    zCHAR  szMetaName2[ 33 ];
@@ -432,7 +432,7 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
          zCHAR szSourceDateTime[ 20 ];
          zCHAR szSourceBase[ 20 ];
          zCHAR szMsg[ 200 ];
-         zBOOL bParsed;
+         zBOOL bParsed = FALSE;
 
          // If the language type is .C, then we don't need to parse/generate so skip it.
          if ( CompareAttributeToString( vMetaCopy, pchSourceFileEntity,
@@ -1928,17 +1928,24 @@ fnRemoveSpace( zPCHAR szFileName )
    {
       // Nothing needs to be done here ... we're just moving pch to the right spot
    }
-
-   strcpy_s( szFileName, zsizeof( szFileName ), pch );
+   // KJS 11/20/2019 - zsizof() of a pointer only returns 4. Using zsizeof seems incorrect!
+   strcpy_s(szFileName, zstrlen(szFileName) + 1, pch);
+   //strcpy_s(szFileName, zsizeof(szFileName), pch);
 }
 
 static BOOL
 fnVerifyExternalLibFile( zVIEW vSubtask, zVIEW vTaskLPLR, zPCHAR pchFileName )
 {
    zCHAR szFileName[ zMAX_FILESPEC_LTH + 1 ];
+   size_t lLth;
 
+   lLth = zstrlen(pchFileName);
+   lLth = zsizeof(pchFileName);
+   lLth = zsizeof(szFileName);
    // Remove leading spaces.
    SysConvertEnvironmentString( szFileName, zsizeof( szFileName ), pchFileName );
+   lLth = zsizeof(szFileName);
+
    fnRemoveSpace( szFileName );
    if ( zstrcmp( szFileName, "" ) == 0 )
    {
@@ -2075,7 +2082,8 @@ fnExternalLibObjToLibTarget (zVIEW vTask2, zPCHAR pchEntity)
    zCHAR  szFileName[ zMAX_FILENAME_LTH + 1 ];
    zCHAR  szExtension[ zMAX_FILENAME_LTH + 1 ];
    zCHAR  szDir[ zMAX_FILESPEC_LTH + 1 ];
-   zCHAR  szDrive[ 10 ];
+   //zCHAR  szDrive[10];
+   zCHAR  szDrive[ zMAX_FILESPEC_LTH + 1 ]; // KJS 11/20/2019
 
    for (nRC = SetCursorFirstEntity( vTask2, pchEntity, 0);
         nRC == zCURSOR_SET;
@@ -2087,7 +2095,12 @@ fnExternalLibObjToLibTarget (zVIEW vTask2, zPCHAR pchEntity)
       _splitpath( szFullFileName, szDrive, szDir, szFileName, szExtension );
       // Remove \ at last position.
       szDir[ strlen(szDir) - 1 ] = 0;
-      strcat_s( szDrive, zsizeof( szDrive ), szDir );
+	  // KJS 11/20/2019 - I don't understand... but when szDir=\10C\W\LIBZ (which looks to me to be length of 11)
+	  // zsizeof returns 10, strlen returns 11. I'm going to change the following to be zstrlen...
+	  // And it should be the size of szDir, not szDrive
+	  //strcat_s(szDrive, zsizeof(szDrive), szDir);
+	  strcat_s(szDrive, zsizeof(szDir), szDir);
+	  //strcat_s(szDrive, strlen(szDrive), szDir);
 
       // put the directoryname into the Library list. From this library list
       // Variable LIB will be build.
