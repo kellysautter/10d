@@ -1,9 +1,9 @@
-z1000-Zeidon    TZEDFRMD TZWDLGSO 10/17/17   18:50:28 1.0b0    
+z1000-Zeidon    TZEDFRMD TZWDLGSO                         11/25/19   11:24:53 1.0a2   
 eDialog    1
 aTag       TZEDFRMD
 aDLL_Name  TZEDFRMD
 aZKey      90004018
-aNextZKeyToAssign 190007168
+aNextZKeyToAssign 190007615
 aDesc      Dialog Frame for Editor
 
 eDfltWnd   2
@@ -11,8 +11,8 @@ aTag       TZEDFRMD
 aCaption   Zeidon Editor
 aPSDLG_X   2
 aPSDLG_Y   2
-aSZDLG_X   29950310
-aSZDLG_Y   19267796
+aSZDLG_X   21823846
+aSZDLG_Y   11075802
 aZKey      90004020
 aDIL_Active Y
 aGeneralFlag 0
@@ -21,137 +21,35 @@ eWindow    2
 aBarID     59451
 
 eControl   3
-aTag       _tbe
-aZKey      1165897
-aSubtype   808452096
-aPSDLG_X   0
-aPSDLG_Y   0
-aSZDLG_X   227
-aSZDLG_Y   112
+aTag       _ZeidonEditor
+aZKey      190007167
+aSubtype   268435456
+aPSDLG_X   3
+aPSDLG_Y   2
+aSZDLG_X   327
+aSZDLG_Y   123
 aSyncKey   9999
-aGUID      {DEA843D5-DAA2-11D1-95B2-0060973B3B55}
-aProperties U2560
-MT,\1X*&Q&N$`````````````````````/@`#`/[_"0`&```````````````!
-M`````0``````````$````@````$```#^____``````````#_____________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M_______________________]_____O____[____^____________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M_____________________________________________U(`;P!O`'0`(`!%
-M`&X`=`!R`'D`````````````````````````````````````````````````
-M```````````6``4`__________\!````````````````````````````````
-M`````````."6SE.:1],!`P```$``````````0P!O`&X`=`!E`&X`=`!S````
-M````````````````````````````````````````````````````````````
-M`!(``@'_______________\`````````````````````````````````````
-M````````````````$```````````````````````````````````````````
-M`````````````````````````````````````````````````````````/__
-M_____________P``````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````____________
-M____````````````````````````````````````````````````````````
-M````````_O__________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M____________________________________________________________
-M______________________________\```$`/B,``,\2````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-M````````````````````````````````````````````````````````````
-H````````````````````````````````````````````````````````
-`
+aExtendedStyle 16777216
+aVisibleBorder Y
+aDisabled  N
 
-eEvent     4
-aType      1
-aZKey      91000549
-
-eEventAct  5
-aTag       SetInsert
-aType      1
-aZKey      90034647
-
-eEvent     4
-aType      2
-aZKey      90020302
-
-eEventAct  5
-aTag       TZEDFRMD_OnRightMouseClick
-aType      1
-aZKey      90020303
-
-eEvent     4
-aType      4
-aZKey      91000550
-
-eEventAct  5
-aTag       SetOverstrike
-aType      1
-aZKey      90034653
-
-eEvent     4
-aType      5
-aZKey      91000551
-
-eEventAct  5
-aTag       Keystroke
-aNoMap     Y
-aType      1
-aZKey      90034676
-
-eEvent     4
-aType      3
-aZKey      91000552
-
-eEventAct  5
-aTag       LineChange
-aNoMap     Y
-aType      1
-aZKey      90034682
+eCtrlMap   4
+aZKey      190007168
 
 eControlDef 4
-aTag       TBEdit
-aZKey      4001
-aKey       4001
+aTag       Editor
+aZKey      190008889
+aKey       1014
 aRT_DLL_Name ZDCTL
-aRT_OperationName ActiveX
+aRT_OperationName EditorControl
 aPainterDLL_Name TZCTL
-aPainterC_OperationName TZActiveXMsg
-aPainterBitmap Active
-aMaintenanceDialog TZPNCTLD
-aMaintenanceWindow UPD_ActiveX
-aActiveX_Script TBEditScript
+aPainterC_OperationName TZEditorMsg
+aPainterConvertOperationName ConvertEditBox
+aPainterBitmap EDIT
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_EDIT
+aId        38
 aInvisible -1
-aGUID      {DEA843D5-DAA2-11D1-95B2-0060973B3B55}
-aActiveX_ScriptDLL TZCTL
 
 eControl   3
 aTag       DIL1
@@ -162,6 +60,7 @@ aPSDLG_Y   125
 aSZDLG_X   336
 aSZDLG_Y   20
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlCtrl  4
 aTag       DilItem1
@@ -170,9 +69,10 @@ aZKey      90034643
 aSubtype   1
 aPSDLG_X   2
 aPSDLG_Y   1
-aSZDLG_X   251
+aSZDLG_X   217
 aSZDLG_Y   15
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   5
 aZKey      90034644
@@ -190,14 +90,15 @@ aId        24
 aInvisible -1
 
 eCtrlCtrl  4
-aTag       DilItem4
+aTag       DilItem2
 aZKey      90034687
 aSubtype   2
-aPSDLG_X   256
+aPSDLG_X   221
 aPSDLG_Y   1
 aSZDLG_X   4
 aSZDLG_Y   15
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   5
 aZKey      90034688
@@ -208,11 +109,12 @@ eCtrlCtrl  4
 aTag       DilItem3
 aZKey      90034673
 aSubtype   1
-aPSDLG_X   266
+aPSDLG_X   230
 aPSDLG_Y   1
-aSZDLG_X   43
+aSZDLG_X   74
 aSZDLG_Y   15
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   5
 aZKey      90034674
@@ -220,15 +122,16 @@ aZKey      90034674
 eControlDef 5
 
 eCtrlCtrl  4
-aTag       DilItem2
+aTag       DilItem4
 aText      Ins
 aZKey      90034658
 aSubtype   2
-aPSDLG_X   315
+aPSDLG_X   306
 aPSDLG_Y   1
-aSZDLG_X   16
+aSZDLG_X   20
 aSZDLG_Y   15
 aSyncKey   9999
+aExtendedStyle 0
 
 eCtrlMap   5
 aZKey      90034659
@@ -262,6 +165,7 @@ aTag       FileNew
 aNoMap     Y
 aType      1
 aZKey      90004034
+aSB_ActionDisabling 0
 
 eWndEvent  3
 aType      256
@@ -272,6 +176,7 @@ aTag       Alt-F4
 aNoMap     Y
 aType      72
 aZKey      90004078
+aSB_ActionDisabling 0
 
 eWndEvent  3
 aType      218103808
@@ -287,6 +192,7 @@ eWndAct    4
 aTag       OnReplaceText
 aType      1
 aZKey      90002343
+aSB_ActionDisabling 0
 
 eWndEvent  3
 aType      150994944
@@ -296,6 +202,7 @@ eWndAct    4
 aTag       OnEditFind
 aType      1
 aZKey      90002348
+aSB_ActionDisabling 0
 
 eWndEvent  3
 aType      1
@@ -306,6 +213,7 @@ aTag       PreBuild
 aNoMap     Y
 aType      1
 aZKey      91000351
+aSB_ActionDisabling 0
 
 eWndEvent  3
 aType      2
@@ -316,6 +224,7 @@ aTag       PostBuild
 aNoMap     Y
 aType      1
 aZKey      90004163
+aSB_ActionDisabling 0
 
 eWndEvent  3
 aType      268435456
@@ -325,6 +234,18 @@ eWndAct    4
 aTag       InitMenu
 aType      1
 aZKey      90004167
+aSB_ActionDisabling 0
+
+eWndEvent  3
+aType      8192
+aZKey      190007208
+
+eWndAct    4
+aTag       OnSize
+aNoMap     Y
+aType      1
+aZKey      190007209
+aSB_ActionDisabling 0
 
 eWndEvent  3
 aType      4
@@ -335,6 +256,7 @@ aTag       ReceiveFocus
 aNoMap     Y
 aType      1
 aZKey      90034668
+aSB_ActionDisabling 0
 
 eWndEvent  3
 aType      167772160
@@ -344,11 +266,54 @@ eWndAct    4
 aTag       OnEditFindNext
 aType      1
 aZKey      90002357
+aSB_ActionDisabling 0
+
+eWndEvent  3
+aType      524288
+aZKey      190007381
+
+eWndAct    4
+aTag       BookmarkMenu
+aNoMap     Y
+aType      40
+aZKey      190007375
+aSB_ActionDisabling 0
+aPopupMenuName Bookmark
+
+eWndEvent  3
+aType      32
+aZKey      190007414
+
+eWndAct    4
+aTag       DontDoIt
+aType      1
+aZKey      190007415
+aSB_ActionDisabling 0
+
+eAction    3
+aTag       About
+aType      36
+aZKey      190007342
+aDialogName TZEDFRMD
+aWindowName About
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007546
+
+eActMap    4
+aZKey      190007547
+
+eActOpt    4
+aTag       About
+aText      About
+aZKey      190007327
 
 eAction    3
 aTag       ActivateBasicsHelp
 aType      1
 aZKey      90005059
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      90005060
@@ -378,6 +343,7 @@ eAction    3
 aTag       ActivateOperationsRef
 aType      1
 aZKey      90005080
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      90005081
@@ -402,6 +368,7 @@ eAction    3
 aTag       ActivateProgrammersRef
 aType      1
 aZKey      90005075
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      90005076
@@ -426,6 +393,7 @@ eAction    3
 aTag       ActivateUsersGuide
 aType      1
 aZKey      90005066
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      90005067
@@ -448,6 +416,12 @@ eSourceFileForOper 5
 
 eAction    3
 
+eActMap    4
+aZKey      190007548
+
+eActMap    4
+aZKey      190007549
+
 eActWndEvent 4
 
 eActWndEvent 4
@@ -467,10 +441,56 @@ aReturnDataType N
 eSourceFileForOper 5
 
 eAction    3
+
+eActMap    4
+aZKey      190007550
+
+eActMap    4
+aZKey      190007551
+
+eActWndEvent 4
+
+eAction    3
+aTag       ClearAllBookmarks
+aType      1
+aZKey      190007260
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007552
+
+eActMap    4
+aZKey      190007553
+
+eActOpt    4
+aTag       ClearAllBookmarks
+aText      Clear All Bookmarks
+aZKey      190007365
+
+eActOpt    4
+aTag       BookmarksClear
+aText      Clear All Bookmarks
+aZKey      190007373
+
+eActOper   4
+aName      TZEDFRMD_ClearAllBookmarks
+aZKey      190007263
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
 aTag       CompileJava
 aType      1
 aZKey      130000386
 aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007554
+
+eActMap    4
+aZKey      190007555
 
 eActOpt    4
 aTag       mnuCompileJava
@@ -490,20 +510,43 @@ aTag       DoNothingForCtrlE
 aNoMap     Y
 aType      1
 aZKey      1150952
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007534
+
+eActMap    4
+aZKey      190007535
 
 eActHot    4
 aTag       StopDesignEditor
 aZKey      1150951
-aKeyCombo  U4
-$X8Y%````
-`
+aKeyCombo  4
+·éE 
 aTitle     Ctrl+E
 aVKey      69
+
+eAction    3
+
+eActMap    4
+aZKey      190007422
+
+eActMap    4
+aZKey      190007423
+
+eActWndEvent 4
 
 eAction    3
 aTag       EditContextCopy
 aType      1
 aZKey      127020455
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007532
+
+eActMap    4
+aZKey      190007533
 
 eActOpt    4
 aTag       EditContextCopy
@@ -522,6 +565,13 @@ eAction    3
 aTag       EditContextCut
 aType      1
 aZKey      127020450
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007530
+
+eActMap    4
+aZKey      190007531
 
 eActOpt    4
 aTag       EditContextCut
@@ -541,6 +591,13 @@ eAction    3
 aTag       EditContextDelete
 aType      1
 aZKey      127020465
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007528
+
+eActMap    4
+aZKey      190007529
 
 eActOpt    4
 aTag       EditContextDelete
@@ -560,6 +617,13 @@ eAction    3
 aTag       EditContextPaste
 aType      1
 aZKey      127020460
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007526
+
+eActMap    4
+aZKey      190007527
 
 eActOpt    4
 aTag       EditContextPaste
@@ -578,6 +642,13 @@ eAction    3
 aTag       EditContextRedo
 aType      1
 aZKey      127020445
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007524
+
+eActMap    4
+aZKey      190007525
 
 eActOper   4
 aName      TZEDFRMD_EditRedo
@@ -592,6 +663,13 @@ eAction    3
 aTag       EditContextSelectAll
 aType      1
 aZKey      127020470
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007522
+
+eActMap    4
+aZKey      190007523
 
 eActOper   4
 aName      TZEDFRMD_EditSelectAll
@@ -606,6 +684,13 @@ eAction    3
 aTag       EditContextUndo
 aType      1
 aZKey      127020438
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007520
+
+eActMap    4
+aZKey      190007521
 
 eActOpt    4
 aTag       EditContextUndo
@@ -625,6 +710,7 @@ eAction    3
 aTag       EditCopy
 aType      1
 aZKey      91003485
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      127020453
@@ -644,18 +730,16 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditCopy
 aZKey      91003496
-aKeyCombo  U4
-$@9%#````
-`
+aKeyCombo  4
+ÅëC 
 aTitle     Ctrl+C
 aVKey      67
 
 eActHot    4
 aTag       CtrlEditCopy
 aZKey      90023277
-aKeyCombo  U4
-$"9(M````
-`
+aKeyCombo  4
+	í- 
 aTitle     Ctrl+C
 aVKey      45
 
@@ -663,6 +747,7 @@ eAction    3
 aTag       EditCut
 aType      1
 aZKey      91003479
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      127020448
@@ -683,18 +768,16 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditCut
 aZKey      91003494
-aKeyCombo  U4
-$@9%8````
-`
+aKeyCombo  4
+ÅëX 
 aTitle     Ctrl+X
 aVKey      88
 
 eActHot    4
 aTag       ShiftEditCut
 aZKey      90023275
-aKeyCombo  U4
-$#)(N````
-`
+aKeyCombo  4
+í. 
 aTitle     Ctrl+X
 aVKey      46
 
@@ -702,6 +785,7 @@ eAction    3
 aTag       EditDelete
 aType      1
 aZKey      91007771
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      127020463
@@ -712,7 +796,6 @@ aZKey      127020464
 eActOpt    4
 aTag       EditDelete
 aText      &Delete
-aSeparator Y
 aZKey      91007739
 
 eActOper   4
@@ -723,6 +806,13 @@ eAction    3
 aTag       EditFind
 aType      1
 aZKey      91007762
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007219
+
+eActMap    4
+aZKey      190007220
 
 eActOpt    4
 aTag       EditFind
@@ -742,22 +832,49 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditFind
 aZKey      1159611
-aKeyCombo  U4
-$08U&````
-`
+aKeyCombo  4
+…ÃF 
 aTitle     Ctrl+F
 aVKey      70
+
+eAction    3
+aTag       EditFindPrevious
+aType      1
+aZKey      190007233
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007518
+
+eActMap    4
+aZKey      190007519
+
+eActOpt    4
+aTag       FindPrevious
+aText      Find Previous
+aZKey      190007431
+
+eActOper   4
+aName      TZEDFRMD_EditFindPrevious
+aZKey      190007237
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditFindPrevious
+aZKey      190007232
+aKeyCombo  4
+ÃÃr 
+aTitle     Shift+F3
+aVKey      114
 
 eAction    3
 aTag       EditPaste
 aType      1
 aZKey      91003482
-
-eActMap    4
-aZKey      127020458
-
-eActMap    4
-aZKey      127020459
+aSB_ActionDisabling 0
 
 eActOpt    4
 aTag       EditPaste
@@ -771,18 +888,16 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditPaste
 aZKey      91003495
-aKeyCombo  U4
-$@9%6````
-`
+aKeyCombo  4
+ÅëV 
 aTitle     Ctrl+V
 aVKey      86
 
 eActHot    4
 aTag       ShiftEditPaste
 aZKey      90023276
-aKeyCombo  U4
-$#)(M````
-`
+aKeyCombo  4
+í- 
 aTitle     Ctrl+V
 aVKey      45
 
@@ -790,6 +905,7 @@ eAction    3
 aTag       EditRedo
 aType      1
 aZKey      91007759
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      127020443
@@ -814,16 +930,90 @@ eSourceFileForOper 5
 eActHot    4
 aTag       Redo
 aZKey      1150950
-aKeyCombo  U4
-$X8Y9````
-`
+aKeyCombo  4
+…ÃY 
 aTitle     Ctrl+Y
 aVKey      89
+
+eAction    3
+aTag       EditRepeatFind
+aType      1
+aZKey      190007221
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007516
+
+eActMap    4
+aZKey      190007517
+
+eActOpt    4
+aTag       EditRepeatFind
+aText      Repeat Find
+aZKey      190007240
+
+eActOper   4
+aName      TZEDFRMD_EditRepeatFind
+aZKey      90002353
+aDesc      handles the EditFindNext event
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditRepeatFind
+aZKey      190007216
+aKeyCombo  4
+»Ãr 
+aTitle     F3
+aVKey      114
+
+eAction    3
+aTag       EditRepeatReplace
+aType      1
+aZKey      190007226
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007514
+
+eActMap    4
+aZKey      190007515
+
+eActOpt    4
+aTag       EditRepeatReplace
+aText      Repeat Replace
+aZKey      190007242
+
+eActOper   4
+aName      TZEDFRMD_EditRepeatReplace
+aZKey      90002351
+aDesc      Handles the edit find event
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditRepeatReplace
+aZKey      190007231
+aKeyCombo  4
+ ÃR 
+aTitle     Alt+R
+aVKey      82
 
 eAction    3
 aTag       EditReplace
 aType      1
 aZKey      91007765
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007512
+
+eActMap    4
+aZKey      190007513
 
 eActOpt    4
 aTag       EditReplace
@@ -831,27 +1021,60 @@ aText      R&eplace...
 aZKey      91007755
 
 eActOper   4
-aName      TZEDFRMD_OpenFindReplace
-aZKey      90002335
-aDesc      Popup common Find/Replace Dialog
+aName      TZEDFRMD_EditReplace
+aZKey      91007780
+aDesc      opens the ocx replace dialog
 aType      D
 aReturnDataType N
 
 eSourceFileForOper 5
 
 eActHot    4
-aTag       EditChange
+aTag       EditReplace
 aZKey      1159612
-aKeyCombo  U4
-$08U(````
-`
-aTitle     Ctrl+H
-aVKey      72
+aKeyCombo  4
+…ÃR 
+aTitle     Ctrl+R
+aVKey      82
+
+eAction    3
+aTag       EditReplaceAll
+aType      1
+aZKey      190007434
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007460
+
+eActMap    4
+aZKey      190007461
+
+eActOpt    4
+aTag       ReplaceAll
+aText      Replace All
+aZKey      190007433
+
+eActOper   4
+aName      TZEDFRMD_EditReplaceAll
+aZKey      190007437
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditReplaceAll
+aZKey      190007439
+aKeyCombo  4
+ ÃA 
+aTitle     Alt+A
+aVKey      65
 
 eAction    3
 aTag       EditSelectAll
 aType      1
 aZKey      91007768
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      127020468
@@ -862,7 +1085,6 @@ aZKey      127020469
 eActOpt    4
 aTag       EditSelectAll
 aText      Select a&ll
-aSeparator Y
 aZKey      91007753
 
 eActOpt    4
@@ -878,16 +1100,44 @@ eSourceFileForOper 5
 eActHot    4
 aTag       SelectAll
 aZKey      90020334
-aKeyCombo  U4
-$@9%!````
-`
+aKeyCombo  4
+ÅëA 
 aTitle     Ctrl+A
 aVKey      65
+
+eAction    3
+aTag       EditTab
+aType      1
+aZKey      190007599
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007600
+
+eActMap    4
+aZKey      190007601
+
+eActOper   4
+aName      TZEDFRMD_EditTab
+aZKey      190007605
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditTab
+aZKey      190007595
+aKeyCombo  4
+»Ã	 
+aTitle     Tab
+aVKey      9
 
 eAction    3
 aTag       EditUndo
 aType      1
 aZKey      91007756
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      127020436
@@ -907,20 +1157,46 @@ eSourceFileForOper 5
 eActHot    4
 aTag       Undo
 aZKey      1150949
-aKeyCombo  U4
-$X8Y:````
-`
+aKeyCombo  4
+…ÃZ 
 aTitle     Ctrl+Z
 aVKey      90
 
 eActHot    4
 aTag       AltBackspace
 aZKey      90023912
-aKeyCombo  U4
-$"I((````
-`
+aKeyCombo  4
+ Ã 
 aTitle     Ctrl+Z
 aVKey      8
+
+eAction    3
+aTag       EditUntab
+aType      1
+aZKey      190007602
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007611
+
+eActMap    4
+aZKey      190007612
+
+eActOper   4
+aName      TZEDFRMD_EditUntab
+aZKey      190007607
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditUntab
+aZKey      190007596
+aKeyCombo  4
+ÃÃ	 
+aTitle     Shift+Tab
+aVKey      9
 
 eAction    3
 aTag       EntityInsert
@@ -928,11 +1204,23 @@ aType      39
 aZKey      90004105
 aDialogName TZEDFRMD
 aWindowName ObjectSelAQ
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007510
+
+eActMap    4
+aZKey      190007511
 
 eActOpt    4
 aTag       EntityInsert
 aText      &Entity Insert...
 aZKey      90004104
+
+eActOpt    4
+aTag       EntInsert
+aText      Entity Insert...
+aZKey      190007571
 
 eActOper   4
 aName      TZEDFRMD_OpenSubwindow
@@ -946,6 +1234,13 @@ eAction    3
 aTag       ESC
 aType      1
 aZKey      90198262
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007508
+
+eActMap    4
+aZKey      190007509
 
 eActOper   4
 aName      TZEDFRMD_Cancel
@@ -984,6 +1279,13 @@ aTag       FileOpen
 aNoMap     Y
 aType      1
 aZKey      90004090
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007506
+
+eActMap    4
+aZKey      190007507
 
 eActOpt    4
 aTag       New18
@@ -1002,6 +1304,7 @@ eAction    3
 aTag       FileSave
 aType      1
 aZKey      90004272
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      90004273
@@ -1025,10 +1328,9 @@ eSourceFileForOper 5
 
 eActHot    4
 aTag       Save
-aZKey      190007165
-aKeyCombo  U4
-$X913````
-`
+aZKey      190007577
+aKeyCombo  4
+·îS 
 aTitle     Ctrl+S
 aVKey      83
 
@@ -1037,6 +1339,12 @@ aTag       GenerateC
 aType      1
 aZKey      90004867
 aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007504
+
+eActMap    4
+aZKey      190007505
 
 eActOpt    4
 aTag       GenerateC
@@ -1058,10 +1366,11 @@ aType      1
 aZKey      130000391
 aSB_ActionDisabling 0
 
-eActOpt    4
-aTag       mnuGenerateCompileJava
-aText      Generate/Compile Java
-aZKey      190007168
+eActMap    4
+aZKey      190007502
+
+eActMap    4
+aZKey      190007503
 
 eActOper   4
 aName      GenerateCompileJava
@@ -1076,6 +1385,12 @@ aTag       GenerateJava
 aType      1
 aZKey      4126442
 aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007500
+
+eActMap    4
+aZKey      190007501
 
 eActOpt    4
 aTag       mnuGenerateJava
@@ -1092,51 +1407,104 @@ eSourceFileForOper 5
 
 eActHot    4
 aTag       GenJava
-aZKey      190007167
-aKeyCombo  U4
-$X914````
-`
+aZKey      190007593
+aKeyCombo  4
+·îT 
 aTitle     Ctrl+T
 aVKey      84
 
 eAction    3
-aTag       GoTo
+aTag       GoToBookmark
 aType      1
 aZKey      91002333
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007498
+
+eActMap    4
+aZKey      190007499
 
 eActOpt    4
-aTag       GoTo
-aText      Go To
-aZKey      91002332
+aTag       GoToBookmark0
+aText      Bookmark 0
+aZKey      190007304
+
+eActOpt    4
+aTag       GoToBookmark1
+aText      Bookmark 1
+aZKey      190007286
+
+eActOpt    4
+aTag       GoToBookmark2
+aText      Bookmark 2
+aZKey      190007287
+
+eActOpt    4
+aTag       GoToBookmark3
+aText      Bookmark 3
+aZKey      190007288
+
+eActOpt    4
+aTag       GoToBookmark4
+aText      Bookmark 4
+aZKey      190007289
+
+eActOpt    4
+aTag       GoToBookmark5
+aText      Bookmark 5
+aZKey      190007290
+
+eActOpt    4
+aTag       GoToBookmark6
+aText      Bookmark 6
+aZKey      190007291
+
+eActOpt    4
+aTag       GoToBookmark7
+aText      Bookmark 7
+aZKey      190007292
+
+eActOpt    4
+aTag       GoToBookmark8
+aText      Bookmark8
+aZKey      190007293
+
+eActOpt    4
+aTag       GoToBookmark9
+aText      Bookmark 9
+aZKey      190007294
 
 eActOper   4
-aName      GotoWindow
-aZKey      91002338
-aDesc      Opens the TBEDIT.OCX Goto Window
+aName      TZEDFRMD_GoToBookmark
+aZKey      190007253
 aType      D
 aReturnDataType N
 
 eSourceFileForOper 5
 
-eActHot    4
-aTag       GoTo
-aZKey      1159613
-aKeyCombo  U4
-$08U'````
-`
-aTitle     Ctrl+G
-aVKey      71
-
 eAction    3
 aTag       GotoOperation
 aType      1
 aZKey      91003458
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007496
+
+eActMap    4
+aZKey      190007497
 
 eActOpt    4
 aTag       EditContextGoToOperation
 aText      Find &Operation
 aSeparator Y
 aZKey      90020329
+
+eActOpt    4
+aTag       EditContextGoToOperation
+aText      Find &Operation
+aZKey      190007579
 
 eActOper   4
 aName      TZEDFRMD_GotoOperation
@@ -1146,15 +1514,6 @@ aType      D
 aReturnDataType N
 
 eSourceFileForOper 5
-
-eActHot    4
-aTag       GotoOperation
-aZKey      91003457
-aKeyCombo  U4
-$<))V````
-`
-aTitle     F7
-aVKey      118
 
 eAction    3
 
@@ -1175,10 +1534,17 @@ aReturnDataType N
 eSourceFileForOper 5
 
 eAction    3
+aTag       Keystroke
+aNoMap     Y
+aType      1
+aZKey      90034676
+aSB_ActionDisabling 0
 
-eActEvent  4
+eActMap    4
+aZKey      190007494
 
-eActCtrl   5
+eActMap    4
+aZKey      190007495
 
 eActOper   4
 aName      TZEDFRMD_Keystroke
@@ -1195,21 +1561,40 @@ aType      39
 aZKey      90004118
 aDialogName TZEDFRMD
 aWindowName VML_Insert
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007492
+
+eActMap    4
+aZKey      190007493
 
 eActOpt    4
 aTag       KeyWordInsert
 aText      &Keyword Insert...
 aZKey      90004117
 
+eActOpt    4
+aTag       KeyInsert
+aText      Keyword Insert...
+aZKey      190007573
+
 eActOper   4
 
 eSourceFileForOper 5
 
 eAction    3
+aTag       LineChange
+aNoMap     Y
+aType      1
+aZKey      90034682
+aSB_ActionDisabling 0
 
-eActEvent  4
+eActMap    4
+aZKey      190007490
 
-eActCtrl   5
+eActMap    4
+aZKey      190007491
 
 eActOper   4
 aName      TZEDFRMD_LineChange
@@ -1226,6 +1611,13 @@ aType      39
 aZKey      90035311
 aDialogName TZEDFRMD
 aWindowName ErrorList
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007488
+
+eActMap    4
+aZKey      190007489
 
 eActOpt    4
 aTag       ErrorList
@@ -1240,16 +1632,40 @@ eAction    3
 aTag       New
 aType      1
 aZKey      90020297
+aSB_ActionDisabling 0
 aPopupMenuName EditContext
 
-eAction    3
+eActMap    4
+aZKey      190007486
 
-eActWndEvent 4
+eActMap    4
+aZKey      190007487
+
+eAction    3
+aTag       NextBookmark
+aType      1
+aZKey      190007313
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007484
+
+eActMap    4
+aZKey      190007485
+
+eActOpt    4
+aTag       NextBookmark
+aText      Next Bookmark
+aZKey      190007312
+
+eActOpt    4
+aTag       BookmarkNext
+aText      Next Bookmark
+aZKey      190007369
 
 eActOper   4
-aName      TZEDFRMD_OnEditFind
-aZKey      90002351
-aDesc      Handles the edit find event
+aName      TZEDFRMD_GoToNextBookmark
+aZKey      190007316
 aType      D
 aReturnDataType N
 
@@ -1257,25 +1673,59 @@ eSourceFileForOper 5
 
 eAction    3
 
+eActMap    4
+aZKey      190007482
+
+eActMap    4
+aZKey      190007483
+
 eActWndEvent 4
 
 eActOper   4
-aName      TZEDFRMD_OnEditFindNext
-aZKey      90002353
-aDesc      handles the EditFindNext event
-aType      D
-aReturnDataType N
 
 eSourceFileForOper 5
 
 eAction    3
 
+eActMap    4
+aZKey      190007480
+
+eActMap    4
+aZKey      190007481
+
 eActWndEvent 4
 
 eActOper   4
-aName      TZEDFRMD_EditReplace
-aZKey      91007780
-aDesc      opens the ocx replace dialog
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      190007478
+
+eActMap    4
+aZKey      190007479
+
+eActWndEvent 4
+
+eActOper   4
+
+eSourceFileForOper 5
+
+eAction    3
+
+eActMap    4
+aZKey      190007476
+
+eActMap    4
+aZKey      190007477
+
+eActWndEvent 4
+
+eActOper   4
+aName      TZEDFRMD_OnSize
+aZKey      190007212
 aType      D
 aReturnDataType N
 
@@ -1287,15 +1737,76 @@ aType      39
 aZKey      90004098
 aDialogName TZEDFRMD
 aWindowName OperationsList
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007474
+
+eActMap    4
+aZKey      190007475
 
 eActOpt    4
 aTag       OpInsert
 aText      &Operation Insert...
 aZKey      90004097
 
+eActOpt    4
+aTag       OperInsert
+aText      Operation Insert...
+aSeparator Y
+aZKey      190007568
+
 eActOper   4
 
 eSourceFileForOper 5
+
+eAction    3
+aTag       PageDown
+aType      1
+aZKey      190007588
+aSB_ActionDisabling 0
+
+eActOper   4
+aName      TZEDFRMD_PageDown
+aZKey      190007581
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       PageDown
+aZKey      190007580
+aKeyCombo  4
+»Ã" 
+aTitle     PageDown
+aVKey      34
+
+eAction    3
+aTag       PageUp
+aType      1
+aZKey      190007585
+
+eActMap    4
+aZKey      190007586
+
+eActMap    4
+aZKey      190007587
+
+eActOper   4
+aName      TZEDFRMD_PageUp
+aZKey      190007583
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       PageUp
+aZKey      190007591
+aKeyCombo  4
+»Ã! 
+aVKey      33
 
 eAction    3
 aTag       ParseForC
@@ -1329,6 +1840,12 @@ aType      1
 aZKey      4126435
 aSB_ActionDisabling 0
 
+eActMap    4
+aZKey      190007472
+
+eActMap    4
+aZKey      190007473
+
 eActOpt    4
 aTag       mnuJavaParse
 aText      Parse VML
@@ -1343,21 +1860,45 @@ aReturnDataType N
 eSourceFileForOper 5
 
 eActHot    4
-aTag       CompJava
-aZKey      190007166
-aKeyCombo  U4
-$X91*````
-`
+aTag       ParseJava
+aZKey      190007613
+aKeyCombo  4
+…ÃJ 
 aTitle     Ctrl+J
 aVKey      74
 
 eAction    3
+aTag       ParseGenerateJava
+aType      1
+aZKey      190007538
+aSB_ActionDisabling 0
+
+eActOpt    4
+aTag       ParseGenJava
+aText      Parse/Generate Java
+aSeparator Y
+aZKey      190007576
+
+eActOpt    4
+aTag       ParseGen
+aText      Parse/Generate Java
+aZKey      190007615
+
+eActOper   4
+aName      ParseGenerateJava
+aZKey      190007556
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
 
 eActMap    4
-aZKey      90004164
+aZKey      190007470
 
 eActMap    4
-aZKey      90004165
+aZKey      190007471
 
 eActWndEvent 4
 
@@ -1371,6 +1912,12 @@ eSourceFileForOper 5
 
 eAction    3
 
+eActMap    4
+aZKey      190007468
+
+eActMap    4
+aZKey      190007469
+
 eActWndEvent 4
 
 eActOper   4
@@ -1382,9 +1929,40 @@ aReturnDataType N
 eSourceFileForOper 5
 
 eAction    3
+aTag       PreviousBookmark
+aType      1
+aZKey      190007320
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007466
+
+eActMap    4
+aZKey      190007467
+
+eActOpt    4
+aTag       PreviousBookmark
+aText      Previous Bookmark
+aZKey      190007310
+
+eActOpt    4
+aTag       BookmarkPrevious
+aText      Previous Bookmark
+aZKey      190007371
+
+eActOper   4
+aName      TZEDFRMD_GoToPreviousBookmark
+aZKey      190007318
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
 aTag       Print
 aType      1
 aZKey      90032107
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      90032108
@@ -1408,6 +1986,12 @@ eSourceFileForOper 5
 
 eAction    3
 
+eActMap    4
+aZKey      190007420
+
+eActMap    4
+aZKey      190007421
+
 eActWndEvent 4
 
 eActOper   4
@@ -1423,6 +2007,7 @@ aTag       ReturnFromSubwindow
 aNoMap     Y
 aType      1
 aZKey      90004232
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      90004233
@@ -1444,6 +2029,12 @@ aType      1
 aZKey      90004174
 aSB_ActionDisabling 0
 
+eActMap    4
+aZKey      190007424
+
+eActMap    4
+aZKey      190007425
+
 eActOper   4
 
 eSourceFileForOper 5
@@ -1452,6 +2043,7 @@ eAction    3
 aTag       SaveAs
 aType      1
 aZKey      90035317
+aSB_ActionDisabling 0
 
 eActOpt    4
 aTag       New20
@@ -1467,55 +2059,104 @@ aReturnDataType N
 eSourceFileForOper 5
 
 eAction    3
-aTag       SearchBackward
+aTag       SearchSelectedText
 aType      1
-aZKey      90198283
+aZKey      90198280
+aSB_ActionDisabling 0
 
 eActOper   4
-aName      SearchBackward
-aZKey      90198277
-aDesc      Searches backward
+aName      TZEDFRMD_SearchSelectedText
+aZKey      90198275
+aDesc      Searches for the text which is currently selected
 aType      D
 aReturnDataType N
 
 eSourceFileForOper 5
 
 eActHot    4
-aTag       SearchBackward
-aZKey      90198286
-aKeyCombo  U4
-$A)%R````
-`
-aTitle     Shift+F3
+aTag       SearchSelectedText
+aZKey      90198279
+aKeyCombo  4
+…Ãr 
+aTitle     Ctrl+F3
 aVKey      114
 
 eAction    3
-aTag       SearchForward
+aTag       SetBookmark
 aType      1
-aZKey      90198280
+aZKey      190007255
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007444
+
+eActMap    4
+aZKey      190007445
+
+eActOpt    4
+aTag       Bookmark1
+aText      Bookmark1
+aZKey      190007245
+
+eActOpt    4
+aTag       Bookmark2
+aText      Bookmark2
+aZKey      190007266
+
+eActOpt    4
+aTag       Bookmark3
+aText      Bookmark3
+aZKey      190007267
+
+eActOpt    4
+aTag       Bookmark4
+aText      Bookmark4
+aZKey      190007268
+
+eActOpt    4
+aTag       Bookmark5
+aText      Bookmark5
+aZKey      190007269
+
+eActOpt    4
+aTag       Bookmark6
+aText      Bookmark6
+aZKey      190007280
+
+eActOpt    4
+aTag       Bookmark7
+aText      Bookmark7
+aZKey      190007271
+
+eActOpt    4
+aTag       Bookmark8
+aText      Bookmark8
+aZKey      190007273
+
+eActOpt    4
+aTag       Bookmark9
+aText      Bookmark9
+aZKey      190007279
+
+eActOpt    4
+aTag       Bookmark0
+aText      Bookmark0
+aSeparator Y
+aZKey      190007283
 
 eActOper   4
-aName      SearchForward
-aZKey      90198275
-aDesc      Searches for a text which was entered within the Find Dialog
+aName      TZEDFRMD_SetBookmark
+aZKey      190007249
 aType      D
 aReturnDataType N
 
 eSourceFileForOper 5
-
-eActHot    4
-aTag       SearchForward
-aZKey      90198279
-aKeyCombo  U4
-$@)%R````
-`
-aTitle     F3
-aVKey      114
 
 eAction    3
 aTag       SetFocusEditorWindow
 aType      1
 aZKey      90004262
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      90004263
@@ -1532,10 +2173,16 @@ aReturnDataType N
 eSourceFileForOper 5
 
 eAction    3
+aTag       SetInsert
+aType      1
+aZKey      90034647
+aSB_ActionDisabling 0
 
-eActEvent  4
+eActMap    4
+aZKey      190007446
 
-eActCtrl   5
+eActMap    4
+aZKey      190007447
 
 eActOper   4
 aName      TZEDFRMD_SetInsert
@@ -1547,10 +2194,16 @@ aReturnDataType N
 eSourceFileForOper 5
 
 eAction    3
+aTag       SetOverstrike
+aType      1
+aZKey      90034653
+aSB_ActionDisabling 0
 
-eActEvent  4
+eActMap    4
+aZKey      190007448
 
-eActCtrl   5
+eActMap    4
+aZKey      190007449
 
 eActOper   4
 aName      TZEDFRMD_SetOverstrike
@@ -1562,11 +2215,42 @@ aReturnDataType N
 eSourceFileForOper 5
 
 eAction    3
+aTag       ToggleBookmark
+aType      1
+aZKey      190007246
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007450
+
+eActMap    4
+aZKey      190007451
+
+eActOpt    4
+aTag       ToggleBookmark
+aText      Toggle
+aZKey      190007308
+
+eActOpt    4
+aTag       BookmarkToggle
+aText      Toggle Bookmark
+aZKey      190007367
+
+eActOper   4
+aName      TZEDFRMD_ToggleBookmark
+aZKey      190007251
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eAction    3
 aTag       TransferCompilerSpecification
 aType      34
 aZKey      90004074
 aDialogName TZEDCMPD
 aWindowName CompilerSpecification
+aSB_ActionDisabling 0
 
 eActMap    4
 aZKey      90004075
@@ -1585,6 +2269,13 @@ aType      34
 aZKey      90004069
 aDialogName TZEDCMPD
 aWindowName TargetSpecification
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007452
+
+eActMap    4
+aZKey      190007453
 
 eActOpt    4
 aTag       TargetSpecification
@@ -1601,10 +2292,16 @@ aReturnDataType N
 eSourceFileForOper 5
 
 eAction    3
+aTag       TZEDFRMD_OnRightMouseClick
+aType      1
+aZKey      90020303
+aSB_ActionDisabling 0
 
-eActEvent  4
+eActMap    4
+aZKey      190007454
 
-eActCtrl   5
+eActMap    4
+aZKey      190007455
 
 eActOper   4
 aName      TZEDFRMD_CreateContextMenue
@@ -1617,27 +2314,34 @@ eSourceFileForOper 5
 
 eAction    3
 aTag       TZEDFRMD_OptionSettings
-aType      1
+aType      34
 aZKey      90187667
+aDialogName TZEDFRMD
+aWindowName Property
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007456
+
+eActMap    4
+aZKey      190007457
 
 eActOpt    4
 aTag       OptionsSettings
 aText      &Settings...
 aZKey      91007744
 
-eActOper   4
-aName      OptionSettings
-aZKey      90187662
-aDesc      Calls property page of tbedit ocx
-aType      D
-aReturnDataType N
-
-eSourceFileForOper 5
-
 eAction    3
 aTag       ZeidonMenuSelected
 aType      1
 aZKey      90035295
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007458
+
+eActMap    4
+aZKey      190007459
 
 eActOpt    4
 aTag       File
@@ -1730,6 +2434,125 @@ eOptOpt    5
 
 eOptAct    6
 
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+
+eOptAct    6
+
+eOptOpt    5
+aTag       Bookmarks
+aText      Bookmarks
+aSeparator Y
+aZKey      190007244
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    5
+aTag       GoToBookmarks
+aText      Go To Bookmarks
+aZKey      190007285
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
+eOptOpt    6
+
+eOptAct    7
+
 eOption    4
 aTag       Options
 aText      &Options
@@ -1817,6 +2640,50 @@ eOptOpt    5
 
 eOptAct    6
 
+eOptOpt    5
+
+eOptAct    6
+
+eMenu      3
+aTag       Bookmark
+aZKey      190007366
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
+eOption    4
+
+eOptAct    5
+
 eMenu      3
 aTag       EditContext
 aZKey      90020283
@@ -1860,6 +2727,26 @@ aTag       Primary Window
 aZKey      7008558
 aStyle     13565952
 aDesc      Overlapped window with caption, system menu, sizing border, min/
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
 
 eHotkey    3
 
@@ -2211,9 +3098,8 @@ aPSDLG_X   246
 aPSDLG_Y   48
 aSZDLG_X   74
 aSZDLG_Y   104
-aCtrlBOI   U2
-"````
-`
+aCtrlBOI   2
+  
 aSyncKey   9999
 
 eCtrlCtrl  4
@@ -2225,9 +3111,8 @@ aPSDLG_X   9
 aPSDLG_Y   14
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$0`
-`
+aCtrlBOI   3
+ D 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -2257,9 +3142,8 @@ aPSDLG_X   9
 aPSDLG_Y   28
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$,`
-`
+aCtrlBOI   3
+ C 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -2276,9 +3160,8 @@ aPSDLG_X   9
 aPSDLG_Y   43
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$4`
-`
+aCtrlBOI   3
+ E 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -2295,9 +3178,8 @@ aPSDLG_X   9
 aPSDLG_Y   57
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`%8`
-`
+aCtrlBOI   3
+ V 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -2314,9 +3196,8 @@ aPSDLG_X   9
 aPSDLG_Y   72
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$\`
-`
+aCtrlBOI   3
+ O 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -2333,9 +3214,8 @@ aPSDLG_X   9
 aPSDLG_Y   86
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#63\`
-`
+aCtrlBOI   3
+Y? 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -2517,9 +3397,8 @@ aPSDLG_X   7
 aPSDLG_Y   37
 aSZDLG_X   123
 aSZDLG_Y   14
-aCtrlBOI   U4
-$60!.````
-`
+aCtrlBOI   4
+Y N 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -2665,9 +3544,8 @@ aPSDLG_X   0
 aPSDLG_Y   0
 aSZDLG_X   166
 aSZDLG_Y   159
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   9999
 aExtendedStyle 16777216
 
@@ -3163,9 +4041,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       Help
 aZKey      90035292
-aKeyCombo  U4
-$:!9P````
-`
+aKeyCombo  4
+hp 
 aVKey      112
 
 eMenu      3
@@ -3412,9 +4289,8 @@ aPSDLG_X   6
 aPSDLG_Y   6
 aSZDLG_X   279
 aSZDLG_Y   203
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SY `= L    + M S1 
 aSyncKey   1
 aExtendedStyle 16777216
 
@@ -3639,9 +4515,8 @@ aPSDLG_X   291
 aPSDLG_Y   45
 aSZDLG_X   56
 aSZDLG_Y   91
-aCtrlBOI   U2
-"````
-`
+aCtrlBOI   2
+  
 aSyncKey   9999
 
 eCtrlCtrl  4
@@ -3653,9 +4528,8 @@ aPSDLG_X   6
 aPSDLG_Y   16
 aSZDLG_X   46
 aSZDLG_Y   12
-aCtrlBOI   U3
-#64X`
-`
+aCtrlBOI   3
+YN 
 aSyncKey   9999
 aDIL_Text  Paste just the View Name.
 
@@ -3673,9 +4547,8 @@ aPSDLG_X   6
 aPSDLG_Y   31
 aSZDLG_X   46
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`%(`
-`
+aCtrlBOI   3
+ R 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: <ViewName> REGISTERED AS <LOD_Name>.
 
@@ -3693,9 +4566,8 @@ aPSDLG_X   6
 aPSDLG_Y   45
 aSZDLG_X   46
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$(`
-`
+aCtrlBOI   3
+ B 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: <ViewName> BASED ON LOD <LOD_Name>.
 
@@ -3713,9 +4585,8 @@ aPSDLG_X   6
 aPSDLG_Y   60
 aSZDLG_X   48
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$<`
-`
+aCtrlBOI   3
+ G 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: GET VIEW <ViewName>.
 
@@ -3733,9 +4604,8 @@ aPSDLG_X   6
 aPSDLG_Y   74
 aSZDLG_X   46
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`%,`
-`
+aCtrlBOI   3
+ S 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: NAME VIEW <ViewName> "ViewName".
 
@@ -3941,9 +4811,8 @@ aPSDLG_X   4
 aPSDLG_Y   142
 aSZDLG_X   141
 aSZDLG_Y   86
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   3
 aDIL_Text  AttributeList
 aExtendedStyle 16777216
@@ -4055,9 +4924,8 @@ aPSDLG_X   4
 aPSDLG_Y   67
 aSZDLG_X   141
 aSZDLG_Y   70
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   4
 aDIL_Text  EntityList
 aExtendedStyle 16777216
@@ -4174,9 +5042,8 @@ aPSDLG_X   4
 aPSDLG_Y   4
 aSZDLG_X   141
 aSZDLG_Y   58
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   9999
 aExtendedStyle 16777216
 
@@ -4874,9 +5741,8 @@ aPSDLG_X   6
 aPSDLG_Y   6
 aSZDLG_X   279
 aSZDLG_Y   203
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SY `= L    + M S1 
 aSyncKey   1
 aExtendedStyle 16777216
 
@@ -4889,7 +5755,7 @@ aSubtype   67108864
 aPSDLG_X   0
 aPSDLG_Y   0
 aSZDLG_X   86
-aSZDLG_Y   14
+aSZDLG_Y   15
 aSyncKey   2
 
 eCtrlMap   5
@@ -4917,7 +5783,7 @@ aSubtype   67108864
 aPSDLG_X   88
 aPSDLG_Y   0
 aSZDLG_X   76
-aSZDLG_Y   14
+aSZDLG_Y   15
 aSyncKey   9999
 
 eCtrlMap   5
@@ -4945,7 +5811,7 @@ aSubtype   67108864
 aPSDLG_X   169
 aPSDLG_Y   0
 aSZDLG_X   303
-aSZDLG_Y   14
+aSZDLG_Y   15
 aSyncKey   9999
 
 eCtrlMap   5
@@ -5044,9 +5910,8 @@ aPSDLG_X   290
 aPSDLG_Y   48
 aSZDLG_X   57
 aSZDLG_Y   74
-aCtrlBOI   U2
-"````
-`
+aCtrlBOI   2
+  
 aSyncKey   9999
 
 eCtrlCtrl  4
@@ -5058,9 +5923,8 @@ aPSDLG_X   4
 aPSDLG_Y   14
 aSZDLG_X   49
 aSZDLG_Y   12
-aCtrlBOI   U3
-#64X`
-`
+aCtrlBOI   3
+YN 
 aSyncKey   9999
 aDIL_Text  Paste just the View Name.
 
@@ -5087,9 +5951,8 @@ aPSDLG_X   4
 aPSDLG_Y   28
 aSZDLG_X   49
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$(`
-`
+aCtrlBOI   3
+ B 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: <ViewName> BASED ON LOD <LOD_Name>.
 
@@ -5107,9 +5970,8 @@ aPSDLG_X   4
 aPSDLG_Y   43
 aSZDLG_X   49
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$<`
-`
+aCtrlBOI   3
+ G 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: GET VIEW <ViewName>.
 
@@ -5127,9 +5989,8 @@ aPSDLG_X   4
 aPSDLG_Y   57
 aSZDLG_X   49
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`%,`
-`
+aCtrlBOI   3
+ S 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: NAME VIEW <ViewName> "ViewName".
 
@@ -5173,7 +6034,7 @@ aSubtype   1
 aPSDLG_X   2
 aPSDLG_Y   212
 aSZDLG_X   343
-aSZDLG_Y   19
+aSZDLG_Y   20
 aSyncKey   9999
 
 eCtrlMap   4
@@ -5331,9 +6192,8 @@ aPSDLG_X   6
 aPSDLG_Y   6
 aSZDLG_X   280
 aSZDLG_Y   170
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SY `= L    + M S1 
 aSyncKey   1
 aExtendedStyle 16777216
 
@@ -5737,9 +6597,8 @@ aPSDLG_X   7
 aPSDLG_Y   34
 aSZDLG_X   66
 aSZDLG_Y   12
-aCtrlBOI   U4
-$60!.````
-`
+aCtrlBOI   4
+Y N 
 aSyncKey   2
 
 eCtrlMap   5
@@ -5779,9 +6638,8 @@ aPSDLG_X   76
 aPSDLG_Y   34
 aSZDLG_X   62
 aSZDLG_Y   12
-aCtrlBOI   U4
-$60!.````
-`
+aCtrlBOI   4
+Y N 
 aSyncKey   3
 
 eCtrlMap   5
@@ -5848,9 +6706,8 @@ aPSDLG_X   6
 aPSDLG_Y   6
 aSZDLG_X   195
 aSZDLG_Y   159
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   5
 aExtendedStyle 16777216
 
@@ -6048,9 +6905,8 @@ aPSDLG_X   213
 aPSDLG_Y   76
 aSZDLG_X   99
 aSZDLG_Y   106
-aCtrlBOI   U2
-"````
-`
+aCtrlBOI   2
+  
 aSyncKey   10
 
 eCtrlCtrl  4
@@ -6062,9 +6918,8 @@ aPSDLG_X   7
 aPSDLG_Y   16
 aSZDLG_X   88
 aSZDLG_Y   12
-aCtrlBOI   U3
-#65H`
-`
+aCtrlBOI   3
+YZ 
 aSyncKey   10
 aDIL_Text  Zeidon Build-In Operations
 aExtendedStyle 0
@@ -6089,9 +6944,8 @@ aPSDLG_X   7
 aPSDLG_Y   33
 aSZDLG_X   88
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$<`
-`
+aCtrlBOI   3
+ G 
 aSyncKey   11
 aDIL_Text  Global operations
 aExtendedStyle 0
@@ -6116,9 +6970,8 @@ aPSDLG_X   7
 aPSDLG_Y   50
 aSZDLG_X   88
 aSZDLG_Y   13
-aCtrlBOI   U3
-#`$\`
-`
+aCtrlBOI   3
+ O 
 aSyncKey   12
 aDIL_Text  Object operations such as Transformation Operations of a LOD
 aExtendedStyle 0
@@ -6143,9 +6996,8 @@ aPSDLG_X   7
 aPSDLG_Y   66
 aSZDLG_X   88
 aSZDLG_Y   15
-aCtrlBOI   U3
-#`$P`
-`
+aCtrlBOI   3
+ L 
 aSyncKey   9999
 aDIL_Text  Operations of the current source
 aExtendedStyle 0
@@ -6170,9 +7022,8 @@ aPSDLG_X   7
 aPSDLG_Y   84
 aSZDLG_X   88
 aSZDLG_Y   15
-aCtrlBOI   U3
-#`$$`
-`
+aCtrlBOI   3
+ A 
 aSyncKey   9999
 aDIL_Text  Operations of the current source
 aExtendedStyle 0
@@ -6213,16 +7064,15 @@ eControlDef 4
 
 eControl   3
 aTag       CheckBox1
-aText      Insert Operation Describtion
+aText      Insert Operation Description
 aZKey      190007162
 aSubtype   536870912
 aPSDLG_X   211
 aPSDLG_Y   201
 aSZDLG_X   109
 aSZDLG_Y   18
-aCtrlBOI   U4
-$60!.````
-`
+aCtrlBOI   4
+Y N 
 aSyncKey   9999
 
 eCtrlMap   4
@@ -6237,7 +7087,7 @@ aSeqOrder  Y
 eCtrlMapRelatedEntity 6
 
 eCtrlMapER_Attribute 6
-aName      OpIns_InsertDescribtion
+aName      OpIns_InsertDescription
 aZKey      190007159
 aLth       1
 
@@ -6396,9 +7246,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       F3
 aZKey      90034631
-aKeyCombo  U4
-$2'AR````
-`
+aKeyCombo  4
+Hxr 
 aTitle     Take the Operation
 aVKey      114
 
@@ -6490,9 +7339,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       Help
 aZKey      90034630
-aKeyCombo  U4
-$:!9P````
-`
+aKeyCombo  4
+hp 
 aVKey      112
 
 eWndStyle  3
@@ -6530,9 +7378,8 @@ aPSDLG_X   0
 aPSDLG_Y   0
 aSZDLG_X   237
 aSZDLG_Y   256
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`````*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SY `= L    + M S1 
 aSyncKey   9999
 aExtendedStyle 16777216
 
@@ -6752,6 +7599,176 @@ aTag       Sizeable Dialog Box
 aZKey      10024379
 aStyle     -2134114304
 
+eWindow    2
+aTag       About
+aCaption   About
+aPSDLG_X   2
+aPSDLG_Y   2
+aSZDLG_X   62062872
+aSZDLG_Y   32571520
+aZKey      190007328
+aGeneralFlag 0
+
+eControl   3
+aTag       Acknowledge
+aText      Code derived from Andrei Stcherbatchenko's Crystal Edit Demo
+aZKey      190007335
+aSubtype   537395200
+aPSDLG_X   8
+aPSDLG_Y   12
+aSZDLG_X   223
+aSZDLG_Y   10
+aCtrlBOI   346
+           ˇ                                                             ˇ   ˇ   ˇ     ˇ ˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛ 
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eControlDef 4
+
+eControl   3
+aTag       Copyright
+aText      Copyright 2016, Quinsoft, Inc. (GPL License)
+aZKey      190007339
+aSubtype   537395200
+aPSDLG_X   8
+aPSDLG_Y   30
+aSZDLG_X   223
+aSZDLG_Y   10
+aCtrlBOI   346
+           ˇ                                                             ˇ   ˇ   ˇ     ˇ ˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛ 
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eControlDef 4
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      190007330
+aPSDLG_X   207
+aPSDLG_Y   72
+aSZDLG_X   40
+aSZDLG_Y   12
+aSyncKey   9999
+
+eEvent     4
+aType      1
+aZKey      190007331
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aZKey      190007329
+
+eControlDef 4
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+aTag       ESC
+aNoMap     Y
+aType      71
+aZKey      190007332
+
+eWndStyle  3
+aTag       Dialog Box
+aZKey      7008569
+aStyle     -2134376448
+aDesc      Dialog box with caption, non-sizable border
+aStyleEx   1
+
+eWindow    2
+aTag       Property
+aCaption   Properties
+aPSDLG_X   2
+aPSDLG_Y   2
+aSZDLG_X   17957163
+aSZDLG_Y   6029440
+aZKey      190007394
+aGeneralFlag 0
+
+eControl   3
+aTag       OK
+aText      OK
+aZKey      190007396
+aPSDLG_X   230
+aPSDLG_Y   12
+aSZDLG_X   40
+aSZDLG_Y   12
+aSyncKey   9999
+
+eEvent     4
+aType      1
+aZKey      190007397
+
+eEventAct  5
+aTag       Alt-F4
+aType      72
+aZKey      190007395
+
+eControlDef 4
+
+eControl   3
+aTag       NotYet
+aText      Not Yet Implemented
+aZKey      190007401
+aSubtype   537395200
+aPSDLG_X   37
+aPSDLG_Y   20
+aSZDLG_X   137
+aSZDLG_Y   14
+aCtrlBOI   346
+           ˇ                                                             ˇ   ˇ   ˇ     ˇ ˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛ 
+aSyncKey   9999
+aExtendedStyle 16777216
+
+eControlDef 4
+
+eControl   3
+aTag       Cancel
+aText      Cancel
+aZKey      190007399
+aPSDLG_X   230
+aPSDLG_Y   27
+aSZDLG_X   40
+aSZDLG_Y   12
+aSyncKey   9999
+
+eEvent     4
+aType      1
+aZKey      190007400
+
+eEventAct  5
+aTag       ESC
+aNoMap     Y
+aType      71
+aZKey      190007398
+
+eControlDef 4
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eAction    3
+
+eActEvent  4
+
+eActCtrl   5
+
+eWndStyle  3
+aTag       Dialog Box
+aZKey      7008569
+aStyle     -2134376448
+aDesc      Dialog box with caption, non-sizable border
+aStyleEx   1
+
 eViewObjRef 2
 aZKey      1332424
 aName      ProfileXFER
@@ -6795,6 +7812,13 @@ eParameter 4
 aShortDesc View To Window
 aDataType  V
 aZKey      90035257
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007584
 
 eOperation 3
 
@@ -7198,6 +8222,13 @@ eOperation 3
 eParameter 4
 aShortDesc View To Window
 aDataType  V
+aZKey      190007557
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
 aZKey      90004171
 
 eOperation 3
@@ -7345,13 +8376,6 @@ eOperation 3
 eParameter 4
 aShortDesc View To Window
 aDataType  V
-aZKey      90198278
-
-eOperation 3
-
-eParameter 4
-aShortDesc View To Window
-aDataType  V
 aZKey      91000355
 
 eOperation 3
@@ -7381,6 +8405,20 @@ eParameter 4
 aShortDesc View To Window
 aDataType  V
 aZKey      91003493
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007606
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007608
 
 eOperation 3
 
@@ -7425,6 +8463,11 @@ aDataType  V
 aZKey      91007785
 
 eOperation 3
+aName      OptionSettings
+aZKey      90187662
+aDesc      Calls property page of tbedit ocx
+aType      D
+aReturnDataType N
 
 eParameter 4
 aShortDesc View To Window
@@ -7432,18 +8475,16 @@ aDataType  V
 aZKey      90187663
 
 eOperation 3
+aName      GotoWindow
+aZKey      91002338
+aDesc      Opens the TBEDIT.OCX Goto Window
+aType      D
+aReturnDataType N
 
 eParameter 4
 aShortDesc View To Window
 aDataType  V
 aZKey      91002339
-
-eOperation 3
-
-eParameter 4
-aShortDesc View To Window
-aDataType  V
-aZKey      90002336
 
 eOperation 3
 
@@ -7457,7 +8498,21 @@ eOperation 3
 eParameter 4
 aShortDesc View To Window
 aDataType  V
+aZKey      190007438
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
 aZKey      90002354
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007238
 
 eOperation 3
 aName      TZEDFRMD_DropOperationFromSource
@@ -7567,6 +8622,78 @@ aShortDesc View To Window
 aDataType  V
 aZKey      130000383
 
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007213
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007250
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007252
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007264
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007254
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007317
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007319
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007582
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
 eOperationList 2
 
 eOperSourceFile 3
@@ -7978,1036 +9105,1212 @@ eOperSourceFile 3
 eOperationList 2
 
 eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eWebControlPropertyOption 2
+aName      Label
+aZKey      190007403
 
 i2         1
-i21        18
-i24        18
-i27        18
-i35        33
-i61        55
-i67        55
-i73        55
-i74        33
-i75        34
-i76        32
-i79        55
-i83        55
-i89        55
-i93        55
-i97        55
-i101       55
-i104       55
-i107       55
-i111       55
-i116       88
-i117       55
-i124       92
-i125       55
-i132       96
-i133       55
-i137       55
-i143       100
-i144       55
-i152       103
-i153       55
-i158       55
-i165       106
-i166       55
-i172       110
-i173       55
-i179       55
-i182       55
-i183       31
-i186       30
-i189       55
-i193       55
-i199       55
-i204       55
-i208       55
-i212       55
-i217       55
-i222       55
-i224       45
-i227       44
-i229       55
-i230       11
-i231       10
-i232       3
-i234       55
-i237       178
-i238       55
-i239       13
-i240       12
-i241       3
-i243       55
-i246       178
-i247       55
-i249       39
-i250       38
-i252       55
-i253       49
-i254       48
-i256       55
-i257       37
-i258       36
-i260       55
-i263       178
-i264       55
-i270       55
-i274       55
-i276       43
-i279       42
-i281       55
-i282       41
-i283       40
-i285       55
-i291       55
-i292       47
-i293       46
-i295       55
-i300       55
-i302       269
-i303       55
-i307       55
-i310       55
-i314       55
-i320       55
-i321       5
-i322       4
-i323       3
-i325       55
-i326       9
-i327       8
-i328       3
-i330       55
-i338       55
-i339       7
-i340       6
-i341       3
-i343       55
-i347       55
-i351       55
-i354       187
-i355       31
-i356       191
-i357       190
-i358       197
-i359       194
-i360       305
-i361       304
-i362       289
-i363       286
-i364       77
-i365       33
-i367       171
-i368       168
-i369       150
-i370       147
-i371       123
-i372       120
-i373       115
-i374       112
-i375       142
-i376       139
-i377       131
-i378       128
-i379       163
-i380       160
-i381       135
-i382       134
-i383       156
-i384       155
-i385       215
-i386       214
-i388       345
-i389       344
-i390       349
-i391       262
-i392       261
-i393       177
-i394       176
-i395       236
-i396       235
-i397       245
-i398       244
-i399       268
-i400       265
-i401       202
-i402       201
-i403       336
-i404       335
-i405       334
-i406       331
-i407       348
-i409       272
-i410       271
-i411       210
-i412       209
-i413       206
-i414       205
-i415       81
-i416       80
-i418       53
-i419       50
-i420       71
-i421       68
-i422       65
-i423       62
-i424       59
-i425       56
-i427       109
-i428       108
-i429       151
-i430       147
-i431       91
-i432       90
-i433       87
-i434       86
-i435       99
-i436       98
-i437       95
-i438       94
-i439       164
-i440       160
-i441       220
-i442       219
-i443       352
-i445       85
-i446       84
-i447       119
-i448       112
-i449       118
-i450       112
-i451       126
-i452       120
-i453       127
-i454       120
-i455       218
-i456       214
-i457       138
-i458       134
-i459       159
-i460       155
-i461       145
-i462       139
-i463       146
-i464       139
-i465       154
-i466       147
-i467       167
-i468       160
-i469       175
-i470       168
-i471       174
-i472       168
-i473       223
-i474       219
-i475       311
-i476       308
-i477       315
-i478       312
-i479       200
-i480       194
-i481       275
-i482       271
-i483       213
-i484       209
-i505       490
-i512       494
-i514       496
-i515       497
-i523       520
-i526       520
-i529       520
-i532       520
-i535       520
-i538       494
-i540       496
-i541       497
-i545       508
-i549       494
-i551       496
-i552       497
-i553       516
-i556       500
-i561       494
-i563       496
-i565       498
-i568       500
-i572       494
-i574       496
-i578       508
-i581       29
-i585       504
-i587       494
-i589       503
-i590       501
-i591       489
-i593       494
-i595       488
-i596       486
-i597       583
-i598       582
-i600       55
-i606       493
-i607       494
-i608       495
-i609       496
-i610       497
-i613       494
-i614       497
-i626       29
-i640       55
-i644       630
-i647       629
-i649       55
-i652       494
-i653       497
-i656       618
-i659       617
-i660       603
-i662       55
-i665       494
-i666       497
-i668       628
-i671       627
-i674       494
-i675       497
-i677       661
-i678       55
-i684       55
-i687       494
-i688       497
-i690       632
-i693       631
-i695       55
-i696       634
-i699       633
-i707       55
-i711       622
-i714       621
-i715       603
-i717       55
-i718       620
-i721       619
-i722       603
-i724       55
-i729       55
-i732       700
-i733       634
-i738       496
-i740       701
-i741       634
-i744       736
-i746       496
-i747       739
-i748       702
-i749       634
-i752       736
-i754       496
-i755       739
-i756       703
-i757       634
-i760       736
-i762       496
-i763       739
-i764       704
-i765       634
-i768       736
-i770       496
-i771       739
-i772       705
-i773       634
-i776       736
-i778       496
-i779       739
-i783       736
-i785       496
-i786       739
-i787       689
-i788       685
-i789       667
-i790       663
-i791       655
-i792       650
-i793       638
-i794       635
-i795       682
-i796       679
-i798       730
-i799       725
-i807       496
-i809       611
-i813       805
-i817       808
-i818       611
-i822       805
-i825       808
-i826       611
-i828       805
-i834       623
-i839       490
-i843       833
-i844       490
-i848       520
-i851       520
-i854       520
-i857       520
-i860       520
-i863       736
-i865       496
-i867       542
-i870       29
-i875       838
-i878       837
-i879       835
-i883       833
-i884       832
-i885       801
-i886       842
-i887       840
-i889       55
-i890       874
-i891       873
-i893       55
-i894       872
-i897       871
-i899       55
-i904       55
-i909       55
-i918       496
-i920       611
-i922       916
-i923       919
-i932       623
-i939       496
-i940       919
-i941       611
-i943       937
-i944       919
-i955       623
-i962       496
-i963       919
-i964       611
-i968       960
-i970       496
-i971       919
-i972       611
-i974       960
-i975       919
-i982       623
-i991       55
-i992       931
-i995       930
-i996       912
-i998       55
-i1006      55
-i1007      984
-i1010      983
-i1011      990
-i1012      55
-i1013      952
-i1016      951
-i1017      933
-i1019      55
-i1023      990
-i1024      55
-i1032      55
-i1033      927
-i1036      926
-i1037      912
-i1040      55
-i1041      929
-i1044      928
-i1045      912
-i1048      55
-i1049      948
-i1052      947
-i1053      933
-i1057      55
-i1058      950
-i1061      949
-i1062      933
-i1066      55
-i1074      55
-i1077      986
-i1080      985
-i1082      55
-i1087      55
-i1088      954
-i1091      953
-i1092      933
-i1094      55
-i1095      981
-i1096      980
-i1097      956
-i1099      55
-i1104      55
-i1105      979
-i1108      978
-i1109      956
-i1111      55
-i1113      1070
-i1114      1069
-i1115      1054
-i1116      948
-i1117      1038
-i1118      927
-i1119      1063
-i1120      950
-i1121      1046
-i1122      929
-i1123      1028
-i1124      1025
-i1125      1002
-i1126      999
-i1128      1071
-i1129      1069
-i1130      1029
-i1131      1025
-i1132      1003
-i1133      999
-i1135      1072
-i1136      1069
-i1137      1055
-i1138      948
-i1139      1064
-i1140      950
-i1141      1030
-i1142      1025
-i1143      1004
-i1144      999
-i1147      1068
-i1148      1067
-i1149      1076
-i1150      1075
-i1151      1145
-i1157      804
-i1158      805
-i1159      806
-i1160      496
-i1162      611
-i1165      812
-i1166      805
-i1167      814
-i1168      815
-i1169      816
-i1170      1161
-i1171      611
-i1174      821
-i1175      805
-i1176      823
-i1177      824
-i1178      1161
-i1179      611
-i1181      805
-i1182      1161
-i1187      623
-i1192      490
-i1196      1186
-i1197      490
-i1203      520
-i1206      520
-i1209      520
-i1213      1202
-i1214      520
-i1217      736
-i1219      496
-i1220      866
-i1221      542
-i1224      29
-i1229      1191
-i1232      1190
-i1233      1188
-i1234      1228
-i1235      1227
-i1236      892
-i1237      55
-i1241      1186
-i1242      1185
-i1243      1154
-i1244      1195
-i1245      1193
-i1247      55
-i1248      1226
-i1251      1225
-i1253      55
-i1254      1202
-i1255      1201
-i1256      1199
-i1257      1212
-i1258      1210
-i1262      903
-i1263      55
-i1267      908
-i1268      55
-i1269      910
-i1274      804
-i1275      805
-i1276      806
-i1277      496
-i1279      611
-i1282      812
-i1283      805
-i1284      814
-i1285      815
-i1286      816
-i1287      1278
-i1288      611
-i1291      821
-i1292      805
-i1293      823
-i1294      824
-i1295      1278
-i1296      611
-i1298      805
-i1299      1278
-i1306      623
-i1311      490
-i1315      1303
-i1316      490
-i1319      29
-i1322      1303
-i1324      805
-i1326      1302
-i1327      1271
-i1328      1314
-i1329      1312
-i1331      55
-i1332      1305
-i1333      1304
-i1334      1271
-i1336      55
-i1337      1310
-i1340      1309
-i1341      1307
-i1345      1321
-i1348      1320
-i1350      55
-i1357      903
-i1358      55
-i1362      908
-i1363      55
-i1370      736
-i1372      496
-i1376      498
-i1380      736
-i1382      496
-i1383      1373
-i1385      1375
-i1386      576
-i1390      736
-i1392      496
-i1393      1373
-i1395      1375
-i1396      576
-i1400      1375
-i1401      490
-i1403      508
-i1410      496
-i1412      611
-i1414      1408
-i1415      1411
-i1422      623
-i1427      490
-i1431      1421
-i1432      490
-i1437      490
-i1442      490
-i1447      1375
-i1448      520
-i1452      1375
-i1453      520
-i1457      1375
-i1458      520
-i1462      1375
-i1463      520
-i1467      1375
-i1468      520
-i1471      736
-i1473      496
-i1474      1373
-i1475      542
-i1479      736
-i1481      496
-i1483      576
-i1486      29
-i1491      1426
-i1494      1425
-i1495      1423
-i1496      1375
-i1497      1384
-i1498      1377
-i1499      1394
-i1500      1387
-i1501      1399
-i1502      1397
-i1503      1446
-i1504      1444
-i1505      1451
-i1506      1449
-i1507      1456
-i1508      1454
-i1509      1374
-i1510      1367
-i1511      1461
-i1512      1459
-i1513      1466
-i1514      1464
-i1516      55
-i1517      1490
-i1518      1489
-i1520      55
-i1523      55
-i1527      1421
-i1528      1430
-i1529      1428
-i1530      1420
-i1531      1404
-i1532      1522
-i1533      55
-i1535      1441
-i1536      1440
-i1537      1438
-i1538      1488
-i1541      1487
-i1543      55
-i1544      1436
-i1545      1435
-i1546      1433
-i1548      55
-i1552      1419
-i1555      1418
-i1556      1404
-i1558      55
-i1561      55
-i1564      1562
-i1565      1559
-i1566      1534
-i1567      1421
-i1577      611
-i1581      1573
-i1583      496
-i1584      1576
-i1585      611
-i1587      1573
-i1588      1576
-i1593      623
-i1601      1597
-i1602      1597
-i1603      1596
-i1604      1600
-i1606      55
-i1608      1599
-i1609      1598
-i1611      55
-i1612      1595
-i1613      1594
-i1615      55
-i1616      1592
-i1617      1591
-i1618      1569
-i1620      55
-i1627      1625
-i1630      55
-i1631      639
-i1633      207
-i1635      683
-i1637      648
-i1639      728
-i1641      716
-i1643      694
-i1645      661
-i1647      706
-i1649      723
-i1651      599
-i1653      1246
-i1655      1252
-i1657      898
-i1659      888
-i1661      908
-i1663      903
-i1665      1349
-i1667      1330
-i1669      1110
-i1671      1103
-i1673      1098
-i1675      1093
-i1677      1086
-i1679      1081
-i1681      1073
-i1683      1065
-i1685      1056
-i1687      1047
-i1689      1039
-i1691      1031
-i1693      1018
-i1695      1005
-i1697      997
-i1699      990
-i1701      1560
-i1703      1557
-i1705      1547
-i1707      1542
-i1709      1522
-i1711      1519
-i1713      1515
-i1715      188
-i1717      192
-i1725      280
-i1727      78
-i1729      269
-i1731      273
-i1733      299
-i1735      319
-i1737      198
-i1739      203
-i1741      211
-i1743      228
-i1745      54
-i1747      72
-i1749      66
-i1751      60
-i1753      290
-i1755      178
-i1757      324
-i1759      329
-i1761      294
-i1763      233
-i1765      242
-i1767      1335
-i1769      350
-i1771      306
-i1773      1614
-i1775      1605
-i1777      1619
-i1779      1610
-i1781      181
-i1783      313
-i1785      309
-i1787      284
-i1789      221
-i1791      92
-i1793      100
-i1795      88
-i1797      96
-i1799      106
-i1801      136
-i1803      259
-i1805      110
-i1807      103
-i1809      346
-i1811      216
-i1813      157
-i1815      251
-i1817      255
-i1824      337
-i1829      892
-i1834      342
-i1838      82
-i1840      54
-i1841      55
-i1842      60
-i1843      55
-i1844      66
-i1845      55
-i1846      72
-i1847      55
-i1848      997
-i1849      55
-i1850      1005
-i1851      55
-i1852      990
-i1853      55
-i1854      1018
-i1855      55
-i1856      1031
-i1857      55
-i1858      1073
-i1859      55
-i1860      1056
-i1861      55
-i1862      1065
-i1863      55
-i1864      1039
-i1865      55
-i1866      1047
-i1867      55
-i1868      1081
-i1869      55
-i1870      1086
-i1871      55
-i1872      1093
-i1873      55
-i1874      1098
-i1875      55
-i1876      1110
-i1877      55
-i1878      82
-i1879      55
-i1880      1605
-i1881      55
-i1882      1610
-i1883      55
-i1884      1614
-i1885      55
-i1886      1619
-i1887      55
-i1888      188
-i1889      55
-i1890      306
-i1891      55
-i1892      203
-i1893      55
-i1894      207
-i1895      55
-i1896      211
-i1897      55
-i1898      216
-i1899      55
-i1900      1246
-i1901      55
-i1902      1252
-i1903      55
-i1904      1330
-i1905      55
-i1906      1349
-i1907      55
-i1908      1335
-i1909      55
-i1910      1515
-i1911      55
-i1912      1519
-i1913      55
-i1914      1522
-i1915      55
-i1916      1542
-i1917      55
-i1918      1547
-i1919      55
-i1920      1557
-i1921      55
-i1922      1560
-i1923      55
-i1924      346
-i1925      55
-i1926      280
-i1927      55
-i1928      284
-i1929      55
-i1930      299
-i1931      55
-i1932      269
-i1933      55
-i1934      273
-i1935      55
-i1936      198
-i1937      55
-i1938      309
-i1939      55
-i1940      313
-i1941      55
-i1942      319
-i1943      55
-i1944      903
-i1945      55
-i1946      908
-i1947      55
-i1948      78
-i1949      55
-i1950      337
-i1951      55
-i1952      1826
-i1953      55
-i1954      181
-i1955      55
-i1956      1831
-i1957      55
-i1958      342
-i1959      55
-i1960      892
-i1961      55
-i1962      1819
-i1963      55
-i1964      88
-i1965      55
-i1966      92
-i1967      55
-i1968      96
-i1969      55
-i1970      136
-i1971      55
-i1972      100
-i1973      55
-i1974      103
-i1975      55
-i1976      259
-i1977      55
-i1978      106
-i1979      55
-i1980      110
-i1981      55
-i1982      1836
-i1983      55
-i1984      221
-i1985      55
-i1986      228
-i1987      55
-i1988      233
-i1989      55
-i1990      242
-i1991      55
-i1992      1821
-i1993      55
-i1994      251
-i1995      55
-i1996      255
-i1997      55
-i1998      157
-i1999      55
-i2000      178
-i2001      55
-i2002      294
-i2003      55
-i2004      324
-i2005      55
-i2006      329
-i2007      55
-i2008      350
-i2009      55
-i2010      639
-i2011      55
-i2012      648
-i2013      55
-i2014      683
-i2015      55
-i2016      599
-i2017      55
-i2018      706
-i2019      55
-i2020      661
-i2021      55
-i2022      694
-i2023      55
-i2024      716
-i2025      55
-i2026      723
-i2027      55
-i2028      728
-i2029      55
-i2030      888
-i2031      55
-i2032      898
-i2033      55
-i2034      290
-i2035      55
-i2036      1721
-i2037      55
-i2038      1723
-i2039      55
-i2040      192
-i2041      55
-i2042      1719
-i2043      55
-i2044      1103
-i2045      55
+i12        9
+i15        9
+i18        9
+i26        24
+i62        56
+i68        56
+i74        56
+i75        24
+i78        25
+i79        23
+i82        56
+i83        44
+i86        43
+i93        56
+i99        56
+i104       46
+i107       45
+i113       56
+i119       56
+i125       56
+i131       56
+i136       56
+i141       56
+i147       56
+i152       112
+i153       56
+i160       118
+i161       56
+i168       124
+i169       56
+i175       56
+i182       56
+i186       130
+i187       56
+i195       135
+i196       56
+i203       56
+i210       56
+i217       56
+i224       56
+i231       140
+i232       56
+i238       56
+i244       146
+i245       56
+i252       56
+i260       56
+i265       56
+i266       22
+i269       21
+i272       56
+i278       56
+i284       56
+i291       56
+i296       56
+i302       56
+i318       56
+i325       56
+i326       36
+i329       35
+i331       56
+i336       56
+i342       259
+i343       56
+i348       56
+i353       259
+i354       56
+i364       56
+i365       30
+i368       29
+i369       209
+i370       56
+i371       42
+i374       41
+i375       202
+i376       56
+i377       28
+i380       27
+i381       216
+i382       56
+i383       38
+i386       37
+i388       56
+i394       259
+i395       56
+i398       56
+i404       56
+i411       56
+i417       56
+i423       56
+i424       34
+i427       33
+i429       56
+i430       32
+i433       31
+i435       56
+i442       56
+i448       56
+i449       40
+i452       39
+i454       56
+i459       56
+i463       410
+i464       56
+i468       56
+i471       56
+i487       56
+i492       56
+i497       56
+i502       56
+i509       56
+i519       56
+i524       56
+i534       56
+i537       270
+i538       22
+i539       276
+i540       273
+i541       282
+i542       279
+i543       466
+i544       465
+i545       446
+i546       443
+i547       80
+i548       24
+i550       243
+i551       240
+i552       193
+i553       190
+i554       159
+i555       156
+i556       151
+i557       148
+i558       185
+i559       184
+i560       167
+i561       164
+i562       229
+i563       226
+i564       173
+i565       170
+i566       201
+i567       198
+i568       180
+i569       177
+i570       215
+i571       212
+i572       208
+i573       205
+i574       222
+i575       219
+i577       506
+i578       503
+i579       361
+i580       358
+i581       439
+i582       436
+i583       90
+i584       87
+i585       485
+i586       473
+i587       476
+i588       473
+i589       477
+i590       473
+i591       478
+i592       473
+i593       479
+i594       473
+i595       480
+i596       473
+i597       481
+i598       473
+i599       482
+i600       473
+i601       483
+i602       473
+i603       484
+i604       473
+i606       307
+i607       304
+i608       308
+i609       304
+i610       309
+i611       304
+i612       310
+i613       304
+i614       311
+i615       304
+i616       312
+i617       304
+i618       313
+i619       304
+i620       314
+i621       304
+i622       315
+i623       304
+i624       316
+i625       304
+i627       528
+i628       525
+i629       532
+i630       392
+i631       389
+i632       257
+i633       254
+i634       340
+i635       337
+i636       352
+i637       349
+i638       409
+i639       406
+i640       289
+i641       286
+i642       517
+i643       514
+i644       513
+i645       510
+i646       529
+i648       415
+i649       412
+i650       300
+i651       297
+i652       421
+i653       419
+i654       97
+i655       94
+i657       54
+i658       51
+i659       72
+i660       69
+i661       66
+i662       63
+i663       60
+i664       57
+i665       50
+i666       47
+i668       507
+i669       503
+i670       362
+i671       358
+i672       440
+i673       436
+i674       91
+i675       87
+i676       393
+i677       389
+i678       258
+i679       254
+i680       341
+i681       337
+i682       420
+i683       419
+i684       323
+i685       319
+i687       145
+i688       142
+i689       194
+i690       190
+i691       117
+i692       114
+i693       111
+i694       108
+i695       129
+i696       126
+i697       123
+i698       120
+i699       230
+i700       226
+i701       322
+i702       319
+i703       535
+i705       247
+i706       240
+i707       155
+i708       148
+i709       154
+i710       148
+i711       162
+i712       156
+i713       176
+i714       170
+i715       183
+i716       177
+i717       188
+i718       184
+i719       204
+i720       198
+i721       211
+i722       205
+i723       218
+i724       212
+i725       225
+i726       219
+i727       239
+i728       234
+i729       253
+i730       248
+i731       303
+i732       297
+i733       418
+i734       412
+i735       399
+i736       396
+i737       405
+i738       400
+i739       197
+i740       190
+i741       285
+i742       279
+i743       472
+i744       469
+i745       233
+i746       226
+i747       163
+i748       156
+i749       189
+i750       184
+i751       103
+i752       100
+i753       246
+i754       240
+i775       760
+i782       764
+i784       766
+i785       767
+i793       790
+i796       790
+i799       790
+i802       790
+i805       790
+i808       764
+i810       766
+i811       767
+i815       778
+i819       764
+i821       766
+i822       767
+i823       786
+i826       770
+i831       764
+i833       766
+i835       768
+i838       770
+i842       764
+i844       766
+i848       778
+i851       20
+i855       774
+i857       764
+i859       773
+i860       771
+i861       759
+i863       764
+i865       758
+i866       756
+i867       853
+i868       852
+i870       56
+i876       763
+i877       764
+i878       765
+i879       766
+i880       767
+i883       764
+i884       767
+i896       20
+i910       56
+i914       900
+i917       899
+i919       56
+i922       764
+i923       767
+i926       888
+i929       887
+i930       873
+i932       56
+i935       764
+i936       767
+i938       898
+i941       897
+i944       764
+i945       767
+i947       931
+i948       56
+i954       56
+i957       764
+i958       767
+i960       902
+i963       901
+i965       56
+i966       904
+i969       903
+i977       56
+i981       892
+i984       891
+i985       873
+i987       56
+i988       890
+i991       889
+i992       873
+i994       56
+i999       56
+i1002      970
+i1003      904
+i1008      766
+i1010      971
+i1011      904
+i1014      1006
+i1016      766
+i1017      1009
+i1018      972
+i1019      904
+i1022      1006
+i1024      766
+i1025      1009
+i1026      973
+i1027      904
+i1030      1006
+i1032      766
+i1033      1009
+i1034      974
+i1035      904
+i1038      1006
+i1040      766
+i1041      1009
+i1042      975
+i1043      904
+i1046      1006
+i1048      766
+i1049      1009
+i1053      1006
+i1055      766
+i1056      1009
+i1057      959
+i1058      955
+i1059      937
+i1060      933
+i1061      925
+i1062      920
+i1063      908
+i1064      905
+i1065      952
+i1066      949
+i1068      1000
+i1069      995
+i1077      766
+i1079      881
+i1083      1075
+i1087      1078
+i1088      881
+i1092      1075
+i1095      1078
+i1096      881
+i1098      1075
+i1104      893
+i1109      760
+i1113      1103
+i1114      760
+i1118      790
+i1121      790
+i1124      790
+i1127      790
+i1130      790
+i1133      1006
+i1135      766
+i1137      812
+i1140      20
+i1145      1108
+i1148      1107
+i1149      1105
+i1153      1103
+i1154      1102
+i1155      1071
+i1156      1112
+i1157      1110
+i1159      56
+i1160      1144
+i1161      1143
+i1163      56
+i1164      1142
+i1167      1141
+i1169      56
+i1174      56
+i1179      56
+i1188      766
+i1190      881
+i1192      1186
+i1193      1189
+i1202      893
+i1209      766
+i1210      1189
+i1211      881
+i1213      1207
+i1214      1189
+i1225      893
+i1232      766
+i1233      1189
+i1234      881
+i1238      1230
+i1240      766
+i1241      1189
+i1242      881
+i1244      1230
+i1245      1189
+i1252      893
+i1261      56
+i1262      1201
+i1265      1200
+i1266      1182
+i1268      56
+i1276      56
+i1277      1254
+i1280      1253
+i1281      1260
+i1282      56
+i1283      1222
+i1286      1221
+i1287      1203
+i1289      56
+i1293      1260
+i1294      56
+i1302      56
+i1303      1197
+i1306      1196
+i1307      1182
+i1310      56
+i1311      1199
+i1314      1198
+i1315      1182
+i1318      56
+i1319      1218
+i1322      1217
+i1323      1203
+i1327      56
+i1328      1220
+i1331      1219
+i1332      1203
+i1336      56
+i1344      56
+i1347      1256
+i1350      1255
+i1352      56
+i1357      56
+i1358      1224
+i1361      1223
+i1362      1203
+i1364      56
+i1365      1251
+i1366      1250
+i1367      1226
+i1369      56
+i1374      56
+i1375      1249
+i1378      1248
+i1379      1226
+i1381      56
+i1383      1340
+i1384      1339
+i1385      1324
+i1386      1218
+i1387      1308
+i1388      1197
+i1389      1333
+i1390      1220
+i1391      1316
+i1392      1199
+i1393      1298
+i1394      1295
+i1395      1272
+i1396      1269
+i1398      1341
+i1399      1339
+i1400      1299
+i1401      1295
+i1402      1273
+i1403      1269
+i1405      1342
+i1406      1339
+i1407      1325
+i1408      1218
+i1409      1334
+i1410      1220
+i1411      1300
+i1412      1295
+i1413      1274
+i1414      1269
+i1417      1338
+i1418      1337
+i1419      1346
+i1420      1345
+i1421      1415
+i1427      1074
+i1428      1075
+i1429      1076
+i1430      766
+i1432      881
+i1435      1082
+i1436      1075
+i1437      1084
+i1438      1085
+i1439      1086
+i1440      1431
+i1441      881
+i1444      1091
+i1445      1075
+i1446      1093
+i1447      1094
+i1448      1431
+i1449      881
+i1451      1075
+i1452      1431
+i1457      893
+i1462      760
+i1466      1456
+i1467      760
+i1473      790
+i1476      790
+i1479      790
+i1483      1472
+i1484      790
+i1487      1006
+i1489      766
+i1490      1136
+i1491      812
+i1494      20
+i1499      1461
+i1502      1460
+i1503      1458
+i1504      1498
+i1505      1497
+i1506      1162
+i1507      56
+i1511      1456
+i1512      1455
+i1513      1424
+i1514      1465
+i1515      1463
+i1517      56
+i1518      1496
+i1521      1495
+i1523      56
+i1524      1472
+i1525      1471
+i1526      1469
+i1527      1482
+i1528      1480
+i1532      1173
+i1533      56
+i1537      1178
+i1538      56
+i1539      1180
+i1544      1074
+i1545      1075
+i1546      1076
+i1547      766
+i1549      881
+i1552      1082
+i1553      1075
+i1554      1084
+i1555      1085
+i1556      1086
+i1557      1548
+i1558      881
+i1561      1091
+i1562      1075
+i1563      1093
+i1564      1094
+i1565      1548
+i1566      881
+i1568      1075
+i1569      1548
+i1576      893
+i1581      760
+i1585      1573
+i1586      760
+i1589      20
+i1592      1573
+i1594      1075
+i1596      1572
+i1597      1541
+i1598      1584
+i1599      1582
+i1601      56
+i1602      1575
+i1603      1574
+i1604      1541
+i1606      56
+i1607      1580
+i1610      1579
+i1611      1577
+i1615      1591
+i1618      1590
+i1620      56
+i1627      1173
+i1628      56
+i1632      1178
+i1633      56
+i1640      1006
+i1642      766
+i1646      768
+i1650      1006
+i1652      766
+i1653      1643
+i1655      1645
+i1656      846
+i1660      1006
+i1662      766
+i1663      1643
+i1665      1645
+i1666      846
+i1670      1645
+i1671      760
+i1673      778
+i1680      766
+i1682      881
+i1684      1678
+i1685      1681
+i1692      893
+i1697      760
+i1701      1691
+i1702      760
+i1707      760
+i1712      760
+i1717      1645
+i1718      790
+i1722      1645
+i1723      790
+i1727      1645
+i1728      790
+i1732      1645
+i1733      790
+i1737      1645
+i1738      790
+i1741      1006
+i1743      766
+i1744      1643
+i1745      812
+i1749      1006
+i1751      766
+i1753      846
+i1756      20
+i1761      1696
+i1764      1695
+i1765      1693
+i1766      1645
+i1767      1654
+i1768      1647
+i1769      1664
+i1770      1657
+i1771      1669
+i1772      1667
+i1773      1716
+i1774      1714
+i1775      1721
+i1776      1719
+i1777      1726
+i1778      1724
+i1779      1644
+i1780      1637
+i1781      1731
+i1782      1729
+i1783      1736
+i1784      1734
+i1786      56
+i1787      1760
+i1788      1759
+i1790      56
+i1793      56
+i1797      1691
+i1798      1700
+i1799      1698
+i1800      1690
+i1801      1674
+i1802      1792
+i1803      56
+i1805      1711
+i1806      1710
+i1807      1708
+i1808      1758
+i1811      1757
+i1813      56
+i1814      1706
+i1815      1705
+i1816      1703
+i1818      56
+i1822      1689
+i1825      1688
+i1826      1674
+i1828      56
+i1831      56
+i1834      1832
+i1835      1829
+i1836      1804
+i1837      1691
+i1847      881
+i1851      1843
+i1853      766
+i1854      1846
+i1855      881
+i1857      1843
+i1858      1846
+i1863      893
+i1871      1867
+i1872      1867
+i1873      1866
+i1874      1870
+i1876      56
+i1878      1869
+i1879      1868
+i1881      56
+i1882      1865
+i1883      1864
+i1885      56
+i1886      1862
+i1887      1861
+i1888      1839
+i1890      56
+i1894      770
+i1896      770
+i1900      760
+i1901      1899
+i1902      1898
+i1903      1897
+i1910      760
+i1912      770
+i1916      760
+i1917      1909
+i1918      1908
+i1919      1907
+i1920      1915
+i1921      1914
+i1922      1913
+i1929      1927
+i1932      56
+i1933      909
+i1935      403
+i1937      295
+i1939      953
+i1941      918
+i1943      998
+i1945      986
+i1947      964
+i1949      931
+i1951      976
+i1953      993
+i1955      869
+i1957      1516
+i1959      1522
+i1961      1168
+i1963      1158
+i1965      1178
+i1967      1173
+i1969      1619
+i1971      1600
+i1973      1380
+i1975      1373
+i1977      1368
+i1979      1363
+i1981      1356
+i1983      1351
+i1985      1343
+i1987      1335
+i1989      1326
+i1991      1317
+i1993      1309
+i1995      1301
+i1997      1288
+i1999      1275
+i2001      1267
+i2003      1260
+i2005      1830
+i2007      1827
+i2009      1817
+i2011      1812
+i2013      1792
+i2015      1789
+i2017      1785
+i2019      271
+i2021      277
+i2029      428
+i2031      81
+i2033      410
+i2035      416
+i2037      458
+i2039      491
+i2041      283
+i2043      290
+i2045      301
+i2047      422
+i2049      330
+i2051      55
+i2053      73
+i2055      67
+i2057      61
+i2059      447
+i2061      259
+i2063      496
+i2065      501
+i2067      453
+i2069      335
+i2071      347
+i2073      1605
+i2075      533
+i2077      467
+i2079      1884
+i2081      1875
+i2083      1889
+i2085      1880
+i2087      264
+i2089      470
+i2091      434
+i2093      324
+i2095      118
+i2097      130
+i2099      112
+i2101      237
+i2103      251
+i2105      124
+i2107      140
+i2109      174
+i2111      216
+i2113      146
+i2115      135
+i2121      209
+i2123      223
+i2125      202
+i2127      181
+i2134      518
+i2139      1162
+i2144      523
+i2148      98
+i2150      387
+i2152      486
+i2154      508
+i2156      92
+i2158      317
+i2160      363
+i2162      441
+i2164      397
+i2166      55
+i2167      56
+i2168      61
+i2169      56
+i2170      67
+i2171      56
+i2172      73
+i2173      56
+i2174      1267
+i2175      56
+i2176      1275
+i2177      56
+i2178      1260
+i2179      56
+i2180      1288
+i2181      56
+i2182      1301
+i2183      56
+i2184      1343
+i2185      56
+i2186      1326
+i2187      56
+i2188      1335
+i2189      56
+i2190      1309
+i2191      56
+i2192      1317
+i2193      56
+i2194      1351
+i2195      56
+i2196      1356
+i2197      56
+i2198      1363
+i2199      56
+i2200      1368
+i2201      56
+i2202      1380
+i2203      56
+i2204      98
+i2205      56
+i2206      1875
+i2207      56
+i2208      1880
+i2209      56
+i2210      1884
+i2211      56
+i2212      1889
+i2213      56
+i2214      271
+i2215      56
+i2216      467
+i2217      56
+i2218      290
+i2219      56
+i2220      295
+i2221      56
+i2222      301
+i2223      56
+i2224      2119
+i2225      56
+i2226      1516
+i2227      56
+i2228      1522
+i2229      56
+i2230      1600
+i2231      56
+i2232      1619
+i2233      56
+i2234      1605
+i2235      56
+i2236      1785
+i2237      56
+i2238      1789
+i2239      56
+i2240      1792
+i2241      56
+i2242      1812
+i2243      56
+i2244      1817
+i2245      56
+i2246      1827
+i2247      56
+i2248      1830
+i2249      56
+i2250      2117
+i2251      56
+i2252      422
+i2253      56
+i2254      428
+i2255      56
+i2256      434
+i2257      56
+i2258      458
+i2259      56
+i2260      410
+i2261      56
+i2262      416
+i2263      56
+i2264      283
+i2265      56
+i2266      491
+i2267      56
+i2268      1173
+i2269      56
+i2270      1178
+i2271      56
+i2272      81
+i2273      56
+i2274      518
+i2275      56
+i2276      2136
+i2277      56
+i2278      264
+i2279      56
+i2280      92
+i2281      56
+i2282      2141
+i2283      56
+i2284      523
+i2285      56
+i2286      1162
+i2287      56
+i2288      2129
+i2289      56
+i2290      112
+i2291      56
+i2292      118
+i2293      56
+i2294      124
+i2295      56
+i2296      174
+i2297      56
+i2298      181
+i2299      56
+i2300      130
+i2301      56
+i2302      135
+i2303      56
+i2304      202
+i2305      56
+i2306      209
+i2307      56
+i2308      216
+i2309      56
+i2310      223
+i2311      56
+i2312      140
+i2313      56
+i2314      237
+i2315      56
+i2316      146
+i2317      56
+i2318      251
+i2319      56
+i2320      2146
+i2321      56
+i2322      317
+i2323      56
+i2324      363
+i2325      56
+i2326      324
+i2327      56
+i2328      441
+i2329      56
+i2330      330
+i2331      56
+i2332      335
+i2333      56
+i2334      347
+i2335      56
+i2336      2131
+i2337      56
+i2338      387
+i2339      56
+i2340      259
+i2341      56
+i2342      397
+i2343      56
+i2344      403
+i2345      56
+i2346      453
+i2347      56
+i2348      470
+i2349      56
+i2350      486
+i2351      56
+i2352      496
+i2353      56
+i2354      501
+i2355      56
+i2356      508
+i2357      56
+i2358      533
+i2359      56
+i2360      909
+i2361      56
+i2362      918
+i2363      56
+i2364      953
+i2365      56
+i2366      869
+i2367      56
+i2368      976
+i2369      56
+i2370      931
+i2371      56
+i2372      964
+i2373      56
+i2374      986
+i2375      56
+i2376      993
+i2377      56
+i2378      998
+i2379      56
+i2380      1158
+i2381      56
+i2382      1168
+i2383      56
+i2384      447
+i2385      56
+i2386      2025
+i2387      56
+i2388      2027
+i2389      56
+i2390      277
+i2391      56
+i2392      2023
+i2393      56
+i2394      1373
+i2395      56

@@ -2880,6 +2880,7 @@ ForceExprIntoParens( zVIEW vExpression )
    // Try and find an expression entry with a Level less than 9. If found, then we need to
    // enclose the expression in parens.  Start at the first expression node and check for
    // the NEXT node whose priority is less that that of a first level RPAREN.  If we just
+   // did set first, we could find an LPAREN as the first node and erroneously put in more
    // parens when this would really signal that the expression is already in parens.
    lRC = SetCursorFirstEntity( vExpression, "ExprNode", "" );
 
