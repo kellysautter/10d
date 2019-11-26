@@ -9,7 +9,6 @@ del *.res /s
 del *.tmp /s
 del *.rpt /s
 del *.bak /s
-del *.exp /s
 del x.bat /s
 
 ren w\bin\mergedef.exe mergedef.exe.hld

@@ -1,625 +1,683 @@
-a\ed\zeditor.c: *  PURPOSE    : Sets up the class data structures and does a one-time      *
-a\oe\fmdbcsmp.cpp:   structure of the records to be placed in the search table.  The following
-a\oe\fmdbcsmp.cpp:/********************** CSIMP::RestructureRecord ****************************
-a\oe\fmdbcsmp.cpp:*  Restructure a record based on a redefined data descriptor.  This may
-a\oe\fmdbcsmp.cpp:*  eCSIMP_RC_SUCCESS - Record successfully restructured
-a\oe\fmdbcsmp.cpp:*  eCSIMP_RC_FAILURE - Record NOT restructured
-a\oe\fmdbcsmp.cpp:CSIMP::RestructureRecord( CDataDescriptor *pDD,
-a\oe\fmdbcsmp.cpp:   ASSERT_MSGBOX_RC( "Cannot locate data descriptor in RestructureRecord",
-a\oe\fmdbcsmp.cpp:   ASSERT_MSGBOX_RC( "Altering record structure after data retrieval", 0,
-a\oe\fmdbcsmp.cpp:*  Share record structures and memory pools
-a\oe\fmdbcsmp.cpp:*  CSIMP *pSrcCSIMP - CSIMP with which to share structure
-a\oe\fmdbcsmp.cpp:   Fixed shared views to completely mirror structures (including flags) and
-a\oe\fmdbcsmp.cpp:   Fixed Restructure record and SharedViews
-a\oe\fmdbcsmp.cpp:   Added SyncViews to permit structure matched views to share data.
-a\oe\kzhskel.c:// Following structure used to store information during object operations.
-a\oe\kzhskelb.c:   TraceLineS( "Display QualEntity structure", "" );
-a\oe\kzhskelb.c:   // Display the QualEntity structure to trace.
-a\oe\kzhsqlga.c:   Improved JOIN with recursive structure.
-a\oe\kzhsqlga.c:   structure but were not logically recursive.
-a\oe\kzhsqlga.c:   TraceLineS( "Display QualEntity structure", "" );
-a\oe\kzhsqlga.c:   // Display the QualEntity structure to trace.
-a\oe\kzhsqlga.c:// Initialize the bound attribute list structure.
-a\oe\kzhsqlga.c://    lpBoundList  - Pointer to BoundList structure.  This is what we are
-a\oe\kzhsqlxa.c:   // around via the lpBoundList structure.
-a\oe\kzhsqlxa.c:      // info around via the lpBoundList structure.
-a\oe\kzhsqlxa.c:      // info around via the lpBoundList structure.
-a\oe\kzhsqlxa.c:      // info around via the lpBoundList structure.
-a\oe\kzhsqlxa.c:      // info around via the lpBoundList structure.
-a\oe\kzhsqlxa.c:      // info around via the lpBoundList structure.
-a\oe\kzhsqlxb.c:// This is the size of the structure used to retrieve blobs from DB2.  We set
-a\oe\kzhsqlxb.c:      // the key.  Create a temporary qualification structure.
-a\oe\kzoeataa.c://  PURPOSE:    To retrieve a pointer to the attribute flags structure.
-a\oe\kzoeataa.c://  PURPOSE:    To retrieve a pointer to the attribute flags structure.
-a\oe\kzoeataa.c://  PURPOSE:    To retrieve a structure representing the persistent attribute list
-a\oe\kzoeataa.c://  PARAMETERS: pchReturnStruct  - Address of structure to return
-a\oe\kzoeataa.c://                                 structure to retrieve
-a\oe\kzoeataa.c:         sprintf_s( szMsg, zsizeof( szMsg ), "Error in structure length for entity: %s", cpcEntityName );
-a\oe\kzoeataa.c:         // Set pointers for TaskDomain chain off of Task structure.
-a\oe\kzoeataa.c:         // Set pointers for TaskDomain chain off of Domain structure.
-a\oe\kzoeataa.c:   // Set pointers for TaskOperation chain off of Task structure.
-a\oe\kzoeataa.c:   // Set pointers for TaskOperation chain off of ViewAttrib structure
-a\oe\kzoeataa.c:   // the variable cDomainType to 0. This causes the CASE structure
-a\oe\kzoeataa.c://             lpViewEntity    - ViewEntity structure
-a\oe\kzoeataa.c://             lpViewAttribute - ViewAttribute structure
-a\oe\kzoeeiaa.c:   // this entity instances parents may have been as a result of structure
-a\oe\kzoeeiaa.c:      // See if the structure is inverted for a linked instance
-a\oe\kzoeeiaa.c:            // We've found an inverted structure in the linked entity
-a\oe\kzoeeiaa.c:      // Set pointers for TaskOperation chain off of Task structure
-a\oe\kzoeeiaa.c:      // Set pointers for TaskOperation chain off of ViewEntity structure
-a\oe\kzoemmaa.c:   // Retain the previous table ID which is the first short in the structure.
-a\oe\kzoemmaa.c:   // Change the freespace handle to point to the current freespace structure
-a\oe\kzoemmaa.c:   // (it used to point to the useable space AFTER the freespace structure).
-a\oe\kzoeneta.c:      pointers in the LPTASK structure.  For example, the LAD and ClientGroup
-a\oe\kzoeneta.c:      views could be stored in the task structure.  This would mean that we
-a\oe\kzoeneta.c://////////// structure prototypes ///////////////
-a\oe\kzoeneta.c:   // packet for the function structure.
-a\oe\kzoeneta.c:   // Set up the activate information.  We initialize the structure to 0's so
-a\oe\kzoeneta.c:   // packet for the function structure.
-a\oe\kzoeneta.c:   // Set up the activate information.  We initialize the structure to 0's so
-a\oe\kzoeneta.c:   // packet for the function structure.
-a\oe\kzoeneta.c:   // Set up the commit information.  We initialize the structure to 0's so
-a\oe\kzoeneta.c:   // packet for the function structure.
-a\oe\kzoeneta.c:   // Set up the commit information.  We initialize the structure to 0's so
-a\oe\kzoeneta.c:   // packet for the function structure.
-a\oe\kzoeneta.c:   // packet for the function structure.
-a\oe\kzoeodaa.c:// Following structure used by fnProcessXxx functions.
-a\oe\kzoeodaa.c:   // values to skip over the attribute flag structure.
-a\oe\kzoeoiaa.c:// Following structure for ActivateOI_FromFile.
-a\oe\kzoeoiaa.c:// Following structure for reading OI info from a buffer..
-a\oe\kzoeoiaa.c:// Following structures for ActivateObjectInstance
-a\oe\kzoeoiaa.c:            // If we've found an inverted structure in the same
-a\oe\kzoeoiaa.c:   // structure is large enough to accomodate an overwrite.
-a\oe\kzoeoiaa.c:      // Set pointers for TaskOperation chain off of Task structure
-a\oe\kzoeoiaa.c:      // Set pointers for TaskOperation chain off of ViewOD structure
-a\oe\kzoesoaa.c:// Following structure used by fnInclude...( ).
-a\oe\kzoesoaa.c://                new structure in the Object instance chain. All linked
-a\oe\kzoesoaa.c://                        4. The source structure must contain all the
-a\oe\kzoesoaa.c:   // If the source and target structures do not match, error out here!
-a\oe\kzoesoaa.c:   // Next, see if the target parent is inverted in the source structure,
-a\oe\kzoesoaa.c:   // parent from the source structure before each re-include.
-a\oe\kzoesoaa.c:                        // structure across the target instance and all
-a\oe\kzoesoaa.c:                           // if the source structure inverts the target
-a\oe\kzoesoaa.c:// the lpSrcViewEntity structure.
-a\oe\kzoesoaa.c://  PURPOSE:     To validate that Target Subobject structure passed matches
-a\oe\kzoesoaa.c://               inverting part of the structure on the source Subobject
-a\oe\kzoesoaa.c:      // into a target with a recursive structure!!!!
-a\oe\kzoesoaa.c://              Entity/Relationship structures appear multiple times in a
-a\oe\kzoesoaa.c:   // case where a structure is inverted.
-a\oe\kzoesoaa.c:   // target instance contains the same structure a second time at
-a\oe\kzoesoaa.c://              spawning anywhere else in the structure or linked
-a\oe\kzoesoaa.c://              structures, if so, spawning is done.
-a\oe\kzoesoaa.c:   // instance, see if the structure is inverted anywhere and needs
-a\oe\kzoesoaa.c:   // see if the same structure exists anywhere and needs to be spawned.
-a\oe\kzoesoaa.c:               // If the spawn has not been done for this structure match,
-a\oe\kzoesoaa.c://               subobject match exactly in instance structure and key
-a\oe\kzoesoaa.c:      // If the source structure inverts the target then we need to find the
-a\oe\kzoetmaa.c:   // Point to next item in the chain off the task structure.
-a\oe\kzoetmaa.c:   // Remove from the chain off of the Domain structure.
-a\oe\kzoetmaa.c:      // Remove from the chain off of the ViewOD structure.
-a\oe\kzoetmaa.c:      // Remove from the chain off of the ViewEntity structure.
-a\oe\kzoetmaa.c:      // Remove from the chain off of the ViewAttrib structure.
-a\oe\kzoetmaa.c:      // Point to next item in the chain off the task structure.
-a\oe\kzoetmaa.c:   // taken up by mutex structures because we'll soon free it with the task.
-a\oe\kzoetmaa.c:   // taken up by mutex structures because we'll soon free it with the task.
-a\oe\kzoetraa.c://              2           - Entity instance structure mismatch in OI
-a\oe\kzoetraa.c://              2           - Entity instance structure mismatch in OI
-a\oe\kzoeufaa.c:   the Probe sets for the Zeidon infrastructure to be left in the code
-a\oe\kzoevlaa.c:      // Copy the pertinent data to the structure.  Note that we don't copy
-a\oe\kzoevmaa.c:   // to the lpFirstView pointer in either the application structure or the
-a\oe\kzoevmaa.c:   // task structure depending on lpView->bApplicationView.
-a\oe\kzoevmaa.c:   // structure needs to be folded up recursively.
-a\oe\kzoevmaa.c:   // Check to see if there is another subobject structure.  If there is then
-a\oe\kzoevmaa.c:   // the current cursor structure won't change, just the entity instances.
-a\oe\kzoevmaa.c:      // No other subobject structures so change the cursor structure back to
-a\oe\kzoexmla.c:   // Make sure we indicate that we ended the Control structure.
-a\tz\ax\truegrid\trdgmap.cpp:      // the underlying datastructure has changed
-a\tz\ax\tzvmledt\cmcs219\src\buffer.cpp:   // parse the language structure passed in by the caller and calculate some per-token info
-a\tz\ax\tzvmledt\cmcs219\src\codelistctrl.cpp:   // Set up the TOOLINFO structure
-a\tz\ax\tzvmledt\cmcs219\src\language.cpp:   int cbLang = zsizeof( CM_LANGUAGE ) +      // the language structure
-a\tz\ax\tzvmledt\cmcs219\src\misc.cpp:// LoadDialogTemplate() returns an HGLOBAL to a DLGTEMPLATE structure
-a\tz\ax\tzvmledt\tzvmledt.cpp:// Following structure contains a list of all standard VML insert strings.
-a\tz\ax\_edit\hzoefunc.cpp:**    In CTBEditor::GetEditLine, always initialize the TEXTRANGE structure.
-a\tz\ax\_edit\hzoemeth.cpp:    // Initialize the PRINTDLG structure.
-a\tz\currency.c://              lpContext     - Context control structure.
-a\tz\tzadcdod.c:1999.11.25  BL  Z10  new menu structure
-a\tz\tzadcdod.c:// PURPOSE:  This function Accepts the UIS_Entity subobject structure
-a\tz\tzadcdod.c:// PURPOSE:  This function Accepts the UIS_Entity subobject structure for
-a\tz\tzadw7aw.c://                              for a particular object structure into
-a\tz\tzadw7aw.c://                               for a particular object structure and
-a\tz\tzadwoaw.c:                         &size );      // address of structure for string size
-a\tz\tzapdmac.c://              lpContext - Context control structure
-a\tz\tzapdmac.c://              lpContext     - Context control structure.
-a\tz\tzapdmac.c://              lpDomain      - Domain structure
-a\tz\tzaxcfgd.c://           structure:
-a\tz\tzcmcpld.c:   Remove zwTZCMCPLD_BuildEntityList for new Repository structure
-a\tz\tzcmcpld.c:1999.09.21  BL   10A new menu structure
-a\tz\tzcmcvto.c:      // Get the structure of attributes for this control.
-a\tz\tzcmlpld.c:   for new repository structure
-a\tz\tzcmlpld.c:1999.11.27  BL   Z10   new menu structure
-a\tz\tzcmlpld.c:1999.09.20  BL   10a   BL new menu structure
-a\tz\tzcmlplo.c:   // W_MetaType structure from the TZCMLPLO to TZCMUWLO.
-a\tz\tzcmlpmd.c:         //:// If the DoNotMergeFlag is not set, we will delete the old LOD structure and recreate it in totality, including Operations.
-a\tz\tzcmoprs.c:   the nOffset member of the sQExprStruct structure to be an offset if its
-a\tz\tzcmoprs.c:   Implemented save of .XRP which flattens the Control/CtrlCtrl structure.
-a\tz\tzcmutil.c:   // fd - Address of a WIN32_FIND_DATA structure that receives
-a\tz\tzdmsrco.c:// copy complete structure of the Domain Object to the XDM Group.
-a\tz\tzdmupdd.c:1999.11.03  BL  Z10  new menu structure
-a\tz\tzdmupdd.c:1999.10.29  BL  Z10  new menu structure
-a\tz\tzdmupdd.c:1999.10.28  BL  Z10  new menu structure
-a\tz\tzdmupdd.c:1999.10.27  BL  Z10  new menu structure
-a\tz\tzdmupdd.c:1999.10.21  BL  Z10  new menu structure
-a\tz\tzdmupdd.c:   // Duplicate the Context structure.
-a\tz\tzdmupdd.c:// copy complete structure of the Domain Object to the New Domain.
-a\tz\tzdmupdd.c:   // LOD than it is to modify the Parser to handle the different Domain structure.
-a\tz\tzedcm2d.c:1999.11.27  BL  Z10  new menu structure
-a\tz\tzedcm2d.c:            // structure.
-a\tz\tzedcwzd.c:// Following structure contains a list of all standard VML insert strings.
-a\tz\tzedfrmd.c:// Following structure contains a list of all standard VML insert strings.
-a\tz\tzedvmld.C:// Following structure contains a list of all standard VML insert strings.
-a\tz\tzerem2o.c:   //:// Now include the lower level substructures.
-a\tz\tzerem2o.c:   //:// If an LPLR Name has been specified, activate the XLP and pass the File Directory structure to any
-a\tz\tzerem2o.c:            //:// Now include the lower level substructures.
-a\tz\tzeremdd.c:   // the subobject structure.
-a\tz\tzhlpcxd.c:// Temporary structures to pick up the manual information of a
-a\tz\tzhlpcxd.c:   // Put the information into a temporary structure of Type zHelpMapInfo.
-a\tz\tzhlpcxd.c:   // Take the help mapping information from temporary structure pHelpMapInfo
-a\tz\tzhlpcxd.c://      A pointer to that structure is returned or NULL in case of error. The
-a\tz\tzhlpcxd.c://      function allocates memory for all of the structure elements. The calling
-a\tz\tzhlpcxd.c://      function is responsible to deallocate the memory if the structure is not
-a\tz\tzhlpcxd.c://      I/O //pHelpInfo : pointer to structure to take the mapping information
-a\tz\tzhlpcxd.c:   // Create structure to take the help mapping information and initialize it.
-a\tz\tzhlpcxd.c:   // Analyze import file and put information into zHelpMapInfo structure.
-a\tz\tzhlpcxd.c:               // Copy Topic into structure
-a\tz\tzhlpcxd.c:         // then allocate memory for a new structure and assign information
-a\tz\tzhlpcxd.c:               // Concatenate structures.
-a\tz\tzhlpcxd.c://      substructures if necessary. The function returns the initialized pointer
-a\tz\tzhlpcxd.c://      to structure. For a successful usage of this function it is necessary
-a\tz\tzhlpcxd.c:   // Free structure if necessary.
-a\tz\tzhlpcxd.c:      // Free sub structures of type zHelpFct if necessary.
-a\tz\tzlooprs.c:1999.09.29  BL   Z10   new menu structure, insert help menu in Object Browser
-a\tz\tzlooprs.c:         // get CtrlBOI into CtrlBOI_BMP structure
-a\tz\tzobrwad.c:1999.11.07  BL   Z10  new menu structure
-a\tz\tzobrwad.c:   Removed references to bRelOwner in the structure EntityInstanceInd.
-a\tz\tzoprusd.c:1999.10.25  BL  Z10    new menu structure
-a\tz\tzoprusd.c:1999.10.24  BL  Z10    new menu structure
-a\tz\tzoprusd.c:1999.10.12  BL  Z10    new menu structure
-a\tz\tzopsigo.c:// copy complete structure of the Operation Object to the XGO Group.
-a\tz\tzopsigo.c:// copy complete structure of the HeaderFile Object to the XGO Group.
-a\tz\tzopupdd.c:1999.11.05  BL  Z10  new menu structure
-a\tz\tzopupdd.c:1999.11.04  BL  Z10  new menu structure
-a\tz\tzopupdd.c:1999.11.03  BL  Z10  new menu structure
-a\tz\tzopupdd.c:   // handle the different Global Operation structure.
-a\tz\tzpnctad.c:1999.11.19    BL     Z10       new menu structure
-a\tz\tzpnctad.c://           structure:
-a\tz\tzpnctad.c:      // get CtrlBOI into CtrlBOI_BMP structure
-a\tz\tzpnctad.c:   // Get old CtrlBOI into CtrlBOI_BMP structure.
-a\tz\tzpnctad.c:      // get the scoping entity from the control's CtrlBOI and set it into the OL_Item data structure
-a\tz\tzpnctad.c:               structure as follows:
-a\tz\tzpnctad.c:         structure as follows:
-a\tz\tzpnctad.c:         structure as follows:
-a\tz\tzpnctad.c:            // structure as follows:
-a\tz\tzpnctld.c:   // get old CtrlBOI into CtrlBOI_BMP structure
-a\tz\tzpnctld.c:   // Get old CtrlBOI into CtrlBOI_BMP structure.
-a\tz\tzpnolad.c:// If this structure changes, change the copy in zdctl.h.  This is
-a\tz\tzpnolad.c:// the structure that defines each entity to be displayed by the
-a\tz\tzpnolad.c://    this object: vCtlWorkTop always points to the top of the structure
-a\tz\tzpnolad.c://    while vCtlWork is used to traverse the structure recursively.
-a\tz\tzpnolad.c://          object structure of the view. So, this will follow the
-a\tz\tzpntrad.c:         // Get the structure of attributes for this group box.
-a\tz\tzpntrad.c:            // get the structure of attributes for this control
-a\tz\tzrpsrco.c:   //:// Build one level of the PartialReportEntity subobject, matching the structure of the Driving LOD and
-a\tz\tzrpsrco.c:   //:// GroupSet subobject and the LOD structure.
-a\tz\tzrpsrco.c:   //:// Build one level of the FullReportEntity subobject, matching the structure of the Driving LOD and
-a\tz\tzrpsrco.c:      //:// To create the CtrlMap substructure, call the reusable routine in the
-a\tz\tzrpsrco.c:   //:// Build the Page substructure.
-a\tz\tzrpsxm2.c:   //:// Process each PartialReportEntity within the recursive LOD structure.
-a\tz\tzrpsxml.c:   //:// Build one level of the PartialReportEntity subobject, matching the structure of the Driving LOD and
-a\tz\tzrpupdd.c://           structure:
-a\tz\tzrpupdd.c:   // get old CtrlBOI into CtrlBOI_BMP structure
-a\tz\tzrpupdd.c:         // Get the structure of attributes for this group box.
-a\tz\tzrpupdd.c:            // get the structure of attributes for this control
-a\tz\tzsiimpd.c:   //:// Also, go to the top of the structure.
-a\tz\tzsioprs.c:       // Set Catalogfilename in structure for getting the cataloglist
-a\tz\tzstarto.c://      retrieval and dispatch loop that is the top-level control structure
-a\tz\tzstarto.c:    while (GetMessage(&msg,    /* message structure              */
-a\tz\tzstarto.c://      structure of type WNDCLASS and calling the Windows RegisterClass()
-a\tz\tzstarto.c:    /* Fill in window class structure with parameters that describe the       */
-a\tz\tztenv2o.c:   //:// Duplicate OrigSironField and substructure.
-a\tz\tztenvro.c:   New Error Work LOD structure for SAP Import
-a\tz\tztenvro.c:   // to that entity and then returns back through the recursive structure
-a\tz\tzteupdd.c:1999.11.29  BL  Z10  new menu structure
-a\tz\tzteupdd.c:1999.11.28  BL  Z10  new menu structure
-a\tz\tzvmg1aa.c:   Restructure.
-a\tz\tzvmg2aa.c://    Data structures used in this operation are as follows:
-a\tz\tzvmg2aa.c:   sQExprStruct *psExpr;         // pointer to expression structure within szExprCode
-a\tz\tzvmg2aa.c:   sQExprStruct sCurrExpr;       // copy of the current expression structure within szExprCode
-a\tz\tzvmg2aa.c:   // It appears that the structures in the blob are are just the portion of sQExprStruct without the "zCHAR szText[ MAXSTRING ];" element. If this
-a\tz\tzvmg2aa.c:            TraceExpressionStruct( psExpr, nExprIdx, (psExpr->lOffset <= (zLONG) ulCodeIdx) ? szExprText + psExpr->lOffset : "", "" );  // display this expression structure
-a\tz\tzvmg2aa.c:               psExpr->lFlags |= SKIP_BIT;  // remove return code from the list of structures
-a\tz\tzvmg2aa.c:         TraceExpressionStruct( psExpr, nExprIdx, (psExpr->lOffset <= (zLONG) ulCodeIdx) ? szExprText + psExpr->lOffset : "", szOperationName );  // display this expression structure
-a\tz\tzvmg2aa.c:               TraceExpressionStruct( psExpr, nExprIdx, (psExpr->lOffset <= (zLONG) ulCodeIdx) ? szExprText + psExpr->lOffset : "", szOperationName );  // display this expression structure
-a\tz\tzvmg2aa.c:      // we could just run through the structures using a pointer (dks 2009.10.01)
-a\tz\tzvmg2aa.c:         if ( sCurrExpr.lElementClass )  // if the Expression structure retrieved is a value
-a\tz\tzvmg2aa.c:               // The Expression structure retrieved is a variable or constant (not an operator), so we are copying it to the output string (backwards, starting at the end).
-a\tz\tzvmg2aa.c:                  SysMessageBox( vSubtask, "DKS", "Unexpected expression structure", 0 );
-a\tz\tzvmg2aa.c:      TraceExpressionStruct( psExpr, nExprIdx, "  OutputX: ", g_pchOutputExprStr + nOutputIdx + 1 );  // display this expression structure
-a\tz\tzvmg2aa.c:      // if ( psExpr->lOffset < 0 )  // preserve the structure setting
-a\tz\tzvmgnaa.c:      // KJS 08/30/12 - Now that we are using maven, the directory structure for the java files is different.
-a\tz\tzvmi2aa.c:   compare was made against dVal of structure instead of lVal when the first
-a\tz\tzvmi2aa.c:         // Copy the decimal structure to longs.  We need to work backwards.  'i' is the # of longs that fit into a decimal structure.
-a\tz\tzvminaa.c:2000.03.28   BL  new Repository structure
-a\tz\tzvmp2aa.c:   sQExprStruct *psExpr;         // pointer to expression structure within szExprCode
-a\tz\tzvmp2aa.c:      TraceExpressionStruct( psExpr, lExprIdx, "", "" );  // display this expression structure
-a\tz\tzvmp2aa.c://    of the 'structure' of this struct is as follows:
-a\tz\tzvmp2aa.c:   TraceExpressionStruct( &sCurrExpr, *plExprCodeIndex, "AddX: ", pchEntryValue && *pchEntryValue ? pchEntryValue : pchExprText );  // display this expression structure
-a\tz\tzvmpaaa.c:   Restructured German Umlaut Hack.
-a\tz\tzvmpaaa.c:   // Build the temporary file name. The directory structure was built above.
-a\tz\tzvsxcad.c:2000.03.28   BL  new Repository structure
-a\tz\tzvsxcad.c:1999.11.11   BL  Z10  new menu structure
-a\tz\tzvsxcad.c:1999.11.09 and 1999.11.10   BL   Z10  new menu structure
-a\tz\tzvsxcad.c:1999.11.08   BL   Z10  new menu structure
-a\tz\tzvsxcad.c:1999.09.13 BL   Z10   update GUI, new menu structure
-a\tz\tzwdlg4o.c:      //:             "Invalid JSP directory structure.",
-a\tz\tzwdlg4o.c:      MessageSend( vSubtask, "", "JSP Generation", "Invalid JSP directory structure.", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
-a\tz\tzwdlg4o.c:   //:// structure.  Need to talk to Aadit and Jeff.
-a\tz\tzwdlg4o.c:   //:// If the Window HAS a menu, then this JSP has the navigation structure within it and contained
-a\tz\tzwdlg6o.c:      //:             "Invalid JSP directory structure.",
-a\tz\tzwdlg6o.c:      MessageSend( vSubtask, "", "JSP Generation", "Invalid JSP directory structure.", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
-a\tz\tzwdlg6o.c:   //:// structure.  Need to talk to Aadit and Jeff.
-a\tz\tzwdlg6o.c:      //:             "Invalid JS directory structure: ",
-a\tz\tzwdlg6o.c:      MessageSend( vSubtask, "", "JSP javascript Generation", "Invalid JS directory structure: ", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
-a\tz\tzwdlg6o.c:   //:// If the Window HAS a menu, then this JSP has the navigation structure within it and contained
-a\tz\tzwdvord.c:1999.11.24  BL   Z10  new menu structure
-a\tz\tzxsltdd.c:         // Get the structure of attributes for this group box.
-a\tz\tzxsltdd.c:            // get the structure of attributes for this control
-a\tz\tzzolo2o.c:      //:// If there is no structure underneath the SourceFile entity in the
-a\tz\tzzolo2o.c:      //:// If there is a structure underneath the SourceFile entity in the old LOD,
-a\tz\tzzolo2o.c:         //:// through the recursive subobject structure.
-a\tz\tzzolo2o.c:   //:// If an LPLR Name has been specified, activate the XLP and pass the File Directory structure to any
-a\tz\tzzolodd.c:   visibility to the root substructure.
-a\tz\tzzolodd.c:   // and LOD_EntityChild structure.  We will navigate that side of the
-a\tz\tzzolodd.c:   // LOD structure hierarchically and perform the following validations each
-a\tz\tzzolodd.c:   // Navigate the recursive structure hierarchically and stop at each
-a\tz\tzzolodd.c:   // Create view to recursive structure.
-a\tz\tzzolodd.c:   // Create view to recursive structure.
-a\tz\tzzolodd.c:      // ER object must build the subobject structure.
-a\tz\tzzolodq.c:   // and LOD_EntityChild structure.  We will navigate that side of the
-a\tz\tzzolodq.c:   // LOD structure hierarchically and perform the following validations each
-a\tz\tzzolodq.c:   // Navigate the recursive structure hierarchically and stop at each
-a\tz\tzzolodq.c:   // Create view to recursive structure.
-a\tz\tzzolodq.c:   // Create view to recursive structure.
-a\tz\tzzolodq.c:   // Create QueryFrameAttribute entries from the LOD_EntityParent subobject structure.
-a\tz\tzzoxodo.c:   the same substructure (DATARECORD, etc.) as database XODs.
-a\zdr\Fortify.cpp: * struct Header - this structure is used
-a\zdr\jpeglib\JCAPIMIN.C:  /* For debugging purposes, zero the whole master structure.
-a\zdr\jpeglib\JCAPIMIN.C:  /* Zero out pointers to permanent structures. */
-a\zdr\jpeglib\JCHUFF.C: * structure assignment.  You'll need to fix this code if you have
-a\zdr\jpeglib\JDAPIMIN.C:  /* For debugging purposes, zero the whole master structure.
-a\zdr\jpeglib\JDAPIMIN.C:  /* Zero out pointers to permanent structures. */
-a\zdr\jpeglib\JDDCTMGR.C:   * per-component comp_info structures.
-a\zdr\jpeglib\JDHUFF.C: * structure assignment.  You'll need to fix this code if you have
-a\zdr\jpeglib\JDMAINCT.C: * strange pointer structure.  Here's how it works.  We allocate a workspace
-a\zdr\jpeglib\JDPHUFF.C: * structure assignment.  You'll need to fix this code if you have
-a\zdr\jpeglib\JMEMMGR.C: * structures.  The routines that create these structures (see below)
-a\zdr\jpeglib\JQUANT2.C: * First we have the histogram data structure and routines for creating it.
-a\zdr\MonitorProcess\McbXML\McbMain.c:        * Create the XML structure
-a\zdr\MonitorProcess\McbXML\McbMain.c:            * Create string from the XML structure.
-a\zdr\MonitorProcess\McbXML\McbMain.c:        * Initialise the options structure.
-a\zdr\MonitorProcess\McbXML\McbMain.c:            * Parse the XML into the tree structure
-a\zdr\MonitorProcess\McbXML\McbMain.c:    * Parse the XML into the tree structure
-a\zdr\MonitorProcess\McbXML\McbMain.c:    * Parse the XML into the tree structure
-a\zdr\MonitorProcess\McbXML\McbXML.c: * Main structure used for parsing XML
-a\zdr\MonitorProcess\Xml_Parser.cpp:               m_LastError = "ZXmlParser::SetHeader( ) : bad value structure";
-a\zdr\MonitorProcess\Xml_Parser.cpp:               m_LastError = "ZXmlParser::SetHeader( ) : bad value structure";
-a\zdr\MonitorProcess\Xml_Parser.cpp:            m_LastError = "ZXmlParser::Get_Header( ) : bad value structure";
-a\zdr\MonitorProcess\Xml_Parser.cpp:            m_LastError = "ZXmlParser::Get_Header( ) : bad value structure";
-a\zdr\msjexhnd.cpp:    // Initialize the STACKFRAME structure for the first call.  This is only
-a\zdr\msjexhnd.cpp:        // IMAGEHLP_SYMBOL structure.  The problem is that this structure is
-a\zdr\msjexhnd.cpp:        // variable length.  That is, you determine how big the structure is
-a\zdr\msjexhnd.cpp:        // members of the structure before it can be used.
-a\zdr\TzCtlCVT.cpp:      // Set the structure of attributes for this ListBox.
-a\zdr\TzCtlCVT.cpp:      // Set the structure of attributes for this ComboBox.
-a\zdr\TzCtlCVT.cpp:   // set the structure of attributes for this ComboBox
-a\zdr\TzCtlCVT.cpp:      // Set the structure of attributes for this Grid.
-a\zdr\TzCtlCVT.cpp:         // get the structure of attributes for this control
-a\zdr\TzCtlCVT.cpp:      // set the structure of attributes for this DIL
-a\zdr\TzCtlCVT.cpp:      // Set the structure of attributes for this ToolBar.
-a\zdr\TzCtlCVT.cpp://                  OutlineItem       - root entity structure as follows:
-a\zdr\TzCtlCVT.cpp://       structure as follows:
-a\zdr\TzCtlCVT.cpp:   // set the mapping entity name into the OL_Item data structure
-a\zdr\TzCtlCVT.cpp:   // get the scoping entity from the Controls CtrlBOI and set it into the OL_Item data structure
-a\zdr\TzCtlPTR.cpp:// 1999.11.24    BL    Z10    new menu structure
-a\zdr\TzCtlPTS.cpp://    cbSize - Specifies the size, in bytes, of this structure.
-a\zdr\TzCtlPTS.cpp://    lpScrollInfo - A pointer to a SCROLLINFO structure.
-a\zdr\TzCtlPTS.cpp://    structure maintains about a scroll bar.  The SCROLLINFO structure
-a\zdr\TzCtlPTS.cpp://    scroll box (the thumb).  See the SCROLLINFO structure topic in the
-a\zdr\TzCtlPTS.cpp://    the structure defaults.  The MFC Windows message handlers that indicate
-a\zdr\TzCtlPTX.cpp:// the Text font information uses the following structure:
-a\zdr\ZdCtlATX.cpp:// This routine sets up an ordered list of structures representing the
-a\zdr\ZdCtlATX.cpp:// Parameter      : ptinfo, I,   Pointer to a typeinfo structure
-a\zdr\ZdCtlATX.cpp:         // Create a list of structure members
-a\zdr\ZdCtlATX.cpp:         // Create a list of structure members
-a\zdr\ZdCtlATX.cpp:      // loop for writing structures
-a\zdr\ZdCtlCMB.cpp:                  VIEWATTRIB va; // structures, but we mock them up just enough to
-a\zdr\ZdCtlEDT.cpp:   // not fit with the logical structure of the Multi-Field Edit Control.
-a\zdr\ZdCtlEDT.cpp:   return( lf );      // Return the logical font structure.
-a\zdr\ZdCtlGrd.cpp:// a NM_GRIDVIEW structure attached
-a\zdr\ZdCtlLBH.cpp:// control.  Prepare an LV_COLUMN structure and call InsertColumn for
-a\zdr\ZdCtlLBH.cpp:// One version takes a prepared LV_ITEM structure.  Another version
-a\zdr\ZdCtlLBH.cpp:// the pszText and iImage members of the LV_ITEM structure (see
-a\zdr\ZdCtlLBH.cpp://                      structure contains the item data for the specified list
-a\zdr\ZdCtlLBH.cpp://    pItem - Address of an LV_ITEM structure that contains the new item
-a\zdr\ZdCtlLBH.cpp://       more information on the LV_ITEM structure, see CListCtrl::GetItem.
-a\zdr\ZdCtlLBH.cpp://    The iItem and iSubItem members of the LV_ITEM structure and the nItem
-a\zdr\ZdCtlLBH.cpp://    The mask member of the LV_ITEM structure and the nMask parameter
-a\zdr\ZdCtlLBH.cpp:// pItem - Pointer to an LV_ITEM structure that receives the item's
-a\zdr\ZdCtlLBH.cpp:// The LV_ITEM structure specifies or receives the attributes of a list
-a\zdr\ZdCtlLBH.cpp://    iItem - Index of the item this structure refers to.
-a\zdr\ZdCtlLBH.cpp://           or zero if the structure contains information about an item.
-a\zdr\ZdCtlLBH.cpp://       if the structure specifies item attributes.  If this member is the
-a\zdr\ZdCtlLBH.cpp://       structure is receiving item attributes, this member is the address
-a\zdr\ZdCtlLBH.cpp://       the structure is receiving item attributes.  If the structure
-a\zdr\ZdCtlLBH.cpp:// This structure is the same as the NM_LISTVIEW structure but
-a\zdr\ZdCtlLBH.cpp://     hdr - NMHDR structure that contains information about this
-a\zdr\ZdCtlLBH.cpp://                of the LVITEM structure.
-a\zdr\ZdCtlLBH.cpp://     ptAction - POINT structure that indicates the location at
-a\zdr\ZdCtlLBH.cpp:// This structure has been updated to support a new mask value
-a\zdr\ZdCtlLBH.cpp:// (LVIF_INDENT) that enables item indenting. This structure supersedes
-a\zdr\ZdCtlLBH.cpp:// the LV_ITEM structure.
-a\zdr\ZdCtlLBH.cpp:// mask - Set of flags that specify which members of this structure
-a\zdr\ZdCtlLBH.cpp:// iItem - Zero-based index of the item to which this structure refers.
-a\zdr\ZdCtlLBH.cpp:// iSubItem - One-based index of the subitem to which this structure refers,
-a\zdr\ZdCtlLBH.cpp://    or zero if this structure refers to an item rather than a subitem.
-a\zdr\ZdCtlLBH.cpp:// pszText - If the structure specifies item attributes, pszText is the
-a\zdr\ZdCtlLBH.cpp:// structure is receiving item attributes, this member is the address
-a\zdr\ZdCtlLBH.cpp:// structure is receiving item attributes. This member is ignored if the
-a\zdr\ZdCtlLBH.cpp:// structure specifies item attributes.
-a\zdr\ZdCtlLBH.cpp:// Remarks:  The LVITEM structure is used with a number of messages,
-a\zdr\ZdCtlLBX.cpp:         // If we have the headers in the structure:
-a\zdr\ZdCtlLBX.cpp:// a Zeidon DragDrop structure.  All of the information in the structure
-a\zdr\ZdCtlLBX.cpp:// structure.  This structure is used in the QueryDrop and DoDrop functions.
-a\zdr\ZdCtlLBX.cpp:// The memory for the structure is completely managed by the driver.
-a\zdr\ZdCtlLBX.cpp:// - The control structure of a list box and its tab stop settings
-a\zdr\ZdCtlLBX.cpp://   enough free space for these structures, the list box will not be
-a\zdr\ZdCtlLBX.cpp:// - In Microsoft® Windows™ version 3.0, the control structure is
-a\zdr\ZdCtlMST.cbk:// It handles mapping information as well as structure information.
-a\zdr\ZdCtlMST.cbk:         // Setup structure defaults.
-a\zdr\ZdCtlMST.cpp:// It handles mapping information as well as structure information.
-a\zdr\ZdCtlMST.cpp:         // Setup structure defaults.
-a\zdr\ZdCtlOLB.cpp:// with a OUTBAR_INFO structure attached.
-a\zdr\ZdCtlRB.cpp:      // get the structure of attributes for this control
-a\zdr\ZdCtlRTO.cpp://              cf          - Pointer to a CHARFORMAT structure to receive
-a\zdr\ZdCtlRTO.cpp://              pf          - Pointer to a PARAFORMAT structure to hold the
-a\zdr\ZdCtlRTO.cpp://              cf          - CHARFORMAT structure containing the new default
-a\zdr\ZdCtlRTO.cpp://              cf          - CHARFORMAT structure containing the new
-a\zdr\ZdCtlRTO.cpp://              cf          - CHARFORMAT structure containing the new
-a\zdr\ZdCtlRTO.cpp://              pf          - PARAFORMAT structure containing the new default
-a\zdr\ZdCtlRTO.cpp://              pFindText   - Pointer to the FINDTEXTEX structure giving the
-a\zdr\ZdCtlRTO.cpp://          parameters in the CHARRANGE structure within the FINDTEXTEX
-a\zdr\ZdCtlRTO.cpp://          structure.
-a\zdr\ZdCtlRTO.cpp://              pfr         - Pointer to the FORMATRANGE structure which
-a\zdr\ZdCtlRTO.cpp://              es          - EDITSTREAM structure specifying the input
-a\zdr\ZdCtlRTO.cpp://              es          - EDITSTREAM structure specifying the output
-a\zdr\ZdCtlSSC.cpp:      else  // Store them in the field's data structure
-a\zdr\ZdCtlSSM.cpp:   LPSS_ROWCOL   lpRC1;        //either lpRow or lpCol structure
-a\zdr\ZdCtlSSM.cpp:   LPSS_ROWCOL   lpRC1;        //either lpRow or lpCol structure
-a\zdr\ZdCtlSSM.cpp:   LPSS_ROWCOL   lpRC1;        //either lpRow or lpCol structure
-a\zdr\ZdCtlSSM.cpp:   LPSS_ROWCOL   lpRC1;        //either lpRow or lpCol structure
-a\zdr\ZdCtlSSU.cpp:// a NM_GRIDVIEW structure attached.
-a\zdr\ZdCtlSSV.cpp:   // from the SS_ALLOCITEM structure to keep track of the row number for
-a\zdr\ZdCtlTXT.cpp://  The Text font information using the following structure for reports:
-a\zdr\ZDr.cpp:   while ( GetMessage( &msg,     // message structure
-a\zdr\ZDrAct.cpp:// violates all rules of structured programming.  If you would like to analyze the function and re-write it
-a\zdr\ZDrAct.cpp:         // Get the structure of attributes for this action.
-a\zdr\ZDrAct.cpp:                  // Get the structure of attributes for this action.
-a\zdr\ZDrAct.cpp:               // This is against all structured programming rules and as such is clearly
-a\zdr\ZDrAct.cpp:            // This is against all structured programming rules and as such is clearly indefensible, but here goes anyway ...
-a\zdr\ZDrAxLst.cpp://    Store visiblity attribute in ActiveX control structure.
-a\zdr\ZDrCmdLN.cpp:   // Get the structure of attributes for this window.
-a\zdr\ZDrCmprs.cpp:  struct inflate_huft_s r;      /* table entry for structure assignment */
-a\zdr\ZDrCmprs.cpp: * Initialize the tree data structures for a new zlib stream.
-a\zdr\ZDrCmprs.cpp:// closes the files and cleans up the Zlib structures.
-a\zdr\ZDrComm.cpp://              lpLogFont - pointer to the return font structure
-a\zdr\ZDrComm.cpp:// structure in the Win32 SDK documentation. If you modify the m_ofn.Flags
-a\zdr\ZDrComm.cpp:// structure member, use a bitwise-OR operator in your changes to keep the
-a\zdr\ZDrComm.cpp:// FINDREPLACE structure definition:
-a\zdr\ZDrComm.cpp://    Specifies the length, in bytes, of the structure.
-a\zdr\ZDrComm.cpp://    the FINDREPLACE structure specified when the dialog was
-a\zdr\ZDrComm.cpp://    structure in the Win32 SDK documentation for more
-a\zdr\ZDrCtl.cpp:      // Get the structure of attributes for this control.
-a\zdr\ZDrDlgM.cpp://             the structure pointed to by the lparam parameter of the
-a\zdr\ZDrDlgM.cpp://          application in the itemData member of the structure supplied by
-a\zdr\ZDrDlgP.cpp:// Parms:      lpBmInfoHdr == Far pointer to a BITMAPINFOHEADER structure
-a\zdr\ZDrDlgP.cpp:   //    lpInitData - Points to a DEVMODE structure containing device-
-a\zdr\ZDrDlgP.cpp:   //       Windows DocumentProperties function retrieves this structure
-a\zdr\ZDrDlgP.cpp:   //    header file is required if the DEVMODE structure is used.
-a\zdr\ZDrDlgP.cpp:   // The DEVMODE data structure contains information about the device
-a\zdr\ZDrDlgP.cpp:   //    specification on which the structure is based.
-a\zdr\ZDrDlgP.cpp:   // dmSize - Specifies the size, in bytes, of the DEVMODE structure except
-a\zdr\ZDrDlgP.cpp:   //    use this member to determine the length of the structure without
-a\zdr\ZDrDlgP.cpp:   //    that follow this structure. If a device driver does not use device-
-a\zdr\ZDrDlgP.cpp:   //    structure have been initialized.  Bit 0 (defined as DM_ORIENTATION)
-a\zdr\ZDrDlgP.cpp:   //    length.  These values, along with all other values in this structure
-a\zdr\ZDrDlgP.cpp:   // dmUnusedPadding - Used to align the structure to a DWORD boundary.
-a\zdr\ZDrDlgP.cpp:   // you can set or modify any values in the m_pd structure to initialize
-a\zdr\ZDrDlgP.cpp:   // the values of the dialog box's controls.  The m_pd structure is of
-a\zdr\ZDrDlgP.cpp:   // type PRINTDLG. For more information on this structure, see the Win32
-a\zdr\ZDrDlgP.cpp:   // The PRINTDLG structure contains information that the PrintDlg
-a\zdr\ZDrDlgP.cpp:   // user-defined print selections in this structure.
-a\zdr\ZDrDlgP.cpp:   // lStructSize - Specifies the structure size, in bytes.
-a\zdr\ZDrDlgP.cpp:   //    DEVMODE structure. Before a call to the PrintDlg function, the
-a\zdr\ZDrDlgP.cpp:   //    structure members may contain data used to initialize the dialog
-a\zdr\ZDrDlgP.cpp:   //    controls.  When PrintDlg returns, the structure members specify
-a\zdr\ZDrDlgP.cpp:   //    If you use the structure to initialize the dialog box controls, you
-a\zdr\ZDrDlgP.cpp:   //    must allocate space for and create the DEVMODE structure. (You
-a\zdr\ZDrDlgP.cpp:   //    If you do not use the structure to initialize the dialog box
-a\zdr\ZDrDlgP.cpp:   //    memory for the structure, initializes its members, and returns a
-a\zdr\ZDrDlgP.cpp:   //    DEVMODE structure) does not appear in the [devices] section of
-a\zdr\ZDrDlgP.cpp:   //    Because this structure is a movable global memory object, the value
-a\zdr\ZDrDlgP.cpp:   //    DEVNAMES structure. This structure contains three strings that
-a\zdr\ZDrDlgP.cpp:   //    Before the call to PrintDlg, the structure members contain strings
-a\zdr\ZDrDlgP.cpp:   //    structure members contain the strings typed by the user. The calling
-a\zdr\ZDrDlgP.cpp:   //    If you use the structure to initialize the dialog box controls, you
-a\zdr\ZDrDlgP.cpp:   //    must allocate space for and create the DEVNAMES structure. (You
-a\zdr\ZDrDlgP.cpp:   //    If you do not use the structure to initialize the dialog box
-a\zdr\ZDrDlgP.cpp:   //    memory for the structure, initializes its members (by using the
-a\zdr\ZDrDlgP.cpp:   //    printer name specified in the DEVMODE structure), and returns a
-a\zdr\ZDrDlgP.cpp:   //    members in the DEVNAMES structure. For example, the function uses
-a\zdr\ZDrDlgP.cpp:   //    Because this structure is a movable global memory object, the value
-a\zdr\ZDrDlgP.cpp:   //    the DEVMODE structure is undefined.
-a\zdr\ZDrDlgP.cpp:   //    member of the DEVNAMES structure contains the string “FILE:”. When
-a\zdr\ZDrDlgP.cpp:   //    structure.  Specifying this string causes the print subsystem to
-a\zdr\ZDrDlgP.cpp:   //    DEVNAMES structures that are initialized for the system default
-a\zdr\ZDrDlgP.cpp:   //    structure.
-a\zdr\ZDrDlgP.cpp:   //    returned in the DEVMODE structure if the driver supports multiple
-a\zdr\ZDrDlgP.cpp:   //    structure.  This means that an application only has to look at
-a\zdr\ZDrDlgP.cpp:   // DEVMODE structure contains the initial value. When PrintDlg returns,
-a\zdr\ZDrDlgP.cpp:   // PRINTDLG structure specified when the dialog was created.  The hook
-a\zdr\ZDrDlgP.cpp:   // DEVNAMES structure is supposed to be identical to the dmDeviceName
-a\zdr\ZDrDlgP.cpp:   // member of the DEVMODE structure. If it is not, the system resolves
-a\zdr\ZDrDlgP.cpp:   // member of the PRINTDLG structure returned by PrintDlg includes the
-a\zdr\ZDrDlgP.cpp:   // structure identified by the hDevMode member is set to COLLATE_TRUE.
-a\zdr\ZDrDlgP.cpp:   // On entry to PrintDlg, the nCopies member of the PRINTDLG structure
-a\zdr\ZDrDlgP.cpp:   //             int    cbInput,   // number of bytes in input structure
-a\zdr\ZDrDlgP.cpp:   //             LPCSTR lpvInData, // pointer to input structure
-a\zdr\ZDrDlgP.cpp:   //             LPVOID lpvOutData // pointer to output structure
-a\zdr\ZDrDlgP.cpp:   //    lpvInData - Points to the input structure required for the specified
-a\zdr\ZDrDlgP.cpp:   //    lpvOutData - Points to the structure that receives output from this
-a\zdr\ZDrDlgW.cpp:   // Get the structure of attributes for this control.
-a\zdr\ZDrDoc.cpp:   // Because of the structure of this app, this function can be called more than once.
-a\zdr\ZDrFont.cpp:// The LOGFONT structure defines the attributes of a font, a drawing
-a\zdr\ZDrFont.cpp:// TEXTMETRIC structure).
-a\zdr\ZDrFrame.cpp:                  names the Windows class (a WNDCLASS structure). The class
-a\zdr\ZDrFrame.cpp:                  of the CREATESTRUCT structure.
-a\zdr\ZDrFrame.cpp:// structure.
-a\zdr\ZDrFrame.cpp:// fErase member of the PAINTSTRUCT structure will be TRUE).  Windows
-a\zdr\ZDrMenu.cpp:      // get the structure of attributes for this option
-a\zdr\ZDrPrint.cpp:   // This has the directory and filename structure for where to create the pdf file.
-a\zdr\ZDrPrint.cpp:// structures based on a printer name.  The code is a global function which
-a\zdr\ZDrPrint.cpp:// returns the data structures through its parameters.
-a\zdr\ZDrPrint.cpp:   // Obtain PRINTER_INFO_2 structure and close printer.
-a\zdr\ZDrPrint.cpp:   // Compute size of DEVNAMES structure from PRINTER_INFO_2's data.
-a\zdr\ZDrPrint.cpp:   // lOffset = TCHAR Offset into structure.
-a\zdr\ZDrSTask.cpp:   // Get the structure of attributes for this window.
-a\zdr\ZDrSTask.cpp:         // the corresponding structures to reflect the re-parenting.
-a\zdr\ZDrSTask.cpp:      // Get the structure of attributes for this action.
-a\zdr\ZDrTask.cpp:   // Fill in the address structure.
-a\zdr\ZDrTask.cpp:   // Fill in the address structure.
-a\zdr\ZDrUtil.cpp:// structure of the nodes to be placed in the search table.  The following
-a\zdr\ZDrUtil.cpp:  The OSVERSIONINFOEX structure contains operating system version information.
-a\zdr\ZDrUtil.cpp:  Service Pack installed on the system. This structure is used with the
-a\zdr\ZDrUtil.cpp:       Specifies the size, in bytes, of this data structure. Set this member
-a\zdr\ZDrUtil.cpp:   // Try calling GetVersionEx using the OSVERSIONINFOEX structure.
-a\zdr\ZDrUtil.cpp:   // If that fails, try using the OSVERSIONINFO structure.
-a\zdr\ZDrUtil.cpp:   strPathName = OLESTR( "LDAP://CN=Test Z,OU=Infrastructure,OU=Users,OU=ENC,DC=ENC-AD,DC=ENC,DC=EDU" );
-a\zdr\ZDrView.cpp://    cbSize - Specifies the size, in bytes, of this structure.
-a\zdr\ZDrView.cpp://    lpScrollInfo - A pointer to a SCROLLINFO structure.
-a\zdr\ZDrView.cpp://    structure maintains about a scroll bar.  The SCROLLINFO structure
-a\zdr\ZDrView.cpp://    scroll box (the thumb).  See the SCROLLINFO structure topic in the
-a\zdr\ZDrView.cpp://    the structure defaults.  The MFC Windows message handlers that indicate
-a\zdr\ZDrView.cpp:   // Because of the structure of this app, this function can be called more
-a\zdr\ZDrView.cpp:   // pState structure will be/has been deleted.
-a\zdr\ZDrView.cpp:      // Make a copy of find replace structure because it's gone before it
-a\zdr\ZDrVStr.cpp:// The WINDOWPLACEMENT structure contains information about the placement
-a\zdr\ZDrVStr.cpp:// length   Specifies the length, in bytes, of the structure.
-tlb\tlb.cpp:// Parameter      : ptinfo, I,   Pointer to a typeinfo structure
-tlb\tlb.cpp:         // Create a list of structure members
-tlb\tlb.cpp:         // Create a list of structure members
-w\oe\kzoeclnt.c:   while ( GetMessage( &msg,    // message structure
-w\oe\kzoeclnt.c:   // Fill in window class structure with parameters that describe the
-w\oe\kzoengwa.c:   while ( GetMessage( &msg,          // message structure
-w\oe\kzoengwa.c:   while ( GetMessage( &msg,     // message structure
-w\oe\kzoengwa.c:    // Fill in window class structure with parameters that describe the main window.
-w\oe\kzoesyaa.c:   // Point to the correct structure in the AnchorBlock's ProcessList and set
-w\oe\kzoesyaa.c:      // point to the mutex structure for the parent task.  We want to use
-w\oe\kzoesyaa.c:// Memory is needed for the structures required by threads.
-w\oe\kzoesyaa.c:// structure and then copying it to the message queue. Information in the
-w\oe\kzoesyaa.c:// MSG structure includes the handle of the window for which the message
-w\oe\kzoesyaa.c:// hwnd member of the returned MSG structure is NULL.
-w\oe\kzoesyaa.c:   // Fill in window class structure with parameters that describe the main window.
-w\oe\KZSchedT.c:   while ( GetMessage( &msg,    // message structure
-w\oe\KZSchedT.c:   // Fill in window class structure with parameters that describe the main window.
-w\oe\zdecimal\128bit\ieee.c: * External e type data structure, simulates Intel 8087 chip
-w\oe\zdecimal\128bit\ieee.c: * Internal data structure of a number (a "word" is 16 bits):
-w\oe\zdecimal\128bit\ieee.c:/* Shift down 1 temporarily if the data structure has an implied
-w\oe\zwinsock.cpp:   // destination socket structure has a variable length we'll temporarily
-w\oe\zwinsock.cpp:   // Fill in the address structure
-w\ut\qstruct\qstruct.cpp:// This program generates a C structure (aligned on 4-byte boundaries) for
-w\ut\qstruct\qstruct.cpp://    9. /P - generate typedef for pointer to the structure
-w\ut\qstruct\qstruct.cpp://    1. File with structure for specified entity
-w\ut\qstruct\qstruct.cpp:      << " /E - Entity name for which to build structure (defaults to 'ALL')\n"
-w\ut\qstruct\qstruct.cpp:      << " /O - output file for generated structure (defaults to 'Entity.FIL')\n"
-w\ut\qstruct\qstruct.cpp:      << " /P - generate typedef for pointer to the structure\n"
-w\ut\xodgen\xodgen.c:   retrieval and dispatch loop that is the top-level control structure
-w\ut\xodgen\xodgen.c:    while (GetMessage(&msg,    /* message structure              */
-w\ut\xodgen\xodgen.c:   structure of type WNDCLASS and calling the Windows RegisterClass()
-w\ut\xodgen\xodgen.c:    * Fill in window class structure with parameters that describe the
-w\ut\xwdgen\xwdgen.c:   retrieval and dispatch loop that is the top-level control structure
-w\ut\xwdgen\xwdgen.c:    while (GetMessage(&msg,    /* message structure              */
-w\ut\xwdgen\xwdgen.c:   structure of type WNDCLASS and calling the Windows RegisterClass()
-w\ut\xwdgen\xwdgen.c:    * Fill in window class structure with parameters that describe the
-_common\_class\regex.cpp:              /* If the regs structure we return has more elements than
-_common\_class\regex.cpp:           registers data structure) under the register number.  */
-_common\_class\regex.cpp:  /* Copy the register information to the POSIX structure.  */
 a\ed\zeditor.c:   // Following called from CWDIALOG.C when opening a file.
+a\ed\zeditor.c:      SysMessageBox( "Zeidon Editor", "Couldn't open file", 0 );
+a\ed\zeditor.c:   // Retrieve the source file name and open a buffer.
+a\ed\zeditor.c:   // we just opened.
+a\ed\zeditor.c:                     "Cannot parse VML that has been opened via File/Open",
+a\ed\zeditor.c:         strcpy_s( sz, zsizeof( sz ), "Parse completed with Errors.\n\nDo you want to open the Error File?" );
+a\ed\zeditor.c:                     "Cannot generate VML that has been opened via File/Open",
+a\ed\zeditor.c:      // specifies whether the last quote found is an open quote.
+a\ed\zeditor.c:   // Use BufEditFile to open the current buffer and window.
+a\java\kzoejava.c:   // this function checks if that view exists.  If it does, then it passes back the file name to open.
+a\java\kzoejava.c:like" then our web site is leaving the doors wide open for attack. It is simple to
+a\oe\kzhdbvaa.c:      o  Only one database is allowed to be open.  This can easily be changed
+a\oe\kzhdbvaa.c:      Checks to see if the database has already been opened and opens it
+a\oe\kzhdbvaa.c:   // below in case we decide to leave the lock file open longer
+a\oe\kzhdbvaa.c:   // Check to see if the database needs to be opened.  If there is a
+a\oe\kzhdbvaa.c:   // opened.  If there is no database entity with a matching name, then the
+a\oe\kzhdbvaa.c:   // database needs to be opened.
+a\oe\kzhdbvaa.c:      nRC = dt_opentask( &lpConnection->Currtask );
+a\oe\kzhdbvaa.c:      RDM_RC( "dt_opentask", nRC, 0, 0, 2 );
+a\oe\kzhdbvaa.c:      nRC = qt_opentask( &lpConnection->Currtask );
+a\oe\kzhdbvaa.c:      RDM_RC( "qt_opentask", nRC, 0, 0, 2 );
+a\oe\kzhdbvaa.c:      // The database needs to be opened + an entity in the work obj created.
+a\oe\kzhdbvaa.c:      // Now open database using fully qualified database name.
+a\oe\kzhdbvaa.c:      nRC = q_open( szFullDBN, szOpenType );
+a\oe\kzhdbvaa.c:      RDM_RC( "q_open", nRC, "   Database name = ", szFullDBN, 1 );
+a\oe\kzhdbvaa.c:      nRC = dt_open( szFullDBN, szOpenType, &lpConnection->Currtask );
+a\oe\kzhdbvaa.c:      RDM_RC( "d_open", nRC, "Database name = ", szFullDBN, 1 );
 a\oe\kzhdbvaa.c://       DBH_Error( lpView, "Error opening database.",
 a\oe\kzhdbvaa.c:         TraceLineS( "Error opening database: ", szFullDBN );
+a\oe\kzhdbvaa.c:   // Database has been opened.  Now start a transaction.
+a\oe\kzhdbvab.c:   // Generate the DDL file name and open it.
+a\oe\kzhdbvab.c:      strcat_s( szWork, zsizeof( szWork ), "\' cannot be opened." );
+a\oe\kzhdbvab.c:                   "db-Vista version other than V3.xx opened.\nPossible"
 a\oe\kzhsqlga.c:   zPCHAR pchNextJoinParen;   // Ptr to next available space for opening paren.
+a\oe\kzhsqlga.c:   // check, whether we find a qual entity with open SQL
 a\oe\kzhsqlga.c:      // Set aside some spaces for opening parens.  We'll be safe and set aside
 a\oe\kzhsqlga.c:      // so let's add an opening paren.
 a\oe\kzhsqlga.c:   // Add the opening paren.
 a\oe\kzhsqlga.c:               // Add the opening paren.
 a\oe\kzhsqlxa.c:   GetWorkObject( ) was ignoring the return code when opening a DB connection.
+a\oe\kzhsqlxa.c:   // Following used to keep track of ODs opened by DB2.
+a\oe\kzhsqlxa.c:      unsigned int bOpenConn    : 1,   // We have an open connection.
+a\oe\kzhsqlxa.c://  Checks to see if the database has already been opened and opens it
+a\oe\kzhsqlxa.c:      // We have to use dynamic SQL so open a connection using it.
+a\oe\kzhsqlxa.c:   // Loop through all the open database names, looking for one that
+a\oe\kzhsqlxa.c:         // Copy opened DB information to 'common' information.
+a\oe\kzhsqlxa.c:         DBH_Error( lpView, "Too many open databases for 1 session.", 0, 0 );
+a\oe\kzhsqlxa.c:      // If k >= DBCount, then we need to open a new database.
+a\oe\kzhsqlxa.c:      // Otherwise we will try to re-open a database that failed earlier.
+a\oe\kzhsqlxb.c:   // Generate the DDL file name and open it.
+a\oe\kzhsqlxb.c:   // Generate the DDL file name and open it.
+a\oe\kzhsqlxb.c:   This functions "closes" the Static SQL makefile.  It's not really open...
+a\oe\kzhsqlxb.c:      sprintf_s( pchLine, 500, "Could not re-open file\n  '%s'.\nCheck Compiler "
+a\oe\kzhsqlxb.c:      sprintf_s( pchLine, 500, "Could not re-open file\n  '%s'.\nCheck Compiler "
+a\oe\kzhsqlxb.c:   // it's not then we need to open for append.
+a\oe\kzhsqlxb.c:         sprintf_s( szLine, zsizeof( szLine ), "Could not re-open file\n '%s'.\nCheck Compiler "
+a\oe\kzhsqlxb.c:         sprintf_s( szLine, zsizeof( szLine ), "Could not re-open file\n '%s'.\nCheck Compiler "
 a\oe\kzoeapaa.c:         // "KZOEE009 - Error opening application definition file"
 a\oe\kzoeapaa.c:      // "KZOEE011 - Error opening application domains file"
 a\oe\kzoeataa.c:      // "KZOEE190 - Error opening temporary file"
 a\oe\kzoeataa.c:      // "KZOEE190 - Error opening temporary file"
 a\oe\kzoeataa.c:      // "KZOEE024190 - Error opening file"
+a\oe\kzoeneta.c:// bCallOpen is TRUE, then also call the network handler to open a connection
+a\oe\kzoeneta.c:// connection is already open--probably created during a listen.
+a\oe\kzoeneta.c:   // Do we need to call the network handler to open a connection?
+a\oe\kzoeneta.c:      // Try to open connections and keep trying until we get an open conn or an error.
+a\oe\kzoeneta.c:         // Try to open the connection.  Return codes:
+a\oe\kzoeneta.c:         //    0 - Connection opened.
+a\oe\kzoeneta.c:            // We will try to open the connection again.  Turn on a flag to
+a\oe\kzoeneta.c://  DESCRIPTION: Starts up a network for a task.  This op opens the
+a\oe\kzoeneta.c:   // Try closing any open connections.
+a\oe\kzoeneta.c:      // Replace the "IS" with open paren.
+a\oe\kzoeneta.c://  DESCRIPTION: This operation opens the file specified by pchFileName.  If
 a\oe\kzoeneta.c:   // Try opening the file.
+a\oe\kzoeneta.c:      TraceLineS( "(kzoeneta) ** Can't open file ", pchLocalFileName );
+a\oe\kzoeneta.c:      SysMessageBox( szlNetworkError, "Can't open file for NetSendFile", 1 );
 a\oe\kzoeneta.c:      // Skip opening paren if it's there -- they're harmless.
 a\oe\kzoeodaa.c:      //  "KZOEE050 - Error opening View Object file "
+a\oe\kzoeodaa.c:   // Display the name and date time stamp of file just opened.
 a\oe\kzoeodaa.c:      TraceLineS( "(od) opening Object Def file Name: ", ProcessInfo.szFileName );
+a\oe\kzoeodaa.c:   // Object file opened, load the object definition.
+a\oe\kzoeoiaa.c:   // First off, see if we can open the filename requested,
 a\oe\kzoeoiaa.c:            TraceLineS( "(oi) opening >>>>>>>>>> ", szOpenFileName );
 a\oe\kzoeoiaa.c:            TraceLineS( "(oi) opening ", szOpenFileName );
 a\oe\kzoeoiaa.c:         //  "KZOEE071 - Error opening instance file "
+a\oe\kzoeoiaa.c:   // exist, but it may already be open.  So we will try more than once to
+a\oe\kzoeoiaa.c:   // open it before giving up.
 a\oe\kzoeoiaa.c:      //  "KZOEE071 - Error opening instance file "
+a\oe\kzoeoiaa.c://                                        be opened, no error message is
+a\oe\kzoesoaa.c:   // system task.  Unfortunately this opens tons of race-condition holes.
+a\oe\kzoetmaa.c:      // Call DBHandler Close routine to close any open connections.
+a\oe\kzoetmaa.c://              (to close any open databases) and free any space used by
+a\oe\kzoevlaa.c:// 371-399 open
 a\oe\kzoexmla.c:   // Ok, we wrote the opening tag so set the name in the "entity stack".
 a\oe\kzoexmla.c:      //  "KZOEE071 - Error opening instance file "
 a\oe\kzoexmla.c:      //  "KZOEE071 - Error opening instance file "
 a\oe\kzoexmla.c:      //  "KZOEE071 - Error opening instance file "
+a\tz\etc\yyparse.c:    && (yyStatesFile = fopen(YYStatesFile, "r")) == (FILE *) 0)
+a\tz\etc\yyparse.c:      return "yyExpandName: cannot open states file";
+a\tz\kzrpsrco.c:                           //:lEndPosY = lEndPosY + 1 // a classic fudge factor to open up
+a\tz\tzadcdod.c:   // Transfer to the open dialog window
+a\tz\tzadcdod.c://              list and attempts to open an Object with this name.
+a\tz\tzadwdod.c:         // Get the file name and open the file.
+a\tz\tzbmupdd.c:   // if Dialog open for update
+a\tz\tzbmupdd.c:                                "Dialog is already opened for update by "
+a\tz\tzbmupdd.c:                                "another task. Unable to open.", 1 );
+a\tz\tzbmupdd.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzcmcpld.c:   // Was the window <MaintainUsers> opened via the menu option
+a\tz\tzcmcpld.c:   //BL, 1999.09.21 Was the window <MaintainUsers> opened via the menu option
+a\tz\tzcmcpld.c:   // Was the window <Reusable CPLR> opened via the menu option
+a\tz\tzcmcpld.c:   // Was the window <Reusable CPLR> opened via the menu option
+a\tz\tzcmcpld.c:   // If the window was opened from the window <CPLR_Maintenance>, then set
+a\tz\tzcmcpld.c:   // if opended window <CPLR_Maintenance>, then we have the change to save or
+a\tz\tzcmcpld.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzcmlpld.c:   Workstation Administration is opened, no other Tool can run.
+a\tz\tzcmlpld.c:     User A open the Window "Component Check Out"
+a\tz\tzcmlpld.c:     User B open the Window "Component Check Out" and checked out Component XXX
+a\tz\tzcmlpld.c:   __CM.taskId, when do you open the active LPLR
+a\tz\tzcmlpld.c:                         "The File you specified could not be opened.",
+a\tz\tzcmlpldv.c:      //:szMsg = "Could not open the LLP file specified: " + NEW_LINE + "  " + szXLPFileName + "."
+a\tz\tzcmlpldv.c:      ZeidonStringCopy( szMsg, 1, 0, "Could not open the LLP file specified: ", 1, 0, 514 );
+a\tz\tzcmlpldv.c:      //:szMsg = "Could not open: " + szZeidonDirectory + "."
+a\tz\tzcmlpldv.c:      ZeidonStringCopy( szMsg, 1, 0, "Could not open: ", 1, 0, 514 );
+a\tz\tzcmlplo.c:            strcat_s( szMsg, zsizeof( szMsg ), " could not be opened for creation." );
+a\tz\tzcmlplo.c:   // If we can't open the file, we assume there is no file on the LPLR,
+a\tz\tzcmlpmd.c:   //:// First make sure that now Dialog meta is currently open.  We will
+a\tz\tzcmlpmd.c:      //:             "You cannot convert text when a dialog is open.",
+a\tz\tzcmlpmd.c:      MessageSend( vSubtask, "CM01020", "Dialog", "You cannot convert text when a dialog is open.", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
+a\tz\tzcmoprs.c:   It created a problem: open meta (repository), close Zeidon Tool,
+a\tz\tzcmoprs.c:   open meta again : Error message CM00416 .
+a\tz\tzcmoprs.c:         strcpy_s( szErrMsg, zsizeof( szErrMsg ), "Unable to open the RepositoryClient File - " );
+a\tz\tzcmoprs.c:         strcat_s( szErrMsg, zsizeof( szErrMsg ), "\npossible reasons for your being unable to open" );
+a\tz\tzcmoprs.c:                                 "opened for update by another task\n"
+a\tz\tzcmoprs.c:                                 "Unable to open!",
+a\tz\tzcmoprs.c:         // The view may still be hanging around if Zeidon was still open.
+a\tz\tzcmoprs.c:         // If such a named view was not found, then the meta was not opened for update.
+a\tz\tzcmoprs.c:                         "opened for Update!",
+a\tz\tzcmoprs.c:                                                 "which the view was originally opened." );
+a\tz\tzcmoprs.c:            strcpy_s( szMsg, zsizeof( szMsg ), "(fnCommitMetaOI) Unable to Access XOD. XOD must be opened." );
+a\tz\tzcmoprs.c:         strcpy_s( szMsg, zsizeof( szMsg ), "(CommitDependentOI) Unable to Access XOD. XOD must be opened." );
+a\tz\tzcmoprs.c:                     "Component to be Deleted is currently opened for update." );
+a\tz\tzcmoprs.c:// Save sort order for window open components (for example "Open Domain").
+a\tz\tzcmoprs.c:// Sort components for window open components (for example "Open Domain").
 a\tz\tzdmupdd.c:   // opening the domain, so I am commenting this out but leaving the code here just
+a\tz\tzdmupdd.c:      // if Domain open, then set cursor of it
+a\tz\tzdmupdd.c:   // was window <Move Domain from Group to Group> opened via Move Button or menu item
+a\tz\tzdmupdd.c:      //if this Domain open, then save Domain, not save as
+a\tz\tzdmupdd.c:         // if another Domain open, then replace existing Domain
+a\tz\tzdmupdd.c:   //was window <Move Domain from Group to Group> opened via Move Button or menu item
+a\tz\tzedcm2d.c:   Corrected OperatorPromptForFile calls so that files would be opened
+a\tz\tzedcm2d.c:      // If we are called from a Zeidon Tool, the we first try to open
+a\tz\tzedcm2d.c:            // Determine if the open meta is the one to be parsed.
+a\tz\tzedcm2d.c:            // Determine if the open meta is the one to be parsed.
+a\tz\tzedcm2d.c:            // Determine if the open meta is the one to be parsed.
+a\tz\tzedfrmd.c:      // specifies whether the last quote found is an open quote.
+a\tz\tzedfrmd.c:// We're about to open a sub-window.  We need to name the subtask view for
+a\tz\tzedfrmd.c:   // Call dialog op to indicate we're about to open some subwindows.
+a\tz\tzedfrmd.c:   // Retrieve the source file name and open a buffer.
 a\tz\tzedfrmd.c:      // There is no meta view so we must be opening the current file using the Open/File menu command.
+a\tz\tzedfrmd.c:      // If an other Editor open, do not drop vEdWrk
+a\tz\tzedfrmd.c:      // comes back up when we open the next editor.
+a\tz\tzedfrmd.c:      // Look for open paren.  If none found skip the line.
+a\tz\tzedfrmd.c:      pch2++;  // Skip open paren.
+a\tz\tzedfrmd.c:                     "Cannot parse VML that has been opened via File/Open",
+a\tz\tzedfrmd.c:                     "Cannot generate VML that has been opened via File/Open",
+a\tz\tzedfrmd.c:                     "Cannot parse VML that has been opened via File/Open",
+a\tz\tzedvmld.C:      // comes back up when we open the next editor.
+a\tz\tzedvmld.C:                     "Cannot generate VML that has been opened via File/Open",
+a\tz\tzedvmld.C:   // open.
+a\tz\tzedvmld.C:// We're about to open a sub-window.  We need to name the subtask view for
+a\tz\tzedvmld.C:   // Call dialog op to indicate we're about to open some subwindows.
+a\tz\tzedvmld.C:   // Retrieve the source file name and open a buffer.
 a\tz\tzedvmld.C:      // There is no meta view so we must be opening the current file using
+a\tz\tzedvmld.C:      // Look for open paren.  If none found skip the line.
+a\tz\tzedvmld.C:      psz2++;  // Skip open paren.
+a\tz\tzedvmld.C:                     "Cannot parse VML that has been opened via File/Open",
+a\tz\tzedvmld.C:      // If an other Editor open, do not drop vEdWrk
+a\tz\tzeremdd.c:   open subject area and disable/enable Delete and New Button
+a\tz\tzeremdd.c:   // If ERM List is not available, get one and open the model if it exists
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access new Data Model. Model must be opened to Cancel New." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access new Data Model. Model must be opened to Cancel New." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model List. Model list must be opened to Delete." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened to Save As." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      // if Subject Area open, then set cursor of it
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   // Get access to opened ER Model and error if a ER model is not opened
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:      MessageSend( vSubtask, "ER00143", "ER Data Model Maintenance", "Unable to Access Subject Area.  SA must be opened.", zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. SA must be opened." );
+a\tz\tzeremdd.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); //Get SAVIEW if wnd open
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Data Model. Model must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. Subject Area must be opened." );
+a\tz\tzeremdd.c:      strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Unable to Access Subject Area. Subject Area must be opened." );
+a\tz\tzeremdd.c:         //if this Subject Area open, then save Subject Area, not save as
+a\tz\tzeremdd.c:            //if an other Subject Area open, then replace existing Subject Area
+a\tz\tzeremdd.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzeremdo.c:   deletion of corresponding entries in an open Subject Area.
+a\tz\tzeremdo.c:   // opened Subject Area.  If so, we must be sure that Subject Area doesn't
+a\tz\tzeremdo.c:   // opened Subject Area.  If so, we must be sure that Subject Area doesn't
+a\tz\tzerrord.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzersapd.c:         // if Subject Area open, add RelLink to Subject Area
+a\tz\tzersapd.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to open " );
+a\tz\tzersaso.c:   GetViewByName( &vSAVIEW, "SAVIEW", vTZERSASO, zLEVEL_TASK ); // Get SAVIEW if wnd open
+a\tz\tzersaso.c:   GetViewByName( &vSAVIEW, "SAVIEW", vSubtask, zLEVEL_TASK ); Get SAVIEW if wnd open
+a\tz\tzhkeyad.c:   // If not, create one, else open it.
 a\tz\tzhkeyad.c:   TraceLineS( "Hotkey Dialog opening file: ", szFileSpec );
+a\tz\tzhlpcxd.c://  includes the mapping informations which are necessary to open the *.hlp
+a\tz\tzhlpcxd.c:                         "Unable to open help file. Trying to create a new one.",
+a\tz\tzhlpcxd.c:   // Read the manual mapping information which is necessary to open a
+a\tz\tzhlpcxd.c:      // already exists. If yes then open Message window
+a\tz\tzhlpcxd.c://      import file and opens the import file.
+a\tz\tzhlpcxd.c://      which is necessary to open a help file and to jump at a specified
+a\tz\tzlooprs.c://              of an opened file to
+a\tz\tzlooprs.c://  PURPOSE:    This routine opens a character, sequential file (a source
+a\tz\tzlooprs.c:   // Reopen old file for rewrite.
+a\tz\tzlooprs.c:   // Close new header file and reopen it for reading.
+a\tz\tzlooprs.c:            sprintf_s( pchLine, zLINESIZE, "Could not open dialog meta for update: '%s'", szMetaName );
 a\tz\tzlooprs.c:                    "Error opening file '%s'.  Check specification of Environment directory for a valid directory name.", szFileName );
+a\tz\tzlooprs.c:   // otherwise, context number is not 0, so we open help in
+a\tz\tzlooprs.c:   // Create temp file name and open it.
+a\tz\tzlooprs.c://             -1  - Could not open Source or Target file
+a\tz\tzlooprs.c:      TraceLineS( "CopyOperationCode cannot open Source File: ", szSrcFile );
+a\tz\tzlooprs.c:            TraceLineS( "CopyOperationCode cannot open Target File: ", szTgtFile );
+a\tz\tzlooprs.c:               TraceLineS( "CopyOperationCode cannot open Target File: ", szTmpFile );
+a\tz\tzlooprs.c:            // We've opened this file once ... it had better still be OK.
+a\tz\tzobrwad.c:   there is no Tree control. The Browser opens now the OldViewOI
+a\tz\tzobrwad.c://              simply activate the open window
 a\tz\tzobrwad.c://    2 - if there is a problem opening them
+a\tz\tzogsrco.c:         //:szMsg = "Can't open POG file, " + POG_FileName
+a\tz\tzogsrco.c:         ZeidonStringCopy( szMsg, 1, 0, "Can't open POG file, ", 1, 0, 201 );
+a\tz\tzophdrd.c:// PURPOSE:    This Entry opens the header file
+a\tz\tzophdrd.c:// PURPOSE:    This Entry opens the header file
+a\tz\tzopsigd.c:   // Open the other XGO file using standard open file dialog
+a\tz\tzopupdd.c:   // vCM_List is positioned on the Operation to be opened.  There are two diferent situations.
+a\tz\tzopupdd.c:      // if Operation open, then set cursor of it
+a\tz\tzopupdd.c:   //was window <Move Domain from Group to Group> opened via Move Button or menu item
+a\tz\tzopupdd.c:   // Was window <Move Operation from Group to Group> opened via
+a\tz\tzopupdd.c:      // if this Operation open, then save Operation, not save as
+a\tz\tzopupdd.c:         // if another Domain open, then replace existing Domain
+a\tz\tzpeupdd.c:   If PPE Tool open, do not open a second PPE Tool
+a\tz\tzpeupdd.c:   Modified zwTZPEUPDD_PreBuildPE: if Workstation Administration open,
+a\tz\tzpeupdd.c:   do not open PPE tool
+a\tz\tzpeupdd.c:   // if not, create one, else open it
+a\tz\tzpnctad.c:// If dialog is open dialog, use existing window list, else create a
+a\tz\tzpntrad.c:   Modified OpenDialogFile: does not ask for save after open dialog (TZWDLGSO
+a\tz\tzpntrad.c://  PURPOSE:    To open a dialog file and paint the first window into
+a\tz\tzpntrad.c:   // Call configuration management to open the selected file.
+a\tz\tzpntrad.c:   // If there are no W_MetaDefs, then one can't be opened.
+a\tz\tzpntrad.c:   // Set the current opened file name.
+a\tz\tzpntrad.c:      MiSetInstanceUpdateFlag( vNewDialog, FALSE );  // it should not be updated on open
+a\tz\tzpntrad.c:         // Transfer to the open dialog window
+a\tz\tzpntrad.c:      // Transfer to the open dialog window.
+a\tz\tzpntrad.c:   /* If there are no W_MetaDefs then one can't be opened. */
+a\tz\tzpntrad.c:   // Get the current open dialog.
+a\tz\tzpntrad.c:   // Get the current open dialog.
+a\tz\tzpntrad.c://              file open.
+a\tz\tzpntrad.c:      // If Dialog open, then set cursor to it.
+a\tz\tzpntrad.c:      // an open dialog already up.
+a\tz\tzpntrad.c:         // Transfer to the open dialog window
+a\tz\tzpntrad.c:      // if this Dialog open, then save Dialog, not save as
+a\tz\tzpntrad.c:         // if another Dialog open, then replace existing Dialog
+a\tz\tzpntrad.c:                   "Unable to open Task LPLR!\n"
+a\tz\tzpntrad.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzpntrad.c:         TraceLineI( "MigrateDialogs unexpected failure to open dialog in list ",
+a\tz\tzrpsrco.c:   //:// If positioning is vertical add a bit of space to open up between
+a\tz\tzrpsrco.c:      //:szMsg = "Cannot open File " + szFullName
+a\tz\tzrpsrco.c:      ZeidonStringCopy( szMsg, 1, 0, "Cannot open File ", 1, 0, 2050 );
+a\tz\tzrpsrco.c:      //:szMsg = "Cannot open temp. File " + szTmpFile
+a\tz\tzrpsrco.c:      ZeidonStringCopy( szMsg, 1, 0, "Cannot open temp. File ", 1, 0, 2050 );
+a\tz\tzrpsrco.c:   //:// If positioning is vertical add a bit of space to open up between
+a\tz\tzrpsxm2.c:               //:// Build open table and column statements.
+a\tz\tzrpsxm2.c:   //:// Build open table and column statements.
+a\tz\tzrpsxm2.c:   //:   // Build open block & table statements.
+a\tz\tzrpsxm2.c:      //:   // Build open table-row statement.
+a\tz\tzrpsxm2.c:      //:szMsg = "Cannot open XSLT Output File, " + szFileName
+a\tz\tzrpsxm2.c:      ZeidonStringCopy( szMsg, 1, 0, "Cannot open XSLT Output File, ", 1, 0, 201 );
+a\tz\tzrpsxml.c:      //:szMsg = "Cannot open XSLT Output File, " + szFileName
+a\tz\tzrpsxml.c:      ZeidonStringCopy( szMsg, 1, 0, "Cannot open XSLT Output File, ", 1, 0, 201 );
+a\tz\tzrpup2d.c:   Send an error message if a SironReport should be opened as ZeidonReport
+a\tz\tzrpup2d.c:   Modified TZRPUPDD_ReportPreBuild: if Workstation Administration open,
+a\tz\tzrpup2d.c:   do not open Report tool
+a\tz\tzrpup2d.c:   // Call configuration management to open the selected file
+a\tz\tzrpup2d.c:   // If there are no W_MetaDefs, then one can't be opened.
+a\tz\tzrpup2d.c:                   "Cannot open Report. It's a Siron Report.",
+a\tz\tzrpup2d.c:   // Set the current opened file name.
+a\tz\tzrpup2d.c:      // Transfer to the open report window
+a\tz\tzrpup2d.c:   // If there are no W_MetaDefs then one can't be opened.
+a\tz\tzrpup2d.c:   // BL, remove update flag: When you open a Zeidon Report is the
+a\tz\tzrpup2d.c:   // Get the current open report
+a\tz\tzrpup2d.c:      // if Window UPD_GROUPSET open, do not set correct Group Type
+a\tz\tzrpup2d.c:      //if this Report open, then save Report, not save as
+a\tz\tzrpup2d.c:         // if another Report open, then replace existing Report
+a\tz\tzrpupdd.c:   Modified AutoDesignReport: if AutoDesignReport and Page not open,
+a\tz\tzrpupdd.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzrpupdd.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzrpupdd.c:                         "Unable to open Task LPLR!\n"
+a\tz\tzrpupdd.c:         TraceLineI( "MigrateReports unexpected failure to open report in list ", k );
+a\tz\tzrpupsd.c:   Send an error message if a ZeidonReport should be opened as SironReport
+a\tz\tzrpupsd.c:   Modified TZRPUPSD_ReportPreBuild: if Workstation Administration open,
+a\tz\tzrpupsd.c:   do not open Report tool
 a\tz\tzrpupsd.c:   because of 'Assertion failed' while opening a SironReport File
+a\tz\tzrpupsd.c:   // Transfer to the open report window
+a\tz\tzrpupsd.c:   // Call configuration management to open the selected file
+a\tz\tzrpupsd.c:   // If there are no W_MetaDefs then one can't be opened.
+a\tz\tzrpupsd.c:                   "Cannot open Report. It's a Zeidon Report.",
+a\tz\tzrpupsd.c:   // BL, remove update flag: When you open a Zeidon Report in the Siron
+a\tz\tzrpupsd.c:   // Set the current opened file name
+a\tz\tzrpupsd.c:   /* If there are no W_MetaDefs then one can't be opened. */
+a\tz\tzrpupsd.c:   // Get the current open report
+a\tz\tzrpupsd.c:      // if Report open, then set cursor of it
+a\tz\tzrpupsd.c:         // Transfer to the open report window
+a\tz\tzrpupsd.c:      //if this Report open, then save Report, not save as
+a\tz\tzrpupsd.c:         // if another Report open, then replace existing Report
+a\tz\tzrpupsd.c:   // if a error situation disable menue item new and open
+a\tz\tzsiimpd.c:      //: // We cannot open the file
+a\tz\tzsiimpd.c:      //:OF 562: szMessage = "Catalogfile could no be opened !"
+a\tz\tzsiimpd.c:         ZeidonStringCopy( szMessage, 1, 0, "Catalogfile could no be opened !", 1, 0, 257 );
+a\tz\tzstarto.c:int nCmdShow;                    /* show-window type (open/icon) */
+a\tz\tzteupdd.c:   //if window TableRecord open
+a\tz\tzteupdd.c:                "Model must be opened to Save." );
+a\tz\tzteupdd.c:// 1. The entity contains hidden ER_Attributes. They have to be opened.
+a\tz\tzteupdd.c:   // We open a new window, because the Reference view to the ERD is
+a\tz\tzteupdd.c:   //if Window TableDetail not open ( is a modeless Window )?
+a\tz\tzteupdd.c:   //if Window TableDetail not open ( is a modeless Window )?
+a\tz\tzteupdd.c:   // if window "Tables/Records" open
+a\tz\tzteupdd.c:   //if window TableRecord open
+a\tz\tzvmg1aa.c:      // open parm list
+a\tz\tzvmg2aa.c:   zPCHAR pchOpenParen = zstrchr( pchStart, '(' ); // point to open paren
+a\tz\tzvmg2aa.c:   if ( pchOpenParen ) // we for sure need an open paren
 a\tz\tzvmg2aa.c:               pchOutputExprStr[ nOutputIdx-- ] = '('; // opening paren
+a\tz\tzvmg2aa.c:            nOutputIdx++;  // remove the open paren ... we are putting in a new one
+a\tz\tzvmgnaa.c:   // Close temp C file and reopen it for reading.
+a\tz\tzvmgnaa.c:   // our own system open with the delete option. This avoids problems with the short
+a\tz\tzvmgnaa.c:   // Close temp Java file and reopen it for reading.
+a\tz\tzvmgnaa.c:   // our own system open with the delete option. This avoids problems with the short
+a\tz\tzvmi3aa.c:   // if the Include Domains was selected, open each Domain, copy
+a\tz\tzvmi3aa.c:            TraceLineS( "ERROR Could not open: ", szSourceMetaDirectory );
+a\tz\tzvmi3aa.c:            TraceLineS( "ERROR Could not open: ", szTargetMetaDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szSourceExeDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szTargetExeDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szSourceMetaDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szTargetMetaDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szSourceExeDirectory );
+a\tz\tzvmi3aa.c:         TraceLineS( "ERROR Could not open: ", szTargetExeDirectory );
+a\tz\tzvmlip.c:   // durch alle Entitäten des LOD loopen, bis cpcEntityNameToSearch gefunden oder am Ende:
+a\tz\tzvmlip.c:   // durch alle Attribute des LOD loopen, bis cpcAttributeNameToSearch gefunden oder am Ende:
 a\tz\tzvmp1aa.c:      // We are using g_sWhereLeft.lLevel/g_sWhereRight.lLevel to store the number of opening/closing parens.  Thus we get the
+a\tz\tzvmp2aa.c:   // Set values in expression entry.  If the operator is a left or open operator, then
+a\tz\tzvmp2aa.c:   ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qOPENOPER, 0 );  // 1 open
+a\tz\tzvmp2aa.c:            ADDEXPRESSIONENTRYTOSTRING( qCONSTANT, qNUMERIC, qTINTEGER, "\n                (", 0, 0 );  // 2 open
 a\tz\tzvmp2aa.c:         // Insert opening parens, if necessary.
+a\tz\tzvmp2aa.c:            ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qLPAREN, 0 );  // no open added
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qLPAREN, 0 );  // 3 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qOPENOPER, 0 );  // 4 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ")", qCLOSEOPER, 0 );  // close 4 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qOPENOPER, 0 );  // 5 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ")", qCLOSEOPER, 0 );  // close 5 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, "(", qOPENOPER, 0 );  // 6 open
+a\tz\tzvmp2aa.c:               strcat_s( szCursorVEA, zsizeof( szCursorVEA ), "\" )" ); // close 6 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ")", qCLOSEOPER, 0 );  // close 3 open
+a\tz\tzvmp2aa.c:         ADDEXPRESSIONENTRYTOSTRING( qOPERATOR, qNUMERIC, qTINTEGER, ")", qCLOSEOPER, 0 );  // close 2 open
 a\tz\tzvmp5aa.c:      // insert opening parens, if necessary
 a\tz\tzvmp6aa.c:         // Insert opening parens, if necessary.
 a\tz\tzvmp6aa.c:            lLevel += g_sWhereLeft[ i ].lLevel;  // opening parens before
 a\tz\tzvmp6aa.c:            // we first insert an opening paren before the first AND
+a\tz\tzvmp7aa.c:      // if we find an open paren, go down one level recursively
 a\tz\tzvmp9aa.c:      // Insert opening parens, if there.
+a\tz\tzvmpaaa.c:   // message on the open if it does not exist.
 a\tz\tzvmpaaa.c:         // Error opening temp file for write
+a\tz\tzvmpaaa.c:      // Right now we had better just return if there is an open error.
+a\tz\tzvmpaaa.c:                  // reread the file/open it
+a\tz\tzvmpaaa.c://    function opens the file for parsing.
+a\tz\tzvmpaaa.c:         // Generateerror if open failed.
+a\tz\tzvmpyaa.c:   "openoper",
+a\tz\tzvmpyaa.c:case YYr313: {   /* parameter_value_list :  openoper */
+a\tz\tzvmpyaa.c:case YYr315: {   /* parameter_value_list :  openoper */
+a\tz\tzvmpyaa.c:        (yyStatesFile = fopen(YYStatesFile, "r")) == (FILE *) 0 )
+a\tz\tzvmpyaa.c:      return "yyExpandName: cannot open states file";
+a\tz\tzwdgrwd.c:      strcpy_s( sz, zsizeof( sz ), "Unable to Access WD Model. Model must be opened." );
+a\tz\tzwdlg4o.c:   //:szWriteBuffer = "      var NewWin = window.open( szMsg );"
+a\tz\tzwdlg4o.c:   ZeidonStringCopy( szWriteBuffer, 1, 0, "      var NewWin = window.open( szMsg );", 1, 0, 10001 );
+a\tz\tzwdlg4o.c:      //://szWriteBuffer = "      var NewWin = window.open( szMsg, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth + ",height=" + szHeight + ",modal=1^ );"
+a\tz\tzwdlg4o.c:      //:szWriteBuffer = "      var NewWin = window.open( szMsg, ^^, strWindowOptions );"
+a\tz\tzwdlg4o.c:      ZeidonStringCopy( szWriteBuffer, 1, 0, "      var NewWin = window.open( szMsg, ^^, strWindowOptions );", 1, 0, 10001 );
 a\tz\tzwdlg4o.c:            //:// We are opening a popup window within this dialog
+a\tz\tzwdlg4o.c:                  //:// KJS 01/30/08 - Want the popup window to be opened with the correct size of the painted popup window
 a\tz\tzwdlg4o.c:               //:// We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg4o.c:               //:// popup window.  Need to open the other dialog.
+a\tz\tzwdlg4o.c:            //:szWriteBuffer = "   var NewWin = window.open( ^" + szDialogTag + szWindowTag + ".jsp^, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth +
+a\tz\tzwdlg4o.c:            ZeidonStringCopy( szWriteBuffer, 1, 0, "   var NewWin = window.open( ^", 1, 0, 10001 );
 a\tz\tzwdlg4o.c:                        //:// We are opening a popup window within this dialog
 a\tz\tzwdlg4o.c:                           //:// We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg4o.c:                           //:// popup window.  Need to open the other dialog.
+a\tz\tzwdlg4o.c:                        //:szWriteBuffer = "      window.opener.location.href=window.opener.location.href;"
+a\tz\tzwdlg4o.c:                        ZeidonStringCopy( szWriteBuffer, 1, 0, "      window.opener.location.href=window.opener.location.href;", 1, 0, 10001 );
+a\tz\tzwdlg4o.c:                        //:szWriteBuffer = "      window.opener.focus();"
+a\tz\tzwdlg4o.c:                        ZeidonStringCopy( szWriteBuffer, 1, 0, "      window.opener.focus();", 1, 0, 10001 );
+a\tz\tzwdlg4o.c:   //:// when people come to this page but don't do anything, we don't have a session open.
+a\tz\tzwdlg4o.c:   //:szWriteBuffer = "            // Getting the file name and open a file for saving"
+a\tz\tzwdlg4o.c:   ZeidonStringCopy( szWriteBuffer, 1, 0, "            // Getting the file name and open a file for saving", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:   //:// KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
+a\tz\tzwdlg6o.c:   //:// It looks like users write over data when they have a couple of browser sessions open.
+a\tz\tzwdlg6o.c:   //:// KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
+a\tz\tzwdlg6o.c:   //:// It looks like users write over data when they have a couple of browser sessions open.
+a\tz\tzwdlg6o.c:   //:szWriteBuffer = "         // Setting a logout date to try and determine if a user tries to log into application when they already have a session open."
+a\tz\tzwdlg6o.c:   //:// KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
+a\tz\tzwdlg6o.c:   //:// It looks like users write over data when they have a couple of browser sessions open.
+a\tz\tzwdlg6o.c:   //:szWriteBuffer = "         // Setting a logout date to try and determine if a user tries to log into application when they already have a session open."
+a\tz\tzwdlg6o.c:   //:szWriteBuffer = "      var NewWin = window.open( szMsg );"
+a\tz\tzwdlg6o.c:   ZeidonStringCopy( szWriteBuffer, 1, 0, "      var NewWin = window.open( szMsg );", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:      //://szWriteBuffer = "      var NewWin = window.open( szMsg, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth + ",height=" + szHeight + ",modal=1^ );"
+a\tz\tzwdlg6o.c:      //:szWriteBuffer = "      var NewWin = window.open( szMsg, ^^, strWindowOptions );"
+a\tz\tzwdlg6o.c:      ZeidonStringCopy( szWriteBuffer, 1, 0, "      var NewWin = window.open( szMsg, ^^, strWindowOptions );", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:         //:// KJS 07/11/12 - I am taking out this code, because at the moment, I do not see why we want to open the popup window
 a\tz\tzwdlg6o.c:         //:   // We are opening a popup window within this dialog
+a\tz\tzwdlg6o.c:         //:         // KJS 01/30/08 - Want the popup window to be opened with the correct size of the painted popup window
 a\tz\tzwdlg6o.c:         //:      // We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg6o.c:         //:      // popup window.  Need to open the other dialog.
+a\tz\tzwdlg6o.c:         //:   szWriteBuffer = "   var NewWin = window.open( ^" + szDlgTag + szWndTag + ".jsp^, ^^,^menubar=0,toolbar=0,resizable=1,width=" + szWidth +
+a\tz\tzwdlg6o.c:               //:// If this function is for Download File or open Jasper pdf report, we want to eliminate the _DisableFormElements statement.
 a\tz\tzwdlg6o.c:                     //:// We are opening a popup window within this dialog
 a\tz\tzwdlg6o.c:                        //:// We are opening a popup window in a different dialog.  We want the size of the
+a\tz\tzwdlg6o.c:                        //:// popup window.  Need to open the other dialog.
+a\tz\tzwdlg6o.c:                     //:szWriteBuffer = "      window.opener.location.href=window.opener.location.href;"
+a\tz\tzwdlg6o.c:                     ZeidonStringCopy( szWriteBuffer, 1, 0, "      window.opener.location.href=window.opener.location.href;", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:                     //:szWriteBuffer = "      window.opener.focus();"
+a\tz\tzwdlg6o.c:                     ZeidonStringCopy( szWriteBuffer, 1, 0, "      window.opener.focus();", 1, 0, 10001 );
+a\tz\tzwdlg6o.c:   //:// when people come to this page but don't do anything, we don't have a session open.
+a\tz\tzwdlg6o.c:      //:// KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
+a\tz\tzwdlg6o.c:      //:// It looks like users write over data when they have a couple of browser sessions open.
+a\tz\tzwdlg6o.c:      //:szWriteBuffer = "         // Setting a logout date to try and determine if a user tries to log into application when they already have a session open."
+a\tz\tzwdlg6o.c:   //:szWriteBuffer = "            // Getting the file name and open a file for saving"
+a\tz\tzwdlg6o.c:   ZeidonStringCopy( szWriteBuffer, 1, 0, "            // Getting the file name and open a file for saving", 1, 0, 10001 );
+a\tz\tzwebgl1.c:         //:// If we are copying to pdf, then we need to have a wait routine, otherwise, the jsp tries to open
+a\tz\tzwebgl1.c:      //:szWriteBuffer = "      nRC = 0;  // No redirection, we want to open the popup"
+a\tz\tzwebgl1.c:      ZeidonStringCopy( szWriteBuffer, 1, 0, "      nRC = 0;  // No redirection, we want to open the popup", 1, 0, 10001 );
+a\tz\tzwebgl1.c:                     //:szWriteBuffer = "                         <div id=^rpt-display-open-<%=iDashboardCnt%>^ class=^region-header-title-open^ title=^More Detail...^ onclick=^OpenFrame(this,'<%=szDashboardMore%>' );^> "
+a\tz\tzwebgl1.c:                     ZeidonStringCopy( szWriteBuffer, 1, 0, "                         <div id=^rpt-display-open-<%=iDashboardCnt%>^ class=^region-header-title-open^ title=^More Detail...^ onclick=^OpenFrame(this,'<%=szDashboardMore%>' );^> ", 1, 0,
+a\tz\tzwebgl2.c:                        //:szWriteBuffer = "                         <div id=^rpt-display-open-<%=iDashboardCnt%>^ class=^region-header-title-open^ title=^More Detail...^ onclick=^OpenFrame(this,'<%=szDashboardMore%>' );^> "
+a\tz\tzwebgl2.c:                        ZeidonStringCopy( szWriteBuffer, 1, 0, "                         <div id=^rpt-display-open-<%=iDashboardCnt%>^ class=^region-header-title-open^ title=^More Detail...^ onclick=^OpenFrame(this,'<%=szDashboardMore%>' );^> ", 1, 0,
+a\tz\tzwebgl2.c:                              //:szWriteBuffer = "<a href=^#^ rel=^toggle['" + szCtrlTag + "']^ data-openimage=^toggle-open.png^ data-closedimage=^toggle-close.png^>"
+a\tz\tzwebgl2.c:                              ZeidonStringConcat( szWriteBuffer, 1, 0, "']^ data-openimage=^toggle-open.png^ data-closedimage=^toggle-close.png^>", 1, 0, 10001 );
+a\tz\tzwebgl2.c:            //:// If we are copying to pdf, then we need to have a wait routine, otherwise, the jsp tries to open
+a\tz\tzwebgl2.c:         //:szWriteBuffer = "      nRC = 0;  // No redirection, we want to open the popup"
+a\tz\tzwebgl2.c:         ZeidonStringCopy( szWriteBuffer, 1, 0, "      nRC = 0;  // No redirection, we want to open the popup", 1, 0, 10001 );
+a\tz\tzwebgl2.c:   //:// KJS 09/17/14 - Run a jasper report and open in PDF.
+a\tz\tzwebgl2.c:   //:// KJS 07/26/16 - Run a jasper report and open in Excel.
+a\tz\tzxsltdd.c:      // Transfer to the open report window
+a\tz\tzxsltdd.c:      // an open dialog already up.
+a\tz\tzxsltdd.c:         // Transfer to the open dialog window
+a\tz\tzxsltdd.c://  PURPOSE:    To ensure a view to the meta list is available for file open.
+a\tz\tzxsltdd.c:      // If XSLT open, then set cursor to it.
+a\tz\tzxsltdd.c:   /* If there are no W_MetaDefs then one can't be opened. */
+a\tz\tzxsltdd.c:   // Get the current open dialog.
+a\tz\tzxsltdd.c:   // Get the current open dialog.
+a\tz\tzxsltdd.c:      // if this XSLT open, then save XSLT, not save as
+a\tz\tzxsltdd.c:         // if another XSLT open, then replace existing XSLT
+a\tz\tzxsltdd.c:                   "Unable to open Task LPLR!\n"
+a\tz\tzxsltdd.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzxsltdd.c:         TraceLineI( "MigrateXSLTs unexpected failure to open dialog in list ", k );
+a\tz\tzxsltdd.c://  PURPOSE:    To open a dialog file and paint the first window into
+a\tz\tzxsltdd.c:   // Call configuration management to open the selected file.
+a\tz\tzxsltdd.c:   // If there are no W_MetaDefs, then one can't be opened.
+a\tz\tzxsltdd.c:   // Set the current opened file name.
+a\tz\tzxsltdd.c:      MiSetInstanceUpdateFlag( vNewXSLT, FALSE );  // it should not be updated on open
+a\tz\tzzapp2d.c:   // open Task LPLR
+a\tz\tzzappsd.c:   //:// open it
+a\tz\tzzolodd.c:      // If LOD open, then set cursor to it.
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_CreateNewLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_OkNewLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access ER Model. ER must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:      // to open another LPLR, answer NO (don't save the LOD yet),
+a\tz\tzzolodd.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access LOD List. LOD List must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODForTE) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access Technical Env. TE must be opened." );
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODWithoutTE) Unable to Access LOD. LOD must be opened." );
 a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Error opening file \'" );
+a\tz\tzzolodd.c:      //if this LOD open, then save LOD, not save as
+a\tz\tzzolodd.c:         // if another LOD open, then replace existing LOD
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwfnTZZOLODD_SaveAsLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:   //Set Cursor to new LOD and open this LOD
+a\tz\tzzolodd.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_AddParentEntity) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodd.c:                      "Unable to open Task LPLR!\n"
+a\tz\tzzolodd.c:                         "Unable to open Task LPLR!\n"
+a\tz\tzzolodd.c:         TraceLineI( "MigrateToolLODsForOK unexpected failure to open LOD in list ", k );
+a\tz\tzzolodo.c:         // Skip whitespaces and the open paren.
+a\tz\tzzolodo.c:      // If the next zCHAR is an open paren, then szAttribName is really a
+a\tz\tzzolodq.c:      // If LOD open, then set cursor to it.
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_CreateNewLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_OkNewLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access ER Model. ER must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODForTE) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access Technical Env. TE must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:      // to open another LPLR, answer NO (don't save the LOD yet),
+a\tz\tzzolodq.c:         strcpy_s( szMsg, zsizeof( szMsg ), "Unable to Access LOD List. LOD List must be opened." );
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_SaveLODWithoutTE) Unable to Access LOD. LOD must be opened." );
 a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "Error opening file \'" );
+a\tz\tzzolodq.c:      //if this LOD open, then save LOD, not save as
+a\tz\tzzolodq.c:         // if another LOD open, then replace existing LOD
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwfnTZZOLODD_SaveAsLOD) Unable to Access LOD. LOD must be opened." );
+a\tz\tzzolodq.c:   //Set Cursor to new LOD and open this LOD
+a\tz\tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "(zwTZZOLODD_AddParentEntity) Unable to Access LOD. LOD must be opened." );
+a\tzvmp9aa.c:      // Insert opening parens, if there.
+a\ut\qmap2def\QMAP2DEF.C:    fDfb = fopen(argv[1],"r");
+a\ut\qmap2def\QMAP2DEF.C:    fMap = fopen(argv[2],"r");
+a\ut\qspawn\QSPAWN.C:      stream = freopen( pszFileName, "a", stdout );
+a\ut\qspawn\QSPAWN.C:      stream = freopen( pszFileName, "w", stdout );
+a\ut\qspawn\QSPAWN.C:      printf( "Couldn't reopen stdout as '%1'\n", argv[ 1 ] );
+a\ut\qspawn\QSPAWN.C:   stream = freopen( "CON", "w", stdout );
+a\zdr\jpeglib\JDATADST.C: * The caller must have already opened the stream, and is responsible
+a\zdr\jpeglib\JDATASRC.C: * The caller must have already opened the stream, and is responsible
+a\zdr\jpeglib\JMEMMGR.C:  boolean b_s_open;     /* is backing-store data valid? */
+a\zdr\jpeglib\JMEMMGR.C:  boolean b_s_open;     /* is backing-store data valid? */
+a\zdr\jpeglib\JMEMMGR.C:  result->b_s_open = FALSE;   /* no associated backing-store object */
+a\zdr\jpeglib\JMEMMGR.C:  result->b_s_open = FALSE;   /* no associated backing-store object */
+a\zdr\jpeglib\JMEMMGR.C:   jpeg_open_backing_store(cinfo, & sptr->b_s_info,
+a\zdr\jpeglib\JMEMMGR.C:   sptr->b_s_open = TRUE;
+a\zdr\jpeglib\JMEMMGR.C:   jpeg_open_backing_store(cinfo, & bptr->b_s_info,
+a\zdr\jpeglib\JMEMMGR.C:   bptr->b_s_open = TRUE;
+a\zdr\jpeglib\JMEMMGR.C:    if (! ptr->b_s_open)
+a\zdr\jpeglib\JMEMMGR.C:    if (! ptr->b_s_open)
+a\zdr\jpeglib\JMEMMGR.C:      if (sptr->b_s_open) {   /* there may be no backing store */
+a\zdr\jpeglib\JMEMMGR.C:   sptr->b_s_open = FALSE; /* prevent recursive close if error */
+a\zdr\jpeglib\JMEMMGR.C:      if (bptr->b_s_open) {   /* there may be no backing store */
+a\zdr\jpeglib\JMEMMGR.C:   bptr->b_s_open = FALSE; /* prevent recursive close if error */
+a\zdr\jpeglib\JMEMMGR.C:  /* Declare ourselves open for business */
+a\zdr\jpeglib\JMEMNOBS.C:jpeg_open_backing_store (j_common_ptr cinfo, backing_store_ptr info,
 a\zdr\jpeglib\JPEGTRAN.C:   * values read here are ignored; we will rescan the switches after opening
+a\zdr\jpeglib\JPEGTRAN.C:    if ((input_file = fopen(argv[file_index], READ_BINARY)) == NULL) {
+a\zdr\jpeglib\JPEGTRAN.C:      fprintf(stderr, "%s: can't open %s\n", progname, argv[file_index]);
+a\zdr\jpeglib\JPEGTRAN.C:    if ((output_file = fopen(outfilename, WRITE_BINARY)) == NULL) {
+a\zdr\jpeglib\JPEGTRAN.C:      fprintf(stderr, "%s: can't open %s\n", progname, outfilename);
+a\zdr\jpeglib\JPEGTRAN.C:  /* Close files, if we opened them */
+a\zdr\MonitorProcess\McbXML\McbMain.c:   OPENFILENAME openName;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lStructSize = zsizeof(OPENFILENAME);
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.hwndOwner = hWnd;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.hInstance = g_hInst;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrFilter = _T("XML Files (*.xml)\0*.xml\0Text Files (*.txt)")
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrCustomFilter = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nMaxCustFilter = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nFilterIndex = pOptions->nFilterIndex;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrFile = szFile;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nMaxFile = _MAX_PATH;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrFileTitle = szFileTitle;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nMaxFileTitle = _MAX_PATH;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrInitialDir = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrTitle = _T("Load XML file");
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST |
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nFileOffset = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.nFileExtension = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpstrDefExt = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lCustData = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpfnHook = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   openName.lpTemplateName = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrInitialDir = szStartDir;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   if (GetOpenFileName(&openName))
+a\zdr\MonitorProcess\McbXML\McbMain.c:         pOptions->nFilterIndex = openName.nFilterIndex;
+a\zdr\MonitorProcess\McbXML\McbMain.c:   OPENFILENAME openName;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lStructSize = zsizeof(OPENFILENAME);
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.hwndOwner = hWnd;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.hInstance = g_hInst;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrFilter = _T("XML Files (*.xml)\0*.xml\0Text Files (*.txt)")
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrCustomFilter = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nMaxCustFilter = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nFilterIndex = pOptions->nFilterIndex;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrFile = szFile;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nMaxFile = _MAX_PATH;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrFileTitle = szFileTitle;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nMaxFileTitle = _MAX_PATH;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrInitialDir = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrTitle = _T("Save XML file");
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY |
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nFileOffset = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.nFileExtension = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpstrDefExt = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lCustData = 0;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpfnHook = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        openName.lpTemplateName = NULL;
+a\zdr\MonitorProcess\McbXML\McbMain.c:            openName.lpstrInitialDir = szStartDir;
+a\zdr\MonitorProcess\McbXML\McbMain.c:        if (GetSaveFileName(&openName))
+a\zdr\MonitorProcess\McbXML\McbMain.c:            pOptions->nFilterIndex = openName.nFilterIndex;
+a\zdr\MonitorProcess\McbXML\McbMain.c:            * File open command
+a\zdr\MonitorProcess\McbXML\McbXML.c:            * Obtain the name of the open part of the clear tag
+a\zdr\MonitorProcess\McbXML\McbXML.c:                * Compare the open tag with the current token
+w\oe\kzoeclnt.c:         int  nCmdShow )          // show-window type (open/icon)
+w\oe\kzoengwa.c:specified (ZeidonOE) and open the Startup Dialog Box. Select the Startup Type (usually: "Automatic").
+w\oe\kzoengwa.c:When the ZeidonOE Service is started and the Object Service window appears this window has to remain open.
+w\oe\kzoengwa.c:   // The file has been opened, get all text from all the
+w\oe\kzoengwa.c:               // Display open files.
+w\oe\kzoengwa.c:                     // Display open files.
+w\oe\kzoengwa.c:            // If the logfile is still open then close it.
+w\oe\kzoengwa.c:                  // Send message that log file opened.
+w\oe\kzoengwa.c:   // messages and write them to the trace log (if open)
 w\oe\kzoengwa.c:   // Just a way to test if we are opening the right INI file.
+w\oe\kzoengwa.c:         if ( wParam == IDC_OPEN ) // open pushbutton
 w\oe\kzoengwa.c:               MessageBox( GetActiveWindow( ), "Error opening trace file!",
+w\oe\kzoengwa.c:               // Send message that log file opened.
+w\oe\kzoesyaa.c:   // using the open slot we found.
+w\oe\kzoesyaa.c:      // Find an open cell in the Process record.
+w\oe\kzoesyaa.c:      // Now that we have created the main task, see if we can open
 w\oe\kzoesyaa.c:         // {9,"KZOEE009 - Error opening application definition file"},
+w\oe\kzoesyaa.c:      // Send each task a message to open the same file mapping.
 w\oe\kzoesyaa.c:   // by opening a view to the (named) shared memory mapping file.
+w\oe\kzoesyaa.c:   // We now have to open views to all shared mapping files created by other
+w\oe\kzoesyaa.c:      // system task and open it for the current task.
+w\oe\kzoesyaa.c:      lpProcessList->nOE_Request = TASKREQ_ALLOC; // we want to open a file mapping
+w\oe\kzoesyaa.c:      // See if we can open the zeidon applications file.
 w\oe\kzoesyaa.c:         // {9,"KZOEE009 - Error opening application definition file"},
+w\oe\kzoesyaa.c:// the handle.  The OE takes the handle and stores it in HO and then "opens"
+w\oe\kzoesyaa.c:      // Start off by finding an empty (or open) page table entry.
 w\oe\kzoesyaa.c:                     TraceLine( "Message Handler Error opening log file (%s) for message: %s",
+w\oe\kzoesyaa.c://   PURPOSE: To open a file based on the filename using the flag passed
+w\oe\kzoesyaa.c://            to indicate the type of open to be done.  The flag values
+w\oe\kzoesyaa.c://   RETURN VALUE: A handle to the file opened or -1 if the file could not be
+w\oe\kzoesyaa.c://                 opened, NOTE the return value of a COREFILE_EXIST/DELETE/RENAME
+w\oe\kzoesyaa.c:      TraceLineS( "(sy) Could not open file: ", szTempFileName );
+w\oe\kzoesyaa.c:   // If we got here, then a file open was successful.
+w\oe\kzoesyaa.c:   // Create an open file record on the AnchorBlock chain.
+w\oe\kzoesyaa.c:// This example opens or creates and opens a file named "DOSTEST.DAT",
+w\oe\kzoesyaa.c:// PURPOSE:  To read a block of data from an opened file
+w\oe\kzoesyaa.c:      IssueError( vTask, 0, 0, "SysReadLine ... no open files" );
+w\oe\kzoesyaa.c:// PURPOSE:  To write a block of data to an opened file
+w\oe\kzoesyaa.c:// PURPOSE:  To close a previously opened file
+w\oe\kzoesyaa.c:   // Find open file and prev open file.
+w\oe\kzoesyaa.c:   // Note: Although the close may fail, keeping the open
+w\oe\kzoesyaa.c:   // If the file was opened with the backup option then we need to rename
+w\oe\kzoesyaa.c:      TraceLineS( "SysSetFileTime: Couldn't open file ", szFileName );
+w\oe\kzoesyaa.c://           cannot be opened.
+w\oe\kzoesyaa.c:   // If this is not a repeated read, open the file.
+w\oe\kzoesyaa.c:      // Read the next line if processing an already opened file.
+w\oe\kzoesyaa.c:// is passed in as a null string, we know to open help at the table of
+w\oe\kzoesyaa.c:// that you use to open a file, but the data you keep in the thread for the pointer
+w\oe\kzoesyaa.c://     /* Create or open a named semaphore. */
+w\oe\kzoesyaa.c://     /* Close handle, and return NULL if existing semaphore opened. */
 w\oe\kzoesyaa.c:// somewhat by opening the Tasking dialog box in the System applet found in the
+w\oe\kzoesyaa.c:// receives from the system can leave you open to starving your other threads
+w\oe\KZSchedT.c:         int       nCmdShow )     // show-window type (open/icon)
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\setup\bldcui\DLGPROCS.C:**    Pushbutton IDC_H will open the related Help dialog, if any.
+w\ut\qdelete\qdelete.c:         f = fopen( pszFileName, "r" );
 w\ut\qdelete\qdelete.c:            printf( "Error opening file %s\n", pszFileName );
+w\ut\qmap2def\qmap2def.c:    fDfb = fopen(argv[1],"r");
+w\ut\qmap2def\qmap2def.c:    fMap = fopen(argv[2],"r");
+w\ut\qspawn\qspawn.c:      stream = freopen( pszFileName, "a", stdstream );
+w\ut\qspawn\qspawn.c:      stream = freopen( pszFileName, "w", stdstream );
+w\ut\qspawn\qspawn.c:      printf( "Couldn't reopen stdout as '%1'\n", argv[ 1 ] );
+w\ut\qspawn\qspawn.c:   stream = freopen( "CON", "w", stdstream );
+w\ut\xodgen\xodgen.c:               int    nCmdShow)        /* show-window type (open/icon) */
+w\ut\xodgen\xodgen.c:      fLog = fopen( cLogFile, "w");
+w\ut\xwdgen\xwdgen.c:               int    nCmdShow)        /* show-window type (open/icon) */
+w\ut\xwdgen\xwdgen.c:      fLog = fopen( cLogFile, "w");

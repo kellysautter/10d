@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZZOXOGO 09/01/16   10:58:24 1.0a2   
+z1000-Zeidon    ZEIDON   TZZOXOGO                         11/18/19   15:55:43 1.0a2   
 eTZZOXOGO  1
 aNAME      Zeidon
 
@@ -1971,38 +1971,6 @@ ePARAMETER 4
 aNAME      szRepeatingGrpKey
 aDATATYPE  S
 
-eOPERATION 3
-aNAME      GenJSPJ_Action
-aTYPE      G
-
-ePARAMETER 4
-aNAME      Dialog
-aDATATYPE  V
-
-ePARAMETER 4
-aNAME      DialogRoot
-aDATATYPE  V
-
-ePARAMETER 4
-aNAME      File
-aDATATYPE  L
-
-ePARAMETER 4
-aNAME      WriteBuffer
-aDATATYPE  S
-
-ePARAMETER 4
-aNAME      FormName
-aDATATYPE  S
-
-ePARAMETER 4
-aNAME      ActionName
-aDATATYPE  S
-
-ePARAMETER 4
-aNAME      lTraceLevel
-aDATATYPE  L
-
 eGLOBALOPERATIONSOURCEFILE 2
 aNAME      TZWEBGL3
 aLANGUAGETYPE V
@@ -2524,6 +2492,114 @@ aNAME      vDialogMenu
 aDATATYPE  V
 
 eOPERATION 3
+aNAME      GenJSPJ_Action
+aTYPE      G
+
+ePARAMETER 4
+aNAME      Dialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      DialogRoot
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      File
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      WriteBuffer
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      FormName
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      ActionName
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      lTraceLevel
+aDATATYPE  L
+
+eOPERATION 3
+aNAME      GenJSPJ_CrteGridRadio
+aTYPE      G
+
+ePARAMETER 4
+aNAME      vDialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      lFile
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      WriteBuffer
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      Indent
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      RadioGroupName
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      NoPositioning
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      OffsetX
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      OffsetY
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      strRepeatingGrpKey
+aDATATYPE  S
+
+eOPERATION 3
+aNAME      GenJSPJ_CrteFileTransferForm
+aTYPE      G
+
+ePARAMETER 4
+aNAME      vDialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      vDialogRoot
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      File
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      WriteBuffer
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      Indent
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      NoPositioning
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      OffsetX
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      OffsetY
+aDATATYPE  L
+
+eOPERATION 3
 aNAME      GenJSPJ_CrteListBoxAsList
 aTYPE      G
 
@@ -2584,11 +2660,11 @@ aNAME      GenJSPJ_CrtePushButton
 aTYPE      G
 
 ePARAMETER 4
-aNAME      Dialog
+aNAME      vDialog
 aDATATYPE  V
 
 ePARAMETER 4
-aNAME      GroupParent
+aNAME      vGroupParent
 aDATATYPE  V
 
 ePARAMETER 4
@@ -2628,7 +2704,7 @@ aNAME      OffsetY
 aDATATYPE  L
 
 ePARAMETER 4
-aNAME      RepeatGrpKey
+aNAME      strRepeatGrpKey
 aDATATYPE  S
 
 eOPERATION 3

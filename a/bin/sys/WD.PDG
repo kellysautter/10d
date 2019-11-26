@@ -1,13 +1,13 @@
-z1000-Zeidon    WD       TZDGSRCO 10/19/16   10:46:02 1.0a2    
+z1000-Zeidon    WD       TZDGSRCO 06/24/19   12:33:30 1.0a2    
 eDomainGroup 1
 aZKey      1320467
-aNextZKeyToAssign 130069825
+aNextZKeyToAssign 130069850
 aName      WD
 aDesc      Web jsp generation control types 
 aExtension C
 aLanguageType C
 aDomainAndGlobalOpGroupName TZAPDMAA
-aWorkNumeric 49
+aWorkNumeric 57
 
 eDomain    2
 aZKey      1320468
@@ -33,6 +33,61 @@ eTableEntry 4
 aZKey      1320471
 aExternalValue Yes
 aInternalValue Y
+
+eDomain    2
+aZKey      130069842
+aName      WD_WebTabControlProperties
+aDesc      Web control type for Tab control
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      130069843
+aName      WD_WebTabControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      130069844
+aExternalValue No Height
+aInternalValue No Height
+
+eTableEntry 4
+aZKey      130069845
+aExternalValue No Width
+aInternalValue No Width
+
+eDomain    2
+aZKey      130069837
+aName      WD_WebBitmapControlProperties
+aDesc      Web control type for Bitmap control
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 32
+aContextRestriction N
+
+eContext   3
+aZKey      130069838
+aName      WD_WebBitmapControlProperties
+aIsDefault Y
+
+eTableEntry 4
+aZKey      130069839
+aExternalValue No Height
+aInternalValue No Height
+
+eTableEntry 4
+aZKey      130069840
+aExternalValue No Width
+aInternalValue No Width
+
+eTableEntry 4
+aZKey      130069841
+aExternalValue <object>
+aInternalValue <object>
 
 eDomain    2
 aZKey      110002502
@@ -143,6 +198,21 @@ eTableEntry 4
 aZKey      92709482
 aExternalValue Label
 aInternalValue Label
+
+eTableEntry 4
+aZKey      130069829
+aExternalValue No Height
+aInternalValue No Height
+
+eTableEntry 4
+aZKey      130069830
+aExternalValue No Width
+aInternalValue No Width
+
+eTableEntry 4
+aZKey      130069832
+aExternalValue Text Only
+aInternalValue Text Only
 
 eDomain    2
 aZKey      4899546
@@ -342,6 +412,16 @@ aName      WD_WebPushControlProperties
 aIsDefault Y
 
 eTableEntry 4
+aZKey      130069827
+aExternalValue No Height
+aInternalValue No Height
+
+eTableEntry 4
+aZKey      130069828
+aExternalValue No Width
+aInternalValue No Width
+
+eTableEntry 4
 aZKey      68544964
 aExternalValue Button (Not Submit)
 aInternalValue Button (Not Submit)
@@ -417,24 +497,14 @@ aExternalValue Autocomplete Off
 aInternalValue Autocomplete Off
 
 eTableEntry 4
-aZKey      130069822
-aExternalValue Number
-aInternalValue Number
+aZKey      130069831
+aExternalValue No Height
+aInternalValue No Height
 
 eTableEntry 4
-aZKey      92656445
-aExternalValue Create Session Variable
-aInternalValue Create Session Variable
-
-eTableEntry 4
-aZKey      92656446
-aExternalValue XSS Encode
-aInternalValue XSS
-
-eTableEntry 4
-aZKey      92656447
-aExternalValue No Output Mapping
-aInternalValue No Output Mapping
+aZKey      130069826
+aExternalValue No Width
+aInternalValue No Width
 
 eTableEntry 4
 aZKey      92741377
@@ -445,6 +515,26 @@ eTableEntry 4
 aZKey      130000003
 aExternalValue Browse File
 aInternalValue Browse File
+
+eTableEntry 4
+aZKey      130069822
+aExternalValue Number
+aInternalValue Number
+
+eTableEntry 4
+aZKey      92656447
+aExternalValue No Output Mapping
+aInternalValue No Output Mapping
+
+eTableEntry 4
+aZKey      92656445
+aExternalValue Create Session Variable
+aInternalValue Create Session Variable
+
+eTableEntry 4
+aZKey      92656446
+aExternalValue XSS Encode
+aInternalValue XSS
 
 eDomain    2
 aZKey      68304365
@@ -467,24 +557,9 @@ aExternalValue Div
 aInternalValue Div
 
 eTableEntry 4
-aZKey      68304368
-aExternalValue Span
-aInternalValue Span
-
-eTableEntry 4
 aZKey      89582614
 aExternalValue Table
 aInternalValue Table
-
-eTableEntry 4
-aZKey      4634994
-aExternalValue Fieldset
-aInternalValue Container
-
-eTableEntry 4
-aZKey      4634995
-aExternalValue Fieldset Absolute Pos
-aInternalValue Container Absolute Size
 
 eTableEntry 4
 aZKey      89853394
@@ -502,16 +577,6 @@ aExternalValue Include File
 aInternalValue Include File
 
 eTableEntry 4
-aZKey      130000001
-aExternalValue Absolute Pos
-aInternalValue Absolute Pos
-
-eTableEntry 4
-aZKey      90754211
-aExternalValue Grid Grouping
-aInternalValue Grid Grouping
-
-eTableEntry 4
 aZKey      92656449
 aExternalValue Show/Hide Toggle
 aInternalValue Show/Hide Toggle
@@ -522,9 +587,14 @@ aExternalValue Show/Hide Toggle2
 aInternalValue Show/Hide Toggle2
 
 eTableEntry 4
-aZKey      130069818
-aExternalValue Menu Action List
-aInternalValue Menu Action List
+aZKey      130069849
+aExternalValue File Upload with DateTime
+aInternalValue File Upload with DateTime
+
+eTableEntry 4
+aZKey      130069850
+aExternalValue File Upload w/o DateTime
+aInternalValue File Upload w/o DateTime
 
 eTableEntry 4
 aZKey      68304372
@@ -532,24 +602,64 @@ aExternalValue Repeating Group
 aInternalValue Repeating Group
 
 eTableEntry 4
-aZKey      130069814
-aExternalValue Select Set (Repeat Grp)
-aInternalValue Select Set (Repeat Grp)
+aZKey      130069833
+aExternalValue Chart
+aInternalValue Chart
 
 eTableEntry 4
-aZKey      68544987
-aExternalValue File Transfer to Server
-aInternalValue File Transfer to Server
+aZKey      68304368
+aExternalValue Span
+aInternalValue Span
 
 eTableEntry 4
-aZKey      92741379
-aExternalValue Survey Group
-aInternalValue Survey Group
+aZKey      4634994
+aExternalValue Fieldset
+aInternalValue Container
+
+eTableEntry 4
+aZKey      4634995
+aExternalValue Fieldset Absolute Pos
+aInternalValue Container Absolute Size
 
 eTableEntry 4
 aZKey      90127802
 aExternalValue iFrame
 aInternalValue iFrame
+
+eTableEntry 4
+aZKey      130069847
+aExternalValue Section
+aInternalValue Section
+
+eTableEntry 4
+aZKey      130069848
+aExternalValue Main
+aInternalValue Main
+
+eTableEntry 4
+aZKey      130000001
+aExternalValue Absolute Pos
+aInternalValue Absolute Pos
+
+eTableEntry 4
+aZKey      90754211
+aExternalValue Grid Grouping
+aInternalValue Grid Grouping
+
+eTableEntry 4
+aZKey      130069818
+aExternalValue Menu Action List
+aInternalValue Menu Action List
+
+eTableEntry 4
+aZKey      130069814
+aExternalValue Select Set (Repeat Grp)
+aInternalValue Select Set (Repeat Grp)
+
+eTableEntry 4
+aZKey      92741379
+aExternalValue Survey Group
+aInternalValue Survey Group
 
 eTableEntry 4
 aZKey      90790799
@@ -565,6 +675,11 @@ eTableEntry 4
 aZKey      68304369
 aExternalValue Scrollable
 aInternalValue Scrollable
+
+eTableEntry 4
+aZKey      68544987
+aExternalValue File Transfer to Server
+aInternalValue File Transfer to Server
 
 eDomain    2
 aZKey      68304279
@@ -595,6 +710,16 @@ eTableEntry 4
 aZKey      130069825
 aExternalValue Number (Used with Edit)
 aInternalValue Number
+
+eTableEntry 4
+aZKey      130069834
+aExternalValue Language Conv
+aInternalValue Language Conv
+
+eTableEntry 4
+aZKey      130069846
+aExternalValue Span
+aInternalValue Span
 
 eTableEntry 4
 aZKey      90249868
@@ -1747,6 +1872,11 @@ aExternalValue Same Window / Refresh
 aInternalValue 2
 
 eTableEntry 4
+aZKey      130069835
+aExternalValue Same Window / No Position
+aInternalValue 4
+
+eTableEntry 4
 aZKey      4274542
 aExternalValue Same Window / Web Refresh
 aInternalValue 3
@@ -1775,6 +1905,11 @@ eTableEntry 4
 aZKey      1320477
 aExternalValue Subwindow / Modal
 aInternalValue 34
+
+eTableEntry 4
+aZKey      130069836
+aExternalValue Subwindow / No Position
+aInternalValue 57
 
 eTableEntry 4
 aZKey      90790802
@@ -1985,6 +2120,6 @@ aType      13
 aLastUpdateDate 19950908094926000
 aLastCheckInDate 19951102203051110
 
-i205       202
-i208       202
-i364       202
+i228       225
+i231       225
+i389       225

@@ -613,7 +613,7 @@ fnGetDecimalAttribute( LPDOMAINDATA lpDomainData )
    zSHORT      nRC;
    zCHAR       sz[ zMAX_DECIMAL_STRING ];
    zCHAR       szWorkName[ 33 ];
-   zPCHAR      lpAttrValue;
+   zPCHAR      lpAttrValue = NULL; // KJS 11/15/2019
    zCHAR       cAttrType;
    zULONG      uAttrLength;
    zBOOL       bWasNull = FALSE;

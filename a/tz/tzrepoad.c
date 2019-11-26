@@ -895,7 +895,7 @@ zwTZREPOAD_PrepareSystemForLoad( zVIEW    vSubtask )
    zVIEW vUisList;
    zVIEW vUis;
    zVIEW vDialogList;
-   zVIEW vDialog;
+   zVIEW vDialog = NULL; // KJS 11/15/2019
    zVIEW vOperList;
    zVIEW vOper;
    zVIEW vWork;

@@ -1,9 +1,9 @@
-z1000-Zeidon    TZEDFRMD TZWDLGSO 04/29/16   17:45:28 1.0b0   
+z1000-Zeidon    TZEDFRMD TZWDLGSO                         11/25/19   11:24:53 1.0a2   
 eDialog    1
 aTag       TZEDFRMD
 aDLL_Name  TZEDFRMD
 aZKey      90004018
-aNextZKeyToAssign 190007576
+aNextZKeyToAssign 190007615
 aDesc      Dialog Frame for Editor
 
 eDfltWnd   2
@@ -521,9 +521,8 @@ aZKey      190007535
 eActHot    4
 aTag       StopDesignEditor
 aZKey      1150951
-aKeyCombo  U4
-$X8Y%````
-`
+aKeyCombo  4
+·éE 
 aTitle     Ctrl+E
 aVKey      69
 
@@ -731,18 +730,16 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditCopy
 aZKey      91003496
-aKeyCombo  U4
-$@9%#````
-`
+aKeyCombo  4
+ÅëC 
 aTitle     Ctrl+C
 aVKey      67
 
 eActHot    4
 aTag       CtrlEditCopy
 aZKey      90023277
-aKeyCombo  U4
-$"9(M````
-`
+aKeyCombo  4
+	í- 
 aTitle     Ctrl+C
 aVKey      45
 
@@ -771,18 +768,16 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditCut
 aZKey      91003494
-aKeyCombo  U4
-$@9%8````
-`
+aKeyCombo  4
+ÅëX 
 aTitle     Ctrl+X
 aVKey      88
 
 eActHot    4
 aTag       ShiftEditCut
 aZKey      90023275
-aKeyCombo  U4
-$#)(N````
-`
+aKeyCombo  4
+í. 
 aTitle     Ctrl+X
 aVKey      46
 
@@ -837,9 +832,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditFind
 aZKey      1159611
-aKeyCombo  U4
-$R<Q&````
-`
+aKeyCombo  4
+…ÃF 
 aTitle     Ctrl+F
 aVKey      70
 
@@ -871,9 +865,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditFindPrevious
 aZKey      190007232
-aKeyCombo  U4
-$S,QR````
-`
+aKeyCombo  4
+ÃÃr 
 aTitle     Shift+F3
 aVKey      114
 
@@ -882,12 +875,6 @@ aTag       EditPaste
 aType      1
 aZKey      91003482
 aSB_ActionDisabling 0
-
-eActMap    4
-aZKey      127020458
-
-eActMap    4
-aZKey      127020459
 
 eActOpt    4
 aTag       EditPaste
@@ -901,18 +888,16 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditPaste
 aZKey      91003495
-aKeyCombo  U4
-$@9%6````
-`
+aKeyCombo  4
+ÅëV 
 aTitle     Ctrl+V
 aVKey      86
 
 eActHot    4
 aTag       ShiftEditPaste
 aZKey      90023276
-aKeyCombo  U4
-$#)(M````
-`
+aKeyCombo  4
+í- 
 aTitle     Ctrl+V
 aVKey      45
 
@@ -945,9 +930,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       Redo
 aZKey      1150950
-aKeyCombo  U4
-$X8Y9````
-`
+aKeyCombo  4
+…ÃY 
 aTitle     Ctrl+Y
 aVKey      89
 
@@ -980,9 +964,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditRepeatFind
 aZKey      190007216
-aKeyCombo  U4
-$R,QR````
-`
+aKeyCombo  4
+»Ãr 
 aTitle     F3
 aVKey      114
 
@@ -1015,9 +998,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditRepeatReplace
 aZKey      190007231
-aKeyCombo  U4
-$RLQ2````
-`
+aKeyCombo  4
+ ÃR 
 aTitle     Alt+R
 aVKey      82
 
@@ -1050,9 +1032,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditReplace
 aZKey      1159612
-aKeyCombo  U4
-$R<Q2````
-`
+aKeyCombo  4
+…ÃR 
 aTitle     Ctrl+R
 aVKey      82
 
@@ -1084,9 +1065,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       EditReplaceAll
 aZKey      190007439
-aKeyCombo  U4
-$RLQ!````
-`
+aKeyCombo  4
+ ÃA 
 aTitle     Alt+A
 aVKey      65
 
@@ -1120,11 +1100,38 @@ eSourceFileForOper 5
 eActHot    4
 aTag       SelectAll
 aZKey      90020334
-aKeyCombo  U4
-$@9%!````
-`
+aKeyCombo  4
+ÅëA 
 aTitle     Ctrl+A
 aVKey      65
+
+eAction    3
+aTag       EditTab
+aType      1
+aZKey      190007599
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007600
+
+eActMap    4
+aZKey      190007601
+
+eActOper   4
+aName      TZEDFRMD_EditTab
+aZKey      190007605
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditTab
+aZKey      190007595
+aKeyCombo  4
+»Ã	 
+aTitle     Tab
+aVKey      9
 
 eAction    3
 aTag       EditUndo
@@ -1150,20 +1157,46 @@ eSourceFileForOper 5
 eActHot    4
 aTag       Undo
 aZKey      1150949
-aKeyCombo  U4
-$R<Q:````
-`
+aKeyCombo  4
+…ÃZ 
 aTitle     Ctrl+Z
 aVKey      90
 
 eActHot    4
 aTag       AltBackspace
 aZKey      90023912
-aKeyCombo  U4
-$RLP(````
-`
+aKeyCombo  4
+ Ã 
 aTitle     Ctrl+Z
 aVKey      8
+
+eAction    3
+aTag       EditUntab
+aType      1
+aZKey      190007602
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007611
+
+eActMap    4
+aZKey      190007612
+
+eActOper   4
+aName      TZEDFRMD_EditUntab
+aZKey      190007607
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditUntab
+aZKey      190007596
+aKeyCombo  4
+ÃÃ	 
+aTitle     Shift+Tab
+aVKey      9
 
 eAction    3
 aTag       EntityInsert
@@ -1293,6 +1326,14 @@ aReturnDataType N
 
 eSourceFileForOper 5
 
+eActHot    4
+aTag       Save
+aZKey      190007577
+aKeyCombo  4
+·îS 
+aTitle     Ctrl+S
+aVKey      83
+
 eAction    3
 aTag       GenerateC
 aType      1
@@ -1331,11 +1372,6 @@ aZKey      190007502
 eActMap    4
 aZKey      190007503
 
-eActOpt    4
-aTag       mnuGenerateCompileJava
-aText      Generate/Compile Java
-aZKey      130000390
-
 eActOper   4
 aName      GenerateCompileJava
 aZKey      130000384
@@ -1368,6 +1404,14 @@ aType      D
 aReturnDataType N
 
 eSourceFileForOper 5
+
+eActHot    4
+aTag       GenJava
+aZKey      190007593
+aKeyCombo  4
+·îT 
+aTitle     Ctrl+T
+aVKey      84
 
 eAction    3
 aTag       GoToBookmark
@@ -1456,6 +1500,11 @@ aTag       EditContextGoToOperation
 aText      Find &Operation
 aSeparator Y
 aZKey      90020329
+
+eActOpt    4
+aTag       EditContextGoToOperation
+aText      Find &Operation
+aZKey      190007579
 
 eActOper   4
 aName      TZEDFRMD_GotoOperation
@@ -1712,6 +1761,54 @@ eActOper   4
 eSourceFileForOper 5
 
 eAction    3
+aTag       PageDown
+aType      1
+aZKey      190007588
+aSB_ActionDisabling 0
+
+eActOper   4
+aName      TZEDFRMD_PageDown
+aZKey      190007581
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       PageDown
+aZKey      190007580
+aKeyCombo  4
+»Ã" 
+aTitle     PageDown
+aVKey      34
+
+eAction    3
+aTag       PageUp
+aType      1
+aZKey      190007585
+
+eActMap    4
+aZKey      190007586
+
+eActMap    4
+aZKey      190007587
+
+eActOper   4
+aName      TZEDFRMD_PageUp
+aZKey      190007583
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       PageUp
+aZKey      190007591
+aKeyCombo  4
+»Ã! 
+aVKey      33
+
+eAction    3
 aTag       ParseForC
 aType      1
 aZKey      4126425
@@ -1762,6 +1859,14 @@ aReturnDataType N
 
 eSourceFileForOper 5
 
+eActHot    4
+aTag       ParseJava
+aZKey      190007613
+aKeyCombo  4
+…ÃJ 
+aTitle     Ctrl+J
+aVKey      74
+
 eAction    3
 aTag       ParseGenerateJava
 aType      1
@@ -1769,15 +1874,15 @@ aZKey      190007538
 aSB_ActionDisabling 0
 
 eActOpt    4
-aTag       ParseGen
-aText      Parse/Generate Java
-aZKey      190007543
-
-eActOpt    4
 aTag       ParseGenJava
 aText      Parse/Generate Java
 aSeparator Y
 aZKey      190007576
+
+eActOpt    4
+aTag       ParseGen
+aText      Parse/Generate Java
+aZKey      190007615
 
 eActOper   4
 aName      ParseGenerateJava
@@ -1971,9 +2076,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       SearchSelectedText
 aZKey      90198279
-aKeyCombo  U4
-$R<QR````
-`
+aKeyCombo  4
+…Ãr 
 aTitle     Ctrl+F3
 aVKey      114
 
@@ -2515,10 +2619,6 @@ eOptOpt    5
 
 eOptAct    6
 
-eOptOpt    5
-
-eOptAct    6
-
 eOption    4
 aTag       New15
 aText      &Help
@@ -2547,6 +2647,10 @@ eOptAct    6
 eMenu      3
 aTag       Bookmark
 aZKey      190007366
+
+eOption    4
+
+eOptAct    5
 
 eOption    4
 
@@ -2623,6 +2727,34 @@ aTag       Primary Window
 aZKey      7008558
 aStyle     13565952
 aDesc      Overlapped window with caption, system menu, sizing border, min/
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
+
+eHotkey    3
+
+eHotAct    4
 
 eHotkey    3
 
@@ -2966,9 +3098,8 @@ aPSDLG_X   246
 aPSDLG_Y   48
 aSZDLG_X   74
 aSZDLG_Y   104
-aCtrlBOI   U2
-"````
-`
+aCtrlBOI   2
+  
 aSyncKey   9999
 
 eCtrlCtrl  4
@@ -2980,9 +3111,8 @@ aPSDLG_X   9
 aPSDLG_Y   14
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$0`
-`
+aCtrlBOI   3
+ D 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -3012,9 +3142,8 @@ aPSDLG_X   9
 aPSDLG_Y   28
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$,`
-`
+aCtrlBOI   3
+ C 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -3031,9 +3160,8 @@ aPSDLG_X   9
 aPSDLG_Y   43
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$4`
-`
+aCtrlBOI   3
+ E 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -3050,9 +3178,8 @@ aPSDLG_X   9
 aPSDLG_Y   57
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`%8`
-`
+aCtrlBOI   3
+ V 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -3069,9 +3196,8 @@ aPSDLG_X   9
 aPSDLG_Y   72
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$\`
-`
+aCtrlBOI   3
+ O 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -3088,9 +3214,8 @@ aPSDLG_X   9
 aPSDLG_Y   86
 aSZDLG_X   60
 aSZDLG_Y   12
-aCtrlBOI   U3
-#63\`
-`
+aCtrlBOI   3
+Y? 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -3272,9 +3397,8 @@ aPSDLG_X   7
 aPSDLG_Y   37
 aSZDLG_X   123
 aSZDLG_Y   14
-aCtrlBOI   U4
-$60!.````
-`
+aCtrlBOI   4
+Y N 
 aSyncKey   9999
 
 eCtrlMap   5
@@ -3420,9 +3544,8 @@ aPSDLG_X   0
 aPSDLG_Y   0
 aSZDLG_X   166
 aSZDLG_Y   159
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   9999
 aExtendedStyle 16777216
 
@@ -3918,9 +4041,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       Help
 aZKey      90035292
-aKeyCombo  U4
-$:!9P````
-`
+aKeyCombo  4
+hp 
 aVKey      112
 
 eMenu      3
@@ -4167,9 +4289,8 @@ aPSDLG_X   6
 aPSDLG_Y   6
 aSZDLG_X   279
 aSZDLG_Y   203
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SY `= L    + M S1 
 aSyncKey   1
 aExtendedStyle 16777216
 
@@ -4394,9 +4515,8 @@ aPSDLG_X   291
 aPSDLG_Y   45
 aSZDLG_X   56
 aSZDLG_Y   91
-aCtrlBOI   U2
-"````
-`
+aCtrlBOI   2
+  
 aSyncKey   9999
 
 eCtrlCtrl  4
@@ -4408,9 +4528,8 @@ aPSDLG_X   6
 aPSDLG_Y   16
 aSZDLG_X   46
 aSZDLG_Y   12
-aCtrlBOI   U3
-#64X`
-`
+aCtrlBOI   3
+YN 
 aSyncKey   9999
 aDIL_Text  Paste just the View Name.
 
@@ -4428,9 +4547,8 @@ aPSDLG_X   6
 aPSDLG_Y   31
 aSZDLG_X   46
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`%(`
-`
+aCtrlBOI   3
+ R 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: <ViewName> REGISTERED AS <LOD_Name>.
 
@@ -4448,9 +4566,8 @@ aPSDLG_X   6
 aPSDLG_Y   45
 aSZDLG_X   46
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$(`
-`
+aCtrlBOI   3
+ B 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: <ViewName> BASED ON LOD <LOD_Name>.
 
@@ -4468,9 +4585,8 @@ aPSDLG_X   6
 aPSDLG_Y   60
 aSZDLG_X   48
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$<`
-`
+aCtrlBOI   3
+ G 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: GET VIEW <ViewName>.
 
@@ -4488,9 +4604,8 @@ aPSDLG_X   6
 aPSDLG_Y   74
 aSZDLG_X   46
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`%,`
-`
+aCtrlBOI   3
+ S 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: NAME VIEW <ViewName> "ViewName".
 
@@ -4696,9 +4811,8 @@ aPSDLG_X   4
 aPSDLG_Y   142
 aSZDLG_X   141
 aSZDLG_Y   86
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   3
 aDIL_Text  AttributeList
 aExtendedStyle 16777216
@@ -4810,9 +4924,8 @@ aPSDLG_X   4
 aPSDLG_Y   67
 aSZDLG_X   141
 aSZDLG_Y   70
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   4
 aDIL_Text  EntityList
 aExtendedStyle 16777216
@@ -4929,9 +5042,8 @@ aPSDLG_X   4
 aPSDLG_Y   4
 aSZDLG_X   141
 aSZDLG_Y   58
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   9999
 aExtendedStyle 16777216
 
@@ -5629,9 +5741,8 @@ aPSDLG_X   6
 aPSDLG_Y   6
 aSZDLG_X   279
 aSZDLG_Y   203
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SY `= L    + M S1 
 aSyncKey   1
 aExtendedStyle 16777216
 
@@ -5644,7 +5755,7 @@ aSubtype   67108864
 aPSDLG_X   0
 aPSDLG_Y   0
 aSZDLG_X   86
-aSZDLG_Y   14
+aSZDLG_Y   15
 aSyncKey   2
 
 eCtrlMap   5
@@ -5672,7 +5783,7 @@ aSubtype   67108864
 aPSDLG_X   88
 aPSDLG_Y   0
 aSZDLG_X   76
-aSZDLG_Y   14
+aSZDLG_Y   15
 aSyncKey   9999
 
 eCtrlMap   5
@@ -5700,7 +5811,7 @@ aSubtype   67108864
 aPSDLG_X   169
 aPSDLG_Y   0
 aSZDLG_X   303
-aSZDLG_Y   14
+aSZDLG_Y   15
 aSyncKey   9999
 
 eCtrlMap   5
@@ -5799,9 +5910,8 @@ aPSDLG_X   290
 aPSDLG_Y   48
 aSZDLG_X   57
 aSZDLG_Y   74
-aCtrlBOI   U2
-"````
-`
+aCtrlBOI   2
+  
 aSyncKey   9999
 
 eCtrlCtrl  4
@@ -5813,9 +5923,8 @@ aPSDLG_X   4
 aPSDLG_Y   14
 aSZDLG_X   49
 aSZDLG_Y   12
-aCtrlBOI   U3
-#64X`
-`
+aCtrlBOI   3
+YN 
 aSyncKey   9999
 aDIL_Text  Paste just the View Name.
 
@@ -5842,9 +5951,8 @@ aPSDLG_X   4
 aPSDLG_Y   28
 aSZDLG_X   49
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$(`
-`
+aCtrlBOI   3
+ B 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: <ViewName> BASED ON LOD <LOD_Name>.
 
@@ -5862,9 +5970,8 @@ aPSDLG_X   4
 aPSDLG_Y   43
 aSZDLG_X   49
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$<`
-`
+aCtrlBOI   3
+ G 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: GET VIEW <ViewName>.
 
@@ -5882,9 +5989,8 @@ aPSDLG_X   4
 aPSDLG_Y   57
 aSZDLG_X   49
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`%,`
-`
+aCtrlBOI   3
+ S 
 aSyncKey   9999
 aDIL_Text  Paste a Statement: NAME VIEW <ViewName> "ViewName".
 
@@ -5928,7 +6034,7 @@ aSubtype   1
 aPSDLG_X   2
 aPSDLG_Y   212
 aSZDLG_X   343
-aSZDLG_Y   19
+aSZDLG_Y   20
 aSyncKey   9999
 
 eCtrlMap   4
@@ -6086,9 +6192,8 @@ aPSDLG_X   6
 aPSDLG_Y   6
 aSZDLG_X   280
 aSZDLG_Y   170
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SY `= L    + M S1 
 aSyncKey   1
 aExtendedStyle 16777216
 
@@ -6492,9 +6597,8 @@ aPSDLG_X   7
 aPSDLG_Y   34
 aSZDLG_X   66
 aSZDLG_Y   12
-aCtrlBOI   U4
-$60!.````
-`
+aCtrlBOI   4
+Y N 
 aSyncKey   2
 
 eCtrlMap   5
@@ -6534,9 +6638,8 @@ aPSDLG_X   76
 aPSDLG_Y   34
 aSZDLG_X   62
 aSZDLG_Y   12
-aCtrlBOI   U4
-$60!.````
-`
+aCtrlBOI   4
+Y N 
 aSyncKey   3
 
 eCtrlMap   5
@@ -6603,9 +6706,8 @@ aPSDLG_X   6
 aPSDLG_Y   6
 aSZDLG_X   195
 aSZDLG_Y   159
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4TX`8!,]`$P`(```*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SN `= L    + M S1 
 aSyncKey   5
 aExtendedStyle 16777216
 
@@ -6803,9 +6905,8 @@ aPSDLG_X   213
 aPSDLG_Y   76
 aSZDLG_X   99
 aSZDLG_Y   106
-aCtrlBOI   U2
-"````
-`
+aCtrlBOI   2
+  
 aSyncKey   10
 
 eCtrlCtrl  4
@@ -6817,9 +6918,8 @@ aPSDLG_X   7
 aPSDLG_Y   16
 aSZDLG_X   88
 aSZDLG_Y   12
-aCtrlBOI   U3
-#65H`
-`
+aCtrlBOI   3
+YZ 
 aSyncKey   10
 aDIL_Text  Zeidon Build-In Operations
 aExtendedStyle 0
@@ -6844,9 +6944,8 @@ aPSDLG_X   7
 aPSDLG_Y   33
 aSZDLG_X   88
 aSZDLG_Y   12
-aCtrlBOI   U3
-#`$<`
-`
+aCtrlBOI   3
+ G 
 aSyncKey   11
 aDIL_Text  Global operations
 aExtendedStyle 0
@@ -6871,9 +6970,8 @@ aPSDLG_X   7
 aPSDLG_Y   50
 aSZDLG_X   88
 aSZDLG_Y   13
-aCtrlBOI   U3
-#`$\`
-`
+aCtrlBOI   3
+ O 
 aSyncKey   12
 aDIL_Text  Object operations such as Transformation Operations of a LOD
 aExtendedStyle 0
@@ -6898,9 +6996,8 @@ aPSDLG_X   7
 aPSDLG_Y   66
 aSZDLG_X   88
 aSZDLG_Y   15
-aCtrlBOI   U3
-#`$P`
-`
+aCtrlBOI   3
+ L 
 aSyncKey   9999
 aDIL_Text  Operations of the current source
 aExtendedStyle 0
@@ -6925,9 +7022,8 @@ aPSDLG_X   7
 aPSDLG_Y   84
 aSZDLG_X   88
 aSZDLG_Y   15
-aCtrlBOI   U3
-#`$$`
-`
+aCtrlBOI   3
+ A 
 aSyncKey   9999
 aDIL_Text  Operations of the current source
 aExtendedStyle 0
@@ -6975,9 +7071,8 @@ aPSDLG_X   211
 aPSDLG_Y   201
 aSZDLG_X   109
 aSZDLG_Y   18
-aCtrlBOI   U4
-$60!.````
-`
+aCtrlBOI   4
+Y N 
 aSyncKey   9999
 
 eCtrlMap   4
@@ -7151,9 +7246,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       F3
 aZKey      90034631
-aKeyCombo  U4
-$2'AR````
-`
+aKeyCombo  4
+Hxr 
 aTitle     Take the Operation
 aVKey      114
 
@@ -7245,9 +7339,8 @@ eSourceFileForOper 5
 eActHot    4
 aTag       Help
 aZKey      90034630
-aKeyCombo  U4
-$:!9P````
-`
+aKeyCombo  4
+hp 
 aVKey      112
 
 eWndStyle  3
@@ -7285,9 +7378,8 @@ aPSDLG_X   0
 aPSDLG_Y   0
 aSZDLG_X   237
 aSZDLG_Y   256
-aCtrlBOI   U34
-B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`````*P!-`%,Q````
-`
+aCtrlBOI   34
+ˆ= ˘= SN ˇ= SY `= L    + M S1 
 aSyncKey   9999
 aExtendedStyle 16777216
 
@@ -7526,16 +7618,8 @@ aPSDLG_X   8
 aPSDLG_Y   12
 aSZDLG_X   223
 aSZDLG_Y   10
-aCtrlBOI   U346
-M``````````````#_``,```````````````````(`````````````````````
-M````````````````````````````````````````_P```/\```#_``````#_
-M`/[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-?_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^````
-`
+aCtrlBOI   346
+           ˇ                                                             ˇ   ˇ   ˇ     ˇ ˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛ 
 aSyncKey   9999
 aExtendedStyle 16777216
 
@@ -7550,16 +7634,8 @@ aPSDLG_X   8
 aPSDLG_Y   30
 aSZDLG_X   223
 aSZDLG_Y   10
-aCtrlBOI   U346
-M``````````````#_``,```````````````````(`````````````````````
-M````````````````````````````````````````_P```/\```#_``````#_
-M`/[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-?_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^````
-`
+aCtrlBOI   346
+           ˇ                                                             ˇ   ˇ   ˇ     ˇ ˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛ 
 aSyncKey   9999
 aExtendedStyle 16777216
 
@@ -7645,16 +7721,8 @@ aPSDLG_X   37
 aPSDLG_Y   20
 aSZDLG_X   137
 aSZDLG_Y   14
-aCtrlBOI   U346
-M``````````````#_``,```````````````````(`````````````````````
-M````````````````````````````````````````_P```/\```#_``````#_
-M`/[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-M_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^
-?_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^_O[^````
-`
+aCtrlBOI   346
+           ˇ                                                             ˇ   ˇ   ˇ     ˇ ˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛˛ 
 aSyncKey   9999
 aExtendedStyle 16777216
 
@@ -7744,6 +7812,13 @@ eParameter 4
 aShortDesc View To Window
 aDataType  V
 aZKey      90035257
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007584
 
 eOperation 3
 
@@ -8336,6 +8411,20 @@ eOperation 3
 eParameter 4
 aShortDesc View To Window
 aDataType  V
+aZKey      190007606
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007608
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
 aZKey      91007775
 
 eOperation 3
@@ -8581,6 +8670,29 @@ eParameter 4
 aShortDesc View To Window
 aDataType  V
 aZKey      190007319
+
+eOperation 3
+
+eParameter 4
+aShortDesc View To Window
+aDataType  V
+aZKey      190007582
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
+
+eOperationList 2
+
+eOperSourceFile 3
 
 eOperationList 2
 
@@ -9063,1112 +9175,1142 @@ i168       124
 i169       56
 i175       56
 i182       56
-i188       130
-i189       56
-i197       135
-i198       56
-i205       56
-i212       56
-i219       56
-i226       56
-i233       140
-i234       56
-i240       146
-i241       56
-i250       56
-i255       56
-i256       22
-i259       21
-i262       56
-i268       56
-i274       56
-i280       56
-i286       56
-i292       56
-i307       56
-i313       56
-i314       36
-i317       35
-i319       56
-i324       56
-i330       249
+i186       130
+i187       56
+i195       135
+i196       56
+i203       56
+i210       56
+i217       56
+i224       56
+i231       140
+i232       56
+i238       56
+i244       146
+i245       56
+i252       56
+i260       56
+i265       56
+i266       22
+i269       21
+i272       56
+i278       56
+i284       56
+i291       56
+i296       56
+i302       56
+i318       56
+i325       56
+i326       36
+i329       35
 i331       56
 i336       56
-i341       249
-i342       56
-i352       56
-i353       30
-i356       29
-i357       211
-i358       56
-i359       42
-i362       41
-i363       204
+i342       259
+i343       56
+i348       56
+i353       259
+i354       56
 i364       56
-i365       28
-i368       27
-i369       218
+i365       30
+i368       29
+i369       209
 i370       56
-i371       38
-i374       37
+i371       42
+i374       41
+i375       202
 i376       56
-i382       249
-i383       56
-i389       56
+i377       28
+i380       27
+i381       216
+i382       56
+i383       38
+i386       37
+i388       56
+i394       259
 i395       56
-i400       56
-i401       34
-i404       33
-i406       56
-i407       32
-i410       31
-i412       56
-i419       56
-i425       56
-i426       40
-i429       39
-i431       56
-i436       56
-i440       388
-i441       56
-i445       56
+i398       56
+i404       56
+i411       56
+i417       56
+i423       56
+i424       34
+i427       33
+i429       56
+i430       32
+i433       31
+i435       56
+i442       56
 i448       56
+i449       40
+i452       39
+i454       56
+i459       56
+i463       410
 i464       56
-i469       56
-i474       56
-i479       56
-i486       56
-i496       56
-i501       56
-i511       56
-i514       260
-i515       22
-i516       266
-i517       263
-i518       272
-i519       269
-i520       443
-i521       442
-i522       423
-i523       420
-i524       80
-i525       24
-i527       239
-i528       236
-i529       195
-i530       192
-i531       159
-i532       156
-i533       151
-i534       148
-i535       187
-i536       184
-i537       167
-i538       164
-i539       231
-i540       228
-i541       173
-i542       170
-i543       203
-i544       200
-i545       180
-i546       177
-i547       217
-i548       214
-i549       210
-i550       207
-i551       224
-i552       221
-i554       483
-i555       480
-i556       349
-i557       346
-i558       416
-i559       413
-i560       90
-i561       87
-i562       462
-i563       450
-i564       453
-i565       450
-i566       454
-i567       450
-i568       455
-i569       450
-i570       456
-i571       450
-i572       457
-i573       450
-i574       458
-i575       450
-i576       459
-i577       450
-i578       460
-i579       450
-i580       461
-i581       450
-i583       296
-i584       293
-i585       297
-i586       293
-i587       298
-i588       293
-i589       299
-i590       293
-i591       300
-i592       293
-i593       301
-i594       293
-i595       302
-i596       293
-i597       303
-i598       293
-i599       304
-i600       293
-i601       305
-i602       293
-i604       505
-i605       502
-i606       509
-i607       380
-i608       377
-i609       247
-i610       244
-i611       328
-i612       325
-i613       340
-i614       337
-i615       387
-i616       384
-i617       278
-i618       275
-i619       494
-i620       491
-i621       490
-i622       487
-i623       506
-i625       397
-i626       396
-i627       393
-i628       390
-i629       284
-i630       281
-i631       290
-i632       287
-i633       97
-i634       94
-i636       54
-i637       51
-i638       72
-i639       69
-i640       66
-i641       63
-i642       60
-i643       57
-i644       50
-i645       47
-i647       484
-i648       480
-i649       350
-i650       346
-i651       417
-i652       413
-i653       91
-i654       87
-i655       381
-i656       377
-i657       248
-i658       244
-i659       329
-i660       325
-i661       398
-i662       396
-i664       145
-i665       142
-i666       196
-i667       192
-i668       117
-i669       114
-i670       111
-i671       108
-i672       129
-i673       126
-i674       123
-i675       120
-i676       232
-i677       228
-i678       311
-i679       308
-i680       512
-i682       103
-i683       100
-i684       155
-i685       148
-i686       154
-i687       148
-i688       162
-i689       156
-i690       163
-i691       156
-i692       176
-i693       170
-i694       206
-i695       200
-i696       220
-i697       214
-i698       213
-i699       207
-i700       227
-i701       221
-i702       183
-i703       177
-i704       190
-i705       184
-i706       191
-i707       184
-i708       199
-i709       192
-i710       235
-i711       228
-i712       243
-i713       236
-i714       242
-i715       236
-i716       449
-i717       446
-i738       723
-i745       727
-i747       729
-i748       730
-i756       753
-i759       753
-i762       753
-i765       753
-i768       753
-i771       727
-i773       729
-i774       730
-i778       741
-i782       727
-i784       729
-i785       730
-i786       749
-i789       733
-i794       727
-i796       729
-i798       731
-i801       733
-i805       727
-i807       729
-i811       741
-i814       20
-i818       737
-i820       727
-i822       736
-i823       734
-i824       722
-i826       727
-i828       721
-i829       719
-i830       816
-i831       815
-i833       56
-i839       726
-i840       727
-i841       728
-i842       729
-i843       730
-i846       727
-i847       730
-i859       20
-i873       56
-i877       863
-i880       862
-i882       56
-i885       727
-i886       730
-i889       851
-i892       850
-i893       836
-i895       56
-i898       727
-i899       730
-i901       861
-i904       860
-i907       727
-i908       730
-i910       894
-i911       56
-i917       56
-i920       727
-i921       730
-i923       865
-i926       864
-i928       56
-i929       867
-i932       866
-i940       56
-i944       855
-i947       854
-i948       836
-i950       56
-i951       853
-i954       852
-i955       836
-i957       56
-i962       56
-i965       933
-i966       867
-i971       729
-i973       934
-i974       867
-i977       969
-i979       729
-i980       972
-i981       935
-i982       867
-i985       969
-i987       729
-i988       972
-i989       936
-i990       867
-i993       969
-i995       729
-i996       972
-i997       937
-i998       867
-i1001      969
-i1003      729
-i1004      972
-i1005      938
-i1006      867
-i1009      969
-i1011      729
-i1012      972
-i1016      969
-i1018      729
-i1019      972
-i1020      922
-i1021      918
-i1022      900
-i1023      896
-i1024      888
-i1025      883
-i1026      871
-i1027      868
-i1028      915
-i1029      912
-i1031      963
-i1032      958
-i1040      729
-i1042      844
-i1046      1038
-i1050      1041
-i1051      844
-i1055      1038
-i1058      1041
-i1059      844
-i1061      1038
-i1067      856
-i1072      723
-i1076      1066
-i1077      723
-i1081      753
-i1084      753
-i1087      753
-i1090      753
-i1093      753
-i1096      969
-i1098      729
-i1100      775
-i1103      20
-i1108      1071
-i1111      1070
-i1112      1068
-i1116      1066
-i1117      1065
-i1118      1034
-i1119      1075
-i1120      1073
-i1122      56
-i1123      1107
-i1124      1106
-i1126      56
-i1127      1105
-i1130      1104
-i1132      56
-i1137      56
-i1142      56
-i1151      729
-i1153      844
-i1155      1149
-i1156      1152
-i1165      856
-i1172      729
-i1173      1152
-i1174      844
-i1176      1170
-i1177      1152
-i1188      856
-i1195      729
-i1196      1152
-i1197      844
-i1201      1193
-i1203      729
-i1204      1152
-i1205      844
-i1207      1193
-i1208      1152
-i1215      856
-i1224      56
-i1225      1164
-i1228      1163
-i1229      1145
-i1231      56
-i1239      56
-i1240      1217
-i1243      1216
-i1244      1223
-i1245      56
-i1246      1185
-i1249      1184
-i1250      1166
-i1252      56
-i1256      1223
-i1257      56
-i1265      56
-i1266      1160
-i1269      1159
-i1270      1145
-i1273      56
-i1274      1162
-i1277      1161
-i1278      1145
-i1281      56
-i1282      1181
-i1285      1180
-i1286      1166
-i1290      56
-i1291      1183
-i1294      1182
-i1295      1166
-i1299      56
-i1307      56
-i1310      1219
-i1313      1218
-i1315      56
-i1320      56
-i1321      1187
-i1324      1186
-i1325      1166
+i468       56
+i471       56
+i487       56
+i492       56
+i497       56
+i502       56
+i509       56
+i519       56
+i524       56
+i534       56
+i537       270
+i538       22
+i539       276
+i540       273
+i541       282
+i542       279
+i543       466
+i544       465
+i545       446
+i546       443
+i547       80
+i548       24
+i550       243
+i551       240
+i552       193
+i553       190
+i554       159
+i555       156
+i556       151
+i557       148
+i558       185
+i559       184
+i560       167
+i561       164
+i562       229
+i563       226
+i564       173
+i565       170
+i566       201
+i567       198
+i568       180
+i569       177
+i570       215
+i571       212
+i572       208
+i573       205
+i574       222
+i575       219
+i577       506
+i578       503
+i579       361
+i580       358
+i581       439
+i582       436
+i583       90
+i584       87
+i585       485
+i586       473
+i587       476
+i588       473
+i589       477
+i590       473
+i591       478
+i592       473
+i593       479
+i594       473
+i595       480
+i596       473
+i597       481
+i598       473
+i599       482
+i600       473
+i601       483
+i602       473
+i603       484
+i604       473
+i606       307
+i607       304
+i608       308
+i609       304
+i610       309
+i611       304
+i612       310
+i613       304
+i614       311
+i615       304
+i616       312
+i617       304
+i618       313
+i619       304
+i620       314
+i621       304
+i622       315
+i623       304
+i624       316
+i625       304
+i627       528
+i628       525
+i629       532
+i630       392
+i631       389
+i632       257
+i633       254
+i634       340
+i635       337
+i636       352
+i637       349
+i638       409
+i639       406
+i640       289
+i641       286
+i642       517
+i643       514
+i644       513
+i645       510
+i646       529
+i648       415
+i649       412
+i650       300
+i651       297
+i652       421
+i653       419
+i654       97
+i655       94
+i657       54
+i658       51
+i659       72
+i660       69
+i661       66
+i662       63
+i663       60
+i664       57
+i665       50
+i666       47
+i668       507
+i669       503
+i670       362
+i671       358
+i672       440
+i673       436
+i674       91
+i675       87
+i676       393
+i677       389
+i678       258
+i679       254
+i680       341
+i681       337
+i682       420
+i683       419
+i684       323
+i685       319
+i687       145
+i688       142
+i689       194
+i690       190
+i691       117
+i692       114
+i693       111
+i694       108
+i695       129
+i696       126
+i697       123
+i698       120
+i699       230
+i700       226
+i701       322
+i702       319
+i703       535
+i705       247
+i706       240
+i707       155
+i708       148
+i709       154
+i710       148
+i711       162
+i712       156
+i713       176
+i714       170
+i715       183
+i716       177
+i717       188
+i718       184
+i719       204
+i720       198
+i721       211
+i722       205
+i723       218
+i724       212
+i725       225
+i726       219
+i727       239
+i728       234
+i729       253
+i730       248
+i731       303
+i732       297
+i733       418
+i734       412
+i735       399
+i736       396
+i737       405
+i738       400
+i739       197
+i740       190
+i741       285
+i742       279
+i743       472
+i744       469
+i745       233
+i746       226
+i747       163
+i748       156
+i749       189
+i750       184
+i751       103
+i752       100
+i753       246
+i754       240
+i775       760
+i782       764
+i784       766
+i785       767
+i793       790
+i796       790
+i799       790
+i802       790
+i805       790
+i808       764
+i810       766
+i811       767
+i815       778
+i819       764
+i821       766
+i822       767
+i823       786
+i826       770
+i831       764
+i833       766
+i835       768
+i838       770
+i842       764
+i844       766
+i848       778
+i851       20
+i855       774
+i857       764
+i859       773
+i860       771
+i861       759
+i863       764
+i865       758
+i866       756
+i867       853
+i868       852
+i870       56
+i876       763
+i877       764
+i878       765
+i879       766
+i880       767
+i883       764
+i884       767
+i896       20
+i910       56
+i914       900
+i917       899
+i919       56
+i922       764
+i923       767
+i926       888
+i929       887
+i930       873
+i932       56
+i935       764
+i936       767
+i938       898
+i941       897
+i944       764
+i945       767
+i947       931
+i948       56
+i954       56
+i957       764
+i958       767
+i960       902
+i963       901
+i965       56
+i966       904
+i969       903
+i977       56
+i981       892
+i984       891
+i985       873
+i987       56
+i988       890
+i991       889
+i992       873
+i994       56
+i999       56
+i1002      970
+i1003      904
+i1008      766
+i1010      971
+i1011      904
+i1014      1006
+i1016      766
+i1017      1009
+i1018      972
+i1019      904
+i1022      1006
+i1024      766
+i1025      1009
+i1026      973
+i1027      904
+i1030      1006
+i1032      766
+i1033      1009
+i1034      974
+i1035      904
+i1038      1006
+i1040      766
+i1041      1009
+i1042      975
+i1043      904
+i1046      1006
+i1048      766
+i1049      1009
+i1053      1006
+i1055      766
+i1056      1009
+i1057      959
+i1058      955
+i1059      937
+i1060      933
+i1061      925
+i1062      920
+i1063      908
+i1064      905
+i1065      952
+i1066      949
+i1068      1000
+i1069      995
+i1077      766
+i1079      881
+i1083      1075
+i1087      1078
+i1088      881
+i1092      1075
+i1095      1078
+i1096      881
+i1098      1075
+i1104      893
+i1109      760
+i1113      1103
+i1114      760
+i1118      790
+i1121      790
+i1124      790
+i1127      790
+i1130      790
+i1133      1006
+i1135      766
+i1137      812
+i1140      20
+i1145      1108
+i1148      1107
+i1149      1105
+i1153      1103
+i1154      1102
+i1155      1071
+i1156      1112
+i1157      1110
+i1159      56
+i1160      1144
+i1161      1143
+i1163      56
+i1164      1142
+i1167      1141
+i1169      56
+i1174      56
+i1179      56
+i1188      766
+i1190      881
+i1192      1186
+i1193      1189
+i1202      893
+i1209      766
+i1210      1189
+i1211      881
+i1213      1207
+i1214      1189
+i1225      893
+i1232      766
+i1233      1189
+i1234      881
+i1238      1230
+i1240      766
+i1241      1189
+i1242      881
+i1244      1230
+i1245      1189
+i1252      893
+i1261      56
+i1262      1201
+i1265      1200
+i1266      1182
+i1268      56
+i1276      56
+i1277      1254
+i1280      1253
+i1281      1260
+i1282      56
+i1283      1222
+i1286      1221
+i1287      1203
+i1289      56
+i1293      1260
+i1294      56
+i1302      56
+i1303      1197
+i1306      1196
+i1307      1182
+i1310      56
+i1311      1199
+i1314      1198
+i1315      1182
+i1318      56
+i1319      1218
+i1322      1217
+i1323      1203
 i1327      56
-i1328      1214
-i1329      1213
-i1330      1189
-i1332      56
-i1337      56
-i1338      1212
-i1341      1211
-i1342      1189
+i1328      1220
+i1331      1219
+i1332      1203
+i1336      56
 i1344      56
-i1346      1303
-i1347      1302
-i1348      1287
-i1349      1181
-i1350      1271
-i1351      1160
-i1352      1296
-i1353      1183
-i1354      1279
-i1355      1162
-i1356      1261
-i1357      1258
-i1358      1235
-i1359      1232
-i1361      1304
-i1362      1302
-i1363      1262
-i1364      1258
-i1365      1236
-i1366      1232
-i1368      1305
-i1369      1302
-i1370      1288
-i1371      1181
-i1372      1297
-i1373      1183
-i1374      1263
-i1375      1258
-i1376      1237
-i1377      1232
-i1380      1301
-i1381      1300
-i1382      1309
-i1383      1308
-i1384      1378
-i1390      1037
-i1391      1038
-i1392      1039
-i1393      729
-i1395      844
-i1398      1045
-i1399      1038
-i1400      1047
-i1401      1048
-i1402      1049
-i1403      1394
-i1404      844
-i1407      1054
-i1408      1038
-i1409      1056
-i1410      1057
-i1411      1394
-i1412      844
-i1414      1038
-i1415      1394
-i1420      856
-i1425      723
-i1429      1419
-i1430      723
-i1436      753
-i1439      753
-i1442      753
-i1446      1435
-i1447      753
-i1450      969
-i1452      729
-i1453      1099
-i1454      775
-i1457      20
-i1462      1424
-i1465      1423
-i1466      1421
-i1467      1461
-i1468      1460
-i1469      1125
-i1470      56
-i1474      1419
-i1475      1418
-i1476      1387
-i1477      1428
-i1478      1426
-i1480      56
-i1481      1459
-i1484      1458
-i1486      56
-i1487      1435
-i1488      1434
-i1489      1432
-i1490      1445
-i1491      1443
-i1495      1136
-i1496      56
-i1500      1141
-i1501      56
-i1502      1143
-i1507      1037
-i1508      1038
-i1509      1039
-i1510      729
-i1512      844
-i1515      1045
-i1516      1038
-i1517      1047
-i1518      1048
-i1519      1049
-i1520      1511
-i1521      844
-i1524      1054
-i1525      1038
-i1526      1056
-i1527      1057
-i1528      1511
-i1529      844
-i1531      1038
-i1532      1511
-i1539      856
-i1544      723
-i1548      1536
-i1549      723
-i1552      20
-i1555      1536
-i1557      1038
-i1559      1535
-i1560      1504
-i1561      1547
-i1562      1545
-i1564      56
-i1565      1538
-i1566      1537
-i1567      1504
-i1569      56
-i1570      1543
-i1573      1542
-i1574      1540
-i1578      1554
-i1581      1553
-i1583      56
-i1590      1136
-i1591      56
-i1595      1141
-i1596      56
-i1603      969
-i1605      729
-i1609      731
-i1613      969
-i1615      729
-i1616      1606
-i1618      1608
-i1619      809
-i1623      969
-i1625      729
-i1626      1606
-i1628      1608
-i1629      809
-i1633      1608
-i1634      723
-i1636      741
-i1643      729
-i1645      844
-i1647      1641
-i1648      1644
-i1655      856
-i1660      723
-i1664      1654
-i1665      723
-i1670      723
-i1675      723
-i1680      1608
-i1681      753
-i1685      1608
-i1686      753
-i1690      1608
-i1691      753
-i1695      1608
-i1696      753
-i1700      1608
-i1701      753
-i1704      969
-i1706      729
-i1707      1606
-i1708      775
-i1712      969
-i1714      729
-i1716      809
-i1719      20
-i1724      1659
-i1727      1658
-i1728      1656
-i1729      1608
-i1730      1617
-i1731      1610
-i1732      1627
-i1733      1620
-i1734      1632
-i1735      1630
-i1736      1679
-i1737      1677
-i1738      1684
-i1739      1682
-i1740      1689
-i1741      1687
-i1742      1607
-i1743      1600
-i1744      1694
-i1745      1692
-i1746      1699
-i1747      1697
-i1749      56
-i1750      1723
-i1751      1722
-i1753      56
-i1756      56
-i1760      1654
-i1761      1663
-i1762      1661
-i1763      1653
-i1764      1637
-i1765      1755
-i1766      56
-i1768      1674
-i1769      1673
-i1770      1671
-i1771      1721
-i1774      1720
-i1776      56
-i1777      1669
-i1778      1668
-i1779      1666
-i1781      56
-i1785      1652
-i1788      1651
-i1789      1637
-i1791      56
-i1794      56
-i1797      1795
-i1798      1792
-i1799      1767
-i1800      1654
-i1810      844
-i1814      1806
-i1816      729
-i1817      1809
-i1818      844
-i1820      1806
-i1821      1809
-i1826      856
-i1834      1830
-i1835      1830
-i1836      1829
-i1837      1833
-i1839      56
-i1841      1832
-i1842      1831
-i1844      56
-i1845      1828
-i1846      1827
-i1848      56
-i1849      1825
-i1850      1824
-i1851      1802
-i1853      56
-i1857      733
-i1859      733
-i1863      723
-i1864      1862
-i1865      1861
-i1866      1860
-i1873      723
-i1875      733
-i1879      723
-i1880      1872
-i1881      1871
-i1882      1870
-i1883      1878
-i1884      1877
-i1885      1876
-i1892      1890
-i1895      56
-i1896      872
-i1898      285
-i1900      916
-i1902      881
-i1904      961
-i1906      949
-i1908      927
-i1910      894
-i1912      939
-i1914      956
-i1916      832
-i1918      1479
-i1920      1485
-i1922      1131
-i1924      1121
-i1926      1141
-i1928      1136
-i1930      1582
-i1932      1563
-i1934      1343
-i1936      1336
-i1938      1331
-i1940      1326
-i1942      1319
-i1944      1314
-i1946      1306
-i1948      1298
-i1950      1289
-i1952      1280
-i1954      1272
-i1956      1264
-i1958      1251
-i1960      1238
-i1962      1230
-i1964      1223
-i1966      1793
-i1968      1790
-i1970      1780
-i1972      1775
-i1974      1755
-i1976      1752
-i1978      1748
-i1980      261
-i1982      267
-i1990      405
-i1992      81
-i1994      388
-i1996      394
-i1998      435
-i2000      468
-i2002      273
-i2004      279
-i2006      291
-i2008      399
-i2010      318
-i2012      55
-i2014      73
-i2016      67
-i2018      61
-i2020      424
-i2022      249
-i2024      473
-i2026      478
-i2028      430
-i2030      323
-i2032      335
-i2034      1568
-i2036      510
-i2038      444
-i2040      1847
-i2042      1838
-i2044      1852
-i2046      1843
-i2048      254
-i2050      447
-i2052      411
-i2054      312
-i2056      118
-i2058      130
-i2060      112
-i2062      124
-i2064      140
-i2066      174
-i2068      218
-i2070      146
-i2072      135
-i2078      211
-i2080      225
-i2082      204
-i2084      181
-i2091      495
-i2096      1125
-i2101      500
-i2105      98
-i2107      375
-i2109      463
-i2111      485
-i2113      92
-i2115      306
-i2117      351
-i2119      418
-i2121      55
-i2122      56
-i2123      61
-i2124      56
-i2125      67
-i2126      56
-i2127      73
-i2128      56
-i2129      1230
-i2130      56
-i2131      1238
-i2132      56
-i2133      1223
-i2134      56
-i2135      1251
-i2136      56
-i2137      1264
-i2138      56
-i2139      1306
-i2140      56
-i2141      1289
-i2142      56
-i2143      1298
-i2144      56
-i2145      1272
-i2146      56
-i2147      1280
-i2148      56
-i2149      1314
-i2150      56
-i2151      1319
-i2152      56
-i2153      1326
-i2154      56
-i2155      1331
-i2156      56
-i2157      1343
-i2158      56
-i2159      98
-i2160      56
-i2161      1838
-i2162      56
-i2163      1843
-i2164      56
-i2165      1847
-i2166      56
-i2167      1852
-i2168      56
-i2169      261
-i2170      56
-i2171      444
-i2172      56
-i2173      279
-i2174      56
-i2175      285
-i2176      56
-i2177      291
-i2178      56
-i2179      2076
-i2180      56
-i2181      1479
-i2182      56
-i2183      1485
-i2184      56
-i2185      1563
-i2186      56
-i2187      1582
-i2188      56
-i2189      1568
-i2190      56
-i2191      1748
-i2192      56
-i2193      1752
-i2194      56
-i2195      1755
-i2196      56
-i2197      1775
-i2198      56
-i2199      1780
-i2200      56
-i2201      1790
-i2202      56
-i2203      1793
-i2204      56
-i2205      2074
-i2206      56
-i2207      399
-i2208      56
-i2209      405
-i2210      56
-i2211      411
-i2212      56
-i2213      435
-i2214      56
-i2215      388
-i2216      56
-i2217      394
-i2218      56
-i2219      273
-i2220      56
-i2221      468
-i2222      56
-i2223      1136
-i2224      56
-i2225      1141
-i2226      56
-i2227      81
-i2228      56
-i2229      495
-i2230      56
-i2231      2093
-i2232      56
-i2233      254
-i2234      56
-i2235      92
-i2236      56
-i2237      2098
-i2238      56
-i2239      500
-i2240      56
-i2241      1125
-i2242      56
-i2243      2086
-i2244      56
-i2245      112
-i2246      56
-i2247      118
-i2248      56
-i2249      124
-i2250      56
-i2251      174
-i2252      56
-i2253      181
-i2254      56
-i2255      130
-i2256      56
-i2257      135
-i2258      56
-i2259      204
-i2260      56
-i2261      211
-i2262      56
-i2263      218
-i2264      56
-i2265      225
-i2266      56
-i2267      140
-i2268      56
-i2269      146
-i2270      56
-i2271      2103
-i2272      56
-i2273      306
-i2274      56
-i2275      351
-i2276      56
-i2277      312
-i2278      56
-i2279      418
-i2280      56
-i2281      318
-i2282      56
-i2283      323
-i2284      56
-i2285      335
-i2286      56
-i2287      2088
-i2288      56
-i2289      375
-i2290      56
-i2291      249
-i2292      56
-i2293      430
-i2294      56
-i2295      447
-i2296      56
-i2297      463
-i2298      56
-i2299      473
-i2300      56
-i2301      478
-i2302      56
-i2303      485
-i2304      56
-i2305      510
-i2306      56
-i2307      872
-i2308      56
-i2309      881
-i2310      56
-i2311      916
-i2312      56
-i2313      832
-i2314      56
-i2315      939
-i2316      56
-i2317      894
-i2318      56
-i2319      927
-i2320      56
-i2321      949
-i2322      56
-i2323      956
-i2324      56
-i2325      961
-i2326      56
-i2327      1121
-i2328      56
-i2329      1131
-i2330      56
-i2331      424
-i2332      56
-i2333      1986
-i2334      56
-i2335      1988
-i2336      56
-i2337      267
-i2338      56
-i2339      1984
-i2340      56
-i2341      1336
-i2342      56
+i1347      1256
+i1350      1255
+i1352      56
+i1357      56
+i1358      1224
+i1361      1223
+i1362      1203
+i1364      56
+i1365      1251
+i1366      1250
+i1367      1226
+i1369      56
+i1374      56
+i1375      1249
+i1378      1248
+i1379      1226
+i1381      56
+i1383      1340
+i1384      1339
+i1385      1324
+i1386      1218
+i1387      1308
+i1388      1197
+i1389      1333
+i1390      1220
+i1391      1316
+i1392      1199
+i1393      1298
+i1394      1295
+i1395      1272
+i1396      1269
+i1398      1341
+i1399      1339
+i1400      1299
+i1401      1295
+i1402      1273
+i1403      1269
+i1405      1342
+i1406      1339
+i1407      1325
+i1408      1218
+i1409      1334
+i1410      1220
+i1411      1300
+i1412      1295
+i1413      1274
+i1414      1269
+i1417      1338
+i1418      1337
+i1419      1346
+i1420      1345
+i1421      1415
+i1427      1074
+i1428      1075
+i1429      1076
+i1430      766
+i1432      881
+i1435      1082
+i1436      1075
+i1437      1084
+i1438      1085
+i1439      1086
+i1440      1431
+i1441      881
+i1444      1091
+i1445      1075
+i1446      1093
+i1447      1094
+i1448      1431
+i1449      881
+i1451      1075
+i1452      1431
+i1457      893
+i1462      760
+i1466      1456
+i1467      760
+i1473      790
+i1476      790
+i1479      790
+i1483      1472
+i1484      790
+i1487      1006
+i1489      766
+i1490      1136
+i1491      812
+i1494      20
+i1499      1461
+i1502      1460
+i1503      1458
+i1504      1498
+i1505      1497
+i1506      1162
+i1507      56
+i1511      1456
+i1512      1455
+i1513      1424
+i1514      1465
+i1515      1463
+i1517      56
+i1518      1496
+i1521      1495
+i1523      56
+i1524      1472
+i1525      1471
+i1526      1469
+i1527      1482
+i1528      1480
+i1532      1173
+i1533      56
+i1537      1178
+i1538      56
+i1539      1180
+i1544      1074
+i1545      1075
+i1546      1076
+i1547      766
+i1549      881
+i1552      1082
+i1553      1075
+i1554      1084
+i1555      1085
+i1556      1086
+i1557      1548
+i1558      881
+i1561      1091
+i1562      1075
+i1563      1093
+i1564      1094
+i1565      1548
+i1566      881
+i1568      1075
+i1569      1548
+i1576      893
+i1581      760
+i1585      1573
+i1586      760
+i1589      20
+i1592      1573
+i1594      1075
+i1596      1572
+i1597      1541
+i1598      1584
+i1599      1582
+i1601      56
+i1602      1575
+i1603      1574
+i1604      1541
+i1606      56
+i1607      1580
+i1610      1579
+i1611      1577
+i1615      1591
+i1618      1590
+i1620      56
+i1627      1173
+i1628      56
+i1632      1178
+i1633      56
+i1640      1006
+i1642      766
+i1646      768
+i1650      1006
+i1652      766
+i1653      1643
+i1655      1645
+i1656      846
+i1660      1006
+i1662      766
+i1663      1643
+i1665      1645
+i1666      846
+i1670      1645
+i1671      760
+i1673      778
+i1680      766
+i1682      881
+i1684      1678
+i1685      1681
+i1692      893
+i1697      760
+i1701      1691
+i1702      760
+i1707      760
+i1712      760
+i1717      1645
+i1718      790
+i1722      1645
+i1723      790
+i1727      1645
+i1728      790
+i1732      1645
+i1733      790
+i1737      1645
+i1738      790
+i1741      1006
+i1743      766
+i1744      1643
+i1745      812
+i1749      1006
+i1751      766
+i1753      846
+i1756      20
+i1761      1696
+i1764      1695
+i1765      1693
+i1766      1645
+i1767      1654
+i1768      1647
+i1769      1664
+i1770      1657
+i1771      1669
+i1772      1667
+i1773      1716
+i1774      1714
+i1775      1721
+i1776      1719
+i1777      1726
+i1778      1724
+i1779      1644
+i1780      1637
+i1781      1731
+i1782      1729
+i1783      1736
+i1784      1734
+i1786      56
+i1787      1760
+i1788      1759
+i1790      56
+i1793      56
+i1797      1691
+i1798      1700
+i1799      1698
+i1800      1690
+i1801      1674
+i1802      1792
+i1803      56
+i1805      1711
+i1806      1710
+i1807      1708
+i1808      1758
+i1811      1757
+i1813      56
+i1814      1706
+i1815      1705
+i1816      1703
+i1818      56
+i1822      1689
+i1825      1688
+i1826      1674
+i1828      56
+i1831      56
+i1834      1832
+i1835      1829
+i1836      1804
+i1837      1691
+i1847      881
+i1851      1843
+i1853      766
+i1854      1846
+i1855      881
+i1857      1843
+i1858      1846
+i1863      893
+i1871      1867
+i1872      1867
+i1873      1866
+i1874      1870
+i1876      56
+i1878      1869
+i1879      1868
+i1881      56
+i1882      1865
+i1883      1864
+i1885      56
+i1886      1862
+i1887      1861
+i1888      1839
+i1890      56
+i1894      770
+i1896      770
+i1900      760
+i1901      1899
+i1902      1898
+i1903      1897
+i1910      760
+i1912      770
+i1916      760
+i1917      1909
+i1918      1908
+i1919      1907
+i1920      1915
+i1921      1914
+i1922      1913
+i1929      1927
+i1932      56
+i1933      909
+i1935      403
+i1937      295
+i1939      953
+i1941      918
+i1943      998
+i1945      986
+i1947      964
+i1949      931
+i1951      976
+i1953      993
+i1955      869
+i1957      1516
+i1959      1522
+i1961      1168
+i1963      1158
+i1965      1178
+i1967      1173
+i1969      1619
+i1971      1600
+i1973      1380
+i1975      1373
+i1977      1368
+i1979      1363
+i1981      1356
+i1983      1351
+i1985      1343
+i1987      1335
+i1989      1326
+i1991      1317
+i1993      1309
+i1995      1301
+i1997      1288
+i1999      1275
+i2001      1267
+i2003      1260
+i2005      1830
+i2007      1827
+i2009      1817
+i2011      1812
+i2013      1792
+i2015      1789
+i2017      1785
+i2019      271
+i2021      277
+i2029      428
+i2031      81
+i2033      410
+i2035      416
+i2037      458
+i2039      491
+i2041      283
+i2043      290
+i2045      301
+i2047      422
+i2049      330
+i2051      55
+i2053      73
+i2055      67
+i2057      61
+i2059      447
+i2061      259
+i2063      496
+i2065      501
+i2067      453
+i2069      335
+i2071      347
+i2073      1605
+i2075      533
+i2077      467
+i2079      1884
+i2081      1875
+i2083      1889
+i2085      1880
+i2087      264
+i2089      470
+i2091      434
+i2093      324
+i2095      118
+i2097      130
+i2099      112
+i2101      237
+i2103      251
+i2105      124
+i2107      140
+i2109      174
+i2111      216
+i2113      146
+i2115      135
+i2121      209
+i2123      223
+i2125      202
+i2127      181
+i2134      518
+i2139      1162
+i2144      523
+i2148      98
+i2150      387
+i2152      486
+i2154      508
+i2156      92
+i2158      317
+i2160      363
+i2162      441
+i2164      397
+i2166      55
+i2167      56
+i2168      61
+i2169      56
+i2170      67
+i2171      56
+i2172      73
+i2173      56
+i2174      1267
+i2175      56
+i2176      1275
+i2177      56
+i2178      1260
+i2179      56
+i2180      1288
+i2181      56
+i2182      1301
+i2183      56
+i2184      1343
+i2185      56
+i2186      1326
+i2187      56
+i2188      1335
+i2189      56
+i2190      1309
+i2191      56
+i2192      1317
+i2193      56
+i2194      1351
+i2195      56
+i2196      1356
+i2197      56
+i2198      1363
+i2199      56
+i2200      1368
+i2201      56
+i2202      1380
+i2203      56
+i2204      98
+i2205      56
+i2206      1875
+i2207      56
+i2208      1880
+i2209      56
+i2210      1884
+i2211      56
+i2212      1889
+i2213      56
+i2214      271
+i2215      56
+i2216      467
+i2217      56
+i2218      290
+i2219      56
+i2220      295
+i2221      56
+i2222      301
+i2223      56
+i2224      2119
+i2225      56
+i2226      1516
+i2227      56
+i2228      1522
+i2229      56
+i2230      1600
+i2231      56
+i2232      1619
+i2233      56
+i2234      1605
+i2235      56
+i2236      1785
+i2237      56
+i2238      1789
+i2239      56
+i2240      1792
+i2241      56
+i2242      1812
+i2243      56
+i2244      1817
+i2245      56
+i2246      1827
+i2247      56
+i2248      1830
+i2249      56
+i2250      2117
+i2251      56
+i2252      422
+i2253      56
+i2254      428
+i2255      56
+i2256      434
+i2257      56
+i2258      458
+i2259      56
+i2260      410
+i2261      56
+i2262      416
+i2263      56
+i2264      283
+i2265      56
+i2266      491
+i2267      56
+i2268      1173
+i2269      56
+i2270      1178
+i2271      56
+i2272      81
+i2273      56
+i2274      518
+i2275      56
+i2276      2136
+i2277      56
+i2278      264
+i2279      56
+i2280      92
+i2281      56
+i2282      2141
+i2283      56
+i2284      523
+i2285      56
+i2286      1162
+i2287      56
+i2288      2129
+i2289      56
+i2290      112
+i2291      56
+i2292      118
+i2293      56
+i2294      124
+i2295      56
+i2296      174
+i2297      56
+i2298      181
+i2299      56
+i2300      130
+i2301      56
+i2302      135
+i2303      56
+i2304      202
+i2305      56
+i2306      209
+i2307      56
+i2308      216
+i2309      56
+i2310      223
+i2311      56
+i2312      140
+i2313      56
+i2314      237
+i2315      56
+i2316      146
+i2317      56
+i2318      251
+i2319      56
+i2320      2146
+i2321      56
+i2322      317
+i2323      56
+i2324      363
+i2325      56
+i2326      324
+i2327      56
+i2328      441
+i2329      56
+i2330      330
+i2331      56
+i2332      335
+i2333      56
+i2334      347
+i2335      56
+i2336      2131
+i2337      56
+i2338      387
+i2339      56
+i2340      259
+i2341      56
+i2342      397
+i2343      56
+i2344      403
+i2345      56
+i2346      453
+i2347      56
+i2348      470
+i2349      56
+i2350      486
+i2351      56
+i2352      496
+i2353      56
+i2354      501
+i2355      56
+i2356      508
+i2357      56
+i2358      533
+i2359      56
+i2360      909
+i2361      56
+i2362      918
+i2363      56
+i2364      953
+i2365      56
+i2366      869
+i2367      56
+i2368      976
+i2369      56
+i2370      931
+i2371      56
+i2372      964
+i2373      56
+i2374      986
+i2375      56
+i2376      993
+i2377      56
+i2378      998
+i2379      56
+i2380      1158
+i2381      56
+i2382      1168
+i2383      56
+i2384      447
+i2385      56
+i2386      2025
+i2387      56
+i2388      2027
+i2389      56
+i2390      277
+i2391      56
+i2392      2023
+i2393      56
+i2394      1373
+i2395      56

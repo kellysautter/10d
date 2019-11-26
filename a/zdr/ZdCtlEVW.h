@@ -287,6 +287,8 @@ public:
    void Cut();  // moved to public
    void Copy();  // moved to public
    void Paste();  // moved to public
+   void Tab();  // moved to public
+   void Untab();  // moved to public
    void SelectAllLines();  // moved to public
    virtual int GetLineCount();  // moved to public
    virtual int GetLineLength(int nLineIndex);  // moved to public
@@ -313,6 +315,8 @@ public:
    void GetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public
    void SetSelection(CPoint &ptStart, CPoint &ptEnd);  // moved to public
    void UpdateCaret();  // moved to public
+   void PageUp();
+   void PageDown();
 
    BOOL GetAutoIndent() const;
    void SetAutoIndent(BOOL bAutoIndent);

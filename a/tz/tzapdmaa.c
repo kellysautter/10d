@@ -803,7 +803,7 @@ fnText( zSHORT       nID,
       case zDME_GET_VARIABLE:
          if ( lpDomainData->lpViewAttribute->cType == zTYPE_STRING )
          {
-            zPCHAR   lpAttrAddr;
+            zPCHAR   lpAttrAddr = NULL; // KJS 11/15/2019
             zCHAR    cAttrType;
             zULONG   uAttrLength;
 
@@ -1485,7 +1485,7 @@ zdmInteger( zLONG        lEntryType,
       case zDME_GET_VARIABLE:
          if ( lpDomainData->lpViewAttribute->cType == zTYPE_INTEGER )
          {
-            zPCHAR   lpAttrValue;
+            zPCHAR   lpAttrValue = NULL; // KJS 11/15/2019
             zCHAR    cAttrType;
             zULONG   uAttrLength;
 
@@ -2220,7 +2220,7 @@ zdmPassword( zLONG        lEntryType,
 
          if ( lpDomainData->lpViewAttribute->cType == zTYPE_STRING )
          {
-            zPCHAR   lpAttrAddr;
+            zPCHAR   lpAttrAddr = NULL; // KJS 11/15/2019
             zCHAR    cAttrType;
             zULONG   uAttrLength;
 
@@ -2541,7 +2541,7 @@ zdmPasswordUL( zLONG        lEntryType,
 
          if ( lpDomainData->lpViewAttribute->cType == zTYPE_STRING )
          {
-            zPCHAR   lpAttrAddr;
+            zPCHAR   lpAttrAddr = NULL; // KJS 11/15/2019
             zCHAR    cAttrType;
             zULONG   uAttrLength;
 

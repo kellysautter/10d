@@ -498,7 +498,7 @@ OL_DetailPreBuild( zVIEW vSubtask )
    zPCHAR  pchTemp;
    zPCHAR  pchColorBuffer;
    zPCHAR  pchColorTemp;
-   zPCHAR  pchStart;
+   zPCHAR  pchStart = NULL; // KJS 11/15/2019
    zPCHAR  pchDefaultColor;
    zPCHAR  pchDefaultColorBuffer;
    zCHAR   szTempString[ 34 ];

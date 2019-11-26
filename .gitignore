@@ -39,6 +39,9 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+*.VC.opendb 
+*.VC.db
+ZDr.VC.VC.opendb
 
 # Build results
 
@@ -52,6 +55,23 @@ w/libz
 # Ignore w/bin but not w/bin/sys
 w/bin
 !w/bin/sys
+
+a/tz/z__temp.vml
+a/oe/eoe.bat
+a/tz/dks/
+a/tz/egen.bat
+a/tz/gen.bat
+a/tz/tzwebgl2.c.txt
+a/zdr/ZDr.VC.db
+dks10path.txt
+dks10set.txt
+mak/commo232.hnm
+mak/commos2.hnm
+mak/commwin.hnm
+mak/toms.hnm
+set.txt
+w/ut/mergedef/mergedef.VC.db
+w/ut/mergedef/tzweb.def
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -68,6 +88,7 @@ mtznlast.bat
 *.lib
 *.LIB
 *.dll
+*.exe
 *_i.c
 *_p.c
 *.asm

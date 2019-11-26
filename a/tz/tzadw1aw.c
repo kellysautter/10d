@@ -2090,10 +2090,10 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
    zVIEW    vAutoDesWk;
    zVIEW    vNewDialogRoot;
    zVIEW    vNewDialog;
-   zVIEW    vSrcButtonView;
+   zVIEW    vSrcButtonView = NULL; // KJS 11/15/2019
    zVIEW    vObject;
    zVIEW    vUSSubEntCall;
-   zVIEW    vPE;
+   zVIEW    vPE = NULL; // KJS 11/15/2019
    zSHORT   nRC;
    zCHAR    szCase[ 3 ];
    zCHAR    szParentCase[ 3 ];
@@ -2114,6 +2114,10 @@ oTZADCSDO_AutoDesignCase1( zVIEW  vSubtask,
 
    GetViewByName( &vAutoDesWk, "TZADWWKO", vSubtask, zLEVEL_TASK );
    GetViewByName( &vObject, "LOD_Object", vSubtask, zLEVEL_TASK );
+
+   // KJS 11/15/2019 - Adding this here because of the following error I am receiving...
+   //error C4703: potentially uninitialized local pointer variable 'vPE' used
+   //error C4703: potentially uninitialized local pointer variable 'vSrcButtonView' used
 
    // Create a new vNewDialog view so as to not mess up the callers vDialog.
    CreateViewFromViewForTask( &vNewDialog, vNewDialogOrig, 0 );

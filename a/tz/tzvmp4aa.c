@@ -400,7 +400,7 @@ GetDefineZKey( zVIEW  vSubtask,
 zOPER_EXPORT zLONG OPERATION
 GetVariableID( zPLONG nID, zPCHAR pchVariableName )     // name of the variable looked for
 {
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    // initialize to not found
    *nID = -1;
@@ -422,7 +422,7 @@ GetVariableID( zPLONG nID, zPCHAR pchVariableName )     // name of the variable 
 zOPER_EXPORT zLONG OPERATION
 GetVariableName( zLONG lID, zPCHAR pchVariableName, zLONG lMaxLth )
 {
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    // since an entity exists, check to see if this same name was declared for this operation.
    lRC = SetCursorFirstEntityByInteger( g_lpSGView, "Variable", "ID", lID, "" );
@@ -439,7 +439,7 @@ GetVariableLength( zPCHAR pchVarLth, zLONG lMaxLth, zLONG lID )
 {
    zLONG lDataType;                   // temp to hold the Type of the var
    zLONG lLth;
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    pchVarLth[ 0 ] = 0;
 
@@ -484,7 +484,7 @@ zOPER_EXPORT zLONG OPERATION
 GetVariableDataType( zLONG lVariableID )    // id of the variable looked for
 {
    zLONG lDataType;                   // temp to hold the Type of the var
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    // since an entity exists, check to see if this same name was
    // declared for this operation.
@@ -584,7 +584,7 @@ GetOperationInformation( zVIEW  vSubtask,
    zVIEW vLookupView;
    zCHAR szObjectName[ zZEIDON_NAME_LTH + 1 ];
    zCHAR szParentEntityName[ zZEIDON_NAME_LTH + 1 ];
-   zLONG lRC;                                       // temp return code
+   zLONG lRC = 0;                                       // temp return code
 
    // 1: If there is no parameter, or it is not a variable
    //    then we look up locally first, then to the global list. then Z
@@ -724,7 +724,7 @@ GetOperationClass( zVIEW  vSubtask,
                    zPLONG plOperationClass,
                    zPCHAR pchOperationName ) // id of the oper to be found
 {
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    // FIRST: try to locate it as a local operation using the global view.
    // we can assume that at least one operation exists ( the one we are
@@ -771,7 +771,7 @@ zOPER_EXPORT zLONG OPERATION
 IsLocalOperation( zPCHAR pchOperationName ) // id of the oper to be found
 {
    zVIEW vLookupView;
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    lRC = CreateViewFromViewForTask( &vLookupView, g_lpSGView, 0 );
 
@@ -809,7 +809,7 @@ GetOperationData( zVIEW  vSubtask,
                   zVIEW  vGenericView,
                   zPCHAR pchOperationName )
 {
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    lRC = SetCursorFirstEntityByString( vGenericView, "Operation", "Name", pchOperationName, "" );
 
@@ -843,7 +843,7 @@ GetOperationData( zVIEW  vSubtask,
 zOPER_EXPORT zLONG OPERATION
 IsGlobalOperation( zPCHAR pchOperationName ) // id of the oper to be found
 {
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    if ( g_lpGOListView == 0 )
       return( -1 );
@@ -859,7 +859,7 @@ zOPER_EXPORT zLONG OPERATION
 IsZeidonOperation( zPCHAR pchOperationName ) // id of the oper to be found
 {
    zLONG lZKey;
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    if ( g_lpZOListView == 0 )
       return( 0 );
@@ -888,7 +888,7 @@ ParserIsObjectOperation( zVIEW  vSubtask,
                          zPCHAR pchOperationName )
 {
    zVIEW vSource;
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    // go through all the "view" variables to see if this operation
    // is tied to the object.
@@ -931,7 +931,7 @@ IsKnownObjectOperation( zVIEW  vSubtask,
                         zVIEW  vLODView,
                         zPCHAR pchOperationName )
 {
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    lRC = SetCursorFirstEntity( vLODView, "SourceFile", "" );
    while ( lRC == zCURSOR_SET )
@@ -962,7 +962,7 @@ GetOperationZKey( zVIEW  vSubtask,
 {
    zVIEW vLookupView = 0;
    zLONG lZKeyNumber;
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    switch ( lOperationClass )
    {
@@ -1035,7 +1035,7 @@ GetOperationParmListPM( zVIEW vSubtask,
    zCHAR cPtrFlag[ 2 ];
    zLONG lPtrFlag;
    zVIEW vLookupView;
-   zLONG lRC;                         // temp return code
+   zLONG lRC = 0;                         // temp return code
 
    switch( lOperationClass )
    {
@@ -1178,7 +1178,7 @@ GetOperationParmListFromSource( zLONG sParmList[],
    zLONG lParmType;
    zLONG lReturnType = 0;
    zBOOL bStringRejected = FALSE;
-   zLONG lRC;             // return code
+   zLONG lRC = 0;             // return code
 
 #if 1
    zmemset( sParmList, 0, PARM_LIST_SIZE * sizeof( zLONG ) );
@@ -1733,7 +1733,7 @@ CreateLoopControlWithView( zVIEW  vSubtask,
    zLONG lNewID;
    zLONG lVarID;
    zVIEW vTargetView;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    CreateViewFromViewForTask( &vTargetView, g_lpExprView, 0 );
    CreateEntity( vTargetView, "Expression", zPOS_AFTER );
@@ -1788,7 +1788,7 @@ NewGenerateTempVariable( zVIEW  vSubtask,
    zLONG lModify;
    zLONG lSeq;
    zLONG lReturnDataType = lDataType;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    switch ( lDataType )
    {
@@ -1868,7 +1868,7 @@ NewGenerateTempVariable( zVIEW  vSubtask,
 zOPER_EXPORT zLONG OPERATION
 ReuseTempVariable( zLONG lID )
 {
-   zLONG lRC;
+   zLONG lRC = 0;
 
    lRC = SetCursorFirstEntityByInteger( g_lpSGView, "Variable", "ID", lID, "" );
    if ( lRC == zCURSOR_SET )
@@ -1885,7 +1885,7 @@ AddReturnStatement( zVIEW  vSubtask,
                     zLONG  lBeforeOrAfter )
 {
    zVIEW vTargetView;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    CreateEntity( g_lpExprView, "Expression", zPOS_AFTER );
    CreateViewFromViewForTask( &vTargetView, g_lpExprView, 0 );

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JpegLib", "jpeglib\JPegLib.vcxproj", "{87F9CC3F-44B0-4EEF-9C90-A7901CE420D9}"
 EndProject
@@ -21,7 +21,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDr", "ZDr.vcxproj", "{E5CC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZDrApp", "ZDrApp\ZDrApp.vcxproj", "{9FB0CCAE-7409-40AB-BD2A-FE501C681094}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZSEMail", "ZSEmail\ZSEMail.vcxproj", "{04A79DA6-B17E-4B0B-AD96-B2E7A8AFA3FD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZSEMail", "ZSEMail\ZSEMail.vcxproj", "{04A79DA6-B17E-4B0B-AD96-B2E7A8AFA3FD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9FB0CCAE-7409-40AB-BD2A-FE501C681094} = {9FB0CCAE-7409-40AB-BD2A-FE501C681094}
 	EndProjectSection

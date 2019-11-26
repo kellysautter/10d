@@ -919,7 +919,7 @@ fnzwTZOPUPDD_DeleteOperation( zVIEW  vSubtask,
    zVIEW    vOperGrpCur;
    zVIEW    vOperGrpOrig;
    zVIEW    vOperGrpTmp;
-   zVIEW    vWindow;
+   zVIEW    vWindow = NULL; // KJS 11/15/2019
    zBOOL    bRefreshMainWindow = FALSE;
    zSHORT   nRC;
    zULONG   ulZKey;

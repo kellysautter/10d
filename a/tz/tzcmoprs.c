@@ -908,7 +908,7 @@ fnActivateMetaOI( zVIEW   vSubtask,
    zVIEW  vTaskMetas;
 // zVIEW  vApplication;
    zVIEW  vTaskLPLR;
-   zVIEW  CM_View;
+   zVIEW  CM_View = 0; // KJS 11/15/2019
    zVIEW  vWkListView;
 // zVIEW  vTZCMULWO;
 // zVIEW  vTZCMWKSO;
@@ -1840,7 +1840,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
    zSHORT nRC, nEntityType;
    zBOOL  bNewMeta;
    zSHORT ReferViewsActive, ReferOI_Active;
-   zVIEW  vWork1;
+   zVIEW  vWork1 = 0; // KJS 11/15/2019
    zVIEW  CM_View;
    zVIEW  MOI_ExecView;
    zVIEW  IncludeView;
@@ -3230,9 +3230,9 @@ DeleteMetaOI( zVIEW  vSubtask,
    zVIEW  vActiveList;
    zVIEW  vWork1;
    zVIEW  vWork2;
-   zVIEW  CM_View;
+   zVIEW  CM_View = 0; // KJS 11/15/2019
    zVIEW  vVOR;
-   zVIEW  vVOR_LPLR;
+   zVIEW  vVOR_LPLR = 0; // KJS 11/15/2019
    zCHAR  szMetaOI_Name[ 33 ];
    zCHAR  szEntityName[ 33 ];
    zCHAR  szCM_ViewName[ 80 ];
@@ -5538,19 +5538,19 @@ SetUpMapLOD( zVIEW   vSubtask,
 zOPER_EXPORT zSHORT OPERATION
 RebuildMetaLists( zVIEW   vSubtask )
 {
-   zVIEW  vZeidonCM;
-   zVIEW  vTZCMWKSO;
-   zVIEW  LPLR_View;
-   zVIEW  vTZCMSLPL;
+   zVIEW  vZeidonCM = NULL;
+   zVIEW  vTZCMWKSO = NULL;
+   zVIEW  LPLR_View = NULL;
+   zVIEW  vTZCMSLPL = NULL;
    zVIEW  TZCMULWO = 0;
    zCHAR  szLPLR_FileSpec[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR  szDirectorySpec[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR  szLPLR_Name[ 33 ];
    zCHAR  szLPLR_FileName[ 33 ];
    zCHAR  szTimestamp[ 22 ];
-   zLONG  lTaskUseCnt;
-   zLONG  lCurrentZKey;
-   zLONG  lZKey;
+   zLONG  lTaskUseCnt = 0;
+   zLONG  lCurrentZKey = 0;
+   zLONG  lZKey = 0;
    zSHORT nRC, nLPLR_Activated;
    HFILE  hFile;
    zCHAR  szDetachSpec[ zMAX_FILESPEC_LTH + 1 ];

@@ -524,7 +524,7 @@ AddOperationEntityToPI( zVIEW  vSubtask,
 zOPER_EXPORT zLONG OPERATION
 ResetOperation( zPCHAR pchOperationName )
 {
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // If an operation entity does exist, try to position on it.  If we can, then this is an error situation of redefining the operation.
    lRC = SetCursorFirstEntityByString( g_lpPIView, "Operation", "Name", pchOperationName, "" );
@@ -587,7 +587,7 @@ AddVariableEntityToPI( zVIEW  vSubtask,
                        zLONG  lLineNumber )      // line number on which it was defined
 {
    zLONG lID;                   // temp to hold the id of the var to declare
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // First we want to see if any variable exists in this instance.  First, however, we need to position the static global view to this operation
    // that is being built in case it has been moved.
@@ -1736,7 +1736,7 @@ CreateConvertZeidonStrOp( zVIEW  vSubtask,
    zLONG lOffset;
    zLONG lElementClass;
    zLONG lOperationZKey;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    /////////////  ElementClass - qVARIABLE:1044  qOPERATOR:1034  qOPERATIONCALL:2008
    //  Section 1  DataClass - qNUMERIC:2009  qZEIDONOPERATION:4006  qTEXT:2010

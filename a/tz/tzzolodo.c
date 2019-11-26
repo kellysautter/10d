@@ -723,7 +723,7 @@ oTZZOLODO_AddEntity( zVIEW  vSubtask,
 {
    zVIEW vTZZOLOD1;
    zVIEW vTZZOLOD2;
-   zVIEW vTZEREMDO;
+   zVIEW vTZEREMDO = 0;
    zVIEW vTZEREMDO2;
    zSHORT nRC;
    zSHORT nRC2;

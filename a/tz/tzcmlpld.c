@@ -699,8 +699,7 @@ zwfnTZCMLPLD_InitDialog( zVIEW vSubtask )
    {
       if ( GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK ) >= 0 )
       {
-         SetNameForView( vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
-
+		 SetNameForView( vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
          InitializeDefaultLPL( vSubtask );
          SetWindowActionBehavior( vSubtask, zWAB_StartModalSubwindow, "TZCMLPLD", "SignOn" );
          return( -1 );
@@ -947,9 +946,11 @@ zwTZCMLPLD_InitDialog( zVIEW vSubtask )
    zCHAR    szZeidonWKS[ 128 ];
    zSHORT   nRC;
 
+   TraceLineS("InitDialog 1", "");
    // Check to make sure that no other tools are up.
    if ( zwfnTZCMLPLD_InitDialog( vSubtask ) < 0 )
       return( 0 );
+   TraceLineS("after fnInitDialog ", "");
 
    // Activate the Work Station object, giving an error and exiting if no object has been set up.
    if ( oTZCMWKSO_GetWKS_FileName( szZeidonWKS, zsizeof( szZeidonWKS ) ) == 0 )
@@ -961,6 +962,7 @@ zwTZCMLPLD_InitDialog( zVIEW vSubtask )
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
    }
+   TraceLineS("InitDialog 2", "");
 
    // Make sure that there are no null entries in the list, which could occur if the system was aborted during the creation
    // of a new LPLR.
@@ -971,10 +973,14 @@ zwTZCMLPLD_InitDialog( zVIEW vSubtask )
       if ( CompareAttributeToString( vTZCMWKSO, "LPLR", "Name", "" ) == 0 )
           DeleteEntity( vTZCMWKSO, "LPLR", zREPOS_NONE );
    }
+   TraceLineS("InitDialog 3", "");
 
    SetNameForView( vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+   TraceLineS("InitDialog 4", "");
    GetViewByName( &vZeidonCM, "ZeidonCM", vSubtask, zLEVEL_APPLICATION );
+   TraceLineS("InitDialog 5", "");
    SetNameForView( vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
+   TraceLineS("InitDialog 6", "");
 
    SetWindowActionBehavior( vSubtask, zWAB_StartModalSubwindow, "TZCMLPLD", "TZCMLPLL" );
 
@@ -2355,8 +2361,8 @@ zwTZCMLPLD_CreateNewLPLR( zVIEW vSubtask )
 {
    zVIEW    vTaskLPLR;
    zVIEW    vTZCMLPLO;
-   zVIEW    vTZCMWKSO;
-   zVIEW    vTZCMULWO;
+   zVIEW    vTZCMWKSO = NULL; // KJS 11/15/2019
+   zVIEW    vTZCMULWO = NULL; // KJS 11/15/2019
    zCHAR    szLPLR_Type[ 2 ];
    zCHAR    szLPLR_Name[ 33 ];
    zCHAR    szUserName[ 33 ];
@@ -2749,9 +2755,9 @@ zwTZCMLPLD_PrebuildNewLPLR( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 zwTZCMLPLD_DeleteLPLR( zVIEW vSubtask )
 {
-   zVIEW    vTZCMLPLO;
-   zVIEW    vTZCMWKSO;
-   zVIEW    vTZCMCPRO;
+   zVIEW    vTZCMLPLO = NULL; // KJS 11/15/2019
+   zVIEW    vTZCMWKSO = NULL; // KJS 11/15/2019
+   zVIEW    vTZCMCPRO = NULL; // KJS 11/15/2019
    zCHAR    szFileName[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR    szSearchFileName[ zMAX_FILESPEC_LTH + 1  ];
    zCHAR    szERR_Msg[ zSHORT_MESSAGE_LTH + 1 ]; // at least length of szName + 89
@@ -5677,7 +5683,7 @@ zwfnTZCMLPLD_ActivateCPLR_Meta( zVIEW vSubtask, zVIEW vTZCMCPRO,
 {
    zVIEW    vKZDBHQUA;
    zVIEW    vTZCMLPLO;
-   zVIEW    vMetaOI;
+   zVIEW    vMetaOI = NULL; // KJS 11/15/2019
    zVIEW    vZeidonCM;
    zVIEW    vTaskLPLR;
    zCHAR    szLPLR_FileSpec[ zMAX_FILESPEC_LTH + 1 ];

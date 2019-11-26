@@ -1,7 +1,7 @@
-z1000-Zeidon    ZEIDON   TZPESRCO 08/31/16   11:33:50 1.0a2   
+z1000-Zeidon    ZEIDON   TZPESRCO                         11/22/19   16:43:54 1.0a2   
 ePresEnvDef 1
 aZKey      5019543
-aNextZKeyToAssign 190008894
+aNextZKeyToAssign 190008897
 aName      ZEIDON
 aLastCtrl  28
 aLastFont  3
@@ -351,20 +351,6 @@ aTag       Acquire
 aType      33554432
 
 eWindowStyle 2
-aZKey      190008892
-aTag       jMobile Window
-
-eEventDef  3
-aZKey      190008893
-aTag       PreBuild
-aType      1
-
-eEventDef  3
-aZKey      190008894
-aTag       PostBuild (Pre MapFromOI)
-aType      2
-
-eWindowStyle 2
 aZKey      10024379
 aTag       Sizeable Dialog Box
 aStyle     -2134114304
@@ -519,6 +505,20 @@ aType      1
 
 eEventDef  3
 aZKey      90130103
+aTag       PostBuild (Pre MapFromOI)
+aType      2
+
+eWindowStyle 2
+aZKey      190008891
+aTag       jMobile Window
+
+eEventDef  3
+aZKey      190008892
+aTag       PreBuild
+aType      1
+
+eEventDef  3
+aZKey      190008894
 aTag       PostBuild (Pre MapFromOI)
 aType      2
 
@@ -1895,6 +1895,11 @@ eConvertsSelfToChild 3
 
 eControlDef 2
 
+eCtrlEventDef 3
+aZKey      190008895
+aTag       SelectionChanged
+aType      1
+
 eValidParent 3
 
 eControlDef 2
@@ -1909,6 +1914,16 @@ aMaintenanceDialog TZPNCTAD
 aMaintenanceWindow UPD_SSCOMBO_CTL
 aRequiresParent Y
 aInvisible -1
+
+eCtrlEventDef 3
+aZKey      190008896
+aTag       SelectChange
+aType      1
+
+eCtrlEventDef 3
+aZKey      190008897
+aTag       SelectEnd
+aType      598
 
 eValidParent 3
 aZKey      2010
@@ -3783,79 +3798,79 @@ i326       166
 i327       307
 i328       321
 i329       323
-i330       307
-i334       321
-i336       307
-i340       307
-i360       359
-i434       373
-i450       359
-i451       359
-i452       359
-i453       373
-i454       341
-i455       338
-i456       337
-i471       431
-i472       470
-i473       470
-i474       470
-i475       431
-i489       337
-i490       341
-i507       324
-i510       506
-i511       509
-i512       509
-i515       506
-i516       506
-i517       509
-i518       506
-i520       509
-i522       514
-i523       519
-i524       521
-i525       519
-i526       514
-i527       514
-i528       514
-i529       519
-i530       514
-i534       521
-i535       519
-i536       514
-i537       533
-i538       532
-i539       521
-i540       514
-i542       514
-i543       521
-i544       531
-i546       514
-i547       521
-i548       531
-i549       531
-i550       514
-i551       531
-i552       521
-i554       321
-i555       166
-i556       323
-i557       208
-i558       322
-i559       514
-i560       521
-i561       531
-i562       321
-i574       307
-i575       338
-i576       341
-i577       337
-i578       337
-i582       337
-i583       338
-i596       594
-i598       594
-i657       341
-i658       337
-i659       338
+i331       307
+i337       321
+i339       307
+i343       307
+i363       362
+i437       376
+i453       362
+i454       362
+i455       362
+i456       376
+i457       344
+i458       341
+i459       340
+i474       434
+i475       473
+i476       473
+i477       473
+i478       434
+i492       340
+i493       344
+i510       324
+i513       509
+i514       512
+i515       512
+i518       509
+i519       509
+i520       512
+i521       509
+i523       512
+i525       517
+i526       522
+i527       524
+i528       522
+i529       517
+i530       517
+i531       517
+i532       522
+i533       517
+i537       524
+i538       522
+i539       517
+i540       536
+i541       535
+i542       524
+i543       517
+i545       517
+i546       524
+i547       534
+i549       517
+i550       524
+i551       534
+i552       534
+i553       517
+i554       534
+i555       524
+i557       321
+i558       166
+i559       323
+i560       208
+i561       322
+i562       517
+i563       524
+i564       534
+i565       321
+i577       307
+i578       341
+i579       344
+i580       340
+i581       340
+i585       340
+i586       341
+i599       597
+i601       597
+i660       344
+i661       340
+i662       341

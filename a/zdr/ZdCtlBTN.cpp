@@ -1228,7 +1228,7 @@ PushButton( ZSubtask *pZSubtask,
          return( new ZFontPicker( pZSubtask, pWndParent,
                                   pzmaComposite, vDialog,
                                   nOffsetX, nOffsetY, pCtrlDef ) );
-      }
+	  }
    }
 
    return( new ZPushButton( pZSubtask, pWndParent,
@@ -1350,7 +1350,9 @@ ZFontPicker::ZFontPicker( ZSubtask *pZSubtask,
    if ( pzmaComposite == 0 || (pzmaComposite->m_ulMapActFlag2 & zMAPACT_CREATE_CHILDREN) )
 #endif
    {
-      CreateZ( );
+		// KJS 11/22/16 - Right now, this is taking a few seconds to build. On the web we don't use the font field
+	    // attribute so I am currently taking this out to speed things up.
+        //CreateZ( );
    }
 }
 

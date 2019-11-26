@@ -2280,12 +2280,10 @@ ActivateOI_FromFile( zPVIEW    pvReturnView,
    {
       if ( zstrstr( cpcFileName, "TZCMULWO.POR" ) == 0 )
       {
-/*
          if ( zstrstr( cpcFileName, "KZTRANWO." ) != 0 )
             TraceLineS( "(oi) opening >>>>>>>>>> ", szOpenFileName );
          else
             TraceLineS( "(oi) opening ", szOpenFileName );
-*/
       }
    }
 
@@ -7466,7 +7464,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
                {
                   bMsgBox = FALSE;
                   SysMessageBox( lpView, szlOE_SystemError,
-                                 "Error writing OI: ER Tokens don't match for linked entities 1!", 1 );
+                                 "Error writing OI: ER Tokens don't match for linked entities!", 1 );
                }
             }
          }
@@ -7682,6 +7680,7 @@ SfWriteOI_ToStream( zVIEW          lpView,
    zPCHAR               pchLine;
    zPCHAR               pchFileNmp;
    zCHAR                szFileHeader[ sizeof( FileHeaderRecord ) ];
+   zCHAR                szDateTime[ 20 ];
    zCHAR                szTemp[ 50 ];
    zLONG                lTickCount;
    zBOOL                bOptimistic;
@@ -7792,6 +7791,9 @@ SfWriteOI_ToStream( zVIEW          lpView,
 
    SysTranslateString( FileHeader.szFileName, 'U' );
    strcpy_s( FileHeader.szObjectType, zsizeof( FileHeader.szObjectType ), lpViewOD->szName );
+   // KJS 11/25/19 - I had this in my code... so going to keep for now.
+   SysGetDateTime( szDateTime, zsizeof( szDateTime ) );
+   fnDateTimeFormat( szDateTime, FileHeader.szDate, zsizeof( FileHeader.szDate ), FileHeader.szTime, zsizeof( FileHeader.szTime ) );
 
    // Even if this is not a MetaOI, we should force the release level for
    // all files to be at the minimal level of the software.
@@ -10389,6 +10391,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
    zSHORT            nFlag = -1;
 #endif
 
+
    // The following should only be used for cursor processing.
    zLONG             lInstanceCount = 0;
 
@@ -10505,14 +10508,8 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                   LPENTITYINSTANCE lpRecordOwner = NULL;
                   LPVIEWENTITY lpOwnerViewEntity;
 
-//TraceLine("LINKED value");
-
                   hashmap_get( pRecordOwners, pchLine, (void**)(&lpRecordOwner) );
                   lpOwnerViewEntity = zGETPTR( lpRecordOwner->hViewEntity );
-
-               TraceLine( "(oi) hashmap GET (OD: %s) - lpOwnerViewEntity: %s Token: %d  View Entity: %s Token = %d lpRecordOwner->szTag: %s",
-                          lpViewOD->szName, lpOwnerViewEntity->szName, lpOwnerViewEntity->lEREntTok,
-                          lpViewEntity->szName, lpViewEntity->lEREntTok, lpRecordOwner->szTag );
 
                   if ( lpOwnerViewEntity->lEREntTok != lpViewEntity->lEREntTok )
                   {
@@ -10520,7 +10517,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                      if ( bMsgBox )
                      {
                         bMsgBox = FALSE;
-                        SysMessageBox( lpView, szlOE_SystemError, "ER Tokens don't match for linked entities 2!", 1 );
+                        SysMessageBox( lpView, szlOE_SystemError, "ER Tokens don't match for linked entities!", 1 );
                      }
                   }
                   else
@@ -10559,14 +10556,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
             case 'R':
                // Is this EI the record owner of linked instances?
                if ( zstrcmp( szWorkString, "RO" ) == 0 )
-               {
-				   LPVIEWENTITY lpOwnerViewEntity;
-				   lpOwnerViewEntity = zGETPTR(lpEntityInstance->hViewEntity);
-				   
-					   TraceLine( "(oi) Hashmap PUT (Tag: %s): Name: %s",
-                          lpEntityInstance->szTag, lpOwnerViewEntity->szName);
                   hashmap_put( pRecordOwners, lpEntityInstance->szTag, lpEntityInstance );
-               }
 
                break;
          }
@@ -11329,7 +11319,7 @@ fnActivateOI_FromTextStream( zVIEW          lpView,
                if ( bMsgBox )
                {
                   bMsgBox = FALSE;
-                  SysMessageBox( lpView, szlOE_SystemError, "ER Tokens don't match for linked entities 3!", 1 );
+                  SysMessageBox( lpView, szlOE_SystemError, "ER Tokens don't match for linked entities!", 1 );
                }
             }
             else
@@ -11943,9 +11933,9 @@ EndOfFunction:
 
       if ( zstrcmp( lpViewOD->szName, "TZCMULWO" ) != 0 )
       {
-        // sprintf_s( sz, zsizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
-        //            (double) (SysGetTickCount( ) - lTickCount) / zTICKS_PER_SECOND );
-        // TraceLineS( "(oi) Total time for SfActivateOI_FromStream ", sz );
+         sprintf_s( sz, zsizeof( sz ), "(%s) = %lf seconds", lpViewOD->szName,
+                    (double) (SysGetTickCount( ) - lTickCount) / zTICKS_PER_SECOND );
+         TraceLineS( "(oi) Total time for SfActivateOI_FromStream ", sz );
       }
    }
 
