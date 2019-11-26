@@ -2975,7 +2975,7 @@ GetOperationNameFromZKey( zVIEW   vSubtask,
                           zLONG   lZKey )
 {
 // g_lpPIView is the TZVSP000 object created by parse.
-   zVIEW  vLookupView;
+   zVIEW  vLookupView = NULL; // KJS 11/15/2019
    zCHAR  szType[ 2 ];
    zCHAR  szObjectName[ zZEIDON_NAME_LTH + 1 ];
    zCHAR  szParentEntityName[ zZEIDON_NAME_LTH + 1 ];

@@ -1626,8 +1626,8 @@ oTZCMLPLO_CheckInMetas( zVIEW  vSubtask,
    zVIEW    vLPLR_Deletes;
    zVIEW    vDialog;
    zVIEW    vTemp;
-   zVIEW    vMeta;
-   zVIEW    vERD;
+   zVIEW    vMeta= 0; //KJS 11/15/2019
+   zVIEW    vERD = 0; //KJS 11/15/2019
    zVIEW    vLPLR;
    zVIEW    vTZCMAUDO;
    zULONG   ulZKey;
@@ -1958,7 +1958,7 @@ TraceLineS( "End of Section 3", "" );
                     lType == zSOURCE_DOMAINGRP_META ||
                     lType == zSOURCE_DIALOG_META )
                {
-                  zPCHAR pszSourceFileEntityName;
+                  zPCHAR pszSourceFileEntityName = ""; //KJS 11/15/2019
 
                   // Loop through the source files.
                   switch ( lType )

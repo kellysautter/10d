@@ -9362,8 +9362,8 @@ fnCloneCtrlMap( zVIEW     vTgt,
                 zVIEW     vSrcLPLR,
                 zVIEW     vSubtask )
 {
-   zVIEW     vLOD;
-   zVIEW     vLOD_List;
+   zVIEW     vLOD = NULL; // KJS 11/15/2019
+   zVIEW     vLOD_List = NULL; // KJS 11/15/2019
    zCHAR     szMsg[ 65 ];
    zCHAR     szTag[ 33 ];
    zSHORT    nRC;

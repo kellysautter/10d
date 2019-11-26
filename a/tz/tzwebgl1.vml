@@ -92,7 +92,7 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szGridInGroup
    STRING ( 1 )   szTableExport
    STRING ( 100 ) szDisabled
-   STRING ( 256 ) szStyle
+   STRING ( 300 ) szStyle
    DECIMAL        dDLUnits
    INTEGER        LastY_Pos
    INTEGER        LastY_Height
@@ -2006,9 +2006,9 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                szWriteBuffer = "<div id=^" + szCtrlCtrlTag + "^ class=^" + szClass + "^ " + szStyle + "> <!-- Tab item " + szCtrlCtrlTag + " -->"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                IF  szActionName = ""
-                  szWriteBuffer = "<h2 class=^tab^><span>" + vDialog.Control.Text +"</span></h2>"
+                  szWriteBuffer = "<h2  id=^" + szCtrlCtrlTag + "h2tab^ class=^tab^><span>" + vDialog.Control.Text +"</span></h2>"
                ELSE
-                  szWriteBuffer = "<h2 class=^tab^><span onclick=^" + szActionName + "();^>" + vDialog.Control.Text +"</span></h2>"
+                  szWriteBuffer = "<h2  id=^" + szCtrlCtrlTag + "h2tab^ class=^tab^><span onclick=^" + szActionName + "();^>" + vDialog.Control.Text +"</span></h2>"
                END
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "<script type=^text/javascript^>" + szCtrlTag + ".addTabPage( document.getElementById( ^" + szCtrlCtrlTag + "^ ) );</script>"
@@ -5556,7 +5556,7 @@ PIX_PER_DU( VIEW vDialog BASED ON LOD TZWDLGSO, DECIMAL dDLUnits )
 END
 
 GLOBAL OPERATION
-FixStyleString( STRING ( 1024 ) szStyle,
+FixStyleString( STRING ( 300 ) szStyle,
                 STRING ( 100 ) szS1,   // position usually
                 STRING ( 100 ) szS2,   //
                 STRING ( 100 ) szSE )
@@ -5584,13 +5584,14 @@ END
 
 GLOBAL OPERATION
 CreateAbsolStyleString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                        STRING ( 1024 ) szStyle,
+                        STRING ( 300 ) szStyle,
                         INTEGER X_BASE,
                         INTEGER Y_BASE,
                         STRING ( 100 ) szStyleExtraParm )
 
    STRING ( 100 )  szPosition
    STRING ( 100 )  szSize
+   
    CreateSizeString( vDialog, szSize )
    CreateAbsolPosString( vDialog, szPosition, X_BASE, Y_BASE )
 
@@ -5599,13 +5600,14 @@ END
 
 GLOBAL OPERATION
 CreateRelStyleString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                      STRING ( 1024 ) szStyle,
+                      STRING ( 300 ) szStyle,
                       INTEGER X_BASE,
                       INTEGER Y_BASE,
                       STRING ( 100 ) szStyleExtraParm )
 
    STRING ( 100 )  szPosition
    STRING ( 100 )  szSize
+   
    CreateSizeString( vDialog, szSize )
    CreateRelPosString( vDialog, szPosition, X_BASE, Y_BASE )
 
@@ -5620,7 +5622,7 @@ END
 *************************************************************************************************/
 GLOBAL OPERATION
 CreateNoPosStyleString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                        STRING ( 1024 ) szStyle,
+                        STRING ( 300 ) szStyle,
                         STRING ( 100 ) szStyleExtraParm )
 
    STRING ( 100 )  szSize
@@ -5632,7 +5634,7 @@ END
 
 GLOBAL OPERATION
 CreateSizeString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                  STRING ( 1024 ) szStyle )
+                  STRING ( 100 ) szStyle )
 
    STRING ( 20 )  szWidth
    STRING ( 20 )  szHeight
@@ -5659,7 +5661,7 @@ END
 
 GLOBAL OPERATION
 CreateAbsolPosString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                      STRING ( 1024 ) szStyle,
+                      STRING ( 100 ) szStyle,
                       INTEGER X_BASE,
                       INTEGER Y_BASE )
 
@@ -5676,7 +5678,7 @@ END
 
 GLOBAL OPERATION
 CreateAbsolPosStringTable( VIEW vDialog BASED ON LOD TZWDLGSO,
-                           STRING ( 1024 ) szStyle,
+                           STRING ( 100 ) szStyle,
                            INTEGER X_BASE,
                            INTEGER Y_BASE )
 
@@ -5696,7 +5698,7 @@ END
 
 GLOBAL OPERATION
 CreateRelPosString( VIEW vDialog BASED ON LOD TZWDLGSO,
-                    STRING ( 1024 ) szStyle,
+                    STRING ( 100 ) szStyle,
                     INTEGER X_BASE,
                     INTEGER Y_BASE )
 
@@ -6353,12 +6355,14 @@ GenJSP_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    END
 
    // Next Window Option
+   // Next Window Option
    IF lActionType = zWAB_StartModelessSubwindow          OR
       lActionType = zWAB_StartModalSubwindow             OR
+      lActionType = zWAB_StartModalSubwindowNP           OR
       lActionType = zWAB_ReplaceWindowWithModelessWindow OR
       lActionType = zWAB_ReplaceWindowWithModalWindow    OR
-      lActionType = 35                                   OR  //reCAPTCHA StartModalSubwindow
-      lActionType = 55  //reCAPTCHA ReplaceModalWindow
+      lActionType = zWAB_StartNewApp                     OR  //reCAPTCHA StartModalSubwindow
+      lActionType = zWAB_ReCAPTCHA  //reCAPTCHA ReplaceModalWindow
       IF InsertBlankFlag = "Y"
          szWriteBuffer = ""
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -6386,7 +6390,8 @@ GenJSP_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
       IF lActionType = zWAB_StartModelessSubwindow OR
          lActionType = zWAB_StartModalSubwindow    OR
-         lActionType = 35 //reCAPTCHA StartModalSubwindow
+         lActionType = zWAB_StartModalSubwindowNP  OR
+         lActionType = zWAB_StartNewApp //reCAPTCHA StartModalSubwindow
          // Next Window is subwindow. Set up current window for return.
          szWriteBuffer = "      vKZXMLPGO.CreateEntity( strSessionId, ^PagePath^, vKZXMLPGO.zPOS_AFTER );"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )

@@ -1,7 +1,7 @@
-z1000-Zeidon    WD       TZDGSRCO 01/11/18   10:14:08 1.0a2    
+z1000-Zeidon    WD       TZDGSRCO 06/24/19   12:33:30 1.0a2    
 eDomainGroup 1
 aZKey      1320467
-aNextZKeyToAssign 130069848
+aNextZKeyToAssign 130069850
 aName      WD
 aDesc      Web jsp generation control types 
 aExtension C
@@ -587,9 +587,14 @@ aExternalValue Show/Hide Toggle2
 aInternalValue Show/Hide Toggle2
 
 eTableEntry 4
-aZKey      68544987
-aExternalValue File Transfer to Server
-aInternalValue File Transfer to Server
+aZKey      130069849
+aExternalValue File Upload with DateTime
+aInternalValue File Upload with DateTime
+
+eTableEntry 4
+aZKey      130069850
+aExternalValue File Upload w/o DateTime
+aInternalValue File Upload w/o DateTime
 
 eTableEntry 4
 aZKey      68304372
@@ -670,6 +675,11 @@ eTableEntry 4
 aZKey      68304369
 aExternalValue Scrollable
 aInternalValue Scrollable
+
+eTableEntry 4
+aZKey      68544987
+aExternalValue File Transfer to Server
+aInternalValue File Transfer to Server
 
 eDomain    2
 aZKey      68304279
@@ -2110,6 +2120,6 @@ aType      13
 aLastUpdateDate 19950908094926000
 aLastCheckInDate 19951102203051110
 
-i226       223
-i229       223
-i387       223
+i228       225
+i231       225
+i389       225

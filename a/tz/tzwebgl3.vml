@@ -53,6 +53,7 @@ BuildMainNavSection( VIEW vDialog,
    STRING ( 256 )   szClass
    STRING ( 50 )    szDialogName
    STRING ( 50 )    szMenuName
+   STRING ( 50 )    szOptionTag
    STRING ( 34 )    szActionName
    STRING ( 1 )     szWindowIsjMobile
    INTEGER          ActionType
@@ -68,6 +69,7 @@ BuildMainNavSection( VIEW vDialog,
    // Get the root of the dialog being generated.
    GET VIEW vCurrentDlgRoot NAMED "DialogRoot"
    
+
    IF vDialog.WndStyle.Tag = "jMobile Window"
       szWindowIsjMobile = "Y"
    ELSE
@@ -94,13 +96,17 @@ BuildMainNavSection( VIEW vDialog,
      
    IF szWindowIsjMobile = "Y"
       szWriteBuffer = "<div data-role=^navbar^ id=^div" + szMenuName + "^ " + szClass + ">"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szHTML5Attr + " >"
    ELSE 
       szWriteBuffer = "<div id=^mainnavigation^" + szHTML5Attr + szClass + ">"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   <ol id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szHTML5Attr + " >"
    END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    //szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + ">"
-   szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szHTML5Attr + " >"
-   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "   <ol id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szHTML5Attr + " >"
+   //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
    FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
       //szNavigationTitle = vDialogRoot.Option.Text
@@ -145,6 +151,21 @@ BuildMainNavSection( VIEW vDialog,
          ActionType = 0
       END
 
+      // KJS 01/23/18 - Adding the hiding of menu options to the main menu. Issue... this is java code, if we are building this
+      // for c code, it won't work. At the moment, there is no one generating jsp for c.
+      szWriteBuffer = "<%"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szOptionTag = vDialogRoot.Option.Tag
+      szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   {"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+
       IF ActionType = zWAB_LinkToHTML_Address
          szHTML_Address = ""
          IF vDialogRoot.OptAct EXISTS
@@ -162,10 +183,21 @@ BuildMainNavSection( VIEW vDialog,
          END
       END
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      szWriteBuffer = "<%"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "%>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    END
 
    // Division ending for Navigation Bar
-   szWriteBuffer = "   </ul>"
+   IF szWindowIsjMobile = "Y"
+      szWriteBuffer = "   </ul>"
+   ELSE
+      szWriteBuffer = "   </ol>"
+   END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    szWriteBuffer = "</div>  <!-- end Navigation Bar -->"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -229,17 +261,17 @@ BuildSideNavSection( VIEW vDialog,
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    szWriteBuffer = "<!-- Side Navigation *********************** -->"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-   IF vDialogRoot.Menu EXISTS
-      szMenuName = vDialogRoot.Menu.Tag
+   IF vDialogRoot.Menu EXISTS 
+      szMenuName = vDialogRoot.Menu.Tag 
       IF vDialogRoot.Menu.CSS_Class != ""
-         szClass = " class=^" + vDialogRoot.Menu.CSS_Class + "^ "
+         szClass = " class=^" + vDialogRoot.Menu.CSS_Class + "^ " 
       END
    END
    szWriteBuffer = "<div id=^sidenavigation^" + szClass + ">"
    //szWriteBuffer = "<div id=^sidenavigation^>"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    //szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + ">"
-   szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^>"
+   szWriteBuffer = "   <ol id=^" + szMenuName + "^ name=^" + szMenuName + "^>"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
    FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
@@ -286,8 +318,8 @@ BuildSideNavSection( VIEW vDialog,
       ELSE
          szClass2 = ""
       END
-
-      IF vDialogRoot.Option.CSS_Class != ""
+      
+      IF vDialogRoot.Option.CSS_Class != "" 
          szClass = " class=^" + vDialogRoot.Option.CSS_Class + "^"
       ELSE
          szClass = ""
@@ -336,8 +368,8 @@ BuildSideNavSection( VIEW vDialog,
             szActionName = ""
             ActionType = 0
          END
-
-         szMenuName = vDialogRoot.Option.Tag
+         
+         szMenuName = vDialogRoot.Option.Tag         
 
          // If the window we are currently generating is the same window that this
          // side menu points to, then we want to set a class on this option.  The
@@ -347,8 +379,8 @@ BuildSideNavSection( VIEW vDialog,
          ELSE
             szClass2 = ""
          END
-
-         IF vDialogMenu.Option.CSS_Class != ""
+      
+         IF vDialogMenu.Option.CSS_Class != "" 
             szClass = "class=^" + vDialogMenu.Option.CSS_Class + "^"
          ELSE
             szClass = ""
@@ -382,7 +414,7 @@ BuildSideNavSection( VIEW vDialog,
    END  // vDialogMenu != 0
 
    // Division ending for Navigation Bar.
-   szWriteBuffer = "   </ul>"
+   szWriteBuffer = "   </ol>"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    szWriteBuffer = "</div> <!-- sidenavigation -->"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1141,7 +1173,7 @@ GenJSP_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    // Format a TEXT control.
 
    STRING ( 32 )  szContextName
-   STRING ( 256 ) szStyle
+   STRING ( 300 ) szStyle
    STRING ( 256 ) szClassHTML
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
@@ -1470,7 +1502,7 @@ GenJSP_CrteCtrlsRadio( VIEW vDialog BASED ON LOD TZWDLGSO,
                        INTEGER          lOffsetX,
                        INTEGER          lOffsetY )
 
-   STRING ( 256 ) szStyle
+   STRING ( 300 ) szStyle
    STRING ( 256 ) szClass
    STRING ( 256 ) szTitle
    STRING ( 256 ) szCtrlTag
@@ -1620,7 +1652,7 @@ GenJSP_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
                      INTEGER          lOffsetY )
 
    // Format an CHECKBOX control.
-   STRING ( 256 ) szStyle
+   STRING ( 300 ) szStyle
    STRING ( 256 ) szClass
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
@@ -1748,7 +1780,7 @@ GenJSP_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    VIEW vDialogRoot BASED ON LOD TZWDLGSO
    STRING ( 32 )  szContextName
    STRING ( 300 ) szValue
-   STRING ( 256 ) szStyle
+   STRING ( 300 ) szStyle
    STRING ( 256 ) szClass
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
@@ -2041,7 +2073,7 @@ GenJSP_CrteJPG( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    STRING ( 32 )  szContextName
    STRING ( 256 ) szClass
-   STRING ( 256 ) szStyle
+   STRING ( 300 ) szStyle
    STRING ( 16 )  szTabIndex
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
@@ -2726,7 +2758,7 @@ GenJSP_CrteGroupTable(  VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 85 )  szHTMLCtrlID
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
-   STRING ( 256 ) szStyle
+   STRING ( 300 ) szStyle
    STRING ( 256 ) szClass
    STRING ( 32 )  szActionName
    STRING ( 50 )  szControlType
@@ -2735,7 +2767,7 @@ GenJSP_CrteGroupTable(  VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 32 )  szContextName
    STRING ( 10 )  szMaxStringLth
    STRING ( 32 )  szSize
-   STRING ( 256 ) szAbsoluteStyle
+   STRING ( 300 ) szAbsoluteStyle
 
    STRING ( 1 )   szNoHeightFlag
    STRING ( 1 )   szNoWidthFlag

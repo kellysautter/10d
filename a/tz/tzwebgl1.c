@@ -217,7 +217,7 @@ GenJSP_TableExport( zVIEW     vDialog,
 
 //:GLOBAL OPERATION
 //:CreateNoPosStyleString( VIEW vDialog BASED ON LOD TZWDLGSO,
-//:                        STRING ( 1024 ) szStyle,
+//:                        STRING ( 300 ) szStyle,
 //:                        STRING ( 100 ) szStyleExtraParm )
 
 //:   STRING ( 100 )  szSize
@@ -277,7 +277,7 @@ CreateDisabledString( zVIEW     vDialog,
 
 //:GLOBAL OPERATION
 //:CreateAbsolPosStringTable( VIEW vDialog BASED ON LOD TZWDLGSO,
-//:                           STRING ( 1024 ) szStyle,
+//:                           STRING ( 100 ) szStyle,
 //:                           INTEGER X_BASE,
 //:                           INTEGER Y_BASE )
 
@@ -309,13 +309,13 @@ CreateAbsolPosStringTable( zVIEW     vDialog,
    //:szStyle = "position:absolute;" +
    //:          "top:" + szY_Pos + "px;" +
    //:          "left:" + szX_Pos + "px;"
-   ZeidonStringCopy( szStyle, 1, 0, "position:absolute;", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "top:", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, szY_Pos, 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "left:", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, szX_Pos, 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 1025 );
+   ZeidonStringCopy( szStyle, 1, 0, "position:absolute;", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "top:", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, szY_Pos, 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "left:", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, szX_Pos, 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 101 );
    return;
 // END
 } 
@@ -1612,13 +1612,15 @@ GenJSP_Action( zVIEW     vDialog,
    //:END
 
    //:// Next Window Option
+   //:// Next Window Option
    //:IF lActionType = zWAB_StartModelessSubwindow          OR
    //:   lActionType = zWAB_StartModalSubwindow             OR
+   //:   lActionType = zWAB_StartModalSubwindowNP           OR
    //:   lActionType = zWAB_ReplaceWindowWithModelessWindow OR
    //:   lActionType = zWAB_ReplaceWindowWithModalWindow    OR
-   //:   lActionType = 35                                   OR  //reCAPTCHA StartModalSubwindow
-   //:   lActionType = 55  //reCAPTCHA ReplaceModalWindow
-   if ( lActionType == zWAB_StartModelessSubwindow || lActionType == zWAB_StartModalSubwindow || lActionType == zWAB_ReplaceWindowWithModelessWindow || lActionType == zWAB_ReplaceWindowWithModalWindow || lActionType == 35 || lActionType == 55 )
+   //:   lActionType = zWAB_StartNewApp                     OR  //reCAPTCHA StartModalSubwindow
+   //:   lActionType = zWAB_ReCAPTCHA  //reCAPTCHA ReplaceModalWindow
+   if ( lActionType == zWAB_StartModelessSubwindow || lActionType == zWAB_StartModalSubwindow || lActionType == zWAB_StartModalSubwindowNP || lActionType == zWAB_ReplaceWindowWithModelessWindow || lActionType == zWAB_ReplaceWindowWithModalWindow || lActionType == zWAB_StartNewApp || lActionType == zWAB_ReCAPTCHA )
    { 
       //:IF InsertBlankFlag = "Y"
       if ( ZeidonStringCompare( InsertBlankFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
@@ -1679,8 +1681,9 @@ GenJSP_Action( zVIEW     vDialog,
 
       //:IF lActionType = zWAB_StartModelessSubwindow OR
       //:   lActionType = zWAB_StartModalSubwindow    OR
-      //:   lActionType = 35 //reCAPTCHA StartModalSubwindow
-      if ( lActionType == zWAB_StartModelessSubwindow || lActionType == zWAB_StartModalSubwindow || lActionType == 35 )
+      //:   lActionType = zWAB_StartModalSubwindowNP  OR
+      //:   lActionType = zWAB_StartNewApp //reCAPTCHA StartModalSubwindow
+      if ( lActionType == zWAB_StartModelessSubwindow || lActionType == zWAB_StartModalSubwindow || lActionType == zWAB_StartModalSubwindowNP || lActionType == zWAB_StartNewApp )
       { 
          //:// Next Window is subwindow. Set up current window for return.
          //:szWriteBuffer = "      vKZXMLPGO.CreateEntity( strSessionId, ^PagePath^, vKZXMLPGO.zPOS_AFTER );"
@@ -2273,7 +2276,7 @@ GenJSP_Action( zVIEW     vDialog,
 
 //:GLOBAL OPERATION
 //:CreateRelPosString( VIEW vDialog BASED ON LOD TZWDLGSO,
-//:                    STRING ( 1024 ) szStyle,
+//:                    STRING ( 100 ) szStyle,
 //:                    INTEGER X_BASE,
 //:                    INTEGER Y_BASE )
 
@@ -2305,13 +2308,13 @@ CreateRelPosString( zVIEW     vDialog,
    //:szStyle = "position:relative;" +
    //:          "left:" + szX_Pos + "px;" +
    //:          "top:" + szY_Pos + "px;"
-   ZeidonStringCopy( szStyle, 1, 0, "position:relative;", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "left:", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, szX_Pos, 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "top:", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, szY_Pos, 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 1025 );
+   ZeidonStringCopy( szStyle, 1, 0, "position:relative;", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "left:", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, szX_Pos, 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "top:", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, szY_Pos, 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 101 );
    return( 0 );
 // END
 } 
@@ -2319,7 +2322,7 @@ CreateRelPosString( zVIEW     vDialog,
 
 //:GLOBAL OPERATION
 //:CreateAbsolPosString( VIEW vDialog BASED ON LOD TZWDLGSO,
-//:                      STRING ( 1024 ) szStyle,
+//:                      STRING ( 100 ) szStyle,
 //:                      INTEGER X_BASE,
 //:                      INTEGER Y_BASE )
 
@@ -2349,13 +2352,13 @@ CreateAbsolPosString( zVIEW     vDialog,
    zIntegerToString( szY_Pos, 10, lTempInteger_1 * dDLUnits + Y_BASE );
 
    //:szStyle = "position:absolute;" + "left:" + szX_Pos + "px;" + "top:" + szY_Pos + "px;"
-   ZeidonStringCopy( szStyle, 1, 0, "position:absolute;", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "left:", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, szX_Pos, 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "top:", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, szY_Pos, 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 1025 );
+   ZeidonStringCopy( szStyle, 1, 0, "position:absolute;", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "left:", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, szX_Pos, 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "top:", 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, szY_Pos, 1, 0, 101 );
+   ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 101 );
    return( 0 );
 // END
 } 
@@ -2363,7 +2366,7 @@ CreateAbsolPosString( zVIEW     vDialog,
 
 //:GLOBAL OPERATION
 //:CreateSizeString( VIEW vDialog BASED ON LOD TZWDLGSO,
-//:                  STRING ( 1024 ) szStyle )
+//:                  STRING ( 100 ) szStyle )
 
 //:   STRING ( 20 )  szWidth
 zOPER_EXPORT zSHORT OPERATION
@@ -2390,7 +2393,7 @@ CreateSizeString( zVIEW     vDialog,
    GetIntegerFromAttribute( &lTempInteger_1, vDialog, "Control", "SZDLG_Y" );
    zIntegerToString( szHeight, 20, lTempInteger_1 * dDLUnits );
    //:szStyle = ""
-   ZeidonStringCopy( szStyle, 1, 0, "", 1, 0, 1025 );
+   ZeidonStringCopy( szStyle, 1, 0, "", 1, 0, 101 );
 
    //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "No Width"
    RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "No Width", "" );
@@ -2398,9 +2401,9 @@ CreateSizeString( zVIEW     vDialog,
    if ( RESULT < zCURSOR_SET )
    { 
       //:szStyle = szStyle + "width:" + szWidth + "px;"
-      ZeidonStringConcat( szStyle, 1, 0, "width:", 1, 0, 1025 );
-      ZeidonStringConcat( szStyle, 1, 0, szWidth, 1, 0, 1025 );
-      ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 1025 );
+      ZeidonStringConcat( szStyle, 1, 0, "width:", 1, 0, 101 );
+      ZeidonStringConcat( szStyle, 1, 0, szWidth, 1, 0, 101 );
+      ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 101 );
    } 
 
    //:END
@@ -2411,9 +2414,9 @@ CreateSizeString( zVIEW     vDialog,
    if ( RESULT < zCURSOR_SET )
    { 
       //:szStyle = szStyle + "height:" + szHeight + "px;"
-      ZeidonStringConcat( szStyle, 1, 0, "height:", 1, 0, 1025 );
-      ZeidonStringConcat( szStyle, 1, 0, szHeight, 1, 0, 1025 );
-      ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 1025 );
+      ZeidonStringConcat( szStyle, 1, 0, "height:", 1, 0, 101 );
+      ZeidonStringConcat( szStyle, 1, 0, szHeight, 1, 0, 101 );
+      ZeidonStringConcat( szStyle, 1, 0, "px;", 1, 0, 101 );
    } 
 
    //:END
@@ -2425,7 +2428,7 @@ CreateSizeString( zVIEW     vDialog,
 
 //:GLOBAL OPERATION
 //:CreateRelStyleString( VIEW vDialog BASED ON LOD TZWDLGSO,
-//:                      STRING ( 1024 ) szStyle,
+//:                      STRING ( 300 ) szStyle,
 //:                      INTEGER X_BASE,
 //:                      INTEGER Y_BASE,
 //:                      STRING ( 100 ) szStyleExtraParm )
@@ -2442,6 +2445,7 @@ CreateRelStyleString( zVIEW     vDialog,
    //:STRING ( 100 )  szSize
    zCHAR     szSize[ 101 ] = { 0 }; 
 
+
    //:CreateSizeString( vDialog, szSize )
    CreateSizeString( vDialog, szSize );
    //:CreateRelPosString( vDialog, szPosition, X_BASE, Y_BASE )
@@ -2456,7 +2460,7 @@ CreateRelStyleString( zVIEW     vDialog,
 
 //:GLOBAL OPERATION
 //:CreateAbsolStyleString( VIEW vDialog BASED ON LOD TZWDLGSO,
-//:                        STRING ( 1024 ) szStyle,
+//:                        STRING ( 300 ) szStyle,
 //:                        INTEGER X_BASE,
 //:                        INTEGER Y_BASE,
 //:                        STRING ( 100 ) szStyleExtraParm )
@@ -2473,6 +2477,7 @@ CreateAbsolStyleString( zVIEW     vDialog,
    //:STRING ( 100 )  szSize
    zCHAR     szSize[ 101 ] = { 0 }; 
 
+
    //:CreateSizeString( vDialog, szSize )
    CreateSizeString( vDialog, szSize );
    //:CreateAbsolPosString( vDialog, szPosition, X_BASE, Y_BASE )
@@ -2486,7 +2491,7 @@ CreateAbsolStyleString( zVIEW     vDialog,
 
 
 //:GLOBAL OPERATION
-//:FixStyleString( STRING ( 1024 ) szStyle,
+//:FixStyleString( STRING ( 300 ) szStyle,
 //:                STRING ( 100 ) szS1,   // position usually
 //:                STRING ( 100 ) szS2,   //
 //:                STRING ( 100 ) szSE )
@@ -2499,11 +2504,11 @@ FixStyleString( zPCHAR    szStyle,
 
 
    //:szStyle = "style=^" + szS1 + szS2 + szSE + "^"
-   ZeidonStringCopy( szStyle, 1, 0, "style=^", 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, szS1, 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, szS2, 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, szSE, 1, 0, 1025 );
-   ZeidonStringConcat( szStyle, 1, 0, "^", 1, 0, 1025 );
+   ZeidonStringCopy( szStyle, 1, 0, "style=^", 1, 0, 301 );
+   ZeidonStringConcat( szStyle, 1, 0, szS1, 1, 0, 301 );
+   ZeidonStringConcat( szStyle, 1, 0, szS2, 1, 0, 301 );
+   ZeidonStringConcat( szStyle, 1, 0, szSE, 1, 0, 301 );
+   ZeidonStringConcat( szStyle, 1, 0, "^", 1, 0, 301 );
    return( 0 );
 // END
 } 
@@ -6382,8 +6387,8 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
    zCHAR     szTableExport[ 2 ] = { 0 }; 
    //:STRING ( 100 ) szDisabled
    zCHAR     szDisabled[ 101 ] = { 0 }; 
-   //:STRING ( 256 ) szStyle
-   zCHAR     szStyle[ 257 ] = { 0 }; 
+   //:STRING ( 300 ) szStyle
+   zCHAR     szStyle[ 301 ] = { 0 }; 
    //:DECIMAL        dDLUnits
    ZDecimal  dDLUnits = 0.0; 
    //:INTEGER        LastY_Pos
@@ -10570,15 +10575,15 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
             if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
             { 
                //:szStyle = ""
-               ZeidonStringCopy( szStyle, 1, 0, "", 1, 0, 257 );
+               ZeidonStringCopy( szStyle, 1, 0, "", 1, 0, 301 );
                //:ELSE
             } 
             else
             { 
                //:szStyle = "style=^height:" + szHeight + "px;^"
-               ZeidonStringCopy( szStyle, 1, 0, "style=^height:", 1, 0, 257 );
-               ZeidonStringConcat( szStyle, 1, 0, szHeight, 1, 0, 257 );
-               ZeidonStringConcat( szStyle, 1, 0, "px;^", 1, 0, 257 );
+               ZeidonStringCopy( szStyle, 1, 0, "style=^height:", 1, 0, 301 );
+               ZeidonStringConcat( szStyle, 1, 0, szHeight, 1, 0, 301 );
+               ZeidonStringConcat( szStyle, 1, 0, "px;^", 1, 0, 301 );
             } 
 
             //:END
@@ -10661,17 +10666,21 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
                //:IF  szActionName = ""
                if ( ZeidonStringCompare( szActionName, 1, 0, "", 1, 0, 33 ) == 0 )
                { 
-                  //:szWriteBuffer = "<h2 class=^tab^><span>" + vDialog.Control.Text +"</span></h2>"
+                  //:szWriteBuffer = "<h2  id=^" + szCtrlCtrlTag + "h2tab^ class=^tab^><span>" + vDialog.Control.Text +"</span></h2>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<h2  id=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlCtrlTag, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "h2tab^ class=^tab^><span>", 1, 0, 10001 );
                   GetVariableFromAttribute( szTempString_77, 0, 'S', 255, vDialog, "Control", "Text", "", 0 );
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<h2 class=^tab^><span>", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_77, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, "</span></h2>", 1, 0, 10001 );
                   //:ELSE
                } 
                else
                { 
-                  //:szWriteBuffer = "<h2 class=^tab^><span onclick=^" + szActionName + "();^>" + vDialog.Control.Text +"</span></h2>"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<h2 class=^tab^><span onclick=^", 1, 0, 10001 );
+                  //:szWriteBuffer = "<h2  id=^" + szCtrlCtrlTag + "h2tab^ class=^tab^><span onclick=^" + szActionName + "();^>" + vDialog.Control.Text +"</span></h2>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<h2  id=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlCtrlTag, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "h2tab^ class=^tab^><span onclick=^", 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
                   ZeidonStringConcat( szWriteBuffer, 1, 0, "();^>", 1, 0, 10001 );
                   GetVariableFromAttribute( szTempString_78, 0, 'S', 255, vDialog, "Control", "Text", "", 0 );
@@ -13134,9 +13143,9 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
                         GetIntegerFromAttribute( &lTempInteger_37, vDialog, "Control", "SZDLG_X" );
                         zIntegerToString( szWidth, 10, lTempInteger_37 * dDLUnits );
                         //:szStyle = " style=^width:" + szWidth + "px;^ "
-                        ZeidonStringCopy( szStyle, 1, 0, " style=^width:", 1, 0, 257 );
-                        ZeidonStringConcat( szStyle, 1, 0, szWidth, 1, 0, 257 );
-                        ZeidonStringConcat( szStyle, 1, 0, "px;^ ", 1, 0, 257 );
+                        ZeidonStringCopy( szStyle, 1, 0, " style=^width:", 1, 0, 301 );
+                        ZeidonStringConcat( szStyle, 1, 0, szWidth, 1, 0, 301 );
+                        ZeidonStringConcat( szStyle, 1, 0, "px;^ ", 1, 0, 301 );
 
                         //:// szWriteBuffer = "   " + szItemTableHeader + "><input type=^submit^ " + szTitleHTML + szClass + "name=<%=strButtonName%> onclick=^" + szActionName +
                         //://                 "( this.id )^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ value=^" + vDialog.Control.Text + "^" + szDisabled + "></td>"

@@ -2909,7 +2909,7 @@ ConvertReport( zVIEW   vSubtask,
 // zVIEW  vPE;
 // zPCHAR pch;
 // zLONG  lKey;
-   zPCHAR pch;
+   zPCHAR pch = NULL;  // KJS 11/15/2019
    zVIEW  vTgtReport;
    zVIEW  vTmpReport;
    zVIEW  vSubCtrl;
@@ -3330,7 +3330,7 @@ ConvertXSLT( zVIEW   vSubtask,
 // zVIEW  vPE;
 // zPCHAR pch;
 // zLONG  lKey;
-   zPCHAR pch;
+   zPCHAR pch = NULL;  // KJS 11/15/2019
    zVIEW  vTgtXSLT;
    zVIEW  vTmpXSLT;
    zVIEW  vSubCtrl;

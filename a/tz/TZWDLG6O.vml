@@ -226,8 +226,9 @@ END
 /////////////////////////////////////////////////////////////////////////////
 TRANSFORMATION OPERATION
 GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
-                      INTEGER          lFileJSP,
-                      STRING ( 10000 ) szWriteBuffer )
+                       STRING ( 1 )     szAppendDateTime,
+                       INTEGER          lFileJSP,
+                       STRING ( 10000 ) szWriteBuffer )
 
    // Build the JSP function code to process a file being transferred from the Client to the Server.
 
@@ -553,7 +554,12 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                  DateFormat dateFormat = new SimpleDateFormat(^yyyymmddhhmmsss^);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  String strDateTime = dateFormat.format(new java.util.Date());"
+   // KJS 06/18/19 - If we do not want to append the datetime, then blank out strDateTime
+   IF szAppendDateTime = "N"
+      szWriteBuffer = "                  String strDateTime = ^^;"
+   ELSE
+      szWriteBuffer = "                  String strDateTime = dateFormat.format(new java.util.Date());"
+   END
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    
    szWriteBuffer = "                  l = sSourceFileNameOnly.lastIndexOf(^.^);"
@@ -566,44 +572,39 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                  strInputFileName = sSourceFileNameOnly.substring(0,l) + strDateTime + ^.^ + sExtension;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-   
-   
-   
-   
    szWriteBuffer = "                  // Check if a file already exists with this name, if so, change the name."
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                  File fs = new File(sTargetFile);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  int z=0;"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  while (fs.exists())"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  {"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                     z=z+1;"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                     String ext = new Integer(z).toString();"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                     l = sSourceFileNameOnly.lastIndexOf(^.^);"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                     sExtension = sSourceFileNameOnly.substring(l+1);"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                     sTargetFile = sTargetDirectory + sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                     // strInputFileName is used to populate the mapped field for the upload file. "
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                     strInputFileName = sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-   //szWriteBuffer = "                     task.log().info("*** New File Name *** " + sTargetFile);"
-
-   szWriteBuffer = "                     fs = new File(sTargetFile);"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  }"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   
-   
-   
-   
+   // KJS - I don't think we need to add this. We either append the datetime to the uploaded file (making it unique) or we don't append the datetime indicating
+   // we will overwrite the file if one already exists.
+   IF szAppendDateTime = "X" // X won't exist, I won't delete code in case we change our minds. 
+       szWriteBuffer = "                  int z=0;"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                  while (fs.exists())"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                  {"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                     z=z+1;"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                     String ext = new Integer(z).toString();"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                     l = sSourceFileNameOnly.lastIndexOf(^.^);"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                     sExtension = sSourceFileNameOnly.substring(l+1);"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                     sTargetFile = sTargetDirectory + sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                     // strInputFileName is used to populate the mapped field for the upload file. "
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                     strInputFileName = sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+       //szWriteBuffer = "                     task.log().info("*** New File Name *** " + sTargetFile);"    
+       szWriteBuffer = "                     fs = new File(sTargetFile);"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+       szWriteBuffer = "                  }"
+       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
    szWriteBuffer = "                  file = new FileOutputStream(sTargetFile);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               }"
@@ -1064,6 +1065,16 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    szCtrlTag = "File Transfer to Server"
    nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
                           szCtrlTag, "", "", 0, "Window", "" )
+   IF nRC < zCURSOR_SET
+      szCtrlTag = "File Upload with DateTime"
+      nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
+                             szCtrlTag, "", "", 0, "Window", "" )
+   END
+   IF nRC < zCURSOR_SET
+      szCtrlTag = "File Upload w/o DateTime"
+      nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
+                             szCtrlTag, "", "", 0, "Window", "" )
+   END
    // If we are uploading a file, we need to include "java.oi.*" in the import statement.
    IF nRC >= zCURSOR_SET
       szIOImport = ",java.io.*"
@@ -1172,11 +1183,18 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    szWriteBuffer = "<%@ page import=^" + szAppImport + "^ %>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+   szWriteBuffer = "<%@ include file=^./include/jsppage.inc^ %>"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
    // KJS 07/10/15 - Include for an import file for any extra imports.
+   IF vDialog.Window.WEB_ImportInclude != ""
+      szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_ImportInclude  + "^ %>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   ELSE
    IF vDialog.Dialog.WEB_ImportInclude != ""
       szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_ImportInclude  + "^ %>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
    END
 
    DropView( vDialogTemp )
@@ -1652,8 +1670,21 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    szCtrlTag = "File Transfer to Server"
    nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
                           szCtrlTag, "", "", 0, "Window", "" )
+   WorkFlag = "Y" // Add datetime to upload file.                          
+   IF nRC < zCURSOR_SET
+      szCtrlTag = "File Upload with DateTime"
+      nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
+                             szCtrlTag, "", "", 0, "Window", "" )
+      WorkFlag = "Y"                             
+   END
+   IF nRC < zCURSOR_SET
+      szCtrlTag = "File Upload w/o DateTime"
+      nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
+                             szCtrlTag, "", "", 0, "Window", "" )
+      WorkFlag = "N"                             
+   END
    IF nRC >= zCURSOR_SET
-      GenJSPJ_ProcessFileIn( vDialog, lFileJSP, szWriteBuffer )
+      GenJSPJ_ProcessFileIn( vDialog, WorkFlag, lFileJSP, szWriteBuffer )
    END
    DropView( vDialogTemp )
 
@@ -1791,6 +1822,12 @@ DKS_TRACE_END */
    END
 
   szWriteBuffer = "   }"
+  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+  
+  // KJS 09/20/18 - Want to display an error if it happens but don't want to crash.
+  // Place a try/catch
+  szWriteBuffer = "   try{"
   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
    // Create Action code for each Action, except for Window Actions.
@@ -2178,6 +2215,61 @@ DKS_TRACE_END */
    szWriteBuffer = "   }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
+   // KJS 09/20/18
+   szWriteBuffer = "   }  //end of try"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   catch( Exception ex ){"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+  
+  
+  
+   szWriteBuffer = "      String strErrorLevel = task.readZeidonConfig( ^errorlevel^, ^ErrorTraceLevel^ );"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      if ( strErrorLevel == null )"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         strErrorLevel = ^high^;"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      if ( !strErrorLevel.equals( ^none^ ) )"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+  
+   IF szLangConvFlag = "Y" 
+      szWriteBuffer = "         strVMLError = LangConv.getLanguageText(^*** Error on action^) + ^ - ^ + strActionToProcess + ^ ***^ + ^<br>^;"
+   ELSE
+      szWriteBuffer = "         strVMLError = ^*** Error on action - ^ + strActionToProcess + ^ ***^ + ^<br>^;"
+   END
+  
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "         strVMLError += strErrorLevel + ^<br>^;"
+   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+   szWriteBuffer = "         if ( !strErrorLevel.equals( ^low^ ) )"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            strVMLError += ex.getMessage() + ^<br>^;"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+   szWriteBuffer = "         if ( strErrorLevel.equals( ^high^ ) )"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         {"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            StackTraceElement[] e = ex.getStackTrace();"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            for(StackTraceElement lineErr : e)"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            {"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "               strVMLError += lineErr.toString() + ^<br>^;"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            }"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         }"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+     
+   szWriteBuffer = "   } //end of catch"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+   // KJS - 09/20/18 - End of try/catch   
+     
    szWriteBuffer = "   if ( nRC != 0 )"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   {"
@@ -2437,7 +2529,8 @@ DKS_TRACE_END */
 
    // JSP HEADER
 
-   szWriteBuffer = "<html>"
+   // KJS 10/31/18 - A lang="en" for A A compliance
+   szWriteBuffer = "<html lang=^en^>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "<head>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
@@ -2499,14 +2592,14 @@ DKS_TRACE_END */
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    END
    // Added by Doug in 10d, not sure why but need to get these js files from him.
-   
+   /*
    IF nSystemSort != 0
       szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/jsoeUtils.js?v=" + szDateTime + "^></script>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/jsoe.js?v=" + szDateTime + "^></script>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    END
-   
+   */
 
    // KJS 09/04/14 - Can't find validations.js anywhere so I am assuming we don't need it.
    //szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/validations.js^></script>"
@@ -3756,6 +3849,12 @@ DKS_TRACE_END */
             IF nRC >= zCURSOR_SET
                ResetViewFromSubobject( vDialogTemp )
                SET CURSOR FIRST vDialogTemp.WebControlProperty WHERE vDialogTemp.WebControlProperty.Name = "File Transfer to Server"
+               IF RESULT < zCURSOR_SET
+                  SET CURSOR FIRST vDialogTemp.WebControlProperty WHERE vDialogTemp.WebControlProperty.Name = "File Upload with DateTime"
+               END
+               IF RESULT < zCURSOR_SET
+                  SET CURSOR FIRST vDialogTemp.WebControlProperty WHERE vDialogTemp.WebControlProperty.Name = "File Upload w/o DateTime"
+               END
                IF RESULT >= zCURSOR_SET
                   szTransferFileFlag = "Y"
                END
@@ -4104,10 +4203,18 @@ DKS_TRACE_END */
       // KJS 07/28/15 - Trying the banner include as all the other includes, not as the <jsp:include"
       // If a banner include file has been entered by the user, then use this, otherwise
       // hardcode "./include/banner.inc" as the banner name.
+      // KJS 10/08/19 - Now a request has been made for the banner at the window level. Not sure why
+      // we haven't done that before... as of right now, it looks like WEB_TopMenuInclude is not being
+      // used anywhere so I am going to use this because I don't want to have to change TZWDLGSO.LOD.
+      // I changed WEB_TopMenuInclude to WEB_TopBannerName.
+      IF vDialog.Window.WEB_TopBannerName != ""
+         szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
+      ELSE
       IF vDialog.Dialog.WEB_TopBannerName != ""
          szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
       ELSE
          szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
+      END
       END
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
@@ -4843,6 +4950,16 @@ DKS_TRACE_END */
    szCtrlTag = "File Transfer to Server"
    nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
                           szCtrlTag, "", "", 0, "Window", "" )
+   IF nRC < zCURSOR_SET
+      szCtrlTag = "File Upload with DateTime"
+      nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
+                             szCtrlTag, "", "", 0, "Window", "" )
+   END
+   IF nRC < zCURSOR_SET
+      szCtrlTag = "File Upload w/o DateTime"
+      nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
+                             szCtrlTag, "", "", 0, "Window", "" )
+   END
    IF nRC >= zCURSOR_SET
       // Generate Form Statement for Group, with hidden field zAction.
       szWriteBuffer = ""
@@ -4993,13 +5110,19 @@ DKS_TRACE_END */
    // Include a footer at the bottom before the end wrapper div.
    // Only put in a footer if we are generating with relative position.
    IF ( szNoPositioning = "Y" OR szNoPositioning = "S" ) AND szWindowIsPopup = "" AND szWindowIsForDashboard = ""
-      IF vDialogRoot.Dialog.WEB_FooterInclude = ""
+      IF vDialogRoot.Window.WEB_FooterInclude != ""
          // If the user did not specify a footer, hardcode footer.inc
-         szWriteBuffer = "<%@ include file=^./include/footer.inc^ %>"
+         szWriteBuffer = "<%@ include file=^" + vDialogRoot.Window.WEB_FooterInclude + "^ %>"
          WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
       ELSE
+      IF vDialogRoot.Dialog.WEB_FooterInclude != ""
+         // If the user did not specify a footer, hardcode footer.inc
          szWriteBuffer = "<%@ include file=^" + vDialogRoot.Dialog.WEB_FooterInclude + "^ %>"
          WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      ELSE
+         szWriteBuffer = "<%@ include file=^./include/footer.inc^ %>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      END
       END
    END
 
@@ -5301,7 +5424,8 @@ GenJSPJ_DownloadFile( VIEW vDialog,
    szWriteBuffer = "%>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
-   szWriteBuffer = "<html><body></body></html>"
+   // KJS 10/31/18 - A lang="en" for A A compliance
+   szWriteBuffer = "<html lang=^en^><body></body></html>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
 

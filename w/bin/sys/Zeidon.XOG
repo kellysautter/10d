@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZZOXOGO                         04/03/18   14:09:46 1.0a2   
+z1000-Zeidon    ZEIDON   TZZOXOGO                         11/18/19   15:55:43 1.0a2   
 eTZZOXOGO  1
 aNAME      Zeidon
 
@@ -1971,38 +1971,6 @@ ePARAMETER 4
 aNAME      szRepeatingGrpKey
 aDATATYPE  S
 
-eOPERATION 3
-aNAME      GenJSPJ_Action
-aTYPE      G
-
-ePARAMETER 4
-aNAME      Dialog
-aDATATYPE  V
-
-ePARAMETER 4
-aNAME      DialogRoot
-aDATATYPE  V
-
-ePARAMETER 4
-aNAME      File
-aDATATYPE  L
-
-ePARAMETER 4
-aNAME      WriteBuffer
-aDATATYPE  S
-
-ePARAMETER 4
-aNAME      FormName
-aDATATYPE  S
-
-ePARAMETER 4
-aNAME      ActionName
-aDATATYPE  S
-
-ePARAMETER 4
-aNAME      lTraceLevel
-aDATATYPE  L
-
 eGLOBALOPERATIONSOURCEFILE 2
 aNAME      TZWEBGL3
 aLANGUAGETYPE V
@@ -2522,6 +2490,38 @@ aDATATYPE  S
 ePARAMETER 4
 aNAME      vDialogMenu
 aDATATYPE  V
+
+eOPERATION 3
+aNAME      GenJSPJ_Action
+aTYPE      G
+
+ePARAMETER 4
+aNAME      Dialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      DialogRoot
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      File
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      WriteBuffer
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      FormName
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      ActionName
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      lTraceLevel
+aDATATYPE  L
 
 eOPERATION 3
 aNAME      GenJSPJ_CrteGridRadio

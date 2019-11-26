@@ -6497,8 +6497,8 @@ zOPER_EXPORT zSHORT OPERATION
 zwTZOBRWAD_CompareNext( zVIEW vSubtask )
 {
    zCHAR  szTag[ 33 ];
-   zVIEW  vCompare;
-   zVIEW  vHD_Compare;
+   zVIEW  vCompare = NULL; // KJS 11/15/2019
+   zVIEW  vHD_Compare = NULL; // KJS 11/15/2019
 
    GetLastCommandTag( vSubtask, szTag );
    if ( zstrcmp( szTag, "Next" ) == 0 || zstrcmp( szTag, "Next1" ) == 0 )
@@ -6533,8 +6533,8 @@ zOPER_EXPORT zSHORT OPERATION
 zwTZOBRWAD_ComparePrev( zVIEW vSubtask )
 {
    zCHAR  szTag[ 33 ];
-   zVIEW  vCompare;
-   zVIEW  vHD_Compare;
+   zVIEW  vCompare = NULL; // KJS 11/15/2019
+   zVIEW  vHD_Compare = NULL; // KJS 11/15/2019
 
    GetLastCommandTag( vSubtask, szTag );
    if ( zstrcmp( szTag, "Prev" ) == 0 || zstrcmp( szTag, "Prev1" ) == 0 )

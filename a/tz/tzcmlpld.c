@@ -2361,8 +2361,8 @@ zwTZCMLPLD_CreateNewLPLR( zVIEW vSubtask )
 {
    zVIEW    vTaskLPLR;
    zVIEW    vTZCMLPLO;
-   zVIEW    vTZCMWKSO;
-   zVIEW    vTZCMULWO;
+   zVIEW    vTZCMWKSO = NULL; // KJS 11/15/2019
+   zVIEW    vTZCMULWO = NULL; // KJS 11/15/2019
    zCHAR    szLPLR_Type[ 2 ];
    zCHAR    szLPLR_Name[ 33 ];
    zCHAR    szUserName[ 33 ];
@@ -2755,9 +2755,9 @@ zwTZCMLPLD_PrebuildNewLPLR( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 zwTZCMLPLD_DeleteLPLR( zVIEW vSubtask )
 {
-   zVIEW    vTZCMLPLO;
-   zVIEW    vTZCMWKSO;
-   zVIEW    vTZCMCPRO;
+   zVIEW    vTZCMLPLO = NULL; // KJS 11/15/2019
+   zVIEW    vTZCMWKSO = NULL; // KJS 11/15/2019
+   zVIEW    vTZCMCPRO = NULL; // KJS 11/15/2019
    zCHAR    szFileName[ zMAX_FILESPEC_LTH + 1 ];
    zCHAR    szSearchFileName[ zMAX_FILESPEC_LTH + 1  ];
    zCHAR    szERR_Msg[ zSHORT_MESSAGE_LTH + 1 ]; // at least length of szName + 89
@@ -5683,7 +5683,7 @@ zwfnTZCMLPLD_ActivateCPLR_Meta( zVIEW vSubtask, zVIEW vTZCMCPRO,
 {
    zVIEW    vKZDBHQUA;
    zVIEW    vTZCMLPLO;
-   zVIEW    vMetaOI;
+   zVIEW    vMetaOI = NULL; // KJS 11/15/2019
    zVIEW    vZeidonCM;
    zVIEW    vTaskLPLR;
    zCHAR    szLPLR_FileSpec[ zMAX_FILESPEC_LTH + 1 ];

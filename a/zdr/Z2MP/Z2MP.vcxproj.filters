@@ -15,41 +15,41 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mpna81.cpp">
+    <ClCompile Include=".\..\mpna81.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Z2MP.cpp">
+    <ClCompile Include=".\..\Z2MP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Z2MPAPI.CPP">
+    <ClCompile Include=".\..\Z2MPAPI.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Z2MP.rc">
+    <ResourceCompile Include=".\..\Z2MP.rc">
       <Filter>Source Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mpna81.h">
+    <ClInclude Include=".\..\mpna81.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include=".\..\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Z2MP.h">
+    <ClInclude Include=".\..\Z2MP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <Text Include=".\..\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Z2MP.def">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\Z2MP.rc2">
+    <CustomBuild Include=".\..\res\Z2MP.rc2">
       <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include=".\..\Z2MP.def">
+      <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

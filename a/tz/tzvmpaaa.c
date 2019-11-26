@@ -950,7 +950,7 @@ zOPER_EXPORT zLONG OPERATION
 PositionAtOperationInSource( zLONG lZKey )
 {
    zLONG lLineNumber;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    if ( lZKey == 0 )  // position at first operation
    {
@@ -1001,7 +1001,7 @@ PositionAtOperationInSource( zLONG lZKey )
 zOPER_EXPORT zLONG OPERATION
 DeleteAllOpersForSource( zVIEW vXPGView )
 {
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // Start with the first source file.
    lRC = SetCursorFirstEntity( vXPGView, "OperationSource", "SourceFile" );
@@ -1278,7 +1278,7 @@ zOPER_EXPORT zLONG OPERATION
 SaveTextLine( void )
 {
    zCHAR szWork[ LENWORK ];
-   zLONG lRC;
+   zLONG lRC = 0;
 
    // If we have already stored the entire text git out.
    if ( g_lOperationFlag > 1 )  // update or position
@@ -1334,7 +1334,7 @@ GetProfileData( zVIEW  vSubtask,
 {
    zVIEW  vProfileView;
    zLONG lLth;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    lRC = oTZ__PRFO_GetViewToProfile( &vProfileView, "VML", vSubtask, zCURRENT_OI );
    if ( lRC == 0 )
@@ -1379,7 +1379,7 @@ zOPER_EXPORT zLONG OPERATION
 CompareFileToXPG( zLONG lZKey )
 {
    zLONG lCompare;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    SetCursorFirstEntityByInteger( g_lpPIView, "OperationSource", "ZKey", lZKey, "");
 
@@ -1425,7 +1425,7 @@ zOPER_EXPORT zLONG OPERATION
 IncludeCoreHeader( zVIEW lpView, zPCHAR pchHeaderName )
 {
    zLONG lZKey;
-   zLONG lRC;
+   zLONG lRC = 0;
 
    lRC = SetCursorFirstEntityByString( g_lpZOListView, "HeaderFile", "Name", pchHeaderName, "" );
    if ( lRC > zCURSOR_UNCHANGED )
@@ -1480,6 +1480,7 @@ RemoveTabs( zPCHAR pchWork, zLONG lMaxLth )
       zPCHAR pchSource = qqin;
       zPCHAR pchTarget = pchWork;
       zLONG k, n;
+	  zLONG i = 0;
       while ( (pch = zstrchr( pchSource, '\t' ) ) != 0 )
       {
         k = pch - pchSource;
@@ -1490,12 +1491,16 @@ RemoveTabs( zPCHAR pchWork, zLONG lMaxLth )
         for ( n = 0; n < 3; n++ )
            *(pchTarget++) = ' ';
 
+		// KJS 11/20/2019 - I am adding the following because in the strcpy_s below, we were copying lMaxLth but this was then corrupting pchWork because pchWork contains
+		// blanks for the tab and then we add on lMaxLth which is too long. We must subract how many spaces are added for tabs.
+		i = i + 3;
+
         pchSource = ++pch;
       }
 
       // Lastly, move the rest of the string or add a zero-Byte to target.
       if ( *pchSource )
-        strcpy_s( pchTarget, lMaxLth, pchSource );
+        strcpy_s( pchTarget, (lMaxLth - i), pchSource );
       else
         *pchTarget = 0;
 

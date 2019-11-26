@@ -71,7 +71,7 @@ CommitOPERSIGK( zVIEW vSubtask )
    zVIEW  vT;
    zCHAR  szXGO_FileName[ 129 ];
    zSHORT nRC;
-   zVIEW  WKS_View;
+   zVIEW  WKS_View = NULL; // KJS 11/15/2019
    zVIEW  vZeidonCM;
 
    nRC = SfCreateSubtask( &vT, vSubtask, "Zeidon System" );

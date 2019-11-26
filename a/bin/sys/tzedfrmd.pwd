@@ -1,4 +1,4 @@
-z1000-Zeidon    TZEDFRMD TZWDLGSO                         04/03/18   13:17:51 1.0a2   
+z1000-Zeidon    TZEDFRMD TZWDLGSO                         11/25/19   11:24:53 1.0a2   
 eDialog    1
 aTag       TZEDFRMD
 aDLL_Name  TZEDFRMD
@@ -902,62 +902,6 @@ aTitle     Ctrl+V
 aVKey      45
 
 eAction    3
-aTag       EditTab
-aType      1
-aZKey      190007599
-aSB_ActionDisabling 0
-
-eActMap    4
-aZKey      190007600
-
-eActMap    4
-aZKey      190007601
-
-eActOper   4
-aName      TZEDFRMD_EditTab
-aZKey      190007605
-aType      D
-aReturnDataType N
-
-eSourceFileForOper 5
-
-eActHot    4
-aTag       EditTab
-aZKey      190007595
-aKeyCombo  4
-»Ã	 
-aTitle     Tab
-aVKey      9
-
-eAction    3
-aTag       EditUntab
-aType      1
-aZKey      190007602
-aSB_ActionDisabling 0
-
-eActMap    4
-aZKey      190007611
-
-eActMap    4
-aZKey      190007612
-
-eActOper   4
-aName      TZEDFRMD_EditUntab
-aZKey      190007607
-aType      D
-aReturnDataType N
-
-eSourceFileForOper 5
-
-eActHot    4
-aTag       EditUntab
-aZKey      190007596
-aKeyCombo  4
-ÃÃ	 
-aTitle     Shift+Tab
-aVKey      9
-
-eAction    3
 aTag       EditRedo
 aType      1
 aZKey      91007759
@@ -1162,6 +1106,34 @@ aTitle     Ctrl+A
 aVKey      65
 
 eAction    3
+aTag       EditTab
+aType      1
+aZKey      190007599
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007600
+
+eActMap    4
+aZKey      190007601
+
+eActOper   4
+aName      TZEDFRMD_EditTab
+aZKey      190007605
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditTab
+aZKey      190007595
+aKeyCombo  4
+»Ã	 
+aTitle     Tab
+aVKey      9
+
+eAction    3
 aTag       EditUndo
 aType      1
 aZKey      91007756
@@ -1197,6 +1169,34 @@ aKeyCombo  4
  Ã 
 aTitle     Ctrl+Z
 aVKey      8
+
+eAction    3
+aTag       EditUntab
+aType      1
+aZKey      190007602
+aSB_ActionDisabling 0
+
+eActMap    4
+aZKey      190007611
+
+eActMap    4
+aZKey      190007612
+
+eActOper   4
+aName      TZEDFRMD_EditUntab
+aZKey      190007607
+aType      D
+aReturnDataType N
+
+eSourceFileForOper 5
+
+eActHot    4
+aTag       EditUntab
+aZKey      190007596
+aKeyCombo  4
+ÃÃ	 
+aTitle     Shift+Tab
+aVKey      9
 
 eAction    3
 aTag       EntityInsert
@@ -5755,7 +5755,7 @@ aSubtype   67108864
 aPSDLG_X   0
 aPSDLG_Y   0
 aSZDLG_X   86
-aSZDLG_Y   14
+aSZDLG_Y   15
 aSyncKey   2
 
 eCtrlMap   5
@@ -5783,7 +5783,7 @@ aSubtype   67108864
 aPSDLG_X   88
 aPSDLG_Y   0
 aSZDLG_X   76
-aSZDLG_Y   14
+aSZDLG_Y   15
 aSyncKey   9999
 
 eCtrlMap   5
@@ -5811,7 +5811,7 @@ aSubtype   67108864
 aPSDLG_X   169
 aPSDLG_Y   0
 aSZDLG_X   303
-aSZDLG_Y   14
+aSZDLG_Y   15
 aSyncKey   9999
 
 eCtrlMap   5
@@ -6034,7 +6034,7 @@ aSubtype   1
 aPSDLG_X   2
 aPSDLG_Y   212
 aSZDLG_X   343
-aSZDLG_Y   19
+aSZDLG_Y   20
 aSyncKey   9999
 
 eCtrlMap   4
@@ -9177,18 +9177,18 @@ i175       56
 i182       56
 i186       130
 i187       56
-i194       56
-i200       56
-i207       135
-i208       56
-i215       56
-i222       56
-i229       56
-i236       56
-i243       140
-i244       56
-i250       146
-i251       56
+i195       135
+i196       56
+i203       56
+i210       56
+i217       56
+i224       56
+i231       140
+i232       56
+i238       56
+i244       146
+i245       56
+i252       56
 i260       56
 i265       56
 i266       22
@@ -9213,15 +9213,15 @@ i354       56
 i364       56
 i365       30
 i368       29
-i369       221
+i369       209
 i370       56
 i371       42
 i374       41
-i375       214
+i375       202
 i376       56
 i377       28
 i380       27
-i381       228
+i381       216
 i382       56
 i383       38
 i386       37
@@ -9269,10 +9269,10 @@ i545       446
 i546       443
 i547       80
 i548       24
-i550       249
-i551       246
-i552       205
-i553       202
+i550       243
+i551       240
+i552       193
+i553       190
 i554       159
 i555       156
 i556       151
@@ -9281,20 +9281,20 @@ i558       185
 i559       184
 i560       167
 i561       164
-i562       241
-i563       238
+i562       229
+i563       226
 i564       173
 i565       170
-i566       213
-i567       210
+i566       201
+i567       198
 i568       180
 i569       177
-i570       227
-i571       224
-i572       220
-i573       217
-i574       234
-i575       231
+i570       215
+i571       212
+i572       208
+i573       205
+i574       222
+i575       219
 i577       506
 i578       503
 i579       361
@@ -9401,8 +9401,8 @@ i684       323
 i685       319
 i687       145
 i688       142
-i689       206
-i690       202
+i689       194
+i690       190
 i691       117
 i692       114
 i693       111
@@ -9411,13 +9411,13 @@ i695       129
 i696       126
 i697       123
 i698       120
-i699       242
-i700       238
+i699       230
+i700       226
 i701       322
 i702       319
 i703       535
-i705       253
-i706       246
+i705       247
+i706       240
 i707       155
 i708       148
 i709       154
@@ -9430,18 +9430,18 @@ i715       183
 i716       177
 i717       188
 i718       184
-i719       216
-i720       210
-i721       223
-i722       217
-i723       230
-i724       224
-i725       237
-i726       231
-i727       195
-i728       190
-i729       201
-i730       196
+i719       204
+i720       198
+i721       211
+i722       205
+i723       218
+i724       212
+i725       225
+i726       219
+i727       239
+i728       234
+i729       253
+i730       248
 i731       303
 i732       297
 i733       418
@@ -9450,22 +9450,22 @@ i735       399
 i736       396
 i737       405
 i738       400
-i739       209
-i740       202
+i739       197
+i740       190
 i741       285
 i742       279
 i743       472
 i744       469
-i745       245
-i746       238
+i745       233
+i746       226
 i747       163
 i748       156
 i749       189
 i750       184
 i751       103
 i752       100
-i753       252
-i754       246
+i753       246
+i754       240
 i775       760
 i782       764
 i784       766
@@ -10060,17 +10060,17 @@ i2093      324
 i2095      118
 i2097      130
 i2099      112
-i2101      193
-i2103      199
+i2101      237
+i2103      251
 i2105      124
 i2107      140
 i2109      174
-i2111      228
+i2111      216
 i2113      146
 i2115      135
-i2121      221
-i2123      235
-i2125      214
+i2121      209
+i2123      223
+i2125      202
 i2127      181
 i2134      518
 i2139      1162
@@ -10222,21 +10222,21 @@ i2300      130
 i2301      56
 i2302      135
 i2303      56
-i2304      214
+i2304      202
 i2305      56
-i2306      221
+i2306      209
 i2307      56
-i2308      228
+i2308      216
 i2309      56
-i2310      235
+i2310      223
 i2311      56
 i2312      140
 i2313      56
-i2314      193
+i2314      237
 i2315      56
 i2316      146
 i2317      56
-i2318      199
+i2318      251
 i2319      56
 i2320      2146
 i2321      56

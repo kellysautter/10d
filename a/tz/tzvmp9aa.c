@@ -627,7 +627,7 @@ zOPER_EXPORT zLONG OPERATION
 BuildDropView( zVIEW  vSubtask,
                zLONG  lQualID )
 {
-   zLONG lRCID;
+   zLONG lRCID = 0;
    zLONG lZKey;
 
    // Begin building an expression.  Use the string stuff and build it in order
@@ -1103,7 +1103,7 @@ static zLONG OPERATION
 fnBuildCreateEntity( zVIEW vSubtask, zPCHAR pchWhichEntity )
 {
    zLONG lQualID;
-   zLONG lRCID;
+   zLONG lRCID = 0;
    zLONG lDataType;
    zLONG lDefineZKey;
    zLONG lZKey;
@@ -1168,7 +1168,7 @@ fnBuildSetAttributeConstant( zVIEW  vSubtask,
                              zPCHAR pchAttributeValue )
 {
    zLONG lQualID;
-   zLONG lRCID;
+   zLONG lRCID = 0;
 
    lLocal9Code = 0;
    lLocal9Text = 0;
