@@ -1255,8 +1255,10 @@ void ZCrystalEditView::Tab()
 
       // Shift selection to right
       m_bHorzScrollBarLocked = TRUE;
-      static const TCHAR pszText[] = _T("\t");
-      for (int L = nStartLine; L <= nEndLine; L++)
+	  //static const TCHAR pszText[] = _T("\t");
+	  // KJS 12/05/19 - In 10c our tab was actually 3 spaces. Changing this to be the same.
+	  static const TCHAR pszText[] = _T("   ");
+	  for (int L = nStartLine; L <= nEndLine; L++)
       {
          int x, y;
          m_pTextBuffer->InsertText(this, L, 0, pszText, y, x, CE_ACTION_INDENT); // [JRT]
@@ -1285,8 +1287,9 @@ void ZCrystalEditView::Tab()
          {
             if (ptCursorPos.x == nLineLength)
                break;
-            if (pszLineChars[ptCursorPos.x] == _T('\t'))
-            {
+			//if (pszLineChars[ptCursorPos.x] == _T('\t'))
+			if (pszLineChars[ptCursorPos.x] == _T('\t'))
+			{
                ptCursorPos.x++;
                break;
             }
@@ -1311,7 +1314,9 @@ void ZCrystalEditView::Tab()
    CPoint ptCursorPos = GetCursorPos();
    ASSERT_VALIDTEXTPOS(ptCursorPos,FALSE);
 
-   static const TCHAR pszText[] = _T("\t");
+   //static const TCHAR pszText[] = _T("\t");
+   // KJS 12/05/19 - In 10c our tab was actually 3 spaces. Changing this to be the same.
+   static const TCHAR pszText[] = _T("   ");
    int x, y;
    m_pTextBuffer->InsertText(this, ptCursorPos.y, ptCursorPos.x, pszText, y, x, CE_ACTION_TYPING); // [JRT]
    ptCursorPos.x = x;

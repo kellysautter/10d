@@ -5560,12 +5560,12 @@ fnRecursMergeLOD_WithDiagram( zVIEW vSubtask,
                               zVIEW vTZZOHDGO,
                               zBOOL bCreate )
 {
-   zSHORT  nRC, nRC1;
+   zSHORT  nRC = 0 , nRC1 = 0;
    zVIEW   vWkTZZOHDGO;
-   zLONG   lZKey;
-   zSHORT  nTok;
-   zSHORT  nSkipDelBehave;
-   zSHORT  nOutText;
+   zLONG   lZKey = 0;
+   zSHORT  nTok = 0;
+   zSHORT  nSkipDelBehave = 0;
+   zSHORT  nOutText = 0;
    zCHAR   szOutText[ 32 ];
    zCHAR   szMsg[ zLONG_MESSAGE_LTH + 1 ];
 
