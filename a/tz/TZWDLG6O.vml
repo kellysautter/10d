@@ -832,7 +832,8 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )     szNoPositioning
    STRING ( 1 )     szWindowIsPopup
    STRING ( 1 )     szWindowIsForDashboard
-   STRING ( 1 )     szWindowIsjMobile
+   STRING ( 1 )     szStyleIsjMobile
+   STRING ( 1 )     szStyleIsBootstrap
    STRING ( 1 )     szNoAutoLogout
    STRING ( 1 )     szKeyRole
    STRING ( 1 )     szDynamicBanner
@@ -942,40 +943,72 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    CreateViewFromViewForTask( vDialogRoot, vDialog, 0 )
    NAME VIEW vDialogRoot "DialogRoot"
 
+   szStyleIsjMobile = ""
+   szStyleIsBootstrap = ""
+   
    // We are going to assume first that "Relative Positioning is the default.
    szNoPositioning = "Y"
 
    // KJS 07/23/08 - Check if this dialog window will be built with all relative positioning or with absolute positioning.
    // First check the Dialog setting
+   // 12/06/19 - Want to add style for jMobile and Bootstrap. Had jMobile in window style but trying it here so it can be set a dialog level.
    //IF  vDialog.Dialog.WEB_RelativePositionFlag = "Y" OR vDialog.Window.WEB_RelativePositionFlag = "Y"
    IF vDialog.Dialog.WEB_JSPGenerationPositioning = "R"
       szNoPositioning = "Y"
    ELSE
    // No style
-   IF  vDialog.Dialog.WEB_JSPGenerationPositioning = "N"
+   IF vDialog.Dialog.WEB_JSPGenerationPositioning = "N" 
       szNoPositioning = "S"
    ELSE
    // Absolute Style
-   IF  vDialog.Dialog.WEB_JSPGenerationPositioning = "A"
+   IF vDialog.Dialog.WEB_JSPGenerationPositioning = "A"
       szNoPositioning = ""
+   ELSE
+   // jMobile which has "no positioning" like "N"
+   IF vDialog.Dialog.WEB_JSPGenerationPositioning = "J"
+      szNoPositioning = "S"
+      szStyleIsjMobile = "Y"
+   ELSE
+   // Boostrap which has "no positioning" like "N"
+   IF vDialog.Dialog.WEB_JSPGenerationPositioning = "B"
+      szNoPositioning = "S"
+      szStyleIsBootstrap = "Y"
+   END
+   END
    END
    END
    END
 
    // KJS 07/23/08 - Check if this dialog window will be built with all relative positioning or with absolute positioning.
    // Second check if the Window has a different setting.
-   IF vDialog.Window.WEB_JSPGenerationPositioning = "R"
-      szNoPositioning = "Y"
-   ELSE
-   // No style
-   IF  vDialog.Window.WEB_JSPGenerationPositioning = "N"
-      szNoPositioning = "S"
-   ELSE
-   // Absolute Style
-   IF  vDialog.Window.WEB_JSPGenerationPositioning = "A"
-      szNoPositioning = ""
-   END
-   END
+   IF vDialog.Window.WEB_JSPGenerationPositioning != ""
+      szStyleIsjMobile = ""
+      szStyleIsBootstrap = ""
+      IF vDialog.Window.WEB_JSPGenerationPositioning = "R"
+         szNoPositioning = "Y"
+      ELSE
+      // No style
+      IF vDialog.Window.WEB_JSPGenerationPositioning = "N"
+         szNoPositioning = "S"
+      ELSE
+      // Absolute Style
+      IF vDialog.Window.WEB_JSPGenerationPositioning = "A"
+         szNoPositioning = ""
+      ELSE
+      // jMobile which has "no positioning" like "N"
+      IF vDialog.Window.WEB_JSPGenerationPositioning = "J"
+         szNoPositioning = "S"
+         szStyleIsjMobile = "Y"
+      ELSE
+      // Boostrap which has "no positioning" like "N"
+      IF vDialog.Window.WEB_JSPGenerationPositioning = "B"
+         szNoPositioning = "S"
+         szStyleIsBootstrap = "Y"
+      END
+      END
+      END
+      END
+      END 
    END
 
    // KJS 02/19/09 - Added WEB_AbsolutePositionFlag because I would like to use absolute positioning on my popup pages but the rest
@@ -1003,9 +1036,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
 
    IF vDialogRoot.WndStyle.Tag = "jMobile Window"
-      szWindowIsjMobile = "Y"
-   ELSE
-      szWindowIsjMobile = ""
+      szStyleIsjMobile = "Y"
    END
    
    szLogout = "logout.jsp"
@@ -2609,7 +2640,7 @@ DKS_TRACE_END */
    // KJS 04/27/11 - I am not sure that we want to always include this js file but if not, then I need
    // to loop through all controls (and subcontrols) looking for a div that has a web control property of
    // "Show/Hide Toggle". For now I am always including it.
-   IF szWindowIsjMobile = ""
+   IF szStyleIsjMobile = ""
       szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/animatedcollapse.js?v=" + szDateTime + "^></script>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    END
@@ -4142,7 +4173,7 @@ DKS_TRACE_END */
       szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_PageBackgroundInclude + "^ %>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    ELSE
-   IF szWindowIsjMobile = ""
+   IF szStyleIsjMobile = ""
       // KJS 02/24/16 - Do We need this?
       szWriteBuffer = "<%@ include file=^./include/pagebackground.inc^ %>  <!-- just temporary until we get the painter dialog updates from Kelly ... 2011.10.08 dks -->"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
@@ -4166,7 +4197,7 @@ DKS_TRACE_END */
       szShowTopMenu = ""
       szShowSideMenu = ""
    ELSE
-      IF vDialogRoot.Window.WEB_NoBannerFlag = "Y" OR szWindowIsjMobile = "Y"
+      IF vDialogRoot.Window.WEB_NoBannerFlag = "Y" OR szStyleIsjMobile = "Y"
          szShowBanner = ""
       END
       IF vDialog.Window.WEB_NoTopMenuFlag = "Y"
@@ -4178,13 +4209,18 @@ DKS_TRACE_END */
    // css.  Do not add this wrapper if the window is going to be a popup window or a window that will be part
    // of a dashboard.
    //<!--This text is a comment-->
-   IF szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szWindowIsjMobile = ""
+   IF szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szStyleIsjMobile = "" AND szStyleIsBootstrap = ""
       szWriteBuffer = "<div id=^wrapper^>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    ELSE
-   IF szWindowIsjMobile = "Y"
+   IF szStyleIsjMobile = "Y"
       szWriteBuffer = "<div data-role=^page^ data-theme=^p^ data-title=^" + vDialog.Window.Caption + "^ >"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 ) 
+   ELSE
+   IF szStyleIsBootstrap = "Y"
+      szWriteBuffer = "<div class=^wrapper^ >"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 ) 
+   END
    END
    END
 
@@ -4207,22 +4243,23 @@ DKS_TRACE_END */
       // we haven't done that before... as of right now, it looks like WEB_TopMenuInclude is not being
       // used anywhere so I am going to use this because I don't want to have to change TZWDLGSO.LOD.
       // I changed WEB_TopMenuInclude to WEB_TopBannerName.
-      IF vDialog.Window.WEB_TopBannerName != ""
-         szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
-      ELSE
-      IF vDialog.Dialog.WEB_TopBannerName != ""
-         szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
-      ELSE
-         szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
+      IF szStyleIsBootstrap = ""
+         IF vDialog.Window.WEB_TopBannerName != ""
+            szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
+         ELSE
+         IF vDialog.Dialog.WEB_TopBannerName != ""
+            szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
+         ELSE
+            szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
+         END
+         END
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
       END
-      END
-      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-
    END
    END
    
    // KJS 02/24/16
-   IF szWindowIsjMobile = "Y"
+   IF szStyleIsjMobile = "Y"
       szWriteBuffer = "<div data-role=^header^>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )   
       // Also add page caption. Not totally sure about this.  
@@ -4246,6 +4283,8 @@ DKS_TRACE_END */
    END
 
 // IF ( lReusableDialogZKey != 0 AND vDialog.Window.WEB_NoTopMenuFlag != "Y" )  // dks
+   // If the style we are generating is Bootstrap... then it seems like want the main navigation to be after the side navigation...
+   IF szStyleIsBootstrap = ""
    IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
       IF lReusableDialogZKey = vDialog.Dialog.ZKey
          CreateViewFromView( vDialogTemp, vDialog )
@@ -4265,8 +4304,9 @@ DKS_TRACE_END */
          DropObjectInstance( vDialogTemp )
       END
    END
+   END
    
-   IF szWindowIsjMobile = "Y"
+   IF szStyleIsjMobile = "Y"
       szWriteBuffer = "</div> <!-- /header -->"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )    
    END
@@ -4275,11 +4315,11 @@ DKS_TRACE_END */
    // KJS 07/31/08 - Before we build the main content items (side navigation if it exists and the page contents) we
    // are going to create another div.  Not sure this is necessary but I'm thinking it might be helpful (then the
    // footer can be after this).
-   IF szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szWindowIsjMobile = ""
+   IF szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szStyleIsjMobile = "" AND szStyleIsBootstrap = ""
       szWriteBuffer = "<div id=^maincontent^>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    ELSE
-   IF szWindowIsjMobile = "Y"
+   IF szStyleIsjMobile = "Y"
       szWriteBuffer = "<div data-role=^content^>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )    
    END
@@ -4299,6 +4339,7 @@ DKS_TRACE_END */
 
       IF vDialog.ReusableSideDialog.ZKey = vDialog.Dialog.ZKey
          CreateViewFromView( vDialogTemp, vDialog )
+         //NAME VIEW vDialogTemp "DialogREUS"
          SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
          IF RESULT >= zCURSOR_SET
             BuildSideNavSectionJ( vDialog, vDialogTemp, lFileJSP, "Y", vDfltMenu )  // dks ... want Reusable + Default
@@ -4328,6 +4369,36 @@ DKS_TRACE_END */
          szSideMenuExists = "Y"
       END
    END
+
+   // If the style we are generating is Bootstrap... then it seems like want the main navigation to be after the side navigation...
+   IF szStyleIsBootstrap = "Y"
+   
+      szWriteBuffer = "<div class=^main^>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )    
+   
+      IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
+         IF lReusableDialogZKey = vDialog.Dialog.ZKey
+            CreateViewFromView( vDialogTemp, vDialog )
+            //NAME VIEW vDialogTemp "DialogREUS"
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            IF RESULT >= zCURSOR_SET
+               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+            END
+            DropView( vDialogTemp )
+         ELSE
+            ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
+            //NAME VIEW vDialogTemp "DialogREUS"
+         // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
+         //                                         1, plListHandle )
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            IF RESULT >= zCURSOR_SET
+               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+            END
+            DropObjectInstance( vDialogTemp )
+         END
+      END
+   END
+
 
    szCSS_Class = vDialog.Window.CSS_Class
    IF szCSS_Class = ""
@@ -4360,7 +4431,7 @@ DKS_TRACE_END */
          WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 1 )
          szDivContentClass = "content"
       ELSE
-      IF szWindowIsjMobile = ""
+      IF szStyleIsjMobile = "" AND szStyleIsBootstrap = ""
          // If no class was given, and there is no side menu,
          // create a default div with the id of contentnosidemenu.
          szWriteBuffer = "<div id=^contentnosidemenu^>"
@@ -5086,14 +5157,18 @@ DKS_TRACE_END */
    */
    DropView( vDialogTemp )
 
-   IF szWindowIsjMobile = ""
+   IF szStyleIsjMobile = ""
       // This is contentnosidemenu.
       szWriteBuffer = "</div>   <!-- This is the end tag for the div '" + szDivContentClass + "' -->"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    END
 
-   IF  szWindowIsPopup = "" AND szWindowIsForDashboard = ""
+   IF szWindowIsPopup = "" AND szWindowIsForDashboard = ""
       szWriteBuffer = "</div>   <!-- This is the end tag for the div 'maincontent' -->"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+   END
+   IF szStyleIsBootstrap = "Y"
+      szWriteBuffer = "</div>  <!-- This is the end tag for class=wrapper -->"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    END
 
@@ -5127,7 +5202,7 @@ DKS_TRACE_END */
    END
 
    //<!--This text is a comment-->
-   IF  szWindowIsPopup = "" AND szWindowIsForDashboard = ""
+   IF  szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szStyleIsBootstrap = ""
       szWriteBuffer = "</div>  <!-- This is the end tag for wrapper -->"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    END
@@ -5140,7 +5215,7 @@ DKS_TRACE_END */
    // KJS 12/08/15 - Currently we are always including animatedcollapse.js (for groupbox Show/Hide Toggle). We had been calling animatedcollapse.init(); 
    // each time we created an animatedcollapse groupbox but this only needs to be called once and inits all groups. So I am going to try calling init() here
    // at the end on all webpages. Doesn't seem to cause issues even if there is no animatedcollapse on the page (since we include the js). 
-   IF szWindowIsjMobile = ""
+   IF szStyleIsjMobile = ""
       szWriteBuffer = "<script type=^text/javascript^>animatedcollapse.init();</script>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    END

@@ -1287,7 +1287,7 @@ oTZ__PRFO_GetViewToProfile( zPVIEW vViewToInstance0,
                             zSHORT nCurrentOrReloadFlag3 );
 
 //end
-//start TZZOLODO 2019.11.15 12:45:29
+//start TZZOLODO 2020.01.14 17:28:44
 zOPER_EXPORT zSHORT OPERATION
 oTZZOLODO_ParseDerivedExpr( zVIEW vViewToInstance0,
                             zVIEW vWindowsubtask1 );
@@ -1741,7 +1741,7 @@ GenJSP_CrteCtrlsRecurs( zVIEW vDialog0,
                         zLONG lOffsetY9 );
 
 //end
-//start TZWEBGL2 2018.04.03 11:32:17
+//start TZWEBGL2 2019.12.06 17:33:47
 zOPER_EXPORT zVOID OPERATION
 GenJSPJ_OutputMapRecurs( zVIEW vDialog0,
                          zLONG lFile1,
@@ -1769,15 +1769,6 @@ GenJSPJ_InputMapRecurs( zVIEW vDialog0,
                         zPCHAR pchWriteBuffer3,
                         zLONG lTableRowCnt4,
                         zPCHAR pchszRepeatingGrpKey5 );
-
-zOPER_EXPORT zSHORT OPERATION
-GenJSPJ_Action( zVIEW vDialog0,
-                zVIEW vDialogRoot1,
-                zLONG lFile2,
-                zPCHAR pchWriteBuffer3,
-                zPCHAR pchFormName4,
-                zPCHAR pchActionName5,
-                zLONG llTraceLevel6 );
 
 //end
 //start TZWEBGL3 2012.07.17 16:38:20
@@ -1919,13 +1910,22 @@ CreateTabIndexString( zVIEW vDialog0,
                       zPCHAR pchTabIndex1 );
 
 //end
-//start TZWEBGL4 2018.02.26 16:09:07
+//start TZWEBGL4 2019.12.09 12:09:30
 zOPER_EXPORT zSHORT OPERATION
 BuildSideNavSectionJ( zVIEW vvDialog0,
                       zVIEW vvDialogRoot1,
                       zLONG llFile2,
                       zPCHAR pchReusableMenu3,
                       zVIEW vvDialogMenu4 );
+
+zOPER_EXPORT zSHORT OPERATION
+GenJSPJ_Action( zVIEW vDialog0,
+                zVIEW vDialogRoot1,
+                zLONG lFile2,
+                zPCHAR pchWriteBuffer3,
+                zPCHAR pchFormName4,
+                zPCHAR pchActionName5,
+                zLONG llTraceLevel6 );
 
 zOPER_EXPORT zVOID OPERATION
 GenJSPJ_CrteGridRadio( zVIEW vvDialog0,

@@ -22,42 +22,70 @@ BuildSideNavSectionJ( VIEW vDialog,
    STRING ( 50 )    szDialogName
    STRING ( 50 )    szOptionTag
    STRING ( 50 )    szMenuName
-   STRING ( 34 )    szActionName
+   //STRING ( 34 )    szActionName
+   STRING ( 100 )   szActionName
+   STRING ( 1 )     szStyleIsjMobile
+   STRING ( 1 )     szStyleIsBootstrap
    STRING ( 256 )   szClass
    STRING ( 256 )   szClass2
    INTEGER          ActionType
    SHORT            nRC
-
    // SIDE NAVIGATION BAR
    //TraceLineS( "*** BuildSideNavSection Window *** ", vDialog.Window.Tag )
    
-   // KJS 12/16/16 - I switched "WL_QC( vDialogRoot" to "WL_QC( vDialog".
-   // The reason is because sometimes we call this operation when looking at resusable actions from a different dialog.
-   // If so, vDialogRoot (gotten from ActivateMetaOI_ByZKey) is not always associated with the open file that we are generating to. 
-   // Because of this, the actions don't get created. So changing to vDialog which was build off of the original vDialog.   
-
-   szWriteBuffer = ""
-   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "<div id=^leftcontent^>"
-   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-   szWriteBuffer = "<!-- Side Navigation *********************** -->"
-   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   szStyleIsjMobile = ""
+   IF vDialog.WndStyle.Tag = "jMobile Window" OR vDialog.Window.WEB_JSPGenerationPositioning = "J" OR 
+      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "J" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
+      szStyleIsjMobile = "Y"
+   END      
+   szStyleIsBootstrap = ""
+   IF vDialog.Window.WEB_JSPGenerationPositioning = "B" OR 
+      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
+      szStyleIsBootstrap = "Y"
+   END 
+        
    IF vDialogRoot.Menu EXISTS 
       szMenuName = vDialogRoot.Menu.Tag 
       IF vDialogRoot.Menu.CSS_Class != ""
          szClass = " class=^" + vDialogRoot.Menu.CSS_Class + "^ " 
       END
    END
-   szWriteBuffer = "<div id=^sidenavigation^" + szClass + ">"
+
+   szWriteBuffer = ""
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-   IF vDialogRoot.WndStyle.Tag = "jMobile Window"
+   IF szStyleIsBootstrap = ""
+      szWriteBuffer = "<div id=^leftcontent^>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      szWriteBuffer = "<!-- Side Navigation *********************** -->"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "<div id=^sidenavigation^" + szClass + ">"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   ELSE
+      szWriteBuffer = "<nav id=^sidebar^ class=^sidebar^>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "<%@ include file=^./include/sidemenubootstrap.inc^ %>"    
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "<div class=^sidebar-content^>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      //szWriteBuffer = "<div class=^sidebar-user^>"
+      //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      //szWriteBuffer = "</div>"
+      //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
+   IF szStyleIsjMobile = "Y" 
       szWriteBuffer = "   <ul id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + ">"
+   ELSE
+   IF szStyleIsBootstrap = "Y"
+      szWriteBuffer = "   <ul  id=^available-apps^ class=^sidebar-nav^>"
    ELSE
       szWriteBuffer = "   <ol id=^" + szMenuName + "^ name=^" + szMenuName + "^>"
    END
+   END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-   FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
+
+   //FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
+   FOR EACH vDialogRoot.Option WITHIN vDialogRoot.Menu
    
       //szNavigationTitle = vDialogRoot.Option.Text
       // KJS 09/30/16 - Language Conversion.
@@ -78,8 +106,12 @@ BuildSideNavSectionJ( VIEW vDialog,
       ELSE
          szNavigationTitle = vDialogRoot.Option.Text
       END
-         
-      szDialogName = vDialogRoot.OptAct.DialogName
+
+      IF vDialogRoot.OptAct EXISTS      
+         szDialogName = vDialogRoot.OptAct.DialogName
+      ELSE
+         szDialogName = ""
+      END
       IF szDialogName = ""
          szDialogName = "NoDialogName"
       END
@@ -97,7 +129,8 @@ BuildSideNavSectionJ( VIEW vDialog,
          // actions, we need to make sure these actions are unique.  We will prefix a
          // "m" to the main menu actions and prefix a "sm" to the side menu actions.
          IF szReusableMenu = "Y"
-            szActionName = "sm" + vDialogRoot.OptAct.Tag
+            szActionName = "onclick=^" + "sm" + vDialogRoot.OptAct.Tag + "()^"
+            //szActionName = "sm" + vDialogRoot.OptAct.Tag
          // lLth = zstrlen( szActionName )
          // IF lLth > 32
          //    MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
@@ -105,7 +138,8 @@ BuildSideNavSectionJ( VIEW vDialog,
          //                 zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
          // END
          ELSE
-            szActionName = vDialogRoot.OptAct.Tag
+            szActionName = "onclick=^" + vDialogRoot.OptAct.Tag + "()^"
+            //szActionName = vDialogRoot.OptAct.Tag
          END
          ActionType = vDialogRoot.OptAct.Type
       ELSE
@@ -116,7 +150,8 @@ BuildSideNavSectionJ( VIEW vDialog,
       // If the window we are currently generating is the same window that this
       // side menu points to, then we want to set a class on this option.  The
       // reason is so that we can tell which side menu option the user has selected.
-      IF vDialogRoot.OptAct.WindowName = vDialog.Window.Tag
+      IF vDialogRoot.OptAct EXISTS AND vDialogRoot.OptAct.WindowName = vDialog.Window.Tag     
+      //IF vDialogRoot.OptAct.WindowName = vDialog.Window.Tag
          szClass2 = " class=^sideselected^ "
       ELSE
          szClass2 = ""
@@ -140,9 +175,22 @@ BuildSideNavSectionJ( VIEW vDialog,
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-      //szWriteBuffer = "       <li><a href=^#^ " + szClass + " onclick=^" + szActionName + "( )^>" + szNavigationTitle + "</a></li>"
-      szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      IF szStyleIsBootstrap = ""
+         //szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+         szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " " + szActionName + ">" + szNavigationTitle + "</a></li>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      ELSE
+         IF vDialogRoot.Option.WebHTML5Attribute != ""
+            szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogRoot.Option.WebHTML5Attribute  + "^></i>"
+         ELSE
+            szText = ""
+         END
+         szWriteBuffer = "       <li class=^sidebar-item^ id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + ">"
+         //szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " onclick=^" + szActionName + "()^><i class=^align-middle mr-2 fas fa-fw " + szText  + "^></i> <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+         szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      END
 
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -184,14 +232,16 @@ BuildSideNavSectionJ( VIEW vDialog,
 
       // szHTML_Name = szDialogName + vDialogMenu.OptAct.WindowName + ".jsp"
          IF vDialogMenu.OptAct EXISTS
-            szActionName = vDialogMenu.OptAct.Tag
+            szActionName = "onclick=^" + vDialogMenu.OptAct.Tag + "()^"
+            //szActionName = vDialogMenu.OptAct.Tag
             ActionType = vDialogMenu.OptAct.Type
          ELSE
             szActionName = ""
             ActionType = 0
          END
 
-         szMenuName = vDialogRoot.Option.Tag         
+         //szMenuName = vDialogRoot.Option.Tag         
+         szMenuName = vDialogMenu.Option.Tag         
 
          // If the window we are currently generating is the same window that this
          // side menu points to, then we want to set a class on this option.  The
@@ -221,9 +271,23 @@ BuildSideNavSectionJ( VIEW vDialog,
          szWriteBuffer = "%>"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-         szWriteBuffer = "       <li><a href=^#^ " + szClass + " onclick=^" + szActionName + "( )^>" + szNavigationTitle + "</a></li>"
-         szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         IF szStyleIsBootstrap = ""
+            //szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+            szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " " + szActionName + ">" + szNavigationTitle + "</a></li>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         ELSE
+            //szText = vDialogMenu.Option.WebHTML5Attribute
+            IF vDialogMenu.Option.WebHTML5Attribute != ""
+               szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogMenu.Option.WebHTML5Attribute  + "^></i>"
+            ELSE
+               szText = ""
+            END
+            szWriteBuffer = "       <li class=^sidebar-item^ id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + ">"
+            //szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " onclick=^" + szActionName + "()^><i class=^align-middle mr-2 fas fa-fw " + szText + "^></i> <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+            szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   
+         END
 
          szWriteBuffer = "<%"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -237,14 +301,16 @@ BuildSideNavSectionJ( VIEW vDialog,
    END
 
    // Division ending for Navigation Bar.
-   IF vDialogRoot.WndStyle.Tag = "jMobile Window"
+   IF szStyleIsjMobile = "Y" OR szStyleIsBootstrap = "Y"
       szWriteBuffer = "   </ul>"
    ELSE
       szWriteBuffer = "   </ol>"
    END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "</div> <!-- sidenavigation -->"
-   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   IF szStyleIsBootstrap = ""
+      szWriteBuffer = "</div> <!-- sidenavigation -->"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   END
    IF vDialogRoot.Dialog.WEB_LeftSideInclude != ""
       //szWriteBuffer = "<%@include file=^./include/leftcontent.inc^ %>"
       szWriteBuffer = "<!-- left content include file -->"
@@ -254,6 +320,10 @@ BuildSideNavSectionJ( VIEW vDialog,
    END
    szWriteBuffer = "</div>  <!-- leftcontent -->"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   IF szStyleIsBootstrap = "Y"
+      szWriteBuffer = "</nav>  <!-- collapse side nav -->"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
    szWriteBuffer = ""
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
@@ -265,7 +335,6 @@ BuildSideNavSectionJ( VIEW vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    END
    */
-
 END
 /////////////////////////////////////////////////////////////////////////////
 //

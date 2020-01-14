@@ -1,0 +1,22 @@
+tzzolo2o.c:   //:// Activate existing source meta OldMainLOD
+tzzolo2o.c:   //:// Activate existing source ERD.
+TZZOLODD.C:   Bugfix Joins for not existings DataSources
+TZZOLODD.C:   // Drop View to existing LOD.
+TZZOLODD.C:   // Drop View to existing LOD
+TZZOLODD.C:            strcat_s( szMsg, zsizeof( szMsg ), "to an existing TE Data Source." );
+TZZOLODD.C:// PURPOSE:   Delete an existing instance of a LOD
+TZZOLODD.C:   // Delete existing LOD & XOD
+TZZOLODD.C:   // We will start by formating the work object from the existing priority
+TZZOLODD.C:   // First remove any existing derived entries.
+TZZOLODD.C:         strcat_s( szMsg, zsizeof( szMsg ), "' already exists. Replace existing File?" );
+TZZOLODD.C:      strcpy_s( szMsg, zsizeof( szMsg ), "LOD already exists. Replace existing LOD?" );
+TZZOLODD.C:         // if another LOD open, then replace existing LOD
+tzzolodq.c:   // Drop View to existing LOD.
+tzzolodq.c:   // Drop View to existing LOD
+tzzolodq.c:// PURPOSE:   Delete an existing instance of a LOD
+tzzolodq.c:   // Delete existing LOD & XOD
+tzzolodq.c:   // We will start by formating the work object from the existing priority
+tzzolodq.c:   // First remove any existing derived entries.
+tzzolodq.c:         strcat_s( szMsg, zsizeof( szMsg ), "' already exists. Replace existing File?" );
+tzzolodq.c:      strcpy_s( szMsg, zsizeof( szMsg ), "LOD already exists. Replace existing LOD?" );
+tzzolodq.c:         // if another LOD open, then replace existing LOD

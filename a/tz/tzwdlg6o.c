@@ -178,8 +178,10 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    zCHAR     szWindowIsPopup[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szWindowIsForDashboard
    zCHAR     szWindowIsForDashboard[ 2 ] = { 0 }; 
-   //:STRING ( 1 )     szWindowIsjMobile
-   zCHAR     szWindowIsjMobile[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szStyleIsjMobile
+   zCHAR     szStyleIsjMobile[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szStyleIsBootstrap
+   zCHAR     szStyleIsBootstrap[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szNoAutoLogout
    zCHAR     szNoAutoLogout[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szKeyRole
@@ -482,12 +484,18 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:NAME VIEW vDialogRoot "DialogRoot"
    SetNameForView( vDialogRoot, "DialogRoot", 0, zLEVEL_TASK );
 
+   //:szStyleIsjMobile = ""
+   ZeidonStringCopy( szStyleIsjMobile, 1, 0, "", 1, 0, 2 );
+   //:szStyleIsBootstrap = ""
+   ZeidonStringCopy( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 );
+
    //:// We are going to assume first that "Relative Positioning is the default.
    //:szNoPositioning = "Y"
    ZeidonStringCopy( szNoPositioning, 1, 0, "Y", 1, 0, 2 );
 
    //:// KJS 07/23/08 - Check if this dialog window will be built with all relative positioning or with absolute positioning.
    //:// First check the Dialog setting
+   //:// 12/06/19 - Want to add style for jMobile and Bootstrap. Had jMobile in window style but trying it here so it can be set a dialog level.
    //://IF  vDialog.Dialog.WEB_RelativePositionFlag = "Y" OR vDialog.Window.WEB_RelativePositionFlag = "Y"
    //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "R"
    if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "R" ) == 0 )
@@ -499,7 +507,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    else
    { 
       //:// No style
-      //:IF  vDialog.Dialog.WEB_JSPGenerationPositioning = "N"
+      //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "N" 
       if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "N" ) == 0 )
       { 
          //:szNoPositioning = "S"
@@ -509,11 +517,41 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       else
       { 
          //:// Absolute Style
-         //:IF  vDialog.Dialog.WEB_JSPGenerationPositioning = "A"
+         //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "A"
          if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "A" ) == 0 )
          { 
             //:szNoPositioning = ""
             ZeidonStringCopy( szNoPositioning, 1, 0, "", 1, 0, 2 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:// jMobile which has "no positioning" like "N"
+            //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "J"
+            if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "J" ) == 0 )
+            { 
+               //:szNoPositioning = "S"
+               ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
+               //:szStyleIsjMobile = "Y"
+               ZeidonStringCopy( szStyleIsjMobile, 1, 0, "Y", 1, 0, 2 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:// Boostrap which has "no positioning" like "N"
+               //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "B"
+               if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "B" ) == 0 )
+               { 
+                  //:szNoPositioning = "S"
+                  ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
+                  //:szStyleIsBootstrap = "Y"
+                  ZeidonStringCopy( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 );
+               } 
+
+               //:END
+            } 
+
+            //:END
          } 
 
          //:END
@@ -526,37 +564,77 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:// KJS 07/23/08 - Check if this dialog window will be built with all relative positioning or with absolute positioning.
    //:// Second check if the Window has a different setting.
-   //:IF vDialog.Window.WEB_JSPGenerationPositioning = "R"
-   if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "R" ) == 0 )
+   //:IF vDialog.Window.WEB_JSPGenerationPositioning != ""
+   if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "" ) != 0 )
    { 
-      //:szNoPositioning = "Y"
-      ZeidonStringCopy( szNoPositioning, 1, 0, "Y", 1, 0, 2 );
-      //:ELSE
-   } 
-   else
-   { 
-      //:// No style
-      //:IF  vDialog.Window.WEB_JSPGenerationPositioning = "N"
-      if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "N" ) == 0 )
+      //:szStyleIsjMobile = ""
+      ZeidonStringCopy( szStyleIsjMobile, 1, 0, "", 1, 0, 2 );
+      //:szStyleIsBootstrap = ""
+      ZeidonStringCopy( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 );
+      //:IF vDialog.Window.WEB_JSPGenerationPositioning = "R"
+      if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "R" ) == 0 )
       { 
-         //:szNoPositioning = "S"
-         ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
+         //:szNoPositioning = "Y"
+         ZeidonStringCopy( szNoPositioning, 1, 0, "Y", 1, 0, 2 );
          //:ELSE
       } 
       else
       { 
-         //:// Absolute Style
-         //:IF  vDialog.Window.WEB_JSPGenerationPositioning = "A"
-         if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "A" ) == 0 )
+         //:// No style
+         //:IF vDialog.Window.WEB_JSPGenerationPositioning = "N"
+         if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "N" ) == 0 )
          { 
-            //:szNoPositioning = ""
-            ZeidonStringCopy( szNoPositioning, 1, 0, "", 1, 0, 2 );
+            //:szNoPositioning = "S"
+            ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:// Absolute Style
+            //:IF vDialog.Window.WEB_JSPGenerationPositioning = "A"
+            if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "A" ) == 0 )
+            { 
+               //:szNoPositioning = ""
+               ZeidonStringCopy( szNoPositioning, 1, 0, "", 1, 0, 2 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:// jMobile which has "no positioning" like "N"
+               //:IF vDialog.Window.WEB_JSPGenerationPositioning = "J"
+               if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "J" ) == 0 )
+               { 
+                  //:szNoPositioning = "S"
+                  ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
+                  //:szStyleIsjMobile = "Y"
+                  ZeidonStringCopy( szStyleIsjMobile, 1, 0, "Y", 1, 0, 2 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:// Boostrap which has "no positioning" like "N"
+                  //:IF vDialog.Window.WEB_JSPGenerationPositioning = "B"
+                  if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "B" ) == 0 )
+                  { 
+                     //:szNoPositioning = "S"
+                     ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
+                     //:szStyleIsBootstrap = "Y"
+                     ZeidonStringCopy( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 );
+                  } 
+
+                  //:END
+               } 
+
+               //:END
+            } 
+
+            //:END
          } 
 
          //:END
       } 
 
-      //:END
+      //:END 
    } 
 
    //:END
@@ -606,14 +684,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:IF vDialogRoot.WndStyle.Tag = "jMobile Window"
    if ( CompareAttributeToString( vDialogRoot, "WndStyle", "Tag", "jMobile Window" ) == 0 )
    { 
-      //:szWindowIsjMobile = "Y"
-      ZeidonStringCopy( szWindowIsjMobile, 1, 0, "Y", 1, 0, 2 );
-      //:ELSE
-   } 
-   else
-   { 
-      //:szWindowIsjMobile = ""
-      ZeidonStringCopy( szWindowIsjMobile, 1, 0, "", 1, 0, 2 );
+      //:szStyleIsjMobile = "Y"
+      ZeidonStringCopy( szStyleIsjMobile, 1, 0, "Y", 1, 0, 2 );
    } 
 
    //:END
@@ -3770,8 +3842,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:// KJS 04/27/11 - I am not sure that we want to always include this js file but if not, then I need
    //:// to loop through all controls (and subcontrols) looking for a div that has a web control property of
    //:// "Show/Hide Toggle". For now I am always including it.
-   //:IF szWindowIsjMobile = ""
-   if ( ZeidonStringCompare( szWindowIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
+   //:IF szStyleIsjMobile = ""
+   if ( ZeidonStringCompare( szStyleIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/animatedcollapse.js?v=" + szDateTime + "^></script>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<script language=^JavaScript^ type=^text/javascript^ src=^./js/animatedcollapse.js?v=", 1, 0, 10001 );
@@ -6608,8 +6680,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
    else
    { 
-      //:IF szWindowIsjMobile = ""
-      if ( ZeidonStringCompare( szWindowIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
+      //:IF szStyleIsjMobile = ""
+      if ( ZeidonStringCompare( szStyleIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
       { 
          //:// KJS 02/24/16 - Do We need this?
          //:szWriteBuffer = "<%@ include file=^./include/pagebackground.inc^ %>  <!-- just temporary until we get the painter dialog updates from Kelly ... 2011.10.08 dks -->"
@@ -6660,8 +6732,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
    else
    { 
-      //:IF vDialogRoot.Window.WEB_NoBannerFlag = "Y" OR szWindowIsjMobile = "Y"
-      if ( CompareAttributeToString( vDialogRoot, "Window", "WEB_NoBannerFlag", "Y" ) == 0 || ZeidonStringCompare( szWindowIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
+      //:IF vDialogRoot.Window.WEB_NoBannerFlag = "Y" OR szStyleIsjMobile = "Y"
+      if ( CompareAttributeToString( vDialogRoot, "Window", "WEB_NoBannerFlag", "Y" ) == 0 || ZeidonStringCompare( szStyleIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
       { 
          //:szShowBanner = ""
          ZeidonStringCopy( szShowBanner, 1, 0, "", 1, 0, 2 );
@@ -6684,8 +6756,9 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:// css.  Do not add this wrapper if the window is going to be a popup window or a window that will be part
    //:// of a dashboard.
    //://<!--This text is a comment-->
-   //:IF szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szWindowIsjMobile = ""
-   if ( ZeidonStringCompare( szWindowIsPopup, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szWindowIsForDashboard, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szWindowIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
+   //:IF szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szStyleIsjMobile = "" AND szStyleIsBootstrap = ""
+   if ( ZeidonStringCompare( szWindowIsPopup, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szWindowIsForDashboard, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szStyleIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 &&
+        ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "<div id=^wrapper^>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<div id=^wrapper^>", 1, 0, 10001 );
@@ -6695,8 +6768,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
    else
    { 
-      //:IF szWindowIsjMobile = "Y"
-      if ( ZeidonStringCompare( szWindowIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
+      //:IF szStyleIsjMobile = "Y"
+      if ( ZeidonStringCompare( szStyleIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
       { 
          //:szWriteBuffer = "<div data-role=^page^ data-theme=^p^ data-title=^" + vDialog.Window.Caption + "^ >"
          GetVariableFromAttribute( szTempString_21, 0, 'S', 255, vDialog, "Window", "Caption", "", 0 );
@@ -6705,6 +6778,20 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^ >", 1, 0, 10001 );
          //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 ) 
          WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+         //:ELSE
+      } 
+      else
+      { 
+         //:IF szStyleIsBootstrap = "Y"
+         if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
+         { 
+            //:szWriteBuffer = "<div class=^wrapper^ >"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^wrapper^ >", 1, 0, 10001 );
+            //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 ) 
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+         } 
+
+         //:END
       } 
 
       //:END
@@ -6740,42 +6827,47 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:// we haven't done that before... as of right now, it looks like WEB_TopMenuInclude is not being
          //:// used anywhere so I am going to use this because I don't want to have to change TZWDLGSO.LOD.
          //:// I changed WEB_TopMenuInclude to WEB_TopBannerName.
-         //:IF vDialog.Window.WEB_TopBannerName != ""
-         if ( CompareAttributeToString( vDialog, "Window", "WEB_TopBannerName", "" ) != 0 )
+         //:IF szStyleIsBootstrap = ""
+         if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
          { 
-            //:szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
-            GetVariableFromAttribute( szTempString_22, 0, 'S', 255, vDialog, "Window", "WEB_TopBannerName", "", 0 );
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_22, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
-            //:ELSE
-         } 
-         else
-         { 
-            //:IF vDialog.Dialog.WEB_TopBannerName != ""
-            if ( CompareAttributeToString( vDialog, "Dialog", "WEB_TopBannerName", "" ) != 0 )
+            //:IF vDialog.Window.WEB_TopBannerName != ""
+            if ( CompareAttributeToString( vDialog, "Window", "WEB_TopBannerName", "" ) != 0 )
             { 
-               //:szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
-               GetVariableFromAttribute( szTempString_23, 0, 'S', 255, vDialog, "Dialog", "WEB_TopBannerName", "", 0 );
+               //:szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
+               GetVariableFromAttribute( szTempString_22, 0, 'S', 255, vDialog, "Window", "WEB_TopBannerName", "", 0 );
                ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_23, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_22, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
                //:ELSE
             } 
             else
             { 
-               //:szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^./include/banner.inc^ %>", 1, 0, 10001 );
+               //:IF vDialog.Dialog.WEB_TopBannerName != ""
+               if ( CompareAttributeToString( vDialog, "Dialog", "WEB_TopBannerName", "" ) != 0 )
+               { 
+                  //:szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
+                  GetVariableFromAttribute( szTempString_23, 0, 'S', 255, vDialog, "Dialog", "WEB_TopBannerName", "", 0 );
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_23, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^./include/banner.inc^ %>", 1, 0, 10001 );
+               } 
+
+               //:END
             } 
 
             //:END
+            //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
          } 
 
          //:END
-         //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
       } 
-
 
       //:END
    } 
@@ -6783,8 +6875,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:END
 
    //:// KJS 02/24/16
-   //:IF szWindowIsjMobile = "Y"
-   if ( ZeidonStringCompare( szWindowIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   //:IF szStyleIsjMobile = "Y"
+   if ( ZeidonStringCompare( szStyleIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "<div data-role=^header^>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<div data-role=^header^>", 1, 0, 10001 );
@@ -6832,46 +6924,53 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:END
 
    //:// IF ( lReusableDialogZKey != 0 AND vDialog.Window.WEB_NoTopMenuFlag != "Y" )  // dks
-   //:IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
-   if ( lReusableDialogZKey != 0 && ZeidonStringCompare( szShowTopMenu, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   //:// If the style we are generating is Bootstrap... then it seems like want the main navigation to be after the side navigation...
+   //:IF szStyleIsBootstrap = ""
+   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
-      //:IF lReusableDialogZKey = vDialog.Dialog.ZKey
-      if ( CompareAttributeToInteger( vDialog, "Dialog", "ZKey", lReusableDialogZKey ) == 0 )
+      //:IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
+      if ( lReusableDialogZKey != 0 && ZeidonStringCompare( szShowTopMenu, 1, 0, "Y", 1, 0, 2 ) == 0 )
       { 
-         //:CreateViewFromView( vDialogTemp, vDialog )
-         CreateViewFromView( &vDialogTemp, vDialog );
-         //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-         RESULT = SetCursorFirstEntityByInteger( vDialogTemp, "Window", "ZKey", lReusableWindowZKey, "" );
-         //:IF RESULT >= zCURSOR_SET
-         if ( RESULT >= zCURSOR_SET )
+         //:IF lReusableDialogZKey = vDialog.Dialog.ZKey
+         if ( CompareAttributeToInteger( vDialog, "Dialog", "ZKey", lReusableDialogZKey ) == 0 )
          { 
-            //:BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
-            BuildMainNavSection( vDialog, vDialogTemp, lFileJSP );
+            //:CreateViewFromView( vDialogTemp, vDialog )
+            CreateViewFromView( &vDialogTemp, vDialog );
+            //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            RESULT = SetCursorFirstEntityByInteger( vDialogTemp, "Window", "ZKey", lReusableWindowZKey, "" );
+            //:IF RESULT >= zCURSOR_SET
+            if ( RESULT >= zCURSOR_SET )
+            { 
+               //:BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP );
+            } 
+
+            //:END
+            //:DropView( vDialogTemp )
+            DropView( vDialogTemp );
+            //:ELSE
+         } 
+         else
+         { 
+            //:ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
+            ActivateMetaOI_ByZKey( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 );
+            //:// plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
+            //://                                         1, plListHandle )
+            //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            RESULT = SetCursorFirstEntityByInteger( vDialogTemp, "Window", "ZKey", lReusableWindowZKey, "" );
+            //:IF RESULT >= zCURSOR_SET
+            if ( RESULT >= zCURSOR_SET )
+            { 
+               //:BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP );
+            } 
+
+            //:END
+            //:DropObjectInstance( vDialogTemp )
+            DropObjectInstance( vDialogTemp );
          } 
 
          //:END
-         //:DropView( vDialogTemp )
-         DropView( vDialogTemp );
-         //:ELSE
-      } 
-      else
-      { 
-         //:ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-         ActivateMetaOI_ByZKey( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 );
-         //:// plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
-         //://                                         1, plListHandle )
-         //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-         RESULT = SetCursorFirstEntityByInteger( vDialogTemp, "Window", "ZKey", lReusableWindowZKey, "" );
-         //:IF RESULT >= zCURSOR_SET
-         if ( RESULT >= zCURSOR_SET )
-         { 
-            //:BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
-            BuildMainNavSection( vDialog, vDialogTemp, lFileJSP );
-         } 
-
-         //:END
-         //:DropObjectInstance( vDialogTemp )
-         DropObjectInstance( vDialogTemp );
       } 
 
       //:END
@@ -6879,8 +6978,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:END
 
-   //:IF szWindowIsjMobile = "Y"
-   if ( ZeidonStringCompare( szWindowIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   //:IF szStyleIsjMobile = "Y"
+   if ( ZeidonStringCompare( szStyleIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "</div> <!-- /header -->"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "</div> <!-- /header -->", 1, 0, 10001 );
@@ -6894,8 +6993,9 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:// KJS 07/31/08 - Before we build the main content items (side navigation if it exists and the page contents) we
    //:// are going to create another div.  Not sure this is necessary but I'm thinking it might be helpful (then the
    //:// footer can be after this).
-   //:IF szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szWindowIsjMobile = ""
-   if ( ZeidonStringCompare( szWindowIsPopup, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szWindowIsForDashboard, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szWindowIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
+   //:IF szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szStyleIsjMobile = "" AND szStyleIsBootstrap = ""
+   if ( ZeidonStringCompare( szWindowIsPopup, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szWindowIsForDashboard, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szStyleIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 &&
+        ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "<div id=^maincontent^>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<div id=^maincontent^>", 1, 0, 10001 );
@@ -6905,8 +7005,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
    else
    { 
-      //:IF szWindowIsjMobile = "Y"
-      if ( ZeidonStringCompare( szWindowIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
+      //:IF szStyleIsjMobile = "Y"
+      if ( ZeidonStringCompare( szStyleIsjMobile, 1, 0, "Y", 1, 0, 2 ) == 0 )
       { 
          //:szWriteBuffer = "<div data-role=^content^>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<div data-role=^content^>", 1, 0, 10001 );
@@ -6949,6 +7049,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       { 
          //:CreateViewFromView( vDialogTemp, vDialog )
          CreateViewFromView( &vDialogTemp, vDialog );
+         //:NAME VIEW vDialogTemp "DialogREUS"
+         SetNameForView( vDialogTemp, "DialogREUS", 0, zLEVEL_TASK );
          //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
          GetIntegerFromAttribute( &lTempInteger_47, vDialog, "ReusableSideWindow", "ZKey" );
          RESULT = SetCursorFirstEntityByInteger( vDialogTemp, "Window", "ZKey", lTempInteger_47, "" );
@@ -7017,6 +7119,71 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
 
    //:END
+
+   //:// If the style we are generating is Bootstrap... then it seems like want the main navigation to be after the side navigation...
+   //:IF szStyleIsBootstrap = "Y"
+   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+
+      //:szWriteBuffer = "<div class=^main^>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^main^>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )    
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+
+      //:IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
+      if ( lReusableDialogZKey != 0 && ZeidonStringCompare( szShowTopMenu, 1, 0, "Y", 1, 0, 2 ) == 0 )
+      { 
+         //:IF lReusableDialogZKey = vDialog.Dialog.ZKey
+         if ( CompareAttributeToInteger( vDialog, "Dialog", "ZKey", lReusableDialogZKey ) == 0 )
+         { 
+            //:CreateViewFromView( vDialogTemp, vDialog )
+            CreateViewFromView( &vDialogTemp, vDialog );
+            //:NAME VIEW vDialogTemp "DialogREUS"
+            SetNameForView( vDialogTemp, "DialogREUS", 0, zLEVEL_TASK );
+            //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            RESULT = SetCursorFirstEntityByInteger( vDialogTemp, "Window", "ZKey", lReusableWindowZKey, "" );
+            //:IF RESULT >= zCURSOR_SET
+            if ( RESULT >= zCURSOR_SET )
+            { 
+               //:BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP );
+            } 
+
+            //:END
+            //:DropView( vDialogTemp )
+            DropView( vDialogTemp );
+            //:ELSE
+         } 
+         else
+         { 
+            //:ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
+            ActivateMetaOI_ByZKey( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 );
+            //:NAME VIEW vDialogTemp "DialogREUS"
+            SetNameForView( vDialogTemp, "DialogREUS", 0, zLEVEL_TASK );
+            //:// plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
+            //://                                         1, plListHandle )
+            //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            RESULT = SetCursorFirstEntityByInteger( vDialogTemp, "Window", "ZKey", lReusableWindowZKey, "" );
+            //:IF RESULT >= zCURSOR_SET
+            if ( RESULT >= zCURSOR_SET )
+            { 
+               //:BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP );
+            } 
+
+            //:END
+            //:DropObjectInstance( vDialogTemp )
+            DropObjectInstance( vDialogTemp );
+         } 
+
+         //:END
+      } 
+
+      //:END
+   } 
+
+   //:END
+
 
    //:szCSS_Class = vDialog.Window.CSS_Class
    GetVariableFromAttribute( szCSS_Class, 0, 'S', 51, vDialog, "Window", "CSS_Class", "", 0 );
@@ -7089,8 +7256,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
             } 
             else
             { 
-               //:IF szWindowIsjMobile = ""
-               if ( ZeidonStringCompare( szWindowIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
+               //:IF szStyleIsjMobile = "" AND szStyleIsBootstrap = ""
+               if ( ZeidonStringCompare( szStyleIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
                { 
                   //:// If no class was given, and there is no side menu,
                   //:// create a default div with the id of contentnosidemenu.
@@ -8366,8 +8533,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:DropView( vDialogTemp )
    DropView( vDialogTemp );
 
-   //:IF szWindowIsjMobile = ""
-   if ( ZeidonStringCompare( szWindowIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
+   //:IF szStyleIsjMobile = ""
+   if ( ZeidonStringCompare( szStyleIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
       //:// This is contentnosidemenu.
       //:szWriteBuffer = "</div>   <!-- This is the end tag for the div '" + szDivContentClass + "' -->"
@@ -8380,11 +8547,21 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:END
 
-   //:IF  szWindowIsPopup = "" AND szWindowIsForDashboard = ""
+   //:IF szWindowIsPopup = "" AND szWindowIsForDashboard = ""
    if ( ZeidonStringCompare( szWindowIsPopup, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szWindowIsForDashboard, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "</div>   <!-- This is the end tag for the div 'maincontent' -->"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "</div>   <!-- This is the end tag for the div 'maincontent' -->", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+   } 
+
+   //:END
+   //:IF szStyleIsBootstrap = "Y"
+   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:szWriteBuffer = "</div>  <!-- This is the end tag for class=wrapper -->"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "</div>  <!-- This is the end tag for class=wrapper -->", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
    } 
@@ -8452,8 +8629,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:END
 
    //://<!--This text is a comment-->
-   //:IF  szWindowIsPopup = "" AND szWindowIsForDashboard = ""
-   if ( ZeidonStringCompare( szWindowIsPopup, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szWindowIsForDashboard, 1, 0, "", 1, 0, 2 ) == 0 )
+   //:IF  szWindowIsPopup = "" AND szWindowIsForDashboard = "" AND szStyleIsBootstrap = ""
+   if ( ZeidonStringCompare( szWindowIsPopup, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szWindowIsForDashboard, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "</div>  <!-- This is the end tag for wrapper -->"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "</div>  <!-- This is the end tag for wrapper -->", 1, 0, 10001 );
@@ -8473,8 +8650,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:// KJS 12/08/15 - Currently we are always including animatedcollapse.js (for groupbox Show/Hide Toggle). We had been calling animatedcollapse.init(); 
    //:// each time we created an animatedcollapse groupbox but this only needs to be called once and inits all groups. So I am going to try calling init() here
    //:// at the end on all webpages. Doesn't seem to cause issues even if there is no animatedcollapse on the page (since we include the js). 
-   //:IF szWindowIsjMobile = ""
-   if ( ZeidonStringCompare( szWindowIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
+   //:IF szStyleIsjMobile = ""
+   if ( ZeidonStringCompare( szStyleIsjMobile, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "<script type=^text/javascript^>animatedcollapse.init();</script>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<script type=^text/javascript^>animatedcollapse.init();</script>", 1, 0, 10001 );
