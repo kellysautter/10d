@@ -2514,23 +2514,23 @@ DKS_TRACE_END */
    ///////////////////////////////////////////////////////////
    // KJS 08/19/16 - Adding back for Doug 10d. He must use dynamic banner.
    IF szDynamicBanner = "Y"
-   szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DynamicBannerName^ ).setFirst( ^DialogName^, ^" + szDialogTag + "^, ^^ );"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   if ( csrRC.isSet( ) )"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      strBannerName = vKZXMLPGO.cursor( ^DynamicBannerName^ ).getAttribute( ^BannerName^ ).getString( ^^ );"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-   szWriteBuffer = "   if ( StringUtils.isBlank( strBannerName ) )"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szBannerName = vDialog.Dialog.WEB_TopBannerName
-   // If a banner include file has been entered by the user, then use this, otherwise
-   // hardcode "./include/banner.inc" as the banner name.
-   IF szBannerName != ""
-      szWriteBuffer = "      strBannerName = ^" + szBannerName + "^;"
-   ELSE
-      szWriteBuffer = "      strBannerName = ^./include/banner.inc^;"
-   END
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DynamicBannerName^ ).setFirst( ^DialogName^, ^" + szDialogTag + "^, ^^ );"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if ( csrRC.isSet( ) )"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      strBannerName = vKZXMLPGO.cursor( ^DynamicBannerName^ ).getAttribute( ^BannerName^ ).getString( ^^ );"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      szWriteBuffer = "   if ( StringUtils.isBlank( strBannerName ) )"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szBannerName = vDialog.Dialog.WEB_TopBannerName
+      // If a banner include file has been entered by the user, then use this, otherwise
+      // hardcode "./include/banner.inc" as the banner name.
+      IF szBannerName != ""
+         szWriteBuffer = "      strBannerName = ^" + szBannerName + "^;"
+      ELSE
+         szWriteBuffer = "      strBannerName = ^./include/banner.inc^;"
+      END
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    END
    //////////////////////////////////////////////////////////////////////////
 
@@ -4243,18 +4243,23 @@ DKS_TRACE_END */
       // we haven't done that before... as of right now, it looks like WEB_TopMenuInclude is not being
       // used anywhere so I am going to use this because I don't want to have to change TZWDLGSO.LOD.
       // I changed WEB_TopMenuInclude to WEB_TopBannerName.
-      IF szStyleIsBootstrap = ""
+      //IF szStyleIsBootstrap = ""
          IF vDialog.Window.WEB_TopBannerName != ""
             szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
          ELSE
          IF vDialog.Dialog.WEB_TopBannerName != ""
             szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
          ELSE
-            szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
+            // If we are using boostrap, then don't put a default banner, only put the banner if one has been specified (WEB_TopBannerName)
+            IF szStyleIsBootstrap = ""
+               szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+            END
          END
          END
-         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-      END
+      //END
    END
    END
    

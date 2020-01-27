@@ -102,6 +102,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szFileTransferFlag
    STRING ( 1 )   szGroupIsTable
    STRING ( 1 )   szreCAPTCHAFlag
+   STRING ( 1 )   szStyleIsBootstrap
    STRING ( 1 )   szTinyMCEFlag
    STRING ( 1 )   szWCP_Edit
    STRING ( 1 )   szWCP_Hidden
@@ -164,7 +165,18 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    ELSE
       szWindowIsjMobile = ""
    END
-   
+      
+   IF szWindowIsjMobile = ""
+      IF vDialogRoot.WndStyle.Tag = "jMobile Window" OR vDialogRoot.Window.WEB_JSPGenerationPositioning = "J" OR 
+         ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "J" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
+         szWindowIsjMobile = "Y"
+      END     
+   END 
+   szStyleIsBootstrap = ""
+   IF vDialogRoot.Window.WEB_JSPGenerationPositioning = "B" OR 
+      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
+      szStyleIsBootstrap = "Y"
+   END 
 
    szIndentHold = szIndent
 
@@ -2503,7 +2515,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szPosition = ""
 
             // If szNoPositioning is null then we are not using absolute positioning.
-            IF  szNoPositioning = ""
+            IF szNoPositioning = ""
                // Set up "top" and "left" positions for absolute positioning.
                CreateAbsolPosStringTable( vDialog, szPosition, 0, 0 )
             END
@@ -2648,7 +2660,17 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
                OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_X A" )
                SetViewToSubobject( vDialog, "CtrlCtrl" )  // vDialog positioned on sub-controls
-               lCol = 0
+               
+               // KJS 01/15/20 - For bootstrap we want to add a blank field at the beginning of grid.
+               IF szStyleIsBootstrap = "Y"
+                  szWriteBuffer = "   <th></th>  <!-- Created for bootstrap -->"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  lCol = 1
+               ELSE
+                  lCol = 0
+               END               
+
+               //lCol = 0
                //Loop through each field in the grid and create the headers
                FOR EACH vDialog.Control
 
@@ -2749,8 +2771,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         ELSE
                            szText = "<%=strErrorMapValue%>"
                         END
-
-                        IF  szAbsoluteWidth = ""
+                        
+                        IF szAbsoluteWidth = ""
                            szWriteBuffer = "   <th><%=strErrorMapValue%></th>"
                         ELSE
                            szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^><%=strErrorMapValue%></th>"
@@ -2793,6 +2815,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         END
                         
 
+                        IF szStyleIsBootstrap = "" OR vDialog.CtrlMapER_Attribute DOES NOT EXIST OR
+                           ( szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Attribute EXISTS AND vDialog.CtrlMapER_Attribute.Name != "wHide")
                         // If this is sortable and this is a pushbutton on the grid...
                         IF lSort != 0 AND lPushBtn != 0
                            IF  szAbsoluteWidth = ""
@@ -2817,6 +2841,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
                            //Put the ending on the tag and the text if there is any.
                            szWriteBuffer = szWriteBuffer + ">" + szText
+                        END
                         END
 
                         //KJS 10/19/07 - If there is no Text and the control is a checkbox, then we want to create a
@@ -3015,19 +3040,19 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                
                
                // KJS 03/12/18
-   // KJS 03/13/18 - If the view is read only, then we want to set the combo box to disabled.
-   // We only do this if the zeidon.ini has UseZeidonControlActionsView
-   IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y" 
-         szWriteBuffer = "      strDisabled = ^^;"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "      if ( " + vDialog.CtrlMapView.Name + ".isReadOnly( ) )"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "         strDisabled = ^disabled^;"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-   END
+               // KJS 03/13/18 - If the view is read only, then we want to set the combo box to disabled.
+               // We only do this if the zeidon.ini has UseZeidonControlActionsView
+               IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y" 
+                     szWriteBuffer = "      strDisabled = ^^;"
+                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                     szWriteBuffer = "      if ( " + vDialog.CtrlMapView.Name + ".isReadOnly( ) )"
+                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                     szWriteBuffer = "         strDisabled = ^disabled^;"
+                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               END
                
 
-               // KJS 5/1/08 - Jeff is a pain in the butt so I need to add this code.
+               // KJS 5/1/08
                // We are creating a temporary view to the table view so that when we loop through the
                // entities to create this grid, we do not lose the original entity position.
                // If you have several grids on one page mapped to the same entity path, when one grid was
@@ -3390,7 +3415,17 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
                OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_X A" )
                SetViewToSubobject( vDialog, "CtrlCtrl" )  // vDialog positioned on sub-controls
-               lCol = 0
+             
+               SET CURSOR FIRST vDialog.Control
+               // KJS 01/15/20 - For bootstrap we want to add a blank field at the beginning of grid.
+               IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Attribute EXISTS AND vDialog.CtrlMapER_Attribute.Name != "wHide"
+                  szWriteBuffer = "   <td></td> <!-- Created for bootstrap -->"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  lCol = 1
+               ELSE
+                  lCol = 0
+               END               
+               //lCol = 0
                FOR EACH vDialog.Control   // Loop to create table columns
 
                   szCtrlCtrlType = vDialog.ControlDef.Tag

@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO                         01/14/20   17:29:06 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO                         01/27/20   10:40:11 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
@@ -6327,8 +6327,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZEREMDD
 aDesc      Data Model ER Diagram & Maint.
-aLastSyncDate 20160714173228185
-aLastUpdateDate 20160714173228185
+aLastSyncDate 20200127103851073
+aLastUpdateDate 20200127103851073
 
 eW_MetaDef 3
 aCPLR_ZKey 1348132
@@ -6660,8 +6660,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZZOLODD
 aDesc      LOD (Logical Object Defn) Maint.
-aLastSyncDate 20200113114224581
-aLastUpdateDate 20200113114224581
+aLastSyncDate 20200127103603746
+aLastUpdateDate 20200127103603746
 
 eW_MetaDef 3
 aCPLR_ZKey 91076285

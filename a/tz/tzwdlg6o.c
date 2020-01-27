@@ -6827,48 +6827,55 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:// we haven't done that before... as of right now, it looks like WEB_TopMenuInclude is not being
          //:// used anywhere so I am going to use this because I don't want to have to change TZWDLGSO.LOD.
          //:// I changed WEB_TopMenuInclude to WEB_TopBannerName.
-         //:IF szStyleIsBootstrap = ""
-         if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
+         //://IF szStyleIsBootstrap = ""
+         //:IF vDialog.Window.WEB_TopBannerName != ""
+         if ( CompareAttributeToString( vDialog, "Window", "WEB_TopBannerName", "" ) != 0 )
          { 
-            //:IF vDialog.Window.WEB_TopBannerName != ""
-            if ( CompareAttributeToString( vDialog, "Window", "WEB_TopBannerName", "" ) != 0 )
+            //:szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
+            GetVariableFromAttribute( szTempString_22, 0, 'S', 255, vDialog, "Window", "WEB_TopBannerName", "", 0 );
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_22, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
+            //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:IF vDialog.Dialog.WEB_TopBannerName != ""
+            if ( CompareAttributeToString( vDialog, "Dialog", "WEB_TopBannerName", "" ) != 0 )
             { 
-               //:szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
-               GetVariableFromAttribute( szTempString_22, 0, 'S', 255, vDialog, "Window", "WEB_TopBannerName", "", 0 );
+               //:szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
+               GetVariableFromAttribute( szTempString_23, 0, 'S', 255, vDialog, "Dialog", "WEB_TopBannerName", "", 0 );
                ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_22, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_23, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+               WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
                //:ELSE
             } 
             else
             { 
-               //:IF vDialog.Dialog.WEB_TopBannerName != ""
-               if ( CompareAttributeToString( vDialog, "Dialog", "WEB_TopBannerName", "" ) != 0 )
-               { 
-                  //:szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
-                  GetVariableFromAttribute( szTempString_23, 0, 'S', 255, vDialog, "Dialog", "WEB_TopBannerName", "", 0 );
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_23, 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
-                  //:ELSE
-               } 
-               else
+               //:// If we are using boostrap, then don't put a default banner, only put the banner if one has been specified (WEB_TopBannerName)
+               //:IF szStyleIsBootstrap = ""
+               if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
                { 
                   //:szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^./include/banner.inc^ %>", 1, 0, 10001 );
+                  //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+                  WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
                } 
 
                //:END
             } 
 
             //:END
-            //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
          } 
 
          //:END
       } 
 
+      //://END
       //:END
    } 
 
@@ -7049,8 +7056,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       { 
          //:CreateViewFromView( vDialogTemp, vDialog )
          CreateViewFromView( &vDialogTemp, vDialog );
-         //:NAME VIEW vDialogTemp "DialogREUS"
-         SetNameForView( vDialogTemp, "DialogREUS", 0, zLEVEL_TASK );
+         //://NAME VIEW vDialogTemp "DialogREUS"
          //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
          GetIntegerFromAttribute( &lTempInteger_47, vDialog, "ReusableSideWindow", "ZKey" );
          RESULT = SetCursorFirstEntityByInteger( vDialogTemp, "Window", "ZKey", lTempInteger_47, "" );
@@ -7138,8 +7144,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          { 
             //:CreateViewFromView( vDialogTemp, vDialog )
             CreateViewFromView( &vDialogTemp, vDialog );
-            //:NAME VIEW vDialogTemp "DialogREUS"
-            SetNameForView( vDialogTemp, "DialogREUS", 0, zLEVEL_TASK );
+            //://NAME VIEW vDialogTemp "DialogREUS"
             //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
             RESULT = SetCursorFirstEntityByInteger( vDialogTemp, "Window", "ZKey", lReusableWindowZKey, "" );
             //:IF RESULT >= zCURSOR_SET
@@ -7158,8 +7163,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          { 
             //:ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
             ActivateMetaOI_ByZKey( vSubtask, &vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 );
-            //:NAME VIEW vDialogTemp "DialogREUS"
-            SetNameForView( vDialogTemp, "DialogREUS", 0, zLEVEL_TASK );
+            //://NAME VIEW vDialogTemp "DialogREUS"
             //:// plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
             //://                                         1, plListHandle )
             //:SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
