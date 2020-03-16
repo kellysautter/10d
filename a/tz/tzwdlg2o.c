@@ -12,6 +12,20 @@ extern "C"
 #include "ZEIDONOP.H"
 
 zOPER_EXPORT zSHORT OPERATION
+oTZWDLGSO_CtrlListDisplayValueC( zVIEW     vDialog,
+                                 LPVIEWENTITY lpEntity,
+                                 LPVIEWATTRIB lpAttribute,
+                                 zSHORT    GetOrSetFlag );
+
+
+zOPER_EXPORT zSHORT OPERATION
+oTZWDLGSO_CtrlListDisplayValue( zVIEW     vDialog,
+                                LPVIEWENTITY lpEntity,
+                                LPVIEWATTRIB lpAttribute,
+                                zSHORT    GetOrSetFlag );
+
+
+zOPER_EXPORT zSHORT OPERATION
 oTZWDLGSO_NLS_ControlText( zVIEW     vDialog,
                            LPVIEWENTITY lpEntity,
                            LPVIEWATTRIB lpAttribute,
@@ -800,6 +814,120 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
    } 
 
    //:END
+   return( 0 );
+// END
+} 
+
+
+//:DERIVED ATTRIBUTE OPERATION
+//:CtrlListDisplayValueC( VIEW vDialog BASED ON LOD TZWDLGSO,
+//:                       STRING ( 32 ) lpEntity,
+//:                       STRING ( 32 ) lpAttribute,
+//:                       SHORT GetOrSetFlag )
+//:   STRING (254) szValue
+zOPER_EXPORT zSHORT OPERATION
+oTZWDLGSO_CtrlListDisplayValueC( zVIEW     vDialog,
+                                 LPVIEWENTITY lpEntity,
+                                 LPVIEWATTRIB lpAttribute,
+                                 zSHORT    GetOrSetFlag )
+{
+   zCHAR     szValue[ 255 ] = { 0 }; 
+   zCHAR     szTempString_0[ 255 ]; 
+
+
+   //:CASE GetOrSetFlag
+   switch( GetOrSetFlag )
+   { 
+      //:OF   zDERIVED_GET:
+      case zDERIVED_GET :
+
+         //:IF vDialog.CtrlCtrl.WebCtrlLabelLink != ""
+         if ( CompareAttributeToString( vDialog, "CtrlCtrl", "WebCtrlLabelLink", "" ) != 0 )
+         { 
+            //:szValue = vDialog.CtrlCtrl.Tag + "/" + vDialog.CtrlCtrl.WebCtrlLabelLink  
+            GetStringFromAttribute( szValue, zsizeof( szValue ), vDialog, "CtrlCtrl", "Tag" );
+            ZeidonStringConcat( szValue, 1, 0, "/", 1, 0, 255 );
+            GetVariableFromAttribute( szTempString_0, 0, 'S', 255, vDialog, "CtrlCtrl", "WebCtrlLabelLink", "", 0 );
+            ZeidonStringConcat( szValue, 1, 0, szTempString_0, 1, 0, 255 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:szValue = vDialog.CtrlCtrl.Tag   
+            GetVariableFromAttribute( szValue, 0, 'S', 255, vDialog, "CtrlCtrl", "Tag", "", 0 );
+         } 
+
+         //:END
+         //:StoreStringInRecord ( vDialog, lpEntity, lpAttribute, szValue )
+         StoreStringInRecord( vDialog, lpEntity, lpAttribute, szValue );
+         break ;
+
+      //:  // end zDERIVED_GET
+      //:OF   zDERIVED_SET:
+      case zDERIVED_SET :
+         break ;
+   } 
+
+
+   //:     // end zDERIVED_SET
+   //:END  // case
+   return( 0 );
+// END
+} 
+
+
+//:DERIVED ATTRIBUTE OPERATION
+//:CtrlListDisplayValue( VIEW vDialog BASED ON LOD TZWDLGSO,
+//:                      STRING ( 32 ) lpEntity,
+//:                      STRING ( 32 ) lpAttribute,
+//:                      SHORT GetOrSetFlag )
+//:   STRING (254) szValue
+zOPER_EXPORT zSHORT OPERATION
+oTZWDLGSO_CtrlListDisplayValue( zVIEW     vDialog,
+                                LPVIEWENTITY lpEntity,
+                                LPVIEWATTRIB lpAttribute,
+                                zSHORT    GetOrSetFlag )
+{
+   zCHAR     szValue[ 255 ] = { 0 }; 
+   zCHAR     szTempString_0[ 255 ]; 
+
+
+   //:CASE GetOrSetFlag
+   switch( GetOrSetFlag )
+   { 
+      //:OF   zDERIVED_GET:
+      case zDERIVED_GET :
+
+         //:IF vDialog.Control.WebCtrlLabelLink != ""
+         if ( CompareAttributeToString( vDialog, "Control", "WebCtrlLabelLink", "" ) != 0 )
+         { 
+            //:szValue = vDialog.Control.Tag + "/" + vDialog.Control.WebCtrlLabelLink  
+            GetStringFromAttribute( szValue, zsizeof( szValue ), vDialog, "Control", "Tag" );
+            ZeidonStringConcat( szValue, 1, 0, "/", 1, 0, 255 );
+            GetVariableFromAttribute( szTempString_0, 0, 'S', 255, vDialog, "Control", "WebCtrlLabelLink", "", 0 );
+            ZeidonStringConcat( szValue, 1, 0, szTempString_0, 1, 0, 255 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:szValue = vDialog.Control.Tag   
+            GetVariableFromAttribute( szValue, 0, 'S', 255, vDialog, "Control", "Tag", "", 0 );
+         } 
+
+         //:END
+         //:StoreStringInRecord ( vDialog, lpEntity, lpAttribute, szValue )
+         StoreStringInRecord( vDialog, lpEntity, lpAttribute, szValue );
+         break ;
+
+      //:  // end zDERIVED_GET
+      //:OF   zDERIVED_SET:
+      case zDERIVED_SET :
+         break ;
+   } 
+
+
+   //:     // end zDERIVED_SET
+   //:END  // case
    return( 0 );
 // END
 } 

@@ -31,16 +31,16 @@ BuildSideNavSectionJ( VIEW vDialog,
    INTEGER          ActionType
    SHORT            nRC
    // SIDE NAVIGATION BAR
-   //TraceLineS( "*** BuildSideNavSection Window *** ", vDialog.Window.Tag )
+   // vDialogRoot is pointing to the window where we are using the side menu from. 
    
    szStyleIsjMobile = ""
    IF vDialog.WndStyle.Tag = "jMobile Window" OR vDialog.Window.WEB_JSPGenerationPositioning = "J" OR 
-      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "J" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
+      ( vDialog.Dialog.WEB_JSPGenerationPositioning = "J" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsjMobile = "Y"
    END      
    szStyleIsBootstrap = ""
    IF vDialog.Window.WEB_JSPGenerationPositioning = "B" OR 
-      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
+      ( vDialog.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsBootstrap = "Y"
    END 
         
@@ -529,8 +529,16 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 50 )  szKeyPressCode
    STRING ( 500 ) szActionCode
    STRING ( 500 ) szCloseUpCode
+   STRING ( 1 )   szStyleIsBootstrap
    DECIMAL        dDLUnits
    INTEGER nRC
+        
+   GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
+   szStyleIsBootstrap = ""
+   IF vDialogRoot.Window.WEB_JSPGenerationPositioning = "B" OR 
+      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
+      szStyleIsBootstrap = "Y"
+   END 
 
    szWriteBuffer = "<%"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -553,7 +561,6 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
    szWriteBuffer = "      strErrorColor = ^^;"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-
    SET CURSOR FIRST vDialog.CtrlMapLOD_Attribute WITHIN vDialog.Control
    IF RESULT >= zCURSOR_SET
       szWriteBuffer = "      " + vDialog.CtrlMapView.Name + " = " +
@@ -574,10 +581,7 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "         {"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      
-         
-      GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
-         
+               
       // KJS 03/13/18 - If the view is read only, then we want to set the combo box to disabled.
       // We only do this if the zeidon.ini has UseZeidonControlActionsView
       IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y" 
@@ -698,43 +702,54 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
 
       // Multiple class names must be separated by white space characters.
       szClass = vDialog.Control.CSS_Class
-
-      szWriteBuffer = "<span " + szStyle + ">"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      IF szClass = ""
-         szWriteBuffer = "   <input name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
-                             szActionCode + szStyleCalendar + " type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + szKeyPressCode + " />"
-      ELSE
-         szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
-                             szActionCode + szStyleCalendar + " type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + szKeyPressCode + " />"
-      END
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       
-      // KJS 03/13/18 - If the view is read only, then we want to set the combo box to disabled.
-      // We only do this if the zeidon.ini has UseZeidonControlActionsView
-      IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y" 
-         szWriteBuffer = "   <% if (strDisabled == ^^) { %>"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      IF szStyleIsBootstrap = "Y"
+         szClass = szClass + " " + "form-control datefield"
       END
-      szWriteBuffer = "   <img src=^images/scw.gif^  name=^" + szCtrlTag + "Img" + szRepeatGrpKey + "^ id=^" + szCtrlTag + "Img" + szRepeatGrpKey + "^ <%=strDisabled%> title=^Select Date^ alt=^Select Date^"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-      // KJS 03/16/16 - Added scwShowWFormat to scw.js file so that if we have a format on the calendar, then we use that. If no context, I am just calling scwShow, even
-      // though I could call scwShowWFormat with zDateFormat... which would do that same thing. This is compatible for any jsp pages that are older and don't use a context.
-      IF vDialog.CtrlMapContext EXISTS
-         szWriteBuffer = "        onclick=^" + szCloseUpCode + "scwShowWFormat( document.getElementById( '" + szCtrlTag + szRepeatGrpKey + "' ), this, '" + vDialog.CtrlMapContext.Name + "' );^ " + szTabIndex + " />"
+      IF szStyleIsBootstrap = "Y"
+         szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled + 
+                             " style=^<%=strErrorColor%>^ type=^text^ value=^<%=strErrorMapValue%>^  >"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       ELSE
-         szWriteBuffer = "        onclick=^" + szCloseUpCode + "scwShow( document.getElementById( '" + szCtrlTag + szRepeatGrpKey + "' ), this );^ " + szTabIndex + " />"
-      END
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
-      IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y" 
-         szWriteBuffer = "   <% } %>"
+         szWriteBuffer = "<span " + szStyle + ">"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         
+         IF szClass = ""
+            szWriteBuffer = "   <input name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
+                                szActionCode + szStyleCalendar + " type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + szKeyPressCode + " />"
+         ELSE
+            szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
+                                szActionCode + szStyleCalendar + " type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + szKeyPressCode + " />"
+         END
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         
+         // KJS 03/13/18 - If the view is read only, then we want to set the combo box to disabled.
+         // We only do this if the zeidon.ini has UseZeidonControlActionsView
+         IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y" 
+            szWriteBuffer = "   <% if (strDisabled == ^^) { %>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+         szWriteBuffer = "   <img src=^images/scw.gif^  name=^" + szCtrlTag + "Img" + szRepeatGrpKey + "^ id=^" + szCtrlTag + "Img" + szRepeatGrpKey + "^ <%=strDisabled%> title=^Select Date^ alt=^Select Date^"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   
+         // KJS 03/16/16 - Added scwShowWFormat to scw.js file so that if we have a format on the calendar, then we use that. If no context, I am just calling scwShow, even
+         // though I could call scwShowWFormat with zDateFormat... which would do that same thing. This is compatible for any jsp pages that are older and don't use a context.
+         IF vDialog.CtrlMapContext EXISTS
+            szWriteBuffer = "        onclick=^" + szCloseUpCode + "scwShowWFormat( document.getElementById( '" + szCtrlTag + szRepeatGrpKey + "' ), this, '" + vDialog.CtrlMapContext.Name + "' );^ " + szTabIndex + " />"
+         ELSE
+            szWriteBuffer = "        onclick=^" + szCloseUpCode + "scwShow( document.getElementById( '" + szCtrlTag + szRepeatGrpKey + "' ), this );^ " + szTabIndex + " />"
+         END
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   
+         IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y" 
+            szWriteBuffer = "   <% } %>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+   
+         szWriteBuffer = "</span>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       END
-
-      szWriteBuffer = "</span>"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
    END
 END
@@ -981,14 +996,29 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 10 )  szX_Pos
    STRING ( 10 )  szY_Pos
    STRING ( 100 ) szDisabled
+   STRING ( 1 )   szStyleIsBootstrap
+   STRING ( 20 )  szCSSBootstrap
    DECIMAL        dDLUnits
    INTEGER        lSubtype
    SHORT          nRC
 
+   GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
+
+   szStyleIsBootstrap = ""
+   IF vDialogRoot.Window.WEB_JSPGenerationPositioning = "B" OR 
+      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
+      szStyleIsBootstrap = "Y"
+   END 
+   
    szStyle = "width:" + szWidth + "px; height:" + szHeight + "px;"
    szClass = ""
-   IF vDialog.Control.CSS_Class != ""
-      szClass = "class=^" + vDialog.Control.CSS_Class + "^"
+   IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
+      IF szStyleIsBootstrap = "Y"
+         szCSSBootstrap = "form-control "
+      ELSE
+         szCSSBootstrap = ""
+      END
+      szClass = " class=^" + szCSSBootstrap + vDialog.Control.CSS_Class + "^ "
    END
 
    //If we put a title on the control, when the mouse is hovered over the control, this text will display.
@@ -1026,8 +1056,6 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    szWriteBuffer = "<% strErrorMapValue = ^^; "
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0)
-
-   GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
       
    // KJS 03/13/18 - If the view is read only, then we want to set the combo box to disabled.
    // We only do this if the zeidon.ini has UseZeidonControlActionsView
@@ -2982,7 +3010,8 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szNoOutputMapping
    STRING ( 1 )   szBrowseFile
    STRING ( 1 )   szNumber
-
+   STRING ( 1 )   szStyleIsBootstrap
+   STRING ( 20 )  szCSSBootstrap
    INTEGER        lMaxStringLth
    INTEGER        lStyleX
    INTEGER        lTemp
@@ -2998,6 +3027,12 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    //TraceLineS("*** GenJSPJ_CrteEditBox *** ", "")
    
    GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
+
+   szStyleIsBootstrap = ""
+   IF vDialogRoot.Window.WEB_JSPGenerationPositioning = "B" OR 
+      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
+      szStyleIsBootstrap = "Y"
+   END 
 
    CreateTabIndexString( vDialog, szTabIndex )
    //CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "<%=strErrorColor%>" )
@@ -3355,8 +3390,13 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
    
    szClass = ""
-   IF vDialog.Control.CSS_Class != ""
-      szClass = " class=^" + vDialog.Control.CSS_Class + "^ "
+   IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
+      IF szStyleIsBootstrap = "Y"
+         szCSSBootstrap = "form-control "
+      ELSE
+         szCSSBootstrap = ""
+      END
+      szClass = " class=^" + szCSSBootstrap + vDialog.Control.CSS_Class + "^ "
    END
 
    CreateDisabledString( vDialog, szDisabled )
@@ -3386,7 +3426,7 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
                   STRING ( 100 )   szRepeatGrpKey )
 
    // Format a TEXT control.
-
+   VIEW vWork REGISTERED AS TZPTWRKO
    STRING ( 32 )  szContextName
    STRING ( 300 ) szStyle
    STRING ( 256 ) szClassHTML
@@ -3399,6 +3439,7 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 16 )  szTabIndex
    STRING ( 10 )  szMaxStringLth
    STRING ( 20 )  szGroupParentType
+   STRING ( 20 )  szCSSBootstrap
    STRING ( 256 ) szHTMLCtrlID
    STRING ( 10 )  szX_Pos
    STRING ( 10 )  szY_Pos
@@ -3426,7 +3467,18 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szTempStyle
    STRING ( 1 )   szIsLabel
    STRING ( 1 )   szIsTextOnly
+   STRING ( 1 )   szStyleIsBootstrap
+   STRING ( 1 )   szBootstrapNoWrap
    SHORT          nRC
+
+   szStyleIsBootstrap = ""
+   IF vDialogRoot.Window.WEB_JSPGenerationPositioning = "B" OR 
+      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
+      szStyleIsBootstrap = "Y"
+   END 
+   
+   // For bootstrap, should I put the group around if "label". Hmmm... not sure what I should do about <label><Input> when we don't do them
+   // both here. Should I create a work variable?
    
    // If there is a web property of "Text Only", then we are not putting a span/label around anything we are simply using
    // what is in the text field which is probably an html tag like <h1>.
@@ -3434,6 +3486,51 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Text Only"
    IF RESULT >= zCURSOR_SET
       szIsTextOnly = "Y"
+   END
+
+   szIsLabel = ""
+   szLabelFor = ""
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Label"
+   IF RESULT >= zCURSOR_SET OR vDialog.Control.WebCtrlLabelLink != ""
+      szIsLabel = "Y"
+      IF vDialog.Control.WebCtrlLabelLink != ""
+         // Tie the label to an input control.
+         szLabelFor = " for=^" + vDialog.Control.WebCtrlLabelLink + "^ " 
+      END
+   END
+   szClassHTML = ""
+   szBootstrapNoWrap = ""
+   // If there is a class on this control OR if the style is bootstrap and it's a label (we want to then use input-group-text), then set the class=...
+   IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
+      IF szStyleIsBootstrap = "Y" AND szLabelFor != "" //szIsLabel = "Y"
+         // If bootstrap, but control already has the groupbox around it (//input-group-prepend), then we don't want to put another group around.
+         szClassHTML = vDialog.Control.CSS_Class
+         IF ZeidonStringFind( szClassHTML, 1, "input-group-text" ) > 0
+            szBootstrapNoWrap = "Y"
+         END         
+      END
+      IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
+         // At the moment, since we put a <div around the text/edit, we are going to assume the only
+         // class here will be input-group-text. Although we need form-control if this is the control
+         szCSSBootstrap = "input-group-text "
+         szClassHTML = "class=^" + szCSSBootstrap + "^ "
+      ELSE
+      IF szStyleIsBootstrap = "Y" AND vDialog.Control.Tag = vWork.Root.szLabelLink
+         szCSSBootstrap = "form-control"
+         szClassHTML = "class=^" + szCSSBootstrap + " " + vDialog.Control.CSS_Class + "^ "
+      ELSE
+      IF vDialog.Control.CSS_Class != ""
+         szCSSBootstrap = ""
+         szClassHTML = "class=^" + vDialog.Control.CSS_Class + "^ "
+         END
+      END
+      END
+      //szClassHTML = "class=^" + szCSSBootstrap + " " + vDialog.Control.CSS_Class + "^ "
+   END
+   
+   IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
+      szWriteBuffer = "<div class=^input-group-prepend^>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    END
    
    // KJS 09/30/16 - Language Conversion.
@@ -3467,7 +3564,7 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
       szHTML5Attr = " " + vDialog.Control.WebHTML5Attribute + " "
    END
 
-   IF  szNoPositioning = "Y"
+   IF szNoPositioning = "Y"
       CreateNoPosStyleString( vDialog, szStyle, "" )
    ELSE
    IF szNoPositioning = "S" // No style information
@@ -3533,9 +3630,6 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
       zAppendQuotedString( szStyle, szDecoration, "style=", "^" )
    END
    szStyle = szStyle + szTabIndex
-   IF vDialog.Control.CSS_Class != ""
-      szClassHTML = "class=^" + vDialog.Control.CSS_Class + "^ "
-   END
 
    // Check if a Group control as parent of this control requests relative postioning either through the
    // older "Span" setting or the newer "RelativePos" request.
@@ -3770,6 +3864,7 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
       szWriteBuffer = ""
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
+      /*
       szIsLabel = ""
       szLabelFor = ""
       SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Label"
@@ -3780,12 +3875,13 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szLabelFor = " for=^" + vDialog.Control.WebCtrlLabelLink + "^ " 
          END
       END
+      */
       
       IF szIsTextOnly = "Y"
          szWriteBuffer = szText
       ELSE     
          // If szNoPositioning is null then we are using absolute positioning when creating controls.
-         IF  szNoPositioning = ""
+         IF szNoPositioning = ""
    
          // PIX_PER_DU( vDialog, dDLUnits )
          // zIntegerToString( szX_Pos, 10, vDialog.Control.PSDLG_X * dDLUnits )
@@ -3807,6 +3903,11 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    END
 
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+ 
+   IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
+      szWriteBuffer = "</div>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
 
 END
 

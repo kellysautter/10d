@@ -196,6 +196,7 @@ zLONG  lStructSize;
    zCHAR TextBold[ 2 ];
    zCHAR TextItalic[ 2 ];
    zCHAR TextUnderline[ 2 ];
+   zCHAR CtrlListDisplayValue[ 255 ];
 
 unsigned char CheckByte;
 
@@ -269,6 +270,7 @@ zLONG  lStructSize;
    zCHAR TextBold[ 2 ];
    zCHAR TextItalic[ 2 ];
    zCHAR TextUnderline[ 2 ];
+   zCHAR CtrlListDisplayValue[ 255 ];
 
 unsigned char CheckByte;
 

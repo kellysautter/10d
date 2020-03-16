@@ -1,0 +1,161 @@
+z1000-Zeidon    TZPTWRKO TZZOLODO                         02/11/20   12:33:52 1.0a2   
+eLOD       1
+aZKey      130121239
+aNextZKeyToAssign 130121250
+aName      TZPTWRKO
+aDesc      Dialog Painter jsp generation work object
+
+eLOD_EntityParent 2
+aName      Root
+aIndentName Root
+aIndentLvl 0
+aZKey      130121240
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 3
+aZKey      130121241
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      szStyleIsBootstrap
+aZKey      130121242
+aDesc      Dialog or Window indicates we are generating jsp for bootstrap.
+
+eDomainRec 5
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      130121243
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      szLabelLink
+aZKey      130121244
+aDesc      If a text field has a "for link" to a control. This is the control tag for the control to be linked to.
+
+eDomainRec 5
+aZKey      90000032
+aName      Text
+aDomainType E
+aDataType  S
+aMaxStringLth 254
+aDesc      Any Character String
+aContextRestriction N
+
+eLOD_AttributeRec 3
+aZKey      130121245
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      InputGroupExists
+aZKey      130121246
+aDesc      Don't place a div around text/control
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      130121247
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      BootstrapOuterCard
+aZKey      130121248
+aDesc      Should we create an outer Card/Card-body for the outer group box. Doing this in nazsis but nmm doesn't use this.
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
+aZKey      130121249
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      BootstrapDataTables
+aZKey      130121250
+aDesc      Put div of class=dataTables_wrapper around grids
+
+eDomainRec 5
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 5
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+i10        4
+i13        4
+i16        4
+i17        1
+i18        2
+i19        3
+i20        4
+i21        5
+i22        6
+i23        7
+i24        8
+i25        9
+i26        4
+i27        11
+i28        12
+i29        4
+i30        14
+i31        15
+i32        4

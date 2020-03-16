@@ -72,12 +72,12 @@ BuildMainNavSection( VIEW vDialog,
    
    szStyleIsjMobile = ""
    IF vDialog.WndStyle.Tag = "jMobile Window" OR vDialog.Window.WEB_JSPGenerationPositioning = "J" OR 
-      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "J" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
+      ( vDialog.Dialog.WEB_JSPGenerationPositioning = "J" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsjMobile = "Y"
    END      
    szStyleIsBootstrap = ""
    IF vDialog.Window.WEB_JSPGenerationPositioning = "B" OR 
-      ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
+      ( vDialog.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsBootstrap = "Y"
    END      
 

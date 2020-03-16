@@ -48,6 +48,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    zVIEW     vGroupParent = 0; 
    //:VIEW vDfltMenu    BASED ON LOD TZWDLGSO
    zVIEW     vDfltMenu = 0; 
+   //:VIEW vWork        BASED ON LOD TZPTWRKO
+   zVIEW     vWork = 0; 
    //:STRING ( 32 )    szLPLR_Name
    zCHAR     szLPLR_Name[ 33 ] = { 0 }; 
    //:STRING ( 1024 )  szJSP_FileName
@@ -198,6 +200,10 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    zCHAR     szUseZeidonCtrlActions[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szUseZeidonCtrlActView
    zCHAR     szUseZeidonCtrlActView[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szBootstrapOuterCard
+   zCHAR     szBootstrapOuterCard[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szBootstrapDataTables
+   zCHAR     szBootstrapDataTables[ 2 ] = { 0 }; 
    //:STRING ( 10 )    szTimeout
    zCHAR     szTimeout[ 11 ] = { 0 }; 
    //:STRING ( 10 )    szDOCTYPE
@@ -338,6 +344,22 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
 
    //:// Generate a JSP file for formatting the Window that has current position.
+   //:GET VIEW vWork NAMED "TZPTWRKO"
+   RESULT = GetViewByName( &vWork, "TZPTWRKO", vDialog, zLEVEL_TASK );
+   //:IF RESULT >= 0
+   if ( RESULT >= 0 )
+   { 
+      //:DropObjectInstance( vWork )
+      DropObjectInstance( vWork );
+   } 
+
+   //:END
+   //:ACTIVATE vWork EMPTY
+   RESULT = ActivateEmptyObjectInstance( &vWork, "TZPTWRKO", vDialog, zSINGLE );
+   //:CREATE ENTITY vWork.Root
+   RESULT = CreateEntity( vWork, "Root", zPOS_AFTER );
+   //:NAME VIEW vWork "TZPTWRKO"
+   SetNameForView( vWork, "TZPTWRKO", 0, zLEVEL_TASK );
 
    //:NAME VIEW vDialog "GenJSP_Dialog"
    SetNameForView( vDialog, "GenJSP_Dialog", 0, zLEVEL_TASK );
@@ -421,6 +443,14 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonControlActions", szUseZeidonCtrlActions, zsizeof( szUseZeidonCtrlActions ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonControlActionsView", szUseZeidonCtrlActView )
    SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonControlActionsView", szUseZeidonCtrlActView, zsizeof( szUseZeidonCtrlActView ) );
+   //:SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapOuterCard", szBootstrapOuterCard )
+   SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapOuterCard", szBootstrapOuterCard, zsizeof( szBootstrapOuterCard ) );
+   //:SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapDataTables", szBootstrapDataTables )
+   SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapDataTables", szBootstrapDataTables, zsizeof( szBootstrapDataTables ) );
+   //:vWork.Root.BootstrapOuterCard = szBootstrapOuterCard
+   SetAttributeFromString( vWork, "Root", "BootstrapOuterCard", szBootstrapOuterCard );
+   //:vWork.Root.BootstrapDataTables = szBootstrapDataTables
+   SetAttributeFromString( vWork, "Root", "BootstrapDataTables", szBootstrapDataTables );
    //:vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
    SetAttributeFromString( vDialog, "Dialog", "wWebUsesLanguageConversion", szLangConvFlag );
    //:vDialog.Dialog.wWebUsesControlActions = szUseZeidonCtrlActions
@@ -497,6 +527,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:// First check the Dialog setting
    //:// 12/06/19 - Want to add style for jMobile and Bootstrap. Had jMobile in window style but trying it here so it can be set a dialog level.
    //://IF  vDialog.Dialog.WEB_RelativePositionFlag = "Y" OR vDialog.Window.WEB_RelativePositionFlag = "Y"
+   //:// Relative positioning (we don't indicate the positioning of control, but we do have height and size, so we place controls relative to other controls)
    //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "R"
    if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "R" ) == 0 )
    { 
@@ -6827,28 +6858,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:// we haven't done that before... as of right now, it looks like WEB_TopMenuInclude is not being
          //:// used anywhere so I am going to use this because I don't want to have to change TZWDLGSO.LOD.
          //:// I changed WEB_TopMenuInclude to WEB_TopBannerName.
-         //://IF szStyleIsBootstrap = ""
-         //:IF vDialog.Window.WEB_TopBannerName != ""
-         if ( CompareAttributeToString( vDialog, "Window", "WEB_TopBannerName", "" ) != 0 )
+         //:IF szStyleIsBootstrap = ""
+         if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
          { 
-            //:szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
-            GetVariableFromAttribute( szTempString_22, 0, 'S', 255, vDialog, "Window", "WEB_TopBannerName", "", 0 );
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_22, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
-            //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
-            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
-            //:ELSE
-         } 
-         else
-         { 
-            //:IF vDialog.Dialog.WEB_TopBannerName != ""
-            if ( CompareAttributeToString( vDialog, "Dialog", "WEB_TopBannerName", "" ) != 0 )
+            //:IF vDialog.Window.WEB_TopBannerName != ""
+            if ( CompareAttributeToString( vDialog, "Window", "WEB_TopBannerName", "" ) != 0 )
             { 
-               //:szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
-               GetVariableFromAttribute( szTempString_23, 0, 'S', 255, vDialog, "Dialog", "WEB_TopBannerName", "", 0 );
+               //:szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
+               GetVariableFromAttribute( szTempString_22, 0, 'S', 255, vDialog, "Window", "WEB_TopBannerName", "", 0 );
                ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_23, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_22, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
                //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
                WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
@@ -6856,14 +6875,31 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
             } 
             else
             { 
-               //:// If we are using boostrap, then don't put a default banner, only put the banner if one has been specified (WEB_TopBannerName)
-               //:IF szStyleIsBootstrap = ""
-               if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
+               //:IF vDialog.Dialog.WEB_TopBannerName != ""
+               if ( CompareAttributeToString( vDialog, "Dialog", "WEB_TopBannerName", "" ) != 0 )
                { 
-                  //:szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^./include/banner.inc^ %>", 1, 0, 10001 );
+                  //:szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
+                  GetVariableFromAttribute( szTempString_23, 0, 'S', 255, vDialog, "Dialog", "WEB_TopBannerName", "", 0 );
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_23, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
                   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
                   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:// If we are using boostrap, then don't put a default banner, only put the banner if one has been specified (WEB_TopBannerName)
+                  //:IF szStyleIsBootstrap = ""
+                  if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
+                  { 
+                     //:szWriteBuffer = "<%@ include file=^./include/banner.inc^ %>"
+                     ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ include file=^./include/banner.inc^ %>", 1, 0, 10001 );
+                     //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+                     WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+                  } 
+
+                  //:END
                } 
 
                //:END
@@ -6875,7 +6911,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:END
       } 
 
-      //://END
       //:END
    } 
 

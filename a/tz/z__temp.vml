@@ -16,6 +16,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                          INTEGER           lOffsetY,
                          STRING ( 100 )    szRepeatGrpKey )
 
+   VIEW vWork    REGISTERED AS TZPTWRKO
    VIEW vDialog2 BASED ON LOD TZWDLGSO
    VIEW vList    BASED ON LOD TZWDLGSO  // identifies attribute mapping for list entries
    VIEW vEntity  BASED ON LOD TZWDLGSO  // identifies entity mapping for list entries
@@ -64,6 +65,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 500 ) szText
    STRING ( 500 ) szText2
    STRING ( 256 ) szTextID
+   STRING ( 256 ) szLabelLink
    STRING ( 5 )   szSrch
    STRING ( 64 )  szTerm
    STRING ( 20 )  szJustify
@@ -103,6 +105,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szGroupIsTable
    STRING ( 1 )   szreCAPTCHAFlag
    STRING ( 1 )   szStyleIsBootstrap
+   STRING ( 1 )   szBootstrapOuterCard
+   STRING ( 1 )   szBootstrapDataTables
    STRING ( 1 )   szTinyMCEFlag
    STRING ( 1 )   szWCP_Edit
    STRING ( 1 )   szWCP_Hidden
@@ -148,10 +152,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    INTEGER        lStyleX
    INTEGER        lTemp
    INTEGER        lMaxStringLth
+   INTEGER        lIndexStrLth
    SHORT          bResetToPlaceHolder
    SHORT          nRC
 
    PIX_PER_DU( vDialog, dDLUnits )
+   
+   lIndexStrLth = zstrlen( szIndent )
 
    // Generate the code for creating HTML statements for controls.
    // A major issue is determining which Controls are on the same row, as they need table entries
@@ -159,7 +166,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
    // Make sure the Controls are ordered by row and column.
    
-
    IF vDialogRoot.WndStyle.Tag = "jMobile Window"
       szWindowIsjMobile = "Y"
    ELSE
@@ -177,7 +183,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
       ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsBootstrap = "Y"
    END 
-
+   szBootstrapOuterCard = vWork.Root.BootstrapOuterCard
+   szBootstrapDataTables = vWork.Root.BootstrapDataTables
+   szBootstrapDataTables = ""
    szIndentHold = szIndent
 
    // These variables are for if we are not using absolute positioning.
@@ -192,6 +200,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    // Process each Control
    FOR EACH vDialog.Control
 
+      szControlType = vDialog.ControlDef.Tag
+      szWebCtrlType = vDialog.Control.WebCtrlType
+      szIndent = szIndentHold + "   "
+      szCtrlTag = vDialog.Control.Tag
       //zIntegerToString( szX_Pos, 10, vDialog.Control.PSDLG_X * dDLUnits + X_BASE )
       //zIntegerToString( szY_Pos, 10, vDialog.Control.PSDLG_Y * dDLUnits + Y_BASE )
 
@@ -226,8 +238,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          // control and the current control.  If so, then we need to put in a div as a spacer control.
          IF  Y_Pos < vDialog.Control.PSDLG_Y
 
-               //TraceLineS("****  SPACE BETWEEN Ys *** ", vDialog.Control.Tag )
-               //Y_Size = ( vDialog.Control.PSDLG_Y - ( LastY_Pos + LastY_Height ) ) * dDLUnits + lOffsetY
                Y_Size = ( vDialog.Control.PSDLG_Y - ( MaxY_HeightForLine ) ) * dDLUnits + lOffsetY
                X_Size = 100
                zIntegerToString( szHeight, 16, Y_Size )
@@ -247,7 +257,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
                // KJS 08/01/08 - Seems as though I need to give this div a width, otherwise,
                // it many times places things on different lines.
-               //KELLY8
                CreateViewFromView( vDialog2, vDialog )
 
                X_Size = vDialog2.Control.PSDLG_X + vDialog2.Control.SZDLG_X
@@ -265,13 +274,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                DropView(vDialog2)
 
                X_Size = X_Size * dDLUnits + lOffsetY
-               // KJS 09/03/08 - does this help??
                X_Size = X_Size + 1
                zIntegerToString( szWidth, 16, X_Size )
 
                szWriteBuffer = ""
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               //szWriteBuffer = "<div style=^width:" + szWidth + "px;^>  <!-- Beginning of a new line -->"
                szWriteBuffer = "<div>  <!-- Beginning of a new line -->"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          END
@@ -280,7 +287,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          // If there is blank space to the left of a control put in a spacer control.
          IF X_Pos < vDialog.Control.PSDLG_X
 
-            //TraceLineS("****  SPACE BETWEEN Xs *** ", vDialog.Control.Tag )
             X_Size = ( vDialog.Control.PSDLG_X  - ( LastX_Pos + LastX_Width ) ) * dDLUnits + lOffsetX
             Y_Size = vDialog.Control.SZDLG_Y * dDLUnits + lOffsetY
             zIntegerToString( szHeight, 16, Y_Size )
@@ -297,7 +303,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             ELSE
                nbsp_count = X_Size / 5
-               //TraceLineI("**** nbsp_count ", nbsp_count )
 
                IF  nbsp_count > 0
                   szWriteBuffer = "<span style=^height:" + szHeight + "px;^>"
@@ -316,13 +321,62 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          LastY_Height = vDialog.Control.SZDLG_Y
          LastX_Pos    = vDialog.Control.PSDLG_X
          LastX_Width  = vDialog.Control.SZDLG_X
-      END  //IF  szNoPositioning = "Y"
+      END  // IF  szNoPositioning = "Y"
+      /*IF szStyleIsBootstrap = "Y" AND szControlType = "GroupBox"
 
+         // Need to reset the x positions
+         IF  ( LastY_Pos < vDialog.Control.PSDLG_Y ) AND szFirstTimeThrough != "Y" AND lIndexStrLth >= 3 // I think we want the indexstringlength...
+            szWriteBuffer = "</div>  <!-- End of bootstrap row -->"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            LastX_Pos       = 0
+            LastX_Width     = 0
+         END
+
+         // We may have controls on the same line with varying heights.  When determining if there is
+         // blank space in between these lines, make sure we are comparing the highest control.
+         Y_Pos = LastY_Pos + LastY_Height
+         IF Y_Pos > MaxY_HeightForLine
+            MaxY_HeightForLine = Y_Pos
+         END
+
+         // There should be a <div> surrounding each line.
+         IF ( ( LastY_Pos < vDialog.Control.PSDLG_Y ) OR szFirstTimeThrough = "Y" )  AND lIndexStrLth >= 3
+
+               LastY_Pos    = vDialog.Control.PSDLG_Y
+
+               // KJS 08/01/08 - Seems as though I need to give this div a width, otherwise,
+               // it many times places things on different lines.
+               CreateViewFromView( vDialog2, vDialog )
+
+               X_Size = vDialog2.Control.PSDLG_X + vDialog2.Control.SZDLG_X
+               SET CURSOR  NEXT vDialog2.Control
+               // Loop through all the controls that are at the same y pos and see how wide they
+               // are.
+               LOOP  WHILE RESULT >= zCURSOR_SET AND LastY_Pos = vDialog2.Control.PSDLG_Y
+
+                  X_Size = vDialog2.Control.PSDLG_X + vDialog2.Control.SZDLG_X
+                  SET CURSOR  NEXT vDialog2.Control
+               END
+
+               DropView(vDialog2)
+
+               X_Size = X_Size * dDLUnits + lOffsetY
+               X_Size = X_Size + 1
+               zIntegerToString( szWidth, 16, X_Size )
+
+               szWriteBuffer = "<div class=^row^>  <!-- Beginning of bootstrap row -->"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+
+         X_Pos = LastX_Pos + LastX_Width
+
+         LastY_Pos    = vDialog.Control.PSDLG_Y
+         LastY_Height = vDialog.Control.SZDLG_Y
+         LastX_Pos    = vDialog.Control.PSDLG_X
+         LastX_Width  = vDialog.Control.SZDLG_X
+      END  */ // IF  szStyleIsBootstrap = "Y" 
+      
       szFirstTimeThrough = ""
-      szControlType = vDialog.ControlDef.Tag
-      szWebCtrlType = vDialog.Control.WebCtrlType
-      szIndent = szIndentHold + "   "
-      szCtrlTag = vDialog.Control.Tag
 
       lSubtype = vDialog.Control.Subtype
       nRC = IsFlagSequenceSet( lSubtype, 134217728 )  // zCONTROL_INVISIBLE  0x08000000L
@@ -331,10 +385,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
       ELSE
          // Initialize the szAbsoluteStyle variable with X and Y values.
          CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
-
-      // szWriteBuffer = "<% /* " + szCtrlTag + ":" + szControlType + " */ %>"     causes extra comment id line
-      // WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
       END
 
       szHTMLCtrlID = " id=^" + szCtrlTag + "^ name=^" + szCtrlTag + "^ "
@@ -371,7 +421,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          // Or, do I want to put a float on every div created and then create a <div style="clear:both;"</div> after
          // every row?
          //IF  szNoPositioning = "Y" AND szCheckedRowForGroups         //END
-
          // InitializeRepeatingGroup for GroupBox
 
          // Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
@@ -381,7 +430,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          IF RESULT >= zCURSOR_SET
             szGroupIsTable = "Y"
          END
-
+         
          // KJS 05/01/09
          // When the user paints a grid, they may not want this grid (and any leading header text) to show
          // during run-time if there is no data for the grid.  If the user puts this grid and any other
@@ -546,8 +595,15 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          IF RESULT >= zCURSOR_SET
             szMenuActionFlag = "Y"
          END
+         
+         // If we are on the most outer group box, put 
+         IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szToggleFlag = "" AND szToggleFlag2 = "" AND szBootstrapOuterCard = "Y" AND vDialog.Control.WebCtrlType != "Hidden"
+            //kkkkkkk  Trying out using mb-2 all the time...
+            szWriteBuffer = "<div class=^card card-body mb-2^>  <!-- Create card/card-body for bootstrap -->"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END         
 
-      END
+      END  // End of "GroupBox"
 
       // Initialize the szAbsoluteStyle variable with X and Y values.
       IF szNoPositioning = "Y"
@@ -684,7 +740,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             DropView( vGroupParent )
             vGroupParent = 0
 
-
             szWriteBuffer = "      <%"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         }"
@@ -696,12 +751,19 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
          ELSE
-            // Should I give a message here that there is no grid within this groupbox or
-            // should I just ignore it?
+            // Should I give a message here that there is no grid within this groupbox or should I just ignore it?
          END
 
+         //kkkkkk
          szWriteBuffer = "</div>  <!--  " + vDialog.Control.Tag + " --> "
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+         // If we are on the most outer group box, put 
+         IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szToggleFlag = "" AND szToggleFlag2 = "" AND szBootstrapOuterCard = "Y" AND vDialog.Control.WebCtrlType != "Hidden"
+            //kkkkkkk
+            szWriteBuffer = "</div>  <!-- Close card/card-body for bootstrap -->"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END         
 
       END
       IF szControlType = "GroupBox" AND szMenuActionFlag = "Y"
@@ -732,7 +794,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szIndentGroup = szIndent
             GenJSPJ_CrteCtrlsRecurs( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndentGroup,
                                      lTableRowCnt, szNoPositioning, X_Size, Y_Size, szRepeatGrpKey )
-            // 05/02/16                         lTableRowCnt, szNoPositioning, X_Size, Y_Size, "" )
             ResetViewFromSubobject( vDialog )
             DropView( vGroupParent )
             vGroupParent = 0
@@ -740,11 +801,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          ELSE
          IF szContainer != ""
-
-         // MessageSend( vDialog, "", "Found Container GroupBox",      // debugging only
-         //              szHTMLCtrlID,
-         //              zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-
 
             lWidth = vDialog.Control.SZDLG_X
             lHeight = vDialog.Control.SZDLG_Y //- 10
@@ -818,7 +874,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szWriteBuffer = "</span>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-         ELSE
+         ELSE  // IF szSpanFlag = "Y"
          IF szWebCtrlType = "DivScroll"
 
             // Div on a Group Control requests that all the controls inside the group line up one under the other.
@@ -857,14 +913,21 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             vGroupParent = 0
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            //kkkkkkkkk
             szWriteBuffer = "</div>  <!-- " + szCtrlTag + " --> "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            
+            // If we are on the most outer group box, put 
+            IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szBootstrapOuterCard = "Y"
+               //kkkkkkk
+               szWriteBuffer = "   </div>  <!-- Close card/card-body for bootstrap -->"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            END         
 
-         ELSE
+         ELSE  // szWebCtrlType = "DivScroll"
          IF  szDashboardFlag = "Y"
 
-            // If we are not using absolute positioning, then make all the divs
-            // float left.
+            // If we are not using absolute positioning, then make all the divs float left.
             IF szNoPositioning = "Y"
                zAppendQuotedString( szAbsoluteStyle, "float:left;", "style=", "^" )
             END
@@ -1170,9 +1233,16 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
 //*****************************************  END OF DASHBOARD   ********************************************************
-
+            //kkkkkkkkkkkk
             szWriteBuffer = "</div>  <!-- " + szCtrlTag + " --> "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            
+            // If we are on the most outer group box, put 
+            IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szBootstrapOuterCard = "Y"
+               //kkkkkkk
+               szWriteBuffer = "   </div>  <!-- Close card/card-body for bootstrap -->"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            END         
 
          ELSE  // IF  szDashboardFlag = "Y"
 
@@ -1224,9 +1294,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-
             IF vDialog.Control.CSS_Class != ""           
-               szClass = "class=^" + vDialog.Control.CSS_Class 
+               szClass = "class=^"  
+               IF szStyleIsBootstrap = "Y" AND ( szToggleFlag = "Y" OR szToggleFlag2 = "Y" )
+                  //szClass = szClass + "card card-body mb-2 "
+                  szClass = szClass + "card-body mb-2 "
+               END
+               szClass = szClass + vDialog.Control.CSS_Class 
                IF szToggleFlag = "Y" OR szToggleFlag2 = "Y"
                   // Add a class togglediv onto the toggle div.
                   szClass = szClass + " togglediv"
@@ -1235,7 +1309,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             ELSE
                IF szToggleFlag = "Y" OR szToggleFlag2 = "Y"
                   // Add a class togglediv onto the toggle div.
-                  szClass = "class=^togglediv^ " 
+                  IF szStyleIsBootstrap = "Y"
+                     //szClass = "class=^card card-body mb-2 togglediv^ " 
+                     szClass = "class=^card-body mb-2 togglediv^ " 
+                  ELSE
+                     szClass = "class=^togglediv^ " 
+                  END
                ELSE
                   szClass = ""
                END
@@ -1249,7 +1328,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                   szWriteBuffer = "<% if (ctrlActs.hideControl( vKZXMLPGO, ^" + szCtrlTag + "^) < 0) { %>"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                END
-
+               
+               IF szStyleIsBootstrap = "Y"
+                  szWriteBuffer = "<div class=^card toggle^> <!-- card surrounding toggle -->"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               END
+               
                IF szWindowIsjMobile = ""
                   //szWriteBuffer = "<div style=^float:left;^>  <!-- Div surrounding toggle --> "
                   // KJS 11/05/15 - Jeff asked for float to be changed to clear.
@@ -1282,7 +1366,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                   szWriteBuffer = "<a href=^#" + szCtrlTag + "^ onclick=^animatedcollapse.toggle('" + szCtrlTag + "');^ style=^^>" + szText + "</a></div>"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                END
-            END
+            END  // IF szToggleFlag = "Y"
 
 
             // KJS 12/11/15 - We are creating a Toggle2 for Jeff's team (Kindra). Don't want to change what normal toggler's do because that will screw them up.
@@ -1291,6 +1375,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                // KJS 03/12/18
                IF vDialogRoot.Dialog.wWebUsesControlActions = "Y"
                   szWriteBuffer = "<% if (ctrlActs.hideControl( vKZXMLPGO, ^" + szCtrlTag + "^) < 0) { %>"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               END
+               IF szStyleIsBootstrap = "Y"
+                  szWriteBuffer = "<div class=^card toggle^> <!-- card surrounding toggle -->"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                END
                         
@@ -1321,8 +1409,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                ELSE
                   szText = vDialog.Control.Text
                END
-
-               
+             
                szWriteBuffer = "<a href=^#^ rel=^toggle['" + szCtrlTag + "']^ data-openimage=^toggle-open.png^ data-closedimage=^toggle-close.png^>"
                szWriteBuffer = szWriteBuffer + "<div class=^showhidetoggle^><div style=^float:right^><img src=^toggle-close.png^ /></div>" + szText + "</div></a></div>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1478,7 +1565,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_Y A PSDLG_X A" )
                // Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
                CreateViewFromView( vGroupParent, vDialog )
-               //TraceLineS("*** About to call recurs code from div *** ", vDialog.Control.Tag )
                SetViewToSubobject( vDialog, "CtrlCtrl" )
                szIndentGroup = szIndent
                GenJSPJ_CrteCtrlsRecurs( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndentGroup,
@@ -1492,6 +1578,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            //kkkkkkkkkkkk
             //szWriteBuffer = "</div>  <!--  " + szCtrlTag + " --> "
             szWriteBuffer = "</" + szGroupBoxType + ">  <!--  " + szCtrlTag + " --> "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1499,13 +1586,24 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             // If the toggle is for jMobile, then we didn't have the extra surrounding div.
             IF ( szToggleFlag = "Y" OR szToggleFlag2 = "Y" ) AND szWindowIsjMobile = ""
                szWriteBuffer = "</div> <!-- End Div for surrounding toggle --> "
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )              
+               IF szStyleIsBootstrap = "Y"
+                  szWriteBuffer = "</div> <!-- End of card surrounding toggle -->"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               END
             END
             IF ( szToggleFlag = "Y" OR szToggleFlag2 = "Y" ) AND vDialogRoot.Dialog.wWebUsesControlActions = "Y"
                // KJS 03/12/18
                szWriteBuffer = "<% } %>"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END
+            
+            // If we are on the most outer group box, put 
+            IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szToggleFlag = "" AND szToggleFlag2 = "" AND szBootstrapOuterCard = "Y" 
+               //kkkkkkk
+               szWriteBuffer = "</div>  <!-- Close card/card-body for bootstrap -->"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            END         
          END
          END
          END
@@ -1517,6 +1615,14 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          END
       ELSE  // Not a groupbox
          IF szControlType = "Text"  // TEXT
+            IF szStyleIsBootstrap = "Y" AND vDialog.Control.WebCtrlLabelLink != "" AND vDialog.Control.CSS_Class != ""
+               szLabelLink = vDialog.Control.WebCtrlLabelLink  // should we automatically include input-group?
+               IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "input-group-text" ) <= 0
+                  vWork.Root.szLabelLink = szLabelLink
+                  szWriteBuffer = "<div class=^" + vDialog.Control.CSS_Class + "^>  <!-- group around text/input bootstrap -->"
+                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               END
+            END
             GenJSPJ_CrteText( vDialog, vGroupParent, vDialogRoot, lFile, szWriteBuffer, szIndent, szCtrlTag,
                               szJustify, szNoPositioning, lOffsetX, lOffsetY, szRepeatGrpKey )
          END
@@ -1541,8 +1647,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                   "", szJustify, szNoPositioning, lOffsetX, lOffsetY, szRepeatGrpKey )
          END
 
-         IF szControlType = "PushBtn"  // PUSH BUTTON
-         
+         IF szControlType = "PushBtn"  // PUSH BUTTON        
             GenJSPJ_CrtePushButton( vDialog, vGroupParent, lFile, szWriteBuffer, szIndent, szCtrlTag,
                                     "", szJustify, szNoPositioning, lOffsetX, lOffsetY, szRepeatGrpKey )
             
@@ -1601,7 +1706,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                END
                
-
                szWriteBuffer = "      long   lEntityKeyRG" + szCtrlTag + ";"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      String strEntityKeyRG" + szCtrlTag + ";"
@@ -1707,9 +1811,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szRepeatingGroupKey = ""
             DropView( vGroupParent )
             vGroupParent = 0
+            
+            //kkkkk
 
             // Process GroupBox end.
-            IF  szNoPositioning = "Y" OR szNoPositioning = "S"
+            IF szNoPositioning = "Y" OR szNoPositioning = "S"
                szWriteBuffer = "</div>   <!-- end div for repeating group -->"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                
@@ -1728,8 +1834,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             IF szSelectSetRepeat = "Y" 
                szWriteBuffer = "         } // SelectSet end"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            END
-            
+            END            
 
             // Conclude with JSP next cursor loop.
             IF vDialog.CtrlMapView EXISTS
@@ -2604,6 +2709,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                szWriteBuffer = "<div style=^float:left^>  <!-- Div around the table, this is for the message if no data -->"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             END
+            IF szStyleIsBootstrap = "Y" AND ( szBootstrapDataTables = "Y" OR ZeidonStringFind( szClass, 1, "default" ) > 0 )
+               szBootstrapDataTables = "Y"
+               szWriteBuffer = "<div class=^dataTables_wrapper^>  <!-- Div around the table, this is for bootstrap -->"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            END
 
             szScrollingTable = ""
             //KJS 04/10/08 - Want to try and add a scrolling table with stationary headings.
@@ -2662,7 +2772,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                SetViewToSubobject( vDialog, "CtrlCtrl" )  // vDialog positioned on sub-controls
                
                // KJS 01/15/20 - For bootstrap we want to add a blank field at the beginning of grid.
-               IF szStyleIsBootstrap = "Y"
+               IF szStyleIsBootstrap = "Y" AND szBootstrapDataTables = "Y"
                   szWriteBuffer = "   <th></th>  <!-- Created for bootstrap -->"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   lCol = 1
@@ -3040,19 +3150,19 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                
                
                // KJS 03/12/18
-   // KJS 03/13/18 - If the view is read only, then we want to set the combo box to disabled.
-   // We only do this if the zeidon.ini has UseZeidonControlActionsView
-   IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y" 
-         szWriteBuffer = "      strDisabled = ^^;"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "      if ( " + vDialog.CtrlMapView.Name + ".isReadOnly( ) )"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "         strDisabled = ^disabled^;"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-   END
+               // KJS 03/13/18 - If the view is read only, then we want to set the combo box to disabled.
+               // We only do this if the zeidon.ini has UseZeidonControlActionsView
+               IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y" 
+                     szWriteBuffer = "      strDisabled = ^^;"
+                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                     szWriteBuffer = "      if ( " + vDialog.CtrlMapView.Name + ".isReadOnly( ) )"
+                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                     szWriteBuffer = "         strDisabled = ^disabled^;"
+                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               END
                
 
-               // KJS 5/1/08 - Jeff is a pain in the butt so I need to add this code.
+               // KJS 5/1/08
                // We are creating a temporary view to the table view so that when we loop through the
                // entities to create this grid, we do not lose the original entity position.
                // If you have several grids on one page mapped to the same entity path, when one grid was
@@ -3418,7 +3528,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
              
                SET CURSOR FIRST vDialog.Control
                // KJS 01/15/20 - For bootstrap we want to add a blank field at the beginning of grid.
-               IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Attribute EXISTS AND vDialog.CtrlMapER_Attribute.Name != "wHide"
+               IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Attribute EXISTS AND vDialog.CtrlMapER_Attribute.Name != "wHide" AND szBootstrapDataTables = "Y"
                   szWriteBuffer = "   <td></td> <!-- Created for bootstrap -->"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   lCol = 1
@@ -4561,6 +4671,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                END
             END
 
+            IF szStyleIsBootstrap = "Y" AND szBootstrapDataTables = "Y"
+               szBootstrapDataTables = ""
+               szWriteBuffer = "</div>  <!-- End of div for dataTables_wrapper, this is for bootstrap -->"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            END
+
          END  // IF szControlType = "Grid"
 
 //********************** END OF GRID ***********************************
@@ -4570,6 +4686,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             GenJSPJ_CrteMLEdit( vDialog, lFile, szWriteBuffer, szIndent, szCtrlTag,
                                 "", szJustify, szNoPositioning, lOffsetX, lOffsetY, szRepeatGrpKey )
          END   //IF szControlType = "MLEdit"
+         IF szStyleIsBootstrap = "Y" AND szCtrlTag = szLabelLink
+            szWriteBuffer = "</div>  <!-- bootstrap end of input-group -->"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            szLabelLink = ""
+            vWork.Root.szLabelLink = ""
+         END 
       END
    END // FOR EACH
 
@@ -4585,6 +4707,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       END
    END
+   /* IF szStyleIsBootstrap = "Y" AND szControlType = "GroupBox"  AND lIndexStrLth >= 3
+      IF szFirstTimeThrough = ""
+         szWriteBuffer = "</div>  <!-- End of bootstrap row -->"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      END
+   END */
 
    // szIndent = szIndentHold
 END

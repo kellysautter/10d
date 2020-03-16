@@ -81,9 +81,9 @@ BuildMainNavSection( zVIEW     vDialog,
    //:szStyleIsjMobile = ""
    ZeidonStringCopy( szStyleIsjMobile, 1, 0, "", 1, 0, 2 );
    //:IF vDialog.WndStyle.Tag = "jMobile Window" OR vDialog.Window.WEB_JSPGenerationPositioning = "J" OR 
-   //:   ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "J" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
+   //:   ( vDialog.Dialog.WEB_JSPGenerationPositioning = "J" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
    if ( CompareAttributeToString( vDialog, "WndStyle", "Tag", "jMobile Window" ) == 0 || CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "J" ) == 0 ||
-        ( CompareAttributeToString( vDialogRoot, "Dialog", "WEB_JSPGenerationPositioning", "J" ) == 0 && CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "" ) == 0 ) )
+        ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "J" ) == 0 && CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "" ) == 0 ) )
    { 
       //:szStyleIsjMobile = "Y"
       ZeidonStringCopy( szStyleIsjMobile, 1, 0, "Y", 1, 0, 2 );
@@ -93,8 +93,8 @@ BuildMainNavSection( zVIEW     vDialog,
    //:szStyleIsBootstrap = ""
    ZeidonStringCopy( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 );
    //:IF vDialog.Window.WEB_JSPGenerationPositioning = "B" OR 
-   //:   ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
-   if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "B" ) == 0 || ( CompareAttributeToString( vDialogRoot, "Dialog", "WEB_JSPGenerationPositioning", "B" ) == 0 &&
+   //:   ( vDialog.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
+   if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "B" ) == 0 || ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "B" ) == 0 &&
         CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "" ) == 0 ) )
    { 
       //:szStyleIsBootstrap = "Y"

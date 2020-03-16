@@ -767,6 +767,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    VIEW vDialogTemp2 BASED ON LOD TZWDLGSO
    VIEW vGroupParent BASED ON LOD TZWDLGSO
    VIEW vDfltMenu    BASED ON LOD TZWDLGSO
+   VIEW vWork        BASED ON LOD TZPTWRKO
    STRING ( 32 )    szLPLR_Name
    STRING ( 1024 )  szJSP_FileName
    STRING ( 1024 )  szJS_FileName
@@ -842,6 +843,8 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )     szNoMonitorTaskLogout
    STRING ( 1 )     szUseZeidonCtrlActions
    STRING ( 1 )     szUseZeidonCtrlActView
+   STRING ( 1 )     szBootstrapOuterCard
+   STRING ( 1 )     szBootstrapDataTables
    STRING ( 10 )    szTimeout
    STRING ( 10 )    szDOCTYPE
    STRING ( 18 )    szDateTime
@@ -872,7 +875,14 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    SHORT            nRC
 
    // Generate a JSP file for formatting the Window that has current position.
-
+   GET VIEW vWork NAMED "TZPTWRKO"
+   IF RESULT >= 0
+      DropObjectInstance( vWork )
+   END
+   ACTIVATE vWork EMPTY
+   CREATE ENTITY vWork.Root
+   NAME VIEW vWork "TZPTWRKO"
+   
    NAME VIEW vDialog "GenJSP_Dialog"
    szDialogTag = vDialog.Dialog.Tag
    szWindowTag = vDialog.Window.Tag
@@ -913,6 +923,10 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    SysReadZeidonIni( -1, szSystemIniApplName, "UsesDateFormatFromDB", szDateFormatDBFlag )
    SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonControlActions", szUseZeidonCtrlActions )
    SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonControlActionsView", szUseZeidonCtrlActView )
+   SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapOuterCard", szBootstrapOuterCard )
+   SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapDataTables", szBootstrapDataTables )
+   vWork.Root.BootstrapOuterCard = szBootstrapOuterCard
+   vWork.Root.BootstrapDataTables = szBootstrapDataTables
    vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
    vDialog.Dialog.wWebUsesControlActions = szUseZeidonCtrlActions
    vDialog.Dialog.wWebUsesControlActionsView = szUseZeidonCtrlActView
@@ -953,6 +967,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // First check the Dialog setting
    // 12/06/19 - Want to add style for jMobile and Bootstrap. Had jMobile in window style but trying it here so it can be set a dialog level.
    //IF  vDialog.Dialog.WEB_RelativePositionFlag = "Y" OR vDialog.Window.WEB_RelativePositionFlag = "Y"
+   // Relative positioning (we don't indicate the positioning of control, but we do have height and size, so we place controls relative to other controls)
    IF vDialog.Dialog.WEB_JSPGenerationPositioning = "R"
       szNoPositioning = "Y"
    ELSE
@@ -1548,7 +1563,9 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    szRegisterZeidon = ""
    nRC = zSearchSubString( szFormName, "Login", "f", 0 )
-   IF nRC >= 0  OR vDialog.Window.WEB_RegisterZeidonWindow = "Y" // "wStartUpLogin"
+   // KJS 03/09/20 - I don't remember why we look for Login in the window name... don't think we need to do that now.
+   //IF nRC >= 0  OR vDialog.Window.WEB_RegisterZeidonWindow = "Y" // "wStartUpLogin"
+   IF vDialog.Window.WEB_RegisterZeidonWindow = "Y" // "wStartUpLogin"
       szRegisterZeidon = "Y"
    END
 
@@ -4243,7 +4260,7 @@ DKS_TRACE_END */
       // we haven't done that before... as of right now, it looks like WEB_TopMenuInclude is not being
       // used anywhere so I am going to use this because I don't want to have to change TZWDLGSO.LOD.
       // I changed WEB_TopMenuInclude to WEB_TopBannerName.
-      //IF szStyleIsBootstrap = ""
+      IF szStyleIsBootstrap = ""
          IF vDialog.Window.WEB_TopBannerName != ""
             szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
@@ -4259,7 +4276,7 @@ DKS_TRACE_END */
             END
          END
          END
-      //END
+      END
    END
    END
    

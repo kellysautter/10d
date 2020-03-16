@@ -2083,16 +2083,22 @@ fnWriteSiblingsToBuffer( zVIEW            vCtlWork,
          DisplayEntityInstance( vCtlWork, "Attribute" );
          SetSelectSetForView( vCtlWork, nPrevSelSet );
 
-         strcpy_s( *ppchTemp, zMAX_BLOB, szTemp );
-         OL_CurrentItem->lTagAttributeOffset = *ppchTemp - pchStart;
+		 // KJS 02/07/20 We get an error when closing the Outliner... Seems like it might be these strcpy_s when we keep zMAX_BLOB.
+		 // With the change, we do not get the Invalid Pointer Handle error.
+		 //strcpy_s( *ppchTemp, zMAX_BLOB, szTemp );
+		 strcpy_s( *ppchTemp, zstrlen(szTemp) + 1, szTemp );
+		 OL_CurrentItem->lTagAttributeOffset = *ppchTemp - pchStart;
          lLth = zstrlen( *ppchTemp ) + 1;
          *ppchTemp += lLth;
 
          // Put in attributes (including tag) and null contexts
          // ??? - NOTE: currently we are only loading one attribute per entity.
          TraceLineS( "fnWriteSiblingsToBuffer Attribute: ", szTemp );
-         strcpy_s( *ppchTemp, zMAX_BLOB - lLth, szTemp );
-         OL_CurrentItem->lAttributeOffset = *ppchTemp - pchStart;
+		 // KJS 02/07/20 We get an error when closing the Outliner... Seems like it might be these strcpy_s when we keep zMAX_BLOB.
+		 // With the change, we do not get the Invalid Pointer Handle error.
+		 //strcpy_s( *ppchTemp, zMAX_BLOB - lLth, szTemp );
+		 strcpy_s( *ppchTemp, zstrlen(szTemp) + 1, szTemp );
+		 OL_CurrentItem->lAttributeOffset = *ppchTemp - pchStart;
          *ppchTemp += zstrlen( *ppchTemp ) + 1;
 
          // Put in the double null terminator to end the attr list
