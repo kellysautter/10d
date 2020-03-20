@@ -2003,6 +2003,7 @@ DKS_TRACE_END */
 
    // If the Window or Dialog has a reusable main menu, add the actions from that menu.
    lReusableDialogZKey = 0
+   lReusableWindowZKey = 0
    IF vDialog.ReusableMainWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
@@ -2034,9 +2035,9 @@ DKS_TRACE_END */
                         END
 
                         nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-            IF nRC != 0
-               nSystemSort = nRC
-            END
+                        IF nRC != 0
+                           nSystemSort = nRC
+                        END
                      END
                   END
                END
@@ -2045,8 +2046,6 @@ DKS_TRACE_END */
          DropView( vDialogTemp )
       ELSE
          ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-      // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
-      //                                         1, plListHandle )
          SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
          IF RESULT >= zCURSOR_SET
             FOR EACH vDialogTemp.Option
@@ -2066,9 +2065,9 @@ DKS_TRACE_END */
                         END
 
                         nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-            IF nRC != 0
-               nSystemSort = nRC
-            END
+                        IF nRC != 0
+                           nSystemSort = nRC
+                        END
                      END
                   END
                END
@@ -2080,6 +2079,7 @@ DKS_TRACE_END */
 
    // If the Window or Dialog has a reusable main menu for actions only, add the actions from that menu.
    lReusableDialogZKey = 0
+   lReusableWindowZKey = 0
    IF vDialog.ReusableActionWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableActionDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableActionWindow.ZKey
@@ -2111,9 +2111,9 @@ DKS_TRACE_END */
                         END
 
                         nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-            IF nRC != 0
-               nSystemSort = nRC
-            END
+                        IF nRC != 0
+                           nSystemSort = nRC
+                        END
                      END
                   END
                END
@@ -2141,9 +2141,9 @@ DKS_TRACE_END */
                         END
 
                         nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-            IF nRC != 0
-               nSystemSort = nRC
-            END
+                        IF nRC != 0
+                           nSystemSort = nRC
+                        END
                      END
                   END
                END
@@ -4053,6 +4053,7 @@ DKS_TRACE_END */
 
    // If the Window has a reusable main menu, add functions for each action from that menu.
    lReusableDialogZKey = 0
+   lReusableWindowZKey = 0
    IF vDialog.ReusableMainWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
@@ -4075,8 +4076,6 @@ DKS_TRACE_END */
          DropView( vDialogTemp )
       ELSE
          ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-      // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
-      //                                         1, plListHandle )
          SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
          IF RESULT >= zCURSOR_SET
             //Because the menu actions can be created on separate windows from the control
@@ -4090,6 +4089,7 @@ DKS_TRACE_END */
 
    // If the Window has a reusable menu for the actions only, add functions for each action from that menu.
    lReusableDialogZKey = 0
+   lReusableWindowZKey = 0
    IF vDialog.ReusableActionWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableActionDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableActionWindow.ZKey
@@ -4294,6 +4294,7 @@ DKS_TRACE_END */
 
    // Generate Main Navigation Bar
    lReusableDialogZKey = 0
+   lReusableWindowZKey = 0
    IF vDialog.ReusableMainWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
@@ -4307,25 +4308,25 @@ DKS_TRACE_END */
 // IF ( lReusableDialogZKey != 0 AND vDialog.Window.WEB_NoTopMenuFlag != "Y" )  // dks
    // If the style we are generating is Bootstrap... then it seems like want the main navigation to be after the side navigation...
    IF szStyleIsBootstrap = ""
-   IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
-      IF lReusableDialogZKey = vDialog.Dialog.ZKey
-         CreateViewFromView( vDialogTemp, vDialog )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-         IF RESULT >= zCURSOR_SET
-            BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+      IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
+         IF lReusableDialogZKey = vDialog.Dialog.ZKey
+            CreateViewFromView( vDialogTemp, vDialog )
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            IF RESULT >= zCURSOR_SET
+               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+            END
+            DropView( vDialogTemp )
+         ELSE
+            ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
+         // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
+         //                                         1, plListHandle )
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            IF RESULT >= zCURSOR_SET
+               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+            END
+            DropObjectInstance( vDialogTemp )
          END
-         DropView( vDialogTemp )
-      ELSE
-         ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-      // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
-      //                                         1, plListHandle )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-         IF RESULT >= zCURSOR_SET
-            BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
-         END
-         DropObjectInstance( vDialogTemp )
       END
-   END
    END
    
    IF szStyleIsjMobile = "Y"
@@ -4348,31 +4349,43 @@ DKS_TRACE_END */
    END
 
    // Left navigation bar from Menu.
+   // Generate Main Navigation Bar
+   // kkkkkkk
+   lReusableDialogZKey = 0
+   lReusableWindowZKey = 0
+   IF vDialog.ReusableSideWindow EXISTS
+      lReusableDialogZKey = vDialog.ReusableSideDialog.ZKey
+      lReusableWindowZKey = vDialog.ReusableSideWindow.ZKey
+   ELSE
+      IF vDialog.DefaultReusableSideWindow EXISTS
+         lReusableDialogZKey = vDialog.DefaultReusableSideDialog.ZKey
+         lReusableWindowZKey = vDialog.DefaultReusableSideWindow.ZKey
+      END
+   END
    // If the Window has a Reusable menu, use it. Otherwise try to use the Main Menu for the Window.
    // If neither exists, there will be no left navigation bar.
-// IF vDialog.ReusableSideWindow EXISTS
-   IF vDialog.ReusableSideWindow EXISTS AND szShowSideMenu = "Y"
+   //IF vDialog.ReusableSideWindow EXISTS AND szShowSideMenu = "Y"
+   IF lReusableWindowZKey != 0 AND szShowSideMenu = "Y"
 
-      IF vDialog.DfltMenu EXISTS AND vDialog.ReusableSideWindow.ZKey != vDialog.Window.ZKey
+      IF vDialog.DfltMenu EXISTS AND lReusableWindowZKey != vDialog.Window.ZKey
          vDfltMenu = vDialog
       ELSE
          vDfltMenu = 0
       END
 
-      IF vDialog.ReusableSideDialog.ZKey = vDialog.Dialog.ZKey
+      IF lReusableDialogZKey = vDialog.Dialog.ZKey
          CreateViewFromView( vDialogTemp, vDialog )
          //NAME VIEW vDialogTemp "DialogREUS"
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
          IF RESULT >= zCURSOR_SET
             BuildSideNavSectionJ( vDialog, vDialogTemp, lFileJSP, "Y", vDfltMenu )  // dks ... want Reusable + Default
             szSideMenuExists = "Y"
          END
          DropView( vDialogTemp )
       ELSE
-         ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META,  zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
-      // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0, 0,
-      //                                         0, plListHandle )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+         //ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META,  zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
+         ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
+         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
          IF RESULT >= zCURSOR_SET
             BuildSideNavSectionJ( vDialog, vDialogTemp, lFileJSP, "Y", vDfltMenu )  // dks ... want Reusable + Default
             szSideMenuExists = "Y"
@@ -4398,6 +4411,17 @@ DKS_TRACE_END */
       szWriteBuffer = "<div class=^main^>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )    
    
+      lReusableDialogZKey = 0
+      lReusableWindowZKey = 0
+      IF vDialog.ReusableMainWindow EXISTS
+         lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
+         lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
+      ELSE
+         IF vDialog.DefaultReusableMainWindow EXISTS
+            lReusableDialogZKey = vDialog.DefaultReusableMainDialog.ZKey
+            lReusableWindowZKey = vDialog.DefaultReusableMainWindow.ZKey
+         END
+      END
       IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
          IF lReusableDialogZKey = vDialog.Dialog.ZKey
             CreateViewFromView( vDialogTemp, vDialog )
@@ -4410,8 +4434,6 @@ DKS_TRACE_END */
          ELSE
             ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
             //NAME VIEW vDialogTemp "DialogREUS"
-         // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
-         //                                         1, plListHandle )
             SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
             IF RESULT >= zCURSOR_SET
                BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
@@ -4420,7 +4442,6 @@ DKS_TRACE_END */
          END
       END
    END
-
 
    szCSS_Class = vDialog.Window.CSS_Class
    IF szCSS_Class = ""

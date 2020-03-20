@@ -282,6 +282,83 @@ END
 
 /*************************************************************************************************
 **
+**    OPERATION: GOTO_SelectDefaultSideMenu
+**
+*************************************************************************************************/
+DIALOG OPERATION
+GOTO_SelectDefaultSideMenu( VIEW vSubtask )
+
+   VIEW TZWINDOWL  REGISTERED AS TZWINDOWL
+   VIEW TZDLG_List REGISTERED AS TZDLG_List
+   VIEW TZWND_List BASED ON LOD  TZWDLGSO
+
+   TZWINDOWL.Dialog.wReusableSelectEntityName = "DefaultReusableSideWindow"
+   IF TZWINDOWL.ReusableWindowSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableWindowSelection
+   END
+   IF TZWINDOWL.ReusableDialogSelection EXISTS
+      EXCLUDE TZWINDOWL.ReusableDialogSelection
+   END
+   IF TZWINDOWL.DefaultReusableSideWindow EXISTS
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+                 WHERE TZDLG_List.W_MetaDef.CPLR_ZKey = TZWINDOWL.DefaultReusableSideDialog.ZKey
+      IF RESULT >= zCURSOR_SET
+         INCLUDE TZWINDOWL.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            IF TZWND_List.Dialog.ZKey != TZWINDOWL.DefaultReusableSideDialog.ZKey
+               DropMetaOI( vSubtask, TZWND_List )
+               TZWND_List = 0
+            END
+         ELSE
+            TZWND_List = 0
+         END
+         IF TZWND_List != 0
+            SET CURSOR FIRST TZWND_List.Window
+                       WHERE TZWND_List.Window.ZKey = TZWINDOWL.DefaultReusableSideWindow.ZKey
+            IF RESULT >= zCURSOR_SET
+               INCLUDE TZWINDOWL.ReusableWindowSelection FROM TZWND_List.Window
+            ELSE
+               SET CURSOR FIRST TZWND_List.Window
+            END
+         ELSE
+            IF TZDLG_List.W_MetaDef.CPLR_ZKey  = TZWINDOWL.Dialog.ZKey
+               CreateViewFromView( TZWND_List, TZWINDOWL )
+               NAME VIEW TZWND_List "TZWND_List"
+            ELSE
+               ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+               NAME VIEW TZWND_List "TZWND_List"
+            END
+         END
+      ELSE
+         GET VIEW TZWND_List NAMED "TZWND_List"
+         IF RESULT >= 0
+            IF TZWINDOWL.Dialog.ZKey = TZWND_List.Dialog.ZKey
+               DropView( TZWND_List )
+            ELSE
+               DropMetaOI( vSubtask, TZWND_List )
+            END
+         END
+         SET CURSOR FIRST TZDLG_List.W_MetaDef
+      END
+
+   ELSE
+
+      GET VIEW TZWND_List NAMED "TZWND_List"
+      IF RESULT >= 0
+         IF TZWINDOWL.Dialog.ZKey = TZWND_List.Dialog.ZKey
+            DropView( TZWND_List )
+         ELSE
+            DropMetaOI( vSubtask, TZWND_List )
+         END
+      END
+      SET CURSOR FIRST TZDLG_List.W_MetaDef
+   END
+
+END
+
+/*************************************************************************************************
+**
 **    OPERATION: REMOVE_DefaultMainMenu
 **
 *************************************************************************************************/
@@ -292,6 +369,22 @@ REMOVE_DefaultMainMenu( VIEW vSubtask )
 
    IF TZWINDOWL.DefaultReusableMainWindow EXISTS
       EXCLUDE TZWINDOWL.DefaultReusableMainWindow
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: REMOVE_DefaultSideMenu
+**
+*************************************************************************************************/
+DIALOG OPERATION
+REMOVE_DefaultSideMenu( VIEW vSubtask )
+
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+
+   IF TZWINDOWL.DefaultReusableSideWindow EXISTS
+      EXCLUDE TZWINDOWL.DefaultReusableSideWindow
    END
 
 END
@@ -327,6 +420,7 @@ REMOVE_ReusableMainMenu( VIEW vSubtask )
    END
 
 END
+
 
 /*************************************************************************************************
 **

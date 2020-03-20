@@ -1928,6 +1928,53 @@ unsigned char CheckByte;
 
 } zTZWDLGSO_DefaultReusableMainDialog_DEF;
 
+typedef struct tagzTZWDLGSO_DefaultReusableSideWindow_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zLONG ZKey;
+   zLONG Subtype;
+   zCHAR Caption[ 255 ];
+   zLONG PSDLG_X;
+   zLONG PSDLG_Y;
+   zLONG SZDLG_X;
+   zLONG SZDLG_Y;
+   zLONG SZMIN_X;
+   zLONG SZMIN_Y;
+   zLONG SZMAX_X;
+   zLONG SZMAX_Y;
+   zCHAR DfltButton[ 33 ];
+   zLONG ResourceID;
+   zCHAR DIL_Active[ 2 ];
+   zCHAR ProfileView[ 33 ];
+   zLONG GeneralFlag;
+   zLONG WindowBOI;
+   zCHAR CSS_Class[ 51 ];
+   zLONG WEB_Timeout;
+   zCHAR WEB_RelativePositionFlag[ 2 ];
+
+unsigned char CheckByte;
+
+} zTZWDLGSO_DefaultReusableSideWindow_DEF;
+
+typedef struct tagzTZWDLGSO_DefaultReusableSideDialog_DEF
+{
+zLONG  lStructSize;
+
+   zCHAR Tag[ 33 ];
+   zLONG ZKey;
+   zCHAR DLL_Name[ 33 ];
+   zCHAR Desc[ 32001 ];
+   zCHAR CSS_Class[ 51 ];
+   zLONG WEB_Timeout;
+   zCHAR WEB_RelativePositionFlag[ 2 ];
+   zCHAR LastSyncDate[ 7 ];
+
+unsigned char CheckByte;
+
+} zTZWDLGSO_DefaultReusableSideDialog_DEF;
+
 typedef struct tagzTZWDLGSO_DefaultReusableActionWindow_DEF
 {
 zLONG  lStructSize;
