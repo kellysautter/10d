@@ -835,6 +835,9 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )     szWindowIsForDashboard
    STRING ( 1 )     szStyleIsjMobile
    STRING ( 1 )     szStyleIsBootstrap
+   STRING ( 1 )     szDialogJSPGenPos
+   STRING ( 1 )     szWindowJSPGenPos
+   STRING ( 1 )     szDialogWindowDiff
    STRING ( 1 )     szNoAutoLogout
    STRING ( 1 )     szKeyRole
    STRING ( 1 )     szDynamicBanner
@@ -968,24 +971,27 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // 12/06/19 - Want to add style for jMobile and Bootstrap. Had jMobile in window style but trying it here so it can be set a dialog level.
    //IF  vDialog.Dialog.WEB_RelativePositionFlag = "Y" OR vDialog.Window.WEB_RelativePositionFlag = "Y"
    // Relative positioning (we don't indicate the positioning of control, but we do have height and size, so we place controls relative to other controls)
-   IF vDialog.Dialog.WEB_JSPGenerationPositioning = "R"
+   szDialogJSPGenPos = vDialog.Dialog.WEB_JSPGenerationPositioning
+   szWindowJSPGenPos = vDialog.Window.WEB_JSPGenerationPositioning
+
+   IF szDialogJSPGenPos = "R"
       szNoPositioning = "Y"
    ELSE
    // No style
-   IF vDialog.Dialog.WEB_JSPGenerationPositioning = "N" 
+   IF szDialogJSPGenPos = "N" 
       szNoPositioning = "S"
    ELSE
    // Absolute Style
-   IF vDialog.Dialog.WEB_JSPGenerationPositioning = "A"
+   IF szDialogJSPGenPos = "A"
       szNoPositioning = ""
    ELSE
    // jMobile which has "no positioning" like "N"
-   IF vDialog.Dialog.WEB_JSPGenerationPositioning = "J"
+   IF szDialogJSPGenPos = "J"
       szNoPositioning = "S"
       szStyleIsjMobile = "Y"
    ELSE
    // Boostrap which has "no positioning" like "N"
-   IF vDialog.Dialog.WEB_JSPGenerationPositioning = "B"
+   IF szDialogJSPGenPos = "B"
       szNoPositioning = "S"
       szStyleIsBootstrap = "Y"
    END
@@ -996,27 +1002,27 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    // KJS 07/23/08 - Check if this dialog window will be built with all relative positioning or with absolute positioning.
    // Second check if the Window has a different setting.
-   IF vDialog.Window.WEB_JSPGenerationPositioning != ""
+   IF szWindowJSPGenPos != ""
       szStyleIsjMobile = ""
       szStyleIsBootstrap = ""
-      IF vDialog.Window.WEB_JSPGenerationPositioning = "R"
+      IF szWindowJSPGenPos = "R"
          szNoPositioning = "Y"
       ELSE
       // No style
-      IF vDialog.Window.WEB_JSPGenerationPositioning = "N"
+      IF szWindowJSPGenPos = "N"
          szNoPositioning = "S"
       ELSE
       // Absolute Style
-      IF vDialog.Window.WEB_JSPGenerationPositioning = "A"
+      IF szWindowJSPGenPos = "A"
          szNoPositioning = ""
       ELSE
       // jMobile which has "no positioning" like "N"
-      IF vDialog.Window.WEB_JSPGenerationPositioning = "J"
+      IF szWindowJSPGenPos = "J"
          szNoPositioning = "S"
          szStyleIsjMobile = "Y"
       ELSE
       // Boostrap which has "no positioning" like "N"
-      IF vDialog.Window.WEB_JSPGenerationPositioning = "B"
+      IF szWindowJSPGenPos = "B"
          szNoPositioning = "S"
          szStyleIsBootstrap = "Y"
       END
@@ -1024,6 +1030,15 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
       END
       END 
+   END
+   
+   // KJS 04/24/20 - For side menu (and maybe other fields?) if there is a side menu at the Dialog level but not at the Window level,
+   // how do we know if the window might not want to have a side menu. For now we are going to assume that if the Dialog/Window have
+   // different generation styles, then we are going to assume that if Window does not have side menu, then do not use the side menu
+   // from Dialog. Not sure if this is the right solution.
+   szDialogWindowDiff = ""
+   IF szWindowJSPGenPos != "" AND szWindowJSPGenPos != szDialogJSPGenPos
+      szDialogWindowDiff = "Y"
    END
 
    // KJS 02/19/09 - Added WEB_AbsolutePositionFlag because I would like to use absolute positioning on my popup pages but the rest
@@ -4299,13 +4314,13 @@ DKS_TRACE_END */
       lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
    ELSE
-      IF vDialog.DefaultReusableMainWindow EXISTS
+      IF vDialog.DefaultReusableMainWindow EXISTS AND szDialogWindowDiff = ""
          lReusableDialogZKey = vDialog.DefaultReusableMainDialog.ZKey
          lReusableWindowZKey = vDialog.DefaultReusableMainWindow.ZKey
       END
    END
 
-// IF ( lReusableDialogZKey != 0 AND vDialog.Window.WEB_NoTopMenuFlag != "Y" )  // dks
+   // IF ( lReusableDialogZKey != 0 AND vDialog.Window.WEB_NoTopMenuFlag != "Y" )  // dks
    // If the style we are generating is Bootstrap... then it seems like want the main navigation to be after the side navigation...
    IF szStyleIsBootstrap = ""
       IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
@@ -4334,7 +4349,6 @@ DKS_TRACE_END */
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )    
    END
 
-
    // KJS 07/31/08 - Before we build the main content items (side navigation if it exists and the page contents) we
    // are going to create another div.  Not sure this is necessary but I'm thinking it might be helpful (then the
    // footer can be after this).
@@ -4350,18 +4364,18 @@ DKS_TRACE_END */
 
    // Left navigation bar from Menu.
    // Generate Main Navigation Bar
-   // kkkkkkk
    lReusableDialogZKey = 0
    lReusableWindowZKey = 0
    IF vDialog.ReusableSideWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableSideDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableSideWindow.ZKey
    ELSE
-      IF vDialog.DefaultReusableSideWindow EXISTS
+      IF vDialog.DefaultReusableSideWindow EXISTS AND szDialogWindowDiff = ""
          lReusableDialogZKey = vDialog.DefaultReusableSideDialog.ZKey
          lReusableWindowZKey = vDialog.DefaultReusableSideWindow.ZKey
       END
-   END
+   END  
+   
    // If the Window has a Reusable menu, use it. Otherwise try to use the Main Menu for the Window.
    // If neither exists, there will be no left navigation bar.
    //IF vDialog.ReusableSideWindow EXISTS AND szShowSideMenu = "Y"
@@ -4417,7 +4431,7 @@ DKS_TRACE_END */
          lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
          lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
       ELSE
-         IF vDialog.DefaultReusableMainWindow EXISTS
+         IF vDialog.DefaultReusableMainWindow EXISTS AND szDialogWindowDiff = ""
             lReusableDialogZKey = vDialog.DefaultReusableMainDialog.ZKey
             lReusableWindowZKey = vDialog.DefaultReusableMainWindow.ZKey
          END

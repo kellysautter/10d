@@ -184,6 +184,12 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    zCHAR     szStyleIsjMobile[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szStyleIsBootstrap
    zCHAR     szStyleIsBootstrap[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szDialogJSPGenPos
+   zCHAR     szDialogJSPGenPos[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szWindowJSPGenPos
+   zCHAR     szWindowJSPGenPos[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szDialogWindowDiff
+   zCHAR     szDialogWindowDiff[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szNoAutoLogout
    zCHAR     szNoAutoLogout[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szKeyRole
@@ -528,8 +534,13 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:// 12/06/19 - Want to add style for jMobile and Bootstrap. Had jMobile in window style but trying it here so it can be set a dialog level.
    //://IF  vDialog.Dialog.WEB_RelativePositionFlag = "Y" OR vDialog.Window.WEB_RelativePositionFlag = "Y"
    //:// Relative positioning (we don't indicate the positioning of control, but we do have height and size, so we place controls relative to other controls)
-   //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "R"
-   if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "R" ) == 0 )
+   //:szDialogJSPGenPos = vDialog.Dialog.WEB_JSPGenerationPositioning
+   GetVariableFromAttribute( szDialogJSPGenPos, 0, 'S', 2, vDialog, "Dialog", "WEB_JSPGenerationPositioning", "", 0 );
+   //:szWindowJSPGenPos = vDialog.Window.WEB_JSPGenerationPositioning
+   GetVariableFromAttribute( szWindowJSPGenPos, 0, 'S', 2, vDialog, "Window", "WEB_JSPGenerationPositioning", "", 0 );
+
+   //:IF szDialogJSPGenPos = "R"
+   if ( ZeidonStringCompare( szDialogJSPGenPos, 1, 0, "R", 1, 0, 2 ) == 0 )
    { 
       //:szNoPositioning = "Y"
       ZeidonStringCopy( szNoPositioning, 1, 0, "Y", 1, 0, 2 );
@@ -538,8 +549,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    else
    { 
       //:// No style
-      //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "N" 
-      if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "N" ) == 0 )
+      //:IF szDialogJSPGenPos = "N" 
+      if ( ZeidonStringCompare( szDialogJSPGenPos, 1, 0, "N", 1, 0, 2 ) == 0 )
       { 
          //:szNoPositioning = "S"
          ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
@@ -548,8 +559,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       else
       { 
          //:// Absolute Style
-         //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "A"
-         if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "A" ) == 0 )
+         //:IF szDialogJSPGenPos = "A"
+         if ( ZeidonStringCompare( szDialogJSPGenPos, 1, 0, "A", 1, 0, 2 ) == 0 )
          { 
             //:szNoPositioning = ""
             ZeidonStringCopy( szNoPositioning, 1, 0, "", 1, 0, 2 );
@@ -558,8 +569,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          else
          { 
             //:// jMobile which has "no positioning" like "N"
-            //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "J"
-            if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "J" ) == 0 )
+            //:IF szDialogJSPGenPos = "J"
+            if ( ZeidonStringCompare( szDialogJSPGenPos, 1, 0, "J", 1, 0, 2 ) == 0 )
             { 
                //:szNoPositioning = "S"
                ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
@@ -570,8 +581,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
             else
             { 
                //:// Boostrap which has "no positioning" like "N"
-               //:IF vDialog.Dialog.WEB_JSPGenerationPositioning = "B"
-               if ( CompareAttributeToString( vDialog, "Dialog", "WEB_JSPGenerationPositioning", "B" ) == 0 )
+               //:IF szDialogJSPGenPos = "B"
+               if ( ZeidonStringCompare( szDialogJSPGenPos, 1, 0, "B", 1, 0, 2 ) == 0 )
                { 
                   //:szNoPositioning = "S"
                   ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
@@ -595,15 +606,15 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:// KJS 07/23/08 - Check if this dialog window will be built with all relative positioning or with absolute positioning.
    //:// Second check if the Window has a different setting.
-   //:IF vDialog.Window.WEB_JSPGenerationPositioning != ""
-   if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "" ) != 0 )
+   //:IF szWindowJSPGenPos != ""
+   if ( ZeidonStringCompare( szWindowJSPGenPos, 1, 0, "", 1, 0, 2 ) != 0 )
    { 
       //:szStyleIsjMobile = ""
       ZeidonStringCopy( szStyleIsjMobile, 1, 0, "", 1, 0, 2 );
       //:szStyleIsBootstrap = ""
       ZeidonStringCopy( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 );
-      //:IF vDialog.Window.WEB_JSPGenerationPositioning = "R"
-      if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "R" ) == 0 )
+      //:IF szWindowJSPGenPos = "R"
+      if ( ZeidonStringCompare( szWindowJSPGenPos, 1, 0, "R", 1, 0, 2 ) == 0 )
       { 
          //:szNoPositioning = "Y"
          ZeidonStringCopy( szNoPositioning, 1, 0, "Y", 1, 0, 2 );
@@ -612,8 +623,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       else
       { 
          //:// No style
-         //:IF vDialog.Window.WEB_JSPGenerationPositioning = "N"
-         if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "N" ) == 0 )
+         //:IF szWindowJSPGenPos = "N"
+         if ( ZeidonStringCompare( szWindowJSPGenPos, 1, 0, "N", 1, 0, 2 ) == 0 )
          { 
             //:szNoPositioning = "S"
             ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
@@ -622,8 +633,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          else
          { 
             //:// Absolute Style
-            //:IF vDialog.Window.WEB_JSPGenerationPositioning = "A"
-            if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "A" ) == 0 )
+            //:IF szWindowJSPGenPos = "A"
+            if ( ZeidonStringCompare( szWindowJSPGenPos, 1, 0, "A", 1, 0, 2 ) == 0 )
             { 
                //:szNoPositioning = ""
                ZeidonStringCopy( szNoPositioning, 1, 0, "", 1, 0, 2 );
@@ -632,8 +643,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
             else
             { 
                //:// jMobile which has "no positioning" like "N"
-               //:IF vDialog.Window.WEB_JSPGenerationPositioning = "J"
-               if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "J" ) == 0 )
+               //:IF szWindowJSPGenPos = "J"
+               if ( ZeidonStringCompare( szWindowJSPGenPos, 1, 0, "J", 1, 0, 2 ) == 0 )
                { 
                   //:szNoPositioning = "S"
                   ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
@@ -644,8 +655,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                else
                { 
                   //:// Boostrap which has "no positioning" like "N"
-                  //:IF vDialog.Window.WEB_JSPGenerationPositioning = "B"
-                  if ( CompareAttributeToString( vDialog, "Window", "WEB_JSPGenerationPositioning", "B" ) == 0 )
+                  //:IF szWindowJSPGenPos = "B"
+                  if ( ZeidonStringCompare( szWindowJSPGenPos, 1, 0, "B", 1, 0, 2 ) == 0 )
                   { 
                      //:szNoPositioning = "S"
                      ZeidonStringCopy( szNoPositioning, 1, 0, "S", 1, 0, 2 );
@@ -666,6 +677,21 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       } 
 
       //:END 
+   } 
+
+   //:END
+
+   //:// KJS 04/24/20 - For side menu (and maybe other fields?) if there is a side menu at the Dialog level but not at the Window level,
+   //:// how do we know if the window might not want to have a side menu. For now we are going to assume that if the Dialog/Window have
+   //:// different generation styles, then we are going to assume that if Window does not have side menu, then do not use the side menu
+   //:// from Dialog. Not sure if this is the right solution.
+   //:szDialogWindowDiff = ""
+   ZeidonStringCopy( szDialogWindowDiff, 1, 0, "", 1, 0, 2 );
+   //:IF szWindowJSPGenPos != "" AND szWindowJSPGenPos != szDialogJSPGenPos
+   if ( ZeidonStringCompare( szWindowJSPGenPos, 1, 0, "", 1, 0, 2 ) != 0 && ZeidonStringCompare( szWindowJSPGenPos, 1, 0, szDialogJSPGenPos, 1, 0, 2 ) != 0 )
+   { 
+      //:szDialogWindowDiff = "Y"
+      ZeidonStringCopy( szDialogWindowDiff, 1, 0, "Y", 1, 0, 2 );
    } 
 
    //:END
@@ -6958,9 +6984,9 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
    else
    { 
-      //:IF vDialog.DefaultReusableMainWindow EXISTS
+      //:IF vDialog.DefaultReusableMainWindow EXISTS AND szDialogWindowDiff = ""
       lTempInteger_44 = CheckExistenceOfEntity( vDialog, "DefaultReusableMainWindow" );
-      if ( lTempInteger_44 == 0 )
+      if ( lTempInteger_44 == 0 && ZeidonStringCompare( szDialogWindowDiff, 1, 0, "", 1, 0, 2 ) == 0 )
       { 
          //:lReusableDialogZKey = vDialog.DefaultReusableMainDialog.ZKey
          GetIntegerFromAttribute( &lReusableDialogZKey, vDialog, "DefaultReusableMainDialog", "ZKey" );
@@ -7039,7 +7065,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:END
 
-
    //:// KJS 07/31/08 - Before we build the main content items (side navigation if it exists and the page contents) we
    //:// are going to create another div.  Not sure this is necessary but I'm thinking it might be helpful (then the
    //:// footer can be after this).
@@ -7071,7 +7096,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:// Left navigation bar from Menu.
    //:// Generate Main Navigation Bar
-   //:// kkkkkkk
    //:lReusableDialogZKey = 0
    lReusableDialogZKey = 0;
    //:lReusableWindowZKey = 0
@@ -7088,9 +7112,9 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
    else
    { 
-      //:IF vDialog.DefaultReusableSideWindow EXISTS
+      //:IF vDialog.DefaultReusableSideWindow EXISTS AND szDialogWindowDiff = ""
       lTempInteger_46 = CheckExistenceOfEntity( vDialog, "DefaultReusableSideWindow" );
-      if ( lTempInteger_46 == 0 )
+      if ( lTempInteger_46 == 0 && ZeidonStringCompare( szDialogWindowDiff, 1, 0, "", 1, 0, 2 ) == 0 )
       { 
          //:lReusableDialogZKey = vDialog.DefaultReusableSideDialog.ZKey
          GetIntegerFromAttribute( &lReusableDialogZKey, vDialog, "DefaultReusableSideDialog", "ZKey" );
@@ -7101,7 +7125,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       //:END
    } 
 
-   //:END
+   //:END  
+
    //:// If the Window has a Reusable menu, use it. Otherwise try to use the Main Menu for the Window.
    //:// If neither exists, there will be no left navigation bar.
    //://IF vDialog.ReusableSideWindow EXISTS AND szShowSideMenu = "Y"
@@ -7222,9 +7247,9 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       } 
       else
       { 
-         //:IF vDialog.DefaultReusableMainWindow EXISTS
+         //:IF vDialog.DefaultReusableMainWindow EXISTS AND szDialogWindowDiff = ""
          lTempInteger_51 = CheckExistenceOfEntity( vDialog, "DefaultReusableMainWindow" );
-         if ( lTempInteger_51 == 0 )
+         if ( lTempInteger_51 == 0 && ZeidonStringCompare( szDialogWindowDiff, 1, 0, "", 1, 0, 2 ) == 0 )
          { 
             //:lReusableDialogZKey = vDialog.DefaultReusableMainDialog.ZKey
             GetIntegerFromAttribute( &lReusableDialogZKey, vDialog, "DefaultReusableMainDialog", "ZKey" );

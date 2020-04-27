@@ -11838,6 +11838,7 @@ SfActivateOI_FromStream( zPVIEW         pvReturnView,
    zBOOL             bContainsOptimisticOIs = FALSE;
    zSHORT            nEOF;
    zSHORT            nRC;
+   zSHORT            nHeaderLength = 0;
 
    if ( AnchorBlock->TraceFlags.bOI_Times )
       lTickCount = SysGetTickCount( );
@@ -11945,8 +11946,29 @@ z1000-Zeidon    ACCOUNT  TZWDLGSO 04/18/07   09:18:42 1.0a2
       // header into the view (object instance) release value. (dks 3/5/96)
       if ( zstrlen( pchLine ) > 55 )
       {
-         strncpy_s( lpViewOI->szRelease, zsizeof( lpViewOI->szRelease ), pchLine + 54, 8 );
+		 // KJS 04/03/20 - Now the header line is different structure because object can be length of 32
+		 // Maybe we should try and look from the end of the line? Instead of position 55.
+		 // z1000-Zeidon    NFINDD   KZWDLGXO                         04/03/20   10:59:41 1.0a2   
+		  // Some lines have 3 blank spaces at teh end... some have 4. Not sure how to determine that so that I always get 1.0a2.
+		  // I'm thinking I might hard code 1.0a2 for right now and see how that goes...
+		  // Or I could check if line is > 79 first, then look at > 55 ?? No answer is good...
+		  nHeaderLength = zstrlen(pchLine);
+		  strncpy_s(lpViewOI->szRelease, zsizeof(lpViewOI->szRelease), pchLine + (nHeaderLength - 8), 8);
+		  strncpy_s(lpViewOI->szRelease, zsizeof(lpViewOI->szRelease), "1.0a2   ", 8);
+		  //strncpy_s( lpViewOI->szRelease, zsizeof( lpViewOI->szRelease ), pchLine + 54, 8 ); -- this is the original line
          lpViewOI->szRelease[ 8 ] = 0;
+		 // Any chance I should split the header on space? Although I don't know if there is more than one space what happens...
+		 // Here is some sample code
+		 /*
+   char string[50] = "Hello! We are learning about strtok";
+   // Extract the first token
+   char * token = strtok(string, " ");
+   // loop through the string to extract all other tokens
+   while( token != NULL ) {
+	  printf( " %s\n", token ); //printing each token
+	  token = strtok(NULL, " ");
+   }
+		 */
       }
 
       if ( pchLine[ 2 ] == '1' )

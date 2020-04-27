@@ -1032,6 +1032,7 @@ PrebuildSpreadSheet( zVIEW vSubtask )
 
    CreateViewFromViewForTask( &vScope, vControl, 0 );
    SetNameForView( vScope, "TZSCOPE", vSubtask, zLEVEL_TASK );
+   TraceLineS("TEST LINE TZSCOPE 6", "");
 
    // If CtrlMap entities exist, position scoping view to the second one.
    if ( CheckExistenceOfEntity( vControl, "CtrlMap" ) == zCURSOR_SET )
@@ -1500,6 +1501,7 @@ fnSetUpScopeListOI( zVIEW vControl,
    // the ScopeList combo box.
    ActivateEmptyObjectInstance( &vScopeL, "TZPNCTWO", vSubtask, 0 );
    SetNameForView( vScopeL, "TZSCOPEL", vSubtask, zLEVEL_TASK );
+   TraceLineS("TEST LINE TZSCOPE 2", "");
    CreateEntity( vScopeL, "TZPNCTWO", zPOS_BEFORE );
 
    // szMapLOD_Entity is CtrlMapView, if this was called for Control
@@ -5163,6 +5165,7 @@ UPD_ACT_Init( zVIEW vSubtask )
 
    CreateViewFromViewForTask( &vScope, vDialogW, 0 );
    SetNameForView( vScope, "TZSCOPE", vSubtask, zLEVEL_TASK );
+   TraceLineS("TEST LINE TZSCOPE 3", "");
 
    // If ActMap entities exist, position scoping view to the second one.
    if ( CheckExistenceOfEntity( vDialogW, "ActMap" ) == zCURSOR_SET )
@@ -5960,6 +5963,7 @@ UPD_LISTBOX_Init( zVIEW vSubtask )
 
    CreateViewFromViewForTask( &vScope, vDialogC, 0 );
    SetNameForView( vScope, "TZSCOPE", vSubtask, zLEVEL_TASK );
+   TraceLineS("TEST LINE TZSCOPE 4", "");
 
    // If CtrlMap entities exist, position scoping view to the second one.
    if ( MiGetUpdateForView( vDialogC ) )
@@ -7090,6 +7094,7 @@ UPD_COMBO_S_Init( zVIEW vSubtask )
    CreateViewFromViewForTask( &vDialogS, vDialogE, 0 );
    SetCursorNextEntity( vDialogS, "CtrlMap", "" );
    SetNameForView( vDialogS, "TZSCOPE", vSubtask, zLEVEL_TASK );
+   TraceLineS("TEST LINE TZSCOPE 5", "");
 
    // If combo box is going to only display selected values.
    CreateViewFromViewForTask( &vDialogL, vDialogS, 0 );
@@ -7287,7 +7292,7 @@ UPD_COMBO_S_ReturnFromSubwindow( zVIEW vSubtask )
       }
 
       GetViewByName( &vDialogS, "TZSCOPE", vSubtask, zLEVEL_TASK );
-      if ( CheckExistenceOfEntity( vDialogS,
+	  if ( CheckExistenceOfEntity( vDialogS,
                                    "CtrlMapLOD_Entity" ) == zCURSOR_SET )
       {
          ExcludeEntity( vDialogS, "CtrlMapLOD_Entity", zREPOS_PREV);
@@ -7414,6 +7419,7 @@ UPD_GRAPH_Init( zVIEW vSubtask )
    CreateViewFromViewForTask( &vDialogS, vDialogA, 0 );
    SetCursorNextEntity( vDialogS, "CtrlMap", "" );
    SetNameForView( vDialogS, "TZSCOPE", vSubtask, zLEVEL_TASK );
+   TraceLineS("TEST LINE TZSCOPE 66", "");
 
    // Set up SEL_LOD, if current mapping exists, and any other
    // mapping data required.
