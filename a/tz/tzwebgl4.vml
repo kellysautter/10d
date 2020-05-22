@@ -91,7 +91,7 @@ BuildSideNavSectionJ( VIEW vDialog,
       // KJS 09/30/16 - Language Conversion.
       // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
       // So for now, I am always using, if the flag is set.
-      IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+      IF vDialog.Dialog.wWebUsesLanguageConversion = "Y"  // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
          szText = vDialogRoot.Option.Text
          szTextID = vDialogRoot.Option.LangID
          zSearchAndReplace( szText, 500, "\", "\\" )
@@ -210,7 +210,7 @@ BuildSideNavSectionJ( VIEW vDialog,
          // KJS 09/30/16 - Language Conversion.
          // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
          // So for now, I am always using, if the flag is set.
-         IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+         IF vDialog.Dialog.wWebUsesLanguageConversion = "Y" // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
             szText = vDialogMenu.Option.Text
             szTextID = vDialogMenu.Option.LangID
             zSearchAndReplace( szText, 500, "\", "\\" )
@@ -395,7 +395,7 @@ BuildMenuListJ( VIEW vDialog BASED ON LOD TZWDLGSO,
       // KJS 09/30/16 - Language Conversion.
       // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
       // So for now, I am always using, if the flag is set.
-      IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+      IF vDialog.Dialog.wWebUsesLanguageConversion = "Y" // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
          szText = vDialogRoot.Option.Text
          szTextID = vDialogRoot.Option.LangID
          zSearchAndReplace( szText, 500, "\", "\\" )

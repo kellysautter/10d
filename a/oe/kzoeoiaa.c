@@ -11934,6 +11934,13 @@ z1000-Zeidon    ACCOUNT  TZWDLGSO 04/18/07   09:18:42 1.0a2
    // information is stored as bit-flags.
    if ( *pchLine == 'z' )
    {
+	   char * token = strtok(pchLine, " ");
+	   // loop through the string to extract all other tokens
+	   while (token != NULL) {
+		   printf(" %s\n", token); //printing each token
+		   token = strtok(NULL, " ");
+	   }
+
       // New header style.
       if ( zstrncmp( pchLine + 6, szlmZeidon, 6 ) != 0 )
       {

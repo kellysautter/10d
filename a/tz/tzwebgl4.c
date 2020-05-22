@@ -218,8 +218,8 @@ BuildSideNavSectionJ( zVIEW     vDialog,
       //:// KJS 09/30/16 - Language Conversion.
       //:// I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
       //:// So for now, I am always using, if the flag is set.
-      //:IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
-      if ( CompareAttributeToString( vDialogRoot, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
+      //:IF vDialog.Dialog.wWebUsesLanguageConversion = "Y"  // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
+      if ( CompareAttributeToString( vDialog, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
       { 
          //:szText = vDialogRoot.Option.Text
          GetVariableFromAttribute( szText, 0, 'S', 501, vDialogRoot, "Option", "Text", "", 0 );
@@ -520,8 +520,8 @@ BuildSideNavSectionJ( zVIEW     vDialog,
          //:// KJS 09/30/16 - Language Conversion.
          //:// I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
          //:// So for now, I am always using, if the flag is set.
-         //:IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
-         if ( CompareAttributeToString( vDialogRoot, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
+         //:IF vDialog.Dialog.wWebUsesLanguageConversion = "Y" // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
+         if ( CompareAttributeToString( vDialog, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
          { 
             //:szText = vDialogMenu.Option.Text
             GetVariableFromAttribute( szText, 0, 'S', 501, vDialogMenu, "Option", "Text", "", 0 );
@@ -7317,8 +7317,8 @@ BuildMenuListJ( zVIEW     vDialog,
       //:// KJS 09/30/16 - Language Conversion.
       //:// I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
       //:// So for now, I am always using, if the flag is set.
-      //:IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
-      if ( CompareAttributeToString( vDialogRoot, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
+      //:IF vDialog.Dialog.wWebUsesLanguageConversion = "Y" // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
+      if ( CompareAttributeToString( vDialog, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
       { 
          //:szText = vDialogRoot.Option.Text
          GetVariableFromAttribute( szText, 0, 'S', 501, vDialogRoot, "Option", "Text", "", 0 );
