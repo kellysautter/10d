@@ -1771,11 +1771,41 @@ GenJSPJ_InputMapRecurs( zVIEW vDialog0,
                         zPCHAR pchszRepeatingGrpKey5 );
 
 //end
-//start TZWEBGL3 2012.07.17 16:38:20
+//start TZWEBGL3 2020.05.27 16:49:08
 zOPER_EXPORT zSHORT OPERATION
 BuildMainNavSection( zVIEW vDialog0,
                      zVIEW vDialogRoot1,
                      zLONG lFile2 );
+
+zOPER_EXPORT zSHORT OPERATION
+GenJSPJ_ActionRecurs( zVIEW vvDialog0,
+                      zVIEW vvDialogMenuRoot1,
+                      zVIEW vvDialogRoot2,
+                      zLONG llFile3,
+                      zPCHAR pchszWriteBuffer4,
+                      zPCHAR pchszFormName5,
+                      zLONG llTraceLevel6,
+                      zPCHAR pchszActionPrefix7 );
+
+zOPER_EXPORT zVOID OPERATION
+GenJSP_MenuFunctionsRecurs( zVIEW vDialog0,
+                            zVIEW vvDialogMenuRoot1,
+                            zVIEW vDialogRoot2,
+                            zLONG llFile3,
+                            zPCHAR pchWriteBuffer4,
+                            zPCHAR pchFormName5,
+                            zPCHAR pchActionPrefix6 );
+
+zOPER_EXPORT zSHORT OPERATION
+BuildMainNavSectionBootstrap( zVIEW vvDialog0,
+                              zVIEW vvDialogRoot1,
+                              zLONG llFile2 );
+
+zOPER_EXPORT zSHORT OPERATION
+GenJSPJ_CrteSideMenuRecurs( zVIEW vvDialog0,
+                            zVIEW vvDialogRoot1,
+                            zLONG llFile2,
+                            zPCHAR pchReusableMenu3 );
 
 zOPER_EXPORT zVOID OPERATION
 GenJSP_CrteJPG( zVIEW vDialog0,

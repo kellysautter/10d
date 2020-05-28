@@ -323,7 +323,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          LastX_Width  = vDialog.Control.SZDLG_X
       END  // IF  szNoPositioning = "Y"
       /*IF szStyleIsBootstrap = "Y" AND szControlType = "GroupBox"
-
          // Need to reset the x positions
          IF  ( LastY_Pos < vDialog.Control.PSDLG_Y ) AND szFirstTimeThrough != "Y" AND lIndexStrLth >= 3 // I think we want the indexstringlength...
             szWriteBuffer = "</div>  <!-- End of bootstrap row -->"
@@ -331,45 +330,34 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             LastX_Pos       = 0
             LastX_Width     = 0
          END
-
          // We may have controls on the same line with varying heights.  When determining if there is
          // blank space in between these lines, make sure we are comparing the highest control.
          Y_Pos = LastY_Pos + LastY_Height
          IF Y_Pos > MaxY_HeightForLine
             MaxY_HeightForLine = Y_Pos
          END
-
          // There should be a <div> surrounding each line.
          IF ( ( LastY_Pos < vDialog.Control.PSDLG_Y ) OR szFirstTimeThrough = "Y" )  AND lIndexStrLth >= 3
-
                LastY_Pos    = vDialog.Control.PSDLG_Y
-
                // KJS 08/01/08 - Seems as though I need to give this div a width, otherwise,
                // it many times places things on different lines.
                CreateViewFromView( vDialog2, vDialog )
-
                X_Size = vDialog2.Control.PSDLG_X + vDialog2.Control.SZDLG_X
                SET CURSOR  NEXT vDialog2.Control
                // Loop through all the controls that are at the same y pos and see how wide they
                // are.
                LOOP  WHILE RESULT >= zCURSOR_SET AND LastY_Pos = vDialog2.Control.PSDLG_Y
-
                   X_Size = vDialog2.Control.PSDLG_X + vDialog2.Control.SZDLG_X
                   SET CURSOR  NEXT vDialog2.Control
                END
-
                DropView(vDialog2)
-
                X_Size = X_Size * dDLUnits + lOffsetY
                X_Size = X_Size + 1
                zIntegerToString( szWidth, 16, X_Size )
-
                szWriteBuffer = "<div class=^row^>  <!-- Beginning of bootstrap row -->"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          END
-
          X_Pos = LastX_Pos + LastX_Width
-
          LastY_Pos    = vDialog.Control.PSDLG_Y
          LastY_Height = vDialog.Control.SZDLG_Y
          LastX_Pos    = vDialog.Control.PSDLG_X
@@ -4332,12 +4320,24 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         IF szCtrlCtrlType = "Calendar"
                            szWriteBuffer = "   " + szItemTableHeader + ">"
                            //KJS 7/26/07 - Added DISABLED option.
-                           szWriteBuffer = szWriteBuffer + "<input name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
-                           szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
-                           WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "              <img src=^images/scw.gif^  name=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ id=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ title=^Select Date^ alt=^Select Date^ " + szDisabled + " "
-                           WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "              onclick=^scwShow( document.getElementById( '" + szListCtrlTag + "::<%=strEntityKey%>' ), this );^ /></td>"
+                           IF szStyleIsBootstrap = "Y"
+                              // If there is no class for this calendar called "datefield", then add it.
+                              IF ZeidonStringFind( szClass, 1, "datefield" ) <= 0
+                                 szClass = "class=^datefield^"
+                              ELSE
+                                 szClass = ""
+                              END
+                              szWriteBuffer = szWriteBuffer + "<input " + szClass + " name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
+                              //szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                              szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                           ELSE
+                              szWriteBuffer = szWriteBuffer + "<input name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
+                              szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              szWriteBuffer = "              <img src=^images/scw.gif^  name=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ id=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ title=^Select Date^ alt=^Select Date^ " + szDisabled + " "
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              szWriteBuffer = "              onclick=^scwShow( document.getElementById( '" + szListCtrlTag + "::<%=strEntityKey%>' ), this );^ /></td>"
+                           END
                         ELSE
                         IF vDialog.Control.WebCtrlType = "Edit" OR szWCP_Edit = "Y"
                            X_Size = vDialog.Control.SZDLG_X

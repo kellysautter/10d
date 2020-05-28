@@ -12,18 +12,18 @@ extern "C"
 
 //:GLOBAL OPERATION
 //:BuildSideNavSectionJ( VIEW vDialog,
-//:                      VIEW vDialogRoot BASED ON LOD TZWDLGSO,
+//:                      VIEW vDialogMenu BASED ON LOD TZWDLGSO,
 //:                      INTEGER lFile,
 //:                      STRING (1) szReusableMenu,
-//:                      VIEW vDialogMenu BASED ON LOD TZWDLGSO )
+//:                      VIEW vDialogDfltMenu BASED ON LOD TZWDLGSO )
 
 //:   STRING ( 10000 ) szWriteBuffer
 zOPER_EXPORT zSHORT OPERATION
 BuildSideNavSectionJ( zVIEW     vDialog,
-                      zVIEW     vDialogRoot,
+                      zVIEW     vDialogMenu,
                       zLONG     lFile,
                       zPCHAR    szReusableMenu,
-                      zVIEW     vDialogMenu )
+                      zVIEW     vDialogDfltMenu )
 {
    zCHAR     szWriteBuffer[ 10001 ] = { 0 }; 
    //:STRING ( 500 )   szNavigationTitle
@@ -60,23 +60,15 @@ BuildSideNavSectionJ( zVIEW     vDialog,
    zSHORT    lTempInteger_0; 
    zCHAR     szTempString_0[ 255 ]; 
    zSHORT    RESULT; 
-   zSHORT    lTempInteger_1; 
-   zCHAR     szTempString_1[ 33 ]; 
+   zLONG     lTempInteger_1; 
    zSHORT    lTempInteger_2; 
-   zCHAR     szTempString_2[ 33 ]; 
-   zCHAR     szTempString_3[ 33 ]; 
-   zSHORT    lTempInteger_3; 
+   zCHAR     szTempString_1[ 33 ]; 
+   zCHAR     szTempString_2[ 255 ]; 
+   zCHAR     szTempString_3[ 255 ]; 
    zCHAR     szTempString_4[ 255 ]; 
-   zCHAR     szTempString_5[ 255 ]; 
-   zLONG     lTempInteger_4; 
-   zSHORT    lTempInteger_5; 
-   zCHAR     szTempString_6[ 33 ]; 
-   zCHAR     szTempString_7[ 255 ]; 
-   zCHAR     szTempString_8[ 255 ]; 
-   zCHAR     szTempString_9[ 255 ]; 
 
    //:// SIDE NAVIGATION BAR
-   //:// vDialogRoot is pointing to the window where we are using the side menu from. 
+   //:// vDialogMenu is pointing to the window where we are using the side menu from. 
 
    //:szStyleIsjMobile = ""
    ZeidonStringCopy( szStyleIsjMobile, 1, 0, "", 1, 0, 2 );
@@ -103,17 +95,17 @@ BuildSideNavSectionJ( zVIEW     vDialog,
 
    //:END 
    //:     
-   //:IF vDialogRoot.Menu EXISTS 
-   lTempInteger_0 = CheckExistenceOfEntity( vDialogRoot, "Menu" );
+   //:IF vDialogMenu.Menu EXISTS 
+   lTempInteger_0 = CheckExistenceOfEntity( vDialogMenu, "Menu" );
    if ( lTempInteger_0 == 0 )
    { 
-      //:szMenuName = vDialogRoot.Menu.Tag 
-      GetVariableFromAttribute( szMenuName, 0, 'S', 51, vDialogRoot, "Menu", "Tag", "", 0 );
-      //:IF vDialogRoot.Menu.CSS_Class != ""
-      if ( CompareAttributeToString( vDialogRoot, "Menu", "CSS_Class", "" ) != 0 )
+      //:szMenuName = vDialogMenu.Menu.Tag 
+      GetVariableFromAttribute( szMenuName, 0, 'S', 51, vDialogMenu, "Menu", "Tag", "", 0 );
+      //:IF vDialogMenu.Menu.CSS_Class != ""
+      if ( CompareAttributeToString( vDialogMenu, "Menu", "CSS_Class", "" ) != 0 )
       { 
-         //:szClass = " class=^" + vDialogRoot.Menu.CSS_Class + "^ " 
-         GetVariableFromAttribute( szTempString_0, 0, 'S', 255, vDialogRoot, "Menu", "CSS_Class", "", 0 );
+         //:szClass = " class=^" + vDialogMenu.Menu.CSS_Class + "^ " 
+         GetVariableFromAttribute( szTempString_0, 0, 'S', 255, vDialogMenu, "Menu", "CSS_Class", "", 0 );
          ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, szTempString_0, 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
@@ -207,326 +199,155 @@ BuildSideNavSectionJ( zVIEW     vDialog,
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
 
+   //:GenJSPJ_CrteSideMenuRecurs( vDialog, vDialogMenu, lFile, szReusableMenu )
+   GenJSPJ_CrteSideMenuRecurs( vDialog, vDialogMenu, lFile, szReusableMenu );
+   //:/*
+   //://FOR EACH vDialogMenu.OptAct WITHIN vDialogMenu.Menu
+   //:FOR EACH vDialogMenu.Option WITHIN vDialogMenu.Menu
 
-   //://FOR EACH vDialogRoot.OptAct WITHIN vDialogRoot.Menu
-   //:FOR EACH vDialogRoot.Option WITHIN vDialogRoot.Menu
-   RESULT = SetCursorFirstEntity( vDialogRoot, "Option", "Menu" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
+   //:   //szNavigationTitle = vDialogMenu.Option.Text
+   //:   // KJS 09/30/16 - Language Conversion.
+   //:   // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
+   //:   // So for now, I am always using, if the flag is set.
+   //:   IF vDialog.Dialog.wWebUsesLanguageConversion = "Y"  // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
+   //:      szText = vDialogMenu.Option.Text
+   //:      szTextID = vDialogMenu.Option.LangID
+   //:      zSearchAndReplace( szText, 500, "\", "\\" )
+   //:      szSrch = "\" + QUOTES 
+   //:      zSearchAndReplace( szText, 500, QUOTES, szSrch )
+   //:      IF szTextID = ""
+   //:         szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
+   //:      ELSE 
+   //:         szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^, ^" + szTextID + "^)%>" 
+   //:      END
+   //:      //szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
+   //:   ELSE
+   //:      szNavigationTitle = vDialogMenu.Option.Text
+   //:   END
 
-      //://szNavigationTitle = vDialogRoot.Option.Text
-      //:// KJS 09/30/16 - Language Conversion.
-      //:// I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
-      //:// So for now, I am always using, if the flag is set.
-      //:IF vDialog.Dialog.wWebUsesLanguageConversion = "Y"  // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
-      if ( CompareAttributeToString( vDialog, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
-      { 
-         //:szText = vDialogRoot.Option.Text
-         GetVariableFromAttribute( szText, 0, 'S', 501, vDialogRoot, "Option", "Text", "", 0 );
-         //:szTextID = vDialogRoot.Option.LangID
-         GetVariableFromAttribute( szTextID, 0, 'S', 257, vDialogRoot, "Option", "LangID", "", 0 );
-         //:zSearchAndReplace( szText, 500, "\", "\\" )
-         zSearchAndReplace( szText, 500, "\\", "\\\\" );
-         //:szSrch = "\" + QUOTES 
-         ZeidonStringCopy( szSrch, 1, 0, "\\", 1, 0, 6 );
-         ZeidonStringConcat( szSrch, 1, 0, QUOTES, 1, 0, 6 );
-         //:zSearchAndReplace( szText, 500, QUOTES, szSrch )
-         zSearchAndReplace( szText, 500, QUOTES, szSrch );
-         //:IF szTextID = ""
-         if ( ZeidonStringCompare( szTextID, 1, 0, "", 1, 0, 257 ) == 0 )
-         { 
-            //:szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
-            ZeidonStringCopy( szNavigationTitle, 1, 0, "<%=LangConv.getLanguageText(^", 1, 0, 501 );
-            ZeidonStringConcat( szNavigationTitle, 1, 0, szText, 1, 0, 501 );
-            ZeidonStringConcat( szNavigationTitle, 1, 0, "^)%>", 1, 0, 501 );
-            //:ELSE 
-         } 
-         else
-         { 
-            //:szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^, ^" + szTextID + "^)%>" 
-            ZeidonStringCopy( szNavigationTitle, 1, 0, "<%=LangConv.getLanguageText(^", 1, 0, 501 );
-            ZeidonStringConcat( szNavigationTitle, 1, 0, szText, 1, 0, 501 );
-            ZeidonStringConcat( szNavigationTitle, 1, 0, "^, ^", 1, 0, 501 );
-            ZeidonStringConcat( szNavigationTitle, 1, 0, szTextID, 1, 0, 501 );
-            ZeidonStringConcat( szNavigationTitle, 1, 0, "^)%>", 1, 0, 501 );
-         } 
+   //:   IF vDialogMenu.OptAct EXISTS      
+   //:      szDialogName = vDialogMenu.OptAct.DialogName
+   //:   ELSE
+   //:      szDialogName = ""
+   //:   END
+   //:   IF szDialogName = ""
+   //:      szDialogName = "NoDialogName"
+   //:   END
 
-         //:END
-         //://szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
-         //:ELSE
-      } 
-      else
-      { 
-         //:szNavigationTitle = vDialogRoot.Option.Text
-         GetVariableFromAttribute( szNavigationTitle, 0, 'S', 501, vDialogRoot, "Option", "Text", "", 0 );
-      } 
+   //:   IF szReusableMenu = "Y"
+   //:      szMenuName = "sm" + vDialogMenu.Option.Tag
+   //:   ELSE
+   //:      szMenuName = vDialogMenu.Option.Tag
+   //:   END
 
-      //:END
+   //:// szHTML_Name = szDialogName + vDialogMenu.OptAct.WindowName + ".jsp"
+   //:   IF vDialogMenu.OptAct EXISTS
 
-      //:IF vDialogRoot.OptAct EXISTS      
-      lTempInteger_1 = CheckExistenceOfEntity( vDialogRoot, "OptAct" );
-      if ( lTempInteger_1 == 0 )
-      { 
-         //:szDialogName = vDialogRoot.OptAct.DialogName
-         GetVariableFromAttribute( szDialogName, 0, 'S', 51, vDialogRoot, "OptAct", "DialogName", "", 0 );
-         //:ELSE
-      } 
-      else
-      { 
-         //:szDialogName = ""
-         ZeidonStringCopy( szDialogName, 1, 0, "", 1, 0, 51 );
-      } 
+   //:      // Because the menu actions can be created on separate windows from the control
+   //:      // actions, we need to make sure these actions are unique.  We will prefix a
+   //:      // "m" to the main menu actions and prefix a "sm" to the side menu actions.
+   //:      IF szReusableMenu = "Y"
+   //:         szActionName = "onclick=^" + "sm" + vDialogMenu.OptAct.Tag + "()^"
+   //:         //szActionName = "sm" + vDialogMenu.OptAct.Tag
+   //:      // lLth = zstrlen( szActionName )
+   //:      // IF lLth > 32
+   //:      //    MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
+   //:      //                 szActionName,
+   //:      //                 zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+   //:      // END
+   //:      ELSE
+   //:         szActionName = "onclick=^" + vDialogMenu.OptAct.Tag + "()^"
+   //:         //szActionName = vDialogMenu.OptAct.Tag
+   //:      END
+   //:      ActionType = vDialogMenu.OptAct.Type
+   //:   ELSE
+   //:      szActionName = ""
+   //:      ActionType = 0
+   //:   END
 
-      //:END
-      //:IF szDialogName = ""
-      if ( ZeidonStringCompare( szDialogName, 1, 0, "", 1, 0, 51 ) == 0 )
-      { 
-         //:szDialogName = "NoDialogName"
-         ZeidonStringCopy( szDialogName, 1, 0, "NoDialogName", 1, 0, 51 );
-      } 
+   //:   // If the window we are currently generating is the same window that this
+   //:   // side menu points to, then we want to set a class on this option.  The
+   //:   // reason is so that we can tell which side menu option the user has selected.
+   //:   IF vDialogMenu.OptAct EXISTS AND vDialogMenu.OptAct.WindowName = vDialog.Window.Tag     
+   //:   //IF vDialogMenu.OptAct.WindowName = vDialog.Window.Tag
+   //:      szClass2 = " class=^sideselected^ "
+   //:   ELSE
+   //:      szClass2 = ""
+   //:   END
+   //:   
+   //:   IF vDialogMenu.Option.CSS_Class != "" 
+   //:      szClass = " class=^" + vDialogMenu.Option.CSS_Class + "^"
+   //:   ELSE
+   //:      szClass = ""
+   //:   END
 
-      //:END
+   //:   szWriteBuffer = "<%"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //:   szOptionTag = vDialogMenu.Option.Tag
+   //:   szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //:   szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //:   szWriteBuffer = "   {"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //:   szWriteBuffer = "%>"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-      //:IF szReusableMenu = "Y"
-      if ( ZeidonStringCompare( szReusableMenu, 1, 0, "Y", 1, 0, 2 ) == 0 )
-      { 
-         //:szMenuName = "sm" + vDialogRoot.Option.Tag
-         GetVariableFromAttribute( szTempString_1, 0, 'S', 33, vDialogRoot, "Option", "Tag", "", 0 );
-         ZeidonStringCopy( szMenuName, 1, 0, "sm", 1, 0, 51 );
-         ZeidonStringConcat( szMenuName, 1, 0, szTempString_1, 1, 0, 51 );
-         //:ELSE
-      } 
-      else
-      { 
-         //:szMenuName = vDialogRoot.Option.Tag
-         GetVariableFromAttribute( szMenuName, 0, 'S', 51, vDialogRoot, "Option", "Tag", "", 0 );
-      } 
+   //:   IF szStyleIsBootstrap = ""
+   //:      //szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+   //:      szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " " + szActionName + ">" + szNavigationTitle + "</a></li>"
+   //:      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //:   ELSE
+   //:      IF vDialogMenu.Option.WebHTML5Attribute != ""
+   //:         szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogMenu.Option.WebHTML5Attribute  + "^></i>"
+   //:      ELSE
+   //:         szText = ""
+   //:      END
+   //:      // KJS 05/22/20 - When Jeff has a 'menu separator' he uses a different class than "sidebar-item", use a class if it is given intead of sidebar-item.
+   //:      IF szClass = ""
+   //:         szClass = " class=^sidebar-item^"
+   //:      END
+   //:      szWriteBuffer = "       <li " + szClass + " id=^" + szMenuName + "^ name=^" + szMenuName + "^>"
+   //:      //szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " onclick=^" + szActionName + "()^><i class=^align-middle mr-2 fas fa-fw " + szText  + "^></i> <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+   //:      szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+   //:      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-      //:END
+   //:   END
 
-      //:// szHTML_Name = szDialogName + vDialogRoot.OptAct.WindowName + ".jsp"
-      //:IF vDialogRoot.OptAct EXISTS
-      lTempInteger_2 = CheckExistenceOfEntity( vDialogRoot, "OptAct" );
-      if ( lTempInteger_2 == 0 )
-      { 
-
-         //:// Because the menu actions can be created on separate windows from the control
-         //:// actions, we need to make sure these actions are unique.  We will prefix a
-         //:// "m" to the main menu actions and prefix a "sm" to the side menu actions.
-         //:IF szReusableMenu = "Y"
-         if ( ZeidonStringCompare( szReusableMenu, 1, 0, "Y", 1, 0, 2 ) == 0 )
-         { 
-            //:szActionName = "onclick=^" + "sm" + vDialogRoot.OptAct.Tag + "()^"
-            ZeidonStringCopy( szActionName, 1, 0, "onclick=^", 1, 0, 101 );
-            ZeidonStringConcat( szActionName, 1, 0, "sm", 1, 0, 101 );
-            GetVariableFromAttribute( szTempString_2, 0, 'S', 33, vDialogRoot, "OptAct", "Tag", "", 0 );
-            ZeidonStringConcat( szActionName, 1, 0, szTempString_2, 1, 0, 101 );
-            ZeidonStringConcat( szActionName, 1, 0, "()^", 1, 0, 101 );
-            //://szActionName = "sm" + vDialogRoot.OptAct.Tag
-            //:// lLth = zstrlen( szActionName )
-            //:// IF lLth > 32
-            //://    MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
-            //://                 szActionName,
-            //://                 zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-            //:// END
-            //:ELSE
-         } 
-         else
-         { 
-            //:szActionName = "onclick=^" + vDialogRoot.OptAct.Tag + "()^"
-            GetVariableFromAttribute( szTempString_3, 0, 'S', 33, vDialogRoot, "OptAct", "Tag", "", 0 );
-            ZeidonStringCopy( szActionName, 1, 0, "onclick=^", 1, 0, 101 );
-            ZeidonStringConcat( szActionName, 1, 0, szTempString_3, 1, 0, 101 );
-            ZeidonStringConcat( szActionName, 1, 0, "()^", 1, 0, 101 );
-         } 
-
-         //:   //szActionName = vDialogRoot.OptAct.Tag
-         //:END
-         //:ActionType = vDialogRoot.OptAct.Type
-         GetIntegerFromAttribute( &ActionType, vDialogRoot, "OptAct", "Type" );
-         //:ELSE
-      } 
-      else
-      { 
-         //:szActionName = ""
-         ZeidonStringCopy( szActionName, 1, 0, "", 1, 0, 101 );
-         //:ActionType = 0
-         ActionType = 0;
-      } 
-
-      //:END
-
-      //:// If the window we are currently generating is the same window that this
-      //:// side menu points to, then we want to set a class on this option.  The
-      //:// reason is so that we can tell which side menu option the user has selected.
-      //:IF vDialogRoot.OptAct EXISTS AND vDialogRoot.OptAct.WindowName = vDialog.Window.Tag     
-      lTempInteger_3 = CheckExistenceOfEntity( vDialogRoot, "OptAct" );
-      if ( lTempInteger_3 == 0 && CompareAttributeToAttribute( vDialogRoot, "OptAct", "WindowName", vDialog, "Window", "Tag" ) == 0 )
-      { 
-         //://IF vDialogRoot.OptAct.WindowName = vDialog.Window.Tag
-         //:szClass2 = " class=^sideselected^ "
-         ZeidonStringCopy( szClass2, 1, 0, " class=^sideselected^ ", 1, 0, 257 );
-         //:ELSE
-      } 
-      else
-      { 
-         //:szClass2 = ""
-         ZeidonStringCopy( szClass2, 1, 0, "", 1, 0, 257 );
-      } 
-
-      //:END
-
-      //:IF vDialogRoot.Option.CSS_Class != "" 
-      if ( CompareAttributeToString( vDialogRoot, "Option", "CSS_Class", "" ) != 0 )
-      { 
-         //:szClass = " class=^" + vDialogRoot.Option.CSS_Class + "^"
-         GetVariableFromAttribute( szTempString_4, 0, 'S', 255, vDialogRoot, "Option", "CSS_Class", "", 0 );
-         ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
-         ZeidonStringConcat( szClass, 1, 0, szTempString_4, 1, 0, 257 );
-         ZeidonStringConcat( szClass, 1, 0, "^", 1, 0, 257 );
-         //:ELSE
-      } 
-      else
-      { 
-         //:szClass = ""
-         ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
-      } 
-
-      //:END
-
-      //:szWriteBuffer = "<%"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "<%", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szOptionTag = vDialogRoot.Option.Tag
-      GetVariableFromAttribute( szOptionTag, 0, 'S', 51, vDialogRoot, "Option", "Tag", "", 0 );
-      //:szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szOptionTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( !csrRC.isSet() ) //if ( nRC < 0 )", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "   {"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   {", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "%>"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "%>", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-
-      //:IF szStyleIsBootstrap = ""
-      if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
-      { 
-         //://szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
-         //:szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " " + szActionName + ">" + szNavigationTitle + "</a></li>"
-         ZeidonStringCopy( szWriteBuffer, 1, 0, "       <li id=^", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szMenuName, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ name=^", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szMenuName, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "^", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "><a href=^#^ ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szClass2, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, " ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szNavigationTitle, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "</a></li>", 1, 0, 10001 );
-         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-         //:ELSE
-      } 
-      else
-      { 
-         //:IF vDialogRoot.Option.WebHTML5Attribute != ""
-         if ( CompareAttributeToString( vDialogRoot, "Option", "WebHTML5Attribute", "" ) != 0 )
-         { 
-            //:szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogRoot.Option.WebHTML5Attribute  + "^></i>"
-            GetVariableFromAttribute( szTempString_5, 0, 'S', 255, vDialogRoot, "Option", "WebHTML5Attribute", "", 0 );
-            ZeidonStringCopy( szText, 1, 0, "<i class=^align-middle mr-2 fas fa-fw ", 1, 0, 501 );
-            ZeidonStringConcat( szText, 1, 0, szTempString_5, 1, 0, 501 );
-            ZeidonStringConcat( szText, 1, 0, "^></i>", 1, 0, 501 );
-            //:ELSE
-         } 
-         else
-         { 
-            //:szText = ""
-            ZeidonStringCopy( szText, 1, 0, "", 1, 0, 501 );
-         } 
-
-         //:END
-         //:szWriteBuffer = "       <li class=^sidebar-item^ id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + ">"
-         ZeidonStringCopy( szWriteBuffer, 1, 0, "       <li class=^sidebar-item^ id=^", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szMenuName, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ name=^", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szMenuName, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "^", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-         //://szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " onclick=^" + szActionName + "()^><i class=^align-middle mr-2 fas fa-fw " + szText  + "^></i> <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
-         //:szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "<a class=^sidebar-link^ href=^#^ ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, " ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, " <span class=^align-middle^>", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szNavigationTitle, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "</span></a></li>", 1, 0, 10001 );
-         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      } 
-
-
-      //:END
-
-      //:szWriteBuffer = "<%"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "<%", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "   }"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   }", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "%>"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "%>", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-      RESULT = SetCursorNextEntity( vDialogRoot, "Option", "Menu" );
-   } 
-
-   //:END
+   //:   szWriteBuffer = "<%"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //:   szWriteBuffer = "   }"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //:   szWriteBuffer = "%>"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   //:END // FOR EACH vDialogMenu.Option WITHIN vDialogMenu.Menu
+   //:*/
 
    //:// This is for building a default menu?
    //:// Trying to get this file to compile.
-   //:IF vDialogMenu != 0
-   if ( vDialogMenu != 0 )
+   //:IF vDialogDfltMenu != 0
+   if ( vDialogDfltMenu != 0 )
    { 
-      //:CreateViewFromViewForTask( vDialogMenu, vDialogMenu, 0 )
-      CreateViewFromViewForTask( &vDialogMenu, vDialogMenu, 0 );
-      //:SET CURSOR FIRST vDialogMenu.Menu WHERE vDialogMenu.Menu.ZKey = vDialogMenu.DfltMenu.ZKey
-      GetIntegerFromAttribute( &lTempInteger_4, vDialogMenu, "DfltMenu", "ZKey" );
-      RESULT = SetCursorFirstEntityByInteger( vDialogMenu, "Menu", "ZKey", lTempInteger_4, "" );
-      //:FOR EACH vDialogMenu.OptAct WITHIN vDialogMenu.Menu
-      RESULT = SetCursorFirstEntity( vDialogMenu, "OptAct", "Menu" );
+      //:CreateViewFromViewForTask( vDialogDfltMenu, vDialogDfltMenu, 0 )
+      CreateViewFromViewForTask( &vDialogDfltMenu, vDialogDfltMenu, 0 );
+      //:SET CURSOR FIRST vDialogDfltMenu.Menu WHERE vDialogDfltMenu.Menu.ZKey = vDialogDfltMenu.DfltMenu.ZKey
+      GetIntegerFromAttribute( &lTempInteger_1, vDialogDfltMenu, "DfltMenu", "ZKey" );
+      RESULT = SetCursorFirstEntityByInteger( vDialogDfltMenu, "Menu", "ZKey", lTempInteger_1, "" );
+      //:FOR EACH vDialogDfltMenu.OptAct WITHIN vDialogDfltMenu.Menu
+      RESULT = SetCursorFirstEntity( vDialogDfltMenu, "OptAct", "Menu" );
       while ( RESULT > zCURSOR_UNCHANGED )
       { 
-         //://szNavigationTitle = vDialogMenu.Option.Text
+         //://szNavigationTitle = vDialogDfltMenu.Option.Text
          //:// KJS 09/30/16 - Language Conversion.
          //:// I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
          //:// So for now, I am always using, if the flag is set.
          //:IF vDialog.Dialog.wWebUsesLanguageConversion = "Y" // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
          if ( CompareAttributeToString( vDialog, "Dialog", "wWebUsesLanguageConversion", "Y" ) == 0 )
          { 
-            //:szText = vDialogMenu.Option.Text
-            GetVariableFromAttribute( szText, 0, 'S', 501, vDialogMenu, "Option", "Text", "", 0 );
-            //:szTextID = vDialogMenu.Option.LangID
-            GetVariableFromAttribute( szTextID, 0, 'S', 257, vDialogMenu, "Option", "LangID", "", 0 );
+            //:szText = vDialogDfltMenu.Option.Text
+            GetVariableFromAttribute( szText, 0, 'S', 501, vDialogDfltMenu, "Option", "Text", "", 0 );
+            //:szTextID = vDialogDfltMenu.Option.LangID
+            GetVariableFromAttribute( szTextID, 0, 'S', 257, vDialogDfltMenu, "Option", "LangID", "", 0 );
             //:zSearchAndReplace( szText, 500, "\", "\\" )
             zSearchAndReplace( szText, 500, "\\", "\\\\" );
             //:szSrch = "\" + QUOTES 
@@ -559,13 +380,13 @@ BuildSideNavSectionJ( zVIEW     vDialog,
          } 
          else
          { 
-            //:szNavigationTitle = vDialogMenu.Option.Text
-            GetVariableFromAttribute( szNavigationTitle, 0, 'S', 501, vDialogMenu, "Option", "Text", "", 0 );
+            //:szNavigationTitle = vDialogDfltMenu.Option.Text
+            GetVariableFromAttribute( szNavigationTitle, 0, 'S', 501, vDialogDfltMenu, "Option", "Text", "", 0 );
          } 
 
          //:END
-         //:szDialogName = vDialogMenu.OptAct.DialogName
-         GetVariableFromAttribute( szDialogName, 0, 'S', 51, vDialogMenu, "OptAct", "DialogName", "", 0 );
+         //:szDialogName = vDialogDfltMenu.OptAct.DialogName
+         GetVariableFromAttribute( szDialogName, 0, 'S', 51, vDialogDfltMenu, "OptAct", "DialogName", "", 0 );
          //:IF szDialogName = ""
          if ( ZeidonStringCompare( szDialogName, 1, 0, "", 1, 0, 51 ) == 0 )
          { 
@@ -575,19 +396,19 @@ BuildSideNavSectionJ( zVIEW     vDialog,
 
          //:END
 
-         //:// szHTML_Name = szDialogName + vDialogMenu.OptAct.WindowName + ".jsp"
-         //:IF vDialogMenu.OptAct EXISTS
-         lTempInteger_5 = CheckExistenceOfEntity( vDialogMenu, "OptAct" );
-         if ( lTempInteger_5 == 0 )
+         //:// szHTML_Name = szDialogName + vDialogDfltMenu.OptAct.WindowName + ".jsp"
+         //:IF vDialogDfltMenu.OptAct EXISTS
+         lTempInteger_2 = CheckExistenceOfEntity( vDialogDfltMenu, "OptAct" );
+         if ( lTempInteger_2 == 0 )
          { 
-            //:szActionName = "onclick=^" + vDialogMenu.OptAct.Tag + "()^"
-            GetVariableFromAttribute( szTempString_6, 0, 'S', 33, vDialogMenu, "OptAct", "Tag", "", 0 );
+            //:szActionName = "onclick=^" + vDialogDfltMenu.OptAct.Tag + "()^"
+            GetVariableFromAttribute( szTempString_1, 0, 'S', 33, vDialogDfltMenu, "OptAct", "Tag", "", 0 );
             ZeidonStringCopy( szActionName, 1, 0, "onclick=^", 1, 0, 101 );
-            ZeidonStringConcat( szActionName, 1, 0, szTempString_6, 1, 0, 101 );
+            ZeidonStringConcat( szActionName, 1, 0, szTempString_1, 1, 0, 101 );
             ZeidonStringConcat( szActionName, 1, 0, "()^", 1, 0, 101 );
-            //://szActionName = vDialogMenu.OptAct.Tag
-            //:ActionType = vDialogMenu.OptAct.Type
-            GetIntegerFromAttribute( &ActionType, vDialogMenu, "OptAct", "Type" );
+            //://szActionName = vDialogDfltMenu.OptAct.Tag
+            //:ActionType = vDialogDfltMenu.OptAct.Type
+            GetIntegerFromAttribute( &ActionType, vDialogDfltMenu, "OptAct", "Type" );
             //:ELSE
          } 
          else
@@ -600,15 +421,15 @@ BuildSideNavSectionJ( zVIEW     vDialog,
 
          //:END
 
-         //://szMenuName = vDialogRoot.Option.Tag         
-         //:szMenuName = vDialogMenu.Option.Tag         
-         GetVariableFromAttribute( szMenuName, 0, 'S', 51, vDialogMenu, "Option", "Tag", "", 0 );
+         //://szMenuName = vDialogMenu.Option.Tag         
+         //:szMenuName = vDialogDfltMenu.Option.Tag         
+         GetVariableFromAttribute( szMenuName, 0, 'S', 51, vDialogDfltMenu, "Option", "Tag", "", 0 );
 
          //:// If the window we are currently generating is the same window that this
          //:// side menu points to, then we want to set a class on this option.  The
          //:// reason is so that we can tell which side menu option the user has selected.
-         //:IF vDialogMenu.OptAct.WindowName = vDialog.Window.Tag
-         if ( CompareAttributeToAttribute( vDialogMenu, "OptAct", "WindowName", vDialog, "Window", "Tag" ) == 0 )
+         //:IF vDialogDfltMenu.OptAct.WindowName = vDialog.Window.Tag
+         if ( CompareAttributeToAttribute( vDialogDfltMenu, "OptAct", "WindowName", vDialog, "Window", "Tag" ) == 0 )
          { 
             //:szClass2 = "class=^sideselected^ "
             ZeidonStringCopy( szClass2, 1, 0, "class=^sideselected^ ", 1, 0, 257 );
@@ -622,13 +443,13 @@ BuildSideNavSectionJ( zVIEW     vDialog,
 
          //:END
 
-         //:IF vDialogMenu.Option.CSS_Class != "" 
-         if ( CompareAttributeToString( vDialogMenu, "Option", "CSS_Class", "" ) != 0 )
+         //:IF vDialogDfltMenu.Option.CSS_Class != "" 
+         if ( CompareAttributeToString( vDialogDfltMenu, "Option", "CSS_Class", "" ) != 0 )
          { 
-            //:szClass = "class=^" + vDialogMenu.Option.CSS_Class + "^"
-            GetVariableFromAttribute( szTempString_7, 0, 'S', 255, vDialogMenu, "Option", "CSS_Class", "", 0 );
+            //:szClass = "class=^" + vDialogDfltMenu.Option.CSS_Class + "^"
+            GetVariableFromAttribute( szTempString_2, 0, 'S', 255, vDialogDfltMenu, "Option", "CSS_Class", "", 0 );
             ZeidonStringCopy( szClass, 1, 0, "class=^", 1, 0, 257 );
-            ZeidonStringConcat( szClass, 1, 0, szTempString_7, 1, 0, 257 );
+            ZeidonStringConcat( szClass, 1, 0, szTempString_2, 1, 0, 257 );
             ZeidonStringConcat( szClass, 1, 0, "^", 1, 0, 257 );
             //:ELSE
          } 
@@ -644,10 +465,10 @@ BuildSideNavSectionJ( zVIEW     vDialog,
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<%", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-         //:szOptionTag = vDialogMenu.Option.Tag
-         GetVariableFromAttribute( szOptionTag, 0, 'S', 51, vDialogMenu, "Option", "Tag", "", 0 );
-         //:szOptionTag = vDialogMenu.Option.Tag
-         GetVariableFromAttribute( szOptionTag, 0, 'S', 51, vDialogMenu, "Option", "Tag", "", 0 );
+         //:szOptionTag = vDialogDfltMenu.Option.Tag
+         GetVariableFromAttribute( szOptionTag, 0, 'S', 51, vDialogDfltMenu, "Option", "Tag", "", 0 );
+         //:szOptionTag = vDialogDfltMenu.Option.Tag
+         GetVariableFromAttribute( szOptionTag, 0, 'S', 51, vDialogDfltMenu, "Option", "Tag", "", 0 );
          //:szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szOptionTag, 1, 0, 10001 );
@@ -691,14 +512,14 @@ BuildSideNavSectionJ( zVIEW     vDialog,
          } 
          else
          { 
-            //://szText = vDialogMenu.Option.WebHTML5Attribute
-            //:IF vDialogMenu.Option.WebHTML5Attribute != ""
-            if ( CompareAttributeToString( vDialogMenu, "Option", "WebHTML5Attribute", "" ) != 0 )
+            //://szText = vDialogDfltMenu.Option.WebHTML5Attribute
+            //:IF vDialogDfltMenu.Option.WebHTML5Attribute != ""
+            if ( CompareAttributeToString( vDialogDfltMenu, "Option", "WebHTML5Attribute", "" ) != 0 )
             { 
-               //:szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogMenu.Option.WebHTML5Attribute  + "^></i>"
-               GetVariableFromAttribute( szTempString_8, 0, 'S', 255, vDialogMenu, "Option", "WebHTML5Attribute", "", 0 );
+               //:szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogDfltMenu.Option.WebHTML5Attribute  + "^></i>"
+               GetVariableFromAttribute( szTempString_3, 0, 'S', 255, vDialogDfltMenu, "Option", "WebHTML5Attribute", "", 0 );
                ZeidonStringCopy( szText, 1, 0, "<i class=^align-middle mr-2 fas fa-fw ", 1, 0, 501 );
-               ZeidonStringConcat( szText, 1, 0, szTempString_8, 1, 0, 501 );
+               ZeidonStringConcat( szText, 1, 0, szTempString_3, 1, 0, 501 );
                ZeidonStringConcat( szText, 1, 0, "^></i>", 1, 0, 501 );
                //:ELSE
             } 
@@ -746,13 +567,13 @@ BuildSideNavSectionJ( zVIEW     vDialog,
          ZeidonStringCopy( szWriteBuffer, 1, 0, "%>", 1, 0, 10001 );
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
-         RESULT = SetCursorNextEntity( vDialogMenu, "OptAct", "Menu" );
+         RESULT = SetCursorNextEntity( vDialogDfltMenu, "OptAct", "Menu" );
       } 
 
       //:END
 
-      //:DropView( vDialogMenu )
-      DropView( vDialogMenu );
+      //:DropView( vDialogDfltMenu )
+      DropView( vDialogDfltMenu );
    } 
 
    //:END
@@ -784,18 +605,18 @@ BuildSideNavSectionJ( zVIEW     vDialog,
    } 
 
    //:END
-   //:IF vDialogRoot.Dialog.WEB_LeftSideInclude != ""
-   if ( CompareAttributeToString( vDialogRoot, "Dialog", "WEB_LeftSideInclude", "" ) != 0 )
+   //:IF vDialogMenu.Dialog.WEB_LeftSideInclude != ""
+   if ( CompareAttributeToString( vDialogMenu, "Dialog", "WEB_LeftSideInclude", "" ) != 0 )
    { 
       //://szWriteBuffer = "<%@include file=^./include/leftcontent.inc^ %>"
       //:szWriteBuffer = "<!-- left content include file -->"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<!-- left content include file -->", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "<%@include file=^" + vDialogRoot.Dialog.WEB_LeftSideInclude + "^ %>"
-      GetVariableFromAttribute( szTempString_9, 0, 'S', 255, vDialogRoot, "Dialog", "WEB_LeftSideInclude", "", 0 );
+      //:szWriteBuffer = "<%@include file=^" + vDialogMenu.Dialog.WEB_LeftSideInclude + "^ %>"
+      GetVariableFromAttribute( szTempString_4, 0, 'S', 255, vDialogMenu, "Dialog", "WEB_LeftSideInclude", "", 0 );
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@include file=^", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_9, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_4, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );

@@ -1320,27 +1320,28 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
    zSHORT    lTempInteger_52; 
    zCHAR     szTempString_147[ 33 ]; 
    zCHAR     szTempString_148[ 33 ]; 
+   zSHORT    lTempInteger_53; 
    zCHAR     szTempString_149[ 255 ]; 
    zCHAR     szTempString_150[ 255 ]; 
-   zSHORT    lTempInteger_53; 
+   zSHORT    lTempInteger_54; 
    zCHAR     szTempString_151[ 33 ]; 
    zCHAR     szTempString_152[ 261 ]; 
    zCHAR     szTempString_153[ 33 ]; 
    zCHAR     szTempString_154[ 261 ]; 
    zCHAR     szTempString_155[ 261 ]; 
    zCHAR     szTempString_156[ 255 ]; 
-   zSHORT    lTempInteger_54; 
+   zSHORT    lTempInteger_55; 
    zCHAR     szTempString_157[ 33 ]; 
    zCHAR     szTempString_158[ 261 ]; 
    zCHAR     szTempString_159[ 33 ]; 
    zCHAR     szTempString_160[ 261 ]; 
    zCHAR     szTempString_161[ 261 ]; 
    zCHAR     szTempString_162[ 51 ]; 
-   zSHORT    lTempInteger_55; 
+   zSHORT    lTempInteger_56; 
    zCHAR     szTempString_163[ 51 ]; 
    zCHAR     szTempString_164[ 33 ]; 
    zCHAR     szTempString_165[ 51 ]; 
-   zSHORT    lTempInteger_56; 
+   zSHORT    lTempInteger_57; 
    zCHAR     szTempString_166[ 33 ]; 
    zCHAR     szTempString_167[ 33 ]; 
    zCHAR     szTempString_168[ 33 ]; 
@@ -1670,7 +1671,6 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
 
       //:END  // IF  szNoPositioning = "Y"
       //:/*IF szStyleIsBootstrap = "Y" AND szControlType = "GroupBox"
-
       //:   // Need to reset the x positions
       //:   IF  ( LastY_Pos < vDialog.Control.PSDLG_Y ) AND szFirstTimeThrough != "Y" AND lIndexStrLth >= 3 // I think we want the indexstringlength...
       //:      szWriteBuffer = "</div>  <!-- End of bootstrap row -->"
@@ -1678,45 +1678,34 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
       //:      LastX_Pos       = 0
       //:      LastX_Width     = 0
       //:   END
-
       //:   // We may have controls on the same line with varying heights.  When determining if there is
       //:   // blank space in between these lines, make sure we are comparing the highest control.
       //:   Y_Pos = LastY_Pos + LastY_Height
       //:   IF Y_Pos > MaxY_HeightForLine
       //:      MaxY_HeightForLine = Y_Pos
       //:   END
-
       //:   // There should be a <div> surrounding each line.
       //:   IF ( ( LastY_Pos < vDialog.Control.PSDLG_Y ) OR szFirstTimeThrough = "Y" )  AND lIndexStrLth >= 3
-
       //:         LastY_Pos    = vDialog.Control.PSDLG_Y
-
       //:         // KJS 08/01/08 - Seems as though I need to give this div a width, otherwise,
       //:         // it many times places things on different lines.
       //:         CreateViewFromView( vDialog2, vDialog )
-
       //:         X_Size = vDialog2.Control.PSDLG_X + vDialog2.Control.SZDLG_X
       //:         SET CURSOR  NEXT vDialog2.Control
       //:         // Loop through all the controls that are at the same y pos and see how wide they
       //:         // are.
       //:         LOOP  WHILE RESULT >= zCURSOR_SET AND LastY_Pos = vDialog2.Control.PSDLG_Y
-
       //:            X_Size = vDialog2.Control.PSDLG_X + vDialog2.Control.SZDLG_X
       //:            SET CURSOR  NEXT vDialog2.Control
       //:         END
-
       //:         DropView(vDialog2)
-
       //:         X_Size = X_Size * dDLUnits + lOffsetY
       //:         X_Size = X_Size + 1
       //:         zIntegerToString( szWidth, 16, X_Size )
-
       //:         szWriteBuffer = "<div class=^row^>  <!-- Beginning of bootstrap row -->"
       //:         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       //:   END
-
       //:   X_Pos = LastX_Pos + LastX_Width
-
       //:   LastY_Pos    = vDialog.Control.PSDLG_Y
       //:   LastY_Height = vDialog.Control.SZDLG_Y
       //:   LastX_Pos    = vDialog.Control.PSDLG_X
@@ -10654,34 +10643,75 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                               ZeidonStringConcat( szWriteBuffer, 1, 0, szItemTableHeader, 1, 0, 10001 );
                               ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
                               //://KJS 7/26/07 - Added DISABLED option.
-                              //:szWriteBuffer = szWriteBuffer + "<input name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, "<input name=^", 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ <%=strDisabled%> ", 1, 0, 10001 );
-                              //:szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, "style=^width:80px^ type=^text^", 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^<%=str", 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, "%>^ />", 1, 0, 10001 );
-                              //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                              //:szWriteBuffer = "              <img src=^images/scw.gif^  name=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ id=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ title=^Select Date^ alt=^Select Date^ " + szDisabled + " "
-                              ZeidonStringCopy( szWriteBuffer, 1, 0, "              <img src=^images/scw.gif^  name=^", 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, "Img::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, "Img::<%=strEntityKey%>^ title=^Select Date^ alt=^Select Date^ ", 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, " ", 1, 0, 10001 );
-                              //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                              //:szWriteBuffer = "              onclick=^scwShow( document.getElementById( '" + szListCtrlTag + "::<%=strEntityKey%>' ), this );^ /></td>"
-                              ZeidonStringCopy( szWriteBuffer, 1, 0, "              onclick=^scwShow( document.getElementById( '", 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                              ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>' ), this );^ /></td>", 1, 0, 10001 );
+                              //:IF szStyleIsBootstrap = "Y"
+                              if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
+                              { 
+                                 //:// If there is no class for this calendar called "datefield", then add it.
+                                 //:IF ZeidonStringFind( szClass, 1, "datefield" ) <= 0
+                                 lTempInteger_53 = ZeidonStringFind( szClass, 1, "datefield" );
+                                 if ( lTempInteger_53 <= 0 )
+                                 { 
+                                    //:szClass = "class=^datefield^"
+                                    ZeidonStringCopy( szClass, 1, 0, "class=^datefield^", 1, 0, 257 );
+                                    //:ELSE
+                                 } 
+                                 else
+                                 { 
+                                    //:szClass = ""
+                                    ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
+                                 } 
+
+                                 //:END
+                                 //:szWriteBuffer = szWriteBuffer + "<input " + szClass + " name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "<input ", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, " name=^", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ <%=strDisabled%> ", 1, 0, 10001 );
+                                 //://szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                                 //:szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "style=^width:80px^ type=^text^", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^<%=str", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "%>^ />", 1, 0, 10001 );
+                                 //:ELSE
+                              } 
+                              else
+                              { 
+                                 //:szWriteBuffer = szWriteBuffer + "<input name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "<input name=^", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ <%=strDisabled%> ", 1, 0, 10001 );
+                                 //:szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "style=^width:80px^ type=^text^", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^<%=str", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "%>^ />", 1, 0, 10001 );
+                                 //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                 WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                                 //:szWriteBuffer = "              <img src=^images/scw.gif^  name=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ id=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ title=^Select Date^ alt=^Select Date^ " + szDisabled + " "
+                                 ZeidonStringCopy( szWriteBuffer, 1, 0, "              <img src=^images/scw.gif^  name=^", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "Img::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "Img::<%=strEntityKey%>^ title=^Select Date^ alt=^Select Date^ ", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, " ", 1, 0, 10001 );
+                                 //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                 WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                                 //:szWriteBuffer = "              onclick=^scwShow( document.getElementById( '" + szListCtrlTag + "::<%=strEntityKey%>' ), this );^ /></td>"
+                                 ZeidonStringCopy( szWriteBuffer, 1, 0, "              onclick=^scwShow( document.getElementById( '", 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>' ), this );^ /></td>", 1, 0, 10001 );
+                              } 
+
+                              //:END
                               //:ELSE
                            } 
                            else
@@ -10798,8 +10828,8 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
 
                                           //:END
                                           //:IF vDialog.EventAct EXISTS
-                                          lTempInteger_53 = CheckExistenceOfEntity( vDialog, "EventAct" );
-                                          if ( lTempInteger_53 == 0 )
+                                          lTempInteger_54 = CheckExistenceOfEntity( vDialog, "EventAct" );
+                                          if ( lTempInteger_54 == 0 )
                                           { 
                                              //:IF szNoPositioning = "S"
                                              if ( ZeidonStringCompare( szNoPositioning, 1, 0, "S", 1, 0, 2 ) == 0 )
@@ -10897,8 +10927,8 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                                              //:END
 
                                              //:IF vDialog.EventAct EXISTS  // the line below was commented 3013.03.28 ... I need the line passing this.id.  dks
-                                             lTempInteger_54 = CheckExistenceOfEntity( vDialog, "EventAct" );
-                                             if ( lTempInteger_54 == 0 )
+                                             lTempInteger_55 = CheckExistenceOfEntity( vDialog, "EventAct" );
+                                             if ( lTempInteger_55 == 0 )
                                              { 
                                                 //:IF szNoPositioning = "S"
                                                 if ( ZeidonStringCompare( szNoPositioning, 1, 0, "S", 1, 0, 2 ) == 0 )
@@ -11010,8 +11040,8 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                                                 WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
                                                 //:   
                                                 //:IF vDialog.EventAct EXISTS
-                                                lTempInteger_55 = CheckExistenceOfEntity( vDialog, "EventAct" );
-                                                if ( lTempInteger_55 == 0 )
+                                                lTempInteger_56 = CheckExistenceOfEntity( vDialog, "EventAct" );
+                                                if ( lTempInteger_56 == 0 )
                                                 { 
                                                    //:szWriteBuffer = "   " + szItemTableHeader + "><input type=^checkbox^ name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szDisabled +
                                                    //:" value=^" + vDialog.Control.RadioOrCheckboxValue +
@@ -11096,8 +11126,8 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                                                    //:END
 
                                                    //:IF vDialog.EventAct EXISTS
-                                                   lTempInteger_56 = CheckExistenceOfEntity( vDialog, "EventAct" );
-                                                   if ( lTempInteger_56 == 0 )
+                                                   lTempInteger_57 = CheckExistenceOfEntity( vDialog, "EventAct" );
+                                                   if ( lTempInteger_57 == 0 )
                                                    { 
                                                       //:// Right now the only EventAct on a regular grid subcontrol is HotText (now there is Bitmap and BitmapBtn)
                                                       //:// Process HotText Action the same as for the Text Control.

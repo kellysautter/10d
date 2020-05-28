@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZZOXOGO                         12/09/19   12:09:30 1.0a2   
+z1000-Zeidon    ZEIDON   TZZOXOGO                         05/27/20   16:49:08 1.0a2   
 eTZZOXOGO  1
 aNAME      Zeidon
 
@@ -1990,6 +1990,110 @@ aDATATYPE  V
 ePARAMETER 4
 aNAME      File
 aDATATYPE  L
+
+eOPERATION 3
+aNAME      GenJSPJ_ActionRecurs
+aTYPE      G
+
+ePARAMETER 4
+aNAME      vDialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      vDialogMenuRoot
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      vDialogRoot
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      lFile
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      szWriteBuffer
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      szFormName
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      lTraceLevel
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      szActionPrefix
+aDATATYPE  S
+
+eOPERATION 3
+aNAME      GenJSP_MenuFunctionsRecurs
+aTYPE      G
+
+ePARAMETER 4
+aNAME      Dialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      vDialogMenuRoot
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      DialogRoot
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      lFile
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      WriteBuffer
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      FormName
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      ActionPrefix
+aDATATYPE  S
+
+eOPERATION 3
+aNAME      BuildMainNavSectionBootstrap
+aTYPE      G
+
+ePARAMETER 4
+aNAME      vDialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      vDialogRoot
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      lFile
+aDATATYPE  L
+
+eOPERATION 3
+aNAME      GenJSPJ_CrteSideMenuRecurs
+aTYPE      G
+
+ePARAMETER 4
+aNAME      vDialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      vDialogRoot
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      lFile
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      ReusableMenu
+aDATATYPE  S
 
 eOPERATION 3
 aNAME      GenJSP_CrteJPG

@@ -1953,8 +1953,12 @@ DKS_TRACE_END */
    IF vDialog.ReusableSideWindow EXISTS
       IF vDialog.ReusableSideDialog.ZKey = vDialog.Dialog.ZKey
          CreateViewFromView( vDialogTemp, vDialog )
+         CreateViewFromView( vDialogTemp2, vDialog )
          SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
          IF RESULT >= zCURSOR_SET
+            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+            nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "sm" )
+            /*
             FOR EACH vDialogTemp.Option
                IF vDialogTemp.OptAct EXISTS
                   SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
@@ -1972,21 +1976,26 @@ DKS_TRACE_END */
                         //END
 
                         nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-            IF nRC != 0
-               nSystemSort = nRC
-            END
+                        IF nRC != 0
+                           nSystemSort = nRC
+                        END
                      END
                   END
                END
-            END
+            END */
          END
          DropView( vDialogTemp )
+         DropView( vDialogTemp2 )
       ELSE
          ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
+         CreateViewFromView( vDialogTemp2, vDialogTemp )
       // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0, 0,
       //                                         0, plListHandle )
          SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
          IF RESULT >= zCURSOR_SET
+            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+            nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "sm" )
+            /*
             FOR EACH vDialogTemp.Option
                IF vDialogTemp.OptAct EXISTS
                   SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
@@ -2010,7 +2019,7 @@ DKS_TRACE_END */
                      END
                   END
                END
-            END
+            END */
          END
          DropObjectInstance( vDialogTemp )
       END
@@ -2107,16 +2116,19 @@ DKS_TRACE_END */
    IF lReusableDialogZKey != 0  // dks
       IF lReusableDialogZKey = vDialog.Dialog.ZKey
          CreateViewFromView( vDialogTemp, vDialog )
+         CreateViewFromView( vDialogTemp2, vDialog )
          SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
          IF RESULT >= zCURSOR_SET
-            FOR EACH vDialogTemp.Option
+            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+            nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "ma" )
+            /* FOR EACH vDialogTemp.Option
                IF vDialogTemp.OptAct EXISTS
                   SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
                   IF RESULT >= zCURSOR_SET
                      IF vDialogTemp.Action.Type != zWAB_ExitDialogTask
                         //Because the menu actions can be created on separate windows from the control
                         //actions, we need to make sure these actions are unique.  We will prefix a
-                        //"m" to the main menu actions and prefix a "sm" to the side menu actions.
+                        //"m" to the main menu actions and prefix a "ma" to the side menu actions.
                         szAction = "ma" + vDialogTemp.Action.Tag
                         lLth = zstrlen( szAction )
                         IF lLth > 32
@@ -2132,14 +2144,18 @@ DKS_TRACE_END */
                      END
                   END
                END
-            END
+            END */
          END
          DropView( vDialogTemp )
+         DropView( vDialogTemp2 )
       ELSE
          ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
+         CreateViewFromView( vDialogTemp2, vDialogTemp )
          SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
          IF RESULT >= zCURSOR_SET
-            FOR EACH vDialogTemp.Option
+            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+            nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "ma" )
+            /* FOR EACH vDialogTemp.Option
                IF vDialogTemp.OptAct EXISTS
                   SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
                   IF RESULT >= zCURSOR_SET
@@ -2162,7 +2178,7 @@ DKS_TRACE_END */
                      END
                   END
                END
-            END
+            END */
          END
          DropObjectInstance( vDialogTemp )
       END
@@ -4442,7 +4458,7 @@ DKS_TRACE_END */
             //NAME VIEW vDialogTemp "DialogREUS"
             SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
             IF RESULT >= zCURSOR_SET
-               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+               BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP )
             END
             DropView( vDialogTemp )
          ELSE
@@ -4450,7 +4466,7 @@ DKS_TRACE_END */
             //NAME VIEW vDialogTemp "DialogREUS"
             SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
             IF RESULT >= zCURSOR_SET
-               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+               BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP )
             END
             DropObjectInstance( vDialogTemp )
          END

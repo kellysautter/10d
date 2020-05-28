@@ -1,6 +1,7 @@
-z1000-Zeidon    TZWEBGL3 TZOGSRCO 07/17/12   16:38:20 1.0a2    
+z1000-Zeidon    TZWEBGL3 TZOGSRCO                         05/27/20   16:49:08 1.0a2   
 eGlobalOperationGroup 1
 aZKey      4896719
+aNextZKeyToAssign 93056476
 aName      TZWEBGL3
 aDesc      JSP Generation operations for zeidon JAVA
 aExtension VML
@@ -33,6 +34,183 @@ aDataType  L
 aPFlag     N
 aUFlag     N
 aZKey      4896723
+
+eOperation 2
+aName      GenJSPJ_ActionRecurs
+aZKey      93056467
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056468
+
+eParameter 3
+aShortDesc vDialogMenuRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056469
+
+eParameter 3
+aShortDesc vDialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056470
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      93056471
+
+eParameter 3
+aShortDesc szWriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      93056472
+
+eParameter 3
+aShortDesc szFormName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      93056473
+
+eParameter 3
+aShortDesc lTraceLevel
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      93056475
+
+eParameter 3
+aShortDesc szActionPrefix
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      93056476
+
+eOperation 2
+aName      GenJSP_MenuFunctionsRecurs
+aZKey      93056458
+aType      G
+
+eParameter 3
+aShortDesc Dialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056459
+
+eParameter 3
+aShortDesc vDialogMenuRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056466
+
+eParameter 3
+aShortDesc DialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056460
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      93056461
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      93056462
+
+eParameter 3
+aShortDesc FormName
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      93056463
+
+eParameter 3
+aShortDesc ActionPrefix
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      93056464
+
+eOperation 2
+aName      BuildMainNavSectionBootstrap
+aZKey      93056454
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056455
+
+eParameter 3
+aShortDesc vDialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056456
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      93056457
+
+eOperation 2
+aName      GenJSPJ_CrteSideMenuRecurs
+aZKey      93056448
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056449
+
+eParameter 3
+aShortDesc vDialogRoot
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      93056450
+
+eParameter 3
+aShortDesc lFile
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      93056451
+
+eParameter 3
+aShortDesc ReusableMenu
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      93056452
 
 eOperation 2
 aName      GenJSP_CrteJPG
