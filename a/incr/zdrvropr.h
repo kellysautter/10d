@@ -213,6 +213,7 @@ extern "C"
 #define zWAB_StartBrowserPDF_Page             47
 #define zWAB_StartJasperPDF_Page              48
 #define zWAB_StartJasperXLS_Page              49
+#define zWAB_ReportStreamInfo                 50
 
 #define zWAB_ReplaceDialogWithDialog          51
 #define zWAB_ReplaceWindowWithModelessWindow  52

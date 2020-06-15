@@ -253,9 +253,9 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   String sTargetFile = null;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   String sExtension = null;"
+   szWriteBuffer = "   String sExtensionI = null;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   String sSourceFileNameOnly = null;"
+   szWriteBuffer = "   String sSourceFileNameOnlyI = null;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   String sTargetDirectory = null;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -471,15 +471,15 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               if (x > l)"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  sExtension = ^^;"
+   szWriteBuffer = "                  sExtensionI = ^^;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               else"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  sExtension = sSourceFile.substring(l+1);"
+   szWriteBuffer = "                  sExtensionI = sSourceFile.substring(l+1);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "               sSourceFileNameOnly = sSourceFile.substring(x + 1);"
+   szWriteBuffer = "               sSourceFileNameOnlyI = sSourceFile.substring(x + 1);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "               strInputFileName = sSourceFileNameOnly;"
+   szWriteBuffer = "               strInputFileName = sSourceFileNameOnlyI;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               sTargetFile = sTargetFile.replaceAll(^\^^,^^);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -505,7 +505,7 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                  sTargetDirectory = sTargetFile;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  sTargetFile = sTargetFile + sSourceFileNameOnly;"
+   szWriteBuffer = "                  sTargetFile = sTargetFile + sSourceFileNameOnlyI;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "               }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -525,13 +525,13 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                     //No extension"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                     if (sExtension.equals(^^))"
+   szWriteBuffer = "                     if (sExtensionI.equals(^^))"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                        sTargetFile = sTargetFile + sExtension;"
+   szWriteBuffer = "                        sTargetFile = sTargetFile + sExtensionI;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                     else"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                        sTargetFile = sTargetFile + ^.^ + sExtension;"
+   szWriteBuffer = "                        sTargetFile = sTargetFile + ^.^ + sExtensionI;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                  }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -562,15 +562,15 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
    END
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    
-   szWriteBuffer = "                  l = sSourceFileNameOnly.lastIndexOf(^.^);"
+   szWriteBuffer = "                  l = sSourceFileNameOnlyI.lastIndexOf(^.^);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  sExtension = sSourceFileNameOnly.substring(l+1);"
+   szWriteBuffer = "                  sExtensionI = sSourceFileNameOnlyI.substring(l+1);"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  sTargetFile = sTargetDirectory + sSourceFileNameOnly.substring(0,l) + strDateTime + ^.^ + sExtension;"
+   szWriteBuffer = "                  sTargetFile = sTargetDirectory + sSourceFileNameOnlyI.substring(0,l) + strDateTime + ^.^ + sExtensionI;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "                  // strInputFileName is used to populate the mapped field for the upload file. "
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "                  strInputFileName = sSourceFileNameOnly.substring(0,l) + strDateTime + ^.^ + sExtension;"
+   szWriteBuffer = "                  strInputFileName = sSourceFileNameOnlyI.substring(0,l) + strDateTime + ^.^ + sExtensionI;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    szWriteBuffer = "                  // Check if a file already exists with this name, if so, change the name."
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -589,15 +589,15 @@ GenJSPJ_ProcessFileIn( VIEW             vDialog BASED ON LOD TZWDLGSO,
        WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
        szWriteBuffer = "                     String ext = new Integer(z).toString();"
        WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-       szWriteBuffer = "                     l = sSourceFileNameOnly.lastIndexOf(^.^);"
+       szWriteBuffer = "                     l = sSourceFileNameOnlyI.lastIndexOf(^.^);"
        WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-       szWriteBuffer = "                     sExtension = sSourceFileNameOnly.substring(l+1);"
+       szWriteBuffer = "                     sExtensionI = sSourceFileNameOnlyI.substring(l+1);"
        WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-       szWriteBuffer = "                     sTargetFile = sTargetDirectory + sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;"
+       szWriteBuffer = "                     sTargetFile = sTargetDirectory + sSourceFileNameOnlyI.substring(0,l) + ext + ^.^ + sExtensionI;"
        WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
        szWriteBuffer = "                     // strInputFileName is used to populate the mapped field for the upload file. "
        WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-       szWriteBuffer = "                     strInputFileName = sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;"
+       szWriteBuffer = "                     strInputFileName = sSourceFileNameOnlyI.substring(0,l) + ext + ^.^ + sExtensionI;"
        WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
        //szWriteBuffer = "                     task.log().info("*** New File Name *** " + sTargetFile);"    
        szWriteBuffer = "                     fs = new File(sTargetFile);"
@@ -1152,10 +1152,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       IF lActionType = zWAB_StartJasperPDF_Page
          szJasperImport = "Y"
       END
-      IF lActionType = zWAB_StartJasperPDF_Page
-         szJasperImport = "Y"
-      END
-      IF lActionType = 49 //zWAB_StartJasperXLS_Page
+      IF lActionType = zWAB_StartJasperXLS_Page
          szJasperXLS = "Y"
       END
       // If there is an action for the reCAPTCHA control, then we need
@@ -1974,7 +1971,6 @@ DKS_TRACE_END */
                         //                szAction,
                         //                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                         //END
-
                         nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
                         IF nRC != 0
                            nSystemSort = nRC
@@ -2011,7 +2007,6 @@ DKS_TRACE_END */
                         //                szAction,
                         //                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                         //END
-
                         nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
             IF nRC != 0
                nSystemSort = nRC
@@ -2136,7 +2131,6 @@ DKS_TRACE_END */
                                         szAction,
                                         zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                         END
-
                         nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
                         IF nRC != 0
                            nSystemSort = nRC
@@ -2170,7 +2164,6 @@ DKS_TRACE_END */
                                         szAction,
                                         zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                         END
-
                         nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
                         IF nRC != 0
                            nSystemSort = nRC
@@ -2662,7 +2655,8 @@ DKS_TRACE_END */
    // common.js is used by both the Grid and Calendar controls. Since it's small, we'll always send it.
    szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/common.js?v=" + szDateTime + "^></script>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   IF lSort != 0
+   IF lSort != 0 AND szStyleIsBootstrap = "" 
+      // KJS 06/12/20 - Added bootstrap check. We don't need these if we are using bootstrap...
       // css.js and sts.js are used only by the Grid control when sorting is requested. Thus, we'll only send
       // it down to the browser when sorting is requested.
       szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/css.js?v=" + szDateTime + "^></script>"
@@ -2683,8 +2677,11 @@ DKS_TRACE_END */
    // KJS 09/04/14 - Can't find validations.js anywhere so I am assuming we don't need it.
    //szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/validations.js^></script>"
    //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/scw.js?v=" + szDateTime + "^></script>"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   IF szStyleIsBootstrap = ""
+      szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/scw.js?v=" + szDateTime + "^></script>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
+   
    // KJS 04/27/11 - I am not sure that we want to always include this js file but if not, then I need
    // to loop through all controls (and subcontrols) looking for a div that has a web control property of
    // "Show/Hide Toggle". For now I am always including it.
@@ -3875,7 +3872,8 @@ DKS_TRACE_END */
             // If this function is for Download File or open Jasper pdf report, we want to eliminate the _DisableFormElements statement.
             // For both of these we use response.getOutputStream and when we do this, our original jsp page does not get the focus
             // back and so _DisableFormElements( false ) in _AfterPageLoaded does not get called. The page would be hung.
-            IF lActionType != zWAB_ProcessDownloadFile AND lActionType != zWAB_StartJasperPDF_Page AND lActionType != 49 // zWAB_StartJasperXLS_Page
+            IF lActionType != zWAB_ProcessDownloadFile AND lActionType != zWAB_StartJasperPDF_Page AND 
+               lActionType != zWAB_StartJasperXLS_Page AND lActionType != zWAB_ReportStreamInfo
                szWriteBuffer = "      _DisableFormElements( true );"
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
             END
@@ -5452,9 +5450,9 @@ GenJSPJ_DownloadFile( VIEW vDialog,
 
    szWriteBuffer = "   String sDownloadFile = null;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   String sSourceFileNameOnly = null;"
+   szWriteBuffer = "   String sSourceFileNameOnlyE = null;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   String sExtension = null;"
+   szWriteBuffer = "   String sExtensionE = null;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   int l;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -5488,7 +5486,7 @@ GenJSPJ_DownloadFile( VIEW vDialog,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   // there must be a period in the directory name."
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   // Right now we are not using sExtension but just"
+   szWriteBuffer = "   // Right now we are not using sExtensionE but just"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   // in case we want to change the encType I want"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -5496,16 +5494,16 @@ GenJSPJ_DownloadFile( VIEW vDialog,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   if (x > l)"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      sExtension = ^^;"
+   szWriteBuffer = "      sExtensionE = ^^;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   else"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      sExtension = sDownloadFile.substring( l + 1 );"
+   szWriteBuffer = "      sExtensionE = sDownloadFile.substring( l + 1 );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
    szWriteBuffer = "   // Get the filename only without directories."
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   sSourceFileNameOnly = sDownloadFile.substring( x + 1 );"
+   szWriteBuffer = "   sSourceFileNameOnlyE = sDownloadFile.substring( x + 1 );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
    szWriteBuffer = "   File InputFile = new File( sDownloadFile );"
@@ -5520,9 +5518,9 @@ GenJSPJ_DownloadFile( VIEW vDialog,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      response.setContentType( contenttype );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      response.addHeader( ^Content-Disposition^, ^attachment; filename=^ + sSourceFileNameOnly + ^;^ );"
+   szWriteBuffer = "      response.addHeader( ^Content-Disposition^, ^attachment; filename=^ + sSourceFileNameOnlyE + ^;^ );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "      task.log().info( ^*** In sSourceFileNameOnly: ^ + sSourceFileNameOnly );"
+   szWriteBuffer = "      task.log().info( ^*** In sSourceFileNameOnlyE: ^ + sSourceFileNameOnlyE );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
    szWriteBuffer = "      //response.setHeader( ^Cache-Control^, ^cache,must-revalidate^ );"

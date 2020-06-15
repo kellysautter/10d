@@ -902,16 +902,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       } 
 
       //:END
-      //:IF lActionType = zWAB_StartJasperPDF_Page
-      if ( lActionType == zWAB_StartJasperPDF_Page )
-      { 
-         //:szJasperImport = "Y"
-         ZeidonStringCopy( szJasperImport, 1, 0, "Y", 1, 0, 2 );
-      } 
-
-      //:END
-      //:IF lActionType = 49 //zWAB_StartJasperXLS_Page
-      if ( lActionType == 49 )
+      //:IF lActionType = zWAB_StartJasperXLS_Page
+      if ( lActionType == zWAB_StartJasperXLS_Page )
       { 
          //:szJasperXLS = "Y"
          ZeidonStringCopy( szJasperXLS, 1, 0, "Y", 1, 0, 2 );
@@ -2445,7 +2437,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:               //                szAction,
          //:               //                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
          //:               //END
-
          //:               nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
          //:               IF nRC != 0
          //:                  nSystemSort = nRC
@@ -2499,7 +2490,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:               //                szAction,
          //:               //                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
          //:               //END
-
          //:               nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
          //:   IF nRC != 0
          //:      nSystemSort = nRC
@@ -2511,8 +2501,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:END
          //:DropObjectInstance( vDialogTemp )
          DropObjectInstance( vDialogTemp );
-         //:DropObjectInstance( vDialogTemp2 )
-         DropObjectInstance( vDialogTemp2 );
       } 
 
       //:END
@@ -2779,7 +2767,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:                               szAction,
          //:                               zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
          //:               END
-
          //:               nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
          //:               IF nRC != 0
          //:                  nSystemSort = nRC
@@ -2827,7 +2814,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:                               szAction,
          //:                               zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
          //:               END
-
          //:               nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
          //:               IF nRC != 0
          //:                  nSystemSort = nRC
@@ -2839,8 +2825,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:END
          //:DropObjectInstance( vDialogTemp )
          DropObjectInstance( vDialogTemp );
-         //:DropObjectInstance( vDialogTemp2 )
-         DropObjectInstance( vDialogTemp2 );
       } 
 
       //:END
@@ -3753,9 +3737,10 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    ZeidonStringConcat( szWriteBuffer, 1, 0, "^></script>", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:IF lSort != 0
-   if ( lSort != 0 )
+   //:IF lSort != 0 AND szStyleIsBootstrap = "" 
+   if ( lSort != 0 && ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
+      //:// KJS 06/12/20 - Added bootstrap check. We don't need these if we are using bootstrap...
       //:// css.js and sts.js are used only by the Grid control when sorting is requested. Thus, we'll only send
       //:// it down to the browser when sorting is requested.
       //:szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/css.js?v=" + szDateTime + "^></script>"
@@ -3786,12 +3771,19 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:// KJS 09/04/14 - Can't find validations.js anywhere so I am assuming we don't need it.
    //://szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/validations.js^></script>"
    //://WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //:szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/scw.js?v=" + szDateTime + "^></script>"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "<script language=^JavaScript^ type=^text/javascript^ src=^./js/scw.js?v=", 1, 0, 10001 );
-   ZeidonStringConcat( szWriteBuffer, 1, 0, szDateTime, 1, 0, 10001 );
-   ZeidonStringConcat( szWriteBuffer, 1, 0, "^></script>", 1, 0, 10001 );
-   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   //:IF szStyleIsBootstrap = ""
+   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
+   { 
+      //:szWriteBuffer = "<script language=^JavaScript^ type=^text/javascript^ src=^./js/scw.js?v=" + szDateTime + "^></script>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<script language=^JavaScript^ type=^text/javascript^ src=^./js/scw.js?v=", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szDateTime, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^></script>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   } 
+
+   //:END
+
    //:// KJS 04/27/11 - I am not sure that we want to always include this js file but if not, then I need
    //:// to loop through all controls (and subcontrols) looking for a div that has a web control property of
    //:// "Show/Hide Toggle". For now I am always including it.
@@ -5927,8 +5919,9 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
                //:// If this function is for Download File or open Jasper pdf report, we want to eliminate the _DisableFormElements statement.
                //:// For both of these we use response.getOutputStream and when we do this, our original jsp page does not get the focus
                //:// back and so _DisableFormElements( false ) in _AfterPageLoaded does not get called. The page would be hung.
-               //:IF lActionType != zWAB_ProcessDownloadFile AND lActionType != zWAB_StartJasperPDF_Page AND lActionType != 49 // zWAB_StartJasperXLS_Page
-               if ( lActionType != zWAB_ProcessDownloadFile && lActionType != zWAB_StartJasperPDF_Page && lActionType != 49 )
+               //:IF lActionType != zWAB_ProcessDownloadFile AND lActionType != zWAB_StartJasperPDF_Page AND 
+               //:lActionType != zWAB_StartJasperXLS_Page AND lActionType != zWAB_ReportStreamInfo
+               if ( lActionType != zWAB_ProcessDownloadFile && lActionType != zWAB_StartJasperPDF_Page && lActionType != zWAB_StartJasperXLS_Page && lActionType != zWAB_ReportStreamInfo )
                { 
                   //:szWriteBuffer = "      _DisableFormElements( true );"
                   ZeidonStringCopy( szWriteBuffer, 1, 0, "      _DisableFormElements( true );", 1, 0, 10001 );
@@ -9374,12 +9367,12 @@ oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sTargetFile = null;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "   String sExtension = null;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sExtension = null;", 1, 0, 10001 );
+   //:szWriteBuffer = "   String sExtensionI = null;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sExtensionI = null;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "   String sSourceFileNameOnly = null;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sSourceFileNameOnly = null;", 1, 0, 10001 );
+   //:szWriteBuffer = "   String sSourceFileNameOnlyI = null;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sSourceFileNameOnlyI = null;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "   String sTargetDirectory = null;"
@@ -9798,24 +9791,24 @@ oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               if (x > l)", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "                  sExtension = ^^;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sExtension = ^^;", 1, 0, 10001 );
+   //:szWriteBuffer = "                  sExtensionI = ^^;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sExtensionI = ^^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "               else"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "               else", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "                  sExtension = sSourceFile.substring(l+1);"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sExtension = sSourceFile.substring(l+1);", 1, 0, 10001 );
+   //:szWriteBuffer = "                  sExtensionI = sSourceFile.substring(l+1);"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sExtensionI = sSourceFile.substring(l+1);", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "               sSourceFileNameOnly = sSourceFile.substring(x + 1);"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "               sSourceFileNameOnly = sSourceFile.substring(x + 1);", 1, 0, 10001 );
+   //:szWriteBuffer = "               sSourceFileNameOnlyI = sSourceFile.substring(x + 1);"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "               sSourceFileNameOnlyI = sSourceFile.substring(x + 1);", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "               strInputFileName = sSourceFileNameOnly;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "               strInputFileName = sSourceFileNameOnly;", 1, 0, 10001 );
+   //:szWriteBuffer = "               strInputFileName = sSourceFileNameOnlyI;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "               strInputFileName = sSourceFileNameOnlyI;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "               sTargetFile = sTargetFile.replaceAll(^\^^,^^);"
@@ -9864,8 +9857,8 @@ oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sTargetDirectory = sTargetFile;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "                  sTargetFile = sTargetFile + sSourceFileNameOnly;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sTargetFile = sTargetFile + sSourceFileNameOnly;", 1, 0, 10001 );
+   //:szWriteBuffer = "                  sTargetFile = sTargetFile + sSourceFileNameOnlyI;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sTargetFile = sTargetFile + sSourceFileNameOnlyI;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "               }"
@@ -9904,20 +9897,20 @@ oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "                     //No extension", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "                     if (sExtension.equals(^^))"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                     if (sExtension.equals(^^))", 1, 0, 10001 );
+   //:szWriteBuffer = "                     if (sExtensionI.equals(^^))"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                     if (sExtensionI.equals(^^))", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "                        sTargetFile = sTargetFile + sExtension;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                        sTargetFile = sTargetFile + sExtension;", 1, 0, 10001 );
+   //:szWriteBuffer = "                        sTargetFile = sTargetFile + sExtensionI;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                        sTargetFile = sTargetFile + sExtensionI;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "                     else"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "                     else", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "                        sTargetFile = sTargetFile + ^.^ + sExtension;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                        sTargetFile = sTargetFile + ^.^ + sExtension;", 1, 0, 10001 );
+   //:szWriteBuffer = "                        sTargetFile = sTargetFile + ^.^ + sExtensionI;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                        sTargetFile = sTargetFile + ^.^ + sExtensionI;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "                  }"
@@ -9977,24 +9970,24 @@ oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW     vDialog,
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
 
-   //:szWriteBuffer = "                  l = sSourceFileNameOnly.lastIndexOf(^.^);"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  l = sSourceFileNameOnly.lastIndexOf(^.^);", 1, 0, 10001 );
+   //:szWriteBuffer = "                  l = sSourceFileNameOnlyI.lastIndexOf(^.^);"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  l = sSourceFileNameOnlyI.lastIndexOf(^.^);", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "                  sExtension = sSourceFileNameOnly.substring(l+1);"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sExtension = sSourceFileNameOnly.substring(l+1);", 1, 0, 10001 );
+   //:szWriteBuffer = "                  sExtensionI = sSourceFileNameOnlyI.substring(l+1);"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sExtensionI = sSourceFileNameOnlyI.substring(l+1);", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "                  sTargetFile = sTargetDirectory + sSourceFileNameOnly.substring(0,l) + strDateTime + ^.^ + sExtension;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sTargetFile = sTargetDirectory + sSourceFileNameOnly.substring(0,l) + strDateTime + ^.^ + sExtension;", 1, 0, 10001 );
+   //:szWriteBuffer = "                  sTargetFile = sTargetDirectory + sSourceFileNameOnlyI.substring(0,l) + strDateTime + ^.^ + sExtensionI;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  sTargetFile = sTargetDirectory + sSourceFileNameOnlyI.substring(0,l) + strDateTime + ^.^ + sExtensionI;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "                  // strInputFileName is used to populate the mapped field for the upload file. "
    ZeidonStringCopy( szWriteBuffer, 1, 0, "                  // strInputFileName is used to populate the mapped field for the upload file. ", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "                  strInputFileName = sSourceFileNameOnly.substring(0,l) + strDateTime + ^.^ + sExtension;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  strInputFileName = sSourceFileNameOnly.substring(0,l) + strDateTime + ^.^ + sExtension;", 1, 0, 10001 );
+   //:szWriteBuffer = "                  strInputFileName = sSourceFileNameOnlyI.substring(0,l) + strDateTime + ^.^ + sExtensionI;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "                  strInputFileName = sSourceFileNameOnlyI.substring(0,l) + strDateTime + ^.^ + sExtensionI;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
    //:szWriteBuffer = "                  // Check if a file already exists with this name, if so, change the name."
@@ -10030,24 +10023,24 @@ oTZWDLGSO_GenJSPJ_ProcessFileIn( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "                     String ext = new Integer(z).toString();", 1, 0, 10001 );
       //: WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-      //: szWriteBuffer = "                     l = sSourceFileNameOnly.lastIndexOf(^.^);"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "                     l = sSourceFileNameOnly.lastIndexOf(^.^);", 1, 0, 10001 );
+      //: szWriteBuffer = "                     l = sSourceFileNameOnlyI.lastIndexOf(^.^);"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "                     l = sSourceFileNameOnlyI.lastIndexOf(^.^);", 1, 0, 10001 );
       //: WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-      //: szWriteBuffer = "                     sExtension = sSourceFileNameOnly.substring(l+1);"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "                     sExtension = sSourceFileNameOnly.substring(l+1);", 1, 0, 10001 );
+      //: szWriteBuffer = "                     sExtensionI = sSourceFileNameOnlyI.substring(l+1);"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "                     sExtensionI = sSourceFileNameOnlyI.substring(l+1);", 1, 0, 10001 );
       //: WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-      //: szWriteBuffer = "                     sTargetFile = sTargetDirectory + sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "                     sTargetFile = sTargetDirectory + sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;", 1, 0, 10001 );
+      //: szWriteBuffer = "                     sTargetFile = sTargetDirectory + sSourceFileNameOnlyI.substring(0,l) + ext + ^.^ + sExtensionI;"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "                     sTargetFile = sTargetDirectory + sSourceFileNameOnlyI.substring(0,l) + ext + ^.^ + sExtensionI;", 1, 0, 10001 );
       //: WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
       //: szWriteBuffer = "                     // strInputFileName is used to populate the mapped field for the upload file. "
       ZeidonStringCopy( szWriteBuffer, 1, 0, "                     // strInputFileName is used to populate the mapped field for the upload file. ", 1, 0, 10001 );
       //: WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-      //: szWriteBuffer = "                     strInputFileName = sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "                     strInputFileName = sSourceFileNameOnly.substring(0,l) + ext + ^.^ + sExtension;", 1, 0, 10001 );
+      //: szWriteBuffer = "                     strInputFileName = sSourceFileNameOnlyI.substring(0,l) + ext + ^.^ + sExtensionI;"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "                     strInputFileName = sSourceFileNameOnlyI.substring(0,l) + ext + ^.^ + sExtensionI;", 1, 0, 10001 );
       //: WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
       //: //szWriteBuffer = "                     task.log().info("*** New File Name *** " + sTargetFile);"    
@@ -10505,12 +10498,12 @@ oTZWDLGSO_GenJSPJ_DownloadFile( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sDownloadFile = null;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "   String sSourceFileNameOnly = null;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sSourceFileNameOnly = null;", 1, 0, 10001 );
+   //:szWriteBuffer = "   String sSourceFileNameOnlyE = null;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sSourceFileNameOnlyE = null;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "   String sExtension = null;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sExtension = null;", 1, 0, 10001 );
+   //:szWriteBuffer = "   String sExtensionE = null;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   String sExtensionE = null;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "   int l;"
@@ -10573,8 +10566,8 @@ oTZWDLGSO_GenJSPJ_DownloadFile( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   // there must be a period in the directory name.", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "   // Right now we are not using sExtension but just"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "   // Right now we are not using sExtension but just", 1, 0, 10001 );
+   //:szWriteBuffer = "   // Right now we are not using sExtensionE but just"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   // Right now we are not using sExtensionE but just", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "   // in case we want to change the encType I want"
@@ -10589,16 +10582,16 @@ oTZWDLGSO_GenJSPJ_DownloadFile( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   if (x > l)", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "      sExtension = ^^;"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "      sExtension = ^^;", 1, 0, 10001 );
+   //:szWriteBuffer = "      sExtensionE = ^^;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "      sExtensionE = ^^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "   else"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   else", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "      sExtension = sDownloadFile.substring( l + 1 );"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "      sExtension = sDownloadFile.substring( l + 1 );", 1, 0, 10001 );
+   //:szWriteBuffer = "      sExtensionE = sDownloadFile.substring( l + 1 );"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "      sExtensionE = sDownloadFile.substring( l + 1 );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
 
@@ -10606,8 +10599,8 @@ oTZWDLGSO_GenJSPJ_DownloadFile( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   // Get the filename only without directories.", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "   sSourceFileNameOnly = sDownloadFile.substring( x + 1 );"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "   sSourceFileNameOnly = sDownloadFile.substring( x + 1 );", 1, 0, 10001 );
+   //:szWriteBuffer = "   sSourceFileNameOnlyE = sDownloadFile.substring( x + 1 );"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   sSourceFileNameOnlyE = sDownloadFile.substring( x + 1 );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
 
@@ -10635,12 +10628,12 @@ oTZWDLGSO_GenJSPJ_DownloadFile( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "      response.setContentType( contenttype );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "      response.addHeader( ^Content-Disposition^, ^attachment; filename=^ + sSourceFileNameOnly + ^;^ );"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "      response.addHeader( ^Content-Disposition^, ^attachment; filename=^ + sSourceFileNameOnly + ^;^ );", 1, 0, 10001 );
+   //:szWriteBuffer = "      response.addHeader( ^Content-Disposition^, ^attachment; filename=^ + sSourceFileNameOnlyE + ^;^ );"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "      response.addHeader( ^Content-Disposition^, ^attachment; filename=^ + sSourceFileNameOnlyE + ^;^ );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "      task.log().info( ^*** In sSourceFileNameOnly: ^ + sSourceFileNameOnly );"
-   ZeidonStringCopy( szWriteBuffer, 1, 0, "      task.log().info( ^*** In sSourceFileNameOnly: ^ + sSourceFileNameOnly );", 1, 0, 10001 );
+   //:szWriteBuffer = "      task.log().info( ^*** In sSourceFileNameOnlyE: ^ + sSourceFileNameOnlyE );"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "      task.log().info( ^*** In sSourceFileNameOnlyE: ^ + sSourceFileNameOnlyE );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
 

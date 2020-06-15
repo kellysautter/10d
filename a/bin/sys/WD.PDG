@@ -1,13 +1,13 @@
-z1000-Zeidon    WD       TZDGSRCO                         12/06/19   10:29:35 1.0a2   
+z1000-Zeidon    WD       TZDGSRCO                         06/10/20   15:16:51 1.0a2   
 eDomainGroup 1
 aZKey      1320467
-aNextZKeyToAssign 130069852
+aNextZKeyToAssign 130069853
 aName      WD
 aDesc      Web jsp generation control types 
 aExtension C
 aLanguageType C
 aDomainAndGlobalOpGroupName TZAPDMAA
-aWorkNumeric 57
+aWorkNumeric 50
 
 eDomain    2
 aZKey      1320468
@@ -1997,6 +1997,11 @@ aExternalValue Start Jasper XLS File
 aInternalValue 49
 
 eTableEntry 4
+aZKey      130069853
+aExternalValue Process ReportStreamInfo
+aInternalValue 50
+
+eTableEntry 4
 aZKey      4847905
 aExternalValue Replace Dialog with Dialog
 aInternalValue 51
@@ -2132,4 +2137,4 @@ aLastCheckInDate 19951102203051110
 
 i230       227
 i233       227
-i391       227
+i392       227

@@ -107,7 +107,6 @@ BuildSideNavSectionJ( VIEW vDialog,
       ELSE
          szNavigationTitle = vDialogMenu.Option.Text
       END
-
       IF vDialogMenu.OptAct EXISTS      
          szDialogName = vDialogMenu.OptAct.DialogName
       ELSE
@@ -116,16 +115,13 @@ BuildSideNavSectionJ( VIEW vDialog,
       IF szDialogName = ""
          szDialogName = "NoDialogName"
       END
-
       IF szReusableMenu = "Y"
          szMenuName = "sm" + vDialogMenu.Option.Tag
       ELSE
          szMenuName = vDialogMenu.Option.Tag
       END
-
    // szHTML_Name = szDialogName + vDialogMenu.OptAct.WindowName + ".jsp"
       IF vDialogMenu.OptAct EXISTS
-
          // Because the menu actions can be created on separate windows from the control
          // actions, we need to make sure these actions are unique.  We will prefix a
          // "m" to the main menu actions and prefix a "sm" to the side menu actions.
@@ -147,7 +143,6 @@ BuildSideNavSectionJ( VIEW vDialog,
          szActionName = ""
          ActionType = 0
       END
-
       // If the window we are currently generating is the same window that this
       // side menu points to, then we want to set a class on this option.  The
       // reason is so that we can tell which side menu option the user has selected.
@@ -163,7 +158,6 @@ BuildSideNavSectionJ( VIEW vDialog,
       ELSE
          szClass = ""
       END
-
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szOptionTag = vDialogMenu.Option.Tag
@@ -175,7 +169,6 @@ BuildSideNavSectionJ( VIEW vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
       IF szStyleIsBootstrap = ""
          //szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
          szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " " + szActionName + ">" + szNavigationTitle + "</a></li>"
@@ -194,9 +187,7 @@ BuildSideNavSectionJ( VIEW vDialog,
          //szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " onclick=^" + szActionName + "()^><i class=^align-middle mr-2 fas fa-fw " + szText  + "^></i> <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
          szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
       END
-
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   }"
@@ -536,6 +527,11 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 500 ) szActionCode
    STRING ( 500 ) szCloseUpCode
    STRING ( 1 )   szStyleIsBootstrap
+   STRING ( 256 ) szTitle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 265 ) szHTML5Attr
+   STRING ( 256 ) szPlaceholder
+   STRING ( 20 )  szAutoCompleteOff
    DECIMAL        dDLUnits
    INTEGER nRC
         
@@ -705,17 +701,40 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
          szKeyPressCode = szKeyPressCode + " onkeypress=^return _OnEnter( event )^"
       END      
       
-
       // Multiple class names must be separated by white space characters.
       szClass = vDialog.Control.CSS_Class
       
       IF szStyleIsBootstrap = "Y"
          szClass = szClass + " " + "form-control datefield"
       END
+         
+      //KJS 06/12/20 - Added title.
+      //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+      szTitleHTML = ""
+      szTitle = vDialog.Control.DIL_Text
+      IF szTitle != ""
+         szTitleHTML = " title=^" + szTitle + "^ "
+      END
+      
+      szPlaceholder = ""
+      IF vDialog.Control.WebPlaceholder != ""
+         szPlaceholder = " placeholder=^" + vDialog.Control.WebPlaceholder + "^ "
+      END
+      
+      szHTML5Attr = ""
+      IF vDialog.Control.WebHTML5Attribute != ""
+         szHTML5Attr = " " + vDialog.Control.WebHTML5Attribute + " "
+      END
+   
+      szAutoCompleteOff = "" 
+      SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Autocomplete Off"
+      IF RESULT >= zCURSOR_SET
+         szAutoCompleteOff = " autocomplete=^off^"
+      END   
 
       IF szStyleIsBootstrap = "Y"
          szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled + 
-                             " style=^<%=strErrorColor%>^ type=^text^ value=^<%=strErrorMapValue%>^  >"
+                             szAutoCompleteOff + szTitleHTML + szHTML5Attr + szPlaceholder + " style=^<%=strErrorColor%>^ type=^text^ value=^<%=strErrorMapValue%>^  >"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       ELSE
          szWriteBuffer = "<span " + szStyle + ">"
@@ -723,10 +742,10 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
          
          IF szClass = ""
             szWriteBuffer = "   <input name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
-                                szActionCode + szStyleCalendar + " type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + szKeyPressCode + " />"
+                                szAutoCompleteOff + szTitleHTML + szHTML5Attr + szPlaceholder + szActionCode + szStyleCalendar + " type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + szKeyPressCode + " />"
          ELSE
             szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
-                                szActionCode + szStyleCalendar + " type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + szKeyPressCode + " />"
+                                szAutoCompleteOff + szTitleHTML + szHTML5Attr + szPlaceholder + szActionCode + szStyleCalendar + " type=^text^ value=^<%=strErrorMapValue%>^ " + szTabIndex + szKeyPressCode + " />"
          END
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          
@@ -6677,7 +6696,8 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
          // I know that if we are starting a pdf or html window then we do not need to do this.
          // There are probably more like Popup windows...
          IF  lActionType != zWAB_StartBrowserHTML_Page AND lActionType != zWAB_StartBrowserPDF_Page AND
-             lActionType != zWAB_StartJasperPDF_Page AND lActionType != 49 // zWAB_StartJasperXLS_Page
+             lActionType != zWAB_StartJasperPDF_Page AND lActionType != zWAB_StartJasperXLS_Page AND
+             lActionType != zWAB_ReportStreamInfo
 
             // Handle any Next Window processing from Operation.
             szWriteBuffer = "      // Dynamic Next Window"
@@ -7449,7 +7469,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    END
 
    // KJS 07/26/16 - Run a jasper report and open in Excel.
-   IF lActionType = 49 //zWAB_StartJasperXLS_Page
+   IF lActionType = zWAB_StartJasperXLS_Page
       szWriteBuffer = "         try"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "         {"
@@ -7549,6 +7569,59 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
     
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "            }"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         }"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         catch (Exception e)"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         {"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            e.printStackTrace();"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            // Set the error return code."
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            nOptRC = 2;"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            strVMLError = ^<br><br>*** Error running Operation " + vDialog.Action.Tag + ": ^ + e.getMessage();"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            task.log().info( strVMLError );"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         }"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+   END
+
+   // KJS 09/17/14 - Run a jasper report and open in PDF.
+   IF lActionType = zWAB_ReportStreamInfo
+      szWriteBuffer = "         try"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         {"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            
+      // KJS 09/16/14 - Right now running jasper reports is a new thing and I'm not positive we will use it for much more than
+      // the 1098T report. We need an operation that returns a jasperPrint object, which at the moment we can only do in java (
+      // (otherwise we would need to have a data type JasperPrint in VML), so I am going to assume that we will look for an
+      // operation in ZGLOBAL1 and that the operation we are looking for has the same name as the Action name.
+      szWriteBuffer = "            // The file name, content type and a byte array containing the report are encapsulated in a"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            // ReportStreamInfo object returned from a ZGLOBAL1 method that has the same name as the window action."
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            ZGLOBAL1_Operation m_ZGLOBAL1_Operation = new ZGLOBAL1_Operation( vKZXMLPGO );"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            ReportStreamInfo report_info = m_ZGLOBAL1_Operation." + vDialog.Action.Tag +
+                      "( new zVIEW( vKZXMLPGO ));"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+      szWriteBuffer = "            response.setContentType(report_info.getContentType());"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            response.setContentLength(report_info.getFileLength());"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            response.setHeader(^Content-disposition^, report_info.getContentDisposition());"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            response.getOutputStream().write(report_info.getFile());"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            response.getOutputStream().flush();"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "            response.getOutputStream().close();"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "         }"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
