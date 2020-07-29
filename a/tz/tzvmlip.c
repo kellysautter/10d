@@ -512,8 +512,10 @@ zOPER_EXPORT zSHORT OPERATION
 zToUpper( zCPCHAR cpcSourceString,
           zPCHAR  pchTargetString )
 {
-   strcpy_s( pchTargetString, strlen( cpcSourceString ), cpcSourceString );
-   pchTargetString = AnsiUpper( pchTargetString );
+	zLONG  lLth;
+
+	strcpy_s(pchTargetString, strlen(cpcSourceString) + 1, cpcSourceString);
+	pchTargetString = AnsiUpper( pchTargetString );
 
    return( 0 );
 } // zToUpper
