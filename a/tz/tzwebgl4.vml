@@ -5354,7 +5354,9 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
                               INTEGER          lOffsetX,
                               INTEGER          lOffsetY )
 
+   VIEW vLPLR        BASED ON LOD TZCMLPLO
    VIEW vDialogTemp  BASED ON LOD TZWDLGSO
+   STRING ( 64 )    szSystemIniApplName
    STRING ( 64 )    szFormName
    STRING ( 50 )    szCSS_Class
    STRING ( 256 )   szClass
@@ -5378,10 +5380,11 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
    STRING ( 1 )   szIncludeFileFlag
    STRING ( 1 )   szNoHeightFlag
    STRING ( 1 )   szNoWidthFlag
-   INTEGER          lControl
-   INTEGER          lSizeX
-   INTEGER          lSizeY
-   INTEGER          lTrace
+   STRING ( 1 )   szDateFormatDBFlag
+   INTEGER        lControl
+   INTEGER        lSizeX
+   INTEGER        lSizeY
+   INTEGER        lTrace
    INTEGER        lHeight
    INTEGER        lWidth
    INTEGER        LastY_Pos
@@ -5400,6 +5403,44 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
    STRING ( 100 )  szSize
    STRING ( 100 )  szPosition
 
+   // KJS 07/30/20
+   szWriteBuffer = "<%"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+   szWriteBuffer = "   if ( StringUtils.equals( strErrorFlag, ^X^ ) )"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+   IF (lTrace = 1)
+      szWriteBuffer = "      task.log().info( ^Post FindErrorFields Error: ^ + strError );"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
+
+   szWriteBuffer = "      nPos = strError.indexOf( ^\t^, 2 );"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      if ( nPos >= 0 )"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         strErrorTitle = strError.substring( 2, nPos );"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         int nPos2 = strError.indexOf( ^\t\n^ );"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         strErrorMsg = strError.substring( nPos + 1, nPos2 );"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "%>"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "   <input name=^zError^ id=^zError^ type=^hidden^ value=^<%=strErrorMsg%>^>"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+   //******************************************
    
    // KJS 11/07/16 - For file transfer, since it doesn't place the controls correctly (if there are more controls than the
    // edit and button), we are going to try, closing the previous <form> and creating the form for the upload. Any controls
@@ -5517,6 +5558,52 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
       // Generate hidden field zTargetFileName, with JSP to retrieve name.
       // We are currently positioned on the GroupBox and need to reposition on the subcontrol Button
       // to generate the FileName mapping..
+      
+      // KJS 09/01/20 - We are going to look at the UsesDateFormatFromDB for the moment to determine if the file upload max length comes
+      // from the database.
+      szDateFormatDBFlag = ""
+      GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+      szSystemIniApplName = "[App." + vLPLR.LPLR.Name + "]"
+      SysReadZeidonIni( -1, szSystemIniApplName, "UsesDateFormatFromDB", szDateFormatDBFlag )
+      IF szDateFormatDBFlag = "Y"
+         szWriteBuffer = "<%"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   try {"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      strErrorMapValue = ^10485760^;"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+         szWriteBuffer = "      View sHostT = task.getViewByName( ^sHost^ );"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      if ( VmlOperation.isValid( sHostT ) )"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      {"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         nRC = sHostT.cursor( ^Host^ ).checkExistenceOfEntity( ).toInt();"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         if ( nRC >= 0 )"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            strErrorMapValue = sHostT.cursor(^Host^).getAttribute( ^UploadFileSizeMax^ ).getString( ^^ );"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            if ( StringUtils.isBlank( strErrorMapValue ) )"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "               strErrorMapValue = ^10485760^;"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      }"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   } catch ( Exception e ) {"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      strErrorMapValue = ^10485760^;"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   }"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+         szWriteBuffer = "%>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   <input name=^zFileSize^ id=^zFileSize^ type=^hidden^ value=^<%=strErrorMapValue%>^ >"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      END
+
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   strErrorMapValue = ^^;"
@@ -5562,9 +5649,13 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
             END
          END
       END
+      
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   <input name=^zTargetFileName^ id=^zTargetFileName^ type=^hidden^ value=^<%=strErrorMapValue%>^ >"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      // KJS 07/29/20 - Generate hidden field for in case user wants the uploaded file to have a different name when uploaded.
+      szWriteBuffer = "   <input name=^zNewFileName^ id=^zNewFileName^ type=^hidden^ value=^<%=vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).getString()%>^ >"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
       IF szGroupIsTable = "Y" 
@@ -6095,11 +6186,22 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
          // Aadit, wants there to be an upload file limit, so that for email attachment, the file isn't too big to bring
          // down the mail server. This really needs to be an updatable field...
-         szWriteBuffer = "      if ( iFileLth > 10485760 )"
+         szWriteBuffer = "      if ( iFileLth > iFileLthMax )"  //10485760
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "      {"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "         VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, ^This file is too large!^, ^This file is too large!^ );"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         break;"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      }"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         // KJS 08/31/20 - Give message if no file was selected.
+         szWriteBuffer = "      if ( iFileLth == -1 )"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      {"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, ^No file was selected.^, ^No file was selected.^ );"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "         break;"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -7320,6 +7422,26 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         sSourceFileNameOnly = sDownloadFile.substring( x + 1 );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+         
+            // KJS 07/24/20 - Added ability to give a new filename to download to.
+            szWriteBuffer = "         // Check if there is a filename in KZXMLPGO.Session.PrintFileName. If so, we will"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         // download to a file with that name instead of using the downloaded filename."
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         if ( ! vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).getString().equals(^^) )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            sSourceFileNameOnly = vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).getString();"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).setValue(^^);"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            // Replace any quotes."
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            sSourceFileNameOnly = sSourceFileNameOnly.replaceAll( ^\^^, ^^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
             szWriteBuffer = "         File InputFile = new File( sDownloadFile );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )

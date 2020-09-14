@@ -1,11 +1,11 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO                         07/24/20   11:52:46 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO                         09/14/20   11:39:28 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
 aPgmSrcDir %kzd%:\%kzv%\a\tz
 aExecDir   %kzd%:\%kzv%\w\bin\sys
 aMetaSrcDir %kzd%:\%kzv%\a\bin\sys
-aTaskUseCount 1
+aTaskUseCount 0
 aLastBuildDate 20200318114632422
 aJavaPackageName com\quinsoft\zeidon\zeidontools
 awFullyQualifiedFileName C:\10d - BAD\a\bin\sys\tzpntrad.pwd
@@ -623,18 +623,18 @@ aName      FixStyleString
 aLastUpdateDate 20191118205543616
 
 eW_MetaDef 3
-aCPLR_ZKey 1319668
-aStatus    1
-aUpdateInd 2
-aName      fnPainterCall
-aLastUpdateDate 20160714173227371
-
-eW_MetaDef 3
 aCPLR_ZKey 1419668
 aStatus    1
 aUpdateInd 2
 aName      fnPainterCall
 aLastUpdateDate 20160714173229763
+
+eW_MetaDef 3
+aCPLR_ZKey 1319668
+aStatus    1
+aUpdateInd 2
+aName      fnPainterCall
+aLastUpdateDate 20160714173227371
 
 eW_MetaDef 3
 aCPLR_ZKey 91020983
@@ -10894,8 +10894,8 @@ i1072      94
 i1073      95
 i1074      96
 i1075      97
-i1076      99
-i1077      98
+i1076      98
+i1077      99
 i1078      100
 i1079      101
 i1085      147
