@@ -1,0 +1,66 @@
+#
+#  zCompile.HNM
+#  Make Include File (MSVC 5.0).
+#  Generated at 2010.02.26 08:19:17
+#
+
+ALL: _zSetEnv $(TARGET_DIR)\$(MODULE).dll
+
+# Set the DOS environment
+_zSetEnv:
+   @set PATH=c:\10d\w\bin\sys;;
+   @set LIB=c:\10d\a\tz
+   @set INCLUDE=c:\10d\a\tz
+
+# No common external libraries/objects for all targets defined.
+
+!if "$(OBJS)" != ""
+
+OBJS_ALL = $(OBJS_ALL) $(OBJS)
+$(OBJS): $(SRC_DIR)\$(@B).c
+   qspawn $(SRC_DIR)\$(@B).err $(CC) @<<
+$(CL_OPT) -Fo$(OBJ_DIR)\$(@B).obj $(SRC_DIR)\$(@B).C
+<<
+
+!endif
+
+!if "$(CPP_OBJS)" != ""
+
+OBJS_ALL = $(OBJS_ALL) $(CPP_OBJS)
+TP = -TP
+LINKDLLS = $(LINKDLLS) MFCS42.lib
+
+$(CPP_OBJS): $(SRC_DIR)\$(@B).c
+   qspawn $(SRC_DIR)\$(@B).err cl @<<
+$(CL_OPT) $(TP)
+$(SRC_DIR)\$(@B).c
+-Fo$(OBJ_DIR)\$(@B).obj
+<<
+
+!endif
+
+$(ENV_DIR)\$(MODULE).res:  $(ENV_DIR)\$(MODULE).rc
+    rc -d__WIN32__  /fo$(ENV_DIR)\$(MODULE).res $(ENV_DIR)\$(MODULE).rc
+
+$(TARGET_DIR)\$(MODULE).dll : $(OBJS_ALL) $(LINKOBJS) $(ENV_DIR)\$(MODULE).res
+   qspawn $(SRC_DIR)\$(MODULE).ler link @<<
+$(LINK_OPT) $(LINKDLLS) $(BASELINKDLLS) $(OBJS_ALL) $(LINKOBJS) zdllinst.obj
+$(ENV_DIR)\$(MODULE).res
+/OUT:$(TARGET_DIR)\$(MODULE).dll
+/IMPLIB:$(OBJ_DIR)\$(MODULE).lib
+/PDB:$(TARGET_DIR)\$(MODULE).pdb
+/DEF:$(ENV_DIR)\$(MODULE).dfb
+<<
+!if "$(SKIP_MERGEDEF)" != "Y"
+   dumpbin /exports $(TARGET_DIR)\$(MODULE).dll > $(ENV_DIR)\$(MODULE).def
+   mergedef $(ENV_DIR)\$(MODULE).dfb $(ENV_DIR)\$(MODULE).def
+   qspawn +$(SRC_DIR)\$(MODULE).ler link @<<
+$(LINK_OPT) $(LINKDLLS) $(BASELINKDLLS) $(OBJS) $(LINKOBJS) zdllinst.obj
+$(ENV_DIR)\$(MODULE).res
+/OUT:$(TARGET_DIR)\$(MODULE).dll
+/IMPLIB:$(OBJ_DIR)\$(MODULE).lib
+/PDB:$(TARGET_DIR)\$(MODULE).pdb
+/MAP:$(OBJ_DIR)\$(MODULE).map
+/DEF:$(ENV_DIR)\$(MODULE).tmp
+<<
+!endif

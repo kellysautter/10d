@@ -1,0 +1,1111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TrueGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="account.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="currency.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kzrpquer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kzrpsrc2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kzrpsrco.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kzrpwebo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kzsirrep.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kzxmlpg2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kzxmlpgo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadcdod.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadcs2o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadcsdo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadw1aw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadw2aw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadw3aw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadw4aw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadw5aw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadw6aw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadw7aw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadw8aw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadwdod.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZADWEBD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadwexp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzadwoaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzapdmaa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzapdmab.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzapdmac.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzaxcfgd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZBLDXOD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzbmupdd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzbrau2o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzbraudo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzbrentd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmcpld.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmcpro.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmcvto.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmenqo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmlops.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmlp2o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmlpld.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZCMLPLDV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmlplo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmlpmd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmlpmo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmoprs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmqcpo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmqsyo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmrepo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmrevd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmrptd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmslpd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcmwkso.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzcm_opr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzdbht2d.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzdbhtsd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzdgsrco.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzdmsrco.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzdmup2d.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzdmupdd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzdmxgpo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzedcm2d.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzedcmpd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzedcwzd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzedfrmd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzeditod.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzedvmld.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzerem2o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzeremdd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzeremde.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzeremdo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzeremxo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzerrord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzersa2o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzersapd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzersaso.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzersast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZGLOJSP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzhkeyad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzhlpcxd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzlodopr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzlooprs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzmsdilo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzobrwad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzogsrco.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzopgrpo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzophdrd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzophdro.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzoprusd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzopsigd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzopsigo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzopupdd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpesrco.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpeupdd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpnctad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpnctld.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpncw2d.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpncwdd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpnolad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpnoldc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpntbad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpntrad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpntrvd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzpnupgd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzrepoad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzrpsrco.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZRPSXM2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzrpsxml.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzrpup2d.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzrpupdd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzrpupsd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzsiimpd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzsioprs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzsixsko.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzstarto.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tztedb2o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tztedbld.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tztempmo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tztenv2o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tztenvro.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzteupdd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmedaw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmg1aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmg2aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmgnaa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmi1aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmi2aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmi3aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvminaa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmlip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmlopr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmp1aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmp2aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmp3aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmp4aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmp5aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmp6aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmp7aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmp8aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmp9aa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmpaaa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmpeaa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmplaa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmpmoo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmpopr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvmpyaa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvsdbad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvsrtoo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzvsxcad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzwdgrwd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzwdgrwo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzwdlg2o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzwdlg3o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzwdlg4o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZWDLG6O.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzwdlgso.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzwdvord.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzwebgl1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZWEBGL2.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZWEBGL3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZWEBGL4.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzwrksto.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzxsltdd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzapp2d.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzappsd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzmaind.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzolo2o.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzolodd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzolodo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzolodq.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzolodr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzoloq2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzorpts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tzzoxodo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tz__prfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="underscore.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="waccount.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zglobal1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\msdbgrid\msdbgrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\msdbgrid\msdbmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\truegrid\tdbg6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\truegrid\tgcolser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\truegrid\trddmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\truegrid\trdgmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\truegrid\trgrxprt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\truegrid\trhlpr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\truegrid\truegrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\truegrid\xarraydb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzaxctl\tzaxcal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzaxctl\tzaxctl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzaxctl\tzaxdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzaxctl\tzaxhlpr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\tzcswrpr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\tzvmledt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\zcmddef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\zstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\zviewdef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\bookmark.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\cedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\ceditmsg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\ceditx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\cmdarry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codelistctrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codetipctrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codetipfunchighlightctrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codetiphighlightctrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codetipmultifuncctrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\ctlstate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\dragdrop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editcmd1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editdlgs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editsel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\exports.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\findrepl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\globalsx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\hkeyctrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\hotkey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\hotkeyx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodelist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodetip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodetipfunchighlight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodetiphighlight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodetipmultifunc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\language.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\langx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\macro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\msgpump.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\posx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\precomp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\print.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\props.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\rangex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\rectx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\regexp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\selftest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\splitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\syntax.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\undo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\wnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\dlldata.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editx_i.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editx_p.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\hzoectl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\hzoedlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\hzoefunc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\hzoemeth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\hzoeprop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\hzoessyn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\hzoeundo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\hzoezsyn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\tbedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ax\_edit\tbedit_i.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="etc\yylex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="etc\yyparse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="etc\yylex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="etc\yyparse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tzvmlip.asm">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ax\msdbgrid\msdbgrid.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ax\truegrid\truegrid.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ax\tzaxctl\tzaxctl.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\tzvmledit.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\codesense.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\codesensex.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ax\_edit\hzoectl.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\wnd.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\codesense.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\editx.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\globalsx.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\hotkeyx.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\langx.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\posx.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\rangex.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\src\rectx.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ax\tzvmledt\cmcs219\license.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="ax\tzvmledt\cmcs219\src\editx.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+    <Midl Include="ax\_edit\tbedit.odl">
+      <Filter>Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tzvspmaa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZEIDONOP.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\msdbgrid\msdbgrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\truegrid\evnthlpr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\truegrid\tdbg6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\truegrid\tgcolser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\truegrid\trhlpr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\truegrid\xarraydb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzaxctl\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzaxctl\tzaxcal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzaxctl\tzaxctl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzaxctl\tzaxdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzaxctl\tzaxgbl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzaxctl\tzaxhlpr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\tzcswrpr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\tzvmlcst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\tzvmledt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\zcmddef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\zstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\zviewdef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\include\cmcsafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\include\codesense.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\cedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\ceditx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\cmidlids.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codelistctrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codetipctrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codetipfunchighlightctrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codetiphighlightctrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codetipmultifuncctrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\dispatchwnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\dragdrop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\editdlgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\editsel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\editview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\editx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\globalsx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\hkeyctrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\hotkeyx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodelist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetipfunchighlight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetiphighlight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetipmultifunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\langx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\posx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\precomp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\rangex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\rectx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\regclasslist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\regexp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\resource2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\undo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\uuid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\wnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\fontnotifyimpl.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetip.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetipfunchighlight.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\hzoectl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\hzoectlr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\hzoedlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\hzoeprop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\hzoestri.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\hzoesyn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\hzoeundo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\hzoezsyn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\tbedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ax\_edit\tbedit_h.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tzlodopr\targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ax\truegrid\truegrid.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ax\tzaxctl\tzaxctl.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ax\tzvmledt\cmcs219\src\codesense.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ax\_edit\hzoectld.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ax\_edit\hzoectle.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

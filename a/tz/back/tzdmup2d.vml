@@ -1,0 +1,431 @@
+/*
+   CHANGE LOG
+2000.08.10  BL  Z10
+   Remove Operation ActivateGroup
+2000.07.31  BL  Z10
+   Modified LoadProperties and GrayGroupControls: bugfix load Group Properties
+2000.07.16  BL  Z10
+   Modified operations for completely maintained Domain tool.
+2000.02.25  BL  Z10
+   Modified NLS for enable or disable OK Button
+   Modified GrayGroupControls for check checkout state
+1999.11.03  BL  Z10 new menu structure
+   Move Operation SaveDomainFromSource, MoveDomainToNewGroup and
+   AcceptDomainGroup to TZDMUPDD.C
+1999.10.29  BL  Z10 new menu structure
+   Added Operation SaveDomainFromSource for Save Domain as
+   Modified Operation NewDomainGroup, AcceptDomainGroup, MoveDomainToNewGroup
+   GrayGroupControls for move Domain in a new Domain Group
+1999.10.28  BL  Z10 new menu structure
+   Modified Operation MoveDomainToNewGroup: set selected operation
+1999.10.27  BL  Z10 new menu structure
+   Modified Operation NewDomainGroup: by error set Focus to Editcontrol
+1999.10.26  BL  Z10 new menu structure
+   Added Operation LoadProperties: use for Domain Group Properites
+   the window GRPDETAIL
+   Modified Operation AcceptDomainGroup: by error StayOnWindow
+1999.10.21  BL  Z10 new menu structure
+   Modified Operation ActivateGroup: insert check exists Entity
+from here old version
+15.03.1998  DonC
+   Modified AcceptDomainGroup so that the Language Type validations are only
+   warnings.
+16.05.1998  DonC
+   Corrected MoveDomainToNewGroup so that duplicate operations are not
+   sometimes created.
+*/
+
+// LAST MESSAGE ID: DM00206
+
+DIALOG OPERATION
+NLS_DIL_Refresh( VIEW vSubtask )
+
+   VIEW vDG     BASED ON LOD TZDGSRCO
+   VIEW Profile BASED ON LOD TZ__PRFO
+   SHORT        nEnable
+   SHORT        nIsCheckedOut
+
+   GET VIEW vDG     NAMED "TZDGSRCO_NLS"
+   GET VIEW Profile NAMED "ProfileXFER"
+
+   // Before refreshing the DIL_Text list box, set up the Profile XFER object with
+   // the NLS attributes for the NLS edit boxes.  Also enable the edit boxes.
+   IF vDG.DIL_NLS_Text  EXISTS
+      Profile.TZ.NLS_LanguageIndex = vDG.DIL_NLS_Text.LanguageIndex
+      Profile.TZ.NLS_LastText      = vDG.DIL_NLS_Text.Text
+      nEnable = 1
+   ELSE
+      // If there is no NLS entity, disable the edit boxes and set text to spaces.
+      Profile.TZ.NLS_LastText      = ""
+      nEnable = 0
+   END
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, vDG, zSOURCE_DOMAINGRP_META )
+   IF nIsCheckedOut != 1
+      nEnable = 0
+   END
+
+   SetCtrlState( vSubtask, "NLS_Text", zCONTROL_STATUS_ENABLED, nEnable )
+   SetCtrlState( vSubtask, "NLS_Code", zCONTROL_STATUS_ENABLED, nEnable )
+   SetCtrlState( vSubtask, "OK", zCONTROL_STATUS_ENABLED, nEnable )
+
+   // Now refresh all three controls
+   RefreshCtrl( vSubtask, "NLS_ListBox" )
+   RefreshCtrl( vSubtask, "NLS_Text" )
+   RefreshCtrl( vSubtask, "NLS_Code" )
+   RefreshCtrl( vSubtask, "OK" )
+
+END
+
+
+DIALOG OPERATION
+NLS_DIL_DeleteText( VIEW vSubtask )
+
+   VIEW vDG BASED ON LOD TZDGSRCO
+
+   GET VIEW vDG NAMED "TZDGSRCO_NLS"
+
+   IF vDG.DIL_NLS_Text EXISTS
+      DELETE ENTITY vDG.DIL_NLS_Text
+      NLS_DIL_Refresh( vSubtask )
+   END
+
+END
+
+DIALOG OPERATION
+NLS_DIL_NewText( VIEW vSubtask )
+
+   VIEW vDG     BASED ON LOD TZDGSRCO
+   VIEW Profile BASED ON LOD TZ__PRFO
+
+   GET VIEW vDG     NAMED "TZDGSRCO_NLS"
+   GET VIEW Profile NAMED "ProfileXFER"
+
+   // Create the new entity with default values.  We will make sure that
+   // the profile has a default LanguageIndex and the text is initialized with
+   // original text.
+   IF Profile.TZ.NLS_LanguageIndex = 0
+      Profile.TZ.NLS_LanguageIndex = 1
+   END
+   Profile.TZ.NLS_LastText = vDG.Context.DIL_Text
+
+   CreateMetaEntity( vSubtask, vDG, "DIL_NLS_Text", zPOS_AFTER )
+   vDG.DIL_NLS_Text.Text          = Profile.TZ.NLS_LastText
+   vDG.DIL_NLS_Text.LanguageIndex = Profile.TZ.NLS_LanguageIndex
+
+   // Allow the NLS edit boxes to be active and refresh necessary list boxes.
+   SetCtrlState( vSubtask, "NLS_Text", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( vSubtask, "NLS_Code", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( vSubtask, "OK", zCONTROL_STATUS_ENABLED, TRUE )
+   RefreshCtrl( vSubtask, "NLS_Text" )
+   RefreshCtrl( vSubtask, "NLS_ListBox" )
+   RefreshCtrl( vSubtask, "OK" )
+
+END
+
+DIALOG OPERATION
+NLS_DIL_SaveText( VIEW vSubtask )
+
+   // On save, copy the Profile attributes that were entered in the window over
+   // to the DIL_NLS_Text entity.
+   SHORT        nIsCheckedOut
+   VIEW vDG     BASED ON LOD TZDGSRCO
+   VIEW Profile BASED ON LOD TZ__PRFO
+
+   GET VIEW vDG     NAMED "TZDGSRCO_NLS"
+   GET VIEW Profile NAMED "ProfileXFER"
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, vDG, zSOURCE_DOMAINGRP_META )
+
+   IF vDG.DIL_NLS_Text EXISTS AND nIsCheckedOut = 1
+      vDG.DIL_NLS_Text.LanguageIndex = Profile.TZ.NLS_LanguageIndex
+      vDG.DIL_NLS_Text.Text          = Profile.TZ.NLS_LastText
+   END
+
+   RefreshCtrl( vSubtask, "NLS_ListBox" )
+
+END
+
+
+DIALOG OPERATION
+NLS_ExtValueRefresh( VIEW vSubtask )
+
+   VIEW vDG     BASED ON LOD TZDGSRCO
+   VIEW Profile BASED ON LOD TZ__PRFO
+   SHORT        nEnable
+   SHORT        nIsCheckedOut
+
+   GET VIEW vDG     NAMED "TZDGSRCO_NLS"
+   GET VIEW Profile NAMED "ProfileXFER"
+
+   // Before refreshing the ExternalValue list box, set up the Profile XFER object with
+   // the NLS attributes for the NLS edit boxes.  Also enable the edit boxes.
+   IF vDG.ExtValueNLS_Text  EXISTS
+      Profile.TZ.NLS_LanguageIndex = vDG.ExtValueNLS_Text.LanguageIndex
+      Profile.TZ.NLS_LastText      = vDG.ExtValueNLS_Text.Text
+      nEnable = 1
+   ELSE
+      // If there is no NLS entity, disable the edit boxes and set text to spaces.
+      Profile.TZ.NLS_LastText      = ""
+      nEnable = 0
+   END
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, vDG, zSOURCE_DOMAINGRP_META )
+   IF nIsCheckedOut != 1
+      nEnable = 0
+   END
+
+   SetCtrlState( vSubtask, "NLS_Text", zCONTROL_STATUS_ENABLED, nEnable )
+   SetCtrlState( vSubtask, "NLS_Code", zCONTROL_STATUS_ENABLED, nEnable )
+   SetCtrlState( vSubtask, "OK", zCONTROL_STATUS_ENABLED, nEnable )
+
+   // Now refresh all three controls
+   RefreshCtrl( vSubtask, "NLS_ListBox" )
+   RefreshCtrl( vSubtask, "NLS_Text" )
+   RefreshCtrl( vSubtask, "NLS_Code" )
+   RefreshCtrl( vSubtask, "OK" )
+
+END
+
+
+DIALOG OPERATION
+NLS_ExtValueDeleteText( VIEW vSubtask )
+
+   VIEW vDG BASED ON LOD TZDGSRCO
+
+   GET VIEW vDG NAMED "TZDGSRCO_NLS"
+
+   IF vDG.ExtValueNLS_Text EXISTS
+      DELETE ENTITY vDG.ExtValueNLS_Text
+      NLS_ExtValueRefresh( vSubtask )
+   END
+
+END
+
+
+DIALOG OPERATION
+NLS_ExtValueNewText( VIEW vSubtask )
+
+   VIEW vDG     BASED ON LOD TZDGSRCO
+   VIEW Profile BASED ON LOD TZ__PRFO
+
+   GET VIEW vDG     NAMED "TZDGSRCO_NLS"
+   GET VIEW Profile NAMED "ProfileXFER"
+
+   // Create the new entity with default values.  We will make sure that
+   // the profile has a default LanguageIndex and the text is initialized with
+   // original text.
+   IF Profile.TZ.NLS_LanguageIndex = 0
+      Profile.TZ.NLS_LanguageIndex = 1
+   END
+   Profile.TZ.NLS_LastText = vDG.TableEntry.ExtValueNLS_Text
+   CreateMetaEntity( vSubtask, vDG, "ExtValueNLS_Text", zPOS_AFTER )
+   vDG.ExtValueNLS_Text.Text          = Profile.TZ.NLS_LastText
+   vDG.ExtValueNLS_Text.LanguageIndex = Profile.TZ.NLS_LanguageIndex
+
+   // Allow the NLS edit boxes to be active and refresh necessary list boxes.
+   SetCtrlState( vSubtask, "NLS_Text", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( vSubtask, "NLS_Code", zCONTROL_STATUS_ENABLED, TRUE )
+   SetCtrlState( vSubtask, "OK", zCONTROL_STATUS_ENABLED, TRUE )
+   RefreshCtrl( vSubtask, "NLS_Text" )
+   RefreshCtrl( vSubtask, "NLS_ListBox" )
+   RefreshCtrl( vSubtask, "OK" )
+
+END
+
+
+DIALOG OPERATION
+NLS_ExtValueSaveText( VIEW vSubtask )
+
+   // On save, copy the Profile attributes that were entered in the window over
+   // to the ExtValueNLS_Text entity.
+   SHORT        nIsCheckedOut
+   VIEW vDG     BASED ON LOD TZDGSRCO
+   VIEW Profile BASED ON LOD TZ__PRFO
+
+   GET VIEW vDG     NAMED "TZDGSRCO_NLS"
+   GET VIEW Profile NAMED "ProfileXFER"
+
+   nIsCheckedOut = ComponentIsCheckedOut( vSubtask, vDG, zSOURCE_DOMAINGRP_META )
+
+   IF vDG.ExtValueNLS_Text EXISTS AND nIsCheckedOut = 1
+      vDG.ExtValueNLS_Text.LanguageIndex = Profile.TZ.NLS_LanguageIndex
+      vDG.ExtValueNLS_Text.Text          = Profile.TZ.NLS_LastText
+   END
+
+   RefreshCtrl( vSubtask, "NLS_ListBox" )
+
+END
+
+
+DIALOG OPERATION
+NLS_CreateNLS_View( VIEW vSubtask )
+
+   VIEW vDG       BASED ON LOD TZDGSRCO
+   VIEW vTZDGSRCO BASED ON LOD TZDGSRCO
+
+   GET VIEW vDG NAMED "TZDGSRCO_NLS"
+   IF RESULT < 0
+      GET VIEW vTZDGSRCO NAMED "TZDGSRCO"
+      CreateViewFromViewForTask( vDG, vTZDGSRCO, vSubtask )
+      NAME VIEW vDG "TZDGSRCO_NLS"
+   END
+
+END
+
+
+DIALOG OPERATION
+NewDomainGroup( VIEW vSubtask )
+
+   VIEW vTZDGSRCO_DETAIL BASED ON LOD TZDGSRCO
+   VIEW vProfileXFER     BASED ON LOD TZ__PRFO
+   VIEW vCM_List         BASED ON LOD TZCMLPLO
+
+   GET VIEW vProfileXFER NAMED "ProfileXFER"
+   GET VIEW vCM_List NAMED "CM_List"
+
+   // Check that a domain name has been entered.
+   IF vProfileXFER.DM.DomainName = ""
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      // Note same message as in TZDMUPDD.C
+      MessageSend( vSubtask, "DM00103", "Domain Maintenance",
+                   "Domain name required.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetFocusToCtrl( vSubtask, "edDomainName" )
+      RETURN -1
+   END
+
+   //BL, 1999.10.29 no check by move Domain in new Domain Group
+   IF vProfileXFER.DM.NewDomainGroupFlag != "M"
+      // Check that the domain name is unique.
+      SET CURSOR FIRST vCM_List.W_MetaDef
+                 WHERE vCM_List.W_MetaDef.Name = vProfileXFER.DM.DomainName
+      IF RESULT >= zCURSOR_SET
+         SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+         // Note same message as in TZDMUPDD.C
+         MessageSend( vSubtask, "DM00104", "Domain Maintenance",
+                      "A Domain already exists by that name.",
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         SetFocusToCtrl( vSubtask, "edDomainName" )
+         RETURN -1
+      END
+   END
+
+   ActivateEmptyMetaOI( vSubtask, vTZDGSRCO_DETAIL, zSOURCE_DOMAINGRP_META, zSINGLE )
+   CreateMetaEntity( vSubtask, vTZDGSRCO_DETAIL, "DomainGroup", zPOS_AFTER )
+   CreateMetaEntity( vSubtask, vTZDGSRCO_DETAIL, "Domain", zPOS_AFTER )
+
+   NAME VIEW vTZDGSRCO_DETAIL "TZDGSRCO_DETAIL"
+
+   // if move Domain
+   IF vProfileXFER.DM.NewDomainGroupFlag = "M"
+      // Set flag so Domain Group Detail window will know this is a new
+      // Domain Group function (move Domain in new Group).
+      vProfileXFER.DM.NewDomainGroupFlag = "X"
+   ELSE
+      vProfileXFER.DM.NewDomainGroupFlag = "N" // create new Domain
+      vTZDGSRCO_DETAIL.Domain.Name = vProfileXFER.DM.DomainName
+      vTZDGSRCO_DETAIL.Domain.Desc = vProfileXFER.DM.DomainDesc
+      CreateMetaEntity( vSubtask, vTZDGSRCO_DETAIL, "Context", zPOS_AFTER )
+      vTZDGSRCO_DETAIL.Context.Name = vProfileXFER.DM.DomainName
+   END
+
+END
+
+
+DIALOG OPERATION
+GrayGroupControls( VIEW vSubtask )
+
+   VIEW vProfileXFER      BASED ON LOD TZ__PRFO
+   VIEW vCM_ListGroup     BASED ON LOD TZCMLPLO
+   VIEW vTZDGSRCO_DETAIL  BASED ON LOD TZDGSRCO
+
+   SHORT  nEnable
+
+   GET VIEW vProfileXFER     NAMED "ProfileXFER"
+   GET VIEW vCM_ListGroup    NAMED "CM_ListGroup"
+   GET VIEW vTZDGSRCO_DETAIL NAMED "TZDGSRCO_DETAIL"
+
+   // Gray the DomainGroup Name control, if this is not a new Domain Group
+   // function.
+   IF vProfileXFER.DM.NewDomainGroupFlag = "N" // new Domain
+      SetCtrlState( vSubtask, "DomainGroupName", zCONTROL_STATUS_ENABLED, TRUE )
+      SetCtrlText( vSubtask, "OK", "Create" )
+   ELSE
+      IF vProfileXFER.DM.NewDomainGroupFlag = "X" // new Domain in new Group
+         SetCtrlState( vSubtask, "DomainGroupName", zCONTROL_STATUS_ENABLED, TRUE )
+         SetCtrlText( vSubtask, "OK", "Move" )
+      ELSE
+         IF vProfileXFER.DM.NewDomainGroupFlag = "S" // save as Domain in new Group
+            SetCtrlState( vSubtask, "DomainGroupName", zCONTROL_STATUS_ENABLED, TRUE )
+            SetCtrlText( vSubtask, "OK", "Save as" )
+         ELSE
+            SetCtrlState( vSubtask, "DomainGroupName", zCONTROL_STATUS_ENABLED, FALSE )
+
+            // set check out state in Title
+            nEnable = CheckOutStateForCurrentWindow( vSubtask, vCM_ListGroup )
+
+            IF vProfileXFER.DM.NewDomainGroupFlag = "P"  // load Group Properies for current Domain
+               SET CURSOR FIRST vCM_ListGroup.W_MetaDef
+                          WHERE vCM_ListGroup.W_MetaDef.Name = vTZDGSRCO_DETAIL.DomainGroup.Name
+               IF RESULT < zCURSOR_SET // new Domain Group
+                  nEnable = 1
+                  SetWindowCaptionTitle( vSubtask, "", "Domain Group Properties" )
+               END
+            END
+
+            SetCtrlState( vSubtask, "edDescription", zCONTROL_STATUS_ENABLED, nEnable )
+            SetCtrlState( vSubtask, "edExecutable", zCONTROL_STATUS_ENABLED, nEnable )
+            SetCtrlState( vSubtask, "rbC", zCONTROL_STATUS_ENABLED, nEnable )
+            SetCtrlState( vSubtask, "rbNone", zCONTROL_STATUS_ENABLED, nEnable )
+            IF nEnable = 1
+               SetFocusToCtrl( vSubtask, "edDescription" )
+            END
+         END
+      END
+   END
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: LoadProperties
+//
+// load View for Domain Group Properties
+DIALOG OPERATION
+LoadProperties( VIEW vSubtask )
+
+   SHORT nRC
+   VIEW  vTZDGSRCO_DETAIL   BASED ON LOD TZDGSRCO
+   VIEW  vTZDGSRCO          BASED ON LOD TZDGSRCO
+   VIEW  vProfileXFER       BASED ON LOD TZ__PRFO
+
+   GET VIEW vProfileXFER  NAMED "ProfileXFER"
+   GET VIEW vTZDGSRCO     NAMED "TZDGSRCO"
+
+   vProfileXFER.DM.NewDomainGroupFlag = "P"
+
+   nRC = GetViewByName( vTZDGSRCO_DETAIL, "TZDGSRCO_DETAIL", vSubtask, zLEVEL_TASK )
+
+   IF nRC >= 0
+      DropView( vTZDGSRCO_DETAIL )
+   END
+
+   CreateViewFromViewForTask( vTZDGSRCO_DETAIL, vTZDGSRCO, vSubtask )
+   SetNameForView( vTZDGSRCO_DETAIL, "TZDGSRCO_DETAIL", vSubtask, zLEVEL_TASK )
+
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: CHANGE_JavaClassName
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+CHANGE_JavaClassName( VIEW ViewToWindow )
+
+   VIEW vTaskLPLR REGISTERED AS TaskLPLR
+   VIEW vTZDGSRCO REGISTERED AS TZDGSRCO
+   
+   vTZDGSRCO.Domain.JavaClass = vTaskLPLR.DomainJavaClass.JavaClassName 
+END

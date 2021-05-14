@@ -1,0 +1,31 @@
+DERIVED ATTRIBUTE OPERATION
+DeleteText( VIEW ViewtoInstance BASED ON LOD TZBRAUDO,
+            STRING ( 32 ) InternalEntityStructure,
+            STRING ( 32 ) InternalAttribStructure,
+            SHORT GetOrSetFlag )
+
+   STRING(60)  szText
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+          IF ViewtoInstance.AuditTrailMeta.bDeleted = "Y"
+             szText = "Deleted"
+          ELSE
+             IF ViewtoInstance.AuditTrailMeta.bDeleted = "N"
+                szText = "Updated"
+             ELSE
+                szText = ""
+             END
+          END
+        StoreValueInRecord( ViewtoInstance,
+                            InternalEntityStructure,
+                            InternalAttribStructure,
+                             szText, 0 )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END

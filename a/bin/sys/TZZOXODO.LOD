@@ -1,4 +1,4 @@
-z1000-Zeidon    TZZOXODO TZZOLODO 01/22/15   13:47:09 1.0a2    
+z1000-Zeidon    TZZOXODO TZZOLODO                         01/21/21   15:27:20 1.0a2   
 eLOD       1
 aZKey      1327175
 aName      TZZOXODO
@@ -420,7 +420,6 @@ aSeqNo_LOD_Entity 23
 eER_AttributeRec 6
 aName      DERIVEDF
 aZKey      1327224
-aLth       32
 
 eDomainRec 7
 
@@ -3061,7 +3060,7 @@ eDomain    5
 eER_Entity 3
 
 eLOD_Entity 2
-awkSelectedAttributeForDragSort 25
+awkSelectedAttributeForDragSort 24
 
 eLOD_Attribute 3
 awkSequence 1

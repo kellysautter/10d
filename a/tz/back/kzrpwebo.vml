@@ -1,0 +1,62 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// 2005.01.20    DKS
+//    New source for Web generation
+//
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+// Note: Globally change //UNDEF to /*DEF*/ and vice versa to enable/disable
+//       debugging code.
+//                  Also //UNDCC to /*DCC*/ for All Control detail.
+//                  Also //UNDVV to /*DVV*/ for View Issues.
+//
+// >>>>>>>>>>>>>>> Development Notes  <<<<<<<<<<<<<<
+// Several improvements and inhancements and fixes are
+// needed in the report area. What follows is a brief
+// list of what is needed as of May, '97. The documentation
+// for this routine follows.
+// 1. We need to add the ability to change the page size for
+// a report. Currently, the page size defaults to 8 1/2 by 11.
+//
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+//
+/////////////////////////////////////////////////////////////////////////////
+
+TRANSFORMATION OPERATION
+GenerateReportJSP( VIEW    vReportDef BASED ON LOD TZRPSRCO,
+                   VIEW    vSubtask,
+                   VIEW    vSourceOI,
+                   STRING ( 32 ) szReportDefName,
+                   STRING ( 32 ) szSubobjectEntityName,
+                   INTEGER lPrintPreviewFlag,
+                   INTEGER lPrintDialogFlag,
+                   INTEGER lPrintFlags )
+
+   NAME VIEW vSourceOI  "TZ_SourceOrigOI"
+   NAME VIEW vReportDef "TZ_ReportDef"
+
+   // These values are stored for future reference ... the only place
+   // they are set.
+   vReportDef.Report.WK_SubobjectEntityName = szSubobjectEntityName
+   vReportDef.Report.PrintFlags = lPrintFlags
+
+   // Call the OpenReport routine which will process all pages for the report,
+   // calling routine, FormatDocOnPage, to format each page of the report.
+   // We will determine if we need to force Preview based on a flag in the
+   // Profile object, set in the Object Browser dialog.  If it is not set on
+   // or if the Profile object doesn't exist, we will go with the Preview
+   // flag value passed to this routine.
+   //
+// lPrintFlags = SetFlagSequence( lPrintFlags,
+//                                65535,  // 0x0000ffff  turn off high bits
+//                                0 )
+   lPrintFlags = lPrintFlags + lPrintPreviewFlag
+   OpenReport( vSubtask, "KZRPSRCO", "oTZRPSRCO_FormatDocPage",
+               lPrintFlags, TRUE, TRUE, lPrintDialogFlag,
+               szReportDefName, szSubobjectEntityName )
+
+END
+

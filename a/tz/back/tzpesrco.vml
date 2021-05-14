@@ -1,0 +1,679 @@
+/*
+CHANGE LOG
+
+2000.10.20    SR  Z2000Size of path variables
+   Modified size of SourceFileName in function CheckPPE_Format because size of attributes
+   ExecDir, MetaSrcDir and PgmSrcDir has been changed to 254 in datamodel.
+
+2000.07.09   BL   Z10
+   Modified MergePPE: ask user for aborting merge
+
+2000.02.11   BL   Z10  Merge PPE
+   Rename Operations
+   Added SetCtrlDefVisible for Bugfix: if ControlDef in PPE Tool deleted,
+   then is this invisible, not deleted
+
+2000.02.01   BL   Z10  Merge PPE
+   Added MergeFontsAndColors for merge all Fonts and Colors
+   Added MergeWindowStyleSubob and MergeCtrlDefChilds for merge all WindowStyle
+   Subobjects
+   Added MergeControlDefSubob for merge ControlDef Subobjects
+   Added CheckPPE_Format for check new PPE Format
+
+2000.01.29   BL   Z10  new PPE handling
+   Added MigratePPE and CreateControlDefSubob for migrate PPE from a other LPLR
+   Added MergePPE for merge current PPE with PPE from an other LPLR
+   Added CreateWindowStyle and CreateControlDef for migrate and merge PPE
+*/
+
+//************************************************************************************************//
+//
+//    OPERATION: CreateWindowStyle
+//
+LOCAL OPERATION
+CreateWindowStyle( VIEW vSubtask,
+                   VIEW NewPPE BASED ON LOD TZPESRCO,
+                   VIEW OldPPE BASED ON LOD TZPESRCO )
+
+   CreateMetaEntity( vSubtask, NewPPE, "WindowStyle", zPOS_AFTER )
+   SetMatchingAttributesByName( NewPPE, "WindowStyle",
+                                OldPPE, "WindowStyle", zSET_NULL )
+
+   FOR EACH OldPPE.EventDef
+      CreateMetaEntity( vSubtask, NewPPE, "EventDef", zPOS_AFTER )
+      SetMatchingAttributesByName( NewPPE, "EventDef",
+                                   OldPPE, "EventDef", zSET_NULL )
+   END
+
+// FOR EACH OldPPE.WndColorDef
+//    CreateMetaEntity( vSubtask, NewPPE, "WndColorDef", zPOS_AFTER )
+//    SetMatchingAttributesByName( NewPPE, "WndColorDef",
+//                                 OldPPE, "WndColorDef", zSET_NULL )
+//    SET CURSOR FIRST NewPPE.Color WHERE
+//        NewPPE.Color.Tag = OldPPE.WndColor.Tag
+//    INCLUDE NewPPE.WndColor FROM NewPPE.Color
+// END
+
+// FOR EACH OldPPE.WndFontDef
+//    CreateMetaEntity( vSubtask, NewPPE, "WndFontDef", zPOS_AFTER )
+//    SetMatchingAttributesByName( NewPPE, "WndFontDef",
+//                                 OldPPE, "WndFontDef", zSET_NULL )
+//    SET CURSOR FIRST NewPPE.Font WHERE
+//        NewPPE.Font.Tag = OldPPE.WndFont.Tag
+//    INCLUDE NewPPE.WndFont FROM NewPPE.Font
+// END
+
+   RETURN 0
+END
+
+
+//************************************************************************************************//
+//
+//    OPERATION: CreateControlDef
+//
+LOCAL OPERATION
+CreateControlDef( VIEW vSubtask,
+                  VIEW NewPPE BASED ON LOD TZPESRCO,
+                  VIEW OldPPE BASED ON LOD TZPESRCO )
+
+   CreateMetaEntity( vSubtask, NewPPE, "ControlDef", zPOS_AFTER )
+   SetMatchingAttributesByName( NewPPE, "ControlDef",
+                                OldPPE, "ControlDef", zSET_NULL )
+
+   FOR EACH OldPPE.CtrlEventDef
+      CreateMetaEntity( vSubtask, NewPPE, "CtrlEventDef", zPOS_AFTER )
+      SetMatchingAttributesByName( NewPPE, "CtrlEventDef",
+                                   OldPPE, "CtrlEventDef", zSET_NULL )
+   END
+
+// FOR EACH OldPPE.CtrlColorDef
+//    CreateMetaEntity( vSubtask, NewPPE, "CtrlColorDef", zPOS_AFTER )
+//    SetMatchingAttributesByName( NewPPE, "CtrlColorDef",
+//                                 OldPPE, "CtrlColorDef", zSET_NULL )
+//    SET CURSOR FIRST NewPPE.Color WHERE
+//        NewPPE.Color.Tag = OldPPE.CtrlColor.Tag
+//    INCLUDE NewPPE.CtrlColor FROM NewPPE.Color
+// END
+
+// FOR EACH OldPPE.CtrlFontDef
+//    CreateMetaEntity( vSubtask, NewPPE, "CtrlFontDef", zPOS_AFTER )
+//    SetMatchingAttributesByName( NewPPE, "CtrlFontDef",
+//                                 OldPPE, "CtrlFontDef", zSET_NULL )
+//    SET CURSOR FIRST NewPPE.Font WHERE
+//        NewPPE.Font.Tag = OldPPE.CtrlFont.Tag
+//    INCLUDE NewPPE.CtrlFont FROM NewPPE.Font
+// END
+
+   FOR EACH OldPPE.CtrlMapDef
+      CreateMetaEntity( vSubtask, NewPPE, "CtrlMapDef", zPOS_AFTER )
+      SetMatchingAttributesByName( NewPPE, "CtrlMapDef",
+                                   OldPPE, "CtrlMapDef", zSET_NULL )
+   END
+
+   RETURN 0
+END
+
+
+//************************************************************************************************//
+//
+//    OPERATION: CreateControlDefSubob
+//
+LOCAL OPERATION
+CreateControlDefSubob( VIEW vSubtask,
+                       VIEW NewPPE BASED ON LOD TZPESRCO,
+                       VIEW OldPPE BASED ON LOD TZPESRCO )
+
+   VIEW NewPPE1 BASED ON LOD TZPESRCO
+
+   CreateViewFromViewForTask( NewPPE1, NewPPE, 0 )
+
+   SET CURSOR FIRST NewPPE.ControlDef
+
+   FOR EACH OldPPE.ControlDef
+
+      FOR EACH OldPPE.ValidChild
+         SET CURSOR FIRST NewPPE1.ControlDef WHERE
+             NewPPE1.ControlDef.Key = OldPPE.ValidChild.Key
+         INCLUDE NewPPE.ValidChild FROM NewPPE1.ControlDef
+      END
+
+      FOR EACH OldPPE.ValidParent
+         SET CURSOR FIRST NewPPE1.ControlDef WHERE
+             NewPPE1.ControlDef.Key = OldPPE.ValidParent.Key
+         INCLUDE NewPPE.ValidParent FROM NewPPE1.ControlDef
+      END
+
+      FOR EACH OldPPE.ConvertsSelfToChild
+         SET CURSOR FIRST NewPPE1.ControlDef WHERE
+             NewPPE1.ControlDef.Key = OldPPE.ConvertsSelfToChild.Key
+         INCLUDE NewPPE.ConvertsSelfToChild FROM NewPPE1.ControlDef
+      END
+
+      FOR EACH OldPPE.ConvertableFrom
+         SET CURSOR FIRST NewPPE1.ControlDef WHERE
+             NewPPE1.ControlDef.Key = OldPPE.ConvertableFrom.Key
+         INCLUDE NewPPE.ConvertableFrom FROM NewPPE1.ControlDef
+      END
+
+      SET CURSOR NEXT NewPPE.ControlDef
+
+   END //END FOR EACH OldPPE.ControlDef
+
+   DropView( NewPPE1)
+
+   RETURN 0
+END
+
+
+//************************************************************************************************//
+//
+//    OPERATION: MigratePPE
+//
+// Migrate PPE from an other LPLR
+//
+TRANSFORMATION OPERATION
+MigratePPE( VIEW NewPPE      BASED ON LOD TZPESRCO,
+            VIEW SourceLPLR  BASED ON LOD TZCMLPLO,
+            VIEW vSubtask )
+
+   SHORT        nRC
+   VIEW OldPPE  BASED ON LOD TZPESRCO
+
+   //Check the PPE from SourceLPLR
+   //If the PPE in new format, migrate it. Otherwise Return.
+   nRC = CheckPPE_Format( OldPPE, SourceLPLR )
+   IF nRC < 0
+      RETURN nRC
+   END
+
+   NAME VIEW OldPPE "OldPPE"
+
+   ActivateEmptyMetaOI( vSubtask, NewPPE, zSOURCE_PENV_META, zSINGLE )
+   NAME VIEW NewPPE "NewPPE"
+
+   CreateMetaEntity( vSubtask, NewPPE, "PresEnvDef", zPOS_AFTER )
+   SetMatchingAttributesByName( NewPPE, "PresEnvDef",
+                                OldPPE, "PresEnvDef", zSET_NULL )
+
+// // Copy Font subobject
+// FOR EACH OldPPE.Font
+//    CreateMetaEntity( vSubtask, NewPPE, "Font", zPOS_AFTER )
+//    SetMatchingAttributesByName( NewPPE, "Font",
+//                                 OldPPE, "Font", zSET_NULL )
+// END
+
+// // Copy Color subobject
+// FOR EACH OldPPE.Color
+//    CreateMetaEntity( vSubtask, NewPPE, "Color", zPOS_AFTER )
+//    SetMatchingAttributesByName( NewPPE, "Color",
+//                                 OldPPE, "Color", zSET_NULL )
+// END
+
+   // Copy WindowStyle subobject with Events, Colors and Fonts
+   FOR EACH OldPPE.WindowStyle
+       CreateWindowStyle( vSubtask, NewPPE, OldPPE )
+   END
+
+   // Copy ControlDef subobject with Events, Colors, Fonts...
+   FOR EACH OldPPE.ControlDef
+       CreateControlDef( vSubtask, NewPPE, OldPPE )
+   END
+
+   //Include subobjects from ControlDef
+   CreateControlDefSubob( vSubtask, NewPPE, OldPPE )
+
+   ResetView( NewPPE )
+// OrderEntityForView( NewPPE, "Color", "Tag A" )
+   OrderEntityForView( NewPPE, "ControlDef", "Tag A" )
+   AssignZKeyToMetaOI( vSubtask, NewPPE, zSOURCE_PENV_META, 0 )
+   CommitMetaOI( vSubtask, NewPPE, zSOURCE_PENV_META )
+
+   DropObjectInstance( OldPPE )
+
+   RETURN 0
+END
+
+
+//************************************************************************************************//
+//
+//    OPERATION: MergePPE
+// Merge current PPE with PPE from an other LPLR
+//
+TRANSFORMATION OPERATION
+MergePPE( VIEW NewPPE      BASED ON LOD TZPESRCO,
+          VIEW SourceLPLR  BASED ON LOD TZCMLPLO,
+          VIEW vSubtask )
+
+   VIEW OldPPE  BASED ON LOD TZPESRCO
+
+   STRING (256) MessageText
+   SHORT        RESULT
+   SHORT        nRC
+   SHORT        nDoNotMergeCtrlDef
+   INTEGER      lVisible
+
+   //Check the PPE from SourceLPLR
+   //If the PPE in new format, merge it. Otherwise Return.
+   nRC = CheckPPE_Format( OldPPE, SourceLPLR )
+   IF nRC < 0
+      RETURN nRC
+   END
+
+   NAME VIEW OldPPE "OldPPE"
+   NAME VIEW NewPPE "NewPPE"
+
+   // Merge Root Entity
+   IF OldPPE.PresEnvDef.Desc != "" AND NewPPE.PresEnvDef.Desc = ""
+      NewPPE.PresEnvDef.Desc = OldPPE.PresEnvDef.Desc
+   END
+
+   // Merge Fonts and Colors Subobjects
+// MergeFontsAndColors( vSubtask, NewPPE, OldPPE )
+
+   // Merge WindowStyle subobject with Events, Colors and Fonts
+   FOR EACH OldPPE.WindowStyle
+      RESULT = CheckExistenceOfEntity( NewPPE, "WindowStyle" )
+      IF RESULT >= zCURSOR_SET
+         SET CURSOR FIRST NewPPE.WindowStyle WHERE
+             NewPPE.WindowStyle.Tag = OldPPE.WindowStyle.Tag
+      END
+      //WindowStyle does not exists, create new Style with all Sobobjects
+      IF RESULT < zCURSOR_SET
+         CreateWindowStyle( vSubtask, NewPPE, OldPPE )
+      ELSE
+         MergeWindowStyleSubob( vSubtask, NewPPE, OldPPE )
+      END
+   END
+
+   // Merge ControlDef subobject with Events, Colors, Fonts...
+   FOR EACH OldPPE.ControlDef
+      RESULT = CheckExistenceOfEntity( NewPPE, "ControlDef" )
+      IF RESULT >= zCURSOR_SET
+         SET CURSOR FIRST NewPPE.ControlDef WHERE
+             NewPPE.ControlDef.Key = OldPPE.ControlDef.Key
+      END
+      //ControlDef does not exists, create new ControlDef with all Subobjects
+      IF RESULT < zCURSOR_SET
+         nDoNotMergeCtrlDef = 0
+         IF NewPPE.ControlDef EXISTS
+            //Check Tag
+            SET CURSOR FIRST NewPPE.ControlDef WHERE
+                NewPPE.ControlDef.Tag = OldPPE.ControlDef.Tag
+            IF RESULT >= zCURSOR_SET
+               //Error situation
+               MessageText = NEW_LINE + "The control with Tag '" + NewPPE.ControlDef.Tag +
+                             "' already exists with different key." +
+                             NEW_LINE + NEW_LINE + "Do you want to continue?"
+               nRC = MessagePrompt( vSubtask, "CM01013", "Configuration Management",
+                                    MessageText, 1, zBUTTONS_YESNO, zRESPONSE_YES, 0 )
+               IF nRC = zRESPONSE_NO
+                  DropObjectInstance( OldPPE )
+                  RETURN -1
+               ELSE
+                  nDoNotMergeCtrlDef = 1
+               END
+            END
+         END
+         //Create ControlDef witch Subobject
+         IF nDoNotMergeCtrlDef = 0
+            CreateControlDef( vSubtask, NewPPE, OldPPE )
+            lVisible = NewPPE.ControlDef.Invisible
+            IF lVisible = 0 OR lVisible = -1
+               AddToAttributeFromInteger( NewPPE, "PresEnvDef", "LastCtrl", 1 )
+            END
+         END
+      ELSE
+         // Merge Subobjects
+         SetCtrlDefVisible( NewPPE, OldPPE )
+         MergeControlDefSubob( vSubtask, NewPPE, OldPPE )
+      END
+   END
+
+   //Include subobjects from ControlDef
+   MergeCtrlDefChilds( NewPPE, OldPPE )
+
+   ResetView( NewPPE )
+   OrderEntityForView( NewPPE, "Color", "Tag A" )
+   OrderEntityForView( NewPPE, "ControlDef", "Tag A" )
+   AssignZKeyToMetaOI( vSubtask, NewPPE, zSOURCE_PENV_META, 0 )
+   CommitMetaOI( vSubtask, NewPPE, zSOURCE_PENV_META )
+
+   DropObjectInstance( OldPPE )
+
+   RETURN 0
+END
+
+
+//************************************************************************************************//
+//
+//    OPERATION: MergeWindowStyleSubob
+//
+LOCAL OPERATION
+MergeWindowStyleSubob( VIEW vSubtask,
+                       VIEW NewPPE BASED ON LOD TZPESRCO,
+                       VIEW OldPPE BASED ON LOD TZPESRCO )
+
+   SHORT  RESULT
+
+   // Merge Subobject EventDef.
+   FOR EACH OldPPE.EventDef
+       RESULT = CheckExistenceOfEntity( NewPPE, "EventDef" )
+       IF RESULT >= zCURSOR_SET
+         SET CURSOR FIRST NewPPE.EventDef WHERE
+             NewPPE.EventDef.Tag = OldPPE.EventDef.Tag
+       END
+       //EventDef does not exists, create it
+       IF RESULT < zCURSOR_SET
+          CreateMetaEntity( vSubtask, NewPPE, "EventDef", zPOS_AFTER )
+          SetMatchingAttributesByName( NewPPE, "EventDef",
+                                       OldPPE, "EventDef", zSET_NULL )
+       END
+   END
+
+// // Merge Subobject WndColorDef.
+// FOR EACH OldPPE.WndColorDef
+//     RESULT = CheckExistenceOfEntity( NewPPE, "WndColorDef" )
+//     IF RESULT >= zCURSOR_SET
+//        SET CURSOR FIRST NewPPE.WndColorDef WHERE
+//            NewPPE.WndColorDef.Tag = OldPPE.WndColorDef.Tag
+//     END
+//
+//     // WndColorDef does not exists, create it.
+//     IF RESULT < zCURSOR_SET
+//        CreateMetaEntity( vSubtask, NewPPE, "WndColorDef", zPOS_AFTER )
+//        SetMatchingAttributesByName( NewPPE, "WndColorDef",
+//                                     OldPPE, "WndColorDef", zSET_NULL )
+//        SET CURSOR FIRST NewPPE.Color WHERE
+//            NewPPE.Color.Tag = OldPPE.WndColor.Tag
+//        INCLUDE NewPPE.WndColor FROM NewPPE.Color
+//     END
+// END
+
+// // Merge Subobject WndFontDef.
+// FOR EACH OldPPE.WndFontDef
+//     RESULT = CheckExistenceOfEntity( NewPPE, "WndFontDef" )
+//     IF RESULT >= zCURSOR_SET
+//        SET CURSOR FIRST NewPPE.WndFontDef WHERE
+//            NewPPE.WndFontDef.Tag = OldPPE.WndFontDef.Tag
+//     END
+//
+//     // WndFontDef does not exists, create it
+//     IF RESULT < zCURSOR_SET
+//        CreateMetaEntity( vSubtask, NewPPE, "WndFontDef", zPOS_AFTER )
+//        SetMatchingAttributesByName( NewPPE, "WndFontDef",
+//                                     OldPPE, "WndFontDef", zSET_NULL )
+//        SET CURSOR FIRST NewPPE.Font WHERE
+//            NewPPE.Font.Tag = OldPPE.WndFont.Tag
+//        INCLUDE NewPPE.WndFont FROM NewPPE.Font
+//     END
+// END
+
+   RETURN 0
+END
+
+
+//************************************************************************************************//
+//
+//    OPERATION: MergeControlDefSubob
+//
+LOCAL OPERATION
+MergeControlDefSubob( VIEW vSubtask,
+                      VIEW NewPPE BASED ON LOD TZPESRCO,
+                      VIEW OldPPE BASED ON LOD TZPESRCO )
+
+   SHORT  RESULT
+
+   // Merge Subobject CtrlEventDef
+   FOR EACH OldPPE.CtrlEventDef
+       RESULT = CheckExistenceOfEntity( NewPPE, "CtrlEventDef" )
+       IF RESULT >= zCURSOR_SET
+          SET CURSOR FIRST NewPPE.CtrlEventDef WHERE
+              NewPPE.CtrlEventDef.Tag = OldPPE.CtrlEventDef.Tag
+       END
+       //CtrlEventDef does not exists, create it
+       IF RESULT < zCURSOR_SET
+          CreateMetaEntity( vSubtask, NewPPE, "CtrlEventDef", zPOS_AFTER )
+          SetMatchingAttributesByName( NewPPE, "CtrlEventDef",
+                                       OldPPE, "CtrlEventDef", zSET_NULL )
+      END
+   END
+
+// // Merge Subobject CtrlColorDef
+// FOR EACH OldPPE.CtrlColorDef
+//     RESULT = CheckExistenceOfEntity( NewPPE, "CtrlColorDef" )
+//     IF RESULT >= zCURSOR_SET
+//        SET CURSOR FIRST NewPPE.CtrlColorDef WHERE
+//            NewPPE.CtrlColorDef.Tag = OldPPE.CtrlColorDef.Tag
+//     END
+//
+//     // CtrlColorDef does not exists, create it.
+//     IF RESULT < zCURSOR_SET
+//        CreateMetaEntity( vSubtask, NewPPE, "CtrlColorDef", zPOS_AFTER )
+//        SetMatchingAttributesByName( NewPPE, "CtrlColorDef",
+//                                     OldPPE, "CtrlColorDef", zSET_NULL )
+//        SET CURSOR FIRST NewPPE.Color WHERE
+//            NewPPE.Color.Tag = OldPPE.CtrlColor.Tag
+//        INCLUDE NewPPE.CtrlColor FROM NewPPE.Color
+//     END
+// END
+
+// // Merge Subobject CtrlFontDef
+// FOR EACH OldPPE.CtrlFontDef
+//     RESULT = CheckExistenceOfEntity( NewPPE, "CtrlFontDef" )
+//     IF RESULT >= zCURSOR_SET
+//        SET CURSOR FIRST NewPPE.CtrlFontDef WHERE
+//            NewPPE.CtrlFontDef.Tag = OldPPE.CtrlFontDef.Tag
+//     END
+//
+//     // CtrlFontDef does not exists, create it
+//     IF RESULT < zCURSOR_SET
+//        CreateMetaEntity( vSubtask, NewPPE, "CtrlFontDef", zPOS_AFTER )
+//        SetMatchingAttributesByName( NewPPE, "CtrlFontDef",
+//                                     OldPPE, "CtrlFontDef", zSET_NULL )
+//        SET CURSOR FIRST NewPPE.Font WHERE
+//            NewPPE.Font.Tag = OldPPE.CtrlFont.Tag
+//        INCLUDE NewPPE.CtrlFont FROM NewPPE.Font
+//     END
+// END
+
+   // Merge Subobject CtrlMapDef
+   FOR EACH OldPPE.CtrlMapDef
+       RESULT = CheckExistenceOfEntity( NewPPE, "CtrlMapDef" )
+       IF RESULT >= zCURSOR_SET
+          SET CURSOR FIRST NewPPE.CtrlMapDef WHERE
+              NewPPE.CtrlMapDef.Tag = OldPPE.CtrlMapDef.Tag
+       END
+       //CtrlMapDef does not exists, create it
+       IF RESULT < zCURSOR_SET
+          CreateMetaEntity( vSubtask, NewPPE, "CtrlMapDef", zPOS_AFTER )
+          SetMatchingAttributesByName( NewPPE, "CtrlMapDef",
+                                       OldPPE, "CtrlMapDef", zSET_NULL )
+       END
+   END
+
+   RETURN 0
+END
+
+
+//************************************************************************************************//
+//
+//    OPERATION: MergeCtrlDefChilds
+//
+LOCAL OPERATION
+MergeCtrlDefChilds( VIEW NewPPE BASED ON LOD TZPESRCO,
+                    VIEW OldPPE BASED ON LOD TZPESRCO )
+
+   VIEW   NewPPE1 BASED ON LOD TZPESRCO
+   SHORT  RESULT
+
+   CreateViewFromViewForTask( NewPPE1, NewPPE, 0 )
+
+   SET CURSOR FIRST NewPPE.ControlDef
+   FOR EACH OldPPE.ControlDef
+
+      // Merge Subobject ValidChild
+      FOR EACH OldPPE.ValidChild
+          RESULT = CheckExistenceOfEntity( NewPPE, "ValidChild" )
+          IF RESULT >= zCURSOR_SET
+             SET CURSOR FIRST NewPPE.ValidChild WHERE
+                 NewPPE.ValidChild.Key = OldPPE.ValidChild.Key
+          END
+          //ValidChild does not exists, include it
+          IF RESULT < zCURSOR_SET
+             SET CURSOR FIRST NewPPE1.ControlDef WHERE
+                 NewPPE1.ControlDef.Key = OldPPE.ValidChild.Key
+             INCLUDE NewPPE.ValidChild FROM NewPPE1.ControlDef
+          END
+      END
+
+      // Merge Subobject ValidParent
+      FOR EACH OldPPE.ValidParent
+          RESULT = CheckExistenceOfEntity( NewPPE, "ValidParent" )
+          IF RESULT >= zCURSOR_SET
+             SET CURSOR FIRST NewPPE.ValidParent WHERE
+                 NewPPE.ValidParent.Key = OldPPE.ValidParent.Key
+          END
+          //ValidParent does not exists, include it
+          IF RESULT < zCURSOR_SET
+             SET CURSOR FIRST NewPPE1.ControlDef WHERE
+                 NewPPE1.ControlDef.Key = OldPPE.ValidParent.Key
+             INCLUDE NewPPE.ValidParent FROM NewPPE1.ControlDef
+          END
+      END
+
+      // Merge Subobject ConvertsSelfToChild
+      FOR EACH OldPPE.ConvertsSelfToChild
+          RESULT = CheckExistenceOfEntity( NewPPE, "ConvertsSelfToChild" )
+          IF RESULT >= zCURSOR_SET
+             SET CURSOR FIRST NewPPE.ConvertsSelfToChild WHERE
+                 NewPPE.ConvertsSelfToChild.Key = OldPPE.ConvertsSelfToChild.Key
+          END
+          //ConvertsSelfToChild does not exists, include it
+          IF RESULT < zCURSOR_SET
+             SET CURSOR FIRST NewPPE1.ControlDef WHERE
+                 NewPPE1.ControlDef.Key = OldPPE.ConvertsSelfToChild.Key
+             INCLUDE NewPPE.ConvertsSelfToChild FROM NewPPE1.ControlDef
+          END
+      END
+
+      // Merge Subobject ConvertableFrom
+      FOR EACH OldPPE.ConvertableFrom
+          RESULT = CheckExistenceOfEntity( NewPPE, "ConvertableFrom" )
+          IF RESULT >= zCURSOR_SET
+             SET CURSOR FIRST NewPPE.ConvertableFrom WHERE
+                 NewPPE.ConvertableFrom.Key = OldPPE.ConvertableFrom.Key
+          END
+          //ConvertableFrom does not exists, include it
+          IF RESULT < zCURSOR_SET
+             SET CURSOR FIRST NewPPE1.ControlDef WHERE
+                 NewPPE1.ControlDef.Key = OldPPE.ConvertableFrom.Key
+             INCLUDE NewPPE.ConvertableFrom FROM NewPPE1.ControlDef
+          END
+      END
+
+      SET CURSOR NEXT NewPPE.ControlDef
+   END //END FOR EACH OldPPE.ControlDef
+
+   DropView( NewPPE1)
+
+   RETURN 0
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: MergeFontsAndColors
+//
+//************************************************************************************************//
+LOCAL OPERATION
+MergeFontsAndColors( VIEW vSubtask,
+                     VIEW NewPPE BASED ON LOD TZPESRCO,
+                     VIEW OldPPE BASED ON LOD TZPESRCO )
+
+// SHORT  RESULT
+//
+// // Merge Font subobject
+// FOR EACH OldPPE.Font
+//    RESULT = CheckExistenceOfEntity( NewPPE, "Font" )
+//    IF RESULT >= zCURSOR_SET
+//       SET CURSOR FIRST NewPPE.Font WHERE
+//           NewPPE.Font.Tag = OldPPE.Font.Tag
+//    END
+//    //Font does not exists, create it
+//    IF RESULT < zCURSOR_SET
+//       CreateMetaEntity( vSubtask, NewPPE, "Font", zPOS_LAST )
+//       SetMatchingAttributesByName( NewPPE, "Font",
+//                                    OldPPE, "Font", zSET_NULL )
+//       NewPPE.Font.Id = NewPPE.PresEnvDef.LastFont
+//       AddToAttributeFromInteger( NewPPE, "PresEnvDef", "LastFont", 1 )
+//    END
+// END
+
+// // Merge Color subobject
+// FOR EACH OldPPE.Color
+//    RESULT = CheckExistenceOfEntity( NewPPE, "Color" )
+//    IF RESULT >= zCURSOR_SET
+//       SET CURSOR FIRST NewPPE.Color WHERE
+//           NewPPE.Color.Tag = OldPPE.Color.Tag
+//    END
+//    //Color does not exists, create it
+//    IF RESULT < zCURSOR_SET
+//       CreateMetaEntity( vSubtask, NewPPE, "Color", zPOS_LAST )
+//       SetMatchingAttributesByName( NewPPE, "Color",
+//                                    OldPPE, "Color", zSET_NULL )
+//    END
+// END
+
+   RETURN 0
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: CheckPPE_Format
+//
+// if PPE in new Format: ControlDef.Key not null
+//
+//************************************************************************************************//
+LOCAL OPERATION
+CheckPPE_Format( VIEW OldPPE     BASED ON LOD TZPESRCO,
+                 VIEW SourceLPLR BASED ON LOD TZCMLPLO )
+
+   STRING ( 513 ) SourceFileName  // zMAX_FILESPEC_LTH+1
+   INTEGER        nRC
+
+   GetStringFromAttribute( SourceFileName, SourceLPLR, "LPLR", "MetaSrcDir" )
+   SourceFileName = SourceFileName + "\ZEIDON.PPE"
+   nRC = ActivateOI_FromFile( OldPPE, "TZPESRCO", SourceLPLR, SourceFileName, 8192 )
+   IF nRC >= 0
+      nRC = SetCursorFirstEntityByInteger( OldPPE, "ControlDef", "Key", 1000, 0 )
+      IF nRC < 0
+         DropView( OldPPE )
+         RETURN -16
+      END
+   ELSE
+     RETURN -1
+   END
+
+   RETURN 0
+END
+
+
+//************************************************************************************************//
+//
+//    OPERATION: SetCtrlDefVisible
+//
+LOCAL OPERATION
+SetCtrlDefVisible( VIEW NewPPE BASED ON LOD TZPESRCO,
+                   VIEW OldPPE BASED ON LOD TZPESRCO )
+   // Flags for Entiy "ControlDef", Attribute "Invisible"
+   //   -2 - control def is visible only to the report builder
+   //   -1 - control def is visible only to the painter
+   //    0 - control def is visible to both painter and report builder
+   //    1 - control def is invisible (to be deleted)
+
+  IF NewPPE.ControlDef.Tag = "INVISIBLE" AND NewPPE.ControlDef.Invisible = 1
+     NewPPE.ControlDef.Tag = OldPPE.ControlDef.Tag
+     NewPPE.ControlDef.Invisible = OldPPE.ControlDef.Invisible
+  END
+
+  RETURN 0
+END

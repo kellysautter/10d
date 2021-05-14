@@ -1,4 +1,4 @@
-z1000-Zeidon    TZZOXODO TZZOXODO                         03/18/20   13:12:55 1.0a2   
+z1000-Zeidon    TZZOXODO TZZOXODO                         01/21/21   15:27:21 1.0a2   
 eOBJECT    1
 aNAME      TZZOXODO
 aZKey      1327175
@@ -873,7 +873,7 @@ aPDELETE   D
 aUPDATE    Y
 aDERIVED   Y
 aINCLSRC   Y
-aMAX_LTH   1857
+aMAX_LTH   2079
 
 eATTRIB    5
 aNAME      NAME
@@ -1134,7 +1134,7 @@ aERATT_TOK 1327224
 aAPDM_TOK  90000032
 aDOMAIN    Text
 aTYPE      S
-aLTH       32
+aLTH       254
 aSEQ_AD    A
 aUPDATE    Y
 aXVAATT_TOK 96

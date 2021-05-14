@@ -1,0 +1,346 @@
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateLine
+**
+*************************************************************************************************/
+LOCAL OPERATION
+GenerateXMLLine( VIEW ReportObject BASED ON LOD TZRPSRCO,
+              INTEGER lFileHandle,
+              STRING ( 5000 ) szOutputLine )
+
+   // This is just a SysWriteLine with an options TraceLineS statement.
+   //TraceLineS( "*** Line: ", szOutputLine )
+   SysWriteLine( ReportObject, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXSLT_XML
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenerateXSLT_XML( VIEW vSourceOI,
+                  STRING ( 32 )  szReportName,
+                  STRING ( 500 ) szXMLFileName,
+                  STRING ( 32 )  szTopEntityName )
+
+   VIEW vReportDef     BASED ON LOD TZRPSRCO
+   VIEW vReportLODRecurs BASED ON LOD TZRPSRCO
+   VIEW vReportDefRoot BASED ON LOD TZRPSRCO
+   VIEW vSourceOIHier
+   VIEW vSourceOIDebug
+   VIEW vLOD           BASED ON LOD TZZOLODO
+   VIEW vTaskLPLR  BASED ON LOD TZCMLPLO
+   STRING ( 200 )  szMsg
+   STRING ( 200 )  szFileName
+   STRING ( 32 )   szReturnedEntityName
+   STRING ( 32 )   szLastReturnedEntityName
+   STRING ( 32 )   szParentEntityName
+   STRING ( 32 )   szDrivingViewName
+   STRING ( 50 )   szIndentationValue
+   STRING ( 50 )   szIndentationSubValue
+   STRING ( 1 )    szInNodeFlag
+   STRING ( 5000 ) szOutputLine
+   INTEGER         lFileHandle
+   INTEGER         Indentation
+   SHORT           ReturnedHierLevel
+   SHORT           LastHierLevel
+   SHORT           nRC
+
+   // Build an XSLT XML FO object for the passed in application object and Report Definition.
+
+   // First we need to activate the report def...
+   SysReadZeidonIni( -1, "[WorkStation]", "ResourcePath", szFileName )
+   //szFileName = "c:\lplr\zencas\bin\"
+   szFileName = szFileName + szReportName + ".xrp"
+   SfActivateSysOI_FromFile( vReportDef, "TZRPSRCO", vSourceOI, szFileName, zSINGLE )
+
+   // Get the Name of the Driving object, as we will need that in processing mapping.
+   IF vReportDef.DrivingViewObjRef EXISTS
+      szDrivingViewName = vReportDef.DrivingViewObjRef.Name
+   ELSE
+      szMsg = "The report must have a 'Driving View' set in the report details."
+      MessageSend( vReportDef, "", "Generate XSLT",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   // Open XML output file.
+   SysReadZeidonIni( -1, "[Workstation]", "XSLTDirectory", szFileName )
+   szFileName = szFileName + szXMLFileName + ".xml"
+   lFileHandle = SysOpenFile( vReportDef, szFileName, COREFILE_WRITE )
+   IF lFileHandle < 0
+      szMsg = "Cannot open XSLT Output File, " + szFileName
+      MessageSend( vReportDef, "", "Generate XSLT",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   // Navigate the vSourceOI object/subobject hierarchically and create an XML node for each entity that has a corresponding
+   // GroupSet entity in the Report Def.
+
+   // Generate basic header.
+   szOutputLine = "<?xml version=" + QUOTES + "1.0" + QUOTES + " encoding=" + QUOTES + "iso-8859-1" + QUOTES + "?>"
+   GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+   szOutputLine = "<zOI>"
+   GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+   
+   // Process the page header. 
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Type = "PH"
+   IF RESULT >= zCURSOR_SET
+      szOutputLine = "<PageHeader>"
+      GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+      XML_PageHeaderFooter( vReportDef, vSourceOI, szOutputLine, lFileHandle, szIndentationValue )
+      szOutputLine = "</PageHeader>"
+      GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+   END
+   
+   szOutputLine = "   <GR_" + szTopEntityName + ">"
+   GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+
+   // Process Top Entity Header, if it exists.
+   CreateViewFromView( vReportLODRecurs, vReportDef )
+   
+   GenerateXML_LODRecurs( vReportDef, vReportLODRecurs, vSourceOI, szOutputLine, lFileHandle, szIndentationValue )
+   
+
+   szOutputLine = "   </GR_" + szTopEntityName + ">"
+   GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+   
+   // Process the page footer. 
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Type = "PF"
+   IF RESULT >= zCURSOR_SET
+      szOutputLine = "<PageFooter>"
+      GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+      XML_PageHeaderFooter( vReportDef, vSourceOI, szOutputLine, lFileHandle, szIndentationValue )
+      szOutputLine = "</PageFooter>"
+      GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+   END
+
+   // Terminate and close the XML file.
+   szOutputLine = "</zOI>"
+   GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+   SysCloseFile( vReportDef, lFileHandle, 0 )
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXML_CtlRecurs
+**
+*************************************************************************************************/
+LOCAL OPERATION
+GenerateXML_CtlRecurs( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                       VIEW vSourceOI,
+                       STRING ( 32 )   szDrivingObjectViewName,
+                       STRING ( 5000 ) szOutputLine,
+                       INTEGER         lFileHandle,
+                       STRING ( 50 )   szIndentationValue )
+
+   VIEW vMappingOI
+   STRING ( 32 )   szEntityName
+   STRING ( 32 )   szAttributeName
+   STRING ( 32 )   szMappingName
+   STRING ( 32 )   szContextName
+   STRING ( 5000 ) szReturnedAttributeValue
+   STRING ( 5000 ) szConvertedAttributeValue
+   STRING ( 200 )  szMsg
+
+   // Generate an attribute entry for each attribute with mapping in the GroupSet. Note that these are all at the same
+   // hierarchical level since we're assuming no tables within a GroupSet. However, the controls in the GroupSet may well be
+   // organized hierarchically and must thus be processed recursively.
+
+   // Sort the Controls in position order so they will be in the same order as in the XSLT. (This probably isn't
+   // necessary, but it will simply debugging.)
+   OrderEntityForView( vReportDef, "Control", "PSDLG_Y A PSDLG_X A" )
+
+   // Process each Control. The processing rule is simple:
+   // If the control has mapping, build an XML node.
+   // If the control doesn't have mapping, ignore it.
+   // The only issue is that we must step down a level if the Control has a subcontrol.
+
+   FOR EACH vReportDef.Control
+      IF vReportDef.CtrlCtrl EXISTS
+         SetViewToSubobject( vReportDef, "CtrlCtrl" )
+         GenerateXML_CtlRecurs( vReportDef, vSourceOI, szDrivingObjectViewName, szOutputLine, lFileHandle, szIndentationValue )
+         ResetViewFromSubobject( vReportDef )
+      ELSE
+
+         IF vReportDef.CtrlMapER_Attribute EXISTS
+            // Format XML Line for Attribute.
+            szReturnedAttributeValue = ""
+            szConvertedAttributeValue = ""
+            szAttributeName = vReportDef.CtrlMapER_Attribute.Name
+            szEntityName    = vReportDef.CtrlMapRelatedEntity.Name
+            szContextName = ""
+            IF vReportDef.CtrlMapContext EXISTS
+               szContextName = vReportDef.CtrlMapContext.Name  
+            END
+            IF vReportDef.CtrlMapView.Name = szDrivingObjectViewName   // Check if mapping if from Driving Object View.
+               GetStringFromAttributeByContext( szReturnedAttributeValue, vSourceOI, szEntityName, szAttributeName, szContextName, 5000 )
+            ELSE
+               // Mapping is from separate view.
+               szMappingName = vReportDef.CtrlMapView.Name
+               GET VIEW vMappingOI NAMED szMappingName
+               GetStringFromAttributeByContext( szReturnedAttributeValue, vMappingOI, szEntityName, szAttributeName, szContextName, 5000 )
+            END
+
+            ConvertXML_SpecialCharacters( vReportDef, szConvertedAttributeValue, szReturnedAttributeValue, 5000 )
+
+            szOutputLine = szIndentationValue + "  " + "<" + szEntityName + "." + szAttributeName + ">" + szConvertedAttributeValue
+            szOutputLine = szOutputLine + "</" + szEntityName + "." + szAttributeName + ">"
+            GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+
+         END
+      END
+   END
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GenerateXML_LODRecurs
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenerateXML_LODRecurs( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                       VIEW vReportDefRecurs BASED ON LOD TZRPSRCO,
+                       VIEW vSourceOI,
+                       STRING ( 5000 ) szOutputLine,
+                       INTEGER         lFileHandle,
+                       STRING ( 50 )   szIndentationValue )
+
+   STRING ( 32 ) szEntityName
+   STRING ( 32 ) szDrivingViewName
+   STRING ( 50 ) szIndentationSubValue
+   STRING ( 10 ) szCnt
+   SHORT nRC
+   
+   szDrivingViewName = vReportDef.DrivingViewObjRef.Name
+
+   // Build one level of the PartialReportEntity subobject, matching the structure of the Driving LOD and
+   // setting the ReportDisplayFlag entity for any entity with a corresponding GroupSet entity in the report, or having
+   // a PartialReportEntityChild entity with a corresponding GroupSet entity. The flag is set to "D" if the entity has
+   // a corresponding GroupSet entity and to a "C" if it has a child with a corresponding GroupSet entity.
+   
+   FOR EACH vReportDefRecurs.PartialReportEntity 
+   
+      szEntityName = vReportDefRecurs.PartialReportEntity.Name 
+       
+      // If ReportDisplayFlag = "D" then this is an entity that is displayed on the report (there is a GroupSet).  
+      // Otherwise, it's a parent entity where one of it's children is displayed on the report.                    
+      IF vReportDefRecurs.PartialReportEntity.ReportDisplayFlag = "D"
+      
+         SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Tag = szEntityName 
+         IF RESULT < zCURSOR_SET
+            // There is an error because the report should have a GroupSet for this.          
+         END
+
+         nRC = SetCursorFirstEntity( vSourceOI, szEntityName, "" )
+         
+         // Process group header
+         SET CURSOR FIRST vReportDef.Group WHERE vReportDef.Group.Type = "gh"
+         IF RESULT >= zCURSOR_SET
+            szOutputLine = szIndentationValue + "   <" + szEntityName + "Header>"
+            GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+      
+            szIndentationSubValue = szIndentationValue + "      "
+            GenerateXML_CtlRecurs( vReportDef, vSourceOI, szDrivingViewName, szOutputLine, lFileHandle, szIndentationSubValue )
+      
+            szOutputLine = szIndentationValue + "   </" + szEntityName + "Header>"
+            GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+         END
+       
+         // Go to generate an attribute entry for each attribute with mapping in the Detail Group of the GroupSet.
+         SET CURSOR FIRST vReportDef.Group WHERE vReportDef.Group.Type = "ga"
+         IF RESULT >= zCURSOR_SET
+                     
+            // Loop through vSourceOI for each entity
+            LOOP WHILE nRC >= zCURSOR_SET                     
+         
+               szOutputLine = szIndentationValue + "   <" + szEntityName + ">"
+               GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+               szIndentationSubValue = szIndentationValue + "   "
+
+               GenerateXML_CtlRecurs( vReportDef, vSourceOI, szDrivingViewName, szOutputLine, lFileHandle, szIndentationSubValue )
+               
+               // Check to see if there are child entities.
+               IF vReportDefRecurs.PartialReportEntityChild EXISTS
+               
+                  SetViewToSubobject( vReportDefRecurs, "PartialReportEntityChild" )
+                  szIndentationSubValue = szIndentationValue + "      "
+                  nRC = GenerateXML_LODRecurs( vReportDef,
+                                               vReportDefRecurs, vSourceOI, szOutputLine, lFileHandle, szIndentationSubValue )
+                  ResetViewFromSubobject( vReportDefRecurs )
+                  
+                  // We need to reset on the report GroupSet/Group because it has been changed when we go down levels.
+                  SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Tag = szEntityName
+                  SET CURSOR FIRST vReportDef.Group WHERE vReportDef.Group.Type = "ga"
+               END
+               
+               // End of checking for child entities...               
+               szOutputLine = szIndentationValue + "   </" + szEntityName + ">"
+               GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+
+               nRC = SetCursorNextEntity( vSourceOI, szEntityName, "" )
+            END
+         END
+
+         // Process group footer.
+         SET CURSOR FIRST vReportDef.Group WHERE vReportDef.Group.Type = "gf"
+         IF RESULT >= zCURSOR_SET
+            szOutputLine = szIndentationValue + "   <" + szEntityName + "Footer>"
+            GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+   
+            szIndentationSubValue = szIndentationValue + "      "
+            GenerateXML_CtlRecurs( vReportDef, vSourceOI, szEntityName, szOutputLine, lFileHandle, szIndentationSubValue )
+            szOutputLine = szIndentationValue + "   </" + szEntityName + "Footer>"
+            GenerateXMLLine( vReportDef, lFileHandle, szOutputLine )
+         END
+
+      ELSE
+         // Maybe the parent isn't being displayed but a child might be, so we need to check...
+               
+         // Loop through vSourceOI for each entity
+         nRC = SetCursorFirstEntity( vSourceOI, szEntityName, "" )
+         LOOP WHILE nRC >= zCURSOR_SET                     
+            IF vReportDefRecurs.PartialReportEntityChild EXISTS
+            
+               SetViewToSubobject( vReportDefRecurs, "PartialReportEntityChild" )
+               szIndentationSubValue = szIndentationValue + "      "
+               nRC = GenerateXML_LODRecurs( vReportDef,
+                                            vReportDefRecurs, vSourceOI, szOutputLine, lFileHandle, szIndentationSubValue )
+               ResetViewFromSubobject( vReportDefRecurs )
+               
+            END
+            nRC = SetCursorNextEntity( vSourceOI, szEntityName, "" )
+         END
+      END
+      
+   END  // FOR EACH vReportDefRecurs.PartialReportEntity 
+
+END
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: XML_PageHeaderFooter
+**    
+*************************************************************************************************/
+LOCAL OPERATION
+XML_PageHeaderFooter( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                      VIEW vSourceOI,
+                      STRING ( 5000 ) szOutputLine,
+                      INTEGER         lFileHandle,
+                      STRING ( 50 )   szIndentationValue )
+
+   STRING ( 32 ) szEntityName
+   STRING ( 50 ) szIndentationSubValue
+   
+   IF vReportDef.Control EXISTS 
+      szIndentationSubValue = szIndentationValue + "      "
+      GenerateXML_CtlRecurs( vReportDef, vSourceOI, szEntityName, szOutputLine, lFileHandle, szIndentationSubValue )
+   END
+
+END

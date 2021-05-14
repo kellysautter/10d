@@ -370,6 +370,7 @@ ZCrystalEditView::ZCrystalEditView( ZSubtask *pZSubtask,
    ResetView();
 
    Attr.Style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_HSCROLL | WS_VSCROLL;
+   //Attr.Style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_HSCROLL | WS_VSCROLL;
 
 // if ( m_pzsVName == 0 )
 //    return;
@@ -9010,6 +9011,7 @@ EDT_OpenObject( zVIEW vSubtask, zCPCHAR cpcFileName )
          pED_Crystal->SetCursorPos( pt );
          pED_Crystal->UpdateCaret();
          pED_Crystal->EnsureVisible( pt );
+		 // The following line disables the minimize box on the editor. KJS
          pZSubtask->m_pZFWnd->ModifyStyle(WS_MINIMIZEBOX, 0, SWP_FRAMECHANGED);
          pZSubtask->m_pZFWnd->ShowControlBar( &(pED_Crystal->m_wndToolBar), TRUE, FALSE );
       //?pED_Crystal->ModifyStyleEx( 0, WS_EX_CONTROLPARENT );

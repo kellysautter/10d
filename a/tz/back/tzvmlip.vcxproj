@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EC5E6754-8C49-4F78-9A55-F9DDC5592D85}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;TZVMLIP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;TZVMLIP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="account.c" />
+    <ClCompile Include="ax\msdbgrid\msdbgrid.cpp" />
+    <ClCompile Include="ax\msdbgrid\msdbmap.cpp" />
+    <ClCompile Include="ax\truegrid\tdbg6.cpp" />
+    <ClCompile Include="ax\truegrid\tgcolser.cpp" />
+    <ClCompile Include="ax\truegrid\trddmap.cpp" />
+    <ClCompile Include="ax\truegrid\trdgmap.cpp" />
+    <ClCompile Include="ax\truegrid\trgrxprt.cpp" />
+    <ClCompile Include="ax\truegrid\trhlpr.cpp" />
+    <ClCompile Include="ax\truegrid\truegrid.cpp" />
+    <ClCompile Include="ax\truegrid\xarraydb.cpp" />
+    <ClCompile Include="ax\tzaxctl\tzaxcal.cpp" />
+    <ClCompile Include="ax\tzaxctl\tzaxctl.cpp" />
+    <ClCompile Include="ax\tzaxctl\tzaxdate.cpp" />
+    <ClCompile Include="ax\tzaxctl\tzaxhlpr.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\bookmark.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\buffer.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\cedit.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\ceditmsg.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\ceditx.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\cmdarry.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codelistctrl.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codetipctrl.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codetipfunchighlightctrl.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codetiphighlightctrl.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\codetipmultifuncctrl.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\ctlstate.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\debug.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\dlldata.c" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\dragdrop.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editcmd1.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editdlgs.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editsel.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editview.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editx_i.c" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\editx_p.c" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\exports.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\findrepl.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\globalsx.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\hkeyctrl.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\hotkey.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\hotkeyx.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodelist.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodetip.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodetipfunchighlight.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodetiphighlight.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\icodetipmultifunc.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\language.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\langx.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\line.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\macro.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\misc.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\msgpump.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\posx.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\precomp.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\print.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\props.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\rangex.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\rectx.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\regexp.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\selftest.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\splitter.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\syntax.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\undo.cpp" />
+    <ClCompile Include="ax\tzvmledt\cmcs219\src\wnd.cpp" />
+    <ClCompile Include="ax\tzvmledt\tzcswrpr.cpp" />
+    <ClCompile Include="ax\tzvmledt\tzvmledt.cpp" />
+    <ClCompile Include="ax\tzvmledt\zcmddef.cpp" />
+    <ClCompile Include="ax\tzvmledt\zstring.cpp" />
+    <ClCompile Include="ax\tzvmledt\zviewdef.cpp" />
+    <ClCompile Include="ax\_edit\hzoectl.cpp" />
+    <ClCompile Include="ax\_edit\hzoedlg.cpp" />
+    <ClCompile Include="ax\_edit\hzoefunc.cpp" />
+    <ClCompile Include="ax\_edit\hzoemeth.cpp" />
+    <ClCompile Include="ax\_edit\hzoeprop.cpp" />
+    <ClCompile Include="ax\_edit\hzoessyn.cpp" />
+    <ClCompile Include="ax\_edit\hzoeundo.cpp" />
+    <ClCompile Include="ax\_edit\hzoezsyn.cpp" />
+    <ClCompile Include="ax\_edit\tbedit.cpp" />
+    <ClCompile Include="ax\_edit\tbedit_i.c" />
+    <ClCompile Include="currency.c" />
+    <ClCompile Include="etc\yylex.c" />
+    <ClCompile Include="etc\yylex.cpp" />
+    <ClCompile Include="etc\yyparse.c" />
+    <ClCompile Include="etc\yyparse.cpp" />
+    <ClCompile Include="kzrpquer.c" />
+    <ClCompile Include="kzrpsrc2.c" />
+    <ClCompile Include="kzrpsrco.c" />
+    <ClCompile Include="kzrpwebo.c" />
+    <ClCompile Include="kzsirrep.c" />
+    <ClCompile Include="kzxmlpg2.c" />
+    <ClCompile Include="kzxmlpgo.c" />
+    <ClCompile Include="TrueGrid.cpp" />
+    <ClCompile Include="tzadcdod.c" />
+    <ClCompile Include="tzadcs2o.c" />
+    <ClCompile Include="tzadcsdo.c" />
+    <ClCompile Include="tzadw1aw.c" />
+    <ClCompile Include="tzadw2aw.c" />
+    <ClCompile Include="tzadw3aw.c" />
+    <ClCompile Include="tzadw4aw.c" />
+    <ClCompile Include="tzadw5aw.c" />
+    <ClCompile Include="tzadw6aw.c" />
+    <ClCompile Include="tzadw7aw.c" />
+    <ClCompile Include="tzadw8aw.c" />
+    <ClCompile Include="tzadwdod.c" />
+    <ClCompile Include="TZADWEBD.c" />
+    <ClCompile Include="tzadwexp.c" />
+    <ClCompile Include="tzadwoaw.c" />
+    <ClCompile Include="tzapdmaa.c" />
+    <ClCompile Include="tzapdmab.c" />
+    <ClCompile Include="tzapdmac.c" />
+    <ClCompile Include="tzaxcfgd.c" />
+    <ClCompile Include="TZBLDXOD.c" />
+    <ClCompile Include="tzbmupdd.c" />
+    <ClCompile Include="tzbrau2o.c" />
+    <ClCompile Include="tzbraudo.c" />
+    <ClCompile Include="tzbrentd.c" />
+    <ClCompile Include="tzcmcpld.c" />
+    <ClCompile Include="tzcmcpro.c" />
+    <ClCompile Include="tzcmcvto.c" />
+    <ClCompile Include="tzcmenqo.c" />
+    <ClCompile Include="tzcmlops.c" />
+    <ClCompile Include="tzcmlp2o.c" />
+    <ClCompile Include="tzcmlpld.c" />
+    <ClCompile Include="TZCMLPLDV.c" />
+    <ClCompile Include="tzcmlplo.c" />
+    <ClCompile Include="tzcmlpmd.c" />
+    <ClCompile Include="tzcmlpmo.c" />
+    <ClCompile Include="tzcmoprs.c" />
+    <ClCompile Include="tzcmqcpo.c" />
+    <ClCompile Include="tzcmqsyo.c" />
+    <ClCompile Include="tzcmrepo.c" />
+    <ClCompile Include="tzcmrevd.c" />
+    <ClCompile Include="tzcmrptd.c" />
+    <ClCompile Include="tzcmslpd.c" />
+    <ClCompile Include="tzcmutil.c" />
+    <ClCompile Include="tzcmwkso.c" />
+    <ClCompile Include="tzcm_opr.c" />
+    <ClCompile Include="tzdbht2d.c" />
+    <ClCompile Include="tzdbhtsd.c" />
+    <ClCompile Include="tzdgsrco.c" />
+    <ClCompile Include="tzdmsrco.c" />
+    <ClCompile Include="tzdmup2d.c" />
+    <ClCompile Include="tzdmupdd.c" />
+    <ClCompile Include="tzdmxgpo.c" />
+    <ClCompile Include="tzedcm2d.c" />
+    <ClCompile Include="tzedcmpd.c" />
+    <ClCompile Include="tzedcwzd.c" />
+    <ClCompile Include="tzedfrmd.c" />
+    <ClCompile Include="tzeditod.c" />
+    <ClCompile Include="tzedvmld.c" />
+    <ClCompile Include="tzerem2o.c" />
+    <ClCompile Include="tzeremdd.c" />
+    <ClCompile Include="tzeremde.c" />
+    <ClCompile Include="tzeremdo.c" />
+    <ClCompile Include="tzeremxo.c" />
+    <ClCompile Include="tzerrord.c" />
+    <ClCompile Include="tzersa2o.c" />
+    <ClCompile Include="tzersapd.c" />
+    <ClCompile Include="tzersaso.c" />
+    <ClCompile Include="tzersast.c" />
+    <ClCompile Include="TZGLOJSP.c" />
+    <ClCompile Include="tzhkeyad.c" />
+    <ClCompile Include="tzhlpcxd.c" />
+    <ClCompile Include="tzlodopr.c" />
+    <ClCompile Include="tzlooprs.c" />
+    <ClCompile Include="tzmsdilo.c" />
+    <ClCompile Include="tzobrwad.c" />
+    <ClCompile Include="tzogsrco.c" />
+    <ClCompile Include="tzopgrpo.c" />
+    <ClCompile Include="tzophdrd.c" />
+    <ClCompile Include="tzophdro.c" />
+    <ClCompile Include="tzoprusd.c" />
+    <ClCompile Include="tzopsigd.c" />
+    <ClCompile Include="tzopsigo.c" />
+    <ClCompile Include="tzopupdd.c" />
+    <ClCompile Include="tzpesrco.c" />
+    <ClCompile Include="tzpeupdd.c" />
+    <ClCompile Include="tzpnctad.c" />
+    <ClCompile Include="tzpnctld.c" />
+    <ClCompile Include="tzpncw2d.c" />
+    <ClCompile Include="tzpncwdd.c" />
+    <ClCompile Include="tzpnolad.c" />
+    <ClCompile Include="tzpnoldc.c" />
+    <ClCompile Include="tzpntbad.c" />
+    <ClCompile Include="tzpntrad.c" />
+    <ClCompile Include="tzpntrvd.c" />
+    <ClCompile Include="tzpnupgd.c" />
+    <ClCompile Include="tzrepoad.c" />
+    <ClCompile Include="tzrpsrco.c" />
+    <ClCompile Include="TZRPSXM2.c" />
+    <ClCompile Include="tzrpsxml.c" />
+    <ClCompile Include="tzrpup2d.c" />
+    <ClCompile Include="tzrpupdd.c" />
+    <ClCompile Include="tzrpupsd.c" />
+    <ClCompile Include="tzsiimpd.c" />
+    <ClCompile Include="tzsioprs.c" />
+    <ClCompile Include="tzsixsko.c" />
+    <ClCompile Include="tzstarto.c" />
+    <ClCompile Include="tztedb2o.c" />
+    <ClCompile Include="tztedbld.c" />
+    <ClCompile Include="tztempmo.c" />
+    <ClCompile Include="tztenv2o.c" />
+    <ClCompile Include="tztenvro.c" />
+    <ClCompile Include="tzteupdd.c" />
+    <ClCompile Include="tzvmedaw.c" />
+    <ClCompile Include="tzvmg1aa.c" />
+    <ClCompile Include="tzvmg2aa.c" />
+    <ClCompile Include="tzvmgnaa.c" />
+    <ClCompile Include="tzvmi1aa.c" />
+    <ClCompile Include="tzvmi2aa.c" />
+    <ClCompile Include="tzvmi3aa.c" />
+    <ClCompile Include="tzvminaa.c" />
+    <ClCompile Include="tzvmlip.c" />
+    <ClCompile Include="tzvmlopr.c" />
+    <ClCompile Include="tzvmp1aa.c" />
+    <ClCompile Include="tzvmp2aa.c" />
+    <ClCompile Include="tzvmp3aa.c" />
+    <ClCompile Include="tzvmp4aa.c" />
+    <ClCompile Include="tzvmp5aa.c" />
+    <ClCompile Include="tzvmp6aa.c" />
+    <ClCompile Include="tzvmp7aa.c" />
+    <ClCompile Include="tzvmp8aa.c" />
+    <ClCompile Include="tzvmp9aa.c" />
+    <ClCompile Include="tzvmpaaa.c" />
+    <ClCompile Include="tzvmpeaa.c" />
+    <ClCompile Include="tzvmplaa.c" />
+    <ClCompile Include="tzvmpmoo.c" />
+    <ClCompile Include="tzvmpopr.c" />
+    <ClCompile Include="tzvmpyaa.c" />
+    <ClCompile Include="tzvsdbad.c" />
+    <ClCompile Include="tzvsrtoo.c" />
+    <ClCompile Include="tzvsxcad.c" />
+    <ClCompile Include="tzwdgrwd.c" />
+    <ClCompile Include="tzwdgrwo.c" />
+    <ClCompile Include="tzwdlg2o.c" />
+    <ClCompile Include="tzwdlg3o.c" />
+    <ClCompile Include="tzwdlg4o.c" />
+    <ClCompile Include="TZWDLG6O.c" />
+    <ClCompile Include="tzwdlgso.c" />
+    <ClCompile Include="tzwdvord.c" />
+    <ClCompile Include="tzwebgl1.c" />
+    <ClCompile Include="TZWEBGL2.C" />
+    <ClCompile Include="TZWEBGL3.c" />
+    <ClCompile Include="TZWEBGL4.c" />
+    <ClCompile Include="tzwrksto.c" />
+    <ClCompile Include="tzxsltdd.c" />
+    <ClCompile Include="tzzapp2d.c" />
+    <ClCompile Include="tzzappsd.c" />
+    <ClCompile Include="tzzmaind.c" />
+    <ClCompile Include="tzzolo2o.c" />
+    <ClCompile Include="tzzolodd.c" />
+    <ClCompile Include="tzzolodo.c" />
+    <ClCompile Include="tzzolodq.c" />
+    <ClCompile Include="tzzolodr.c" />
+    <ClCompile Include="tzzoloq2.c" />
+    <ClCompile Include="tzzorpts.c" />
+    <ClCompile Include="tzzoxodo.c" />
+    <ClCompile Include="tz__prfo.c" />
+    <ClCompile Include="underscore.c" />
+    <ClCompile Include="waccount.c" />
+    <ClCompile Include="zglobal1.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ax\msdbgrid\msdbgrid.def" />
+    <None Include="ax\truegrid\truegrid.def" />
+    <None Include="ax\tzaxctl\tzaxctl.def" />
+    <None Include="ax\tzvmledt\cmcs219\license.htm" />
+    <None Include="ax\tzvmledt\cmcs219\src\codesense.def" />
+    <None Include="ax\tzvmledt\cmcs219\src\codesense.rc2" />
+    <None Include="ax\tzvmledt\cmcs219\src\codesensex.def" />
+    <None Include="ax\tzvmledt\cmcs219\src\editx.rgs" />
+    <None Include="ax\tzvmledt\cmcs219\src\globalsx.rgs" />
+    <None Include="ax\tzvmledt\cmcs219\src\hotkeyx.rgs" />
+    <None Include="ax\tzvmledt\cmcs219\src\langx.rgs" />
+    <None Include="ax\tzvmledt\cmcs219\src\posx.rgs" />
+    <None Include="ax\tzvmledt\cmcs219\src\rangex.rgs" />
+    <None Include="ax\tzvmledt\cmcs219\src\rectx.rgs" />
+    <None Include="ax\tzvmledt\cmcs219\src\wnd.inl" />
+    <None Include="ax\tzvmledt\tzvmledit.def" />
+    <None Include="ax\_edit\hzoectl.def" />
+    <None Include="tzvmlip.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="ax\tzvmledt\cmcs219\src\editx.idl" />
+    <Midl Include="ax\_edit\tbedit.odl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ax\msdbgrid\msdbgrid.h" />
+    <ClInclude Include="ax\truegrid\evnthlpr.h" />
+    <ClInclude Include="ax\truegrid\tdbg6.h" />
+    <ClInclude Include="ax\truegrid\tgcolser.h" />
+    <ClInclude Include="ax\truegrid\trhlpr.h" />
+    <ClInclude Include="ax\truegrid\xarraydb.h" />
+    <ClInclude Include="ax\tzaxctl\resource.h" />
+    <ClInclude Include="ax\tzaxctl\tzaxcal.h" />
+    <ClInclude Include="ax\tzaxctl\tzaxctl.h" />
+    <ClInclude Include="ax\tzaxctl\tzaxdate.h" />
+    <ClInclude Include="ax\tzaxctl\tzaxgbl.h" />
+    <ClInclude Include="ax\tzaxctl\tzaxhlpr.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\include\cmcsafx.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\include\codesense.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\buffer.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\cedit.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\ceditx.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\cmidlids.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codelistctrl.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codetipctrl.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codetipfunchighlightctrl.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codetiphighlightctrl.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\codetipmultifuncctrl.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\debug.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\dispatchwnd.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\dragdrop.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\editdlgs.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\editsel.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\editview.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\editx.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\fontnotifyimpl.hxx" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\globalsx.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\hkeyctrl.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\hotkeyx.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodelist.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetip.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetip.hxx" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetipfunchighlight.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetipfunchighlight.hxx" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetiphighlight.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\icodetipmultifunc.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\langx.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\misc.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\posx.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\precomp.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\rangex.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\rect.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\rectx.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\regclasslist.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\regexp.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\resource.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\resource2.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\undo.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\uuid.h" />
+    <ClInclude Include="ax\tzvmledt\cmcs219\src\wnd.h" />
+    <ClInclude Include="ax\tzvmledt\tzcswrpr.h" />
+    <ClInclude Include="ax\tzvmledt\tzvmlcst.h" />
+    <ClInclude Include="ax\tzvmledt\tzvmledt.h" />
+    <ClInclude Include="ax\tzvmledt\zcmddef.h" />
+    <ClInclude Include="ax\tzvmledt\zstring.h" />
+    <ClInclude Include="ax\tzvmledt\zviewdef.h" />
+    <ClInclude Include="ax\_edit\hzoectl.h" />
+    <ClInclude Include="ax\_edit\hzoectlr.h" />
+    <ClInclude Include="ax\_edit\hzoedlg.h" />
+    <ClInclude Include="ax\_edit\hzoeprop.h" />
+    <ClInclude Include="ax\_edit\hzoestri.h" />
+    <ClInclude Include="ax\_edit\hzoesyn.h" />
+    <ClInclude Include="ax\_edit\hzoeundo.h" />
+    <ClInclude Include="ax\_edit\hzoezsyn.h" />
+    <ClInclude Include="ax\_edit\stdafx.h" />
+    <ClInclude Include="ax\_edit\tbedit.h" />
+    <ClInclude Include="ax\_edit\tbedit_h.h" />
+    <ClInclude Include="tzlodopr\targetver.h" />
+    <ClInclude Include="tzvspmaa.h" />
+    <ClInclude Include="ZEIDONOP.H" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ax\truegrid\truegrid.rc" />
+    <ResourceCompile Include="ax\tzaxctl\tzaxctl.rc" />
+    <ResourceCompile Include="ax\tzvmledt\cmcs219\src\codesense.rc" />
+    <ResourceCompile Include="ax\_edit\hzoectld.rc" />
+    <ResourceCompile Include="ax\_edit\hzoectle.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

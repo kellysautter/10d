@@ -1,0 +1,131 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// MODULE NAME:   tzcm_opr.hg -  Zeidon application operation prototypes
+// DESCRIPTION:   This C file contains global and LOD operation prototypes
+//                for the Zeidon application.
+//
+// **************************************************************************
+// * Copyright © 1995 - 2016 QuinSoft, Inc.     All rights reserved.        *
+// * Confidential and Proprietary material subject to license - do not      *
+// * reproduce or disclose.  This material is an unpublished work and       *
+// * is considered a trade secret belonging to the copyright holder.        *
+// **************************************************************************
+//
+// AUTHOR:        Doug Sorensen
+// DATE:          1995/08/05
+// API:           MicroSoft foundation classes and Windows 3.1 SDK
+// ENVIRONMENT:   Windows 3.1
+// REVISION:      0.8E   1995/08/05
+//
+// HISTORY:
+//
+//    1995/08/05: Beginning of 0.8E branch
+//
+/////////////////////////////////////////////////////////////////////////////
+
+/*
+CHANGE LOG
+
+1998.01.28  DGC
+   Changed definition of CM_ACTIVE_TYPE and CM_REFER_TYPE to be macros
+   instead of variables.
+
+*/
+
+#ifndef TZCM_OPR_HG
+#define TZCM_OPR_HG
+// #ifdef zGLOBAL_DATA
+//    #pragma message("beginning tzcm_opr.hg ===> " VAR_NAME_VALUE(zGLOBAL_DATA))
+// #else
+//    #pragma message("beginning tzcm_opr.hg ---> zGLOBAL_DATA is ''")
+// #endif
+
+#include "kzoegdef.h"
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// mGLOBAL_DECLARE is a macro defined to produce extern variable declarations
+// unless zGLOBAL_DATA is defined as:  #define zGLOBAL_DATA
+// in which case the variables are declared as global.
+//
+/////////////////////////////////////////////////////////////////////////////
+//
+//mGLOBAL_DECLARE( int, CM_ACTIVE_TYPE, 0 );
+//mGLOBAL_DECLARE( int, CM_REFER_TYPE,  2 );
+#define CM_ACTIVE_TYPE  0
+#define CM_REFER_TYPE   2
+
+
+#ifdef zGLOBAL_DATA
+
+//#pragma message("zGLOBAL_DATA defining CMOD_Struct for SRC_CMOD and REFER_CMOD tzcm_opr.hg ===> " VAR_NAME_VALUE(zGLOBAL_DATA))
+
+
+// ObjectDefinition Structure
+struct CMOD_Struct  SRC_CMOD[] =
+   {
+      { "TZOPHDRO", "HeaderFile",           "Name", ".HDR", "h" },
+      { "--------", "SourceFile",           "Name", ".SRC", "src" },
+      { "TZOGSRCO", "Operation",            "Name", ".POG", "gg" },
+      { "TZDGSRCO", "Domain",               "Name", ".PDG", "dg" },
+      { "TZEREMDO", "EntpER_Model",         "Name", ".PMD", "md" },
+      { "TZERSASO", "SubjectArea",          "Name", ".PSA", "sa" },
+      { "TZTENVRO", "TE_DB_Environ",        "Name", ".DTE", "te" },
+      { "TZZOLODO", "LOD",                  "Name", ".LOD", "od" },
+      { "TZZOPODO", "POD",                  "Name", ".POD", "pod" },
+      { "TZWDVORO", "ViewObjRef",           "Name", ".PVR", "vr" },
+      { "TZPESRCO", "PresEnvDef",           "Name", ".PPE", "pe" },
+      { "TZWDLGSO", "Dialog",               "Tag",  ".PWD", "wd" },
+      { "TZADCSDO", "UI_Spec",              "Name", ".PUI", "ui" },
+      { "TZDGSRCO", "DomainGroup",          "Name", ".PDG", "dg" },
+      { "TZOGSRCO", "GlobalOperationGroup", "Name", ".POG", "gg" },
+      { "TZRPSRCO", "Report",               "Tag",  ".PRP", "pr" },
+      { "TZRPSRCO", "XSLT",                 "XXX",  ".XSL", "xx" }
+   };
+
+struct CMOD_Struct  REFER_CMOD[] =
+   {
+      // DGC
+      // NOTE: the second value (Root entity name) for TZOGSRCO and TZDGSRCO
+      // is used (at least) in fnGetAndSetZKey.
+
+      { "TZOPHDRO", "HeaderFile",           "Name", ".HDR", "hr"   },
+      { "--------", "SourceFile",           "Name", ".SRC", "srcr" },
+      { "TZOGSRCO", "Operation",            "Name", ".POG", "ggr"  },
+      { "TZDGSRCO", "Domain",               "Name", ".PDG", "dgr"  },
+      { "TZEREMDO", "EntpER_Model",         "Name", ".PMD", "mdr"  },
+      { "TZERSASO", "SubjectArea",          "Name", ".PSA", "sar"  },
+      { "TZTENVRO", "TE_DB_Environ",        "Name", ".DTE", "ter"  },
+      { "TZZOLODO", "LOD",                  "Name", ".LOD", "odr"  },
+      { "TZZOPODO", "POD",                  "Name", ".POD", "podr" },
+      { "TZWDVORO", "ViewObjRef",           "Name", ".PVR", "vrr"  },
+      { "TZPESRCO", "PresEnvDef",           "Name", ".PPE", "per"  },
+      { "TZWDLGSO", "Dialog",               "Tag",  ".PWD", "wdr"  },
+      { "TZADCSDO", "UI_Spec",              "Name", ".PUI", "uir"  },
+      { "TZDGSRCO", "DomainGroup",          "Name", ".PDG", "dgr"  },
+      { "TZOGSRCO", "GlobalOperationGroup", "Name", ".POG", "ggr"  },
+      { "TZRPSRCO", "Report",               "Tag",  ".PRP", "pr" },
+      { "TZRPSRCO", "XSLT",                 "XXX",  ".XSL", "xx" }
+   };
+
+#else
+
+//#pragma message("********** zGLOBAL_DATA extern CMOD_Struct for SRC_CMOD and REFER_CMOD tzcm_opr.hg **********")
+
+extern struct CMOD_Struct  SRC_CMOD[];
+extern struct CMOD_Struct  REFER_CMOD[];
+
+#endif   // #ifdef zGLOBAL_DATA
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif   // #ifndef TZCM_OPR_HG
+
+///////////////////////////// end of file  //////////////////////////////////

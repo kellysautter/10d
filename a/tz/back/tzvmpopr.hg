@@ -1,0 +1,196 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// MODULE NAME:   tzvmpopr.hg -  Zeidon application operation prototypes
+// DESCRIPTION:   This C file contains global and LOD operation prototypes
+//                for the Zeidon application.
+//
+// **************************************************************************
+// * Copyright © 1995 - 2016 QuinSoft, Inc.     All rights reserved.        *
+// * Confidential and Proprietary material subject to license - do not      *
+// * reproduce or disclose.  This material is an unpublished work and       *
+// * is considered a trade secret belonging to the copyright holder.        *
+// **************************************************************************
+//
+// AUTHOR:        Doug Sorensen
+// DATE:          1995/08/05
+// API:           MicroSoft foundation classes and Windows 3.1 SDK
+// ENVIRONMENT:   Windows 3.1
+// REVISION:      0.8E   1995/08/05
+//
+// HISTORY:
+//
+//    1995/08/05: Beginning of 0.8E branch
+//
+/////////////////////////////////////////////////////////////////////////////
+//
+
+/*
+CHANGE LOG most recent first order
+2002.03.15 HH
+   fatal error exit.
+2001.11.15  HH
+   R55920, added glb_szSourceMetaObjectName.
+2001.09.27  HH
+   WHERE with parens
+
+old change log
+20.07.1997  DonC
+   Added defines for better handling of IF statements containing a large number
+   of expressions.
+
+22.11.1997  DonC
+   Added lOperationUnknownFlag global variable.
+
+17.07.1998  HH
+   Added Extension to global parm list
+
+18.08.1998  HH
+   incremented EXPRCODE_MAXSTRING.
+
+16.10.1998  HH
+   use define PARM_LIST_SIZE.
+*/
+
+#ifndef TZVMPOPR_HG
+#define TZVMPOPR_HG
+#define EXPRCODE_MAXSTRING 12000
+#define EXPRTEXT_MAXSTRING 1200
+
+#include "kzoegdef.h"
+#include <setjmp.h>
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// mGLOBAL_DECLARE is a macro defined to produce extern variable declarations
+// unless zGLOBAL_DATA is defined as:  #define zGLOBAL_DATA
+// in which case the variables are declared as global.
+//
+/////////////////////////////////////////////////////////////////////////////
+mGLOBAL_DECLARE( HINSTANCE, hModule, 0 );
+
+// tzvmp
+zEXTERN zLONG  g_lfErrorHandle;
+zEXTERN zLONG  g_lfHandle;
+zEXTERN zLONG  g_lAddToSrc;
+zEXTERN zLONG  g_lAddNextStatementBefore;
+zEXTERN zLONG  g_lAddNextStatementBeforeSave;  // Needed for Activate
+zEXTERN zLONG  g_lAttributeID;
+zEXTERN zLONG  g_lAttributeNameLength;
+zEXTERN zLONG  g_lDeclaredStringLength;
+zEXTERN zLONG  g_lEntityID;
+zEXTERN zLONG  g_lEntityNameLength;
+zEXTERN zLONG  g_lFlag;
+zEXTERN zLONG  g_lGetViewID;
+zEXTERN zLONG  lGlobalReadRetCode;
+zEXTERN zLONG  g_lLastTypeDeclared;
+zEXTERN zLONG  g_lLeftDataClass;
+zEXTERN zLONG  g_lLeftDataType;
+zEXTERN zLONG  g_lTargetDataType;
+zEXTERN zLONG  g_lLoopControlID;
+zEXTERN zLONG  g_lNeedExtraEnd;
+zEXTERN zLONG  g_lNumber;
+zEXTERN zLONG  g_lOldParseLimit;
+zEXTERN zLONG  g_lOperationClass;
+zEXTERN zLONG  g_lOperationFlag;
+zEXTERN zLONG  g_lOperationUnknownFlag;
+zEXTERN zLONG  g_lOperationType;
+zEXTERN zLONG  g_lOperationZKey;
+zEXTERN zLONG  g_lParseAction;
+zEXTERN zLONG  g_lParseLimit;
+zEXTERN zLONG  g_lParseSource;
+zEXTERN zLONG  g_lPriorityFudgeFactor;
+zEXTERN zLONG  g_lRelativeLineNumber;
+zEXTERN zLONG  g_lSaveText;
+zEXTERN zLONG  g_lScopeViewID;
+zEXTERN zLONG  g_lScopeEntityID;
+zEXTERN zLONG  g_lScopeAttributeID;
+zEXTERN zLONG  g_lSetFNPL;
+zEXTERN zSHORT g_nStackPtr;
+zEXTERN zLONG  g_lViewID;
+zEXTERN zLONG  g_lWhereIndex;
+zEXTERN zLONG  g_lWhereJoin[ WHERE_ARRAY_SIZE ];
+zEXTERN zLONG  g_lWhereOp[ WHERE_ARRAY_SIZE ];
+zEXTERN zLONG  g_lParmList[ PARM_LIST_SIZE ];
+zEXTERN zLONG  g_lParmListExt[ PARM_LIST_SIZE ];
+zEXTERN zLONG  g_lParmListIndex;
+zEXTERN zPCHAR qqin;
+zEXTERN int    qqlineno;
+zEXTERN sQOperStackStruct g_nOperStack[ 15 ];
+zEXTERN sQTokenStruct sQToken;
+mGLOBAL_DECLARE( sQExprStruct, g_sWhereLeft[ WHERE_ARRAY_SIZE ], { 0 } );
+//zEXTERN sQExprStruct g_sWhereLeft[ WHERE_ARRAY_SIZE ];
+mGLOBAL_DECLARE( sQExprStruct, g_sWhereRight[ WHERE_ARRAY_SIZE ], { 0 } );
+//zEXTERN sQExprStruct g_sWhereRight[ WHERE_ARRAY_SIZE ];
+zEXTERN zBOOL  g_bActivate;
+zEXTERN zCHAR  g_szLoadControl[ 35 ];
+zEXTERN zCHAR  g_szOperationName[ 256 ];
+zEXTERN zCHAR  g_szViewName[ 33 ];
+zEXTERN zCHAR  g_szEntityName[ 33 ];
+zEXTERN zCHAR  g_szAttributeName[ 33 ];
+zEXTERN zCHAR  g_szScopeViewName[ 33 ];
+zEXTERN zCHAR  g_szScopeEntityName[ 33 ];
+zEXTERN zCHAR  g_szScopeAttributeName[ 33 ];
+zEXTERN zCHAR  g_szSourceMetaObjectName[ 33 ];
+zEXTERN zVIEW  g_vGlobalView;
+zEXTERN zVIEW  g_vLODList;
+zEXTERN zVIEW  g_vVORList;
+zEXTERN zVIEW  g_lpGOListView;        // global reusable operation list view
+zEXTERN zVIEW  g_lpZOListView;        // zeidon reusable operation list view
+zEXTERN zVIEW  g_lpExprView;          // zeidon reusable operation list view
+zEXTERN zVIEW  g_lpLastLOD;
+zEXTERN zVIEW  g_lpPIView;            // a view into the parsed instance
+zEXTERN zVIEW  g_lpSGView;            // a view into the static global instance
+zEXTERN zVIEW  g_vSavePIView;         // a view into the parsed instance
+zEXTERN zVIEW  g_vSaveStmtView;
+zEXTERN zVIEW  g_vSourceMeta;
+zEXTERN zVIEW  g_vStatementView;
+zEXTERN zCHAR  g_szGenLang[ 2 ];
+
+zEXTERN zLONG  g_lCount;
+zEXTERN zCHAR  g_szFatalErrorMsg[ 256 ];
+
+zEXTERN zVIEW  lpGlobalSubtask;     // zeidon reusable operation list view
+
+// jump buffer for fatal error exit
+zEXTERN jmp_buf jbFatalError;
+
+#endif   // #ifndef TZVMPOPR_HG
+
+
+#ifdef zGLOBAL_DATA
+
+#ifndef __WIN32__
+
+/***********************************************************************
+
+   LibMain and WEP - required for Windows
+
+***********************************************************************/
+// does not need to be exported since it is called only from libentry.obj
+int FAR PASCAL
+LibMain( HANDLE  hLibInst,
+         WORD    wDataSeg,
+         WORD    cbHeapSize,
+         LPSTR   lpszCmdLine )
+{
+   if ( cbHeapSize <= 0 )   /* dll did not get loaded properly */
+      return( 0 );
+
+   /* any initialization code should go here */
+   hModule = (HINSTANCE) hLibInst;
+   UnlockData( 0 );
+   return( 1 );
+}
+
+int FAR PASCAL
+WEP( int  bSystemExit )
+{
+   return( 1 );
+}
+
+#endif   // #ifndef __WIN32__
+
+#endif   // #ifdef zGLOBAL_DATA
+
+
+///////////////////////////// end of file  //////////////////////////////////

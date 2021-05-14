@@ -14,7 +14,7 @@ CreateTabIndexString( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 8 ) szWork
    INTEGER      lTabIndex
    
-   TraceLineS("In CreateTabIndexString ---- ", "")
+   //TraceLineS("In CreateTabIndexString ---- ", "")
 
    GET VIEW vDialogRoot NAMED "vDialogRoot"
    lTabIndex = vDialog.Control.SyncKey

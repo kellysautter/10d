@@ -1,0 +1,310 @@
+/*
+CHANGE LOG
+2001.07.11    RG
+   Added support of relative and fully qualified pathes
+2001.07.06    BL
+   Added SetUniqueSpecName for Migrate Compiler Spec
+2000.10.20    SR   Z2000  Length of Size of path variables
+   Modified size of HeaderFileName1 and HeaderFileName2 in function
+   HeaderMigrate because size of attributes ExecDir, MetaSrcDir and
+   PgmSrcDir has been changed to 254 in datamodel.
+2000.07.09    BL  TB50492
+   Modified CompilerMigrate for set new LPLR Directory
+1997.11.13    DGC
+   Changed CopyFile() to SysCopyFile().
+*/
+
+// LAST MESSAGE ID: CM01101
+
+TRANSFORMATION OPERATION
+HeaderMigrate( VIEW        SourceLPLR BASED ON LOD TZCMLPLO,
+               STRING (32) HeaderMetaName,
+               VIEW        NewHeader  BASED ON LOD TZOPHDRO,
+               VIEW        vSubtask )
+
+   VIEW OldHeader   BASED ON LOD TZOPHDRO
+   VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+
+   STRING ( 513 ) HeaderFileName1  // size according to zMAX_FILESPEC_LTH+1
+   STRING ( 513 ) HeaderFileName2  // size according to zMAX_FILESPEC_LTH+1
+
+   // Copy the .H file, if it exists, from the source directory to the target directory.
+   // Note that if it isn't there (it wasn't created in the source LPLR), we're going to
+   // just ignore it; we're not going to return an error message.
+   RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get view for directory info.
+   ResetViewFromSubobject( CurrentLPLR )
+   HeaderFileName1 = SourceLPLR.LPLR.MetaSrcDir + "\" + HeaderMetaName + ".H"
+   HeaderFileName2 = CurrentLPLR.LPLR.MetaSrcDir + "\" + HeaderMetaName + ".H"
+   SysCopyFile( vSubtask, HeaderFileName1, HeaderFileName2, TRUE )
+   DropView( CurrentLPLR )
+
+   // Activate existing source meta OldHeader
+   HeaderFileName1 = SourceLPLR.LPLR.MetaSrcDir + "\" + HeaderMetaName + ".HDR"
+   ActivateOI_FromFile( OldHeader, "TZOPHDRO", SourceLPLR,
+                        HeaderFileName1, 8192 )
+   // 8192 IS zIGNORE_ATTRIB_ERRORS
+   NAME VIEW OldHeader "OldHeader"
+   ActivateEmptyMetaOI( vSubtask, NewHeader, zSOURCE_HDR_META, zSINGLE )
+   NAME VIEW NewHeader "NewHeader"
+
+   CreateMetaEntity( vSubtask, NewHeader, "HeaderFile", zPOS_AFTER )
+   SetMatchingAttributesByName( NewHeader, "HeaderFile", OldHeader,
+                                "HeaderFile", zSET_NULL )
+   FOR EACH OldHeader.DefinedItem
+
+      CreateMetaEntity( vSubtask, NewHeader, "DefinedItem", zPOS_AFTER )
+      SetMatchingAttributesByName( NewHeader, "DefinedItem", OldHeader,
+                                   "DefinedItem", zSET_NULL )
+   END
+
+   DropObjectInstance( OldHeader )
+   CommitMetaOI( vSubtask, NewHeader, zSOURCE_HDR_META )
+
+END
+
+
+
+TRANSFORMATION OPERATION
+CompilerMigrate( VIEW vCurrentLPLR BASED ON LOD TZCMLPLO,
+                 VIEW vSourceLPLR  BASED ON LOD TZCMLPLO,
+                 VIEW vSubtask )
+
+   STRING (512) szSrcLPLR
+   STRING (512) szBaseDir
+   STRING (512) szAktDir
+
+   szSrcLPLR = vSourceLPLR.LPLR.Name
+   szBaseDir = vSourceLPLR.LPLR.MetaSrcDir
+
+   FOR EACH vSourceLPLR.Compiler
+
+      IF vSourceLPLR.Compiler.CompilerName != ""
+
+         CREATE ENTITY vCurrentLPLR.Compiler
+         SetMatchingAttributesByName( vCurrentLPLR, "Compiler",
+                                      vSourceLPLR,  "Compiler", zSET_NULL )
+         SetUniqueSpecName( vCurrentLPLR )
+         SetCompilerSpecDir( vSourceLPLR, vCurrentLPLR )
+
+         // Migrate all Include Directories
+         FOR EACH vSourceLPLR.Include
+             CREATE ENTITY vCurrentLPLR.Include
+             SetMatchingAttributesByName( vCurrentLPLR, "Include",
+                                          vSourceLPLR,  "Include", zSET_NULL )
+             szAktDir = vSourceLPLR.Include.IncludeDir
+             SetCompSpecPaths( vCurrentLPLR, szBaseDir, szSrcLPLR, szAktDir, "Include",
+                               "IncludeDir", "Include Dir", "Migrate Compiler Spec", 254 )
+         END
+
+         FOR EACH vSourceLPLR.Lib
+             CREATE ENTITY vCurrentLPLR.Lib
+             SetMatchingAttributesByName( vCurrentLPLR, "Lib",
+                                          vSourceLPLR,  "Lib", zSET_NULL )
+             szAktDir = vSourceLPLR.Lib.LibDir
+             SetCompSpecPaths( vCurrentLPLR, szBaseDir, szSrcLPLR, szAktDir, "Lib", "LibDir",
+                               "Lib Dir", "Migrate Compiler Spec", 254 )
+         END
+
+         FOR EACH vSourceLPLR.ExternalTarget
+             CREATE ENTITY vCurrentLPLR.ExternalTarget
+             SetMatchingAttributesByName( vCurrentLPLR, "ExternalTarget",
+                                          vSourceLPLR,  "ExternalTarget", zSET_NULL )
+
+             FOR EACH vSourceLPLR.ExternalObjFile
+                 CREATE ENTITY vCurrentLPLR.ExternalObjFile
+                 SetMatchingAttributesByName( vCurrentLPLR, "ExternalObjFile",
+                                             vSourceLPLR,  "ExternalObjFile", zSET_NULL )
+                 szAktDir = vSourceLPLR.ExternalObjFile.Name
+                 SetCompSpecPaths( vCurrentLPLR, szBaseDir, szSrcLPLR, szAktDir, "ExternalObjFile",
+                                   "Name", "External Object Dir", "Migrate Compiler Spec", 512 )
+             END
+
+             FOR EACH vSourceLPLR.ExternalLibFile
+                 CREATE ENTITY vCurrentLPLR.ExternalLibFile
+                 SetMatchingAttributesByName( vCurrentLPLR, "ExternalLibFile",
+                                              vSourceLPLR,  "ExternalLibFile", zSET_NULL )
+                 szAktDir = vSourceLPLR.ExternalLibFile.Name
+                 SetCompSpecPaths( vCurrentLPLR, szBaseDir, szSrcLPLR, szAktDir, "ExternalLibFile",
+                                   "Name", "External Lib Dir", "Migrate Compiler Spec", 512 )
+             END
+
+         END
+      END
+   END
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SetTargetExecutableDir
+**
+**
+*************************************************************************************************/
+LOCAL OPERATION
+SetCompilerSpecDir( VIEW vSourceLPLR   BASED ON LOD TZCMLPLO,
+                    VIEW vCurrentLPLR  BASED ON LOD TZCMLPLO )
+
+   STRING (512) szSrcLPLR
+   STRING (512) szBaseDir
+   STRING (512) szActDir
+
+   szSrcLPLR = vSourceLPLR.LPLR.Name
+   szBaseDir = vSourceLPLR.LPLR.MetaSrcDir
+
+   // set Executable Directory
+   szActDir  = vSourceLPLR.Compiler.TargetExecutableDir
+   SetCompSpecPaths( vCurrentLPLR, szBaseDir, szSrcLPLR, szActDir, "Compiler", "TargetExecutableDir",
+                     "Target Executable Dir", "Migrate Compiler Spec", 254 )
+
+   // set OBJ/LIB Directory
+   szActDir  = vSourceLPLR.Compiler.TargetObjectDir
+   SetCompSpecPaths( vCurrentLPLR, szBaseDir, szSrcLPLR, szActDir, "Compiler", "TargetObjectDir",
+                     "Target Object Dir", "Migrate Compiler Spec", 254 )
+
+   // set Makefile Directory
+   szActDir  = vSourceLPLR.Compiler.MakefileDir
+   SetCompSpecPaths( vCurrentLPLR, szBaseDir, szSrcLPLR, szActDir, "Compiler", "MakefileDir",
+                     "Makefile Dir", "Migrate Compiler Spec", 254 )
+
+   // set Resource Directory
+   szActDir  = vSourceLPLR.Compiler.EnvironmentDir
+   SetCompSpecPaths( vCurrentLPLR, szBaseDir, szSrcLPLR, szActDir, "Compiler", "EnvironmentDir",
+                     "Resource Dir", "Migrate Compiler Spec", 254 )
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SetUniqueSpecName
+**
+**
+*************************************************************************************************/
+LOCAL OPERATION
+SetUniqueSpecName( VIEW vCurrentLPLR )
+
+   STRING ( 32 ) szNewName
+   STRING ( 32 ) szCurrentName
+   STRING ( 11 ) szSuffix
+   STRING ( 10 ) szNumber
+   INTEGER       lNumber
+   INTEGER       lSuffixLen
+   INTEGER       lNewLen
+   INTEGER       lCurrentLen
+
+   VIEW vTempName BASED ON LOD TZCMLPLO
+
+   CreateViewFromViewForTask( vTempName, vCurrentLPLR, 0 )
+
+   // set unique Name
+   lNumber = 0
+   szNewName      = vCurrentLPLR.Compiler.Name
+   szCurrentName  = vCurrentLPLR.Compiler.Name
+   lCurrentLen    = zstrlen( szCurrentName )
+
+   SET CURSOR FIRST vTempName.Compiler
+              WHERE vTempName.Compiler.Name = szNewName
+   SET CURSOR NEXT  vTempName.Compiler
+              WHERE vTempName.Compiler.Name = szNewName
+
+   LOOP WHILE RESULT >= zCURSOR_SET
+
+        lNumber = lNumber + 1
+        zltoa( lNumber, szNumber )
+
+        szSuffix   = "_" + szNumber
+        lSuffixLen = zstrlen( szSuffix )
+
+        lNewLen = lSuffixLen + lCurrentLen
+
+        IF  lNewLen <= 32
+            szNewName = szCurrentName + szSuffix
+        ELSE
+            lNewLen   = lCurrentLen - lSuffixLen
+            szNewName = szCurrentName[1:lNewLen] + szSuffix
+        END
+
+        SET CURSOR FIRST vTempName.Compiler
+                   WHERE vTempName.Compiler.Name = szNewName
+
+   END
+   DropView( vTempName )
+
+   vCurrentLPLR.Compiler.Name = szNewName
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SetCompilerPathes
+**
+**    Set the actual path
+**
+*************************************************************************************************/
+LOCAL OPERATION
+SetCompilerPathes( VIEW vSource,                     // Source LPLR
+                   VIEW vTarget,                     // Target LPLR
+                   STRING ( 254 ) pszEntityName,     // EntityName
+                   STRING ( 254 ) pszAttributeName,  // AttributeName
+                   STRING ( 100 ) pszDirName,        // Name of actual directory for error message
+                   SHORT sMaxLen                     // max. Length of directory or directory and
+                                                     // filename
+                 )
+
+   SHORT sRC
+   SHORT sAnfPos
+   SHORT sAnzahl
+   SHORT sAktLth
+   SHORT sBaseLth
+   STRING (1024) szNewPath
+   STRING (10) szLPLRName
+   STRING (10) szLPLRNameUpper
+   STRING (256) szBaseDir
+   STRING (256) szActDir
+   STRING (256) szBaseDirUpper
+   STRING (256) szActDirUpper
+   STRING (512) szMsg
+
+   GetStringFromAttribute( szBaseDir, vSource, "LPLR", "MetaSrcDir" )
+   GetStringFromAttribute( szActDir,  vSource, pszEntityName, pszAttributeName )
+   zToUpper( szBaseDir, szBaseDirUpper)
+   zToUpper( szActDir, szActDirUpper)
+   // Is the Target Executable Directory relativ or fully qualified ??
+   sRC = GenFullQualPathFromRelPath( szActDir, szBaseDir, szNewPath, sMaxLen)
+   CASE sRC
+        OF 0:  // The pathname was relative
+               // We take the name like it is.
+               SetAttributeFromString( vTarget, pszEntityName, pszAttributeName, szActDir)
+        OF 1:  // The pathname was fully qualified
+               // Is the LPLR-Name included in the pathname ?
+               GetStringFromAttribute( szLPLRName, vSource, "LPLR", "Name")
+               zToUpper (szLPLRName, szLPLRNameUpper)
+               sRC = zSearchSubString( szActDirUpper, szLPLRNameUpper, "f", 0)
+               IF sRC = -1
+                  // LPLR-Name not found. Take the pathname like it is
+                  SetAttributeFromString( vTarget, pszEntityName, pszAttributeName, szActDir)
+               ELSE
+                  // LPLR-Name is included in the pathname
+                  // See if ComponentSourceDirectory is part of the pathname
+                  sRC = zSearchSubString ( szActDirUpper, szBaseDirUpper, "f", 0 )
+                  IF sRC = -1
+                     // Component Source Directory isn't part of the pathname
+                     szMsg = "Counld't change " + pszDirName + " in CompilerSpec!"
+                     TraceLineS( "Migrate Compiler Specification: ", szMsg)
+                  ELSE
+                     // Component Source Directory is part of the pathname
+                     // Take the new component Source directory and add the end of
+                     // the original pathname
+                     sAktLth  = zstrlen (szActDirUpper)
+                     sBaseLth = zstrlen (szBaseDirUpper)
+                     sAnzahl  = sAktLth - sBaseLth
+                     sAnfPos  = sAktLth - sAnzahl + 1
+                     GetStringFromAttribute( szBaseDir, vTarget, "LPLR", "MetaSrcDir" )
+                     szBaseDir = szBaseDir + szActDir[sAnfPos : sAnzahl]
+                     SetAttributeFromString( vTarget, pszEntityName, pszAttributeName, szBaseDir)
+                  END
+               END
+        OTHERWISE : // Error: Pathname exceeds max. length
+                    szMsg = "Path " + pszDirName + " exceeds maximum size !"
+                    TraceLineS( "Migrate Compiler Specification: ", szMsg)
+                    return
+   END
+
+END

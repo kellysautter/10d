@@ -4797,6 +4797,8 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   String strComboCurrentValue = ^^;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   String strComboCurrentInternalValue = ^^;"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   String strAutoComboBoxExternalValue = ^^;"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   String strComboSelectedValue = ^0^;"

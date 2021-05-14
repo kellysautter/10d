@@ -1,0 +1,394 @@
+
+/*
+***********************************************************************
+
+   OPERATION:  DropInstance
+
+   PURPOSE:    Simply drop the last OI from memory.
+
+***********************************************************************/
+DIALOG OPERATION
+DropInstance( VIEW vSubtask )
+
+   VIEW vTZBRENTO BASED ON LOD TZBRENTO
+
+   GET VIEW vTZBRENTO NAMED "TZBRENTO"
+   DropObjectInstance( vTZBRENTO )
+
+END
+
+/*
+***********************************************************************
+
+   OPERATION:  ActivateEntityInstance
+
+   PURPOSE:    Activate from the Entity list the OI to present ER_Entity
+               usage information.
+
+***********************************************************************/
+DIALOG OPERATION
+ActivateEntityInstance( VIEW vSubtask )
+
+   VIEW vTZBRENTO BASED ON LOD TZBRENTO
+   VIEW vTZBRERDO BASED ON LOD TZBRERDO
+   VIEW vTZBRLIAO  BASED ON LOD TZBRLIAO
+
+   GET VIEW vTZBRERDO NAMED "TZBRERDO"
+   ACTIVATE vTZBRENTO SINGLE WHERE vTZBRENTO.ER_Entity.ZKey = vTZBRERDO.ER_Entity.ZKey
+   NAME VIEW vTZBRENTO "TZBRENTO"
+
+   // Create the derived attributes RootLOD.
+   DeriveRootLOD( vTZBRENTO )
+
+   // Derive LOD_Name in LOD_Attribute
+   FOR EACH vTZBRENTO.LOD_Attribute WITHIN vTZBRENTO.ER_Entity
+      SET CURSOR FIRST vTZBRENTO.LOD_Entity WHERE
+          vTZBRENTO.LOD_Entity.ZKey = vTZBRENTO.AttributeLOD_Entity.ZKey
+      vTZBRENTO.LOD_Attribute.LOD_Name = vTZBRENTO.RootLOD.Name
+   END
+
+   // Delete the TZBRLIAO object if it exists.  The ActivateLOD_AttributeMapping
+   // operation has a check on that object to see what code was last executed:
+   // ActivateEntityInstance or ActivateLOD_AttributeList.
+   GET VIEW vTZBRLIAO NAMED "TZBRLIAO"
+   IF RESULT >= 0
+      DropObjectInstance( vTZBRLIAO )
+   END
+
+END
+
+/*
+***********************************************************************
+
+   OPERATION:  NextEntityInstance
+
+   PURPOSE:    Activate from the next entry in the Entity list the OI to
+               present ER_Entity usage information.
+
+***********************************************************************/
+DIALOG OPERATION
+NextEntityInstance( VIEW vSubtask )
+
+   VIEW vTZBRENTO BASED ON LOD TZBRENTO
+   VIEW vTZBRERDO BASED ON LOD TZBRERDO
+
+   GET VIEW vTZBRENTO NAMED "TZBRENTO"
+   DropObjectInstance( vTZBRENTO )
+
+   GET VIEW vTZBRERDO NAMED "TZBRERDO"
+   SET CURSOR NEXT vTZBRERDO.ER_Entity
+   ACTIVATE vTZBRENTO SINGLE WHERE vTZBRENTO.ER_Entity.ZKey = vTZBRERDO.ER_Entity.ZKey
+   NAME VIEW vTZBRENTO "TZBRENTO"
+
+   // Create the derived attributes RootLOD.
+   DeriveRootLOD( vTZBRENTO )
+
+END
+
+/*
+***********************************************************************
+
+   OPERATION:  PreviousEntityInstance
+
+   PURPOSE:    Activate from the previous entry in the Entity list the OI to
+               present ER_Entity usage information.
+
+***********************************************************************/
+DIALOG OPERATION
+PreviousEntityInstance( VIEW vSubtask )
+
+   VIEW vTZBRENTO BASED ON LOD TZBRENTO
+   VIEW vTZBRERDO BASED ON LOD TZBRERDO
+
+   GET VIEW vTZBRENTO NAMED "TZBRENTO"
+   DropObjectInstance( vTZBRENTO )
+
+   GET VIEW vTZBRERDO NAMED "TZBRERDO"
+   SET CURSOR PREVIOUS vTZBRERDO.ER_Entity
+   ACTIVATE vTZBRENTO SINGLE WHERE vTZBRENTO.ER_Entity.ZKey = vTZBRERDO.ER_Entity.ZKey
+   NAME VIEW vTZBRENTO "TZBRENTO"
+
+   // Create the derived attributes RootLOD.
+   DeriveRootLOD( vTZBRENTO )
+
+END
+
+/*
+***********************************************************************
+
+   OPERATION:  DeriveRootLOD
+
+   PURPOSE:    Create Link to derived entity RootLOD by following the
+               ER_Entity chain to the LOD.
+
+***********************************************************************/
+LOCAL OPERATION
+DeriveRootLOD( VIEW vTZBRENTO BASED ON LOD TZBRENTO )
+
+   VIEW  vRecur    BASED ON LOD TZBRENTO
+   SHORT nRC
+
+   FOR EACH vTZBRENTO.LOD_Entity
+      CreateViewFromViewForTask( vRecur, vTZBRENTO, vTZBRENTO )
+      nRC = CheckExistenceOfEntity( vRecur, "LOD" )
+      LOOP WHILE nRC < zCURSOR_SET
+         SetViewToSubobject( vRecur, "ParentLOD_Entity" )
+         nRC = CheckExistenceOfEntity( vRecur, "LOD" )
+      END
+
+      INCLUDE vTZBRENTO.RootLOD FROM vRecur.LOD
+      DropView( vRecur )
+   END
+
+END
+
+/*
+***********************************************************************
+
+   OPERATION:  ActivateERD_List
+
+   PURPOSE:    Activate the ERD list object for listing Entities and
+               Relationships.
+
+***********************************************************************/
+DIALOG OPERATION
+ActivateERD_List( VIEW vSubtask )
+
+   VIEW vTZCMCPRO BASED ON LOD TZCMCPRO
+   VIEW vTZBRERDO BASED ON LOD TZBRERDO
+
+   GET VIEW vTZCMCPRO NAMED "TZCMCPRO"
+
+   // Position on ERD MetaDef and then activate Browse Data Model
+   SET CURSOR FIRST vTZCMCPRO.Z_MetaDef WHERE vTZCMCPRO.Z_MetaDef.Type = 4
+   ACTIVATE vTZBRERDO SINGLE WHERE vTZBRERDO.Z_MetaDef.ZKey = vTZCMCPRO.Z_MetaDef.ZKey
+   NAME VIEW vTZBRERDO "TZBRERDO"
+
+   // Exclude duplicate RelLink instance
+   FOR EACH vTZBRERDO.ER_RelLink1 WITHIN vTZBRERDO.EntpER_Model
+      IF vTZBRERDO.ER_RelLink2.ZKey != vTZBRERDO.ER_RelLink1.ZKey
+         SET CURSOR NEXT vTZBRERDO.ER_RelLink2
+      END
+      EXCLUDE vTZBRERDO.ER_RelLink2
+   END
+
+END
+
+/*
+***********************************************************************
+
+   OPERATION:  ActivateRelTypeInstance
+
+   PURPOSE:    Activate from the RelType list the OI to present ER_RelType
+               usage information.
+
+***********************************************************************/
+DIALOG OPERATION
+ActivateRelTypeInstance( VIEW vSubtask )
+
+   VIEW vTZBRRELO  BASED ON LOD TZBRRELO
+   VIEW vTZBRRELO2 BASED ON LOD TZBRRELO
+   VIEW vTZBRERDO  BASED ON LOD TZBRERDO
+
+   GET VIEW vTZBRERDO NAMED "TZBRERDO"
+   ACTIVATE vTZBRRELO SINGLE WHERE vTZBRRELO.ER_RelType.ZKey = vTZBRERDO.ER_RelType.ZKey
+   NAME VIEW vTZBRRELO "TZBRRELO"
+
+   // Create additional view for Dialog mapping, with position on next ER_RelLink.
+   CreateViewFromViewForTask( vTZBRRELO2, vTZBRRELO, vSubtask )
+   NAME VIEW vTZBRRELO2 "TZBRRELO2"
+   SET CURSOR FIRST vTZBRRELO.ER_RelLink WHERE
+       vTZBRRELO.ER_RelLink.ZKey = vTZBRERDO.ER_RelLink1.ZKey
+   SET CURSOR FIRST vTZBRRELO2.ER_RelLink WHERE
+       vTZBRRELO2.ER_RelLink.ZKey = vTZBRERDO.ER_RelLink2.ZKey
+
+END
+
+/*
+***********************************************************************
+
+   OPERATION:  NextRelTypeInstance
+
+   PURPOSE:    Activate from the RelType list the next OI to present ER_RelType
+               usage information.
+
+***********************************************************************/
+DIALOG OPERATION
+NextRelTypeInstance( VIEW vSubtask )
+
+   VIEW vTZBRRELO  BASED ON LOD TZBRRELO
+   VIEW vTZBRRELO2 BASED ON LOD TZBRRELO
+   VIEW vTZBRERDO  BASED ON LOD TZBRERDO
+
+   GET VIEW vTZBRRELO NAMED "TZBRRELO"
+   DropView( vTZBRRELO )
+
+   GET VIEW vTZBRERDO NAMED "TZBRERDO"
+   SET CURSOR NEXT vTZBRERDO.ER_RelLink1 WITHIN vTZBRERDO.EntpER_Model
+   ACTIVATE vTZBRRELO SINGLE WHERE vTZBRRELO.ER_RelType.ZKey = vTZBRERDO.ER_RelType.ZKey
+   NAME VIEW vTZBRRELO "TZBRRELO"
+
+   // Create additional view for Dialog mapping, with position on next ER_RelLink.
+   CreateViewFromViewForTask( vTZBRRELO2, vTZBRRELO, vSubtask )
+   NAME VIEW vTZBRRELO2 "TZBRRELO2"
+   SET CURSOR FIRST vTZBRRELO.ER_RelLink WHERE
+       vTZBRRELO.ER_RelLink.ZKey = vTZBRERDO.ER_RelLink1.ZKey
+   SET CURSOR FIRST vTZBRRELO2.ER_RelLink WHERE
+       vTZBRRELO2.ER_RelLink.ZKey = vTZBRERDO.ER_RelLink2.ZKey
+
+END
+
+/*
+***********************************************************************
+
+   OPERATION:  PreviousRelTypeInstance
+
+   PURPOSE:    Activate from the RelType list the previous OI to present
+               ER_RelType usage information.
+
+***********************************************************************/
+DIALOG OPERATION
+PreviousRelTypeInstance( VIEW vSubtask )
+
+   VIEW vTZBRRELO  BASED ON LOD TZBRRELO
+   VIEW vTZBRRELO2 BASED ON LOD TZBRRELO
+   VIEW vTZBRERDO  BASED ON LOD TZBRERDO
+
+   GET VIEW vTZBRRELO NAMED "TZBRRELO"
+   DropView( vTZBRRELO )
+
+   GET VIEW vTZBRERDO NAMED "TZBRERDO"
+   SET CURSOR PREVIOUS vTZBRERDO.ER_RelLink1 WITHIN vTZBRERDO.EntpER_Model
+   ACTIVATE vTZBRRELO SINGLE WHERE vTZBRRELO.ER_RelType.ZKey = vTZBRERDO.ER_RelType.ZKey
+   NAME VIEW vTZBRRELO "TZBRRELO"
+
+   // Create additional view for Dialog mapping, with position on next ER_RelLink.
+   CreateViewFromViewForTask( vTZBRRELO2, vTZBRRELO, vSubtask )
+   NAME VIEW vTZBRRELO2 "TZBRRELO2"
+   SET CURSOR FIRST vTZBRRELO.ER_RelLink WHERE
+       vTZBRRELO.ER_RelLink.ZKey = vTZBRERDO.ER_RelLink1.ZKey
+   SET CURSOR FIRST vTZBRRELO2.ER_RelLink WHERE
+       vTZBRRELO2.ER_RelLink.ZKey = vTZBRERDO.ER_RelLink2.ZKey
+
+END
+
+DIALOG OPERATION
+ActivateLOD_Mapping( VIEW vSubtask )
+
+   VIEW vTZBRLOEO  BASED ON LOD TZBRLOEO
+   VIEW vRecur     BASED ON LOD TZBRLOEO
+   VIEW vTZBRENTO  BASED ON LOD TZBRENTO
+   SHORT nRC
+
+   GET VIEW vTZBRENTO NAMED "TZBRENTO"
+   ACTIVATE vTZBRLOEO SINGLE WHERE vTZBRLOEO.LOD_Entity.ZKey = vTZBRENTO.LOD_Entity.ZKey
+   NAME VIEW vTZBRLOEO "TZBRLOEO"
+
+   // Derive Window and Dialog Names
+   FOR EACH vTZBRLOEO.MapRef
+      IF vTZBRLOEO.Control EXISTS
+         // Follow the recursive Control path to set the work entity containing Dialog
+         // and Window names.
+         CreateViewFromViewForTask( vRecur, vTZBRLOEO, vSubtask )
+         nRC = CheckExistenceOfEntity( vRecur, "ControlWindow" )
+         LOOP WHILE nRC < zCURSOR_SET
+            SetViewToSubobject( vRecur, "ParentControl" )
+            nRC = CheckExistenceOfEntity( vRecur, "ControlWindow" )
+         END
+
+         CREATE ENTITY vTZBRLOEO.ControlWindowInfo
+         vTZBRLOEO.ControlWindowInfo.WindowName = vRecur.ControlWindow.Tag
+         vTZBRLOEO.ControlWindowInfo.DialogName = vRecur.ControlDialog.Tag
+         DropView( vRecur )
+      END
+   END
+
+END
+
+
+DIALOG OPERATION
+EntityListPopUp( VIEW vSubtask )
+
+   CreateTrackingPopupMenu( vSubtask, "EntityListPopUp", -1, 0, 0, 0 )
+
+END
+
+
+DIALOG OPERATION
+LOD_EntityPopUp( VIEW vSubtask )
+
+   CreateTrackingPopupMenu( vSubtask, "LOD_EntityPopUp", -1, 0, 0, 0 )
+
+END
+
+
+DIALOG OPERATION
+ActivateLOD_AttributeList( VIEW vSubtask )
+
+   VIEW vTZBRLIAO  BASED ON LOD TZBRLIAO
+   VIEW vTZBRENTO  BASED ON LOD TZBRENTO
+
+   GET VIEW vTZBRENTO NAMED "TZBRENTO"
+   ACTIVATE vTZBRLIAO SINGLE WHERE vTZBRLIAO.LOD_Entity.ZKey = vTZBRENTO.LOD_Entity.ZKey
+   NAME VIEW vTZBRLIAO "TZBRLIAO"
+
+END
+
+
+DIALOG OPERATION
+ActivateLOD_AttributeMapping( VIEW vSubtask )
+
+   VIEW vTZBRLIAO  BASED ON LOD TZBRLIAO
+   VIEW vTZBRENTO  BASED ON LOD TZBRENTO
+   VIEW vRecur     BASED ON LOD TZBRLOAO
+   VIEW vTZBRLOAO  BASED ON LOD TZBRLOAO
+   SHORT nRC
+
+   // Activate the Attribute mapping object from either the list of LOD_Attributes for a
+   // LOD_Entity (TZBRLIAO) or the list of ER_Attributes and corresponding LOD_Attributes
+   // from the ER_Attribute list (TZBRENTO).
+   GET VIEW vTZBRLIAO NAMED "TZBRLIAO"
+   IF RESULT >= 0
+      ACTIVATE vTZBRLOAO SINGLE WHERE vTZBRLOAO.LOD_Attribute.ZKey = vTZBRLIAO.LOD_Attribute.ZKey
+      NAME VIEW vTZBRLOAO "TZBRLOAO"
+   ELSE
+      GET VIEW vTZBRENTO NAMED "TZBRENTO"
+      ACTIVATE vTZBRLOAO SINGLE WHERE vTZBRLOAO.LOD_Attribute.ZKey = vTZBRENTO.LOD_Attribute.ZKey
+      NAME VIEW vTZBRLOAO "TZBRLOAO"
+   END
+
+   // Derive Window and Dialog Names
+   FOR EACH vTZBRLOAO.MapRef
+      IF vTZBRLOAO.Control EXISTS
+         // Follow the recursive Control path to set the work entity containing Dialog
+         // and Window names.
+         CreateViewFromViewForTask( vRecur, vTZBRLOAO, vSubtask )
+         nRC = CheckExistenceOfEntity( vRecur, "ControlWindow" )
+         LOOP WHILE nRC < zCURSOR_SET
+            SetViewToSubobject( vRecur, "ParentControl" )
+            nRC = CheckExistenceOfEntity( vRecur, "ControlWindow" )
+         END
+
+         CREATE ENTITY vTZBRLOAO.ControlWindowInfo
+         vTZBRLOAO.ControlWindowInfo.WindowName = vRecur.ControlWindow.Tag
+         vTZBRLOAO.ControlWindowInfo.DialogName = vRecur.ControlDialog.Tag
+         DropView( vRecur )
+      END
+      IF vTZBRLOAO.Option EXISTS
+         // Follow the recursive Control path to set the work entity containing Dialog
+         // and Window names.
+         CreateViewFromViewForTask( vRecur, vTZBRLOAO, vSubtask )
+         nRC = CheckExistenceOfEntity( vRecur, "OptionWindow" )
+         LOOP WHILE nRC < zCURSOR_SET
+            SetViewToSubobject( vRecur, "ParentOption" )
+            nRC = CheckExistenceOfEntity( vRecur, "OptionWindow" )
+         END
+
+         CREATE ENTITY vTZBRLOAO.OptionWindowInfo
+         vTZBRLOAO.OptionWindowInfo.WindowName = vRecur.OptionWindow.Tag
+         vTZBRLOAO.OptionWindowInfo.DialogName = vRecur.OptionDialog.Tag
+         DropView( vRecur )
+      END
+
+   END
+END

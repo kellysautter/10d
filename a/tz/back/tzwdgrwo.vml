@@ -1,0 +1,466 @@
+TRANSFORMATION OPERATION
+zoTZWDGRWO_LoadOrInitialize( RETURNED VIEW pvGRW BASED ON LOD TZWDGRWO,
+                             VIEW vDlg BASED ON LOD TZWDLGSO )
+
+// This routine returns a view to the "dialog graphic work" object.
+// It will attempt to load it from a DOS file and create an empty one
+//   if the file doesn't exist.  There is no pretense of keeping the
+//   graphic information in the repository so that it will be the same on
+//   each workstation.
+// The GRW object is then "syncronized" with the DIALOG that was passed in.
+//   Note that the "ReInit" function attempts to keep any graphical placement
+//   that is valid in the loaded GRW object.
+
+   VIEW vLPLR based on lod TZCMWKSO
+   SHORT RESULT
+   SHORT nRC
+   STRING( 127 ) szFileName
+
+/* Get Access to LPLR for Directory */
+   GET VIEW vLPLR NAMED "TaskLPLR"
+   if RESULT > 0
+      szFileName = vLPLR.LPLR.MetaSrcDir + "\\"
+   else
+      szFileName = ""
+   end
+   szFileName = szFileName + vDlg.Dialog.Tag + ".dgr"
+
+// Activate file for graph
+   nRC = ActivateOI_FromFile( pvGRW, "TZWDGRWO", vDlg, szFileName,
+                              zNOI_OKAY )
+   IF nRC < 0
+      NAME VIEW pvGRW "DlgGraph"
+      CREATE ENTITY pvGRW.Dialog
+      pvGRW.Dialog.Tag = vDlg.Dialog.Tag
+      pvGRW.Dialog.Desc = vDlg.Dialog.Desc
+      pvGRW.Dialog.ZKey = vDlg.Dialog.ZKey
+   else
+      NAME VIEW pvGRW "DlgGraph"
+      FOR each pvGRW.ER_RelType
+         DELETE ENTITY pvGRW.ER_RelType none
+      END
+//      delete ENTITY pvGRW.Dialog NONE
+//      CREATE ENTITY pvGRW.Dialog
+//      pvGRW.Dialog.Tag = vDlg.Dialog.Tag
+//      pvGRW.Dialog.Desc = vDlg.Dialog.Desc
+//      pvGRW.Dialog.ZKey = vDlg.Dialog.ZKey
+   END
+
+// add or merge any "dialog" info into the graphics
+   zoTZWDGRWO_ReInit( pvGRW, vDlg )
+
+   OrderEntityForView( pvGRW, "ER_Entity",
+                       "OwningArea A Type D Name A" )
+
+// DisplayObjectInstance( pvGRW, "Dialog" )
+// CommitOI_ToFile( pvGRW, szFileName, zASCII )
+
+   return 0
+END
+
+TRANSFORMATION OPERATION
+zoTZWDGRWO_Save( VIEW vGRW BASED ON LOD TZWDGRWO )
+
+   VIEW vLPLR based on lod TZCMWKSO
+   SHORT RESULT
+   SHORT nRC
+   STRING( 127 ) szFileName
+
+/* Get Access to LPLR for Directory */
+   GET VIEW vLPLR NAMED "TaskLPLR"
+   if RESULT > 0
+      szFileName = vLPLR.LPLR.MetaSrcDir + "\\"
+   else
+      szFileName = ""
+   end
+   szFileName = szFileName + vGRW.Dialog.Tag + ".dgr"
+
+   nRC = CommitOI_ToFile( vGRW, szFileName, zASCII )
+
+   return nRC
+END
+
+TRANSFORMATION OPERATION
+zoTZWDGRWO_ReInit( VIEW vGRW_in BASED ON LOD TZWDGRWO,
+                   VIEW vDlg_in BASED ON LOD TZWDLGSO )
+
+   VIEW vGRW BASED ON LOD TZWDGRWO
+   VIEW vDlg BASED ON LOD TZWDLGSO
+   String( 63 ) szName
+   SHORT nFound
+
+   CreateViewFromView( vGRW, vGRW_in )
+   CreateViewFromView( vDlg, vDlg_in )
+
+// Start by deleting any GRW refs to non-existing Windows, Actions, Mappings
+   FOR each vGRW.ER_Entity
+      IF vGRW.ER_Entity.Type = "W"
+         SET CURSOR FIRST vDlg.Window
+             where vDlg.Window.ZKey = vGRW.ER_Entity.ZKey
+         IF RESULT < zCURSOR_SET
+            DELETE ENTITY vGRW.ER_Entity NONE
+         END
+      else
+      IF vGRW.ER_Entity.Type = "A"
+         SET CURSOR FIRST vDlg.Action within vDlg.Dialog
+             where vDlg.Action.ZKey = vGRW.ER_Entity.ZKey
+         IF RESULT < zCURSOR_SET
+            DELETE ENTITY vGRW.ER_Entity NONE
+         END
+      else
+      IF vGRW.ER_Entity.Type = "D"
+         // find if external window is still referenced via an action
+         nFound = 0
+         set cursor first vDlg.Action within vDlg.Dialog
+             where vDlg.Action.Type >= 30
+               and vDlg.Action.Type <= 59
+         LOOP WHILE RESULT >= zCURSOR_SET and nFound = 0
+            if vDlg.Action.DialogName = vGRW.Dialog.Tag
+                  or vDlg.Action.DialogName = ""
+               if vDlg.Action.WindowName = ""
+                  szName = "'default'"
+               else
+                  szName = vDlg.Action.WindowName
+               end
+            else
+               if vDlg.Action.WindowName = ""
+                  szName = vDlg.Action.DialogName + ": 'default'"
+               else
+                  szName = vDlg.Action.DialogName + ":" + vDlg.Action.WindowName
+               end
+            end
+//    The next statement generate incorrectly, but inverse works!! $$$$$$$$$$$
+//          if szName = vGRW.ER_Entity.Name
+            if vGRW.ER_Entity.Name = szName
+               nFound = 1
+            END
+//    The next statement generate incorrectly ( initial SetCursor )$$$$$$$$$$$
+//            set cursor next vDlg.Action within vDlg.Dialog
+//                where vDlg.Action.Type >= 30
+//                  and vDlg.Action.Type <= 59
+//    work-around is to not use where first?????
+            set cursor next vDlg.Action within vDlg.Dialog
+            set cursor next vDlg.Action within vDlg.Dialog
+                where vDlg.Action.Type >= 30
+                  and vDlg.Action.Type <= 59
+         END
+         if nFound = 0
+            DELETE ENTITY vGRW.ER_Entity NONE
+         END
+      else // unknown so delete
+         DELETE ENTITY vGRW.ER_Entity NONE
+      END // "D" - window in different Dialog
+      END // "A" - Action
+      END // "W" - Window in this dialog
+
+   END // for each Entity ( node )
+
+   FOR each vDlg.Window
+      zoTZWDGRWO_NodeWindowSync( vGRW, vDlg )
+   END
+   FOR each vDlg.Action within vDlg.Dialog
+      zoTZWDGRWO_NodeActionSync( vGRW, vDlg )
+   END
+
+   DropView( vGRW )
+   DropView( vDlg )
+   return 0
+END
+
+TRANSFORMATION OPERATION
+zoTZWDGRWO_NodeWindowSync( VIEW vGRW BASED ON LOD TZWDGRWO,
+                           VIEW vDlg BASED ON LOD TZWDLGSO )
+
+   SET CURSOR FIRST vGRW.ER_Entity
+         where vGRW.ER_Entity.ZKey = vDlg.Window.ZKey
+   IF RESULT < zCURSOR_SET
+      CREATE ENTITY vGRW.ER_Entity LAST
+      vGRW.ER_Entity.ZKey = vDlg.Window.ZKey
+   end
+   vGRW.ER_Entity.Name = vDlg.Window.Tag
+   vGRW.ER_Entity.Desc = "Window -- " + vDlg.Dialog.Tag + ":" + vDlg.Window.Tag
+   vGRW.ER_Entity.Purpose = "F"
+   IF vDlg.DfltWnd.ZKey = vDlg.Window.ZKey
+      vGRW.ER_Entity.OwningArea = "$dlft:" + vDlg.Window.Tag
+   else
+      vGRW.ER_Entity.OwningArea = vDlg.Window.Tag
+   END
+   vGRW.ER_Entity.Type = "W"
+
+   return 0
+END
+
+TRANSFORMATION OPERATION
+zoTZWDGRWO_NodeActionSync( VIEW vGRW BASED ON LOD TZWDGRWO,
+                           VIEW vDlg BASED ON LOD TZWDLGSO )
+
+   VIEW vGRW_Win BASED ON LOD TZWDGRWO
+   STRING( 32) szName
+   Integer zWAB
+   SHORT nEvents
+
+   SET CURSOR FIRST vGRW.ER_Entity
+       where vGRW.ER_Entity.ZKey = vDlg.Action.ZKey
+   IF RESULT < zCURSOR_SET
+      CREATE ENTITY vGRW.ER_Entity LAST
+      vGRW.ER_Entity.ZKey = vDlg.Action.ZKey
+   end
+   vGRW.ER_Entity.Name = vDlg.Action.Tag
+   vGRW.ER_Entity.Desc = "Action -- " + vDlg.Window.Tag + ":" + vDlg.Action.Tag
+   IF vDlg.DfltWnd.ZKey = vDlg.Window.ZKey
+      vGRW.ER_Entity.OwningArea = "$dlft:" + vDlg.Window.Tag
+   else
+      vGRW.ER_Entity.OwningArea = vDlg.Window.Tag
+   END
+   vGRW.ER_Entity.Type = "A"
+
+   CreateViewFromView( vGRW_Win, vGRW )
+
+// create an arc for the action going to a window
+   zWAB = vDlg.Action.Type
+   IF zWAB < 30 or zWAB > 59  // doesn't transfer to new window
+      vGRW.ER_Entity.Purpose = "W"     // work
+   ELSE
+      vGRW.ER_Entity.Purpose = "D"     // derived
+      if vDlg.Action.DialogName = vGRW.Dialog.Tag
+            or vDlg.Action.DialogName = ""
+         if vDlg.Action.WindowName = ""
+            szName = "'default'"
+         else
+            szName = vDlg.Action.WindowName
+         end
+      else
+         if vDlg.Action.WindowName = ""
+            szName = vDlg.Action.DialogName + ": 'default'"
+         else
+            szName = vDlg.Action.DialogName + ":" + vDlg.Action.WindowName
+         end
+      end
+      SET CURSOR FIRST vGRW_Win.ER_Entity
+            where vGRW_Win.ER_Entity.Name = szName
+      IF RESULT < zCURSOR_SET
+         CreateMetaEntity( vGRW_Win, "ER_Entity", zPOS_LAST )
+         vGRW_Win.ER_Entity.Name = szName
+         vGRW_Win.ER_Entity.Desc = "Window -- " + szName
+         vGRW_Win.ER_Entity.Purpose = "A"     // attributive
+         IF vDlg.DfltWnd.ZKey = vDlg.Window.ZKey
+            vGRW_Win.ER_Entity.OwningArea = "$dlft:" + vDlg.Window.Tag
+         else
+            vGRW_Win.ER_Entity.OwningArea = vDlg.Window.Tag
+         END
+         vGRW_Win.ER_Entity.Type = "D"   // dialog transfer
+      END
+      zoTZWDGRWO_ArcActionWindow( vGRW, vGRW_Win, vDlg )
+   END
+
+// create an arc for each way that the owning window invokes the action
+   nEvents = 0
+   szName = vDlg.Window.Tag
+   SET CURSOR FIRST vGRW_Win.ER_Entity
+         where vGRW_Win.ER_Entity.Name = szName
+   FOR each vDlg.ActWndEvent
+      zoTZWDGRWO_ArcWindowAction( vGRW_Win, vGRW, vDlg, 1 )
+      nEvents = nEvents + 1
+   END
+   FOR each vDlg.ActEvent
+      zoTZWDGRWO_ArcWindowAction( vGRW_Win, vGRW, vDlg, 2 )
+      nEvents = nEvents + 1
+   END
+   FOR each vDlg.ActOpt
+      zoTZWDGRWO_ArcWindowAction( vGRW_Win, vGRW, vDlg, 3 )
+      nEvents = nEvents + 1
+   END
+   FOR each vDlg.ActHot
+      zoTZWDGRWO_ArcWindowAction( vGRW_Win, vGRW, vDlg, 4 )
+      nEvents = nEvents + 1
+   END
+
+   IF nEvents = 0
+      vGRW.ER_Entity.Name = vDlg.Window.Tag + ":" + vDlg.Action.Tag
+   else
+      IF nEvents > 1
+         zoTZWDGRWO_ArcGroupEvents( vGRW_Win, vGRW, vDlg, nEvents )
+      END
+   END
+
+   DropView( vGRW_Win )
+   return 0
+END
+
+TRANSFORMATION OPERATION
+zoTZWDGRWO_ArcActionWindow( VIEW vGRW_Action BASED ON LOD TZWDGRWO,
+                            VIEW vGRW_Window BASED ON LOD TZWDGRWO,
+                            view vDlg based on lod TZWDLGSO )
+   string(127) zWAB_Text
+   INTEGER nLth
+
+   CreateMetaEntity( vGRW_Action, "ER_RelType", zPOS_LAST )
+   vGRW_Action.ER_RelType.Fact = "Action to Window"
+   vGRW_Action.ER_RelType.Type = "W"  // window invocation
+
+   CreateMetaEntity( vGRW_Action, "ER_RelLink_2", zPOS_LAST )
+   GetVariableFromAttribute( zWAB_Text, nLth, zTYPE_STRING, 127,
+                             vDlg, "Action", "Type",
+                             "", zUSE_DEFAULT_CONTEXT )
+   vGRW_Action.ER_RelLink_2.Name = zWAB_Text
+   vGRW_Action.ER_RelLink_2.CardMin = "0"
+   vGRW_Action.ER_RelLink_2.CardMax = "1"
+   INCLUDE vGRW_Action.ER_Entity_2 FROM vGRW_Action.ER_Entity AFTER
+   SET CURSOR FIRST vGRW_Action.ER_RelLink
+              where vGRW_Action.ER_RelLink.ZKey = vGRW_Action.ER_RelLink_2.ZKey
+
+   CreateMetaEntity( vGRW_Action, "ER_RelLink_2", zPOS_LAST )
+   vGRW_Action.ER_RelLink_2.CardMin = "1"
+   vGRW_Action.ER_RelLink_2.CardMax = "1"
+   INCLUDE vGRW_Action.ER_Entity_2 FROM vGRW_Window.ER_Entity AFTER
+   SET CURSOR FIRST vGRW_Window.ER_RelLink
+              where vGRW_Window.ER_RelLink.ZKey = vGRW_Action.ER_RelLink_2.ZKey
+   vGRW_Window.ER_RelType_1.Type = vGRW_Action.ER_RelType.Type
+
+   INCLUDE vGRW_Action.ER_RelLink_Other FROM vGRW_Action.ER_RelLink_2 AFTER
+   SET CURSOR PREVIOUS vGRW_Action.ER_RelLink_2
+   INCLUDE vGRW_Window.ER_RelLink_Other FROM vGRW_Action.ER_RelLink_2 AFTER
+
+   return 0
+END
+
+TRANSFORMATION OPERATION
+zoTZWDGRWO_ArcWindowAction( VIEW vGRW_Window BASED ON LOD TZWDGRWO,
+                            VIEW vGRW_Action BASED ON LOD TZWDGRWO,
+                            view vDlg based on lod TZWDLGSO,
+                            SHORT nCtrlType )
+
+   view vDlg2 based on lod TZWDLGSO
+   string( 127 ) szToName
+   string( 127 ) szFromName
+   Integer zControl
+   SHORT nRC
+
+   CASE nCtrlType
+      OF 1:   // Window Event
+         szToName = "(Window)"
+         szFromName = vDlg.ActWndEvent.EventName
+      OF 2:   // Control Event
+         szToName = "(Ctrl) " + vDlg.ActCtrl.Tag
+         CreateViewFromView( vDlg2, vDlg )
+         ResetView( vDlg2 )
+         zControl = zPOS_FIRST + zQUAL_ENTITYATTR + zRECURS
+         nRC = SetEntityCursor( vDlg2, "Event", "ZKey",
+                                zControl,
+                                vDlg, "ActEvent", "ZKey",
+                                0, "Window", "" )
+         if nRC > zCURSOR_UNCHANGED
+            szFromName = vDlg2.ControlDef.Tag
+         else
+            szFromName = "unknown ctrl event"
+         end
+         DropView( vDlg2 )
+      OF 3:   // Option select
+         szToName = "(Opt) " + vDlg.ActOpt.Text
+         szFromName = "option select"
+      OF 4:   // Hotkey
+         szToName = "(Shortcut Key) " + vDlg.ActHot.Tag
+         szFromName = "keyed"
+      OF 5:   // Group of events for presentation
+         szToName = "n"
+         szFromName = "multiple"
+      otherwise :
+         return -1
+   END
+
+   CreateMetaEntity( vGRW_Window, "ER_RelType", zPOS_LAST )
+   if nCtrlType = 5
+      vGRW_Window.ER_RelType.Fact = "Group: "
+      vGRW_Window.ER_RelType.Type = "G"   // Group of events
+   else
+      vGRW_Window.ER_RelType.Fact = "Window to Action"
+      vGRW_Window.ER_RelType.Type = "E"   // event
+   end
+
+   CreateMetaEntity( vGRW_Window, "ER_RelLink_2", zPOS_LAST )
+   vGRW_Window.ER_RelLink_2.Name = szToName
+   vGRW_Window.ER_RelLink_2.CardMin = "0"
+   vGRW_Window.ER_RelLink_2.CardMax = "m"
+   INCLUDE vGRW_Window.ER_Entity_2 FROM vGRW_Window.ER_Entity AFTER
+   SET CURSOR FIRST vGRW_Window.ER_RelLink
+              where vGRW_Window.ER_RelLink.ZKey = vGRW_Window.ER_RelLink_2.ZKey
+
+   CreateMetaEntity( vGRW_Window, "ER_RelLink_2", zPOS_LAST )
+   vGRW_Window.ER_RelLink_2.Name = szFromName
+   vGRW_Window.ER_RelLink_2.CardMin = "1"
+   vGRW_Window.ER_RelLink_2.CardMax = "1"
+   INCLUDE vGRW_Window.ER_Entity_2 FROM vGRW_Action.ER_Entity AFTER
+   SET CURSOR FIRST vGRW_Action.ER_RelLink
+              where vGRW_Action.ER_RelLink.ZKey = vGRW_Window.ER_RelLink_2.ZKey
+   vGRW_Action.ER_RelType_1.Type = vGRW_Window.ER_RelType.Type
+
+   INCLUDE vGRW_Window.ER_RelLink_Other FROM vGRW_Window.ER_RelLink_2 AFTER
+   SET CURSOR PREVIOUS vGRW_Window.ER_RelLink_2
+   INCLUDE vGRW_Action.ER_RelLink_Other FROM vGRW_Window.ER_RelLink_2 AFTER
+
+   return 0
+END
+
+TRANSFORMATION OPERATION
+zoTZWDGRWO_ArcGroupEvents( VIEW vGRW_Win BASED ON LOD TZWDGRWO,
+                           VIEW vGRW_Act BASED ON LOD TZWDGRWO,
+                           view vDlg based on lod TZWDLGSO,
+                           SHORT nEvents )
+
+   VIEW vGRW_Tmp BASED ON LOD TZWDGRWO
+
+   zoTZWDGRWO_ArcWindowAction( vGRW_Win, vGRW_Act, vDlg, 5 )
+   vGRW_Win.ER_RelType.Fact = "Group: "
+
+   CreateViewFromView( vGRW_Tmp, vGRW_Act )
+
+/* Generate logic for the FOR doesn't work...  $$$$$$$$$$
+   FOR each vGRW_Act.ER_Entity_2 within vGRW_Act.Dialog
+            where vGRW_Act.ER_Entity_2.ZKey = vGRW_Act.ER_Entity.ZKey
+              and vGRW_Act.ER_RelType.Type = "E"
+*/
+   FOR each vGRW_Act.ER_Entity_2 within vGRW_Act.Dialog
+            where vGRW_Act.ER_Entity_2.ZKey = vGRW_Act.ER_Entity.ZKey
+      IF  vGRW_Act.ER_RelType.Type = "E"
+         SetViewFromView( vGRW_Tmp, vGRW_Act )
+         SET CURSOR FIRST vGRW_Tmp.ER_RelLink_2
+         vGRW_Win.ER_RelType.Fact = vGRW_Win.ER_RelType.Fact + " | "
+                                  + vGRW_Tmp.ER_RelLink_2.Name
+      end
+   END
+
+   DropView( vGRW_Tmp )
+   return 0
+END
+
+TRANSFORMATION OPERATION
+zoTZWDGRWO_NodeEntitySync( VIEW vGRW BASED ON LOD TZWDGRWO,
+                   VIEW vDlg BASED ON LOD TZWDLGSO,
+                   SHORT nAddOrMerge,
+                   EntityName szMetaName )
+
+   VIEW vDlg2 BASED ON LOD TZWDLGSO
+   STRING( 32) szName
+   AttributeName szAttr
+
+   if nAddOrMerge = 0
+      CREATE ENTITY vGRW.ER_Entity LAST
+   end
+   szAttr = "ZKey"
+   vGRW.ER_Entity.ZKey = vDlg.szMetaName.szAttr
+   szAttr = "Name"
+   vGRW.ER_Entity.Name = vDlg.szMetaName.szAttr
+   vGRW.ER_Entity.Desc = vDlg.szMetaName.szAttr
+   vGRW.ER_Entity.Purpose = "A"     // attributive
+   IF vGRW.ER_Entity.OwningArea = ""
+      IF vDlg.DfltWnd.ZKey = vDlg.Window.ZKey
+         vGRW.ER_Entity.OwningArea = "$dlft:" + vDlg.Window.Tag
+      else
+         vGRW.ER_Entity.OwningArea = vDlg.Window.Tag
+      END
+   END
+   vGRW.ER_Entity.Type = "E"
+
+   return 0
+END
+

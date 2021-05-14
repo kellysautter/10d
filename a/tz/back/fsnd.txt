@@ -1,0 +1,126 @@
+kzsirrep.c:  // we can't start a second one, perhaps the report runs over an active
+tzadw1aw.c:      // The second loop deletes the buttons from under the Window.
+tzadw7aw.c:         // First get the second object needed in the Activate to retrieve
+tzadwebd.c:      //:ResetViewFromSubobject( AD_Base )   // Go back to second Group.
+tzadwebd.c:      //:ResetViewFromSubobject( TZCONTROL )   // Go back to second Group.
+tzadwebd.c:   //:ResetViewFromSubobject( AD_Base )   // Go back to second Group.
+tzadwebd.c:   //:ResetViewFromSubobject( TZCONTROL )   // Go back to second Group.
+tzadwebd.c:      //:ResetViewFromSubobject( AD_Base )   // Go back to second Group.
+tzadwebd.c:      //:ResetViewFromSubobject( TZCONTROL )   // Go back to second Group.
+tzadwebd.c:   //:ResetViewFromSubobject( AD_Base )   // Go back to second Group.
+tzadwebd.c:   //:ResetViewFromSubobject( TZCONTROL )   // Go back to second Group.
+tzapdmab.c:                        d = atof( szDT1 + 12 );        // seconds
+tzapdmab.c:                        d = atof( szDT1 + 12 );        // seconds
+tzapdmab.c:                        d = atof( szDT1 + 12 );        // seconds
+tzapdmab.c:   sprintf_s( sz + 12, zsizeof( sz ) - 12, "%02ld", l3 ); // second
+tzapdmab.c:   sprintf_s( sz + 14, zsizeof( sz ) - 14, "%03ld", l4 ); // millisecond
+tzapdmab.c:   // write seconds only if > 0
+tzapdmab.c:   // write milliseconds only if > 0
+tzapdmac.c:         // A second Decimal Point is an error.
+tzaxcfgd.c:               // first is Edit mapping the second is list mapping
+tzaxcfgd.c://               (second byte 1-top | 2-left | 4-bottom | 8-right)
+tzcmcvto.c:      //    second key string (if both source and target)
+tzcmcvto.c:      //    second null terminator
+tzcmlpld.c:   - Merging Version 9F and 9G the second time
+tzcmlpld.c:   // in each case.  A message is sent to the operator in the second case,
+tzcmlplo.c:   - Remove second declaration of funciton zwfnTZCMLPLO_GetLPLR_Directories.
+tzcmoprs.c:   GetStringFromAttribute( szDirectorySpec, zsizeof( szDirectorySpec ), vTZCMWKSO, "LPLR", "ExecDir" ); // borrow szDirectorySpec for a second
+tzcmoprs.c:   GetStringFromAttribute( szDirectorySpec, zsizeof( szDirectorySpec ), vTZCMWKSO, "LPLR", "MetaSrcDir" ); // borrow szDirectorySpec for a second
+tzcmoprs.c:      // Use a second CM_List view for Activate since Activate will alter
+tzcmrepo.c://  PARAMETERS: uMilliseconds to wait
+tzcmrepo.c:LocalSysWait( unsigned int uMilliseconds )
+tzcmrepo.c:   } while ( lMill <(zLONG) uMilliseconds );
+tzcmutil.c://              szAttribName2 -- Name of a second sort attribute or
+tzdmupdd.c:   // Use a second CM_List view for Activate since Activate will alter
+tzdmupdd.c:   // Create a second view since the Activate will loose position on
+tzdmupdd.c:      // Use a second CM_List view for Activate since Activate will alter
+tzdmupdd.c:      // Use a second CM_List view for Activate since Activate will alter
+tzdmupdd.c:         // Use a second CM_List view for Activate since Activate will alter
+tzedcm2d.c:   Added second /IMPLIB to zcompile.hnm.
+tzedcm2d.c:fnLocalSysWait( zULONG ulMilliseconds )
+tzedcm2d.c:   } while ( lMill < (zLONG) ulMilliseconds );
+tzedcm2d.c:   // Give the compile task 10 seconds to appear
+tzedcm2d.c:   // Give the compile task 5 minutes seconds to disappear
+tzedcm2d.c:      fnLocalSysWait( 1000 );  // Wait a second.
+tzedfrmd.c:      // Skip second ':'.
+tzedvmld.C:      // Skip second ':'.
+tzedvmld.C:            // second entry is variable name e.g. VIEW CUSTOMER_LST BASED ON LOD CUSTOMER
+tzerem2o.c:      //:// Position on second Entity of relationship
+tzerem2o.c:      //:// Create second RelLink and include ER_Entity
+tzerem2o.c:   //:// Create second side of relationship.
+tzeremdd.c:   // Create second ER_RelLink_2 on Right Side( side representing relationships )
+tzeremdd.c:   // Create second ER_Entity_2 on Right Side( side representing relationships )
+tzeremde.c:   // position right side of ER to second Entity and Select/Refresh it.
+tzeremde.c:   // position right side of ER to second Entity and Select/Refresh it. (new)
+tzeremde.c:   // position right side of ER to second Entity and Select/Refresh it. (old)
+tzeremde.c:   // position right side of ER to second Entity and Select/Refresh it. (new)
+tzeremde.c:   // construct second part of DIL for Rel
+tzersapd.c:   // Create second RelLink and include ER_Entity
+tzersapd.c:   // Create second RelLink and include ER_Entity
+tzhlpcxd.c://      So the right manual entries are shown in the second combo box.
+tzlooprs.c://              pchAttribName2 -- Name of a second sort attribute or
+tzlooprs.c://              pchAttribName3 -- Name of a second sort attribute or
+tzlooprs.c://              pchAttribName4 -- Name of a second sort attribute or
+tzlooprs.c://              pchAttribName2 -- Name of a second sort attribute or
+tzlooprs.c://              pchAttribName3 -- Name of a second sort attribute or
+tzlooprs.c://              pchAttribName4 -- Name of a second sort attribute or
+tzlooprs.c:                       "will not add a second reference to %s.OBJ for file %s.MAK.  "
+tzlooprs.c:   //       receives a null string for a tag (the second param),
+tzopupdd.c:   // Use a second CM_List view for Activate since Activate will alter
+tzpeupdd.c:   If PPE Tool open, do not open a second PPE Tool
+tzpnctad.c:   // If CtrlMap entities exist, position scoping view to the second one.
+tzpnctad.c:   // position the scoping view to the second one.
+tzpnctad.c://               (second byte 1-top | 2-left | 4-bottom | 8-right)
+tzpnctad.c:   // If ActMap entities exist, position scoping view to the second one.
+tzpnctad.c:   // position the scoping view to the second one.
+tzpnctad.c:   // If CtrlMap entities exist, position scoping view to the second one.
+tzpnctad.c:      // position the scoping view to the second one.
+tzpnctad.c://           1. Creates the second CtrlMap entity, if necessary.
+tzpnctad.c://           2. Sets up the TZPULL_Entity View for the second CtrlMap
+tzpnctad.c:   // Create view name, TZPULL_Entity, for second CtrlMap entity and
+tzrpsrco.c:   //:szMsg = vTaskLPLR.LPLR.MetaSrcDir + "\Z__DFLT.BAS"  // borrow szMsg for a second
+tzrpsrco.c:                  //:// We have to find the reportname the second time between the parenthese in line 1
+tzrpupdd.c://               (second byte 1-top | 2-left | 4-bottom | 8-right)
+tztenv2o.c:               //:// If this is for a secondary Identifier (any EntIdentifer after the first),
+tztenvro.c:   Corrected the generation of tables for a second DBMS when it is requested
+tztenvro.c:// for secondary identifiers and should not be a part of foreign key
+tztenvro.c:      // are the non-relationship parts of the key and second loop through the
+tzteupdd.c:   // a second position, so that we are positioned on both target and source.
+tzvmg2aa.c:      // second choice:
+tzvmg2aa.c:         // No first or second choice insert position found, so take any blank.
+tzvmg2aa.c:            // convert the || in VML to a | in C by skipping the second | in C source.
+tzvmg2aa.c:            // This is where we are going to implement the hack to add maximum length as the second parameter to several Zeidon operations including:
+tzvmi2aa.c:         // We will force the result to decimal unless all three values:  result, first operand and second operand, are not decimal
+tzvmi2aa.c:         // We will force the result to decimal unless all three values: result, first operand and second operand, are not decimal
+tzvmi2aa.c:         // We will force the result to decimal unless all three values: result, first operand and second operand, are not decimal
+tzvmlip.c:         (first character = a-z OT A-Z) AND second character = :
+tzvmp2aa.c:   // and the second would have a priority of 24.
+tzvmp5aa.c://       |     as the second condition of the while. What we would have
+tzvmp7aa.c:   correct when the attribute was the second parameter.
+tzvmp7aa.c:// For the second "*" left is "50" and "right" is "60".
+tzvmp7aa.c:      // if we are concatenating skip the second one and go to the last
+tzvmplaa.c:#define   YY_INTERACTIVE   1      /* save micro-seconds if 0 */
+tzwdgrwd.c:   // position right side of WD to second Entity and Select/Refresh it.
+tzwdlg4o.c:   //:// KJS 08/30/12 - Putting this in for Aadit... Show in seconds the page load time.
+tzwdlg4o.c:   //:szWriteBuffer = "   // Show the time in seconds it takes to load the page."
+tzwdlg4o.c:   //:// KJS 08/30/12 - Putting this in for Aadit... Show in seconds the page load time.
+tzwdlg4o.c:   //:szWriteBuffer = "   // Show the time in seconds it takes to load the page."
+tzwdlg4o.c:   //:szWriteBuffer = "   vAppSubtask.TraceLine( ^Page Load Time (seconds): ------->>> ^, strSeconds );"
+tzwebgl1.c:                        //:// Position on second CtrlMap, which is for list mapping Attribute.
+tzwebgl1.c:                                             //:// Position on second CtrlMap, which is for list mapping Attribute.
+tzwebgl1.c:            //:X_Size = vDialog.Control.PSDLG_X * dDLUnits + lOffsetX  // borrow these for a second
+tzwebgl1.c:                     //:szWriteBuffer = "         // second column etc.        "
+tzwebgl1.c:                     ZeidonStringCopy( szWriteBuffer, 1, 0, "         // second column etc.        ", 1, 0, 10001 );
+tzwebgl2.c:            //:X_Size = vDialog.Control.PSDLG_X * dDLUnits + lOffsetX  // borrow these for a second
+tzwebgl2.c:                        //:szWriteBuffer = "         // second column etc.        "
+tzwebgl2.c:                        ZeidonStringCopy( szWriteBuffer, 1, 0, "         // second column etc.        ", 1, 0, 10001 );
+tzwebgl2.c:                              //:// The following if statement eliminates a null value, which would be the second null in the combo box.
+tzwebgl2.c:                        //:// Position on second CtrlMap, which is for list mapping Attribute.
+tzwebgl2.c:                                             //:// Position on second CtrlMap, which is for list mapping Attribute.
+tzwebgl3.c:            //:X_Size = vDialog.Control.PSDLG_X * dDLUnits + lOffsetX  // borrow these for a second
+tzwebgl3.c:            //:// The following if statement eliminates a null value, which would be the second null in the combo box.
+tzwebgl4.c:            //:X_Size = vDialog.Control.PSDLG_X * dDLUnits + lOffsetX  // borrow these for a second
+tzwebgl4.c:            //:// The following if statement eliminates a null value, which would be the second null in the combo box.
+tzzolodd.c:      // therefore we try to LoadLODList here for a second time.
+tzzolodq.c:      // therefore we try to LoadLODList here for a second time.
+tzzoxodo.c:            // The first condition above was successful. We will now check the second.

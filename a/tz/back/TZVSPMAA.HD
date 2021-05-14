@@ -1,0 +1,194 @@
+/*
+CHANGE LOG most recent first order
+
+2001.09.27  HH
+   use WHERE_ARRAY_SIZE
+1998.10.16  HH
+   use define PARM_LIST_SIZE.
+1998.07.17  HH
+   Added Extension to global parm list
+
+*/
+
+EXDECL zPCHAR qqin;
+EXDECL int    qqlineno;
+EXDECL zLONG lOperationFlag;
+EXDECL zLONG lAddToSrc;
+EXDECL zLONG lParseAction;
+EXDECL zLONG lOldParseLimit;
+EXDECL zLONG lParseLimit;
+EXDECL zLONG lParseSource;
+EXDECL zLONG lGetViewID;
+
+EXDECL sQTokenStruct sQToken;
+EXDECL zLONG lGlobalReadRetCode;
+EXDECL zLONG lLastTypeDeclared;
+EXDECL zLONG lfHandle;
+EXDECL zLONG lfErrorHandle;
+EXDECL zLONG lFlag;
+
+EXDECL zVIEW lpPIView;                     // a view into the parsed instance
+EXDECL zVIEW vSavePIView;                     // a view into the parsed instance
+EXDECL zVIEW vSaveStmtView;
+EXDECL zVIEW lpSGView;              // a view into the static global instance
+EXDECL zVIEW lpGOListView;             // global reusable operation list view
+EXDECL zVIEW lpZOListView;             // zeidon reusable operation list view
+EXDECL zVIEW lpExprView;               // zeidon reusable operation list view
+EXDECL zVIEW lpGlobalSubtask;          // zeidon reusable operation list view
+EXDECL zVIEW vGlobalView;
+EXDECL zVIEW vStatementView;
+EXDECL zVIEW vLODList;
+EXDECL zVIEW vVORList;
+EXDECL zVIEW lpLastLOD ;
+EXDECL zVIEW vSourceMeta;
+
+EXDECL zLONG lEntityNameLength;
+EXDECL zLONG lAttributeNameLength;
+EXDECL zLONG lDeclaredStringLength;
+EXDECL zLONG lNumber;
+EXDECL zLONG lSetFNPL;
+EXDECL zLONG lPriorityFudgeFactor;
+EXDECL zLONG lStackPtr;
+EXDECL sQOperStackStruct nOperStack[ 15 ];
+EXDECL zLONG lAddNextStatementBefore;
+EXDECL zLONG lAddNextStatementBeforeSave;  // Needed for Activate
+EXDECL zLONG lLoopControlID;
+
+EXDECL zCHAR szViewName[ 33 ];
+EXDECL zCHAR szEntityName[ 33 ];
+EXDECL zCHAR szAttributeName[ 33 ];
+EXDECL zCHAR szScopeViewName[ 33 ];
+EXDECL zCHAR szScopeEntityName[ 33 ];
+EXDECL zCHAR szScopeAttributeName[ 33 ];
+EXDECL zCHAR szOperationName[ 33 ];
+
+EXDECL zLONG lViewID;
+EXDECL zLONG lEntityID;
+EXDECL zLONG lAttributeID;
+
+EXDECL zLONG lScopeViewID;
+EXDECL zLONG lScopeEntityID;
+EXDECL zLONG lScopeAttributeID;
+
+EXDECL sQExprStruct sWhereLeft[ WHERE_ARRAY_SIZE ];
+EXDECL sQExprStruct sWhereRight[ WHERE_ARRAY_SIZE ];
+EXDECL zLONG       nWhereOp[ WHERE_ARRAY_SIZE ];
+EXDECL zLONG       nWhereJoin[ WHERE_ARRAY_SIZE ];
+EXDECL zLONG       nWhereIndex;
+EXDECL zLONG       nWhereHold;
+EXDECL zLONG       nNeedExtraEnd;
+EXDECL zLONG lOperationType;
+EXDECL zLONG lSaveText;
+EXDECL zLONG lOperationClass;
+EXDECL zLONG lOperationZKey;
+
+EXDECL zLONG lGlobalParmList[ PARM_LIST_SIZE ];
+EXDECL zLONG lGlobalParmListExt[ PARM_LIST_SIZE ];
+EXDECL zLONG lGlobalParmListIndex;
+EXDECL zLONG lLeftDataType;
+EXDECL zLONG lLeftDataClass;
+EXDECL zBOOL bActivate;
+EXDECL zCHAR szLoadControl[ 35 ];
+EXDECL zLONG lRelativeLineNumber;
+
+#if defined(DECLARE)
+   zCHAR szlOperation[]   = "Operation";
+   zCHAR szlOperationSource[] = "OperationSource";
+   zCHAR szlOperationText[] = "OperationText";
+   zCHAR szlSourceFile[]  = "SourceFile";
+   zCHAR szlFileSpec[]    = "FileSpec";
+   zCHAR szlExternalHeaderFile[] = "ExternalHeaderFile";
+   zCHAR szlHeaderFile[] = "HeaderFile";
+   zCHAR szlType[]        = "Type";
+   zCHAR szlTaskLPLR[]    = "TaskLPLR";
+   zCHAR szlExecDir[]     = "ExecDir";
+   zCHAR szlError[]       = "Error";
+   zCHAR szlName[]        = "Name";
+   zCHAR szlLineNumber[]  = "LineNumber";
+   zCHAR szlVML_XSource[]   = "VML_XSource";
+   zCHAR szlVariable[]    = "Variable";
+   zCHAR szlID[]          = "ID";
+   zCHAR szlVMLType[]     = "VMLType";
+   zCHAR szlDataType[]    = "DataType";
+   zCHAR szlNElements[]   = "NElements";
+   zCHAR szlPFlag[]        = "PFlag";
+   zCHAR szlUFlag[]        = "UFlag";
+   zCHAR szlParameterFlag[] = "ParameterFlag";
+   zCHAR szlParameter[]    = "Parameter";
+   zCHAR szlValue[]       = "Value";
+   zCHAR szlStatement[]   = "Statement";
+   zCHAR szlSubstatement[]= "Substatement";
+   zCHAR szlNumber[] = "Number";
+   zCHAR szlExpression[]  = "Expression";
+   zCHAR szlExprText[]    = "ExprText";
+   zCHAR szlClass[]       = "Class";
+   zCHAR szlZKey[]     = "ZKey";
+   zCHAR szlBCOLUMNNUMBER[]   = "BCOLUMNNUMBER";
+   zCHAR szlBLINENUMBER[]     = "BLINENUMBER";
+   zCHAR szlBreakPoint[]      = "BreakPoint";
+   zCHAR szlECOLUMNNUMBER[]   = "ECOLUMNNUMBER";
+   zCHAR szlELINENUMBER[]     = "ELINENUMBER";
+   zCHAR szlTZVSPOOO[]        = "TZVSPOOO";
+   zCHAR szlTZOPSIGK[]        = "TZOPSIGK";
+   zCHAR szlOPENCOMMENT[]     = "OPENCOMMENT";
+   zCHAR szlRoot[]            = "Root";
+   zCHAR *szMessageList[ ]     =
+         { "1 -Profile Object could not be accessed, Parse Terminating",
+           "2 -Expression Object could not be accessed, Parse Terminating",
+           "3 -Application's Global Operation List could not be accessed from"
+               "Configuration Management, Parse Terminating",
+           "4 -TaskLPLR could not be accessed, Parse Terminating",
+           "5 -TZOPSIGK.XGO could not be accessed, Parse Terminating",
+           "6 -Could not get a list of LODs, Parse Terminating",
+           "7 -Could not Load Error Object, Parse Terminating",
+           "8 -Source file Meta could not be loaded, parse terminating",
+           "9 -Could not get a list of Registered Views, Parse Terminating",
+           "10 -The expression is too big for the LocalCode work area",
+
+         };
+#else
+   EXDECL zCHAR szlOperation[];
+   EXDECL zCHAR szlOperationSource[];
+   EXDECL zCHAR szlOperationText[];
+   EXDECL zCHAR szlExternalHeaderFile[];
+   EXDECL zCHAR szlHeaderFile[];
+   EXDECL zCHAR szlSourceFile[];
+   EXDECL zCHAR szlFileSpec[];
+   EXDECL zCHAR szlType[];
+   EXDECL zCHAR szlTaskLPLR[];
+   EXDECL zCHAR szlExecDir[];
+   EXDECL zCHAR szlError[];
+   EXDECL zCHAR szlName[];
+   EXDECL zCHAR szlLineNumber[];
+   EXDECL zCHAR szlVML_XSource[];
+   EXDECL zCHAR szlVariable[];
+   EXDECL zCHAR szlID[];
+   EXDECL zCHAR szlVMLType[];
+   EXDECL zCHAR szlDataType[];
+   EXDECL zCHAR szlNElements[];
+   EXDECL zCHAR szlParameterFlag[];
+   EXDECL zCHAR szlPFlag[];
+   EXDECL zCHAR szlUFlag[];
+   EXDECL zCHAR szlParameter[];
+   EXDECL zCHAR szlValue[];
+   EXDECL zCHAR szlStatement[];
+   EXDECL zCHAR szlSubstatement[];
+   EXDECL zCHAR szlNumber[];
+   EXDECL zCHAR szlExpression[];
+   EXDECL zCHAR szlExprText[];
+   EXDECL zCHAR szlClass[];
+   EXDECL zCHAR szlZKey[];
+   EXDECL zCHAR szlBCOLUMNNUMBER[];
+   EXDECL zCHAR szlBLINENUMBER[];
+   EXDECL zCHAR szlBreakPoint[];
+   EXDECL zCHAR szlECOLUMNNUMBER[];
+   EXDECL zCHAR szlELINENUMBER[];
+   EXDECL zCHAR szlTZVSPOOO[];
+   EXDECL zCHAR szlTZOPSIGK[];
+   EXDECL zCHAR szlOPENCOMMENT[];
+   EXDECL zCHAR szlRoot[];
+   EXDECL zCHAR *szMessageList[];
+#endif
+
+#define STOP IssueError( lpGlobalSubtask, 0, 0, "Stopped" );
+#define STOPS(s) IssueError( lpGlobalSubtask, 0, 0, s );

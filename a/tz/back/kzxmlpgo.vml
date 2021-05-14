@@ -1,0 +1,192 @@
+/*************************************************************************************************
+**
+**    OPERATION: InitWebSessionObject
+**
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+InitWebSessionObject( VIEW vKZXMLPGO BASED ON LOD KZXMLPGO,
+                      VIEW AnyView,
+                      STRING ( 32 ) UserID )
+
+   SHORT nRC
+
+   nRC = SfActivateSysEmptyOI( vKZXMLPGO, "KZXMLPGO", AnyView, zSINGLE )
+   IF nRC >= 0
+      CREATE ENTITY vKZXMLPGO.Session
+      vKZXMLPGO.Session.UserID = UserID
+   END
+   RETURN nRC
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: InitWebWindow
+**
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+InitWebPage( VIEW vKZXMLPGO BASED ON LOD KZXMLPGO,
+             STRING ( 32 ) DialogName,
+             STRING ( 32 ) WindowName )
+
+   // Delete any existing Page entry and initialize a new one.
+   SET CURSOR FIRST vKZXMLPGO.Page
+   IF RESULT >= zCURSOR_SET
+      DELETE ENTITY vKZXMLPGO.Page NONE
+   END
+   CREATE ENTITY vKZXMLPGO.Page
+   vKZXMLPGO.Page.DialogName = DialogName
+   vKZXMLPGO.Page.WindowName = WindowName
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: AddWebControlSubobject
+**
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+AddWebControlSubobject( VIEW vKZXMLPGO BASED ON LOD KZXMLPGO,
+                        STRING ( 32 )  ControlName,
+                        STRING ( 32 )  ControlType,
+                        STRING ( 32 )  ControlContext,
+                        STRING ( 32 )  SourceViewName,
+                        STRING ( 32 )  SourceEntity,
+                        STRING ( 32 )  SourceAttribute,
+                        STRING ( 200 ) AutoComboBoxExternalValue )
+
+   VIEW            SourceView
+   VIEW            SourceView2
+   SHORT           nRC
+   INTEGER         CursorPos
+   STRING ( 2000 ) ExternalValue
+   STRING ( 200 )  CurrentValue
+
+   // Create a Control entity for the data passed.
+   // If the Control is a ListBox or ComboBox, also create the SubControl entries for each list value.
+
+   CREATE ENTITY vKZXMLPGO.Control
+   vKZXMLPGO.Control.Name = ControlName
+   vKZXMLPGO.Control.Type = ControlType
+
+   // If the Named View does not exist or the EntityName doesn't exist, simply return.
+   GET VIEW SourceView NAMED SourceViewName
+   IF RESULT < 0
+      // There is no mapping, so return having just created the entity, with Name and Type,
+      // unless the Control is Text, in which case we'll add the Text value, which is passed as
+      // AutoComboBoxExternalValue.
+      IF vKZXMLPGO.Control.Type = "Text" OR
+         vKZXMLPGO.Control.Type = "PushBtn"
+
+         vKZXMLPGO.Control.CurrentValue = AutoComboBoxExternalValue
+      END
+      RETURN
+   END
+   IF SourceEntity != ""
+      nRC = CheckExistenceOfEntity( SourceView, SourceEntity )
+      IF nRC < 0
+         RETURN
+      END
+   END
+
+   // If there is mapping, process according to Control Type
+   IF vKZXMLPGO.Control.Type = "EditBox" OR
+      vKZXMLPGO.Control.Type = "Text" OR
+      vKZXMLPGO.Control.Type = "CheckBox"
+
+      GetStringFromAttributeByContext( ExternalValue,
+                                       SourceView, SourceEntity, SourceAttribute, ControlContext, 2000 )
+      vKZXMLPGO.Control.CurrentValue = ExternalValue
+   ELSE
+
+   IF vKZXMLPGO.Control.Type = "MLEdit"
+      SetAttributeFromAttribute( vKZXMLPGO, "Control", "CurrentValue",
+                                 SourceView, SourceEntity, SourceAttribute )
+   ELSE
+
+   IF vKZXMLPGO.Control.Type = "ComboBox"
+      // Build the list of selection values from the Domain table entries.
+      GetStringFromAttributeByContext( CurrentValue,
+                                       SourceView, SourceEntity, SourceAttribute, ControlContext, 200 )
+      vKZXMLPGO.Control.CurrentValue = CurrentValue
+      nRC = GetFirstTableEntryForAttribute( ExternalValue,
+                                            SourceView, SourceEntity, SourceAttribute,
+                                            ControlContext, CursorPos )
+      LOOP WHILE nRC >= 0
+         CREATE ENTITY vKZXMLPGO.ComboValue
+         vKZXMLPGO.ComboValue.ExternalValue = ExternalValue
+         IF ExternalValue = CurrentValue
+            SetSelectStateOfEntity( vKZXMLPGO, "ComboValue", 1 )
+         ELSE
+            SetSelectStateOfEntity( vKZXMLPGO, "ComboValue", 0 )
+         END
+         nRC = GetNextTableEntryForAttribute( ExternalValue,
+                                              SourceView, SourceEntity, SourceAttribute,
+                                              ControlContext, CursorPos )
+      END
+   ELSE
+
+   IF vKZXMLPGO.Control.Type = "ComboBoxAuto"
+      // Build the list of selection values from the list of entities.
+      // Note that the entry selected is defined by the AutoComboBoxExternalValue passed, which
+      // was set from the value of the Edit Mapping.
+      vKZXMLPGO.Control.CurrentValue = AutoComboBoxExternalValue
+      nRC = SetCursorFirstEntity( SourceView, SourceEntity, "" )
+      LOOP WHILE nRC >= 0
+         CREATE ENTITY vKZXMLPGO.ComboValue
+         GetStringFromAttributeByContext( ExternalValue,
+                                          SourceView, SourceEntity, SourceAttribute, "", 2000 )
+         vKZXMLPGO.ComboValue.ExternalValue = ExternalValue
+         IF ExternalValue = AutoComboBoxExternalValue
+            SetSelectStateOfEntity( vKZXMLPGO, "ComboValue", 1 )
+         ELSE
+            SetSelectStateOfEntity( vKZXMLPGO, "ComboValue", 0 )
+         END
+         nRC = SetCursorNextEntity( SourceView, SourceEntity, "" )
+      END
+   ELSE
+
+   IF vKZXMLPGO.Control.Type = "ComboBoxList"
+      // Build the list of selection values from the list of entities.
+      // Note that the entry selected is defined by the cursor position.
+      CreateViewFromViewForTask( SourceView2, SourceView, vKZXMLPGO )
+      GetStringFromAttributeByContext( CurrentValue,
+                                       SourceView, SourceEntity, SourceAttribute, "", 2000 )
+      vKZXMLPGO.Control.CurrentValue = CurrentValue
+      nRC = SetCursorFirstEntity( SourceView2, SourceEntity, "" )
+      LOOP WHILE nRC >= 0
+         CREATE ENTITY vKZXMLPGO.ComboValue
+         GetStringFromAttributeByContext( ExternalValue,
+                                          SourceView2, SourceEntity, SourceAttribute, "", 2000 )
+         vKZXMLPGO.ComboValue.ExternalValue = ExternalValue
+         IF ExternalValue = CurrentValue
+            SetSelectStateOfEntity( vKZXMLPGO, "ComboValue", 1 )
+         ELSE
+            SetSelectStateOfEntity( vKZXMLPGO, "ComboValue", 0 )
+         END
+         nRC = SetCursorNextEntity( SourceView2, SourceEntity, "" )
+      END
+      DropView( SourceView2 )
+
+   END
+   END
+   END
+   END
+   END
+
+   TraceLineS( "AddWebControlSubobject Type: ", vKZXMLPGO.Control.Type )
+   TraceLineS( "      =============== Value: ", vKZXMLPGO.Control.CurrentValue )
+
+   /* vKZXMLPGO.Control.Type = "EditBox" OR
+      vKZXMLPGO.Control.Type = "ListBox" OR
+      vKZXMLPGO.Control.Type = "Text" OR
+      vKZXMLPGO.Control.Type = "CheckBox" OR
+      vKZXMLPGO.Control.Type = "ListBox" OR
+      vKZXMLPGO.Control.Type = "MLE" OR
+      vKZXMLPGO.Control.Type = "Outliner" OR
+      vKZXMLPGO.Control.Type = "RadioBtnGroup" */
+
+END

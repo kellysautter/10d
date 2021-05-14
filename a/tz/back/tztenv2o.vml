@@ -1,0 +1,1002 @@
+/*
+CHANGE LOG
+2000.10.25  BL  Z10
+   Modified TE_RelinkDelete: insert DropMetaOI for ERD View
+2000.10.20  SR  Z2000 Size of path variables
+   Modified size of SourceFileName in function TE_Migrate because size of attributes
+   ExecDir, MetaSrcDir and PgmSrcDir has been changed to 254 in datamodel.
+   Change size of message variable either.
+2000.09.28  DC  Z10
+   Modified TE_RelinkDelete to give better messages on relink errors.
+2000.08.07  BL  TB 51244
+   Added FieldDataRelKey, SetFieldDataRelKeyFlag and modified TE_Migrate,
+   SyncTablRecKey, SyncTablRecKeyRecurs: if a field a part of Key,
+   set Key Flag
+2000.06.30  BL
+   Modified NewFieldSequence for check NULL value
+2000.05.22  BL
+   Added SetFieldSequence, SortFields, NewFieldSequence, DelFieldFromSequence,
+   MoveFieldInSequence for show original field sequence
+2000.02.21  HH
+   ActivateOI_FromFile with zIGNORE_ATTRIB_ERRORS(8192)
+2000.01.13  BL
+   update Datatype for remove warnings from here old version
+18.11.1997  DonC
+   Changed TE name to be same as LPLR name on TE migrate.
+24.01.1998  DonC
+   Modified TE_Migrate to handle secondary EntIdentifiers from the ERD.
+04.03.1998  DonC
+   Modified TE_Migrate to correctly handle multiple NewTE.TE_FieldDataRelAsFK entities.
+*/
+
+// LAST MESSAGE ID: TE00512
+
+TRANSFORMATION OPERATION
+TE_Migrate( VIEW          NewTE      BASED ON LOD TZTENVRO,
+            STRING ( 32 ) TE_MetaName,
+            VIEW          SourceLPLR BASED ON LOD TZCMLPLO,
+            VIEW          vSubtask )
+
+   VIEW NewERD      BASED ON LOD TZEREMDO
+   VIEW NewWorkERD  BASED ON LOD TZEREMDO
+   VIEW OldERD      BASED ON LOD TZEREMDO
+
+   VIEW OldTE       BASED ON LOD TZTENVRO
+   VIEW OldWorkTE   BASED ON LOD TZTENVRO
+   VIEW OldTE2      BASED ON LOD TZTENVRO
+   VIEW NewTE2      BASED ON LOD TZTENVRO
+   VIEW NewWorkTE   BASED ON LOD TZTENVRO
+   VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+
+   STRING ( 513 ) SourceFileName              // zMAX_FILESPEC_LTH+1
+   STRING ( 257 ) szMsg                       // zSHORT_MESSAGE_LTH+1
+   INTEGER        FoundFlag
+   SHORT  nRC
+
+   // In addition, TE_TablRecAccessed was not included because it did not look to be
+   // processed by workable code (references were in dialogs that did not look used) and
+   // when used, it looked like it would be a work area for dialogs.
+
+   // Note that the below code must be changed to support multiple ER_Entity's per table.
+   // The existing code for ER_Attribute and ER_EntIdentifier assumes one ER_Entity per
+   // table.
+
+   RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_ERD_META )
+
+   GET VIEW NewERD NAMED "NewERD"
+   IF RESULT < 0
+      // Activate the current ERD.  If it doesn't exist, it is an error.
+      nRC = ActivateMetaOI( vSubtask, NewERD, CurrentLPLR, zREFER_ERD_META, 0 )
+      IF nRC < 1
+         MessageSend( vSubtask, "TE00501", "Technical Environment",
+                      "No current Data Model exists.",
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         RETURN 0
+      END
+      NAME VIEW NewERD "NewERD"
+   END
+
+   SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2004
+   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + SourceLPLR.W_MetaDef.Name + ".PMD"
+   ActivateOI_FromFile ( OldERD, "TZEREMDO", SourceLPLR, SourceFileName, 8192 )
+   // 8192 is zIGNORE_ATTRIB_ERRORS
+
+   // Activate existing source meta OldTE
+   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + TE_MetaName + ".DTE"
+
+   ActivateOI_FromFile( OldTE, "TZTENVRO", CurrentLPLR, SourceFileName, 8192 )
+   NAME VIEW OldTE "OldTE"
+
+   ActivateEmptyMetaOI( vSubtask, NewTE, zSOURCE_DTE_META, zSINGLE )
+   NAME VIEW NewTE "NewTE"
+
+   CreateMetaEntity( vSubtask, NewTE, "TE_DB_Environ", zPOS_AFTER )
+   SetMatchingAttributesByName ( NewTE, "TE_DB_Environ", OldTE,
+                                 "TE_DB_Environ", zSET_NULL )
+
+   // The TE name will be the same as the LPLR.
+   ResetViewFromSubobject( CurrentLPLR )
+   NewTE.TE_DB_Environ.Name = CurrentLPLR.LPLR.Name
+
+   FOR EACH OldTE.TE_DBMS_Source
+      CreateMetaEntity( vSubtask, NewTE, "TE_DBMS_Source", zPOS_AFTER )
+      SetMatchingAttributesByName ( NewTE, "TE_DBMS_Source", OldTE,
+                                    "TE_DBMS_Source", zSET_NULL )
+
+      FOR EACH OldTE.TE_TablRec
+         CreateMetaEntity( vSubtask, NewTE, "TE_TablRec", zPOS_AFTER )
+         SetMatchingAttributesByName ( NewTE, "TE_TablRec", OldTE,
+                                       "TE_TablRec", zSET_NULL )
+
+        FOR EACH OldTE.ER_Entity
+           SET CURSOR FIRST NewERD.ER_Entity WHERE
+               NewERD.ER_Entity.Name = OldTE.ER_Entity.Name
+           IF RESULT >= zCURSOR_SET
+              INCLUDE NewTE.ER_Entity FROM NewERD.ER_Entity
+
+           ELSE
+              szMsg = "ER_Entity (" + OldTE.ER_Entity.Name + ") not found in new ERD."
+              MessageSend( vSubtask, "TE00502", "Technical Environment",
+                           szMsg,
+                           zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+
+           END
+        END
+
+        IF OldTE.ER_RelType EXISTS
+           // Locate the ER_RelType in the NewERD, based on the corresponding ER_RelType
+           // in the OldERD.  This is kind of convoluted, since the match has to
+           // consider both sides of the RelLink under the RelType.
+
+           SET CURSOR FIRST OldERD.ER_RelType WHERE
+               OldERD.ER_RelType.ZKey = OldTE.ER_RelType.ZKey
+           IF RESULT >= zCURSOR_SET
+
+              nRC = SetCursorNewRelType( OldERD, NewERD )
+              IF nRC = 0
+                 INCLUDE NewTE.ER_RelType FROM NewERD.ER_RelType
+              ELSE
+                 RETURN -1
+              END
+
+           ELSE
+              RETURN -1
+           END
+
+        END
+
+        // Note that the ER_Attribute loop has to follow the ER_Entity loop, so that the
+        // Attribute is found under the correct entity.
+        FOR EACH OldTE.TE_FieldDataRel
+            CreateMetaEntity( vSubtask, NewTE, "TE_FieldDataRel", zPOS_AFTER )
+            SetMatchingAttributesByName ( NewTE, "TE_FieldDataRel", OldTE,
+                                          "TE_FieldDataRel", zSET_NULL )
+
+            FOR EACH OldTE.ER_Attribute
+               SET CURSOR FIRST NewERD.ER_Attribute WHERE
+                   NewERD.ER_Attribute.Name = OldTE.ER_Attribute.Name
+               IF RESULT >= zCURSOR_SET
+                 INCLUDE NewTE.ER_Attribute FROM NewERD.ER_Attribute
+
+               ELSE
+                  szMsg = "ER_Attribute (" + OldTE.ER_Attribute.Name +
+                          ") not found in new ERD."
+                  MessageSend( vSubtask, "TE00503", "Technical Environment",
+                               szMsg,
+                               zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+
+               END
+
+            END
+
+            IF OldTE.ER_RelLink EXISTS AND
+               ( OldTE.ER_Entity EXISTS OR OldTE.ER_RelType EXISTS )
+               // Locate the ER_RelLink entity in the E/R object corresponding to the
+               // ER_RelLink in the Old TE.
+               SET CURSOR FIRST OldERD.ER_RelLink_2 WITHIN OldERD.EntpER_Model WHERE
+                   OldERD.ER_RelLink_2.ZKey = OldTE.ER_RelLink.ZKey
+               IF RESULT >= zCURSOR_SET
+                  nRC = SetCursorNewRelType( OldERD, NewERD )
+                  IF nRC = 0
+                     INCLUDE NewTE.ER_RelLink FROM NewERD.ER_RelLink_2
+                  ELSE
+                     RETURN -1
+                  END
+               ELSE
+                  RETURN -1
+               END
+
+            END
+
+        END
+
+        FOR EACH OldTE.TE_TablRecKey
+           CreateMetaEntity( vSubtask, NewTE, "TE_TablRecKey", zPOS_AFTER )
+           SetMatchingAttributesByName ( NewTE, "TE_TablRecKey", OldTE,
+                                         "TE_TablRecKey", zSET_NULL )
+
+           // Note that the ER_EntIdentifier loop has to follow the ER_Entity loop, so that the
+           // ER_Identifier is found under the correct entity.
+           IF OldTE.ER_EntIdentifier EXISTS
+              SET CURSOR FIRST NewERD.ER_EntIdentifier WHERE
+                  NewERD.ER_EntIdentifier.Name = OldTE.ER_EntIdentifier.Name
+              IF RESULT >= zCURSOR_SET
+                 INCLUDE NewTE.ER_EntIdentifier FROM NewERD.ER_EntIdentifier
+
+              ELSE
+                 szMsg = "ER_EntIdentifier (" + OldTE.ER_EntIdentifier.Name +
+                         ") not found in new ERD."
+                 MessageSend( vSubtask, "TE00504", "Technical Environment",
+                              szMsg,
+                              zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+
+              END
+
+              // If this is for a secondary Identifier (any EntIdentifer after the first),
+              // we will try to include the T_FieldDataRelKey entry from the attributes under
+              // the current table.
+              CreateViewFromViewForTask( NewWorkERD, NewERD, 0 )
+              SET CURSOR FIRST NewWorkERD.ER_EntIdentifier
+              IF NewWorkERD.ER_EntIdentifier.ZKey != NewERD.ER_EntIdentifier.ZKey AND
+                 OldTE.TE_FieldDataRelKey EXISTS
+                 // This is not the first EntIdentifier entry and the one from the OldTE
+                 // has a TE_FieldDataRelKey entitiy.
+                 CreateViewFromViewForTask( NewWorkTE, NewTE, 0 )
+                 SET CURSOR FIRST NewWorkTE.TE_FieldDataRel WHERE
+                         NewWorkTE.TE_FieldDataRel.Name = OldTE.TE_FieldDataRelKey.Name
+                 IF RESULT >= zCURSOR_SET
+                    NewWorkTE.TE_FieldDataRel.Key = "Y"
+                    INCLUDE NewTE.TE_FieldDataRelKey FROM NewWorkTE.TE_FieldDataRel
+                 END
+                 DropView ( NewWorkTE )
+              END
+              DropView ( NewWorkERD )
+           END
+        END
+      END
+
+      // Now loop through again and migrate Siron Katalogs
+      SET CURSOR FIRST NewTE.TE_TablRec
+      FOR EACH OldTE.TE_TablRec
+        // Migrate the Siron Katalog information.
+        FOR EACH OldTE.SironKatalog
+           CreateMetaEntity( vSubtask, NewTE, "SironKatalog", zPOS_AFTER )
+           SetMatchingAttributesByName( NewTE, "SironKatalog",
+                                        OldTE, "SironKatalog", zSET_NULL )
+           FOR EACH OldTE.KatalogComment
+              CreateMetaEntity( vSubtask, NewTE, "KatalogComment", zPOS_AFTER )
+              SetMatchingAttributesByName( NewTE, "KatalogComment",
+                                           OldTE, "KatalogComment", zSET_NULL )
+           END
+           FOR EACH OldTE.OrigSironField
+              CreateMetaEntity( vSubtask, NewTE, "OrigSironField", zPOS_AFTER )
+              SetMatchingAttributesByName( NewTE, "OrigSironField",
+                                           OldTE, "OrigSironField", zSET_NULL )
+
+              INCLUDE NewTE.SironGroup FROM NewTE.OrigSironField
+
+              CreateViewFromViewForTask( NewWorkTE, NewTE, 0 )
+              CreateViewFromViewForTask( OldWorkTE, OldTE, 0 )
+
+              FOR EACH OldTE.FieldComment
+                 CreateMetaEntity( vSubtask, NewTE, "FieldComment", zPOS_AFTER )
+                 SetMatchingAttributesByName( NewTE, "FieldComment",
+                                              OldTE, "FieldComment", zSET_NULL )
+              END
+              FOR EACH OldTE.OrigSironSubField
+                 TE_MigrateOrgSironSubF( vSubtask, NewTE, OldTE, NewWorkTE, OldWorkTE )
+              END
+
+              DropView( NewWorkTE )
+              DropView( OldWorkTE )
+           END
+        END
+        SET CURSOR NEXT NewTE.TE_TablRec
+      END
+
+      // Now loop through again and do the includes for TE_FieldDataRelKey.
+
+      // For both includes from TE_FieldDataRel, we have a problem because there
+      // is no unique logical key for TE_FieldDataRel (only the ZKey is unique).  This
+      // makes it difficult to position on the correct entity to include.  (Similar to
+      // the ER_RelLinkIdentifier include problem in ERD_Migrate)  We thus have to use the
+      // relative position of TE_FieldDataRel within TE_DBMS_Source to determine
+      // position.
+      CreateViewFromViewForTask( OldTE2, OldTE, 0 )
+      NAME VIEW OldTE2 "OldTE2"
+      CreateViewFromViewForTask( NewTE2, NewTE, 0 )
+      NAME VIEW NewTE2 "NewTE2"
+
+      FOR EACH OldTE.TE_TablRec
+         SET CURSOR FIRST NewTE.TE_TablRec WHERE
+             NewTE.TE_TablRec.Name = OldTE.TE_TablRec.Name
+
+         // Process only the first TE_TablRecKey entry, which represents the first Identifier,
+         // which is the main key access to the entity.  If there are other TE_TablRecKey
+         // entities, they are for Identifiers that are used only to create indexes and will
+         // be handled further down.
+         FOR EACH OldTE.TE_FieldDataRelKey
+            // Loop through both OldTE2 and NewTE2 until position on the correct
+            // TE_FieldDataRel
+            SET CURSOR FIRST NewTE2.TE_FieldDataRel WITHIN NewTE2.TE_DBMS_Source
+            SET CURSOR FIRST OldTE2.TE_FieldDataRel WITHIN OldTE2.TE_DBMS_Source
+            FoundFlag = 0
+            LOOP WHILE FoundFlag = 0 AND RESULT >= zCURSOR_SET
+               IF OldTE2.TE_FieldDataRel.ZKey = OldTE.TE_FieldDataRelKey.ZKey
+                  FoundFlag = 1
+               ELSE
+                  SET CURSOR NEXT NewTE2.TE_FieldDataRel WITHIN NewTE2.TE_DBMS_Source
+                  SET CURSOR NEXT OldTE2.TE_FieldDataRel WITHIN OldTE2.TE_DBMS_Source
+               END
+            END
+
+            IF RESULT >= zCURSOR_SET
+               NewTE2.TE_FieldDataRel.Key = "Y"
+               INCLUDE NewTE.TE_FieldDataRelKey FROM NewTE2.TE_FieldDataRel
+
+               FOR EACH OldTE.TE_FieldDataRelAsFK
+                  // Loop on OldTE2 and NewTE2 as above
+                  SET CURSOR FIRST NewTE2.TE_FieldDataRel WITHIN NewTE2.TE_DBMS_Source
+                  SET CURSOR FIRST OldTE2.TE_FieldDataRel WITHIN OldTE2.TE_DBMS_Source
+                  FoundFlag = 0
+                  LOOP WHILE FoundFlag = 0 AND RESULT >= zCURSOR_SET
+                     IF OldTE2.TE_FieldDataRel.ZKey = OldTE.TE_FieldDataRelAsFK.ZKey
+                        FoundFlag = 1
+                     ELSE
+                        SET CURSOR NEXT NewTE2.TE_FieldDataRel WITHIN NewTE2.TE_DBMS_Source
+                        SET CURSOR NEXT OldTE2.TE_FieldDataRel WITHIN OldTE2.TE_DBMS_Source
+                     END
+                  END
+
+                  IF RESULT >= zCURSOR_SET
+                     // We will only include the entry if it isn't already there.
+                     SET CURSOR FIRST NewTE.TE_FieldDataRelAsFK WHERE
+                        NewTE.TE_FieldDataRelAsFK.ZKey = NewTE2.TE_FieldDataRel.ZKey
+                     IF RESULT < zCURSOR_SET
+                        SET CURSOR LAST NewTE.TE_FieldDataRelAsFK
+                        INCLUDE NewTE.TE_FieldDataRelAsFK FROM NewTE2.TE_FieldDataRel
+                     END
+
+                  ELSE
+                     // The following condition should not occur unless there is a
+                     // logic error in this code.
+                     MessageSend( vSubtask, "TE00505", "Technical Environment",
+                                  "TE_FieldDataRelAsFK not found in new ERD.",
+                                  zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+                  END
+
+               END
+
+            ELSE
+               // The following condition should not occur unless there is a
+               // logic error in this code.
+               MessageSend( vSubtask, "TE00506", "Technical Environment",
+                            "TE_FieldDataRelKey not found in new ERD.",
+                            zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            END
+
+         END
+
+         // Now process the rest of the TE_TablRecKey entries. For these, we will skip them
+         // if they already have a TE_FieldDataRelKey child, and if they don't, we will
+         // search the TE_FieldDataRel entries for the parent table to find a match. This is
+         // because any Identifier after the first should only reference an attribute in
+
+      END
+
+      DropView( NewTE2 )
+      DropView( OldTE2 )
+
+   END
+
+   DropObjectInstance( OldTE )
+   DropObjectInstance( OldERD )
+   DropView( CurrentLPLR )
+   CommitMetaOI( vSubtask, NewTE, 6 )
+
+END
+
+// The SetCursorNewRelType operation is duplicated as a LOCAL operation in the SA object
+// for SA_Migrate.
+LOCAL OPERATION
+SetCursorNewRelType( VIEW OldERD BASED ON LOD TZEREMDO,
+                     VIEW NewERD BASED ON LOD TZEREMDO )
+
+   VIEW NewERD2 BASED ON LOD TZEREMDO
+   VIEW OldERD2 BASED ON LOD TZEREMDO
+
+   INTEGER FoundFlag
+
+   // Locate the ER_RelType in the NewERD, based on the corresponding ER_RelType
+   // in the OldERD.  This is kind of convoluted, since the match has to
+   // consider both sides of the RelLink under the RelType.
+
+   FoundFlag = 0
+   SET CURSOR FIRST NewERD.ER_Entity_2 WITHIN NewERD.EntpER_Model WHERE
+       NewERD.ER_Entity_2.Name  = OldERD.ER_Entity_2.Name AND
+       NewERD.ER_RelLink_2.Name = OldERD.ER_RelLink_2.Name
+   LOOP WHILE FoundFlag = 0
+      IF RESULT >= zCURSOR_SET
+         // Now make sure the entity on the other side of the RelLink is correct.
+         // If not, continue searching.
+         CreateViewFromViewForTask( OldERD2, OldERD, 0 )
+         CreateViewFromViewForTask( NewERD2, NewERD, 0 )
+         SET CURSOR NEXT OldERD2.ER_RelLink_2
+         SET CURSOR NEXT NewERD2.ER_RelLink_2
+         IF RESULT < zCURSOR_SET
+            SET CURSOR PREVIOUS OldERD2.ER_RelLink_2
+            SET CURSOR PREVIOUS NewERD2.ER_RelLink_2
+         END
+         IF NewERD2.ER_Entity_2.Name = OldERD2.ER_Entity_2.Name
+            FoundFlag = 1
+         ELSE
+            SET CURSOR NEXT NewERD.ER_Entity_2 WITHIN NewERD.EntpER_Model WHERE
+                NewERD.ER_Entity_2.Name  = OldERD.ER_Entity_2.Name AND
+                NewERD.ER_RelLink_2.Name = OldERD.ER_RelLink_2.Name
+         END
+         DropView( OldERD2 )
+         DropView( NewERD2 )
+      ELSE
+         MessageSend( NewERD, "TE00507", "Technical Environment",
+                      "System Error: No ERD RelType Match",
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         RETURN -1
+      END
+   END
+
+   RETURN 0
+
+END
+
+TRANSFORMATION OPERATION
+TE_RelinkDelete( VIEW vTE  BASED ON LOD TZTENVRO, VIEW vSubtask )
+
+   VIEW vERD    BASED ON LOD TZEREMDO
+   VIEW vLPLR   BASED ON LOD TZCMLPLO
+
+   SHORT nDeleteFlag
+   SHORT nRC
+   STRING (254) szMsg
+
+   nDeleteFlag = 0
+
+   RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_ERD_META )
+   // KJS 06/19/15 - I am getting an error in Relink code when vERD does not exist (which would be rare but can happen when a new project
+   // is created but the ER has not yet been created.
+   IF vLPLR.W_MetaDef DOES NOT EXIST 
+      DropView( vLPLR ) 
+      RETURN ( nDeleteFlag )
+   END
+   
+   nRC = ActivateMetaOI( vSubtask, vERD, vLPLR, zREFER_ERD_META, 0 )
+   DropView( vLPLR )
+
+   FOR EACH vTE.TE_DBMS_Source
+
+      FOR EACH vTE.TE_TablRec
+
+         IF vTE.ER_Entity EXISTS
+            SET CURSOR FIRST vERD.ER_Entity WHERE
+                vERD.ER_Entity.ZKey = vTE.ER_Entity.ZKey
+            IF RESULT >= zCURSOR_SET
+               // Relink ER_Entity
+               RelinkInstanceToInstance( vTE, "ER_Entity", vERD, "ER_Entity" )
+            ELSE
+               SET CURSOR FIRST vERD.ER_Entity WHERE
+                   vERD.ER_Entity.Name = vTE.ER_Entity.Name
+               IF RESULT >= zCURSOR_SET
+                  EXCLUDE vTE.ER_Entity
+                  INCLUDE vTE.ER_Entity FROM vERD.ER_Entity
+               ELSE
+                  szMsg = "The Entity, " + vTE.ER_Entity.Name + ", in the ER" +
+                          " for TE table, " + vTE.TE_TablRec.Name + ", has been" +
+                          " deleted." + NEW_LINE +
+                          "The TE table is thus being deleted."
+                  MessageSend( vTE, "TE00508", "Technical Environment",
+                               szMsg,
+                               zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  DELETE ENTITY vTE.TE_TablRec NONE
+                  nDeleteFlag = 1
+               END
+            END
+         END
+
+         IF vTE.ER_RelType EXISTS
+            SET CURSOR FIRST vERD.ER_RelType WHERE
+                vERD.ER_RelType.ZKey = vTE.ER_RelType.ZKey
+            IF RESULT >= zCURSOR_SET
+               // Relink ER_RelType
+               RelinkInstanceToInstance( vTE, "ER_RelType", vERD, "ER_RelType" )
+            ELSE
+               szMsg = "There is no relationship match in the ERD for " +
+                       "Relalationship Table " + vTE.TE_TablRec.Name + "." +
+                       NEW_LINE + "The Relationship Table is thus being deleted."
+               MessageSend( vTE, "TE00509", "Technical Environment",
+                            szMsg,
+                            zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               DELETE ENTITY vTE.TE_TablRec NONE
+               nDeleteFlag = 1
+            END
+         END
+
+         IF vTE.TE_TablRec EXISTS
+
+            FOR EACH vTE.TE_FieldDataRel
+
+               IF vTE.ER_Attribute EXISTS
+                  SET CURSOR FIRST vERD.ER_Attribute WHERE
+                      vERD.ER_Attribute.ZKey = vTE.ER_Attribute.ZKey
+                  IF RESULT >= zCURSOR_SET
+                     // Relink ER_Attribute - Currently handled at end
+                     //RelinkInstanceToInstance( vTE, "ER_Attribute", vERD, "ER_Attribute" )
+                     //RelinkInstanceToInstance( vTE, "Domain", vERD, "Domain" )
+                  ELSE
+                     SET CURSOR FIRST vERD.ER_Attribute WHERE
+                         vERD.ER_Attribute.Name = vTE.ER_Attribute.Name
+                     IF RESULT >= zCURSOR_SET
+                        EXCLUDE vTE.ER_Attribute
+                        INCLUDE vTE.ER_Attribute FROM vERD.ER_Attribute
+                     ELSE
+                        szMsg = "The Attribute, " + vTE.ER_Attribute.Name + ", in the ER" +
+                                " for TE column, " + vTE.TE_FieldDataRel.Name + ", has been" +
+                                " deleted." + NEW_LINE +
+                                "The TE column is thus being deleted."
+                        MessageSend( vTE, "TE00510", "Technical Environment",
+                                     szMsg,
+                                     zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                        DELETE ENTITY vTE.TE_FieldDataRel NONE
+                        nDeleteFlag = 1
+                     END
+                  END
+               END
+
+               IF vTE.ER_RelLink EXISTS
+                  SET CURSOR FIRST vERD.ER_RelLink_2 WITHIN vERD.EntpER_Model WHERE
+                      vERD.ER_RelLink_2.ZKey = vTE.ER_RelLink.ZKey
+                  IF RESULT >= zCURSOR_SET
+                     // Relink ER_RelLink - Currently handled at end
+                     //RelinkInstanceToInstance( vTE, "ER_RelLink", vERD, "ER_RelLink_2" )
+                     //RelinkInstanceToInstance( vTE, "ER_RelType_O", vERD, "ER_RelType" )
+                     //RelinkInstanceToInstance( vTE, "ER_EntityRelLink", vERD, "ER_Entity_2" )
+                  ELSE
+                     szMsg = "There is no relationship match in the ERD for " +
+                             "Foreign Key " + vTE.TE_FieldDataRel.Name + "." +
+                             NEW_LINE + "The Foreign Key is thus being deleted."
+                             MessageSend( vTE, "TE00511", "Technical Environment",
+                                          szMsg,
+                                          zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                     DELETE ENTITY vTE.TE_FieldDataRel NONE
+                     nDeleteFlag = 1
+                  END
+               END
+
+            END
+
+            FOR EACH vTE.TE_TablRecKey
+
+               IF vTE.ER_EntIdentifier EXISTS
+                  SET CURSOR FIRST vERD.ER_EntIdentifier WHERE
+                      vERD.ER_EntIdentifier.ZKey = vTE.ER_EntIdentifier.ZKey
+                  IF RESULT >= zCURSOR_SET
+                     // Relink ER_EntIdentifier
+                     RelinkInstanceToInstance( vTE, "ER_EntIdentifier", vERD, "ER_EntIdentifier" )
+                  ELSE
+                     szMsg = "The Identifier, " + vTE.ER_EntIdentifier.Name + ", in the ER" +
+                             ", has been deleted." + NEW_LINE +
+                             "The corresponding key field in the TE is thus being deleted."
+                     MessageSend( vTE, "TE00512", "Technical Environment",
+                                  szMsg,
+                                  zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                     DELETE ENTITY vTE.TE_TablRecKey NONE
+                     nDeleteFlag = 1
+                  END
+               END
+
+            END
+
+         END
+
+      END
+
+   END
+
+   // Now relink the ER_Attribute and ER_RelLink subobjects.  They have to be handled
+   // with the RelinkAllSubobjectsForOI to correctly reset the include flags.  In the future
+   // a version of RelinkInstanceToInstance may be created that can also reset the
+   // include flag.  If so, the following will be deleted.
+
+   RelinkAllSubobjectsForOI( vTE, "ER_Attribute", vERD, "ER_Attribute" )
+   RelinkAllSubobjectsForOI( vTE, "ER_RelLink", vERD, "ER_RelLink" )
+
+   DropMetaOI( vSubtask, vERD )
+
+   RETURN( nDeleteFlag )
+
+END
+
+TRANSFORMATION OPERATION
+SyncTablRecKey( VIEW vDTE BASED ON LOD TZTENVRO,
+                VIEW vERD BASED ON LOD TZEREMDO,
+                VIEW vSubtask )
+
+   VIEW        vDTE_Recurs BASED ON LOD TZTENVRO
+   STRING (32) szIdentifierName
+
+   // Create key entries from identifiers, for those identifiers that are not
+   // already associated with key entries.  This must follow a recursive
+   // path, if there is a chain of identifiers that are defined using relationships.
+   // Note that we are processing only the first ER_EntIdentifier, assuming there is only
+   // one per entity.
+
+   FOR EACH vERD.ER_EntIdentifier WITHIN vERD.EntpER_Model
+      SET CURSOR FIRST vDTE.ER_EntIdentifier WITHIN vDTE.TE_DB_Environ WHERE
+                       vDTE.ER_EntIdentifier.ZKey = vERD.ER_EntIdentifier.ZKey
+      IF RESULT < zCURSOR_SET
+         // The identifier has not yet been created in the TE.
+         // Position on the correct entity
+         SET CURSOR FIRST vDTE.ER_Entity WITHIN vDTE.TE_DB_Environ  WHERE
+                          vDTE.ER_Entity.ZKey = vERD.ER_Entity.ZKey
+         CreateMetaEntity( vSubtask, vDTE, "TE_TablRecKey", zPOS_AFTER )
+         szIdentifierName = vERD.ER_EntIdentifier.Name
+         TranslateStringToUpperCase( szIdentifierName )
+         vDTE.TE_TablRecKey.Name =       szIdentifierName
+         // The Category first equals 2 (Attributes Only), assuming that the key is not for relationships.
+         // Later, we will change it to 3 (Attributes & Relationships), if necessary.
+         vDTE.TE_TablRecKey.Category = "2"
+         INCLUDE vDTE.ER_EntIdentifier FROM vERD.ER_EntIdentifier
+         // Include each field that is a part of the key
+         FOR EACH vERD.ER_AttributeIdentifier WITHIN vERD.ER_EntIdentifier
+            SET CURSOR FIRST vDTE.ER_Attribute WITHIN vDTE.TE_TablRec WHERE
+                             vDTE.ER_Attribute.ZKey = vERD.ER_AttributeIdentifier.ZKey
+            vDTE.TE_FieldDataRel.Key = "Y"
+            INCLUDE vDTE.TE_FieldDataRelKey FROM vDTE.TE_FieldDataRel
+         END
+         // Now follow any relationship paths to get what will be imbedded keys.
+         CreateViewFromViewForTask( vDTE_Recurs, vDTE, 0 )
+         FOR EACH vERD.ER_RelLinkIdentifier WITHIN vERD.ER_EntIdentifier
+            vDTE.TE_TablRecKey.Category = "3"
+            SyncTablRecKeyRecurs( vDTE, vDTE_Recurs, vERD )
+         END
+         DropView( vDTE_Recurs )
+      END
+   END
+END
+
+
+TRANSFORMATION OPERATION
+SyncTablRecKeyRecurs( VIEW vDTE        BASED ON LOD TZTENVRO,
+                      VIEW vDTE_Recurs BASED ON LOD TZTENVRO,
+                      VIEW vERD        BASED ON LOD TZEREMDO )
+
+   VIEW vDTE_Recurs2 BASED ON LOD TZTENVRO
+   VIEW vERD2       BASED ON LOD TZEREMDO
+
+   // This routine creates TE_FieldDataRelKey entries for each relationship defined in
+   // an identifier.
+   // Position on the source of the relationship and use its keys.
+
+   // Create new vDTE and vERD views, so we don't alter the caller's vDTE_Recurs and vERD.
+   CreateViewFromViewForTask( vERD2, vERD, 0 )
+   CreateViewFromViewForTask( vDTE_Recurs2, vDTE_Recurs, 0 )
+
+   SET CURSOR FIRST vERD2.ER_Entity WHERE
+                    vERD2.ER_Entity.ZKey = vERD.ER_Entity_Other_Identifier.ZKey
+
+   // Include each field that is a part of the key
+   FOR EACH vERD2.ER_AttributeIdentifier WITHIN vERD2.ER_EntIdentifier
+      SET CURSOR FIRST vDTE_Recurs2.ER_Attribute WITHIN vDTE_Recurs2.TE_DB_Environ WHERE
+                       vDTE_Recurs2.ER_Attribute.ZKey = vERD2.ER_AttributeIdentifier.ZKey
+      vDTE_Recurs2.TE_FieldDataRel.Key = "Y"
+      INCLUDE vDTE.TE_FieldDataRelKey FROM vDTE_Recurs2.TE_FieldDataRel
+   END
+
+   // Now follow any relationship paths to get what will be foreign keys.
+   FOR EACH vERD2.ER_RelLinkIdentifier WITHIN vERD2.ER_EntIdentifier
+      SyncTablRecKeyRecurs( vDTE, vDTE_Recurs2, vERD2 )
+   END
+
+   DropView( vDTE_Recurs2 )
+   DropView( vERD2 )
+
+END
+
+
+LOCAL OPERATION
+TE_MigrateOrgSironSubF( VIEW vSubtask,
+                        VIEW NewTE BASED ON LOD TZTENVRO,
+                        VIEW OldTE BASED ON LOD TZTENVRO,
+                        VIEW NewWorkTE BASED ON LOD TZTENVRO,
+                        VIEW OldWorkTE BASED ON LOD TZTENVRO )
+   SHORT nRC
+
+   SetViewToSubobject( OldTE, "OrigSironSubField" )
+   SetViewToSubobject( NewTE, "OrigSironSubField" )
+
+   // Duplicate OrigSironField and substructure.
+   CreateMetaEntity( vSubtask, NewTE, "OrigSironField", zPOS_AFTER )
+   SetMatchingAttributesByName( NewTE, "OrigSironField",
+                                OldTE, "OrigSironField", zSET_NULL )
+   FOR EACH OldTE.FieldComment
+       CreateMetaEntity( vSubtask, NewTE, "FieldComment", zPOS_AFTER )
+       SetMatchingAttributesByName( NewTE, "FieldComment",
+                                    OldTE, "FieldComment", zSET_NULL )
+   END
+
+   nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE,
+                                          "SironField",
+                                          OldTE,
+                                          "OrigSironField",
+                                          "TE_DBMS_Source" )
+
+   IF nRC >= zCURSOR_SET
+      // Include the SironField under the correct FieldDataRel
+      SET CURSOR FIRST NewWorkTE.TE_TablRec WHERE
+              NewWorkTE.TE_TablRec.Name = OldWorkTE.TE_TablRec.Name
+      SET CURSOR FIRST NewWorkTE.TE_FieldDataRel WHERE
+              NewWorkTE.TE_FieldDataRel.Name = OldWorkTE.TE_FieldDataRel.Name
+
+      INCLUDE NewWorkTE.SironField FROM NewTE.OrigSironField
+   ELSE
+      // Include the SironGroup under the correct TablRec
+      nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE,
+                                             "SironGroup",
+                                             OldTE,
+                                             "OrigSironField",
+                                             "TE_DBMS_Source" )
+      IF nRC >= zCURSOR_SET
+         SET CURSOR FIRST NewWorkTE.TE_TablRec WHERE
+                 NewWorkTE.TE_TablRec.Name = OldWorkTE.TE_TablRec.Name
+
+         INCLUDE NewWorkTE.SironGroup FROM NewTE.OrigSironField
+      END
+   END
+
+   FOR EACH OldTE.OrigSironSubField
+      TE_MigrateOrgSironSubF( vSubtask, NewTE, OldTE, NewWorkTE, OldWorkTE )
+   END
+
+   ResetViewFromSubobject( NewTE )
+   ResetViewFromSubobject( OldTE )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SetFieldSequence
+**
+**    set Field Sequence
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+SetFieldSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+  VIEW vTZTENVRO_Copy BASED ON LOD TZTENVRO
+  INTEGER lSequence
+
+  CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+
+  FOR EACH vTZTENVRO_Copy.TE_DBMS_Source
+      FOR EACH vTZTENVRO_Copy.TE_TablRec
+          lSequence = 1
+          FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
+              vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lSequence
+              lSequence = lSequence + 1
+          END
+      END
+  END
+
+  DropView( vTZTENVRO_Copy )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SortAttributes
+**
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+SortFields( VIEW vTZTENVRO BASED ON LOD TZTENVRO, VIEW vSubtask )
+   VIEW vWindow
+   VIEW vTZTENVRO_Copy BASED ON LOD TZTENVRO
+
+   CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+   FOR EACH vTZTENVRO_Copy.TE_DBMS_Source
+       FOR EACH vTZTENVRO_Copy.TE_TablRec
+           IF vTZTENVRO.TE_FieldDataRel EXISTS AND vTZTENVRO.TE_FieldDataRel.wkSequence > 0
+              OrderEntityForView( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence A" )
+           END
+       END
+   END
+   DropView( vTZTENVRO_Copy )
+
+   GetSubtaskForWindowName( vSubtask, vWindow, "TableRecord" )
+   IF vWindow > 0
+      RefreshCtrl( vWindow, "lbColumnList" )
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: NewFieldSequence
+**
+**    if insert new Field, then set new Field Sequence
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+NewFieldSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+   VIEW    vTZTENVRO_Copy BASED ON LOD TZTENVRO
+   INTEGER lSequenceNo
+   INTEGER lNewSequenceNo
+
+   IF vTZTENVRO.TE_FieldDataRel.wkSequence = ""
+
+      CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+
+      // set cursor on previous field and get the sequence number
+      SET CURSOR PREVIOUS vTZTENVRO_Copy.TE_FieldDataRel
+      IF RESULT = zCURSOR_SET
+         lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+         lSequenceNo = lSequenceNo + 1
+      ELSE
+         lSequenceNo = 1
+      END
+
+      // set new sequence number for the field with greater number
+      FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
+          IF vTZTENVRO_Copy.TE_FieldDataRel.wkSequence >= lSequenceNo
+             lNewSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+             lNewSequenceNo = lNewSequenceNo + 1
+             vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lNewSequenceNo
+         END
+      END
+
+      // set sequence number for new attribute
+      vTZTENVRO.TE_FieldDataRel.wkSequence  = lSequenceNo
+
+      DropView( vTZTENVRO_Copy )
+
+   END
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: DelFieldFromSequence
+**
+**    if delete Field, then set new Field Sequence
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+DelFieldFromSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+   VIEW    vTZTENVRO_Copy BASED ON LOD TZTENVRO
+   INTEGER lSequenceNo
+   INTEGER lNewSequenceNo
+
+   IF vTZTENVRO.TE_FieldDataRel.wkSequence > 0
+
+      CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+
+      lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+      // set new sequence number for the field with greater number
+      FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
+          IF vTZTENVRO_Copy.TE_FieldDataRel.wkSequence > lSequenceNo
+             lNewSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+             lNewSequenceNo = lNewSequenceNo - 1
+             vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lNewSequenceNo
+         END
+      END
+
+      DropView( vTZTENVRO_Copy )
+
+   END
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: MoveFieldInSequence
+**
+**    move Field from a Sequence No to a other Sequence No
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+MoveFieldInSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+   VIEW    vTZTENVRO_Copy BASED ON LOD TZTENVRO
+   INTEGER lSequenceNo
+   INTEGER lOldSequenceNo
+   INTEGER lNewSequenceNo
+
+   lOldSequenceNo = vTZTENVRO.TE_TablRec.wkSelectedFieldForDragSort
+
+   IF lOldSequenceNo > 0
+
+      CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+
+      // set cursor on previous field and get the sequence number
+      SET CURSOR PREVIOUS vTZTENVRO_Copy.TE_FieldDataRel
+      IF RESULT = zCURSOR_SET
+         lNewSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+         IF lNewSequenceNo <= lOldSequenceNo
+            lNewSequenceNo = lNewSequenceNo + 1
+         END
+      ELSE
+         lNewSequenceNo = 1
+      END
+
+      // set new sequence number for the field with greater number
+      FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
+         IF lNewSequenceNo < lOldSequenceNo
+            AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence >= lNewSequenceNo
+            AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence <= lOldSequenceNo
+            lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+            lSequenceNo = lSequenceNo + 1
+            vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lSequenceNo
+         ELSE
+            IF lNewSequenceNo > lOldSequenceNo
+               AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence >= lOldSequenceNo
+               AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence <= lNewSequenceNo
+               lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+               lSequenceNo = lSequenceNo - 1
+               vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lSequenceNo
+            END
+         END
+      END
+
+      // set sequence number for new field
+      vTZTENVRO.TE_FieldDataRel.wkSequence = lNewSequenceNo
+
+      DropView( vTZTENVRO_Copy )
+
+   END
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: Accept_FieldDataRelKey
+**
+**
+*************************************************************************************************/
+ENTITY CONSTRAINT OPERATION
+Accept_FieldDataRelKey( VIEW vTZTENVRO BASED ON LOD TZTENVRO,
+                        STRING ( 32 )  szEntityName,
+                        SHORT          Event,
+                        SHORT          State )
+
+   CASE Event
+   OF   zECE_ACCEPT:
+
+        SetFieldDataRelKeyFlag( vTZTENVRO )
+
+        /* end zECE_ACCEPT */
+   OF   zECE_CANCEL:
+
+        /* end zECE_CANCEL */
+   OF   zECE_CREATE:
+
+        /* end zECE_CREATE */
+   OF   zECE_DELETE:
+
+        /* end zECE_DELETE */
+   OF   zECE_EXCLUDE:
+
+        /* end zECE_EXCLUDE */
+   OF   zECE_INCLUDE:
+
+        /* end zECE_INCLUDE */
+   END  /* case */
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: SetFieldDataRelKeyFlag
+**
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+SetFieldDataRelKeyFlag( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+
+   VIEW vTZTENVRO1 BASED ON LOD TZTENVRO
+
+   CreateViewFromViewForTask( vTZTENVRO1, vTZTENVRO, 0 )
+
+   FOR EACH vTZTENVRO1.TE_FieldDataRel
+
+       SET CURSOR FIRST vTZTENVRO1.TE_FieldDataRelKey WITHIN vTZTENVRO1.TE_TablRec
+           WHERE vTZTENVRO1.TE_FieldDataRelKey.ZKey = vTZTENVRO1.TE_FieldDataRel.ZKey
+
+       IF RESULT >= zCURSOR_SET
+          vTZTENVRO1.TE_FieldDataRel.Key = "Y"
+       ELSE
+          // If FieldType = Attribute (D), set Key=No, else empty
+          IF vTZTENVRO1.TE_FieldDataRel.DataOrRelfieldOrSet = "D"
+             vTZTENVRO1.TE_FieldDataRel.Key = "N"
+          ELSE
+             vTZTENVRO1.TE_FieldDataRel.Key = ""
+          END
+       END
+   END // ENDFOR vTZTENVRO1.TE_FieldDataRel
+
+   DropView( vTZTENVRO1 )
+
+END

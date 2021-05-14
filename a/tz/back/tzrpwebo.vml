@@ -1,0 +1,109 @@
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateJSP
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenerateJSP( VIEW vReport BASED ON LOD TZRPSRCO )
+
+   VIEW vReportRoot  BASED ON LOD TZRPSRCO
+   VIEW vReportTemp  BASED ON LOD TZRPSRCO
+   VIEW vReportTemp2 BASED ON LOD TZRPSRCO
+   VIEW vLPLR        BASED ON LOD TZCMLPLO
+   STRING ( 1000 )  szFileName
+   STRING ( 1000 )  szDirectoryName
+   STRING ( 10000 ) szWriteBuffer
+   STRING ( 100 )   szIndent
+   STRING ( 100 )   szIndentNext
+   STRING ( 32 )    szViewName
+   STRING ( 32 )    szEntityName
+   STRING ( 32 )    szCtrlTag
+   STRING ( 32 )    szActionName
+   STRING ( 64 )    szFormName
+   STRING ( 1 )     InitializationCode
+   STRING ( 1 )     InsertBlankFlag
+   STRING ( 1 )     WorkFlag
+   STRING ( 100 )   szSize
+   STRING ( 1024 )  szStyle
+   STRING ( 1 )     szBorder
+// STRING ( 50 )    szCSS_Class
+   STRING ( 50 )    szGroupType
+   STRING ( 10 )    szWidth
+   STRING ( 10 )    szHeight
+   INTEGER          lFile
+   INTEGER          lControl
+   INTEGER          lHeaderFile
+   INTEGER          LastY_Pos
+   INTEGER          Size
+   INTEGER          TableRowCount
+   DECIMAL          DLUnits
+   SHORT            bListButton
+   SHORT            nRC
+
+   // Generate a JSP file for formatting the Page that has current position.
+
+   szFormName = vReport.Page.Tag + vReport.Window.Tag
+
+   // Initialize Output JSP File.
+   szDirectoryName = ""
+   SysReadZeidonIni( -1, "[Workstation]", "Tomcat", szDirectoryName )
+   IF szDirectoryName = ""
+      szDirectoryName = "C:\Program Files\Apache Group\Tomcat 5.5\webapps\root\zencas\"
+   END
+
+   CreateViewFromViewForTask( vReportRoot, vReport, 0 )
+   szFileName = szDirectoryName + szFormName + ".jsp"
+
+   TraceLineS( "GenerateJSP writing to file: ", szFileName )
+   lFile = SysOpenFile( vReport, szFileName, COREFILE_WRITE )
+   IF lFile < 0
+      MessageSend( vSubtask, "", "JSP Generation",
+                   "Invalid JSP directory structure.",
+                   zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   // JSP HEADER
+
+   TraceLineS( "Generating JSP: ", szFileName )
+   szWriteBuffer = "<%-- " + szFormName + " --%>"
+   WL_QC( vReport, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "<%@ page import='java.util.*' %>"
+   WL_QC( vReport, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "<%@ page import='javax.servlet.*' %>"
+   WL_QC( vReport, lFile, szWriteBuffer, "'", 0 )
+   szWriteBuffer = "<%@ page import='javax.servlet.http.*' %>"
+   WL_QC( vReport, lFile, szWriteBuffer, "'", 1 )
+
+   szWriteBuffer = "<%! "
+   WL_QC( vReport, lFile, szWriteBuffer, "'", 1 )
+
+   // STATIC SECTION
+   JSP_StaticSection1( lFile, szWriteBuffer, vReport )
+
+   // MAIN SECTION HEADER
+   JSP_StaticMainSection( lFile, szWriteBuffer, vReport )
+
+   // ACTION PROCESSING - Only actions from reusable Menu are processed.
+   IF vReport.ReusableMenuWindow EXISTS
+      RetrieveViewForMetaList( vSubtask, vSubtask, vLPLR, zREFER_DIALOG_META )
+      SET CURSOR FIRST vLPLR.W_MetaDef WHERE  vLPLR.W_MetaDef.Name = vReport.ReusableMenuDialog.Tag
+      ActivateMetaOI( vReport, vReport, vDialog, vLPLR, zREFER_DIALOG_META, zSINGLE )
+      SET CURSOR FIRST vDialog.Window WHERE vDialog.Window.Tag = vReport.ReusableMenuWindow.Tag
+      IF RESULT >= zCURSOR_SET
+         CreateViewFromView( vDialogRoot, vDialog )
+         FOR EACH vDialog.Option
+            IF vDialog.OptAct EXISTS
+               SET CURSOR FIRST vDialog.Action WHERE vDialog.Action.Tag = vDialog.OptAct.Tag
+               IF RESULT >= zCURSOR_SET
+                  GenJSP_Action( vDialog, vDialogRoot, lFile, szWriteBuffer, szFormName, vDialog.Action.Tag )
+               END
+            END
+         END
+      END
+      DropMetaOI( vSubtask, vDialog )
+   END
+
+END

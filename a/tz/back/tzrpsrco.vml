@@ -1,0 +1,2880 @@
+/*
+CHANGE LOG
+2002.01.23    DKS/FH    Z10
+   correction of bugs in report (entitybreak and tabstop support).
+2000.10.20    SR  Z2000  Size of path variables
+   Modified size of szFileName in function AutodesignReport and SourceFileName,
+   SourceName, SourceFileName1 and SourceFileName2 in function ReportMigrate because
+   size of attributes ExecDir, MetaSrcDir and PgmSrcDir has been changed to 254 in
+   datamodel. Adjust messagetext variables.
+   Modified function ChangeRepFileContents for the same reason.
+2000.10.08    BL   Z10  TB 50683
+   Modified AutodesignReport for set Font Size automatically
+2000.08.17    RG Z2000
+   We have to use the right pathes for REP and XSQ files
+   May be they are different.
+2000.08.16    RG Z2000
+   Use definition zCHANGE_REP_SAVEAS in VML
+2000.08.14    RG Z2000
+   Changed Operation ChangeRepFileContents for
+   functionality: SAVE AS
+2000.07.27    RG Z2000
+   Inserted Operation: ChangeRepFileContents
+2000.01.13    BL 10a  new PPE-Handling
+   Modified ReportCopy and ReportMigrate for new PPE handling
+1999.12.13    DC Z10
+   Corrected CopyControl to use recursive view in loop instead of nonrecursive view.
+1999.08.19    DC 10a
+   Modified ReportMigrate to give error if there was no match on ControlDef.
+   Also corrected set cursor on ControlDef for new report text control name.
+1999.06.08    DKS
+   AutoDesign of reports now uses 256ths of an inch.
+1999.01.21    DKS
+   AutoDesign of reports now uses the new tag Rpt_Text.
+*/
+
+TRANSFORMATION OPERATION
+AutodesignReport( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                  VIEW vUserSpec  BASED ON LOD TZADCSDO,
+                  VIEW vPE        BASED ON LOD TZPESRCO,
+                  VIEW vSubtask )
+
+   VIEW        vUserSpecRoot  BASED ON LOD TZADCSDO
+   VIEW        vDefaults BASED ON LOD TZADCSDO
+   VIEW        vTaskLPLR BASED ON LOD TZCMLPLO
+   STRING ( 513 ) szFileName                        // zMAX_FILESPEC_LTH+1
+   STRING ( 257 ) szMsg                             // zSHORT_MESSAGE_LTH+1
+   INTEGER     lFile
+   INTEGER     lCurrentVerticalPos
+   INTEGER     lTopGroupMargin
+   INTEGER     lBottomHeaderMargin
+   INTEGER     lLeftGroupMargin
+   INTEGER     lHeight
+   INTEGER     lCurrentPosY
+   INTEGER     lPageNumberPosX
+   INTEGER     lDefaultFontSize
+   INTEGER     lTitleSize
+   INTEGER     lFontSize
+   INTEGER     lPageWidth
+   INTEGER     lVerticalIncrement
+   DECIMAL     dVertScalingFactor
+   SHORT       nCharacterHeight
+   SHORT       nCharacterWidth
+   SHORT       nBoldFlag
+   SHORT       nItalicFlag
+   SHORT       nRC
+
+   // Retrieve default information and name it for later use.  If the instance
+   // doesn't exist, exit.
+   GET VIEW vTaskLPLR NAMED "TaskLPLR"
+   szMsg = vTaskLPLR.LPLR.MetaSrcDir + "\Z__DFLT.BAS"  // borrow szMsg for a second
+   SysConvertEnvironmentString( szFileName, szMsg )
+   lFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ )
+   IF lFile < 0
+      szMsg = "LPLR Defaults not found." + zNew_Line + "Exiting Autodesign."
+      MessageSend( vSubtask, "AD10201", "Autodesigner",
+                   "LPLR Defaults not found.\nExiting Autodesign.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   ELSE
+      SysCloseFile( vSubtask, lFile, 0 )
+      ActivateOI_FromFile( vDefaults, "TZADCSDO", vUserSpec,
+                           szFileName, zSINGLE )
+      NAME VIEW vDefaults "TZ_Defaults"
+   END
+
+   // if Font Size does not exists, set size
+   IF vDefaults.InitValues.ReportTextSize <= 0
+      szMsg = "No valid Default Font Size found. This Report" + zNew_Line
+      szMsg = szMsg + "will be created with a Font Size 10."
+      nRC = MessagePrompt( vReportDef, "AD10202", "Autodesigner",
+                           szMsg, 1, zBUTTONS_OKCANCEL, zRESPONSE_OK,
+                           zICON_QUESTION   )
+      IF nRC = zRESPONSE_CANCEL
+         RETURN -1
+      ELSE
+         vDefaults.InitValues.ReportTextSize = 10
+      END
+   END
+
+   // Delete entries for the existing ReportDef.
+   DELETE ENTITY vReportDef.Page
+   CreateMetaEntity( vSubtask, vReportDef, "Page", zPOS_AFTER )
+   vReportDef.Page.Tag = vReportDef.Report.Tag
+
+   // DEM - We will set the page sizes in the report def.
+   // This is temporary code only and should be removed when
+   // a final soln is arrived at. In the future, The default dialog
+   // for autodesign should allow the page size to be set. For now,
+   // we just set them here for a 8 1/2 x 11 page size. Sizes are in
+   // 256ths of an inch
+   vReportDef.Page.SizeX = 2176
+   vReportDef.Page.SizeY = 2816
+
+   // Set up default information.
+   dVertScalingFactor   = vDefaults.InitValues.ReportTextIncrementY * 16
+   lVerticalIncrement   = 0
+   lTopGroupMargin      = 5 * 16
+   lBottomHeaderMargin  = 2 * 16
+   lLeftGroupMargin     = 5 * 16
+   lPageWidth           = vReportDef.Page.SizeX
+   lPageNumberPosX      = lPageWidth - 256
+   lDefaultFontSize     = vDefaults.InitValues.ReportTextSize * 10
+   lCurrentPosY         = 0
+
+   // This transformation uses the User Interface Spec to build a report
+   // definition.
+
+   // First, we will build the whole Report Definition without specifying
+   // any positions.  Then we will come back and determine positions.
+
+   NAME VIEW vReportDef "***ReportDef"
+   NAME VIEW vUserSpec "***UserSpec"
+   vReportDef.Report.Unit = 1
+   vReportDef.Report.ReportTextSize = lDefaultFontSize
+
+   // Add the ViewObjRef that will be used by all Controls on the report.
+   IF vReportDef.ViewObjRef EXISTS
+      EXCLUDE vReportDef.ViewObjRef
+   END
+   INCLUDE vReportDef.ViewObjRef FROM vUserSpec.UIS_ViewObjRef
+
+   // Create a root view of the UserSpec for the inclusion of ViewObjRef.
+   CreateViewFromViewForTask( vUserSpecRoot, vUserSpec, 0 )
+
+   // Create Page Header GroupSet and Group with initial values.
+
+   CreateMetaEntity( vSubtask, vReportDef, "GroupSet", zPOS_AFTER )
+   vReportDef.GroupSet.Tag      = "PageHeader"
+   vReportDef.GroupSet.Type     = "PH"
+   vReportDef.GroupSet.PSDLG_X  = 0
+   vReportDef.GroupSet.PSDLG_Y  = 64
+   vReportDef.GroupSet.SZDLG_X  = vReportDef.Page.SizeX
+   vReportDef.GroupSet.SZDLG_Y  = 320
+   vReportDef.GroupSet.PPE_Type = 3000
+
+   CreateMetaEntity( vSubtask, vReportDef, "Group", zPOS_AFTER )
+   vReportDef.Group.Tag         = "PageHeader"
+   vReportDef.Group.Type        = "ga"
+   vReportDef.Group.SubType     = "0"
+   vReportDef.Group.PSDLG_X     = 0
+   vReportDef.Group.PSDLG_Y     = 64
+   vReportDef.Group.SZDLG_X     = vReportDef.Page.SizeX
+   vReportDef.Group.SZDLG_Y     = 128
+   vReportDef.Group.PPE_Type    = 3010
+
+   lCurrentVerticalPos = lTopGroupMargin
+
+   // Create Page Header Controls, if requested.  Headers are requested
+   // by either having something entered in the Title or by requesting Paging.
+
+   IF vUserSpec.UI_Spec.HeaderTitle != "" OR
+      vUserSpec.UI_Spec.HeaderPageNoFlag = "Y"
+
+      // Set the FontSize, Bold and Italic flags for the Header group.
+      lFontSize = vUserSpec.UI_Spec.HeaderFontSize * 10
+      IF vUserSpec.UI_Spec.HeaderBoldFlag = "Y"
+         nBoldFlag = TRUE
+      ELSE
+         nBoldFlag = FALSE
+      END
+      IF vUserSpec.UI_Spec.HeaderItalicFlag = "Y"
+         nItalicFlag = TRUE
+      ELSE
+         nItalicFlag = FALSE
+      END
+
+      // Set font size and character width and height.
+      IF lFontSize = 0
+         lFontSize = lDefaultFontSize
+      END
+      nCharacterHeight   = ((lFontSize * 16) / 720) + 1
+      nCharacterWidth    = ((lFontSize * 16) / 720)
+      lVerticalIncrement = nCharacterHeight * dVertScalingFactor * 16
+
+      IF vUserSpec.UI_Spec.HeaderTitle != ""
+
+         // Set up Page Header Text.
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         vReportDef.Control.Text    = vUserSpec.UI_Spec.HeaderTitle
+         vReportDef.Control.Tag     = "PageHeaderText"
+         vReportDef.Control.PSDLG_X = lLeftGroupMargin
+         vReportDef.Control.PSDLG_Y = lTopGroupMargin
+         SET CURSOR FIRST vPE.ControlDef WHERE
+                          vPE.ControlDef.Tag = "Rpt_Text"
+         INCLUDE vReportDef.ControlDef FROM vPE.ControlDef
+         lTitleSize = GetStringLength( vReportDef.Control.Text )
+         vReportDef.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+      END
+
+      IF vUserSpec.UI_Spec.HeaderPageNoFlag = "Y"
+
+         // Set up Header Page Number.
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         vReportDef.Control.Tag     = "PageNumber"
+         vReportDef.Control.PSDLG_X = lPageNumberPosX
+         vReportDef.Control.PSDLG_Y = lTopGroupMargin
+         INCLUDE vReportDef.ControlDef FROM vPE.ControlDef
+         vReportDef.Control.SZDLG_X = 160 // Just a guess right now.
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+      END
+
+      // Set height of the group and groupset.  We will determine the Y size by
+      // getting the last control (bottom in Group, though any control would do) and
+      // adding BottomGroupMargin to it.
+      lHeight = vReportDef.Control.PSDLG_Y + vReportDef.Control.SZDLG_Y +
+                lVerticalIncrement + (lBottomHeaderMargin * 2)
+      vReportDef.Group.SZDLG_Y    = lHeight
+      vReportDef.GroupSet.SZDLG_Y = lHeight + 64
+      lCurrentPosY = lHeight
+   END
+
+   // Create Page Footer GroupSet and Group with initial values.
+
+   CreateMetaEntity( vSubtask, vReportDef, "GroupSet", zPOS_AFTER )
+   vReportDef.GroupSet.Tag      = "PageFooter"
+   vReportDef.GroupSet.Type     = "PF"
+   vReportDef.GroupSet.PSDLG_X  = 0
+   vReportDef.GroupSet.PSDLG_Y  = 64
+   vReportDef.GroupSet.SZDLG_X  = vReportDef.Page.SizeX
+   vReportDef.GroupSet.SZDLG_Y  = 320
+   vReportDef.GroupSet.PPE_Type = 3000
+
+   CreateMetaEntity( vSubtask, vReportDef, "Group", zPOS_AFTER )
+   vReportDef.Group.Tag         = "PageFooter"
+   vReportDef.Group.Type        = "ga"
+   vReportDef.Group.SubType     = "0"
+   vReportDef.Group.PSDLG_X     = 0
+   vReportDef.Group.PSDLG_Y     = 64
+   vReportDef.Group.SZDLG_X     = vReportDef.Page.SizeX
+   vReportDef.Group.SZDLG_Y     = 128
+   vReportDef.Group.PPE_Type    = 3010
+
+   // Create Page Footer Controls, if requested.  Footers are requested
+   // by either having something entered in the Title or by requesting Paging.
+
+   IF vUserSpec.UI_Spec.FooterTitle != "" OR
+      vUserSpec.UI_Spec.FooterPageNoFlag = "Y"
+
+      // Set the FontSize, Bold and Italic flags for the Footer group.
+      lFontSize = vUserSpec.UI_Spec.FooterFontSize * 10
+      IF vUserSpec.UI_Spec.FooterBoldFlag = "Y"
+         nBoldFlag = TRUE
+      ELSE
+         nBoldFlag = FALSE
+      END
+      IF vUserSpec.UI_Spec.FooterItalicFlag = "Y"
+         nItalicFlag = TRUE
+      ELSE
+         nItalicFlag = FALSE
+      END
+
+      // Set font size and character width and height.
+      IF lFontSize = 0
+         lFontSize = lDefaultFontSize
+      END
+      nCharacterHeight   = ((lFontSize * 16) / 720) + 1
+      nCharacterWidth    = ((lFontSize * 16) / 720)
+      lVerticalIncrement = nCharacterHeight * dVertScalingFactor * 16
+
+      lCurrentVerticalPos = lTopGroupMargin
+
+      IF vUserSpec.UI_Spec.FooterTitle != ""
+
+         // Set up Page Footer Text.
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         vReportDef.Control.Text    = vUserSpec.UI_Spec.FooterTitle
+         vReportDef.Control.Tag     = "PageFooterText"
+         vReportDef.Control.PSDLG_X = lLeftGroupMargin
+         vReportDef.Control.PSDLG_Y = lTopGroupMargin
+         SET CURSOR FIRST vPE.ControlDef WHERE
+                          vPE.ControlDef.Tag = "Rpt_Text"
+         INCLUDE vReportDef.ControlDef FROM vPE.ControlDef
+         lTitleSize = GetStringLength( vReportDef.Control.Text )
+         vReportDef.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+      END
+
+      IF vUserSpec.UI_Spec.FooterPageNoFlag = "Y"
+
+         // Set up Footer Page Number.
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         vReportDef.Control.Tag     = "PageNumber"
+         vReportDef.Control.PSDLG_X = lPageNumberPosX
+         vReportDef.Control.PSDLG_Y = lTopGroupMargin
+         INCLUDE vReportDef.ControlDef FROM vPE.ControlDef
+         vReportDef.Control.SZDLG_X = 160  // Just a guess right now.
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+      END
+
+      // Set height of the group and groupset.  We will determine the Y size by
+      // getting the last control (bottom in Group, though any control would do) and
+      // adding BottomGroupMargin to it.
+      lHeight = vReportDef.Control.PSDLG_Y + vReportDef.Control.SZDLG_Y +
+                lVerticalIncrement + (lBottomHeaderMargin * 2)
+      vReportDef.Group.SZDLG_Y = lHeight
+      vReportDef.GroupSet.SZDLG_Y = lHeight
+
+   END
+
+   AutodesignReportEntity( vSubtask, vReportDef, vUserSpec, vUserSpecRoot, vPE )
+
+   // Re-adjust vertical positions of the groupsets.
+   // Dont adjust the page footer groupset (PF) should it exist
+   // and rely on the painter and printer to handle its positioning
+   lCurrentVerticalPos = 0
+   FOR EACH vReportDef.GroupSet
+      IF vReportDef.GroupSet.Type != "PF"
+
+         vReportDef.GroupSet.PSDLG_Y = lCurrentVerticalPos
+         lCurrentVerticalPos = lCurrentVerticalPos +
+                                                vReportDef.GroupSet.SZDLG_Y
+
+      END
+   END
+
+END
+
+/***************************************************************************
+   Autodesign a GroupSet for each entity, with Controls for each
+   attribute within the entity and additional Groups for Headers and Footers.
+***************************************************************************/
+
+TRANSFORMATION OPERATION
+AutodesignReportEntity( VIEW vSubtask,
+                        VIEW vReportDef    BASED ON LOD TZRPSRCO,
+                        VIEW vUserSpec     BASED ON LOD TZADCSDO,
+                        VIEW vUserSpecRoot BASED ON LOD TZADCSDO,
+                        VIEW vPE           BASED ON LOD TZPESRCO )
+
+   // If autodesign was requested for this entity, go format the group control and
+   // subcontrols for it.
+   IF vUserSpec.UIS_Entity.AutodesignCaseType != "N"
+      CreateGrpSetForEntity( vSubtask, vReportDef, vUserSpec, vUserSpecRoot, vPE )
+   END
+
+   // Then process each of the subentities in the UserSpec.
+   FOR EACH vUserSpec.UIS_ChildEntity
+      SetViewToSubobject( vUserSpec, "UIS_ChildEntity" )
+      AutodesignReportEntity( vSubtask, vReportDef, vUserSpec, vUserSpecRoot, vPE )
+      ResetViewFromSubobject( vUserSpec )
+   END
+
+END
+
+/***************************************************************************
+   This routine should really be called CreateGrpSetForEntity.
+   It creates a GroupSet for an entity from the source object.
+   The group set will have at most 1 header, 1 detail and 1 footer
+   group created. They will appear in the report def in that order:
+   header, detail, footer.
+***************************************************************************/
+
+LOCAL OPERATION
+CreateGrpSetForEntity( VIEW vSubtask,
+                       VIEW vReportDef    BASED ON LOD TZRPSRCO,
+                       VIEW vUserSpec     BASED ON LOD TZADCSDO,
+                       VIEW vUserSpecRoot BASED ON LOD TZADCSDO,
+                       VIEW vPE_Control   BASED ON LOD TZPESRCO )
+
+   VIEW       vDefaults BASED ON LOD TZADCSDO
+   STRING(32) szNameWork
+   STRING(32) szEntityName
+   INTEGER    lVerticalPos
+   INTEGER    lHorizontalPos
+   INTEGER    lLongestPrompt
+   INTEGER    lTopGroupMargin
+   INTEGER    lBottomGroupMargin
+   INTEGER    lBottomHeaderMargin
+   INTEGER    lLeftGroupMargin
+   INTEGER    lRightGroupMargin
+   INTEGER    lVerticalIncrement     // space betwen lines
+   INTEGER    lHorizontalIncrement
+   INTEGER    lAttributeCnt
+   INTEGER    lLevelIndentation
+   INTEGER    lGroupPosY
+   INTEGER    lGroupSizeY
+   INTEGER    lTitleSize
+   INTEGER    lDefaultFontSize
+   INTEGER    lPageWidth
+   INTEGER    lFontSize
+   DECIMAL    dHorzScalingFactor
+   DECIMAL    dVertScalingFactor
+   SHORT      nCharacterWidth
+   SHORT      nCharacterHeight
+   SHORT      nBoldFlag
+   SHORT      nItalicFlag
+   INTEGER    lAttributeSize
+   STRING(2)  szDomainDataType
+   STRING(2)  szAttributePrefix
+   STRING(2)  szPositioningType
+   INTEGER    nControlEndPosition
+
+   // Set up default information.
+   GET VIEW vDefaults NAMED "TZ_Defaults"
+   dHorzScalingFactor    = vDefaults.InitValues.ReportTextIncrementX
+   lHorizontalIncrement  = 0
+   dVertScalingFactor    = vDefaults.InitValues.ReportTextIncrementY
+   lVerticalIncrement    = 0
+   lDefaultFontSize      = vDefaults.InitValues.ReportTextSize * 10
+   lTopGroupMargin       = 1 * 16
+   lBottomGroupMargin    = 16  // DEM - guess work
+   lBottomHeaderMargin   = 2 * 16
+   lRightGroupMargin     = 5 * 16
+   lLeftGroupMargin      = 5 * 16
+   lPageWidth            = vReportDef.Page.SizeX
+   lGroupPosY            = 4 * 16
+   lLevelIndentation     = vUserSpecRoot.UI_Spec.LevelIndentation
+   lLeftGroupMargin      = lLeftGroupMargin +
+                    (lLevelIndentation * vUserSpec.LOD_Entity.IndentLvl) * 16
+
+   // Set EntityName for debug purposes, so we will know in tracing what entity we
+   // are working with.
+   szEntityName = vUserSpec.LOD_Entity.Name
+
+   // The ControlDef is currently defaulted to Text for all subcontrols.
+   SET CURSOR FIRST vPE_Control.ControlDef WHERE
+                    vPE_Control.ControlDef.Tag = "Rpt_Text"
+
+   // If the positioning type is blank, force it to horizontal.
+   szPositioningType    = vUserSpec.UIS_Entity.ReportOrientationFlag
+   IF szPositioningType = ""
+      szPositioningType = "V"
+   END
+
+
+   // *** HEADERS  ***
+
+   // Set up GroupSet
+   CreateMetaEntity( vSubtask, vReportDef, "GroupSet", zPOS_AFTER )
+   vReportDef.GroupSet.Tag      = szEntityName
+   vReportDef.GroupSet.Type     = "E"
+   vReportDef.GroupSet.PSDLG_X  = 0
+   vReportDef.GroupSet.PSDLG_Y  = 4 * 16
+   vReportDef.GroupSet.SZDLG_X  = vReportDef.Page.SizeX
+   vReportDef.GroupSet.PPE_Type = 3000
+
+   // Set the FontSize, Bold and Italic flags for the Header group.
+   IF vUserSpec.UIS_Entity.HeaderText != "" OR szPositioningType = "H"
+      lFontSize = vUserSpec.UIS_Entity.HeaderFontSize * 10
+      IF vUserSpec.UIS_Entity.HeaderBoldFlag = "Y"
+         nBoldFlag = TRUE
+      ELSE
+         nBoldFlag = FALSE
+      END
+      IF vUserSpec.UIS_Entity.HeaderItalicFlag = "Y"
+         nItalicFlag = TRUE
+      ELSE
+         nItalicFlag = FALSE
+      END
+
+      // Set font size and character width and height.
+      IF lFontSize = 0
+         lFontSize = lDefaultFontSize
+      END
+      nCharacterWidth      = (lFontSize * 16) / 720
+      nCharacterHeight     = ((lFontSize * 16) / 720) + 1
+      lHorizontalIncrement = nCharacterWidth  * dHorzScalingFactor * 16
+      lVerticalIncrement   = nCharacterHeight * dVertScalingFactor * 16
+   END
+
+   // If the attributes for the entity are to be placed horizontally, then
+   // put the titles (prompts) in their own Header group.
+   // If there is a Header Text for the entity, use it in either case.
+   IF szPositioningType = "H"
+
+      // Add Header Group
+      CreateMetaEntity( vSubtask, vReportDef, "Group", zPOS_AFTER )
+      vReportDef.Group.Tag                  = "GroupHeader"
+      vReportDef.Group.Type                 = "gh"
+      vReportDef.Group.PSDLG_X              = 0
+      vReportDef.Group.PSDLG_Y              = lGroupPosY
+      vReportDef.Group.SZDLG_X              = vReportDef.Page.SizeX
+      vReportDef.Group.PPE_Type             = 3010
+      vReportDef.Group.ForceHeaderPerEntity = vUserSpec.UIS_Entity.ForceHeaderPerEntity
+
+      lVerticalPos = lTopGroupMargin
+
+      // Add Header Text, if there is any.
+      IF vUserSpec.UIS_Entity.HeaderText != ""
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         szNameWork = "H_" + vUserSpec.LOD_Entity.Name
+         vReportDef.Control.Type    = 10
+         vReportDef.Control.Text    = vUserSpec.UIS_Entity.HeaderText
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vReportDef.Control.PSDLG_X = lLeftGroupMargin
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         lTitleSize                 = GetStringLength( vUserSpec.UIS_Entity.HeaderText )
+         vReportDef.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         INCLUDE vReportDef.ControlDef FROM vPE_Control.ControlDef
+
+         lVerticalPos = lVerticalPos +
+                                 (nCharacterHeight * 16) + lVerticalIncrement
+      END
+
+      // Initialize our horizontal and vertical positions.  Actually,
+      // the vertical position won't change.
+      lHorizontalPos = lLeftGroupMargin
+
+      // Start the attribute count with 1 for the generation of unique names.
+      lAttributeCnt         = 1
+
+      FOR EACH vUserSpec.M_LOD_Attribute
+
+         // For each attribute create the title. Control Type is 10 for title.
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         ConvertIntegerToString( lAttributeCnt, szAttributePrefix, 2 )
+         szNameWork                 = vUserSpec.M_ER_Attribute.Name
+              vReportDef.Control.Tag     = "T_" + szAttributePrefix + "_" + szNameWork[1:26]
+         vReportDef.Control.Type    = 10
+         IF vUserSpec.M_ER_Attribute.ListPaintLit != ""
+            vReportDef.Control.Text = vUserSpec.M_ER_Attribute.ListPaintLit
+         ELSE
+            vReportDef.Control.Text = vUserSpec.M_ER_Attribute.Name
+         END
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vReportDef.Control.PSDLG_X = lHorizontalPos
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         lTitleSize                 = GetMaxAttributeSize( vUserSpec, "H" )
+         lTitleSize                 = lTitleSize * nCharacterWidth
+         vReportDef.Control.SZDLG_X = lTitleSize * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         INCLUDE vReportDef.ControlDef FROM vPE_Control.ControlDef
+
+         lHorizontalPos  = lHorizontalPos + (lTitleSize * 16) +
+                                                        lHorizontalIncrement
+         lAttributeCnt = lAttributeCnt + 1
+
+      END
+
+      // Determine the size of the Group.
+      // 1. We will determine the X size by getting the last control (right most in
+      //    Group) and adding its size and RightGroupMargin to it.
+      // 2. We will determine the Y size by getting the last control (bottom in Group,
+      //    though any control would do) and adding BottomGroupMargin to it.
+      SET CURSOR LAST vReportDef.Control
+      lGroupSizeY = vReportDef.Control.PSDLG_Y + vReportDef.Control.SZDLG_Y +
+                    lVerticalIncrement + lBottomHeaderMargin
+      vReportDef.Group.SZDLG_Y    = lGroupSizeY
+      vReportDef.GroupSet.SZDLG_Y = lGroupSizeY
+
+      // update lGroupPosY
+      lGroupPosY = lGroupPosY + vReportDef.Group.SZDLG_Y
+
+      // We will now adjust the Group control and all the subcontrols by a common
+      // factor so that they will all appear on the page.
+      AdjustGroupSize( vReportDef, lPageWidth )
+
+   ELSE
+      // This is condition where the positioning of the group is not horizontal
+      // and there are thus no attribute headers.  We do need to check, however,
+      // if there is Header Text defined for the entity.
+      IF vUserSpec.UIS_Entity.HeaderText != ""
+         // Create the group control.
+         // Add the Header Group
+         CreateMetaEntity( vSubtask, vReportDef, "Group", zPOS_AFTER )
+         vReportDef.Group.Tag      = "GroupHeader"
+         vReportDef.Group.Type     = "gh"
+         vReportDef.Group.PSDLG_X  = 0
+         vReportDef.Group.PSDLG_Y  = lGroupPosY
+         vReportDef.Group.SZDLG_X  = vReportDef.Page.SizeX
+         vReportDef.Group.PPE_Type = 3010
+         vReportDef.Group.ForceHeaderPerEntity = vUserSpec.UIS_Entity.ForceHeaderPerEntity
+
+         lVerticalPos = lTopGroupMargin
+
+         // Create the Text control for the header value.
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         szNameWork = "H_" + vUserSpec.LOD_Entity.Name
+         vReportDef.Control.Type    = 10
+         vReportDef.Control.Text    = vUserSpec.UIS_Entity.HeaderText
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vReportDef.Control.PSDLG_X = lLeftGroupMargin
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         lTitleSize = GetStringLength( vUserSpec.UIS_Entity.HeaderText )
+         vReportDef.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         INCLUDE vReportDef.ControlDef FROM vPE_Control.ControlDef
+
+         lHorizontalIncrement = nCharacterWidth  * dHorzScalingFactor
+         lVerticalIncrement = nCharacterHeight * dVertScalingFactor
+         lVerticalPos = lVerticalPos + nCharacterHeight + lVerticalIncrement
+
+         // Determine the size of the Group.
+         // 1. We will determine the X size by getting the last control (right most in
+         //    Group) and adding its size and RightGroupMargin to it.
+         // 2. We will determine the Y size by getting the last control (bottom in Group,
+         //    though any control would do) and adding BottomGroupMargin to it.
+         SET CURSOR LAST vReportDef.CtrlCtrl
+         lGroupSizeY = lVerticalPos + lBottomGroupMargin
+         vReportDef.Group.SZDLG_Y = lGroupSizeY
+
+         // update lGroupPosY
+         lGroupPosY = lGroupPosY + vReportDef.Group.SZDLG_Y
+
+         // We will now adjust the Group control and all the subcontrols by a common
+         // factor so that they will all appear on the page.
+         AdjustGroupSize( vReportDef, lPageWidth )
+
+      END
+
+   END
+
+
+   // *** REGULAR ATTRIBUTES  ***
+
+   // Set the Bold and Italic flags for the main group.
+   IF vUserSpec.UIS_Entity.BoldFlag = "Y"
+      nBoldFlag = TRUE
+   ELSE
+      nBoldFlag = FALSE
+   END
+   IF vUserSpec.UIS_Entity.ItalicFlag = "Y"
+      nItalicFlag = TRUE
+   ELSE
+      nItalicFlag = FALSE
+   END
+
+   // Set font size and character width and height.
+   lFontSize = vUserSpec.UIS_Entity.FontSize * 10
+   IF lFontSize = 0
+      lFontSize = lDefaultFontSize
+   END
+   nCharacterWidth  = (lFontSize * 16) / 720
+   nCharacterHeight = ((lFontSize * 16) / 720) + 1
+//   lVerticalIncrement = nCharacterHeight / 2
+//   lVerticalIncrement = 0  // DEM -guess work
+   lHorizontalIncrement = nCharacterWidth  * dHorzScalingFactor * 16
+   lVerticalIncrement = nCharacterHeight * dVertScalingFactor * 16
+
+   // If the attributes for the entity are to be placed vertically, loop
+   // through all the attributes and determine the longest prompt.  We will use
+   // values in the following order.
+   //    PromptPaintLth if specified
+   //    Length of PromptPaintLit if specified
+   //    Length of Attribute Name
+   IF szPositioningType = "V"
+      lLongestPrompt = 0
+      FOR EACH vUserSpec.M_LOD_Attribute
+         IF vUserSpec.M_ER_Attribute.PromptPaintLit != ""
+            lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.PromptPaintLit )
+         ELSE
+            lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.Name )
+         END
+         IF lLongestPrompt < lTitleSize
+            lLongestPrompt = lTitleSize
+         END
+      END
+   END
+   lLongestPrompt = lLongestPrompt * nCharacterWidth
+
+
+   // Build the Group for the attribute Controls (and the titles, if
+   // positioning is vertical).
+   CreateMetaEntity( vSubtask, vReportDef, "Group", zPOS_AFTER )
+   vReportDef.Group.Tag      = "Detail"
+   vReportDef.Group.Type     = "ga"
+   vReportDef.Group.PSDLG_X  = 0
+   vReportDef.Group.PSDLG_Y  = lGroupPosY
+   vReportDef.Group.SZDLG_X  = vReportDef.Page.SizeX
+   vReportDef.Group.PPE_Type = 3010
+
+/*???
+   // Indicate the horizontal or vertical placement using Type = 10 for
+   // vertical and 20 for horizontal.
+   IF szPositioningType = "H"
+      vReportDef.Control.Type = 20       // Horizontal positioning
+   ELSE
+      vReportDef.Control.Type = 10       // Vertical positioning
+   END
+???*/
+
+   // Start the attribute count with 1 for the generation of unique names.
+   lAttributeCnt = 1
+
+   // Initialize positions.
+   lVerticalPos     = lTopGroupMargin
+   lHorizontalPos   = lLeftGroupMargin
+
+   // Loop through all the attributes creating both Title controls and Attribute controls.
+   // We use the same code for both horizontal position and vertical positioning, the
+   // only difference being the positioning of both types of controls.
+   FOR EACH vUserSpec.M_LOD_Attribute
+
+      // The ControlDef is always Text at this time.
+      SET CURSOR FIRST vPE_Control.ControlDef WHERE
+                       vPE_Control.ControlDef.Tag = "Rpt_Text"
+
+      // Set up szNameWork and szAttributePrefix for use in creating Tags.
+      szNameWork = vUserSpec.M_ER_Attribute.Name
+      ConvertIntegerToString( lAttributeCnt, szAttributePrefix, 2 )
+
+      // If positioning is vertical, add the title.  If positioning is horizontal,
+      // the titles were added as their own group.  Control Type is 10 for title.
+      IF szPositioningType = "V"
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         vReportDef.Control.Tag = "T_" + szAttributePrefix + "_" + szNameWork[1:26]
+         vReportDef.Control.Type = 10
+         IF vUserSpec.M_ER_Attribute.PromptPaintLit != ""
+            vReportDef.Control.Text = vUserSpec.M_ER_Attribute.PromptPaintLit
+         ELSE
+            vReportDef.Control.Text = vUserSpec.M_ER_Attribute.Name
+         END
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vReportDef.Control.PSDLG_X = lHorizontalPos
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         vReportDef.Control.SZDLG_X = lLongestPrompt * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         INCLUDE vReportDef.ControlDef FROM vPE_Control.ControlDef
+
+      END
+
+      // For each attribute create the control. Control Type is 20 for control.
+      CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+      vReportDef.Control.Tag  = "A_" + szAttributePrefix + "_" + szNameWork[1:26]
+      vReportDef.Control.Type = 20
+
+      // Right justify decimals, shorts and longs.  Subtype = 16777216 sets the
+      // bit zCONTROL_RIGHTJUSTIFY.
+      szDomainDataType = vUserSpec.M_Domain.DataType
+      IF szDomainDataType = "M" OR
+         szDomainDataType = "N" OR
+         szDomainDataType = "L"
+            vReportDef.Control.Subtype = 16777216
+      END
+
+      INCLUDE vReportDef.ControlDef FROM vPE_Control.ControlDef
+
+      CreateMetaEntity( vSubtask, vReportDef, "CtrlMap", zPOS_AFTER )
+      INCLUDE vReportDef.CtrlMapLOD_Attribute FROM vUserSpec.M_LOD_Attribute
+      INCLUDE vReportDef.CtrlMapView FROM vUserSpecRoot.UIS_ViewObjRef
+
+      // Now determine the control position and increment the positions, based on
+      // horizontal or vertical positioning.
+      IF szPositioningType = "H"
+         vReportDef.Control.PSDLG_X = lHorizontalPos
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         lAttributeSize             = GetMaxAttributeSize( vUserSpec, "H" )
+         lAttributeSize             = lAttributeSize * nCharacterWidth
+         vReportDef.Control.SZDLG_X = lAttributeSize * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         lHorizontalPos = lHorizontalPos + (lAttributeSize * 16) +
+                                                         lHorizontalIncrement
+      ELSE
+         vReportDef.Control.PSDLG_X =
+               lHorizontalPos + (lLongestPrompt * 16) + lHorizontalIncrement
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         lAttributeSize             = GetMaxAttributeSize( vUserSpec, "V" )
+         lAttributeSize             = lAttributeSize * nCharacterWidth * 16
+         // trim the attribute size,if needed, to fit onto page
+         nControlEndPosition = lAttributeSize + vReportDef.Control.PSDLG_X
+         IF nControlEndPosition > vReportDef.Page.SizeX
+            lAttributeSize = vReportDef.Page.SizeX -
+                                                   vReportDef.Control.PSDLG_X
+         END
+         vReportDef.Control.SZDLG_X = lAttributeSize
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // update vertical position
+         lVerticalPos = lVerticalPos + lVerticalIncrement +
+                                       vReportDef.Control.SZDLG_Y
+      END
+
+      // Set Bold and Italic flags and Fontsize.
+      TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                            FALSE, FALSE, 0, lFontSize,
+                            0, 0, 0, 0, 0, 0, 0 )
+
+      lAttributeCnt = lAttributeCnt + 1
+
+   END
+
+   IF szPositioningType = "H"
+      // update vertical position
+      lVerticalPos = lVerticalPos + lVerticalIncrement +
+                                    vReportDef.Control.SZDLG_Y
+   END
+
+   // Determine the size of the Group.
+   // 1. We will determine the X size by getting the largest end of any control
+   //    in the Group (ControlSize + ControlPosX) and adding RightGroupMargin to it.
+   // 2. We will determine the Y size by getting the last control (bottom in Group)
+   //    and adding BottomGroupMargin to it.
+
+   // If positioning is vertical add a bit of space to open up between
+   // instances.
+   IF szPositioningType = "H"
+      lGroupSizeY = lVerticalPos + lVerticalIncrement + lBottomGroupMargin
+   ELSE
+      lGroupSizeY = lVerticalPos + lVerticalIncrement + lBottomGroupMargin * 2
+   END
+
+   vReportDef.Group.SZDLG_Y = lGroupSizeY
+
+   // update lGroupPosY
+   lGroupPosY = lGroupPosY + vReportDef.Group.SZDLG_Y
+
+   // We will now adjust the Group control and all the subcontrols by a common
+   // factor so that they will all appear on the page.
+   AdjustGroupSize( vReportDef, lPageWidth )
+
+
+   // *** FOOTERS  ***
+
+   // If a Footer is requested, loop through all the Footer attributes creating
+   // Attribute controls.  The Footer will be created if there are Footer
+   // attributes or a Footer Text.
+   IF vUserSpec.UIS_Entity.FooterText != "" OR
+      vUserSpec.L_LOD_Attribute EXISTS
+
+      // Set the FontSize, Bold and Italic flags for the Footer group.
+      lFontSize = vUserSpec.UIS_Entity.FooterFontSize * 10
+      IF vUserSpec.UIS_Entity.FooterBoldFlag = "Y"
+         nBoldFlag = TRUE
+      ELSE
+         nBoldFlag = FALSE
+      END
+      IF vUserSpec.UIS_Entity.FooterItalicFlag = "Y"
+         nItalicFlag = TRUE
+      ELSE
+         nItalicFlag = FALSE
+      END
+
+      // Set font size and character width and height.
+      IF lFontSize = 0
+         lFontSize = lDefaultFontSize
+      END
+      nCharacterWidth  = (lFontSize * 16) / 720
+      nCharacterHeight = ((lFontSize * 16) / 720) + 1
+
+      // Set up horizontal position
+      lHorizontalPos = lLeftGroupMargin
+
+      // Add the Footer Group
+      CreateMetaEntity( vSubtask, vReportDef, "Group", zPOS_AFTER )
+      vReportDef.Group.Tag      = "GroupFooter"
+      vReportDef.Group.Type     = "gf"
+      vReportDef.Group.PSDLG_X  = 0
+      vReportDef.Group.PSDLG_Y  = lGroupPosY
+      vReportDef.Group.SZDLG_X  = vReportDef.Page.SizeX
+      vReportDef.Group.PPE_Type = 3010
+
+      lVerticalPos = lTopGroupMargin * 3
+
+      // Add the Footer Text if it exists.
+      IF vUserSpec.UIS_Entity.FooterText != ""
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         szNameWork = "F_" + vUserSpec.LOD_Entity.Name
+         vReportDef.Control.Type    = 10
+         vReportDef.Control.Text    = vUserSpec.UIS_Entity.FooterText
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vReportDef.Control.PSDLG_X = lHorizontalPos
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         lTitleSize = GetStringLength( vUserSpec.UIS_Entity.FooterText )
+         lTitleSize = nCharacterWidth * lTitleSize
+         vReportDef.Control.SZDLG_X = lTitleSize * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         lHorizontalPos = lHorizontalPos + lTitleSize + lHorizontalIncrement
+
+         INCLUDE vReportDef.ControlDef FROM vPE_Control.ControlDef
+      END
+      FOR EACH vUserSpec.L_LOD_Attribute
+
+         // Set up szNameWork and szAttributePrefix for use in creating Tags.
+         szNameWork = vUserSpec.M_ER_Attribute.Name
+         ConvertIntegerToString( lAttributeCnt, szAttributePrefix, 2 )
+
+         // For each attribute create the control. Control Type is 20 for control.
+         CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         vReportDef.Control.Tag  = "A_" + szAttributePrefix + "_" + szNameWork[1:26]
+         vReportDef.Control.Type = 20
+
+         // Right justify decimals, shorts and longs.  Subtype = 16777216 sets the
+         // bit zCONTROL_RIGHTJUSTIFY.
+         szDomainDataType = vUserSpec.L_Domain.DataType
+         IF szDomainDataType = "M" OR
+            szDomainDataType = "N" OR
+            szDomainDataType = "L"
+
+               vReportDef.Control.Subtype = 16777216
+
+         END
+
+         INCLUDE vReportDef.ControlDef FROM vPE_Control.ControlDef
+
+         CreateMetaEntity( vSubtask, vReportDef, "CtrlMap", zPOS_AFTER )
+         INCLUDE vReportDef.CtrlMapLOD_Attribute FROM vUserSpec.L_LOD_Attribute
+         INCLUDE vReportDef.CtrlMapView FROM vUserSpecRoot.UIS_ViewObjRef
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         // The control position is always horizontal for Footer attributes.
+         // Right now it doesn't look possible to position them correctly, so we
+         // will just use the same algorithm as for regular horizontal attributes.
+         vReportDef.Control.PSDLG_X = lHorizontalPos
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         lAttributeSize             = GetMaxAttributeSize( vUserSpec, "H" )
+         lAttributeSize = lAttributeSize * nCharacterWidth * 16
+         vReportDef.Control.SZDLG_X = lAttributeSize
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         lHorizontalPos = lHorizontalPos + lAttributeSize + lHorizontalIncrement
+
+         lAttributeCnt = lAttributeCnt + 1
+      END
+
+      // update lVerticalPos to point to bottom of controls
+      lVerticalPos = lVerticalPos + vReportDef.Control.SZDLG_Y
+
+      // Determine the size of the Group.
+      // 1. We will determine the X size by getting the last control (right most in
+      //    Group) and adding its size and RightGroupMargin to it.
+      // 2. We will determine the Y size by getting the last control (bottom in Group,
+      //    though any control would do) and adding BottomGroupMargin to it.
+      SET CURSOR LAST vReportDef.Control
+      lGroupSizeY = lVerticalPos + lVerticalIncrement + lBottomGroupMargin
+      vReportDef.Group.SZDLG_Y = lGroupSizeY
+
+      // update lGroupPosY
+      lGroupPosY = lGroupPosY + vReportDef.Group.SZDLG_Y
+
+      // We will now adjust the Group control and all the subcontrols by a common
+      // factor so that they will all appear on the page.
+      AdjustGroupSize( vReportDef, lPageWidth )
+
+   END
+
+   // Compute and set GroupSet Y size
+   lGroupSizeY = 0
+   FOR EACH vReportDef.Group
+      lGroupSizeY = lGroupSizeY + vReportDef.Group.SZDLG_Y
+   END
+   vReportDef.GroupSet.SZDLG_Y = lGroupSizeY
+
+   // We will now adjust the Group control and all the subcontrols by a common
+   // factor so that they will all appear on the page.
+   AdjustGroupSize( vReportDef, lPageWidth )
+
+END
+
+
+/***************************************************************************
+   Get the maximum field size for an Attribute using the attribute's prompt,
+   type and string length.
+***************************************************************************/
+LOCAL OPERATION
+GetMaxAttributeSize( VIEW      vUserSpec BASED ON LOD TZADCSDO,
+                     STRING(1) szPositionType )
+
+   INTEGER lTitleSize
+   INTEGER lAttributeSize
+   INTEGER lReturnSize
+   INTEGER lRC
+   INTEGER lCharWidth
+
+   // Initially, we will default character width to a constant.
+   lCharWidth = 1
+
+   // If the positioning is horizontal, we will consider the Prompt length in
+   // determining the attribute size.  If the positioning is vertical, we will
+   // not consider the prompt length.
+   IF szPositionType = "H"
+      IF vUserSpec.M_ER_Attribute.ListPaintLth != 0
+         // If a list length was specified in data model, use that length and forget
+         // about the rest.
+         lRC = vUserSpec.M_ER_Attribute.ListPaintLth
+         RETURN lRC
+      ELSE
+         IF vUserSpec.M_ER_Attribute.ListPaintLit = ""
+            lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.Name )
+         ELSE
+            lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.ListPaintLit )
+         END
+      END
+   ELSE
+      IF vUserSpec.M_ER_Attribute.PromptPaintLth  != 0
+         // If a list length was specified in data model, use that length and forget
+         // about the rest.
+         lRC = vUserSpec.M_ER_Attribute.PromptPaintLth
+         RETURN lRC
+      ELSE
+         lTitleSize = 0
+      END
+   END
+
+   IF vUserSpec.M_Domain.DataType = "M"
+      lAttributeSize = 10      // Use size of 10 for default decimal
+   ELSE
+      IF vUserSpec.M_Domain.DataType = "S"
+         IF vUserSpec.M_ER_Attribute.Lth = 0
+            lAttributeSize = vUserSpec.M_Domain.MaxStringLth
+         ELSE
+            lAttributeSize = vUserSpec.M_ER_Attribute.Lth
+         END
+      ELSE
+         IF vUserSpec.M_Domain.DataType = "T"
+            lAttributeSize = 10   // Use size of 10 for date
+         ELSE
+            lAttributeSize = 6    // Use size of 6 for default Integer
+         END
+      END
+   END
+
+   IF lAttributeSize > lTitleSize
+      lReturnSize = lAttributeSize
+   ELSE
+      lReturnSize = lTitleSize
+   END
+
+   // The max size returned will be 20 when the length is computed.  Note in
+   // the code above that if the PaintLth is used, we don't set a max.
+   IF lReturnSize > 20
+      lReturnSize = 20
+   END
+
+   // Finally alter the ReturnSize, which is currently in number of characters,
+   // into real report character size
+//   lReturnSize = lReturnSize * lCharWidth
+
+   RETURN lReturnSize
+
+END
+
+
+LOCAL OPERATION
+AdjustGroupSize( VIEW    vReportDef BASED ON LOD TZRPSRCO,
+                 INTEGER lPageWidth )
+
+   VIEW    vTempReport
+   INTEGER lGroupMaxPosX
+   INTEGER lLeftMargin
+   INTEGER lCtrlPos
+   INTEGER lCtrlSize
+   INTEGER lRC
+   INTEGER nSkipFirstFlag
+   DECIMAL a1
+   DECIMAL b1
+   DECIMAL b2
+   DECIMAL dFactor
+
+   // The purpose of this routine is adjust the X positions and sizes of
+   // the controls in a group so that they will fit onto the page.  It is
+   // clearly possible that the user will specify too many attributes for
+   // an entity to be able to be displayed horizontally.  In this case,
+   // CreateGroup(Set)ForEntity will continue to add controls as if the
+   // there is no limit with regards to page width.  Then, it will call
+   // this routine.  Instead of simply chopping off the controls that
+   // were specified to the right of the page end, we will compress
+   // all of the X positions and sizes so that all of the controls can
+   // be seen, even if this makes them too small to be useful. We will
+   // let the user decide after the autodesign whether to adjust the
+   // sizes and positions that we have generated or to use vertical
+   // spacing instead.
+
+
+   // If we have a header group with header text on one line
+   // and attribute headers on another, don't adjust the first
+   // control which is the header text
+   nSkipFirstFlag = 0   // 0  false
+   IF vReportDef.Group.Type = "gh"
+      SetCursorFirstEntity( vReportDef, "Control", "" )
+      CreateViewFromViewForTask( vTempReport, vReportDef, 0 )
+      lRC = SetCursorNextEntity( vTempReport, "Control", "" )
+      IF lRC >= zCURSOR_SET
+         IF vReportDef.Control.PSDLG_Y < vTempReport.Control.PSDLG_Y
+            nSkipFirstFlag = 1  // 1 = true
+         END
+      END
+      DropView( vTempReport )
+      SetCursorLastEntity( vReportDef, "Control", "" )
+   END
+
+
+   // Only adjust if Group size plus position is greater that the page width.
+   lGroupMaxPosX = vReportDef.Control.PSDLG_X + vReportDef.Control.SZDLG_X
+TraceLineS("", "" )
+TraceLineI( "--->lPageWidth  : ", lPageWidth )
+TraceLineI( "--->lGroupMaxPosX : ", lGroupMaxPosX )
+   IF lGroupMaxPosX > lPageWidth
+
+      // We won't adjust the position of the first control, only the size.
+      SetCursorFirstEntity( vReportDef, "Control", "" )
+      IF nSkipFirstFlag > 0  // 0 = false
+         SetCursorNextEntity( vReportDef, "Control", "" )
+      END
+      lLeftMargin = vReportDef.Control.PSDLG_X
+TraceLineI( "--->lLeftMargin : ", lLeftMargin )
+
+      // set the scaling factor
+      a1 = lLeftMargin
+      b1 = lGroupMaxPosX
+      b2 = lPageWidth
+      dFactor = (b2 - a1) / (b1 - a1)
+
+      // adjust the size and hold onto curr position and curr size
+      // The conversion from Decimal to Integer will truncate, so
+      // we add 0.5 to force rounding off
+      lCtrlSize = (vReportDef.Control.SZDLG_X * dFactor) + 0.5
+      vReportDef.Control.SZDLG_X = lCtrlSize
+      lCtrlPos = vReportDef.Control.PSDLG_X
+TraceLineS("", "" )
+TraceLineI( "--->lCtrlPos : ", lCtrlPos )
+TraceLineI( "--->lCtrlSize : ", lCtrlSize )
+
+      // adjust both pos and size for remaining controls
+      lRC = SetCursorNextEntity( vReportDef, "Control", "" )
+      LOOP WHILE lRC >= zCURSOR_SET
+
+         // set the new pos
+         vReportDef.Control.PSDLG_X = lCtrlPos + lCtrlSize
+
+         // adjust the size and hold onto curr position and curr size
+         // The conversion from Decimal to Integer will truncate so,
+         // we add 0.5 to force rounding off
+         lCtrlSize = (vReportDef.Control.SZDLG_X * dFactor) + 0.5
+         vReportDef.Control.SZDLG_X = lCtrlSize
+         lCtrlPos = vReportDef.Control.PSDLG_X
+TraceLineS("", "" )
+TraceLineI( "--->lCtrlPos : ", lCtrlPos )
+TraceLineI( "--->lCtrlSize : ", lCtrlSize )
+
+         // advance the loop
+         lRC = SetCursorNextEntity( vReportDef, "Control", "" )
+      END
+
+   END
+
+END
+
+
+TRANSFORMATION OPERATION
+ReportCopy( VIEW NewReport  BASED ON LOD TZRPSRCO,
+            VIEW OrigReport BASED ON LOD TZRPSRCO,
+            VIEW SourceLPLR BASED ON LOD TZCMLPLO,
+            VIEW vSubtask )
+
+   VIEW NewReportRecursive   BASED ON LOD TZRPSRCO
+   VIEW OrigReportRecursive  BASED ON LOD TZRPSRCO
+   VIEW NewDialog            BASED ON LOD TZWDLGSO
+   VIEW vPE                  BASED ON LOD TZPESRCO
+   VIEW PE_List              BASED ON LOD TZCMLPLO
+   STRING (100)   szMG_ErrorMessage
+   STRING ( 33)   szReportName
+   SHORT          nRC
+
+   // Create the new report empty and add the root.
+   ActivateEmptyMetaOI( vSubtask, NewReport, zSOURCE_REPORT_META, zSINGLE )
+   NAME VIEW NewReport "NewReport"
+   CreateMetaEntity( vSubtask, NewReport, "Report", zPOS_AFTER )
+   SetMatchingAttributesByName( NewReport,  "Report",
+                                OrigReport, "Report", zSET_NULL )
+
+   //  Get View to Presentation Environment.
+   IF GetViewByName( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK ) < 0
+      RetrieveViewForMetaList( vSubtask, PE_List, zREFER_PENV_META )
+      szReportName = OrigReport.Report.Tag
+      szMG_ErrorMessage = "Report (" + szReportName + ") aborted."
+      nRC = LoadZeidonPPE( vSubtask, vPE, zREFER_PENV_META, PE_List,
+                           "Configuration Management", szMG_ErrorMessage )
+      DropView( PE_List )
+      IF nRC < 0
+         RETURN -16
+      END
+
+      SetNameForView( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK )
+   END
+
+   // Copy each Registered View Name that is used by the Report.
+   FOR EACH OrigReport.ViewObjRef
+
+      // The following routine not only positions on the VOR but also
+      // includes it, if it doesn't already exist.
+      // We use NewDialog instead of NewReport as first parameter in order to
+      // identify the LOD where the operation exists.
+      NewDialog = NewReport
+      PositionOnVOR( NewDialog,  OrigReport,
+                     SourceLPLR, OrigReport.ViewObjRef.Name, vSubtask )
+   END
+
+   // Build the Page substructure.
+   FOR EACH OrigReport.Page
+
+      CreateMetaEntity( vSubtask, NewReport, "Page", zPOS_AFTER )
+      SetMatchingAttributesByName( NewReport,  "Page",
+                                   OrigReport, "Page", zSET_NULL )
+      NewReport.Page.Tag = NewReport.Report.Tag
+
+      FOR EACH OrigReport.GroupSet
+
+         CreateMetaEntity( vSubtask, NewReport, "GroupSet", zPOS_AFTER )
+         SetMatchingAttributesByName( NewReport,  "GroupSet",
+                                      OrigReport, "GroupSet", zSET_NULL )
+
+         FOR EACH OrigReport.Group
+
+            CreateMetaEntity( vSubtask, NewReport, "Group", zPOS_AFTER )
+            SetMatchingAttributesByName( NewReport,  "Group",
+                                         OrigReport, "Group", zSET_NULL )
+            FOR EACH OrigReport.Control
+               CreateViewFromViewForTask( NewReportRecursive, NewReport, 0 )
+               CreateViewFromViewForTask( OrigReportRecursive, OrigReport, 0 )
+               CopyControl( NewReport,
+                            NewReportRecursive,
+                            OrigReport,
+                            OrigReportRecursive,
+                            vPE,
+                            SourceLPLR,
+                            vSubtask )
+               DropView( NewReportRecursive )
+               DropView( OrigReportRecursive )
+            END
+
+         END
+      END
+   END
+   RETURN 0
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: CopyControl
+//
+LOCAL OPERATION
+CopyControl( VIEW NewR   BASED ON LOD TZWDLGSO,
+             VIEW NewRC  BASED ON LOD TZWDLGSO,
+             VIEW OrigR  BASED ON LOD TZWDLGSO,
+             VIEW OrigRC BASED ON LOD TZWDLGSO,
+             VIEW vPE    BASED ON LOD TZPESRCO,
+             VIEW SourceLPLR,
+             VIEW vSubtask )
+
+   SHORT        nRC
+   STRING (128) szMsg
+
+   // Note that the views that are passed are considered as TZWDLGSO objects.
+   // This is so that we can use the CloneCtrlMap operation for the TZWDLGSO LOD. Since
+   // the subobject is the same, there is no problem in assuming the object instance
+   // passed is of that LOD type.
+
+   CreateMetaEntity( vSubtask, NewRC, "Control", zPOS_AFTER )
+   SetMatchingAttributesByName( NewRC,  "Control",
+                                OrigRC, "Control", zSET_NULL )
+
+   SET CURSOR FIRST vPE.ControlDef WHERE
+                    vPE.ControlDef.Tag = OrigRC.ControlDef.Tag
+   IF RESULT >= 0
+      IncludeSubobjectFromSubobject( NewRC, "ControlDef",
+                                     vPE,   "ControlDef", zPOS_AFTER )
+
+      // To create the CtrlMap substructure, call the reusable routine in the
+      // TZWDLGSO LOD.
+      FOR EACH OrigRC.CtrlMap
+         nRC = CloneCtrlMap( NewR, NewRC, OrigR, OrigRC, SourceLPLR, vSubtask )
+         IF nRC = -1
+            RETURN -1
+         END
+      END
+
+   ELSE
+      szMsg = "ControlDef not found for Control: " + NewRC.Control.Tag
+      MessageSend( vSubtask, "WD00501", "Report Migrate",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+
+   END
+
+   FOR EACH OrigRC.CtrlCtrl
+      SetViewToSubobject( NewRC, "CtrlCtrl" )
+      SetViewToSubobject( OrigRC, "CtrlCtrl" )
+      CopyControl( NewR,
+                   NewRC,
+                   OrigR,
+                   OrigRC,
+                   vPE,
+                   SourceLPLR, vSubtask )
+      ResetViewFromSubobject( OrigRC )
+      ResetViewFromSubobject( NewRC )
+   END
+END
+
+
+TRANSFORMATION OPERATION
+ReportMigrate( VIEW          NewReport  BASED ON LOD TZRPSRCO,
+               STRING ( 32 ) ReportName,
+               VIEW          SourceLPLR BASED ON LOD TZCMLPLO,
+               VIEW          vSubtask )
+
+   VIEW SourceLPLR2 BASED ON LOD TZCMLPLO
+   VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+   VIEW OrigReport  BASED ON LOD TZRPSRCO
+
+   STRING ( 513 ) SourceFileName           // zMAX_FILESPEC_LTH + 1
+   STRING ( 32 )  SourceName
+   STRING ( 513 ) SourceFileName1          // zMAX_FILESPEC_LTH + 1
+   STRING ( 513 ) SourceFileName2          // zMAX_FILESPEC_LTH + 1
+   SHORT          nRC
+
+   // Activate existing source meta OrigReport
+   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + ReportName + ".PRP"
+
+   ActivateOI_FromFile( OrigReport, "TZRPSRCO", SourceLPLR, SourceFileName, 8192 )
+   // 8192 is zIGNORE_ATTRIB_ERRORS
+   NAME VIEW OrigReport "OrigReport"
+
+   CreateViewFromViewForTask( SourceLPLR2, SourceLPLR, 0 )
+
+   // Call operation that will actually do the work of creating the report.
+   nRC = ReportCopy( NewReport, OrigReport, SourceLPLR2, vSubtask )
+   IF nRC < 0
+      RETURN nRC
+   END
+
+   // If this Report Definition is for a Siron Report, copy the related files
+   // which have extensions .REP and .XSQ.
+   IF NewReport.Report.SironName != ""
+      RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get a view for directory info.
+      ResetViewFromSubobject( CurrentLPLR ) // Get visibility to root.
+      SourceName = NewReport.Report.SironName
+
+      // Copy REP file.
+      SourceFileName1 = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName + ".REP"
+      SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName + ".REP"
+      SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE )
+      ChangeRepFileContents( OrigReport, CurrentLPLR, CurrentLPLR.LPLR.PgmSrcDir, CurrentLPLR.LPLR.ExecDir,
+                             SourceName, "REP", 0, vSubtask )
+
+      // Copy XSQ file.
+      SourceFileName1 = SourceLPLR.LPLR.ExecDir + "\" + SourceName + ".XSQ"
+      SourceFileName2 = CurrentLPLR.LPLR.ExecDir + "\" + SourceName + ".XSQ"
+      SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE )
+      ChangeRepFileContents( OrigReport, CurrentLPLR, CurrentLPLR.LPLR.PgmSrcDir, CurrentLPLR.LPLR.ExecDir,
+                             SourceName, "XSQ", 0, vSubtask )
+   END
+
+   // Clean up views.
+   DropMetaOI( vSubtask, OrigReport )
+   DropView( SourceLPLR2 )
+
+   // Finally, commit the Report Def.
+   CommitMetaOI( vSubtask, NewReport, zSOURCE_REPORT_META )
+   RETURN 0
+END
+
+TRANSFORMATION OPERATION
+ReportRelinkDelete( VIEW vReport BASED ON LOD TZRPSRCO, VIEW vSubtask )
+
+   VIEW         vLastLOD     BASED ON LOD TZZOLODO
+   VIEW         vVOR         BASED ON LOD TZWDVORO
+   VIEW         vLOD_LPLR    BASED ON LOD TZCMLPLO
+   VIEW         vRecursive   BASED ON LOD TZRPSRCO
+   VIEW         vDialog      BASED ON LOD TZWDLGSO
+   INTEGER      lLastViewZKey
+   STRING (128) szMsg
+   SHORT        nRC
+
+   RetrieveViewForMetaList( vSubtask, vLOD_LPLR, zREFER_LOD_META )
+   lLastViewZKey = 0
+// NAME VIEW vReport "vReport"
+   SetNameForView( vReport, "vReport", vSubtask, zLEVEL_TASK )
+
+   FOR EACH vReport.ViewObjRef
+      IF lLastViewZKey != 0
+         DropMetaOI( vSubtask, vLastLOD )
+         lLastViewZKey = 0
+      END
+
+      nRC = ActivateMetaOI_ByZKey( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                   zSINGLE, vReport.ViewObjRef.ZKey, 0 )
+      IF nRC >= 0
+         nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                      zSINGLE, vVOR.LOD.Name, 0 )
+         IF nRC >= 0
+            lLastViewZKey = vReport.ViewObjRef.ZKey
+            NAME VIEW vLastLOD "vLastLOD"
+            // Relink ViewObjRef & LOD
+            //RelinkInstanceToInstance( vReport, "ViewObjRef", vVOR, "ViewObjRef" )
+            //RelinkInstanceToInstance( vReport, "LOD", vLastLOD, "LOD" )
+
+
+            // Since RelinkInstanceToInstance does not reset the include flags,
+            // use RelinkAllSubobjectsForOI for relinking entities that need those include
+            // flags reset.  When a version of RelinkInstanceToInstance is created
+            // that resets those flags, the following code can be removed.
+            RelinkAllSubobjectsForOI( vReport, "ViewObjRef", vVOR, "ViewObjRef" )
+            RelinkAllSubobjectsForOI( vReport, "CtrlMapLOD_Attribute", vLastLOD, "LOD_Attribute" )
+
+         ELSE
+            szMsg = "Deleting Report View: " + vReport.ViewObjRef.Name +
+                    "|Missing LOD: " + vReport.LOD.Name
+            MessageSend( vSubtask, "WD00501", "Report Relink",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            EXCLUDE vReport.ViewObjRef NONE
+         END
+         DropMetaOI( vSubtask, vVOR )
+      ELSE
+         nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                      zSINGLE, vReport.ViewObjRef.Name , 0 )
+         IF nRC >= 0
+            EXCLUDE vReport.ViewObjRef NONE
+            INCLUDE vReport.ViewObjRef FROM vVOR.ViewObjRef
+            DropMetaOI( vSubtask, vVOR )
+         ELSE
+            szMsg = "Deleting Report View: " + vReport.ViewObjRef.Name +
+                    "|Missing Registered View."
+            MessageSend( vSubtask, "WD00502", "Report Relink",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            EXCLUDE vReport.ViewObjRef NONE
+         END
+      END
+   END
+
+   FOR EACH vReport.Group WITHIN vReport.Report
+      CreateViewFromViewForTask( vRecursive, vReport, 0 )
+      NAME VIEW vRecursive "vRecursive"
+      FOR EACH vRecursive.Control
+         // Use Dialog view in ControlRelinkDelete call so that operation is
+         // found under the TZWDLGSO object.
+         vDialog = vReport
+         ControlRelinkDelete( vDialog, vRecursive, vLastLOD,
+                              lLastViewZKey, vLOD_LPLR, vSubtask )
+      END
+      DropView( vRecursive )
+   END
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ChangeRepFileContents
+**
+**    This function changes the contents of Siron Report files *.xsq and *.rep
+**    While migration of reports we have to change the LPLR-Name and the Pathnames
+**    For function SAVE AS we have to change the Report-Name
+**
+**    Parameters:
+**       szPathName1     - Path of *.REP - files
+**       szPathName2     - Path of *.XSQ - files
+**       szFileName      - actual filename
+**       szFileExtension - extension of the actual file (XSQ or REP)
+**       sFunction       - = zCHANGE_REP_MIGRATE_EXTERNAL
+**                         = zCHANGE_REP_SAVEAS
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+ChangeRepFileContents( VIEW ViewToInstance BASED ON LOD TZRPSRCO,
+                       VIEW CurrentLPLR BASED ON LOD TZCMLPLO,
+                       STRING ( 513 ) szPathName1,
+                       STRING ( 513 ) szPathName2,
+                       STRING ( 129 ) szFileName,
+                       STRING ( 4 )   szFileExtension,
+                       SHORT nFunction,
+                       VIEW  vSubtask )
+
+   INTEGER lFHandle
+   INTEGER lFHandleTmp
+   INTEGER lRC
+   INTEGER nLineNumber
+
+   SHORT   nRC
+   SHORT   nLen
+
+   SHORT   nPosStart
+   SHORT   nPosBefore
+   SHORT   nPosBeyond
+
+   STRING ( 2049 )  szMsg           // 2*zLONG_MESSAGE_LTH+1; szMsg includes szFullName
+   STRING ( 10000 ) szLine
+   STRING ( 2049 )  szNewPath       // 4*zMAX_FILESPEC_LTH+1
+   STRING ( 1025 )  szTmpFile       // 2*zMAX_FILESPEC_LTH+1
+   STRING ( 1025 )  szFullName      // 2*zMAX_FILESPEC_LTH+1
+   STRING ( 1025 )  szFullNameXSQ   // 2*zMAX_FILESPEC_LTH+1
+
+   STRING ( 10 )    szOldName
+
+   // Open the file which should be changed
+   IF szFileExtension = "REP"
+      szFullName    = szPathName1 + "\" + szFileName + "." + szFileExtension
+      szFullNameXSQ = szPathName2 + "\" + szFileName
+   ELSE
+      szFullName = szPathName2 + "\" + szFileName + "." + szFileExtension
+   END
+   lFHandle = SysOpenFile( vSubtask, szFullName, COREFILE_READ )
+   IF lFHandle = -1
+      szMsg = "Cannot open File " + szFullName
+      MessageSend( vSubtask, "WD00501", "ChangeRepFileContents",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   // We need a new file to save the changes
+   szTmpFile = szPathName1 + "\" + "Temp" + "." + szFileExtension
+   lFHandleTmp = SysOpenFile( vSubtask, szTmpFile, COREFILE_WRITE )
+   IF lFHandleTmp = -1
+      szMsg = "Cannot open temp. File " + szTmpFile
+      MessageSend( vSubtask, "WD00502", "ChangeRepFileContents",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   nLineNumber = 0
+   lRC = zSysReadLine( vSubtask, szLine, lFHandle, 10000 )
+   LOOP WHILE lRC = 1
+
+      // Count the lines
+      nLineNumber = nLineNumber + 1
+
+      IF ( szFileExtension = "XSQ" )
+         // We change the LPLR-Name in XSQ-File
+         // We have to find the line LPLR = LPLR-Name
+         nLen = zstrlen( "LPLR" )
+         nRC  = zstrncmpi( "LPLR", szLine, nLen )
+         IF nRC = 0
+            // We found line with definition of LPLR-Name
+            // Copy the new name in that line and stop looping
+            szLine = "LPLR = " + CurrentLPLR.LPLR.Name
+         END
+      END
+
+      IF ( szFileExtension = "REP" )
+         // We change pathnames and LPLR-name in REP-File
+         CASE nLineNumber
+
+         OF 1:
+            // The first line contains the pathnames
+            // Now we change the pathnames in that line.
+            // a. for *.REP-File
+            nPosStart  = zSearchSubString( szLine, "REP", "f", 0 )
+            nPosBefore = zSearchSubString( szLine, ","  , "b", nPosStart )
+            nPosBeyond = zSearchSubString( szLine, ","  , "f", nPosStart )
+
+            /* Replace the pathname */
+            szNewPath = szFullName
+            zSearchAndReplace( szNewPath, 2049, "\", "\\")
+            nRC = zReplaceSubString( szLine, nPosBefore + 1, nPosBeyond, szNewPath )
+            IF nRC = -1
+               szMsg = "Not enough memory to change the path in file " + szFullName
+               MessageSend( vSubtask, "WD00503", "ChangeRepFileContents",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               RETURN -1
+            END
+
+            // b. for *.XSQ-File
+            // The filename needs extension "XSQ"
+            szNewPath = szFullNameXSQ + "." + "XSQ"
+            zSearchAndReplace (szNewPath, 2049, "\", "\\")
+
+            nPosStart  = zSearchSubString( szLine, "XSQ", "f", 0 )
+            nPosBefore = zSearchSubString( szLine, ","  , "b", nPosStart )
+            nPosBeyond = zSearchSubString( szLine, ","  , "f", nPosStart )
+
+            /* Replace the pathname */
+            nRC = zReplaceSubString( szLine, nPosBefore + 1, nPosBeyond, szNewPath )
+            IF nRC = -1
+               szMsg = "Not enough memory to change the path in file " + szFullName
+               MessageSend( vSubtask, "WD00504", "ChangeRepFileContents",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               RETURN -1
+            END
+            // If we do the changes for SAVE AS we have to change the Reportname
+            // First we need the old name to find it for changes at other positions
+            // in the report
+            IF nFunction = zCHANGE_REP_SAVEAS
+               // The first entry between the parentheses is the Reportname
+               // We have to change it here
+               nPosStart = zSearchSubString( szLine, "(,", "f", 0 )
+               nPosStart = nPosStart + 2
+               nPosBeyond = zSearchSubString( szLine, "," , "f", nPosStart )
+               nLen = nPosBeyond - nPosStart
+               lRC = ZeidonStringCopy(szOldName, 1, 0, szLine, nPosStart + 1, nLen, 10 )
+               IF lRC < 0
+                  RETURN -1
+               END
+               nRC = zReplaceSubString( szLine, nPosStart, nPosBeyond, szFileName )
+               IF nRC = -1
+                  szMsg = "Not enough memory to change the reportname in file " + szFullName
+                  MessageSend( vSubtask, "WD00506", "ChangeRepFileContents",
+                               szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  RETURN -1
+               END
+               // We have to find the reportname the second time between the parenthese in line 1
+               nPosStart  = zSearchSubString( szLine, szOldName, "f", 0 )
+               nPosBeyond = zSearchSubString( szLine, ";", "f", nPosStart )
+               nRC = zReplaceSubString( szLine, nPosStart, nPosBeyond, szFileName )
+               IF nRC = -1
+                  szMsg = "Not enough memory to change the reportname in file " + szFullName
+                  MessageSend( vSubtask, "WD00507", "ChangeRepFileContents",
+                               szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  RETURN -1
+               END
+            END
+
+         OF 2:
+            // Line 2 contains the LPLR name
+            nPosStart  = zSearchSubString( szLine, ";;)", "f", 0 )
+            nPosBefore = zSearchSubString( szLine, ","  , "b", nPosStart )
+            nRC = zReplaceSubString (szLine, nPosBefore+1, nPosStart, CurrentLPLR.LPLR.Name )
+            IF nRC = -1
+               szMsg = "Not enough memory to change the LPLR name in file " + szFullName
+               MessageSend( vSubtask, "WD00505", "ChangeRepFileContents",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               RETURN -1
+            END
+         OTHERWISE :
+            IF nFunction = zCHANGE_REP_SAVEAS
+               // Search the Reportname in the other lines to change it
+               // if we do the changes for SAVE AS
+               nPosStart = zSearchSubString( szLine, szOldName, "f", 0 )
+               IF nPosStart != -1
+                  nPosBeyond = zSearchSubString( szLine, ";", "f", nPosStart )
+                  nRC = zReplaceSubString( szLine, nPosStart, nPosBeyond, szFileName )
+                  IF nRC = -1
+                     szMsg = "Not enough memory to change the reportname in file " + szFullName
+                     MessageSend( vSubtask, "WD00508", "ChangeRepFileContents",
+                                  szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                     RETURN -1
+                  END
+               END
+            END
+         END
+      END
+
+      SysWriteLine( vSubtask,lFHandleTmp, szLine )
+      lRC = zSysReadLine( vSubtask, szLine, lFHandle, 10000 )
+
+   END
+
+   SysCloseFile( vSubtask, lFHandle, 0 )
+   SysCloseFile( vSubtask, lFHandleTmp, 0 )
+
+   // The changes are now in the temporary file. Rename it for the system
+   SysRenameFile( vSubtask, szTmpFile, szFullName, TRUE )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXRP
+**    Build a Report XRP from a Dialog Window
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenerateXRP( VIEW NewReport    BASED ON LOD TZRPSRCO,
+             VIEW DialogWindow BASED ON LOD TZWDLGSO)
+
+   VIEW vTaskLPLR        BASED ON LOD TZCMLPLO
+   VIEW DialogWindowHier BASED ON LOD TZWDLGSO
+   VIEW TestReport
+   STRING ( 200 ) szMsg
+   STRING ( 64 )  szReportName
+   STRING ( 32 )  szDialogTag
+   STRING ( 32 )  szReturnedEntityName
+   STRING ( 32 )  szFirstEntityName
+   STRING ( 1 )   szFoundFlag
+   STRING ( 1 )   szNoInitalGroupSetFlag
+   STRING ( 256 ) szHTML_DirectoryName
+   STRING ( 500 ) szDirectoryFileName
+   INTEGER        X_Position
+   INTEGER        Y_Position
+   INTEGER        GroupSize
+   SHORT          lReturnedLevel
+   SHORT          nRC
+
+   // Build an XRP object from the Dialog Window passed.
+
+   // Initialize XRP. (Report and Page entities)
+   szDialogTag = DialogWindow.Dialog.Tag
+   szReportName = szDialogTag + DialogWindow.Window.Tag
+   ActivateEmptyObjectInstance( NewReport, "TZRPSRCO", DialogWindow, zSINGLE )
+   NAME VIEW NewReport "NewReportXRP"
+   CreateMetaEntity( DialogWindow, NewReport, "Report", zPOS_AFTER )
+   NewReport.Report.Tag = szDialogTag
+   NewReport.Report.ReportTextSize = 100
+   CreateMetaEntity( DialogWindow, NewReport, "Page", zPOS_AFTER )
+   NewReport.Page.Tag = szReportName
+   NewReport.Page.SizeX = 2176
+   NewReport.Page.SizeY = 2816
+
+   // ViewObjRef
+   // Build one for each ViewObjRef referenced in the Window. Note that we're not just including
+   // every ViewObjRef from the Dialog.
+   // The first ViewObjRef will be for the view that will drive the Report.
+   // The PrintPageEntity will define the first entity passed to the report for printing.
+   SET CURSOR FIRST DialogWindow.Control
+   CreateViewFromView( DialogWindowHier, DialogWindow )
+   DefineHierarchicalCursor( DialogWindowHier, "Window" )
+   nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, DialogWindowHier )
+   LOOP WHILE nRC >= zCURSOR_SET AND szReturnedEntityName != "Window"
+      IF szReturnedEntityName = "CtrlMapView"
+         SET CURSOR FIRST NewReport.ViewObjRef WHERE NewReport.ViewObjRef.ZKey = DialogWindowHier.CtrlMapView.ZKey
+         IF RESULT < zCURSOR_SET
+            SET CURSOR FIRST DialogWindow.ViewObjRef WHERE DialogWindow.ViewObjRef.ZKey = DialogWindowHier.CtrlMapView.ZKey
+            INCLUDE NewReport.ViewObjRef FROM DialogWindow.ViewObjRef
+            IF NewReport.Report.WebPrintPageEntity = ""
+               IF DialogWindowHier.CtrlMapRelatedEntity EXISTS
+                  NewReport.Report.WebPrintPageEntity = DialogWindowHier.CtrlMapRelatedEntity.Name
+               ELSE
+                  NewReport.Report.WebPrintPageEntity = DialogWindowHier.CtrlMapLOD_Entity.Name
+               END
+            END
+         END
+      END
+      nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, DialogWindowHier )
+   END
+   DropView( DialogWindowHier )
+
+   // First GroupSet
+   // Build for first Control being mapped on the Window.
+   // Because the first Control being mapped may be within a Group Control, we will process the Window hierarchically.
+   // If the first Control is a Spreadsheet, we will not create the initial GroupSet, but only create the one
+   // associated with the Spreadsheet later.
+   SET CURSOR FIRST DialogWindow.Control
+   CreateViewFromView( DialogWindowHier, DialogWindow )
+   DefineHierarchicalCursor( DialogWindowHier, "Window" )
+   nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, DialogWindowHier )
+   LOOP WHILE nRC >= zCURSOR_SET AND szFoundFlag = "" AND szReturnedEntityName != "Window"
+      IF szReturnedEntityName = "CtrlMapRelatedEntity"
+         szFoundFlag = "Y"
+         szFirstEntityName = DialogWindowHier.CtrlMapRelatedEntity.Name
+      ELSE
+         IF szReturnedEntityName = "CtrlMapLOD_Entity"
+            szFoundFlag = "Y"
+            IF DialogWindowHier.ControlDef.Tag = "SS"
+               szNoInitalGroupSetFlag = "Y"
+            ELSE
+               szFirstEntityName = DialogWindowHier.CtrlMapLOD_Entity.Name
+            END
+         END
+      END
+      nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, DialogWindowHier )
+   END
+   IF nRC < zCURSOR_SET
+      szMsg = "No mapped Controls exist for Window, " + DialogWindow.Window.Tag + "." + NEW_LINE +
+              "No report XRP will be generated."
+      MessageSend( DialogWindow, "", "Build Report", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   IF szNoInitalGroupSetFlag = ""
+      CreateMetaEntity( DialogWindow, NewReport, "GroupSet", zPOS_AFTER )
+      NewReport.GroupSet.Tag     = szFirstEntityName
+      NewReport.GroupSet.Type    = "E"
+      NewReport.GroupSet.PSDLG_X = 0
+      NewReport.GroupSet.PSDLG_Y = 0
+      NewReport.GroupSet.SZDLG_X = 2176
+      NewReport.GroupSet.SZDLG_Y = 0    // Size here
+
+      // Create a single Detail Group.
+      CreateMetaEntity( DialogWindow, NewReport, "Group", zPOS_AFTER )
+      NewReport.Group.Tag     = "Detail"
+      NewReport.Group.Type    = "ga"
+      NewReport.Group.PSDLG_X = 0
+      NewReport.Group.PSDLG_Y = 0
+      NewReport.Group.SZDLG_X = 2176
+      // NewReport.Group.SZDLG_Y will be determined by the position of the last Control.
+   END
+   DropView( DialogWindowHier )
+
+   // Process each Control.
+   // The processing will be done inside a recursive sub operation, so that we can handle Controls inside Groups.
+   X_Position = 0
+   Y_Position = 0
+   GenerateXRP_Recurs( NewReport, DialogWindow, X_Position, Y_Position, GroupSize )
+   NewReport.Group.SZDLG_Y = GroupSize
+
+   // Write out the XRP to a subdirectory of the LPLR.
+   SysReadZeidonIni( -1, "[Workstation]", "HTML_Reports", szHTML_DirectoryName )
+   IF szHTML_DirectoryName = ""
+      szHTML_DirectoryName = "\HTML_Reports\"
+   END
+
+   GET VIEW vTaskLPLR NAMED "TaskLPLR"
+   szDirectoryFileName = vTaskLPLR.LPLR.ExecDir + szHTML_DirectoryName + szReportName + ".XRP"
+
+   CommitOI_ToFile( NewReport, szDirectoryFileName, zASCII )
+   ActivateOI_FromFile( TestReport, "TZRPSRCO", vTaskLPLR, szDirectoryFileName, zSINGLE )
+   NAME VIEW  TestReport "TestReport"
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXRP_Recurs
+**
+*************************************************************************************************/
+LOCAL OPERATION
+GenerateXRP_Recurs( VIEW NewReport     BASED ON LOD TZRPSRCO,
+                    VIEW DialogControl BASED ON LOD TZWDLGSO,
+                    INTEGER X_Position,
+                    INTEGER Y_Position,
+                    INTEGER GroupSize )
+
+   VIEW TZPESRCO REGISTERED AS TZPESRCO
+   INTEGER TextControlHeight
+
+   // Sort the Controls in position order and position on TZPESRCO on Rpt_Text ControlDef.
+   OrderEntityForView( DialogControl, "Control", "PSDLG_Y A PSDLG_X A" )
+   SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = "Rpt_Text"
+   TextControlHeight = 37
+
+   // Process each Control.
+   // For a Group Control, we will step down a level, but set X and Y positions as an addition of the position of
+   // the Group and the position of each Control.
+   // SpreadSheet Controls will have their own processing, because they will create unique Report Groups.
+   // Button Controls will be ignored.
+   // Checkbox Controls will be converted to two Text Controls, one without mapping (a prompt) and the other with mapping.
+   // Combobox, Calendar and Edit Controls will be changed to Text Controls with mapping.
+   // Text Controls will be processed as Text Controls, either with or without mapping.
+
+   FOR EACH DialogControl.Control
+      IF DialogControl.ControlDef.Tag = "GroupBox"
+         // GroupBox
+         X_Position = DialogControl.Control.PSDLG_X
+         Y_Position = DialogControl.Control.PSDLG_Y
+         SetViewToSubobject( DialogControl, "CtrlCtrl" )
+         GenerateXRP_Recurs( NewReport, DialogControl, X_Position, Y_Position, GroupSize )
+         ResetViewFromSubobject( DialogControl )
+      ELSE
+
+      IF DialogControl.ControlDef.Tag = "SS"
+         // SpreadSheet
+         X_Position = DialogControl.Control.PSDLG_X
+         Y_Position = DialogControl.Control.PSDLG_Y
+         CreateMetaEntity( DialogControl, NewReport, "GroupSet", zPOS_AFTER )
+         IF DialogControl.CtrlMapLOD_Entity.Name = ""
+            MessageSend( DialogControl, "", "Build Report", "SS Control has no mapping.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         ELSE
+            NewReport.GroupSet.Tag     = DialogControl.CtrlMapLOD_Entity.Name
+         END
+         NewReport.GroupSet.Type    = "E"
+         NewReport.GroupSet.PSDLG_X = 0
+         NewReport.GroupSet.PSDLG_Y = 0
+         NewReport.GroupSet.SZDLG_X = 2176
+         NewReport.GroupSet.SZDLG_Y = 0    // Size here
+
+         // Create Group Header for SS column Titles.
+         CreateMetaEntity( DialogControl, NewReport, "Group", zPOS_AFTER )
+         NewReport.Group.Tag     = "GroupHeader"
+         NewReport.Group.Type    = "gh"
+         NewReport.Group.SubType = 0
+         NewReport.Group.PSDLG_X = 0
+         NewReport.Group.PSDLG_Y = 0
+         NewReport.Group.SZDLG_X = 2176
+         NewReport.Group.SZDLG_Y = 30
+
+         // Create Header Controls for SS column Titles.
+         SetViewToSubobject( DialogControl, "CtrlCtrl" )
+         FOR EACH DialogControl.Control
+            IF DialogControl.ControlDef.Tag != "PushBtn"
+               CreateMetaEntity( DialogControl, NewReport, "Control", zPOS_AFTER )
+               NewReport.Control.Tag = DialogControl.Control.Tag
+               NewReport.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+               NewReport.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+               NewReport.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+               NewReport.Control.SZDLG_Y = TextControlHeight
+               NewReport.Control.Type = 20
+               INCLUDE NewReport.ControlDef FROM TZPESRCO.ControlDef
+               SET CURSOR NEXT DialogControl.CtrlMapLOD_Attribute WITHIN DialogControl.Control
+               IF RESULT >= zCURSOR_SET
+                  // Column title is a variable.
+                  GenerateXRP_CtrlMap( NewReport, DialogControl )
+               ELSE
+                  // Column title is a constant.
+                  NewReport.Control.Text    = DialogControl.Control.Text
+               END
+            END
+         END
+         ResetViewFromSubobject( DialogControl )
+
+         // Create a single Detail Group.
+         CreateMetaEntity( DialogControl, NewReport, "Group", zPOS_AFTER )
+         NewReport.Group.Tag     = "Detail"
+         NewReport.Group.Type    = "ga"
+         NewReport.Group.PSDLG_X = 0
+         NewReport.Group.PSDLG_Y = 0
+         NewReport.Group.SZDLG_X = 2176
+         NewReport.Group.SZDLG_Y = 30
+
+         // Create Text Controls for each Spreadsheet subcontrol, except a PushButton.
+         SetViewToSubobject( DialogControl, "CtrlCtrl" )
+         FOR EACH DialogControl.Control
+            IF DialogControl.ControlDef.Tag != "PushBtn"
+               CreateMetaEntity( DialogControl, NewReport, "Control", zPOS_AFTER )
+               NewReport.Control.Tag = DialogControl.Control.Tag
+               NewReport.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+               NewReport.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+               NewReport.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+               NewReport.Control.SZDLG_Y = TextControlHeight
+               GroupSize = NewReport.Control.PSDLG_Y + NewReport.Control.SZDLG_Y
+               NewReport.Control.Type = 20
+               INCLUDE NewReport.ControlDef FROM TZPESRCO.ControlDef
+               GenerateXRP_CtrlMap( NewReport, DialogControl )
+            END
+         END
+         ResetViewFromSubobject( DialogControl )
+
+      ELSE
+
+      IF DialogControl.CtrlMap EXISTS
+         IF DialogControl.ControlDef.Tag = "ComboBox" OR
+            DialogControl.ControlDef.Tag = "Calendar" OR
+            DialogControl.ControlDef.Tag = "EditBox" OR
+            DialogControl.ControlDef.Tag = "Text"
+
+            // Mapped Controls which will be converted to Text.
+            CreateMetaEntity( DialogControl, NewReport, "Control", zPOS_AFTER )
+            NewReport.Control.Tag = DialogControl.Control.Tag
+            NewReport.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+            NewReport.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+            NewReport.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+            NewReport.Control.SZDLG_Y = TextControlHeight
+            GroupSize = NewReport.Control.PSDLG_Y + NewReport.Control.SZDLG_Y
+            NewReport.Control.Type = 20
+            INCLUDE NewReport.ControlDef FROM TZPESRCO.ControlDef
+            GenerateXRP_CtrlMap( NewReport, DialogControl )
+
+         ELSE
+            IF DialogControl.ControlDef.Tag = "CheckBox"
+               // CheckBox
+               CreateMetaEntity( DialogControl, NewReport, "Control", zPOS_AFTER )
+               NewReport.Control.Tag = DialogControl.Control.Tag
+               NewReport.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+               NewReport.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+               NewReport.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+               NewReport.Control.SZDLG_Y = TextControlHeight
+               GroupSize = NewReport.Control.PSDLG_Y + NewReport.Control.SZDLG_Y
+               NewReport.Control.Type = 20
+               INCLUDE NewReport.ControlDef FROM TZPESRCO.ControlDef
+               GenerateXRP_CtrlMap( NewReport, DialogControl )
+
+            END
+         END
+      ELSE
+
+      IF DialogControl.ControlDef.Tag = "Text"
+         // Non-mapped Text Control (Prompt)
+         CreateMetaEntity( DialogControl, NewReport, "Control", zPOS_AFTER )
+         NewReport.Control.Tag = DialogControl.Control.Tag
+         NewReport.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+         NewReport.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+         NewReport.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+         NewReport.Control.SZDLG_Y = TextControlHeight
+         GroupSize = NewReport.Control.PSDLG_Y + NewReport.Control.SZDLG_Y
+         NewReport.Control.Type = 10
+         INCLUDE NewReport.ControlDef FROM TZPESRCO.ControlDef
+
+      END
+      END
+      END
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXRP_CtrlMap
+**
+*************************************************************************************************/
+LOCAL OPERATION
+GenerateXRP_CtrlMap( VIEW NewReport     BASED ON LOD TZRPSRCO,
+                     VIEW DialogControl BASED ON LOD TZWDLGSO )
+
+   // Build the Report CtrlMap subobject from the Dialog subobject.
+   CreateMetaEntity( DialogControl, NewReport, "CtrlMap", zPOS_AFTER )
+   NewReport.CtrlMap.Tag = DialogControl.CtrlMap.Tag
+   IF DialogControl.CtrlMapLOD_Attribute EXISTS
+      INCLUDE NewReport.CtrlMapLOD_Attribute FROM DialogControl.CtrlMapLOD_Attribute
+   END
+   IF DialogControl.CtrlMapLOD_Entity EXISTS
+      INCLUDE NewReport.CtrlMapLOD_Entity FROM DialogControl.CtrlMapLOD_Entity
+   END
+   IF DialogControl.CtrlMapContext EXISTS
+      INCLUDE NewReport.CtrlMapContext FROM DialogControl.CtrlMapContext
+   END
+   IF DialogControl.CtrlMapView EXISTS
+      INCLUDE NewReport.CtrlMapView FROM DialogControl.CtrlMapView
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: InitReportStructure
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+InitReportStructure( VIEW vReportDef BASED ON LOD TZRPSRCO )
+
+   VIEW vReportDefRecurs BASED ON LOD TZRPSRCO
+   VIEW vDrivingLOD      BASED ON LOD TZZOLODO
+   SHORT nRC
+   SHORT iOrder
+
+   TraceLineS("*** InitReportStructure *** ", "")
+
+   // If the ReportEntity subobject within the DrivingViewObjRef doesn't exist, build it here from the
+   // GroupSet subobject and the LOD structure.
+
+   // Make sure that a Driving Object has been defined.
+   /*
+   IF vReportDef.DrivingViewObjRef DOES NOT EXIST
+      MessageSend( vReportDef, "", "Initialize Report Structure",
+                   "A Driving Report Object view has not been defined.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   */
+   IF vReportDef.DrivingViewObjRef DOES NOT EXIST
+      RETURN 0
+   END
+
+   // Just return if the subobject already exists.
+   // KJS - Wondering if we should rebuild this everytime...
+   IF vReportDef.FullReportEntity EXISTS
+      DELETE ENTITY vReportDef.FullReportEntity
+      //RETURN 0
+   END
+   IF vReportDef.PartialReportEntity EXISTS
+      DELETE ENTITY vReportDef.PartialReportEntity
+      //RETURN 0
+   END
+
+   // I want to create an order for the GroupSets
+   OrderEntityForView( vReportDef, "GroupSet", "PSDLG_Y A" )
+   iOrder = 1
+   FOR EACH vReportDef.GroupSet
+      vReportDef.GroupSet.Order = iOrder
+   END
+   // Not sure I need to do this...
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Type = "PF"
+   IF RESULT >= zCURSOR_SET
+      // Setting to a random high number
+      vReportDef.GroupSet.Order = 100
+   END
+
+   IssueError( vReportDef,0,0, "start" )
+
+   // Get Driving LOD
+   nRC = ActivateMetaOI_ByName( vReportDef, vDrivingLOD, 0, zREFER_LOD_META,
+                                zSINGLE, vReportDef.DrivingLOD.Name, 0 )
+   // KJS - WHY DON"T WE JUST USE vDrivingLOD? Can't remember why we need all stored in the report?
+   TraceLineS("*** Activate DrivingLOD *** ",   vReportDef.DrivingLOD.Name )
+   TraceLineI("*** Activate returncode *** ", nRC )
+
+   IF nRC >= 0
+      // Set up recursive Report view and process LOD recursively to create Report Structure subobject, setting
+      // the ReportDisplayFlag to indicate if an entity is to drive a GroupSet on the report.
+      NAME VIEW vDrivingLOD "DrivingLOD"
+      CreateViewFromView( vReportDefRecurs, vReportDef )
+      NAME VIEW vReportDefRecurs "vReportDefRecurs"
+
+      nRC = InitReportStructureR( vReportDef,
+                                  vReportDefRecurs,
+                                  vDrivingLOD )
+
+      DropView( vReportDefRecurs )
+
+      CreateViewFromView( vReportDefRecurs, vReportDef )
+      NAME VIEW vReportDefRecurs "vReportDefRecurs"
+
+      TraceLineS("*** Before CrtePartialLODStructR *** ", "")
+
+      nRC = CrtePartialLODStructR( vReportDef,
+                                   vReportDefRecurs,
+                                   vDrivingLOD )
+
+      DropView( vReportDefRecurs )
+
+      // Now run through and delete all entities with no D or S.
+      CreateViewFromView( vReportDefRecurs, vReportDef )
+      DeleteNonDisplayEntsR( vReportDefRecurs )
+      DropView( vReportDefRecurs )
+      SET CURSOR FIRST vReportDef.FullReportEntity
+      SET CURSOR FIRST vReportDef.PartialReportEntity
+
+   END
+   CreateViewFromViewForTask( vReportDefRecurs, vReportDef, 0 )
+   NAME VIEW  vReportDefRecurs  "TZRPTOUTLINER"
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: InitReportStructureR
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+InitReportStructureR( VIEW vReportDef       BASED ON LOD TZRPSRCO,
+                      VIEW vReportDefRecurs BASED ON LOD TZRPSRCO,
+                      VIEW vDrivingLOD      BASED ON LOD TZZOLODO )
+
+   STRING ( 32 ) szDrivingEntityName
+   STRING ( 1 )  szHasGroupSetFlag
+   SHORT nRC
+
+   // Build one level of the FullReportEntity subobject, matching the structure of the Driving LOD and
+   // setting the ReportDisplayFlag entity for any entity with a corresponding GroupSet entity in the report, or having
+   // a FullReportEntityChild entity with a corresponding GroupSet entity. The flag is set to "D" if the entity has
+   // a corresponding GroupSet entity and to a "C" if it has a child with a corresponding GroupSet entity.
+
+   FOR EACH vDrivingLOD.LOD_EntityParent
+
+      szDrivingEntityName = vDrivingLOD.LOD_EntityParent.Name
+
+      // Create corresponding FullReportEntity entity.
+      CREATE ENTITY vReportDefRecurs.FullReportEntity
+      vReportDefRecurs.FullReportEntity.Name = szDrivingEntityName
+   IssueError( vReportDef,0,0, szDrivingEntityName )
+
+      // Process corresponding report GroupSet entity, if there is one
+      SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Tag = szDrivingEntityName
+      IF RESULT >= zCURSOR_SET
+         vReportDefRecurs.FullReportEntity.ReportDisplayFlag = "D"
+         szHasGroupSetFlag = "Y"
+      END
+
+      // Process any LOD subentities.
+      IF vDrivingLOD.LOD_EntityChild EXISTS
+         SetViewToSubobject( vDrivingLOD, "LOD_EntityChild" )
+         SetViewToSubobject( vReportDefRecurs, "FullReportEntityChild" )
+         nRC = InitReportStructureR( vReportDef,
+                                     vReportDefRecurs,
+                                     vDrivingLOD )
+         ResetViewFromSubobject( vDrivingLOD )
+         ResetViewFromSubobject( vReportDefRecurs )
+
+         // If the current entity does not have the Display Flag set to "D" but the return code indicates a child
+         // entity does have its Display Flag set to "D", then set the Display Flag to "S" to indicate this condition.
+         IF vReportDefRecurs.FullReportEntity.ReportDisplayFlag = "" AND nRC = 1
+            vReportDefRecurs.FullReportEntity.ReportDisplayFlag = "S"
+         END
+
+         // If any child has its Display Flag set, so indicate to the calling operation.
+         IF nRC = 1
+             szHasGroupSetFlag = "Y"
+         END
+      END
+   END
+
+   IF szHasGroupSetFlag = "Y"
+      RETURN 1     // Indicate a child has a corresponding GroupSet entity.
+   ELSE
+      RETURN 0
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: BuildReportDispObject
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+BuildReportDispObject( VIEW vReportDefSource BASED ON LOD TZRPSRCO )
+
+   VIEW  vReportDefTarget BASED ON LOD TZRPSRCO
+   SHORT nRC
+
+   // Build the PartialLOD_Entity Report subobject from the FullReportEntity subobject.
+   CreateViewFromView( vReportDefTarget, vReportDefSource )
+
+   nRC = BuildReportDispObjectR( vReportDefSource,
+                                 vReportDefTarget )
+
+   DropView( vReportDefTarget )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: BuildReportDispObjectR
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+BuildReportDispObjectR( VIEW vReportDefSource BASED ON LOD TZRPSRCO,
+                        VIEW vReportDefTarget BASED ON LOD TZRPSRCO )
+
+
+
+END
+
+
+
+/*************************************************************************************************
+**
+**    OPERATION: CreateEntityGroupSet
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+CreateEntityGroupSet( VIEW vReportDef  BASED ON LOD TZRPSRCO )
+
+   VIEW vDrivingLOD      REGISTERED AS DrivingLOD
+   VIEW vReportDefRecurs BASED ON LOD  TZRPSRCO
+   STRING ( 32 ) szEntityName
+   STRING ( 32 ) szName
+   INTEGER lControl
+   INTEGER lGroupPosY
+   INTEGER nRC
+
+   TraceLineS("*** In CreateEntityGroupSet *****", "")
+
+   szEntityName = vReportDef.DrivingViewObjRef.wGroupSetName
+   TraceLineS("*** Group Set Name ***** ", szEntityName)
+
+   // First check if the entity already exists.
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Tag = szEntityName
+
+   // Build the GroupSet for the report from the selected entity
+   IF RESULT < zCURSOR_SET
+   TraceLineS("*** Creating GroupSet *** ", "")
+
+      CREATE ENTITY vReportDef.GroupSet
+      vReportDef.GroupSet.Tag = szEntityName
+
+      vReportDef.GroupSet.PSDLG_X  = 0
+      vReportDef.GroupSet.PSDLG_Y  = 4 * 16
+      vReportDef.GroupSet.SZDLG_X  = vReportDef.Page.SizeX
+      // KJS - I don't know what PPE_Type is...
+      vReportDef.GroupSet.PPE_Type    = 3000
+
+
+      IF vReportDef.DrivingViewObjRef.wGroupSetType = "PH" OR vReportDef.DrivingViewObjRef.wPageFooter = "PF"
+
+         vReportDef.GroupSet.Type = vReportDef.DrivingViewObjRef.wGroupSetType
+         IF vReportDef.GroupSet.Type = "PH"
+            szName = "PageHeader"
+         ELSE
+            szName = "PageFooter"
+         END
+         IF vReportDef.GroupSet.Tag = ""
+            vReportDef.GroupSet.Tag = szName
+         END
+         CREATE ENTITY vReportDef.Group
+         vReportDef.Group.Tag = "Header"
+         vReportDef.Group.Type = "ga"
+
+      ELSE
+         vReportDef.GroupSet.Type = "E"
+         lGroupPosY = 0
+
+         // See if there is a group header
+         IF vReportDef.DrivingViewObjRef.wGroupHeader = "Y"
+            CREATE ENTITY vReportDef.Group
+            vReportDef.Group.Tag = "Header"
+            vReportDef.Group.Type = "gh"
+            vReportDef.Group.PSDLG_X              = 0
+            vReportDef.Group.PSDLG_Y              = lGroupPosY
+            vReportDef.Group.SZDLG_X              = vReportDef.Page.SizeX
+            vReportDef.Group.SZDLG_Y = 50
+            vReportDef.Group.PPE_Type             = 3010
+            lGroupPosY = lGroupPosY + vReportDef.Group.SZDLG_Y
+         END
+
+         // Create group detail
+         CREATE ENTITY vReportDef.Group
+         vReportDef.Group.Tag = "Detail"
+         vReportDef.Group.Type = "ga"
+         vReportDef.Group.PSDLG_X              = 0
+         vReportDef.Group.PSDLG_Y              = lGroupPosY
+         vReportDef.Group.SZDLG_X              = vReportDef.Page.SizeX
+         vReportDef.Group.SZDLG_Y = 50
+         vReportDef.Group.PPE_Type             = 3010
+         lGroupPosY = lGroupPosY + vReportDef.Group.SZDLG_Y
+
+         // See if there is a group footer.
+         IF vReportDef.DrivingViewObjRef.wGroupFooter = "Y"
+            CREATE ENTITY vReportDef.Group
+            vReportDef.Group.Tag = "Footer"
+            vReportDef.Group.Type = "gf"
+            vReportDef.Group.PSDLG_X              = 0
+            vReportDef.Group.PSDLG_Y              = lGroupPosY
+            vReportDef.Group.SZDLG_X              = vReportDef.Page.SizeX
+            vReportDef.Group.SZDLG_Y = 50
+            lGroupPosY = lGroupPosY + vReportDef.Group.SZDLG_Y
+            vReportDef.Group.PPE_Type             = 3010
+         END
+      END
+
+      vReportDef.GroupSet.SZDLG_Y  = lGroupPosY + 100
+
+   END
+
+
+
+
+   // Need to look at attributes as well?
+   IF vReportDef.PartialReportEntity EXISTS
+      DELETE ENTITY vReportDef.PartialReportEntity
+   END
+
+   CreateViewFromView( vReportDefRecurs, vReportDef )
+   NAME VIEW vReportDefRecurs "vReportDefRecurs"
+
+   nRC = CrtePartialLODStructR( vReportDef,
+                                vReportDefRecurs,
+                                vDrivingLOD )
+
+   //DropView( vReportDefRecurs )
+
+   // Now run through and delete all entities with no D or S.
+   //CreateViewFromView( vReportDefRecurs, vReportDef )
+   DeleteNonDisplayEntsR( vReportDefRecurs )
+   DropView( vReportDefRecurs )
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: CrtePartialLODStructR
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+CrtePartialLODStructR( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                       VIEW vReportDefRecurs BASED ON LOD TZRPSRCO,
+                       VIEW vDrivingLOD      BASED ON LOD TZZOLODO )
+
+   STRING ( 32 ) szDrivingEntityName
+   STRING ( 1 )  szHasGroupSetFlag
+   SHORT nRC
+
+   // Build one level of the PartialReportEntity subobject, matching the structure of the Driving LOD and
+   // setting the ReportDisplayFlag entity for any entity with a corresponding GroupSet entity in the report, or having
+   // a PartialReportEntityChild entity with a corresponding GroupSet entity. The flag is set to "D" if the entity has
+   // a corresponding GroupSet entity and to a "C" if it has a child with a corresponding GroupSet entity.
+
+   FOR EACH vDrivingLOD.LOD_EntityParent
+
+      szDrivingEntityName = vDrivingLOD.LOD_EntityParent.Name
+
+      TraceLineS("*** Creating PartialReportEntity - ", szDrivingEntityName )
+
+      // Create corresponding PartialReportEntity entity.
+      CREATE ENTITY vReportDefRecurs.PartialReportEntity
+      vReportDefRecurs.PartialReportEntity.Name = szDrivingEntityName
+
+      // Process corresponding report GroupSet entity, if there is one
+      SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Tag = szDrivingEntityName
+      IF RESULT >= zCURSOR_SET
+         vReportDefRecurs.PartialReportEntity.ReportDisplayFlag = "D"
+         szHasGroupSetFlag = "Y"
+      END
+
+      // Process any LOD subentities.
+      IF vDrivingLOD.LOD_EntityChild EXISTS
+         SetViewToSubobject( vDrivingLOD, "LOD_EntityChild" )
+         SetViewToSubobject( vReportDefRecurs, "PartialReportEntityChild" )
+         nRC = CrtePartialLODStructR( vReportDef,
+                                      vReportDefRecurs,
+                                      vDrivingLOD )
+         ResetViewFromSubobject( vDrivingLOD )
+         ResetViewFromSubobject( vReportDefRecurs )
+
+         // If the current entity does not have the Display Flag set to "D" but the return code indicates a child
+         // entity does have its Display Flag set to "D", then set the Display Flag to "S" to indicate this condition.
+         IF vReportDefRecurs.PartialReportEntity.ReportDisplayFlag = "" AND nRC = 1
+            vReportDefRecurs.PartialReportEntity.ReportDisplayFlag = "S"
+         END
+
+         // If any child has its Display Flag set, so indicate to the calling operation.
+         IF nRC = 1
+             szHasGroupSetFlag = "Y"
+         END
+      END
+   END
+
+   IF szHasGroupSetFlag = "Y"
+      RETURN 1     // Indicate a child has a corresponding GroupSet entity.
+   ELSE
+      RETURN 0
+   END
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: DeleteNonDisplayEntsR
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+DeleteNonDisplayEntsR( VIEW vReportDefRecurs BASED ON LOD TZRPSRCO )
+
+   INTEGER nRC
+
+   FOR EACH vReportDefRecurs.PartialReportEntity
+
+      IF vReportDefRecurs.PartialReportEntity.ReportDisplayFlag = ""
+         DELETE ENTITY vReportDefRecurs.PartialReportEntity NONE
+      ELSE
+         // Process any LOD subentities.
+         IF vReportDefRecurs.PartialReportEntityChild EXISTS
+            SetViewToSubobject( vReportDefRecurs, "PartialReportEntityChild" )
+            nRC = DeleteNonDisplayEntsR( vReportDefRecurs )
+            ResetViewFromSubobject( vReportDefRecurs )
+         END
+      END
+   END
+
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: DeleteGroupSet
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+DeleteGroupSet( VIEW vReportDef BASED ON LOD TZRPSRCO )
+
+   VIEW vReportOutliner  BASED ON LOD TZRPSRCO
+   VIEW vReportDefRecurs BASED ON LOD TZRPSRCO
+   VIEW vDrivingLOD      BASED ON LOD TZZOLODO
+   STRING ( 32 ) szEntity
+   SHORT nRC
+
+   TraceLineS("*** DeleteGroupSet *** ", "")
+
+   nRC = GetViewByName( vReportOutliner, "TZRPTOUTLINER", vReportDef, zLEVEL_TASK )
+
+   IF nRC >= 0
+      szEntity = vReportOutliner.PartialReportEntity.Name
+      SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Tag = szEntity
+      IF RESULT >= zCURSOR_SET
+         TraceLineS("*** DELETING groupset *** ", szEntity )
+         DeleteEntity( vReportDef, "GroupSet", zREPOS_NEXT )
+      END
+   END
+
+   DropView( vReportOutliner )
+
+   nRC = GetViewByName( vDrivingLOD, "DrivingLOD", vReportDef, zLEVEL_TASK )
+
+   // Need to look at attributes as well?
+   IF vReportDef.PartialReportEntity EXISTS
+      DELETE ENTITY vReportDef.PartialReportEntity
+   END
+
+   CreateViewFromView( vReportDefRecurs, vReportDef )
+   NAME VIEW vReportDefRecurs "vReportDefRecurs"
+
+   nRC = CrtePartialLODStructR( vReportDef,
+                                vReportDefRecurs,
+                                vDrivingLOD )
+
+   //DropView( vReportDefRecurs )
+
+   // Now run through and delete all entities with no D or S.
+   //CreateViewFromView( vReportDefRecurs, vReportDef )
+   DeleteNonDisplayEntsR( vReportDefRecurs )
+   DropView( vReportDefRecurs )
+
+   CreateViewFromView( vReportOutliner, vReportDef )
+   NAME VIEW  vReportOutliner  "TZRPTOUTLINER"
+
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: CreateFieldsForGrpSet
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+CreateFieldsForGrpSet( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                       VIEW vDrivingLOD BASED ON LOD TZZOLODO )
+
+   VIEW vPE_Control   BASED ON LOD TZPESRCO
+   VIEW       vDefaults BASED ON LOD TZADCSDO
+   STRING(32) szNameWork
+   STRING(32) szEntityName
+   INTEGER    lVerticalPos
+   INTEGER    lHorizontalPos
+   INTEGER    lLongestPrompt
+   INTEGER    lTopGroupMargin
+   INTEGER    lBottomGroupMargin
+   INTEGER    lBottomHeaderMargin
+   INTEGER    lLeftGroupMargin
+   INTEGER    lRightGroupMargin
+   INTEGER    lVerticalIncrement     // space betwen lines
+   INTEGER    lHorizontalIncrement
+   INTEGER    lAttributeCnt
+   INTEGER    lLevelIndentation
+   INTEGER    lGroupPosY
+   INTEGER    lGroupSizeY
+   INTEGER    lTitleSize
+   INTEGER    lDefaultFontSize
+   INTEGER    lPageWidth
+   INTEGER    lFontSize
+   DECIMAL    dHorzScalingFactor
+   DECIMAL    dVertScalingFactor
+   SHORT      nCharacterWidth
+   SHORT      nCharacterHeight
+   SHORT      nBoldFlag
+   SHORT      nItalicFlag
+   INTEGER    lAttributeSize
+   STRING(2)  szDomainDataType
+   STRING(2)  szAttributePrefix
+   STRING(2)  szPositioningType
+   INTEGER    nControlEndPosition
+
+
+   IF vReportDef.DrivingViewObjRef.wGroupHeader = "Y"
+
+      SET CURSOR FIRST vReportDef.Group WHERE vReportDef.Group.Type = "gh"
+
+      // Add Header Group
+      //CreateMetaEntity( vSubtask, vReportDef, "Group", zPOS_AFTER )
+      CREATE ENTITY vReportDef.Group
+      vReportDef.Group.Tag                  = "GroupHeader"
+      vReportDef.Group.Type                 = "gh"
+      vReportDef.Group.PSDLG_X              = 0
+      vReportDef.Group.PSDLG_Y              = lGroupPosY
+      vReportDef.Group.SZDLG_X              = vReportDef.Page.SizeX
+      vReportDef.Group.PPE_Type             = 3010
+      //vReportDef.Group.ForceHeaderPerEntity = vUserSpec.UIS_Entity.ForceHeaderPerEntity
+
+      lVerticalPos = lTopGroupMargin
+
+      // Initialize our horizontal and vertical positions.  Actually,
+      // the vertical position won't change.
+      lHorizontalPos = lLeftGroupMargin
+
+      // Start the attribute count with 1 for the generation of unique names.
+      lAttributeCnt         = 1
+
+      FOR EACH vDrivingLOD.LOD_AttributeRec
+
+         // For each attribute create the title. Control Type is 10 for title.
+         //CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+         CREATE ENTITY vReportDef.Control
+         ConvertIntegerToString( lAttributeCnt, szAttributePrefix, 2 )
+         szNameWork                 = vDrivingLOD.ER_AttributeRec.Name
+              vReportDef.Control.Tag     = "T_" + szAttributePrefix + "_" + szNameWork[1:26]
+         vReportDef.Control.Type    = 10
+         IF vDrivingLOD.ER_AttributeRec.ListPaintLit != ""
+            vReportDef.Control.Text = vDrivingLOD.ER_AttributeRec.ListPaintLit
+         ELSE
+            vReportDef.Control.Text = vDrivingLOD.ER_AttributeRec.Name
+         END
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, FALSE,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vReportDef.Control.PSDLG_X = lHorizontalPos
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         //lTitleSize                 = GetMaxAttributeSize( vUserSpec, "H" )
+         lTitleSize                 = lTitleSize * nCharacterWidth
+         vReportDef.Control.SZDLG_X = lTitleSize * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         INCLUDE vReportDef.ControlDef FROM vPE_Control.ControlDef
+
+         lHorizontalPos  = lHorizontalPos + (lTitleSize * 16) +
+                                                        lHorizontalIncrement
+         lAttributeCnt = lAttributeCnt + 1
+
+      END
+
+      // Determine the size of the Group.
+      // 1. We will determine the X size by getting the last control (right most in
+      //    Group) and adding its size and RightGroupMargin to it.
+      // 2. We will determine the Y size by getting the last control (bottom in Group,
+      //    though any control would do) and adding BottomGroupMargin to it.
+      SET CURSOR LAST vReportDef.Control
+      lGroupSizeY = vReportDef.Control.PSDLG_Y + vReportDef.Control.SZDLG_Y +
+                    lVerticalIncrement + lBottomHeaderMargin
+      vReportDef.Group.SZDLG_Y    = lGroupSizeY
+      vReportDef.GroupSet.SZDLG_Y = lGroupSizeY
+
+      // update lGroupPosY
+      lGroupPosY = lGroupPosY + vReportDef.Group.SZDLG_Y
+
+      // We will now adjust the Group control and all the subcontrols by a common
+      // factor so that they will all appear on the page.
+      AdjustGroupSize( vReportDef, lPageWidth )
+
+   END
+
+
+   // *** REGULAR ATTRIBUTES  ***
+
+   // Set the Bold and Italic flags for the main group.
+   nBoldFlag = FALSE
+
+   // Set font size and character width and height.
+   //lFontSize = vUserSpec.UIS_Entity.FontSize * 10
+   lFontSize = 1 * 10  // KJS test
+   IF lFontSize = 0
+      lFontSize = lDefaultFontSize
+   END
+   nCharacterWidth  = (lFontSize * 16) / 720
+   nCharacterHeight = ((lFontSize * 16) / 720) + 1
+//   lVerticalIncrement = nCharacterHeight / 2
+//   lVerticalIncrement = 0  // DEM -guess work
+   lHorizontalIncrement = nCharacterWidth  * dHorzScalingFactor * 16
+   lVerticalIncrement = nCharacterHeight * dVertScalingFactor * 16
+
+   // Build the Group for the attribute Controls (and the titles, if
+   // positioning is vertical).
+   //CreateMetaEntity( vSubtask, vReportDef, "Group", zPOS_AFTER )
+   CREATE ENTITY vReportDef.Group
+   vReportDef.Group.Tag      = "Detail"
+   vReportDef.Group.Type     = "ga"
+   vReportDef.Group.PSDLG_X  = 0
+   vReportDef.Group.PSDLG_Y  = lGroupPosY
+   vReportDef.Group.SZDLG_X  = vReportDef.Page.SizeX
+   vReportDef.Group.PPE_Type = 3010
+
+   // Start the attribute count with 1 for the generation of unique names.
+   lAttributeCnt = 1
+
+   // Initialize positions.
+   lVerticalPos     = lTopGroupMargin
+   lHorizontalPos   = lLeftGroupMargin
+
+   // Loop through all the attributes creating both Title controls and Attribute controls.
+   // We use the same code for both horizontal position and vertical positioning, the
+   // only difference being the positioning of both types of controls.
+   FOR EACH vDrivingLOD.LOD_AttributeRec
+
+      // The ControlDef is always Text at this time.
+      SET CURSOR FIRST vPE_Control.ControlDef WHERE
+                       vPE_Control.ControlDef.Tag = "Rpt_Text"
+
+      // Set up szNameWork and szAttributePrefix for use in creating Tags.
+      szNameWork = vDrivingLOD.ER_AttributeRec.Name
+      ConvertIntegerToString( lAttributeCnt, szAttributePrefix, 2 )
+
+      // For each attribute create the control. Control Type is 20 for control.
+      //CreateMetaEntity( vSubtask, vReportDef, "Control", zPOS_AFTER )
+      CREATE ENTITY vReportDef.Control
+      vReportDef.Control.Tag  = "A_" + szAttributePrefix + "_" + szNameWork[1:26]
+      vReportDef.Control.Type = 20
+
+      // Right justify decimals, shorts and longs.  Subtype = 16777216 sets the
+      // bit zCONTROL_RIGHTJUSTIFY.
+      //szDomainDataType = vUserSpec.M_Domain.DataType
+      IF szDomainDataType = "M" OR
+         szDomainDataType = "N" OR
+         szDomainDataType = "L"
+            vReportDef.Control.Subtype = 16777216
+      END
+
+      INCLUDE vReportDef.ControlDef FROM vPE_Control.ControlDef
+
+      //CreateMetaEntity( vSubtask, vReportDef, "CtrlMap", zPOS_AFTER )
+      CREATE ENTITY vReportDef.CtrlMap
+      INCLUDE vReportDef.CtrlMapLOD_Attribute FROM vDrivingLOD.LOD_AttributeRec
+      INCLUDE vReportDef.CtrlMapView FROM vReportDef.DrivingViewObjRef
+
+      // KJS - Assuming we are always doing horizontal...
+      // Now determine the control position and increment the positions, based on
+      // horizontal or vertical positioning.
+      //IF szPositioningType = "H"
+         vReportDef.Control.PSDLG_X = lHorizontalPos
+         vReportDef.Control.PSDLG_Y = lVerticalPos
+         //lAttributeSize             = GetMaxAttributeSize( vUserSpec, "H" )
+         lAttributeSize             = lAttributeSize * nCharacterWidth
+         vReportDef.Control.SZDLG_X = lAttributeSize * 16
+         vReportDef.Control.SZDLG_Y = nCharacterHeight * 16
+
+         lHorizontalPos = lHorizontalPos + (lAttributeSize * 16) +
+                                                         lHorizontalIncrement
+      //END
+
+      // Set Bold and Italic flags and Fontsize.
+      TX_SetTextRptCtrlBOI( vReportDef, FALSE, nBoldFlag, FALSE,
+                            FALSE, FALSE, 0, lFontSize,
+                            0, 0, 0, 0, 0, 0, 0 )
+
+      lAttributeCnt = lAttributeCnt + 1
+
+   END
+
+   //IF szPositioningType = "H"
+      // update vertical position
+      lVerticalPos = lVerticalPos + lVerticalIncrement +
+                                    vReportDef.Control.SZDLG_Y
+   //END
+
+   // Determine the size of the Group.
+   // 1. We will determine the X size by getting the largest end of any control
+   //    in the Group (ControlSize + ControlPosX) and adding RightGroupMargin to it.
+   // 2. We will determine the Y size by getting the last control (bottom in Group)
+   //    and adding BottomGroupMargin to it.
+
+   // If positioning is vertical add a bit of space to open up between
+   // instances.
+      lGroupSizeY = lVerticalPos + lVerticalIncrement + lBottomGroupMargin
+
+   vReportDef.Group.SZDLG_Y = lGroupSizeY
+
+   // update lGroupPosY
+   lGroupPosY = lGroupPosY + vReportDef.Group.SZDLG_Y
+
+   // We will now adjust the Group control and all the subcontrols by a common
+   // factor so that they will all appear on the page.
+   AdjustGroupSize( vReportDef, lPageWidth )
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: CreatePageFooter
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+CreatePageFooter( VIEW vReportDef BASED ON LOD TZRPSRCO )
+
+   VIEW vDrivingLOD      REGISTERED AS DrivingLOD
+   STRING ( 32 ) szEntityName
+   STRING ( 32 ) szName
+   INTEGER lControl
+   INTEGER lGroupPosY
+   INTEGER nRC
+
+   TraceLineS("*** In CreateEntityGroupSet *****", "")
+
+   szEntityName = vReportDef.DrivingViewObjRef.wGroupSetName
+   TraceLineS("*** Group Set Name ***** ", "PageFooter" )
+
+   // First check if the entity already exists.
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Type = "PF"
+
+   // Build the GroupSet for the report from the selected entity
+   IF RESULT < zCURSOR_SET
+      TraceLineS("*** Creating Page Header GroupSet *** ", "")
+
+      CREATE ENTITY vReportDef.GroupSet
+      vReportDef.GroupSet.Type = "PF"
+      vReportDef.GroupSet.Tag = "PageFooter"
+
+      vReportDef.GroupSet.PSDLG_X  = 0
+      vReportDef.GroupSet.PSDLG_Y  = 4 * 16
+      vReportDef.GroupSet.SZDLG_X  = vReportDef.Page.SizeX
+      // KJS - I don't know what PPE_Type is...
+      vReportDef.GroupSet.PPE_Type    = 3000
+
+
+      CREATE ENTITY vReportDef.Group
+      vReportDef.Group.Tag = "Footer"
+      vReportDef.Group.Type = "ga"
+
+      // Should I add a couple of default fields like a text field and page number?
+
+
+      vReportDef.GroupSet.SZDLG_Y  = lGroupPosY + 100
+
+   END
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: CreatePageHeader
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+CreatePageHeader( VIEW vReportDef BASED ON LOD TZRPSRCO )
+
+   VIEW vDrivingLOD      REGISTERED AS DrivingLOD
+   STRING ( 32 ) szEntityName
+   STRING ( 32 ) szName
+   INTEGER lControl
+   INTEGER lGroupPosY
+   INTEGER nRC
+
+   TraceLineS("*** In CreateEntityGroupSet *****", "")
+
+   szEntityName = vReportDef.DrivingViewObjRef.wGroupSetName
+   TraceLineS("*** Group Set Name ***** ", "PageHeader" )
+
+   // First check if the entity already exists.
+   SET CURSOR FIRST vReportDef.GroupSet WHERE vReportDef.GroupSet.Type = "PH"
+
+   // Build the GroupSet for the report from the selected entity
+   IF RESULT < zCURSOR_SET
+      TraceLineS("*** Creating Page Header GroupSet *** ", "")
+
+      CREATE ENTITY vReportDef.GroupSet
+      vReportDef.GroupSet.Tag = "PageHeader"
+      vReportDef.GroupSet.Type = "PH"
+
+      vReportDef.GroupSet.PSDLG_X  = 0
+      vReportDef.GroupSet.PSDLG_Y  = 4 * 16
+      vReportDef.GroupSet.SZDLG_X  = vReportDef.Page.SizeX
+      // KJS - I don't know what PPE_Type is...
+      vReportDef.GroupSet.PPE_Type    = 3000
+
+
+      CREATE ENTITY vReportDef.Group
+      vReportDef.Group.Tag = "Header"
+      vReportDef.Group.Type = "ga"
+
+      // Should I add a couple of default fields like a heading and page number?
+
+
+      vReportDef.GroupSet.SZDLG_Y  = lGroupPosY + 100
+
+   END
+
+
+END

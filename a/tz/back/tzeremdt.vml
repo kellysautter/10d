@@ -1,0 +1,59 @@
+/*./ ADD NAME=TZERSASO           Object Operations added after AutoDesign */
+/******************************************/
+/****  Object Operations for TZERSASO  ****/
+/******************************************/
+   View
+
+   VIEW  BASED ON LOD
+
+   IF ( )
+
+   END
+
+/*PUBLIC*/  OPERATION
+zoTZERSASO_RefreshSA_FromEMD(
+      /*Modifiable*/  View vSubjectArea FOR OBJECT DEFINITION TZERSASO,
+      /*Protected */  View vEntpModel   FOR OBJECT DEFINITION TZEREMDO
+      )
+
+   Integer nRC
+
+   FOR EACH vSubjectArea.SA_Entity
+      nRC = zoTZERSASO_RefreshOneSA_Entity( vSubjectArea, vEntpModel )
+   END
+
+END  /* END OF OPERATION */
+
+/*PUBLIC*/  OPERATION
+zoTZERSASO_RefreshOneSA_Entity(
+      View vSubjectArea FOR OBJECT DEFINITION TZERSASO,
+      View vEntpModel   FOR OBJECT DEFINITION TZEREMDO
+      )
+
+   View vEntpModel_Wrk FOR OBJECT DEFINITION TZEREMDO
+   Integer nRC
+   Integer nEntityZKey
+
+   nRC = CreateViewFromViewForTask( vEntpModel_Wrk, vEntpModel )
+
+   nEntityZKey = vSubjectArea.ER_Entity.ZKey
+   nRC = SetCursorFirstEntityByInteger( vEntpModel_Wrk, "ER_Entity",
+                                       "ZKey", nEntityZKey,
+                                       "" )
+   IF ( nRC > zCURSOR_UNCHANGED )
+      nRC = ExcludeEntity( vSubjectArea, "ER_Entity" )
+/*    SET cursor prev vSubjectArea.SA_Entity   */
+      nRC = IncludeSubObjectFromSubObject( vSubjectArea, "ER_Entity",
+                                          vEntpModel_Wrk, "ER_Entity",
+                                          zPOS_AFTER )
+      nRC = 0
+   ELSE
+      nRC = DeleteEntity( vSubjectArea, "SA_Entity" )
+      nRC = 1
+   END
+
+   DropView( vEntpModel_Wrk )
+
+   RETURN nRC
+
+END  /* END OF OPERATION */

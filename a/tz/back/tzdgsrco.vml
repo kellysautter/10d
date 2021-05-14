@@ -1,0 +1,435 @@
+/*
+CHANGE LOG
+2000.10.20    SR   Z2000  Length of Size of path variables
+   Modified size of SourceFileName, SourceFileName2, Msg and SourceName in function
+   DomainGrpMigrate and SourceFileName in function DomainMigrate because size of
+   attributes ExecDir, MetaSrcDir and PgmSrcDir has been changed to 254 in datamodel.
+2000.01.13    BL
+   remove unreferenced local variable
+   from here old version
+07.06.1997    DonC
+   Added migration of Domain if the Domain is not in the target but its Domain
+   Group is.
+16.11.1997    DonC
+   Corrected validation of duplicate Domain name during Domain Group migration to not get
+   unexpected error.
+26.11.1997    DonC
+   Changed CopyFile to SysCopyFile.
+1998/12/08  DC
+   Modified DomainGrpMigrate to remove CurrentDomain view and Drop because it was erroneously used. (TB 357)
+*/
+
+DERIVED ATTRIBUTE OPERATION
+DIL_InheritedMessage( VIEW ViewToInstance BASED ON LOD TZDGSRCO,
+                      STRING ( 32 ) InternalEntityStructure,
+                      STRING ( 32 ) InternalAttribStructure,
+                      SHORT GetOrSetFlag )
+
+// The inherited message is the Desc attribute of the Context, if it exists,
+// or the Desc attribute of the Domain, if the Context Desc doesn't exist.
+
+   STRING (254) DIL_Message
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+
+      IF ViewToInstance.Context.Desc = ""
+         DIL_Message = ViewToInstance.Domain.Desc
+      ELSE
+         DIL_Message = ViewToInstance.Context.Desc
+      END
+
+      StoreStringInRecord( ViewToInstance,
+                           InternalEntityStructure,
+                           InternalAttribStructure,
+                           DIL_Message )
+
+   /* end zDERIVED_GET */
+
+   END  /* case */
+
+END
+
+
+DERIVED ATTRIBUTE OPERATION
+DIL_TextMsg( VIEW ViewToInstance BASED ON LOD TZDGSRCO,
+             STRING ( 32 ) InternalEntityStructure,
+             STRING ( 32 ) InternalAttribStructure,
+             SHORT GetOrSetFlag )
+
+//   This derived attribute is only temporary.  It and the associated derived
+//   attribute should be deleted when no portable files exist with values for
+//   this attribute.
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+
+      StoreStringInRecord( ViewToInstance,
+                           InternalEntityStructure,
+                           InternalAttribStructure,
+                           "" )
+
+   /* end zDERIVED_GET */
+
+   END  /* case */
+
+END
+
+
+TRANSFORMATION OPERATION
+DomainGrpMigrate( VIEW        NewDomainGroup BASED ON LOD TZDGSRCO,
+                  STRING (32) DomainGroupMetaName,
+                  VIEW        SourceLPLR BASED ON LOD TZCMLPLO,
+                  VIEW        vSubtask )
+
+   VIEW OldDomainGroup BASED ON LOD TZDGSRCO
+   VIEW CurrentLPLR  BASED ON LOD TZCMLPLO
+
+   STRING ( 513 ) SourceFileName                 // size according to zMAX_FILESPEC_LTH+1
+   STRING ( 513 ) SourceFileName2                // size according to zMAX_FILESPEC_LTH+1
+   STRING ( 513 ) Msg                            // size according to zMAX_MESSAGE_LTH+1
+   STRING ( 129 ) SourceName                     // size according to zBASE_FILENAME_LTH+1
+
+   STRING ( 32 )  SourceMetaName
+   STRING ( 32 )  ContextName
+   INTEGER        nRC
+
+   // Activate existing source meta OldDomain Group
+   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DomainGroupMetaName + ".PDG"
+   ActivateOI_FromFile ( OldDomainGroup, "TZDGSRCO", SourceLPLR,
+                         SourceFileName, 8192 )
+   // 8192 IS zIGNORE_ATTRIB_ERRORS
+
+   NAME VIEW OldDomainGroup "OldDomainGroup"
+   NAME VIEW NewDomainGroup "NewDomainGroup"
+
+   IF NewDomainGroup.DomainGroup DOES NOT EXIST
+
+      // New Domain Group
+      CreateMetaEntity( vSubtask, NewDomainGroup, "DomainGroup", zPOS_AFTER )
+      SetMatchingAttributesByName( NewDomainGroup, "DomainGroup", OldDomainGroup,
+                                   "DomainGroup", zSET_NULL )
+
+      // Copy over the source file to the new LPLR directory, if there is a source file.
+      // We will assume a source file exists if the SourceFile.Extension is not null.  If there
+      // is actually no source file, the CopyFile does no harm.
+      IF OldDomainGroup.DomainGroup.Extension != ""
+         RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get view for directory info.
+         ResetViewFromSubobject( CurrentLPLR )
+         SourceMetaName = NewDomainGroup.DomainGroup.Name
+         IF OldDomainGroup.DomainGroup.Extension = "C"
+            SourceName = SourceMetaName + ".C"
+         ELSE
+            SourceName = SourceMetaName + ".VML"
+         END
+         SourceFileName = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName
+         SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName
+         SysCopyFile( vSubtask, SourceFileName, SourceFileName2, TRUE )
+         DropMetaOI( vSubtask, CurrentLPLR )
+      END
+
+   END
+
+   FOR EACH OldDomainGroup.Operation
+      SET CURSOR FIRST NewDomainGroup.Operation WHERE NewDomainGroup.Operation.Name = OldDomainGroup.Operation.Name
+      IF RESULT < zCURSOR_SET
+         SET CURSOR LAST NewDomainGroup.Operation
+         CreateMetaEntity( vSubtask, NewDomainGroup, "Operation", zPOS_AFTER )
+         SetMatchingAttributesByName( NewDomainGroup, "Operation", OldDomainGroup,
+                                      "Operation", zSET_NULL )
+      END
+   END
+
+   // Migrate each Domain/Context not in the target LPLR.
+   RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_DOMAIN_META ) // Get view for domain info.
+   FOR EACH OldDomainGroup.Domain
+      // Add any Domains and/or Contexts in the Source LPLR not in the Target LPLR.
+      SET CURSOR FIRST CurrentLPLR.W_MetaDef WHERE CurrentLPLR.W_MetaDef.Name = OldDomainGroup.Domain.Name
+      IF RESULT < zCURSOR_SET
+         CreateMetaEntity( vSubtask, NewDomainGroup, "Domain", zPOS_AFTER )
+         SetMatchingAttributesByName( NewDomainGroup, "Domain", OldDomainGroup,
+                                      "Domain", zSET_NULL )
+      END
+
+      FOR EACH OldDomainGroup.Context
+
+         ContextName = OldDomainGroup.Context.Name
+         SET CURSOR FIRST NewDomainGroup.Context WHERE NewDomainGroup.Context.Name = ContextName
+         IF RESULT < zCURSOR_SET
+            CreateMetaEntity( vSubtask, NewDomainGroup, "Context", zPOS_AFTER )
+            SetMatchingAttributesByName( NewDomainGroup, "Context", OldDomainGroup, "Context", zSET_NULL )
+
+            FOR EACH OldDomainGroup.TableEntry
+               CreateMetaEntity( vSubtask, NewDomainGroup, "TableEntry", zPOS_AFTER )
+               SetMatchingAttributesByName( NewDomainGroup, "TableEntry", OldDomainGroup,
+                                            "TableEntry", zSET_NULL )
+            END
+
+            FOR EACH OldDomainGroup.RegularExpression
+               CreateMetaEntity( vSubtask, NewDomainGroup, "RegularExpression", zPOS_AFTER )
+               SetMatchingAttributesByName( NewDomainGroup, "RegularExpression", OldDomainGroup, "RegularExpression", zSET_NULL )
+            END
+         END
+
+      END
+
+      IF OldDomainGroup.SelectedOperation EXISTS AND NewDomainGroup.SelectedOperation DOES NOT EXIST
+         SET CURSOR FIRST NewDomainGroup.Operation WHERE
+                          NewDomainGroup.Operation.Name = OldDomainGroup.SelectedOperation.Name
+         INCLUDE NewDomainGroup.SelectedOperation FROM NewDomainGroup.Operation
+      END
+
+      // Build the executable.
+      oTZDMSRCO_ReplaceOrAddDomToXDM( vSubtask, NewDomainGroup, 1 )
+
+   END
+
+   DropObjectInstance( OldDomainGroup )
+   CommitMetaOI( vSubtask, NewDomainGroup, 13 )  // 13 is zSOURCE_DOMAINGRP_META
+
+END
+
+
+DERIVED ATTRIBUTE OPERATION
+NLS_DIL_Text( VIEW        vDG BASED ON LOD TZDGSRCO,
+              STRING (32) lpEntity,
+              STRING (32) lpAttribute,
+              SHORT       GetOrSetFlag )
+
+   SHORT        nLanguageCode
+   STRING (254) szText
+
+   SysGetLanguageCode( nLanguageCode )
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+
+      // This is basically the same algorithm as the NLS_Text operations in
+      // TZWDLG2O.VML.  See that code for an explanation.
+
+      SET CURSOR FIRST vDG.DIL_NLS_Text WHERE
+                       vDG.DIL_NLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         szText = vDG.DIL_NLS_Text.Text
+      ELSE
+         szText = vDG.Context.DIL_Text
+      END
+
+      StoreStringInRecord( vDG, lpEntity, lpAttribute, szText )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+      GetStringFromRecord( vDG, lpEntity, lpAttribute, szText, 254 )
+
+      SET CURSOR FIRST vDG.DIL_NLS_Text WHERE
+                       vDG.DIL_NLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         vDG.DIL_NLS_Text.Text = szText
+      ELSE
+         vDG.Context.DIL_Text = szText
+      END
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+
+DERIVED ATTRIBUTE OPERATION
+NLS_ExtValueText( VIEW        vDG BASED ON LOD TZDGSRCO,
+                  STRING (32) lpEntity,
+                  STRING (32) lpAttribute,
+                  SHORT       GetOrSetFlag )
+
+   SHORT        nLanguageCode
+   STRING (254) szText
+
+   SysGetLanguageCode( nLanguageCode )
+
+   CASE GetOrSetFlag
+   OF   zDERIVED_GET:
+
+      // This is basically the same algorithm as the NLS_Text operations in
+      // TZWDLG2O.VML.  See that code for an explanation.
+
+      SET CURSOR FIRST vDG.ExtValueNLS_Text WHERE
+                       vDG.ExtValueNLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         szText = vDG.ExtValueNLS_Text.Text
+      ELSE
+         szText = vDG.TableEntry.ExternalValue
+      END
+
+      StoreStringInRecord( vDG, lpEntity, lpAttribute, szText )
+
+        /* end zDERIVED_GET */
+   OF   zDERIVED_SET:
+
+      GetStringFromRecord( vDG, lpEntity, lpAttribute, szText, 254 )
+
+      SET CURSOR FIRST vDG.ExtValueNLS_Text WHERE
+                       vDG.ExtValueNLS_Text.LanguageIndex = nLanguageCode
+      IF RESULT >= zCURSOR_SET
+         vDG.ExtValueNLS_Text.Text = szText
+      ELSE
+         vDG.TableEntry.ExternalValue = szText
+      END
+
+        /* end zDERIVED_SET */
+   END  /* case */
+
+END
+
+TRANSFORMATION OPERATION
+DomainMigrate( VIEW          NewDomainGroup BASED ON LOD TZDGSRCO,
+               STRING ( 32 ) DomainMetaName,
+               STRING ( 32 ) DomainGroupMetaName,
+               VIEW          SourceLPLR BASED ON LOD TZCMLPLO,
+               VIEW          vSubtask )
+
+   VIEW OldDomainGroup BASED ON LOD TZDGSRCO
+   STRING ( 513 ) SourceFileName                 // size according to zMAX_FILESPEC_LTH+1
+
+
+   // Activate existing source meta OldDomain Group
+   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DomainGroupMetaName + ".PDG"
+   ActivateOI_FromFile( OldDomainGroup, "TZDGSRCO", SourceLPLR,
+                        SourceFileName, 8192 )
+   // 8192 IS zIGNORE_ATTRIB_ERRORS
+
+   NAME VIEW OldDomainGroup "OldDomainGroup"
+   NAME VIEW NewDomainGroup "NewDomainGroup"
+
+   // Position on the correct Domain in the source DomainGroup
+   SET CURSOR FIRST OldDomainGroup.Domain WHERE
+                    OldDomainGroup.Domain.Name = DomainMetaName
+
+   // Call operation to actually do the copy of the Domain.
+   DomainMigrateReus( NewDomainGroup, OldDomainGroup, vSubtask )
+
+   // Build the executable.
+   oTZDMSRCO_ReplaceOrAddDomToXDM( vSubtask, NewDomainGroup, 1 )
+
+   DropObjectInstance( OldDomainGroup )
+   CommitMetaOI( vSubtask, NewDomainGroup, 13 )  // 13 is zSOURCE_DOMAINGRP_META
+
+END
+
+TRANSFORMATION OPERATION
+DomainMigrateReus( VIEW NewDomainGroup BASED ON LOD TZDGSRCO,
+                   VIEW OldDomainGroup BASED ON LOD TZDGSRCO,
+                   VIEW vSubtask )
+
+   // If the source Domain has an Operation subobject and the target does not, add it.
+   IF OldDomainGroup.SelectedOperation EXISTS
+      SET CURSOR FIRST NewDomainGroup.Operation WHERE
+                       NewDomainGroup.Operation.Name = OldDomainGroup.SelectedOperation.Name
+      IF RESULT < zCURSOR_SET
+         SET CURSOR LAST NewDomainGroup.Operation
+         CreateMetaEntity( vSubtask, NewDomainGroup, "Operation", zPOS_AFTER )
+         SetMatchingAttributesByName ( NewDomainGroup, "Operation",
+                                       OldDomainGroup, "Operation", zSET_NULL )
+      END
+   END
+
+   CreateMetaEntity( vSubtask, NewDomainGroup, "Domain", zPOS_AFTER )
+   SetMatchingAttributesByName( NewDomainGroup, "Domain",
+                                OldDomainGroup, "Domain", zSET_NULL )
+
+   FOR EACH OldDomainGroup.Context
+
+      CreateMetaEntity( vSubtask, NewDomainGroup, "Context", zPOS_AFTER )
+      SetMatchingAttributesByName( NewDomainGroup, "Context",
+                                   OldDomainGroup, "Context", zSET_NULL )
+      FOR EACH OldDomainGroup.TableEntry
+         CreateMetaEntity( vSubtask, NewDomainGroup, "TableEntry", zPOS_AFTER )
+         SetMatchingAttributesByName( NewDomainGroup, "TableEntry",
+                                      OldDomainGroup, "TableEntry", zSET_NULL )
+      END
+
+      FOR EACH OldDomainGroup.RegularExpression
+         CreateMetaEntity( vSubtask, NewDomainGroup, "RegularExpression", zPOS_AFTER )
+         SetMatchingAttributesByName( NewDomainGroup, "RegularExpression",
+                                      OldDomainGroup, "RegularExpression", zSET_NULL )
+      END
+
+   END
+
+   IF OldDomainGroup.SelectedOperation EXISTS
+      SET CURSOR FIRST NewDomainGroup.Operation WHERE
+                       NewDomainGroup.Operation.Name = OldDomainGroup.SelectedOperation.Name
+      INCLUDE NewDomainGroup.SelectedOperation FROM NewDomainGroup.Operation
+   END
+
+END
+
+TRANSFORMATION OPERATION
+DomainAddForMerge( VIEW           NewDomainGroup BASED ON LOD TZDGSRCO,
+                   VIEW           SourceLPLR     BASED ON LOD TZCMLPLO,
+                   VIEW           CurrentLPLR    BASED ON LOD TZCMLPLO,
+                   STRING ( 513 ) SourceDirectoryName,
+                   STRING ( 32 )  DomainName,
+                   VIEW           vSubtask )
+
+   VIEW OldDomainGroup BASED ON LOD TZDGSRCO
+   STRING ( 513 ) SourceFileName                 // size according to zMAX_FILESPEC_LTH+1
+   STRING ( 32 )  DomainGroupMetaName
+   STRING ( 200 ) szMsg
+   SHORT          nRC
+
+   // Activate existing source meta OldDomainGroup. To do this, we must locate the Domain and DomainGroup in the  SourceLPLR.
+   SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2003    // 2003 is Domain
+   IF RESULT < zCURSOR_SET
+      szMsg = "Invalid Source XLP."
+      MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   SET CURSOR FIRST SourceLPLR.W_MetaDef WHERE SourceLPLR.W_MetaDef.Name = DomainName
+   IF RESULT < zCURSOR_SET
+      szMsg = "Domain (" + DomainName + ") was not found in Source LPLR."
+      MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   DomainGroupMetaName = SourceLPLR.W_MetaDef.GroupName
+   SourceFileName = SourceDirectoryName + "\" + DomainGroupMetaName + ".PDG"
+   nRC = ActivateOI_FromFile( OldDomainGroup, "TZDGSRCO", SourceLPLR, SourceFileName, 8192 ) // 8192 IS zIGNORE_ATTRIB_ERRORS
+   IF nRC < 0
+      szMsg = "Domain Group (" + DomainGroupMetaName + ") was not found in Source LPLR."
+      MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+
+   // Activate the Target Domain Group which will contain the new Domain.
+   nRC = ActivateMetaOI_ByName( vSubtask, NewDomainGroup, 0, zSOURCE_DOMAINGRP_META, zSINGLE, DomainGroupMetaName, 0 )
+   IF nRC < 0
+      szMsg = "Domain Group (" + DomainGroupMetaName + ") was not found in Target LPLR."
+      MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+
+   NAME VIEW OldDomainGroup "OldDomainGroup"
+   NAME VIEW NewDomainGroup "NewDomainGroup"
+
+   // Position on the correct Domain in the source DomainGroup
+   SET CURSOR FIRST OldDomainGroup.Domain WHERE OldDomainGroup.Domain.Name = DomainName
+   IF RESULT < zCURSOR_SET
+      IssueError( SourceLPLR,0,0, "Programming Error: Domain Name not in Domain Group" )
+   END
+
+   // Call operation to actually do the copy of the Domain.
+   DomainMigrateReus( NewDomainGroup, OldDomainGroup, vSubtask )
+
+   // Prompt User for Add of Domain.
+   szMsg = "Domain, " + DomainName + ", has been added. Do you want it commited to the new LPLR?"
+   nRC = MessagePrompt( vSubtask, "", "Add/Merge Domain", szMsg, 1, zBUTTONS_YESNO, zRESPONSE_YES, 0 )
+   IF nRC = zRESPONSE_YES
+      CommitMetaOI( vSubtask, NewDomainGroup, 13 )  // 13 is zSOURCE_DOMAINGRP_META
+   ELSE
+      // Indicate Domain wasn't saved, so that we won't save the LOD or ER.
+      CurrentLPLR.LPLR.wMergeComponentError = "Y"
+   END
+
+   DropObjectInstance( OldDomainGroup )
+
+END

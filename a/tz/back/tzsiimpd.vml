@@ -1,0 +1,1038 @@
+/*
+CHANGE LOG
+2000.11.07   RG   Z2000
+    New function: ChangeEntityOrAttributeName to change all
+    special characters to '_' because we use it for entitynames too
+2000.05.25   BL   Z2000
+    Modified CreateKatalogList and ImportWorkOIToZeidon for set
+    original attribute sequence
+2000.04.19   RG   Z2000  VSAM
+    Fix error message: connect to server
+2000.03.28   RG   Z2000  VSAM
+    Set the correct Decimal-Domain
+2000.02.04   RG   Z2000  VSAM
+    Change special characters in Siron attributenames into '_'
+2000.01.04   RG   Z2000  VSAM
+   Remove compiler warnings
+2000.01.03   RG   Z2000  VSAM
+   New Message if HZVAFFZ.DLL could not be loaded
+1999.11.22   RG   Z9J, Z2000  VSAM
+   New Message if no catalogs are found
+1999.10.28   RG   Z9J, Z2000  VSAM
+   Changed error messages for new DISAM stuff
+1999.10.28   RG   Z9J, Z2000  VSAM
+   Compiler Warnings eliminated
+1999.10.27   RG   Z9J, Z2000  VSAM
+   Changed message: 583 allowed characters for attributenames
+1999.10.27   RG   Z9J, Z2000  VSAM
+   Error Message: Don't use FILLER eliminated
+1999.10.25   RG   Z9J, Z2000  VSAM
+   More error messages for importin catalogs from servers
+1999.08.27   RG   Z9J, Z2000  VSAM
+   Changed some texts which are shown on screen
+1999.08.25   RG   Z9J, Z2000  VSAM
+   Before activating the WSK-File, see if it could be opened
+1999.08.05   RG   Z9J, Z2000  VSAM
+   Removed: Open TE and test if it's created.
+1999.07.22   RG   Z9J, Z2000  VSAM
+   For the new VSAM Handling: delete the import into the TE and changes
+   for the import into the datamodel
+   From here the old version
+02.09.1997    RG
+   Corrected function ImportCreateTE:
+   - Set key in TE = 'Y', if the Siron Keycode equals 'PK'
+   - Delete Entity in TE if it exists
+     (linke in ERD)
+26.11.1997    DonC
+   Changed DeleteFile to zDeleteFile for support of Win32.
+02.02.1999    RG
+    Corrected function ImportCreateTE for Siron fields
+    of type FBx ( x = 1,..,4)
+03.02.1999    RG
+    - Set the correct cardinality for relationships of Siron entities
+      and 'subentities'
+    - Set color of actual entity to red
+15.03.1999    RG
+    Bugfixes in operation DeleteFieldEntity:
+    - View must be reset in case of error, too.
+    - After Delete of one instance of view Wk2 you have to set colors in Wk1
+      not in Wk2
+16.03.1999    RG
+    - View Wk2 in operation DeleteFieldEntity should be dropped after delete
+      of an entity instance
+    - Inserted an error message if DataSource in TE isn't created.
+*/
+
+DIALOG OPERATION
+ActivateWorkObject( VIEW vSubtask )
+
+    VIEW WkList BASED ON LOD TZSIIMLO
+    INTEGER     nRC
+    STRING (76) FileName
+    STRING (16) KatalogName
+    STRING (64) DirectoryPath
+
+    // Get the directory path where we will find the import work objects.
+    nRC = GetSironWorkObjPathName( DirectoryPath, 64 )
+
+    IF nRC < 0
+       MessageSend( vSubtask, "SI00106", "Catalog Import",
+                    "Cannot find directory path.",
+                    zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+       RETURN
+    END
+
+    // Use the work object list to activate the work object.
+    // Just concatenate the directory path to the name from the list, plus a suffix.
+    GET VIEW WkList NAMED "TZSIIMLO"
+    KatalogName = WkList.KatalogFile.Name
+    FileName = DirectoryPath + KatalogName + ".WSK"
+
+    // Check if the file exists or if someone deleted it
+    nRC = SysOpenFile( vSubtask, FileName /* File Name */,
+                       COREFILE_READ)
+    IF  nRC < 0
+       // We cannot open the file
+       ShowMessage( vSubtask, 582 )
+
+       // Delete the file from the list and disable OK and Delete Buttons
+       // if the last entity was deleted
+       DELETE ENTITY  WkList.KatalogFile NONE
+       EnableButtons( vSubtask )
+
+       RefreshWindow( vSubtask /* Subtask */ )
+    ELSE
+       SysCloseFile( vSubtask, nRC /* File Handle */,
+                     0 /* Owning Task */ )
+       //Activate from File and import into the Datamodel
+       ActivateAndImport( vSubtask, FileName )
+    END
+
+END
+
+LOCAL OPERATION
+ActivateAndImport( VIEW vSubtask, STRING (256) szFilename )
+
+    VIEW Wk1    BASED ON LOD TZSIWK1O
+    VIEW Wk2    BASED ON LOD TZSIWK1O
+
+    ActivateOI_FromFile( Wk1, "TZSIWK1O", vSubtask,
+                         szFilename, zSINGLE )
+    NAME VIEW Wk1 "TZSIWK1O"
+
+    // Wk2 has HD_Diagram view, while Wk1 has SironKatalog view
+    CreateViewFromViewForTask( Wk2, Wk1, vSubtask )
+    CreateMetaEntity( vSubtask, Wk1, "HD_Diagram", zPOS_AFTER )
+    Wk1.HD_Diagram.Orientation = 0
+    Wk1.HD_Diagram.PrintBox = "Y"
+    Wk1.HD_Diagram.PrintTitle = Wk2.SironKatalog.Name
+
+    CreateMetaEntity( vSubtask, Wk1, "HD_Node", zPOS_AFTER )
+    Wk1.HD_Node.Name = Wk2.OrigSironField.FieldName
+    Wk1.HD_Node.Text = Wk2.OrigSironField.FieldName
+
+    // If the group item has no fields that are themselves not group items,
+    // we will turn the color of the entity to green (Color=2).
+    // Otherwise, we will turn the color to yellow (Color=1).
+    IF Wk1.NewField EXISTS
+       Wk1.HD_Node.Color  = 1
+    ELSE
+       Wk1.HD_Node.Color  = 0
+    END
+
+    CreateMetaEntity( vSubtask, Wk2, "NewEntity", zPOS_AFTER )
+    SetMatchingAttributesByName( Wk2, "NewEntity", Wk1, "OrigSironField", zSET_NULL )
+    Wk2.NewEntity.KatalogFlag = "Y"
+
+    // Execute recursive subroutine to transform sub fields.
+    IF Wk1.OrigSironSubField EXISTS
+       TransformSubFields( vSubtask, Wk1, Wk2 )
+    END
+
+    ImportWorkOIToZeidon( vSubtask )
+END
+
+LOCAL OPERATION
+TransformSubFields( VIEW vSubtask,
+                    VIEW Wk1 BASED ON LOD TZSIWK1O,
+                    VIEW Wk2 BASED ON LOD TZSIWK1O )
+
+   VIEW Wk3 BASED ON LOD TZSIWK1O
+
+   // Transform OrigSironSubFields to
+   SetViewToSubobject( Wk1, "OrigSironSubField"  )
+   SetViewToSubobject( Wk2, "HD_ChildNode"  )
+   // If a sub field exists, create new entities from original fields.
+   // If a sub field doesn't exist, create new fields from original fields.
+   FOR EACH Wk1.OrigSironField
+
+      IF Wk1.OrigSironSubField EXISTS
+         CreateMetaEntity( vSubtask, Wk2, "HD_Node", zPOS_AFTER )
+          Wk2.HD_Node.Name = Wk1.OrigSironField.FieldName
+          Wk2.HD_Node.Text = Wk1.OrigSironField.FieldName
+          Wk2.HD_Node.Color = 1
+
+         CreateMetaEntity( vSubtask, Wk2, "NewEntity", zPOS_AFTER )
+          SetMatchingAttributesByName( Wk2, "NewEntity", Wk1, "OrigSironField", zSET_NULL )
+
+         // Execute recursive subroutine to transform sub fields.
+         IF Wk1.OrigSironSubField EXISTS
+            TransformSubFields( vSubtask, Wk1, Wk2 )
+         END
+
+      ELSE
+         // Reset view back to last NewEntity
+         CreateViewFromViewForTask( Wk3, Wk2, vSubtask )
+         ResetViewFromSubobject( Wk3 )
+         SET CURSOR LAST Wk3.NewField
+         CreateMetaEntity( vSubtask, Wk3, "NewField", zPOS_AFTER )
+         SetMatchingAttributesByName( Wk3, "NewField", Wk1, "OrigSironField", zSET_NULL )
+         DropView( Wk3 )
+
+      END
+
+   END
+
+   ResetViewFromSubobject( Wk1 )
+   ResetViewFromSubobject( Wk2 )
+
+END
+
+LOCAL OPERATION
+ImportCreateERD( VIEW vWkRecur    BASED ON LOD TZSIWK1O,
+                 VIEW vERD        BASED ON LOD TZEREMDO,
+                 VIEW vLPLRDomain BASED ON LOD TZCMLPLO,
+                 VIEW vSubtask,
+                 STRING (  9  ) szCatalog,
+                 SHORT sFirst)
+
+   VIEW vDomain BASED ON LOD TZDGSRCO
+   VIEW vLPLRDomain2 BASED ON LOD TZCMLPLO
+
+
+   STRING (256) MG_Message
+   STRING (2)  SironType
+   STRING (33) szEntityName
+   INTEGER     nRC
+   STRING (33) szAttributeName
+   INTEGER     nSthk
+   STRING (10) szDecimal
+
+   // If an ER_Entity currently exists by the same name as the ER_Entity to be
+   // added, prompt the user whether or not the existing entity should be deleted.
+   // If OK, delete the entity and all related entities and all related relationships
+   // for the Katalog entry and continue with the import process.
+   // If not OK, abort the import process.
+
+   szEntityName = vWkRecur.NewEntity.FieldName
+   SET CURSOR FIRST vERD.ER_Entity WHERE
+                    vERD.ER_Entity.Name = szEntityName
+   IF RESULT >= zCURSOR_SET
+      IF sFirst = 1
+         // The prompt will only be done if the actual ER_Entity is the main entity of
+         // the siron catalog. For all dummy entities (subentities) the delete will
+         // be done in any case
+         MG_Message = "An Entity already exists by name: " + szEntityName +
+                      ". Do you want to DELETE it?"
+         nRC = MessagePrompt( vSubtask,
+                               "SI00105",
+                               "Catalog Import",
+                               MG_Message,
+                               0,
+                               zBUTTONS_YESNO,
+                               zRESPONSE_YES,
+                               zICON_QUESTION  )
+         IF nRC != zRESPONSE_YES
+            MessageSend( vSubtask, "SI00106", "Catalog Import",
+                         "Catalog Import Aborted",
+                          zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            RETURN -1  // That means, no change to the datamodel !!!
+         END
+      END
+
+      // Now delete the entity and all its relationships.
+      FOR EACH vERD.ER_RelLink
+          SET CURSOR FIRST vERD.ER_RelType WHERE
+                           vERD.ER_RelType.ZKey = vERD.ER_RelType_1.ZKey
+          IF RESULT >= zCURSOR_SET
+             DELETE ENTITY vERD.ER_RelType NONE
+          END
+      END
+
+      DELETE ENTITY vERD.ER_Entity
+
+   END
+
+   // Create Entity and Attributes for a NewEntity
+   CreateMetaEntity( vSubtask, vERD, "ER_Entity", zPOS_AFTER )
+   szEntityName = vWkRecur.NewEntity.FieldName
+   IF ChangeEntityOrAttributeName( vSubtask, szEntityName ) = -1
+      RETURN
+   END
+
+   vERD.ER_Entity.Name = szEntityName
+   vERD.ER_Entity.TE_TableName = vWkRecur.NewEntity.FieldName
+
+   FOR EACH vWkRecur.NewField
+      CreateMetaEntity( vSubtask, vERD, "ER_Attribute", zPOS_AFTER )
+
+      szAttributeName = vWkRecur.NewField.FieldName
+      // Change all special characters of the attributename to '_'
+      IF ChangeEntityOrAttributeName( vSubtask, szAttributeName ) = -1
+         RETURN
+      END
+
+      // Put the attributename into the Datamodel
+      vERD.ER_Attribute.Name = szAttributeName
+      vERD.ER_Attribute.TE_ColumnName = vWkRecur.NewField.FieldName
+
+      vERD.ER_Attribute.Lth  = vWkRecur.NewField.Length
+
+      // Get number of decimals to set the correct decimal Domain
+      nSthk = vWkRecur.NewField.Sthk
+
+      CASE nSthk
+         OF 0: szDecimal = "Decimal0"
+
+         OF 1: szDecimal = "Decimal1"
+
+         OF 2: szDecimal = "Decimal2"
+
+         OF 3: szDecimal = "Decimal3"
+
+         OF 4: szDecimal = "Decimal4"
+
+         OF 5: szDecimal = "Decimal5"
+
+         OF 6: szDecimal = "Decimal6"
+
+         OF 7: szDecimal = "Decimal7"
+
+         OF 8: szDecimal = "Decimal8"
+
+         OF 9: szDecimal = "Decimal9"
+
+         OTHERWISE: szDecimal = "Decimal"
+      END
+
+
+      // Set Domain based on Siron Type
+      SironType = vWkRecur.NewField.Attribut
+      IF SironType = "D" OR SironType = "O" OR SironType = "FE" OR SironType = "FD"
+          OR SironType = "DW"
+         SET CURSOR FIRST vLPLRDomain.W_MetaDef WHERE
+                                           vLPLRDomain.W_MetaDef.Name = szDecimal
+      ELSE
+       IF SironType = "FL" OR SironType = "U" OR SironType = "V" OR SironType = "FX"
+          SET CURSOR FIRST vLPLRDomain.W_MetaDef WHERE
+                                           vLPLRDomain.W_MetaDef.Name = szDecimal
+       ELSE
+         IF SironType = "F" OR SironType = "H" OR SironType[1:1] = "B"
+            SET CURSOR FIRST vLPLRDomain.W_MetaDef WHERE
+                                           vLPLRDomain.W_MetaDef.Name = "Integer"
+         ELSE
+            IF SironType = "DT"
+               SET CURSOR FIRST vLPLRDomain.W_MetaDef WHERE
+                                           vLPLRDomain.W_MetaDef.Name = "DateTime"
+            ELSE
+               SET CURSOR FIRST vLPLRDomain.W_MetaDef WHERE
+                                           vLPLRDomain.W_MetaDef.Name = "Text"
+            END
+         END
+       END
+      END
+
+      CreateViewFromViewForTask( vLPLRDomain2, vLPLRDomain, vSubtask )
+      nRC = ActivateMetaOI( vSubtask, vDomain, vLPLRDomain2, zREFER_DOMAIN_META, 0 )
+      IF nRC < 0
+         MG_Message = "Siron Data Type: " + SironType + "does not have Domain"
+         MessageSend( vSubtask, "SI00104", "Catalog Import",
+                      MG_Message,
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      ELSE
+         INCLUDE vERD.Domain FROM vDomain.Domain
+         DropMetaOI( vSubtask, vDomain )
+      END
+
+      // If the Attribute is a primary key in the Katalog, create an Identifier
+      // for the Attribute.
+      IF vWkRecur.NewField.KeyCode = "PK"
+         // Create an entity 'Identifier' only if it not exists
+         // All attributes which belong to the key should be members
+         // of the same Identifier
+         IF  vERD.ER_EntIdentifier DOES not EXIST
+           CreateMetaEntity( vSubtask, vERD, "ER_EntIdentifier", zPOS_AFTER )
+           vERD.ER_EntIdentifier.Name = vERD.ER_Attribute.Name
+           vERD.ER_EntIdentifier.Desc = "Generated from Siron PK"
+         END
+         // Set 'NotNull' field for all Key-attributes
+         SetAttributeFromString( vERD, "ER_Attribute", "NotNull", "Y")
+         CreateMetaEntity( vSubtask, vERD, "ER_FactType", zPOS_AFTER )
+         INCLUDE vERD.ER_AttributeIdentifier FROM vERD.ER_Attribute
+      END
+
+   END
+
+END
+
+LOCAL OPERATION
+ImportERD_Recursive( VIEW vWkRecur    BASED ON LOD TZSIWK1O,
+                     VIEW vWkMain     BASED ON LOD TZSIWK1O,
+                     VIEW vERD        BASED ON LOD TZEREMDO,
+                     VIEW vLPLRDomain BASED ON LOD TZCMLPLO,
+                     VIEW vSubtask )
+
+   VIEW vWkHigh   BASED ON LOD TZSIWK1O
+   VIEW vWkDim    BASED ON LOD TZSIWK1O
+
+   VIEW vERD2     BASED ON LOD TZEREMDO
+
+   INTEGER lZKey
+   SHORT   nRC
+   STRING (10) szDimension
+   STRING ( 9) szCatalog
+
+   // Keep one view at the higher level.
+   CreateViewFromViewForTask( vWkHigh, vWkRecur, vSubtask )
+   NAME VIEW  vWkHigh  "vWkHigh"
+
+   // Get Dimension of Siron Subfield
+   CreateViewFromViewForTask( vWkDim, vWkRecur, vSubtask )
+   NAME VIEW  vWkDim  "vWkDim"
+
+   SET CURSOR  FIRST vWkDim.OrigSironSubField
+       WHERE vWkDim.OrigSironSubField.FieldName = vWkRecur.HD_ChildNode.Name
+   GetStringFromAttribute( szDimension, vWkDim, "OrigSironSubField", "Dimension" )
+   DropView( vWkDim )
+
+   // Save the catalogname to set it into fiele TableName in ERD
+   szCatalog = vWkRecur.NewEntity.FieldName
+   SetViewToSubobject( vWkRecur, "HD_ChildNode" )
+
+   // Go to create Entity and Table entries, with subordinates, for
+   // the subobject entry.
+   nRC = ImportCreateERD( vWkRecur, vERD, vLPLRDomain, vSubtask, szCatalog, 0)
+   IF nRC >= 0
+      // Save the ZKey for later positioning.
+      lZKey = vERD.ER_Entity.ZKey
+      // Entity type is attributive.
+      vERD.ER_Entity.Purpose = "A"
+
+      // Stagger the X and Y positions.
+      CreateViewFromViewForTask( vERD2, vERD, vSubtask )
+      SET CURSOR PREVIOUS vERD2.ER_Entity
+      vERD.ER_Entity.ER_DiagramPosX = vERD2.ER_Entity.ER_DiagramPosX + 11
+      vERD.ER_Entity.ER_DiagramPosY = vERD2.ER_Entity.ER_DiagramPosY + 4
+      DropView( vERD2 )
+
+      // Create the Relationship entry.
+
+      SET CURSOR LAST vERD.ER_RelType
+      CreateMetaEntity( vSubtask, vERD, "ER_RelType", zPOS_AFTER )
+      vERD.ER_RelType.Fact = "Create by Siron import"
+
+      CreateMetaEntity( vSubtask, vERD, "ER_RelLink_2", zPOS_AFTER )
+      vERD.ER_RelLink_2.Name    = "has"
+      vERD.ER_RelLink_2.CardMin = "0"
+      vERD.ER_RelLink_2.CardMax = szDimension
+      SET CURSOR FIRST vERD.ER_Entity WHERE
+          vERD.ER_Entity.Name = vWkHigh.NewEntity.FieldName
+      INCLUDE vERD.ER_Entity_2 FROM vERD.ER_Entity
+
+      // Use a new view to save the relink path for the include under ER_Entity.
+      CreateViewFromViewForTask( vERD2, vERD, vSubtask )
+
+      // Reset to last entity created
+      SET CURSOR FIRST vERD.ER_Entity WHERE vERD.ER_Entity.ZKey = lZKey
+
+      CreateMetaEntity( vSubtask, vERD, "ER_RelLink_2", zPOS_AFTER )
+      vERD.ER_RelLink_2.Name    = "for"
+      vERD.ER_RelLink_2.CardMin = "1"
+      vERD.ER_RelLink_2.CardMax = "1"
+      INCLUDE vERD.ER_Entity_2 FROM vERD.ER_Entity
+
+      // Now create the whole relationship path under ER_Entity.
+      SET CURSOR FIRST vERD.ER_RelLink WITHIN vERD.EntpER_Model WHERE
+         vERD.ER_RelLink.ZKey = vERD.ER_RelLink_2.ZKey
+      INCLUDE vERD.ER_RelLink_Other FROM vERD2.ER_RelLink_2
+      SET CURSOR FIRST vERD.ER_RelLink WITHIN vERD.EntpER_Model WHERE
+         vERD.ER_RelLink.ZKey = vERD2.ER_RelLink_2.ZKey
+      INCLUDE vERD.ER_RelLink_Other FROM vERD.ER_RelLink_2
+
+      // Reset to last entity created
+      SET CURSOR LAST vERD.ER_Entity
+
+      DropView( vERD2 )
+
+      FOR EACH vWkRecur.HD_ChildNode
+         ImportERD_Recursive( vWkRecur, vWkMain, vERD, vLPLRDomain, vSubtask )
+      END
+
+   END
+
+   DropView( vWkHigh )
+   ResetViewFromSubobject( vWkRecur )
+
+END
+
+DIALOG OPERATION
+ImportWorkOIToZeidon( VIEW vSubtask )
+
+// This routine transforms the TZSIWK1O work object into entities, relationships
+// attributes in the ER and into tables, fields and Siron entitie in the TE.
+
+// It uses Configuration Management to retrieve Zeidon meta objects.
+
+   VIEW vWkMain     BASED ON LOD TZSIWK1O
+   VIEW vWkRecur    BASED ON LOD TZSIWK1O
+   VIEW vWkRecur2   BASED ON LOD TZSIWK1O
+   VIEW vLPLRDomain BASED ON LOD TZCMLPLO
+   VIEW vERD        BASED ON LOD TZEREMDO
+   VIEW vERD_Window
+   INTEGER nRC
+   INTEGER PosY
+   INTEGER TempPosY
+   INTEGER nContinueFlag
+   SHORT   nLevel
+   STRING (32) szEntityName
+   STRING (128) szMsg
+
+   // Get the recursive view we want for navigating the work object.
+   // Don't use the main one, least we mess up its position.
+   // Also, go to the top of the structure.
+   GET VIEW vWkMain NAMED "TZSIWK1O"
+   NAME VIEW  vWkMain  "vWKMain"
+   CreateViewFromViewForTask( vWkRecur, vWkMain, vSubtask )
+   NAME VIEW  vWkRecur  "vWkRecur"
+   LOOP WHILE vWkRecur.NewEntity.KatalogFlag != "Y"
+      ResetViewFromSubobject( vWkRecur )
+   END
+
+   // Check to see if any entities do not have attributes contained
+   // within them.  If so, prompt the operator whether to continue or
+   // abort.  We will do this by navigating the work object hierarchically,
+   // examining each HD_Node entity to see if it has any NewField entities.
+   nContinueFlag = 0
+   CreateViewFromViewForTask( vWkRecur2, vWkMain, vSubtask )
+   SET CURSOR FIRST vWkRecur2.HD_Diagram
+   DefineHierarchicalCursor( vWkRecur2, "HD_Diagram" )
+   nRC = SetCursorNextEntityHierarchical( nLevel, szEntityName, vWkRecur2 )
+   LOOP WHILE  nRC > zCURSOR_UNCHANGED
+      IF  nRC = zCURSOR_SET_RECURSIVECHILD
+         SetViewToSubobject( vWkRecur2, "HD_ChildNode" )
+      END
+      IF szEntityName = "HD_Node"
+         IF vWkRecur2.NewField DOES NOT EXIST
+            szMsg = "Entity: " + vWkRecur2.HD_Node.Name +
+                    ", will not have attributes. Do you want to import this Catalog?"
+            nRC = MessagePrompt( vSubtask,
+                                  "SI00108",
+                                  "Catalog Import",
+                                  szMsg,
+                                  0,
+                                  zBUTTONS_YESNO,
+                                  zRESPONSE_YES,
+                                  zICON_QUESTION  )
+            IF nRC = zRESPONSE_NO
+               nContinueFlag = 1   // Set flag to abort.
+            END
+         END
+      END
+      nRC = SetCursorNextEntityHierarchical( nLevel, szEntityName, vWkRecur2 )
+   END
+   DropHierarchicalCursor( vWkRecur2 )
+   DropView( vWkRecur2 )
+   IF nContinueFlag != 0
+      RETURN 0
+   END
+
+   //************************************************************
+   //
+   //        Import ERD data
+   //
+   //************************************************************
+
+   // Get the LPLR view for accessing domains
+   RetrieveViewForMetaList( vSubtask, vLPLRDomain, zREFER_DOMAIN_META )
+   NAME VIEW vLPLRDomain "LPLRDomain"
+
+   // Use the current ERD view.
+   GET VIEW vERD NAMED  "TZEREMDO"
+
+   // Search for the largest PosY value for positioning entities.
+   PosY = 0
+   FOR EACH vERD.ER_Entity
+      TempPosY = vERD.ER_Entity.ER_DiagramPosY
+      IF TempPosY > PosY
+         PosY = TempPosY
+      END
+   END
+
+   // Position at end of ER_Entities.
+   SET CURSOR LAST vERD.ER_Entity
+
+   // Create ERD entries for the main Katalog entry.
+   nRC = ImportCreateERD( vWkRecur, vERD, vLPLRDomain, vSubtask,
+                           vWkRecur.NewEntity.FieldName, 1 )
+   IF nRC >= 0
+      // Entity type is fundamental.
+      vERD.ER_Entity.Purpose = "F"
+      // Y position is 9 greater than largest Y.
+      // X position starts at 2.
+      vERD.ER_Entity.ER_DiagramPosY = PosY + 9
+      vERD.ER_Entity.ER_DiagramPosX = 2
+
+      // Create the ERD entries for each subordinate Katalog entry.
+      FOR EACH vWkRecur.HD_ChildNode
+         ImportERD_Recursive( vWkRecur, vWkMain, vERD, vLPLRDomain, vSubtask )
+      END
+
+      // Prompt the operator to make sure he knows we are going to commit the
+      // ERD and give him the chance to abort.
+      nRC = MessagePrompt( vSubtask,
+                            "SI00107",
+                            "Catalog Import",
+                            "Import will save the ERD. Do you want to continue?",
+                            0,
+                            zBUTTONS_YESNO,
+                            zRESPONSE_YES,
+                            zICON_QUESTION  )
+      IF nRC = zRESPONSE_NO
+         RETURN
+      END
+
+      // Commit the ERD.
+      CommitMetaOI( vSubtask, vERD, zSOURCE_ERD_META )
+
+      // if attribute sequence does not exist, set it and remove update flag
+      SetAttributeSequence( vERD )
+
+      // Now make sure the stuff we have just added shows up.
+      GET VIEW vERD_Window NAMED "TZEREMDD"
+      RefreshDiagram( vERD_Window, "ERD", 0 )
+      RefreshAllSubwindows( vERD_Window )
+   END
+
+END
+
+
+DIALOG OPERATION
+DeleteWorkObject( VIEW vSubtask )
+
+    VIEW WkList BASED ON LOD TZSIIMLO
+    SHORT       nRC
+    STRING (76) FileName
+    STRING (16) KatalogName
+    STRING (64) DirectoryPath
+    STRING (256) MsgText
+
+    // Get the directory path where we will find the import work objects.
+    nRC = GetSironWorkObjPathName( DirectoryPath, 64 )
+
+    IF nRC < 0
+       MessageSend( vSubtask, "SI00106", "Catalog Import",
+                    "Cannot find directory path.",
+                    zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+       RETURN
+    END
+
+    // Use the work object list to select the work object to delete.
+    // Just concatenate the directory path to the name from the list, plus a suffix.
+    GET VIEW WkList NAMED "TZSIIMLO"
+    KatalogName = WkList.KatalogFile.Name
+    FileName = DirectoryPath + KatalogName + ".WSK"
+
+    MsgText = "Do you really want to delete " + FileName
+    nRC = MessagePrompt( vSubtask, "SI00109", "Catalog Import",
+                         MsgText, 1, zBUTTONS_YESNO, zRESPONSE_NO,
+                         zICON_QUESTION )
+
+    IF  nRC = zRESPONSE_YES
+        zDeleteFile( FileName )
+        // Now delete the entry from the list.
+        DELETE ENTITY WkList.KatalogFile
+    END
+
+    // If the last WSK-File is deleted, disable buttons: OK and Delete
+    EnableButtons( vSubtask )
+
+END
+
+
+DIALOG OPERATION
+CreateKatalogList( VIEW vSubtask )
+
+   SHORT       nRC
+   STRING (64) DirectoryPath
+   VIEW vERD   BASED ON LOD TZEREMDO
+
+   // Hier erstmal vERD laden
+   GET VIEW vERD NAMED "TZEREMDO"
+   IF RESULT < 0
+      SironCreateDataModel( vSubtask, vERD )
+   END
+
+   nRC = LoadSironDLLs( vSubtask )
+   IF nRC != 0
+      ShowMessage( vSubtask, nRC )
+      SetWindowActionBehavior( vSubtask, zWAB_ReturnToParent, "", "" )
+      RETURN
+   END
+
+   // Sort Attributes in original sequence
+   SortAttributes( vERD )
+
+   // Create the list object made up of all import work objects in the directory.
+   // Then transfer to a list window, allowing the operator to select one for import
+   // processing.
+
+   // Get the directory path where we will find the import work objects.
+   nRC = GetSironWorkObjPathName( DirectoryPath, 64 )
+   IF nRC < 0
+      MessageSend( vSubtask, "SI00106", "Catalog Import",
+                   "Cannot find directory path.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN
+   END
+
+   // Use Windows functionality to generate the list.
+   // The work list is given external name "TZSIIMLO"
+   CreateSironWorkObjectList( DirectoryPath, vSubtask )
+
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: LoadServerList
+//
+DIALOG OPERATION
+LoadServerList( VIEW vSubtask )
+
+   VIEW TZSIIMWK BASED ON LOD TZSIIMWK
+   SHORT nRC
+
+   ACTIVATE TZSIIMWK MULTIPLE EMPTY
+   NAME VIEW TZSIIMWK "TZSIIMWK"
+
+   nRC = GetAllServerNames( vSubtask, TZSIIMWK )
+
+   IF nRC != 0
+       ShowMessage( vSubtask, nRC )
+   ELSE
+       OrderEntityForView( TZSIIMWK, "TZSIIMWK", "wkServerName A" )
+       SET CURSOR  FIRST TZSIIMWK.TZSIIMWK
+   END
+
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: LoadCatalogList
+//
+DIALOG OPERATION
+LoadCatalogList( VIEW vSubtask )
+
+   VIEW TZSIIMWK REGISTERED AS TZSIIMWK
+   SHORT nRC
+
+   nRC = GetAllCatalogNames( vSubtask, TZSIIMWK )
+
+   IF nRC != 0
+       ShowMessage( vSubtask, nRC )
+   ELSE
+       OrderEntityForView( TZSIIMWK, "CatFiles", "wkCatFiles A" )
+       SET CURSOR  FIRST TZSIIMWK.CatFiles
+   END
+
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: ShowMessage
+//
+LOCAL OPERATION
+ShowMessage( VIEW vSubtask, SHORT MessageNumber )
+
+  STRING ( 256 ) szMessage
+
+  CASE  MessageNumber
+
+     OF -16: szMessage = "Internal error !"
+
+     OF -3 : szMessage = "Function GetComputername failed !"
+
+     OF 11 : szMessage = "Invalid Environment Handle !"
+
+     OF 21 : szMessage = "No memory for loading SIRENV !"
+
+     OF 22 : szMessage = "File SIRENV not found !"
+
+     OF 100: szMessage = "Syntax error in SIRENV !"
+
+     OF 500: szMessage = "HZVAFFZ.DLL cannot be loaded !"
+
+     OF 501: szMessage = "Function hzvaOpenEnv cannot be loaded !"
+
+     OF 502: szMessage = "Function hzvaFreeEnv cannot be loaded !"
+
+     OF 503: szMessage = "Function hzvaGetAllServerNames cannot be loaded !"
+
+     OF 504: szMessage = "Function hzvaGetAnzahlServerNames cannot be loaded !"
+
+     OF 505: szMessage = "Function hzvaGetAnzahlCatalogFiles cannot be loaded !"
+
+     OF 506: szMessage = "Function hzvaGetAllCatalogFiles cannot be loaded !"
+
+     OF 513: szMessage = "Function hzvaGetLocalCatalogs cannot be loaded !"
+
+     OF 514: szMessage = "Function hzvaReadCatalog cannot be loaded !"
+
+     OF 515: szMessage = "Function hzvaFreeCatalogStructs cannot be loaded !"
+
+     OF 516: szMessage = "Function hzvaWriteWSK cannot be loaded !"
+
+     OF 517: szMessage = "Function hzvaGetPathname cannot be loaded !"
+
+     OF 520: szMessage = "Function hzvaGetServerCatalogs cannot be loaded !"
+
+     OF 521: szMessage = "Function hzvaReadServerCatalog cannot be loaded !"
+
+     OF 522: szMessage = "Function hzvaFreeListMemory cannot be loaded !"
+
+     OF 530: szMessage = "Import aborted !"
+
+     OF 551: szMessage = "No memory for Serverlist !"
+
+     OF 552: szMessage = "No memory for list of Catalogfiles !"
+
+     OF 553: szMessage = "No Catalogfiles found !"
+
+     OF 560: szMessage = "No memory for Siron ONC !"
+
+     OF 561: szMessage = "No memory for Siron GENAT COMMON !"
+
+     OF 562: szMessage = "Catalogfile could no be opened !"
+
+     OF 563: szMessage = "Read error while reading the catalogfile !"
+
+     OF 564: szMessage = "No memory for local cataloglist !"
+
+     OF 570: szMessage = "Cannot load Catalog !"
+
+     OF 571: szMessage = "No memory for Catalog data !"
+
+     OF 581: szMessage = "First level for re-definitions is level 02 !"
+
+     OF 582: szMessage = "WKS-File not found - File should be deleted !"
+
+     OF 583: szMessage = "Stringlength of Siron Attribute Name is too long"
+
+     OF 590: szMessage = "Internal Server error while loading catalog list !"
+
+     OF 591: szMessage = "Internal Server error while loading a single catalog!"
+
+     OF 592: szMessage = "Old catalog size! Please create a new catalog!"
+
+     OF 593: szMessage = "Length of Catalog is incorrect !"
+
+     OF 594: szMessage = "Key-Attribute is incorrect !"
+
+     OF 595: szMessage = "Cannot connect to server !"
+
+     OF 596: szMessage = "Cannot define RPC function: GETKAT !"
+
+     OF 598: szMessage = "Cannot define RPC function: GETKATANZ !"
+
+     OF 599: szMessage = "Cannot define RPC function: GETKATLST !"
+
+     OF 601: szMessage = "GETKAT: Definition of parameter 1 is incorrect !"
+
+     OF 602: szMessage = "GETKAT: Definition of parameter 2 is incorrect !"
+
+     OF 603: szMessage = "GETKAT: Definition of parameter 3 is incorrect !"
+
+     OF 604: szMessage = "GETKAT: Definition of parameter 4 is incorrect !"
+
+     OF 605: szMessage = "GETKAT: Definition of parameter 5 is incorrect !"
+
+     OF 607: szMessage = "GETKAT: Communication with server failed !"
+
+     OF 611: szMessage = "GETKATANZ: Definition of parameter 1 is incorrect !"
+
+     OF 612: szMessage = "GETKATANZ: Definition of parameter 2 is incorrect !"
+
+     OF 613: szMessage = "GETKATANZ: Definition of parameter 3 is incorrect !"
+
+     OF 614: szMessage = "GETKATANZ: Definition of parameter 4 is incorrect !"
+
+     OF 615: szMessage = "GETKATANZ: Definition of parameter 5 is incorrect !"
+
+     OF 616: szMessage = "GETKATANZ: Communication with server failed !"
+
+     OF 621: szMessage = "GETKATLST: Definition of parameter 1 is incorrect !"
+
+     OF 622: szMessage = "GETKATLST: Definition of parameter 2 is incorrect !"
+
+     OF 623: szMessage = "GETKATLST: Definition of parameter 3 is incorrect !"
+
+     OF 624: szMessage = "GETKATLST: Definition of parameter 4 is incorrect !"
+
+     OF 625: szMessage = "GETKATLST: Definition of parameter 5 is incorrect !"
+
+     OF 626: szMessage = "GETKATLST: Definition of parameter 6 is incorrect !"
+
+     OF 627: szMessage = "GETKATLST: Communication with server failed !"
+
+     OF 998: szMessage = "Function in construction !"
+
+     OF 999: szMessage = "Function not yet supported !"
+
+     otherwise: szMessage = "Internal error !"
+
+  END
+
+  MessagePrompt( vSubtask, "VSAM0001", "Catalog Import", szMessage,
+                 1, zBUTTONS_OK, zRESPONSE_OK, zICON_INFORMATION )
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: DropWorkViews
+//
+DIALOG OPERATION
+DropWorkViews( VIEW vSubtask )
+
+   VIEW TZSIIMWK REGISTERED AS TZSIIMWK
+
+   FreeHZVAFFZ( )  // Free loaded Library
+
+   IF  TZSIIMWK != 0
+      DropView( TZSIIMWK ) // Drop WorkView
+   END
+
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: RefreshCatalogList
+//
+DIALOG OPERATION
+RefreshCatalogList( VIEW vSubtask )
+
+   RefreshCtrl( vSubtask, "CatalogList" )
+
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: ImportCatalogAndWSK
+//
+DIALOG OPERATION
+ImportCatalogAndWSK( VIEW vSubtask )
+
+   VIEW TZSIIMWK REGISTERED AS TZSIIMWK
+   VIEW TZSIIMLO REGISTERED AS TZSIIMLO
+   SHORT nRC
+   INTEGER lCtrlState
+   STRING (  256  ) szFilename
+
+   // Build WSK-File
+   nRC = BuildWSK( vSubtask,
+                   TZSIIMWK,
+                   TZSIIMWK.TZSIIMWK.wkServerName,
+                   TZSIIMWK.CatFiles.wkCatFiles,
+                   TZSIIMWK.Catalogs.wkCatalogName,
+                   szFilename )
+
+   IF  nRC != 0
+      ShowMessage( vSubtask, nRC )
+   ELSE
+      // We wrote a new WSK-File. Take it into the WorkLod for the list
+      nRC = SetWSKInLod( vSubtask, TZSIIMLO, szFilename )
+
+      // Should be directly imported ????
+      lCtrlState = GetCtrlState( vSubtask,
+                                 "RadioImportAndWSK",
+                                 zCONTROL_STATUS_CHECKED )
+
+      IF  lCtrlState = TRUE
+          // Import into the datamodel
+          ActivateAndImport( vSubtask, szFilename )
+      END
+   END
+
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: EnableButtons
+//
+DIALOG OPERATION
+EnableButtons( VIEW vSubtask )
+
+   VIEW TZSIIMLO REGISTERED AS TZSIIMLO
+
+   IF TZSIIMLO.KatalogFile EXISTS
+      SetCtrlState( vSubtask, "ImportWSK", zCONTROL_STATUS_ENABLED, TRUE )
+      SetCtrlState( vSubtask, "DeleteWSK", zCONTROL_STATUS_ENABLED, TRUE )
+   ELSE
+      SetCtrlState( vSubtask, "ImportWSK", zCONTROL_STATUS_ENABLED, FALSE )
+      SetCtrlState( vSubtask, "DeleteWSK", zCONTROL_STATUS_ENABLED, FALSE )
+   END
+
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: DropAllWorkViews
+//
+DIALOG OPERATION
+DropAllWorkViews( VIEW vSubtask )
+
+   VIEW TZSIIMLO REGISTERED AS TZSIIMLO
+
+   // Unload Siron DLL's and Drop WorkLod: TZSIIMWK
+   DropWorkViews( vSubtask )
+
+   IF  TZSIIMLO != 0
+      DropView( TZSIIMLO ) // Drop WorkView
+   END
+
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ChangeEntityOrAttributeName
+**
+**
+*************************************************************************************************/
+LOCAL OPERATION
+ChangeEntityOrAttributeName( VIEW vSubtask, STRING ( 32 ) szName)
+
+   STRING (2)  szSpecChar
+   SHORT       nPosition
+   INTEGER     nLength
+
+   // Test length of Siron Attribute Name
+   nLength = zGetStringLen( szName )
+   IF nLength > 32
+      ShowMessage( vSubtask, 583 )
+      RETURN -1
+   END
+
+   // Change all special characters of the attributename to '_'
+   nPosition = 0
+   LOOP WHILE nPosition != -1
+      nPosition = SearchSpecialCharacter( szName, szSpecChar )
+      IF ( nPosition != -1 )
+         zSearchAndReplace( szName /* TargetString */,
+                            nLength /* TargetLen */,
+                            szSpecChar /* SearchString */,
+                            "_" /* ReplaceString */ )
+      END
+   END
+
+   RETURN 0
+
+END

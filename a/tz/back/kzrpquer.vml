@@ -1,0 +1,252 @@
+
+/*************************************************************************************************
+**
+**    OPERATION: ComputeQueryOperationValue
+**
+**
+*************************************************************************************************/
+GLOBAL OPERATION
+ComputeQueryOperationValue( VIEW vReportDef BASED ON LOD TZRPSRCO,
+                            VIEW vQueryObject,
+                            STRING ( 20 ) ReturnedString,
+                            STRING ( 32 ) OperationName,
+                            STRING ( 32 ) szEntityName,
+                            STRING ( 32 ) szAttributeName )
+
+   // Perform the group operation of:
+   //   SUM
+   //   AVG
+   //   COUNT
+   //   MAX
+   //   MIN
+   // on the Entity/Attribute passed and return the value as a decimal.
+
+   DECIMAL Sum
+   DECIMAL Max
+   DECIMAL Min
+   DECIMAL Average
+   DECIMAL AttributeValue
+   DECIMAL ReturnedValue
+   INTEGER Count
+   SHORT   nRC
+   STRING ( 20 ) MaxString
+   STRING ( 20 ) MinString
+   STRING ( 20 ) AttributeValueString
+   STRING ( 32 ) szScopingEntity
+
+   // The ScopingEntity is the Entity for the Group Set on which this Control exists.
+   IF vReportDef.GroupSet.Type = "E"
+      szScopingEntity = vReportDef.GroupSet.Tag
+   ELSE
+      szScopingEntity = ""
+   END
+
+   IF OperationName = "MAX"
+      IF vReportDef.CtrlMapER_Domain.DataType = "L" OR
+         vReportDef.CtrlMapER_Domain.DataType = "M"
+
+         nRC = SetCursorFirstEntity( vQueryObject,
+                                     szEntityName,
+                                     szScopingEntity )
+         IF nRC >= zCURSOR_SET
+            GetDecimalFromAttribute( Max,
+                                     vQueryObject,
+                                     szEntityName,
+                                     szAttributeName )
+            LOOP WHILE nRC >= zCURSOR_SET
+               nRC = SetCursorNextEntity( vQueryObject,
+                                          szEntityName,
+                                          szScopingEntity )
+               IF nRC >= zCURSOR_SET
+                  GetDecimalFromAttribute( AttributeValue,
+                                           vQueryObject,
+                                           szEntityName,
+                                           szAttributeName )
+
+                  IF AttributeValue > Max
+                     Max = AttributeValue
+                  END
+               END
+            END
+         ELSE
+            Max = 0
+         END
+         ReturnedValue = Max
+      ELSE
+         nRC = SetCursorFirstEntity( vQueryObject,
+                                     szEntityName,
+                                     szScopingEntity )
+         IF nRC >= zCURSOR_SET
+            GetStringFromAttribute( MaxString,
+                                     vQueryObject,
+                                     szEntityName,
+                                     szAttributeName )
+            LOOP WHILE nRC >= zCURSOR_SET
+               nRC = SetCursorNextEntity( vQueryObject,
+                                          szEntityName,
+                                          szScopingEntity )
+               IF nRC >= zCURSOR_SET
+                  GetStringFromAttribute( AttributeValueString,
+                                           vQueryObject,
+                                           szEntityName,
+                                           szAttributeName )
+                  IF AttributeValueString > MaxString
+                     MaxString = AttributeValueString
+                  END
+               END
+            END
+         ELSE
+            MaxString = ""
+         END
+
+         IF vReportDef.CtrlMapER_Domain.DataType = "D"
+            vReportDef.Report.wFormatDate = MaxString
+            GetStrFromAttrByContext( ReturnedString,
+                                     20,
+                                     vReportDef, "Report", "wFormatDate", "" )
+         ELSE
+            IF vReportDef.CtrlMapER_Domain.DataType = "T"
+               vReportDef.Report.wFormatDateTime = MaxString
+               GetStrFromAttrByContext( ReturnedString,
+                                        20,
+                                        vReportDef, "Report", "wFormatDateTime", "" )
+            ELSE
+               ReturnedString = MaxString
+            END
+         END
+      END
+   ELSE
+   IF OperationName = "MIN"
+      IF vReportDef.CtrlMapER_Domain.DataType = "L" OR
+         vReportDef.CtrlMapER_Domain.DataType = "M"
+
+         nRC = SetCursorFirstEntity( vQueryObject,
+                                     szEntityName,
+                                     szScopingEntity )
+         IF nRC >= zCURSOR_SET
+            GetDecimalFromAttribute( Min,
+                                     vQueryObject,
+                                     szEntityName,
+                                     szAttributeName )
+            LOOP WHILE nRC >= zCURSOR_SET
+               nRC = SetCursorNextEntity( vQueryObject,
+                                          szEntityName,
+                                          szScopingEntity )
+               IF nRC >= zCURSOR_SET
+                  GetDecimalFromAttribute( AttributeValue,
+                                           vQueryObject,
+                                           szEntityName,
+                                           szAttributeName )
+
+                  IF AttributeValue < Min
+                     Min = AttributeValue
+                  END
+               END
+            END
+         ELSE
+            Min = 0
+         END
+         ReturnedValue = Min
+      ELSE
+         nRC = SetCursorFirstEntity( vQueryObject,
+                                     szEntityName,
+                                     szScopingEntity )
+         IF nRC >= zCURSOR_SET
+            GetStringFromAttribute( MinString,
+                                    vQueryObject,
+                                    szEntityName,
+                                    szAttributeName )
+            LOOP WHILE nRC >= zCURSOR_SET
+               nRC = SetCursorNextEntity( vQueryObject,
+                                          szEntityName,
+                                          szScopingEntity )
+               IF nRC >= zCURSOR_SET
+                  GetStringFromAttribute( AttributeValueString,
+                                          vQueryObject,
+                                          szEntityName,
+                                          szAttributeName )
+                  IF AttributeValueString < MinString
+                     MinString = AttributeValueString
+                  END
+               END
+            END
+         ELSE
+            MinString = ""
+         END
+         ReturnedString = MinString
+         IF vReportDef.CtrlMapER_Domain.DataType = "D"
+            vReportDef.Report.wFormatDate = MinString
+            GetStrFromAttrByContext( ReturnedString,
+                                     20,
+                                     vReportDef, "Report", "wFormatDate", "" )
+         ELSE
+            IF vReportDef.CtrlMapER_Domain.DataType = "T"
+               vReportDef.Report.wFormatDateTime = MinString
+               GetStrFromAttrByContext( ReturnedString,
+                                        20,
+                                        vReportDef, "Report", "wFormatDateTime", "" )
+            ELSE
+               ReturnedString = MinString
+            END
+         END
+      END
+   ELSE
+   IF OperationName = "COUNT"
+      Count = 0
+      nRC = SetCursorFirstEntity( vQueryObject,
+                                  szEntityName,
+                                  szScopingEntity )
+      LOOP WHILE nRC >= zCURSOR_SET
+         Count = Count + 1
+         nRC = SetCursorNextEntity( vQueryObject,
+                                    szEntityName,
+                                    szScopingEntity )
+      END
+      ReturnedValue = Count
+   ELSE
+   IF OperationName = "SUM" OR OperationName = "AVG"
+      Count = 0
+      Sum   = 0
+      nRC = SetCursorFirstEntity( vQueryObject,
+                                  szEntityName,
+                                  szScopingEntity )
+      LOOP WHILE nRC >= zCURSOR_SET
+         GetDecimalFromAttribute( AttributeValue,
+                                  vQueryObject,
+                                  szEntityName,
+                                  szAttributeName )
+
+         Count = Count + 1
+         Sum = Sum + AttributeValue
+         nRC = SetCursorNextEntity( vQueryObject,
+                                    szEntityName,
+                                    szScopingEntity )
+      END
+      IF OperationName = "AVG"
+         IF Count = 0
+            ReturnedValue = 0
+         ELSE
+            ReturnedValue = Sum / Count
+         END
+      ELSE
+         ReturnedValue = Sum
+      END
+   END
+   END
+   END
+   END
+
+   // Set values.
+   IF vReportDef.CtrlMapER_Domain.DataType = "L" OR
+      vReportDef.CtrlMapER_Domain.DataType = "M"
+
+      vReportDef.Report.wFormatQueryDecimal = ReturnedValue
+      GetStringFromAttributeByContext( ReturnedString,
+                                       vReportDef,
+                                       "Report",
+                                       "wFormatQueryDecimal",
+                                       "", 20 )
+   END
+
+
+END

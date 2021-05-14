@@ -1,0 +1,3475 @@
+/*
+CHANGE LOG
+2012.06.13    DKS    Z10
+   beginning ...
+*/
+
+TRANSFORMATION OPERATION
+AutodesignXSLT( VIEW vXSLT_Def BASED ON LOD TZXSLTSO,
+                VIEW vUserSpec  BASED ON LOD TZADCSDO,
+                VIEW vPE        BASED ON LOD TZPESRCO,
+                VIEW vSubtask )
+
+   VIEW        vUserSpecRoot  BASED ON LOD TZADCSDO
+   VIEW        vDefaults BASED ON LOD TZADCSDO
+   VIEW        vTaskLPLR BASED ON LOD TZCMLPLO
+   STRING ( 513 ) szFileName                        // zMAX_FILESPEC_LTH+1
+   STRING ( 257 ) szMsg                             // zSHORT_MESSAGE_LTH+1
+   INTEGER     lFile
+   INTEGER     lCurrentVerticalPos
+   INTEGER     lTopGroupMargin
+   INTEGER     lBottomHeaderMargin
+   INTEGER     lLeftGroupMargin
+   INTEGER     lHeight
+   INTEGER     lCurrentPosY
+   INTEGER     lPageNumberPosX
+   INTEGER     lDefaultFontSize
+   INTEGER     lTitleSize
+   INTEGER     lFontSize
+   INTEGER     lPageWidth
+   INTEGER     lVerticalIncrement
+   DECIMAL     dVertScalingFactor
+   SHORT       nCharacterHeight
+   SHORT       nCharacterWidth
+   SHORT       nBoldFlag
+   SHORT       nItalicFlag
+   SHORT       nRC
+
+   // Retrieve default information and name it for later use.  If the instance
+   // doesn't exist, exit.
+   GET VIEW vTaskLPLR NAMED "TaskLPLR"
+   szMsg = vTaskLPLR.LPLR.MetaSrcDir + "\Z__DFLT.BAS"  // borrow szMsg for a second
+   SysConvertEnvironmentString( szFileName, szMsg )
+   lFile = SysOpenFile( vSubtask, szFileName, COREFILE_READ )
+   IF lFile < 0
+      szMsg = "LPLR Defaults not found." + zNew_Line + "Exiting Autodesign."
+      MessageSend( vSubtask, "AD10201", "Autodesigner",
+                   "LPLR Defaults not found.\nExiting Autodesign.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   ELSE
+      SysCloseFile( vSubtask, lFile, 0 )
+      ActivateOI_FromFile( vDefaults, "TZADCSDO", vUserSpec,
+                           szFileName, zSINGLE )
+      NAME VIEW vDefaults "TZ_Defaults"
+   END
+
+   // if Font Size does not exists, set size
+   IF vDefaults.InitValues.XSLTTextSize <= 0
+      szMsg = "No valid Default Font Size found. This XSLT" + zNew_Line
+      szMsg = szMsg + "will be created with a Font Size 10."
+      nRC = MessagePrompt( vXSLT_Def, "AD10202", "Autodesigner",
+                           szMsg, 1, zBUTTONS_OKCANCEL, zRESPONSE_OK,
+                           zICON_QUESTION   )
+      IF nRC = zRESPONSE_CANCEL
+         RETURN -1
+      ELSE
+         vDefaults.InitValues.XSLTTextSize = 10
+      END
+   END
+
+   // Delete entries for the existing XSLT_Def.
+   DELETE ENTITY vXSLT_Def.Page
+   CreateMetaEntity( vSubtask, vXSLT_Def, "Page", zPOS_AFTER )
+   vXSLT_Def.Page.Tag = vXSLT_Def.XSLT.Tag
+
+   // DEM - We will set the page sizes in the report def.
+   // This is temporary code only and should be removed when
+   // a final soln is arrived at. In the future, The default dialog
+   // for autodesign should allow the page size to be set. For now,
+   // we just set them here for a 8 1/2 x 11 page size. Sizes are in
+   // 256ths of an inch
+   vXSLT_Def.Page.SizeX = 2176
+   vXSLT_Def.Page.SizeY = 2816
+
+   // Set up default information.
+   dVertScalingFactor   = vDefaults.InitValues.XSLTTextIncrementY * 16
+   lVerticalIncrement   = 0
+   lTopGroupMargin      = 5 * 16
+   lBottomHeaderMargin  = 2 * 16
+   lLeftGroupMargin     = 5 * 16
+   lPageWidth           = vXSLT_Def.Page.SizeX
+   lPageNumberPosX      = lPageWidth - 256
+   lDefaultFontSize     = vDefaults.InitValues.XSLTTextSize * 10
+   lCurrentPosY         = 0
+
+   // This transformation uses the User Interface Spec to build a report
+   // definition.
+
+   // First, we will build the whole XSLT Definition without specifying
+   // any positions.  Then we will come back and determine positions.
+
+   NAME VIEW vXSLT_Def "***XSLT_Def"
+   NAME VIEW vUserSpec "***UserSpec"
+   vXSLT_Def.XSLT.Unit = 1
+   vXSLT_Def.XSLT.XSLTTextSize = lDefaultFontSize
+
+   // Add the ViewObjRef that will be used by all Controls on the report.
+   IF vXSLT_Def.ViewObjRef EXISTS
+      EXCLUDE vXSLT_Def.ViewObjRef
+   END
+   INCLUDE vXSLT_Def.ViewObjRef FROM vUserSpec.UIS_ViewObjRef
+
+   // Create a root view of the UserSpec for the inclusion of ViewObjRef.
+   CreateViewFromViewForTask( vUserSpecRoot, vUserSpec, 0 )
+
+   // Create Page Header GroupSet and Group with initial values.
+
+   CreateMetaEntity( vSubtask, vXSLT_Def, "GroupSet", zPOS_AFTER )
+   vXSLT_Def.GroupSet.Tag      = "PageHeader"
+   vXSLT_Def.GroupSet.Type     = "PH"
+   vXSLT_Def.GroupSet.PSDLG_X  = 0
+   vXSLT_Def.GroupSet.PSDLG_Y  = 64
+   vXSLT_Def.GroupSet.SZDLG_X  = vXSLT_Def.Page.SizeX
+   vXSLT_Def.GroupSet.SZDLG_Y  = 320
+   vXSLT_Def.GroupSet.PPE_Type = 3000
+
+   CreateMetaEntity( vSubtask, vXSLT_Def, "Group", zPOS_AFTER )
+   vXSLT_Def.Group.Tag         = "PageHeader"
+   vXSLT_Def.Group.Type        = "ga"
+   vXSLT_Def.Group.SubType     = "0"
+   vXSLT_Def.Group.PSDLG_X     = 0
+   vXSLT_Def.Group.PSDLG_Y     = 64
+   vXSLT_Def.Group.SZDLG_X     = vXSLT_Def.Page.SizeX
+   vXSLT_Def.Group.SZDLG_Y     = 128
+   vXSLT_Def.Group.PPE_Type    = 3010
+
+   lCurrentVerticalPos = lTopGroupMargin
+
+   // Create Page Header Controls, if requested.  Headers are requested
+   // by either having something entered in the Title or by requesting Paging.
+
+   IF vUserSpec.UI_Spec.HeaderTitle != "" OR
+      vUserSpec.UI_Spec.HeaderPageNoFlag = "Y"
+
+      // Set the FontSize, Bold and Italic flags for the Header group.
+      lFontSize = vUserSpec.UI_Spec.HeaderFontSize * 10
+      IF vUserSpec.UI_Spec.HeaderBoldFlag = "Y"
+         nBoldFlag = TRUE
+      ELSE
+         nBoldFlag = FALSE
+      END
+      IF vUserSpec.UI_Spec.HeaderItalicFlag = "Y"
+         nItalicFlag = TRUE
+      ELSE
+         nItalicFlag = FALSE
+      END
+
+      // Set font size and character width and height.
+      IF lFontSize = 0
+         lFontSize = lDefaultFontSize
+      END
+      nCharacterHeight   = ((lFontSize * 16) / 720) + 1
+      nCharacterWidth    = ((lFontSize * 16) / 720)
+      lVerticalIncrement = nCharacterHeight * dVertScalingFactor * 16
+
+      IF vUserSpec.UI_Spec.HeaderTitle != ""
+
+         // Set up Page Header Text.
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         vXSLT_Def.Control.Text    = vUserSpec.UI_Spec.HeaderTitle
+         vXSLT_Def.Control.Tag     = "PageHeaderText"
+         vXSLT_Def.Control.PSDLG_X = lLeftGroupMargin
+         vXSLT_Def.Control.PSDLG_Y = lTopGroupMargin
+         SET CURSOR FIRST vPE.ControlDef WHERE
+                          vPE.ControlDef.Tag = "Rpt_Text"
+         INCLUDE vXSLT_Def.ControlDef FROM vPE.ControlDef
+         lTitleSize = GetStringLength( vXSLT_Def.Control.Text )
+         vXSLT_Def.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+      END
+
+      IF vUserSpec.UI_Spec.HeaderPageNoFlag = "Y"
+
+         // Set up Header Page Number.
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         vXSLT_Def.Control.Tag     = "PageNumber"
+         vXSLT_Def.Control.PSDLG_X = lPageNumberPosX
+         vXSLT_Def.Control.PSDLG_Y = lTopGroupMargin
+         INCLUDE vXSLT_Def.ControlDef FROM vPE.ControlDef
+         vXSLT_Def.Control.SZDLG_X = 160 // Just a guess right now.
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+      END
+
+      // Set height of the group and groupset.  We will determine the Y size by
+      // getting the last control (bottom in Group, though any control would do) and
+      // adding BottomGroupMargin to it.
+      lHeight = vXSLT_Def.Control.PSDLG_Y + vXSLT_Def.Control.SZDLG_Y +
+                lVerticalIncrement + (lBottomHeaderMargin * 2)
+      vXSLT_Def.Group.SZDLG_Y    = lHeight
+      vXSLT_Def.GroupSet.SZDLG_Y = lHeight + 64
+      lCurrentPosY = lHeight
+   END
+
+   // Create Page Footer GroupSet and Group with initial values.
+
+   CreateMetaEntity( vSubtask, vXSLT_Def, "GroupSet", zPOS_AFTER )
+   vXSLT_Def.GroupSet.Tag      = "PageFooter"
+   vXSLT_Def.GroupSet.Type     = "PF"
+   vXSLT_Def.GroupSet.PSDLG_X  = 0
+   vXSLT_Def.GroupSet.PSDLG_Y  = 64
+   vXSLT_Def.GroupSet.SZDLG_X  = vXSLT_Def.Page.SizeX
+   vXSLT_Def.GroupSet.SZDLG_Y  = 320
+   vXSLT_Def.GroupSet.PPE_Type = 3000
+
+   CreateMetaEntity( vSubtask, vXSLT_Def, "Group", zPOS_AFTER )
+   vXSLT_Def.Group.Tag         = "PageFooter"
+   vXSLT_Def.Group.Type        = "ga"
+   vXSLT_Def.Group.SubType     = "0"
+   vXSLT_Def.Group.PSDLG_X     = 0
+   vXSLT_Def.Group.PSDLG_Y     = 64
+   vXSLT_Def.Group.SZDLG_X     = vXSLT_Def.Page.SizeX
+   vXSLT_Def.Group.SZDLG_Y     = 128
+   vXSLT_Def.Group.PPE_Type    = 3010
+
+   // Create Page Footer Controls, if requested.  Footers are requested
+   // by either having something entered in the Title or by requesting Paging.
+
+   IF vUserSpec.UI_Spec.FooterTitle != "" OR
+      vUserSpec.UI_Spec.FooterPageNoFlag = "Y"
+
+      // Set the FontSize, Bold and Italic flags for the Footer group.
+      lFontSize = vUserSpec.UI_Spec.FooterFontSize * 10
+      IF vUserSpec.UI_Spec.FooterBoldFlag = "Y"
+         nBoldFlag = TRUE
+      ELSE
+         nBoldFlag = FALSE
+      END
+      IF vUserSpec.UI_Spec.FooterItalicFlag = "Y"
+         nItalicFlag = TRUE
+      ELSE
+         nItalicFlag = FALSE
+      END
+
+      // Set font size and character width and height.
+      IF lFontSize = 0
+         lFontSize = lDefaultFontSize
+      END
+      nCharacterHeight   = ((lFontSize * 16) / 720) + 1
+      nCharacterWidth    = ((lFontSize * 16) / 720)
+      lVerticalIncrement = nCharacterHeight * dVertScalingFactor * 16
+
+      lCurrentVerticalPos = lTopGroupMargin
+
+      IF vUserSpec.UI_Spec.FooterTitle != ""
+
+         // Set up Page Footer Text.
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         vXSLT_Def.Control.Text    = vUserSpec.UI_Spec.FooterTitle
+         vXSLT_Def.Control.Tag     = "PageFooterText"
+         vXSLT_Def.Control.PSDLG_X = lLeftGroupMargin
+         vXSLT_Def.Control.PSDLG_Y = lTopGroupMargin
+         SET CURSOR FIRST vPE.ControlDef WHERE
+                          vPE.ControlDef.Tag = "Rpt_Text"
+         INCLUDE vXSLT_Def.ControlDef FROM vPE.ControlDef
+         lTitleSize = GetStringLength( vXSLT_Def.Control.Text )
+         vXSLT_Def.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+      END
+
+      IF vUserSpec.UI_Spec.FooterPageNoFlag = "Y"
+
+         // Set up Footer Page Number.
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         vXSLT_Def.Control.Tag     = "PageNumber"
+         vXSLT_Def.Control.PSDLG_X = lPageNumberPosX
+         vXSLT_Def.Control.PSDLG_Y = lTopGroupMargin
+         INCLUDE vXSLT_Def.ControlDef FROM vPE.ControlDef
+         vXSLT_Def.Control.SZDLG_X = 160  // Just a guess right now.
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+      END
+
+      // Set height of the group and groupset.  We will determine the Y size by
+      // getting the last control (bottom in Group, though any control would do) and
+      // adding BottomGroupMargin to it.
+      lHeight = vXSLT_Def.Control.PSDLG_Y + vXSLT_Def.Control.SZDLG_Y +
+                lVerticalIncrement + (lBottomHeaderMargin * 2)
+      vXSLT_Def.Group.SZDLG_Y = lHeight
+      vXSLT_Def.GroupSet.SZDLG_Y = lHeight
+
+   END
+
+   AutodesignXSLTEntity( vSubtask, vXSLT_Def, vUserSpec, vUserSpecRoot, vPE )
+
+   // Re-adjust vertical positions of the groupsets.
+   // Dont adjust the page footer groupset (PF) should it exist
+   // and rely on the painter and printer to handle its positioning
+   lCurrentVerticalPos = 0
+   FOR EACH vXSLT_Def.GroupSet
+      IF vXSLT_Def.GroupSet.Type != "PF"
+
+         vXSLT_Def.GroupSet.PSDLG_Y = lCurrentVerticalPos
+         lCurrentVerticalPos = lCurrentVerticalPos +
+                                                vXSLT_Def.GroupSet.SZDLG_Y
+
+      END
+   END
+
+END
+
+/***************************************************************************
+   Autodesign a GroupSet for each entity, with Controls for each
+   attribute within the entity and additional Groups for Headers and Footers.
+***************************************************************************/
+
+TRANSFORMATION OPERATION
+AutodesignXSLTEntity( VIEW vSubtask,
+                      VIEW vXSLT_Def     BASED ON LOD TZXSLTSO,
+                      VIEW vUserSpec     BASED ON LOD TZADCSDO,
+                      VIEW vUserSpecRoot BASED ON LOD TZADCSDO,
+                      VIEW vPE           BASED ON LOD TZPESRCO )
+
+   // If autodesign was requested for this entity, go format the group control and
+   // subcontrols for it.
+   IF vUserSpec.UIS_Entity.AutodesignCaseType != "N"
+      CreateGrpSetForEntity( vSubtask, vXSLT_Def, vUserSpec, vUserSpecRoot, vPE )
+   END
+
+   // Then process each of the subentities in the UserSpec.
+   FOR EACH vUserSpec.UIS_ChildEntity
+      SetViewToSubobject( vUserSpec, "UIS_ChildEntity" )
+      AutodesignXSLTEntity( vSubtask, vXSLT_Def, vUserSpec, vUserSpecRoot, vPE )
+      ResetViewFromSubobject( vUserSpec )
+   END
+
+END
+
+/***************************************************************************
+   This routine should really be called CreateGrpSetForEntity.
+   It creates a GroupSet for an entity from the source object.
+   The group set will have at most 1 header, 1 detail and 1 footer
+   group created. They will appear in the report def in that order:
+   header, detail, footer.
+***************************************************************************/
+
+LOCAL OPERATION
+CreateGrpSetForEntity( VIEW vSubtask,
+                       VIEW vXSLT_Def    BASED ON LOD TZXSLTSO,
+                       VIEW vUserSpec     BASED ON LOD TZADCSDO,
+                       VIEW vUserSpecRoot BASED ON LOD TZADCSDO,
+                       VIEW vPE_Control   BASED ON LOD TZPESRCO )
+
+   VIEW       vDefaults BASED ON LOD TZADCSDO
+   STRING(32) szNameWork
+   STRING(32) szEntityName
+   INTEGER    lVerticalPos
+   INTEGER    lHorizontalPos
+   INTEGER    lLongestPrompt
+   INTEGER    lTopGroupMargin
+   INTEGER    lBottomGroupMargin
+   INTEGER    lBottomHeaderMargin
+   INTEGER    lLeftGroupMargin
+   INTEGER    lRightGroupMargin
+   INTEGER    lVerticalIncrement     // space betwen lines
+   INTEGER    lHorizontalIncrement
+   INTEGER    lAttributeCnt
+   INTEGER    lLevelIndentation
+   INTEGER    lGroupPosY
+   INTEGER    lGroupSizeY
+   INTEGER    lTitleSize
+   INTEGER    lDefaultFontSize
+   INTEGER    lPageWidth
+   INTEGER    lFontSize
+   DECIMAL    dHorzScalingFactor
+   DECIMAL    dVertScalingFactor
+   SHORT      nCharacterWidth
+   SHORT      nCharacterHeight
+   SHORT      nBoldFlag
+   SHORT      nItalicFlag
+   INTEGER    lAttributeSize
+   STRING(2)  szDomainDataType
+   STRING(2)  szAttributePrefix
+   STRING(2)  szPositioningType
+   INTEGER    nControlEndPosition
+
+   // Set up default information.
+   GET VIEW vDefaults NAMED "TZ_Defaults"
+   dHorzScalingFactor    = vDefaults.InitValues.XSLTTextIncrementX
+   lHorizontalIncrement  = 0
+   dVertScalingFactor    = vDefaults.InitValues.XSLTTextIncrementY
+   lVerticalIncrement    = 0
+   lDefaultFontSize      = vDefaults.InitValues.XSLTTextSize * 10
+   lTopGroupMargin       = 1 * 16
+   lBottomGroupMargin    = 16  // DEM - guess work
+   lBottomHeaderMargin   = 2 * 16
+   lRightGroupMargin     = 5 * 16
+   lLeftGroupMargin      = 5 * 16
+   lPageWidth            = vXSLT_Def.Page.SizeX
+   lGroupPosY            = 4 * 16
+   lLevelIndentation     = vUserSpecRoot.UI_Spec.LevelIndentation
+   lLeftGroupMargin      = lLeftGroupMargin +
+                    (lLevelIndentation * vUserSpec.LOD_Entity.IndentLvl) * 16
+
+   // Set EntityName for debug purposes, so we will know in tracing what entity we
+   // are working with.
+   szEntityName = vUserSpec.LOD_Entity.Name
+
+   // The ControlDef is currently defaulted to Text for all subcontrols.
+   SET CURSOR FIRST vPE_Control.ControlDef WHERE
+                    vPE_Control.ControlDef.Tag = "Rpt_Text"
+
+   // If the positioning type is blank, force it to horizontal.
+   szPositioningType    = vUserSpec.UIS_Entity.XSLTOrientationFlag
+   IF szPositioningType = ""
+      szPositioningType = "V"
+   END
+
+
+   // *** HEADERS  ***
+
+   // Set up GroupSet
+   CreateMetaEntity( vSubtask, vXSLT_Def, "GroupSet", zPOS_AFTER )
+   vXSLT_Def.GroupSet.Tag      = szEntityName
+   vXSLT_Def.GroupSet.Type     = "E"
+   vXSLT_Def.GroupSet.PSDLG_X  = 0
+   vXSLT_Def.GroupSet.PSDLG_Y  = 4 * 16
+   vXSLT_Def.GroupSet.SZDLG_X  = vXSLT_Def.Page.SizeX
+   vXSLT_Def.GroupSet.PPE_Type = 3000
+
+   // Set the FontSize, Bold and Italic flags for the Header group.
+   IF vUserSpec.UIS_Entity.HeaderText != "" OR szPositioningType = "H"
+      lFontSize = vUserSpec.UIS_Entity.HeaderFontSize * 10
+      IF vUserSpec.UIS_Entity.HeaderBoldFlag = "Y"
+         nBoldFlag = TRUE
+      ELSE
+         nBoldFlag = FALSE
+      END
+      IF vUserSpec.UIS_Entity.HeaderItalicFlag = "Y"
+         nItalicFlag = TRUE
+      ELSE
+         nItalicFlag = FALSE
+      END
+
+      // Set font size and character width and height.
+      IF lFontSize = 0
+         lFontSize = lDefaultFontSize
+      END
+      nCharacterWidth      = (lFontSize * 16) / 720
+      nCharacterHeight     = ((lFontSize * 16) / 720) + 1
+      lHorizontalIncrement = nCharacterWidth  * dHorzScalingFactor * 16
+      lVerticalIncrement   = nCharacterHeight * dVertScalingFactor * 16
+   END
+
+   // If the attributes for the entity are to be placed horizontally, then
+   // put the titles (prompts) in their own Header group.
+   // If there is a Header Text for the entity, use it in either case.
+   IF szPositioningType = "H"
+
+      // Add Header Group
+      CreateMetaEntity( vSubtask, vXSLT_Def, "Group", zPOS_AFTER )
+      vXSLT_Def.Group.Tag                  = "GroupHeader"
+      vXSLT_Def.Group.Type                 = "gh"
+      vXSLT_Def.Group.PSDLG_X              = 0
+      vXSLT_Def.Group.PSDLG_Y              = lGroupPosY
+      vXSLT_Def.Group.SZDLG_X              = vXSLT_Def.Page.SizeX
+      vXSLT_Def.Group.PPE_Type             = 3010
+      vXSLT_Def.Group.ForceHeaderPerEntity = vUserSpec.UIS_Entity.ForceHeaderPerEntity
+
+      lVerticalPos = lTopGroupMargin
+
+      // Add Header Text, if there is any.
+      IF vUserSpec.UIS_Entity.HeaderText != ""
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         szNameWork = "H_" + vUserSpec.LOD_Entity.Name
+         vXSLT_Def.Control.Type    = 10
+         vXSLT_Def.Control.Text    = vUserSpec.UIS_Entity.HeaderText
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vXSLT_Def.Control.PSDLG_X = lLeftGroupMargin
+         vXSLT_Def.Control.PSDLG_Y = lVerticalPos
+         lTitleSize                 = GetStringLength( vUserSpec.UIS_Entity.HeaderText )
+         vXSLT_Def.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         INCLUDE vXSLT_Def.ControlDef FROM vPE_Control.ControlDef
+
+         lVerticalPos = lVerticalPos +
+                                 (nCharacterHeight * 16) + lVerticalIncrement
+      END
+
+      // Initialize our horizontal and vertical positions.  Actually,
+      // the vertical position won't change.
+      lHorizontalPos = lLeftGroupMargin
+
+      // Start the attribute count with 1 for the generation of unique names.
+      lAttributeCnt         = 1
+
+      FOR EACH vUserSpec.M_LOD_Attribute
+
+         // For each attribute create the title. Control Type is 10 for title.
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         ConvertIntegerToString( lAttributeCnt, szAttributePrefix, 2 )
+         szNameWork                 = vUserSpec.M_ER_Attribute.Name
+              vXSLT_Def.Control.Tag     = "T_" + szAttributePrefix + "_" + szNameWork[1:26]
+         vXSLT_Def.Control.Type    = 10
+         IF vUserSpec.M_ER_Attribute.ListPaintLit != ""
+            vXSLT_Def.Control.Text = vUserSpec.M_ER_Attribute.ListPaintLit
+         ELSE
+            vXSLT_Def.Control.Text = vUserSpec.M_ER_Attribute.Name
+         END
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vXSLT_Def.Control.PSDLG_X = lHorizontalPos
+         vXSLT_Def.Control.PSDLG_Y = lVerticalPos
+         lTitleSize                 = GetMaxAttributeSize( vUserSpec, "H" )
+         lTitleSize                 = lTitleSize * nCharacterWidth
+         vXSLT_Def.Control.SZDLG_X = lTitleSize * 16
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         INCLUDE vXSLT_Def.ControlDef FROM vPE_Control.ControlDef
+
+         lHorizontalPos  = lHorizontalPos + (lTitleSize * 16) +
+                                                        lHorizontalIncrement
+         lAttributeCnt = lAttributeCnt + 1
+
+      END
+
+      // Determine the size of the Group.
+      // 1. We will determine the X size by getting the last control (right most in
+      //    Group) and adding its size and RightGroupMargin to it.
+      // 2. We will determine the Y size by getting the last control (bottom in Group,
+      //    though any control would do) and adding BottomGroupMargin to it.
+      SET CURSOR LAST vXSLT_Def.Control
+      lGroupSizeY = vXSLT_Def.Control.PSDLG_Y + vXSLT_Def.Control.SZDLG_Y +
+                    lVerticalIncrement + lBottomHeaderMargin
+      vXSLT_Def.Group.SZDLG_Y    = lGroupSizeY
+      vXSLT_Def.GroupSet.SZDLG_Y = lGroupSizeY
+
+      // update lGroupPosY
+      lGroupPosY = lGroupPosY + vXSLT_Def.Group.SZDLG_Y
+
+      // We will now adjust the Group control and all the subcontrols by a common
+      // factor so that they will all appear on the page.
+      AdjustGroupSize( vXSLT_Def, lPageWidth )
+
+   ELSE
+      // This is condition where the positioning of the group is not horizontal
+      // and there are thus no attribute headers.  We do need to check, however,
+      // if there is Header Text defined for the entity.
+      IF vUserSpec.UIS_Entity.HeaderText != ""
+         // Create the group control.
+         // Add the Header Group
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Group", zPOS_AFTER )
+         vXSLT_Def.Group.Tag      = "GroupHeader"
+         vXSLT_Def.Group.Type     = "gh"
+         vXSLT_Def.Group.PSDLG_X  = 0
+         vXSLT_Def.Group.PSDLG_Y  = lGroupPosY
+         vXSLT_Def.Group.SZDLG_X  = vXSLT_Def.Page.SizeX
+         vXSLT_Def.Group.PPE_Type = 3010
+         vXSLT_Def.Group.ForceHeaderPerEntity = vUserSpec.UIS_Entity.ForceHeaderPerEntity
+
+         lVerticalPos = lTopGroupMargin
+
+         // Create the Text control for the header value.
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         szNameWork = "H_" + vUserSpec.LOD_Entity.Name
+         vXSLT_Def.Control.Type    = 10
+         vXSLT_Def.Control.Text    = vUserSpec.UIS_Entity.HeaderText
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vXSLT_Def.Control.PSDLG_X = lLeftGroupMargin
+         vXSLT_Def.Control.PSDLG_Y = lVerticalPos
+         lTitleSize = GetStringLength( vUserSpec.UIS_Entity.HeaderText )
+         vXSLT_Def.Control.SZDLG_X = lTitleSize * nCharacterWidth * 16
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         INCLUDE vXSLT_Def.ControlDef FROM vPE_Control.ControlDef
+
+         lHorizontalIncrement = nCharacterWidth  * dHorzScalingFactor
+         lVerticalIncrement = nCharacterHeight * dVertScalingFactor
+         lVerticalPos = lVerticalPos + nCharacterHeight + lVerticalIncrement
+
+         // Determine the size of the Group.
+         // 1. We will determine the X size by getting the last control (right most in
+         //    Group) and adding its size and RightGroupMargin to it.
+         // 2. We will determine the Y size by getting the last control (bottom in Group,
+         //    though any control would do) and adding BottomGroupMargin to it.
+         SET CURSOR LAST vXSLT_Def.CtrlCtrl
+         lGroupSizeY = lVerticalPos + lBottomGroupMargin
+         vXSLT_Def.Group.SZDLG_Y = lGroupSizeY
+
+         // update lGroupPosY
+         lGroupPosY = lGroupPosY + vXSLT_Def.Group.SZDLG_Y
+
+         // We will now adjust the Group control and all the subcontrols by a common
+         // factor so that they will all appear on the page.
+         AdjustGroupSize( vXSLT_Def, lPageWidth )
+
+      END
+
+   END
+
+
+   // *** REGULAR ATTRIBUTES  ***
+
+   // Set the Bold and Italic flags for the main group.
+   IF vUserSpec.UIS_Entity.BoldFlag = "Y"
+      nBoldFlag = TRUE
+   ELSE
+      nBoldFlag = FALSE
+   END
+   IF vUserSpec.UIS_Entity.ItalicFlag = "Y"
+      nItalicFlag = TRUE
+   ELSE
+      nItalicFlag = FALSE
+   END
+
+   // Set font size and character width and height.
+   lFontSize = vUserSpec.UIS_Entity.FontSize * 10
+   IF lFontSize = 0
+      lFontSize = lDefaultFontSize
+   END
+   nCharacterWidth  = (lFontSize * 16) / 720
+   nCharacterHeight = ((lFontSize * 16) / 720) + 1
+//   lVerticalIncrement = nCharacterHeight / 2
+//   lVerticalIncrement = 0  // DEM -guess work
+   lHorizontalIncrement = nCharacterWidth  * dHorzScalingFactor * 16
+   lVerticalIncrement = nCharacterHeight * dVertScalingFactor * 16
+
+   // If the attributes for the entity are to be placed vertically, loop
+   // through all the attributes and determine the longest prompt.  We will use
+   // values in the following order.
+   //    PromptPaintLth if specified
+   //    Length of PromptPaintLit if specified
+   //    Length of Attribute Name
+   IF szPositioningType = "V"
+      lLongestPrompt = 0
+      FOR EACH vUserSpec.M_LOD_Attribute
+         IF vUserSpec.M_ER_Attribute.PromptPaintLit != ""
+            lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.PromptPaintLit )
+         ELSE
+            lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.Name )
+         END
+         IF lLongestPrompt < lTitleSize
+            lLongestPrompt = lTitleSize
+         END
+      END
+   END
+   lLongestPrompt = lLongestPrompt * nCharacterWidth
+
+
+   // Build the Group for the attribute Controls (and the titles, if
+   // positioning is vertical).
+   CreateMetaEntity( vSubtask, vXSLT_Def, "Group", zPOS_AFTER )
+   vXSLT_Def.Group.Tag      = "Detail"
+   vXSLT_Def.Group.Type     = "ga"
+   vXSLT_Def.Group.PSDLG_X  = 0
+   vXSLT_Def.Group.PSDLG_Y  = lGroupPosY
+   vXSLT_Def.Group.SZDLG_X  = vXSLT_Def.Page.SizeX
+   vXSLT_Def.Group.PPE_Type = 3010
+
+/*???
+   // Indicate the horizontal or vertical placement using Type = 10 for
+   // vertical and 20 for horizontal.
+   IF szPositioningType = "H"
+      vXSLT_Def.Control.Type = 20       // Horizontal positioning
+   ELSE
+      vXSLT_Def.Control.Type = 10       // Vertical positioning
+   END
+???*/
+
+   // Start the attribute count with 1 for the generation of unique names.
+   lAttributeCnt = 1
+
+   // Initialize positions.
+   lVerticalPos     = lTopGroupMargin
+   lHorizontalPos   = lLeftGroupMargin
+
+   // Loop through all the attributes creating both Title controls and Attribute controls.
+   // We use the same code for both horizontal position and vertical positioning, the
+   // only difference being the positioning of both types of controls.
+   FOR EACH vUserSpec.M_LOD_Attribute
+
+      // The ControlDef is always Text at this time.
+      SET CURSOR FIRST vPE_Control.ControlDef WHERE
+                       vPE_Control.ControlDef.Tag = "Rpt_Text"
+
+      // Set up szNameWork and szAttributePrefix for use in creating Tags.
+      szNameWork = vUserSpec.M_ER_Attribute.Name
+      ConvertIntegerToString( lAttributeCnt, szAttributePrefix, 2 )
+
+      // If positioning is vertical, add the title.  If positioning is horizontal,
+      // the titles were added as their own group.  Control Type is 10 for title.
+      IF szPositioningType = "V"
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         vXSLT_Def.Control.Tag = "T_" + szAttributePrefix + "_" + szNameWork[1:26]
+         vXSLT_Def.Control.Type = 10
+         IF vUserSpec.M_ER_Attribute.PromptPaintLit != ""
+            vXSLT_Def.Control.Text = vUserSpec.M_ER_Attribute.PromptPaintLit
+         ELSE
+            vXSLT_Def.Control.Text = vUserSpec.M_ER_Attribute.Name
+         END
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vXSLT_Def.Control.PSDLG_X = lHorizontalPos
+         vXSLT_Def.Control.PSDLG_Y = lVerticalPos
+         vXSLT_Def.Control.SZDLG_X = lLongestPrompt * 16
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         INCLUDE vXSLT_Def.ControlDef FROM vPE_Control.ControlDef
+
+      END
+
+      // For each attribute create the control. Control Type is 20 for control.
+      CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+      vXSLT_Def.Control.Tag  = "A_" + szAttributePrefix + "_" + szNameWork[1:26]
+      vXSLT_Def.Control.Type = 20
+
+      // Right justify decimals, shorts and longs.  Subtype = 16777216 sets the
+      // bit zCONTROL_RIGHTJUSTIFY.
+      szDomainDataType = vUserSpec.M_Domain.DataType
+      IF szDomainDataType = "M" OR
+         szDomainDataType = "N" OR
+         szDomainDataType = "L"
+            vXSLT_Def.Control.Subtype = 16777216
+      END
+
+      INCLUDE vXSLT_Def.ControlDef FROM vPE_Control.ControlDef
+
+      CreateMetaEntity( vSubtask, vXSLT_Def, "CtrlMap", zPOS_AFTER )
+      INCLUDE vXSLT_Def.CtrlMapLOD_Attribute FROM vUserSpec.M_LOD_Attribute
+      INCLUDE vXSLT_Def.CtrlMapView FROM vUserSpecRoot.UIS_ViewObjRef
+
+      // Now determine the control position and increment the positions, based on
+      // horizontal or vertical positioning.
+      IF szPositioningType = "H"
+         vXSLT_Def.Control.PSDLG_X = lHorizontalPos
+         vXSLT_Def.Control.PSDLG_Y = lVerticalPos
+         lAttributeSize             = GetMaxAttributeSize( vUserSpec, "H" )
+         lAttributeSize             = lAttributeSize * nCharacterWidth
+         vXSLT_Def.Control.SZDLG_X = lAttributeSize * 16
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         lHorizontalPos = lHorizontalPos + (lAttributeSize * 16) +
+                                                         lHorizontalIncrement
+      ELSE
+         vXSLT_Def.Control.PSDLG_X =
+               lHorizontalPos + (lLongestPrompt * 16) + lHorizontalIncrement
+         vXSLT_Def.Control.PSDLG_Y = lVerticalPos
+         lAttributeSize             = GetMaxAttributeSize( vUserSpec, "V" )
+         lAttributeSize             = lAttributeSize * nCharacterWidth * 16
+         // trim the attribute size,if needed, to fit onto page
+         nControlEndPosition = lAttributeSize + vXSLT_Def.Control.PSDLG_X
+         IF nControlEndPosition > vXSLT_Def.Page.SizeX
+            lAttributeSize = vXSLT_Def.Page.SizeX -
+                                                   vXSLT_Def.Control.PSDLG_X
+         END
+         vXSLT_Def.Control.SZDLG_X = lAttributeSize
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         // update vertical position
+         lVerticalPos = lVerticalPos + lVerticalIncrement +
+                                       vXSLT_Def.Control.SZDLG_Y
+      END
+
+      // Set Bold and Italic flags and Fontsize.
+      TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                            FALSE, FALSE, 0, lFontSize,
+                            0, 0, 0, 0, 0, 0, 0 )
+
+      lAttributeCnt = lAttributeCnt + 1
+
+   END
+
+   IF szPositioningType = "H"
+      // update vertical position
+      lVerticalPos = lVerticalPos + lVerticalIncrement +
+                                    vXSLT_Def.Control.SZDLG_Y
+   END
+
+   // Determine the size of the Group.
+   // 1. We will determine the X size by getting the largest end of any control
+   //    in the Group (ControlSize + ControlPosX) and adding RightGroupMargin to it.
+   // 2. We will determine the Y size by getting the last control (bottom in Group)
+   //    and adding BottomGroupMargin to it.
+
+   // If positioning is vertical add a bit of space to open up between
+   // instances.
+   IF szPositioningType = "H"
+      lGroupSizeY = lVerticalPos + lVerticalIncrement + lBottomGroupMargin
+   ELSE
+      lGroupSizeY = lVerticalPos + lVerticalIncrement + lBottomGroupMargin * 2
+   END
+
+   vXSLT_Def.Group.SZDLG_Y = lGroupSizeY
+
+   // update lGroupPosY
+   lGroupPosY = lGroupPosY + vXSLT_Def.Group.SZDLG_Y
+
+   // We will now adjust the Group control and all the subcontrols by a common
+   // factor so that they will all appear on the page.
+   AdjustGroupSize( vXSLT_Def, lPageWidth )
+
+
+   // *** FOOTERS  ***
+
+   // If a Footer is requested, loop through all the Footer attributes creating
+   // Attribute controls.  The Footer will be created if there are Footer
+   // attributes or a Footer Text.
+   IF vUserSpec.UIS_Entity.FooterText != "" OR
+      vUserSpec.L_LOD_Attribute EXISTS
+
+      // Set the FontSize, Bold and Italic flags for the Footer group.
+      lFontSize = vUserSpec.UIS_Entity.FooterFontSize * 10
+      IF vUserSpec.UIS_Entity.FooterBoldFlag = "Y"
+         nBoldFlag = TRUE
+      ELSE
+         nBoldFlag = FALSE
+      END
+      IF vUserSpec.UIS_Entity.FooterItalicFlag = "Y"
+         nItalicFlag = TRUE
+      ELSE
+         nItalicFlag = FALSE
+      END
+
+      // Set font size and character width and height.
+      IF lFontSize = 0
+         lFontSize = lDefaultFontSize
+      END
+      nCharacterWidth  = (lFontSize * 16) / 720
+      nCharacterHeight = ((lFontSize * 16) / 720) + 1
+
+      // Set up horizontal position
+      lHorizontalPos = lLeftGroupMargin
+
+      // Add the Footer Group
+      CreateMetaEntity( vSubtask, vXSLT_Def, "Group", zPOS_AFTER )
+      vXSLT_Def.Group.Tag      = "GroupFooter"
+      vXSLT_Def.Group.Type     = "gf"
+      vXSLT_Def.Group.PSDLG_X  = 0
+      vXSLT_Def.Group.PSDLG_Y  = lGroupPosY
+      vXSLT_Def.Group.SZDLG_X  = vXSLT_Def.Page.SizeX
+      vXSLT_Def.Group.PPE_Type = 3010
+
+      lVerticalPos = lTopGroupMargin * 3
+
+      // Add the Footer Text if it exists.
+      IF vUserSpec.UIS_Entity.FooterText != ""
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         szNameWork = "F_" + vUserSpec.LOD_Entity.Name
+         vXSLT_Def.Control.Type    = 10
+         vXSLT_Def.Control.Text    = vUserSpec.UIS_Entity.FooterText
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         vXSLT_Def.Control.PSDLG_X = lHorizontalPos
+         vXSLT_Def.Control.PSDLG_Y = lVerticalPos
+         lTitleSize = GetStringLength( vUserSpec.UIS_Entity.FooterText )
+         lTitleSize = nCharacterWidth * lTitleSize
+         vXSLT_Def.Control.SZDLG_X = lTitleSize * 16
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         lHorizontalPos = lHorizontalPos + lTitleSize + lHorizontalIncrement
+
+         INCLUDE vXSLT_Def.ControlDef FROM vPE_Control.ControlDef
+      END
+      FOR EACH vUserSpec.L_LOD_Attribute
+
+         // Set up szNameWork and szAttributePrefix for use in creating Tags.
+         szNameWork = vUserSpec.M_ER_Attribute.Name
+         ConvertIntegerToString( lAttributeCnt, szAttributePrefix, 2 )
+
+         // For each attribute create the control. Control Type is 20 for control.
+         CreateMetaEntity( vSubtask, vXSLT_Def, "Control", zPOS_AFTER )
+         vXSLT_Def.Control.Tag  = "A_" + szAttributePrefix + "_" + szNameWork[1:26]
+         vXSLT_Def.Control.Type = 20
+
+         // Right justify decimals, shorts and longs.  Subtype = 16777216 sets the
+         // bit zCONTROL_RIGHTJUSTIFY.
+         szDomainDataType = vUserSpec.L_Domain.DataType
+         IF szDomainDataType = "M" OR
+            szDomainDataType = "N" OR
+            szDomainDataType = "L"
+
+               vXSLT_Def.Control.Subtype = 16777216
+
+         END
+
+         INCLUDE vXSLT_Def.ControlDef FROM vPE_Control.ControlDef
+
+         CreateMetaEntity( vSubtask, vXSLT_Def, "CtrlMap", zPOS_AFTER )
+         INCLUDE vXSLT_Def.CtrlMapLOD_Attribute FROM vUserSpec.L_LOD_Attribute
+         INCLUDE vXSLT_Def.CtrlMapView FROM vUserSpecRoot.UIS_ViewObjRef
+
+         // Set Bold and Italic flags and Fontsize.
+         TX_SetTextRptCtrlBOI( vXSLT_Def, FALSE, nBoldFlag, nItalicFlag,
+                               FALSE, FALSE, 0, lFontSize,
+                               0, 0, 0, 0, 0, 0, 0 )
+
+         // The control position is always horizontal for Footer attributes.
+         // Right now it doesn't look possible to position them correctly, so we
+         // will just use the same algorithm as for regular horizontal attributes.
+         vXSLT_Def.Control.PSDLG_X = lHorizontalPos
+         vXSLT_Def.Control.PSDLG_Y = lVerticalPos
+         lAttributeSize             = GetMaxAttributeSize( vUserSpec, "H" )
+         lAttributeSize = lAttributeSize * nCharacterWidth * 16
+         vXSLT_Def.Control.SZDLG_X = lAttributeSize
+         vXSLT_Def.Control.SZDLG_Y = nCharacterHeight * 16
+
+         lHorizontalPos = lHorizontalPos + lAttributeSize + lHorizontalIncrement
+
+         lAttributeCnt = lAttributeCnt + 1
+      END
+
+      // update lVerticalPos to point to bottom of controls
+      lVerticalPos = lVerticalPos + vXSLT_Def.Control.SZDLG_Y
+
+      // Determine the size of the Group.
+      // 1. We will determine the X size by getting the last control (right most in
+      //    Group) and adding its size and RightGroupMargin to it.
+      // 2. We will determine the Y size by getting the last control (bottom in Group,
+      //    though any control would do) and adding BottomGroupMargin to it.
+      SET CURSOR LAST vXSLT_Def.Control
+      lGroupSizeY = lVerticalPos + lVerticalIncrement + lBottomGroupMargin
+      vXSLT_Def.Group.SZDLG_Y = lGroupSizeY
+
+      // update lGroupPosY
+      lGroupPosY = lGroupPosY + vXSLT_Def.Group.SZDLG_Y
+
+      // We will now adjust the Group control and all the subcontrols by a common
+      // factor so that they will all appear on the page.
+      AdjustGroupSize( vXSLT_Def, lPageWidth )
+
+   END
+
+   // Compute and set GroupSet Y size
+   lGroupSizeY = 0
+   FOR EACH vXSLT_Def.Group
+      lGroupSizeY = lGroupSizeY + vXSLT_Def.Group.SZDLG_Y
+   END
+   vXSLT_Def.GroupSet.SZDLG_Y = lGroupSizeY
+
+   // We will now adjust the Group control and all the subcontrols by a common
+   // factor so that they will all appear on the page.
+   AdjustGroupSize( vXSLT_Def, lPageWidth )
+
+END
+
+
+/***************************************************************************
+   Get the maximum field size for an Attribute using the attribute's prompt,
+   type and string length.
+***************************************************************************/
+LOCAL OPERATION
+GetMaxAttributeSize( VIEW      vUserSpec BASED ON LOD TZADCSDO,
+                     STRING(1) szPositionType )
+
+   INTEGER lTitleSize
+   INTEGER lAttributeSize
+   INTEGER lReturnSize
+   INTEGER lRC
+   INTEGER lCharWidth
+
+   // Initially, we will default character width to a constant.
+   lCharWidth = 1
+
+   // If the positioning is horizontal, we will consider the Prompt length in
+   // determining the attribute size.  If the positioning is vertical, we will
+   // not consider the prompt length.
+   IF szPositionType = "H"
+      IF vUserSpec.M_ER_Attribute.ListPaintLth != 0
+         // If a list length was specified in data model, use that length and forget
+         // about the rest.
+         lRC = vUserSpec.M_ER_Attribute.ListPaintLth
+         RETURN lRC
+      ELSE
+         IF vUserSpec.M_ER_Attribute.ListPaintLit = ""
+            lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.Name )
+         ELSE
+            lTitleSize = GetStringLength( vUserSpec.M_ER_Attribute.ListPaintLit )
+         END
+      END
+   ELSE
+      IF vUserSpec.M_ER_Attribute.PromptPaintLth  != 0
+         // If a list length was specified in data model, use that length and forget
+         // about the rest.
+         lRC = vUserSpec.M_ER_Attribute.PromptPaintLth
+         RETURN lRC
+      ELSE
+         lTitleSize = 0
+      END
+   END
+
+   IF vUserSpec.M_Domain.DataType = "M"
+      lAttributeSize = 10      // Use size of 10 for default decimal
+   ELSE
+      IF vUserSpec.M_Domain.DataType = "S"
+         IF vUserSpec.M_ER_Attribute.Lth = 0
+            lAttributeSize = vUserSpec.M_Domain.MaxStringLth
+         ELSE
+            lAttributeSize = vUserSpec.M_ER_Attribute.Lth
+         END
+      ELSE
+         IF vUserSpec.M_Domain.DataType = "T"
+            lAttributeSize = 10   // Use size of 10 for date
+         ELSE
+            lAttributeSize = 6    // Use size of 6 for default Integer
+         END
+      END
+   END
+
+   IF lAttributeSize > lTitleSize
+      lReturnSize = lAttributeSize
+   ELSE
+      lReturnSize = lTitleSize
+   END
+
+   // The max size returned will be 20 when the length is computed.  Note in
+   // the code above that if the PaintLth is used, we don't set a max.
+   IF lReturnSize > 20
+      lReturnSize = 20
+   END
+
+   // Finally alter the ReturnSize, which is currently in number of characters,
+   // into real report character size
+//   lReturnSize = lReturnSize * lCharWidth
+
+   RETURN lReturnSize
+
+END
+
+
+LOCAL OPERATION
+AdjustGroupSize( VIEW    vXSLT_Def BASED ON LOD TZXSLTSO,
+                 INTEGER lPageWidth )
+
+   VIEW    vTempXSLT
+   INTEGER lGroupMaxPosX
+   INTEGER lLeftMargin
+   INTEGER lCtrlPos
+   INTEGER lCtrlSize
+   INTEGER lRC
+   INTEGER nSkipFirstFlag
+   DECIMAL a1
+   DECIMAL b1
+   DECIMAL b2
+   DECIMAL dFactor
+
+   // The purpose of this routine is adjust the X positions and sizes of
+   // the controls in a group so that they will fit onto the page.  It is
+   // clearly possible that the user will specify too many attributes for
+   // an entity to be able to be displayed horizontally.  In this case,
+   // CreateGroup(Set)ForEntity will continue to add controls as if the
+   // there is no limit with regards to page width.  Then, it will call
+   // this routine.  Instead of simply chopping off the controls that
+   // were specified to the right of the page end, we will compress
+   // all of the X positions and sizes so that all of the controls can
+   // be seen, even if this makes them too small to be useful. We will
+   // let the user decide after the autodesign whether to adjust the
+   // sizes and positions that we have generated or to use vertical
+   // spacing instead.
+
+
+   // If we have a header group with header text on one line
+   // and attribute headers on another, don't adjust the first
+   // control which is the header text
+   nSkipFirstFlag = 0   // 0  false
+   IF vXSLT_Def.Group.Type = "gh"
+      SetCursorFirstEntity( vXSLT_Def, "Control", "" )
+      CreateViewFromViewForTask( vTempXSLT, vXSLT_Def, 0 )
+      lRC = SetCursorNextEntity( vTempXSLT, "Control", "" )
+      IF lRC >= zCURSOR_SET
+         IF vXSLT_Def.Control.PSDLG_Y < vTempXSLT.Control.PSDLG_Y
+            nSkipFirstFlag = 1  // 1 = true
+         END
+      END
+      DropView( vTempXSLT )
+      SetCursorLastEntity( vXSLT_Def, "Control", "" )
+   END
+
+
+   // Only adjust if Group size plus position is greater that the page width.
+   lGroupMaxPosX = vXSLT_Def.Control.PSDLG_X + vXSLT_Def.Control.SZDLG_X
+TraceLineS("", "" )
+TraceLineI( "--->lPageWidth  : ", lPageWidth )
+TraceLineI( "--->lGroupMaxPosX : ", lGroupMaxPosX )
+   IF lGroupMaxPosX > lPageWidth
+
+      // We won't adjust the position of the first control, only the size.
+      SetCursorFirstEntity( vXSLT_Def, "Control", "" )
+      IF nSkipFirstFlag > 0  // 0 = false
+         SetCursorNextEntity( vXSLT_Def, "Control", "" )
+      END
+      lLeftMargin = vXSLT_Def.Control.PSDLG_X
+TraceLineI( "--->lLeftMargin : ", lLeftMargin )
+
+      // set the scaling factor
+      a1 = lLeftMargin
+      b1 = lGroupMaxPosX
+      b2 = lPageWidth
+      dFactor = (b2 - a1) / (b1 - a1)
+
+      // adjust the size and hold onto curr position and curr size
+      // The conversion from Decimal to Integer will truncate, so
+      // we add 0.5 to force rounding off
+      lCtrlSize = (vXSLT_Def.Control.SZDLG_X * dFactor) + 0.5
+      vXSLT_Def.Control.SZDLG_X = lCtrlSize
+      lCtrlPos = vXSLT_Def.Control.PSDLG_X
+TraceLineS("", "" )
+TraceLineI( "--->lCtrlPos : ", lCtrlPos )
+TraceLineI( "--->lCtrlSize : ", lCtrlSize )
+
+      // adjust both pos and size for remaining controls
+      lRC = SetCursorNextEntity( vXSLT_Def, "Control", "" )
+      LOOP WHILE lRC >= zCURSOR_SET
+
+         // set the new pos
+         vXSLT_Def.Control.PSDLG_X = lCtrlPos + lCtrlSize
+
+         // adjust the size and hold onto curr position and curr size
+         // The conversion from Decimal to Integer will truncate so,
+         // we add 0.5 to force rounding off
+         lCtrlSize = (vXSLT_Def.Control.SZDLG_X * dFactor) + 0.5
+         vXSLT_Def.Control.SZDLG_X = lCtrlSize
+         lCtrlPos = vXSLT_Def.Control.PSDLG_X
+TraceLineS("", "" )
+TraceLineI( "--->lCtrlPos : ", lCtrlPos )
+TraceLineI( "--->lCtrlSize : ", lCtrlSize )
+
+         // advance the loop
+         lRC = SetCursorNextEntity( vXSLT_Def, "Control", "" )
+      END
+
+   END
+
+END
+
+
+TRANSFORMATION OPERATION
+XSLTCopy( VIEW NewXSLT  BASED ON LOD TZXSLTSO,
+            VIEW OrigXSLT BASED ON LOD TZXSLTSO,
+            VIEW SourceLPLR BASED ON LOD TZCMLPLO,
+            VIEW vSubtask )
+
+   VIEW NewXSLTRecursive   BASED ON LOD TZXSLTSO
+   VIEW OrigXSLTRecursive  BASED ON LOD TZXSLTSO
+   VIEW NewDialog            BASED ON LOD TZWDLGSO
+   VIEW vPE                  BASED ON LOD TZPESRCO
+   VIEW PE_List              BASED ON LOD TZCMLPLO
+   STRING (100)   szMG_ErrorMessage
+   STRING ( 33)   szXSLTName
+   SHORT          nRC
+
+   // Create the new report empty and add the root.
+   ActivateEmptyMetaOI( vSubtask, NewXSLT, zSOURCE_XSLT_META, zSINGLE )
+   NAME VIEW NewXSLT "NewXSLT"
+   CreateMetaEntity( vSubtask, NewXSLT, "XSLT", zPOS_AFTER )
+   SetMatchingAttributesByName( NewXSLT,  "XSLT",
+                                OrigXSLT, "XSLT", zSET_NULL )
+
+   //  Get View to Presentation Environment.
+   IF GetViewByName( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK ) < 0
+      RetrieveViewForMetaList( vSubtask, PE_List, zREFER_PENV_META )
+      szXSLTName = OrigXSLT.XSLT.Tag
+      szMG_ErrorMessage = "XSLT (" + szXSLTName + ") aborted."
+      nRC = LoadZeidonPPE( vSubtask, vPE, zREFER_PENV_META, PE_List,
+                           "Configuration Management", szMG_ErrorMessage )
+      DropView( PE_List )
+      IF nRC < 0
+         RETURN -16
+      END
+
+      SetNameForView( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK )
+   END
+
+   // Copy each Registered View Name that is used by the XSLT.
+   FOR EACH OrigXSLT.ViewObjRef
+
+      // The following routine not only positions on the VOR but also
+      // includes it, if it doesn't already exist.
+      // We use NewDialog instead of NewXSLT as first parameter in order to
+      // identify the LOD where the operation exists.
+      NewDialog = NewXSLT
+      PositionOnVOR( NewDialog,  OrigXSLT,
+                     SourceLPLR, OrigXSLT.ViewObjRef.Name, vSubtask )
+   END
+
+   // Build the Page substructure.
+   FOR EACH OrigXSLT.Page
+
+      CreateMetaEntity( vSubtask, NewXSLT, "Page", zPOS_AFTER )
+      SetMatchingAttributesByName( NewXSLT,  "Page",
+                                   OrigXSLT, "Page", zSET_NULL )
+      NewXSLT.Page.Tag = NewXSLT.XSLT.Tag
+
+      FOR EACH OrigXSLT.GroupSet
+
+         CreateMetaEntity( vSubtask, NewXSLT, "GroupSet", zPOS_AFTER )
+         SetMatchingAttributesByName( NewXSLT,  "GroupSet",
+                                      OrigXSLT, "GroupSet", zSET_NULL )
+
+         FOR EACH OrigXSLT.Group
+
+            CreateMetaEntity( vSubtask, NewXSLT, "Group", zPOS_AFTER )
+            SetMatchingAttributesByName( NewXSLT,  "Group",
+                                         OrigXSLT, "Group", zSET_NULL )
+            FOR EACH OrigXSLT.Control
+               CreateViewFromViewForTask( NewXSLTRecursive, NewXSLT, 0 )
+               CreateViewFromViewForTask( OrigXSLTRecursive, OrigXSLT, 0 )
+               CopyControl( NewXSLT,
+                            NewXSLTRecursive,
+                            OrigXSLT,
+                            OrigXSLTRecursive,
+                            vPE,
+                            SourceLPLR,
+                            vSubtask )
+               DropView( NewXSLTRecursive )
+               DropView( OrigXSLTRecursive )
+            END
+
+         END
+      END
+   END
+   RETURN 0
+END
+
+//************************************************************************************************//
+//
+//    OPERATION: CopyControl
+//
+LOCAL OPERATION
+CopyControl( VIEW NewR   BASED ON LOD TZWDLGSO,
+             VIEW NewRC  BASED ON LOD TZWDLGSO,
+             VIEW OrigR  BASED ON LOD TZWDLGSO,
+             VIEW OrigRC BASED ON LOD TZWDLGSO,
+             VIEW vPE    BASED ON LOD TZPESRCO,
+             VIEW SourceLPLR,
+             VIEW vSubtask )
+
+   SHORT        nRC
+   STRING (128) szMsg
+
+   // Note that the views that are passed are considered as TZWDLGSO objects.
+   // This is so that we can use the CloneCtrlMap operation for the TZWDLGSO LOD. Since
+   // the subobject is the same, there is no problem in assuming the object instance
+   // passed is of that LOD type.
+
+   CreateMetaEntity( vSubtask, NewRC, "Control", zPOS_AFTER )
+   SetMatchingAttributesByName( NewRC,  "Control",
+                                OrigRC, "Control", zSET_NULL )
+
+   SET CURSOR FIRST vPE.ControlDef WHERE
+                    vPE.ControlDef.Tag = OrigRC.ControlDef.Tag
+   IF RESULT >= 0
+      IncludeSubobjectFromSubobject( NewRC, "ControlDef",
+                                     vPE,   "ControlDef", zPOS_AFTER )
+
+      // To create the CtrlMap substructure, call the reusable routine in the
+      // TZWDLGSO LOD.
+      FOR EACH OrigRC.CtrlMap
+         nRC = CloneCtrlMap( NewR, NewRC, OrigR, OrigRC, SourceLPLR, vSubtask )
+         IF nRC = -1
+            RETURN -1
+         END
+      END
+
+   ELSE
+      szMsg = "ControlDef not found for Control: " + NewRC.Control.Tag
+      MessageSend( vSubtask, "WD00501", "XSLT Migrate",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+
+   END
+
+   FOR EACH OrigRC.CtrlCtrl
+      SetViewToSubobject( NewRC, "CtrlCtrl" )
+      SetViewToSubobject( OrigRC, "CtrlCtrl" )
+      CopyControl( NewR,
+                   NewRC,
+                   OrigR,
+                   OrigRC,
+                   vPE,
+                   SourceLPLR, vSubtask )
+      ResetViewFromSubobject( OrigRC )
+      ResetViewFromSubobject( NewRC )
+   END
+END
+
+
+TRANSFORMATION OPERATION
+XSLT_Migrate( VIEW          NewXSLT  BASED ON LOD TZXSLTSO,
+              STRING ( 32 ) XSLT_Name,
+              VIEW          SourceLPLR BASED ON LOD TZCMLPLO,
+              VIEW          vSubtask )
+
+   VIEW SourceLPLR2 BASED ON LOD TZCMLPLO
+   VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+   VIEW OrigXSLT  BASED ON LOD TZXSLTSO
+
+   STRING ( 513 ) SourceFileName           // zMAX_FILESPEC_LTH + 1
+   STRING ( 32 )  SourceName
+   STRING ( 513 ) SourceFileName1          // zMAX_FILESPEC_LTH + 1
+   STRING ( 513 ) SourceFileName2          // zMAX_FILESPEC_LTH + 1
+   SHORT          nRC
+
+   // Activate existing source meta OrigXSLT
+   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + XSLT_Name + ".PRP"
+
+   ActivateOI_FromFile( OrigXSLT, "TZXSLTSO", SourceLPLR, SourceFileName, 8192 )
+   // 8192 is zIGNORE_ATTRIB_ERRORS
+   NAME VIEW OrigXSLT "OrigXSLT"
+
+   CreateViewFromViewForTask( SourceLPLR2, SourceLPLR, 0 )
+
+   // Call operation that will actually do the work of creating the report.
+   nRC = XSLTCopy( NewXSLT, OrigXSLT, SourceLPLR2, vSubtask )
+   IF nRC < 0
+      RETURN nRC
+   END
+
+   // If this XSLT Definition is for a Siron XSLT, copy the related files
+   // which have extensions .REP and .XSQ.
+   IF NewXSLT.XSLT.SironName != ""
+      RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get a view for directory info.
+      ResetViewFromSubobject( CurrentLPLR ) // Get visibility to root.
+      SourceName = NewXSLT.XSLT.SironName
+
+      // Copy REP file.
+      SourceFileName1 = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName + ".REP"
+      SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName + ".REP"
+      SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE )
+      ChangeRepFileContents( OrigXSLT, CurrentLPLR, CurrentLPLR.LPLR.PgmSrcDir, CurrentLPLR.LPLR.ExecDir,
+                             SourceName, "REP", 0, vSubtask )
+
+      // Copy XSQ file.
+      SourceFileName1 = SourceLPLR.LPLR.ExecDir + "\" + SourceName + ".XSQ"
+      SourceFileName2 = CurrentLPLR.LPLR.ExecDir + "\" + SourceName + ".XSQ"
+      SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE )
+      ChangeRepFileContents( OrigXSLT, CurrentLPLR, CurrentLPLR.LPLR.PgmSrcDir, CurrentLPLR.LPLR.ExecDir,
+                             SourceName, "XSQ", 0, vSubtask )
+   END
+
+   // Clean up views.
+   DropMetaOI( vSubtask, OrigXSLT )
+   DropView( SourceLPLR2 )
+
+   // Finally, commit the XSLT Def.
+   CommitMetaOI( vSubtask, NewXSLT, zSOURCE_XSLT_META )
+   RETURN 0
+END
+
+TRANSFORMATION OPERATION
+XSLT_RelinkDelete( VIEW vXSLT BASED ON LOD TZXSLTSO, VIEW vSubtask )
+
+   VIEW         vLastLOD     BASED ON LOD TZZOLODO
+   VIEW         vVOR         BASED ON LOD TZWDVORO
+   VIEW         vLOD_LPLR    BASED ON LOD TZCMLPLO
+   VIEW         vRecursive   BASED ON LOD TZXSLTSO
+   VIEW         vDialog      BASED ON LOD TZWDLGSO
+   INTEGER      lLastViewZKey
+   STRING (128) szMsg
+   SHORT        nRC
+
+   RetrieveViewForMetaList( vSubtask, vLOD_LPLR, zREFER_LOD_META )
+   lLastViewZKey = 0
+// NAME VIEW vXSLT "vXSLT"
+   SetNameForView( vXSLT, "vXSLT", vSubtask, zLEVEL_TASK )
+
+   FOR EACH vXSLT.ViewObjRef
+      IF lLastViewZKey != 0
+         DropMetaOI( vSubtask, vLastLOD )
+         lLastViewZKey = 0
+      END
+
+      nRC = ActivateMetaOI_ByZKey( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                   zSINGLE, vXSLT.ViewObjRef.ZKey, 0 )
+      IF nRC >= 0
+         nRC = ActivateMetaOI_ByName( vSubtask, vLastLOD, 0, zREFER_LOD_META,
+                                      zSINGLE, vVOR.LOD.Name, 0 )
+         IF nRC >= 0
+            lLastViewZKey = vXSLT.ViewObjRef.ZKey
+            NAME VIEW vLastLOD "vLastLOD"
+            // Relink ViewObjRef & LOD
+            //RelinkInstanceToInstance( vXSLT, "ViewObjRef", vVOR, "ViewObjRef" )
+            //RelinkInstanceToInstance( vXSLT, "LOD", vLastLOD, "LOD" )
+
+
+            // Since RelinkInstanceToInstance does not reset the include flags,
+            // use RelinkAllSubobjectsForOI for relinking entities that need those include
+            // flags reset.  When a version of RelinkInstanceToInstance is created
+            // that resets those flags, the following code can be removed.
+            RelinkAllSubobjectsForOI( vXSLT, "ViewObjRef", vVOR, "ViewObjRef" )
+            RelinkAllSubobjectsForOI( vXSLT, "CtrlMapLOD_Attribute", vLastLOD, "LOD_Attribute" )
+
+         ELSE
+            szMsg = "Deleting XSLT View: " + vXSLT.ViewObjRef.Name +
+                    "|Missing LOD: " + vXSLT.LOD.Name
+            MessageSend( vSubtask, "WD00501", "XSLT Relink",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            EXCLUDE vXSLT.ViewObjRef NONE
+         END
+         DropMetaOI( vSubtask, vVOR )
+      ELSE
+         nRC = ActivateMetaOI_ByName( vSubtask, vVOR, 0, zREFER_VOR_META,
+                                      zSINGLE, vXSLT.ViewObjRef.Name , 0 )
+         IF nRC >= 0
+            EXCLUDE vXSLT.ViewObjRef NONE
+            INCLUDE vXSLT.ViewObjRef FROM vVOR.ViewObjRef
+            DropMetaOI( vSubtask, vVOR )
+         ELSE
+            szMsg = "Deleting XSLT View: " + vXSLT.ViewObjRef.Name +
+                    "|Missing Registered View."
+            MessageSend( vSubtask, "WD00502", "XSLT Relink",
+                         szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            EXCLUDE vXSLT.ViewObjRef NONE
+         END
+      END
+   END
+
+   FOR EACH vXSLT.Group WITHIN vXSLT.XSLT
+      CreateViewFromViewForTask( vRecursive, vXSLT, 0 )
+      NAME VIEW vRecursive "vRecursive"
+      FOR EACH vRecursive.Control
+         // Use Dialog view in ControlRelinkDelete call so that operation is
+         // found under the TZWDLGSO object.
+         vDialog = vXSLT
+         ControlRelinkDelete( vDialog, vRecursive, vLastLOD,
+                              lLastViewZKey, vLOD_LPLR, vSubtask )
+      END
+      DropView( vRecursive )
+   END
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ChangeRepFileContents
+**
+**    This function changes the contents of Siron XSLT files *.xsq and *.rep
+**    While migration of reports we have to change the LPLR-Name and the Pathnames
+**    For function SAVE AS we have to change the XSLT-Name
+**
+**    Parameters:
+**       szPathName1     - Path of *.REP - files
+**       szPathName2     - Path of *.XSQ - files
+**       szFileName      - actual filename
+**       szFileExtension - extension of the actual file (XSQ or REP)
+**       sFunction       - = zCHANGE_REP_MIGRATE_EXTERNAL
+**                         = zCHANGE_REP_SAVEAS
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+ChangeRepFileContents( VIEW ViewToInstance BASED ON LOD TZXSLTSO,
+                       VIEW CurrentLPLR BASED ON LOD TZCMLPLO,
+                       STRING ( 513 ) szPathName1,
+                       STRING ( 513 ) szPathName2,
+                       STRING ( 129 ) szFileName,
+                       STRING ( 4 )   szFileExtension,
+                       SHORT nFunction,
+                       VIEW  vSubtask )
+
+   INTEGER lFHandle
+   INTEGER lFHandleTmp
+   INTEGER lRC
+   INTEGER nLineNumber
+
+   SHORT   nRC
+   SHORT   nLen
+
+   SHORT   nPosStart
+   SHORT   nPosBefore
+   SHORT   nPosBeyond
+
+   STRING ( 2049 )  szMsg           // 2*zLONG_MESSAGE_LTH+1; szMsg includes szFullName
+   STRING ( 10000 ) szLine
+   STRING ( 2049 )  szNewPath       // 4*zMAX_FILESPEC_LTH+1
+   STRING ( 1025 )  szTmpFile       // 2*zMAX_FILESPEC_LTH+1
+   STRING ( 1025 )  szFullName      // 2*zMAX_FILESPEC_LTH+1
+   STRING ( 1025 )  szFullNameXSQ   // 2*zMAX_FILESPEC_LTH+1
+
+   STRING ( 10 )    szOldName
+
+   // Open the file which should be changed
+   IF szFileExtension = "REP"
+      szFullName    = szPathName1 + "\" + szFileName + "." + szFileExtension
+      szFullNameXSQ = szPathName2 + "\" + szFileName
+   ELSE
+      szFullName = szPathName2 + "\" + szFileName + "." + szFileExtension
+   END
+   lFHandle = SysOpenFile( vSubtask, szFullName, COREFILE_READ )
+   IF lFHandle = -1
+      szMsg = "Cannot open File " + szFullName
+      MessageSend( vSubtask, "WD00501", "ChangeRepFileContents",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   // We need a new file to save the changes
+   szTmpFile = szPathName1 + "\" + "Temp" + "." + szFileExtension
+   lFHandleTmp = SysOpenFile( vSubtask, szTmpFile, COREFILE_WRITE )
+   IF lFHandleTmp = -1
+      szMsg = "Cannot open temp. File " + szTmpFile
+      MessageSend( vSubtask, "WD00502", "ChangeRepFileContents",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   nLineNumber = 0
+   lRC = zSysReadLine( vSubtask, szLine, lFHandle, 10000 )
+   LOOP WHILE lRC = 1
+
+      // Count the lines
+      nLineNumber = nLineNumber + 1
+
+      IF ( szFileExtension = "XSQ" )
+         // We change the LPLR-Name in XSQ-File
+         // We have to find the line LPLR = LPLR-Name
+         nLen = zstrlen( "LPLR" )
+         nRC  = zstrncmpi( "LPLR", szLine, nLen )
+         IF nRC = 0
+            // We found line with definition of LPLR-Name
+            // Copy the new name in that line and stop looping
+            szLine = "LPLR = " + CurrentLPLR.LPLR.Name
+         END
+      END
+
+      IF ( szFileExtension = "REP" )
+         // We change pathnames and LPLR-name in REP-File
+         CASE nLineNumber
+
+         OF 1:
+            // The first line contains the pathnames
+            // Now we change the pathnames in that line.
+            // a. for *.REP-File
+            nPosStart  = zSearchSubString( szLine, "REP", "f", 0 )
+            nPosBefore = zSearchSubString( szLine, ","  , "b", nPosStart )
+            nPosBeyond = zSearchSubString( szLine, ","  , "f", nPosStart )
+
+            /* Replace the pathname */
+            szNewPath = szFullName
+            zSearchAndReplace( szNewPath, 2049, "\", "\\")
+            nRC = zReplaceSubString( szLine, nPosBefore + 1, nPosBeyond, szNewPath )
+            IF nRC = -1
+               szMsg = "Not enough memory to change the path in file " + szFullName
+               MessageSend( vSubtask, "WD00503", "ChangeRepFileContents",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               RETURN -1
+            END
+
+            // b. for *.XSQ-File
+            // The filename needs extension "XSQ"
+            szNewPath = szFullNameXSQ + "." + "XSQ"
+            zSearchAndReplace (szNewPath, 2049, "\", "\\")
+
+            nPosStart  = zSearchSubString( szLine, "XSQ", "f", 0 )
+            nPosBefore = zSearchSubString( szLine, ","  , "b", nPosStart )
+            nPosBeyond = zSearchSubString( szLine, ","  , "f", nPosStart )
+
+            /* Replace the pathname */
+            nRC = zReplaceSubString( szLine, nPosBefore + 1, nPosBeyond, szNewPath )
+            IF nRC = -1
+               szMsg = "Not enough memory to change the path in file " + szFullName
+               MessageSend( vSubtask, "WD00504", "ChangeRepFileContents",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               RETURN -1
+            END
+            // If we do the changes for SAVE AS we have to change the XSLTname
+            // First we need the old name to find it for changes at other positions
+            // in the report
+            IF nFunction = zCHANGE_REP_SAVEAS
+               // The first entry between the parentheses is the XSLTname
+               // We have to change it here
+               nPosStart = zSearchSubString( szLine, "(,", "f", 0 )
+               nPosStart = nPosStart + 2
+               nPosBeyond = zSearchSubString( szLine, "," , "f", nPosStart )
+               nLen = nPosBeyond - nPosStart
+               lRC = ZeidonStringCopy(szOldName, 1, 0, szLine, nPosStart + 1, nLen, 10 )
+               IF lRC < 0
+                  RETURN -1
+               END
+               nRC = zReplaceSubString( szLine, nPosStart, nPosBeyond, szFileName )
+               IF nRC = -1
+                  szMsg = "Not enough memory to change the reportname in file " + szFullName
+                  MessageSend( vSubtask, "WD00506", "ChangeRepFileContents",
+                               szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  RETURN -1
+               END
+               // We have to find the reportname the second time between the parenthese in line 1
+               nPosStart  = zSearchSubString( szLine, szOldName, "f", 0 )
+               nPosBeyond = zSearchSubString( szLine, ";", "f", nPosStart )
+               nRC = zReplaceSubString( szLine, nPosStart, nPosBeyond, szFileName )
+               IF nRC = -1
+                  szMsg = "Not enough memory to change the reportname in file " + szFullName
+                  MessageSend( vSubtask, "WD00507", "ChangeRepFileContents",
+                               szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                  RETURN -1
+               END
+            END
+
+         OF 2:
+            // Line 2 contains the LPLR name
+            nPosStart  = zSearchSubString( szLine, ";;)", "f", 0 )
+            nPosBefore = zSearchSubString( szLine, ","  , "b", nPosStart )
+            nRC = zReplaceSubString (szLine, nPosBefore+1, nPosStart, CurrentLPLR.LPLR.Name )
+            IF nRC = -1
+               szMsg = "Not enough memory to change the LPLR name in file " + szFullName
+               MessageSend( vSubtask, "WD00505", "ChangeRepFileContents",
+                            szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               RETURN -1
+            END
+         OTHERWISE :
+            IF nFunction = zCHANGE_REP_SAVEAS
+               // Search the XSLTname in the other lines to change it
+               // if we do the changes for SAVE AS
+               nPosStart = zSearchSubString( szLine, szOldName, "f", 0 )
+               IF nPosStart != -1
+                  nPosBeyond = zSearchSubString( szLine, ";", "f", nPosStart )
+                  nRC = zReplaceSubString( szLine, nPosStart, nPosBeyond, szFileName )
+                  IF nRC = -1
+                     szMsg = "Not enough memory to change the reportname in file " + szFullName
+                     MessageSend( vSubtask, "WD00508", "ChangeRepFileContents",
+                                  szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                     RETURN -1
+                  END
+               END
+            END
+         END
+      END
+
+      SysWriteLine( vSubtask,lFHandleTmp, szLine )
+      lRC = zSysReadLine( vSubtask, szLine, lFHandle, 10000 )
+
+   END
+
+   SysCloseFile( vSubtask, lFHandle, 0 )
+   SysCloseFile( vSubtask, lFHandleTmp, 0 )
+
+   // The changes are now in the temporary file. Rename it for the system
+   SysRenameFile( vSubtask, szTmpFile, szFullName, TRUE )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXRP
+**    Build a XSLT XRP from a Dialog Window
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenerateXRP( VIEW NewXSLT    BASED ON LOD TZXSLTSO,
+             VIEW DialogWindow BASED ON LOD TZWDLGSO)
+
+   VIEW vTaskLPLR        BASED ON LOD TZCMLPLO
+   VIEW DialogWindowHier BASED ON LOD TZWDLGSO
+   VIEW TestXSLT
+   STRING ( 200 ) szMsg
+   STRING ( 64 )  szXSLT_Name
+   STRING ( 32 )  szDialogTag
+   STRING ( 32 )  szReturnedEntityName
+   STRING ( 32 )  szFirstEntityName
+   STRING ( 1 )   szFoundFlag
+   STRING ( 1 )   szNoInitalGroupSetFlag
+   STRING ( 256 ) szHTML_DirectoryName
+   STRING ( 500 ) szDirectoryFileName
+   INTEGER        X_Position
+   INTEGER        Y_Position
+   INTEGER        GroupSize
+   SHORT          lReturnedLevel
+   SHORT          nRC
+
+   // Build an XRP object from the Dialog Window passed.
+
+   // Initialize XRP. (XSLT and Page entities)
+   szDialogTag = DialogWindow.Dialog.Tag
+   szXSLT_Name = szDialogTag + DialogWindow.Window.Tag
+   ActivateEmptyObjectInstance( NewXSLT, "TZXSLTSO", DialogWindow, zSINGLE )
+   NAME VIEW NewXSLT "NewXSLTXRP"
+   CreateMetaEntity( DialogWindow, NewXSLT, "XSLT", zPOS_AFTER )
+   NewXSLT.XSLT.Tag = szDialogTag
+   NewXSLT.XSLT.XSLTTextSize = 100
+   CreateMetaEntity( DialogWindow, NewXSLT, "Page", zPOS_AFTER )
+   NewXSLT.Page.Tag = szXSLT_Name
+   NewXSLT.Page.SizeX = 2176
+   NewXSLT.Page.SizeY = 2816
+
+   // ViewObjRef
+   // Build one for each ViewObjRef referenced in the Window. Note that we're not just including
+   // every ViewObjRef from the Dialog.
+   // The first ViewObjRef will be for the view that will drive the XSLT.
+   // The PrintPageEntity will define the first entity passed to the report for printing.
+   SET CURSOR FIRST DialogWindow.Control
+   CreateViewFromView( DialogWindowHier, DialogWindow )
+   DefineHierarchicalCursor( DialogWindowHier, "Window" )
+   nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, DialogWindowHier )
+   LOOP WHILE nRC >= zCURSOR_SET AND szReturnedEntityName != "Window"
+      IF szReturnedEntityName = "CtrlMapView"
+         SET CURSOR FIRST NewXSLT.ViewObjRef WHERE NewXSLT.ViewObjRef.ZKey = DialogWindowHier.CtrlMapView.ZKey
+         IF RESULT < zCURSOR_SET
+            SET CURSOR FIRST DialogWindow.ViewObjRef WHERE DialogWindow.ViewObjRef.ZKey = DialogWindowHier.CtrlMapView.ZKey
+            INCLUDE NewXSLT.ViewObjRef FROM DialogWindow.ViewObjRef
+            IF NewXSLT.XSLT.WebPrintPageEntity = ""
+               IF DialogWindowHier.CtrlMapRelatedEntity EXISTS
+                  NewXSLT.XSLT.WebPrintPageEntity = DialogWindowHier.CtrlMapRelatedEntity.Name
+               ELSE
+                  NewXSLT.XSLT.WebPrintPageEntity = DialogWindowHier.CtrlMapLOD_Entity.Name
+               END
+            END
+         END
+      END
+      nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, DialogWindowHier )
+   END
+   DropView( DialogWindowHier )
+
+   // First GroupSet
+   // Build for first Control being mapped on the Window.
+   // Because the first Control being mapped may be within a Group Control, we will process the Window hierarchically.
+   // If the first Control is a Spreadsheet, we will not create the initial GroupSet, but only create the one
+   // associated with the Spreadsheet later.
+   SET CURSOR FIRST DialogWindow.Control
+   CreateViewFromView( DialogWindowHier, DialogWindow )
+   DefineHierarchicalCursor( DialogWindowHier, "Window" )
+   nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, DialogWindowHier )
+   LOOP WHILE nRC >= zCURSOR_SET AND szFoundFlag = "" AND szReturnedEntityName != "Window"
+      IF szReturnedEntityName = "CtrlMapRelatedEntity"
+         szFoundFlag = "Y"
+         szFirstEntityName = DialogWindowHier.CtrlMapRelatedEntity.Name
+      ELSE
+         IF szReturnedEntityName = "CtrlMapLOD_Entity"
+            szFoundFlag = "Y"
+            IF DialogWindowHier.ControlDef.Tag = "SS"
+               szNoInitalGroupSetFlag = "Y"
+            ELSE
+               szFirstEntityName = DialogWindowHier.CtrlMapLOD_Entity.Name
+            END
+         END
+      END
+      nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, DialogWindowHier )
+   END
+   IF nRC < zCURSOR_SET
+      szMsg = "No mapped Controls exist for Window, " + DialogWindow.Window.Tag + "." + NEW_LINE +
+              "No report XRP will be generated."
+      MessageSend( DialogWindow, "", "Build XSLT", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   IF szNoInitalGroupSetFlag = ""
+      CreateMetaEntity( DialogWindow, NewXSLT, "GroupSet", zPOS_AFTER )
+      NewXSLT.GroupSet.Tag     = szFirstEntityName
+      NewXSLT.GroupSet.Type    = "E"
+      NewXSLT.GroupSet.PSDLG_X = 0
+      NewXSLT.GroupSet.PSDLG_Y = 0
+      NewXSLT.GroupSet.SZDLG_X = 2176
+      NewXSLT.GroupSet.SZDLG_Y = 0    // Size here
+
+      // Create a single Detail Group.
+      CreateMetaEntity( DialogWindow, NewXSLT, "Group", zPOS_AFTER )
+      NewXSLT.Group.Tag     = "Detail"
+      NewXSLT.Group.Type    = "ga"
+      NewXSLT.Group.PSDLG_X = 0
+      NewXSLT.Group.PSDLG_Y = 0
+      NewXSLT.Group.SZDLG_X = 2176
+      // NewXSLT.Group.SZDLG_Y will be determined by the position of the last Control.
+   END
+   DropView( DialogWindowHier )
+
+   // Process each Control.
+   // The processing will be done inside a recursive sub operation, so that we can handle Controls inside Groups.
+   X_Position = 0
+   Y_Position = 0
+   GenerateXRP_Recurs( NewXSLT, DialogWindow, X_Position, Y_Position, GroupSize )
+   NewXSLT.Group.SZDLG_Y = GroupSize
+
+   // Write out the XRP to a subdirectory of the LPLR.
+   SysReadZeidonIni( -1, "[Workstation]", "HTML_XSLTs", szHTML_DirectoryName )
+   IF szHTML_DirectoryName = ""
+      szHTML_DirectoryName = "\HTML_XSLTs\"
+   END
+
+   GET VIEW vTaskLPLR NAMED "TaskLPLR"
+   szDirectoryFileName = vTaskLPLR.LPLR.ExecDir + szHTML_DirectoryName + szXSLT_Name + ".XRP"
+
+   CommitOI_ToFile( NewXSLT, szDirectoryFileName, zASCII )
+   ActivateOI_FromFile( TestXSLT, "TZXSLTSO", vTaskLPLR, szDirectoryFileName, zSINGLE )
+   NAME VIEW  TestXSLT "TestXSLT"
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXRP_Recurs
+**
+*************************************************************************************************/
+LOCAL OPERATION
+GenerateXRP_Recurs( VIEW NewXSLT     BASED ON LOD TZXSLTSO,
+                    VIEW DialogControl BASED ON LOD TZWDLGSO,
+                    INTEGER X_Position,
+                    INTEGER Y_Position,
+                    INTEGER GroupSize )
+
+   VIEW TZPESRCO REGISTERED AS TZPESRCO
+   INTEGER TextControlHeight
+
+   // Sort the Controls in position order and position on TZPESRCO on Rpt_Text ControlDef.
+   OrderEntityForView( DialogControl, "Control", "PSDLG_Y A PSDLG_X A" )
+   SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = "Rpt_Text"
+   TextControlHeight = 37
+
+   // Process each Control.
+   // For a Group Control, we will step down a level, but set X and Y positions as an addition of the position of
+   // the Group and the position of each Control.
+   // SpreadSheet Controls will have their own processing, because they will create unique XSLT Groups.
+   // Button Controls will be ignored.
+   // Checkbox Controls will be converted to two Text Controls, one without mapping (a prompt) and the other with mapping.
+   // Combobox, Calendar and Edit Controls will be changed to Text Controls with mapping.
+   // Text Controls will be processed as Text Controls, either with or without mapping.
+
+   FOR EACH DialogControl.Control
+      IF DialogControl.ControlDef.Tag = "GroupBox"
+         // GroupBox
+         X_Position = DialogControl.Control.PSDLG_X
+         Y_Position = DialogControl.Control.PSDLG_Y
+         SetViewToSubobject( DialogControl, "CtrlCtrl" )
+         GenerateXRP_Recurs( NewXSLT, DialogControl, X_Position, Y_Position, GroupSize )
+         ResetViewFromSubobject( DialogControl )
+      ELSE
+
+      IF DialogControl.ControlDef.Tag = "SS"
+         // SpreadSheet
+         X_Position = DialogControl.Control.PSDLG_X
+         Y_Position = DialogControl.Control.PSDLG_Y
+         CreateMetaEntity( DialogControl, NewXSLT, "GroupSet", zPOS_AFTER )
+         IF DialogControl.CtrlMapLOD_Entity.Name = ""
+            MessageSend( DialogControl, "", "Build XSLT", "SS Control has no mapping.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         ELSE
+            NewXSLT.GroupSet.Tag     = DialogControl.CtrlMapLOD_Entity.Name
+         END
+         NewXSLT.GroupSet.Type    = "E"
+         NewXSLT.GroupSet.PSDLG_X = 0
+         NewXSLT.GroupSet.PSDLG_Y = 0
+         NewXSLT.GroupSet.SZDLG_X = 2176
+         NewXSLT.GroupSet.SZDLG_Y = 0    // Size here
+
+         // Create Group Header for SS column Titles.
+         CreateMetaEntity( DialogControl, NewXSLT, "Group", zPOS_AFTER )
+         NewXSLT.Group.Tag     = "GroupHeader"
+         NewXSLT.Group.Type    = "gh"
+         NewXSLT.Group.SubType = 0
+         NewXSLT.Group.PSDLG_X = 0
+         NewXSLT.Group.PSDLG_Y = 0
+         NewXSLT.Group.SZDLG_X = 2176
+         NewXSLT.Group.SZDLG_Y = 30
+
+         // Create Header Controls for SS column Titles.
+         SetViewToSubobject( DialogControl, "CtrlCtrl" )
+         FOR EACH DialogControl.Control
+            IF DialogControl.ControlDef.Tag != "PushBtn"
+               CreateMetaEntity( DialogControl, NewXSLT, "Control", zPOS_AFTER )
+               NewXSLT.Control.Tag = DialogControl.Control.Tag
+               NewXSLT.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+               NewXSLT.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+               NewXSLT.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+               NewXSLT.Control.SZDLG_Y = TextControlHeight
+               NewXSLT.Control.Type = 20
+               INCLUDE NewXSLT.ControlDef FROM TZPESRCO.ControlDef
+               SET CURSOR NEXT DialogControl.CtrlMapLOD_Attribute WITHIN DialogControl.Control
+               IF RESULT >= zCURSOR_SET
+                  // Column title is a variable.
+                  GenerateXRP_CtrlMap( NewXSLT, DialogControl )
+               ELSE
+                  // Column title is a constant.
+                  NewXSLT.Control.Text    = DialogControl.Control.Text
+               END
+            END
+         END
+         ResetViewFromSubobject( DialogControl )
+
+         // Create a single Detail Group.
+         CreateMetaEntity( DialogControl, NewXSLT, "Group", zPOS_AFTER )
+         NewXSLT.Group.Tag     = "Detail"
+         NewXSLT.Group.Type    = "ga"
+         NewXSLT.Group.PSDLG_X = 0
+         NewXSLT.Group.PSDLG_Y = 0
+         NewXSLT.Group.SZDLG_X = 2176
+         NewXSLT.Group.SZDLG_Y = 30
+
+         // Create Text Controls for each Spreadsheet subcontrol, except a PushButton.
+         SetViewToSubobject( DialogControl, "CtrlCtrl" )
+         FOR EACH DialogControl.Control
+            IF DialogControl.ControlDef.Tag != "PushBtn"
+               CreateMetaEntity( DialogControl, NewXSLT, "Control", zPOS_AFTER )
+               NewXSLT.Control.Tag = DialogControl.Control.Tag
+               NewXSLT.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+               NewXSLT.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+               NewXSLT.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+               NewXSLT.Control.SZDLG_Y = TextControlHeight
+               GroupSize = NewXSLT.Control.PSDLG_Y + NewXSLT.Control.SZDLG_Y
+               NewXSLT.Control.Type = 20
+               INCLUDE NewXSLT.ControlDef FROM TZPESRCO.ControlDef
+               GenerateXRP_CtrlMap( NewXSLT, DialogControl )
+            END
+         END
+         ResetViewFromSubobject( DialogControl )
+
+      ELSE
+
+      IF DialogControl.CtrlMap EXISTS
+         IF DialogControl.ControlDef.Tag = "ComboBox" OR
+            DialogControl.ControlDef.Tag = "Calendar" OR
+            DialogControl.ControlDef.Tag = "EditBox" OR
+            DialogControl.ControlDef.Tag = "Text"
+
+            // Mapped Controls which will be converted to Text.
+            CreateMetaEntity( DialogControl, NewXSLT, "Control", zPOS_AFTER )
+            NewXSLT.Control.Tag = DialogControl.Control.Tag
+            NewXSLT.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+            NewXSLT.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+            NewXSLT.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+            NewXSLT.Control.SZDLG_Y = TextControlHeight
+            GroupSize = NewXSLT.Control.PSDLG_Y + NewXSLT.Control.SZDLG_Y
+            NewXSLT.Control.Type = 20
+            INCLUDE NewXSLT.ControlDef FROM TZPESRCO.ControlDef
+            GenerateXRP_CtrlMap( NewXSLT, DialogControl )
+
+         ELSE
+            IF DialogControl.ControlDef.Tag = "CheckBox"
+               // CheckBox
+               CreateMetaEntity( DialogControl, NewXSLT, "Control", zPOS_AFTER )
+               NewXSLT.Control.Tag = DialogControl.Control.Tag
+               NewXSLT.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+               NewXSLT.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+               NewXSLT.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+               NewXSLT.Control.SZDLG_Y = TextControlHeight
+               GroupSize = NewXSLT.Control.PSDLG_Y + NewXSLT.Control.SZDLG_Y
+               NewXSLT.Control.Type = 20
+               INCLUDE NewXSLT.ControlDef FROM TZPESRCO.ControlDef
+               GenerateXRP_CtrlMap( NewXSLT, DialogControl )
+
+            END
+         END
+      ELSE
+
+      IF DialogControl.ControlDef.Tag = "Text"
+         // Non-mapped Text Control (Prompt)
+         CreateMetaEntity( DialogControl, NewXSLT, "Control", zPOS_AFTER )
+         NewXSLT.Control.Tag = DialogControl.Control.Tag
+         NewXSLT.Control.PSDLG_X = X_Position + DialogControl.Control.PSDLG_X
+         NewXSLT.Control.PSDLG_Y = Y_Position + DialogControl.Control.PSDLG_Y
+         NewXSLT.Control.SZDLG_X = DialogControl.Control.SZDLG_X
+         NewXSLT.Control.SZDLG_Y = TextControlHeight
+         GroupSize = NewXSLT.Control.PSDLG_Y + NewXSLT.Control.SZDLG_Y
+         NewXSLT.Control.Type = 10
+         INCLUDE NewXSLT.ControlDef FROM TZPESRCO.ControlDef
+
+      END
+      END
+      END
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXRP_CtrlMap
+**
+*************************************************************************************************/
+LOCAL OPERATION
+GenerateXRP_CtrlMap( VIEW NewXSLT     BASED ON LOD TZXSLTSO,
+                     VIEW DialogControl BASED ON LOD TZWDLGSO )
+
+   // Build the XSLT CtrlMap subobject from the Dialog subobject.
+   CreateMetaEntity( DialogControl, NewXSLT, "CtrlMap", zPOS_AFTER )
+   NewXSLT.CtrlMap.Tag = DialogControl.CtrlMap.Tag
+   IF DialogControl.CtrlMapLOD_Attribute EXISTS
+      INCLUDE NewXSLT.CtrlMapLOD_Attribute FROM DialogControl.CtrlMapLOD_Attribute
+   END
+   IF DialogControl.CtrlMapLOD_Entity EXISTS
+      INCLUDE NewXSLT.CtrlMapLOD_Entity FROM DialogControl.CtrlMapLOD_Entity
+   END
+   IF DialogControl.CtrlMapContext EXISTS
+      INCLUDE NewXSLT.CtrlMapContext FROM DialogControl.CtrlMapContext
+   END
+   IF DialogControl.CtrlMapView EXISTS
+      INCLUDE NewXSLT.CtrlMapView FROM DialogControl.CtrlMapView
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXSLT
+**    Build a XSLT XRP from a Dialog Window
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenerateXSLT( VIEW SourceXSLT BASED ON LOD TZXSLTSO )
+
+   VIEW vXSLT_Def BASED ON LOD TZXSLTSO
+   VIEW vLOD       BASED ON LOD TZZOLODO
+   VIEW vTaskLPLR  BASED ON LOD TZCMLPLO
+   STRING ( 32 )   szTopEntityName
+   STRING ( 200 )  szMsg
+   STRING ( 200 )  szFileName
+   STRING ( 5000 ) szOutputLine
+   STRING ( 200 )  szPathName
+   INTEGER         lFileHandle
+   SHORT           nRC
+
+   // Build an XSLT object from the Dialog Window passed.
+   vXSLT_Def = SourceXSLT
+
+   // Open XSLT output file.
+   SysReadZeidonIni( -1, "[App.Zencas]", "XSLTDirectory", szPathName )
+
+   //szFileName = "c:\temp\XSLT_OutputTest.xsl"
+   szFileName = szPathName + vXSLT_Def.XSLT.Tag + ".xsl"
+   lFileHandle = SysOpenFile( SourceXSLT, szFileName, COREFILE_WRITE )
+   IF lFileHandle < 0
+      szMsg = "Cannot open XSLT Output File, " + szFileName
+      MessageSend( SourceXSLT, "", "Generate XSLT",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   // Activate test PRP file.
+   // THIS WAS ONLY FOR TESTING...
+   //szFileName = "c:\lplr\zencas\rSABill.prp"
+   //ActivateOI_FromFile( vXSLT_Def, "TZXSLTSO", SourceXSLT, szFileName, zSINGLE )
+   //NAME VIEW vXSLT_Def "TZXSLTSO_XSLT"
+
+   // Activate LOD that goes with PRP file. The registered view that is also the entity DrivingViewObjRef.
+   IF vXSLT_Def.DrivingViewObjRef EXISTS
+      //szFileName = "c:\temp\mSAProfE.lod"
+      GET VIEW vTaskLPLR NAMED "TaskLPLR"
+      szFileName = vTaskLPLR.LPLR.MetaSrcDir + "\"
+      szFileName = szFileName + vXSLT_Def.DrivingLOD.Name + ".lod"
+      ActivateOI_FromFile( vLOD, "TZZOLODO", SourceXSLT, szFileName, zSINGLE )
+      NAME VIEW vLOD "LOD_XSLT"
+   ELSE
+      szMsg = "One of the registered views needs to be set as the 'Driving View'. "
+      MessageSend( SourceXSLT, "", "Generate XSLT",
+                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      RETURN -1
+   END
+
+   // Go to build XSLT Header.
+   XSLT_MainHeader( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // Process any Page Header and Footer.
+   SET CURSOR FIRST vXSLT_Def.GroupSet WHERE vXSLT_Def.GroupSet.Type = "PH"
+   IF RESULT >= zCURSOR_SET
+      // Process Page Header
+
+   END
+   SET CURSOR FIRST vXSLT_Def.GroupSet WHERE vXSLT_Def.GroupSet.Type = "PF"
+   IF RESULT >= zCURSOR_SET
+      // Process Page Footer
+
+   END
+
+   // Process the LOD entities recursively, processing each entity that has a corresponding GroupSet in the XSLT.
+   // Because the Top Entity (Entity which drives the report) is processed somewhat differently, we need to identify
+   // that entity name and pass it to the subroutine.
+   // There is a problem, however, in that the Painter seems to be generating an initial GroupSet named, "Rpt_GroupSet1". So
+   // we need to skip over that GroupSet, if it exists.
+   SET CURSOR FIRST vXSLT_Def.GroupSet WHERE vXSLT_Def.GroupSet.Tag != "Rpt_GroupSet1"
+   szTopEntityName = vXSLT_Def.GroupSet.Tag
+   CREATE ENTITY vXSLT_Def.XSLT_WorkGroup
+   vXSLT_Def.XSLT_WorkGroup.RecursiveNumber = 1
+   NAME VIEW vXSLT_Def "vXSLT_DefRoot"
+   XSLT_EntityRecur( vXSLT_Def, vLOD, lFileHandle, szOutputLine, szTopEntityName )
+   DELETE ENTITY vXSLT_Def.XSLT_WorkGroup
+
+   // Close StyleSheet.
+   szOutputLine = "</xsl:stylesheet>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   SysCloseFile( SourceXSLT, lFileHandle, 0 )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_MainHeader
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_MainHeader( VIEW vXSLT_Def BASED ON LOD TZXSLTSO,
+                 INTEGER lFileHandle,
+                 STRING ( 5000 ) szOutputLine )
+
+   // Generate the XSLT Header statements.
+
+   // Build the XML file header.
+   szOutputLine = "<?xml version=" + QUOTES + "1.0" + QUOTES + " encoding=" + QUOTES + "iso-8859-1" + QUOTES + "?>"
+   SysWriteLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "<xsl:stylesheet version=" + QUOTES + "1.0" + QUOTES
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  xmlns:xsl=" + QUOTES + "http://www.w3.org/1999/XSL/Transform" + QUOTES
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  xmlns:fo=" + QUOTES + "http://www.w3.org/1999/XSL/Format" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  <xsl:output method=" + QUOTES + "xml" + QUOTES + " indent=" + QUOTES + "yes" + QUOTES + "/>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // Build Default Padding <xsl:attribute-set.
+   szOutputLine = "<xsl:attribute-set name=" + QUOTES + "DefaultCellPadding" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  <xsl:attribute name=" + QUOTES + "padding-left" + QUOTES + ">5px</xsl:attribute>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  <xsl:attribute name=" + QUOTES + "padding-top" + QUOTES + ">2px</xsl:attribute>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  <xsl:attribute name=" + QUOTES + "padding-bottom" + QUOTES + ">2px</xsl:attribute>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "</xsl:attribute-set>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // Build base template and root statements.
+   szOutputLine = "<xsl:template match=" + QUOTES + "/" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "<fo:root>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = " <fo:layout-master-set>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  <fo:simple-page-master master-name=" + QUOTES + "aoa-page" + QUOTES + " page-height=" + QUOTES + "11in" + QUOTES
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   page-width=" + QUOTES + "8.5in" + QUOTES + " margin-top=" + QUOTES + ".5in" + QUOTES + " margin-bottom=" + QUOTES + ".5in" + QUOTES
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   margin-left=" + QUOTES + ".5in" + QUOTES + " margin-right=" + QUOTES + ".5in" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   <fo:region-body margin-top=" + QUOTES + ".1in" + QUOTES + " margin-bottom=" + QUOTES + ".5in" + QUOTES + "/>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   <fo:region-before extent=" + QUOTES + ".5in" + QUOTES + " />"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   <fo:region-after extent=" + QUOTES + ".35in" + QUOTES + " />"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  </fo:simple-page-master>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = " </fo:layout-master-set>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // Build Page Sequence.
+   szOutputLine = " <fo:page-sequence master-reference=" + QUOTES + "aoa-page" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   <fo:static-content flow-name=" + QUOTES + "xsl-region-before" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "     <fo:block text-align=" + QUOTES + "center" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "       <fo:block font-size=" + QUOTES + "9pt" + QUOTES + " text-align=" + QUOTES + "right" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "          Page <fo:page-number/> of <fo:page-number-citation ref-id=" + QUOTES + "last-page" + QUOTES + "/>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "       </fo:block>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "     </fo:block>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   </fo:static-content>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   <fo:static-content flow-name=" + QUOTES + "xsl-region-after" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "     <fo:block font-size=" + QUOTES + "8pt" + QUOTES + " text-align=" + QUOTES + "center" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "       <fo:leader leader-pattern=" + QUOTES + "rule" + QUOTES + " leader-length.optimum=" + QUOTES +
+                  "100%" + QUOTES + " rule-style=" + QUOTES + "double" + QUOTES + " rule-thickness=" + QUOTES + "1pt" + QUOTES + "/>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "       <xsl:value-of select=" + QUOTES + "footer/fbody" + QUOTES + "/>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "     </fo:block>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   </fo:static-content>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // Build Flow.
+   szOutputLine = "   <fo:flow flow-name=" + QUOTES + "xsl-region-body" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "     <xsl:apply-templates/>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "   </fo:flow>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   szOutputLine = "  "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // Close Page, Root and Template.
+   szOutputLine = " </fo:page-sequence>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "</fo:root> "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "</xsl:template>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = "  "
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_EntityRecur
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_EntityRecur( VIEW vXSLT_DefRoot BASED ON LOD TZXSLTSO,
+                  VIEW vLOD           BASED ON LOD TZZOLODO,
+                  INTEGER lFileHandle,
+                  STRING ( 5000 ) szOutputLine,
+                  STRING ( 32 )  szTopEntityName )
+
+   VIEW vXSLT_Def BASED ON LOD TZXSLTSO
+   INTEGER PosY
+   INTEGER CurrentWidth
+   INTEGER ColumnCount
+   INTEGER CellPadding
+   INTEGER GroupHierarchicalLevel
+   STRING ( 50 )  szIndentationChars
+   STRING ( 50 )  szGroupSetName
+   STRING ( 10 )  szPageWidth
+   STRING ( 10 )  szCurrentWidth
+   STRING ( 1 )   szSingleRowFlag
+   STRING ( 32 )  szEntityName
+   STRING ( 32 )  szAttributeName
+   STRING ( 20 )  szCellPadding
+   STRING ( 20 )  szCellPaddingName
+
+   szPageWidth = "7.5in"
+   szCellPaddingName = "DefaultCellPadding"
+
+   //IssueError( vXSLT_DefRoot,0,0, "In EntityR" )
+
+   // Process each vLOD.LOD_EntityParent within the recursive LOD structure.
+   FOR EACH vLOD.LOD_EntityParent
+
+      // See if this entity is defined for a GroupSet and if so, process it.
+      szEntityName   = vLOD.LOD_EntityParent.Name
+      SET CURSOR FIRST vXSLT_DefRoot.GroupSet WHERE vXSLT_DefRoot.GroupSet.Type = "E"
+                   AND vXSLT_DefRoot.GroupSet.Tag = szEntityName
+      IF RESULT >= zCURSOR_SET
+
+         // GROUPSET
+
+         szIndentationChars = "    "    // Base indentation will be 10 characters.
+         GenerateLine( vXSLT_DefRoot, lFileHandle, " " )    // Blank line
+
+         // Open template statement
+         IF szEntityName = szTopEntityName
+            szGroupSetName = szEntityName    // Top Entity doesn't have GR_ prefix.
+         ELSE
+            szGroupSetName = "GR_" + szEntityName
+         END
+         szOutputLine = "<xsl:template match=" + QUOTES + szGroupSetName + QUOTES + ">"
+         GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+         // Initialize Work Group.
+         // Note that GroupHierarchicalLevel is the Control level with the vXSLT_Def object, not the entity level within the LOD.
+         GroupHierarchicalLevel = 1
+         IF vXSLT_DefRoot.XSLT_WorkGroup DOES NOT EXIST
+            CREATE ENTITY vXSLT_DefRoot.XSLT_WorkGroup
+         END
+         vXSLT_DefRoot.XSLT_WorkGroup.RecursiveNumber = GroupHierarchicalLevel
+
+         // Process each Group within the GroupSet.
+
+         // Open block statement
+         szOutputLine = "  <fo:block font-size=" + QUOTES + "9pt" + QUOTES + ">"
+         GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+         GenerateLine( vXSLT_DefRoot, lFileHandle, " " )
+
+         SET CURSOR FIRST vXSLT_DefRoot.Group WHERE vXSLT_DefRoot.Group.Type = "gh"
+         IF RESULT >= zCURSOR_SET
+
+            // Group is Header.
+
+            // Generate Entity Header Comment.
+            GenerateLine( vXSLT_DefRoot, lFileHandle, " " )
+            szOutputLine = "  <!-- ENTITY HEADER -->"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            GenerateLine( vXSLT_DefRoot, lFileHandle, " " )
+
+            // Go to process the Header Group as a group of all text controls.
+            XSLT_HeaderFooter( vXSLT_DefRoot, vLOD, lFileHandle, szOutputLine, szIndentationChars, "Header" )
+
+         END
+
+         SET CURSOR FIRST vXSLT_DefRoot.Group WHERE vXSLT_DefRoot.Group.Type = "ga"
+         IF RESULT >= zCURSOR_SET
+
+            // Group is Entity
+
+            // Generate Entity Detail Comment.
+            GenerateLine( vXSLT_DefRoot, lFileHandle, " " )
+            szOutputLine = "  <!-- ENTITY DETAIL -->"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            GenerateLine( vXSLT_DefRoot, lFileHandle, " " )
+
+            // Make sure Controls are in row/column order.
+            OrderEntityForView( vXSLT_DefRoot, "Control", "PSDLG_Y A PSDLG_X A" )
+
+            // Check if all controls are on a single line, without a subcontrol.
+            //    If so, we will create a table entry with a column for each control.
+            //    If not, we will create a table entry with a single cell.
+            szSingleRowFlag = "Y"
+            PosY = vXSLT_DefRoot.Control.PSDLG_Y
+            FOR EACH vXSLT_DefRoot.Control
+               IF vXSLT_DefRoot.CtrlCtrl EXISTS OR vXSLT_DefRoot.Control.PSDLG_Y != PosY
+                  szSingleRowFlag = "N"
+               END
+            END
+
+            IF szSingleRowFlag = "N"
+
+               // Go to process more complex Group.
+               CreateViewFromView( vXSLT_Def, vXSLT_DefRoot )
+               NAME VIEW vXSLT_Def "vXSLT_DefTop"
+               XSLT_GroupRecur( vXSLT_DefRoot, vXSLT_Def, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel )
+               DropView( vXSLT_Def )
+
+            ELSE
+
+               // Detail entity has single row.
+
+               // Build work subobject, with a single row and columns.
+               CREATE ENTITY vXSLT_DefRoot.XSLT_WorkRow
+               vXSLT_DefRoot.XSLT_WorkRow.PSDLG_Y = vXSLT_DefRoot.Control.PSDLG_Y
+               FOR EACH vXSLT_DefRoot.Control
+                  CREATE ENTITY vXSLT_DefRoot.XSLT_WorkColumn
+                  vXSLT_DefRoot.XSLT_WorkColumn.ControlZKey = vXSLT_DefRoot.Control.ZKey
+                  vXSLT_DefRoot.XSLT_WorkColumn.ControlType = vXSLT_DefRoot.ControlDef.Tag
+                  SetMatchingAttributesByName( vXSLT_DefRoot, "XSLT_WorkColumn",  vXSLT_DefRoot, "Control", zSET_NULL )
+               END
+
+               // Go to build the table.
+               XSLT_GroupTable( vXSLT_DefRoot, vLOD, lFileHandle, szOutputLine, szIndentationChars, 1, szEntityName )
+
+            END
+
+         END
+
+         SET CURSOR FIRST vXSLT_DefRoot.Group WHERE vXSLT_DefRoot.Group.Type = "gf"
+         IF RESULT >= zCURSOR_SET
+
+            // Group is Footer.
+
+            // Generate Entity Footer Comment.
+            GenerateLine( vXSLT_DefRoot, lFileHandle, " " )
+            szOutputLine = "  <!-- ENTITY FOOTER -->"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            GenerateLine( vXSLT_DefRoot, lFileHandle, " " )
+
+            // Go to process the Footer Group as a group of all text controls.
+            XSLT_HeaderFooter( vXSLT_DefRoot, vLOD, lFileHandle, szOutputLine, szIndentationChars, "Footer" )
+
+         END
+
+         // Close block statement
+         szOutputLine = "  </fo:block>"
+         GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+
+         // Close template statement
+         szOutputLine = "</xsl:template>"
+         GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+      END
+
+      // Process Sub Entity if it exists.
+      IF vLOD.LOD_EntityChild EXISTS
+         SetViewToSubobject( vLOD, "LOD_EntityChild" )
+         GroupHierarchicalLevel = GroupHierarchicalLevel + 1   // Indicate going down one more level.
+         XSLT_EntityRecur( vXSLT_DefRoot, vLOD, lFileHandle, szOutputLine, szTopEntityName )
+         GroupHierarchicalLevel = GroupHierarchicalLevel - 1
+         ResetViewFromSubobject( vLOD )
+      END
+
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_HeaderFooter
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_HeaderFooter( VIEW vXSLT_DefRoot BASED ON LOD TZXSLTSO,
+                   VIEW vLOD           BASED ON LOD TZZOLODO,
+                   INTEGER lFileHandle,
+                   STRING ( 5000 ) szOutputLine,
+                   STRING ( 50 )   szIndentationChars,
+                   STRING ( 32 )   szForEachName )
+
+   STRING ( 20 )  szPageWidth
+   STRING ( 50 )  szSubIndentationChars
+
+   szPageWidth = "7.5"
+
+   // The Header/Footer starts block, table, ... table-cell.
+
+   // Block
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + "<fo:block border=" + QUOTES + "normal solid black" + QUOTES + ">"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+   // Table statement
+   szOutputLine = szIndentationChars + "<fo:table table-layout=" + QUOTES + "fixed" +
+                  QUOTES + " width=" + QUOTES + szPageWidth + "in" +
+                  QUOTES + " margin-top=" + QUOTES + "0" +  "in" + QUOTES + ">"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   // Column, body, for-each,
+   szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szPageWidth + "in" + QUOTES + "/>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   szOutputLine = szIndentationChars + "<fo:table-body>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   szOutputLine = szIndentationChars + "  <xsl:for-each select=" + QUOTES + szForEachName + QUOTES + ">"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   szOutputLine = szIndentationChars + "  <fo:table-row>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   szOutputLine = szIndentationChars + "    <fo:table-cell>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   // Go to process the controls as an all-text group.
+   szSubIndentationChars = szIndentationChars + "      "
+   XSLT_AllTextGroup( vXSLT_DefRoot, vLOD, lFileHandle, szOutputLine, szSubIndentationChars )
+
+   // Close cell, row, ... table, block.
+
+   szOutputLine = szIndentationChars + "    </fo:table-cell>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   szOutputLine = szIndentationChars + "  </fo:table-row>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   szOutputLine = szIndentationChars + "   </xsl:for-each>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   szOutputLine = szIndentationChars + "</fo:table-body>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   szOutputLine = szIndentationChars + "</fo:table>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   szOutputLine = szIndentationChars + "</fo:block>"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_AllTextGroup
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_AllTextGroup( VIEW vXSLT_Def     BASED ON LOD TZXSLTSO,
+                   VIEW vLOD           BASED ON LOD TZZOLODO,
+                   INTEGER lFileHandle,
+                   STRING ( 5000 ) szOutputLine,
+                   STRING ( 50 )   szIndentationChars )
+
+   VIEW vXSLT_Def3 BASED ON LOD TZXSLTSO
+   STRING ( 20 )  szCurrentWidth
+   STRING ( 20 )  szPageWidth
+   STRING ( 30 )  szCellPaddingName
+   STRING ( 50 )  szAttributeMappingName
+   STRING ( 256 ) szConstantArea
+   STRING ( 50 )  szCellPadding
+   STRING ( 20 )  szTableMarginTop
+   STRING ( 20 )  szTablePaddingLeft
+   STRING ( 20 )  szTableWidth
+   INTEGER       CurrentWidth
+   INTEGER       CurrentPositionY
+   INTEGER       LastPositionY
+   INTEGER       FirstColumnPosition
+   INTEGER       TopGroupPosition
+   INTEGER       ColumnCount
+   INTEGER       TextColumnCount
+   INTEGER       RowCount
+   INTEGER       TablePaddingLeft
+   INTEGER       TableMarginTop
+   INTEGER       TableWidth
+   INTEGER       LastRowPosition
+   INTEGER       LastRowHeight
+
+   // Process a Group that is only made up of text Controls at the first level, as opposed to text controls that are subcontrols
+   // under a parent Group or Shape.
+   // All Rpt_Text controls are analyzed and organized by rows, with each row being handled as a single row table.
+
+   // We assume the controls are text.
+
+   szCellPaddingName = "DefaultCellPadding"
+   NAME VIEW vXSLT_Def "vXSLT_DefAllText"
+
+   // Build work subobject, which organizes controls in rows and columns.
+   LastPositionY = -1
+   FOR EACH vXSLT_Def.Control
+      IF vXSLT_Def.ControlDef.Tag = "Rpt_Text"
+         CurrentPositionY = vXSLT_Def.Control.PSDLG_Y
+         IF CurrentPositionY != LastPositionY
+            CREATE ENTITY vXSLT_Def.XSLT_WorkRow
+            vXSLT_Def.XSLT_WorkRow.PSDLG_Y = vXSLT_Def.Control.PSDLG_Y
+         END
+         LastPositionY = CurrentPositionY
+         CREATE ENTITY vXSLT_Def.XSLT_WorkColumn
+         vXSLT_Def.XSLT_WorkColumn.ControlZKey = vXSLT_Def.Control.ZKey
+         vXSLT_Def.XSLT_WorkColumn.ControlType = vXSLT_Def.ControlDef.Tag
+         SetMatchingAttributesByName( vXSLT_Def, "XSLT_WorkColumn",  vXSLT_Def, "Control", zSET_NULL )
+      END
+   END
+
+   // Process Row/Column Structure to generate Tables and Columns.
+
+   TopGroupPosition = vXSLT_Def.XSLT_WorkColumn.PSDLG_Y
+   RowCount = 0
+
+   FOR EACH vXSLT_Def.XSLT_WorkRow
+
+      // Build Row & Cell statements. Each work row becomes a single table with a single row.
+
+      RowCount = RowCount + 1
+
+      // Go to build the table.
+      XSLT_GroupTable( vXSLT_Def, vLOD, lFileHandle, szOutputLine, szIndentationChars, RowCount, "" )
+
+   END
+
+   // Remove the Work Rows.
+   FOR EACH vXSLT_Def.XSLT_WorkRow
+      DELETE ENTITY vXSLT_Def.XSLT_WorkRow NONE
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_GroupTable
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_GroupTable( VIEW vXSLT_Def     BASED ON LOD TZXSLTSO,
+                 VIEW vLOD           BASED ON LOD TZZOLODO,
+                 INTEGER lFileHandle,
+                 STRING ( 5000 ) szOutputLine,
+                 STRING ( 50 )   szIndentationChars,
+                 INTEGER         RowCount,
+                 STRING ( 32 )   szForEachName )
+
+   VIEW vXSLT_Def3 BASED ON LOD TZXSLTSO
+   STRING ( 20 )  szCurrentWidth
+   STRING ( 20 )  szPageWidth
+   STRING ( 30 )  szCellPaddingName
+   STRING ( 50 )  szAttributeMappingName
+   STRING ( 256 ) szConstantArea
+   STRING ( 50 )  szCellPadding
+   STRING ( 20 )  szTableMarginTop
+   STRING ( 20 )  szTablePaddingLeft
+   STRING ( 20 )  szTableWidth
+   INTEGER       CurrentWidth
+   INTEGER       CurrentPositionY
+   INTEGER       LastPositionY
+   INTEGER       FirstColumnPosition
+   INTEGER       TopGroupPosition
+   INTEGER       TextColumnCount
+   INTEGER       TablePaddingLeft
+   INTEGER       TableMarginTop
+   INTEGER       TableWidth
+   INTEGER       LastRowPosition
+   INTEGER       LastRowHeight
+
+   // Build Table
+
+   // Build open table and column statements.
+   // Open a new table.
+
+   szCellPaddingName = "DefaultCellPadding"
+
+   // Compute the following values:
+
+   // The value of Margin Top depends on whether this is the first row or any other row.
+   // 1. The first row is simply the Y Position.
+   // 2. Any later row is the Y Position minus the previous Row position and Row height (which is Y size of first control).
+   IF RowCount = 1
+      TableMarginTop  = vXSLT_Def.XSLT_WorkRow.PSDLG_Y
+   ELSE
+      CreateViewFromView( vXSLT_Def3, vXSLT_Def )
+      SET CURSOR PREVIOUS vXSLT_Def3.XSLT_WorkRow
+      LastRowPosition = vXSLT_Def3.XSLT_WorkRow.PSDLG_Y
+      LastRowHeight   = vXSLT_Def3.XSLT_WorkColumn.SZDLG_Y
+      TableMarginTop  = vXSLT_Def.XSLT_WorkRow.PSDLG_Y - LastRowPosition - LastRowHeight
+      IF TableMarginTop < 0
+         TableMarginTop = 0
+      END
+      DropView( vXSLT_Def3 )
+   END
+   ConvertPxToInchesCH( vXSLT_Def, szTableMarginTop, TableMarginTop )
+
+   // Compute Padding Left for first column of the row.
+   // We'll assume 100 is normal indentation and anything after that must shift the columns right.
+   SET CURSOR FIRST vXSLT_Def.XSLT_WorkColumn
+   FirstColumnPosition = vXSLT_Def.XSLT_WorkColumn.PSDLG_X
+   TablePaddingLeft = FirstColumnPosition - 100
+   IF TablePaddingLeft < 0
+      TablePaddingLeft = 0
+   END
+   ConvertPxToInchesCH( vXSLT_Def, szTablePaddingLeft, TablePaddingLeft )
+
+   // Table Width
+   SET CURSOR LAST vXSLT_Def.XSLT_WorkColumn
+   TableWidth = vXSLT_Def.XSLT_WorkColumn.PSDLG_X + vXSLT_Def.XSLT_WorkColumn.SZDLG_X
+   ConvertPxToInchesCH( vXSLT_Def, szTableWidth, TableWidth )
+
+   // Table Block - Initially, we'll make the table block visible.
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + "<fo:block border=" + QUOTES + "normal solid black" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // Table statement
+   szOutputLine = szIndentationChars + "<fo:table table-layout=" + QUOTES + "fixed" +
+                  QUOTES + " width=" + QUOTES + szTableWidth + "in" +
+                  QUOTES + " margin-top=" + QUOTES + szTableMarginTop +  "in" + QUOTES + ">"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // Column Statements
+   // Generate Padding Column, if TablePaddingLeft is > 0.
+   IF TablePaddingLeft > 0
+      szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szTablePaddingLeft + "in" + QUOTES + "/>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   END
+
+   // Generate Column Statement for each work Column entry.
+   FOR EACH vXSLT_Def.XSLT_WorkColumn
+      // The width is the difference between the starting position of this control and the starting position of the next control.
+      // If there is no next control, the width will be the actual width of the control.
+      CreateViewFromView( vXSLT_Def3, vXSLT_Def )
+      SET CURSOR NEXT vXSLT_Def3.XSLT_WorkColumn
+      IF RESULT >= zCURSOR_SET
+         CurrentWidth  = vXSLT_Def3.XSLT_WorkColumn.PSDLG_X - vXSLT_Def.XSLT_WorkColumn.PSDLG_X
+      ELSE
+         CurrentWidth  = vXSLT_Def.XSLT_WorkColumn.SZDLG_X
+      END
+      DropView( vXSLT_Def3 )
+      ConvertPxToInchesCH( vXSLT_Def, szCurrentWidth, CurrentWidth )
+      szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szCurrentWidth + "in" + QUOTES + "/>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   END
+
+   // Generate table-body statement, table-row and block.
+   szOutputLine = szIndentationChars + "<fo:table-body>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // If this is for a repeating Entity (based on For-Each flag, create for-each statement.
+   IF szForEachName != ""
+      szOutputLine = szIndentationChars + "<xsl:for-each select=" + QUOTES + szForEachName + QUOTES + ">"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   END
+
+   szOutputLine = szIndentationChars + "  <fo:table-row>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   // Generate the table-cell statements, which will contain either the text from the control or the attribute mapping data.
+
+   // Generate Padding Cell, if TablePaddingLeft is > 0.
+   IF TablePaddingLeft > 0
+      szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES + ">"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+      szOutputLine = szIndentationChars + "      <fo:block></fo:block>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+      szOutputLine = szIndentationChars + "    </fo:table-cell>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   END
+
+   TextColumnCount = 0
+   FOR EACH vXSLT_Def.XSLT_WorkColumn
+
+      szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES + ">"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+      // Block statement is different depending on whether or not there is mapping for the Control.
+      // Also, any Control 1) without mapping, 2) with null Text value and 3) with SZDLG_Y <= 21.
+      SET CURSOR FIRST vXSLT_Def.Control WHERE vXSLT_Def.Control.ZKey = vXSLT_Def.XSLT_WorkColumn.ControlZKey
+      IF vXSLT_Def.CtrlMapER_Attribute EXISTS
+         szAttributeMappingName = vXSLT_Def.CtrlMapRelatedEntity.Name + "." + vXSLT_Def.CtrlMapER_Attribute.Name
+         szOutputLine = szIndentationChars + "      <fo:block ><xsl:value-of select=" + QUOTES +
+                        szAttributeMappingName + QUOTES + "/></fo:block>"
+         GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+      ELSE
+         IF vXSLT_Def.Control.Text = "" AND vXSLT_Def.Control.SZDLG_Y <= 21
+            // Build a Leader line.
+            szOutputLine = szIndentationChars + "      <fo:block>"
+            GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+            szOutputLine = szIndentationChars + "      <fo:leader leader-pattern=" + QUOTES + "rule" + QUOTES +
+                           " leader-length.optimum=" + QUOTES + "100%" + QUOTES + " rule-style=" + QUOTES +
+                           "solid" + QUOTES + " rule-thickness=" + QUOTES + "1pt" + QUOTES + "/>"
+            GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+            szOutputLine = szIndentationChars + "      </fo:block>"
+            GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+         ELSE
+            szConstantArea = vXSLT_Def.Control.Text
+            szOutputLine = szIndentationChars + "      <fo:block>" + szConstantArea + "</fo:block>"
+            GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+         END
+      END
+
+      // Close table-cell
+      szOutputLine = szIndentationChars + "    </fo:table-cell>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   END
+
+   // Build close table statements
+   szOutputLine = szIndentationChars + "  </fo:table-row>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+   IF szForEachName != ""
+      szOutputLine = szIndentationChars + "  </xsl:for-each>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   END
+
+   szOutputLine = szIndentationChars + "</fo:table-body>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + "</fo:table>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + "</fo:block>"
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_SubTextGroup
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_SubTextGroup( VIEW vXSLT_DefRoot BASED ON LOD TZXSLTSO,
+                   VIEW vXSLT_Def  BASED ON LOD TZXSLTSO,
+                   VIEW vLOD           BASED ON LOD TZZOLODO,
+                   INTEGER lFileHandle,
+                   STRING ( 5000 ) szOutputLine,
+                   STRING ( 50 )  szIndentationChars,
+                   INTEGER GroupHierarchicalLevel )
+
+   VIEW vXSLT_Def3 BASED ON LOD TZXSLTSO
+   STRING ( 20 )  szCurrentWidth
+   STRING ( 20 )  szPageWidth
+   STRING ( 30 )  szCellPaddingName
+   STRING ( 50 )  szAttributeMappingName
+   STRING ( 256 ) szConstantArea
+   STRING ( 50 )  szXSLT_DefName
+   STRING ( 50 )  szSubIndentationChars
+   STRING ( 50 )  szCellPadding
+   STRING ( 20 )  szTableMarginTop
+   STRING ( 20 )  szTablePaddingLeft
+   STRING ( 20 )  szTableWidth
+   STRING ( 20 )  szPaddingTop
+   STRING ( 5 )   szColumnCount
+   STRING ( 200 ) szMsg
+   INTEGER       CurrentWidth
+   INTEGER       CurrentRowPositionX
+   INTEGER       CurrentPositionY
+   INTEGER       LastPositionY
+   INTEGER       LastPositionRowY
+   INTEGER       LastPositionX
+   INTEGER       LastWidthX
+   INTEGER       FirstColumnPosition
+   INTEGER       TopGroupPosition
+   INTEGER       ColumnCount
+   INTEGER       FirstColumnCount
+   INTEGER       TextColumnCount
+   INTEGER       CellPadding
+   INTEGER       RowCount
+   INTEGER       TablePaddingLeft
+   INTEGER       TableMarginTop
+   INTEGER       TableWidth
+   INTEGER       MaximumWidth
+   INTEGER       PaddingTop
+   INTEGER       ControlCount
+
+   // Build a Table for all the Control entities, which are here considered to be all Text Controls, with the same number
+   // of Text entries in EVERY row. This differs from the tables built in XSLT_GroupTable as follows:
+   // In XSLT_GroupTable, every row of Control entries is built as a "single row table".
+   // In this routine, because every row has the same number of Controls, all the Control entries are built as one table
+   // with multiple rows.
+
+   // Process each Rpt_Text Control by generating a table-row statement for each unique row (Y position) and a table-cell
+   // statement for each control.
+   // Note that all the rows must have the same number of columns, or an error message will be returned to the use, as each
+   // row must have the same number of cells.
+
+   NAME VIEW vXSLT_DefRoot "vXSLT_DefRootSubText"
+
+   szCellPaddingName = "DefaultCellPadding"
+
+   // Increment hierarchical level for creating XSLT_WorkGroup entry.
+   GroupHierarchicalLevel = GroupHierarchicalLevel + 1
+
+   // Build work subobject, which organizes controls in rows and columns.
+   LastPositionY = -1
+   CREATE ENTITY vXSLT_DefRoot.XSLT_WorkGroup
+   vXSLT_DefRoot.XSLT_WorkGroup.RecursiveNumber = GroupHierarchicalLevel
+   ControlCount = 0
+   FOR EACH vXSLT_Def.Control
+      ControlCount = ControlCount + 1
+      IF vXSLT_Def.ControlDef.Tag = "Rpt_Text" OR vXSLT_Def.ControlDef.Tag = "Rpt_PicGraphic"
+         CurrentPositionY = vXSLT_Def.Control.PSDLG_Y
+         IF CurrentPositionY != LastPositionY
+            CREATE ENTITY vXSLT_DefRoot.XSLT_WorkRow
+            vXSLT_DefRoot.XSLT_WorkRow.PSDLG_Y = vXSLT_Def.Control.PSDLG_Y
+         END
+         LastPositionY = CurrentPositionY
+         CREATE ENTITY vXSLT_DefRoot.XSLT_WorkColumn
+         vXSLT_DefRoot.XSLT_WorkColumn.ControlZKey = vXSLT_Def.Control.ZKey
+         vXSLT_DefRoot.XSLT_WorkColumn.ControlType = vXSLT_Def.ControlDef.Tag
+         SetMatchingAttributesByName( vXSLT_DefRoot, "XSLT_WorkColumn",  vXSLT_Def, "Control", zSET_NULL )
+      END
+   END
+
+   // Check if there is only a single Control under the parent, in which case we don't need to build a table here.
+   IF ControlCount = 1
+
+      // There is only a single Control, so skip table.
+      XSLT_BuildBlockData( vXSLT_DefRoot, vXSLT_Def, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel )
+
+   ELSE
+
+      // Build table, since there are multiple Controls.
+      // We will build a single table statement, with a table-column statement for each column (remember, each row has
+      // the same number of columns) and a table-row and table-cell statement for each row.
+
+      // Check that all rows have the same number of columns.
+      SET CURSOR FIRST vXSLT_DefRoot.XSLT_WorkRow
+      ColumnCount = 0
+      FOR EACH vXSLT_DefRoot.XSLT_WorkColumn
+         ColumnCount = ColumnCount + 1
+      END
+      FirstColumnCount = ColumnCount
+      FOR EACH vXSLT_DefRoot.XSLT_WorkRow
+         ColumnCount = 0
+         FOR EACH vXSLT_DefRoot.XSLT_WorkColumn
+            ColumnCount = ColumnCount + 1
+         END
+         IF ColumnCount != FirstColumnCount
+            szColumnCount = ColumnCount
+            szMsg = "Unequal number of columns containing control, " + vXSLT_Def.Control.Tag + NEW_LINE +
+                    "Number of Columns generating error: " + szColumnCount
+            MessageSend( vXSLT_Def, "", "Generate XSLT", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         END
+      END
+
+      // Build open block & table statements.
+
+      // We'll get width from parent.
+      CreateViewFromView( vXSLT_Def3, vXSLT_Def )
+      ResetViewFromSubobject( vXSLT_Def3 )
+      TableWidth = vXSLT_Def3.Control.SZDLG_X
+      DropView( vXSLT_Def3 )
+      // MarginTop will come from Y position of first Control.
+      SET CURSOR FIRST vXSLT_DefRoot.XSLT_WorkRow
+      TableMarginTop = vXSLT_DefRoot.XSLT_WorkRow.PSDLG_Y
+      XSLT_BuildTable( vXSLT_DefRoot, vXSLT_Def, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel, TableMarginTop, TableWidth )
+
+      // Build the table-column statments from columns in the first row.
+      // As noted above, we only need to process columns from the first row as all rows should have the same number of columns.
+      // However, we want the maximum width of the corresponding controls, so we will compute that first.
+      FOR EACH vXSLT_DefRoot.XSLT_WorkRow
+         ColumnCount = 0
+         FOR EACH vXSLT_DefRoot.XSLT_WorkColumn
+            ColumnCount = ColumnCount + 1
+            SET CURSOR FIRST vXSLT_DefRoot.XSLT_ColumnWidth WHERE vXSLT_DefRoot.XSLT_ColumnWidth.Index = ColumnCount
+            IF RESULT < zCURSOR_SET
+               CREATE ENTITY vXSLT_DefRoot.XSLT_ColumnWidth
+               vXSLT_DefRoot.XSLT_ColumnWidth.Index = ColumnCount
+            END
+            IF ColumnCount = 1
+               MaximumWidth = vXSLT_DefRoot.XSLT_WorkColumn.SZDLG_X + vXSLT_DefRoot.XSLT_WorkColumn.PSDLG_X
+            ELSE
+               MaximumWidth = vXSLT_DefRoot.XSLT_WorkColumn.SZDLG_X
+            END
+            IF MaximumWidth > vXSLT_DefRoot.XSLT_ColumnWidth.MaximumWidth
+               vXSLT_DefRoot.XSLT_ColumnWidth.MaximumWidth = MaximumWidth
+            END
+         END
+      END
+      SET CURSOR FIRST vXSLT_DefRoot.XSLT_WorkRow
+      ColumnCount = 0
+      FOR EACH vXSLT_DefRoot.XSLT_WorkColumn
+
+         ColumnCount = ColumnCount + 1
+         SET CURSOR FIRST vXSLT_DefRoot.XSLT_ColumnWidth WHERE vXSLT_DefRoot.XSLT_ColumnWidth.Index = ColumnCount
+
+         CreateViewFromView( vXSLT_Def3, vXSLT_DefRoot )
+         NAME VIEW vXSLT_Def3 "vXSLT_Def3SubText"
+         IF ColumnCount = 1
+            // The width of the first column is the starting position of the next column, if there is one.
+            // Otherwise it's the width of the single control plus its X position.
+            // In either case, it needs to be big enough to handle any padding characters.
+            SET CURSOR NEXT vXSLT_Def3.XSLT_WorkColumn
+            IF RESULT >= zCURSOR_SET
+               // There is a next column, so use its X position as the first column width.
+               CurrentWidth = vXSLT_Def3.XSLT_WorkColumn.PSDLG_X
+            ELSE
+               // There is no next column, so use computed width from above.
+               CurrentWidth = vXSLT_DefRoot.XSLT_ColumnWidth.MaximumWidth
+            END
+         ELSE
+            // The width is the difference between the starting position of this control and the starting position of the next control.
+            // If there is no next control, the width will be the actual width of the control computed above.
+            SET CURSOR NEXT vXSLT_Def3.XSLT_WorkColumn
+            IF RESULT >= zCURSOR_SET
+               CurrentWidth  = vXSLT_Def3.XSLT_WorkColumn.PSDLG_X - vXSLT_DefRoot.XSLT_WorkColumn.PSDLG_X
+            ELSE
+               CurrentWidth  = vXSLT_DefRoot.XSLT_ColumnWidth.MaximumWidth
+            END
+         END
+         ConvertPxToInchesCH( vXSLT_Def, szCurrentWidth, CurrentWidth )
+         DropView( vXSLT_Def3 )
+
+         szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szCurrentWidth + "in" + QUOTES + "/>"
+         GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+      END
+
+      // We also have to build the table-body statement.
+      szOutputLine = szIndentationChars + "<fo:table-body>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+      // Build table-row and table-cell statements.
+      RowCount = 0
+      FOR EACH vXSLT_DefRoot.XSLT_WorkRow
+
+         // Build open table-row statement.
+         szOutputLine = szIndentationChars + "  <fo:table-row>"
+         GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+         // Build the table-cell statements.
+         TextColumnCount = 0
+         FOR EACH vXSLT_DefRoot.XSLT_WorkColumn
+
+            // Cell padding is only used for first column in row.
+            TextColumnCount = TextColumnCount + 1
+            IF TextColumnCount = 1
+               // Determine padding for 1st column.
+               CellPadding = vXSLT_DefRoot.XSLT_WorkColumn.PSDLG_X
+               ConvertPxToInchesCH( vXSLT_Def, szCellPadding, CellPadding )
+            ELSE
+               szCellPadding = "0"
+            END
+
+            szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES +
+                           " padding-left=" + QUOTES + szCellPadding + "in" + QUOTES + ">"
+            GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+            // Build block and data statements.
+            XSLT_BuildBlockData( vXSLT_DefRoot, vXSLT_Def, vLOD, lFileHandle, szOutputLine, szIndentationChars, GroupHierarchicalLevel )
+
+            // Close table-cell
+            szOutputLine = szIndentationChars + "    </fo:table-cell>"
+            GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+         END
+
+         // Build close table-row statement.
+         szOutputLine = szIndentationChars + "  </fo:table-row>"
+         GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+
+      END
+
+      // Build close table-body, table and block statements.
+      szOutputLine = szIndentationChars + "</fo:table-body>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "</fo:table>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "</fo:block>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   END
+
+   // Remove the Work Group for this hierarchical level.
+   DropNameForView( vXSLT_DefRoot, "vXSLT_DefRootSubText", vXSLT_Def, zLEVEL_TASK )
+   DELETE ENTITY vXSLT_DefRoot.XSLT_WorkGroup
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_SubTextGroup
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_BuildBlockData( VIEW vXSLT_DefRoot BASED ON LOD TZXSLTSO,
+                     VIEW vXSLT_Def     BASED ON LOD TZXSLTSO,
+                     VIEW vLOD           BASED ON LOD TZZOLODO,
+                     INTEGER lFileHandle,
+                     STRING ( 5000 ) szOutputLine,
+                     STRING ( 50 )  szIndentationChars,
+                     INTEGER GroupHierarchicalLevel )
+
+   STRING ( 20 )  szPaddingTop
+   STRING ( 32 )  szAttributeMappingName
+   STRING ( 256 ) szConstantArea
+   INTEGER        PaddingTop
+
+   // Block and data statement is different depending on whether the ControlDef is Text or Graphic and whether or not there is mapping for the Control.
+   SET CURSOR FIRST vXSLT_Def.Control WHERE vXSLT_Def.Control.ZKey = vXSLT_DefRoot.XSLT_WorkColumn.ControlZKey
+   IF vXSLT_Def.ControlDef.Tag = "Rpt_PicGraphic"
+      // Control is graphic.
+      szConstantArea = vXSLT_Def.Control.Text
+      PaddingTop = vXSLT_Def.Control.PSDLG_Y
+      ConvertPxToInchesCH( vXSLT_Def, szPaddingTop, PaddingTop )
+      szOutputLine = szIndentationChars + "<fo:block border=" + QUOTES + "normal solid black" + QUOTES + ">"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "  <fo:external-graphic src=" + QUOTES + szConstantArea + QUOTES +
+                                          " padding-top=" + QUOTES + szPaddingTop + "in" + QUOTES + "/>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+      szOutputLine = szIndentationChars + "</fo:block>"
+      GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+   ELSE
+      // Control is considered Text.
+      IF vXSLT_Def.CtrlMapER_Attribute EXISTS
+         szAttributeMappingName = vXSLT_Def.CtrlMapRelatedEntity.Name + "." + vXSLT_Def.CtrlMapER_Attribute.Name
+         szOutputLine = szIndentationChars + "      <fo:block ><xsl:value-of select=" + QUOTES +
+                        szAttributeMappingName + QUOTES + "/></fo:block>"
+         GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+      ELSE
+         szConstantArea = vXSLT_Def.Control.Text
+         szOutputLine = szIndentationChars + "      <fo:block>" + szConstantArea + "</fo:block>"
+         GenerateLine( vXSLT_Def, lFileHandle, szOutputLine )
+      END
+   END
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_SubTextGroup
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_BuildTable( VIEW vXSLT_DefRoot BASED ON LOD TZXSLTSO,
+                 VIEW vXSLT_Def     BASED ON LOD TZXSLTSO,
+                 VIEW vLOD           BASED ON LOD TZZOLODO,
+                 INTEGER lFileHandle,
+                 STRING ( 5000 ) szOutputLine,
+                 STRING ( 50 )  szIndentationChars,
+                 INTEGER GroupHierarchicalLevel,
+                 INTEGER TableMarginTop,
+                 INTEGER TableWidth )
+
+   STRING ( 20 )  szTableWidth
+   STRING ( 20 )  szTableMarginTop
+
+   // Build block and table statement.
+   SET CURSOR FIRST vXSLT_Def.Control WHERE vXSLT_Def.Control.ZKey = vXSLT_DefRoot.XSLT_WorkColumn.ControlZKey
+
+   ConvertPxToInchesCH( vXSLT_DefRoot, szTableMarginTop, TableMarginTop )
+   ConvertPxToInchesCH( vXSLT_DefRoot, szTableWidth, TableWidth )
+
+   // Table Block - Initially, we'll make the table block visible.
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + "<fo:block border=" + QUOTES + "normal solid black" + QUOTES + ">"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+   szOutputLine = szIndentationChars + ""
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+   // Table statement
+   szOutputLine = szIndentationChars + "<fo:table table-layout=" + QUOTES + "fixed" +
+                  QUOTES + " width=" + QUOTES + szTableWidth + "in" +
+                  QUOTES + " margin-top=" + QUOTES + szTableMarginTop +  "in" + QUOTES + ">"
+   GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: XSLT_GroupRecur
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+XSLT_GroupRecur( VIEW vXSLT_DefRoot BASED ON LOD TZXSLTSO,
+                 VIEW vXSLT_Def     BASED ON LOD TZXSLTSO,
+                 VIEW vLOD           BASED ON LOD TZZOLODO,
+                 INTEGER lFileHandle,
+                 STRING ( 5000 ) szOutputLine,
+                 STRING ( 50 )   szIndentationChars,
+                 INTEGER GroupHierarchicalLevel )
+
+   VIEW vXSLT_DefRoot2 BASED ON LOD TZXSLTSO
+   VIEW vXSLT_Def3     BASED ON LOD TZXSLTSO
+   STRING ( 20 )  szCurrentWidth
+   STRING ( 20 )  szPageWidth
+   STRING ( 30 )  szCellPaddingName
+   STRING ( 50 )  szAttributeMappingName
+   STRING ( 50 )  szXSLT_DefName
+   STRING ( 50 )  szSubIndentationChars
+   STRING ( 50 )  szCellPadding
+   STRING ( 20 )  szTableMarginTop
+   STRING ( 20 )  szTablePaddingLeft
+   STRING ( 20 )  szTableWidth
+   STRING ( 5 )   szColumnCount
+   STRING ( 1 )   szSubControlType
+   STRING ( 1 )   szControlType
+   STRING ( 2 )   szHierarchicalLevel
+   STRING ( 20 )  szSubObjectName
+   STRING ( 200 ) szMsg
+   INTEGER       CurrentWidth
+   INTEGER       CurrentRowPositionX
+   INTEGER       CurrentPositionY
+   INTEGER       LastPositionY
+   INTEGER       LastPositionRowY
+   INTEGER       LastPositionX
+   INTEGER       LastWidthX
+   INTEGER       FirstColumnPosition
+   INTEGER       TopGroupPosition
+   INTEGER       ColumnCount
+   INTEGER       FirstColumnCount
+   INTEGER       TextColumnCount
+   INTEGER       CellPadding
+   INTEGER       RowCount
+   INTEGER       TablePaddingLeft
+   INTEGER       TableMarginTop
+   INTEGER       TableWidth
+
+   // Process Controls that are all Shapes or Groups.
+   // This is a recursive routine as a Shape/Group can contain another Shape/Group.
+   // NOTE THAT WE ASSUME ALL CONTROLS AT THIS LEVEL ARE ALL SHAPE/GROUP CONTROLS OR ALL TEXT/ICON CONTROLS.
+
+   // Increment hierarchical level for creating XSLT_WorkGroup entry.
+   GroupHierarchicalLevel = GroupHierarchicalLevel + 1
+
+   // Make sure Controls are in row/column order.
+   OrderEntityForView( vXSLT_Def, "Control", "PSDLG_Y A PSDLG_X A" )
+
+   szPageWidth = "7.5in"
+   szCellPaddingName = "DefaultCellPadding"
+
+   // Build work subobject, which organizes controls in rows and columns.
+   // Note that we will only process Shape/Group controls with subcontrols.
+   // Also, if any control is a Shape/Group, we assume all are.
+   // First determine if any are a Shape/Group.
+   szControlType = ""
+   FOR EACH vXSLT_Def.Control
+      IF vXSLT_Def.CtrlCtrl EXISTS AND vXSLT_Def.ControlDef.Tag = "Rpt_Shape"
+         szControlType = "G"
+      END
+   END
+
+   // If this level of Controls has NO Shapes/Groups, we will process as either AllText or SubText, based on whether we're in here for the first time.
+   IF szControlType = ""
+      IF GroupHierarchicalLevel > 2
+         CreateViewFromView( vXSLT_DefRoot2, vXSLT_DefRoot )
+         szHierarchicalLevel = GroupHierarchicalLevel
+         szSubObjectName = "vXSLT_Def" + szHierarchicalLevel
+         SetNameForView( vXSLT_DefRoot2, szSubObjectName, vXSLT_DefRoot, zLEVEL_TASK )
+         SetViewToSubobject( vXSLT_Def, "CtrlCtrl" )
+         szSubIndentationChars = szIndentationChars + "      "
+         XSLT_SubTextGroup( vXSLT_DefRoot2, vXSLT_Def, vLOD, lFileHandle, szOutputLine, szSubIndentationChars, GroupHierarchicalLevel )
+         ResetViewFromSubobject( vXSLT_Def )
+         DropView( vXSLT_DefRoot2 )
+      ELSE
+         XSLT_AllTextGroup( vXSLT_Def, vLOD, lFileHandle, szOutputLine, szIndentationChars )
+      END
+
+   ELSE
+
+      // At least some of the Controls are Shapes/Groups, so dontinue processing as Group.
+
+      // Build the WorkGroup for organizing the Controls in tables.
+      LastPositionY = -1
+      CREATE ENTITY vXSLT_DefRoot.XSLT_WorkGroup
+      vXSLT_DefRoot.XSLT_WorkGroup.RecursiveNumber = GroupHierarchicalLevel
+      FOR EACH vXSLT_Def.Control
+         IF szControlType = "G" AND vXSLT_Def.CtrlCtrl EXISTS AND vXSLT_Def.ControlDef.Tag = "Rpt_Shape"
+
+            CurrentPositionY = vXSLT_Def.Control.PSDLG_Y
+            IF CurrentPositionY != LastPositionY
+               CREATE ENTITY vXSLT_DefRoot.XSLT_WorkRow
+               vXSLT_DefRoot.XSLT_WorkRow.PSDLG_Y = vXSLT_Def.Control.PSDLG_Y
+               vXSLT_DefRoot.XSLT_WorkRow.Tag     = vXSLT_Def.Control.Tag + "Parent"
+            END
+            LastPositionY = CurrentPositionY
+            CREATE ENTITY vXSLT_DefRoot.XSLT_WorkColumn
+            vXSLT_DefRoot.XSLT_WorkColumn.ControlZKey = vXSLT_Def.Control.ZKey
+            vXSLT_DefRoot.XSLT_WorkColumn.ControlType = vXSLT_Def.ControlDef.Tag
+            SetMatchingAttributesByName( vXSLT_DefRoot, "XSLT_WorkColumn",  vXSLT_Def, "Control", zSET_NULL )
+         END
+      END
+
+      // Name Views for Debugging.
+      szHierarchicalLevel = GroupHierarchicalLevel
+      szSubObjectName = "vXSLT_DefWorkGroup" + szHierarchicalLevel
+      NAME VIEW vXSLT_DefRoot szSubObjectName
+      szSubObjectName = "vXSLT_DefControl" + szHierarchicalLevel
+      NAME VIEW vXSLT_Def szSubObjectName
+
+      // Process Row/Column Work Structure to generate Tables and Columns.
+
+      TopGroupPosition = vXSLT_DefRoot.XSLT_WorkColumn.PSDLG_Y
+      RowCount = 0
+
+      FOR EACH vXSLT_DefRoot.XSLT_WorkRow
+
+         RowCount = RowCount + 1
+
+         // Build open table and column statements.
+            // Open a new table.
+
+            // If this is the topmost Group within the parent, we'll use it's Y position as the margin top. Otherwise,
+            // the margin top will be zero.
+            IF RowCount = 1
+               TableMarginTop  = vXSLT_DefRoot.XSLT_WorkRow.PSDLG_Y
+            ELSE
+               TableMarginTop  = 0
+            END
+            ConvertPxToInchesCH( vXSLT_DefRoot, szTableMarginTop, TableMarginTop )
+
+            // Compute the following values:
+            //     Table Padding Left (used to create a dummy column to shift first table column right as necessary.
+            //     Table Width (total of Padding Left and all sub Controls, which is determined from last column)
+            SET CURSOR FIRST vXSLT_DefRoot.XSLT_WorkColumn
+            FirstColumnPosition = vXSLT_DefRoot.XSLT_WorkColumn.PSDLG_X
+            // Table Padding Left is generated for the first column within a table or page row.
+            // If this is the first column on the page row, (which is determined by the hierarchical level being 2), then we assume there
+            // are 100 positions of normal indentation.
+            IF GroupHierarchicalLevel = 2
+               IF FirstColumnPosition > 100   // We'll assume 100 is normal indentation and anything after that must shift the columns right.
+                  TablePaddingLeft = FirstColumnPosition - 100
+                  ConvertPxToInchesCH( vXSLT_DefRoot, szTablePaddingLeft, TablePaddingLeft )
+               END
+            ELSE
+               TablePaddingLeft = FirstColumnPosition
+               ConvertPxToInchesCH( vXSLT_DefRoot, szTablePaddingLeft, TablePaddingLeft )
+            END
+
+            // Table Width
+            SET CURSOR LAST vXSLT_DefRoot.XSLT_WorkColumn
+            TableWidth = vXSLT_DefRoot.XSLT_WorkColumn.PSDLG_X + vXSLT_DefRoot.XSLT_WorkColumn.SZDLG_X
+            ConvertPxToInchesCH( vXSLT_DefRoot, szTableWidth, TableWidth )
+
+            // Table Block - Initially, we'll make the table block visible.
+            szOutputLine = szIndentationChars + ""
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + "<fo:block border=" + QUOTES + "normal solid black" + QUOTES + ">"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + ""
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+            // Table statement
+            szOutputLine = szIndentationChars + "<fo:table table-layout=" + QUOTES + "fixed" +
+                           QUOTES + " width=" + QUOTES + szTableWidth + "in" +
+                           QUOTES + " margin-top=" + QUOTES + szTableMarginTop +  "in" + QUOTES + ">"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+            // Column Statements
+
+            // Generate Padding Column, if TablePaddingLeft is > 0.
+            IF TablePaddingLeft > 0
+               szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szTablePaddingLeft + "in" + QUOTES + "/>"
+               GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            END
+
+            // Generate Column Statement for each work Column entry.
+            FOR EACH vXSLT_DefRoot.XSLT_WorkColumn
+
+               // The width is the difference between the starting position of this control and the starting position of the next control.
+               // If there is no next control, the width will be the actual width of the control.
+               CreateViewFromView( vXSLT_Def3, vXSLT_DefRoot )
+               SET CURSOR NEXT vXSLT_Def3.XSLT_WorkColumn
+               IF RESULT >= zCURSOR_SET
+                  CurrentWidth  = vXSLT_Def3.XSLT_WorkColumn.PSDLG_X - vXSLT_DefRoot.XSLT_WorkColumn.PSDLG_X
+               ELSE
+                  CurrentWidth  = vXSLT_DefRoot.XSLT_WorkColumn.SZDLG_X
+               END
+               DropView( vXSLT_Def3 )
+               ConvertPxToInchesCH( vXSLT_DefRoot, szCurrentWidth, CurrentWidth )
+
+               szOutputLine = szIndentationChars + "<fo:table-column column-width=" + QUOTES + szCurrentWidth + "in" + QUOTES + "/>"
+               GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            END
+
+            // Generate table-body statement, table-row and block.
+            szOutputLine = szIndentationChars + "<fo:table-body>"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+            szOutputLine = szIndentationChars + "  <fo:table-row>"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+            // Generate the table-cell statements, which will actually end up calling this recursive routine, XSLT_GroupRecur, to
+            // process sub-controls.
+
+            // Generate Padding Cell, if TablePaddingLeft is > 0.
+            IF TablePaddingLeft > 0
+               szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES + ">"
+               GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+               szOutputLine = szIndentationChars + "      <fo:block></fo:block>"
+               GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+               szOutputLine = szIndentationChars + "    </fo:table-cell>"
+               GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            END
+
+            FOR EACH vXSLT_DefRoot.XSLT_WorkColumn
+               szOutputLine = szIndentationChars + "    <fo:table-cell xsl:use-attribute-sets=" + QUOTES + szCellPaddingName + QUOTES + ">"
+               GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+               // Process Sub Control Entities.
+               SET CURSOR FIRST vXSLT_Def.Control WHERE vXSLT_Def.Control.ZKey = vXSLT_DefRoot.XSLT_WorkColumn.ControlZKey
+               // Create new view so that we can save our current position.
+               CreateViewFromView( vXSLT_DefRoot2, vXSLT_DefRoot )
+               SetViewToSubobject( vXSLT_Def, "CtrlCtrl" )
+               szSubIndentationChars = szIndentationChars + "      "
+
+               IF vXSLT_Def.ControlDef.Tag = "Rpt_Shape"
+                  // Call XSLT_GroupRecur recursively.
+                  XSLT_GroupRecur( vXSLT_DefRoot2, vXSLT_Def, vLOD, lFileHandle, szOutputLine, szSubIndentationChars, GroupHierarchicalLevel )
+               ELSE
+                  // Call XSLT_SubTextGroup to format data.
+                  XSLT_SubTextGroup( vXSLT_DefRoot2, vXSLT_Def, vLOD, lFileHandle, szOutputLine, szSubIndentationChars, GroupHierarchicalLevel )
+               END
+
+
+               ResetViewFromSubobject( vXSLT_Def )
+               DropView( vXSLT_DefRoot2 )
+
+               // Close table-cell
+               szOutputLine = szIndentationChars + "    </fo:table-cell>"
+               GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            END
+
+
+            // Build close table statements
+            szOutputLine = szIndentationChars + "  </fo:table-row>"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + "</fo:table-body>"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + "</fo:table>"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + ""
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + "</fo:block>"
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+            szOutputLine = szIndentationChars + ""
+            GenerateLine( vXSLT_DefRoot, lFileHandle, szOutputLine )
+
+      END
+   END
+
+   // Remove the Work Group for this hierarchical level.
+   DELETE ENTITY vXSLT_DefRoot.XSLT_WorkGroup
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: ConvertPxToInchesCH
+**
+*************************************************************************************************/
+LOCAL OPERATION
+ConvertPxToInchesCH( VIEW vXSLT_DefRoot BASED ON LOD TZXSLTSO,
+                     STRING ( 20 ) ReturnedString,
+                     INTEGER lValueInPixles )
+
+   DECIMAL dValueInInches
+   DECIMAL dDecimal0
+   INTEGER lValueInInches
+
+   // Convert pixles integer value to decimal 2 as a returned string.
+   //lValueInInches = ( lValueInPixles * 100 ) / 256
+   lValueInInches = ( lValueInPixles * 100 ) / 280
+   dDecimal0 = lValueInInches
+   dValueInInches = dDecimal0 / 100
+   ReturnedString = dValueInInches
+
+END
+
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateLine
+**
+*************************************************************************************************/
+LOCAL OPERATION
+GenerateLine( VIEW XSLTObject BASED ON LOD TZXSLTSO,
+              INTEGER lFileHandle,
+              STRING ( 5000 ) szOutputLine )
+
+   // This is just a SysWriteLine with an options TraceLineS statement.
+   TraceLineS( "*** Line: ", szOutputLine )
+   SysWriteLine( XSLTObject, lFileHandle, szOutputLine )
+
+END
+
+/*************************************************************************************************
+**
+**    OPERATION: GenerateXSLT_PDF
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenerateXSLT_PDF( VIEW vXSLT_Def,
+                  VIEW vSourceOI,
+                  STRING ( 32 ) szTopEntityName,
+                  INTEGER lFlag )
+
+   // The first step is to build the XML object for the passed in application object and XSLT Definition.
+   //GenerateXSLT_XML( vXSLT_Def, vSourceOI, szTopEntityName )
+
+
+END

@@ -7421,6 +7421,10 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   String strComboCurrentValue = ^^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   //:szWriteBuffer = "   String strComboCurrentInternalValue = ^^;"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   String strComboCurrentInternalValue = ^^;", 1, 0, 10001 );
+   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "   String strAutoComboBoxExternalValue = ^^;"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "   String strAutoComboBoxExternalValue = ^^;", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
