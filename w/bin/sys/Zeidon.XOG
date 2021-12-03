@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZZOXOGO                         05/27/20   16:49:08 1.0a2   
+z1000-Zeidon    ZEIDON   TZZOXOGO                         11/12/21   13:15:26 1.0a2   
 eTZZOXOGO  1
 aNAME      Zeidon
 
@@ -2075,6 +2075,10 @@ ePARAMETER 4
 aNAME      lFile
 aDATATYPE  L
 
+ePARAMETER 4
+aNAME      SideMenuExsitsFlag
+aDATATYPE  S
+
 eOPERATION 3
 aNAME      GenJSPJ_CrteSideMenuRecurs
 aTYPE      G
@@ -2693,6 +2697,14 @@ aDATATYPE  S
 
 ePARAMETER 4
 aNAME      NoPositioning
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      szStyleIsBootstrap
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      szBootstrapOuterCard
 aDATATYPE  S
 
 ePARAMETER 4

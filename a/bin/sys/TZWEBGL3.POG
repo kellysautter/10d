@@ -1,7 +1,7 @@
-z1000-Zeidon    TZWEBGL3 TZOGSRCO                         05/27/20   16:49:08 1.0a2   
+z1000-Zeidon    TZWEBGL3 TZOGSRCO                         08/31/21   12:10:47 1.0a2   
 eGlobalOperationGroup 1
 aZKey      4896719
-aNextZKeyToAssign 93056476
+aNextZKeyToAssign 93056477
 aName      TZWEBGL3
 aDesc      JSP Generation operations for zeidon JAVA
 aExtension VML
@@ -177,6 +177,13 @@ aDataType  L
 aPFlag     N
 aUFlag     N
 aZKey      93056457
+
+eParameter 3
+aShortDesc SideMenuExsitsFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      93056477
 
 eOperation 2
 aName      GenJSPJ_CrteSideMenuRecurs

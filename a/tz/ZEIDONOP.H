@@ -1771,7 +1771,7 @@ GenJSPJ_InputMapRecurs( zVIEW vDialog0,
                         zPCHAR pchszRepeatingGrpKey5 );
 
 //end
-//start TZWEBGL3 2020.05.27 16:49:08
+//start TZWEBGL3 2021.08.31 12:10:48
 zOPER_EXPORT zSHORT OPERATION
 BuildMainNavSection( zVIEW vDialog0,
                      zVIEW vDialogRoot1,
@@ -1799,7 +1799,8 @@ GenJSP_MenuFunctionsRecurs( zVIEW vDialog0,
 zOPER_EXPORT zSHORT OPERATION
 BuildMainNavSectionBootstrap( zVIEW vvDialog0,
                               zVIEW vvDialogRoot1,
-                              zLONG llFile2 );
+                              zLONG llFile2,
+                              zPCHAR pchSideMenuExsitsFlag3 );
 
 zOPER_EXPORT zSHORT OPERATION
 GenJSPJ_CrteSideMenuRecurs( zVIEW vvDialog0,
@@ -1940,7 +1941,7 @@ CreateTabIndexString( zVIEW vDialog0,
                       zPCHAR pchTabIndex1 );
 
 //end
-//start TZWEBGL4 2019.12.09 12:09:30
+//start TZWEBGL4 2021.11.12 13:15:26
 zOPER_EXPORT zSHORT OPERATION
 BuildSideNavSectionJ( zVIEW vvDialog0,
                       zVIEW vvDialogRoot1,
@@ -1975,8 +1976,10 @@ GenJSPJ_CrteFileTransferForm( zVIEW vvDialog0,
                               zPCHAR pchWriteBuffer3,
                               zPCHAR pchIndent4,
                               zPCHAR pchNoPositioning5,
-                              zLONG lOffsetX6,
-                              zLONG lOffsetY7 );
+                              zPCHAR pchszStyleIsBootstrap6,
+                              zPCHAR pchszBootstrapOuterCard7,
+                              zLONG lOffsetX8,
+                              zLONG lOffsetY9 );
 
 zOPER_EXPORT zSHORT OPERATION
 GenJSPJ_CrteListBoxAsList( zVIEW vvDialog0,

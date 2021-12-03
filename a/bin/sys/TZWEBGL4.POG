@@ -1,7 +1,7 @@
-z1000-Zeidon    TZWEBGL4 TZOGSRCO                         12/09/19   12:09:30 1.0a2   
+z1000-Zeidon    TZWEBGL4 TZOGSRCO                         11/12/21   13:15:26 1.0a2   
 eGlobalOperationGroup 1
 aZKey      4896724
-aNextZKeyToAssign 130070663
+aNextZKeyToAssign 130070665
 aName      TZWEBGL4
 aDesc      JSP Generation operations for zeidon JAVA
 aExtension VML
@@ -219,6 +219,20 @@ aDataType  S
 aPFlag     N
 aUFlag     N
 aZKey      130070644
+
+eParameter 3
+aShortDesc szStyleIsBootstrap
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070664
+
+eParameter 3
+aShortDesc szBootstrapOuterCard
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070665
 
 eParameter 3
 aShortDesc OffsetX

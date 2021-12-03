@@ -1056,6 +1056,16 @@ zwTZOPUPDD_TransferToEditor( zVIEW vSubtask )
    if ( GetViewByName( &vOper, "TZOGSRCO", vSubtask, zLEVEL_TASK ) < 1 )
       return( 0 );
 
+   // KJS 11/29/21 - If the source file is a java file... we don't want to update this here... or should I be able to update it.
+   if (CompareAttributeToString(vOper, "GlobalOperationGroup", "LanguageType", "J") == 0)
+   {
+	   MessageSend(vSubtask, "OP00301", "Operation Maintenance",
+		   "This operation source is java, you can not update it through the Zeidon vml/c editor.",
+		   zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP);
+
+	   return(0);
+   }
+
    // *** TEMPORARY HACK ***
    // This should be replaced when/if VML is re-written.
    //

@@ -2967,6 +2967,125 @@ zwTZTEUPDD_BuildXODsOnServer( zVIEW vSubtask )
    return( 0 );
 }
 
+
+zOPER_EXPORT zSHORT OPERATION
+SQL_DBH_SetX_ToOneLoc( zVIEW  TZZOLODO, zVIEW     vSubtask )
+{
+   zVIEW     TZTENVRO = 0; 
+   zSHORT    RESULT; 
+   //:VIEW TZZOLODO      REGISTERED AS TZZOLODO
+   //zVIEW     TZZOLODO = 0; 
+   //:VIEW TZZOLODO_Hier BASED ON LOD TZZOLODO
+   zVIEW     TZZOLODO_Hier = 0; 
+   //:STRING ( 100 ) szEntityName
+   zCHAR     szEntityName[ 101 ] = { 0 }; 
+   //:SHORT          sReturnLevel
+   zSHORT    sReturnLevel = 0; 
+   //:SHORT          nRC
+   zSHORT    nRC = 0; 
+   //:INTEGER        lAbsPos
+   zLONG     lAbsPos = 0; 
+   //:INTEGER        lDataSourceZKey
+   zLONG     lDataSourceZKey = 0; 
+   zSHORT    lTempInteger_0; 
+
+   //RESULT = GetViewByName(&TZTENVRO, "TZTENVRO", vSubtask, zLEVEL_TASK);
+   RESULT = GetViewByName(&TZTENVRO, "TE_DB_Environ", vSubtask, zLEVEL_TASK);
+   //RESULT = GetViewByName( &TZZOLODO, "TZZOLODO", vSubtask, zLEVEL_TASK );
+
+   //:CreateViewFromViewForTask( TZZOLODO, TZZOLODO, vSubtask )
+   CreateViewFromViewForTask( &TZZOLODO, TZZOLODO, vSubtask );
+   //:ResetView( TZZOLODO )
+   ResetView( TZZOLODO );
+
+   //:CreateViewFromViewForTask( TZZOLODO_Hier, TZZOLODO, vSubtask )
+   CreateViewFromViewForTask( &TZZOLODO_Hier, TZZOLODO, vSubtask );
+
+   //:szEntityName    = "LOD_EntityParent"
+   ZeidonStringCopy( szEntityName, 1, 0, "LOD_EntityParent", 1, 0, 101 );
+   //:lDataSourceZKey = TZTENVRO.TE_DBMS_Source.ZKey
+   GetIntegerFromAttribute( &lDataSourceZKey, TZTENVRO, "TE_DBMS_Source", "ZKey" );
+
+   //:nRC = DefineHierarchicalCursor( TZZOLODO_Hier, "LOD_EntityParent" )
+   nRC = DefineHierarchicalCursor( TZZOLODO_Hier, "LOD_EntityParent" );
+   //:LOOP WHILE nRC >= zCURSOR_SET
+   while ( nRC >= zCURSOR_SET )
+   { 
+
+      //: IF nRC = zCURSOR_SET_RECURSIVECHILD
+      if ( nRC == zCURSOR_SET_RECURSIVECHILD )
+      { 
+         //: SetViewToSubobject( TZZOLODO_Hier, "LOD_EntityChild" )
+         SetViewToSubobject( TZZOLODO_Hier, "LOD_EntityChild" );
+      } 
+
+      //: END
+
+      //: // Set up our temp view from the hier view.
+      //: GetAbsolutePositionForEntity( lAbsPos, TZZOLODO_Hier, "LOD_EntityParent" )
+      GetAbsolutePositionForEntity( &lAbsPos, TZZOLODO_Hier, "LOD_EntityParent" );
+      //: SetCursorAbsolutePosition( szEntityName, TZZOLODO, lAbsPos )
+      SetCursorAbsolutePosition( szEntityName, TZZOLODO, lAbsPos );
+
+      //: IF szEntityName = "LOD_EntityParent" AND
+      //:                     TZZOLODO.ER_RelLinkRec EXISTS AND
+      lTempInteger_0 = CheckExistenceOfEntity( TZZOLODO, "ER_RelLinkRec" );
+      //:                     TZZOLODO.ER_RelLinkRec.CardMax = 1 AND
+      //:                     TZZOLODO.LOD_EntityParent.Work != "Y" AND
+      //:                     TZZOLODO.LOD_EntityParent.Derived != "Y"
+      if ( ZeidonStringCompare( szEntityName, 1, 0, "LOD_EntityParent", 1, 0, 101 ) == 0 && lTempInteger_0 == 0 && CompareAttributeToInteger( TZZOLODO, "ER_RelLinkRec", "CardMax", 1 ) == 0 &&
+           CompareAttributeToString( TZZOLODO, "LOD_EntityParent", "Work", "Y" ) != 0 && CompareAttributeToString( TZZOLODO, "LOD_EntityParent", "Derived", "Y" ) != 0 )
+      { 
+
+         //:  SET CURSOR FIRST TZZOLODO.POD_Entity
+         //:             WHERE TZZOLODO.TE_DBMS_SourceForEntity.ZKey = lDataSourceZKey
+         RESULT = SetCursorFirstEntity( TZZOLODO, "POD_Entity", "" );
+         if ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            while ( RESULT > zCURSOR_UNCHANGED && ( CompareAttributeToInteger( TZZOLODO, "TE_DBMS_SourceForEntity", "ZKey", lDataSourceZKey ) != 0 ) )
+            { 
+               RESULT = SetCursorNextEntity( TZZOLODO, "POD_Entity", "" );
+            } 
+
+         } 
+
+
+         //:  IF RESULT < zCURSOR_SET
+         if ( RESULT < zCURSOR_SET )
+         { 
+            //:  CREATE ENTITY TZZOLODO.POD_Entity
+            RESULT = CreateEntity( TZZOLODO, "POD_Entity", zPOS_AFTER );
+
+            //:  INCLUDE TZZOLODO.TE_DBMS_SourceForEntity
+            //:          FROM TZTENVRO.TE_DBMS_Source
+            RESULT = IncludeSubobjectFromSubobject( TZZOLODO, "TE_DBMS_SourceForEntity", TZTENVRO, "TE_DBMS_Source", zPOS_AFTER );
+         } 
+
+         //:  END
+
+         //:  TZZOLODO.POD_Entity.SQL_JoinWithParent = "Y"
+         SetAttributeFromString( TZZOLODO, "POD_Entity", "SQL_JoinWithParent", "Y" );
+      } 
+
+      //: END
+
+      //: nRC = SetCursorNextEntityHierarchical( sReturnLevel, szEntityName, TZZOLODO_Hier )
+      nRC = SetCursorNextEntityHierarchical( (zPUSHORT) &sReturnLevel, szEntityName, TZZOLODO_Hier );
+   } 
+
+   //:END
+
+   //:DropView( TZZOLODO_Hier )
+   DropView( TZZOLODO_Hier );
+   //:DropView( TZZOLODO )
+   DropView( TZZOLODO );
+
+   //:RefreshCtrl( vSubtask, "SQL_DBH_JoinCheck" )
+   RefreshCtrl( vSubtask, "SQL_DBH_JoinCheck" );
+   return( 0 );
+// END
+} 
+
 zOPER_EXPORT zSHORT OPERATION
 zwTZTEUPDD_BuildXODsOnLPLR( zVIEW vSubtask )
 {
@@ -3021,7 +3140,13 @@ zwTZTEUPDD_BuildXODsOnLPLR( zVIEW vSubtask )
 
          // Make sure the TE_SourceZKey attribute is set because it determines what DBMS_Source is used in building the XOD.
          if ( CheckExistenceOfEntity( vLOD, "POD" ) >= zCURSOR_SET )
+         {
+
+            // KJS 08/17/21 - Automatically setting the xto1 flag for LODs (if they are saved with a database).
+            SQL_DBH_SetX_ToOneLoc( vLOD, vSubtask );   
+         
             SetAttributeFromAttribute( vLOD, "POD", "TE_SourceZKey", vDTE, "TE_DBMS_Source", "ZKey" );
+         }
 
          // Build the XOD in memory.
          oTZZOXODO_SaveXOD( vSubtask, vLOD );

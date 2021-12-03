@@ -1,7 +1,7 @@
-z1000-Zeidon    TZPTWRKO TZZOLODO                         02/11/20   12:33:52 1.0a2   
+z1000-Zeidon    TZPTWRKO TZZOLODO                         11/15/21   15:28:26 1.0a2   
 eLOD       1
 aZKey      130121239
-aNextZKeyToAssign 130121250
+aNextZKeyToAssign 130121252
 aName      TZPTWRKO
 aDesc      Dialog Painter jsp generation work object
 
@@ -102,6 +102,18 @@ aDesc      Put div of class=dataTables_wrapper around grids
 
 eDomainRec 5
 
+eLOD_AttributeRec 3
+aZKey      130121251
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      GaveErrorMessage
+aZKey      130121252
+
+eDomainRec 5
+
 eLOD_Entity 2
 awkSelectedAttributeForDragSort 5
 
@@ -140,22 +152,33 @@ eER_Attribute 4
 
 eDomain    5
 
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
 i10        4
 i13        4
 i16        4
-i17        1
-i18        2
-i19        3
-i20        4
-i21        5
-i22        6
-i23        7
-i24        8
-i25        9
-i26        4
-i27        11
-i28        12
+i19        4
+i20        1
+i21        2
+i22        3
+i23        4
+i24        5
+i25        6
+i26        7
+i27        8
+i28        9
 i29        4
-i30        14
-i31        15
+i30        11
+i31        12
 i32        4
+i33        14
+i34        15
+i35        4
+i36        17
+i37        18
+i38        4

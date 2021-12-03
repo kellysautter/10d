@@ -202,12 +202,12 @@ BuildMainNavSection( VIEW vDialog,
          END
       END
       IF ActionType = zWAB_LinkToHTML_Address AND szStyleIsBootstrap = ""
-         szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ " + szHTML5Attr + szClass + "><a href=^" + szHTML_Address + "^ target=^_blank^>" + szNavigationTitle + "</a></li>"
+         szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ " + szHTML5Attr + szClass + "><a href=^" + szHTML_Address + "^ target=^_blank^>" + szNavigationTitle + "</a></li>"
       ELSE
          // Regular Action
          // I know in the case of jMobile, we want the class and szHTML5Attr to be on the <a href not the <li. So I am going to change that in this instance...
          IF szStyleIsjMobile = "Y"
-            szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ ><a href=^#^ " + szHTML5Attr + szClass + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+            szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ ><a href=^#^ " + szHTML5Attr + szClass + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
          ELSE 
          IF szStyleIsBootstrap = "Y"
          
@@ -239,7 +239,7 @@ BuildMainNavSection( VIEW vDialog,
             szWriteBuffer = szWriteBuffer + "</li>" 
  
          ELSE
-            szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ " + szHTML5Attr + szClass + "><a href=^#^ onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+            szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ " + szHTML5Attr + szClass + "><a href=^#^ onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
          END
          END
       END
@@ -3753,7 +3753,8 @@ END
 GLOBAL OPERATION
 BuildMainNavSectionBootstrap( VIEW vDialog,
                               VIEW vDialogMenu BASED ON LOD TZWDLGSO,
-                              INTEGER lFile )
+                              INTEGER lFile, 
+                              STRING ( 1 ) SideMenuExistsFlag  )
 
    VIEW vCurrentDlgRoot BASED ON LOD TZWDLGSO
    STRING ( 10000 ) szWriteBuffer
@@ -3823,33 +3824,39 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    ELSE 
    IF szStyleIsBootstrap = "Y"
+      // If the menu has a submenu, then we are going to assume that this menu is Vertical not horizontal (this is how we are doing top menu in nazsis, where
+      // there is a cog in upper right and all submenu items are displayed under that). Not sure if there should be a checkbox for this or something... so that it
+      // is not assumed? 
       IF vDialogMenu.OptOpt EXISTS
          szMenuStyle = "Vertical"
       END
       //szWriteBuffer = "<div data-role=^navbar^ id=^div" + szMenuName + "^ " + szClass + ">"
       szWriteBuffer = "<nav class=^navbar navbar-expand navbar-theme^>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "<a class=^sidebar-toggle d-flex mr-2^>"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "<i class=^hamburger align-self-center^></i>"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "</a>"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      // Look at the top banner for the dialog we are in (vDialog) not the dialog where the actions are coming from (vDialogMenu)
-      IF vDialog.Dialog.WEB_TopBannerName != "" OR vDialog.Window.WEB_TopBannerName != ""
-         IF vDialog.Window.WEB_TopBannerName != ""
-            szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
-         ELSE
-            szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
-         END
+      IF SideMenuExistsFlag = "Y"
+         szWriteBuffer = "<a class=^sidebar-toggle d-flex mr-2^>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<i class=^hamburger align-self-center^></i>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "</a>"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       END
-      szWriteBuffer = "<div class=^navbar-collapse collapse^>"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "   <ul  class=^navbar-nav ml-auto " + vDialogMenu.Menu.CSS_Class + "^ >"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       
       IF szMenuStyle = "Vertical"
+         // Look at the top banner for the dialog we are in (vDialog) not the dialog where the actions are coming from (vDialogMenu)
+         IF vDialog.Dialog.WEB_TopBannerName != "" OR vDialog.Window.WEB_TopBannerName != ""
+            IF vDialog.Window.WEB_TopBannerName != ""
+               szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
+            ELSE
+               szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
+            END
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+      
+         szWriteBuffer = "<div class=^navbar-collapse collapse^>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   <ul  class=^navbar-nav ml-auto " + vDialogMenu.Menu.CSS_Class + "^ >"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
          szText = vDialogMenu.Option.Text 
          zToUpper( szText, szTemp )
@@ -3880,6 +3887,32 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "          <div class=^dropdown-menu dropdown-menu-right^ aria-labelledby=^a" + szActionName + "^>"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      ELSE
+         // KJS 08/27/21 - Jeff wants his top menu to go across the top. We get here and the style is not "vertical" but the problem is that this seems to 
+         // interfere with his banner. Should I put a div around the whole thing, before the banner that says 'role="banner"'? Then he could take off his banner in 
+         // log_banner.inc... but would everyone want to have that around banner/top nav? In non bootstrap code, the banner and top nav are separate. Feels in a way like
+         // it should be that way...
+         // Not sure exactly what to do...
+         szWriteBuffer = "<div>"  // Place a div around the surrounding area?
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+         // Look at the top banner for the dialog we are in (vDialog) not the dialog where the actions are coming from (vDialogMenu)
+         IF vDialog.Dialog.WEB_TopBannerName != "" OR vDialog.Window.WEB_TopBannerName != ""
+            IF vDialog.Window.WEB_TopBannerName != ""
+               szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
+            ELSE
+               szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
+            END
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+         
+         szWriteBuffer = "          <div>"  // Place a div around the surrounding area?
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "          <nav id='" + szMenuName + "'>"  // Place a div around the surrounding area?
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "          <ul>"  // Place a div around the surrounding area?
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         
       END
    ELSE
       szWriteBuffer = "<div id=^mainnavigation^" + szHTML5Attr + szClass + ">"
@@ -3969,13 +4002,13 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
             szHTML_Address = vDialogMenu.Action.WebHTML_TransferAddress
          END
       END
-      IF ActionType = zWAB_LinkToHTML_Address AND szStyleIsBootstrap = ""
-         szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ " + szHTML5Attr + szClass + "><a href=^" + szHTML_Address + "^ target=^_blank^>" + szNavigationTitle + "</a></li>"
+      IF ActionType = zWAB_LinkToHTML_Address AND ( szStyleIsBootstrap = "" OR ( szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" ) )
+         szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ " + szHTML5Attr + szClass + "><a href=^" + szHTML_Address + "^ target=^_blank^>" + szNavigationTitle + "</a></li>"
       ELSE
          // Regular Action
          // I know in the case of jMobile, we want the class and szHTML5Attr to be on the <a href not the <li. So I am going to change that in this instance...
          IF szStyleIsjMobile = "Y"
-            szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ ><a href=^#^ " + szHTML5Attr + szClass + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+            szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ ><a href=^#^ " + szHTML5Attr + szClass + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
          ELSE 
          IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Vertical"
          
@@ -3990,39 +4023,39 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
               <i class="align-middle mr-1 fas fa-fw fa-arrow-alt-circle-right"></i>Sign Out</a>
                </div>
             </li>
-*/        
+            */        
             //<a class="dropdown-item" href="#" id="amGOTO_Help"  onclick="mGOTO_Help()"><i class="align-middle mr-1 fas fa-fw fa-hands-helping"></i> Help</a>
             szWriteBuffer = ""
             IF ActionType = zWAB_LinkToHTML_Address
                //<a href=^" + szHTML_Address + "^ target=^_blank^
                szWriteBuffer = szWriteBuffer + "       <a class=^dropdown-item^ href=^" + szHTML_Address + "^ target=^_blank^ >"
             ELSE
-               szWriteBuffer = szWriteBuffer + "       <a class=^dropdown-item^ href=^#^ id=^a" + szActionName + "^  onclick=^" + szActionName + "()^>"
+               szWriteBuffer = szWriteBuffer + "       <a class=^dropdown-item^ href=^#^ id=^a" + szOptionTag + "^  onclick=^" + szActionName + "()^>"
             END
             szWriteBuffer = szWriteBuffer + "<i class=^align-middle mr-1 fas fa-fw " + szHTML5Attr + "^></i>" + szNavigationTitle + "</a>"
- 
+         /*
          ELSE
          IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal"
-            szWriteBuffer = "       <li class=^nav-item dropdown ml-lg-2^ id=^l" + szActionName + "^ name=^l" + szActionName + "^ ><a href=^#^ id=^a" + szActionName + "^ " +
-                            "  class=^nav-link dropdown-toggle^ " + vDialogMenu.Option.CSS_Class + " data-toggle=^dropdown^>"
+            szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ ><a href=^#^ id=^a" + szActionName + "^ " +
+                            " " + vDialogMenu.Option.CSS_Class + ">"
             //szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas fa-cog^></i></a>"
             szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas " + szHTML5Attr + "^></i></a>"
             szWriteBuffer = szWriteBuffer + "<div class=^dropdown-menu dropdown-menu-right^ aria-labelledby=^a" + szActionName + "^>"
             IF ActionType = zWAB_LinkToHTML_Address
                //<a href=^" + szHTML_Address + "^ target=^_blank^
-               szWriteBuffer = szWriteBuffer + "<a class=^dropdown-item^ href=^" + szHTML_Address + "^ target=^_blank^ >"
+               szWriteBuffer = szWriteBuffer + "<a href=^" + szHTML_Address + "^ target=^_blank^ >"
             ELSE
-               szWriteBuffer = szWriteBuffer + "<a class=^dropdown-item^ href=^#^ onclick=^" + szActionName + "()^>"
+               szWriteBuffer = szWriteBuffer + "<a href=^#^ onclick=^" + szActionName + "()^>"
             END
-            szWriteBuffer = szWriteBuffer + "<i class=^align-middle mr-1 fas fa-fw fa-arrow-alt-circle-right^></i>" + szNavigationTitle + "</a></div>"
+            szWriteBuffer = szWriteBuffer + szNavigationTitle + "</a></div>"
 
             szWriteBuffer = szWriteBuffer + "</li>" 
+         */
          ELSE
-            szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ " + szHTML5Attr + szClass + "><a href=^#^ onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+            szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ " + szHTML5Attr + szClass + "><a href=^#^ onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
          END
          END
-         END
-      END
+      END //ActionType = zWAB_LinkToHTML_Address AND ( s
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
       szWriteBuffer = "<%"
@@ -4031,7 +4064,7 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-   END
+   END  //FOR EACH vDialogMenu.Option
 
    IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Vertical"
       ResetViewFromSubobject( vDialogMenu )
@@ -4039,7 +4072,7 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "       </li>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-  END
+   END
 
    // Division ending for Navigation Bar
    IF szStyleIsjMobile = "Y" OR szStyleIsBootstrap = "Y"
@@ -4048,6 +4081,15 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
       szWriteBuffer = "   </ol>"
    END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+   IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal"
+      ResetViewFromSubobject( vDialogMenu )
+      szWriteBuffer = "   </nav>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "</div>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   END
+
    szWriteBuffer = "</div>  <!-- end Navigation Bar -->"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    szWriteBuffer = ""

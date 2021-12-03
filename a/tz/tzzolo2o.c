@@ -369,9 +369,9 @@ oTZZOLODO_LOD_EntityCopy( zVIEW     NewMainLOD,
    //:// won't create attributes here, as they will be added when that entity is processed for the LOD.
    //:// We will call the ERD_RelationshipCopy operation in TZEREM2O to actually create the relationship, as the
    //:// process is very complicated.
-   //:IF OldRecursiveLOD.ER_RelLinkRec EXISTS AND SourceERD != 0
+   //:IF OldRecursiveLOD.ER_RelLinkRec EXISTS AND SourceERD != 0 AND OldRecursiveLOD.LOD_EntityParent.Work != "Y"
    lTempInteger_1 = CheckExistenceOfEntity( OldRecursiveLOD, "ER_RelLinkRec" );
-   if ( lTempInteger_1 == 0 && SourceERD != 0 )
+   if ( lTempInteger_1 == 0 && SourceERD != 0 && CompareAttributeToString( OldRecursiveLOD, "LOD_EntityParent", "Work", "Y" ) != 0 )
    { 
       //:RelationshipName = OldRecursiveLOD.ER_RelLinkRec.Name
       GetVariableFromAttribute( RelationshipName, 0, 'S', 33, OldRecursiveLOD, "ER_RelLinkRec", "Name", "", 0 );
@@ -976,9 +976,9 @@ oTZZOLODO_LOD_CreateER_Attribute( zVIEW     OldRecursiveLOD,
       { 
          //:// There is a Source LPLR, so add the Domain
          //:DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
-         //:                   CurrentLPLR.LPLR.wFullyQualifiedFileName,
+         //:                   CurrentLPLR.LPLR.MetaSrcDir,
          //:                   OldRecursiveLOD.DomainRec.Name, vSubtask )
-         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), CurrentLPLR, "LPLR", "MetaSrcDir" );
          GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), OldRecursiveLOD, "DomainRec", "Name" );
          oTZDGSRCO_DomainAddForMerge( &NewDomain, SourceLPLR, CurrentLPLR, szTempString_1, szTempString_2, vSubtask );
          //:IF nRC < 0
@@ -1207,10 +1207,11 @@ oTZZOLODO_LOD_AttributeCopy( zVIEW     vSubtask,
                { 
                   //:// The request is to add ER entities and Domains as necessary.
                   //:DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
-                  //:                   CurrentLPLR.LPLR.wFullyQualifiedFileName,
+                  //:                   CurrentLPLR.LPLR.MetaSrcDir,
                   //:                   DomainName, vSubtask )
-                  GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+                  GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), CurrentLPLR, "LPLR", "MetaSrcDir" );
                   oTZDGSRCO_DomainAddForMerge( &NewDomain, SourceLPLR, CurrentLPLR, szTempString_0, DomainName, vSubtask );
+                  //:                  //CurrentLPLR.LPLR.wFullyQualifiedFileName,
                   //:ELSE
                } 
                else
@@ -5352,9 +5353,9 @@ oTZZOLODO_LOD_Merge( zVIEW     TargetLOD,
    //:IF CurrentLPLR.LPLR.wMergeSourceLPLR_Name != ""
    if ( CompareAttributeToString( CurrentLPLR, "LPLR", "wMergeSourceLPLR_Name", "" ) != 0 )
    { 
-      //:szFileName = CurrentLPLR.LPLR.wFullyQualifiedFileName + "\bin\" +
+      //:szFileName = CurrentLPLR.LPLR.MetaSrcDir + "\bin\" +
       //:             CurrentLPLR.LPLR.wMergeSourceLPLR_Name + ".XLP"
-      GetStringFromAttribute( szFileName, zsizeof( szFileName ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), CurrentLPLR, "LPLR", "MetaSrcDir" );
       ZeidonStringConcat( szFileName, 1, 0, "\\bin\\", 1, 0, 201 );
       GetVariableFromAttribute( szTempString_0, 0, 'S', 255, CurrentLPLR, "LPLR", "wMergeSourceLPLR_Name", "", 0 );
       ZeidonStringConcat( szFileName, 1, 0, szTempString_0, 1, 0, 201 );
@@ -5368,9 +5369,9 @@ oTZZOLODO_LOD_Merge( zVIEW     TargetLOD,
          SetNameForView( SourceLPLR, "SourceLPLR", 0, zLEVEL_TASK );
 
          //:// Activate Source ERD.
-         //:szFileName = CurrentLPLR.LPLR.wFullyQualifiedFileName + "\" +
+         //:szFileName = CurrentLPLR.LPLR.MetaSrcDir + "\" +
          //:             CurrentLPLR.LPLR.wMergeSourceLPLR_Name + ".PMD"
-         GetStringFromAttribute( szFileName, zsizeof( szFileName ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+         GetStringFromAttribute( szFileName, zsizeof( szFileName ), CurrentLPLR, "LPLR", "MetaSrcDir" );
          ZeidonStringConcat( szFileName, 1, 0, "\\", 1, 0, 201 );
          GetVariableFromAttribute( szTempString_1, 0, 'S', 255, CurrentLPLR, "LPLR", "wMergeSourceLPLR_Name", "", 0 );
          ZeidonStringConcat( szFileName, 1, 0, szTempString_1, 1, 0, 201 );

@@ -1061,12 +1061,12 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    // Generate a JSP file for formatting the Window that has current position.
    GET VIEW vWork NAMED "TZPTWRKO"
-   IF RESULT >= 0
-      DropObjectInstance( vWork )
+   IF RESULT < 0
+      //DropObjectInstance( vWork )
+      ACTIVATE vWork EMPTY
+      CREATE ENTITY vWork.Root
+      NAME VIEW vWork "TZPTWRKO"
    END
-   ACTIVATE vWork EMPTY
-   CREATE ENTITY vWork.Root
-   NAME VIEW vWork "TZPTWRKO"
    
    NAME VIEW vDialog "GenJSP_Dialog"
    szDialogTag = vDialog.Dialog.Tag
@@ -1115,10 +1115,10 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
    vDialog.Dialog.wWebUsesControlActions = szUseZeidonCtrlActions
    vDialog.Dialog.wWebUsesControlActionsView = szUseZeidonCtrlActView
-   szWriteBuffer = "mMsgQ = new KZMSGQOO_Object( vKZXMLPGO );"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "mMsgQ.setView( VmlOperation.getMessageObject( task ) );"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "mMsgQ = new KZMSGQOO_Object( vKZXMLPGO );"
+   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "mMsgQ.setView( VmlOperation.getMessageObject( task ) );"
+   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    //TraceLineS("** TraceLevel ** ", szTrace)
    IF  szTrace = "1"
       lTrace = 1
@@ -1999,7 +1999,9 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // KJS 10/08/15 - What if this dialog has more than one source file? We need to have both defined, so let's loop and see.
    FOR EACH vDialogRoot.SourceFile 
       // Since I assume we can't call c code, then don't worry if the type is "c"
-      IF vDialogRoot.SourceFile.LanguageType = "V" OR vDialogRoot.SourceFile.LanguageType = "J" 
+      //IF vDialogRoot.SourceFile.LanguageType = "V" OR vDialogRoot.SourceFile.LanguageType = "J" 
+      // KJS 10/20/21 - Somehow we lost looking for language "Scala" ("S"). Changing code.
+      IF vDialogRoot.SourceFile.LanguageType = "V" OR vDialogRoot.SourceFile.LanguageType = "J"  OR vDialogRoot.SourceFile.LanguageType = "S"
          szWriteBuffer = vDialogRoot.SourceFile.Name  + "_Dialog " + vDialogRoot.SourceFile.Name  + " = new " + vDialogRoot.SourceFile.Name  + "_Dialog( vKZXMLPGO );"
          WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
       END 
@@ -4611,7 +4613,17 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    IF lReusableWindowZKey != 0 AND szShowSideMenu = "Y"
 
       IF vDialog.DfltMenu EXISTS AND lReusableWindowZKey != vDialog.Window.ZKey
-         vDfltMenu = vDialog
+         // KJS 08/31/21 - Jeff created a defltmenu but he is using that menu as the top menu, not the side menu. So, do we really want to
+         // do this if there is already a side menu stated and it is not this window?
+         // I suppose this is to have both the side menu and this default menu created. I am trying to think of where we might do that (have a side menu and then
+         // also have the default menu items created as a side menu).
+         // side menu, then we don't want to use this default menu...
+         IF ( vDialog.ReusableMainWindow EXISTS AND vDialog.ReusableMainWindow.ZKey = vDialog.Window.ZKey ) OR
+            ( vDialog.DefaultReusableMainWindow EXISTS AND vDialog.DefaultReusableMainWindow.ZKey = vDialog.Window.ZKey )
+            vDfltMenu = 0
+         ELSE
+            vDfltMenu = vDialog
+         END
       ELSE
          vDfltMenu = 0
       END
@@ -4637,14 +4649,22 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
 
    ELSE
-   // IF vDialogRoot.DfltMenu EXISTS AND
+      // KJS 08/20/21 - Jeff had a problem where he had a menu set as the "dfltmenu" (for viewing purposes) but actually has the menu as the default top window.
+      //IF vDialogRoot.DfltMenu EXISTS AND szShowSideMenu = "Y" AND
+      //   (vDialog.ReusableMainDialog DOES NOT EXIST OR  // don't put out side menu if side == top
+      //    lReusableDialogZKey != vDialog.ReusableMainDialog.ZKey OR
+      //    lReusableWindowZKey != vDialog.ReusableMainWindow.ZKey)
       IF vDialogRoot.DfltMenu EXISTS AND szShowSideMenu = "Y" AND
-         (vDialog.ReusableMainDialog DOES NOT EXIST OR  // don't put out side menu if side == top
-          lReusableDialogZKey != vDialog.ReusableMainDialog.ZKey OR
-          lReusableWindowZKey != vDialog.ReusableMainWindow.ZKey)
+         vDialog.ReusableSideWindow DOES NOT EXIST AND
+         vDialog.DefaultReusableSideWindow DOES NOT EXIST 
+         
+         // If this 
+         IF ( vDialog.ReusableMainWindow DOES NOT EXIST OR (vDialog.ReusableMainWindow EXISTS AND vDialog.ReusableMainWindow.ZKey != vDialog.Window.ZKey ) ) AND
+            ( vDialog.DefaultReusableMainWindow DOES NOT EXIST OR ( vDialog.DefaultReusableMainWindow EXISTS AND vDialog.DefaultReusableMainWindow.ZKey != vDialog.Window.ZKey ) )
 
-         BuildSideNavSectionJ( vDialog, vDialogRoot, lFileJSP, "N", 0 )
-         szSideMenuExists = "Y"
+            BuildSideNavSectionJ( vDialog, vDialogRoot, lFileJSP, "N", 0 )
+            szSideMenuExists = "Y"
+         END
       END
    END
 
@@ -4671,7 +4691,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
             //NAME VIEW vDialogTemp "DialogREUS"
             SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
             IF RESULT >= zCURSOR_SET
-               BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP )
+               BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP, szSideMenuExists )
             END
             DropView( vDialogTemp )
          ELSE
@@ -4679,10 +4699,38 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
             //NAME VIEW vDialogTemp "DialogREUS"
             SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
             IF RESULT >= zCURSOR_SET
-               BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP )
+               BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP, szSideMenuExists )
             END
             DropObjectInstance( vDialogTemp )
          END
+      ELSE
+         // KJS 08/27/21 - Jeff was saying that if you don't have a top menu, the banner include does not generate (that gets generated inside BuildMainNavSectionBootstrap)
+         // Should we always call BuildMainNavSe... or should I put the outer part of that inside the IF Bootstrap = "Y" so that we always include the banner no matter what.
+         // Not sure if we'd want the "hamburger", if we aren't having anything else??
+         //////////////////////////////////////////////// ?????
+         szWriteBuffer = "<nav class=^navbar navbar-expand navbar-theme^>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         IF szSideMenuExists = "Y"
+            szWriteBuffer = "<a class=^sidebar-toggle d-flex mr-2^>"
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "<i class=^hamburger align-self-center^></i>"
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "</a>"
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         END
+         // Look at the top banner for the dialog we are in (vDialog) not the dialog where the actions are coming from (vDialogMenu)
+         IF vDialog.Dialog.WEB_TopBannerName != "" OR vDialog.Window.WEB_TopBannerName != ""
+            IF vDialog.Window.WEB_TopBannerName != ""
+               szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
+            ELSE
+               szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
+            END
+            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         END
+         szWriteBuffer = "</nav>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         ///////////////////////////////////////////////
+         
       END
    END
 
@@ -5119,6 +5167,12 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
    END
+   
+    // KJS 11/15/21 - Add try/catch around form data if something gives an error (like domain doesn't exist).
+    szWriteBuffer = "   try"
+    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+    szWriteBuffer = "   {"
+    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
    //KJS Trace
    //szWriteBuffer = "   task.log().info( ^After Get DateFormat: ^ + strDateFormat );"
@@ -5284,6 +5338,24 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+
+   // KJS 11/15/21 - If there is an error within <form> we will add a trace line.
+    szWriteBuffer = "   }"
+    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+    szWriteBuffer = "   catch( Exception e )"
+    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+    szWriteBuffer = "   {"
+    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+    szWriteBuffer = "      String spError = e.getMessage();"
+    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+    szWriteBuffer = "      task.log().info( ^****  Data ERROR within <form> ***** ^ + spError);"
+    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+//%>
+//<script type="text/javascript">alert( "<%=spError%>" );</script>
+//<%
+    szWriteBuffer = "   }"
+    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
    szWriteBuffer = "%>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
