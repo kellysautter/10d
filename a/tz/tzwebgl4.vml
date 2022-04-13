@@ -13,6 +13,7 @@ BuildSideNavSectionJ( VIEW vDialog,
                       STRING (1) szReusableMenu,
                       VIEW vDialogDfltMenu BASED ON LOD TZWDLGSO )
 
+   VIEW vDialogDfltT BASED ON LOD TZWDLGSO
    STRING ( 10000 ) szWriteBuffer
    STRING ( 500 )   szNavigationTitle
    STRING ( 500 )   szText
@@ -26,6 +27,7 @@ BuildSideNavSectionJ( VIEW vDialog,
    STRING ( 100 )   szActionName
    STRING ( 1 )     szStyleIsjMobile
    STRING ( 1 )     szStyleIsBootstrap
+   STRING ( 1 )     szSideMenuOptions
    STRING ( 256 )   szClass
    STRING ( 256 )   szClass2
    INTEGER          ActionType
@@ -43,11 +45,47 @@ BuildSideNavSectionJ( VIEW vDialog,
       ( vDialog.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsBootstrap = "Y"
    END 
-        
+   
+   szSideMenuOptions = ""
    IF vDialogMenu.Menu EXISTS 
       szMenuName = vDialogMenu.Menu.Tag 
       IF vDialogMenu.Menu.CSS_Class != ""
          szClass = " class=^" + vDialogMenu.Menu.CSS_Class + "^ " 
+      END
+      IF szStyleIsBootstrap = "Y"
+         // In Boostrap, if we have no option in the side menu (we have a side menu so it is consistent look with pages with a side menu but no
+         // text in the option.
+         IF vDialogMenu.Option EXISTS
+            szText = vDialogMenu.Option.Text
+            zRTrim( szText, szText, 500 )
+            zLTrim( szText, szText, 500 )
+             // We want to make sure there is no other option
+            SET CURSOR NEXT vDialogMenu.Option
+            IF RESULT >= zCURSOR_SET OR szText != ""
+               szSideMenuOptions = "Y" // There is one menu option but it is a blank menu
+            END
+         END
+      END
+   END
+   // If we did not find a menu option above with text... also check vDialogDfltMenu if it exists.
+   IF szStyleIsBootstrap = "Y" AND szSideMenuOptions = "" AND vDialogDfltMenu != 0
+      szSideMenuOptions = "" 
+      // In Boostrap, if we have no option in the side menu (we have a side menu so it is consistent look with pages with a side menu but no
+      // text in the option.
+      IF vDialogDfltMenu.DfltMenu  EXISTS
+         CreateViewFromViewForTask( vDialogDfltT, vDialogDfltMenu, 0 )
+         SET CURSOR FIRST vDialogDfltT.Menu WHERE vDialogDfltT.Menu.ZKey = vDialogDfltMenu.DfltMenu.ZKey
+         IF vDialogDfltT.Option EXISTS
+            szText = vDialogDfltT.Option.Text
+            zRTrim( szText, szText, 500 )
+            zLTrim( szText, szText, 500 )
+             // We want to make sure there is no other option
+            SET CURSOR NEXT vDialogDfltT.Option
+            IF RESULT >= zCURSOR_SET OR szText != ""
+               szSideMenuOptions = "Y" // There is one menu option but it is a blank menu
+            END
+         END
+         DropView( vDialogDfltT )
       END
    END
 
@@ -61,7 +99,13 @@ BuildSideNavSectionJ( VIEW vDialog,
       szWriteBuffer = "<div id=^sidenavigation^" + szClass + ">"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    ELSE
-      szWriteBuffer = "<nav id=^sidebar^ class=^sidebar^>"
+      IF szSideMenuOptions = "Y"
+         // For bootstrap we are adding a class of contentExists so determine if the side menu
+         // should be open or closed on a page. We will handle this through the class.
+         szWriteBuffer = "<nav id=^sidebar^ class=^sidebar contentExists^>"
+      ELSE
+         szWriteBuffer = "<nav id=^sidebar^ class=^sidebar^>"
+      END
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "<%@ include file=^./include/sidemenubootstrap.inc^ %>"    
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -200,16 +244,16 @@ BuildSideNavSectionJ( VIEW vDialog,
    // This is for building a default menu?
    // Trying to get this file to compile.
    IF vDialogDfltMenu != 0
-      CreateViewFromViewForTask( vDialogDfltMenu, vDialogDfltMenu, 0 )
-      SET CURSOR FIRST vDialogDfltMenu.Menu WHERE vDialogDfltMenu.Menu.ZKey = vDialogDfltMenu.DfltMenu.ZKey
-      FOR EACH vDialogDfltMenu.OptAct WITHIN vDialogDfltMenu.Menu
+      CreateViewFromViewForTask( vDialogDfltT, vDialogDfltMenu, 0 )
+      SET CURSOR FIRST vDialogDfltT.Menu WHERE vDialogDfltT.Menu.ZKey = vDialogDfltMenu.DfltMenu.ZKey
+      FOR EACH vDialogDfltT.OptAct WITHIN vDialogDfltT.Menu
          //szNavigationTitle = vDialogDfltMenu.Option.Text
          // KJS 09/30/16 - Language Conversion.
          // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
          // So for now, I am always using, if the flag is set.
          IF vDialog.Dialog.wWebUsesLanguageConversion = "Y" // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
-            szText = vDialogDfltMenu.Option.Text
-            szTextID = vDialogDfltMenu.Option.LangID
+            szText = vDialogDfltT.Option.Text
+            szTextID = vDialogDfltT.Option.LangID
             zSearchAndReplace( szText, 500, "\", "\\" )
             szSrch = "\" + QUOTES 
             zSearchAndReplace( szText, 500, QUOTES, szSrch )
@@ -220,45 +264,45 @@ BuildSideNavSectionJ( VIEW vDialog,
             END
             //szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
          ELSE
-            szNavigationTitle = vDialogDfltMenu.Option.Text
+            szNavigationTitle = vDialogDfltT.Option.Text
          END
-         szDialogName = vDialogDfltMenu.OptAct.DialogName
+         szDialogName = vDialogDfltT.OptAct.DialogName
          IF szDialogName = ""
             szDialogName = "NoDialogName"
          END
 
       // szHTML_Name = szDialogName + vDialogDfltMenu.OptAct.WindowName + ".jsp"
-         IF vDialogDfltMenu.OptAct EXISTS
-            szActionName = "onclick=^" + vDialogDfltMenu.OptAct.Tag + "()^"
+         IF vDialogDfltT.OptAct EXISTS
+            szActionName = "onclick=^" + vDialogDfltT.OptAct.Tag + "()^"
             //szActionName = vDialogDfltMenu.OptAct.Tag
-            ActionType = vDialogDfltMenu.OptAct.Type
+            ActionType = vDialogDfltT.OptAct.Type
          ELSE
             szActionName = ""
             ActionType = 0
          END
 
          //szMenuName = vDialogMenu.Option.Tag         
-         szMenuName = vDialogDfltMenu.Option.Tag         
+         szMenuName = vDialogDfltT.Option.Tag         
 
          // If the window we are currently generating is the same window that this
          // side menu points to, then we want to set a class on this option.  The
          // reason is so that we can tell which side menu option the user has selected.
-         IF vDialogDfltMenu.OptAct.WindowName = vDialog.Window.Tag
+         IF vDialogDfltT.OptAct.WindowName = vDialog.Window.Tag
             szClass2 = "class=^sideselected^ "
          ELSE
             szClass2 = ""
          END
       
-         IF vDialogDfltMenu.Option.CSS_Class != "" 
-            szClass = "class=^" + vDialogDfltMenu.Option.CSS_Class + "^"
+         IF vDialogDfltT.Option.CSS_Class != "" 
+            szClass = "class=^" + vDialogDfltT.Option.CSS_Class + "^"
          ELSE
             szClass = ""
          END
 
          szWriteBuffer = "<%"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szOptionTag = vDialogDfltMenu.Option.Tag
-         szOptionTag = vDialogDfltMenu.Option.Tag
+         szOptionTag = vDialogDfltT.Option.Tag
+         szOptionTag = vDialogDfltT.Option.Tag
          szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "   if ( !csrRC.isSet( ) )"
@@ -274,8 +318,8 @@ BuildSideNavSectionJ( VIEW vDialog,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          ELSE
             //szText = vDialogDfltMenu.Option.WebHTML5Attribute
-            IF vDialogDfltMenu.Option.WebHTML5Attribute != ""
-               szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogDfltMenu.Option.WebHTML5Attribute  + "^></i>"
+            IF vDialogDfltT.Option.WebHTML5Attribute != ""
+               szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogDfltT.Option.WebHTML5Attribute  + "^></i>"
             ELSE
                szText = ""
             END
@@ -294,7 +338,7 @@ BuildSideNavSectionJ( VIEW vDialog,
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       END
 
-      DropView( vDialogDfltMenu )
+      DropView( vDialogDfltT )
    END
 
    // Division ending for Navigation Bar.
@@ -323,6 +367,20 @@ BuildSideNavSectionJ( VIEW vDialog,
    END
    szWriteBuffer = ""
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   
+   /*
+   // KJS 02/15/22 - For bootstrap... we want to have the side menu visible only if there are menu options (as long as the window is greater than
+   IF szStyleIsBootstrap = "Y"
+      szWriteBuffer = "<script>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if($(window).width() > 991.98 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "     $(^#sidebar^).addClass(^toggled^);"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "</script>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
+   */
 
    /*
    szCSS_Class = vDialog.Window.CSS_Class
@@ -1452,7 +1510,6 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "         <%"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
          szWriteBuffer = "   }"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          */
@@ -3127,6 +3184,7 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    INTEGER        lMaxStringLth
    INTEGER        lStyleX
    INTEGER        lTemp
+   INTEGER        lSubtype
    SHORT          bMapping
    SHORT          nRC
 
@@ -3278,11 +3336,23 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
       // KJS 05/14/21 - Making a change for language translation... if there is no context... I think we should assume then that on an edit field,
       // that we will get the internal value .getString() not what we were doing .getString(""). Because if we are editting, shouldn't we be looking
       // at "internal value"? 
+      // KJS 12/09/21 - At HFI, they have several "date" fields that are edit controls with disable checked (which is excluded from input mapping). Need
+      // to allow the default context in this case.
       IF szContextName = ""
-         szWriteBuffer = "               strErrorMapValue = " +
-                         vDialog.CtrlMapView.Name + ".cursor( ^" +
-                         vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
-                         vDialog.CtrlMapER_Attribute.Name + "^ ).getString( );"
+         lSubtype = vDialog.Control.Subtype
+         lTemp = IsFlagSequenceSet( lSubtype, zCONTROL_DISABLED )
+         IF lTemp != 0
+            // Disabled edit boxes will use default context.
+            szWriteBuffer = "               strErrorMapValue = " +
+                            vDialog.CtrlMapView.Name + ".cursor( ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
+                            vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^^ );"
+         ELSE
+            szWriteBuffer = "               strErrorMapValue = " +
+                            vDialog.CtrlMapView.Name + ".cursor( ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
+                            vDialog.CtrlMapER_Attribute.Name + "^ ).getString( );"
+         END
       ELSE
          szWriteBuffer = "               strErrorMapValue = " +
                          vDialog.CtrlMapView.Name + ".cursor( ^" +
@@ -7570,7 +7640,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            response.setContentType(contenttype);"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            response.setHeader( ^Content-Disposition^, ^attachment; filename=^ + sSourceFileNameOnly + ^;^ );"
+            szWriteBuffer = "            response.setHeader( ^Content-Disposition^, ^attachment; filename=\^^ + sSourceFileNameOnly + ^\^;^ );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            ServletOutputStream outStream = response.getOutputStream( );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )

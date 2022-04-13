@@ -7355,14 +7355,12 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                         //:// KJS 03/18/16 - I don't know why we are checking the strErrorFlag here... and it was incorrect because it should have
                         //:// been !StringUtil... I am taking that piece out but will keep the code here in case we find a reason we had that there.
                         //://szWriteBuffer = "   if ( !StringUtils.equals( strErrorFlag, ^Y^ ) && !StringUtils.isBlank( strErrorMapValue ) )"
-                        //:szWriteBuffer = "   if ( !StringUtils.isBlank( strErrorMapValue ) )"
-                        ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( !StringUtils.isBlank( strErrorMapValue ) )", 1, 0, 10001 );
-                        //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                        //:szWriteBuffer = "   {"
-                        ZeidonStringCopy( szWriteBuffer, 1, 0, "   {", 1, 0, 10001 );
-                        //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                        //:// KJS 04/08/22 - Taking out the if statement, will add the <th> no matter what (it was causing problems with bootstrap
+                        //:// because there were more <td> values than <th> values.
+                        //://szWriteBuffer = "   if ( !StringUtils.isBlank( strErrorMapValue ) )"
+                        //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        //://szWriteBuffer = "   {"
+                        //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         //:szWriteBuffer = "%>"
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "%>", 1, 0, 10001 );
                         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -7419,11 +7417,11 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                         } 
 
                         //:END
-
+                        //:// KJS 04/08/22  - I am going to keep the szWriteBuffer because it seems to affect something later (and if not we end up with two <% lines and an error on page).
+                        //:// but we won't write it out.
                         //:szWriteBuffer = "   }"
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "   }", 1, 0, 10001 );
-                        //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                        //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         //:ELSE
                      } 
                      else
@@ -9178,6 +9176,29 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
 
                      //:END
 
+                     //:/*
+                     //:// KJS 11/17/21 - Language Conversion.
+                     //://If we put a title on the control, when the mouse is hovered over the control, this text will display.
+                     //://Since titles are different from other messages, should I have a separate call like .getLanguageTitle?
+                     //:// and have a different view for these?
+                     //:IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
+                     //:   szTitle = vDialog.Control.DIL_Text
+                     //:   szTextID = vDialog.Control.LangID
+                     //:   zSearchAndReplace( szTitle, 1000, "\", "\\" )
+                     //:   szSrch = "\" + QUOTES 
+                     //:   zSearchAndReplace( szTitle, 1000, QUOTES, szSrch )
+                     //:   szSrch = ""
+                     //:   IF szTextID = ""
+                     //:      szTitleHTML = " title=^" + "<%=LangConv.getLanguageText(^" + szText2 + "^)%>^" 
+                     //:   ELSE 
+                     //:      szTitleHTML = " title=^" + "<%=LangConv.getLanguageText(^" + szText2 + "^, ^" + szTextID + "^)%>^" 
+                     //:   END
+                     //:   //szText = "<%=LangConv.getLanguageText(^" + szText2 + "^)%>" 
+                     //:ELSE
+                     //:   szText = vDialog.Control.Text
+                     //:END   
+
+                     //:*/
                      //://If we put a title on the control, when the mouse is hovered over the control, this text will display.
                      //:szTitleHTML = ""
                      ZeidonStringCopy( szTitleHTML, 1, 0, "", 1, 0, 257 );

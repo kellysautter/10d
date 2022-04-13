@@ -4048,7 +4048,6 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
                szWriteBuffer = szWriteBuffer + "<a href=^#^ onclick=^" + szActionName + "()^>"
             END
             szWriteBuffer = szWriteBuffer + szNavigationTitle + "</a></div>"
-
             szWriteBuffer = szWriteBuffer + "</li>" 
          */
          ELSE
@@ -4160,8 +4159,8 @@ GenJSP_MenuFunctionsRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
             bListButton = 0
             IF vDialogMenuRoot.ActEvent EXISTS AND vDialogMenuRoot.ActCtrl EXISTS
-
-               szCtrlTag = vDialog.ActCtrl.Tag
+               // Wouldn't we only care about this if vDialogMenuRoot and vDialogRoot are the same dialog.window?
+               szCtrlTag = vDialogMenuRoot.ActCtrl.Tag
                CreateViewFromViewForTask( vDialog2, vDialogRoot, 0 )
 
                lControl = zQUAL_STRING + zPOS_FIRST + zRECURS

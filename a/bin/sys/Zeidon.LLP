@@ -1,15 +1,17 @@
-z1000-Zeidon    ZEIDON   TZCMLPLO                         11/29/21   13:45:46 1.0a2   
+z1000-Zeidon    ZEIDON   TZCMLPLO                         04/12/22   21:12:27 1.0a2   
 eLPLR      1
 aName      Zeidon
 aZKey      4106137
 aPgmSrcDir %kzd%:\%kzv%\a\tz
 aExecDir   %kzd%:\%kzv%\w\bin\sys
 aMetaSrcDir %kzd%:\%kzv%\a\bin\sys
-aTaskUseCount 0
+aTaskUseCount 1
 aLastBuildDate 20200318114632422
 aJavaPackageName com\quinsoft\zeidon\zeidontools
-awFullyQualifiedFileName C:\10d - BAD\a\bin\sys\tzpntrad.pwd
+awFullyQualifiedFileName C:\10c\a\bin\sys\tzeremdd.pwd
 awMergeSourceLPLR_Name Zeidon
+awCopyPasteDirectoryFileName C:\10c\a\bin\sys\tzeremdd.pwd
+awCopyPasteWindowName ERD_CompareEntities
 
 eW_MetaType 2
 
@@ -193,6 +195,18 @@ aName      BuildMainNavSection
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
+aCPLR_ZKey 1141825
+aStatus    1
+aName      BuildMainNavSection
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 93056454
+aStatus    1
+aName      BuildMainNavSectionBootstrap
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
 aCPLR_ZKey 93056454
 aStatus    1
 aName      BuildMainNavSectionBootstrap
@@ -251,6 +265,12 @@ aCPLR_ZKey 130070624
 aStatus    1
 aName      BuildMenuListJ
 aGroupName TZWEBGL4
+
+eW_MetaDef 3
+aCPLR_ZKey 1141822
+aStatus    1
+aName      BuildSideNavSection
+aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 1141822
@@ -568,6 +588,12 @@ aName      CreateTabIndexString
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
+aCPLR_ZKey 1141956
+aStatus    1
+aName      CreateTabIndexString
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
 aCPLR_ZKey 90044298
 aStatus    1
 aUpdateInd 2
@@ -733,6 +759,18 @@ aName      GenJSP_ChildFunctions
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
+aCPLR_ZKey 1141828
+aStatus    1
+aName      GenJSP_ChildFunctions
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 1141839
+aStatus    1
+aName      GenJSP_CrteCalendar
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
 aCPLR_ZKey 1141839
 aStatus    1
 aName      GenJSP_CrteCalendar
@@ -853,9 +891,9 @@ aName      GenJSP_CrteCheckBox
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
-aCPLR_ZKey 1141860
+aCPLR_ZKey 1141850
 aStatus    1
-aName      GenJSP_CrteComboBox
+aName      GenJSP_CrteCheckBox
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -910,6 +948,24 @@ eW_MetaDef 3
 aCPLR_ZKey 1141860
 aStatus    1
 aName      GenJSP_CrteComboBox
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 1141860
+aStatus    1
+aName      GenJSP_CrteComboBox
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 1141860
+aStatus    1
+aName      GenJSP_CrteComboBox
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 1141870
+aStatus    1
+aName      GenJSP_CrteCtrlsRadio
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -1040,9 +1096,9 @@ aName      GenJSP_CrteEditBox
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
-aCPLR_ZKey 89583371
+aCPLR_ZKey 1141887
 aStatus    1
-aName      GenJSP_CrteGroupTable
+aName      GenJSP_CrteEditBox
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -1097,6 +1153,24 @@ eW_MetaDef 3
 aCPLR_ZKey 89583371
 aStatus    1
 aName      GenJSP_CrteGroupTable
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 89583371
+aStatus    1
+aName      GenJSP_CrteGroupTable
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 89583371
+aStatus    1
+aName      GenJSP_CrteGroupTable
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 4897605
+aStatus    1
+aName      GenJSP_CrteJPG
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -1220,9 +1294,9 @@ aName      GenJSP_CrteListBox
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
-aCPLR_ZKey 1141898
+aCPLR_ZKey 1448549
 aStatus    1
-aName      GenJSP_CrteText
+aName      GenJSP_CrteListBox
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -1277,6 +1351,24 @@ eW_MetaDef 3
 aCPLR_ZKey 1141898
 aStatus    1
 aName      GenJSP_CrteText
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 1141898
+aStatus    1
+aName      GenJSP_CrteText
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 1141898
+aStatus    1
+aName      GenJSP_CrteText
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 93056446
+aStatus    1
+aName      GenJSP_EmailEntries
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -1407,6 +1499,18 @@ aName      GenJSP_MenuFunctions
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
+aCPLR_ZKey 1141833
+aStatus    1
+aName      GenJSP_MenuFunctions
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
+aCPLR_ZKey 93056458
+aStatus    1
+aName      GenJSP_MenuFunctionsRecurs
+aGroupName TZWEBGL3
+
+eW_MetaDef 3
 aCPLR_ZKey 93056458
 aStatus    1
 aName      GenJSP_MenuFunctionsRecurs
@@ -1467,6 +1571,12 @@ aCPLR_ZKey 91724664
 aStatus    1
 aName      GenJSPJ_Action
 aGroupName TZWEBGL4
+
+eW_MetaDef 3
+aCPLR_ZKey 93056467
+aStatus    1
+aName      GenJSPJ_ActionRecurs
+aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 93056467
@@ -1582,6 +1692,12 @@ aCPLR_ZKey 130070315
 aStatus    1
 aName      GenJSPJ_CrtePushButton
 aGroupName TZWEBGL4
+
+eW_MetaDef 3
+aCPLR_ZKey 93056448
+aStatus    1
+aName      GenJSPJ_CrteSideMenuRecurs
+aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 93056448
@@ -1832,18 +1948,18 @@ aName      PIX_PER_DU
 aLastUpdateDate 20191118205543616
 
 eW_MetaDef 3
-aCPLR_ZKey 1419686
-aStatus    1
-aUpdateInd 2
-aName      PrintActiveWindow
-aLastUpdateDate 20160714173229763
-
-eW_MetaDef 3
 aCPLR_ZKey 1319686
 aStatus    1
 aUpdateInd 2
 aName      PrintActiveWindow
 aLastUpdateDate 20160714173227371
+
+eW_MetaDef 3
+aCPLR_ZKey 1419686
+aStatus    1
+aUpdateInd 2
+aName      PrintActiveWindow
+aLastUpdateDate 20160714173229763
 
 eW_MetaDef 3
 aCPLR_ZKey 130069308
@@ -3756,8 +3872,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZEREMDO
 aDesc      Enterprise Model ER Information
-aLastSyncDate 20161102172436000
-aLastUpdateDate 20161102172436000
+aLastSyncDate 20220406151758243
+aLastUpdateDate 20220406151758243
 
 eW_MetaDef 3
 aCPLR_ZKey 1329358
@@ -7185,8 +7301,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZEREMDD
 aDesc      Data Model ER Diagram & Maint.
-aLastSyncDate 20200127153851073
-aLastUpdateDate 20200127153851073
+aLastSyncDate 20220406164436202
+aLastUpdateDate 20220406164436202
 
 eW_MetaDef 3
 aCPLR_ZKey 1348132
@@ -7293,8 +7409,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZOPUPDD
 aDesc      Global Operations
-aLastSyncDate 20160714173228365
-aLastUpdateDate 20160714173228365
+aLastSyncDate 20220216130055341
+aLastUpdateDate 20220216130055341
 
 eW_MetaDef 3
 aCPLR_ZKey 1343715
@@ -7825,8 +7941,8 @@ aStatus    1
 aUpdateInd 2
 aName      TZWEBGL3
 aDesc      JSP Generation operations for zeidon JAVA
-aLastSyncDate 20210831121048068
-aLastUpdateDate 20210831121048068
+aLastSyncDate 20220412164045151
+aLastUpdateDate 20220412164045151
 
 eW_MetaDef 3
 aCPLR_ZKey 4896724
@@ -7986,14 +8102,12 @@ eW_MetaDef 3
 aCPLR_ZKey 1141825
 aStatus    1
 aName      BuildMainNavSection
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 93056454
 aStatus    1
 aName      BuildMainNavSectionBootstrap
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -8007,7 +8121,6 @@ eW_MetaDef 3
 aCPLR_ZKey 1141822
 aStatus    1
 aName      BuildSideNavSection
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -8102,7 +8215,6 @@ eW_MetaDef 3
 aCPLR_ZKey 1141956
 aStatus    1
 aName      CreateTabIndexString
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -8139,10 +8251,10 @@ eW_MetaDef 3
 aGroupName TZWEBGL1
 
 eW_MetaDef 3
-aGroupName ZDRAPP
+aGroupName KZDRVRAA
 
 eW_MetaDef 3
-aGroupName KZDRVRAA
+aGroupName ZDRAPP
 
 eW_MetaDef 3
 aGroupName TZSIOPRS
@@ -8154,35 +8266,30 @@ eW_MetaDef 3
 aCPLR_ZKey 1141828
 aStatus    1
 aName      GenJSP_ChildFunctions
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 1141839
 aStatus    1
 aName      GenJSP_CrteCalendar
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 1141850
 aStatus    1
 aName      GenJSP_CrteCheckBox
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 1141860
 aStatus    1
 aName      GenJSP_CrteComboBox
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 1141870
 aStatus    1
 aName      GenJSP_CrteCtrlsRadio
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -8192,42 +8299,36 @@ eW_MetaDef 3
 aCPLR_ZKey 1141887
 aStatus    1
 aName      GenJSP_CrteEditBox
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 89583371
 aStatus    1
 aName      GenJSP_CrteGroupTable
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 4897605
 aStatus    1
 aName      GenJSP_CrteJPG
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 1448549
 aStatus    1
 aName      GenJSP_CrteListBox
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 1141898
 aStatus    1
 aName      GenJSP_CrteText
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 93056446
 aStatus    1
 aName      GenJSP_EmailEntries
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -8237,14 +8338,12 @@ eW_MetaDef 3
 aCPLR_ZKey 1141833
 aStatus    1
 aName      GenJSP_MenuFunctions
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
 aCPLR_ZKey 93056458
 aStatus    1
 aName      GenJSP_MenuFunctionsRecurs
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -8264,7 +8363,6 @@ eW_MetaDef 3
 aCPLR_ZKey 93056467
 aStatus    1
 aName      GenJSPJ_ActionRecurs
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -8365,7 +8463,6 @@ eW_MetaDef 3
 aCPLR_ZKey 93056448
 aStatus    1
 aName      GenJSPJ_CrteSideMenuRecurs
-aLastUpdateDate 20210831121048068
 aGroupName TZWEBGL3
 
 eW_MetaDef 3
@@ -11045,85 +11142,66 @@ aJavaClassName com.quinsoft.zeidon.domains.SSNDomain
 eDomainJavaClass 2
 aJavaClassName com.quinsoft.zeidon.domains.TimeDomain
 
-i1036      8
-i1037      9
-i1038      10
-i1039      11
-i1040      12
-i1043      15
-i1044      16
-i1045      17
-i1046      18
-i1047      19
-i1048      20
-i1049      21
-i1050      22
-i1056      54
-i1057      55
-i1058      56
-i1059      57
-i1060      58
-i1061      59
-i1062      60
-i1063      61
-i1064      62
-i1065      63
-i1066      64
-i1067      65
-i1068      66
-i1069      67
-i1070      68
-i1071      69
-i1072      70
-i1073      71
-i1074      72
-i1075      73
-i1076      74
-i1077      75
-i1078      76
-i1079      77
-i1080      78
-i1081      79
-i1082      80
-i1084      91
-i1085      92
-i1086      93
-i1087      94
-i1088      95
-i1089      96
-i1090      97
-i1091      98
-i1092      99
-i1093      100
-i1094      101
-i1095      102
-i1096      103
-i1097      104
-i1098      105
-i1104      156
-i1111      217
-i1114      235
-i1115      236
-i1122      247
-i1134      268
-i1135      269
-i1136      270
-i1137      271
-i1138      272
-i1139      273
-i1140      274
-i1141      275
-i1142      276
-i1143      277
-i1144      278
-i1145      279
-i1146      280
-i1147      281
-i1148      282
-i1149      283
-i1150      284
-i1151      285
-i1152      286
+i1055      8
+i1056      9
+i1057      10
+i1058      11
+i1059      12
+i1062      15
+i1063      16
+i1064      17
+i1065      18
+i1066      19
+i1067      20
+i1068      21
+i1069      22
+i1075      57
+i1076      58
+i1077      59
+i1078      60
+i1079      61
+i1080      62
+i1081      63
+i1082      64
+i1083      65
+i1084      66
+i1085      67
+i1086      68
+i1087      69
+i1088      70
+i1089      71
+i1090      72
+i1091      73
+i1092      74
+i1093      75
+i1094      76
+i1095      77
+i1096      78
+i1097      79
+i1098      80
+i1099      81
+i1100      82
+i1101      83
+i1103      95
+i1104      96
+i1105      97
+i1106      98
+i1107      99
+i1108      100
+i1109      101
+i1110      102
+i1111      103
+i1112      104
+i1113      105
+i1114      107
+i1115      106
+i1116      108
+i1117      109
+i1123      165
+i1130      232
+i1133      252
+i1134      253
+i1141      265
 i1153      287
 i1154      288
 i1155      289
@@ -11131,8 +11209,8 @@ i1156      290
 i1157      291
 i1158      292
 i1159      293
-i1160      295
-i1161      294
+i1160      294
+i1161      295
 i1162      296
 i1163      297
 i1164      298
@@ -11169,100 +11247,102 @@ i1194      328
 i1195      329
 i1196      330
 i1197      331
-i1199      399
-i1201      350
-i1204      404
-i1205      403
-i1206      402
-i1207      401
-i1208      400
-i1209      389
-i1210      398
-i1211      397
+i1198      332
+i1199      333
+i1200      334
+i1201      335
+i1202      336
+i1203      337
+i1204      338
+i1205      339
+i1206      340
+i1207      341
+i1208      342
+i1209      343
+i1210      344
+i1211      345
 i1212      346
-i1213      349
-i1214      334
-i1215      345
-i1216      344
-i1217      343
-i1218      342
-i1219      341
-i1220      340
-i1221      339
-i1222      338
-i1223      337
-i1224      336
-i1225      335
-i1226      359
-i1227      396
-i1229      385
-i1230      384
-i1231      383
-i1232      381
-i1233      388
-i1234      387
-i1235      386
-i1237      366
-i1238      406
-i1239      393
-i1240      391
-i1241      378
-i1242      379
-i1243      377
-i1244      380
-i1248      382
-i1249      358
-i1250      347
-i1251      352
-i1252      390
-i1253      395
-i1254      365
-i1255      353
-i1256      364
-i1257      357
-i1258      363
-i1259      362
-i1260      361
-i1264      392
-i1265      376
-i1266      375
-i1267      333
-i1268      408
-i1269      369
-i1270      374
-i1271      371
-i1272      373
-i1273      372
-i1274      370
-i1275      360
-i1276      348
-i1277      405
-i1278      367
-i1282      368
-i1307      356
-i1308      355
-i1309      354
-i1311      407
-i1312      394
-i1313      351
-i1315      449
-i1317      451
-i1318      452
-i1319      453
-i1320      454
-i1321      455
-i1322      456
-i1323      457
-i1324      458
-i1325      459
-i1326      460
-i1327      461
-i1328      462
-i1329      463
-i1331      465
-i1333      467
+i1213      347
+i1214      348
+i1215      349
+i1216      350
+i1218      418
+i1220      369
+i1223      423
+i1224      422
+i1225      421
+i1226      420
+i1227      419
+i1228      408
+i1229      417
+i1230      416
+i1231      365
+i1232      368
+i1233      353
+i1234      364
+i1235      363
+i1236      362
+i1237      361
+i1238      360
+i1239      359
+i1240      358
+i1241      357
+i1242      356
+i1243      355
+i1244      354
+i1245      378
+i1246      415
+i1248      404
+i1249      403
+i1250      402
+i1251      400
+i1252      407
+i1253      406
+i1254      405
+i1256      385
+i1257      425
+i1258      412
+i1259      410
+i1260      397
+i1261      398
+i1262      396
+i1263      399
+i1267      401
+i1268      377
+i1269      366
+i1270      371
+i1271      409
+i1272      414
+i1273      384
+i1274      372
+i1275      383
+i1276      376
+i1277      382
+i1278      381
+i1279      380
+i1283      411
+i1284      395
+i1285      394
+i1286      352
+i1287      427
+i1288      388
+i1289      393
+i1290      390
+i1291      392
+i1292      391
+i1293      389
+i1294      379
+i1295      367
+i1296      424
+i1297      386
+i1301      387
+i1326      375
+i1327      374
+i1328      373
+i1330      426
+i1331      413
+i1332      370
 i1334      468
-i1335      469
 i1336      470
 i1337      471
 i1338      472
@@ -11276,9 +11356,7 @@ i1345      479
 i1346      480
 i1347      481
 i1348      482
-i1349      483
 i1350      484
-i1351      485
 i1352      486
 i1353      487
 i1354      488
@@ -11408,6 +11486,8 @@ i1477      611
 i1478      612
 i1479      613
 i1480      614
+i1481      615
+i1482      616
 i1483      617
 i1484      618
 i1485      619
@@ -11425,8 +11505,6 @@ i1496      630
 i1497      631
 i1498      632
 i1499      633
-i1500      634
-i1501      635
 i1502      636
 i1503      637
 i1504      638
@@ -11709,7 +11787,9 @@ i1780      914
 i1781      915
 i1782      916
 i1783      917
+i1784      918
 i1785      919
+i1786      920
 i1787      921
 i1788      922
 i1789      923
@@ -11726,9 +11806,7 @@ i1799      933
 i1800      934
 i1801      935
 i1802      936
-i1803      937
 i1804      938
-i1805      939
 i1806      940
 i1807      941
 i1808      942
@@ -11774,6 +11852,7 @@ i1847      981
 i1848      982
 i1849      983
 i1850      984
+i1851      985
 i1852      986
 i1853      987
 i1854      988
@@ -11782,6 +11861,7 @@ i1856      990
 i1857      991
 i1858      992
 i1859      993
+i1860      994
 i1861      995
 i1862      996
 i1863      997
@@ -11791,31 +11871,48 @@ i1866      1000
 i1867      1001
 i1868      1002
 i1869      1003
-i1870      1004
 i1871      1005
 i1872      1006
 i1873      1007
+i1874      1008
 i1875      1009
 i1876      1010
 i1877      1011
-i1878      1013
-i1879      1014
-i1880      1015
-i1881      1016
-i1882      1017
-i1883      1018
-i1884      1019
-i1885      1020
-i1886      1021
-i1887      1012
+i1878      1012
+i1880      1014
+i1881      1015
+i1882      1016
+i1883      1017
+i1884      1018
+i1885      1019
+i1886      1020
+i1887      1021
 i1888      1022
 i1889      1023
+i1890      1024
 i1891      1025
 i1892      1026
-i1893      1027
 i1894      1028
 i1895      1029
 i1896      1030
-i1897      1031
-i1898      1032
-i1899      1033
+i1897      1032
+i1898      1033
+i1899      1034
+i1900      1035
+i1901      1036
+i1902      1037
+i1903      1038
+i1904      1039
+i1905      1040
+i1906      1031
+i1907      1041
+i1908      1042
+i1910      1044
+i1911      1045
+i1912      1046
+i1913      1047
+i1914      1048
+i1915      1049
+i1916      1050
+i1917      1051
+i1918      1052

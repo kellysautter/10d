@@ -11546,11 +11546,69 @@ zwTZEREMDD_CompareERDs( zVIEW vSubtask )
    SetNameForView( vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
 
    // Call operation to compare ERD's.
-   oTZEREMDO_ERD_Compare( vTargetERD, vSourceERD );
+   oTZEREMDO_ERD_Compare( vTargetERD, vSourceERD, "A" );
 
    return( 0 );
 
 } // zwTZEREMDD_CompareERDs
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: zwTZEREMDD_CompareER_Entities
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEREMDD_CompareER_Entities( zVIEW vSubtask )
+{
+   zVIEW  vSourceERD;
+   zVIEW  vTargetERD;
+   zVIEW  vTaskLPLR;
+   zCHAR  szFileName[ 500 ];
+   zCHAR  szERD_Name[ 33 ];
+   zCHAR  szSourceLPLR_Name[ 33 ];
+   zSHORT nRC;
+
+   // Compare the Target ERD, the ERD we are currently updating, to a ERD of the same name
+   // that is contained in the specified Directory Structure.
+   // If an LPLR name has been entered, use it to get the XLP file and any dependent Domains.
+
+   // Get view of current ERD to be Target and view of current LPLR.
+   GetViewByName( &vTargetERD, "TZEREMDO", vSubtask, zLEVEL_TASK );
+   SetNameForView( vTargetERD, "TargetERD", vSubtask, zLEVEL_TASK );
+   GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+
+   // Get the Source ERD Name. If a Source LPLR name is specified, then that is the name of the ERD.
+   // Otherwise, the ERD Name for the Source is considered to be the same as in the Target.
+   GetStringFromAttribute( szSourceLPLR_Name, zsizeof( szSourceLPLR_Name ), vTaskLPLR, "LPLR", "wMergeSourceLPLR_Name" );
+   if ( zstrcmp( szSourceLPLR_Name, "" ) != 0 )
+      zstrcpy( szERD_Name, szSourceLPLR_Name );
+   else
+   {
+      SetCursorFirstEntityByInteger( vTaskLPLR, "W_MetaType", "Type", 4, "" );     // 4 is ERD Meta Type
+      GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vTaskLPLR, "W_MetaDef", "Name" );
+   }
+
+   // Activate Source view. We are not necessarily positioned on the ER meta entry.
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "wFullyQualifiedFileName" );
+   zstrcat( szFileName, "\\" );
+   zstrcat( szFileName, szERD_Name );
+   zstrcat( szFileName, ".PMD" );
+   TraceLineS( "Source File Name: ", szFileName );
+   nRC = ActivateOI_FromFile( &vSourceERD, "TZEREMDO", vSubtask, szFileName, zSINGLE );
+   if ( nRC < 0 )
+   {
+      MessageSend( vSubtask, "", "Compare ERD's", "Invalid File Name", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
+      return( -1 );
+   }
+   SetNameForView( vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
+
+   // Call operation to compare ERD's.
+   oTZEREMDO_ERD_Compare( vTargetERD, vSourceERD, "E" );
+
+   return( 0 );
+
+} // zwTZEREMDD_CompareER_Entities
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -11568,10 +11626,31 @@ zwTZEREMDD_ERD_MergeSelected( zVIEW vSubtask )
    // Get view of current ERD to be Target.
    GetViewByName( &vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
    GetViewByName( &vTargetERD, "TargetERD", vSubtask, zLEVEL_TASK );
-   oTZEREMDO_ERD_Merge( vTargetERD, vSourceERD, vSubtask );
+   oTZEREMDO_ERD_Merge( vTargetERD, vSourceERD, vSubtask, "" );
 
    return( 0 );
 } // zwTZEREMDD_LOD_MergeSelected
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: zwTZEREMDD_ERD_MergeEntities
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEREMDD_ERD_MergeEntities( zVIEW vSubtask )
+{
+   zVIEW  vSourceERD;
+   zVIEW  vTargetERD;
+
+   // Go to Merge selected entries.
+
+   // Get view of current ERD to be Target.
+   GetViewByName( &vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
+   GetViewByName( &vTargetERD, "TargetERD", vSubtask, zLEVEL_TASK );
+   oTZEREMDO_ERD_Merge( vTargetERD, vSourceERD, vSubtask, "Y" );
+
+   return( 0 );
+} // zwTZEREMDD_ERD_MergeEntities
 
 /////////////////////////////////////////////////////////////////////////////
 //

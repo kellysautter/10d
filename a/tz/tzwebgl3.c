@@ -805,9 +805,9 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
             lTempInteger_2 = CheckExistenceOfEntity( vDialogMenuRoot, "ActCtrl" );
             if ( lTempInteger_1 == 0 && lTempInteger_2 == 0 )
             { 
-
-               //:szCtrlTag = vDialog.ActCtrl.Tag
-               GetVariableFromAttribute( szCtrlTag, 0, 'S', 33, vDialog, "ActCtrl", "Tag", "", 0 );
+               //:// Wouldn't we only care about this if vDialogMenuRoot and vDialogRoot are the same dialog.window?
+               //:szCtrlTag = vDialogMenuRoot.ActCtrl.Tag
+               GetVariableFromAttribute( szCtrlTag, 0, 'S', 33, vDialogMenuRoot, "ActCtrl", "Tag", "", 0 );
                //:CreateViewFromViewForTask( vDialog2, vDialogRoot, 0 )
                CreateViewFromViewForTask( &vDialog2, vDialogRoot, 0 );
 
@@ -1725,7 +1725,6 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
                //:szWriteBuffer = szWriteBuffer + "<a href=^#^ onclick=^" + szActionName + "()^>"
                //:END
                //:szWriteBuffer = szWriteBuffer + szNavigationTitle + "</a></div>"
-
                //:szWriteBuffer = szWriteBuffer + "</li>" 
                //:*/
                //:ELSE

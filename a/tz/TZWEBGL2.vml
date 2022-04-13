@@ -2879,10 +2879,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         // KJS 03/18/16 - I don't know why we are checking the strErrorFlag here... and it was incorrect because it should have
                         // been !StringUtil... I am taking that piece out but will keep the code here in case we find a reason we had that there.
                         //szWriteBuffer = "   if ( !StringUtils.equals( strErrorFlag, ^Y^ ) && !StringUtils.isBlank( strErrorMapValue ) )"
-                        szWriteBuffer = "   if ( !StringUtils.isBlank( strErrorMapValue ) )"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "   {"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        // KJS 04/08/22 - Taking out the if statement, will add the <th> no matter what (it was causing problems with bootstrap
+                        // because there were more <td> values than <th> values.
+                        //szWriteBuffer = "   if ( !StringUtils.isBlank( strErrorMapValue ) )"
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        //szWriteBuffer = "   {"
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "%>"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
@@ -2908,9 +2910,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            szWriteBuffer = "      strTblOutput = strTblOutput + strErrorMapValue + ^\t^;"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         END
-
+                        // KJS 04/08/22  - I am going to keep the szWriteBuffer because it seems to affect something later (and if not we end up with two <% lines and an error on page).
+                        // but we won't write it out.
                         szWriteBuffer = "   }"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      ELSE
                         // The Title is a constant.
                         IF szWriteBuffer = "   }"

@@ -730,7 +730,7 @@ ActivateMetaOI( zVIEW vSubtask0,
                 zLONG lControlFlag4 );
 
 //end
-//start TZEREMDO 2020.03.18 13:12:44
+//start TZEREMDO 2022.04.06 15:17:58
 zOPER_EXPORT zSHORT OPERATION
 oTZEREMDO_ImportADW_Model( zVIEW vViewToInstance0,
                            zVIEW vADWWorkObject1,
@@ -870,13 +870,15 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW vViewToInstance0,
                                 zVIEW vvSubtask2 );
 
 zOPER_EXPORT zSHORT OPERATION
-oTZEREMDO_ERD_Compare( zVIEW vTargetERD0,
-                       zVIEW vSourceERD1 );
+oTZEREMDO_ERD_Compare( zVIEW vViewToInstance0,
+                       zVIEW vSourceERD1,
+                       zPCHAR pchszMergeType2 );
 
 zOPER_EXPORT zSHORT OPERATION
 oTZEREMDO_ERD_Merge( zVIEW vViewToInstance0,
                      zVIEW vSourceERD1,
-                     zVIEW vvSubtask2 );
+                     zVIEW vvSubtask2,
+                     zPCHAR pchszWholeLPLRFlag3 );
 
 zOPER_EXPORT zSHORT OPERATION
 oTZEREMDO_GenerateID_Identifiers( zVIEW vViewToInstance0 );
@@ -1771,7 +1773,7 @@ GenJSPJ_InputMapRecurs( zVIEW vDialog0,
                         zPCHAR pchszRepeatingGrpKey5 );
 
 //end
-//start TZWEBGL3 2021.08.31 12:10:48
+//start TZWEBGL3 2022.04.12 16:40:45
 zOPER_EXPORT zSHORT OPERATION
 BuildMainNavSection( zVIEW vDialog0,
                      zVIEW vDialogRoot1,
