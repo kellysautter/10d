@@ -630,7 +630,7 @@ fnCheckForDuplicateName( zVIEW MOI_View, zVIEW vLPLR,
       if ( SetCursorFirstEntityByString( vLPLR, "W_MetaDef", "Name", szMetaOI_Name, "" ) == zCURSOR_SET )
       {
          // Duplicate Named Meta exists
-         GetVariableFromAttribute( &szNewName, 0, zTYPE_STRING, 125, vLPLR, "W_MetaType", "Type", "CM_Type", 0 );
+         GetVariableFromAttribute( &szNewName, 0, zTYPE_STRING, 33, vLPLR, "W_MetaType", "Type", "CM_Type", 0 );
          nDupFound = 1;
       }
    }
@@ -644,7 +644,7 @@ fnCheckForDuplicateName( zVIEW MOI_View, zVIEW vLPLR,
             if ( CompareAttributeToInteger( vLPLR, "W_MetaDef", "CPLR_ZKey", lMetaOI_ZKey ) != 0 )
             {
                // Duplicately Named Meta exists
-               GetVariableFromAttribute( &szNewName, 0, zTYPE_STRING, 125, vLPLR, "W_MetaType", "Type", "CM_Type", 0 );
+               GetVariableFromAttribute( &szNewName, 0, zTYPE_STRING, 33, vLPLR, "W_MetaType", "Type", "CM_Type", 0 );
                nDupFound = 1;
                break;
             }
@@ -673,7 +673,7 @@ fnCheckForDuplicateName( zVIEW MOI_View, zVIEW vLPLR,
                if ( CompareAttributeToInteger( vTempLPLR, "W_MetaDef", "CPLR_ZKey", lMetaOI_ZKey ) != 0 )
                {
                   // Duplicately Named Meta exists
-                  GetVariableFromAttribute( &szNewName, 0, zTYPE_STRING, 125, vTempLPLR, "W_MetaType", "Type", "CM_Type",  0 );
+                  GetVariableFromAttribute( &szNewName, 0, zTYPE_STRING, 33, vTempLPLR, "W_MetaType", "Type", "CM_Type",  0 );
                   nDupFound = 1;
                   break;
                }

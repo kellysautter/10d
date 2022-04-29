@@ -2591,47 +2591,48 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
                SetMatchingAttributesByName( TargetERD, "ER_Entity", SourceERD, "ER_Entity", zSET_NULL )
                IF szWholeLPLRFlag = "Y" // DonC - 04/06/22
                   TargetERD.ER_Entity.ER_DiagramPosY = TargetERD.ER_Entity.ER_DiagramPosY + MaxYPos   // Increment to below current ER
-            
-                   // Need to copy attributes
-                  FOR EACH SourceERD.ER_Attribute
-                     SET CURSOR LAST TargetERD.ER_Attribute
-                     CreateMetaEntity( vSubtask, TargetERD, "ER_Attribute", zPOS_AFTER )
-                     SetMatchingAttributesByName( TargetERD, "ER_Attribute", SourceERD, "ER_Attribute", zSET_NULL )
-   
-                     // Get Domain or create new Domain.
-                     DomainName = SourceERD.Domain.Name
-                     nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, DomainName, 0 )
-                     IF nRC >= 0
-                        // The Domain exists in Current LPLR, so include it here.
-                        INCLUDE TargetERD.Domain FROM NewDomain.Domain
-                        DropMetaOI( vSubtask, NewDomain )
+               // Need to copy attributes.
+               FOR EACH SourceERD.ER_Attribute
+                  SET CURSOR LAST TargetERD.ER_Attribute
+                  CreateMetaEntity( vSubtask, TargetERD, "ER_Attribute", zPOS_AFTER )
+                  SetMatchingAttributesByName( TargetERD, "ER_Attribute", SourceERD, "ER_Attribute", zSET_NULL )
+
+                  // Get Domain or create new Domain.
+                  DomainName = SourceERD.Domain.Name
+                  nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, DomainName, 0 )
+                  IF nRC >= 0
+                     // The Domain exists in Current LPLR, so include it here.
+                     INCLUDE TargetERD.Domain FROM NewDomain.Domain
+                     DropMetaOI( vSubtask, NewDomain )
+                  ELSE
+                     // The Domain doesn't exist in Current LPLR, so add it, if there is a Source LPLR.
+                     IF SourceLPLR != 0
+                        DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
+                                           CurrentLPLR.LPLR.wFullyQualifiedFileName,    // Source LPLR Directory Structure
+                                           DomainName, vSubtask )
                      ELSE
-                        // The Domain doesn't exist in Current LPLR, so add it, if there is a Source LPLR.
-                        IF SourceLPLR != 0
-                           DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
-                                              CurrentLPLR.LPLR.wFullyQualifiedFileName,    // Source LPLR Directory Structure
-                                              DomainName, vSubtask )
-                        ELSE
-                           szMsg = "Domain, " + DomainName + ", from the Source ERD does not exist in the current LPLR and " +
-                                   "no Source LPLR was specified. The Merge function is aborted."
-                           MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-                           RETURN -1
-                        END
+                        szMsg = "Domain, " + DomainName + ", from the Source ERD does not exist in the current LPLR and " +
+                                "no Source LPLR was specified. The Merge function is aborted."
+                        MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+                        RETURN -1
                      END
-   
-                  END // FOR EACH SourceERD.ER_Attribute
-                   
-                  // Copy ID Identifier.
-                  SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = "ID"
-                  IF RESULT >= zCURSOR_SET 
-                     CreateMetaEntity( vSubtask, TargetERD, "ER_EntIdentifier", zPOS_AFTER )
-                     SetMatchingAttributesByName( TargetERD, "ER_EntIdentifier", SourceERD, "ER_EntIdentifier", zSET_NULL )
-                     CreateMetaEntity( vSubtask, TargetERD, "ER_FactType", zPOS_AFTER )
-                     SetMatchingAttributesByName( TargetERD, "ER_FactType", SourceERD, "ER_FactType", zSET_NULL )
-                     INCLUDE TargetERD.ER_AttributeIdentifier FROM TargetERD.ER_Attribute 
                   END
 
+               END // FOR EACH SourceERD.ER_Attribute
+               
+               // Copy ID Identifier.
+               SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = "ID"
+               IF RESULT >= zCURSOR_SET 
+                  CreateMetaEntity( vSubtask, TargetERD, "ER_EntIdentifier", zPOS_AFTER )
+                  SetMatchingAttributesByName( TargetERD, "ER_EntIdentifier", SourceERD, "ER_EntIdentifier", zSET_NULL )
+                  CreateMetaEntity( vSubtask, TargetERD, "ER_FactType", zPOS_AFTER )
+                  SetMatchingAttributesByName( TargetERD, "ER_FactType", SourceERD, "ER_FactType", zSET_NULL )
+                  INCLUDE TargetERD.ER_AttributeIdentifier FROM TargetERD.ER_Attribute 
                END
+               END
+            END
+            
+            IF szWholeLPLRFlag = "Y" 
             END
 
             // Turn off selected flag so if we execute again, we won't repeat this entry.
@@ -2761,13 +2762,6 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
             CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
             SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD, "ER_RelLink_2", zSET_NULL )
             INCLUDE TargetERD.ER_Entity_2 FROM TargetERD.ER_Entity
-            
-            // DonC 04/07/22 - If we're merging whole LPLR, increment Y value of relationship node if target entity is new.
-            IF szWholeLPLRFlag = "Y" 
-               IF TargetERD.ER_Entity_2.ER_DiagramPosY >= MaxYPos
-                  TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_RelType.ER_DiagramE1PosY + MaxYPos
-               END
-            END
 
             SET CURSOR FIRST TargetERD.ER_RelLink WHERE TargetERD.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
 
@@ -2775,7 +2769,7 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
             CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
             SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD2, "ER_RelLink_2", zSET_NULL )
             INCLUDE TargetERD.ER_Entity_2 FROM TargetERD2.ER_Entity
-                       
+            
             IF szWholeLPLRFlag != "Y" 
             
                // Finish relationship processing when NOT merging whole LPLR.
@@ -2960,6 +2954,7 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
                END
                END
             END
+            
 
             // Now include the lower level substructures.
             // We will first have to position TargetERD2 on the new RelType and on the first RelLink for that type.

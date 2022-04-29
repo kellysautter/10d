@@ -3772,6 +3772,7 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
    STRING ( 34 )    szActionName
    STRING ( 1 )     szStyleIsjMobile
    STRING ( 1 )     szStyleIsBootstrap
+   STRING ( 1 )     szHasBanner
    INTEGER          ActionType
    SHORT            nRC
    
@@ -3893,26 +3894,37 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
          // log_banner.inc... but would everyone want to have that around banner/top nav? In non bootstrap code, the banner and top nav are separate. Feels in a way like
          // it should be that way...
          // Not sure exactly what to do...
-         szWriteBuffer = "<div>"  // Place a div around the surrounding area?
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+        szHasBanner = "N"
+        IF vDialog.Dialog.WEB_TopBannerName != "" OR vDialog.Window.WEB_TopBannerName != ""
+            szHasBanner = "Y"
+            szWriteBuffer = "<div>"  // Place a div around the surrounding area?
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-         // Look at the top banner for the dialog we are in (vDialog) not the dialog where the actions are coming from (vDialogMenu)
-         IF vDialog.Dialog.WEB_TopBannerName != "" OR vDialog.Window.WEB_TopBannerName != ""
+            // Look at the top banner for the dialog we are in (vDialog) not the dialog where the actions are coming from (vDialogMenu)
             IF vDialog.Window.WEB_TopBannerName != ""
                szWriteBuffer = "<%@ include file=^" + vDialog.Window.WEB_TopBannerName + "^ %>"
             ELSE
                szWriteBuffer = "<%@ include file=^" + vDialog.Dialog.WEB_TopBannerName + "^ %>"
             END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+          
+            szWriteBuffer = "          <div>"  // Place a div around the surrounding area?
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "          <nav id='" + szMenuName + "'>"  // Place a div around the surrounding area?
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "          <ul>"  // Place a div around the surrounding area?
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         ELSE
+            // KJS 04/13/22 - above code (with banner) was code for Jeff in nmmftm. But now looking at
+            // nmm, where there is no banner, the generated code isn't like it used to be. Trying to put the old
+            // code back in.
+            szWriteBuffer = "<div class=^navbar-collapse collapse^>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   <ul  class=^navbar-nav ml-auto " + vDialogMenu.Menu.CSS_Class + "^ >"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+        
          END
-         
-         szWriteBuffer = "          <div>"  // Place a div around the surrounding area?
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "          <nav id='" + szMenuName + "'>"  // Place a div around the surrounding area?
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "          <ul>"  // Place a div around the surrounding area?
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         
+        
       END
    ELSE
       szWriteBuffer = "<div id=^mainnavigation^" + szHTML5Attr + szClass + ">"
@@ -4081,7 +4093,7 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
    END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-   IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal"
+   IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" and szHasBanner = "Y"
       ResetViewFromSubobject( vDialogMenu )
       szWriteBuffer = "   </nav>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

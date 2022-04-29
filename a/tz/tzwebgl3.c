@@ -1051,6 +1051,8 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
    zCHAR     szStyleIsjMobile[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szStyleIsBootstrap
    zCHAR     szStyleIsBootstrap[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szHasBanner
+   zCHAR     szHasBanner[ 2 ] = { 0 }; 
    //:INTEGER          ActionType
    zLONG     ActionType = 0; 
    //:SHORT            nRC
@@ -1067,12 +1069,13 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
    zCHAR     szTempString_6[ 255 ]; 
    zCHAR     szTempString_7[ 1026 ]; 
    zCHAR     szTempString_8[ 1026 ]; 
+   zCHAR     szTempString_9[ 255 ]; 
    zSHORT    lTempInteger_2; 
    zSHORT    lTempInteger_3; 
-   zCHAR     szTempString_9[ 255 ]; 
    zCHAR     szTempString_10[ 255 ]; 
+   zCHAR     szTempString_11[ 255 ]; 
    zSHORT    lTempInteger_4; 
-   zCHAR     szTempString_11[ 33 ]; 
+   zCHAR     szTempString_12[ 33 ]; 
    zSHORT    lTempInteger_5; 
    zLONG     lTempInteger_6; 
 
@@ -1357,15 +1360,19 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
             //:// log_banner.inc... but would everyone want to have that around banner/top nav? In non bootstrap code, the banner and top nav are separate. Feels in a way like
             //:// it should be that way...
             //:// Not sure exactly what to do...
-            //:szWriteBuffer = "<div>"  // Place a div around the surrounding area?
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "<div>", 1, 0, 10001 );
-            //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-
-            //:// Look at the top banner for the dialog we are in (vDialog) not the dialog where the actions are coming from (vDialogMenu)
+            //:szHasBanner = "N"
+            ZeidonStringCopy( szHasBanner, 1, 0, "N", 1, 0, 2 );
             //:IF vDialog.Dialog.WEB_TopBannerName != "" OR vDialog.Window.WEB_TopBannerName != ""
             if ( CompareAttributeToString( vDialog, "Dialog", "WEB_TopBannerName", "" ) != 0 || CompareAttributeToString( vDialog, "Window", "WEB_TopBannerName", "" ) != 0 )
             { 
+               //:szHasBanner = "Y"
+               ZeidonStringCopy( szHasBanner, 1, 0, "Y", 1, 0, 2 );
+               //:szWriteBuffer = "<div>"  // Place a div around the surrounding area?
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "<div>", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+
+               //:// Look at the top banner for the dialog we are in (vDialog) not the dialog where the actions are coming from (vDialogMenu)
                //:IF vDialog.Window.WEB_TopBannerName != ""
                if ( CompareAttributeToString( vDialog, "Window", "WEB_TopBannerName", "" ) != 0 )
                { 
@@ -1388,24 +1395,43 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
                //:END
                //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+
+               //:szWriteBuffer = "          <div>"  // Place a div around the surrounding area?
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "          <div>", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "          <nav id='" + szMenuName + "'>"  // Place a div around the surrounding area?
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "          <nav id='", 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szMenuName, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, "'>", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "          <ul>"  // Place a div around the surrounding area?
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "          <ul>", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:// KJS 04/13/22 - above code (with banner) was code for Jeff in nmmftm. But now looking at
+               //:// nmm, where there is no banner, the generated code isn't like it used to be. Trying to put the old
+               //:// code back in.
+               //:szWriteBuffer = "<div class=^navbar-collapse collapse^>"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^navbar-collapse collapse^>", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "   <ul  class=^navbar-nav ml-auto " + vDialogMenu.Menu.CSS_Class + "^ >"
+               GetVariableFromAttribute( szTempString_9, 0, 'S', 255, vDialogMenu, "Menu", "CSS_Class", "", 0 );
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "   <ul  class=^navbar-nav ml-auto ", 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_9, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, "^ >", 1, 0, 10001 );
+               //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
             } 
 
-            //:END
 
-            //:szWriteBuffer = "          <div>"  // Place a div around the surrounding area?
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "          <div>", 1, 0, 10001 );
-            //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "          <nav id='" + szMenuName + "'>"  // Place a div around the surrounding area?
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "          <nav id='", 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, szMenuName, 1, 0, 10001 );
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "'>", 1, 0, 10001 );
-            //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "          <ul>"  // Place a div around the surrounding area?
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "          <ul>", 1, 0, 10001 );
-            //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+            //:END
          } 
 
 
@@ -1519,9 +1545,9 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
       if ( CompareAttributeToString( vDialogMenu, "Option", "CSS_Class", "" ) != 0 )
       { 
          //:szClass = " class=^" + vDialogMenu.Option.CSS_Class + "^ "
-         GetVariableFromAttribute( szTempString_9, 0, 'S', 255, vDialogMenu, "Option", "CSS_Class", "", 0 );
+         GetVariableFromAttribute( szTempString_10, 0, 'S', 255, vDialogMenu, "Option", "CSS_Class", "", 0 );
          ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
-         ZeidonStringConcat( szClass, 1, 0, szTempString_9, 1, 0, 257 );
+         ZeidonStringConcat( szClass, 1, 0, szTempString_10, 1, 0, 257 );
          ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
          //:ELSE
       } 
@@ -1541,9 +1567,9 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
       if ( CompareAttributeToString( vDialogMenu, "Option", "WebHTML5Attribute", "" ) != 0 )
       { 
          //:szHTML5Attr = " " + vDialogMenu.Option.WebHTML5Attribute + " "
-         GetVariableFromAttribute( szTempString_10, 0, 'S', 255, vDialogMenu, "Option", "WebHTML5Attribute", "", 0 );
+         GetVariableFromAttribute( szTempString_11, 0, 'S', 255, vDialogMenu, "Option", "WebHTML5Attribute", "", 0 );
          ZeidonStringCopy( szHTML5Attr, 1, 0, " ", 1, 0, 257 );
-         ZeidonStringConcat( szHTML5Attr, 1, 0, szTempString_10, 1, 0, 257 );
+         ZeidonStringConcat( szHTML5Attr, 1, 0, szTempString_11, 1, 0, 257 );
          ZeidonStringConcat( szHTML5Attr, 1, 0, " ", 1, 0, 257 );
       } 
 
@@ -1557,9 +1583,9 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
          //://actions, we need to make sure these actions are unique.  We will prefix a
          //://"m" to the main menu actions and prefix a "sm" to the side menu actions.
          //:szActionName = "m" + vDialogMenu.OptAct.Tag
-         GetVariableFromAttribute( szTempString_11, 0, 'S', 33, vDialogMenu, "OptAct", "Tag", "", 0 );
+         GetVariableFromAttribute( szTempString_12, 0, 'S', 33, vDialogMenu, "OptAct", "Tag", "", 0 );
          ZeidonStringCopy( szActionName, 1, 0, "m", 1, 0, 35 );
-         ZeidonStringConcat( szActionName, 1, 0, szTempString_11, 1, 0, 35 );
+         ZeidonStringConcat( szActionName, 1, 0, szTempString_12, 1, 0, 35 );
          //:ActionType = vDialogMenu.OptAct.Type
          GetIntegerFromAttribute( &ActionType, vDialogMenu, "OptAct", "Type" );
          //:ELSE
@@ -1808,8 +1834,8 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
 
-   //:IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal"
-   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szMenuStyle, 1, 0, "Horizontal", 1, 0, 51 ) == 0 )
+   //:IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" and szHasBanner = "Y"
+   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szMenuStyle, 1, 0, "Horizontal", 1, 0, 51 ) == 0 && ZeidonStringCompare( szHasBanner, 1, 0, "Y", 1, 0, 2 ) == 0 )
    { 
       //:ResetViewFromSubobject( vDialogMenu )
       ResetViewFromSubobject( vDialogMenu );
